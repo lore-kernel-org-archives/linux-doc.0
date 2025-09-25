@@ -1,175 +1,136 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1CE31A06C;
-	Thu, 25 Sep 2025 15:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98142F0699
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 15:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758812739; cv=none; b=jqw9c2VI4or0KGZCujgIrahhtvfLpTM2oInifIcvbb7D1KxA9DTDnXSAamFU2A/eDDn2BvcxpYOP2kUqrEqYDh++7WdGMWJFSfHctRllGnaBDvnAv0GZXBrl4UoiIQZz47dewvrl2jvjm3XQ6t22n6tgB3EUPVTR2+mCe/7ma38=
+	t=1758812879; cv=none; b=NiAN6TQGzxaerrXf4U41OHwCiD/5HRdU6Vx3YH0Y+1JbQZ4UZaKX+iddzXL34SARYQRdf+ZuqAUCRgY96ci8d3I/PINW3Elm18dJbwQpdXekVoUDNFwpzR1fFiCxuYp1igecgA006e3Dqs3hyt0aulMfzecQw70Bze1Ksg7yxKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758812739; c=relaxed/simple;
-	bh=JHCPquvZB7G0O7g5UTmpSZA2j5My+jkbbFdEeHPVnqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c2g+W8oq9dSC1k5O6OPazVk6tNL3kFUhHudK5xwAjj2G0voX8EBnnh45n1b96eoStWicvGTpxWxt0TuLurKybXt6p7YwjTGMzi7yiFVjJCj1NTxJCFFCig+77lng+mpiakSVzuS92WOb5UJqoaHAbyPO4fVmK778cqQqeQ5+/HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=JOALaPPf; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1758812879; c=relaxed/simple;
+	bh=PwfgS4qfIfkc+imXtu/sSZXrBqwExZR+rgZwO0IBYGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hfayII6m+az2yIKUCTB26196ia9qnlglr0OJqWIk+z6vben3LEpVQiNPe1vUEbOw8lrjptraemGzIYOjVRMGVAb7eXUO7ylsla7/gL+xqcOjHufizfc1ZpYCAUMBJrX8drPUtngzikzA6/Wl/hJggHzLHU5Em/aIfXvzOFnashk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOS89OB8; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="JOALaPPf"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58PCDuxx003612;
-	Thu, 25 Sep 2025 15:05:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=iO7kiS
-	/RDntZtZVimHq7uSbHYNpxB8Bx4nnYZchDz0k=; b=JOALaPPfkrX6sU0OjclHoZ
-	nbleYF8fEciVdCU1h+xII/D5Ex4CyOKuOE/BPy/r5pMGSRrQc95UZ/y7d464HIG0
-	KE2dsYnqrimtrt4CiptZZzQahsWdkc4bBKjdJK2362lvxgl6nt2q9PvkWeV2iZ58
-	/DJmH9lp19flze4R216N/sqWw5nK49PQwPkeL+3FUFWvAxxgl2PSEG8SpOihRtv9
-	xX+5GCS2IEunu8Rt5bKmmsA2e76mf9+MszM94v0ObxvJNk5SqbfwEKMEJ3g/SVHK
-	jf0wS76uJNju3z4SzDZESfgtN9n8G+buN68No1iwaA9efwEY3R8hmT/HoxE79oow
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 499ky6eje9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 15:05:32 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58PEbqVL010021;
-	Thu, 25 Sep 2025 15:05:32 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 499ky6eje2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 15:05:32 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58PE6eJu030340;
-	Thu, 25 Sep 2025 15:05:30 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 49a9a1e90k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 15:05:30 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58PF5RNZ49414446
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Sep 2025 15:05:27 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 005602004D;
-	Thu, 25 Sep 2025 15:05:27 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F2C0820063;
-	Thu, 25 Sep 2025 15:05:25 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.87.151.15])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Thu, 25 Sep 2025 15:05:25 +0000 (GMT)
-Date: Thu, 25 Sep 2025 17:05:24 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-        "D.
- Wythe" <alibuda@linux.alibaba.com>,
-        Dust Li <dust.li@linux.alibaba.com>,
-        Sidraya Jayagond <sidraya@linux.ibm.com>,
-        Wenjia Zhang
- <wenjia@linux.ibm.com>,
-        Mahanta Jambigi <mjambigi@linux.ibm.com>,
-        Tony Lu
- <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next v3 2/2] net/smc: handle -ENOMEM from
- smc_wr_alloc_link_mem gracefully
-Message-ID: <20250925170524.7adc1aa3.pasic@linux.ibm.com>
-In-Reply-To: <cd1c6040-0a8f-45fb-91aa-2df2c5ae085a@redhat.com>
-References: <20250921214440.325325-1-pasic@linux.ibm.com>
-	<20250921214440.325325-3-pasic@linux.ibm.com>
-	<cd1c6040-0a8f-45fb-91aa-2df2c5ae085a@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOS89OB8"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so1233648b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 08:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758812877; x=1759417677; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jE5cIH8mYsDicp+BwKdnhTTJHAMEhvsJen2js1pJiH8=;
+        b=NOS89OB8QhgwX7LkwleAPOmUqR7YMHjWOMKiWPH4Xrg2/5PNpKvgPqvK8fbjkBK2+R
+         3ty/DNv/6qItYt0g5KH2hC7swFJa2orXFscTjT+11NqJfp4tiORGHloMCrhQOpK2TX+g
+         vpTlsfvylAWX8BNr3EbMxCDma37slkMJr6APSAA/N2ud5/g8rvJdauOEe7prdR0H9it2
+         NseZ89Ia3w3M/ElW9RwCAZYToE+6p6pqIUjxDkPjZiJKdzQAU8+QA5Lm+xTlPhSvp7We
+         GG3+tI2YAQ8ZpL8yEFE6cJIY5RriJpIQaUD+oZH3t7wC3MfqtLbLhi6KhXyUoVOmXHqV
+         SR6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758812877; x=1759417677;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jE5cIH8mYsDicp+BwKdnhTTJHAMEhvsJen2js1pJiH8=;
+        b=WodbGSxN6V/rWu+Q+ctb8RywODbF0ULwfXInvwMaznWuRUitVo+BCAcuZ5vkBzyuZC
+         JmIO6V6AyVYCfdy3ndKaJxc8TrLwCOiEhBp3ej0Qcug1zDLbmU3iWEaUjMF/nfj0ybtg
+         HKgcJ3ySeUrpX2ycAtk0OKDHyCPKuDs3eMMFQkK6XTH/XsVayJHVglNjdRZEvFqgvres
+         6zpOlGLZmEduXw4u0GeZA1oAXjZD0xRes3gTJrk/FpC7b7du7n6bBTw3HdGKb1/qG0+X
+         5fV0uX0gPiI/j3WzV/briIKxmoZPK2iD0y5nkuXZT2nJ4F8uyCpbR3Xp8FAvTqHINOe7
+         ccvw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzL1PLrDgtFWxym+THlypkWxAzgVDbtruzP9+GBPonpXSmdRo6uk/uFTkbIHMPgyR2H1PB/odA5Cs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWnLgfwC002MLOOm3W/S1zJkG0v3jIOkj+yRQGXPo2tZT369zN
+	wvkEBmg1hdztvIeA1Hu7lXq8mp7RWFnFS55faQyuQ5CcjQTIL4CrTrtA
+X-Gm-Gg: ASbGncu4i9NWw+yZsrHd9W6p+MHla+zWdtRNSj+2dGmu9YOwomED7+yW2bRFNjBmP/h
+	8ptOLJAJ6PT2guQsWOBEaPjuOuWPgQ6ZeBFwbR5fRnmUPEKzkFVYe859oeMXV35n8YEYFY8ERiI
+	QkEBVyPndXdSPWA1qHuTwu3aRX2EUlrqtnclUtSTtJd0NJto6ia4OlxuLzC3HCWp2f0Ee5bOIVc
+	umSZnqVpzVP6V9t3xnbXJ2IykLW15/X4djoB8jfuIzNvorEgUQcfieNcr9KLuzBrDY6u9gbTxIi
+	wvTcFOKOSSCV8OHj5AvhHXyBw7P+NjfRrBFtn1PwUIXF1wIZklP1agESzNLAG2F8ASaMuMd94al
+	UAH5ZqKo/rHPxV+NxGPCwJ/pW5133V4Vqk5I=
+X-Google-Smtp-Source: AGHT+IHxwbqMwtSUpRB97Nr0rknalbSvu7cUrpdQGoGrEFmAeq73TNUTzNKC1zhtc24Ag7rMTXMpnw==
+X-Received: by 2002:a05:6a20:9188:b0:2e0:9b1a:6417 with SMTP id adf61e73a8af0-2e7d37fba87mr4692452637.53.1758812876869;
+        Thu, 25 Sep 2025 08:07:56 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c53cb975sm2506233a12.18.2025.09.25.08.07.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 08:07:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 25 Sep 2025 08:07:55 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: wenswang@yeah.net
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	jdelvare@suse.com, corbet@lwn.net, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: add MP2925 and MP2929 driver
+Message-ID: <ae5ad599-e857-4124-b6a0-61196a763109@roeck-us.net>
+References: <20250918080349.1154140-1-wenswang@yeah.net>
+ <20250918080603.1154497-1-wenswang@yeah.net>
+ <20250918080603.1154497-2-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nBZevxKP4kxkAl4FsC2gxe5A7UScRFgJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMCBTYWx0ZWRfX8UZmBSfyYmpY
- JMmNTOj7URk6vJowSlWekipNbFO86vLcmCSe/dtKSBZMEg0LEQ38HQbvSy5/tQ7ASo7H5MscF65
- Qtia0B0HrD20+FQ8Ena2tNfLgKaE+hAPH4Mzu9Fl38hcR+H3S6xzXnk5ABxk8vH8yg6OjrZ+QVG
- PUeFPa2jrCQ+WXXN7Oc+Wt+aOXHgyOP5z/3+a6fFXnOfRSe2lW7wbwXJncPs/4k1XpIk/uz4k0w
- 6tydGrgtgRNBmpOuGwZVmIvqD+RiunSGu+LXU0YIyvSN/N2vNBTdztd2i/0Ge3T3G2Z7vkQ7Plw
- j85gPbnuaHxRgnqF/1C8AqJWMWTVSKDKdyalcn8cY8Ye8oyKxwirnDEXDNkBBctcIIMm9RfZw+1
- 2VtD1w2B
-X-Authority-Analysis: v=2.4 cv=XYGJzJ55 c=1 sm=1 tr=0 ts=68d55a3d cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=20KFwNOVAAAA:8 a=gPG2f1ptgi-rRd_ibX0A:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: IVesFF_vMbMokXRhspM-AJDwi0Z6rpRr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-25_01,2025-09-25_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1015 adultscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200020
+In-Reply-To: <20250918080603.1154497-2-wenswang@yeah.net>
 
-On Thu, 25 Sep 2025 11:40:40 +0200
-Paolo Abeni <pabeni@redhat.com> wrote:
-
-> > +	do {
-> > +		rc = smc_ib_create_queue_pair(lnk);
-> > +		if (rc)
-> > +			goto dealloc_pd;
-> > +		rc = smc_wr_alloc_link_mem(lnk);
-> > +		if (!rc)
-> > +			break;
-> > +		else if (rc != -ENOMEM) /* give up */
-> > +			goto destroy_qp;
-> > +		/* retry with smaller ... */
-> > +		lnk->max_send_wr /= 2;
-> > +		lnk->max_recv_wr /= 2;
-> > +		/* ... unless droping below old SMC_WR_BUF_SIZE */
-> > +		if (lnk->max_send_wr < 16 || lnk->max_recv_wr < 48)
-> > +			goto destroy_qp;  
+On Thu, Sep 18, 2025 at 04:06:03PM +0800, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
 > 
-> If i.e. smc.sysctl_smcr_max_recv_wr == 2048, and
-> smc.sysctl_smcr_max_send_wr == 16, the above loop can give-up a little
-> too early - after the first failure. What about changing the termination
-> condition to:
+> Add support for MPS VR mp2925 and mp2929 controller. This driver exposes
+> telemetry and limit value readings and writtings.
 > 
-> 	lnk->max_send_wr < 16 && lnk->max_recv_wr < 48
-> 
-> and use 2 as a lower bound for both lnk->max_send_wr and lnk->max_recv_wr?
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
 
-My intention was to preserve the ratio (max_recv_wr/max_send_wr) because 
-I assume that the optimal ratio is workload dependent, and that scaling
-both down at the same rate is easy to understand. And also to never dip
-below the old values to avoid regressions due to even less WR buffers
-than before the change.
+I'll have to drop this series. Reason:
 
-I get your point, but as long as the ratio is kept I think the problem,
-if considered a problem is there to stay. For example for 
-smc.sysctl_smcr_max_recv_wr == 2048 and smc.sysctl_smcr_max_send_wr == 2
-we would still give up after the first failure even with 2 as a lower
-bound.
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/mp2925.c
+...
+> +
+> +static int mp2925_write_word_data(struct i2c_client *client, int page, int reg,
+> +				  u16 word)
+> +{
+> +	int ret;
+> +
+> +	switch (reg) {
+> +	case PMBUS_VIN_OV_FAULT_LIMIT:
+> +	case PMBUS_VIN_OV_WARN_LIMIT:
+> +	case PMBUS_VIN_UV_WARN_LIMIT:
+> +	case PMBUS_VIN_UV_FAULT_LIMIT:
+> +		/*
+> +		 * The PMBUS_VIN_OV_FAULT_LIMIT, PMBUS_VIN_OV_WARN_LIMIT,
+> +		 * PMBUS_VIN_UV_WARN_LIMIT and PMBUS_VIN_UV_FAULT_LIMIT
+> +		 * of MP2925 is linear11 format, and the exponent is a
+> +		 * constant value(5'b11100)， so the exponent of word
+> +		 * parameter should be converted to 5'b11100(0x1C).
+> +		 */
+> +		ret = pmbus_write_word_data(client, page, reg,
+> +					    mp2925_linear_exp_transfer(word, 0x1C));
+> +		if (ret < 0)
+> +			return ret;
+> +		break;
+> +	case PMBUS_VOUT_OV_FAULT_LIMIT:
+> +	case PMBUS_VOUT_UV_FAULT_LIMIT:
+> +		ret = pmbus_write_word_data(client, page, reg,
+> +					    (ret & ~GENMASK(11, 0)) |
+                                             ^^^
 
-Let me also state that in my opinion giving up isn't that bad, because
-SMC-R is supposed to be an optimization, and we still have the TCP
-fallback. If we end up much worse than TCP because of back-off going
-overboard, that is probably worse than just giving up on SMC-R and
-going with TCP.
+As 0-day rightfully reports, ret is not initialized here. Datasheets for both chips
+are not published (actually the chips don't officially exist), so I can not figure out
+the expected behavior myself. FWIW, available datasheets suggest that the bits are unused,
+so if that is not correct please provide evidence that writing anything but 0 into those
+bits is needed.
 
-On the other hand, making the ratio change would make things more
-complicated, less predictable, and also possibly take more iterations.
-For example smc.sysctl_smcr_max_recv_wr == 2048 and
-smc.sysctl_smcr_max_send_wr == 2000.
+While at it, please also provide evidence that the chips exist in the first place
+and that this is not a "let's see what he accepts" submission.
 
-So I would prefer sticking to the current logic.
-
-Regards,
-Halil
-
-
+Guenter
