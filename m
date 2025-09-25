@@ -1,277 +1,298 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598741DF27D
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 19:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA11631BC9E
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 19:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758828759; cv=none; b=XyJ09uM/9EnTadvWqjIPbpx6LhCr8NzHxw5oVzAjdxMgh8RvMJ7s+/GpBY0YTgtSLg3pzjJunD8Qg2si46ytPaBpaVzUo49CP+ovwj8zSX17kHjVW4w5P0dXIxgFSPmg42G/x1k+kMNbQzgNQPpYpFDQoSD5zh0WO+jClgQCZBA=
+	t=1758830096; cv=none; b=b6lZQ8WLdhikuFxrZhsZqRyaDetuYHdMgz+q1YwF62kM+DKUn9+wuoZYQ0Y6OaGDVNg+oRc1rCSlJyJZbcBG5A9/+LqtprhCW4jC/8c9QVS68PkktS2MU/4mzo2XXqsxvxpDob3VvhQWfo+gG7GWbo7x9j5FOSBwGdwIMHWVaqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758828759; c=relaxed/simple;
-	bh=jpqmsgmAQIqXP57KiX7lxY1y974aUYb01QrMbrU8Ahg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cYUg1P5etSVfJ0RDq+IzgIokq/tGniokDhnNhM10MPHv7TQFQtaQJQSQHla5OXypfoQzqa7273WbP8SJWBCX0E8dASKqQRW7DJIa5IoR453kWjK0+dkNFZBcHzYEfJ+vGkiRV14H6va0C5M0ENlI375icRh0FbJDUL0uCe453wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NBYiTKx8; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758830096; c=relaxed/simple;
+	bh=pm5XYw0aXaktnBJIF5cJcO159P8QCT4QOXDxOjBU1n4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AfPb/R8iP5G70gfhJ3kvGwQb4aWuRu98T5xCFlSs+zpylrb/YtMQI1QwmToyIclKrn0qmgOSBOIqU5ZGH5Iw1AQqWh6FN/Wkg7cSNZEROcGEOjAghsoT2PYmbYlUb5Bl4perx74vZ7BS00/Gf08qMG9wAoFasKlpaR1VT+2Kkrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMt3aSnp; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NBYiTKx8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758828757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=D5jCgvyWVjXaOxE5qhMkjeDubZJSnlT/2ztleqWrFCE=;
-	b=NBYiTKx8xBFeRE3an1wQcmLJ53CInetp40IgSlNuK6hBojybm3zff/hgNTN/BpY9dcJWbT
-	fN21iQJqmTOPwOD5MplI9xfWwIuUbbXt2Zyl6WXRKpmiwPW3yA+Di3j1mJ7QCcGi8LqMiZ
-	4u48P2cBS2tpI5u+j5ExvACmXPT8w/Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-387-wzX2cOyeNOO4hwSw5rZIhQ-1; Thu, 25 Sep 2025 15:32:28 -0400
-X-MC-Unique: wzX2cOyeNOO4hwSw5rZIhQ-1
-X-Mimecast-MFC-AGG-ID: wzX2cOyeNOO4hwSw5rZIhQ_1758828748
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3e997eb7232so595264f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 12:32:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMt3aSnp"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b54a74f9150so1232822a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758830093; x=1759434893; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
+        b=hMt3aSnp85fXbHo+9nTAl8oloDRlewGAVikqGaAPvLCZW/xM2L1Ls2N+WmWrA4wWPl
+         9OcUkLxsEUYJnrJDr3LqesMuk+AH8vhD2RQ7Fie87Q6B7RPNgEOrHobECI4AR2jOsWMI
+         /uMY56k3BDu5eca/4fnHncetFNBz2ixr69RkQ6Bz7X+oT+02kyZXVwNeg4DJ3P9TVjeh
+         bFea564oNSJFuZhBcWcHV+zsKO7ARpV2aqK2hec/Cpw9FkxgDxfgGKP0wa+eJ6x66rsC
+         LszZ5OH3FklZDM50RYlaEG9h0JeX2RFgXVD3nP5Gggd7T2MHD5boT4716Sjbz0jQKr+y
+         imlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758828747; x=1759433547;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1758830093; x=1759434893;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D5jCgvyWVjXaOxE5qhMkjeDubZJSnlT/2ztleqWrFCE=;
-        b=mQ/R+kbe3wEHyhz0+12+HGiG09dr4s6Ne1u7ZfZxnvyHQVtH3noE6677P6RfkOJwbB
-         50p47SlA5zRyylpcH6LsmRydkiLW3aNAS+aXViCEnHhq0xhRg+UAWAcbQhbVuXeVfpEY
-         lDkwAbjrkBl7XMosixDZ1+Pog/yZpTBlaG3wpxun1hYN9Y4mq4rkJCisBAWKTqEWRQ4E
-         0aEOebqMtSs7jQw9RmxXghM1fZCqatoqePgI/dwq9nP6T778rx3BA4ShAIls8ZKk6Zzm
-         H1E81F9kiyPQBiHtQpYXO+C4aS3FI3SQZf7/N+Jolj5U/gEFHASinSIz2trtleKqlain
-         Fx8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW/FawGtj+922DKqv+zoPSrNitfenqPV8rZ/iSbwwjJhQZBqVDWNDvpPuH1c2wmH0yHbPJ7RuCdKaE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjUOvD5vnqNwcc3awlsTotURR5xDKWEPdX2fFhEhmc4wweRjr4
-	2k/E79k0eJyfQagUIyhk+78R/ByaySH9vHFJ2GLec+stsPRWcEP8gESvJllykJBN1tYEijrwGog
-	E7MqlJzmUXYjikkTjAziXbAN3VazqkD3H2zVgF9YpARf3EVCAOgjetE2qP3FwuQ==
-X-Gm-Gg: ASbGncvsHQhiBK2a0YzPlHfpKQtw3ZDLA91czClseOztA3pqezYrLg4mJLie/9thxIA
-	Kw4LEuJGHEbt8qH71f/DofTnkncYjz3UBeED3vFraXyweUX0Ksg2D5U2VT1XNlF1D1QSCXELZZg
-	k+Dgn1AAz6Up+hUVdD5JoY6ETwC+2AFA8hmMH4BbdZcZwTeLCVcTNI8I3IKJeMpdnsj06ZqyZnh
-	TWxo1DYq5mfzly8DMtjI7RGy92V2kSztFb1lW3ZnUfJgGzH/a58HaRaP5hStwP3vysVCoxgtmRo
-	E1kY4G3sDPzKV2c6nVnb5WraCZw/6MYd82wLeZk3aLcop6VQsu59nQm1+Q94Zz9aASjyYfndCGU
-	xMIeIrjHB2rldjTLqSJqbVECvvpA+q5cw8NqDNr0x/8/v4gC1HZkMROAV9+qYrv/kESl8
-X-Received: by 2002:a05:6000:3102:b0:3f9:1571:fe04 with SMTP id ffacd0b85a97d-40e4b1a06b4mr4993203f8f.48.1758828747357;
-        Thu, 25 Sep 2025 12:32:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFUL795NU1gcu1A2U+hWPDoMkyU660Ad1UyOUZxyr2NlakU+3syyUj7XJkeC88am/EkGOIvw==
-X-Received: by 2002:a05:6000:3102:b0:3f9:1571:fe04 with SMTP id ffacd0b85a97d-40e4b1a06b4mr4993145f8f.48.1758828746777;
-        Thu, 25 Sep 2025 12:32:26 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08? (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de. [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-410f2007372sm3193903f8f.16.2025.09.25.12.32.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 12:32:26 -0700 (PDT)
-Message-ID: <1b34dd89-cbbb-474e-be75-808e174c8ed9@redhat.com>
-Date: Thu, 25 Sep 2025 21:32:22 +0200
+        bh=cUCRyPPxJwDgqGohVPvUhNuL/vkJ5zITczPe/mg3LcA=;
+        b=VLddjYvIU4jWgHFpwmidkCZN2ghLDzaAlZTyAnnZ8/eFnkhna1P7PL4nDofuZHKCQm
+         yMdjmvQ2IZbbl4vg77rsp5LrN6E3ZQXeCdQZHDyBrrACb+EWSB8Fk9W0lvo76wwhDRkP
+         mqYLKx9DLkrBD8NhKmKyRTqBBIfDH1t3n2YvePkskWgcmsM7IlqkhgeAdev5md8DWJ45
+         XGKHURVs+m6mxLw4D5OYGVbMbByGRhywi+k3bQTW6HUoDBqWSDpqcH0866OAfYgttszX
+         QkISqZf8S1jvd5UQiUr2+zftKAmU0Wzle39w7n2W+eAyIaLJ/XGwdWEVYWLm+G2HN3Px
+         p6BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSexc2b8dWunXauvMJbSteuIeFr492cDg9ZkJ1Jyxk22Nl+fREKnkP8UHmQcpO+ektOFfMT/7+gpo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvCr2ADSz+jyc7X3eSemunD5c+hNL3y9p10oT5GIw0POlaCj3f
+	3hjbGpKNMmZksTRiSZ732pQRzURpcmqjcdVu1QqJuu+UMdF1zekPDEDd5srYmJ3f3x4=
+X-Gm-Gg: ASbGnctWjZst38Omryuvzt3bhXyzgKMTb5Ye7Nj7rWLxpAIq7SJx8sxaAjAetWSGsDg
+	GOGQjaNcl0j0wfi6heeKJRpu/0SgE16gz3gjyvpquBmbIxJZkbowERCEIlpd6+PNvxHEUzUzkhE
+	HU6ek8vi16bFIZ7/Oy57ARNHy5FKRsR9+zWe0+QOt99YauYl4Q4WfNVubvapQRgi0gVZpQp1b6j
+	yoCPvUsiZl+kzG3TkjaeMk2mco5mbuVoBFS1UvfFzfn5G0Uj3mG6JOilaGqLtedrskUq4Yuswmx
+	r9Eo1kLyCc7CgDHCX2GJa59y9ptMNZAhZYirXuThjOk2uxNwd3BBejVz6KYG+CbvAkg3AlrE9BQ
+	dlZo5jnuhGye50p+UpZkEHRMEF4tB9vBGj9YWGkbPwQ==
+X-Google-Smtp-Source: AGHT+IHY9FrxRWml+wxJ38dtv6SdmwreMU9YpDdbSEbRQSOjOlzJqzA14wRIb8zcdNBWdW0cQAgMcA==
+X-Received: by 2002:a17:902:ced2:b0:24a:8e36:420a with SMTP id d9443c01a7336-27ed4aae440mr55087525ad.40.1758830093015;
+        Thu, 25 Sep 2025 12:54:53 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ae5313sm33098765ad.149.2025.09.25.12.54.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 12:54:52 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: corbet@lwn.net,
+	fj2767dz@fujitsu.com,
+	will@kernel.org,
+	yangyicong@hisilicon.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] docs: perf: cleanup fujitsu_uncore_pmu.rst and fix htmldocs warnings/errors
+Date: Fri, 26 Sep 2025 01:24:40 +0530
+Message-ID: <20250925195442.71997-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
- TLB flushing
-To: "Roy, Patrick" <roypat@amazon.co.uk>
-Cc: "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
- "ackerleytng@google.com" <ackerleytng@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "andrii@kernel.org" <andrii@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
- "bp@alien8.de" <bp@alien8.de>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
- "eddyz87@gmail.com" <eddyz87@gmail.com>,
- "haoluo@google.com" <haoluo@google.com>, "hpa@zytor.com" <hpa@zytor.com>,
- "Thomson, Jack" <jackabt@amazon.co.uk>, "jannh@google.com"
- <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
- "joey.gouly@arm.com" <joey.gouly@arm.com>,
- "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
- "jolsa@kernel.org" <jolsa@kernel.org>,
- "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
- "kpsingh@kernel.org" <kpsingh@kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
- "luto@kernel.org" <luto@kernel.org>,
- "martin.lau@linux.dev" <martin.lau@linux.dev>,
- "maz@kernel.org" <maz@kernel.org>, "mhocko@suse.com" <mhocko@suse.com>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "pfalcato@suse.de" <pfalcato@suse.de>, "rppt@kernel.org" <rppt@kernel.org>,
- "sdf@fomichev.me" <sdf@fomichev.me>, "seanjc@google.com"
- <seanjc@google.com>, "shuah@kernel.org" <shuah@kernel.org>,
- "song@kernel.org" <song@kernel.org>, "surenb@google.com"
- <surenb@google.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
- "tabba@google.com" <tabba@google.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>, "vbabka@suse.cz"
- <vbabka@suse.cz>, "will@kernel.org" <will@kernel.org>,
- "willy@infradead.org" <willy@infradead.org>, "x86@kernel.org"
- <x86@kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>,
- "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
- "yuzenghui@huawei.com" <yuzenghui@huawei.com>
-References: <cf57bdec-6a2d-4d6a-b27c-991a7e2833ab@redhat.com>
- <20250925155051.2959-1-roypat@amazon.co.uk>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250925155051.2959-1-roypat@amazon.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25.09.25 17:50, Roy, Patrick wrote:
-> On Thu, 2025-09-25 at 12:02 +0100, David Hildenbrand wrote:
->> On 24.09.25 17:22, Roy, Patrick wrote:
->>> Add an option to not perform TLB flushes after direct map manipulations.
->>> TLB flushes result in a up to 40x elongation of page faults in
->>> guest_memfd (scaling with the number of CPU cores), or a 5x elongation
->>> of memory population, which is inacceptable when wanting to use direct
->>> map removed guest_memfd as a drop-in replacement for existing workloads.
->>>
->>> TLB flushes are not needed for functional correctness (the virt->phys
->>> mapping technically stays "correct", the kernel should simply not use it
->>> for a while), so we can skip them to keep performance in-line with
->>> "traditional" VMs.
->>>
->>> Enabling this option means that the desired protection from
->>> Spectre-style attacks is not perfect, as an attacker could try to
->>> prevent a stale TLB entry from getting evicted, keeping it alive until
->>> the page it refers to is used by the guest for some sensitive data, and
->>> then targeting it using a spectre-gadget.
->>>
->>> Cc: Will Deacon <will@kernel.org>
->>> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
->>> ---
->>>    include/linux/kvm_host.h | 1 +
->>>    virt/kvm/guest_memfd.c   | 3 ++-
->>>    virt/kvm/kvm_main.c      | 3 +++
->>>    3 files changed, 6 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
->>> index 73a15cade54a..4d2bc18860fc 100644
->>> --- a/include/linux/kvm_host.h
->>> +++ b/include/linux/kvm_host.h
->>> @@ -2298,6 +2298,7 @@ extern unsigned int halt_poll_ns;
->>>    extern unsigned int halt_poll_ns_grow;
->>>    extern unsigned int halt_poll_ns_grow_start;
->>>    extern unsigned int halt_poll_ns_shrink;
->>> +extern bool guest_memfd_tlb_flush;
->>>
->>>    struct kvm_device {
->>>        const struct kvm_device_ops *ops;
->>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->>> index b7129c4868c5..d8dd24459f0d 100644
->>> --- a/virt/kvm/guest_memfd.c
->>> +++ b/virt/kvm/guest_memfd.c
->>> @@ -63,7 +63,8 @@ static int kvm_gmem_folio_zap_direct_map(struct folio *folio)
->>>        if (!r) {
->>>                unsigned long addr = (unsigned long) folio_address(folio);
->>>                folio->private = (void *) ((u64) folio->private & KVM_GMEM_FOLIO_NO_DIRECT_MAP);
->>> -             flush_tlb_kernel_range(addr, addr + folio_size(folio));
->>> +             if (guest_memfd_tlb_flush)
->>> +                     flush_tlb_kernel_range(addr, addr + folio_size(folio));
->>>        }
->>>
->>>        return r;
->>> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->>> index b5e702d95230..753c06ebba7f 100644
->>> --- a/virt/kvm/kvm_main.c
->>> +++ b/virt/kvm/kvm_main.c
->>> @@ -95,6 +95,9 @@ unsigned int halt_poll_ns_shrink = 2;
->>>    module_param(halt_poll_ns_shrink, uint, 0644);
->>>    EXPORT_SYMBOL_GPL(halt_poll_ns_shrink);
->>>
->>> +bool guest_memfd_tlb_flush = true;
->>> +module_param(guest_memfd_tlb_flush, bool, 0444);
->>
->> The parameter name is a bit too generic. I think you somehow have to
->> incorporate the "direct_map" aspects.
-> 
-> Fair :)
-> 
->> Also, I wonder if this could be a capability per vm/guest_memfd?
-> 
-> I don't really have any opinions on how to expose this knob, but I
-> thought capabilities should be additive? (e.g. we only have
-> KVM_ENABLE_EXTENSION(), and then having a capability with a negative
-> polarity "enable to _not_ do TLB flushes" is a bit weird in my head).
+- Adjust spacing around list and sections for better readability.
+- Use definition lists for defining events.
+- Replace block quotes with code blocks where appropriate.
 
-Well, you are enabling the "skip-tlbflush" feature :) So a kernel that 
-knows that extension could skip tlb flushes.
+Fixes the following htmldocs errors/warnings:
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-So I wouldn't see this as "perform-tlbflush" but "skip-tlbflush" / 
-"no-tlbflush"
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+---
+ .../admin-guide/perf/fujitsu_uncore_pmu.rst   | 130 ++++++++++++------
+ 1 file changed, 87 insertions(+), 43 deletions(-)
 
-> Then again, if people are fine having TLB flushes be opt-in instead of
-> opt-out (Will's comment on v6 makes me believe that the opt-out itself
-> might already be controversial for arm64), a capability would work.
-
-Yeah, I think this definitely should be opt-in: opt-in to slightly less 
-security in a given timeframe by performing less tlb flushes.
-
+diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+index 46595b788d3a..577bad243876 100644
+--- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
++++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+@@ -6,105 +6,149 @@ Fujitsu Uncore Performance Monitoring Unit (PMU)
+ 
+ This driver supports the Uncore MAC PMUs and the Uncore PCI PMUs found
+ in Fujitsu chips.
++
+ Each MAC PMU on these chips is exposed as a uncore perf PMU with device name
+-mac_iod<iod>_mac<mac>_ch<ch>.
++``mac_iod<iod>_mac<mac>_ch<ch>``.
++
+ And each PCI PMU on these chips is exposed as a uncore perf PMU with device name
+-pci_iod<iod>_pci<pci>.
++``pci_iod<iod>_pci<pci>``.
+ 
+ The driver provides a description of its available events and configuration
+-options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/
+-and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
++options in sysfs, see ``/sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/``
++and ``/sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/``.
++
+ This driver exports:
+-- formats, used by perf user space and other tools to configure events
++====================
++
++- formats, used by perf user space and other tools to configure events.
+ - events, used by perf user space and other tools to create events
+-  symbolically, e.g.:
+-    perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
+-    perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++  symbolically, e.g:
++
++  .. code-block:: bash
++
++      perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
++      perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++
+ - cpumask, used by perf user space and other tools to know on which CPUs
+   to open the events
+ 
+ This driver supports the following events for MAC:
+-- cycles
++--------------------------------------------------
++
++cycles:
+   This event counts MAC cycles at MAC frequency.
+-- read-count
++
++read-count:
+   This event counts the number of read requests to MAC.
+-- read-count-request
++
++read-count-request:
+   This event counts the number of read requests including retry to MAC.
+-- read-count-return
++
++read-count-return:
+   This event counts the number of responses to read requests to MAC.
+-- read-count-request-pftgt
++
++read-count-request-pftgt:
+   This event counts the number of read requests including retry with PFTGT
+   flag.
+-- read-count-request-normal
++
++read-count-request-normal:
+   This event counts the number of read requests including retry without PFTGT
+   flag.
+-- read-count-return-pftgt-hit
++
++read-count-return-pftgt-hit:
+   This event counts the number of responses to read requests which hit the
+   PFTGT buffer.
+-- read-count-return-pftgt-miss
++
++read-count-return-pftgt-miss:
+   This event counts the number of responses to read requests which miss the
+   PFTGT buffer.
+-- read-wait
++
++read-wait:
+   This event counts outstanding read requests issued by DDR memory controller
+   per cycle.
+-- write-count
++
++write-count:
+   This event counts the number of write requests to MAC (including zero write,
+   full write, partial write, write cancel).
+-- write-count-write
++
++write-count-write:
+   This event counts the number of full write requests to MAC (not including
+   zero write).
+-- write-count-pwrite
++
++write-count-pwrite:
+   This event counts the number of partial write requests to MAC.
+-- memory-read-count
++
++memory-read-count:
+   This event counts the number of read requests from MAC to memory.
+-- memory-write-count
++
++memory-write-count:
+   This event counts the number of full write requests from MAC to memory.
+-- memory-pwrite-count
++
++memory-pwrite-count:
+   This event counts the number of partial write requests from MAC to memory.
+-- ea-mac
++
++ea-mac:
+   This event counts energy consumption of MAC.
+-- ea-memory
++
++ea-memory:
+   This event counts energy consumption of memory.
+-- ea-memory-mac-write
++
++ea-memory-mac-write:
+   This event counts the number of write requests from MAC to memory.
+-- ea-ha
++
++ea-ha:
+   This event counts energy consumption of HA.
+ 
+   'ea' is the abbreviation for 'Energy Analyzer'.
+ 
+-Examples for use with perf::
++Examples for use with perf
++
++  .. code-block:: bash
+ 
+-  perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
++      perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+ 
+ And, this driver supports the following events for PCI:
+-- pci-port0-cycles
++
++pci-port0-cycles:
+   This event counts PCI cycles at PCI frequency in port0.
+-- pci-port0-read-count
++
++pci-port0-read-count:
+   This event counts read transactions for data transfer in port0.
+-- pci-port0-read-count-bus
++
++pci-port0-read-count-bus:
+   This event counts read transactions for bus usage in port0.
+-- pci-port0-write-count
++
++pci-port0-write-count:
+   This event counts write transactions for data transfer in port0.
+-- pci-port0-write-count-bus
++
++pci-port0-write-count-bus:
+   This event counts write transactions for bus usage in port0.
+-- pci-port1-cycles
++
++pci-port1-cycles:
+   This event counts PCI cycles at PCI frequency in port1.
+-- pci-port1-read-count
++
++pci-port1-read-count:
+   This event counts read transactions for data transfer in port1.
+-- pci-port1-read-count-bus
++
++pci-port1-read-count-bus:
+   This event counts read transactions for bus usage in port1.
+-- pci-port1-write-count
++
++pci-port1-write-count:
+   This event counts write transactions for data transfer in port1.
+-- pci-port1-write-count-bus
++
++pci-port1-write-count-bus:
+   This event counts write transactions for bus usage in port1.
+-- ea-pci
++
++ea-pci:
+   This event counts energy consumption of PCI.
+ 
+-  'ea' is the abbreviation for 'Energy Analyzer'.
++      'ea' is the abbreviation for 'Energy Analyzer'.
++
++Examples for use with perf:
+ 
+-Examples for use with perf::
++  .. code-block:: bash
+ 
+-  perf stat -e pci_iod0_pci0/ea-pci/ ls
++      perf stat -e pci_iod0_pci0/ea-pci/ ls
+ 
+ Given that these are uncore PMUs the driver does not support sampling, therefore
+ "perf record" will not work. Per-task perf sessions are not supported.
 -- 
-Cheers
-
-David / dhildenb
+2.43.0
 
