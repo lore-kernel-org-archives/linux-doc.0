@@ -1,78 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885E32D24B3;
-	Thu, 25 Sep 2025 01:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFAE2DEA99
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 01:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758763212; cv=none; b=R6m8zYWIH5ZfUX06EbKKB2FoLNpw1cnX30dvFkDbuCcWn4rT0HrZO+R9i+LhTjDsyJqQ8VZjy5huL3yV25Ym/w17Q80ZXioKMw8yr+HNxZEZRrkHS+gYFhzxz7mDFsjEPyJil8G4VLzuDNc1MCiFxoVgJLxRHHqeXp2TxyuJutg=
+	t=1758765100; cv=none; b=pCIeIF9HVDRLss7yFzBXPPozIAOVCFAUPQaxMRRYL6HVmGDsv98iRue7klaVvFpLcXiBnP8u9kodKFXEKOWyOK5F4j7WYA9q8u4cFkzTj3PQG8vkfyiKXJNdSbMrt03zX9JDqZymVe9ksNJqXZbyGNS87hBt64hKT7fEI6zXUHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758763212; c=relaxed/simple;
-	bh=AArxCF4Hh1ss7FRtdVBzg2C5dHrMKLB2HNYexZgRH3o=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=SMkz9rVjhzuFhQNcnJ8weeIInXU0EQis0js68J0VH8ccVplgjEEdJUtBsLgU5sKaquTf0XdPX00BgTEoDjFx0MkaBX/DS/49NWTQIrYBZ0l4R/uT9/cOowNxJcKlUlPzwSnoB1eZHpYTJMyAt7h4dcIOs6KNmjXbFs0tMlUalSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YS7BPhCX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758765100; c=relaxed/simple;
+	bh=qWisjqzAzLapzP18lcgOkOsr63awJhoc1WFtffJ1YQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LsV8tJUgq/JbPNvIttPJOqimtmcgfMf1BMs+IXl+s8Go7qo51gX5e3yu7clLfhgrhU33hsGcfV389/yY55HGrntDPaDyHYzT2UsT9+xii/xSrdyyh9Diu5bEuVZn6cDVNnDxy76Q1aR9AA9WvguC86rZQiRY5C8lcCLAoNuVjMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lKOaJ3SB; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YS7BPhCX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29708C4CEF0;
-	Thu, 25 Sep 2025 01:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758763212;
-	bh=AArxCF4Hh1ss7FRtdVBzg2C5dHrMKLB2HNYexZgRH3o=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=YS7BPhCXvgg53/QRdSDJifFMqGzMPF++9n6elpnSNZ2DQAuvGFxOgcmA9P2C1gFGX
-	 zRs6I967q1+id1xpDILe9FY+nITuybp1IcVi0GlRaum74L7MPLL1PAm7atTL+1Rv2b
-	 VWDZ92DWXiFhw2htTr4pbWin+pZ12SxrNbYjvbZbseFiXQ2o5aOWQyLHA1c27E2eGN
-	 wRBrckdJ3dXyPttxgJrWVugkpiJW+LuoKbvDKv0ucZcwu2ksbAdsn70H5r4nTp78NQ
-	 PEc7WzeHFtoj6ni5lsnGzSrlOSzjI8b1EDST3ZIEFlkvqVKNOhZITdQs1/mr+vencN
-	 aPcCviwlvS2Kw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADD2F39D0C20;
-	Thu, 25 Sep 2025 01:20:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lKOaJ3SB"
+Message-ID: <82c7e76c-326f-45c9-bff7-1f27bf0c689c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758765095;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7HUVTfySCPpJobw6VEmN77jlwIzcnV4lJ/T+C7o0eaw=;
+	b=lKOaJ3SBuqZIZ+s+JaUif+AcgaS20/Ih8fQqOOxB7WPlflnEnXunJXwwaZCGcv/2uy/LX+
+	IR0coaNv4bP+O7+y8eUj7iGCAXR7HhmyNh6NxL4IdtkJt+MdOeD3W6vjSpW9PQOLEAQW0t
+	UYGjEev+j3RWd0slDPPOOsDoi2xTp/8=
+Date: Thu, 25 Sep 2025 09:51:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH] docs/zh_CN: Update Rust index translation and add
+ reference label
+To: Ben Guo <benx.guo@gmail.com>, alexs@kernel.org, dzm91@hust.edu.cn,
+ corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, dakr@kernel.org
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20250924235114.209967-1-benx.guo@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250924235114.209967-1-benx.guo@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next RESEND] Documentation: rxrpc: Demote three
- sections
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175876320849.2768103.12252196722456540227.git-patchwork-notify@kernel.org>
-Date: Thu, 25 Sep 2025 01:20:08 +0000
-References: <20250922124137.5266-1-bagasdotme@gmail.com>
-In-Reply-To: <20250922124137.5266-1-bagasdotme@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, linux-afs@lists.infradead.org, dhowells@redhat.com,
- marc.dionne@auristor.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net
-
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 22 Sep 2025 19:41:37 +0700 you wrote:
-> Three sections ("Socket Options", "Security", and "Example Client Usage")
-> use title headings, which increase number of entries in the networking
-> docs toctree by three, and also make the rest of sections headed under
-> "Example Client Usage".
-> 
-> Demote these sections back to section headings.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,RESEND] Documentation: rxrpc: Demote three sections
-    https://git.kernel.org/netdev/net-next/c/5de92bd0d754
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+X-Migadu-Flow: FLOW_OUT
 
 
+在 9/25/25 7:51 AM, Ben Guo 写道:
+> Update the translated rust/index.rst with new contents,
+> and add a reference label in rust/general-information.rst so
+> that index.rst can link to it properly.
+>
+> Fixes in rust/index.rst:
+> - Fixed broken quick-start.rst cross-reference
+>
+> Update the translation through commit d0b343605f1b
+> ("kernel-docs: Add new section for Rust learning materials")
+>
+> Signed-off-by: Ben Guo <benx.guo@gmail.com>
+
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+
+Thanks,
+
+Yanteng
+
+> ---
+>   .../zh_CN/rust/general-information.rst        |  1 +
+>   .../translations/zh_CN/rust/index.rst         | 32 ++++++++++++++++++-
+>   2 files changed, 32 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/rust/general-information.rst b/Documentation/translations/zh_CN/rust/general-information.rst
+> index 251f6ee2bb44..9b5e37e13f38 100644
+> --- a/Documentation/translations/zh_CN/rust/general-information.rst
+> +++ b/Documentation/translations/zh_CN/rust/general-information.rst
+> @@ -13,6 +13,7 @@
+>   
+>   本文档包含了在内核中使用Rust支持时需要了解的有用信息。
+>   
+> +.. _rust_code_documentation_zh_cn:
+>   
+>   代码文档
+>   --------
+> diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+> index b01f887e7167..10413b0c17c0 100644
+> --- a/Documentation/translations/zh_CN/rust/index.rst
+> +++ b/Documentation/translations/zh_CN/rust/index.rst
+> @@ -10,7 +10,35 @@
+>   Rust
+>   ====
+>   
+> -与内核中的Rust有关的文档。若要开始在内核中使用Rust，请阅读quick-start.rst指南。
+> +与内核中的Rust有关的文档。若要开始在内核中使用Rust，请阅读 quick-start.rst 指南。
+> +
+> +Rust 实验
+> +---------
+> +Rust 支持在 v6.1 版本中合并到主线，以帮助确定 Rust 作为一种语言是否适合内核，
+> +即是否值得进行权衡。
+> +
+> +目前，Rust 支持主要面向对 Rust 支持感兴趣的内核开发人员和维护者，
+> +以便他们可以开始处理抽象和驱动程序，并帮助开发基础设施和工具。
+> +
+> +如果您是终端用户，请注意，目前没有适合或旨在生产使用的内置驱动程序或模块，
+> +并且 Rust 支持仍处于开发/实验阶段，尤其是对于特定内核配置。
+> +
+> +代码文档
+> +--------
+> +
+> +给定一个内核配置，内核可能会生成 Rust 代码文档，即由 ``rustdoc`` 工具呈现的 HTML。
+> +
+> +.. only:: rustdoc and html
+> +
+> +   该内核文档使用 `Rust 代码文档 <rustdoc/kernel/index.html>`_ 构建。
+> +
+> +.. only:: not rustdoc and html
+> +
+> +   该内核文档不使用 Rust 代码文档构建。
+> +
+> +预生成版本提供在：https://rust.docs.kernel.org。
+> +
+> +请参阅 :ref:`代码文档 <rust_code_documentation_zh_cn>` 部分以获取更多详细信息。
+>   
+>   .. toctree::
+>       :maxdepth: 1
+> @@ -20,6 +48,8 @@ Rust
+>       coding-guidelines
+>       arch-support
+>   
+> +你还可以在 :doc:`../../../process/kernel-docs` 中找到 Rust 的学习材料。
+> +
+>   .. only::  subproject and html
+>   
+>      Indices
