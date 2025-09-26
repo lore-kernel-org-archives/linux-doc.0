@@ -1,117 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C283D1D6187;
-	Fri, 26 Sep 2025 22:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D058296BB3;
+	Fri, 26 Sep 2025 22:30:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758924622; cv=none; b=qpxzLyShQiL+rOMu0g9VXKkTG5xgESDh6moPGCZImcWc5jJwzdMu5T7o28X7dWV0fRVw9UtnnWLOR2bzF0HL/s1JucAKcehLlan5RpReR8ZM8a/ONH9xKbmVAFvYnZj/UHTgKj7DhyMGCv7Fi9IWkNaSRep8XamDhksKPqM1EcU=
+	t=1758925818; cv=none; b=ktyAUv8lGaGRk69LDvFUw9Xh8yt+QiL0aptaW782nI+4c1XO6TxtqDPGmU5sXSLfIjbL8twZ/3PKAFVahPETPLDZOJtz09OvjtSya0mFLG6HQk3bUltfSrz9pQ5+ABt5XcCQgKyTvwn9o2Gedxj9FWJKLo2wwGyRZRSthvN5718=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758924622; c=relaxed/simple;
-	bh=5k5GZfdKV636YzsUk/ZKQso2EF0o1VhSCWjjXGLdNd8=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=om6K9Iil56EbMU13q5pOl55b05syf5UtpnFZO64fDSy+w7bq7tlKBJrqERmb+p6jlhPOD9C+veHgosaUHIFch8dlA4T/qulQhjJ1bXeQMAkFUO/SvI/a3/lVfIogM5+ZmBencVIx5GXlIcwajTX+uwsO3k/GEg+Zvfmb+kUVzek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3WbqDKP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758925818; c=relaxed/simple;
+	bh=+M2+1GjsbkGh9cs1g8+9X/sx4uePFBEDPoRDFYkteLo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=F5D0g4qtEFZlTD/ijKAGoT1Nd6Hy8dmi78JD5m0SxdjRCt05ISomX9EGCwEsAs8iyaJA4tUFTBA3Tfe6xAd/1uUnqrFUBMGHNrt5pb+mwOQIei3V/sRt7p1LpUqzlCA3FKrnqCbzEg7Vz+4MTVtgM31r6THteZrOXYy5QPVarHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J73ODCcu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3WbqDKP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA93C4CEF4;
-	Fri, 26 Sep 2025 22:10:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J73ODCcu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C8CC4CEF4;
+	Fri, 26 Sep 2025 22:30:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758924622;
-	bh=5k5GZfdKV636YzsUk/ZKQso2EF0o1VhSCWjjXGLdNd8=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=a3WbqDKPdhJf1QoUkTz+56eW3S1Bba9SDnT7JxlSE+Gn6GaaB/T/BubJbSug+kCc9
-	 IZow7S6JkAguxSSxdO6qjwFTKzPcYZ/JzVw09iGGMYpAKriDuTHwT+RW772vbZKUp5
-	 J6ab+VpkbXKFj2+6qffQEq0Cg1i/L/D3Rvq5ap8+rwkHNSZqc5hmcavk6qGhuQ6kUB
-	 uDBj5h1wUG0aCEYi0qMV8sGATFDA/yhs0EhIE+nAAj8hWOSHExprMuMGt9F6XLuey5
-	 ZjlObPt13DDN3hPVT4IGJlQuhQ4TKjOONyK27mhbZIvwfnI456H09vWZP1ik/9w4eP
-	 66AgRriMNkNvw==
-Date: Fri, 26 Sep 2025 17:10:21 -0500
+	s=k20201202; t=1758925817;
+	bh=+M2+1GjsbkGh9cs1g8+9X/sx4uePFBEDPoRDFYkteLo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=J73ODCcue9QmmeD8PpQY87Od3HVKda1m1vGMHq2Ka6sdCOtyqCWRUFaQRaFrAAoIi
+	 Q/CDMVgvJn0FZqKiQz30xjnH6aBHkiWsn6e+bs4fYvgbO7vzLKZLM6wUTmpRnxots5
+	 kRx4BV4e3jH92kUyPeR6tLSyJrQR0isR3uaqRLy+TEdcSGU69fo/Cy0qWWRB6kAYhZ
+	 VtsA/tJwDnl0660hJ1dWLBVEHo6+DwP29LSfkU0K7aI8FAnYgG/SsgE1yFy8ygVQcE
+	 X7LFaiPSRJ4gLX8xeqcXXeHCEL482oHOoEP74uks0wB0C/GaVAxO9cPYtPVQVP3vNw
+	 YnYTvnVpTDsWw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 340B439D0C3F;
+	Fri, 26 Sep 2025 22:30:14 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: krzk+dt@kernel.org, jic23@kernel.org, conor+dt@kernel.org, 
- corbet@lwn.net, eblanc@baylibre.com, devicetree@vger.kernel.org, 
- nuno.sa@analog.com, andy@kernel.org, linux-kernel@vger.kernel.org, 
- michael.hennerich@analog.com, linux-iio@vger.kernel.org, 
- marcelo.schmitt1@gmail.com, linux-doc@vger.kernel.org, 
- linux-spi@vger.kernel.org, dlechner@baylibre.com
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-In-Reply-To: <5dc08b622dac1db561f26034c93910ccff75e965.1758916484.git.marcelo.schmitt@analog.com>
-References: <cover.1758916484.git.marcelo.schmitt@analog.com>
- <5dc08b622dac1db561f26034c93910ccff75e965.1758916484.git.marcelo.schmitt@analog.com>
-Message-Id: <175892462162.1836299.14644550889187111452.robh@kernel.org>
-Subject: Re: [PATCH v3 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
- and ADAQ4224
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/3] dns_resolver docs formatting cleanup
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175892581299.80352.17629887052028873345.git-patchwork-notify@kernel.org>
+Date: Fri, 26 Sep 2025 22:30:12 +0000
+References: <20250924020626.17073-1-bagasdotme@gmail.com>
+In-Reply-To: <20250924020626.17073-1-bagasdotme@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ mchehab+huawei@kernel.org, kees@kernel.org
 
+Hello:
 
-On Fri, 26 Sep 2025 17:40:47 -0300, Marcelo Schmitt wrote:
-> ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
-> PGA (programmable gain amplifier) that scales the input signal prior to it
-> reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
-> and A1) that set one of four possible signal gain configurations.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 24 Sep 2025 09:06:22 +0700 you wrote:
+> Hi,
 > 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
-> Change log v2 -> v3
-> - PGA gain now described in decibels.
+> Here are reST cleanups for DNS Resolver Module documentation. The shortlog
+> below should be self-explanatory.
 > 
-> The PGA gain is not going to fit well as a channel property because it may
-> affect more than one channel as in AD7191.
-> https://www.analog.com/media/en/technical-documentation/data-sheets/AD7191.pdf
+> Enjoy!
 > 
-> I consulted a very trustworthy source [1, 2] and learned that describing signal
-> gains in decibels is a common practice. I now think it would be ideal to describe
-> these PGA and PGA-like gains with properties in decibel units and this patch
-> is an attempt of doing so. The only problem with this approach is that we end up
-> with negative values when the gain is lower than 1 (the signal is attenuated)
-> and device tree specification doesn't support signed integer types. As the
-> docs being proposed fail dt_binding_check, I guess I have to nack the patch myself.
-> Any chance of dt specification eventually support signed integers?
-> Any suggestions appreciated.
-> 
-> [1] https://en.wikipedia.org/wiki/Decibel
-> [2] https://en.wikipedia.org/wiki/Gain_(electronics)
-> 
-> Thanks,
-> Marcelo
-> 
->  .../bindings/iio/adc/adi,ad4030.yaml          | 84 +++++++++++++++++--
->  1 file changed, 79 insertions(+), 5 deletions(-)
-> 
+> [...]
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Here is the summary with links:
+  - [net-next,v2,1/3] net: dns_resolver: Use reST bullet list for features list
+    https://git.kernel.org/netdev/net-next/c/84a27b5a4ced
+  - [net-next,v2,2/3] net: dns_resolver: Move dns_query() explanation out of code block
+    https://git.kernel.org/netdev/net-next/c/1b1fe672337b
+  - [net-next,v2,3/3] net: dns_resolver: Fix request-key cross-reference
+    https://git.kernel.org/netdev/net-next/c/ffa8f0791955
 
-yamllint warnings/errors:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/iio/adc/adi,ad4030.example.dts:68.36-37 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/iio/adc/adi,ad4030.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1527: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/5dc08b622dac1db561f26034c93910ccff75e965.1758916484.git.marcelo.schmitt@analog.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
