@@ -1,148 +1,127 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1681DC1AB
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 06:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E81110E0;
+	Fri, 26 Sep 2025 07:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758868431; cv=none; b=ia9TFO/dGoFDceJ0OlhZlH1U8lja9By0lK8Iy48zpRsoJt06myHMPcP2XKNgP4uWSbXS//TzMCt+Snv/bh4UOEsybmm4TIyNX9PiPaQE+CsZVIZJ7h6fBRa67Nh6qpOQOpFMymqJlBAY7Xqc/ZTAMj6QQ1XO3OTPgT4GiCT1sUo=
+	t=1758871367; cv=none; b=QrWmBjTet2qEjGlrszZXN7k9rD+kfXfW1Fd+7SXp0Oe3W8GGqWxXi/e51MF7aaQnbDUf3MsAhDsg7CKybZvzLmFEw6ltvPh8oPXb5wAMKq3CNXn+lNOKpC7XIXL/UGm1QH94L55NVrAHjIHTdSafwvFgQs3VF8O0NMGugZEAV+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758868431; c=relaxed/simple;
-	bh=174L+H8kVDJsRS4TQ2VP/VcKaCyBSEO08UA9BTwVNws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzfxtkKKzK+4DdJzqYCAhnjHzZGHDNRzUVw4Vj5HoB7uMoI0uSCsMscI+RaV9U7LNbi37bxazHprZE5th+s02qYhRrk+ZHOMyAjsz5Lqlmk1/+PJ1b5Giwrz+3ecivnsQRhfLpbaPZ4xvl260w1ggaZSp+X8U8ktcNlp1yRv9PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k83p0+r2; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k83p0+r2"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso1555763a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 23:33:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758868430; x=1759473230; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+NnL+BauktpgcQs087RtJ4g96feiVuu/zAj/7KT5F/M=;
-        b=k83p0+r2fCp4r6X8io45RJdyE3xd6N0kZfYsi219lpFW8ESoPIefPwz1iQvOyhm6cg
-         8bsh8CetIL1y+0RqS8E310xiPoYYPNQHqHNLnZ1ouZ4vd8ffwEOTIGhQMUxXXuwQxtxT
-         UrYQLJ9ffBkNBUPNAEXV/G87GMlByO4yBjwmt8yw0oy9frBLxCplgsj1ssrSIfWYBM3d
-         AI0bThEa3d/4oMCLP0LLs+Uu0GVmPBGCeshRPwPPr2I1TW1E2QEEK69FnokSQPTILMVC
-         GyNWGvw/nxXZGAr7Xu6OqbJi/U0BQ8P9Oq/YnD8a2BKeO0PQ4x7lm6XEl2+dvdIzFmj0
-         Ohrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758868430; x=1759473230;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+NnL+BauktpgcQs087RtJ4g96feiVuu/zAj/7KT5F/M=;
-        b=a8x8yI57/HeOzEnVNOBpd8DVG8dN1Hea12mwOsmx2EU3b/6cw62Q2kvZDbDFt8HvwN
-         dh46JEwuXUMYY5kyysuqWoMKYFsoWIL5WOcxxNiGx4XxqJvWn0LVgaBlWoEX3+anuoN6
-         zDwmTv5bIqBCQOldWslzwFnSoNIgMCA8LymDehl28I5lrTAS5yoGhUi/MrQ9b3yVZtt2
-         URldc5ldbvH/WDILzDbyD/UBancZybPHiSoJwlo3gXee/OfhSfah3Br4B0B5I5tqtKKl
-         LjiOf2E3KtNrK3hzh/9bUdhJ8i7VGtP+DZahIDeFT+myWoQ5wGySZ/vQdeSXQzc8iVR8
-         jpkA==
-X-Gm-Message-State: AOJu0Yx4mCMmYo/322KmEfkWlnDAEW0Q3ZXMO1xG8ncMfzqTAZQ5IRLj
-	4jzuTQVyo0CBayECIBw+UYiyiNwOqI6BXh0JUM7lk/M3fJMzNpgWi91i
-X-Gm-Gg: ASbGncu1ZvhLwVyFBvdTIUiSgIXEGfMWjoXP0yQyi1EuVRk5YkOCoRDzbHtH0D+TYrQ
-	MiTpChoCSmIL3maASj4w9fPoMK6KjWn8upcY3afAn5xf9Q0390caBqNyX8vKNOgy78vQZc2MrOa
-	qakT1RL4ZcACljmt99J6gVxbRtL5nj2PYLJPx1aUcWwC3OXsu+sptEqR8zjqAOSp8Ose6tv2fXR
-	d4pSQuDfLgMjjIgwPOVoye29i7IlLnm0NwLh5nN5540E1eQbsHic9madrvG0Swt7XUwE5OIc6Ix
-	V5yEbbXFzShRsgCbrmdHh3jU+FZWU+kFxuvPFYfqeyXar+sNFHdhFKF90/Y0yhrepr0bcP+EBPP
-	OXodoqdRi4vDWcP4Nv6sZ4Pqp6Q==
-X-Google-Smtp-Source: AGHT+IE0W5KQPINQ9maEbC4Ovq+fa2iuSq15k4zps/1QAKqt1SuUwSmW8vclNmWC+/aXcFppv6YVgQ==
-X-Received: by 2002:a17:902:d487:b0:267:a8d0:7ab3 with SMTP id d9443c01a7336-27ed4ad03femr63641485ad.61.1758868429354;
-        Thu, 25 Sep 2025 23:33:49 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed69bc273sm43196235ad.124.2025.09.25.23.33.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 23:33:48 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 10BC74206928; Fri, 26 Sep 2025 13:33:44 +0700 (WIB)
-Date: Fri, 26 Sep 2025 13:33:44 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, corbet@lwn.net,
-	will@kernel.org, yangyicong@hisilicon.com, fj2767dz@fujitsu.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] docs: perf: Fujitsu: Fix htmldocs build warnings and
- errors
-Message-ID: <aNYzyJuuHHNvXM-9@archie.me>
-References: <61aace07-890a-4b55-8e84-935ebc4a3be1@infradead.org>
- <20250926043748.3785-1-krishnagopi487@gmail.com>
+	s=arc-20240116; t=1758871367; c=relaxed/simple;
+	bh=wBcIScioeZKWPEcwR7sa6j0NWha6SykklKRPHiuXfmg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ctllrxrzfLJEf27yeMEUBntlCn7iJnMdospI4XDEXo7ymk9RPHDOtMvmtz0V7tvlY87uXAOjIMR9VN1uLQgd4YhXYZgqwkLCZELbUOPaA3XdmkIW9YQdgNORUTvNTx2K3XQr96s0tLiTo50Fkj9O32AqJ/AyLFUd2NfyC48bwnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cY2950PsDzKHM0X;
+	Fri, 26 Sep 2025 15:22:33 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 4FB951A0D4C;
+	Fri, 26 Sep 2025 15:22:42 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgAn6mFAP9Zou7RzAw--.30216S3;
+	Fri, 26 Sep 2025 15:22:42 +0800 (CST)
+Message-ID: <4ae18bbf-3301-ac40-b422-629cefdd7b12@huaweicloud.com>
+Date: Fri, 26 Sep 2025 15:22:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NbO0R4EJyzKSY1Br"
-Content-Disposition: inline
-In-Reply-To: <20250926043748.3785-1-krishnagopi487@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 2/2] md: allow configuring logical block size
+To: Li Nan <linan666@huaweicloud.com>, Xiao Ni <xni@redhat.com>
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, hare@suse.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, martin.petersen@oracle.com,
+ yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20250918115759.334067-1-linan666@huaweicloud.com>
+ <20250918115759.334067-3-linan666@huaweicloud.com>
+ <CALTww2_4rEb9SojpVbwFy=ZEjUc0-4ECYZKYKgsay9XzDTs-cg@mail.gmail.com>
+ <b7fc02d2-7643-4bf1-1b15-c1ecdf883c87@huaweicloud.com>
+ <CALTww2_knuDVWLtVzrqcuLH5dmiyMqkAaZr2DB_ZpCYPQsYH0A@mail.gmail.com>
+ <6b6acb6c-7ad8-ae71-b56a-9129d4bb4bd6@huaweicloud.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <6b6acb6c-7ad8-ae71-b56a-9129d4bb4bd6@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgAn6mFAP9Zou7RzAw--.30216S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF4rZrWrCw4fXFWfXw1rtFb_yoW8Xw1DpF
+	48tF45KryUJr10yws2gr1UCa45tr47tw1DXr9xJFy7Jryqvr12qF1UWFWqgFyUJrZ5XF1U
+	Zr4YqwnxZryS9aDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUP214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
+	xwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14
+	v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQV
+	y7UUUUU==
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
 
---NbO0R4EJyzKSY1Br
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 26, 2025 at 10:06:12AM +0530, Gopi Krishna Menon wrote:
-> diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Docu=
-mentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> index 46595b788d3a..2ec0249e37b6 100644
-> --- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> +++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
-> @@ -15,15 +15,19 @@ The driver provides a description of its available ev=
-ents and configuration
->  options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<ma=
-c>_ch<ch>/
->  and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
->  This driver exports:
-> +
->  - formats, used by perf user space and other tools to configure events
->  - events, used by perf user space and other tools to create events
-> -  symbolically, e.g.:
-> +  symbolically, e.g.::
-> +
->      perf stat -a -e mac_iod0_mac0_ch0/event=3D0x21/ ls
->      perf stat -a -e pci_iod0_pci0/event=3D0x24/ ls
-> +
->  - cpumask, used by perf user space and other tools to know on which CPUs
->    to open the events
-> =20
->  This driver supports the following events for MAC:
-> +
->  - cycles
->    This event counts MAC cycles at MAC frequency.
->  - read-count
-> @@ -77,6 +81,7 @@ Examples for use with perf::
->    perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
-> =20
->  And, this driver supports the following events for PCI:
-> +
->  - pci-port0-cycles
->    This event counts PCI cycles at PCI frequency in port0.
->  - pci-port0-read-count
+在 2025/9/25 16:34, Li Nan 写道:
+> 
+> 
+> 在 2025/9/23 22:06, Xiao Ni 写道:
+>> On Tue, Sep 23, 2025 at 9:37 PM Li Nan <linan666@huaweicloud.com> wrote:
+>>>
+>>>
+>>>
+>>> 在 2025/9/23 19:36, Xiao Ni 写道:
+>>>> Hi Li Nan
+>>>>
+>>>> On Thu, Sep 18, 2025 at 8:08 PM <linan666@huaweicloud.com> wrote:
+>>>>>
+>>>>> From: Li Nan <linan122@huawei.com>
+>>>>>
+>>>>> Previously, raid array used the maximum logical block size (LBS)
+>>>>> of all member disks. Adding a larger LBS disk at runtime could
+>>>>> unexpectedly increase RAID's LBS, risking corruption of existing
+>>>>> partitions. This can be reproduced by:
 
-LGTM, thanks!
+[...]
 
-Fixes: bad11557eed2 ("perf: Fujitsu: Add the Uncore PMU driver")
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>>>> +static ssize_t
+>>>>> +lbs_store(struct mddev *mddev, const char *buf, size_t len)
+>>>>> +{
+>>>>> +       unsigned int lbs;
+>>>>> +       int err = -EBUSY;
+>>>>> +
+>>>>> +       /* Only 1.x meta supports configurable LBS */
+>>>>> +       if (mddev->major_version == 0)
+>>>>> +               return -EINVAL;
+>>>>
+>>>> It looks like it should check raid level here as doc mentioned above, 
+>>>> right?
+>>>
+>>> Yeah, kuai suggests supporting this feature only in 1.x meta.
+>>
+>> I mean it should check if raid is raid0 here, right? As doc mentioned,
+>> it should return error if raid is level 0.
+>>
+>> Regards
+>> Xiao
+> 
+> Apologies — I misunderstood. I will add check in v6.
+> 
 
---=20
-An old man doll... just what I always wanted! - Clara
+I found that md_logical_block_size.attr is added to md_redundancy_attrs and
+is is only created when pers->sync_request is present. Raid0 will not
+create it. So the check is unnecessary.
 
---NbO0R4EJyzKSY1Br
-Content-Type: application/pgp-signature; name=signature.asc
+-- 
+Thanks,
+Nan
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNYzwwAKCRD2uYlJVVFO
-o6N7AQDryZCN3xwFGEM7qlOOqBj76vCAWmEtkmo3TmPrjKyyYwEA49RtoROV15Bl
-tuPYAUCrgFJsY2X1cHM56Ht54/EymgE=
-=Fjiw
------END PGP SIGNATURE-----
-
---NbO0R4EJyzKSY1Br--
