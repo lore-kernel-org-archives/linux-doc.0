@@ -1,156 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB4D230270;
-	Fri, 26 Sep 2025 18:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758909726; cv=none; b=D3xd+g27nr6yTauUjpswZm3dDLyfBE3DIsj8ztBJoZMx1XDGmLjtc80jxufH/xv215Vttvs7hXN6BdwSAXVs8ySMh4A2Zve9rK1FFG8rPeB6z/nzz2i3OWVWb5H1p5jWDCRBGjWL8ZcLaGIe42/QsxI9/lEUfaVpFMmq8PRyank=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758909726; c=relaxed/simple;
-	bh=Owx5RhQKmwytc4KFlTa7J1L5/ly/QxMLOTPwzCneccE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvHxxPNsR3S4KRAMk0qkNeYKpUtRPFXkg8cPhcgCVgRwM8GzJdL+9R3Z3NWCb9v4uYOmS5k0Fzwbh2Et/vh+mouIpaQovQV5T3QKnQA3616h+qCuih31RcBrYo0cSUBd0xwc2QpXekWhJRdg+EuYArRQqfz25zBcrAIhP2wCNBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjroutgB; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0161F27B342;
+	Fri, 26 Sep 2025 18:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758912548; cv=pass; b=ZZSovRWwfE+/OhG7mRD6p3XCUeFLTtt7YM3oIhv/kgrZ/3hVziQB1E3ucer0g3SuaKHB1Lng4LMJfpkZTj52dlUEvozu3KT0FrfEuQdbLLyiD1vI05EqFIOthfVgUu36fawOOB3RNGTSGEuAXFObeOFdnDhFWy/IExeN9/kOu50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758912548; c=relaxed/simple;
+	bh=nqhrpCPg22+qqPH/cP8awDrzjP62bZ1uCIVrWt7AZTA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lBxmfA/6Bmmgu3UjnUQgHu151EtSXX4BQxtEFos+A+iIOgHSvqzfabGbM/baYrgqsRTiMq9XVcqVs/MBnpGlLsEE77gm5RHueFkveO/51BZwzb620AdFrzkHsQxdTFLpGRP80bNoI0UIz7wQuYb/6FbXq8RId8kLOzlG2riKcMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=EOcGf0zP; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjroutgB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB75C4CEF4;
-	Fri, 26 Sep 2025 18:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758909725;
-	bh=Owx5RhQKmwytc4KFlTa7J1L5/ly/QxMLOTPwzCneccE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=hjroutgBh2yBKKPkXr6bDMpp4wX0pjxtZvMwF87B1mpY5D7oDFdb5znzWTISyn6Md
-	 /HbhJrgJ25j3nPmkHqbFFRoAaZ6PKdpHW/FpYO878TPRNEBb25/sSgx5xZu/pIGetF
-	 1PLuec0zmI5AN/IGEfcqw7EBnn6/rdX9h0gCzwmoxSgaGKnrF3aEHs5xMeFlJWE+8r
-	 RckWKZZ2KTaucoVg9YOeBVDWbauqfSdYinxH4RkiSI4PZVBHzxpC83+q8XuBK5osua
-	 wnj0KmQHCDnCHFWEYRbcucaMhwziK/h0YGa6fpulcJUB+PZJyAxmmLL2Gg1tyOkMUM
-	 xrrNPV6n6wyow==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1A547CE16D2; Fri, 26 Sep 2025 11:02:03 -0700 (PDT)
-Date: Fri, 26 Sep 2025 11:02:03 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: lirongqing <lirongqing@baidu.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, arnd@arndb.de,
-	feng.tang@linux.alibaba.com, joel.granados@kernel.org,
-	kees@kernel.org, rostedt@goodmis.org, pauld@redhat.com,
-	pawan.kumar.gupta@linux.intel.com, mhiramat@kernel.org,
-	dave.hansen@linux.intel.com, corbet@lwn.net,
-	akpm@linux-foundation.org, mingo@kernel.org
-Subject: Re: [PATCH] hung_task: Panic after fixed number of hung tasks
-Message-ID: <81514e1d-4a10-4466-8a87-2d4b0927195b@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20250925060605.2659-1-lirongqing@baidu.com>
- <8c4cd66c-9c3f-411a-82df-0130b78e889c@linux.dev>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="EOcGf0zP"
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58QImWfF080629
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 27 Sep 2025 03:48:32 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id B388310A24946;
+	Sat, 27 Sep 2025 03:48:31 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id d0PbXkJIVm4R; Sat, 27 Sep 2025 03:48:27 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id ACE58109D57DE; Sat, 27 Sep 2025 03:48:27 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758912507;
+	cv=none; b=ge4yeT6Nb0AAdFCMPWSh1TVc+kX067GdqxeZrVk9XzTD9Zu1ZjKh+oWlTPbyDvFU9A/AfFEUuinwJzzo2eMg5q/hZkBRluaYV64zhveATUOOEX+NMlhYAKxI54HXxa0Qcg05cIdEHBHecujpCdJZgLln5/ORsJnZC6nd3UFBKlQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758912507; c=relaxed/relaxed;
+	bh=6skZ6w2rUgfzz1RrgmD9s09Pm7j+TCfwgPr5WI1M9tQ=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=Hp0nwbP9sKtH/50EwBvSOys0T7WV02V1IG5gxZfrZQMAQxZT91H2Dm9aVimK68rZvKw8JMjEN1arobLzFx82y++qf00BZjTJxQtYfF4t2taNrXOnES+V61HByWKkwbFEt84kj8GUSOxJdJq7wewCQuZFkjR+DAhSgwSqBuKAWh8=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org ACE58109D57DE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758912507;
+	bh=6skZ6w2rUgfzz1RrgmD9s09Pm7j+TCfwgPr5WI1M9tQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EOcGf0zP4Bwpck96DttCu/e/RPDtVrxk6WEbpm6puMd66x75YikPENFSMhYzOBZ/m
+	 TmPrJtqSs/IWFEngLLYwpWVmOHRJZ0PvxEh92RbbjsUwdfRM1Dv3iMxPEZze0zxjwr
+	 zJlOg15V4LDBtky7AoxXR+vmPSHj2Gv3XpoJ3uJM=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] Documentation: admin-guide: Correct styling of MS-DOS
+Date: Sat, 27 Sep 2025 03:48:24 +0900
+Message-ID: <20250926184824.40270-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c4cd66c-9c3f-411a-82df-0130b78e889c@linux.dev>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 25, 2025 at 06:26:00PM +0800, Lance Yang wrote:
-> 
-> Thanks for the patch!
-> 
-> On 2025/9/25 14:06, lirongqing wrote:
-> > From: Li RongQing <lirongqing@baidu.com>
-> > 
-> > Currently, when hung_task_panic is enabled, kernel will panic immediately
-> > upon detecting the first hung task. However, some hung tasks are transient
-> > and the system can recover fully, while others are unrecoverable and
-> > trigger consecutive hung task reports, and a panic is expected.
-> 
-> The new hung_task_count_to_panic relies on an absolute count, but I
-> assume the real indicator you're trying to capture is the trend or
-> rate of increase over a time window (e.g., "panic if count increases
-> by 5 in 10 minutes").
-> 
-> IMHO, this kind of time-windowed, trend-based logic seems much more
-> flexible and better suited for a userspace monitoring agent :)
-> 
-> In other words, why is this the right place for this feature?
+"MS-DOS" with a hyphen is the official styling. Change the
+less common "MSDOS" to "MS-DOS" for correctness and consistency.
 
-A possibly related question is "why are RCU CPU stall warnings implemented
-in the kernel instead of in userspace?"  One reason is that by the
-time that things get bad enough to trigger an RCU CPU stall warning,
-userspace might not be capable of doing much of anything.  Thus, there
-is an uncomfortably high probability that orchestrating RCU CPU stall
-warnings from userspace would cause these warnings to be lost entirely.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ Documentation/admin-guide/pstore-blk.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Similar reasoning might (or might not) apply to the hung-task mechanism.
+diff --git a/Documentation/admin-guide/pstore-blk.rst b/Documentation/admin=
+-guide/pstore-blk.rst
+index 1bb2a1c292aa..1e2abb2ef500 100644
+--- a/Documentation/admin-guide/pstore-blk.rst
++++ b/Documentation/admin-guide/pstore-blk.rst
+@@ -59,7 +59,7 @@ When pstore/blk is built into the kernel, "blkdev" accept=
+s the following variant
+    with no leading 0x, for example b302.
+ #. PARTUUID=3D00112233-4455-6677-8899-AABBCCDDEEFF represents the unique i=
+d of
+    a partition if the partition table provides it. The UUID may be either =
+an
+-   EFI/GPT UUID, or refer to an MSDOS partition using the format SSSSSSSS-=
+PP,
++   EFI/GPT UUID, or refer to an MS-DOS partition using the format SSSSSSSS=
+-PP,
+    where SSSSSSSS is a zero-filled hex representation of the 32-bit
+    "NT disk signature", and PP is a zero-filled hex representation of the
+    1-based partition number.
+--=20
+2.47.3
 
-							Thanx, Paul
-
-> Please sell it to us ;)
-> Lance
-> 
-> > 
-> > This commit adds a new sysctl parameter hung_task_count_to_panic to allows
-> > specifying the number of consecutive hung tasks that must be detected
-> > before triggering a kernel panic. This provides finer control for
-> > environments where transient hangs maybe happen but persistent hangs should
-> > still be fatal.
-> > 
-> > Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> > ---
-> >   Documentation/admin-guide/sysctl/kernel.rst |  6 ++++++
-> >   kernel/hung_task.c                          | 14 +++++++++++++-
-> >   2 files changed, 19 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> > index 8b49eab..4240e7b 100644
-> > --- a/Documentation/admin-guide/sysctl/kernel.rst
-> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> > @@ -405,6 +405,12 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
-> >   1 Panic immediately.
-> >   = =================================================
-> > +hung_task_count_to_panic
-> > +=====================
-> > +
-> > +When set to a non-zero value, after the number of consecutive hung task
-> > +occur, the kernel will triggers a panic
-> > +
-> >   hung_task_check_count
-> >   =====================
-> > diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-> > index 8708a12..87a6421 100644
-> > --- a/kernel/hung_task.c
-> > +++ b/kernel/hung_task.c
-> > @@ -83,6 +83,8 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
-> >   static unsigned int __read_mostly sysctl_hung_task_panic =
-> >   	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
-> > +static unsigned int __read_mostly sysctl_hung_task_count_to_panic;
-> > +
-> >   static int
-> >   hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
-> >   {
-> > @@ -219,7 +221,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
-> >   	trace_sched_process_hang(t);
-> > -	if (sysctl_hung_task_panic) {
-> > +	if (sysctl_hung_task_panic ||
-> > +	    (sysctl_hung_task_count_to_panic &&
-> > +	     (sysctl_hung_task_detect_count >= sysctl_hung_task_count_to_panic))) {
-> >   		console_verbose();
-> >   		hung_task_show_lock = true;
-> >   		hung_task_call_panic = true;
-> > @@ -388,6 +392,14 @@ static const struct ctl_table hung_task_sysctls[] = {
-> >   		.extra2		= SYSCTL_ONE,
-> >   	},
-> >   	{
-> > +		.procname	= "hung_task_count_to_panic",
-> > +		.data		= &sysctl_hung_task_count_to_panic,
-> > +		.maxlen		= sizeof(int),
-> > +		.mode		= 0644,
-> > +		.proc_handler	= proc_dointvec_minmax,
-> > +		.extra1		= SYSCTL_ZERO,
-> > +	},
-> > +	{
-> >   		.procname	= "hung_task_check_count",
-> >   		.data		= &sysctl_hung_task_check_count,
-> >   		.maxlen		= sizeof(int),
-> 
