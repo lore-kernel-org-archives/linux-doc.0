@@ -1,109 +1,57 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D40513957E
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 14:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA931EBA1E;
+	Fri, 26 Sep 2025 15:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758898497; cv=none; b=OjT/4mBKQuMLwAa+9y9VAS8UTIEBUw4nH76uMP9xjrslwwcReFtezFHPFPLsGix1h75U4x/pfegyUQ6kN6T5b0lAMVfJC4zE3E5pBOBco2xwTZsLzGutFO+GqfcviO0tp5fospQqo62vrEN1JqERlmxfHXz/+rjFk59crUfJFvo=
+	t=1758899401; cv=none; b=QFCiPpLb6E4g4uE5PphganWbxI/Jq4cS2OWBy2NhiXwU6X36qO9lpEdEL3MM4+cMJnJ2adwUYfEdD6KtLKDRAzssP83wevagFSlDePcQYmBppzIQSkiHA057Bbq6OmZcRLzQcYdd4tLb/6ZUYSUp6k0IfKD/BUTFEn4lnXDkzqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758898497; c=relaxed/simple;
-	bh=rJ4vWF2I9u61rArQ5Dfe472q6LLKDmCPOmpVjXV2tl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IPpenWkq0MGJIHCzDeylMuKTRBjcQx2vuSFRFtgtPjx4tzAWoS9lj3gdZFxV/62mKZCrlvI/d4Bk7D5a4sAeZN2s5xkFrX2FsFMqlFJ1JId3taMzPku7AfKTFXQFkFsNeWu2zAZKhyWY/byngObU2VQ/TuuIC4p74IzMFFzeLMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+HWnP4T; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758899401; c=relaxed/simple;
+	bh=ivNT1eteHqufzSJjAjZmr4HnsxVvU/t+Nx0pFIRIIXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uq6Oq8KfGbBNkiubNb61Pm43f2Qivgod2zgDGz7OsNsoIcqOVD7e2iMqWrDJBwxap3HLekssTI7AyBUjS9PEt38cpEpQdSkSZWUcbg/gy7gSiu8uzHcDbCnF8NjCn+Gk2fV86EL8zILPuA+5Ph+SHNrd1QlNxmbNQf6PGKRnVOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hPsK5H8r; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+HWnP4T"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e33b260b9so21643275e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 07:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758898494; x=1759503294; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BY05iPvOa2qw1XDOJIPHyncKPIyxi1vtKF/LrunZtR4=;
-        b=Q+HWnP4TqimxGrg5UJ9weoSuOJhYG/cB5FuD8kkPvMfr7WKY/Q8QAJ7WNojEGvyMHN
-         90zURz7aS+ivth3s5DUi8HCjVFL2xcBi58zxWfYpNzfPwoyi9J4NvPn6HBJARXxC7pT1
-         J4wmqH1ZsVAgPLJmqQ6CtQipQyqvjKJpTg3VmiPfHBUgpxSYhvrsC6HlmEAlkWqn8XK+
-         uTyvLMb1y7dmreIqYzXOqXny/5JQ47o/IjAVlg4uVEDjRSunxAXR+Lu+5g46Y/VPuc5d
-         c09bAMl1aJJ8z/BVl//bVr7z8VuR8FRW6pmApcR8INgAt6GjXfyJknnjGQ1CxI8M2f97
-         8XLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758898494; x=1759503294;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BY05iPvOa2qw1XDOJIPHyncKPIyxi1vtKF/LrunZtR4=;
-        b=a1BAxi4oFdK+xtYW1K1g1kJPPqzuQz2PU9C1x30YVvyby/Io5UHZm9WHpEoN7xUvbK
-         IAVqjapjjG6aK6egWqwVlx/T9QS93FkU5bD+hoX8ivMJm0jr3xttS4V1b1xelvDqmOTF
-         Q/yh/XNBGf1d1PUTLRkjzDaW4WPT328j2m1UTxrL2TtH8WmQ4keDRunPLlBHX6astsuL
-         0pJbkWzzlA1/LwfT0VrfumXJsSphfkQaKSxWw3xoEkcgw+eNx8SN+EhBSSwjCj/ZfoEK
-         F00IJjMuOiAanaAhSqZNOECZjujhlbJNh1Z3nwE4k71xSF/xUrKOOCfrkN6B5FOyqJf2
-         LRFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWE/Ndg6dX0Tc4Pfi4Ro5Mcjp9Wg4b/qgwABgzy46Ui9GxsYk3hZ+n80TGjJ3OXbUNJ+BRKvDvPHLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyURwa4ee2fc9OoANgCUFhFUuAEAGWwGISyYZsIwX0riGl5JXON
-	g/BZlAgywETWfRcIkl9O63DA3xclE3tS2bjzZHzMredPaUSZQG9m/wbN
-X-Gm-Gg: ASbGncsnaHpfjwf71bu1zJGqI6+p+lkhucsBz4H7rH3mHrzpmOmC0o1btG+YTkR/cJH
-	zZ++QL0yi9igjNZIs9t4lwt6nAAb57TsboLSDTxE2kFhh+q9AkAdyB3G5ejpsfYoAs1BJl2veQN
-	uMIMKJRhXTFLiqkAoG+M3SC5IIlt/aKAW2eVxVfVsZkTJru6Zpwj+592O4w7HpyMafFF2PGQod9
-	4v1ilb0vFNs6GaoV0wvRTVHEIlOV3PGmtvJbJfSa4I7AEaqt0cQDDzyvb1lGkEJQFmLt3nhN0SR
-	ndzVbWr1rEiHatUFtvgrsRfn07GuQn6dhxuvqVkm/+Dg69v7ERq8D18DfsbWyZ3OuSXvCJuHFr7
-	6WgSFWI3KbPZlCgNfMa8/OmXwolqVYGR2PF+0ufNrLG+baZ1F55ZoHFoAb2yFjo9SuX8PShiU9i
-	FTMJlAxXamWXzT0X/R1y6m8dWqJ0xt7+z5kw==
-X-Google-Smtp-Source: AGHT+IH6XAUFoxCMg08arme1K9l+Tyhl3fwi9t5NToKIciERmlCjEeowzXgbzR1NtvHV+IE4Iod1mg==
-X-Received: by 2002:a05:600c:3b10:b0:45d:f83b:96aa with SMTP id 5b1f17b1804b1-46e3299a5aamr71003245e9.7.1758898494406;
-        Fri, 26 Sep 2025 07:54:54 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5? ([2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2ab31f1dsm119224235e9.13.2025.09.26.07.54.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 07:54:53 -0700 (PDT)
-Message-ID: <4b8817a4-5b17-4fa1-bc07-1808b495b8b8@gmail.com>
-Date: Fri, 26 Sep 2025 15:54:52 +0100
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hPsK5H8r"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=XSMa1nZ1fyVY7e50A5uoHQmIhnvReTboBFu/aOYjOn8=; b=hPsK5H8r3BWbRd6UcwHHfEX39A
+	AWSiU0frfKD8wuAIiawn6QdTbWBe8xFyOqTcXwGG6VnmlIvzffRIPlG4iJrdFdnhdIJdKc3lGAEYa
+	PyeAbVB8Om2B9M3ZNaRdQ4b/jitxfgqjmEzeuntXyT1vAuY3NFE9Y06eiZGsJPGLY2kM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1v2A55-009ZoP-9X; Fri, 26 Sep 2025 17:09:55 +0200
+Date: Fri, 26 Sep 2025 17:09:55 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Markus Heidelberg <m.heidelberg@cab.de>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: networking: phy: clarify abbreviation "PAL"
+Message-ID: <52edd445-1d1c-46ac-b97d-1645f01eef1a@lunn.ch>
+References: <20250926131520.222346-1-m.heidelberg@cab.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 mm-new 03/12] mm: thp: remove vm_flags parameter from
- thp_vma_allowable_order()
-Content-Language: en-GB
-To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
- david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org,
- gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com,
- rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com,
- shakeel.butt@linux.dev, tj@kernel.org, lance.yang@linux.dev
-Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250926093343.1000-1-laoar.shao@gmail.com>
- <20250926093343.1000-4-laoar.shao@gmail.com>
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <20250926093343.1000-4-laoar.shao@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250926131520.222346-1-m.heidelberg@cab.de>
 
-
-
-On 26/09/2025 10:33, Yafang Shao wrote:
-> Because all calls to thp_vma_allowable_order() pass vma->vm_flags as the
-> vma_flags argument, we can remove the parameter and have the function
-> access vma->vm_flags directly.
+On Fri, Sep 26, 2025 at 03:15:20PM +0200, Markus Heidelberg wrote:
+> It is suddenly used in the text without introduction, so the meaning
+> might have been unclear to readers.
 > 
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> ---
->  fs/proc/task_mmu.c      |  3 +--
->  include/linux/huge_mm.h | 16 ++++++++--------
->  mm/huge_memory.c        |  4 ++--
->  mm/khugepaged.c         | 10 +++++-----
->  mm/memory.c             | 11 +++++------
->  mm/shmem.c              |  2 +-
->  6 files changed, 22 insertions(+), 24 deletions(-)
-> 
+> Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
 
-Acked-by: Usama Arif <usamaarif642@gmail.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
