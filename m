@@ -1,329 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx07-007fc201.pphosted.com (mx07-007fc201.pphosted.com [185.132.181.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5EA222564
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 14:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1CC1A3A80;
+	Fri, 26 Sep 2025 14:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.181.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758896537; cv=none; b=ts4gKTXuZoPIORCmWP/a6KhX17dwZ6jWQUTEbotpETZ2H9s4mK8/cT/8IbxAD1gdTSA63aNyAXHPajr8tx7mJF2XGCZGKTCWkVaSbJGwTfSc9pzvPt17K25e/TQw/gBqYlEFUPB6lUxcNy9d/Oz+ww13ezVC53jHvZTb6H4Z+Cw=
+	t=1758896768; cv=none; b=W+COthqoFRqMnqB7a81Xey95xsmLqwfXbym6ks6xqd7xC5FtHS47QleHgBIt/tHBzOxnp8brcsRkB2TAW2qgpeS69U40bU4WzZF7Wp5Gd4BlGJtY8lquvI0aTqUS7meiX5oXVtB+pZURBa7endiBL8U+UxCKyMmCUITi0gVb06Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758896537; c=relaxed/simple;
-	bh=ovIE3hqtpnYdXG7Hm5wgIyj2/UqA0QGLyzIFS7ovQWQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jF0QvTqUSKPtOyv4Yd2XdwWCjgrj6NhXPnjeOgZDPJoK+CqkAPDAjTI7NuTUYw/A9H+0TR+IAVGSvCzpFrpMN0sVWtO08/dqbGVchCQe/KZB7lT1ZRUju4iXqg7aM8rm+pcGfvIokSO2w2E3kLyFX33fgetjAnS1pN8gf7U6adE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gnKMt1dE; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758896768; c=relaxed/simple;
+	bh=3k/F3p+Fk/c/cylKUBM1I1qdwFpDIs0egd5HDA0AjmA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fWM+9FJheOK8GbhIIYXpSEkRdtMiQlGwAigucCFHtF9zUaOTDaDkbIydXFdsbSYUbndv3H/Zg5lyCcN40WnmKvd0kL72zq+Qhl7szgJJzYIqJovnUnnWw4XiNWNH9OS4ymM01pP//fgC7jqkNtljJEZjLVEDH1giTDl2R2ooNYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=1gMhlcD1; arc=none smtp.client-ip=185.132.181.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gnKMt1dE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758896534;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y2PBA5qJ7+Q3tcGwDv2wukrpYCveef1dTx7LNShLrrc=;
-	b=gnKMt1dEwzPSBdnRJyhC12CdeNyJPCC60k1aSYFCeQXJReoyV2OZ85GkDsJbhlsiKVBFpM
-	5A2RStPrflfoTleKDPZiBtoqHwG+N7zs3mdEIEJPAKM9/dD/NMnuBowPay5dNA2BoZK5MA
-	F2m9JWUe1QEFoiDoQ52UNgmi8fPZ3mY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-589-9rbAyJd8NWGPS_3x6WzmSw-1; Fri,
- 26 Sep 2025 10:22:09 -0400
-X-MC-Unique: 9rbAyJd8NWGPS_3x6WzmSw-1
-X-Mimecast-MFC-AGG-ID: 9rbAyJd8NWGPS_3x6WzmSw_1758896526
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 469841956053;
-	Fri, 26 Sep 2025 14:22:06 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.45.225.247])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C312230001B7;
-	Fri, 26 Sep 2025 14:22:00 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next 3/3] dpll: zl3073x: allow to configure phase offset averaging factor
-Date: Fri, 26 Sep 2025 16:21:40 +0200
-Message-ID: <20250926142140.691592-4-ivecera@redhat.com>
-In-Reply-To: <20250926142140.691592-1-ivecera@redhat.com>
-References: <20250926142140.691592-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="1gMhlcD1"
+Received: from pps.filterd (m0456228.ppops.net [127.0.0.1])
+	by mx07-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58QEPv9r2214265;
+	Fri, 26 Sep 2025 16:25:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
+	:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pp-2025; bh=beKuMb7Rktap9GjfcpKEIdWM9E62yT/fpNMmyIxhXeA=; b=1gMh
+	lcD1elFuH6Aeob8J8JM+IzAIHuliTADDLAfVOyDfSCs8uqtbAsIePHmfNa5c4fAM
+	K4UCuNghbUIVIosopoXbllpFbqvhwbPENtHUFIMIfwqolFKZu6YQ+kTInw9tuxkI
+	g+lRcq5FbKfzyP6okunYKAQ/JSjixKt5VSDSgUM6epBHo4LBEOQ3xIq7VSumq2FA
+	H5ti1xMzfHSlmxdK1YVDtzVa/kr4uytbMJIgWq9/vOMVgqghKOx8h0vFx18hF7vk
+	4qba/hY+BYgmTakjI6ZNclm/Ar+jKPLF/qDd5MO+sCipQfGSBxnuHeuhFFDBMK5w
+	ejCc8K+ujwKL+wVTlw==
+Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
+	by mx07-007fc201.pphosted.com (PPS) with ESMTPS id 49dbt3ga09-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Sep 2025 16:25:57 +0200 (MEST)
+Received: from Adranos.cab.de (10.10.1.54) by Adranos.cab.de (10.10.1.54) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Fri, 26 Sep
+ 2025 16:26:13 +0200
+Received: from Adranos.cab.de ([fe80::9298:8fc8:395c:3859]) by Adranos.cab.de
+ ([fe80::9298:8fc8:395c:3859%7]) with mapi id 15.02.1748.036; Fri, 26 Sep 2025
+ 16:26:13 +0200
+From: Markus Heidelberg <M.Heidelberg@cab.de>
+To: Jonathan Corbet <corbet@lwn.net>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
+ words
+Thread-Topic: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
+ words
+Thread-Index: AQHcLstyktyjxwWy7UeU9d2/LWnMJrSlRDwAgAAfloA=
+Date: Fri, 26 Sep 2025 14:26:13 +0000
+Message-ID: <aNaic_817_R_SRd6@KAN23-025>
+References: <20250926095312.206231-1-m.heidelberg@cab.de>
+ <875xd52y2z.fsf@trenco.lwn.net>
+In-Reply-To: <875xd52y2z.fsf@trenco.lwn.net>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EA08934B269BC940AE4344BAA3475AAE@cab.de>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Authority-Analysis: v=2.4 cv=fOA0HJae c=1 sm=1 tr=0 ts=68d6a275 cx=c_pps
+ a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
+ a=xqWC_Br6kY4A:10 a=kldc_9v1VKEA:10 a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10
+ a=MAe1x8XT1DE-PPL54jUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: Ux3e1-HluQHfBqzkmrd2aFa4kW2WRxHo
+X-Proofpoint-ORIG-GUID: Ux3e1-HluQHfBqzkmrd2aFa4kW2WRxHo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEzMiBTYWx0ZWRfX75iRlmundBZC
+ peS1x0j+5Um7TGTwp/hSQqVajmP8ZSf3vVQ5j/h6+t4pOQleDt1U8LimOF9XjTCggxYnDmM/qNw
+ zBc+3KgGB+TRzQoj7UaDhMMvgTrcmOkPx5gLBY2N4Kle/b+CreEJ5kLu+CFTSMb0svPL1n8/p2f
+ du+FuWApe4ShgPyfByTbs34VTVVvewLVJYhPmo2IwJr8BtgFjMvKDpi2+kj4RubVo+PlcVouZvm
+ TSd7UvHCg9xgiOXUM8XdqcpeWE3RmsQ6pfrEmbuFgwFwREawJe+7Em1OJQAT3h9zp5HDjHK4cpe
+ /gXlOzm22MY2uAna8cVYaW/uuETDxbP63bQ1N4gW39Sd8z2e2ivGq91TnVZI44JKT4G1eq1BscJ
+ /bAhCIDt7Y1RFBTRhVLKlzIZopUo7w==
 
-The DPLL phase measurement block uses an exponential moving average with
-a configurable averaging factor. Measurements are taken at approximately
-40 Hz or at the reference frequency, whichever is lower.
+On Fri, Sep 26, 2025 at 06:32:52AM -0600, Jonathan Corbet wrote:
+> Markus Heidelberg <m.heidelberg@cab.de> writes:
+>
+> > diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/k=
+ernel-hacking/hacking.rst
+> > index 0042776a9e17..b3d352d2ffcc 100644
+> > --- a/Documentation/kernel-hacking/hacking.rst
+> > +++ b/Documentation/kernel-hacking/hacking.rst
+> > @@ -259,7 +259,7 @@ overruns. Make sure that will be enough.
+> >  .. note::
+> > =20
+> >      You will know when you are a real kernel hacker when you start
+> > -    typoing printf as printk in your user programs :)
+> > +    typing printf as printk in your user programs :)
+>
+> This one, at least, is as intended and does not need to be "fixed".
 
-Currently, factor = 2 is used to prioritize fast response for dynamic
-phase changes. For applications needing a stable, precise average phase
-offset where rapid changes are unlikely, a higher factor is recommended.
+Oh, I got that joke now :)
 
-Implement the .phase_offset_avg_factor_get/set callbacks to allow a user
-to adjust this factor.
+> For a future version, it would be better to split the patches apart and
+> send them to the relevant maintainers.
 
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/core.c | 38 +++++++++++++++++++++---
- drivers/dpll/zl3073x/core.h | 15 ++++++++--
- drivers/dpll/zl3073x/dpll.c | 59 +++++++++++++++++++++++++++++++++++++
- drivers/dpll/zl3073x/dpll.h |  2 ++
- 4 files changed, 108 insertions(+), 6 deletions(-)
+I've scratched my head about the best approach a long time, looked at
+typo git commits, followed mailing list discussion from Link: tags.
+Found documentation patches like this across different subsystems and
+also a reply about undesired one-liner typo patches.
+So I thought, if not touching the technical content, using one combined
+documentation patch might be a proper way.
 
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index e96095baac657..092e7027948a4 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -956,6 +956,32 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 				   msecs_to_jiffies(500));
- }
- 
-+int zl3073x_dev_phase_avg_factor_set(struct zl3073x_dev *zldev, u8 factor)
-+{
-+	u8 dpll_meas_ctrl, value;
-+	int rc;
-+
-+	/* Read DPLL phase measurement control register */
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Convert requested factor to register value */
-+	value = (factor + 1) & 0x0f;
-+
-+	/* Update phase measurement control register */
-+	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
-+	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, value);
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Save the new factor */
-+	zldev->phase_avg_factor = factor;
-+
-+	return 0;
-+}
-+
- /**
-  * zl3073x_dev_phase_meas_setup - setup phase offset measurement
-  * @zldev: pointer to zl3073x_dev structure
-@@ -972,15 +998,16 @@ zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev)
- 	u8 dpll_meas_ctrl, mask = 0;
- 	int rc;
- 
-+	/* Setup phase measurement averaging factor */
-+	rc = zl3073x_dev_phase_avg_factor_set(zldev, zldev->phase_avg_factor);
-+	if (rc)
-+		return rc;
-+
- 	/* Read DPLL phase measurement control register */
- 	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
- 	if (rc)
- 		return rc;
- 
--	/* Setup phase measurement averaging factor */
--	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
--	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
--
- 	/* Enable DPLL measurement block */
- 	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
- 
-@@ -1208,6 +1235,9 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 	 */
- 	zldev->clock_id = get_random_u64();
- 
-+	/* Default phase offset averaging factor */
-+	zldev->phase_avg_factor = 2;
-+
- 	/* Initialize mutex for operations where multiple reads, writes
- 	 * and/or polls are required to be done atomically.
- 	 */
-diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
-index 128fb899cafc3..1dca4ddcf2350 100644
---- a/drivers/dpll/zl3073x/core.h
-+++ b/drivers/dpll/zl3073x/core.h
-@@ -68,19 +68,19 @@ struct zl3073x_synth {
-  * @dev: pointer to device
-  * @regmap: regmap to access device registers
-  * @multiop_lock: to serialize multiple register operations
-- * @clock_id: clock id of the device
-  * @ref: array of input references' invariants
-  * @out: array of outs' invariants
-  * @synth: array of synths' invariants
-  * @dplls: list of DPLLs
-  * @kworker: thread for periodic work
-  * @work: periodic work
-+ * @clock_id: clock id of the device
-+ * @phase_avg_factor: phase offset measurement averaging factor
-  */
- struct zl3073x_dev {
- 	struct device		*dev;
- 	struct regmap		*regmap;
- 	struct mutex		multiop_lock;
--	u64			clock_id;
- 
- 	/* Invariants */
- 	struct zl3073x_ref	ref[ZL3073X_NUM_REFS];
-@@ -93,6 +93,10 @@ struct zl3073x_dev {
- 	/* Monitor */
- 	struct kthread_worker		*kworker;
- 	struct kthread_delayed_work	work;
-+
-+	/* Devlink parameters */
-+	u64			clock_id;
-+	u8			phase_avg_factor;
- };
- 
- struct zl3073x_chip_info {
-@@ -115,6 +119,13 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- int zl3073x_dev_start(struct zl3073x_dev *zldev, bool full);
- void zl3073x_dev_stop(struct zl3073x_dev *zldev);
- 
-+static inline u8 zl3073x_dev_phase_avg_factor_get(struct zl3073x_dev *zldev)
-+{
-+	return zldev->phase_avg_factor;
-+}
-+
-+int zl3073x_dev_phase_avg_factor_set(struct zl3073x_dev *zldev, u8 factor);
-+
- /**********************
-  * Registers operations
-  **********************/
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index 3e42e9e7fd272..b7c859641fcbb 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -1576,6 +1576,59 @@ zl3073x_dpll_mode_get(const struct dpll_device *dpll, void *dpll_priv,
- 	return 0;
- }
- 
-+static int
-+zl3073x_dpll_phase_offset_avg_factor_get(const struct dpll_device *dpll,
-+					 void *dpll_priv, u32 *factor,
-+					 struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+
-+	*factor = zl3073x_dev_phase_avg_factor_get(zldpll->dev);
-+
-+	return 0;
-+}
-+
-+static void
-+zl3073x_dpll_change_work(struct work_struct *work)
-+{
-+	struct zl3073x_dpll *zldpll;
-+
-+	zldpll = container_of(work, struct zl3073x_dpll, change_work);
-+	dpll_device_change_ntf(zldpll->dpll_dev);
-+}
-+
-+static int
-+zl3073x_dpll_phase_offset_avg_factor_set(const struct dpll_device *dpll,
-+					 void *dpll_priv, u32 factor,
-+					 struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *item, *zldpll = dpll_priv;
-+	int rc;
-+
-+	if (factor > 15) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "Phase offset average factor has to be from range <0,15>");
-+		return -EINVAL;
-+	}
-+
-+	rc = zl3073x_dev_phase_avg_factor_set(zldpll->dev, factor);
-+	if (rc) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "Failed to set phase offset averaging factor");
-+		return rc;
-+	}
-+
-+	/* The averaging factor is common for all DPLL channels so after change
-+	 * we have to send a notification for other DPLL devices.
-+	 */
-+	list_for_each_entry(item, &zldpll->dev->dplls, list) {
-+		if (item != zldpll)
-+			schedule_work(&item->change_work);
-+	}
-+
-+	return 0;
-+}
-+
- static int
- zl3073x_dpll_phase_offset_monitor_get(const struct dpll_device *dpll,
- 				      void *dpll_priv,
-@@ -1635,6 +1688,8 @@ static const struct dpll_pin_ops zl3073x_dpll_output_pin_ops = {
- static const struct dpll_device_ops zl3073x_dpll_device_ops = {
- 	.lock_status_get = zl3073x_dpll_lock_status_get,
- 	.mode_get = zl3073x_dpll_mode_get,
-+	.phase_offset_avg_factor_get = zl3073x_dpll_phase_offset_avg_factor_get,
-+	.phase_offset_avg_factor_set = zl3073x_dpll_phase_offset_avg_factor_set,
- 	.phase_offset_monitor_get = zl3073x_dpll_phase_offset_monitor_get,
- 	.phase_offset_monitor_set = zl3073x_dpll_phase_offset_monitor_set,
- };
-@@ -1960,6 +2015,8 @@ zl3073x_dpll_device_register(struct zl3073x_dpll *zldpll)
- 		return rc;
- 	}
- 
-+	INIT_WORK(&zldpll->change_work, zl3073x_dpll_change_work);
-+
- 	rc = dpll_device_register(zldpll->dpll_dev,
- 				  zl3073x_prop_dpll_type_get(zldev, zldpll->id),
- 				  &zl3073x_dpll_device_ops, zldpll);
-@@ -1983,6 +2040,8 @@ zl3073x_dpll_device_unregister(struct zl3073x_dpll *zldpll)
- {
- 	WARN(!zldpll->dpll_dev, "DPLL device is not registered\n");
- 
-+	cancel_work_sync(&zldpll->change_work);
-+
- 	dpll_device_unregister(zldpll->dpll_dev, &zl3073x_dpll_device_ops,
- 			       zldpll);
- 	dpll_device_put(zldpll->dpll_dev);
-diff --git a/drivers/dpll/zl3073x/dpll.h b/drivers/dpll/zl3073x/dpll.h
-index 304910ffc9c07..e8c39b44b356c 100644
---- a/drivers/dpll/zl3073x/dpll.h
-+++ b/drivers/dpll/zl3073x/dpll.h
-@@ -20,6 +20,7 @@
-  * @dpll_dev: pointer to registered DPLL device
-  * @lock_status: last saved DPLL lock status
-  * @pins: list of pins
-+ * @change_work: device change notification work
-  */
- struct zl3073x_dpll {
- 	struct list_head		list;
-@@ -32,6 +33,7 @@ struct zl3073x_dpll {
- 	struct dpll_device		*dpll_dev;
- 	enum dpll_lock_status		lock_status;
- 	struct list_head		pins;
-+	struct work_struct		change_work;
- };
- 
- struct zl3073x_dpll *zl3073x_dpll_alloc(struct zl3073x_dev *zldev, u8 ch);
--- 
-2.49.1
+Will have a look at splitting the patch up if not resulting in
+one-liners only.
 
+Markus=
