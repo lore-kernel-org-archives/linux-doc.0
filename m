@@ -1,94 +1,185 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640C2202976;
-	Fri, 26 Sep 2025 19:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29EE27E05B
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 19:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758914277; cv=none; b=QlGv7mWhYNhTnePu+Dkd9imxFINrodR5bJ5fw7fLykmECXSuoWtBDMngEFCzCjRW4qzfAkdzWqzyIU+ZD7nLFDQNzAmyIg1dleT9pdy6B0d+ANhaqoLxTbpzI4n36YzAP225rQdmL53WGUE1yp8xUOWmd4CNwLb53TAy7z8Dbns=
+	t=1758914993; cv=none; b=mu921Qvc7fbkpmKxdqHGx1K1CJm1TOSS9Qxg5yrUEeveVStj6vmpUuK+/Z7g5fD8jSDHYvTHzIhXxljJDOXrZf8A4tW9rS97c0zv71DQAhWq62RM7jVuFNqE5csLs/iEaTRi3jI7lQP5jgbpWoSuZHRWLj4vPsJ3/J89YgOSIvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758914277; c=relaxed/simple;
-	bh=EwVtoJZqWLnBrAqj0Ezf+s1cWup/1nT/Eh21YLCibzE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=swxMC9sz2xXvvGgdHT4MX2E0ksHHDi4H8y784l2FE29Dk59lfkNG5Io2PDp22aUlaiifoNhJBvUXlBgF+U0DF8hRWG3hvMlah6xackhVdnaj3hFL8pPADJy0NzBeDtqLQccsZsRBfapEfv7dwJztl+M3xOEC4mF3aTUl8sCLUso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K5uNgAWd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758914993; c=relaxed/simple;
+	bh=PhmFWhMKz0Lpt+jlfUJ0TYkmXMX8vl2curJz5SvJkTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j2Y0QKSCn7sJfQATSESVT21UElRm536XQ9JcJBAWn6NGRGpUrXrWV4EXqoSK79fCto/aEhajRJkDYY2KknsE+6wCb+XYQfGmYUIbLy9gnQ6/lgE5ZWzVR3AJuuNVobAc9ofJbC5+6FhFlwcoHK3FpEeD+H5twYmamN6PRX/Fsa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IJY35T8X; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K5uNgAWd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yhLPxwL+DQHqKGTW1ubEYzyPgce3kGbV8vk9hn+L5lY=; b=K5uNgAWdwN9hMMfTQv1hxsa30n
-	VLs5wbbT9ezEb4qbUhg6z5vLWUbhU7Pdwm48QOEYhV+8p4XQKXQEs+cJSVcsPkO5s+L43+QMUgwgQ
-	B3o6Cq4F+78eC97uURqPOdc0y14x4M0G8kBR8/AbflwMdadWJ5QhiL1jubP9yrKTTOOpA5K/UewAg
-	RGVTzjzCg9BZMwMYple2oYAu6nfAbTU3Mzx7VTXYJwJEyeLIAlJs9R5i8MvnEceGJcGEoZ2xgVQ89
-	ksMAJym7/p2wfU75+a/y3s5k6AXqv6iKgFO2VhpBjbY+5KmgfQ2cWJZr7k9QKdrLe7CnTMoSPFXl9
-	5ehk4QeA==;
-Received: from [50.53.25.54] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2Dww-00000003suW-2zZW;
-	Fri, 26 Sep 2025 19:17:46 +0000
-Message-ID: <a5015724-a799-4151-bcc4-000c2c5c7178@infradead.org>
-Date: Fri, 26 Sep 2025 12:17:45 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IJY35T8X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758914990;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qJkwxIyAJhe7Z2sYVZyMCylwQN+VGhF0dp+d12hJfX4=;
+	b=IJY35T8XMFR3Bh3dtOsMXz6V4iQxODFmSyoEeBlbF0QcsmkjtFxVYQTu0TkHdbEuQfmBqg
+	3seFHGrcg76Brsoic+Poqk017+PsWjpKe0EIJ+MhtQxIVHYIZ/oOpWoNO18SUd9pr75yo7
+	BfvtHT3WJiAlFpXWsWolZvJ3eXIXcyc=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-393-_QGioLbVNH60aFABUpxHhw-1; Fri,
+ 26 Sep 2025 15:29:47 -0400
+X-MC-Unique: _QGioLbVNH60aFABUpxHhw-1
+X-Mimecast-MFC-AGG-ID: _QGioLbVNH60aFABUpxHhw_1758914986
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EB2C01800378;
+	Fri, 26 Sep 2025 19:29:45 +0000 (UTC)
+Received: from cmirabil.redhat.com (unknown [10.22.90.77])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 572901800115;
+	Fri, 26 Sep 2025 19:29:34 +0000 (UTC)
+From: Charles Mirabile <cmirabil@redhat.com>
+To: pjw@kernel.org
+Cc: Liam.Howlett@oracle.com,
+	a.hindborg@kernel.org,
+	akpm@linux-foundation.org,
+	alex.gaynor@gmail.com,
+	alexghiti@rivosinc.com,
+	aliceryhl@google.com,
+	alistair.francis@wdc.com,
+	andybnac@gmail.com,
+	aou@eecs.berkeley.edu,
+	arnd@arndb.de,
+	atishp@rivosinc.com,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	bp@alien8.de,
+	brauner@kernel.org,
+	broonie@kernel.org,
+	charlie@rivosinc.com,
+	cleger@rivosinc.com,
+	conor+dt@kernel.org,
+	conor@kernel.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@redhat.com,
+	debug@rivosinc.com,
+	devicetree@vger.kernel.org,
+	ebiederm@xmission.com,
+	evan@rivosinc.com,
+	gary@garyguo.net,
+	hpa@zytor.com,
+	jannh@google.com,
+	jim.shu@sifive.com,
+	kees@kernel.org,
+	kito.cheng@sifive.com,
+	krzk+dt@kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org,
+	lorenzo.stoakes@oracle.com,
+	lossin@kernel.org,
+	mingo@redhat.com,
+	ojeda@kernel.org,
+	oleg@redhat.com,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	peterz@infradead.org,
+	richard.henderson@linaro.org,
+	rick.p.edgecombe@intel.com,
+	robh@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	samitolvanen@google.com,
+	shuah@kernel.org,
+	tglx@linutronix.de,
+	tmgross@umich.edu,
+	vbabka@suse.cz,
+	x86@kernel.org,
+	zong.li@sifive.com
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+Date: Fri, 26 Sep 2025 15:29:19 -0400
+Message-ID: <20250926192919.349578-1-cmirabil@redhat.com>
+In-Reply-To: <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+References: <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 mm-new 04/12] mm: thp: add support for BPF based THP
- order selection
-To: Usama Arif <usamaarif642@gmail.com>, Yafang Shao <laoar.shao@gmail.com>,
- akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- dev.jain@arm.com, hannes@cmpxchg.org, gutierrez.asier@huawei-partners.com,
- willy@infradead.org, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net,
- 21cnbao@gmail.com, shakeel.butt@linux.dev, tj@kernel.org,
- lance.yang@linux.dev
-Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250926093343.1000-1-laoar.shao@gmail.com>
- <20250926093343.1000-5-laoar.shao@gmail.com>
- <073d5246-6da7-4abb-93d6-38d814daedcc@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <073d5246-6da7-4abb-93d6-38d814daedcc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+Hi - 
 
+Hoping that I got everything right with git-send-email so that this is
+delivered alright...
 
-On 9/26/25 8:13 AM, Usama Arif wrote:
->> +config BPF_THP_GET_ORDER_EXPERIMENTAL
->> +	bool "BPF-based THP order selection (EXPERIMENTAL)"
->> +	depends on TRANSPARENT_HUGEPAGE && BPF_SYSCALL
->> +
->> +	help
->> +	  Enable dynamic THP order selection using BPF programs. This
->> +	  experimental feature allows custom BPF logic to determine optimal
->> +	  transparent hugepage allocation sizes at runtime.
->> +
->> +	  WARNING: This feature is unstable and may change in future kernel
->> +	  versions.
->> +
-> I am assuming this series opens up the possibility of additional hooks being added in
-> the future. Instead of naming this BPF_THP_GET_ORDER_EXPERIMENTAL, should we
-> name it BPF_THP? Otherwise we will end up with 1 Kconfig option per hook, which
-> is quite bad.
+Wanted to jump in to head off a potential talking past one another / 
+miscommunication situation I see here.
+
+On Wed, Sep 24, 2025 at 08:36:11AM -0600, Paul Walmsley wrote:
+> Hi,
 > 
-> Also It would be really nice if we dont put "EXPERIMENTAL" in the name of the defconfig.
-> If its decided that its not experimental anymore without any change to the code needed,
-> renaming the defconfig will break it for everyone.
+> On Thu, 31 Jul 2025, Deepak Gupta wrote:
+> 
+> [ ... ]
+> 
+> > vDSO related Opens (in the flux)
+> > =================================
+> > 
+> > I am listing these opens for laying out plan and what to expect in future
+> > patch sets. And of course for the sake of discussion.
+> > 
+> 
+> [ ... ]
+> 
+> > How many vDSOs
+> > ---------------
+> > Shadow stack instructions are carved out of zimop (may be operations) and if CPU
+> > doesn't implement zimop, they're illegal instructions. Kernel could be running on
+> > a CPU which may or may not implement zimop. And thus kernel will have to carry 2
+> > different vDSOs and expose the appropriate one depending on whether CPU implements
+> > zimop or not.
+> 
+> If we merge this series without this, then when CFI is enabled in the 
+> Kconfig, we'll wind up with a non-portable kernel that won't run on older 
+> hardware.  We go to great lengths to enable kernel binary portability 
+> across the presence or absence of other RISC-V extensions, and I think 
+> these CFI extensions should be no different.
 
-s/defconfig/Kconfig symbol/
+That is not true, this series does not contain the VDSO changes so it can
+be merged as is.
 
-Otherwise agreed.
-Thanks.
--- 
-~Randy
+> 
+> So before considering this for merging, I'd like to see at least an 
+> attempt to implement the dual-vDSO approach (or something equivalent) 
+> where the same kernel binary with CFI enabled can run on both pre-Zimop 
+> and post-Zimop hardware, with the existing userspaces that are common 
+> today.
+
+I agree that when the VDSO patches are submitted for inclusion they should
+be written in a way that avoids limiting the entire kernel to either
+pre-Zimop or post-Zimop hardware based on the config, but I think it
+should be quite possible to perform e.g. runtime patching of the VDSO
+to replace the Zimop instructions with nops if the config is enabled but
+the hardware does not support Zimop.
+
+However, that concern should not hold up this patch series. Raise it again
+when the VDSO patches are posted.
+
+> 
+> thanks Deepak,
+> 
+> - Paul
+
+Best - Charlie
 
