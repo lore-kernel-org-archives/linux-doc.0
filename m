@@ -1,162 +1,164 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD111FDA9E
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 15:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22D81F5834
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 15:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758900375; cv=none; b=ZHstw7VFxvoMRkKqsasFXnGs6TBPMt166WNy8/LPZndkk44O85dxRUSp2UBdad8YFi9l4YO2ljh+MI8E3tBPCEnI76jlLJzVf0r/CY8m/lHE9a8i6Dfe9FgRj31jyAiIGllt6cIj7exF8yF6w0bif7r7UHll3KBsJuUpoyxcnwQ=
+	t=1758900452; cv=none; b=WUc0cOQjkd/4rdQaJcP+hH0ez1I1qJW1+duxhl2rkcK54xU0qVxbHs7lMjM86mVktBDzoP5QJoWqUxHfrQLNDGWAxop/mCzEqJjucsSNcNqv93yk3GL+tcgzJMebwGyK6dU99Z65OuKqQfDTOEyI062Hzkl0eI+wDTNJvpD/61Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758900375; c=relaxed/simple;
-	bh=bwkzkyipx/cP1lNRqHOo7PCoKFntTqYlPdvPG7UPBJ4=;
+	s=arc-20240116; t=1758900452; c=relaxed/simple;
+	bh=EFF7ZH+s9DTZ+hcqjoggLDB6+P7HDFxvD9fIKBMwxVA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EvylyqyRzl2ZTw9ON0zKiCiFQi5H3HL9A2HxdDDaG+rjmRyqUgUOK7UXUh/Qi98siBLrys0q8FmJWqbJAZTbkh0IbpsrRIyH/b/H/mVR9x3DBvV1tbrSuiGpSySF77t4dD4GUGp9QUDnSx1fTxZcXRxggSUES6uyhhXsKGean4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qyEZYXHA; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=tMzrG5jLqiBCDgj91jidNpHwJa39KbeGRbCjpjlO8yz23RXIz19H6PZzMjFv0JFIXAAPW80pzWsLN92m66ZMcj2KJ/6WuvfLSvTous0XHWDa5elBlOlNT+09cnyyBgEtPDFckC1UhPmeM/lWe/rCSjSEsrhNT5hCucTFNAojt40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AAwreQpp; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qyEZYXHA"
-Message-ID: <3e3742a7-5cfd-4f7c-8ca9-65b1de08ec29@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758900361;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B+eNwpJLHV0SCn7yBkAhB2wqVmm70sNmIzha4a7rhtk=;
-	b=qyEZYXHA/uabRpRBi3XevWqW9KgumB2ZuDY893Jb92TOfjQxuslGz7ceS7LPg+8jPIU0Hs
-	FargUEciH/I+nZc15VbeFP7HtWtR368aWhHiLSQ3XFr/omvpS7OxP8sbC6MiNE4RrX3EvW
-	Pec/8eu8S9ptUBrYWbDhDMo472eclok=
-Date: Fri, 26 Sep 2025 16:25:58 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AAwreQpp"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3f2cf786abeso1652772f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 08:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758900448; x=1759505248; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+rHEB641cb2GdpF/5/rE3pgDEs3o5nOg8UBPvdo7xdA=;
+        b=AAwreQppSC8v/gjs6m7zTPWaFU+8dzJNHZFqIio2dFvJNQrp1oH9Rk8GfgwxZVq7zB
+         vWB86XJRJUeSLA8BDkfQzRZdoTiDIVyhcOfouUkExEdXPsYeUg1aTX4uvLw76jJtnRyk
+         RphU6mf704jPk3YnV5L+HCzcO6e4obbDariWKlADCewic/duCwC+no9GbVAVK79a+HUU
+         XxmHCqoEczgHjsa1S5162wQUA2pX8m/5yPPLMrWfMBdkQoddhi4VruR25lM8TKXRgz6D
+         QV5tR4RW5eR/RksfUcAujxue1ln7Gihhg+h2PChrKF3SvrLJyvoP9hOCUpxOF3CNUC+5
+         kjhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758900448; x=1759505248;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+rHEB641cb2GdpF/5/rE3pgDEs3o5nOg8UBPvdo7xdA=;
+        b=GBoufb6mEXOK9RpGoihwMxelco3rI/Ee9OIhuaYxZTu0JxBkXHc+cNHqXKr7aPBGep
+         aJ4It+CSb0rsRSFsMbWC1XL9tLUfPsyDaeNT2hcbCyN++cJkeore6BcnMzXSZuI7Xxma
+         p7YJmk/+Ks5elq/Kb+3qrK8evp5gaPj1DBZ+1zzRJ1Y6wrHCChkXfvqs1HPSptaziEoB
+         Kb5zG/zKEN7Y525Bp75fl0aWt2xXXHdFb8BDIDCUOwm/10yFHD/IDML8CFW4AWQHoAlt
+         J8YKvbnuEXiYXD6ONbnkeb5zWTFxDxUbEhkpAaUR2TzkJvLdTnNAPRCmeWKCTCWyTqrs
+         q4cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkjAkLNFbaTEkBEl32DQSaqhOq1HtvhwmLJr3sNMylSKtOV2royHq0q81ffHLreAY3IWtqoyCZe3E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk6uI07s/OxUQBz2fo/AytNH4KBIBS80Noj8AyV0ONt8pG4nKg
+	j3ZLr07enfK/gVvvDojYgvpC3zQHg9Z4c9ArLcWbz89XUqvshWJ+uR49
+X-Gm-Gg: ASbGncsaQh2ayAJ+c5cTscnkbIomVLdtcVuDVs3HHjAHR30n9Rs9S5ObXNl+e9aBKBg
+	FoMAvU0P2zrLwXi4g3UsW1UEXNqmoX9mEY/vTtKqjGsHeb/aAf8Ri3RSJXuho73QBNvpEQieVI0
+	De/xQ/7LbbBKOSmBHZz6WmMWr4MZ4imsMY+jiZk9zNoaJsRhPkcTVm9ZvVdssAQIOZXMQ4/OvsU
+	BO9ltmIwQPZr1I1XZOcQpWN1aYJWMJxyzOrZ03PvVqjLvIHHbjMPior52nThlTMzCdGUH4tGtRX
+	XOt/lSN8SuBFnUL1TyTBudzFWP1GYINzVHCTmO/L6hA+94gw/x0t/MU5IsF/kl0e0h5Kt7BW4Oh
+	Ik8DZNsdhSg+mft1fK0NWO1iaiveUysUXVKugH7rEbSq+osjBIrvJkwErvSQoVqnb/kmTGBXUe5
+	yusRtWIJeF8+IWQ3wO43ZppkKK++I2AJwG283GBZA=
+X-Google-Smtp-Source: AGHT+IHukc9PAc+ShA0a1/5BNvNstWVE/VpbllBdChFZdr1gLStyH3EQxZd0GUyYSjGKV5ErWMc6Vg==
+X-Received: by 2002:a05:6000:240c:b0:3dc:1473:18bd with SMTP id ffacd0b85a97d-40e497c348dmr6881945f8f.3.1758900447759;
+        Fri, 26 Sep 2025 08:27:27 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5? ([2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fb871d051sm7634404f8f.14.2025.09.26.08.27.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 08:27:26 -0700 (PDT)
+Message-ID: <035a8839-c786-45b6-8458-87ac1c48f3bc@gmail.com>
+Date: Fri, 26 Sep 2025 16:27:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 2/3] dpll: add phase_offset_avg_factor_get/set
- callback ops
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Chuck Lever <chuck.lever@oracle.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
- Petr Oros <poros@redhat.com>
-References: <20250926142140.691592-1-ivecera@redhat.com>
- <20250926142140.691592-3-ivecera@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250926142140.691592-3-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 mm-new 06/12] mm: thp: enable THP allocation
+ exclusively through khugepaged
+Content-Language: en-GB
+To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
+ david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, npache@redhat.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org,
+ gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com,
+ rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com,
+ shakeel.butt@linux.dev, tj@kernel.org, lance.yang@linux.dev
+Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250926093343.1000-1-laoar.shao@gmail.com>
+ <20250926093343.1000-7-laoar.shao@gmail.com>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20250926093343.1000-7-laoar.shao@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 26/09/2025 15:21, Ivan Vecera wrote:
-> Add new callback operations for a dpll device:
-> - phase_offset_avg_factor_get(...) - to obtain current phase offset
->    averaging factor from dpll device,
-> - phase_offset_avg_factor_set(...) - to set phase offset averaging factor
+
+
+On 26/09/2025 10:33, Yafang Shao wrote:
+> khugepaged_enter_vma() ultimately invokes any attached BPF function with
+> the TVA_KHUGEPAGED flag set when determining whether or not to enable
+> khugepaged THP for a freshly faulted in VMA.
 > 
-> Obtain the factor value using the get callback and provide it to the user
-> if the device driver implements callbacks. Execute the set callback upon
-> user requests.
+> Currently, on fault, we invoke this in do_huge_pmd_anonymous_page(), as
+> invoked by create_huge_pmd() and only when we have already checked to
+> see if an allowable TVA_PAGEFAULT order is specified.
 > 
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> Since we might want to disallow THP on fault-in but allow it via
+> khugepaged, we move things around so we always attempt to enter
+> khugepaged upon fault.
+> 
+> This change is safe because:
+> - the checks for thp_vma_allowable_order(TVA_KHUGEPAGED) and
+>   thp_vma_allowable_order(TVA_PAGEFAULT) are functionally equivalent
+
+hmm I dont think this is the case. __thp_vma_allowable_orders
+deals with TVA_PAGEFAULT (in_pf) differently from TVA_KHUGEPAGED.
+
+> - khugepaged operates at the MM level rather than per-VMA. The THP
+>   allocation might fail during page faults due to transient conditions
+>   (e.g., memory pressure), it is safe to add this MM to khugepaged for
+>   subsequent defragmentation.
+> 
+> While we could also extend prctl() to utilize this new policy, such a
+> change would require a uAPI modification to PR_SET_THP_DISABLE.
+> 
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> Acked-by: Lance Yang <lance.yang@linux.dev>
 > ---
->   drivers/dpll/dpll_netlink.c | 76 +++++++++++++++++++++++++++++++++----
->   include/linux/dpll.h        |  6 +++
->   2 files changed, 75 insertions(+), 7 deletions(-)
+>  mm/huge_memory.c |  1 -
+>  mm/memory.c      | 13 ++++++++-----
+>  2 files changed, 8 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
-> index 0a852011653c4..55b3ffe08024b 100644
-> --- a/drivers/dpll/dpll_netlink.c
-> +++ b/drivers/dpll/dpll_netlink.c
-> @@ -164,6 +164,28 @@ dpll_msg_add_phase_offset_monitor(struct sk_buff *msg, struct dpll_device *dpll,
->   	return 0;
->   }
->   
-> +static int
-> +dpll_msg_add_phase_offset_avg_factor(struct sk_buff *msg,
-> +				     struct dpll_device *dpll,
-> +				     struct netlink_ext_ack *extack)
-> +{
-> +	const struct dpll_device_ops *ops = dpll_device_ops(dpll);
-> +	u32 factor;
-> +	int ret;
-> +
-> +	if (ops->phase_offset_avg_factor_set &&
-> +	    ops->phase_offset_avg_factor_get) {
-> +		ret = ops->phase_offset_avg_factor_get(dpll, dpll_priv(dpll),
-> +						       &factor, extack);
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 08372dfcb41a..2b155a734c78 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1346,7 +1346,6 @@ vm_fault_t do_huge_pmd_anonymous_page(struct vm_fault *vmf)
+>  	ret = vmf_anon_prepare(vmf);
+>  	if (ret)
+>  		return ret;
+> -	khugepaged_enter_vma(vma);
+>  
+>  	if (!(vmf->flags & FAULT_FLAG_WRITE) &&
+>  			!mm_forbids_zeropage(vma->vm_mm) &&
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 58ea0f93f79e..64f91191ffff 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -6327,11 +6327,14 @@ static vm_fault_t __handle_mm_fault(struct vm_area_struct *vma,
+>  	if (pud_trans_unstable(vmf.pud))
+>  		goto retry_pud;
+>  
+> -	if (pmd_none(*vmf.pmd) &&
+> -	    thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
+> -		ret = create_huge_pmd(&vmf);
+> -		if (!(ret & VM_FAULT_FALLBACK))
+> -			return ret;
+> +	if (pmd_none(*vmf.pmd)) {
+> +		if (vma_is_anonymous(vma))
+> +			khugepaged_enter_vma(vma);
+> +		if (thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
+> +			ret = create_huge_pmd(&vmf);
+> +			if (!(ret & VM_FAULT_FALLBACK))
+> +				return ret;
+> +		}
+>  	} else {
+>  		vmf.orig_pmd = pmdp_get_lockless(vmf.pmd);
+>  
 
-Well, correct me if I'm wrong, but the device can have offset average
-factor as a constant, and it can technically report it. I would make
-set/get callback optional and don't require both of them to be
-implemented.
-
-
-> +		if (ret)
-> +			return ret;
-> +		if (nla_put_u32(msg, DPLL_A_PHASE_OFFSET_AVG_FACTOR, factor))
-> +			return -EMSGSIZE;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int
->   dpll_msg_add_lock_status(struct sk_buff *msg, struct dpll_device *dpll,
->   			 struct netlink_ext_ack *extack)
-> @@ -675,6 +697,9 @@ dpll_device_get_one(struct dpll_device *dpll, struct sk_buff *msg,
->   	if (nla_put_u32(msg, DPLL_A_TYPE, dpll->type))
->   		return -EMSGSIZE;
->   	ret = dpll_msg_add_phase_offset_monitor(msg, dpll, extack);
-> +	if (ret)
-> +		return ret;
-> +	ret = dpll_msg_add_phase_offset_avg_factor(msg, dpll, extack);
->   	if (ret)
->   		return ret;
->   
-> @@ -839,6 +864,32 @@ dpll_phase_offset_monitor_set(struct dpll_device *dpll, struct nlattr *a,
->   					     extack);
->   }
->   
-> +static int
-> +dpll_phase_offset_avg_factor_set(struct dpll_device *dpll, struct nlattr *a,
-> +				 struct netlink_ext_ack *extack)
-> +{
-> +	const struct dpll_device_ops *ops = dpll_device_ops(dpll);
-> +	u32 factor = nla_get_u32(a), old_factor;
-> +	int ret;
-> +
-> +	if (!(ops->phase_offset_avg_factor_set &&
-> +	      ops->phase_offset_avg_factor_get)) {
-> +		NL_SET_ERR_MSG_ATTR(extack, a, "dpll device not capable of phase offset averaging");
-> +		return -EOPNOTSUPP;
-> +	}
-> +	ret = ops->phase_offset_avg_factor_get(dpll, dpll_priv(dpll),
-> +					       &old_factor, extack);
-> +	if (ret) {
-> +		NL_SET_ERR_MSG(extack, "unable to get current phase offset averaging factor");
-> +		return ret;
-> +	}
-> +	if (factor == old_factor)
-> +		return 0;
-
-I don't think the core should do any checks here. If the user for some
-reason wants to re-install the same value - give them a chance. Some
-drivers may implement check logic if it's relevant to the hardware, but
-not in general.
-
-> +
-> +	return ops->phase_offset_avg_factor_set(dpll, dpll_priv(dpll), factor,
-> +						extack);
-> +}
-> +
-
-[...]
