@@ -1,207 +1,246 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B994284681
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 20:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17921DF75D
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 20:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758917036; cv=none; b=jkbR7tGt0lvWLwbAV6F8ffOyVKZJCPCoZ+2wiec5HlQ0nawAfXJnsi1llcpbkh4z2rSROSJoQoto1RGy0RsputFNS8akuN8hSPOtK40yezxOSqz3dYGe+qkJ2NnWfenF1nD4RlhwnXWTqG//1NFlkeZk30GQQMoH8cXalfYBLeU=
+	t=1758917305; cv=none; b=dPFwv7N6mwDwzbP3IE5E/QWpi8gUUlWbZg657IdHlsNb7Lm9kTzFaeu0iSKa40UnMp9GZmWFENUJFUNJraNMPEklmADlWtc3+EZ5rSmz8foo04kokDFOb87PYCP9Bi24KIXWHczpec51DqOn1z7YgTYmgN7M8zZe32zLxvsMCrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758917036; c=relaxed/simple;
-	bh=R2O66mhq7TFy9y4WbsUYB5mx2K9cq8FM/Hgd8b3di8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9zWoCmIVfce7AGCxx7mNtSC7ecuk7Z6S1grMgNFmpRM++bcEhX8Q4Y+I+HH+NAqOjQw5XeX59JBGSuO3jU8zPMCCyyvo5/R9S0rH6P8Os29Af93JbxvVs9KzBpJFSUjMSS2/IIURSOGTFXYpl7iT6GGBCs9jRlD3AX0wp2aQiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=DRTJGQT3; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1758917305; c=relaxed/simple;
+	bh=itGy45pJ9D/vm5NDYe4iwR1kfOBwBk7Zph2EXvTq2oc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Nm0F/0ULE3yD/vhfVRdhNmltxm6+p7b7wO1VD42IJ92KVAQobI6erepVgaXlwDDbnLTzqCKpD5b0JSyihSRljtykhPiGZm7MCzcpMJ1pKXh19DlvI5vbvu5iqfLlaMj1JMYlKDImsUx2Ca37BFF7bHYtOXSQ4o8mXLOl+90F9Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p7kVZbNQ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="DRTJGQT3"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2570bf6058aso37221315ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 13:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1758917033; x=1759521833; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JzK9TdtNq0q6HuoPTI7S0mcgrs1VMBW3yQfWD8QK0g=;
-        b=DRTJGQT3fCqMgMI15Iv7O/OrLuoGqEODTM4hchVQ9jElmaFWa69KYMCKDnFMqozKRI
-         yMiBno4HhYaV7kRj5jIDkRZFvK9BR/3eVXMjZf2Qr6kdsgqq7RkBU4RrNycBZ89cYSbw
-         Kfw0MxlfnWWAXHOV8eEvDh8PJCen6U5b8BSHhJTjfAps1HyBo8J08i2GLf//rKuEcbk6
-         1I7hbNSGCsfWZ/wZ4rwHou84rUHxmWBYVV1zj63qaUNkP8MMnJJtQH96efF3hcHM0kQt
-         X29fgK/Tqr+7kNhUBhEROUSOlmAkBr1WsBGWEaqEwZWr2muYWPvQgRCQ+pyBvaYvmt4g
-         AHpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758917033; x=1759521833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2JzK9TdtNq0q6HuoPTI7S0mcgrs1VMBW3yQfWD8QK0g=;
-        b=YWogWPbspRQ23lVMxdlZGWtj5dh42HZgKZlTWrhw9bopWWde2jn/+hpvjUQEJehwyX
-         yunZSz1zgOQfb7iDlP7vWpBl0gDCB4WiVEIyQ+n53fr+OfFoXv2eEAzv3VmEr6vsZhQI
-         yQVZZjUYQlB65BDKfVCfN/N+znCFyaaAuXYyqK28oD3Poq8jQe2ZoKyusnwxYBvvsiGz
-         fY4/HEv0xXyOzsv40W/ReVkQN8rFsNZ+ADYeEY/93q7s5YizIous069qd3Lg+MGyeLdg
-         3yWIYM6y6BPjxUJULIOjC0zcUoMLocy1RQfrQvW43LAzoH0iRTdsmXxLvF+lwx+D4u+D
-         8JxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEanMck4K+VC+8FuKBsHrCOoLSxUy+t9/4OFpIi5PBjjvn8VwDZGp4BiS2wt2qYJ29hffDauCJrG0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfiJjRcx00X0nrFNLYxhZ2xIHPDIv5xKYQxrjIeNKDypSFHgCo
-	8iqpLuSTCACYJcE9WfGtVMYPG2CBNBhQheBAzWOw+QCh2PMDWFFTkJVt8xBpomuT9Gw=
-X-Gm-Gg: ASbGncv42Sp72Itb1NmyWxQS8vdsSXL9gV4t0OE+RGuwqn0hhFVASlJKFKOWYoouDct
-	OLgEtJiMRm8Yg8igq6OoJQxefNEgL5CJ7TbdXSzTf705a2AsKoOKaGsXsQsANIGrczYsejxdVRO
-	wMIRcY/ORmdrP515DeijThJ6prHQxto43yLqwr8BziWWSFYeG+daFfryOvhLbJ2gGfqczkOZK3n
-	+aDLrpr+gc9Gmb55Ou4znife+6pC6m10AHWOcsvCNHCSsrdADld1JP0LlPxJtu+tEICqC8jEwRS
-	v+WPFAezY9IYKQQ/bvKwC+RwKjpXe+2ioJQBNJSDRoW13w5nDtJtvnHHM0XX3DZ/hoPPPupDpHb
-	QIN6KvIdm7ijubqTDq4ZOeukRxrXFCN33
-X-Google-Smtp-Source: AGHT+IEqlWQwd3Eq3xfSDG4ZoiAYivk9596CJNNVWWuT8jIb87TOCzT2mxQOQP9H5ZgZVw/+ZQZZqA==
-X-Received: by 2002:a17:902:d052:b0:27d:69de:edd3 with SMTP id d9443c01a7336-27ed49d2c63mr75874405ad.20.1758917033572;
-        Fri, 26 Sep 2025 13:03:53 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed69b0685sm61092355ad.116.2025.09.26.13.03.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 13:03:52 -0700 (PDT)
-Date: Fri, 26 Sep 2025 13:03:49 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Charles Mirabile <cmirabil@redhat.com>
-Cc: Liam.Howlett@oracle.com, a.hindborg@kernel.org,
-	akpm@linux-foundation.org, alex.gaynor@gmail.com,
-	alexghiti@rivosinc.com, aliceryhl@google.com,
-	alistair.francis@wdc.com, andybnac@gmail.com, aou@eecs.berkeley.edu,
-	arnd@arndb.de, atishp@rivosinc.com, bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com, bp@alien8.de, brauner@kernel.org,
-	broonie@kernel.org, charlie@rivosinc.com, cleger@rivosinc.com,
-	conor+dt@kernel.org, conor@kernel.org, corbet@lwn.net,
-	dave.hansen@linux.intel.com, david@redhat.com,
-	devicetree@vger.kernel.org, ebiederm@xmission.com,
-	evan@rivosinc.com, gary@garyguo.net, hpa@zytor.com,
-	jannh@google.com, jim.shu@sifive.com, kees@kernel.org,
-	kito.cheng@sifive.com, krzk+dt@kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, lorenzo.stoakes@oracle.com,
-	lossin@kernel.org, mingo@redhat.com, ojeda@kernel.org,
-	oleg@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
-	peterz@infradead.org, pjw@kernel.org, richard.henderson@linaro.org,
-	rick.p.edgecombe@intel.com, robh@kernel.org,
-	rust-for-linux@vger.kernel.org, samitolvanen@google.com,
-	shuah@kernel.org, tglx@linutronix.de, tmgross@umich.edu,
-	vbabka@suse.cz, x86@kernel.org, zong.li@sifive.com
-Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
-Message-ID: <aNbxpVddsTXL7F6T@debug.ba.rivosinc.com>
-References: <20250926192919.349578-1-cmirabil@redhat.com>
- <20250926195224.351862-1-cmirabil@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p7kVZbNQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=RYaCICKT9I69iQqatdTIchvtCKW0ee/i3hKCrZhYySI=; b=p7kVZbNQ2BK+/fBlsLYY3rKygf
+	gCsv44dpuu09In52eJO3jnXSqwc5iRwloSwL/3T6e5pYROm1ycGvU/h0smlRkTuLrHNJk2dgLq04t
+	QDFFzfD8VIGGHWsynTu0pmZa1FxwMEYJBx2P+/CTc49L/mXAUYpfO+9fqNPPzDjTlRSIATwAwIxJ0
+	UU1LwlHEdHZZuFqWY7FeGdGvObHQ03PXQaXcLqxhJDt6doKYZXOQTTV4lz/GRf4P8RbQPV/cuF5eG
+	wucBLrocdyaKMgClQED/nvj3jQLSZrYqzf9SXoLRl8dUzMrJ/26FbYGXJozQ+VhxBacIgrjvyqgzI
+	6HkokmQw==;
+Received: from [50.53.25.54] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v2Ejv-00000004Bbk-0Gdx;
+	Fri, 26 Sep 2025 20:08:23 +0000
+Message-ID: <f538b0a0-7dbf-4df5-aef2-d037a599451d@infradead.org>
+Date: Fri, 26 Sep 2025 13:08:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20250926195224.351862-1-cmirabil@redhat.com>
+User-Agent: Mozilla Thunderbird
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: make mandocs questions
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <6ac6a844-8394-41fb-9cfc-c44e83268422@infradead.org>
+ <20250926131858.24de6de1@foz.lan> <20250926133121.1786f5e7@foz.lan>
+Content-Language: en-US
+In-Reply-To: <20250926133121.1786f5e7@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 26, 2025 at 03:52:24PM -0400, Charles Mirabile wrote:
->Hi -
->
->Sorry for my previous email, I realized I was mistaken...
->
->On Fri, Sep 26, 2025 at 03:29:19PM -0400, Charles Mirabile wrote:
->> Hi -
->>
->> Hoping that I got everything right with git-send-email so that this is
->> delivered alright...
->>
->> Wanted to jump in to head off a potential talking past one another /
->> miscommunication situation I see here.
->>
->> On Wed, Sep 24, 2025 at 08:36:11AM -0600, Paul Walmsley wrote:
->> > Hi,
->> >
->> > On Thu, 31 Jul 2025, Deepak Gupta wrote:
->> >
->> > [ ... ]
->> >
->> > > vDSO related Opens (in the flux)
->> > > =================================
->> > >
->> > > I am listing these opens for laying out plan and what to expect in future
->> > > patch sets. And of course for the sake of discussion.
->> > >
->> >
->> > [ ... ]
->> >
->> > > How many vDSOs
->> > > ---------------
->> > > Shadow stack instructions are carved out of zimop (may be operations) and if CPU
->> > > doesn't implement zimop, they're illegal instructions. Kernel could be running on
->> > > a CPU which may or may not implement zimop. And thus kernel will have to carry 2
->> > > different vDSOs and expose the appropriate one depending on whether CPU implements
->> > > zimop or not.
->> >
->> > If we merge this series without this, then when CFI is enabled in the
->> > Kconfig, we'll wind up with a non-portable kernel that won't run on older
->> > hardware.  We go to great lengths to enable kernel binary portability
->> > across the presence or absence of other RISC-V extensions, and I think
->> > these CFI extensions should be no different.
->>
->> That is not true, this series does not contain the VDSO changes so it can
->> be merged as is.
->
->Oops... no sorry, it looks like it does. See 19/27. I was misled by the
->cover letter which said to pick that patch separately. I completely agree
->that that needs to not be included if this is to be merged.
+Hi Mauro,
 
-Yes I sent another email.
-
->
+On 9/26/25 4:32 AM, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Sep 2025 13:18:58 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> 
+>> Em Thu, 25 Sep 2025 11:37:24 -0700
+>> Randy Dunlap <rdunlap@infradead.org> escreveu:
 >>
->> >
->> > So before considering this for merging, I'd like to see at least an
->> > attempt to implement the dual-vDSO approach (or something equivalent)
->> > where the same kernel binary with CFI enabled can run on both pre-Zimop
->> > and post-Zimop hardware, with the existing userspaces that are common
->> > today.
+>>> Hi Mauro,
+>>>
+>>> I'm happy to see that you added mandocs as a docs build target.
+>>>
+>>> Would it make sense to place the man output files into various
+>>> subdirectories?
 >>
->> I agree that when the VDSO patches are submitted for inclusion they should
->> be written in a way that avoids limiting the entire kernel to either
->> pre-Zimop or post-Zimop hardware based on the config, but I think it
->> should be quite possible to perform e.g. runtime patching of the VDSO
->> to replace the Zimop instructions with nops if the config is enabled but
->> the hardware does not support Zimop.
+>> I'm not sure if manpages supports reading man(9) pages from
+>> different drectories, but see more below.
 >>
->> However, that concern should not hold up this patch series. Raise it again
->> when the VDSO patches are posted.
->
->@Deepak, would it be possible to just resend this without the VDSO patch?
-
-No we can't do that because if cfi is opted yes and user enables it then an
-indirect jump to vDSO function will result in a trap to supervisor and then
-SIGSEGV.
-
-We can compile vDSO without shadow stack option. That leaves vDSO as the only
-object in address space of program open to code re-use gadgets because return
-path is not protected with shadow stack (thus dilutes security properties)
-
->
->Or to rework as I had alluded to to check for the presense of the extension
->and remove the instructions from the VDSO at boot if it is not found?
-
-I have responded to your earlier e-mail on this. TLDR is
-
-If kernel is required to carry two different libraries with a need of patching
-it in runtime, while rest of the userspace can't be  patched in runtime. Is it
-worth the complexity to enforce on kernel? Because we then will be doing this
-for every future extension which takes encodings form zimop space while rest
-of the userspace really can't do that.
-
-
->
+>>> On linux-next-20250925, I have 76402 files in
+>>> the man/ subdirectory. One time 'ls' told me something like
+>>> "command line argument list too long" but I can't reproduce that.
 >>
->> >
->> > thanks Deepak,
->> >
->> > - Paul
+>> you probably did something like:
 >>
->> Best - Charlie
+>> 	$ ls Documentation/output/man/*.9
+>> 	bash: /usr/bin/ls: Argument list too long
 >>
->
->Best - Charlie
->
+>>> Is the output produced just by scanning the entire kernel
+>>> directory structure? That may be too much subdirectory structure
+>>> for the man output.
+>>
+>> By default, yes. It runs:
+>>
+>> 	$ ./scripts/kernel-doc . --man
+>>
+>> and then splits its output into one man file per man page.
+>> 	
+>> The behavior changes if you set SPHINXDIRS
+>> You can specify just the directories you want with:
+>>
+>> 	$ make SPHINXDIRS="core-api driver-api" mandocs
+>> 	$ tree -d Documentation/output/
+>> 	Documentation/output/
+>> 	├── core-api
+>> 	│   └── man
+>> 	└── driver-api
+>> 	    └── man
+>>
+>> 	$ for i in Documentation/output/*; do echo -n "$i: "; ls $i/man|wc -l; done
+>> 	Documentation/output/core-api: 2464
+>> 	Documentation/output/driver-api: 6875
+>>
+>> On such case, the algorithm changes: it will produce man pages
+>> using only the files that are inside a .. kernel-doc markup from
+>> Documentation, and using SPHINXDIRS normal behavior, each book
+>> will be on its own directory, which is somewhat similar to what
+>> you wanted.
+>>
+>> Yet, notice that if you make SPHINXDIRS=<alldirs>, the output
+>> will contain less man pages, as it won't include "orphaned"
+>> descriptions(*).
+>>
+>> (*) e.g. files with kernel-doc markups that aren't mentioned by any
+>>      Documentation/* rest file.
+
+Thanks for that explanation.
+
+>>> Or would it make sense to include the source file path in each
+>>> man page?  E.g., if I am looking at fsl_asrc_sel_proc.9,
+>>> include something like "[from sound/soc/fsl/fsl_asrc.c]"
+>>> at the top or the bottom of the man page?
+>>
+>> It shouldn't be hard to add it. See a quickhack patch example below.
+> 
+> patch attached.
+> 
+> One issue with the patch below is that it should probably
+> need to check the filename before output. Right now, for
+> 
+> 	$ ./scripts/kernel-doc --man include/linux/irq.h
+> 
+> it outputs:
+> 
+> 	...
+> 	.SH "SEE ALSO"
+> 	.PP
+> 	Kernel file \fBinclude/linux/irq.h\fR
+> 	...
+> 
+> This one should likely be ok (or something similar to it), but
+> for files that are at /usr/include/linux/, it should probably
+> print:
+> 
+> 	.SH "SEE ALSO"
+> 	.PP
+> 	\fB/usr/include/linux/vhost.h\fR
+> 
+> Thanks,
+> Mauro
+> 
+> -
+> 
+> [PATCH] [RFC] kernel-doc: output source file name at SEE ALSO
+> 
+> for man pages, it is helpful to know from where the man page
+> were generated.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
+> index b3b225764550..19805301cb2c 100644
+> --- a/scripts/lib/kdoc/kdoc_item.py
+> +++ b/scripts/lib/kdoc/kdoc_item.py
+> @@ -5,8 +5,9 @@
+>   #
+>   
+>   class KdocItem:
+> -    def __init__(self, name, type, start_line, **other_stuff):
+> +    def __init__(self, name, fname, type, start_line, **other_stuff):
+>           self.name = name
+> +        self.fname = fname
+>           self.type = type
+>           self.declaration_start_line = start_line
+>           self.sections = {}
+> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+> index 1eca9a918558..58f115059e93 100644
+> --- a/scripts/lib/kdoc/kdoc_output.py
+> +++ b/scripts/lib/kdoc/kdoc_output.py
+> @@ -630,10 +630,11 @@ class ManFormat(OutputFormat):
+>           """Adds a tail for all man pages"""
+>   
+>           # SEE ALSO section
+> +        self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
+> +        self.data += (f"Kernel file \\fB{args.fname}\\fR\n")
+>           if len(self.symbols) >= 2:
+>               cur_name = self.arg_name(args, name)
+>   
+> -            self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
+>               related = []
+>               for arg in self.symbols:
+>                   out_name = self.arg_name(arg, arg.name)
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index 89d920e0b65c..6e5c115cbdf3 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -254,8 +254,9 @@ SECTION_DEFAULT = "Description"  # default section
+>   
+>   class KernelEntry:
+>   
+> -    def __init__(self, config, ln):
+> +    def __init__(self, config, fname, ln):
+>           self.config = config
+> +        self.fname = fname
+>   
+>           self._contents = []
+>           self.prototype = ""
+> @@ -422,7 +423,8 @@ class KernelDoc:
+>           The actual output and output filters will be handled elsewhere
+>           """
+>   
+> -        item = KdocItem(name, dtype, self.entry.declaration_start_line, **args)
+> +        item = KdocItem(name, self.fname, dtype,
+> +                        self.entry.declaration_start_line, **args)
+>           item.warnings = self.entry.warnings
+>   
+>           # Drop empty sections
+> @@ -445,7 +447,7 @@ class KernelDoc:
+>           variables used by the state machine.
+>           """
+>   
+> -        self.entry = KernelEntry(self.config, ln)
+> +        self.entry = KernelEntry(self.config, self.fname, ln)
+>   
+>           # State flags
+>           self.state = state.NORMAL
+> 
+
+I'm seeing the source file name mixed into the SEE ALSO area, like this:
+
+SEE ALSO
+       Kernel    file   ../drivers/spi/spi-zynq-qspi.c   struct zynq_qspi(9),
+       zynq_qspi_init_hw(9),  zynq_qspi_rxfifo_op(9),    zynq_qspi_txfifo_op(9),
+       zynq_qspi_chipselect(9),  zynq_qspi_config_op(9), zynq_qspi_setup_op(9),
+       zynq_qspi_write_op(9),      zynq_qspi_read_op(9), zynq_qspi_irq(9),
+       zynq_qspi_exec_mem_op(9), zynq_qspi_remove(9)
+
+Please put it on a separate line.
+
+Thanks.
+-- 
+~Randy
+
