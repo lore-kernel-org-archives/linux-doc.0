@@ -1,90 +1,94 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6BC1A8401;
-	Fri, 26 Sep 2025 19:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758913235; cv=pass; b=Crs6Umbl+6l7pPYxQJD3hiltJ9XnoDDD8O0sBKqivq57qTz8SatPJgWJ6scdOZQlE7t0mGEWPzz5BfNFAk/glfX1Geze1d+zkFCCTHssGvwWaYLe0mg8BzW3RuVkSCCsHqJm4OU5/2VslNRWm0Mt112qbPrVdL7U/5e1ULWdcWs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758913235; c=relaxed/simple;
-	bh=WgoriSevxiU7oAvbMSTR3+yTBHf2AIccM2rP8yeKFuw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qJs/14Zl9YStUmpAhUEjUAbtf5ac2ecB2pLmwVPZMeHMY1kLs2lC68LCYDtgFTrm4HUVGt9pgOkzhsCCK6MRidDUVzl7G6IDypiHpX0V1xasVzN0tdj3mOkDa8Zp0VybtkfYZZV56vdhYoJxWW8LcF1g6Kt+9EIN4d/qmG3yjJg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=0LbWCRRJ; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640C2202976;
+	Fri, 26 Sep 2025 19:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758914277; cv=none; b=QlGv7mWhYNhTnePu+Dkd9imxFINrodR5bJ5fw7fLykmECXSuoWtBDMngEFCzCjRW4qzfAkdzWqzyIU+ZD7nLFDQNzAmyIg1dleT9pdy6B0d+ANhaqoLxTbpzI4n36YzAP225rQdmL53WGUE1yp8xUOWmd4CNwLb53TAy7z8Dbns=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758914277; c=relaxed/simple;
+	bh=EwVtoJZqWLnBrAqj0Ezf+s1cWup/1nT/Eh21YLCibzE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=swxMC9sz2xXvvGgdHT4MX2E0ksHHDi4H8y784l2FE29Dk59lfkNG5Io2PDp22aUlaiifoNhJBvUXlBgF+U0DF8hRWG3hvMlah6xackhVdnaj3hFL8pPADJy0NzBeDtqLQccsZsRBfapEfv7dwJztl+M3xOEC4mF3aTUl8sCLUso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K5uNgAWd; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="0LbWCRRJ"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 646FA10A24946;
-	Sat, 27 Sep 2025 04:00:25 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id PUCiYHsEXM2a; Sat, 27 Sep 2025 04:00:21 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 8E477109D57DE; Sat, 27 Sep 2025 04:00:21 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758913221;
-	cv=none; b=MGrWNVZ95VNWBlZI2pxZRfiHuQWh94pzFbbBDbZhdDdYqq1nLqQYhZKCzUjuVQsAjLCvv75UyT6xWKCM/kmV9AC5SOh1UJCvWEpSiQKqNspuWQY4jwUdQyXWBcPUjFFmINBl0hInISPGdDF1yzofaWwvkaCfr1Q2rHBFYuDh2AA=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758913221; c=relaxed/relaxed;
-	bh=ZdGJG/nRtX2LWtCAFzMZ6EQIBaXMBBxK8//9VaIEwhE=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=MiVaPNhviFFDogha2vGuafW38qCBc8UfDQa0A0068i/i2PmrEWXlrQsTywmM+q7X0nEBzLqfLXj4fCQ/OgaxQURLZbruWErRT7fFcP9kyKBdHC6U7ZiXI1V4Aui/hIFKaQgLN583Bw48JOy029N8BEnAUTQaHi2iCYUVZBoLNQ0=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 8E477109D57DE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758913221;
-	bh=ZdGJG/nRtX2LWtCAFzMZ6EQIBaXMBBxK8//9VaIEwhE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=0LbWCRRJn4LrMxnhBTIsbwV4hkEzkdG6hFMdTOJt60pKYyUfQVYNWHIRxEMzHeDqG
-	 AQrBQFQ2tzEOQRFunmh5+IdWgex6JFSHpDB5wtjnvzLk8xqgbcnxsn6fhjHFXfA2xX
-	 HNU2LRxaXbQisiyS/fkXCSWeHx0owk3/HRMwfcAI=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Shannon Nelson <sln@onemain.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-kernel@vger.kernel.org,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] Documentation: admin-guide: Correct spelling of "userspace"
-Date: Sat, 27 Sep 2025 04:00:19 +0900
-Message-ID: <20250926190019.41788-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K5uNgAWd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=yhLPxwL+DQHqKGTW1ubEYzyPgce3kGbV8vk9hn+L5lY=; b=K5uNgAWdwN9hMMfTQv1hxsa30n
+	VLs5wbbT9ezEb4qbUhg6z5vLWUbhU7Pdwm48QOEYhV+8p4XQKXQEs+cJSVcsPkO5s+L43+QMUgwgQ
+	B3o6Cq4F+78eC97uURqPOdc0y14x4M0G8kBR8/AbflwMdadWJ5QhiL1jubP9yrKTTOOpA5K/UewAg
+	RGVTzjzCg9BZMwMYple2oYAu6nfAbTU3Mzx7VTXYJwJEyeLIAlJs9R5i8MvnEceGJcGEoZ2xgVQ89
+	ksMAJym7/p2wfU75+a/y3s5k6AXqv6iKgFO2VhpBjbY+5KmgfQ2cWJZr7k9QKdrLe7CnTMoSPFXl9
+	5ehk4QeA==;
+Received: from [50.53.25.54] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v2Dww-00000003suW-2zZW;
+	Fri, 26 Sep 2025 19:17:46 +0000
+Message-ID: <a5015724-a799-4151-bcc4-000c2c5c7178@infradead.org>
+Date: Fri, 26 Sep 2025 12:17:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 mm-new 04/12] mm: thp: add support for BPF based THP
+ order selection
+To: Usama Arif <usamaarif642@gmail.com>, Yafang Shao <laoar.shao@gmail.com>,
+ akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, hannes@cmpxchg.org, gutierrez.asier@huawei-partners.com,
+ willy@infradead.org, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net,
+ 21cnbao@gmail.com, shakeel.butt@linux.dev, tj@kernel.org,
+ lance.yang@linux.dev
+Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250926093343.1000-1-laoar.shao@gmail.com>
+ <20250926093343.1000-5-laoar.shao@gmail.com>
+ <073d5246-6da7-4abb-93d6-38d814daedcc@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <073d5246-6da7-4abb-93d6-38d814daedcc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The term "userspace" should be a single word. Fix the typo
-"userpace" accordingly.
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- Documentation/admin-guide/tainted-kernels.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/=
-admin-guide/tainted-kernels.rst
-index a0cc017e4424..ed1f8f1e86c5 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -186,6 +186,6 @@ More detailed explanation for tainting
-=20
-  18) ``N`` if an in-kernel test, such as a KUnit test, has been run.
-=20
-- 19) ``J`` if userpace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG=
-_WRITE
-+ 19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBU=
-G_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
---=20
-2.47.3
+On 9/26/25 8:13 AM, Usama Arif wrote:
+>> +config BPF_THP_GET_ORDER_EXPERIMENTAL
+>> +	bool "BPF-based THP order selection (EXPERIMENTAL)"
+>> +	depends on TRANSPARENT_HUGEPAGE && BPF_SYSCALL
+>> +
+>> +	help
+>> +	  Enable dynamic THP order selection using BPF programs. This
+>> +	  experimental feature allows custom BPF logic to determine optimal
+>> +	  transparent hugepage allocation sizes at runtime.
+>> +
+>> +	  WARNING: This feature is unstable and may change in future kernel
+>> +	  versions.
+>> +
+> I am assuming this series opens up the possibility of additional hooks being added in
+> the future. Instead of naming this BPF_THP_GET_ORDER_EXPERIMENTAL, should we
+> name it BPF_THP? Otherwise we will end up with 1 Kconfig option per hook, which
+> is quite bad.
+> 
+> Also It would be really nice if we dont put "EXPERIMENTAL" in the name of the defconfig.
+> If its decided that its not experimental anymore without any change to the code needed,
+> renaming the defconfig will break it for everyone.
+
+s/defconfig/Kconfig symbol/
+
+Otherwise agreed.
+Thanks.
+-- 
+~Randy
 
