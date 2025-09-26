@@ -1,139 +1,205 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA741A0728;
-	Fri, 26 Sep 2025 19:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CEB284B3C
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 19:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758915674; cv=none; b=rBJtjGv6RfEeVF9z55XvnDJcRakJbfOO8cu2g02ok6forFfGMNrF68LHTiz4qyjuCgmphOCYpKbDcqTKZDXpRlwUiMkpPcA9bHkmbKQ72TZB7ZK/+24P4e1r2st6v0pcm4LNhb0xVBPSqs7l3mLy4M8UmmEKMOG6+MZDH7adGa4=
+	t=1758916371; cv=none; b=uMtnJNoKjQuJNWWBvYbY9ip6VIde5g36s9BLrKBK0zjYM2PeKH65+roTRw41L/oHQlgG2QngCBOi83VvkL5j/TZGLNd1tdCkiwfcCxld86xU3urTdWw45Kg5hub2ALos5EGIpGFixiBoPqubfezmK7+dfX017D7gUcB8kqGS9Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758915674; c=relaxed/simple;
-	bh=yNQ1BL6Uo2tEzqpW+U8KL58C/yFZB4s7Gp5MOkTJWyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EhtxZQdGDNnJQ7Dqgkj0I1kzv7COnsRpS2kzNeleYR1JsxnTfyKAsAqpr/58TpZXV0Eo26J9NOmDB+xBT6MdLfgHC36xqwVEzuwZ+qm9LcPhv69hgY4JliQyrsn4nvhkdb9GB0kWo8GxAiTe0KTQpGwQsz1LL5lQsB/Dz4veeLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=k7g6D9SH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758916371; c=relaxed/simple;
+	bh=oO+7zCRCpcn8afztGwY+HzbQXwPySfZfX7HQqZPBq4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZcMVJc56kRncAjEh1uQQFJmJv2joCNp04ULEBjqHz2lD8h9sPY7dhEj4IGPP2KCBcZxerrGMsFAToVyIsJl2SNxyeKPfZAZeqTs8TZv5vdUQSqdbmFVCUp27/J2dNCpBsLpBpdV7rIgYK9iFmIOTrFuWRxMSH7IQb7VkXNhWdEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MGYolweP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="k7g6D9SH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=e5R906mUk1iA+k7ic9DC6cc67+79yufwoiaYMprzy/U=; b=k7g6D9SHbrNP3PmwizNZBcuovX
-	gVlEWCcg9RkG605Nss+UiGOyj8zcnvVWPR2FOdSyKEknKOqsn4lICj5RQ2ejEriiZ3v7JIJDpIVwm
-	OT1LQ4+ab2PU7d8czC+WG8vg0R00HRa1SvbfLv5rBPJ0/VaZFA2xsEQZmCQPUfzXn3pXuEoOQGPjD
-	3MkxHB4CL6FCHTi3X5YxhOllXaKqYlma70Lguo5WAzQypVClwggNYpagq1Hu08CYZd9lXrFrUFbBw
-	YjH8YBJW8I9e88uTJ0YkjXw2L3a71WxauHqMdQ/lGOamcd2N11/sv3O+kTKK/IpH4trS3STaUseKC
-	F8FkF7ZQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2EJc-000000041DA-3uxH;
-	Fri, 26 Sep 2025 19:41:12 +0000
-Message-ID: <097971a6-9a19-4618-ac96-070fcb3ff4bd@infradead.org>
-Date: Fri, 26 Sep 2025 12:41:12 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MGYolweP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758916369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XHvwAIHkoSzj/0sM3EQyAOJu3zkKVKdDZuOCGzwODmg=;
+	b=MGYolwePpxN/ilgSudO8FYy68zk4B5JFKGC+RN/RMi8arrBcN2A6t273Lx7QvX+jR7lUho
+	pOROjisMitQ5z4OllFyGPx/iaNM0uJwR/5q5CsGdRizpjLwkX0nIleY48DBdAUPz2LrjGB
+	aiYFzC7LibfVAoWhU/ZkU2G72kh5auQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-41-t223hT9KN56yp_SnsKdUYg-1; Fri,
+ 26 Sep 2025 15:52:43 -0400
+X-MC-Unique: t223hT9KN56yp_SnsKdUYg-1
+X-Mimecast-MFC-AGG-ID: t223hT9KN56yp_SnsKdUYg_1758916362
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B7A41800452;
+	Fri, 26 Sep 2025 19:52:42 +0000 (UTC)
+Received: from cmirabil.redhat.com (unknown [10.22.90.77])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 71B901800446;
+	Fri, 26 Sep 2025 19:52:30 +0000 (UTC)
+From: Charles Mirabile <cmirabil@redhat.com>
+To: cmirabil@redhat.com
+Cc: Liam.Howlett@oracle.com,
+	a.hindborg@kernel.org,
+	akpm@linux-foundation.org,
+	alex.gaynor@gmail.com,
+	alexghiti@rivosinc.com,
+	aliceryhl@google.com,
+	alistair.francis@wdc.com,
+	andybnac@gmail.com,
+	aou@eecs.berkeley.edu,
+	arnd@arndb.de,
+	atishp@rivosinc.com,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	bp@alien8.de,
+	brauner@kernel.org,
+	broonie@kernel.org,
+	charlie@rivosinc.com,
+	cleger@rivosinc.com,
+	conor+dt@kernel.org,
+	conor@kernel.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@redhat.com,
+	debug@rivosinc.com,
+	devicetree@vger.kernel.org,
+	ebiederm@xmission.com,
+	evan@rivosinc.com,
+	gary@garyguo.net,
+	hpa@zytor.com,
+	jannh@google.com,
+	jim.shu@sifive.com,
+	kees@kernel.org,
+	kito.cheng@sifive.com,
+	krzk+dt@kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org,
+	lorenzo.stoakes@oracle.com,
+	lossin@kernel.org,
+	mingo@redhat.com,
+	ojeda@kernel.org,
+	oleg@redhat.com,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	peterz@infradead.org,
+	pjw@kernel.org,
+	richard.henderson@linaro.org,
+	rick.p.edgecombe@intel.com,
+	robh@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	samitolvanen@google.com,
+	shuah@kernel.org,
+	tglx@linutronix.de,
+	tmgross@umich.edu,
+	vbabka@suse.cz,
+	x86@kernel.org,
+	zong.li@sifive.com
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+Date: Fri, 26 Sep 2025 15:52:24 -0400
+Message-ID: <20250926195224.351862-1-cmirabil@redhat.com>
+In-Reply-To: <20250926192919.349578-1-cmirabil@redhat.com>
+References: <20250926192919.349578-1-cmirabil@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: Makefile: avoid a warning when using without
- texlive
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org
-References: <cover.1758881658.git.mchehab+huawei@kernel.org>
- <e23e03dd41e044d55e4ae24ffd9e1b49e3f2515a.1758881658.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e23e03dd41e044d55e4ae24ffd9e1b49e3f2515a.1758881658.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
+Hi -
 
+Sorry for my previous email, I realized I was mistaken...
 
-On 9/26/25 3:16 AM, Mauro Carvalho Chehab wrote:
-> As reported by Randy, running make htmldocs on a machine
-> without textlive now produce warnings:
+On Fri, Sep 26, 2025 at 03:29:19PM -0400, Charles Mirabile wrote:
+> Hi - 
 > 
->      $ make O=DOCS htmldocs
->      ../Documentation/Makefile:70: warning: overriding recipe for target 'pdfdocs'
->      ../Documentation/Makefile:61: warning: ignoring old recipe for target 'pdfdocs'
+> Hoping that I got everything right with git-send-email so that this is
+> delivered alright...
 > 
-> That's because the code has now two definitions for pdfdocs in
-> case $PDFLATEX command is not found. With the new script, such
-> special case is not needed anymore, as the script checks it.
+> Wanted to jump in to head off a potential talking past one another / 
+> miscommunication situation I see here.
 > 
-> Drop the special case. Even after dropping it, on a machine
-> without LaTeX, it will still produce an error as expected,
-> as running:
+> On Wed, Sep 24, 2025 at 08:36:11AM -0600, Paul Walmsley wrote:
+> > Hi,
+> > 
+> > On Thu, 31 Jul 2025, Deepak Gupta wrote:
+> > 
+> > [ ... ]
+> > 
+> > > vDSO related Opens (in the flux)
+> > > =================================
+> > > 
+> > > I am listing these opens for laying out plan and what to expect in future
+> > > patch sets. And of course for the sake of discussion.
+> > > 
+> > 
+> > [ ... ]
+> > 
+> > > How many vDSOs
+> > > ---------------
+> > > Shadow stack instructions are carved out of zimop (may be operations) and if CPU
+> > > doesn't implement zimop, they're illegal instructions. Kernel could be running on
+> > > a CPU which may or may not implement zimop. And thus kernel will have to carry 2
+> > > different vDSOs and expose the appropriate one depending on whether CPU implements
+> > > zimop or not.
+> > 
+> > If we merge this series without this, then when CFI is enabled in the 
+> > Kconfig, we'll wind up with a non-portable kernel that won't run on older 
+> > hardware.  We go to great lengths to enable kernel binary portability 
+> > across the presence or absence of other RISC-V extensions, and I think 
+> > these CFI extensions should be no different.
 > 
->      $ ./tools/docs/sphinx-build-wrapper pdfdocs
->      Error: pdflatex or latexmk required for PDF generation
-> 
-> does the check. After applying the patch we have:
-> 
->      $ make SPHINXDIRS=peci htmldocs
->      Using alabaster theme
->      Using Python kernel-doc
-> 
->      $ make SPHINXDIRS=peci pdfdocs
->      Error: pdflatex or latexmk required for PDF generation
->      make[2]: *** [Documentation/Makefile:64: pdfdocs] Error 1
->      make[1]: *** [/root/Makefile:1808: pdfdocs] Error 2
->      make: *** [Makefile:248: __sub-make] Error 2
-> 
-> Which is the expected behavior.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Link: https://lore.kernel.org/linux-doc/e7c29532-71de-496b-a89f-743cef28736e@infradead.org/
+> That is not true, this series does not contain the VDSO changes so it can
+> be merged as is.
 
-s/Link/Closes/
+Oops... no sorry, it looks like it does. See 19/27. I was misled by the
+cover letter which said to pick that patch separately. I completely agree
+that that needs to not be included if this is to be merged.
 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->   Documentation/Makefile | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index c60db1038c9c..f764604fa1ac 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -66,20 +66,15 @@ htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkche
->   		--builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
->   		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
->   
-> -# Special handling for pdfdocs
-> -ifneq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
-> -pdfdocs:
-> -	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
-> -	@echo "  SKIP    Sphinx $@ target."
-> -endif
->   
-> -htmldocs-redirects: $(srctree)/Documentation/.renames.txt
-> -	@tools/docs/gen-redirects.py --output $(BUILDDIR) < $<
-> -endif # HAVE_SPHINX
-> +endif
->   
->   # The following targets are independent of HAVE_SPHINX, and the rules should
->   # work or silently pass without Sphinx.
->   
-> +htmldocs-redirects: $(srctree)/Documentation/.renames.txt
-> +	@tools/docs/gen-redirects.py --output $(BUILDDIR) < $<
-> +
->   refcheckdocs:
->   	$(Q)cd $(srctree);scripts/documentation-file-ref-check
->   
+> > 
+> > So before considering this for merging, I'd like to see at least an 
+> > attempt to implement the dual-vDSO approach (or something equivalent) 
+> > where the same kernel binary with CFI enabled can run on both pre-Zimop 
+> > and post-Zimop hardware, with the existing userspaces that are common 
+> > today.
+> 
+> I agree that when the VDSO patches are submitted for inclusion they should
+> be written in a way that avoids limiting the entire kernel to either
+> pre-Zimop or post-Zimop hardware based on the config, but I think it
+> should be quite possible to perform e.g. runtime patching of the VDSO
+> to replace the Zimop instructions with nops if the config is enabled but
+> the hardware does not support Zimop.
+> 
+> However, that concern should not hold up this patch series. Raise it again
+> when the VDSO patches are posted.
 
--- 
-~Randy
+@Deepak, would it be possible to just resend this without the VDSO patch?
+
+Or to rework as I had alluded to to check for the presense of the extension
+and remove the instructions from the VDSO at boot if it is not found?
+
+> 
+> > 
+> > thanks Deepak,
+> > 
+> > - Paul
+> 
+> Best - Charlie
+> 
+
+Best - Charlie
 
