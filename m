@@ -1,94 +1,82 @@
-Received: from mx08-007fc201.pphosted.com (mx08-007fc201.pphosted.com [91.207.212.40])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682C72F60A1;
-	Fri, 26 Sep 2025 13:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D602F6581;
+	Fri, 26 Sep 2025 13:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758892554; cv=none; b=Z9jzFKWhb0cKxPdiMGFHsU1Eygoo9Yj6PoN1+STtlJkeCH0Bceh+GPJ4mZ3aOVIWtjhQUFWIeNjfvJOew59+xhem3TwjbBbNHwp3Uf68vuJb6SFhzq3qW2r9MbAOS/+OzO6X/dxccZBZChzebeDeV33iyTVMBYeaFrIMy0RElog=
+	t=1758893982; cv=none; b=YU+ZPBhnuzk1DFwvZxKDNmcU09csBfSWgN2EXpCwqaSWeWBr8DRPro8xd14VyQGeythyeEG4LQ+HhFMnqzRBWPnuUNdgZ02Am5wRsdbyfBXnQHkG/wFYlfnpLOzr0F7Lp2dgA9t97BVJoYgMA5WUv2c7yLD7tOS4cLOQxlRNFoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758892554; c=relaxed/simple;
-	bh=pHvE4KDYnokts7iUsjnv2s4phTCcZJgN6xikZBe/E0k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DhYJ3/4V5XElvX6/4fhhkLOYL7GeWqAAU6HUjJgVYVQgBiRIc4JL6r54NvT2GkgLVAmExplYLX3V1YKi0YcX2COMRivFgmFGoe8ruWm0ry83PEwAU1GIIsKBw1TkMlpXjJb9v8exVmKCZFmSi2LS4pItMT/rZIkyZTLBwEFlyhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=HgBYV4I5; arc=none smtp.client-ip=91.207.212.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
+	s=arc-20240116; t=1758893982; c=relaxed/simple;
+	bh=i9qCBMiFERNjoe+SVXO8rGTbCrRuq0zLumNcT5U3KnA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TotI/mI0MU0ov/tPrMVpAQR4X5fSBIRnlTEcn3a96jbyqaxOlVFMtxdFd1Ktaghq1qZbcP4NtsvU/f9vyU98SoGBWPgQFJLurapZE/SNsqSPqt9VNS6Ej1R6VpXXAJr8gOrfod7PnyFJJRVq13MaKTPjB/vizFPDxr0nBgkA8R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOxRdDAp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="HgBYV4I5"
-Received: from pps.filterd (m0456229.ppops.net [127.0.0.1])
-	by mx08-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58QDFIsI2121870;
-	Fri, 26 Sep 2025 15:15:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp-2025; bh=++/HOBx2e8hoVzw3KFC+buI1
-	aYSbbCH1TuLA4AUPMi4=; b=HgBYV4I5A4kYVaMAyUZzFI2ZG3mIOs5fYB5vV0o0
-	b2BUWyOX8DB6RilWomsvXWlWjWFgm91QuU31WGYug814uumrowjR5bdJOdXkJgC/
-	efWmj5F8SVJ3nRg7QwJYq73QbNh1u1ilv/pCkrpVKHvJLqf1H77ldhBDSodBD1uA
-	LNoi32Am3OXmAbhvx749/X73ilvWd0LTr4fOIB4u083m544Qy+DAbo7ptIY/x62+
-	CP65UxZhbMWPG65txjUUgT91aMlmkJ9FP3bdlA3/30wIoRZHnUjXfzdHKP9vmfHD
-	DiqHaW1OM2UtEYNBPOeoqTdg8C6xSssXit7/Vq1fL6RMJA==
-Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
-	by mx08-007fc201.pphosted.com (PPS) with ESMTPS id 49dbt4g9m9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Sep 2025 15:15:39 +0200 (MEST)
-Received: from KAN23-025.cab.de (10.10.3.180) by Adranos.cab.de (10.10.1.54)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Fri, 26 Sep
- 2025 15:15:55 +0200
-From: Markus Heidelberg <m.heidelberg@cab.de>
-To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
-CC: Russell King <linux@armlinux.org.uk>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Markus Heidelberg <m.heidelberg@cab.de>
-Subject: [PATCH] docs: networking: phy: clarify abbreviation "PAL"
-Date: Fri, 26 Sep 2025 15:15:20 +0200
-Message-ID: <20250926131520.222346-1-m.heidelberg@cab.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOxRdDAp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F58EC4CEF4;
+	Fri, 26 Sep 2025 13:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758893981;
+	bh=i9qCBMiFERNjoe+SVXO8rGTbCrRuq0zLumNcT5U3KnA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SOxRdDApee8VnmIIOODhGGnyykHpLbTPHSH6QdN682hdS97qhyTUq/htGHoazPPYo
+	 lL9AtaVy0UkMfHbej6EvmOMH3LpNyL6Z2QaLWkbaxErAN7bj/7TIArpNqkKOSfJWou
+	 ujPXVyRz43i3cah5/T1RCk5pyGkM5NKxHVAYYdJE49jr4jgtOYZQ6Vzdt1jM1G/LZk
+	 skcYpott7DULFdoJipm/ZBhTYlmb9qGwP+WOxPiALPu35xTUjpF9kINp/wYejsjQ5K
+	 Ob4MnWJALNPuWi23E7FTGQGWSuKnOcp7kpkfCqbLizPjAA4o2qEJ9ck2zQluYfJEd5
+	 1qWHYVzIo8gGA==
+From: Will Deacon <will@kernel.org>
+To: corbet@lwn.net,
+	yangyicong@hisilicon.com,
+	fj2767dz@fujitsu.com,
+	Gopi Krishna Menon <krishnagopi487@gmail.com>
+Cc: catalin.marinas@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3] docs: perf: Fujitsu: Fix htmldocs build warnings and errors
+Date: Fri, 26 Sep 2025 14:39:33 +0100
+Message-Id: <175889367771.1416260.12353687380491890594.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250926043748.3785-1-krishnagopi487@gmail.com>
+References: <61aace07-890a-4b55-8e84-935ebc4a3be1@infradead.org> <20250926043748.3785-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Adranos.cab.de (10.10.1.54) To Adranos.cab.de (10.10.1.54)
-X-Proofpoint-GUID: 68IbeNNJ5Ot_pcxvNQKzqiFradQo8V1A
-X-Authority-Analysis: v=2.4 cv=XdWEDY55 c=1 sm=1 tr=0 ts=68d691fb cx=c_pps
- a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
- a=kldc_9v1VKEA:10 a=yJojWOMRYYMA:10 a=UOiGSZXgOsTjZooIdzQA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: 68IbeNNJ5Ot_pcxvNQKzqiFradQo8V1A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEyMiBTYWx0ZWRfX/C4QMwMz9MY4
- XoFIT3nNkJw3QiirRkOUBAW30fVzAvrQyNuiq3uBMl9MtUNXh0rfPHVmFPaE234E9TY7fZPEWgL
- DsMLvcPAaW0wjLgGdAlCGOatPpyUrHZUJDCxgN1hPKY/Cvvr27GLzlte0VjdYrk1QRyRkzUI3+T
- 76DBbwZfZGfdKa96VsBV1ZEQ8Za2F9SVbhonSMqrU88D3QGUKvWW7NO2OEJ771LTsWl4yoRJ02Q
- LIQlPa158Um//ZBbQDlxnTGgXFVwG6UD22pZrSp47SEe1bP1SHaXEd9dhieOBdBfar87JBvZSYc
- kHt+uh6T5JIy9Vd9uLiOtEdqkeD97Bl7xJpGW4HhrP0RxhdOZzqCwW7HtP4/MPozeV1+3SxJ/R7
- +3lhfsa+KbHnCwC6DE57bPEgp6c7eQ==
 
-It is suddenly used in the text without introduction, so the meaning
-might have been unclear to readers.
+On Fri, 26 Sep 2025 10:06:12 +0530, Gopi Krishna Menon wrote:
+> Running "make htmldocs" generates the following build errors and
+> warnings for fujitsu_uncore_pmu.rst:
+> 
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
+> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> [...]
 
-Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
----
- Documentation/networking/phy.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to arm64 (for-next/core), thanks!
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index 7f159043ad5a..b0f2ef83735d 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -20,7 +20,7 @@ sometimes quite different) ethernet controllers connected to the same
- management bus, it is difficult to ensure safe use of the bus.
- 
- Since the PHYs are devices, and the management busses through which they are
--accessed are, in fact, busses, the PHY Abstraction Layer treats them as such.
-+accessed are, in fact, busses, the PHY Abstraction Layer (PAL) treats them as such.
- In doing so, it has these goals:
- 
- #. Increase code-reuse
+[1/1] docs: perf: Fujitsu: Fix htmldocs build warnings and errors
+      https://git.kernel.org/arm64/c/cb0c5a60a6f7
 
-base-commit: 203e3beb73e53584ca90bc2a6d8240b9b12b9bcf
+Cheers,
 -- 
-2.43.0
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
