@@ -1,213 +1,192 @@
-Received: from mx08-007fc201.pphosted.com (mx08-007fc201.pphosted.com [91.207.212.40])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FAE29BD9C;
-	Fri, 26 Sep 2025 09:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D4929D289;
+	Fri, 26 Sep 2025 10:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758880415; cv=none; b=ao0EI96YWmrmA2s8ttFim8MYAFGVW7tAIHLoH4HS2fJkSU4U8/YGBzuSA5VDvNZtEox3rMcS2/DtoIJeXL6Y8ltmeU1KtiqkTs7CZ3Dal69hRLJwa6U+sVzsaqMz9dXZ8EI4kKSlCc6WiiXII9z4WhOBNj67bNxSohtxHdcOjoA=
+	t=1758881584; cv=none; b=A5LM9M7O50hIXtbbJWkC5Xj3pgQDAJ9It6oR6M1o+jEVwUkGtkdQFmLk3qEBsN2sej56nHFrgf3Cukuiq3aZMa5nUZMCwMY3CADSebW48YB4HR/tUuNNLCqUzd092ig1860WXNuKs0IGnvZhZA5bwfz4BcITCj2oxgTjv7pNWfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758880415; c=relaxed/simple;
-	bh=en6d0hHij2irk5zdjFbgBYlwcpYdNB6CNO0zPbcRDTo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XO2UtVHrJ2tU2qxJelzxOX4qZWxPmQaf2IPvHQO64pVXUkM/mbFa9l4jr7WLbxw+gepO/G/tr2KqJo25Ztofkb3CSh/7Qw6HHcARBdLQDTxPSB+jvJRqbJfx4nUMFgiOAZJ8C3ktLkAUZeYG+iVE2gDfkBbYNvYKpj2q3CMJrqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=q+LphQTY; arc=none smtp.client-ip=91.207.212.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
+	s=arc-20240116; t=1758881584; c=relaxed/simple;
+	bh=jxwkLcSlFmLlhuSO9JAqyrMk8tO6ktk/gXc+hdvU51Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q1BHJHh1ZG+NVrJEFLqMZSpaaz2MtKt8Ig9DzwuTo78c2pAOQbpImcjJ4Gmtigu1NNNZ7tkcU+kPbwzaLDBjTjgvnNtSNHJdDr5lKYaNQc0YlLxImhD4wZ3Y8ClGOfk6nlLVjbFjTnAd391sWQRArjKpG5pDQRwyIPOwlp9vvTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aGS8g3jp; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="q+LphQTY"
-Received: from pps.filterd (m0456229.ppops.net [127.0.0.1])
-	by mx08-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58Q9rRG61799306;
-	Fri, 26 Sep 2025 11:53:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp-2025; bh=6f5Dn/r0RoMlQHj4h9qsA9M1
-	+iFwmJ27lr1yK8Qj0xQ=; b=q+LphQTYERwfpUpZJbovDZLrtPmjOqctnFSiEAN7
-	SXrWB8XM/TTQJno2D+hyuSaBOIprKf6fqWMEm7S91aBtLGslx/5UZ05F/AcvWzfv
-	spbGtWufd9TQRfdaG0bu97JpTI6O+keF9qMfQFCQYg7oQYO4bpeA6eu8A7UWRSCT
-	n+R6mHatJX9ktYLEryyeWbGQ2t9j3Oe+RTCnVxJEFmBFsrOQFZmkPAe1XRC2gvpZ
-	oWyUho9DMv6m8CMIULjK3JmHrw9SyJj7xc+gvT5WpnooI5O9kRLjxTTPVc05ZJFl
-	2oLUc+BNE8XbtZs+WrkOrJ6T1nFBIBk7skDaMaLgbZ7ckw==
-Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
-	by mx08-007fc201.pphosted.com (PPS) with ESMTPS id 49dbt4g7ef-1
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aGS8g3jp"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q5qIwk029715;
+	Fri, 26 Sep 2025 10:12:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=20t6D+
+	fKshQ1xZ374I0WRhkvucIJKVOb9UKEMWdZ/5w=; b=aGS8g3jpKTORvjbZ87voR5
+	tl+j9rvZZQGXJVdbqOVym/WWD/BYc+6rJq9dXtCJBxj5kDs6JpmxI2A2z6T+0sbz
+	gYto8PXuAJSqa5Xbih2XND4uGvbHPuJ6D+pAy9Qq0BYW8BaPVoOsyKZ909tgMOMR
+	KmgwUiQFTlDE8epBDr0HwZ17TT26qBP021kyIv7Gp0UDz/twERDL8L5fPKFSwMgC
+	jQmeFalVHYaF2BtIvqUFNdqflX6x3kMQqjDSRFjxtbD+lJAIRToDp+VIIq9UEn7c
+	KwDlhR+Z5mdDI3v3AlY3JZghLsMI2lw53uC1bEvh1Gj9UxWk9//NY0V+HZP8EbyQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49dbb3uter-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Sep 2025 11:53:27 +0200 (MEST)
-Received: from KAN23-025.cab.de (10.10.3.180) by Adranos.cab.de (10.10.1.54)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Fri, 26 Sep
- 2025 11:53:43 +0200
-From: Markus Heidelberg <m.heidelberg@cab.de>
-To: Jonathan Corbet <corbet@lwn.net>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Markus
- Heidelberg <m.heidelberg@cab.de>
-Subject: [PATCH] Documentation: fix spelling, typos, grammar, duplicated words
-Date: Fri, 26 Sep 2025 11:53:12 +0200
-Message-ID: <20250926095312.206231-1-m.heidelberg@cab.de>
-X-Mailer: git-send-email 2.43.0
+	Fri, 26 Sep 2025 10:12:58 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58Q9n5fZ025930;
+	Fri, 26 Sep 2025 10:12:57 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49dbb3uten-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Sep 2025 10:12:57 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58QACbg1006458;
+	Fri, 26 Sep 2025 10:12:56 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49dawpkgj4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Sep 2025 10:12:56 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58QACqle52691358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Sep 2025 10:12:52 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5C70A20043;
+	Fri, 26 Sep 2025 10:12:52 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6944720040;
+	Fri, 26 Sep 2025 10:12:51 +0000 (GMT)
+Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.87.129.170])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Fri, 26 Sep 2025 10:12:51 +0000 (GMT)
+Date: Fri, 26 Sep 2025 12:12:49 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Guangguan Wang <guangguan.wang@linux.alibaba.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Simon
+ Horman <horms@kernel.org>,
+        "D. Wythe" <alibuda@linux.alibaba.com>,
+        Dust Li
+ <dust.li@linux.alibaba.com>,
+        Sidraya Jayagond <sidraya@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Mahanta Jambigi
+ <mjambigi@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu
+ <guwen@linux.alibaba.com>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
+ configurable
+Message-ID: <20250926121249.687b519d.pasic@linux.ibm.com>
+In-Reply-To: <1aa764d0-0613-499e-bc44-52e70602b661@linux.alibaba.com>
+References: <20250921214440.325325-1-pasic@linux.ibm.com>
+	<20250921214440.325325-2-pasic@linux.ibm.com>
+	<1aa764d0-0613-499e-bc44-52e70602b661@linux.alibaba.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Adranos.cab.de (10.10.1.54) To Adranos.cab.de (10.10.1.54)
-X-Proofpoint-GUID: 9L-v39hh5XHxr7_WQEpejG_nIjRSrav7
-X-Authority-Analysis: v=2.4 cv=XdWEDY55 c=1 sm=1 tr=0 ts=68d66297 cx=c_pps
- a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
- a=kldc_9v1VKEA:10 a=yJojWOMRYYMA:10 a=AASUXlr5cEY_NRS87wIA:9
-X-Proofpoint-ORIG-GUID: 9L-v39hh5XHxr7_WQEpejG_nIjRSrav7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA5MCBTYWx0ZWRfX5Xy9XAxMP+Ir
- ZCx7nBIuZeybl3Fora3vRG0yvbH8kf4BtNli6ySkApkcOXflnQcyHuxh9VNCADLAlxLftDGENDV
- QF75TrX9RTCtNqm/C+MaHRRMCN1XR4BSKhNZs6tJ5VNT54Yr4viaCyo/P2kan9cBHGSrmp6/tnK
- iy8R+1rqUZvSFrt/RjNbgBH8bQfrCcsT/rp8dgWt88WPHBtniHDgxogWWmX1g4Yj5LelinEsNqI
- PxXsHjBXuEpprpTh6upnrRP8wlm/GHs26BtCxJvHc/ZAsh30HlcO8r25EFUGz9GPGoiwyap/BbK
- D90xtOAMvdlxmoqOqfoU9xwj9mPLUOcxaD8ISBuPn8BG7KMHQE9Tetj02Esp945xJZdNP3z1LhZ
- MIbfjSY3pn9LhBPwfe3oLPX4B6S/1A==
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3NCBTYWx0ZWRfX4LsnfnEISYHh
+ YdnXdz1EUb+HFq89QlFF5kq0OZsIj8n842o2KZ96MiJ4HoJtGZ13BnsbouTe8doGQ4oAl6yhk7f
+ I5zYL/o39QyywMwpwfmpoz1zKJBuq23nqMqid391Bz3FFOa4dfIH2/85ws4ZQb7IaFHfl893qHh
+ oPy8edTI9hRY0iLLgpvMsogibKIw4dlAL1Eo3gCoro8DiwuM+eY7lASGM7mBWQOBbG4e7IN0z31
+ RWcsbJn4ct4PaNr8x1nPOENSI81yD4klScLj6RKSIpMTaoje8LYbTGSumN9iRK7PQXxjj3mC24z
+ F1p7cnXdtbgiVoN/sgNf0wmhOFlad6aQ3Hhy9pkRutlorVsZ0TALzXApdBc5JGdxSN0jJuEtYsu
+ 6Q0hliHXlAYnSEPnd7l2RAPJJSdaxA==
+X-Proofpoint-GUID: 6dQaDM1mPAJ4Jzk0yl6fQVY57NpGgFXK
+X-Authority-Analysis: v=2.4 cv=T/qBjvKQ c=1 sm=1 tr=0 ts=68d6672a cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=SRrdq9N9AAAA:8 a=hP6Lh0ber_LRzFWUQkQA:9
+ a=CjuIK1q_8ugA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: UWvketDTN0Ot3v1bfgOxKp68MJngqz5N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250174
 
-Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
----
- Documentation/bpf/prog_flow_dissector.rst  | 4 ++--
- Documentation/fb/fbcon.rst                 | 2 +-
- Documentation/filesystems/path-lookup.rst  | 2 +-
- Documentation/hwmon/lm75.rst               | 2 +-
- Documentation/kernel-hacking/hacking.rst   | 2 +-
- Documentation/networking/phy.rst           | 8 ++++----
- Documentation/process/management-style.rst | 2 +-
- 7 files changed, 11 insertions(+), 11 deletions(-)
+On Fri, 26 Sep 2025 10:44:00 +0800
+Guangguan Wang <guangguan.wang@linux.alibaba.com> wrote:
 
-diff --git a/Documentation/bpf/prog_flow_dissector.rst b/Documentation/bpf/prog_flow_dissector.rst
-index f24270b8b034..8de1446b278b 100644
---- a/Documentation/bpf/prog_flow_dissector.rst
-+++ b/Documentation/bpf/prog_flow_dissector.rst
-@@ -68,7 +68,7 @@ Pre-VLAN parsing::
- 
- .. code:: c
- 
--  skb->data + flow_keys->nhoff point the to first byte of TCI
-+  skb->data + flow_keys->nhoff point to the first byte of TCI
-   flow_keys->thoff = nhoff
-   flow_keys->n_proto = TPID
- 
-@@ -87,7 +87,7 @@ Post-VLAN parsing::
- 
- .. code:: c
- 
--  skb->data + flow_keys->nhoff point the to first byte of L3_HEADER
-+  skb->data + flow_keys->nhoff point to the first byte of L3_HEADER
-   flow_keys->thoff = nhoff
-   flow_keys->n_proto = ETHER_TYPE
- 
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index a98a5cb0b0d8..b278a8fe7e2b 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -109,7 +109,7 @@ C. Boot options
- 	available, fb0, adding fbcon=map:1 tells fbcon not to take over the
- 	console.
- 
--	Later on, when you want to map the console the to the framebuffer
-+	Later on, when you want to map the console to the framebuffer
- 	device, you can use the con2fbmap utility.
- 
- 3. fbcon=vc:<n1>-<n2>
-diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-index 9ced1135608e..4e374f9073f6 100644
---- a/Documentation/filesystems/path-lookup.rst
-+++ b/Documentation/filesystems/path-lookup.rst
-@@ -1077,7 +1077,7 @@ whether in RCU-walk or REF-walk, the symlink stack needs to contain,
- along with the path remnants:
- 
- - the ``struct path`` to provide a reference to the previous path
--- the ``const char *`` to provide a reference to the to previous name
-+- the ``const char *`` to provide a reference to the previous name
- - the ``seq`` to allow the path to be safely switched from RCU-walk to REF-walk
- - the ``struct delayed_call`` for later invocation.
- 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index c6a54bbca3c5..f05799c53474 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -154,7 +154,7 @@ The LM75 implements one temperature sensor. Limits can be set through the
- Overtemperature Shutdown register and Hysteresis register. Each value can be
- set and read to half-degree accuracy.
- An alarm is issued (usually to a connected LM78) when the temperature
--gets higher then the Overtemperature Shutdown value; it stays on until
-+gets higher than the Overtemperature Shutdown value; it stays on until
- the temperature falls below the Hysteresis value.
- All temperatures are in degrees Celsius, and are guaranteed within a
- range of -55 to +125 degrees.
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 0042776a9e17..b3d352d2ffcc 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -259,7 +259,7 @@ overruns. Make sure that will be enough.
- .. note::
- 
-     You will know when you are a real kernel hacker when you start
--    typoing printf as printk in your user programs :)
-+    typing printf as printk in your user programs :)
- 
- .. note::
- 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index 7f159043ad5a..8d457979a1f1 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -5,7 +5,7 @@ PHY Abstraction Layer
- Purpose
- =======
- 
--Most network devices consist of set of registers which provide an interface
-+Most network devices consist of a set of registers which provide an interface
- to a MAC layer, which communicates with the physical connection through a
- PHY.  The PHY concerns itself with negotiating link parameters with the link
- partner on the other side of the network connection (typically, an ethernet
-@@ -262,7 +262,7 @@ Some of the interface modes are described below:
-     encoding.  The underlying data rate is 1Gbps, with the slower speeds of
-     100Mbps and 10Mbps being achieved through replication of each data symbol.
-     The 802.3 control word is re-purposed to send the negotiated speed and
--    duplex information from to the MAC, and for the MAC to acknowledge
-+    duplex information to the MAC, and for the MAC to acknowledge
-     receipt.  This does not include "up-clocked" variants such as 2.5Gbps
-     speeds.
- 
-@@ -285,7 +285,7 @@ Some of the interface modes are described below:
- 
-     Note: 10GBASE-R is just one protocol that can be used with XFI and SFI.
-     XFI and SFI permit multiple protocols over a single SERDES lane, and
--    also defines the electrical characteristics of the signals with a host
-+    also define the electrical characteristics of the signals with a host
-     compliance board plugged into the host XFP/SFP connector. Therefore,
-     XFI and SFI are not PHY interface types in their own right.
- 
-@@ -545,7 +545,7 @@ When phy_register_fixup() or \*_for_uid()/\*_for_id() is called at module load
- time, the module needs to unregister the fixup and free allocated memory when
- it's unloaded.
- 
--Call one of following function before unloading module::
-+Call one of the following functions before unloading the module::
- 
-  int phy_unregister_fixup(const char *phy_id, u32 phy_uid, u32 phy_uid_mask);
-  int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask);
-diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-index dfbc69bf49d4..0b9e074277d0 100644
---- a/Documentation/process/management-style.rst
-+++ b/Documentation/process/management-style.rst
-@@ -42,7 +42,7 @@ actually true.
- The name of the game is to **avoid** having to make a decision.  In
- particular, if somebody tells you "choose (a) or (b), we really need you
- to decide on this", you're in trouble as a manager.  The people you
--manage had better know the details better than you, so if they come to
-+manage know the details better than you, so if they come to
- you for a technical decision, you're screwed.  You're clearly not
- competent to make that decision for them.
- 
+> > +
+> > +smcr_max_send_wr - INTEGER
+> > +	So called work request buffers are SMCR link (and RDMA queue pair) level
+> > +	resources necessary for performing RDMA operations. Since up to 255
+> > +	connections can share a link group and thus also a link and the number
+> > +	of the work request buffers is decided when the link is allocated,
+> > +	depending on the workload it can a bottleneck in a sense that threads
+> > +	have to wait for work request buffers to become available. Before the
+> > +	introduction of this control the maximal number of work request buffers
+> > +	available on the send path used to be hard coded to 16. With this control
+> > +	it becomes configurable. The acceptable range is between 2 and 2048.
+> > +
+> > +	Please be aware that all the buffers need to be allocated as a physically
+> > +	continuous array in which each element is a single buffer and has the size
+> > +	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+> > +	like before having this control.
+> > +
+> > +	Default: 16
+> > +
+> > +smcr_max_recv_wr - INTEGER
+> > +	So called work request buffers are SMCR link (and RDMA queue pair) level
+> > +	resources necessary for performing RDMA operations. Since up to 255
+> > +	connections can share a link group and thus also a link and the number
+> > +	of the work request buffers is decided when the link is allocated,
+> > +	depending on the workload it can a bottleneck in a sense that threads
+> > +	have to wait for work request buffers to become available. Before the
+> > +	introduction of this control the maximal number of work request buffers
+> > +	available on the receive path used to be hard coded to 16. With this control
+> > +	it becomes configurable. The acceptable range is between 2 and 2048.
+> > +
+> > +	Please be aware that all the buffers need to be allocated as a physically
+> > +	continuous array in which each element is a single buffer and has the size
+> > +	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+> > +	like before having this control.
+> > +
+> > +	Default: 48  
+> 
+> Notice that the ratio of smcr_max_recv_wr to smcr_max_send_wr is set to 3:1, with the
+> intention of ensuring that the peer QP's smcr_max_recv_wr is three times the local QP's
+> smcr_max_send_wr and the local QP's smcr_max_recv_wr is three times the peer QP's
+> smcr_max_send_wr, rather than making the local QP's smcr_max_recv_wr three times its own
+> smcr_max_send_wr. The purpose of this design is to guarantee sufficient receive WRs on
+> the side to receive incoming data when peer QP doing RDMA sends. Otherwise, RNR (Receiver
+> Not Ready) may occur, leading to poor performance(RNR will drop the packet and retransmit
+> happens in the transport layer of the RDMA).
 
-base-commit: e30917da6074205bb1071a52e325c9d6ffe68ad5
-prerequisite-patch-id: 81e067eae729d71e41b653c4f550dd3449003592
-prerequisite-patch-id: 21078cbf43929b4a0d56ab4bb4acea907af70d7a
--- 
-2.43.0
+Thank you Guangguan! I think we already had that discussion. 
+> 
+> Let us guess a scenario that have multiple hosts, and the multiple hosts have different
+> smcr_max_send_wr and smcr_max_recv_wr configurations, mesh connections between these hosts.
+> It is difficult to ensure that the smcr_max_recv_wr/smcr_max_send_wr is 3:1 on the connected
+> QPs between these hosts, and it may even be hard to guarantee the smcr_max_recv_wr > smcr_max_send_wr
+> on the connected QPs between these hosts.
 
+
+It is not difficult IMHO. You just leave the knobs alone and you have
+3:1 per default. If tuning is attempted that needs to be done carefully.
+At least with SMC-R V2 there is this whole EID business, as well so it
+is reasonable to assume that the environment can be tuned in a coherent
+fashion. E.g. whoever is calling the EID could call use smcr_max_recv_wr:=32 and smcr_max_send_wr:=
+
+> 
+> Therefore, I believe that if these values are made configurable, additional mechanisms must be
+> in place to prevent RNR from occurring. Otherwise we need to carefully configure smcr_max_recv_wr
+> and smcr_max_send_wr, or ensure that all hosts capable of establishing SMC-R connections are configured
+> smcr_max_recv_wr and smcr_max_send_wr with the same values.
+
+Thank you for 
