@@ -1,116 +1,263 @@
-Received: from mx07-007fc201.pphosted.com (mx07-007fc201.pphosted.com [185.132.181.212])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1CC1A3A80;
-	Fri, 26 Sep 2025 14:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.181.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623E718EAB
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 14:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758896768; cv=none; b=W+COthqoFRqMnqB7a81Xey95xsmLqwfXbym6ks6xqd7xC5FtHS47QleHgBIt/tHBzOxnp8brcsRkB2TAW2qgpeS69U40bU4WzZF7Wp5Gd4BlGJtY8lquvI0aTqUS7meiX5oXVtB+pZURBa7endiBL8U+UxCKyMmCUITi0gVb06Q=
+	t=1758898173; cv=none; b=R0G4V7yaPb1FN1z1qVPzrS8QfR7kFO8WJTuZkfes3bzuTTU+6hL1lbbBn6bzOwGJGkIFs5FihYmZGXWZujnjRZd+BpGAHiXrECJKVk1jkaFxBY29N7htMF58E7CgkJytQt/LT6h/QlFra8LK8O00RvDnYjb8hPVM5MBHTPvXNok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758896768; c=relaxed/simple;
-	bh=3k/F3p+Fk/c/cylKUBM1I1qdwFpDIs0egd5HDA0AjmA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fWM+9FJheOK8GbhIIYXpSEkRdtMiQlGwAigucCFHtF9zUaOTDaDkbIydXFdsbSYUbndv3H/Zg5lyCcN40WnmKvd0kL72zq+Qhl7szgJJzYIqJovnUnnWw4XiNWNH9OS4ymM01pP//fgC7jqkNtljJEZjLVEDH1giTDl2R2ooNYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=1gMhlcD1; arc=none smtp.client-ip=185.132.181.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
+	s=arc-20240116; t=1758898173; c=relaxed/simple;
+	bh=X4MWoMvZpNFx+OVJEAY7k+/NlF9jfSSaTBDZkjwLetc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CmXvn2wVr5z7JzPj343KDVFF0HpDQrZtk4Dol4t2VTz2IpIoRZ3uZxSkiZTwHaN3ra4axQIbVqlP0ZZAk4mzUCciXaStm8XtWO9lZlsDI3ls+xsvbrY6hVoG4Xi+63Poc0WQ8+7ybIxl6lfB7NPD+clKfZKppmhRNgfN3ZxFRlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p0uimPCK; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="1gMhlcD1"
-Received: from pps.filterd (m0456228.ppops.net [127.0.0.1])
-	by mx07-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58QEPv9r2214265;
-	Fri, 26 Sep 2025 16:25:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
-	:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pp-2025; bh=beKuMb7Rktap9GjfcpKEIdWM9E62yT/fpNMmyIxhXeA=; b=1gMh
-	lcD1elFuH6Aeob8J8JM+IzAIHuliTADDLAfVOyDfSCs8uqtbAsIePHmfNa5c4fAM
-	K4UCuNghbUIVIosopoXbllpFbqvhwbPENtHUFIMIfwqolFKZu6YQ+kTInw9tuxkI
-	g+lRcq5FbKfzyP6okunYKAQ/JSjixKt5VSDSgUM6epBHo4LBEOQ3xIq7VSumq2FA
-	H5ti1xMzfHSlmxdK1YVDtzVa/kr4uytbMJIgWq9/vOMVgqghKOx8h0vFx18hF7vk
-	4qba/hY+BYgmTakjI6ZNclm/Ar+jKPLF/qDd5MO+sCipQfGSBxnuHeuhFFDBMK5w
-	ejCc8K+ujwKL+wVTlw==
-Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
-	by mx07-007fc201.pphosted.com (PPS) with ESMTPS id 49dbt3ga09-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Sep 2025 16:25:57 +0200 (MEST)
-Received: from Adranos.cab.de (10.10.1.54) by Adranos.cab.de (10.10.1.54) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Fri, 26 Sep
- 2025 16:26:13 +0200
-Received: from Adranos.cab.de ([fe80::9298:8fc8:395c:3859]) by Adranos.cab.de
- ([fe80::9298:8fc8:395c:3859%7]) with mapi id 15.02.1748.036; Fri, 26 Sep 2025
- 16:26:13 +0200
-From: Markus Heidelberg <M.Heidelberg@cab.de>
-To: Jonathan Corbet <corbet@lwn.net>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
- words
-Thread-Topic: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
- words
-Thread-Index: AQHcLstyktyjxwWy7UeU9d2/LWnMJrSlRDwAgAAfloA=
-Date: Fri, 26 Sep 2025 14:26:13 +0000
-Message-ID: <aNaic_817_R_SRd6@KAN23-025>
-References: <20250926095312.206231-1-m.heidelberg@cab.de>
- <875xd52y2z.fsf@trenco.lwn.net>
-In-Reply-To: <875xd52y2z.fsf@trenco.lwn.net>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <EA08934B269BC940AE4344BAA3475AAE@cab.de>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p0uimPCK"
+Message-ID: <32608c1b-6da5-4a06-9790-58dfd4ba2011@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758898159;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gXM7GNVXlwNM6qgC8RcEz4DIWXulx4en7MnJK64sYug=;
+	b=p0uimPCKzx+0lRZWcpXNlJCkvBNo1Ljba0JQRRiJr1JwGeyRPb/ZvYNiwaZnqmaqBF7Hfc
+	3c7Khai3reWQ5g+jEsG9PV/jiNF/B/MaQknVMCzw1Eig28PrpuaUFhS2uvhY6e0GXpTSzo
+	qpRv/xQvchLVI0CesjUiAFowJOpaF6Q=
+Date: Fri, 26 Sep 2025 15:49:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=fOA0HJae c=1 sm=1 tr=0 ts=68d6a275 cx=c_pps
- a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
- a=xqWC_Br6kY4A:10 a=kldc_9v1VKEA:10 a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10
- a=MAe1x8XT1DE-PPL54jUA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: Ux3e1-HluQHfBqzkmrd2aFa4kW2WRxHo
-X-Proofpoint-ORIG-GUID: Ux3e1-HluQHfBqzkmrd2aFa4kW2WRxHo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEzMiBTYWx0ZWRfX75iRlmundBZC
- peS1x0j+5Um7TGTwp/hSQqVajmP8ZSf3vVQ5j/h6+t4pOQleDt1U8LimOF9XjTCggxYnDmM/qNw
- zBc+3KgGB+TRzQoj7UaDhMMvgTrcmOkPx5gLBY2N4Kle/b+CreEJ5kLu+CFTSMb0svPL1n8/p2f
- du+FuWApe4ShgPyfByTbs34VTVVvewLVJYhPmo2IwJr8BtgFjMvKDpi2+kj4RubVo+PlcVouZvm
- TSd7UvHCg9xgiOXUM8XdqcpeWE3RmsQ6pfrEmbuFgwFwREawJe+7Em1OJQAT3h9zp5HDjHK4cpe
- /gXlOzm22MY2uAna8cVYaW/uuETDxbP63bQ1N4gW39Sd8z2e2ivGq91TnVZI44JKT4G1eq1BscJ
- /bAhCIDt7Y1RFBTRhVLKlzIZopUo7w==
+Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from direct
+ map
+To: "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+ "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "david@redhat.com" <david@redhat.com>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+ "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
+ <mhocko@suse.com>, "song@kernel.org" <song@kernel.org>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>,
+ "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "Cali, Marco" <xmarcalx@amazon.co.uk>,
+ "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
+ "tabba@google.com" <tabba@google.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk>
+ <20250924152214.7292-2-roypat@amazon.co.uk>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Patrick Roy <patrick.roy@linux.dev>
+Content-Language: en-US
+In-Reply-To: <20250924152214.7292-2-roypat@amazon.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Sep 26, 2025 at 06:32:52AM -0600, Jonathan Corbet wrote:
-> Markus Heidelberg <m.heidelberg@cab.de> writes:
->
-> > diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/k=
-ernel-hacking/hacking.rst
-> > index 0042776a9e17..b3d352d2ffcc 100644
-> > --- a/Documentation/kernel-hacking/hacking.rst
-> > +++ b/Documentation/kernel-hacking/hacking.rst
-> > @@ -259,7 +259,7 @@ overruns. Make sure that will be enough.
-> >  .. note::
-> > =20
-> >      You will know when you are a real kernel hacker when you start
-> > -    typoing printf as printk in your user programs :)
-> > +    typing printf as printk in your user programs :)
->
-> This one, at least, is as intended and does not need to be "fixed".
 
-Oh, I got that joke now :)
 
-> For a future version, it would be better to split the patches apart and
-> send them to the relevant maintainers.
+On Wed, 2025-09-24 at 16:22 +0100, "Roy, Patrick" wrote:
 
-I've scratched my head about the best approach a long time, looked at
-typo git commits, followed mailing list discussion from Link: tags.
-Found documentation patches like this across different subsystems and
-also a reply about undesired one-liner typo patches.
-So I thought, if not touching the technical content, using one combined
-documentation patch might be a proper way.
+[...]
 
-Will have a look at splitting the patch up if not resulting in
-one-liners only.
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 55b8d739779f..b7129c4868c5 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -4,6 +4,9 @@
+>  #include <linux/kvm_host.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/anon_inodes.h>
+> +#include <linux/set_memory.h>
+> +
+> +#include <asm/tlbflush.h>
+>  
+>  #include "kvm_mm.h"
+>  
+> @@ -42,6 +45,44 @@ static int __kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slo
+>  	return 0;
+>  }
+>  
+> +#define KVM_GMEM_FOLIO_NO_DIRECT_MAP BIT(0)
+> +
+> +static bool kvm_gmem_folio_no_direct_map(struct folio *folio)
+> +{
+> +	return ((u64) folio->private) & KVM_GMEM_FOLIO_NO_DIRECT_MAP;
+> +}
+> +
+> +static int kvm_gmem_folio_zap_direct_map(struct folio *folio)
+> +{
+> +	if (kvm_gmem_folio_no_direct_map(folio))
+> +		return 0;
+> +
+> +	int r = set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
+> +					 false);
+> +
+> +	if (!r) {
+> +		unsigned long addr = (unsigned long) folio_address(folio);
+> +		folio->private = (void *) ((u64) folio->private & KVM_GMEM_FOLIO_NO_DIRECT_MAP);
+> +		flush_tlb_kernel_range(addr, addr + folio_size(folio));
+> +	}
+> +
+> +	return r;
+> +}
 
-Markus=
+No idea how I managed to mess this function up so completely, but it
+should be more like
+
+static int kvm_gmem_folio_zap_direct_map(struct folio *folio)
+{
+	int r = 0;
+	unsigned long addr = (unsigned long) folio_address(folio);
+	u64 gmem_flags = (u64) folio_inode(folio)->i_private;
+
+	if (kvm_gmem_folio_no_direct_map(folio) || !(gmem_flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP))
+		goto out;
+
+	r = set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio), false);
+
+	if (r)
+		goto out;
+
+	folio->private = (void *) KVM_GMEM_FOLIO_NO_DIRECT_MAP;
+	flush_tlb_kernel_range(addr, addr + folio_size(folio));
+
+out:
+	return r;
+}
+
+the version I sent (a) does not respect the flags passed to guest_memfd
+on creation, and (b) does not correctly set the bit in folio->private.
+
+> +static void kvm_gmem_folio_restore_direct_map(struct folio *folio)
+> +{
+> +	/*
+> +	 * Direct map restoration cannot fail, as the only error condition
+> +	 * for direct map manipulation is failure to allocate page tables
+> +	 * when splitting huge pages, but this split would have already
+> +	 * happened in set_direct_map_invalid_noflush() in kvm_gmem_folio_zap_direct_map().
+> +	 * Thus set_direct_map_valid_noflush() here only updates prot bits.
+> +	 */
+> +	if (kvm_gmem_folio_no_direct_map(folio))
+> +		set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
+> +					 true);
+> +}
+> +
+>  static inline void kvm_gmem_mark_prepared(struct folio *folio)
+>  {
+>  	folio_mark_uptodate(folio);
+> @@ -324,13 +365,14 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+>  	struct inode *inode = file_inode(vmf->vma->vm_file);
+>  	struct folio *folio;
+>  	vm_fault_t ret = VM_FAULT_LOCKED;
+> +	int err;
+>  
+>  	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+>  		return VM_FAULT_SIGBUS;
+>  
+>  	folio = kvm_gmem_get_folio(inode, vmf->pgoff);
+>  	if (IS_ERR(folio)) {
+> -		int err = PTR_ERR(folio);
+> +		err = PTR_ERR(folio);
+>  
+>  		if (err == -EAGAIN)
+>  			return VM_FAULT_RETRY;
+> @@ -348,6 +390,13 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+>  		kvm_gmem_mark_prepared(folio);
+>  	}
+>  
+> +	err = kvm_gmem_folio_zap_direct_map(folio);
+> +
+> +	if (err) {
+> +		ret = vmf_error(err);
+> +		goto out_folio;
+> +	}
+> +
+>  	vmf->page = folio_file_page(folio, vmf->pgoff);
+>  
+>  out_folio:
+> @@ -435,6 +484,8 @@ static void kvm_gmem_free_folio(struct folio *folio)
+>  	kvm_pfn_t pfn = page_to_pfn(page);
+>  	int order = folio_order(folio);
+>  
+> +	kvm_gmem_folio_restore_direct_map(folio);
+> +
+>  	kvm_arch_gmem_invalidate(pfn, pfn + (1ul << order));
+>  }
+>  
+> @@ -499,6 +550,9 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>  	/* Unmovable mappings are supposed to be marked unevictable as well. */
+>  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+>  
+> +	if (flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP)
+> +		mapping_set_no_direct_map(inode->i_mapping);
+> +
+>  	kvm_get_kvm(kvm);
+>  	gmem->kvm = kvm;
+>  	xa_init(&gmem->bindings);
+> @@ -523,6 +577,9 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
+>  	if (kvm_arch_supports_gmem_mmap(kvm))
+>  		valid_flags |= GUEST_MEMFD_FLAG_MMAP;
+>  
+> +	if (kvm_arch_gmem_supports_no_direct_map())
+> +		valid_flags |= GUEST_MEMFD_FLAG_NO_DIRECT_MAP;
+> +
+>  	if (flags & ~valid_flags)
+>  		return -EINVAL;
+>  
+> @@ -687,6 +744,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>  	if (!is_prepared)
+>  		r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>  
+> +	kvm_gmem_folio_zap_direct_map(folio);
+> +
+>  	folio_unlock(folio);
+>  
+>  	if (!r)
+
+[...]
