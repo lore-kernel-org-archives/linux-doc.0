@@ -1,81 +1,76 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B671DC985
-	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 00:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9342EDDA9
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 00:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758846589; cv=none; b=Pr+crFtqndHE3h41vpMYU5/dne92+idCQH42BbJnOgXjVd37ouc6R6epx0A6EokSVcNAGcGij6QU9Fybbc6v2sUcR4k2OF8jdPxdbaqS6OV+XQZrQ5df42uBFFLO98WnePXU5p1TMrJHgVbjy1cg7E90ecfgfZTh0EWgJfmADyA=
+	t=1758847189; cv=none; b=RHNZ9NZOmM7TV9SuPmaM12NmubNQPSYD8gGZBTArADUnsAQhZeGPmA90eoSj/VqSlBsZwYwj6gixRwlhI+tAfF75JuoAd2KMBEoyNZb90uztIyD5zpQisi4n7sOA9ECtsvOUt2A/8EwylIcJ6Xf/D2l2md1fUpSKB1jrQ5tE090=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758846589; c=relaxed/simple;
-	bh=douu/OH3JOBJbcNCPjglBlefsScRwWQQRJejY8Y8034=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=svIe8T7in1sjWd9DFOYBICKKTR1Wq8DyyD1WsD8PFG7piZ4VNrxy7711PPqyBnFg/V4SB5MiuFC++NlghsIHKViLJqVwAbZIjZqe/81/FuckSR2baufxHxKXlgs2bUxeqE/W3uPzugefDczhZBFBYHbY0as35s89+K3C9jqjfcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nGx+iQR+; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1758847189; c=relaxed/simple;
+	bh=nZu0dQTnI7c0vHRG4WuLt6WI+WkHJQUfIyCJZQwhANk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WYt4Po+LGDs1efqi3UMwF1MU20C4ejd/w5egZ4OS7/iGmWDqDFARCHxuO3Za7jN1JgpixdalzBKByxdSWtieNbSw1XQZF5v/thQWDamUYKEGs42GiRaS5hg3JiGwzHcEdqNOPNeK0AaXbw2VGu5FORIQWg4gVq+gZ53CQ7zXzAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+6FDhzF; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nGx+iQR+"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-27eec33b737so5227945ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 17:29:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+6FDhzF"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b523fb676efso1614750a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 17:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758846587; x=1759451387; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4mZBfvjKH+a+qnWQMQA8rEgrcPJHuMhz3ff1QpWHtCw=;
-        b=nGx+iQR+qyqgjlVxNjOWNBRQBARpkHQDu8nvzKY8sI4/iGRIysq+WxDBaiUtcCRVZQ
-         sn/jmfQK3uI3YTQNhlEi1C6qxr6rIeQBi6HZcldgaGdDp95lKGda90OXEUEtKsy9u9sw
-         jg2FoVq4NIM4qt4JsV7zE7hdEC59+KQWnoZdKunCOHLnwaeDB1xzVAuFjVeNruq/3Woc
-         zBzEtY50E5UCd3GgxxOnlyhduMwhrZJI5Bx9HrhWkz/sLecZg0hGQ9dGryc8w32QRLqo
-         e4dpF89L6vwq3Qdafy1FyNFRCIC5QtK/EuGNkYeSs3A5YhEJFefmSwE1wJlGS5/iBvLY
-         MivQ==
+        d=gmail.com; s=20230601; t=1758847187; x=1759451987; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iKnaVIq0LZ3mDKDeIlNyOzrXDoMYEsJjeAh4xs7zfWQ=;
+        b=X+6FDhzFkotNuQ0jj7zAu1wPlS1t4W/J1JL9Ird7/U7TP1PDl9+mvV8LTO1rqqSpbW
+         ScxxCQpHESvjTYRRaf3/BaEcpZ17500shU+Kr917WnLaqO5VNII3h1Yk4FU6RPUylnEI
+         4YihbRy02qE9Xz3sS1bcB5ZaH4DUa4IIzXQ2QbD4DyzelSAk/I1EsmplTRZUvlf8Oc1N
+         xYnDQMf7Pgwe9C7b+DWKbI6K/wW/fCaHz5+ONdxdj9T3Ir9eG/ZNnNtYk64Bt6pSQpH8
+         owm9yOuo8kfsCzUHzM93klnMPCjjt5rnHPcTssS19h9WkonUJYST3Z+B2WFeYMOiuf/Q
+         dziw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758846587; x=1759451387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4mZBfvjKH+a+qnWQMQA8rEgrcPJHuMhz3ff1QpWHtCw=;
-        b=vTiL5KnoyTA/OoCpN8DwFihGq8jo93SIamE4/C8HKz6FMeJot4L0tN02PQ5KZYV1BD
-         2CHTe2GEzD44eTI0GJoOToDGwsG4j/edZqN5Bo2xeejGPTYLI9hj0vojaMtwV3s48o4e
-         4tVK2TBlzqMfObq/h8V7XNcpphk7ju/0inZEBMIdYXxsuEOyAo+lDDOgmHNLs+26FgPW
-         Do9u0oGjVrABJHBR8pirrktWOKFuTkqbxgEFzWkKV0aaAxa5tce/JUBuNWkmJDCHZ4Wi
-         kEx7P4C+AwePAsxKcuKylsxcOcTVI+RnWnAAU/l/AcDRezK9CcJy8in2J21cz+MKs9Mf
-         eL7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVTR2UC0zvR0PItZSMWEjQ9BdAwpXej9r86SeWLzM5JJRH+XsxZIocbZ27ly83jVd7Q4Vs3KQJACdA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyILgp/GYZJiookzGUeo6BHVER/YWOmhsRg8VCvH2+dcHkh5JyZ
-	pDbaTdh3Za3CYG/76r+3azPBkE7j9kr5k+Ry1Fh3mlYVh2nfdK092unr
-X-Gm-Gg: ASbGncvJO1p5gXkI3PUAuy9Bi9LIcACezT9BMcgIgHZcoAoTfRL7s7QaHlDqH/P0fvd
-	ewufwuAHJ9CViL7mHZ36RQfthvUAexBCHcPloiMAdUoD61pxLjrRvXnjmT+G8wPPj+Z967EG9pk
-	0E0AEXPr3UEFn5GRFirJ5EGtdS+io1XmJYbenGGjY6AOjx7oyJGtrGfEps++gZX+FFV1hWRCf/B
-	0SeBaMGIgL9Wst4Fng78oHptSUdtyW/70fxgrqBLgSPHUnXI6SjFcWrKPAKFRkb2W0QyAlExQK/
-	ZJ+TJOss6KGLno7aKFDtmNYIynR/THzLGe4Bv7Xse/xq17DxH9Ld8xmsfRU6nKi7H5eb9PO4qIj
-	F6H6hSEYDmsav+965r2bt1YgsTsVGhMHSH8F8D82FX0bRhl8P3m6rg3REdoM=
-X-Google-Smtp-Source: AGHT+IEMH5lJf7DHsnuKCyqZaYo7vRM2tcWdcLIid+23yMPPfujKM5L9NhzST+ddt/eFTEXbRRQDiA==
-X-Received: by 2002:a17:903:32c2:b0:24c:c8e7:60b5 with SMTP id d9443c01a7336-27ed49dd7d2mr60037595ad.16.1758846586702;
-        Thu, 25 Sep 2025 17:29:46 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:3::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6716081sm36552055ad.53.2025.09.25.17.29.46
+        d=1e100.net; s=20230601; t=1758847187; x=1759451987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iKnaVIq0LZ3mDKDeIlNyOzrXDoMYEsJjeAh4xs7zfWQ=;
+        b=kRsdYXC/BFvPXJBonepnAT3lYR/7LAT22Wh0NHgZ70sqnC+noWQF3w0BkMmtMDGaiX
+         t23a+9Uyb1wjgZCrIvHP37p1v/8jF4GikvrzUW6qNHT1X0mpm/9GIdGdqKZGZCRNLnhC
+         Yl6rE5B8fpvGZqy9naPL+GC9E0yQL8ewtjLCiTrsYfgofcqdKhfHcQbz5fnbzNBDhivS
+         NAqUkg3emDWq40fBSLSxNdVCxAOpu1x/QPEU0TiLw0tShQ/9tiRSd8MSc4hvROp19V20
+         IBL1nHijGCNM300d5WOZLhW0np/t1wBVghLFYfpnqnV5+e+sFzghmT9VGg6b859Z6JI6
+         Zmng==
+X-Forwarded-Encrypted: i=1; AJvYcCXmDkxCcQ/RRJvGvGcMP/BfB+EUBkskh6xdwzIOBwRw8n1DoTl/DDywvrl8F2iA5iIHIqPFXGlLq78=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxed4s/PcJsmBZmhEgC5Tv3VmMRm3+dg5KWqsQPzmmv5jD3fYQk
+	CsWjmcDPeU++FmGriW0ljrI054xh7xXQmtHfJdF3NLEcqzRakftNKtqS
+X-Gm-Gg: ASbGncuQO8P/xKu8h5wUaBDqjIVzLheOdE12rlDpj+UgDET4Lyg6lfhdj01Ss/jpxPN
+	N7vavz2KrP6zsQ4+v/OCLb3WUNNpWM2F7xf54dPA+7JkTw2lRw4WAcfBTiah7wXWCIvCNM5826k
+	xfxuBzu6Syut3K48ShcWIhXfdWUlC697UgkwpybLYIWMoIZ5mzgEts/LYWec+8lnfUmgt1vkzcp
+	iHK80UQWRymKYyw2uudZxg9NwzMIHWlshoQXtj3X8JdbJgjsNB9yeSGElKLiqvT0xpcuGkZy+cS
+	xOF24CXS2w99jE1J7vO+HdYlXMtsNQzlPQsRJeOlr2hpDbPnC+D11AOBdp3C1LxDaqZFHgnPYQN
+	Gab6Q5Qz3tu9ktLe9g/aLMtF/RLzZ9wpU2KKg4nTGnw==
+X-Google-Smtp-Source: AGHT+IG326amNIrt95WaEQYYFFDyTfpagBUKaviDy8uBRk8XgT2ltykYjLmd/Lb9/RrzkGixWEyeVA==
+X-Received: by 2002:a17:903:845:b0:269:b2e5:ee48 with SMTP id d9443c01a7336-27ed4a5a7bcmr38027585ad.52.1758847186710;
+        Thu, 25 Sep 2025 17:39:46 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6882290sm35871545ad.76.2025.09.25.17.39.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 17:29:46 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: brauner@kernel.org,
-	miklos@szeredi.hu
-Cc: djwong@kernel.org,
-	hch@infradead.org,
-	hsiangkao@linux.alibaba.com,
-	linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com,
-	linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v5 14/14] fuse: remove fc->blkbits workaround for partial writes
-Date: Thu, 25 Sep 2025 17:26:09 -0700
-Message-ID: <20250926002609.1302233-15-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250926002609.1302233-1-joannelkoong@gmail.com>
-References: <20250926002609.1302233-1-joannelkoong@gmail.com>
+        Thu, 25 Sep 2025 17:39:46 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: corbet@lwn.net,
+	will@kernel.org,
+	yangyicong@hisilicon.com,
+	fj2767dz@fujitsu.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2] docs: perf: Fujitsu: Fix htmldocs build warnings and errors
+Date: Fri, 26 Sep 2025 06:09:36 +0530
+Message-ID: <20250926003938.5017-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,89 +79,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that fuse is integrated with iomap for read/readahead, we can remove
-the workaround that was added in commit bd24d2108e9c ("fuse: fix fuseblk
-i_blkbits for iomap partial writes"), which was previously needed to
-avoid a race condition where an iomap partial write may be overwritten
-by a read if blocksize < PAGE_SIZE. Now that fuse does iomap
-read/readahead, this is protected against since there is granular
-uptodate tracking of blocks, which means this workaround can be removed.
+Running "make htmldocs" generates the following build errors and
+warnings for fujitsu_uncore_pmu.rst:
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
+Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+Add blank line before bullet lists and block quotes to fix build
+errors and resolve warnings.
+
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- fs/fuse/dir.c    |  2 +-
- fs/fuse/fuse_i.h |  8 --------
- fs/fuse/inode.c  | 13 +------------
- 3 files changed, 2 insertions(+), 21 deletions(-)
+Changelog:
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 5c569c3cb53f..ebee7e0b1cd3 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -1199,7 +1199,7 @@ static void fuse_fillattr(struct mnt_idmap *idmap, struct inode *inode,
- 	if (attr->blksize != 0)
- 		blkbits = ilog2(attr->blksize);
- 	else
--		blkbits = fc->blkbits;
-+		blkbits = inode->i_sb->s_blocksize_bits;
+Changes since v1:
+  - Remove formatting changes unrelated to the fix.
+  
+Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+
+ Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+index 46595b788d3a..4edf26f8cfe6 100644
+--- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
++++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+@@ -15,15 +15,19 @@ The driver provides a description of its available events and configuration
+ options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/
+ and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
+ This driver exports:
++
+ - formats, used by perf user space and other tools to configure events
+ - events, used by perf user space and other tools to create events
+   symbolically, e.g.:
++
+     perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
+     perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++
+ - cpumask, used by perf user space and other tools to know on which CPUs
+   to open the events
  
- 	stat->blksize = 1 << blkbits;
- }
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index cc428d04be3e..1647eb7ca6fa 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -975,14 +975,6 @@ struct fuse_conn {
- 		/* Request timeout (in jiffies). 0 = no timeout */
- 		unsigned int req_timeout;
- 	} timeout;
--
--	/*
--	 * This is a workaround until fuse uses iomap for reads.
--	 * For fuseblk servers, this represents the blocksize passed in at
--	 * mount time and for regular fuse servers, this is equivalent to
--	 * inode->i_blkbits.
--	 */
--	u8 blkbits;
- };
+ This driver supports the following events for MAC:
++
+ - cycles
+   This event counts MAC cycles at MAC frequency.
+ - read-count
+@@ -77,6 +81,7 @@ Examples for use with perf::
+   perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
  
- /*
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 7485a41af892..a1b9e8587155 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -292,7 +292,7 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
- 	if (attr->blksize)
- 		fi->cached_i_blkbits = ilog2(attr->blksize);
- 	else
--		fi->cached_i_blkbits = fc->blkbits;
-+		fi->cached_i_blkbits = inode->i_sb->s_blocksize_bits;
- 
- 	/*
- 	 * Don't set the sticky bit in i_mode, unless we want the VFS
-@@ -1810,21 +1810,10 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
- 		err = -EINVAL;
- 		if (!sb_set_blocksize(sb, ctx->blksize))
- 			goto err;
--		/*
--		 * This is a workaround until fuse hooks into iomap for reads.
--		 * Use PAGE_SIZE for the blocksize else if the writeback cache
--		 * is enabled, buffered writes go through iomap and a read may
--		 * overwrite partially written data if blocksize < PAGE_SIZE
--		 */
--		fc->blkbits = sb->s_blocksize_bits;
--		if (ctx->blksize != PAGE_SIZE &&
--		    !sb_set_blocksize(sb, PAGE_SIZE))
--			goto err;
- #endif
- 	} else {
- 		sb->s_blocksize = PAGE_SIZE;
- 		sb->s_blocksize_bits = PAGE_SHIFT;
--		fc->blkbits = sb->s_blocksize_bits;
- 	}
- 
- 	sb->s_subtype = ctx->subtype;
+ And, this driver supports the following events for PCI:
++
+ - pci-port0-cycles
+   This event counts PCI cycles at PCI frequency in port0.
+ - pci-port0-read-count
 -- 
-2.47.3
+2.43.0
 
