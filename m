@@ -1,82 +1,292 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D602F6581;
-	Fri, 26 Sep 2025 13:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FD7199E94
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 14:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758893982; cv=none; b=YU+ZPBhnuzk1DFwvZxKDNmcU09csBfSWgN2EXpCwqaSWeWBr8DRPro8xd14VyQGeythyeEG4LQ+HhFMnqzRBWPnuUNdgZ02Am5wRsdbyfBXnQHkG/wFYlfnpLOzr0F7Lp2dgA9t97BVJoYgMA5WUv2c7yLD7tOS4cLOQxlRNFoE=
+	t=1758895907; cv=none; b=hfGu0rb6aI+6hfLVYFOUHCrGEeyLj5y/jiU4nfttJmyF0Wdh/ENftAb5i8vSHsIeMlb7g3RFWDFBM67PdbxmWaEkg198NYJxNBpIwrN0nujv/YbutJ0PHxB5osw7S4ceAEN/ZMipCmPzgBSg06BImhH3v78VWDKve3sxmLY785M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758893982; c=relaxed/simple;
-	bh=i9qCBMiFERNjoe+SVXO8rGTbCrRuq0zLumNcT5U3KnA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TotI/mI0MU0ov/tPrMVpAQR4X5fSBIRnlTEcn3a96jbyqaxOlVFMtxdFd1Ktaghq1qZbcP4NtsvU/f9vyU98SoGBWPgQFJLurapZE/SNsqSPqt9VNS6Ej1R6VpXXAJr8gOrfod7PnyFJJRVq13MaKTPjB/vizFPDxr0nBgkA8R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOxRdDAp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758895907; c=relaxed/simple;
+	bh=Cda4WGQXonbSWQhrD5cw1RbmvTmA5UggAyb6jdw1c9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=of53p+VL0q1AD8fZAmCeWlx493mZgjwmmw2BnecRL4Q0sbwckpx059hyX/EJ5hb/9YLONdrioC2v/TACa5aCH+Z8BkEkoer92ivO4o/kp87mnnoM7Ae6EhjFB2N+QMix9xqcqxwsmu2eCVCqLA3r5c461yI6Pq1keDJ8W+iPyaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XvCxvQPl; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOxRdDAp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F58EC4CEF4;
-	Fri, 26 Sep 2025 13:39:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758893981;
-	bh=i9qCBMiFERNjoe+SVXO8rGTbCrRuq0zLumNcT5U3KnA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SOxRdDApee8VnmIIOODhGGnyykHpLbTPHSH6QdN682hdS97qhyTUq/htGHoazPPYo
-	 lL9AtaVy0UkMfHbej6EvmOMH3LpNyL6Z2QaLWkbaxErAN7bj/7TIArpNqkKOSfJWou
-	 ujPXVyRz43i3cah5/T1RCk5pyGkM5NKxHVAYYdJE49jr4jgtOYZQ6Vzdt1jM1G/LZk
-	 skcYpott7DULFdoJipm/ZBhTYlmb9qGwP+WOxPiALPu35xTUjpF9kINp/wYejsjQ5K
-	 Ob4MnWJALNPuWi23E7FTGQGWSuKnOcp7kpkfCqbLizPjAA4o2qEJ9ck2zQluYfJEd5
-	 1qWHYVzIo8gGA==
-From: Will Deacon <will@kernel.org>
-To: corbet@lwn.net,
-	yangyicong@hisilicon.com,
-	fj2767dz@fujitsu.com,
-	Gopi Krishna Menon <krishnagopi487@gmail.com>
-Cc: catalin.marinas@arm.com,
-	kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] docs: perf: Fujitsu: Fix htmldocs build warnings and errors
-Date: Fri, 26 Sep 2025 14:39:33 +0100
-Message-Id: <175889367771.1416260.12353687380491890594.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250926043748.3785-1-krishnagopi487@gmail.com>
-References: <61aace07-890a-4b55-8e84-935ebc4a3be1@infradead.org> <20250926043748.3785-1-krishnagopi487@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvCxvQPl"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46e34052bb7so21197155e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 07:11:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758895904; x=1759500704; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ny7pIQ2SCuYpPr5sAoZMtmx+LX6//dYVYgLJ9SYLcgQ=;
+        b=XvCxvQPlDYqNLlioV8HtmIGG/oa15gRdbBsw13aV1VoxGSuLVyElGE18ESBpqaJW/y
+         Hr5D8NBbmNVUNPDg4pbPVQkJ+Wve9bSaXBT6JEVjlny0003+0LviusNT16buzcIyc4i9
+         EkFYqvFCK9bC/hOmmKMEE+gl4brhFJ6/72w8fT3Pelpl22w7mBJ6gbA07g7UpcBmRCkl
+         f8+tFvJuUu16ihZ/3R/tL+WZG8ujAf9vIqHDjEu6/6al2L0MPoiP/DUVPHdl1iO5fV8D
+         TPAasuut4XXXoguArQvRoAlg8EydSyAo3B44fEQHMdWJfBFxlkeB/zmQX76UM+AUr1Cz
+         S4Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758895904; x=1759500704;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ny7pIQ2SCuYpPr5sAoZMtmx+LX6//dYVYgLJ9SYLcgQ=;
+        b=ewT0Z3knMRGSkEEPExL54mX4ZU+Ckl31jq/LmbY+h3pQPCyE0ZwfY6H9XcsILZ3dTZ
+         XbkdoA0foHKkFXLyvvXOVX8z5z6eC13/gJ/Z/WW8i/kqXYgEkvST4SgiA+e34I22XfQ+
+         OevwSqb82wvW0q63KkSuvNbbK5OXSRIT1sJw76oDvjl8ib4QX5Afo4iLKPnMfyJqy420
+         ndK16ljv0L2qMLI1NyqClAzBtcdExURbwlrkFT3UEL/LGGGA9A7FBCxqAR2euFAZvHfY
+         9cUZramu+q6HXa8hRiz+sTJkgivVaiOh9VgCOlwXorGsejT4Z8YxpD9jkb9YcsabJlKJ
+         9yiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXINcViUWWEejB41Q8jM+X2d04RMzxVaoVgfsOa2s6+AmWAouxuN77d/YGTIi7GNeiWHWn0bM3E4ag=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwKFnOprNyNRzwoWQB1N5bBwpbIBc+8NGSFWSqtLabCgkrR3lX
+	aIYO0josnOQx0APxZ2htwLTEQcJ11SMWvJQfRFgY8y8KhpOVEDVAIYpj
+X-Gm-Gg: ASbGncshKDb5TQE/RgnlA6eUPRfcYtc3A32HMuUWDe8hyV4vyL9jH3m9wRnazMPDXFJ
+	cDK/WiVQXOL64EiK/DEbPG1j4QtN+FZK0eTmdLfNDi2rtp77uwZBY/kXp9zz2hYAyoiI2IPkhB4
+	/sYsr9rpmoRJ1FWESPyv6O5NLVqQBEeiVkpiauDpKMdXySNBDKKvIHQZBIq3KO3egqrHWtUz132
+	wMcadvawFJU3moXEdvaUPnB/A1UQ+eke0qmx1Epfx9sNxZGFf5zgdJhMUNGWa2Pjl7W5LZB5bpS
+	IOFJP8do4uY9dhHxMtLJ2O3eboV2ovOHn35bd/99Q73CUWnNG/L9RjpuOjB2eEMdYOkpuawrI9u
+	1/knzyuznVnVQ4pT2GC+oXfs43vbbAISj4Nt1TlHQOlvO8fH/rqCbVLeArRbgxw1oHsyS1IULkx
+	ByhSciZrcfnMFpS3trhA8rFFn+TLYJXzkPxA==
+X-Google-Smtp-Source: AGHT+IGIsygixbycwSxGEYYSjqdX4hw6Wrb2gEHvzCCx3um4Q8sxCxU/06IukXa1VlsWWUmFmo66KA==
+X-Received: by 2002:a05:600c:4fca:b0:46d:45e:350a with SMTP id 5b1f17b1804b1-46e329fb93bmr92609295e9.17.1758895903786;
+        Fri, 26 Sep 2025 07:11:43 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5? ([2a02:6b6f:e750:1b00:1cfc:9209:4810:3ae5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e32bd6360sm39873825e9.1.2025.09.26.07.11.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 07:11:43 -0700 (PDT)
+Message-ID: <34a9440f-b0c4-4f76-a2ac-f88b54c2242e@gmail.com>
+Date: Fri, 26 Sep 2025 15:11:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 mm-new 01/12] mm: thp: remove disabled task from
+ khugepaged_mm_slot
+Content-Language: en-GB
+To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
+ david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, npache@redhat.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org,
+ gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com,
+ rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com,
+ shakeel.butt@linux.dev, tj@kernel.org, lance.yang@linux.dev
+Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250926093343.1000-1-laoar.shao@gmail.com>
+ <20250926093343.1000-2-laoar.shao@gmail.com>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20250926093343.1000-2-laoar.shao@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 26 Sep 2025 10:06:12 +0530, Gopi Krishna Menon wrote:
-> Running "make htmldocs" generates the following build errors and
-> warnings for fujitsu_uncore_pmu.rst:
+
+
+On 26/09/2025 10:33, Yafang Shao wrote:
+> Since a task with MMF_DISABLE_THP_COMPLETELY cannot use THP, remove it from
+> the khugepaged_mm_slot to stop khugepaged from processing it.
 > 
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
+> After this change, the following semantic relationship always holds:
 > 
-> [...]
+>   MMF_VM_HUGEPAGE is set     == task is in khugepaged mm_slot
+>   MMF_VM_HUGEPAGE is not set == task is not in khugepaged mm_slot
+> 
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> Acked-by: Lance Yang <lance.yang@linux.dev>
+> ---
+>  include/linux/khugepaged.h |  4 ++++
+>  kernel/sys.c               |  7 ++++--
+>  mm/khugepaged.c            | 49 ++++++++++++++++++++------------------
+>  3 files changed, 35 insertions(+), 25 deletions(-)
+> 
 
-Applied to arm64 (for-next/core), thanks!
 
-[1/1] docs: perf: Fujitsu: Fix htmldocs build warnings and errors
-      https://git.kernel.org/arm64/c/cb0c5a60a6f7
+Hi Yafang,
 
-Cheers,
--- 
-Will
+Thanks for the patch! Sorry wasnt able to review the previous revisions.
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+I think it would be good to separate this patch out of the series?
+It would make the review of this series shorter and this patch can be merged independently.
+
+In the commit message, we also need to write explicitly that when prctl
+PR_SET_THP_DISABLE is cleared, the mm is added back for khugepaged to consider.
+
+Could you also mention in the commit message why the BUG was turned into WARN?
+
+Thanks!
+
+> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> index eb1946a70cff..f14680cd9854 100644
+> --- a/include/linux/khugepaged.h
+> +++ b/include/linux/khugepaged.h
+> @@ -15,6 +15,7 @@ extern void __khugepaged_enter(struct mm_struct *mm);
+>  extern void __khugepaged_exit(struct mm_struct *mm);
+>  extern void khugepaged_enter_vma(struct vm_area_struct *vma,
+>  				 vm_flags_t vm_flags);
+> +extern void khugepaged_enter_mm(struct mm_struct *mm);
+>  extern void khugepaged_min_free_kbytes_update(void);
+>  extern bool current_is_khugepaged(void);
+>  extern int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
+> @@ -42,6 +43,9 @@ static inline void khugepaged_enter_vma(struct vm_area_struct *vma,
+>  					vm_flags_t vm_flags)
+>  {
+>  }
+> +static inline void khugepaged_enter_mm(struct mm_struct *mm)
+> +{
+> +}
+>  static inline int collapse_pte_mapped_thp(struct mm_struct *mm,
+>  					  unsigned long addr, bool install_pmd)
+>  {
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index a46d9b75880b..2c445bf44ce3 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/export.h>
+>  #include <linux/mm.h>
+>  #include <linux/mm_inline.h>
+> +#include <linux/khugepaged.h>
+>  #include <linux/utsname.h>
+>  #include <linux/mman.h>
+>  #include <linux/reboot.h>
+> @@ -2479,7 +2480,7 @@ static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
+>  	/* Flags are only allowed when disabling. */
+>  	if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
+>  		return -EINVAL;
+> -	if (mmap_write_lock_killable(current->mm))
+> +	if (mmap_write_lock_killable(mm))
+>  		return -EINTR;
+>  	if (thp_disable) {
+>  		if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
+> @@ -2493,7 +2494,9 @@ static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
+>  		mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
+>  		mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+>  	}
+> -	mmap_write_unlock(current->mm);
+> +
+> +	khugepaged_enter_mm(mm);
+> +	mmap_write_unlock(mm);
+>  	return 0;
+>  }
+>  
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 7ab2d1a42df3..f47ac8c19447 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -396,15 +396,10 @@ void __init khugepaged_destroy(void)
+>  	kmem_cache_destroy(mm_slot_cache);
+>  }
+>  
+> -static inline int hpage_collapse_test_exit(struct mm_struct *mm)
+> -{
+> -	return atomic_read(&mm->mm_users) == 0;
+> -}
+> -
+>  static inline int hpage_collapse_test_exit_or_disable(struct mm_struct *mm)
+>  {
+> -	return hpage_collapse_test_exit(mm) ||
+> -		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
+> +	return !atomic_read(&mm->mm_users) ||			/* exit */
+> +		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);  /* disable */
+>  }
+>  
+>  static bool hugepage_pmd_enabled(void)
+> @@ -437,7 +432,7 @@ void __khugepaged_enter(struct mm_struct *mm)
+>  	int wakeup;
+>  
+>  	/* __khugepaged_exit() must not run from under us */
+> -	VM_BUG_ON_MM(hpage_collapse_test_exit(mm), mm);
+> +	VM_WARN_ON_ONCE(hpage_collapse_test_exit_or_disable(mm));
+>  	if (unlikely(mm_flags_test_and_set(MMF_VM_HUGEPAGE, mm)))
+>  		return;
+>  
+> @@ -460,14 +455,25 @@ void __khugepaged_enter(struct mm_struct *mm)
+>  		wake_up_interruptible(&khugepaged_wait);
+>  }
+>  
+> +void khugepaged_enter_mm(struct mm_struct *mm)
+> +{
+> +	if (mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm))
+> +		return;
+> +	if (mm_flags_test(MMF_VM_HUGEPAGE, mm))
+> +		return;
+> +	if (!hugepage_pmd_enabled())
+> +		return;
+> +
+> +	__khugepaged_enter(mm);
+> +}
+> +
+>  void khugepaged_enter_vma(struct vm_area_struct *vma,
+>  			  vm_flags_t vm_flags)
+>  {
+> -	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+> -	    hugepage_pmd_enabled()) {
+> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+> -			__khugepaged_enter(vma->vm_mm);
+> -	}
+> +	if (!thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+> +		return;
+> +
+> +	khugepaged_enter_mm(vma->vm_mm);
+>  }
+>  
+>  void __khugepaged_exit(struct mm_struct *mm)
+> @@ -491,7 +497,7 @@ void __khugepaged_exit(struct mm_struct *mm)
+>  	} else if (slot) {
+>  		/*
+>  		 * This is required to serialize against
+> -		 * hpage_collapse_test_exit() (which is guaranteed to run
+> +		 * hpage_collapse_test_exit_or_disable() (which is guaranteed to run
+>  		 * under mmap sem read mode). Stop here (after we return all
+>  		 * pagetables will be destroyed) until khugepaged has finished
+>  		 * working on the pagetables under the mmap_lock.
+> @@ -1429,16 +1435,13 @@ static void collect_mm_slot(struct mm_slot *slot)
+>  
+>  	lockdep_assert_held(&khugepaged_mm_lock);
+>  
+> -	if (hpage_collapse_test_exit(mm)) {
+> +	if (hpage_collapse_test_exit_or_disable(mm)) {
+>  		/* free mm_slot */
+>  		hash_del(&slot->hash);
+>  		list_del(&slot->mm_node);
+>  
+> -		/*
+> -		 * Not strictly needed because the mm exited already.
+> -		 *
+> -		 * mm_flags_clear(MMF_VM_HUGEPAGE, mm);
+> -		 */
+> +		/* If the mm is disabled, this flag must be cleared. */
+> +		mm_flags_clear(MMF_VM_HUGEPAGE, mm);
+>  
+>  		/* khugepaged_mm_lock actually not necessary for the below */
+>  		mm_slot_free(mm_slot_cache, slot);
+> @@ -1749,7 +1752,7 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+>  		if (find_pmd_or_thp_or_none(mm, addr, &pmd) != SCAN_SUCCEED)
+>  			continue;
+>  
+> -		if (hpage_collapse_test_exit(mm))
+> +		if (hpage_collapse_test_exit_or_disable(mm))
+>  			continue;
+>  		/*
+>  		 * When a vma is registered with uffd-wp, we cannot recycle
+> @@ -2500,9 +2503,9 @@ static unsigned int khugepaged_scan_mm_slot(unsigned int pages, int *result,
+>  	VM_BUG_ON(khugepaged_scan.mm_slot != slot);
+>  	/*
+>  	 * Release the current mm_slot if this mm is about to die, or
+> -	 * if we scanned all vmas of this mm.
+> +	 * if we scanned all vmas of this mm, or if this mm is disabled.
+>  	 */
+> -	if (hpage_collapse_test_exit(mm) || !vma) {
+> +	if (hpage_collapse_test_exit_or_disable(mm) || !vma) {
+>  		/*
+>  		 * Make sure that if mm_users is reaching zero while
+>  		 * khugepaged runs here, khugepaged_exit will find
+
