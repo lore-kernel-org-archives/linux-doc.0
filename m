@@ -1,150 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40324374C4;
-	Fri, 26 Sep 2025 10:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35461A2398
+	for <linux-doc@vger.kernel.org>; Fri, 26 Sep 2025 11:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758884006; cv=none; b=S2AR9BlTavjGPILdjCnsn5zcQgsT79FWVsUxDcMev2O/8NCuOBnCiE0YJ7yFlbuP/Tzrk3am13HOzLFd2r2WDFr2oXiS1i5z9AHDs9s3SjKix+nHyaQkz0gsV5Z+kXt5s03qTCCZ30QpSd0cJmYyp5gvmNnVbRk/cIhE2DlDxEY=
+	t=1758885542; cv=none; b=MNwHPxqzufp4UqdZh7Ly3tJ4sPtoCnWbTNKDuKHIqVWOmnrKMjTZZ7ZIDbAE2YI7naFyQ4ZPDn+vCJaq1CUSeapII1LWaWXJCWu8yBj9Op+2D8bxuGoa+4P8k1b7gflFBAyYwlofbY+A1p8U62AK84+hnhnXDIXqaAWUwuvwsvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758884006; c=relaxed/simple;
-	bh=7hmmYSJPRgv/HC65SCjVCWih93S3343uLCIvyfBCuoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jv5ZpxRLEmuLamgxBVYX/dtNj6nfGWPzBPldSzmpQkzlUIy3+ynOceroNyVjen2sUfBXO+7kYOrMVgrt3ffohpJcx2mywkDiZQsaxdHKO2krHk8MC3+G/L6S361qCWnXnbHZsPTktnmA3ow+mleYGawFZBUwq8fiLvSqApCgnMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uD1JE0tX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758885542; c=relaxed/simple;
+	bh=zTxeMahJYiwb0SYGtH6kvqbgxLcJVzBs9lH8OOAW66U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CXKc3UQ5zlVMc86BoZuuwSZeE8I4gs77z0tYXQa7dc+3ajS+36Vjl3xJVqIl8i0eBJJNKdglwwUIF8N4PhkTtE/nlzeDYEVf6nIS76Y8bs6smebzBrnvAjtnD/zXa9m0fH5wnYJDUbhzIezAtHHuApye0JVDWwTc73T2gqbZE84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1g29csj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uD1JE0tX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D44C4CEF4;
-	Fri, 26 Sep 2025 10:53:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1g29csj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770ECC4CEF4;
+	Fri, 26 Sep 2025 11:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758884005;
-	bh=7hmmYSJPRgv/HC65SCjVCWih93S3343uLCIvyfBCuoY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uD1JE0tXSNlpM8sPhyTXW479bU0LI8INqzK4TERYGl4X7uWhmA9lmVftkg1kWXZ5R
-	 77GIltP55fsK1VaNF04SNJorVj4he00rts0ps3WabgzU+pkpIwJ4s8I+R0hmUJnUtU
-	 RiaA5H5VESS2asBJWt7pSZgGaIv0Nm+KYRCGG+rPlSqbN+Dbh5Z/Txoz0wlINXpYEV
-	 XpuzK1hMtXmi8NPXs68yGAwo2DcoOz/MQPBrQn8al4WKuMkf07ZITw6sd0eQuO6+Q/
-	 NxEbMuIeeoejXQN3nR+oF+rAs5zBbLTi3No4iK9EUmEyBi7Uiryz2YSyhJ74rbGMLA
-	 g299/90nvCdmA==
-Date: Fri, 26 Sep 2025 11:53:12 +0100
-From: Will Deacon <will@kernel.org>
-To: Patrick Roy <patrick.roy@linux.dev>
-Cc: David Hildenbrand <david@redhat.com>,
-	Dave Hansen <dave.hansen@intel.com>,
-	"Roy, Patrick" <roypat@amazon.co.uk>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>,
-	"song@kernel.org" <song@kernel.org>,
-	"jolsa@kernel.org" <jolsa@kernel.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>,
-	"eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"Cali, Marco" <xmarcalx@amazon.co.uk>,
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>,
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
-	"tabba@google.com" <tabba@google.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for
- disabling TLB flushing
-Message-ID: <aNZwmPFAxm_HRYpC@willie-the-truck>
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk>
- <20250924152214.7292-3-roypat@amazon.co.uk>
- <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
- <c1875a54-0c87-450f-9370-29e7ec4fea3d@redhat.com>
- <82bff1c4-987f-46cb-833c-bd99eaa46e7a@intel.com>
- <c79173d8-6f18-40fa-9621-e691990501e4@redhat.com>
- <c88514c3-e15f-4853-8acf-15e7b4b979f4@linux.dev>
+	s=k20201202; t=1758885542;
+	bh=zTxeMahJYiwb0SYGtH6kvqbgxLcJVzBs9lH8OOAW66U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N1g29csj/zdY3tVhdZ8HXlB9CRx8X/cELJncWkuXIhCOo5+8Hn1TZsSSeDOcX5obO
+	 AbVTxs0wl19rm8DniPCh6UdDWsOx9BqgLpzUJcjylTroKkxbDbyy1FfY3JMx+o+QXL
+	 I6enyYZBsxzCsCDXOxmys4uk5WdLe+O2J9ga894JYpWZcfA9R+Wlx+emIKzlEhpj1A
+	 4nZ3q8EuFoPmQ/TL7C6Ol0CT27Tyw6L4wb+TMEWUzVsN8nxWtuRB/yRKyipNdeLEoG
+	 oH/k7NeYMtIRrwDFKmTJv+e3HVuT49eze7O4sOpZHBvow3nMH1GqPFpzrteGhHh/GQ
+	 A3tCTAlMG/MJA==
+Date: Fri, 26 Sep 2025 13:18:58 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: make mandocs questions
+Message-ID: <20250926131858.24de6de1@foz.lan>
+In-Reply-To: <6ac6a844-8394-41fb-9cfc-c44e83268422@infradead.org>
+References: <6ac6a844-8394-41fb-9cfc-c44e83268422@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c88514c3-e15f-4853-8acf-15e7b4b979f4@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 26, 2025 at 10:46:15AM +0100, Patrick Roy wrote:
-> 
-> 
-> On Thu, 2025-09-25 at 21:13 +0100, David Hildenbrand wrote:
-> > On 25.09.25 21:59, Dave Hansen wrote:
-> >> On 9/25/25 12:20, David Hildenbrand wrote:
-> >>> On 25.09.25 20:27, Dave Hansen wrote:
-> >>>> On 9/24/25 08:22, Roy, Patrick wrote:
-> >>>>> Add an option to not perform TLB flushes after direct map manipulations.
-> >>>>
-> >>>> I'd really prefer this be left out for now. It's a massive can of worms.
-> >>>> Let's agree on something that works and has well-defined behavior before
-> >>>> we go breaking it on purpose.
-> >>>
-> >>> May I ask what the big concern here is?
-> >>
-> >> It's not a _big_ concern. 
-> > 
-> > Oh, I read "can of worms" and thought there is something seriously problematic :)
-> > 
-> >> I just think we want to start on something
-> >> like this as simple, secure, and deterministic as possible.
-> > 
-> > Yes, I agree. And it should be the default. Less secure would have to be opt-in and documented thoroughly.
-> 
-> Yes, I am definitely happy to have the 100% secure behavior be the
-> default, and the skipping of TLB flushes be an opt-in, with thorough
-> documentation!
-> 
-> But I would like to include the "skip tlb flushes" option as part of
-> this patch series straight away, because as I was alluding to in the
-> commit message, with TLB flushes this is not usable for Firecracker for
-> performance reasons :(
+Em Thu, 25 Sep 2025 11:37:24 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-I really don't want that option for arm64. If we're going to bother
-unmapping from the linear map, we should invalidate the TLB.
+> Hi Mauro,
+>=20
+> I'm happy to see that you added mandocs as a docs build target.
+>=20
+> Would it make sense to place the man output files into various
+> subdirectories? =20
 
-Will
+I'm not sure if manpages supports reading man(9) pages from
+different drectories, but see more below.
+
+> On linux-next-20250925, I have 76402 files in
+> the man/ subdirectory. One time 'ls' told me something like
+> "command line argument list too long" but I can't reproduce that.
+
+you probably did something like:
+
+	$ ls Documentation/output/man/*.9
+	bash: /usr/bin/ls: Argument list too long
+
+> Is the output produced just by scanning the entire kernel
+> directory structure? That may be too much subdirectory structure
+> for the man output.
+
+By default, yes. It runs:
+
+	$ ./scripts/kernel-doc . --man
+
+and then splits its output into one man file per man page.
+=09
+The behavior changes if you set SPHINXDIRS
+You can specify just the directories you want with:
+
+	$ make SPHINXDIRS=3D"core-api driver-api" mandocs
+	$ tree -d Documentation/output/
+	Documentation/output/
+	=E2=94=9C=E2=94=80=E2=94=80 core-api
+	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 man
+	=E2=94=94=E2=94=80=E2=94=80 driver-api
+	    =E2=94=94=E2=94=80=E2=94=80 man
+
+	$ for i in Documentation/output/*; do echo -n "$i: "; ls $i/man|wc -l; done
+	Documentation/output/core-api: 2464
+	Documentation/output/driver-api: 6875
+
+On such case, the algorithm changes: it will produce man pages
+using only the files that are inside a .. kernel-doc markup from
+Documentation, and using SPHINXDIRS normal behavior, each book
+will be on its own directory, which is somewhat similar to what
+you wanted.
+
+Yet, notice that if you make SPHINXDIRS=3D<alldirs>, the output
+will contain less man pages, as it won't include "orphaned"
+descriptions(*).
+
+(*) e.g. files with kernel-doc markups that aren't mentioned by any
+    Documentation/* rest file.
+
+> Or would it make sense to include the source file path in each
+> man page?  E.g., if I am looking at fsl_asrc_sel_proc.9,
+> include something like "[from sound/soc/fsl/fsl_asrc.c]"
+> at the top or the bottom of the man page?
+
+It shouldn't be hard to add it. See a quickhack patch example below.
+
+> Can we get more meaningful output info for warnings like these?
+>=20
+> Warning: 385
+> Warning: 389
+
+I'm not getting those here on docs tree. will try later to check
+with linux-next.
+
+>=20
+> I see 9 warnings like these.
+>=20
+> Thanks.
+
+
+Thanks,
+Mauro
