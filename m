@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476A52DF6E9;
-	Sat, 27 Sep 2025 11:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55F22E1757;
+	Sat, 27 Sep 2025 13:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758971654; cv=none; b=XwIPLSH7SXIROfqgFPwvb2tMRXPjtohOPeaeNj9KIcxEtvR2AewDl8Ci4YkeZ0Uvv1JjhtHrTnhzbexvz9djUhJRK+s1dTaFolA5Aodk8fwUdp8r0cHQtGU4HEZFPWjlZ/4mq6zth7ju1lhLMAtWt97DhaQHZ6AS/rRAcBKV854=
+	t=1758978014; cv=none; b=XvTTQuRUA5pjLQlHtbFcDQD0UAelFo7yCy66iNYz91Rc7VbwLJqyTs7MfxEkQd50SqfPs8hCyjsC5p2y6UgX0ssjEG8fJfj3iPT5hfVixTkLGRSdtSNCYwU1+GOCqd5FFzkGED32ntusEqrdmdWrqm8fwXw3xsZMuKYCQIuZn1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758971654; c=relaxed/simple;
-	bh=R8kNawSngsIcDsCBVG3dnK3T8BBO0B+q9UeKairCbtg=;
+	s=arc-20240116; t=1758978014; c=relaxed/simple;
+	bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j+PLxsXCZBxirJao/lJNGWqkL3tZrCwpMg2gkPZmc7O+2qt77WKxTiPataWZNq1w6U//M6jlJN3EJm+oMfdwCL9qlkwjJcEyQZ21w8ipwehVrQ42NKDnLTgL9exSqnySVVyep+IWuhF3BMk0gbtrAIItGee7faKOLazAbe8NmVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbBPAjEk; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=SNHb3WBdl0sCxdEpjQ7uPvq+aXCwCPP7TNRTN8w8tMymOT5cMIkgmxK/3U4mTdkM0azYsf5TVu2fHKj7gXOv650P3z9KVZ0cF2eadzCN3VqqbVD1lvbtrW9Oh+UAoX4Q5s+CnS0/s257QlVsEgED2913Sl2+vbBlJs2S+p3dGqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BdoWsCMb; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbBPAjEk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdoWsCMb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758971654; x=1790507654;
+  t=1758978012; x=1790514012;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R8kNawSngsIcDsCBVG3dnK3T8BBO0B+q9UeKairCbtg=;
-  b=GbBPAjEkYw37B15/kKG1FxiTCvggqCHESOdfwbpIHgUM+pwf6H0vDLjm
-   grnLU/HAX94Yk0Bx/tmX+JYtt3z8GrwTtrroEWqDaPI4ii5/v6Cjn5Q6R
-   Bu7ELtOmWWL6GzbqnJOT4FPDNuaMJBVs5jAyxFZ07x0z+MNdhGLi6/yVa
-   IYk0gQY9SD5lAG92ACxbUGQW7kWUBcbbdAZJoRIqGc73Q3+srkxYxLxUM
-   9QStCYJo09VCWZWQMxThDbl4MTtWsisZ7NSR/LiKbIhaykjoLRfZ3HBFk
-   we+fHPFFdBKGn9ClIHEWhu+sEPLDWPvgTGoLvnAoufQoITfFhbRjSdG2e
-   w==;
-X-CSE-ConnectionGUID: cSrcMeDwQaa93yjSaCcAnA==
-X-CSE-MsgGUID: yIAjHy6TTrKbMkdhbJ+p0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="60992161"
-X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="60992161"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 04:14:11 -0700
-X-CSE-ConnectionGUID: eSLfmdSdQVKNT9170Nt3jw==
-X-CSE-MsgGUID: MEKIiVrnTU2pu+InOxfiUg==
+  bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
+  b=BdoWsCMbtQkMPtvcEx6g07cNXQ0vaveUEkBbFjJ6o2EGXHdrLZB183D+
+   47Io1RVyqCABEe5adnakqjuAKNFBQWXYA/YMriwcCq+U7IxppJvDOFwhP
+   uqBblZP5ewdwJGxL62dHU631CnLfSMBQ1SvxY+mMJDrSOP7nfuS1ooI/p
+   HKWJ4BrCmSCUAxorFEb/0rLU5hM8mqXJiat1BdUHSFGaT4TqamkkPrRtW
+   a7ONfGltk+y+gyyecVf7z6s77YP+qV+JQ1hwju5Axk2ynlxItJbgtBWO6
+   JYeb4n1i3hPdehPOcKuewCME+Pl2D8jR2FR8eimg5DFi2D1fvwOQJjY2f
+   A==;
+X-CSE-ConnectionGUID: 6DVpSIKcRJaUycPHCj04nw==
+X-CSE-MsgGUID: mEJCOK/fShiWyy8nXJxmug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61246388"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61246388"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:00:11 -0700
+X-CSE-ConnectionGUID: anys7G8eR6S+RNK3Vl14fw==
+X-CSE-MsgGUID: RdLCaiYJQKe1fcc5HgT3TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="182996562"
+   d="scan'208";a="183108925"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 27 Sep 2025 04:14:07 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2025 06:00:07 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2SsO-00070Z-32;
-	Sat, 27 Sep 2025 11:14:04 +0000
-Date: Sat, 27 Sep 2025 19:13:49 +0800
+	id 1v2UWy-00074F-33;
+	Sat, 27 Sep 2025 13:00:04 +0000
+Date: Sat, 27 Sep 2025 20:59:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Cryolitia PukNgae <cryolitia@uniontech.com>
-Subject: Re: [PATCH v5 3/4] ALSA: usb-audio: make param quirk_flags
- change-able in runtime
-Message-ID: <202509271834.cL5PYMND-lkp@intel.com>
-References: <20250925-sound-v5-3-2593586ff350@uniontech.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net, marcelo.schmitt1@gmail.com,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Axel Haslam <ahaslam@baylibre.com>
+Subject: Re: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+Message-ID: <202509272028.0zLNiR5w-lkp@intel.com>
+References: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,36 +70,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925-sound-v5-3-2593586ff350@uniontech.com>
+In-Reply-To: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
 
-Hi Cryolitia,
+Hi Marcelo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 4c421c40c8b30ab7aae1edc7f7e294fcd33fc186]
+[auto build test ERROR on 561285d048053fec8a3d6d1e3ddc60df11c393a0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/ALSA-usb-audio-add-two-way-convert-between-name-and-bit-for-QUIRK_FLAG_/20250925-173635
-base:   4c421c40c8b30ab7aae1edc7f7e294fcd33fc186
-patch link:    https://lore.kernel.org/r/20250925-sound-v5-3-2593586ff350%40uniontech.com
-patch subject: [PATCH v5 3/4] ALSA: usb-audio: make param quirk_flags change-able in runtime
-config: arm64-randconfig-r132-20250927 (https://download.01.org/0day-ci/archive/20250927/202509271834.cL5PYMND-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271834.cL5PYMND-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-adi-ad4030-Reference-spi-peripheral-props/20250927-044546
+base:   561285d048053fec8a3d6d1e3ddc60df11c393a0
+patch link:    https://lore.kernel.org/r/0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+config: i386-randconfig-014-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509271834.cL5PYMND-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509272028.0zLNiR5w-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/usb/card.c:112:1: sparse: sparse: symbol 'quirk_flags_mutex' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/quirk_flags_mutex +112 sound/usb/card.c
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_validate':
+>> drivers/spi/spi-offload-trigger-pwm.c:55:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Wimplicit-function-declaration]
+      55 |         ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_enable':
+>> drivers/spi/spi-offload-trigger-pwm.c:81:16: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Wimplicit-function-declaration]
+      81 |         return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_disable':
+>> drivers/spi/spi-offload-trigger-pwm.c:90:15: error: implicit declaration of function 'pwm_get_waveform_might_sleep' [-Wimplicit-function-declaration]
+      90 |         ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   110	
-   111	/* protects quirk_flags */
- > 112	DEFINE_MUTEX(quirk_flags_mutex);
-   113	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SPI_OFFLOAD_TRIGGER_PWM
+   Depends on [n]: SPI [=y] && SPI_OFFLOAD [=y] && PWM [=n]
+   Selected by [y]:
+   - AD4030 [=y] && IIO [=y] && SPI [=y] && GPIOLIB [=y]
+
+
+vim +/pwm_round_waveform_might_sleep +55 drivers/spi/spi-offload-trigger-pwm.c
+
+ebb398ae1e052c David Lechner 2025-02-07   36  
+ebb398ae1e052c David Lechner 2025-02-07   37  static int spi_offload_trigger_pwm_validate(struct spi_offload_trigger *trigger,
+ebb398ae1e052c David Lechner 2025-02-07   38  					    struct spi_offload_trigger_config *config)
+ebb398ae1e052c David Lechner 2025-02-07   39  {
+ebb398ae1e052c David Lechner 2025-02-07   40  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   41  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+ebb398ae1e052c David Lechner 2025-02-07   42  	struct pwm_waveform wf = { };
+ebb398ae1e052c David Lechner 2025-02-07   43  	int ret;
+ebb398ae1e052c David Lechner 2025-02-07   44  
+ebb398ae1e052c David Lechner 2025-02-07   45  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+ebb398ae1e052c David Lechner 2025-02-07   46  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   47  
+ebb398ae1e052c David Lechner 2025-02-07   48  	if (!periodic->frequency_hz)
+ebb398ae1e052c David Lechner 2025-02-07   49  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   50  
+ebb398ae1e052c David Lechner 2025-02-07   51  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+ebb398ae1e052c David Lechner 2025-02-07   52  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+ebb398ae1e052c David Lechner 2025-02-07   53  	wf.duty_length_ns = wf.period_length_ns / 2;
+ebb398ae1e052c David Lechner 2025-02-07   54  
+ebb398ae1e052c David Lechner 2025-02-07  @55  	ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+ebb398ae1e052c David Lechner 2025-02-07   56  	if (ret < 0)
+ebb398ae1e052c David Lechner 2025-02-07   57  		return ret;
+ebb398ae1e052c David Lechner 2025-02-07   58  
+ebb398ae1e052c David Lechner 2025-02-07   59  	periodic->frequency_hz = DIV_ROUND_UP_ULL(NSEC_PER_SEC, wf.period_length_ns);
+ebb398ae1e052c David Lechner 2025-02-07   60  
+ebb398ae1e052c David Lechner 2025-02-07   61  	return 0;
+ebb398ae1e052c David Lechner 2025-02-07   62  }
+ebb398ae1e052c David Lechner 2025-02-07   63  
+ebb398ae1e052c David Lechner 2025-02-07   64  static int spi_offload_trigger_pwm_enable(struct spi_offload_trigger *trigger,
+ebb398ae1e052c David Lechner 2025-02-07   65  					  struct spi_offload_trigger_config *config)
+ebb398ae1e052c David Lechner 2025-02-07   66  {
+ebb398ae1e052c David Lechner 2025-02-07   67  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   68  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+ebb398ae1e052c David Lechner 2025-02-07   69  	struct pwm_waveform wf = { };
+ebb398ae1e052c David Lechner 2025-02-07   70  
+ebb398ae1e052c David Lechner 2025-02-07   71  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+ebb398ae1e052c David Lechner 2025-02-07   72  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   73  
+ebb398ae1e052c David Lechner 2025-02-07   74  	if (!periodic->frequency_hz)
+ebb398ae1e052c David Lechner 2025-02-07   75  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   76  
+ebb398ae1e052c David Lechner 2025-02-07   77  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+ebb398ae1e052c David Lechner 2025-02-07   78  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+ebb398ae1e052c David Lechner 2025-02-07   79  	wf.duty_length_ns = wf.period_length_ns / 2;
+ebb398ae1e052c David Lechner 2025-02-07   80  
+ebb398ae1e052c David Lechner 2025-02-07  @81  	return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+ebb398ae1e052c David Lechner 2025-02-07   82  }
+ebb398ae1e052c David Lechner 2025-02-07   83  
+ebb398ae1e052c David Lechner 2025-02-07   84  static void spi_offload_trigger_pwm_disable(struct spi_offload_trigger *trigger)
+ebb398ae1e052c David Lechner 2025-02-07   85  {
+ebb398ae1e052c David Lechner 2025-02-07   86  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   87  	struct pwm_waveform wf;
+ebb398ae1e052c David Lechner 2025-02-07   88  	int ret;
+ebb398ae1e052c David Lechner 2025-02-07   89  
+ebb398ae1e052c David Lechner 2025-02-07  @90  	ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+ebb398ae1e052c David Lechner 2025-02-07   91  	if (ret < 0) {
+ebb398ae1e052c David Lechner 2025-02-07   92  		dev_err(st->dev, "failed to get waveform: %d\n", ret);
+ebb398ae1e052c David Lechner 2025-02-07   93  		return;
+ebb398ae1e052c David Lechner 2025-02-07   94  	}
+ebb398ae1e052c David Lechner 2025-02-07   95  
+ebb398ae1e052c David Lechner 2025-02-07   96  	wf.duty_length_ns = 0;
+ebb398ae1e052c David Lechner 2025-02-07   97  
+ebb398ae1e052c David Lechner 2025-02-07   98  	ret = pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+ebb398ae1e052c David Lechner 2025-02-07   99  	if (ret < 0)
+ebb398ae1e052c David Lechner 2025-02-07  100  		dev_err(st->dev, "failed to disable PWM: %d\n", ret);
+ebb398ae1e052c David Lechner 2025-02-07  101  }
+ebb398ae1e052c David Lechner 2025-02-07  102  
 
 -- 
 0-DAY CI Kernel Test Service
