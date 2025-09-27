@@ -1,75 +1,168 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D8A27602C;
-	Sun, 28 Sep 2025 03:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F4F1A9FBE;
+	Sun, 28 Sep 2025 05:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759031972; cv=none; b=Ii0FTGG0XCHawOxtUs+r2ljsB6sjngAf94vqLqDpWSyu5hGCbq5vd2aoLQC3tcDWVyYUS099F8ZIp6wNrnKzLZu9PhXKWf1vqgTcCBWR23sFO0RLRAayShQ2edaxfpC6nsK3B+jn30gIRp1t7lL1DusYDt8G0rhcK3RH8NSzWLU=
+	t=1759037073; cv=none; b=CCQ6IPAT1s4LqjR3uO3AQ3pMoUy0ngdBOaHgBtx5mBGfnPSUWb0IPchr5Qs02YC/J/TNr+FqDEM/7/C3Di7rTAHuynOxTmoSRY9l17Ldz9NQnKTdksk5dSi2nXPAc6wGaftIMJrlSWjLtbV+ABtaq0fzFbqkKXX9K5BGzZlKIAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759031972; c=relaxed/simple;
-	bh=7XFEMioG5ClehkbqbHkXS1QqdDe1+Oqjb8NFmVdgzNw=;
+	s=arc-20240116; t=1759037073; c=relaxed/simple;
+	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+HMwKUXGgJWYLv+3LKDpnVbhDoZ5njTyARkFAPOu5v/3AjuSYep9YI2K1TygjVT/cRlDI0uMnmp4IQJeGL/Ei8HYzJEjlJZRiLlU+eSB9BoJGhD55vgOzga+IgxlquFizfK8aBPXhTifmUwVHpdKzLqs+mZyQtizLyMP/EmcNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=VWYaqpx7; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	 Content-Type:Content-Disposition:In-Reply-To; b=V8Wcq4sg5Gl/4ev+OZhwPzYQ9bmL35ugvHylEdL4Xsppzf67rrR3L3Wr7D1HD561jJkto5AFZxjNAeN5Qeun7+aXDqvGtGmPDHPWp/7IzCXFGwdDtDCo05AP5IjUiQKi3Goa7N1HwLCggwjaQ37bvNsYx06TMkFE7UtONtK5o2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V//9x7o/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="VWYaqpx7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:cc:to:subject:message-id:date:from:reply-to;
-	bh=Xlt0Bidng/p/ihVyyOOmlOnS/3IpMJU9FC0UPLnOohc=; b=VWYaqpx7L3p4i1SGWj4LKtJ+0J
-	EFGNpomQUaMBnULNJxHojMJn4QvbXikxqYiQVKHtgUHsHrAjWM04v66LSn3cdlLb1F3V8m8UbPEol
-	KLZzLE6T0ku2xX+d2Q6rwINMbTtTM67ax2I/XNA3wa27K5I8JweFz3FmUuHB2C3i6rNd3iGIRCbMb
-	whf8sMIM63ZwX/aIm3c8X3vYlwYbuPkWk0bkSTwXbB34znSmt2IO/LpELjIrZLaTlr6ackBLtL7Tr
-	HP69MKxoymTLc6TvccURpC7YH6H446YoaP/ZHDYO2WJQLH7WGpNT9q7cf1voRJ3ywYI1ob+ZJ7CBP
-	puz6igiQ==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1v2iZK-008qWK-16;
-	Sun, 28 Sep 2025 11:59:27 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sun, 28 Sep 2025 11:59:26 +0800
-Date: Sun, 28 Sep 2025 11:59:26 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Crypto <linux-crypto@vger.kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] crypto: Add explicit title heading to API docs
-Message-ID: <aNiynvf85p9v97Vq@gondor.apana.org.au>
-References: <20250920001650.10474-2-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V//9x7o/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1856C4CEF0;
+	Sun, 28 Sep 2025 05:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759037073;
+	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V//9x7o/J9oZqkmeKIwSySCF19pNgZhCLfXztsQEL6wKCsqagB9YL7A25fXIweQsu
+	 AYQaEoOqHH4SDDWLwgI0xZYxnlsfnvhQJ37whCo+xRnY1TUYRnpoeG6xYzl+TnZ5Ae
+	 nXxyr0346bzMx+LJ73v2k4zgNnkf+a31UyrhEco3QntPoZxyuFtnyoPOsgFMkb0A2o
+	 chHMgdlMHscUtwKzy7Q4o1Y1hjRTzz1NrXCPzqCNJMB7/BGpYIw/o9n1kZPIwgyhL+
+	 7huv7cfQl4zprLtomc3BX86amhXbZj+wyr5CdCEZgWZcY9RxH/fAoEuCSSbazpyomL
+	 i9dCfp9XopLBg==
+Date: Sat, 27 Sep 2025 22:35:00 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 19/24] docs: add support to build manpages from
+ kerneldoc output
+Message-ID: <aNhKdCrSM29uwvpn@levanger>
+References: <cover.1758196090.git.mchehab+huawei@kernel.org>
+ <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250920001650.10474-2-bagasdotme@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
 
-On Sat, Sep 20, 2025 at 07:16:51AM +0700, Bagas Sanjaya wrote:
-> Documentation for crypto programming interfaces lack explicit title.
-> As such, all its sections become entries in the toctree index.
+Please note that @kernel.org receipients are still not addressed
+correctly:
+
+> Date: Thu, 18 Sep 2025 13:54:53 +0200
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>,
+>     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>,
+>     Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <mchehab+huawei@kernel.org>,
+>     Miguel Ojeda <mchehab+huawei@kernel.org>, Nathan Chancellor <mchehab+huawei@kernel.org>,
+>     Nicolas Schier <nicolas.schier@linux.dev>, Randy Dunlap <rdunlap@infradead.org>,
+>     Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+>     linux-kernel@vger.kernel.org
+
+
+On Thu, Sep 18, 2025 at 01:54:53PM +0200, Mauro Carvalho Chehab wrote:
+> Generating man files currently requires running a separate
+> script. The target also doesn't appear at the docs Makefile.
 > 
-> Add the title heading to tidy up toctree.
+> Add support for mandocs at the Makefile, adding the build
+> logic inside sphinx-build-wrapper, updating documentation
+> and dropping the ancillary script.
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/crypto/api-aead.rst     | 3 +++
->  Documentation/crypto/api-akcipher.rst | 3 +++
->  Documentation/crypto/api-digest.rst   | 3 +++
->  Documentation/crypto/api-kpp.rst      | 3 +++
->  Documentation/crypto/api-rng.rst      | 3 +++
->  Documentation/crypto/api-sig.rst      | 3 +++
->  Documentation/crypto/api-skcipher.rst | 3 +++
->  7 files changed, 21 insertions(+)
+>  Documentation/Makefile                 |  3 +-
+>  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
+>  Makefile                               |  2 +-
+>  scripts/split-man.pl                   | 28 ---------
+>  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
+>  5 files changed, 95 insertions(+), 48 deletions(-)
+>  delete mode 100755 scripts/split-man.pl
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 05397b9d844d..aa42b2cb7030 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
+>  else # HAVE_SPHINX
+>  
+>  # Common documentation targets
+> -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+>  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+>  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+>  		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
+> @@ -104,6 +104,7 @@ dochelp:
+>  	@echo  '  htmldocs        - HTML'
+>  	@echo  '  texinfodocs     - Texinfo'
+>  	@echo  '  infodocs        - Info'
+> +	@echo  '  mandocs         - Man pages'
+>  	@echo  '  latexdocs       - LaTeX'
+>  	@echo  '  pdfdocs         - PDF'
+>  	@echo  '  epubdocs        - EPUB'
+> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> index af9697e60165..4370cc8fbcf5 100644
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -579,20 +579,23 @@ source.
+>  How to use kernel-doc to generate man pages
+>  -------------------------------------------
+>  
+> -If you just want to use kernel-doc to generate man pages you can do this
+> -from the kernel git tree::
+> +To generate man pages for all files that contain kernel-doc markups, run::
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+> -    | scripts/split-man.pl /tmp/man
+> +  $ make mandocs
+>  
+> -Some older versions of git do not support some of the variants of syntax for
+> -path exclusion.  One of the following commands may work for those versions::
+> +Or calling ``script-build-wrapper`` directly::
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+For this very patch, there is no 'scripts-build-wrapper' but
+'sphinx-build-wrapper'.  Or am I missing something?
+
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+> -    | scripts/split-man.pl /tmp/man
+> +  $ ./tools/docs/sphinx-build-wrapper mandocs
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+> -    | scripts/split-man.pl /tmp/man
+> +The output will be at ``/man`` directory inside the output directory
+> +(by default: ``Documentation/output``).
+> +
+> +Optionally, it is possible to generate a partial set of man pages by
+> +using SPHINXDIRS:
+> +
+> +  $ make SPHINXDIRS=driver-api/media mandocs
+> +
+> +.. note::
+> +
+> +   When SPHINXDIRS={subdir} is used, it will only generate man pages for
+> +   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
+> diff --git a/Makefile b/Makefile
+> index 6bfe776bf3c5..9bd44afeda26 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
+>  # Documentation targets
+>  # ---------------------------------------------------------------------------
+>  DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+> -	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
+> +	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
+>  PHONY += $(DOC_TARGETS)
+>  $(DOC_TARGETS):
+>  	$(Q)$(MAKE) $(build)=Documentation $@
+
+Acked-by: Nicolas Schier <nsc@kernel.org>
