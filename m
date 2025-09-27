@@ -1,82 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C0B14BFA2;
-	Sat, 27 Sep 2025 16:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7633528682
+	for <linux-doc@vger.kernel.org>; Sat, 27 Sep 2025 22:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758992187; cv=none; b=nQZFIuFbSDTDz4tRH0/WQv3JiCJsuGi924cD0m3zy9ZpcEtkl6V2sHXBXN6MnfPsIwO2ZdjnatZv9danSWF8k/AfeZhXzDoM74L37Vm68+9d/oL61pg4TJnOwa2C1CVmErgMbEaD8NIxlEp6rjkwek6UcV0AcDb0RI+89HTuzVA=
+	t=1759013565; cv=none; b=VwifVvexhZ9cbDvftdKCt7Nb5QD7C4oJD1y/ZhLhwUfsPGMYEVaZcCkGXOsETBkFTBA8gCxbKgdASAUFyHmmembbS/fYLu0p3mpaRX8yroA+qFV7THlqkc3A03WJot6tR7TxPlFPjCaWMixBabzpgk34ZK0EaKx9IIhgDKYg5hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758992187; c=relaxed/simple;
-	bh=+xMErzx3xlH0CNRhIykgywnLJ0axfxZcS05DruUxe8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C+irBB3caGdUHiOXkrR/WY7G37lba5lVLiGbk8bvdqyDTlr+jCEHfmT3orWgI0XkmG5qOsdUfCF5zQ0kHHFkVaN8YFc2qUHIejWS4pxYADprcXAaP7nOr2GEL+K8DrUopGvkMrbQ0icl11yHSfGZ9YEEQyeEVA6LinSHALZUo1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQbd/Z9r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759013565; c=relaxed/simple;
+	bh=/aQMykb19JAsIgGW57ODolQopGsrNbaC9EirkoZrUjQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b5Z6vFZS/4XxzjdZjWK64RdBjOTbOC/MRKtjYXBqLlyIUh5wMpSb01YiTRDTktqceIrVtZbI2VPbSL4hRO4SJy+yuczXv47BbDOA/rapizhl5orlS4z2TFodmn2E3mgYjK8v1/t/vJuajwdZzkF1wFKR7Fe5Lm/KJkY1x1kuxFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AV/0rMZV; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQbd/Z9r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7B94C4CEE7;
-	Sat, 27 Sep 2025 16:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758992187;
-	bh=+xMErzx3xlH0CNRhIykgywnLJ0axfxZcS05DruUxe8s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hQbd/Z9rZCqjz6yqI+Tjf9uSSK6+L48ofapGUWlyFcRddILfP+mvCAgD1Ug3d9lJD
-	 ll7QsHMQ7alkd0pWTE2cS/yq/rQO74tHijeKH7SRUH+6k8EFtZJWgkoEo9OXhlEv3j
-	 USYpR/hdQtoHeyM7N1vUk3nSWlArDUiJJtwgEr3sK5iGn/nUvpGqS3H6iLVvwPEylk
-	 MIjcBQBvEw0kKztjxC0G6Y3RrpLFaiE1qQ00fKct2mtMefaHO6BzYuqQsUFg5l8Lwp
-	 GPzyDRr2lryyfVDHLyUmMzGzInPhN1zoIrT8XPVtJAU44tlbVEIBtEFH6uJGC7RLuY
-	 pOwXwOUqH3I1A==
-Date: Sat, 27 Sep 2025 17:56:18 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux IIO <linux-iio@vger.kernel.org>, David
- Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: iio: ade9000, adis*, adx*: Convert IIO
- subsystem cross-references
-Message-ID: <20250927175618.5624655f@jic23-huawei>
-In-Reply-To: <e233370f-f23b-47b4-a31e-25c2df99a0f5@infradead.org>
-References: <20250922063754.21190-1-bagasdotme@gmail.com>
-	<e233370f-f23b-47b4-a31e-25c2df99a0f5@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AV/0rMZV"
+Message-ID: <17cf1f38-38d3-4112-bae0-584f0839cdd6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1759013560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w2WHTopxGRmHnpfC+dKNt8XmZhQQZVj0k/p9ca23m9s=;
+	b=AV/0rMZVrrGii7FMvci2GWpaaXJXStF8FUhnsXAItjDI5OnxRtatQmLAUzxk0KyC3Xixlp
+	snn6BdFOXdvuQn9twXMk5goAgUk62b3dTrc7tjUDWkY89FOdhXM28DMs233x3WhucJcq1m
+	+SICNpDPBRfQR5uJNXExl0E1LwV8yFA=
+Date: Sat, 27 Sep 2025 23:52:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [PATCH net-next v2 0/3] dpll: add phase offset averaging factor
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Chuck Lever <chuck.lever@oracle.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>
+References: <20250927084912.2343597-1-ivecera@redhat.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250927084912.2343597-1-ivecera@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 23 Sep 2025 21:46:40 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> On 9/21/25 11:37 PM, Bagas Sanjaya wrote:
-> > Cross-references to iio_tools.rst (IIO Interfacing Tools) and
-> > iio_devbuf.rst (Industrial IIO device buffers) are shown in inline
-> > code instead. Convert them to proper cross-references.
-> > 
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >   Documentation/iio/ade9000.rst   | 2 +-
-> >   Documentation/iio/adis16475.rst | 4 ++--
-> >   Documentation/iio/adis16480.rst | 4 ++--
-> >   Documentation/iio/adis16550.rst | 4 ++--
-> >   Documentation/iio/adxl345.rst   | 4 ++--
-> >   Documentation/iio/adxl380.rst   | 4 ++--
-> >   6 files changed, 11 insertions(+), 11 deletions(-)  
+On 27.09.2025 09:49, Ivan Vecera wrote:
+> For some hardware, the phase shift may result from averaging previous values
+> and the newly measured value. In this case, the averaging is controlled by
+> a configurable averaging factor.
 > 
-> Much better. Thanks.
+> Add new device level attribute phase-offset-avg-factor, appropriate
+> callbacks and implement them in zl3073x driver.
 > 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Ivan Vecera (3):
+>    dpll: add phase-offset-avg-factor device attribute to netlink spec
+>    dpll: add phase_offset_avg_factor_get/set callback ops
+>    dpll: zl3073x: Allow to configure phase offset averaging factor
 > 
-Ah. the wonders of cut and pasting wrong stuff.
+>   Documentation/driver-api/dpll.rst     | 18 +++++++-
+>   Documentation/netlink/specs/dpll.yaml |  6 +++
+>   drivers/dpll/dpll_netlink.c           | 66 ++++++++++++++++++++++++---
+>   drivers/dpll/dpll_nl.c                |  5 +-
+>   drivers/dpll/zl3073x/core.c           | 38 +++++++++++++--
+>   drivers/dpll/zl3073x/core.h           | 15 +++++-
+>   drivers/dpll/zl3073x/dpll.c           | 58 +++++++++++++++++++++++
+>   drivers/dpll/zl3073x/dpll.h           |  2 +
+>   include/linux/dpll.h                  |  6 +++
+>   include/uapi/linux/dpll.h             |  1 +
+>   10 files changed, 199 insertions(+), 16 deletions(-)
 
-Applied, thanks!
-
-Jonathan
+For the series:
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 
