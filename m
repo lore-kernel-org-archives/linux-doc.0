@@ -1,177 +1,196 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F9B1C84A1
-	for <linux-doc@vger.kernel.org>; Sat, 27 Sep 2025 09:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCECC2D24B6
+	for <linux-doc@vger.kernel.org>; Sat, 27 Sep 2025 09:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758964344; cv=none; b=lkpe4MwOEUSOzKSKSraNaBQVF6h23hPKdCtGpbFdIQ8ddetXjcI1+9UA6sfQ1lCNGpwiSM8+LKwvzXIug5WBw+dAxkmaNtHn7QOdPcX4lFR7u2nb7MKZOJurANxqNiG5oZRs/v4IEH/3J5v1QtFXdKAqEVFvRUGJxyPkJ5mjml4=
+	t=1758964906; cv=none; b=qxPL8lybEs+6TzD7WyHVZIvNlZ2EEbzuNLZtCFyPn4v+e/gXL2hZCBrNirUZXMKbliFDj/HteBEQAFexhJqGTzhNTD9T+9rd9WopEX9ivsXED6A/MSt03QsOq/iGAm6rC3HUZq3SQTR9IUcWB5Fyo/4AxNYHawVe3/u8Wnc279k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758964344; c=relaxed/simple;
-	bh=+pGe3F9Wyt6J36sXviOvj0VrqTw4kZNLOZ6ewjfpf/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ekIIvuvVlgZsXspp7n43+TdoPs4lJtAoUBJQUDwvXbR4xd5kU8XmKTvUPzbaOvtfUqhdVj07viQ25KXUnQyo+SBjiwl1tSZdJGe2x+0G3ZLHD4OK55LKRdKYxM5XLNtp35x83C9j6+pVnv8++q4ZTB5K9Bxz4RdzV/I2E7h3lrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EgACOK+1; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758964906; c=relaxed/simple;
+	bh=1HPEkogKgNA16iYLN1Kn1Wr+MKHXwuuWXUJpvOz3z7k=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CV3bi/nVeSwByCT+Fq9Fq27cpQgL1nYoihCBs1Sqj+phePlX3rdpMpabPdMcn4mRo+b112bw776g/06xncSdPhDfTfTOVJh3rb5ehFW2b+VxK+2AC3X9lGgNiL6dw4AUDHSys3uSWGNqumNC/G3PYgOkRtIuMi/MRgFNwZZe2pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iT3SLaqC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w9L8Uxfj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iT3SLaqC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w9L8Uxfj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EgACOK+1"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-330631e534eso3058860a91.0
-        for <linux-doc@vger.kernel.org>; Sat, 27 Sep 2025 02:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758964342; x=1759569142; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mIZgaRKGhoxWkvHAy+1tENSc1M17jx2ezAwOCvUOvKM=;
-        b=EgACOK+1PJB6vDJ0SAFrQp5mPgnSve2UKIM77WgcKmuXGkDmIYmOLd0palRUvTUE/0
-         X/VQkOndGuXfgZVpbxQFlJHXf0rYAW8tA4mm8YBrb8fumMTEzypMt53G3vcDiCA7RmWc
-         3fvwHBTUzGYCwj9iMEAFvJGWdmQ0gzdkBuokHicDphClNhxJeARsDD/jMqD/8Sm+VNyJ
-         sn4HlVuDVcXeAi5pFcjnwcXS4lMM1Hje67tJU9jK69v+B70GPh5dnixghjZ2avVjPcZv
-         1wol8BiSkJzNhfszOA5cgiaIAL+y1Q+O1fYuIMos3bKgjD2GuiAZbobURPUzTKFVIQU/
-         tbEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758964342; x=1759569142;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mIZgaRKGhoxWkvHAy+1tENSc1M17jx2ezAwOCvUOvKM=;
-        b=lWCgeAnuQRyEwGSUEfBHidXwlujZhKVSDn/WkbI1KK+3MxXXY1ZPhGmHyiI4e4Swwh
-         uLwHvC5V1rumvMftFlicMXcZbLgMViSS0nCr5Nmhlb1LeW1jXnlluwmZmOkv8F2HyxJb
-         WgkR4KVOOXkk8b+kvJoqKgdb6pZMnUQXz+8YxPbhZJuMc5+BFbbNYY4nhFCh+jakR5wq
-         Nqz8BvGwxO5MHct5WbaoiJuR3TkIPD00fIcq6E2on8TSGhYcg2Tg6DeV9zd+FmsPLW4z
-         /CLSomi7+Vy6asNVu9sCNcM8fzFdBXWgah0X5LTXb8Dd5p6juVBUk7/5tVs6TSqDSW/S
-         p+uA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXNEkhrvvbjPptRQbvgUP67wp4CzA+sB0lmcqvRWRLjQomLNFNtTb9C/jE4sZWpoEi8nbZAiquPz4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycRNvsMgas1zVMeqIf6k7Ac0Nl6UrvjPiEwFPzZoW5pUgQ3UOM
-	Er3t6cc4HEClffNkOzJa8WGG9inEIYbOKTjwkcvh086GYhKS4dxxL/lZpiKIqw==
-X-Gm-Gg: ASbGncs/faG22mtI7/VkfItZik+45uP9K7uxT1JNR0NTwYJfTfxEElmF+/PVpluOmbG
-	RHlwQQasODdhxZmLRd6A2tQrCptc1DX1ctRo+AnX0Sx0HUBd1FPe2aKU0m4CnhaLVIpN/m0HuW6
-	qTHYQcY0lukJ4PAC+boFXMpr94NUBPrmqy3N4/EZ/t7vWQF09LCEvxb7kNP99GEF25bsOwvkDd7
-	bK+gvl+DzUkpAbwTk1UEgdO4h6ocbE+rAriXJJ+zXcyRIM6F+fDfiwqQCxb2cp87QmyL1MPwyyz
-	VVK1i1HhNKAMIXjsVEvQSuiDe/kStoCKlIXRl65FK4CjP0Kda2TooT+okdqV1LQc3LbFVk1yERM
-	gYjMU0WmNjEPE3Q0wOfgU3OrjNPhYxYKgp8UslSRrkZ3XQIkXeNN872GrsRRh8afvC97H
-X-Google-Smtp-Source: AGHT+IHaJg4dHImv6wsjXivv+eH0xv3qmlqiUA3ELNxaY4YHxl0i1sgYrjR3kpZPWHUErts99XbHaA==
-X-Received: by 2002:a17:90b:1d8a:b0:335:2eef:4ca8 with SMTP id 98e67ed59e1d1-3352eef4edcmr5690404a91.33.1758964342131;
-        Sat, 27 Sep 2025 02:12:22 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341be3a010sm11164207a91.28.2025.09.27.02.12.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Sep 2025 02:12:21 -0700 (PDT)
-Message-ID: <1d993906-bae3-41eb-963f-de960cc56dd0@gmail.com>
-Date: Sat, 27 Sep 2025 18:12:19 +0900
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iT3SLaqC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w9L8Uxfj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iT3SLaqC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w9L8Uxfj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 239FD247F9;
+	Sat, 27 Sep 2025 09:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758964896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g0BGEeqNMtk8niqM/ncz8Cf2lO+rTybLPgHuVF39WS0=;
+	b=iT3SLaqC8An7Bz4kOKpRYcgI1HkTYbQo0UQhS/+P5HKHF5h5zopc4tclChWarCBKfpD/ip
+	a6IwAlDgRohxwiqT5Jl0Q+s3Ef9rYetazV9AB9QMSrBPgMjrla00ip+vfUcPnxebKxssAR
+	89UrfBL3ibrUv+FAd4rlWUHL9bgM61E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758964896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g0BGEeqNMtk8niqM/ncz8Cf2lO+rTybLPgHuVF39WS0=;
+	b=w9L8UxfjUj05jZ5G8sr9pDG5wJdMLj98VFKeRPspM417VDnC6M580gCYDUYRMrNs2U1Qs2
+	HQ4CPNl/qXwVyrBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iT3SLaqC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=w9L8Uxfj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758964896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g0BGEeqNMtk8niqM/ncz8Cf2lO+rTybLPgHuVF39WS0=;
+	b=iT3SLaqC8An7Bz4kOKpRYcgI1HkTYbQo0UQhS/+P5HKHF5h5zopc4tclChWarCBKfpD/ip
+	a6IwAlDgRohxwiqT5Jl0Q+s3Ef9rYetazV9AB9QMSrBPgMjrla00ip+vfUcPnxebKxssAR
+	89UrfBL3ibrUv+FAd4rlWUHL9bgM61E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758964896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g0BGEeqNMtk8niqM/ncz8Cf2lO+rTybLPgHuVF39WS0=;
+	b=w9L8UxfjUj05jZ5G8sr9pDG5wJdMLj98VFKeRPspM417VDnC6M580gCYDUYRMrNs2U1Qs2
+	HQ4CPNl/qXwVyrBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF8621373E;
+	Sat, 27 Sep 2025 09:21:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id r6ZjKZ+s12jISAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 27 Sep 2025 09:21:35 +0000
+Date: Sat, 27 Sep 2025 11:21:35 +0200
+Message-ID: <875xd4b68w.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	qaqland <anguoli@uniontech.com>,
+	kernel@uniontech.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v5 0/4] ALSA: usb-audio: improve module param quirk_flags
+In-Reply-To: <20250925-sound-v5-0-2593586ff350@uniontech.com>
+References: <20250925-sound-v5-0-2593586ff350@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: Makefile: avoid a warning when using without
- texlive
-To: mchehab+huawei@kernel.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, Akira Yokosawa <akiyks@gmail.com>
-References: <e23e03dd41e044d55e4ae24ffd9e1b49e3f2515a.1758881658.git.mchehab+huawei@kernel.org>
- <f9ceb569-363c-4806-9451-4a4ef83b38ca@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <f9ceb569-363c-4806-9451-4a4ef83b38ca@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[uniontech.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 239FD247F9
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-Sorry, a quick follow-up.
+On Thu, 25 Sep 2025 11:25:15 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
+> 
+> As an implementation of what has been discussed previously[1].
+> 
+> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
+> 
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-On Sat, 27 Sep 2025 16:35:08 +0900, Akira Yokosawa wrote:
-> On Fri, 26 Sep 2025 12:16:19 +0200, Mauro Carvalho Chehab wrote:
->> As reported by Randy, running make htmldocs on a machine
->> without textlive now produce warnings:
->>
->>     $ make O=DOCS htmldocs
->>     ../Documentation/Makefile:70: warning: overriding recipe for target 'pdfdocs'
->>     ../Documentation/Makefile:61: warning: ignoring old recipe for target 'pdfdocs'
->>
->> That's because the code has now two definitions for pdfdocs in
->> case $PDFLATEX command is not found. With the new script, such
->> special case is not needed anymore, as the script checks it.
->>
->> Drop the special case. Even after dropping it, on a machine
->> without LaTeX, it will still produce an error as expected,
->> as running:
->>
->>     $ ./tools/docs/sphinx-build-wrapper pdfdocs
->>     Error: pdflatex or latexmk required for PDF generation
->>
->> does the check. After applying the patch we have:
->>
->>     $ make SPHINXDIRS=peci htmldocs
->>     Using alabaster theme
->>     Using Python kernel-doc
->>
->>     $ make SPHINXDIRS=peci pdfdocs
->>     Error: pdflatex or latexmk required for PDF generation
->>     make[2]: *** [Documentation/Makefile:64: pdfdocs] Error 1
->>     make[1]: *** [/root/Makefile:1808: pdfdocs] Error 2
->>     make: *** [Makefile:248: __sub-make] Error 2
->>
->> Which is the expected behavior.
->>
-> 
-> There seems to be a related issue.
-> 
-> At current "docs-mw", under build environments who don't have xelatex nor latexmk,
-> 
->     $ make SPHINXDIRS=peci latexdocs
-> 
-> completes without any issue.
-> 
-> In the resulting .../latex/peci directory, one can run
+Thanks for the new patch set.  In general the code change looks good.
 
-     I meant:      .../peci/latex
+But, could you provide a bit more information in the patch
+description?  Ideally speaking, the patch description should suffice
+to understand what's done in the commit without seeing the commit
+change itself.
 
+Also, please try to use guard() for mutex.
+
+
+thanks,
+
+Takashi
+
+> ---
+> Changes in v5:
+> - Apply review comments. Thanks a lot, Takashi Iwai!
+> - Link to v4: https://lore.kernel.org/r/20250918-sound-v4-0-82cf8123d61c@uniontech.com
 > 
->     $ make PDFLATEX="latexmk -xelatex" LATEXOPTS="-interaction=batchmode -no-shell-escape"
+> Changes in v4:
+> - Split basic parse and dynamic change
+> - Drop usage of linked list
+> - Link to v3: https://lore.kernel.org/r/20250917-sound-v3-0-92ebe9472a0a@uniontech.com
 > 
-> and build peci.pdf.
-
-I failed to mention, but of course you need to transfer/share said
-.../peci/latex/ to another build environment who has all the required
-packages for "pdfdocs".
-
-I often use such heterogeneous combination of running "make latexdocs"
-+ running make under each of .../$SPHINXDIRS/latex/ using another
-environment.
-
-This way, you need only one set of working texlive packages for testing
-against various Sphinx's latex builder releases.
-
+> Changes in v3:
+> - Instead of a new param, improve the existed one.
+> - Link to v2: https://lore.kernel.org/r/20250912-sound-v2-0-01ea3d279f4b@uniontech.com
 > 
-> At current "build-scripts", I get this:
+> Changes in v2:
+> - Cleaned up some internal rebase confusion, sorry for that
+> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
 > 
->     $ make SPHINXDIRS=peci latexdocs
->     Error: pdflatex or latexmk required for PDF generation
->     make[2]: *** [Documentation/Makefile:68: latexdocs] Error 1
->     make[1]: *** [<srcdir>/Makefile:1806: latexdocs] Error 2
->     make: *** [Makefile:248: __sub-make] Error 2
+> ---
+> Cryolitia PukNgae (4):
+>       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
+>       ALSA: usb-audio: improve module param quirk_flags
+>       ALSA: usb-audio: make param quirk_flags change-able in runtime
+>       ALSA: doc: add docs about improved quirk_flags in snd-usb-audio
 > 
-> Patch 2/2 doesn't change the behavior.
+>  Documentation/sound/alsa-configuration.rst | 108 +++++++++++------
+>  sound/usb/card.c                           |  66 +++++++++--
+>  sound/usb/quirks.c                         | 179 ++++++++++++++++++++++++++++-
+>  sound/usb/quirks.h                         |  11 +-
+>  sound/usb/usbaudio.h                       |  84 +++++++++-----
+>  5 files changed, 376 insertions(+), 72 deletions(-)
+> ---
+> base-commit: 4c421c40c8b30ab7aae1edc7f7e294fcd33fc186
+> change-id: 20250910-sound-a91c86c92dba
 > 
-> This is yet another regression.  Please teach sphinx-build-wrapper of the
-> fact that "latexdocs" does not run those texlive commands.  It is only the
-> "pdfdocs" phase that will run them.
+> Best regards,
+> -- 
+> Cryolitia PukNgae <cryolitia@uniontech.com>
 > 
-
-You see, "make latexdocs" is supposed to generate all the necessary files
-for building PDFs to be consumed by make + latexmk/xelatex.
-There is a clear boundary between "latexdocs" and "pdfdocs".
-
-Thanks,
-Akira
-
-> Regards,
-> Akira
 > 
->> Reported-by: Randy Dunlap <rdunlap@infradead.org>
->> Link: https://lore.kernel.org/linux-doc/e7c29532-71de-496b-a89f-743cef28736e@infradead.org/
->> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
