@@ -1,137 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595042D2499;
-	Sun, 28 Sep 2025 10:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5914C3C38;
+	Sun, 28 Sep 2025 11:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759055199; cv=none; b=U6P/9iZ6x8JNEzxAUG+OrXYI6nz2nMbmZoIcRGAMhc8i8cT/dx0INxegOLD0HHeaDiZeHANK8NoZV+dy/IPebFe+UETX5YqUxn8P8N+14uTssRTK3UByLwKlrq5ZCJDXai+j5sGwzonVQMVdfv3EkPkJFmg7Zp775oEzGziBVOE=
+	t=1759059788; cv=none; b=ozvRSZqr1MoAspVc1kI56VCBBaMsyzgQ6Q6n+GW3D4sNzfPMuss13ENLE0JAIzJqq2BkycDNH5brbdpmCHL1f8trm4uBp7olKL/5hh97ZRn8FMRRtOXLaIBVy4+0w5/dGA0gon9chHA9FAAQeLZVo2E3nbnD2RXq045DpxJ6Vko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759055199; c=relaxed/simple;
-	bh=pJxqhvQ/ydGHAUyAzeo6A50SLSfNmD2j4zHABBSczUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GLs0Ge1824NHYpPTGZ96Z+nLpo6+J+KlLJlDvWW7FmCwda8TsOFNR5HsT39AZuj1iRhzMoYlJ5vCPQvlDd4xSBa8yZsrZifiBiQA0Dgg1brFnxrBt31FlkjXPUWXYXDbnNMh68gYhf4lh2y1KcBecSwVdr29lVEN8Fgsp9zmSmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sjUM2nql; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759059788; c=relaxed/simple;
+	bh=MjFIAl9k9tX8maWLewrIXygg9RZGYKcf7XkiGNCxuJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FKCB2v7Rune2hqNGTRdJWfg1YZ0cywHTFu7dmIwhtlMZOSBsxaiWrxTT9cNyhpdWB954AZgJON7StP8wBiUOwbUGjo+YrlQkWI76QbyMKDcBfZ9LIGV7sslumUO/Dp8RTIYVncPM456sJ5/K4LYqw+0+BeCGuFp/U48gt66a6ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hysO746P; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sjUM2nql"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E4F0C4CEF0;
-	Sun, 28 Sep 2025 10:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759055198;
-	bh=pJxqhvQ/ydGHAUyAzeo6A50SLSfNmD2j4zHABBSczUg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sjUM2nqlFnn6Ra2hHRfL0+nL1pbAPOJ9E+2J793lmSSs/lpvj7Ga7pD4myvJ4T4Oo
-	 xZGw0tHYCZCBWM5oP3bqxumAhS60rk9aQWKIoXvk6bPXS3voz2oDll7gxehTkixLSk
-	 SXn7/YFsg/KZQHbM7orqQ8mgJPzVO3ktieXMTw9yfGj9s/29u+bXVdtxD0otnXMSth
-	 B5xVxhssuVt5SmqeP0tcHLEtArSg4WUP7NimTFnjXd1ftUILitxJ80KesA4f88cCZM
-	 c1/a3B3eaVjgMx4lJ1/wBRy1Wi7ceQwrbC+waeDeWSx6cxWtxyPxn/2LQkBjL3OoEI
-	 82WUadE2+JJKw==
-Date: Sun, 28 Sep 2025 11:26:28 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-spi@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <michael.hennerich@analog.com>,
- <nuno.sa@analog.com>, <eblanc@baylibre.com>, <dlechner@baylibre.com>,
- <andy@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
-Subject: Re: [PATCH v3 8/8] iio: adc: ad4030: Add support for ADAQ4216 and
- ADAQ4224
-Message-ID: <20250928112628.7a1357ab@jic23-huawei>
-In-Reply-To: <4be3b7a31146836b35cc88005f2314cff9f3db97.1758916484.git.marcelo.schmitt@analog.com>
-References: <cover.1758916484.git.marcelo.schmitt@analog.com>
-	<4be3b7a31146836b35cc88005f2314cff9f3db97.1758916484.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hysO746P"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1759059776; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=FbEJZn1VlIH4Up2Uzqcbz9YfXVxLvi1ttktMbwcIwhA=;
+	b=hysO746P5MhOK6F3nFGQjtUJePDRaWmtP47eRL9u7y+qdAmfBl+Z5IrmUo+Gd60YSnwQCUF8h0TmSiXbk/apbdWEgZx8dpaOrVsvU+npY9xZ8BxptAywDAG4X9ch61W7J1WXU3TCMEEAlNyWTzhxZbr8Lp4a2qCqre2GynLkY24=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WoyoQGt_1759059774 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 28 Sep 2025 19:42:55 +0800
+Date: Sun, 28 Sep 2025 19:42:54 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Cc: Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Sidraya Jayagond <sidraya@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Mahanta Jambigi <mjambigi@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
+ configurable
+Message-ID: <aNkfPqTyQxYTusKw@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250921214440.325325-1-pasic@linux.ibm.com>
+ <20250921214440.325325-2-pasic@linux.ibm.com>
+ <7cc2df09-0230-40cb-ad4f-656b0d1d785b@redhat.com>
+ <20250925132540.74091295.pasic@linux.ibm.com>
+ <20250928005515.61a57542.pasic@linux.ibm.com>
+ <aNiXQ_UfG9k-f9-n@linux.alibaba.com>
+ <20250928103951.6464dfd3.pasic@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250928103951.6464dfd3.pasic@linux.ibm.com>
 
-On Fri, 26 Sep 2025 17:41:04 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+On 2025-09-28 10:39:51, Halil Pasic wrote:
+>On Sun, 28 Sep 2025 10:02:43 +0800
+>Dust Li <dust.li@linux.alibaba.com> wrote:
+>
+>> >Unfortunately I don't quite understand why qp_attr.cap.max_send_wr is 3
+>> >times the number of send WR buffers we allocate. My understanding
+>> >is that qp_attr.cap.max_send_wr is about the number of send WQEs.  
+>> 
+>> We have at most 2 RDMA Write for 1 RDMA send. So 3 times is necessary.
+>> That is explained in the original comments. Maybe it's better to keep it.
+>> 
+>> ```
+>> .cap = {
+>>                 /* include unsolicited rdma_writes as well,
+>>                  * there are max. 2 RDMA_WRITE per 1 WR_SEND
+>>                  */
+>
+>But what are "the unsolicited" rdma_writes? I have heard of
+>unsolicited receive, where the data is received without
+>consuming a WR previously put on the RQ on the receiving end, but
+>the concept of unsolicited rdma_writes eludes me completely.
 
-> ADAQ4216 and ADAQ4224 are similar to AD4030, but feature a PGA circuitry
-> that scales the analog input signal prior to it reaching the ADC. The PGA
-> is controlled through a pair of pins (A0 and A1) whose state define the
-> gain that is applied to the input signal.
-> 
-> Add support for ADAQ4216 and ADAQ4224. Provide a list of PGA options
-> through the IIO device channel scale available interface and enable control
-> of the PGA through the channel scale interface.
-> 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+unsolicited RDMA Writes means those RDMA Writes won't generate
+CQEs on the local side. You can refer to:
+https://www.rdmamojo.com/2014/05/27/solicited-event/
 
-One trivial comment + a suggestion that we might want to consider pushing
-the pin strap pga support to a future patch so we can not stall the driver
-on that being resolved.  Note that would mean splitting the DT patch as well.
+>
+>I guess what you are trying to say, and what I understand is
+>that we first put the payload into the RMB of the remote, which
+>may require up 2 RDMA_WRITE operations, probably because we may
+>cross the end (and start) of the array that hosts the circular
+>buffer, and then we send a CDC message to update the cursor.
+>
+>For the latter a  ib_post_send() is used in smc_wr_tx_send()
+>and AFAICT it consumes a WR from wr_tx_bufs. For the former
+>we consume a single wr_tx_rdmas which and each wr_tx_rdmas
+>has 2 WR allocated.
 
-Anyhow, no rush on that given we have lots of time in this kernel cycle.
+Right.
 
-Jonathan
+>
+>And all those WRs need a WQE. So I guess now I do understand
+>SMC_WR_BUF_CNT, but I find the comment still confusing like
+>hell because of these unsolicited rdma_writes.
+>
+>Thank you for the explanation! It was indeed helpful! Let
+>me try to come up with a better comment -- unless somebody
+>manages to explain "unsolicited rdma_writes" to me.
+>
+>>         .max_send_wr = SMC_WR_BUF_CNT * 3,
+>>         .max_recv_wr = SMC_WR_BUF_CNT * 3,
+>>         .max_send_sge = SMC_IB_MAX_SEND_SGE,
+>>         .max_recv_sge = lnk->wr_rx_sge_cnt,
+>>         .max_inline_data = 0,
+>> },
+>> ```
+>> 
+>> >I assume that qp_attr.cap.max_send_wr == qp_attr.cap.max_recv_wr
+>> >is not something we would want to preserve.  
+>> 
+>> IIUC, RDMA Write won't consume any RX wqe on the receive side, so I think
+>> the .max_recv_wr can be SMC_WR_BUF_CNT if we don't use RDMA_WRITE_IMM.
+>
+>Maybe we don't want to assume somebody else (another implementation)
+>would not use immediate data. I'm not sure. But I don't quite understand
+>the why the relationship between the send and the receive side either.
 
-> @@ -996,6 +1116,17 @@ static int ad4030_write_raw(struct iio_dev *indio_dev,
->  	return ret;
->  }
+I missed something here. I sent an other email right after this to
+explain my thoughts here:
 
-> @@ -1307,6 +1439,50 @@ static int ad4030_spi_offload_setup(struct iio_dev *indio_dev,
->  							   IIO_BUFFER_DIRECTION_IN);
->  }
->  
-> +static int ad4030_setup_pga(struct device *dev, struct iio_dev *indio_dev,
-> +			    struct ad4030_state *st)
-> +{
-> +	unsigned int i;
-> +	int pga_gain_dB;
-> +	int ret;
-> +
-> +	ret = device_property_read_u32(dev, "adi,pga-gain-db", &pga_gain_dB);
+    I kept thinking about this a bit more, and I realized that max_recv_wr
+    should be larger than SMC_WR_BUF_CNT.
 
-I'm not sure the pga question will resolve quickly so perhaps we initially only
-support the pins connected to gpios and add the pin strapped support later?
+    Since receive WQEs are posted in a softirq context, their posting may be
+    delayed. Meanwhile, the sender might already have received the TX
+    completion (CQE) and continue sending new messages. In this case, if the
+    receiver’s post_recv() (i.e., posting of RX WQEs) is delayed, an RNR
+    (Receiver Not Ready) can easily occur.
 
-It's early in this cycle, so we can delay that decision for a few weeks and
-see where we are then on that DT question.
-
-> +	if (ret == -EINVAL) {
-> +		/* Setup GPIOs for PGA control */
-> +		st->pga_gpios = devm_gpiod_get_array(dev, "pga", GPIOD_OUT_LOW);
-> +		if (IS_ERR(st->pga_gpios))
-> +			return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
-> +					     "Failed to get PGA gpios.\n");
-> +
-> +		if (st->pga_gpios->ndescs != ADAQ4616_PGA_PINS)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Expected 2 GPIOs for PGA control.\n");
-> +
-> +		st->scale_avail_size = ARRAY_SIZE(adaq4216_hw_gains_db);
-> +		st->pga_index = 0;
-> +		return 0;
-> +	} else if (ret != 0) {
-
-if (ret) is fairly commonly used for error checking when non 0 is what we want.
-
-> +		return dev_err_probe(dev, ret, "Failed to get PGA value.\n");
-> +	}
-> +
-> +	/* Set ADC driver to handle pin-strapped PGA pins setup */
-> +	for (i = 0; i < ARRAY_SIZE(adaq4216_hw_gains_db); i++) {
-> +		if (pga_gain_dB != adaq4216_hw_gains_db[i])
-> +			continue;
-> +
-> +		st->pga_index = i;
-> +		break;
-> +	}
-> +	if (i == ARRAY_SIZE(adaq4216_hw_gains_db))
-> +		return dev_err_probe(dev, -EINVAL, "Invalid PGA gain: %d.\n",
-> +				     pga_gain_dB);
-> +
-> +	st->scale_avail_size = 1;
-> +	st->pga_gpios = NULL;
-> +
-> +	return 0;
-> +}
+Best regards,
+Dust
 
