@@ -1,143 +1,124 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5914C3C38;
-	Sun, 28 Sep 2025 11:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348FD1F4C90
+	for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 14:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759059788; cv=none; b=ozvRSZqr1MoAspVc1kI56VCBBaMsyzgQ6Q6n+GW3D4sNzfPMuss13ENLE0JAIzJqq2BkycDNH5brbdpmCHL1f8trm4uBp7olKL/5hh97ZRn8FMRRtOXLaIBVy4+0w5/dGA0gon9chHA9FAAQeLZVo2E3nbnD2RXq045DpxJ6Vko=
+	t=1759069003; cv=none; b=PRQJdByuV1/qdkeUZurYM+H2SEWeoRzgoZDyb7jd7Mq3LPUVFlBsFjDNdGRNlCP/fqrL0CosBmyZ9RK/6ytrqaS8h2U9xBCYezTiGfZSdwAaECmqXbSDheYRDqkvo4fre2e/xq4dL3hUlNOyUccoZW1bHxdo+pgF0kptuFYjEqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759059788; c=relaxed/simple;
-	bh=MjFIAl9k9tX8maWLewrIXygg9RZGYKcf7XkiGNCxuJk=;
+	s=arc-20240116; t=1759069003; c=relaxed/simple;
+	bh=FmwvbHDppjU9CvYc2ySBEPJJrA8QuBJrnaeLbvaNeq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FKCB2v7Rune2hqNGTRdJWfg1YZ0cywHTFu7dmIwhtlMZOSBsxaiWrxTT9cNyhpdWB954AZgJON7StP8wBiUOwbUGjo+YrlQkWI76QbyMKDcBfZ9LIGV7sslumUO/Dp8RTIYVncPM456sJ5/K4LYqw+0+BeCGuFp/U48gt66a6ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hysO746P; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAcqd3VLVplB1OmQcCF7U9DscBaz/kmuSsqR8nsbz9jsGdLgHhkXVjjS7gvoyuxS10h7JQOj4ULF4zlSDvjxjNu+2qqZEA/nEed8u6sQocfLe0QIm3yy4C3w2RkaGVFZx5N91twXhtr05DCFBdfBQnDoyj6UnVIAglBmEtNcijU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5pMhPcv; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hysO746P"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1759059776; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=FbEJZn1VlIH4Up2Uzqcbz9YfXVxLvi1ttktMbwcIwhA=;
-	b=hysO746P5MhOK6F3nFGQjtUJePDRaWmtP47eRL9u7y+qdAmfBl+Z5IrmUo+Gd60YSnwQCUF8h0TmSiXbk/apbdWEgZx8dpaOrVsvU+npY9xZ8BxptAywDAG4X9ch61W7J1WXU3TCMEEAlNyWTzhxZbr8Lp4a2qCqre2GynLkY24=
-Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WoyoQGt_1759059774 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sun, 28 Sep 2025 19:42:55 +0800
-Date: Sun, 28 Sep 2025 19:42:54 +0800
-From: Dust Li <dust.li@linux.alibaba.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Sidraya Jayagond <sidraya@linux.ibm.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Mahanta Jambigi <mjambigi@linux.ibm.com>,
-	Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
- configurable
-Message-ID: <aNkfPqTyQxYTusKw@linux.alibaba.com>
-Reply-To: dust.li@linux.alibaba.com
-References: <20250921214440.325325-1-pasic@linux.ibm.com>
- <20250921214440.325325-2-pasic@linux.ibm.com>
- <7cc2df09-0230-40cb-ad4f-656b0d1d785b@redhat.com>
- <20250925132540.74091295.pasic@linux.ibm.com>
- <20250928005515.61a57542.pasic@linux.ibm.com>
- <aNiXQ_UfG9k-f9-n@linux.alibaba.com>
- <20250928103951.6464dfd3.pasic@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5pMhPcv"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27ee41e0798so42787945ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 07:16:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759069001; x=1759673801; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qS561fu3xGPohq7c2b6s9Kqxn1syIAU/WENOzQp7H2A=;
+        b=i5pMhPcv2txHGkH1YtzaqUjxI6TKbfbfQaM+KOuZiwsetEjjnW5EfpJ6ly+tJaWx6F
+         Z9kl+Isk82Ajz+rI3D3D1gveiFFbaSgVm/ZwvaMdMzT1k+kXZZMNaExt8IhhrUmm8M9X
+         v8vCv81+Njd3cSpNgvAOk94SRWr45YBIPVrNRl+ScVjlLjcc1+jsaYuvOfSVM+E8sydO
+         I520epSXPTuWD/Zi96mrxzlxqlyukGF2A+FF/ut2ZHfE3ct8Am5LoMRFcnpOVCkX8nYB
+         9xbW3nT4dLTFxGtgfhZSTtgNdZPNRP8GWLNVQADu4gK2A0KWoYHhaWngGxAqVjtaW48+
+         7JaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759069001; x=1759673801;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qS561fu3xGPohq7c2b6s9Kqxn1syIAU/WENOzQp7H2A=;
+        b=Be5NihsUR1ETv+4+Z4jf70AplFdrWB2EWesWIlVLOVozIVpPhFas8kzENsTZbU7eqf
+         b21OaqrV578DIulY+TxiCwOyS8cqwdFvUyzW+CGqM/Pv/IoGpHdQQqzhy4xwKii2rYYl
+         I2sYs1U7CkDMYLx9aHjzMAcoHIcDA5L3btXmYcJ8DcbYVNUmbloChv1dfybfn4NfrSaA
+         jE+LPHLdh6+/rzvZZMyyI39rPHDqbyrTvuQ/ls0S7VKA8tdk54tJc3ONm0oRRlvOP2jw
+         T3CkBc1DcqpH0AlyURqqMflSx7WeCIafXNFbKhoH1S1zfGlG/yZQ+7kG1sa7UlTojbeg
+         1nGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWboBY2H6F4k+ENIH1c7X9LWc7vQF1JMfercCZcEazKGnJm7ojuR2Llaf3DsX5fJS8CX+BJjQxq7Ro=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFyZzdh9O+8w/I0BN7/1z9ZqHdZBDBJP4fy7by91hxAUYF9yMp
+	8tLoVp9IwEa1vsHZCj4WGUE7MYeBJa1HvUDiuDnpGOhahLSBt22HsATv
+X-Gm-Gg: ASbGncvImxJ98NctJEwG+4PbBZfas5uoQl2V0+/lDBRglizZY8gypOOUfiruD1/3bEa
+	QWMDK3vBcPrOJNL65vQyh+mlhBlGNMOaHE8feRmw4uSJHVkcnMs1LDJXVQqNKMctUIjZCPGxROH
+	yN9ahc528mBEm2BVIXs/BNmsl3IuLEKoBLwAilmWgdEaYnAYD0YM6e4XxkuftSgRy4C+MYVC3L0
+	46uTssPT6ZesF+2sKVSRTsF7XtO0Vm0giYIoL5yozl/45Qi5UhAGj3TZc7taK6yABPCDXZUORqm
+	8XPYP6RL0sgmNexx9VAve4QVb4Pjzb5nrbv18Kl7YC2Pu/MG/x3kKHA+nrZhNLPr21MQmHkqVYc
+	QZUv8WTJpp2Csgw6j/ZnXfQjOLMYuUhTqMgT7MWOHyw==
+X-Google-Smtp-Source: AGHT+IGylC8pdXw7Cs1te5retyIezZV7wuMBKjmnFoV675Y5zYlzg5VisBqeLGQ9FgxZdW/sAWmpqQ==
+X-Received: by 2002:a17:903:946:b0:271:49f:eaf5 with SMTP id d9443c01a7336-27ed4a30d16mr151724525ad.30.1759069001499;
+        Sun, 28 Sep 2025 07:16:41 -0700 (PDT)
+Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-27ed6ae5742sm103357305ad.150.2025.09.28.07.16.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Sep 2025 07:16:40 -0700 (PDT)
+Date: Sun, 28 Sep 2025 11:17:32 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net
+Subject: Re: [PATCH v3 4/8] iio: adc: ad4030: Reduce register access transfer
+ speed
+Message-ID: <aNlDfJvyXjnfINy3@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1758916484.git.marcelo.schmitt@analog.com>
+ <fd505d37aceaafd6b20626bfd3f25c47db1fb004.1758916484.git.marcelo.schmitt@analog.com>
+ <20250928105316.782d076e@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250928103951.6464dfd3.pasic@linux.ibm.com>
+In-Reply-To: <20250928105316.782d076e@jic23-huawei>
 
-On 2025-09-28 10:39:51, Halil Pasic wrote:
->On Sun, 28 Sep 2025 10:02:43 +0800
->Dust Li <dust.li@linux.alibaba.com> wrote:
->
->> >Unfortunately I don't quite understand why qp_attr.cap.max_send_wr is 3
->> >times the number of send WR buffers we allocate. My understanding
->> >is that qp_attr.cap.max_send_wr is about the number of send WQEs.  
->> 
->> We have at most 2 RDMA Write for 1 RDMA send. So 3 times is necessary.
->> That is explained in the original comments. Maybe it's better to keep it.
->> 
->> ```
->> .cap = {
->>                 /* include unsolicited rdma_writes as well,
->>                  * there are max. 2 RDMA_WRITE per 1 WR_SEND
->>                  */
->
->But what are "the unsolicited" rdma_writes? I have heard of
->unsolicited receive, where the data is received without
->consuming a WR previously put on the RQ on the receiving end, but
->the concept of unsolicited rdma_writes eludes me completely.
+On 09/28, Jonathan Cameron wrote:
+> On Fri, 26 Sep 2025 17:39:42 -0300
+> Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+> 
+> > Configuration register accesses are not considered a critical path in terms
+> > of time to complete. Even though register access transfers can run at high
+> > speeds, nanosecond completion times are not required as device
+> > configuration is usually done step by step from user space. Also, high
+> > frequency transfers hinder debug with external tools since they require
+> > faster clocked equipment. Reduce register access transfer speed.
+> 
+> So making debug with external tools easier isn't usually a justification we'd
+> make to slow things down by default.
+> 
+> Is there another reason for this being useful as opposed to not a problem
+> to do?   If it had been done this way in the first place I wouldn't have
+> minded, but to make a change I'd like either some others to jump in and
+> say, yes please do this, or a reason beyond you are using tooling that can't
+> cope with 80 MHz and don't want to hack the driver when you need
+> to slow it down (my tools can't cope with that rate either!)
 
-unsolicited RDMA Writes means those RDMA Writes won't generate
-CQEs on the local side. You can refer to:
-https://www.rdmamojo.com/2014/05/27/solicited-event/
+Main motivation for this was a suggestion from David.
+https://lore.kernel.org/linux-iio/30659b16-290d-4ae5-a644-214c106bbe87@baylibre.com/
+By the way, if he agrees with, I'll add a suggested-by tag (if we decide to keep
+this patch).
 
->
->I guess what you are trying to say, and what I understand is
->that we first put the payload into the RMB of the remote, which
->may require up 2 RDMA_WRITE operations, probably because we may
->cross the end (and start) of the array that hosts the circular
->buffer, and then we send a CDC message to update the cursor.
->
->For the latter a  ib_post_send() is used in smc_wr_tx_send()
->and AFAICT it consumes a WR from wr_tx_bufs. For the former
->we consume a single wr_tx_rdmas which and each wr_tx_rdmas
->has 2 WR allocated.
+Reasoning a bit more about this, lowering reg access speed may help debug with
+external tools, but it won't help debug transfers ran by SPI offload hw because
+those transfers will be fast anyway. Maybe a more relevant potential benefit of
+lowering transfer speeds would be to make it more "friendly" to slower
+controllers. E.g. raspberry pi controller reaches 32 MHz maximum so, unless SPI
+core can adapt transfers in those cases, it wouldn't work on a rpi (if anyone
+ever connects this to a rpi).
 
-Right.
+Me, I only have remote access to a setup with adaq4216 connected to a zedboard
+so I won't be connecting any external tool for debugging. 
 
->
->And all those WRs need a WQE. So I guess now I do understand
->SMC_WR_BUF_CNT, but I find the comment still confusing like
->hell because of these unsolicited rdma_writes.
->
->Thank you for the explanation! It was indeed helpful! Let
->me try to come up with a better comment -- unless somebody
->manages to explain "unsolicited rdma_writes" to me.
->
->>         .max_send_wr = SMC_WR_BUF_CNT * 3,
->>         .max_recv_wr = SMC_WR_BUF_CNT * 3,
->>         .max_send_sge = SMC_IB_MAX_SEND_SGE,
->>         .max_recv_sge = lnk->wr_rx_sge_cnt,
->>         .max_inline_data = 0,
->> },
->> ```
->> 
->> >I assume that qp_attr.cap.max_send_wr == qp_attr.cap.max_recv_wr
->> >is not something we would want to preserve.  
->> 
->> IIUC, RDMA Write won't consume any RX wqe on the receive side, so I think
->> the .max_recv_wr can be SMC_WR_BUF_CNT if we don't use RDMA_WRITE_IMM.
->
->Maybe we don't want to assume somebody else (another implementation)
->would not use immediate data. I'm not sure. But I don't quite understand
->the why the relationship between the send and the receive side either.
-
-I missed something here. I sent an other email right after this to
-explain my thoughts here:
-
-    I kept thinking about this a bit more, and I realized that max_recv_wr
-    should be larger than SMC_WR_BUF_CNT.
-
-    Since receive WQEs are posted in a softirq context, their posting may be
-    delayed. Meanwhile, the sender might already have received the TX
-    completion (CQE) and continue sending new messages. In this case, if the
-    receiver’s post_recv() (i.e., posting of RX WQEs) is delayed, an RNR
-    (Receiver Not Ready) can easily occur.
-
-Best regards,
-Dust
-
+Another thing that came to mind now is we could just not set speed_hz of
+spi_transfers. AFAIC, those are not required.
