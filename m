@@ -1,171 +1,173 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C8A149E17;
-	Sun, 28 Sep 2025 18:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB121DB125;
+	Sun, 28 Sep 2025 20:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759084336; cv=none; b=dLjIyxOayvQs0ED0rbNoLjRinnEfVKPEbMqYdFu6kY0Hjra4ejMLNH/bqyATJnV6wN9shKSn6J3dUEcGPOQxMJCnycPtovo7quvDmjHhjbyZZ5PY1iyVsQ/7i8wEZnYrYGTQ2a/FraXso92BTcCSoaGhd5AiqeuOX4526Wi45XI=
+	t=1759092167; cv=none; b=gsRTF1A12eO9hmoIaZHw4k+MwjG826IVo518Q8uvKTuhSsVFZRxO3l4QtaJGycchLy9Bw9wpDZuwBPD+j4JXaPbdzJlPkBwbvHTfF3ZmxgKBRP3ThPwYXclgr2pndEO/9hma1JIL1RMpQRebtzvo70rdYfwYvZg91mJONFN3hN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759084336; c=relaxed/simple;
-	bh=3fXN/jGvJgMgNtDL2f1i10+UbkOMXScOnXk2zWvjpZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kd/Br9QihFe+W+LBTxu+34TBHteMUMLGKvJ3tmHRWvYktl72edsqBoow7ssY/VoiHyx0fP5gsHoL+xrD66vAipnkiFSYA82qcCkBezfjBpGPLaDG8QycldWvoJyP4Vwcyd5n6cD70Wf9z7plN4JEIHt/cvfPGFAjJ5GeD2+yse8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NuS64/zC; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1759092167; c=relaxed/simple;
+	bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ob93Z/tcfuRTeK7DB18qJYRhR71bdY5ihRKEYCWgVPKzTsAzoNVIAT39TCh9OTVj8aRG78ACV+F+M8C326p93v96LA7aYN8uaJjnfdlL1C4OsTUdtQ7KEKyjTbFudHeqwPZRwILqBHAxxSqg7YVzQfWAPwGwPVw1+rjq27GFyZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abj/t+cM; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NuS64/zC"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58SCJnR8018653;
-	Sun, 28 Sep 2025 18:32:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=poUkSA
-	wxxn9OgsiB0V78chkL7btUOpcQgI6qcsINleE=; b=NuS64/zC9nrf4+6KCceOWr
-	6zSFoOFcdArj9hAaOiBpFUDJ6/NFIQjNeneK84SGq5m6azpi8hrk5QH8eV6EhoAs
-	1lOyJ9ncQ9eate5VdGww5vGtdJUJY/4rX6N1Y5Mp678R5nlDMHY+gN5stKUG1v0X
-	Fojg/CADZj+ZmYco2gC6BL+xYEh33jCnoX9B5gWucNyQIHTZxBjLtZnYg6XR/azy
-	ZeZjOTiAJbZkfwtCey9j9ZrG9OUDoNO+28E/v2pKRtAxaN4Sodsbbvnt5l9pjMxt
-	E3WNsb3SFySnikFERCSPGLNePRpb1qoZNccKCQaGHnD/aZdhs4FqsbjWwaWeLDeQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49e5bqeren-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 28 Sep 2025 18:32:10 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58SIW97G029923;
-	Sun, 28 Sep 2025 18:32:09 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49e5bqerej-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 28 Sep 2025 18:32:09 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58SH1QoB020057;
-	Sun, 28 Sep 2025 18:32:08 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 49et8rtvqw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 28 Sep 2025 18:32:08 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58SIW55E55247338
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 28 Sep 2025 18:32:05 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 125DB20043;
-	Sun, 28 Sep 2025 18:32:05 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2871620040;
-	Sun, 28 Sep 2025 18:32:04 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.87.130.219])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Sun, 28 Sep 2025 18:32:04 +0000 (GMT)
-Date: Sun, 28 Sep 2025 20:32:02 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Dust Li <dust.li@linux.alibaba.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-        Simon
- Horman <horms@kernel.org>,
-        "D. Wythe" <alibuda@linux.alibaba.com>,
-        Sidraya
- Jayagond <sidraya@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Mahanta Jambigi <mjambigi@linux.ibm.com>,
-        Tony Lu
- <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
- configurable
-Message-ID: <20250928203202.7d31a9bb.pasic@linux.ibm.com>
-In-Reply-To: <aNkfPqTyQxYTusKw@linux.alibaba.com>
-References: <20250921214440.325325-1-pasic@linux.ibm.com>
-	<20250921214440.325325-2-pasic@linux.ibm.com>
-	<7cc2df09-0230-40cb-ad4f-656b0d1d785b@redhat.com>
-	<20250925132540.74091295.pasic@linux.ibm.com>
-	<20250928005515.61a57542.pasic@linux.ibm.com>
-	<aNiXQ_UfG9k-f9-n@linux.alibaba.com>
-	<20250928103951.6464dfd3.pasic@linux.ibm.com>
-	<aNkfPqTyQxYTusKw@linux.alibaba.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abj/t+cM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759092164; x=1790628164;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
+  b=abj/t+cM+Z8fNqGFPUVLlYmyXcIEGLuVU3A81TVS9FkTfwHdtVHCbp7g
+   1aOVMOAMMkyk7q450fZBPgafoW2RG6KWx35z4EwN+fO/JWwBTCXlMbruT
+   VHa0zPR8DDIHL+sIRU/GIohuU5C2gutIq6JgwslqN886BbbPEf3qruXtL
+   UnV6swUOShehFXivMZen/qlaOR/lDf1dxJS2/rcbXdHNtCfBIfLDTZxbP
+   qapbRC1kI7wfCpX5T+T5j5lrfLBO/Eb9MpyiZd48deZB33X+Vw2ygRCbM
+   /wIyo/wX62nxVRdFvrtf8ZnBOeXZk3YDEtGv1evJS9l/cgSfJwsbpMhnf
+   A==;
+X-CSE-ConnectionGUID: yTPN5fCWRpaA3K3tcA9r0A==
+X-CSE-MsgGUID: QYB/Kl3CR/COu3Az4RSSzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="60375459"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="60375459"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 13:42:43 -0700
+X-CSE-ConnectionGUID: 17ksutRlRWiQdhTcqFbgFw==
+X-CSE-MsgGUID: TWYv+Q42TPGRcuEFSkLnvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="177890257"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 28 Sep 2025 13:42:39 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v2yE8-0007z9-3D;
+	Sun, 28 Sep 2025 20:42:36 +0000
+Date: Mon, 29 Sep 2025 04:42:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <202509290415.uez00SgW-lkp@intel.com>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDIxNCBTYWx0ZWRfX53OcWNRbjcq4
- pv02O5YTQAryATb/G5CCwKXa7rOKDruQstUBLUbc9iFFAhfIRpCZv6p40Cw7JsSe81CIrChuIRt
- iyHMLK021J8MvaeNoZC1OqyLzgJ34QGuc8kYmDlLDFqICAbxHn5ksV5jvJ0OLohrliBuRd9iOo3
- /V4MHBWKwtsNOweOKpEflZNOBgzybf5xgiW+eNhJLOWX0rPiflwHlrh7C9kR3tBXkj3MSgeZSbE
- Pt4IWuDN1L3eC5gD7GuJKgM3nswzeuXkFTPnso+DoBjRbDeO6y6ja6YrGQ/armKqxWAfwUVT9Pw
- Mo5zul38Cmz0e9bVIIJNliCeMpd3LHtjxGwIm8W6OECRLQdRALIfhoIZIxHgmC1ceWyHtB0JpjS
- euDwTmuH3lL1dNdEYi2sZEKpi6DgJQ==
-X-Proofpoint-GUID: ImC0uIDMvTV6wjFfCmyexAaU3oEHByVb
-X-Authority-Analysis: v=2.4 cv=LLZrgZW9 c=1 sm=1 tr=0 ts=68d97f2a cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=fgEhGd6aAAAA:8 a=SRrdq9N9AAAA:8
- a=bxKWgVZqml0MJVlldkoA:9 a=CjuIK1q_8ugA:10 a=lTNmK5dgYt2SiR4ZQSdr:22
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: QQJ3MbGicb2uuvcm3G71W-nh2WF5rxUp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-28_07,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 lowpriorityscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509260214
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250928013253.10869-2-W_Armin@gmx.de>
 
-On Sun, 28 Sep 2025 19:42:54 +0800
-Dust Li <dust.li@linux.alibaba.com> wrote:
+Hi Armin,
 
-> >> We have at most 2 RDMA Write for 1 RDMA send. So 3 times is necessary.
-> >> That is explained in the original comments. Maybe it's better to keep it.
-> >> 
-> >> ```
-> >> .cap = {
-> >>                 /* include unsolicited rdma_writes as well,
-> >>                  * there are max. 2 RDMA_WRITE per 1 WR_SEND
-> >>                  */  
-> >
-> >But what are "the unsolicited" rdma_writes? I have heard of
-> >unsolicited receive, where the data is received without
-> >consuming a WR previously put on the RQ on the receiving end, but
-> >the concept of unsolicited rdma_writes eludes me completely.  
-> 
-> unsolicited RDMA Writes means those RDMA Writes won't generate
-> CQEs on the local side. You can refer to:
-> https://www.rdmamojo.com/2014/05/27/solicited-event/
-> 
-> >
-> >I guess what you are trying to say, and what I understand is
-> >that we first put the payload into the RMB of the remote, which
-> >may require up 2 RDMA_WRITE operations, probably because we may
-> >cross the end (and start) of the array that hosts the circular
-> >buffer, and then we send a CDC message to update the cursor.
-> >
-> >For the latter a  ib_post_send() is used in smc_wr_tx_send()
-> >and AFAICT it consumes a WR from wr_tx_bufs. For the former
-> >we consume a single wr_tx_rdmas which and each wr_tx_rdmas
-> >has 2 WR allocated.  
-> 
-> Right.
+kernel test robot noticed the following build warnings:
 
-Thank you Dust Li! Unfortunately I have already spinned a v4. Let
-me add back that comment, as for people knowledgeable enough it does
-not appear to be confusing at all. I can try to improve that comment
-and maybe add a new one on the reason why we do need more WRs on the
-receive end than on the send end, after this series has been merged. Or
-if you want to do it yourself, I'm happy with it as well. In the end
-it is you who me helped get a better understanding of this :)
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.17-rc7 next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thank you again!
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-Add-Uniwill-laptop-driver/20250928-093543
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20250928013253.10869-2-W_Armin%40gmx.de
+patch subject: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/reproduce)
 
-Regards,
-Halil
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290415.uez00SgW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:49:1: note: expanded from here
+      49 | class_mutex_t
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1250:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1250 |                 guard(mutex)(&data->input_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:60:1: note: expanded from here
+      60 | class_mutex_t
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1249:2: error: cannot jump from switch statement to this case label
+    1249 |         default:
+         |         ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:47:1: note: expanded from here
+      47 | __UNIQUE_ID_guard1072
+         | ^
+   2 warnings and 1 error generated.
+
+
+vim +1243 drivers/platform/x86/uniwill/uniwill-acpi.c
+
+  1235	
+  1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
+  1237	{
+  1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
+  1239		struct uniwill_battery_entry *entry;
+  1240	
+  1241		switch (action) {
+  1242		case UNIWILL_OSD_BATTERY_ALERT:
+> 1243			guard(mutex)(&data->battery_lock);
+  1244			list_for_each_entry(entry, &data->batteries, head) {
+  1245				power_supply_changed(entry->battery);
+  1246			}
+  1247	
+  1248			return NOTIFY_OK;
+  1249		default:
+  1250			guard(mutex)(&data->input_lock);
+  1251			sparse_keymap_report_event(data->input_device, action, 1, true);
+  1252	
+  1253			return NOTIFY_OK;
+  1254		}
+  1255	}
+  1256	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
