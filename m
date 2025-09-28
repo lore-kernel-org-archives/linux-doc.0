@@ -1,146 +1,169 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1055227;
-	Sun, 28 Sep 2025 21:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A37333F6;
+	Mon, 29 Sep 2025 00:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759095895; cv=none; b=lsXvDtZ80gsFINy/Z5cCbErwShmG6qQg/uDwgzzeruUf4WbjVtfkC+Hx2+cApma2C/iTL0n3dSKK7xvD1e3IYU2J61h+fco7KxBUnbSKQskYW9+HRobLtEJk7GaIWI9LgGH1yj2+K78Y17dj7ilsaYITB8paPO5BMVviVem6ttI=
+	t=1759104029; cv=none; b=cFYK+r6Bq8wUIgaYEt0RlHPBDe3wuSxfgQ03K//wPjaMrN67pkBZURb67y2aylcprY8k6LIH49Ai9Qq5zq7KdDZ8mrPd4tpSGX7j9CVZded5VfnIhb7U6jDPI1LG8ls791Xqlds0mRVXdLsQvwmtPe8jROH2hkMIg3sBPwh6HPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759095895; c=relaxed/simple;
-	bh=mnyp6ggCgjhXODC8DRmRebtTZhDxTAmYNjSsq6/rszk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOBvZ1fLz6+Sm3IFuDw9EaKryzxrbMHLtiJ/Ow/UsXfeferm5K8PB7b35SH0i+bPcCDc7AElmab8y15M3wR/rjJIuzUbfMZIIFvVdWwYuCeWbpcLIXvVfA2kxnaTTEztsUDWgJAwFGZ/57IiIr6yiiZxj7/H9oJbvmm/uXa4WfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=ubAQnLIl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FjY9XfEQ; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1759104029; c=relaxed/simple;
+	bh=M+8HMW4Fh6OK4Hz/R6zXRnBPy/8QEo2dSANk56c/yok=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kO25ZMEBfWwJZpL44sNVB3IrUw6/kLBdf6EafRCQwzy6rHfIjo3IEcS2ONt6p1vDEROk3FEHENZ2sGDGHQY15T/27tZLtZ8BawhBBI3PxQ+bjm1ehZ65uKYXGPq5t1Z7Wz3HcQlIr6I9Q2vNTYOa1TWSUCRNNLwgwnV/J4EIFa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ISK2oOvg; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="ubAQnLIl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FjY9XfEQ"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A19B1140007F;
-	Sun, 28 Sep 2025 17:44:50 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sun, 28 Sep 2025 17:44:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1759095890; x=1759182290; bh=bqOTAR5nmMnMgij4YPWgX8pCUapbTKor
-	rwgCldxv+vU=; b=ubAQnLIlgJQ1csTNEk0wgB/6b8xAIBcAh3HAtChheo9HoHka
-	y1atsvu/42Izd4b2fBSQoiKMLzML9zb1WeUSBzWsLSTXN+nYOelctywIiojyWLMN
-	iMeqtfWOKSbZ3l6yjyy2VL1GQAriEcyefB0V6dkY99Jy0Uv7b8Gy0V0LrRxxC3A3
-	e7TLyGGemBzqSykJjOYxIjLFTlb5Jg/eNuBvwbd4eNQUL90lAmy1B4Dv1edgLj29
-	25yPrfxoRN8l98AgwRFC2AjT1LyDmaV9OA9SrtdLWy41/peOdCzylTdFVzd5LKB0
-	g4caHgErLUE9GSaOPn8C1VOgzMQXRprljGHEzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759095890; x=
-	1759182290; bh=bqOTAR5nmMnMgij4YPWgX8pCUapbTKorrwgCldxv+vU=; b=F
-	jY9XfEQjG6yfmbOmL2Vj8EPbmT5xAmu4gke9b1j85rC1LOOJlcG6aN1ODMeBwJ2z
-	xaASKdii38aoVpJDPFOBLO29VsjqG2MpTbWMaBAjN/7Rot0ibUbFWUCoRfvy4qNM
-	2Bu3ng9lgQIuIAdaCAB/A9i6Y4Ui4C8HDW09dW5noIaTHqkhoKAy7NfjnADNyHrb
-	MLQ6eTyaazXUGNKzoepixQFbPmvs06Mw6Px0/F/XyvMo4g646RXl4qKQ5quienZy
-	ijniryLx5XR7Fmcf6s39wTqPjBDZzxza5e4nYOFTV0pYtNBULb0m94ACvU1vC9O5
-	xHE7Smp9KcqB9qvGSlf4g==
-X-ME-Sender: <xms:UqzZaLuVCHaHL1dXWWo7gVpW4XAoST_uWK80ReVuNbFTJYWALUwoIg>
-    <xme:UqzZaAK2V8jXLCXeJmxSRnw7XOHDSWVLV6pi_eZRJdsv7tonagKc4iPErelWzp1Sl
-    tDnKMkQV4RuiIomLUeD7P1y69riVIVtDJop1FOMIMPFMHYpHQTI4-g>
-X-ME-Received: <xmr:UqzZaHaYLWiXPmNodfaK5rmH91R1SxuLbJ5AlH6hM9P8SRXZbYfsMyR7MjIq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdejiedvgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepgfdvgeeitefffedvgfdutdelgeeihfegueehteevveegveejudelfeff
-    ieehledvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedufedpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtohepfihilhhfrhgvugdrmhgrlhhlrgifrgesfi
-    gutgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmh
-    hlohhfthdrnhgvthdprhgtphhtthhopehlihhnuhigqdhkshgvlhhfthgvshhtsehvghgv
-    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhohhhnrdhfrghsthgrsggvnhguse
-    hgmhgrihhlrdgtohhmpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:UqzZaLk1rGOmyO1He8MPxqi3CohSvlkQe3_A6Rrgz3pDiTWgyubwXg>
-    <xmx:UqzZaNWdjTzP7gUnltCcDMJUVASQjOhX1Z6neVB08YXj6nu4ljdFCA>
-    <xmx:UqzZaNLQk9i3WJOHwZbrBRCpFZ_5HLoh4oN8t0tGAo8kW2aVBdq1Bw>
-    <xmx:UqzZaNsooISRzeh5yEtyXLgG1yj-3McLdWJsn3tH3mRzfPsHEAR1YQ>
-    <xmx:UqzZaMbvTxZHOoDBETUgoDK8OSId_1e5rsgxH58kReMnD7JbGMnWKD_v>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 28 Sep 2025 17:44:49 -0400 (EDT)
-Date: Sun, 28 Sep 2025 23:44:47 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
-	"kuba@kernel.org" <kuba@kernel.org>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] net/tls: support maximum record size limit
-Message-ID: <aNmsTxyg75HHkmIJ@krikkit>
-References: <20250923053207.113938-1-wilfred.opensource@gmail.com>
- <aNQvgD7AvFe7-sAv@krikkit>
- <4a83e2f526013516e2827a4ff8899b0437d08a25.camel@wdc.com>
- <aNW0OxiN8M2hv7Qu@krikkit>
- <bfc1bab9a8f2f51e19ba4fd57a6b8bdf69683d42.camel@wdc.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ISK2oOvg"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58SAkd4H026037;
+	Mon, 29 Sep 2025 00:00:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=1CuVaQu2ZLTLPZRT7jm5p12CJZvNLA0UOcK2fl2Bp
+	fY=; b=ISK2oOvgrxnijsn/xvCcW+VrPQSGetwotRq6tmFDRcBP9g426uNHxsABL
+	Ja1LfygRctYlFDGpACtLRwaomQvpwNBWq4rFGrlfmOlvogZ1JkUo8x1aUhgklP2h
+	qg0qOY0sYZUq40rbeMya9uS/DOEK9zYJbb/w3Y8A3lQuoj6+pYafmPmv/Hv3/N1W
+	pOoCAys0CRXQ/JIxh4a9mpRiGJXx6DAVT3610z+k+uz+kc/CQJHDSF+BLhpp7ALU
+	6ALKWWQ4rbKvYn9ygkqsosA/Muyh63DPFK1is2UtGRWw+zeNHdmOt2VAloS8nfvf
+	3WYhUcqBTo1K10CrghE+IBcuWcUCQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49e7e6yaw3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Sep 2025 00:00:10 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58T009v6008385;
+	Mon, 29 Sep 2025 00:00:09 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49e7e6yaw0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Sep 2025 00:00:09 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58SIZDDH007292;
+	Mon, 29 Sep 2025 00:00:08 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49eurjkfs9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Sep 2025 00:00:08 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58T004LZ53543286
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 29 Sep 2025 00:00:04 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E388920043;
+	Mon, 29 Sep 2025 00:00:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 914A920040;
+	Mon, 29 Sep 2025 00:00:03 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 29 Sep 2025 00:00:03 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "D. Wythe" <alibuda@linux.alibaba.com>,
+        Dust Li <dust.li@linux.alibaba.com>,
+        Sidraya Jayagond <sidraya@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Mahanta Jambigi <mjambigi@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+        Guangguan Wang <guangguan.wang@linux.alibaba.com>,
+        Halil Pasic <pasic@linux.ibm.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: [PATCH net-next v5 0/2] net/smc: make wr buffer count configurable 
+Date: Mon, 29 Sep 2025 01:59:59 +0200
+Message-ID: <20250929000001.1752206-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bfc1bab9a8f2f51e19ba4fd57a6b8bdf69683d42.camel@wdc.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: CutAPlPge7EgJjykul8zpkpGuZSW6pCy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyMCBTYWx0ZWRfXyY6wFq71PSLt
+ UUE0Wq5sOoRfW/SEgTHotPyeXPiexkUSWQ0K9vFbqEnODPQR8F/fwfFI0Jp2RmGedD2yiElYBrw
+ p95v2p5fSHAccDTdbTEH0/+t/sVg+8/ahdtvmfqKYQqQTaDqp14Edkq2eRtpyN/k9zyX9KZo2jh
+ 3J9ePv17iUPeQj5eAUH8fx1fOuX4AC4tzqHZLbxxsoqxI710R0AeEs3TiYbib+tAr+9Ob8pii3g
+ cQyagIZZaZsiCnkxUfawDGN14zeTRTRpI1Jm7n5KIKBONkBrl/KB3mtVcmX/PybGgTVtlJ8sSqx
+ 5f1EzH1oqEoy1wGUMbroyok4K56FOV4n0hlQ03+wpPQP1UV7kn7pXWuXJFMoebh/7MOa2PoQDrn
+ nnHYVTg5052pwpQuEdMHwo4pf9w1jw==
+X-Proofpoint-GUID: 32lPrucm31XxhfVay1fX8mcyZn2Sgkhh
+X-Authority-Analysis: v=2.4 cv=Jvj8bc4C c=1 sm=1 tr=0 ts=68d9cc0a cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=yJojWOMRYYMA:10 a=OPAOpny1AAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=piJGGMyLFvZckxoXyWEA:9 a=Vt4qOV5uLRUYeah0QK8L:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-28_10,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270020
 
-2025-09-25, 23:37:09 +0000, Wilfred Mallawa wrote:
-> On Thu, 2025-09-25 at 23:29 +0200, Sabrina Dubroca wrote:
-> > 2025-09-25, 05:39:14 +0000, Wilfred Mallawa wrote:
-> > > On Wed, 2025-09-24 at 19:50 +0200, Sabrina Dubroca wrote:
-> > > > > @@ -1111,6 +1180,11 @@ static int tls_get_info(struct sock *sk,
-> > > > > struct sk_buff *skb, bool net_admin)
-> > > > >  			goto nla_failure;
-> > > > >  	}
-> > > > >  
-> > > > > +	err = nla_put_u16(skb, TLS_INFO_TX_RECORD_SIZE_LIM,
-> > > > > +			  ctx->tx_record_size_limit);
-> > > > 
-> > > > I'm not sure here: if we do the +1 adjustment we'd be consistent
-> > > > with
-> > > > the value reported by getsockopt, but OTOH users may get confused
-> > > > about seeing a value larger than TLS_MAX_PAYLOAD_SIZE.
-> > > Makes sense to keep the behaviour the same as getsockopt() right?
-> > > So
-> > > add the +1 changes here based on version (same as getsockopt()). In
-> > > which case, it should never exceed TLS_MAX_PAYLOAD_SIZE.
-> > 
-> > The max value for 1.3 is TLS_MAX_PAYLOAD_SIZE+1 (after adjustment),
-> > since it's the max value that will be accepted by setsockopt (after
-> > passing the "value - 1 > TLS_MAX_PAYLOAD_SIZE" check). And it's the
-> > value most users will see since it's the default.
->
-> Ah I see what you mean.  In regards to "but OTOH users may get confused
-> about seeing a value larger than TLS_MAX_PAYLOAD_SIZE.", do you think
-> it's sufficient to document TLS_MAX_PAYLOAD_SIZE and specify that for
-> TLS 1.3 this doesn't include the ContentType byte?
+The current value of SMC_WR_BUF_CNT is 16 which leads to heavy
+contention on the wr_tx_wait workqueue of the SMC-R linkgroup and its
+spinlock when many connections are competing for the work request
+buffers. Currently up to 256 connections per linkgroup are supported.
 
-I guess it will have to do. Otherwise, unless someone has another
-idea, we're back to the discussion on v3 (ie setting the actual
-payload size instead of the record limit).
+To make things worse when finally a buffer becomes available and
+smc_wr_tx_put_slot() signals the linkgroup's wr_tx_wait wq, because
+WQ_FLAG_EXCLUSIVE is not used all the waiters get woken up, most of the
+time a single one can proceed, and the rest is contending on the
+spinlock of the wq to go to sleep again.
 
+Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
+risky, because the large-ish physically continuous allocation could fail
+and lead to TCP fall-backs. For reference see this discussion thread on
+"[PATCH net-next] net/smc: increase SMC_WR_BUF_CNT" (in archive
+https://lists.openwall.net/netdev/2024/11/05/186), which concludes with
+the agreement to try to come up with something smarter, which is what
+this series aims for.
+
+Additionally if for some reason it is known that heavy contention is not
+to be expected going with something like 256 work request buffers is
+wasteful. To address these concerns make the number of work requests
+configurable, and introduce a back-off logic with handles -ENOMEM form
+smc_wr_alloc_link_mem() gracefully.
+---
+
+Changelog:
+---------
+v5:
+ * Added back a code comment about the value of qp_attr.cap.max_send_wr 
+   after Dust Li's explanation of the comment itsef and the logic behind 
+   it, and removed the paragraph from the commit message that concerns 
+   itself with the removal of that comment. (Dust Li)
+v4: https://lore.kernel.org/netdev/20250927232144.3478161-1-pasic@linux.ibm.com/
+v3: https://lore.kernel.org/netdev/20250921214440.325325-1-pasic@linux.ibm.com/
+v2: https://lore.kernel.org/netdev/20250908220150.3329433-1-pasic@linux.ibm.com/
+v1: https://lore.kernel.org/all/20250904211254.1057445-1-pasic@linux.ibm.com/
+
+Halil Pasic (2):
+  net/smc: make wr buffer count configurable
+  net/smc: handle -ENOMEM from smc_wr_alloc_link_mem gracefully
+
+ Documentation/networking/smc-sysctl.rst | 40 +++++++++++++++++++++++++
+ include/net/netns/smc.h                 |  2 ++
+ net/smc/smc_core.c                      | 34 ++++++++++++++-------
+ net/smc/smc_core.h                      |  8 +++++
+ net/smc/smc_ib.c                        | 10 +++----
+ net/smc/smc_llc.c                       |  2 ++
+ net/smc/smc_sysctl.c                    | 22 ++++++++++++++
+ net/smc/smc_sysctl.h                    |  2 ++
+ net/smc/smc_wr.c                        | 31 +++++++++----------
+ net/smc/smc_wr.h                        |  2 --
+ 10 files changed, 121 insertions(+), 32 deletions(-)
+
+
+base-commit: e835faaed2f80ee8652f59a54703edceab04f0d9
 -- 
-Sabrina
+2.48.1
+
