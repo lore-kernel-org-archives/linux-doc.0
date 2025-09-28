@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A81F1302;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FA920297E;
 	Sun, 28 Sep 2025 03:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759028888; cv=none; b=TQKOoWB4yZ0Ytap9l69SwzpOzYQfo+z7DrVJdyjf5NrpGQUI8cRk1wcbJOGG1MtYlzoB3XyGn4/8vTnx9R5WMEUSmjv2dMvz4inN4nHT9JATYSKFi9QyIlHDZv19asmUYzxUtrnKm7BOMycTc/EeJkfvm6JPUZeHkOM7/l6qwG4=
+	t=1759028888; cv=none; b=qWMCl2nU577hCitSHJAjZKVceEvrKSMcLdf00QKqyNX/T7oSxVUizJW1QagRlpSAH5zsx8yakwrKIgHTWaJJ6DxWt0s5nXL/jlVNIlTp/DfB1KO3SYvmdqLkko/s7qR88tBgcbIHV5pJ0RoNNgCv+FhoRP9Z3ZWwKQcC3ZMl0ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759028888; c=relaxed/simple;
-	bh=+16o0l7dnjQiZi0yMDNGvQVrpUUpveogkGeX05FQ4r8=;
+	bh=V868+L82j8ezezqdRLKP8QowA+OH8T92HjplBkwqAmk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WW7Z9zPb67Iw2ZJWTCtcxXhx5mVFNfxp8ifYEuLEw5EyKcRhVi0DFggBfpXhiOjXppuunoMy1BBEhZJQuPsdO1xIYjJvfXcOvhwxraDQ+EFivZ2Alw8w6JDCTpx5HTEUI5RZ42vvoRR71e0MFXccPMNWxYg9BnzvqlPnghYH0DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KmpI+P9O; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=JaiaX4DdlXES213+SEnz4xyPTdI/5bctHuMQcC8KQvX8Z8L7PEAwRIyvFNQg1W/vBOk21c2GQY166qosJMwVRe0qZ7uT02c+BJzFg+kxodZ9ij0EzU5hAfajAijChrfoQgB1+30cO5MTw69Jf6S6YWl4NDssqcjZDHDJ/7MSGQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PUnjkmtf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KmpI+P9O"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D86EAC113D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PUnjkmtf"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EEC71C16AAE;
 	Sun, 28 Sep 2025 03:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759028887;
-	bh=+16o0l7dnjQiZi0yMDNGvQVrpUUpveogkGeX05FQ4r8=;
+	s=k20201202; t=1759028888;
+	bh=V868+L82j8ezezqdRLKP8QowA+OH8T92HjplBkwqAmk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KmpI+P9OHCYia80la05AskJDYn2g3G/iAGpzBMQuvu2t6jFYK0FK4yrxz5201aMZf
-	 3c4kGptCE433rLFMvMZUiPmVFQqQvr1wxb/ntRaEdC/Ua/K5IHqFkq5gXTb1fOpt/S
-	 ozKbmmcbJ0GL/IMLv6E9PDLR0fIhQzFbgPFpyxPmiYPGIOyAkxRLLegV7FeYY5VLUX
-	 mtXpIGMwdz6C+sEkORjH3GG6KN6mGmO3TWaGFRkBSzuI/HXrO8GfRbJCZzF0oR3RHm
-	 CBS2Kx+dTpvPNvNdGWmMC3pqDFGF2iVszXe3Y3oGvYX4OjQaaqEj3wCKcLVn8nMaXK
-	 VqkiLzK2zDNeQ==
+	b=PUnjkmtf/OFrwVdBs4j+GVTj+wu83RJxwxbMc0q2Fw6b3/aEbC329k03leEg0rSdw
+	 VCLbKMXbxNthiJD970e+wrMPfLvmbnVG7NQcBnJzZcId1JQZ3goz2ZzJqHE8rmcKBY
+	 SEYTl34rk2M46MwoY8ouZZiSML1gqz5UzLSpVdcWZGR4Ghc67Sczgot7TiKImu2Vhe
+	 eZBophTG8SWnuLNmzZBycY1iKfJJpIxYtkC8ZSwEEVHtgKaXiJj45B/K4cbdk5fcQS
+	 az5gDZj7CH0kIQpTEEG2yotNMCiFUyQQ8c8V67fHBpSird6B5tAmnll2DSI6p2Qdtr
+	 UWhzJ+npWXpHw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BBDCAC5BC;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F56CCA46F;
 	Sun, 28 Sep 2025 03:08:07 +0000 (UTC)
 From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Sun, 28 Sep 2025 11:08:00 +0800
-Subject: [PATCH v6 2/4] ALSA: usb-audio: improve module param quirk_flags
+Date: Sun, 28 Sep 2025 11:08:02 +0800
+Subject: [PATCH v6 4/4] ALSA: doc: improved docs about quirk_flags in
+ snd-usb-audio
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250928-sound-v6-2-7da6e5982432@uniontech.com>
+Message-Id: <20250928-sound-v6-4-7da6e5982432@uniontech.com>
 References: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
 In-Reply-To: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
@@ -50,13 +51,13 @@ Cc: Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
  Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
  kernel@uniontech.com, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia@uniontech.com>, Takashi Iwai <tiwai@suse.de>
+ Cryolitia PukNgae <cryolitia@uniontech.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1759028886; l=6014;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1759028886; l=6728;
  i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=6cs94liQClaGAIzwtJgxPeNFLVMt00l3vEH6r+gRVa8=;
- b=exYXdhzlMgCLjiXGLRair8weI8gWAJn4PNfor/TvZUFgyA1uAXmRfmX58ACtxyTQfPlq1i5uE
- +NGWzvEI5+8DjXluF/jGSSTeKpOS52/h4JW7wko71V+4+zAMxSTz/AU
+ bh=vdHLDRsp3zHzzZBQvS4GjQX7XHVuP6ogfKbKX7qMD1g=;
+ b=V+Y9xvOPVWvix/GsoZ9sg15OPfWnhYlvCIrW7WoU13zqGT//8oBZiEM7/GOZlcCYCAcV/mbT/
+ B5s83jodKHOCU9zY9QY+Wy3pEY+5cU3rNpzOhT2OAkZH2anXF9UQu6A
 X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
  pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
 X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
@@ -66,202 +67,132 @@ Reply-To: cryolitia@uniontech.com
 
 From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-It accepts strings like `VID:PID:quirk_flag_name1|quirk_flag_name2;...`
-from now on, so that we can use it to debug USB audio devices more
-intuitive and flexible. The compatibility of previous form is kept.
+Just briefly described about the option's change and its new usage.
 
-Co-developed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 ---
- sound/usb/card.c   | 32 +++++++++++++++----
- sound/usb/quirks.c | 90 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- sound/usb/quirks.h |  4 ++-
- 3 files changed, 118 insertions(+), 8 deletions(-)
+ Documentation/sound/alsa-configuration.rst | 108 ++++++++++++++++++++---------
+ 1 file changed, 75 insertions(+), 33 deletions(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 0265206a8e8cf31133e8463c98fe0497d8ace89e..66c6c92fa9e8d2d04cc297a3dc8de9c8a2e99465 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -73,7 +73,7 @@ static bool lowlatency = true;
- static char *quirk_alias[SNDRV_CARDS];
- static char *delayed_register[SNDRV_CARDS];
- static bool implicit_fb[SNDRV_CARDS];
--static unsigned int quirk_flags[SNDRV_CARDS];
-+static char *quirk_flags[SNDRV_CARDS];
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index a2fb8ed251dd0294e7a62209ca15d5c32c6adfae..0a4eaa7d66ddd05e7c7378596a351bb6ea17f9ba 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2297,39 +2297,81 @@ skip_validation
+     of the unit descriptor instead of a driver probe error, so that we
+     can check its details.
+ quirk_flags
+-    Contains the bit flags for various device specific workarounds.
+-    Applied to the corresponding card index.
+-
+-        * bit 0: Skip reading sample rate for devices
+-        * bit 1: Create Media Controller API entries
+-        * bit 2: Allow alignment on audio sub-slot at transfer
+-        * bit 3: Add length specifier to transfers
+-        * bit 4: Start playback stream at first in implement feedback mode
+-        * bit 5: Skip clock selector setup
+-        * bit 6: Ignore errors from clock source search
+-        * bit 7: Indicates ITF-USB DSD based DACs
+-        * bit 8: Add a delay of 20ms at each control message handling
+-        * bit 9: Add a delay of 1-2ms at each control message handling
+-        * bit 10: Add a delay of 5-6ms at each control message handling
+-        * bit 11: Add a delay of 50ms at each interface setup
+-        * bit 12: Perform sample rate validations at probe
+-        * bit 13: Disable runtime PM autosuspend
+-        * bit 14: Ignore errors for mixer access
+-        * bit 15: Support generic DSD raw U32_BE format
+-        * bit 16: Set up the interface at first like UAC1
+-        * bit 17: Apply the generic implicit feedback sync mode
+-        * bit 18: Don't apply implicit feedback sync mode
+-        * bit 19: Don't closed interface during setting sample rate
+-        * bit 20: Force an interface reset whenever stopping & restarting
+-          a stream
+-        * bit 21: Do not set PCM rate (frequency) when only one rate is
+-          available for the given endpoint.
+-        * bit 22: Set the fixed resolution 16 for Mic Capture Volume
+-        * bit 23: Set the fixed resolution 384 for Mic Capture Volume
+-        * bit 24: Set minimum volume control value as mute for devices
+-          where the lowest playback value represents muted state instead
+-          of minimum audible volume
+-        * bit 25: Be similar to bit 24 but for capture streams
++    The option provides a refined and flexible control for applying quirk
++    flags.  It allows to specify the quirk flags for each device, and can
++    be modified dynamically via sysfs.
++    The old usage accepts an array of integers, each of which applies quirk
++    flags on the device in the order of probing.
++    E.g., ``quirk_flags=0x01,0x02`` applies get_sample_rate to the first
++    device, and share_media_device to the second device.
++    The new usage accepts a string in the format of
++    ``VID1:PID1:FLAGS1;VID2:PID2:FLAGS2;...``, where ``VIDx`` and ``PIDx``
++    specify the device, and ``FLAGSx`` specify the flags to be applied.
++    ``VIDx`` and ``PIDx`` are 4-digit hexadecimal numbers, and can be
++    specified as ``*`` to match any value.  ``FLAGSx`` can be a set of
++    flags given by name, separated by ``|``, or a hexadecimal number
++    representing the bit flags.  The available flag names are listed below.
++    An exclamation mark can be prefixed to a flag name to negate the flag.
++    For example, ``1234:abcd:mixer_playback_min_mute|!ignore_ctl_error;*:*:0x01;``
++    applies the ``mixer_playback_min_mute`` flag and clears the
++    ``ignore_ctl_error`` flag for the device 1234:abcd, and applies the
++    ``skip_sample_rate`` flag for all devices.
++
++        * bit 0: ``get_sample_rate``
++          Skip reading sample rate for devices
++        * bit 1: ``share_media_device``
++          Create Media Controller API entries
++        * bit 2: ``align_transfer``
++          Allow alignment on audio sub-slot at transfer
++        * bit 3: ``tx_length``
++          Add length specifier to transfers
++        * bit 4: ``playback_first``
++          Start playback stream at first in implement feedback mode
++        * bit 5: ``skip_clock_selector``
++          Skip clock selector setup
++        * bit 6: ``ignore_clock_source``
++          Ignore errors from clock source search
++        * bit 7: ``itf_usb_dsd_dac``
++          Indicates ITF-USB DSD-based DACs
++        * bit 8: ``ctl_msg_delay``
++          Add a delay of 20ms at each control message handling
++        * bit 9: ``ctl_msg_delay_1m``
++          Add a delay of 1-2ms at each control message handling
++        * bit 10: ``ctl_msg_delay_5m``
++          Add a delay of 5-6ms at each control message handling
++        * bit 11: ``iface_delay``
++          Add a delay of 50ms at each interface setup
++        * bit 12: ``validate_rates``
++          Perform sample rate validations at probe
++        * bit 13: ``disable_autosuspend``
++          Disable runtime PM autosuspend
++        * bit 14: ``ignore_ctl_error``
++          Ignore errors for mixer access
++        * bit 15: ``dsd_raw``
++          Support generic DSD raw U32_BE format
++        * bit 16: ``set_iface_first``
++          Set up the interface at first like UAC1
++        * bit 17: ``generic_implicit_fb``
++          Apply the generic implicit feedback sync mode
++        * bit 18: ``skip_implicit_fb``
++          Don't apply implicit feedback sync mode
++        * bit 19: ``iface_skip_close``
++          Don't close interface during setting sample rate
++        * bit 20: ``force_iface_reset``
++          Force an interface reset whenever stopping & restarting a stream
++        * bit 21: ``fixed_rate``
++          Do not set PCM rate (frequency) when only one rate is available
++          for the given endpoint
++        * bit 22: ``mic_res_16``
++          Set the fixed resolution 16 for Mic Capture Volume
++        * bit 23: ``mic_res_384``
++          Set the fixed resolution 384 for Mic Capture Volume
++        * bit 24: ``mixer_playback_min_mute``
++          Set minimum volume control value as mute for devices where the
++          lowest playback value represents muted state instead of minimum
++          audible volume
++        * bit 25: ``mixer_capture_min_mute``
++          Similar to bit 24 but for capture streams
  
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
-@@ -103,7 +103,7 @@ module_param_array(delayed_register, charp, NULL, 0444);
- MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
- module_param_array(implicit_fb, bool, NULL, 0444);
- MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
--module_param_array(quirk_flags, uint, NULL, 0444);
-+module_param_array(quirk_flags, charp, NULL, 0444);
- MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
- module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
-@@ -692,6 +692,29 @@ static void usb_audio_make_longname(struct usb_device *dev,
- 	}
- }
+ This module supports multiple devices, autoprobe and hotplugging.
  
-+static void snd_usb_init_quirk_flags(int idx, struct snd_usb_audio *chip)
-+{
-+	size_t i;
-+
-+	/* old style option found: the position-based integer value */
-+	if (quirk_flags[idx] &&
-+	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
-+		snd_usb_apply_flag_dbg("module param", chip, chip->quirk_flags);
-+		return;
-+	}
-+
-+	/* take the default quirk from the quirk table */
-+	snd_usb_init_quirk_flags_table(chip);
-+
-+	/* add or correct quirk bits from options */
-+	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++) {
-+		if (!quirk_flags[i] || !*quirk_flags[i])
-+			break;
-+
-+		snd_usb_init_quirk_flags_parse_string(chip, quirk_flags[i]);
-+	}
-+}
-+
- /*
-  * create a chip instance and set its names.
-  */
-@@ -750,10 +773,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
- 	INIT_LIST_HEAD(&chip->midi_v2_list);
- 	INIT_LIST_HEAD(&chip->mixer_list);
- 
--	if (quirk_flags[idx])
--		chip->quirk_flags = quirk_flags[idx];
--	else
--		snd_usb_init_quirk_flags(chip);
-+	snd_usb_init_quirk_flags(idx, chip);
- 
- 	card->private_free = snd_usb_audio_free;
- 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index def1573f65df91ae26a988a45a10267ffba18739..e7ba25f3df9ec2837744ca6d6fa33791e7893842 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2524,7 +2524,7 @@ void snd_usb_apply_flag_dbg(const char *reason,
- 	}
- }
- 
--void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
-+void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
- {
- 	const struct usb_audio_quirk_flags_table *p;
- 
-@@ -2538,3 +2538,91 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
- 		}
- 	}
- }
-+
-+void snd_usb_init_quirk_flags_parse_string(struct snd_usb_audio *chip,
-+					   const char *str)
-+{
-+	u16 chip_vid = USB_ID_VENDOR(chip->usb_id);
-+	u16 chip_pid = USB_ID_PRODUCT(chip->usb_id);
-+	u32 mask_flags, unmask_flags, bit;
-+	char *p, *field, *flag;
-+	bool is_unmask;
-+	u16 vid, pid;
-+
-+	char *val __free(kfree) = kstrdup(str, GFP_KERNEL);
-+
-+	if (!val)
-+		return;
-+
-+	for (p = val; p && *p;) {
-+		/* Each entry consists of VID:PID:flags */
-+		field = strsep(&p, ":");
-+		if (!field)
-+			break;
-+
-+		if (strcmp(field, "*") == 0)
-+			vid = 0;
-+		else if (kstrtou16(field, 16, &vid))
-+			break;
-+
-+		field = strsep(&p, ":");
-+		if (!field)
-+			break;
-+
-+		if (strcmp(field, "*") == 0)
-+			pid = 0;
-+		else if (kstrtou16(field, 16, &pid))
-+			break;
-+
-+		field = strsep(&p, ";");
-+		if (!field || !*field)
-+			break;
-+
-+		if ((vid != 0 && vid != chip_vid) ||
-+		    (pid != 0 && pid != chip_pid))
-+			continue;
-+
-+		/* Collect the flags */
-+		mask_flags = 0;
-+		unmask_flags = 0;
-+		while (field && *field) {
-+			flag = strsep(&field, "|");
-+
-+			if (!flag)
-+				break;
-+
-+			if (*flag == '!') {
-+				is_unmask = true;
-+				flag++;
-+			} else {
-+				is_unmask = false;
-+			}
-+
-+			if (!kstrtou32(flag, 16, &bit)) {
-+				if (is_unmask)
-+					unmask_flags |= bit;
-+				else
-+					mask_flags |= bit;
-+
-+				break;
-+			}
-+
-+			bit = snd_usb_quirk_flags_from_name(flag);
-+
-+			if (bit) {
-+				if (is_unmask)
-+					unmask_flags |= bit;
-+				else
-+					mask_flags |= bit;
-+			} else {
-+				pr_warn("snd_usb_audio: unknown flag %s while parsing param quirk_flags\n",
-+					flag);
-+			}
-+		}
-+
-+		chip->quirk_flags &= ~unmask_flags;
-+		chip->quirk_flags |= mask_flags;
-+		snd_usb_apply_flag_dbg("module param", chip,
-+				       chip->quirk_flags);
-+	}
-+}
-diff --git a/sound/usb/quirks.h b/sound/usb/quirks.h
-index 1b727d3c35c7033b85b56ce43d66fd76c8f2d4ef..f24d6a5a197a641dac36eb3c6eca5dbf5076b495 100644
---- a/sound/usb/quirks.h
-+++ b/sound/usb/quirks.h
-@@ -52,7 +52,9 @@ void snd_usb_apply_flag_dbg(const char *reason,
- 			    struct snd_usb_audio *chip,
- 			    unsigned long flag);
- 
--void snd_usb_init_quirk_flags(struct snd_usb_audio *chip);
-+void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip);
-+void snd_usb_init_quirk_flags_parse_string(struct snd_usb_audio *chip,
-+					   const char *str);
- 
- const char *snd_usb_quirk_flag_find_name(unsigned long flag);
- u32 snd_usb_quirk_flags_from_name(const char *name);
 
 -- 
 2.51.0
