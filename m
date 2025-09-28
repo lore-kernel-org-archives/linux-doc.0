@@ -1,117 +1,116 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F9C23B61E;
-	Sun, 28 Sep 2025 01:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60E534BA3B;
+	Sun, 28 Sep 2025 02:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759024533; cv=none; b=uYb011pepS8FGlD+/xwEhuHCNf1aP/30eOWt02BDUVhpgeSVaqhGFRalt+VwGWJ+C3RWPvy3Rr0Apc6kgn89gC+e781WaaBNSHMVRFIUXxcW507nEtXbxImDP42KKO8xjrdG9eiSX/a4R7x5XASb9N7nVYWmVHTCsXan86CKh5M=
+	t=1759024972; cv=none; b=eNaX4K1i5uTYU/HrHFMI/2H80PsgA2glTv5NYi7mlhKRVNtUsfDfGQjKJ4R+tAolJNj8UjQHZwl52ltG4oLUKBefNiXYGmq4OGOJ9gKJYNTjWsuy9t8a6h0+qxqVciBRXUOPn8vgKpwY9ZxXTG2TdOdP02cxa+b8uDpq//FnKf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759024533; c=relaxed/simple;
-	bh=DhMy8VelA4m+5ed71j+YSweluWKoiDqs3q7HQ2bmmIA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lj2P0N38DU6J8c9Pb1BIdv/8DS5ZuMHakfcyLeSNcKHv5JlOuM2M4OeJxBhV2vjX5lsxcYLTFuefeb71AtCDTGmle9qIyJ7jjYrKosRbLzulCnDHTfx8jqAAWpp3Pr+2x+LGQQyyZdOQAiHuAH8imSPAgFXT9LaftyySHHk4ZPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Lance Yang <lance.yang@linux.dev>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "joel.granados@kernel.org"
-	<joel.granados@kernel.org>, "feng.tang@linux.alibaba.com"
-	<feng.tang@linux.alibaba.com>, "pauld@redhat.com" <pauld@redhat.com>,
-	"kees@kernel.org" <kees@kernel.org>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "mingo@kernel.org" <mingo@kernel.org>,
-	"paulmck@kernel.org" <paulmck@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>
-Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdIGh1bmdfdGFzazogUGFu?=
- =?utf-8?Q?ic_after_fixed_number_of_hung_tasks?=
-Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF0gaHVuZ190YXNrOiBQYW5pYyBh?=
- =?utf-8?Q?fter_fixed_number_of_hung_tasks?=
-Thread-Index: AQHcLeKBbjlGoIEXG0G0MLy1vpHO47SlzeoAgAILndA=
-Date: Sun, 28 Sep 2025 01:54:33 +0000
-Message-ID: <bfe6df93ed8e4eb1b5191d4f7be719f7@baidu.com>
-References: <20250925060605.2659-1-lirongqing@baidu.com>
- <3ae5cbea-d320-4d28-a894-5e11e048158f@linux.dev>
-In-Reply-To: <3ae5cbea-d320-4d28-a894-5e11e048158f@linux.dev>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1759024972; c=relaxed/simple;
+	bh=TbE5wP/JcNnnsgJs1T+Ur/fVdp9uhNGZ5B79GwCENkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PNKnd996FpRWs136E5vxjN+sVP6o0OfbAr5XIszsKwFjVMSJ5E0mPHnhUNkX4d8lzn3v0vFKYPXM7N2BvSq1EQg/DZxhUSTDqrXs3ottn4UmOpKkrlP6CnowemVuuFERl7WXUI+ep0Ir3KGVonALfJSa08w74MnqblWnpIoJO28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=svJJJBDQ; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="svJJJBDQ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1759024964; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=z6EMcu+n/Cws7562CqoRQNUPXsezkRvjfC1WKL+N5wM=;
+	b=svJJJBDQ8PPoR+1lW96s5j2Buxq3JWT+w/yDWGNYUWOTmjjDRmVbnA0Dw/ZXckdRhxmeexwTFLXm+GHUn9ZS2gzPdxMr2UgzGdaof7zF0QzvA3upppnkRf7bpenOMT9TRfO/KsYljp+xDlDPqi1pOk3QRoN1WpVmnQzqUqnpE70=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WowZZ-z_1759024963 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 28 Sep 2025 10:02:44 +0800
+Date: Sun, 28 Sep 2025 10:02:43 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: Halil Pasic <pasic@linux.ibm.com>, Paolo Abeni <pabeni@redhat.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Sidraya Jayagond <sidraya@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Mahanta Jambigi <mjambigi@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
+ configurable
+Message-ID: <aNiXQ_UfG9k-f9-n@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250921214440.325325-1-pasic@linux.ibm.com>
+ <20250921214440.325325-2-pasic@linux.ibm.com>
+ <7cc2df09-0230-40cb-ad4f-656b0d1d785b@redhat.com>
+ <20250925132540.74091295.pasic@linux.ibm.com>
+ <20250928005515.61a57542.pasic@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-FEAS-Client-IP: 172.31.3.12
-X-FE-Policy-ID: 52:10:53:SYSTEM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250928005515.61a57542.pasic@linux.ibm.com>
 
-PiA+IFNpZ25lZC1vZmYtYnk6IExpIFJvbmdRaW5nIDxsaXJvbmdxaW5nQGJhaWR1LmNvbT4NCj4g
-PiAtLS0NCj4gPiAgIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvc3lzY3RsL2tlcm5lbC5yc3Qg
-fCAgNiArKysrKysNCj4gPiAgIGtlcm5lbC9odW5nX3Rhc2suYyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfCAxNCArKysrKysrKysrKysrLQ0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNl
-cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi9hZG1pbi1ndWlkZS9zeXNjdGwva2VybmVsLnJzdA0KPiA+IGIvRG9jdW1lbnRhdGlvbi9h
-ZG1pbi1ndWlkZS9zeXNjdGwva2VybmVsLnJzdA0KPiA+IGluZGV4IDhiNDllYWIuLjQyNDBlN2Ig
-MTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9zeXNjdGwva2VybmVs
-LnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvc3lzY3RsL2tlcm5lbC5y
-c3QNCj4gPiBAQCAtNDA1LDYgKzQwNSwxMiBAQCBUaGlzIGZpbGUgc2hvd3MgdXAgaWYNCj4gYGBD
-T05GSUdfREVURUNUX0hVTkdfVEFTS2BgIGlzIGVuYWJsZWQuDQo+ID4gICAxIFBhbmljIGltbWVk
-aWF0ZWx5Lg0KPiA+ICAgPSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09DQo+ID4NCj4gPiAraHVuZ190YXNrX2NvdW50X3RvX3BhbmljDQo+ID4gKz09PT09
-PT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArV2hlbiBzZXQgdG8gYSBub24temVybyB2YWx1
-ZSwgYWZ0ZXIgdGhlIG51bWJlciBvZiBjb25zZWN1dGl2ZSBodW5nDQo+ID4gK3Rhc2sgb2NjdXIs
-IHRoZSBrZXJuZWwgd2lsbCB0cmlnZ2VycyBhIHBhbmljDQo+IA0KPiBIbW0uLi4gdGhlIGRvY3Vt
-ZW50YXRpb24gaGVyZSBzZWVtcyBhIGJpdCBtaXNsZWFkaW5nLg0KPiANCj4gaHVuZ190YXNrX3Bh
-bmljPTEgd2lsbCBhbHdheXMgY2F1c2UgYW4gaW1tZWRpYXRlIHBhbmljLCByZWdhcmRsZXNzIG9m
-IHRoZQ0KPiBodW5nX3Rhc2tfY291bnRfdG9fcGFuaWMgc2V0dGluZywgcmlnaHQ/DQo+IA0KPiBQ
-ZXJoYXBzIHNvbWV0aGluZyBsaWtlIHRoaXMgd291bGQgYmUgbW9yZSBhY2N1cmF0ZT8NCj4gDQo+
-IGBgYA0KPiBodW5nX3Rhc2tfY291bnRfdG9fcGFuaWMNCj4gPT09PT09PT09PT09PT09PT09PT09
-PT09DQo+IA0KPiBXaGVuIHNldCB0byBhIG5vbi16ZXJvIHZhbHVlLCBhIGtlcm5lbCBwYW5pYyB3
-aWxsIGJlIHRyaWdnZXJlZCBpZiB0aGUgbnVtYmVyIG9mDQo+IGRldGVjdGVkIGh1bmcgdGFza3Mg
-cmVhY2hlcyB0aGlzIHZhbHVlLg0KPiANCj4gTm90ZSB0aGF0IHNldHRpbmcgaHVuZ190YXNrX3Bh
-bmljPTEgd2lsbCBzdGlsbCBjYXVzZSBhbiBpbW1lZGlhdGUgcGFuaWMgb24gdGhlDQo+IGZpcnN0
-IGh1bmcgdGFzaywgb3ZlcnJpZGluZyB0aGlzIHNldHRpbmcuDQo+IGBgYA0KDQoNCkkgd2lsbCBy
-ZXdyaXRlIHRoaXMgZG9jdW1lbnRhdGlvbiBhcyB5b3VyIHN1Z2dlc3Rpb25zDQoNCg0KPiANCj4g
-Pg0KPiA+ICAgaHVuZ190YXNrX2NoZWNrX2NvdW50DQo+ID4gICA9PT09PT09PT09PT09PT09PT09
-PT0NCj4gPiBkaWZmIC0tZ2l0IGEva2VybmVsL2h1bmdfdGFzay5jIGIva2VybmVsL2h1bmdfdGFz
-ay5jIGluZGV4DQo+ID4gODcwOGExMi4uODdhNjQyMSAxMDA2NDQNCj4gPiAtLS0gYS9rZXJuZWwv
-aHVuZ190YXNrLmMNCj4gPiArKysgYi9rZXJuZWwvaHVuZ190YXNrLmMNCj4gPiBAQCAtODMsNiAr
-ODMsOCBAQCBzdGF0aWMgdW5zaWduZWQgaW50IF9fcmVhZF9tb3N0bHkNCj4gc3lzY3RsX2h1bmdf
-dGFza19hbGxfY3B1X2JhY2t0cmFjZTsNCj4gPiAgIHN0YXRpYyB1bnNpZ25lZCBpbnQgX19yZWFk
-X21vc3RseSBzeXNjdGxfaHVuZ190YXNrX3BhbmljID0NCj4gPiAgIAlJU19FTkFCTEVEKENPTkZJ
-R19CT09UUEFSQU1fSFVOR19UQVNLX1BBTklDKTsNCj4gPg0KPiA+ICtzdGF0aWMgdW5zaWduZWQg
-aW50IF9fcmVhZF9tb3N0bHkgc3lzY3RsX2h1bmdfdGFza19jb3VudF90b19wYW5pYzsNCj4gDQo+
-IE5pdDogd2hpbGUgc3RhdGljIHZhcmlhYmxlcyBhcmUgZ3VhcmFudGVlZCB0byBiZSB6ZXJvLWlu
-aXRpYWxpemVkLCBpdCdzIGEgZ29vZA0KPiBwcmFjdGljZSBhbmQgY2xlYXJlciBmb3IgcmVhZGVy
-cyB0byBpbml0aWFsaXplIHRoZW0gZXhwbGljaXRseS4NCj4gDQo+IHN0YXRpYyB1bnNpZ25lZCBp
-bnQgX19yZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNrX2NvdW50X3RvX3BhbmljID0gMDsNCj4g
-DQoNCg0KT2ssIEkgd2lsbCBjaGFuZ2UgaXQNCg0KVGhhbmtzDQoNCi1MaQ0KDQo+IA0KPiBPdGhl
-cndpc2UsIHRoaXMgcGF0Y2ggbG9va3MgZ29vZCB0byBtZSENCj4gQWNrZWQtYnk6IExhbmNlIFlh
-bmcgPGxhbmNlLnlhbmdAbGludXguZGV2Pg0KPiANCj4gPiArDQo+ID4gICBzdGF0aWMgaW50DQo+
-ID4gICBodW5nX3Rhc2tfcGFuaWMoc3RydWN0IG5vdGlmaWVyX2Jsb2NrICp0aGlzLCB1bnNpZ25l
-ZCBsb25nIGV2ZW50LCB2b2lkICpwdHIpDQo+ID4gICB7DQo+ID4gQEAgLTIxOSw3ICsyMjEsOSBA
-QCBzdGF0aWMgdm9pZCBjaGVja19odW5nX3Rhc2soc3RydWN0IHRhc2tfc3RydWN0ICp0LA0KPiA+
-IHVuc2lnbmVkIGxvbmcgdGltZW91dCkNCj4gPg0KPiA+ICAgCXRyYWNlX3NjaGVkX3Byb2Nlc3Nf
-aGFuZyh0KTsNCj4gPg0KPiA+IC0JaWYgKHN5c2N0bF9odW5nX3Rhc2tfcGFuaWMpIHsNCj4gPiAr
-CWlmIChzeXNjdGxfaHVuZ190YXNrX3BhbmljIHx8DQo+ID4gKwkgICAgKHN5c2N0bF9odW5nX3Rh
-c2tfY291bnRfdG9fcGFuaWMgJiYNCj4gPiArCSAgICAgKHN5c2N0bF9odW5nX3Rhc2tfZGV0ZWN0
-X2NvdW50ID49DQo+ID4gK3N5c2N0bF9odW5nX3Rhc2tfY291bnRfdG9fcGFuaWMpKSkgew0KPiA+
-ICAgCQljb25zb2xlX3ZlcmJvc2UoKTsNCj4gPiAgIAkJaHVuZ190YXNrX3Nob3dfbG9jayA9IHRy
-dWU7DQo+ID4gICAJCWh1bmdfdGFza19jYWxsX3BhbmljID0gdHJ1ZTsNCj4gPiBAQCAtMzg4LDYg
-KzM5MiwxNCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGN0bF90YWJsZSBodW5nX3Rhc2tfc3lzY3Rs
-c1tdID0gew0KPiA+ICAgCQkuZXh0cmEyCQk9IFNZU0NUTF9PTkUsDQo+ID4gICAJfSwNCj4gPiAg
-IAl7DQo+ID4gKwkJLnByb2NuYW1lCT0gImh1bmdfdGFza19jb3VudF90b19wYW5pYyIsDQo+ID4g
-KwkJLmRhdGEJCT0gJnN5c2N0bF9odW5nX3Rhc2tfY291bnRfdG9fcGFuaWMsDQo+ID4gKwkJLm1h
-eGxlbgkJPSBzaXplb2YoaW50KSwNCj4gPiArCQkubW9kZQkJPSAwNjQ0LA0KPiA+ICsJCS5wcm9j
-X2hhbmRsZXIJPSBwcm9jX2RvaW50dmVjX21pbm1heCwNCj4gPiArCQkuZXh0cmExCQk9IFNZU0NU
-TF9aRVJPLA0KPiA+ICsJfSwNCj4gPiArCXsNCj4gPiAgIAkJLnByb2NuYW1lCT0gImh1bmdfdGFz
-a19jaGVja19jb3VudCIsDQo+ID4gICAJCS5kYXRhCQk9ICZzeXNjdGxfaHVuZ190YXNrX2NoZWNr
-X2NvdW50LA0KPiA+ICAgCQkubWF4bGVuCQk9IHNpemVvZihpbnQpLA0KDQo=
+On 2025-09-28 00:55:15, Halil Pasic wrote:
+>On Thu, 25 Sep 2025 13:25:40 +0200
+>Halil Pasic <pasic@linux.ibm.com> wrote:
+>
+>> > [...]  
+>> > > @@ -683,6 +678,8 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+>> > >  	};
+>> > >  	int rc;
+>> > >  
+>> > > +	qp_attr.cap.max_send_wr = 3 * lnk->lgr->max_send_wr;
+>> > > +	qp_attr.cap.max_recv_wr = lnk->lgr->max_recv_wr;    
+>> > 
+>> > Possibly:
+>> > 
+>> > 	cap = max(3 * lnk->lgr->max_send_wr, lnk->lgr->max_recv_wr);
+>> > 	qp_attr.cap.max_send_wr = cap;
+>> > 	qp_attr.cap.max_recv_wr = cap
+>> > 
+>> > to avoid assumption on `max_send_wr`, `max_recv_wr` relative values.  
+>> 
+>> Can you explain a little more. I'm happy to do the change, but I would
+>> prefer to understand why is keeping qp_attr.cap.max_send_wr ==
+>> qp_attr.cap.max_recv_wr better? But if you tell: "Just trust me!" I will.
+>
+>Due to a little accident we ended up having a private conversation
+>on this, which I'm going to sum up quickly.
+>
+>Paolo stated that he has no strong preference and that I should at
+>least add a comment, which I will do for v4. 
+>
+>Unfortunately I don't quite understand why qp_attr.cap.max_send_wr is 3
+>times the number of send WR buffers we allocate. My understanding
+>is that qp_attr.cap.max_send_wr is about the number of send WQEs.
+
+We have at most 2 RDMA Write for 1 RDMA send. So 3 times is necessary.
+That is explained in the original comments. Maybe it's better to keep it.
+
+```
+.cap = {
+                /* include unsolicited rdma_writes as well,
+                 * there are max. 2 RDMA_WRITE per 1 WR_SEND
+                 */
+        .max_send_wr = SMC_WR_BUF_CNT * 3,
+        .max_recv_wr = SMC_WR_BUF_CNT * 3,
+        .max_send_sge = SMC_IB_MAX_SEND_SGE,
+        .max_recv_sge = lnk->wr_rx_sge_cnt,
+        .max_inline_data = 0,
+},
+```
+
+>I assume that qp_attr.cap.max_send_wr == qp_attr.cap.max_recv_wr
+>is not something we would want to preserve.
+
+IIUC, RDMA Write won't consume any RX wqe on the receive side, so I think
+the .max_recv_wr can be SMC_WR_BUF_CNT if we don't use RDMA_WRITE_IMM.
+
+
+Best regards,
+Dust
