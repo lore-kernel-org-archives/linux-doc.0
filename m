@@ -1,150 +1,127 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from baidu.com (mx24.baidu.com [111.206.215.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADAA23D7DE
-	for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 06:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB931A267;
+	Sun, 28 Sep 2025 07:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759042562; cv=none; b=fJq006lFGkQDwkObS9Vqi0Sy9SWa8YwBMmUHj4YKi7rwCPCgtXFU36eZqfHubMYqufAuHKnBEfGMVXnnBCYpdpx9Grk225QbMRc3Q3PhzcNhs5UbwEta5ZcPYHfvCzCSVg1nS2A7OUfyaoFj9kEH3dSNswiXTOk9knflE9vCoAw=
+	t=1759043074; cv=none; b=jEyMmw17yUAdOtDSbAZliqmt1dNEdgpH00CSQVagrSX6+4n+fusiFzx5Q6l956MaNtsjfc0VcHgutj7O60dxViusGEmtDTpSdUHMnHdsJ3jdiHToZHVFEysTW17X2KirBU3OiqQ552+33lbqU007W96v7JLfRN2+1ncCT1CD5Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759042562; c=relaxed/simple;
-	bh=v/jxQ03CMnyAoLhNERZdyWhwcc3q87yNM7rXLSjZOco=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=az2/7nf921T+qgv5gGrLmwXLRKwO+dEJq3hcvWwdiDPovYQeqg48HoXJNNjXL45/Zc6FbQDvSOx7u7ZHNWCTvXJzMwklpFiC0CBz22iSoOuNCMKyy9GbiH86DNJbYiZWhi+kMG5DX4EJvTLUPpKFLzCpoSNOiwe0fFPARw1kvKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bRcSsaKr; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bRcSsaKr"
-Message-ID: <3c44a757-f823-4671-b3d5-548fe04e52e3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1759042557;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VuydFKA9AN/BAvt5T3Qq3i+P5df99gQQUA7oFByoAi8=;
-	b=bRcSsaKr7+h/zTv9KO06FkBOG9gbnERtynGf1cvFcbzSa/zbxIdFT76hn+vcPA0M94G3a3
-	pzKJRFGqiDRzcrUMh6ReBmB5a0enb9fOGwN6Tpioyc15kCWBOu0L9S5CFUbpvGfocqxqQr
-	1WQ5eB1PG8FKjWYUpynxq9PxqTKUyZo=
-Date: Sun, 28 Sep 2025 14:55:46 +0800
+	s=arc-20240116; t=1759043074; c=relaxed/simple;
+	bh=BsnondPlu04MEHCTei8SjM5/nIa1e6nUI5FPxKQEvz0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=aCAq1AmnKN1jGUtVjhqEfjxPl3HsD3Oj6EfqhlOPKuQ+UAois+dy0EafeSybzePRM+THiVEApHFt0JC+pZfEtM2B/LOk3Mz91FZdIT7J/7zSwSGRSeH93oHHc7ZgcyhRo2WOsnzPW6z6E6FnGg4TPOLrClu2q80FCJDYAgAlBYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: "Li,Rongqing" <lirongqing@baidu.com>
+To: Lance Yang <lance.yang@linux.dev>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "mingo@kernel.org" <mingo@kernel.org>,
+	"pauld@redhat.com" <pauld@redhat.com>, "joel.granados@kernel.org"
+	<joel.granados@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+	"kees@kernel.org" <kees@kernel.org>, "mhiramat@kernel.org"
+	<mhiramat@kernel.org>, "paulmck@kernel.org" <paulmck@kernel.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>
+Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW3YyXSBodW5nX3Rhc2s6?=
+ =?utf-8?Q?_Panic_after_fixed_number_of_hung_tasks?=
+Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF1bdjJdIGh1bmdfdGFzazogUGFu?=
+ =?utf-8?Q?ic_after_fixed_number_of_hung_tasks?=
+Thread-Index: AQHcMDksdcRioXB8tEOzfxW7SI8WgLSno0UAgACG63A=
+Date: Sun, 28 Sep 2025 07:03:33 +0000
+Message-ID: <d33ebade05ea45c2be47717fe1b812b8@baidu.com>
+References: <20250928053137.3412-1-lirongqing@baidu.com>
+ <3c44a757-f823-4671-b3d5-548fe04e52e3@linux.dev>
+In-Reply-To: <3c44a757-f823-4671-b3d5-548fe04e52e3@linux.dev>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH][v2] hung_task: Panic after fixed number of hung tasks
-Content-Language: en-US
-To: lirongqing <lirongqing@baidu.com>
-References: <20250928053137.3412-1-lirongqing@baidu.com>
-Cc: corbet@lwn.net, mingo@kernel.org, pauld@redhat.com,
- joel.granados@kernel.org, arnd@arndb.de, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dave.hansen@linux.intel.com,
- akpm@linux-foundation.org, feng.tang@linux.alibaba.com, kees@kernel.org,
- mhiramat@kernel.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com,
- rostedt@goodmis.org
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20250928053137.3412-1-lirongqing@baidu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-FEAS-Client-IP: 172.31.3.13
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-Hey Li,
-
-On 2025/9/28 13:31, lirongqing wrote:
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Currently, when hung_task_panic is enabled, kernel will panic immediately
-> upon detecting the first hung task. However, some hung tasks are transient
-> and the system can recover fully, while others are unrecoverable and
-> trigger consecutive hung task reports, and a panic is expected.
-> 
-> This commit adds a new sysctl parameter hung_task_count_to_panic to allows
-> specifying the number of consecutive hung tasks that must be detected
-> before triggering a kernel panic. This provides finer control for
-> environments where transient hangs maybe happen but persistent hangs should
-> still be fatal.
-> 
-> Acked-by: Lance Yang <lance.yang@linux.dev>
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> ---
-
-It's working as expect. So:
-Tested-by: Lance Yang <lance.yang@linux.dev>
-
-But on second thought: regarding this new sysctl parameter, I was wondering
-if a name like max_hung_task_count_to_panic might be a bit more explicit,
-just to follow the convention from max_rcu_stall_to_panic.
-
-No strong opinion on this, though :)
-
-Cheers,
-Lance
-
-> Diff with v1: change documentation as Lance suggested
-> 
->   Documentation/admin-guide/sysctl/kernel.rst |  8 ++++++++
->   kernel/hung_task.c                          | 14 +++++++++++++-
->   2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 8b49eab..98b47a7 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -405,6 +405,14 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
->   1 Panic immediately.
->   = =================================================
->   
-> +hung_task_count_to_panic
-> +=====================
-> +
-> +When set to a non-zero value, a kernel panic will be triggered if the
-> +number of detected hung tasks reaches this value.
-> +
-> +Note that setting hung_task_panic=1 will still cause an immediate panic
-> +on the first hung task.
->   
->   hung_task_check_count
->   =====================
-> diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-> index 8708a12..87a6421 100644
-> --- a/kernel/hung_task.c
-> +++ b/kernel/hung_task.c
-> @@ -83,6 +83,8 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
->   static unsigned int __read_mostly sysctl_hung_task_panic =
->   	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
->   
-> +static unsigned int __read_mostly sysctl_hung_task_count_to_panic;
-> +
->   static int
->   hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
->   {
-> @@ -219,7 +221,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
->   
->   	trace_sched_process_hang(t);
->   
-> -	if (sysctl_hung_task_panic) {
-> +	if (sysctl_hung_task_panic ||
-> +	    (sysctl_hung_task_count_to_panic &&
-> +	     (sysctl_hung_task_detect_count >= sysctl_hung_task_count_to_panic))) {
->   		console_verbose();
->   		hung_task_show_lock = true;
->   		hung_task_call_panic = true;
-> @@ -388,6 +392,14 @@ static const struct ctl_table hung_task_sysctls[] = {
->   		.extra2		= SYSCTL_ONE,
->   	},
->   	{
-> +		.procname	= "hung_task_count_to_panic",
-> +		.data		= &sysctl_hung_task_count_to_panic,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +	},
-> +	{
->   		.procname	= "hung_task_check_count",
->   		.data		= &sysctl_hung_task_check_count,
->   		.maxlen		= sizeof(int),
-
+PiBPbiAyMDI1LzkvMjggMTM6MzEsIGxpcm9uZ3Fpbmcgd3JvdGU6DQo+ID4gRnJvbTogTGkgUm9u
+Z1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPg0KPiA+DQo+ID4gQ3VycmVudGx5LCB3aGVuIGh1
+bmdfdGFza19wYW5pYyBpcyBlbmFibGVkLCBrZXJuZWwgd2lsbCBwYW5pYw0KPiA+IGltbWVkaWF0
+ZWx5IHVwb24gZGV0ZWN0aW5nIHRoZSBmaXJzdCBodW5nIHRhc2suIEhvd2V2ZXIsIHNvbWUgaHVu
+Zw0KPiA+IHRhc2tzIGFyZSB0cmFuc2llbnQgYW5kIHRoZSBzeXN0ZW0gY2FuIHJlY292ZXIgZnVs
+bHksIHdoaWxlIG90aGVycyBhcmUNCj4gPiB1bnJlY292ZXJhYmxlIGFuZCB0cmlnZ2VyIGNvbnNl
+Y3V0aXZlIGh1bmcgdGFzayByZXBvcnRzLCBhbmQgYSBwYW5pYyBpcw0KPiBleHBlY3RlZC4NCj4g
+Pg0KPiA+IFRoaXMgY29tbWl0IGFkZHMgYSBuZXcgc3lzY3RsIHBhcmFtZXRlciBodW5nX3Rhc2tf
+Y291bnRfdG9fcGFuaWMgdG8NCj4gPiBhbGxvd3Mgc3BlY2lmeWluZyB0aGUgbnVtYmVyIG9mIGNv
+bnNlY3V0aXZlIGh1bmcgdGFza3MgdGhhdCBtdXN0IGJlDQo+ID4gZGV0ZWN0ZWQgYmVmb3JlIHRy
+aWdnZXJpbmcgYSBrZXJuZWwgcGFuaWMuIFRoaXMgcHJvdmlkZXMgZmluZXIgY29udHJvbA0KPiA+
+IGZvciBlbnZpcm9ubWVudHMgd2hlcmUgdHJhbnNpZW50IGhhbmdzIG1heWJlIGhhcHBlbiBidXQg
+cGVyc2lzdGVudA0KPiA+IGhhbmdzIHNob3VsZCBzdGlsbCBiZSBmYXRhbC4NCj4gPg0KPiA+IEFj
+a2VkLWJ5OiBMYW5jZSBZYW5nIDxsYW5jZS55YW5nQGxpbnV4LmRldj4NCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBMaSBSb25nUWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+ID4gLS0tDQo+IA0KPiBJ
+dCdzIHdvcmtpbmcgYXMgZXhwZWN0LiBTbzoNCj4gVGVzdGVkLWJ5OiBMYW5jZSBZYW5nIDxsYW5j
+ZS55YW5nQGxpbnV4LmRldj4NCj4gDQo+IEJ1dCBvbiBzZWNvbmQgdGhvdWdodDogcmVnYXJkaW5n
+IHRoaXMgbmV3IHN5c2N0bCBwYXJhbWV0ZXIsIEkgd2FzIHdvbmRlcmluZyBpZg0KPiBhIG5hbWUg
+bGlrZSBtYXhfaHVuZ190YXNrX2NvdW50X3RvX3BhbmljIG1pZ2h0IGJlIGEgYml0IG1vcmUgZXhw
+bGljaXQsIGp1c3QgdG8NCj4gZm9sbG93IHRoZSBjb252ZW50aW9uIGZyb20gbWF4X3JjdV9zdGFs
+bF90b19wYW5pYy4NCj4gDQoNCkkgc2VlIHRoYXQgYWxsIHRoZSBodW5nIHRhc2sgc3lzY3RsIHBh
+cmFtZXRlcnMgc3RhcnQgd2l0aCAiaHVuZ190YXNrIj8gU2hvdWxkIHdlIGtlZXAgdGhpcyBjb252
+ZW50aW9uPyBJZiBzbywgd2UgY291bGQgbmFtZSBpdCAiaHVuZ190YXNrX21heF90b19wYW5pYyIu
+IElmIG5vdCwgd2UgY291bGQgY2FsbCBpdCAibWF4X2hhbmdfdGFza190b19wYW5pYyI/DQoNCi1M
+aQ0KDQoNCj4gTm8gc3Ryb25nIG9waW5pb24gb24gdGhpcywgdGhvdWdoIDopDQo+IA0KPiBDaGVl
+cnMsDQo+IExhbmNlDQo+IA0KPiA+IERpZmYgd2l0aCB2MTogY2hhbmdlIGRvY3VtZW50YXRpb24g
+YXMgTGFuY2Ugc3VnZ2VzdGVkDQo+ID4NCj4gPiAgIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUv
+c3lzY3RsL2tlcm5lbC5yc3QgfCAgOCArKysrKysrKw0KPiA+ICAga2VybmVsL2h1bmdfdGFzay5j
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8IDE0ICsrKysrKysrKysrKystDQo+ID4gICAyIGZp
+bGVzIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL3N5c2N0bC9rZXJuZWwucnN0DQo+
+ID4gYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL3N5c2N0bC9rZXJuZWwucnN0DQo+ID4gaW5k
+ZXggOGI0OWVhYi4uOThiNDdhNyAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2FkbWlu
+LWd1aWRlL3N5c2N0bC9rZXJuZWwucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1n
+dWlkZS9zeXNjdGwva2VybmVsLnJzdA0KPiA+IEBAIC00MDUsNiArNDA1LDE0IEBAIFRoaXMgZmls
+ZSBzaG93cyB1cCBpZg0KPiBgYENPTkZJR19ERVRFQ1RfSFVOR19UQVNLYGAgaXMgZW5hYmxlZC4N
+Cj4gPiAgIDEgUGFuaWMgaW1tZWRpYXRlbHkuDQo+ID4gICA9ID09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPg0KPiA+ICtodW5nX3Rhc2tfY291bnRf
+dG9fcGFuaWMNCj4gPiArPT09PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICtXaGVuIHNl
+dCB0byBhIG5vbi16ZXJvIHZhbHVlLCBhIGtlcm5lbCBwYW5pYyB3aWxsIGJlIHRyaWdnZXJlZCBp
+ZiB0aGUNCj4gPiArbnVtYmVyIG9mIGRldGVjdGVkIGh1bmcgdGFza3MgcmVhY2hlcyB0aGlzIHZh
+bHVlLg0KPiA+ICsNCj4gPiArTm90ZSB0aGF0IHNldHRpbmcgaHVuZ190YXNrX3BhbmljPTEgd2ls
+bCBzdGlsbCBjYXVzZSBhbiBpbW1lZGlhdGUNCj4gPiArcGFuaWMgb24gdGhlIGZpcnN0IGh1bmcg
+dGFzay4NCj4gPg0KPiA+ICAgaHVuZ190YXNrX2NoZWNrX2NvdW50DQo+ID4gICA9PT09PT09PT09
+PT09PT09PT09PT0NCj4gPiBkaWZmIC0tZ2l0IGEva2VybmVsL2h1bmdfdGFzay5jIGIva2VybmVs
+L2h1bmdfdGFzay5jIGluZGV4DQo+ID4gODcwOGExMi4uODdhNjQyMSAxMDA2NDQNCj4gPiAtLS0g
+YS9rZXJuZWwvaHVuZ190YXNrLmMNCj4gPiArKysgYi9rZXJuZWwvaHVuZ190YXNrLmMNCj4gPiBA
+QCAtODMsNiArODMsOCBAQCBzdGF0aWMgdW5zaWduZWQgaW50IF9fcmVhZF9tb3N0bHkNCj4gc3lz
+Y3RsX2h1bmdfdGFza19hbGxfY3B1X2JhY2t0cmFjZTsNCj4gPiAgIHN0YXRpYyB1bnNpZ25lZCBp
+bnQgX19yZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNrX3BhbmljID0NCj4gPiAgIAlJU19FTkFC
+TEVEKENPTkZJR19CT09UUEFSQU1fSFVOR19UQVNLX1BBTklDKTsNCj4gPg0KPiA+ICtzdGF0aWMg
+dW5zaWduZWQgaW50IF9fcmVhZF9tb3N0bHkgc3lzY3RsX2h1bmdfdGFza19jb3VudF90b19wYW5p
+YzsNCj4gPiArDQo+ID4gICBzdGF0aWMgaW50DQo+ID4gICBodW5nX3Rhc2tfcGFuaWMoc3RydWN0
+IG5vdGlmaWVyX2Jsb2NrICp0aGlzLCB1bnNpZ25lZCBsb25nIGV2ZW50LCB2b2lkICpwdHIpDQo+
+ID4gICB7DQo+ID4gQEAgLTIxOSw3ICsyMjEsOSBAQCBzdGF0aWMgdm9pZCBjaGVja19odW5nX3Rh
+c2soc3RydWN0IHRhc2tfc3RydWN0ICp0LA0KPiA+IHVuc2lnbmVkIGxvbmcgdGltZW91dCkNCj4g
+Pg0KPiA+ICAgCXRyYWNlX3NjaGVkX3Byb2Nlc3NfaGFuZyh0KTsNCj4gPg0KPiA+IC0JaWYgKHN5
+c2N0bF9odW5nX3Rhc2tfcGFuaWMpIHsNCj4gPiArCWlmIChzeXNjdGxfaHVuZ190YXNrX3Bhbmlj
+IHx8DQo+ID4gKwkgICAgKHN5c2N0bF9odW5nX3Rhc2tfY291bnRfdG9fcGFuaWMgJiYNCj4gPiAr
+CSAgICAgKHN5c2N0bF9odW5nX3Rhc2tfZGV0ZWN0X2NvdW50ID49DQo+ID4gK3N5c2N0bF9odW5n
+X3Rhc2tfY291bnRfdG9fcGFuaWMpKSkgew0KPiA+ICAgCQljb25zb2xlX3ZlcmJvc2UoKTsNCj4g
+PiAgIAkJaHVuZ190YXNrX3Nob3dfbG9jayA9IHRydWU7DQo+ID4gICAJCWh1bmdfdGFza19jYWxs
+X3BhbmljID0gdHJ1ZTsNCj4gPiBAQCAtMzg4LDYgKzM5MiwxNCBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGN0bF90YWJsZSBodW5nX3Rhc2tfc3lzY3Rsc1tdID0gew0KPiA+ICAgCQkuZXh0cmEyCQk9
+IFNZU0NUTF9PTkUsDQo+ID4gICAJfSwNCj4gPiAgIAl7DQo+ID4gKwkJLnByb2NuYW1lCT0gImh1
+bmdfdGFza19jb3VudF90b19wYW5pYyIsDQo+ID4gKwkJLmRhdGEJCT0gJnN5c2N0bF9odW5nX3Rh
+c2tfY291bnRfdG9fcGFuaWMsDQo+ID4gKwkJLm1heGxlbgkJPSBzaXplb2YoaW50KSwNCj4gPiAr
+CQkubW9kZQkJPSAwNjQ0LA0KPiA+ICsJCS5wcm9jX2hhbmRsZXIJPSBwcm9jX2RvaW50dmVjX21p
+bm1heCwNCj4gPiArCQkuZXh0cmExCQk9IFNZU0NUTF9aRVJPLA0KPiA+ICsJfSwNCj4gPiArCXsN
+Cj4gPiAgIAkJLnByb2NuYW1lCT0gImh1bmdfdGFza19jaGVja19jb3VudCIsDQo+ID4gICAJCS5k
+YXRhCQk9ICZzeXNjdGxfaHVuZ190YXNrX2NoZWNrX2NvdW50LA0KPiA+ICAgCQkubWF4bGVuCQk9
+IHNpemVvZihpbnQpLA0KDQo=
