@@ -1,168 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from baidu.com (mx24.baidu.com [111.206.215.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F4F1A9FBE;
-	Sun, 28 Sep 2025 05:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C22A54F81;
+	Sun, 28 Sep 2025 05:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759037073; cv=none; b=CCQ6IPAT1s4LqjR3uO3AQ3pMoUy0ngdBOaHgBtx5mBGfnPSUWb0IPchr5Qs02YC/J/TNr+FqDEM/7/C3Di7rTAHuynOxTmoSRY9l17Ldz9NQnKTdksk5dSi2nXPAc6wGaftIMJrlSWjLtbV+ABtaq0fzFbqkKXX9K5BGzZlKIAo=
+	t=1759037565; cv=none; b=KGqJ8KAAoA9fDPeC/H4w3o6onASoAFqbyveA4h98x8QmYFcyknd5QFF6dlih1ZBjEjMQPnuopaiCTpDSFGYqA4KqrsT8Gfg+hi5bb9jnsvcBy56JeGsA5LaKtykZ57BcHyvar6ge7kBdfpJEN/sCbRaXoNBKCYoNHtGTW9/KwEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759037073; c=relaxed/simple;
-	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8Wcq4sg5Gl/4ev+OZhwPzYQ9bmL35ugvHylEdL4Xsppzf67rrR3L3Wr7D1HD561jJkto5AFZxjNAeN5Qeun7+aXDqvGtGmPDHPWp/7IzCXFGwdDtDCo05AP5IjUiQKi3Goa7N1HwLCggwjaQ37bvNsYx06TMkFE7UtONtK5o2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V//9x7o/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V//9x7o/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1856C4CEF0;
-	Sun, 28 Sep 2025 05:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759037073;
-	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V//9x7o/J9oZqkmeKIwSySCF19pNgZhCLfXztsQEL6wKCsqagB9YL7A25fXIweQsu
-	 AYQaEoOqHH4SDDWLwgI0xZYxnlsfnvhQJ37whCo+xRnY1TUYRnpoeG6xYzl+TnZ5Ae
-	 nXxyr0346bzMx+LJ73v2k4zgNnkf+a31UyrhEco3QntPoZxyuFtnyoPOsgFMkb0A2o
-	 chHMgdlMHscUtwKzy7Q4o1Y1hjRTzz1NrXCPzqCNJMB7/BGpYIw/o9n1kZPIwgyhL+
-	 7huv7cfQl4zprLtomc3BX86amhXbZj+wyr5CdCEZgWZcY9RxH/fAoEuCSSbazpyomL
-	 i9dCfp9XopLBg==
-Date: Sat, 27 Sep 2025 22:35:00 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 19/24] docs: add support to build manpages from
- kerneldoc output
-Message-ID: <aNhKdCrSM29uwvpn@levanger>
-References: <cover.1758196090.git.mchehab+huawei@kernel.org>
- <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1759037565; c=relaxed/simple;
+	bh=zn+xJVFHmE2tsVST8G931IHahiiL3v9HuvIdrFjbG+U=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Bmdd+QmOq/1z30lad3XI8KUZwpBUVwIMHePg77nCgETE6Fs/Lw1kW8kS3oorMNRp3Yi1rs0gNLtZfvIFTX/4OaBbhrklLn/Ty9GGXL68pb7eDFPluOVrC7AquDQha78GpuocwaHzXgb83243kiza1rr6MLKu3qx0tKwWYpByMXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: lirongqing <lirongqing@baidu.com>
+To: <corbet@lwn.net>, <akpm@linux-foundation.org>, <lance.yang@linux.dev>,
+	<mhiramat@kernel.org>, <paulmck@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>,
+	<dave.hansen@linux.intel.com>, <rostedt@goodmis.org>, <kees@kernel.org>,
+	<arnd@arndb.de>, <lirongqing@baidu.com>, <feng.tang@linux.alibaba.com>,
+	<pauld@redhat.com>, <joel.granados@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH][v2] hung_task: Panic after fixed number of hung tasks
+Date: Sun, 28 Sep 2025 13:31:37 +0800
+Message-ID: <20250928053137.3412-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: bjkjy-exc6.internal.baidu.com (172.31.50.50) To
+ bjkjy-exc3.internal.baidu.com (172.31.50.47)
+X-FEAS-Client-IP: 172.31.50.47
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-Please note that @kernel.org receipients are still not addressed
-correctly:
+From: Li RongQing <lirongqing@baidu.com>
 
-> Date: Thu, 18 Sep 2025 13:54:53 +0200
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>,
->     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>,
->     Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <mchehab+huawei@kernel.org>,
->     Miguel Ojeda <mchehab+huawei@kernel.org>, Nathan Chancellor <mchehab+huawei@kernel.org>,
->     Nicolas Schier <nicolas.schier@linux.dev>, Randy Dunlap <rdunlap@infradead.org>,
->     Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
->     linux-kernel@vger.kernel.org
+Currently, when hung_task_panic is enabled, kernel will panic immediately
+upon detecting the first hung task. However, some hung tasks are transient
+and the system can recover fully, while others are unrecoverable and
+trigger consecutive hung task reports, and a panic is expected.
 
+This commit adds a new sysctl parameter hung_task_count_to_panic to allows
+specifying the number of consecutive hung tasks that must be detected
+before triggering a kernel panic. This provides finer control for
+environments where transient hangs maybe happen but persistent hangs should
+still be fatal.
 
-On Thu, Sep 18, 2025 at 01:54:53PM +0200, Mauro Carvalho Chehab wrote:
-> Generating man files currently requires running a separate
-> script. The target also doesn't appear at the docs Makefile.
-> 
-> Add support for mandocs at the Makefile, adding the build
-> logic inside sphinx-build-wrapper, updating documentation
-> and dropping the ancillary script.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/Makefile                 |  3 +-
->  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
->  Makefile                               |  2 +-
->  scripts/split-man.pl                   | 28 ---------
->  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
->  5 files changed, 95 insertions(+), 48 deletions(-)
->  delete mode 100755 scripts/split-man.pl
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 05397b9d844d..aa42b2cb7030 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
->  else # HAVE_SPHINX
->  
->  # Common documentation targets
-> -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
->  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
->  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
->  		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
-> @@ -104,6 +104,7 @@ dochelp:
->  	@echo  '  htmldocs        - HTML'
->  	@echo  '  texinfodocs     - Texinfo'
->  	@echo  '  infodocs        - Info'
-> +	@echo  '  mandocs         - Man pages'
->  	@echo  '  latexdocs       - LaTeX'
->  	@echo  '  pdfdocs         - PDF'
->  	@echo  '  epubdocs        - EPUB'
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index af9697e60165..4370cc8fbcf5 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -579,20 +579,23 @@ source.
->  How to use kernel-doc to generate man pages
->  -------------------------------------------
->  
-> -If you just want to use kernel-doc to generate man pages you can do this
-> -from the kernel git tree::
-> +To generate man pages for all files that contain kernel-doc markups, run::
->  
-> -  $ scripts/kernel-doc -man \
-> -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> -    | scripts/split-man.pl /tmp/man
-> +  $ make mandocs
->  
-> -Some older versions of git do not support some of the variants of syntax for
-> -path exclusion.  One of the following commands may work for those versions::
-> +Or calling ``script-build-wrapper`` directly::
+Acked-by: Lance Yang <lance.yang@linux.dev>
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+---
+Diff with v1: change documentation as Lance suggested
 
-For this very patch, there is no 'scripts-build-wrapper' but
-'sphinx-build-wrapper'.  Or am I missing something?
+ Documentation/admin-guide/sysctl/kernel.rst |  8 ++++++++
+ kernel/hung_task.c                          | 14 +++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
->  
-> -  $ scripts/kernel-doc -man \
-> -    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-> -    | scripts/split-man.pl /tmp/man
-> +  $ ./tools/docs/sphinx-build-wrapper mandocs
->  
-> -  $ scripts/kernel-doc -man \
-> -    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
-> -    | scripts/split-man.pl /tmp/man
-> +The output will be at ``/man`` directory inside the output directory
-> +(by default: ``Documentation/output``).
-> +
-> +Optionally, it is possible to generate a partial set of man pages by
-> +using SPHINXDIRS:
-> +
-> +  $ make SPHINXDIRS=driver-api/media mandocs
-> +
-> +.. note::
-> +
-> +   When SPHINXDIRS={subdir} is used, it will only generate man pages for
-> +   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
-> diff --git a/Makefile b/Makefile
-> index 6bfe776bf3c5..9bd44afeda26 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
->  # Documentation targets
->  # ---------------------------------------------------------------------------
->  DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-> -	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
-> +	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
->  PHONY += $(DOC_TARGETS)
->  $(DOC_TARGETS):
->  	$(Q)$(MAKE) $(build)=Documentation $@
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 8b49eab..98b47a7 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -405,6 +405,14 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
+ 1 Panic immediately.
+ = =================================================
+ 
++hung_task_count_to_panic
++=====================
++
++When set to a non-zero value, a kernel panic will be triggered if the
++number of detected hung tasks reaches this value.
++
++Note that setting hung_task_panic=1 will still cause an immediate panic
++on the first hung task.
+ 
+ hung_task_check_count
+ =====================
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 8708a12..87a6421 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -83,6 +83,8 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
+ static unsigned int __read_mostly sysctl_hung_task_panic =
+ 	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
+ 
++static unsigned int __read_mostly sysctl_hung_task_count_to_panic;
++
+ static int
+ hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
+ {
+@@ -219,7 +221,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 
+ 	trace_sched_process_hang(t);
+ 
+-	if (sysctl_hung_task_panic) {
++	if (sysctl_hung_task_panic ||
++	    (sysctl_hung_task_count_to_panic &&
++	     (sysctl_hung_task_detect_count >= sysctl_hung_task_count_to_panic))) {
+ 		console_verbose();
+ 		hung_task_show_lock = true;
+ 		hung_task_call_panic = true;
+@@ -388,6 +392,14 @@ static const struct ctl_table hung_task_sysctls[] = {
+ 		.extra2		= SYSCTL_ONE,
+ 	},
+ 	{
++		.procname	= "hung_task_count_to_panic",
++		.data		= &sysctl_hung_task_count_to_panic,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++	},
++	{
+ 		.procname	= "hung_task_check_count",
+ 		.data		= &sysctl_hung_task_check_count,
+ 		.maxlen		= sizeof(int),
+-- 
+2.9.4
 
-Acked-by: Nicolas Schier <nsc@kernel.org>
