@@ -1,64 +1,64 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5EC2DF68
-	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12B91F5827
+	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759107820; cv=none; b=dC6q/oYAs5v5bUwsfPYl/htf4T9fGdWWW2ypSg23sGTM0t9sajUkLXh61Y4ynJtiIz1VUw3sr/MBzqv3TDFA32OEWjh0DndJmfJhavHlhtD8KfmB10Qmluo/Y/sB8Y2vxtJtiMDRNU87PAgEDdbjqGYM90xNiWbYjTuYCsYeBlE=
+	t=1759107823; cv=none; b=rWw3K0UPTXyHIC+FHfTEalJh+YAWo6z6C0ohuEECqIAEFfpgEn0lQA+mrrwB+Budlwyk7OhzW6Bg8nNgD/w2jw9LELzcuMwc4NAetlmYJhbI7GSCbpil+fku1LjXIm3Ce2zUAnYHA/g4YQWSzx8Ub6noOx4iC/ky0SWXoKiQPjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759107820; c=relaxed/simple;
-	bh=Y/Ivo5zgLtU+RH6gb+3c1+9ZNDdvFIGCYZipUGkL+4w=;
+	s=arc-20240116; t=1759107823; c=relaxed/simple;
+	bh=H863SX6t2g0rcimmk1vD/Y1fEaIHCkBYP8Gf6AaW1Ug=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pcm8ew7+GK1eNkbmwOjezleUDnXqh7qbwzCvChh6j0vzwVwfdYuIftWYKsMVPxCrokd4T7ZzpkO7ihXqpyfig4zS2+iW/Z7G8kxKBM60CxIzKsI8LdpC2tA/jZZAa4TUp9YTUuCkal72CUYxg9AO/bMt11trwTkSpIJaFpOzkTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=HFMXSoS4; arc=none smtp.client-ip=209.85.222.177
+	 MIME-Version; b=odQESn//UAlXo4g9bz1DHvzEy1cGCK3k4f9RmGfkr5rrmZfxNnsqYr6fKPrDsvK9unAHQBkZ351ToNUccWqvqt6Bl6T8I1DxH9MLMJELxT11jlL84YPe7MteTGGVhjEtV0uYlHhi6J9TyJukjofDzYL18V/GbFGcTZeMaC/Wy94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=gQBi0rde; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HFMXSoS4"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-86420079b01so195419085a.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:03:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="gQBi0rde"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b109c6b9fcso39354251cf.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759107817; x=1759712617; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1759107819; x=1759712619; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ezlL3LcjIf2ht7RpS8bynkMbzZtMKTbogv0OCRBHCJM=;
-        b=HFMXSoS4PQuaDTMFFqb7ZmjXNAegr54JYRE+RyQYVFaQ/yuGeomYzk10Iq6SDbWjI7
-         goGuisDvG07tJdh38tIEAnc1gRzEwSRJLEtOHwgtSDu3y51QMp18kGAmjGVWJCR0h5NW
-         3/umAhto3EsVdZjEUtW2rM+X1rt5Ivxrk2+ZB7OypK+OtRDGzgNzPbpXh5/k0UCOehWA
-         u/yMslRAx3pVNLrfCVoEATFhEGV9JGqVR+j3xcFZrerfe7xyKdc6z3ZkKzxncAiXE30i
-         zmD4Q5yqJ8Zhtz2bsVE9sB3v20j8kc0nKJMrPXN8z4fU6gavDpqpjKsofaP75834L7t5
-         gO3A==
+        bh=seHRxlr9qoYmGWxME4ah/Rh2okXUsVbz/ndLeC4LCP8=;
+        b=gQBi0rdeGswziM8BkntC20uIOSiGooee+q/B2q41M6BgoZqgGeP5Bv8MuJEEWEkBUP
+         +ZlZbzmEr4DRc+6zcNJezEjKAPSmoJRJzY/dRqGal2hAQjzTp+0G7hPw28GxMf9S5eiT
+         kBioqI4KApASRB1+H4OudFm8ghWw4zPrbE9lHh1ZH2QSAQIJgsVriCjcp3y0rL8Sj2Gf
+         p17+6MivXXOaxB8FxwvJJwHCkSWAhlVN9wcUg1cAun9FY0yON7xeTnJE2ZJxBU/raEZ/
+         F0Qq0uii5j4tPPWUADLs6IyfkBjRIrTrG5WrxYxQLH5aoLutzCpUFKSpMEmxHkHKZkam
+         TuGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759107817; x=1759712617;
+        d=1e100.net; s=20230601; t=1759107819; x=1759712619;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ezlL3LcjIf2ht7RpS8bynkMbzZtMKTbogv0OCRBHCJM=;
-        b=vSNA6nnFgXkmtFabXdgLtWeSPje0NnmO95aabYxGM4lqXlCzcoTBN6OKvyVXjf37/f
-         Wc/e7trvtGWRfqiS2G3zFbZbYFxj+69J2xYvx6hEWAEJ2oi/JS52UrIIhrFegOgEs6SS
-         TQSVIBp/WBRnn1QZ2CZEYf9x3QNH9REj68/hKpgmmm1WGu3a5awLjzkq4T0JKkJU/+z5
-         2MZYiYkzoZJQsfxwWXx4ckpJ1Yh/T/4CkIxp8QROVaaYs2gcNcLVX8OLFpSUWMfUGqHx
-         tGgw7XjziU1ZhZ1Klo/YsNetxEcBr3EjeSMl2bfwFy0TS446K+Mzl0PhtjItcs60uoZM
-         T/Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxcJkRhLyZJNW+lKWjBhCZ1PfCr/Vqj+9t00TqKyK3GJoQu7f1L/APmn8q4xfNGhKCUtSOKfWfdc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2kYtqZbaNRoujzslXkrxXeFHIosC9D2Ml0ARltIToTBQMvs6i
-	/XQVOVb8RMJZudIb0ZiqxjTXmJMe9IazHkHqCAXW1NSyB43OQd7weKLTNG77Gm0eFL8=
-X-Gm-Gg: ASbGncs3a8GM5HStUy6E2gQtsyskz0ULfKXsrlbCrTp8XPBGpbBdAQx45NFPtyvhLHC
-	ks0S05p/W9E8Jt+NmIIUbTZkfO2KS6aKtSYNbM0uvmHWSET/qHBlM5/waj0l55lKLrS0Up9sbFd
-	Zu8Jl69Jxlu5U9lMvHTTduJMsK3eJDu5asDvjfG8M9Z4/i9ykkyLcuJ4WAUY6TYewpjDK0+P279
-	n+LhlzYXINGbcPleCqcnFfxzFFR9jlXZNhb+pZpw4N5GevGLU4v/R2GHancy4Pdl2xynmbdnqIl
-	XorGIuCtK2LllKcfRrHYJdq68e3kvfx4I798XmUlY/NG0JaYz8MFhZsJTMa1lCP6psG2kVZ2MOh
-	d3RhfAMEyyEEbhaA3rrzdkZ3j5pio7KT9AZ1gIEh6zj4ANU3lTI6j4HDbkqA2BVZtmBZG/UQPCw
-	hVPBIG3MqB6lyrdhWMdOIzW8SHBbkW
-X-Google-Smtp-Source: AGHT+IHaETUM84OTpHheMB0hdUMDHvd/ZJx9O8NiNJ3bWGiu/zS0OpwUNUxS2hk0EnKZS1qySrlkgw==
-X-Received: by 2002:a05:620a:f0c:b0:855:cfe0:b6eb with SMTP id af79cd13be357-85ae9c6d420mr1897035985a.75.1759107817220;
-        Sun, 28 Sep 2025 18:03:37 -0700 (PDT)
+        bh=seHRxlr9qoYmGWxME4ah/Rh2okXUsVbz/ndLeC4LCP8=;
+        b=COXI7VacDfYvA7HGiAnwdIs2m00lKm1FBJ4+JWVWyJLX9HePjXFV57cUxADzOBXqzW
+         i1Hh122tzW3BpXKhBFFAqluZUJYyGpnikX+EZ/UFJ1kVHpEsnY79vZIUoaiBRKjqvhZA
+         3wKgEmeLgGiWrhv7Ig2vdr9T354SdE9ER8GqSs8YxrXhtW9nM3ddVvyLpgaLINqqoLVJ
+         bNlbgfKy9/2REVx7SY89oDeK+/K3WIn4Zj/tFaOaxNnIqePRm63MWVb5qfGmTcEgnhfp
+         pYoD07PRIxc14q7xFD2MyGmipHi9aaZY7zDna2ZDeaRi6s08ne95QsTv0+DG4MhiZIP4
+         EKrg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlYj2mVbvN3UzXRAQlUUYOCeL5dgrGKJ+OLwp9sQEs3zmyvuyuggxqzrZALlnWyFtV9mhu0xuBE4U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbW7HOojCfjFByM08lv/FPuIWjCJdZqJolwqFFNz0kG/s1EA7a
+	pTBsc4omvcddbbfelANH0r2QelWUF/gRV87ezGevRHv5HHnWVak6M7jsk46qhCsxkGU=
+X-Gm-Gg: ASbGncs6O5NYHyRQG+kN15Il7qs2hpEgZgqHgre+DbusJSJKlNBlyAElqZhmzKTB+mx
+	JB3DuSBZaBbBU8/4c4CfM8vV1ZQm3ruYtwIvtS9bDuuu33mp5oOaT54zzM6ukAaCUmLXyBWVu2T
+	nizgvFFaesk6jsg9evx+J/4v98FNGrxTva7sxWQR8R2Hevq4xA4W3Cz5oa50QsSVd9OKLEEsRpj
+	0n9pmX5YNNYqa7axmiTQB3HCMP1N1/AdFaZuS7GbmzU+G+MG+ClOAJTrn7CtX708GV7NSvXsljf
+	YG81YDWI2gpUPA/mP45lyVQXJ1YBeux+VvKkBRSW8RqPXZ+KgezK0pQX3aC2NXPDJigwqMPJA53
+	D7V7G9CNnTFC1q9zKJS5J9mychHKEmYMw4xXfHhEXUnE3wndw+8IHX9Yd3rM+wVji2hhrw9N2UT
+	0p4Zfx4GI=
+X-Google-Smtp-Source: AGHT+IGWluQyWGzOMAK6ELVmstmCfELrwzvUE/VJRxrRrDSk2QQU4Sd30xTz+Cb2R/+uvVNJIiSTzA==
+X-Received: by 2002:a05:622a:4012:b0:4b3:4f82:2b2a with SMTP id d75a77b69052e-4da4744e220mr214493921cf.4.1759107818629;
+        Sun, 28 Sep 2025 18:03:38 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (53.47.86.34.bc.googleusercontent.com. [34.86.47.53])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.03.35
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.03.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 18:03:36 -0700 (PDT)
+        Sun, 28 Sep 2025 18:03:38 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -136,9 +136,9 @@ To: pratyush@kernel.org,
 	skhawaja@google.com,
 	chrisl@kernel.org,
 	steven.sistare@oracle.com
-Subject: [PATCH v4 04/30] kho: add interfaces to unpreserve folios and page ranes
-Date: Mon, 29 Sep 2025 01:02:55 +0000
-Message-ID: <20250929010321.3462457-5-pasha.tatashin@soleen.com>
+Subject: [PATCH v4 05/30] kho: don't unpreserve memory during abort
+Date: Mon, 29 Sep 2025 01:02:56 +0000
+Message-ID: <20250929010321.3462457-6-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.51.0.536.g15c5d4f767-goog
 In-Reply-To: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
 References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
@@ -150,169 +150,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow users of KHO to cancel the previous preservation by adding the
-necessary interfaces to unpreserve folio and pages.
+KHO allows clients to preserve memory regions at any point before the
+KHO state is finalized. The finalization process itself involves KHO
+performing its own actions, such as serializing the overall
+preserved memory map.
 
-Co-developed-by: Changyuan Lyu <changyuanl@google.com>
+If this finalization process is aborted, the current implementation
+destroys KHO's internal memory tracking structures
+(`kho_out.ser.track.orders`). This behavior effectively unpreserves
+all memory from KHO's perspective, regardless of whether those
+preservations were made by clients before the finalization attempt
+or by KHO itself during finalization.
+
+This premature unpreservation is incorrect. An abort of the
+finalization process should only undo actions taken by KHO as part of
+that specific finalization attempt. Individual memory regions
+preserved by clients prior to finalization should remain preserved,
+as their lifecycle is managed by the clients themselves. These
+clients might still need to call kho_unpreserve_folio() or
+kho_unpreserve_phys() based on their own logic, even after a KHO
+finalization attempt is aborted.
+
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/kexec_handover.h | 12 +++++
- kernel/kexec_handover.c        | 85 ++++++++++++++++++++++++++++------
- 2 files changed, 84 insertions(+), 13 deletions(-)
+ kernel/kexec_handover.c | 21 +--------------------
+ 1 file changed, 1 insertion(+), 20 deletions(-)
 
-diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.h
-index 2faf290803ce..4ba145713838 100644
---- a/include/linux/kexec_handover.h
-+++ b/include/linux/kexec_handover.h
-@@ -43,7 +43,9 @@ bool kho_is_enabled(void);
- bool is_kho_boot(void);
- 
- int kho_preserve_folio(struct folio *folio);
-+int kho_unpreserve_folio(struct folio *folio);
- int kho_preserve_pages(struct page *page, unsigned int nr_pages);
-+int kho_unpreserve_pages(struct page *page, unsigned int nr_pages);
- int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation);
- struct folio *kho_restore_folio(phys_addr_t phys);
- struct page *kho_restore_pages(phys_addr_t phys, unsigned int nr_pages);
-@@ -76,11 +78,21 @@ static inline int kho_preserve_folio(struct folio *folio)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline int kho_unpreserve_folio(struct folio *folio)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
- static inline int kho_preserve_pages(struct page *page, unsigned int nr_pages)
- {
- 	return -EOPNOTSUPP;
- }
- 
-+static inline int kho_unpreserve_pages(struct page *page, unsigned int nr_pages)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
- static inline int kho_preserve_vmalloc(void *ptr,
- 				       struct kho_vmalloc *preservation)
- {
 diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
-index e0dc0ed565ef..26e035eb1314 100644
+index 26e035eb1314..61b31cfc75f2 100644
 --- a/kernel/kexec_handover.c
 +++ b/kernel/kexec_handover.c
-@@ -153,26 +153,33 @@ static void *xa_load_or_alloc(struct xarray *xa, unsigned long index, size_t sz)
- 	return elm;
- }
+@@ -1083,31 +1083,12 @@ EXPORT_SYMBOL_GPL(kho_restore_vmalloc);
  
--static void __kho_unpreserve(struct kho_mem_track *track, unsigned long pfn,
--			     unsigned long end_pfn)
-+static void __kho_unpreserve_order(struct kho_mem_track *track, unsigned long pfn,
-+				   unsigned int order)
+ static int __kho_abort(void)
  {
- 	struct kho_mem_phys_bits *bits;
- 	struct kho_mem_phys *physxa;
-+	const unsigned long pfn_high = pfn >> order;
- 
--	while (pfn < end_pfn) {
--		const unsigned int order =
--			min(count_trailing_zeros(pfn), ilog2(end_pfn - pfn));
--		const unsigned long pfn_high = pfn >> order;
-+	physxa = xa_load(&track->orders, order);
-+	if (!physxa)
-+		return;
-+
-+	bits = xa_load(&physxa->phys_bits, pfn_high / PRESERVE_BITS);
-+	if (!bits)
-+		return;
- 
--		physxa = xa_load(&track->orders, order);
--		if (!physxa)
--			continue;
-+	clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
-+}
-+
-+static void __kho_unpreserve(struct kho_mem_track *track, unsigned long pfn,
-+			     unsigned long end_pfn)
-+{
-+	unsigned int order;
- 
--		bits = xa_load(&physxa->phys_bits, pfn_high / PRESERVE_BITS);
--		if (!bits)
--			continue;
-+	while (pfn < end_pfn) {
-+		order = min(count_trailing_zeros(pfn), ilog2(end_pfn - pfn));
- 
--		clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
-+		__kho_unpreserve_order(track, pfn, order);
- 
- 		pfn += 1 << order;
+-	int err = 0;
+-	unsigned long order;
+-	struct kho_mem_phys *physxa;
+-
+-	xa_for_each(&kho_out.track.orders, order, physxa) {
+-		struct kho_mem_phys_bits *bits;
+-		unsigned long phys;
+-
+-		xa_for_each(&physxa->phys_bits, phys, bits)
+-			kfree(bits);
+-
+-		xa_destroy(&physxa->phys_bits);
+-		kfree(physxa);
+-	}
+-	xa_destroy(&kho_out.track.orders);
+-
+ 	if (kho_out.preserved_mem_map) {
+ 		kho_mem_ser_free(kho_out.preserved_mem_map);
+ 		kho_out.preserved_mem_map = NULL;
  	}
-@@ -734,6 +741,30 @@ int kho_preserve_folio(struct folio *folio)
- }
- EXPORT_SYMBOL_GPL(kho_preserve_folio);
  
-+/**
-+ * kho_unpreserve_folio - unpreserve a folio.
-+ * @folio: folio to unpreserve.
-+ *
-+ * Instructs KHO to unpreserve a folio that was preserved by
-+ * kho_preserve_folio() before. The provided @folio (pfn and order)
-+ * must exactly match a previously preserved folio.
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_unpreserve_folio(struct folio *folio)
-+{
-+	const unsigned long pfn = folio_pfn(folio);
-+	const unsigned int order = folio_order(folio);
-+	struct kho_mem_track *track = &kho_out.track;
-+
-+	if (kho_out.finalized)
-+		return -EBUSY;
-+
-+	__kho_unpreserve_order(track, pfn, order);
+-	if (err)
+-		pr_err("Failed to abort KHO finalization: %d\n", err);
+-
+-	return err;
 +	return 0;
-+}
-+EXPORT_SYMBOL_GPL(kho_unpreserve_folio);
-+
- /**
-  * kho_preserve_pages - preserve contiguous pages across kexec
-  * @page: first page in the list.
-@@ -773,6 +804,34 @@ int kho_preserve_pages(struct page *page, unsigned int nr_pages)
  }
- EXPORT_SYMBOL_GPL(kho_preserve_pages);
  
-+/**
-+ * kho_unpreserve_pages - unpreserve contiguous pages.
-+ * @page: first page in the list.
-+ * @nr_pages: number of pages.
-+ *
-+ * Instructs KHO to unpreserve @nr_pages contigious  pages starting from @page.
-+ * This call must exactly match a granularity at which memory was originally
-+ * preserved by kho_preserve_pages, call with the same @page and
-+ * @nr_pages). Unpreserving arbitrary sub-ranges of larger preserved blocks is
-+ * not supported.
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_unpreserve_pages(struct page *page, unsigned int nr_pages)
-+{
-+	struct kho_mem_track *track = &kho_out.track;
-+	const unsigned long start_pfn = page_to_pfn(page);
-+	const unsigned long end_pfn = start_pfn + nr_pages;
-+
-+	if (kho_out.finalized)
-+		return -EBUSY;
-+
-+	__kho_unpreserve(track, start_pfn, end_pfn);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(kho_unpreserve_pages);
-+
- struct kho_vmalloc_hdr {
- 	DECLARE_KHOSER_PTR(next, struct kho_vmalloc_chunk *);
- };
+ int kho_abort(void)
 -- 
 2.51.0.536.g15c5d4f767-goog
 
