@@ -1,41 +1,49 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984363A8F7;
-	Mon, 29 Sep 2025 14:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A91DD543;
+	Mon, 29 Sep 2025 14:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759155208; cv=none; b=Dmqfz6tTPbT6tgvkLoCz61yttcS2oN73tEjzRBGP09IkMnqV1fTYS+vuUPLlNJS41PT8rRlLJgfrD9OUviYB8vICZIEeOeoYbXjAt1ll8VJTZ+O6LXSsADSNkIt47qj5QOr/W2+w0LTjiPnr22UdaAZUDO627Ym5dm0hk4B7gXQ=
+	t=1759156294; cv=none; b=C3TwVRyJgwxMlFHzahc3NO3DPE1DBCH9zhO/whpeSw0XxKEzE/1bitNigQpBgukinygeevNvaPm+OtToXO7EJSAn0ALRvE5XNVMUH5nMiKFO8N8mS5bRBNaKOX38ge2z2oDghZ/g+zWgkh6Yp/kUwO1QzLwDgjN4nApZSq6XWC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759155208; c=relaxed/simple;
-	bh=6E+0CiG8HpAm1tksikhkvDuPqc/OnV8v777SwtOGFJE=;
+	s=arc-20240116; t=1759156294; c=relaxed/simple;
+	bh=sKuqKNpE5dhMtZf1zaC2ZqjURpyd3C7l8Ef/qH3un8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RYveWkFhGlbcL06U1xfMRRRO+VoKag+oCCUCgEFscD7VB2GrJXaxp8q7x4jnQ/RHWrMgIzgdfvRGhEEow63VV09zDYXYcspNXUtGc4DTrVqJuXCHBF7WyqbvV94pT7Zjq14OIuY5wowaxv4+Au2tVu7GCC7EpsMvf75pLzVYDvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B8CB150C;
-	Mon, 29 Sep 2025 07:13:17 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 831EF3F66E;
-	Mon, 29 Sep 2025 07:13:23 -0700 (PDT)
-Date: Mon, 29 Sep 2025 15:13:20 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-Message-ID: <aNqUACFbXHjURWir@e133380.arm.com>
-References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <aNFliMZTTUiXyZzd@e133380.arm.com>
- <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <02647276-dea2-47b5-a271-7f02666e0492@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/WpLQQAY2VhIgq05GZw/Y5gWPTcD50VG9tKgVWCj9VSMe47LRQ4pPcHW7qa+Ymgbzt0AeqeqnysAAevuinVnpYfLSO5ovUaLudG3N+dsCkGTdx4yLYa4b58I73iZgL6lduSgbMgnROmvHM62Am3hddILF/UFsJMpIwp4REagP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ybofpbcx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ybofpbcx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68AE4C4CEF4;
+	Mon, 29 Sep 2025 14:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759156293;
+	bh=sKuqKNpE5dhMtZf1zaC2ZqjURpyd3C7l8Ef/qH3un8E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ybofpbcx+ejkNvAv75607kTZIE8CUsY9qhrXc/yrJ9X2bu9eV4OnGXQ3TNrOD/y2P
+	 ZTx2iK+hamBmIKKHDaVWhoOTCftImvcznOCK+7AEffOegIkND9rMYBhjXJdQX1r1ZL
+	 0JZPrZuBsBi3OkjiTPDsLn7YSdXtt3i13qbb2sqBLpmyWZ+oVdhkzjg1wkMuDpihUy
+	 6H4hKACxj53QRJs6VTVZG6utz4nyFWuKrwYhNjvjyPwNTkosbGPUWq/6n6pcvlANgh
+	 fQ2kDFeXinDxHted7Q2+zz5VDaq8aUMue0z6xZZqc8r3t6Teq5PIR23t0f4AHQZWzI
+	 MmqWDPc+OcTRw==
+Date: Mon, 29 Sep 2025 09:31:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	marcelo.schmitt1@gmail.com,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
+ and ADAQ4224
+Message-ID: <20250929143132.GA4099970-robh@kernel.org>
+References: <cover.1758916484.git.marcelo.schmitt@analog.com>
+ <5dc08b622dac1db561f26034c93910ccff75e965.1758916484.git.marcelo.schmitt@analog.com>
+ <20250928111955.175680cb@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,78 +52,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <02647276-dea2-47b5-a271-7f02666e0492@intel.com>
+In-Reply-To: <20250928111955.175680cb@jic23-huawei>
 
-Hi there,
-
-On Mon, Sep 29, 2025 at 05:19:32PM +0800, Chen, Yu C wrote:
-> On 9/26/2025 6:58 AM, Luck, Tony wrote:
-
-[...]
-
-> > Applying this to Intel upcoming region aware memory bandwidth
-> > that supports 255 steps and h/w min/max limits.
-> > We would have info files with "min = 1, max = 255" and a schemata
-> > file that looks like this to legacy apps:
-> > 
-> > MB: 0=50;1=75
-> > #MB_HW: 0=128;1=191
-> > #MB_MIN: 0=128;1=191
-> > #MB_MAX: 0=128;1=191
-> > 
-> > But a newer app that is aware of the extensions can write:
-> > 
-> > # cat > schemata << 'EOF'
-> > MB_HW: 0=10
-> > MB_MIN: 0=10
-> > MB_MAX: 0=64
-> > EOF
-> > 
-> > which then reads back as:
-> > MB: 0=4;1=75
-> > #MB_HW: 0=10;1=191
-> > #MB_MIN: 0=10;1=191
-> > #MB_MAX: 0=64;1=191
-> > 
-> > with the legacy line updated with the rounded value of the MB_HW
-> > supplied by the user. 10/255 = 3.921% ... so call it "4".
-> > 
+On Sun, Sep 28, 2025 at 11:19:55AM +0100, Jonathan Cameron wrote:
+> On Fri, 26 Sep 2025 17:40:47 -0300
+> Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
 > 
-> This seems to be applicable as it introduces the new interface
-> while preserving forward compatibility.
+> > ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
+> > PGA (programmable gain amplifier) that scales the input signal prior to it
+> > reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
+> > and A1) that set one of four possible signal gain configurations.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+> > Change log v2 -> v3
+> > - PGA gain now described in decibels.
+> > 
+> > The PGA gain is not going to fit well as a channel property because it may
+> > affect more than one channel as in AD7191.
+> > https://www.analog.com/media/en/technical-documentation/data-sheets/AD7191.pdf
+> > 
+> > I consulted a very trustworthy source [1, 2] and learned that describing signal
+> > gains in decibels is a common practice. I now think it would be ideal to describe
+> > these PGA and PGA-like gains with properties in decibel units and this patch
+> > is an attempt of doing so. The only problem with this approach is that we end up
+> > with negative values when the gain is lower than 1 (the signal is attenuated)
+> > and device tree specification doesn't support signed integer types. As the
+> > docs being proposed fail dt_binding_check, I guess I have to nack the patch myself.
+> > Any chance of dt specification eventually support signed integers?
+> > Any suggestions appreciated.
+> > 
+> > [1] https://en.wikipedia.org/wiki/Decibel
+> > [2] https://en.wikipedia.org/wiki/Gain_(electronics)
 > 
-> One minor question is that, according to "Figure 6-5. MBA Optimal
-> Bandwidth Register" in the latest RDT specification, the maximum
-> value ranges from 1 to 511.
-> Additionally, this bandwidth field is located at bits 48 to 56 in
-> the MBA Optimal Bandwidth Register, and the range for
-> this segment could be 1 to 8191. Just wonder if it would be
-> possible that the current maximum value of 512 may be extended
-> in the future? Perhaps we could explore a method to query the maximum upper
-> limit from the ACPI table or register, or use CPUID to distinguish between
-> platforms rather than hardcoding it. Reinette also mentioned this in another
-> thread.
->
-> Thanks,
-> Chenyu
+> I still wonder if the better way to describe this is to ignore that it
+> has anything to do with PGA as such and instead describe the pin strapping.
 > 
+> DT folk, is there an existing way to do that? My grep skills are failing to
+> spot one.
 > 
-> [1] https://www.intel.com/content/www/us/en/content-details/851356/intel-resource-director-technology-intel-rdt-architecture-specification.html
+> We've papered over this for a long time in various IIO drivers by controlling
+> directly what the pin strap controls with weird and wonderful device specific
+> bindings. I wonder if we can't have a gpio driver + binding that rejects all
+> config and just lets us check the current state of an output pin.  Kind of a
+> fixed mode regulator equivalent for gpios.
 
-I can't comment on the direction of travel in the RDT architecture.
+If these are connected to GPIOs, isn't it possible that someone will 
+want to change their value?
 
-I guess it would be up to the arch code whether to trust ACPI if it
-says that the maximum value of this field is > 511.  (> 65535 would be
-impossible though, since the fields would start to overlap each
-other...)
+Other than some generic 'pinstrap-gpios' property, I don't see what we'd 
+do here? I don't feel like pin strapping GPIOs is something that we see 
+all that often.
 
-Would anything break in the interface proposed here, if the maximum
-value is larger than 511?  (I'm hoping not.  For MPAM, the bandwidth
-controls can have up to 16 bits and the size can be probed though MMIO
-registers.
-
-I don't think we've seen MPAM hardware that comes close to 16 bits for
-now, though.
-
-Cheers
----Dave
+Rob
