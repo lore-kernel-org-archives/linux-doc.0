@@ -1,83 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx08-007fc201.pphosted.com (mx08-007fc201.pphosted.com [91.207.212.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EFF2BEFE8;
-	Mon, 29 Sep 2025 08:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FB823C506;
+	Mon, 29 Sep 2025 09:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759136048; cv=none; b=eD9Y6RxOjN9MS0VHHaSRARmPu3jeCHO8/aBS0FfyYUx8VtjMCSSqH+FDXwlX6uop7wrIK8QN/urEhDRo1SUL9JaeRMwq0gc0B1jFD4cHpvIk+0lFA+dmJtmMPcswOJMOoI/w+IJlhEDWVddW96URrrBGWH5CtX104j8QBiRzwcs=
+	t=1759136767; cv=none; b=MykwRHEiolOUVd9VhUOvcviDcW/Lo60DZlr1LWV5O0pm7tuv8+zvsi3Jwa7khdWAhC+iT4qxKrmb8LFZJLg0ASy/twneSdf093IVh6IwgILr6m9KDVwQMFyPSGi4aImTDUVoBkD9hUoh/9+qVo3En2esLYFvknFwnwLqEiGFXbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759136048; c=relaxed/simple;
-	bh=VblHNgwcKUasqczayKzhX0tS6LvSdnh19eIzfXV+JJA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JpNqLvE9gLMR4pgBnFEnU9TXXTB6cC95LKcehbiaXyKiwkbn7yo1ze92vGx24evCUeZgJ21AhS4/h17fWYkR4C3kXeEM1FR1TJrf93gkogoowtwV6n6vk3bpprKt6GN2cvDjhVpFpWwLPQl2HoAH0CzD0UiI1saBHOltzzKm680=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2ecV4X2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759136767; c=relaxed/simple;
+	bh=frTvTh/jan7s+DHeodJZzdQk9x60lL/gV5zS6RcE0bA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TUJ/GobkL4FnxgHbDUpOtrHkXBI3P/dA9lFqDHIlI+khWVTQrCDmvhO7zd334rOAUPqV+10c8VBQdt04X/AoKAZiu5vpFI561hX8dTq5rB0ATGt3SO60wqdgJ7PaB/VjGpRR4a5gPfT23D+oCN5lU9j0alQvW3MRi7crHOOKw/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=2rj7Svl1; arc=none smtp.client-ip=91.207.212.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2ecV4X2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A729C19422;
-	Mon, 29 Sep 2025 08:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759136047;
-	bh=VblHNgwcKUasqczayKzhX0tS6LvSdnh19eIzfXV+JJA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D2ecV4X2YxBTd2Xv7J7ByRDgaXm8dR+Nx6fNyYOrrqBG36HFlONCga331IOGsSUOT
-	 De4HVkYVD3yYhjIYjKicAjI0LjXO+0pCLoPJz1rKsPtVkdKSC2vlq/z9jtVsuqL1pd
-	 172UFz9iFeWAjPzR0XHNeHYCoDzWZP281dbI0blw0yAVnQ/s0IMQybZAoKA4kdezCa
-	 v8Hsn8qpnQsB3nYONbTFUh7x78nQ+u+w18pNMMk5l4onDx4JocEYJI3y26DLDVV4Bc
-	 ffacQdf6ElxBKzBxHhMHLCjH2g5a9Sm46VWA68WZyXDyV7Z7phAeDBFlzEps7Z2lIe
-	 uLznz6vNsvBaw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1v39e1-00000009dSN-2EKq;
-	Mon, 29 Sep 2025 10:54:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Jonathan Corbet" <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] docs: Makefile: use PYTHONPYCACHEPREFIX
-Date: Mon, 29 Sep 2025 10:53:30 +0200
-Message-ID: <65f341d516c329e2b57252176b188ae68f3bb6ca.1759135339.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1759135339.git.mchehab+huawei@kernel.org>
-References: <cover.1759135339.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="2rj7Svl1"
+Received: from pps.filterd (m0456229.ppops.net [127.0.0.1])
+	by mx08-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58T91Gs5072822;
+	Mon, 29 Sep 2025 11:05:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
+	:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pp-2025; bh=0dU35KlsEl1QBhjdMKYrJ5/tMivYBlJNdymcOfqRRhs=; b=2rj7
+	Svl1tNuzqLmNN61qwvQOy70HvUf2OJp83ZrkfBZMIe6acCmFwsKUEV1k2c3YvOJ0
+	s1kLk8Vnc6j4LnoFRbN0fAvD6o3sxvoZdUchqyKcZgUvw/Z4bF+5c5rvq/hFfIup
+	SpMpd2xZgSZ1vzXdMyNtCyt9zK/X+WNHXzfIipMDZeXMpCXrhMIFG0Lgg3JTLbzM
+	eaJ0Yx2uQALp3eC8aII0PWJDLAcwKUq6+N/2T5Of+DNhOCkg9hgqOvloO+qq/dNC
+	M1cy7vQ7OlUZFCWpa9U/tybyh7eKrMu/NPKWNnGV7adltAg+FU6l2Xcf0Q6jHliv
+	IAjUfG52hidhBT3Bjw==
+Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
+	by mx08-007fc201.pphosted.com (PPS) with ESMTPS id 49ev1ggdya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Sep 2025 11:05:46 +0200 (MEST)
+Received: from Adranos.cab.de (10.10.1.54) by Adranos.cab.de (10.10.1.54) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Mon, 29 Sep
+ 2025 11:06:01 +0200
+Received: from Adranos.cab.de ([fe80::9298:8fc8:395c:3859]) by Adranos.cab.de
+ ([fe80::9298:8fc8:395c:3859%7]) with mapi id 15.02.1748.036; Mon, 29 Sep 2025
+ 11:06:01 +0200
+From: Markus Heidelberg <M.Heidelberg@cab.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
+ words
+Thread-Topic: [PATCH] Documentation: fix spelling, typos, grammar, duplicated
+ words
+Thread-Index: AQHcLstyktyjxwWy7UeU9d2/LWnMJrSlmQ8AgAQoTAA=
+Date: Mon, 29 Sep 2025 09:06:01 +0000
+Message-ID: <aNpL6DOVTu4mpL2L@KAN23-025>
+References: <20250926095312.206231-1-m.heidelberg@cab.de>
+ <44f3bd7c-b32c-420e-a738-02f40853e472@infradead.org>
+In-Reply-To: <44f3bd7c-b32c-420e-a738-02f40853e472@infradead.org>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2AA433378A84BD44B150C58B7F38ADE4@cab.de>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDA4OCBTYWx0ZWRfX7FM+0fRfDr0Z
+ SjT86AABBIAyiMPX9MZwdPbdMVR0oEe72pYHbunTLp+NEwWqLa61e82YuX05aUBGQHx73CvGYs9
+ AZwEokRdEMBs/L9DdQj9Te6ZxGd6NNZo/NaFYnhBU0JaFMS3gT6k5rIu3x+KmuNlfKnJuMC9DVk
+ 11lnkEhxoeKKX512+L2mgBemTO6lkHqf0iiaBmlV8ucme23GInQ5kjTtAr6XGls90vqH462G7m+
+ u+OqS8LTnnYT5a2HUkdTGCPRKC8wPQPwzgc24LZMi3pNHVTGShefk/1DPhMryNviIGFkedneMnF
+ 9U6ghX81Rc941nhTF2wR3gG0RGH2XAC+mDUWV+khtUWNUgVvxQ9ywbhY+fxru6RDrYT4qPjMz3l
+ +d/HmSSpwgZWrAuv9coIAPA9u6zX8Q==
+X-Proofpoint-GUID: _PoRQnvtKrli8P1FqpnaoQRFuHPNltzz
+X-Proofpoint-ORIG-GUID: _PoRQnvtKrli8P1FqpnaoQRFuHPNltzz
+X-Authority-Analysis: v=2.4 cv=SNZPlevH c=1 sm=1 tr=0 ts=68da4bea cx=c_pps
+ a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
+ a=xqWC_Br6kY4A:10 a=kldc_9v1VKEA:10 a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10
+ a=uHx7LAfKJh6wF2AsyZgA:9 a=CjuIK1q_8ugA:10
 
-Previous cleanup patches ended dropping it when sphinx-build-wrapper
-were added. Also, sphinx-pre-install can also generate caches.
+On Fri, Sep 26, 2025 at 10:36:28AM -0700, Randy Dunlap wrote:
+> On 9/26/25 2:53 AM, Markus Heidelberg wrote:
+> > Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
+> > ---
+> >  Documentation/bpf/prog_flow_dissector.rst  | 4 ++--
+> >  Documentation/fb/fbcon.rst                 | 2 +-
+> >  Documentation/filesystems/path-lookup.rst  | 2 +-
+> >  Documentation/hwmon/lm75.rst               | 2 +-
+> >  Documentation/kernel-hacking/hacking.rst   | 2 +-
+> >  Documentation/networking/phy.rst           | 8 ++++----
+> >  Documentation/process/management-style.rst | 2 +-
+> >  7 files changed, 11 insertions(+), 11 deletions(-)
+>=20
+> These changes mostly look good. I'm curious about how you
+> found these. ??
 
-So, re-add it for both.
+Hi Randy,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I just stumbled upon them while reading the documentation.
+The "the to -> to the" swap I originally found in another file and then
+searched for more occurrences with something like this:
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index f764604fa1ac..cf26d5332fb5 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -60,8 +60,10 @@ else # HAVE_SPHINX
- 
- # Common documentation targets
- htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
--	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
--	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
-+	$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
-+		@$(srctree)/tools/docs/sphinx-pre-install --version-check
-+	+$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
-+		$(PYTHON3) $(BUILD_WRAPPER) $@ \
- 		--sphinxdirs="$(SPHINXDIRS)" $(RUSTDOC) \
- 		--builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
- 		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
--- 
-2.51.0
+  $ git grep -w -C1 "the to"
 
+Markus=
