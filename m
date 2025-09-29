@@ -1,64 +1,64 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C801FBEA6
-	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCEE208961
+	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759107878; cv=none; b=EL7OQIcLEGgrdOORtYebNbdJFri7MvIlteJ1C1WNbfVDqMHR7+PM0CylnHKe6dXFXvx1Na0aZ6TevpF+CQqHT8KyXCKgfBksMwnfX8ldHk1MMGj/VDnq6whuTGoej+XOCjYj0XyiA5dptLlxr1x7BFoB81KEpeN/x1UyzA8HpOo=
+	t=1759107879; cv=none; b=copXa3ORbFqllxoqnbz/fxCYqATWKhraHv2QKrduQdYqpnNhKNDOAnXVNYkfmf8qOtNzhZOLcZ1wiJw5b0MZtDIh33Zq+FFQynFnKpxonSK+MLWBdFf4KeJtXgLf6Vf8+jsWHJbv5gfre3tBv6U5FNy+g4+djde6Mqel25dRrJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759107878; c=relaxed/simple;
-	bh=hPTwkZ9Zs7OGfgoBOmsXzZchI4dTFATs/A5A5sAPQhI=;
+	s=arc-20240116; t=1759107879; c=relaxed/simple;
+	bh=DI5vibT0+29UIjhRz7D4vqAFmzDsP/l5eapzRzZNOQw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TIbdUTb8uLgPwLYmSlUJ4Q0HbWUkiXmYOZb3alqMh4XX924Kgz+KMEk0sMuVXXclUV4h1F4Wl5xmMdK1lt1xvgDkU8cUXnoeIZH8m+8EM16sHrPR335nmVs+9e6g4B0E9I7YpRPdWLyPyZbJInplC/PnzEtsesRnU0tLTKoTzJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ue76cvBa; arc=none smtp.client-ip=209.85.160.182
+	 MIME-Version; b=EoY5YBeQIpLuegu5hoiEj2wThBcDeVskuy5r7gyPKTSY0Y//y5pozCDqivnz7z6mF1lxgdH4U4K2PfWSc8D62AHhjsL9LHB5ExDmBzZgt4FiNpkTgq1dXc2o39PFPlbm5L8EkQmAT3Vy5fP4z/dGUJcpZO12FxjuQt/rmFTDFbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=MKiGmsN2; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ue76cvBa"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4da37f6e64cso34636421cf.2
-        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:04:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="MKiGmsN2"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ddabf2ada5so35675191cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759107875; x=1759712675; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1759107876; x=1759712676; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4673JtxFCCWFxWem0KySHim/AVBmSFNvOtZj4TDhxZ0=;
-        b=Ue76cvBagnFBBmoFEthA+UebVXS0ul8p2//sjtmZ8tFttzpGA+evB4A+Z/cY5sYf9p
-         sJJzKP55lHXMdDXLl13ztZsxflDiYoR6WXm6ase7jabD2wP/o1TWCFTteH0Kv8X50cDk
-         Lg6Q0R3NGLTO3f9ckZMcsBulv8HP46ZpWvqpPgdIF9OnZkG2fOzQiQ0ITU+r17tqhwp9
-         1pMufNlR4jSjQZ+SpIkRTgeUeNGHksX8ZP5iSTuZwHQTENtaJ0gjvxPGh9JZu3RuFojf
-         vgB8Nxpi2Qb3scndsQ0Wf27O8xvB8yeomNF7ZjSJLgr9e5anJIsUwejCiuta5kMfeLBs
-         NViw==
+        bh=KQeH+ACDAvWfipNpkX5nREJXLCZp+2/jqJfKfCHTDvk=;
+        b=MKiGmsN2WYYz/WAujnueowinTHOJeSDOIbt2w04aI5nxK/f7efwVsRW54abO0Irgsg
+         AR9UMU9ASau5r40q2k5fNouDu7rwopqagFCKproUsyxGzkMjYwTthtUKhMq1EejtNzUR
+         ctMHKRzBFhjGSKCEIKiyhHAQslJlMAOi3hkasAKTuT9MabwNSJv245Vo1pxwys4WCV/3
+         ullqK8XjuEBDSz3n1l9/spt+D30sEVauf4BfqPwzSeSCffl0lY3wPeCd7YMQkikvzJCT
+         fNY1ib8uqrIh50E1+/kqgu18rX+noHwHfy86BtqPPo0jSz7XlKawyZgTOV/YXd+gHIWq
+         Dc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759107875; x=1759712675;
+        d=1e100.net; s=20230601; t=1759107876; x=1759712676;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4673JtxFCCWFxWem0KySHim/AVBmSFNvOtZj4TDhxZ0=;
-        b=Mj1QlM8wLmzLPw6+hCuqHrZYwMwSIUt06WtdSEMdrp2a4BuGTrkVNVRwHhSA1lm9gc
-         rdK8wYd5Wg96ovG+FooCDzt0AqzbndA3sEMc4W5j4M85Ck/nz0spbPEp9O+BUJRGR548
-         M19QlavoGApXvklnahEZgkmscLnB69qOixPpsdnkJH6wV09r5lJ5p/QQSiDCgOzPWYDt
-         s/zEZ6eirln4sp6xMIEjqJf7NIpnN3dUzQu7Dng3ao4nvSe6kxH2An50rN5/8q5kw0Ky
-         My2GQ3E224RzUdjB2nmpgd0l7XJ7rxBCgzIQiH+m5/vwbCF27yaXrgeRoa9hlp1IqK5p
-         amgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrHsE1IJkGtVvDNYxShdoR43ar5dKUp8ODR+bdLuJjmKqo/8kro0232R9981ErsQ3dBn6xAjZi72Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2QOYk7Uqj/mlJNkH+PVL04trYYuknw2p5FHfEHbaiah0kSh8m
-	o4Xu6DhQywiS8wyesjlRrXI0WFxH0/fy5OylIuTz+gf55fIVLxHda+31QKM5KwJ9KzQ=
-X-Gm-Gg: ASbGncuxDYj66+WDwqg3CZhTa7DyznzLEm6n+YEoFKXrYDWZQBbd00cNawKOzEgTx10
-	YHBz/tdG7g/GY6RvPNBLHcoeyDpbp7ja03u3saLvKLDfmMjBKrRfON1zGHxFXeu8fYW35/d9fn/
-	OM9BVbz2AQXfYwQvEb4Xim5z63IV13dXD2qK5lqQGaBp+wK0SgcrQhWoGwGG7wYc6n0N6tMoMCz
-	i6ckeMcPM1zX9r9fJpCYcy5vPibEugQXTgUo8LauhWu7xeLsQk2gGm9S1ybXf8dJQGoxrrZ3/hw
-	szlcwU01JEbmh53+peVnuDa36RBQkTwej+tTclg/ptopmyRZlfa8eyXdRpqDtWfCX7jnhQ4VoIt
-	OltvmIMq2h8ja91+ahZ2Q4TuiMJq+i63hBqFo3lm7bobllEho1PQ8skRyl3sS8AwmzFpzzqiEJh
-	QFUwi90rNGjpOf6KEH6g==
-X-Google-Smtp-Source: AGHT+IGDD1FThqyz2U7zZsapceDkvp6OYAFPiCrTNFDU7CmxN/gojkNSulBOcc5jk5r12Vod1QdZCA==
-X-Received: by 2002:a05:622a:5c8:b0:4e0:b5ef:2ba3 with SMTP id d75a77b69052e-4e0b5ef2f60mr33122951cf.37.1759107874548;
-        Sun, 28 Sep 2025 18:04:34 -0700 (PDT)
+        bh=KQeH+ACDAvWfipNpkX5nREJXLCZp+2/jqJfKfCHTDvk=;
+        b=wMJPw6tl47ogKEEjszxrbwFNQIlm4DxMR3IbkWctnbrCfKM+GPf2Y9sNNcfjK14zQW
+         9O0TVRRolxNQ+LUMG7R3GJ8EHts6qGjVM3uuRvJVXy7pUJEsR6NtmdqIcZNPP9j6AjM3
+         z7mtjl2uSz5XNWpQTcqB7Z7c8b2ZU2Wj6beWIMvEQIGYbCj2XLlx0nwLm3RhmgFwO1CV
+         tOySKHMAwzxIG8vRQJaNHzIA2fBnbz9crd3GZahNfOsiHSuKP0mAfmfosZpDZsJ+o9aq
+         u1mqQS13JWMLPsGJRG/ZZdIQpWSM+mRWYSTWX2yc1Hk8dVm7y0CVMAW88e7OJc6hfUIr
+         ixxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW520Zl5baWbdlMVIGXS/pdI8M+tMULoPZ3pLAoalRLAa2YCB6TJH71tLOSxuzf98hhevxtEcXdss8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOGjbOE3YhGTau69eqQKuQz+5Pjm+4a2wHYKazgRaAjMlUNvfN
+	sxVt/vPGq2yHENPJRVecwJ34JzBWhutKPAppsmu04J8cn3jN661TO2duFYorsNG/Awo=
+X-Gm-Gg: ASbGncszC2bFjm4Z5rkE9KRhsfaVtuA1oxFB9ASDty0sT2un8FhstihtHknpwi/L2C2
+	VlgSeY0bzmvTqVfeM0ClZEKwxCUFCKiIy1LTt5m5COe6L+1hl4cIZD470cVaAAp+YVDTqT7PAFe
+	MBAqE2q7gRQ2ISxZpCNAeagREpi2qTiMtZyW6MpguQFdBgHvfjkHMats8NrdoCH9U+SET+8JV1d
+	vpI6nVTgFSo/qthkSGvr1abEThI8MmsrQzKi67jACI8oFHVmzpgCYIAkTJimdls8kKoL4P4hQ7l
+	UjwHVA5nHi9aTJWQEdIfYG1bhOyZTS1acB2A+/Q27S6gVXBwcMW+29ViATeVX0zuemOLMaXgwU0
+	Rw+z4Wva4cueDe4FI+8EafHY2FfTi1x6Md0NJOvYKZ0+TuD5IdVLISLUgUxJ98/6L+B/h/WBGr2
+	tKjDTHqgHIHA2JyXJoDg==
+X-Google-Smtp-Source: AGHT+IEPxuS/7M1Es5d/LhiTv2FSJGMeUGCP9yWRMSwEvaODB3P25ESHbhk9CzfQ3IGx46q/YialgQ==
+X-Received: by 2002:ac8:58c1:0:b0:4df:bab4:f710 with SMTP id d75a77b69052e-4dfbab4fa58mr62437871cf.25.1759107876179;
+        Sun, 28 Sep 2025 18:04:36 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (53.47.86.34.bc.googleusercontent.com. [34.86.47.53])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.04.33
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.04.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 18:04:33 -0700 (PDT)
+        Sun, 28 Sep 2025 18:04:35 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -136,9 +136,9 @@ To: pratyush@kernel.org,
 	skhawaja@google.com,
 	chrisl@kernel.org,
 	steven.sistare@oracle.com
-Subject: [PATCH v4 15/30] reboot: call liveupdate_reboot() before kexec
-Date: Mon, 29 Sep 2025 01:03:06 +0000
-Message-ID: <20250929010321.3462457-16-pasha.tatashin@soleen.com>
+Subject: [PATCH v4 16/30] kho: move kho debugfs directory to liveupdate
+Date: Mon, 29 Sep 2025 01:03:07 +0000
+Message-ID: <20250929010321.3462457-17-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.51.0.536.g15c5d4f767-goog
 In-Reply-To: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
 References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
@@ -150,51 +150,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Modify the reboot() syscall handler in kernel/reboot.c to call
-liveupdate_reboot() when processing the LINUX_REBOOT_CMD_KEXEC
-command.
+Now, that LUO and KHO both live under kernel/liveupdate, it makes
+sense to also move the kho debugfs files to liveupdate/
 
-This ensures that the Live Update Orchestrator is notified just
-before the kernel executes the kexec jump. The liveupdate_reboot()
-function triggers the final LIVEUPDATE_FREEZE event, allowing
-participating subsystems to perform last-minute state saving within
-the blackout window, and transitions the LUO state machine to FROZEN.
+The old names:
+/sys/kernel/debug/kho/out/
+/sys/kernel/debug/kho/in/
 
-The call is placed immediately before kernel_kexec() to ensure LUO
-finalization happens at the latest possible moment before the kernel
-transition.
+The new names:
+/sys/kernel/debug/liveupdate/kho_out/
+/sys/kernel/debug/liveupdate/kho_in/
 
-If liveupdate_reboot() returns an error (indicating a failure during
-LUO finalization), the kexec operation is aborted to prevent proceeding
-with an inconsistent state.
+Also, export the liveupdate_debufs_root, so LUO selftests could use
+it as well.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- kernel/reboot.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ kernel/liveupdate/kexec_handover_debug.c | 11 ++++++-----
+ kernel/liveupdate/luo_internal.h         |  4 ++++
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index ec087827c85c..bdeb04a773db 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -13,6 +13,7 @@
- #include <linux/kexec.h>
- #include <linux/kmod.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/liveupdate.h>
- #include <linux/reboot.h>
- #include <linux/suspend.h>
- #include <linux/syscalls.h>
-@@ -797,6 +798,9 @@ SYSCALL_DEFINE4(reboot, int, magic1, int, magic2, unsigned int, cmd,
+diff --git a/kernel/liveupdate/kexec_handover_debug.c b/kernel/liveupdate/kexec_handover_debug.c
+index af4bad225630..f06d6cdfeab3 100644
+--- a/kernel/liveupdate/kexec_handover_debug.c
++++ b/kernel/liveupdate/kexec_handover_debug.c
+@@ -14,8 +14,9 @@
+ #include <linux/libfdt.h>
+ #include <linux/mm.h>
+ #include "kexec_handover_internal.h"
++#include "luo_internal.h"
  
- #ifdef CONFIG_KEXEC_CORE
- 	case LINUX_REBOOT_CMD_KEXEC:
-+		ret = liveupdate_reboot();
-+		if (ret)
-+			break;
- 		ret = kernel_kexec();
- 		break;
- #endif
+-static struct dentry *debugfs_root;
++struct dentry *liveupdate_debugfs_root;
+ 
+ struct fdt_debugfs {
+ 	struct list_head list;
+@@ -120,7 +121,7 @@ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
+ 
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
+ 
+-	dir = debugfs_create_dir("in", debugfs_root);
++	dir = debugfs_create_dir("in", liveupdate_debugfs_root);
+ 	if (IS_ERR(dir)) {
+ 		err = PTR_ERR(dir);
+ 		goto err_out;
+@@ -180,7 +181,7 @@ __init int kho_out_debugfs_init(struct kho_debugfs *dbg)
+ 
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
+ 
+-	dir = debugfs_create_dir("out", debugfs_root);
++	dir = debugfs_create_dir("out", liveupdate_debugfs_root);
+ 	if (IS_ERR(dir))
+ 		return -ENOMEM;
+ 
+@@ -214,8 +215,8 @@ __init int kho_out_debugfs_init(struct kho_debugfs *dbg)
+ 
+ __init int kho_debugfs_init(void)
+ {
+-	debugfs_root = debugfs_create_dir("kho", NULL);
+-	if (IS_ERR(debugfs_root))
++	liveupdate_debugfs_root = debugfs_create_dir("liveupdate", NULL);
++	if (IS_ERR(liveupdate_debugfs_root))
+ 		return -ENOENT;
+ 	return 0;
+ }
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index c9bce82aac22..083b80754c9e 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -107,4 +107,8 @@ void luo_file_finish(struct luo_session *session);
+ void luo_file_cancel(struct luo_session *session);
+ void luo_file_deserialize(struct luo_session *session);
+ 
++#ifdef CONFIG_KEXEC_HANDOVER_DEBUG
++extern struct dentry *liveupdate_debugfs_root;
++#endif
++
+ #endif /* _LINUX_LUO_INTERNAL_H */
 -- 
 2.51.0.536.g15c5d4f767-goog
 
