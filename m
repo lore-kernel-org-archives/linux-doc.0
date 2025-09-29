@@ -1,27 +1,28 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 702672C1594;
-	Mon, 29 Sep 2025 13:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B66B3016F1;
+	Mon, 29 Sep 2025 13:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759153260; cv=none; b=I9fKQ0F1vtPEvS/8A3zpwOGJgFTjGxveSnBOt0tNWn5RkqMNz55gp3l2NzHbheDA96pyY/TIuwgpP8/sd1Vaa/sHSUXCyiTFik2VEm+hBI6xuofyYNtBSsLsWL+74BW0n9R6kMXISeUHHRaUCelB6tdwlG26GZeMTSemcXWz7Rs=
+	t=1759154187; cv=none; b=mvBOPI8c7g86VeGcxNPXm7S1dsashXAmrcyrNuuLpPQa48tfQ6A6L2JY8GayjYS/TLfyt9SBwbBest5OCX2jX6pI2kaMcoZmAj5H2zu1STsnDMlQesTbB0ID21zXl7AZVciF7dGpGrPV6nHTNewfuKZx3QicnD4H7N3axEW7CcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759153260; c=relaxed/simple;
-	bh=Ztt/WJDdgK4YyPlBZmQEPQ4pS88vmmm50tpR1xtDOw0=;
+	s=arc-20240116; t=1759154187; c=relaxed/simple;
+	bh=FIoI/rsSBdj3x3nPE/Wfg3B+7ZqafNR8c0MsmtroYO0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CGdcDUUWrSLYLUDCNu3LIz045UFB1I9ld4FwQBR+ywxb8Y32Frw57LV/TFDhZCMXc8blfxCTmYQcMFlGsKbHkoeTKpqdcFXQh619c7ltx5M5/6AcPwvFExXaL8zG9oIz69s4hc4DE2lilkL6+Vr1YoLulg54NAcqr7C6uUkG5a8=
+	 Content-Type:Content-Disposition:In-Reply-To; b=MKarzDg/ky+qfU4ysldeOC155Lor1o+9EU1KjCRuzpIcA7D9akwPM4hwaBhyfCwy0osD0wb2/IEXhJv4eeXhSX0v93tdXcIPBB54dxj1diH8x3TgqAl9qpZ1VP8wb08MbEaUFqC+0fIUUT5SGD7kZQ5XTsYu9DSknWpsFrzYOwE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F388150C;
-	Mon, 29 Sep 2025 06:40:49 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C0E2150C;
+	Mon, 29 Sep 2025 06:56:16 -0700 (PDT)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D8E03F59E;
-	Mon, 29 Sep 2025 06:40:55 -0700 (PDT)
-Date: Mon, 29 Sep 2025 14:40:52 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BB5B3F66E;
+	Mon, 29 Sep 2025 06:56:22 -0700 (PDT)
+Date: Mon, 29 Sep 2025 14:56:19 +0100
 From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: linux-kernel@vger.kernel.org,
+	Reinette Chatre <reinette.chatre@intel.com>,
 	James Morse <james.morse@arm.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -30,10 +31,10 @@ Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
 	x86@kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
  per-arch
-Message-ID: <aNqMZGLV/UXbe39u@e133380.arm.com>
+Message-ID: <aNqQAy8nOkLRYx4F@e133380.arm.com>
 References: <20250902162507.18520-1-Dave.Martin@arm.com>
  <aNFliMZTTUiXyZzd@e133380.arm.com>
- <ffe1c6e9-e951-42d6-99ec-ec6e7496f9b0@intel.com>
+ <aNXJGw9r_k3BB4Xk@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,61 +43,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ffe1c6e9-e951-42d6-99ec-ec6e7496f9b0@intel.com>
+In-Reply-To: <aNXJGw9r_k3BB4Xk@agluck-desk3>
 
-Hi Reinette,
+Hi Tony,
 
-On Fri, Sep 26, 2025 at 01:54:10PM -0700, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> Just one correction ...
-> 
-> On 9/22/25 8:04 AM, Dave Martin wrote:
+Thanks for taking at look at this -- comments below.
 
-[...0
+[...]
 
-> > For AMD SMBA, we might have:
+On Thu, Sep 25, 2025 at 03:58:35PM -0700, Luck, Tony wrote:
+> On Mon, Sep 22, 2025 at 04:04:40PM +0100, Dave Martin wrote:
+
+[...]
+
+> > Would something like the following work?  A read from schemata might
+> > produce something like this:
 > > 
-> > 	min: 1
-> > 	max: 100
-> > 	scale: 8
-> > 	unit: 1GBps
-> > 
+> > MB: 0=50, 1=50
+> > # MB_HW: 0=32, 1=32
+> > # MB_MIN: 0=31, 1=31
+> > # MB_MAX: 0=32, 1=32
+
+[...]
+
+> > I'd be interested in people's thoughts on it, though.
 > 
-> Unfortunately not like this for AMD. Initial support for AMD MBA set max
-> to a hardcoded 2048 [1] that was later [2] modified to learn max from hardware.
-> Of course this broke resctrl as a generic interface and I hope we learned
-> enough since to not repeat this mistake nor give up on MB and make its interface
-> even worse by, for example, adding more architecture specific input ranges.
+> Applying this to Intel upcoming region aware memory bandwidth
+> that supports 255 steps and h/w min/max limits.
+
+Following the MPAM example, would you also expect:
+
+	scale: 255
+	unit: 100pc
+
+...?
+
+> We would have info files with "min = 1, max = 255" and a schemata
+> file that looks like this to legacy apps:
 > 
-> Reinette 
+> MB: 0=50;1=75
+> #MB_HW: 0=128;1=191
+> #MB_MIN: 0=128;1=191
+> #MB_MAX: 0=128;1=191
 > 
-> [1] commit 4d05bf71f157 ("x86/resctrl: Introduce AMD QOS feature")
-> [2] commit 0976783bb123 ("x86/resctrl: Remove hard-coded memory bandwidth limit")
+> But a newer app that is aware of the extensions can write:
+> 
+> # cat > schemata << 'EOF'
+> MB_HW: 0=10
+> MB_MIN: 0=10
+> MB_MAX: 0=64
+> EOF
+> 
+> which then reads back as:
+> MB: 0=4;1=75
+> #MB_HW: 0=10;1=191
+> #MB_MIN: 0=10;1=191
+> #MB_MAX: 0=64;1=191
+> 
+> with the legacy line updated with the rounded value of the MB_HW
+> supplied by the user. 10/255 = 3.921% ... so call it "4".
 
-The "100" was just picked randomly in my example.  Looking more
-carefully at the spec, it may make sense to have:
+I'm suggesting that this always be rounded up, so that you have a
+guarantee that the steps are no smaller than the reported value.
 
-	min: 1
-	max: (1 << value of BW_LEN)
-	scale: 8
-	unit: 1GBps
+(In this case, round-up and round-to-nearest give the same answer
+anyway, though!)
 
+> 
+> The region aware h/w supports separate bandwidth controls for each
+> region. We could hope (or perhaps update the spec to define) that
+> region0 is always node-local DDR memory and keep the "MB" tag for
+> that.
 
-(This max value correspondings to setting the "unlimited" bit in the
-control MSR; the other bits of the bandwidth value are then ignored.
-For this instance of the schema, programming the "max" value would be
-expected to give the nearest approximation to unlimited bandwidth that
-the hardware permits.)
+Do you have concerns about existing software choking on the #-prefixed
+lines?
 
-While the memory system is under-utilised end-to-end, I would expect
-throughput from a memory-bound job to scale linearly with the control
-value, but the control level at which throughput starts to saturate
-will depend on the pattern of load throughout the system.
+> Then use some other tag naming for other regions. Remote DDR,
+> local CXL, remote CXL are the ones we think are next in the h/w
+> memory sequence. But the "region" concept would allow for other
+> options as other memory technologies come into use.
 
-This seems fundamentally different from percentage controls -- it looks
-impossible to simulate proportional controls with absolute throughput
-controls, nor vice-versa (?)
+Would it be reasnable just to have a set of these schema instances, per
+region, so:
+
+MB_HW: ... // implicitly region 0
+MB_HW_1: ...
+MB_HW_2: ...
+
+etc.
+
+Or, did you have something else in mind?
+
+My thinking is that we avoid adding complexity in the schemata file if
+we treat mapping these schema instances onto the hardware topology as
+an orthogonal problem.  So long as we have unique names in the schemata
+file, we can describe elsewhere what they relate to in the hardware.
 
 Cheers
 ---Dave
