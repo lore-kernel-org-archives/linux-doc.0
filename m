@@ -1,137 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0674B217F27
-	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 05:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999CF258CE7;
+	Mon, 29 Sep 2025 08:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759122531; cv=none; b=ErQsJn4FxSivjjpc4wH8e1GfTERp0E4iGuHSD8ONOhe0J3scUZUX7poEOacpgeOmoqPUnfjgIdNw76KYyRoodsI3dxJIMe9pQ500smcrhGBgFBZKYenXPIi17NRRudcnwSuXW4gad5tvzOxkkEqaqxg75zIQKdL7TMvaXU4ZSp0=
+	t=1759135145; cv=none; b=pSOHLsr+d9zjTNZ5WszbS7wuIzuP7A4MiMSpGjB5Zs/pQxtMuLuw9IfdhiaOkCBXDdLW+rqtffsbNkeKD4LOgwP2c494zvAKfYaDcB8NHjnDpau0TG2AAVAqkeGFLOpuBhZHaI383x5+yF+E9SUiMPZ7SbeA7YaTh+KcAcQxLkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759122531; c=relaxed/simple;
-	bh=IQGFxiBrTAnGVJ0FHwgAx6Hs5VvATKoAEKbRWWHXzU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uSaYYaEZngsmQfnFm4Nx7SjxVrbHqYMINSwpD4DhNEkavO+XjyLaZf8xtQdQNr4jDrgsYpJ8QPycR+ba8+D9KWa7dalUmP9ZHueuvQtt4vyW9kAKtUjhmUjNmOMWUvmbTccWkPbXYZjNWNE31acGjJVj3geVgISPLF30GT3wKFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTI/Gf+A; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759135145; c=relaxed/simple;
+	bh=4ZnJM9NZcxpYBaNkmuPhjRp1VdvB+zXJlpGwKpRLn1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j73JxhtpmkYpwnNbvnlEHzhtkylBppIdY46L9a2tagrD9yxdt/5alAolz8oYDdrHj9l4EZwJbHm8DW7M2YwYDRAt8FXCwsDedpdOI/TgnmeBsHkIGs5tMS+6wYXUTBvkKQVe5NYY72l5acuhfoRD/sTPoOQcYQexmqka/B3YLr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLGBCqIN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTI/Gf+A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759122530; x=1790658530;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IQGFxiBrTAnGVJ0FHwgAx6Hs5VvATKoAEKbRWWHXzU8=;
-  b=VTI/Gf+A53Ml1T09XfTt+f6n+BYeLg+IiN6CRopQc6oWaxm5iUAhqIOu
-   +RurIHJIRHWF0V+kSwHIGSiU48QUg4SE0iI1IBhcfmolG4Okr0DNS25Ma
-   m8ZjNqCEihWP2WtTyu64Y/GJgo5Ins+S3QC4ryM+Y9YuVzTwwhh120LjE
-   NzwQ6dxrvN8kWSDupgL0DeT3dOUL5CdqulUMAPlSlTcU9jCrF+DJyL4U0
-   h9YmdDI9zbZ5JiaxpP/knkRUCHra5Q8/daiHu18Xsz3SsQhOWEOUJp2HA
-   GGGOIVSG2gWa4Yd9er7Yj7SxQmm7pJmIuZi7Cl8kShdJ/NavG0YsG74lv
-   w==;
-X-CSE-ConnectionGUID: k1b8QYx1S4iDhUYDrXsthg==
-X-CSE-MsgGUID: vBnHdrObSOmslWc6Oh1xZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="83972096"
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="83972096"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 22:08:49 -0700
-X-CSE-ConnectionGUID: I2Cr7t79Sfi+LgEDwUibXA==
-X-CSE-MsgGUID: oGOiBLnWRxiuuldq5Ega1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="183316959"
-Received: from lkp-server01.sh.intel.com (HELO a2c9da549b7f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 Sep 2025 22:08:48 -0700
-Received: from kbuild by a2c9da549b7f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v367x-00003F-0R;
-	Mon, 29 Sep 2025 05:08:45 +0000
-Date: Mon, 29 Sep 2025 13:08:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fei Li <fei1.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Yifan Liu <yifan1.liu@intel.com>,
-	Zhangwei6 <wei6.zhang@intel.com>, Haoyu Tang <haoyu.tang@intel.com>,
-	linux-doc@vger.kernel.org
-Subject: [acrn:6.12/linux 5/10] drivers/virt/acrn/hvlog.c:247: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202509291216.5TaDr7k0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLGBCqIN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2955C4CEF4;
+	Mon, 29 Sep 2025 08:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759135145;
+	bh=4ZnJM9NZcxpYBaNkmuPhjRp1VdvB+zXJlpGwKpRLn1k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VLGBCqINRyKEAaZaQd+3uNgpyfoR6TJTZ09B6EcgPZFEyr2s4Av1p9hiDb1F2RlJU
+	 /mC4sRjx+svu6XcNBOq5XAQzE0ouukkw3YRQ5b/mM401E3YGtjiHZxa2ceDoRi38Th
+	 GUscUJmVkHVJfW83xa67nFyqpzUxsqbmArDu6GYl+81Fsp2qMzKuOo4j7mTdASGmu/
+	 jUq/Q5HKKPM/cbzXdEPAyo6gyWNqA5Ru+S8jLaVnajxrf2nP/nvzZ39+7t+dab6RM8
+	 W0MLXCcnQRXmwUlk/SnD281AU3da7jRtoqL9GywieckP+9QXWHof4TyuDifOxNbgrB
+	 SQ0+U2xj05BSg==
+Date: Mon, 29 Sep 2025 10:39:00 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org
+Subject: Re: [PATCH 2/2] docs: Makefile: avoid a warning when using without
+ texlive
+Message-ID: <20250929103900.19c11b9a@foz.lan>
+In-Reply-To: <1d993906-bae3-41eb-963f-de960cc56dd0@gmail.com>
+References: <e23e03dd41e044d55e4ae24ffd9e1b49e3f2515a.1758881658.git.mchehab+huawei@kernel.org>
+	<f9ceb569-363c-4806-9451-4a4ef83b38ca@gmail.com>
+	<1d993906-bae3-41eb-963f-de960cc56dd0@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/projectacrn/acrn-kernel 6.12/linux
-head:   a3634b1a933e80ff672cc47bd32d2f036cfbe755
-commit: 27615544e0963192757b1bf6433830cb17b19274 [5/10] virt: acrn: add acrn hypervisor log back
-config: x86_64-buildonly-randconfig-004-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291216.5TaDr7k0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291216.5TaDr7k0-lkp@intel.com/reproduce)
+Em Sat, 27 Sep 2025 18:12:19 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509291216.5TaDr7k0-lkp@intel.com/
+> Sorry, a quick follow-up.
+> 
+> On Sat, 27 Sep 2025 16:35:08 +0900, Akira Yokosawa wrote:
+> > On Fri, 26 Sep 2025 12:16:19 +0200, Mauro Carvalho Chehab wrote:  
+> >> As reported by Randy, running make htmldocs on a machine
+> >> without textlive now produce warnings:
+> >>
+> >>     $ make O=DOCS htmldocs
+> >>     ../Documentation/Makefile:70: warning: overriding recipe for target 'pdfdocs'
+> >>     ../Documentation/Makefile:61: warning: ignoring old recipe for target 'pdfdocs'
+> >>
+> >> That's because the code has now two definitions for pdfdocs in
+> >> case $PDFLATEX command is not found. With the new script, such
+> >> special case is not needed anymore, as the script checks it.
+> >>
+> >> Drop the special case. Even after dropping it, on a machine
+> >> without LaTeX, it will still produce an error as expected,
+> >> as running:
+> >>
+> >>     $ ./tools/docs/sphinx-build-wrapper pdfdocs
+> >>     Error: pdflatex or latexmk required for PDF generation
+> >>
+> >> does the check. After applying the patch we have:
+> >>
+> >>     $ make SPHINXDIRS=peci htmldocs
+> >>     Using alabaster theme
+> >>     Using Python kernel-doc
+> >>
+> >>     $ make SPHINXDIRS=peci pdfdocs
+> >>     Error: pdflatex or latexmk required for PDF generation
+> >>     make[2]: *** [Documentation/Makefile:64: pdfdocs] Error 1
+> >>     make[1]: *** [/root/Makefile:1808: pdfdocs] Error 2
+> >>     make: *** [Makefile:248: __sub-make] Error 2
+> >>
+> >> Which is the expected behavior.
+> >>  
+> > 
+> > There seems to be a related issue.
+> > 
+> > At current "docs-mw", under build environments who don't have xelatex nor latexmk,
+> > 
+> >     $ make SPHINXDIRS=peci latexdocs
+> > 
+> > completes without any issue.
+> > 
+> > In the resulting .../latex/peci directory, one can run  
+> 
+>      I meant:      .../peci/latex
+> 
 
-All warnings (new ones prefixed by >>):
+True. This is an one-line fix:
 
->> drivers/virt/acrn/hvlog.c:247: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * base0 = hvlog_buf_phyaddr_base;
+	@@ -650,7 +650,7 @@ class SphinxBuilder:
+	             if not sphinxbuild and target != "mandocs":
+	                 sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
+	 
+	-        if builder == "latex":
+	+        if target == "pdfdocs":
+	             if not self.pdflatex_cmd and not self.latexmk_cmd:
+	                 sys.exit("Error: pdflatex or latexmk required for PDF generation")
 
+With that:
 
-vim +247 drivers/virt/acrn/hvlog.c
+	$ make SPHINXDIRS=peci latexdocs
+	Using alabaster theme
+	Using Python kernel-doc
+	WARNING: dot(1) not found, for better output quality install graphviz from https://www.graphviz.org
 
-   245	
-   246	/**
- > 247	 * base0 = hvlog_buf_phyaddr_base;
-   248	 * base1 = hvlog_buf_phyaddr_base + (hvlog_buf_size >> 1)
-   249	 * if there is valid data in base0, cur_logbuf = base1, last_logbuf = base0.
-   250	 * if there is valid data in base1, cur_logbuf = base0, last_logbuf = base1.
-   251	 * if there is no valid data both in base0 and base1, cur_logbuf = base0,
-   252	 * last_logbuf = 0.
-   253	 */
-   254	static void assign_hvlog_buf_base(uint64_t *cur_logbuf, uint64_t *last_logbuf)
-   255	{
-   256		uint64_t base0, base1, offset;
-   257		uint32_t ele_num, size;
-   258		uint16_t pcpu_id;
-   259		void *sbuf;
-   260	
-   261		base0 = hvlog_buf_phyaddr_base;
-   262		base1 = hvlog_buf_phyaddr_base + (hvlog_buf_size >> 1);
-   263		size = (hvlog_buf_size >> 1) / pcpu_nr;
-   264		ele_num = (size - SBUF_HEAD_SIZE) / LOG_ENTRY_SIZE;
-   265	
-   266		foreach_cpu(pcpu_id, pcpu_nr) {
-   267			offset = (base0 + (size * pcpu_id)) - hvlog_buf_phyaddr_base;
-   268			sbuf = hvlog_buf_virtaddr_base + offset;
-   269			if (sbuf_check_valid(ele_num, LOG_ENTRY_SIZE, sbuf)) {
-   270				*last_logbuf = base0;
-   271				*cur_logbuf = base1;
-   272				return;
-   273			}
-   274		}
-   275	
-   276		foreach_cpu(pcpu_id, pcpu_nr) {
-   277			offset = (base1 + (size * pcpu_id)) - hvlog_buf_phyaddr_base;
-   278			sbuf = hvlog_buf_virtaddr_base + offset;
-   279			if (sbuf_check_valid(ele_num, LOG_ENTRY_SIZE, sbuf)) {
-   280				*last_logbuf = base1;
-   281				*cur_logbuf = base0;
-   282				return;
-   283			}
-   284		}
-   285	
-   286		/* No last logbuf found */
-   287		*last_logbuf = 0;
-   288		*cur_logbuf = base0;
-   289	}
-   290	
+	$ tree Documentation/output/
+	Documentation/output/
+	`-- peci
+	    `-- latex
+	...
+	        |-- Makefile
+	...
+        	|-- peci.tex
+	...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	$ make SPHINXDIRS=peci pdfdocs
+	Error: pdflatex or latexmk required for PDF generation
+	make[2]: *** [Documentation/Makefile:64: pdfdocs] Error 1
+	make[1]: *** [/root/Makefile:1808: pdfdocs] Error 2
+	make: *** [Makefile:248: __sub-make] Error 2
+
+	$ (cd Documentation/output/peci/latex/; make)
+	latexmk -pdf -dvi- -ps-  'peci.tex'
+	make: latexmk: No such file or directory
+	make: *** [Makefile:29: peci.pdf] Error 127
+
+the original behavior is restored.
+
+> > 
+> >     $ make PDFLATEX="latexmk -xelatex" LATEXOPTS="-interaction=batchmode -no-shell-escape"
+> > 
+> > and build peci.pdf.  
+> 
+> I failed to mention, but of course you need to transfer/share said
+> .../peci/latex/ to another build environment who has all the required
+> packages for "pdfdocs".
+> 
+> I often use such heterogeneous combination of running "make latexdocs"
+> + running make under each of .../$SPHINXDIRS/latex/ using another
+> environment.
+> 
+> This way, you need only one set of working texlive packages for testing
+> against various Sphinx's latex builder releases.
+> 
+> > 
+> > At current "build-scripts", I get this:
+> > 
+> >     $ make SPHINXDIRS=peci latexdocs
+> >     Error: pdflatex or latexmk required for PDF generation
+> >     make[2]: *** [Documentation/Makefile:68: latexdocs] Error 1
+> >     make[1]: *** [<srcdir>/Makefile:1806: latexdocs] Error 2
+> >     make: *** [Makefile:248: __sub-make] Error 2
+> > 
+> > Patch 2/2 doesn't change the behavior.
+> > 
+> > This is yet another regression.  Please teach sphinx-build-wrapper of the
+> > fact that "latexdocs" does not run those texlive commands.  It is only the
+> > "pdfdocs" phase that will run them.
+> >   
+> 
+> You see, "make latexdocs" is supposed to generate all the necessary files
+> for building PDFs to be consumed by make + latexmk/xelatex.
+> There is a clear boundary between "latexdocs" and "pdfdocs".
+
+True.
+
+Such patch should address your usecase: it will allow building
+tex files on one machine and generate pdf on a different one.
+
+Thanks,
+Mauro
