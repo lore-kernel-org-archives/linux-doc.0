@@ -1,61 +1,64 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C6742049
-	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04A41DD543
+	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 01:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759107815; cv=none; b=FQKdJJqf3nF7IquJroxZnMMTzJOU1S7a7J+qsecp15bmGoF13oGdCzNfNO/6319Ji3XinHm4eqFk1iiGaXtSdOKzDsGuDsZ0cw5EcKtkEVxzGIbC/8chQIkTQ916Ql9YYS0C95exKln2L1xsFaNs6HeG+akLO3Qug2sxYitBUIw=
+	t=1759107818; cv=none; b=aBfToqrIzyZIb7iQqaOOgibwMGGCD32/UCRV4/QkS6KlBdnJ9PeYiUbzOuYqa4dMkugnGYL76MZRv4VaZlQa/Ciek9h0Ws4i9F8ZX3+aBzjUOpDxE0LsIiq0FNLr4ceNOZ+ASabb51o0fs4C36hOVsVWSTlzzDhhqdYsU+r/ZzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759107815; c=relaxed/simple;
-	bh=zJ0ndXB5pIVHc8rtgviO+MpAzbXlziPyCt0KNqxYU/0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=bMBipnI5jlN7dVNBWRMeuQMghmpTuCIiESBeY+zMHkglXDUnRC3EnAacVzZYPI9zIU2HHiy3ct3a06Um5HjO8LXg6zHiA6bbiJfKhV7cbB0enn00VECY5AUqrQ4bI3i6MKX92cS2bMgotJG1SlVwMJ9gBNVADQRZ9GiC7ZWg8AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=icvHwQhB; arc=none smtp.client-ip=209.85.160.177
+	s=arc-20240116; t=1759107818; c=relaxed/simple;
+	bh=uDWniFjf4ZkL5jUcn9/kgwbIQ/WTJAGcjIq0jJxdPuI=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=P8j5Jo2AUj12UYnqvNhaAMLbMdcrMAy5zAYYVlkbBM3Z1Eo9Ph/cDi9GjPq2oxdzOoJWciiWnHdWAKIICL1fm65ZTJYrU9sO9AZVT1+cg0mCWg5yX4eP8fXYGi/rMZ6N+peh3/ROuFc8xAyD3WhcA9j/OZx5iP2/y8lBKVGUGgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NA1ukK2I; arc=none smtp.client-ip=209.85.222.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="icvHwQhB"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4d9f38478e0so37545051cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:03:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NA1ukK2I"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-856701dc22aso410974285a.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Sep 2025 18:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759107811; x=1759712611; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vx2NUMjo1lV2HrEdGE9/MkxnCEs7/OOXznUHgDJat/A=;
-        b=icvHwQhBvPOZakB7fqxquCixbHDDLtIIVkwcXgt30bwe3AB7UijAg5Dtgb/2XFU53I
-         LgTuKBA7kC+EZURaIu8Fo21EmPmz/0ctQTY3R4FDZomkT/Y0QYuGR0+YVnYEl9Rn2Mk2
-         CpUOcNoojZi+cOoYAqKQ1wevV9PkciCNdxiNZFOyYNTbkvU0eunLZjNErpQ5Ws6PZBVY
-         Hsz5jq3155G+W8ELw3IPwR+93EI5rCWAwXOIsAWgE/xbvUAjrxgomRdRkYY/YXYZnMXy
-         mmGu0IaBGhMuM5mgm/ytcFBL95EjLbUTRLMIBDq4sU86qky06NXYlK7aMivYiRe2bWFQ
-         D2PQ==
+        d=soleen.com; s=google; t=1759107814; x=1759712614; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M+0a641RVp4eNXltm9Frq8R4NOKxAZQzQ19sOBX9Om4=;
+        b=NA1ukK2IL21cB5oShJC5TeYfSJCwQh7d/1Awn2XAY4LDHqEfNFH0YW2Tv7bLlmbrS3
+         BkJqITKNWiUptAYVzr9H+lWpH9tVeQ4zRfl6bHm/WmWp//pDxyoZ65oYrJAy2lEyhnJB
+         QDLjPCNJEVpPOdSbh7ydCBRv2JNnewetSo1r1epbMioo6a87lkTtnANu3NEQJVfNNwBA
+         zEsttr7A0vL5VlPxYNmYkCGakYt9xwM2Gv+IGO0XEG8+05+ei3iOEnk/DRPMS8A3Wn8z
+         j6bKvpqTrSqNciLX2qfVkc/rB6UZ0oM00XEY2WdsdhsIopT1bGuaG8i1tFpNA6ggdTi3
+         oSjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759107811; x=1759712611;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vx2NUMjo1lV2HrEdGE9/MkxnCEs7/OOXznUHgDJat/A=;
-        b=a1H+SIIIQly8FAE0Usevqg7buy3xzjxFxD1kXuYjk/ndJIOK9OGu0RscKBwUwPU1ER
-         qvwBLUAQPx5uNNndyFslRN7zMd2R4Z/zngBOywYBxWaR3HTFZP+oaQj41+d7/u4Zio7F
-         SrttPs981E4mQDd5lsi2rPHBkm9FCdituQbIW79EYKNBM+VyK/Vb26J84VRc1rrOAM65
-         OVDZViayq2u2JrEBjRsOglpndH5068uFamkwE5DoQb13G6a7DjiADR75Ix007sZChHJK
-         A7xeVrw4KSg1rgLqEdTbnV/w6xKwVWxDpRSWPXbFhqKs5VF+RSZS80XE4nVrMRUoK13f
-         RhZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdvK7rRrSQJqjDxh6V/+ubfm7HmrDUQJMoleik5n0n059mPDPsNVm5HPK0BU0A2gVttctBMNz90/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQj2jWSuPWbONkGny0iIuzLp94CnKS+5ueAbUcCGF794/rtLWG
-	TG4/vdiojsDRYw3W3ZhM4s09PJ5p2CuYPBDbn2V4Ibvq8O7z8PbBn2VyBOtVtwgu0Dk=
-X-Gm-Gg: ASbGncvYmjf/z0CpTI4UzEYGJuY1lVQYhCZ3zP2K8e7cGvhuZ9nRDVXr8D6YYT3ULA2
-	nUdfL5px9Xv9pG5YcJnGMuRNsakxm+DNgBi76Y780dI+aPpP81sYrY81d4edoWETPIT3wnxS8RR
-	9olPpuB7fr8LLN8zXNzzjW0oukd6aM9pFy1sGtJWqzuvXkWDCS07g66OLsNliB6IgpgxDFQGT4D
-	HMpHEQYYbET2kjnmbTMjRjvJfAYxnfAa4JKImNbpJtSjmMhkrZhdY49qADvuXbtxK8REQ82RAWD
-	Kt/HbByjsvSQHtOSmo8l5t5UbCflJ9PkxZPs82M+xTV4eB09yGXOqgnsUIv0h++TgasdZNy4AtP
-	8hfupk4nSouE//+eRy2ylzswS8oHs3nltIds1TVGYSH5hTEY7/pQxatd0w6+Rbc6tNXJmNaWWs6
-	IUJFTc+AnzCFCWlGZBUg==
-X-Google-Smtp-Source: AGHT+IHvfQHKNIJph8GKuLGIcgL+56dTeKXQ7+SUATkT/idInZP7Lsbeg86nPFDUslPD6Un+9PFCAA==
-X-Received: by 2002:a05:622a:2cd:b0:4b7:b15b:65e7 with SMTP id d75a77b69052e-4ded2c7eb63mr89972641cf.5.1759107811442;
-        Sun, 28 Sep 2025 18:03:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759107814; x=1759712614;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M+0a641RVp4eNXltm9Frq8R4NOKxAZQzQ19sOBX9Om4=;
+        b=k+xeDoZy/YYK66C/67QJP+ZJeSSRgRbS8auF/HFW4/hib6X6WPJVbCwt7kj+4tgWw7
+         MgKDyeWAgmWCwK++ynFQDYdfXrst+PTeFxD6dht4EU9uVY1WXp30KYTJFkbuYLYu+MsZ
+         ZXfr10qq5P6uiILldKm2p96SD0mX8ySti1vXKOg9RQMZ78zjeqzIsXYxaBCpFIKZ7IJU
+         BMfSc6qL7SRdW+/SDexSKt/6Rhiuo952wyNnDgx2O+2w86rJu7ver6hbAJuGBZ36mMiu
+         36WvrioUSUsiVwPOZilVMcMbfcZxS0OQjwSlwrUTt1pCHnMQeJVIrOJJGlsFXhoXDwcl
+         QcTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXOu5qQKdemwRWOsd8vjLcXEtCiGpYF2T20YlUq+hu5slmoMBuR5w3m0EU81UCAV76KAb9DzmrzUM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWIHVdB+jdog/zDd6+eyB1kYl0gMuYoT6xSVNABYc2lgRPt9vk
+	GNbeWZyPx/jfQn8HeiSzfYW46bbfHLwZoWvSxVmTY66kTGQZsFJFFhA40of54VFk0go=
+X-Gm-Gg: ASbGncv0xeOwu1ZPLFUA4xh1tKNBHxsGf91H36nGG+cxea2euUK5fPvkBDX1bcIDYGx
+	RKOT7A8i5eSgs/t6jjI7EZjtyDTySEexvIFbbiCl+VIILMFy1prhHgAuyhM3OX07yfpXIfnI8Bb
+	fLdx1PJ6sh69UqxnIHSY2lpq19DBBZ3PM0Thq5g550BExTMvImkvpyzraAWuAUZ/WR3UGemPn8I
+	0at3S/1EDKCSEi9coA3J1rp5rRrLmpWlFxupRs1GkGF9gWtFHBoVp14D/KNhiuBL7v0/SxBU26x
+	YF8PAlkFj6P/yugRYhgH/cHjf08WMYQKActUagHbLsNNKNEwgxtguufVf7FLcqezyuemxgD0mgW
+	PHs8auPnO2qdALEKRgkF6P9SQoDcTfOUz55viJoObbt+vinEuZhOfyyfioYVl3J+8h49n+CSptB
+	0XefgcZps=
+X-Google-Smtp-Source: AGHT+IGonW1CRHUUsXyfbJh6ZoXbzRjlubAVAKY6OPaG8ochgaHRZVLV4raeX9y82h2VGUt1hBc7Vw==
+X-Received: by 2002:a05:620a:25d4:b0:84c:e9:f9d7 with SMTP id af79cd13be357-85ae7fb3278mr1782998185a.62.1759107814346;
+        Sun, 28 Sep 2025 18:03:34 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (53.47.86.34.bc.googleusercontent.com. [34.86.47.53])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.03.30
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0c0fbe63sm64561521cf.23.2025.09.28.18.03.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 18:03:30 -0700 (PDT)
+        Sun, 28 Sep 2025 18:03:33 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -133,10 +136,12 @@ To: pratyush@kernel.org,
 	skhawaja@google.com,
 	chrisl@kernel.org,
 	steven.sistare@oracle.com
-Subject: [PATCH v4 00/30] Live Update Orchestrator
-Date: Mon, 29 Sep 2025 01:02:51 +0000
-Message-ID: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+Subject: [PATCH v4 02/30] kho: make debugfs interface optional
+Date: Mon, 29 Sep 2025 01:02:53 +0000
+Message-ID: <20250929010321.3462457-3-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.51.0.536.g15c5d4f767-goog
+In-Reply-To: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -145,258 +150,734 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series introduces the Live Update Orchestrator (LUO), a kernel
-subsystem designed to facilitate live kernel updates. LUO enables
-kexec-based reboots with minimal downtime, a critical capability for
-cloud environments where hypervisors must be updated without disrupting
-running virtual machines. By preserving the state of selected resources,
-such as file descriptors and memory, LUO allows workloads to resume
-seamlessly in the new kernel.
+Currently, KHO is controlled via debugfs interface, but once LUO is
+introduced, it can control KHO, and the debug interface becomes
+optional.
 
-The git branch for this series can be found at:
-https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v4
+Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
+the debugfs interface, and allows to inspect the tree.
 
-The patch series applies against linux-next tag: next-20250926
+Move all debugfs related code to a new file to keep the .c files
+clear of ifdefs.
 
-While this series is showed cased using memfd preservation. There are
-works to preserve devices:
-1. IOMMU: https://lore.kernel.org/all/20250928190624.3735830-16-skhawaja@google.com
-2. PCI: https://lore.kernel.org/all/20250916-luo-pci-v2-0-c494053c3c08@kernel.org
+Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+---
+ MAINTAINERS                      |   3 +-
+ kernel/Kconfig.kexec             |  10 ++
+ kernel/Makefile                  |   1 +
+ kernel/kexec_handover.c          | 255 +++++--------------------------
+ kernel/kexec_handover_debug.c    | 218 ++++++++++++++++++++++++++
+ kernel/kexec_handover_internal.h |  44 ++++++
+ 6 files changed, 311 insertions(+), 220 deletions(-)
+ create mode 100644 kernel/kexec_handover_debug.c
+ create mode 100644 kernel/kexec_handover_internal.h
 
-=======================================================================
-Changelog since v3:
-(https://lore.kernel.org/all/20250807014442.3829950-1-pasha.tatashin@soleen.com):
-
-- The main architectural change in this version is introduction of
-  "sessions" to manage the lifecycle of preserved file descriptors.
-  In v3, session management was left to a single userspace agent. This
-  approach has been revised to improve robustness. Now, each session is
-  represented by a file descriptor (/dev/liveupdate). The lifecycle of
-  all preserved resources within a session is tied to this FD, ensuring
-  automatic cleanup by the kernel if the controlling userspace agent
-  crashes or exits unexpectedly.
-
-- The first three KHO fixes from the previous series have been merged
-  into Linus' tree.
-
-- Various bug fixes and refactorings, including correcting memory
-  unpreservation logic during a kho_abort() sequence.
-
-- Addressing all comments from reviewers.
-
-- Removing sysfs interface (/sys/kernel/liveupdate/state), the state
-  can now be queried  only via ioctl() API.
-
-=======================================================================
-
-What is Live Update?
-
-Live Update is a kexec-based reboot process where selected kernel
-resources (memory, file descriptors, and eventually devices) are kept
-operational or their state is preserved across a kernel transition. For
-certain resources, DMA and interrupt activity might continue with
-minimal interruption during the kernel reboot.
-
-LUO provides a framework for coordinating live updates. It features:
-
-State Machine
-Manages the live update process through states: NORMAL, PREPARED,
-FROZEN, UPDATED.
-
-Session Management
-==================
-Userspace creates named sessions (driven by LUOD: Live Update
-Orchestrator Daemon, see: https://tinyurl.com/luoddesign), each
-represented by a file descriptor. Preserved resources are tied to a
-session, and their lifecycle is managed by the session's FD, ensuring 
-automatic cleanup if the controlling process exits unexpectedly.
-Furthermore, sessions can be finished, prepared, and frozen
-independently of the global LUO states. This granular control allows a
-VMM to serialize and resume specific VMs as soon as their resources are
-ready, without having to wait for all VMs to be prepared.
-
-After a reboot, a central live update agent can retrieve a session
-handle and pass it to the VMM process, which then restores its own file
-descriptors. This ensures that resource allocations, such as cgroup
-memory charges, are correctly accounted against the workload's cgroup
-instead of the administrative agent's.
-
-KHO Integration
-===============
-LUO programmatically drives KHO's finalization and abort sequences
-(KHO may soon to become completely stateless, which will make KHO
-interraction with LUO even simpler:
-https://lore.kernel.org/all/20250917025019.1585041-1-jasonmiu@google.com)
-
-KHO's debugfs interface is now optional, configured via
-CONFIG_KEXEC_HANDOVER_DEBUG. LUO preserves its own metadata via KHO's
-kho_add_subtree() and kho_preserve_phys() mechanisms.
-
-Subsystem Participation
-=======================
-A callback API, liveupdate_register_subsystem(), allows kernel
-subsystems (e.g., KVM, IOMMU, VFIO, PCI) to register handlers for LUO
-events (PREPARE, FREEZE, FINISH, CANCEL) and persist a u64 payload via
-the LUO FDT.
-
-File Descriptor Preservation
-============================
-An infrastructure (liveupdate_register_file_handler, luo_preserve_file,
-luo_retrieve_file) allows specific types of file descriptors (e.g.,
-memfd, vfio) to be preserved and restored within a session. Handlers for
-specific file types can be registered to manage their preservation,
-storing a u64 payload in the LUO FDT.
-
-Userspace Interface
-===================
-ioctl (/dev/liveupdate): The primary control interface for creating and
-retrieving sessions, triggering global LUO state transitions (prepare,
-finish, cancel), and managing preserved file descriptors within a
-session.
-
-sysfs (/sys/kernel/liveupdate/state)
-A read-only interface for monitoring the current LUO state.
-
-Selftests
-=========
-Includes kernel-side hooks and an extensive userspace selftest suite to
-verify core LUO functionality, including subsystem registration, state
-transitions, and complex multi-kexec session lifecycles.
-
-LUO State Machine and Events
-============================
-NORMAL:   Default operational state.
-PREPARED: Initial preparation complete after LIVEUPDATE_PREPARE event.
-          Subsystems have saved initial state.
-FROZEN:   Final "blackout window" state after LIVEUPDATE_FREEZE event,
-          just before kexec. Workloads must be suspended.
-UPDATED:  Next kernel has booted via live update, awaiting restoration
-          and LIVEUPDATE_FINISH.
-
-Events
-LIVEUPDATE_PREPARE: Prepare for reboot, serialize state.
-LIVEUPDATE_FREEZE:  Final opportunity to save state before kexec.
-LIVEUPDATE_FINISH:  Post-reboot cleanup in the next kernel.
-LIVEUPDATE_CANCEL:  Abort prepare or freeze, revert changes.
-
-Mike Rapoport (Microsoft) (1):
-  kho: drop notifiers
-
-Pasha Tatashin (24):
-  kho: allow to drive kho from within kernel
-  kho: make debugfs interface optional
-  kho: add interfaces to unpreserve folios and page ranes
-  kho: don't unpreserve memory during abort
-  liveupdate: kho: move to kernel/liveupdate
-  liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
-  liveupdate: luo_core: integrate with KHO
-  liveupdate: luo_subsystems: add subsystem registration
-  liveupdate: luo_subsystems: implement subsystem callbacks
-  liveupdate: luo_session: Add sessions support
-  liveupdate: luo_ioctl: add user interface
-  liveupdate: luo_file: implement file systems callbacks
-  liveupdate: luo_session: Add ioctls for file preservation and state
-    management
-  reboot: call liveupdate_reboot() before kexec
-  kho: move kho debugfs directory to liveupdate
-  liveupdate: add selftests for subsystems un/registration
-  selftests/liveupdate: add subsystem/state tests
-  docs: add luo documentation
-  MAINTAINERS: add liveupdate entry
-  selftests/liveupdate: Add multi-kexec session lifecycle test
-  selftests/liveupdate: Add multi-file and unreclaimed file test
-  selftests/liveupdate: Add multi-session workflow and state interaction
-    test
-  selftests/liveupdate: Add test for unreclaimed resource cleanup
-  selftests/liveupdate: Add tests for per-session state and cancel
-    cycles
-
-Pratyush Yadav (5):
-  mm: shmem: use SHMEM_F_* flags instead of VM_* flags
-  mm: shmem: allow freezing inode mapping
-  mm: shmem: export some functions to internal.h
-  luo: allow preserving memfd
-  docs: add documentation for memfd preservation via LUO
-
- Documentation/core-api/index.rst              |   1 +
- Documentation/core-api/kho/concepts.rst       |   2 +-
- Documentation/core-api/liveupdate.rst         |  64 ++
- Documentation/mm/index.rst                    |   1 +
- Documentation/mm/memfd_preservation.rst       | 138 +++
- Documentation/userspace-api/index.rst         |   1 +
- .../userspace-api/ioctl/ioctl-number.rst      |   2 +
- Documentation/userspace-api/liveupdate.rst    |  25 +
- MAINTAINERS                                   |  18 +-
- include/linux/kexec_handover.h                |  53 +-
- include/linux/liveupdate.h                    | 209 +++++
- include/linux/shmem_fs.h                      |  23 +
- include/uapi/linux/liveupdate.h               | 460 +++++++++
- init/Kconfig                                  |   2 +
- kernel/Kconfig.kexec                          |  15 -
- kernel/Makefile                               |   2 +-
- kernel/liveupdate/Kconfig                     |  72 ++
- kernel/liveupdate/Makefile                    |  14 +
- kernel/{ => liveupdate}/kexec_handover.c      | 507 ++++------
- kernel/liveupdate/kexec_handover_debug.c      | 222 +++++
- kernel/liveupdate/kexec_handover_internal.h   |  45 +
- kernel/liveupdate/luo_core.c                  | 588 ++++++++++++
- kernel/liveupdate/luo_file.c                  | 599 ++++++++++++
- kernel/liveupdate/luo_internal.h              | 114 +++
- kernel/liveupdate/luo_ioctl.c                 | 255 +++++
- kernel/liveupdate/luo_selftests.c             | 345 +++++++
- kernel/liveupdate/luo_selftests.h             |  84 ++
- kernel/liveupdate/luo_session.c               | 887 ++++++++++++++++++
- kernel/liveupdate/luo_subsystems.c            | 452 +++++++++
- kernel/reboot.c                               |   4 +
- mm/Makefile                                   |   1 +
- mm/internal.h                                 |   6 +
- mm/memblock.c                                 |  60 +-
- mm/memfd_luo.c                                | 523 +++++++++++
- mm/shmem.c                                    |  51 +-
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/liveupdate/.gitignore |   2 +
- tools/testing/selftests/liveupdate/Makefile   |  48 +
- tools/testing/selftests/liveupdate/config     |   6 +
- .../testing/selftests/liveupdate/do_kexec.sh  |   6 +
- .../testing/selftests/liveupdate/liveupdate.c | 404 ++++++++
- .../selftests/liveupdate/luo_multi_file.c     | 119 +++
- .../selftests/liveupdate/luo_multi_kexec.c    | 182 ++++
- .../selftests/liveupdate/luo_multi_session.c  | 155 +++
- .../selftests/liveupdate/luo_test_utils.c     | 241 +++++
- .../selftests/liveupdate/luo_test_utils.h     |  51 +
- .../selftests/liveupdate/luo_unreclaimed.c    | 107 +++
- 47 files changed, 6757 insertions(+), 410 deletions(-)
- create mode 100644 Documentation/core-api/liveupdate.rst
- create mode 100644 Documentation/mm/memfd_preservation.rst
- create mode 100644 Documentation/userspace-api/liveupdate.rst
- create mode 100644 include/linux/liveupdate.h
- create mode 100644 include/uapi/linux/liveupdate.h
- create mode 100644 kernel/liveupdate/Kconfig
- create mode 100644 kernel/liveupdate/Makefile
- rename kernel/{ => liveupdate}/kexec_handover.c (80%)
- create mode 100644 kernel/liveupdate/kexec_handover_debug.c
- create mode 100644 kernel/liveupdate/kexec_handover_internal.h
- create mode 100644 kernel/liveupdate/luo_core.c
- create mode 100644 kernel/liveupdate/luo_file.c
- create mode 100644 kernel/liveupdate/luo_internal.h
- create mode 100644 kernel/liveupdate/luo_ioctl.c
- create mode 100644 kernel/liveupdate/luo_selftests.c
- create mode 100644 kernel/liveupdate/luo_selftests.h
- create mode 100644 kernel/liveupdate/luo_session.c
- create mode 100644 kernel/liveupdate/luo_subsystems.c
- create mode 100644 mm/memfd_luo.c
- create mode 100644 tools/testing/selftests/liveupdate/.gitignore
- create mode 100644 tools/testing/selftests/liveupdate/Makefile
- create mode 100644 tools/testing/selftests/liveupdate/config
- create mode 100755 tools/testing/selftests/liveupdate/do_kexec.sh
- create mode 100644 tools/testing/selftests/liveupdate/liveupdate.c
- create mode 100644 tools/testing/selftests/liveupdate/luo_multi_file.c
- create mode 100644 tools/testing/selftests/liveupdate/luo_multi_kexec.c
- create mode 100644 tools/testing/selftests/liveupdate/luo_multi_session.c
- create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.c
- create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.h
- create mode 100644 tools/testing/selftests/liveupdate/luo_unreclaimed.c
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 156fa8eefa69..a6cbcc7fb396 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13759,13 +13759,14 @@ KEXEC HANDOVER (KHO)
+ M:	Alexander Graf <graf@amazon.com>
+ M:	Mike Rapoport <rppt@kernel.org>
+ M:	Changyuan Lyu <changyuanl@google.com>
++M:	Pasha Tatashin <pasha.tatashin@soleen.com>
+ L:	kexec@lists.infradead.org
+ L:	linux-mm@kvack.org
+ S:	Maintained
+ F:	Documentation/admin-guide/mm/kho.rst
+ F:	Documentation/core-api/kho/*
+ F:	include/linux/kexec_handover.h
+-F:	kernel/kexec_handover.c
++F:	kernel/kexec_handover*
+ F:	tools/testing/selftests/kho/
+ 
+ KEYS-ENCRYPTED
+diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
+index 422270d64820..e68156d8c72b 100644
+--- a/kernel/Kconfig.kexec
++++ b/kernel/Kconfig.kexec
+@@ -109,6 +109,16 @@ config KEXEC_HANDOVER
+ 	  to keep data or state alive across the kexec. For this to work,
+ 	  both source and target kernels need to have this option enabled.
+ 
++config KEXEC_HANDOVER_DEBUG
++	bool "kexec handover debug interface"
++	depends on KEXEC_HANDOVER
++	depends on DEBUG_FS
++	help
++	  Allow to control kexec handover device tree via debugfs
++	  interface, i.e. finalize the state or aborting the finalization.
++	  Also, enables inspecting the KHO fdt trees with the debugfs binary
++	  blobs.
++
+ config CRASH_DUMP
+ 	bool "kernel crash dumps"
+ 	default ARCH_DEFAULT_CRASH_DUMP
+diff --git a/kernel/Makefile b/kernel/Makefile
+index df3dd8291bb6..9fe722305c9b 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -83,6 +83,7 @@ obj-$(CONFIG_KEXEC) += kexec.o
+ obj-$(CONFIG_KEXEC_FILE) += kexec_file.o
+ obj-$(CONFIG_KEXEC_ELF) += kexec_elf.o
+ obj-$(CONFIG_KEXEC_HANDOVER) += kexec_handover.o
++obj-$(CONFIG_KEXEC_HANDOVER_DEBUG) += kexec_handover_debug.o
+ obj-$(CONFIG_BACKTRACE_SELF_TEST) += backtracetest.o
+ obj-$(CONFIG_COMPAT) += compat.o
+ obj-$(CONFIG_CGROUPS) += cgroup/
+diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+index 0ba5a2dbae28..f0f6c6b8ad83 100644
+--- a/kernel/kexec_handover.c
++++ b/kernel/kexec_handover.c
+@@ -10,7 +10,6 @@
+ 
+ #include <linux/cma.h>
+ #include <linux/count_zeros.h>
+-#include <linux/debugfs.h>
+ #include <linux/kexec.h>
+ #include <linux/kexec_handover.h>
+ #include <linux/libfdt.h>
+@@ -28,6 +27,7 @@
+  */
+ #include "../mm/internal.h"
+ #include "kexec_internal.h"
++#include "kexec_handover_internal.h"
+ 
+ #define KHO_FDT_COMPATIBLE "kho-v1"
+ #define PROP_PRESERVED_MEMORY_MAP "preserved-memory-map"
+@@ -101,8 +101,6 @@ struct khoser_mem_chunk;
+ 
+ struct kho_serialization {
+ 	struct page *fdt;
+-	struct list_head fdt_list;
+-	struct dentry *sub_fdt_dir;
+ 	struct kho_mem_track track;
+ 	/* First chunk of serialized preserved memory map */
+ 	struct khoser_mem_chunk *preserved_mem_map;
+@@ -465,8 +463,8 @@ static void __init kho_mem_deserialize(const void *fdt)
+  * area for early allocations that happen before page allocator is
+  * initialized.
+  */
+-static struct kho_scratch *kho_scratch;
+-static unsigned int kho_scratch_cnt;
++struct kho_scratch *kho_scratch;
++unsigned int kho_scratch_cnt;
+ 
+ /*
+  * The scratch areas are scaled by default as percent of memory allocated from
+@@ -662,36 +660,24 @@ static void __init kho_reserve_scratch(void)
+ 	kho_enable = false;
+ }
+ 
+-struct fdt_debugfs {
+-	struct list_head list;
+-	struct debugfs_blob_wrapper wrapper;
+-	struct dentry *file;
++struct kho_out {
++	struct blocking_notifier_head chain_head;
++	struct mutex lock; /* protects KHO FDT finalization */
++	struct kho_serialization ser;
++	bool finalized;
++	struct kho_debugfs dbg;
+ };
+ 
+-static int kho_debugfs_fdt_add(struct list_head *list, struct dentry *dir,
+-			       const char *name, const void *fdt)
+-{
+-	struct fdt_debugfs *f;
+-	struct dentry *file;
+-
+-	f = kmalloc(sizeof(*f), GFP_KERNEL);
+-	if (!f)
+-		return -ENOMEM;
+-
+-	f->wrapper.data = (void *)fdt;
+-	f->wrapper.size = fdt_totalsize(fdt);
+-
+-	file = debugfs_create_blob(name, 0400, dir, &f->wrapper);
+-	if (IS_ERR(file)) {
+-		kfree(f);
+-		return PTR_ERR(file);
+-	}
+-
+-	f->file = file;
+-	list_add(&f->list, list);
+-
+-	return 0;
+-}
++static struct kho_out kho_out = {
++	.chain_head = BLOCKING_NOTIFIER_INIT(kho_out.chain_head),
++	.lock = __MUTEX_INITIALIZER(kho_out.lock),
++	.ser = {
++		.track = {
++			.orders = XARRAY_INIT(kho_out.ser.track.orders, 0),
++		},
++	},
++	.finalized = false,
++};
+ 
+ /**
+  * kho_add_subtree - record the physical address of a sub FDT in KHO root tree.
+@@ -704,7 +690,8 @@ static int kho_debugfs_fdt_add(struct list_head *list, struct dentry *dir,
+  * by KHO for the new kernel to retrieve it after kexec.
+  *
+  * A debugfs blob entry is also created at
+- * ``/sys/kernel/debug/kho/out/sub_fdts/@name``.
++ * ``/sys/kernel/debug/kho/out/sub_fdts/@name`` when kernel is configured with
++ * CONFIG_KEXEC_HANDOVER_DEBUG
+  *
+  * Return: 0 on success, error code on failure
+  */
+@@ -721,7 +708,7 @@ int kho_add_subtree(struct kho_serialization *ser, const char *name, void *fdt)
+ 	if (err)
+ 		return err;
+ 
+-	return kho_debugfs_fdt_add(&ser->fdt_list, ser->sub_fdt_dir, name, fdt);
++	return kho_debugfs_fdt_add(&kho_out.dbg, name, fdt, false);
+ }
+ EXPORT_SYMBOL_GPL(kho_add_subtree);
+ 
+@@ -1044,29 +1031,6 @@ void *kho_restore_vmalloc(const struct kho_vmalloc *preservation)
+ }
+ EXPORT_SYMBOL_GPL(kho_restore_vmalloc);
+ 
+-/* Handling for debug/kho/out */
+-
+-static struct dentry *debugfs_root;
+-
+-static int kho_out_update_debugfs_fdt(void)
+-{
+-	int err = 0;
+-	struct fdt_debugfs *ff, *tmp;
+-
+-	if (kho_out.finalized) {
+-		err = kho_debugfs_fdt_add(&kho_out.ser.fdt_list, kho_out.dir,
+-					  "fdt", page_to_virt(kho_out.ser.fdt));
+-	} else {
+-		list_for_each_entry_safe(ff, tmp, &kho_out.ser.fdt_list, list) {
+-			debugfs_remove(ff->file);
+-			list_del(&ff->list);
+-			kfree(ff);
+-		}
+-	}
+-
+-	return err;
+-}
+-
+ static int __kho_abort(void)
+ {
+ 	int err;
+@@ -1119,7 +1083,8 @@ int kho_abort(void)
+ 		goto unlock;
+ 
+ 	kho_out.finalized = false;
+-	ret = kho_out_update_debugfs_fdt();
++
++	kho_debugfs_cleanup(&kho_out.dbg);
+ 
+ unlock:
+ 	mutex_unlock(&kho_out.lock);
+@@ -1169,7 +1134,7 @@ static int __kho_finalize(void)
+ abort:
+ 	if (err) {
+ 		pr_err("Failed to convert KHO state tree: %d\n", err);
+-		kho_abort();
++		__kho_abort();
+ 	}
+ 
+ 	return err;
+@@ -1194,119 +1159,32 @@ int kho_finalize(void)
+ 		goto unlock;
+ 
+ 	kho_out.finalized = true;
+-	ret = kho_out_update_debugfs_fdt();
++	ret = kho_debugfs_fdt_add(&kho_out.dbg, "fdt",
++				  page_to_virt(kho_out.ser.fdt), true);
+ 
+ unlock:
+ 	mutex_unlock(&kho_out.lock);
+ 	return ret;
+ }
+ 
+-static int kho_out_finalize_get(void *data, u64 *val)
++bool kho_finalized(void)
+ {
+-	mutex_lock(&kho_out.lock);
+-	*val = kho_out.finalized;
+-	mutex_unlock(&kho_out.lock);
+-
+-	return 0;
+-}
+-
+-static int kho_out_finalize_set(void *data, u64 _val)
+-{
+-	int ret = 0;
+-	bool val = !!_val;
++	bool ret;
+ 
+ 	mutex_lock(&kho_out.lock);
+-
+-	if (val == kho_out.finalized) {
+-		if (kho_out.finalized)
+-			ret = -EEXIST;
+-		else
+-			ret = -ENOENT;
+-		goto unlock;
+-	}
+-
+-	if (val)
+-		ret = kho_finalize();
+-	else
+-		ret = kho_abort();
+-
+-	if (ret)
+-		goto unlock;
+-
+-	kho_out.finalized = val;
+-	ret = kho_out_update_debugfs_fdt();
+-
+-unlock:
++	ret = kho_out.finalized;
+ 	mutex_unlock(&kho_out.lock);
+-	return ret;
+-}
+-
+-DEFINE_DEBUGFS_ATTRIBUTE(fops_kho_out_finalize, kho_out_finalize_get,
+-			 kho_out_finalize_set, "%llu\n");
+-
+-static int scratch_phys_show(struct seq_file *m, void *v)
+-{
+-	for (int i = 0; i < kho_scratch_cnt; i++)
+-		seq_printf(m, "0x%llx\n", kho_scratch[i].addr);
+-
+-	return 0;
+-}
+-DEFINE_SHOW_ATTRIBUTE(scratch_phys);
+ 
+-static int scratch_len_show(struct seq_file *m, void *v)
+-{
+-	for (int i = 0; i < kho_scratch_cnt; i++)
+-		seq_printf(m, "0x%llx\n", kho_scratch[i].size);
+-
+-	return 0;
+-}
+-DEFINE_SHOW_ATTRIBUTE(scratch_len);
+-
+-static __init int kho_out_debugfs_init(void)
+-{
+-	struct dentry *dir, *f, *sub_fdt_dir;
+-
+-	dir = debugfs_create_dir("out", debugfs_root);
+-	if (IS_ERR(dir))
+-		return -ENOMEM;
+-
+-	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
+-	if (IS_ERR(sub_fdt_dir))
+-		goto err_rmdir;
+-
+-	f = debugfs_create_file("scratch_phys", 0400, dir, NULL,
+-				&scratch_phys_fops);
+-	if (IS_ERR(f))
+-		goto err_rmdir;
+-
+-	f = debugfs_create_file("scratch_len", 0400, dir, NULL,
+-				&scratch_len_fops);
+-	if (IS_ERR(f))
+-		goto err_rmdir;
+-
+-	f = debugfs_create_file("finalize", 0600, dir, NULL,
+-				&fops_kho_out_finalize);
+-	if (IS_ERR(f))
+-		goto err_rmdir;
+-
+-	kho_out.dir = dir;
+-	kho_out.ser.sub_fdt_dir = sub_fdt_dir;
+-	return 0;
+-
+-err_rmdir:
+-	debugfs_remove_recursive(dir);
+-	return -ENOENT;
++	return ret;
+ }
+ 
+ struct kho_in {
+-	struct dentry *dir;
+ 	phys_addr_t fdt_phys;
+ 	phys_addr_t scratch_phys;
+-	struct list_head fdt_list;
++	struct kho_debugfs dbg;
+ };
+ 
+ static struct kho_in kho_in = {
+-	.fdt_list = LIST_HEAD_INIT(kho_in.fdt_list),
+ };
+ 
+ static const void *kho_get_fdt(void)
+@@ -1370,56 +1248,6 @@ int kho_retrieve_subtree(const char *name, phys_addr_t *phys)
+ }
+ EXPORT_SYMBOL_GPL(kho_retrieve_subtree);
+ 
+-/* Handling for debugfs/kho/in */
+-
+-static __init int kho_in_debugfs_init(const void *fdt)
+-{
+-	struct dentry *sub_fdt_dir;
+-	int err, child;
+-
+-	kho_in.dir = debugfs_create_dir("in", debugfs_root);
+-	if (IS_ERR(kho_in.dir))
+-		return PTR_ERR(kho_in.dir);
+-
+-	sub_fdt_dir = debugfs_create_dir("sub_fdts", kho_in.dir);
+-	if (IS_ERR(sub_fdt_dir)) {
+-		err = PTR_ERR(sub_fdt_dir);
+-		goto err_rmdir;
+-	}
+-
+-	err = kho_debugfs_fdt_add(&kho_in.fdt_list, kho_in.dir, "fdt", fdt);
+-	if (err)
+-		goto err_rmdir;
+-
+-	fdt_for_each_subnode(child, fdt, 0) {
+-		int len = 0;
+-		const char *name = fdt_get_name(fdt, child, NULL);
+-		const u64 *fdt_phys;
+-
+-		fdt_phys = fdt_getprop(fdt, child, "fdt", &len);
+-		if (!fdt_phys)
+-			continue;
+-		if (len != sizeof(*fdt_phys)) {
+-			pr_warn("node `%s`'s prop `fdt` has invalid length: %d\n",
+-				name, len);
+-			continue;
+-		}
+-		err = kho_debugfs_fdt_add(&kho_in.fdt_list, sub_fdt_dir, name,
+-					  phys_to_virt(*fdt_phys));
+-		if (err) {
+-			pr_warn("failed to add fdt `%s` to debugfs: %d\n", name,
+-				err);
+-			continue;
+-		}
+-	}
+-
+-	return 0;
+-
+-err_rmdir:
+-	debugfs_remove_recursive(kho_in.dir);
+-	return err;
+-}
+-
+ static __init int kho_init(void)
+ {
+ 	int err = 0;
+@@ -1434,27 +1262,16 @@ static __init int kho_init(void)
+ 		goto err_free_scratch;
+ 	}
+ 
+-	debugfs_root = debugfs_create_dir("kho", NULL);
+-	if (IS_ERR(debugfs_root)) {
+-		err = -ENOENT;
++	err = kho_debugfs_init();
++	if (err)
+ 		goto err_free_fdt;
+-	}
+ 
+-	err = kho_out_debugfs_init();
++	err = kho_out_debugfs_init(&kho_out.dbg);
+ 	if (err)
+ 		goto err_free_fdt;
+ 
+ 	if (fdt) {
+-		err = kho_in_debugfs_init(fdt);
+-		/*
+-		 * Failure to create /sys/kernel/debug/kho/in does not prevent
+-		 * reviving state from KHO and setting up KHO for the next
+-		 * kexec.
+-		 */
+-		if (err)
+-			pr_err("failed exposing handover FDT in debugfs: %d\n",
+-			       err);
+-
++		kho_in_debugfs_init(&kho_in.dbg, fdt);
+ 		return 0;
+ 	}
+ 
+diff --git a/kernel/kexec_handover_debug.c b/kernel/kexec_handover_debug.c
+new file mode 100644
+index 000000000000..b88d138a97be
+--- /dev/null
++++ b/kernel/kexec_handover_debug.c
+@@ -0,0 +1,218 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * kexec_handover.c - kexec handover metadata processing
++ * Copyright (C) 2023 Alexander Graf <graf@amazon.com>
++ * Copyright (C) 2025 Microsoft Corporation, Mike Rapoport <rppt@kernel.org>
++ * Copyright (C) 2025 Google LLC, Changyuan Lyu <changyuanl@google.com>
++ * Copyright (C) 2025 Google LLC, Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++#define pr_fmt(fmt) "KHO: " fmt
++
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/libfdt.h>
++#include <linux/mm.h>
++#include "kexec_handover_internal.h"
++
++static struct dentry *debugfs_root;
++
++struct fdt_debugfs {
++	struct list_head list;
++	struct debugfs_blob_wrapper wrapper;
++	struct dentry *file;
++};
++
++static int __kho_debugfs_fdt_add(struct list_head *list, struct dentry *dir,
++				 const char *name, const void *fdt)
++{
++	struct fdt_debugfs *f;
++	struct dentry *file;
++
++	f = kmalloc(sizeof(*f), GFP_KERNEL);
++	if (!f)
++		return -ENOMEM;
++
++	f->wrapper.data = (void *)fdt;
++	f->wrapper.size = fdt_totalsize(fdt);
++
++	file = debugfs_create_blob(name, 0400, dir, &f->wrapper);
++	if (IS_ERR(file)) {
++		kfree(f);
++		return PTR_ERR(file);
++	}
++
++	f->file = file;
++	list_add(&f->list, list);
++
++	return 0;
++}
++
++int kho_debugfs_fdt_add(struct kho_debugfs *dbg, const char *name,
++			const void *fdt, bool root)
++{
++	struct dentry *dir;
++
++	if (root)
++		dir = dbg->dir;
++	else
++		dir = dbg->sub_fdt_dir;
++
++	return __kho_debugfs_fdt_add(&dbg->fdt_list, dir, name, fdt);
++}
++
++void kho_debugfs_cleanup(struct kho_debugfs *dbg)
++{
++	struct fdt_debugfs *ff, *tmp;
++
++	list_for_each_entry_safe(ff, tmp, &dbg->fdt_list, list) {
++		debugfs_remove(ff->file);
++		list_del(&ff->list);
++		kfree(ff);
++	}
++}
++
++static int kho_out_finalize_get(void *data, u64 *val)
++{
++	*val = kho_finalized();
++
++	return 0;
++}
++
++static int kho_out_finalize_set(void *data, u64 _val)
++{
++	bool val = !!_val;
++
++	if (val)
++		return kho_finalize();
++
++	return kho_abort();
++}
++
++DEFINE_DEBUGFS_ATTRIBUTE(kho_out_finalize_fops, kho_out_finalize_get,
++			 kho_out_finalize_set, "%llu\n");
++
++static int scratch_phys_show(struct seq_file *m, void *v)
++{
++	for (int i = 0; i < kho_scratch_cnt; i++)
++		seq_printf(m, "0x%llx\n", kho_scratch[i].addr);
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(scratch_phys);
++
++static int scratch_len_show(struct seq_file *m, void *v)
++{
++	for (int i = 0; i < kho_scratch_cnt; i++)
++		seq_printf(m, "0x%llx\n", kho_scratch[i].size);
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(scratch_len);
++
++__init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
++{
++	struct dentry *dir, *sub_fdt_dir;
++	int err, child;
++
++	INIT_LIST_HEAD(&dbg->fdt_list);
++
++	dir = debugfs_create_dir("in", debugfs_root);
++	if (IS_ERR(dir)) {
++		err = PTR_ERR(dir);
++		goto err_out;
++	}
++
++	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
++	if (IS_ERR(sub_fdt_dir)) {
++		err = PTR_ERR(sub_fdt_dir);
++		goto err_rmdir;
++	}
++
++	err = __kho_debugfs_fdt_add(&dbg->fdt_list, dir, "fdt", fdt);
++	if (err)
++		goto err_rmdir;
++
++	fdt_for_each_subnode(child, fdt, 0) {
++		int len = 0;
++		const char *name = fdt_get_name(fdt, child, NULL);
++		const u64 *fdt_phys;
++
++		fdt_phys = fdt_getprop(fdt, child, "fdt", &len);
++		if (!fdt_phys)
++			continue;
++		if (len != sizeof(*fdt_phys)) {
++			pr_warn("node %s prop fdt has invalid length: %d\n",
++				name, len);
++			continue;
++		}
++		err = __kho_debugfs_fdt_add(&dbg->fdt_list, sub_fdt_dir, name,
++					    phys_to_virt(*fdt_phys));
++		if (err) {
++			pr_warn("failed to add fdt %s to debugfs: %d\n", name,
++				err);
++			continue;
++		}
++	}
++
++	dbg->dir = dir;
++	dbg->sub_fdt_dir = sub_fdt_dir;
++
++	return;
++err_rmdir:
++	debugfs_remove_recursive(dir);
++err_out:
++	/*
++	 * Failure to create /sys/kernel/debug/kho/in does not prevent
++	 * reviving state from KHO and setting up KHO for the next
++	 * kexec.
++	 */
++	if (err)
++		pr_err("failed exposing handover FDT in debugfs: %d\n", err);
++}
++
++__init int kho_out_debugfs_init(struct kho_debugfs *dbg)
++{
++	struct dentry *dir, *f, *sub_fdt_dir;
++
++	INIT_LIST_HEAD(&dbg->fdt_list);
++
++	dir = debugfs_create_dir("out", debugfs_root);
++	if (IS_ERR(dir))
++		return -ENOMEM;
++
++	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
++	if (IS_ERR(sub_fdt_dir))
++		goto err_rmdir;
++
++	f = debugfs_create_file("scratch_phys", 0400, dir, NULL,
++				&scratch_phys_fops);
++	if (IS_ERR(f))
++		goto err_rmdir;
++
++	f = debugfs_create_file("scratch_len", 0400, dir, NULL,
++				&scratch_len_fops);
++	if (IS_ERR(f))
++		goto err_rmdir;
++
++	f = debugfs_create_file("finalize", 0600, dir, NULL,
++				&kho_out_finalize_fops);
++	if (IS_ERR(f))
++		goto err_rmdir;
++
++	dbg->dir = dir;
++	dbg->sub_fdt_dir = sub_fdt_dir;
++	return 0;
++
++err_rmdir:
++	debugfs_remove_recursive(dir);
++	return -ENOENT;
++}
++
++__init int kho_debugfs_init(void)
++{
++	debugfs_root = debugfs_create_dir("kho", NULL);
++	if (IS_ERR(debugfs_root))
++		return -ENOENT;
++	return 0;
++}
+diff --git a/kernel/kexec_handover_internal.h b/kernel/kexec_handover_internal.h
+new file mode 100644
+index 000000000000..f6f172ddcae4
+--- /dev/null
++++ b/kernel/kexec_handover_internal.h
+@@ -0,0 +1,44 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef LINUX_KEXEC_HANDOVER_INTERNAL_H
++#define LINUX_KEXEC_HANDOVER_INTERNAL_H
++
++#include <linux/kexec_handover.h>
++#include <linux/list.h>
++#include <linux/types.h>
++
++#ifdef CONFIG_KEXEC_HANDOVER_DEBUG
++#include <linux/debugfs.h>
++
++struct kho_debugfs {
++	struct dentry *dir;
++	struct dentry *sub_fdt_dir;
++	struct list_head fdt_list;
++};
++
++#else
++struct kho_debugfs {};
++#endif
++
++extern struct kho_scratch *kho_scratch;
++extern unsigned int kho_scratch_cnt;
++
++bool kho_finalized(void);
++
++#ifdef CONFIG_KEXEC_HANDOVER_DEBUG
++int kho_debugfs_init(void);
++void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt);
++int kho_out_debugfs_init(struct kho_debugfs *dbg);
++int kho_debugfs_fdt_add(struct kho_debugfs *dbg, const char *name,
++			const void *fdt, bool root);
++void kho_debugfs_cleanup(struct kho_debugfs *dbg);
++#else
++static inline int kho_debugfs_init(void) { return 0; }
++static inline void kho_in_debugfs_init(struct kho_debugfs *dbg,
++				       const void *fdt) { }
++static inline int kho_out_debugfs_init(struct kho_debugfs *dbg) { return 0; }
++static inline int kho_debugfs_fdt_add(struct kho_debugfs *dbg, const char *name,
++				      const void *fdt, bool root) { return 0; }
++static inline void kho_debugfs_cleanup(struct kho_debugfs *dbg) {}
++#endif /* CONFIG_KEXEC_HANDOVER_DEBUG */
++
++#endif /* LINUX_KEXEC_HANDOVER_INTERNAL_H */
 -- 
 2.51.0.536.g15c5d4f767-goog
 
