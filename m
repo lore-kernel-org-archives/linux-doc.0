@@ -1,52 +1,61 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3942F2E;
-	Mon, 29 Sep 2025 01:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0674B217F27
+	for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 05:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759110669; cv=none; b=SoFvXURs8zOzIDuJ+LpeYgWdlEW5eNRiUkFttN58Fbsi0Z41UeW0DMFWwN5avhaj34uMZCCTlpwB8d5Dapqzfdq3Ype1lLK0WlYoiNaGl0IXlnV/ce9izQfWbTpprRWRYaUIIpUdax6/0J81xLYZeKAqPffPKZCElac3+yyo65o=
+	t=1759122531; cv=none; b=ErQsJn4FxSivjjpc4wH8e1GfTERp0E4iGuHSD8ONOhe0J3scUZUX7poEOacpgeOmoqPUnfjgIdNw76KYyRoodsI3dxJIMe9pQ500smcrhGBgFBZKYenXPIi17NRRudcnwSuXW4gad5tvzOxkkEqaqxg75zIQKdL7TMvaXU4ZSp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759110669; c=relaxed/simple;
-	bh=QPLiG3/EaSBK7ty8Ofz3g15Hll54Bo9Sr+73BNfJa6Q=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ipQL0wEwn4h6gCK+O/56ookfEgeUtlE7+9QwT4laJx/jAZV9N+4rZ8VVw/tVNTsEi/ikDb2x+myV52GlmyAQYG7OnCCzRyhCYUPnmaetnv3r5hVs1DtmnB9JUfOOqgo/mvREUoG0Rlh0Uo9h9EJHN16xSA/G+0R5R/xMtl3lYOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=CHzHYqLg; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1759122531; c=relaxed/simple;
+	bh=IQGFxiBrTAnGVJ0FHwgAx6Hs5VvATKoAEKbRWWHXzU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uSaYYaEZngsmQfnFm4Nx7SjxVrbHqYMINSwpD4DhNEkavO+XjyLaZf8xtQdQNr4jDrgsYpJ8QPycR+ba8+D9KWa7dalUmP9ZHueuvQtt4vyW9kAKtUjhmUjNmOMWUvmbTccWkPbXYZjNWNE31acGjJVj3geVgISPLF30GT3wKFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTI/Gf+A; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="CHzHYqLg"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1759110654; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=9aorilP5lRAQIaWXx/azi+eQ3upGhw4CPgjfhTO+Sro=;
-	b=CHzHYqLgqUtZ+U8hRZFXvzMFo2FAC3SIlCnHPN1KGU8M2Iqmot7mm8NVV9U6O9Jx7oJ3C7yZUqv5QG41ROZI8cCA/k/4tUTVJVD4jsgBpPnlys+bACeKN3zzMJuZ/Otd9PZufNQkS091+XOV7WodKgCfw7yHsVsvFD4qZU2YDIs=
-Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WozqZKo_1759110652 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 29 Sep 2025 09:50:53 +0800
-Date: Mon, 29 Sep 2025 09:50:52 +0800
-From: Dust Li <dust.li@linux.alibaba.com>
-To: Halil Pasic <pasic@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Sidraya Jayagond <sidraya@linux.ibm.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Mahanta Jambigi <mjambigi@linux.ibm.com>,
-	Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Guangguan Wang <guangguan.wang@linux.alibaba.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/2] net/smc: handle -ENOMEM from
- smc_wr_alloc_link_mem gracefully
-Message-ID: <aNnl_CfV0EvIujK0@linux.alibaba.com>
-Reply-To: dust.li@linux.alibaba.com
-References: <20250929000001.1752206-1-pasic@linux.ibm.com>
- <20250929000001.1752206-3-pasic@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTI/Gf+A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759122530; x=1790658530;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IQGFxiBrTAnGVJ0FHwgAx6Hs5VvATKoAEKbRWWHXzU8=;
+  b=VTI/Gf+A53Ml1T09XfTt+f6n+BYeLg+IiN6CRopQc6oWaxm5iUAhqIOu
+   +RurIHJIRHWF0V+kSwHIGSiU48QUg4SE0iI1IBhcfmolG4Okr0DNS25Ma
+   m8ZjNqCEihWP2WtTyu64Y/GJgo5Ins+S3QC4ryM+Y9YuVzTwwhh120LjE
+   NzwQ6dxrvN8kWSDupgL0DeT3dOUL5CdqulUMAPlSlTcU9jCrF+DJyL4U0
+   h9YmdDI9zbZ5JiaxpP/knkRUCHra5Q8/daiHu18Xsz3SsQhOWEOUJp2HA
+   GGGOIVSG2gWa4Yd9er7Yj7SxQmm7pJmIuZi7Cl8kShdJ/NavG0YsG74lv
+   w==;
+X-CSE-ConnectionGUID: k1b8QYx1S4iDhUYDrXsthg==
+X-CSE-MsgGUID: vBnHdrObSOmslWc6Oh1xZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="83972096"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="83972096"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 22:08:49 -0700
+X-CSE-ConnectionGUID: I2Cr7t79Sfi+LgEDwUibXA==
+X-CSE-MsgGUID: oGOiBLnWRxiuuldq5Ega1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="183316959"
+Received: from lkp-server01.sh.intel.com (HELO a2c9da549b7f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 28 Sep 2025 22:08:48 -0700
+Received: from kbuild by a2c9da549b7f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v367x-00003F-0R;
+	Mon, 29 Sep 2025 05:08:45 +0000
+Date: Mon, 29 Sep 2025 13:08:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fei Li <fei1.li@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yifan Liu <yifan1.liu@intel.com>,
+	Zhangwei6 <wei6.zhang@intel.com>, Haoyu Tang <haoyu.tang@intel.com>,
+	linux-doc@vger.kernel.org
+Subject: [acrn:6.12/linux 5/10] drivers/virt/acrn/hvlog.c:247: warning: This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202509291216.5TaDr7k0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,242 +64,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250929000001.1752206-3-pasic@linux.ibm.com>
 
-On 2025-09-29 02:00:01, Halil Pasic wrote:
->Currently if a -ENOMEM from smc_wr_alloc_link_mem() is handled by
->giving up and going the way of a TCP fallback. This was reasonable
->before the sizes of the allocations there were compile time constants
->and reasonably small. But now those are actually configurable.
->
->So instead of giving up, keep retrying with half of the requested size
->unless we dip below the old static sizes -- then give up! In terms of
->numbers that means we give up when it is certain that we at best would
->end up allocating less than 16 send WR buffers or less than 48 recv WR
->buffers. This is to avoid regressions due to having fewer buffers
->compared the static values of the past.
->
->Please note that SMC-R is supposed to be an optimisation over TCP, and
->falling back to TCP is superior to establishing an SMC connection that
->is going to perform worse. If the memory allocation fails (and we
->propagate -ENOMEM), we fall back to TCP.
->
->Preserve (modulo truncation) the ratio of send/recv WR buffer counts.
->
->Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
->Reviewed-by: Mahanta Jambigi <mjambigi@linux.ibm.com>
->Reviewed-by: Sidraya Jayagond <sidraya@linux.ibm.com>
->---
-> Documentation/networking/smc-sysctl.rst |  8 ++++--
-> net/smc/smc_core.c                      | 34 +++++++++++++++++--------
-> net/smc/smc_core.h                      |  2 ++
-> net/smc/smc_wr.c                        | 28 ++++++++++----------
-> 4 files changed, 46 insertions(+), 26 deletions(-)
->
->diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
->index 5de4893ef3e7..4a5b4c89bc97 100644
->--- a/Documentation/networking/smc-sysctl.rst
->+++ b/Documentation/networking/smc-sysctl.rst
->@@ -85,7 +85,9 @@ smcr_max_send_wr - INTEGER
-> 
-> 	Please be aware that all the buffers need to be allocated as a physically
-> 	continuous array in which each element is a single buffer and has the size
->-	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
->+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails, we keep retrying
->+	with half of the buffer count until it is ether successful or (unlikely)
->+	we dip below the old hard coded value which is 16 where we give up much
-> 	like before having this control.
-> 
-> 	Default: 16
->@@ -103,7 +105,9 @@ smcr_max_recv_wr - INTEGER
-> 
-> 	Please be aware that all the buffers need to be allocated as a physically
-> 	continuous array in which each element is a single buffer and has the size
->-	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
->+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails, we keep retrying
->+	with half of the buffer count until it is ether successful or (unlikely)
->+	we dip below the old hard coded value which is 16 where we give up much
-> 	like before having this control.
-> 
-> 	Default: 48
->diff --git a/net/smc/smc_core.c b/net/smc/smc_core.c
->index be0c2da83d2b..e4eabc83719e 100644
->--- a/net/smc/smc_core.c
->+++ b/net/smc/smc_core.c
->@@ -810,6 +810,8 @@ int smcr_link_init(struct smc_link_group *lgr, struct smc_link *lnk,
-> 	lnk->clearing = 0;
-> 	lnk->path_mtu = lnk->smcibdev->pattr[lnk->ibport - 1].active_mtu;
-> 	lnk->link_id = smcr_next_link_id(lgr);
->+	lnk->max_send_wr = lgr->max_send_wr;
->+	lnk->max_recv_wr = lgr->max_recv_wr;
-> 	lnk->lgr = lgr;
-> 	smc_lgr_hold(lgr); /* lgr_put in smcr_link_clear() */
-> 	lnk->link_idx = link_idx;
->@@ -836,27 +838,39 @@ int smcr_link_init(struct smc_link_group *lgr, struct smc_link *lnk,
-> 	rc = smc_llc_link_init(lnk);
-> 	if (rc)
-> 		goto out;
->-	rc = smc_wr_alloc_link_mem(lnk);
->-	if (rc)
->-		goto clear_llc_lnk;
-> 	rc = smc_ib_create_protection_domain(lnk);
-> 	if (rc)
->-		goto free_link_mem;
->-	rc = smc_ib_create_queue_pair(lnk);
->-	if (rc)
->-		goto dealloc_pd;
->+		goto clear_llc_lnk;
->+	do {
->+		rc = smc_ib_create_queue_pair(lnk);
->+		if (rc)
->+			goto dealloc_pd;
->+		rc = smc_wr_alloc_link_mem(lnk);
->+		if (!rc)
->+			break;
->+		else if (rc != -ENOMEM) /* give up */
->+			goto destroy_qp;
->+		/* retry with smaller ... */
->+		lnk->max_send_wr /= 2;
->+		lnk->max_recv_wr /= 2;
->+		/* ... unless droping below old SMC_WR_BUF_SIZE */
->+		if (lnk->max_send_wr < 16 || lnk->max_recv_wr < 48)
->+			goto destroy_qp;
->+		smc_ib_destroy_queue_pair(lnk);
->+	} while (1);
->+
-> 	rc = smc_wr_create_link(lnk);
-> 	if (rc)
->-		goto destroy_qp;
->+		goto free_link_mem;
-> 	lnk->state = SMC_LNK_ACTIVATING;
-> 	return 0;
-> 
->+free_link_mem:
->+	smc_wr_free_link_mem(lnk);
-> destroy_qp:
-> 	smc_ib_destroy_queue_pair(lnk);
-> dealloc_pd:
-> 	smc_ib_dealloc_protection_domain(lnk);
->-free_link_mem:
->-	smc_wr_free_link_mem(lnk);
-> clear_llc_lnk:
-> 	smc_llc_link_clear(lnk, false);
-> out:
->diff --git a/net/smc/smc_core.h b/net/smc/smc_core.h
->index 8d06c8bb14e9..5c18f08a4c8a 100644
->--- a/net/smc/smc_core.h
->+++ b/net/smc/smc_core.h
->@@ -175,6 +175,8 @@ struct smc_link {
-> 	struct completion	llc_testlink_resp; /* wait for rx of testlink */
-> 	int			llc_testlink_time; /* testlink interval */
-> 	atomic_t		conn_cnt; /* connections on this link */
->+	u16			max_send_wr;
->+	u16			max_recv_wr;
+tree:   https://github.com/projectacrn/acrn-kernel 6.12/linux
+head:   a3634b1a933e80ff672cc47bd32d2f036cfbe755
+commit: 27615544e0963192757b1bf6433830cb17b19274 [5/10] virt: acrn: add acrn hypervisor log back
+config: x86_64-buildonly-randconfig-004-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291216.5TaDr7k0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291216.5TaDr7k0-lkp@intel.com/reproduce)
 
-Here, you've moved max_send_wr/max_recv_wr from the link group to individual links.
-This means we can now have different max_send_wr/max_recv_wr values on two
-different links within the same link group.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509291216.5TaDr7k0-lkp@intel.com/
 
-Since in Alibaba we doesn't use multi-link configurations, we haven't tested
-this scenario. Have you tested the link-down handling process in a multi-link
-setup?
+All warnings (new ones prefixed by >>):
 
-Otherwise, the patch looks good to me.
+>> drivers/virt/acrn/hvlog.c:247: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * base0 = hvlog_buf_phyaddr_base;
 
-Best regards,
-Dust
 
-> };
-> 
-> /* For now we just allow one parallel link per link group. The SMC protocol
->diff --git a/net/smc/smc_wr.c b/net/smc/smc_wr.c
->index 883fb0f1ce43..5feafa98ab1a 100644
->--- a/net/smc/smc_wr.c
->+++ b/net/smc/smc_wr.c
->@@ -547,9 +547,9 @@ void smc_wr_remember_qp_attr(struct smc_link *lnk)
-> 		    IB_QP_DEST_QPN,
-> 		    &init_attr);
-> 
->-	lnk->wr_tx_cnt = min_t(size_t, lnk->lgr->max_send_wr,
->+	lnk->wr_tx_cnt = min_t(size_t, lnk->max_send_wr,
-> 			       lnk->qp_attr.cap.max_send_wr);
->-	lnk->wr_rx_cnt = min_t(size_t, lnk->lgr->max_recv_wr,
->+	lnk->wr_rx_cnt = min_t(size_t, lnk->max_recv_wr,
-> 			       lnk->qp_attr.cap.max_recv_wr);
-> }
-> 
->@@ -741,51 +741,51 @@ int smc_wr_alloc_lgr_mem(struct smc_link_group *lgr)
-> int smc_wr_alloc_link_mem(struct smc_link *link)
-> {
-> 	/* allocate link related memory */
->-	link->wr_tx_bufs = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_bufs = kcalloc(link->max_send_wr,
-> 				   SMC_WR_BUF_SIZE, GFP_KERNEL);
-> 	if (!link->wr_tx_bufs)
-> 		goto no_mem;
->-	link->wr_rx_bufs = kcalloc(link->lgr->max_recv_wr, link->wr_rx_buflen,
->+	link->wr_rx_bufs = kcalloc(link->max_recv_wr, link->wr_rx_buflen,
-> 				   GFP_KERNEL);
-> 	if (!link->wr_rx_bufs)
-> 		goto no_mem_wr_tx_bufs;
->-	link->wr_tx_ibs = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_ibs = kcalloc(link->max_send_wr,
-> 				  sizeof(link->wr_tx_ibs[0]), GFP_KERNEL);
-> 	if (!link->wr_tx_ibs)
-> 		goto no_mem_wr_rx_bufs;
->-	link->wr_rx_ibs = kcalloc(link->lgr->max_recv_wr,
->+	link->wr_rx_ibs = kcalloc(link->max_recv_wr,
-> 				  sizeof(link->wr_rx_ibs[0]),
-> 				  GFP_KERNEL);
-> 	if (!link->wr_rx_ibs)
-> 		goto no_mem_wr_tx_ibs;
->-	link->wr_tx_rdmas = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_rdmas = kcalloc(link->max_send_wr,
-> 				    sizeof(link->wr_tx_rdmas[0]),
-> 				    GFP_KERNEL);
-> 	if (!link->wr_tx_rdmas)
-> 		goto no_mem_wr_rx_ibs;
->-	link->wr_tx_rdma_sges = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_rdma_sges = kcalloc(link->max_send_wr,
-> 					sizeof(link->wr_tx_rdma_sges[0]),
-> 					GFP_KERNEL);
-> 	if (!link->wr_tx_rdma_sges)
-> 		goto no_mem_wr_tx_rdmas;
->-	link->wr_tx_sges = kcalloc(link->lgr->max_send_wr, sizeof(link->wr_tx_sges[0]),
->+	link->wr_tx_sges = kcalloc(link->max_send_wr, sizeof(link->wr_tx_sges[0]),
-> 				   GFP_KERNEL);
-> 	if (!link->wr_tx_sges)
-> 		goto no_mem_wr_tx_rdma_sges;
->-	link->wr_rx_sges = kcalloc(link->lgr->max_recv_wr,
->+	link->wr_rx_sges = kcalloc(link->max_recv_wr,
-> 				   sizeof(link->wr_rx_sges[0]) * link->wr_rx_sge_cnt,
-> 				   GFP_KERNEL);
-> 	if (!link->wr_rx_sges)
-> 		goto no_mem_wr_tx_sges;
->-	link->wr_tx_mask = bitmap_zalloc(link->lgr->max_send_wr, GFP_KERNEL);
->+	link->wr_tx_mask = bitmap_zalloc(link->max_send_wr, GFP_KERNEL);
-> 	if (!link->wr_tx_mask)
-> 		goto no_mem_wr_rx_sges;
->-	link->wr_tx_pends = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_pends = kcalloc(link->max_send_wr,
-> 				    sizeof(link->wr_tx_pends[0]),
-> 				    GFP_KERNEL);
-> 	if (!link->wr_tx_pends)
-> 		goto no_mem_wr_tx_mask;
->-	link->wr_tx_compl = kcalloc(link->lgr->max_send_wr,
->+	link->wr_tx_compl = kcalloc(link->max_send_wr,
-> 				    sizeof(link->wr_tx_compl[0]),
-> 				    GFP_KERNEL);
-> 	if (!link->wr_tx_compl)
->@@ -906,7 +906,7 @@ int smc_wr_create_link(struct smc_link *lnk)
-> 		goto dma_unmap;
-> 	}
-> 	smc_wr_init_sge(lnk);
->-	bitmap_zero(lnk->wr_tx_mask, lnk->lgr->max_send_wr);
->+	bitmap_zero(lnk->wr_tx_mask, lnk->max_send_wr);
-> 	init_waitqueue_head(&lnk->wr_tx_wait);
-> 	rc = percpu_ref_init(&lnk->wr_tx_refs, smcr_wr_tx_refs_free, 0, GFP_KERNEL);
-> 	if (rc)
->-- 
->2.48.1
+vim +247 drivers/virt/acrn/hvlog.c
+
+   245	
+   246	/**
+ > 247	 * base0 = hvlog_buf_phyaddr_base;
+   248	 * base1 = hvlog_buf_phyaddr_base + (hvlog_buf_size >> 1)
+   249	 * if there is valid data in base0, cur_logbuf = base1, last_logbuf = base0.
+   250	 * if there is valid data in base1, cur_logbuf = base0, last_logbuf = base1.
+   251	 * if there is no valid data both in base0 and base1, cur_logbuf = base0,
+   252	 * last_logbuf = 0.
+   253	 */
+   254	static void assign_hvlog_buf_base(uint64_t *cur_logbuf, uint64_t *last_logbuf)
+   255	{
+   256		uint64_t base0, base1, offset;
+   257		uint32_t ele_num, size;
+   258		uint16_t pcpu_id;
+   259		void *sbuf;
+   260	
+   261		base0 = hvlog_buf_phyaddr_base;
+   262		base1 = hvlog_buf_phyaddr_base + (hvlog_buf_size >> 1);
+   263		size = (hvlog_buf_size >> 1) / pcpu_nr;
+   264		ele_num = (size - SBUF_HEAD_SIZE) / LOG_ENTRY_SIZE;
+   265	
+   266		foreach_cpu(pcpu_id, pcpu_nr) {
+   267			offset = (base0 + (size * pcpu_id)) - hvlog_buf_phyaddr_base;
+   268			sbuf = hvlog_buf_virtaddr_base + offset;
+   269			if (sbuf_check_valid(ele_num, LOG_ENTRY_SIZE, sbuf)) {
+   270				*last_logbuf = base0;
+   271				*cur_logbuf = base1;
+   272				return;
+   273			}
+   274		}
+   275	
+   276		foreach_cpu(pcpu_id, pcpu_nr) {
+   277			offset = (base1 + (size * pcpu_id)) - hvlog_buf_phyaddr_base;
+   278			sbuf = hvlog_buf_virtaddr_base + offset;
+   279			if (sbuf_check_valid(ele_num, LOG_ENTRY_SIZE, sbuf)) {
+   280				*last_logbuf = base1;
+   281				*cur_logbuf = base0;
+   282				return;
+   283			}
+   284		}
+   285	
+   286		/* No last logbuf found */
+   287		*last_logbuf = 0;
+   288		*cur_logbuf = base0;
+   289	}
+   290	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
