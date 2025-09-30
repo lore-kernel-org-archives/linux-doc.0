@@ -1,162 +1,183 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CC2257824
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 11:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2BB23A995;
+	Tue, 30 Sep 2025 11:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759230964; cv=none; b=JjBoKw9HKZYf5a7dWH3r4qv/JoA83JodRyyV2p7uEySsIyJKLNe7CvJXoPPW3WsL4pQwpu3TlzNJd+RRijjc/lrzk9/AZLSuxHeotnG0DhIw2jm2za96Qk8sfFhQXTNvKL3/6ZmsegFj5UbWdUq1SK+aXb45aaGzFWFtfDWgJeE=
+	t=1759231735; cv=none; b=FwKydVa1PFAeQGwKFfuZ/XDcvb5c6UtwFseUEUAiLnapchw9soinfdZSkPKfJTVBVicOwNRKVaAvhjUEGFFRDDPrmDxja+eIsWTY4uFWANh3Z5SRXuLEMagm6wMYzf169UD9LFGiZOz51yfBSlakrzVztYuXdviBERuPvEuos7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759230964; c=relaxed/simple;
-	bh=8V4GgwEO++Ce8hUatVMIQ/GshH7wdH34txBzsQRlSoA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MndMYy/nqBpohV/jbD5c1MLbI3KXEqWf8VMmIQIdAsUcUR/PtHRhfwukabXHTF+UGDDumKwGhbqErNhxt7n+pC0JRKFtbs3il1WlCmMyRmzn2EvMRwzLsASRh2PwBDWzeTIeu1KYCu3QHhQHH/cnHKjuizS1qaQfVfvk1Ej0kaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fcx1suq+; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759231735; c=relaxed/simple;
+	bh=2uOCefQxy9aMorGL7YJd54BkvaKF2LUCUk691jwJwyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jzp5KOVNRKh4h0btu9hh3DSaSBEditudiLW/JmqCc3cvhEw89yKM0Kqn11FxMTegVyCGQsviReXK8wvpEyI4TzaEVbVeSenb5E+SdJoqPNpdM/XOIWrLkeT/XUdLItaNNLoWszaqS99eGrd8UKFxvCMy8r+6zSfueExLX0SWZpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzdBuhSD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fcx1suq+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759230961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEOnnvfg2VP9jFylWLMcLAcGpm2F4oh7aBv+d9st9Ec=;
-	b=Fcx1suq+YQ4JkHnceK1TRbr6FJRrxgjqE13X2F9fBG0ZECocJU1PuBhczYdyln4rDuGS0z
-	RfalgTaBVJYuCx4aElsTGluPu5Go3DXXOqpX7XtMDlU955jNwfRgDnDg1ZVKhOf2OLHuQX
-	BljmP026zyvkFKOytqyDFjtuydKARlA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-2CvSDyiXOYen3hR5ZWAO6g-1; Tue,
- 30 Sep 2025 07:15:57 -0400
-X-MC-Unique: 2CvSDyiXOYen3hR5ZWAO6g-1
-X-Mimecast-MFC-AGG-ID: 2CvSDyiXOYen3hR5ZWAO6g_1759230955
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6AD1C1800365;
-	Tue, 30 Sep 2025 11:15:55 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.33.56])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 018161800447;
-	Tue, 30 Sep 2025 11:15:34 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Paul Walmsley <pjw@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,
-  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov <bp@alien8.de>,  Dave
- Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
- <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
- Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
-  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
- <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
- Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
- Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
- Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
- Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
- Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
- <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
- <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
- <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
- =?utf-8?Q?rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Andreas Hindborg <a.hindborg@kernel.org>,
-  Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
-  Benno Lossin <lossin@kernel.org>,  linux-kernel@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-riscv@lists.infradead.org,  devicetree@vger.kernel.org,
-  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  alistair.francis@wdc.com,
-  richard.henderson@linaro.org,  jim.shu@sifive.com,  Andy Chiu
- <andybnac@gmail.com>,  kito.cheng@sifive.com,  charlie@rivosinc.com,
-  atishp@rivosinc.com,  evan@rivosinc.com,  cleger@rivosinc.com,
-  alexghiti@rivosinc.com,  samitolvanen@google.com,  broonie@kernel.org,
-  rick.p.edgecombe@intel.com,  rust-for-linux@vger.kernel.org,  Zong Li
- <zong.li@sifive.com>,  David Hildenbrand <david@redhat.com>,  Heinrich
- Schuchardt <heinrich.schuchardt@canonical.com>,  bharrington@redhat.com,
-  Aurelien Jarno <aurel32@debian.org>, bergner@tenstorrent.com,
- jeffreyalaw@gmail.com
-Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
-In-Reply-To: <aNQ7D6_ZYMhCdkmL@debug.ba.rivosinc.com> (Deepak Gupta's message
-	of "Wed, 24 Sep 2025 11:40:15 -0700")
-References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
-	<f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
-	<aNQ7D6_ZYMhCdkmL@debug.ba.rivosinc.com>
-Date: Tue, 30 Sep 2025 13:15:32 +0200
-Message-ID: <lhuldlwgpij.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzdBuhSD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4F4C4CEF0;
+	Tue, 30 Sep 2025 11:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759231735;
+	bh=2uOCefQxy9aMorGL7YJd54BkvaKF2LUCUk691jwJwyg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pzdBuhSDQRs6RHdxJsBxtNXioCysuVWr2khDLJyNG7Qa/bDjZHSoY00AOk90fe/YA
+	 fBWv/Akonk21ZIG7tQOMNPVGWmOF9RA/n/2GsX64+bzONWhhflGZqlz61TeJYq35Pb
+	 IOfrgxePA5xGVz9ootiQHrWvcfjkYnlmm/OM4yrINLbAhFClu6rYTFWrAWJJURhr66
+	 db6CzAl3Zyuvh6z9JrdNllWCyYFFx4+5GKrIdwD2o/ZSR5CB6lTAxBHYABGJpaJLZI
+	 TA3Z1XngTCRvkDnYkHBl4WT2ylxHe47ADsROyE4LbfYDuvhWE8pwMeFwciUpnx5UKF
+	 wBGJd8xk1tFzQ==
+Date: Tue, 30 Sep 2025 13:28:52 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Russell King <linux@armlinux.org.uk>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
+ negotiation and kunit tests
+Message-ID: <20250930-brawny-pastel-wildcat-4ba8d8@houat>
+References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
+ <20250925-eager-delectable-frog-fcbb5d@penduick>
+ <aNVPqHldkVzbyvix@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="oaferhurvh74yiin"
+Content-Disposition: inline
+In-Reply-To: <aNVPqHldkVzbyvix@redhat.com>
 
-* Deepak Gupta:
 
-> Any distro who is shipping userspace (which all of them are) along
-> with kernel will not be shipping two different userspaces (one with
-> shadow stack and one without them). If distro are shipping two
-> different userspaces, then they might as well ship two different
-> kernels. Tagging some distro folks here to get their take on shipping
-> different userspace depending on whether hardware is RVA23 or
-> not. @Heinrich, @Florian, @redbeard and @Aurelien.
->
-> Major distro's have already drawn a distinction here that they will drop
-> support for hardware which isn't RVA23 for the sake of keeping binary
-> distribution simple.
+--oaferhurvh74yiin
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
+ negotiation and kunit tests
+MIME-Version: 1.0
 
-The following are just my personal thoughts.
+On Thu, Sep 25, 2025 at 10:20:24AM -0400, Brian Masney wrote:
+> On Thu, Sep 25, 2025 at 02:14:14PM +0200, Maxime Ripard wrote:
+> > On Tue, Sep 23, 2025 at 10:39:19AM -0400, Brian Masney wrote:
+> > > The Common Clock Framework is expected to keep a clock=E2=80=99s rate=
+ stable
+> > > after setting a new rate with:
+> > >=20
+> > >     clk_set_rate(clk, NEW_RATE);
+> > >=20
+> > > Clock consumers do not know about the clock hierarchy, sibling clocks,
+> > > or the type of clocks involved. However, several longstanding issues
+> > > affect how rate changes propagate through the clock tree when
+> > > CLK_SET_RATE_PARENT is involved, and the parent's clock rate is chang=
+ed:
+> > >=20
+> > > - A clock in some cases can unknowingly change a sibling clock's rate.
+> > >   More details about this particular case are documented at:
+> > >   https://lore.kernel.org/linux-clk/20250528-clk-wip-v2-v2-2-0d2c2f22=
+0442@redhat.com/
+> > >=20
+> > > - No negotiation is done with the sibling clocks, so an inappropriate
+> > >   or less than ideal parent rate can be selected.
+> > >=20
+> > > A selection of some real world examples of where this shows up is at
+> > > [1]. DRM needs to run at precise clock rates, and this issue shows up
+> > > there, however will also show up in other subsystems that require
+> > > precise clock rates, such as sound.
+> > >=20
+> > > An unknown subset of existing boards are unknowingly dependent on the
+> > > existing behavior, so it's risky to change the way the rate negotiati=
+on
+> > > logic is done in the clk core.
+> > >=20
+> > > This series adds support for v1 and v2 rate negotiation logic to the =
+clk
+> > > core. When a child determines that a parent rate change needs to occur
+> > > when the v2 logic is used, the parent negotiates with all nodes in th=
+at
+> > > part of the clk subtree and picks the first rate that's acceptable to
+> > > all nodes.
+> > >=20
+> > > Kunit tests are introduced to illustrate the problem, and are updated
+> > > later in the series to illustrate that the v2 negotiation logic works
+> > > as expected, while keeping compatibility with v1.
+> > >=20
+> > > I marked this as a RFC since Stephen asked me in a video call to not
+> > > add a new member to struct clk_core, however I don't see how to do th=
+is
+> > > any other way.
+> > >=20
+> > > - The clk core doesn=E2=80=99t, and shouldn=E2=80=99t, know about the=
+ internal state the
+> > >   various clk providers.
+> > > - Child clks shouldn=E2=80=99t have to know the internal state of the=
+ parent clks.
+> > > - Currently this information is not exposed in any way to the clk cor=
+e.
+> >=20
+> > I recall from that video call that Stephen asked:
+> >=20
+> > - to indeed not introduce a new op
+> > - to evaluate the change from top to bottom, but to set it bottom to top
+> > - to evaluate the rate by letting child clocks expose an array of the
+> >   parent rates they would like, and to intersect all of them to figure
+> >   out the best parent rate.
+> >=20
+> > It looks like you followed none of these suggestions, so explaining why
+> > you couldn't implement them would be a great first step.
+> >=20
+> > Also, you sent an RFC, on what would you like a comment exactly?
+>=20
+> Stephen asked me to not introduce a new clk op, however I don't see a
+> clean way to do this any other way. Personally, I think that we need a
+> new clk op for this use case for the reasons I outlined on the cover
+> letter.
 
-For commercial distributions, I just don't see how things work out if
-you have hardware that costs less than (say) $30 over its lifetime, and
-you want LTS support for 10+ years.  The existing distribution business
-models aren't really compatible with such low per-node costs.  So it
-makes absolute sense for distributions to target more powerful cores,
-and therefore require RVA23.  Nobody is suggesting that mainstream
-distributions should target soft-float, either.
+So his suggestion was to base the whole logic on clk_ops.determine_rate.
+You're saying that it would violate parent/child abstraction. Can you
+explain why you think that is the case, because it's really not obvious
+to me.
 
-For community distributions, it is a much tougher call.  Obsoleting
-virtually all existing hardware sends a terrible signal to early
-supporters of the architecture.  But given how limited the RISC-V
-baseline ISA is, I'm not sure if there is much of a choice here.  Maybe
-it's possible to soften the blow by committing to (say) two more years
-of baseline ISA support, and then making the switch, assuming that RVA23
-hardware for local installation is widely available by then.
+Additionally, and assuming that we indeed need something similar to your
+suggestion, determinate_rate takes a pointer to struct clk_rate_request.
+Why did you choose to create a new op instead of adding the check_rate
+pointer to clk_rate_request?
 
-However, my real worry is that in the not-too-distant future, another
-ISA transition will be required after RVA23.  This is not entirely
-hypothetical because RVA23 is still an ISA designed mostly for C (at
-least in the scalar space, I don't know much about the vector side).
-Other architectures carry forward support for efficient overflow
-checking (as required by Ada and some other now less-popular languages,
-and as needed for efficiently implementing fixnums with arbitrary
-precision fallback).  Considering current industry trends, it is not
-inconceivable that these ISA features become important again in the near
-term.
+> I am open for suggestions about alternative ways, and will gladly make
+> modifications. This is why I marked this series as RFC. Patch 10 in
+> this series is the main change of note here.
+>=20
+> Additionally, the presence of the new op is a convenient way to also
+> signal to the clk core that these providers can use the v2 negotiation
+> logic. Otherwise, we'll need to introduce a flag somewhere else if we
+> want to support a v1/v2 negotiation logic across the clk tree.
+>=20
+> As for 2), I negotiate the rate change from the top down. The new_rate
+> is propagated in the same manner as what's done today in the clk core
+> when a parent rate change occurs. I let it reuse the existing rate
+> change code that's currently in the clk core to minimize the change
+> that was introduced.
+>=20
+> Regarding the clock table in 3), it could be done with what's there,
+> but there's the issue of the new clk_op. I posted this to get feedback
+> about that since I think we should settle on the core changes.
 
-You can see the effect of native overflow checking support if you look
-at Ada code examples with integer arithmetic.  For example, this:
+Again, why can't we add a pointer to that array in clk_rate_request?
 
-function Fib (N: Integer) return Integer is
-begin
-   if N <= 1 then
-      return N;
-   else
-      return Fib (N - 1) + Fib (N - 2);
-   end if;
-end;
+Maxime
 
-produces about 370 RISC-V instructions with -gnato, compared to 218
-instructions with -gnato0 and overflow checking disabled (using GCC
-trunk).  For GCC 15, the respective instruction counts are 301 and 258
-for x86-64, and 288 and 244 for AArch64.  RVA23 reduces the instruction
-count with overflow checking to 353.  A further reduction should be
-possible once GCC starts using xnor in its overflow checks, but I expect
-that the overhead from overflow checking will remain high.
+--oaferhurvh74yiin
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Florian
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNu+9AAKCRAnX84Zoj2+
+dsprAXoCxeRN9DGpm/p1kDonhFIiCK5LgsbpU3OkGp3ZgFrNCna1JVI8jRDE3hSr
+Wn6cX6kBfRUw+0sV1+kkLwnzULRBoY58WYHOQleKb3CBYWkQUu0OBJfMQzmcIB04
+vsZnADuerw==
+=8KBc
+-----END PGP SIGNATURE-----
+
+--oaferhurvh74yiin--
