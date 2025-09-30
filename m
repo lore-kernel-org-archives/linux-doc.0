@@ -1,64 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA6B28002B
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2443227F75F
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759211978; cv=none; b=E4sLQf8uO3ToqVWgXLj5v9VnbTZ+0jNCUCA3L6a1kgUJqetdApp7s6i3SVEpdtGM0D15JBY6QnDPfFgyF+6xpdm+Px0yDmontOam6FktgKxULTPbF7hWvpVlwlcNEjaUPkfnEmtTvYT8+LUyHyelDfjH7vDrhp8Y675Om8ZOooI=
+	t=1759211987; cv=none; b=RkjIjPajGvi/ejTSh/bZYbljYSpuxHZH8sUr8/oTlWZwl31DO0SXbNpV+eJyeBVK3Ezbp83QmuvzPWF/gyiDP237doLhtdQiIV2EULcjPFd1BlxQZarx8T58N4BvbwLuZxZd8yDjGdN/JLjB4j6Uooub5QoExNapctTS5SaDJYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759211978; c=relaxed/simple;
-	bh=PdHzrFnTfY/BX2nYC+VH4KXSooOxeg+vmzUyNWX3Omw=;
+	s=arc-20240116; t=1759211987; c=relaxed/simple;
+	bh=CXI0qMvWqpeePDr4xBG9e2uqemr9IpjeVUqDleKN93I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=h4Q+YW0GxlCaP+oqNyh6ThCfjfxQk6L4vGvAbPh2AfSDDtoaVZ4CqHnG598Pa56NYoMMEfws5ks+Anlos+W/LugFntweXbtBFhMoS17q6pihGdZOJ6t8dUIVUiOmfM23dgjMdknioqU8IAFOer/g8/IVwNneIg7IAIY8hZ5KuVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kYKPgaf2; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version; b=a8auq5jjwHviiyPzyIOs48L456qVcVVFvt7KbAMTSObxHrZCYkXwv5i6TptMVO+DiRHH/HqfMENOKV5BGWHDYJCioMWfHExADTmkPxDfPmm8rk6iVWs/YuqmxlTWnnZGcR55XeXKOVC8LOfQ+r+SpX8PCoyGEeY4TWAXxO7mui8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YANox5pF; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kYKPgaf2"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-27eec33b737so57290695ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YANox5pF"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b555ab7fabaso5362356a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759211976; x=1759816776; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759211985; x=1759816785; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1tfnp2VgNI7X5NDB06OaZAZrurrAWQnxjDDxodnKF9g=;
-        b=kYKPgaf2hBEEypXtFPz9ODbbwNAaKfrhTifLbPD/njZ1sgZk7+QkgHPfOxfUw/jmp9
-         oxjW1Qv5aJ5zhXL6YTHzztPeWBLMGp6xvNtz8kDtALGI3YrzKUeVKLoVlW9pFWfFVTTL
-         3TuCsb+6FGBOkPXHvu9hs/jXLVWy1+BqINpx33ua2bqLO8khlHNmmU0nt28coa5NrVeF
-         Y9ciSUgrcx2WNa9usTbTc5sC+8MFE5MSADp5pyaxvqgk9GomMRuG1RAl8jXhqAEPFuug
-         uZYVb/ILW+koYQxEWb2piECDxcVFFZVeQSOgrIHkqXkeg0po+z6bH3Ba1JlsH9xN2kJ7
-         Hqag==
+        bh=oOprrquoKlbkEreJojZ4KykFg8G0TswcVk79ghRz+Tk=;
+        b=YANox5pFVE12qunKaUXxgelNvQtoVWW5gGIgclT/DLZg5Ns2oBahLhxY/5yLiw/H0e
+         lXd+/IqPr//ONCHLNyAKFPbHGUUyI/HsQsoxSIB0mA3OO47s3UqZwezuiV/ytRpnC2uQ
+         Vdku5T0A14xpECf6eAvpZvelQTqwnOTeIbZrSu/RiAtV5YywLH2HkawiDbGGa7HFIog/
+         MkmaAl8au+dfBBg09OoMUsxenMKlzZHS9BFRa78/U0iq90M6s7il8odJGI4OU0Z8WkN7
+         XEINGVkw3Bj3GSp/CYk0gSWfaVQEGXMhPExSEhCgMi9iz5ScGjiiXE13gWYHRkt2UoJX
+         KZfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759211976; x=1759816776;
+        d=1e100.net; s=20230601; t=1759211985; x=1759816785;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1tfnp2VgNI7X5NDB06OaZAZrurrAWQnxjDDxodnKF9g=;
-        b=huNn+KT/HXTmAzpOI6SnnSaSly1/n0j4STXbCyvIOBuI3rPBjogEyz4XjyCKfIDXxI
-         7CXuV30AKk/BlAKT/Hnb1Yban6wvAJkdvqxEkqMryHAJCBZln3894lDDEFq7lVvMM5Cn
-         hEk88GDW2fquZNXAf+3LuLEJJNBeDEk4ipglOEa3yYhbf5HN/VNNPKZfQ8N/Gn3giTui
-         BpvHxUjDa/lU7SQRMjzWF4aFhIMR8Nn0PqGwYsW8kkJsHOv0ekJm2WQC3aAlytubecOx
-         kD19KLd70FS0wqBbz8ClY4l+4+2lgGaruVZuv6Taf7ung66G98fDUK3a9QA+FhMV7FID
-         3PmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWzYJlA1i3FmKbpBy5Glu6F2R6AjKZz4WH3gIXJzeLa5NhmygmVhMhtq5KNpOKJEeQuDPbV3NGUoLs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLowL7tX3abdLxW2hHCKj1GSYRv+FshlA0n/dl1jikUljOLbTb
-	UsbPztBgR+njU4THNqmUJtZYkZJP1xJaEX07UHeRTHPzuO61PFUNP9M9
-X-Gm-Gg: ASbGncviBi2nZE4owOc0ZETFsqDlviWqWQ42YbaIm3Pa3ueEH6AcsT+o3739Gn9CcZf
-	DQtQc91XbW3YBNWg1XGhcKg20DTP7DroH1vC/LITex8GsdbYof3FW/wY6RJ2/Isv/+l3zV0J/l3
-	XGZhZXi5NO2xhKBCi7Bg6J8tzqqeTbrdHl7nJwUEe2zNR6q8MehFgZzNVMTSrl/P98ppDZuA3tJ
-	B3qkk4USHfM9UouURoJ3zecrvopKDz+cXHE5JzSEoFbeRK05L8ZxojYEtWsqY2gpHEqAKo2vVrW
-	q5vbdWzQeZZpZmLj6bivbvd57XTbOf3R3RPPwptXc7e41ZfsZUAF6+wQr8YYyw4kBV/PpzUnS47
-	KpXIzDrXFOL7SFs23Mrda5TotkAZEcKw+WPlDJ5PZtOExUUNVrYhQEgyWDt9o7nreNLN0doW4pj
-	ny45l7rti3gq5kI8JwrKi/qnOkV0BHxfkvD9bbew==
-X-Google-Smtp-Source: AGHT+IHzK9X+Xf+bVu8Rrmbp78/kS7yuMf0wwgc2gHprT/HrnmCmly3PRVr5PnyZFdbWTIQHPwUiwA==
-X-Received: by 2002:a17:903:3d0e:b0:250:bd52:4cdb with SMTP id d9443c01a7336-27ed4a3d9f5mr206668205ad.32.1759211976345;
-        Mon, 29 Sep 2025 22:59:36 -0700 (PDT)
+        bh=oOprrquoKlbkEreJojZ4KykFg8G0TswcVk79ghRz+Tk=;
+        b=NM87QbqpQrD1pRawiboS/JwdXXGaCho70FkusURkO2VxWhHjWxqIdJfhiUxvFkBl36
+         9W7j602e1HbMafZM5Ze3L5UOSepwZrZIFpB9NTbPneHKhB3fWnkH1WgdL/fW8DJukq9P
+         SI7LFXZcdGLcWwKJiLv+CermxSE6OxTH82DkeJ4nHLPtYb86qP5DrBwkqQZtbEx54nJa
+         4Vbf+Sb9heSQ9MTZCWzA3RvYFl6XMc+Jzo53rxXTDq9/b2YoUUYeMwIU508449os4p/v
+         SFGxIuSA3SIfMjhnu7VzkNOoXodG1dYrKEg+YZDZ+1d8/T24zINIodixw+BWKVMsIJAA
+         +VqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7RNulLa+TPS2l7m8JxDaVZuKapV8aXdNBJmf3iPzPIsLVwmcLyvawOV+cCfsuSMdRKyqBer8PIY0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywc8bj+hG70fsW9sUNCseq8rNJTKbDKCt1of6271wYHsJHLvx3P
+	X0DAFoATkqjrrvx542LRxQzvOltcBW9DXZ65CU3o+5hqEO6yndad/tb2
+X-Gm-Gg: ASbGncvE7YQPKPLgKrVM15cNkLGHcXi2VdarRgiMoj7NdroIEh5SOSG0HWsmtbQS4CT
+	49ciAfGUyjYWDLaT/vK1yUCDJ4FU7X3mNOXSVXnkFQ1Xagcq6ETDN05OtGPaU7kGDiL93pxB25O
+	kgABR5st+CGHiW551g8bKhqlrsvTqHXZXVxWPi42G/AL73j8Vk0M63+olAjodyjYUsOjUOMTzHw
+	g7R6+7jX2Da/zCKElO2+YpWk7+nEYxUaTfmJ272z2wKhILijpoHwa3yF9jbDtCPWgjbRSmGYvij
+	WXQf/zlQ9T5NTHNS/lhVTQvt0zYutHDtXLLsylGv2Dl0reXhK2Cu+k6yMTTzcu4x6TD7CSHbsK4
+	o1L/uP8PdBVxcIIILuGzdwq9gUFeiDoeWoqlwIuRJ1QNpCN6OkSngsQV8i67HLohAZE0k5Zb12p
+	Wg3dEVbiLP8/wDN9ydCXb46vfDz9mLSPVbfzDU0A==
+X-Google-Smtp-Source: AGHT+IHaVympRvUhy+mNwqzkCqg8GQH0WHYHPq1npnx2or9ONNHwBhPtVzKfVWrGEP9ED65uKj4qEQ==
+X-Received: by 2002:a17:903:b83:b0:265:47:a7bd with SMTP id d9443c01a7336-27ed49b802bmr208932635ad.4.1759211985356;
+        Mon, 29 Sep 2025 22:59:45 -0700 (PDT)
 Received: from localhost.localdomain ([61.171.228.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.36
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 29 Sep 2025 22:59:35 -0700 (PDT)
+        Mon, 29 Sep 2025 22:59:44 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org,
 	david@redhat.com,
@@ -89,9 +89,9 @@ Cc: bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v9 mm-new 05/11] mm: thp: enable THP allocation exclusively through khugepaged
-Date: Tue, 30 Sep 2025 13:58:20 +0800
-Message-Id: <20250930055826.9810-6-laoar.shao@gmail.com>
+Subject: [PATCH v9 mm-new 06/11] bpf: mark mm->owner as __safe_rcu_or_null
+Date: Tue, 30 Sep 2025 13:58:21 +0800
+Message-Id: <20250930055826.9810-7-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20250930055826.9810-1-laoar.shao@gmail.com>
 References: <20250930055826.9810-1-laoar.shao@gmail.com>
@@ -103,73 +103,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-khugepaged_enter_vma() ultimately invokes any attached BPF function with
-the TVA_KHUGEPAGED flag set when determining whether or not to enable
-khugepaged THP for a freshly faulted in VMA.
+When CONFIG_MEMCG is enabled, we can access mm->owner under RCU. The
+owner can be NULL. With this change, BPF helpers can safely access
+mm->owner to retrieve the associated task from the mm. We can then make
+policy decision based on the task attribute.
 
-Currently, on fault, we invoke this in do_huge_pmd_anonymous_page(), as
-invoked by create_huge_pmd() and only when we have already checked to
-see if an allowable TVA_PAGEFAULT order is specified.
+The typical use case is as follows,
 
-Since we might want to disallow THP on fault-in but allow it via
-khugepaged, we move things around so we always attempt to enter
-khugepaged upon fault.
+  bpf_rcu_read_lock(); // rcu lock must be held for rcu trusted field
+  @owner = @mm->owner; // mm_struct::owner is rcu trusted or null
+  if (!@owner)
+      goto out;
 
-This change is safe because:
-- khugepaged operates at the MM level rather than per-VMA. The THP
-  allocation might fail during page faults due to transient conditions
-  (e.g., memory pressure), it is safe to add this MM to khugepaged for
-  subsequent defragmentation.
-- If __thp_vma_allowable_orders(TVA_PAGEFAULT) returns 0, then
-  __thp_vma_allowable_orders(TVA_KHUGEPAGED) will also return 0.
+  /* Do something based on the task attribute */
 
-While we could also extend prctl() to utilize this new policy, such a
-change would require a uAPI modification to PR_SET_THP_DISABLE.
+out:
+  bpf_rcu_read_unlock();
 
+Suggested-by: Andrii Nakryiko <andrii@kernel.org>
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Lance Yang <lance.yang@linux.dev>
-Cc: Usama Arif <usamaarif642@gmail.com>
+Acked-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 ---
- mm/huge_memory.c |  1 -
- mm/memory.c      | 13 ++++++++-----
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ kernel/bpf/verifier.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 08372dfcb41a..2b155a734c78 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1346,7 +1346,6 @@ vm_fault_t do_huge_pmd_anonymous_page(struct vm_fault *vmf)
- 	ret = vmf_anon_prepare(vmf);
- 	if (ret)
- 		return ret;
--	khugepaged_enter_vma(vma);
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index c4f69a9e9af6..d400e18ee31e 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -7123,6 +7123,9 @@ BTF_TYPE_SAFE_RCU(struct cgroup_subsys_state) {
+ /* RCU trusted: these fields are trusted in RCU CS and can be NULL */
+ BTF_TYPE_SAFE_RCU_OR_NULL(struct mm_struct) {
+ 	struct file __rcu *exe_file;
++#ifdef CONFIG_MEMCG
++	struct task_struct __rcu *owner;
++#endif
+ };
  
- 	if (!(vmf->flags & FAULT_FLAG_WRITE) &&
- 			!mm_forbids_zeropage(vma->vm_mm) &&
-diff --git a/mm/memory.c b/mm/memory.c
-index 58ea0f93f79e..64f91191ffff 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -6327,11 +6327,14 @@ static vm_fault_t __handle_mm_fault(struct vm_area_struct *vma,
- 	if (pud_trans_unstable(vmf.pud))
- 		goto retry_pud;
- 
--	if (pmd_none(*vmf.pmd) &&
--	    thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
--		ret = create_huge_pmd(&vmf);
--		if (!(ret & VM_FAULT_FALLBACK))
--			return ret;
-+	if (pmd_none(*vmf.pmd)) {
-+		if (vma_is_anonymous(vma))
-+			khugepaged_enter_vma(vma);
-+		if (thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
-+			ret = create_huge_pmd(&vmf);
-+			if (!(ret & VM_FAULT_FALLBACK))
-+				return ret;
-+		}
- 	} else {
- 		vmf.orig_pmd = pmdp_get_lockless(vmf.pmd);
- 
+ /* skb->sk, req->sk are not RCU protected, but we mark them as such
 -- 
 2.47.3
 
