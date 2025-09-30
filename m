@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6460533D6
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 03:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EB426E154
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 04:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759201885; cv=none; b=m8SkGE1Qxg2193tffGI2F0RVnOBWDnJfSXbCcJ/vEUvQRg+lH4x96msD/cQB8z6lFkDeOf9ydFLvzVDO6BLbpwDyG9SkPbObGYLUuHYz27A269Zgti4aSBU8yLgAwUxOoJCDVA+qHkYf+YznNgDNq94Wfs70O14Ao0cvN2yXlBQ=
+	t=1759205007; cv=none; b=uCwx5+c+oMU47IqBWnpoUwA8xQJLlm78aNe8EjZLPnf6CEIguL3Zy1XD++kQInxN/RFw37WbE2Dp8q4zGyMB3UbJN4AkSw722X30ZA8OG6lyxN6NkMNaJhBbk26dKgb9I79C8RwG+8rlgCYUxzmeEM2Slk1BM5iRSrhJdvgg/pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759201885; c=relaxed/simple;
-	bh=zIjUkhV461tuERn5K0qdQmlTxA1O++mbvnN5ncU1xEs=;
+	s=arc-20240116; t=1759205007; c=relaxed/simple;
+	bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iwoYmkTEfmUlC+styAh3rnD0imATEn0xWbzYSIP1+l9v7+g83yf5xnhYKf70IoN55a32+f2wO4dbPzOfKy74nLg55GluTV97UpzKK6Qk+Gsb3E2RgvKsSMyX6YGjSKBim/ITQ1svCvkNZs6LeIHz72dFc/SqtGU4c2vOr7tzrpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHwKGc5W; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=q4F1ICEeOIUfLgArq8S8qYVC6l+Hw6wMzKZ5lsoQxDNC6RzZd23owAnwzfwTx9Fa2qM4zoBrD6RbX/R3IzplWyR3s69ljruchKOOYgHPoTDEnSxNMQCNhEnWQfO7fYi6kaIq9c3hz7R/gzwbENvNLIOkJoI4mLMIhaJSlb68xQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpm8IGPZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHwKGc5W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpm8IGPZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759201884; x=1790737884;
+  t=1759205004; x=1790741004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zIjUkhV461tuERn5K0qdQmlTxA1O++mbvnN5ncU1xEs=;
-  b=PHwKGc5WD5JeeBEtuEbDK2vUtR883aP46UjoLQK5/pSqnBIQeJx1iraS
-   amy80ZDt71tPi+HILIEGCWSJ4dtttPW6iFfdQa/BCH6nXV/rIQVC24MKv
-   6x9Ig5WbfJro+ZPXr0HGMYy47Z0FUUBXKZQNmz0cxhmVFNnIHrsi81HRt
-   WJZzma5LOPV0mODik4V+fmPMquCUOhELU43DwFSHU+8cJhugpTghRN0pb
-   oXX91nD63/Ukj/1hKk8sfJlKjiwJ60qgCLoqAQ1Me3vlaGPKlwfRIBWut
-   4vLfCUOr2L292fBBkSceVaDrKN7b5h2ch6d+JLuQXNNVygJjQmowi20fj
-   w==;
-X-CSE-ConnectionGUID: MRtnZaigTE6wz7W5JP8M/Q==
-X-CSE-MsgGUID: ZHgmV5l+QKa9aEAndrrIUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="84064992"
+  bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
+  b=Tpm8IGPZoM2/qQAlCfL2kCMPThocksDRNGimAZyjIl/DJjem1GNEVA71
+   JHFI6cyGOH73a8MEDkeKIMx7AtdjAM7uv4DLgI4CEYWqLpjQ4jOcrNfwA
+   NZM0KtgrVDZhgR1t/APEJveFmcGKTZ2FT8dwVhr+ZGO1Z2LyZiBz3pjNs
+   22ONPctcez9o3oqDzHPUJGOCIug7GCEPXpeqqSo9rQxMe6lyaXiOz95mV
+   LPLIlrwtLRPXwGt2WylNJgoNKsjLQlKUABMPGZrjLqiWbXpNBmAYNBk2U
+   GaoJ9ZO3omSI3lO1FjKUqysj+2HGc1S1v6olCq+wXEFpWvMVnzLsDreMy
+   g==;
+X-CSE-ConnectionGUID: dptmUD8HQNCANYjRAt29Dg==
+X-CSE-MsgGUID: sSEDgM0qT66KUQ52DsQNIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72070578"
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="84064992"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 20:11:23 -0700
-X-CSE-ConnectionGUID: n6Za/oEIRA2HBJZPz4ui8g==
-X-CSE-MsgGUID: I/uxiN8kSXuRimwsij6rFg==
+   d="scan'208";a="72070578"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 21:03:24 -0700
+X-CSE-ConnectionGUID: 9whVPoMAR9iLTj/7UlzjXQ==
+X-CSE-MsgGUID: kX4eFeH8QnOsYC5Kztx/MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="178359335"
+   d="scan'208";a="209363333"
 Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2025 20:11:22 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 21:03:22 -0700
 Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v3Qls-00000000689-0U7O;
-	Tue, 30 Sep 2025 03:11:20 +0000
-Date: Tue, 30 Sep 2025 05:11:19 +0200
+	id 1v3RaC-0000000068j-1tLW;
+	Tue, 30 Sep 2025 04:03:20 +0000
+Date: Tue, 30 Sep 2025 06:02:28 +0200
 From: kernel test robot <lkp@intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sean-jc:x86/gmem_default_shared 1/10] htmldocs:
- Documentation/virt/kvm/api.rst:6424: WARNING: Literal block expected; none
- found. [docutils]
-Message-ID: <202509300514.P2rZBVjM-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Fuad Tabba <tabba@google.com>,
+	Ackerley Tng <ackerleytng@google.com>, linux-doc@vger.kernel.org
+Subject: [sean-jc:x86/gmem_default_shared 2/10] htmldocs:
+ Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a
+ blank line; unexpected unindent. [docutils]
+Message-ID: <202509300613.3q6FQjEc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,13 +66,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/sean-jc/linux x86/gmem_default_shared
 head:   71c8199c17c4609d842dc94e6d225156d8574d82
-commit: f844b9053e048ebcebbedf37c72d6084a41fa773 [1/10] KVM: Rework KVM_CAP_GUEST_MEMFD_MMAP into KVM_CAP_GUEST_MEMFD_FLAGS
-reproduce: (https://download.01.org/0day-ci/archive/20250930/202509300514.P2rZBVjM-lkp@intel.com/reproduce)
+commit: 65042d91905d173c70a5474c1c032076bbf702dc [2/10] KVM: guest_memfd: Add INIT_SHARED flag, reject user page faults if not set
+reproduce: (https://download.01.org/0day-ci/archive/20250930/202509300613.3q6FQjEc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509300514.P2rZBVjM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509300613.3q6FQjEc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
@@ -80,23 +81,31 @@ All warnings (new ones prefixed by >>):
    WARNING: No kernel-doc for file ./include/linux/mutex.h
    ERROR: Cannot find file ./include/linux/fwctl.h
    WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/virt/kvm/api.rst:6424: WARNING: Literal block expected; none found. [docutils]
+>> Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a blank line; unexpected unindent. [docutils]
+   Documentation/virt/kvm/api.rst:6432: WARNING: Literal block expected; none found. [docutils]
 
 
-vim +6424 Documentation/virt/kvm/api.rst
+vim +6430 Documentation/virt/kvm/api.rst
 
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6423  
-3d3a04fad25a66 Fuad Tabba 2025-07-29 @6424  When the KVM MMU performs a PFN lookup to service a guest fault and the backing
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6425  guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6426  consumed from guest_memfd, regardless of whether it is a shared or a private
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6427  fault.
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6428  
+f844b9053e048e Sean Christopherson 2025-09-29  6419  
+f844b9053e048e Sean Christopherson 2025-09-29  6420    - GUEST_MEMFD_FLAG_MMAP enables using mmap() on the file descriptor.
+f844b9053e048e Sean Christopherson 2025-09-29  6421  
+65042d91905d17 Sean Christopherson 2025-09-29  6422    - GUEST_MEMFD_FLAG_INIT_SHARED makes all memory in the file shared during
+65042d91905d17 Sean Christopherson 2025-09-29  6423      KVM_CREATE_GUEST_MEMFD (memory files created without INIT_SHARED will be
+65042d91905d17 Sean Christopherson 2025-09-29  6424      marked private).  Shared memory can be faulted into host userspace page
+65042d91905d17 Sean Christopherson 2025-09-29  6425      tables. Private memory cannot.
+65042d91905d17 Sean Christopherson 2025-09-29  6426  
+65042d91905d17 Sean Christopherson 2025-09-29  6427      Note!  Since KVM doesn't yet support in-place private<=>shared conversions,
+65042d91905d17 Sean Christopherson 2025-09-29  6428      INIT_SHARED must be specified in order to fault memory into userspace page
+65042d91905d17 Sean Christopherson 2025-09-29  6429      tables.  This limitation will go away when in-place conversions are supported.
+f844b9053e048e Sean Christopherson 2025-09-29 @6430  ::
+3d3a04fad25a66 Fuad Tabba          2025-07-29  6431  
 
-:::::: The code at line 6424 was first introduced by commit
-:::::: 3d3a04fad25a6621828518a2abe536142d2c1a7d KVM: Allow and advertise support for host mmap() on guest_memfd files
+:::::: The code at line 6430 was first introduced by commit
+:::::: f844b9053e048ebcebbedf37c72d6084a41fa773 KVM: Rework KVM_CAP_GUEST_MEMFD_MMAP into KVM_CAP_GUEST_MEMFD_FLAGS
 
-:::::: TO: Fuad Tabba <tabba@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
