@@ -1,112 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EB426E154
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 04:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A22834BA40
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 04:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759205007; cv=none; b=uCwx5+c+oMU47IqBWnpoUwA8xQJLlm78aNe8EjZLPnf6CEIguL3Zy1XD++kQInxN/RFw37WbE2Dp8q4zGyMB3UbJN4AkSw722X30ZA8OG6lyxN6NkMNaJhBbk26dKgb9I79C8RwG+8rlgCYUxzmeEM2Slk1BM5iRSrhJdvgg/pg=
+	t=1759207112; cv=none; b=oF8LdfxTn/cr4rnjI9NNuAUgFxtBeTTG1JTmp+MaeR0QvUYmS/iF3z1WcFULm2v/3pYTyypV83QMsdSQJKXDtjZ/QzvDolpAO/4qLVUgfZqZAi8ZPa1tqmjXPpJBZXPQtB0+pgcJZ+CIiMeZMcGi30EhoZnB/ulY0WBJkWVk0Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759205007; c=relaxed/simple;
-	bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4F1ICEeOIUfLgArq8S8qYVC6l+Hw6wMzKZ5lsoQxDNC6RzZd23owAnwzfwTx9Fa2qM4zoBrD6RbX/R3IzplWyR3s69ljruchKOOYgHPoTDEnSxNMQCNhEnWQfO7fYi6kaIq9c3hz7R/gzwbENvNLIOkJoI4mLMIhaJSlb68xQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpm8IGPZ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759207112; c=relaxed/simple;
+	bh=x/zo4DLS5xopKyfQ1IRecekvbLsQr10w5m43S83i164=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WaxIFSKFkfoePvLfG/1zZ3A0JfaNAmmXGIjXQufhgDKOeGukY9DdfeDZeTfrvICpJaBrexTlGzVt+H2EsnS6/yJW0IckdCgLeyZCd/9V2qhdXK5/KBgbqnh38DaDEIAyiFTwYZJcPCtfCYT8uQxEKbv9enp3Kv4IU6qNpLsclyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JeZrEOk3; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpm8IGPZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759205004; x=1790741004;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
-  b=Tpm8IGPZoM2/qQAlCfL2kCMPThocksDRNGimAZyjIl/DJjem1GNEVA71
-   JHFI6cyGOH73a8MEDkeKIMx7AtdjAM7uv4DLgI4CEYWqLpjQ4jOcrNfwA
-   NZM0KtgrVDZhgR1t/APEJveFmcGKTZ2FT8dwVhr+ZGO1Z2LyZiBz3pjNs
-   22ONPctcez9o3oqDzHPUJGOCIug7GCEPXpeqqSo9rQxMe6lyaXiOz95mV
-   LPLIlrwtLRPXwGt2WylNJgoNKsjLQlKUABMPGZrjLqiWbXpNBmAYNBk2U
-   GaoJ9ZO3omSI3lO1FjKUqysj+2HGc1S1v6olCq+wXEFpWvMVnzLsDreMy
-   g==;
-X-CSE-ConnectionGUID: dptmUD8HQNCANYjRAt29Dg==
-X-CSE-MsgGUID: sSEDgM0qT66KUQ52DsQNIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72070578"
-X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="72070578"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 21:03:24 -0700
-X-CSE-ConnectionGUID: 9whVPoMAR9iLTj/7UlzjXQ==
-X-CSE-MsgGUID: kX4eFeH8QnOsYC5Kztx/MQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="209363333"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 21:03:22 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v3RaC-0000000068j-1tLW;
-	Tue, 30 Sep 2025 04:03:20 +0000
-Date: Tue, 30 Sep 2025 06:02:28 +0200
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Fuad Tabba <tabba@google.com>,
-	Ackerley Tng <ackerleytng@google.com>, linux-doc@vger.kernel.org
-Subject: [sean-jc:x86/gmem_default_shared 2/10] htmldocs:
- Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a
- blank line; unexpected unindent. [docutils]
-Message-ID: <202509300613.3q6FQjEc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeZrEOk3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-279e2554c8fso56139335ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 21:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759207110; x=1759811910; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZT8btfJLrca2sq9IheLfnEkVwITikkzFgpMmjw2//s=;
+        b=JeZrEOk3yQpzXFajxl9z2vkUvG4b9atVOc9hHZA3971Y6mmqWQ8avQ0WEnCdIvm8wN
+         F3dIhBVflpmxAPHR+bksHnwNcgM/9E6ulz5ZSkkQxW6vgAQJJ5yo7fJfpTqzw9hH9a9v
+         TQpXrnNNIZlrUwPYrJb4UdZhcMc2Hq8pyQeJIV2g8YO1nk68p9ckPjsO5B5yQmcfaG6X
+         tj3V9HySwHdyAuBfkEdHu6q+57D/PZ8LVVRNjQLqzwY0JXwrSCCNi+cT0NibyUpTdwwn
+         kf3R0CK1+VGt6Ez5VR87dXhOXdq0qU6bxkcWakRKGIpS+IvrSQyVIDFFBkC5C3tQCxSa
+         3Qlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759207110; x=1759811910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GZT8btfJLrca2sq9IheLfnEkVwITikkzFgpMmjw2//s=;
+        b=JvE3HW8HrghLAvHJaJb4qxGJZlWLmQE1GNIsfvHCykr/Blcd6qrMyBOkn/bdFIi2uM
+         /bIg0oMgM4sp/PaHKBUaudOHUwxM2S2ovg3U9UXI0A+TlmE6mLTYoAs5jkBZ3wwzigHf
+         nNkWO/SPH7I0Km/CAO8Yl7cznXDJn7x/t3K16NE0CrMJqs89mQcoNRCPVE7GZTMWRA4A
+         jWpi9J2Mv+bQI+C0Y0hghvMbTe+A8NnPqJvpr2pOLZHSWcfZa5cErukuSb8Cjaqnwuv6
+         +F3xPvoqSUyr0r86Fqr2j5TO5lIbPqkH+pH+2AsFTDpJi9/C52NXh4FibivUy8YPSEAS
+         EMtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjx+sHfH/p9tgq4STQ2WNKNJ7c99ynldhB2BF8k9tEJ0XukQF7TYZ9wUVSEgoEPbfG6y78ccueNRU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxLFUhNQ3AYVAeZ1Glt2M4ZVR0uMXsuAbpe/mFCgrTCY80XBUw
+	lquK34ECukB2QxUOsoOoSqsbcqo3oGYkGggfOIzkEAFJOswnMF6KgIYYCVcCehLV+HRviA==
+X-Gm-Gg: ASbGncvaV/SMNrhnceoRT1Yd7peqEuWcTuSyfhy9Ue9c0ByccEBWoWAJ2zpQR9HFSPz
+	SEvCO56Tx7BDotMYTrWtl5gFwnFihnv4oW4APxvW8DU5F8JVK81Y74fS27BcY8BxyHFPJrA57ba
+	1sjOsX0OxaLyZ94cgUQKRVm0WlhZb2UNwlueoQ4B7Re1Y6cj9UbqvdgoIYB7hsdDqZjwzhE3tWS
+	1b1901wp6X5T5Oow4b2RNjBGYbZGUra9nQnIGorcSZraSFKF3sg/zLnGnP0BnTTmBoIzO9t6MTY
+	NXcAk0P3Ig/vry5nmBSJQ0jtahIGPNegGBTKLP9HtI815t2ChPFvrfupcqQ6N7rtbCaBZok4yes
+	S+Pg8L3l8W/5Ngm28Ug6y2agnuGML5WvKWGo5HYayXt3lLBW8vqGM1+Eo7jw4WXObrw==
+X-Google-Smtp-Source: AGHT+IHJrdVU3IoI7rVootqpTrOCX2Siw83i3/cFETYlxp+cOb+qBIWkeM1gUVV6aGYcyytIe2CDUQ==
+X-Received: by 2002:a17:902:cf42:b0:267:95ad:8cb8 with SMTP id d9443c01a7336-27ed4a96047mr199662015ad.44.1759207110287;
+        Mon, 29 Sep 2025 21:38:30 -0700 (PDT)
+Received: from LilGuy ([2409:40c2:100e:619a:6959:b194:3c63:fa0a])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-338386f5a7bsm3000830a91.5.2025.09.29.21.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Sep 2025 21:38:29 -0700 (PDT)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Koichi Okuno <fj2767dz@fujitsu.com>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Subject: [PATCH v1] Documentation/admin-guide/perf: Fix indentation and formatting in fujitsu_uncore_pmu.rst
+Date: Tue, 30 Sep 2025 10:07:36 +0000
+Message-ID: <20250930100742.4741-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/sean-jc/linux x86/gmem_default_shared
-head:   71c8199c17c4609d842dc94e6d225156d8574d82
-commit: 65042d91905d173c70a5474c1c032076bbf702dc [2/10] KVM: guest_memfd: Add INIT_SHARED flag, reject user page faults if not set
-reproduce: (https://download.01.org/0day-ci/archive/20250930/202509300613.3q6FQjEc-lkp@intel.com/reproduce)
+This patch fixes several reStructuredText (RST) formatting issues in
+documentation/admin-guide/perf/fujitsu_uncore_pmu.rst that were causing
+Sphinx build warnings and errors. Specifically:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509300613.3q6FQjEc-lkp@intel.com/
+- Unexpected indentation in bullet lists.
+- Block-quote unindents that broke literal blocks.
+- Missing blank lines between paragraphs and lists.
 
-All warnings (new ones prefixed by >>):
+Reason for the patch:
+Without these fixes, running `make docs` for the perf documentation
+would produce warnings like "Unexpected indentation" and "Block quote
+unindented", and could lead to incorrectly rendered documentation.
+This patch ensures proper formatting and readability of the fujitsu_uncore_pmu
+documentation, which is important for developers and users referencing
+PMU events.
 
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/api.rst:6432: WARNING: Literal block expected; none found. [docutils]
+Changes made:
+- Added blank lines between introductory text and bullet lists.
+- Used double colon `::` for literal blocks.
+- Adjusted indentation of list items and surrounding text.
 
+Testing:
+- Verified `make htmldocs` runs without emitting indentation or block-quote warnings after applying the patch.
 
-vim +6430 Documentation/virt/kvm/api.rst
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
+ Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-f844b9053e048e Sean Christopherson 2025-09-29  6419  
-f844b9053e048e Sean Christopherson 2025-09-29  6420    - GUEST_MEMFD_FLAG_MMAP enables using mmap() on the file descriptor.
-f844b9053e048e Sean Christopherson 2025-09-29  6421  
-65042d91905d17 Sean Christopherson 2025-09-29  6422    - GUEST_MEMFD_FLAG_INIT_SHARED makes all memory in the file shared during
-65042d91905d17 Sean Christopherson 2025-09-29  6423      KVM_CREATE_GUEST_MEMFD (memory files created without INIT_SHARED will be
-65042d91905d17 Sean Christopherson 2025-09-29  6424      marked private).  Shared memory can be faulted into host userspace page
-65042d91905d17 Sean Christopherson 2025-09-29  6425      tables. Private memory cannot.
-65042d91905d17 Sean Christopherson 2025-09-29  6426  
-65042d91905d17 Sean Christopherson 2025-09-29  6427      Note!  Since KVM doesn't yet support in-place private<=>shared conversions,
-65042d91905d17 Sean Christopherson 2025-09-29  6428      INIT_SHARED must be specified in order to fault memory into userspace page
-65042d91905d17 Sean Christopherson 2025-09-29  6429      tables.  This limitation will go away when in-place conversions are supported.
-f844b9053e048e Sean Christopherson 2025-09-29 @6430  ::
-3d3a04fad25a66 Fuad Tabba          2025-07-29  6431  
+diff --git a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+index 46595b788d3a..31e6e535d11b 100644
+--- a/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
++++ b/Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst
+@@ -14,16 +14,21 @@ pci_iod<iod>_pci<pci>.
+ The driver provides a description of its available events and configuration
+ options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/
+ and /sys/bus/event_sources/devices/pci_iod<iod>_pci<pci>/.
++
+ This driver exports:
++
+ - formats, used by perf user space and other tools to configure events
+ - events, used by perf user space and other tools to create events
+-  symbolically, e.g.:
++  symbolically, e.g.::
++
+     perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
+     perf stat -a -e pci_iod0_pci0/event=0x24/ ls
++
+ - cpumask, used by perf user space and other tools to know on which CPUs
+   to open the events
 
-:::::: The code at line 6430 was first introduced by commit
-:::::: f844b9053e048ebcebbedf37c72d6084a41fa773 KVM: Rework KVM_CAP_GUEST_MEMFD_MMAP into KVM_CAP_GUEST_MEMFD_FLAGS
+ This driver supports the following events for MAC:
++
+ - cycles
+   This event counts MAC cycles at MAC frequency.
+ - read-count
+@@ -69,7 +74,6 @@ This driver supports the following events for MAC:
+   This event counts the number of write requests from MAC to memory.
+ - ea-ha
+   This event counts energy consumption of HA.
+-
+   'ea' is the abbreviation for 'Energy Analyzer'.
 
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+ Examples for use with perf::
+@@ -77,6 +81,7 @@ Examples for use with perf::
+   perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ And, this driver supports the following events for PCI:
++
+ - pci-port0-cycles
+   This event counts PCI cycles at PCI frequency in port0.
+ - pci-port0-read-count
+@@ -99,7 +104,6 @@ And, this driver supports the following events for PCI:
+   This event counts write transactions for bus usage in port1.
+ - ea-pci
+   This event counts energy consumption of PCI.
+-
+   'ea' is the abbreviation for 'Energy Analyzer'.
+
+ Examples for use with perf::
+--
+2.51.0
+
