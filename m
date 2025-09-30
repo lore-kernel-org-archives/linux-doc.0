@@ -1,162 +1,183 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8A228136C
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 06:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442032BD5AD
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 06:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759212043; cv=none; b=lWMR6pbdKMJJY5f1N2BiVOvhARFx9in45iA6vMbg3Dwzo7TS9yz/IZvugn7c1V0PbdMkygTkmmkqJxUTeAScf+TF9FOfiQarN5wp1eVtkdVr46WYLhnDgHQ/02lK1tIczMsoJCRxCTCE1smY/DD4Y2vPxwFf2eenf1b4tLlwUTA=
+	t=1759214977; cv=none; b=MIrl1wYOuvOJBRxun7tpaIYfFYzBnQVowIPCaKSVbazMnEZXPrKxK6rBZMH7X7yaYIY37Xs6PkQX/VTHlasz3ay2pNIq6ZG3d0fFFGMpx9LV+yybHYGwUJ6Wl35wu4JHediQcvbRPm5EOb2LGQdCPtRZd1Jagr0e/JejCz/LSLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759212043; c=relaxed/simple;
-	bh=M3JDOPbFjkClAC4UX2vhrNDOfN9b6bNYa0hiNAn1emM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Olx23W3ztM8MmCkskJZ6xGkbIKfxd2YBh4lnE0o8ydTDg+wSyb54lmsEGK3Gr0LjI4DufiBGNbmqmBmws9nvYNwbbjcr0AItmoS4REJj5I/NE/bg/DcygljhvTXfvCw8YH+dUJJYQoxQTLy2udSmi358ENUw8061xgTexEfhEp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKpLoJBt; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759214977; c=relaxed/simple;
+	bh=qtCxdLAk5RxSyoau0wBFHmkETSWtB4mi0PWwaVQ2zUA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EFPhPo2aFPYKF0ZmUnY5GqB9eO2dZZGF5vNj6R/FU+QW36gHSCb9zi7bDEmLsA9mninKcRlRuNlg21Fhwf3v+m3m4AH54lZVEewz+KOCxfc6ZcPgPnd8ahfMebrwgRd1+Ur6BZ+RxGS/Zf/I+3RxpAWQoaAbUukdmtVaQFXktdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dJxuTCv1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKpLoJBt"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2570bf6058aso78523255ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 23:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759212041; x=1759816841; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SHmEXjchUo7p5MNeEkw3mVcK0Ae4ArUpPhVglZardsE=;
-        b=hKpLoJBtNDECiZjp0VakSp3fmaHyldgcYRJAURPLoZBP4KVhzaYtEzpRPn//5pH9kV
-         fHJz7876ZaFaJB65R4/H/1S0qXqY8sxE5KmS+E46Z144B05+1atfc5ERHSbWp6CI2HHB
-         QQ1sSt0DKpnu7G1TwweNu2GYKEujXltczKjxte5zVFgGkYVPTVMexXtkIlDIsv2A0FD0
-         t86vwWfsgEDUO/6ZM/MXDkxH/rEEUU5JKMt0htG+IS8JwFhEA0j+h//km/whpyax3yY7
-         LThza1Da89ochEpmaxbFXFdvttHvwt3DE29t8Bl2OqkbIQqzDxUEboM87T7TN6OKaXH8
-         dzqg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJxuTCv1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759214975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mqRlzhy6X/OCGXbjhJnXJHWuco4CEjpdGpSoiDLw9OM=;
+	b=dJxuTCv1MO3jEg+MbS1wLOSwzFskYzeefb6fSNtlph0M7gY7cQV6B3awr8n+3wfDK/xN36
+	3fbl6vXx5usKZlpgc13QcQ5MpynhjO4Iqzd9cUSZf2+wvtVn/qWFpvNlY1sqg0n4wLdSim
+	4j9fKLUw5eiwO3PEzF9r+xjByBVfi/s=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-286-Tjw_0YJKOxqUb66t73qSgw-1; Tue, 30 Sep 2025 02:49:32 -0400
+X-MC-Unique: Tjw_0YJKOxqUb66t73qSgw-1
+X-Mimecast-MFC-AGG-ID: Tjw_0YJKOxqUb66t73qSgw_1759214971
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3ee1365964cso3870560f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 23:49:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759212041; x=1759816841;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SHmEXjchUo7p5MNeEkw3mVcK0Ae4ArUpPhVglZardsE=;
-        b=A/92Muor4tkSXchguvJGjK3U4nS66z4XxDZRAkj9mlu9q98/mqDF+lz0lNNAZEyTTc
-         hi6Y9f7muZvgkXX0DvZu4FIs+GgbA6WbQjFYLGVQ+rBaqqKI17YYGu8A7IkDIcEk8VxV
-         bM6XNwKTdZyncVkajvzIVmxIrXEPrPCGMCksUJMSozitMfZ5jsYVJqGtVRIqLGwijqqn
-         z5ESTFBjAArkXZ7Wia4FG0E6jdodPYxYfS0j5gagdeY6jnQTWOXgndmzvhpqief9BG9D
-         hOYY8AB9QO9+SQkyisn7XEk2cObT7qdfxbZVVM4FWRHL3raVXH+oyHphsldGd4CxIszb
-         cUTw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8vGmXJrovJ8IK2CB4jVS/dA0FpNVSiFVAqy7K6fb8DauRr6Ic/4A8WTzrVklOzOdOa+bpLLGWG34=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxnzr6a5XPkCmfUTIXePmXhJh/jfE0Jdu2qX97b0rK3B/0T6IEg
-	TZq4PNAEFcQm2T1n6oOHvCmMfCauVDoXGwXHdDO2OTmTV+oguIiKRxUi
-X-Gm-Gg: ASbGncs6zx6ndg24KbJ6EINi7IsUNa5xlu/soF/fvqsblRUEFWV0NpJJ4Fkmp6Z4aVY
-	+OJ77+RTEwtW4aHKsrw9MHz6RRvsWhAGZxgcGhj3xYLOl2SWH0f08HBrC5zhPthPnDc90tGoT3O
-	WTV0ASxFwdcSDxCdadaLlDVXn22VBMKhLZCLC08hF7mQmaDuCq61oaxKTb6Mu2r+2McpoR7puUw
-	g9lO85zQWLi+TqiaMMK1W/0kPVWnTCexnkp7Ih2DkP3itXspjvx8s82pSFLtwQSK3KxqV4hS979
-	1Q9l2N0okicQut2ANOeMqdt7H903IoAwV5ZVXDTQ+kwSsAKkiZXNZEr6zyY34Xd2ytLAx4S+/I/
-	aJYkgwrcScKS0doDFZyAWpAkqJlgRKYS6DW1A17aEJkYQXnKjGZtapn7CJZtKxp4c71zmTTAeNP
-	pbcNMuyEwtqi4s63xBekhtR/2rNWV33lN6HxYFPg==
-X-Google-Smtp-Source: AGHT+IESjK5uuXD6SNUTqXGKn8jpixgQvb75Jnts3CNC+W4F2sDEPtoAZ7lXfxrqlZpJ+kSZvlFegw==
-X-Received: by 2002:a17:903:2407:b0:24c:ca55:6d90 with SMTP id d9443c01a7336-27ed4a7448emr222073545ad.61.1759212040904;
-        Mon, 29 Sep 2025 23:00:40 -0700 (PDT)
-Received: from localhost.localdomain ([61.171.228.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.23.00.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 29 Sep 2025 23:00:40 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org,
-	david@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	hannes@cmpxchg.org,
-	usamaarif642@gmail.com,
-	gutierrez.asier@huawei-partners.com,
-	willy@infradead.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	ameryhung@gmail.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	21cnbao@gmail.com,
-	shakeel.butt@linux.dev,
-	tj@kernel.org,
-	lance.yang@linux.dev,
-	rdunlap@infradead.org
-Cc: bpf@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v9 mm-new 11/11] Documentation: add BPF-based THP policy management
-Date: Tue, 30 Sep 2025 13:58:26 +0800
-Message-Id: <20250930055826.9810-12-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20250930055826.9810-1-laoar.shao@gmail.com>
-References: <20250930055826.9810-1-laoar.shao@gmail.com>
+        d=1e100.net; s=20230601; t=1759214971; x=1759819771;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mqRlzhy6X/OCGXbjhJnXJHWuco4CEjpdGpSoiDLw9OM=;
+        b=Js76mcTLlB4MwaOIpKRsEwpwGyQ/SURtUwCqtPLd78fTQN9CggqwX3PgaQvQ4+yLMZ
+         5DCzeeTOK8YdHgePYYyUpSMaDaxfvokOOSE1uX5Et9W3W5c3MDjfA8FnC/da6L922XR0
+         dYeOF4jDA0/vIG0XkqLvWRoFMyTrAE4NWziQo9pM+/2G0SoIN3U0bYxvNjYcntWy/WU1
+         tXQveA9qXnG9iTNWYGq+P61aEc2nMq9J4FTbVRDAABhJ3Juqod4vq1Blx+nOuV8NMWkM
+         sr/DGQn/5Epf9U4/357hO2o831XZNF4SzDTvs+dUnkZCCpnT1Vg/UswP7WiiVO/gx6QJ
+         doZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUP3jwWcf5gBhDSMqFeieKkLgBCAs6N2Aug0C1x4gbm9o0DaaEvQPl/Ou6oeDSvu6UXnhFKmuKViXk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOWQbYEfBoiwvymL6lYZhoCe34umwh7JrLIHwdqZy8MZhp8wFM
+	DuZlHMMEsmsZ+US+ACHqV++sYTWhVJZRdS2ZsFNEdZv+fenEKMp14B59IamZscZDziWYSQwSBqB
+	w/Lt9kVwouE44NkeLknC2VQyfulSxdv6fW6PVN3ux2JTy4D6yuPupscig34kP+g==
+X-Gm-Gg: ASbGncvObFv3Ih0mOwGAD9jS7dE0mpKyg4Z1H1sitgEEMe/0m7TBP9vMmVezJm5bSb4
+	NI9OjDFNdvGZZc0C2EGTQsHHb7G4jbGiKvUvH4g6xpuVmykBsMBfm7Fth921yzyeTIBsMlxlNHX
+	5xf4A8QlqXAcyZXWBDteeKRYCGhDKT8Iyw1fqjhRaW8RF9olYmvZ4sT0pXZEXn9Hd5C7LDSTgYW
+	4h/Psb4tRO7TgvHFhqz8B9wJufKrc8Jl/w6uhK5cc3Uo/f7OQ+Oe4O1LgQkxnN1RW0gKtb7KUV7
+	Dn8S9/muBkobr1jG6emxvp3Sxh8NGz4xOj2HkecX2JZX9HiFpEQD4DlrYr1Cm8UU20rRFBlMHnX
+	U1CNGlgkC
+X-Received: by 2002:a5d:5c84:0:b0:3ea:15cd:ac3b with SMTP id ffacd0b85a97d-40e480ca367mr13436881f8f.30.1759214970659;
+        Mon, 29 Sep 2025 23:49:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjJ1kh+gHGKjhm8s7ngHlJgKibrCLfy9i3c10QH8wYWazuNRp/0yTM4Ql0YUWytAaTC1Wp7w==
+X-Received: by 2002:a5d:5c84:0:b0:3ea:15cd:ac3b with SMTP id ffacd0b85a97d-40e480ca367mr13436821f8f.30.1759214970148;
+        Mon, 29 Sep 2025 23:49:30 -0700 (PDT)
+Received: from ?IPV6:2a01:599:901:4a65:f2e2:845:f3d2:404d? ([2a01:599:901:4a65:f2e2:845:f3d2:404d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5b5e4922sm7544255e9.1.2025.09.29.23.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 23:49:29 -0700 (PDT)
+Message-ID: <3ed8a6a5-9983-4b9e-bae1-4c433568de16@redhat.com>
+Date: Tue, 30 Sep 2025 08:49:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 21/23] tools/ksw: add test script
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Marco Elver <elver@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+ <20250930024402.1043776-22-wangjinchao600@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250930024402.1043776-22-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the documentation.
+On 30.09.25 04:43, Jinchao Wang wrote:
+> Provide a shell script to trigger test cases.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 39 ++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Do you think there could be a way to convert this into an automated 
+selftests, living in tool/testing/selftests/TBD ?
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index 1654211cc6cf..f6991c674329 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -738,3 +738,42 @@ support enabled just fine as always. No difference can be noted in
- hugetlbfs other than there will be less overall fragmentation. All
- usual features belonging to hugetlbfs are preserved and
- unaffected. libhugetlbfs will also work fine as usual.
-+
-+BPF THP
-+=======
-+
-+Overview
-+--------
-+
-+When the system is configured with "always" or "madvise" THP mode, a BPF program
-+can be used to adjust THP allocation policies dynamically. This enables
-+fine-grained control over THP decisions based on various factors including
-+workload identity, allocation context, and system memory pressure.
-+
-+Program Interface
-+-----------------
-+
-+This feature implements a struct_ops BPF program with the following interface::
-+
-+  int thp_get_order(struct vm_area_struct *vma,
-+                    enum tva_type type,
-+                    unsigned long orders);
-+
-+Parameters::
-+
-+  @vma: vm_area_struct associated with the THP allocation
-+  @type: TVA type for current @vma
-+  @orders: Bitmask of available THP orders for this allocation
-+
-+Return value::
-+
-+  The suggested THP order for allocation from the BPF program. Must be
-+  a valid, available order.
-+
-+Implementation Notes
-+--------------------
-+
-+This is currently an experimental feature. CONFIG_BPF_THP (EXPERIMENTAL) must be
-+enabled to use it. Only one BPF program can be attached at a time, but the
-+program can be updated dynamically to adjust policies without requiring affected
-+tasks to be restarted.
 -- 
-2.47.3
+Cheers
+
+David / dhildenb
 
