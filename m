@@ -1,64 +1,64 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13B3279908
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA6B28002B
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759211968; cv=none; b=p8uYPw6kFD8vEckdc6U7kgN/6D23GA53scybVD4Iba3DSZ1HPZcmQIHWM90363np4HvNuwi6Isp6lA+G6qShO5Jb2XT/jFtYRl7yWGcZr0XeLDZknh2ZJHJadT+aDedwiYZUdxBdutea2yjuqOM8vSU1WNq66r20nh5qkSUcPV8=
+	t=1759211978; cv=none; b=E4sLQf8uO3ToqVWgXLj5v9VnbTZ+0jNCUCA3L6a1kgUJqetdApp7s6i3SVEpdtGM0D15JBY6QnDPfFgyF+6xpdm+Px0yDmontOam6FktgKxULTPbF7hWvpVlwlcNEjaUPkfnEmtTvYT8+LUyHyelDfjH7vDrhp8Y675Om8ZOooI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759211968; c=relaxed/simple;
-	bh=4VkQKrS6FikymCfZ1+5puhT+uYYqYYXhQgE3Hi/wt0Q=;
+	s=arc-20240116; t=1759211978; c=relaxed/simple;
+	bh=PdHzrFnTfY/BX2nYC+VH4KXSooOxeg+vmzUyNWX3Omw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mbjsBILYdq13lz2BpkJocpALlciLTndfF5LRWoHUtjt5JHJgyKEbqtZrsmoXObFfbcwDm/3Y9jys9u8MGk/Ln5z0Ukg4x3ZCtFRzx8FiPEb45YDr1M/3Uw8W+ZU1I2C8IC5I4m8kA/7NbV/SDM2oaE+eRLwIt/6IOX9nE1ewSi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lst4y7dB; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version; b=h4Q+YW0GxlCaP+oqNyh6ThCfjfxQk6L4vGvAbPh2AfSDDtoaVZ4CqHnG598Pa56NYoMMEfws5ks+Anlos+W/LugFntweXbtBFhMoS17q6pihGdZOJ6t8dUIVUiOmfM23dgjMdknioqU8IAFOer/g8/IVwNneIg7IAIY8hZ5KuVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kYKPgaf2; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lst4y7dB"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b5579235200so3956947a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kYKPgaf2"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-27eec33b737so57290695ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759211966; x=1759816766; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759211976; x=1759816776; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bj30sQDVRkZpxPh0yEwciSjpXqkKKqMqk3AWrRPDElU=;
-        b=Lst4y7dBYV6F49SB2gq8lqFojT9lOwA0/hTZKSmEvuQxysLhsV87b7g4LJefLfElOB
-         sfhPeAqdMCa1mim0Pfbs57Tk1l7c/VUSNt6X7NoAAPi5IIeqQXjfLk3w+ae4psFPhEGc
-         7fEDbFZMOUoUE1TNywu5tJ3vHacVJLuQ/2K/2fLOgTY+fbx4zEr4mEiU3zie2+h6UPB7
-         JdQk4E1JmNrQaFaRWjvljdbEhFHg/0cXIzzAuRfz3RVSka5W3bjfvHKfwzJPRiw3iXga
-         gkcaWuah+0QBWekZGSJu9z11IsewWc1eWQ5f8tAfE7wjkVwoKxFwOjskdL4mAMqN1jlF
-         djVw==
+        bh=1tfnp2VgNI7X5NDB06OaZAZrurrAWQnxjDDxodnKF9g=;
+        b=kYKPgaf2hBEEypXtFPz9ODbbwNAaKfrhTifLbPD/njZ1sgZk7+QkgHPfOxfUw/jmp9
+         oxjW1Qv5aJ5zhXL6YTHzztPeWBLMGp6xvNtz8kDtALGI3YrzKUeVKLoVlW9pFWfFVTTL
+         3TuCsb+6FGBOkPXHvu9hs/jXLVWy1+BqINpx33ua2bqLO8khlHNmmU0nt28coa5NrVeF
+         Y9ciSUgrcx2WNa9usTbTc5sC+8MFE5MSADp5pyaxvqgk9GomMRuG1RAl8jXhqAEPFuug
+         uZYVb/ILW+koYQxEWb2piECDxcVFFZVeQSOgrIHkqXkeg0po+z6bH3Ba1JlsH9xN2kJ7
+         Hqag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759211966; x=1759816766;
+        d=1e100.net; s=20230601; t=1759211976; x=1759816776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Bj30sQDVRkZpxPh0yEwciSjpXqkKKqMqk3AWrRPDElU=;
-        b=TMkPjnS6ts/tLHAm0Fl0w+rOHNCkDLVFs4/lrHwln8NioK2Ulh7Wbp8ZrfhZqywkPZ
-         xQJCJoQY6D6E5jl/59aEAKc+16daEIcd3HqCnGXs9r95n7N3T3H1fnmJy7j2sYxfcHKX
-         6dJINaZa0Tapp85cHrE/E5Wt1QSnvcikyou49oIczldliDPGQXdt6PHHiFMA04tK23R2
-         VIpexTaAr1GN6UDYI+PiQq+CEyTgYAicdr57eGiyRXb6+dPLGlCxcMEAag6F+MZAHErX
-         G4138ZU8yFvirlHM3MAmv/rHZ9H/QGvciaKgkOxnyhLZj5Fx86LFZrN1uVVGx0/B3jke
-         4XlA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVjqC2ecE3atynStQ7G4GahjV/su9nJSkeJ97RiDilbHhMs6gbHl5ODByPA8tiT+agHGt7U/47hZo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxSHp0dzsimtP5q6XO1obo1ecDGNTBIKpnQWZKc3dizgB5ICtb
-	9mTWj5qXlvAvUSfAJhfQzKDqTt7Xnf5GufCehRYc4PRBgqWMQDfTXPZs
-X-Gm-Gg: ASbGncuU94xZsgDe0HG/R4dLQy8B96Rsx/IJMYXxrYWntdq6bpuPdkMFbI1oNGYrOKP
-	uUFxc/z1bRFKqEsO7mlyUYgUHOYLWe/p7tv81bkIqY764B6EZJtgDekbwIEBVj3nl5YL3wI8ovo
-	9fi95WQRlXBucEsH7nxnqRbsM51l11xZ8RVWM2zZmNihFvu84wAK8BAUa2jNZI8diUtS+WNGi1t
-	HZnJJI2TnJYBs59XAal4adP3+QsUv/qpXII14WvOicCsrqL911C9keoLhJEfSSbsqeF95dRwjpX
-	+vUG2P+lUF/prmkKKiEbmiHqwwrOX0C/St7XhCgtZpsLWYaOye9HNgVb24t+saYqotQMyadrnCw
-	Re3yfaPwxR/qJqanuzgjD1MQrIIdGIlLQ4asWu58K6X7MQK7hdd8DmyRxE6BwtZZQdy9mGQQvs0
-	ygTRRaarJFt3J7tju6h+0BP4YbDqk5t9BJVM1rYw==
-X-Google-Smtp-Source: AGHT+IEmo2u/7V63Fa+4aKjEO7zXO6V10zopA5XEUoYxrgliFdmiMUfOOebvAfkXMDqtGOOwYbddwQ==
-X-Received: by 2002:a17:902:fc86:b0:269:8407:5ae3 with SMTP id d9443c01a7336-27ed4a60923mr250920865ad.54.1759211966029;
-        Mon, 29 Sep 2025 22:59:26 -0700 (PDT)
+        bh=1tfnp2VgNI7X5NDB06OaZAZrurrAWQnxjDDxodnKF9g=;
+        b=huNn+KT/HXTmAzpOI6SnnSaSly1/n0j4STXbCyvIOBuI3rPBjogEyz4XjyCKfIDXxI
+         7CXuV30AKk/BlAKT/Hnb1Yban6wvAJkdvqxEkqMryHAJCBZln3894lDDEFq7lVvMM5Cn
+         hEk88GDW2fquZNXAf+3LuLEJJNBeDEk4ipglOEa3yYhbf5HN/VNNPKZfQ8N/Gn3giTui
+         BpvHxUjDa/lU7SQRMjzWF4aFhIMR8Nn0PqGwYsW8kkJsHOv0ekJm2WQC3aAlytubecOx
+         kD19KLd70FS0wqBbz8ClY4l+4+2lgGaruVZuv6Taf7ung66G98fDUK3a9QA+FhMV7FID
+         3PmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzYJlA1i3FmKbpBy5Glu6F2R6AjKZz4WH3gIXJzeLa5NhmygmVhMhtq5KNpOKJEeQuDPbV3NGUoLs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLowL7tX3abdLxW2hHCKj1GSYRv+FshlA0n/dl1jikUljOLbTb
+	UsbPztBgR+njU4THNqmUJtZYkZJP1xJaEX07UHeRTHPzuO61PFUNP9M9
+X-Gm-Gg: ASbGncviBi2nZE4owOc0ZETFsqDlviWqWQ42YbaIm3Pa3ueEH6AcsT+o3739Gn9CcZf
+	DQtQc91XbW3YBNWg1XGhcKg20DTP7DroH1vC/LITex8GsdbYof3FW/wY6RJ2/Isv/+l3zV0J/l3
+	XGZhZXi5NO2xhKBCi7Bg6J8tzqqeTbrdHl7nJwUEe2zNR6q8MehFgZzNVMTSrl/P98ppDZuA3tJ
+	B3qkk4USHfM9UouURoJ3zecrvopKDz+cXHE5JzSEoFbeRK05L8ZxojYEtWsqY2gpHEqAKo2vVrW
+	q5vbdWzQeZZpZmLj6bivbvd57XTbOf3R3RPPwptXc7e41ZfsZUAF6+wQr8YYyw4kBV/PpzUnS47
+	KpXIzDrXFOL7SFs23Mrda5TotkAZEcKw+WPlDJ5PZtOExUUNVrYhQEgyWDt9o7nreNLN0doW4pj
+	ny45l7rti3gq5kI8JwrKi/qnOkV0BHxfkvD9bbew==
+X-Google-Smtp-Source: AGHT+IHzK9X+Xf+bVu8Rrmbp78/kS7yuMf0wwgc2gHprT/HrnmCmly3PRVr5PnyZFdbWTIQHPwUiwA==
+X-Received: by 2002:a17:903:3d0e:b0:250:bd52:4cdb with SMTP id d9443c01a7336-27ed4a3d9f5mr206668205ad.32.1759211976345;
+        Mon, 29 Sep 2025 22:59:36 -0700 (PDT)
 Received: from localhost.localdomain ([61.171.228.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.26
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 29 Sep 2025 22:59:25 -0700 (PDT)
+        Mon, 29 Sep 2025 22:59:35 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org,
 	david@redhat.com,
@@ -89,9 +89,9 @@ Cc: bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v9 mm-new 04/11] mm: thp: decouple THP allocation between swap and page fault paths
-Date: Tue, 30 Sep 2025 13:58:19 +0800
-Message-Id: <20250930055826.9810-5-laoar.shao@gmail.com>
+Subject: [PATCH v9 mm-new 05/11] mm: thp: enable THP allocation exclusively through khugepaged
+Date: Tue, 30 Sep 2025 13:58:20 +0800
+Message-Id: <20250930055826.9810-6-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20250930055826.9810-1-laoar.shao@gmail.com>
 References: <20250930055826.9810-1-laoar.shao@gmail.com>
@@ -101,74 +101,75 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The new BPF capability enables finer-grained THP policy decisions by
-introducing separate handling for swap faults versus normal page faults.
+khugepaged_enter_vma() ultimately invokes any attached BPF function with
+the TVA_KHUGEPAGED flag set when determining whether or not to enable
+khugepaged THP for a freshly faulted in VMA.
 
-As highlighted by Barry:
+Currently, on fault, we invoke this in do_huge_pmd_anonymous_page(), as
+invoked by create_huge_pmd() and only when we have already checked to
+see if an allowable TVA_PAGEFAULT order is specified.
 
-  We’ve observed that swapping in large folios can lead to more
-  swap thrashing for some workloads- e.g. kernel build. Consequently,
-  some workloads might prefer swapping in smaller folios than those
-  allocated by alloc_anon_folio().
+Since we might want to disallow THP on fault-in but allow it via
+khugepaged, we move things around so we always attempt to enter
+khugepaged upon fault.
 
-While prtcl() could potentially be extended to leverage this new policy,
-doing so would require modifications to the uAPI.
+This change is safe because:
+- khugepaged operates at the MM level rather than per-VMA. The THP
+  allocation might fail during page faults due to transient conditions
+  (e.g., memory pressure), it is safe to add this MM to khugepaged for
+  subsequent defragmentation.
+- If __thp_vma_allowable_orders(TVA_PAGEFAULT) returns 0, then
+  __thp_vma_allowable_orders(TVA_KHUGEPAGED) will also return 0.
+
+While we could also extend prctl() to utilize this new policy, such a
+change would require a uAPI modification to PR_SET_THP_DISABLE.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Acked-by: Usama Arif <usamaarif642@gmail.com>
-Cc: Barry Song <21cnbao@gmail.com>
+Acked-by: Lance Yang <lance.yang@linux.dev>
+Cc: Usama Arif <usamaarif642@gmail.com>
 ---
- include/linux/huge_mm.h | 3 ++-
- mm/huge_memory.c        | 2 +-
- mm/memory.c             | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ mm/huge_memory.c |  1 -
+ mm/memory.c      | 13 ++++++++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index 02055cc93bfe..9b9dfe646daa 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -97,9 +97,10 @@ extern struct kobj_attribute thpsize_shmem_enabled_attr;
- 
- enum tva_type {
- 	TVA_SMAPS,		/* Exposing "THPeligible:" in smaps. */
--	TVA_PAGEFAULT,		/* Serving a page fault. */
-+	TVA_PAGEFAULT,		/* Serving a non-swap page fault. */
- 	TVA_KHUGEPAGED,		/* Khugepaged collapse. */
- 	TVA_FORCED_COLLAPSE,	/* Forced collapse (e.g. MADV_COLLAPSE). */
-+	TVA_SWAP_PAGEFAULT,	/* serving a swap page fault. */
- };
- 
- #define thp_vma_allowable_order(vma, type, order) \
 diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 1ac476fe6dc5..08372dfcb41a 100644
+index 08372dfcb41a..2b155a734c78 100644
 --- a/mm/huge_memory.c
 +++ b/mm/huge_memory.c
-@@ -102,7 +102,7 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
- 					 unsigned long orders)
- {
- 	const bool smaps = type == TVA_SMAPS;
--	const bool in_pf = type == TVA_PAGEFAULT;
-+	const bool in_pf = (type == TVA_PAGEFAULT || type == TVA_SWAP_PAGEFAULT);
- 	const bool forced_collapse = type == TVA_FORCED_COLLAPSE;
- 	unsigned long supported_orders;
- 	vm_flags_t vm_flags = vma->vm_flags;
+@@ -1346,7 +1346,6 @@ vm_fault_t do_huge_pmd_anonymous_page(struct vm_fault *vmf)
+ 	ret = vmf_anon_prepare(vmf);
+ 	if (ret)
+ 		return ret;
+-	khugepaged_enter_vma(vma);
+ 
+ 	if (!(vmf->flags & FAULT_FLAG_WRITE) &&
+ 			!mm_forbids_zeropage(vma->vm_mm) &&
 diff --git a/mm/memory.c b/mm/memory.c
-index cd04e4894725..58ea0f93f79e 100644
+index 58ea0f93f79e..64f91191ffff 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -4558,7 +4558,7 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
- 	 * Get a list of all the (large) orders below PMD_ORDER that are enabled
- 	 * and suitable for swapping THP.
- 	 */
--	orders = thp_vma_allowable_orders(vma, TVA_PAGEFAULT,
-+	orders = thp_vma_allowable_orders(vma, TVA_SWAP_PAGEFAULT,
- 					  BIT(PMD_ORDER) - 1);
- 	orders = thp_vma_suitable_orders(vma, vmf->address, orders);
- 	orders = thp_swap_suitable_orders(swp_offset(entry),
+@@ -6327,11 +6327,14 @@ static vm_fault_t __handle_mm_fault(struct vm_area_struct *vma,
+ 	if (pud_trans_unstable(vmf.pud))
+ 		goto retry_pud;
+ 
+-	if (pmd_none(*vmf.pmd) &&
+-	    thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
+-		ret = create_huge_pmd(&vmf);
+-		if (!(ret & VM_FAULT_FALLBACK))
+-			return ret;
++	if (pmd_none(*vmf.pmd)) {
++		if (vma_is_anonymous(vma))
++			khugepaged_enter_vma(vma);
++		if (thp_vma_allowable_order(vma, TVA_PAGEFAULT, PMD_ORDER)) {
++			ret = create_huge_pmd(&vmf);
++			if (!(ret & VM_FAULT_FALLBACK))
++				return ret;
++		}
+ 	} else {
+ 		vmf.orig_pmd = pmdp_get_lockless(vmf.pmd);
+ 
 -- 
 2.47.3
 
