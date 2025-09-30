@@ -1,64 +1,64 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2443227F75F
-	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB32279908
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 05:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759211987; cv=none; b=RkjIjPajGvi/ejTSh/bZYbljYSpuxHZH8sUr8/oTlWZwl31DO0SXbNpV+eJyeBVK3Ezbp83QmuvzPWF/gyiDP237doLhtdQiIV2EULcjPFd1BlxQZarx8T58N4BvbwLuZxZd8yDjGdN/JLjB4j6Uooub5QoExNapctTS5SaDJYc=
+	t=1759212000; cv=none; b=SItQwL5hKdha6a168GjI9LZ4e5H8y5tAgy7/QuNTV94Wm7x+JNjGyXsCbqgSEvE/IT8FAS1wXXaThP+gey0+ytvxu0sgPc/X96nGZAI8lWSdhN/TvOLiX1U+AnAhy1RbWgVU00Lfr0tzebM/UOwgBZtxFpEMHSD7wnXm17kCBQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759211987; c=relaxed/simple;
-	bh=CXI0qMvWqpeePDr4xBG9e2uqemr9IpjeVUqDleKN93I=;
+	s=arc-20240116; t=1759212000; c=relaxed/simple;
+	bh=/PMdDC4FDfpJHwrfvPwAn92Vwj5QW0m0NvTBiXm9L2o=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=a8auq5jjwHviiyPzyIOs48L456qVcVVFvt7KbAMTSObxHrZCYkXwv5i6TptMVO+DiRHH/HqfMENOKV5BGWHDYJCioMWfHExADTmkPxDfPmm8rk6iVWs/YuqmxlTWnnZGcR55XeXKOVC8LOfQ+r+SpX8PCoyGEeY4TWAXxO7mui8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YANox5pF; arc=none smtp.client-ip=209.85.215.171
+	 MIME-Version; b=C/1PRSjA2OPatF+HiB0FYgMOoA1Ffz32+xUTlimb8+MfSW8GeHG0Ttg2nm5APSxIBLUcftUSp91jJUieFPUmj5KQnkmwe2YcCkUFUkNQnS+zqu4xiWFJV0/TJlMa+nLkYxxjWsi4q9K3WohCkEEKSbw2c2KfgoHAkXqCJjVQjOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jKxAC9SS; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YANox5pF"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b555ab7fabaso5362356a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKxAC9SS"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b55197907d1so4173009a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Sep 2025 22:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759211985; x=1759816785; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759211998; x=1759816798; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oOprrquoKlbkEreJojZ4KykFg8G0TswcVk79ghRz+Tk=;
-        b=YANox5pFVE12qunKaUXxgelNvQtoVWW5gGIgclT/DLZg5Ns2oBahLhxY/5yLiw/H0e
-         lXd+/IqPr//ONCHLNyAKFPbHGUUyI/HsQsoxSIB0mA3OO47s3UqZwezuiV/ytRpnC2uQ
-         Vdku5T0A14xpECf6eAvpZvelQTqwnOTeIbZrSu/RiAtV5YywLH2HkawiDbGGa7HFIog/
-         MkmaAl8au+dfBBg09OoMUsxenMKlzZHS9BFRa78/U0iq90M6s7il8odJGI4OU0Z8WkN7
-         XEINGVkw3Bj3GSp/CYk0gSWfaVQEGXMhPExSEhCgMi9iz5ScGjiiXE13gWYHRkt2UoJX
-         KZfA==
+        bh=n/w5JYrEq/PCfn3Rwv8DsVtkgCdC0Y7Hm3GpSfLGEBg=;
+        b=jKxAC9SSr5PpQCU4NI4dYxin5h1Ru0bOlUGNViEBSnJ0FUuVExjzi+D5UWedLVjTnj
+         hwcA1w6HPBtE3MZKT8Dc9L3NhRCDa8ykZYueCh8Y6hNvgxvX/iSOA/fcBKWkRE71EAmC
+         fyhWXxE7vROkgCcpS8hjbUK+MWJzWZtYyzJpZSRQX2uFI2cbWD5+3it1QP/5lEDlPLEL
+         rUHEInGsLfiPCu/g0RIFtOoSKL4CBqJ6IuR4+Nsyg6ujC2VEkrVMhJLkSdI3ZF3gJEPd
+         Utr10XWiZXLhu4wfJMoY5d39u/LssMpcUtj8U+Zdqn1q7IEiobYyhd2DEJhWfrbzabUm
+         TlTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759211985; x=1759816785;
+        d=1e100.net; s=20230601; t=1759211998; x=1759816798;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oOprrquoKlbkEreJojZ4KykFg8G0TswcVk79ghRz+Tk=;
-        b=NM87QbqpQrD1pRawiboS/JwdXXGaCho70FkusURkO2VxWhHjWxqIdJfhiUxvFkBl36
-         9W7j602e1HbMafZM5Ze3L5UOSepwZrZIFpB9NTbPneHKhB3fWnkH1WgdL/fW8DJukq9P
-         SI7LFXZcdGLcWwKJiLv+CermxSE6OxTH82DkeJ4nHLPtYb86qP5DrBwkqQZtbEx54nJa
-         4Vbf+Sb9heSQ9MTZCWzA3RvYFl6XMc+Jzo53rxXTDq9/b2YoUUYeMwIU508449os4p/v
-         SFGxIuSA3SIfMjhnu7VzkNOoXodG1dYrKEg+YZDZ+1d8/T24zINIodixw+BWKVMsIJAA
-         +VqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7RNulLa+TPS2l7m8JxDaVZuKapV8aXdNBJmf3iPzPIsLVwmcLyvawOV+cCfsuSMdRKyqBer8PIY0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc8bj+hG70fsW9sUNCseq8rNJTKbDKCt1of6271wYHsJHLvx3P
-	X0DAFoATkqjrrvx542LRxQzvOltcBW9DXZ65CU3o+5hqEO6yndad/tb2
-X-Gm-Gg: ASbGncvE7YQPKPLgKrVM15cNkLGHcXi2VdarRgiMoj7NdroIEh5SOSG0HWsmtbQS4CT
-	49ciAfGUyjYWDLaT/vK1yUCDJ4FU7X3mNOXSVXnkFQ1Xagcq6ETDN05OtGPaU7kGDiL93pxB25O
-	kgABR5st+CGHiW551g8bKhqlrsvTqHXZXVxWPi42G/AL73j8Vk0M63+olAjodyjYUsOjUOMTzHw
-	g7R6+7jX2Da/zCKElO2+YpWk7+nEYxUaTfmJ272z2wKhILijpoHwa3yF9jbDtCPWgjbRSmGYvij
-	WXQf/zlQ9T5NTHNS/lhVTQvt0zYutHDtXLLsylGv2Dl0reXhK2Cu+k6yMTTzcu4x6TD7CSHbsK4
-	o1L/uP8PdBVxcIIILuGzdwq9gUFeiDoeWoqlwIuRJ1QNpCN6OkSngsQV8i67HLohAZE0k5Zb12p
-	Wg3dEVbiLP8/wDN9ydCXb46vfDz9mLSPVbfzDU0A==
-X-Google-Smtp-Source: AGHT+IHaVympRvUhy+mNwqzkCqg8GQH0WHYHPq1npnx2or9ONNHwBhPtVzKfVWrGEP9ED65uKj4qEQ==
-X-Received: by 2002:a17:903:b83:b0:265:47:a7bd with SMTP id d9443c01a7336-27ed49b802bmr208932635ad.4.1759211985356;
-        Mon, 29 Sep 2025 22:59:45 -0700 (PDT)
+        bh=n/w5JYrEq/PCfn3Rwv8DsVtkgCdC0Y7Hm3GpSfLGEBg=;
+        b=EPnPhDF7dT+j/mmNqZSngtyDcS/pQP6xmuy7JPyrg/UiIM7KWjkgxlgv5xklAIR9fN
+         YgkgfUtrq9LJsXQDN1WmjhScWhSWj+CZtE2+IK6TGFnB7B8Phzmt5yIfVVGE1Y6VrS61
+         liFsZ/+mGwkCe8NjdsyvfqFDQZLngtd7qPSDNSXvZc0AXgkNBsuviMV5NE3sA7TOUH7Q
+         8eUQwcI4S93sRhNSN+kn5eRZDgOn/yReXk1NubzsGMbCSdT7gnfaTRvYLHtxWvYuMRqp
+         fIZo60J8Ojpb8Lriyr9mJqRlQPSPN1QNf8hkvo4SnTm5BhHTgrIhtrwKWlMIubnKedfE
+         AkJA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4LP3syIHG3Zbb854C9NUZvVzFqmpFEvgQeGrwB/Vb3SDSbQV1Z05du2QBRFy39rIcQQ1rgsLp48E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7wZmstRfg+K0PMZvcbL2V4ZuAxPZeioJLnQwG2uMl3NcVha4r
+	At46OfKAkiSj41VP6tHmoop86m6PUGkEukALEoscKZzSpIJtOSPK0t9g
+X-Gm-Gg: ASbGncv0TtxVcMGSRCUvmwV7DIP+RuIcqmzGUw7cX6re9VQtezJoC2rS4mfaTcp8DLZ
+	EHroczyXhxDuWByhdZZCypT/wae+uhR4pJz/D0eQlpeqC4ExK79aWIBhmxDc0LFLIgktN9tRQ1O
+	6RH071tKUs7L31eOJ5B9np1TXCM6cCWK04Equ3Zkr+imqxPPQ5Rc7PjgL7KWLjA9NIUkrS1fiH8
+	NxLM/mnIrVx09AJa6DiR/2e2hsZPw0CyfDG1UQwJ/e1kWLon1SbklNV27PhS9afZL7xhHib3xbS
+	W3PnR2el+xz8bE6wCaCDwd2j2zlNlgECq43gkJHtOh0qRh1qdbooOSbXBRLobcVCszUUXXzi6rV
+	ENXJhEaH59e/8WiZtDpk1fK0rEkajj7wEUCl/nffJIdewa+i61u8N0RwBw4SAQewZdByGwZa18C
+	ZfjfH0Wo6dhSRaibGnJofWq3niD+bVhdGFvpFwvQ==
+X-Google-Smtp-Source: AGHT+IE9k45OyD1zQ/sX5CO57YKwXTRytMKq5dOgl/BGR9iX74e3JrI32v11I5E6AD/8k/izN7MaGQ==
+X-Received: by 2002:a17:903:13ce:b0:275:c2f:1b41 with SMTP id d9443c01a7336-27ed4ada760mr178958735ad.53.1759211998324;
+        Mon, 29 Sep 2025 22:59:58 -0700 (PDT)
 Received: from localhost.localdomain ([61.171.228.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm148834065ad.9.2025.09.29.22.59.45
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 29 Sep 2025 22:59:44 -0700 (PDT)
+        Mon, 29 Sep 2025 22:59:57 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org,
 	david@redhat.com,
@@ -89,9 +89,9 @@ Cc: bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v9 mm-new 06/11] bpf: mark mm->owner as __safe_rcu_or_null
-Date: Tue, 30 Sep 2025 13:58:21 +0800
-Message-Id: <20250930055826.9810-7-laoar.shao@gmail.com>
+Subject: [PATCH v9 mm-new 07/11] bpf: mark vma->vm_mm as __safe_trusted_or_null
+Date: Tue, 30 Sep 2025 13:58:22 +0800
+Message-Id: <20250930055826.9810-8-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20250930055826.9810-1-laoar.shao@gmail.com>
 References: <20250930055826.9810-1-laoar.shao@gmail.com>
@@ -103,44 +103,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When CONFIG_MEMCG is enabled, we can access mm->owner under RCU. The
-owner can be NULL. With this change, BPF helpers can safely access
-mm->owner to retrieve the associated task from the mm. We can then make
-policy decision based on the task attribute.
+The vma->vm_mm might be NULL and it can be accessed outside of RCU. Thus,
+we can mark it as trusted_or_null. With this change, BPF helpers can safely
+access vma->vm_mm to retrieve the associated mm_struct from the VMA.
+Then we can make policy decision from the VMA.
 
-The typical use case is as follows,
+The "trusted" annotation enables direct access to vma->vm_mm within kfuncs
+marked with KF_TRUSTED_ARGS or KF_RCU, such as bpf_task_get_cgroup1() and
+bpf_task_under_cgroup(). Conversely, "null" enforcement requires all
+callsites using vma->vm_mm to perform NULL checks.
 
-  bpf_rcu_read_lock(); // rcu lock must be held for rcu trusted field
+The lsm selftest must be modified because it directly accesses vma->vm_mm
+without a NULL pointer check; otherwise it will break due to this
+change.
+
+For the VMA based THP policy, the use case is as follows,
+
+  @mm = @vma->vm_mm; // vm_area_struct::vm_mm is trusted or null
+  if (!@mm)
+      return;
+  bpf_rcu_read_lock(); // rcu lock must be held to dereference the owner
   @owner = @mm->owner; // mm_struct::owner is rcu trusted or null
   if (!@owner)
-      goto out;
+    goto out;
+  @cgroup1 = bpf_task_get_cgroup1(@owner, MEMCG_HIERARCHY_ID);
 
-  /* Do something based on the task attribute */
+  /* make the decision based on the @cgroup1 attribute */
 
+  bpf_cgroup_release(@cgroup1); // release the associated cgroup
 out:
   bpf_rcu_read_unlock();
 
-Suggested-by: Andrii Nakryiko <andrii@kernel.org>
+PSI memory information can be obtained from the associated cgroup to inform
+policy decisions. Since upstream PSI support is currently limited to cgroup
+v2, the following example demonstrates cgroup v2 implementation:
+
+  @owner = @mm->owner;
+  if (@owner) {
+      // @ancestor_cgid is user-configured
+      @ancestor = bpf_cgroup_from_id(@ancestor_cgid);
+      if (bpf_task_under_cgroup(@owner, @ancestor)) {
+          @psi_group = @ancestor->psi;
+
+          /* Extract PSI metrics from @psi_group and
+           * implement policy logic based on the values
+           */
+
+      }
+  }
+
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
 Acked-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
 ---
- kernel/bpf/verifier.c | 3 +++
- 1 file changed, 3 insertions(+)
+ kernel/bpf/verifier.c                   | 5 +++++
+ tools/testing/selftests/bpf/progs/lsm.c | 8 +++++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index c4f69a9e9af6..d400e18ee31e 100644
+index d400e18ee31e..b708b98f796c 100644
 --- a/kernel/bpf/verifier.c
 +++ b/kernel/bpf/verifier.c
-@@ -7123,6 +7123,9 @@ BTF_TYPE_SAFE_RCU(struct cgroup_subsys_state) {
- /* RCU trusted: these fields are trusted in RCU CS and can be NULL */
- BTF_TYPE_SAFE_RCU_OR_NULL(struct mm_struct) {
- 	struct file __rcu *exe_file;
-+#ifdef CONFIG_MEMCG
-+	struct task_struct __rcu *owner;
-+#endif
+@@ -7165,6 +7165,10 @@ BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct socket) {
+ 	struct sock *sk;
  };
  
- /* skb->sk, req->sk are not RCU protected, but we mark them as such
++BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct vm_area_struct) {
++	struct mm_struct *vm_mm;
++};
++
+ static bool type_is_rcu(struct bpf_verifier_env *env,
+ 			struct bpf_reg_state *reg,
+ 			const char *field_name, u32 btf_id)
+@@ -7206,6 +7210,7 @@ static bool type_is_trusted_or_null(struct bpf_verifier_env *env,
+ {
+ 	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct socket));
+ 	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct dentry));
++	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct vm_area_struct));
+ 
+ 	return btf_nested_type_is_trusted(&env->log, reg, field_name, btf_id,
+ 					  "__safe_trusted_or_null");
+diff --git a/tools/testing/selftests/bpf/progs/lsm.c b/tools/testing/selftests/bpf/progs/lsm.c
+index 0c13b7409947..7de173daf27b 100644
+--- a/tools/testing/selftests/bpf/progs/lsm.c
++++ b/tools/testing/selftests/bpf/progs/lsm.c
+@@ -89,14 +89,16 @@ SEC("lsm/file_mprotect")
+ int BPF_PROG(test_int_hook, struct vm_area_struct *vma,
+ 	     unsigned long reqprot, unsigned long prot, int ret)
+ {
+-	if (ret != 0)
++	struct mm_struct *mm = vma->vm_mm;
++
++	if (ret != 0 || !mm)
+ 		return ret;
+ 
+ 	__s32 pid = bpf_get_current_pid_tgid() >> 32;
+ 	int is_stack = 0;
+ 
+-	is_stack = (vma->vm_start <= vma->vm_mm->start_stack &&
+-		    vma->vm_end >= vma->vm_mm->start_stack);
++	is_stack = (vma->vm_start <= mm->start_stack &&
++		    vma->vm_end >= mm->start_stack);
+ 
+ 	if (is_stack && monitored_pid == pid) {
+ 		mprotect_count++;
 -- 
 2.47.3
 
