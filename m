@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDB92036FE;
-	Tue, 30 Sep 2025 01:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69C181AA8;
+	Tue, 30 Sep 2025 02:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759195260; cv=none; b=m7uJ9FAy/hozou2MHfC6bCY4EoMij+frd+iRR09mMj+Jq+wYjt3r/abWKrlfC/B0HIqwObYbgTRnU7rjHJTpWYP1s59J+gWJEBfR1SY40SD7N/hkM1rN0MZVJJHhJBCisgaKil9bR6BjBVvXudB+XP6qJPYoXznyts5By7+GNo0=
+	t=1759199417; cv=none; b=JQnJjBHHeJr9DJqwfwRUV8q8uM644cbILcUdpy5L32gr9dUgEFkH5IQ1VFglgLF3PAZNqR2SvonYUuukIlmMFDAFqmFLtkaB3AzIBiv5ZXYuYdluqysVV1g37Fov1TpL+86L+QrPzLSgOfrgZJpYRfxR9abtTnceVUpw6Rfu2Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759195260; c=relaxed/simple;
-	bh=KPLNckw1SeZ45f8MIwocglRI5dFqf0Oyuz66t431vgE=;
+	s=arc-20240116; t=1759199417; c=relaxed/simple;
+	bh=Ht1p0FijMGCD0vYj9M7j5kUbf1+ug2GQLDYNV7EWcog=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=aADZvk5ktJ+SgHwqOn1zDqn7t5a7ouhRvKO9QQODr9VEK1bBDGh/T7XVuNY1nRqRE64Mk5rydAuT8sIxPYh7KmXP6F0pwqV3L4/d9w2kQP5wjzQXGl4z/4vRs1buLbqwaFmqCbFgK29DdiW1/l4Mg1n9wFfZ1YSLGpltUxb0gYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDKyGOGo; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=goZyNaJW7eMxBF9vNFpraxNDKeQT/jFLwG2BsVyB+FgrxdhvUgqftfB4H4kMrP5vJgad0AGVNM/Gpcgcjjan9945VTx7F3RM7mt+TXBnJbSwzHcnCKKkiQOhKECTr8w2XHhas7b06RQrf/6nYhJ4n5+lZMVyNa0kq5SHI1guoaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MdVYcakK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDKyGOGo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86086C4CEF4;
-	Tue, 30 Sep 2025 01:21:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MdVYcakK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D27C4CEF5;
+	Tue, 30 Sep 2025 02:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759195260;
-	bh=KPLNckw1SeZ45f8MIwocglRI5dFqf0Oyuz66t431vgE=;
+	s=k20201202; t=1759199416;
+	bh=Ht1p0FijMGCD0vYj9M7j5kUbf1+ug2GQLDYNV7EWcog=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qDKyGOGo9V+/t1WmwBgV35V9r5OUyoE+vdNXfYwf/W4WB/Cs6sUxGtb0K3JkoGGmH
-	 wPCOQyBel+QTPc6MV07HujsuWg/YXoRFo0tpDPNpPnxVjSEoCIvRDplGmmzfbSZ4lf
-	 HHAdbu91pGfGEgsBlwvJjs++ZQsYvHuTdq/XoQdnYr59kZ4NbynihjirN2znDAv1oI
-	 s7UWAzkAnZDcdqf7ulKyt7ysjFjZZk0jwYNa+mcmBpDqAdtJXtwpApAwyk7sK170XR
-	 J+YEpkPgi5xJM522/uSygipm7hE/MwYtj5JyJ4+t9403ZYI7TItDkle9C/EMTIqCav
-	 g5qaGcaj3UK0w==
+	b=MdVYcakKr7CluRlh9gRtO5GJVtOKaWs07GpjLugW+gj1JI6I2PFfK3+d0F7/kI7uz
+	 XdlyxQ2S0lkVtBuGNHcqStBEs2ihrzIBdBBWfk2dLucR83CbuL1s28Y7zaSyLYlt7r
+	 XwCtDCLVFiyG66bdhoMiUalfx8F2Q2X9oKO47CCSvbF8rjTduJvoa72+Zs6FN8GVHk
+	 UscyTmvO7Vyc2zgGX6FzJjdmDD2Z7L9kN+DdmFR5qpokpPCMZVmQUjRmk/2bh9RDQi
+	 sfNdZ3B1fCbgARHv8Oc9fAbJ9zY/wK2CEut7gbpNBzbt6BHvGiFSGUfejvhoL3zbkJ
+	 HPL+GLT+YTmsA==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33FCD39D0C1A;
-	Tue, 30 Sep 2025 01:20:55 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAEEE39D0C1A;
+	Tue, 30 Sep 2025 02:30:10 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -37,36 +37,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] docs: networking: phy: clarify abbreviation "PAL"
+Subject: Re: [PATCH net-next v2 0/3] dpll: add phase offset averaging factor
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <175919525374.1775912.11439123001074228976.git-patchwork-notify@kernel.org>
-Date: Tue, 30 Sep 2025 01:20:53 +0000
-References: <20250926131520.222346-1-m.heidelberg@cab.de>
-In-Reply-To: <20250926131520.222346-1-m.heidelberg@cab.de>
-To: Markus Heidelberg <m.heidelberg@cab.de>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org
+ <175919940976.1796190.7452350875867616355.git-patchwork-notify@kernel.org>
+Date: Tue, 30 Sep 2025 02:30:09 +0000
+References: <20250927084912.2343597-1-ivecera@redhat.com>
+In-Reply-To: <20250927084912.2343597-1-ivecera@redhat.com>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
+ arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
+ donald.hunter@gmail.com, kuba@kernel.org, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+ Prathosh.Satish@microchip.com, chuck.lever@oracle.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mschmidt@redhat.com,
+ poros@redhat.com
 
 Hello:
 
-This patch was applied to netdev/net-next.git (main)
+This series was applied to netdev/net-next.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Fri, 26 Sep 2025 15:15:20 +0200 you wrote:
-> It is suddenly used in the text without introduction, so the meaning
-> might have been unclear to readers.
+On Sat, 27 Sep 2025 10:49:09 +0200 you wrote:
+> For some hardware, the phase shift may result from averaging previous values
+> and the newly measured value. In this case, the averaging is controlled by
+> a configurable averaging factor.
 > 
-> Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
-> ---
->  Documentation/networking/phy.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Add new device level attribute phase-offset-avg-factor, appropriate
+> callbacks and implement them in zl3073x driver.
 > 
 > [...]
 
 Here is the summary with links:
-  - docs: networking: phy: clarify abbreviation "PAL"
-    https://git.kernel.org/netdev/net-next/c/29be241d1174
+  - [net-next,v2,1/3] dpll: add phase-offset-avg-factor device attribute to netlink spec
+    https://git.kernel.org/netdev/net-next/c/a680581f6a13
+  - [net-next,v2,2/3] dpll: add phase_offset_avg_factor_get/set callback ops
+    https://git.kernel.org/netdev/net-next/c/e28d5a68b651
+  - [net-next,v2,3/3] dpll: zl3073x: Allow to configure phase offset averaging factor
+    https://git.kernel.org/netdev/net-next/c/9363b4837659
 
 You are awesome, thank you!
 -- 
