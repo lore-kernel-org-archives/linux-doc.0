@@ -1,113 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56E9283FCB;
-	Tue, 30 Sep 2025 21:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C3C25228B
+	for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 23:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759269570; cv=none; b=bkx1nCXdxyZ9Qnoo30mlLfYHh9wfvUm+BBK/Uth/suZUDkrk/iRwmffuGSl95H+0OGr7gRA1cj4RoOXM8ye2eODCvKeWMzDmCFh4g9fCphA+ld5M2dskJXFgUcOud/8xGTTl8qQ/z4SCGlOicoKYz9yeWc4Tag8QFMFDdCblaMs=
+	t=1759276127; cv=none; b=Z2srPZGSOe0dQUpKknXOFmo58DLEday+AD+qP1bXAEV3Y1e5MOFoL1iNIN4q+/TLUTKINoKpfdcCKNT5yxAOkEUpnqfm/xx3heSWc11Y/h+lZrvm/xd5y5B8OhKHB15oJp1WqxT6dnFBv6nG+OnrH4r4Q0Dt5m8WcUsey3SyyVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759269570; c=relaxed/simple;
-	bh=BVnmmKLHLEcnQVn984iBuQrv+XBJSYDym/oSwUyQgx4=;
+	s=arc-20240116; t=1759276127; c=relaxed/simple;
+	bh=4bm7dBKTe7VHUpax5O4A5sblWjBcLkrJbyIa/W7uP1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oU3NQU1Mw0L3HTRgXEstXl88ep5REeoZMQpabUZDnFXjRlQK63JFCJUARINFSZkaB60kHa6QYzcbIShRfJOSC0EnbS7QVXaCv6CEIzmOAo3/otu1ALXa6AhEt82WcrwatVxfg+He1SlwK7G5wjoz1us7HuIaOooKcfQo6cm1N5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M9zRW5f1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=geDGUtLPuaCOo9Sy5UmUj9NX5B6U/ReZIU5VV2vs3RMWKDOsKs32nQ0R4EPsEmRwa4YJuWD2Y7LwPOIf1B13qby8RDoiV5aF+H8w3EY6Injj1i2YVPU5O3lepHjR1tCG99m5/o95uwVlHU8KbXoWojzJiblRvuo9cMkjo1PAAws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=NwodKnn3; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M9zRW5f1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C22C4CEF0;
-	Tue, 30 Sep 2025 21:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759269569;
-	bh=BVnmmKLHLEcnQVn984iBuQrv+XBJSYDym/oSwUyQgx4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M9zRW5f1iSgD/0wmJZ/sYnhqEw5BkzmmMOMo3UvjOaQcbvvr8jWIgVVKU6+NOAX/p
-	 sPkV+DgUzKNqX9tGNyktOm3KiGA89ghYhU7Gp8aVDt0ICm2Koqb07NId9ESHjquhkq
-	 pOO4+WZLDbx/JYgcsUJzq3WjfOyafPJ35eDZedXB4nK14k3RetOZjFlu3iWiz9HLUk
-	 IMXXKk6ZGpARVIVFCKoJKwbO2JwNDx64Vv6CTT0JNbO2zNMfaJNUFqNn63pWre1O/B
-	 iWqDu+wXuUgDLjuh8IQ7bTnunYGd1nWu55gI1fY+BAqxX1v414ogVAg1YlF5HAGLF9
-	 iiUJgvMEvaB1A==
-Date: Tue, 30 Sep 2025 21:59:28 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Roman Kisel <romank@linux.microsoft.com>,
-	"arnd@arndb.de" <arnd@arndb.de>, "bp@alien8.de" <bp@alien8.de>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"decui@microsoft.com" <decui@microsoft.com>,
-	"haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"kys@microsoft.com" <kys@microsoft.com>,
-	"mikelley@microsoft.com" <mikelley@microsoft.com>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"Tianyu.Lan@microsoft.com" <Tianyu.Lan@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"benhill@microsoft.com" <benhill@microsoft.com>,
-	"bperkins@microsoft.com" <bperkins@microsoft.com>,
-	"sunilmut@microsoft.com" <sunilmut@microsoft.com>
-Subject: Re: [PATCH hyperv-next v5 04/16] arch/x86: mshyperv: Trap on access
- for some synthetic MSRs
-Message-ID: <aNxSwL_Wga9XP-0z@liuwe-devbox-ubuntu-v2.lamzopl0uupeniq2etz1fddiyg.xx.internal.cloudapp.net>
-References: <20250828010557.123869-1-romank@linux.microsoft.com>
- <20250828010557.123869-5-romank@linux.microsoft.com>
- <BN7PR02MB414878837D34F40D23DB9506D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="NwodKnn3"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b55640a2e33so5118055a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Sep 2025 16:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc.com; s=google; t=1759276125; x=1759880925; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4bm7dBKTe7VHUpax5O4A5sblWjBcLkrJbyIa/W7uP1A=;
+        b=NwodKnn39OQecdVF6d8bOQQDGJ3Gwu3/er8rraGYUv3SuTXqM7jJoNUUTX1ncfQeNO
+         aVL4BoTscyDkvFc/witRmX7H6DznBmneHqFSGq3Gw/pALqTtgcSRSchoeu47dGxoazx1
+         vqzpdHAOZHplVP0PIE4cJJloFy+YxjIo6e6/dS1lqIhFdxN4cJggB67Lvl3YcPYVKqIO
+         t9iibATEJDpJ6slDDzqH5n/R/L9p/WJP9toJHOK5HynjH+6rGAsd3nQ7A2Dn0wRPOdoJ
+         ivtTlLJXlIqfICiwwgqY4RDnnVBPjUZkF97UFWMXLGl4JJCZRaYbJ1HTv2rAzyPZyCdN
+         B3uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759276125; x=1759880925;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4bm7dBKTe7VHUpax5O4A5sblWjBcLkrJbyIa/W7uP1A=;
+        b=LX/Df1/BaNlgQpZ6JGV+PUtCAjak1WU7LycBlHDltBVbZd4ZetJkgFQ6nrhwnlY4t7
+         fCbC8z/rtYmXuwnDlmBUO5KfVrN1lrmESwxNZOx4eyoeXcqOndGYeBWpH1J6pccuFsbk
+         P+JIf2GaSrYd7toxfaYf6CRVl1yhBgbQ+SUwkmwtQeT0poqxtEgkqEddNLKxg2tvfG69
+         PSAlpK2xOj0vd5rEJbhU9e++ev9WNoBAaJwBo8a7itSMcXNIoVLJMZGado2JXj2Iy/+S
+         dKZAqGnb9iFCnAWDhbjy+bZDa7uAj4wsOHV6kdx9b8hMdrE9Cfmy9dDw9kvIWrBQk2cM
+         Sgiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEG5aPgbZPd4SztB6J4rOHoS7rLl2ka8N7ZrKs1WV48BVfqDDuh37Qu0CFU1RXGLroVQ8uWWULzf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMO2Nmq75uOsfMWCXP+qhJnT7D33V4g4E8BeD7ZTQL8JnVREeW
+	igs7pJNhmqK0HASeQEwLvcdWtDwB5l+Nv6Dmxx8jwXCvXm/eB5GsF8u+BAfTSK6QSYs=
+X-Gm-Gg: ASbGncvqVXrBYtZqG9KYLSwm0hcVk2SBzS7yqNnCIWKRXLlE0Hp4M0gsKi42OwKb+Q0
+	G6K6cbsxOk5KBUrbo4fHUrSrSbuB7PgDvVSuU4NDe2XRTSoRDZWHC+nLrKJNMSnR+UbhyAnrn6m
+	qzIRl0VWu2Vv7TurvTLBvEusQSYLJ0JM6zwixEc/OyBq9fv/QXuRNSyzipD2mANz1hsdCejayNb
+	B5wzyoXYZoCk81g6EP0i+7nm06VJtc7gNY2k2zf8Gc/+seTaGs6jVb8rUTC0TnSgGgSVLAXh7SW
+	pdC3cRuz884FeBU/f1GZSeyX1LXUuFHmxCBC306vGXRzZ6VbQEoVmhEYabUo5z08sk70fGcxgIk
+	E4mo1aYJicgbAlIauuxOKpHCo6+MtTLl3iAfc7Fy+BGY6M+ftkt4x5NFi
+X-Google-Smtp-Source: AGHT+IHuRRsekWNjgE7yCPLG9pq3eS/GOyyUhj/f2Q9rAEjbYAirvs/e72q2qhgNkEK8PrNvRevQ9g==
+X-Received: by 2002:a17:903:3d06:b0:27e:ea82:5ce8 with SMTP id d9443c01a7336-28e7f291db3mr15309515ad.14.1759276125338;
+        Tue, 30 Sep 2025 16:48:45 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6882133sm171972415ad.89.2025.09.30.16.48.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 16:48:44 -0700 (PDT)
+Date: Tue, 30 Sep 2025 16:48:41 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Charles Mirabile <cmirabil@redhat.com>, pjw@kernel.org,
+	Liam.Howlett@oracle.com, a.hindborg@kernel.org,
+	akpm@linux-foundation.org, alex.gaynor@gmail.com,
+	alexghiti@rivosinc.com, aliceryhl@google.com,
+	alistair.francis@wdc.com, andybnac@gmail.com, aou@eecs.berkeley.edu,
+	arnd@arndb.de, atishp@rivosinc.com, bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com, bp@alien8.de, brauner@kernel.org,
+	broonie@kernel.org, charlie@rivosinc.com, cleger@rivosinc.com,
+	conor+dt@kernel.org, conor@kernel.org, corbet@lwn.net,
+	dave.hansen@linux.intel.com, david@redhat.com,
+	devicetree@vger.kernel.org, ebiederm@xmission.com,
+	evan@rivosinc.com, gary@garyguo.net, hpa@zytor.com,
+	jannh@google.com, jim.shu@sifive.com, kees@kernel.org,
+	kito.cheng@sifive.com, krzk+dt@kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, lorenzo.stoakes@oracle.com,
+	lossin@kernel.org, mingo@redhat.com, ojeda@kernel.org,
+	oleg@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
+	peterz@infradead.org, richard.henderson@linaro.org,
+	rick.p.edgecombe@intel.com, robh@kernel.org,
+	rust-for-linux@vger.kernel.org, samitolvanen@google.com,
+	shuah@kernel.org, tglx@linutronix.de, tmgross@umich.edu,
+	vbabka@suse.cz, x86@kernel.org, zong.li@sifive.com
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+Message-ID: <aNxsWYYnj22G5xuX@debug.ba.rivosinc.com>
+References: <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+ <20250926192919.349578-1-cmirabil@redhat.com>
+ <aNbwNN_st4bxwdwx@debug.ba.rivosinc.com>
+ <CABe3_aE4+06Um2x3e1D=M6Z1uX4wX8OjdcT48FueXRp+=KD=-w@mail.gmail.com>
+ <aNcAela5tln5KTUI@debug.ba.rivosinc.com>
+ <lhu3484i9en.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <BN7PR02MB414878837D34F40D23DB9506D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
+In-Reply-To: <lhu3484i9en.fsf@oldenburg.str.redhat.com>
 
-On Tue, Sep 09, 2025 at 03:11:47AM +0000, Michael Kelley wrote:
-> From: Roman Kisel <romank@linux.microsoft.com> Sent: Wednesday, August 27, 2025 6:06 PM
-> > 
-> > hv_set_non_nested_msr() has special handling for SINT MSRs
-> > when a paravisor is present. In addition to updating the MSR on the
-> > host, the mirror MSR in the paravisor is updated, including with the
-> > proxy bit. But with Confidential VMBus, the proxy bit must not be
-> > used, so add a special case to skip it.
-> > 
-> > Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> > Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> > Reviewed-by: Tianyu Lan <tiala@microsoft.com>
-> > ---
-[...]
-> > diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-> > index a619b661275b..5e2c6fd637d2 100644
-> > --- a/arch/x86/kernel/cpu/mshyperv.c
-> > +++ b/arch/x86/kernel/cpu/mshyperv.c
-> > @@ -28,6 +28,7 @@
-> >  #include <asm/apic.h>
-> >  #include <asm/timer.h>
-> >  #include <asm/reboot.h>
-> > +#include <asm/msr.h>
-> >  #include <asm/nmi.h>
-> >  #include <clocksource/hyperv_timer.h>
-> >  #include <asm/msr.h>
-> > @@ -38,6 +39,16 @@
-> >  bool hv_nested;
-> >  struct ms_hyperv_info ms_hyperv;
-> > 
-> > +#define HYPERV_SINT_PROXY_ENABLE	BIT(20)
-> > +#define HYPERV_SINT_PROXY_DISABLE	0
-> 
-> Seems like these definitions belong in hvgdk_mini.h together with
-> the definition of "union hv_synic_sint". Since that union already
-> defines the "proxy" field, the definitions really should be in terms
-> of that field (though I'd have to fiddle with the code to figure out
-> if there's a reasonable way to do that).
-> 
+On Tue, Sep 30, 2025 at 11:20:32AM +0200, Florian Weimer wrote:
+>* Deepak Gupta:
+>
+>> In case of shadow stack, it similar situation. If enabled compiler
+>> decides to insert sspush and sspopchk. They necessarily won't be
+>> prologue or epilogue but somewhere in function body as deemed fit by
+>> compiler, thus increasing the complexity of runtime patching.
+>>
+>> More so, here are wishing for kernel to do this patching for usermode
+>> vDSO when there is no guarantee of such of rest of usermode (which if
+>> was compiled with shadow stack would have faulted before vDSO's
+>> sspush/sspopchk if ran on pre-zimop hardware)
+>
+>I think this capability is desirable so that you can use a distribution
+>kernel during CFI userspace bringup.
 
-If we use sint.proxy (or sint->proxy) then we don't even need this
-definition. I think this is only needed because the code writes u64
-directly to the MSR without reinterpreting it as hv_synic_sint.
+I didn't get it, can you elaborate more.
 
-Wei
+Why having kernel carry two vDSO (one with shadow stack and one without) would
+be required to for CFI userspace bringup?
+
+If Distro is compiling for RVA23 CONFIG_RISCV_USERCFI has to be selected yes,
+kernel can have vDSO with shadow stack. Distro can light this option only when
+its compiling entire distro for RVA23.
+
+If distro is not compiling for RVA23, then anyways CONFIG_RISCV_USERCFI is by
+default "N". This would simply build vDSO without shadow stack.
+
+>
+>Thanks,
+>Florian
+>
