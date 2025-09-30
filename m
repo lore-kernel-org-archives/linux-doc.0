@@ -1,293 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD4535949;
-	Tue, 30 Sep 2025 04:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759207431; cv=fail; b=Q/gxswMFeruD1fnMa+B1JxpfHksji31YNwHd8KjKHRlsfNVx7aeivzkBfjWNFv2Yf2qG7oQIB2YtL3FeHbfqWqPWLIQ7qaaV9zOiOPXsRCyF0D8gcvD3sNh4D2mwObK9TjMJ2G7pXhFMOnivfr7ljmbCtfuuE8g+mOkL7hxCQyc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759207431; c=relaxed/simple;
-	bh=aC58c2IstUnyQfIxQucYXBvN4rpZB+lraKaCduiL6kM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hX3krDyKOECA7p1lYKMr8fYAQquJ6LyKiL5cJtuurGJBF9PS7mmH6TU7BlfoY6dbofnxCFtR65RWyd/SzgS02RneTDyrcEjD88T2zE8scF7DHR8f22PxaeWKUx0UqGWrv25INjFAoDSG1LBVB6OlSgoJwIRUFVRmMrBnDnJ7Xo8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBG8YR0w; arc=fail smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826B72EB10;
+	Tue, 30 Sep 2025 05:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759208586; cv=none; b=JfkffGtAZ6a7xEsiiq8mMvAZp92dSQ/aEPGScy5SrmWc22paNYUpaDU64/U2mRnll5ibPOCn8rVblkP9G/ESDXmG8G1oyMUO5aAaDf+BhVAJiT4ca24U8MWhwD6zptQiujIAdgzgYw3IKaE4EwnJOjobLYHFGW62OGw05n/MJvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759208586; c=relaxed/simple;
+	bh=R0VXzEjQC9X15y/ownEY2xtSPGqQXP6asV4BOwW5nhI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=gR7o5+IVZx3oYVaV4wjPe0GP/6SqFpf3XAvgsrlyM4QxKdDF5QLMOpcYrESZzWtY/hquxB21UDeB1GNNNDmMNyyTkSXUmZQallDH1JAz1ZIOee6mKrGPA8eAStcCmtFZBu26547Ek5lQ7IBivWASOlMQsqPsFFIrKatZBsQEd2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=LQllsrN0; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBG8YR0w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759207430; x=1790743430;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=aC58c2IstUnyQfIxQucYXBvN4rpZB+lraKaCduiL6kM=;
-  b=gBG8YR0w8j04KMdzjgQ9LwyKjqYt8wmNsRuizqIKtkrrF0v3LxXcNLxT
-   M/2UyAku+YayukbckyNK2A8CVKX3BQRbDFjk+agIzEme2gbqec2y6LRr4
-   K0SJZY3Bf7T4zbIi8QjZSo4MuuGS2wHlETFPr5aMWmLAyLiNq2k9Qq0rF
-   Z0W0jJMEwrtoe+sjIO/PcOW4FTYnHLw+v93iSxZ9y9WXTgLX4jZ0NvRBg
-   cabRoslxb/RedVF5Fw56FIDAIVnAYQ8pkwdB6dfmxf3wTo5yNkrhK6A02
-   YYgBHLCsCMn/Gs7U0vV23iEA3aO7syS7qKmEenI+L/Xgna85CQkQQvODp
-   A==;
-X-CSE-ConnectionGUID: 9UJ9PBf7TUWcfsJmU+eihA==
-X-CSE-MsgGUID: zGih0jvwQZqVdWbhWfEDqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="60492388"
-X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="60492388"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 21:43:49 -0700
-X-CSE-ConnectionGUID: 8pNs3PimRQGw7FWeJ6+Y1w==
-X-CSE-MsgGUID: lCxx6cnARYSI7Hl94whSuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="182699533"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 21:43:49 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="LQllsrN0"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58U3unaL001019;
+	Tue, 30 Sep 2025 01:02:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=HsMPNYv7wbF0tOcyeiwJvFSuRbS
+	1U+VXaxcRNqD8SCQ=; b=LQllsrN0X4VaxtqohGZ3aqPmPQ9X7pPG2UpGcDl6XVg
+	wNPLM6eURYdj8U7sRg71jeroLxil+maY0FmqIg0H2FzURjN24KH7nw7qgWicgZtF
+	0wG5B8RweCBa22AOB0CtVXJur6fpaXxbWjxoz5+1bNU++KRWPqZlQY/SUiXB130q
+	Q6o+SzIJ0RYCankM3fq9vY6xzNqJ1Q0nMkdEN7GvMqbGOfJG6iyKNPzReNPFaSqM
+	E0qR2DJPZq33kNcEfE8QieaIrJ6EPgWBtmdV4lxlNwWAk5RCq0WRbRgTRM18D0vE
+	JFj5OG0rmZrkBpqPACjtyCTa65LyGGOaehNnyvLRUVA==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 49ecu1pden-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Sep 2025 01:02:47 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 58U52kQQ063224
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 30 Sep 2025 01:02:46 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 29 Sep 2025 21:43:48 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.1748.37; Tue, 30 Sep 2025 01:02:46 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 29 Sep 2025 21:43:48 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.26) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 29 Sep 2025 21:43:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dzwTUXWj3iDWAE5YDx7B421yvf/U5tvPrUtvro+bQiPwcyZ7ffq//Diato9fsDAAjvkRT1lo+EqUHsbdbw6qjCF/YKk2jGb/RlAPobc7Pg6lUjWD+hVLlcBo60JKWeiHD0NNh901qXZTKspZFc32MN7MiQEE2AYHOJfTcRCOa/MabpgVPWiIP4Z3vw4iwx1P5/DpHUZ9ekdd8LbkwDP95suQTLqvE+YT9edj9kzEOX5Y9FHe8Q7/UlG4xfEZHeU0fD9E9hGw1DjgVFy0uByB6WRIE5AP3Lhqd3b8O7h1f1a77P3LNtWKjpWnKpCMGHXH7KXmRVr9Vv2mw/HyZuHFEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6gkYlibzCWwsNkxR1cXyx3PdOQz9SGrolw3fQK8kJGk=;
- b=jirbXKgbg2A2faUVPceuG04Lx3VSxnWsKLpnsXDqkkt3FKly2bS3vyZMGkzCYO8Ci7QMSsVuqKQq0ypoE1NYG6Q1HJCokokELTZR3B+YSQN3Yd2Sv/zimq4SQlgVMy4V2LjOZiG3sS653m8rt2p9jThH+y1Ag0X9Gutmzd8qvOdcegQVh5vIGBSa/W2nyGbAQ2cuPtjnY+uor4CFQI2ISNxYner3KvP5IfFUn2qoApUx6uDCD/zKgp1XMQb0A1sOdelHMxeUsBraBnrVpu+AoaT49SUoBt5FiXfr81OZRc1Y9vgef1FSaMrXOLZlRMQ7V6l/Zu2ufT6Mc2jXEC5OPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
- DS7PR11MB6248.namprd11.prod.outlook.com (2603:10b6:8:97::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.16; Tue, 30 Sep 2025 04:43:45 +0000
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::4af6:d44e:b6b0:fdce]) by DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::4af6:d44e:b6b0:fdce%5]) with mapi id 15.20.9160.015; Tue, 30 Sep 2025
- 04:43:45 +0000
-Message-ID: <541fb538-0c22-4ad2-9c6e-83ada7f2240b@intel.com>
-Date: Tue, 30 Sep 2025 12:43:36 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-To: Dave Martin <Dave.Martin@arm.com>, "Luck, Tony" <tony.luck@intel.com>
-CC: <linux-kernel@vger.kernel.org>, Reinette Chatre
-	<reinette.chatre@intel.com>, James Morse <james.morse@arm.com>, "Thomas
- Gleixner" <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "Borislav
- Petkov" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter
- Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <aNFliMZTTUiXyZzd@e133380.arm.com> <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <02647276-dea2-47b5-a271-7f02666e0492@intel.com>
- <aNqUACFbXHjURWir@e133380.arm.com>
-Content-Language: en-US
-From: "Chen, Yu C" <yu.c.chen@intel.com>
-In-Reply-To: <aNqUACFbXHjURWir@e133380.arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: KL1P15301CA0066.APCP153.PROD.OUTLOOK.COM
- (2603:1096:820:3d::14) To DM4PR11MB6020.namprd11.prod.outlook.com
- (2603:10b6:8:61::19)
+ 15.2.1748.37; Tue, 30 Sep 2025 01:02:46 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Tue, 30 Sep 2025 01:02:46 -0400
+Received: from [10.0.2.15] (MDONATO-T01.ad.analog.com [10.117.223.49] (may be forged))
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 58U52YIQ032686;
+	Tue, 30 Sep 2025 01:02:37 -0400
+From: Kim Seer Paller <kimseer.paller@analog.com>
+Subject: [PATCH 0/2] Add support for MAX17616/MAX17616A hwmon device
+Date: Tue, 30 Sep 2025 13:02:19 +0800
+Message-ID: <20250930-upstream-max17616-v1-0-1525a85f126c@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|DS7PR11MB6248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1dec5e42-4925-4312-805d-08ddffdbf08e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WCs0UHNlNlRsTHRFU2dvMEgxK25yNVpwVnU2MVQ1QjdqWHBSemhXanRnc3cv?=
- =?utf-8?B?Q29ZMy9VME9vc0N0b3NFUEdiZlM1aGZBK01oVGpJc3JiVnZEbkV1RGlQYktK?=
- =?utf-8?B?d2N3bjlSZXpQaFBSZ0JNRkRySTNFWUhwSjRhbTZUQ0FzQlliQTk1NjJCN2N1?=
- =?utf-8?B?aWRsZFEvQXFVb2FhanJKNDFzeTFLd2xWMzhCR29VUVVFOTE0U2xRckNNWDli?=
- =?utf-8?B?RVp4UGhyL1kzWTlGc2s4WnVHZmxSRXR5TjBjaWg0d09leGY2MmJVaVlYT0pV?=
- =?utf-8?B?emR1cFA0bDJCOStLanZXRXh2R3FMOHhGU1JnNzEvUVBJODE5UlZxNnhPdmgy?=
- =?utf-8?B?Z05yVzFCeVZOSmxMQk1IZkNjUUtMMkhVeUNQUnhqKzYwYkUxb0ZSYllEZFFB?=
- =?utf-8?B?L3QvNHJpZllyZ2tZd1dIUUtYNEc1STI3elN5WkkxMTUzd1l5T3NhUXdtbWlE?=
- =?utf-8?B?QXhiM1pGTDdvazhvc1ZCdEZSWHZmMDdRRUtKNktZdDkwTnA4V1N4TGdtRTRk?=
- =?utf-8?B?WFB1TlpjZkFLc0hsZEt5V296TmlWdzU3M0xWREhmWTJtTm9rcFJHaGtGenVp?=
- =?utf-8?B?VWV0STdSNHFDbVJQWEhuY0lzQmNNSGo3STN4L3hKcm03NGtTTGEybWFzb3FS?=
- =?utf-8?B?UVE1dExrWElKU2ZYV3BrMS9oQ2dRbk02SExSYXF4Y1FLMTFPOU5URlRNVDFk?=
- =?utf-8?B?WDFFYjNYU0VtN0JTRVN0eE5UU0Y0Y0t5TTE0V1prUnlsYjBUZGt0MkcrbmJw?=
- =?utf-8?B?cDNFa2QyRlN2YnZCQzVlSmhvNEc2WVdpUHNqMlJZeDB4MXZ5V0NPVDhiZUhp?=
- =?utf-8?B?MytLZHYxalhLQ3BPck1XcmxKR0hROWdURnZhVFdKZFJOVHJlQXBnYUhCaUVv?=
- =?utf-8?B?bm5QbW5iY2U0bFBJVStqM1dZeWJ3eG1MNjZrVFE4SmpoS1Zmb2FXUXJwVGls?=
- =?utf-8?B?ZjMvUDFVeGVyRm1ucXo1R01nRHJpUS9UWk9GbG40ZTJQQ2hCdTNCaVlKazAz?=
- =?utf-8?B?VVg4M3o1VFdrRDBKQ0MzRGRlazcwKzFSNUJBQ2RsZXRZdkRmdUR4aTN3OW9B?=
- =?utf-8?B?ZEVlUGkwU01JL3lDek5vL3Q5UFVmaDdCeGkyclBtakQvRDZFU2pKMEo5UXJu?=
- =?utf-8?B?a0RQcnFMUlNRUUNEREEzOHFFOWZVMHlDREdYL1p1MDBNa2ZFaThjOEVmeEpM?=
- =?utf-8?B?QTZnZFl6QjJoV1ZUMUltOTN6cHFIbVhCMUtUV2VQVVZ5Tit5NUlZYjZ6UEp3?=
- =?utf-8?B?ZjgyVW1LYUxIdklERXhoQVIzNXlGN3VrWTY3ZHZ3aTFBL0VxUFlySWhwSnVh?=
- =?utf-8?B?OE9TeXcwckN5d1BHcGoreGQwWVNSSFl0RmJ0bmpCZ2h1QU1VM0FMWFFDdDNZ?=
- =?utf-8?B?M2d4UDdQS2Nja0IxMUp5dTdQVjJlTTdieFV4RDZCUFl2L0o2eGVxdEs4QjlK?=
- =?utf-8?B?VVcrNTVSbDd0ZFE5N1R2MW0zYXNRanFIQmN2ayt1aFJTZzRBb043NUpINHdv?=
- =?utf-8?B?cHhleS9nSTdKWUZaVVNHM2NVWEpZRVd2Y1pBdzJvNDFkWng4Q1lqbFR3bFRh?=
- =?utf-8?B?WTNxWTNPYXIyUm9oTWVLQ2VTZ3V5Q3NQdEp3ZWd5elRmaEc5SUZXTnZUM3I3?=
- =?utf-8?B?QkhEQ3lobmFrSWxScFQ0M0NwSFdxMk5BSVFsZWtnaUhtNzlGNCtodHdPaWoz?=
- =?utf-8?B?c0IrWlhGeStDazlLVGdDMkxYNFVvUTJvNWtqNm03d3pYT3VIMnFEQnVoSmxP?=
- =?utf-8?B?NkQ3UzhhTTdHZWZ3bHVLWGN2Z1BFVHZpV0FSdnEvWW5jTmQ0NmZYc21zb1Fx?=
- =?utf-8?B?bXk4bFJNVlgwNnJ5ODh4a3YwTTVCRGlwSHpham9IK1oxRE1ERXpVdXJmNVAv?=
- =?utf-8?B?TVgzUzZxTTlleGVhNVR1U3BjQTBsWCtTeVVWQ1BxOVVDRkpWNlNtSlAzR0U5?=
- =?utf-8?B?WC9WYWNFTzJDQlR5VTlqSy90Zy9aMHd5N2Z1S2pSK1plcDBHbDlGSVJNV1Zt?=
- =?utf-8?B?ZzMrakxGYnd3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2hTUU0wTE1NdHkxSmJ5eVZ4RW12QmZ5NDFyLzhqU0JIYzFHUVNsclA0d1pU?=
- =?utf-8?B?YnpJajhsYlJJSHFKVjdBWW96TE1OYUhwZzE4b2pJaktQck9RMlNlemdkWmhW?=
- =?utf-8?B?RkptWWUrZ0hXSGpZcW8vdEEyUUZqQThySFJqc2xZOFBBN1ljeGdGQXdYQ2J2?=
- =?utf-8?B?aktwZ3BSNEZ3ZWNFOHE3eGlnVWY3ZHd5aDJUZHdyOG52VmFiSVMrZW9qcSs3?=
- =?utf-8?B?S3IxSm5kUGxJa1lkRTgwb050dUhEOVRBbndHNmRDaVFCUk1ZMUkvci9BUUR2?=
- =?utf-8?B?NklOSUFpbG4zb2V3bjVYQ1g3Ukg1QjdLNUZmZVlNVjZsREFwSlRERmRPK3da?=
- =?utf-8?B?bEg0d0VjanRwVG5Wc1hHWmgxV1JyVWNmcG9nU1E4cmI4aVB1YnpIVlNkUWdj?=
- =?utf-8?B?OVVsMWh4NFBhTjlUQXpHQWtZeFRMWTh0SnhMU1hsSDIzam80eE1vQTRBeUpp?=
- =?utf-8?B?RlVyUXVXa0cwRm1ZUG9EMC9OM1Uwa2ltcUN0cUpLTXJrWnRIM3VKWG95dzVX?=
- =?utf-8?B?R0hvWGNqVSt3aHI5VFpCOTNnNXBZWC9UNjlJU3F2bk9zTGtpTmRxc251bDBS?=
- =?utf-8?B?SVZwak9kWlN4LytQZTA2M2RHc2kwMkJwczAyR0xlZFk5eXJ0dzYyaFROTGlt?=
- =?utf-8?B?bFlCMHJJSFdWR3dPZU9zSUo4WVZlOTF5eTJIbjR3V1Y3S1FWOGx4Y2ZSMG9O?=
- =?utf-8?B?NUdkOVJ6Zlh2a05aVVVieTRVS003QWtHMWZWNjRSQy92OGxnN0wzRVhZZGtz?=
- =?utf-8?B?TGtvY1UxOE9VWnhvb2h5R1JKM0w5UU54cTcwaUJjbHZFR1VxMmw1LythRmND?=
- =?utf-8?B?VFZNOVZBMzBCM2wrRXhnVmlpRjlvYm1DTzMxWGZiZjEwekNYd25UTVZGN3J5?=
- =?utf-8?B?V2FmT0ZxWjVpZG9QVmhCS1VuYTl6cWd6NC9oTjh4eE41T1lWb0NxR3o4SmVk?=
- =?utf-8?B?cUJITmMwVlhpZ0FkSDczMnBiYlNFcWExNHRPZXBuNncrazB2R2g4TDBnMTY2?=
- =?utf-8?B?bElmOCtWa1dQNWZEUExmUkhVMEJlbmNFZ0h6amVwMlVlalBsZlpRTUEveG5H?=
- =?utf-8?B?amtEUDJkVW1HdWhVd2twZTZ4aHp1STlZUGpHd3luSkF3dFpUMjlCODdDVWtS?=
- =?utf-8?B?TFM1RFdlNmhPOVJUUE1HQ3FPWks0amN2K1NyTzhVVG0xMjBwekFnS1A2MkN6?=
- =?utf-8?B?Y3N1TkQyU010U0Mvd2cxVm5hcjFSeFhTNmxuWEp3bStWUUdsZ0VpUUEwL2lm?=
- =?utf-8?B?V3JWeDJ4bVdJQTZpVEtiLy9oV1NybnZHTXZJcCszdmtieFBUb2MzeFFzaUVN?=
- =?utf-8?B?ZFVPcmhTRFFCa1R5NEpUQW4ya0hDSDVDT0M1NmlwK0FKY0J3K3hGeFpMMlBm?=
- =?utf-8?B?UzBxV1FpRWFGWmlZc0t6QWxBcllSVU93Ry96OGN1eWRuVVU4aG10bEtqaWVX?=
- =?utf-8?B?SE1rM0VKU2llS2ZRempZZ0l5bGdsWlBiY1JLczZQUHFlTmswRytjMTRwVUd4?=
- =?utf-8?B?YXZXQzJPR1lsbi81QWNzMWxrb1VMbW56cmIyY1dHWFVpcDVQa3RFWXY4Tks4?=
- =?utf-8?B?SDJiL2tVWTBMZS9ZdnpGaXRDcFVENldnVzU4R1lNZFMvekdhdG1yREt0cnMx?=
- =?utf-8?B?NnZ1REhCUUhDN2h0RW1kTTJvZ08vN2NHQXB4OFlKQkwvbkZGTTQ4Rjljb0JE?=
- =?utf-8?B?aUZNUTdMSHpDTHBxbmZTejRNV2ZEcVowcmpBY2dnVzNzTDNva3RUa2JTNmtw?=
- =?utf-8?B?elJWQURIcml5LzhLTUtnUXRTWVJEMWdmOVIzZSs2bmZINklaRGowbzhmajlj?=
- =?utf-8?B?TGMyOWx3aFZQQ0hGck9ZdGJRVkdIQjhLS2JyelpWaCtvaHpVbFhwTDZkVHJI?=
- =?utf-8?B?Y004dDI4L3VMb3k4T1k0L2w5NHdrYlBRYmZjcHZEaC95WWI5bFFXS2lYYk5v?=
- =?utf-8?B?dmIzUUU5OUZYQ25UaEdEM2MyNzVCeXY2RXlXMDRDRldobjh0S3k3djlEV0Nx?=
- =?utf-8?B?U0tRQTJ5WFNRc2VTZTlWa1NLbEVneFNuVjBraSt4WnEyeVRRMEJBRHJHd1Rk?=
- =?utf-8?B?aFRWT3JTR3FlZ1hUWG5sekxzamVKZGUxeTliVVFkcExKOTFoeHl1azRGa08z?=
- =?utf-8?Q?XX8Tht1dModteksRJyAuJKq7d?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dec5e42-4925-4312-805d-08ddffdbf08e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2025 04:43:45.6543
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LFHP4t5iO0Z8mSaQxLXIt5MNelo3IjyU9PPrsN9FbQNnG0/l/TxxR7H8EK6tcz84DU+j3ygXmCiJ9/nC1cT+oA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6248
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFtk22gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDS2MD3dKC4pKi1MRc3dzECkNzM0Mz3eQUQwNLC4vUJHPzRCWgvoKi1LT
+ MCrCZ0bG1tQD1m/HUYwAAAA==
+X-Change-ID: 20250930-upstream-max17616-cd10988eb77a
+To: Kim Seer Paller <kimseer.paller@analog.com>,
+        Guenter Roeck
+	<linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1759208553; l=1238;
+ i=kimseer.paller@analog.com; s=20250213; h=from:subject:message-id;
+ bh=R0VXzEjQC9X15y/ownEY2xtSPGqQXP6asV4BOwW5nhI=;
+ b=2Bt8rMwGl/qqvXKCBPbc41DuaAQAGAirWkUtgw/FyBCbNIyHSZComuvkgoUpZvaTz3hB0B6NJ
+ //QWuXASJ+OCVlUVgQSJeWFJDcf9htffLTY0b8XPyL0xaABOAMGRWd3
+X-Developer-Key: i=kimseer.paller@analog.com; a=ed25519;
+ pk=SPXIwGLg4GFKUNfuAavY+YhSDsx+Q+NwGLceiKwm8Ac=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: KIJKhU_yfnwVcuRblguCtlWPXeMR7-EJ
+X-Proofpoint-GUID: KIJKhU_yfnwVcuRblguCtlWPXeMR7-EJ
+X-Authority-Analysis: v=2.4 cv=A5Nh/qWG c=1 sm=1 tr=0 ts=68db6478 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=gAnH3GRIAAAA:8 a=NfNE3UA9eXWMGTDrDeoA:9
+ a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA4NCBTYWx0ZWRfX7PNY8KrWPRzc
+ 3du5+KO6rceQ8cBA+NKRIZfnZqa4ymPQIN7LWl/LnjCVWLkarKb1YyIwmcLv/Ne/bcy7RuIUMV3
+ hSkg6ZtTYkNqXNtMxaLPmuZOD1gqqQU/tIQd3yE8xJiZ3jcmNSjlMhfRr/MDGvQRM9lTzKKJalf
+ Bol5DWpHEU4gcF9vHxjmklrM/0TU6eKEBkgAYQOGzr0fYJVTDTvZ0hh8Kuf3t9ZIIfVvshDjSNK
+ jHVOtcor7TJh5/dbXnvag1XFkl5pZyPFRP9CC0RRzzsoE+Kf7OTZiFLFDij0fq0Goy2jTlyy4Na
+ nakA2VXR7vht9h2lhkxCt5OytUGcSfdrSFUT/v6M9VBiYTe5OLoxusLDcqG9+NnT6NLYre+Hwbj
+ BPdL06Fv4879/lft02G+nObr7gHZug==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-29_08,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ clxscore=1011 priorityscore=1501 adultscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270084
 
-On 9/29/2025 10:13 PM, Dave Martin wrote:
-> Hi there,
-> 
-> On Mon, Sep 29, 2025 at 05:19:32PM +0800, Chen, Yu C wrote:
->> On 9/26/2025 6:58 AM, Luck, Tony wrote:
-> 
-> [...]
-> 
->>> Applying this to Intel upcoming region aware memory bandwidth
->>> that supports 255 steps and h/w min/max limits.
->>> We would have info files with "min = 1, max = 255" and a schemata
->>> file that looks like this to legacy apps:
->>>
->>> MB: 0=50;1=75
->>> #MB_HW: 0=128;1=191
->>> #MB_MIN: 0=128;1=191
->>> #MB_MAX: 0=128;1=191
->>>
->>> But a newer app that is aware of the extensions can write:
->>>
->>> # cat > schemata << 'EOF'
->>> MB_HW: 0=10
->>> MB_MIN: 0=10
->>> MB_MAX: 0=64
->>> EOF
->>>
->>> which then reads back as:
->>> MB: 0=4;1=75
->>> #MB_HW: 0=10;1=191
->>> #MB_MIN: 0=10;1=191
->>> #MB_MAX: 0=64;1=191
->>>
->>> with the legacy line updated with the rounded value of the MB_HW
->>> supplied by the user. 10/255 = 3.921% ... so call it "4".
->>>
->>
->> This seems to be applicable as it introduces the new interface
->> while preserving forward compatibility.
->>
->> One minor question is that, according to "Figure 6-5. MBA Optimal
->> Bandwidth Register" in the latest RDT specification, the maximum
->> value ranges from 1 to 511.
->> Additionally, this bandwidth field is located at bits 48 to 56 in
->> the MBA Optimal Bandwidth Register, and the range for
->> this segment could be 1 to 8191. Just wonder if it would be
->> possible that the current maximum value of 512 may be extended
->> in the future? Perhaps we could explore a method to query the maximum upper
->> limit from the ACPI table or register, or use CPUID to distinguish between
->> platforms rather than hardcoding it. Reinette also mentioned this in another
->> thread.
->>
->> Thanks,
->> Chenyu
->>
->>
->> [1] https://www.intel.com/content/www/us/en/content-details/851356/intel-resource-director-technology-intel-rdt-architecture-specification.html
-> 
-> I can't comment on the direction of travel in the RDT architecture.
-> 
-> I guess it would be up to the arch code whether to trust ACPI if it
-> says that the maximum value of this field is > 511.  (> 65535 would be
-> impossible though, since the fields would start to overlap each
-> other...)
-> 
-> Would anything break in the interface proposed here, if the maximum
-> value is larger than 511?  (I'm hoping not.  For MPAM, the bandwidth
-> controls can have up to 16 bits and the size can be probed though MMIO
-> registers.
-> 
+The MAX17616/MAX17616A is a current-limiter with overvoltage/surge,
+undervoltage, reverse polarity, loss of ground protection with PMBus
+interface. The PMBus interface allows monitoring of input/output
+voltages, output current and temperature.
 
-I overlooked this bit width. It should not exceed 511 according to the
-RDT spec. Previously, I was just wondering how to calculate the legacy
-MB percentage in Tony's example. If we want to keep consistency - if
-the user provides a value of 10, what is the denominator: Is it 255,
-511, or something queried from ACPI.
+More info: https://www.analog.com/media/en/technical-documentation/data-sheets/max17616-max17616a.pdf
 
-MB: 0=4;1=75           <--- 10/255
-#MB_HW: 0=10;1=191
-#MB_MIN: 0=10;1=191
-#MB_MAX: 0=64;1=191
+Signed-off-by: Kim Seer Paller <kimseer.paller@analog.com>
+---
+Kim Seer Paller (2):
+      dt-bindings: hwmon: pmbus: add max17616
+      hwmon: (pmbus/max17616): add driver for max17616
 
-or
+ .../bindings/hwmon/pmbus/adi,max17616.yaml         | 48 ++++++++++++++
+ Documentation/hwmon/index.rst                      |  1 +
+ Documentation/hwmon/max17616.rst                   | 62 ++++++++++++++++++
+ MAINTAINERS                                        |  9 +++
+ drivers/hwmon/pmbus/Kconfig                        |  9 +++
+ drivers/hwmon/pmbus/Makefile                       |  1 +
+ drivers/hwmon/pmbus/max17616.c                     | 73 ++++++++++++++++++++++
+ 7 files changed, 203 insertions(+)
+---
+base-commit: 76bb6969a8cfc5e00ca142fdad86ffd0a6ed9ecd
+change-id: 20250930-upstream-max17616-cd10988eb77a
 
-MB: 0=1;1=75          <--- 10/511
-#MB_HW: 0=10;1=191
-#MB_MIN: 0=10;1=191
-#MB_MAX: 0=64;1=191
+Best regards,
+-- 
+Kim Seer Paller <kimseer.paller@analog.com>
 
-thanks,
-Chenyu
-
-> I don't think we've seen MPAM hardware that comes close to 16 bits for
-> now, though.
-> 
-> Cheers
-> ---Dave
