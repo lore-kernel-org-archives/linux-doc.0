@@ -1,27 +1,27 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879AE25D53C;
-	Tue, 30 Sep 2025 15:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377251A9FA0;
+	Tue, 30 Sep 2025 16:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759247736; cv=none; b=Y4U+bdDXubahhwpPfn9fXAWdygmYQO1ag1A2mMxbOYVAmrIsJrG7C9y0nyeg9+0y/A+fX3k9QLhaWYDXcGZQaMwf1Yk+DUXaaitIcUkGxAlzT9GuNUNDVpQFNrgVtfb20xbK99ac20DellBUxpExwRBREQprT/giks/qMmDEkH0=
+	t=1759248143; cv=none; b=SswIEvVZVz5K1L2VS68kcmRKbhzmdREbOnt15AGmnZF4FIRqUOWt401eqd2dg1clXOXr40lTpLxLCqwpmXf3RNp6ykqMeWyrHUF4NLPVUM6NFxaBt3Qw/95IrnSOHNsQEpNha+RguPkfRXaG1AIOBnPjS5uhKUflIC1aCxLr9bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759247736; c=relaxed/simple;
-	bh=A9RtkQhqFR63w+amJSn8vAWfbt8JhFeZACTSd4Gysb8=;
+	s=arc-20240116; t=1759248143; c=relaxed/simple;
+	bh=siM+CKFJj/a/G+7V5mMOO5hSCbBHXJMz98nqGsIKQ3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUs85ROYK1uZWsbEOlUSs7sKTNh/oEvlkq0BbTpWpVcK865joqR9lQWLN4kz+UIvtXtc2fncYELCx91RmpCgumzuDAPYAE4Lq3IhLSWV+ivTE1PEsQUXeUa9NI+Rtb3ZP/q8mvUb8ZSVWe5714hdYzndTWaZs5Sk1GyeUAXBed0=
+	 Content-Type:Content-Disposition:In-Reply-To; b=I1I13PZcxmi9L3Qvn2MYMM1aod+YPqYSY4rjiAZi2tQ4MOKnCgxaCcio/MqmF/DO7Q30ECazTiSEBhbpSH6/iLctvlM1wh5nHsjjWPHzXR7NICFM+c3mZJ4LHhlyc7lv7r8Yp/Ei2Ka6Uk4q/UPTqdow32tep5g5crS16OBf9L8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28AA51424;
-	Tue, 30 Sep 2025 08:55:25 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 635591424;
+	Tue, 30 Sep 2025 09:02:12 -0700 (PDT)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B26F3F66E;
-	Tue, 30 Sep 2025 08:55:30 -0700 (PDT)
-Date: Tue, 30 Sep 2025 16:55:28 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B2D23F66E;
+	Tue, 30 Sep 2025 09:02:18 -0700 (PDT)
+Date: Tue, 30 Sep 2025 17:02:15 +0100
 From: Dave Martin <Dave.Martin@arm.com>
-To: "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: linux-kernel@vger.kernel.org,
 	Reinette Chatre <reinette.chatre@intel.com>,
 	James Morse <james.morse@arm.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
@@ -31,13 +31,12 @@ Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
 	x86@kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
  per-arch
-Message-ID: <aNv9cA7W+NNZuDSc@e133380.arm.com>
+Message-ID: <aNv/BxibVkXHkxam@e133380.arm.com>
 References: <20250902162507.18520-1-Dave.Martin@arm.com>
  <aNFliMZTTUiXyZzd@e133380.arm.com>
  <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <02647276-dea2-47b5-a271-7f02666e0492@intel.com>
- <aNqUACFbXHjURWir@e133380.arm.com>
- <541fb538-0c22-4ad2-9c6e-83ada7f2240b@intel.com>
+ <aNqQAy8nOkLRYx4F@e133380.arm.com>
+ <aNq11fmlac6dH4pH@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,71 +45,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <541fb538-0c22-4ad2-9c6e-83ada7f2240b@intel.com>
+In-Reply-To: <aNq11fmlac6dH4pH@agluck-desk3>
 
-Hi,
+Hi Tony,
 
-On Tue, Sep 30, 2025 at 12:43:36PM +0800, Chen, Yu C wrote:
-> On 9/29/2025 10:13 PM, Dave Martin wrote:
+On Mon, Sep 29, 2025 at 09:37:41AM -0700, Luck, Tony wrote:
+> On Mon, Sep 29, 2025 at 02:56:19PM +0100, Dave Martin wrote:
+> > Hi Tony,
+> > 
+> > Thanks for taking at look at this -- comments below.
+> > 
+> > [...]
+> > 
+> > On Thu, Sep 25, 2025 at 03:58:35PM -0700, Luck, Tony wrote:
+> > > On Mon, Sep 22, 2025 at 04:04:40PM +0100, Dave Martin wrote:
+> > 
+> > [...]
+> > 
+> > > > Would something like the following work?  A read from schemata might
+> > > > produce something like this:
+> > > > 
+> > > > MB: 0=50, 1=50
+> > > > # MB_HW: 0=32, 1=32
+> > > > # MB_MIN: 0=31, 1=31
+> > > > # MB_MAX: 0=32, 1=32
+> > 
+> > [...]
+> > 
+> > > > I'd be interested in people's thoughts on it, though.
+> > > 
+> > > Applying this to Intel upcoming region aware memory bandwidth
+> > > that supports 255 steps and h/w min/max limits.
+> > 
+> > Following the MPAM example, would you also expect:
+> > 
+> > 	scale: 255
+> > 	unit: 100pc
+> > 
+> > ...?
+> 
+> Yes. 255 (or whatever "Q" value is provided in the ACPI table)
+> corresponds to no throttling, so 100% bandwidth.
+> 
+> > 
+> > > We would have info files with "min = 1, max = 255" and a schemata
+> > > file that looks like this to legacy apps:
 
 [...]
 
-> > I guess it would be up to the arch code whether to trust ACPI if it
-> > says that the maximum value of this field is > 511.  (> 65535 would be
-> > impossible though, since the fields would start to overlap each
-> > other...)
+> > > MB: 0=4;1=75
+
+[...]
+
+> > > with the legacy line updated with the rounded value of the MB_HW
+> > > supplied by the user. 10/255 = 3.921% ... so call it "4".
 > > 
-> > Would anything break in the interface proposed here, if the maximum
-> > value is larger than 511?  (I'm hoping not.  For MPAM, the bandwidth
-> > controls can have up to 16 bits and the size can be probed though MMIO
-> > registers.
+> > I'm suggesting that this always be rounded up, so that you have a
+> > guarantee that the steps are no smaller than the reported value.
+> 
+> Round up, rather than round-to-nearest, make sense. Though perhaps
+> only cosmetic as I would be surprised if anyone has a mix of tools
+> looking at the legacy schemata lines while programming using the
+> direct h/w controls.
+
+Ack
+
+[...]
+
+> > Do you have concerns about existing software choking on the #-prefixed
+> > lines?
+> 
+> Do they even need a # prefix? We already mix lines for multiple
+> resources in the schemata file with a separate prefix for each resource.
+> The schemata file also allows writes to just update one resource (or
+> one domain in a single resource). The schemata file started with just
+> "L3". Then we added "L2", "MB", and "SMBA" with no concern that the
+> initial "L3" manipulating tools would be confused.
+
+The "#" thing is for backwards compatibility with old userspace that
+might blindly "paste back" unknown entries when writing the schemata
+file.
+
+(See also my reply to Reinette [1].)
+
+> > > Then use some other tag naming for other regions. Remote DDR,
+> > > local CXL, remote CXL are the ones we think are next in the h/w
+> > > memory sequence. But the "region" concept would allow for other
+> > > options as other memory technologies come into use.
 > > 
+> > Would it be reasnable just to have a set of these schema instances, per
+> > region, so:
+> > 
+> > MB_HW: ... // implicitly region 0
+> > MB_HW_1: ...
+> > MB_HW_2: ...
 > 
-> I overlooked this bit width. It should not exceed 511 according to the
-> RDT spec. Previously, I was just wondering how to calculate the legacy
-> MB percentage in Tony's example. If we want to keep consistency - if
-> the user provides a value of 10, what is the denominator: Is it 255,
-> 511, or something queried from ACPI.
+> Chen Yu is currently looking at putting the word "TIER" into the
+> name, since there's some precedent for describing memory in "tiers".
 > 
-> MB: 0=4;1=75           <--- 10/255
-> #MB_HW: 0=10;1=191
-> #MB_MIN: 0=10;1=191
-> #MB_MAX: 0=64;1=191
+> Whatever naming scheme is used, the important part is how will users
+> find out what each schemata line actually means/controls.
+
+Agreed.  That's a problem, but a separate one.
+
+[...]
+
+> > Or, did you have something else in mind?
+> > 
+> > My thinking is that we avoid adding complexity in the schemata file if
+> > we treat mapping these schema instances onto the hardware topology as
+> > an orthogonal problem.  So long as we have unique names in the schemata
+> > file, we can describe elsewhere what they relate to in the hardware.
 > 
-> or
-> 
-> MB: 0=1;1=75          <--- 10/511
-> #MB_HW: 0=10;1=191
-> #MB_MIN: 0=10;1=191
-> #MB_MAX: 0=64;1=191
-> 
-> thanks,
-> Chenyu
+> Yes, exactly this.
 
-The denomiator (the "scale" parameter in my model, though the name is
-unimportant) should be whatever quantity of resource is specified in
-the "unit" parameter.
-
-For "percentage" type controls, I'd expect the unit to be 100% ("100pc"
-in my syntax).
-
-So, Tony suggestion looks plausible to me [1] :
-
- | Yes. 255 (or whatever "Q" value is provided in the ACPI table)
- | corresponds to no throttling, so 100% bandwidth.
-
-So, if ACPI says Q=387, that's the denominator we advertise.
-
-Does that sound right?
-
-Question: is this a global parameter, or per-CPU?
-
-From the v1.2 RDT spec, it looks like it is a single, global parameter.
-I hope this is true (!)  But I'm not too familiar with these specs...
+OK, that's reassuring.
 
 Cheers
 ---Dave
 
-
-[1] https://lore.kernel.org/lkml/aNq11fmlac6dH4pH@agluck-desk3/
-> 
+[1] https://lore.kernel.org/lkml/aNv53UmFGDBL0z3O@e133380.arm.com/
