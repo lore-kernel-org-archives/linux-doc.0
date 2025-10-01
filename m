@@ -1,110 +1,103 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50AB2FCBEF
-	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 13:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D4F12C544;
+	Wed,  1 Oct 2025 14:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759327101; cv=none; b=S5dVkECJqYtsJ5ihuBFS7dzeyntMLsKu23HzqAxDTZjWouejh1/fFPX9xca4IB8NrEHGX13UvOmhC3WEzvFT4KwAg5Ptp2RTej+8XW7XLCWiSHHMuwuTcRFzVlV89162u1kqyAitYGRfr3I5P2rU2n6kvJEnt7IsmLhufOiwTIs=
+	t=1759327937; cv=none; b=tA2kPhfBIamnAE25UeFwXcgrG7fH9hHnfXSG+AKcV3GIDifm2Lqk0TqHWou+6breJj4pkjEwfEBDDtwazl81yT/k0nUQQ+GpAUFJzQB4Gf+WkXxsteGAOZvClZqYSX4omQB7h7D68wnUP8a9j8TFYsr9IUdx60TmDDT0qMu0mpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759327101; c=relaxed/simple;
-	bh=AErz9DRE4zvoV1QAhCMy5Ce5EIwMk6a2u/GPbn+LmQ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EY6gUYbwAfKdoZ4S2w+z3XA9/ibdrI+SHDQVK19rIQp02WCxzA0cdRxNsT3XRX8d59eNSrmPNFROscduaUqoLxXK/nSD+RVqO6eevq2Q8KUu+dEgCjsyAEg6kq+pgZRIYq50YZO8+UKMScQQpih2LgAzDD9ZTh7hPjLzccyvsT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1LKbfYf; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759327937; c=relaxed/simple;
+	bh=uahD/+ZZ+IY99xy1Cv1s7bOHviyIrbnHViZFjrz3aTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TjFLp44f7b3kyAqllR54c9utSnQziF3ezJ3/FZYwYgwt3Kdw9BjHiB4Paf2UHekeEIGpQICBUniVwqN6SOzm18ItMx7Tgaz32tVxC817iIvt+ti22vWHT5eZglwez5pwOt8uF9+SI9kRE6i+NIBqEi+DEaL2DUzVJROrKMHLpRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1QpTTpo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1LKbfYf"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-77f605f22easo6665021b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759327099; x=1759931899; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
-        b=K1LKbfYfUGXFWYvfX9kmYN4cWonxTWwRsQHoZ/jqJmu2PUT3AZ+tIn6EUVgftXh8tB
-         4WXSJ2H2fGyw4k2cz5iknj4W9+t4WvIgkeQAZChB4l+giybjKfJDerXnTOpfPNbAglXC
-         tj82md1n4DRn171jFJGeQs6jGmklWW4Rlg3Gy0dViy+sW44/D0J862hcZaf6X+V6ysu3
-         /6e1ag5aAFU+CM4J3aewn6HBL74th60oJYAGw2MiR7R6jLXlkQE+UzN2Ptj9lcCX1JvD
-         uc5cFR9Efhdo1E+n0KB9ZzUz9vPQ6CHBWFSUY4ttEqc7yeeEeEIHvmkVNPrh64/CGTNt
-         z51g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759327099; x=1759931899;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
-        b=pvpliesN/kNC829Yv4lK3Gd1YtadT54uN1VAsR4VREnozxHxlr3DmtjXI394Vw80G1
-         3IvWGLlaBZSrtsEWA6H3p3400zwR5IHNPHGdFF7EaQQtiAPkzxmUTyOLwx32dd60IRs6
-         JCmv0Rx9o4rAHPEjQTjf8FGyp0kHcj8nGjQH8dkNRHhaNFq5hw8rTV9zMH9h4u7FhOJn
-         YTTDguXb6ofOyswaPp348p+ODMdJWsQGSqjDLmqqTiplAwlcO4vALSn7qDPDXdR28yW2
-         DQUIaKJXLVX/idDX7MHFxiNFu1iV8p0aW4kSO+EPr20p7nijBf6sIp2msCOkVoa7UNoh
-         L/wg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ+w5TV4LBTZ8NL3GwZ97SdIGhbemqTb18DY9+A/9nS46m/vXTOSQ3xwEfo6Par1j1DcVIzrjZ3po=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzHDgF1Iv5vIzEsgn0dbzhHudEbyGOT03JnFPdsOVPtOq1YgkH
-	lqVtcWvIoNUDlGAYpLoa5+MV5CFMRz47UCUnSIfYvv4WSdUq14KXpTh4B8zX94m8
-X-Gm-Gg: ASbGncs07SAUjT3rq8s47eLR/Iy+7Us+3zxKLiLbgibj3pESGlD0cw54zfiiilqkS0Q
-	SEcO55zA+5hsw5PKeCnaNmmj3+1YWa2V92o9rP2K2k87dfs3RAdXmnxsNMQ1bkux4o+SX/En/N2
-	ef0aeabDJEFcDrtmjZuykegUNbBBvFmho7Ugff3gs9KaQbnWVw54mkDmzbeOHkVDsTV779bcu7o
-	01FeIgoGfPovMkEz5xYuzKsDCVkuSvAa5mQPeTJS3P4SnuD0Tg/H2nDIcl+DqalRPYC+1gJ8QHR
-	NYcQdsTSDk1fXvfHHoYtLF4qfVaAmYHj8LnfqYru8XKvVEEsqmSfOq/d39j7PcsWvZL2/FAEd53
-	qiyqiDZJSt8nxF6sgPCVBL88UKFBuTWhehqspLLFNKWHya4tZ7rnMC8s4TXasM0IZYwqpHA==
-X-Google-Smtp-Source: AGHT+IEVrUrSHnJxKWleti3ip/7ssnZbESbu792noCsfEcKl9fEdE1xbBALgSKgo50vIeSR68LO4xQ==
-X-Received: by 2002:a17:90b:2249:b0:330:852e:2bcc with SMTP id 98e67ed59e1d1-339a6f38013mr4558738a91.21.1759327099110;
-        Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
-Received: from [10.0.2.15] ([157.50.95.38])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3399be87425sm2129797a91.1.2025.10.01.06.58.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Oct 2025 06:58:18 -0700 (PDT)
-Message-ID: <425ef7bd-011c-4b05-99fe-2b0e3313c3ce@gmail.com>
-Date: Wed, 1 Oct 2025 19:19:13 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1QpTTpo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1720BC4CEF1;
+	Wed,  1 Oct 2025 14:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759327937;
+	bh=uahD/+ZZ+IY99xy1Cv1s7bOHviyIrbnHViZFjrz3aTI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G1QpTTpoR+lePkMocujHu2GcOwi1mbUVyI6/V6fhzyM8cmlJpPGaaXJXEpQ454U1b
+	 zmEdLn5TK5I/5i2bRU5k1CZ1T81e5IgoGhTEsZyYCDQylMr9Ql7SuAsmyDTxOelpAe
+	 xEumMIT+c9kHhUoqeBfJ8TiTRHAWHi7fF3PvluFqLOibPCGLsCV6gYcp+7pZ3T6FSc
+	 cPSpCidEPBkbRmqOaclDdN5Go2wKP2y5DTGprv+ruXKaSHOj6HJqp270wuGul60/Nn
+	 kFvP1ajyZiek1eZsckMionXA7HGOizexjY/MPa88ME5mS/dvzvrluepJ2Dn+2QZmvM
+	 lGbUrsXg4/+og==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1v3xZ0-0000000BJ1T-3yn0;
+	Wed, 01 Oct 2025 16:12:14 +0200
+Date: Wed, 1 Oct 2025 16:12:14 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] docs: Makefile: use PYTHONPYCACHEPREFIX
+Message-ID: <qgbruvoxfxk6ghpx65oe55jsl5ea7bmxkk7lx2tgz6jdx3ddkc@zznhcva66a56>
+References: <cover.1759135339.git.mchehab+huawei@kernel.org>
+ <65f341d516c329e2b57252176b188ae68f3bb6ca.1759135339.git.mchehab+huawei@kernel.org>
+ <87a52avl0i.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: doc: Fix typos
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
- <20251001083931.44528-1-bhanuseshukumar@gmail.com>
- <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Language: en-US
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-In-Reply-To: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a52avl0i.fsf@trenco.lwn.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On 01/10/25 17:32, Carlos Maiolino wrote:
-> On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
->> Fix typos in doc comments
->>
->> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+On Wed, Oct 01, 2025 at 06:55:57AM -0600, Jonathan Corbet wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> Perhaps would be better to split this into subsystem-specific patches?
+> > Previous cleanup patches ended dropping it when sphinx-build-wrapper
+> > were added. Also, sphinx-pre-install can also generate caches.
+> >
+> > So, re-add it for both.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/Makefile | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/Makefile b/Documentation/Makefile
+> > index f764604fa1ac..cf26d5332fb5 100644
+> > --- a/Documentation/Makefile
+> > +++ b/Documentation/Makefile
+> > @@ -60,8 +60,10 @@ else # HAVE_SPHINX
+> >  
+> >  # Common documentation targets
+> >  htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> > -	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> > -	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+> > +	$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+> > +		@$(srctree)/tools/docs/sphinx-pre-install --version-check
+
+The problem is the "@" here...
+
+> > +	+$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+> > +		$(PYTHON3) $(BUILD_WRAPPER) $@ \
 > 
-> This probably needs to be re-sent anyway as bcachefs was removed from
-> mainline.
+> This causes an immediate build fail for me:
 > 
-I just did a google search and understood about frozen state of bcachefs
-in linux kernel since 6.17 release onward. It is going to be maintained 
-externally. 
+>   /bin/sh: line 1: @./tools/docs/sphinx-pre-install: No such file or directory
+>   make[2]: *** [Documentation/Makefile:63: htmldocs] Error 127
+>   make[1]: *** [Makefile:1808: htmldocs] Error 2
+>   make: *** [Makefile:248: __sub-make] Error 2
 
-Thanks for your comment. I will resend the patch excluding bcachefs.
+Fixed and will resend you a new version. This /3 series, plus a RFC
+for kernel-doc are the only one pending.
 
-Thanks.
+I'll send the RFC in separate, and send a new version of this one.
 
+> 
+> jon
 
+-- 
+Thanks,
+Mauro
