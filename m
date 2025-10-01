@@ -1,276 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1982D537E9;
-	Wed,  1 Oct 2025 12:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759320842; cv=fail; b=LE6LYv0WNWy1ep7Wde+GF+fPSs//edy2OK7BARifkPFen28VX2Kp5t2VQtUyN2JhONImLzrJQxaEsq8ugpKeYtTRsUY/Dt3bDzMxEEkNEDH3sK7ofGgHLDD5YGVtqNTYPIuj5fF7UdbvoRqEqSVJgL/t3iASXP+rHNEVsIUXeQ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759320842; c=relaxed/simple;
-	bh=nh9IkIzTrR1UlSE6zgyWqKYf1TMU7r0/ZmHlAX6azwI=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jd98XTupZePDx7wsSSjx//eBl/ZKGppQWrY5sl5Rvk892SWl8iSbQdG2aERCGhSw1vpX3YqxA4EGWJlYK8F7HYSVXybbesYLzSJtcXf6ig7rakSADN2oGPZSuNYFWd5U9fTGkw8Y5vXJp2roWrZ3PfR8wMH1Fx48WHTmlcsAjjE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knEePYVN; arc=fail smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007E91AF0A7
+	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 12:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759322444; cv=none; b=NJY5DkpcAeWUSiEfFn/w/nEbJ8OJSLVFor9U74hO5BIq6xFOgnv9RXUyk4tu995vz0wjoFrMi7wZeXda6/ogYzhB377Nb+pG+x/EE/utHV685pY8Ez8yvxC+58BCnBDLaDMXOxXTeS/V03r8K0Yurq/sR9+pgN5Hl0uuvoWA2LM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759322444; c=relaxed/simple;
+	bh=AuhqTdEHZu0N4P65fsFnt/ODGFUaC+ldpMWEMpyzdsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u3vOK28tzEB4N/pOldBbtaPZfV2yZhE+aRgR66z5pa2aEoHaW71zdNykbXh3uNtDEP9dszYOBgC0CEcakEBFijikQMF+eTQ2VXeFw8rgPCV6ie7MZR2moqsJPwkQvR9Aa33H7ATzU61aJUGqFZjx7Vn1pjOtLkFo8R3qrGg36a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bPrJ0TGv; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knEePYVN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759320841; x=1790856841;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=nh9IkIzTrR1UlSE6zgyWqKYf1TMU7r0/ZmHlAX6azwI=;
-  b=knEePYVNpx4Kdyk0a0BZbuR4Je8/gpT6h+ZcPBgAZHIFxKLPLwED8uYq
-   1mp5F8WgnLlNOZF3rN3pP/c/OqhBP9MJVUjDbkCTrQtwRuimdCjlDuARw
-   +aWvOXy93KBgpfyk6y8JgMV7lBKRpYZjfK01DS/hLzFjSFhzkEgV3q6a1
-   8WkSzhU/k+3fJ60Nepe58ys/SX/n6laPkPiI8v39/6+q+gabSYktR3Eun
-   mvV+vFNnl6yx2Boe+M3TQlbfEFq8NUEgnB0VUT2SE/mZOUMZLszYJvd86
-   Vx08rJpU4epjdJueSTO+MQkWOS7ySWZ8a5siQGwlVmPG7ZWfS1R6abW3a
-   Q==;
-X-CSE-ConnectionGUID: rTT7z/rST/iy/MHUrRk7mg==
-X-CSE-MsgGUID: myBiUwlhSf6rolGw+QYkPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="84211076"
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="84211076"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 05:14:00 -0700
-X-CSE-ConnectionGUID: g0TAFL22RECH/LBbrW8LOA==
-X-CSE-MsgGUID: 0xqurrxEQ1eKzXT3TOm1Fw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="215898256"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 05:14:01 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 1 Oct 2025 05:13:59 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 1 Oct 2025 05:13:59 -0700
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.43) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 1 Oct 2025 05:13:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J8EX0Wk4cB/ULyH7+p9SlGKHB04lIpKoFYQ9To5cd1eABc0eDTJv8udiFKlf94TTlKxAA8kMmq3cpZxbdNAP3pcs+kWCbtTkRXtu/CxzaDNIdwOOYWFZABgmIPdMbYLIGct360Q1S3rGMAcMfmt36xh2lUOcrOLWe9+KsmafWg6F8TfUrcaCBIzKWRIinkKxn2k7uREc6Hoq69hVdtP+NUeVjyejTwicATXPM9/BW7R+BTkaHMgUISdRyBtv/C0xonUfQ5ayl5Br8ay3JseITIY53mT/CUs0ieRp0gVOup8FHQOLtfLDvru5TB5I3sHQP0ezQqDFcBpS3juRjKO4Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9KXD8ZwxVQZEWTjtOZch7eiJVf22oCuEFtRiKQ787p8=;
- b=OqSmGFz3nzna/5DspGgWnRiEGYqObyMwBDlGuO09P2XZYPWVm+BXAr2CJapAxVP4Rbf0FAjay5Fe0UAsND+1UIxZvib3jnYs3wwVSj2DOy7u9hG6oMZlW2JOdRZ0/HVZBMcCA8md1ggW9YVNyErRwrsZfl8qvJaE7kK8osjYfqHJA06eGP5oBCNdkE8Zl/uT8qCM1wqw4EIvjC7gC4u7G5ddyzX+XK/LuuyA9PPpelrtFF5G1dUKRFHmxEsH8CKUjIa5SBe1+MNKraJXYpfPyt2iPDGsLhALuk0w7UTNv6x1qm+PNAObrXpvHayt6Lrxo/bVeTFCABIlSemMVXF7mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
- SN7PR11MB6899.namprd11.prod.outlook.com (2603:10b6:806:2a7::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Wed, 1 Oct
- 2025 12:13:56 +0000
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::4af6:d44e:b6b0:fdce]) by DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::4af6:d44e:b6b0:fdce%5]) with mapi id 15.20.9160.017; Wed, 1 Oct 2025
- 12:13:56 +0000
-Message-ID: <38569247-431c-4b0c-af0f-aadd6fb26849@intel.com>
-Date: Wed, 1 Oct 2025 20:13:45 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-To: Dave Martin <Dave.Martin@arm.com>
-CC: "Luck, Tony" <tony.luck@intel.com>, <linux-kernel@vger.kernel.org>,
-	Reinette Chatre <reinette.chatre@intel.com>, James Morse
-	<james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, "Jonathan
- Corbet" <corbet@lwn.net>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <aNFliMZTTUiXyZzd@e133380.arm.com> <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <02647276-dea2-47b5-a271-7f02666e0492@intel.com>
- <aNqUACFbXHjURWir@e133380.arm.com>
- <541fb538-0c22-4ad2-9c6e-83ada7f2240b@intel.com>
- <aNv9cA7W+NNZuDSc@e133380.arm.com>
-Content-Language: en-US
-From: "Chen, Yu C" <yu.c.chen@intel.com>
-In-Reply-To: <aNv9cA7W+NNZuDSc@e133380.arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: KUZPR06CA0010.apcprd06.prod.outlook.com
- (2603:1096:d10:30::12) To DM4PR11MB6020.namprd11.prod.outlook.com
- (2603:10b6:8:61::19)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bPrJ0TGv"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46e2826d5c6so55703815e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 05:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759322439; x=1759927239; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WYTXqVRUgKBecqzeWFJPcnJVjiQJBfMxkjWzOS+Rt7E=;
+        b=bPrJ0TGvV/0HrNMVdJn7brtWo1Yoo0/o8Kx2t3CNBU7HhXXhrF5i3VwBa3wRSqOu5p
+         f9yJ+1XHzvftm4J5jlUNiCOVOxnsl7gxTySQUY0cPm8Mj8U1Pyum65OSrRDQSgn+pnyi
+         F8TLOiqZj1uzeXbQUms0a40g+bQKMvk99S40UMYjj3H80XuCohgueo5dH7uKylv+orDE
+         2Fx8ulL960wlowAsQ6ySJN9g2Xi2MFfO4erM/M6VpQV5zcNBN1opasZ9CEmH9Mos1b/h
+         ZB1RZWhFvtV4XxyJJ0xZ0rVrEp5GuOLm7YQC7f1iZb4w/jfOtvF/9/dmyiF666aECJb2
+         QOrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759322439; x=1759927239;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WYTXqVRUgKBecqzeWFJPcnJVjiQJBfMxkjWzOS+Rt7E=;
+        b=BGxtStFcZ/IS6p54DovQGm+LGP/cDrALgmXYTGWzF6KfFUKRe9Ch04AL+8SjdNA8EZ
+         1QamnhBgkF7kFaaAFCv8TB2A2aNjhjASm3O/4lnmNZFNvxS0miU/tKnVgxVBmvSqSCFY
+         8qyxmDcM9QGdBL+ZD1ZZekotJD9eAS1lGhEPcxiIpjZsk/Mx9ZANhFuB8TeOKaKQM5TE
+         Lr1zNzyN38v9iAIucZ15pTws8yMG04W+1JCBODF3oREBps7oUzOhL/qfui2pVO70dQrq
+         9qNLxDXac90l3sCPqg5THLJabMxGjvZ6j/oAS7gkPAi5Z8YKVE9wKLGE9bfJfYwEsGXh
+         SjnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUlh0eAnnUxxl1SzIIyP37vLWWeR6ABF6xkteUQz4l/wudcDium1dQBMXaWRO6OcmMhT8vJ1msGM1U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwYymUfKh5ksb03S+epBXhfrrx5Zk0bROT5v0KjbiqdaRsDKVz
+	E1zzpb53G9znTWbSbzUoS6zr74jzwyrd62krTLEV00UMB58800OBWsvADb+25oEQ3eqyysYtg5E
+	DHrGrz2s=
+X-Gm-Gg: ASbGncvsDdPSI7jkhxi9mVCp9CbNKXhOi+hYamR1j/es/fGAEVqAnjju5/2O/TcJ6AO
+	BO5qek/tY+47kW6gbV4hszrVEWE4xIV5HO5okrwYilAW359c39UNhp8aic9faoMPVe8oIQY5P00
+	pFvISt4MQXP4iZIskoaTvb4qCEiBz8BKe3TR11Yw+3h1I5PyKMMWHPPNbkSjlEzkF9uhhlgR9h2
+	Hfv9YIFI3yhLXeCciY9xk+ttRwUFrhiROfvvculESCORhX4OdemepFTl/jHkblQAHtiFyDpgTuP
+	iBaTVXXfabkB10953JVskp80KBmC6ySlIXepiKr6nHwTXDa7+6JtG9Xvv7sgcnX/AtgPEhH2qf8
+	ZxGXIs57cdRoEho3bcz95miGuem8mT8xFe89qpg4Uy328kLNW8Nr+
+X-Google-Smtp-Source: AGHT+IGo2u62hTBre5IhKlA68oJLY9wdX6JZmyVYIDOL0eOH23ZnAYoa4shn9eEhSc/1I5hVi4MaZA==
+X-Received: by 2002:a05:600c:870b:b0:46e:3e63:9a8e with SMTP id 5b1f17b1804b1-46e612856c2mr29292665e9.26.1759322439276;
+        Wed, 01 Oct 2025 05:40:39 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e6199202csm38083815e9.4.2025.10.01.05.40.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 05:40:38 -0700 (PDT)
+Message-ID: <3a731a9e-0621-42b6-b7fc-4b0fd9b7da6e@linaro.org>
+Date: Wed, 1 Oct 2025 13:40:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|SN7PR11MB6899:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e38f83c-e7f9-42ca-2a2a-08de00e3fe41
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NmlWZzVTeEZvdjFoQ0xqK1dMZHBlRjFvTXNhRDFkWWI4R2F2YkgycSt4WXJE?=
- =?utf-8?B?VEtCeWZiLzJ6YkZaMlV2QkJ3UVNrWWpUMTJaRGlWSFBEM0I1MHg3ekgrVUhS?=
- =?utf-8?B?VW9UaGdmV0gvUUl2ZlRQYTR0cEVIL2NLOVJ2TkpuZkRsVzR6Y1hBK283MEpz?=
- =?utf-8?B?TTJEaHRxdStZdmdhV09FTmxRZWNmVnRUeUNucWdQdHY0cTNBajNBM1ZUb1pD?=
- =?utf-8?B?NU9mTEJnaG1Ha1I0RGlWbngzMW42enlXeHkzWVRUaFE3L2o4Z1hFWHVsM2I5?=
- =?utf-8?B?NEI2YnRqZGlLRVY3WkhQak1aQ3ErbU01VDEyaGdlNDMxRDVBOVVxRmRXclp1?=
- =?utf-8?B?VmxER01GcTRVdHVWbWNYVUNqb0Uwa1BmN3UwTUo3RWtvKytJYkMrTXJ4cFpM?=
- =?utf-8?B?OTBxUWdGL3pKTHBhOFVpVllsZTBJaHlNQUNLTTlqaW5PcVc4c1Npc3VJc1pQ?=
- =?utf-8?B?ZlBteStpWHk3RzBRV1pyVUVuT2hVQXZIMGZVMktzMlkvUHZNUDgvNEVnWmcw?=
- =?utf-8?B?S1h0R2NOSnIyWjhBOElIZWVodlIvcS9WcUJieU5xZTlWUThCNjFGbm1NZE5U?=
- =?utf-8?B?VnhlaEJVNWpPR2VRM3RlTjJxWkZWUk1WaWpmV29jZllVQ0VDRmdYaDVLM0xl?=
- =?utf-8?B?MDQ0UkMrUVpIKzNEWmNlNDNxTWIvOE40bndPQU42UzBtUG1uWHQrdGJzK2ph?=
- =?utf-8?B?K1AwNTNWenNlWk4xWlU2TGdMTUlzeWhteFVNVkxzWnhBMUdwckVkUHQwaXps?=
- =?utf-8?B?ZCtxZ21zbExLYmNFV3ZYMXVrKzJ4NW85bFRuVmZ4MDczTGxOWTd3ZzczUi9Q?=
- =?utf-8?B?d1NSSTV2aGVJaVhtNytIc0lEVGgyZ0pJZnVCRkU3QU10SWFmTytLc3RRZFVo?=
- =?utf-8?B?aVN2R1hyTXZHaHl2Wkk1QkR1MzExT0dZZWpjeEZPbWlWbVE4T0RNNUl1SEow?=
- =?utf-8?B?Y28wUHEzM1EyNkErUlNyK1RLeVk3RnQxTmJRVExrRXpXR281R1lrTktsK3NY?=
- =?utf-8?B?d004NEt4VUVabmllaCtTVnJUVm9QSmdLQWJMSVBhK21Ub2x5Y3c0bzFQMDVh?=
- =?utf-8?B?Y3lvSU1tZnBiaXU4NjBldjhKOXhoS29EbWczSmtqRTZMZ3ZjSlhNYVRTSkxB?=
- =?utf-8?B?ZnkwTFVpa0p3dEVJSXBLTytTNlcvRnVDa2ZCVXpwUXhGVFRiNEd0YzZkMmor?=
- =?utf-8?B?MFVLUTVUOXpQbHhUM2FVRDcxSmlDYTRENGczbTBmTEZxMzVrU2gvM2pPYnJX?=
- =?utf-8?B?TnRQY0R0VFgwQzhFWDEzdk5ZQ1lXejFTUy8zdFIvSUR0TU5EZUp1cmN4bDJi?=
- =?utf-8?B?MjdaS2NWZTYvcDFjSGdGZWptbnNDUXl4eU9qQ2M3am50cmhTRCs5T1hva1lm?=
- =?utf-8?B?TXRvVGthd0p3dlpRL1dsb2hPZ1EzUlpZR3dDZWNralZHUTMvZmhNUXB5UkxN?=
- =?utf-8?B?bzZiVW0yeFdreUxlWktZbmlIKy9QZFpNNTZ1QWFqV0t2R3VXTDliVERsMG44?=
- =?utf-8?B?a0o1RHk5d2hPdnhvVDBkSlhqa0hhWFpUMUVoWGllMm1uTUdzV2JUSGJMVFpJ?=
- =?utf-8?B?MFUxb0VYb0R4czh4N0RJZ0w4R3R6SkJ3bXQ2T3MzZnZvUSsxTVk3TkRoZm4z?=
- =?utf-8?B?cE41UkhNclBDaFQxdW9wMG9QS20vWGhUbStjUk9pTy9DZ0pqU0w5cXBjaHpl?=
- =?utf-8?B?QkpYek5SRDRWT0xoZzFLekFwVGhwUWRBKzJWckpYVnNVOGI3QmNkYkhNdG9s?=
- =?utf-8?B?MjVseTV3TnV0bDhjemRlYmlNK1Y2WS9OZHdkbkpwNVl6YWFScTdlSUtaYmx6?=
- =?utf-8?B?QkRaOEZQUDlQcWZIWmxNeW5NODBhZml2L3BOV0RxZFlTZ0R3aHpBcW1pMjdu?=
- =?utf-8?B?RWhWRkh0KzdtWDRmOG1oYnNBdVZTM1lkQ1BjanM4T2g0VDFMNVIwUVdTUjZy?=
- =?utf-8?B?Q2YxeFpMSjQ2U2toNmxzQ2FQMkRudnEwZHNlTmxveTFNQnlueFpENlVJeHRM?=
- =?utf-8?B?MTFHY05lWHZnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0pmWVM4QkRpdFBjaWtBQjlYOHZJc0V0VFFoQ1JHKzZENkxhVXJiKyt6S0pY?=
- =?utf-8?B?YTR6NVJHUmZVNUhsR0t3akFBSnVPSEhwdDFXUDViTEF6UHNLQi9SdzFxTFls?=
- =?utf-8?B?SC9Za3IrYnFpZGkvSEJCM3pwMW1tbGxsK0dWbk85blJnWlE3NXBiUFJhdHFR?=
- =?utf-8?B?Qkp4dENDY1cxZTdoa0FLaWMzWDB1WVBkdnNpVnlPL0hlbUhrb25zSmgxNnNy?=
- =?utf-8?B?ZW92dkYycElmZWhLYkFxTTA1enBJb2wrRllLZGhzRFBUbFQxM2hnOGdYdmVI?=
- =?utf-8?B?SDJSeng4cnhiUXhxZUJldjhjSnpGU0c1dXNTeFZ1QWozUkdFaUIybFo2OVNJ?=
- =?utf-8?B?QW9sMktPYUM4bkVXbUtiN3B0T01qOUlpK09HT3czSWR3QXdJaHhHOXdjR0hm?=
- =?utf-8?B?MGIwWWlSTnpVMlY0cWRhTEhZZjhIcTVCMHpvQ2ZPYmhteFlMQmYwNmhidTV2?=
- =?utf-8?B?anpEemZMVUVkQXNGTEZvYjg2TXVBTlhpWldxSHhMbS9kN2pNQkRTY2c5cE80?=
- =?utf-8?B?N0c2eDlSYlhiekVTbVo3M1VxMUN3akoxaG04YXNuYU1hcW1hUk5GcnVJbitz?=
- =?utf-8?B?cCtCcjdtV1RLRGRlSkY1ZWM5aUp4S2RwNHlQZGR0WjdJekZpRVIvMUpzdy96?=
- =?utf-8?B?WlpFNkFoK0pZVmpucVNvZytmcXA4dlhPOXF0WnoxTjQzdVl2OGlHTHVzcjAz?=
- =?utf-8?B?d3hTaUZBc2VBWXVjeWdDRSs2QVdrdGNyRENkYkNFdXQzVFRtRUVza29LeFZ6?=
- =?utf-8?B?WE9Wc0JDMUNKc0cvZFIrQUZUclBOakJYNy9SSFBHcEFrT1NTMks5ZkhxZ2hE?=
- =?utf-8?B?K0V3bHFTd3publFEZk1kZGJtdE1IWENHblFhMVhnL0lnRUtkZ0pGTUx2NHE5?=
- =?utf-8?B?bHZ5OUs0ZndDd0lJVEJ2cDJhbEkzTEEyclExTlhKSDJPTXpSdkl2eTdnQ0tU?=
- =?utf-8?B?RDh0MTVSelRmQk41Zlp2Zy9xS0F1Z09hWXNLWVphMEpLUFNadmtFeEk2VWZN?=
- =?utf-8?B?ZlczbEFCRkdRcmdMZXlaNGVCYUFxcGRUd3A4YW13QlNEV1Y2TE1PNThtSlVR?=
- =?utf-8?B?eWlvTWYybkNnRmQ2bTE4MmkzdktCaFNvNXMwdTdrcnNnVUhSS2FWS1RyN08w?=
- =?utf-8?B?aEd0VG5vRDhJeEpwbXIrUXVrbmhZZ25ycklrY2dsbWlNdnlwL2JMYlVSeW9M?=
- =?utf-8?B?ZUwvTzhDdis3WnBJa3B0THpvT1Axbkh6ZERZeVJuVW5nK0NUMzZuVnIxWG5w?=
- =?utf-8?B?Vmp3eU0yU3JZdTY1NlRDVFRQYlZMSzY4UW1BcDBNM3FNczQ5OVI3ajYrL2JX?=
- =?utf-8?B?TTMrb2Fid203cW5XRDFKSURXZFVPaVp1WmdDNE5QOFJCZEh3ZWgxK00zeGhR?=
- =?utf-8?B?OGZCYlJ3NXZKaGRJU1FodEMwVXVpOXlUK3JwY2MrNjhQckZUZ09XQ0tUNnlO?=
- =?utf-8?B?WEtpeWVWTjNuTUFFUGVhUmxycmI4RjJrKzRlaUgyVzJZci9FVjdIUW9CN2hs?=
- =?utf-8?B?UDAzMXlIaERBZStpWUtJNW1GYUZHeGMrR29zQitjSUxNTzFjRXVMc2RZTENR?=
- =?utf-8?B?akRJSysvTGdyVzJDZ3ZsSjB5TVNuMDJUTWtaTi9ZNzUvalFxN1FLZnNwMlBB?=
- =?utf-8?B?UWlGZ2g4dSsxZWFBZmpVaVZPQVpOWFg5V0N6a2E4WU5DYXQ3azluMDRJVFdI?=
- =?utf-8?B?dHN6aHNLWXBNYkNvNDNwa29naEJJYjdKR2xlY1Q4NUdrVEZmTDIreGdYV2Vq?=
- =?utf-8?B?OVNiSDAzaVFGdEN2Qkg2c2FrcnJHNk5WVkcyOUhKYWN4Z3k0TWZTbytrUTg0?=
- =?utf-8?B?RmdmR2xVZUJ1NkN5NGNVSThyTmZyZGpoc2NveENkZEVqZzE4UTc5WTNGMzds?=
- =?utf-8?B?VzAvdDIya2VkNk5ZV0pIVlRxVmwwVEd3RmRoM0xCQlc3SUdkL2cvUURGY1BL?=
- =?utf-8?B?T3grZWdvMHVUN0JnOU04d09mSkpFaEFQYmJxZEZ3dVZDOE5oS3UxWng2UTZt?=
- =?utf-8?B?VmtXTExVMzYrNHVJaGoyazh6dzFTZy9SLzIyUGEvb3JjZjRJNDdQbWc1Z08v?=
- =?utf-8?B?N1laelRBOXEyYWt3VDFiV2VycnNyS0d4V2VMNEZGeEFXbFhqZzYzQzVJV2x2?=
- =?utf-8?Q?9CbDcif+BRJFpKHgCxGWTk5v3?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e38f83c-e7f9-42ca-2a2a-08de00e3fe41
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 12:13:56.0236
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z1x4qtru3UJpG3KLMkD1xkyUYx6B7OoGEL/HzvdavhMJAAlXtnDRsC8O+JvXWHbuRhc0LouHRzfQsQcUv7X5oQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6899
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/6] coresight: Add format attribute for setting the
+ timestamp interval
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org>
+ <20250814-james-cs-syncfreq-v2-5-c76fcb87696d@linaro.org>
+ <20250930151414.GK7985@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250930151414.GK7985@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9/30/2025 11:55 PM, Dave Martin wrote:
-> Hi,
-> 
-> On Tue, Sep 30, 2025 at 12:43:36PM +0800, Chen, Yu C wrote:
->> On 9/29/2025 10:13 PM, Dave Martin wrote:
+
+
+On 30/09/2025 4:14 pm, Leo Yan wrote:
+> On Thu, Aug 14, 2025 at 11:49:56AM +0100, James Clark wrote:
 > 
 > [...]
 > 
->>> I guess it would be up to the arch code whether to trust ACPI if it
->>> says that the maximum value of this field is > 511.  (> 65535 would be
->>> impossible though, since the fields would start to overlap each
->>> other...)
->>>
->>> Would anything break in the interface proposed here, if the maximum
->>> value is larger than 511?  (I'm hoping not.  For MPAM, the bandwidth
->>> controls can have up to 16 bits and the size can be probed though MMIO
->>> registers.
->>>
->>
->> I overlooked this bit width. It should not exceed 511 according to the
->> RDT spec. Previously, I was just wondering how to calculate the legacy
->> MB percentage in Tony's example. If we want to keep consistency - if
->> the user provides a value of 10, what is the denominator: Is it 255,
->> 511, or something queried from ACPI.
->>
->> MB: 0=4;1=75           <--- 10/255
->> #MB_HW: 0=10;1=191
->> #MB_MIN: 0=10;1=191
->> #MB_MAX: 0=64;1=191
->>
->> or
->>
->> MB: 0=1;1=75          <--- 10/511
->> #MB_HW: 0=10;1=191
->> #MB_MIN: 0=10;1=191
->> #MB_MAX: 0=64;1=191
->>
->> thanks,
->> Chenyu
+>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> @@ -25,6 +25,11 @@
+>>   #include "coresight-syscfg.h"
+>>   #include "coresight-trace-id.h"
+>>   
+>> +#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+>> +#include <linux/perf/arm_pmu.h>
+>> +#include "coresight-etm4x.h"
+>> +#endif
+>> +
+>>   static struct pmu etm_pmu;
+>>   static bool etm_perf_up;
+>>   
+>> @@ -69,7 +74,10 @@ PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
+>>   /* config ID - set if a system configuration is selected */
+>>   PMU_FORMAT_ATTR(configid,	"config2:32-63");
+>>   PMU_FORMAT_ATTR(cc_threshold,	"config3:0-11");
+>> -
+>> +#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+>> +/* Interval = (2 ^ ts_level) */
+>> +GEN_PMU_FORMAT_ATTR(ts_level);
+>> +#endif
+>>   
+>>   /*
+>>    * contextid always traces the "PID".  The PID is in CONTEXTIDR_EL1
+>> @@ -103,6 +111,9 @@ static struct attribute *etm_config_formats_attr[] = {
+>>   	&format_attr_configid.attr,
+>>   	&format_attr_branch_broadcast.attr,
+>>   	&format_attr_cc_threshold.attr,
+>> +#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+>> +	&format_attr_ts_level.attr,
+>> +#endif
 > 
-> The denomiator (the "scale" parameter in my model, though the name is
-> unimportant) should be whatever quantity of resource is specified in
-> the "unit" parameter.
+> By using .visible() callback for attrs, we can improve a bit code
+> without spreading "#ifdef IS_ENABLED()" in this file. E.g.,
 > 
-> For "percentage" type controls, I'd expect the unit to be 100% ("100pc"
-> in my syntax).
+>     static umode_t format_attr_is_visible(struct kobject *kobj,
+>                                     struct attribute *attr, int n)
+>     {
+>          struct device *dev = kobj_to_dev(kobj);
 > 
-> So, Tony suggestion looks plausible to me [1] :
+>          if (attr == &format_attr_ts_level.attr &&
+> 	    !IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
+>                  return 0;
 > 
->   | Yes. 255 (or whatever "Q" value is provided in the ACPI table)
->   | corresponds to no throttling, so 100% bandwidth.
+>          return attr->mode;
+>     }
 > 
-> So, if ACPI says Q=387, that's the denominator we advertise.
+> Otherwise, LGTM:
 > 
-> Does that sound right?
+> Reviewed-by: Leo Yan <leo.yan@arm.com>
 > 
 
-Yes, it makes sense, the denominator is the "scale" in your example.
+Unfortunately that won't work because you'd have to always include 
+coresight-etm4x.h. This file is compiled for both arm32 and arm64 so it 
+would break the arm32 build.
 
-> Question: is this a global parameter, or per-CPU?
-> 
+I could define the TTR_CFG_FLD_ts_level_* stuff somewhere else but then 
+it becomes messier than just doing the #ifdefs here.
 
-It should be a global setting for all the MBA Register Blocks.
-
-Thanks,
-Chenyu
-
->  From the v1.2 RDT spec, it looks like it is a single, global parameter.
-> I hope this is true (!)  But I'm not too familiar with these specs...
-> 
-> Cheers
-> ---Dave
-> 
-> 
-> [1] https://lore.kernel.org/lkml/aNq11fmlac6dH4pH@agluck-desk3/
+>>   	NULL,
+>>   };
+>>   
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> index 1a2d02bdcb88..42277c201d4f 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> @@ -28,6 +28,7 @@
+>>   #include <linux/amba/bus.h>
+>>   #include <linux/seq_file.h>
+>>   #include <linux/uaccess.h>
+>> +#include <linux/perf/arm_pmu.h>
+>>   #include <linux/perf_event.h>
+>>   #include <linux/platform_device.h>
+>>   #include <linux/pm_runtime.h>
+>> @@ -615,7 +616,7 @@ static void etm4_enable_hw_smp_call(void *info)
+>>    *  +--------------+
+>>    *         |
+>>    *  +------v-------+
+>> - *  | Counter x    |   (reload to 1 on underflow)
+>> + *  | Counter x    |   (reload to 2 ^ ts_level on underflow)
+>>    *  +--------------+
+>>    *         |
+>>    *  +------v--------------+
+>> @@ -626,11 +627,17 @@ static void etm4_enable_hw_smp_call(void *info)
+>>    *  | Timestamp Generator  |  (timestamp on resource y)
+>>    *  +----------------------+
+>>    */
+>> -static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+>> +static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata,
+>> +				       struct perf_event_attr *attr)
+>>   {
+>>   	int ctridx;
+>>   	int rselector;
+>>   	struct etmv4_config *config = &drvdata->config;
+>> +	u8 ts_level = ATTR_CFG_GET_FLD(attr, ts_level);
+>> +
+>> +	/* Disable when ts_level == MAX */
+>> +	if (ts_level == FIELD_GET(ATTR_CFG_FLD_ts_level_MASK, UINT_MAX))
+>> +		return 0;
+>>   
+>>   	/* No point in trying if we don't have at least one counter */
+>>   	if (!drvdata->nr_cntr)
+>> @@ -666,12 +673,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+>>   		return -ENOSPC;
+>>   	}
+>>   
+>> -	/*
+>> -	 * Initialise original and reload counter value to the smallest
+>> -	 * possible value in order to get as much precision as we can.
+>> -	 */
+>> -	config->cntr_val[ctridx] = 1;
+>> -	config->cntrldvr[ctridx] = 1;
+>> +	/* Initialise original and reload counter value. */
+>> +	config->cntr_val[ctridx] = config->cntrldvr[ctridx] = 1 << ts_level;
+>>   
+>>   	/*
+>>   	 * Trace Counter Control Register TRCCNTCTLRn
+>> @@ -761,7 +764,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>   		 * order to correlate instructions executed on different CPUs
+>>   		 * (CPU-wide trace scenarios).
+>>   		 */
+>> -		ret = etm4_config_timestamp_event(drvdata);
+>> +		ret = etm4_config_timestamp_event(drvdata, attr);
+>>   
+>>   		/*
+>>   		 * No need to go further if timestamp intervals can't
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
+>> index aaa6633b2d67..54558de158fa 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
+>> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
+>> @@ -598,6 +598,12 @@
+>>   #define ETM_CNTR_MAX_VAL		0xFFFF
+>>   #define ETM_TRACEID_MASK		0x3f
+>>   
+>> +#define ATTR_CFG_FLD_ts_level_CFG	config3
+>> +#define ATTR_CFG_FLD_ts_level_LO	12
+>> +#define ATTR_CFG_FLD_ts_level_HI	15
+>> +#define ATTR_CFG_FLD_ts_level_MASK	GENMASK(ATTR_CFG_FLD_ts_level_HI, \
+>> +						ATTR_CFG_FLD_ts_level_LO)
+>> +
+>>   /* ETMv4 programming modes */
+>>   #define ETM_MODE_EXCLUDE		BIT(0)
+>>   #define ETM_MODE_LOAD			BIT(1)
 >>
+>> -- 
+>> 2.34.1
+>>
+
