@@ -1,119 +1,110 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E572ED141;
-	Wed,  1 Oct 2025 13:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50AB2FCBEF
+	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 13:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759326951; cv=none; b=NPRatIyzFVgS+e2waTtvj/uUHWWmB2ZkY+k1gtg75WNKesgHuAHjo49VlF9KHzrEzb1fWYbUrQLIJ6T16u2wO9T6SrYz8nlLDTeZq02D15ba/IZLh1T81eueWAh1owbKBZhkzMiT5rUYRQvdmpstBdJJi7nuF9o7kpdFpSNeVRM=
+	t=1759327101; cv=none; b=S5dVkECJqYtsJ5ihuBFS7dzeyntMLsKu23HzqAxDTZjWouejh1/fFPX9xca4IB8NrEHGX13UvOmhC3WEzvFT4KwAg5Ptp2RTej+8XW7XLCWiSHHMuwuTcRFzVlV89162u1kqyAitYGRfr3I5P2rU2n6kvJEnt7IsmLhufOiwTIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759326951; c=relaxed/simple;
-	bh=DBLdPLwAPYxwY8YrL6peFCZsoq23oqhi/xsqOQI7luo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/EaQNMowLjtYcQryt5UUlibu3mfTZXTRTvAxiSxYeLdE4Q1DUQ81wOey1JoX73hsQLXec5Z3b2LYjEUlVVBbccxPgPnxJGQQYQ46IHg7t6Jh30g2AA55cJLvLVHeyBsR2q9ahglgwMSq/skLXFXM/exNKugLHYHTwC4ljAjblM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A795A16F2;
-	Wed,  1 Oct 2025 06:55:40 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52C6A3F66E;
-	Wed,  1 Oct 2025 06:55:48 -0700 (PDT)
-Date: Wed, 1 Oct 2025 14:55:46 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] coresight: Add format attribute for setting the
- timestamp interval
-Message-ID: <20251001135546.GP7985@e132581.arm.com>
-References: <20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org>
- <20250814-james-cs-syncfreq-v2-5-c76fcb87696d@linaro.org>
- <20250930151414.GK7985@e132581.arm.com>
- <3a731a9e-0621-42b6-b7fc-4b0fd9b7da6e@linaro.org>
- <20251001132815.GN7985@e132581.arm.com>
- <708a5bbd-2bad-4f94-8fd1-6bd10825ba71@linaro.org>
+	s=arc-20240116; t=1759327101; c=relaxed/simple;
+	bh=AErz9DRE4zvoV1QAhCMy5Ce5EIwMk6a2u/GPbn+LmQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EY6gUYbwAfKdoZ4S2w+z3XA9/ibdrI+SHDQVK19rIQp02WCxzA0cdRxNsT3XRX8d59eNSrmPNFROscduaUqoLxXK/nSD+RVqO6eevq2Q8KUu+dEgCjsyAEg6kq+pgZRIYq50YZO8+UKMScQQpih2LgAzDD9ZTh7hPjLzccyvsT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1LKbfYf; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1LKbfYf"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-77f605f22easo6665021b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759327099; x=1759931899; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
+        b=K1LKbfYfUGXFWYvfX9kmYN4cWonxTWwRsQHoZ/jqJmu2PUT3AZ+tIn6EUVgftXh8tB
+         4WXSJ2H2fGyw4k2cz5iknj4W9+t4WvIgkeQAZChB4l+giybjKfJDerXnTOpfPNbAglXC
+         tj82md1n4DRn171jFJGeQs6jGmklWW4Rlg3Gy0dViy+sW44/D0J862hcZaf6X+V6ysu3
+         /6e1ag5aAFU+CM4J3aewn6HBL74th60oJYAGw2MiR7R6jLXlkQE+UzN2Ptj9lcCX1JvD
+         uc5cFR9Efhdo1E+n0KB9ZzUz9vPQ6CHBWFSUY4ttEqc7yeeEeEIHvmkVNPrh64/CGTNt
+         z51g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759327099; x=1759931899;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cHICQ9kYf8w+w6O3p0zJJOxecrN+M89vOZ1OdrVwWEc=;
+        b=pvpliesN/kNC829Yv4lK3Gd1YtadT54uN1VAsR4VREnozxHxlr3DmtjXI394Vw80G1
+         3IvWGLlaBZSrtsEWA6H3p3400zwR5IHNPHGdFF7EaQQtiAPkzxmUTyOLwx32dd60IRs6
+         JCmv0Rx9o4rAHPEjQTjf8FGyp0kHcj8nGjQH8dkNRHhaNFq5hw8rTV9zMH9h4u7FhOJn
+         YTTDguXb6ofOyswaPp348p+ODMdJWsQGSqjDLmqqTiplAwlcO4vALSn7qDPDXdR28yW2
+         DQUIaKJXLVX/idDX7MHFxiNFu1iV8p0aW4kSO+EPr20p7nijBf6sIp2msCOkVoa7UNoh
+         L/wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ+w5TV4LBTZ8NL3GwZ97SdIGhbemqTb18DY9+A/9nS46m/vXTOSQ3xwEfo6Par1j1DcVIzrjZ3po=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzHDgF1Iv5vIzEsgn0dbzhHudEbyGOT03JnFPdsOVPtOq1YgkH
+	lqVtcWvIoNUDlGAYpLoa5+MV5CFMRz47UCUnSIfYvv4WSdUq14KXpTh4B8zX94m8
+X-Gm-Gg: ASbGncs07SAUjT3rq8s47eLR/Iy+7Us+3zxKLiLbgibj3pESGlD0cw54zfiiilqkS0Q
+	SEcO55zA+5hsw5PKeCnaNmmj3+1YWa2V92o9rP2K2k87dfs3RAdXmnxsNMQ1bkux4o+SX/En/N2
+	ef0aeabDJEFcDrtmjZuykegUNbBBvFmho7Ugff3gs9KaQbnWVw54mkDmzbeOHkVDsTV779bcu7o
+	01FeIgoGfPovMkEz5xYuzKsDCVkuSvAa5mQPeTJS3P4SnuD0Tg/H2nDIcl+DqalRPYC+1gJ8QHR
+	NYcQdsTSDk1fXvfHHoYtLF4qfVaAmYHj8LnfqYru8XKvVEEsqmSfOq/d39j7PcsWvZL2/FAEd53
+	qiyqiDZJSt8nxF6sgPCVBL88UKFBuTWhehqspLLFNKWHya4tZ7rnMC8s4TXasM0IZYwqpHA==
+X-Google-Smtp-Source: AGHT+IEVrUrSHnJxKWleti3ip/7ssnZbESbu792noCsfEcKl9fEdE1xbBALgSKgo50vIeSR68LO4xQ==
+X-Received: by 2002:a17:90b:2249:b0:330:852e:2bcc with SMTP id 98e67ed59e1d1-339a6f38013mr4558738a91.21.1759327099110;
+        Wed, 01 Oct 2025 06:58:19 -0700 (PDT)
+Received: from [10.0.2.15] ([157.50.95.38])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3399be87425sm2129797a91.1.2025.10.01.06.58.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 06:58:18 -0700 (PDT)
+Message-ID: <425ef7bd-011c-4b05-99fe-2b0e3313c3ce@gmail.com>
+Date: Wed, 1 Oct 2025 19:19:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <708a5bbd-2bad-4f94-8fd1-6bd10825ba71@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs: doc: Fix typos
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Paulo Alcantara <pc@manguebit.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, netfs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com
+References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
+ <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+ <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
+Content-Language: en-US
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+In-Reply-To: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 01, 2025 at 02:44:06PM +0100, James Clark wrote:
-
-[...]
-
-> > ATTR_CFG_FLD_ts_level_* is only used in coresight-etm4x-core.c, it is not
-> > used in coresight-etm-perf.c. Thus, we don't need to include
-> > coresight-etm4x.h in coresight-etm-perf.c. Do I miss anything?
+On 01/10/25 17:32, Carlos Maiolino wrote:
+> On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
+>> Fix typos in doc comments
+>>
+>> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 > 
-> Yes, GEN_PMU_FORMAT_ATTR() uses them but it makes it hard to see.
-
-I did a quick test, it is feasible to move ATTR_CFG_* macros in
-coresight-etm-perf.h. This is a more suitable ?
-
-diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-index 5febbcdb8696..2679d5b2dd9a 100644
---- a/drivers/hwtracing/coresight/coresight-etm-perf.h
-+++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-@@ -8,6 +8,7 @@
- #define _CORESIGHT_ETM_PERF_H
- 
- #include <linux/percpu-defs.h>
-+#include <linux/perf/arm_pmu.h>
- #include "coresight-priv.h"
- 
- struct coresight_device;
-@@ -20,6 +21,12 @@ struct cscfg_config_desc;
-  */
- #define ETM_ADDR_CMP_MAX       8
- 
-+#define ATTR_CFG_FLD_ts_level_CFG      config3
-+#define ATTR_CFG_FLD_ts_level_LO       12
-+#define ATTR_CFG_FLD_ts_level_HI       15
-+#define ATTR_CFG_FLD_ts_level_MASK     GENMASK(ATTR_CFG_FLD_ts_level_HI, \
-+                                               ATTR_CFG_FLD_ts_level_LO)
-+
-
-> > A similiar case is the attr 'cc_threshold' is only used by ETMv4, it is
-> > exported always. It is not bad for me to always expose these attrs but
-> > in the are ignored in the ETMv3 driver - so we even don't need to
-> > bother adding .visible() callback.
-> > 
+> Perhaps would be better to split this into subsystem-specific patches?
 > 
-> I disagree with always showing them. I think they should be hidden if
-> they're not used, or at least return an error to avoid confusing users. It
-> also wastes config bits if they're allocated but never used.
+> This probably needs to be re-sent anyway as bcachefs was removed from
+> mainline.
+> 
+I just did a google search and understood about frozen state of bcachefs
+in linux kernel since 6.17 release onward. It is going to be maintained 
+externally. 
 
-It is fine for not exposing ETMv4 only attrs for ETMv3.
+Thanks for your comment. I will resend the patch excluding bcachefs.
 
-> Either way, this was done because of the header mechanics which can only be
-> avoided by adding more changes than just the #ifdefs. There are also already
-> ETM4 #ifdefs in the file.
+Thanks.
 
-Yeah, actually we can remove ETM4 #ifdefs, something like:
 
- /*
-  * contextid always traces the "PID".  The PID is in CONTEXTIDR_EL1
-@@ -90,9 +83,9 @@ static ssize_t format_attr_contextid_show(struct device *dev,
- {
-        int pid_fmt = ETM_OPT_CTXTID;
- 
--#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
--       pid_fmt = is_kernel_in_hyp_mode() ? ETM_OPT_CTXTID2 : ETM_OPT_CTXTID;
--#endif
-+       if (IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
-+               pid_fmt = is_kernel_in_hyp_mode() ? ETM_OPT_CTXTID2 : ;
-+
-        return sprintf(page, "config:%d\n", pid_fmt);
- }
-
-Thanks,
-Leo
