@@ -1,80 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407971804A;
-	Wed,  1 Oct 2025 15:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF511373;
+	Wed,  1 Oct 2025 16:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759331446; cv=none; b=C7Bb7qqdwRxURhsm7YHtJbzEwsZ2EYN03i+i14lRlJFw5pi6KTraiy1evS4T/fRjcYIfIiHxMnFOmCzUmRf+wU44xnfIN/vNxcq2i0iWR/j/0ec3XqULNt6RnjWbbqGfHMLaMAZMSIzlfpe7BXPGHFMLtHzogJUQsBJRHg20IUU=
+	t=1759337629; cv=none; b=L76d/ARHyVolESwcKeof5MVSwtsQO6+sPwjiOHLgcT+Wm0x0AWO9DyrA+81Psa+Ys7yWjSJmkw01UVnOi0ECA/UFWHS+/x3QPCGS+8WanDrOsFRwSkAk1QutnRZ4M1YfAzOAKPdPftYepYt5dVFCIW6ed4WVof5F6ysnAfD/4ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759331446; c=relaxed/simple;
-	bh=uSxSwcRiOedDXLxhKHKuV9V6Dg4ErwnHgLo2OrsfABM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=X1vQGr///uopctOUWHxoioTn9wG1vcC2YqbAag5sEy5OexSXkd2cRI/MzL3vNuj+w/OKLJagm2t7W/yBRkH+4TgmdhsN+RwFEvo5v+UL/norWZRvP//UmgcpWRaLNBTRGmu3sqYQH8IWyoWuYd3ORMZ/4isys1C6+1IMYkYWnWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hyvjgiRt; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1759337629; c=relaxed/simple;
+	bh=P32gxchqra0nGyRnN6ybBTNOyNQvXQZ4xfdZWywRGCA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UU6Yigz7qxaRQ8TDCagCZtmTBj+9DTPUy71YchlhvE3q8l8bdrYgfitoxLudln/kAs9uHkmE47bOyOKsBSXoL23NI0SAz2fKinaEOUtimyI+GuA4v8XS0zf7dex06Lm/tMPOlOyMXymyB9IL1mwLqb3Ps0us1oyWf4HL/pSXpD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=e1gkShnm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hyvjgiRt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4E3A440B16
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1759331140; bh=yLk5OwJbwXxV5BczbIFscvh4zqFZOlvNfCr2TP9UgbE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hyvjgiRtDJHYsTOoMedTQg3tjIVLOPV86Gr5ixQA6l/gXaWg45bpr6ovRo/aqXXmA
-	 sAox3cGc481W8k4zJNaUZixcFztg+kgk2MEFqjxBW8AIfJcZ2uVqWZAKgpVCtK4u3V
-	 1o5DPYJCmKQXTgD+JvCbhrwSIlC4BGhe+bXjX7IQsjdS9+E3yawYMC5HGaR8g8fcUs
-	 YKKfqvTsIftKekG+HOmKzSlTjQDL5V+ymYwC97W+/QxgotlvmcOWicApT+a3AF6sSu
-	 pyNrvdDOqdyjmnJ3e0qe1jiiJ0qnEmWwpPcySVeSoDedM8biTLP0e6Bk6hNfhosCnp
-	 xA9sd1gmhctdQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4E3A440B16;
-	Wed,  1 Oct 2025 15:05:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Some patches against build-script
-In-Reply-To: <cover.1759328070.git.mchehab+huawei@kernel.org>
-References: <cover.1759328070.git.mchehab+huawei@kernel.org>
-Date: Wed, 01 Oct 2025 09:05:36 -0600
-Message-ID: <87seg2u0fz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e1gkShnm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ibzNKx/gRXGnc4tiiG6OxYzIZRUZZP1ZY3ujHEfJkWU=; b=e1gkShnmJaB0Supwo7SgLY7Eqd
+	Zvgl2nXKG4JUnkaZJc//qyDKXaWuJoCn05Aezxnvig+xiDZ+kfYoBw6DrShItI4vAskZJxu3/4Bne
+	5GiDJzqBotIt9VSbsMZ0MtLDzCqWyjxAh8Pu3L1sbUrXBPbeE091wMJzDGT80NWOhpls0BhJHb1Ot
+	px5/Pphug1qdZU7BZikFatZc/WXlq3ySBl4TiYGDvsTdTsnhAgauS92IcIz+drWFQqN4hv7i4C/nv
+	xGfDTAUtzLnhIHxN27C2zNDAASIM9dPcLwk4bfLbX8wbZgkr3u58oreBHdvuSNFdVziyV8IN0jWO4
+	ZFeetP0g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v405F-00000008aUQ-1ba1;
+	Wed, 01 Oct 2025 16:53:41 +0000
+Message-ID: <81c03cb3-5c97-4a6d-bf20-53c5afde2b42@infradead.org>
+Date: Wed, 1 Oct 2025 09:53:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs: doc: Fix typos
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>, Jonathan Corbet
+ <corbet@lwn.net>, Carlos Maiolino <cem@kernel.org>,
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Hi Jon,
->
-> This small patch series contain 3 minor fixes/cleanups for
-> sphinx-build-wrapper addressing some corner usecases.
->
-> Patch 1 was already submitted. It avoids 2 harmless warnings when
-> texlive is not installed.
->
-> Patch 2 fixes the checker for latexmk (PDFLATEX env) when texlive
-> is not installed.
->
-> Patch 3 restores the logic to store *.pyc files under builddir 
-> instead of sourcedir.
->
-> Mauro Carvalho Chehab (3):
->   docs: Makefile: avoid a warning when using without texlive
->   tools/docs: sphinx-build-wrapper: pdflatex is needed only for pdf
->   docs: Makefile: use PYTHONPYCACHEPREFIX
->
->  Documentation/Makefile          | 19 ++++++++-----------
->  tools/docs/sphinx-build-wrapper |  2 +-
->  2 files changed, 9 insertions(+), 12 deletions(-)
 
-Applied to the build-script branch, thanks.
+On 10/1/25 1:39 AM, Bhanu Seshu Kumar Valluri wrote:
+> Fix typos in doc comments
+> 
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 
-jon
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+Thanks.
+
+> ---
+>  Note: No change in functionality intended.
+> 
+>  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
+>  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
+>  fs/netfs/buffered_read.c                                 | 2 +-
+>  fs/xfs/xfs_linux.h                                       | 2 +-
+>  include/linux/fs.h                                       | 4 ++--
+>  5 files changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+~Randy
+
