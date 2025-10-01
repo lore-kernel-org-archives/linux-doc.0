@@ -1,173 +1,168 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F442D1F40
-	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 10:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EA929BDBF
+	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 11:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759314608; cv=none; b=h3cP1nR/JeX2oWuCIspNAaN3Ui6es2lwBdGOD9e8ru7C9hjnPGYSwGaeMyrXMviX1NWNbFRcpTz5NCdg2ArMaAGdZL0BwVPcg3TJ2BMGKY8Pj3GxldyDhfcJW5uv/EkhfGEOfyyjo1pxzsxeqkbks4OTLHQCJO8JsIksA/Mn/P8=
+	t=1759317667; cv=none; b=Eon1tISwckpDXCmB2VlA3lwkLX5+7xUfJbJYIhu67CmC3YJ7Cca4WaAiHzVmAbm7BWnVCHs7h+nkih7vuwiWHn7b4+o4n21SZDWuPrwSCngttKccGrkfcHRjrnk9/a2u9sDNGrg3GkGSeW9Ntak3fFDkfvj+9XLwkCm3cWsGR/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759314608; c=relaxed/simple;
-	bh=lpcbaTnRUfRuUjlxvKbi7MippNxGb5EWhV7oCbjdFdE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jgPah5EOKPCyB2rGaVTa3hR89pfiTPqALcO9seq9h87c/Ga89NZch/cNtKTsFHvTPjq4HpXeHenaVuOID9pGVB1jd5g9XuLDVnO84xB5/HLrM6RxJFbVqIOHvWS5ITaIEM0HvUoKV7I1iKJ2iE4sLO1n0dvWawS9n8nDKUVM/UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LN4oECF6; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1759317667; c=relaxed/simple;
+	bh=iDPAOHqTnPX2mxejTCD1O7zpb4EkZSoVRII/NCHvvcQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=QfpEZj25aL7i8vhIWanvfIbKjKtXsJp/hnypNkjLkxqWzFq1acwCM/5mzg28AxgbVjANSnn4HuMn06GJd1MbWJFJh/nuFgOvZzOXtp7qrVCey7OvSrZ/UFT33sRMBIZ+vcvsb3wyPgrkB55mkoeB+TA/UNLn7loaujc6ajMfxMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZuU/6hE; arc=none smtp.client-ip=209.85.222.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LN4oECF6"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-33082aed31dso7770681a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 03:30:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZuU/6hE"
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9231a251c01so1650407241.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 04:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759314604; x=1759919404; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Fvvc2wJV4y/adOnS6TVe7Zorj1unil+xBTIrzA8bkw=;
-        b=LN4oECF6HYqrTDe+J/1iFgvvBgpF+ylX/BvnGJ2gzWGqCOLBwZWzVdVZe4YDBcofmA
-         WRGYXuZgjyGX4wJyaCo5qH9daAPc+L9Z+dZ0coRPFX88n5596085TpgMmfcSrQ1pr3Rs
-         qG07v2FlTmy/4HxWEeme1eptGO9PgQ8Nay2iwYnvZkCGT3tkx3q09RPAibF/iUnJDh/f
-         HrnFByyQmiinRkIQTG/Fdk2pxRRbHCBd1HnnJ5w6llR8z+uBoaMMa9xPQ3mpcXhdMtDx
-         t9EWKjOEyjBE1uwIVJ3ayJz4Wy4TzVgev76WVQNCUfKGxwCRmivNXvrpXEVfypdWca1/
-         9EZg==
+        d=gmail.com; s=20230601; t=1759317664; x=1759922464; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xR37YqUgKGGTRsY6kdNttuPPRZR7ErW4iWvRqpUWWlM=;
+        b=bZuU/6hE9o+Yjw6GV/QJHjq0SH1S8SulcQa34+TYi0WA65qMRPSCWTBwujimJMvRws
+         QsJpUcqViSoIj/v7hiCe1LP/xAtrZ3olggHymBrgHVxWcxog9kpW+RLoY0x2DES36pqz
+         5BdcCKQOAbejh/yXMUpbqyu6hfaDkN5PtcaT7PwAzL2oOCZyApCPBN/WmDoAaLcOeMCr
+         5kdCjiXE1vcZyOmzbUM1Piiv9TJD+moFGRONBLb6CMph79l+ctUaH29NwE353FGfX2iT
+         3OIzzJbtLCfVujmTL8uofFnoOPjZ5YjFohSVh3f/MIL8ZDF7ih53ZVINphHTu5eQpf7f
+         dGFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759314604; x=1759919404;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Fvvc2wJV4y/adOnS6TVe7Zorj1unil+xBTIrzA8bkw=;
-        b=TWEkzEVg+XxWl4wHtPyAPbNNXAMYsulOF2fWwy/2tKBMHB80HwWz9xOLTPjEhnfreP
-         XpsyxlgsW20W2nxNQU3Ihyzn8JJsFnUk4TN1Ho25ZdPEXPeqRSP5H1gDBCenwMMlCxG9
-         lNdDlyAKqCwXojwbQovgzSA2gpPnqaZX0tU3WEfGuN2m7hTfg2zjjSmC2MMEpDdCU8/0
-         usprcG4HRmcUJ6vOlAkMGyv438BShn+qh7WXeHc8HqRXNjndFxlZqblv3SU6NUTvCSj1
-         aWJ3iw5NrQLkvfmp0ORqJyZFpelaOVYSzP7eE8TOvJv3Uyscz+icPBnK9txbYBPMQG/z
-         S4+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVz/ze18faFvrQgW+zyBKSqhmnt/PegLBbd7xkxB46W3jhEW+q7eCWv18A6EOgXxYOSL3O45TgAp24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoX6tdiClWzKThJE2HzTUSjd8Ac+lsA13RtXi8IS+lH34latfK
-	mZKLf2dbw10XzEe7IDSSrJqSIiTu3RpC7+i6rreXrZAJGUhMr7GSU8k2
-X-Gm-Gg: ASbGnctZvBTw5tB5/Y94La2Bz5beJEOvF8ZjpWGGP3DqfLLvFb56yWx07Q54BQTMWfk
-	rgRuV4T2dL8vwVF3G7ujvt6iU5XG5CCQ8ZlIEUS32YKjksX8yVIJXnJD3O1nYHu+B+zYUL9jrcC
-	d0e57pARnw2W1TceMXh//a1JsSvy7HDXEOCedHmNMhPZDJ3ppgsH9XPYICGFbmm9QZXAYySJmip
-	qxAWrRQONxNgLQHAgbivkW7TLEqMJqDPg88B8+YvH553vnzq3FF2iAe64F76nCDNvHGtACpeEkl
-	Wd4rsFPCHWHYHugiSWIyUNNjzjipsmMNZflg9MEvghRDCRZeKaR74Yf83u+L5ZOJ/Ce7Akv/OdB
-	r2MaTt6kG4fu6y5b8qn9yxRqTwkbkQtxWyBJKd6XBpvn+RWeCOw==
-X-Google-Smtp-Source: AGHT+IGlOP08FechFri9XhBd09rOWOVrXywqRW8pZP7UrkJv21iqrkorW0M3GD4lm+V6u0a1W3KkFQ==
-X-Received: by 2002:a17:90b:4d06:b0:30a:4874:5397 with SMTP id 98e67ed59e1d1-339a6ea3208mr2952898a91.9.1759314603841;
-        Wed, 01 Oct 2025 03:30:03 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b608f0fe65esm643463a12.0.2025.10.01.03.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 03:30:02 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E93B544507EC; Wed, 01 Oct 2025 17:29:59 +0700 (WIB)
-Date: Wed, 1 Oct 2025 17:29:59 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Halil Pasic <pasic@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Dust Li <dust.li@linux.alibaba.com>,
-	Sidraya Jayagond <sidraya@linux.ibm.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Mahanta Jambigi <mjambigi@linux.ibm.com>,
-	Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Guangguan Wang <guangguan.wang@linux.alibaba.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH net-next v5 1/2] net/smc: make wr buffer count
- configurable
-Message-ID: <aN0Cpw7mTtLdnBMZ@archie.me>
-References: <20250929000001.1752206-1-pasic@linux.ibm.com>
- <20250929000001.1752206-2-pasic@linux.ibm.com>
+        d=1e100.net; s=20230601; t=1759317664; x=1759922464;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xR37YqUgKGGTRsY6kdNttuPPRZR7ErW4iWvRqpUWWlM=;
+        b=Ob36Mq4h57Hbikh3y7OuPD4s1IyzwWxiDB4++jJytAAUUrrv+TnLs37AvvfK47s/PS
+         /VkhaYnHgZMmFmvD4WK4OBauh2GDobwnZQxxeNl/hnuwbGpADTmkgw9Ic58I5snWaoMb
+         +16WHzIHHrglVYzYPqJwHg7chzJZ9GM3ZK0Nv/BACFeDFLHZXHgfgMR1viDl1OiVbmw3
+         S9g52egHR0qpSpAedcebOiBTbP5XrSdHoQLxr363SxN1p+Vw9vdyO9JEucj1ttXBU9sk
+         d+b0aH5toR36nSp13qXT+cYWpU3AE4XEMTUwqaV7x8SY1Z3h9bRNEV7bLqxdQwSo/nHx
+         8LdA==
+X-Gm-Message-State: AOJu0YxKLhzTc87cGTqzmXi/DbLmmosyZRIOeBle01Sh7viRgC239kGM
+	g7ZZ8zWw+gZgTHqfvNFQEaJdWRYIbifvPbcZP6OZxsVNOPhItDjzsbBlYWoATs1jvfMnxIGeVgD
+	Q3G50dEoM4WNARDYDqcTQeuAShUKjjkG0/ZHIHls=
+X-Gm-Gg: ASbGncvLH8Vzi5cHU2x2st/iVfWB7RudtuCLspQMBX1eBl79QnwqY3aUmipi7DOv4Lu
+	+8haCsGSI36mieIBOrWZYv3ywW71UjP0WNuneK4SmuGzjeSX87h3wtBejbYlW0G+MJYMnxR4f0a
+	ZCzohAMSlaMgoflJmcrggRTt8tA7rdLZMIPYfVMDD+Af6WDu+7FVBX/I/BKx/RSY2wjBLtbSnoy
+	jdExmp6iWoMXhqHg/YumwhBZUJCCsM=
+X-Google-Smtp-Source: AGHT+IE3OOcRCgFcEkSa8qBiUCg07s8CZpVsZCIoj/KRk/vPi2rLn76pnfnBj+oYmvB9En5ihIdohg+xca7kIpyTndI=
+X-Received: by 2002:a05:6122:1309:b0:54b:bf2f:bcd7 with SMTP id
+ 71dfb90a1353d-5522d36af40mr1013365e0c.11.1759317664537; Wed, 01 Oct 2025
+ 04:21:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XTnKR8OXozLogMib"
-Content-Disposition: inline
-In-Reply-To: <20250929000001.1752206-2-pasic@linux.ibm.com>
+From: Mr Tourist <zakiuddin321@gmail.com>
+Date: Wed, 1 Oct 2025 16:50:52 +0530
+X-Gm-Features: AS18NWBdVOgc-ZAtjTWohuyaTHDcE4cJpBQeC3nNAQV1y2jK0C27Jo6SLVNTGew
+Message-ID: <CAOXP31GrRf2Q8NcqQ4161TiUuagZjp8i6CmEPZC1LsiGjxcD2Q@mail.gmail.com>
+Subject: [PATCH] docs: reorganize kernel documentation overview for clarity
+To: linux-doc@vger.kernel.org
+Content-Type: multipart/mixed; boundary="00000000000071446806401710df"
 
+--00000000000071446806401710df
+Content-Type: multipart/alternative; boundary="00000000000071446706401710dd"
 
---XTnKR8OXozLogMib
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--00000000000071446706401710dd
+Content-Type: text/plain; charset="UTF-8"
+
+Date: Wed,  1 Oct 2025 11:18:07 +0000
+Message-ID: <20251001111807.7900-1-zakiuddin321@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+    The Cc list above has been expanded by additional
+    addresses found in the patch commit message. By default
+    send-email prompts before sending whenever this occurs.
+    This behavior is controlled by the sendemail.confirm
+    configuration setting.
+
+    For additional information, run 'git send-email --help'.
+    To retain the current behavior, but squelch this message,
+    run 'git config --global sendemail.confirm auto'.
+
+--00000000000071446706401710dd
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 29, 2025 at 02:00:00AM +0200, Halil Pasic wrote:
-> diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/netw=
-orking/smc-sysctl.rst
-> index a874d007f2db..5de4893ef3e7 100644
-> --- a/Documentation/networking/smc-sysctl.rst
-> +++ b/Documentation/networking/smc-sysctl.rst
-> @@ -71,3 +71,39 @@ smcr_max_conns_per_lgr - INTEGER
->  	acceptable value ranges from 16 to 255. Only for SMC-R v2.1 and later.
-> =20
->  	Default: 255
-> +
-> +smcr_max_send_wr - INTEGER
-> +	So called work request buffers are SMCR link (and RDMA queue pair) level
-        So-called
-> +	resources necessary for performing RDMA operations. Since up to 255
-> +	connections can share a link group and thus also a link and the number
-> +	of the work request buffers is decided when the link is allocated,
-> +	depending on the workload it can be a bottleneck in a sense that threads
-> +	have to wait for work request buffers to become available. Before the
-> +	introduction of this control the maximal number of work request buffers
-> +	available on the send path used to be hard coded to 16. With this contr=
-ol
-> +	it becomes configurable. The acceptable range is between 2 and 2048.
-> +
-> +	Please be aware that all the buffers need to be allocated as a physical=
-ly
-> +	continuous array in which each element is a single buffer and has the s=
-ize
-> +	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
-> +	like before having this control.
-> +
-> +	Default: 16
-> +
-> +smcr_max_recv_wr - INTEGER
-> +	So called work request buffers are SMCR link (and RDMA queue pair) level
-Ditto.
-> +	resources necessary for performing RDMA operations. Since up to 255
-> +	connections can share a link group and thus also a link and the number
-> +	of the work request buffers is decided when the link is allocated,
-> +	depending on the workload it can be a bottleneck in a sense that threads
-> +	have to wait for work request buffers to become available. Before the
-> +	introduction of this control the maximal number of work request buffers
-> +	available on the receive path used to be hard coded to 16. With this co=
-ntrol
-> +	it becomes configurable. The acceptable range is between 2 and 2048.
-> +
-> +	Please be aware that all the buffers need to be allocated as a physical=
-ly
-> +	continuous array in which each element is a single buffer and has the s=
-ize
-> +	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
-> +	like before having this control.
-> +
-> +	Default: 48
+<div dir=3D"ltr">Date: Wed, =C2=A01 Oct 2025 11:18:07 +0000<br>Message-ID: =
+&lt;<a href=3D"mailto:20251001111807.7900-1-zakiuddin321@gmail.com">2025100=
+1111807.7900-1-zakiuddin321@gmail.com</a>&gt;<br>X-Mailer: git-send-email 2=
+.50.1<br>MIME-Version: 1.0<br>Content-Transfer-Encoding: 8bit<br><br>=C2=A0=
+ =C2=A0 The Cc list above has been expanded by additional<br>=C2=A0 =C2=A0 =
+addresses found in the patch commit message. By default<br>=C2=A0 =C2=A0 se=
+nd-email prompts before sending whenever this occurs.<br>=C2=A0 =C2=A0 This=
+ behavior is controlled by the sendemail.confirm<br>=C2=A0 =C2=A0 configura=
+tion setting.<br><br>=C2=A0 =C2=A0 For additional information, run &#39;git=
+ send-email --help&#39;.<br>=C2=A0 =C2=A0 To retain the current behavior, b=
+ut squelch this message,<br>=C2=A0 =C2=A0 run &#39;git config --global send=
+email.confirm auto&#39;.</div>
 
-Thanks.
+--00000000000071446706401710dd--
+--00000000000071446806401710df
+Content-Type: application/octet-stream; 
+	name="0001-docs-reorganize-kernel-documentation-overview-for-cl.patch"
+Content-Disposition: attachment; 
+	filename="0001-docs-reorganize-kernel-documentation-overview-for-cl.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mg7waqji0>
+X-Attachment-Id: f_mg7waqji0
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---XTnKR8OXozLogMib
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaN0CowAKCRD2uYlJVVFO
-o0wMAQC5im7T2Vp9QlkibFW/54g3imCkfNlm7IUNsqBjTp2m9AEA1GNBLgxsziTy
-v2vNJmcJSA7s6ugOR+dFS8j67OYO3Qs=
-=jHsY
------END PGP SIGNATURE-----
-
---XTnKR8OXozLogMib--
+RnJvbSBhM2QxYWIzM2NjMzE2NjAwNmZjNTUzYTFkYTMyZTFlOWNiNjVhMmU0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNb2hhbW1lZCBaYWtpdWRkaW4gPHpha2l1ZGRpbjMyMUBnbWFp
+bC5jb20+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMTowOToxNCArMDAwMApTdWJqZWN0OiBbUEFU
+Q0hdIGRvY3M6IHJlb3JnYW5pemUga2VybmVsIGRvY3VtZW50YXRpb24gb3ZlcnZpZXcgZm9yIGNs
+YXJpdHkKClJlc3RydWN0dXJlIHRoZSBrZXJuZWwgZG9jdW1lbnRhdGlvbiBvdmVydmlldyB0byBp
+bXByb3ZlIHJlYWRhYmlsaXR5IGFuZAphY2Nlc3NpYmlsaXR5LiBDaGFuZ2VzIGluY2x1ZGU6Cgot
+IEFkZCBjbGVhciBoaWVyYXJjaGljYWwgc2VjdGlvbnMgd2l0aCBkZXNjcmlwdGl2ZSBoZWFkZXJz
+Ci0gT3JnYW5pemVkIGNvbnRlbnQgaW50byBsb2dpY2FsIGdyb3VwaW5ncwotIEltcHJvdmUgZm9y
+bWF0dGluZyBmb3IgYmV0dGVyIHZpc3VhbCBzY2FubmluZwotIE1haW50YWluIGFsbCBleGlzdGlu
+ZyBpbmZvcm1hdGlvbiB3aGlsZSBwcmVzZW50aW5nIGl0IG1vcmUKICBzeXN0ZW1hdGljYWxseQoK
+VGhlIHJldmlzZWQgc3RydWN0dXJlIGhlbHBzIG5ldyB1c2VycyBhbmQgZGV2ZWxvcGVycyB0byBu
+YXZpZ2F0ZSB0aGUKa2VybmVsIGRvY3VtZW50YXRpb24gc3lzdGVtIGluIGEgYmV0dGVyIHdheQoK
+U2lnbmVkLW9mZi1ieTogTW9oYW1tZWQgWmFraXVkZGluIDx6YWtpdWRkaW4zMjFAZ21haWwuY29t
+PgotLS0KIFJFQURNRSAgICB8IDE4IC0tLS0tLS0tLS0tLS0tLS0tLQogUkVBRE1FLm1kIHwgMjgg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRp
+b25zKCspLCAxOCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBSRUFETUUKIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBSRUFETUUubWQKCmRpZmYgLS1naXQgYS9SRUFETUUgYi9SRUFETUUKZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGZkOTAzNjQ1ZTZkZS4uMDAwMDAwMDAwMDAwCi0t
+LSBhL1JFQURNRQorKysgL2Rldi9udWxsCkBAIC0xLDE4ICswLDAgQEAKLUxpbnV4IGtlcm5lbAot
+PT09PT09PT09PT09Ci0KLVRoZXJlIGFyZSBzZXZlcmFsIGd1aWRlcyBmb3Iga2VybmVsIGRldmVs
+b3BlcnMgYW5kIHVzZXJzLiBUaGVzZSBndWlkZXMgY2FuCi1iZSByZW5kZXJlZCBpbiBhIG51bWJl
+ciBvZiBmb3JtYXRzLCBsaWtlIEhUTUwgYW5kIFBERi4gUGxlYXNlIHJlYWQKLURvY3VtZW50YXRp
+b24vYWRtaW4tZ3VpZGUvUkVBRE1FLnJzdCBmaXJzdC4KLQotSW4gb3JkZXIgdG8gYnVpbGQgdGhl
+IGRvY3VtZW50YXRpb24sIHVzZSBgYG1ha2UgaHRtbGRvY3NgYCBvcgotYGBtYWtlIHBkZmRvY3Ng
+YC4gIFRoZSBmb3JtYXR0ZWQgZG9jdW1lbnRhdGlvbiBjYW4gYWxzbyBiZSByZWFkIG9ubGluZSBh
+dDoKLQotICAgIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0LwotCi1UaGVy
+ZSBhcmUgdmFyaW91cyB0ZXh0IGZpbGVzIGluIHRoZSBEb2N1bWVudGF0aW9uLyBzdWJkaXJlY3Rv
+cnksCi1zZXZlcmFsIG9mIHRoZW0gdXNpbmcgdGhlIHJlU3RydWN0dXJlZFRleHQgbWFya3VwIG5v
+dGF0aW9uLgotCi1QbGVhc2UgcmVhZCB0aGUgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMu
+cnN0IGZpbGUsIGFzIGl0IGNvbnRhaW5zIHRoZQotcmVxdWlyZW1lbnRzIGZvciBidWlsZGluZyBh
+bmQgcnVubmluZyB0aGUga2VybmVsLCBhbmQgaW5mb3JtYXRpb24gYWJvdXQKLXRoZSBwcm9ibGVt
+cyB3aGljaCBtYXkgcmVzdWx0IGJ5IHVwZ3JhZGluZyB5b3VyIGtlcm5lbC4KZGlmZiAtLWdpdCBh
+L1JFQURNRS5tZCBiL1JFQURNRS5tZApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAw
+MDAwMDAuLmEyYzliNjliNjdmZAotLS0gL2Rldi9udWxsCisrKyBiL1JFQURNRS5tZApAQCAtMCww
+ICsxLDI4IEBACisjIExpbnV4IGtlcm5lbAorCisjIyBEb2N1bWVudGF0aW9uIE92ZXJ2aWV3CitU
+aGUgTGludXgga2VybmVsIGRvY3VtZW50YXRpb24gaXMgYXZhaWxhYmxlIGluIG11bHRpcGxlIGZv
+cm1hdHMoSFRNTCwgUERGKSBhbmQgY29udGFpbnMgZXNzZW50YWlsIGd1aWRlcyBmb3IgYm90aCBk
+ZXZlbG9wZXJzIGFuZCB1c2Vycy4KKworIyMgS2V5IERvY3VtZW50YXRpb24KKworIyMjIFByaW1h
+cnkgU3RhcnRpbmcgUG9pbnQKKy0gRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9SRUFETUUucnN0
+CisKKyMjIyBCdWlsZGluZyBEb2N1bWVudGF0aW9uCistIEZvciBIVE1MOiBgbWFrZSBodG1sZG9j
+c2AKKy0gRm9yIFBERjogYG1ha2UgcGRmZG9jc2AKKworIyMjIE9ubGluZSBBY2Nlc3MKKy0gT2Zm
+aWNpYWwgZG9jdW1lbnRhdGlvbjogaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRtbC9sYXRl
+c3QvCisKKyMjIEltcG9ydGFudCBOb3RlcworLSBEb2N1bWVudGF0aW9uIGlzIHByaW1hcmlseSBs
+b2NhdGVkIGluIHRoZSBEb2N1bWVudGFpb24vIGRpcmVjdG9yeQorLSBNYW51eSBmaWxlcyB1c2Ug
+cmVTdHJ1Y3R1cmVkVGV4dCBmb3JtYXQKKy0gQmVmb3JlIGtlcm5lbCB1cGdyYWRlcyBvciBidWls
+ZHMsIHJldmlldyBEb2N1bWVudGF0aW9uIC9wcm9jZXNzL2NoYW5nZXMucnN0IGZvcgorICAgICog
+QnVpbGQgUmVxdWlyZW1lbnRzCisgICAgKiBSdW50aW1lIHJlcXVpcmVtZW50cworICAgICogUG90
+ZW50aWFsIHVwZ3JhZGUgaXNzdWVzIGFuZCBzb2x1dGlvbnMgCitUaGVyZSBhcmUgc2V2ZXJhbCBn
+dWlkZXMgZm9yIGtlcm5lbCBkZXZlbG9wZXJzIGFuZCB1c2Vycy4gVGhlc2UgZ3VpZGVzIGNhbgor
+YmUgcmVuZGVyZWQgaW4gYSBudW1iZXIgb2YgZm9ybWF0cywgbGlrZSBIVE1MIGFuZCBQREYuIFBs
+ZWFzZSByZWFkCitEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL1JFQURNRS5yc3QgZmlyc3QuCisK
+LS0gCjIuNTAuMQoK
+--00000000000071446806401710df--
