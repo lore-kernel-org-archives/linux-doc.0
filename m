@@ -1,278 +1,163 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3096B2E62AF
-	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 11:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6021E5B72;
+	Wed,  1 Oct 2025 12:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759319747; cv=none; b=dr4ptxZkqPHK73lIpXS4YGblCMJtna6iMa4ytPChJHNMJQlI30F5c83kNiGn0XLHaJCFNC76Iz8Nqc5vV+j7uHjtJkJ5e9ueSy1ZfeKEOC2eRweeKACt66rVGz7b0U0sxmmV3dgkBquiLhw1CvRVMBcKlvqbaMFPYm/98AzB90s=
+	t=1759320140; cv=none; b=TKAwhiFE6Zo8CtOtWvdfHlR/dRQyw2CItmuNs/kZPM0i1HgMx4ludvHfL06vtWxmFGFwz2jK+U7MKUOKeqznmQNoIA5Pkz2UXBJUzQBIozEZCPBXuCRIS9oq2Q3SSClg2RaoTR10l84O6e5WgnUoan/sODjwrWkN3DjpdqsQvAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759319747; c=relaxed/simple;
-	bh=xmpoeaaMf0gtwj7Q5LONEi34PrhfPqpYdxTWNSCI0iI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WA/DBXkSYZoGMaa+fPu+m+kxITQXzbU+oR8Rtgt5YwJCI2Yi0RzHGoiRHyAh9Q9jL7sB+hI1B37GhqUuYlHlb1S8HOMd9jJfAjqeFJVcFIxRWFkoXZzN/aUF4g6h+8sDoK/trm0tP8mrVBWNrulCQka3m9uuvwLhaDbfJI+bPE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=e7vaYpAs; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1759320140; c=relaxed/simple;
+	bh=x2gcfm9rEn7fzGNxSfAb9nh5wBLIXStZrfyOxfPSfxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7TWDHus7ZfyJ83qcUbIFZEXJq/ZUkY5gVa5rdFTMKIMbyRO7BY0aU2tbB8bd9p/5fVjozqXWDS+zT+GLslKE1Cz+U6HjUdbf5gq1YElPNxxEi6s4FiCExrG7oEmgojBpifH2giDthkxgfj5cZX4gqfUn+O+/wdFmW6QvuHOwlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jg9/bQtn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e7vaYpAs"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3652d7800a8so55301491fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 04:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759319742; x=1759924542; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s+Hd9ZpJ8NSMaaNJGGKXaZYsFab73oBzlTFfFDLABPU=;
-        b=e7vaYpAspNmcIFje+4nUyWTVp88pgwtaN1REWoKj0+GTLjOWmLPktVPVDtPyAQ3nze
-         +sqNBrfJ7dg3RRsjZ//R0/KuNnehwMqUKh+avWx0aIAdSJfH3kJYBOMAJ/QNwN47EFR/
-         QlRpPuQW/1NcaCefOfBBlno3urt7Q0EU7BmRAs/oj7ip98ZN+8GDbWcQ4gwRd/aXIKHu
-         jtvBdhUF2UmTxmYcXy0mfeYOfSmpwsKFq58vR9ai3i77tbtACPWAw5wyi3Wc2QDcU2tq
-         dJVORC8iwWdXrQW8QXm0RefQtjbF9ldgVLSuB+Ea7FzqJlwIC8uJC3TDQXce1i7O9DvJ
-         6lKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759319742; x=1759924542;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s+Hd9ZpJ8NSMaaNJGGKXaZYsFab73oBzlTFfFDLABPU=;
-        b=PPtr2yippGa/KFKGSwPbEpy/LVH/iY5JkltJXxgqM/mkUFVFmZu2vYThQ48Bxoc3Q4
-         gQNkrDkQy93Mxh+lSSt1TkBBszIrUbwPg5xGV0SxoNzw9bbBquGggxEZgD4BewLjN2ok
-         vRlc87BWLj2CGInCa6s+u78LGQ7KUud6SainOOKQP7cWtyUrWvlEk5xQCo9EMJ4527oj
-         WIlu8ZjysSYC126OHmX6iE1vFMeJ0wBNYGMcOHIcjGOv76DuDbNPU4/ty/uC+ISBN4Bw
-         SsP/zVbOjV3q1lcAKLfJULXgpAhOXlttoDfK4NZWtxXhoO1tLmlGoxlU5B5vcXzDiIDd
-         EMEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXKyuY7xaPLN4ImoKxVcnbpnZxttna5gk8PQVIAL5Lq8klA79OXFKGUx0aPB3xVOY2Pu4hp/juo9C8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVcbigfKRer+VBidkvD9kfqpN8BXdTzyZbDwVokfl4Ff3lbNFq
-	D0XPVNM+B941TXmdUm69NxDyNq77puRMOwfSwaYshhb7ruh1RuvvCYULG6LLpxEqAUo/2vyuZRU
-	JuVWhgEPBkf+AeqSu4m83ggs2ugN72jvAoTadCUX/IQ==
-X-Gm-Gg: ASbGncvYduONmy0FAwnBorIBcpTNlhQGwCn0azLAzvyxpRzeO9m0PKoNdi9GuSvtWs0
-	EcAgQdKOElSPsY9sTOcediA3/8IKPuaz7FR1Lc9lyETusI9cE2RJyxT5tSEgHg4Z/268ZxIUZJi
-	bSXiRtXQJaqvVvHVOZ1xbViENWgtata/qLoBHxqoSGnd+ATMQcEoNdFPwoleTLLlIRvheRF0xV0
-	lbzCRLtUH8SEDLLCmpSR2WS/M58a5c=
-X-Google-Smtp-Source: AGHT+IEkoQyCxkan5PgIYGHY6BH11JmyH8vUxK3/+mXmQXRCKdKilY7uyfLpRwifxnOw6EQlZfknfVKOeIZv4mjpxY4=
-X-Received: by 2002:a2e:a99d:0:b0:372:9453:316d with SMTP id
- 38308e7fff4ca-373a740494emr9691271fa.32.1759319742158; Wed, 01 Oct 2025
- 04:55:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jg9/bQtn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D361C4CEF4;
+	Wed,  1 Oct 2025 12:02:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759320139;
+	bh=x2gcfm9rEn7fzGNxSfAb9nh5wBLIXStZrfyOxfPSfxs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jg9/bQtncx6p+qhnz086sRK8fzpNmsrux64RijUq3Fu+A39c+epcLH4O3L7sSujMO
+	 PfuF2A3e1mDdjTs7VfGgeTEIroSIrD1wwwmoNnzfOMVpyiQhBQVLj5+U/8/CUeA0O3
+	 XOwsJaqg5SDy7nCajwuj4EyO0UoPGB1oIbK8x7pgc5UZ5zXybnrriWedGuE2EGTPvf
+	 XMnIJjPibvFXSLaVkdPRaw7zlZsQ6V+8es/rURzF43dLniaNZRgrPMjooiRfm7qlw1
+	 UKi5at6QAitr596c0ZmNPJynGNKEjl0y0J7j5y0N80vEwkLxhDti5T8p56DIxul5jl
+	 Ps7twjgueHMFA==
+Date: Wed, 1 Oct 2025 14:02:09 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+	Paulo Alcantara <pc@manguebit.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Subject: Re: [PATCH] fs: doc: Fix typos
+Message-ID: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
+References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
+ <20251001083931.44528-1-bhanuseshukumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1758916484.git.marcelo.schmitt@analog.com>
- <5dc08b622dac1db561f26034c93910ccff75e965.1758916484.git.marcelo.schmitt@analog.com>
- <20250928111955.175680cb@jic23-huawei> <20250929143132.GA4099970-robh@kernel.org>
- <CAMknhBHzXLjkbKAjkgRwEps=0YrOgUcdvRpuPRrcPkwfwWo88w@mail.gmail.com> <20250930182649.GA3340740-robh@kernel.org>
-In-Reply-To: <20250930182649.GA3340740-robh@kernel.org>
-From: David Lechner <dlechner@baylibre.com>
-Date: Wed, 1 Oct 2025 13:55:31 +0200
-X-Gm-Features: AS18NWAcLP4eem2ye_LYB7prG1UNgkoIDZ3u8vohBsn6PkgMfV3oCDoCC3aLQyo
-Message-ID: <CAMknhBF-pEhMjB9MmmxpFf5wY0uvC0CCz5xtxKQ_GPCcgdW19Q@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
- and ADAQ4224
-To: Rob Herring <robh@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Marcelo Schmitt <marcelo.schmitt@analog.com>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, michael.hennerich@analog.com, 
-	nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
 
-On Tue, Sep 30, 2025 at 8:26=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Sep 29, 2025 at 06:16:10PM +0200, David Lechner wrote:
-> > On Mon, Sep 29, 2025 at 4:31=E2=80=AFPM Rob Herring <robh@kernel.org> w=
-rote:
-> > >
-> > > On Sun, Sep 28, 2025 at 11:19:55AM +0100, Jonathan Cameron wrote:
-> > > > On Fri, 26 Sep 2025 17:40:47 -0300
-> > > > Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
-> > > >
-> > > > > ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devi=
-ces have a
-> > > > > PGA (programmable gain amplifier) that scales the input signal pr=
-ior to it
-> > > > > reaching the ADC inputs. The PGA is controlled through a couple o=
-f pins (A0
-> > > > > and A1) that set one of four possible signal gain configurations.
-> > > > >
-> > > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > > > ---
-> > > > > Change log v2 -> v3
-> > > > > - PGA gain now described in decibels.
-> > > > >
-> > > > > The PGA gain is not going to fit well as a channel property becau=
-se it may
-> > > > > affect more than one channel as in AD7191.
-> > > > > https://www.analog.com/media/en/technical-documentation/data-shee=
-ts/AD7191.pdf
-> > > > >
-> > > > > I consulted a very trustworthy source [1, 2] and learned that des=
-cribing signal
-> > > > > gains in decibels is a common practice. I now think it would be i=
-deal to describe
-> > > > > these PGA and PGA-like gains with properties in decibel units and=
- this patch
-> > > > > is an attempt of doing so. The only problem with this approach is=
- that we end up
-> > > > > with negative values when the gain is lower than 1 (the signal is=
- attenuated)
-> > > > > and device tree specification doesn't support signed integer type=
-s. As the
-> > > > > docs being proposed fail dt_binding_check, I guess I have to nack=
- the patch myself.
-> > > > > Any chance of dt specification eventually support signed integers=
-?
-> > > > > Any suggestions appreciated.
-> > > > >
-> > > > > [1] https://en.wikipedia.org/wiki/Decibel
-> > > > > [2] https://en.wikipedia.org/wiki/Gain_(electronics)
-> > > >
-> > > > I still wonder if the better way to describe this is to ignore that=
- it
-> > > > has anything to do with PGA as such and instead describe the pin st=
-rapping.
-> > > >
-> > > > DT folk, is there an existing way to do that? My grep skills are fa=
-iling to
-> > > > spot one.
-> > > >
-> > > > We've papered over this for a long time in various IIO drivers by c=
-ontrolling
-> > > > directly what the pin strap controls with weird and wonderful devic=
-e specific
-> > > > bindings. I wonder if we can't have a gpio driver + binding that re=
-jects all
-> > > > config and just lets us check the current state of an output pin.  =
-Kind of a
-> > > > fixed mode regulator equivalent for gpios.
-> > >
-> > > If these are connected to GPIOs, isn't it possible that someone will
-> > > want to change their value?
-> > >
-> > > Other than some generic 'pinstrap-gpios' property, I don't see what w=
-e'd
-> > > do here? I don't feel like pin strapping GPIOs is something that we s=
-ee
-> > > all that often.
-> > >
-> > > Rob
-> >
-> > I think the idea is that it is not actually a GPIO, just a hard-wired
-> > connection. We would want to have a "fixed-gpios" to describe these
-> > hard-wired connections as GPIOs so that we don't have to write complex
-> > binding for chip config GPIOs. I've seen configuration pins like on at
-> > least half a dozed of the ADCs I've been working on/reviewing over the
-> > last two years (since I got involved in IIO again).
->
-> Until I read the example, I totally missed what you want here...
->
-> Can you point me to some existing bindings?
+On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
+> Fix typos in doc comments
+> 
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 
-Perhaps the best example is adi,ad7194.yaml [1]. It has odr-gpios for
-a 2 pin input to select 4 possible ODR values in the case where they
-are connected to gpios and can be configured at runtime. Then it has a
-separate adi,odr-value property to give the hardwired value in cases
-where they are not connected to gpios. The binding currently doesn't
-allow having one pin connected to a gpio and one hardwired. The same
-binding also has pga-gpios and adi,pga-value which work the same and
-just control a different configuration parameter.
+Perhaps would be better to split this into subsystem-specific patches?
 
-adi,ad7606.yaml [2] is a bit less complete. It has
-adi,oversampling-ratio-gpios but it only has adi,sw-mode to indicate
-that all 3 oversampling pins are hard-wired high. It doesn't have a
-way to specify other hard-wired states. IIRC, the AD7616 chip in this
-family also has some more similar config selection pins that aren't
-documented yet.
+This probably needs to be re-sent anyway as bcachefs was removed from
+mainline.
 
-In adi,ad7625 [3], we ended up making 4 enX-gpios for single
-properties plus a adi,en0-always-on boolean flag property for each ENX
-pin instead of a en-gpios array of 4 gpios. This was a case where it
-was highly likely that there would be a mix of hard-wired pins and
-gpio-connected pins, so it seemed to be the simplest way to describe
-it at the time. It would have been much more ergonomic though if we
-could have used the single array.
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/devicetree/bindings/iio/adc/adi,ad7191.yaml#n52
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml#n127
-[3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml#n70
-
->
-> IIRC, Linus has expressed not caring for cases of using GPIO API on
-> things that are not GPIOs. That was more like registers which can
-> read the state of signals. Better let him weigh in before we go too far
-> down this path.
->
-> >
-> > For example, there might be 4 mode pins, so we would like to just have
-> > a mode-gpios property. So this could be all 4 connected to GPIOs, all
-> > 4 hard-wired, or a mix.
-> >
-> > (The actual bindings would need more thought, but this should give the
-> > general idea)
-> >
-> > fixed_gpio: hard-wires {
-> >     compatible =3D "fixed-gpios";
-> >     gpio-controller;
-> >     #gpio-cells =3D <1>;
-> > };
-> >
-> > gpio0: gpio-controller@4000000 {
-> >     compatible =3D "vendor,soc-gpios";
-> >     gpio-controller;
-> >     #gpio-cells =3D <2>;
-> > };
-> >
-> > spi {
-> >     adc@0 {
-> >         compatible =3D "vendor,adc";
-> >         /* All gpios */
-> >         mode-gpios =3D <&gpio0 0 GPIO_ACTIVE_HIGH>,
-> >                      <&gpio0 1 GPIO_ACTIVE_HIGH>,
-> >                      <&gpio0 2 GPIO_ACTIVE_HIGH>,
-> >                      <&gpio0 3 GPIO_ACTIVE_HIGH>;
-> >          /* or all hard-wired */
-> >         mode-gpios =3D <&fixed_gpio 0 GPIO_FIXED_HIGH>,
-> >                      <&fixed_gpio GPIO_FIXED_HIGH>,
-> >                      <&fixed_gpio GPIO_FIXED_LOW>,
-> >                      <&fixed_gpio GPIO_FIXED_LOW>;
-> >          /* or mixed */
-> >         mode-gpios =3D <&gpio0 0 GPIO_ACTIVE_HIGH>,
-> >                      <&gpio0 1 GPIO_ACTIVE_HIGH>,
-> >                      <&fixed_gpio GPIO_FIXED_LOW>,
-> >                      <&fixed_gpio GPIO_FIXED_LOW>;
->
-> The above seems reasonable to me.
->
-> Just to throw out an alternative, phandle values of 0 and -1 are
-> generally reserved. Historically that means just skip the entry.
-> However, you could use that and do something like this:
->
-> mode-gpios =3D <&gpio0 0 GPIO_ACTIVE_HIGH>,
->              <&gpio0 1 GPIO_ACTIVE_HIGH>,
->              <0>,
->              <0xffffffff>;
->
-> So 0 means low and ~0 means high. The only advantage I see with it is
-
-That works as long as we don't need other pin states like
-high-impedance. I haven't seen anything like that yet though.
-
-> you don't need a "fixed-gpios" driver. Also, I'm not sure how that would
-> work with requesting GPIOs given you've essentially defined only 2 GPIO
-> lines (high and low). Though Bartosz is doing some work on non-exclusive
-> GPIOs.
-
-Could work, or just dynamically allocate one when needed.
-
->
-> Rob
->
+> ---
+>  Note: No change in functionality intended.
+> 
+>  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
+>  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
+>  fs/netfs/buffered_read.c                                 | 2 +-
+>  fs/xfs/xfs_linux.h                                       | 2 +-
+>  include/linux/fs.h                                       | 4 ++--
+>  5 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> index 59a332509dcd..f1202113dde0 100644
+> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
+> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
+>  background work while the system should be idle.
+> 
+>  The complicating factor is that there are a number of background tasks, which
+> -form a heirarchy (or a digraph, depending on how you divide it up) - one
+> +form a hierarchy (or a digraph, depending on how you divide it up) - one
+>  background task may generate work for another.
+> 
+> -Thus proper idle detection needs to model this heirarchy.
+> +Thus proper idle detection needs to model this hierarchy.
+> 
+>  - Foreground writes
+>  - Page cache writeback
+> @@ -51,7 +51,7 @@ IDLE REGIME
+>  When the system becomes idle, we should start flushing our pending work
+>  quicker so the system can go to sleep.
+> 
+> -Note that the definition of "idle" depends on where in the heirarchy a task
+> +Note that the definition of "idle" depends on where in the hierarchy a task
+>  is - a task should start flushing work more quickly when the task above it has
+>  stopped generating new work.
+> 
+> diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> index e231d127cd40..e872d480691b 100644
+> --- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> @@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
+>     This will be discussed in more detail in subsequent sections.
+> 
+>  If the filesystem goes down in the middle of an operation, log recovery will
+> -find the most recent unfinished maping exchange log intent item and restart
+> +find the most recent unfinished mapping exchange log intent item and restart
+>  from there.
+>  This is how atomic file mapping exchanges guarantees that an outside observer
+>  will either see the old broken structure or the new one, and never a mismash of
+> diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+> index 37ab6f28b5ad..c81be6390309 100644
+> --- a/fs/netfs/buffered_read.c
+> +++ b/fs/netfs/buffered_read.c
+> @@ -329,7 +329,7 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq,
+>   * the netfs if not.  Space beyond the EOF is zero-filled.  Multiple I/O
+>   * requests from different sources will get munged together.  If necessary, the
+>   * readahead window can be expanded in either direction to a more convenient
+> - * alighment for RPC efficiency or to make storage in the cache feasible.
+> + * alignment for RPC efficiency or to make storage in the cache feasible.
+>   *
+>   * The calling netfs must initialise a netfs context contiguous to the vfs
+>   * inode before calling this.
+> diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
+> index 9a2221b4aa21..fdf3cd8c4d19 100644
+> --- a/fs/xfs/xfs_linux.h
+> +++ b/fs/xfs/xfs_linux.h
+> @@ -145,7 +145,7 @@ static inline void delay(long ticks)
+>  /*
+>   * XFS wrapper structure for sysfs support. It depends on external data
+>   * structures and is embedded in various internal data structures to implement
+> - * the XFS sysfs object heirarchy. Define it here for broad access throughout
+> + * the XFS sysfs object hierarchy. Define it here for broad access throughout
+>   * the codebase.
+>   */
+>  struct xfs_kobj {
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 601d036a6c78..72e82a4a0bbc 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -1040,7 +1040,7 @@ struct fown_struct {
+>   * struct file_ra_state - Track a file's readahead state.
+>   * @start: Where the most recent readahead started.
+>   * @size: Number of pages read in the most recent readahead.
+> - * @async_size: Numer of pages that were/are not needed immediately
+> + * @async_size: Number of pages that were/are not needed immediately
+>   *      and so were/are genuinely "ahead".  Start next readahead when
+>   *      the first of these pages is accessed.
+>   * @ra_pages: Maximum size of a readahead request, copied from the bdi.
+> @@ -3149,7 +3149,7 @@ static inline void kiocb_start_write(struct kiocb *iocb)
+> 
+>  /**
+>   * kiocb_end_write - drop write access to a superblock after async file io
+> - * @iocb: the io context we sumbitted the write with
+> + * @iocb: the io context we submitted the write with
+>   *
+>   * Should be matched with a call to kiocb_start_write().
+>   */
+> --
+> 2.34.1
+> 
