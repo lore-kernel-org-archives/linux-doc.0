@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81A32FF65C;
-	Wed,  1 Oct 2025 14:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D832E6BFCE;
+	Wed,  1 Oct 2025 14:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759328051; cv=none; b=Glo+J4c/RI71O0LQmalA5L/6sOQWGFVpD3MmS9U25JfngZIJEn+k/Ug4ruJ+CxL4+8cVccSzjBexTtwqih+pxLIEyzuki2cAWG4KlcCnlhnEQfnHiaSFbCXzq+tUjOlZUPdV0/1ILDmQrjtdDrmUx7ufpWNBafKblCr9SA+KmMU=
+	t=1759328136; cv=none; b=D8t6WJAKp9htn6FJOkZR1dxYeqAfGhVPv+OaxGi2JiXOWNfN9SZNoeQsKMOMAALv7jCmNzFYqLFcak+35Iy6phtz2Y6USVviOjNMHxYP+uNPnXFpBk2m5+grnWz+kzTcRSjN442jatKqKJhg2f+3P1Z//X3A88xLufW3gzWIqlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759328051; c=relaxed/simple;
-	bh=1E19GaIv/tCKahDxgHNKX9sTojjjSiAdKY2Em4ESOVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K2HcuZxS01yYh00lCfLBnlBFrcwu4bkbWhQrczU68EghbZvzY6U2PcyAnDyeo+IzQaR/XQG36r6KYCvLaLsRpwDT8SCm/vy4m3Nh+dhxYvbN7DZifNGcO7WRJd9qevwA/MVlzEy0ltZcHUlvbqBbIsLi+G/yxC3z1mVkkcepzL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ltgKe/dZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759328136; c=relaxed/simple;
+	bh=jU9oHR8yt5admku8+N9Ddd9kQrcSpanPsh8gVFIHiGE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oFYKgCGCQji77CN7H6OKyJBhpcbYr3/jlDnWg1jxgwe0VNRN3cjCpH8Ut+JKrbz6V+qWp+cHZ26OqMGHUZlCC4EUu6NiiTfjwrerv0IWy1sS5ynHiApDZo55X6h09+eLRVlzzPQzPT3o8zuA5bBudkt+cQHw+p/0zFzu2w5vr74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKFdCRq3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ltgKe/dZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 682DFC4CEF1;
-	Wed,  1 Oct 2025 14:14:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKFdCRq3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD4DC4CEF1;
+	Wed,  1 Oct 2025 14:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759328051;
-	bh=1E19GaIv/tCKahDxgHNKX9sTojjjSiAdKY2Em4ESOVw=;
+	s=k20201202; t=1759328136;
+	bh=jU9oHR8yt5admku8+N9Ddd9kQrcSpanPsh8gVFIHiGE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ltgKe/dZ2YG8Se9kxwmcmadJRiWJGXzV+0RSOhfr7KO3U02B07IvcRkUS+VA/wY7v
-	 vtJpz8VDP82bdgjMKOVDaHtZM7wIuNwYzcBlnIHbxDfJoTbvmPtjrt/+RgMKtHGSqr
-	 obY+8K1ZgaNdIwXOtA+m5LqSkAkh6Ydvkn6p93MGI8rEQ85g0GdY1sFql/8R54Cms/
-	 scJ8eO8VXde93ZPL+szGkvVkforcb0ToEgHyp91DmO4dTJmzra+29hywJfgBzEE2Lb
-	 +GXLB0LcBBHI0L87+8bS++AT0BC+q4gp2oj0y0BK0OInVGIuyMxuMvcqehmSY/pnwd
-	 gLtdURS+vun9g==
+	b=jKFdCRq3XoN4m8NUO4rBFjaGr7bitoJReZZsmrifN/gWJwIzxPo3cNdeJqXxleAmh
+	 /BXlp6sgQqpevk514xdeMVfX6zFz7hyYNJ2yreH9J9Mo0vI6RtuNre3vcaeEzdyTNL
+	 UQYtD4mKNPyJVWWcIcscPWzcMA2NZKHwepAIrS+rP4Udui6sbz/HyPKlRdpdAu9ZHt
+	 0i2uyb21yMdysN7hK+Sn/XkKJqLQhLxoxb7y+6zlzpxM1os2K40HIhyMixxe9In0Nj
+	 NxK4b1YNt4cg8RB6Xm393JGWnRDCe3MOw9ZOoMw32GLabMWFwD8m28IxXv4kJRRMwz
+	 H7lzqieOXz1Lg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1v3xar-0000000BJ5W-24NS;
-	Wed, 01 Oct 2025 16:14:09 +0200
+	id 1v3xcE-0000000BJ9K-313E;
+	Wed, 01 Oct 2025 16:15:34 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Jonathan Corbet" <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/1] man pages: Add a SEE ALSO pointing to Kernel source
-Date: Wed,  1 Oct 2025 16:13:58 +0200
-Message-ID: <cover.1759327966.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 0/3] Some patches against build-script
+Date: Wed,  1 Oct 2025 16:15:23 +0200
+Message-ID: <cover.1759328070.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,16 +48,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-It is interesting to point to what Kernel file contains documented
-item at kernel-doc man pages.
+Hi Jon,
 
-Mauro Carvalho Chehab (1):
-  kernel-doc: output source file name at SEE ALSO
+This small patch series contain 3 minor fixes/cleanups for
+sphinx-build-wrapper addressing some corner usecases.
 
- scripts/lib/kdoc/kdoc_item.py   | 3 ++-
- scripts/lib/kdoc/kdoc_output.py | 3 ++-
- scripts/lib/kdoc/kdoc_parser.py | 8 +++++---
- 3 files changed, 9 insertions(+), 5 deletions(-)
+Patch 1 was already submitted. It avoids 2 harmless warnings when
+texlive is not installed.
+
+Patch 2 fixes the checker for latexmk (PDFLATEX env) when texlive
+is not installed.
+
+Patch 3 restores the logic to store *.pyc files under builddir 
+instead of sourcedir.
+
+Mauro Carvalho Chehab (3):
+  docs: Makefile: avoid a warning when using without texlive
+  tools/docs: sphinx-build-wrapper: pdflatex is needed only for pdf
+  docs: Makefile: use PYTHONPYCACHEPREFIX
+
+ Documentation/Makefile          | 19 ++++++++-----------
+ tools/docs/sphinx-build-wrapper |  2 +-
+ 2 files changed, 9 insertions(+), 12 deletions(-)
 
 -- 
 2.51.0
