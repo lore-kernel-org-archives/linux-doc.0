@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33D42FDC30;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45F73019CB;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759330199; cv=none; b=ITOfXabg30WqIczHZs+U+zqZMdzs84TAQuRt5a+VtNExcuQXV40V0AWRUUAzozVrNnIyNMgHWuFg5f1LhQuBP5SmVjKudG0FcAYYETT/zN1g+fLJSODo/mkKHmKEl2Xa3XSzU6T9eYtlQUZCRS1yMCEDpkjms9AzlaL71CRhMSE=
+	t=1759330199; cv=none; b=TvqIzJM/ECLFvohMX9+bMTmT+hL+nJdrG6TMJpHGQkBaI7ZACS5LXf1WTO5UK90GJq1/tNyY3+V0lfF1wJ+jpMQ8ot5uZYOyZypalIMzH1OEunaCeD01Hea5vDWBPTJjQDh5jG9366A4zSOWQl9Rphviqj8VshlUw+JXCEDv9uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759330199; c=relaxed/simple;
-	bh=U4RiYJ5NN8XuOT+nl3nJo1abaKdDCjeKGV3AxWy6uzU=;
+	bh=BpMhPlmacPMtC88QM9VcKjSXx46z3R2YSyY969DUK20=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SA7ZkJ6pxCk5yo4RXkvmKRFyc0b0qxIU+krgRdexUH0G4LWRKNt+P+E5Uuh8qx3qpXVDPKEuKacnzcMfsjiYsq0Kf4XI+xWjX+5V9yrQF6cayM5QvE9PAWIN9+/zbZUpBuL9HndtyHpgdSBqWj+Nt2MrUcqubSdZWPNo4hlKA9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxDYs+1z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=SZeRIWvpxiZ6Q+um7A4Bzd7xSij1CLHKlAiNzj+BpZ/sy7do52eBwAX00Y2VyD7s3011r9+R5DdxIXFKaDRRzCPbJhwQH5fkApaVoMpGXcknQa63mBrzR/ZKW2FSOg/8D+8PA3X6naKjMgbZuAJgq0DQwpLJRxxut7OVSMrNCdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZoOFDW4g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxDYs+1z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B2BC116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZoOFDW4g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73267C4AF16;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1759330199;
-	bh=U4RiYJ5NN8XuOT+nl3nJo1abaKdDCjeKGV3AxWy6uzU=;
+	bh=BpMhPlmacPMtC88QM9VcKjSXx46z3R2YSyY969DUK20=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YxDYs+1z0+p1hGwKJaOgqMkGW3Ibqjg9GAtNnUKdbaflZP427OnsqT9zJYeA8IPWM
-	 qnU0jWQOBkC3sHEECMnDvzZaQRxREebzExjrLxPxoQi41osx9eroeqxdwgV/9IgpeN
-	 y8cuZcobJxjz8Irm6IOuyWASbx3CWcmpMI2VhxIG8KqhY3ek7HZ5ILl7fgEeCuIFIR
-	 Elze/Ijy+XR4XHh828MmRlEi+3wJiR+Z0bG5OEITB3vPUxBKLgXoadpcwh4KrU1zSI
-	 UhI93s10QrXs2gG6SeU5uho8BxLsJTuP3N0bPgqfbtmpVA6BPKG0BPEL1lNfv9JrUU
-	 P2SdV2JF9BQdA==
+	b=ZoOFDW4gXeIqus/L69QLXhUu/pfBgDNdnTYUAmniTybkIoJBj7LNHtYouoOoMmoZ4
+	 3BU1hYfGfhiq60cMW0KmB5ukLjsQ3JF00HCyW5dsgLtz5aXfP/ULHZcIoCIIZRgTz6
+	 xpIURT5Nu/1jW+drQR/c5Wq0SQRBNAEjUlYasgVivN3MbRjiTvY3bIXjIwWoRtyPbm
+	 hBLO4dsGadDwXqd8XIJRsAwNiIE4rcMrSv2Q2f2oEtQcriMjIMYBuYieNaqZ73NRy6
+	 4X4nLz1iRmSYXxxrG1ZBxKc1KDz0XgalWCpwtysxbdDsUlD+fGB7GcYdfiF1f15sUA
+	 sS5J/tootvdLw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1v3y9V-0000000BLId-1dZf;
+	id 1v3y9V-0000000BLJT-3665;
 	Wed, 01 Oct 2025 16:49:57 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Jonathan Corbet" <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH 10/23] docs: media: dvb: enable warnings for most headers
-Date: Wed,  1 Oct 2025 16:49:33 +0200
-Message-ID: <9ae6556ebd47de4f066a149ab0bbe7ce27acf2c4.1759329363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 23/23] docs: media: dvb: fix dmx.h.rst.exceptions
+Date: Wed,  1 Oct 2025 16:49:46 +0200
+Message-ID: <b2acf243771529daa925afddd2b68d07d7bbb164.1759329363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
 References: <cover.1759329363.git.mchehab+huawei@kernel.org>
@@ -52,71 +52,125 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Except for two exception rules and dmx.h, the other files
-are already handling properly cross references.
+There are lots of broken links on dmx. Those are mostly linked
+to namespace handling.
 
-Fix the two exception rules for frontend.h, as those are
-false-positives:
-
-	include/uapi/linux/dvb/frontend.h:959: WARNING: can't link to: c:type:: FE_GET_PROPERTY
-	include/uapi/linux/dvb/frontend.h:933: WARNING: can't link to: c:func:: FE_SET_FRONTEND_TUNE_MODE
-
-The dmx.h are actual issues that will require an extra
-patch to fill gaps.
+Yet, some symbols were pointed to the wrong locations, and there
+are some definitions that aren't needed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../userspace-api/media/dvb/frontend.h.rst.exceptions        | 5 +++--
- Documentation/userspace-api/media/dvb/headers.rst            | 3 +++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ .../media/dvb/dmx.h.rst.exceptions            | 82 +++++++++----------
+ 1 file changed, 39 insertions(+), 43 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions b/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
-index dcaf5740de7e..cecd4087d4be 100644
---- a/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
-@@ -28,13 +28,14 @@ ignore define MAX_DTV_STATS
- ignore define DTV_IOCTL_MAX_MSGS
+diff --git a/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions b/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
+index afc14d384b83..2c219388d123 100644
+--- a/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
++++ b/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
+@@ -1,34 +1,36 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- # the same reference is used for both get and set ioctls
--replace ioctl FE_SET_PROPERTY :c:type:`FE_GET_PROPERTY`
-+replace ioctl FE_SET_PROPERTY :ref:`FE_GET_PROPERTY`
-+replace ioctl FE_GET_PROPERTY :ref:`FE_GET_PROPERTY`
++# All symbols belone to this namespace
++namespace DTV.dmx
++
+ # Ignore header name
+ ignore define _UAPI_DVBDMX_H_
  
- # Typedefs that use the enum reference
- replace typedef fe_sec_voltage_t :c:type:`fe_sec_voltage`
+ # Ignore limit constants
+ ignore define DMX_FILTER_SIZE
  
- # Replaces for flag constants
--replace define FE_TUNE_MODE_ONESHOT :c:func:`FE_SET_FRONTEND_TUNE_MODE`
-+replace define FE_TUNE_MODE_ONESHOT :ref:`FE_SET_FRONTEND_TUNE_MODE`
- replace define LNA_AUTO dtv-lna
- replace define NO_STREAM_ID_FILTER dtv-stream-id
+-# dmx_pes_type_t enum symbols
+-replace enum dmx_ts_pes :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_AUDIO0 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_VIDEO0 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_TELETEXT0 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_SUBTITLE0 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_PCR0 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_AUDIO1 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_VIDEO1 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_TELETEXT1 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_SUBTITLE1 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_PCR1 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_AUDIO2 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_VIDEO2 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_TELETEXT2 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_SUBTITLE2 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_PCR2 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_AUDIO3 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_VIDEO3 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_TELETEXT3 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_SUBTITLE3 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_PCR3 :c:type:`dmx_pes_type`
+-replace symbol DMX_PES_OTHER :c:type:`dmx_pes_type`
++# dmx_ts_pes_type_t enum symbols
++replace symbol DMX_PES_AUDIO0 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_VIDEO0 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_TELETEXT0 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_SUBTITLE0 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_PCR0 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_AUDIO1 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_VIDEO1 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_TELETEXT1 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_SUBTITLE1 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_PCR1 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_AUDIO2 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_VIDEO2 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_TELETEXT2 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_SUBTITLE2 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_PCR2 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_AUDIO3 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_VIDEO3 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_TELETEXT3 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_SUBTITLE3 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_PCR3 :c:type:`DTV.dmx.dmx_ts_pes`
++replace symbol DMX_PES_OTHER :c:type:`DTV.dmx.dmx_ts_pes`
  
-diff --git a/Documentation/userspace-api/media/dvb/headers.rst b/Documentation/userspace-api/media/dvb/headers.rst
-index e78122944a69..3c492ae109ae 100644
---- a/Documentation/userspace-api/media/dvb/headers.rst
-+++ b/Documentation/userspace-api/media/dvb/headers.rst
-@@ -15,6 +15,7 @@ Frontend
-     :generate-cross-refs:
-     :exception-file: frontend.h.rst.exceptions
-     :toc:
-+    :warn-broken:
+ # Ignore obsolete symbols
+ ignore define DMX_PES_AUDIO
+@@ -38,29 +40,23 @@ ignore define DMX_PES_SUBTITLE
+ ignore define DMX_PES_PCR
  
- Demux
- =====
-@@ -31,6 +32,7 @@ Conditional Access
-     :generate-cross-refs:
-     :exception-file: ca.h.rst.exceptions
-     :toc:
-+    :warn-broken:
+ # dmx_input_t symbols
+-replace enum dmx_input :c:type:`dmx_input`
+-replace symbol DMX_IN_FRONTEND :c:type:`dmx_input`
+-replace symbol DMX_IN_DVR :c:type:`dmx_input`
++replace symbol DMX_IN_FRONTEND :c:enum:`DTV.dmx.dmx_input`
++replace symbol DMX_IN_DVR :c:enum:`DTV.dmx.dmx_input`
  
- Network
- =======
-@@ -39,4 +41,5 @@ Network
-     :generate-cross-refs:
-     :exception-file: net.h.rst.exceptions
-     :toc:
-+    :warn-broken:
+ # Flags for struct dmx_sct_filter_params
+-replace define DMX_CHECK_CRC :c:type:`dmx_sct_filter_params`
+-replace define DMX_ONESHOT :c:type:`dmx_sct_filter_params`
+-replace define DMX_IMMEDIATE_START :c:type:`dmx_sct_filter_params`
++replace define DMX_CHECK_CRC :c:type:`DTV.dmx.dmx_sct_filter_params`
++replace define DMX_ONESHOT :c:type:`DTV.dmx.dmx_sct_filter_params`
++replace define DMX_IMMEDIATE_START :c:type:`DTV.dmx.dmx_sct_filter_params`
  
+-# some typedefs should point to struct/enums
+-replace typedef dmx_filter_t :c:type:`dmx_filter`
+-replace typedef dmx_pes_type_t :c:type:`dmx_pes_type`
+-replace typedef dmx_input_t :c:type:`dmx_input`
++replace symbol DMX_BUFFER_FLAG_HAD_CRC32_DISCARD :c:type:`DTV.dmx.dmx_buffer_flags`
++replace symbol DMX_BUFFER_FLAG_TEI :c:type:`DTV.dmx.dmx_buffer_flags`
++replace symbol DMX_BUFFER_PKT_COUNTER_MISMATCH :c:type:`DTV.dmx.dmx_buffer_flags`
++replace symbol DMX_BUFFER_FLAG_DISCONTINUITY_DETECTED :c:type:`DTV.dmx.dmx_buffer_flags`
++replace symbol DMX_BUFFER_FLAG_DISCONTINUITY_INDICATOR :c:type:`DTV.dmx.dmx_buffer_flags`
+ 
+-replace symbol DMX_BUFFER_FLAG_HAD_CRC32_DISCARD :c:type:`dmx_buffer_flags`
+-replace	symbol DMX_BUFFER_FLAG_TEI :c:type:`dmx_buffer_flags`
+-replace	symbol DMX_BUFFER_PKT_COUNTER_MISMATCH :c:type:`dmx_buffer_flags`
+-replace	symbol DMX_BUFFER_FLAG_DISCONTINUITY_DETECTED :c:type:`dmx_buffer_flags`
+-replace	symbol DMX_BUFFER_FLAG_DISCONTINUITY_INDICATOR :c:type:`dmx_buffer_flags`
+-
+-replace symbol DMX_OUT_DECODER :c:type:`dmx_output`
+-replace symbol DMX_OUT_TAP :c:type:`dmx_output`
+-replace symbol DMX_OUT_TS_TAP :c:type:`dmx_output`
+-replace symbol DMX_OUT_TSDEMUX_TAP :c:type:`dmx_output`
++replace symbol DMX_OUT_DECODER :c:type:`DTV.dmx.dmx_output`
++replace symbol DMX_OUT_TAP :c:type:`DTV.dmx.dmx_output`
++replace symbol DMX_OUT_TS_TAP :c:type:`DTV.dmx.dmx_output`
++replace symbol DMX_OUT_TSDEMUX_TAP :c:type:`DTV.dmx.dmx_output`
+ 
+ replace ioctl DMX_DQBUF dmx_qbuf
 -- 
 2.51.0
 
