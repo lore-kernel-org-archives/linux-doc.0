@@ -1,84 +1,76 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02C8283FE0
-	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 08:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87EF239E67
+	for <linux-doc@vger.kernel.org>; Wed,  1 Oct 2025 09:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759307994; cv=none; b=EtxouLmymys6nofmhwhmHu6hoB6/fiIDcRXmT/PTSg1Bp9KC4zoKc/8UwOC9B0Rsv9Eb/6CbpIAxHTXia3Kl/IJmk8s0LB7L33x91D464lU5efONqKWtWuna1gTQhPpEAdIOxiWjrC+ZGxMD9G0x6h8XoM5G9XR5LPSVdeGEPP0=
+	t=1759309693; cv=none; b=NBoStClziOXno87O47k1o/jjkDoPCqanexMvawoMq6GRnyzQQpgGrfr5zmnuSHNwcxs8ShWZg6YyqHF8wlsJmVABJbKyDutlD8xYwOh1os2vRIE/lQ2H7VjjKbbpQcAZz5wvBujrb4HyYbYgUAHE1oi9o9MOo2lPMrUWIQMH/d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759307994; c=relaxed/simple;
-	bh=VyoVY4Q4GDe6RMQi5QGg4ffoiIPwM6SwqIJ2pC+aeyo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q48Tevezy4rLFEiQyjap3bH+kQP/13KKTUtSs6pofogwdc5p/MSGWx7OFXJ1vk5hPD1Vps1KDjSIzbM8zYqEPLjDmQ0yXksI4b2BkgQ+6T69Vrr0YHmgSAkjItvL5Dvoqx59yN7mBcB4xZSz/J/m6qf9BJwYno2PmOsWdknHJ1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g3yM1iOb; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1759309693; c=relaxed/simple;
+	bh=cHh/cHIF2ix4T1MbAz3cbtmZwsbFRKUVOa1sotAMdYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CQHu1eRsJ1bFbMJXfZ7LTqMqTI+ODoJGwgrm5Sa8XUipnNj4uV+aso90O2Pv7lROxKypkcjhem9tLNFJ2kt7G1jt32/DpMAPetvPknz4P/OH+CJX3IQWC1R9pkadIC38Esy93v14HlCF9WbJZvgsI68xh0vm5FCscDnmwKh20Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q9otv79I; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g3yM1iOb"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2897522a1dfso34339705ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 01:39:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q9otv79I"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3352018dfbcso5678880a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 02:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759307992; x=1759912792; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759309690; x=1759914490; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D4FfG++OYH0UQ2cb2chNsj++JT4lH4Ovdjh6P4PE8Qc=;
-        b=g3yM1iObHwRxcTDwKEb4hPnaH5qID9F2qO/PBYntzF0jaxWD7P+SV/5VQ3KFwxtu+N
-         sqPq26lmHKC7XiFRj/qXOcn5oWzLr4zv7pz03nIbJLgx5WPgXFsjd63aFesxxJ67qDMw
-         ySFCbPyH9sByfJZKjYIRhfgt+F+MlqRw6dR5Mq/Y+4eY/VCylI/JtiiixVWnB81wts1K
-         nXaBmrPSdIzOSFzO0Y6VHjWYbWmiU7VsCkjrIAhLda5k70ObaAkrUz1VUMv7qdRPvaNq
-         M17uu9Xqwq1kawq9QDiLIgyiISmLgK5rjESsQKWzCPNPzJ9zX1HxaZ8gmOsatG7VRrrL
-         YsoQ==
+        bh=Xdn/qXRMwLNp6Zd/Eb/BpsxnL14+u3sr4IN56KWCSQc=;
+        b=Q9otv79IzcCTZSc1wotjhDEpXDuYJxhhH320YokwjB9XET1iZ5ht1fvCsOoMFvJK3K
+         /bMJocRulncmUBN0a1BQsUoVoaDTRU8CyvGujuxvLxfKNdRmDR2vPx6UV0qMCwYEViEe
+         czhzyFkWs0Xy1js7fyYSRXhob05ShFvT25SJwPM885/rFUv4oh1TGRO3AcUwC/MZMH/H
+         MJILUt72PQcx07jZhvaAeqCN27MVGU7Oo0a1zkCp0QBpKZXlMP0nMFxebDSy7QxaRFsk
+         dFBPOuUwkULF1RmNKzMnIsDorbjM7PmaLp6NxE6N0l7ZOqtZeQcefvE5woeE4xvWlmIo
+         vmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759307992; x=1759912792;
+        d=1e100.net; s=20230601; t=1759309690; x=1759914490;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D4FfG++OYH0UQ2cb2chNsj++JT4lH4Ovdjh6P4PE8Qc=;
-        b=oTw4lfCwY0p2shDJ2ZaYDJR/SCXdgexhF/rMnFeEjb1E4MdwhYgg6/1gh52mnZPk6X
-         pKpY48SmIIDTDDnISC8FPU7Ac/yEY/3PwIQgaUrCwIA9p4X+DAFKBwaO+9NyVj4Qkji4
-         /jmc3N0KsdJOfP/7VPxG2fEj0D0edUY2iDQ7mojbZa+Kh2E0aA6n22n6dkoRDX8Yq13+
-         B1QBFNYNNzyptcHOorK6FCyOCATOVGTBMo2ODVGYTwtnDvXAHzGzBWKIqqshpUo3yIBW
-         4jWJzdomemQSSTE/5x2VeBGDsVexwTdOYCJymH070brmst0pDEfH8+sA3C1CKfAxRr+h
-         lZLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkFkkmD1qfpS/d6G+6f5GyUEz2JgmH3eWCkxdUWDx9ooj4M+1EVhtGe7cEpVsDnsNHbTeuz5lUtKw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyffuc1mpWiiGq/xueuq5MH6gjv7udYI3Tx0Hk70uc0corss1pV
-	tVXzgZ5HkQ0hMWT0DF1bTTiQyiBPe8tJQ5wS90rR8ZEFdlI74XoPY7Av
-X-Gm-Gg: ASbGnctqkXN+DBs+tN4//5HeilFR+skTUVhA3sd+TNai8dLGSBWYD4MGgzCA3191i2m
-	2IN1D2YVp9BBl3QSnUMxO9SjzcSwB8IgA49m5D1dc12TbPgyCSp/+VcfZLPC/DavoBQD1Ksxwx5
-	Opi2vWFgOe2oNOoNTCD6RKSjh8mglC6HcLM5bfGu640FucFHnLCnsb+DZtUEFeR8NDJNd6xiYJB
-	UjxraoAfyAXWDf1/2Ud26Ana6S8n8zmtx3Ekqjtf2KC1GS/Vlr2U3k9XyzPVrVtbjjkPq1rNOv/
-	y0WJK0xFm5B1H3x5p4zxLyAkjXPxcMJdDButT6cxt/2Ib94DyFYOlnd+egz0Po1Tag1q1SdG/9t
-	XvQJcTyda+scx+vx7xCrNH08U+iJZFUgFEKumXVDPBRtkfgt2OGhwlqueNzMY4a2IsxSj9QBlUQ
+        bh=Xdn/qXRMwLNp6Zd/Eb/BpsxnL14+u3sr4IN56KWCSQc=;
+        b=RPxIrC2D8aEFe2CHPQPm88bhDy6CPOALelV/P5gW+1LFOTVJuCFXc+5rY1HqL5dC/i
+         FtaEyW8Oa8+C6GFXKek+9drCcAxZzCSuHzu7NwsHoqlOl70g4JQeUtpcimI/zkWw4nia
+         SDwwQiBPpOK9kTav3YsPLsRPYxo6pQWiZpq4pnKqoeF6CSrJpfXD7nRZ2vlqa44D2t4t
+         CYR+YTcfAwIYEjjZ/Qfv55Tbj8s85bkszHv3QQvrpyhN4SHj5XTwQ5AI2Zv/E1nqz2ZY
+         a9MW7MK86/aQPFYObsfkPbiMDUNtOwQ9cR0womj+O1kpnLPR8HIyRxXfZlCfod85J1eE
+         yqRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqAIToc3GZXR37F65erNxaWWkl3XFSsDF1qVmHkOvBEr0f++RfT0+t6EuSorZcCfTVd5hmhrS95bI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yylq2HA+0I8YCygpE9BDJhX3vVU8ti5UHRUqRgvCv68WaLrBkHS
+	rnzJz/Plt2oAlE0T7GhEcluOZCjlB1EF7C0wttxSowjv94CX89vG69iv
+X-Gm-Gg: ASbGncvE++lc+df6Zl09Gu3PEggNbdDA6RMy99cO9i0pOdkKgt1OkIa7DdgU2jo2kIv
+	V54nyHvie9xPBKaOY60m7dU9cTY8rTbWFzQqDF//Lggx6fVs9ENCbSNgQOeV/aechaFhWLre1iu
+	5ag8MD3rgigs4wUWdq6D0r351u8LxiyRaDbfkDz/S37uqLjXx92s0HYj8ocf+BijOSu5009PooT
+	aRe9X4p7NfB9tIR3vNiLFAljfJ2y9xoxwSowV+y0JQF5hPkLZPGcH2iwAKsvdmwb+1pKIg7j6hh
+	qs7iEuWQrdug/+ZkwMxwRkWKkhzuTEnZbAf6RtHjQFOrVG8LGVs17CAKAXd3aorKmA1b2KIF2jn
+	U7qmcYvsZyinilWNI5UmqrZt8sYH5/s6mysNbFztD11x8yuwJdqOgJgFHGrU3YW31/2sqdt5giw
 	==
-X-Google-Smtp-Source: AGHT+IGDAA5bS+9IItYzYTvHt755RN1Ht/RXQRCnt03we0AczFtZuNBaAi5b7oWoS/mnvJ+e//+JYg==
-X-Received: by 2002:a17:903:11c7:b0:269:8407:5ae3 with SMTP id d9443c01a7336-28e7f4b6843mr37492805ad.54.1759307991850;
-        Wed, 01 Oct 2025 01:39:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCAXG1BqEfze3gHRwn6lpXtkf7tuj30SDlHiLv3IUP0y93ub/ofCCeyp+nvvaX5lId2eVgIA==
+X-Received: by 2002:a17:90b:4f85:b0:336:b60f:3935 with SMTP id 98e67ed59e1d1-339a6f08820mr2965105a91.23.1759309689779;
+        Wed, 01 Oct 2025 02:08:09 -0700 (PDT)
 Received: from ti-am64x-sdk.. ([157.50.93.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ad1d45sm179473835ad.141.2025.10.01.01.39.41
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c55741e6sm15477230a12.29.2025.10.01.02.08.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 01:39:51 -0700 (PDT)
+        Wed, 01 Oct 2025 02:08:09 -0700 (PDT)
 From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>,
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Carlos Maiolino <cem@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
-	linux-bcachefs@vger.kernel.org,
+	Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com
-Subject: [PATCH] fs: doc: Fix typos
-Date: Wed,  1 Oct 2025 14:09:31 +0530
-Message-Id: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+Subject: [PATCH] ALSA: emu10k1: Fix typo in docs
+Date: Wed,  1 Oct 2025 14:37:57 +0530
+Message-Id: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -88,106 +80,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix typos in doc comments
+interally => internally
 
 Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
 ---
  Note: No change in functionality intended.
+ Documentation/sound/cards/emu-mixer.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
- Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
- fs/netfs/buffered_read.c                                 | 2 +-
- fs/xfs/xfs_linux.h                                       | 2 +-
- include/linux/fs.h                                       | 4 ++--
- 5 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
-index 59a332509dcd..f1202113dde0 100644
---- a/Documentation/filesystems/bcachefs/future/idle_work.rst
-+++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
-@@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
- background work while the system should be idle.
+diff --git a/Documentation/sound/cards/emu-mixer.rst b/Documentation/sound/cards/emu-mixer.rst
+index d87a6338d3d8..edcedada4c96 100644
+--- a/Documentation/sound/cards/emu-mixer.rst
++++ b/Documentation/sound/cards/emu-mixer.rst
+@@ -66,7 +66,7 @@ FX-bus
  
- The complicating factor is that there are a number of background tasks, which
--form a heirarchy (or a digraph, depending on how you divide it up) - one
-+form a hierarchy (or a digraph, depending on how you divide it up) - one
- background task may generate work for another.
+ name='Clock Source',index=0
+ ---------------------------
+-This control allows switching the word clock between interally generated
++This control allows switching the word clock between internally generated
+ 44.1 or 48 kHz, or a number of external sources.
  
--Thus proper idle detection needs to model this heirarchy.
-+Thus proper idle detection needs to model this hierarchy.
- 
- - Foreground writes
- - Page cache writeback
-@@ -51,7 +51,7 @@ IDLE REGIME
- When the system becomes idle, we should start flushing our pending work
- quicker so the system can go to sleep.
- 
--Note that the definition of "idle" depends on where in the heirarchy a task
-+Note that the definition of "idle" depends on where in the hierarchy a task
- is - a task should start flushing work more quickly when the task above it has
- stopped generating new work.
- 
-diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-index e231d127cd40..e872d480691b 100644
---- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-+++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
-@@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
-    This will be discussed in more detail in subsequent sections.
- 
- If the filesystem goes down in the middle of an operation, log recovery will
--find the most recent unfinished maping exchange log intent item and restart
-+find the most recent unfinished mapping exchange log intent item and restart
- from there.
- This is how atomic file mapping exchanges guarantees that an outside observer
- will either see the old broken structure or the new one, and never a mismash of
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 37ab6f28b5ad..c81be6390309 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -329,7 +329,7 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq,
-  * the netfs if not.  Space beyond the EOF is zero-filled.  Multiple I/O
-  * requests from different sources will get munged together.  If necessary, the
-  * readahead window can be expanded in either direction to a more convenient
-- * alighment for RPC efficiency or to make storage in the cache feasible.
-+ * alignment for RPC efficiency or to make storage in the cache feasible.
-  *
-  * The calling netfs must initialise a netfs context contiguous to the vfs
-  * inode before calling this.
-diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
-index 9a2221b4aa21..fdf3cd8c4d19 100644
---- a/fs/xfs/xfs_linux.h
-+++ b/fs/xfs/xfs_linux.h
-@@ -145,7 +145,7 @@ static inline void delay(long ticks)
- /*
-  * XFS wrapper structure for sysfs support. It depends on external data
-  * structures and is embedded in various internal data structures to implement
-- * the XFS sysfs object heirarchy. Define it here for broad access throughout
-+ * the XFS sysfs object hierarchy. Define it here for broad access throughout
-  * the codebase.
-  */
- struct xfs_kobj {
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 601d036a6c78..72e82a4a0bbc 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1040,7 +1040,7 @@ struct fown_struct {
-  * struct file_ra_state - Track a file's readahead state.
-  * @start: Where the most recent readahead started.
-  * @size: Number of pages read in the most recent readahead.
-- * @async_size: Numer of pages that were/are not needed immediately
-+ * @async_size: Number of pages that were/are not needed immediately
-  *      and so were/are genuinely "ahead".  Start next readahead when
-  *      the first of these pages is accessed.
-  * @ra_pages: Maximum size of a readahead request, copied from the bdi.
-@@ -3149,7 +3149,7 @@ static inline void kiocb_start_write(struct kiocb *iocb)
- 
- /**
-  * kiocb_end_write - drop write access to a superblock after async file io
-- * @iocb: the io context we sumbitted the write with
-+ * @iocb: the io context we submitted the write with
-  *
-  * Should be matched with a call to kiocb_start_write().
-  */
+ Note: the sources for the 1616 CardBus card are unclear. Please report your
 -- 
 2.34.1
 
