@@ -1,45 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548722882AF;
-	Wed,  1 Oct 2025 13:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D21592BD03;
+	Wed,  1 Oct 2025 13:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759324454; cv=none; b=V4y3ar4oPMVegDSkl7i3ULZ/tW639k1fRPIIm07YuZRCf3akL69Ab28nx8muDhMymJEaLubp6Ua28nc7/MxMCf8whC4HpZ9QdPNLjUtJai2bpjpSsZGVoxPrGSMPdNv814FsgA4PTeNc6SP+ePWfHBfIFxYM/SdrjHKf4dm5Ehc=
+	t=1759325301; cv=none; b=fqI0gZP4TlMIPIQaaNWh6RdSITc1i2CC7A0bi+rn+EgrHnSy6ijnBwFAAqa5MbBgNfH8V2LM5OBWtJBC6s8YKWURhFN5PC/J289w6ZV5VxowkZR81yXazNxfVuNj9z8dgN8taChQQhzlz7ieRAT/wOJbbB1agO5fckJOv0qpsHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759324454; c=relaxed/simple;
-	bh=1fuegTCDJ3VX2Db+yt081Y4g9P//4SsbtF3kWv61KFg=;
+	s=arc-20240116; t=1759325301; c=relaxed/simple;
+	bh=TLVkysF/GBhoRIO7bnkXwy1hLk+VVGzi7IiFgnKT0RQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiKpHF3l/6XiUom+HCGWfxX/4O6Vn6+dOyzjX/a9h6SlEC+YKxYbTwXOKGWQE5mBGOecv7zS1Dk6nOqR5nRpQRe3L1QPBcp2A+gN4Y7/Ae5Z55RiQ62JGI3hvirbgtCcKsolmgHOmTsNRDC5iXRwzXj+Qnvr+CGIwDMBY/oI+BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjdunqSq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjdunqSq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE248C4CEF4;
-	Wed,  1 Oct 2025 13:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759324453;
-	bh=1fuegTCDJ3VX2Db+yt081Y4g9P//4SsbtF3kWv61KFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KjdunqSq8ZhW8/6hBddU6bN6OEcOtqDMIwt8wcDn5thuNtDXVABEL3zMGHHoOVflm
-	 +4UsoOOKpdHCWWy0Uc4E8BIVsPYOVjHiv1tRP1v82mQLVWlzjZ9x/GoPzKDMdr9GQc
-	 XFL3flVQT9k50P/KsQFX0jrRztiWyCOF4DBRQQGOzeI5Mh+HTSJ4zmarGObp69OfTO
-	 FhmmgjvD6//nVWs7nBKjM4FjJLQBKrFxagqrhfzZfQq5O5iCBilWZWJImFUZLr/46F
-	 XCERDn1A3Cuw3tcnA8WTJLDFTThKY+vnq2d/w+WNx+FrLIN8Dzc+ehESC+0MvCaSfT
-	 gEfmqZIFmdbzA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1v3wep-0000000BGYX-2d02;
-	Wed, 01 Oct 2025 15:14:11 +0200
-Date: Wed, 1 Oct 2025 15:14:11 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/2] some fixes for docs Makefile
-Message-ID: <ybghatxyt7hzci5gmgxz7i6ae65h5ieizjxtmazaaanhwtjwvm@75lyu2zya3ds>
-References: <cover.1758881658.git.mchehab+huawei@kernel.org>
- <875xcyvkvy.fsf@trenco.lwn.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sP3w4DiDcPCE+zOEDhc8MO+QkiEaljvK9SoKyrTflhLyYPVGsjypnOZgTyhikgToL4zK07Js5yjArymI3JW62Q1m9e4rlkGgRv0ojHWQnHsCTK1kCVlq8fQsXkkQPMyueU54ywUSOvY1q7QXhuMpEvcfTkBlK+Ik2m0BHvAKLlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 155C116F2;
+	Wed,  1 Oct 2025 06:28:10 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B49483F59E;
+	Wed,  1 Oct 2025 06:28:17 -0700 (PDT)
+Date: Wed, 1 Oct 2025 14:28:15 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] coresight: Add format attribute for setting the
+ timestamp interval
+Message-ID: <20251001132815.GN7985@e132581.arm.com>
+References: <20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org>
+ <20250814-james-cs-syncfreq-v2-5-c76fcb87696d@linaro.org>
+ <20250930151414.GK7985@e132581.arm.com>
+ <3a731a9e-0621-42b6-b7fc-4b0fd9b7da6e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,40 +42,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <875xcyvkvy.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <3a731a9e-0621-42b6-b7fc-4b0fd9b7da6e@linaro.org>
 
-On Wed, Oct 01, 2025 at 06:58:41AM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Hi Jon,
-> >
-> > Another small series against build-script branch with fixes.
-> >
-> > The first one removes bogus warnings when latex is not installed.
-> > The second one has a small fix to avoid writing *.pyc cache at the
-> > source dir.
-> >
-> > Mauro Carvalho Chehab (2):
-> >   tools/docs/sphinx-build-wrapper: allow skipping sphinx-build step
-> >   docs: Makefile: avoid a warning when using without texlive
-> >
-> >  Documentation/Makefile          | 13 ++++---------
-> >  tools/docs/sphinx-build-wrapper | 18 ++++++++++++------
-> >  2 files changed, 16 insertions(+), 15 deletions(-)
-> 
-> I've kind of lost the plot with all of these patches but, in any case,
-> this one doesn't apply here.  If it's still needed, can I request a
-> resend?
+On Wed, Oct 01, 2025 at 01:40:37PM +0100, James Clark wrote:
 
-Sure. I'll rebase what I have, retest and send you on a single
-patch series.
+[...]
 
+> > > @@ -103,6 +111,9 @@ static struct attribute *etm_config_formats_attr[] = {
+> > >   	&format_attr_configid.attr,
+> > >   	&format_attr_branch_broadcast.attr,
+> > >   	&format_attr_cc_threshold.attr,
+> > > +#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+> > > +	&format_attr_ts_level.attr,
+> > > +#endif
+> > 
+> > By using .visible() callback for attrs, we can improve a bit code
+> > without spreading "#ifdef IS_ENABLED()" in this file. E.g.,
+> > 
+> >     static umode_t format_attr_is_visible(struct kobject *kobj,
+> >                                     struct attribute *attr, int n)
+> >     {
+> >          struct device *dev = kobj_to_dev(kobj);
+> > 
+> >          if (attr == &format_attr_ts_level.attr &&
+> > 	    !IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
+> >                  return 0;
+> > 
+> >          return attr->mode;
+> >     }
+> > 
+> > Otherwise, LGTM:
+> > 
+> > Reviewed-by: Leo Yan <leo.yan@arm.com>
+> > 
 > 
-> Thanks,
+> Unfortunately that won't work because you'd have to always include
+> coresight-etm4x.h. This file is compiled for both arm32 and arm64 so it
+> would break the arm32 build.
 > 
-> jon
+> I could define the TTR_CFG_FLD_ts_level_* stuff somewhere else but then it
+> becomes messier than just doing the #ifdefs here.
 
--- 
+ATTR_CFG_FLD_ts_level_* is only used in coresight-etm4x-core.c, it is not
+used in coresight-etm-perf.c. Thus, we don't need to include
+coresight-etm4x.h in coresight-etm-perf.c. Do I miss anything?
+
+A similiar case is the attr 'cc_threshold' is only used by ETMv4, it is
+exported always. It is not bad for me to always expose these attrs but
+in the are ignored in the ETMv3 driver - so we even don't need to
+bother adding .visible() callback.
+
 Thanks,
-Mauro
+Leo
