@@ -1,37 +1,33 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF511373;
-	Wed,  1 Oct 2025 16:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FA926D4C2;
+	Wed,  1 Oct 2025 17:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759337629; cv=none; b=L76d/ARHyVolESwcKeof5MVSwtsQO6+sPwjiOHLgcT+Wm0x0AWO9DyrA+81Psa+Ys7yWjSJmkw01UVnOi0ECA/UFWHS+/x3QPCGS+8WanDrOsFRwSkAk1QutnRZ4M1YfAzOAKPdPftYepYt5dVFCIW6ed4WVof5F6ysnAfD/4ng=
+	t=1759338223; cv=none; b=I+P1c3EmG9J4CenT+j0vl7iudgaLUWMl2+nzzt4Z9wGjPsB0J6VgrwqsQ+iB4rQTTkJZZRXGQtrIQfD4NU86iPTcN7n5hDuGahu796RBH+xnvvWkjevwQweLhZZkBKdUGnKfrj0TnQ3YVwyVJOwXaSntfusXDnpw8V2VQU/yheo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759337629; c=relaxed/simple;
-	bh=P32gxchqra0nGyRnN6ybBTNOyNQvXQZ4xfdZWywRGCA=;
+	s=arc-20240116; t=1759338223; c=relaxed/simple;
+	bh=nPII5ruhsWVBCkggNl2oDGdpF0mKUlLC73uy3QpGtkU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UU6Yigz7qxaRQ8TDCagCZtmTBj+9DTPUy71YchlhvE3q8l8bdrYgfitoxLudln/kAs9uHkmE47bOyOKsBSXoL23NI0SAz2fKinaEOUtimyI+GuA4v8XS0zf7dex06Lm/tMPOlOyMXymyB9IL1mwLqb3Ps0us1oyWf4HL/pSXpD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=e1gkShnm; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=ZuDn+dnme3u0beFvW6K/3k8CliRR0/GIgzJvfMPpEzXPMa3XoOILLNj94tQvEOHei3IZtfF72cic2kuO55YMqI22of5lCJZ36KfqXPYSTC6A2kHUDZxSDoUkjAUL99ftnX+pwQ8bB4rhr4UOXtf/d/9w2KFjLOhNzrvuBGnIeEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kEP+VV+4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e1gkShnm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ibzNKx/gRXGnc4tiiG6OxYzIZRUZZP1ZY3ujHEfJkWU=; b=e1gkShnmJaB0Supwo7SgLY7Eqd
-	Zvgl2nXKG4JUnkaZJc//qyDKXaWuJoCn05Aezxnvig+xiDZ+kfYoBw6DrShItI4vAskZJxu3/4Bne
-	5GiDJzqBotIt9VSbsMZ0MtLDzCqWyjxAh8Pu3L1sbUrXBPbeE091wMJzDGT80NWOhpls0BhJHb1Ot
-	px5/Pphug1qdZU7BZikFatZc/WXlq3ySBl4TiYGDvsTdTsnhAgauS92IcIz+drWFQqN4hv7i4C/nv
-	xGfDTAUtzLnhIHxN27C2zNDAASIM9dPcLwk4bfLbX8wbZgkr3u58oreBHdvuSNFdVziyV8IN0jWO4
-	ZFeetP0g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v405F-00000008aUQ-1ba1;
-	Wed, 01 Oct 2025 16:53:41 +0000
-Message-ID: <81c03cb3-5c97-4a6d-bf20-53c5afde2b42@infradead.org>
-Date: Wed, 1 Oct 2025 09:53:40 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kEP+VV+4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77717C4CEF1;
+	Wed,  1 Oct 2025 17:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759338223;
+	bh=nPII5ruhsWVBCkggNl2oDGdpF0mKUlLC73uy3QpGtkU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kEP+VV+4TBzxm4OMZWFfSsc5CVuBWXvI9fszuNkZ4BUB4cpzcrvW7u9noZImnFhzE
+	 5tK+GRgMhGPaZRRIOn3g3LZIQuN0BJNQhNV+5d/Le+YMpkcrnsgR9ZmT9J+vhiqbbt
+	 IElVkRbmV3YBN1OMdqVRp+CFif1P+MSkcGlHJFT6i/0T2RUo1vw9P/EuiZWdp6EVaq
+	 Kir6WP0GMSLWmfI4zRmIHazGov/akYoLj/pPnspKLur3zutc9sRuemk8A0NEIq4Biu
+	 vbIdJlzZr+ZvltidQ68yTmf/ZcQeeupD5xxaCYF2zuW8fjpwG74xTygboA09+ZaZ50
+	 bC0G+AzzjGVcg==
+Message-ID: <dbee61be-4e1c-4f58-ae20-32447b6767fd@kernel.org>
+Date: Wed, 1 Oct 2025 12:03:40 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,47 +35,108 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: doc: Fix typos
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
- Kent Overstreet <kent.overstreet@linux.dev>, Jonathan Corbet
- <corbet@lwn.net>, Carlos Maiolino <cem@kernel.org>,
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
+Subject: Re: [PATCH v3 6/8] cpufreq: CPPC: Add sysfs for min/max_perf and
+ perf_limited
+To: linux-doc@vger.kernel.org, corbet@lwn.net,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ bbasu@nvidia.com, Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+ pierre.gondois@arm.com, zhenglifeng1@huawei.com, ray.huang@amd.com,
+ gautham.shenoy@amd.com, perry.yuan@amd.com, linux-pm@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+ acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20251001150104.1275188-1-sumitg@nvidia.com>
+ <20251001150104.1275188-7-sumitg@nvidia.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251001083931.44528-1-bhanuseshukumar@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20251001150104.1275188-7-sumitg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
++linux-doc
 
-
-On 10/1/25 1:39 AM, Bhanu Seshu Kumar Valluri wrote:
-> Fix typos in doc comments
+On 10/1/25 10:01 AM, Sumit Gupta wrote:
+> Add sysfs interfaces for Minimum Performance, Maximum Performance
+> and Performance Limited Register in the cppc_cpufreq driver.
 > 
-> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-Thanks.
-
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
 > ---
->  Note: No change in functionality intended.
+>   .../ABI/testing/sysfs-devices-system-cpu      | 43 +++++++++++++++++++
+>   1 file changed, 43 insertions(+)
 > 
->  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
->  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
->  fs/netfs/buffered_read.c                                 | 2 +-
->  fs/xfs/xfs_linux.h                                       | 2 +-
->  include/linux/fs.h                                       | 4 ++--
->  5 files changed, 8 insertions(+), 8 deletions(-)
+> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> index ab8cd337f43a..82141b45d58c 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
+> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> @@ -327,6 +327,49 @@ Description:	Energy performance preference
+>   
+>   		This file is only present if the cppc-cpufreq driver is in use.
+>   
+> +What:		/sys/devices/system/cpu/cpuX/cpufreq/min_perf
+> +Date:		September 2025
 
--- 
-~Randy
+These dates will need to push out since this isn't 6.17 material.
+
+That being said I have a general question to linux-doc.
+
+Why is this is date based?  I would expect a date is meaningless to 
+anyone reads this documentation.  People who want to know if an 
+interface is available would normally look at their kernel version to tell.
+
+So wouldn't it make more sense for this field to be something like:
+
+Version: 6.19
+
+> +Contact:	linux-pm@vger.kernel.org
+> +Description:	Minimum Performance
+> +
+> +		Read/write a 32 bits value from/to this file. This file
+> +		conveys the minimum performance level at which the platform
+> +		may run. Minimum performance may be set to any performance
+> +		value in the range [Lowest Performance, Highest Performance],
+
+How will a user discover the lowest -> highest range?
+
+IE I think you should document how to lookup those caps too.
+
+> +		inclusive but must be set to a value that is less than or
+> +		equal to that specified by the Maximum Performance Register.
+> +
+> +		Writing to this file only has meaning when Autonomous Selection
+> +		is enabled.
+> +
+> +		This file is only present if the cppc-cpufreq driver is in use.
+> +
+> +What:		/sys/devices/system/cpu/cpuX/cpufreq/max_perf
+> +Date:		September 2025
+> +Contact:	linux-pm@vger.kernel.org
+> +Description:	Minimum Performance
+> +
+> +		Read/write a 32 bits value from/to this file. This file conveys
+> +		the maximum performance level at which the platform may run.
+> +		Maximum performance may be set to any performance value in the
+> +		range [Lowest Performance, Highest Performance], inclusive.
+> +
+> +		Writing to this file only has meaning when Autonomous Selection is
+> +		enabled.
+> +
+> +		This file is only present if the cppc-cpufreq driver is in use.
+> +
+> +What:		/sys/devices/system/cpu/cpuX/cpufreq/perf_limited
+> +Date:		September 2025
+> +Contact:	linux-pm@vger.kernel.org
+> +Description:	Minimum Performance
+> +
+> +		Read/write a 32 bits value from/to this file. This file indicates
+> +		to OSPM that an unpredictable event has limited processor
+> +		performance, and the delivered performance may be less than
+> +		desired/minimum performance.
+> +
+> +		This file is only present if the cppc-cpufreq driver is in use.
+>   
+>   What:		/sys/devices/system/cpu/cpu*/cache/index3/cache_disable_{0,1}
+>   Date:		August 2008
 
