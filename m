@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F5C256C9E;
-	Wed,  1 Oct 2025 12:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F7A2D2381;
+	Wed,  1 Oct 2025 12:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759323371; cv=none; b=bZ9zBvins7Ec8ptPIFRWkFB2xWhomw4usN84cdaLsl8sNXoNfUH1UiSgpGfCecFgoveiSdUgRqHRZ+0ONbI/HLyucjAjaLr4n3wsd2HZM32n978dkSvHv5gnQAeJhVtIo6vS6UjIsm+h7RSXm7cCDGMydjF8XgDgbq8fiZJ7+8Q=
+	t=1759323528; cv=none; b=OZzYb7TWPCK2TnupZcohzi49iVH7ytNkRyyan9bN4EBnR4aINAt1uBxu19cjNiUZ5HcW5pQel27ZplK/9bVcw7IPxTR/xN+56c648UfI1K0+uvCSYxmp7DOL7HhDDLBILnOHPnEBtc1SaChLl+FH59BJaEYIrEw66LHv0d0m+Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759323371; c=relaxed/simple;
-	bh=mOReZNqWwbU4a/wTjJDB0+lkjw0UmfuQ9GPr10g0YVA=;
+	s=arc-20240116; t=1759323528; c=relaxed/simple;
+	bh=wAQSpr61j9oSw4NK0J2PDg66NdlnizHZCpo1H/Er8BI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nWFg1YniSaV9rZrRd+HPfxgh6/ohSNT0ylCQpvAXNE1Y9d4Fk2zzYhYKqXhu4xMT2D9VvD/m8LQemBKnyKHwruQzH1seB0/tsY4mT00mOvZt5TK/ze+ssIBWwJkiN3kM5hzhJzicvTZiKObojNDz/ZUemVczhdHzCS/15wx4+jM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MBpLJj+C; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=fNdXsvmA+6HSHxggNuY8XN1JyBGbLJGEH5VjCRXkkHL+8eAON1ZKA6KfYlG5FXLqyK/hjI6vqbA4fI+Dbh8T1oKqZNkTuiPDMiT+iQi5BVNC7OdC6QcIK8re9+SMYtZdjp0rbEdEje5D8GbaI4NUm6+KNAnLI+kWYZTJxNZSwLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DbZExWKP; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MBpLJj+C"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6C70740B1B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DbZExWKP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1948A406FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1759323361; bh=EgZoynB3HntThhqa4R0c/Bog3MxF773jArVoHdMs/BM=;
+	t=1759323526; bh=tezH4wRgkK/jkrCY/BhOU34yY2hmFkMYyrlnKcM0dWw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MBpLJj+CZHD4g9j3eG4cW1cQFCB97uzVFLfjyAg0Zuo+OMmb9pfhp97mqmsjBNb3C
-	 ZSsS9GO5Rsh8eqC/s3IJKtVHNJ16O+JlBEcJ5+H6FKmUNJihlFRvTv4Bj6/hpvAv/o
-	 vfpuiUs/a1YXboMr0NdWuRRY5khpO25yJWU4p5zjEHcn5U0ZQj3nyJ+HAU1gr1QUY3
-	 /oUAl5K2VbaRkNO+kqitUWDuQcHWJEVQ5DT5RZq6e4VNkWWoLQgssBVXhoJ53Kn+hJ
-	 Ge7jSGAhRRPeInhXuAqyQXU9YZIuofgdbUs7PkyJntDyEJNuC/7IHQ66R/GpUdKEa/
-	 e+z8tO1pd8s/A==
+	b=DbZExWKPdla2RaN37dtchYn2p4tOTxJ6psHEtxzFiiMdnIMfu7SiZrqtvgMRbj+j+
+	 E3D/z217vsI/fR+BNjPDlvJQIH4pywRuWn+joSKJTNPl8gaHRH7q55juJoCXaMrWxy
+	 UFN1GGkj5IzFUEe101RK8Yf4DGCASt3zmYgASiMhPGyllhvzXH4sEDRtfeIaEFVYuT
+	 XaovMmwBZVskaOd+Lal05b9+HMSyp1wteQgYe/KWKJ0IntssuvUqtDURCj4dyEeFq2
+	 aYWgd8pnKZ2iiNvxJaQ8j39Keo5/GLV+gAM7T7YWs41+VkF5XW0cb8/TxVW1MB8C/P
+	 Q4b+D2ld8mANg==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6C70740B1B;
-	Wed,  1 Oct 2025 12:56:00 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1948A406FB;
+	Wed,  1 Oct 2025 12:58:44 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
  List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] docs: Makefile: use PYTHONPYCACHEPREFIX
-In-Reply-To: <65f341d516c329e2b57252176b188ae68f3bb6ca.1759135339.git.mchehab+huawei@kernel.org>
-References: <cover.1759135339.git.mchehab+huawei@kernel.org>
- <65f341d516c329e2b57252176b188ae68f3bb6ca.1759135339.git.mchehab+huawei@kernel.org>
-Date: Wed, 01 Oct 2025 06:55:57 -0600
-Message-ID: <87a52avl0i.fsf@trenco.lwn.net>
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, Randy Dunlap
+ <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/2] some fixes for docs Makefile
+In-Reply-To: <cover.1758881658.git.mchehab+huawei@kernel.org>
+References: <cover.1758881658.git.mchehab+huawei@kernel.org>
+Date: Wed, 01 Oct 2025 06:58:41 -0600
+Message-ID: <875xcyvkvy.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,36 +53,26 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Previous cleanup patches ended dropping it when sphinx-build-wrapper
-> were added. Also, sphinx-pre-install can also generate caches.
+> Hi Jon,
 >
-> So, re-add it for both.
+> Another small series against build-script branch with fixes.
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/Makefile | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> The first one removes bogus warnings when latex is not installed.
+> The second one has a small fix to avoid writing *.pyc cache at the
+> source dir.
 >
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index f764604fa1ac..cf26d5332fb5 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -60,8 +60,10 @@ else # HAVE_SPHINX
->  
->  # Common documentation targets
->  htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> -	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> -	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
-> +	$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
-> +		@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> +	+$(Q)PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
-> +		$(PYTHON3) $(BUILD_WRAPPER) $@ \
+> Mauro Carvalho Chehab (2):
+>   tools/docs/sphinx-build-wrapper: allow skipping sphinx-build step
+>   docs: Makefile: avoid a warning when using without texlive
+>
+>  Documentation/Makefile          | 13 ++++---------
+>  tools/docs/sphinx-build-wrapper | 18 ++++++++++++------
+>  2 files changed, 16 insertions(+), 15 deletions(-)
 
-This causes an immediate build fail for me:
+I've kind of lost the plot with all of these patches but, in any case,
+this one doesn't apply here.  If it's still needed, can I request a
+resend?
 
-  /bin/sh: line 1: @./tools/docs/sphinx-pre-install: No such file or directory
-  make[2]: *** [Documentation/Makefile:63: htmldocs] Error 127
-  make[1]: *** [Makefile:1808: htmldocs] Error 2
-  make: *** [Makefile:248: __sub-make] Error 2
+Thanks,
 
 jon
