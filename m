@@ -1,76 +1,73 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD982C0F7F
-	for <linux-doc@vger.kernel.org>; Thu,  2 Oct 2025 20:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF5E1A9FB5
+	for <linux-doc@vger.kernel.org>; Thu,  2 Oct 2025 21:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759438545; cv=none; b=a/FqwLNN/e8tHRCCmd+UK8vx746GvcynHDSai4yM/i7nCoU+Lu5KSUaFk2ILu5GP/QZRMBuv4kSVUr+Jjm8FrXTgiwNlSTx64uB4LiKgVjY1ncStlQcXVEWW/YzXJSiTlF+K6PxUppuU2HPIpfsmjgICltDjMZzGuZMFFtT/EGA=
+	t=1759441207; cv=none; b=ahDCz3+6KaNhuLONVmKpt1DRBg/f+f6i7eOyKbsBan6SvUhKFesUDm35Z9SuAiQdvmDZA1eegn8XpgtVtvZd9E5y9x4T3+6UG1AfNbDsdDyAlHnzo1P+DmHCCoy96ZysZi+1/HTSRu1vVXNJD9/WeMMndjPy2TE528rA3TYZrRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759438545; c=relaxed/simple;
-	bh=Z9iSGZ+S2wi6F1tMIvySWX/506OKQt3iTsYD6qsKENo=;
+	s=arc-20240116; t=1759441207; c=relaxed/simple;
+	bh=QZyjVm+9qlTscaf/2GM3pYF3vTllD4oGUQoj5iijRD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RB8bS0qkgldDztaE4GGgDLn0tttb9eDUbX3BYuEaNBFX7OGu0wbj0tqsaZ2/N1+6t+ZgNZLi+ODBD2OUvf26DTxs5GyzBpwHLfGNFDqFzRk5xUWFXTcw7VBRTtd5xOQxa8hRrUt8RPGSEKYAfsxBvi2jr12k0vhy6PRwqHJW0gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6RroNDL; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=dEi/3pOK7SCB91s/P6GiTiUJXonFEh0lN5Lb2nkfcmCUyMCDndkyM21yFT/431u6U1QmsNeT4y0je2OExmQE+vB1G/Q77g1g65IlY1zbJLvXAAQdVc80zda2xtKekR9QXpOPUcSaR6WJ8zO0+wVL4nD3vurkBfKc074ZAVxXvJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7lplOoU; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6RroNDL"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2897522a1dfso14160805ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Oct 2025 13:55:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7lplOoU"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-78115430134so1127895b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Oct 2025 14:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759438543; x=1760043343; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759441206; x=1760046006; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6nWNzw5rFvgp5+4E98Z8mggAdalCFOI1DScecBvxjnM=;
-        b=b6RroNDLzLznnFNiaz7yXatY0jWMrfUxE6G4oZj97RRKJt3nNA/Uoej1GAKCEFdsvs
-         gPcCTpedk+89YT2NI9m+xCepcN9tAzhroUcSOmxnS/KYxwlL1qAppLHLc3Awl7PJlAQu
-         WrfubdDKUiNWZWFialB+7jVYioWbMsIH4+hTkvpsdd7M4DRGGe7+bprZkU02ksfZfKFe
-         c4zir1AZZzZNGVPAGWfsEr63n8vf1L5A1J1UDHfRVhfNi7toMcZcDsExxz49GLDIZwwo
-         uL28sDEuqh+cmU9Xc+9S8ImueUOnzcUscuO/5SG4CtoUKLxojCfbRoXseMj/T/DnTf6K
-         E/EA==
+        bh=FzvSx/NUfO5A/sP8Sid74JR7vLvHKqFXwTADDrDwvwI=;
+        b=B7lplOoU32NtZnBaEcAoUDF7zee/6T7oDovCbzrgfIf+jFb/adJ5olMT9BTv8dO4Q7
+         7+ZjsnEtQcdo+5nCblClYC4eaDBXfLIWqtMtkREa1T6WPuHcwitFgWKu7BQ6eNBaGEso
+         goXogGxuv4pxjcCI5vBK9gqduy6bkiIFAWw19ClYLUnfBJ+lsVYBYRi644jOV37VOvOC
+         NOxYG6ZU5a3WKaR7s2FETmKUvaCBoEeL0juweza6J/hiXRR4KIl1Z6quWy6C7sEsm6d2
+         UZgjBiGfmr9C0i23givvd2PNfa+f0zwUxeTSBad5IJfQdGhKuinX1QYDgryvbb517z2u
+         aWmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759438543; x=1760043343;
+        d=1e100.net; s=20230601; t=1759441206; x=1760046006;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6nWNzw5rFvgp5+4E98Z8mggAdalCFOI1DScecBvxjnM=;
-        b=PUCt4thXzM3DJ2u9r/ZQahPfUfFQ6KQFvcNdglsuUposG5JBsfAWjv5kYmQ1rCoaJa
-         tuBEK/wyXYTvtRkdUpDEErOSdTyRJnpcsFfH+Lj7fvkfFenJNoJ6wnhx4rENtqw21KQY
-         2mv38Zd/IOXHl8kMhMZekGp9VfkUPiFsmC/9bkK5WcVnGI2olHHCYGOINRLpNgc9qy6M
-         Nl2vdYZv4GfpKzMzldcm4OmHpBnEbb8xQp2jXCTMvhSjP3uVdG5tPuW7BzNBAveUnp76
-         olOtkDKEMK/0SaCVwal0C/SHV16/Tw0Wefb3Qzc6u3RdbCNnA8V5dsfhzhxvy3jcqQV/
-         rG5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWy3GXU2Y/hAS1JeJyaCBFBqzqrWkXhcqHRa05sugaUi5zoXpMLgRFvU4vuwpF+oxye0gHO8QVnon4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaEJdgRnWRtjtg1f7qV0S3WcZyO7v1TOov0Ky47oFxOkWU0xFw
-	LHLjiWbhms45lbXDOynvsO4RaGHTl9/46BMehU1N2eNVtZIaSZ9WwYHt
-X-Gm-Gg: ASbGncsgYzCk4aWEKaGTrakJy0lmsjNUbe5ZE9BiQTXDPbXmzukhuyP/lcPhw3xRAj/
-	mi44ELxFqpyFcVaTbm89xEyJe2RlYP4Z+m/nP7jVMF7Qq7Vy5PtwOhiHrVMBTfWn2CumlCEaNL1
-	amhB4fIpLQNDO6yJRXVTarFPgrfiJYGWppXsP+EBOGFfykdOZNBA5eWRAKpFkxte4EtsZBwFKts
-	2f2F/Y3TD7Of6uFPGqDLTYOJVXUqJx+H83ibguNh86N052Qh3W5+r3K7r5mCW8z9D96BgyAqych
-	HHoYypvFCIu0Tzlpi2uSCzZmbDXJqHTSsM6fA5K/BIkObdcuLexaqtueSNYPxTb0d6Bmw62sPtK
-	hvL5G2iS8EelSpB6ASgvGUVJ2UjcTn3w4/1IGOg7dJ5mhKy2qf09qR8AkQ+I=
-X-Google-Smtp-Source: AGHT+IGYss5qk3VXhh2R+ZWPGB8ZQYoyyFAiwZWm24n7JZhmlZdFeuaqBerfiJZ6THmQhp0n8lu8ag==
-X-Received: by 2002:a17:902:c405:b0:24c:a9c6:d193 with SMTP id d9443c01a7336-28e9a54661cmr8418405ad.18.1759438543174;
-        Thu, 02 Oct 2025 13:55:43 -0700 (PDT)
+        bh=FzvSx/NUfO5A/sP8Sid74JR7vLvHKqFXwTADDrDwvwI=;
+        b=cqb5mPZmNJCBKD+fEWE5RGU6EaAy57HNebmLHGCRCFrYPE4xOwZND4wWKGXzX7TMzL
+         IwD4bTYPoyTNArG37wyoIIEKeCcnkJ/kvgay9hagpPtkhL0bGskWNzD9S0kN0NUWGVLR
+         64v2w3Q/hl+UvbCwNIw/q0kWHCumJrIytCHbggNeMlAY8IMZgIj420HbwaKMB3CJGpsI
+         fztkyQFVGrws7u3bZhta92t4tSFRDGez1MO6ZAWhyvJxnI7DQRpFKZIJS7o9WTspc3R1
+         iY0H1rfJRs2+IRjVEwGbunjmCU0nMvOQH030qBjps3S7cUd0boF6S242ZSUUxP2OoqLF
+         CdYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0mehdleEOetjWBfPCTsbejFOtR+2pQg2swx6v8PNAl9LRMSOhq0dXE9yvzcx4oUJOPzXmQqsO4gc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGpZn2u8Db0rsnxKt2qLNhhGmbdn8s5k8id5jEY9sbQVI9IAt7
+	BbhO1EXUDbo3E/BvQEJ0UuRqsBrVscmOjf/8AornqIP7bogPyxkNZN5V
+X-Gm-Gg: ASbGncuKNBy/F99uR/3sLh/VDwnLqCpOQq8ffajRx7C7TzN8iXCu8J7BOCbBWnbKfQW
+	zKe3D4wAVE8Ms7PRrHudFLbb25OD2SOED9ipe3NEjhzbPQtXvthdqyABkei2sNVLoEQ/mRCyhxL
+	kobB7UFF0+MV0QhK2h1EEA1tngrgriqUtmMXhQBftCq8FzxK4fVRqLKYsPA/ptDegxzlKdBovSZ
+	SzoJET/eAHNVBMS6dgq3FkAEM7HPUtuMsCDT/1V8iHq4PV1sStYM/m21MNEGRidgjj0ovP3LWIk
+	ya6T9/nLN+QpOh/J17gEDxDOGrF8jp8GFSzC15pFBTbMKJS+xz4CuCWIOpxQruxnlbeabVHVXOS
+	7K40LbNrykCRwYjIUzzqhA+91LruZSPw/YvXhc9qjd6K9CcsuF8SVpB5S9dA=
+X-Google-Smtp-Source: AGHT+IGk4gvP/gENOkVT6kjl47nctt4XhJQnUfoV6K+YzmVcO1xaHw+ws/N6KwZw6NEFY3MPioctVg==
+X-Received: by 2002:a05:6a00:3d16:b0:77e:7302:dbe7 with SMTP id d2e1a72fcca58-78c98cc299fmr1139185b3a.27.1759441205632;
+        Thu, 02 Oct 2025 14:40:05 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d622dsm29757765ad.110.2025.10.02.13.55.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b02053b77sm3004309b3a.43.2025.10.02.14.40.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 13:55:42 -0700 (PDT)
+        Thu, 02 Oct 2025 14:40:05 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 2 Oct 2025 13:55:41 -0700
+Date: Thu, 2 Oct 2025 14:40:04 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Kim Seer Paller <kimseer.paller@analog.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/max17616): add driver for max17616
-Message-ID: <2731236d-e3a3-4fba-9938-ca6b10f975d5@roeck-us.net>
-References: <20250930-upstream-max17616-v1-0-1525a85f126c@analog.com>
- <20250930-upstream-max17616-v1-2-1525a85f126c@analog.com>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/max34440): add support adpm12200
+Message-ID: <c6ec8937-91ae-4e0b-a0dd-183c5b150b2e@roeck-us.net>
+References: <20251001-hwmon-next-v1-0-f8ca6a648203@analog.com>
+ <20251001-hwmon-next-v1-2-f8ca6a648203@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,15 +76,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250930-upstream-max17616-v1-2-1525a85f126c@analog.com>
+In-Reply-To: <20251001-hwmon-next-v1-2-f8ca6a648203@analog.com>
 
-On Tue, Sep 30, 2025 at 01:02:21PM +0800, Kim Seer Paller wrote:
-> Add support for MAX17616/MAX17616A current-limiter with
-> overvoltage/surge, undervoltage, reverse polarity, loss of ground
-> protection with PMBus interface. The PMBus interface allows monitoring
-> of input/output voltages, output current and temperature.
+On Wed, Oct 01, 2025 at 08:37:08AM +0800, Alexis Czezar Torreno wrote:
+> ADPM12200 is a quarter brick DC/DC Power Module. It is a high power
+> non-isolated converter capable of delivering regulated 12V with
+> continuous power level of 2000W. Uses PMBus.
 > 
-> Signed-off-by: Kim Seer Paller <kimseer.paller@analog.com>
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
 Applied to hwmon-next.
 
