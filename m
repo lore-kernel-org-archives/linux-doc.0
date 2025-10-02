@@ -1,187 +1,154 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0AC79CF
-	for <linux-doc@vger.kernel.org>; Thu,  2 Oct 2025 04:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02068442C
+	for <linux-doc@vger.kernel.org>; Thu,  2 Oct 2025 05:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759378600; cv=none; b=Pe+RpvNOURMD8kLiBDnE67OrveOR0rjfDLZb/n/vIvWHy7noSGaqhBh5lY9jURCyr55IG/TwfQyUxem9ybxej9kW/vzoopHLUEJH+fUsb9kW1858OcTXyrjF5ervg3Q8iOhWD7spdToRkmMTH7IIlUdZXK09IRjA8XpS1w9+PVQ=
+	t=1759382308; cv=none; b=nF8Z9ttWcjhN+Db2itihB/6bAOSnHpDecElBCu17/aG6CM4sZScPUW+hlrPawGHERCNxyjNubLuojJJ31Q7IfTblkPxdF2/o58pvIu/CkXQd72C6v1gRgR1C1ZtjurRc4BHjlI0dn+v4fSl9nHOdGHuOXCY0czpFaBlU/UHss6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759378600; c=relaxed/simple;
-	bh=Pe/8ObN7qiufMm5HcULWtvwd8amkLJqnuUZAkQd5yZ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B+T+pytrWRp1XOYSIG2A9WYTkWA/h3FU6TDi7LHX5j0TvYdsHHhuZWRWMvXguNpxINFecbhW2nWk7V+rNpVN37w4sdtlhvUvwsNdVnF6iZMiLj7tCppr/8SybspcTWd7EkMDia0+DkiWJ92pH10a/l8L2TNhWdHEibVd/6RXnDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KvTCnw9B; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KvTCnw9B"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-90f6d66e96dso208254241.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 21:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759378598; x=1759983398; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=742HG6xqM5gMQxuQiisxFgtNoK/rJ5FGQXtW9bHZBh0=;
-        b=KvTCnw9BeQLDaJkg5CnA8SX5A/qzT4hTrjrZ5f87Jqk1IoZpLi7e7R0qb+2Ab5RL8X
-         dn+vnNelik8LzIoITsgDnK4XYkqmk8sGyKSouzRFLtHJw+fCpBGVPeMtenhKMAyHmYvp
-         qB3HyKCplP6X74sZITYkR4Hdb1usj8Mm88AY8GfjXGbmIjvOmKKwtzw1020xMARwQzXG
-         vBFpH5VX6ZiguxKWdMxLpaDyet93uHRWR9zoFGH2SqYFc1RJ4mUKSGPh5Q6USIkkpbL3
-         D/Bf4cYoYG4uoT8suc5FlCi16WE28v3E9MQ3C1rLoTD34x3ALYlhHshzq+eoYI6elMrk
-         dg4g==
+	s=arc-20240116; t=1759382308; c=relaxed/simple;
+	bh=+gv1NPtxVyBvjhO4poNs692kcgzTCPR39tA2vbSRsyE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=l2ILhoCq2MYCVbg+xFuywtqLpAMNE4+eNBaWCVpNFlb+n41Wyqj9fprQN20SN/U7zhXiezp5E0eqavmUVyPIqe+2nyQybRuT+2UOyhMHbFUq4iTuFCIMvgBvMXq8ceao1DYXqIhmQ8tIYxI0ETZ3F/c7qBiG10tLTOv5AX/jkiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-8ccb7d90c82so77438839f.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Oct 2025 22:18:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759378598; x=1759983398;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=742HG6xqM5gMQxuQiisxFgtNoK/rJ5FGQXtW9bHZBh0=;
-        b=iCFukGBL08dRd0inQ1SNbKiDcuT+PGdEsPr/b9bPfjo5ftYkCT/ZKpcWiSROGOfHDP
-         p08a+KVjOyKNVs7D6BwPyODZKbRbk6Wi9bk2ImADWZVdTlf5x2zSVMiNwvRB+PRTlYkF
-         0uSeheDrQOsm/mkUa2Bl/Jfr353AT18GWsBNP+h3ZF6apuIhdV5gBCURZLb35G0xmQe/
-         Fiiq2bRuBvzZb+uT+Z5fUMVXGeXujBxtQ3gNik1ASsqR610RcSAQgtA3IoRUsYaFavcc
-         IO/HyS4dB5xOkxusReF3xeUlyQvsAj+NH657GC5CzBDOoCNd6og8oZRP21OeVXIl2ER0
-         KXWQ==
-X-Gm-Message-State: AOJu0Yw56MwDtRpGU1jbxGH2HTALoaXZy5XMI3DgLTzX7zZIrvTY2+CQ
-	RvvXphla6fIHZSIbx+/hChv1z9Pk7MvfG4j+GHTuEhlnMBVFcyzHiF/4+AYTqUkMfUWepE6+0Hp
-	TAHmAUYTZ7gE9IKMvPZpt00t49loosoVXb+dCguk=
-X-Gm-Gg: ASbGncsJQt/h1ajMILqCJicL6m6xSzeemqc4olCxHA4PF1wXI9VfWqCDrWgux8rCofL
-	/l92zFJwXEeUc8ljpnKwtV0OCTACNxYaSBpky3nbgFnGT6KzRab2LpuDSXc13Ac8x2T9hkr7nbA
-	3b2zjV6H95sEPc5gXb5aw7OHhe+fmLa31IjPjIRYuI4ynHAh26jc5nkaVg3EtL8qxAckV8p/nu1
-	kMXgJtN1N42YQ/HPVi9Tmn7sJdZLRc=
-X-Google-Smtp-Source: AGHT+IFqhSErIdP+4rr/KGFNAJeJmZ1qcF9ilHwBddi3N4IfemVoMGcwaU6b34lpAgrfoL8248OggHqQOYTF2igdxgI=
-X-Received: by 2002:a05:6102:cc6:b0:54e:76ce:8fb5 with SMTP id
- ada2fe7eead31-5d3fe53587emr2201153137.9.1759378597772; Wed, 01 Oct 2025
- 21:16:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759382305; x=1759987105;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uswKdbmbFdorjou4cYVY+CuInKwkUZTHRb1ChJq4MHM=;
+        b=OKtifcCzrCQUf2HZUbYua2b7QPntvtR8KYuaZQlAaVFbAnOH66St1wZz/ZBnw9t1HM
+         +TfoKX17GH5Hhz7h3ybiiowCv+Lrg8j9eI3s5DLASGm9gie3AWRG6iB0/onlPuqE/0U1
+         VlUex4gl4iDOeUvhwXMcbf7uI0ghaNAkGhW1c7+5R3uW2R/qv228waLLtBtjr4q8p/9B
+         pEAqo4QcKNJGvmYWA2OT/s26DDovu/u7so234E1f10sdEOoz5GQ0K/RmEw25R1aF0WQj
+         GqCK9cLtmGrfHaqiUWjbDk7L1O4dJHueJqMd9k0rG+ZqJDJYQ7PJtfY9jfjx7ubxQ/gF
+         USbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFWVgwzZvbw+NEbhjuGUlemXBPfuyHnQ1taawa8uGhPXH7cmS91xo2Y4JB7x8NR04T9/uFfk1JtYE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxB0PQDXBwli7Otm3lz8tqbwsAQNanxzQxWJ1Uxh2JRXurAnAy
+	m5icvvlXzOlIXCzMrXlYDQVzVNWKK0c8lefKtxY4GaOHhG2glvQ2WEOpfw+l2oXQIABrPg8W/IB
+	qnHbxcmu/M50vIslnUEJMHRzQGwdcBSixORZ+smbkWivE/pYwJ/OHyrnnAmY=
+X-Google-Smtp-Source: AGHT+IHyrdlk2I1QlbI0wSYbvczysDkAsI4dSX9iWmCyD06Om9SRHKXunKhmzQ+juNoCADMlnUXy58ziTz15dLl6v3Q3kH9i9J5F
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOXP31GrRf2Q8NcqQ4161TiUuagZjp8i6CmEPZC1LsiGjxcD2Q@mail.gmail.com>
- <aN3RjymBjn_VfcLe@casper.infradead.org>
-In-Reply-To: <aN3RjymBjn_VfcLe@casper.infradead.org>
-From: Mr Tourist <zakiuddin321@gmail.com>
-Date: Thu, 2 Oct 2025 09:46:26 +0530
-X-Gm-Features: AS18NWAGAb9muAeCBX5jVLB8cnxydKkAdN3Im2j-Sn2IIfbYLjPE3XL-Kc5P4jM
-Message-ID: <CAOXP31FT7cZ79gAH-yOb+E8UX5sNnztL_rwjn_x-aLHdefjk9Q@mail.gmail.com>
-Subject: Re: [PATCH] docs: reorganize kernel documentation overview for clarity
-To: Matthew Wilcox <willy@infradead.org>, rdunlap@infradead.org
-Cc: linux-doc@vger.kernel.org
-Content-Type: multipart/mixed; boundary="00000000000058a7010640254026"
-
---00000000000058a7010640254026
-Content-Type: multipart/alternative; boundary="00000000000058a7000640254024"
-
---00000000000058a7000640254024
+X-Received: by 2002:a05:6602:1482:b0:92e:772:9323 with SMTP id
+ ca18e2360f4ac-937ade42cf6mr999929439f.16.1759382305117; Wed, 01 Oct 2025
+ 22:18:25 -0700 (PDT)
+Date: Wed, 01 Oct 2025 22:18:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68de0b21.050a0220.25d7ab.077d.GAE@google.com>
+Subject: [syzbot] [cgroups?] WARNING in cgroup_freeze
+From: syzbot <syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com>
+To: cgroups@vger.kernel.org, corbet@lwn.net, hannes@cmpxchg.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mkoutny@suse.com, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org, ynaffit@google.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Thanks for the review and comments provided Matthew and Randy,
+Hello,
 
-I have addressed the comments shared and have attached the updated patch
-over the email.
+syzbot found the following issue on:
 
-Message-ID: <20251002041325.6406-1-zakiuddin321@gmail.com>
+HEAD commit:    50c19e20ed2e Merge tag 'nolibc-20250928-for-6.18-1' of git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=137446e2580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cfc4e6ee70d55834
+dashboard link: https://syzkaller.appspot.com/bug?extid=27a2519eb4dad86d0156
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11eba42c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15de5d04580000
 
-On Thu, Oct 2, 2025 at 6:42=E2=80=AFAM Matthew Wilcox <willy@infradead.org>=
- wrote:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/10a80b79b188/disk-50c19e20.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e782595cfe10/vmlinux-50c19e20.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9166ef44f6be/bzImage-50c19e20.xz
 
-> On Wed, Oct 01, 2025 at 04:50:52PM +0530, Mr Tourist wrote:
->
-> ... you screwed up sending this, so I can't reply to it properly.
->
-> But in general, Linux uses reStructuredText, not Markdown.
->
+The issue was bisected to:
 
---00000000000058a7000640254024
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+commit afa3701c0e45ecb9e4d160048ca4e353c7489948
+Author: Tiffany Yang <ynaffit@google.com>
+Date:   Fri Aug 22 01:37:52 2025 +0000
 
-<div dir=3D"ltr">Thanks for the review and comments provided Matthew and Ra=
-ndy,<div><br></div><div>I have addressed the comments shared and have attac=
-hed the updated patch over the email.</div><div><br></div><div>Message-ID: =
-&lt;<a href=3D"mailto:20251002041325.6406-1-zakiuddin321@gmail.com">2025100=
-2041325.6406-1-zakiuddin321@gmail.com</a>&gt;</div></div><br><div class=3D"=
-gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Thu, Oct 2, 2025 at 6:42=E2=80=AFAM Matthew Wilcox &lt;<a href=3D"mailto:w=
-illy@infradead.org">willy@infradead.org</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Wed, Oct 01, 2025 at 04:50:52PM +=
-0530, Mr Tourist wrote:<br>
-<br>
-... you screwed up sending this, so I can&#39;t reply to it properly.<br>
-<br>
-But in general, Linux uses reStructuredText, not Markdown.<br>
-</blockquote></div>
+    cgroup: cgroup.stat.local time accounting
 
---00000000000058a7000640254024--
---00000000000058a7010640254026
-Content-Type: application/octet-stream; 
-	name="0001-docs-rename-README-to-README.rst-and-improve-structu.patch"
-Content-Disposition: attachment; 
-	filename="0001-docs-rename-README-to-README.rst-and-improve-structu.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mg8wkip70>
-X-Attachment-Id: f_mg8wkip70
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12c22092580000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=11c22092580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16c22092580000
 
-RnJvbSBmZDdkNDhjZmM4OWE3M2Y5NzIxYzhhMmY2OWI1MDljNGRlZDI5ZmFiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNb2hhbW1lZCBaYWtpdWRkaW4gPHpha2l1ZGRpbjMyMUBnbWFp
-bC5jb20+CkRhdGU6IFRodSwgMiBPY3QgMjAyNSAwNDowNzowNSArMDAwMApTdWJqZWN0OiBbUEFU
-Q0hdIGRvY3M6IHJlbmFtZSBSRUFETUUgdG8gUkVBRE1FLnJzdCBhbmQgaW1wcm92ZSBzdHJ1Y3R1
-cmUKClJlbmFtZWQgUkVBRE1FIHRvIFJFQURNRS5yc3QgdG8gZXhwbGljaXRseSBpbmRpY2F0ZSBp
-dHMgcmVTdHJ1dHVyZWRUZXh0CmZvcm1hdCBhbmQgaW1wcm92ZSBpdHMgc3RydWN0dXJlLiBUaGlz
-IGlzIGRvbmUgdG8gZm9sbG93IHRoZSBzYW1lIGZvcm1hdAphcyBwdXQgaW4gdGhlIGRvY3VtZW50
-YXRpb24gZm9yIG90aGVyIHRoaW5ncy4KCkJlbG93IGFyZSB0aGUgY2hhbmdlcyBtYWRlOgotIFJl
-bmFtZXMgUkVBRE1FIHRvIFJFQURNRS5yc3QgdG8gbWF0Y2ggdGhlIGFjdHVhbCBmb3JtYXQKLSBN
-YWtlcyB0aGUgZmlsZSBmb3JtYXQgY2xlYXIgdG8gcmVhZGVycyBhbmQgZWRpdG9ycwotIEFsaWdu
-cyB3aXRoIGRvY3VtZW50YXRpb24gc3RhbmRhcmRzIHdoZXJlIC5yc3QgZXh0ZW5zaW9uIGlzIHVz
-ZWQgZm9yCiAgcmVTdHJ1Y3R1cmVkVGV4dCBmaWxlcyB0aHJvdWdob3V0IHRoZSBrZXJuZWwKLSBJ
-bXByb3Z2ZXMgc3RydWN0dXJlIHdpdGggY2xlYXIgaGllcmFyY2hpY2FsIHNlY3Rpb25zCi0gT3Jn
-YW5pemVzIGNvbnRlbnQgaW50byBsb2dpY2FsIGdyb3VwaW5ncwoKVGhlIC5yc3QgZXh0ZW5zaW9u
-IGhlbHBzIHRvb2xzIGFuZCBlZGl0b3JzIHByb3ZpZGUgcHJvcGVyIHN5bnRheApoaWdobGlnaHRp
-bmcgYW5kIGZvcm1hdHRpbmcgc3VwcG9ydCwgbWFraW5nIGl0IGVhc2llciB0byBwcmV2aWV3IHRo
-ZQpjaGFuZ2VzLgoKU2lnbmVkLW9mZi1ieTogTW9oYW1tZWQgWmFraXVkZGluIDx6YWtpdWRkaW4z
-MjFAZ21haWwuY29tPgotLS0KIFJFQURNRS5tZCAgfCAyOCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCiBSRUFETUUucnN0IHwgMzEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwog
-MiBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCAyOCBkZWxldGlvbnMoLSkKIGRlbGV0
-ZSBtb2RlIDEwMDY0NCBSRUFETUUubWQKIGNyZWF0ZSBtb2RlIDEwMDY0NCBSRUFETUUucnN0Cgpk
-aWZmIC0tZ2l0IGEvUkVBRE1FLm1kIGIvUkVBRE1FLm1kCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
-NAppbmRleCBhMmM5YjY5YjY3ZmQuLjAwMDAwMDAwMDAwMAotLS0gYS9SRUFETUUubWQKKysrIC9k
-ZXYvbnVsbApAQCAtMSwyOCArMCwwIEBACi0jIExpbnV4IGtlcm5lbAotCi0jIyBEb2N1bWVudGF0
-aW9uIE92ZXJ2aWV3Ci1UaGUgTGludXgga2VybmVsIGRvY3VtZW50YXRpb24gaXMgYXZhaWxhYmxl
-IGluIG11bHRpcGxlIGZvcm1hdHMoSFRNTCwgUERGKSBhbmQgY29udGFpbnMgZXNzZW50YWlsIGd1
-aWRlcyBmb3IgYm90aCBkZXZlbG9wZXJzIGFuZCB1c2Vycy4KLQotIyMgS2V5IERvY3VtZW50YXRp
-b24KLQotIyMjIFByaW1hcnkgU3RhcnRpbmcgUG9pbnQKLS0gRG9jdW1lbnRhdGlvbi9hZG1pbi1n
-dWlkZS9SRUFETUUucnN0Ci0KLSMjIyBCdWlsZGluZyBEb2N1bWVudGF0aW9uCi0tIEZvciBIVE1M
-OiBgbWFrZSBodG1sZG9jc2AKLS0gRm9yIFBERjogYG1ha2UgcGRmZG9jc2AKLQotIyMjIE9ubGlu
-ZSBBY2Nlc3MKLS0gT2ZmaWNpYWwgZG9jdW1lbnRhdGlvbjogaHR0cHM6Ly93d3cua2VybmVsLm9y
-Zy9kb2MvaHRtbC9sYXRlc3QvCi0KLSMjIEltcG9ydGFudCBOb3RlcwotLSBEb2N1bWVudGF0aW9u
-IGlzIHByaW1hcmlseSBsb2NhdGVkIGluIHRoZSBEb2N1bWVudGFpb24vIGRpcmVjdG9yeQotLSBN
-YW51eSBmaWxlcyB1c2UgcmVTdHJ1Y3R1cmVkVGV4dCBmb3JtYXQKLS0gQmVmb3JlIGtlcm5lbCB1
-cGdyYWRlcyBvciBidWlsZHMsIHJldmlldyBEb2N1bWVudGF0aW9uIC9wcm9jZXNzL2NoYW5nZXMu
-cnN0IGZvcgotICAgICogQnVpbGQgUmVxdWlyZW1lbnRzCi0gICAgKiBSdW50aW1lIHJlcXVpcmVt
-ZW50cwotICAgICogUG90ZW50aWFsIHVwZ3JhZGUgaXNzdWVzIGFuZCBzb2x1dGlvbnMgCi1UaGVy
-ZSBhcmUgc2V2ZXJhbCBndWlkZXMgZm9yIGtlcm5lbCBkZXZlbG9wZXJzIGFuZCB1c2Vycy4gVGhl
-c2UgZ3VpZGVzIGNhbgotYmUgcmVuZGVyZWQgaW4gYSBudW1iZXIgb2YgZm9ybWF0cywgbGlrZSBI
-VE1MIGFuZCBQREYuIFBsZWFzZSByZWFkCi1Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL1JFQURN
-RS5yc3QgZmlyc3QuCi0KZGlmZiAtLWdpdCBhL1JFQURNRS5yc3QgYi9SRUFETUUucnN0Cm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uN2NjNTk0ZDEzMzQ3Ci0tLSAvZGV2
-L251bGwKKysrIGIvUkVBRE1FLnJzdApAQCAtMCwwICsxLDMxIEBACitMaW51eCBLZXJuZWwKKz09
-PT09PT09PT09CisKK0RvY3VtZW50YXRpb24gT3ZlcnZpZXcKKy0tLS0tLS0tLS0tLS0tLS0tLS0t
-CitUaGUgTGludXgga2VybmVsIGRvY3VtZW50YXRpb24gaXMgYXZhaWxhYmxlIGluIG11bHRpcGxl
-IGZvcm1hdHMgKEhUTUwsIFBERikgYW5kIGNvbnRhaW5zIGVzc2VudGlhbCBndWlkZXMgZm9yIGJv
-dGggZGV2ZWxvcGVycyBhbmQgdXNlcnMuCisKK0tleSBEb2N1bWVudGF0aW9uCistLS0tLS0tLS0t
-LS0tLS0KKworUHJpbWFyeSBTdGFydGluZyBQb2ludAorfn5+fn5+fn5+fn5+fn5+fn5+fn4KKyog
-RG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9SRUFETUUucnN0CisKK0J1aWxkaW5nIERvY3VtZW50
-YXRpb24KK35+fn5+fn5+fn5+fn5+fn5+fn5+CisqIEZvciBIVE1MOiBgYG1ha2UgaHRtbGRvY3Ng
-YAorKiBGb3IgUERGOiBgYG1ha2UgcGRmZG9jc2BgCisKK09ubGluZSBBY2Nlc3MKK35+fn5+fn5+
-fn5+fgorKiBPZmZpY2lhbCBkb2N1bWVudGF0aW9uOiBodHRwczovL3d3dy5rZXJuZWwub3JnL2Rv
-Yy9odG1sL2xhdGVzdC8KKworSW1wb3J0YW50IE5vdGVzCistLS0tLS0tLS0tLS0tCisqIERvY3Vt
-ZW50YXRpb24gaXMgcHJpbWFyaWx5IGxvY2F0ZWQgaW4gdGhlIERvY3VtZW50YXRpb24vIGRpcmVj
-dG9yeQorKiBGaWxlcyB1c2UgcmVTdHJ1Y3R1cmVkVGV4dCBmb3JtYXQKKyogQmVmb3JlIGtlcm5l
-bCB1cGdyYWRlcyBvciBidWlsZHMsIHJldmlldyBEb2N1bWVudGF0aW9uL3Byb2Nlc3MvY2hhbmdl
-cy5yc3QgZm9yOgorICAgIC0gQnVpbGQgcmVxdWlyZW1lbnRzCisgICAgLSBSdW50aW1lIHJlcXVp
-cmVtZW50cworICAgIC0gUG90ZW50aWFsIHVwZ3JhZGUgaXNzdWVzIGFuZCBzb2x1dGlvbnMKXCBO
-byBuZXdsaW5lIGF0IGVuZCBvZiBmaWxlCi0tIAoyLjUwLjEKCg==
---00000000000058a7010640254026--
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
+Fixes: afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
+
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6062 at ./include/linux/seqlock.h:221 __seqprop_assert include/linux/seqlock.h:221 [inline]
+WARNING: CPU: 0 PID: 6062 at ./include/linux/seqlock.h:221 cgroup_do_freeze kernel/cgroup/freezer.c:182 [inline]
+WARNING: CPU: 0 PID: 6062 at ./include/linux/seqlock.h:221 cgroup_freeze+0x80a/0xf90 kernel/cgroup/freezer.c:309
+Modules linked in:
+CPU: 0 UID: 0 PID: 6062 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+RIP: 0010:__seqprop_assert include/linux/seqlock.h:221 [inline]
+RIP: 0010:cgroup_do_freeze kernel/cgroup/freezer.c:182 [inline]
+RIP: 0010:cgroup_freeze+0x80a/0xf90 kernel/cgroup/freezer.c:309
+Code: 90 e9 9e fb ff ff 44 89 f1 80 e1 07 80 c1 03 38 c1 0f 8c e7 f9 ff ff 4c 89 f7 e8 e1 43 67 00 e9 da f9 ff ff e8 17 68 06 00 90 <0f> 0b 90 e9 10 fc ff ff 44 89 f9 80 e1 07 38 c1 48 8b 0c 24 0f 8c
+RSP: 0018:ffffc90003e7f8e0 EFLAGS: 00010293
+RAX: ffffffff81b6c6a9 RBX: 0000000000000000 RCX: ffff88802ff60000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90003e7fa70 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffffbfff1d6d2a7 R12: dffffc0000000000
+R13: 0000000000000000 R14: 0000000000000001 R15: ffff888031790791
+FS:  0000555589dcd500(0000) GS:ffff888127017000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2f163fff CR3: 000000002f824000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ cgroup_freeze_write+0x156/0x1c0 kernel/cgroup/cgroup.c:4174
+ cgroup_file_write+0x39b/0x740 kernel/cgroup/cgroup.c:4312
+ kernfs_fop_write_iter+0x3b0/0x540 fs/kernfs/file.c:352
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x5d5/0xb40 fs/read_write.c:686
+ ksys_write+0x14b/0x260 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f717e32eec9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe6a7c7c58 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f717e585fa0 RCX: 00007f717e32eec9
+RDX: 0000000000000012 RSI: 0000200000000200 RDI: 0000000000000004
+RBP: 00007f717e3b1f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f717e585fa0 R14: 00007f717e585fa0 R15: 0000000000000003
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
