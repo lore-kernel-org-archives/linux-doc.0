@@ -1,166 +1,141 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AB12FB0BE
-	for <linux-doc@vger.kernel.org>; Thu,  2 Oct 2025 10:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95921F582B;
+	Thu,  2 Oct 2025 11:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759399895; cv=none; b=gCDapsbpdzUg3JVyYVJkpbFyvGdp+TepKMUrbotw64Lo7pahHxR6wWIbJsATFMKiBdcSvZSwS/2/JtjfoKU06HSVTdzPf/OHu+d3xZSS+jC50MAnPA5SRH87bc06hiM8jXAemP19jG1KEzZGV5Fdp471uExJ9MN8yiPoOqjdbk4=
+	t=1759405199; cv=none; b=VBFcsD4jIuOusMdbL1d7J1dx1d411HMDRxChvH8jotp5wpZzGGU7iQiJ4xrapz+yv2pqmSkH7GG5faO4cc7FdP6lfrIm+ZJDxlkxaJNrhkwzYYJtRZr7dqotIm5EjIkXuO/2Dx9TArKTJqcMTDXuMnC96OQGXIHFhKF48QNS+DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759399895; c=relaxed/simple;
-	bh=/MX8csmL+71ntCQVHdGF5lwfPuWf6oJ7Sa5sB3VI1Ws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bUXerg7OCoyq+QOAQ2B9nStST7dxTIbsW0FZD3uIHZe80SGFr0+VNGcbcC9PzopBj3ukJ3Sc6pEnGlulkqF4osWkm9Zn57Pd0DlIfxKcDi7XA06JFqUc5GCrmaZID5E20WrM6Y5avFvkVJe1lSapI7yK6jBIJLBv+Mlq1dsX964=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C8KGN9bL; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759405199; c=relaxed/simple;
+	bh=AqM4M+MGYM63wBzkJdjM+deX6L3r76MLEIOrwOOOwJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I5xXjLHQECGHfFW7wtUoGDHJLYZjJdthnESF+9CC29YB5TQsPRe5booLuXRpPU+TmFNw7hiYt3CpIqkd5KqXA8N0pwaCpJRuy2UHrDvsLJahNrpHZrU4iAMoutz4SVvEC235Di78niwzs9fVzo5AH9UAkKOC7ZlyLpxBVBFd50U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TW1/86Ro; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C8KGN9bL"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e6a689bd0so4908465e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Oct 2025 03:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759399892; x=1760004692; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M8Bq2UEqpTUxftlSBdX7OuC2XFs3G/N0v0vwH32gU+A=;
-        b=C8KGN9bLzhcYapv2qj0j1XZF7x21mthJQYXYvVjhCWm3ODvvjVaDxqcjQ00LViFwJ8
-         8yw7Z3Ay2/vNY1Bh1rYCNfHnit264pm91NoPDOqH+XdQ0jE5lu6MwH9w4G8UcuL01hHS
-         Q91u+Al7zdyknMl/oazwF/tSvQzqINVFb9rWujMBAzK4lxqiRUEFw5dcXNiT75pO6vfx
-         Eft9Guf3Gf631vJR/ITPbrbgjeibumyYv3b5a423ZgQZLP8Br27VQCk3cNRhPcLaeADd
-         ORRrrs88mVE8Y3yBcjMPYwp50vbuEtDl9c5bwiLiNZICqD4dgoqWSlrCp8OFQ0W2vU0L
-         bCjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759399892; x=1760004692;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M8Bq2UEqpTUxftlSBdX7OuC2XFs3G/N0v0vwH32gU+A=;
-        b=Zsq4FuZJA6hmC7e4UDbl3Vv61zklNYnWLLOR2LQtEH4eXWfABaT1Ziwg4sFZyd2gV0
-         PK7MBUgDQJSU6RwhxpFYYRiFIyJXZyC7lV/yHJ2eXTTMY9j/h8ArmiVp+WXL16/0Xlr/
-         Y71+6DjgkLMb4DnL3Tq3zbZLt+VCA1/yUpaTz+vM5LlLXKAEgXN71Dm0HZAafZjH0yIY
-         KrXokQ/DsTs5Cpju63YVw/Ics8OBxNwS6MbafR2+08TKMKIigbm3MailWfHQ9SRraL3p
-         6qUlk2xyDtVXwV0p/j+O7BMS/vWzFOkUzsfqgOHBEGAyWuKIZvfGUgCIbbMI0ltBssuy
-         +pVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWsK/kjOGXHdN8B3VehZc4MXny73TCjlSzTb0CbsQ9tAy/ouEoRS1/gWxRXTQs8IZYsOrA2R95Rxs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhcAHpCByor0B0CMG8NUJECtb5AaIlJnIhIskc0ZpmvIt1WEYj
-	nRwx8Ceg/cjK60d7h4FY2QwNvaKcOsg5VFCPPjBeL52KhjiMFjTZnqANVXRXOOEMiEs=
-X-Gm-Gg: ASbGncupPlRar8pkwHGN0PFs5GiCEQzkleDVKXAGHj3Ft7JCV9ajJZDo/PJ6XtUEmcx
-	QhLxeVZl1WgMhirqchoaX1NkdkOTemap77Zw3J4xN9u4UTENfWl8rWzf3vkSpb6GqXTyj35sjKg
-	HEg6W7G8+VCuSuezVj2OGzSnTHuHruOmfQMVFeYYtchzDHxdp1tlTRiwFe3P4WVPD6UOxH4a3X7
-	xNaezSsGqWtg+j5hRQExdSelWjL3j3pMYJXKLyubp7JwxWXDi1iMlOqfrooWGiYZwwA3ipfC5G4
-	eyA+eTeAGlnrMMi1aJ934dgeR5xkGpY3yyNi4fDGkk6Yfg4hNs0hB08wNAV6vDeHlGBv64omoir
-	KK3JE1DwlDkPA97mgAVrze5LG9v+PkSqUsJ1mcjt6WIMBDaacBh33JBvU
-X-Google-Smtp-Source: AGHT+IFWh975vJvc4Ml/pCcEIsLQ9eEzaaf4VQkBY01lMYMfPFIlL3XanMh6oloBoFROEXbxSrta5g==
-X-Received: by 2002:a05:600c:4586:b0:45d:d8d6:7fcc with SMTP id 5b1f17b1804b1-46e6f7ff73cmr2978875e9.27.1759399892241;
-        Thu, 02 Oct 2025 03:11:32 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d869d50sm3094531f8f.0.2025.10.02.03.11.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 03:11:31 -0700 (PDT)
-Message-ID: <4d742477-f16a-4bc0-bb86-717bc0b560b0@linaro.org>
-Date: Thu, 2 Oct 2025 11:11:30 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TW1/86Ro"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB65CC4CEF4;
+	Thu,  2 Oct 2025 11:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759405199;
+	bh=AqM4M+MGYM63wBzkJdjM+deX6L3r76MLEIOrwOOOwJs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TW1/86RoVUn8qaQrgHMvsQvcXg86d9INUtwu3WmMM1sNr7Nnhsdu5LGDe4wj5Nmcd
+	 h3ahbC+1P18XctdTn5Su30qTYLkv7UarZVkeP70mkiGhbyiaB4Tf6m6FHeWhLlYVJv
+	 LhShOrKMSXkpVSMXLKYov1x2dryfuR3xlR/mL6dZWVfYhX3Zictu/5mKj4LvKtKxkm
+	 Ma7bsVvTVvu3F16nnUTBVa3mDEJ/xjXtgVjwBY+8URYSBCdEXXcChHc80acWuzep8i
+	 mXGvMQLTMLWWC7+zGhRkCVamXaRa0GZJHQuGz3SNFpxw4WC4iKaqKbkQ2SmMMevhe3
+	 M2PF47W5eCD9A==
+Date: Thu, 2 Oct 2025 12:39:31 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+	ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+	baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+	joel.granados@kernel.org, richard.weiyang@gmail.com,
+	geert+renesas@glider.be, tim.c.chen@linux.intel.com,
+	linux@treblig.org, alexander.shishkin@linux.intel.com,
+	lillian@star-ark.net, chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 09/47] arm64, dept: add support
+ CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64
+Message-ID: <a7f41101-d80a-4cee-ada5-9c591321b1d7@sirena.org.uk>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-10-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] coresight: Fix holes in struct etmv4_config
-To: Mike Leach <mike.leach@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org>
- <20250811-james-cs-syncfreq-v1-2-b001cd6e3404@linaro.org>
- <CAJ9a7Vh44rYWN3mjHPBq8pkBcPuhS2pTBZNaMpWgJECmPZtupg@mail.gmail.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <CAJ9a7Vh44rYWN3mjHPBq8pkBcPuhS2pTBZNaMpWgJECmPZtupg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KmVT2ZbmJlsEn2vS"
+Content-Disposition: inline
+In-Reply-To: <20251002081247.51255-10-byungchul@sk.com>
+X-Cookie: idleness, n.:
 
 
+--KmVT2ZbmJlsEn2vS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 14/08/2025 1:37 pm, Mike Leach wrote:
-> Hi James
-> 
-> On Mon, 11 Aug 2025 at 10:32, James Clark <james.clark@linaro.org> wrote:
->>
->> Lots of u8s are mixed with u64s and u32s so repack it to save a bit
->> of space because there's one of these for each ETM.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   drivers/hwtracing/coresight/coresight-etm4x.h | 19 ++++++++++++-------
->>   1 file changed, 12 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
->> index 746627476bd3..a355a1e9606d 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
->> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
->> @@ -832,28 +832,33 @@ struct etmv4_config {
->>          u32                             vipcssctlr;
->>          u8                              seq_idx;
->>          u8                              syncfreq;
->> +       u8                              cntr_idx;
->> +       u8                              res_idx;
->> +       u8                              ss_idx;
->> +       u8                              addr_idx;
->> +       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
->> +       u8                              ctxid_idx;
->> +       u8                              vmid_idx;
->>          u32                             seq_ctrl[ETM_MAX_SEQ_STATES];
->>          u32                             seq_rst;
->>          u32                             seq_state;
->> -       u8                              cntr_idx;
->> +
->>          u32                             cntrldvr[ETMv4_MAX_CNTR];
->>          u32                             cntr_ctrl[ETMv4_MAX_CNTR];
->>          u32                             cntr_val[ETMv4_MAX_CNTR];
->> -       u8                              res_idx;
->> +
->>          u32                             res_ctrl[ETM_MAX_RES_SEL];
->> -       u8                              ss_idx;
->> +
->>          u32                             ss_ctrl[ETM_MAX_SS_CMP];
->>          u32                             ss_status[ETM_MAX_SS_CMP];
->>          u32                             ss_pe_cmp[ETM_MAX_SS_CMP];
->> -       u8                              addr_idx;
->> +
->>          u64                             addr_val[ETM_MAX_SINGLE_ADDR_CMP];
->>          u64                             addr_acc[ETM_MAX_SINGLE_ADDR_CMP];
->> -       u8                              addr_type[ETM_MAX_SINGLE_ADDR_CMP];
-> 
-> this is 16 x u8 - could this not just stay here?
-> 
->> -       u8                              ctxid_idx;
->> +
->>          u64                             ctxid_pid[ETMv4_MAX_CTXID_CMP];
->>          u32                             ctxid_mask0;
->>          u32                             ctxid_mask1;
->> -       u8                              vmid_idx;
->>          u64                             vmid_val[ETM_MAX_VMID_CMP];
->>          u32                             vmid_mask0;
->>          u32                             vmid_mask1;
->>
->> --
->> 2.34.1
->>
-> 
-> These attributes have been functionally grouped for ease of
-> understanding. If we move the _idx values away from what they are
-> indexing, we probably need comments cross  referencing from where they
-> where and where they have gone to.
-> 
-> Mike
+On Thu, Oct 02, 2025 at 05:12:09PM +0900, Byungchul Park wrote:
+> dept needs to notice every entrance from user to kernel mode to treat
+> every kernel context independently when tracking wait-event dependencies.
+> Roughly, system call and user oriented fault are the cases.
+>=20
+> Make dept aware of the entrances of arm64 and add support
+> CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64.
 
-I missed that because although there are newline separators there were 
-no comments for headers. Dropped this commit in v3.
+The description of what needs to be tracked probably needs some
+tightening up here, it's not clear to me for example why exceptions for
+mops or the vector extensions aren't included here, or what the
+distinction is with error faults like BTI or GCS not being tracked?
 
-> 
-> 
+--KmVT2ZbmJlsEn2vS
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjeZHIACgkQJNaLcl1U
+h9C/NQf6AxgZ6UzPOMzfmL9NSrLltWX75xfq7wx8SUKs1A6RFEWCR/s8jeaJZeCx
+834KNHe3AuR4JVKLLGCZS/c26uVb8ee5itMM53Hv9CN8sQFUNuw/xdO1WCQVmZOI
+pHaKeDBxXVnmeBO3uxS+3ITFDSNIPz6DOUAhqdFLhC6EhioGurq1dr8EtQu0aL3A
+CqG9/M48cKPZRG7a1vLkqKbg8o15SYytfgXtl1kBey51IR89HXUZA4xdNc1CP0Sf
+t2jQUg9ne/qxFnWt0CZEL+07IEC/enVs8gcO+mSpVX1r8yRDs496wZ29z7TjDaXB
+8wuHMVCoKqwssyLsusjOjgef5XgKoQ==
+=Ipx4
+-----END PGP SIGNATURE-----
+
+--KmVT2ZbmJlsEn2vS--
