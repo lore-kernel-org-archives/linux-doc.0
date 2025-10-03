@@ -1,73 +1,78 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3659822DA0B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 08:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF589261595
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 08:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759479010; cv=none; b=lz5qu1D121R86XxIG3q9dPdWlTwRs5UaSsbeGZLFx4L3DkQ1Uney1pbu/jZfLJgCy7oY1jEQttG/OWQM+5Swbd//oH3Upz6rQV+H57yNsylhff4i6bTdyEfaybbw/N9SMABxXJ01XHzzkLatG0USYt/Jy03fSNOQUS6sTl5J3EA=
+	t=1759479012; cv=none; b=Yffdcc31EZdBvJ1gUkdfZKb1PV2Q2o51GChXzAk3RojLT9jlanZ/EiPuWNvS/Ny0Ck5LXZCUKEuVzouh3RR2IbH9fSQwqOSYJzCcl60LM8k8xld9hfzyb43LJeQv41QCRqCreKaLnXwogRYYzawp7IdYBfPrLiqcVUp+SWUxRGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759479010; c=relaxed/simple;
-	bh=FzgDnW0LHkuoqjWLgilY6g+m63WHYz7SU/ljq6issTA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bR6QkYzqXpTHu7XujR6zZ/sl8hN+OUpAN5qi0uI3iDEHwFStzt1akXA4QGKTw8eeKE7DN4V0RgpE/5/JTqXD4x9DRaMZB0SXskrsdgbtalacXNGPZPoaNcDYTDOMOfWxN5aVPGq5/CmZvo6T9b089DmxHk24k/xU27zKllon9y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/tNuh+z; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1759479012; c=relaxed/simple;
+	bh=CDojOjHiNpGDqkUj+nol7HDMziH5oL0Gcc2huoZa/XI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k46vAfE0zztuwQNshSzSaBllNorhxjV2Juh6xbJMMxXImzAPbqyK+e8HkgSsEgflwgknW2Q4YGyKALJPnFB1+9TeDjEWKQJ58T867kCU4f3Ib8cqtiHhGZLyPcXmyFCZ6DFp5FbNDnLRE+QDJxHaiQiMbnnf6vw9xPh67caK1l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/cKm0ev; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/tNuh+z"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-62fc28843ecso2880160a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 01:10:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/cKm0ev"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b07d4d24d09so343147766b.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 01:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759479007; x=1760083807; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HEZw1xZN8Gwz84nw3aSSSOJI7RYFRhNHk+gh+sXEEnk=;
-        b=e/tNuh+zsDEAlX6VcApxZnX2nGROEwZmiXTgoGJ8MmyHM158Wzl6IWPyec/OEycfXU
-         vYpDdAEkAdDhnychZVxgog7e9Z8HibCv3cWXKc7tpVZ+orVL8r/mz3Slk1kjSe842tpF
-         Av/1r9wUH5z0uzNl8SBbb1PWgIYTBUuAk6x7Zlll8FrkemyQoFX0K2Mpv9QX7dcG9/JJ
-         EL4Z8NK+x41YBfbV5FVxwtkC6+PBCvpOb0Ugf8YpzYP6zrWZI9+RpnGBDLR7XHKKBUiE
-         C5+/WVfgd3OqHw9PHozZOAn/PCuIWjJLqQab62zLZPp5fkljy4AXDLcqUvKV2GMCRtm9
-         JdRQ==
+        d=gmail.com; s=20230601; t=1759479009; x=1760083809; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lVJ/Veu9dSAAGjGHBCma/AA2tUle10swNZ3pefVk2qk=;
+        b=J/cKm0evWGQvIzCa3pqCh4q3WqlTuUmVfGHpLQhgb/ktu1yGlSuH7s26H7rvRWs+5t
+         dmyCbdHvyLhYfwXr11usiTGwI4Xy+nmaHYlRX8nzZlc6BnYOo5oP0G6tYabkX78Og2BS
+         R9Bq6Tyi1zgvh6somULSmjQU4STAlgo8xqRpidRHJh79O1UuyhWLuUOVTAswoDIMnVE/
+         0C/YraZYn9wFGnHHWC1fYbjbAk33HiIzWpnaxwrZ4QUtTfVOeRVKXJYbfaUsnRBbbqr8
+         CxJMZYJ92JkHhEHWxaCakeKnuUtMkF63m5b8xGSnk0AlRX0K9w8C2jxUbVUCLVkelWyJ
+         pfSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759479007; x=1760083807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HEZw1xZN8Gwz84nw3aSSSOJI7RYFRhNHk+gh+sXEEnk=;
-        b=OWMTP2f1VdvsR+cDWpRvegPwwT97xoZzwgEx1ROhgAnziwrEwlfIEv4qSDtmXNBdyC
-         BKQKGuNPcmjy1bm1fRVau8YR8lB14/RvhoXcj1WPZTRy8dikpN4d8k/hhZtefH5YHJaU
-         ifqxLTp5jdAsJ2vsArUYWgcmZC6S2gE5wn2ShIq/islQm3b3bz8q1TIVqj12i8iSmSI6
-         Gy3VWCHCazUOs6qfCQ4MhXcTsSuScmoLI/prMWKvJEu/gi4BgEv8OgGPBGfF/TgDkbdt
-         P0Q+BVs5RhS+FlwcyOSMQeqwEZ35g7qr8YzTZE/J8yKg2GvVGHYY581TcGzhq53Hk4bf
-         mB+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXTvEFPXMynAU/avndVtzkH//ai6oD3Ucsn5V7C0GawkBMieqbaSEoyPZWUOlmnfh2pXVbKM8TsxoI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1mIYVcPjhLzdmw9kqWZM/WVQ5YNlb2oAOZnnmcAHjbLHWI8yP
-	FDHkvdaoQXUjerYRGtb3QtpMXlS+cPaUp3STgh3J3Og+F/FUaaMdgFhY
-X-Gm-Gg: ASbGnctLWwnNQTOme+VEMFtGV/nv7f2ZLvkVmbYGvlGl92gpd5gw/u4W2tfTiR+iril
-	tq4UwB51pMSOP32mpsWGi4HLfcxXjAW4U9BYs1jqnEheF8hYa4mRXS2aBw5KaXqHn+xayb3gKqH
-	NccPBQuBgoqcx8mq6Iu5vYKjZUXx5JDPToITL2XHlLB91l3RmTxstMJncEXKjeJ3RSDyKFq1/bI
-	pVlk+1RyqEJ8evQc+4sI56QslVAxJYBKbroalHL6A0y7IQgBzmwm0B3JkZ0N55zYDnT5//ErSmj
-	E4Iif6mNoiZlYMiEBulKljuk22HbMd8gsHKiR6tgl8x+fd8PUN589GGnJMDjFjdlTjknqVfKi86
-	rZqKuzV13CawgsU2WS3LjKhe6Ha2cJ0V/z0LacAGiSb1Qrr9SOTj1+nWyUSculNioCUrlJpSreq
-	AWgQ==
-X-Google-Smtp-Source: AGHT+IFPgJfqYIt3xEwZNIT1Msc5qVT7rxz+HOc3PPade29V+DzSAFRYs26WIggmAMRkNOXQP5q9JA==
-X-Received: by 2002:a05:6402:2110:b0:637:e2b8:605b with SMTP id 4fb4d7f45d1cf-639346c7b36mr1995788a12.5.1759479007333;
-        Fri, 03 Oct 2025 01:10:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759479009; x=1760083809;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lVJ/Veu9dSAAGjGHBCma/AA2tUle10swNZ3pefVk2qk=;
+        b=DhGER5xs2Yv4bPKjYD+kn3LvEIRxiSTruFyCqg5UqLNt5VaB3lrMRUCw6ixTCo7j3i
+         Dp5t89voRAIkWL75woZ/O15nSZrsGywzkw4WrMXx3BS7674y4VlPBhjmwJV3aqCr3xGo
+         JG7xGzSHtEM2+ME5hWRcuXuhj8b2b+1M2DYde4R3TXWLgsqHZRmaXEPGZIlb14XI3Wzg
+         z8IY7GVpWjxG+dVicDyalCih3GgU4xJDNQciHIEMkMTWPt11x4/2Eq/CQLDrDRJWseZv
+         SuHP8ijmCMKc94IYjnlK7uViIqjeCeDHleutHO4whSJKJ1mWQhgNW62fABf/IuDseJdd
+         SrDA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+47qgu2WiBwOTTIOpLrizTJyUW7BfaroXi2xA4k3JYYmhf/Of7Aa0y5pF27lGn60/jYSj3L0FGnY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyT3+Kbvt/GpsyMSJTL1UVBmoXAcXN1BPCnYgCKWwYZaIevNoII
+	gyFrjnI94kcxiLXvBlPKwh8Dlh1yMGlzQr2uL2twVW6/xrH1ikpTlBCo
+X-Gm-Gg: ASbGncueIFqHB+3LJQbcqkrz56jQAx+/A8hJSGHKjYf7PbVIqAm0ungn0dnVmbpfLDB
+	hDOnb2G8yD1PAgNNQXxEmxvvwShOeiltJ7ngMElSv0FfOpVpK1SA9WXGa2ocQtjMvgI0iR3476I
+	rbXLMdJK0Lsj39Qq7lMyui6GykJ90YM1trG+bzBecJ1VGuXu08MyH8k/q/FjXkzlpYFhddwPzdh
+	bDVzH6VeQEspa2Z9jRHApY+UMiYpqvSpxzZk2v4aZsjpIGj0dORmboXOZo5GhjXoln7werxbBoa
+	NqgkJA0KLuoazOVktw+Eiy/E1hxt8MUJVjS/X8D+1X2D89rUmRpwG6+xQgh9sdyKH6el0Et2/GK
+	0RdXk0bx5d5lwpXr5yOXb1V2P8ywBbJlmu8k3liHkf4uHR3z0gNpMJLXqLYPfjbcxBbzMq4qm/v
+	7wLQ==
+X-Google-Smtp-Source: AGHT+IFw2GK6AO8N1qwYsFnYtU7sgXmeBktWCQEzilPApQ2fSgjB0tfRGb3lF/N3hrpJWOUxc7p46g==
+X-Received: by 2002:a17:907:3e85:b0:b45:420c:81c0 with SMTP id a640c23a62f3a-b49c373e917mr241514866b.36.1759479008580;
+        Fri, 03 Oct 2025 01:10:08 -0700 (PDT)
 Received: from puma.museclub.art ([2a00:6020:b3ea:9c00:26e7:b56a:5a2d:1d72])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-637ef848199sm1990301a12.21.2025.10.03.01.10.06
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-637ef848199sm1990301a12.21.2025.10.03.01.10.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 01:10:06 -0700 (PDT)
+        Fri, 03 Oct 2025 01:10:08 -0700 (PDT)
 From: Eugene Shalygin <eugene.shalygin@gmail.com>
 To: eugene.shalygin@gmail.com
-Cc: Guenter Roeck <linux@roeck-us.net>,
+Cc: Paul Heneghan <paul@networks-extra.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] (asus-ec-sensors) add two more boards
-Date: Fri,  3 Oct 2025 10:07:55 +0200
-Message-ID: <20251003081002.1013313-1-eugene.shalygin@gmail.com>
+Subject: [PATCH 1/2] hwmon: (asus-ec-sensors) add Pro WS TRX50-SAGE WIFI
+Date: Fri,  3 Oct 2025 10:07:56 +0200
+Message-ID: <20251003081002.1013313-2-eugene.shalygin@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251003081002.1013313-1-eugene.shalygin@gmail.com>
+References: <20251003081002.1013313-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,19 +81,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These patches add two more boards, Pro WS TRX50-SAGE WIFI
-and ROG STRIX X870E-H GAMING WIFI7.
+From: Paul Heneghan <paul@networks-extra.com>
 
-Maximilian Luz (1):
-  hwmon: (asus-ec-sensors) add ROG STRIX X870E-H GAMING WIFI7
+Added support for Pro WS TRX50-SAGE WIFI motherboard.
 
-Paul Heneghan (1):
-  hwmon: (asus-ec-sensors) add Pro WS TRX50-SAGE WIFI
+Signed-off-by: Paul Heneghan <paul@networks-extra.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
- Documentation/hwmon/asus_ec_sensors.rst |  2 ++
- drivers/hwmon/asus-ec-sensors.c         | 32 +++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index a5a58c00c322..ab0f255d9653 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -9,6 +9,7 @@ Supported boards:
+  * PRIME X570-PRO
+  * PRIME X670E-PRO WIFI
+  * PRIME Z270-A
++ * Pro WS TRX50-SAGE WIFI
+  * Pro WS X570-ACE
+  * Pro WS WRX90E-SAGE SE
+  * ProArt X570-CREATOR WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 34a8f6b834c9..d969c5dc4b0f 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -182,6 +182,7 @@ enum board_family {
+ 	family_amd_500_series,
+ 	family_amd_600_series,
+ 	family_amd_800_series,
++	family_amd_trx_50,
+ 	family_amd_wrx_90,
+ 	family_intel_200_series,
+ 	family_intel_300_series,
+@@ -294,6 +295,15 @@ static const struct ec_sensor_info sensors_family_amd_800[] = {
+ 		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
+ };
+ 
++static const struct ec_sensor_info sensors_family_amd_trx_50[] = {
++	[ec_sensor_fan_vrmw_hs] =
++		EC_SENSOR("VRMW HS", hwmon_fan, 2, 0x00, 0xb4),
++	[ec_sensor_fan_vrme_hs] =
++		EC_SENSOR("VRME HS", hwmon_fan, 2, 0x00, 0xbc),
++	[ec_sensor_temp_t_sensor] =
++		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x01, 0x04),
++};
++
+ static const struct ec_sensor_info sensors_family_amd_wrx_90[] = {
+ 	[ec_sensor_temp_cpu_package] =
+ 		EC_SENSOR("CPU Package", hwmon_temp, 1, 0x00, 0x31),
+@@ -533,6 +543,13 @@ static const struct ec_board_info board_info_pro_art_x870E_creator_wifi = {
+ 	.family = family_amd_800_series,
+ };
+ 
++static const struct ec_board_info board_info_pro_ws_trx50_sage_wifi = {
++	/* Board also has a nct6798 */
++	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_FAN_VRME_HS | SENSOR_FAN_VRMW_HS,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
++	.family = family_amd_trx_50,
++};
++
+ static const struct ec_board_info board_info_pro_ws_wrx90e_sage_se = {
+ 	/* Board also has a nct6798 with 7 more fans and temperatures */
+ 	.sensors = SENSOR_TEMP_CPU_PACKAGE | SENSOR_TEMP_T_SENSOR |
+@@ -739,6 +756,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_pro_art_x670E_creator_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt X870E-CREATOR WIFI",
+ 					&board_info_pro_art_x870E_creator_wifi),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS TRX50-SAGE WIFI",
++					&board_info_pro_ws_trx50_sage_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS WRX90E-SAGE SE",
+ 					&board_info_pro_ws_wrx90e_sage_se),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS X570-ACE",
+@@ -1274,6 +1293,9 @@ static int asus_ec_probe(struct platform_device *pdev)
+ 	case family_amd_800_series:
+ 		ec_data->sensors_info = sensors_family_amd_800;
+ 		break;
++	case family_amd_trx_50:
++		ec_data->sensors_info = sensors_family_amd_trx_50;
++		break;
+ 	case family_amd_wrx_90:
+ 		ec_data->sensors_info = sensors_family_amd_wrx_90;
+ 		break;
 -- 
 2.51.0
 
