@@ -1,83 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27C813AD05;
-	Fri,  3 Oct 2025 15:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E892C027F
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 16:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759506729; cv=none; b=M9cNa80t9J0/vE+V7M+HXgR0yeiRP0dA9ZNRYdCctNgb3tVIMba2+86FCGEGzaKjR3EIeoOxQm09dq/A+M5iiuNWP37GEcg1M6X5aGwUDwlD1M8zBr33bPcCazTrWT7kibX+jKM+gmHctLwBZ1hx/EFuFH8TUOkR6zryaTybLLk=
+	t=1759508826; cv=none; b=Ee7a/xSRIUueWQIpB4joCBfsbgXTwuMwmDzAaJk72klulTN+Nm8hY8Wo9FOCrE6jLZZSq8IXa7cHOkoSRkzHedR9qu1L4mmx4ggE32aHc6W7v5MkFIoeq949wm9uPKoiH+MvZL9DEDLIy0aA1foY5ToDnFDA0lM7NopVlMTx7nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759506729; c=relaxed/simple;
-	bh=3W/B7yr0TP3RVj4O6JgUMcihRtNr2fM0e+nfFmSLnXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQZ35FqAc0f+SHqEL9xr7Fm1NGWcLyX+7LfK1y0yWEdKLbEedbEOVFy/HVRVHzC7BIToh05e5FqkRtXvurFfQ1qm/4TP2qyXiVPk1TvpJ0RJbe98spifZFiCRyF9DOUxjpajdeKZ53aopqKL0jjzG4LEgZ1N2ibFmpYz1uMVJMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qYnpt0QV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759508826; c=relaxed/simple;
+	bh=0RiStN3RrbvB94Z1yKDlLdZYvlG/Mj3msFqW/hElFc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AdyUxmXuus5Y7zV9mrzzxT0XaseKmaS1kaIBQQnIt7kmIc9gRU1Wb1mYY23sW5iSW5bFapRNgup4LQ27J/A+nqC9behLjOii5JiRPatM68Kje7I699lDVInSumbTEqA0YAKc0iNOd0hbuWlQxf7vup2W79tCf7WlSqOos2gy6LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CR3HMJLZ; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qYnpt0QV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46554C4CEF5;
-	Fri,  3 Oct 2025 15:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759506729;
-	bh=3W/B7yr0TP3RVj4O6JgUMcihRtNr2fM0e+nfFmSLnXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qYnpt0QV5dqgLdyy9PKpBnNSjoro13pjU+CPLy07ZjCKa3R8O/jTQRHcaIiYBSBVH
-	 jD+vAmjrrSJHDPvCJbhWx+XG4yS83yJBkdsdTFgei9gjhk5LRo+UlOp8CumBhxqaWC
-	 uQUugl61rwN9rRZewNfSfpTan81MgLGlTVlEUN1g3rgPVm+8zIY2ApNOvm9xkmdyql
-	 /UPcVqcoaG6Vs1GKV5rzz0fCMiXyi076gtR6C72ocwe+PnQ802jREblO1zvHFWcQLg
-	 oIN9jxxGqCNZv0wecr9ZkqvcYVDuKY7QbVzRHl+ZHpOq4Xl5T57PQYCLkMP4kRnVbf
-	 o820Zofzfigtg==
-Date: Fri, 3 Oct 2025 17:52:01 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH] fs: doc: Fix typos
-Message-ID: <6t4scagcatuba7hjy4aib5hqfgyhc4wofegr2jrl34wwa7fsyq@5uwpzmpixm7o>
-References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
- <20251001083931.44528-1-bhanuseshukumar@gmail.com>
- <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
- <yms8llJZQiWYVxnbeWEQJ0B_S6JRxR0LQKB1FwVe0Tw66ezuA-H1qZVCyuCUDtsw7s7h4jHTwTh98XivLW3vvw==@protonmail.internalid>
- <425ef7bd-011c-4b05-99fe-2b0e3313c3ce@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CR3HMJLZ"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-27d3540a43fso23915875ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 09:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759508823; x=1760113623; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/2q9wYSU+eDUIzaN6J73+bHEEYdLDRSnT+gWaueKZ3g=;
+        b=CR3HMJLZN/BC/Kk3kmdZjC1crASgEUur7oXy8FpfLzI+CKlUFYuQTGD9JRv7X1/aab
+         CMO4VVm8bbu6PL1Oy00KvwslJGbW9odk6KN5PcgTHSmwmiT8OIpTSsiNEeEKEhGxtYZB
+         xqSlHzX5LicQ3OrOTJFs1y/+2PLq8opGgCH14tuo+z+rNF2UK6Fec9ClPLI2UlePoP1R
+         ggFBNNez6jhMtAE/mb11OVlIcy+Hk2HK8vGyYKRV5FWz6F+adeT3eL3C2Mmevdk3uGXu
+         wjhZdupw/aKJjPnqqlZVL6dJLbOYbSVv9G+GaUM81J0XGZ+Drqpkq/CN9uJ1qnJbDAe5
+         B8cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759508823; x=1760113623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/2q9wYSU+eDUIzaN6J73+bHEEYdLDRSnT+gWaueKZ3g=;
+        b=EMJdBovNV49/1zsIEL2+oetyewkBMG19J0PNw/yaXai3eqsD/0tD6mydzocOkDji01
+         kMUMqSF143OPDDwoTmO5NIbRR7aewu9M5c6kStcth4iATbvSIsYJXCk03K28ete2dvoW
+         AcR77ZjuTJAAJ5WLySFPHWe2OlSPY7LqBcDUqfkiyq10Ndgts1CJTk1vrGSgN7WO35CI
+         E1QmMMZLa9BKoZIXr3xHCacHE/5d2Ar7NeazfobtMqo8xEH0cq/TX7/m/0CGOEn3x2Nm
+         xu4t8zdu9+ByPAcDvK+qLl9DNxXQ1SeDpnltZHnJs66bzthxrJr/d+Ge7QwJrLl27DZg
+         prDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYj8r8ezsFMRhaJq4czb8YhokpUyHbprKP/W+7/eQlzwKjYESDHflO902S6bPVyiN6zsnPpOt5cZw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6vcCpDZmb8B0xMc20zzfex2iASRNVRoUJ/0VyLppdw+lwRdzl
+	N5g5f6zohedHYgStPPQ14HbXcjHGlHx+OpdyttL3HDJdjuNb9xjsOaCd
+X-Gm-Gg: ASbGncv/bJn0b69Ja3XkouoZIqy4nb/U5zq+zikJW+9NiqThiVvBLEevkLpkhrqm6st
+	A0pAD4GNxpqldopTaCytF65VaSoQMiIHfhIXn1R19XBXpb/iVITmHX9KTkckU9prcKnRyGExPHD
+	om0GAw+Q4ZIfIsbjZJivN751vkXF5fw5A7OALyTZs/3RM4LCjeledupzW5bmo5XCmXnvwkPDiPi
+	CmsWj4rVz1iUZKPtt+C+NGp9gUX2s8p3zAg4R9wz6WeIdCtDMEZDqeiUct8g83SNczW/hTxT7vs
+	oCWMJpgdasZNZ0eeVoOP8bcYyEgcpsxtTnyOy0/iAqImmqg0b1fspcJKfUjlleZx6LFePmrsL3w
+	3DouMBN1fiOOqR14wXns0JSF5PnffnasswU300cELFDrRondhI77WMjx2ScYZ61AXXRHV89eMTo
+	SZ
+X-Google-Smtp-Source: AGHT+IG33/LmrD2uJocMd7V5DXyh8BugwNDBXU/jsQ9avtbxXfaUabsRIgvZ5f2Dqev4eNNRS1l/Ew==
+X-Received: by 2002:a17:903:41c9:b0:27e:de8a:8654 with SMTP id d9443c01a7336-28e9a674da9mr43290275ad.57.1759508823360;
+        Fri, 03 Oct 2025 09:27:03 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ff0dddsm8416787a91.18.2025.10.03.09.26.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 09:27:03 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: 2023002089@link.tyut.edu.cn,
+	corbet@lwn.net,
+	rafael.j.wysocki@intel.com,
+	superm1@kernel.org,
+	viresh.kumar@linaro.org,
+	qyousef@layalina.io,
+	zhanjie9@hisilicon.com
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: [PATCH 0/2] docs: fix malformed tables in Chinese translations 
+Date: Fri,  3 Oct 2025 21:56:09 +0530
+Message-ID: <20251003162626.6737-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <425ef7bd-011c-4b05-99fe-2b0e3313c3ce@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 01, 2025 at 07:19:13PM +0530, Bhanu Seshu Kumar Valluri wrote:
-> On 01/10/25 17:32, Carlos Maiolino wrote:
-> > On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
-> >> Fix typos in doc comments
-> >>
-> >> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-> >
-> > Perhaps would be better to split this into subsystem-specific patches?
-> >
-> > This probably needs to be re-sent anyway as bcachefs was removed from
-> > mainline.
-> >
-> I just did a google search and understood about frozen state of bcachefs
-> in linux kernel since 6.17 release onward. It is going to be maintained
-> externally.
-> 
-> Thanks for your comment. I will resend the patch excluding bcachefs.
+This series fixes htmldocs build errors due to malformed tables
+in the zh_CN and zh_TW translations of cpu-drivers.rst.
 
-It's not only bcachefs. But most of subsystems and documents you touch
-have different maintainers, so beyond removing bcachefs bits, I'd
-suggest looking at MAINTAINERS file and send specific patches targeting
-each subsystem. It makes maintainer's lives easier, at least for me.
+Gopi Krishna Menon (2):
+  docs/zh_CN: Fix malformed table
+  docs/zh_TW: Fix malformed table
 
+ Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> Thanks.
-> 
-> 
+-- 
+2.43.0
+
