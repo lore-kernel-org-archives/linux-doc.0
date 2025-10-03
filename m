@@ -1,140 +1,156 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3650202F71
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 14:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8396139E;
+	Fri,  3 Oct 2025 14:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759502016; cv=none; b=jNiM4yGNwAn6A+ccQadn2OZ69Vahu8WsGmmzsqWDIloB3FCFFoMfkwPRzX41OH5iDnRPVd8dBOD0Vsx22tUJI6QCSL4wZCNA17omGHuLYhJ/xjmXySwIN0nRNut/+GQ1PokLkWe/xPrQPzZ9n3iS8itF68ILUDR0GBgvDSacBLg=
+	t=1759502235; cv=none; b=D25l0+KTvICCJwZbCyV10c5Guqp9obZqZxtoAUTm32L3Fc6cPiY7wUspKmW8nRXHssjNpZVrs8+d86fPEo7KYY07ioRQa8UkJ6bnEoWG9tofdcUdWcHotaZ2WfDfxbcG4FA22Bbfo4eb9p7DcGdK0Yi5LBjjdd75CfNwjIFNXCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759502016; c=relaxed/simple;
-	bh=f0k+kW0Uq5dGtEoUx3uqrv98HH4BGEJvGHNwLn4gP3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XUtrzNhJ1Cn/XlWUHm2vRsflpt4M07B63esWGMb3naWAafs89wwkonnQzxIPDwq4ov7wNFn5pBu9fKCb7pky3hvlY/1s3S2lS9BuAZl4P+8uKVwq/tzYeeOstWqZtdCS0lGtDMdD/aVnDr0vLRKxM/0yAybI1H3CsiIV1spE4Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=QsglpAhS; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="QsglpAhS"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-856701dc22aso232562085a.3
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 07:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1759502014; x=1760106814; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I6dPEYp0SmulQxrX2drwOWKtF0shLYyrmazi9ATO4Jg=;
-        b=QsglpAhSjdCPMD01m1v8tsdOknWuAsW8vg8xN7+mTQEVycJvAek1gwAhzmB6aarrDH
-         FBhAvdPj6eP6NasL84Bng4bknZIKqmjMnHiIzbjbU3HxxPAqbmxFh1LExyUQ0ENA+1O1
-         gZ1ushPCLGeUCleWgKU3nH7lipNeg0hPb7ZUwCMk9i5PTg6IsXJjIH0NmgMWnDRWrSoM
-         MUZ8EqMUMpxKw6JnnyxqGts8sOA1yvvr1bXcYOqDGhLH3tPRnImz3FRFYxYXgy+6Rd91
-         yq1NqdLyk3rs3qD65F9OUNwACcdSdjEIwddk/jcCgqm76rZ+pr51dKaxeZbWvn3sY1mf
-         ykgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759502014; x=1760106814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I6dPEYp0SmulQxrX2drwOWKtF0shLYyrmazi9ATO4Jg=;
-        b=MGVWynbKXOhGETFsduz2HZg2Vm22TD1/ICIHFcHUbEkasEGzZYs7HnsUxGXGywnOsb
-         oGUggZ8LtKztOZS+AR1AOmZFmQkwbLVBeK3xN8qW6Asoy86zuEM/d25fJ9TYFxRokbxH
-         FY9zByBVa9JlZzOVjOIKIniXlEm6dNKLI8p7xlRNQd35OM6kLlIEwI/Iu+YR1CotkqYa
-         Cs90ys27TxlfsKi4EztOWfyA8Yzdnp6+LMoBAbSxnI8KOqxwzhnVFdVwpAKkBXodE9eA
-         AIdGRE7UP2WQvvINU7P4A562YDCiBrQJF/EbmPCNdfm2p9Z1N5Y/hu+F38Q8o3olazT3
-         BZrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKqTr8knkmnw/xlr+fzbeaL1cDZQfPFdaMUhDZ6ElpufTNZEOtwyHM/sGfYvtGDvMxFSQvTVX8TSA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhN6zTa2JT4dpHTg45LAfT0j3H1qaLHZmY8yky1MOqetILl6+X
-	JkQrElAPXIw7gl8yKbugSrXbBREqu+R63Wiiz8Bx9snzeXvOXkabS7COFRe4gSkeptE=
-X-Gm-Gg: ASbGncvDSBT2KSHGoOjez47jRe43KFrUPsmbbDdi3uGnQDVX0otbxPayXBrsq17JRV2
-	zHV7TPAGt7FkkIPRSUinAujLXBgB5ysUyAz5No9nnIDh4WxOY0wEFxPmZckloHbPn5AYpPMRFWK
-	CmDHB8ykl1k2b+hPvgTB1kHnMl9uF7KXElXQVwC5ArFk60vFcSiq6Qm2VFy/0visxKXxHmp3pZ2
-	GgUWaLoh4mU5DtHT03K2BWvZhtP360pExHJLQEAUWXhTL8Tp9jzpYrXLP6NGFHKhDJFk28fa67U
-	lHd5XJI/eED5TQP6WMMClG4qXNinpgsRwDpvyfMn/dLbng9EsnCdsmBFLBXP6+xYaDC7Do/SDYO
-	Yc/s2DsvqFBklxzzWCWwTg6sQX35qoIlzO2EPSnO8kkPEjr4QaDF9lFEtuYnAe00GQtT67YbNqP
-	c/XLtIX1RzyiMPVCj50oOM2KwV1CTOfujsMJM=
-X-Google-Smtp-Source: AGHT+IEaQ0B2XmFj8U/GUa+p19UedSknVSwCkjKUNut/FbZ2W4QxK/tAJmdZIZwBzFFIVtotQb9hmA==
-X-Received: by 2002:a05:620a:28cd:b0:858:ee50:25da with SMTP id af79cd13be357-87a38b336a1mr458817485a.63.1759501956557;
-        Fri, 03 Oct 2025 07:32:36 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-877797993e1sm426958685a.58.2025.10.03.07.32.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 07:32:36 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-cxl@vger.kernel.org
-Cc: dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	corbet@lwn.net,
-	gourry@gourry.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/driver-api/cxl: remove page-allocator quirk section
-Date: Fri,  3 Oct 2025 10:32:32 -0400
-Message-ID: <20251003143233.1985150-1-gourry@gourry.net>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1759502235; c=relaxed/simple;
+	bh=ify0TfiFKa3Hes8KZtJjaG2GeXYqffaYoF8Y5oCDXXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U6cE2diKRDWdmOgbZp5W0Q018xpyzLFAzYyIbMQ/ZEyxi2OrmtuIgrcpmDS1WC4dIZ0EcSNlZhka4rqrK/hq8gdn21NR1WGbNKUeXG6kAXxetZi8vqANffhmh6hqZZA5Of4sQnEwaQT26qoqUf1ika7R7wrW2QvHdd6TilZUPwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09D741A9A;
+	Fri,  3 Oct 2025 07:37:04 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8693C3F5A1;
+	Fri,  3 Oct 2025 07:36:47 -0700 (PDT)
+Date: Fri, 3 Oct 2025 15:36:42 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 09/47] arm64, dept: add support
+ CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64
+Message-ID: <aN_fel4Rpqz6TPsD@J2N7QTR9R3>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-10-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002081247.51255-10-byungchul@sk.com>
 
-The node/zone quirk section of the cxl documentation is incorrect.
-The actual reason for fallback allocation misbehavior in the
-described configuration is due to a kswapd/reclaim thrashing scenario
-fixed by the linked patch.  Remove this section.
+On Thu, Oct 02, 2025 at 05:12:09PM +0900, Byungchul Park wrote:
+> dept needs to notice every entrance from user to kernel mode to treat
+> every kernel context independently when tracking wait-event dependencies.
+> Roughly, system call and user oriented fault are the cases.
+> 
+> Make dept aware of the entrances of arm64 and add support
+> CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64.
+> 
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  arch/arm64/Kconfig          | 1 +
+>  arch/arm64/kernel/syscall.c | 7 +++++++
+>  arch/arm64/mm/fault.c       | 7 +++++++
+>  3 files changed, 15 insertions(+)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index e9bbfacc35a6..a8fab2c052dc 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -281,6 +281,7 @@ config ARM64
+>  	select USER_STACKTRACE_SUPPORT
+>  	select VDSO_GETRANDOM
+>  	select VMAP_STACK
+> +	select ARCH_HAS_DEPT_SUPPORT
+>  	help
+>  	  ARM 64-bit (AArch64) Linux support.
+>  
+> diff --git a/arch/arm64/kernel/syscall.c b/arch/arm64/kernel/syscall.c
+> index c442fcec6b9e..bbd306335179 100644
+> --- a/arch/arm64/kernel/syscall.c
+> +++ b/arch/arm64/kernel/syscall.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/ptrace.h>
+>  #include <linux/randomize_kstack.h>
+>  #include <linux/syscalls.h>
+> +#include <linux/dept.h>
+>  
+>  #include <asm/debug-monitors.h>
+>  #include <asm/exception.h>
+> @@ -96,6 +97,12 @@ static void el0_svc_common(struct pt_regs *regs, int scno, int sc_nr,
+>  	 * (Similarly for HVC and SMC elsewhere.)
+>  	 */
+>  
+> +	/*
+> +	 * This is a system call from user mode.  Make dept work with a
+> +	 * new kernel mode context.
+> +	 */
+> +	dept_update_cxt();
 
-Link: https://lore.kernel.org/linux-mm/20250919162134.1098208-1-hannes@cmpxchg.org/
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- .../cxl/allocation/page-allocator.rst         | 31 -------------------
- 1 file changed, 31 deletions(-)
+As Mark Brown pointed out in his replies, this patch is missing a whole
+bunch of cases and does not work correctly as-is.
 
-diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-index 7b8fe1b8d5bb..3fa584a248bd 100644
---- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
-+++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-@@ -41,37 +41,6 @@ To simplify this, the page allocator will prefer :code:`ZONE_MOVABLE` over
- will fallback to allocate from :code:`ZONE_NORMAL`.
- 
- 
--Zone and Node Quirks
--====================
--Let's consider a configuration where the local DRAM capacity is largely onlined
--into :code:`ZONE_NORMAL`, with no :code:`ZONE_MOVABLE` capacity present. The
--CXL capacity has the opposite configuration - all onlined in
--:code:`ZONE_MOVABLE`.
--
--Under the default allocation policy, the page allocator will completely skip
--:code:`ZONE_MOVABLE` as a valid allocation target.  This is because, as of
--Linux v6.15, the page allocator does (approximately) the following: ::
--
--  for (each zone in local_node):
--
--    for (each node in fallback_order):
--
--      attempt_allocation(gfp_flags);
--
--Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
--functionally unreachable for direct allocation.  As a result, the only way
--for CXL capacity to be used is via `demotion` in the reclaim path.
--
--This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
--capacity - when that capacity is depleted, the page allocator will actually
--prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
--
--We may wish to invert this priority in future Linux versions.
--
--If `demotion` and `swap` are disabled, Linux will begin to cause OOM crashes
--when the DRAM nodes are depleted. See the reclaim section for more details.
--
--
- CGroups and CPUSets
- ===================
- Finally, assuming CXL memory is reachable via the page allocation (i.e. onlined
--- 
-2.51.0
+As Dave Hansen pointed out on the x86 patch, you shouldn't do this
+piecemeal in architecture code, and should instead work with the
+existing context tracking, e.g. by adding logic to
+enter_from_user_mode() and exit_to_user_mode(), or by reusing some
+existing context tracking logic that's called there.
 
+Mark.
