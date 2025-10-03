@@ -1,145 +1,140 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F8412DDA1
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 14:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3650202F71
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 14:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759501628; cv=none; b=d/HHXtl4xPQ9oSe/3hWk2AJEAl/2023n0x0S0kF0vEiVhnUkGJNCVnj/jGqx/E4UtUxP7dfR2Ddgfd/OKZg/WnK8/UdwTVtbLq2lwmefG4K9VCOaGICUAQtU++kVGaC969fU8vdsAQQJ6UrugziPLX14EKx/syUJskBR0eIdi04=
+	t=1759502016; cv=none; b=jNiM4yGNwAn6A+ccQadn2OZ69Vahu8WsGmmzsqWDIloB3FCFFoMfkwPRzX41OH5iDnRPVd8dBOD0Vsx22tUJI6QCSL4wZCNA17omGHuLYhJ/xjmXySwIN0nRNut/+GQ1PokLkWe/xPrQPzZ9n3iS8itF68ILUDR0GBgvDSacBLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759501628; c=relaxed/simple;
-	bh=nr9X6FKWlufDJmWG56v4EBlRffFdXU/0gJIMya1XzSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rYeV/fJdOEk5UHx3uzxNC/+PGzFSLfoLjd4mBpG1KFGvpB5UUXQWZ+G8kypedi9i4bWniF1DkzbdRY1lZzod2Sw8PNg/cBO7VrULJMsbwIlExv8pDL+B354ke691VcQsUQB33xnbD3klIQgzGGu6IS94pjnjN8JDmGqHWCp10W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMZ8Thfo; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759502016; c=relaxed/simple;
+	bh=f0k+kW0Uq5dGtEoUx3uqrv98HH4BGEJvGHNwLn4gP3c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XUtrzNhJ1Cn/XlWUHm2vRsflpt4M07B63esWGMb3naWAafs89wwkonnQzxIPDwq4ov7wNFn5pBu9fKCb7pky3hvlY/1s3S2lS9BuAZl4P+8uKVwq/tzYeeOstWqZtdCS0lGtDMdD/aVnDr0vLRKxM/0yAybI1H3CsiIV1spE4Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=QsglpAhS; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMZ8Thfo"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b551b040930so1511080a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 07:27:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="QsglpAhS"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-856701dc22aso232562085a.3
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 07:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759501625; x=1760106425; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nr9X6FKWlufDJmWG56v4EBlRffFdXU/0gJIMya1XzSE=;
-        b=YMZ8ThfonpE3sNI9tEj3ohlrdbXYDM0UL3LnibAPfv9uRyK9PRc0BqwVI9Qy7PNmQx
-         TikUiRmZ2rHiMcXXNS2bjQwX+r+nn5i2S2wc7pfobfF65++DFeJR+EmzCqDMYTKFN2uE
-         fEpwiVFLBjdazcy9WcaJsNKiqGNPVB0zWJhx5DfK23/oKZC9ZIfGhYBP4a4eTJ8h1H+o
-         OW1uvEnaOauZiSjKNJRjqaxhUn9J6KVaD33XzUGKyftD+faiuc6A6ZgXeanC9HEh1q/A
-         oYkygTsyKFXrEg93/c5GBNUwm5AjN5vXhA2CGbZ6sBllz63RgKbEAZn1XbVkj/yAQwCG
-         v9Jw==
+        d=gourry.net; s=google; t=1759502014; x=1760106814; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I6dPEYp0SmulQxrX2drwOWKtF0shLYyrmazi9ATO4Jg=;
+        b=QsglpAhSjdCPMD01m1v8tsdOknWuAsW8vg8xN7+mTQEVycJvAek1gwAhzmB6aarrDH
+         FBhAvdPj6eP6NasL84Bng4bknZIKqmjMnHiIzbjbU3HxxPAqbmxFh1LExyUQ0ENA+1O1
+         gZ1ushPCLGeUCleWgKU3nH7lipNeg0hPb7ZUwCMk9i5PTg6IsXJjIH0NmgMWnDRWrSoM
+         MUZ8EqMUMpxKw6JnnyxqGts8sOA1yvvr1bXcYOqDGhLH3tPRnImz3FRFYxYXgy+6Rd91
+         yq1NqdLyk3rs3qD65F9OUNwACcdSdjEIwddk/jcCgqm76rZ+pr51dKaxeZbWvn3sY1mf
+         ykgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759501625; x=1760106425;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nr9X6FKWlufDJmWG56v4EBlRffFdXU/0gJIMya1XzSE=;
-        b=j6ITEJebBAHPyYUY/H5JQqY5Odh4uHQCApssj6aVBRi7gQI1Ng4KIH38wa3rqP4259
-         tPNhiB/5Hf74hrqvF1Ei4vcXfBRCs2DM7zJanR+9S6Wk4NED9dg3rh48ZYORgIYK6kOl
-         UOfGAfn6imOx+Zoqbauef48ZJu4khw71hMk2ppSfZyvLwbaTyy5P0q0HwqmPpD/Cy6Ac
-         BC7QYKJ2jfO5DkoQ0BP1WpxubdC65C5nB+CSC0/qd2Qm/8ZPkBNTyjF1AgPXScTrgib9
-         g5Kj/xsNOyHOgXPy1v9wCzOkCgobFtDkRJaojAXtlGAFuXNxzhvdBNGeBlQaSwBOZuHy
-         ukJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVqQwrktj2TpJg7vrlzHGuV42I1QknxgpyBeveceXMl6reRHopp5UHaEJDBGP9NxMECb+DWHKuHTIc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxDriKwBxICW+Ke27y2ZYYuNhvjZFnlOQ/6Prk0wOOTcBF7S/E
-	GpOxSklRNNgj/Nl4tBsn5xuRgbups32Zs5ql4xcOyBn4Kzu2tv+Tk5EI
-X-Gm-Gg: ASbGncu26Qo8rnfZmiH3GFVS5vJC79xI+BI/LmZqGGiVvDUXrQBK8hWqBd10cR/VMF/
-	3+jCWekNKBKZZFHUeo0RWijz2dtPmv7h/WKC9Ove9TUIsAtxhxy4+Ck/9vjqWS8xIMIdCSOM2cV
-	xAZ11Oj02zm0wvKlUWffs7w7fsCsRH7zeC5Xn4eAGeHGJBAq8vHhW70VP74BssdUw9NJN7nUxNi
-	w4Yza+7aCRWAc3ZVXIAAX+fjFzkm9SKzQpVFrjeN3LH/7OalfYIgini70TsM4OhhjTAZSDXiIyG
-	WXLHkstIgTqWpRF0mpqDgw5i2OXUg/E/J4qleN5UBBH6rNuhAPzez/cXDTTk8BBW4niZRbezLsR
-	tNVPbB1W8Lr4F7hSovIzryHU7CHV1sCjNVn8E7TEWMflMEHYjOQ==
-X-Google-Smtp-Source: AGHT+IHy64D4Ksfh4et5sm9wJxuRHJC+w8F4lzSiShR3Mpq9ZsO5wcXCG40jHNmvsYuyoMhEMJ49Pw==
-X-Received: by 2002:a17:902:ce88:b0:28d:18d3:46cb with SMTP id d9443c01a7336-28e9a54660fmr32869215ad.20.1759501623851;
-        Fri, 03 Oct 2025 07:27:03 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d5358sm51793565ad.103.2025.10.03.07.27.02
+        d=1e100.net; s=20230601; t=1759502014; x=1760106814;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I6dPEYp0SmulQxrX2drwOWKtF0shLYyrmazi9ATO4Jg=;
+        b=MGVWynbKXOhGETFsduz2HZg2Vm22TD1/ICIHFcHUbEkasEGzZYs7HnsUxGXGywnOsb
+         oGUggZ8LtKztOZS+AR1AOmZFmQkwbLVBeK3xN8qW6Asoy86zuEM/d25fJ9TYFxRokbxH
+         FY9zByBVa9JlZzOVjOIKIniXlEm6dNKLI8p7xlRNQd35OM6kLlIEwI/Iu+YR1CotkqYa
+         Cs90ys27TxlfsKi4EztOWfyA8Yzdnp6+LMoBAbSxnI8KOqxwzhnVFdVwpAKkBXodE9eA
+         AIdGRE7UP2WQvvINU7P4A562YDCiBrQJF/EbmPCNdfm2p9Z1N5Y/hu+F38Q8o3olazT3
+         BZrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKqTr8knkmnw/xlr+fzbeaL1cDZQfPFdaMUhDZ6ElpufTNZEOtwyHM/sGfYvtGDvMxFSQvTVX8TSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhN6zTa2JT4dpHTg45LAfT0j3H1qaLHZmY8yky1MOqetILl6+X
+	JkQrElAPXIw7gl8yKbugSrXbBREqu+R63Wiiz8Bx9snzeXvOXkabS7COFRe4gSkeptE=
+X-Gm-Gg: ASbGncvDSBT2KSHGoOjez47jRe43KFrUPsmbbDdi3uGnQDVX0otbxPayXBrsq17JRV2
+	zHV7TPAGt7FkkIPRSUinAujLXBgB5ysUyAz5No9nnIDh4WxOY0wEFxPmZckloHbPn5AYpPMRFWK
+	CmDHB8ykl1k2b+hPvgTB1kHnMl9uF7KXElXQVwC5ArFk60vFcSiq6Qm2VFy/0visxKXxHmp3pZ2
+	GgUWaLoh4mU5DtHT03K2BWvZhtP360pExHJLQEAUWXhTL8Tp9jzpYrXLP6NGFHKhDJFk28fa67U
+	lHd5XJI/eED5TQP6WMMClG4qXNinpgsRwDpvyfMn/dLbng9EsnCdsmBFLBXP6+xYaDC7Do/SDYO
+	Yc/s2DsvqFBklxzzWCWwTg6sQX35qoIlzO2EPSnO8kkPEjr4QaDF9lFEtuYnAe00GQtT67YbNqP
+	c/XLtIX1RzyiMPVCj50oOM2KwV1CTOfujsMJM=
+X-Google-Smtp-Source: AGHT+IEaQ0B2XmFj8U/GUa+p19UedSknVSwCkjKUNut/FbZ2W4QxK/tAJmdZIZwBzFFIVtotQb9hmA==
+X-Received: by 2002:a05:620a:28cd:b0:858:ee50:25da with SMTP id af79cd13be357-87a38b336a1mr458817485a.63.1759501956557;
+        Fri, 03 Oct 2025 07:32:36 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-877797993e1sm426958685a.58.2025.10.03.07.32.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 07:27:02 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 37CE04233431; Fri, 03 Oct 2025 21:26:54 +0700 (WIB)
-Date: Fri, 3 Oct 2025 21:26:53 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Anselm =?utf-8?Q?Sch=C3=BCler?= <mail@anselmschueler.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Tomas Mudrunka <tomas.mudrunka@gmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: Issue in Kernel docs / Admin Guide / SysRq
-Message-ID: <aN_dLVPkwvxGM9R1@archie.me>
-References: <7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com>
+        Fri, 03 Oct 2025 07:32:36 -0700 (PDT)
+From: Gregory Price <gourry@gourry.net>
+To: linux-cxl@vger.kernel.org
+Cc: dave@stgolabs.net,
+	jonathan.cameron@huawei.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	dan.j.williams@intel.com,
+	corbet@lwn.net,
+	gourry@gourry.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/driver-api/cxl: remove page-allocator quirk section
+Date: Fri,  3 Oct 2025 10:32:32 -0400
+Message-ID: <20251003143233.1985150-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NEpccGRzVAYWyfhV"
-Content-Disposition: inline
-In-Reply-To: <7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com>
+Content-Transfer-Encoding: 8bit
 
+The node/zone quirk section of the cxl documentation is incorrect.
+The actual reason for fallback allocation misbehavior in the
+described configuration is due to a kswapd/reclaim thrashing scenario
+fixed by the linked patch.  Remove this section.
 
---NEpccGRzVAYWyfhV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Link: https://lore.kernel.org/linux-mm/20250919162134.1098208-1-hannes@cmpxchg.org/
+Signed-off-by: Gregory Price <gourry@gourry.net>
+---
+ .../cxl/allocation/page-allocator.rst         | 31 -------------------
+ 1 file changed, 31 deletions(-)
 
-On Fri, Oct 03, 2025 at 02:32:57PM +0200, Anselm Sch=C3=BCler wrote:
-> I=E2=80=99m writing here because I don=E2=80=99t know where to find Kerne=
-l docs
-> (https://docs.kernel.org/) sources and submit patches.
->=20
+diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+index 7b8fe1b8d5bb..3fa584a248bd 100644
+--- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
++++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+@@ -41,37 +41,6 @@ To simplify this, the page allocator will prefer :code:`ZONE_MOVABLE` over
+ will fallback to allocate from :code:`ZONE_NORMAL`.
+ 
+ 
+-Zone and Node Quirks
+-====================
+-Let's consider a configuration where the local DRAM capacity is largely onlined
+-into :code:`ZONE_NORMAL`, with no :code:`ZONE_MOVABLE` capacity present. The
+-CXL capacity has the opposite configuration - all onlined in
+-:code:`ZONE_MOVABLE`.
+-
+-Under the default allocation policy, the page allocator will completely skip
+-:code:`ZONE_MOVABLE` as a valid allocation target.  This is because, as of
+-Linux v6.15, the page allocator does (approximately) the following: ::
+-
+-  for (each zone in local_node):
+-
+-    for (each node in fallback_order):
+-
+-      attempt_allocation(gfp_flags);
+-
+-Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
+-functionally unreachable for direct allocation.  As a result, the only way
+-for CXL capacity to be used is via `demotion` in the reclaim path.
+-
+-This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
+-capacity - when that capacity is depleted, the page allocator will actually
+-prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
+-
+-We may wish to invert this priority in future Linux versions.
+-
+-If `demotion` and `swap` are disabled, Linux will begin to cause OOM crashes
+-when the DRAM nodes are depleted. See the reclaim section for more details.
+-
+-
+ CGroups and CPUSets
+ ===================
+ Finally, assuming CXL memory is reachable via the page allocation (i.e. onlined
+-- 
+2.51.0
 
-It's in Documentation/ directory of kernel sources.
-
-If you want to send docs patches, please read
-Documentation/process/submitting-patches.rst for how to submit them and make
-sure to Cc: linux-doc@vger.kernel.org.
-
-> The page =E2=80=9CLinux Magic System Request Key Hacks=E2=80=9D
-> (https://docs.kernel.org/admin-guide/sysrq.html) says this:
->=20
-> =E2=80=9CWrite a single character to /proc/sysrq-trigger. Only the first =
-character
-> is processed, the rest of the string is ignored. However, it is not
-> recommended to write any extra characters as the behavior is undefined and
-> might change in the future versions. E.g.:
-> =C2=A0 =C2=A0 echo t > /proc/sysrq-trigger=E2=80=9D
-
-I think that the second sentence refers to writing subsequent characters in
-this context.
-
->=20
-> I interpret the command as a suggestion of how to properly use
-> /proc/sysrq-trigger, and not as an example of what not to do, and I belie=
-ve
-> many will share this interpretation. The command as listed will write TWO
-> characters to /proc/sysrq-trigger.
->=20
-> Either the behaviour of ignoring \n should be codified and explicitly
-> supported or this section should be changed.
->=20
-
-See commit 39ff20f5fd4481 ("/proc/sysrq-trigger: accept multiple keys at
-once").
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---NEpccGRzVAYWyfhV
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaN/dKAAKCRD2uYlJVVFO
-o9BkAQDgvUKKHvPahn4XA7QFvX9fXWeDV/sJtftcEbTPtzBgkAEAsV1Hqu83m10w
-ltFcQ65RHOzQDSGS7QGEgyVCiMfaxQU=
-=SRxw
------END PGP SIGNATURE-----
-
---NEpccGRzVAYWyfhV--
