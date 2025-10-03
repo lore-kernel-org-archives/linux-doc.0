@@ -1,138 +1,351 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4EC22DA0B
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 08:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B712202997
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 08:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759479013; cv=none; b=WQiGb53he/+Ys6IT/mRIpQg3GPSUCV0fMDP9sb6HKUk92V8VehgiPllLCV9MZe9wnNo7t6q3fidfS5CVzgcjgKRa0wrMDKNcJ6QDmlc8HG15nNFWp0SB5N58j1W4UouKFKMfIUjCxtZgSpNctYcaeHUmORYnz5cVMjykyXzPC/0=
+	t=1759479462; cv=none; b=dp5jK8CQTNeGutI8dLlbNjtdfj8YfwWQgNW/VOsD8GEVH0So6WPUfHM5g3G7IAW5Odw3b9a3aModUhZ32v+3VHBBgJl5iSlVZXlnSt1QOEIakLKHWuWZdgXmAXS7IpO2xgTwSZBCZ371NBnJ1PkCBgdiNQuCw/bq6QkfCcKII3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759479013; c=relaxed/simple;
-	bh=9DIPpA35pdmafui+h8OIPEgV4xoI8t7vOOsaXVJCgN8=;
+	s=arc-20240116; t=1759479462; c=relaxed/simple;
+	bh=5BkvkCFUMzpxNbnbmS4iY+2bApT2216VKdCZB7my7iY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ACUBIt8mhgahtAq6x0PDjqQZiJcGaLNyfZd82oisnACadBeLc8yqLp9WAPJgKw1U6pfu7uWCTIqcYgRRg/6O9Fn8eiNZiO8I7ped1X7dfxia7jqfcWIcdEEmnGCeS3MuGn3GQPL5gI6MMu0ZZaaZjqtJA3zdrhuhYAFIyAp/DM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOMk5kEd; arc=none smtp.client-ip=209.85.208.51
+	 MIME-Version:Content-Type; b=bSyU4lOYiT+DbYawepcpZgssYj07oj76iM+4cVUyd5qxISBF4jQ6vRWKcMoLxStSEhimZMTygenUlp4Vutf4LT8cTL2MAwmOHLSv3Z4PPRiSafOiGC1NwV/q1cp0U7AwZzJUi4r3rB3jXSpLJPZh15C93ZKXoAjq8BuyIHtjtfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wy2Rl2Xi; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOMk5kEd"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6394938e0ecso830371a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 01:10:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wy2Rl2Xi"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7841da93a1aso422849b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 01:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759479010; x=1760083810; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759479458; x=1760084258; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hds0qbpzpiavg7ZwHmljrB5iCR52ykw9ON25aiglDTw=;
-        b=fOMk5kEdKi6xBk3FSWZuXJn+lV2Djbpsm2RYmuyLZPw9jVfWB9wMHpSMidyd2e2y/2
-         c22bJh4tve5YLsGrzuGCqiGKpf/OO6p1kWVLOVILA3ANpQ/oAFSDaMifQyy+uUNRhDhC
-         2ifcLWwFnbkgFd/ZpMF8JUWgBx3D3Hs3A/Fa6Gkk5Mgi3Tr3wsiIjtmNGRDvlkwjXalC
-         0TidYkYht3n9HQVwO8y4xKuCeeQFS9Wwnn2ONaKxQbJjKmFF+r620BrVUhuZmgvoBE1G
-         isB5PAswkI4FhgQ9e/gm2wmIz3VF/LWThbNhQed/4xCMzFCeoJJHWl//pWangCSLV4gD
-         YwwA==
+        bh=gQyim0BqtsW2qzMbM8Vy6YA3JarxLqj3KoXPKijITYk=;
+        b=Wy2Rl2XiRlCO8CoszXQHMLGQV8zfutOCtbJx5RizhAqFgcBehjDtyIIUw68zKCzemV
+         1sBl/AC6QUO7j0fS880VkK37WAXQOTnCzXMCJqZjHtNpNF6tZl6Cn9yNLuJ4asHmkiVr
+         OBEoPHYEF3crgGsxakkBGFLMVp1t8fS/i5lx553q9JkAxRN7vtdTBeI2amGTEBmkx1px
+         R9JkjlCzmsFj0X9NjHxcSU+nHoig/zMQ18wxe3hDvr9/LZTZcK8V9PSl7fzBR6R0d7BC
+         lLwn+QzhEw/p88pwb5aWhE66eJrc623j+TQ7DObmMa0A5qw5fVE2MRmuIhiPwl+3Yiph
+         OB9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759479010; x=1760083810;
+        d=1e100.net; s=20230601; t=1759479458; x=1760084258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hds0qbpzpiavg7ZwHmljrB5iCR52ykw9ON25aiglDTw=;
-        b=BR2+TrC1Ais3uHA2knNk/xRJC47JzCH0WBiDIkRxxi5SISuV4yMpGkMQdJW8KAKszM
-         wYB85ag/F+6iaPJ4KQ5CyZMZF4soJQKvND8XbFZQgeXuXj3TkVRxXM5cbmVpPTV5D+DQ
-         3QZEmtu0Nxn7uycov/J549GKOXrBsF7vn7jDbP2SoTqBSzgV8BQEgo0IgSZrBbAc76Gj
-         UpK7B3EmZ6EaJW0URGhvVQg23AEvKKcJdtFPa6KMbVm9R5ywB4jfZULRNt5EPgww/3lu
-         Yv9wajc2yuxSMxpgQ+GSm9mHUdHyFU3Mv7AbDDiWDrLvzs9XkGrFBImkn8lz4+yDZg+9
-         Xj1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVm/lvqYE3k1okeJcUzTWZJDsjjAa57jgSewAO+EOOIG6U5mRDeLmXTq2fHLXK07G+ua9Rh01Lmjao=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj3bi0v+PQ7LB2VGQ26I5sfEJpzU6oqGxue3vA7ndz5ELN8QyC
-	+C+wKVPLJk05SG9Xv/jzEFmac5w2C+IZQ31JbY3YGUytBA/tSRG4Mb7Wd0Nh3PRKFjs=
-X-Gm-Gg: ASbGncuV/9lxHu0eY8g/RpUM+D2JA+5h6SSnqwwkjPGi0r+ou7dUYapub2LmL6DKAT/
-	A0/+h1TPPRg2AoehlqzpdvOgZQx9LwXBpWqBVD6YqNJ3a0HdBILrKhGMXumRHPTIkUlZfb+/Lj3
-	ai8HMdnBudz+KACCYPYhT5RXBPu99A+LkHsqcUxUauOF/xyoeraUM8bEHtCF8mreRTQR+/5i2UE
-	TkYJVWJGI94t0/Uf99niccYWdB38rK8OLnDI6iaqNE1oG/6JVupNWlapVCdJyOatOjBYPO1YQFY
-	diQd7hey6dTvkc5qeePgLwDQWUa5BavW7c8eBZZe06R10Xj7dfCTlIkISzg2oKOLIDsmJj6TFE0
-	2pMwRDLUuobwKZJetvDC8gSr0L9v0XNRWJ4ZZc/5utyhCZNNNAybRXkyN90okHyoas80Y6poiFF
-	HcHQ==
-X-Google-Smtp-Source: AGHT+IFu8wl8hwA2CjgUdqTHCDizrAkUMcbHTh2/6sxWmlyxSbvnHeDtk26mu8GVuA+QnvQcXPkJeg==
-X-Received: by 2002:a05:6402:3585:b0:638:3f72:1258 with SMTP id 4fb4d7f45d1cf-639348e6463mr2252183a12.16.1759479009756;
-        Fri, 03 Oct 2025 01:10:09 -0700 (PDT)
-Received: from puma.museclub.art ([2a00:6020:b3ea:9c00:26e7:b56a:5a2d:1d72])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-637ef848199sm1990301a12.21.2025.10.03.01.10.08
+        bh=gQyim0BqtsW2qzMbM8Vy6YA3JarxLqj3KoXPKijITYk=;
+        b=tzAVJg40Rt2+YIV20j2PfE3uiv/hV//TK0Y91f/510BLIlOshYOYGP7SZM2pA8k33R
+         8Jx94mgCEsSoqDsouhJ+uDbSqTH1oyJjslyRzr+mWJCPD+85nZwWz9l31HhiRsfw6Owa
+         fr2Jsqt8df/J7HkANlsNbZdZIExHRg5H8R4CM9mRb80qwzTKzQsA3LHbzSrhmhoMjiVt
+         5k5LkyKr0n/vA40Pgyqc9ROeXMsj/jXB048WxQMrqJlZs3KTmenP5k4umsX7D4KAYBov
+         kzoIlTvQlBoGMyBxSXZAcqW5G7OsIqJ/LXKa0ogYc78IvLT/PisQ8lKuWkJgKMCdILMO
+         l70w==
+X-Forwarded-Encrypted: i=1; AJvYcCWFTVxHNK888piv4qtK4Qxb5QTrynGkbptj+KHvzB4n1o/Ya4eCbZGejbNMdVqCQlfyyUKqx1RoGf0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBjtq5G/AsxOHI9NJ1S3Er4cuXMmci6XRX8wPaFuJOgKqoYLl+
+	2YN7NAH76pq6W5Fp6L4rnX2KD04Cnc0/YV5sjjAIUJYyIi0yHpRoYhze
+X-Gm-Gg: ASbGncv42NF59wvwt2LWIXy/YSWsl4B61yeIGbE3HtRvGN7551BNBbWHvVAcGeo8O/E
+	NwSlP7JSUu+tPK7ESKbyW2bUGDTfj91T+XxuV+dW3umsIhlpyDI+OLpcOc3u/+JILz/4I6icU9E
+	5k2Ljbf+luvbLhItaVnryGtJx/wuO6dWCoYQGiu8y6TPuzHmG31zabgnGl/1sJXGbuiF6GDhcsz
+	/tuv+OeGT8ao6NMK0NhavEiwt1dvBSYQaHU9/TKTM53nCj8BcES2bOzJwV8VbOkTP8icZGL6TGH
+	dXewkPNcC/Cvz1A/fTlSb5KG9UkqYIU8weIAd6TpRgs5jxT4oHHuzKkKJjDiuqOnl9CZvnjggG0
+	vpkRsHz11WFkTqX4sjJZ4bzqrEL/lUqidNCjtDMpCQYo=
+X-Google-Smtp-Source: AGHT+IE3p6e2C4Ro1pBpKf0cXzsgikP8V0zCUAAB/T9g/wIoYga6Xkv+dPr5KmQQbGDGSH9Rz7Xgew==
+X-Received: by 2002:a05:6a21:114d:b0:2d6:9a15:138f with SMTP id adf61e73a8af0-32b620b1298mr1450380637.3.1759479458188;
+        Fri, 03 Oct 2025 01:17:38 -0700 (PDT)
+Received: from localhost ([104.249.174.141])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b0206e6ccsm4168102b3a.63.2025.10.03.01.17.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 01:10:09 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Maximilian Luz <luzmaximilian@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+        Fri, 03 Oct 2025 01:17:37 -0700 (PDT)
+From: Ben Guo <benx.guo@gmail.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] hwmon: (asus-ec-sensors) add ROG STRIX X870E-H GAMING WIFI7
-Date: Fri,  3 Oct 2025 10:07:57 +0200
-Message-ID: <20251003081002.1013313-3-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251003081002.1013313-1-eugene.shalygin@gmail.com>
-References: <20251003081002.1013313-1-eugene.shalygin@gmail.com>
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2] docs/zh_CN: Add translation of rust/testing.rst
+Date: Fri,  3 Oct 2025 07:48:57 +0000
+Message-ID: <20251003074939.465517-1-benx.guo@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250929163531.376092-1-benx.guo@gmail.com>
+References: <20250929163531.376092-1-benx.guo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Maximilian Luz <luzmaximilian@gmail.com>
+Complete the translation of rust/testing.rst and add the testing TOC entry
+to rust/index.rst.
 
-The board has a similar sensor configuration as the ROG STRIX X870E-E
-GAMING WIFI, with an additional temperature sensor header.
+Add the translation based on commit a3b2347343e0
+("Documentation: rust: testing: add docs on the new KUnit `#[test]` tests").
 
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+Signed-off-by: Ben Guo <benx.guo@gmail.com>
 ---
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+v1->v2: Rebased onto docs-next (no code changes).
+ .../translations/zh_CN/rust/index.rst         |   1 +
+ .../translations/zh_CN/rust/testing.rst       | 215 ++++++++++++++++++
+ 2 files changed, 216 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/rust/testing.rst
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index ab0f255d9653..2666ed3a8ea3 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -38,6 +38,7 @@ Supported boards:
-  * ROG STRIX X670E-I GAMING WIFI
-  * ROG STRIX X870-I GAMING WIFI
-  * ROG STRIX X870E-E GAMING WIFI
-+ * ROG STRIX X870E-H GAMING WIFI7
-  * ROG STRIX Z390-F GAMING
-  * ROG STRIX Z490-F GAMING
-  * ROG STRIX Z690-A GAMING WIFI D4
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index d969c5dc4b0f..7f35eade3a9b 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -660,6 +660,14 @@ static const struct ec_board_info board_info_strix_x870e_e_gaming_wifi = {
- 	.family = family_amd_800_series,
- };
+diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+index 10413b0c17c0..5347d4729588 100644
+--- a/Documentation/translations/zh_CN/rust/index.rst
++++ b/Documentation/translations/zh_CN/rust/index.rst
+@@ -47,6 +47,7 @@ Rust 支持在 v6.1 版本中合并到主线，以帮助确定 Rust 作为一种
+     general-information
+     coding-guidelines
+     arch-support
++    testing
  
-+static const struct ec_board_info board_info_strix_x870e_h_gaming_wifi7 = {
-+	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-+		SENSOR_TEMP_MB | SENSOR_TEMP_VRM | SENSOR_TEMP_T_SENSOR |
-+		SENSOR_FAN_CPU_OPT,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0,
-+	.family = family_amd_800_series,
-+};
+ 你还可以在 :doc:`../../../process/kernel-docs` 中找到 Rust 的学习材料。
+ 
+diff --git a/Documentation/translations/zh_CN/rust/testing.rst b/Documentation/translations/zh_CN/rust/testing.rst
+new file mode 100644
+index 000000000000..ca81f1cef6eb
+--- /dev/null
++++ b/Documentation/translations/zh_CN/rust/testing.rst
+@@ -0,0 +1,215 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
 +
- static const struct ec_board_info board_info_strix_z390_f_gaming = {
- 	.sensors = SENSOR_TEMP_CHIPSET | SENSOR_TEMP_VRM |
- 		SENSOR_TEMP_T_SENSOR |
-@@ -806,6 +814,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_x870_i_gaming_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X870E-E GAMING WIFI",
- 					&board_info_strix_x870e_e_gaming_wifi),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X870E-H GAMING WIFI7",
-+					&board_info_strix_x870e_h_gaming_wifi7),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
- 					&board_info_strix_z390_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-F GAMING",
++:Original: Documentation/rust/testing.rst
++
++:翻译:
++
++ 郭杰 Ben Guo <benx.guo@gmail.com>
++
++测试
++====
++
++本文介绍了如何在内核中测试 Rust 代码。
++
++有三种测试类型：
++
++- KUnit 测试
++- ``#[test]`` 测试
++- Kselftests
++
++KUnit 测试
++----------
++
++这些测试来自 Rust 文档中的示例。它们会被转换为 KUnit 测试。
++
++使用
++****
++
++这些测试可以通过 KUnit 运行。例如，在命令行中使用 ``kunit_tool`` （ ``kunit.py`` ）::
++
++	./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y
++
++或者，KUnit 也可以在内核启动时以内置方式运行。获取更多 KUnit 信息，请参阅
++Documentation/dev-tools/kunit/index.rst。
++关于内核内置与命令行测试的详细信息，请参阅 Documentation/dev-tools/kunit/architecture.rst。
++
++要使用这些 KUnit 文档测试，需要在内核配置中启用以下选项::
++
++	CONFIG_KUNIT
++	   Kernel hacking -> Kernel Testing and Coverage -> KUnit - Enable support for unit tests
++	CONFIG_RUST_KERNEL_DOCTESTS
++	   Kernel hacking -> Rust hacking -> Doctests for the `kernel` crate
++
++KUnit 测试即文档测试
++********************
++
++文档测试（ *doctests* ）一般用于展示函数、结构体或模块等的使用方法。
++
++它们非常方便，因为它们就写在文档旁边。例如：
++
++.. code-block:: rust
++
++	/// 求和两个数字。
++	///
++	/// ```
++	/// assert_eq!(mymod::f(10, 20), 30);
++	/// ```
++	pub fn f(a: i32, b: i32) -> i32 {
++	    a + b
++	}
++
++在用户空间中，这些测试由 ``rustdoc`` 负责收集并运行。单独使用这个工具已经很有价值，
++因为它可以验证示例能否成功编译（确保和代码保持同步），
++同时还可以运行那些不依赖内核 API 的示例。
++
++然而，在内核中，这些测试会转换成 KUnit 测试套件。
++这意味着文档测试会被编译成 Rust 内核对象，从而可以在构建的内核环境中运行。
++
++通过与 KUnit 集成，Rust 的文档测试可以复用内核现有的测试设施。
++例如，内核日志会显示::
++
++	KTAP version 1
++	1..1
++	    KTAP version 1
++	    # Subtest: rust_doctests_kernel
++	    1..59
++	    # rust_doctest_kernel_build_assert_rs_0.location: rust/kernel/build_assert.rs:13
++	    ok 1 rust_doctest_kernel_build_assert_rs_0
++	    # rust_doctest_kernel_build_assert_rs_1.location: rust/kernel/build_assert.rs:56
++	    ok 2 rust_doctest_kernel_build_assert_rs_1
++	    # rust_doctest_kernel_init_rs_0.location: rust/kernel/init.rs:122
++	    ok 3 rust_doctest_kernel_init_rs_0
++	    ...
++	    # rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
++	    ok 59 rust_doctest_kernel_types_rs_2
++	# rust_doctests_kernel: pass:59 fail:0 skip:0 total:59
++	# Totals: pass:59 fail:0 skip:0 total:59
++	ok 1 rust_doctests_kernel
++
++文档测试中，也可以正常使用 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符，例如：
++
++.. code-block:: rust
++
++	/// ```
++	/// # use kernel::{spawn_work_item, workqueue};
++	/// spawn_work_item!(workqueue::system(), || pr_info!("x\n"))?;
++	/// # Ok::<(), Error>(())
++	/// ```
++
++这些测试和普通代码一样，也可以在 ``CLIPPY=1`` 条件下通过 Clippy 进行编译，
++因此可以从额外的 lint 检查中获益。
++
++为了便于开发者定位文档测试出错的具体行号，日志会输出一条 KTAP 诊断信息。
++其中标明了原始测试的文件和行号（不是 ``rustdoc`` 生成的临时 Rust 文件位置）::
++
++	# rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
++
++Rust 测试中常用的断言宏是来自 Rust 标准库（ ``core`` ）中的 ``assert!`` 和 ``assert_eq!`` 宏。
++内核提供了一个定制版本，这些宏的调用会被转发到 KUnit。
++和 KUnit 测试不同的是，这些宏不需要传递上下文参数（ ``struct kunit *`` ）。
++这使得它们更易于使用，同时文档的读者无需关心底层用的是什么测试框架。
++此外，这种方式未来也许可以让我们更容易测试第三方代码。
++
++当前有一个限制：KUnit 不支持在其他任务中执行断言。
++因此，如果断言真的失败了，我们只是简单地把错误打印到内核日志里。
++另外，文档测试不适用于非公开的函数。
++
++作为文档中的测试示例，应当像 “实际代码” 一样编写。
++例如：不要使用 ``unwrap()`` 或 ``expect()``，请使用 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符。
++更多背景信息，请参阅：
++
++	https://rust.docs.kernel.org/kernel/error/type.Result.html#error-codes-in-c-and-rust
++
++``#[test]`` 测试
++----------------
++
++此外，还有 ``#[test]`` 测试。与文档测试类似，这些测试与用户空间中的测试方式也非常相近，并且同样会映射到 KUnit。
++
++这些测试通过 ``kunit_tests`` 过程宏引入，该宏将测试套件的名称作为参数。
++
++例如，假设想要测试前面文档测试示例中的函数 ``f``，我们可以在定义该函数的同一文件中编写：
++
++.. code-block:: rust
++
++	#[kunit_tests(rust_kernel_mymod)]
++	mod tests {
++	    use super::*;
++
++	    #[test]
++	    fn test_f() {
++	        assert_eq!(f(10, 20), 30);
++	    }
++	}
++
++如果我们执行这段代码，内核日志会显示::
++
++	    KTAP version 1
++	    # Subtest: rust_kernel_mymod
++	    # speed: normal
++	    1..1
++	    # test_f.speed: normal
++	    ok 1 test_f
++	ok 1 rust_kernel_mymod
++
++与文档测试类似， ``assert!`` 和 ``assert_eq!`` 宏被映射回 KUnit 并且不会发生 panic。
++同样，支持 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符，
++测试函数可以什么都不返回（单元类型 ``()``）或 ``Result`` （任何 ``Result<T, E>``）。例如：
++
++.. code-block:: rust
++
++	#[kunit_tests(rust_kernel_mymod)]
++	mod tests {
++	    use super::*;
++
++	    #[test]
++	    fn test_g() -> Result {
++	        let x = g()?;
++	        assert_eq!(x, 30);
++	        Ok(())
++	    }
++	}
++
++如果我们运行测试并且调用 ``g`` 失败，那么内核日志会显示::
++
++	    KTAP version 1
++	    # Subtest: rust_kernel_mymod
++	    # speed: normal
++	    1..1
++	    # test_g: ASSERTION FAILED at rust/kernel/lib.rs:335
++	    Expected is_test_result_ok(test_g()) to be true, but is false
++	    # test_g.speed: normal
++	    not ok 1 test_g
++	not ok 1 rust_kernel_mymod
++
++如果 ``#[test]`` 测试可以对用户起到示例作用，那就应该改用文档测试。
++即使是 API 的边界情况，例如错误或边界问题，放在示例中展示也同样有价值。
++
++``rusttest`` 宿主机测试
++-----------------------
++
++这类测试运行在用户空间，可以通过 ``rusttest`` 目标在构建内核的宿主机中编译并运行::
++
++	make LLVM=1 rusttest
++
++当前操作需要内核 ``.config``。
++
++目前，它们主要用于测试 ``macros`` crate 的示例。
++
++Kselftests
++----------
++
++Kselftests 可以在 ``tools/testing/selftests/rust`` 文件夹中找到。
++
++测试所需的内核配置选项列在 ``tools/testing/selftests/rust/config`` 文件中，
++可以借助 ``merge_config.sh`` 脚本合并到现有配置中::
++
++	./scripts/kconfig/merge_config.sh .config tools/testing/selftests/rust/config
++
++Kselftests 会在内核源码树中构建，以便在运行相同版本内核的系统上执行测试。
++
++一旦安装并启动了与源码树匹配的内核，测试即可通过以下命令编译并执行::
++
++	make TARGETS="rust" kselftest
++
++请参阅 Documentation/dev-tools/kselftest.rst 文档以获取更多信息。
+
+base-commit: 344657696e9aa7bf89e48e1848fe0ce551bd1f4a
 -- 
-2.51.0
+2.43.0
 
