@@ -1,178 +1,110 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FE42DC771
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 17:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633712DAFA3
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 17:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759512773; cv=none; b=HyqssA6vNgyiB/gAGGI+G0Asw4JfBz2M6b/KuJwa3j7LJpufb12DVj6HyDRIxXlwOiATsl8FSMyBvhBc4zksr7qLJ3lJSIq27SHL9MI6wQpHJft7CL/uI0L+ni2lh9IvsOQs0VPrJXySfiX+ByNS6Y/AXAwAJwPepkaZk2dNbTM=
+	t=1759513187; cv=none; b=TB+4wSsyUKjkBjVWgQTlWc4PtYpodJ1MeQPD9y+QfvmGrI/NJ2hMmNU5S35zCxhcncbzXoCOeZbe2rXtfRKSqaw3laXJM71EHesTKhMechuQIaXGSJ2TQZG/IYPu37XiiKq5HIZMYwLnRS9ZerI10Zfi2K1QPKE5j14EA8I3ISc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759512773; c=relaxed/simple;
-	bh=Ppoa9QsZOoSTV+IPfX4/odA4ZuwL+h+gqoPsnDxPufY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AgVd6jnQ8jeS9OqkfCS+4DcFHbX4SSpdmxJssKcxfonrafAEjAXx/p8PPrDbn9nDtWEhY2IKh3LEfUBB7aDRhsYmgeKce7AeEKNTPhgKHxnWCFSLQEtNciDoOLkhwB8pzE6lZlW8Bawdo7iCHGDp54P1yX3dD4m9OWUEGAcDkP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y9xltinL; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	s=arc-20240116; t=1759513187; c=relaxed/simple;
+	bh=ZaUhRL9uYRgp3STBiIrntA/xJ/L78oxvSHtu/809KNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EMlRfDUVPoP4fYYqLDn0hJ1flWtQ+4ncqpOGRtYcuB23ARYndZMCoJM+bmxDh018NGhQ9KNgZQtaWhsNlLKSx5mXY9jsYGqVFe0PZ7ITGUJ9ZQUK+fgdfkV9RLkg2PqMWAHZqjS5PyKUkodI0Z1EFSGSo/3d2o18tpB6SHiyG8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3MGhMWt; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y9xltinL"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-6232f49fc79so2384375a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 10:32:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3MGhMWt"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b550eff972eso1733360a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 10:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759512770; x=1760117570; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rsO4Y9+CDsR/9B2sBMziOZN6BaFGbVnMznIuFrkfbBE=;
-        b=Y9xltinLofTfplfLEyXdU9qcihyxyb7ymbBTzK6/kMb4aiA/G08AvuEwhE6ICg2sTW
-         Ll84pC7Qgx0kfWzJEKfatH9O6TkDm/Y9N2YCQKAV7CLLpCFWG6oD7L7IF9gWnUrIdmPf
-         fj9ZyU64wtmdHK7X3DpPlPRpqpMYLfWXKCTVxA11M5KH9n0DQnWX6qhzlnaw/672W3ED
-         2jHNznATssRuYlEcBDRBFTnN74OPdIM/7jDMTbtxJpuvmqJBzmlmmN8nyX0fHZKESNq9
-         lctm3veeqx+xRrf9rNvPjeylCmJh9eViA4JnNA6CE5E9UZdzqGe11DxOknKWXfp2kAY1
-         3Ogw==
+        d=gmail.com; s=20230601; t=1759513186; x=1760117986; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pwVgppgL3hOntHtqfj1wQPCPEzCZhCKf11suJZJq538=;
+        b=G3MGhMWtJVTTfbCi26kQLLnmedAmzoPsBHVqkIQQE+YvuIuMAU/V+Txv5BB07jNWCv
+         P1uZbstAZOkxZY5+w4A2BTYtL1MZJCoPnMxMuPsudH8GxzX99EIeOMqb/SGvrshX+xh8
+         ldawJdF7Bvt3eXsYs/InAIAoRDyKTBO4YBZtKl0SWy6GY79QriUW53c912jRilONOFaZ
+         RUyVs789OCGFleIwTwhF6Mv5WEn0riPkZ4azEODtEABhdQxrYCQ/lkCIrqFbw5kXySxx
+         Bg/9Da/Q8j9ylaO34Dbc1xdmJa+8HSV8iKHzxDzMq+FTz4r+tbu5dLuruesHMh9QFyVW
+         ghUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759512770; x=1760117570;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rsO4Y9+CDsR/9B2sBMziOZN6BaFGbVnMznIuFrkfbBE=;
-        b=EqdPSGNNAKz0ZkJT4VrjJtm3fRqlFUJX7eCzNb7fWfCzGYfDkhhObTMf1ne/nV2dkp
-         wU5PRMMECZc6MF5akFpAp9Vq8zg1LhnOdHTD4XkE0pS5hJsKWKw8HJ1kLzB+OR7hPPCP
-         m1QrY5FyP8gwDvfpROPPih9VQnYWLLqc5WpHhhxm8iV+r4Vg5RrTIwspbw0k7i121b3H
-         2WSsfECsxrriCtrC8p4VPM+umjlydMdIimmW60WolJCvnW7/Mv8XMyN5s0M7nYa8rKw4
-         Ro1tchz4X+MqTgLka4lygQw1MKm2jcMweVQWzawriq/phs2DaSaZnqVWcuGrhP/2Z80+
-         2rgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvEXaWqpsDDTKvHwi4peA5AF55HH/amIafRrmRMCwBTAG6cyNK+RBIADVu/AuXgKtWz1gXFgxDjjU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2dT+HMR7wJJWygsgWhgY85uSSrkZBpQWieTrlcqBNOnIz3JUb
-	zYYcZNXC+5XzNRntCEA4HaTFRcd/55KOa3Zn9gCKkv1wjwv+iQXcQEQlQ9WS3ZtLqnGxCOKYULS
-	3Xv4Pugw8+PcPyg==
-X-Google-Smtp-Source: AGHT+IEICQMptfCkkk6D3e73QyAc9gpdDen9PXr6jWCu1S1AfhHO09M/A91ku8VJ/Ju4zq0R9Vac76YEgDbAjg==
-X-Received: from edqm10.prod.google.com ([2002:aa7:c48a:0:b0:636:871c:c865])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:3508:b0:639:102b:b8db with SMTP id 4fb4d7f45d1cf-63939c20419mr3602021a12.24.1759512769531;
- Fri, 03 Oct 2025 10:32:49 -0700 (PDT)
-Date: Fri,  3 Oct 2025 17:32:29 +0000
-In-Reply-To: <20251003173229.1533640-1-smostafa@google.com>
+        d=1e100.net; s=20230601; t=1759513186; x=1760117986;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pwVgppgL3hOntHtqfj1wQPCPEzCZhCKf11suJZJq538=;
+        b=NMz8rQ7wpegF5gKpyZSZ89fyPfZxhA9VtNbQFRRoaz8vTjiNxe+wqz/LuBNsRJ02sc
+         tozduYJ8teCYEDXZZScjqd0J0xOF2GrnwKFmesz/QjmSGSpqAxyKNwpJ/77cYvgD8JfO
+         23fgbrhbzAMu+RSkjAQn3rZBfK+0woJAfGm0b7AadRkG1ny9Tpqxf6qbbZt/N0/WVVdN
+         8zuulr7ApJgndC2Av7iUQGrkr9sYJcFONLAPupfjFv370RllaBa+GCMx9a5+RBnJu7lo
+         dHOa0zx+42CEboCXO4bK85RET3UtR20EGfiEM9+Mftvaz2hlWMQ8h8pzumdVc3OW706m
+         /u8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXBohaVVoquQfcAyeYYTPi22GX3C2i+kG/j0C8cMb1WquNmjrTsr0ypWq+OAMz5ReXeJAW+0jMH4d8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwihBwuZ+nvZb0r78V0N4snvDAa/l60NkpJ2OmiAhZ6hxGyWg4S
+	gl6DdN6QwPhkg+eN6ZskNFlHxtbScgTkVvJp855B/wTPVcrCPh867jpj
+X-Gm-Gg: ASbGnctDCt7sa8QzWPE1RIU2llXEgIpY1TIAJdCTrunYrwpC8t0xCyxbxuq4s/gdVvc
+	+vPcGM1maNp0FeH+2ytOlqLACOk3Y9Q8BKq03wMWLi9uG5A4EqxiWrsguwZf9H2X9p0605eWx0J
+	wXERS8S+PmpkZ6nImv4PlVWiBo1oXQwWPTgKycg0fIzGNSf24BJFJvvOKNsMiQCG75b5RtZbDPz
+	Y0RRVe408yzkXyHzBl7fRgjZDU0wtBz6Wx7MmAqrKBygm4FBdComJoPNtAILawrAdEwZbPWiek+
+	fUAR71cxu0oG3Ixf7B9QJYQQxUycZgqLru/9fo9ZKUupq6OKKRn6uhQbgOIvfXgsZqcOKaZgD03
+	3qif3uDv+bhxqh5xWyFpOL57O0qt67maNMu/IA47yvt1zx93X/9iKTrGIy3S+y7C5xc3fvE4k1B
+	p1
+X-Google-Smtp-Source: AGHT+IG6pd8ft2Gfzz8OtvTYc1aPctUPueNw+N8ygaqoazUFNcD1dF0JrQ4yow/VID/T1AeeLSKoZQ==
+X-Received: by 2002:a17:903:2f0b:b0:264:befb:829c with SMTP id d9443c01a7336-28e9a5463aemr42367135ad.9.1759513185641;
+        Fri, 03 Oct 2025 10:39:45 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1261edsm56267635ad.34.2025.10.03.10.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 10:39:45 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	zhanjie9@hisilicon.com,
+	viresh.kumar@linaro.org,
+	rafael.j.wysocki@intel.com,
+	superm1@kernel.org,
+	2023002089@link.tyut.edu.cn,
+	qyousef@layalina.io
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: [PATCH v2 0/2] docs: fix malformed tables in Chinese translations
+Date: Fri,  3 Oct 2025 23:05:58 +0530
+Message-ID: <20251003173926.10048-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251003162626.6737-3-krishnagopi487@gmail.com>
+References: <20251003162626.6737-3-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251003173229.1533640-1-smostafa@google.com>
-X-Mailer: git-send-email 2.51.0.618.g983fd99d29-goog
-Message-ID: <20251003173229.1533640-5-smostafa@google.com>
-Subject: [RFC PATCH 4/4] drivers/iommu-debug: Check state of mapped/unmapped
- kernel memory
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	Mostafa Saleh <smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Now, as the page_ext holds count of IOMMU mappings, we can use it to
-assert that any page allocated/freed is indeed not in the IOMMU.
+This series fixes htmldocs build errors due to malformed tables
+in the zh_CN and zh_TW translations of cpu-drivers.rst.
 
-The sanitizer doesn=E2=80=99t protect against mapping/unmapping during this
-period. However, that=E2=80=99s less harmful as the page is not used by the
-kernel.
+Changelog:
+- Adding missing TOs to the relevant maintainers.
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- drivers/iommu/iommu-debug.c | 22 ++++++++++++++++++++++
- include/linux/iommu-debug.h |  1 +
- include/linux/mm.h          |  7 +++++++
- 3 files changed, 30 insertions(+)
+Gopi Krishna Menon (2):
+  docs/zh_CN: Fix malformed table
+  docs/zh_TW: Fix malformed table
 
-diff --git a/drivers/iommu/iommu-debug.c b/drivers/iommu/iommu-debug.c
-index cec8f594c7fa..09157fef697e 100644
---- a/drivers/iommu/iommu-debug.c
-+++ b/drivers/iommu/iommu-debug.c
-@@ -71,6 +71,28 @@ static size_t iommu_debug_page_size(struct iommu_domain =
-*domain)
- 	return 1UL << __ffs(domain->pgsize_bitmap);
- }
-=20
-+static unsigned int iommu_debug_page_count(unsigned long phys)
-+{
-+	unsigned int ref;
-+	struct page_ext *page_ext =3D get_iommu_page_ext(phys);
-+	struct iommu_debug_metadate *d =3D get_iommu_data(page_ext);
-+
-+	ref =3D atomic_read(&d->ref);
-+	page_ext_put(page_ext);
-+	return ref;
-+}
-+
-+void iommu_debug_check_unmapped(const struct page *page, int numpages)
-+{
-+	if (!static_branch_likely(&iommu_debug_initialized))
-+		return;
-+
-+	while (numpages--) {
-+		WARN_ON(iommu_debug_page_count(page_to_phys(page)));
-+		page++;
-+	}
-+}
-+
- void iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size_t=
- size)
- {
- 	size_t off;
-diff --git a/include/linux/iommu-debug.h b/include/linux/iommu-debug.h
-index 8d3ea661660f..aaf893cfafd0 100644
---- a/include/linux/iommu-debug.h
-+++ b/include/linux/iommu-debug.h
-@@ -17,6 +17,7 @@ void iommu_debug_map(struct iommu_domain *domain, phys_ad=
-dr_t phys, size_t size)
- void iommu_debug_unmap(struct iommu_domain *domain, unsigned long iova, si=
-ze_t size);
- void iommu_debug_remap(struct iommu_domain *domain, unsigned long iova, si=
-ze_t size);
- void iommu_debug_init(void);
-+void iommu_debug_check_unmapped(const struct page *page, int numpages);
-=20
- #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
-=20
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 06978b4dbeb8..00f5de44faa0 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -36,6 +36,7 @@
- #include <linux/rcuwait.h>
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
-+#include <linux/iommu-debug.h>
-=20
- struct mempolicy;
- struct anon_vma;
-@@ -3806,12 +3807,18 @@ extern void __kernel_map_pages(struct page *page, i=
-nt numpages, int enable);
- #ifdef CONFIG_DEBUG_PAGEALLOC
- static inline void debug_pagealloc_map_pages(struct page *page, int numpag=
-es)
- {
-+#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
-+	iommu_debug_check_unmapped(page, numpages);
-+#endif
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 1);
- }
-=20
- static inline void debug_pagealloc_unmap_pages(struct page *page, int nump=
-ages)
- {
-+#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
-+	iommu_debug_check_unmapped(page, numpages);
-+#endif
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 0);
- }
---=20
-2.51.0.618.g983fd99d29-goog
+ Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
 
