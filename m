@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D9F156F20;
-	Fri,  3 Oct 2025 20:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72E6257853;
+	Fri,  3 Oct 2025 20:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759523934; cv=none; b=BWLdzoG7ghmRV8Rzucqf7yh8vER755pdEcCBjfkyuMSlN5tjRuK8z/5zxZ+DcB1j59m5BX1bZXAzKA/WDDYiFClhyAzZ0dHkmOTANWTRGhTx0cMJU8gE8WAwrhIFex9FT6ZN5aEkdonAE55UDPUISdVmT5fC08vunbvOyqt+EKQ=
+	t=1759523939; cv=none; b=LNVKgKr2zjjmY6Czowmv13hSJUcVq8bCl1lAnIUXxTlBiwek9lrgsV2lf1alZCYX2hyecRFNwPHTqyEQiA134elWXM+THBCbBGXiPAUVud0PdLwgde0uD3zf3kYqn9mLEvq4oWPiwPUrmcaCkZhQbxzcV88r8b41qmHBaToHQA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759523934; c=relaxed/simple;
-	bh=8Kylk+IGScGVl68XY62G0IZ7hqRC6OFEitrMjSrCFis=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AKec1Uf0YIpSb2z2YeQcDWrGiulzUFeVB715BYcUrLvD/XhbOaelzNCGdSJOlp4k/OlsXKkwZ5s6FU6zMCkuYnKDGaVJTdlQUD11DYBLrJYFnlsqrigr+YagJblArkQh/TFuc8Fm7BUmNzfMoRGXDh/t+IuvWAh/Zio4x/tE5k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZqJ/d9ql; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759523939; c=relaxed/simple;
+	bh=ZzB74e8fLVOerMDvAZBDXxkrkPTdnq0MummdffmxbJQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=G0A7aAjL6WbpbIrbPkxphpFMJC2J0GTz2stiZMHh/PXqdDKQm7UgpMm+36ct6AvJzom5A0IcnaCxZYEikzi3If3ldJy9HeNhKaTn7X2SWJhn6oGbV+UR3X3phd/9Ni/vq+OesgyFMFfcgxiDBEMxGxvwYAif7+f1fB4OqQvJ+Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4+iEoqp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZqJ/d9ql"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB82C4CEF5;
-	Fri,  3 Oct 2025 20:38:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4+iEoqp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4037FC4CEF5;
+	Fri,  3 Oct 2025 20:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759523934;
-	bh=8Kylk+IGScGVl68XY62G0IZ7hqRC6OFEitrMjSrCFis=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZqJ/d9qlMsYouwfCYmYg3wszEYzw8EOZv8jG1Utxyek0uCcIgTzGt3A1ekVkuEV8/
-	 OAnoFpAtFI/a0+DKGJnUnGH2EVvrQmNv0iZWMmmegz05Sv22XotbcOk2/ld5Qz+TYl
-	 QDyKE+VWzCBMQ9JLUR6n1p93F6JWzuoGqeAUAUYwCAJEvTEJK3vx3blOcW7T1R5nFM
-	 1EjxKBGNH6HB31vrPWvaasZXlGgl2spFk+6bJlEqw33NCIvhmgZPrx3NulvezhqlLN
-	 aTPcz2gBpZCSHccRx6QiVpr0upiomnXZ7yOad9xBR9a5ZTpXk5G2RY0wyV+OEkxl9v
-	 0SY1aFcD4xiAQ==
+	s=k20201202; t=1759523938;
+	bh=ZzB74e8fLVOerMDvAZBDXxkrkPTdnq0MummdffmxbJQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=M4+iEoqpATZKahzganyMTsVKl1kJ/wiQ8Px8RLzYdqh37tRpnjf8uOl3qaMEL7pXh
+	 x6Omcw0vWP61pTvKgdbVG4UQgRqnNy63jcSGLu95EnAnANKV/y3oezHWVN0XVtlnDn
+	 vsni74areUTyOWzbC4zHIDP0PSdxtqmpx45wohX2Hq3tW5fknR4t0/snPQ1jgktqKs
+	 kFbhSneQRpzrwMXrOqys6faN4d65Ai/1HsxjyGMC7Qjc30QeOzNT2U/IxEK7PYpRK1
+	 hWiAPQk+/4yVV/43rRDfVYP5fmu9cbh5rI8HJSeyg0i48Z+MVm/jABJDTBkU9IMMKx
+	 5OPN0qtXCQ7ZA==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: SeongJae Park <sj@kernel.org>,
@@ -35,25 +36,22 @@ Cc: SeongJae Park <sj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@kernel.org>,
 	Michal Hocko <mhocko@suse.com>,
 	Mike Rapoport <rppt@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
 	Nhat Pham <nphamcs@gmail.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	cgroups@vger.kernel.org,
 	kernel-team@meta.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 0/4] mm/zswap: misc cleanup of code and documentations
-Date: Fri,  3 Oct 2025 13:38:47 -0700
-Message-Id: <20251003203851.43128-1-sj@kernel.org>
+Subject: [PATCH 4/4] Docs/admin-guide/mm/zswap: s/red-black tree/xarray/
+Date: Fri,  3 Oct 2025 13:38:51 -0700
+Message-Id: <20251003203851.43128-5-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251003203851.43128-1-sj@kernel.org>
+References: <20251003203851.43128-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,22 +60,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cleanup an unnecessary local variable write in incompressible pages
-handling, typos (s/zwap/zswap/) and outdated comments/documentations
-about the zswap's red-black tree, which is replaced by xarray.
+The change from commit 796c2c23e14e ("zswap: replace RB tree with
+xarray") is not reflected on the document.  Update the document.
 
-SeongJae Park (4):
-  mm/zswap: remove unnecessary dlen writes for incompressible pages
-  mm/zswap: fix typos: s/zwap/zswap/
-  mm/zswap: s/red-black tree/xarray/
-  Docs/admin-guide/mm/zswap: s/red-black tree/xarray/
-
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
  Documentation/admin-guide/mm/zswap.rst | 10 +++++-----
- mm/memcontrol.c                        |  2 +-
- mm/zswap.c                             |  7 +++----
- 3 files changed, 9 insertions(+), 10 deletions(-)
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-
-base-commit: 2e943d9cc1fdd399a2f95d1c1d6b865d04bfa239
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index 283d77217c6f..2464425c783d 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -59,11 +59,11 @@ returned by the allocation routine and that handle must be mapped before being
+ accessed.  The compressed memory pool grows on demand and shrinks as compressed
+ pages are freed.  The pool is not preallocated.
+ 
+-When a swap page is passed from swapout to zswap, zswap maintains a mapping
+-of the swap entry, a combination of the swap type and swap offset, to the
+-zsmalloc handle that references that compressed swap page.  This mapping is
+-achieved with a red-black tree per swap type.  The swap offset is the search
+-key for the tree nodes.
++When a swap page is passed from swapout to zswap, zswap maintains a mapping of
++the swap entry, a combination of the swap type and swap offset, to the zsmalloc
++handle that references that compressed swap page.  This mapping is achieved
++with an xarray per swap type.  The swap offset is the search key for the xarray
++nodes.
+ 
+ During a page fault on a PTE that is a swap entry, the swapin code calls the
+ zswap load function to decompress the page into the page allocated by the page
 -- 
 2.39.5
