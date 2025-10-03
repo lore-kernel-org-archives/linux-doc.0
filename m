@@ -1,64 +1,63 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBD92C08B1
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 16:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B352C21E5
+	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 16:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759508838; cv=none; b=U7Go3ypLb2RcggN+ZKMig5Z1CJMjMuswgAQn8ZU7ExoKEA0CJmu0oDldlgQkiT2Ls73KvNq4i4+/4US2JAswp9Qas98wUAIyYelaqaCBe+/F0uBA7P6Mxx3HyM2But5ZUNAjy32MHz+W80wKGiKyatNzoU+FNqsq12ViW3xXD9Y=
+	t=1759508845; cv=none; b=mYSXQgDxPymJ+Jpr3o3iYQYTh0xTC6yv+t0sC44lOeiq5yltYRbXEEpTV9K2OLckrOxF2MN2fnV4Ho1P38EF9gT8rOpTron8a6S8UYAaafF7hRU1XqVvfrBt+TL8KnL5bNWdkTSPrUCeyPFfcmStPlRqHS4SYubL4ISOJYxP9Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759508838; c=relaxed/simple;
-	bh=A0seJZUqD56+LqaPGls9QqXRtY97r8c7RYbr7Ueh1kU=;
+	s=arc-20240116; t=1759508845; c=relaxed/simple;
+	bh=jdDLR5zSZaMeP6Z0Smw6SGxBy/T6QQ6s+tHgLG/YIuQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XZ675X9Mk2vm3KOMwfl2DLyH8MZAQf7EJnhWdUU9je8UIvgZwFEy+oPwHd9BxmXXKIbXPey3k69dxFY3W9oRWONIEB8ywv0XKVEHmWgfq1S0FcQ2mQXcNWnc7nFDNVkK9CuGwFWjf07lUQ0UZI3PUFX7qnBpBMD/gaLggqc36CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VDBdF+Bm; arc=none smtp.client-ip=209.85.215.179
+	 MIME-Version:Content-Type; b=o4k3l6Lu1uf3pxybK5n2x5zdpwXh0lrK5yO3HzOl5et4oz/iVYvqth1CBaWLBBUFk/omi5SITc03fYAJRO5K2EfRxkNjpzMTXmwz2qWM2/TVWId/qKEH3cnbiLWzbMXK6AGzq2MACcqV183VFMZESYrP8n4+sJRCjayTn0iteiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isZ7v06G; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VDBdF+Bm"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b58445361e8so3140769a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 09:27:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isZ7v06G"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-330a4d4359bso2171846a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 09:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759508836; x=1760113636; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759508842; x=1760113642; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CU1ubv9QFqhwCX/UJW2MkuGJ8oe42GWkgn/905N8tto=;
-        b=VDBdF+BmhpAWPAZJ7jIgcxdRnOIxwHmpfmWYxD5+iQvrBm2BiLg9I16IMfwec0URsN
-         5fvlJjUsNOogjj42AyW424lW6OiQc5YbgRpXPqXE1LQ/roYtF5yvqoUfrxOJkbXpHFaN
-         YhVHj1rmDCJPUGaV3I7rrQsC4CUTrd1U7IOaMFQX4+n148Mwkg8onieDgp0VuuHw8Msm
-         kkN90NoyoFi+I2WsZeb2qnS0QsL/YeCGbaeCb4YyxjqnmRp1ax3kuFDb5D5UXQYYBw+S
-         OFqBQY0jB4aV+il3OLzUeeWZ4+auX8gO4ImBmR81hJzvrBbA09x6udDKAUavDHTvi3ul
-         EH/w==
+        bh=2EqyC5t2SrD/bODU9RpzzMMs5DHytzZzsB47Ks78jSw=;
+        b=isZ7v06GV3IAapqB4JuCfP/O6ID8r4cGyOPCIbdoAbtFA541BonkAusnvoVprm8U1K
+         e6tQMKF7dTsZ7aP/lVubunVjT3R1Br7fw97smYENFT6Iv4gTsy1WX/Y5a2wx+Ep0kicv
+         2aSgMPXjim1/Ls9fl+ZgVqqk+IjztFpxRh2iDnH+enMi5RY0jxI6WKXy0KZ0U2WU1kDb
+         NC/+WpvKqBG+nB37vtQVRrvNYlTUisM7JTYXFAxEUh6iCXsbAPz3IAMu5UdR5OjbZpVU
+         z9it6SocWwgA5XkSRkd2cHSI4ClTAaKiZedGSVvUUjKCKMQACfYWEnDo5I7vr6iA+9v+
+         N8gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759508836; x=1760113636;
+        d=1e100.net; s=20230601; t=1759508842; x=1760113642;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CU1ubv9QFqhwCX/UJW2MkuGJ8oe42GWkgn/905N8tto=;
-        b=AZJcScHJQ3go6CaQq7yiu/K+CCIDcktGmEfg5i37eiHOwaXrmtuRydyk2IRPEcfo25
-         XQfJXjGGwrSSO+5BDo1F+pbgfBJIQ5goXW7uGmebK4BNBCUXroArHU0AHUPNJR0EKs2K
-         nyuDOKcTGDJCs8RvRtPgCjcJ/mCNBVEtundzu3+rkKNXpcXDKeEfUa0ME25MDz7vTset
-         uy2ugxjraOpjUVp7BO+gUnuo/Pk/lVjS/TUg70lGb9Fop2N74Bu9oWut4PwP0mXXwUwY
-         AHyliPsuD2gTy6Ure+R10dFZqj3iiIEWwT4Qv9eJWqQcEw+9gEuxrBXTBYiBI4AhErPK
-         3uXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKJD/RdlwOu2odkQ8kRrrhpNkPb/MB4k2OTFiAPy2L05mNHKLFKQEE1J7qJYQ/mcq88NfBc8BB3M0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3+TkJbDVaG6gExuRieANsit3nluajggVKFJhrFulMFzC4tAYG
-	xz2x272zPRhjH/FHA0mvOWmzcKzvIirHvOMbWsXqMAusHDYMHfotJ8+t
-X-Gm-Gg: ASbGncsuhWWZPemgRsYUOzlRhZW6VoiQR/T+IalZsY8SXmFNw2Hl13UozA1mmlQ+9cK
-	KHKvMC5FsCHe2O/2mnCuujRe+QmW3GTuhBRa8dceHDErOtT1hoU9lG6VVZX8AL/qvKUUn3PLHn8
-	1uz3kCK/VLPsAEx8SBx7OgZnIy2oxBoxxua0GRUfVLEQRWnLc2n0wyc2Z9NETp5yExupl3IcLx0
-	hRih/UQTVIkrBa3RTL9Hq27RII34gydgUMvBMiI9zXNDRvV2qd5EJCSQPeXkX0Mru4fsILIarcz
-	Z7cQ9WWEEMGEwihSZEjQX12o4n5mXa554ozqcx7Jz0OBknhvK0QrUPQVVdmatKw2NxjDHVCaUbU
-	n+VaXbCZLl9SclY6zHwN02IMNdPb1liTggF6D2Cf6OQV5iOWj3eZ6C9rDJAuqfH2zBopm9obf+z
-	XU4N7XX1a0OnY=
-X-Google-Smtp-Source: AGHT+IE6rDopDalQuanfI6ZfiLOsAMLpprtvoctAcjUSyZ5ja4KsaqHXynMClqHNTWE1f02Amnq3hQ==
-X-Received: by 2002:a17:903:1249:b0:265:e815:fcdf with SMTP id d9443c01a7336-28e8d0a1a55mr93324495ad.17.1759508836311;
-        Fri, 03 Oct 2025 09:27:16 -0700 (PDT)
+        bh=2EqyC5t2SrD/bODU9RpzzMMs5DHytzZzsB47Ks78jSw=;
+        b=DBF9G0t87nvCKHsg9TZ61UxXpPuKGO/MQpLwWpTeApvbybLfoarArMr2W1ge3GMl4A
+         Jq6h3dvT6pkHryVtyW8manNbKethigG/ktMzPtOahd0UTxEbTHqHo8bmwdIYsu0raY4V
+         LGsnJfL7414JZf35xDoN7Mrm/mEIhNAojpgr93WOEhjSAzGCbaRMrYPj3bgsw8HAFUq+
+         Ll1DOQKo00O1TcmueuGCxE8hhifULToj2Z8f3Le3KZqxnm2fFv0PBRFjU/5CFHnXGbVp
+         9BKMFXbT10QEzWtb1g217nmSHMGkWvB6MrMjS8NaETm2pCsLt3GhSS3ZLF6eZ4/cggNQ
+         nX1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVsP5/gtwNFTBpqo9NUyyN3q/PXBNBSuZcqSd4Qe2PIsEBMRuZUSOU02HH/dAXx5hBxMYVuj8m0ntg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8DKKiFlx6bTK96N95svGkDSNuK0r8TJKkOToZnZbVPQWJv4he
+	X0wILk/GuQxbcfGQWwALcLJDWMlrKWkkzzbxEu1NO5J7AurEHU2K/lD+
+X-Gm-Gg: ASbGncuPbRRQEnwNr7IVtQZ2twIZDAs+w9604o0303sX9NXjJXLKDzeAcqm5HnVO0cI
+	TO+jsOK0ZXpLZXM/qTKLw9UlGoXoCdbxAi1tgAjXC495eL4Rl0CIJ26eq/MwTagdwjqLpFfa5D+
+	ssnQra/qa0VXos68C4iM4Oi/94g2G1DOGsVKxCJV+Os+vAIvHt37OBQa6aDiTMntpuuU5i+y7Bx
+	Mn7mun2PATjH/c0VGV9N/imNOujCiilZzEN+7aKGiuGIADxFdPYp7nO7h9mze9xjvAXTz2n81ec
+	qIUPQKDoVMB2lT8JGHAXHZ6lzAwINYXqLtoDBq9xY1dRAU/IUu7ksTGfwmmUntkK82+EEqpUE4U
+	OpnU105y9kMJhXFUaNVodO+eCh6d6lx/Qnhv2j73AwGEL1CrNsTVa+tW/Y/sYx1Ehxg==
+X-Google-Smtp-Source: AGHT+IG2rNSUruY8DM1klEXzzCzW/OV+wycqjmFkUs0EoVxuzcjtow/eEbQKdm/Kq0yZONOSJQEGTQ==
+X-Received: by 2002:a17:90b:1802:b0:32e:7270:94a4 with SMTP id 98e67ed59e1d1-339c271ebd5mr4418563a91.14.1759508842185;
+        Fri, 03 Oct 2025 09:27:22 -0700 (PDT)
 Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ff0dddsm8416787a91.18.2025.10.03.09.27.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ff0dddsm8416787a91.18.2025.10.03.09.27.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 09:27:15 -0700 (PDT)
+        Fri, 03 Oct 2025 09:27:21 -0700 (PDT)
 From: Gopi Krishna Menon <krishnagopi487@gmail.com>
 To: 2023002089@link.tyut.edu.cn,
 	corbet@lwn.net,
@@ -74,9 +73,9 @@ Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
 	skhan@linuxfoundation.org,
 	david.hunter.linux@gmail.com,
 	khalid@kernel.org
-Subject: [PATCH 1/2] docs/zh_CN: Fix malformed table
-Date: Fri,  3 Oct 2025 21:56:10 +0530
-Message-ID: <20251003162626.6737-2-krishnagopi487@gmail.com>
+Subject: [PATCH 2/2] docs/zh_TW: Fix malformed table
+Date: Fri,  3 Oct 2025 21:56:11 +0530
+Message-ID: <20251003162626.6737-3-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251003162626.6737-1-krishnagopi487@gmail.com>
 References: <20251003162626.6737-1-krishnagopi487@gmail.com>
@@ -89,31 +88,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Running "make htmldocs" generates the following build error
-in zh_CN/cpu-freq/cpu-drivers.rst:
+Running "make htmldocs" generate the following build error
+in zh_TW/cpu-freq/cpu-drivers.rst:
 
-Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst:109: ERROR: Malformed table.
+Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst:109: ERROR: Malformed table.
 
 Fix the table formatting to resolve the error.
 
 Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-index 8238f4c6e4f5..2d5e84d8e58d 100644
---- a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-@@ -112,7 +112,7 @@ CPUfreq核心层注册一个cpufreq_driver结构体。
+diff --git a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
+index 5435c3928d4b..7f751a7add56 100644
+--- a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
++++ b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
+@@ -112,7 +112,7 @@ CPUfreq核心層註冊一個cpufreq_driver結構體。
  |                                   |                                      |
  +-----------------------------------+--------------------------------------+
- |policy->cpuinfo.transition_latency | CPU在两个频率之间切换所需的时间，以  |
--|                                   | 纳秒为单位                    |
-+|                                   | 纳秒为单位                           |
+ |policy->cpuinfo.transition_latency | CPU在兩個頻率之間切換所需的時間，以  |
+-|                                   | 納秒爲單位                    |
++|                                   | 納秒爲單位                           |
  |                                   |                                      |
  +-----------------------------------+--------------------------------------+
- |policy->cur                        | 该CPU当前的工作频率(如适用)          |
+ |policy->cur                        | 該CPU當前的工作頻率(如適用)          |
 -- 
 2.43.0
 
