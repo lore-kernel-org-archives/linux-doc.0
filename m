@@ -1,112 +1,121 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E0E1448E0
-	for <linux-doc@vger.kernel.org>; Fri,  3 Oct 2025 05:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED95E1A5BA2;
+	Fri,  3 Oct 2025 05:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759469367; cv=none; b=eMvKU5ikWSIuRNJ4JAvJEcxSXyPnRh0quK2uJTd0TLYe2bBAPY2ILfUXYxmsfeKEPr4SrCm11GRixVT4dPBJmvipcPOtQL7xTX19KYdg8TsVCoiXvCkaJaQcW8VI8MufiitctWOdKh6UmZ+k8dqxsVGoUgrRkSIdiKA79Wx7e9s=
+	t=1759469793; cv=none; b=rtNKLmSypczk0h9djJUz7lt3Qra6ECXkQk+nw2WXqUaLPBP0AUVnhy5IRD2E3gNXdjF6LkfkdTT+xQ+5UDqWkKvPPIbOw50ZQhU0hq2gcB5OFWSaLY28xZ+jwdcZhJs3dWNQvhe3n/oHeOhyKc9LgghuomyYty/6Ib3/fruuqNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759469367; c=relaxed/simple;
-	bh=FAecbVfIu/2KfpMJLz5+NVIRF8lakTzCsR7c7STt1QQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nWUbqQkGdHDA8Fii6E7Df/6Ds8gocHvdyJ5wfd1bylvErpvf1/bvoytWjzskLatAFF0P/pFQoczQ4HUD4+rzcxbuIjS/4cwyH7FXtixrrsxnZB0YtVY4VL/Q4dxw2ryExGjPozjfHTTxXmCESf3nFAaFKoyObMsNOWlZsL/+X+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VD2qZaCy; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759469793; c=relaxed/simple;
+	bh=a8KKfmO7Q1+fCiH5/Q5b5jERee1SMGRdbVJvu3pT/CM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LizQXEAxEkp1Ul2PtZiiPzjdMfp0Pssni7P7o/Cuw95NH8ZfDlderSdWQQ/l7/D/vUqQRzyvfDUKA7Oz4KwhuwyjRPWGE4KfHLPE46f+BR0weyfy0DucIha8mEbcyb21Jl/EpHSSqhS3WRBLjuWqLQN2mn9esiBzesbl7UbPCqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DJJvW5PE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VD2qZaCy"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-26816246a0aso2352725ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 02 Oct 2025 22:29:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759469364; x=1760074164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FAecbVfIu/2KfpMJLz5+NVIRF8lakTzCsR7c7STt1QQ=;
-        b=VD2qZaCybeyXJ8ePUVp1n9P2sreyZi4YH+7DUdUxVdU9luMeTDXpTRFuYXdQgNMQu7
-         SJ5k6c9WGDqy6Il0GXo8oHm760Fg6ZGUbdT8cZcAEq89Q5LSSd9Cx6KJnLTZpTzZ9H1J
-         XS9J68b4C02daCEPTe/buGoPCG+pSUyn8aytbjzPWUpWifaHKGPrLg/zpN1IF5a74MrU
-         BBUgzSHbF4l/qrXuwiMt27/oibu3rTGMupzHWfonFbbtvPEAF7ZUqzfvauCbQEAC0vfp
-         NQUSY8B8/bQcKpcz5bBgt+QL8WZ0yRnSfd6T7SzVFFZ8FjEfD3x4A5IO593T4hIUxykB
-         Lxnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759469364; x=1760074164;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FAecbVfIu/2KfpMJLz5+NVIRF8lakTzCsR7c7STt1QQ=;
-        b=ei0XmGxNR9TBRqwdu/LqfnJKfTDQ2Shc610ba5WWbVxwxIYqX9wy+DS0DQUOSx6euY
-         cm8mCUT245eJitFFIdY54KWwIwC4+RgH2e4fv+i/7v/txlxqbCFZpkSqwe84VwA956Jb
-         MhxhHI5HVCKWJQNnXOyewtb2YWixQ94UAHcGeTDQnpQhKhEwNINLIScPfb/wPWrdY74U
-         XjA9GfKjhWtNIX66lD2EAtppPGRokFOkT2UHgNS7ItolAk4OlnT+jgk5BQtYB8WtcBQG
-         wZm6yam/9IWZMd2bJjsnAdL6IgtSFfgRVv2YS0iES6yhHT7ySz5URkAQVCbfHE0Qrb4K
-         17Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLNE1v2RYIlErdMRSxL6YnsMjodv4TYbmwzsDeeIyfgYknHYbaCyd6D1YBiF4Mc/hcEHBQ4W4DqyI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPATql258xnJudcjrDQcLuMuJR6FZayFZQbpoEGc3yYFQcuuRG
-	4L9G8kaa6nVaSJEu2CBFeugQHjzGIHx2y1acIcVGs2Bk86JulJ6maR/X
-X-Gm-Gg: ASbGnct6tuCbxd7mhWHblz/S1SDKmixTFhs0AgkYncQMMI5MQhCeaYUXupGnPQqo/qF
-	+ing2w/Zpw31h/6bxYZ2EYeQqyBxQNDoa8jQdIiGlHVSmDOY9xhd6Z/3dEA3ZTAhcHKunM5h9GC
-	7338qdpJ/JNjUSWwim8xfI19dS65Ty/lewWGv4w+E6O0ofCCyoSvpHmyhAIRFvA9vcF6XVEOmSS
-	kDZIliMuKuYC3xQlVsMW9+wMwF3pRrjZVm5Kfey5LPxlqt1Isxl80FuypcgZyi0VjoZ2ui9tynb
-	5RdUATuZMSynhqlhvEAP1d98TIlkm7kJZB00VMYjChJ2WqctFAYBgIIt1cWeDrx7gQAsfJ1+YfB
-	O+voy9aH9XUjfQ0Jrjtc9Qkz6SUsZdTp/ZT86H1Hqc8A=
-X-Google-Smtp-Source: AGHT+IEsmDDtxcH34zrU6yCLvoUnpVNeQpXjkmSiB1AE5fWsJSBu1loqYdfz+O0NGkUT3RQ1Vtyeiw==
-X-Received: by 2002:a17:902:c403:b0:27e:f02a:b280 with SMTP id d9443c01a7336-28e9a65bd1cmr12557885ad.5.1759469363957;
-        Thu, 02 Oct 2025 22:29:23 -0700 (PDT)
-Received: from localhost ([104.249.174.141])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1108b8sm37676925ad.26.2025.10.02.22.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 22:29:23 -0700 (PDT)
-From: Ben Guo <benx.guo@gmail.com>
-To: seakeel@gmail.com
-Cc: a.hindborg@kernel.org,
-	alex.gaynor@gmail.com,
-	alexs@kernel.org,
-	aliceryhl@google.com,
-	benx.guo@gmail.com,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	corbet@lwn.net,
-	dakr@kernel.org,
-	dzm91@hust.edu.cn,
-	gary@garyguo.net,
-	hust-os-kernel-patches@googlegroups.com,
-	justinstitt@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	lossin@kernel.org,
-	morbo@google.com,
-	nathan@kernel.org,
-	nick.desaulniers+lkml@gmail.com,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	si.yanteng@linux.dev,
-	tmgross@umich.edu
-Subject: Re: [PATCH] docs/zh_CN: Add translation of rust/testing.rst
-Date: Fri,  3 Oct 2025 05:18:49 +0000
-Message-ID: <20251003052826.454550-1-benx.guo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAJy-Am=pC07CAWgRSTJ6WLaBdYeg8LQbVDCJp4PYoHaikFJ4Bw@mail.gmail.com>
-References: <CAJy-Am=pC07CAWgRSTJ6WLaBdYeg8LQbVDCJp4PYoHaikFJ4Bw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DJJvW5PE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8220940B15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1759469781; bh=JviM4x86VTg42/9SFICWditZ8FIZ0/vFiF+DDrtEZ08=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DJJvW5PEMB1qs5Mtek/16g/JnmPt9CmJjE7Uu3yDxuMEd8dQGsOFFsNLXsMYe/EdC
+	 iqEOpfl74zoy2btKntuyskCwXHqb1QziA6gqsLHxEos6514SBiNUgTVTh6gAssbIFt
+	 mX0BfVGqYx99AlSQq50SEso4ByHi4Wl2mDMA1817AOvP7lbGnzuly4lQeWJfoyqsoJ
+	 fHAPdXQvq24AdjQRv5e/AHScCdcLFYjnzQVUHebL1fqlqYQpg1LU1Hw/wr1mqYSMiH
+	 4CDJUKP9Sf0cYHlz89pRZA5pRuDslmiTfDPZXkFMif3dyV2LD6r3xNxo4MP4lnuwWu
+	 2OkTVnFdIVO3g==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8220940B15;
+	Fri,  3 Oct 2025 05:36:19 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+ petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+ paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name,
+ okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
+ ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
+ wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
+ dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+ yuzhao@google.com, baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+In-Reply-To: <20251002081247.51255-29-byungchul@sk.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+Date: Thu, 02 Oct 2025 23:36:16 -0600
+Message-ID: <87ldlssg1b.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, 2 Oct 2025 21:33:59 +0800, Alex Shi <seakeel@gmail.com> wrote:
-> I can't apply it after your previous rust patch. Could you rebase this
-> patch on my tree?
-> https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/
+Byungchul Park <byungchul@sk.com> writes:
 
-> Thanks
+> This document describes the concept and APIs of dept.
+>
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  Documentation/dependency/dept.txt     | 735 ++++++++++++++++++++++++++
+>  Documentation/dependency/dept_api.txt | 117 ++++
+>  2 files changed, 852 insertions(+)
+>  create mode 100644 Documentation/dependency/dept.txt
+>  create mode 100644 Documentation/dependency/dept_api.txt
 
-Thanks for the feedback.
-I will rebase the patch on your tree and resend as v2.
+As already suggested, this should be in RST; you're already 95% of the
+way there.  Also, please put it under Documentation/dev-tools; we don't
+need another top-level directory for this.
 
 Thanks,
-Ben Guo
+
+jon
