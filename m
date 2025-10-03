@@ -1,93 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72E6257853;
-	Fri,  3 Oct 2025 20:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFCB253B40;
+	Fri,  3 Oct 2025 20:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759523939; cv=none; b=LNVKgKr2zjjmY6Czowmv13hSJUcVq8bCl1lAnIUXxTlBiwek9lrgsV2lf1alZCYX2hyecRFNwPHTqyEQiA134elWXM+THBCbBGXiPAUVud0PdLwgde0uD3zf3kYqn9mLEvq4oWPiwPUrmcaCkZhQbxzcV88r8b41qmHBaToHQA4=
+	t=1759524666; cv=none; b=ihjNQWrNKjhHS2PEqT+nJXA+18HL67c64WfueG1/r7SxXCWW/cwPpHc3uleIlse8/vVAfXgK+CvvG5C8f+fsaOzqvcKCH4if/1OktBpzW89+/rq5MOtC9RfkqBQKupbwWhiZJYXEGDg8he1tZhnrzxQE4RuoNXvBjayVEdZGt7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759523939; c=relaxed/simple;
-	bh=ZzB74e8fLVOerMDvAZBDXxkrkPTdnq0MummdffmxbJQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G0A7aAjL6WbpbIrbPkxphpFMJC2J0GTz2stiZMHh/PXqdDKQm7UgpMm+36ct6AvJzom5A0IcnaCxZYEikzi3If3ldJy9HeNhKaTn7X2SWJhn6oGbV+UR3X3phd/9Ni/vq+OesgyFMFfcgxiDBEMxGxvwYAif7+f1fB4OqQvJ+Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4+iEoqp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759524666; c=relaxed/simple;
+	bh=bZr+Lvkb5M6Ufx0akrIYv+VR8dkYeZRAOvoeF3RPvsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ArnWUhXLUdvRaJOD1J2q2n6uL+3EDuWDBk3lcB4ZdorhZv5xvImhhD+vK1Cr7o60sGAv9gqlIHwuHWKOchkNqVDUHY+ZhddyGtxZZgraHq0kMrEUYFb9JDr5SP2o5JIEN+B1cRLV4FCNiysNQYEoZKz6XrwC5NAr3TzsuKoO0q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Lrx+Opa8; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4+iEoqp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4037FC4CEF5;
-	Fri,  3 Oct 2025 20:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759523938;
-	bh=ZzB74e8fLVOerMDvAZBDXxkrkPTdnq0MummdffmxbJQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M4+iEoqpATZKahzganyMTsVKl1kJ/wiQ8Px8RLzYdqh37tRpnjf8uOl3qaMEL7pXh
-	 x6Omcw0vWP61pTvKgdbVG4UQgRqnNy63jcSGLu95EnAnANKV/y3oezHWVN0XVtlnDn
-	 vsni74areUTyOWzbC4zHIDP0PSdxtqmpx45wohX2Hq3tW5fknR4t0/snPQ1jgktqKs
-	 kFbhSneQRpzrwMXrOqys6faN4d65Ai/1HsxjyGMC7Qjc30QeOzNT2U/IxEK7PYpRK1
-	 hWiAPQk+/4yVV/43rRDfVYP5fmu9cbh5rI8HJSeyg0i48Z+MVm/jABJDTBkU9IMMKx
-	 5OPN0qtXCQ7ZA==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 4/4] Docs/admin-guide/mm/zswap: s/red-black tree/xarray/
-Date: Fri,  3 Oct 2025 13:38:51 -0700
-Message-Id: <20251003203851.43128-5-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251003203851.43128-1-sj@kernel.org>
-References: <20251003203851.43128-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Lrx+Opa8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=oIs3ppVLk6gw/qZXypZLZcOfa+yCn//X21VZFkDaLYU=; b=Lrx+Opa8kAlfEXuyu8nZrskDYS
+	RMEVW1K3EtHWtp/TNPMDl4+TZidS8rII6LOpnPv0qEvXnZn1PtaWNoVRLLHkzUnhbCR3Tfh1MpEHf
+	ZkZd/NEu3t0eSIf0IaCZTwNSp4G961ZaVD/mJjLljb3ViiQ31g8H8jJABJOEx687ZtuOQgxZ+AsqI
+	LmC9fUttLZOzjyJF2FAdnCTKBCeWjOa6Rmq3x9FU9+hZojGWXCUyKadvy1un7W8qu/DrpcU76pUyT
+	OX6o9m0+7SucZJP87UviQ0UOsMWHeilEIIYasmiArPjulk9Jci/3QFC7WnJj9QL3uPYwy+SzCuC2Q
+	D0kAwH9A==;
+Received: from [50.53.25.54] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v4mjl-0000000D7bQ-0Z25;
+	Fri, 03 Oct 2025 20:50:45 +0000
+Message-ID: <3913273d-12e2-426f-aec7-263b7f49008a@infradead.org>
+Date: Fri, 3 Oct 2025 13:50:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 23/23] MAINTAINERS: add entry for KStackWatch
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+ <20250930024402.1043776-24-wangjinchao600@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250930024402.1043776-24-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The change from commit 796c2c23e14e ("zswap: replace RB tree with
-xarray") is not reflected on the document.  Update the document.
+Hi,
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/zswap.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On 9/29/25 7:43 PM, Jinchao Wang wrote:
+> Add a maintainer entry for Kernel Stack Watch.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 520fb4e379a3..3d4811ff3631 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13362,6 +13362,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
+>  F:	Documentation/dev-tools/kselftest*
+>  F:	tools/testing/selftests/
+>  
+> +KERNEL STACK WATCH
+> +M:	Jinchao Wang <wangjinchao600@gmail.com>
+> +S:	Maintained
+> +F:	Documentation/dev-tools/kstackwatch.rst
+> +F:	include/linux/kstackwatch_types.h
+> +F:	mm/kstackwatch/
+> +F:	tools/kstackwatch/
+> +
 
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index 283d77217c6f..2464425c783d 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -59,11 +59,11 @@ returned by the allocation routine and that handle must be mapped before being
- accessed.  The compressed memory pool grows on demand and shrinks as compressed
- pages are freed.  The pool is not preallocated.
- 
--When a swap page is passed from swapout to zswap, zswap maintains a mapping
--of the swap entry, a combination of the swap type and swap offset, to the
--zsmalloc handle that references that compressed swap page.  This mapping is
--achieved with a red-black tree per swap type.  The swap offset is the search
--key for the tree nodes.
-+When a swap page is passed from swapout to zswap, zswap maintains a mapping of
-+the swap entry, a combination of the swap type and swap offset, to the zsmalloc
-+handle that references that compressed swap page.  This mapping is achieved
-+with an xarray per swap type.  The swap offset is the search key for the xarray
-+nodes.
- 
- During a page fault on a PTE that is a swap entry, the swapin code calls the
- zswap load function to decompress the page into the page allocated by the page
+Add entries in alphabetical order, please.
+
+>  KERNEL SMB3 SERVER (KSMBD)
+>  M:	Namjae Jeon <linkinjeon@kernel.org>
+>  M:	Namjae Jeon <linkinjeon@samba.org>
+
 -- 
-2.39.5
+~Randy
+
