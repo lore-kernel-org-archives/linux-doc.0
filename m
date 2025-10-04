@@ -1,210 +1,115 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4421634BA46
-	for <linux-doc@vger.kernel.org>; Sat,  4 Oct 2025 04:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321D5248891;
+	Sat,  4 Oct 2025 08:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759552412; cv=none; b=AsvvxJ4REjFkA4OYd3ctGjBLMBgke73KDlDGI3u5wAZ65oaES9NNLAeWHwtP9PUZiAiABCmjY16LUbVx6abpAExr9/CO+uyFOW02zQ7zGHcyujZ41d/FOe/QEWjk6hpvaEbMH2t4MYLbaJcMsUHJ4BDlBz/h2vjpISaJGrx1geM=
+	t=1759565398; cv=none; b=BfCE7EXPdjgIhExenSNo2r5ZSn5jRqgJrXWk++3DQ4tqM6jvfp4arz8VHv+AeMCQ0KL27cRyeAK+r0rkbLnNI7ezL5qGFlHE2j9XFbP5BciHzeZ3HfIbF0SuAjH6bihaMunDsq9nAFdcOuXBUAdgvceUDLE9OQKHUzWv9u4prZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759552412; c=relaxed/simple;
-	bh=Df+P6JYS2QqpJ3w//ROe66heiGBWOhpaPg4cAlSuCkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L47uEyHEaXUCHMJhv4FWOzAm7fKWYNWO6KtebZu3syny9f2X8D4wXgvN1IQ5btZbLV2162n+7qKb1dNHmNL8jgQBhjdz7G5MmlicAtN5diMUT/VFxJV5ySKJTrkTJy4iiaNUILKUTClKrTWgxBou6ok/1cWMosaQ+a70tBQU8tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bmrPIK4R; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759565398; c=relaxed/simple;
+	bh=B96OmDeOmMDIhrgUpXpMInr1UGo5k+vzJaFEQqQ3TuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApDrLB4gv1N350LXOvs8VbhAMkPfl8adp+IKobp2CNJZXb5BU6NR49lMWIjoWe6e9bN36sUl0lkc0mFOl7T5QFsHCyD5QWJfqjrCTCXQvO9SlPT+NKnf7duJBvTTx9/aUeNfCQnMdHKfTUBeXjkKSSoTD8nqik4ArpgNOxMxN7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZFcicLqa; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bmrPIK4R"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7811a02316bso2187217b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 21:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759552410; x=1760157210; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zrHxtAEC7jf6mOF6GS8lZ4qi3Xoaj0BUwdJ6rxR1K5s=;
-        b=bmrPIK4Rpu2o/388fEhkR4D56naUldi7dmY4e7LZEKsnKWJIUIZKesgz9+9bTVoRoB
-         sUsSaak0FbPaY/PH0l8HcBY0Pzkyze08N3vt4BWuNQ+wpQnSQf4FsZ/5Pc5Ak0PWSLTc
-         dk8ebBN5vWZt8K67nYusNcU9lUDCsbKjM8aX68BlBA8KTRSE1mvM9K9s+8deT9tJOAXA
-         gL5dOJWv+0tqbGXEbqOkcWgQDHukM9ykFAXAyPVzA53uZ2UfjEkEU1J8cm4g6bk17pVg
-         wYNYPi0Ly1pYEaaG9Ld2TgfI7P3+QhpGKs4tanPZ1DshspqSLr3cYWAiF9gz65cEkNiZ
-         EglA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759552410; x=1760157210;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zrHxtAEC7jf6mOF6GS8lZ4qi3Xoaj0BUwdJ6rxR1K5s=;
-        b=O7zqnMPSAu/MSsZXhx8xHD59eWqYQRO8JfwcN1a2puZJqQshUNKPWjOCaiafzinvJr
-         PwpokXUCo6MCG2etRm1fGAQc4+PvSqprpfZ6duvDJzpIvMgEi5ai9h+J9vuESShSB1yH
-         JjS9sECOxtFAMNuQ1DHy5RXboWqSMvCVvqlBSPXaraax/RYibksFXxGSF5gfK7a+P812
-         xKddC2E//qcD3GJSpP4BuBPbJXplWfCwFIIq7tifMoksES7kWwkxUj9wJc1yfb+BtQVM
-         k1eh20+JzqieH21TM3vsGnmIaAMuAFeVEEQOrLdKcho3BPwAgpfnXNE1Crkd5wDz7LzY
-         Ia8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVuE69PmBVlkK+rQrJ+fmfI3MHJz+N1JSfA0D9W+GmIAD6934OkqRCY1ADwBydSJKdIEdy2oTjtRvw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK2noLOuQbsJoDM+CphzLcmZ8SNvI4u2Lz9aGl80V15InffKq1
-	Td2u4a/KCW3ggvrLv0V4TIHloPKhSEnQ+TN1EK05XjuzZkMTMJkJDt1IZ3OvsGdm
-X-Gm-Gg: ASbGncskoTcryaHwwJaW+XB9+GUdyXiEV7yFaNvcyL1Fi5r9tNXI6o0xMmpCz+/imPa
-	6JPaBgd8uvZBQXdfE8oB/GWSe9fYMWo2ZEo9xHBBopk9sUriSj9HxlHQFAqbBPDVmFF0I9++yQr
-	0kQ1tP9RLE2Vx1k/Tvh0smTbgeo+aNcFZJS7Cb3rcMpILNoCHNQs4SSuzZ9pM3RKuYQzVeinaw7
-	hCAKRJ4vU5IVd4BN9FeOsuUefbYrnY3OiW/0iFKxf9s6LRz2mR4gCtacvs2ASdk+pCLY9/UNHhj
-	b4n/lXK/SfTgnBmC/mMsAkNmC/vn9N508XtRA3fLmupvldTJ3oyz0V8RMyHg9dYQg0X1yB02xSE
-	0/8iD9ltZfnp2eHJGvshL6lLiNYawg5u/1SS+lD40cnSDwnRSLNjJf8C9Okuyxwv0ph4VnHQ=
-X-Google-Smtp-Source: AGHT+IGNRTvBKcRxRWDiko/GbUAC7KjssTgPw+LYSnL0AkNM1865qmWf8lHSyAxiS9XfPYucFzzf3w==
-X-Received: by 2002:a05:6a20:7291:b0:251:a106:d96c with SMTP id adf61e73a8af0-32b61dff63fmr7315477637.10.1759552410455;
-        Fri, 03 Oct 2025 21:33:30 -0700 (PDT)
-Received: from [10.0.2.15] ([157.50.90.152])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099add13esm6086455a12.8.2025.10.03.21.33.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Oct 2025 21:33:30 -0700 (PDT)
-Message-ID: <a87756f6-b578-421e-b04b-b1dd15f3a2f1@gmail.com>
-Date: Sat, 4 Oct 2025 10:03:22 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFcicLqa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759565398; x=1791101398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B96OmDeOmMDIhrgUpXpMInr1UGo5k+vzJaFEQqQ3TuI=;
+  b=ZFcicLqacAe25Ethvk3AihypAEefx0TbudE5Gh/Qp1E0EpGy9DtPJGTZ
+   bTdDwQdJ4hybKxcfCzAhWIMAsBmPXfqr8MvubxMhv+3iTIFWoVZniNlrb
+   F8Vn2UJG8JLA3rPyDIMw04CG5y4M+/aPTjIjrLwz+1mf6u+skJW4CO2TD
+   Sd152y4y5t6Qn+2AlyWmpuxN3SRRtGod1i5aVVZIVGyfqud+pwC8RbzJY
+   XXKbmVXU4OBYPJBFmUKQpUHEjx0NTQG/Pntacsyooq9IqjkMaNEl/A9vN
+   qhQz4Htn0aQo7ETbsxlRNM6HtxQb4uF0tVpzFvg6BRV95vclZ9pS2WiA/
+   A==;
+X-CSE-ConnectionGUID: 4ViLsB/yRcur2WH4vrjLFw==
+X-CSE-MsgGUID: fJGs9i+kTKOBxK4IAdFJcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61749223"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61749223"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 01:09:57 -0700
+X-CSE-ConnectionGUID: fL8QGjcqTXm1u6X0ZSdpdw==
+X-CSE-MsgGUID: 5v6lvpaFSeeHqo6qgEPQVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
+   d="scan'208";a="183855351"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2025 01:09:51 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4xKu-00059b-1f;
+	Sat, 04 Oct 2025 08:09:48 +0000
+Date: Sat, 4 Oct 2025 16:09:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roman Kisel <romank@linux.microsoft.com>, arnd@arndb.de, bp@alien8.de,
+	corbet@lwn.net, dave.hansen@linux.intel.com, decui@microsoft.com,
+	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
+	mikelley@microsoft.com, mingo@redhat.com, tglx@linutronix.de,
+	Tianyu.Lan@microsoft.com, wei.liu@kernel.org, x86@kernel.org,
+	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	benhill@microsoft.com, bperkins@microsoft.com,
+	sunilmut@microsoft.com, romank@linux.microsoft.com
+Subject: Re: [PATCH hyperv-next v6 05/17] arch/x86: mshyperv: Trap on access
+ for some synthetic MSRs
+Message-ID: <202510041544.zPic8ogA-lkp@intel.com>
+References: <20251003222710.6257-6-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: doc: Fix typos
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, linux-bcachefs@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-References: <DrG_H24-pk-ha8vkOEHoZYVXyMFA60c_g4l7cZX4Z7lnKQIM4FjdI_qS-UIpFxa-t7T_JDAOSqKjew7M0wmYYw==@protonmail.internalid>
- <20251001083931.44528-1-bhanuseshukumar@gmail.com>
- <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Language: en-US
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-In-Reply-To: <kp4tzf7hvtorldoktxelrvway6w4v4idmu5q3egeaacs7eg2tz@dovkk323ir3b>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251003222710.6257-6-romank@linux.microsoft.com>
 
-On 01/10/25 17:32, Carlos Maiolino wrote:
-> On Wed, Oct 01, 2025 at 02:09:31PM +0530, Bhanu Seshu Kumar Valluri wrote:
->> Fix typos in doc comments
->>
->> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-> 
-> Perhaps would be better to split this into subsystem-specific patches?
-> 
-> This probably needs to be re-sent anyway as bcachefs was removed from
-> mainline.
-> 
-> 
->> ---
->>  Note: No change in functionality intended.
->>
->>  Documentation/filesystems/bcachefs/future/idle_work.rst  | 6 +++---
->>  Documentation/filesystems/xfs/xfs-online-fsck-design.rst | 2 +-
->>  fs/netfs/buffered_read.c                                 | 2 +-
->>  fs/xfs/xfs_linux.h                                       | 2 +-
->>  include/linux/fs.h                                       | 4 ++--
->>  5 files changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
->> index 59a332509dcd..f1202113dde0 100644
->> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
->> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
->> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
->>  background work while the system should be idle.
->>
->>  The complicating factor is that there are a number of background tasks, which
->> -form a heirarchy (or a digraph, depending on how you divide it up) - one
->> +form a hierarchy (or a digraph, depending on how you divide it up) - one
->>  background task may generate work for another.
->>
->> -Thus proper idle detection needs to model this heirarchy.
->> +Thus proper idle detection needs to model this hierarchy.
->>
->>  - Foreground writes
->>  - Page cache writeback
->> @@ -51,7 +51,7 @@ IDLE REGIME
->>  When the system becomes idle, we should start flushing our pending work
->>  quicker so the system can go to sleep.
->>
->> -Note that the definition of "idle" depends on where in the heirarchy a task
->> +Note that the definition of "idle" depends on where in the hierarchy a task
->>  is - a task should start flushing work more quickly when the task above it has
->>  stopped generating new work.
->>
->> diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> index e231d127cd40..e872d480691b 100644
->> --- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
->> @@ -4179,7 +4179,7 @@ When the exchange is initiated, the sequence of operations is as follows:
->>     This will be discussed in more detail in subsequent sections.
->>
->>  If the filesystem goes down in the middle of an operation, log recovery will
->> -find the most recent unfinished maping exchange log intent item and restart
->> +find the most recent unfinished mapping exchange log intent item and restart
->>  from there.
->>  This is how atomic file mapping exchanges guarantees that an outside observer
->>  will either see the old broken structure or the new one, and never a mismash of
->> diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
->> index 37ab6f28b5ad..c81be6390309 100644
->> --- a/fs/netfs/buffered_read.c
->> +++ b/fs/netfs/buffered_read.c
->> @@ -329,7 +329,7 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq,
->>   * the netfs if not.  Space beyond the EOF is zero-filled.  Multiple I/O
->>   * requests from different sources will get munged together.  If necessary, the
->>   * readahead window can be expanded in either direction to a more convenient
->> - * alighment for RPC efficiency or to make storage in the cache feasible.
->> + * alignment for RPC efficiency or to make storage in the cache feasible.
->>   *
->>   * The calling netfs must initialise a netfs context contiguous to the vfs
->>   * inode before calling this.
->> diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
->> index 9a2221b4aa21..fdf3cd8c4d19 100644
->> --- a/fs/xfs/xfs_linux.h
->> +++ b/fs/xfs/xfs_linux.h
->> @@ -145,7 +145,7 @@ static inline void delay(long ticks)
->>  /*
->>   * XFS wrapper structure for sysfs support. It depends on external data
->>   * structures and is embedded in various internal data structures to implement
->> - * the XFS sysfs object heirarchy. Define it here for broad access throughout
->> + * the XFS sysfs object hierarchy. Define it here for broad access throughout
->>   * the codebase.
->>   */
->>  struct xfs_kobj {
->> diff --git a/include/linux/fs.h b/include/linux/fs.h
->> index 601d036a6c78..72e82a4a0bbc 100644
->> --- a/include/linux/fs.h
->> +++ b/include/linux/fs.h
->> @@ -1040,7 +1040,7 @@ struct fown_struct {
->>   * struct file_ra_state - Track a file's readahead state.
->>   * @start: Where the most recent readahead started.
->>   * @size: Number of pages read in the most recent readahead.
->> - * @async_size: Numer of pages that were/are not needed immediately
->> + * @async_size: Number of pages that were/are not needed immediately
->>   *      and so were/are genuinely "ahead".  Start next readahead when
->>   *      the first of these pages is accessed.
->>   * @ra_pages: Maximum size of a readahead request, copied from the bdi.
->> @@ -3149,7 +3149,7 @@ static inline void kiocb_start_write(struct kiocb *iocb)
->>
->>  /**
->>   * kiocb_end_write - drop write access to a superblock after async file io
->> - * @iocb: the io context we sumbitted the write with
->> + * @iocb: the io context we submitted the write with
->>   *
->>   * Should be matched with a call to kiocb_start_write().
->>   */
->> --
->> 2.34.1
->>
-Hi,
+Hi Roman,
 
-Thanks for pointing out the fact that the bcachefs is now externally maintained.
+kernel test robot noticed the following build warnings:
 
-I will exclude it in my future versions and will split the patch in to subsystem specific.
+[auto build test WARNING on b595edcb24727e7f93e7962c3f6f971cc16dd29e]
 
-Regards,
-Bhanu Seshu Kumar Valluri
+url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20251004-063158
+base:   b595edcb24727e7f93e7962c3f6f971cc16dd29e
+patch link:    https://lore.kernel.org/r/20251003222710.6257-6-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v6 05/17] arch/x86: mshyperv: Trap on access for some synthetic MSRs
+config: i386-buildonly-randconfig-003-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041544.zPic8ogA-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041544.zPic8ogA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041544.zPic8ogA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kernel/cpu/mshyperv.c:46:13: warning: unused variable 'hv_para_sint_proxy' [-Wunused-variable]
+      46 | static bool hv_para_sint_proxy;
+         |             ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/hv_para_sint_proxy +46 arch/x86/kernel/cpu/mshyperv.c
+
+    41	
+    42	/*
+    43	 * When running with the paravisor, controls proxying the synthetic interrupts
+    44	 * from the host
+    45	 */
+  > 46	static bool hv_para_sint_proxy;
+    47	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
