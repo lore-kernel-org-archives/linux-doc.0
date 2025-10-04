@@ -1,59 +1,59 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F6227B35D
-	for <linux-doc@vger.kernel.org>; Sat,  4 Oct 2025 02:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9A618EB0
+	for <linux-doc@vger.kernel.org>; Sat,  4 Oct 2025 02:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759543688; cv=none; b=Y7NA6fSYgDnInfALc11ge3cIovANQiz4XBCmrrNklih4OioWvtKCAEOQ2NwSjneVAfAE5v84K4ZpPm3EfsbFCG/DDsG3BNwTuupLvu1qQjbXOrgo09Jaz0kFipHNt/PncHq6HoqYeq+7OOXF+PBGzL8mI9b/tHPuvL2EYZW7XRk=
+	t=1759543729; cv=none; b=JPqEiMmninjl6bXGw1FIgguOV8nZYC1rNaNjaOi1x4+HYhAYJ6zOIVCdoeXBZPemat/lGjpALh6QqoBhAQEieU7IHCUawxdGtilgYtj5UWM1CUnB2c+Tl+vEOPVEryYDfFF2i3xbyHyedON1xf/qHpL/GDzqMlfxi/0iaRlB2Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759543688; c=relaxed/simple;
-	bh=9GkZ2ovBhlrelu07cpIypphZYtifcDUvN/jmG88PUQ8=;
+	s=arc-20240116; t=1759543729; c=relaxed/simple;
+	bh=Nob5kKRkv8Qml7C9lk2znkph3asIUJ+dkyoMrrTUiew=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UQ/q6Pecdz5bDUfAEdVnLtKZsld4dDIXhZcjhJtH30Bf4BBJeC4LP0d4X6T6V0nI442MSEs2674yHY1fIfMT5xQ0bIirWv4VC84cOdom5Fn0KVnNCHH4ExQWYXaBb3vFKYyPrFkkCF6okeofKDM0lHC8bCWOqrwUtcAvh+wCkp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ERaRtHRm; arc=none smtp.client-ip=209.85.160.179
+	 To:Cc:Content-Type; b=ghsRp6BELcWExnFck7qGpjafbSnAPXVoEGFNh8cevBqPVRDZ8URwfus3F9W3ToXGXw/JcJGZelhgALSl3t/gu/GQQ2ernyz4S4C3hLpvvuvp6DENtUbkIPf6o4ODwJQC8NXUCUY5qIF/mcPmM7zryL1I7+e6FL0N1l2WnVnQBfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UVBohL8c; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ERaRtHRm"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4dfbab4fb0dso36369321cf.3
-        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 19:08:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UVBohL8c"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4df2911ac5aso17758921cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Oct 2025 19:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759543684; x=1760148484; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1759543725; x=1760148525; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EUzxeZbPvk/JfjYehvQ9soJfDbesrcMGvdBByvWxU1A=;
-        b=ERaRtHRmELC6MLzov4Q5lUCizzsGcbNoDiUj6nu3VrTw4cunvIvR7UlAgFaHBn9tYP
-         sdx1gvDlic91ZNXnpfLgLN6ZH5y6k9WZOZgRLD/2W28h61VH9LfU54oKMGBI43Cu3ttw
-         asAnetsAWcmmDibxQyDRArTsZmB9HPs1r9F7/ZLM1cfvKueLkbi2StD2u1tVqc7RSVX8
-         x8zOhDuxZxHVCVJFH5HrwjY/7HdxJ9EVT0ywY8ul7q9Hg1j4rzeCj6MmalmINsBT06NL
-         fVAIGx46FcceLSywRonlH4guKs0HDinYNDcWzh1uEE9qXBUjImUHXLn7M/fFQqD9so1S
-         rhsA==
+        bh=Nob5kKRkv8Qml7C9lk2znkph3asIUJ+dkyoMrrTUiew=;
+        b=UVBohL8cU+t8AHNXNBFMhP3Q1+ncT7/G64axJBW6tt6F87RkpDFR51Fn6SnQuXE1sW
+         zMlqgn85RiMJx+APlHTL8Mupunuf3Mto4vwrClsFZwF3iZu2ccU9dJ6JRlRyzPECC5DX
+         +M+8OuzvGRyJ3scu3u4q1CRCWAVaTDN/SL2ohwmfAUp/ZIDkfJWAqRidOCH6iJ3qUG71
+         R4MVttxjbYVr0YOEpK0kBQD+5W2+BJo49b+lmv91vUqvuVTBcXKwlv+u/1pgjruKvZsq
+         k9OApD4/bcxXXIN5TVARF+5M/3dM9Gfnj5jkiDnFxHRwZZQCkr6/X7O9MYejnitZ4oOt
+         D5Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759543684; x=1760148484;
+        d=1e100.net; s=20230601; t=1759543725; x=1760148525;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EUzxeZbPvk/JfjYehvQ9soJfDbesrcMGvdBByvWxU1A=;
-        b=mTEY59YBU02OXjPa9Vzm7OiTiu9LlnYEwfNYih9mOVhj4fgjFJrGih/KHIAGncVXLt
-         wNBgjECrDxuruQtOf97E+8Hzfh1s4xpOI0qab8BYbGDbxMMjvEBW0Bq7Jo1g2yFXB3BP
-         jlm2jf5lYpK8MJ2XJKKI1PbRkvAHh6zRRvDwDCVX23oQGjy1wswB6vaaTiqwtkW/mqbH
-         8wIXELSp13WLCKesI5wBUwF4vqrUx9rbeukW8ef7Ky8lzNgL3nM6x0UM74KVW/geX7lf
-         l7MwQ6sGAqno1t/Z7zOygARxuMiW50Y6DK8DSTZDsY4bkD5yyIMXK0eCgJTGyjkz1FFu
-         x+wA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFDLaLeBxal5QviVJZ04+NeiZPhJlmD2flgHVKpV7VVwy8BNTpdbjZ5rTRS2GqXNnl73ASry9oehE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6/GDMt0Jkv9znfTzOAWvQ7j6vgpguptA4yFvWX77sftd5WzP+
-	dUG2JfBLpu+ZV+ob76ti+/tV6G6mKFbFhkMcakd071gHJRT+Jqed4Ts5Zo/xXzz1uUS7J25ON/S
-	MOj6bNH3xjasYPmMy+y45ihqA/ejAZuUjSrk0t1KNSw==
-X-Gm-Gg: ASbGncsc5rFr/XsKsAXQdYwG26xlo94HvF88QmNIU53CoGuhk4n+q/jgHRVEsrXFxOH
-	ml6EPC8eL+Lbs8EX8ttU6IMbqokuiY7UjerOEd9hfo28SE9B6pdgyiGXAEZSYogJ51f3c0bCq3N
-	VPlzz+YjjoAIUolq+dmrfsNbwAM54oI6YeXBKkt1HPKKl010zOXIy0mBlCy1w+Sfvgjwv/PmaRG
-	mig8EAx7Yku40Y+zcL9EyWp61I8
-X-Google-Smtp-Source: AGHT+IFAx1beBR5GfbaocbXfkSDXQDNMN60sJRbMybIKRDn++zqfipiOogFVh7nBoj/mLbN0/PW9BivaXIC2sgg2LhQ=
-X-Received: by 2002:a05:622a:728d:b0:4dd:7572:216f with SMTP id
- d75a77b69052e-4e57e29e758mr31789071cf.32.1759543684209; Fri, 03 Oct 2025
- 19:08:04 -0700 (PDT)
+        bh=Nob5kKRkv8Qml7C9lk2znkph3asIUJ+dkyoMrrTUiew=;
+        b=ULjvxs/Nt7ZpgTQS+R7pDtgCDts2OCqv0BEcinc37xTnOV4uvjUmgSGRADoVFZXS+q
+         S6iEagxypSJyc2pIXt7RINti7vprLMKBkWuKssVWol4pQUBaVnLTt8OCq0wBxb1OGsrh
+         7JMulYtTBnzF2VN/9JXWSsqNApoeH9doppUxF7pE6oHijDYDZiuKpFNpc1vaaFMHA4MW
+         YtbmKRAWnNVWYaz+CzMNTH2tGSI8UZR/idE9DyQf6GWDDXMoKXcK+bcxw6QsyffUEOcF
+         5/mObDNJBmhEuxfwaRmD1xFHOkp7GWNMYJF85A0YwmJVkdV0rFRYJvP2pWdgYJAFmusK
+         qi+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUhVI3Qk5Tt1bCEAMO5I5rqmme42dvsvRbYh6OK/2qQCvHsBLxTwu8O7M2I/F3BVz6LrIcOMCvif68=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAUCfDsuaoFJfMrzRRP3jUQZk6/DUZ5+l57vccPkK73HnAQf7S
+	6CVNB7fU4nfxRjIEZ9gCeu3cZhfO3F96kaUn0CNfeyeVwQPn4IPl2J5qPF+JB7iYhlsfUbWD0WJ
+	ZvpJgd99MwgJm3mVPffHesqFhlZqmKdOCkZ9d3bvhqw==
+X-Gm-Gg: ASbGncusVQ/hoU0ex0oOQ3lNlgKZfHSDT5/F+t97swnBmHmbjecA5P0A/33Rx5gRfNg
+	xvBDs/qxsSvfpi9QtHEIj327uQp55sb/J/vVJFHTlSZKEt3ti0ZnI9IvyZaJTXMDcXiVQFs3coO
+	rcZ9vodaV7q/d9nVL1OnDOQVevhEjt/M0BwRW3k/UnrRddxG3/WocBGFhzIcJ2DjRLNyvRUlhs2
+	voOB0SVmbmDcgoWVEKTgIaG9XCH
+X-Google-Smtp-Source: AGHT+IHbUzSApGmCRxnFWZElbyxsoU4/P0TZBLF0BzTvLsCV+miCnogbHJNniWq337bBkZeh/jjC8xT2gDd4cs+U3JI=
+X-Received: by 2002:a05:622a:5c98:b0:4d6:173a:8729 with SMTP id
+ d75a77b69052e-4e576a44213mr72478001cf.10.1759543725080; Fri, 03 Oct 2025
+ 19:08:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,14 +61,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-27-pasha.tatashin@soleen.com> <20251003225120.GA2035091.vipinsh@google.com>
-In-Reply-To: <20251003225120.GA2035091.vipinsh@google.com>
+ <20250929010321.3462457-19-pasha.tatashin@soleen.com> <20251003231712.GA2144931.vipinsh@google.com>
+In-Reply-To: <20251003231712.GA2144931.vipinsh@google.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 3 Oct 2025 22:07:27 -0400
-X-Gm-Features: AS18NWBWoPm9Z7b0vbgm_XuBKnUybemYL0aTisq9eF8wk73w7jPTSRsrgP_RACE
-Message-ID: <CA+CK2bBuO5YaL8MNqb5Xo_us600vTe2SF_yMNU-O9D2_RBoMag@mail.gmail.com>
-Subject: Re: [PATCH v4 26/30] selftests/liveupdate: Add multi-kexec session
- lifecycle test
+Date: Fri, 3 Oct 2025 22:08:08 -0400
+X-Gm-Features: AS18NWCqgXSjTPwyDSbb0KSJXp4c4gz9L9NTQCHF71G2zcSqEq0ghlLm9Q7hBiI
+Message-ID: <CA+CK2bD+gG41LA5=kfuWh=zsYm5L9Dq+M8Bhg9-2sn05YvNfaw@mail.gmail.com>
+Subject: Re: [PATCH v4 18/30] selftests/liveupdate: add subsystem/state tests
 To: Vipin Sharma <vipinsh@google.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
@@ -98,98 +97,29 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 3, 2025 at 6:51=E2=80=AFPM Vipin Sharma <vipinsh@google.com> wr=
+On Fri, Oct 3, 2025 at 7:17=E2=80=AFPM Vipin Sharma <vipinsh@google.com> wr=
 ote:
 >
-> On 2025-09-29 01:03:17, Pasha Tatashin wrote:
-> > diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/test=
-ing/selftests/liveupdate/.gitignore
-> > index af6e773cf98f..de7ca45d3892 100644
-> > --- a/tools/testing/selftests/liveupdate/.gitignore
-> > +++ b/tools/testing/selftests/liveupdate/.gitignore
-> > @@ -1 +1,2 @@
-> >  /liveupdate
-> > +/luo_multi_kexec
+> On 2025-09-29 01:03:09, Pasha Tatashin wrote:
+> > diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/=
+selftests/liveupdate/config
+> > new file mode 100644
+> > index 000000000000..382c85b89570
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/liveupdate/config
+> > @@ -0,0 +1,6 @@
+> > +CONFIG_KEXEC_FILE=3Dy
+> > +CONFIG_KEXEC_HANDOVER=3Dy
+> > +CONFIG_KEXEC_HANDOVER_DEBUG=3Dy
+> > +CONFIG_LIVEUPDATE=3Dy
+> > +CONFIG_LIVEUPDATE_SYSFS_API=3Dy
 >
-> In next patches new tests are not added to gitignore.
+> Where is this one?
 
-Will fix it, thanks.
+I removed the v4 SYSFS interface, and this line is a leftover, I will fix i=
+t.
 
->
-> > diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testin=
-g/selftests/liveupdate/Makefile
-> > index 2a573c36016e..1cbc816ed5c5 100644
-> > --- a/tools/testing/selftests/liveupdate/Makefile
-> > +++ b/tools/testing/selftests/liveupdate/Makefile
-> > @@ -1,7 +1,38 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +KHDR_INCLUDES ?=3D -I../../../usr/include
->
-> If make is run from the tools/testing/selftests/liveupdate directory, thi=
-s
-> will not work because it needs one more "..".
->
-> If this is built using selftest Makefile from root directory
->
->   make -C tools/testing/selftests TARGETS=3Dliveupdate
->
-> there will not be build errors because tools/testing/selftests/Makefile
-> defines KHDR_INCLUDES, so above definition will never happen.
->
-> >  CFLAGS +=3D -Wall -O2 -Wno-unused-function
-> >  CFLAGS +=3D $(KHDR_INCLUDES)
-> > +LDFLAGS +=3D -static
->
-> Why static? Can't we let user pass extra flags if they prefer static
-
-Because these tests are executed in a VM and not on the host, static
-makes sense to be able to run in a different environment.
-
-> > +
-> > +# --- Test Configuration (Edit this section when adding new tests) ---
-> > +LUO_SHARED_SRCS :=3D luo_test_utils.c
-> > +LUO_SHARED_HDRS +=3D luo_test_utils.h
-> > +
-> > +LUO_MANUAL_TESTS +=3D luo_multi_kexec
-> > +
-> > +TEST_FILES +=3D do_kexec.sh
-> >
-> >  TEST_GEN_PROGS +=3D liveupdate
-> >
-> > +# --- Automatic Rule Generation (Do not edit below) ---
-> > +
-> > +TEST_GEN_PROGS_EXTENDED +=3D $(LUO_MANUAL_TESTS)
-> > +
-> > +# Define the full list of sources for each manual test.
-> > +$(foreach test,$(LUO_MANUAL_TESTS), \
-> > +     $(eval $(test)_SOURCES :=3D $(test).c $(LUO_SHARED_SRCS)))
-> > +
-> > +# This loop automatically generates an explicit build rule for each ma=
-nual test.
-> > +# It includes dependencies on the shared headers and makes the output
-> > +# executable.
-> > +# Note the use of '$$' to escape automatic variables for the 'eval' co=
-mmand.
-> > +$(foreach test,$(LUO_MANUAL_TESTS), \
-> > +     $(eval $(OUTPUT)/$(test): $($(test)_SOURCES) $(LUO_SHARED_HDRS) \
-> > +             $(call msg,LINK,,$$@) ; \
-> > +             $(Q)$(LINK.c) $$^ $(LDLIBS) -o $$@ ; \
-> > +             $(Q)chmod +x $$@ \
-> > +     ) \
-> > +)
-> > +
-> >  include ../lib.mk
->
-> make is not building LUO_MANUAL_TESTS, it is only building liveupdate.
-> How to build them?
-
-I am building them out of tree:
-make O=3Dx86_64 -s -C tools/testing/selftests TARGETS=3Dliveupdate install
-make O=3Dx86_64 -s -C tools/testing/selftests TARGETS=3Dkho install
-
-And for me it worked, but I forgot to test with the normal make
-options,  thank you for reporting, and providing your fixes, I will
-address them.
-
+Thanks,
 Pasha
+
+>
