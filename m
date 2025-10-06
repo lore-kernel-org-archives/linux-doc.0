@@ -1,161 +1,161 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52AE22A4FC
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEE4846F
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 18:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759772788; cv=none; b=i+G3TxtQdXBE8Yk9g24INaZrI43RxHMzLTjsKFaZxKNariyifDDYCmNK8O5CAqvczWDObwUtyp3lvXFee7n0a0XThq5xoTlP+iY2BebfJ6gjj4cgB1S6ByE0b45kYaFsxpf/FiGFG0wTV4fcVtNu+9RTEkvWi2vuLAquzOpyBHQ=
+	t=1759773814; cv=none; b=qfE2XGZxpavfnTyge4EMA8wcpBRuDuNo5DMwTRQbb38n89Y/oLj34ycpTgnFilLKgP5WbInw2h6IEDvshL8qprf2V7jZ5S7nIpefX9JUozuQMUFc3LAVyjGVWuAumgLFm99TVlj9QDCWq4dfqiLZFmZTOn1ZqjjN945FnmLnk90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759772788; c=relaxed/simple;
-	bh=BGtlhNEOznmLiP8Td9R6UOdRpHKv83zIL/Fw14yz6Cs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WqBOwv0KIE8fy0mdrreFf4lpu7aqAVxqjJ/N5C2HRzou5cZFY1Z+gdUUcnzTF0j/eIhwVDEihimITtBoWI7xFJrQJ+B9DZIthmWR1rddjuYmFcdoOY1xiVcimkj/i72wjkkx7UVgf5lQ7RieqOgjfvxMu6U+7l0EEMibHTejKXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Azr4PsSJ; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1759773814; c=relaxed/simple;
+	bh=nnhISHTj1ZDAWXUArq33P4LkzFAO/KPeWhlsHhQTxlU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u8Y3Dgb5X2HZxAfPEVM0/VeQgzJH6nI4gDbKYL9v0Fsj8cDSi+2CljTQdGZ3dB/jbw63FXdjqWgLJMYd64Wy7/zq+T1iBr1s7meD8RoUb8fJpPpejvW23RvZ2XwWAOSCHFHNscEWarYgqpotPU1zYDgvSshvZVe60gKYHQlwiC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=W7a5VY6q; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Azr4PsSJ"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-856222505eeso578794585a.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:46:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="W7a5VY6q"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4de584653cfso82774181cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 11:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1759772786; x=1760377586; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mV5BjCFzof/sFlEEwNlSlREaw9vi7GsMBGBoLtecLf0=;
-        b=Azr4PsSJmwu73Gq7Q6Wypi5cfiPLOiVgHe62iNVFQIT2UeiPtoxrSH8FoKrDTsbNEw
-         mDkG8AU/tCr0NBQaJn1zHy7eAxy/PCApRKyDMvQ0eOP6Od4zmwZN7KumzY+jdJBKGS4o
-         /Ra74Jk5lMSuRpb9tNSDhTDbae1CXonczD3KAjtmweekGaR5WhuPqU/8zumVRK4aln4k
-         vGTsqUM/RlU72NWhH3yJHqDKsNBakxrQAMKNgsGhy28aVa7eCKROl4Lv8fBLFAsM7U6E
-         5ymnH62eP7+rBviiuIetXZLc1lJWfgZfpFGZd+2dm87edorWLYDCnqT9L57IGOUnk0Dp
-         vi+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759772786; x=1760377586;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1759773810; x=1760378610; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mV5BjCFzof/sFlEEwNlSlREaw9vi7GsMBGBoLtecLf0=;
-        b=fnBVY2BBEm1EcKvJSNHOGVUceC4edoS8D7VTr3UXloq4E3HME6lJYGD//gPhNP/Jop
-         W7qsiyyaOuk7zzVCdD2LsBr50mAk6tZGvPdgO1Skj2PV5uW8S0U83U2/29I1ojSit8Zp
-         SkOjU9kA/0ZwWkgscVZpomxY2zM/g+NozrLDbvZaHJCxeoZU8GaxSnvEQJhbRxjenRar
-         jgloCqTnDu12WRwvXIU5pBHwNS86Nk/S/+ty2BYKVc99gpZNV1E1X2pyxFOB8t18T6bC
-         fjWC9kME92KXI+lpj3d5ysPocOo4XqRp8I15B3OUw7103FSWAJ4Y7jNFOsczujE7hPs9
-         k+Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/9Z8Eyjp2rtpe95UsYjZO4giXUsgOBXYExBQOU03vX47Xkidho4qc8dEg6nDkIlbo/hmBOmwNsRY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAg046CfPKAlQsf8X2YehKhGiqVg7J691ZTm9v+yXsZL+6QJQ3
-	3KhBZA385HpTq/687g2sKubSm0OHWeXh7Ca+S9cOO8u2kSiq4ECtyqewjmbwNx2l1/0=
-X-Gm-Gg: ASbGncuPGfRVx5Ullnc55qZ6A/A/SYL9KRi3b8JrhpFunYn1Rx3hgGDRmDzqNrAwOLu
-	ST8CqIKIG7S8xSXwQkaKEh7uOQ34n6DEga4CFthDUCr/wIgmkm7Yasgdbsb8FQv6eBQyj1AU/5R
-	UjtewwIl1VRRTSBE4zEboJ46oO9nvlouMmm9NSQzsbk+g9TdeJmeE5MVPZ5nogpOlJURlH7g2er
-	KqUURyz6uBvJEAjrXec/y9auyd1PUNoyuow2k4zyM+V0eXaY7dx37kdO03+OQ9JMy7rBFzFr4tf
-	brFP5XUJahSMjr3pCBupL6sBIqVONeh8nXqlvfWGBZQQrVTMGL7JN5TONsOgwYKappyLYt22sFz
-	yk5qR9wo+3WpzBG87RbU9B3WyacJvkQGcFeVc4wIO+sUZi94iWESszRgNe2jwP3R9po2HwpuEeX
-	5/htkIxAAYUjoTh5KCpQz5JtRcSobhBhY1cGhe3mUy
-X-Google-Smtp-Source: AGHT+IF/GPa4ozi9y7BOzBQqoUumY05J+0iFBW4qq7MNJrp4XZQ1zNaIlGSXGXlJSe7DbRBRRQjNVA==
-X-Received: by 2002:a05:620a:4709:b0:85f:82c1:c8ed with SMTP id af79cd13be357-87a37cb2f16mr1907191185a.37.1759772785714;
-        Mon, 06 Oct 2025 10:46:25 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-877796a1de6sm1267593985a.49.2025.10.06.10.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 10:46:24 -0700 (PDT)
-Date: Mon, 6 Oct 2025 13:46:23 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Robert Richter <rrichter@amd.com>,
-	Cheatham Benjamin <benjamin.cheatham@amd.com>
-Subject: Re: [PATCH 3/4 v5] cxl/core: Enable Region creation on x86 with LMH
-Message-ID: <aOQAb9H-wIxc6j31@gourry-fedora-PF4VCD3F>
-References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
- <20251006155836.791418-4-fabio.m.de.francesco@linux.intel.com>
+        bh=LvwmvZY5I363zl2hxXSo3p16V2l855H51CmL0I5zxCc=;
+        b=W7a5VY6qoAqljL4CU8l1hlSOlRK9RJJjYHlJjVmnrYHkvvtuswCCrv3bCnqOFGSnb1
+         Q53ie3k4VeSmeefGBFmkgcX58NJTJkyTLDHyFlYV5mFWM3fsLZzN3arHU8f0wNAhjvf4
+         Io22Ukx7zEotqYP73n2Qdj/u4FPQgE+Co8OKdNzlZSNE87eAYS3QN5t4YPonfENfLFpP
+         QD3BcvR8zbWllOAtPjjzuFrPGtaG1sOA2hfIC6aFqnjmzs4fxtcjK6j5SuObhtyYd36b
+         idhr9wnUvlsRGJV2CDlOw29CfwcgaWxOG8pEheKX/KjZ3Pgts/H7zyjeeGf2sSaAHhYU
+         Hv/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759773810; x=1760378610;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LvwmvZY5I363zl2hxXSo3p16V2l855H51CmL0I5zxCc=;
+        b=MkZZ6EylPHCi6qB2oJ5ahTJIsH1x0TbR2Jw1/ej6N+7Z9NeA8JXglOwn2Ujqc5K3y4
+         kgL9a2piIs+MfnOo0mubmb05bc2mlkXwEwAilUhvqWGO2QfWZttkVMc3LbWZbmL6G1LG
+         CnqR0eJURRl3kvD4K3DHT+4wNbyKziCJetvbdSlEBsps/ccUZEJtYkWcR+17mrIKUtlM
+         XUv7nqBIEy7kqi80AExI8OLeCdtkloT95IZMuQzYWD6NW3/gePZDVOKqRV7v9ygwkG9F
+         jAW2FcfBHOlPsg2m2Vhp/ls/GzKOmqgZ4QV26qgorqwCQxHsw79FsGH545wqI3SvzX+P
+         Dz+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUXeK2dJ2HJu9ANWC6vgbgSBRrjF/Jh3k3DjtG2u6amf3+Ru95ccO5cPDAeTS/Lm1cLV8Sr8DPgBhM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjgpYE5IR0ckqZsxeE2gG5s4RknzilOTiU2j0bLRXTmMFHlP2R
+	83K6grP13FziadHrKAa5YVPJaqkeEkBz6iGJKOocPM955qzhYcutpPcFzKjkPYVzxbf4hOwluDo
+	/5XlwHwj8awsDwvYrDjmOSzAlChL2j9Fw80EaLJUzaw==
+X-Gm-Gg: ASbGncv7geTc+mk5OlYkTOAH/R3QmyRZIErcauSv/tQuWRZ86HrWP51vceFrUjjHIB5
+	ucBHWL1RuDFo6tQQfV265F9tqNuCPonJvulWq4FwEBj6+F9xiw22OZCTl09vPsTf7Pm5cxB18FF
+	ZmAVcF7mrtRJAbY9/X+5wPdeOriEwsSIY5JbW4DodOsysJ33BMOwLVFiZYXhArq7WvHXcWWDZf8
+	AO/UgwHSx1KPPIBxtpbtECsHHV2JL2gAGVQX6o=
+X-Google-Smtp-Source: AGHT+IEVZfCkL4v+Tnkl5nUWA3GDanDfXIyCKp31DpQy1v3t8oAJmzi9nP3PButZfFc5VJpBDaeo1ldCgKUCHIfwIPE=
+X-Received: by 2002:a05:622a:1a87:b0:4df:1196:f570 with SMTP id
+ d75a77b69052e-4e576b09389mr190614081cf.53.1759773810132; Mon, 06 Oct 2025
+ 11:03:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251006155836.791418-4-fabio.m.de.francesco@linux.intel.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <20250929010321.3462457-3-pasha.tatashin@soleen.com> <mafs07bx8ouva.fsf@kernel.org>
+In-Reply-To: <mafs07bx8ouva.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 6 Oct 2025 14:02:53 -0400
+X-Gm-Features: AS18NWCL5ohjgHwfiII61tAev4bzSNa8Vs80Sb--F-ZT325ugyMZfqAlQjXZbCY
+Message-ID: <CA+CK2bCN-__524n+2wti+m8K6JntCudsR1--cFH6cW9CTXnmiA@mail.gmail.com>
+Subject: Re: [PATCH v4 02/30] kho: make debugfs interface optional
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 06, 2025 at 05:58:06PM +0200, Fabio M. De Francesco wrote:
-> The CXL Fixed Memory Window Structure (CFMWS) describes zero or more
-> Host Physical Address (HPA) windows that are associated with each CXL
-> Host Bridge. Each window represents a contiguous HPA that may be
-> interleaved with one or more targets (CXL v3.2 - 9.18.1.3).
-> 
-...
-> 
-> Cc: Alison Schofield <alison.schofield@intel.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Dave Jiang <dave.jiang@intel.com>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+On Mon, Oct 6, 2025 at 12:31=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+>
+> On Mon, Sep 29 2025, Pasha Tatashin wrote:
+>
+> > Currently, KHO is controlled via debugfs interface, but once LUO is
+> > introduced, it can control KHO, and the debug interface becomes
+> > optional.
+> >
+> > Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
+> > the debugfs interface, and allows to inspect the tree.
+> >
+> > Move all debugfs related code to a new file to keep the .c files
+> > clear of ifdefs.
+> >
+> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  MAINTAINERS                      |   3 +-
+> >  kernel/Kconfig.kexec             |  10 ++
+> >  kernel/Makefile                  |   1 +
+> >  kernel/kexec_handover.c          | 255 +++++--------------------------
+> >  kernel/kexec_handover_debug.c    | 218 ++++++++++++++++++++++++++
+> >  kernel/kexec_handover_internal.h |  44 ++++++
+> >  6 files changed, 311 insertions(+), 220 deletions(-)
+> >  create mode 100644 kernel/kexec_handover_debug.c
+> >  create mode 100644 kernel/kexec_handover_internal.h
+> >
+> [...]
+> > --- a/kernel/Kconfig.kexec
+> > +++ b/kernel/Kconfig.kexec
+> > @@ -109,6 +109,16 @@ config KEXEC_HANDOVER
+> >         to keep data or state alive across the kexec. For this to work,
+> >         both source and target kernels need to have this option enabled=
+.
+> >
+> > +config KEXEC_HANDOVER_DEBUG
+>
+> Nit: can we call it KEXEC_HANDOVER_DEBUGFS instead? I think we would
+> like to add a KEXEC_HANDOVER_DEBUG at some point to control debug
+> asserts for KHO, and the naming would get confusing. And renaming config
+> symbols is kind of a pain.
 
-Couple inlines but just nits
+Done.
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
-
-> @@ -1770,6 +1778,7 @@ static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
->  {
->  	const struct cxl_endpoint_decoder *cxled = data;
->  	struct cxl_switch_decoder *cxlsd;
-> +	struct cxl_root_decoder *cxlrd;
->  	const struct range *r1, *r2;
->  
->  	if (!is_switch_decoder(dev))
-> @@ -1779,8 +1788,13 @@ static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
->  	r1 = &cxlsd->cxld.hpa_range;
->  	r2 = &cxled->cxld.hpa_range;
->  
-> -	if (is_root_decoder(dev))
-> -		return range_contains(r1, r2);
-> +	if (is_root_decoder(dev)) {
-> +		if (range_contains(r1, r2))
-> +			return 1;
-> +		cxlrd = to_cxl_root_decoder(dev);
-> +		if (platform_cxlrd_matches_cxled(cxlrd, cxled))
-> +			return 1;
-> +	}
-
-Is there any concern for longer term maintainability if addition
-match_*() functions are added?  Or is this upkeep just the unfortunate
-maintenance cost of supportering the quirk?
-
->  
->  static struct cxl_decoder *
-> @@ -3406,8 +3421,12 @@ static int match_region_to_cxled_by_range(struct device *dev, const void *data)
->  	p = &cxlr->params;
->  
->  	guard(rwsem_read)(&cxl_rwsem.region);
-> -	if (p->res && p->res->start == r->start && p->res->end == r->end)
-> -		return 1;
-> +	if (p->res) {
-> +		if (p->res->start == r->start && p->res->end == r->end)
-> +			return 1;
-> +		if (platform_region_matches_cxld(p, &cxled->cxld))
-> +			return 1;
-> +	}
-
-
-if (!p->res)
-	return 0;
-if (p->res->start == r->start && p->res->end == r->end)
-	return 1;
-if (platform_region_matches_cxld(p, &cxled->cxld))
-	return 1;
-return 0;
-
-?
-
-I like flat, but I also dislike not-logic.  Style choice here, unless
-others have a strong feeling this is fine.
-
-~Gregory
+>
+> > +     bool "kexec handover debug interface"
+> > +     depends on KEXEC_HANDOVER
+> > +     depends on DEBUG_FS
+> > +     help
+> > +       Allow to control kexec handover device tree via debugfs
+> > +       interface, i.e. finalize the state or aborting the finalization=
+.
+> > +       Also, enables inspecting the KHO fdt trees with the debugfs bin=
+ary
+> > +       blobs.
+> > +
+> [...]
+>
+> --
+> Regards,
+> Pratyush Yadav
