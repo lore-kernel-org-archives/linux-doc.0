@@ -1,96 +1,78 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69BDD2D29C8;
-	Mon,  6 Oct 2025 18:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02061D61A3;
+	Mon,  6 Oct 2025 19:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759777099; cv=none; b=BnTbVbO/cQ9hXF08rtJIqBfnFUQRAlPTyyZrtf0OYhB5nHUTAMiqmNM0AyPUOUvxJe76KlwGfwU2vN8nRzRjWJsp86ehIIuAPtWy0y06pX0GF6cQTlHZ+08seGP8+PEn5wpvIzxDhSOWrvT5Dbj2IvJekL1VlG4KCHMnodIskWo=
+	t=1759777706; cv=none; b=ZlE6mvjrqMW8l0X0JbL6pGtmekn0jEv4TY/egC+i0xqaORBvNbQW4xvk6mHCRgHM0vaKoVBl/PdiLRTPXg9rH8GW1OJlncypvFjplIj8jz/uGi1VOCVPjiOWM9313/bk9etO53B42Sd0emmRjoHfcEpKd0Udv2286dxmRBK7TA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759777099; c=relaxed/simple;
-	bh=ADpUC5a/KbGr9ijN/AYgIQQjKvQHxqzoQFuxlJkwsY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K8n1m/pEXiQ4rL6dI7CQzTbwxrlDseZFCN1IvY+B2eEaPf+P4RVCT8W14PBm9+m4RqG2n1rWsi4VrTR+CgsRnwEiGN48vy8o405Rf+8y26zE939nSc7dBS1Ij+oXVySMaB+thqoUXsf1FTaqm0rXtbAUuUnlmi45Q2NtAZRjP6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GHrYyZ0a; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1759777706; c=relaxed/simple;
+	bh=y7eB5Aq5t61EIBq8FizZqyAOn5r9BRoMjG9Gdpz6Tzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vh3isF4Yv3iGI3vZ07VmtjLteKX6M/sEhSr5V/C7b2gs3H6nh4G7XV6aapuuOrtab9Ps8Mq0uce8dmpqATDtdfdzFUGsA8x2b+CWlNDb6aVPOWHjZh1UbLIGs80xEN316jrpmsFcHeMyr/ZJyTnMattvo96djDEYmt8Ag6sh3f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uD8hJPWF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GHrYyZ0a"
-Received: from [10.137.184.60] (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3794B2117F86;
-	Mon,  6 Oct 2025 11:58:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3794B2117F86
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759777097;
-	bh=CG4uNAr7eRV79CEdokFEBr+fu5qn0tGaU9OYH2B1EFQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GHrYyZ0acgVf/vYwMfmEjWbvU6Q5eb0OAWGGV8X/ezTDgfVQoa79WAJ9rAR1UYHbW
-	 Lb4eh5TWutTsNpaMES6jvLQmr9iBdPVeV4UDb6k4MCwcbc7p9/UGbmbZg0peHlQesX
-	 /Vbso1ntAltNROqKYB4I9iEgSN52ujV/nSrFta9k=
-Message-ID: <93371148-87c3-4429-a9de-4115e10cda1f@linux.microsoft.com>
-Date: Mon, 6 Oct 2025 11:58:16 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uD8hJPWF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD38C4CEF5;
+	Mon,  6 Oct 2025 19:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759777705;
+	bh=y7eB5Aq5t61EIBq8FizZqyAOn5r9BRoMjG9Gdpz6Tzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uD8hJPWFbKLdWtulj5XUIgCrgpIcXYfvHT3M5zcTUwJx1jEWY9+hLIGQtBcBkAUmw
+	 aw6NdNg7CAlhFc2cpBwi7dDlXnRBv6CeW0mahR9pAxsbLsG6z/uQvR2nBsDicZgIhc
+	 Wp7PA+XsGZG4KcPFfEFda/4JIgRQsRyorjpZOI1MeAFcgefs+fuBvBxe0YFFHwicea
+	 ETsv4DZwn81arKsESHcZ9H4om40CElC0vToQ9HpDxiqOBFw6xz1Nl9IxwwStJkn2E3
+	 JCUoblTAm/VMMN75XQyLiCL81CvjUtiRxD0Axr83xKYZHe8/kreEvJR27D6hnhZNY3
+	 L2JuBxXk++h2Q==
+Date: Mon, 6 Oct 2025 12:08:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: kernel test robot <lkp@intel.com>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <20251006190819.GA2406882@ax162>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
+ <202509290415.uez00SgW-lkp@intel.com>
+ <6146d57b-f855-40b1-a644-3af6b28ceea4@gmx.de>
+ <20251002233627.GA3978676@ax162>
+ <402f254d-7217-43e8-867f-66daab3ead86@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next v6 00/17] Confidential VMBus
-To: Michael Kelley <mhklinux@outlook.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "hpa@zytor.com" <hpa@zytor.com>, "kys@microsoft.com" <kys@microsoft.com>,
- "mikelley@microsoft.com" <mikelley@microsoft.com>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "Tianyu.Lan@microsoft.com" <Tianyu.Lan@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "x86@kernel.org"
- <x86@kernel.org>, "linux-hyperv@vger.kernel.org"
- <linux-hyperv@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Cc: "benhill@microsoft.com" <benhill@microsoft.com>,
- "bperkins@microsoft.com" <bperkins@microsoft.com>,
- "sunilmut@microsoft.com" <sunilmut@microsoft.com>
-References: <20251003222710.6257-1-romank@linux.microsoft.com>
- <SN6PR02MB415707D796045E8BD30396D8D4E3A@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB415707D796045E8BD30396D8D4E3A@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <402f254d-7217-43e8-867f-66daab3ead86@gmx.de>
 
-
-
-On 10/6/2025 9:55 AM, Michael Kelley wrote:
-> From: Roman Kisel <romank@linux.microsoft.com> Sent: Friday, October 3, 2025 3:27 PM
-
-[...]
-
->>   include/linux/hyperv.h             |  69 ++++--
->>   15 files changed, 793 insertions(+), 306 deletions(-)
->>
+On Sun, Oct 05, 2025 at 08:06:57PM +0200, Armin Wolf wrote:
+> Am 03.10.25 um 01:36 schrieb Nathan Chancellor:
 > 
-> Nice! The net lines of code added is now 487, vs. 591
-> lines added in v5 of this series.
+> > Hi Armin,
+> > 
+> > On Thu, Oct 02, 2025 at 08:41:19PM +0200, Armin Wolf wrote:
+> > > i think this is a problem inside the clang compiler. I did not encounter this warning when
+> > > build for x86-64 using gcc.
+> > Clang is actually saving you from yourself, it is a bug in GCC that it
+> > does not warn for this:
+> > 
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
 > 
+> Oh my, i didn't expect that. Thank you for explaining this issue to to me,
+> it seems that i still have much to learn.
 
-Thanks, I appreciate your help throughout the multiple versions very
-much!!
+In your defense, it is quite a subtle interaction. It is probably worth
+throwing something in the documentation that explicitly calls this out,
+though I am not immediately sure of where...
 
-> Modulo the contradiction above in this cover letter, the two typos in
-> the documentation in Patch 1, and the simple fix for the error reported
-> by the kernel test robot for Patch 5, I'm happy with this entire series.
-
-I'll wait few days just in case and will send out the fixed series :)
-
-> For the series,
-> 
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-
--- 
-Thank you,
-Roman
-
+Cheers,
+Nathan
