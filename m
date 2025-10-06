@@ -1,195 +1,108 @@
 Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFCC23DEB6
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3B5241696
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759771432; cv=none; b=dOutPObsaW9HoU98MQJp0SQ6VQYq0y2UDC6w7/2ZBuCIJDJtZof1bGXXgvRAYpbz3Oalq2PmCrTC3Q1BekpzX+1DBw8M9tFVy9jij2Ms9onMIFlE0Zspg4arHa1g343P1HC/zm3tIrgq5nlGBhyly3XzRNp2wPiaKMjJWQH6Q8c=
+	t=1759772148; cv=none; b=m7vkDFBwqxQ70kvbT8NGJRyjJ+bllg6IG+mk66ZSPRWsRVg1nrdqMWGd36ngcsdu/8PJIPFWx8nGO8pzr2am1JW64ZL97dtB8+yDVrT5xcOjW1fUSB7pyZO8sY6gPjWbPh2IHoGLGZg11oOpKImBNjLstzHOAwSe7OgidPt3aQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759771432; c=relaxed/simple;
-	bh=VCA8jFwiTolL3cm7GWMVLR0c56Cedh5z95+OPkLnavM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S30h2KrPo3uhAg6//+gEHNwLqJVnODVxBd3RHU83pRN/iLWkwOl+7SHTM/ZLT60iLV8/ivz9zA88TSb29KijlWrDiBB1ttWd0FnjNZQhBfwYSwF11QHlzXrs3U1xyTns/qKBqFf1r6ABcFOhqAOsLXf51upnKzDdCoHXZZg7OUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=OJrCUT8j; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1759772148; c=relaxed/simple;
+	bh=W195a0snK2qbMlgwvRIrKSLXzC/gj1N8SicfYvXdfZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D3UWZsIlTTqdnU0HdT+wk3gNDV+llu57g2w9GoRpfjpNKk7Tjy/DfGgPniM+D7Fg79Pd5wMQO0DJg3uIT+qQ+VfSPk6VvM58Yw0Tw8rFJVP6f1GZqcBzofi1D5UbQ05OsP/DPc8eYepVW87Ow6UgJbBoNyxJHzVknQcMSIzP1Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Z4ZPlCwt; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="OJrCUT8j"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-85c66a8a462so760399385a.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:23:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Z4ZPlCwt"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-87808473c3bso685585685a.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759771430; x=1760376230; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eiMWaxwcwGco8r+FHYAdZ8/rgwTBKI1DQmsAsIjVEPg=;
-        b=OJrCUT8jQ1mNcnSR1NLmBIfqGdxpgHINYtabLRdjkMxkXPT6sGB7gIwQr1H9xNEona
-         DiC5wbz9mf1rauL19afcY+exwSjOTA36/uAwUq7iW7rNU1KqrG4P86xc/I59vVvmrTkZ
-         d14QO1XAbxvrlU2XyT2aPqmir6tqASQEM563cJAjxlwJifzUgk4dDxzXQmxd5N7AR+YR
-         Ml0FipJxTKlKwnCRMppOupicEfx6Hr5Z8I9lNpxrRfz8bw1r3HC/vaXnR+1QW0k3Na1V
-         MTeQkG7PrCLcQoD8JEPM9bkOWnkMoYom/DpuH+/VH8mYfgUxfx/CMPecfex4Tzcl9kRA
-         8V3w==
+        d=gourry.net; s=google; t=1759772145; x=1760376945; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kR53Dw5KXmac3PH9uOCTXtwUd6vhGp4REIph22KJFUU=;
+        b=Z4ZPlCwtMh0xurcLXNb/8qEC0lQS3m6nbc7H/qFd/DjHCAUgtB/ni5p8xXMqjl3qzV
+         7SBVVuBSzceOTzvDSnhGl4MFbiqqMOivpTQdBYR4TtqAm46EpSsknaurxjAj9FCFr0/j
+         C0vTgisGf4SLsrzTO/fzOYipz5SQM7J3xClyEHjc2kep2Vqy8dKz95qv3MKSxYzVU92s
+         p56E3NTYMVAv7e6lBH8NhYgvMA3XBYDM2sGEHsFgzxYt4i1NwKapup/0sfGObM9GeNEt
+         34fc/8LaaHkRCxt3xeLGOZyU23Upg1gSVpVe1R5jBCQeADPqhv+4Pu92Yg4RrqEgYEDu
+         mK/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759771430; x=1760376230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eiMWaxwcwGco8r+FHYAdZ8/rgwTBKI1DQmsAsIjVEPg=;
-        b=mg0GQs7mJTejUl8hBNWcvpittZOluSI6nCoR71s2O3niN1AULUl/8J3S/TDXygNmCV
-         wZ+bcsa2D/fm+JS3ypB8L53mJy0sxtCjNRppZ9ibTaUltB5td5El2D9Wf7cExRtci3sf
-         D9LSGZCI/o6x+pwyw7GWRBiy9TBgIBmhPwzoZqnLpvrKmUZDfz+YCBShC9f05Bg9KYqR
-         27GATu9rthwYIC41lfqRn14rsq8rKHtFD5QuRuY0fv8H5Zw4wcjcxmX705SUIU2gRLDN
-         7yjkGFF3MenhU0IaUMvmPtzB30kKPEGvRGX1EzfVbhLswVVFJ6+kgBaTHNGbpZpJUHAG
-         +4Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCWFnJzgASScWiu4EhKVdnc/jXrf27ElDXtE4RAIMkjq2y114RVuM5ERSf65ngZgAARzjxja568cicU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXpob+ZcTfWVTseIvHMVr3n9djZWyU0KEbXkMmJg4t4AciV9R0
-	pae6A3bF6h8F3ktUKujDznM1AbwVeBAniU7sJvexrprEAlavnJoXZ74EsFzCSmU1b8dZQqQmmi4
-	wnLMwaLzx15QQZuL91ksliS+rS61juyR37eo3hGmpgA==
-X-Gm-Gg: ASbGncuxqYbIyoAWyJDRAjrhB3BNP3brdli5mzuA5urjsOc2OwZhz7PMF9TpX27CeIG
-	C1QGt498iNV71IYpZsrRANLhcoDP14ItDNhsIUoNuVAurVmCwKJRR8t1GSxlGOoYahR0VbVz9ql
-	vP1QlZqwTT9HH0tjKf3ZbWetqsl1Hrn3hXUkiBtn89ZqfLr0N+03L5kMtSx9sxM8d3P2TosNzvl
-	ZsUFCdn2o9ktmDftdrFW2Jigl7ig/sbBlSg2Ho=
-X-Google-Smtp-Source: AGHT+IFv/eQIGSPIMF5AtEJ9/NjM4NT3tDLx/ni0W3avlG1qBmkP6qV6SoLJbkqgHaLD5t7vOoviSBII4unw5QD/72E=
-X-Received: by 2002:a05:620a:469e:b0:85e:5022:33a2 with SMTP id
- af79cd13be357-87a3a34d387mr1695495985a.39.1759771429425; Mon, 06 Oct 2025
- 10:23:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759772145; x=1760376945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kR53Dw5KXmac3PH9uOCTXtwUd6vhGp4REIph22KJFUU=;
+        b=nqZzS/dugrcFKh6r0+fzpzYi/3ccpPs2ih96hnhNVq6rzni6c00OrJIwUXmkC1k+/c
+         1gdR/WuzccDLp5PDPEBn8ki0brtYd9AQssX2MK075jLAkaXbE6JxT64aHOmJgd3UWgO2
+         GV1kqkwWE1A8SIm7pc3K2obGESVNm2ysvnAON3disa6XaC9tYDkNK+77hU6qW/7i7icT
+         hDQ0ZslG60mpZReA7iICLoC0ApASW4aHc5ZtrOmkf6Gc4BluzgL6dhHtwd7y7Ondeq1y
+         3H1Pn27qhdo8vQ8gNu8VUNVqdLczMuObuzkpLCpMJuAgQXhhKH2iL98CtNV24p0pU772
+         Za1g==
+X-Forwarded-Encrypted: i=1; AJvYcCU/QNv0gYlUUS+E/tmNcQjvvmrBf7PFB7TukvV9F4OgC3XmcpC/DndsaS0xvcPROQA2EfsAJUDJIYQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyGaTfPH2cg7za68t81guP7P/O1QsF+iYt6kt37G+rojZcebSx
+	0pvSc9YQIp70WdxjEN08s6WbVLiB4urooKDtAxa8u3MfOvRyI5t7MLpEwSE7pFBCr4IkIvc233K
+	ut/M5
+X-Gm-Gg: ASbGncuvJfb8hQLA3CoISf/MZO0shKxg4pKE0UupMwBhkqjeF4I9Kh85tkUo0iJ0gZv
+	Is/G+GcIAlvQWidozWMuxDARkdomhN9O/RctHNWUyVkF/+GV33PZr0eW8u8WZsmFZiylo+z28WD
+	Px3hV3kzbl4mzVTq+Bx+BOCYfcMT379vcclMieZUgL805HKgwprZfbMGdEBYbaOXS6pm+j6IINn
+	kGOYYmvYXdozTBLpEv9Lccwg11CHAjQlZ70jwClf9e43DxWWUG5z+VgnwMbOvz3DU7ikIpkF5il
+	vv0jChou5wWYgnNMqn0bXxv1RvbRmUuh3Xeo47FNjovCk+7YEHXctFhmnTwlt5jhz5wp/yAw1NE
+	9Zd4p3dDTPFTz0vfNRhfBuoXMIU4ihwtUMHEJWxi9nTTXrxxV2pZwIAD+OndoyBA9wQH0rOeSDq
+	HCjn7XSR023eMA5Vo4fLAOnqj6gbPvlENmCpCmz4IYusziGDmv6RM=
+X-Google-Smtp-Source: AGHT+IER8DoXpPhXVe8+Q8xupePoMW4LjKc805ivgHMRBIcpH9k3WI96ovGNcp68qp1cCNFhDqppHw==
+X-Received: by 2002:a05:620a:4154:b0:85c:bb2:ad9c with SMTP id af79cd13be357-87a3a34d280mr1467487385a.53.1759772144584;
+        Mon, 06 Oct 2025 10:35:44 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-87772460ac0sm1375860885a.19.2025.10.06.10.35.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 10:35:44 -0700 (PDT)
+Date: Mon, 6 Oct 2025 13:35:42 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Robert Richter <rrichter@amd.com>,
+	Cheatham Benjamin <benjamin.cheatham@amd.com>
+Subject: Re: [PATCH 1/4 v5] cxl/core: Change match_*_by_range() signatures
+Message-ID: <aOP97tRkOhXmmMfk@gourry-fedora-PF4VCD3F>
+References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
+ <20251006155836.791418-2-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-3-pasha.tatashin@soleen.com> <mafs0y0ponf6b.fsf@kernel.org>
-In-Reply-To: <mafs0y0ponf6b.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 6 Oct 2025 13:23:11 -0400
-X-Gm-Features: AS18NWCYmyLqK5As63FctOGJiEPF3B80wEZqrPZ_K5x_kzJeySLPd8Ta4rPXhIg
-Message-ID: <CA+CK2bC0j=CbTNo=V-dceZEz9mji0yTWkE7QyUzvR1SRCiAJ=A@mail.gmail.com>
-Subject: Re: [PATCH v4 02/30] kho: make debugfs interface optional
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251006155836.791418-2-fabio.m.de.francesco@linux.intel.com>
 
-On Mon, Oct 6, 2025 at 12:55=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> Hi Pasha,
->
-> On Mon, Sep 29 2025, Pasha Tatashin wrote:
->
-> > Currently, KHO is controlled via debugfs interface, but once LUO is
-> > introduced, it can control KHO, and the debug interface becomes
-> > optional.
-> >
-> > Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
-> > the debugfs interface, and allows to inspect the tree.
-> >
-> > Move all debugfs related code to a new file to keep the .c files
-> > clear of ifdefs.
-> >
-> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> [...]
-> > @@ -662,36 +660,24 @@ static void __init kho_reserve_scratch(void)
-> >       kho_enable =3D false;
-> >  }
-> >
-> > -struct fdt_debugfs {
-> > -     struct list_head list;
-> > -     struct debugfs_blob_wrapper wrapper;
-> > -     struct dentry *file;
-> > +struct kho_out {
-> > +     struct blocking_notifier_head chain_head;
-> > +     struct mutex lock; /* protects KHO FDT finalization */
-> > +     struct kho_serialization ser;
-> > +     bool finalized;
-> > +     struct kho_debugfs dbg;
-> >  };
-> >
-> > -static int kho_debugfs_fdt_add(struct list_head *list, struct dentry *=
-dir,
-> > -                            const char *name, const void *fdt)
-> > -{
-> > -     struct fdt_debugfs *f;
-> > -     struct dentry *file;
-> > -
-> > -     f =3D kmalloc(sizeof(*f), GFP_KERNEL);
-> > -     if (!f)
-> > -             return -ENOMEM;
-> > -
-> > -     f->wrapper.data =3D (void *)fdt;
-> > -     f->wrapper.size =3D fdt_totalsize(fdt);
-> > -
-> > -     file =3D debugfs_create_blob(name, 0400, dir, &f->wrapper);
-> > -     if (IS_ERR(file)) {
-> > -             kfree(f);
-> > -             return PTR_ERR(file);
-> > -     }
-> > -
-> > -     f->file =3D file;
-> > -     list_add(&f->list, list);
-> > -
-> > -     return 0;
-> > -}
-> > +static struct kho_out kho_out =3D {
-> > +     .chain_head =3D BLOCKING_NOTIFIER_INIT(kho_out.chain_head),
-> > +     .lock =3D __MUTEX_INITIALIZER(kho_out.lock),
-> > +     .ser =3D {
-> > +             .track =3D {
-> > +                     .orders =3D XARRAY_INIT(kho_out.ser.track.orders,=
- 0),
-> > +             },
-> > +     },
-> > +     .finalized =3D false,
-> > +};
->
-> There is already one definition for struct kho_out and a static struct
-> kho_out early in the file. This is a second declaration and definition.
-> And I was super confused when I saw patch 3 since it seemed to be making
-> unrelated changes to this struct (and removing an instance of this,
-> which should be done in this patch instead). In fact, this patch doesn't
-> even build due to this problem. I think some patch massaging is needed
-> to fix this all up.
+On Mon, Oct 06, 2025 at 05:58:04PM +0200, Fabio M. De Francesco wrote:
+> Replace struct range parameter with struct cxl_endpoint_decoder of
+> which range is a member in the match_*_by_range() functions and rename
+> them according to their semantics.
+> 
+> This is in preparation for expanding these helpers to perform arch
+> specific Root Decoders and Region matchings with
+> cxl_endpoint_decoder(s).
+> 
+> Cc: Alison Schofield <alison.schofield@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Let me fix it. I Plan to send a separate series only with KHO changes
-from LUO, so we can expedite its landing.
+This may end up conflicting with the AMD ATL patch set, as that set also
+I believe made some changes to this area.  But somewhat irrelevant for
+the short term.
 
-Pasha
-
->
-> >
-> >  /**
-> >   * kho_add_subtree - record the physical address of a sub FDT in KHO r=
-oot tree.
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
+Reviewed-by: Gregory Price <gourry@gourry.net>
