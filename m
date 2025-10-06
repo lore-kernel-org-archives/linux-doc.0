@@ -1,178 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EA921B9D2
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 06:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24D42264BA
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 06:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759731846; cv=none; b=OomE+wVLJKj2v2l6N4+2Liu8cdVI1+9g8suDg8gAXfE3sY4bJ2PNY29Z09Lyp2oKROFI+nmErwVzrASX9bF4PtlMw+35P9Rbr+SB1GfoLvck5FCmU/9I0RRfk6vyml4t61wQZgC0e6nivowwELMlrSXn81fidekcGEf1NOCGwHA=
+	t=1759732275; cv=none; b=GZ1i8KzyBygHBQ2Q6rmgKSBuR9VfCAt5Rp4FhgXzMtw97eo/3kX1g5qS4mwop7n3tC/+34hO+0OsSeERAfSjOgYzJKVDLRJK15Sdta9+yGfL/id5msaylZgsTwVsWZNa9x1Hq2xgC4KU0j5dd+G5INTcTVKVlqzFTn50AXrhofE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759731846; c=relaxed/simple;
-	bh=meO8F+Li+RFwUt9elNeCgN+dCn/iGVgjjVnuy1DnIjk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sih/OrIXs7/tQMXJMg+xshRMJRpCM8slQorfrrAjVNWrS3facW0Q0hzlIQ45OvI67XYVG9Xtdwx/QNYvp/LGY+JGnA+4z65oX8mLYh7YDPSrOOijuIjnIT0n7NyUaPbnMJsVt6+bCRO3WxTWcea4phv5t5ISVEy33L8s8BD0D40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gZpC7+J2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ozmOENuk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gZpC7+J2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ozmOENuk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759732275; c=relaxed/simple;
+	bh=H3X73yEWW5xnMRSc/VOILo4P2AJ07gDRT0jl3xbbPJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RiYo0iBq3xZgTFDHFafOZJW9w4tJ5XFnkYqkp7HZX9M/xI23yib8wNu64xCEeCZVJxzCKz33xcF/zwlyF6h4JV69XLqzFlfcy6Andt7NqcT41R7RmkhAqZBSVzGexsn5iSc8zJ/cO1mHY3sgCbx/pZs+AwX7ggywi9Cb9H1R1Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTp9J3PJ; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gZpC7+J2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ozmOENuk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gZpC7+J2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ozmOENuk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D0621F452;
-	Mon,  6 Oct 2025 06:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759731843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=gZpC7+J2LTxbEltg8i2OaeSCH9s7KcU5QpA4fOCAb3zBlo5IH3gOJI4fhp7YEgujQfyuNn
-	hD2evKEEAX/3cbg9yfO4KyvjCUvKX7oDjObLPaPcm6FGEv2rWPFLs/9uUvynPwhaR6S5Jj
-	6NgoXt5HVgIC07ABREiSPFKs4sNvKDU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759731843;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=ozmOENuk2YLRTTagv6uR2+iKJ2sL1lw+wt8QOtS8JwO42f3vDv0In2B2MI+G/YGQ8AeVsu
-	M5aJx642b5TNnVDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759731843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=gZpC7+J2LTxbEltg8i2OaeSCH9s7KcU5QpA4fOCAb3zBlo5IH3gOJI4fhp7YEgujQfyuNn
-	hD2evKEEAX/3cbg9yfO4KyvjCUvKX7oDjObLPaPcm6FGEv2rWPFLs/9uUvynPwhaR6S5Jj
-	6NgoXt5HVgIC07ABREiSPFKs4sNvKDU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759731843;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=ozmOENuk2YLRTTagv6uR2+iKJ2sL1lw+wt8QOtS8JwO42f3vDv0In2B2MI+G/YGQ8AeVsu
-	M5aJx642b5TNnVDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B988813995;
-	Mon,  6 Oct 2025 06:24:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sgdCK4Jg42jqCAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 06 Oct 2025 06:24:02 +0000
-Message-ID: <59ed5ee1-95c3-453e-a53a-b7bfb330511a@suse.de>
-Date: Mon, 6 Oct 2025 08:24:02 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTp9J3PJ"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2698384978dso32060575ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 05 Oct 2025 23:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759732273; x=1760337073; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kAl5ud0fiOLEIeLKR9WAaQrnRBmvWYDt4oevdTsfy9Y=;
+        b=NTp9J3PJX4R5/e9GEJZPd/WZdXgnME11ExEEwiGH/NqB353SnZvHlLXrwoQw6oO2vw
+         yylCHLzPd+PyTVqUoykpbfXi90Ht+QeHPF/Tp0AEff4subWBuvi8EAZXVwRGXFec37XB
+         gMXOPBZApayFUfDM4sp0Z4RiPm2nSQrTdAHpDqcdj0oTUOTJxCYjNUy2uMtunKl21ruL
+         YeL9Cn4U/IcSS4z6P3TC3Tv8MEgGwI+wfCZKuJW/2o7fUK32j4pfDIPZAEWw/ES2CEDY
+         2zHGLyYfpPPc5GZj2o3D/8mej42pgNq01239g5PmMW93xOx0F3cc6lUqVpoZyM5DnsyH
+         9DOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759732273; x=1760337073;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kAl5ud0fiOLEIeLKR9WAaQrnRBmvWYDt4oevdTsfy9Y=;
+        b=SPyAbZLz5KPrB8JcmGbr2RRKq9tvZllg3fvoVHMlmXGdw2zbBRZXFmxfijM+sQfM7y
+         FBwX3O8Q194VYCzRhABN3rYWGjE2n1TMS1vOXOHBjbVONXrebC1XoNSAZcq2Vi/tjbg4
+         7wmiAzmHUvuHMFigkG/ylHMnOUjfwtdfgi8EfQDZmAPesFiqFMcQuakbilQXRsPbMBdb
+         WA4aEuHwVxOrFxVH8Pe6gt6Yj9m/WHGxVBd8f7uvGSjOG+tczA2OjGWGjyUpvDsmB8TP
+         qNPfv33dg7NM6NzOBuqgGY40LRYeP3W7XVteKiaBLrQdeK9edIvAleR6/XFJPaVOgGz1
+         cr3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWrLsGFsbW3nHOHYio2Dbu07N8NkwocWlTArrfWxm8GvHQ5I8AfCgkFBw6+PlVkGJLrYgRZq6SJ7tk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaO1UcyL2tx0uGfeiuGP+U8eafiIBP8PrR2M+V4MtPP7g5I7v1
+	9NH2O5tzHxfpSmH2RzPkuWU+c3Z1edj/0ABBr+dxa9txMm7hBgpsFNRx
+X-Gm-Gg: ASbGncuJ+wyLG0LsRc/6L3nz1y8eirNDXqYMok2f2qquCalC3wHD0fb1mtWl5XYT2UD
+	HQxVWtMhGN6TDUjV8fxZihkRE0zcTCAkdC/y9QIobaw+QV1JHbM21BmsYBHxUjzbAaVl7VJRfTN
+	xZwT7BQxDdRMeSmJiS1hSKI/ZqNGvt+NzAQXXyDFMOK7iRvgVYo4U+DgUwfx9YQhast5SDKxNqy
+	kiE449AauUqauqMjgT4qcL33pdgd7T09P9b4wqmQ/zO327yzf6jDsf/x/c0uQKdi8MkSVQ+30W2
+	LDiU7zaAhlZh9Z9h8qr90D4/Kk00Ch4kZa5C2CWPnpDpMrvjWk9jwgwhEMXNXy2BG0kZHb0gqoS
+	FQJrNtmzIawg81KAxhgeDhDksloc2S5x/6qZyzCEonOPilOI2FItzNKi8oNai+ugNgw==
+X-Google-Smtp-Source: AGHT+IGMU7hrj7U1FkXheOsivtz2T+wK280erwvJlu/0py0PentU5hAcc1tVeLRVpzJrKs2Jah4LwA==
+X-Received: by 2002:a17:902:c94a:b0:267:776b:a315 with SMTP id d9443c01a7336-28e9a61a914mr137570535ad.32.1759732272761;
+        Sun, 05 Oct 2025 23:31:12 -0700 (PDT)
+Received: from LilGuy ([2409:40c2:504c:58f0:9c58:4a8b:65a6:88b4])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-28e8d1ba184sm121008085ad.89.2025.10.05.23.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Oct 2025 23:31:12 -0700 (PDT)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Subject: [PATCH] Documentation/gpu: Remove duplicate kernel-doc exports in drm-uapi.rst
+Date: Mon,  6 Oct 2025 12:00:09 +0000
+Message-ID: <20251006120010.17976-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/8] net/handshake: Define handshake_sk_destruct_req
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-3-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251003043140.1341958-3-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email,wdc.com:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
 
-On 10/3/25 06:31, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Define a `handshake_sk_destruct_req()` function to allow the destruction
-> of the handshake req.
-> 
-> This is required to avoid hash conflicts when handshake_req_hash_add()
-> is called as part of submitting the KeyUpdate request.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v3:
->   - New patch
-> 
->   net/handshake/request.c | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
-> 
-> diff --git a/net/handshake/request.c b/net/handshake/request.c
-> index 274d2c89b6b2..0d1c91c80478 100644
-> --- a/net/handshake/request.c
-> +++ b/net/handshake/request.c
-> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
->   		sk_destruct(sk);
->   }
->   
-> +/**
-> + * handshake_sk_destruct_req - destroy an existing request
-> + * @sk: socket on which there is an existing request
-> + */
-> +static void handshake_sk_destruct_req(struct sock *sk)
-> +{
-> +	struct handshake_req *req;
-> +
-> +	req = handshake_req_hash_lookup(sk);
-> +	if (!req)
-> +		return;
-> +
-> +	trace_handshake_destruct(sock_net(sk), req, sk);
-> +	handshake_req_destroy(req);
-> +}
-> +
->   /**
->    * handshake_req_alloc - Allocate a handshake request
->    * @proto: security protocol
+Eliminate redundant `:export:` kernel-doc directive in
+Documentation/gpu/drm-uapi.rst to fix duplicate C declaration warnings
+during Sphinx builds.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+warning before this patch:
 
-Cheers,
+  WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35
+  Declaration is '.. c:function:: const struct drm_format_info *
+  drm_format_info (u32 format)'. [duplicate_declaration.c]
 
-Hannes
+The removed export was already documented elsewhere, so this patch
+does not remove any meaningful documentation. Post-change, both
+`make htmldocs` and targeted builds with `make htmldocs
+SPHINXDIRS=Documentation/gpu`
+
+complete cleanly without warnings.
+
+Based on commit 47a8d4b89844
+
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
+ Documentation/gpu/drm-uapi.rst | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index d98428a592f1..80cfd9b7c908 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -604,9 +604,6 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
+ .. kernel-doc:: include/drm/drm_ioctl.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
+-   :export:
+-
+ .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
+    :export:
+ 
+@@ -761,4 +758,4 @@ Stable uAPI events
+ From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+ 
+ .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+-   :doc: uAPI trace events
+\ No newline at end of file
++   :doc: uAPI trace events
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.51.0
+
