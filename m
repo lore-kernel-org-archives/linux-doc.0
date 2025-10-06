@@ -1,145 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06131494DB
-	for <linux-doc@vger.kernel.org>; Sun,  5 Oct 2025 23:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B530C1BC3F
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 00:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759707992; cv=none; b=mYqLZh7uxneoh81naVpLfyrqw6jcxFQP/J8kp6Ec/J0aG/70F54qXCNfUlmH7VBZRwOg1i9SFQRlORYddtncCAW9PGsXc7U35CL2XAjozmO/E/4n3/zUyPLwKfwyGZkhC/EvGE8CwmYGmHdm15RReEmPx5mUBKN51H4T8Ez5fS0=
+	t=1759710044; cv=none; b=Eqqzfz188feT07+xemxeDJ8/F704V2agzRViEixa1vpvjnuICFm0vfXBaNjbqHWcsjmt0llxNRvj0qT5pQTu3J1Y+rwO2Rn4ya8RbnCtc9Pn2l+mx1PGVvAAtDuh3icKMHAQDGBHnptKEVgbB/MHyVS41gYwBFKppTYBjWkUzqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759707992; c=relaxed/simple;
-	bh=bWd+acx4FighV7OLpuFhAow2jBjh8y9ifOfxAY/RBhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b17eWp6Um/qMkZkwtgJePJk66GvojEuuX2cUTAE+9lECd4vH1P6unUGia5LXsBE2dBsKdCJurrFKd7RH8j2WL3C/L6hT8areSgy/RY5ZN1u+yRUHJwEV1TQtprriMmpLyKDx1GpEVC6Uu0p1US/oQS/4MKghKfz2EgD6CaQ5Dsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3YrCcp8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759710044; c=relaxed/simple;
+	bh=55VcI99BefU1ClGWEt6w2p1Wq4Ig0V9YUg0p6uKAx48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t77yqBF/9e1cxl6UdtxnNkR9DzNax6uCztMzYooEISzd30QVecSh9UnUKRA8qaaCu2YIVdl0Y3WsxBrP9q4YoaXtpnMGt6KKNqCLacng++r/CFzzjjsrdmbIjJKgIgR/fbXLgoeU51agNAUgWx97+BPszcVj6nE0ElvOGHDYyf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqJAvEUT; arc=none smtp.client-ip=209.85.166.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3YrCcp8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759707991; x=1791243991;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bWd+acx4FighV7OLpuFhAow2jBjh8y9ifOfxAY/RBhM=;
-  b=X3YrCcp8SXZ348achfXPIqlCDKSMTOINyfFo0YcC48vKbO1SY1yLIxY/
-   YS+W4BUz+cyhGrLzUZRREMskgAkyM7awcfWwsEBbV5eJK7LDBumYdHd4z
-   NUuP/B0k5cGNUsDrXU/19DotAdV1ZPm+dvn5Ztz+G2snQRi3YWOEEip9n
-   h8Pf9sgHEiKjDV6NcctcPPy0FyGzPInkiRF22huVsFSCg7P2mPEPf6SvD
-   VARYKUxkJbm8rFLiZbDVF4rIS4lmK+lJH5qjzCpHKvfvT396tmr4VlA6a
-   OEHcUWheIQ5XdTmGlnT9y6LoXdfZMBTfza717jRdBvkrtC/8joVGAUGRR
-   Q==;
-X-CSE-ConnectionGUID: wGlFN/96TvumvPSOTZtMww==
-X-CSE-MsgGUID: l7Fl2hqvSGKGSj2sesjCsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11573"; a="61771066"
-X-IronPort-AV: E=Sophos;i="6.18,318,1751266800"; 
-   d="scan'208";a="61771066"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2025 16:46:30 -0700
-X-CSE-ConnectionGUID: 3Mrkr3mKR+yN4elDOllGqw==
-X-CSE-MsgGUID: vz2AJXhbS7i3E9AOFgEtpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,318,1751266800"; 
-   d="scan'208";a="185042267"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2025 16:46:29 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v5YQs-000000007k1-3gRw;
-	Sun, 05 Oct 2025 23:46:26 +0000
-Date: Mon, 6 Oct 2025 01:45:41 +0200
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sj:damon/next 120/121] htmldocs:
- Documentation/admin-guide/mm/damon/stat.rst:13: WARNING: malformed hyperlink
- target. [docutils]
-Message-ID: <202510060124.YaUaLfkH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqJAvEUT"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-42f6e0bdcf7so6576395ab.0
+        for <linux-doc@vger.kernel.org>; Sun, 05 Oct 2025 17:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759710042; x=1760314842; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fu5Ah+MFhPdDtEFol8Eh9/iXvYEpCqqSBweQNTT6OA8=;
+        b=XqJAvEUT/g5Sr67gEw/FxjNODGytThoqANKDNfqaZGfaf08/97xocFsR4xogzPbnwy
+         Fsa/xlGIdD43EBHp+mJB//+4yeD/kqUrMY16+2kKKsAFvDagSfiNLbEE6NaPdEHdJP2k
+         isGloBru7Fx49DwuYZ/1pWAhV16HvmvaLU4v+F8UWZnRYomh1bk37lBi2xmAgl6x6bP0
+         9u+iIq6ZhW/fusSqymF9PFAZkCv97mYzUuhPlbdpc28eakijncnhI7pc+USMHvot2E0V
+         UCD6eGL+Bpf/ybiVfxP2RS+JGr2ZUdhtbbwGvWIrtr1hV7S1w8VDHURY7/k7jCd6QtZC
+         e0fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759710042; x=1760314842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fu5Ah+MFhPdDtEFol8Eh9/iXvYEpCqqSBweQNTT6OA8=;
+        b=QBJmzLl23EUYIsCmjPqd5fU6kpUxc7pqzxhXHIEzfacWg1QRnwy4DsYY6XX2gkpT8a
+         cmcURKj7+7eoC6qXyKMFPhRb6ZrDpCjOybJGN0Ap6Ue6t/HQ8zdR4C1c98cDt3LB8n0Q
+         FfzYXiQi/bOTjFavGssAqmhLd9pDGPK8VhQr8TwYXL31kz87wtjIb5DRuSp1E6imyN4D
+         CV7AolkEpo6RUk+pyppqhDovx8/6vDumt1192/dbiWjF0bqbpkE5cALQ2PQQUnpRka3w
+         79j8FPuaIEaa7cuq1sQau1lrpFHvuUBQkZ+N2nkUWyHOwVmPunGDH/QQYReHIcq692JN
+         ffew==
+X-Forwarded-Encrypted: i=1; AJvYcCXM2uMtpy4TFayL1JeJI/5o0TGzi3qdKLK0U/a2kMJeWsogU0b5fPZgsFbODNQo7yHlXKK3/H42eME=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh965zmgkcTuYkRKPCjAUO7DhRX0Af+QiS8S5hRyBt4ptWSCOC
+	cy2pyJQ1mRcBRVcwXeciIgSaP7bBIXUM1WQbOcmxgVOSvfO2IBG+LW1H
+X-Gm-Gg: ASbGncu+f6e/ewA/9xDo5lP5puvrgWmqNbt/j10dbhMahe6wSQ8n78dV7j0O0ea1l7s
+	8gO1o5W8hjRQO6m/5VaROV3OBa70F701LmdvmRVQV7bwtsWDf+OlanzaI3vq/PU9qivqFZnoj58
+	lG10xvVGBLl9EhvRQgI+MAQYj/zcdi8BjwjBo6L7XjCG6u6Xxw8cWR7TFKSSN87Qo0anohtwOb2
+	UuBUn8MI7Do5ZnaIPf1LKZ/dB9QoYeOzwanrrHyzPvJWttRUTRc/NYOKosxbgtQzYm1qZV+xcxC
+	qHTIvBmd7keRmA7+uw+EhyDefkv/9qpKs9DQsU5DT6/nsgtPySaKxxq3I/LO8knCAJwrFA9JzNL
+	iRnHjc/NkcDB4djhGeX+EgB/EKEDd3w9warKHma/5w9pOXB8s3E1wkQjOviY6DgEuw21HIrENy3
+	W2N5LLDXv/
+X-Google-Smtp-Source: AGHT+IGff2l9ufL4NeNqwyVNjvL8Pud5v87IH+281X9l0kkYxr5cs/X7Utey6E9qDPWIEsvuhOgHvA==
+X-Received: by 2002:a05:6e02:12e7:b0:426:3ab1:74b9 with SMTP id e9e14a558f8ab-42e7ad9b00amr173366855ab.25.1759710041692;
+        Sun, 05 Oct 2025 17:20:41 -0700 (PDT)
+Received: from gabes-framework.lan ([2607:fb91:3c85:4c0f:1139:4ccc:af91:f49b])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-57b5e9eba46sm4325943173.15.2025.10.05.17.20.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Oct 2025 17:20:41 -0700 (PDT)
+From: Gabriel Whigham <gabewhigham@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Gabriel Whigham <gabewhigham@gmail.com>
+Subject: [PATCH] =?UTF-8?q?docs:=20hwmon:=20fix=20typo=20in=20sg2042-mcu.r?= =?UTF-8?q?st=20Fix=20a=20spelling=20mistake:=20"supprts"=20=E2=86=92=20"s?= =?UTF-8?q?upports".?=
+Date: Sun,  5 Oct 2025 19:18:08 -0500
+Message-ID: <20251006001808.16962-1-gabewhigham@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   d2a846a38c8b6e1f2473db076998642ea3bac918
-commit: 94d350c7971494ad1967e5d04745401a08adbd83 [120/121] Docs/admin-guide/mm/damon/stat: document aggr_interval_us parameter
-reproduce: (https://download.01.org/0day-ci/archive/20251006/202510060124.YaUaLfkH-lkp@intel.com/reproduce)
+Signed-off-by: Gabriel Whigham <gabewhigham@gmail.com>
+---
+ Documentation/hwmon/sg2042-mcu.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510060124.YaUaLfkH-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   WARNING: No kernel-doc for file ./include/linux/pci.h
-   ERROR: Cannot find file ./include/linux/mod_devicetable.h
-   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
-   ERROR: Cannot find file ./include/linux/bootconfig.h
-   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
->> Documentation/admin-guide/mm/damon/stat.rst:13: WARNING: malformed hyperlink target. [docutils]
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
---
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/admin-guide/mm/damon/stat.rst:51: WARNING: undefined label: 'damon_stat_monitoring_accuracy_overhead' [ref.ref]
-
-
-vim +13 Documentation/admin-guide/mm/damon/stat.rst
-
-    12	
-  > 13	.. _damon_stat_monitoring_accuracy_overhead
-    14	
-    15	Monitoring Accuracy and Overhead
-    16	================================
-    17	
-    18	DAMON_STAT uses monitoring intervals :ref:`auto-tuning
-    19	<damon_design_monitoring_intervals_autotuning>` to make its accuracy high and
-    20	overhead minimum.  It auto-tunes the intervals aiming 4 % of observable access
-    21	events to be captured in each snapshot, while limiting the resulting sampling
-    22	events to be 5 milliseconds in minimum and 10 seconds in maximum.  On a few
-    23	production server systems, it resulted in consuming only 0.x % single CPU time,
-    24	while capturing reasonable quality of access patterns.
-    25	
-    26	Interface: Module Parameters
-    27	============================
-    28	
-    29	To use this feature, you should first ensure your system is running on a kernel
-    30	that is built with ``CONFIG_DAMON_STAT=y``.  The feature can be enabled by
-    31	default at build time, by setting ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` true.
-    32	
-    33	To let sysadmins enable or disable it at boot and/or runtime, and read the
-    34	monitoring results, DAMON_STAT provides module parameters.  Following
-    35	sections are descriptions of the parameters.
-    36	
-    37	enabled
-    38	-------
-    39	
-    40	Enable or disable DAMON_STAT.
-    41	
-    42	You can enable DAMON_STAT by setting the value of this parameter as ``Y``.
-    43	Setting it as ``N`` disables DAMON_STAT.  The default value is set by
-    44	``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` build config option.
-    45	
-    46	aggr_interval_us
-    47	----------------
-    48	
-    49	Auto-tuned time interval for the last snapshot in microseconds.
-    50	
-  > 51	The current aggregation interval of DAMON that :ref:`auto-tuned
-    52	<damon_stat_monitoring_accuracy_overhead>`.
-    53	
-
+diff --git a/Documentation/hwmon/sg2042-mcu.rst b/Documentation/hwmon/sg2042-mcu.rst
+index 077e79841..431ed832d 100644
+--- a/Documentation/hwmon/sg2042-mcu.rst
++++ b/Documentation/hwmon/sg2042-mcu.rst
+@@ -18,7 +18,7 @@ Authors:
+ Description
+ -----------
+ 
+-This driver supprts hardware monitoring for onboard MCU with
++This driver supports hardware monitoring for onboard MCU with
+ i2c interface.
+ 
+ Usage Notes
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
