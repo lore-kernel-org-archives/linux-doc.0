@@ -1,162 +1,140 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8DC188000;
-	Mon,  6 Oct 2025 10:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEC8246BB8
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 10:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759747067; cv=none; b=LbsJR0uIvh6R1qpBU41rFTMbGCLV0ljM5dQ8cJw3aZM0abuGASmUr0NJpGT9AYqyoiSghXMEQHb4bv4dFkBG448TV1ynfjsJsT2rWV6uurAW3xyb/7L/zFOqEkU4ClWFRk2RdAYJXOdzU3JbifcVF4KvQ2gIHpspJ5/nSOT4Ulc=
+	t=1759747217; cv=none; b=qhudFQtqWyUz3DrfCBeVf2DcO9EgKkdDCDUkJ3sjbDo15/yu7hmAv0HZQ4Kv3ckUTdrvmTlxwbUAMyNhj5WgFnzm9rj7sQX6ukWMwTMQ263VaZvN8rUx86ayeVfim0MdxKdeeJnt/tJy0AvgQ6bJMfZqPE4TSuDx1oWLcuBAWmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759747067; c=relaxed/simple;
-	bh=5a0V+ktkM0zmP/i/KvTfiBf3YEBIe7ryg6F09ELHLbA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mANQUkQ86/3n22/wDhxqVXUj4/CAezMGCvZV3InPEOf/kOrIVI4JPacmrn/+M80gkEVpXxYlSIoEm09HYxCTPlBelj+IsNpE9Jt5xqMbdZ37kqaPd2ej/4prB7OgIVT+RBHIwaaxZ0PHBp/gTcdn7IRyX4tlcLPo3HiJA4wHhnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cgG0z0LfWz6L4xs;
-	Mon,  6 Oct 2025 18:37:07 +0800 (CST)
-Received: from dubpeml500006.china.huawei.com (unknown [7.214.146.138])
-	by mail.maildlp.com (Postfix) with ESMTPS id BC60F1402CB;
-	Mon,  6 Oct 2025 18:37:39 +0800 (CST)
-Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
- dubpeml500006.china.huawei.com (7.214.146.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 6 Oct 2025 11:37:39 +0100
-Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
- dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.011;
- Mon, 6 Oct 2025 11:37:39 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>
-CC: "rafael@kernel.org" <rafael@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>, "Yazen.Ghannam@amd.com"
-	<Yazen.Ghannam@amd.com>, "mchehab@kernel.org" <mchehab@kernel.org>, Linuxarm
-	<linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
-	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Topic: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Index: AQHcHC9WuMPoKRXbY02Oy+WxUZ/jerSMt+SAgAK0t2CAABfigIAEdNLAgAOLbYCAABR4AIACsFkAgBrSt9A=
-Date: Mon, 6 Oct 2025 10:37:39 +0000
-Message-ID: <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
-References: <20250902173043.1796-1-shiju.jose@huawei.com>
- <20250902173043.1796-2-shiju.jose@huawei.com>
- <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
- <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
- <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
- <9433067c142b45d583eb96587b929878@huawei.com>
- <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
- <20250917183608.000038c4@huawei.com>
- <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
-In-Reply-To: <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1759747217; c=relaxed/simple;
+	bh=iiRKz6V48H3i94AjmBnBN5xSNDizfIgD9Gcbi+zlpdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=trS0FA7IVr5lDVsA33HkXwzh/S/XoLIj+90wOpAv6LKQ33pGeR5xkvv4fVvpWXNZUUxjIESMI3jfK87h9Fq5FhcsiI3Qfzt9L0Uf3mTtmm9NeOBc18AYUuU4Pr9ME70eOexNRV4bm6a55eiXCWnGivmy5o1twjrttL73INP44+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jM+pjH3a; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jM+pjH3a"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46e47cca387so50964055e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 03:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759747214; x=1760352014; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qzjH1OWPTlMaVVjV/DrVYMpKdRTpAYxQjDGXPx2pYEQ=;
+        b=jM+pjH3ahHiUx8xQ/wRLxcb0BCpdHeIVpJIovIXITqUPEymFxWAFGhHwsXXkh5J0KT
+         Aq/ownUtmoSq4QG/QYr5UdaLPFfWgmkzXNTyHWT7BdoeNU7DIX8EftseQCuVXsxZfR3U
+         7i64RQm5Vy8J8oaXLg2mPZ14xHpi/hmvE67//rN4ks78IQDbrOesSmdx/X7wAM00+ZpR
+         M2rtEmQ0nnZmmAMC922L76K92i6Zyk6GEbPg6KkRwx8wVrE+PJ7cEg1XaOtNQ/sP0gYF
+         14bju5MQ5qRl1II3IqXMNZTAvwo8JhtHJEL31h22lc9p5IGheh9hRGob9njFso9fJpQ5
+         weyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759747214; x=1760352014;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qzjH1OWPTlMaVVjV/DrVYMpKdRTpAYxQjDGXPx2pYEQ=;
+        b=IdrizRK24ynvuk5SkkE2qLPChD70xkRgFd/FVyugwvJOnLNPofjOKT2ySIdVuDodRT
+         RPvAjGMrdbPw8BBIUxwq17vuMCoa7/drZR57j09ZMrwHs+9oGcjFE5Nfh3jGseMG7dPK
+         VBSYWjYFFnIUFk5+Zzz/ON3Ka5/iR0r22HQ5Hb29nprlmpf81Z/AYSx5jMUqTgez6AGn
+         CIniXVflc9E75aRE88MjbRBjAl0YTB8ul+aNKS1UyDV5+6tKD7asxNsgAfrBQf5w9BbW
+         ZLP0vwX8J6lhomwZL7Om2K+tZO3ghhBWFPVvx4DZtrYDVMaWKh0sAZ4ANNYBCJPrCeCl
+         39cg==
+X-Forwarded-Encrypted: i=1; AJvYcCW73Gv1m2mBJ1NzJukq3767gisDxvkTJKps6Wf7j22ZotVVvVJhhX+/deihwVsMM39K952DIUQhhZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwauABr7ZbC51TVU844TQUQFQ3rFTY67+NxdjgJp6eImEYJ3nEq
+	U2D7lgaVg91V3CI7JV3U3uWPtoxvmrxe3DHHF2VTOyWpsywov/SMeToT
+X-Gm-Gg: ASbGncvEllh3szm6n39LqHCDIxGmXR5sBM8uwsu8EghJO6XYEKDPiaYSYDq3emALiXQ
+	WxrKW2rb40NRwrTzd2y5NlNneoEUrefB22aGgIeS5Hft61ocxhmeRpO01s/1NpoHT8BU/QdAxiF
+	J87Sg3JMt+IjKrMAm72NVxkNHr+Nd7Z1ZiqFAZAxPku+5b+7eUrU1qlyZI2+bfZv5U3z/33FeHb
+	G5fkiCTGFF3RmG2mrbPl0S/WAsQ1BmTfn4StTdpjetR6lCDv1u9MlEAvJdHH595wcn15tHXIrU5
+	QcYHF5hSyXD2u1JG50KXucZlUYj7Xm8FlahMOtja7zPBZv5Ihdly1llpWIpruYKLPsKFprFjsSV
+	M6FRPTBegxXmwCXB4x0CqZKWq8QmMgwZCAAOEdLQobWjqmeM=
+X-Google-Smtp-Source: AGHT+IH8IP56xn3I1QnYJ20Z/tbvzMEjsIxzoUAxJ76fWNZWqgnXCy0iaYNHjZBQMNdm0WTsLpQWmw==
+X-Received: by 2002:a05:6000:1888:b0:425:75ab:952c with SMTP id ffacd0b85a97d-42575ab9635mr3779332f8f.51.1759747213714;
+        Mon, 06 Oct 2025 03:40:13 -0700 (PDT)
+Received: from tpt440p ([41.84.247.38])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f01absm20132296f8f.44.2025.10.06.03.40.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 03:40:13 -0700 (PDT)
+From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	corbet@lwn.net
+Cc: linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	maemo-leste@lists.dyne.org,
+	phone-devel@vger.kernel.org,
+	"Sicelo A. Mhlongo" <absicsz@gmail.com>
+Subject: [PATCH] leds: lp55xx_common: enable use without FW_LOADER_USER_HELPER
+Date: Mon,  6 Oct 2025 12:37:53 +0200
+Message-ID: <20251006103954.243150-1-absicsz@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
-bGllbjguZGU+DQo+U2VudDogMTkgU2VwdGVtYmVyIDIwMjUgMTE6NDANCj5UbzogSm9uYXRoYW4g
-Q2FtZXJvbiA8am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPg0KPkNjOiBTaGlqdSBKb3NlIDxz
-aGlqdS5qb3NlQGh1YXdlaS5jb20+OyByYWZhZWxAa2VybmVsLm9yZzsgYWtwbUBsaW51eC0NCj5m
-b3VuZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOyBkZmVyZ3Vzb25AYW1wZXJlY29tcHV0aW5n
-LmNvbTsgbGludXgtDQo+ZWRhY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFjcGlAdmdlci5rZXJu
-ZWwub3JnOyBsaW51eC1tbUBrdmFjay5vcmc7IGxpbnV4LQ0KPmRvY0B2Z2VyLmtlcm5lbC5vcmc7
-IHRvbnkubHVja0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsNCj5ZYXplbi5HaGFubmFtQGFt
-ZC5jb207IG1jaGVoYWJAa2VybmVsLm9yZzsgTGludXhhcm0NCj48bGludXhhcm1AaHVhd2VpLmNv
-bT47IHJpZW50amVzQGdvb2dsZS5jb207IGppYXFpeWFuQGdvb2dsZS5jb207DQo+Sm9uLkdyaW1t
-QGFtZC5jb207IGRhdmUuaGFuc2VuQGxpbnV4LmludGVsLmNvbTsNCj5uYW95YS5ob3JpZ3VjaGlA
-bmVjLmNvbTsgamFtZXMubW9yc2VAYXJtLmNvbTsganRob3VnaHRvbkBnb29nbGUuY29tOw0KPnNv
-bWFzdW5kYXJhbS5hQGhwZS5jb207IGVyZGVtYWt0YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2ds
-ZS5jb207DQo+ZHVlbndlbkBnb29nbGUuY29tOyBndGhlbGVuQGdvb2dsZS5jb207DQo+d3NjaHdh
-cnR6QGFtcGVyZWNvbXB1dGluZy5jb207IHdic0Bvcy5hbXBlcmVjb21wdXRpbmcuY29tOw0KPm5p
-ZmFuLmN4bEBnbWFpbC5jb207IHRhbnhpYW9mZWkgPHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47IFpl
-bmd0YW8gKEIpDQo+PHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8gU2Fzc3UgPHJv
-YmVydG8uc2Fzc3VAaHVhd2VpLmNvbT47DQo+a2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOyB3
-YW5naHVpcWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFU
-Q0ggdjEyIDEvMl0gQUNQSTpSQVMyOiBBZGQgQUNQSSBSQVMyIGRyaXZlcg0KPg0KPk9uIFdlZCwg
-U2VwIDE3LCAyMDI1IGF0IDA2OjM2OjA4UE0gKzAxMDAsIEpvbmF0aGFuIENhbWVyb24gd3JvdGU6
-DQo+PiBUaGlzICdmaXJzdCBjb250aWd1b3VzIHJhbmdlJyBpcyBhbiBhdHRlbXB0IHRvIERUUlQg
-aW4gYSBjb3JuZXIgY2FzZQ0KPj4gdGhhdCBpcyByZWFsIGJ1dCB3aGVyZSB0aGVyZSBpcyBub3Qg
-YW4gb2J2aW91cyByaWdodCB0aGluZyBkdWUgdG8gc3BlYw0KPmxpbWl0YXRpb25zLg0KPg0KPlRo
-YW5rcyBmb3IgdGFraW5nIHRoZSB0aW1lIHRvIGV4cGFuZC4gVGhlIGdpc3Qgb2YgdGhpcyBuZWVk
-cyB0byBiZSBpbiBhIGNvbW1pdA0KPm1lc3NhZ2UgZm9yIGZ1dHVyZSByZWZlcmVuY2UuDQo+DQo+
-SE9XRVZFUiwgSSdtIHN0aWxsIG5vdCBjbGVhciAqd2h5KiB3ZSdyZSBqdW1waW5nIHRocm91Z2gg
-aG9vcHMgd2hpY2ggd2UNCj5wcm9iYWJseSBzZXQgdXAgb3Vyc2VsdmVzIHdpdGhvdXQgZXZlbiBr
-bm93aW5nIHdoeS4uLiBhdCBsZWFzdCBpdCBsb29rcyBsaWtlIHRoaXMNCj5mcm9tIHdoZXJlIEkn
-bSBzdGFuZGluZy4NCj4NCj5TbyB3aHkgbm90IHN0YXJ0IGEgc2NydWIgb24gdGhlIHdob2xlIHN5
-c3RlbT8gV2h5IGRvIHdlIGNhcmU/DQo+DQo+U2NydWIgaXMgImNoZWFwIiBpbiB0aGUgc2Vuc2Ug
-dGhhdCBpdCBydW5zIGluIHRoZSBiYWNrZ3JvdW5kIGFuZCBpcyB0aGUgbG93ZXN0DQo+cHJpb3Jp
-dHkgYW5kIGV2ZXJ5dGhpbmcgZWxzZSBvdmVycmlkZXMgaXQuDQo+DQo+U28gd2h5IGRlc2lnbiBh
-biBpbnRlcmZhY2Ugb25seSB3aGVuIHRoZXJlJ3MgYSBuZWVkIHRvIGRlc2lnbiBvbmUgYW5kIGRv
-IHRoZQ0KPnNpbXBsZXN0IHRoaW5nIG5vdywgZm9yIHN0YXJ0ZXJzPyBHYXRoZXIgc29tZSBleHBl
-cmllbmNlIGFuZCB0aGVuIGltcnBvdmUgaXQgYnkNCj5hY3R1YWxseSBkZXNpZ25pbmcgYW4gaW50
-ZXJmYWNlLi4uDQoNCkhpIEJvcmlzLA0KDQpTb3JyeSBmb3IgdGhlIGRlbGF5IGluIHJlcGxheWlu
-Zy4NCg0KV2UgaGF2ZSBhIHByb3RvdHlwZSBsb29raW5nIHRvIHNpbXBsaWZ5IHRoaW5ncyBhcyBm
-b2xsb3dzIChsZWF2aW5nIHBlciBub2RlIGFuZA0KcmFuZ2UgY29udHJvbCBmb3IgZnV0dXJlIHdv
-cmspLCBidXQgYmVmb3JlIEkgcG9zdCBpdCAod2FpdGluZyBmb3IgcmMxKSBJJ2QgbGlrZSB0byBk
-aXNjdXNzDQp0aGUgYXBwcm9hY2ggYW5kIGEgZmV3IG9wZW4gcXVlc3Rpb25zIg0KDQoxLlNjcnVi
-IHJhdGUNCjEuMS4gU2NydWIgcmF0ZSBpcyBjb21tb24gYWNyb3NzIHRoZSBOVU1BIG5vZGUgZG9t
-YWlucy4NCjEuMi4gQ29tbW9uIG1pbiBzY3J1YiByYXRlIGlzIG1heCBvZiBtaW4gc2NydWIgcmF0
-ZXMgYWNyb3NzIG5vZGVzLg0KMS4zLiBDb21tb24gbWF4IHNjcnViIHJhdGUgaXMgbWluIG9mIG1h
-eCBzY3J1YiByYXRlcyBhY3Jvc3Mgbm9kZXMuDQoxLjQuIFNjcnViIHJhdGUgYWxsb3dlZCB0byBj
-aGFuZ2Ugb25seSBpZiBOTyBkZW1hbmQgYW5kIHBhdHJvbA0KICAgc2NydWJiaW5nIGlzIGluIHBy
-b2dyZXNzIGFuZCBzaG91bGQgYmUgd2l0aGluIG1pbiBhbmQgbWF4DQogICByYW5nZSBvZiBzY3J1
-YiByYXRlcy4NCg0KMi4gRGVtYW5kIHNjcnViYmluZyBhbmQgQmFja2dyb3VuZCAocGF0cm9sKSBz
-Y3J1YmJpbmcNCjIuMS4gQmFja2dyb3VuZCBzY3J1YmJpbmcgcmVxdWVzdCBlbmFibGVzIEJHIHNj
-cnViYmluZw0KICAgICBvbiBhbGwgTlVNQSBub2Rlcy4NCg0KMi4yLiBGb3IsIGRlbWFuZCBzY3J1
-YmJpbmcgcmVxdWVzdCAyIG9wdGlvbnMgYXJlIGlkZW50aWZpZWQsDQogICAgIHdpdGggKGIpIHRy
-aWVkLiBQbGVhc2Ugc3VnZ2VzdCB0aGUgcmlnaHQgYXBwcm9hY2g/DQphKSBFbmFibGUgZGVtYW5k
-IHNjcnViYmluZyBvbiBhbGwgTlVNQSBub2RlcywgaG9wZSBmb3INCiAgICAgdGhlICdSZXF1ZXN0
-ZWQgQWRkcmVzcyBSYW5nZShJTlBVVCknIGZpZWxkLCBjYW4gdXNlDQogICAgIGFkZHJlc3Mgc2V0
-IHRvIHNjcnViIGFuZCBQQUdFX1NJWkUob3Igc2ltaWxhcikgZm9yIGFsbCB0aGUNCiAgICAgbm9k
-ZXMuIEZvciBSQVMyLCBvbmx5ICdhZGRyJyBzeXNmcyBhdHRyaWJ1dGUgaXMgYWRkZWQgbm93DQog
-ICAgIGFuZCAnc2l6ZScgc3lzZnMgYXR0cmlidXRlIGlzIHJlbW92ZWQuDQpiKSBFbmFibGUgZGVt
-YW5kIHNjcnViYmluZyBvbiBhIE5VTUEgbm9kZSBmb3Igd2hpY2gNCiAgICAgdGhlIHJlcXVlc3Rl
-ZCBhZGRyZXNzIHRvIHNjcnViIGlzIHdpdGhpbiB0aGUgUEEgcmFuZ2Ugb2YNCiAgICAgdGhhdCBu
-b2RlLg0KDQoyLjMuIERlbWFuZCBzY3J1YmJpbmcgaXMgbm90IGFsbG93ZWQgd2hlbiBiYWNrZ3Jv
-dW5kIHNjcnViYmluZw0KICAgICBpcyBpbiBwcm9ncmVzcy4NCg0KMi40LiBJZiAyLjIuIChiKSBp
-cyBjaG9zZW4sIHNob3VsZCBrZXJuZWwgYWxsb3cgQkcNCiAgICAgIHNjcnViYmluZyBvbiByZXN0
-IG9mIHRoZSBub2Rlcywgd2hlbiBkZW1hbmQgc2NydWJiaW5nIG9uDQogICAgICBzb21lIG5vZGUv
-cyBpcyBpbiBwcm9ncmVzcz8NCg0KMi41IFRoZSBzdGF0dXMgb2YgdGhlIEJHIHNjcnViYmluZyBl
-eHBvc2VkIHRvIHRoZSB1c2VyIHNwYWNlDQogICAgaW4gJ2VuYWJsZV9iYWNrZ3JvdW5kJyBzeXNm
-cyBhdHRyaWJ1dGUuDQoNCjIuNiBUaGUgc3RhdHVzIG9mIHRoZSBkZW1hbmQgc2NydWJiaW5nIGV4
-cG9zZWQgdG8gdGhlDQogICAgICAgdXNlciBzcGFjZSBpbiAnYWRkcicgc3lzZnMgYXR0cmlidXRl
-LiBIb3dldmVyIHdoZW4gdGhlDQogICAgICAgZGVtYW5kIHNjcnViYmluZyBpcyBvbiBtdWx0aXBs
-ZS9hbGwgbm9kZXMgYXJlIGluIHByb2dyZXNzLA0KICAgICAgIHdoaWNoIGRlbWFuZCBzY3J1YmJp
-bmcgc3RhdHVzIGFuZCBhZGRyZXNzIGluICdhZGRyJyBzeXNmcyBhdHRyaWJ1dGUNCiAgICAgICBh
-cyBzdGF0dXMgc2hvdWxkIGJlIGV4cG9zZWQgdG8gdGhlIHVzZXIgc3BhY2U/DQphKSBNYXkgYmUg
-dGhlIHN0YXR1cyBvZiB0aGUgZmlyc3QgZGV0ZWN0ZWQgbm9kZSB3aXRoIGRlbWFuZCBzY3J1YmJp
-bmcNCiAgICAgaXMgaW4gcHJvZ3Jlc3M/DQpiKSBEb2VzIG5vdCBzaG93IHRoZSBzdGF0dXMgYXQg
-YWxsLCBqdXN0IGZhaWwgdGhlIHJlcXVlc3QgaWYgdGhlDQogICAgZGVtYW5kIHNjcnViYmluZyBp
-cyBhbHJlYWR5IGluIHByb2dyZXNzIG9uIGEgbm9kZS9hbGwgbm9kZXM/DQpjKSAgQW55IG90aGVy
-IHN1Z2dlc3Rpb24/DQoNClRoYW5rcywNClNoaWp1DQoNCj4NCj5UaHguDQo+DQo+LS0NCj5SZWdh
-cmRzL0dydXNzLA0KPiAgICBCb3Jpcy4NCj4NCj5odHRwczovL3Blb3BsZS5rZXJuZWwub3JnL3Rn
-bHgvbm90ZXMtYWJvdXQtbmV0aXF1ZXR0ZQ0KDQo=
+Many distributions disable FW_LOADER_USER_HELPER, and this configuration
+makes lp55xx LEDs completely unusable. Enable their use by only implying
+the user helper, since the basic LEDs and the hardware patterns can be used
+with only the sysfs interface.
+
+Tested on Nokia N900 with LP5523.
+
+Additionally do not refer to the sysfs interface as legacy anymore, since
+it might be the only one available to users.
+
+Signed-off-by: Sicelo A. Mhlongo <absicsz@gmail.com>
+---
+ Documentation/leds/leds-lp5521.rst | 2 +-
+ Documentation/leds/leds-lp5523.rst | 2 +-
+ drivers/leds/Kconfig               | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/leds/leds-lp5521.rst b/Documentation/leds/leds-lp5521.rst
+index 0432615b083d6..6888c5beceed8 100644
+--- a/Documentation/leds/leds-lp5521.rst
++++ b/Documentation/leds/leds-lp5521.rst
+@@ -22,7 +22,7 @@ More details of the instructions can be found from the public data sheet.
+ LP5521 has the internal program memory for running various LED patterns.
+ There are two ways to run LED patterns.
+ 
+-1) Legacy interface - enginex_mode and enginex_load
++1) sysfs interface - enginex_mode and enginex_load
+    Control interface for the engines:
+ 
+    x is 1 .. 3
+diff --git a/Documentation/leds/leds-lp5523.rst b/Documentation/leds/leds-lp5523.rst
+index 7d7362a1dd575..d150bb7d7b703 100644
+--- a/Documentation/leds/leds-lp5523.rst
++++ b/Documentation/leds/leds-lp5523.rst
+@@ -35,7 +35,7 @@ If both fields are NULL, 'lp5523' is used by default.
+ LP5523 has the internal program memory for running various LED patterns.
+ There are two ways to run LED patterns.
+ 
+-1) Legacy interface - enginex_mode, enginex_load and enginex_leds
++1) sysfs interface - enginex_mode, enginex_load and enginex_leds
+ 
+   Control interface for the engines:
+ 
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 6e3dce7e35a49..3d1895ec38b2e 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -443,8 +443,8 @@ config LEDS_LP55XX_COMMON
+ 	depends on LEDS_CLASS_MULTICOLOR
+ 	depends on OF
+ 	depends on I2C
+-	select FW_LOADER
+-	select FW_LOADER_USER_HELPER
++	imply FW_LOADER
++	imply FW_LOADER_USER_HELPER
+ 	help
+ 	  This option supports common operations for LP5521/5523/55231/5562/5569/
+ 	  8501 devices.
+-- 
+2.51.0
+
