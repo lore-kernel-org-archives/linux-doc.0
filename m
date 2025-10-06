@@ -1,64 +1,64 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66079243958
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52AE22A4FC
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759772456; cv=none; b=B9D8ERSCIxKk64m5L38UiBPZlNDys3SJdJCtqBfxspfSBj+yXjc4k0utZZVGsl94ZlMqlr5IhfXVxU/2VHvI10YVRrjMFFX3GGACg54Z7RPGttED4mowb0GJaBBBb25DGN/5F4caVTelTrc11tSpZ8ZdZVvXmB8mOEMEMP7Pp48=
+	t=1759772788; cv=none; b=i+G3TxtQdXBE8Yk9g24INaZrI43RxHMzLTjsKFaZxKNariyifDDYCmNK8O5CAqvczWDObwUtyp3lvXFee7n0a0XThq5xoTlP+iY2BebfJ6gjj4cgB1S6ByE0b45kYaFsxpf/FiGFG0wTV4fcVtNu+9RTEkvWi2vuLAquzOpyBHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759772456; c=relaxed/simple;
-	bh=X3oGisebRlN7TGv9fnOE86D7EABh68RcxwSctp4usVA=;
+	s=arc-20240116; t=1759772788; c=relaxed/simple;
+	bh=BGtlhNEOznmLiP8Td9R6UOdRpHKv83zIL/Fw14yz6Cs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXQd9Y/u7XAUNBOgkhzdi6QYxyvLl/cKNGlAVUdOchISkUem0qLn0Szvr1ITIyk2YvoO5nPRKRvfnOVexW7+Blt5K3w45dQTay3Hu/PX/Txj4TtGBShGTIisl8O5HBN615cdRN85iP1Sv8tmfovkm5ujkUgBlG/19CERWaa4XBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=sOHxDoxR; arc=none smtp.client-ip=209.85.219.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=WqBOwv0KIE8fy0mdrreFf4lpu7aqAVxqjJ/N5C2HRzou5cZFY1Z+gdUUcnzTF0j/eIhwVDEihimITtBoWI7xFJrQJ+B9DZIthmWR1rddjuYmFcdoOY1xiVcimkj/i72wjkkx7UVgf5lQ7RieqOgjfvxMu6U+7l0EEMibHTejKXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Azr4PsSJ; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="sOHxDoxR"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-86be8a110f5so55378016d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:40:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Azr4PsSJ"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-856222505eeso578794585a.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1759772453; x=1760377253; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1759772786; x=1760377586; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6zbU8nkw6qlp1oRKT9kqkgJqrXveHjdID6Q3hkDONE=;
-        b=sOHxDoxRzP/MGNAS7cyvaa5yDvy3UQNZP4G5F2ZqvH0HyKUw6c4cZSsPC7VLh8j8cq
-         y6yLAyMFW+zb3gb1WFzSeLhnEM9Grii/MJNbqpaBKB7+f0GZC2vIYvsdhn5fHhjnrnKD
-         U94ulnK9JixQAufAmlP9+/ORWAiDDKIOY0rG5nzuuGqQ9hQD/Dc+MFBH7AO7dHWur5uk
-         7GeA53NO1LYYDpRaflILstXkuPNU/zcRnBmHDdjoy1O9jWplKihsGinCuXXl1Zxst7oE
-         bfLvd4CgINO3+6XYQSl5oZ0TQoB8uYk0nIcE20/7Ca9HWkGXFpqQJbElAXtioz864eDy
-         9jGA==
+        bh=mV5BjCFzof/sFlEEwNlSlREaw9vi7GsMBGBoLtecLf0=;
+        b=Azr4PsSJmwu73Gq7Q6Wypi5cfiPLOiVgHe62iNVFQIT2UeiPtoxrSH8FoKrDTsbNEw
+         mDkG8AU/tCr0NBQaJn1zHy7eAxy/PCApRKyDMvQ0eOP6Od4zmwZN7KumzY+jdJBKGS4o
+         /Ra74Jk5lMSuRpb9tNSDhTDbae1CXonczD3KAjtmweekGaR5WhuPqU/8zumVRK4aln4k
+         vGTsqUM/RlU72NWhH3yJHqDKsNBakxrQAMKNgsGhy28aVa7eCKROl4Lv8fBLFAsM7U6E
+         5ymnH62eP7+rBviiuIetXZLc1lJWfgZfpFGZd+2dm87edorWLYDCnqT9L57IGOUnk0Dp
+         vi+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759772453; x=1760377253;
+        d=1e100.net; s=20230601; t=1759772786; x=1760377586;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S6zbU8nkw6qlp1oRKT9kqkgJqrXveHjdID6Q3hkDONE=;
-        b=G/Yz08HISDpIhfgg3meUqUcUkctGaJe+0aAGfrAsTPYcTwS4YhslZ5X82xxehA6OiP
-         RepMWLSxQqFLPC6ggy/O/O3UE6fiDN2NEQovnTot6eIuLwKmm5dP41kJecDquGPie77u
-         SYcqmQ0LZ1da3GCgjoJ7uf+wwneTJKX5K8I7uakcZC0D1zZWF0si89hny+nRRd8/jFFq
-         KIAaYzzaIyQrvzPMsarjYwWOfEg0H05XW/2h6u/ZIxtI+4o9eqMw1V63btm0nyUvfhb3
-         mOp6idJei49NX+uLpW442oaUytTZ/F+RihwhbA7IHLxGVOBlS+7GyZ0uTyi8m9GF9ObZ
-         yB3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXmXhnyIBUnehQLlmNm8fEkBbN9D5aoVmpzNyVfVtY29bViL9FuUn42FMdoLftS3Wxke0/Zo9mvZJY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXI9t8In1rLsg2A3xNa/O8MJmGoahytZTHd8k2os8GxFmnAE50
-	K4YRhDCeUgJKAQDhcsoJbgUj90QBxdQkZ3fxur3IZAJCmdSpkOWAPCsFSxWli7Rm4mo=
-X-Gm-Gg: ASbGncvT8d6fpX32tch9b4pxe3honJ3zDPHIQOYVnuzIN9kLaV6g2G9kjWyTNkK+tZK
-	kQ5JlyOuXqFJrlYoUh+udPilbwLQzyc1t5JoOxsmxJwOLxdlfkj6lG6G4h8qyFlX6/781ag1USJ
-	VgyvIl0vUec+YQjpquyj0ZSshrnsTiJMMz5lBiZDUHbFcHTu+CjWejoQIbUTM/F+KavLdAT0Wou
-	Mf1ohdjjbFCE4cF/oXQkHmbiThnkd6d45MVNts8XRlUjuQq2zxpNVKprXdPUrlWH4uLm6eKqfdO
-	6MDwVyswrQVatYl88nCvttkhmx+/zg4pg3E1XKI6aZOLxgTMF8wKP7H/YjY7qJIfrmc+Ni3hd5g
-	WrseyG7uWpFwbmm1fc/4wjOefjcqgJwL6kk3WJmPmptsePGO0Q6FN0URZL6t2m8T3O2SGDnw3Ys
-	Gvk9yHrx+LmvYOWWbimrTul3W2MoZYMQ==
-X-Google-Smtp-Source: AGHT+IHL82cO15eHplVrd1kOv7KiCQ0/gvt1t2zsTkhJijBzgWb2+lG9R/9BD16PD2C7Tq5jYtu/eA==
-X-Received: by 2002:a05:6214:5f81:b0:879:dcbc:8ce4 with SMTP id 6a1803df08f44-879dcbc8e21mr144530546d6.52.1759772453210;
-        Mon, 06 Oct 2025 10:40:53 -0700 (PDT)
+        bh=mV5BjCFzof/sFlEEwNlSlREaw9vi7GsMBGBoLtecLf0=;
+        b=fnBVY2BBEm1EcKvJSNHOGVUceC4edoS8D7VTr3UXloq4E3HME6lJYGD//gPhNP/Jop
+         W7qsiyyaOuk7zzVCdD2LsBr50mAk6tZGvPdgO1Skj2PV5uW8S0U83U2/29I1ojSit8Zp
+         SkOjU9kA/0ZwWkgscVZpomxY2zM/g+NozrLDbvZaHJCxeoZU8GaxSnvEQJhbRxjenRar
+         jgloCqTnDu12WRwvXIU5pBHwNS86Nk/S/+ty2BYKVc99gpZNV1E1X2pyxFOB8t18T6bC
+         fjWC9kME92KXI+lpj3d5ysPocOo4XqRp8I15B3OUw7103FSWAJ4Y7jNFOsczujE7hPs9
+         k+Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/9Z8Eyjp2rtpe95UsYjZO4giXUsgOBXYExBQOU03vX47Xkidho4qc8dEg6nDkIlbo/hmBOmwNsRY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAg046CfPKAlQsf8X2YehKhGiqVg7J691ZTm9v+yXsZL+6QJQ3
+	3KhBZA385HpTq/687g2sKubSm0OHWeXh7Ca+S9cOO8u2kSiq4ECtyqewjmbwNx2l1/0=
+X-Gm-Gg: ASbGncuPGfRVx5Ullnc55qZ6A/A/SYL9KRi3b8JrhpFunYn1Rx3hgGDRmDzqNrAwOLu
+	ST8CqIKIG7S8xSXwQkaKEh7uOQ34n6DEga4CFthDUCr/wIgmkm7Yasgdbsb8FQv6eBQyj1AU/5R
+	UjtewwIl1VRRTSBE4zEboJ46oO9nvlouMmm9NSQzsbk+g9TdeJmeE5MVPZ5nogpOlJURlH7g2er
+	KqUURyz6uBvJEAjrXec/y9auyd1PUNoyuow2k4zyM+V0eXaY7dx37kdO03+OQ9JMy7rBFzFr4tf
+	brFP5XUJahSMjr3pCBupL6sBIqVONeh8nXqlvfWGBZQQrVTMGL7JN5TONsOgwYKappyLYt22sFz
+	yk5qR9wo+3WpzBG87RbU9B3WyacJvkQGcFeVc4wIO+sUZi94iWESszRgNe2jwP3R9po2HwpuEeX
+	5/htkIxAAYUjoTh5KCpQz5JtRcSobhBhY1cGhe3mUy
+X-Google-Smtp-Source: AGHT+IF/GPa4ozi9y7BOzBQqoUumY05J+0iFBW4qq7MNJrp4XZQ1zNaIlGSXGXlJSe7DbRBRRQjNVA==
+X-Received: by 2002:a05:620a:4709:b0:85f:82c1:c8ed with SMTP id af79cd13be357-87a37cb2f16mr1907191185a.37.1759772785714;
+        Mon, 06 Oct 2025 10:46:25 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878be61fb91sm121659976d6.60.2025.10.06.10.40.52
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-877796a1de6sm1267593985a.49.2025.10.06.10.46.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 10:40:52 -0700 (PDT)
-Date: Mon, 6 Oct 2025 13:40:50 -0400
+        Mon, 06 Oct 2025 10:46:24 -0700 (PDT)
+Date: Mon, 6 Oct 2025 13:46:23 -0400
 From: Gregory Price <gourry@gourry.net>
 To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
 Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
@@ -71,11 +71,10 @@ Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
 	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Robert Richter <rrichter@amd.com>,
 	Cheatham Benjamin <benjamin.cheatham@amd.com>
-Subject: Re: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes
- on x86
-Message-ID: <aOP_IobeHXlUPnle@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH 3/4 v5] cxl/core: Enable Region creation on x86 with LMH
+Message-ID: <aOQAb9H-wIxc6j31@gourry-fedora-PF4VCD3F>
 References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
- <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+ <20251006155836.791418-4-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,45 +83,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+In-Reply-To: <20251006155836.791418-4-fabio.m.de.francesco@linux.intel.com>
 
-On Mon, Oct 06, 2025 at 05:58:05PM +0200, Fabio M. De Francesco wrote:
-> On a x86 platform with a low memory hole (LHM), the BIOS may publish
-                                        ^^^ LMH ^^^
-
-> CFMWS that describes a system physical address (SPA) range that
-> typically is only a subset of the corresponding CXL intermediate switch
-> and endpoint decoder's host physical address (HPA) ranges. The CFMWS
-> range never intersects the LHM and so the driver instantiates a root
-> decoder whose HPA range size doesn't fully contain the matching switch
-> and endpoint decoders' HPA ranges.[1]
+On Mon, Oct 06, 2025 at 05:58:06PM +0200, Fabio M. De Francesco wrote:
+> The CXL Fixed Memory Window Structure (CFMWS) describes zero or more
+> Host Physical Address (HPA) windows that are associated with each CXL
+> Host Bridge. Each window represents a contiguous HPA that may be
+> interleaved with one or more targets (CXL v3.2 - 9.18.1.3).
 > 
-> To construct regions and attach decoders, the driver needs to match root
-> decoders and regions with endpoint decoders. The process fails and
-> returns errors because the driver is not designed to deal with SPA
-> ranges which are smaller than the corresponding hardware decoders HPA
-> ranges.
-> 
-> Introduce two functions that indirectly detect the presence of x86 LMH
-> and allow the matching between a root decoder or an already constructed
-> region with a corresponding intermediate switch or endpoint decoder to
-> enable the construction of a region and the subsequent attachment of the
-> same decoders to that region.
-> 
-> These functions return true when SPA/HPA misalignments due to LMH's are
-> detected under specific conditions:
-> 
-> - Both the SPA and HPA ranges must start at LMH_CFMWS_RANGE_START (i.e.,
->   0x0 on x86 with LMH's).
-> - The SPA range's size is less than HPA's.
-> - The SPA range's size is less than 4G.
-> - The HPA range's size is aligned to the NIW * 256M rule.
-> 
-> Also introduce a function that adjusts the range end of a region to be
-> constructed and the DPA range's end of the endpoint decoders that will
-> be later attached to that region.
-> 
-> [1] commit 7a81173f3 ("cxl: Documentation/driver-api/cxl: Describe the x86 Low Memory Hole solution")
+...
 > 
 > Cc: Alison Schofield <alison.schofield@intel.com>
 > Cc: Dan Williams <dan.j.williams@intel.com>
@@ -130,7 +99,63 @@ On Mon, Oct 06, 2025 at 05:58:05PM +0200, Fabio M. De Francesco wrote:
 > Cc: Ira Weiny <ira.weiny@intel.com>
 > Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
 
-lgmt
+Couple inlines but just nits
 
 Reviewed-by: Gregory Price <gourry@gourry.net>
 
+> @@ -1770,6 +1778,7 @@ static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
+>  {
+>  	const struct cxl_endpoint_decoder *cxled = data;
+>  	struct cxl_switch_decoder *cxlsd;
+> +	struct cxl_root_decoder *cxlrd;
+>  	const struct range *r1, *r2;
+>  
+>  	if (!is_switch_decoder(dev))
+> @@ -1779,8 +1788,13 @@ static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
+>  	r1 = &cxlsd->cxld.hpa_range;
+>  	r2 = &cxled->cxld.hpa_range;
+>  
+> -	if (is_root_decoder(dev))
+> -		return range_contains(r1, r2);
+> +	if (is_root_decoder(dev)) {
+> +		if (range_contains(r1, r2))
+> +			return 1;
+> +		cxlrd = to_cxl_root_decoder(dev);
+> +		if (platform_cxlrd_matches_cxled(cxlrd, cxled))
+> +			return 1;
+> +	}
+
+Is there any concern for longer term maintainability if addition
+match_*() functions are added?  Or is this upkeep just the unfortunate
+maintenance cost of supportering the quirk?
+
+>  
+>  static struct cxl_decoder *
+> @@ -3406,8 +3421,12 @@ static int match_region_to_cxled_by_range(struct device *dev, const void *data)
+>  	p = &cxlr->params;
+>  
+>  	guard(rwsem_read)(&cxl_rwsem.region);
+> -	if (p->res && p->res->start == r->start && p->res->end == r->end)
+> -		return 1;
+> +	if (p->res) {
+> +		if (p->res->start == r->start && p->res->end == r->end)
+> +			return 1;
+> +		if (platform_region_matches_cxld(p, &cxled->cxld))
+> +			return 1;
+> +	}
+
+
+if (!p->res)
+	return 0;
+if (p->res->start == r->start && p->res->end == r->end)
+	return 1;
+if (platform_region_matches_cxld(p, &cxled->cxld))
+	return 1;
+return 0;
+
+?
+
+I like flat, but I also dislike not-logic.  Style choice here, unless
+others have a strong feeling this is fine.
+
+~Gregory
