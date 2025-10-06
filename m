@@ -1,68 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2639822F76F;
-	Mon,  6 Oct 2025 17:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFB523A9B3
+	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 17:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759771123; cv=none; b=KgwdWcWeWtKImgmWIBMHjP8LM/sCrZ8iWw32Md1sOJr4w1biJNMAdCeqfgtCUPZPO6byWYbvg9rxJvgZBnGiWK7Ww5KBCz/kD94NvoEqEcRpR5MRdpxrvy+zou9WdtMfe4z8Q/yyuBg38ro3jwrXNfgazGRxSzJMdFMbPpkkaEI=
+	t=1759771322; cv=none; b=ISyEAz7DPYQ7s/iJevSs1HM7/2Igk3UJ1uEzXUnGlxUXwwSsN9dQWxKyvShOVfvljVvW9Ls+1X4/dr3TrcVHX2P+KjQknA2gPjZT8qQ7tslkUoMAPhcQmUJy6GiWVz/6gfDuHe/FZcysduO5RD6mEmMpH+0ZEHnNBNLJ2CUZrr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759771123; c=relaxed/simple;
-	bh=SfxMdBU6y0tqa4mF6l4hXNxeVEuJfM5uMhZ8hI4CbCs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OCXajY46iINT4FMpFJvNYMn79E29Sn9LBMY+fn6SE48r/bLCmLlmJmyj7CKYoru5WXLsFrQ1ztg8ZMAlqn605pgtCKp3/r1tXXFbdhkm4VhKqBCRMnzRcqlS/TCiRxs4kg4e5crI/ynpbFDFB/o9uEV8EcHJNqPu7PWJB8csOEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fiejpe10; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759771322; c=relaxed/simple;
+	bh=74DlWy/wZvAW0vbF4XE00zl9RPY5mmo68zzZTKTBqRg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=csaghEEPwNDrxGBmYIVRZFOf/fQ1A/uiZvXYcrHLe5mm3Y4UMFGY5UT6IdwMke3Vwmz0wdeA3ANCe/0iGstUH5+SVlMVwk78hK1D2GiinKdGmNrQuuP6qlzu5zAsHZAGYgoA8lhTQB9td4AjRzHTLu1pPdTZpTaQVhfAGD9T+6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Xt9CEQCE; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fiejpe10"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E00FC4CEF5;
-	Mon,  6 Oct 2025 17:18:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759771122;
-	bh=SfxMdBU6y0tqa4mF6l4hXNxeVEuJfM5uMhZ8hI4CbCs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fiejpe10UbBJjarXtt6tSJk0J6IvEZTsNnc1DEqoWg0+eJ1AQ4zx2mx3EBwH0mnu4
-	 lmBxWg41qt/BPvziRJWL1VS46TXiDmYa/rhbUOTUObRSfFxXAShWL4Lq1YIPJBYJmH
-	 fIRTRllkIOCs0BKoP+KfHgD6KgFOk67QBV8V9KZLtDc32TPRi3UZRaeZjhs/2DNSLY
-	 Gc0D7ZjJZowkjAcZ2ayvZciCsE8IpLNrqDncDYU+GxtwxSLsajJ4GoFQKwUkV39lN/
-	 yRwrLX+Tu8QcctxAyNzaDBZXVO5rUzalSV4h/oEhDDo/jnj/fLQ4b5vmK8eAQBuA9R
-	 dWukQW+kcxCPQ==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 120/121] htmldocs: Documentation/admin-guide/mm/damon/stat.rst:13: WARNING: malformed hyperlink target. [docutils]
-Date: Mon,  6 Oct 2025 10:18:40 -0700
-Message-Id: <20251006171840.91462-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <202510060124.YaUaLfkH-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Xt9CEQCE"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4d9f38478e0so52292231cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 10:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1759771319; x=1760376119; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u3CFdIAZSOG3RFljBavldVx+w/X0FNVvOnGYJcNKBpQ=;
+        b=Xt9CEQCE3irO+7S8grd2U3oZ3qtW5ufHe3gACzEf2+rosm2fy+Qw9vftIU+I1xDJib
+         nwKnv+Z6DP60c/jvkkXpyv5OG+yj2RjzMUHSjVly34SMl8fJaopGrySxoBZ+gCJN4hL0
+         3ZRu47tgoqHzLvYVaA8sYr3/Oz/1xtEkRhVqvdC53iOMtpxPIOfVsZcK7iKs65Jn+7BT
+         bZi6hmsoZ0f/hWkeno9PVJsN6uhN2f4kQc6XkhJfUgnhSaGltKjiwtcua7wT0ZiGYo5u
+         DeLpst1wAvRuMi58k2BcLuKSLgrN9Mm5GVlWvGV0tcIMZnQmAKuxFIL/QGmQV9Yfz8NA
+         TK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759771319; x=1760376119;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u3CFdIAZSOG3RFljBavldVx+w/X0FNVvOnGYJcNKBpQ=;
+        b=s9phRES9XJd7ycfIcEycSkFr6tEHPjTxy7uVh4jEdH+SPiUOssp89CYsNAyQJc1NTm
+         GYq4B+bc+9oFlk/iItmpb3/b8aEDQakRDcG5Hy2709dJ7P7SToZwxl8GORJYa9CF69ig
+         TXFg/quEjf1upsjP9+fgrIfWYOW4FRK0aNwKwuJgANEDH5bYZakFACRbqyyUkk3uXbV3
+         n9OkacrDCGAdINg4RN51RJbvtcgl4JUEmpKGVgzJI37Se9biwgF5COsl7hpSN/4GAeIJ
+         ObWHwJwoqFIS/0FqQjqNipvatldo6OHx14qUcFrcobxrx9UK/gUSaZcVNGo4zBB7WwWz
+         9Gxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUyxTSgagtXQjX7aTX2XrZm1TaaRBrawAFpiwYVwoDKcam2p/DmPfvf8fq3ONZRo3OibLVxpbBFcEs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZPwbDD86aGIaReriMAKVz6WHZVbAxZCrmn9poe0p4W2PLqz0N
+	Oh5AL/P2jCiEQivcjxCNGUKEo91/cr+v9vH/nh5/hZCWR8qKn1vMMfzY3IKwk+g8J4EuY+Ns8J3
+	aygP3nf2MdFRsXXB0ZbE+KWQGYnBo4dcM+KsWvRTP6A==
+X-Gm-Gg: ASbGncs/08AlMVd6Ilpd+/lvihXkHR9NfetGLSQkBZyoUULo1dTOA2yEhghNIdB3Jo4
+	nmv5fY1bOUCaUZhLpyrjxBZQiZYA02kkudSt0sFxWtS9fY6vixoXaAzWOlHtKrsKc/01qc1T4M5
+	RtMjna+H9qP3FIuQZulbHrXuLrBm9NT8qKVzTeFlz60kiF00bu67xuE8uFyYae05I6JCN2ycq8w
+	vtNjKOgcBdIS7iJ62jJ3ZIR9KnBHerMOLWQblE=
+X-Google-Smtp-Source: AGHT+IFM2iasjSwevS/Ww6pNuFkpEMTxLK7Q2uZtw02+A+PsxcuVSjzuu+26bSPV3eDsAJn6N8sfkeveM0JOQLoCA2k=
+X-Received: by 2002:a05:622a:5815:b0:4df:3139:d204 with SMTP id
+ d75a77b69052e-4e6de8027ebmr6622011cf.10.1759771319077; Mon, 06 Oct 2025
+ 10:21:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <20250929010321.3462457-4-pasha.tatashin@soleen.com> <mafs0tt0cnevi.fsf@kernel.org>
+In-Reply-To: <mafs0tt0cnevi.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 6 Oct 2025 13:21:20 -0400
+X-Gm-Features: AS18NWCA17JFqGpyH74v5IB7rQGOnAZUihEDBZQPUG896U4mqGpoALvEdvNdCBg
+Message-ID: <CA+CK2bA2qfLF1Mbyvnat+L9+5KAw6LnhYETXVoYcMGJxwTGahg@mail.gmail.com>
+Subject: Re: [PATCH v4 03/30] kho: drop notifiers
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 6 Oct 2025 01:45:41 +0200 kernel test robot <lkp@intel.com> wrote:
+On Mon, Oct 6, 2025 at 1:01=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org>=
+ wrote:
+>
+> On Mon, Sep 29 2025, Pasha Tatashin wrote:
+>
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > The KHO framework uses a notifier chain as the mechanism for clients to
+> > participate in the finalization process. While this works for a single,
+> > central state machine, it is too restrictive for kernel-internal
+> > components like pstore/reserve_mem or IMA. These components need a
+> > simpler, direct way to register their state for preservation (e.g.,
+> > during their initcall) without being part of a complex,
+> > shutdown-time notifier sequence. The notifier model forces all
+> > participants into a single finalization flow and makes direct
+> > preservation from an arbitrary context difficult.
+> > This patch refactors the client participation model by removing the
+> > notifier chain and introducing a direct API for managing FDT subtrees.
+> >
+> > The core kho_finalize() and kho_abort() state machine remains, but
+> > clients now register their data with KHO beforehand.
+> >
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> [...]
+> > diff --git a/mm/memblock.c b/mm/memblock.c
+> > index e23e16618e9b..c4b2d4e4c715 100644
+> > --- a/mm/memblock.c
+> > +++ b/mm/memblock.c
+> > @@ -2444,53 +2444,18 @@ int reserve_mem_release_by_name(const char *nam=
+e)
+> >  #define MEMBLOCK_KHO_FDT "memblock"
+> >  #define MEMBLOCK_KHO_NODE_COMPATIBLE "memblock-v1"
+> >  #define RESERVE_MEM_KHO_NODE_COMPATIBLE "reserve-mem-v1"
+> > -static struct page *kho_fdt;
+> > -
+> > -static int reserve_mem_kho_finalize(struct kho_serialization *ser)
+> > -{
+> > -     int err =3D 0, i;
+> > -
+> > -     for (i =3D 0; i < reserved_mem_count; i++) {
+> > -             struct reserve_mem_table *map =3D &reserved_mem_table[i];
+> > -             struct page *page =3D phys_to_page(map->start);
+> > -             unsigned int nr_pages =3D map->size >> PAGE_SHIFT;
+> > -
+> > -             err |=3D kho_preserve_pages(page, nr_pages);
+> > -     }
+> > -
+> > -     err |=3D kho_preserve_folio(page_folio(kho_fdt));
+> > -     err |=3D kho_add_subtree(ser, MEMBLOCK_KHO_FDT, page_to_virt(kho_=
+fdt));
+> > -
+> > -     return notifier_from_errno(err);
+> > -}
+> > -
+> > -static int reserve_mem_kho_notifier(struct notifier_block *self,
+> > -                                 unsigned long cmd, void *v)
+> > -{
+> > -     switch (cmd) {
+> > -     case KEXEC_KHO_FINALIZE:
+> > -             return reserve_mem_kho_finalize((struct kho_serialization=
+ *)v);
+> > -     case KEXEC_KHO_ABORT:
+> > -             return NOTIFY_DONE;
+> > -     default:
+> > -             return NOTIFY_BAD;
+> > -     }
+> > -}
+> > -
+> > -static struct notifier_block reserve_mem_kho_nb =3D {
+> > -     .notifier_call =3D reserve_mem_kho_notifier,
+> > -};
+> >
+> >  static int __init prepare_kho_fdt(void)
+> >  {
+> >       int err =3D 0, i;
+> > +     struct page *fdt_page;
+> >       void *fdt;
+> >
+> > -     kho_fdt =3D alloc_page(GFP_KERNEL);
+> > -     if (!kho_fdt)
+> > +     fdt_page =3D alloc_page(GFP_KERNEL);
+> > +     if (!fdt_page)
+> >               return -ENOMEM;
+> >
+> > -     fdt =3D page_to_virt(kho_fdt);
+> > +     fdt =3D page_to_virt(fdt_page);
+> >
+> >       err |=3D fdt_create(fdt, PAGE_SIZE);
+> >       err |=3D fdt_finish_reservemap(fdt);
+> > @@ -2499,7 +2464,10 @@ static int __init prepare_kho_fdt(void)
+> >       err |=3D fdt_property_string(fdt, "compatible", MEMBLOCK_KHO_NODE=
+_COMPATIBLE);
+> >       for (i =3D 0; i < reserved_mem_count; i++) {
+> >               struct reserve_mem_table *map =3D &reserved_mem_table[i];
+> > +             struct page *page =3D phys_to_page(map->start);
+> > +             unsigned int nr_pages =3D map->size >> PAGE_SHIFT;
+> >
+> > +             err |=3D kho_preserve_pages(page, nr_pages);
+> >               err |=3D fdt_begin_node(fdt, map->name);
+> >               err |=3D fdt_property_string(fdt, "compatible", RESERVE_M=
+EM_KHO_NODE_COMPATIBLE);
+> >               err |=3D fdt_property(fdt, "start", &map->start, sizeof(m=
+ap->start));
+> > @@ -2507,13 +2475,14 @@ static int __init prepare_kho_fdt(void)
+> >               err |=3D fdt_end_node(fdt);
+> >       }
+> >       err |=3D fdt_end_node(fdt);
+> > -
+> >       err |=3D fdt_finish(fdt);
+> >
+> > +     err |=3D kho_preserve_folio(page_folio(fdt_page));
+> > +     err |=3D kho_add_subtree(MEMBLOCK_KHO_FDT, fdt);
+> > +
+> >       if (err) {
+> >               pr_err("failed to prepare memblock FDT for KHO: %d\n", er=
+r);
+> > -             put_page(kho_fdt);
+> > -             kho_fdt =3D NULL;
+> > +             put_page(fdt_page);
+>
+> This adds subtree to KHO even if the FDT might be invalid. And then
+> leaves a dangling reference in KHO to the FDT in case of an error. I
+> think you should either do this check after
+> kho_preserve_folio(page_folio(fdt_page)) and do a clean error check for
+> kho_add_subtree(), or call kho_remove_subtree() in the error block.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   d2a846a38c8b6e1f2473db076998642ea3bac918
-> commit: 94d350c7971494ad1967e5d04745401a08adbd83 [120/121] Docs/admin-guide/mm/damon/stat: document aggr_interval_us parameter
-> reproduce: (https://download.01.org/0day-ci/archive/20251006/202510060124.YaUaLfkH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510060124.YaUaLfkH-lkp@intel.com/
+I agree, I do not like these err |=3D stuff, we should be checking
+errors cleanly, and do proper clean-ups.
 
-Thank you for reporting this!  I just pushed a fix to my tree:
-https://git.kernel.org/sj/c/347be1d4cfca4617b44ae692cc67d7903953c542
-
-
-Thanks,
-SJ
-
-[...]
+> I prefer the former since if kho_add_subtree() is the one that fails,
+> there is little sense in removing a subtree that was never added.
+>
+> >       }
+> >
+> >       return err;
+> > @@ -2529,13 +2498,6 @@ static int __init reserve_mem_init(void)
+> >       err =3D prepare_kho_fdt();
+> >       if (err)
+> >               return err;
+> > -
+> > -     err =3D register_kho_notifier(&reserve_mem_kho_nb);
+> > -     if (err) {
+> > -             put_page(kho_fdt);
+> > -             kho_fdt =3D NULL;
+> > -     }
+> > -
+> >       return err;
+> >  }
+> >  late_initcall(reserve_mem_init);
+>
+> --
+> Regards,
+> Pratyush Yadav
