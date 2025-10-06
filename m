@@ -1,199 +1,258 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FDE1A9F82
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 23:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940F5CA4B;
+	Mon,  6 Oct 2025 23:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759792191; cv=none; b=lWh7z2lhFqjVCV+8NzvgOsd0zkMRmyd9oMDX/6mHCqF2SMwU2zRFcwm4QwukgungoGRNrbPxNl0JKP+U27nvpmpj0cFthwEuXZFUO4c/FwrkQEt6pwBQ/ODz2pIM+hBTd6WgFHBxEPPY1RnbJG7gtydpjP916Q8fpEWx3DcOpmI=
+	t=1759793433; cv=none; b=nRjciaIVDQvtTdYt6t2ANk3rvs8se79HXcfHStgfdiwEkBUmXiB+ODdCVVCdQWZ7EGE1du7rnDzYCFDgGZg63rT+J08HD5vIxUl1OLB5rN3bIu0H4KY5WoIEV5Hrkwz+OjoEuG3HaKHOUFoHMGTGozANOV+3zcpEWsWPlqpK2mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759792191; c=relaxed/simple;
-	bh=NQ8J43I4uNCJEJQ0QsFSMKAS5RFA5CEyKQ6v5lKmyLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpwsNTXYMUWUXLo1L77uqUN4gTY3fft4YTHL0G7UFDapKcsLDWTsmYA4ilZz7oI30IBmjCtoCuktZZ+haEBLb5OQpBaaKs+lpgvy9BqJ/rbTo8sTdhUl1FLkOn1uHHaStObcu/+xaT6qhaWirWltPMegrknD5aC2x6SjlHwxL4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ACd35Qs0; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759793433; c=relaxed/simple;
+	bh=rsn6yKqy3+8U/13uNTmF9IAoQLBkh7dQqC4YtKLNNas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DuLWLW0q19ZG8ZwVhei67lOTCUKlOE0pztmN+xb4gogJx4iWGCw/vEDT3Yo0pIxU55DaOHqnhhvKbkDsOK/lmJe7vVj+mrq76W0gMqNs+tzecSuwnV4BMsIzwzlQLC+lBmSR0W2L6awAnGm9swwMezSs3MSzZ1d50U3irP1GtwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtbvvCPA; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ACd35Qs0"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4b109c6b9fcso56054431cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 16:09:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759792187; x=1760396987; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3EJTfcu8h4GhEEKd8FZr25euFK3dzJW/aZJwSSRQB9Y=;
-        b=ACd35Qs0tflW5xK4gwx3MfmO4jWIEj4rT8bVEoZx/sPO4ZoEMIn57TRsRFXG6PaJFy
-         cQoqV5jaN5CFYk8jFkbvr2w9inz4Nas0uovcRIFNpHSdwNY+dbrVdU4hPoOhwp/sbRiO
-         1ocWR4W8gw+g/TWIjKP6wgP2ekGUg5UPinCv8vCxTVmirdcbKI3HKYuTcXwDihUfUd+i
-         8NN7ihRyOCjF/WiwAAB0A62w4TMvD2Z9n8vXnOQ87U4h20hVEyhzJU05Innv4BLzAHfl
-         BIqpaygfc4E+iTZ+67UNiFGseQs/QhdiyIcbNLbQSPOFj/FJICl0odXzrJrqeNyVxEKV
-         1PdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759792187; x=1760396987;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3EJTfcu8h4GhEEKd8FZr25euFK3dzJW/aZJwSSRQB9Y=;
-        b=OFiXSwU6THujusLX2N6l5fXq515B59Xi+FObJglW5p1cCbjWZ1s4k4iTsgYbPCS396
-         5VJJA4at9OSE7n1a8ho3GNJmC/yd+cLCpG6rdqKQJf4MdCh/zl6L+G7I3+ah/14ZsX2m
-         8BT6ZZkHhO1mtv2gxesl07nDZj21ICcgQkxgmMfjM8KDbsNhh225qknA6mGGyX8/RbxW
-         5yJ59pdGkYc6fGknWTWVOv53op2ZC1INefxBo1jMXB1Tzh2qZsPq1ko18kRVs4thPVxF
-         PjWe72Xtr6Co2kOXjQA2XNvL1UrwvDV56ENpac0PymiluVwlF4bzhHyj/pWfiRJut1tb
-         P+cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWR7gpyrgDPWgMifx4vskp1vVJavWzL6fb6fK3DSOGRKbpUAjRCXE6ZpW7TBbxmUy7HAS08PI6n63k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRZdYLUv3v7sgP0UZGde+iwndp1XgbCBaExNc0sI42IONaBwkE
-	St+cTvFfmyJqNIdw4Ijn+ErtLkps/g3IBtUIJTYTgNuSCd8Sp95zMuGk
-X-Gm-Gg: ASbGnctL1DrlXFwqsNGnxn0zmCPjjHILk+Ti/0YvPOELfEkSMs3Is2Qmol7f/OtQN2u
-	BIAIUeo9iFLIhXRGXpWif3N7hLF20PTw3Ujv+ho9UjkUdgWDD2+tQjtYvbl4MUhqKSNo1VWgj0a
-	ro/sMVJJs6uXdw6X+hWdZX2w6muTIWUR5jo/os+SqsLl9hb5ioIQpALbZQST0B+TS0tEC0Oo9ZQ
-	7c6hSZ8OdPgv1yw9BDlcXzg8mYAaVSIsEs1p2eurcl522NyQI30fq7c0eeHZyGOI58n2Udlbcqf
-	/u0NhZ5/5K962OXJcEplV/gY2pI6bc4DiVadS+EBeCiKvgrREjcUixROTksDssCA+R9RcbdbkvB
-	Q8wHlh++HhvvKrpw4XvifsHXcDJ/0g/yUdDCCP3zbyNkd3CcrI/GUzfqoNc3Qe9/+FzSZ8NLFtj
-	ZcMWc5srr6gqk+FRsl/mzFKpAwWMGfBc26RSkGVCW1Pdok3a8=
-X-Google-Smtp-Source: AGHT+IFreUBAqPeM2h2ornDIoHcelDSJDRklng9KnvFrE/xsqQejPQGKywtCZzD+qAhNnKO9SG6+Wg==
-X-Received: by 2002:ac8:7d8e:0:b0:4b7:9f86:8705 with SMTP id d75a77b69052e-4e576b15df1mr138802431cf.65.1759792187194;
-        Mon, 06 Oct 2025 16:09:47 -0700 (PDT)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4e55a34b607sm131310111cf.4.2025.10.06.16.09.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 16:09:46 -0700 (PDT)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 887B0F4006A;
-	Mon,  6 Oct 2025 19:09:45 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 06 Oct 2025 19:09:45 -0400
-X-ME-Sender: <xms:OUzkaCQ75Y-hcc_LvPhoJ0YN6Xgs0nsh9PWtsv0mylW7vQNHvyVX1Q>
-    <xme:OUzkaAmUpnMh6LBCkU_sV76O5HPD5xqkhXqvTWethJikQUqhadii5q9lwk2vKIFC9
-    MuIghayWuNacFY7CU6kO8z2cBACJY2_DMYepgi_oSq5TuMgJpOw>
-X-ME-Received: <xmr:OUzkaBLPCsvOYl0oh78al3vBl2MQskwS19troTAiNz2wKRO1nv248x_QIMh6mtJ3Q1qtdK7taENqPrpdwl9wTBPLAaCw5F6gzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdelkeekvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertd
-    dttddunecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhm
-    rghilhdrtghomheqnecuggftrfgrthhtvghrnheptdegheelveffudejffegvdelgffhhf
-    elkeeiieefgeevteejvdegveeuffeihefhnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsoh
-    hnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhg
-    peepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedvud
-    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghn
-    rdguvghvpdhrtghpthhtoheprhhushhtqdhfohhrqdhlihhnuhigsehvghgvrhdrkhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopehgrg
-    hrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhho
-    thhonhhmrghilhdrtghomhdprhgtphhtthhopehlohhsshhinheskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhmpdhrtghpthht
-    ohepthhmghhrohhsshesuhhmihgthhdrvgguuh
-X-ME-Proxy: <xmx:OUzkaDRba0ULP75wnv53fSYRkJdNYns20KlkrHscX4RE312vaYkLEw>
-    <xmx:OUzkaPQ0Utk0y1dB5o-gqieUeM-tP7w4sVXwMyaWSOcSD0jz9Pnr6w>
-    <xmx:OUzkaFxhqRJ5jZV_eWHsL_c3SeMLTkhl6_3rnwpVDgeg1z3nXrHg_g>
-    <xmx:OUzkaFvj08Mb_nWTPWlrCvauDCMQRZxBY3f4qbOBhhg6aNwwSbWPdA>
-    <xmx:OUzkaEzTHRa-phZDTucTY704fcIZcWxJuFGc1c1DSnfy9p-rtdrayqdR>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Oct 2025 19:09:44 -0400 (EDT)
-Date: Mon, 6 Oct 2025 16:09:42 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org,
-	linux-kernel@vger.kernel.org, acourbot@nvidia.com,
-	airlied@gmail.com, simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] rust: xarray: abstract `xa_alloc`
-Message-ID: <aORMNreduCPSIL82@tardis-2.local>
-References: <20251006163024.18473-1-work@onurozkan.dev>
- <20251006163024.18473-2-work@onurozkan.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtbvvCPA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759793432; x=1791329432;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rsn6yKqy3+8U/13uNTmF9IAoQLBkh7dQqC4YtKLNNas=;
+  b=BtbvvCPAsQ4QF7BhUbaRpP5dFR9jbvOj+5kXpLJ+sZzkeFqkOC4WMtKv
+   fHWMhH/DW/Q/SL15jj9UNLSZF+ptZQrcljz9obdg3VQWzQcS7eUac937T
+   cgXg3jpmgQ7NWJR5w8Bx4uEm7QAVpZ4NR9dBz32geQCzaV23JZLod/0zE
+   GjpT3ko+a5dDrBMsBEguD8IbnmcTogeBt3dJZ6QCTUJRvOH28Rv6ZZdk+
+   qRfc2xNMZEuUZ9RJwDi5Ks8eGoIsN8OLw3UujgnrpJ0tRnsHNnvIEKQyF
+   Dfoj3GKsm0qlERgeZellvoIgDiygwQW4HWfkN7mgXoYh4oL6H1YRPBzNK
+   g==;
+X-CSE-ConnectionGUID: cdYkGsVLRgSHX1uWfjQC8A==
+X-CSE-MsgGUID: ocUqymGhS729Ht6ZSbNK0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61892015"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61892015"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2025 16:30:31 -0700
+X-CSE-ConnectionGUID: 9gdnYC0gTSik5EUrztzeIA==
+X-CSE-MsgGUID: QruypNSsRk679cBFC79VuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; 
+   d="scan'208";a="203735195"
+Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.110.110]) ([10.125.110.110])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2025 16:30:30 -0700
+Message-ID: <a8c5a482-c380-421d-bb89-914fc120a01b@intel.com>
+Date: Mon, 6 Oct 2025 16:30:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251006163024.18473-2-work@onurozkan.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4 v5] cxl/core: Change match_*_by_range() signatures
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+ linux-cxl@vger.kernel.org
+Cc: Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Gregory Price <gourry@gourry.net>, Robert Richter <rrichter@amd.com>,
+ Cheatham Benjamin <benjamin.cheatham@amd.com>
+References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
+ <20251006155836.791418-2-fabio.m.de.francesco@linux.intel.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20251006155836.791418-2-fabio.m.de.francesco@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-HI Onur,
 
-On Mon, Oct 06, 2025 at 07:30:22PM +0300, Onur Özkan wrote:
-> Implements `alloc` function to `XArray<T>` that wraps
-> `xa_alloc` safely.
+
+On 10/6/25 8:58 AM, Fabio M. De Francesco wrote:
+> Replace struct range parameter with struct cxl_endpoint_decoder of
+> which range is a member in the match_*_by_range() functions and rename
+> them according to their semantics.
 > 
-> Resolves a task from the nova/core task list under the "XArray
-> bindings [XARR]" section in "Documentation/gpu/nova/core/todo.rst"
-> file.
+> This is in preparation for expanding these helpers to perform arch
+> specific Root Decoders and Region matchings with
+> cxl_endpoint_decoder(s).
 > 
+> Cc: Alison Schofield <alison.schofield@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
 
-Having this information is good, however I feel it's better if you
-explain/expand what exact the usage will be on the XArray, otherwise,
-it'll be hard for people to dig in the history and find out why we add
-this. Thanks!
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-Regards,
-Boqun
-
-> Signed-off-by: Onur Özkan <work@onurozkan.dev>
 > ---
->  rust/kernel/xarray.rs | 39 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
+>  drivers/cxl/core/region.c | 62 ++++++++++++++++++++++-----------------
+>  1 file changed, 35 insertions(+), 27 deletions(-)
 > 
-> diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-> index a49d6db28845..1b882cd2f58b 100644
-> --- a/rust/kernel/xarray.rs
-> +++ b/rust/kernel/xarray.rs
-> @@ -266,6 +266,45 @@ pub fn store(
->              Ok(unsafe { T::try_from_foreign(old) })
->          }
->      }
-> +
-> +    /// Allocates an empty slot within the given limit range and stores `value` there.
-> +    ///
-> +    /// May drop the lock if needed to allocate memory, and then reacquire it afterwards.
-> +    ///
-> +    /// On success, returns the allocated id.
-> +    ///
-> +    /// On failure, returns the element which was attempted to be stored.
-> +    pub fn alloc(
-> +        &mut self,
-> +        limit: bindings::xa_limit,
-> +        value: T,
-> +        gfp: alloc::Flags,
-> +    ) -> Result<u32, StoreError<T>> {
-> +        build_assert!(
-> +            T::FOREIGN_ALIGN >= 4,
-> +            "pointers stored in XArray must be 4-byte aligned"
-> +        );
-> +
-> +        let new = value.into_foreign();
-> +        let mut id: u32 = 0;
-> +
-> +        // SAFETY:
-> +        // - `self.xa.xa` is valid by the type invariant.
-> +        // - `new` came from `T::into_foreign`.
-> +        let ret =
-> +            unsafe { bindings::__xa_alloc(self.xa.xa.get(), &mut id, new, limit, gfp.as_raw()) };
-> +
-> +        if ret < 0 {
-> +            // SAFETY: `__xa_alloc` doesn't take ownership on error.
-> +            let value = unsafe { T::from_foreign(new) };
-> +            return Err(StoreError {
-> +                value,
-> +                error: Error::from_errno(ret),
-> +            });
-> +        }
-> +
-> +        Ok(id)
-> +    }
+> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> index e14c1d305b22..43a854036202 100644
+> --- a/drivers/cxl/core/region.c
+> +++ b/drivers/cxl/core/region.c
+> @@ -1766,27 +1766,29 @@ static int cmp_interleave_pos(const void *a, const void *b)
+>  	return cxled_a->pos - cxled_b->pos;
 >  }
-> 
->  // SAFETY: `XArray<T>` has no shared mutable state so it is `Send` iff `T` is `Send`.
-> --
-> 2.51.0
-> 
+>  
+> -static int match_switch_decoder_by_range(struct device *dev,
+> -					 const void *data)
+> +static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
+>  {
+> +	const struct cxl_endpoint_decoder *cxled = data;
+>  	struct cxl_switch_decoder *cxlsd;
+> -	const struct range *r1, *r2 = data;
+> -
+> +	const struct range *r1, *r2;
+>  
+>  	if (!is_switch_decoder(dev))
+>  		return 0;
+>  
+>  	cxlsd = to_cxl_switch_decoder(dev);
+>  	r1 = &cxlsd->cxld.hpa_range;
+> +	r2 = &cxled->cxld.hpa_range;
+>  
+>  	if (is_root_decoder(dev))
+>  		return range_contains(r1, r2);
+>  	return (r1->start == r2->start && r1->end == r2->end);
+>  }
+>  
+> -static int find_pos_and_ways(struct cxl_port *port, struct range *range,
+> -			     int *pos, int *ways)
+> +static int find_pos_and_ways(struct cxl_port *port,
+> +			     struct cxl_endpoint_decoder *cxled, int *pos,
+> +			     int *ways)
+>  {
+> +	struct range *range = &cxled->cxld.hpa_range;
+>  	struct cxl_switch_decoder *cxlsd;
+>  	struct cxl_port *parent;
+>  	struct device *dev;
+> @@ -1796,8 +1798,8 @@ static int find_pos_and_ways(struct cxl_port *port, struct range *range,
+>  	if (!parent)
+>  		return rc;
+>  
+> -	dev = device_find_child(&parent->dev, range,
+> -				match_switch_decoder_by_range);
+> +	dev = device_find_child(&parent->dev, cxled,
+> +				match_cxlsd_to_cxled_by_range);
+>  	if (!dev) {
+>  		dev_err(port->uport_dev,
+>  			"failed to find decoder mapping %#llx-%#llx\n",
+> @@ -1883,7 +1885,7 @@ static int cxl_calc_interleave_pos(struct cxl_endpoint_decoder *cxled)
+>  		if (is_cxl_root(iter))
+>  			break;
+>  
+> -		rc = find_pos_and_ways(iter, range, &parent_pos, &parent_ways);
+> +		rc = find_pos_and_ways(iter, cxled, &parent_pos, &parent_ways);
+>  		if (rc)
+>  			return rc;
+>  
+> @@ -3342,24 +3344,30 @@ static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
+>  	return rc;
+>  }
+>  
+> -static int match_decoder_by_range(struct device *dev, const void *data)
+> +static int match_cxlrd_to_cxled_by_range(struct device *dev, const void *data)
+>  {
+> -	const struct range *r1, *r2 = data;
+> -	struct cxl_decoder *cxld;
+> +	const struct cxl_endpoint_decoder *cxled = data;
+> +	struct cxl_root_decoder *cxlrd;
+> +	const struct range *r1, *r2;
+>  
+> -	if (!is_switch_decoder(dev))
+> +	if (!is_root_decoder(dev))
+>  		return 0;
+>  
+> -	cxld = to_cxl_decoder(dev);
+> -	r1 = &cxld->hpa_range;
+> +	cxlrd = to_cxl_root_decoder(dev);
+> +	r1 = &cxlrd->cxlsd.cxld.hpa_range;
+> +	r2 = &cxled->cxld.hpa_range;
+> +
+>  	return range_contains(r1, r2);
+>  }
+>  
+>  static struct cxl_decoder *
+> -cxl_port_find_switch_decoder(struct cxl_port *port, struct range *hpa)
+> +cxl_port_find_root_decoder(struct cxl_port *port,
+> +			   struct cxl_endpoint_decoder *cxled)
+>  {
+> -	struct device *cxld_dev = device_find_child(&port->dev, hpa,
+> -						    match_decoder_by_range);
+> +	struct device *cxld_dev;
+> +
+> +	cxld_dev = device_find_child(&port->dev, cxled,
+> +				     match_cxlrd_to_cxled_by_range);
+>  
+>  	return cxld_dev ? to_cxl_decoder(cxld_dev) : NULL;
+>  }
+> @@ -3371,9 +3379,8 @@ cxl_find_root_decoder(struct cxl_endpoint_decoder *cxled)
+>  	struct cxl_port *port = cxled_to_port(cxled);
+>  	struct cxl_root *cxl_root __free(put_cxl_root) = find_cxl_root(port);
+>  	struct cxl_decoder *root, *cxld = &cxled->cxld;
+> -	struct range *hpa = &cxld->hpa_range;
+>  
+> -	root = cxl_port_find_switch_decoder(&cxl_root->port, hpa);
+> +	root = cxl_port_find_root_decoder(&cxl_root->port, cxled);
+>  	if (!root) {
+>  		dev_err(cxlmd->dev.parent,
+>  			"%s:%s no CXL window for range %#llx:%#llx\n",
+> @@ -3385,11 +3392,12 @@ cxl_find_root_decoder(struct cxl_endpoint_decoder *cxled)
+>  	return to_cxl_root_decoder(&root->dev);
+>  }
+>  
+> -static int match_region_by_range(struct device *dev, const void *data)
+> +static int match_region_to_cxled_by_range(struct device *dev, const void *data)
+>  {
+> +	const struct cxl_endpoint_decoder *cxled = data;
+> +	const struct range *r = &cxled->cxld.hpa_range;
+>  	struct cxl_region_params *p;
+>  	struct cxl_region *cxlr;
+> -	const struct range *r = data;
+>  
+>  	if (!is_cxl_region(dev))
+>  		return 0;
+> @@ -3547,12 +3555,13 @@ static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
+>  }
+>  
+>  static struct cxl_region *
+> -cxl_find_region_by_range(struct cxl_root_decoder *cxlrd, struct range *hpa)
+> +cxl_find_region_by_range(struct cxl_root_decoder *cxlrd,
+> +			 struct cxl_endpoint_decoder *cxled)
+>  {
+>  	struct device *region_dev;
+>  
+> -	region_dev = device_find_child(&cxlrd->cxlsd.cxld.dev, hpa,
+> -				       match_region_by_range);
+> +	region_dev = device_find_child(&cxlrd->cxlsd.cxld.dev, cxled,
+> +				       match_region_to_cxled_by_range);
+>  	if (!region_dev)
+>  		return NULL;
+>  
+> @@ -3561,7 +3570,6 @@ cxl_find_region_by_range(struct cxl_root_decoder *cxlrd, struct range *hpa)
+>  
+>  int cxl_add_to_region(struct cxl_endpoint_decoder *cxled)
+>  {
+> -	struct range *hpa = &cxled->cxld.hpa_range;
+>  	struct cxl_region_params *p;
+>  	bool attach = false;
+>  	int rc;
+> @@ -3577,7 +3585,7 @@ int cxl_add_to_region(struct cxl_endpoint_decoder *cxled)
+>  	 */
+>  	mutex_lock(&cxlrd->range_lock);
+>  	struct cxl_region *cxlr __free(put_cxl_region) =
+> -		cxl_find_region_by_range(cxlrd, hpa);
+> +		cxl_find_region_by_range(cxlrd, cxled);
+>  	if (!cxlr)
+>  		cxlr = construct_region(cxlrd, cxled);
+>  	mutex_unlock(&cxlrd->range_lock);
+
