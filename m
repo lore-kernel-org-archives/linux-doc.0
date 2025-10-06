@@ -1,373 +1,162 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09755146A72
-	for <linux-doc@vger.kernel.org>; Mon,  6 Oct 2025 06:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8DC188000;
+	Mon,  6 Oct 2025 10:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759733331; cv=none; b=tFVgkm/Q/0X6IkPAW73X9cu7dSMppWrX2ZT9WW5qrFy8Oj2aTPEvO4TOi8DY6TxXZstQQ1RNKDz/81y7G80mcSQIfwiZwFjYH/sAp7hFvXKxecjKW3LxqYxSw51BhBcCM+eprU3o47R21ta16lOTMbR1nZZBD+LcaIXAdVIcRmI=
+	t=1759747067; cv=none; b=LbsJR0uIvh6R1qpBU41rFTMbGCLV0ljM5dQ8cJw3aZM0abuGASmUr0NJpGT9AYqyoiSghXMEQHb4bv4dFkBG448TV1ynfjsJsT2rWV6uurAW3xyb/7L/zFOqEkU4ClWFRk2RdAYJXOdzU3JbifcVF4KvQ2gIHpspJ5/nSOT4Ulc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759733331; c=relaxed/simple;
-	bh=C0DVUJv0wHExjiFBl2hHkvEbWArEAs3z7PpU5iKqXI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lQ4teljQXaZ0SKeH7z7RmBYx6RRRPPH8E5P682LqQpNmj8SU+HtKnjLY8N7mR1sYnUA6hyLkBcgahj4VklUVzk+Ajh7FvIAmuD2kVJK9mA/Uoe5PmB82VqZEUB6+RIlaHnDw21gix96a/Vxx35ctEBwHUTRiDVzR7VJmcILMr6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yPVzsExu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vlNwZdof; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TQ3inaQc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/z3+ZDK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yPVzsExu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vlNwZdof";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TQ3inaQc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/z3+ZDK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E52A73373A;
-	Mon,  6 Oct 2025 06:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759733327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=yPVzsExuahN6HcqCHykof2acT0mRWibd0R+fEqT16Ko4VhkfC8Oj+QmaykYTVksvqWmJYz
-	SfzCFLr7jcbLlqn6mkTryepghUoihNPvSCeT8bIKxf36uv65+orOvroH9UXpunldb7GO8p
-	9OBn6kTpHDH6+vEP9Tjw4GoxsyOM/Y0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759733327;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=vlNwZdof4iPR4tYwjduG5C5R9bs07NJuO4ysdxagSGdJFm8JrCip0Uf/MZh7padnIJ64kO
-	tay4fvJQsSYoMEBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TQ3inaQc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="J/z3+ZDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759733325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=TQ3inaQc5nz0VhfvuCMo2aWTTXA8u3YO7/xGz4z2IOXMNdyIb95NNz/CNhrjHZI0PIhsIN
-	xEf6jr8E0pGvXyBnT+cLxn8YzMti8FqRhgBaA34lYsDl4DNxXztI32/2CwwEFXngebI+GR
-	pj8tGrjY2bD107nNdKif+CD2RFRguSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759733325;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=J/z3+ZDKo7t3KVOUM6H40w9+izg5ACiN5rdeFjUK5wFio5Iq6Rpo4zHJSmQGiNandlQSzj
-	N9OLfvv+a9sKaxAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CDEA13995;
-	Mon,  6 Oct 2025 06:48:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UIY7GE1m42jUDgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 06 Oct 2025 06:48:45 +0000
-Message-ID: <591a7eb8-563c-4368-b868-880ed081a432@suse.de>
-Date: Mon, 6 Oct 2025 08:48:44 +0200
+	s=arc-20240116; t=1759747067; c=relaxed/simple;
+	bh=5a0V+ktkM0zmP/i/KvTfiBf3YEBIe7ryg6F09ELHLbA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mANQUkQ86/3n22/wDhxqVXUj4/CAezMGCvZV3InPEOf/kOrIVI4JPacmrn/+M80gkEVpXxYlSIoEm09HYxCTPlBelj+IsNpE9Jt5xqMbdZ37kqaPd2ej/4prB7OgIVT+RBHIwaaxZ0PHBp/gTcdn7IRyX4tlcLPo3HiJA4wHhnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cgG0z0LfWz6L4xs;
+	Mon,  6 Oct 2025 18:37:07 +0800 (CST)
+Received: from dubpeml500006.china.huawei.com (unknown [7.214.146.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id BC60F1402CB;
+	Mon,  6 Oct 2025 18:37:39 +0800 (CST)
+Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
+ dubpeml500006.china.huawei.com (7.214.146.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 6 Oct 2025 11:37:39 +0100
+Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
+ dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.011;
+ Mon, 6 Oct 2025 11:37:39 +0100
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Borislav Petkov <bp@alien8.de>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>
+CC: "rafael@kernel.org" <rafael@kernel.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "Yazen.Ghannam@amd.com"
+	<Yazen.Ghannam@amd.com>, "mchehab@kernel.org" <mchehab@kernel.org>, Linuxarm
+	<linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
+	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
+ Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Topic: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Index: AQHcHC9WuMPoKRXbY02Oy+WxUZ/jerSMt+SAgAK0t2CAABfigIAEdNLAgAOLbYCAABR4AIACsFkAgBrSt9A=
+Date: Mon, 6 Oct 2025 10:37:39 +0000
+Message-ID: <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
+References: <20250902173043.1796-1-shiju.jose@huawei.com>
+ <20250902173043.1796-2-shiju.jose@huawei.com>
+ <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
+ <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
+ <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
+ <9433067c142b45d583eb96587b929878@huawei.com>
+ <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
+ <20250917183608.000038c4@huawei.com>
+ <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
+In-Reply-To: <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/8] nvmet-tcp: Support KeyUpdate
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-8-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251003043140.1341958-8-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[wdc.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,ietf.org:url,suse.de:mid,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: E52A73373A
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
 
-On 10/3/25 06:31, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
-> a KeyUpdate handshake type then the underlying TLS keys need to be
-> updated.
-> 
-> If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
-> 
-> This patch allows us to handle the NVMe host sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v3:
->   - Use a write lock for sk_user_data
->   - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
->   - Remove unused variable
-> v2:
->   - Use a helper function for KeyUpdates
->   - Ensure keep alive timer is stopped
->   - Wait for TLS KeyUpdate to complete
-> 
->   drivers/nvme/target/tcp.c | 90 ++++++++++++++++++++++++++++++++++++---
->   1 file changed, 85 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index bee0355195f5..fd59dd3ca632 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
->   
->   	/* TLS state */
->   	key_serial_t		tls_pskid;
-> +	key_serial_t		user_session_id;
->   	struct delayed_work	tls_handshake_tmo_work;
->   
->   	unsigned long           poll_end;
-> @@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
->   	struct sockaddr_storage	sockaddr_peer;
->   	struct work_struct	release_work;
->   
-> +	struct completion       tls_complete;
-> +
->   	int			idx;
->   	struct list_head	queue_list;
->   
-> @@ -836,6 +839,11 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
->   	return 1;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
-> +static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
-> +#endif
-> +
->   static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
->   		int budget, int *sends)
->   {
-
-And we need this why?
-
-> @@ -844,6 +852,13 @@ static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
->   	for (i = 0; i < budget; i++) {
->   		ret = nvmet_tcp_try_send_one(queue, i == budget - 1);
->   		if (unlikely(ret < 0)) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED &&
-> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
-> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +					goto done;
-> +			}
-> +#endif
->   			nvmet_tcp_socket_error(queue, ret);
->   			goto done;
->   		} else if (ret == 0) {
-
-See my comment to the host patches. Handling an incoming KeyUpdate is
-vastly different than initiating a KeyUpdate. _and_ the network stack
-will only ever return -EKEYEXPIRED on receive.
-So please split the patches in handling an incoming KeyUpdate and
-initiating a KeyUpdate.
-
-> @@ -1110,6 +1125,45 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
->   	return false;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int update_tls_keys(struct nvmet_tcp_queue *queue)
-> +{
-> +	int ret;
-> +
-> +	cancel_work(&queue->io_work);
-> +	queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-> +
-> +	/* Restore the default callbacks before starting upcall */
-> +	write_lock_bh(&queue->sock->sk->sk_callback_lock);
-> +	queue->sock->sk->sk_data_ready =  queue->data_ready;
-> +	queue->sock->sk->sk_state_change = queue->state_change;
-> +	queue->sock->sk->sk_write_space = queue->write_space;
-> +	queue->sock->sk->sk_user_data = NULL;
-> +	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
-> +
-We do have a function for this ...
-
-> +	nvmet_stop_keep_alive_timer(queue->nvme_sq.ctrl);
-> +
-> +	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
-> +			  nvmet_tcp_tls_handshake_timeout);
-> +
-> +	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, 10 * HZ);
-> +
-> +	if (ret <= 0) {
-> +		tls_handshake_cancel(queue->sock->sk);
-> +		return ret;
-> +	}
-> +
-> +	queue->state = NVMET_TCP_Q_LIVE;
-> +
-> +	return ret;
-> +}
-> +#endif
-> +
->   static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
->   		struct msghdr *msg, char *cbuf)
->   {
-> @@ -1135,6 +1189,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
->   			ret = -EAGAIN;
->   		}
->   		break;
-> +	case TLS_RECORD_TYPE_HANDSHAKE:
-> +		ret = -EAGAIN;
-> +		break;
-
-Shouldn't this be rather -EKEYEXPIRED?
-
->   	default:
->   		/* discard this record type */
->   		pr_err("queue %d: TLS record %d unhandled\n",
-> @@ -1344,6 +1401,13 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
->   	for (i = 0; i < budget; i++) {
->   		ret = nvmet_tcp_try_recv_one(queue);
->   		if (unlikely(ret < 0)) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED &&
-> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
-> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +					goto done;
-> +			}
-> +#endif
->   			nvmet_tcp_socket_error(queue, ret);
->   			goto done;
->   		} else if (ret == 0) {
-> @@ -1408,14 +1472,26 @@ static void nvmet_tcp_io_work(struct work_struct *w)
->   		ret = nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
->   		if (ret > 0)
->   			pending = true;
-> -		else if (ret < 0)
-> -			return;
-> +		else if (ret < 0) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			else
-> +#endif
-> +				return;
-> +		}
->   
->   		ret = nvmet_tcp_try_send(queue, NVMET_TCP_SEND_BUDGET, &ops);
->   		if (ret > 0)
->   			pending = true;
-> -		else if (ret < 0)
-> -			return;
-> +		else if (ret < 0) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			else
-> +#endif
-> +				return;
-> +		}
->   
->   	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
->   
-Wouldn't it be better to move the call to 'update_tls_keys()' out of
-the loop and just requeue io_work afterwards?
-> @@ -1798,6 +1874,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
->   	}
->   	if (!status) {
->   		queue->tls_pskid = peerid;
-> +		queue->user_session_id = user_session_id;
->   		queue->state = NVMET_TCP_Q_CONNECTING;
->   	} else
->   		queue->state = NVMET_TCP_Q_FAILED;
-> @@ -1813,6 +1890,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
->   	else
->   		nvmet_tcp_set_queue_sock(queue);
->   	kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +	complete(&queue->tls_complete);
->   }
->   
->   static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
-> @@ -1843,7 +1921,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
->   	int ret = -EOPNOTSUPP;
->   	struct tls_handshake_args args;
->   
-> -	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE && !keyupdate) {
->   		pr_warn("cannot start TLS in state %d\n", queue->state);
->   		return -EINVAL;
-> 
-Why? Shouldn't we always set the HANDSHAKE state?
-
-> @@ -1856,7 +1934,9 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
->   	args.ta_data = queue;
->   	args.ta_keyring = key_serial(queue->port->nport->keyring);
->   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-> +	args.user_session_id = queue->user_session_id;
->   
-> +	init_completion(&queue->tls_complete);
->   	ret = tls_server_hello_psk(&args, GFP_KERNEL, keyupdate);
->   	if (ret) {
->   		kref_put(&queue->kref, nvmet_tcp_release_queue)
-
-Cheers,
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
+bGllbjguZGU+DQo+U2VudDogMTkgU2VwdGVtYmVyIDIwMjUgMTE6NDANCj5UbzogSm9uYXRoYW4g
+Q2FtZXJvbiA8am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPg0KPkNjOiBTaGlqdSBKb3NlIDxz
+aGlqdS5qb3NlQGh1YXdlaS5jb20+OyByYWZhZWxAa2VybmVsLm9yZzsgYWtwbUBsaW51eC0NCj5m
+b3VuZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOyBkZmVyZ3Vzb25AYW1wZXJlY29tcHV0aW5n
+LmNvbTsgbGludXgtDQo+ZWRhY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFjcGlAdmdlci5rZXJu
+ZWwub3JnOyBsaW51eC1tbUBrdmFjay5vcmc7IGxpbnV4LQ0KPmRvY0B2Z2VyLmtlcm5lbC5vcmc7
+IHRvbnkubHVja0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsNCj5ZYXplbi5HaGFubmFtQGFt
+ZC5jb207IG1jaGVoYWJAa2VybmVsLm9yZzsgTGludXhhcm0NCj48bGludXhhcm1AaHVhd2VpLmNv
+bT47IHJpZW50amVzQGdvb2dsZS5jb207IGppYXFpeWFuQGdvb2dsZS5jb207DQo+Sm9uLkdyaW1t
+QGFtZC5jb207IGRhdmUuaGFuc2VuQGxpbnV4LmludGVsLmNvbTsNCj5uYW95YS5ob3JpZ3VjaGlA
+bmVjLmNvbTsgamFtZXMubW9yc2VAYXJtLmNvbTsganRob3VnaHRvbkBnb29nbGUuY29tOw0KPnNv
+bWFzdW5kYXJhbS5hQGhwZS5jb207IGVyZGVtYWt0YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2ds
+ZS5jb207DQo+ZHVlbndlbkBnb29nbGUuY29tOyBndGhlbGVuQGdvb2dsZS5jb207DQo+d3NjaHdh
+cnR6QGFtcGVyZWNvbXB1dGluZy5jb207IHdic0Bvcy5hbXBlcmVjb21wdXRpbmcuY29tOw0KPm5p
+ZmFuLmN4bEBnbWFpbC5jb207IHRhbnhpYW9mZWkgPHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47IFpl
+bmd0YW8gKEIpDQo+PHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8gU2Fzc3UgPHJv
+YmVydG8uc2Fzc3VAaHVhd2VpLmNvbT47DQo+a2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOyB3
+YW5naHVpcWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFU
+Q0ggdjEyIDEvMl0gQUNQSTpSQVMyOiBBZGQgQUNQSSBSQVMyIGRyaXZlcg0KPg0KPk9uIFdlZCwg
+U2VwIDE3LCAyMDI1IGF0IDA2OjM2OjA4UE0gKzAxMDAsIEpvbmF0aGFuIENhbWVyb24gd3JvdGU6
+DQo+PiBUaGlzICdmaXJzdCBjb250aWd1b3VzIHJhbmdlJyBpcyBhbiBhdHRlbXB0IHRvIERUUlQg
+aW4gYSBjb3JuZXIgY2FzZQ0KPj4gdGhhdCBpcyByZWFsIGJ1dCB3aGVyZSB0aGVyZSBpcyBub3Qg
+YW4gb2J2aW91cyByaWdodCB0aGluZyBkdWUgdG8gc3BlYw0KPmxpbWl0YXRpb25zLg0KPg0KPlRo
+YW5rcyBmb3IgdGFraW5nIHRoZSB0aW1lIHRvIGV4cGFuZC4gVGhlIGdpc3Qgb2YgdGhpcyBuZWVk
+cyB0byBiZSBpbiBhIGNvbW1pdA0KPm1lc3NhZ2UgZm9yIGZ1dHVyZSByZWZlcmVuY2UuDQo+DQo+
+SE9XRVZFUiwgSSdtIHN0aWxsIG5vdCBjbGVhciAqd2h5KiB3ZSdyZSBqdW1waW5nIHRocm91Z2gg
+aG9vcHMgd2hpY2ggd2UNCj5wcm9iYWJseSBzZXQgdXAgb3Vyc2VsdmVzIHdpdGhvdXQgZXZlbiBr
+bm93aW5nIHdoeS4uLiBhdCBsZWFzdCBpdCBsb29rcyBsaWtlIHRoaXMNCj5mcm9tIHdoZXJlIEkn
+bSBzdGFuZGluZy4NCj4NCj5TbyB3aHkgbm90IHN0YXJ0IGEgc2NydWIgb24gdGhlIHdob2xlIHN5
+c3RlbT8gV2h5IGRvIHdlIGNhcmU/DQo+DQo+U2NydWIgaXMgImNoZWFwIiBpbiB0aGUgc2Vuc2Ug
+dGhhdCBpdCBydW5zIGluIHRoZSBiYWNrZ3JvdW5kIGFuZCBpcyB0aGUgbG93ZXN0DQo+cHJpb3Jp
+dHkgYW5kIGV2ZXJ5dGhpbmcgZWxzZSBvdmVycmlkZXMgaXQuDQo+DQo+U28gd2h5IGRlc2lnbiBh
+biBpbnRlcmZhY2Ugb25seSB3aGVuIHRoZXJlJ3MgYSBuZWVkIHRvIGRlc2lnbiBvbmUgYW5kIGRv
+IHRoZQ0KPnNpbXBsZXN0IHRoaW5nIG5vdywgZm9yIHN0YXJ0ZXJzPyBHYXRoZXIgc29tZSBleHBl
+cmllbmNlIGFuZCB0aGVuIGltcnBvdmUgaXQgYnkNCj5hY3R1YWxseSBkZXNpZ25pbmcgYW4gaW50
+ZXJmYWNlLi4uDQoNCkhpIEJvcmlzLA0KDQpTb3JyeSBmb3IgdGhlIGRlbGF5IGluIHJlcGxheWlu
+Zy4NCg0KV2UgaGF2ZSBhIHByb3RvdHlwZSBsb29raW5nIHRvIHNpbXBsaWZ5IHRoaW5ncyBhcyBm
+b2xsb3dzIChsZWF2aW5nIHBlciBub2RlIGFuZA0KcmFuZ2UgY29udHJvbCBmb3IgZnV0dXJlIHdv
+cmspLCBidXQgYmVmb3JlIEkgcG9zdCBpdCAod2FpdGluZyBmb3IgcmMxKSBJJ2QgbGlrZSB0byBk
+aXNjdXNzDQp0aGUgYXBwcm9hY2ggYW5kIGEgZmV3IG9wZW4gcXVlc3Rpb25zIg0KDQoxLlNjcnVi
+IHJhdGUNCjEuMS4gU2NydWIgcmF0ZSBpcyBjb21tb24gYWNyb3NzIHRoZSBOVU1BIG5vZGUgZG9t
+YWlucy4NCjEuMi4gQ29tbW9uIG1pbiBzY3J1YiByYXRlIGlzIG1heCBvZiBtaW4gc2NydWIgcmF0
+ZXMgYWNyb3NzIG5vZGVzLg0KMS4zLiBDb21tb24gbWF4IHNjcnViIHJhdGUgaXMgbWluIG9mIG1h
+eCBzY3J1YiByYXRlcyBhY3Jvc3Mgbm9kZXMuDQoxLjQuIFNjcnViIHJhdGUgYWxsb3dlZCB0byBj
+aGFuZ2Ugb25seSBpZiBOTyBkZW1hbmQgYW5kIHBhdHJvbA0KICAgc2NydWJiaW5nIGlzIGluIHBy
+b2dyZXNzIGFuZCBzaG91bGQgYmUgd2l0aGluIG1pbiBhbmQgbWF4DQogICByYW5nZSBvZiBzY3J1
+YiByYXRlcy4NCg0KMi4gRGVtYW5kIHNjcnViYmluZyBhbmQgQmFja2dyb3VuZCAocGF0cm9sKSBz
+Y3J1YmJpbmcNCjIuMS4gQmFja2dyb3VuZCBzY3J1YmJpbmcgcmVxdWVzdCBlbmFibGVzIEJHIHNj
+cnViYmluZw0KICAgICBvbiBhbGwgTlVNQSBub2Rlcy4NCg0KMi4yLiBGb3IsIGRlbWFuZCBzY3J1
+YmJpbmcgcmVxdWVzdCAyIG9wdGlvbnMgYXJlIGlkZW50aWZpZWQsDQogICAgIHdpdGggKGIpIHRy
+aWVkLiBQbGVhc2Ugc3VnZ2VzdCB0aGUgcmlnaHQgYXBwcm9hY2g/DQphKSBFbmFibGUgZGVtYW5k
+IHNjcnViYmluZyBvbiBhbGwgTlVNQSBub2RlcywgaG9wZSBmb3INCiAgICAgdGhlICdSZXF1ZXN0
+ZWQgQWRkcmVzcyBSYW5nZShJTlBVVCknIGZpZWxkLCBjYW4gdXNlDQogICAgIGFkZHJlc3Mgc2V0
+IHRvIHNjcnViIGFuZCBQQUdFX1NJWkUob3Igc2ltaWxhcikgZm9yIGFsbCB0aGUNCiAgICAgbm9k
+ZXMuIEZvciBSQVMyLCBvbmx5ICdhZGRyJyBzeXNmcyBhdHRyaWJ1dGUgaXMgYWRkZWQgbm93DQog
+ICAgIGFuZCAnc2l6ZScgc3lzZnMgYXR0cmlidXRlIGlzIHJlbW92ZWQuDQpiKSBFbmFibGUgZGVt
+YW5kIHNjcnViYmluZyBvbiBhIE5VTUEgbm9kZSBmb3Igd2hpY2gNCiAgICAgdGhlIHJlcXVlc3Rl
+ZCBhZGRyZXNzIHRvIHNjcnViIGlzIHdpdGhpbiB0aGUgUEEgcmFuZ2Ugb2YNCiAgICAgdGhhdCBu
+b2RlLg0KDQoyLjMuIERlbWFuZCBzY3J1YmJpbmcgaXMgbm90IGFsbG93ZWQgd2hlbiBiYWNrZ3Jv
+dW5kIHNjcnViYmluZw0KICAgICBpcyBpbiBwcm9ncmVzcy4NCg0KMi40LiBJZiAyLjIuIChiKSBp
+cyBjaG9zZW4sIHNob3VsZCBrZXJuZWwgYWxsb3cgQkcNCiAgICAgIHNjcnViYmluZyBvbiByZXN0
+IG9mIHRoZSBub2Rlcywgd2hlbiBkZW1hbmQgc2NydWJiaW5nIG9uDQogICAgICBzb21lIG5vZGUv
+cyBpcyBpbiBwcm9ncmVzcz8NCg0KMi41IFRoZSBzdGF0dXMgb2YgdGhlIEJHIHNjcnViYmluZyBl
+eHBvc2VkIHRvIHRoZSB1c2VyIHNwYWNlDQogICAgaW4gJ2VuYWJsZV9iYWNrZ3JvdW5kJyBzeXNm
+cyBhdHRyaWJ1dGUuDQoNCjIuNiBUaGUgc3RhdHVzIG9mIHRoZSBkZW1hbmQgc2NydWJiaW5nIGV4
+cG9zZWQgdG8gdGhlDQogICAgICAgdXNlciBzcGFjZSBpbiAnYWRkcicgc3lzZnMgYXR0cmlidXRl
+LiBIb3dldmVyIHdoZW4gdGhlDQogICAgICAgZGVtYW5kIHNjcnViYmluZyBpcyBvbiBtdWx0aXBs
+ZS9hbGwgbm9kZXMgYXJlIGluIHByb2dyZXNzLA0KICAgICAgIHdoaWNoIGRlbWFuZCBzY3J1YmJp
+bmcgc3RhdHVzIGFuZCBhZGRyZXNzIGluICdhZGRyJyBzeXNmcyBhdHRyaWJ1dGUNCiAgICAgICBh
+cyBzdGF0dXMgc2hvdWxkIGJlIGV4cG9zZWQgdG8gdGhlIHVzZXIgc3BhY2U/DQphKSBNYXkgYmUg
+dGhlIHN0YXR1cyBvZiB0aGUgZmlyc3QgZGV0ZWN0ZWQgbm9kZSB3aXRoIGRlbWFuZCBzY3J1YmJp
+bmcNCiAgICAgaXMgaW4gcHJvZ3Jlc3M/DQpiKSBEb2VzIG5vdCBzaG93IHRoZSBzdGF0dXMgYXQg
+YWxsLCBqdXN0IGZhaWwgdGhlIHJlcXVlc3QgaWYgdGhlDQogICAgZGVtYW5kIHNjcnViYmluZyBp
+cyBhbHJlYWR5IGluIHByb2dyZXNzIG9uIGEgbm9kZS9hbGwgbm9kZXM/DQpjKSAgQW55IG90aGVy
+IHN1Z2dlc3Rpb24/DQoNClRoYW5rcywNClNoaWp1DQoNCj4NCj5UaHguDQo+DQo+LS0NCj5SZWdh
+cmRzL0dydXNzLA0KPiAgICBCb3Jpcy4NCj4NCj5odHRwczovL3Blb3BsZS5rZXJuZWwub3JnL3Rn
+bHgvbm90ZXMtYWJvdXQtbmV0aXF1ZXR0ZQ0KDQo=
