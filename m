@@ -1,148 +1,192 @@
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761A6155C88;
-	Tue,  7 Oct 2025 05:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391FC4A1E
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 05:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759813855; cv=none; b=gKxJHEa14osEU/TAMSTYRuxlrwRGkj5Ft7uXlmHMdXuSw6LaAoKohXIja3tGG+LvPRLgbbl4smbNCyakFJXgtOVga2UVM6sE5fbR8raogvqf/NAe+u/NSzFlvXUpft/WAshw8VzywDNfqATO1bsUeijsFNuZ7slMB3rkLE3Cu5s=
+	t=1759814453; cv=none; b=TjsA9D0UgFTf2fPoFODbGljmhzAmXQiT/zvTkGk2q1J3UvM5EBK6lXVVJ66K7/vptNnGvEMQJxVSAUDW0GqPuwr4la/SrOLcEmxHTjHrC3GdjUUm2SG32ZVP73f92WC1YVJe5VpKyUjOeuiAWvvtoGfdHx/7AOEwz+61n6jDNXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759813855; c=relaxed/simple;
-	bh=nyZubcmsOsfNGGwUDZTAtRoQQSIE49OuBwTMcrmEWHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sLMLVoQgN0vN0mVb/dMDCsJhNIqhrsMjtXaY3SsfPXQa52NWVnkxnxpB3ZfjclPgZKINZeVeujNhYR83dYaygp4mdn3WHHfoV2Xtrqy/2PJsiezRA9Y2Mj2dMgusNNxTN3U5WAL3yYsx3fTd9lxjS3P8mtLyVg/uWYO1P3qmf3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=WDRxNZYP; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1759814453; c=relaxed/simple;
+	bh=aEYH4zCwFdNksvwaZS2nvlyy1red1baEkF3tZAHk/zE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tTDnk5flLAJjSF/5N++fsw84U0xWiWU7C/69CF+DlN3OY+xVVbB39vJVbx0gttQRk4g+05a0XfJcjuPKo+qOeX2gyjoLsfKT5xs7aHeejOsBK79YpqSzpT3wFhg5Oakc/xHHsS5GkYv2iCKipYSLDfOnHwbKKuYMobTJZaYjkZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c5we6PrY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LJCDucyK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ndt7MTur; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5O4u8oLV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="WDRxNZYP"
-Received: from mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:4c01:0:640:9467:0])
-	by forward500d.mail.yandex.net (Yandex) with ESMTPS id 6676181889;
-	Tue, 07 Oct 2025 08:04:10 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 44dAxY5L5Os0-Umnz7TAb;
-	Tue, 07 Oct 2025 08:04:09 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1759813449;
-	bh=X7Bau1taqoDASnuTXeQJxMiBFaFYYp7svzSfKN8My3c=;
-	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
-	b=WDRxNZYPPjZ/Eell1GfkaTHr/ONis1vJp2C2ZKCJeLT00BXxvrwKB/d0m6t28S00P
-	 4GuNY2cdu0NOlwlzJwCqr5ZNHgV68NpFSw7FzUOGn4h8vRjPDiR+hXSZZz8GHGJZV0
-	 CZTqLDFNhxaTcme0OjW1R1Rsfud8VZIbIA3SPKgI=
-Authentication-Results: mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
-Date: Tue, 7 Oct 2025 08:04:02 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org,
- linux-kernel@vger.kernel.org, acourbot@nvidia.com, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] rust: xarray: abstract `xa_alloc`
-Message-ID: <20251007080402.1a6d19ea@nimda.home>
-In-Reply-To: <aORMNreduCPSIL82@tardis-2.local>
-References: <20251006163024.18473-1-work@onurozkan.dev>
-	<20251006163024.18473-2-work@onurozkan.dev>
-	<aORMNreduCPSIL82@tardis-2.local>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c5we6PrY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LJCDucyK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ndt7MTur";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5O4u8oLV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C7E73200C4;
+	Tue,  7 Oct 2025 05:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759814444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
+	b=c5we6PrYo1pGuwTp/Cs5QK/vv6mmbVe0zIfmUPGoRIRraCp6DT2CC7nH88Lki/oW0/4sXg
+	bYHP04iyQXSHdn+BAxu9A/vWPpLLI1K6qzzHLDfhWGx9v79kIUQgqmnBH3j0xBILG45REt
+	8H2ds8a3HTJM8IvCeJDVdSu9pFhcb6I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759814444;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
+	b=LJCDucyKVPrmz88ztW6RReY1+d3exGE1cnLkoF+TuLF6dppRQY3jTvClmpQoS9aq8y5R7Y
+	6AHEv8QmlmQlxCCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ndt7MTur;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5O4u8oLV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759814443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
+	b=Ndt7MTurV6jwySdwJMlHtcQwYlu8FGcVRuiJzX7daz69YxpUx9mILNC4M6eUxPJkiIYZLG
+	YqkfwiMM+jMcLqVtP7Q+obaaMj2IFdcLiLvvc8TnEcPTIBg8L0N2jb28aje0nLoCUkMI35
+	WtRBcz9G7Kxi9oe1dtksQxxNEjntg0o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759814443;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
+	b=5O4u8oLVKIbSrNQ7CqCqAO62oICSRXylkhPyVkbm15glKQdP9l4zKRlo945hP1+/waY9Mo
+	1jsxZMiroQHHgwAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7044D13693;
+	Tue,  7 Oct 2025 05:20:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fcREGSuj5GiRBQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 07 Oct 2025 05:20:43 +0000
+Message-ID: <4f16296c-c1e1-43c2-8a73-36dabaa2ffd1@suse.de>
+Date: Tue, 7 Oct 2025 07:20:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on
+ completion
+To: Alistair Francis <alistair23@gmail.com>
+Cc: chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20251003043140.1341958-1-alistair.francis@wdc.com>
+ <20251003043140.1341958-4-alistair.francis@wdc.com>
+ <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
+ <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C7E73200C4
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 
-On Mon, 6 Oct 2025 16:09:42 -0700
-Boqun Feng <boqun.feng@gmail.com> wrote:
+On 10/7/25 03:22, Alistair Francis wrote:
+> On Mon, Oct 6, 2025 at 4:16 PM Hannes Reinecke <hare@suse.de> wrote:
+>>
+>> On 10/3/25 06:31, alistair23@gmail.com wrote:
+>>> From: Alistair Francis <alistair.francis@wdc.com>
+>>>
+>>> To avoid future handshake_req_hash_add() calls failing with EEXIST when
+>>> performing a KeyUpdate let's make sure the old request is destructed
+>>> as part of the completion.
+>>>
+>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>>> ---
+>>> v3:
+>>>    - New patch
+>>>
+>>>    net/handshake/request.c | 2 ++
+>>>    1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/net/handshake/request.c b/net/handshake/request.c
+>>> index 0d1c91c80478..194725a8aaca 100644
+>>> --- a/net/handshake/request.c
+>>> +++ b/net/handshake/request.c
+>>> @@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, unsigned int status,
+>>>                /* Handshake request is no longer pending */
+>>>                sock_put(sk);
+>>>        }
+>>> +
+>>> +     handshake_sk_destruct_req(sk);
+>>>    }
+>>>    EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
+>>>
+>> Curious.
+>> Why do we need it now? We had been happily using the handshake mechanism
+>> for quite some time now, so who had been destroying the request without
+>> this patch?
+> 
+> Until now a handshake would only be destroyed on a failure or when a
+> sock is freed (via the sk_destruct function pointer).
+> handshake_complete() is only called on errors, not a successful
+> handshake so it doesn't remove the request.
+> 
+> Note that destroying is mostly just removing the entry from the hash
+> table with rhashtable_remove_fast(). Which is what we need to be able
+> to submit it again.
+> 
 
-> HI Onur,
->=20
-> On Mon, Oct 06, 2025 at 07:30:22PM +0300, Onur =C3=96zkan wrote:
-> > Implements `alloc` function to `XArray<T>` that wraps
-> > `xa_alloc` safely.
-> >=20
-> > Resolves a task from the nova/core task list under the "XArray
-> > bindings [XARR]" section in "Documentation/gpu/nova/core/todo.rst"
-> > file.
-> >=20
->=20
-> Having this information is good, however I feel it's better if you
-> explain/expand what exact the usage will be on the XArray, otherwise,
-> it'll be hard for people to dig in the history and find out why we add
-> this. Thanks!
->=20
+And we really should've done that in the first place.
+Thanks for the explanation.
 
-Very true, thanks.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
--Onur
+Cheers,
 
-> Regards,
-> Boqun
->=20
-> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> > ---
-> >  rust/kernel/xarray.rs | 39 +++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
-> >=20
-> > diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-> > index a49d6db28845..1b882cd2f58b 100644
-> > --- a/rust/kernel/xarray.rs
-> > +++ b/rust/kernel/xarray.rs
-> > @@ -266,6 +266,45 @@ pub fn store(
-> >              Ok(unsafe { T::try_from_foreign(old) })
-> >          }
-> >      }
-> > +
-> > +    /// Allocates an empty slot within the given limit range and
-> > stores `value` there.
-> > +    ///
-> > +    /// May drop the lock if needed to allocate memory, and then
-> > reacquire it afterwards.
-> > +    ///
-> > +    /// On success, returns the allocated id.
-> > +    ///
-> > +    /// On failure, returns the element which was attempted to be
-> > stored.
-> > +    pub fn alloc(
-> > +        &mut self,
-> > +        limit: bindings::xa_limit,
-> > +        value: T,
-> > +        gfp: alloc::Flags,
-> > +    ) -> Result<u32, StoreError<T>> {
-> > +        build_assert!(
-> > +            T::FOREIGN_ALIGN >=3D 4,
-> > +            "pointers stored in XArray must be 4-byte aligned"
-> > +        );
-> > +
-> > +        let new =3D value.into_foreign();
-> > +        let mut id: u32 =3D 0;
-> > +
-> > +        // SAFETY:
-> > +        // - `self.xa.xa` is valid by the type invariant.
-> > +        // - `new` came from `T::into_foreign`.
-> > +        let ret =3D
-> > +            unsafe { bindings::__xa_alloc(self.xa.xa.get(), &mut
-> > id, new, limit, gfp.as_raw()) }; +
-> > +        if ret < 0 {
-> > +            // SAFETY: `__xa_alloc` doesn't take ownership on
-> > error.
-> > +            let value =3D unsafe { T::from_foreign(new) };
-> > +            return Err(StoreError {
-> > +                value,
-> > +                error: Error::from_errno(ret),
-> > +            });
-> > +        }
-> > +
-> > +        Ok(id)
-> > +    }
-> >  }
-> >=20
-> >  // SAFETY: `XArray<T>` has no shared mutable state so it is `Send`
-> > iff `T` is `Send`. --
-> > 2.51.0
-> >=20
-
+Hannes--
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
