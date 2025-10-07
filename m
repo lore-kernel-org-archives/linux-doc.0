@@ -1,83 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCA02586C2;
-	Tue,  7 Oct 2025 06:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC61E2D4B40
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 08:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759820050; cv=none; b=DArBFPhpDJbpTntBQWdDL58+9Uxg29PLorZ3dMCCYy0OQiOogYKmSFF2yNjN4sZ8FgvXlAbWHVZXKv8LQM8RZzEKF0Yn2Es3CXTfkX9zEq2bWUHnePBfdzCJ9JRFMe8q65k4reNl5whStnabW0tjhz+catfafx9DQ3b/UVmaDLw=
+	t=1759825960; cv=none; b=l1Ji29awnQwGIbYR4xy9HTIaUuqi7YatoRA7uLnr68dLXlhdBwoAWX/G99oMfYrmDnUwoBirelWetJ6+FEomFgUButuuFYb1g61B/BtNhwpnHaeATyDHdUoqxUUaBXgNlAPgV6nNT62rL6cuPjehc49aOQRO54Ot0XS7bDuqqQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759820050; c=relaxed/simple;
-	bh=jO/CITRZpotiM7BR0pycN3I+eaS0MSM1mW3jR69WgKQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Teir/OEZs2ebpyFQ+R/x4D/qE/y5puZMnBFVm3nImwPYjvBAoqNV1tQBQJj/sqGGmDlh+ej4vapV1ZdICXmHlIEiubB9eQF/QAOzcbD3qWPF44rgfYw5CcXEk2+whqsET7SjohQxzUFtlMDVSvKQMmb0YYbvhOUB1v4EIKgnExQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaW6s9Qx; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759825960; c=relaxed/simple;
+	bh=UyXS0YiulfoICjWKVbZLAuV+X0gt4aJvE3oK8qyJ30E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BjOvDuUETMi6YC91Cl1dEA5hxCvejdA3BFJe3o1gLlK+4Y+ghkNnTOo7X+z5ylEHjoqB4cZ0FP3wjIXxgEvcnJ7aNz9N86+YogNo5K04p8Rnw3CRxYSNpKzyVLgUrDEA04WKEDOC9FNjf7o9syfZYFkjT5KAg3xJGovfQwZhsg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XoU6ZAZO; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaW6s9Qx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759820048; x=1791356048;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jO/CITRZpotiM7BR0pycN3I+eaS0MSM1mW3jR69WgKQ=;
-  b=ZaW6s9QxQuP2O5TtMorwFvjGrgfBbkgQKiglyxf6OI4/R0TpSAJEmI7M
-   Zc+916ORkRAMwaTeaf7AdUGJVXUUmbPvACvofTguokJTIE8NR42+0JaoR
-   PnUCO3iwtDBXho+rbu1duOYJcDWBJkRoHLovJPlJVsDRiaznfI1iTYxGO
-   1D0F1fM5M3HTlcRyiEosqqa5sMIzGOWRGUjEcGWjqyexvDk1EbjuV1i0Q
-   g8SMH2YRsQhGbj/eeXwOiKgRjGqXOTvtoBXiDz/iuMKi/IK72h0iABxHO
-   OY5HSuJf1TNrjKSVvYtBDeZhXMoQ0i9OfIJF/Lf1sk+xfGAJHcFw154fw
-   Q==;
-X-CSE-ConnectionGUID: QbQ8/xqKSmiJMSmF5zn9FQ==
-X-CSE-MsgGUID: e7rQdQc0RcayQzZUhQT1VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="72254595"
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
-   d="scan'208";a="72254595"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2025 23:54:07 -0700
-X-CSE-ConnectionGUID: kSpwjkZBS4egwnjDdYeLNQ==
-X-CSE-MsgGUID: F5tz/hZmR4Omncq0SUAkqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
-   d="scan'208";a="184354532"
-Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa004.jf.intel.com with ESMTP; 06 Oct 2025 23:54:06 -0700
-From: Sohil Mehta <sohil.mehta@intel.com>
-To: x86@kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XoU6ZAZO"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso4622279a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 01:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759825958; x=1760430758; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
+        b=XoU6ZAZO2m49XN1+y/2A/M2ZAltddjpHTRHuEyzKt7SYujeDozV9R+lZtcXwivtS8Q
+         aYX5GdTtVj5TkneEpWtZ4N3eBl7Ph2zOndVvZEQ4FSYV4OCdNVdQu0w5Gr9s8ZdQI0cp
+         tpE15928EVab++85xjbhvN5da9Sx/rEavxisbqg5UyFGPI/pSG6W0suuxGlLOAZdoHGQ
+         pGL7OrfwMNRzz/bgTqACZkRC76pS7oE7jxi3gvkWSQp9w+8srbzykdDWs4aJu29VRZNE
+         MKcxunczgINFyogyfZRJySZFynh4YrV9PBRTW4agGAuHx1BCMS8zqh3eVud9E2ktXKvl
+         NxiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759825958; x=1760430758;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
+        b=GZPy4Qa9yN4YdoMdUF3bjEELy4QAerr8xlyVwa+4k9zxISLabXdwbktJWDBCnfdecG
+         JM2fLrHrUXAkt0u3krO9ol/EW+gZknVqm3u2U+ie1zCDwJ+hSGQrUQS3z9JFmK1aV6qI
+         bv0WHbJICh22BnfCctNv23zRRjjXfdl9FdEndmxsDKoxH9IiXHN7nHay/woK9k7p6JZO
+         4DKLdeHRTpBphmwfj7L0infGAB9iBF/KSbPfZP7KLCQ1BX80KX3eP3ljY37eTUXOexYO
+         HXkpHC5X5dXuvioxnpQSkV5Z695OG0ZR8R8N+l55Ev558fywe8UPHlQFf+4WGxhwosag
+         KmTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFfkHuiAhz+FIZYVWUF0um1gM6GETa5RuEAPfso2DjMIB62tgujJvAoYHPWNyKrJZpPIF7J0qSjFs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqJhlSj9ejb+6M5cfy4GPc1Ic1eUc7t51zXha4O/4LBAq6/ZdJ
+	MUWXgJ16qOELCf0TdEXtg+Ryrfe2FyTvwj5ZmsK3bJ7IIdzTSNNAkrxZ
+X-Gm-Gg: ASbGncvTeJ0wILmJo+l3Mm3K+Ddbt0LFtfPLWjZ03uO0nX1Uta5RVk55Ix/nlIhKk+8
+	YRNV/EMiXoPTKLSw8o18Z4I/pyrAqjyfzheCjNUmbC+BVwziKvh1htpC7OyL7PS1+yfo+c2XLMI
+	3NH4ZIghAPX2pu1dmopA2JuiXnIPVXtI63/XDyvPufTlNM/wUSuNBBpz7JNT4ltHM7CTzeLosDl
+	KoB3bYy1e0RERZLgowkS/2OcKo9xjWRnk9RRmxyHAWO3MxUvcUbzeD8AwcWYEKjN67012/paVCO
+	7uMuITR3ucwOQHkuRdGFxp/gvAbhmRItmDFLlRtXqoR/8W9/giqnQ03hbnv55ErT9sMM5vyCF8E
+	ckGdenyyyYiKJqX/Uj51uY67oUCNqAhqyFjY4IrK/y5WF87rcS3pXFVas+LTwXgA1qQ==
+X-Google-Smtp-Source: AGHT+IEQinegNp0eryTjEE/PSB7WT+WxKJi2rEkoILL6p0tSCG8SZofKeGirNv90BH6Yz68RvHxRpw==
+X-Received: by 2002:a17:903:3c25:b0:28e:9427:68f6 with SMTP id d9443c01a7336-28e9a593d32mr183371865ad.27.1759825957801;
+        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d24aesm157032525ad.118.2025.10.07.01.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: [PATCH v10 15/15] x86/cpu: Enable LASS by default during CPU initialization
-Date: Mon,  6 Oct 2025 23:51:19 -0700
-Message-ID: <20251007065119.148605-16-sohil.mehta@intel.com>
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] Documentation/rtla: fix htmldocs build error by renaming common_options.rst
+Date: Tue,  7 Oct 2025 14:02:26 +0530
+Message-ID: <20251007083228.17319-1-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251007065119.148605-1-sohil.mehta@intel.com>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,50 +79,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Linear Address Space Separation (LASS) mitigates a class of side-channel
-attacks that rely on speculative access across the user/kernel boundary.
-Enable it by default if the platform supports it.
+Running "make htmldocs" generates the following build errors for
+common_options.rst
 
-While at it, remove the comment above the SMAP/SMEP/UMIP/LASS setup
-instead of updating it, as the whole sequence is quite self-explanatory.
+Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitution referenced: "threshold".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tool".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "thresharg".
+Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tracer".
+Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitution referenced: "tracer".
+Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitution referenced: "actionsperf".
+Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substitution referenced: "tool".
 
-Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+common_options.rst is intended to be included by other rtla documents
+and is not meant to be built as a standalone document. It contains
+substitutions that are only resolved by other documents, so building it
+independently results in 'undefined substitution referenced' errors.
+
+Rename common_options.rst to common_options.txt to prevent Sphinx from
+building it as a standalone document and update the include references
+accordingly.
+
+Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
-v10
- - No change.
----
- arch/x86/kernel/cpu/common.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 57d5824465b0..7f0f1b56cbe7 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -401,6 +401,12 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- 	cr4_clear_bits(X86_CR4_UMIP);
- }
+Note: reStructuredText substitutions -
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#substitutions
+
+Tested by running "make htmldocs" before and after the change,
+verifying that no substitution errors are generated and the 
+output renders correctly in browsers.
+
+ .../tools/rtla/{common_options.rst => common_options.txt}       | 0
+ Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-hist.rst                 | 2 +-
+ Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
+ 6 files changed, 5 insertions(+), 5 deletions(-)
+ rename Documentation/tools/rtla/{common_options.rst => common_options.txt} (100%)
+
+diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.txt
+similarity index 100%
+rename from Documentation/tools/rtla/common_options.rst
+rename to Documentation/tools/rtla/common_options.txt
+diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
+index 3a7163c02ac8..cc2721315552 100644
+--- a/Documentation/tools/rtla/rtla-hwnoise.rst
++++ b/Documentation/tools/rtla/rtla-hwnoise.rst
+@@ -33,7 +33,7 @@ OPTIONS
  
-+static __always_inline void setup_lass(struct cpuinfo_x86 *c)
-+{
-+	if (cpu_feature_enabled(X86_FEATURE_LASS))
-+		cr4_set_bits(X86_CR4_LASS);
-+}
-+
- /* These bits should not change their value after CPU init is finished. */
- static const unsigned long cr4_pinned_mask = X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
- 					     X86_CR4_FSGSBASE | X86_CR4_CET | X86_CR4_FRED |
-@@ -2019,10 +2025,10 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	/* Disable the PN if appropriate */
- 	squash_the_stupid_serial_number(c);
+ .. include:: common_top_options.rst
  
--	/* Set up SMEP/SMAP/UMIP */
- 	setup_smep(c);
- 	setup_smap(c);
- 	setup_umip(c);
-+	setup_lass(c);
+-.. include:: common_options.rst
++.. include:: common_options.txt
  
- 	/* Enable FSGSBASE instructions if available. */
- 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+index 1fc60ef26106..a11c485f127a 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+@@ -28,7 +28,7 @@ OPTIONS
+ 
+ .. include:: common_hist_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
+index b1cbd7bcd4ae..c7bc716b2899 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-top.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
+@@ -30,7 +30,7 @@ OPTIONS
+ 
+ .. include:: common_top_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ EXAMPLE
+ =======
+diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+index 4923a362129b..547dfc7ace58 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+@@ -29,7 +29,7 @@ OPTIONS
+ 
+ .. include:: common_hist_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ .. include:: common_timerlat_aa.rst
+ 
+diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
+index 50968cdd2095..3740fd386ea8 100644
+--- a/Documentation/tools/rtla/rtla-timerlat-top.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
+@@ -30,7 +30,7 @@ OPTIONS
+ 
+ .. include:: common_top_options.rst
+ 
+-.. include:: common_options.rst
++.. include:: common_options.txt
+ 
+ .. include:: common_timerlat_aa.rst
+ 
 -- 
 2.43.0
 
