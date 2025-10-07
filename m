@@ -1,154 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC1221578D;
-	Tue,  7 Oct 2025 18:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15101285CA4
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 18:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759862891; cv=none; b=H7tugmEIiM2RJiqycRzA/Nl+JEB5Gy3biCYacElGC8bFGl/QBwwGGWMQRuXp2P0dZzFaFhLZlBA31kyEAl98D/6lv48ZdQaGUplID/trlP8Vx5TM1YnSKVwTR0r3lE27RPoX20spI9oFyPaqvzfXgV6RP+SuA8ztSj7UaiQEpL8=
+	t=1759863324; cv=none; b=tZlvNJRFek5ePoCH9XYEOaC0tavwBBH/ZS+WJJkoY0kvTAkvtbZj5zCFHOqvPLEObUShlJL9sCgR1hBtzdEoSu5EMp2CdxyOjnEM6mmdOg7S2aXW1HyQwQIZdqGk8lWkazyUS3PZMYSvJXkaYDmDNmow6+KdMyCG0DEpsG2GLZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759862891; c=relaxed/simple;
-	bh=lDcAs5bI1E33Ft/c7uruoO9Prwy85Va0TOrAMqFpMI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AhYrFZQ9u96JAoR/sMtOrkR9HUjkx0A/HTXS4hOe8mN3gRKlI7xr3RRT3iqV1lkl8IUSIv3GYFJiUgPNE/3znR0hE3Q6gUnRi8vnSPYYiJ5o9Gh/1DDxuBR/V1kSNcHYLvSvVya4XwVT89EgXLsIXQVzIx7C+6FgoCvCkIcP8xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DnVbjeq4; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759863324; c=relaxed/simple;
+	bh=KYaaNQMzTyncgQyqSCq4P2yL0PsSWqFZF+5bbRW1HLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LAlI7O55kk3Uzx7YKX4C0WhAu1MGnujP0tlweCjHgE2QE92DeSixsRKmpiAM5ujQnRTJAPcNZ3hFitfV1yO6XP1pZ+a7/1dPdjlfQXnPSp1Wq9sXNIPGoMwxsiB7TuPUqiNF/Zz3GeDApVr43z8xYS7b8sKCtmgISovKCzCGwxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k0HVGjNo; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DnVbjeq4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759862890; x=1791398890;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lDcAs5bI1E33Ft/c7uruoO9Prwy85Va0TOrAMqFpMI8=;
-  b=DnVbjeq4xtSnvzr5naSOALjQQ1neFYhcjIaGPmGoGLNYSQDdu9ruSV36
-   /1VeMJWuhjY0zKKaDMrFUYTibCPXt7XsGj193GIcjZUQ/z4wbDK4bvPQK
-   k5P3mr5OkGkqEQN63MNso1HS9CpN6HcHd1uLYLDCpjKMC/fahkF4xfSke
-   JxcE+ebjwlcivhH8R+qfT8iEhHPVJlTC46r0P/SdJHr14X/wGqaj1/46+
-   Y9Z5Nph0lrXUsA740vhtp+D6IZfzbzDjHR+2D9nnq3L0oex2WtoDNmHBp
-   gvdXGy0vC8yTWlUFdEiEtxhXPVyD7uZElDzwJUTO70nxo4pZMuIDRa+rq
-   w==;
-X-CSE-ConnectionGUID: By4Ky3XDSz2D/aQeV6Zfrw==
-X-CSE-MsgGUID: 7Ex86J7kTVGoHl0tqHMjlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="61258924"
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
-   d="scan'208";a="61258924"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2025 11:48:07 -0700
-X-CSE-ConnectionGUID: 4WynR91aR5GohqtgQa/ETw==
-X-CSE-MsgGUID: UxRcNtC8TuGHiU3D8z+/XQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
-   d="scan'208";a="180041553"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.110.162]) ([10.125.110.162])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2025 11:48:06 -0700
-Message-ID: <3e3d2426-6296-4a61-beae-4e3ff5d60f2c@intel.com>
-Date: Tue, 7 Oct 2025 11:48:05 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0HVGjNo"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27ee41e0798so99911875ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 11:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759863322; x=1760468122; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gEWpi/vkQDymkY4TZuKIEKhri9YrajHYIJ3EVRMXvNM=;
+        b=k0HVGjNoxrv+cDkt0LCnj2jXFpQRPZXbJFCsqXO9RoWy/zpE/8hxzpZiJojck41jBS
+         Tobu6aRiz3BL9C5GfZSUWBE6PP+2s9twehK3hxawTgPD0nkYvitPQ/LrDPCT5rBYFiDA
+         jYfnw3jNMkegNPNb3o4db6vDVcaBgEqcVeWmNYt7BGMirl1bt7S3YvDiRqj5W0GfwlQn
+         r5OATYMhAnv6ympM+hbhWeyoAMIIVZ5GIB5JjY4jrCb282doXwyGP3j/SJo/91Pe8XRw
+         pNXu7qUrm7I/O19Eki6mpXAqecAYUaqN5LltNIaHEUOY+IFUSGEiNeH5UT4Lwjjq5CZi
+         fkjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759863322; x=1760468122;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gEWpi/vkQDymkY4TZuKIEKhri9YrajHYIJ3EVRMXvNM=;
+        b=VVb7Qe5HqETMTzPk2uioGhaZY0JkAigAFpnp59XiZA6Rvt4HxgoCP35MpusHdk/C5b
+         MAo16Djm+ceFxim78K4r6HnTtT1HJaru2mser8B/qvoTaa4a37yhKOt7IrocqdH2Vzdm
+         BmtWRhlb0FFFXMeAWBlogQ/UqlQfibj/04jwlLFNSrQsrpJMTk3ajisOoEowEVs8mnt4
+         w34/5zcTcrYBkwQwfRZB8yt2t87ozJiHGsJbJbu6lZxJ9SYCePAoIQCjmXc1Nv/RTg/d
+         mo72wAgk6i2+RWbdCX6bwrN1qeXS5XoAwHwu2gd7yfW6s4kNLCIkud5zECar+GjJDJQq
+         EC2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWQFgb7NmZWgcMLLRBIKZECEGHI7tbBThO9WdgurwRB5HkpcMwImtOeMqb39CNp5QHRpw8zw8amqtU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKqDhhlXpIP9YU5Q6VYGYLjnbj1itak1Nf15C18Il0UM5I8cv4
+	n70N5gO2LtX5vmXI9pbM4cHVGrupay/iEgmj/Xb/4lxsv+44CfghXC0z
+X-Gm-Gg: ASbGnctBzI7Cf/3ocqOIFdh+bPSAqSSi17sLIGK8JbQ61WcVVLMe7dhTQZGdJxwSZp2
+	ZJ6edRUkLFtEXwcGy8EoK9Yp99uGZ1Ez6r5DIv3V6+Vt6cGz3eh++Ga+agql+bkYiwlsqBfJbdR
+	OBn34cZhazRq1wvHYcEBJq7VMtqwUwzIbAfwTdXqXi9dHQ/kFA2hJTSpQZNon6dUMNeRUzfCO2l
+	iLaegmfWc5ag2Gd29Z2SyjSVHjhj+azuCXZahxGdasXRB2PN6Ja1UvLOPL9+0RrSQKYWEa5ThR0
+	SGJKE1WmahxNt/mOxHuXivqMqo6TecrSQJUhITs3OkFb5gGtrkMMrv6r8ewEtilhMVGhOFVF32F
+	MogmQkUdxZZ977VgQOu01qR2aCeeC29a1F7QB6HYMZ90leEgCLm4WoLZEp7GvybiThA==
+X-Google-Smtp-Source: AGHT+IFkC90TrbmYWdFb8+Squ/yvNSbuyPw/2N1C/NN0bhPNNPcOuqO79tcCivw9Cvz+HmCkqLSG/w==
+X-Received: by 2002:a17:902:d607:b0:269:8f2e:e38 with SMTP id d9443c01a7336-29027356528mr10234435ad.6.1759863322179;
+        Tue, 07 Oct 2025 11:55:22 -0700 (PDT)
+Received: from kforge.gk.pfsense.com ([103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 11:55:21 -0700 (PDT)
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	crwood@redhat.com,
+	tglozar@redhat.com,
+	costa.shul@redhat.com,
+	jkacur@redhat.com
+Subject: [PATCH 0/8] Documentation/rtla: rename common_xxx.rst files to common_xxx.txt 
+Date: Wed,  8 Oct 2025 00:24:49 +0530
+Message-ID: <20251007185508.40908-1-krishnagopi487@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aOUMyGvkibvOV0IS@archie.me>
+References: <aOUMyGvkibvOV0IS@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 08/15] x86/vsyscall: Reorganize the page fault
- emulation code
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
- "Mehta, Sohil" <sohil.mehta@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "x86@kernel.org" <x86@kernel.org>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
- "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
- "luto@kernel.org" <luto@kernel.org>,
- "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
- "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
- "Luck, Tony" <tony.luck@intel.com>,
- "alexander.shishkin@linux.intel.com" <alexander.shishkin@linux.intel.com>,
- "kas@kernel.org" <kas@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
- "vegard.nossum@oracle.com" <vegard.nossum@oracle.com>,
- "xin@zytor.com" <xin@zytor.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "kees@kernel.org" <kees@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
- "geert@linux-m68k.org" <geert@linux-m68k.org>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-9-sohil.mehta@intel.com>
- <a33d59c7add98dd9ef352ac95178821dbcd0ce0e.camel@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <a33d59c7add98dd9ef352ac95178821dbcd0ce0e.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/7/25 11:37, Edgecombe, Rick P wrote:
->>  	/*
->>  	 * No point in checking CS -- the only way to get here is a user mode
->>  	 * trap to a high address, which means that we're in 64-bit user code.
-> I don't know. Is this as true any more? We are now sometimes guessing based on
-> regs->ip of a #GP. What if the kernel accidentally tries to jump to the vsyscall
-> address? Then we are reading the kernel stack and strange things. Maybe it's
-> worth replacing the comment with a check? Feel free to call this paranoid.
+This series is a continuation of previous patch available at:
+https://lore.kernel.org/linux-kernel-mentees/20251007083228.17319-1-krishnagopi487@gmail.com/
 
-The first check in emulate_vsyscall() is:
+As suggested by Bagas Sanjaya, this series renames all common_*.rst
+files under Documentation/tools/rtla to common_*.txt to maintain
+consistency with common_options.txt and to avoid building them as
+standalone documents, as they are intended to be included by other rtla
+documents only.
 
-       /* Write faults or kernel-privilege faults never get fixed up. */
-       if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
-               return false;
+Each patch renames one file and updates the corrosponding include
+references.
 
-If the kernel jumped to the vsyscall page, it would end up there, return
-false, and never reach the code near the "No point in checking CS" comment.
+Testing was done by running "make htmldocs" before and after the changes
+to verify that no build errors were produced and that the rendered
+output remained identical.
 
-Right? Or am I misunderstanding the scenario you're calling out?
+Gopi Krishna Menon (8):
+  Documentation/rtla: rename common_appendix.rst to common_appendix.txt
+  Documentation/rtla: rename common_hist_options.rst
+  Documentation/rtla: rename common_osnoise_description.rst
+  Documentation/rtla: rename common_timerlat_aa.rst
+  Documentation/rtla: rename common_timerlat_description.rst
+  Documentation/rtla: rename common_timerlat_options.rst
+  Documentation/rtla: rename common_top_options.rst
+  Documentation/rtla: rename common_osnoise_options.rst
 
-If I'm understanding it right, I'd be a bit reluctant to add a CS check
-as well.
+ .../rtla/{common_appendix.rst => common_appendix.txt}  |  0
+ ...common_hist_options.rst => common_hist_options.txt} |  0
+ ..._description.rst => common_osnoise_description.txt} |  0
+ ..._osnoise_options.rst => common_osnoise_options.txt} |  0
+ .../{common_timerlat_aa.rst => common_timerlat_aa.txt} |  0
+ ...description.rst => common_timerlat_description.txt} |  0
+ ...imerlat_options.rst => common_timerlat_options.txt} |  0
+ .../{common_top_options.rst => common_top_options.txt} |  0
+ Documentation/tools/rtla/rtla-hwnoise.rst              |  6 +++---
+ Documentation/tools/rtla/rtla-osnoise-hist.rst         |  8 ++++----
+ Documentation/tools/rtla/rtla-osnoise-top.rst          |  8 ++++----
+ Documentation/tools/rtla/rtla-osnoise.rst              |  4 ++--
+ Documentation/tools/rtla/rtla-timerlat-hist.rst        | 10 +++++-----
+ Documentation/tools/rtla/rtla-timerlat-top.rst         | 10 +++++-----
+ Documentation/tools/rtla/rtla-timerlat.rst             |  4 ++--
+ Documentation/tools/rtla/rtla.rst                      |  2 +-
+ 16 files changed, 26 insertions(+), 26 deletions(-)
+ rename Documentation/tools/rtla/{common_appendix.rst => common_appendix.txt} (100%)
+ rename Documentation/tools/rtla/{common_hist_options.rst => common_hist_options.txt} (100%)
+ rename Documentation/tools/rtla/{common_osnoise_description.rst => common_osnoise_description.txt} (100%)
+ rename Documentation/tools/rtla/{common_osnoise_options.rst => common_osnoise_options.txt} (100%)
+ rename Documentation/tools/rtla/{common_timerlat_aa.rst => common_timerlat_aa.txt} (100%)
+ rename Documentation/tools/rtla/{common_timerlat_description.rst => common_timerlat_description.txt} (100%)
+ rename Documentation/tools/rtla/{common_timerlat_options.rst => common_timerlat_options.txt} (100%)
+ rename Documentation/tools/rtla/{common_top_options.rst => common_top_options.txt} (100%)
+
+-- 
+2.43.0
+
