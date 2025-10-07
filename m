@@ -1,192 +1,203 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC61E2D4B40
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 08:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232991E633C
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 08:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759825960; cv=none; b=l1Ji29awnQwGIbYR4xy9HTIaUuqi7YatoRA7uLnr68dLXlhdBwoAWX/G99oMfYrmDnUwoBirelWetJ6+FEomFgUButuuFYb1g61B/BtNhwpnHaeATyDHdUoqxUUaBXgNlAPgV6nNT62rL6cuPjehc49aOQRO54Ot0XS7bDuqqQw=
+	t=1759826867; cv=none; b=KMRLSbfi9b0zCmqWdkQXEO3UtlwBrDUrjvUYjqUgYGKfMWNqa8uiHx29OKdSdAmFjTJrNkCW+XI4dfdivq2rSIpW8xGFwJTadKES9Xa83RRM0PZoTkFOuBKyEZ5JlVXOQFUzyDCMdyVpFARk6jm2EQQehdAt3JwMcGlUVVC4YZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759825960; c=relaxed/simple;
-	bh=UyXS0YiulfoICjWKVbZLAuV+X0gt4aJvE3oK8qyJ30E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BjOvDuUETMi6YC91Cl1dEA5hxCvejdA3BFJe3o1gLlK+4Y+ghkNnTOo7X+z5ylEHjoqB4cZ0FP3wjIXxgEvcnJ7aNz9N86+YogNo5K04p8Rnw3CRxYSNpKzyVLgUrDEA04WKEDOC9FNjf7o9syfZYFkjT5KAg3xJGovfQwZhsg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XoU6ZAZO; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1759826867; c=relaxed/simple;
+	bh=vo73nD6X7GknqwKu4/t/n5UEit3SnnPN2ApB1mJISAs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hSwex2av3oj31shhTyHX8Ovz9rN5eJGi1xUNBA1Hw0+3SaTNslIGgjieEm21mKZEjEHf8mL006QZnw+J2ac0amqj8KvuTMR3LBQkCcHHJaDeLKcvUIvIM/d0wpC0xHnIkdmVOmy4UhUrlOurtwh3kfD+pE5blNXKDVojn4LBO/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gndoXDH7; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XoU6ZAZO"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso4622279a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 01:32:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gndoXDH7"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-79599d65f75so49919096d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 01:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759825958; x=1760430758; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
-        b=XoU6ZAZO2m49XN1+y/2A/M2ZAltddjpHTRHuEyzKt7SYujeDozV9R+lZtcXwivtS8Q
-         aYX5GdTtVj5TkneEpWtZ4N3eBl7Ph2zOndVvZEQ4FSYV4OCdNVdQu0w5Gr9s8ZdQI0cp
-         tpE15928EVab++85xjbhvN5da9Sx/rEavxisbqg5UyFGPI/pSG6W0suuxGlLOAZdoHGQ
-         pGL7OrfwMNRzz/bgTqACZkRC76pS7oE7jxi3gvkWSQp9w+8srbzykdDWs4aJu29VRZNE
-         MKcxunczgINFyogyfZRJySZFynh4YrV9PBRTW4agGAuHx1BCMS8zqh3eVud9E2ktXKvl
-         NxiA==
+        d=gmail.com; s=20230601; t=1759826865; x=1760431665; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=crh9HauYP95GJ4zrJ0uVPldJHjW/rsd9tWC0UjT3/hA=;
+        b=gndoXDH7Ko6uxNr64bSMWEi4D0l18rZUChLuCdFObnGvYpLYFOjrslx0mRFT17PAlB
+         eden4YMr1RK2piK7X0AYBnkX4sD2x83PbIXbcgiRJv47ojDDVeuyqLI8gnS4cPIA5LwY
+         aNDbybBzHszSgy3Zp+NS9bHPqGQUZWHvQe+C6R3HLaBVC2oyWDTSx5FtjqXhRqUzLYEe
+         j4DM6VT/7oPabqc4ZZ4oHuH/LwBEkoOvYrvkYnJ7S+QvGhZJENpEHQV8GGKIpdxjbXY6
+         sOmndYRGircEq0491JAhNOb6tHfVihPRDn9JGwldHVZjfljRkCG67NbipUAc73V51+Mq
+         2HTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759825958; x=1760430758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HprILVmlCINZEM+NQvrClrUcjHEMUlllXqO7BPuLx90=;
-        b=GZPy4Qa9yN4YdoMdUF3bjEELy4QAerr8xlyVwa+4k9zxISLabXdwbktJWDBCnfdecG
-         JM2fLrHrUXAkt0u3krO9ol/EW+gZknVqm3u2U+ie1zCDwJ+hSGQrUQS3z9JFmK1aV6qI
-         bv0WHbJICh22BnfCctNv23zRRjjXfdl9FdEndmxsDKoxH9IiXHN7nHay/woK9k7p6JZO
-         4DKLdeHRTpBphmwfj7L0infGAB9iBF/KSbPfZP7KLCQ1BX80KX3eP3ljY37eTUXOexYO
-         HXkpHC5X5dXuvioxnpQSkV5Z695OG0ZR8R8N+l55Ev558fywe8UPHlQFf+4WGxhwosag
-         KmTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFfkHuiAhz+FIZYVWUF0um1gM6GETa5RuEAPfso2DjMIB62tgujJvAoYHPWNyKrJZpPIF7J0qSjFs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqJhlSj9ejb+6M5cfy4GPc1Ic1eUc7t51zXha4O/4LBAq6/ZdJ
-	MUWXgJ16qOELCf0TdEXtg+Ryrfe2FyTvwj5ZmsK3bJ7IIdzTSNNAkrxZ
-X-Gm-Gg: ASbGncvTeJ0wILmJo+l3Mm3K+Ddbt0LFtfPLWjZ03uO0nX1Uta5RVk55Ix/nlIhKk+8
-	YRNV/EMiXoPTKLSw8o18Z4I/pyrAqjyfzheCjNUmbC+BVwziKvh1htpC7OyL7PS1+yfo+c2XLMI
-	3NH4ZIghAPX2pu1dmopA2JuiXnIPVXtI63/XDyvPufTlNM/wUSuNBBpz7JNT4ltHM7CTzeLosDl
-	KoB3bYy1e0RERZLgowkS/2OcKo9xjWRnk9RRmxyHAWO3MxUvcUbzeD8AwcWYEKjN67012/paVCO
-	7uMuITR3ucwOQHkuRdGFxp/gvAbhmRItmDFLlRtXqoR/8W9/giqnQ03hbnv55ErT9sMM5vyCF8E
-	ckGdenyyyYiKJqX/Uj51uY67oUCNqAhqyFjY4IrK/y5WF87rcS3pXFVas+LTwXgA1qQ==
-X-Google-Smtp-Source: AGHT+IEQinegNp0eryTjEE/PSB7WT+WxKJi2rEkoILL6p0tSCG8SZofKeGirNv90BH6Yz68RvHxRpw==
-X-Received: by 2002:a17:903:3c25:b0:28e:9427:68f6 with SMTP id d9443c01a7336-28e9a593d32mr183371865ad.27.1759825957801;
-        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d24aesm157032525ad.118.2025.10.07.01.32.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 01:32:37 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: rostedt@goodmis.org,
-	corbet@lwn.net
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] Documentation/rtla: fix htmldocs build error by renaming common_options.rst
-Date: Tue,  7 Oct 2025 14:02:26 +0530
-Message-ID: <20251007083228.17319-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1759826865; x=1760431665;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=crh9HauYP95GJ4zrJ0uVPldJHjW/rsd9tWC0UjT3/hA=;
+        b=I999ZT+DpbqQLJIOIR2P5pePV/1Wzg7/X0+mYv4bYoVnrV5bqB/6c4cqM6+mHYZZln
+         3RPZIBSljLKYcCR7+yQSFB83bdGJ+q+447V6M9eNLTm/x3OhajDj6QUGee5aMV1I7eej
+         ub/nfuFv42k5wLiqWuBT6S0teOVIkoLVARbw+h5LSfz+i6XNs2LGsv1QvhllGnz3twTb
+         IFnI2XiU0unRIpGu8Ql4j5e/xCkyEff1EseE+5t2YQQTqzIcdQWlgSXDVsMmRCq4XMKL
+         c61gGON0WdCss1MngLQDul+M7Xu3IAsubYaWzxigU/7w87XDzsljYSr7lfxmohl19Vcs
+         XACA==
+X-Forwarded-Encrypted: i=1; AJvYcCW63xuU3LGDrtqpEMipkd7yGEZv7RgCS30GdlyGlahxr/wp4FGxIV/10heL2Mcpu2zyPls9PWP8/48=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN4hZrIMSUy3UFXKo8xPewP6aSLtoPK3j3UPt2ksNUC4DJkLH/
+	8mD86Swg92j8xepw6BP4zD2TySAJQLD3WxM2lhOOFkpxUvJ/DKIC5anxdf8omEan4JIOlJXzrp0
+	ZfRJ1wrCX1Ll5qd2dRVudMctG5ZMGF0E=
+X-Gm-Gg: ASbGncu62rm6HBotB33yB+nCXw+Y7CCay+sS57LNYPBJSY1WIK1iWvHxoqzH54pj5BI
+	dKXXpTz2gpJrQuQ15CrVPFDi9pPr52bSDZs4GJrbgVLxVq6sGzAXEWy8N1kvd5x49LLvFwQfOef
+	B49ZjDhPJP1/vISlNzvM9oG4qYHtSo7flFhuTUwqj/Q5PIvDHOZJB23BQS7FS4xED6aKEoUMGbN
+	uzkbxB/tJOYC1sAUcE6eOnZXnVZN/V+qzspQGcrxQpQLpG2gtu/k3bJL178kghz9D4WLMTI
+X-Google-Smtp-Source: AGHT+IE0kCx/uqxAfqV2bOwZSICMDBVUoFj0t71GiPD3ZOtz/k069SnnR01KVwEtbQaFoOkSu9qAE8VcxY6KD+XN6HQ=
+X-Received: by 2002:ad4:5ca5:0:b0:815:2c80:5538 with SMTP id
+ 6a1803df08f44-879dc82c417mr175681336d6.35.1759826864937; Tue, 07 Oct 2025
+ 01:47:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+In-Reply-To: <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Tue, 7 Oct 2025 16:47:07 +0800
+X-Gm-Features: AS18NWAAW7GO0Nbda-yTtjdo7G3EzwEKMHmRebu2XNJhJXwwvRx2obOSyUBetgo
+Message-ID: <CALOAHbATDURsi265PGQ7022vC9QsKUxxyiDUL9wLKGgVpaxJUw@mail.gmail.com>
+Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
+ order selection
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, Johannes Weiner <hannes@cmpxchg.org>, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, 
+	Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Running "make htmldocs" generates the following build errors for
-common_options.rst
+On Fri, Oct 3, 2025 at 10:18=E2=80=AFAM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, Sep 29, 2025 at 10:59=E2=80=AFPM Yafang Shao <laoar.shao@gmail.co=
+m> wrote:
+> >
+> > +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *vma,
+> > +                                     enum tva_type type,
+> > +                                     unsigned long orders)
+> > +{
+> > +       thp_order_fn_t *bpf_hook_thp_get_order;
+> > +       int bpf_order;
+> > +
+> > +       /* No BPF program is attached */
+> > +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
+> > +                     &transparent_hugepage_flags))
+> > +               return orders;
+> > +
+> > +       rcu_read_lock();
+> > +       bpf_hook_thp_get_order =3D rcu_dereference(bpf_thp.thp_get_orde=
+r);
+> > +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
+> > +               goto out;
+> > +
+> > +       bpf_order =3D bpf_hook_thp_get_order(vma, type, orders);
+> > +       orders &=3D BIT(bpf_order);
+> > +
+> > +out:
+> > +       rcu_read_unlock();
+> > +       return orders;
+> > +}
+>
 
-Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitution referenced: "threshold".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tool".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "thresharg".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tracer".
-Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitution referenced: "tracer".
-Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitution referenced: "actionsperf".
-Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substitution referenced: "tool".
+Hello Alexei,
 
-common_options.rst is intended to be included by other rtla documents
-and is not meant to be built as a standalone document. It contains
-substitutions that are only resolved by other documents, so building it
-independently results in 'undefined substitution referenced' errors.
+My apologies for the slow reply. I'm on a family vacation and am
+checking email intermittently.
 
-Rename common_options.rst to common_options.txt to prevent Sphinx from
-building it as a standalone document and update the include references
-accordingly.
+> I thought I explained it earlier.
 
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
+I recall your earlier suggestion for a cgroup-based approach for
+BPF-THP. However, as I mentioned, I believe cgroups might not be the
+best fit[0]. My understanding was that we had agreed to move away from
+that model. Could we realign on this?
 
-Note: reStructuredText substitutions -
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#substitutions
+[0].  https://lwn.net/ml/all/CALOAHbBvwT+6f_4gBHzPc9n_SukhAs_sa5yX=3DAjHYsW=
+ic1MRuw@mail.gmail.com/
 
-Tested by running "make htmldocs" before and after the change,
-verifying that no substitution errors are generated and the 
-output renders correctly in browsers.
+> Nack to a single global prog approach.
 
- .../tools/rtla/{common_options.rst => common_options.txt}       | 0
- Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
- Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
- Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
- Documentation/tools/rtla/rtla-timerlat-hist.rst                 | 2 +-
- Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
- 6 files changed, 5 insertions(+), 5 deletions(-)
- rename Documentation/tools/rtla/{common_options.rst => common_options.txt} (100%)
+The design of BPF-THP as a global program is a direct consequence of
+its purpose: to extend the existing global
+/sys/kernel/mm/transparent_hugepage/ interface. This architectural
+consistency simplifies both understanding and maintenance.
 
-diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_options.rst
-rename to Documentation/tools/rtla/common_options.txt
-diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
-index 3a7163c02ac8..cc2721315552 100644
---- a/Documentation/tools/rtla/rtla-hwnoise.rst
-+++ b/Documentation/tools/rtla/rtla-hwnoise.rst
-@@ -33,7 +33,7 @@ OPTIONS
- 
- .. include:: common_top_options.rst
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-index 1fc60ef26106..a11c485f127a 100644
---- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-@@ -28,7 +28,7 @@ OPTIONS
- 
- .. include:: common_hist_options.rst
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
-index b1cbd7bcd4ae..c7bc716b2899 100644
---- a/Documentation/tools/rtla/rtla-osnoise-top.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
-@@ -30,7 +30,7 @@ OPTIONS
- 
- .. include:: common_top_options.rst
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-index 4923a362129b..547dfc7ace58 100644
---- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-@@ -29,7 +29,7 @@ OPTIONS
- 
- .. include:: common_hist_options.rst
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- .. include:: common_timerlat_aa.rst
- 
-diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
-index 50968cdd2095..3740fd386ea8 100644
---- a/Documentation/tools/rtla/rtla-timerlat-top.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
-@@ -30,7 +30,7 @@ OPTIONS
- 
- .. include:: common_top_options.rst
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- .. include:: common_timerlat_aa.rst
- 
--- 
-2.43.0
+Crucially, this global nature does not limit policy control. The
+program is designed with the flexibility to enforce policies at
+multiple levels=E2=80=94globally, per-cgroup, or per-task=E2=80=94enabling =
+all of our
+target use cases through a unified mechanism.
 
+>
+> The logic must accommodate multiple programs per-container
+> or any other way from the beginning.
+> If cgroup based scoping doesn't fit use per process tree scoping.
+
+During the initial design of BPF-THP, I evaluated whether a global
+program or a per-process program would be more suitable. While a
+per-process design would require embedding a struct_ops into
+task_struct, this seemed like over-engineering to me. We can
+efficiently implement both cgroup-tree-scoped and process-tree-scoped
+THP policies using existing BPF helpers, such as:
+
+  SCOPING                        BPF kfuncs
+  cgroup tree   ->  bpf_task_under_cgroup()
+  process tree -> bpf_task_is_ ancestors()
+
+With these kfuncs, there is no need to attach individual BPF-THP
+programs to every process or cgroup tree. I have not identified a
+valid use case that necessitates embedding a struct_ops in task_struct
+which can't be achieved more simply with these kfuncs. If such use
+cases exist, please detail them. Consequently, I proceeded with a
+global struct_ops implementation.
+
+The desire to attach multiple BPF-THP programs simultaneously does not
+appear to be a valid use case. Furthermore, our production experience
+has shown that multiple attachments often introduce conflicts. This is
+precisely why system administrators prefer to manage BPF programs with
+a single manager=E2=80=94to avoid undefined behaviors from competing progra=
+ms.
+
+Focusing specifically on BPF-THP, the semantics of the program make
+multiple attachments unsuitable. A BPF-THP program's outcome is its
+return value (a suggested THP order), not the side effects of its
+execution. In other words, it is functionally a variant of fmod_ret.
+
+If we allow multiple attachments and they return different values, how
+do we resolve the conflict?
+
+If one program returns order-9 and another returns order-1, which
+value should be chosen? Neither 1, 9, nor a combination (1 & 9) is
+appropriate. The only logical solution is to reject subsequent
+attachments and explicitly notify the user of the conflict. Our goal
+should be to prevent conflicts from the outset, rather than forcing
+developers to create another userspace manager to handle them.
+
+A single global program is a natural and logical extension of the
+existing global /sys/kernel/mm/transparent_hugepage/ interface. It is
+a good fit for BPF-THP and avoids unnecessary complexity.
+
+Please provide a detailed clarification if I have misunderstood your positi=
+on.
+
+--=20
+Regards
+Yafang
