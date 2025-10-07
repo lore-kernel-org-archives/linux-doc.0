@@ -1,63 +1,63 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E6A2E8DFD
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 18:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1E12E9EBE
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 18:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759863361; cv=none; b=YGmufXqXJGsG59bzn93vVSbQrJRVbUkwx0JKZLK480LlsImGI80PmrUN1UywYot8/yvqsUmrDqX5+nBFRiHqHWQbj4jg94Zi0hRYV0Zz/KZ7R/ZUVcQhdQ7vMbM7FPz28Ft2G3opLQRrIBj6TWOTBuD429J/lBUScTbb5S+smYY=
+	t=1759863367; cv=none; b=MzWGjB7sr5QeDrIHXCbe0L/Sf7Intxods+xGAnzrmT3gA3BFiNzDnWVSJxsEHkww1t8KsWN5ST5lN32QGbhNP27ihTjwJ1lH/dZO0s3PQ6vtcjGeFs3ZiXZUkpDfroxzwIYKDbLDFWjz0rlnQwtBmVhBTi1Q80wVsqtWAlUxPfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759863361; c=relaxed/simple;
-	bh=7qc17epEtnYxEg2yWgO7/TgP9PveePfwhICF8dRD2Lo=;
+	s=arc-20240116; t=1759863367; c=relaxed/simple;
+	bh=pSc7gPSIF4Ju9Vbb1RvH3FU3+BzuQdiE/nwuOb/8DcA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YGFe+9ipX/S8NJT+HPvb9WGkr3CxLNbbdtsjkxxJd6A9wIz89lD6XRWFf7FIpfIaGD18HBmDX+ZLRqlfplpIJqztfJuuPHUR/n2jGRCTzpf6dmwQ3zf1hCsdWGcPYzMCwgzWqHysCwWGci9Tq3k9QXV2Gtc1UMi7wBMA8KyfXM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQ/uvhZV; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=LRqq02uwWkGaGDyQsEeyLY4eGFlgErwt7GCsQ7npEivwh18YEkwBMtYctyh6yLTfqNVGhnEQtwgLcqmLT4Ed2eEcJzU1Sqrq8lmDFcgS/IJuH483cE2BeXZJsDJChS20wODxhqElzLtrm0bMkj19X/lNs7VtyOIZekJuqPXoHTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LHxmo1xV; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQ/uvhZV"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-78af9ebe337so4432556b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 11:55:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHxmo1xV"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b49c1c130c9so4336576a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 11:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759863359; x=1760468159; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759863365; x=1760468165; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Th+qgyzrC6DFJ5YiHB/fxAmD0CanOMB/q/4DLPRUk/0=;
-        b=mQ/uvhZV+AdtR+oQV+jbVkQ+WsfV6+zC0sQWLBFaimZAgMYfmD9H++mliz7BUqf8w0
-         vKTepmfgRjqbbmvbiouA61QdqVwPkESWzhTCLZw/iUWju0AR7Jbj/nBcRLdUHlWolVD5
-         OlYVCH/jhykaCz2ymcZhcZ0Cgo/qedlpOay+YzjbuNksZEt6RK3SOjiLA1HNqSyTqTE2
-         S5XxdAVlS0fvdLllDU/xAKwwSPchwBwGfQoWjMt5B6nqqpd9Eb3v4sJK2xvIvUDd5OvW
-         9CnPgf25BegxrslYLLzMruaLWU+bPmKXZuugIwTN7k4m2yazXXWLWV5p7Onr/RkhEV5J
-         bH/w==
+        bh=zWXmB+0eRU50OqdMozBO7Gp94A6Xe9er0qbuUMERDjM=;
+        b=LHxmo1xVA7D/dIEE5rrb4+dUV+uU2OoocMEPzeNdE/WbjmeOW0KP9POgp+9E/aaHAE
+         pnlvzoAYLF6DCNnkiRC5LIpcZzO/axt1ZGKmuCSvPcgnfAsiQPFTKzqfwBiVU1+j4aKf
+         voAtXpVaoZFEf6xI9SJvvfTivMERMVn0uNi95IExgttkdGfjs9Mka0dJrkEoIU9yb6tb
+         Y2ixev7OKy5yzOF416PK0NAdJ91dsS5nA4WFt57kCmleiQgzKUTV/HBe0gn1eGOtOK3q
+         hOsD07mm9MYJ0qmCjMj+NtSKvxaZMHHdRKWwj7Ds63YfrpqW4hWhLizgruEliBj7RvL1
+         XlaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759863359; x=1760468159;
+        d=1e100.net; s=20230601; t=1759863365; x=1760468165;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Th+qgyzrC6DFJ5YiHB/fxAmD0CanOMB/q/4DLPRUk/0=;
-        b=abHt+tSPZptj8Q/cJt1hN4eJWR9gJvqYjoTaVNhy10TDVc/lFX4gF0y3qaCrhxhxFW
-         md+EZTEf47jiK72rY8e9QXiJHJVzR8WCjLlGKVygirnfaiYl/ZpdmVt9dvnnd8KYTSzG
-         cHUMKnIumrAdyA472838WFq6KPMrUqZtkQr7olOWer+pYz2bWCiSf7HeoA4fQNpNMBaK
-         zVh+bePArUAZ2egsuceppK7EG32m5u/7OLgsQCWYrALP4hYjcRTTCqmmc7xGbENG+5/p
-         flm+f7DyGq7GnA1JgXMvmlwDDTXm+xJQnC7YGiXgV0pTUYDTRy3+Qssi1cMTG4N173K8
-         5scw==
-X-Forwarded-Encrypted: i=1; AJvYcCX10BMiuW1q4kCafQXXiTzCgug6wiojeQ/rFiXXOBU7drTUI6AEXGoBM6utBh1f42oRYFVJeAPhRUU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNQXKz9ho7EVPMTCaZJi741mYrkA1G9EAa2TbGrjHV/0yvtQPF
-	6T1UHQwO8ZXJwXMl1NEYRSpsAZcc/ZTHRmG+hTBVV3jguiS/sSBhGruu
-X-Gm-Gg: ASbGncvSwgGQXVqX5KngIGShxPR0Pxr4OTLsxZyQ/flSWaABW08wGoZErh3aJCpVJM8
-	OH3wASPKLz3SCx0zRqXHbpFWJbvmtMbY+F1WSHe0I/TQHQW5bygrCb3WQS6WafMMXh9dw0F/O9r
-	HduwyzlvK0VppYx8fr5qRJCAaOqOjEvw1OVD1rg5ok2NDoqTGWkjagLp+uvwTskS0MVCX0SJMko
-	RGZIXVSdoSuMBkFgDk99t4Vg8NkT78syOBMFWSPCQ307u4cb16j7GhTJ1qIfu6MA0QvG61dftWP
-	3+Fn9P9ltPAc6Nj1TbrNMECCy3BJu1K7V54u0hdrprxh1QJbu3ue5WFjDtgWUzJZ8FqhF0UUid3
-	otqNFIFRS4UgU28JH4xkWzh3vSaWEsQtwm1CKdw1kk+oR8A9NtfWoiSmWKXtJk1wIQg==
-X-Google-Smtp-Source: AGHT+IGVJBbirPc9aOMKvG+rVBGZMOOpzMCZyulcVVdBkwZg3df1u62SnhBExhwRgvHQnIuMqy2w6w==
-X-Received: by 2002:a17:903:1aa5:b0:269:96db:94f with SMTP id d9443c01a7336-290273ffec4mr9774255ad.49.1759863358733;
-        Tue, 07 Oct 2025 11:55:58 -0700 (PDT)
+        bh=zWXmB+0eRU50OqdMozBO7Gp94A6Xe9er0qbuUMERDjM=;
+        b=vTgMQw6fkPf63iH4BJ2m+7yFjCl3ao7AOIs5uMIKvJZdS6kIZpQ8crkZIUCiyh3TUy
+         2wYbiqa12Hqg0qRIUAv36laQtI1RWf9HwhWrYhTEX3oU6TWHqy1eAoY0SeOQ2j0bhsq8
+         Iu8UmDZDvC+eZ6vjLPiBY+7jTZAAOCB4IOQqUW2ps8JCLoxWMDIKtLStUH5zL1+FXjjx
+         A7benNRc1gNboRo0W3oOmjfZVm9O+IfXJ06ePwQcgZ8Rnq3VIaucr7uWIVf0g2//iVX2
+         j8jtrtmQF6ACIEEThBM5d/eIALBTda/u7KQyZA5oloRkbY5aY8Rp0ZdFKRRb2QdgMIkH
+         W9qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUfPm7w3h7MeuNi7uoMJ5yCr3G4JHydnWwxesyDrIDPagtygsMqWTfTgtI4eEUoHJTWSRNNm72LZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNRNjzOlPd2PK9+Dq50cZtNaYPFWgsdRMq7pLVGn3Jx4WdNiue
+	+xyp8NwJHiFuPJNomFLZML9ArqIcsMp4zY7PrI9+AJ14Sux/ktLK6GVo
+X-Gm-Gg: ASbGncumC5O4kNnqBZ6ooDW0bT8wOUje0XNH2hXitKppH4gg04sVsgqrR+Fv/sc2Bz1
+	dK+4N1+UNQ4Tu2aszSC+reg0PM6qZLyoSytSllGWk026cYmqAbzCLVtgJ4i/rE9TMLteDgQMDTZ
+	JrEXFqhwdCF2Yg0KHVUGW3eRrErlwPubpIB1y3E4gslUwPde0DBsFvQUa0FK7yMCyHIzDRdQ7Ro
+	fSSPCEKXYv4v9/TFgSdInH2bKnioK/fuAAsv+WvHL/5vnrloUSm8Dezqagt7ZI/IfcIBumOo+ZP
+	LZSYPFl6C74LX2c34ieMMPDBv5G31dEDUuWSjJXDJwokgFmokUHzu5gG230IUKCZ4rAtdqeLprB
+	Oy9EfWRg1uq39xUZzcmyoRYBXWgjFr13COw21V6zCF8FI+arCeHbhzciDKeVCWpP/TA==
+X-Google-Smtp-Source: AGHT+IGvYA4pseNCxAD0k16xn0xkIZT6WBhqKdCmXY+O/CgWIym5mkyzdw8u5N3F8B4gY3vtazxjYQ==
+X-Received: by 2002:a17:902:d545:b0:28e:cc3a:371b with SMTP id d9443c01a7336-290272f8534mr9092315ad.57.1759863364543;
+        Tue, 07 Oct 2025 11:56:04 -0700 (PDT)
 Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.55.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:55:58 -0700 (PDT)
+        Tue, 07 Oct 2025 11:56:04 -0700 (PDT)
 From: Gopi Krishna Menon <krishnagopi487@gmail.com>
 To: rostedt@goodmis.org,
 	corbet@lwn.net
@@ -74,9 +74,9 @@ Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
 	costa.shul@redhat.com,
 	jkacur@redhat.com,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 5/8] Documentation/rtla: rename common_timerlat_description.rst
-Date: Wed,  8 Oct 2025 00:24:54 +0530
-Message-ID: <20251007185508.40908-6-krishnagopi487@gmail.com>
+Subject: [PATCH 6/8] Documentation/rtla: rename common_timerlat_options.rst
+Date: Wed,  8 Oct 2025 00:24:55 +0530
+Message-ID: <20251007185508.40908-7-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251007185508.40908-1-krishnagopi487@gmail.com>
 References: <aOUMyGvkibvOV0IS@archie.me>
@@ -89,67 +89,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-common_timerlat_description.rst is intended to be included by other rtla
+common_timerlat_options.rst is intended to be included by other rtla
 documents and is not meant to be built as a standalone document.
 
-Rename common_timerlat_description.rst to
-common_timerlat_description.txt to maintain consistency with other
-common_*.txt files and prevent Sphinx from building it as a standalone
-document. Update all include references accordingly.
+Rename common_timerlat_options.rst to common_timerlat_options.txt to
+maintain consistency with other common_*.txt files and prevent Sphinx
+from building it as a standalone document. Update all include references
+accordingly.
 
 Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- ...timerlat_description.rst => common_timerlat_description.txt} | 0
+ ...{common_timerlat_options.rst => common_timerlat_options.txt} | 0
  Documentation/tools/rtla/rtla-timerlat-hist.rst                 | 2 +-
  Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
- Documentation/tools/rtla/rtla-timerlat.rst                      | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename Documentation/tools/rtla/{common_timerlat_description.rst => common_timerlat_description.txt} (100%)
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/tools/rtla/{common_timerlat_options.rst => common_timerlat_options.txt} (100%)
 
-diff --git a/Documentation/tools/rtla/common_timerlat_description.rst b/Documentation/tools/rtla/common_timerlat_description.txt
+diff --git a/Documentation/tools/rtla/common_timerlat_options.rst b/Documentation/tools/rtla/common_timerlat_options.txt
 similarity index 100%
-rename from Documentation/tools/rtla/common_timerlat_description.rst
-rename to Documentation/tools/rtla/common_timerlat_description.txt
+rename from Documentation/tools/rtla/common_timerlat_options.rst
+rename to Documentation/tools/rtla/common_timerlat_options.txt
 diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-index ae1638bb9a99..61b5b55be96e 100644
+index 61b5b55be96e..f56fe546411b 100644
 --- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
 +++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-@@ -16,7 +16,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
+@@ -25,7 +25,7 @@ occurrence. This tool uses the periodic information, and the
+ OPTIONS
+ =======
  
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
+-.. include:: common_timerlat_options.rst
++.. include:: common_timerlat_options.txt
  
- The **rtla timerlat hist** displays a histogram of each tracer event
- occurrence. This tool uses the periodic information, and the
+ .. include:: common_hist_options.txt
+ 
 diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
-index 19cb5d203845..6f09f30c74f0 100644
+index 6f09f30c74f0..32d33c792dcb 100644
 --- a/Documentation/tools/rtla/rtla-timerlat-top.rst
 +++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
-@@ -16,7 +16,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
+@@ -26,7 +26,7 @@ seem with the option **-T**.
+ OPTIONS
+ =======
  
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
+-.. include:: common_timerlat_options.rst
++.. include:: common_timerlat_options.txt
  
- The **rtla timerlat top** displays a summary of the periodic output
- from the *timerlat* tracer. It also provides information for each
-diff --git a/Documentation/tools/rtla/rtla-timerlat.rst b/Documentation/tools/rtla/rtla-timerlat.rst
-index e66d2588a416..ce9f57e038c3 100644
---- a/Documentation/tools/rtla/rtla-timerlat.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat.rst
-@@ -14,7 +14,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
+ .. include:: common_top_options.rst
  
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
- 
- The **rtla timerlat top** mode displays a summary of the periodic output
- from the *timerlat* tracer. The **rtla timerlat hist** mode displays
 -- 
 2.43.0
 
