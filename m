@@ -1,137 +1,127 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F641C6FF6
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 01:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668B08488;
+	Tue,  7 Oct 2025 02:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759800178; cv=none; b=N+11/xLw1WR8gqaGmgoYkoopbwvQk8aQqttg3BLldHij2eCnG1FEawOr9/AdCpGrjsDN4r3Z69tQ1HJ+BPVRg6tE+xH6FRcCHUs+OxIRPRX8QEWNdq0tdcC88az0FzBxziIwzyHnXvqWlmKmzwJX5UEL/z4pWVUvrvGhcFVsSss=
+	t=1759802874; cv=none; b=oGBxv+2U+2CaJqt76uEDlX8VxhcJNDPdr8stJKTCwnb+59UAbr5y01dQeGbidhZC0rp4RCYj4wQYTZrGYN2WzF0sv/9pUqNQWNxplYRshlUoUPifkPlb9gN0sScuwr6FPuQ4G445st2/nxyTWuboVfjd5qCFBmr4UXlbBnZqEHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759800178; c=relaxed/simple;
-	bh=00hx5O89+8fvzy4PkP6xQKJCZLvcQoPJKp5vdlCLTCE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=riEA9Kb/LPqRc3WmryLeE7y+aHxgEGLdYxBLhITeq7F1wjyzcFzbYeILIVImILGY7Zt4IMIQ0IotmQ+XlnVFSNAe7dekevq2SQJ3VIMsRhOqNkymrGUsOnJNGmknpDRUo+W+MpjKRfh/EB44GyaZBsQcN5qI1fD36G47GHLJNUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxBotesK; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759802874; c=relaxed/simple;
+	bh=vTd9S+B7Dx3MAbsT6utemI9fOi3cMISlPTKvVv3lPkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p14/joS6DYUkqyH98NFOayCzb88OsHPMbH3ExhBQx5x62Ix9D00K2WvhOx7CI0RTbvarIjCVcobuzy0FaKfbcU8XkPehPTvnZH2aYfAnSQQvshVGVzJJg4aJyfqsdR7MgLPsNGtJ1MJnxaoJTXbjxf3dVoU26WdOqzP7Do/eorA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZpMvRr7h; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxBotesK"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-637ef0137f7so9256137a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 18:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759800175; x=1760404975; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
-        b=cxBotesKVT0kItaCi+pL79Rrdy7oHT/uuYEDZPxBFct+abfWG5d4HATokKErrW6Dov
-         8LWvTC2r6AiCf/12ib4PyDnFYyo1rbz31IcEhzWeCLYpaSKEUVFq4CrOvMZcYr4gwbPH
-         Rch5xtKR2oqwJ17lxy9L6RGmoGAb8ObcoCauAwoIW0IpqpzUe2Sni6rQnGMGgWvZ15tO
-         FKv6HB/L4snlgopisxw6TsUTVEv4ItS6cxhYcXh7/Eh02tMMmtELMrwrTFJ4VNZmnNIH
-         +w65691ilDaIiDGbzVQ0QX2hw5fXhO4qN25lkV5AUkqGod9x0m6/typnjfSkVxjdx92m
-         rawQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759800175; x=1760404975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
-        b=AsO3yCYrZxvm6X+IbLRyhII3NVHty3NbFE7t3aqewR0kcjQ7C6c/cVoIXSFj/c5dNg
-         2Zyk9R0BE7QxcUODCMVaNRTnA6RTsl0uu8flwRgPvzbqtQGhFJQbuJE0cAdTxqqZLzbX
-         MTgIRwSuv3OH8SWiH0vzrQrmxg8unD0Ozq7cUtDob1ADsyyCHQdPXE8l6afgH7JdOVK1
-         BvYVuWiZiKPh6VzUARm0FKmOP8SFZIa5wJBOg7YFSynRqv5rfddEuGNC5P68iE62U4/+
-         L8ulpPuhj69IcTKARcLMGeXbgPSxYcmb+FzeHu1Ik/DS4VgG4oJvm8THdV9xlm/wziL7
-         Hfjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUekJXb0dRRnd8WTKKRCkfrmHybCCT2SKi1qN0EnDexaVnSVodooAc5U5oKw1g8n4Cq8+Wp9jl7Oos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSiYyppfDNeMRKdiV/bnPp4GRFwgQUofq4f5o6CHRt2fSCi7rb
-	jOfQWHrU+xEeij8LnmA7QdxmQsFwOb5DQGyxP/6meDCDMZmN1LDvL1hwrQ6G91kQWC+tHy5oM/e
-	ELHhJ2gnTSNJQ7Lx1E+SpbnG6mscJTj4=
-X-Gm-Gg: ASbGncsHi4rBbQlj7qq7tYO/+mM17kVYPnx6DzgBlfk9BnjUIVjDwpu8jeccOEux/rT
-	vY/2V7l5uPAkK5+KqG2L7qxgFqol47bnxDhcwmNjFx8Jy3SpHdIdFiQ0EVkbHM4pgckbhBqlaAw
-	N+OxNZu0lCsSOnWzLXrZqWv4jbN/viZ9j/cG3WQLf1yc+ERuhXQLDy2IIc5qVC+wWpgGkMzteA0
-	RsPA1BcxQHZxgyzKZ7DZXBs2bI2XXhPkfJznlXQjuuwv9k2+Nz/Kp0PjsfNHw==
-X-Google-Smtp-Source: AGHT+IEqVioe1S+GxtMPUCva4kG5CmfdDTTGDPNdiniLUblABnKsGagheixLUyeC/Xqdz84Zg3zCalpzx4OwzsmlUYQ=
-X-Received: by 2002:a05:6402:b0a:b0:638:d495:50a7 with SMTP id
- 4fb4d7f45d1cf-639348fa973mr13226165a12.16.1759800175262; Mon, 06 Oct 2025
- 18:22:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZpMvRr7h"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OuPt71NmMidGtdlQykkoZsTnnRr+qx1jmb+5gKzLx+E=; b=ZpMvRr7hgj3fyfMUpCnXiyu4/D
+	x8r4JH14RaG1qEJLKdCABLMvvriTI+vQZvT5ij04S8iZT3GXt0L+XG651Fx7LpsVASxDcivvVTbP8
+	YX9Cd1yMkPPdqfzGKv90q2waA3MdXdYYC2ATriV8XHbSuvclbebqTngcLex2LHUHWOHy6CSmvUOFm
+	0d/crWkbRhEPGKh5fDOkBr2JTAlMceA6torGF2cCLlbXjYDen9/ou0pjW7rN0ak8yjCPBMeH/Dtx1
+	iEE2mcdzJN+h5wq3kqEUV6aW5JT77oyVCeSSdkyH9qvkLNn7oSK9yxanWKz6teiXupLlwMdiwh00B
+	cKrtDQKA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v5x6z-000000064Za-34GJ;
+	Tue, 07 Oct 2025 02:07:34 +0000
+Date: Tue, 7 Oct 2025 03:07:33 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marco Elver <elver@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
+Message-ID: <aOR15Xb6DfolYM0z@casper.infradead.org>
+References: <20250315025852.it.568-kees@kernel.org>
+ <20250315031550.473587-2-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-4-alistair.francis@wdc.com> <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
-In-Reply-To: <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 7 Oct 2025 11:22:29 +1000
-X-Gm-Features: AS18NWA3ErD_gS2cWuFH4B1EU9R8Gp49Hxw1eP3L2D2MX2i73c7hEabcslLmzvQ
-Message-ID: <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on completion
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250315031550.473587-2-kees@kernel.org>
 
-On Mon, Oct 6, 2025 at 4:16=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
-:
->
-> On 10/3/25 06:31, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > To avoid future handshake_req_hash_add() calls failing with EEXIST when
-> > performing a KeyUpdate let's make sure the old request is destructed
-> > as part of the completion.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v3:
-> >   - New patch
-> >
-> >   net/handshake/request.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/net/handshake/request.c b/net/handshake/request.c
-> > index 0d1c91c80478..194725a8aaca 100644
-> > --- a/net/handshake/request.c
-> > +++ b/net/handshake/request.c
-> > @@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, =
-unsigned int status,
-> >               /* Handshake request is no longer pending */
-> >               sock_put(sk);
-> >       }
-> > +
-> > +     handshake_sk_destruct_req(sk);
-> >   }
-> >   EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
-> >
-> Curious.
-> Why do we need it now? We had been happily using the handshake mechanism
-> for quite some time now, so who had been destroying the request without
-> this patch?
+On Fri, Mar 14, 2025 at 08:15:45PM -0700, Kees Cook wrote:
+> +Performing open-coded kmalloc()-family allocation assignments prevents
+> +the kernel (and compiler) from being able to examine the type of the
+> +variable being assigned, which limits any related introspection that
+> +may help with alignment, wrap-around, or additional hardening. The
+> +kmalloc_obj()-family of macros provide this introspection, which can be
+> +used for the common code patterns for single, array, and flexible object
+> +allocations. For example, these open coded assignments::
+> +
+> +	ptr = kmalloc(sizeof(*ptr), gfp);
+> +	ptr = kmalloc(sizeof(struct the_type_of_ptr_obj), gfp);
+> +	ptr = kzalloc(sizeof(*ptr), gfp);
+> +	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+> +	ptr = kcalloc(count, sizeof(*ptr), gfp);
+> +	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+> +
+> +become, respectively::
+> +
+> +	kmalloc_obj(ptr, gfp);
+> +	kzalloc_obj(ptr, gfp);
+> +	kmalloc_objs(ptr, count, gfp);
+> +	kzalloc_objs(ptr, count, gfp);
+> +	kmalloc_flex(ptr, flex_member, count, gfp);
 
-Until now a handshake would only be destroyed on a failure or when a
-sock is freed (via the sk_destruct function pointer).
-handshake_complete() is only called on errors, not a successful
-handshake so it doesn't remove the request.
+I'd like to propose a different approach for consideration.
 
-Note that destroying is mostly just removing the entry from the hash
-table with rhashtable_remove_fast(). Which is what we need to be able
-to submit it again.
+The first two are obvious.  If we now believe that object type is the
+important thing, well we have an API for that:
 
-Alistair
+struct buffer_head { ... };
 
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+	bh_cache = KMEM_CACHE(buffer_head, SLAB_RECLAIM_ACCOUNT);
+...
+	ptr = kmem_cache_alloc(bh_cache, GFP_KERNEL);
+
+It's a little more verbose than what you're suggesting, but it does give
+us the chance to specify SLAB_ flags.  It already does the alignment
+optimisation you're suggesting.  Maybe we can use some macro sugar to
+simplify this.
+
+The array ones are a little tougher.  Let's set them aside for the
+moment and tackle the really hard one; kmalloc_flex.
+
+Slab is fundamentally built on all objects in the slab being the same
+size.  But maybe someone sufficiently enterprising could build a
+"variable sized" slab variant?  If we're saying that object type is
+more important a discriminator than object size, then perhaps grouping
+objects of the same size together isn't nearly as useful as grouping
+objects of the same type together, even if they're different sizes.
+
+Might be a good GSoC/outreachy project?
+
