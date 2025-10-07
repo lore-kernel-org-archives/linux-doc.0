@@ -1,119 +1,148 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7CD38DD8
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 02:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761A6155C88;
+	Tue,  7 Oct 2025 05:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759803796; cv=none; b=LssfspEuAA59ZN9iz+Z79xeZ3g3FTLAYYVrlr7waulSu48YSVG8ZUdUuU30ptuhYIHrXm2aMTdLL+TuJ8eypZ5TXwbuAJuXUW70WqtV09mLqsQl48UXV9pcwnYHpnc97p9/ecpgmdi5Dsc6lCZsDVfgGPSLSTXUkWYYz2+wL0R8=
+	t=1759813855; cv=none; b=gKxJHEa14osEU/TAMSTYRuxlrwRGkj5Ft7uXlmHMdXuSw6LaAoKohXIja3tGG+LvPRLgbbl4smbNCyakFJXgtOVga2UVM6sE5fbR8raogvqf/NAe+u/NSzFlvXUpft/WAshw8VzywDNfqATO1bsUeijsFNuZ7slMB3rkLE3Cu5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759803796; c=relaxed/simple;
-	bh=VFmeDcTP2xUAQewFWw/R0BKl+XcGbbncNDnV2L/OXN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QbOywl/as7jALi5uGtvvbs9ofpkoW3edNc4aXfcJDrV1WCfjgwOR/rNA+ptTLh+DbAUnDPbSQxdihw1eFhd1eF9uKQ1UAx/FtG75RTRf4jmErHjPeKGEFpX4yHLI65GCgcHW6l4Od3d8vIe2MWIK1+qEbd5X1c+h/qbcxBWvrUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dsUbabb6; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759813855; c=relaxed/simple;
+	bh=nyZubcmsOsfNGGwUDZTAtRoQQSIE49OuBwTMcrmEWHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sLMLVoQgN0vN0mVb/dMDCsJhNIqhrsMjtXaY3SsfPXQa52NWVnkxnxpB3ZfjclPgZKINZeVeujNhYR83dYaygp4mdn3WHHfoV2Xtrqy/2PJsiezRA9Y2Mj2dMgusNNxTN3U5WAL3yYsx3fTd9lxjS3P8mtLyVg/uWYO1P3qmf3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=WDRxNZYP; arc=none smtp.client-ip=178.154.239.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dsUbabb6"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3324fdfd54cso6608551a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Oct 2025 19:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759803795; x=1760408595; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFmeDcTP2xUAQewFWw/R0BKl+XcGbbncNDnV2L/OXN0=;
-        b=dsUbabb6l06KJXGCdPtZiVMtWdwnBLSbSQsM1Rk5pumQuR/OkOgFCKVg4GQxwFDGMS
-         mBWrQKCqrj0pK+6jFR6HWD52gXGSAgL2LOl6TDduNamn6NH8S18yyAaYDZlfizrvjU40
-         1xSrp3nibSL+PF29vEbKn8tRaB6MQRLYzBXZaUZz1JKRwySPFYH3wOY1HAD/NOUrRXdc
-         tpcpSns+N2l7Ky5dPi8MQldx1qpyQPsF1Aql9UOrjo8B6MIvnlIKSsQ36tKBuhNNvxms
-         tV1r9M+Mh8Z4wY90kX54phHFNpUHHHKv9WPb2eSucGx312kuwHLTT/pBGA8a8q7p13g/
-         OR+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759803795; x=1760408595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VFmeDcTP2xUAQewFWw/R0BKl+XcGbbncNDnV2L/OXN0=;
-        b=lpIaSLLti/YqLHEha5Roml5V+Qn1NnoZJw/v/dSCpkPbPhMO3J3KmunGZm1nnQqTxz
-         wCpCWhUx/j6N/4MFad0+DXqtbRXnTNfIQiTcPhz6FHK1NaLEjaBygAtojfCeV459Ci3d
-         0waaAU95n6UR0NqEV96om6EubOs/xAyqj2s7ZtE9zemWSv43vdxKkdOQY3BjNgwaYpEW
-         5OenU4VZS2Rtii6+UJWWFOSaeACGGSqGTB0CBAeTXG8IyOsKJVXCnXuBGvb04S5ulEoZ
-         4w+LIOyo91FLu6p+Gg2fDWbz8JUAp837CM01K4s0IApj0Jf7mM18Wiv+N9bFQeOBYwR0
-         F2YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkT+Qg0zxXJVXujRbxcsjhp3bykWOpC30YJelYsurZGVCPmwzYr/JFTUUGSLYfOoSW2xhEmhX8tUw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc7O/PtrJyLgUrTkX0Eas6W+WPBZT94vjQYQjXR3MA9S3N2ebx
-	JVk0fo9f28WuuVZsmduF61zxjXnMo2Fsrb71RMvf7ayj0+hq8yAgVOyx
-X-Gm-Gg: ASbGncsxyl2zQeJNKbRLGanx/KNjv0YyE3GFmlN7PwTmuzfWZkYn0V3I0V+M6lAyTx+
-	W0ZsEEd5XpmJUeQ+hSpBGB03Wgk2wz8se3aFPmMnRrVo4EYyzCkDEBmUXhuZlNLzKSlgEgDNx9u
-	etAChO1EanzLUBfHDV09jRegri4RD9qyyTLoOWHQ3oMK3pp8fD44eTH3A3lPRRKR2kZy3lzQ6QE
-	Mru43jqqrE86Z8JuwJgaUdJXpTWkyh2aRpjx4pr3xxnzPFjPK6khbKUQaIfFetseThYr+3CqC4B
-	NtxQOCYWqHkod6gvpTuuyl6CygSDspy8jcSxuZjoMNYdT9LV7m2BXEykGvvVXSirSWrvF812TEs
-	7lavTLejB/rHKiY6VhUG4vAkAGYN/Biu2Dy6CaM2dF5zTo70uMA==
-X-Google-Smtp-Source: AGHT+IFOWjODpkm0RXk0UNQxPxlDwgwSSLwVcoAanx1LQC/FF/GVJT5hQh4wQ4RD5szE0at/zJ+BUA==
-X-Received: by 2002:a17:90b:4a84:b0:32b:ab04:291e with SMTP id 98e67ed59e1d1-339c279971dmr17239314a91.25.1759803794482;
-        Mon, 06 Oct 2025 19:23:14 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ff26f8sm18166635a91.13.2025.10.06.19.23.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 19:23:13 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8DC154233432; Tue, 07 Oct 2025 09:23:10 +0700 (WIB)
-Date: Tue, 7 Oct 2025 09:23:10 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Roman Kisel <romank@linux.microsoft.com>, arnd@arndb.de, bp@alien8.de,
-	corbet@lwn.net, dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
-	mikelley@microsoft.com, mingo@redhat.com, tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com, wei.liu@kernel.org, x86@kernel.org,
-	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: benhill@microsoft.com, bperkins@microsoft.com, sunilmut@microsoft.com
-Subject: Re: [PATCH hyperv-next v6 01/17] Documentation: hyperv: Confidential
- VMBus
-Message-ID: <aOR5juzHnsK2E40z@archie.me>
-References: <20251003222710.6257-1-romank@linux.microsoft.com>
- <20251003222710.6257-2-romank@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="WDRxNZYP"
+Received: from mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:4c01:0:640:9467:0])
+	by forward500d.mail.yandex.net (Yandex) with ESMTPS id 6676181889;
+	Tue, 07 Oct 2025 08:04:10 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 44dAxY5L5Os0-Umnz7TAb;
+	Tue, 07 Oct 2025 08:04:09 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1759813449;
+	bh=X7Bau1taqoDASnuTXeQJxMiBFaFYYp7svzSfKN8My3c=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=WDRxNZYPPjZ/Eell1GfkaTHr/ONis1vJp2C2ZKCJeLT00BXxvrwKB/d0m6t28S00P
+	 4GuNY2cdu0NOlwlzJwCqr5ZNHgV68NpFSw7FzUOGn4h8vRjPDiR+hXSZZz8GHGJZV0
+	 CZTqLDFNhxaTcme0OjW1R1Rsfud8VZIbIA3SPKgI=
+Authentication-Results: mail-nwsmtp-smtp-production-main-81.klg.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Tue, 7 Oct 2025 08:04:02 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org,
+ linux-kernel@vger.kernel.org, acourbot@nvidia.com, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] rust: xarray: abstract `xa_alloc`
+Message-ID: <20251007080402.1a6d19ea@nimda.home>
+In-Reply-To: <aORMNreduCPSIL82@tardis-2.local>
+References: <20251006163024.18473-1-work@onurozkan.dev>
+	<20251006163024.18473-2-work@onurozkan.dev>
+	<aORMNreduCPSIL82@tardis-2.local>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BxWMTnibnAgGT5v9"
-Content-Disposition: inline
-In-Reply-To: <20251003222710.6257-2-romank@linux.microsoft.com>
-
-
---BxWMTnibnAgGT5v9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 03, 2025 at 03:26:54PM -0700, Roman Kisel wrote:
-> +The data is transferred directly between the VM and a vPCI device (a.k.a.
-> +a PCI pass-thru device, see :doc:`vpci`) that is directly assigned to VT=
-L2
-> +and that supports encrypted memory. In such a case, neither the host par=
-tition
+On Mon, 6 Oct 2025 16:09:42 -0700
+Boqun Feng <boqun.feng@gmail.com> wrote:
 
-Nit: You can also write the cross-reference simply as vpci.rst.
+> HI Onur,
+>=20
+> On Mon, Oct 06, 2025 at 07:30:22PM +0300, Onur =C3=96zkan wrote:
+> > Implements `alloc` function to `XArray<T>` that wraps
+> > `xa_alloc` safely.
+> >=20
+> > Resolves a task from the nova/core task list under the "XArray
+> > bindings [XARR]" section in "Documentation/gpu/nova/core/todo.rst"
+> > file.
+> >=20
+>=20
+> Having this information is good, however I feel it's better if you
+> explain/expand what exact the usage will be on the XArray, otherwise,
+> it'll be hard for people to dig in the history and find out why we add
+> this. Thanks!
+>=20
 
-Thanks.
+Very true, thanks.
 
---=20
-An old man doll... just what I always wanted! - Clara
+-Onur
 
---BxWMTnibnAgGT5v9
-Content-Type: application/pgp-signature; name=signature.asc
+> Regards,
+> Boqun
+>=20
+> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
+> > ---
+> >  rust/kernel/xarray.rs | 39 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> >=20
+> > diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
+> > index a49d6db28845..1b882cd2f58b 100644
+> > --- a/rust/kernel/xarray.rs
+> > +++ b/rust/kernel/xarray.rs
+> > @@ -266,6 +266,45 @@ pub fn store(
+> >              Ok(unsafe { T::try_from_foreign(old) })
+> >          }
+> >      }
+> > +
+> > +    /// Allocates an empty slot within the given limit range and
+> > stores `value` there.
+> > +    ///
+> > +    /// May drop the lock if needed to allocate memory, and then
+> > reacquire it afterwards.
+> > +    ///
+> > +    /// On success, returns the allocated id.
+> > +    ///
+> > +    /// On failure, returns the element which was attempted to be
+> > stored.
+> > +    pub fn alloc(
+> > +        &mut self,
+> > +        limit: bindings::xa_limit,
+> > +        value: T,
+> > +        gfp: alloc::Flags,
+> > +    ) -> Result<u32, StoreError<T>> {
+> > +        build_assert!(
+> > +            T::FOREIGN_ALIGN >=3D 4,
+> > +            "pointers stored in XArray must be 4-byte aligned"
+> > +        );
+> > +
+> > +        let new =3D value.into_foreign();
+> > +        let mut id: u32 =3D 0;
+> > +
+> > +        // SAFETY:
+> > +        // - `self.xa.xa` is valid by the type invariant.
+> > +        // - `new` came from `T::into_foreign`.
+> > +        let ret =3D
+> > +            unsafe { bindings::__xa_alloc(self.xa.xa.get(), &mut
+> > id, new, limit, gfp.as_raw()) }; +
+> > +        if ret < 0 {
+> > +            // SAFETY: `__xa_alloc` doesn't take ownership on
+> > error.
+> > +            let value =3D unsafe { T::from_foreign(new) };
+> > +            return Err(StoreError {
+> > +                value,
+> > +                error: Error::from_errno(ret),
+> > +            });
+> > +        }
+> > +
+> > +        Ok(id)
+> > +    }
+> >  }
+> >=20
+> >  // SAFETY: `XArray<T>` has no shared mutable state so it is `Send`
+> > iff `T` is `Send`. --
+> > 2.51.0
+> >=20
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOR5fQAKCRD2uYlJVVFO
-o7mVAP9gyGXv/aQVGaS5iH1wf6rUETBzEy69Mg8TYKRf5l2JsQEA5cnv0cPiT81i
-pUA3Vos9PED8kntZHhKYkra64woP1wo=
-=xXE5
------END PGP SIGNATURE-----
-
---BxWMTnibnAgGT5v9--
