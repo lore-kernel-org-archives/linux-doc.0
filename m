@@ -1,270 +1,192 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC652DFF0D
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 11:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116B91A0728
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 11:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759835939; cv=none; b=TZwof9ppKDG1ROpfhEsquNEnkCdpe3HCbsVUYPOkoMwAQqm312KBQul/zLFlGPBgFJLr9jbP74NiN09WTlfCVagZ4x2jqWWVYJXh5MXw6qYWn+JtaFeI0sj+baXkzLApHwecNxnXorqkTULmt3dfbZgRWefUcUuukJUxOcXjS3E=
+	t=1759837643; cv=none; b=GGrhC28biLUuShYfSPQsXU2GaCY24w6YT5UYXodQ2oIxCkv676oU+WkJV+kuVWCjYzNQ3c4eVw/RCZXM0BiTNcBWty37w9tU0vYc2zgT2uej1dw6L507S2dTokPLCw3hz21ciiqmUSArmgYJZqPTt0ug4nxJrSXeElTcpDKkwyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759835939; c=relaxed/simple;
-	bh=dMA8ghWVekTunsVu7XOstdzBbwszG1Yq/dFfXRCf/bk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kvYikquy7zY+rTYHEsY/cPxrRUsBOcSiG8N+PA3k+jgP6gemKjo9KDRuEHzchqVDmzg2x7cAn3+8bse/+WCntNfgx9K0tk+Hu1pWRCPE++8VxaU40wdClolprJGpuPFYI2igmHi3NLkZh/e+YW9JdCTcWo++Ik8m9iUXreFxTZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asc6xbGE; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1759837643; c=relaxed/simple;
+	bh=tHybA+sPs/+b+P0zGrwAATn7fve3huRWbNvhgJc3ask=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h38dIjn/Qi50GKdStCtGxACq2fv4sbFQ8GP6/xxG//MOeIeW7G9YLIgPyevMO7Bx9ebcl5Eb/aBT6iFWfP9dhtD0pWown1EJTeVtVwU+Umw+rmY9+cU1OOvj5gVJdrZ5Hd0OHbAB+QfqDI2zw+WaHE10RJm6x1R9QfwjxJqfIYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FALJvdlw; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asc6xbGE"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-27ee41e074dso66422185ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 04:18:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FALJvdlw"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-27eed7bdfeeso82429505ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 04:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759835937; x=1760440737; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dw9cqHmtj+JTcT9542JQD/91O64sVk3+jyfqTVqzQ4Y=;
-        b=asc6xbGEOXI2vrbwGk2VCUH6HD60XmuUffxJQK3ChlrcazaNsDv8fJEyq8osKWgkG7
-         Y5GWBSJq7V4LhpjixQSpvXePbo5o1un6icvPvapWn4VCgYaZQ700ZnNR9YZtBl/+xrWf
-         K7IujnBO4/+vo1+YVcTyaVEMegk4jGpsBf/FDy8iTLzs9DWnIQTCvHrva/ee7tkCdnmJ
-         o0b4Y5+LQYyKx41j6qzI2kgecNf5mQ92Yr+gkJiMOMvugFLFL7dg4R8BhnvoGpY4UKWv
-         +ExdogmbZtuDPw394mC66mwZdVaGPCM66f44I3dh/sULRV9PlwzARIITnUgLPTomi4NU
-         ACEw==
+        d=gmail.com; s=20230601; t=1759837639; x=1760442439; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CpCgxhORN6lEa4s+DNPc1Y/IXSmA220J4nQ7qgIWmeM=;
+        b=FALJvdlw0f6fzKMr7jGOs52hp5cx3iDizPSBm+MFhbWxTyGAtKKWoUBJ3vOl+XSlt+
+         FLEWhGCrxqFQAMK3Kf5M9njSA29MACI4m6OPcJ8upInIkLMsJd4ZN4VyOpYMpz+rptD8
+         ensBm8xczJrCLErPMhVUOXKyGiyrGML1q+8X4uSXJYr3Sl6BWLCf7Z4fL5Nq8bJBGmBD
+         vqIK35NOHrPLbf4AldCLcFdVXM1yumgz+y3hyn9mw1985uLxa/45PHAIoe5C7VgV1Ewc
+         FExDBn9o/NrdAWpsMktsvupJ6oXCOpwTzhujb2XcxLpyqq4osTiVOkVv1oBdc9AiUkv9
+         s6tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759835937; x=1760440737;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dw9cqHmtj+JTcT9542JQD/91O64sVk3+jyfqTVqzQ4Y=;
-        b=RYGaXpXgbNFQf0ajYhrtKIkHs8i0S9ASRKgwkgU1porNvgXJKK/annaa4pIwuP1NFF
-         LXsxaheIIol/RA657/4M+R40vFQ2sdJ+cYtnuPFXknzvn8SoH0IXS4qBNjtYPF0hKJFG
-         OxZYH4APGADsPBwMb9vYKT/ZNqdydkabhkR1TphJjGP1Axo1RboLg5UVZDLNpo0u/t/q
-         VC/Nqp83wJttXC2ozd8FkYgXAC8t+D+FnyoT/Z2r4cOI/BJdvJmx3M+OU0/UEw/Tlnmk
-         RkoNGu5ROi2ZHe8eZGlPgIftfpyMm7HiumZTU9Ia/+BqDyl6pUzjzCDd4JNTI5I3x1N7
-         3+tA==
-X-Forwarded-Encrypted: i=1; AJvYcCV75iMI4ToFSgvkmwEEfBGnVllmkMfNEDqYO0oRRO1BvAqebx0mY4541t+5f94BDSSRxtsdFn9EtaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAo4GaLDjtRbYXDL1UyHwxj/sYvCNs+M08W0EigE2Q/Y4zrYqj
-	5ZE84cS8qH6w6a4Jc+dOc09RAATZGdJ8Xqoj2QKTJs0vB0RBG+F5GUfoI13o/sPG
-X-Gm-Gg: ASbGnctki5/UUMbd6Os6Wu23rA5cOeyUUwpcdEDzXbMpe/ukO+yq7NU3W2MhN5ZYAyg
-	6xP44/T9rms+ll2SoZ/TO+6UE/NuWMXxmaY8V2z0v9AmgVfEyYHk2q39gAa/1WcV/dHGlKOWy//
-	XdzCVsZzWxSVBMg+iCHeHXZn9xMHY3ji4H+YLNihspQYqox8ri9GmAnpsRAivL/yyHFcUUNt89H
-	IBJklNH+v6bDy08uCX8xqjc4LbhAOOw6zmpyjUmX8vs5MdC+67GtaGXp3E0DxslvotRt4Ul+j+Z
-	YjhBxCmzxzIpim1upHxajr9NU06MmwgYr/+VBh/FpjGUQCpRYE9/AmFD5WBvP/B/Dg0tc8cUUFl
-	FqvfwGZY/tN67BK0VunxXTi99KjuxduFtqZyr8/DLhmVsO6fpM0QOu+VBZkcXUZvBruAbj+9+4c
-	eYkP7S06MNVaqkoU6MSY8fmEyOcjFb8r5ElKsUmPa41w==
-X-Google-Smtp-Source: AGHT+IHC2LNmC/xUFVcWeK3yLywWA7GD9fZRA7+m31c3Vn2k7x7olct3JnOgC1orGXTqxPOFEWB82w==
-X-Received: by 2002:a17:902:ccc8:b0:28e:80bc:46b4 with SMTP id d9443c01a7336-28e9a664f0dmr175025365ad.55.1759835936684;
-        Tue, 07 Oct 2025 04:18:56 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d31bdsm162509045ad.94.2025.10.07.04.18.49
+        d=1e100.net; s=20230601; t=1759837639; x=1760442439;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CpCgxhORN6lEa4s+DNPc1Y/IXSmA220J4nQ7qgIWmeM=;
+        b=Cmerok+w/4cncfr9oBL3pEtCs7Rk8b2mbGgQ28rX0CN+dcqd/FzKo6tk/bvOUBzI8X
+         pH0zNdABmGnpdR4sa0PcqIGg8bE8qqtTKPTuOH9YUTgBR6VGbB9B7U3VYm1MpLa4rvCx
+         QRtG2hVlJapq5M7p2gFYbTDF7gHUJmEWP5zmTLRnIBIq+X2C1Nv+Xtv6E0Jo7QK7ZYSL
+         7uduhdcGu5JlAN1zebvdYnSue4vC7XJuYw8Si802dgvQZKH4zjB6tU8BETTJ4D1n07Vv
+         aOwKFmcBA9ONZgW9R83SEo4f7MwZNKQubdHLdeUPsa5nOHQbPzZMolK1bzZ0SAjt5EOt
+         o2Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0JIRCui8d2LcEMLGA8Nd79u2AvC0iFsEYAjKfuIzyPEtlPLbG7BbCKIKUQ8QKI4RWsjjwhCHw6dw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhWPfeeyTHwjwHlSfm78syCsT+CbXQuvV8m1bc2PpVWhOCl7mG
+	Db3AGd9it424gdOCNGe+QNm4P249STNNAET4IovcF+4T7XutL7o48E6z
+X-Gm-Gg: ASbGncvuKbdzl8yjzMPyA6AvDiPcV7OBxAXpPTeFDU/IIErEp9cT+1SyzVccDmr8dSS
+	hd7wqYrYisTTp8FWqOND8+Nylp2ovA1OchJixLLeqLcMLh1ZBec8v0zgb8BwGl5pwW/NyEYV7Qm
+	zPbTo6jBfIYCsKrjacNR6gSrMxnz8CPPjqs0WCQMPJ/XFEKNb/BVj2FUSBy0bPXdtlHz0f+6iJD
+	6PhZtc09SsAun12ca6jl4b/7Ny5kihR6x2QPCYHVL63+sS4Oy3deKQX2THrqlRCVp/P5+4tLwEs
+	linwYHRz3Yy5EbDi5PmNxNh2RKGvVI++CC55y0gpDVciqb3a0cwePrya15jdkNftA67J8hFjAb5
+	0cA1I9ckXEpgWnZ+EFSqMCA3SGDKZZvyDrwDgeMw3L4WMTPCM3A==
+X-Google-Smtp-Source: AGHT+IH44vhk9d17Lw4GXZ5yzA6My6EceoSjc9zLI8SRcAEeP+70+Ts8xj+ACG9aEOYyI9bijbzveA==
+X-Received: by 2002:a17:902:ce0a:b0:26b:3cb5:a906 with SMTP id d9443c01a7336-28ec9c97565mr36083695ad.16.1759837639170;
+        Tue, 07 Oct 2025 04:47:19 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d12608fsm164155715ad.33.2025.10.07.04.47.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 04:18:56 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 07 Oct 2025 21:16:54 +1000
-Subject: [PATCH v3 13/13] arm64: dts: apple: t8103, t60xx, t8112: Add
- common hwmon nodes to devices
+        Tue, 07 Oct 2025 04:47:18 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 865214233431; Tue, 07 Oct 2025 18:47:15 +0700 (WIB)
+Date: Tue, 7 Oct 2025 18:47:14 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] Documentation/rtla: fix htmldocs build error by renaming
+ common_options.rst
+Message-ID: <aOT9wttB8cQvFDdj@archie.me>
+References: <20251007083228.17319-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251007-macsmc-subdevs-v3-13-d7d3bfd7ae02@gmail.com>
-References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
-In-Reply-To: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6022;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=dMA8ghWVekTunsVu7XOstdzBbwszG1Yq/dFfXRCf/bk=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBlPvm3jY15w+v9irk9rkrp+zvDZ//DCl5UBk87+iv7aZ
- ZqqumjV+Y5SFgYxLgZZMUWWDU1CHrON2G72i1TuhZnDygQyhIGLUwAmcm0Cwz+bGSzX5RgmqjHo
- y5znt+T57zzd66/K5hWSYuwTrSqWRDsyMrzjnabz55ZC+PGlEjuNczkDOffPrNJIyZ3CKOV6Kfp
- fGy8A
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YjlEHS0UDQisqRua"
+Content-Disposition: inline
+In-Reply-To: <20251007083228.17319-1-krishnagopi487@gmail.com>
 
-Add the known, common hwmon-related SMC keys to the DTs for the devices
-they pertain to.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../arm64/boot/dts/apple/t6001-j375c.dts | 2 ++
- arch/arm64/boot/dts/apple/t6001.dtsi     | 2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts | 2 ++
- .../boot/dts/apple/t600x-j314-j316.dtsi  | 3 +++
- arch/arm64/boot/dts/apple/t8103-j274.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts | 3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103.dtsi     | 1 +
- arch/arm64/boot/dts/apple/t8112-j413.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 3 +++
- arch/arm64/boot/dts/apple/t8112.dtsi     | 1 +
- 14 files changed, 29 insertions(+)
+--YjlEHS0UDQisqRua
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc..264df90f07d8 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -66,3 +66,5 @@ p-core-pmu-affinity {
- &gpu {
- 	compatible = "apple,agx-g13c", "apple,agx-g13s";
- };
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 2b7f80119618..d12c0ae418f7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -56,3 +56,5 @@ &bluetooth0 {
- 
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae..127814a9dfa4 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -131,3 +131,6 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46..f5b8cc087882 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6..abb88391635f 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca..491ead016b21 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4..c2ec6fbb633c 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55..aeaab2482d54 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -56,3 +56,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 78eb931d6fb7..f1820bdc0910 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -1145,3 +1145,4 @@ port02: pci@2,0 {
- };
- 
- #include "t8103-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf..500dcdf2d4b5 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be..11db6a92493f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a..a0da02c00f15 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 5a8fa6daa00a..c4d1e5ffaee9 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -1184,3 +1184,4 @@ port03: pci@3,0 {
- };
- 
- #include "t8112-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
+On Tue, Oct 07, 2025 at 02:02:26PM +0530, Gopi Krishna Menon wrote:
+> diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/=
+tools/rtla/common_options.txt
+> similarity index 100%
+> rename from Documentation/tools/rtla/common_options.rst
+> rename to Documentation/tools/rtla/common_options.txt
+> diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/to=
+ols/rtla/rtla-hwnoise.rst
+> index 3a7163c02ac8..cc2721315552 100644
+> --- a/Documentation/tools/rtla/rtla-hwnoise.rst
+> +++ b/Documentation/tools/rtla/rtla-hwnoise.rst
+> @@ -33,7 +33,7 @@ OPTIONS
+> =20
+>  .. include:: common_top_options.rst
+> =20
+> -.. include:: common_options.rst
+> +.. include:: common_options.txt
+> =20
+>  EXAMPLE
+>  =3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentati=
+on/tools/rtla/rtla-osnoise-hist.rst
+> index 1fc60ef26106..a11c485f127a 100644
+> --- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
+> +++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+> @@ -28,7 +28,7 @@ OPTIONS
+> =20
+>  .. include:: common_hist_options.rst
+> =20
+> -.. include:: common_options.rst
+> +.. include:: common_options.txt
 
--- 
-2.51.0
+For consistency, though, you may want (in separate patches) also rename
+other common_*.rst files.
 
+> =20
+>  EXAMPLE
+>  =3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentatio=
+n/tools/rtla/rtla-osnoise-top.rst
+> index b1cbd7bcd4ae..c7bc716b2899 100644
+> --- a/Documentation/tools/rtla/rtla-osnoise-top.rst
+> +++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
+> @@ -30,7 +30,7 @@ OPTIONS
+> =20
+>  .. include:: common_top_options.rst
+> =20
+> -.. include:: common_options.rst
+> +.. include:: common_options.txt
+> =20
+>  EXAMPLE
+>  =3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentat=
+ion/tools/rtla/rtla-timerlat-hist.rst
+> index 4923a362129b..547dfc7ace58 100644
+> --- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
+> +++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
+> @@ -29,7 +29,7 @@ OPTIONS
+> =20
+>  .. include:: common_hist_options.rst
+> =20
+> -.. include:: common_options.rst
+> +.. include:: common_options.txt
+> =20
+>  .. include:: common_timerlat_aa.rst
+> =20
+> diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentati=
+on/tools/rtla/rtla-timerlat-top.rst
+> index 50968cdd2095..3740fd386ea8 100644
+> --- a/Documentation/tools/rtla/rtla-timerlat-top.rst
+> +++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
+> @@ -30,7 +30,7 @@ OPTIONS
+> =20
+>  .. include:: common_top_options.rst
+> =20
+> -.. include:: common_options.rst
+> +.. include:: common_options.txt
+> =20
+>  .. include:: common_timerlat_aa.rst
+> =20
+
+For this patch's scope, LGTM.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--YjlEHS0UDQisqRua
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOT9uwAKCRD2uYlJVVFO
+o26DAPwO4e7EjANEwcmc6zau/qLSOmqV1xhe8ihZQO2SN2a7QgEA2X3LzAtWqe1I
+Kid1Ufu3MBRc5B/abDTix3q8NM7L6Q8=
+=FDcR
+-----END PGP SIGNATURE-----
+
+--YjlEHS0UDQisqRua--
