@@ -1,322 +1,151 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C5E2E8B6B
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 17:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DF834BA34;
+	Tue,  7 Oct 2025 17:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759857075; cv=none; b=MIp84tPcTtFdwWsXmZZ0OsJcLm3KtkwRJ2/amNDHkbWUqCjawTZgcA8kC7EdrjDk64gP3bconQiFaH6BUZ9KOUTceWki1a+9D3NiwIK45FYoTjNsjhhJiyKN9X+LB8ry+TbOCR1WxpamqJwbNXBSXRIFtC3o8RFp6ydElyjac/U=
+	t=1759857459; cv=none; b=bVu2TicCaDZZcuLDbCkUfaZLKgBQ6AjS2XA/XFGuh2IOY5iTkXm+oCIXWmjnEjOCz1zOgg2G5w6NmhpVpV8AqMcPoO8P8FrvILby5STrdyuiu/pVd/hNNwZ44k4Y6NHaMvta7aN3fgWy9lh/AwZ+kgLqA3XWxIsK6+EAJPfbakQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759857075; c=relaxed/simple;
-	bh=/CHFVH2foYNX9wkHOQSLilVraBPAIBzIg1RFUqcOmYo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=cv+kaaK9iNk7gUIWWVSYuj3E259AhANqxdy8ifYszqNVHEWzbvk3SXD47eornpmns/vcE8ZaMtz8ZgFKNmKaQNkkyndsXskl33pBkTkxCw+1WkgZqBYqyD/k2QiREWefJceROaDmjO/jEm0yZCLtz4W3BHa55vo08+Eu/r/7t4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dUI883cv; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1759857459; c=relaxed/simple;
+	bh=DAFgXC6SxWdL/cD7ojk7LsHsHwahqWWObauM/TTqz9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1FVWPO/0Q1+26WyvwktMwoEq8NDS0RCgqr/sCCC0cXOh01MXpi/Be0m2Z/XqcVBKBR5KYWbvH35aHH9jswTIwA7Jm1uyjAQ9tlNftm0H9BxIbNdMv/0yUeHDnCaM6MN+IjJwDLmamVCD5Lp3JKyHaGfMN/VYrHDwz4c6gPwwlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSh73hti; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dUI883cv"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4df60ea79d1so69418071cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 10:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759857069; x=1760461869; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AWRw1t2EiCvmQgNNdpv7LOY6AvNobjsU7Ywi4CTWVS8=;
-        b=dUI883cver7F2sGHx61fnOvws4DkJ5+Y4p6xyJEa4D5mmmq3unhiEUHCI/2w2yRK3O
-         qZAGWbvF1jybAzApTrrCofr29UWMYvxkgLoauvYB/5nDUUS6hRSQtFSknQHSviO+OXsb
-         mQl0csdjTTl7iuKk/NsVGVu4loyPXoSS2vklXUtxMJIPBLnM7aF7behB7VRCCdV1z6a/
-         3B0OZTu+l11Unp3R7F6pra4kMu2jkfO+hJNA2FSl7PJPPIeLq3AI/UAuUF7o5fKR+Qs2
-         OKbh5OvWzzKcq2V0SolqJWCldJbDJs5ZZ/B2mL4fnD6CVmdBT9qIg060T7NChHcK/fDJ
-         tymw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759857069; x=1760461869;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AWRw1t2EiCvmQgNNdpv7LOY6AvNobjsU7Ywi4CTWVS8=;
-        b=ADNnQqegu3/pMuCAM2v7cNx9HEJT3TgizW6IoI/ipl5qPIkhV4cUSM/VmnY6KPx2Xh
-         lDYdgyfWD0NL1gd+mN2/WreyES76HM4rhLs43YwlpCmXRPe4DHTCDjQQGLF7LzH9Av8E
-         Xrg+vI50PWjCWNvvq9llV6Ibf40nHY/8SqBiflN7ztaFUXwEuaSguUKsH7m9I6UM29AT
-         qLV9wXnTKtzXckO16JXawGEr1J08yPAxsN27IkIv96gZVtyxCk6kQd5I+EYHf/w4C3l3
-         rpMYUp+xh8k2WlW+82Xz6Hl4SOIWBgGMTNz3b+JSVj+0ZchxWAKz75Wo9u1EzbgL56vc
-         q9qA==
-X-Forwarded-Encrypted: i=1; AJvYcCXUBzPNsByAGkuhg2UpAYdysH83HrQLyKHa8LaS2DT8P5Zmx8KdM3PF16ZgUJCaDeFUE16ktJABDOM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKSfOAGZ/Jb1mQjWOrN2QwYMiMabI+SPrNtF7zycfhLi0LQxwA
-	85NWxW3xXQTESVMrH+YrknefoThoGfBDQ2E0wDVp55ZF4zysLC1Ca0l1XPuB24N+lCtf2//rC+r
-	ztQ73n74W6hjlztM49DAPMxwqzYVMzq+dRLIYHlxUOA==
-X-Gm-Gg: ASbGncts76TgXrCTa20OOuwqMj3X0nxACZFQDURYrlCQDq1WZmg51jdQnuCX5+kzO3g
-	tTzRpW9Jhwvg2RDo0XkKT9AXVcTkJn3MoPehfXJPl2vAiB+Io/no1CRPgveu9/cvYhunLMsK4FQ
-	IEZd5Z5RkkpspZxhGs2W/iy3PVZ36FZ1UAMxlH8rvzwQ5jUgRoZuXpIHUXuVkaDK0/nvUYdDDOF
-	tBm4WoXISmabNrHWBzxHEMWG0pPDi2XHwc4IdM=
-X-Google-Smtp-Source: AGHT+IHrHNSARo+7sTykBDLK5vp/EH1bjDHDWCDbu2JdzrY3wt5qvUa/q+xa6X664S2uV3zZ9f8Y6nrn0eu81u0SyvY=
-X-Received: by 2002:a05:622a:54:b0:4b7:90c0:3156 with SMTP id
- d75a77b69052e-4e6eacb4283mr5037711cf.9.1759857068563; Tue, 07 Oct 2025
- 10:11:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSh73hti"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C66C4CEF1;
+	Tue,  7 Oct 2025 17:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759857458;
+	bh=DAFgXC6SxWdL/cD7ojk7LsHsHwahqWWObauM/TTqz9A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iSh73htibwbHo797aqyy0ATyVZ1v0pN8Yur3u3gy/4KFT7w4a+bkPaNjov2hdmA0/
+	 u8CaPUMV/QxXXeGWwUV2+RjmJzTxT1z20lKVtPGj7hrKe7mJpxepagf5Wfec89hrwe
+	 fv21GZ9GJR409dSph3W9pQDUIuGm2A0JeFHeyQrG9k6VfubpS+5BtMRf89QoBUT/mi
+	 mzCSAfdpcXMAKf2It86JU6JFMb43A7tMMcpqxBhe1SS0lYsdHswS/uy07jr27NmEuc
+	 PL0/ciQMuav2n19IxbfFAWo6vTud4fAd4veAji50d4My7Rh0N1pgu4fAIB0oqVBn0D
+	 PS8Ayw2IHr7Rw==
+Date: Tue, 7 Oct 2025 10:17:38 -0700
+From: Kees Cook <kees@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marco Elver <elver@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
+Message-ID: <202510071001.11497F6708@keescook>
+References: <20250315025852.it.568-kees@kernel.org>
+ <20250315031550.473587-2-kees@kernel.org>
+ <aOR15Xb6DfolYM0z@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
-In-Reply-To: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 7 Oct 2025 13:10:30 -0400
-X-Gm-Features: AS18NWAYCCqTXJEjJ3ZrWQLLuUxvNkwdTkZyTxDoerFJF6t-dA9L3OONGiPCRQA
-Message-ID: <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, pasha.tatashin@soleen.com, rppt@kernel.org, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org, steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aOR15Xb6DfolYM0z@casper.infradead.org>
 
-On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> This series introduces the Live Update Orchestrator (LUO), a kernel
-> subsystem designed to facilitate live kernel updates. LUO enables
-> kexec-based reboots with minimal downtime, a critical capability for
-> cloud environments where hypervisors must be updated without disrupting
-> running virtual machines. By preserving the state of selected resources,
-> such as file descriptors and memory, LUO allows workloads to resume
-> seamlessly in the new kernel.
->
-> The git branch for this series can be found at:
-> https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v4
->
-> The patch series applies against linux-next tag: next-20250926
->
-> While this series is showed cased using memfd preservation. There are
-> works to preserve devices:
-> 1. IOMMU: https://lore.kernel.org/all/20250928190624.3735830-16-skhawaja@=
-google.com
-> 2. PCI: https://lore.kernel.org/all/20250916-luo-pci-v2-0-c494053c3c08@ke=
-rnel.org
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Changelog since v3:
-> (https://lore.kernel.org/all/20250807014442.3829950-1-pasha.tatashin@sole=
-en.com):
->
-> - The main architectural change in this version is introduction of
->   "sessions" to manage the lifecycle of preserved file descriptors.
->   In v3, session management was left to a single userspace agent. This
->   approach has been revised to improve robustness. Now, each session is
->   represented by a file descriptor (/dev/liveupdate). The lifecycle of
->   all preserved resources within a session is tied to this FD, ensuring
->   automatic cleanup by the kernel if the controlling userspace agent
->   crashes or exits unexpectedly.
->
-> - The first three KHO fixes from the previous series have been merged
->   into Linus' tree.
->
-> - Various bug fixes and refactorings, including correcting memory
->   unpreservation logic during a kho_abort() sequence.
->
-> - Addressing all comments from reviewers.
->
-> - Removing sysfs interface (/sys/kernel/liveupdate/state), the state
->   can now be queried  only via ioctl() API.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+On Tue, Oct 07, 2025 at 03:07:33AM +0100, Matthew Wilcox wrote:
+> On Fri, Mar 14, 2025 at 08:15:45PM -0700, Kees Cook wrote:
+> > +Performing open-coded kmalloc()-family allocation assignments prevents
+> > +the kernel (and compiler) from being able to examine the type of the
+> > +variable being assigned, which limits any related introspection that
+> > +may help with alignment, wrap-around, or additional hardening. The
+> > +kmalloc_obj()-family of macros provide this introspection, which can be
+> > +used for the common code patterns for single, array, and flexible object
+> > +allocations. For example, these open coded assignments::
+> > +
+> > +	ptr = kmalloc(sizeof(*ptr), gfp);
+> > +	ptr = kmalloc(sizeof(struct the_type_of_ptr_obj), gfp);
+> > +	ptr = kzalloc(sizeof(*ptr), gfp);
+> > +	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+> > +	ptr = kcalloc(count, sizeof(*ptr), gfp);
+> > +	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+> > +
+> > +become, respectively::
+> > +
+> > +	kmalloc_obj(ptr, gfp);
+> > +	kzalloc_obj(ptr, gfp);
+> > +	kmalloc_objs(ptr, count, gfp);
+> > +	kzalloc_objs(ptr, count, gfp);
+> > +	kmalloc_flex(ptr, flex_member, count, gfp);
+> 
+> I'd like to propose a different approach for consideration.
+> 
+> The first two are obvious.  If we now believe that object type is the
+> important thing, well we have an API for that:
+> 
+> struct buffer_head { ... };
+> 
+> 	bh_cache = KMEM_CACHE(buffer_head, SLAB_RECLAIM_ACCOUNT);
+> ...
+> 	ptr = kmem_cache_alloc(bh_cache, GFP_KERNEL);
+> 
+> It's a little more verbose than what you're suggesting, but it does give
+> us the chance to specify SLAB_ flags.  It already does the alignment
+> optimisation you're suggesting.  Maybe we can use some macro sugar to
+> simplify this.
 
-Hi all,
+I just don't think this is remotely feasible. We have tens of thousands
+of kmalloc callers in the kernel and that's just not going to work. Also
+it's wildly redundant given that the type info is present already in
+the proposed series -- the point is ot make this something the allocator
+can use (if it wants to) and not depend on the user to do it.
+kmem_cache_alloc is just too inflexible.
 
-Following up on yesterday's Hypervisor Live Update meeting, we
-discussed the requirements for the LUO to track dependencies,
-particularly for IOMMU preservation and other stateful file
-descriptors. This email summarizes the main design decisions and
-outcomes from that discussion.
+Doing the mechanical transformation of these callsites is also largely
+done already via a Coccinelle script I mentioned in earlier threads:
+https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/kmalloc_objs.cocci
 
-For context, the notes from the previous meeting can be found here:
-https://lore.kernel.org/all/365acb25-4b25-86a2-10b0-1df98703e287@google.com
-The notes for yesterday's meeting are not yes available.
+https://web.git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=dev/v6.14-rc2/alloc_obj/v4-treewide&id=106fd376feea1699868859e82416d5b7c50866ee
+7568 files changed, 16342 insertions, 18580 deletions
 
-The key outcomes are as follows:
+> The array ones are a little tougher.  Let's set them aside for the
+> moment and tackle the really hard one; kmalloc_flex.
+> 
+> Slab is fundamentally built on all objects in the slab being the same
+> size.  But maybe someone sufficiently enterprising could build a
+> "variable sized" slab variant?  If we're saying that object type is
+> more important a discriminator than object size, then perhaps grouping
+> objects of the same size together isn't nearly as useful as grouping
+> objects of the same type together, even if they're different sizes.
+> 
+> Might be a good GSoC/outreachy project?
 
-1. User-Enforced Ordering
--------------------------
-The responsibility for enforcing the correct order of operations will
-lie with the userspace agent. If fd_A is a dependency for fd_B,
-userspace must ensure that fd_A is preserved before fd_B. This same
-ordering must be honored during the restoration phase after the reboot
-(fd_A must be restored before fd_B). The kernel preserve the ordering.
+I already did this (see kmem_buckets_create()) and expanded on it
+with the per-call-site series I proposed:
+https://lore.kernel.org/all/20240809073309.2134488-1-kees@kernel.org/
+https://lore.kernel.org/all/20240809073309.2134488-5-kees@kernel.org/
 
-2. Serialization in PRESERVE_FD
--------------------------------
-To keep the global prepare() phase lightweight and predictable, the
-consensus was to shift the heavy serialization work into the
-PRESERVE_FD ioctl handler. This means that when userspace requests to
-preserve a file, the file handler should perform the bulk of the
-state-saving work immediately.
+But all of that is orthogonal to just _having_ the type info available.
 
-The proposed sequence of operations reflects this shift:
+-Kees
 
-Shutdown Flow:
-fd_preserve() (heavy serialization) -> prepare() (lightweight final
-checks) -> Suspend VM -> reboot(KEXEC) -> freeze() (lightweight)
-
-Boot & Restore Flow:
-fd_restore() (lightweight object creation) -> Resume VM -> Heavy
-post-restore IOCTLs (e.g., hardware page table re-creation) ->
-finish() (lightweight cleanup)
-
-This decision primarily serves as a guideline for file handler
-implementations. For the LUO core, this implies minor API changes,
-such as renaming can_preserve() to a more active preserve() and adding
-a corresponding unpreserve() callback to be called during
-UNPRESERVE_FD.
-
-3. FD Data Query API
---------------------
-We identified the need for a kernel API to allow subsystems to query
-preserved FD data during the boot process, before userspace has
-initiated the restore.
-
-The proposed API would allow a file handler to retrieve a list of all
-its preserved FDs, including their session names, tokens, and the
-private data payload.
-
-Proposed Data Structure:
-
-struct liveupdate_fd {
-        char *session; /* session name */
-        u64 token; /* Preserved FD token */
-        u64 data; /* Private preserved data */
-};
-
-Proposed Function:
-liveupdate_fd_data_query(struct liveupdate_file_handler *h,
-                         struct liveupdate_fd *fds, long *count);
-
-4. New File-Lifecycle-Bound Global State
-----------------------------------------
-A new mechanism for managing global state was proposed, designed to be
-tied to the lifecycle of the preserved files themselves. This would
-allow a file owner (e.g., the IOMMU subsystem) to save and retrieve
-global state that is only relevant when one or more of its FDs are
-being managed by LUO.
-
-The key characteristics of this new mechanism are:
-The global state is optionally created on the first preserve() call
-for a given file handler.
-The state can be updated on subsequent preserve() calls.
-The state is destroyed when the last corresponding file is unpreserved
-or finished.
-The data can be accessed during boot.
-
-I am thinking of an API like this.
-
-1. Add three more callbacks to liveupdate_file_ops:
-/*
- * Optional. Called by LUO during first get global state call.
- * The handler should allocate/KHO preserve its global state object and ret=
-urn a
- * pointer to it via 'obj'. It must also provide a u64 handle (e.g., a phys=
-ical
- * address of preserved memory) via 'data_handle' that LUO will save.
- * Return: 0 on success.
- */
-int (*global_state_create)(struct liveupdate_file_handler *h,
-                           void **obj, u64 *data_handle);
-
-/*
- * Optional. Called by LUO in the new kernel
- * before the first access to the global state. The handler receives
- * the preserved u64 data_handle and should use it to reconstruct its
- * global state object, returning a pointer to it via 'obj'.
- * Return: 0 on success.
- */
-int (*global_state_restore)(struct liveupdate_file_handler *h,
-                            u64 data_handle, void **obj);
-
-/*
- * Optional. Called by LUO after the last
- * file for this handler is unpreserved or finished. The handler
- * must free its global state object and any associated resources.
- */
-void (*global_state_destroy)(struct liveupdate_file_handler *h, void *obj);
-
-The get/put global state data:
-
-/* Get and lock the data with file_handler scoped lock */
-int liveupdate_fh_global_state_get(struct liveupdate_file_handler *h,
-                                   void **obj);
-
-/* Unlock the data */
-void liveupdate_fh_global_state_put(struct liveupdate_file_handler *h);
-
-Execution Flow:
-1. Outgoing Kernel (First preserve() call):
-2. Handler's preserve() is called. It needs the global state, so it calls
-   liveupdate_fh_global_state_get(&h, &obj). LUO acquires h->global_state_l=
-ock.
-   It sees h->global_state_obj is NULL.
-   LUO calls h->ops->global_state_create(h, &h->global_state_obj, &handle).
-   The handler allocates its state, preserves it with KHO, and returns its =
-live
-   pointer and a u64 handle.
-3. LUO stores the handle internally for later serialization.
-4. LUO sets *obj =3D h->global_state_obj and returns 0 with the lock still =
-held.
-5. The preserve() callback does its work using the obj.
-6. It calls liveupdate_fh_global_state_put(h), which releases the lock.
-
-Global PREPARE:
-1. LUO iterates handlers. If h->count > 0, it writes the stored data_handle=
- into
-   the LUO FDT.
-
-Incoming Kernel (First access):
-1. When liveupdate_fh_global_state_get(&h, &obj) is called the first time. =
-LUO
-   acquires h->global_state_lock.
-2. It sees h->global_state_obj is NULL, but it knows it has a preserved u64
-   handle from the FDT. LUO calls h->ops->global_state_restore()
-3. Reconstructs its state object, and returns the live pointer.
-4. LUO sets *obj =3D h->global_state_obj and returns 0 with the lock held.
-5. The caller does its work.
-6. It calls liveupdate_fh_global_state_put(h) to release the lock.
-
-Last File Cleanup (in unpreserve or finish):
-1. LUO decrements h->count to 0.
-2. This triggers the cleanup logic.
-3. LUO calls h->ops->global_state_destroy(h, h->global_state_obj).
-4. The handler frees its memory and resources.
-5. LUO sets h->global_state_obj =3D NULL, resetting it for a future live up=
-date
-   cycle.
-
-Pasha
-
-
-Pasha
+-- 
+Kees Cook
