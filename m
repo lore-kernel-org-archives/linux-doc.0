@@ -1,64 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BED2EA15D
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 18:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC01D2EA17D
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 18:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759863372; cv=none; b=O4z/1TYooWYw3Xo+AfCd/ctXHv6G7A+UBWS10E+tt98NDl1i5UOtdnaJrixTXbv8hU8lDVQ057tGKDXyOSsi3m96YJMtyoVZArPE8wZ3cxWaRIYc7u1s4RLY0rLpQt5QFLXrGN7Kk/+VekpL4cJSziKSktirmS0wmsHg2/XqBug=
+	t=1759863379; cv=none; b=TgxsWsYzm86JkRMOY3/bn00P0LUjC5zLpCCsyocwqKm6tF8uINVWsVvzKNj1zTEYXX1OJ1JVmQZAk9bU3qTS37lMeA0GE3GS9b/5Z9NXK2wkMVWJnrMdrDixRiN8/2SUI561FiWoYiBa3CaBYpzYX9669hSBfHkdAKuha8nkV3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759863372; c=relaxed/simple;
-	bh=PjvGj/6WIMKxEW1Znvw9l4eMpfWYkHUzapNNIm/1GK4=;
+	s=arc-20240116; t=1759863379; c=relaxed/simple;
+	bh=CloW7FhMBhnWY7ih3iN8vM0ZFn5kYPF7XeKW8uvATJE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gQjEGHPgJ9Z83vpeS/IPQyI9cxg6BDB1BnO9FzKsySZ1/kv1+xxBo4+1QULEPOCOxGwkhMCgtKbKkIC4bCY7TY+qfumbW2GHfkLV5JzmptBoJ9n1k1nNAUvAH93TyzzUsXjfqwq6FelMqrsgluldMCnjEAoDeJ+1+blN4ol0fzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VL7u0k8M; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=TfC7X4neATG3i6VKuXWt3DA9Ju3ZOtU5vTpli+7bd/OlLTMMMdvXvEwLeFgFQdHKUaVP89RBPg63r04M3YIdb/FmZrzDIar/KvSa1fMeN3P9h85TddDqBB0sNlO9dn9oSHfSLDZiogtZw0p0Al72JJh92Yh1qsdJVbpqbUjXYHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4Ky9h9W; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VL7u0k8M"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-28e8c5d64d8so64882365ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 11:56:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4Ky9h9W"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b6271ea39f4so4073385a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 11:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759863370; x=1760468170; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759863376; x=1760468176; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tUZ9lhN//CkO8fifdX7p4qPCDwEbbiKFsiRCmbfFYRY=;
-        b=VL7u0k8MY/miTHsAuDoBQIlUZ5G9Ua0t+W1qosCwOkITpvfJaNQev+CqomIImReXC4
-         p1S/E92bQC0g0mhOY3a+D/ydFfq8HkrSx5mm2qtQdEh7MWRZNNSS0e39jX9hnNGr5SVp
-         zdPTc/kNQ7TGdxLMYEQiKw2Wu3/WVF1PHhjwttsUt93jOeOUgzI0Gi1BtczmAv7Bjf3g
-         IK8/V7wm4o4TrgpqxFpQK6dOH3vbDMHOy9yulq0z9gR54OMnQfZ6ThokGyGXgbtvwdH5
-         QYts2ltpPg1h3UukK9FfmQYdC6qacHKOAvv1CIUIhQmMpB+AINUqF+fc/Db5T6tp2rYs
-         YL3Q==
+        bh=fMcgMtnQhy1DPy++ljFQ5B7lhaXeK21GW1cVMqM8xVY=;
+        b=X4Ky9h9WDcNjF8cSIRN6d5b5X66n0vVJCtcNld6TIPkAjY5biZyMs08YBXlgo5b1a1
+         /rc+1U85GP8WerYXsurZGjUBPJ1puo6fxY9HwXvroLUk9js2r/vv1UEICZFgLbDrtZbH
+         gxeqJ8usCdp/AMuLjdTztUYmQjd2avCOP3HbXAEol6l1WV++JBnulZb+rEHXio4Zoy+q
+         me++zmHBNitE7+nAkjEae1gHG7NEbenTHlZlNQX5twO4df2czDOM38bh/FzoT7Enk+9l
+         3zJe2XX8g1pb46blmYti3VxLa6X5N9JaX/qvanXUXFwfA7o7A8rFNI4PEuYXPWh4aWkg
+         I6mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759863370; x=1760468170;
+        d=1e100.net; s=20230601; t=1759863376; x=1760468176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tUZ9lhN//CkO8fifdX7p4qPCDwEbbiKFsiRCmbfFYRY=;
-        b=asKdRRRZklSIzp1LK/gYHbph0O8R42eqpoSwDZieP6psqNDaWbJKYdRPvSOv1IY9/X
-         piHvQN8JKkCdKh2Gq5v5Usl4GeoQChKMvnibt0HPte9KSYj+b+B9pS5FFUgg/f2sBbag
-         gGjIYP4rAh7Hkk3LMi2LdBEd2Pf9cFnsKsKwdMp5nqLlrTVfwagqCCzoHss9ZVbVVnio
-         67CN9T1Scj1hFqRpluBHQq2xz07LN5pGVneTEP1K2r+wmB6dALqx45GoxYQuYcB41u4M
-         t2WnZzwwjJ/3MrKJjnwVjPLflWolGASfG4jqaSXdkSHfl+AOhdMIYFy69WoWeoIdTBQd
-         5RfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZdBxO+cRW8Qt+0RkFP+E/3Hunwpj1m6Gsc2WW1wHdQDYunZpLz85G+AQ+Fhjb7ljNKhkyohWBDlA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqIeSGsccXnk69mzuWMBrWeVK54OA7HWMTJLVF2XuW26cMbRrD
-	gFPhsn6B78KMsOj/ITX+JYXbkdAVlebAP7OmQyEbPTNM5bcgqPXFKNF+
-X-Gm-Gg: ASbGncuntJYf5LSbZRa0oXT4dig4OY5gA4BwtzzjyFhl0wMxI7QM+e2W6c4aDgnkQOi
-	a14GrzyGbFqv0C4B5LxoCiqRIaMSJwG2c3rFna3tOxLDwRig3Gs71xye+PjkEA2IUCfOoRniikr
-	oKkqe65H6ARqmit7J7pE0V2ykDb1LopzNrzmiu1byp68tX/zEwPKgOO7v2bg7r5JVSYLzuhHZWY
-	bm+8LLY3/7JE6eZ5wM1klxJwtFANpDBF7zfhSVvb4xlBgjsBer5VcZG8tZbYGV8mp4GzjEArf7G
-	bkwE+cLE5fFtyW85qcJbKrApJR7zb1TIReROa+5ENF/PxRZOKdRqAi017fRjTfH2Z7Mki7BC7aC
-	MbvqWC0iSA6l2/SZyB3S+KUqjF2QF4kGIjWXHFHezsUBRSZM8928TE3ivLvDXpJLNqN7Zt6csa5
-	UH
-X-Google-Smtp-Source: AGHT+IEnYwwHsTgb8eOLfuclxtTGN0ot15Hmrmno3ONRkkOazFE85QNijokyUfk/dnUFfALD7cwZbw==
-X-Received: by 2002:a17:902:f64a:b0:277:9193:f2da with SMTP id d9443c01a7336-29027356c8emr9333545ad.5.1759863370227;
-        Tue, 07 Oct 2025 11:56:10 -0700 (PDT)
+        bh=fMcgMtnQhy1DPy++ljFQ5B7lhaXeK21GW1cVMqM8xVY=;
+        b=cTzbgILa0cBYhMDRr5hmPstOhwZ9BEJtgLf9MF7iCPg4aktBnI2vYa5FtPZUjwXKOL
+         17GfRfZ176okTMr7Wrl/YEZbM08/+/Ar0MqweTOR9yaELB7yD+Lvyg1ZgVX+n1dsuvOB
+         zc/saYiqPUfU8vsp2RPzynusnrzUDj1o96BVAMUadiL6RUO8fi/BVNqqRm79i/WofbSN
+         SpOFbqZU42uvxASWW+qUUQnOB8LfAL+0u0BkEHAx6xBw7jpw2ADC2pUNbmkDMx/ITh2K
+         ax4Sgu/+DLs/lwFoZ1imeZxJ4j35ZwA4mS0JixdJs3tOSEQDhVEcS8+uYPHk9Td2IcuU
+         Zklg==
+X-Forwarded-Encrypted: i=1; AJvYcCWt1pY/PUb/bYAQn5FDGIcRgT6jxFjIBq7BBnX5mL//dyKm45AFM09NTULOay5P7yQTMAMKZO9skUo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyviuZBEU83ypjDSWwhm97nCX9LjDSGlaoRaW4BilbnXfPvuhth
+	F6N7hvrTz4Sca0zmvw5Me3sCat0KHNzWnw3CAOXrWvUtpvaQR+7JKCLg
+X-Gm-Gg: ASbGncsSXGgc0mg7ZVK63s4QLihGUb6tr+rVaY/OWqCVKmCO1V4MGgzSSLQn5CxA8j2
+	E6gMVxX0ke3IfMhmeUuRksEwFiIRI+e6Dopnt4I98d0gErqDWIUvInkht579wUa8cxfTYzAZdWz
+	pCCFkeBgmHkwOcM5VHOOOCNKVzIhlLi1l74aj9sOMbNjR/sPuKq0xGPwUCIIkCtPDnfD9u3ZbDf
+	+R+gbEdFuHmQgBAjz5PLvhYwPkfrmPnTx8xcq8pJDb44Ngc1CldLQUIH+QIR2WtOAdS5gW5syTz
+	5udRcOwPLXAJax81WN3Al9crE/O+qZSaqzbqY970y3MWG9zZItapcNek29xzhUXl4sLyYSVTkwO
+	wwow0nsT17tsU76hiKhPdKF6NrK4vK/aOoryPxKzSWIEJhgfqYuZVRifJmuD3e8ZDzw==
+X-Google-Smtp-Source: AGHT+IFcXfO6RvhF3YXlYYvUUUIceGO4XmoS0wX/IMzMllJDL9x+dTFS2NyLyCwMy0EW7eslfVVevA==
+X-Received: by 2002:a17:903:8cc:b0:27d:69cc:990 with SMTP id d9443c01a7336-29027402f43mr9430955ad.49.1759863376259;
+        Tue, 07 Oct 2025 11:56:16 -0700 (PDT)
 Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.56.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d110cdfsm173529655ad.13.2025.10.07.11.56.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:56:09 -0700 (PDT)
+        Tue, 07 Oct 2025 11:56:15 -0700 (PDT)
 From: Gopi Krishna Menon <krishnagopi487@gmail.com>
 To: rostedt@goodmis.org,
 	corbet@lwn.net
@@ -75,9 +74,9 @@ Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
 	costa.shul@redhat.com,
 	jkacur@redhat.com,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 7/8] Documentation/rtla: rename common_top_options.rst
-Date: Wed,  8 Oct 2025 00:24:56 +0530
-Message-ID: <20251007185508.40908-8-krishnagopi487@gmail.com>
+Subject: [PATCH 8/8] Documentation/rtla: rename common_osnoise_options.rst
+Date: Wed,  8 Oct 2025 00:24:57 +0530
+Message-ID: <20251007185508.40908-9-krishnagopi487@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251007185508.40908-1-krishnagopi487@gmail.com>
 References: <aOUMyGvkibvOV0IS@archie.me>
@@ -90,66 +89,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-common_top_options.rst is intended to be included by other rtla
+common_osnoise_options.rst is intended to be included by other rtla
 documents and is not meant to be built as a standalone document.
 
-Rename common_top_options.rst to common_top_options.txt to maintain
-consistency with other common_*.txt files and prevent Sphinx from
-building it as a standalone document. Update all include references
+Rename common_osnoise_options.rst to common_osnoise_options.txt to
+maintain consistency with other common_*.txt files and prevent Sphinx
+from building it as a standalone document. Update all include references
 accordingly.
 
 Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
 ---
- .../rtla/{common_top_options.rst => common_top_options.txt}     | 0
+ .../{common_osnoise_options.rst => common_osnoise_options.txt}  | 0
  Documentation/tools/rtla/rtla-hwnoise.rst                       | 2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst                  | 2 +-
  Documentation/tools/rtla/rtla-osnoise-top.rst                   | 2 +-
- Documentation/tools/rtla/rtla-timerlat-top.rst                  | 2 +-
  4 files changed, 3 insertions(+), 3 deletions(-)
- rename Documentation/tools/rtla/{common_top_options.rst => common_top_options.txt} (100%)
+ rename Documentation/tools/rtla/{common_osnoise_options.rst => common_osnoise_options.txt} (100%)
 
-diff --git a/Documentation/tools/rtla/common_top_options.rst b/Documentation/tools/rtla/common_top_options.txt
+diff --git a/Documentation/tools/rtla/common_osnoise_options.rst b/Documentation/tools/rtla/common_osnoise_options.txt
 similarity index 100%
-rename from Documentation/tools/rtla/common_top_options.rst
-rename to Documentation/tools/rtla/common_top_options.txt
+rename from Documentation/tools/rtla/common_osnoise_options.rst
+rename to Documentation/tools/rtla/common_osnoise_options.txt
 diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
-index 102654cc0c78..60a237de1e2d 100644
+index 60a237de1e2d..26512b15fe7b 100644
 --- a/Documentation/tools/rtla/rtla-hwnoise.rst
 +++ b/Documentation/tools/rtla/rtla-hwnoise.rst
-@@ -31,7 +31,7 @@ OPTIONS
+@@ -29,7 +29,7 @@ collection of the tracer output.
+ 
+ OPTIONS
  =======
- .. include:: common_osnoise_options.rst
+-.. include:: common_osnoise_options.rst
++.. include:: common_osnoise_options.txt
  
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
+ .. include:: common_top_options.txt
  
- .. include:: common_options.txt
+diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+index 55616085275e..007521c865d9 100644
+--- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
++++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
+@@ -24,7 +24,7 @@ collection of the tracer output.
+ 
+ OPTIONS
+ =======
+-.. include:: common_osnoise_options.rst
++.. include:: common_osnoise_options.txt
+ 
+ .. include:: common_hist_options.txt
  
 diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
-index ea0e9f5a5c0a..8a852949df21 100644
+index 8a852949df21..6ccadae38945 100644
 --- a/Documentation/tools/rtla/rtla-osnoise-top.rst
 +++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
-@@ -28,7 +28,7 @@ OPTIONS
+@@ -26,7 +26,7 @@ collection of the tracer output.
+ 
+ OPTIONS
  =======
- .. include:: common_osnoise_options.rst
+-.. include:: common_osnoise_options.rst
++.. include:: common_osnoise_options.txt
  
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
- 
- .. include:: common_options.txt
- 
-diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
-index 32d33c792dcb..7dbe625d0c42 100644
---- a/Documentation/tools/rtla/rtla-timerlat-top.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
-@@ -28,7 +28,7 @@ OPTIONS
- 
- .. include:: common_timerlat_options.txt
- 
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
- 
- .. include:: common_options.txt
+ .. include:: common_top_options.txt
  
 -- 
 2.43.0
