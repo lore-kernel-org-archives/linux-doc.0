@@ -1,257 +1,224 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F091DF247
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 17:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759859135; cv=none; b=DjHQX7s+Go9kOc59K8dzfZD6bT5TD4Tkhi/CYXtehk9v93ihJDTCO0t9LDX0errzw5GhUEcCeBiStmGu98dkpJZH9vuT3V2ZwYY2TpLkAvmhQ+Y35cpy2F5qN6NZKs+1k62HPCk9H99q/2KJmS8Gh6rUDO1G1XDNpMh+iqyYtDM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759859135; c=relaxed/simple;
-	bh=A9ePXX71Y+LsTLae1xp4zR0f461PjyxprdjUgwTk7fM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aAuzToQXY5nD2A75hJKQqE4DzGbJug9rdCx4Kzovp65oe50Ojqun7V7bcRYYgrnBnOSKHH9mnseI/ukEMlGkzy7xkRrQe46BDQ2ND0JLihcKwTiYpXOXtBrmDNROM1XSNbiFsPRNPdUH+NmhEyQzAxeu2ommPY74v6kf8wA1hP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IVj1OSui; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B80C10A1E;
+	Tue,  7 Oct 2025 17:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759859195; cv=fail; b=AYRfzPwhdNLzFFeizm3G9qatqxL60FkixACnWDpok9WRPZo8buEqAd4hjfcfa+SJTYd7NbIrVoTHHQ1Gs3nXxAcNChyLIp41kuLhgB81Yk+2n9uVMN5PPPFvYoLTW5RvwGt/34O4Mei3wP1liLVdLb2XUb9UWe9dP6P6FT/vF9Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759859195; c=relaxed/simple;
+	bh=2P2Hzf4bakKWFuDKmP48OGCDWnGdVCicipm3Q24eW1I=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=o5n5CQC2+RqT2fXv1Y+hC1o1s8NON6rvbc3TVhqyzKVHRfcOPnS1JqAXn+krt1YKyPC1GVjbN7C8+oqBGH8X1IznP+QOc3cnmuIOM5VY65Ft1UfR/nMvIe3OVNETbT1qN2GKAtOufV0tj1wMopaJPBxc7f7Svh4UX90YxufND54=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3dce75h; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IVj1OSui"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4de659d5a06so37841041cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 10:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759859132; x=1760463932; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pg8Ok5I2xXMgGAu/MYDoh42vS3DGGi3CdtYED5anodk=;
-        b=IVj1OSuip0Tb0+Yf3E2iRsjnfBHmc/0mPSPh3MHPVQpfvbrPHU69v+GkcKagqs2wZA
-         PL4FBiXnakC3/aCRB/7VsFKgBbZpY8rcVUF+qzVp/KF+QMo9rRkgopdts5IVUUxtvch5
-         2S4fpHQqPWuQwqamtIGZ5Ee4Dm0wXKipuzpGtks8KhRhyNh0upgL+S4Cs5JH1fjFO2bv
-         bR6vzTleoUtfxBXcslvcCtJqp7QbSAgUPI6iZQ3wqHBgh7+TQFPJGODYi/H4RMzYe0/k
-         OzuAtu7PuMf43mPFa/z25th3H/0oIprKlSXH90c5HcXwrILnc56CZq3L9VHo4rU3Wo/8
-         M41Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759859132; x=1760463932;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pg8Ok5I2xXMgGAu/MYDoh42vS3DGGi3CdtYED5anodk=;
-        b=oqLlGXIxeUfoBB7/SCEkBzz2Eg4vTKOMoJYaGUpotFgEib/EaiilJEHEJNA49xaPAk
-         ZuAowhJ7r2ttnmh9VtF4uJrvMPP9gUcO/GORpcFQGOmjgbVWMJQT6QfDWoujmCeM75og
-         T8GX6q+k4OhigeIZiIyJibh7tNrNGSwRePqrWSLPt1NMKunQIjCkSrR/fJ6vZahrIKyO
-         FdfxFWEchFDwHyrMo5wsATWmurEiqkepTnV4NhlUPxoNvG1fOGuoaPHivhAuDXq/NwOl
-         +pxADn4clLdZtycjKc8Y31EojMxhYFMUpeSGbgYR3S0kNhFQvxxaObKTbxe+52MD/3+Y
-         dOqw==
-X-Forwarded-Encrypted: i=1; AJvYcCW7k19t5pazwDLqnov2vI0GITpxluv61y1CHgjDsfqAmJuY3sgkaObPZqj33uM1eRl3vFG7rmnJg5k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqzAQNBpX0sFvHaTseFhre+saVivWMZugIIXTXNODOPyv+uSZ9
-	wpuieRdESxp5yrj9lVYhLOEbF7r0ILkwno5JXMSPPiUtcySipzXyHse11ymX5097SnYN9bJ/RgZ
-	ZUqWXbkxLDhaB8dfSJYCqnsIjs2P4fHDmQ3k2vs8Gcw==
-X-Gm-Gg: ASbGnctZJEbz3gzJEFBeRbRzPhuMghHJCz9c3T/E226oUCfgL2q1j0IEpXEVbLCG1CU
-	mv5Pb0nuQNI2SC8EYr4YmL2CrN3iWp3lfA9gzzQzt6QuE3qcxSN5xm/SjfZW2L7yeadZWixYG/X
-	hPE4TxFTbD2fh+cKvAlGge97FzLomUwsK3xzIukR+WXbe6B/vG2mepavcEfjySobPl1oI3bgeok
-	72phxoSrsL2d2BHyy8HLhbFc6Pn
-X-Google-Smtp-Source: AGHT+IHNjzqpOMzH8y9LtPxqns/WAVziX7arXy0dAsX1RKPk6LIPf4fgO+HjB3KbrVxZePVT+qHVLaK+4PsanmQvw4Y=
-X-Received: by 2002:a05:622a:5984:b0:4cb:57b4:4d6c with SMTP id
- d75a77b69052e-4e6eaccc73cmr6198371cf.12.1759859131884; Tue, 07 Oct 2025
- 10:45:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3dce75h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759859194; x=1791395194;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=2P2Hzf4bakKWFuDKmP48OGCDWnGdVCicipm3Q24eW1I=;
+  b=Y3dce75hLLuTsrB8e23FlvQdhdnlnRPy7ZLDYXASdwsWqmdcgpvLI62t
+   6UJuXbncyUGftAOEvD7wC2NQeVzOYgvdvyN8YROAueSKe8wrxLydYVlla
+   YYJxdopDoEZst7BdM16ypa/naJuBJ9OoEpiE1jv2q8xtHEXjPLORwHAlo
+   LigvIy52P65P8hpol0It43OS5g2dHel4iu9b3jETjkWgHAxEBLijkkD1J
+   PRsYl003eT/wIvIL+SVKdFgkCTSmtgc0ZJO8iR55rokjfZ1vuhYFSDS0v
+   wx2cc2u5AXgKjIr87NQ9xvRzhI2b9sAq4fJdbcHDlEV3VWkOhCkibtnPt
+   Q==;
+X-CSE-ConnectionGUID: yOGq87cLSq6F/2SfKCijdw==
+X-CSE-MsgGUID: 3b7+YjQPS/qe8YScTd7dCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="72308574"
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
+   d="scan'208";a="72308574"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2025 10:46:27 -0700
+X-CSE-ConnectionGUID: hELZRCT3SKiVrnf+Jf77Xw==
+X-CSE-MsgGUID: A+tmegF5Q12Guo5zs3DarA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; 
+   d="scan'208";a="180259514"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2025 10:46:25 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 7 Oct 2025 10:46:24 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 7 Oct 2025 10:46:24 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.41) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 7 Oct 2025 10:46:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fa6dv0H2UBvAkNS3iok3MapzBtDHSoVIPbpvUECzXZPhDjS8hbmF8ufzSdWEzZacdiMqBjb22IToB51ylmH2QkFroDv2A7IWQbE1GPcxKbEKPsB4QTwjMkCf4c8g0NzJ49lsbL1F7O8tsCXLLvTjW9EU8XW+64+I/W93bAjpKrM0iKpy4Mip9Vn39RqLDn7XnugF4+ix5HqN3hXB0tfv9Uhx+77fT3BuScxu/8yNwpLv219iN2T7WT5uCtVnQ6ivy+O0ZrYOyHd4urPzcjWmZjN5ZNIXIMXDw8egSvcZAbKul4k5x8TVfAmAvUbd+mE/HUV/d8TWLmcnld5Tkg4hmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2P2Hzf4bakKWFuDKmP48OGCDWnGdVCicipm3Q24eW1I=;
+ b=iSA26DwSrSmlQhKX0HRzktvzAwMfU3ISkSKN2/loXcVHzVKWhxCvwNVTLUbs/bSmoqGUp9RZAZNgU+5yCKhp9B1bmyUi2+WzvuLsIBrVGai3k1JekgE/4LgL2XDSLPnyHDTGifWmBrtEDtgDOsKKVnPabOLKDOwEiz8Kqj8y6DQwNTGAf97NUKbIEMK+/YH3f8bdF3dkyi+/N8fthFUPkkmNxTOfaxNSs7vmjS10cAUdkmWpIgksvROgMFO4P/NcXE1WUebD8lpmLFJd0n02Qf+TWcXQJjmRD4cVpr48o9M4KCpYhwe181ocErovIB6Oi9jNRG45oPmuZLQw0dOfqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Tue, 7 Oct
+ 2025 17:46:17 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%5]) with mapi id 15.20.9182.017; Tue, 7 Oct 2025
+ 17:46:17 +0000
+From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To: "Mehta, Sohil" <sohil.mehta@intel.com>, "tglx@linutronix.de"
+	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
+	"david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
+	"luto@kernel.org" <luto@kernel.org>, "jpoimboe@kernel.org"
+	<jpoimboe@kernel.org>, "andrew.cooper3@citrix.com"
+	<andrew.cooper3@citrix.com>, "Luck, Tony" <tony.luck@intel.com>,
+	"alexander.shishkin@linux.intel.com" <alexander.shishkin@linux.intel.com>,
+	"kas@kernel.org" <kas@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
+	"rdunlap@infradead.org" <rdunlap@infradead.org>, "dwmw@amazon.co.uk"
+	<dwmw@amazon.co.uk>, "vegard.nossum@oracle.com" <vegard.nossum@oracle.com>,
+	"xin@zytor.com" <xin@zytor.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "kees@kernel.org" <kees@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "linux-efi@vger.kernel.org"
+	<linux-efi@vger.kernel.org>, "geert@linux-m68k.org" <geert@linux-m68k.org>
+Subject: Re: [PATCH v10 09/15] x86/traps: Consolidate user fixups in
+ exc_general_protection()
+Thread-Topic: [PATCH v10 09/15] x86/traps: Consolidate user fixups in
+ exc_general_protection()
+Thread-Index: AQHcN1cx4GvzyB6BEU6xTer8KxhLLrS29eAA
+Date: Tue, 7 Oct 2025 17:46:16 +0000
+Message-ID: <e314fabf0597e3ca4acc549e33fd483e64809dc6.camel@intel.com>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+	 <20251007065119.148605-10-sohil.mehta@intel.com>
+In-Reply-To: <20251007065119.148605-10-sohil.mehta@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|DS0PR11MB7958:EE_
+x-ms-office365-filtering-correlation-id: 24116ede-309c-4034-fc71-08de05c96ab1
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700021;
+x-microsoft-antispam-message-info: =?utf-8?B?ODJ6OWN5MTYvRzFoTXRTRHB2bVNmSnRubDNka2RRWHVldFJ5WmF5SDY0UmVW?=
+ =?utf-8?B?OFFpT1h4UmpENVFmYUQ0TEhUYlRCcDhtWjBTL00zN1FIVFFQUHNxZ1dIRGM0?=
+ =?utf-8?B?M1ZSSUV4SC9vWUJmVGVFVUtyZm04L3dJamdXZ2p1V05JeXBka3YzcFpaZVpv?=
+ =?utf-8?B?ZzZJSnlBdWFrUVRnaG9ESXhGRGRKSm1UUm1DbVVqRmVzcmNKWlhoQXpvc2FN?=
+ =?utf-8?B?RE9yRGxBdjZWWDdSWWh0aTlUYWpnQ0lIRnBMMmVSOU5DNjJ5RnR1MU94TjI2?=
+ =?utf-8?B?OFJkTkd3enBXZXg3eVZIRFdlTjFhMlFteDlSRnhJUHBFR04zU2RWYngyRURn?=
+ =?utf-8?B?czNaMUVJYmM0Zml5ZjFEa2NUa3FpcWU4cHU4M2pLZVdBSDhaOFMxVXFaWmFm?=
+ =?utf-8?B?bGNPUm1MUGNUamV5b0JmbTJDNHcyaFZVMC9ocjZCRk82S3JzZ0pDa25sMkhK?=
+ =?utf-8?B?VGpoOWM2VTZVUVhaUHArM1VzQ3RCMmZjZXArY3YySkhYTzhSZ2JaRmtmRndK?=
+ =?utf-8?B?ZnFIYUZvaE5aNGpCcnFiZTJsekdRMkdCd2xpRUdJZlplNFdkTkhMN0daWlBl?=
+ =?utf-8?B?dHZ1NHdPenFKaXFVZExzRVdaUkdxeUtiekdDRysrWFJIb3JvdGppRXI5TW1H?=
+ =?utf-8?B?OTVBWktNc2hXeW9ZRndDdk5nMmhjYWVOZS9mRkNiWWFoS3JwaEp2QVNrYmo3?=
+ =?utf-8?B?TVM5YkxvQjhZVit4ZG15dHRLODgveFl6Y2sxeVV1b2RDSW5TWXFiK1RHTHhW?=
+ =?utf-8?B?djIvT3lseVlNVURuNUVQNGtpbDlRQVhkNEs2b0xORnpyVnlGTGpBNSsra1FJ?=
+ =?utf-8?B?VFdHQVdkd1dTd2tGSVVLZjlFalZZcDdsNFZxOTl5Wm9iVWtVSTlrY2x0RHZx?=
+ =?utf-8?B?ZkhJSVVXVlBTcXZpMDdYS1BKbE1XWkVNd2JQSnVWQWdVMENpOExDSXdySEhK?=
+ =?utf-8?B?VjJMVGxIMUQrMnlkRDdnMXJDMlJSQk1GU2w1NExYMzZIU213eWg2QUFEeHJr?=
+ =?utf-8?B?UkRqY2xkdEpzRU9WSlFqcVdwQjZHN1RIK0pLdWJDNmw3N3U5QXQ3TmlmMXg4?=
+ =?utf-8?B?bGU3cU1PVE54LzJsS1VyN3RiTHp6cTNMa29HNFVVVG82TVQzeHk1czdHTHNC?=
+ =?utf-8?B?N2JtUC9mVDRoUUFQT2ltRG9Zd0Vwd0lIMUdBVnlONkxoQWtTZUhFYTNIL2ZL?=
+ =?utf-8?B?UGc5NkRrVnIyeWJtZDhGaWZrbnJaTU5EeGEzRDl6RnVTRTFwOVZMclo1ODFn?=
+ =?utf-8?B?TTV2dGNGYTFGdEFFbVBHeEFCMzYzZklIRmptYWRHdm1yTXJlZXlnSlJPYTQ4?=
+ =?utf-8?B?bDByb1FJb3htUlVLZXFsZU44MlE4Zzk1QTEyNUV0S1ZCQ3RZU3VLdk5WQ2k2?=
+ =?utf-8?B?SEtEZkZ6S2pyWWU4VHBhTHBWdDRRekt2VzVoV0Z6TitoZWlaQzNhY1puWW1y?=
+ =?utf-8?B?Tm5ZUFhsQkNxdmRaRnp3THVwVjkzcXZEc2t2T3ltOE9vOVVGNTFIUUtsRmt6?=
+ =?utf-8?B?aHYyNjV4cEI2Z1NYaUNzVFArdndVU29aNnVGd0dZTng4NVpPTVRkV1p1a2Z3?=
+ =?utf-8?B?SGRtK2dKYllUL2ppbFptY3NJT3BTajU2akMyYUJEc2llOWxnVVlZSERwbXYr?=
+ =?utf-8?B?Q3NHMzRiU3MzOFJOemZzdU0wdmMzcDlRYnkvd2hIZXZNN3pJSS9POUZLWEJM?=
+ =?utf-8?B?ZjgrVURTeTFIMndtelROWUJkVDF1QnhjVmVZZWRDOGtScXZrbk1xS3JKTXRU?=
+ =?utf-8?B?aE1WMElKNTc5dnJMeXlpeHUrQ2R6cS9UVzhFUEtESWJWcm5pQlBkSGFEbThl?=
+ =?utf-8?B?SEZ0WU5ZR3hJRXhjb2dvQzRZOGNDalF6d05oeEJLS3JDb2ZJcnUyV1BKZFE3?=
+ =?utf-8?B?WmwwSVdUVzVGMW9yRjl5K2JBMjV4VkExSkZTRE41MlZqWDBtZ2NQbFFoa3JV?=
+ =?utf-8?B?UnVxc0s0eHFzR3NUek5VMnhBcG5Sd0dFR1BIYVBEaC9pcG5kdlpMYzRTd1dP?=
+ =?utf-8?B?NjJ4NGdvN3dYVmRaK2JOVjJna3NBVm01aHJiY0hmT1RRcUFDNFBxUEw2czBu?=
+ =?utf-8?Q?Aag/cz?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SHZjNnBGRzR5RzBlY3Z4aFRaT3NGR3dWRjNyQUxGaW96Rk5PdVM0Wk1GYWVJ?=
+ =?utf-8?B?M09pN25YMnBhSmxaZkxBaUxidEF6NTBqZ3NVN004SktVRzhMY2VmNFA4TURG?=
+ =?utf-8?B?TUlFUFplVWU5L05wSXlwOWdpTUtpU2RiRlBCVWFsbTVOZUVTd1JreDRGOFlB?=
+ =?utf-8?B?SHNEemovMlFVbTlkWWhzVVdGQnI1cm50S1VkSTZLdGs3OUhFbHNWeHhuMDZ3?=
+ =?utf-8?B?ZS93M1ltNVlxME1Ha3FLU3JWOFlPMkcrVHRVc0luMjBnVVdpdi8xc3VHUGs3?=
+ =?utf-8?B?a0NhVXFWdzE3RjBiNnRsRVBYNkswZDJmQ0xtQW56TzlyTkJpdkdzd0JDamtn?=
+ =?utf-8?B?NEd6TjhxQll6NG81ZWJpd1duTnBZdHhEb01xM0pPRzlqVGRNN25aNzZuaGha?=
+ =?utf-8?B?a0FjV0lQSHgxY1NlWmhVUmt3M0dEL3NzcndJVU1UekZWV2JWTm95S2doRnhB?=
+ =?utf-8?B?K3VibmRpck1EcytzNXR5ck51Z3ZsQ0ZQNkFmWXhUd2pLSWpMZm01RnlIK3J3?=
+ =?utf-8?B?SmtYVis3eUZyaHJML2sxYW80WUxCVWppdDdsbnFLUW1FbWVFQW96VGlESU9D?=
+ =?utf-8?B?YjMrYytuMklRM1JWTHl1ZWR6V1RmbVFPRnBPUzFvTFYxaWx2TnBlRy9jSkhM?=
+ =?utf-8?B?c1pOWmxWSjI5TmxyeTBXeTVhWThZZ1dFVXlJa3oxTWRzQThTdkpaSjVHVkhM?=
+ =?utf-8?B?M1lDYW5nRS9tMXJTcllXV1MzQkw3WDVUL3NMeHpId2ZPZ1VDcU92R2Naem56?=
+ =?utf-8?B?ZlEvRmZGR2MxbkpwRVpmUHRhekJiYk9SUnI5ejdmbGxCWlBhemdYbzQxMWgx?=
+ =?utf-8?B?L1BNb1FOaHc5eko4bVpENjNFQUZ6cjI3NlVCMmNwMWxITWdiZ3FsLzZBZjkw?=
+ =?utf-8?B?WGhUbjVMbjNPcGkzOFVqRWhFOFdnZGdBV0o0U2VUbUF4VHl4RHJQenp4N0o4?=
+ =?utf-8?B?RnorUitxUXJkbFJHZkdPdEl6ZkZtalArTGNTMXpNdWMxU3pYR0EvZ0pHdWNq?=
+ =?utf-8?B?MXpnc2FlYVdoMFhqVlJaVWZWYU1HNFJCQmRjMDdNZ0lJVElKTGdpRE93TzBV?=
+ =?utf-8?B?VklhRGI3SER3VEJPRlF4MGdXK0ZLUnBVSXI2ckxoRjVmYTViNXh6U3czemZa?=
+ =?utf-8?B?V2lQYzZPSlVkVmhJWWk5SkpYM1BpK2xVOStPTXpWTjFwU2NVOXdoZU43NE5Z?=
+ =?utf-8?B?clFvcHlXb0NiL3dSRjlOczljKzhTUjB0MVE3RWcySTVvWEgrOTZwY2t3czY4?=
+ =?utf-8?B?UTlOOGNWd3dodTZLRFdzQzYweTRBOCtEOHZmMElhNEZCNHNiQ0g4NTJwSXJo?=
+ =?utf-8?B?NEVGanUzWTRPMmJQYWNBTkhtaFBzZ2MyQ2Ixd2o4UW9KYmx4TmNCZ2t0Sks3?=
+ =?utf-8?B?TUk3SjBjbG94SGNiWjM1b2ZIVU1iazlhbTlEUFJuUnRYYkJ2UlVXcFpJR3R5?=
+ =?utf-8?B?dTU4aHlDMGZyM1NCdDkxczBJaFB4UHhjeXZCVmoyYUpMbElMT2NmS25hU3pX?=
+ =?utf-8?B?dlF6bmdmZk52VnhGbWswdGl2WVJ5REtFeDFtdUk5dzlqVUlIZ1A5d0M4L00z?=
+ =?utf-8?B?cHJEbDVCK1BaOFhuQlFnUDRlb0FzbHB5a0NPMVZnQlg2cnJYWTJWbWtFZ2Nt?=
+ =?utf-8?B?U3BrQzB0L2hvS0JPZHZRZjk1L242eHIrU3VBRzFiRTNhN3pHbHdUbzI1Z2hj?=
+ =?utf-8?B?djhsMlhhUEp6cXJ2b29iVEFLdVNFMkFZSmQ4TFppWGZ0TWQ1Yk1Ha01rSGhx?=
+ =?utf-8?B?cEN2T0hiQjFyNFAwQ0NWV1J5VWhWazIxMmVWeXA0MDlteUxObWgyR0tLS2NJ?=
+ =?utf-8?B?cWVBaHBGVVZRZEp1QldWOUFjZTk1MDZrK1pHTks3WnMyZzUwalhVZVRBbHlU?=
+ =?utf-8?B?TTZSamZZb0o1VzEzRk5uekFwQk5SVjJ0b0lvYWVqdjc4a21Oek9TdGQ5SWJG?=
+ =?utf-8?B?ZHFCVEpJM05vOTNzYjAvR2ZSbEc3bVlQSnNpdWdLd0IwaWZxQ3gzZ0VFTW9u?=
+ =?utf-8?B?S0NHa0ZNU2VxVVVpK3lhZWd0RVBTR1dFRnpmbWR0bFEzWGw1ZHJSWFV5dnE4?=
+ =?utf-8?B?MlcrdDNLcWtLT25RUVRTbVp5UnJsZEYyZ1Ftd0xKcHNFZkdpNFN3eXphM3BV?=
+ =?utf-8?B?UW1NUU44WXhVdVJDVS8wUW5oVDZsY3Z1TEp1b3V5SXkzSnE0WmtmSy9WV2h2?=
+ =?utf-8?B?L3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5B50406B03B1644CBF36241D6944F9FA@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
-In-Reply-To: <0-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 7 Oct 2025 13:44:54 -0400
-X-Gm-Features: AS18NWDVmKIn_CzJQvh8opoEabYMKh9EbkUyk4WKvUuBQpzLn_UekMBEkXUqjwM
-Message-ID: <CA+CK2bBT80np3hZbSu=dRH8UOKT9RruHF3jtaXyTJUmNe8UfFQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/15] Consolidate iommu page table implementations (AMD)
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>, 
-	Justin Stitt <justinstitt@google.com>, Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, 
-	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, 
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, 
-	James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24116ede-309c-4034-fc71-08de05c96ab1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2025 17:46:16.9749
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZdYb6HHV7+LBbx4B7aJQNtGKJOKTNIq3JSinWAnA0u4PLYtnBxxI6wyQPxVgGER/aDD9PrRzGcZFTXfMRWJlwabckkfDimEKWx7FEoOZ5fE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7958
+X-OriginatorOrg: intel.com
 
-On Tue, Oct 7, 2025 at 12:12=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> [All the precursor patches are merged now and AMD/RISCV/VTD conversions
-> are written]
->
-> Currently each of the iommu page table formats duplicates all of the logi=
-c
-> to maintain the page table and perform map/unmap/etc operations. There ar=
-e
-> several different versions of the algorithms between all the different
-> formats. The io-pgtable system provides an interface to help isolate the
-> page table code from the iommu driver, but doesn't provide tools to
-> implement the common algorithms.
->
-> This makes it very hard to improve the state of the pagetable code under
-> the iommu domains as any proposed improvement needs to alter a large
-> number of different driver code paths. Combined with a lack of software
-> based testing this makes improvement in this area very hard.
->
-> iommufd wants several new page table operations:
->  - More efficient map/unmap operations, using iommufd's batching logic
->  - unmap that returns the physical addresses into a batch as it progresse=
-s
->  - cut that allows splitting areas so large pages can have holes
->    poked in them dynamically (ie guestmemfd hitless shared/private
->    transitions)
->  - More agressive freeing of table memory to avoid waste
->  - Fragmenting large pages so that dirty tracking can be more granular
->  - Reassembling large pages so that VMs can run at full IO performance
->    in migration/dirty tracking error flows
->  - KHO integration for kernel live upgrade
->
-> Together these are algorithmically complex enough to be a very significan=
-t
-> task to go and implement in all the page table formats we support. Just
-> the "server" focused drivers use almost all the formats (ARMv8 S1&S2 / x8=
-6
-> PAE / AMDv1 / VT-D SS / RISCV)
->
-> Instead of doing the duplicated work, this series takes the first step to
-> consolidate the algorithms into one places. In spirit it is similar to th=
-e
-> work Christoph did a few years back to pull the redundant get_user_pages(=
-)
-> implementations out of the arch code into core MM. This unlocked a great
-> deal of improvement in that space in the following years. I would like to
-> see the same benefit in iommu as well.
->
-> My first RFC showed a bigger picture with all most all formats and more
-> algorithms. This series reorganizes that to be narrowly focused on just
-> enough to convert the AMD driver to use the new mechanism.
->
-> kunit tests are provided that allow good testing of the algorithms and al=
-l
-> formats on x86, nothing is arch specific.
->
-> AMD is one of the simpler options as the HW is quite uniform with few
-> different options/bugs while still requiring the complicated contiguous
-> pages support. The HW also has a very simple range based invalidation
-> approach that is easy to implement.
->
-> The AMD v1 and AMD v2 page table formats are implemented bit for bit
-> identical to the current code, tested using a compare kunit test that
-> checks against the io-pgtable version (on github, see below).
->
-> Updating the AMD driver to replace the io-pgtable layer with the new stuf=
-f
-> is fairly straightforward now. The layering is fixed up in the new versio=
-n
-> so that all the invalidation goes through function pointers.
->
-> Several small fixing patches have come out of this as I've been fixing th=
-e
-> problems that the test suite uncovers in the current code, and
-> implementing the fixed version in iommupt.
->
-> On performance, there is a quite wide variety of implementation designs
-> across all the drivers. Looking at some key performance across
-> the main formats:
->
-> iommu_map():
->    pgsz  ,avg new,old ns, min new,old ns  , min % (+ve is better)
->      2^12,     53,66    ,      51,63      ,  19.19 (AMDV1)
->  256*2^12,    386,1909  ,     367,1795    ,  79.79
->  256*2^21,    362,1633  ,     355,1556    ,  77.77
->
->      2^12,     56,62    ,      52,59      ,  11.11 (AMDv2)
->  256*2^12,    405,1355  ,     357,1292    ,  72.72
->  256*2^21,    393,1160  ,     358,1114    ,  67.67
->
->      2^12,     55,65    ,      53,62      ,  14.14 (VTD second stage)
->  256*2^12,    391,518   ,     332,512     ,  35.35
->  256*2^21,    383,635   ,     336,624     ,  46.46
->
->      2^12,     57,65    ,      55,63      ,  12.12 (ARM 64 bit)
->  256*2^12,    380,389   ,     361,369     ,   2.02
->  256*2^21,    358,419   ,     345,400     ,  13.13
->
-> iommu_unmap():
->    pgsz  ,avg new,old ns, min new,old ns  , min % (+ve is better)
->      2^12,     69,88    ,      65,85      ,  23.23 (AMDv1)
->  256*2^12,    353,6498  ,     331,6029    ,  94.94
->  256*2^21,    373,6014  ,     360,5706    ,  93.93
->
->      2^12,     71,72    ,      66,69      ,   4.04 (AMDv2)
->  256*2^12,    228,891   ,     206,871     ,  76.76
->  256*2^21,    254,721   ,     245,711     ,  65.65
->
->      2^12,     69,87    ,      65,82      ,  20.20 (VTD second stage)
->  256*2^12,    210,321   ,     200,315     ,  36.36
->  256*2^21,    255,349   ,     238,342     ,  30.30
->
->      2^12,     72,77    ,      68,74      ,   8.08 (ARM 64 bit)
->  256*2^12,    521,357   ,     447,346     , -29.29
->  256*2^21,    489,358   ,     433,345     , -25.25
->
->   * Above numbers include additional patches to remove the iommu_pgsize()
->     overheads. gcc 13.3.0, i7-12700
->
-> This version provides fairly consistent performance across formats. ARM
-> unmap performance is quite different because this version supports
-> contiguous pages and uses a very different algorithm for unmapping. Thoug=
-h
-> why it is so worse compared to AMDv1 I haven't figured out yet.
->
-> The per-format commits include a more detailed chart.
->
-> There is a second branch:
->    https://github.com/jgunthorpe/linux/commits/iommu_pt_all
->
-> Containing supporting work and future steps:
->  - ARM short descriptor (32 bit), ARM long descriptor (64 bit) formats
->  - RISCV format and RISCV conversion
->     https://github.com/jgunthorpe/linux/commits/iommu_pt_riscv
->  - Support for a DMA incoherent HW page table walker
->  - VT-D second stage format and VT-D conversion
->     https://github.com/jgunthorpe/linux/commits/iommu_pt_vtd
->  - DART v1 & v2 format
->  - Draft of a iommufd 'cut' operation to break down huge pages
->  - A compare test that checks the iommupt formats against the iopgtable
->    interface, including updating AMD to have a working iopgtable and patc=
-hes
->    to make VT-D have an iopgtable for testing.
->  - A performance test to micro-benchmark map and unmap against iogptable
->
-> My strategy is to go one by one for the drivers:
->  - AMD driver conversion
->  - RISCV page table and driver
->  - Intel VT-D driver and VTDSS page table
->  - Flushing improvements for RISCV
->  - ARM SMMUv3
->
-> And concurrently work on the algorithm side:
->  - debugfs content dump, like VT-D has
->  - Cut support
->  - Increase/Decrease page size support
->  - map/unmap batching
->  - KHO
-
-I'm wondering if this work could be used in the future to expand
-page_table_check to support IOMMU page tables. For instance, every
-time a PTE is inserted or removed, an external state machine could
-check for false sharing or improper logic. This approach could
-significantly help with preventing and detecting memory corruption
-early.
-
-The main requirement would be to define a common logic for all IOMMU
-page tables. For the existing page_table_check, we use double-mapping
-detection logic [1]. If we were to implement something similar for the
-IOMMU, what kind of logic could we apply?
-
-Pasha
-
-[1] https://docs.kernel.org/mm/page_table_check.html
+T24gTW9uLCAyMDI1LTEwLTA2IGF0IDIzOjUxIC0wNzAwLCBTb2hpbCBNZWh0YSB3cm90ZToNCj4g
+TW92ZSB0aGUgVU1JUCBleGNlcHRpb24gZml4dXAgYWxvbmcgd2l0aCB0aGUgb3RoZXIgdXNlciBt
+b2RlIGZpeHVwcywNCj4gdGhhdCBpcywgdW5kZXIgdGhlIGNvbW1vbiAiaWYgKHVzZXJfbW9kZShy
+ZWdzKSkiIGNvbmRpdGlvbiB3aGVyZSB0aGUNCj4gcmVzdCBvZiB0aGUgZml4dXBzIHJlc2lkZS4N
+Cg0KQ2FuIHlvdSBtZW50aW9uIHRoYXQgaXQgYWxzbyBkcm9wcyBzdGF0aWNfY3B1X2hhcyhYODZf
+RkVBVFVSRV9VTUlQKSBjaGVjaw0KYmVjYXVzZSBmaXh1cF91bWlwX2V4Y2VwdGlvbigpIGFscmVh
+ZHkgY2hlY2tzDQpjcHVfZmVhdHVyZV9lbmFibGVkKFg4Nl9GRUFUVVJFX1VNSVApPw0KDQo+IA0K
+PiBObyBmdW5jdGlvbmFsIGNoYW5nZSBpbnRlbmRlZC4NCg0K
