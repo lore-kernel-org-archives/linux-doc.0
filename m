@@ -1,71 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1531758B
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 14:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7398BEC
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 15:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759848715; cv=none; b=UJXtIzVJ/O8vD7XofR4YNfDD6jwFM18SyRmxb8QrCWpoCN8KjholqwSM+2D4wYBJ4wA10/sGpoEDQyBcOxoLHkwI10xCO4DDqc15Dq4sRDTK7wcE1LftfIhTf9aD4Aw5To1Bce/BZ2pNbOea6T4d78k+3jhLCOPYGpC1hGroEiw=
+	t=1759849341; cv=none; b=lL1QK2U/+d3/K0yPWvM6cgoCqeJC/opo89jDAerfLMXQ6z2SqGi9uXebgj5z2i0DwJ6+E3QN1/hvRrx4cYSgdW2XL6TwcfXBtGTOuhmfA3cb4V1k0eclESzSF2SvEE4p8XIpBbEIjKDyqQoP5KcLU1gt5xIj7Ugj3vMsa5p+47U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759848715; c=relaxed/simple;
-	bh=/m40thZeMfEHX5lE2SVXc5fXSoFWX/6UXoVVK5rFh3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wrow3mVFYo1zi/1bkNAJ0L6C/Wu6/qXnhgAjpD4z49wr87M8L9lQh5bqtgTVZZct5zkeGnusx8UWyZOOOE4oQVBukHlxEN7bDZPSEx/jWf83R8DswdWVN4izuNYEEDFvarCojASIIzUd5OZqJ1OeixxyU/5FXBz8JnZbycukqcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=n+1sRU2V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759849341; c=relaxed/simple;
+	bh=AFgr7O7umkpFyJvJfulS1OAtv0mLp8MOSFjlhixGkK0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=b7+uGdnkh2AWSwh8yA/VubFtTbmojMBPBdLlTLoCGKhIaZbhlArXaXNta0PsQvIAiwLS6AYemCHeH2YIEC29EpNUGqwOGikq5GmpiFSLtCObdT/LNDdqseNr/QcCzi1tuEHy7InHaOMz2v81yOnCl/b81v2mcjYONfA9EftDLVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fOVtEaLi; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n+1sRU2V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADC6C4CEF1;
-	Tue,  7 Oct 2025 14:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759848714;
-	bh=/m40thZeMfEHX5lE2SVXc5fXSoFWX/6UXoVVK5rFh3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n+1sRU2V3H1EkLZlqog/ywRgUcE1zMudt6bCTuSx8H46WU0m0GB6WvxIPcdI0Xd6B
-	 q8Jrhxx1gZKddyZh46bh3icxW4T+bCdo8evi5xwXe1v2uugQief09KHTVzYvV4AQAN
-	 POLDUIlEjco97sBCBaTZQ/Ko4GPlbwOqIP84xHIM=
-Date: Tue, 7 Oct 2025 10:51:53 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fOVtEaLi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 960F840AAD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1759849333; bh=OA7mrkKm/7Tf2dFfUTczOAa7QnWX0NI3QXU33VpCOc0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fOVtEaLiD0PvaUU1vyr+r6K9rG3KL1LCtHhi8bhs1vnWteq4LL0VfRHDXhez4zJpM
+	 A013GF0chaCN5qeaXwQjuxCrDOl9IxTG8WI0kdqBIBVSod5M84Sp60+D00vXJgl6yl
+	 SFet+i3ErYV4i4/C9vE1r3YK0xNYkFmXDZivpdXPZgrnnWqVGov8S6Be12kBkP6Gcl
+	 ii7A+Fcpwo8Xjje7YAZ8y+XaEXTaljW8auz6HiPgVMrq9/5a+3IRd1A0rOT60TFfqh
+	 WbkZmotLeYJBl7CJ9Ab4zVQZx/jidYQhAm3/L+BNzll3ULoVOnkANoEFENwdZV7AIV
+	 XruVNzQBCT/MQ==
+Received: from localhost (unknown [151.68.15.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 960F840AAD;
+	Tue,  7 Oct 2025 15:02:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Akira Yokosawa
+ <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
 Subject: Re: Error at www.kernel.org/doc/html/next/ since next-20250919
-Message-ID: <20251007-awesome-guan-of-greatness-e6ec75@lemur>
+In-Reply-To: <20251007-awesome-guan-of-greatness-e6ec75@lemur>
 References: <6e4fab41-e8ab-4a43-b942-3e9271deee0b@gmail.com>
+ <20251007-awesome-guan-of-greatness-e6ec75@lemur>
+Date: Tue, 07 Oct 2025 09:02:09 -0600
+Message-ID: <871pnepxfy.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e4fab41-e8ab-4a43-b942-3e9271deee0b@gmail.com>
+Content-Type: text/plain
 
-On Mon, Oct 06, 2025 at 11:47:52AM +0900, Akira Yokosawa wrote:
-> So I'm wondering if your build system is doing something different from what
-> is assumed by said "fix" with regard to the way "sphinx-build" is installed.
+CC += Mauro
 
-Yes, looks like I ran across a bug in sphinx-build-wrapper:
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-    sphinx-build-wrapper: error: argument -q/--quiet: expected one argument
-
-We're invoking the build like this:
-
-    make SPHINXOPTS="-D version=${TAGVER} -q" htmldocs
-
-I see this in the code:
-
-    parser.add_argument('-q', '--quiet', type=int)
-
-Pretty sure -q doesn't take any int arguments, so this should be:
-
-    parser.add_argument('-q', '--quiet', action='store_true', default=False)
-
-For now, I've removed the -q from our invocation, so the build is currently
-running, but this should be fixed in sphinx-build-wrapper.
-
-It also appears that "-D version=${TAGVER}" is also not sticking any more,
-because the new version is being built as 6.17.0 as opposed to the version
-passed as the -D parameter.
-
--K
+> On Mon, Oct 06, 2025 at 11:47:52AM +0900, Akira Yokosawa wrote:
+>> So I'm wondering if your build system is doing something different from what
+>> is assumed by said "fix" with regard to the way "sphinx-build" is installed.
+>
+> Yes, looks like I ran across a bug in sphinx-build-wrapper:
+>
+>     sphinx-build-wrapper: error: argument -q/--quiet: expected one argument
+>
+> We're invoking the build like this:
+>
+>     make SPHINXOPTS="-D version=${TAGVER} -q" htmldocs
+>
+> I see this in the code:
+>
+>     parser.add_argument('-q', '--quiet', type=int)
+>
+> Pretty sure -q doesn't take any int arguments, so this should be:
+>
+>     parser.add_argument('-q', '--quiet', action='store_true', default=False)
+>
+> For now, I've removed the -q from our invocation, so the build is currently
+> running, but this should be fixed in sphinx-build-wrapper.
+>
+> It also appears that "-D version=${TAGVER}" is also not sticking any more,
+> because the new version is being built as 6.17.0 as opposed to the version
+> passed as the -D parameter.
+>
+> -K
