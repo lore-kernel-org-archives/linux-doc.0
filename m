@@ -1,121 +1,149 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721AF255E26;
-	Tue,  7 Oct 2025 23:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3A2773ED
+	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 23:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759881042; cv=none; b=HqVBFkbGRyVrm8bGQnjCIRdyv0Br+EYAwfeBcRzQU0C+nX+XsZmOHVuEfNG2Y4wZDc6oXizmOZ+WB6qxnFFXFnLkvVuoB2oaZXowwUh0SgAJ+UXI8MXdhTdKYHS32Qsn2BR9m7KUgt5y0ArG3/H2veVF+Plpugcf83KdeLoA8lg=
+	t=1759881407; cv=none; b=Z5w3P4cU1EXlO6+eVJpNXqztDivhLZuuN5n4UQTAcJEyFPnObPdA6KWa3ujcsOcGZFOl4l/HTnpuSR3RfVJ+HELdLkRUbTnN05n+jMs/PICdBfwotiwRKG9UtlTAnbMTwWFh2JkQOkUqqe5BnRrgdyqOep9pB0/x/Z2DgQNRRxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759881042; c=relaxed/simple;
-	bh=o9lkQbbpBibFWvTNPnvl9IY8JEMBKOvXU3P9W52BYN8=;
-	h=To:Cc:Message-ID:In-Reply-To:References:From:Subject:Date; b=p3LqmQvzUCcxAtnItPaRefd31FttJoq9IiQtPWvcsUItKU4HsIFbVGVukx7Aj50qxQH4wCVY3I+GlCAggKepqluG21CvPhnSbtNa+cdyIqKSqSg6KEmxYkKsC3EYDu63/9JcbigaC9drMw3l6vbS0jAa4Ck9GA7fSKtpEo1iSEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ABj6y186; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+	s=arc-20240116; t=1759881407; c=relaxed/simple;
+	bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFgLkygfjKZbVvc+yiPt8n3FQIKk8TJhX0gOXIve2Q5sKe6rjM7rYdirlbQCfR3IdyvD4V7C19Jkud3d82yQnEPvawXq1hU0YdDqaPzOJoyvtelqRNtjym5980+jecCoar1oaKb6+jX8JAj5txHm8qC5B1r0f2ia2dRWrWF0PWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLz8WOVG; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ABj6y186"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5C8B01D00112;
-	Tue,  7 Oct 2025 19:50:39 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Tue, 07 Oct 2025 19:50:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759881039; x=
-	1759967439; bh=deVHNxmHpB/t+ufTPYero2jLsQQUFKf8oNfpE3SPyRM=; b=A
-	Bj6y186vePPkbC31PDNQ+ZMcws/90bwULxcYHVuM0LMT2wFqZkFx2jrJk+kAgboo
-	3Gfo9YWdBlT02aLCAx0ViCacdpdrpV/Zx3fIAyge/5kCx2RtuR5sMj9jD4RCB9CV
-	ksAFY4cpbSZ4ek4+2lfepVj1MfzTbfcDrEggNUKBhM3zeHh5B8BlWcVfLPdu4jRV
-	wq3bh1ilU7Ao5VFmT8KBtFZZeycnaXPRIW1uRiQepwxGS5dB+wWSF+WR8HBzk1kZ
-	JjOe+q9uToejANPrXzuLP8lictMgrw8cXfrw+q09dJYGbGAZCXVHOponELLU78gY
-	9KfL8140vouhvAwHKLUJg==
-X-ME-Sender: <xms:TqflaIleFJNlqHj2l2M-j4jYPGZQtS8wOtzsOp7VFdPUo6Wh7T0mcg>
-    <xme:TqflaOPUUTMF9-KtoZnuDZIq4d43hSXikFbgjksbX4mNvurclnnVUz9wqFCjlOoFN
-    HZEetCyhekoRXFWXFS6tkUJ3FAfmIiQkln4-Md-lOuOQ_MOx7cerg>
-X-ME-Received: <xmr:TqflaC64T_f8yAf4YnAW3xC6aD18TCbiXQNqrkN_3RLh1ex1dp_JFjt0r28Z8LLqw0t7Ycw5gXjFq-JnR3Ah3K-N6tdc2xgkQrc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutddujeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepvfevkfgjfhfhufffsedttdertddttddtnecuhfhrohhmpefhihhnnhcuvfhhrghi
-    nhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeevgffgtdfhhfefveeuudfgtdeugfeftedtveekieeggfduleetgeegueehgeffffen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrg
-    hinheslhhinhhugidqmheikehkrdhorhhgpdhnsggprhgtphhtthhopeduvddpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurdhorh
-    hgpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhp
-    mheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepsghoqhhunh
-    drfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhn
-    vghtpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpth
-    htoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
-    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhgthh
-    esvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:TqflaCZfQADNHX3JTcGuLbBUMCBZiZHltEMTsZEYChGdr16SyUwrRg>
-    <xmx:TqflaPex1jSIqytP_nu-IrZfayYxOiYBGFG_xwAWR16D0CimCqJQEg>
-    <xmx:TqflaB78q7Jdvx1IROcHo6JUrIYU2HOd8OXUa5chgdEv4qsJ3eRfoA>
-    <xmx:TqflaMYvU4EzEIf3VQhNvtS5e3oYgkoJEiLqpWADYBoRS1h6mnQNyQ>
-    <xmx:T6flaL524iOTGmMzdOKCgjYNSs-fLDd0gRfPlh41aHawVqTeB0XzC9RG>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Oct 2025 19:50:36 -0400 (EDT)
-To: Peter Zijlstra <peterz@infradead.org>,
-    Will Deacon <will@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-    Boqun Feng <boqun.feng@gmail.com>,
-    Jonathan Corbet <corbet@lwn.net>,
-    Mark Rutland <mark.rutland@arm.com>,
-    Arnd Bergmann <arnd@arndb.de>,
-    linux-kernel@vger.kernel.org,
-    linux-arch@vger.kernel.org,
-    Geert Uytterhoeven <geert@linux-m68k.org>,
-    linux-m68k@vger.kernel.org,
-    linux-doc@vger.kernel.org
-Message-ID: <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-In-Reply-To: <cover.1759875560.git.fthain@linux-m68k.org>
-References: <cover.1759875560.git.fthain@linux-m68k.org>
-From: Finn Thain <fthain@linux-m68k.org>
-Subject: [RFC v3 1/5] documentation: Discourage alignment assumptions
-Date: Wed, 08 Oct 2025 09:19:20 +1100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLz8WOVG"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2681660d604so72407985ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 16:56:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759881405; x=1760486205; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
+        b=GLz8WOVGheFn3RBJaFY/U1JgK36OepF93uQJoRhispeXsiPtRsLqFhqs63Bjuk1uhM
+         ophSCnysgbBUxf6QEwtyqHSxrQCtEuio0YUPZ+P75xhXzgPaYq8etiLstBJaMxfEazRO
+         zfuWD1802NUI/eBlw3bkrVEP/DyiYAWp6rn8xoJEiJFUzxdCDUxGIU4quEP0CyJNfHzX
+         AudNZqvRYPeEFilDQ8X4nsblrn8i5dGS3ryDCX/NZ9Ve6p6s8c++4i7gfGTF/QfR5pl6
+         lFju8eVY8qejuOz/n7RtRApTpjUrMf9ZGDhBo9fhDg+wKnRsrC8zSWMNOUFuPrK7l+x3
+         kTXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759881405; x=1760486205;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
+        b=LQzXwl4gPfvpH6WsJ2I2OaqCujtkwElEjRjbBhJr1itsbx1l8SXI3fC6fVFzoBBRwu
+         ai3Galiv45MC+9dIav1ELo4lmFU9A/QVqVx+vc/4vwscLHoUrMYJfcQcX+TToGv68FzU
+         Uhs8usuT2mYg4uG/2JVQdfOfqONRn2dxKpzbcVuMjbEjuzRxoIBGdbiDln6TacCgHjN7
+         ZQ/gxvvhkXtMUXvF+Sxlzg8OHLhxo8e1oHHyM2Kn8ud92nNA1WQDo3TCIupDBYvQ2H58
+         iV6sLvDDSOahTNw+3eQvkTfcWmjDjg5TrFG2wbHgSR4XhpoDcas620324ctgRZgv3g8e
+         p/Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCXjLqeTwpdJSOsBsEs/HOet2zTD7nR+g0t3RKq8+8IYzRPVQaOtGCxNz63XhZWb+rRrEXrczZ4Hv64=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZH/C7YYjdRQvOtBm5hc4aBL11xuNVx/7nST5FaVhy8yO2gABF
+	Gpo6/P7W5+nMDNiQueb4MVHtneSYpBMHo/Hv3BO8LE4NK1ZGdd7lKO0C
+X-Gm-Gg: ASbGncuFz4G+d9R8hQ4qPB5wdGa4Sj82dF/t73/Oq7KXWULfuTgUa03jl/DhB6VAEqU
+	d2SbDS5YDshTLGOnntCOizifzRUakcLt3yjZd8Y9L9uqDcYjHCx/rpjKw9QDOSyErFuSSTjR1jR
+	VkHCT0opyEdaEId3ID8q6MJwt5wpUZHUeThZh4RCfhlCK0AEc9Wqo+KByfTl4ziOcvT8T6aDhgb
+	dEI0ELtGROTsp74cjHny1vOYsosEWB9F78Rh2QNBBQj6emsDzD1+QOblaOect0d38rUIQk3jiuk
+	FAJQb2k9foGCozvmXVD7PAmvJlhgkg1B/dm9s0EQvyLntmHERv04h+XkW8gvygfZjF6QgOamN4F
+	drbLyf9l6/J/v/OIfvip7JWNagEFiRFQ2VWzgrPdPknn9cCqv9EF59FjnKctj
+X-Google-Smtp-Source: AGHT+IECR12KH7zCTIlL8PskN4SIrX86zChxhzZyqyWEAG+eeOOhmLw/P52uED83EK633yo7c2PQsw==
+X-Received: by 2002:a17:903:298e:b0:26c:9b12:2b6d with SMTP id d9443c01a7336-290272b550dmr18677895ad.38.1759881405144;
+        Tue, 07 Oct 2025 16:56:45 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b513ae7d9sm937031a91.24.2025.10.07.16.56.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 16:56:44 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 599D64233430; Wed, 08 Oct 2025 06:56:41 +0700 (WIB)
+Date: Wed, 8 Oct 2025 06:56:40 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Roman Kisel <romank@linux.microsoft.com>
+Cc: benhill@microsoft.com, bperkins@microsoft.com, sunilmut@microsoft.com,
+	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+	dave.hansen@linux.intel.com, decui@microsoft.com,
+	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
+	mikelley@microsoft.com, mingo@redhat.com, tglx@linutronix.de,
+	Tianyu.Lan@microsoft.com, wei.liu@kernel.org, x86@kernel.org,
+	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH hyperv-next v6 01/17] Documentation: hyperv: Confidential
+ VMBus
+Message-ID: <aOWouGarxf0FB7ZR@archie.me>
+References: <20251003222710.6257-1-romank@linux.microsoft.com>
+ <20251003222710.6257-2-romank@linux.microsoft.com>
+ <aOR5juzHnsK2E40z@archie.me>
+ <273e0882-24f5-465a-be18-d67b4249ce12@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DTXlXJKe31yrlnoK"
+Content-Disposition: inline
+In-Reply-To: <273e0882-24f5-465a-be18-d67b4249ce12@linux.microsoft.com>
 
-Discourage assumptions that simply don't hold for all Linux ABIs.
-Exceptions to the natural alignment rule for scalar types include
-long long on i386 and sh.
----
- Documentation/core-api/unaligned-memory-access.rst | 7 -------
- 1 file changed, 7 deletions(-)
 
-diff --git a/Documentation/core-api/unaligned-memory-access.rst b/Documentation/core-api/unaligned-memory-access.rst
-index 5ceeb80eb539..1390ce2b7291 100644
---- a/Documentation/core-api/unaligned-memory-access.rst
-+++ b/Documentation/core-api/unaligned-memory-access.rst
-@@ -40,9 +40,6 @@ The rule mentioned above forms what we refer to as natural alignment:
- When accessing N bytes of memory, the base memory address must be evenly
- divisible by N, i.e. addr % N == 0.
- 
--When writing code, assume the target architecture has natural alignment
--requirements.
--
- In reality, only a few architectures require natural alignment on all sizes
- of memory access. However, we must consider ALL supported architectures;
- writing code that satisfies natural alignment requirements is the easiest way
-@@ -103,10 +100,6 @@ Therefore, for standard structure types you can always rely on the compiler
- to pad structures so that accesses to fields are suitably aligned (assuming
- you do not cast the field to a type of different length).
- 
--Similarly, you can also rely on the compiler to align variables and function
--parameters to a naturally aligned scheme, based on the size of the type of
--the variable.
--
- At this point, it should be clear that accessing a single byte (u8 or char)
- will never cause an unaligned access, because all memory addresses are evenly
- divisible by one.
--- 
-2.49.1
+--DTXlXJKe31yrlnoK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Oct 07, 2025 at 01:38:02PM -0700, Roman Kisel wrote:
+>=20
+>=20
+> On 10/6/2025 7:23 PM, Bagas Sanjaya wrote:
+> > On Fri, Oct 03, 2025 at 03:26:54PM -0700, Roman Kisel wrote:
+> > > +The data is transferred directly between the VM and a vPCI device (a=
+=2Ek.a.
+> > > +a PCI pass-thru device, see :doc:`vpci`) that is directly assigned t=
+o VTL2
+> > > +and that supports encrypted memory. In such a case, neither the host=
+ partition
+> >=20
+> > Nit: You can also write the cross-reference simply as vpci.rst.
+> >=20
+>=20
+> Thanks for helping out! I could not find that way of cross-referencing
+> in the Sphinx documentation though:
+> https://www.sphinx-doc.org/en/master/usage/referencing.html#cross-referen=
+cing-documents
+
+That's kernel-specific extension (see Documentation/doc-guide/sphinx.rst).
+
+>=20
+> I tried it out anyway. The suggestion worked out only for the HTML
+> documentation, and would not work for the PDF one. Options attempted:
+>=20
+> 1. vpci
+> 2. vpci.rst
+> 3. Documentation/virt/hyperv/vpci
+> 4. Documentation/virt/hyperv/vpci.rst
+>=20
+> and neither would produce a hyperlink inside virt.pdf. Options 2 & 4
+> generated a hyperlink in HTML.
+
+That's it.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--DTXlXJKe31yrlnoK
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWotAAKCRD2uYlJVVFO
+o/pSAP9eXlQLoQODQqZ+A48QpAAsl+hf9OhLGhdndl6X6JStvAD+OSXtE5WfHadF
+FMFMiFdufdHXrrE7npbMx380tvu34Qs=
+=nx3N
+-----END PGP SIGNATURE-----
+
+--DTXlXJKe31yrlnoK--
