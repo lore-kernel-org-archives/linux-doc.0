@@ -1,217 +1,135 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102D221D58B
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 14:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DEEB67E
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 14:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759934672; cv=none; b=Z8GlHjooEIlyQstvKYHdpBcSmNOf42/jfcUOUR+ED3jg8mNKklIEze6gJ8cAwJPZOKNcX477m1SjMM9DF4foZTI69Utu7NBbrqbBbV6n+fsuklAItcP+JVr+ve92mjk3KEMJFSyV6T75GCexAmDDDqgxiAm6K0Z2bbQD3zhG2xI=
+	t=1759934708; cv=none; b=i450Ah6WJWxbd2V4QLj0SmSL0Al4FegTVc72NlaTIjgDxfw1DAKPPC86CpZ/iqgCPiRWAfDgpaTJzkqodNN9i+DELu+DVijIfl57XKjwvHZY5YJosegVCVmVZBnTSjipdEu3aG5gglym3xXNwkowgaHQMlkauGvB6xIv+HAJzKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759934672; c=relaxed/simple;
-	bh=mqtJTf77FO0OqBC1ebGqrXe0vOjT6F1YNSSqtSlVUQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OaTaQ30DMsMUbEjFBEin7+AYNe3cWeDGIcdUUu4xr88XQDzQB3T0V17ZeqHO7w6XQAHExhCmCmTd3ksGEt/12huLDas4SkWpZFMTSjVV2PFD/WsEqE4t3qCvb3NWZAoyha5lIbS+PVCGAPvZMIAyJKRnhWcZ8OMfq0jWWN7pg9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GdccPD10; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759934708; c=relaxed/simple;
+	bh=ZpZTp7yLydk6k9ye41mhs7FwaHpLzcQvOs7lUom/qWk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=V3czxev+4UwLhGlSJnVRKed7S0ZRi628na4b96EPGKmUUZ8bTxSYnoLAKbScoS79YFJKIMKbmHlj6hF3PI/zGgfZ6qV5uBiizLBdFz+mEPjzozOaX7d6KxBZ1Y708wDWNouxJvZw8QUgvpEcJ8MY03AuNZWoOXxYsUmlCeo7xsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GMDQBWcw; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GdccPD10"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759934670;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5D2ZBCJD8c3xdACE6ypAt6xt/+t9lS2ExG+K8u97CUY=;
-	b=GdccPD100lhYYdEMuiPEuYzxEwMoHu5CqvMwJNUbf5s9JnuEpLLaHZi8s3LMrhN6yVOo5N
-	a1TvD6lhgdZceYvRm4Yd2RveJjK/cpU9uN4Q+g7CW5JJrCg+ddlCBNrq8xBbOMD1lx/5wU
-	9QjBMpvVns7MPB0tY1ONyjAL2Qz5Mlw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-y7e4UnoAPmW-8t1F0i1faA-1; Wed, 08 Oct 2025 10:44:26 -0400
-X-MC-Unique: y7e4UnoAPmW-8t1F0i1faA-1
-X-Mimecast-MFC-AGG-ID: y7e4UnoAPmW-8t1F0i1faA_1759934666
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3ee13e43dd9so237f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 07:44:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GMDQBWcw"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ee64bc6b90so8576f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 07:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759934705; x=1760539505; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZpZTp7yLydk6k9ye41mhs7FwaHpLzcQvOs7lUom/qWk=;
+        b=GMDQBWcwa0qlc/DOJM1+KmKRduGoK1l8vHWFHXusrplH4HXy9dEhrS5PLR94Zf849h
+         /+PDu7egpKRgH2x2hcEzQ/bAeTOzmnkhdLdJdRDC7IaWdU+bcFzLEdpfJHV38mVivb0e
+         2YZbCsUesNC/PQLVIHyyGjH5gwxviaquvz1YIqfCa54SaIVmTB0FcKBjvdhiJFW+a9Xf
+         FlTJilzT2/7EHX0KdO0FtyfC7IoLw/DvYHTYU1wRerKQv3eFl4DShJ3NTUbZZFdy+MS6
+         VGO4pcWVY20ynFfGXobRupXPC+4zg3yFVtBPragWM9H5faYObMX0YJhATjxFLv4AY2Fd
+         Lf4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759934665; x=1760539465;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5D2ZBCJD8c3xdACE6ypAt6xt/+t9lS2ExG+K8u97CUY=;
-        b=HMTPC02/4q6YyEc/rG86Mv3/PsIfMM5pNxnljooOXXYwlG4uUbyRAr/xZIs3/ewfAD
-         79XYULPGFfGbyN104nrIFpzdWc5zCB+xJXRljcrlcarbSnKaTM6usMI1if7WFcBkc8Is
-         G7b8Tf1+SN87kAOM4EznEfCsQPAbNeM7nTRRXncc9ZrExSXIsdoMWALk6WMnaeJhWy/8
-         u9+zA4lC2gO0ajXeiLz7htCAf+7Mm/i8rcuNqtKarE7eJMG6KgxdHkFstT4G9M1CJSh2
-         XIq+osrB7CCmj3ahHXtdJRPJ0hLGrwELiPINwlWJr/sZxvyCQQzsgnFxvwyDVmuTLgvj
-         cQKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCEkeKPsmoAB03XxuP3HoA6b1w8Zk9FsiZ7do+fb8fL7RJpL83WARSAjhT4qLEQYeqfljawQKtaCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5AYygpzaAXgKh98yKSMivnAPDhlSopXXiBr0Lh9iGYqxDAr8v
-	Hi8ZZUI91Pe9lGnk/Y1ECrofbGpQxssATEMb9z3NTLFAC6Itmcw1dtEYgcnlEvx0/YexBqBgt/P
-	HWWmrdRGqKOHWklxb3YduTFE6Sis/rpkr1TwYsP5ZJ89/tW5Igjj37exBvNQv5Q==
-X-Gm-Gg: ASbGncsEX5vyTMyXsbTVDi8MpmuB1uk/v5Aif7Ku2LEG2VhTTK2yIvkpzSItY+fXxMU
-	aiH8fkM0nTxp6sdV35Q4komUx1rub9I2xT1E7F62U3iEt2LJdk7GXXO8saFf3nA2Mygpf3MrN3k
-	Y2jenDbsIfOL5h7f37d6n003jxc2GWqsnr8LesGuGRSiNJpfWHEcDr1n2Kl27kIie943/v9rh6+
-	lKZrGjCiHIUUImuLR3sZi75+LmWTuEdeoxjP4FehjirRRFzTCWn3jFIGXPsoyySIaRvGCHq96Ix
-	mIDhyRwIrQlBjuozn8k2fj4YsXyy/WbFv9HBlIX6lSfHSmzhsM6git0NQW8Rvrm+Rf0p6lfV1hd
-	4EHobiuiq
-X-Received: by 2002:a05:6000:230e:b0:3ee:1294:4780 with SMTP id ffacd0b85a97d-4266e7e00ccmr2235093f8f.30.1759934665555;
-        Wed, 08 Oct 2025 07:44:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDdqP+nWR/r0XOQYHaQ5RL5v2xthoAhXKsv0Fsa8RBq0AE9+JjgtYjdggoihs5m7bBq+ToxA==
-X-Received: by 2002:a05:6000:230e:b0:3ee:1294:4780 with SMTP id ffacd0b85a97d-4266e7e00ccmr2235064f8f.30.1759934665153;
-        Wed, 08 Oct 2025 07:44:25 -0700 (PDT)
-Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8ab909sm29664745f8f.19.2025.10.08.07.44.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 07:44:24 -0700 (PDT)
-Message-ID: <f4d0e176-b1d4-47f0-be76-4bff3dd7339a@redhat.com>
-Date: Wed, 8 Oct 2025 16:44:22 +0200
+        d=1e100.net; s=20230601; t=1759934705; x=1760539505;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZpZTp7yLydk6k9ye41mhs7FwaHpLzcQvOs7lUom/qWk=;
+        b=l91IVxng0UXkQv+hTyvRJPwsI7aaJCcy5/Gp3waHEC7eOPPB0qpQz6AfAEXfgPRKpx
+         XOtKUuS3GVYlWYIVVzUUohJizOb8/y2R2hJr/KwJLUjFisREE8onHLNCBCpW2gVEEa4K
+         +rbHAiZl77+q8LdnErCT41tpFmDtgiCd7wWIGgBk6dI50WodulQAkbMJFqPMPm8FsZAQ
+         nUSB3PoR/EAl3T9lk+cUoBnkRtVuFv+ZegIQT5MjyJZtz5fSukVhRPJtif5pLi4c4dth
+         UOWtwrNaxPzZMJVp4EJbfjd57n1oPcNhWuZj/J9OghsHkrnYERMk5Ft1OueNgoGXsPhd
+         uvkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcyQY4lwGJUM4KdTBGpk/J+Kvp0HkVgTCjbG+3QP7Lb31eELRPqHmLNULuA9fik+VPtssEx14b7fg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbLQtthWieYsitD5dWah5ChoRY0HWxGzAwrbWBxm/HZWRsh2+A
+	EJLR8XTXkUxNgXvOm3qvnFD8Ykyi2drQ8gV9VmrqKFK31Q2QROcirD0l
+X-Gm-Gg: ASbGnctI7IPS8cOQsEHBx4awQOMyZpbT5vwKYsZFLggHP+JGZxy97ujxR5xBiucCqqn
+	EkI9kYLjZ7V7ogBdzsziIYjCs/TXdhqIfN2iNDSfBKqDSnBceNT/bUllTIanfHa0XjtYtNm0vLr
+	pGa9MXc47VF1rutY2yrdvCrUsjEnTgPK02tLTGgFlzXblO6sTiC1djp932q226clT6TFYABH0mg
+	16RfnH5FVNABwFRMoRvNxeul0dtWqYKpjcFWYjzf78u0EzDRGg8Js1ytW2qH+6gPal4x6s8IvCA
+	hTSeDfDs2edyb5kh9OuZDZKdpoS/ZbdP00XnPOGdaEdEe2UcmeZf+bHIineGZgxo0WNLkUc3VQd
+	ihzHSnR74xYjoeC6B2Uz2EbOGm5akjcE0wvMmd0jC/os5j0+5lGazyUI=
+X-Google-Smtp-Source: AGHT+IGyW6szpwhvT6chXdh5vwNAgphskxs4Ai59Y5ewBvd0PpuY0IRo0TwoSwCgStADlhmhCDZqJA==
+X-Received: by 2002:a05:6000:420a:b0:3ee:114f:f89f with SMTP id ffacd0b85a97d-42666ac6b77mr2395334f8f.15.1759934704901;
+        Wed, 08 Oct 2025 07:45:04 -0700 (PDT)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8ab909sm29667338f8f.19.2025.10.08.07.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 07:45:04 -0700 (PDT)
+Message-ID: <fc44bb98125f882af6ded5d812ad271f3fe06630.camel@gmail.com>
+Subject: Re: [PATCH v2 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ linux-gpio@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jean Delvare	 <jdelvare@suse.com>, Jonathan
+ Corbet <corbet@lwn.net>, Linus Walleij	 <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>
+Date: Wed, 08 Oct 2025 15:45:34 +0100
+In-Reply-To: <9312235a-b051-48fb-985d-be2b1d3c7c1b@roeck-us.net>
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com>
+	 <20250903-ltc4283-support-v2-2-6bce091510bf@analog.com>
+	 <742fe9b5-bc53-45f2-a5f1-d086a0c9dd1c@roeck-us.net>
+	 <0765a0b89779331c62a3f136ef030f7f2f40ea47.camel@gmail.com>
+	 <0ce54816-2f00-4682-8fde-182950c500b9@roeck-us.net>
+	 <35733a7a33301330260c01b1e59af904c8c4da6b.camel@gmail.com>
+	 <9312235a-b051-48fb-985d-be2b1d3c7c1b@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.0 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
- sysctl"
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, corbet@lwn.net, muchun.song@linux.dev,
- osalvador@suse.de, akpm@linux-foundation.org, hannes@cmpxchg.org,
- laoar.shao@gmail.com, brauner@kernel.org, mclapinski@google.com,
- joel.granados@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
- Michal Hocko <mhocko@suse.com>,
- Alexandru Moise <00moses.alexander00@gmail.com>,
- David Rientjes <rientjes@google.com>
-References: <20251007214412.3832340-1-gourry@gourry.net>
- <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
- <aOZyt-7sf5PFCdpb@gourry-fedora-PF4VCD3F>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aOZyt-7sf5PFCdpb@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 08.10.25 16:18, Gregory Price wrote:
-> On Wed, Oct 08, 2025 at 10:58:23AM +0200, David Hildenbrand wrote:
->> On 07.10.25 23:44, Gregory Price wrote:
->> I mean, this is as ugly as it gets.
->>
->> Can't we just let that old approach RIP where it belongs? :)
->>
-> 
-> Definitely - just found this previously existed and wanted to probe for
-> how offensive reintroducing it would be. Seems the answer is essentially
-> "lets do it a little differently".
-> 
->> Something I could sympathize is is treaing gigantic pages that are actually
->> migratable as movable.
->>
-> ...
->> -       gfp |= hugepage_movable_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
->> +       gfp |= hugepage_migration_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
->>
->> Assume you want to offline part of the ZONE_MOVABLE there might still be sufficient
->> space to possibly allocate a 1 GiB area elsewhere and actually move the gigantic page.
->>
->> IIRC, we do the same for memory offlining already.
->>
-> 
-> This is generally true of other page sizes as well, though, isn't it?
-> If the system is truly so pressured that it can't successfully move a
-> 2MB page - offline may still fail.  So allowing 1GB pages is only a risk
-> in the sense that they're harder to allocate new targets.
+On Wed, 2025-10-08 at 07:11 -0700, Guenter Roeck wrote:
+> On 10/8/25 06:07, Nuno S=C3=A1 wrote:
+> > On Sat, 2025-09-13 at 04:02 -0700, Guenter Roeck wrote:
+> > > On Fri, Sep 12, 2025 at 03:00:22PM +0100, Nuno S=C3=A1 wrote:
+> > > ...
+> > > >=20
+> > > > i2cdump -y -r 0x41-0x79 1 0x15 w
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0,8=C2=A0 1,9=C2=A0 2,a=C2=A0 3,b=C2=
+=A0 4,c=C2=A0 5,d=C2=A0 6,e=C2=A0 7,f
+> > > > 40:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b004 0000 b00c a03e a03e a03e 250=
+1
+> > > > 48: 0000 1a03 e07f e07f f07f e07f e07f e07f
+> > > > 50: e07f e07f e07f e07f e07f e07f 0000 0000
+> > > > 58: 0000 7002 7002 7002 b07e b07e b07e a030
+> > > > 60: 9030 a030 0000 0000 802f 1000 1000 f0ff
+> > > > 68: a004 a004 0014 a004 a004 c004 0000 0000
+> > > > 70: 0000 0000 0000 0000 0000 0000 0000 0000
+> > > > 78: 0000 0000
+> > > >=20
+> > > Thanks - this should do. Note that I am traveling and will be away fr=
+om my
+> > > systems until September 25, so I'll only be able to look into this fu=
+rther
+> > > after I am back.
+> > >=20
+> > > Guenter
+> >=20
+> > Hi Guenter,
+> >=20
+> > I was planning in letting merge window to come to an end but I might ju=
+st
+> > ask
+> > now. Have you forgotten about this one or do you want me to send v3 wit=
+h the
+> > superficial review and then you go deeper on v3?
+> >=20
+>=20
+> I have not forgotten it, I just ran out of time. Sorry, I do have a paid
+> job :-(.
+>=20
 
-Right, but memory defragmentation works on pageblock level, so 2 MiB is 
-much MUCH more reliable :)
+Sure :). I was just not sure if you were expecting v3.
 
-> 
-> It matters more if your system has 64GB than it does if it has 4TB.
-> 
->> Now, maybe we want to make the configurable. But then, I would much rather tweak the
->> hstate_is_gigantic() check in hugepage_movable_supported(). And the parameter
->> would need a much better name than some "treat as movable".
->>
-> 
-> Makes sense - I think the change is logically equivalent.
-> 
-> So it would look like...
-> 
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 42f374e828a2..36b1eec58e6f 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -924,7 +924,7 @@ static inline bool hugepage_movable_supported(struct hstate *h)
->          if (!hugepage_migration_supported(h))
->                  return false;
-> 
-> -       if (hstate_is_gigantic(h))
-> +       if (hstate_is_gigantic(h) && !movable_gigantic_pages)
->                  return false;
->          return true;
->   }
-> 
-> And adjust documentation accordingly.
-> 
-> I'm running some tests in QEMU atm, but it's taking a bit.  Will report
-> back if I see issues with migration when this is turned on.
-> 
-> If that's acceptable, I'll hack this up.
-
-That looks better to me indeed.
-
-Maybe we can export this toggle only if the arch supports migration? 
-Then there is also nothing odd to document.
-
--- 
-Cheers
-
-David / dhildenb
+- Nuno S=C3=A1
 
