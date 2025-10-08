@@ -1,86 +1,162 @@
-Received: from forward500a.mail.yandex.net (forward500a.mail.yandex.net [178.154.239.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F831FECAB;
-	Wed,  8 Oct 2025 05:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDFF4A06
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 06:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759901645; cv=none; b=K/DlouPWmFD91pedVCIfVxns5HyNAsrlJDVb1cNGsJhl7X0XBtLL7OwqK1Ne8GLrDHpaEqNkP+ttcLINRb5RUtMTX5jeADDuwJSMO5VWcS9+nsjd2TRgX3MR9Uko7oBhD9odUuA8I/3ELoiFyXskXZU6FSe5HupP+QC9P8wPYsk=
+	t=1759903394; cv=none; b=MEAHYWvY1Xog5Fl9ZhMp6l3jfvuVgDZQpldbLgHHLspxe8uNb/lT9cmNj76rMljS4PFbjczjwOcvjrvTvzY0IiTIK8Y/nZAPh/Fa8lSH14m5otriRIeOUPnyBJSFrK1RCP0PWbxgBtbCI+NPtY16aHX25w9nqGSj92EpM8xl9do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759901645; c=relaxed/simple;
-	bh=HTVYCQyDMrBag0JqlevpI1fMUY4FDOO8k6AmG5PTpJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z7Kkg22n5UPY2PpDkzE7KxzN1f+6oFqS0jZBAgBDUMhA0HMU+F7escv22Rv6SSe24usKMCrG5mJj2LzzrAfa0pgPZRng7gH2+DZRlXARBHPejsa44mKivAxIKp5yNGKxXNNVNNv4d+JtT2Jhpm6x0g064xmppqCDy9kbmpR0f+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=Oi7k3OwQ; arc=none smtp.client-ip=178.154.239.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1759903394; c=relaxed/simple;
+	bh=tBzereJRTdGWw5Bv4VX5a6USN6lK2ZJ/saFJPUjeViY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=InSfm+GDLZ4OxBzlynYh0/XLNodx8W+9mdrQrZqbMH2Vm7huJXpvumNLvxFxqIbvfjkf6F9fIXg9cjwVwAlUv9veWFFZxSr5E97uUKWEKPUoA5Ze0GZk0LwLcr6PtcTr1XqFLDKD5u96mQ4+xBYvD6iURcAX+kcy8bNJh4Hfxg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GsJdpOkP; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="Oi7k3OwQ"
-Received: from mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1d:63d4:0:640:7fb:0])
-	by forward500a.mail.yandex.net (Yandex) with ESMTPS id 9658A81DEE;
-	Wed, 08 Oct 2025 08:26:58 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id pQeM59JLtKo0-ggYUaLP8;
-	Wed, 08 Oct 2025 08:26:57 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1759901217;
-	bh=GRs7GB4aRJ8yeDgtBXvZS/vdrRPxkhyCtpTVwFyur+0=;
-	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
-	b=Oi7k3OwQcSYkDUFtwNNKIHVWUixUGHLsehdVlt0Sv+AguDGOBwjWONqv9GTFs3cey
-	 jcc6ecoRlyyfj91BU5FwZ6SXNH//RFKI3RFkTbR2tUrnsjkNp5qcEzrtQLfsozagOL
-	 sXsudjNPnJWhcz6IEAiacq+wuGPV1VIMO0TV4Xus=
-Authentication-Results: mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
-Date: Wed, 8 Oct 2025 08:26:49 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- tmgross@umich.edu, dakr@kernel.org, linux-kernel@vger.kernel.org,
- acourbot@nvidia.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- corbet@lwn.net, lyude@redhat.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] rust: xarray: abstract `xa_alloc_cyclic`
-Message-ID: <20251008082649.1f9cacd0@nimda.home>
-In-Reply-To: <CANiq72m8t2j3+XoELfYFG9ivymueOGdwpZnFhRVZ8f3Xw9ygiA@mail.gmail.com>
-References: <20251006163024.18473-1-work@onurozkan.dev>
-	<20251006163024.18473-3-work@onurozkan.dev>
-	<aOTx-Oj_VN6fVV_s@google.com>
-	<20251007152724.2b33a899@nimda.home>
-	<CANiq72m8t2j3+XoELfYFG9ivymueOGdwpZnFhRVZ8f3Xw9ygiA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GsJdpOkP"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-856701dc22aso728768085a.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 23:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759903391; x=1760508191; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tBzereJRTdGWw5Bv4VX5a6USN6lK2ZJ/saFJPUjeViY=;
+        b=GsJdpOkP8MRfjMzGckrnB3l3AUBEp0HfYB3e35W+1/zYf7QYsLkFYlh1NP34nQscsf
+         mDj5Y9DCnXRWTi2oBr2rFOl4I4D4tj29V1Zspwywy8RkiaLW9CUHKUHNPeTyFWVebCWd
+         7z65TO2lpJmIi5F61KYi3p4utocKlEHJMM0XJcD34bHfut0NjbUo5iDNV2ixCnmINhiz
+         Yl/QVmZoTrRy+ewJFefaUXF3wo69BXsk/3c2u6xFQejLY2wdQnj5Edn/EzY0TLMehJPw
+         4RFUkhwlg8ylyZ0wNdCWYpjKd7Xli54lbDLtVk5wfGU6uvlEAfQ3r9Jua8QLi7JRAXwY
+         rsrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759903391; x=1760508191;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tBzereJRTdGWw5Bv4VX5a6USN6lK2ZJ/saFJPUjeViY=;
+        b=tzDoTEYmNthaNGUq5hArJF7Y9dM8WN0GELpjEsni+pofCd4/O3iPYPMN8Z6y6IlrDp
+         3cn7uMGOcuQYo+phHMet3WzVE507BMX8PHmkCpP+Pdmgr73Tjr59uFoUHHJdBg4jt8OH
+         KlErN2IYpIT8b6JXaUG4NHDgC59Nf1kGHV4Lh1GA4e2hJcG8CsGI6lZ0qlr1dlGRyHrm
+         jzCyXZm7yYZQ3tDEuuwOPr/8Su5mEj+xrecC4IVdXCT7VJt5xpbPPMJ6CzmAH12YhDMw
+         3OwbAoKKwbZ3NE7mCaJFuMBRbSZfFrxGeGXQ055Wa5US1oGAvgyfbrDedwu1NkKpkVOe
+         HSHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwTr2ilvE6XyngMe2Ik8kbjcEAe/ShPqLCYA+fNTDgI4ALNKDEQzFyjDvAsco7nNIAGpcnIQFl/kc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuYyiD1PTdhzrmlkNmturLxxDF+jagFFNdYyJj+V+E5/fG42kH
+	RvsP+xfB2N+TcmBcOSqruTgqnFSHZmJRG78hkBC/aTkGTsLazrKezTLkooisHBTJqj4y6IKwa/l
+	aUBQe1bXCTaECOdVACvgWu9nJlUp0zxI=
+X-Gm-Gg: ASbGncvo9iXtCXA7NuGFc5hEiBwAIL8AEFvOqnwVynQMvBlWt1FZa4Lnv23eTR5yTFU
+	H0X2fkkC0Sznkanhvz12Uw1vfqjtYcPYHJHwuByADBqV0DOgRzMDIXspKKqycwEfTLFUwlF8zz8
+	jOy6PrUgUgEdfQruvkbyAC/gwIdQwcvmXHs/H/QpuARjAtuGSTum0mR42BkTAHPgTbxDv/wQLjw
+	i7ArgWek8qfOapBZ2X84gPdSVkSU22En4RFesdT5TL83kYdqCo+xltDc9jN8MCBO2PtGoQQI/k=
+X-Google-Smtp-Source: AGHT+IGN1fUle74mm+Dey9XN+9R2Hgx9711f1pzgYvQjJUJA/sik2SzgKknv0h0WalhCBF/jq/ow+URmBR5p54sJHtw=
+X-Received: by 2002:a05:6214:2a8a:b0:785:c20b:f602 with SMTP id
+ 6a1803df08f44-87b2ef94a07mr29281856d6.61.1759903390435; Tue, 07 Oct 2025
+ 23:03:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+ <CALOAHbATDURsi265PGQ7022vC9QsKUxxyiDUL9wLKGgVpaxJUw@mail.gmail.com>
+ <CAADnVQ+S590wKn0rdaDAHk=txQenXn6KyfhSZ3ks6vJA3nKrNg@mail.gmail.com>
+ <CALOAHbBcU1m=2siwZn10MWYyNt15Y=3HwSGi7+t-YPWf0n=VRg@mail.gmail.com>
+ <CAADnVQKzW0wuN3NfgCSqQKVqAVRdKVEYMyJg+SpH0ENKH6fnMA@mail.gmail.com>
+ <CALOAHbBzS2RunZzEk8-rkU60M8jKEJ8FwiPgZqNeoXDy++L5hA@mail.gmail.com> <CAADnVQKLbc4iZDGWbbhqwr8hKhAZhyLjiZuuz_RBd2f9LH45rQ@mail.gmail.com>
+In-Reply-To: <CAADnVQKLbc4iZDGWbbhqwr8hKhAZhyLjiZuuz_RBd2f9LH45rQ@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Wed, 8 Oct 2025 14:02:34 +0800
+X-Gm-Features: AS18NWB7YAjB1_r1_mFRyGxWlvWmvmCic0bUl2k22vQ5MpJjGUViYxml_XAQVh4
+Message-ID: <CALOAHbCOQ_S-b+8pMxwGsjoc9QnAdij=gjkPEm0--cR7iCRQ3w@mail.gmail.com>
+Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
+ order selection
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, Johannes Weiner <hannes@cmpxchg.org>, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, 
+	Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Oct 2025 19:28:31 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
-
-> On Tue, Oct 7, 2025 at 7:19=E2=80=AFPM Onur =C3=96zkan <work@onurozkan.de=
-v> wrote:
+On Wed, Oct 8, 2025 at 12:39=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Tue, Oct 7, 2025 at 9:25=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com>=
+ wrote:
 > >
-> > Why do we not like to use the bindings type directly?
->=20
-> For public APIs, we generally try to avoid exposing C types:
->=20
->     https://docs.kernel.org/rust/general-information.html#abstractions-vs=
--bindings
->=20
-> Sometimes it still makes sense, of course, e.g. a method may return
-> an inner type so that it gets used by other abstractions to call into
-> C. But generally we want to avoid exposing those for drivers and other
-> abstractions wherever possible.
->=20
-> Cheers,
-> Miguel
+> > On Wed, Oct 8, 2025 at 12:10=E2=80=AFPM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Tue, Oct 7, 2025 at 8:51=E2=80=AFPM Yafang Shao <laoar.shao@gmail.=
+com> wrote:
+> > > >
+> > > > On Wed, Oct 8, 2025 at 11:25=E2=80=AFAM Alexei Starovoitov
+> > > > <alexei.starovoitov@gmail.com> wrote:
+> > > > >
+> > > > > On Tue, Oct 7, 2025 at 1:47=E2=80=AFAM Yafang Shao <laoar.shao@gm=
+ail.com> wrote:
+> > > > > > has shown that multiple attachments often introduce conflicts. =
+This is
+> > > > > > precisely why system administrators prefer to manage BPF progra=
+ms with
+> > > > > > a single manager=E2=80=94to avoid undefined behaviors from comp=
+eting programs.
+> > > > >
+> > > > > I don't believe this a single bit.
+> > > >
+> > > > You should spend some time seeing how users are actually applying B=
+PF
+> > > > in practice. Some information for you :
+> > > >
+> > > > https://github.com/bpfman/bpfman
+> > > > https://github.com/DataDog/ebpf-manager
+> > > > https://github.com/ccfos/huatuo
+> > >
+> > > By seeing the above you learned the wrong lesson.
+> > > These orchestrators and many others were created because
+> > > we made mistakes in the kernel by not scoping the progs enough.
+> > > XDP is a prime example. It allows one program per netdev.
+> > > This was a massive mistake which we're still trying to fix.
+> >
+> > Since we don't use XDP in production, I can't comment on it. However,
+> > for our multi-attachable cgroup BPF programs, a key issue arises: if a
+> > program has permission to attach to one cgroup, it can attach to any
+> > cgroup. While scoping enables attachment to individual cgroups, it
+> > does not enforce isolation. This means we must still check for
+> > conflicts between programs, which begs the question: what is the
+> > functional purpose of this scoping mechanism?
+>
+> cgroup mprog was added to remove the need for an orchestrator.
 
-Thank you for explaining it, I will drop the bindings type in the next
-version.
+However, this approach would still require a userspace manager to
+coordinate the mprog attachments and prevent conflicts between
+different programs, no ?
 
-Regards,
-Onur
+>
+> > My position is that the only valid scope for bpf-thp is at the level
+> > of specific THP modes like madvise and always. This patch correctly
+> > implements that precise design.
+>
+> I'm done with this thread.
+>
+> Nacked-by: Alexei Starovoitov <ast@kernel.org>
+
+Given its experimental status, I believe any scoping mechanism would
+be premature and over-engineered. Even integrating it into the
+mm_struct introduces unnecessary complexity at this stage.
+
+--=20
+Regards
+Yafang
