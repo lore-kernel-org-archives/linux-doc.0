@@ -1,143 +1,184 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F71D287505;
-	Wed,  8 Oct 2025 15:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2753528727D
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 15:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759936120; cv=none; b=AurcZYQcSbaOBrXB4mt2ldZPPdVo4jixfAZ5wy0MYwtr6AOsQ2wL/mCUWXaKfMeG4RFpWcw7ignDaSGjX4QI3El6FTNFG4n5uYfDgXRM+YArnpHh/AYIBkWkIzit/r8BVSG2YxB7OCBZ47ckpJ1VLv/3NNxKsrIEd0WCFFhmgtY=
+	t=1759936474; cv=none; b=WUwNifOEnSsVMTPNCkL+NXyFpTUeub8Tm/lHKtKFiRVT8FAk1jvTUHDdj2ZVrFWXfCMsixTV8hBVGL2h7YslTzbtdN/Yb++H8azkspVrmhJMwJq9V4ry4PTNm5wyAlLS/w8ClLi3cXZVdHn6ER+2uL/MNRrNLbYf6TodtD3GfFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759936120; c=relaxed/simple;
-	bh=gw1n2k3bVJ4HnM5jaOKbNiYxoog8PqFFa15xtHSaS+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ONxxYeNAH6uQ4mUWfRF1hglj+Vm/096tGT6V6QmuI94QIxGzaiOCxUY8cngBD277B7xbMRmZV4yJ2siMWvgOkhdxrZWs19USgusl1iqcpI54S+W+JcoBtYSQZ0hxlYi42/1rw1ce3KGFyazwj4kyCaGxPtT38tar5zrNs0XGO5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oHevIM8p; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1759936474; c=relaxed/simple;
+	bh=cQvmS/aQRVeoot2L9rUR/WCUayLXjvg9edVFg4w4Z2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z2aEt0qH/3ftQoQ1wmbjnZbjk9L//e72qwlV4TiArBddfmHo2On7SbEENlvJb+ZL4EgtibI7OAEY5svCBOMcqt2N45ATgRs9626Vyl/8je+6oKUgTDzkCEXgZRSDoKz/dI7HF5cviunf9Cgf2WID+piwW82Y3fGES5oJiSEnYoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cMYmmcHO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oHevIM8p"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5985mRu5005704;
-	Wed, 8 Oct 2025 15:08:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=IXws27
-	uw2P8rHXdGXnTEjb2JtZYE6gL7w+ozNAxwm1o=; b=oHevIM8pNtQ0Z0x1IWJzqW
-	E9BxZczdrfEsuaGsno8xZuzbQfWrIQZ/rG+EcwDszX5ck3edbHjHDVS0u2hSZiHl
-	c7un0r20XkUf8tXfqqpDRV9+SrH1v+X3gdJ5mENcIRa6FvfYtIowLbPUWUWlroZt
-	FXTmu+VNAr0/ntcGRg4O2qtxvIojAHlNGBX/aqDrcpdBerYXYjT5zoPo6SwlOdlU
-	Wx5JcyXX7lOumiItlJLyFlhpmvJc3qZPYhNOeKZ6VFa/CIHUDdcY08UCa8FBDAYg
-	oSXIBDxXtI6iO0OiRFErndu3sBjB/AfmuBbd1sCFZBnXgINuFR4XHTzIUscMrjSw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49ju3h5xcf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Oct 2025 15:08:26 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 598EtZoL029518;
-	Wed, 8 Oct 2025 15:08:26 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49ju3h5xcb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Oct 2025 15:08:26 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 598E5tPY028463;
-	Wed, 8 Oct 2025 15:08:24 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49kewn934e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Oct 2025 15:08:24 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 598F8K1L60293552
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 8 Oct 2025 15:08:20 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8E41C2004B;
-	Wed,  8 Oct 2025 15:08:20 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B466020043;
-	Wed,  8 Oct 2025 15:08:19 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.111.55.136])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Wed,  8 Oct 2025 15:08:19 +0000 (GMT)
-Date: Wed, 8 Oct 2025 17:08:18 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Dust Li <dust.li@linux.alibaba.com>
-Cc: Mahanta Jambigi <mjambigi@linux.ibm.com>,
-        "David S. Miller"
- <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "D. Wythe"
- <alibuda@linux.alibaba.com>,
-        Sidraya Jayagond <sidraya@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
-        Guangguan Wang
- <guangguan.wang@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next v5 2/2] net/smc: handle -ENOMEM from
- smc_wr_alloc_link_mem gracefully
-Message-ID: <20251008170818.35825f55.pasic@linux.ibm.com>
-In-Reply-To: <aOZv0NmekKIgpc5M@linux.alibaba.com>
-References: <20250929000001.1752206-1-pasic@linux.ibm.com>
-	<20250929000001.1752206-3-pasic@linux.ibm.com>
-	<aNnl_CfV0EvIujK0@linux.alibaba.com>
-	<de0baa92-417c-475a-a342-9041f8fb5b8e@linux.ibm.com>
-	<aOZv0NmekKIgpc5M@linux.alibaba.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cMYmmcHO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759936472;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=v+0tHTbYNLyy/uNCkOecrm6JI30eU5cWEMyPpwmUNBE=;
+	b=cMYmmcHOKXMVeEdsFpNuAqkWNio0Oy5340UaFvcbkKc+Mg5oe7Ubb2TVTQ3H/+oBFUrjJW
+	gtcG/VrJE8glGywXAikkngGEiwJD0zsVolUP675j1+cJX+T69nOMsAoDm/iNNbSS8ATsBq
+	btq5YcbjoWNp43Bq9pfdwAIm0Dd7PuE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-414-0y7fsxzJOR6y8rDeS7drdg-1; Wed, 08 Oct 2025 11:14:31 -0400
+X-MC-Unique: 0y7fsxzJOR6y8rDeS7drdg-1
+X-Mimecast-MFC-AGG-ID: 0y7fsxzJOR6y8rDeS7drdg_1759936470
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-42557bdbe50so550892f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 08:14:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759936469; x=1760541269;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v+0tHTbYNLyy/uNCkOecrm6JI30eU5cWEMyPpwmUNBE=;
+        b=KOA7l/VKIccCjnx/g2YzeMDCFrvLPmJ03+qL0zZwL0DmrGillTk1betKHn4FV78Iza
+         FRW++fripjz1zNb/pxNZHmxA7O6Y9tj8XPgBXoZ0zwIqABHU9pAvu5fGPs7fJof+/R+p
+         bIgAVrNAr4cPWEryjWBsZwCiHg7/5HkoPs9137MtSwZpfFco5ITuZAozJDtC1VPUTsFe
+         7KSw/GijD4ydI1rH+i/xYu1hsLl+IrUuPcYpijRFaRgtNHfzmctNjI7G2dlbj9G8oCsP
+         w+X599Nh2EhDGUjae4yBKAPQ2hI2WmJfB912v5JH86fGnkJXqN1yIy+GA8sgAkITkHE9
+         OMLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOF0ZVStdfC92oi2s7l+S1/iIvE9jWdYFdOLrK40XvefHL2lQIMG8sY+nTLJfR5AJPHu3o37crHpo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/WVzeoYhseuFFQPlNvSeZvE68h48aFerWaTvl9A5FFePzcVPv
+	xYHJFNlTb6jF77XKOHVaGqWw4HvBePUqNNJ8JF2qoRfJgWUF0Yr0PavLMkLHWl54MYq4lDvn887
+	9zy+MxI49zY86ozmC8QJWtLwW4ntUWfpoMbRMs6KOPtV3PU9gUwwDQ8HSz+kUbQ==
+X-Gm-Gg: ASbGncufrHEqaCguQSJgcPb32FYkXXERcOB+wMCyuXxryHq1/d844BMzdg41LXFfRJ4
+	qwPAnRni8d7flZicmg+eLSDJkVBNa/VQpSsDlVkaK8Tkh7mOpP5O2KN11v5kQ9pUZouLybDss33
+	brpQgzYE2AmSamZIJ9f6y1GEZeN63jEGaZmRjDNA36yUe2MFveT6jBUnaoDsMFh7Rs3aTiL5C78
+	0zVvc/MjVkUJcz3ZhfP14HEOOtT/XG5NnqCOdUgwQ86joF8lgmdxhJPFRyJU6V24KaWaYizSaer
+	jI/F/YxJrVV/c5APDSi+V8zyVoIp/KU88g6BW7rT94E9qhrKuIBYX5r8Y9+uql5EfSOyjhxtszw
+	URbK925bf
+X-Received: by 2002:a5d:5f96:0:b0:3ec:42f9:952b with SMTP id ffacd0b85a97d-42666a9e191mr2772392f8f.4.1759936469617;
+        Wed, 08 Oct 2025 08:14:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG22vJDbZMGyFhB6b9FW0kGmBlLTgjeKs34KZwmyZ+I1S9kY00Ouo2PyuoPztwdlVe6iSg06A==
+X-Received: by 2002:a5d:5f96:0:b0:3ec:42f9:952b with SMTP id ffacd0b85a97d-42666a9e191mr2772371f8f.4.1759936469201;
+        Wed, 08 Oct 2025 08:14:29 -0700 (PDT)
+Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8a6bb2sm29576337f8f.10.2025.10.08.08.14.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Oct 2025 08:14:28 -0700 (PDT)
+Message-ID: <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
+Date: Wed, 8 Oct 2025 17:14:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOCBTYWx0ZWRfX6VjEahsoUcmG
- smHgSy/AKpBINebCo5oEvoRscM2tO9XOv7LMLb1Ky/1R8nGtJUEvOJi1hN/Kbiwv2VkdQ8I8dnX
- RfX1uelw3SbTRpmoHhnkBA9i5KdvIBsHLsjZO8toToW2juiknDZ8xK8cXzDFftMmElSpwgRwLUR
- rbpKt3oFd0nFnLuQE4VqlD6ERvLVmMizpmledmUMH3uSwW0xSeW0GOITBvCkW8gkPY0eGeQs6N/
- NxWx5+Z8ln23T0+BSdLDkt4YX/Yw22tPXtPQHpt/fBqEAlfCUdnkkApecS7Md0TvmuFAhwbg3Vh
- Tc/XGXGu/FuTVMl33O6q4IptCPRaZ1ZVO2I0jXaxGUoe+1h03eSBdItNqLSA7/kdUO9TKB8o+97
- BS/DIb2WJsrT6gnb+DcYhGiMTgwFBA==
-X-Authority-Analysis: v=2.4 cv=I4dohdgg c=1 sm=1 tr=0 ts=68e67e6a cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=SRrdq9N9AAAA:8 a=akCnWnY-8Ao0MBcy0-UA:9
- a=CjuIK1q_8ugA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: kEXar_J4G3Eih2Gc8x4pvjM3-V64uZDW
-X-Proofpoint-ORIG-GUID: r0GVS5MJD2DScOkInXjzo5VyvaqWyUXS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0
- bulkscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040018
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+To: Michal Hocko <mhocko@suse.com>
+Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, corbet@lwn.net,
+ muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
+ hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
+ mclapinski@google.com, joel.granados@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
+ Alexandru Moise <00moses.alexander00@gmail.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, David Rientjes <rientjes@google.com>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZ8PPWMchRN_t5-@tiehlicka>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aOZ8PPWMchRN_t5-@tiehlicka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 8 Oct 2025 22:06:08 +0800
-Dust Li <dust.li@linux.alibaba.com> wrote:
-
-> >I did test this after you query & don't see any issues. As Halil
-> >mentioned in worst case scenario one link might perform lesser than the
-> >other, that too if the kcalloc() failed for that link in
-> >smc_wr_alloc_link_mem() & succeeded in subsequent request with reduced
-> >max_send_wr/max_recv_wr size(half).  
+On 08.10.25 16:59, Michal Hocko wrote:
+> On Wed 08-10-25 10:58:23, David Hildenbrand wrote:
+>> On 07.10.25 23:44, Gregory Price wrote:
+> [...]
+>>> @@ -926,7 +927,8 @@ static inline gfp_t htlb_alloc_mask(struct hstate *h)
+>>>    {
+>>>    	gfp_t gfp = __GFP_COMP | __GFP_NOWARN;
+>>> -	gfp |= hugepage_movable_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
+>>> +	gfp |= (hugepage_movable_supported(h) || hugepages_treat_as_movable) ?
+>>> +	       GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
+>>
+>> I mean, this is as ugly as it gets.
+>>
+>> Can't we just let that old approach RIP where it belongs? :)
+>>
+>> If something unmovable, it does not belong on ZONE_MOVABLE, as simple as that.
 > 
-> Great! You can add my
+> yes, I do agree. This is just muddying the semantic of the zone.
 > 
-> Reviewed-by: Dust Li <dust.li@linux.alibaba.com>
+> Maybe what we really want is to have a configurable zone rather than a
+> very specific consumer of it instead. What do I mean by that? We clearly
+> have physically (DMA, DMA32) and usability (NORMAL, MOVABLE) constrained
+> zones. So rather than having a MOVABLE zone we can have a single zone
+> $FOO_NAME zone with configurable attributes - like allocation
+> constrains (kernel, user, movable, etc). Now that we can overlap zones
+> this should allow for quite a lot flexibility. Implementation wise this
+> would require some tricks as we have 2 zone types for potentially 3
+> different major usecases (kernel allocations, userspace reserved ranges
+> without movability and movable allocations). I haven't thought this
+> through completely and mostly throwing this as an idea (maybe won't
+> work). Does that make sense?
 
-Thank you! Will do and respin once net-next is open again.
+I suggested something called PREFER_MOVABLE in the past, that would 
+prefer movable allocations but nothing would stop unmovable allocations 
+to end up on it. But only as a last resort or when explicitly requested 
+(e.g., gigantic pages).
 
-Regards,
-Halil
+Maybe that's similar to what you have in mind?
+
+-- 
+Cheers
+
+David / dhildenb
+
