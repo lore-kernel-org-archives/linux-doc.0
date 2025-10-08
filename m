@@ -1,82 +1,78 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3A2773ED
-	for <linux-doc@vger.kernel.org>; Tue,  7 Oct 2025 23:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8CD22156F
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 00:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759881407; cv=none; b=Z5w3P4cU1EXlO6+eVJpNXqztDivhLZuuN5n4UQTAcJEyFPnObPdA6KWa3ujcsOcGZFOl4l/HTnpuSR3RfVJ+HELdLkRUbTnN05n+jMs/PICdBfwotiwRKG9UtlTAnbMTwWFh2JkQOkUqqe5BnRrgdyqOep9pB0/x/Z2DgQNRRxg=
+	t=1759881705; cv=none; b=u+nSi7dIl4635Hj2cI/22K0McDk5t3ynvWedFOm2D9bIkmbAoK9nQC+lNv3OiJiKQnnA7iwB00WygD8H3VWqMnuLDYnA07IhdkJ6he1itmV4d5BuWe75ngPRGGEi8o1nz5nxhcN1wOj2sqt4Qz8pu0rv9rU1oOMfsSOhw9+snFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759881407; c=relaxed/simple;
-	bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
+	s=arc-20240116; t=1759881705; c=relaxed/simple;
+	bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iFgLkygfjKZbVvc+yiPt8n3FQIKk8TJhX0gOXIve2Q5sKe6rjM7rYdirlbQCfR3IdyvD4V7C19Jkud3d82yQnEPvawXq1hU0YdDqaPzOJoyvtelqRNtjym5980+jecCoar1oaKb6+jX8JAj5txHm8qC5B1r0f2ia2dRWrWF0PWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLz8WOVG; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=rs32UzL5sTMkuv0lHhGMOoY/D9Bo1JGnO1ltiLQOl7BB8JVaMnEzA1d48vSCCDVZnJGurTj0b9biohjfx6KZA6nWNNncgySzDLXziOHe5GtdVm6Rni57Nh9zYUxBm03G6Ua2a0MkDm0Lqu6tsEtgzcbic1yza6oePQf6XmGtaTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7if866x; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLz8WOVG"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2681660d604so72407985ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 16:56:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7if866x"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-26d0fbe238bso49460985ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 17:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759881405; x=1760486205; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759881702; x=1760486502; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
-        b=GLz8WOVGheFn3RBJaFY/U1JgK36OepF93uQJoRhispeXsiPtRsLqFhqs63Bjuk1uhM
-         ophSCnysgbBUxf6QEwtyqHSxrQCtEuio0YUPZ+P75xhXzgPaYq8etiLstBJaMxfEazRO
-         zfuWD1802NUI/eBlw3bkrVEP/DyiYAWp6rn8xoJEiJFUzxdCDUxGIU4quEP0CyJNfHzX
-         AudNZqvRYPeEFilDQ8X4nsblrn8i5dGS3ryDCX/NZ9Ve6p6s8c++4i7gfGTF/QfR5pl6
-         lFju8eVY8qejuOz/n7RtRApTpjUrMf9ZGDhBo9fhDg+wKnRsrC8zSWMNOUFuPrK7l+x3
-         kTXA==
+        bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
+        b=k7if866xlxBz3a2XY010yHHPwx70SFZzEx7M0Bb46aROqne5OMbPCUVzNk7HWnWloe
+         3iyLSfNPvO+YrEvURbd+i25NvBWNmnwU7bkBQmtMxqj7wN7TNH0Yug7x6j1a+EitbLCZ
+         T97ivJy7unowxzc4WY+MOEUOB7zXjEXqxd3K7EJlgRfWR8esxKblt+M2VMOPF0iDgr5d
+         zwwLlf4und7btFi+evVnES+xwbOnWOk+EZHkT21fZF/PNGhbyMJ2g4gPPWpjfDIUFf6o
+         l5HJd/CvKraAmeJAf7Lu5gfZ7MdczCz02sraYdHxgjAstIoqORlJDAw4zVqBycxrhlcW
+         qsdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759881405; x=1760486205;
+        d=1e100.net; s=20230601; t=1759881702; x=1760486502;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AqqqImyVX4Ca3i3a0FyZ/Awd7F5tA5oiYrQNUtG8eUA=;
-        b=LQzXwl4gPfvpH6WsJ2I2OaqCujtkwElEjRjbBhJr1itsbx1l8SXI3fC6fVFzoBBRwu
-         ai3Galiv45MC+9dIav1ELo4lmFU9A/QVqVx+vc/4vwscLHoUrMYJfcQcX+TToGv68FzU
-         Uhs8usuT2mYg4uG/2JVQdfOfqONRn2dxKpzbcVuMjbEjuzRxoIBGdbiDln6TacCgHjN7
-         ZQ/gxvvhkXtMUXvF+Sxlzg8OHLhxo8e1oHHyM2Kn8ud92nNA1WQDo3TCIupDBYvQ2H58
-         iV6sLvDDSOahTNw+3eQvkTfcWmjDjg5TrFG2wbHgSR4XhpoDcas620324ctgRZgv3g8e
-         p/Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjLqeTwpdJSOsBsEs/HOet2zTD7nR+g0t3RKq8+8IYzRPVQaOtGCxNz63XhZWb+rRrEXrczZ4Hv64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZH/C7YYjdRQvOtBm5hc4aBL11xuNVx/7nST5FaVhy8yO2gABF
-	Gpo6/P7W5+nMDNiQueb4MVHtneSYpBMHo/Hv3BO8LE4NK1ZGdd7lKO0C
-X-Gm-Gg: ASbGncuFz4G+d9R8hQ4qPB5wdGa4Sj82dF/t73/Oq7KXWULfuTgUa03jl/DhB6VAEqU
-	d2SbDS5YDshTLGOnntCOizifzRUakcLt3yjZd8Y9L9uqDcYjHCx/rpjKw9QDOSyErFuSSTjR1jR
-	VkHCT0opyEdaEId3ID8q6MJwt5wpUZHUeThZh4RCfhlCK0AEc9Wqo+KByfTl4ziOcvT8T6aDhgb
-	dEI0ELtGROTsp74cjHny1vOYsosEWB9F78Rh2QNBBQj6emsDzD1+QOblaOect0d38rUIQk3jiuk
-	FAJQb2k9foGCozvmXVD7PAmvJlhgkg1B/dm9s0EQvyLntmHERv04h+XkW8gvygfZjF6QgOamN4F
-	drbLyf9l6/J/v/OIfvip7JWNagEFiRFQ2VWzgrPdPknn9cCqv9EF59FjnKctj
-X-Google-Smtp-Source: AGHT+IECR12KH7zCTIlL8PskN4SIrX86zChxhzZyqyWEAG+eeOOhmLw/P52uED83EK633yo7c2PQsw==
-X-Received: by 2002:a17:903:298e:b0:26c:9b12:2b6d with SMTP id d9443c01a7336-290272b550dmr18677895ad.38.1759881405144;
-        Tue, 07 Oct 2025 16:56:45 -0700 (PDT)
+        bh=HBmCVEFJbv2kiaRdVBoJHVhH1kJ5GFIYxxjuk93NNyg=;
+        b=Rr11nfc8vZyzBBbkJF/43K2IHP3EMvqkTAORXyoLIV0lUVMm2WCd8EC8c5yn8cvCzF
+         oAJ20B0lDHdiCdTUkNv9fm4HuSOZPOe1F0KGzuU9pEqUTWekIkPExLUFRHOSxyhMrWUI
+         6Kf6wtc8SQAFZaeLc01jNorG3P63JAO91kqea8m+mLrx83SvU90eEx9TP2KBb7gutB+g
+         HFPBeGtnTTr1a0EW4t5W7179OJwKzGkmdR0lzHSkAuBhQEvzeOZR3aTxBfjYAk9dY8VD
+         7IEuvnQEl/5Flw9X7T5BJNgkiSx0KETKYAgVcWBOueF5xuQqPAEWYslJ8k0vanv2UCY2
+         gW5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWswzROgURlgurS5dRz3FO27nRzjVPqu8U6tBciArLs9zmhAhuwFlwubHS/GWJkk1DLi7fKctS7DGs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+/QdbgPtEEtNyjVTjQ6RJgLRO9F54PPK3TjdBE4+xm6xM+m81
+	QHdSYO5H9zrq4GSOSLqQzAD1vwVF1gUn/kQkNB//Wh7EecOGW4I8145M
+X-Gm-Gg: ASbGnctxTxFAhOnSC+OaDYs3j/W4a5TOa09wnjem1z3lI386jfzWhujroKTzVlIUs8z
+	SjQ9r5oeu9mc5bR8wscGTm9gC1mjyiEEJIXzuyifIqmqiGYnsGnKv06D/Kl8/VBovC0lyFeaJWR
+	TQf6u96uLhbVrwiK63EAImulgRmCWRUtwBuijwqQGreexXvI0BNsTRl7/N7jnBnYoHZEijTpX6x
+	yhpstAdTnt6nKvTj/Gfizc0cLy+HH46kaGlP1eseZExe1zuAU1SXnRzylQUFZYJNQx5KEG0yBTN
+	mDnG3DIwLJI1IRMVW0uF29cYT/7ZZ72wyDXBmYhDq8coGDDABgyy1gjUdVPGt2ubv7x80Ss8fSC
+	8BIu0ZpbceuPTGRVDnOVPVchd7MMuTCYPh4Eq6my2s7rC1/SkYQ==
+X-Google-Smtp-Source: AGHT+IHI6SipQj91c1vmLSFiOqIaOwefO3QQs9+bfgg/4mvECMIsZcVKX8SEp5HMEolcaTUK42Latw==
+X-Received: by 2002:a17:902:e54a:b0:269:8f0c:4d86 with SMTP id d9443c01a7336-2902741e857mr17501365ad.53.1759881702182;
+        Tue, 07 Oct 2025 17:01:42 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b513ae7d9sm937031a91.24.2025.10.07.16.56.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b510ff9a8sm980371a91.8.2025.10.07.17.01.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 16:56:44 -0700 (PDT)
+        Tue, 07 Oct 2025 17:01:40 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 599D64233430; Wed, 08 Oct 2025 06:56:41 +0700 (WIB)
-Date: Wed, 8 Oct 2025 06:56:40 +0700
+	id 062764233430; Wed, 08 Oct 2025 07:01:37 +0700 (WIB)
+Date: Wed, 8 Oct 2025 07:01:37 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Roman Kisel <romank@linux.microsoft.com>
-Cc: benhill@microsoft.com, bperkins@microsoft.com, sunilmut@microsoft.com,
-	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-	dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
-	mikelley@microsoft.com, mingo@redhat.com, tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com, wei.liu@kernel.org, x86@kernel.org,
-	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH hyperv-next v6 01/17] Documentation: hyperv: Confidential
- VMBus
-Message-ID: <aOWouGarxf0FB7ZR@archie.me>
-References: <20251003222710.6257-1-romank@linux.microsoft.com>
- <20251003222710.6257-2-romank@linux.microsoft.com>
- <aOR5juzHnsK2E40z@archie.me>
- <273e0882-24f5-465a-be18-d67b4249ce12@linux.microsoft.com>
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
+	corbet@lwn.net
+Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com,
+	tglozar@redhat.com, costa.shul@redhat.com, jkacur@redhat.com
+Subject: Re: [PATCH 1/8] Documentation/rtla: rename common_appendix.rst
+Message-ID: <aOWp4RXBN2iayT-p@archie.me>
+References: <aOUMyGvkibvOV0IS@archie.me>
+ <20251007185508.40908-1-krishnagopi487@gmail.com>
+ <20251007185508.40908-2-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,66 +80,41 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DTXlXJKe31yrlnoK"
+	protocol="application/pgp-signature"; boundary="bPrGD7sryDE01aLw"
 Content-Disposition: inline
-In-Reply-To: <273e0882-24f5-465a-be18-d67b4249ce12@linux.microsoft.com>
+In-Reply-To: <20251007185508.40908-2-krishnagopi487@gmail.com>
 
 
---DTXlXJKe31yrlnoK
+--bPrGD7sryDE01aLw
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 07, 2025 at 01:38:02PM -0700, Roman Kisel wrote:
+On Wed, Oct 08, 2025 at 12:24:50AM +0530, Gopi Krishna Menon wrote:
+> common_appendix.rst is intended to be included by other rtla documents
+> and is not meant to be built as a standalone document.
 >=20
->=20
-> On 10/6/2025 7:23 PM, Bagas Sanjaya wrote:
-> > On Fri, Oct 03, 2025 at 03:26:54PM -0700, Roman Kisel wrote:
-> > > +The data is transferred directly between the VM and a vPCI device (a=
-=2Ek.a.
-> > > +a PCI pass-thru device, see :doc:`vpci`) that is directly assigned t=
-o VTL2
-> > > +and that supports encrypted memory. In such a case, neither the host=
- partition
-> >=20
-> > Nit: You can also write the cross-reference simply as vpci.rst.
-> >=20
->=20
-> Thanks for helping out! I could not find that way of cross-referencing
-> in the Sphinx documentation though:
-> https://www.sphinx-doc.org/en/master/usage/referencing.html#cross-referen=
-cing-documents
+> Rename common_appendix.rst to common_appendix.txt to maintain
+> consistency with other common_*.txt files and prevent Sphinx from
+> building it as a standalone document. Update all include references
+> accordingly.
 
-That's kernel-specific extension (see Documentation/doc-guide/sphinx.rst).
+LGTM, thanks!
 
->=20
-> I tried it out anyway. The suggestion worked out only for the HTML
-> documentation, and would not work for the PDF one. Options attempted:
->=20
-> 1. vpci
-> 2. vpci.rst
-> 3. Documentation/virt/hyperv/vpci
-> 4. Documentation/virt/hyperv/vpci.rst
->=20
-> and neither would produce a hyperlink inside virt.pdf. Options 2 & 4
-> generated a hyperlink in HTML.
-
-That's it.
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---DTXlXJKe31yrlnoK
+--bPrGD7sryDE01aLw
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWotAAKCRD2uYlJVVFO
-o/pSAP9eXlQLoQODQqZ+A48QpAAsl+hf9OhLGhdndl6X6JStvAD+OSXtE5WfHadF
-FMFMiFdufdHXrrE7npbMx380tvu34Qs=
-=nx3N
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWp4QAKCRD2uYlJVVFO
+o4OOAP4uFuO1E6ytqdspEZ4WG7emXxflG1kNie6NJqWxpwX+MgD/T4akmHZvTpT/
+XIrgErE+u7Ms0xsIdcYEKAqyV9wkKQ4=
+=GCZL
 -----END PGP SIGNATURE-----
 
---DTXlXJKe31yrlnoK--
+--bPrGD7sryDE01aLw--
