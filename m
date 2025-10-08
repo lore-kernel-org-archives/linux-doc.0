@@ -1,117 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB28C1DFFC;
-	Wed,  8 Oct 2025 04:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FA12BEC22
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 04:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759897218; cv=none; b=e7TymfbH+a5UzutNgEmZuZCdl4RgvlBzg4KfoQdV56Be39QHhw6UIPvsaNIjRBDiAHb2WmNOPiNhjPiGbTYSEk4N8m37NEg5pnl3+PVBCCZEyOMkabwGlEPQm5QnV4UwoGkSGYVzGuyj/avAhHrH1DDu3zzMKDla/jQXR5NFKyQ=
+	t=1759897557; cv=none; b=sbwT0JnnHEdbUImIN1znITR6cjOmzohAK+aGYM2PeqlxOtg1TOH2CusmJWV57DiQgg0JRhY0owC3niHMIigcDqJbTj5jBNUK5BVGnTRCxJwesdyX/9/7JnEbUSeONtScdn3kTrR2mvvrM2hY71xzQqaXQHJ4cGcGXImWyVmApUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759897218; c=relaxed/simple;
-	bh=gIXJCsumt6skJ3sfqf5pbZAzlXWzbFT/QpJ0QJ0WoEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WADkLCgpC6hdYYJT8W6WEiPWYzKVtQ6FQ+NCz2s0oP+O0fIalWLA2fCmOVP+ddqn6P978w2VvA8qCvCPs9X2W8AzKQsUENvYhOgVLbtWjYGse7tKfkmgQ30j1F/YdMrhE6rPN2+Xa/Ph2W02DbQ4uEScJjyloHXiQ56zMbcphh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6CHq2N3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759897557; c=relaxed/simple;
+	bh=ZQ9dTtq2r031HzJ132CMq6x9QAKtupQ430h8sMV5noY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SxXeqj9KI/eGo4AuIUGwAlwoENPY/WZtL8qJUvc+lVb39QRIB5PEz4h9Dctcc3cxJ6mxF6z/ndb/jlkFzUjbWjk13nS9rzndN86ysBTgDmtt9jd/PGKmo5/aNAdLYrM8FXmtkMCGQHcT3+e8oF4TjxiFPfSXXEDfMhHEWNwGJ1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDRckY/r; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6CHq2N3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E2A7C4CEF4;
-	Wed,  8 Oct 2025 04:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759897217;
-	bh=gIXJCsumt6skJ3sfqf5pbZAzlXWzbFT/QpJ0QJ0WoEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J6CHq2N3l4B147CgJt+zLqKYq2OtHwUWOsO4RanJM4icby3afXquF+ndgYR6fOYWP
-	 H6OZ/NXfzhSG3ZWIrXgmRzfzJY6TdzUbkHIqcFx9jRuywjXfZ30C/ThFcJTssakaHa
-	 8Pl8ETsSK4AyBuzZstrEd3Z+lNP+xUGQozD3xFAuMI7GnQHPjOrN8VoYC7s+PuJIdL
-	 Sl/LucC+GWoVX24kZ80gXhCu1Zs8uXu1c7fSbZPdvVAmGxtpf/98jY+G3TKds5KbWT
-	 ai2+dQBiC4bZTzbrfJnZsICkltmpxolSNNxBAdpghqjU9ZLCyE+8IndaxY2QfLJdx4
-	 9jMu/5qAYT2JA==
-Date: Tue, 7 Oct 2025 21:20:17 -0700
-From: Kees Cook <kees@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: "Christoph Lameter (Ampere)" <cl@gentwo.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Tony Ambardar <tony.ambardar@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Alexander Potapenko <glider@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
-	Matteo Rizzo <matteorizzo@google.com>
-Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
-Message-ID: <202510072114.52B93ED736@keescook>
-References: <20250315025852.it.568-kees@kernel.org>
- <20250315031550.473587-2-kees@kernel.org>
- <aOR15Xb6DfolYM0z@casper.infradead.org>
- <202510071001.11497F6708@keescook>
- <e019c59a-ba8b-ec04-dc5b-923cf9dd9d9c@gentwo.org>
- <CANpmjNMsSGY+QEn=GV8S2sXuuQsioikPR+OhGa3+6EoTqYPkHQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDRckY/r"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-81fdd5d7b59so78347676d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 21:25:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759897555; x=1760502355; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQ9dTtq2r031HzJ132CMq6x9QAKtupQ430h8sMV5noY=;
+        b=kDRckY/raXBih9bldtJVHlgVxdeBj2Ik1YtVwSE9OlZKReF1mrYiZpkpM2zhNZ2Kzs
+         1wXwYN71AJcWYjETK4nDi56lgQU3JL7XkvT9ZmCr5HpJkXuwIlPh2NrlRtrHKC+5n3Al
+         pisKs+I+olEo8QQ8sqz0hQL40C/qiJjuZ18lsl3nk/3j0BMMbGuBD06VRqk6VAbAkQ8G
+         nzHUmtzls2VIpFDQsHtRy5Ex2Sor0d9Nsprx0lmcqhe0XvR7HkSeR/7HUJv/taTc/0eu
+         NlON5POTToRoBHNBcxCMFOzlhMfHgRNtqKtnTccP7ZCqdXlK3XBteGlQgme0T23Wcz5w
+         XWIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759897555; x=1760502355;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZQ9dTtq2r031HzJ132CMq6x9QAKtupQ430h8sMV5noY=;
+        b=td/7rF0y+PRvVjjTvxtoJjZ3CPv7GLo3/EfZACSBNp9qKUyfExc4F01zSD4EOtoI1i
+         j8wximr904Vr0/U+9+rmAKtOuOZFWjzDNNiiYGBv84xV0GkF6RmvuCdtS1HgNiB6WlOE
+         5oovKNYpnkdrNyw6fqUH3LQRZ+dwj369gMfTXra1dfbobSStAVAA+Cs7eeFYbuB4m012
+         wjoW2KdmZhRtcdBsEalIu1rdaYtJe4a/sDfTzEfUu3qcWlYWvdHnk74zRD2jTRbZLeob
+         W5LxerQBsyPFPEjfcOHNSGzgSZ72Nv48fcffXbnTgwf9EcK72kn3kiD26cmJd1uHw9sH
+         mcpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRch4jhqSF4oEuqPYwxFBTrLuSLpCAZUtjiim7RZsaPOEJHo8NbFjpRT3qCWxCMNc6h1S/AenT5Ws=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+D2mpVUK+lvGDbDmOLdh7wtbbiP2z8j5IWI9AKZVqywDMTvOn
+	S+KRPzb0pRG2ETnL7nZ6xKtT/c8qyLWL1AYwn5+LnIz0VoYtk27JX1M6TlLi+LlQoPVlneUcP4p
+	9ywk/xV+ga9BO3UScnwQ3LxiCysamnaU=
+X-Gm-Gg: ASbGnctQ2aeL7ZCxM4yf8E2ySKoKviwLv9Zz686F2KrC2NaYVMFJJSI5IRaocJopC06
+	ic+K7GvbPjkcqlAAu3iXm72+lch+0SnF3YMUf2qh/YEuV7uwrcJdcXUjvrvELFSbew4DnxHMPNk
+	TcuQsd8CtzYMKkAASY4Wl5MexTsZHI/Ru7hhToxs8xyUkBGjHQUX5prEXZLsI1zSv+Cd0aiafH3
+	Fudly8QDIydl8ybBUW/pMVOafUMs+kOe5enmvDV/HxLSo9u8NCt/xXAVaksbaqM
+X-Google-Smtp-Source: AGHT+IGCzC/VmZmzeTX400uWDZErCSGt3UANlTSe4ykGek43SJ+F9tUSaXyAxxMkUOYFF2TqLUurlhwf+xhIS36qFZk=
+X-Received: by 2002:a05:6214:62c:b0:77e:c29b:679b with SMTP id
+ 6a1803df08f44-87b2ef7fc5amr24134816d6.65.1759897554997; Tue, 07 Oct 2025
+ 21:25:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMsSGY+QEn=GV8S2sXuuQsioikPR+OhGa3+6EoTqYPkHQ@mail.gmail.com>
+References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+ <CALOAHbATDURsi265PGQ7022vC9QsKUxxyiDUL9wLKGgVpaxJUw@mail.gmail.com>
+ <CAADnVQ+S590wKn0rdaDAHk=txQenXn6KyfhSZ3ks6vJA3nKrNg@mail.gmail.com>
+ <CALOAHbBcU1m=2siwZn10MWYyNt15Y=3HwSGi7+t-YPWf0n=VRg@mail.gmail.com> <CAADnVQKzW0wuN3NfgCSqQKVqAVRdKVEYMyJg+SpH0ENKH6fnMA@mail.gmail.com>
+In-Reply-To: <CAADnVQKzW0wuN3NfgCSqQKVqAVRdKVEYMyJg+SpH0ENKH6fnMA@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Wed, 8 Oct 2025 12:25:18 +0800
+X-Gm-Features: AS18NWBI41AxLcXzli8BL1gzQnleRiXmQ_JGmwEiCOIcXhbDR3K7nn2-xDL2UY0
+Message-ID: <CALOAHbBzS2RunZzEk8-rkU60M8jKEJ8FwiPgZqNeoXDy++L5hA@mail.gmail.com>
+Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
+ order selection
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, Johannes Weiner <hannes@cmpxchg.org>, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, 
+	Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 07, 2025 at 08:18:28PM +0200, Marco Elver wrote:
-> On Tue, 7 Oct 2025 at 19:47, Christoph Lameter (Ampere) <cl@gentwo.org> wrote:
+On Wed, Oct 8, 2025 at 12:10=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Tue, Oct 7, 2025 at 8:51=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com>=
+ wrote:
 > >
-> > On Tue, 7 Oct 2025, Kees Cook wrote:
+> > On Wed, Oct 8, 2025 at 11:25=E2=80=AFAM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Tue, Oct 7, 2025 at 1:47=E2=80=AFAM Yafang Shao <laoar.shao@gmail.=
+com> wrote:
+> > > > has shown that multiple attachments often introduce conflicts. This=
+ is
+> > > > precisely why system administrators prefer to manage BPF programs w=
+ith
+> > > > a single manager=E2=80=94to avoid undefined behaviors from competin=
+g programs.
+> > >
+> > > I don't believe this a single bit.
 > >
-> > > But all of that is orthogonal to just _having_ the type info available.
+> > You should spend some time seeing how users are actually applying BPF
+> > in practice. Some information for you :
 > >
-> > iOS did go the path of creating basically one slab cache for each
-> > "type" of kmalloc for security reasons.
+> > https://github.com/bpfman/bpfman
+> > https://github.com/DataDog/ebpf-manager
+> > https://github.com/ccfos/huatuo
+>
+> By seeing the above you learned the wrong lesson.
+> These orchestrators and many others were created because
+> we made mistakes in the kernel by not scoping the progs enough.
+> XDP is a prime example. It allows one program per netdev.
+> This was a massive mistake which we're still trying to fix.
+
+Since we don't use XDP in production, I can't comment on it. However,
+for our multi-attachable cgroup BPF programs, a key issue arises: if a
+program has permission to attach to one cgroup, it can attach to any
+cgroup. While scoping enables attachment to individual cgroups, it
+does not enforce isolation. This means we must still check for
+conflicts between programs, which begs the question: what is the
+functional purpose of this scoping mechanism?
+
+>
+> > > hid-bpf initially went with fmod_ret approach, deleted the whole thin=
+g
+> > > and redesigned it with _scoped_ struct-ops.
 > >
-> > See https://security.apple.com/blog/towards-the-next-generation-of-xnu-memory-safety/
-> 
-> We can get something similar to that with:
-> https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/
-> Pending compiler support which is going to become available in a few
-> months (probably).
-> That version used the existing RANDOM_KMALLOC_CACHES choice of 16 slab
-> caches, but there's no fundamental limitation to go higher.
+> > I see little value in embedding a bpf_thp_struct_ops into the
+> > task_struct. The benefits don't appear to justify the added
+> > complexity.
+>
+> huh? where did I say that struct-ops should be embedded in task_struct ?
 
-Right -- having compiler support for dealing with types at compile time
-means we can create the slab caches statically (instead of any particular
-fixed number, even the 16 from RANDOM_KMALLOC_CACHES). Another compiler
-feature that might help here is getting a unique u32 for arbitrary type
-info, which is also how KCFI works:
-https://lore.kernel.org/linux-hardening/20250926030252.2387681-1-kees@kernel.org/
+Given that, what would you propose?
+My position is that the only valid scope for bpf-thp is at the level
+of specific THP modes like madvise and always. This patch correctly
+implements that precise design.
 
-My main issue is that I prefer explicitly exposing the type instead of
-having the compiler have to guess. We want it for more than just slab
-isolation (e.g. examining alignment).
-
-> Note, this mitigation is likely not as strong as we'd like to without
-> SLAB_VIRTUAL (or so I'm told): https://lwn.net/Articles/944647/
-
-True, but both "halves" are needed -- SLAB_VIRTUAL isn't as robust
-without the type separation either.
-
--Kees
-
--- 
-Kees Cook
+--
+Regards
+Yafang
