@@ -1,248 +1,127 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0894D21D3F4
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 13:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBC81F12E9;
+	Wed,  8 Oct 2025 13:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759929139; cv=none; b=dFdAFsSDn1zg35EwYjrMySd3ab6x+FElWsmIKKeGzpmUjVr72OG+X7LZ0nNjokfnH6dSJOzk6B5zXXpI/xZOOZy5kLbxgtQCwVDbfmhWBxKKO97pd5wjtm4EYWh8KFBEkeizAIOXb2wNsZaHHUxbpLg6v+LndaBvkz6QTUsDkbg=
+	t=1759930063; cv=none; b=Ylyi2fvxTM/6rKWXvyECgtuyv4KSr6/MPPMCUPiSazwNOBRH7A8HiUfIqfCIaKhK+GZFV4/a5Iyp2TDwfXWo3ueifsUwLZkCELwWIAioN+fsCqCLuinDLTG7ipHnMgDo8kNapbTPvWew8rcvtTOuUEwsAcpqO999wyQ5MnI1Epk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759929139; c=relaxed/simple;
-	bh=xpmGg4c/Cl5ZY8pMnlzNFA1QPQP86/btg3j7tq3p2As=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eRyBIKbrt7htuxAlrEm/eD+eQZTX8/YzmrAFPgB27PmVVAtQbPLNfszQ/lC0NjJIyGNBvgoxrDDeC8Co0o+fbYQJB1epZDkoAqMeSZ0HizFrclQLSzOD9fWLsSoVl5/MXbb01ds8BcI6rbrPLWVHBMinfFf2bB89c5Xcj9PZEfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AfzQuLW2; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759930063; c=relaxed/simple;
+	bh=48tBRZ4UObr9hdBTbxUPKO25q+0h3XVgD5hTqQX+b10=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NonTau2CEY1oMOmWKiwzh88Jh4kQdXzFhZD6UsNaLrMd6pbVXPKYxsJzUFOvraRX2p7cV/qv+TjR9R4X3PCiyb/4/18N7lrAYhHbcSC2oinOOa0HFweMAG5h9X/DVk9y4zzDefDNgmBvscZCBrobpeD9PwTanzdx7LHXKXx2K2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=oIcsj5TS; arc=none smtp.client-ip=178.154.239.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AfzQuLW2"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-81fdd5d7b59so82889546d6.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 06:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759929137; x=1760533937; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fBKwa75rcl5jnXtV/oS/WIGH19YZKQyj0WoGa9cCm+I=;
-        b=AfzQuLW26qLV0TO7J0YgyYvNWLNPTP+63uUk5+wQH7LcU/y06cOHO92q/9QCxgyLIs
-         ZJTMMMjbd8kzYT4Wl2KaPQN6rAx3z90MAKJhYUq+9XN2QhfKkRnumtDWq+DtL92JK/x/
-         D9+qjNLJBHIZoUy5HTjCnuQ7cxrYCPCDIIJiH+yJJxBMHC+00Tm6qU1ZaNa5GTO0ed0T
-         JLHc0ZOOrJ+AvvfjAI4SYHWfJe6IX3ol1dyGJRPNJOJhN9a+Xqr+BvSISEvrdluc4ly0
-         +/SaJCpENX8XbfSwnGTgUtfTbUzeConzbS/GEclFORfYcLkBx5nLayKmf4qiYKqeBgoe
-         syyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759929137; x=1760533937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fBKwa75rcl5jnXtV/oS/WIGH19YZKQyj0WoGa9cCm+I=;
-        b=mPFppxiWPehO9oaF7k8o8PdAm42Qo1QLRJIjidBwDGvGqU0dfRKWohhoFSZeb4x8ZD
-         itjjLWRre/c0M/klcI0aZN+cdHEIHT/BgL42Jyu3oqKUJQFQEJhXRWNz5LpastpWxX9e
-         PzLi19JCIMmN3GLBQ2SWfq6pUrBdHBkCGGuMvbXqy+Px8bE2glRuUCStBsKj071j1CPD
-         /E9c2eNg4fNzSyoEwwGFlYmUNJ+5zNluMB26YttZM7JgsZQXMRq2O6sMjTU6cuKR2TVG
-         /xwdFA9/Ng3LDYSzuj7MMBNsQPhNFDhHrg+BDzrCZVeSVUgogiFhcWFbpgrLonhi+/Ae
-         oNuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX2CfGySUKPLUQqyjVV+04imV5784NfsjrWf99WlalFY4xL4mfhfxCxecpISvrcXn/MiRGN5gY5w+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYtt8ITw0JvVJsd8AUpvIlAyB+2KD+Na0inpfCwGPW982S82iV
-	laF/9h4OSPsPZXTNiv6GCUyqNQCklDm1A4jqBWdwhKbggQMHrBE0Qt7oUuCcNJ0OZUv1c2gkx6b
-	IkCf2fa6Ro+gDLGoni31ZO9hsZhwGrW0=
-X-Gm-Gg: ASbGnctIkVELLNrWoTVwNMBYaUBac6jT/bRTr+6P6wbztoxXVlPIp6eXqZ5CEpSw00J
-	3FqY3GMV18fz67rO6JqsfOmtQYt0sjDGw46h2An6cNGIemS5QEuDWKhC5f1xSHxDvpqS9fu3rYC
-	ldPDL3fUIR19fhvzVOn8bNgj6UZI+vjr1qj+vMMbysGQhDg8cm59WcsKLfTIDV0onZ9/8lN7abA
-	mWbqOMOMO9i+rxAG/K06ue50zGmn67oOLwTUNFDk9zHVIaEl80H+tk99x4c9nr4jy/Qcxpq0HE=
-X-Google-Smtp-Source: AGHT+IFzUXffB1zB7vnWpuKrlcQPdtVGJfSjZp7EPf6PBL/bCYvn3+y9LWXlhXOmcWWw4fXUcxkyECmMdiurn0kjvhs=
-X-Received: by 2002:a05:6214:268b:b0:796:6034:c0fb with SMTP id
- 6a1803df08f44-87b20ff9e9fmr42443166d6.13.1759929136653; Wed, 08 Oct 2025
- 06:12:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="oIcsj5TS"
+Received: from mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:2908:0:640:b877:0])
+	by forward502b.mail.yandex.net (Yandex) with ESMTPS id 7CA2481A79;
+	Wed, 08 Oct 2025 16:22:09 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 3MmpYOILNmI0-h2DvORhn;
+	Wed, 08 Oct 2025 16:22:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1759929728;
+	bh=PuyYnJGb4e3zcRscqjbRMizi4amoHlbd7ZcZT1x5DhY=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=oIcsj5TSZ9PMFLRbqWRxmJ6LIdAHCf5ARsxnWQWOjyTPxakdUyXG7t70nU3XGzCCw
+	 ngBtReOrO5zTPbtHBM+1Ud8GsE0Rrer/P8g4zkail6xtKbdQlYgchVdNIpfHLlrbUx
+	 ETNsrbGFjJPru6hCq/CmItHZWodD36HJesFlRC2g=
+Authentication-Results: mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Wed, 8 Oct 2025 16:22:01 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Benno Lossin <lossin@kernel.org>, rust-for-linux@vger.kernel.org,
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, tmgross@umich.edu,
+ dakr@kernel.org, linux-kernel@vger.kernel.org, acourbot@nvidia.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] rust: xarray: abstract `xa_alloc`
+Message-ID: <20251008162201.79e76046@nimda.home>
+In-Reply-To: <aOZgrhsNrKpxM_PW@google.com>
+References: <20251006163024.18473-1-work@onurozkan.dev>
+	<20251006163024.18473-2-work@onurozkan.dev>
+	<DDBHMNEIU9HJ.68MGF28IF58I@kernel.org>
+	<aOTyVzpJNDOaxxs6@google.com>
+	<DDCV43KW9OGL.27I8HP4TSTQ6N@kernel.org>
+	<aOZgrhsNrKpxM_PW@google.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
- <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
- <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com> <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
- <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com> <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
- <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com> <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
-In-Reply-To: <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 8 Oct 2025 21:11:39 +0800
-X-Gm-Features: AS18NWAfLSZj5vVPHQEFQdqoJ0RU1U5dgEf--oeMfkY_sJP1b_wNMDZYIuMpIdc
-Message-ID: <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
-Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
- order selection
-To: David Hildenbrand <david@redhat.com>
-Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	Matthew Wilcox <willy@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Amery Hung <ameryhung@gmail.com>, David Rientjes <rientjes@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, Randy Dunlap <rdunlap@infradead.org>, 
-	bpf <bpf@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 8, 2025 at 8:07=E2=80=AFPM David Hildenbrand <david@redhat.com>=
- wrote:
->
-> On 08.10.25 13:27, Zi Yan wrote:
-> > On 8 Oct 2025, at 5:04, Yafang Shao wrote:
-> >
-> >> On Wed, Oct 8, 2025 at 4:28=E2=80=AFPM David Hildenbrand <david@redhat=
-.com> wrote:
-> >>>
-> >>> On 08.10.25 10:18, Yafang Shao wrote:
-> >>>> On Wed, Oct 8, 2025 at 4:08=E2=80=AFPM David Hildenbrand <david@redh=
-at.com> wrote:
-> >>>>>
-> >>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
-> >>>>>> On Mon, Sep 29, 2025 at 10:59=E2=80=AFPM Yafang Shao <laoar.shao@g=
-mail.com> wrote:
-> >>>>>>>
-> >>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *vma=
-,
-> >>>>>>> +                                     enum tva_type type,
-> >>>>>>> +                                     unsigned long orders)
-> >>>>>>> +{
-> >>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
-> >>>>>>> +       int bpf_order;
-> >>>>>>> +
-> >>>>>>> +       /* No BPF program is attached */
-> >>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
-> >>>>>>> +                     &transparent_hugepage_flags))
-> >>>>>>> +               return orders;
-> >>>>>>> +
-> >>>>>>> +       rcu_read_lock();
-> >>>>>>> +       bpf_hook_thp_get_order =3D rcu_dereference(bpf_thp.thp_ge=
-t_order);
-> >>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
-> >>>>>>> +               goto out;
-> >>>>>>> +
-> >>>>>>> +       bpf_order =3D bpf_hook_thp_get_order(vma, type, orders);
-> >>>>>>> +       orders &=3D BIT(bpf_order);
-> >>>>>>> +
-> >>>>>>> +out:
-> >>>>>>> +       rcu_read_unlock();
-> >>>>>>> +       return orders;
-> >>>>>>> +}
-> >>>>>>
-> >>>>>> I thought I explained it earlier.
-> >>>>>> Nack to a single global prog approach.
-> >>>>>
-> >>>>> I agree. We should have the option to either specify a policy globa=
-lly,
-> >>>>> or more refined for cgroups/processes.
-> >>>>>
-> >>>>> It's an interesting question if a program would ever want to ship i=
-ts
-> >>>>> own policy: I can see use cases for that.
-> >>>>>
-> >>>>> So I agree that we should make it more flexible right from the star=
-t.
-> >>>>
-> >>>> To achieve per-process granularity, the struct-ops must be embedded
-> >>>> within the mm_struct as follows:
-> >>>>
-> >>>> +#ifdef CONFIG_BPF_MM
-> >>>> +struct bpf_mm_ops {
-> >>>> +#ifdef CONFIG_BPF_THP
-> >>>> +       struct bpf_thp_ops bpf_thp;
-> >>>> +#endif
-> >>>> +};
-> >>>> +#endif
-> >>>> +
-> >>>>    /*
-> >>>>     * Opaque type representing current mm_struct flag state. Must be=
- accessed via
-> >>>>     * mm_flags_xxx() helper functions.
-> >>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
-> >>>>    #ifdef CONFIG_MM_ID
-> >>>>                   mm_id_t mm_id;
-> >>>>    #endif /* CONFIG_MM_ID */
-> >>>> +
-> >>>> +#ifdef CONFIG_BPF_MM
-> >>>> +               struct bpf_mm_ops bpf_mm;
-> >>>> +#endif
-> >>>>           } __randomize_layout;
-> >>>>
-> >>>> We should be aware that this will involve extensive changes in mm/.
-> >>>
-> >>> That's what we do on linux-mm :)
-> >>>
-> >>> It would be great to use Alexei's feedback/experience to come up with
-> >>> something that is flexible for various use cases.
-> >>
-> >> I'm still not entirely convinced that allowing individual processes or
-> >> cgroups to run independent progs is a valid use case. However, since
-> >> we have a consensus that this is the right direction, I will proceed
-> >> with this approach.
-> >>
-> >>>
-> >>> So I think this is likely the right direction.
-> >>>
-> >>> It would be great to evaluate which scenarios we could unlock with th=
-is
-> >>> (global vs. per-process vs. per-cgroup) approach, and how
-> >>> extensive/involved the changes will be.
-> >>
-> >> 1. Global Approach
-> >>     - Pros:
-> >>       Simple;
-> >>       Can manage different THP policies for different cgroups or proce=
-sses.
-> >>    - Cons:
-> >>       Does not allow individual processes to run their own BPF program=
-s.
-> >>
-> >> 2. Per-Process Approach
-> >>      - Pros:
-> >>        Enables each process to run its own BPF program.
-> >>      - Cons:
-> >>        Introduces significant complexity, as it requires handling the
-> >> BPF program's lifecycle (creation, destruction, inheritance) within
-> >> every mm_struct.
-> >>
-> >> 3. Per-Cgroup Approach
-> >>      - Pros:
-> >>         Allows individual cgroups to run their own BPF programs.
-> >>         Less complex than the per-process model, as it can leverage th=
-e
-> >> existing cgroup operations structure.
-> >>      - Cons:
-> >>         Creates a dependency on the cgroup subsystem.
-> >>         might not be easy to control at the per-process level.
-> >
-> > Another issue is that how and who to deal with hierarchical cgroup, whe=
-re one
-> > cgroup is a parent of another. Should bpf program to do that or mm code
-> > to do that? I remember hierarchical cgroup is the main reason THP contr=
-ol
-> > at cgroup level is rejected. If we do per-cgroup bpf control, wouldn't =
-we
-> > get the same rejection from cgroup folks?
->
-> Valid point.
->
-> I do wonder if that problem was already encountered elsewhere with bpf
-> and if there is already a solution.
+On Wed, 8 Oct 2025 13:01:34 +0000
+Alice Ryhl <aliceryhl@google.com> wrote:
 
-Our standard is to run only one instance of a BPF program type
-system-wide to avoid conflicts. For example, we can't have both
-systemd and a container runtime running bpf-thp simultaneously.
+> On Wed, Oct 08, 2025 at 12:18:24PM +0200, Benno Lossin wrote:
+> > On Tue Oct 7, 2025 at 12:58 PM CEST, Alice Ryhl wrote:
+> > > On Mon, Oct 06, 2025 at 09:31:43PM +0200, Benno Lossin wrote:
+> > >> On Mon Oct 6, 2025 at 6:30 PM CEST, Onur =C3=96zkan wrote:
+> > >> > Implements `alloc` function to `XArray<T>` that wraps
+> > >> > `xa_alloc` safely.
+> > >> >
+> > >> > Resolves a task from the nova/core task list under the "XArray
+> > >> > bindings [XARR]" section in
+> > >> > "Documentation/gpu/nova/core/todo.rst" file.
+> > >> >
+> > >> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
+> > >> > ---
+> > >> >  rust/kernel/xarray.rs | 39
+> > >> > +++++++++++++++++++++++++++++++++++++++ 1 file changed, 39
+> > >> > insertions(+)
+> > >> >
+> > >> > diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
+> > >> > index a49d6db28845..1b882cd2f58b 100644
+> > >> > --- a/rust/kernel/xarray.rs
+> > >> > +++ b/rust/kernel/xarray.rs
+> > >> > @@ -266,6 +266,45 @@ pub fn store(
+> > >> >              Ok(unsafe { T::try_from_foreign(old) })
+> > >> >          }
+> > >> >      }
+> > >> > +
+> > >> > +    /// Allocates an empty slot within the given limit range
+> > >> > and stores `value` there.
+> > >> > +    ///
+> > >> > +    /// May drop the lock if needed to allocate memory, and
+> > >> > then reacquire it afterwards.
+> > >> > +    ///
+> > >> > +    /// On success, returns the allocated id.
+> > >> > +    ///
+> > >> > +    /// On failure, returns the element which was attempted
+> > >> > to be stored.
+> > >> > +    pub fn alloc(
+> > >> > +        &mut self,
+> > >> > +        limit: bindings::xa_limit,
+> > >> > +        value: T,
+> > >> > +        gfp: alloc::Flags,
+> > >> > +    ) -> Result<u32, StoreError<T>> {
+> > >>=20
+> > >> I think it would be a good idea to make the id a newtype wrapper
+> > >> around u32. Maybe not even allow users to manually construct it
+> > >> or even inspect it if possible.
+> > >
+> > > What? People need to know what the assigned index is.
+> >=20
+> > The documentation says "allocated id", so I assumed that it was some
+> > internal, implementation-dependent thing, not an index. In that
+> > case we should change the docs instead.
+>=20
+> An xarray is a map from integer to pointer. The allocated id the key
+> in this map. The alloc method picks the smallest unused key in a given
+> range.
+>=20
+> Alice
 
-Perhaps Alexei can enlighten us, though we'd need to read between his
-characteristically brief lines. ;-)
+Perhaps we should document it as "allocated key" or "allocated id (key)"
+?
 
->
-> Focusing on processes instead of cgroups might be easier initially.
-
-
---=20
-Regards
-Yafang
+-Onur
