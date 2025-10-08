@@ -1,404 +1,306 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B621E834B
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 18:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236092C028C
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 18:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759949142; cv=none; b=DlnzJCtBW91Fbj7IOH0PepuFIqgxbXEy10Zp+2Xjw0kOu0NC/J8quISoGZ11ftcjHs4h0q2qwGf6LuLNHwpe5YVqswxxXAwwc9p27v2y0y0GI4AhFnH2ogAq4PbTkuESHcuU9uBb+bqRtwxeii1R81g7nPhYIE+OAjD4P6Y/hdw=
+	t=1759949911; cv=none; b=GIZ7ppBKb/J45c2USzIn2kCOL610R5f7nkiRslnNlmzJZBOPNkwtjM63yPnhSMELkfmziBD+U7b7b3zUgjEcZu2EVwMD84sXxsC8WWyrPBvzYe4ebAZAXR4jdBZnipVeqNlU7M84kmKwRqpiyUUGA45xoqPe1omRWKIvCuokr9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759949142; c=relaxed/simple;
-	bh=edXk8mtRHT4a8ETEoUk6fnwmMYrwd+sjN5R/6vm0mR8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X47TcksusESXnfL2/rR4PT/XkDESwKThd3onDAhb8QCkIqPFJoVxx76g5aPoTbXiHyorECDLEqgzUyL8rIOCI/lW0TerldUHv62xvvKMK829FjtJmSlWlVrK9VWhl7LlecJlGpEjuy0fuqVW484LYAO1uDiBiKMuAD8Y1B+nO/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdJXDdh/; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759949911; c=relaxed/simple;
+	bh=TYq9VoRcLXA9kbxCY/pbpd/mmhsJc874jIXXCR7fgco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j2uyM8FsT5EMxioMuzkDiYX9NQZtjYygDogWEFuYUa8uKKib6iNbjVoIg2GypiVBPRaYCwjT97Ltjk5IchPr7ogzbqYG3fei3PpmO9QVCEiEjpRL+7SB7HdElIoeJvgAGxIGwjeuDM9P9ZzZWi3SfvmZaySt1WWYH0uleFOG4B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=IfCjrhai; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdJXDdh/"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-27c369f898fso1644795ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 11:45:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="IfCjrhai"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4dfd1f48d4cso1066761cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 11:58:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759949139; x=1760553939; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lKFx0l4hKy28sNRGiaGfhcTL+cuug9ElvubKP0ftiiA=;
-        b=QdJXDdh/GshcSTpdRFT780eJDYirm4VuIJDYYOzIR9P6iYcL9l7g3yr3j4W5Yx6eeA
-         FtWqYNwd69byncgbvcNGLDl06vPJHyzwana5dv99UGXrFEmUXhgTe6IcT8mOcen26ie5
-         lsn9p5DpxQKERtDoy6nNTvRMknd+ZBDUNY5sumrtA7f9Spa3OBgKCCuMbp6NUYlWo4si
-         kwoMPsLonUEIvsy75tmNT2K9rwpOx1tmf6ni5hDWKHJPcrbD7iGOlW2pbOWBi7J7K/1i
-         wXAfiCfTPcAqNtpcWGrUSLf+ymi4yb8zIitEIlB75d7zJ9JRYmi4aoxxue2JzD2B/mjX
-         23YA==
+        d=gourry.net; s=google; t=1759949907; x=1760554707; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CgUP0/WmGKx+IVOsX9zNZJUjUIw/PkapcpGfi4V2VtU=;
+        b=IfCjrhaiI3VNQeTXzTH7vicL6G1s40jiNuBn4ZAm9saidURQGgbkt9PpUbAl1C191Z
+         7rC20W6rASFifwYEUfYSoPoyxT5otKhwLBwR58bA+RUsN29ithJ1xMLG8iLwEuLMdQVG
+         68nhWXZQeFFoPW+Mi4En+yiI78STI4cft8tvKWKYvesrBGfLl2Ge1AiagAXbWnYQfnJ2
+         LpCY4fD3HWG7XuG28aJIg5LKUyb1oOF4NVnupBKOWxcmTGs5FiOTseYxCe6MT2aYQUX1
+         x6Y3MYVHyBxOJyPLNrUS38w+YRO1xyWHvhHbUBlNiZkfXc14gaXKK4GVeUmDRFvKI8Su
+         DpHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759949139; x=1760553939;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lKFx0l4hKy28sNRGiaGfhcTL+cuug9ElvubKP0ftiiA=;
-        b=qUbV2cMWeduvJ/AgLFogqb11GiyCxaAIINqfvRtBUsIWDJQWdsqche2mFToucVaSn6
-         VnSKfTvAW1ooguNTa+kaMhXErhJyKWVyqYiTd/XfDaL2nt6+bur016IJs+WEqw1lKLeE
-         CYS09qjblNZQAxABnQRP9xhAZmGnD6PqeMOQRrBtmGvmVjLZF9C4Q9jEfv6AqIYEHQRR
-         Qh1PoTxBlxuZAtyySeqoxfbjZrKUj6+51sXvAVavqitZ5laBEoFkztP0+xsfGBgp27/s
-         RRIDPM7DDkrr6KpCskOuNuJj7442rUQuYFRyxSqdizBgJTFJnU4kSf1B5BU7qFjOqsHG
-         SKNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXL4BciO8pLwv9IhPp85DI0uAny5f+8q/sY05X6W1iMNT9nxpE6hQ0OHEKQE0AHG6NMY4Wvz48HX0U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTD5/qg2BsAcT22Xka3UFUZzUagv+KDKh87SkbscVRImuG5vZ9
-	JrgzhhdK8Vj7Mv4IX+i4xE4Z74ZfwJF1xu9x+FGmRiDJwAX/cgc3nead
-X-Gm-Gg: ASbGncvRSWpzPiVLIRyoYAMAbY9R1hgWKjLroWdc5OIa1U/ResuoCO6gTD4rLfR+OMN
-	AdeRcKOOt9RqJIDIUiQTmhjhECC2KIU4baVMu97qGILIlq0yFkYSNfQS6IhDMyjv7jTimsgm08h
-	OVvYwOyLk2kwzVvxCDIXfofOx4VO4p7i9Oh0wa+dvIPBfdq1Xbdqn4WuBcjnwxVLat/2YpVw6Sr
-	PecRODz+p9HyVAnJ1ihzd02RuSwDngd8UAZIlYUpjMff25WyUhQ0fZ2bJ9KzeLqK5YkrmGc1P1W
-	wXD7nzk1L6p0QbIbWWym4p1c/t3YB4VlWZ6rYPis31W0pQeN4/tlPx88nMOm6dQlGVkfxc6wqRY
-	a5SdJYG+izEqKNm6fRE13IOzD6ALiPBqjxm0G8Fjg9dQ9DtrRdV5ZGfGls63jhTVpFg==
-X-Google-Smtp-Source: AGHT+IEd5WiSyo2hmpGstizzrex7tB8cFdu2ns5Jd22RUeKtlhdiFjAbWyQDibswlubOmwWAnvx9Og==
-X-Received: by 2002:a17:903:2f84:b0:28c:834f:d855 with SMTP id d9443c01a7336-290272667bcmr65196645ad.27.1759949138787;
-        Wed, 08 Oct 2025 11:45:38 -0700 (PDT)
-Received: from kforge.gk.pfsense.com ([103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36929sm4218175ad.95.2025.10.08.11.45.34
+        d=1e100.net; s=20230601; t=1759949907; x=1760554707;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CgUP0/WmGKx+IVOsX9zNZJUjUIw/PkapcpGfi4V2VtU=;
+        b=UJXwPlxPNvTIYOET5wAv0SH4whnpmj+j58u/09wHuGhFXTEGpWn6H2v0kOKL79HjKe
+         D73v/EZE1O8xo2+KcIg4F/+xmaCwYT2sRzayzyezf9hYTZmHJbUkbi32XfnBB4nwJYvQ
+         U8RCTqq2mJKhuRGIjTbIoMlxi4PdrEePLKWhxaKX1iMnnX5XnLNDNu7Kcr/aThiyAifb
+         S9kbam2R8GC1Hd4FTADDQ/wlyQPWQyCL9wXqlNyp916id73OKVqzRtSJRWFJjqG8lD6g
+         og+Uw5dYFOpHpMHyxo4MCnEvuZKQw4YchWCAMQYScvIX8EiaYwqOt44R16vxZ2+EVy/9
+         c8eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaMpdem/jt/Iz/vqcTik79ATpPZ26n6M/57qBWnebhyUU+p/6glAykh1y8OXpCnfkdBRTHxNPhFv8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgnRfMfB2Me8xuWtbmPJu1VWAMrIFcWgfuJQSWjEmgD1ea4wzk
+	rN6ixm6z/3fJdL7/d/xiQiGAGt8LgZ/sSnb0JmXcPseZ7MtOFRvkPxyoURQsKgqUpTg=
+X-Gm-Gg: ASbGncuZKS76M9qE+2Dk4DK3+HvUGBKju2ECBTUUN+GNpnOZLU1f1bubG5ELq/tGQc8
+	ogwbX07WVkvhjBiFp5uup5oB3IE4QPTW/Vr7QrWSPVmX7kjbmPBkng7k3sKI70Cm49EydzjSHwd
+	1EJ/uG2AVUnIZYE/brFY4jiTHBHseJcj589GkZH/0WpOHqYqgW5pnwCs3/7zymZWFF3hJD6hgYp
+	By3Fb9VR/OD0sBrCkRk2Dzw90V3GaVd07rfXAA4foEYqUBI88UZ31aW5dn/zo1eTIrc+61PIkc+
+	KazhXRqJPy875/AdCnddbooWNz2nXNbF/INCDd7tBzKqhVTa4ssWQ9u+QUQW9fS5uxmWvgyLlMQ
+	fXhRn/NmF8G0SF2gYnpn+1B+XLXKXhRC+KSA9x07mz/OBqZ2bTaHX+2Ziy4Xh4GnDRRxyMwB+M/
+	hZ8Px1Cz4NQwbJ/bTa52iHy+u9XIUV9zin+sYG6cSo
+X-Google-Smtp-Source: AGHT+IH5XZl1zP5WV2H5vB1vEumTSPp138/9F+4pHEKVvEJpneB5APkZUlKul8CuzBvyHU3k2KlKsQ==
+X-Received: by 2002:a05:622a:4c18:b0:4d9:f929:1531 with SMTP id d75a77b69052e-4e6eace963bmr71897761cf.23.1759949906731;
+        Wed, 08 Oct 2025 11:58:26 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878bb53d91fsm166731966d6.23.2025.10.08.11.58.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 11:45:38 -0700 (PDT)
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: rostedt@goodmis.org,
-	corbet@lwn.net,
-	tglozar@redhat.com
-Cc: Gopi Krishna Menon <krishnagopi487@gmail.com>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	crwood@redhat.com,
-	costa.shul@redhat.com,
-	jkacur@redhat.com,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2] Documentation/rtla: rename common_xxx.rst files to common_xxx.txt
-Date: Thu,  9 Oct 2025 00:14:27 +0530
-Message-ID: <20251008184522.13201-1-krishnagopi487@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAP4=nvTjauRawBPTnGEztZpdDSNhGpgSJtjoTFuq+cCQHP5oEg@mail.gmail.com>
-References: <CAP4=nvTjauRawBPTnGEztZpdDSNhGpgSJtjoTFuq+cCQHP5oEg@mail.gmail.com>
+        Wed, 08 Oct 2025 11:58:26 -0700 (PDT)
+Date: Wed, 8 Oct 2025 14:58:24 -0400
+From: Gregory Price <gourry@gourry.net>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-mm@kvack.org, corbet@lwn.net, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org, hannes@cmpxchg.org,
+	laoar.shao@gmail.com, brauner@kernel.org, mclapinski@google.com,
+	joel.granados@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+Message-ID: <aOa0UPnxJVGvqc8S@gourry-fedora-PF4VCD3F>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZyt-7sf5PFCdpb@gourry-fedora-PF4VCD3F>
+ <f4d0e176-b1d4-47f0-be76-4bff3dd7339a@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f4d0e176-b1d4-47f0-be76-4bff3dd7339a@redhat.com>
 
-Running "make htmldocs" reports the following build errors for
-common_options.rst:
+On Wed, Oct 08, 2025 at 04:44:22PM +0200, David Hildenbrand wrote:
+> On 08.10.25 16:18, Gregory Price wrote:
+> > On Wed, Oct 08, 2025 at 10:58:23AM +0200, David Hildenbrand wrote:
+> > > On 07.10.25 23:44, Gregory Price wrote:
+> > > I mean, this is as ugly as it gets.
+> > > 
+> > > Can't we just let that old approach RIP where it belongs? :)
+> > > 
+> > 
+> > Definitely - just found this previously existed and wanted to probe for
+> > how offensive reintroducing it would be. Seems the answer is essentially
+> > "lets do it a little differently".
+> > 
+> > > Something I could sympathize is is treaing gigantic pages that are actually
+> > > migratable as movable.
+> > > 
+> > ...
+> > > -       gfp |= hugepage_movable_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
+> > > +       gfp |= hugepage_migration_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
+> > > 
+> > > Assume you want to offline part of the ZONE_MOVABLE there might still be sufficient
+> > > space to possibly allocate a 1 GiB area elsewhere and actually move the gigantic page.
+> > > 
+> > > IIRC, we do the same for memory offlining already.
+> > > 
+> > 
+> > This is generally true of other page sizes as well, though, isn't it?
+> > If the system is truly so pressured that it can't successfully move a
+> > 2MB page - offline may still fail.  So allowing 1GB pages is only a risk
+> > in the sense that they're harder to allocate new targets.
+> 
+> Right, but memory defragmentation works on pageblock level, so 2 MiB is much
+> MUCH more reliable :)
+> 
 
-Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitution referenced: "threshold".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tool".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "thresharg".
-Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitution referenced: "tracer".
-Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitution referenced: "tracer".
-Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitution referenced: "actionsperf".
-Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substitution referenced: "tool".
+fwiw this works cleanly.  Just dropping this here, but should continue
+the zone conversation.  I need to check, but does this actually allow
+pinnable allocations?  I thought pinning kicked off migration.
 
-common_*.rst files are intended to be included by other rtla documents
-and are not meant to be built as a standalone document.
-common_options.rst in particular contains substitutions that are only
-resolved by other documents, so building it independently results in
-'undefined substitution referenced' errors.
+================== test =======================
 
-Rename all common_*.rst files to common_*.txt to prevent Sphinx from
-building them as standalone documents and update all include references
-accordingly.
+# echo 1 > /proc/sys/vm/movable_gigantic_pages
+# echo 1 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages
+# echo 1 > /sys/devices/system/node/node1/hugepages/hugepages-1048576kB/nr_hugepages
+# ./huge
+Allocating 1GB hugepage
+Binding hugepage to NUMA node 1
+Faulting page in
+Resetting mbind policy to MPOL_DEFAULT (local policy)
+Migrating
+Migrated pages from node 1 to node 0, pages not moved: 0
 
-Suggested-by: Tomas Glozar <tglozar@redhat.com>
-Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
----
-Note: reStructuredText substitutions -
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#substitutions
+================== patch  =======================
 
-Tested by running "make htmldocs" before and after the change,
-verifying that no build errors are generated and the 
-output renders correctly in browsers.
+commit 395988dc319771db980dab3f95ed9ec8f0b74945
+Author: Gregory Price <gourry@gourry.net>
+Date:   Tue Oct 7 10:11:51 2025 -0700
 
- .../{common_appendix.rst => common_appendix.txt}     |  0
- ...mmon_hist_options.rst => common_hist_options.txt} |  0
- .../rtla/{common_options.rst => common_options.txt}  |  0
- ...escription.rst => common_osnoise_description.txt} |  0
- ...snoise_options.rst => common_osnoise_options.txt} |  0
- ...common_timerlat_aa.rst => common_timerlat_aa.txt} |  0
- ...scription.rst => common_timerlat_description.txt} |  0
- ...erlat_options.rst => common_timerlat_options.txt} |  0
- ...common_top_options.rst => common_top_options.txt} |  0
- Documentation/tools/rtla/rtla-hwnoise.rst            |  8 ++++----
- Documentation/tools/rtla/rtla-osnoise-hist.rst       | 10 +++++-----
- Documentation/tools/rtla/rtla-osnoise-top.rst        | 10 +++++-----
- Documentation/tools/rtla/rtla-osnoise.rst            |  4 ++--
- Documentation/tools/rtla/rtla-timerlat-hist.rst      | 12 ++++++------
- Documentation/tools/rtla/rtla-timerlat-top.rst       | 12 ++++++------
- Documentation/tools/rtla/rtla-timerlat.rst           |  4 ++--
- Documentation/tools/rtla/rtla.rst                    |  2 +-
- 17 files changed, 31 insertions(+), 31 deletions(-)
- rename Documentation/tools/rtla/{common_appendix.rst => common_appendix.txt} (100%)
- rename Documentation/tools/rtla/{common_hist_options.rst => common_hist_options.txt} (100%)
- rename Documentation/tools/rtla/{common_options.rst => common_options.txt} (100%)
- rename Documentation/tools/rtla/{common_osnoise_description.rst => common_osnoise_description.txt} (100%)
- rename Documentation/tools/rtla/{common_osnoise_options.rst => common_osnoise_options.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_aa.rst => common_timerlat_aa.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_description.rst => common_timerlat_description.txt} (100%)
- rename Documentation/tools/rtla/{common_timerlat_options.rst => common_timerlat_options.txt} (100%)
- rename Documentation/tools/rtla/{common_top_options.rst => common_top_options.txt} (100%)
+    mm, hugetlb: introduce movable_gigantic_pages
 
-diff --git a/Documentation/tools/rtla/common_appendix.rst b/Documentation/tools/rtla/common_appendix.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_appendix.rst
-rename to Documentation/tools/rtla/common_appendix.txt
-diff --git a/Documentation/tools/rtla/common_hist_options.rst b/Documentation/tools/rtla/common_hist_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_hist_options.rst
-rename to Documentation/tools/rtla/common_hist_options.txt
-diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_options.rst
-rename to Documentation/tools/rtla/common_options.txt
-diff --git a/Documentation/tools/rtla/common_osnoise_description.rst b/Documentation/tools/rtla/common_osnoise_description.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_osnoise_description.rst
-rename to Documentation/tools/rtla/common_osnoise_description.txt
-diff --git a/Documentation/tools/rtla/common_osnoise_options.rst b/Documentation/tools/rtla/common_osnoise_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_osnoise_options.rst
-rename to Documentation/tools/rtla/common_osnoise_options.txt
-diff --git a/Documentation/tools/rtla/common_timerlat_aa.rst b/Documentation/tools/rtla/common_timerlat_aa.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_timerlat_aa.rst
-rename to Documentation/tools/rtla/common_timerlat_aa.txt
-diff --git a/Documentation/tools/rtla/common_timerlat_description.rst b/Documentation/tools/rtla/common_timerlat_description.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_timerlat_description.rst
-rename to Documentation/tools/rtla/common_timerlat_description.txt
-diff --git a/Documentation/tools/rtla/common_timerlat_options.rst b/Documentation/tools/rtla/common_timerlat_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_timerlat_options.rst
-rename to Documentation/tools/rtla/common_timerlat_options.txt
-diff --git a/Documentation/tools/rtla/common_top_options.rst b/Documentation/tools/rtla/common_top_options.txt
-similarity index 100%
-rename from Documentation/tools/rtla/common_top_options.rst
-rename to Documentation/tools/rtla/common_top_options.txt
-diff --git a/Documentation/tools/rtla/rtla-hwnoise.rst b/Documentation/tools/rtla/rtla-hwnoise.rst
-index 3a7163c02ac8..26512b15fe7b 100644
---- a/Documentation/tools/rtla/rtla-hwnoise.rst
-+++ b/Documentation/tools/rtla/rtla-hwnoise.rst
-@@ -29,11 +29,11 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-@@ -106,4 +106,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-osnoise-hist.rst b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-index 1fc60ef26106..007521c865d9 100644
---- a/Documentation/tools/rtla/rtla-osnoise-hist.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-hist.rst
-@@ -15,7 +15,7 @@ SYNOPSIS
- 
- DESCRIPTION
- ===========
--.. include:: common_osnoise_description.rst
-+.. include:: common_osnoise_description.txt
- 
- The **rtla osnoise hist** tool collects all **osnoise:sample_threshold**
- occurrence in a histogram, displaying the results in a user-friendly way.
-@@ -24,11 +24,11 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
--.. include:: common_hist_options.rst
-+.. include:: common_hist_options.txt
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-@@ -65,4 +65,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-osnoise-top.rst b/Documentation/tools/rtla/rtla-osnoise-top.rst
-index b1cbd7bcd4ae..6ccadae38945 100644
---- a/Documentation/tools/rtla/rtla-osnoise-top.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise-top.rst
-@@ -15,7 +15,7 @@ SYNOPSIS
- 
- DESCRIPTION
- ===========
--.. include:: common_osnoise_description.rst
-+.. include:: common_osnoise_description.txt
- 
- **rtla osnoise top** collects the periodic summary from the *osnoise* tracer,
- including the counters of the occurrence of the interference source,
-@@ -26,11 +26,11 @@ collection of the tracer output.
- 
- OPTIONS
- =======
--.. include:: common_osnoise_options.rst
-+.. include:: common_osnoise_options.txt
- 
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
- EXAMPLE
- =======
-@@ -60,4 +60,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-osnoise.rst b/Documentation/tools/rtla/rtla-osnoise.rst
-index c129b206ce34..540d2bf6c152 100644
---- a/Documentation/tools/rtla/rtla-osnoise.rst
-+++ b/Documentation/tools/rtla/rtla-osnoise.rst
-@@ -14,7 +14,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
- 
--.. include:: common_osnoise_description.rst
-+.. include:: common_osnoise_description.txt
- 
- The *osnoise* tracer outputs information in two ways. It periodically prints
- a summary of the noise of the operating system, including the counters of
-@@ -56,4 +56,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-timerlat-hist.rst b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-index 4923a362129b..f56fe546411b 100644
---- a/Documentation/tools/rtla/rtla-timerlat-hist.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat-hist.rst
-@@ -16,7 +16,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
- 
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
- 
- The **rtla timerlat hist** displays a histogram of each tracer event
- occurrence. This tool uses the periodic information, and the
-@@ -25,13 +25,13 @@ occurrence. This tool uses the periodic information, and the
- OPTIONS
- =======
- 
--.. include:: common_timerlat_options.rst
-+.. include:: common_timerlat_options.txt
- 
--.. include:: common_hist_options.rst
-+.. include:: common_hist_options.txt
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
--.. include:: common_timerlat_aa.rst
-+.. include:: common_timerlat_aa.txt
- 
- EXAMPLE
- =======
-@@ -110,4 +110,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
-index 50968cdd2095..7dbe625d0c42 100644
---- a/Documentation/tools/rtla/rtla-timerlat-top.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
-@@ -16,7 +16,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
- 
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
- 
- The **rtla timerlat top** displays a summary of the periodic output
- from the *timerlat* tracer. It also provides information for each
-@@ -26,13 +26,13 @@ seem with the option **-T**.
- OPTIONS
- =======
- 
--.. include:: common_timerlat_options.rst
-+.. include:: common_timerlat_options.txt
- 
--.. include:: common_top_options.rst
-+.. include:: common_top_options.txt
- 
--.. include:: common_options.rst
-+.. include:: common_options.txt
- 
--.. include:: common_timerlat_aa.rst
-+.. include:: common_timerlat_aa.txt
- 
- **--aa-only** *us*
- 
-@@ -133,4 +133,4 @@ AUTHOR
- ------
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla-timerlat.rst b/Documentation/tools/rtla/rtla-timerlat.rst
-index 20e2d259467f..ce9f57e038c3 100644
---- a/Documentation/tools/rtla/rtla-timerlat.rst
-+++ b/Documentation/tools/rtla/rtla-timerlat.rst
-@@ -14,7 +14,7 @@ SYNOPSIS
- DESCRIPTION
- ===========
- 
--.. include:: common_timerlat_description.rst
-+.. include:: common_timerlat_description.txt
- 
- The **rtla timerlat top** mode displays a summary of the periodic output
- from the *timerlat* tracer. The **rtla timerlat hist** mode displays
-@@ -51,4 +51,4 @@ AUTHOR
- ======
- Written by Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
-diff --git a/Documentation/tools/rtla/rtla.rst b/Documentation/tools/rtla/rtla.rst
-index fc0d233efcd5..2a5fb7004ad4 100644
---- a/Documentation/tools/rtla/rtla.rst
-+++ b/Documentation/tools/rtla/rtla.rst
-@@ -45,4 +45,4 @@ AUTHOR
- ======
- Daniel Bristot de Oliveira <bristot@kernel.org>
- 
--.. include:: common_appendix.rst
-+.. include:: common_appendix.txt
--- 
-2.43.0
+    Signed-off-by: Gregory Price <gourry@gourry.net>
 
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 9bef46151d53..1535c9a964dc 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -54,6 +54,7 @@ Currently, these files are in /proc/sys/vm:
+ - mmap_min_addr
+ - mmap_rnd_bits
+ - mmap_rnd_compat_bits
++- movable_gigantic_pages
+ - nr_hugepages
+ - nr_hugepages_mempolicy
+ - nr_overcommit_hugepages
+@@ -624,6 +625,22 @@ This value can be changed after boot using the
+ /proc/sys/vm/mmap_rnd_compat_bits tunable
+
+
++movable_gigantic_pages
++======================
++
++This parameter controls whether gigantic pages may be allocated from
++ZONE_MOVABLE. If set to non-zero, gigantic hugepages can be allocated
++from ZONE_MOVABLE. ZONE_MOVABLE memory may be created via the kernel
++boot parameter `kernelcore` or via memory hotplug as discussed in
++Documentation/admin-guide/mm/memory-hotplug.rst.
++
++Support may depend on specific architecture.
++
++Note that using ZONE_MOVABLE gigantic pages may make features like
++memory hotremove more unreliable, as migrating gigantic pages is more
++difficult due to needing larger amounts of phyiscally contiguous memory.
++
++
+ nr_hugepages
+ ============
+
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 42f374e828a2..834061eb2ddd 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -172,6 +172,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
+
+ struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
+
++extern int movable_gigantic_pages __read_mostly;
+ extern int sysctl_hugetlb_shm_group;
+ extern struct list_head huge_boot_pages[MAX_NUMNODES];
+
+@@ -924,7 +925,7 @@ static inline bool hugepage_movable_supported(struct hstate *h)
+        if (!hugepage_migration_supported(h))
+                return false;
+
+-       if (hstate_is_gigantic(h))
++       if (hstate_is_gigantic(h) && !movable_gigantic_pages)
+                return false;
+        return true;
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index a0d285d20992..3f8f3d6f2d60 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -54,6 +54,8 @@
+ #include "hugetlb_cma.h"
+ #include <linux/page-isolation.h>
+
++int movable_gigantic_pages;
++
+ int hugetlb_max_hstate __read_mostly;
+ unsigned int default_hstate_idx;
+ struct hstate hstates[HUGE_MAX_HSTATE];
+@@ -5199,6 +5201,13 @@ static const struct ctl_table hugetlb_table[] = {
+                .mode           = 0644,
+                .proc_handler   = hugetlb_overcommit_handler,
+        },
++       {
++               .procname       = "movable_gigantic_pages",
++               .data           = &movable_gigantic_pages,
++               .maxlen         = sizeof(int),
++               .mode           = 0644,
++               .proc_handler   = proc_dointvec,
++       },
+ };
+
+ static void __init hugetlb_sysctl_init(void)
+
+
+================== huge.c =======================
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <string.h>
+#include <errno.h>
+#include <sys/syscall.h>
+#include <linux/mempolicy.h>
+#include <stdint.h>
+#include <time.h>
+
+#ifndef MAP_HUGE_SHIFT
+#define MAP_HUGE_SHIFT 26
+#endif
+
+#ifndef MAP_HUGE_1GB
+#define MAP_HUGE_1GB (30 << MAP_HUGE_SHIFT)
+#endif
+
+static long mbind_syscall(void *addr, unsigned long len, int mode,
+                          const unsigned long *nodemask, unsigned long maxnode, unsigned flags) {
+    return syscall(__NR_mbind, addr, len, mode, nodemask, maxnode, flags);
+}
+
+static long migrate_pages_syscall(pid_t pid, unsigned long maxnode,
+                                  const unsigned long *from, const unsigned long *to) {
+    return syscall(__NR_migrate_pages, pid, maxnode, from, to);
+}
+
+int main() {
+    size_t size = 1UL << 30; // 1GB
+    int node_from = 1;
+    int node_to = 0;
+
+    printf("Allocating 1GB hugepage\n");
+    void *addr = mmap(NULL, size, PROT_READ | PROT_WRITE,
+                      MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_HUGE_1GB, -1, 0);
+    if (addr == MAP_FAILED) {
+        perror("mmap hugepage");
+        return 1;
+    }
+    printf("Binding hugepage to NUMA node %d\n", node_from);
+    unsigned long nodemask = 1UL << node_from;
+    if (mbind_syscall(addr, size, MPOL_BIND, &nodemask, sizeof(nodemask) * 8, 0) != 0) {
+        perror("mbind");
+        munmap(addr, size);
+        return 1;
+    }
+    printf("Faulting page in\n");
+    ((volatile char *)addr)[0] = 0;
+    printf("Resetting mbind policy to MPOL_DEFAULT (local policy)\n");
+    if (mbind_syscall(addr, size, MPOL_DEFAULT, NULL, 0, 0) != 0) {
+        perror("mbind failed to reset");
+        munmap(addr, size);
+        return 1;
+    }
+    printf("Migrating\n");
+    unsigned long from_mask = 1UL << node_from;
+    unsigned long to_mask = 1UL << node_to;
+    long ret = migrate_pages_syscall(0, sizeof(unsigned long) * 8, &from_mask, &to_mask);
+    if (ret < 0) {
+        perror("migrate_pages");
+        munmap(addr, size);
+        return 1;
+    }
+    printf("Migrated pages from node %d to node %d, pages not moved: %ld\n", node_from, node_to, ret);
+    munmap(addr, size);
+    return 0;
+}
