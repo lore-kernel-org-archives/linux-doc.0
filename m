@@ -1,259 +1,248 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010032.outbound.protection.outlook.com [52.101.46.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576422765DF;
-	Wed,  8 Oct 2025 13:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759928904; cv=fail; b=OqlRraJV2WfIg9byzRzISCGQYfIAPZrSLsF4Tlb/QAuYpDp2WsgQG5hwqa2W5r9GfaMabcDbbGK3XaMMAFkPG2dzzkx38Fab+BtJbt4DiqS9ckFBUL143AZviUg3/Ilk2WTGOzRMbl6sYx+NIwIUPu5iGo8I6eYpvW8XDsMJqnk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759928904; c=relaxed/simple;
-	bh=r4Plf2K9f08QRv3TGWPR5BLuKrcy0XXtH1gxW+BJPks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=GVf4+sXHhuFZgKg41iouRHBOPEMQaXfL0qiqOE7yi+ooV91hZQsI+awMBfbzCV5NmNXSKBksLMSfZ7aRjEE4p3GUslYB7IS0WiK7yCQxwn7ui5lblHr048Yz4V0X5DBHxEtZ7g8RmOqmLkjVqiMMA2eG+pkgtlCqsOJpfg+l6Tw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LY9Pbgln; arc=fail smtp.client-ip=52.101.46.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0894D21D3F4
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 13:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759929139; cv=none; b=dFdAFsSDn1zg35EwYjrMySd3ab6x+FElWsmIKKeGzpmUjVr72OG+X7LZ0nNjokfnH6dSJOzk6B5zXXpI/xZOOZy5kLbxgtQCwVDbfmhWBxKKO97pd5wjtm4EYWh8KFBEkeizAIOXb2wNsZaHHUxbpLg6v+LndaBvkz6QTUsDkbg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759929139; c=relaxed/simple;
+	bh=xpmGg4c/Cl5ZY8pMnlzNFA1QPQP86/btg3j7tq3p2As=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eRyBIKbrt7htuxAlrEm/eD+eQZTX8/YzmrAFPgB27PmVVAtQbPLNfszQ/lC0NjJIyGNBvgoxrDDeC8Co0o+fbYQJB1epZDkoAqMeSZ0HizFrclQLSzOD9fWLsSoVl5/MXbb01ds8BcI6rbrPLWVHBMinfFf2bB89c5Xcj9PZEfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AfzQuLW2; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LY9Pbgln"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ytWI13qWoOV0EZbogTe0KNp0ilW4SiY8fHal7Sc8nVjS1W28AMWLjyR7Jr565Q5V1sDIdU1hWo5JBns9wVLTuzWUTceviQ6WEL5dEVc1HWebNLfR1hJGyvSsSgDV/CMjDobiN7IEW8pJ4PioNBLlKZGaZiuNQ979tjrusq2sg8qsYZD1OIxGJYgrRl7A8rw8MG5dI5WAAd1AzOXdijtlO+yGj+rUlasS979khwsZjaWtkTL0q904ncAeVQ6M2KeSuWtWXx3J7yMr8WVWtv8cHv5Grv81MTlqzbbWHzUFJniZe6j2y+JMFyTapd0axhyIoz2jOW/Xkx9Ezn1C07wxbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cDwtl5l6yDUzgwc9auDCGKGF0YYnUM2NYlSCTX5E2yo=;
- b=JPNa7L4wFw3oJVjFfjBax600ulUhJNAb09EZT+H6W0eQ/pLBgQ5SzXwF6jfArS2Kcl9KZYkW5RQTK+OiavgLHr/7hLQXy6xgUct2sPYKI1Ttu4j74VPZSHC1/k5QaesIy7KQ7WN2pVjXT8CAc36srlK7Hwqb1GFRs/VTFlsRAP1I4IpN5UGsVuvcNujU2bK4uQAqV8CY1HYKpiC5GQ9AcjrYGnWFBaeSyiV6hHbk7Q/k9uRhaqAlD3g+N74+HHg0KCzOdJ7IGXGzndyRezXzrlTUP3oN1ltuOAbtiNfrmLgpxt//KKE4oCLi40SNUADUZEYGpUlj5U2BzW7h000vrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cDwtl5l6yDUzgwc9auDCGKGF0YYnUM2NYlSCTX5E2yo=;
- b=LY9Pbglnw0JuS2l8YTV7Qa2NIu4tsTejDA355TTO2mi/x8P39bDAQvufiOKL1FbwQa96yTDvphWRA8Pkv5BEV5YtCoYEMZOrET5BdWyArUy0e/EDb2b1p683nVUIgHWSGWvzZgxYhrCRZi+PasfIAMLdR4ijvMCnksC3DRq5TKu8XTUu/SMgW1yiY5IwFJHl4nKpkBvgEBbkS5MpPIo9LzaiFI5bINFCJKC+fZlPs4cFOY3otAkZs6a35unkmbYB/rtl6IpfzhyBVHCobTWbmDECtpuR2mijW1jZFE2nAg2hLsHOuBVGRnICnmZFhLo0pVuU1zyArRo40tO4v5LC0g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN8PR12MB3604.namprd12.prod.outlook.com (2603:10b6:408:45::31)
- by PH8PR12MB8608.namprd12.prod.outlook.com (2603:10b6:510:1bc::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Wed, 8 Oct
- 2025 13:08:15 +0000
-Received: from BN8PR12MB3604.namprd12.prod.outlook.com
- ([fe80::9629:2c9f:f386:841f]) by BN8PR12MB3604.namprd12.prod.outlook.com
- ([fe80::9629:2c9f:f386:841f%5]) with mapi id 15.20.9182.017; Wed, 8 Oct 2025
- 13:08:14 +0000
-Date: Wed, 8 Oct 2025 10:08:13 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	Joerg Roedel <joro@8bytes.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-	Bill Wendling <morbo@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	James Gowans <jgowans@amazon.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-Subject: Re: [PATCH v5 04/15] iommupt: Add the AMD IOMMU v1 page table format
-Message-ID: <20251008130813.GB3765120@nvidia.com>
-References: <4-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <4f50b0f3-c62d-452d-9a39-5c47ac201d01@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f50b0f3-c62d-452d-9a39-5c47ac201d01@amd.com>
-X-ClientProxiedBy: MN2PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:208:23a::11) To BN8PR12MB3604.namprd12.prod.outlook.com
- (2603:10b6:408:45::31)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AfzQuLW2"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-81fdd5d7b59so82889546d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 06:12:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759929137; x=1760533937; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fBKwa75rcl5jnXtV/oS/WIGH19YZKQyj0WoGa9cCm+I=;
+        b=AfzQuLW26qLV0TO7J0YgyYvNWLNPTP+63uUk5+wQH7LcU/y06cOHO92q/9QCxgyLIs
+         ZJTMMMjbd8kzYT4Wl2KaPQN6rAx3z90MAKJhYUq+9XN2QhfKkRnumtDWq+DtL92JK/x/
+         D9+qjNLJBHIZoUy5HTjCnuQ7cxrYCPCDIIJiH+yJJxBMHC+00Tm6qU1ZaNa5GTO0ed0T
+         JLHc0ZOOrJ+AvvfjAI4SYHWfJe6IX3ol1dyGJRPNJOJhN9a+Xqr+BvSISEvrdluc4ly0
+         +/SaJCpENX8XbfSwnGTgUtfTbUzeConzbS/GEclFORfYcLkBx5nLayKmf4qiYKqeBgoe
+         syyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759929137; x=1760533937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fBKwa75rcl5jnXtV/oS/WIGH19YZKQyj0WoGa9cCm+I=;
+        b=mPFppxiWPehO9oaF7k8o8PdAm42Qo1QLRJIjidBwDGvGqU0dfRKWohhoFSZeb4x8ZD
+         itjjLWRre/c0M/klcI0aZN+cdHEIHT/BgL42Jyu3oqKUJQFQEJhXRWNz5LpastpWxX9e
+         PzLi19JCIMmN3GLBQ2SWfq6pUrBdHBkCGGuMvbXqy+Px8bE2glRuUCStBsKj071j1CPD
+         /E9c2eNg4fNzSyoEwwGFlYmUNJ+5zNluMB26YttZM7JgsZQXMRq2O6sMjTU6cuKR2TVG
+         /xwdFA9/Ng3LDYSzuj7MMBNsQPhNFDhHrg+BDzrCZVeSVUgogiFhcWFbpgrLonhi+/Ae
+         oNuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2CfGySUKPLUQqyjVV+04imV5784NfsjrWf99WlalFY4xL4mfhfxCxecpISvrcXn/MiRGN5gY5w+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYtt8ITw0JvVJsd8AUpvIlAyB+2KD+Na0inpfCwGPW982S82iV
+	laF/9h4OSPsPZXTNiv6GCUyqNQCklDm1A4jqBWdwhKbggQMHrBE0Qt7oUuCcNJ0OZUv1c2gkx6b
+	IkCf2fa6Ro+gDLGoni31ZO9hsZhwGrW0=
+X-Gm-Gg: ASbGnctIkVELLNrWoTVwNMBYaUBac6jT/bRTr+6P6wbztoxXVlPIp6eXqZ5CEpSw00J
+	3FqY3GMV18fz67rO6JqsfOmtQYt0sjDGw46h2An6cNGIemS5QEuDWKhC5f1xSHxDvpqS9fu3rYC
+	ldPDL3fUIR19fhvzVOn8bNgj6UZI+vjr1qj+vMMbysGQhDg8cm59WcsKLfTIDV0onZ9/8lN7abA
+	mWbqOMOMO9i+rxAG/K06ue50zGmn67oOLwTUNFDk9zHVIaEl80H+tk99x4c9nr4jy/Qcxpq0HE=
+X-Google-Smtp-Source: AGHT+IFzUXffB1zB7vnWpuKrlcQPdtVGJfSjZp7EPf6PBL/bCYvn3+y9LWXlhXOmcWWw4fXUcxkyECmMdiurn0kjvhs=
+X-Received: by 2002:a05:6214:268b:b0:796:6034:c0fb with SMTP id
+ 6a1803df08f44-87b20ff9e9fmr42443166d6.13.1759929136653; Wed, 08 Oct 2025
+ 06:12:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3604:EE_|PH8PR12MB8608:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e3fbb5f-0108-417a-f353-08de066bbd7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KFc/P4eyJWw+0W9ZgC4e9+zf4Ufan9PGu4jVWG4cebLrbfKE/4HemBeKQfLN?=
- =?us-ascii?Q?oljoOa1XzoFQ2+oSAMq6NzRodsFYeSf7PG81vDnnTXJKaa65Vh6TO0vA5cGX?=
- =?us-ascii?Q?9Py+FXloB9GYcHbGHyrKuqSijE1EsaeFRBONRGXzqrzuDmhMJuQz4fbdwOLZ?=
- =?us-ascii?Q?4LOpgbtCfAOYfQfqdg4je1ZXgRD5v9hoHJtnVPehM0fdxPHl+UT/qURniJee?=
- =?us-ascii?Q?3XZtfDn6aalSvywlKkRQrr3mVJPO6ZW5Efeci88G5o3sjewGtnb1W8ExTN/Q?=
- =?us-ascii?Q?tI621bfdpeB6XjQihxvOwU5NPNbHiL2KmC8xqpYofZTdolMhSyVIRpdtOuJY?=
- =?us-ascii?Q?/6rFB0yXBcIsfWwbvS1MG7W8zR3PwTzaybXtXtNphF+wFjzD+IDPTUbJrJjF?=
- =?us-ascii?Q?M63TQhqFkX2XgfERtdXYMhGmqmCvbItphkzcG1VET51flZfdXikSd4CkAtXV?=
- =?us-ascii?Q?QYHYmSHZWnFBzA9KIctAx1N3dUMsj5B8iFVhRAo0JUKWy7FUmRkQgg0nA7Tk?=
- =?us-ascii?Q?q1AsiV62nO9lTZTspWq2UjHesHLx0h6IfV7CAMr3X4ZgVb6ypYfIqVdkf50r?=
- =?us-ascii?Q?Y1PdrZuT/iZnt/MeOO6E//dBCX2RX62WNjpEdMMY5MrmKFz4OVjTj3cRXUWg?=
- =?us-ascii?Q?5CeXdsvXRFZ6WddFCfI3K4DlAF/zvgjPALoUjlLq8c/W1AKq8aB7eiXn97T9?=
- =?us-ascii?Q?HxYk7SSxzrl2PEr2RK4y1ZAa6IqnIJZjBfWVpgEHeQx8xzX8By+Wx+byVUyY?=
- =?us-ascii?Q?OaYiBf8xCHZusbCaA75lSJlo1v9oOApzjmPdytlccYIZol7V37XTHP5COpup?=
- =?us-ascii?Q?4MdO11pGnLmVdVZP5zMoBhZCKXoYInwz5uraYOCC2qElUFjp3nPOEJ+SZ8PN?=
- =?us-ascii?Q?RJDQzX3ITgPTkBi50X8yQYfoBEbm/TcsD2YNnbylw/RwnOQ9J8d2kRf1IFs6?=
- =?us-ascii?Q?NlkWKqvPiW7V0jY0eg2uXg3G+xadoVngxkvXkGzAzDoVObZgbktMRv+2S4IF?=
- =?us-ascii?Q?SVFStUZQ0rhjM5oAFKyLP6pYnvvtBD09w8qDUZvZ2N4O/1B8+AsVc3XANzuw?=
- =?us-ascii?Q?4K+aCLby7GO+poYi5F6kV5EFmJLcwJCtZnuTnRMLk+6nK2LMVpu3oYuVucnh?=
- =?us-ascii?Q?gWsMaZAT/odA+Q8ggIBOHTKbx/4Fyn0x0YNmyJfQW91xvI/ZKHbF5aPdTc0e?=
- =?us-ascii?Q?bHftKYE2pZ/JydoKoIVVnQZG0Ajv0Q0u+b8N7w5seStgJRJWJRXwTAARf2NR?=
- =?us-ascii?Q?crq5f11m8UPenovtaJbaKTsUA+056flBgOwtTFVS28XVsYLkB9V9Dnz4KKBf?=
- =?us-ascii?Q?lBM1ahsM/tbYuLgaFbczZn7KdJWQoFtG39w8vOIgLkj0a4Y0DFd9wlRYP1hY?=
- =?us-ascii?Q?tx9+3ZMUa2RTFdEAJVqiFPvFaK0zJuiUcS1ywP198f0bEPIK7eBDKgG1Nzbo?=
- =?us-ascii?Q?ukgFoilMX09l4rxkxmrZ1v0R6PwrFb0x?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?o6o67opDj1kwpwBkTaQDSGgOl5OuJoHLJA2o4VrbZ+p8Oz7OMxT2hlM51H/H?=
- =?us-ascii?Q?pCj1+/Q6YaWP5x8t4cHpWFNeYGct8rS2KnquIxEEOsS7XBeP20JCD2TynsD+?=
- =?us-ascii?Q?zY04BOiqvW3nXKfPRZg2e8k0IgAKXSF+dznZxfRGJuE++74QUw+P/4JyJB0a?=
- =?us-ascii?Q?ySse5zIBOH5HV55xHZB5o02nrtWVgfaDI1zy2g9EtM2S3XU4rT5il9ffs/sy?=
- =?us-ascii?Q?vNBjVQTHGLheoiSaf/72hb0OpmzyWCvhZXZ8snlnZauCsTkdo0u1Uo9y/tRu?=
- =?us-ascii?Q?ljryEFVWisPFpLV2dNSWOXgb0dnfzSan0OJiwjcM/DSdBv10+/0uMJrV+dZJ?=
- =?us-ascii?Q?vnSIeNCL0Zfb6QUZH30n3De4jsn5YHmCGjyi1cQwLqBrv6UiYCUmnZNddjQL?=
- =?us-ascii?Q?ybyx43p+JfB46lERDLbD80PnmNCJTmCdYEw/m8CSSBUTgXqo1UzPC1XSVwRz?=
- =?us-ascii?Q?suXB4qGm7Q+Eo8KQJ4mCkhTbxNHBUqkDxDnNOtBo+HgVkYCGz/esHn76zpfZ?=
- =?us-ascii?Q?rsLZd9rZQ7jxoRtRFaXrDKGrV+zL2pweXGiXaStb79EXyPbCdYQy2C8ngB7b?=
- =?us-ascii?Q?gcLwcMCKtpQ0laAp53OLvrebtpjC/S0YOqc15e0tv87Disf6w/K5U7+lgRS9?=
- =?us-ascii?Q?eO8iD+TK2Od2+8UkdkXlR7JEuRw5urIIF0Hl98FisTfwWjT4KoYFfvP7TpSL?=
- =?us-ascii?Q?NVbU50aXT6aMmG4sOV/jQVrytfP/dRRgP02bx6jVUy5PFqfqABlZid4O5Ygy?=
- =?us-ascii?Q?AZqkV/nh4T7Ei4pYBfAvUx6Ye3Lz3W86gn1amAnftnTxI0gwDJy4R9Ve43OD?=
- =?us-ascii?Q?csFmKwcVa+hizCaRvAOGhtTqVFPjWDtHNrwF32rQ0mMR3MqezYR2PpJZsSOe?=
- =?us-ascii?Q?OSPhkZPBSwJvODoMO6o1Z8smHTiUiVlHbkgbxs/K90nHRXw/SiODfp0WDv/O?=
- =?us-ascii?Q?4f+TVYYnoERIxMZft9nhgBTYY3Up2zFRGrna8CVf49IV6waIIZ+L1DniYovx?=
- =?us-ascii?Q?Gi6AHW7ieSjH4qilXgxtRTDBbdFcuBMbv1Rj1sYkxItMZv2sF6nr3Iz0PXpa?=
- =?us-ascii?Q?Sm/9oAE5+RmhTvte04Yt1NzBgVYRBhTUUrnSL/SNIwQbfbK3tzB4Z4azvPDM?=
- =?us-ascii?Q?ov70hQCQ4ZrlMWRmOXRskl8hQ4IfpLXxz+8gAdboG6niWxhjEayTvVk/1DnA?=
- =?us-ascii?Q?249uvNQzUNdAGGtgsltUdo7E2QQVzi6HYcLV/wDMT73of/m6hoCbnjudgnuK?=
- =?us-ascii?Q?T0sviTghKaS8r2cqavtiC3yegMIc9Yd5V2HnI03QsWomF+PJZ2s5hICMoOXk?=
- =?us-ascii?Q?82Fab17c8guSZdjbJnMoO9/EcRJScWbBdU2GnhgIVygql1Z4/5xhAQ8+1l4f?=
- =?us-ascii?Q?5mzpJ6X0PPzzHQrrxFXfMpddMMOtpIGv0VTmuqf4yc5570nbxPekmfNx10At?=
- =?us-ascii?Q?fba6tZ/Bc2IzDCE4AyN8sQP7B5NgJyrvXVwDJ2DAxVTN2vC256sN3Ml7Vh5X?=
- =?us-ascii?Q?K8pyVAnCBR9EPWMcm682e1ZmIbNQkF+3nYs6C2V+TaRT/5Nej664fl23d275?=
- =?us-ascii?Q?y2xt82s2PhnlehLMHhlDaeUNJ9OPYvPEqBwZH65s?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e3fbb5f-0108-417a-f353-08de066bbd7e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 13:08:14.5255
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mDRPxd7birp0CgEnwJn7uIi5Fk+M2EnA2mh/urCSWXSprDAYUjci0vg+JqvVwV2t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8608
+References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+ <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com> <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
+ <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com> <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
+ <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com> <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
+In-Reply-To: <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Wed, 8 Oct 2025 21:11:39 +0800
+X-Gm-Features: AS18NWAfLSZj5vVPHQEFQdqoJ0RU1U5dgEf--oeMfkY_sJP1b_wNMDZYIuMpIdc
+Message-ID: <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
+Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
+ order selection
+To: David Hildenbrand <david@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	Matthew Wilcox <willy@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Amery Hung <ameryhung@gmail.com>, David Rientjes <rientjes@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, Randy Dunlap <rdunlap@infradead.org>, 
+	bpf <bpf@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 08, 2025 at 03:13:32PM +0530, Vasant Hegde wrote:
-> Jason,
-> 
-> On 9/3/2025 11:16 PM, Jason Gunthorpe wrote:
-> > AMD IOMMU v1 is unique in supporting contiguous pages with a variable size
-> > and it can decode the full 64 bit VA space. Unlike other x86 page tables
-> > this explicitly does not do sign extension as part of allowing the entire
-> > 64 bit VA space to be supported.
-> 
-> I am still catching up w/ entire series.. But here is few fixes needed to boot
-> this series w/ SME.
+On Wed, Oct 8, 2025 at 8:07=E2=80=AFPM David Hildenbrand <david@redhat.com>=
+ wrote:
+>
+> On 08.10.25 13:27, Zi Yan wrote:
+> > On 8 Oct 2025, at 5:04, Yafang Shao wrote:
+> >
+> >> On Wed, Oct 8, 2025 at 4:28=E2=80=AFPM David Hildenbrand <david@redhat=
+.com> wrote:
+> >>>
+> >>> On 08.10.25 10:18, Yafang Shao wrote:
+> >>>> On Wed, Oct 8, 2025 at 4:08=E2=80=AFPM David Hildenbrand <david@redh=
+at.com> wrote:
+> >>>>>
+> >>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
+> >>>>>> On Mon, Sep 29, 2025 at 10:59=E2=80=AFPM Yafang Shao <laoar.shao@g=
+mail.com> wrote:
+> >>>>>>>
+> >>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *vma=
+,
+> >>>>>>> +                                     enum tva_type type,
+> >>>>>>> +                                     unsigned long orders)
+> >>>>>>> +{
+> >>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
+> >>>>>>> +       int bpf_order;
+> >>>>>>> +
+> >>>>>>> +       /* No BPF program is attached */
+> >>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
+> >>>>>>> +                     &transparent_hugepage_flags))
+> >>>>>>> +               return orders;
+> >>>>>>> +
+> >>>>>>> +       rcu_read_lock();
+> >>>>>>> +       bpf_hook_thp_get_order =3D rcu_dereference(bpf_thp.thp_ge=
+t_order);
+> >>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
+> >>>>>>> +               goto out;
+> >>>>>>> +
+> >>>>>>> +       bpf_order =3D bpf_hook_thp_get_order(vma, type, orders);
+> >>>>>>> +       orders &=3D BIT(bpf_order);
+> >>>>>>> +
+> >>>>>>> +out:
+> >>>>>>> +       rcu_read_unlock();
+> >>>>>>> +       return orders;
+> >>>>>>> +}
+> >>>>>>
+> >>>>>> I thought I explained it earlier.
+> >>>>>> Nack to a single global prog approach.
+> >>>>>
+> >>>>> I agree. We should have the option to either specify a policy globa=
+lly,
+> >>>>> or more refined for cgroups/processes.
+> >>>>>
+> >>>>> It's an interesting question if a program would ever want to ship i=
+ts
+> >>>>> own policy: I can see use cases for that.
+> >>>>>
+> >>>>> So I agree that we should make it more flexible right from the star=
+t.
+> >>>>
+> >>>> To achieve per-process granularity, the struct-ops must be embedded
+> >>>> within the mm_struct as follows:
+> >>>>
+> >>>> +#ifdef CONFIG_BPF_MM
+> >>>> +struct bpf_mm_ops {
+> >>>> +#ifdef CONFIG_BPF_THP
+> >>>> +       struct bpf_thp_ops bpf_thp;
+> >>>> +#endif
+> >>>> +};
+> >>>> +#endif
+> >>>> +
+> >>>>    /*
+> >>>>     * Opaque type representing current mm_struct flag state. Must be=
+ accessed via
+> >>>>     * mm_flags_xxx() helper functions.
+> >>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
+> >>>>    #ifdef CONFIG_MM_ID
+> >>>>                   mm_id_t mm_id;
+> >>>>    #endif /* CONFIG_MM_ID */
+> >>>> +
+> >>>> +#ifdef CONFIG_BPF_MM
+> >>>> +               struct bpf_mm_ops bpf_mm;
+> >>>> +#endif
+> >>>>           } __randomize_layout;
+> >>>>
+> >>>> We should be aware that this will involve extensive changes in mm/.
+> >>>
+> >>> That's what we do on linux-mm :)
+> >>>
+> >>> It would be great to use Alexei's feedback/experience to come up with
+> >>> something that is flexible for various use cases.
+> >>
+> >> I'm still not entirely convinced that allowing individual processes or
+> >> cgroups to run independent progs is a valid use case. However, since
+> >> we have a consensus that this is the right direction, I will proceed
+> >> with this approach.
+> >>
+> >>>
+> >>> So I think this is likely the right direction.
+> >>>
+> >>> It would be great to evaluate which scenarios we could unlock with th=
+is
+> >>> (global vs. per-process vs. per-cgroup) approach, and how
+> >>> extensive/involved the changes will be.
+> >>
+> >> 1. Global Approach
+> >>     - Pros:
+> >>       Simple;
+> >>       Can manage different THP policies for different cgroups or proce=
+sses.
+> >>    - Cons:
+> >>       Does not allow individual processes to run their own BPF program=
+s.
+> >>
+> >> 2. Per-Process Approach
+> >>      - Pros:
+> >>        Enables each process to run its own BPF program.
+> >>      - Cons:
+> >>        Introduces significant complexity, as it requires handling the
+> >> BPF program's lifecycle (creation, destruction, inheritance) within
+> >> every mm_struct.
+> >>
+> >> 3. Per-Cgroup Approach
+> >>      - Pros:
+> >>         Allows individual cgroups to run their own BPF programs.
+> >>         Less complex than the per-process model, as it can leverage th=
+e
+> >> existing cgroup operations structure.
+> >>      - Cons:
+> >>         Creates a dependency on the cgroup subsystem.
+> >>         might not be easy to control at the per-process level.
+> >
+> > Another issue is that how and who to deal with hierarchical cgroup, whe=
+re one
+> > cgroup is a parent of another. Should bpf program to do that or mm code
+> > to do that? I remember hierarchical cgroup is the main reason THP contr=
+ol
+> > at cgroup level is rejected. If we do per-cgroup bpf control, wouldn't =
+we
+> > get the same rejection from cgroup folks?
+>
+> Valid point.
+>
+> I do wonder if that problem was already encountered elsewhere with bpf
+> and if there is already a solution.
 
-I got them all, like this - thanks a lot!
+Our standard is to run only one instance of a BPF program type
+system-wide to avoid conflicts. For example, we can't have both
+systemd and a container runtime running bpf-thp simultaneously.
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 92095fd17b3899..0b97db94c8c4e0 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -2054,7 +2054,7 @@ static void set_dte_entry(struct amd_iommu *iommu,
- 						       &pt_info);
- 			}
- 
--			new.data[0] |= pt_info.host_pt_root |
-+			new.data[0] |= __sme_set(pt_info.host_pt_root) |
- 				       (pt_info.mode & DEV_ENTRY_MODE_MASK)
- 					       << DEV_ENTRY_MODE_SHIFT;
- 		}
-@@ -2166,7 +2166,7 @@ static int init_gcr3_table(struct iommu_dev_data *dev_data,
- 		return ret;
- 
- 	pt_iommu_x86_64_hw_info(&pdom->amdv2, &pt_info);
--	ret = update_gcr3(dev_data, 0, pt_info.gcr3_pt, true);
-+	ret = update_gcr3(dev_data, 0, __sme_set(pt_info.gcr3_pt), true);
- 	if (ret)
- 		free_gcr3_table(&dev_data->gcr3_info);
- 
-diff --git a/drivers/iommu/generic_pt/fmt/amdv1.h b/drivers/iommu/generic_pt/fmt/amdv1.h
-index d7660d4170ef78..26e29b08a9b4ae 100644
---- a/drivers/iommu/generic_pt/fmt/amdv1.h
-+++ b/drivers/iommu/generic_pt/fmt/amdv1.h
-@@ -73,22 +73,29 @@ enum {
- 
- static inline pt_oaddr_t amdv1pt_table_pa(const struct pt_state *pts)
- {
--	return oalog2_mul(FIELD_GET(AMDV1PT_FMT_OA, pts->entry),
--			  PT_GRANULE_LG2SZ);
-+	u64 entry = pts->entry;
-+
-+	if (pts_feature(pts, PT_FEAT_AMDV1_ENCRYPT_TABLES))
-+		entry = __sme_clr(entry);
-+	return oalog2_mul(FIELD_GET(AMDV1PT_FMT_OA, entry), PT_GRANULE_LG2SZ);
- }
- #define pt_table_pa amdv1pt_table_pa
- 
- /* Returns the oa for the start of the contiguous entry */
- static inline pt_oaddr_t amdv1pt_entry_oa(const struct pt_state *pts)
- {
--	pt_oaddr_t oa = FIELD_GET(AMDV1PT_FMT_OA, pts->entry);
-+	u64 entry = pts->entry;
-+	pt_oaddr_t oa;
- 
--	if (FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) ==
--	    AMDV1PT_FMT_NL_SIZE) {
-+	if (pts_feature(pts, PT_FEAT_AMDV1_ENCRYPT_TABLES))
-+		entry = __sme_clr(entry);
-+	oa = FIELD_GET(AMDV1PT_FMT_OA, entry);
-+
-+	if (FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, entry) == AMDV1PT_FMT_NL_SIZE) {
- 		unsigned int sz_bits = oaffz(oa);
- 
- 		oa = oalog2_set_mod(oa, 0, sz_bits);
--	} else if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, pts->entry) !=
-+	} else if (PT_WARN_ON(FIELD_GET(AMDV1PT_FMT_NEXT_LEVEL, entry) !=
- 			      AMDV1PT_FMT_NL_DEFAULT))
- 		return 0;
- 	return oalog2_mul(oa, PT_GRANULE_LG2SZ);
-diff --git a/drivers/iommu/generic_pt/fmt/x86_64.h b/drivers/iommu/generic_pt/fmt/x86_64.h
-index be2a0a770f903f..d33b2fcd865b84 100644
---- a/drivers/iommu/generic_pt/fmt/x86_64.h
-+++ b/drivers/iommu/generic_pt/fmt/x86_64.h
-@@ -79,14 +79,22 @@ enum {
- 
- static inline pt_oaddr_t x86_64_pt_table_pa(const struct pt_state *pts)
- {
--	return oalog2_mul(FIELD_GET(X86_64_FMT_OA, pts->entry),
-+	u64 entry = pts->entry;
-+
-+	if (pts_feature(pts, PT_FEAT_X86_64_AMD_ENCRYPT_TABLES))
-+		entry = __sme_clr(entry);
-+	return oalog2_mul(FIELD_GET(X86_64_FMT_OA, entry),
- 			  PT_TABLEMEM_LG2SZ);
- }
- #define pt_table_pa x86_64_pt_table_pa
- 
- static inline pt_oaddr_t x86_64_pt_entry_oa(const struct pt_state *pts)
- {
--	return oalog2_mul(FIELD_GET(X86_64_FMT_OA, pts->entry),
-+	u64 entry = pts->entry;
-+
-+	if (pts_feature(pts, PT_FEAT_X86_64_AMD_ENCRYPT_TABLES))
-+		entry = __sme_clr(entry);
-+	return oalog2_mul(FIELD_GET(X86_64_FMT_OA, entry),
- 			  PT_GRANULE_LG2SZ);
- }
- #define pt_entry_oa x86_64_pt_entry_oa
+Perhaps Alexei can enlighten us, though we'd need to read between his
+characteristically brief lines. ;-)
+
+>
+> Focusing on processes instead of cgroups might be easier initially.
+
+
+--=20
+Regards
+Yafang
