@@ -1,119 +1,143 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600F12EC57C
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 14:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F71D287505;
+	Wed,  8 Oct 2025 15:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759935553; cv=none; b=ogrLWrnghLTBQmnzM7ryQ3eJ8Sntcr4GTCnndI7BnbxWqsow4P9BXydX5JXxfIXvXJtCGM0b8pEFwJ6G+RdwoRE/aXXPMXGTDfjjUA0//3PBKrGAHb6sg9zV8+u3x+JEevGWkc8lPkdbA62EBB5UKC7aNCVq+VFZpbw8sleLTtI=
+	t=1759936120; cv=none; b=AurcZYQcSbaOBrXB4mt2ldZPPdVo4jixfAZ5wy0MYwtr6AOsQ2wL/mCUWXaKfMeG4RFpWcw7ignDaSGjX4QI3El6FTNFG4n5uYfDgXRM+YArnpHh/AYIBkWkIzit/r8BVSG2YxB7OCBZ47ckpJ1VLv/3NNxKsrIEd0WCFFhmgtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759935553; c=relaxed/simple;
-	bh=+yCckR6yn9p7GyvjYoiZcRvKpmENICzodGyAOj0De5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJOhgkB6WFxGCV09AuBEeE4qUwXm6WrbsWy0U4b4BvwugeAiR68j1TuUNd7YEY1yq6497mxErQHPyqSs/9LVXDJZmgVRZmXHmFC9h/vYO7wuL76LaoqoOwQueL2DoOvDdpPTMDw6Fh6Ygn3O0KJ7lVB3EqnU/oYkWKHsO1S+/48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UZi485t/; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1759936120; c=relaxed/simple;
+	bh=gw1n2k3bVJ4HnM5jaOKbNiYxoog8PqFFa15xtHSaS+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ONxxYeNAH6uQ4mUWfRF1hglj+Vm/096tGT6V6QmuI94QIxGzaiOCxUY8cngBD277B7xbMRmZV4yJ2siMWvgOkhdxrZWs19USgusl1iqcpI54S+W+JcoBtYSQZ0hxlYi42/1rw1ce3KGFyazwj4kyCaGxPtT38tar5zrNs0XGO5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oHevIM8p; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UZi485t/"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b41870fef44so1475059066b.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 07:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1759935549; x=1760540349; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3WqvDkSw2KqYGDX5nwqWxTk9V6PgPZ8rHUAzP3TxPgg=;
-        b=UZi485t/zJJ5TjlZqaskhRnlbWU0zLJn9oSBQclSA4JzgJHQH5p6e3HPWBR9quckTX
-         ZMjoMBBZnusAdRQxIQD9sH+8UTIjBJ3+078Bb4otJhlrBU3PuE6AZaw3MK2QeAlFksgW
-         2zHW7C8qAe4NeEyy6K4ottFFESs/XMbUWq/KxRVV0Y/H0Igmkblg4cG6a2bNBjqg/BEM
-         q7OOSQcOr4yZJaqdm6lacYpYx5pPiPJWL+hU721IQKmRWzUE6ChktVQ3ZEI4+bt7E1So
-         LyI4gtggktfUO8rYw7C5CzfDXm4E9ERn1udzJ8Kw3Zw0j033XZhSzPOU0nyLiyJfN0MB
-         mg7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759935549; x=1760540349;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3WqvDkSw2KqYGDX5nwqWxTk9V6PgPZ8rHUAzP3TxPgg=;
-        b=OPRB8wQ5B5Y7NYw+JfNtUxUB1iGCAO6xjP3N6R9/pP+UHlPPxJRZbdk12PQmfEyOlX
-         yPfC7VHXlMkQPbHTlW/KLH5GCrL0m3OITh7KouBLuDIYGB0D1en+OqM5+jn2piQYte9I
-         i0a7U3mf1i/YaXGnwTPqX5egEKnlxedf/M/U02PE4s0zrMLtQK+EyzOoBGBMit4AZSO3
-         9WaniOm+moO41PG5h5izMwxqTtqBC9FQjJ6vL+sAepV8vcZZlptx3Pkk9Sk2nZe9PzTi
-         5xxgeYqXnN2M6OiUHDqxTVsZmlO9PDmx4OjbNfWS3NqcyGU7diNZgTx5JLJ9gYmx14Ug
-         +qUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFJNAknG4mRHJPD2En58qLwNfylzKxiW8VKGrpiR63xijhrvaYy6nIjwZtSLOEeUGoUA4ZqUkxjXA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3zpuKsixsiIoOa2R1oNLoudK13JtvgJd94rJMBL17rrxTtoN4
-	f7AzwlfO+XJ7xkyq9qoI8CwwAH2Ah/0uqsbMsLg5L/+qc8x5R+Gn3fWpgDlZWIv9PLA=
-X-Gm-Gg: ASbGncvcs8YmsRbPVUKfFRuSjpMr+uPCVMrtkremwiVQzKUbodHmnT5pLNL0KtrEF1h
-	sW7gTG4NEg2ZFqjSISc9Q3iVIbmTLYavbPBT6LgdIXHSjfQuxti6uJkfNOOPzwHi6aqy/9T1J3g
-	B8dfM2LiqMnmJUyyI9hdvNFibVS0gl/lLGDPtMQh+aAcpkmbQlswldft5MPT56qm759nD7Fcs66
-	k3xri1H9W4KR7WkYVuLUNkRc80ixGmkMBALPUYQZ1OQYv4+Nr/Ky10CDw2xsL7YnykYfI7Dtxr/
-	D79Ciwvug+OEo3UBb0U8lO8svxKRQznGYPm1nsUYmdwtdtOiruUHURnFAc9qXSsXDa0GSK1fZ11
-	sjuKHQd61B+tc+FmUP4DAPye5vQ2SHAtvUdIX5atT10CRCy+dnaaPt7OgzOgsrU4AhGl4FxQ=
-X-Google-Smtp-Source: AGHT+IFBSess4JhPzPnfqXQ4vaR52HMiQOJrNFMXBMaP94ew77X1V9umXx+wx/PFKR0AyuDpLcmESQ==
-X-Received: by 2002:a17:907:25c6:b0:b3b:4e6:46e6 with SMTP id a640c23a62f3a-b50aa393beamr401394066b.1.1759935549398;
-        Wed, 08 Oct 2025 07:59:09 -0700 (PDT)
-Received: from localhost (109-81-95-234.rct.o2.cz. [109.81.95.234])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b4865f741f1sm1679808966b.39.2025.10.08.07.59.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 07:59:09 -0700 (PDT)
-Date: Wed, 8 Oct 2025 16:59:08 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, corbet@lwn.net,
-	muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
-	mclapinski@google.com, joel.granados@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mel Gorman <mgorman@suse.de>,
-	Alexandru Moise <00moses.alexander00@gmail.com>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
- sysctl"
-Message-ID: <aOZ8PPWMchRN_t5-@tiehlicka>
-References: <20251007214412.3832340-1-gourry@gourry.net>
- <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oHevIM8p"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5985mRu5005704;
+	Wed, 8 Oct 2025 15:08:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=IXws27
+	uw2P8rHXdGXnTEjb2JtZYE6gL7w+ozNAxwm1o=; b=oHevIM8pNtQ0Z0x1IWJzqW
+	E9BxZczdrfEsuaGsno8xZuzbQfWrIQZ/rG+EcwDszX5ck3edbHjHDVS0u2hSZiHl
+	c7un0r20XkUf8tXfqqpDRV9+SrH1v+X3gdJ5mENcIRa6FvfYtIowLbPUWUWlroZt
+	FXTmu+VNAr0/ntcGRg4O2qtxvIojAHlNGBX/aqDrcpdBerYXYjT5zoPo6SwlOdlU
+	Wx5JcyXX7lOumiItlJLyFlhpmvJc3qZPYhNOeKZ6VFa/CIHUDdcY08UCa8FBDAYg
+	oSXIBDxXtI6iO0OiRFErndu3sBjB/AfmuBbd1sCFZBnXgINuFR4XHTzIUscMrjSw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49ju3h5xcf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Oct 2025 15:08:26 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 598EtZoL029518;
+	Wed, 8 Oct 2025 15:08:26 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49ju3h5xcb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Oct 2025 15:08:26 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 598E5tPY028463;
+	Wed, 8 Oct 2025 15:08:24 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49kewn934e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Oct 2025 15:08:24 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 598F8K1L60293552
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Oct 2025 15:08:20 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8E41C2004B;
+	Wed,  8 Oct 2025 15:08:20 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B466020043;
+	Wed,  8 Oct 2025 15:08:19 +0000 (GMT)
+Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.111.55.136])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Wed,  8 Oct 2025 15:08:19 +0000 (GMT)
+Date: Wed, 8 Oct 2025 17:08:18 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Dust Li <dust.li@linux.alibaba.com>
+Cc: Mahanta Jambigi <mjambigi@linux.ibm.com>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "D. Wythe"
+ <alibuda@linux.alibaba.com>,
+        Sidraya Jayagond <sidraya@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+        Guangguan Wang
+ <guangguan.wang@linux.alibaba.com>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH net-next v5 2/2] net/smc: handle -ENOMEM from
+ smc_wr_alloc_link_mem gracefully
+Message-ID: <20251008170818.35825f55.pasic@linux.ibm.com>
+In-Reply-To: <aOZv0NmekKIgpc5M@linux.alibaba.com>
+References: <20250929000001.1752206-1-pasic@linux.ibm.com>
+	<20250929000001.1752206-3-pasic@linux.ibm.com>
+	<aNnl_CfV0EvIujK0@linux.alibaba.com>
+	<de0baa92-417c-475a-a342-9041f8fb5b8e@linux.ibm.com>
+	<aOZv0NmekKIgpc5M@linux.alibaba.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOCBTYWx0ZWRfX6VjEahsoUcmG
+ smHgSy/AKpBINebCo5oEvoRscM2tO9XOv7LMLb1Ky/1R8nGtJUEvOJi1hN/Kbiwv2VkdQ8I8dnX
+ RfX1uelw3SbTRpmoHhnkBA9i5KdvIBsHLsjZO8toToW2juiknDZ8xK8cXzDFftMmElSpwgRwLUR
+ rbpKt3oFd0nFnLuQE4VqlD6ERvLVmMizpmledmUMH3uSwW0xSeW0GOITBvCkW8gkPY0eGeQs6N/
+ NxWx5+Z8ln23T0+BSdLDkt4YX/Yw22tPXtPQHpt/fBqEAlfCUdnkkApecS7Md0TvmuFAhwbg3Vh
+ Tc/XGXGu/FuTVMl33O6q4IptCPRaZ1ZVO2I0jXaxGUoe+1h03eSBdItNqLSA7/kdUO9TKB8o+97
+ BS/DIb2WJsrT6gnb+DcYhGiMTgwFBA==
+X-Authority-Analysis: v=2.4 cv=I4dohdgg c=1 sm=1 tr=0 ts=68e67e6a cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=SRrdq9N9AAAA:8 a=akCnWnY-8Ao0MBcy0-UA:9
+ a=CjuIK1q_8ugA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: kEXar_J4G3Eih2Gc8x4pvjM3-V64uZDW
+X-Proofpoint-ORIG-GUID: r0GVS5MJD2DScOkInXjzo5VyvaqWyUXS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040018
 
-On Wed 08-10-25 10:58:23, David Hildenbrand wrote:
-> On 07.10.25 23:44, Gregory Price wrote:
-[...]
-> > @@ -926,7 +927,8 @@ static inline gfp_t htlb_alloc_mask(struct hstate *h)
-> >   {
-> >   	gfp_t gfp = __GFP_COMP | __GFP_NOWARN;
-> > -	gfp |= hugepage_movable_supported(h) ? GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
-> > +	gfp |= (hugepage_movable_supported(h) || hugepages_treat_as_movable) ?
-> > +	       GFP_HIGHUSER_MOVABLE : GFP_HIGHUSER;
-> 
-> I mean, this is as ugly as it gets.
-> 
-> Can't we just let that old approach RIP where it belongs? :)
-> 
-> If something unmovable, it does not belong on ZONE_MOVABLE, as simple as that.
+On Wed, 8 Oct 2025 22:06:08 +0800
+Dust Li <dust.li@linux.alibaba.com> wrote:
 
-yes, I do agree. This is just muddying the semantic of the zone.
+> >I did test this after you query & don't see any issues. As Halil
+> >mentioned in worst case scenario one link might perform lesser than the
+> >other, that too if the kcalloc() failed for that link in
+> >smc_wr_alloc_link_mem() & succeeded in subsequent request with reduced
+> >max_send_wr/max_recv_wr size(half).  
+> 
+> Great! You can add my
+> 
+> Reviewed-by: Dust Li <dust.li@linux.alibaba.com>
 
-Maybe what we really want is to have a configurable zone rather than a
-very specific consumer of it instead. What do I mean by that? We clearly
-have physically (DMA, DMA32) and usability (NORMAL, MOVABLE) constrained
-zones. So rather than having a MOVABLE zone we can have a single zone
-$FOO_NAME zone with configurable attributes - like allocation
-constrains (kernel, user, movable, etc). Now that we can overlap zones
-this should allow for quite a lot flexibility. Implementation wise this
-would require some tricks as we have 2 zone types for potentially 3
-different major usecases (kernel allocations, userspace reserved ranges
-without movability and movable allocations). I haven't thought this
-through completely and mostly throwing this as an idea (maybe won't
-work). Does that make sense?
--- 
-Michal Hocko
-SUSE Labs
+Thank you! Will do and respin once net-next is open again.
+
+Regards,
+Halil
