@@ -1,131 +1,160 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CB32750E6
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 19:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47644C6C
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 20:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759953560; cv=none; b=rkbkeLWNrrEb2q4aUL5xYDHE3jVjNMw8ifTeBSS1EpXXygblyVj0Re+WbdukomYaInYv6DHqOUhRaWELfcCxNWxjGjvF3WPFawOfcGX4mVHLBazUrEDOeu6Onnv0U22w/LXzKyVQApGh5FtCaAUI3c85wpCt6/tTlwhfeLHrBdw=
+	t=1759955240; cv=none; b=EWbsm19ac3gkP+HsiK2SefB+Lu0d0KopcoisMo41wPKn1kJS2wmd3q1LcFs2BBJ8Sqc2/NzlWiAhrb1YDOILzu+moDb74WlxB6k4QvUapliI7pXBpg5ArRGUatxsjeEGfCmJvTy8HDXVmaf3FYJ2Ggz6Oc9K0lObKlN+yaupxpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759953560; c=relaxed/simple;
-	bh=6nsqwikc+gppKx465Dsw1tXk6ea/s3IqiQajcjH9T4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N2SbreDiFkZVeEGyH4M3ykzXtNxvtlPvecoKEqI3px09waa/YPcRRy1KzRMIUHCxEwMt4la60oV/ahfWpKUGA/FVn+YVjp1RKD2wX6+4Yvsd9DPSxgwDikOHmcKYke3kx/AIerK5BqS4y3l1fjH2uVviWKhVX/7Dau22Q8i4G2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=N+n3DIOc; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1759955240; c=relaxed/simple;
+	bh=1gtRIhdakY3OUEjKqsiJpOl5NeDvVJOe2kSkjt8sPNk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VUMapJ/EnIHqXp0fP1S2gZaXpCRVz78jH7R9v4RtAn6jlFMO2J/tYuyeHxSaZ8u09XcRgbOpQzwv5fJVQvDah68PIkqT2LLQfksdYikwkOJ9rnJxC9AvEs6c/MVCxMKviWLLkFEPyoIQGStpRzAdidfuYh91+bQTypuErcJAmz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=R1TgEN3C; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="N+n3DIOc"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-80ff41475cdso3747506d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 12:59:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="R1TgEN3C"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4d7b4b3c06dso1193251cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 13:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1759953557; x=1760558357; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bQgR6a95356dPsVrbrUk33Cag4UDOjeL50G3GytdiSY=;
-        b=N+n3DIOcwQMmr6wsL4trcAinkaO4Z8aBNw4mXByxjiNwYRd5zoqUSnFQHUw/3nvAGs
-         DFCGPHRHORqcB8DfHme7WG8stuRnx1TSYyQAXGD4ofWx5MgB7jSlP6koMKcMJBMVyBsU
-         /hsyP278bFXx3s6g7giWhC7I5rk+1uvsVDT5Fp40P7daHPE+jH754CtoTfkPieKqV3kM
-         tF/piJYoUVWfkDVh38jkZvt08KZrLfCM3KNW1yvBJT6S6Y8CeyGaebWxMjFyxNt01uWi
-         vqv+894/xf38IQcNCTGTZTfNqHIoNmZf0ovu/RdIm2uGBLP3aewB0KE9jRs1Apy3d6qO
-         XJHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759953557; x=1760558357;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1759955238; x=1760560038; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bQgR6a95356dPsVrbrUk33Cag4UDOjeL50G3GytdiSY=;
-        b=nXIVd2untrgmrToxahUs91LYyYa6+0ohA4T/nRJJmorsGx/VuAop5lfD4kM0SGMJaZ
-         JGp7XrAYvGau0YfnYqIo986b0jfvBVip/+H//LbU9MZ3fDS3W8zVIEErmB2vvXjfBlQQ
-         8WvRowoIEAh5kCA5Ce+JqpH66bL9x2QpkEx9bQ39W6Z0uJ5cFcuOufMU+Lh1UA7D1mal
-         R+3amLFHWVIbv+fj/RkE2vw3o1csc4+dehWKMDafe4wKcY0DxVnMwaLqQsUcUg6taeAv
-         qzqTrpGJhbfzubmOKCrNmG5+TNak/jGEQJAoThW8zsOOcKEOloWOBRmdM4Hm3UwJfLh/
-         T9+g==
-X-Forwarded-Encrypted: i=1; AJvYcCW9i7Q8YtXAbtXMJ+VtBv/gd2mAk6qZ+xwhcaWh3X2HjOTbcCbTDO1xV+2YeSmCRtjM/CUgjRmByqA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziN3/NE3ZAwf4A43OkSxQsw4EJInxLd9/zteANYHXYAa8moh4Q
-	pUtOhWmgJeu2P5KfUmZQ/Rip3tL4QVgHE94RBvYJElGTCMerwEYQPol5RTo4MIr7YwU=
-X-Gm-Gg: ASbGncuBNG68sSyHkVUvcKJpGR/JHAvMPLlHhgV1LBd5y0/QbBm2/Z4yl6Zkr1Qf0Ki
-	Xa9jCncnsH4cWQrdgR0uua6qHAUzaT0P5WwF3YP92Rx9xWGLuW9Hw/rk5290+MGNcVhbIMAFY9X
-	uij2ZDreBRFi/9XkmxdM3WBDxc/6uZRjxEzlOQIE/GFTUB9vrVa3W1ihh9xCVfKAMZwcx2oRJ/i
-	zFBz23GoBCpobi1dzM80faue5/+cvHjxvnTxkq6RiZv2rxpspwiWBZ85VPYteoMZBhI3FdLCBo3
-	dbc/omXVJudlqPsykpeVMtHiFQwpIWW3DbGqQ4gRfQDdfGpTFRjYJcJ159RyadYBMAejXx8t1Sj
-	7QBRQf9MElDanDooJ9GNB6TBG6J09r2Eg4oyLuYvnowOjOh+JEeBgXWd1pdRohieLBeXZYLcgWd
-	2fTkxwypxuxA45mlj8K+ZDAVlXxk5DwT58+8KgNm2d
-X-Google-Smtp-Source: AGHT+IGOIjFNFX0UWzmMPfhHtuIlkaHHvw+0tGaxRx+44ltIOKx7Dm5ffks6WimcIFao6ap2lPWKnw==
-X-Received: by 2002:a05:6214:410f:b0:77e:aba2:c8a7 with SMTP id 6a1803df08f44-87b21000e61mr61430946d6.13.1759953556821;
-        Wed, 08 Oct 2025 12:59:16 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878be61f6bcsm169735486d6.65.2025.10.08.12.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 12:59:16 -0700 (PDT)
-Date: Wed, 8 Oct 2025 15:59:14 -0400
-From: Gregory Price <gourry@gourry.net>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-mm@kvack.org, corbet@lwn.net, muchun.song@linux.dev,
-	osalvador@suse.de, akpm@linux-foundation.org, hannes@cmpxchg.org,
-	laoar.shao@gmail.com, brauner@kernel.org, mclapinski@google.com,
-	joel.granados@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
-	Michal Hocko <mhocko@suse.com>,
-	Alexandru Moise <00moses.alexander00@gmail.com>,
-	David Rientjes <rientjes@google.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
- sysctl"
-Message-ID: <aObCks3bwrT27CIu@gourry-fedora-PF4VCD3F>
-References: <20251007214412.3832340-1-gourry@gourry.net>
- <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
- <aOZyt-7sf5PFCdpb@gourry-fedora-PF4VCD3F>
- <f4d0e176-b1d4-47f0-be76-4bff3dd7339a@redhat.com>
- <aOa0UPnxJVGvqc8S@gourry-fedora-PF4VCD3F>
- <b6d472ba-e6cf-4c96-935d-88c842ab3cd8@redhat.com>
- <aOa_A_i1HUt1wzCj@gourry-fedora-PF4VCD3F>
- <1763f0d9-37fc-4c3e-b31b-2cfac33d5c95@redhat.com>
+        bh=ft9wlTfMhhvdI9XX1KOPoXEFZYD/S9J3oHik50ZJpxk=;
+        b=R1TgEN3CbE90WuWghWglGAg8iNOFZdwdWcP/F0GngakMcbbNRxAVhgeWKr+RkMrS57
+         JaSQ5ow2EoIj6Ua4XkWlGg4FU8fcH/X9mstI6T3p3Pw0udOWvqooZyDHmgmKMoJhnVnC
+         WSb+Br8Gh38ugKIAPbVKHmUEgvvlE379xrG7NDfl9VHgdzZP41p/ibUGp5fCrk+Kc817
+         MDUoFi8J8KcBafWorhZDuDD6mfdexp2jpGtl7moAqDqYnQaPZWnqeP9g61iSmxBKVksM
+         uWB71RhkhTBPLf2tNB6rcFsXRToVXZGRa8GJ4ND308tix2MIuo8Era54RcyGoYEvw0UZ
+         cVMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759955238; x=1760560038;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ft9wlTfMhhvdI9XX1KOPoXEFZYD/S9J3oHik50ZJpxk=;
+        b=GmAgd6uHJJXgesTMxZoXG78uqFj4TON/HgTa5Ly4VvZMPzQMH8PQXOmQeB4NUsmPD8
+         DDA/G9l0+3dP+/RsvNYpvoVQxj6Lapf9kq7l0QHoFBGEiC9DLcbTLxtfDp/zxMO90eI9
+         u/ud/RCsl+Yed//RRoT/aRvpL9VJ9CXoFvU8S26uVAHHgnIrjHaCbDwP5uXBkmM6kWct
+         v8fluZtrXsfFfwLb/2LpTeUnIBMElOqLSqwikRk6FVa2pxYm98UK89t+W3XczoFQY3Dx
+         QdQO4d4f/IfiqvC+bwWNkyt0TWnJoeRUeEMYk7fQDtfOo9zL79khmcl88xvZxud11hrJ
+         JcFw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1/ZVJ2BWpogw73etzO7IHOEFR1lcgwVEzkJWkcw/iXQ+WkO5ZAItXPJcDQ/xdyIkfQ9/8MJ3ZVOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzv+PjR5G456xTLtf9b0rZC6vUxrmYShCU1WZznOeSfcxOSlsBE
+	XZAq/WbCTl3nu6jW5QvvbYxa5+Zy04EMcRnzs7DcC4TfGZLRZyeTrmWVbfg4sU5OdMDh0qeNsmL
+	EPDp4lL4nc6RnwJIOLxOisY05jXtqADa2Ci0xpuXwUg==
+X-Gm-Gg: ASbGncudxPWUDemsGY88wDzVvs/OagV40IkVdUmeqLyiv/+ezXOU6OtbUiiCgdCRqZp
+	Sf11duw8GgjA5xF1E6w1v3lAfPyN0/LmUY3dD3wxqvEULwSfXHsyx5FsIxi4R3VCFdmA7nN9TDb
+	fHLq/n3Z5w4b/7qNYA7RT0EiRsY1ITARviFKdanYkj0QgswKm/46RgQv42n+Zn+eFhGJZkSpKvI
+	ZsbESLPjkY69gd2a/YZAH7q6r7C
+X-Google-Smtp-Source: AGHT+IGAPqmJcgL16UIg0d4+RNt3XKw0htJPMbSHIFhskDVjDGNvAxn7Z6jrk84cREgUa1kvsB4Hz5CuCuJTQ1VRagg=
+X-Received: by 2002:ac8:5e4d:0:b0:4e5:6c5e:430a with SMTP id
+ d75a77b69052e-4e6ead671a1mr74767911cf.64.1759955237650; Wed, 08 Oct 2025
+ 13:27:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1763f0d9-37fc-4c3e-b31b-2cfac33d5c95@redhat.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+ <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
+ <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com> <20251008193551.GA3839422@nvidia.com>
+In-Reply-To: <20251008193551.GA3839422@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 8 Oct 2025 16:26:39 -0400
+X-Gm-Features: AS18NWDStUB3aziIoEu9unN2oxgQKkUZyxSI_-rUVqTnIsSkLapICWThr2gCAYY
+Message-ID: <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 08, 2025 at 09:52:09PM +0200, David Hildenbrand wrote:
-> On 08.10.25 21:44, Gregory Price wrote:
-> > On Wed, Oct 08, 2025 at 09:01:09PM +0200, David Hildenbrand wrote:
-> > > > 
-> > > > fwiw this works cleanly.  Just dropping this here, but should continue
-> > > > the zone conversation.  I need to check, but does this actually allow
-> > > > pinnable allocations?  I thought pinning kicked off migration.
-> > > 
-> > > Yes, it should because longterm pinning -> unmovable.
-> > > 
-> > 
-> > You know i just realized, my test here only works before I allocated 1GB
-> > pages on both node0 and node1.  If I only allocate 1gb hugetlb on node1,
-> > then the migrate pages call fails - because there are no 1gb pages
-> > available there.
-> > 
-> > I imagine this would cause hot-unplug/offline to fail since it uses the
-> > same migration mechanisms.
-> > 
-> > Worse I would imagine this would fail for 2MB.
-> > 
-> > Seems like the 1GB limitation is arbitrary if 2MB causes the same issue.
-> 
-> Yeah, with hugetlb allocations there are no guarantees either. It's just
-> that page compaction / defragmentation makes it much less likely to fail in
-> many scenarios.
-> 
+On Wed, Oct 8, 2025 at 3:36=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wro=
+te:
+>
+> On Wed, Oct 08, 2025 at 12:40:34PM -0400, Pasha Tatashin wrote:
+> > 1. Ordered Un-preservation
+> > The un-preservation of file descriptors must also be ordered and must
+> > occur in the reverse order of preservation. For example, if a user
+> > preserves a memfd first and then an iommufd that depends on it, the
+> > iommufd must be un-preserved before the memfd when the session is
+> > closed or the FDs are explicitly un-preserved.
+>
+> Why?
+>
+> I imagined the first to unpreserve would restore the struct file * -
+> that would satisfy the order.
 
-Gotcha, well I am open to suggestions.  This chicken bit here feels like
-a sufficient guardrail, but I'm happy to explore the ZONE discussion
-further if we think that's fruitful.
+In my description, "un-preserve" refers to the action of canceling a
+preservation request in the outgoing kernel, before kexec ever
+happens. It's the pre-reboot counterpart to the PRESERVE_FD ioctl,
+used when a user decides not to go through with the live update for a
+specific FD.
 
-Joshua Hahn (cc) did privately question whether zonelist ordering breaks
-for such a configuable zone.  If memory can't live in ZONE_NORMAL or
-ZONE_MOVABLE, but you want it to have some combination of attributes
-between the two, it can't also live above ZONE_MOVABLE I don't think.
+The terminology I am using:
+preserve: Put FD into LUO in the outgoing kernel
+unpreserve: Remove FD from LUO from the outgoing kernel
+retrieve: Restore FD and return it to user in the next kernel
 
-~Gregory
+For the retrieval part, we are going to be using FIFO order, the same
+as preserve.
+
+> The ioctl version that is to get back a FD would recover the struct
+> file and fd_install it.
+>
+> Meaning preserve side is retaining a database of labels to restored
+> struct file *'s.
+>
+> As discussed unpreserve a FD does not imply unfreeze, which is the
+> opposite of how preserver works.
+>
+> > 2. New API to Check Preservation Status
+> > A new LUO API will be needed to check if a struct file is already
+> > preserved within a session. This is needed for dependency validation.
+> > The proposed function would look like this:
+>
+> This doesn't seem right, the API should be more like 'luo get
+> serialization handle for this file *'
+
+How about:
+
+int liveupdate_find_token(struct liveupdate_session *session,
+                          struct file *file, u64 *token);
+
+And if needed:
+int liveupdate_find_file(struct liveupdate_session *session,
+                         u64 token, struct file **file);
+
+Return: 0 on success, or -ENOENT if the file is not preserved.
+
+Pasha
