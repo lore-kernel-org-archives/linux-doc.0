@@ -1,228 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6CB2874F2;
-	Wed,  8 Oct 2025 13:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759931442; cv=fail; b=WjpKgyASH+Np+8cripmMENuEfP6oN/Mam5oNRKso2QKX/rBwyI1ziqco9iwAHUi5H2zREb8dwiwJGT7cY8lEQktrC0+fTo8B+lyrsjDg6vdHwcJx+FbImBk44KL5sYLVQQEketsjnqhcVSDBstnDvaSr8SEtOlus9fANPQduyqc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759931442; c=relaxed/simple;
-	bh=Aae3vBqoD52vnvBvsZiykpnZ1jakhWnTXJ7yd6QPVTY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dl2OT9awM05DkAmPg1BaYci5vkauKi15v0L31a+PWjrW2BHmbTj6tT3s6o5moTkxo96xlNFu/Fo+/jUnSfHbn/MhTINAn4GiXMksOuoMBz15F4Fk/2aL6ks12RCKsaO44JEWMrhR1v4khMzh94xafmXUblj8EtsztT2O9pTOFio=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTYZwmPR; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF6D16F288;
+	Wed,  8 Oct 2025 13:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759931449; cv=none; b=dIruh6YUQPoBwA1BatgGKUBxOcf5mTYuBwuPKe/VT6yUbhYRrqpHNjGYUgMWWxU9KtCx2YIThEaMWt4Ca408sxeGNYTeebSQTzv8fyK6vwZukT2OHqFQnmFVq1frXA9zk7D9TORkDiy+x4tXuF+yKLYUqJk2nDcxA+J0ZSbiGSI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759931449; c=relaxed/simple;
+	bh=vreuyB1oJMX28dl3w587JJSbrdpOaZ848torossb2pI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pDSp5i6qMNczC++1lKXRNxwruOr54K7YG9FIRE9+mrIrinWw/pwz2+ZRUkRnLO3TJTcUL4LDPLp2+JH9rsBm9jYsIMN1HNkMqh4ej6El2cznCfiNJAMUsO7bYqCdmrccBWewUlv6NEoY09t7sy+Dai7PUu9OhOkOAKwqvGjHzoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=SWXlKF3M; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTYZwmPR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759931441; x=1791467441;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Aae3vBqoD52vnvBvsZiykpnZ1jakhWnTXJ7yd6QPVTY=;
-  b=eTYZwmPRK+dFERjALv1NUk+rfacgCp45eurcgu7rl4NxOkld2JGBswQk
-   1iVVVmLWxwUx+iOxwEVUhEDeW0Hcm9R3+7YMyrAL+RKvS/Bwzw0Pr5Xjh
-   Csy/b4LUQP2VAcjeKvjrJN4/hTSeH/HNFIVM2gUv8b4SAFUPIsXq+OYAF
-   LNmLV98VTgm/8R4xNRbHca8w2mO8aSapX0ja3E4wsufwoNXkBj0JimaOV
-   jKBxcb3l7RzQ33tnlLf0dJZRL6USlzsAOOTun5B609KXL93j5jy1WYoU0
-   Btgv8kRP2vK7PFf2i7yRGZsVutQn/c0GFS/WOLriweR96SWGAOk4+nUZp
-   Q==;
-X-CSE-ConnectionGUID: xJnUu9YPQUKHfz6bSVas2Q==
-X-CSE-MsgGUID: q2lfCHChT1676UEWHhLnNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="72385125"
-X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; 
-   d="scan'208";a="72385125"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 06:50:40 -0700
-X-CSE-ConnectionGUID: hI1IAnMSQqOqN2Xnih0ICg==
-X-CSE-MsgGUID: kFz1n2yvR8avChEi3/BSbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; 
-   d="scan'208";a="211087263"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 06:50:39 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 8 Oct 2025 06:50:38 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 8 Oct 2025 06:50:38 -0700
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.25)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 8 Oct 2025 06:50:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rFd1plSslzT8gWamw+sYcyhqNiotgDSeKf2yZZfj9KpXFgFTiT+idsv0nkWyiivprjbQiVnhtJFXI+E8/mRo42AN5Ju+3MlP3h9HixCn9jyzRz5JIhStEVxakacG2KS7O/x19cdbFWDBfAXiBf1xpxp30cY49xmWVqqbEHyobHj8EnSfzX9aoKeHlrw4djvpXuYOyIszheLVBzCuGKLmDPcAJoveOTnHzSRYOjaqXOrdR/DcSDG/47RTomfaPHLEolr6dVtoxkMpEFJZ4vpRBc0cwsvnY6eOZN4un2cS5RRshlHUCHQhpDpy1kQmvSkKgo+dURakkVBksFHeIypAhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Aae3vBqoD52vnvBvsZiykpnZ1jakhWnTXJ7yd6QPVTY=;
- b=LehWxy6Uz7KDCLopA8YThv/aSG+K5HR6myBemk++JLRIS+IUGEjyiplyqZRlaB0Km+2w2vSpji3szTyEelEHuEUmNEl68+QRP2XhTXYZrlXWe6W4QTV7zkOu/Mcoj9jrdsr5Yxg/NHWGktc128C0WOBjAuT3cobvbn8DYi1PjYcVtcJId3ZG9zwJdlZHK5PTcGwViavMV4QwTjU4MTSQCGt2izj8VhVWbhDl+vE1nrf7ybXf1f14bEfj9nYHooCx21ABsiyGdJHVLNhsGMdCow0qnfvim9Zbai+xPuUXFN/OSn5gO3i8fHAbpL0aEnmXgpYY9o75Dymbj9uJEkOamw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6241.namprd11.prod.outlook.com (2603:10b6:208:3e9::5)
- by CY5PR11MB6257.namprd11.prod.outlook.com (2603:10b6:930:26::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Wed, 8 Oct
- 2025 13:50:29 +0000
-Received: from IA1PR11MB6241.namprd11.prod.outlook.com
- ([fe80::7ac8:884c:5d56:9919]) by IA1PR11MB6241.namprd11.prod.outlook.com
- ([fe80::7ac8:884c:5d56:9919%4]) with mapi id 15.20.9182.017; Wed, 8 Oct 2025
- 13:50:29 +0000
-From: "Rinitha, SX" <sx.rinitha@intel.com>
-To: "Keller, Jacob E" <jacob.e.keller@intel.com>, "Brandeburg, Jesse"
-	<jbrandeburg@cloudflare.com>, Jakub Kicinski <kuba@kernel.org>, "Hariprasad
- Kelam" <hkelam@marvell.com>, Simon Horman <horms@kernel.org>, Marcin Szycik
-	<marcin.szycik@linux.intel.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net"
-	<corbet@lwn.net>, "Keller, Jacob E" <jacob.e.keller@intel.com>
-CC: "Brandeburg, Jesse" <jbrandeburg@cloudflare.com>
-Subject: RE: [Intel-wired-lan] [PATCH iwl-next v4 4/5] ice: implement transmit
- hardware timestamp statistics
-Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v4 4/5] ice: implement
- transmit hardware timestamp statistics
-Thread-Index: AQHcJz6Kbb0iZWEtvkefbIlTR4fB9LS4Y6ew
-Date: Wed, 8 Oct 2025 13:50:29 +0000
-Message-ID: <IA1PR11MB6241A38774352CCB02B0FEA78BE1A@IA1PR11MB6241.namprd11.prod.outlook.com>
-References: <20250916-resend-jbrandeb-ice-standard-stats-v4-0-ec198614c738@intel.com>
- <20250916-resend-jbrandeb-ice-standard-stats-v4-4-ec198614c738@intel.com>
-In-Reply-To: <20250916-resend-jbrandeb-ice-standard-stats-v4-4-ec198614c738@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6241:EE_|CY5PR11MB6257:EE_
-x-ms-office365-filtering-correlation-id: 665d1f89-c065-4f28-2edc-08de0671a486
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021|921020;
-x-microsoft-antispam-message-info: =?utf-8?B?cE5HUjhGdG03SEZ5Q1R4UHVCem0rMjNmUnpzaWE2N1p2UG5FbmlOQitLekda?=
- =?utf-8?B?c3V3cWt6dmlxdW1CV1BNMVIzQkhYL25lcmZwUlJMcklKRmZJMzZ4L1FNZ0Z5?=
- =?utf-8?B?MXlYZlovSHRMZzJrUkxCUml0Y3NqU1AvNWkzUmpMU0hLeDI4NS9wbjVVeTNo?=
- =?utf-8?B?Q09OR0RHaVRYaWlZTC9sM3dIeXVSOUsrektBVW5KTHpsaDJlOXFZalFrK2xo?=
- =?utf-8?B?MjlQTjN1NUxaYmdaLzIvZ0M4bE5lbjBFOVZkTnYwMHlOaGJHVjFjaCtkdkQx?=
- =?utf-8?B?WVZnRDB2SmNoYXNIeDVWNFQ3OFVNOG9Ra1E4YTBJM0ZiaERhR2pORE1rZzhJ?=
- =?utf-8?B?VGs5d3pTOFNJdTRMTEVRSjJ6ck5wOTZxZzlaMkwxTm5udjJjNEpuL0Zzek1S?=
- =?utf-8?B?MTI5bUVTYVptSzJyVlNzMlFaWk9oSi83UHI3S1FFWXozeit2ZUUzZTc2MDZH?=
- =?utf-8?B?alRIWnhnVGswcWVzOTlGK0MyTUNQdHJyNFV3RlMyaGMrZXVQNlMrT1ZNdlBj?=
- =?utf-8?B?Y0xyelMwbkRJS05tcnY4Vi9GRkU1anJYWUR6anRyRjNSdCtKeCs0T0t0WVlH?=
- =?utf-8?B?YkFlQTh3QUh4NjNrUUF1cy9XMGE2Nm5OeFYrR3RYR2FaOXRvQjg0OXU4ejB5?=
- =?utf-8?B?c3N6ZW9UUXgvRkVNOTdtVTJnNVNsY0t0RUVTUFpWRWxxbS9vcVJ5aFlrZjh2?=
- =?utf-8?B?T1dScVN2cjdzTUlkemdlQkp4azNpaHdhYlFqK3NGV0J6a1g2ZGRROEZodDVM?=
- =?utf-8?B?U1VvSUg4T3JtZSttaTByQzM3MUx6N2xFbzJCd0xnc2JVeTFIK2MwM0xHM2g1?=
- =?utf-8?B?RXlHR3hKV09Cdk5yU1pML1pyemxpeGxUODFSVkVyY2Yxc1EweHZGbkdDem4x?=
- =?utf-8?B?ZWNUL2lKbTVhbmdiRjk1bWozZ3JTV0pVTXFrWm8rZW8vZ1VkNXAycnlOK2hy?=
- =?utf-8?B?YVlKRnYzS2UvMG05K1hyQUJQMnk1b1JyN2dQZ0dRWThkc0lLaUE4M0MrVVBC?=
- =?utf-8?B?dmdXM2w0VG4rbVFKS05hN3kxK2NYbTJ5T1VwQUZDSEhwS0YxL3NPRG43dUJW?=
- =?utf-8?B?ektsdlNkN1FZM1Vra2RSY09KVGdEcGhxUU1qeGNwV1lFRkdiK2dEZzdhN0xx?=
- =?utf-8?B?K0JqeHNtM1pJdWRlcFpOUmtvNVA3NUZXR3M4YVdZRnl6cW5CUFNZRG9RUDJR?=
- =?utf-8?B?V0dHaXNXbm9wNGg1YU9kcTMvbmFwNG1ITjlNT1piZDF1TkFpTHpPMERUTU53?=
- =?utf-8?B?QUgrZW1HakRPMC9ORk8zTVQ5ZUhvVWdscnpzY21QMGo5N1F5eHNjTU1tcmZU?=
- =?utf-8?B?TUV0ZG9KdWtCYVpvRmZkWEtRRnYyM01nK3pBV1ZCV1JORVVyYnk2dnpuMTJR?=
- =?utf-8?B?UFEwZW9IODc0V1YwU3pVWGZ0MjhraG12d1lnc2ZwV0VLTHFSd0ZRWVA5WEtO?=
- =?utf-8?B?OHdvK1JyaC83T05YOENaME9uOURqczRWVGZTcUQyZi9kU1BoMENXY043Z0lt?=
- =?utf-8?B?VnpMTkJVZFJhOXV1OGpFT2VuNTRPUlVCbm1SeHNhOU9KaE5xMFErQmU5SFVN?=
- =?utf-8?B?Z2xRT3ZKbWduNnRoL29FNEN6Lzd0YVJQNjl0bGdwSEYrRFJ2SFR1b0lFWnRD?=
- =?utf-8?B?RXpZamM0cUNCU09wZDRYSmQ3RWtFdFRWekVDLzVKK0wxd2N4eGFrOUdPQ2pQ?=
- =?utf-8?B?RmgwT3BTUis1YzdtTDdBa0FhWHJZV0RSMVkvMS9FWnZiNm5GeStyei80TzIv?=
- =?utf-8?B?OVV2R2hXSEVqcWoybnVUaUtYZ0piZUZzY3Q5VDJBSFBQUnVPYVJPK09jSjBU?=
- =?utf-8?B?RjhvSzN2eFV4Z1lBbzNITVA0RkFJeFVGZkFLdTBIdGJodVByMnFxUVVJR0FR?=
- =?utf-8?B?SFlpNkF1cmJ5aDhWeHR5VDVxVjdWSnRveUpRaEl4VlRDWkx0QVhjRE1ySXJk?=
- =?utf-8?B?QzlhSEZHQlM5SStFcnc2aUJmVlphc01KNlB1eTdINDEzVnRWd05JaUxuekxm?=
- =?utf-8?B?K0JSOGIwQTMvd2RCQld0RjMyaGZDVFJodnViK3kzT053a3ltWnUrWXJmd3h6?=
- =?utf-8?B?STJLQWV5bm5WNTlRWkswMlBWNmR4V1kwNjJLZz09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZnpnVmFkb1MzUjBYNDJvUkhSOHdZQ1BaM0M2MTd1Y1FjYnFsTDlYaWllSUNq?=
- =?utf-8?B?bWoxU0tXRmRqNUpvR3FpUWR4UmFNVERzeXU1bjRtUjN2dnU3QzJuTzhoeUlU?=
- =?utf-8?B?REE3dCtacWlKSk51cHZpT0NhdFlMVHIxTkc3NHljdXJpK0FiM2p4NkJDaEQz?=
- =?utf-8?B?Z0JkMitBN2JRaktFNWpqc2tRbHZCVUpLd0xtbkovYTdmeHJvMm5KS3I2SjM0?=
- =?utf-8?B?OUJwSWdnQXZQMjhuVG93QWJUOHpvOEY5QUV6WW5scDdMd080R29EZi9HbzBj?=
- =?utf-8?B?N2pKRGhSYWVxdDR0WCtDV0FkZnRYNUI2RXhEb3Vlb2dvR2lSVEU1dGg3aWVR?=
- =?utf-8?B?eHRRbkRXZm9HdFl2SEl2NERaTlBmWno2aSsxRFZoTDFuekZKL1d2T0lLT1cr?=
- =?utf-8?B?RCtxbkJzdG9vRVlidGFnMW1yalNNMlFYZzQvR1hRQ1hSdzd0Z1J1a21TZ2tZ?=
- =?utf-8?B?dklRbldoWE5RU2VFcE1JVXVaNzE3M09MWEZzSFc0Nm13em1XU1psWXBwU2FE?=
- =?utf-8?B?SkNsaWlpTndtWUFPYlNiOWlESnl3YS9LMExLVkx2MWxMTm44dVc0RnpycW1I?=
- =?utf-8?B?Qy9WODhWaUlEL3cramhoNUFZc0lrWmJOcHUxNFFvcDVxUEk1UFoxV2grbFRJ?=
- =?utf-8?B?RzYxNzB0dTA4KytTVHBveGJZK3NFbUdCREY4MlBnS2h1dVI0RHNBT05ERm1o?=
- =?utf-8?B?SHQ0dHkvcWJvQkxwZ1Ewa0ZvdGlXbW1jdHlmWVU5UmpPTXo5Z3l0c2FpbU85?=
- =?utf-8?B?NmtsWC9wTmFtK0M3UE1UQ1hqSFdnaWpOS1JZMHhkVnVUT01ITldMbmRKOHpF?=
- =?utf-8?B?YWJnVTU1TVQrNjkrbitWQ0U5aENUSUFwdEpCaEQ5WGlLa3Y5aXVBdFR5U3Bo?=
- =?utf-8?B?NUtNLzRYaEhtNlVKVXYwekpCWERnaUZXR0pGQUlqL215S3NKY0JMUjNRS3Q5?=
- =?utf-8?B?UEhTYnJ2Mkp0OHdNY1hQUkdlY0ZuUnc1TGVIUGpqSGErdWJlRHVQcUtKZlc0?=
- =?utf-8?B?TUpacE5yeXdLSjhGdUZ6N2g2b3M2SVkwd3g5aUtwcVNhdDhzZ3QvQ3N4OGxD?=
- =?utf-8?B?Rys5dG5Od0oxSkNXdVFTMS9RM2o0NjZsbndEVXk2ajRmNHVhaWVFSGtGM09R?=
- =?utf-8?B?MHVEV1VDS1cvRDVBZGplbDBRN0gyREVhSSt1bGdNODh3TzhrVkRPMW9Xak91?=
- =?utf-8?B?ay9pK2JBWVkvSVBQNCs1TG5jS1FqbWprOFR3bDVwanhYem8yWlFNY085Zm03?=
- =?utf-8?B?emppUU8wYkZtNWtwMzZrZFhrRElRY0U4SUd2YkE1TEJ4cXdwQWhHRFBoZWdZ?=
- =?utf-8?B?K2psa0xFNDdOcnlnNnJQT1RwMlVheS81ZjVvazBtSkRnYVN0a3ZQTWZKeit4?=
- =?utf-8?B?cjNHREVXU2d4NDRiblU4Z3BXQklrdlRQd1FjeExnUXVlUHZyUWJJTndtckMv?=
- =?utf-8?B?ajFvcWtuNlUwZVYyUDVvWmI2Vm92a3pzOE8yQ0RCczdsKzBRbk4zTkVseHo0?=
- =?utf-8?B?L0FmMWVNbFcrUFR3UzNGS2tKQlRjUHVJZDNTeEJBSTJESlo0VFowVjhYZ2Vy?=
- =?utf-8?B?S1kwVUNxVHJsa3NIREI3QWZLTDdyOWw1VDhYcjN6QjlVYmYzL3VrMlYzUFl4?=
- =?utf-8?B?TGZXRHBPcmpvNEdjTWFSd1BiZzV4RkVKQ3lMdmRLajZ2c2VuTHZLdTFGTW1Z?=
- =?utf-8?B?enVSL05SZWtDNzJHLyttS1VwRS9GMmYxSGFFN012T3VEck1pQXJoUXhSWGJi?=
- =?utf-8?B?SGowOVJrMGxxclE3K1piTzd6T2Vqd3pMaHZZN3o2VTdQODUwSVZueGJXTTA0?=
- =?utf-8?B?OGI4djFYQm5FdFZyRUJ4UFQxMHd1dWFnN0VUcS9xZjJ6TE9sK1dCNDBFQkFa?=
- =?utf-8?B?TGtLYkprL3BiUmlYY3g1T0pwNXNkbVZ3NWlEVlNBTzE2ZkRSc0xLeG0xU1Np?=
- =?utf-8?B?NVcvMGpDR2trai9TdkJGdklVeFhBYkdLUnl6UEFQMGpMMUJnRjFsckN4QUc5?=
- =?utf-8?B?dGlOSGxtencvRzFFcDEvbU1kaVFVeXlYRk1iYkhuVlMzcGsrOFhkSmtiMERk?=
- =?utf-8?B?S2VQQSttM2w1S3BiQ2piK0RKMytRemtqV2FIZU1kZEFXNVJSV1pKMXBQYzFY?=
- =?utf-8?Q?TMl1uTQmp0IcmotpaikubPN8r?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="SWXlKF3M"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598D6wjl010585;
+	Wed, 8 Oct 2025 09:50:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=/m5lg
+	W9LZdYxB6YJs1TYPvAh9FlaVDaMUHUk0YNse/U=; b=SWXlKF3MmYYs1uxXPkVUE
+	yOk+bLoXQ55c6qp6PHd9Odii23Ds6omvsKX4jz0t3gg4E1ma0QOEP1TndRdJx2w8
+	m9y34lrmKs0EcSj3tzh+F9tRwOrNpDYB0yRDkwltZrT/COeFBIRs02Ol9FKGgTm1
+	dMFH6/oxieg4iy8UA9YqJVcX33Ds3pooGngc3jJuhlBMW31ncKaUzw43TudjFcii
+	4ezYEb83hRfHp1oLDaniMDIP7FIjOnf46kQ2r3gP0mQUDWZQySYURcsWDFG3TW9U
+	BKH7Bg7tmlZ36PdMXk0pIao/o5z3ZNOU2Ms3lUr5tBzPstQDiQDnscpQkLMnt7fP
+	w==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 49jwe27442-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Oct 2025 09:50:39 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 598DocS1034658
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 8 Oct 2025 09:50:38 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 8 Oct
+ 2025 09:50:38 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 8 Oct 2025 09:50:38 -0400
+Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 598DoMCX023152;
+	Wed, 8 Oct 2025 09:50:24 -0400
+From: Marcelo Schmitt <marcelo.schmitt@analog.com>
+To: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <jic23@kernel.org>, <ukleinek@kernel.org>, <michael.hennerich@analog.com>,
+        <nuno.sa@analog.com>, <eblanc@baylibre.com>, <dlechner@baylibre.com>,
+        <andy@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v4 3/8] Docs: iio: ad4030: Add double PWM SPI offload doc
+Date: Wed, 8 Oct 2025 10:50:21 -0300
+Message-ID: <30501211fb199f3322e2ec5d3fd2b0adac74f15e.1759929814.git.marcelo.schmitt@analog.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1759929814.git.marcelo.schmitt@analog.com>
+References: <cover.1759929814.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6241.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 665d1f89-c065-4f28-2edc-08de0671a486
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2025 13:50:29.4207
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sAkYpv/mdayEjSJzIh6CYI0GjaD8mngy4KLV7AzRU3053vpNKRLDQVXrtlNBSD8hqvwxc8W+K/U01YNbVk2Z+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6257
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=Y7n1cxeN c=1 sm=1 tr=0 ts=68e66c2f cx=c_pps
+ a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
+ a=x6icFKpwvdMA:10 a=wI1k2SEZAAAA:8 a=IpJZQVW2AAAA:8 a=gAnH3GRIAAAA:8
+ a=Z7BqY8bEq__jAXHbdh4A:9 a=6HWbV-4b7c7AdzY24d_u:22 a=IawgGOuG5U0WyFbmm1f5:22
+ a=cPQSjfK2_nFv0Q5t_7PE:22 a=poXaRoVlC6wW9_mwW8W4:22 a=pHzHmUro8NiASowvMSCR:22
+ a=xoEH_sTeL_Rfw54TyV31:22
+X-Proofpoint-GUID: KtL50UfRmR_BybjJxFgSFaJDjQnWZT0G
+X-Proofpoint-ORIG-GUID: KtL50UfRmR_BybjJxFgSFaJDjQnWZT0G
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDA0MyBTYWx0ZWRfXwgvJXXYfDDJ0
+ iGuT2ECtw4ZKG81w5QkpGFVfWm9WFbcEml5JM8HPpnW2xAU2H0oHhoKUNEiveQ1bV850pMr1W4v
+ XUviZE1lb6BnwmnSpxzXMn3t4tt8ya3ffFxPuxWlTxQS4Is+fiyRajrurbIeaBYNo0EbcIFDJ/Z
+ prlW6rNt/XpurDX41/RAtn6Qpy59SX0bKstK+9FrUyH0T0RZuZQqvxIBg+zYcxzRouRkCThXCeC
+ DnBCM1RqMx9RzUDEvl/IZIE4KYY2zM2tZsbkuxy11QEanY+2tk78w1+KOWby/NxpvQwilhijdTn
+ Ka5W81wK7a+5FR33CM9HqZVAygQOIf4SjW5XPHd5R5ty68pPEkCncUDhVYd5Hyzg/111RxIc+VY
+ trmtUko0EF2oJkJ17dVatqk1n9C7TA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040043
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBJbnRlbC13aXJlZC1sYW4gPGlu
-dGVsLXdpcmVkLWxhbi1ib3VuY2VzQG9zdW9zbC5vcmc+IE9uIEJlaGFsZiBPZiBKYWNvYiBLZWxs
-ZXINClNlbnQ6IDE3IFNlcHRlbWJlciAyMDI1IDAwOjQ1DQo+IFRvOiBCcmFuZGVidXJnLCBKZXNz
-ZSA8amJyYW5kZWJ1cmdAY2xvdWRmbGFyZS5jb20+OyBKYWt1YiBLaWNpbnNraSA8a3ViYUBrZXJu
-ZWwub3JnPjsgSGFyaXByYXNhZCBLZWxhbSA8aGtlbGFtQG1hcnZlbGwuY29tPjsgU2ltb24gSG9y
-bWFuIDxob3Jtc0BrZXJuZWwub3JnPjsgTWFyY2luIFN6eWNpayA8bWFyY2luLnN6eWNpa0BsaW51
-eC5pbnRlbC5jb20+OyBSYWh1bCBSYW1lc2hiYWJ1IDxycmFtZXNoYmFidUBudmlkaWEuY29tPjsg
-bmV0ZGV2QHZnZXIua2VybmVsLm9yZzsgaW50ZWwtd2lyZWQtbGFuQGxpc3RzLm9zdW9zbC5vcmc7
-IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGNvcmJldEBsd24ubmV0OyBLZWxsZXIsIEphY29i
-IEUgPGphY29iLmUua2VsbGVyQGludGVsLmNvbT4NCj4gQ2M6IEJyYW5kZWJ1cmcsIEplc3NlIDxq
-YnJhbmRlYnVyZ0BjbG91ZGZsYXJlLmNvbT4NCj4gU3ViamVjdDogW0ludGVsLXdpcmVkLWxhbl0g
-W1BBVENIIGl3bC1uZXh0IHY0IDQvNV0gaWNlOiBpbXBsZW1lbnQgdHJhbnNtaXQgaGFyZHdhcmUg
-dGltZXN0YW1wIHN0YXRpc3RpY3MNCj4NCj4gRnJvbTogSmVzc2UgQnJhbmRlYnVyZyA8amVzc2Uu
-YnJhbmRlYnVyZ0BpbnRlbC5jb20+DQo+DQo+IFRoZSBrZXJuZWwgbm93IGhhcyBjb21tb24gc3Rh
-dGlzdGljcyBmb3IgdHJhbnNtaXQgdGltZXN0YW1wcywgc28gaW1wbGVtZW50IHRoZW0gaW4gdGhl
-IGljZSBkcml2ZXIuDQo+DQo+IHVzZSB2aWENCj4gZXRodG9vbCAtSSAtVCBldGgwDQo+DQo+IFJl
-dmlld2VkLWJ5OiBKYWNvYiBLZWxsZXIgPGphY29iLmUua2VsbGVyQGludGVsLmNvbT4NCj4gUmV2
-aWV3ZWQtYnk6IEpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+DQo+IFJldmlld2VkLWJ5
-OiBIYXJpcHJhc2FkIEtlbGFtIDxoa2VsYW1AbWFydmVsbC5jb20+DQo+IFJldmlld2VkLWJ5OiBT
-aW1vbiBIb3JtYW4gPGhvcm1zQGtlcm5lbC5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6IEplc3NlIEJy
-YW5kZWJ1cmcgPGplc3NlLmJyYW5kZWJ1cmdAaW50ZWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBK
-YWNvYiBLZWxsZXIgPGphY29iLmUua2VsbGVyQGludGVsLmNvbT4NCj4gLS0tDQo+IGRyaXZlcnMv
-bmV0L2V0aGVybmV0L2ludGVsL2ljZS9pY2VfZXRodG9vbC5jIHwgMTggKysrKysrKysrKysrKysr
-KysrDQo+IDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspDQo+DQoNClRlc3RlZC1ieTog
-UmluaXRoYSBTIDxzeC5yaW5pdGhhQGludGVsLmNvbT4gKEEgQ29udGluZ2VudCB3b3JrZXIgYXQg
-SW50ZWwpDQo=
+Document double PWM setup SPI offload wiring schema.
+
+Reviewed-by: David Lechner <dlechner@baylibre.com>
+Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+---
+ Documentation/iio/ad4030.rst | 39 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
+index b57424b650a8..9caafa4148b0 100644
+--- a/Documentation/iio/ad4030.rst
++++ b/Documentation/iio/ad4030.rst
+@@ -92,6 +92,45 @@ Interleaved mode
+ In this mode, both channels conversion results are bit interleaved one SDO line.
+ As such the wiring is the same as `One lane mode`_.
+ 
++SPI offload wiring
++^^^^^^^^^^^^^^^^^^
++
++.. code-block::
++
++    +-------------+         +-------------+
++    |         CNV |<-----+--| GPIO        |
++    |             |      +--| PWM0        |
++    |             |         |             |
++    |             |      +--| PWM1        |
++    |             |      |  +-------------+
++    |             |      +->| TRIGGER     |
++    |          CS |<--------| CS          |
++    |             |         |             |
++    |     ADC     |         |     SPI     |
++    |             |         |             |
++    |         SDI |<--------| SDO         |
++    |         SDO |-------->| SDI         |
++    |        SCLK |<--------| SCLK        |
++    +-------------+         +-------------+
++
++In this mode, both the ``cnv-gpios`` and a ``pwms`` properties are required.
++The ``pwms`` property specifies the PWM that is connected to the ADC CNV pin.
++The SPI offload will have a ``trigger-sources`` property to indicate the SPI
++offload (PWM) trigger source. For AD4030 and similar ADCs, there are two
++possible data transfer zones for sample N. One of them (zone 1) starts after the
++data conversion for sample N is complete while the other one (zone 2) starts 9.8
++nanoseconds after the rising edge of CNV for sample N + 1.
++
++The configuration depicted in the above diagram is intended to perform data
++transfer in zone 2. To achieve high sample rates while meeting ADC timing
++requirements, an offset is added between the rising edges of PWM0 and PWM1 to
++delay the SPI transfer until 9.8 nanoseconds after CNV rising edge. This
++requires a specialized PWM controller that can provide such an offset.
++The `AD4630-FMC HDL project`_, for example, can be configured to sample AD4030
++data during zone 2 data read window.
++
++.. _AD4630-FMC HDL project: https://analogdevicesinc.github.io/hdl/projects/ad4630_fmc/index.html
++
+ SPI Clock mode
+ --------------
+ 
+-- 
+2.39.2
+
