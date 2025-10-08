@@ -1,121 +1,143 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442B01A9FAE
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 00:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD80B2877C2;
+	Wed,  8 Oct 2025 00:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759882276; cv=none; b=eH2vP2doqThTYT/+NyoCxy6K/9qjRdteN/6eJd2pQXTSd7tJ6CoCkjN6Uq/R1ik1bGcdMk5ZHKIHMBf5ONHyJlt58Vl6r5u3lp9xr+bD0rqvbynvqBi586LZm+gs0vfKXqv0ZLV1yPEcjTPBF48ElI684I9k2n2m5iovV6MAFl0=
+	t=1759884677; cv=none; b=BfE/zoZeAyLAYeXN1pFGrjy8p1jcSI+m1uMa5X49QLXjthN74Bnak7mDmv8MONLwUGm4+Zork3tSeq0B/vrrM0ihqq4rumbudlNlUmWX0cP/2N255bTphcKheURffsXjunRRWpXKD5eFF+SN6Px8eBG5KetVtuzmOZIqxLm0vN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759882276; c=relaxed/simple;
-	bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8jxnPJ3gnFCTdzizosUAYgxl0zbCehyMhqdjg/qe2mYHJp06WBct4nfaOKXXRY6YkHC1CmiAUQxI2CTffib1bzuUe2TUg3A+U9AlPbjf+Q1rt0xkIB5lWXPCZeJxbqDEmJBvanHj6kisx4ZzhAIaVFOirLuzHfyPfP898B3lzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DqPvGvGf; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759884677; c=relaxed/simple;
+	bh=ip9Z6xXZyARdKTzPzXZm8Lt9Os1E7qphGPd4Rh7D3s0=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CuNxgpYiYl8Hgzy7jLhfmdWeiiZqUP6GqzKT8SVEXjwNZQTIpTppQac96ScESyD6/TNDy7/4T/RVKQuj6HnoMe9iJq7PXp1SXioA0p/6x0FFTu2RZ8XQ2M6sAz+6eNZnqvTo888JX6m/gNBmkUBDtMughnW4J+9uzfDw/Q98tyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PiNR8Ulr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DqPvGvGf"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-781206cce18so476027b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Oct 2025 17:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759882274; x=1760487074; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-        b=DqPvGvGfwdmRIVnyIqALBpWdX64FDmbXB7dT3Vav6Ml3duf8skiIYDkMDlC7nl+WRJ
-         mEVcw5P+VN1nNPcT5drAD8DmGBW35eqfDgtUAXmwM1fqedmZZm4UxyyVYz0jYVRcS53X
-         RmI25t1t+MfBDs5AH7eroLGROTC25KcAySjpnafYuZ8hDJ3AREQV1fwsarP92qKJHPrv
-         CorwO1uDYwI+AMoSih6vs7e6fb8GNfYLsLtVLktjIWum5Faw/lStkM+ViB0B+OWNR5EX
-         +YAOXLQjlgE3zDrSEmDDZRqXz5QOoIszog/mvw+UhTlFoTl3ogXu35YEj4sqsAGxQbUa
-         RRHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759882274; x=1760487074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIJx91VEzutYWV6rmjWMuQo94kEzRhO28O6Sss2x0vY=;
-        b=Bd0Rl98r87c7Ctxfrg9B00wGSbwOAck/UIXArJXrzLX9frhtIRJPSA+NPNc8RTv1ds
-         oUnrnOdoPfobrHj8kMzN8Xqscokagyv1CVKeHte2DgEh4DImyIFf/pMORuJrhHdsMtCb
-         +EXJyQNM0T4S02zjnJNxO7EWErCVMy60OX+K0oXNOpHPINqKV1d/8+Tj/9Y3L+EIFYAc
-         LDjL9+8kbq95tTaGEiAtiFRxZQi1F0DlJeeWujJFCGMly4gEnVnN+ZO3hntqIOANdr+O
-         ivN74WKqyuxbvkBGRTQnN/Fic3uBw7Pw2Jj2t7JzeltHd0B7h6lteQbSg0nMONd9AeC4
-         YjNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWabyPAZvUbIyQM2mwX2w5P25RtzipOS3HGnEPGnA9716JWqlDg5yJpdJKxq/agIeEpgYe4g79PZ0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtSIvsHLa3JAAAk75U6jEhlGmdXmahFXdKwn+nvbAtVloULmd5
-	GbC1HxbU38iGlafaAB6L0gF1CHOjhpyHzbHNwIOhlcpwTopPxqQado+Y
-X-Gm-Gg: ASbGncuWZ2NAT6HOtGYhp1rERF9lNiGlD2CK1fm5j2gevnO5JEujV2mX87RFWrlj/aK
-	0hNrXWULojC4T64Qv43i14MZD9L1GRjVhph9vRvDEyrOmaJD6Had7cwRrXk97oAePCNcDXWFYm0
-	WZKIgKbASEj75JEJYDtSnxaABIUojBAjMkhGopnSq8JYQkH2AMTDX3Mxd0SC2cQ/wnLCXaC4b/r
-	OxE/lJNHiHERJCT/a4Yto0dfDvwFhmEAWqeNYos4CB+4/WqQzOfkbPxGG4xl7yryAobykhZWQO4
-	LwiIHzaRUdOVuDPKSNVs9/TNQeqgU4fiXbB2MbNejb7kVtomzmgtIhrdZ6EWCi8YksMreOkSctv
-	BvGHmBAPPall7Kj+eWECBc227ox9Q9HCYkNyjQL0LjbcuXj362Q==
-X-Google-Smtp-Source: AGHT+IFW3sow5y/lVKkATKYFm04W7RgDI6fSuHLvh6sjhQYKQ7ak+ZYw+RTchKbkNXukK9zwt+mgiA==
-X-Received: by 2002:a05:6a20:3d1c:b0:23d:45b2:8e3c with SMTP id adf61e73a8af0-32da8df23aemr1423045637.6.1759882274312;
-        Tue, 07 Oct 2025 17:11:14 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9dcb3sm16910186b3a.11.2025.10.07.17.11.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 17:11:13 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A0A074233430; Wed, 08 Oct 2025 07:11:11 +0700 (WIB)
-Date: Wed, 8 Oct 2025 07:11:11 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, rostedt@goodmis.org,
-	corbet@lwn.net
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com,
-	tglozar@redhat.com, costa.shul@redhat.com, jkacur@redhat.com
-Subject: Re: [PATCH 8/8] Documentation/rtla: rename common_osnoise_options.rst
-Message-ID: <aOWsH5Lgra60g9-k@archie.me>
-References: <aOUMyGvkibvOV0IS@archie.me>
- <20251007185508.40908-1-krishnagopi487@gmail.com>
- <20251007185508.40908-9-krishnagopi487@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PiNR8Ulr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E9CC4CEF1;
+	Wed,  8 Oct 2025 00:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759884676;
+	bh=ip9Z6xXZyARdKTzPzXZm8Lt9Os1E7qphGPd4Rh7D3s0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PiNR8Ulr/Nd31jm8jP7o4IVAlPCLO0zBrHyWBfo/fpazSBd4XAIH+pJh5CoWVZzTp
+	 FTHb/uOkDHl4tJatt/d9qoR7ga/upW5LFb7Tw17x3zD98v7T+WFPW9R9kTZQdNnXji
+	 rm6mhwXzpMPqbxYVjD+h4faxWJtxpyMT6g88Zwuq0R+bZtxiBjassjPdc0LTlCSxDK
+	 ++9sMELLQqIBPeq2wcRTN8wesRPMm4FRnq0/Dyd/AelLmiamVxVoHGIWaaKTG9nWql
+	 Ad4eNyck/ZO+M6qCgWO5RGQkfa0XMeTR7xFeyLG9FdOdUSo8MKvSBmoG28HfI2dems
+	 lH2mS8kJB9vyw==
+Date: Wed, 8 Oct 2025 09:51:11 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Ryan Chung <seokwoo.chung130@gmail.com>
+Cc: rostedt@goodmis.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
+ hca@linux.ibm.com, corbet@lwn.net, linux-trace-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] tracing: fprobe: list-style filters,
+Message-Id: <20251008095111.5732b065dcebe53fc80063c5@kernel.org>
+In-Reply-To: <20251004235001.133111-1-seokwoo.chung130@gmail.com>
+References: <20251004235001.133111-1-seokwoo.chung130@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="W+2lsue7TXY5gcQ4"
-Content-Disposition: inline
-In-Reply-To: <20251007185508.40908-9-krishnagopi487@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+Hi Ryan,
+
+Thanks for update!
+
+On Sun,  5 Oct 2025 08:46:54 +0900
+Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+
+> This series aims to extend fprobe with list-style filters and a clear
+> entry/exist qualifier. Users can now specify a comma-separated symbol
+> list with ! exclusions, and use a spec-level suffix to select probe
+> type:
+> 
+> - funcA*, !funcAB, funcC -> entry probes
+> - funcA*, !funcAB, funcC:entry -> explicit entry
+> - funcA*, !funcAB, funcC:exit -> return/exit across the whole list
 
 
---W+2lsue7TXY5gcQ4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just a note, it should not accept spaces in the list. The space
+is the highest level delimiter. I hope actual implementation
+does not accept spaces. So something like:
 
-On Wed, Oct 08, 2025 at 12:24:57AM +0530, Gopi Krishna Menon wrote:
-> common_osnoise_options.rst is intended to be included by other rtla
-> documents and is not meant to be built as a standalone document.
->=20
-> Rename common_osnoise_options.rst to common_osnoise_options.txt to
-> maintain consistency with other common_*.txt files and prevent Sphinx
-> from building it as a standalone document. Update all include references
-> accordingly.
->=20
+ "funcA*,!funcAB,funcC"
+ "funcA*,!funcAB,funcC:entry"
+ "funcA*,!funcAB,funcC:exit"
 
-LGTM, thanks!
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
+> For compatibility, %return remains supported for single, literal
+> symbols. When a list or wildcard is used, an explicit [GROUP/EVENT is
+> required and autogeneration is disabled. Autogen names are kept for
+> single-symbol specs, with wildcard sanitization. For list/wildcard forms
+> we set ctx->funcname = NULL so BTF lookups are not attempted.
 
---=20
-An old man doll... just what I always wanted! - Clara
+OK. So "funcA*%return" and "funcA,funcB%return" will fail.
 
---W+2lsue7TXY5gcQ4
-Content-Type: application/pgp-signature; name=signature.asc
+> 
+> The series moves parsing to the parse path, documents the new syntax,
+> and adds selftests that accept valid list cases and reject empty tokens,
+> stray commas, and %return mixed with lists or wildcards. Selftests also
+> verify enable/disable flow and that entry+exit on the same set do not
+> double-count attached functions.
 
------BEGIN PGP SIGNATURE-----
+Thanks for adding selftests and document, that is important to maintain
+features.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaOWsHwAKCRD2uYlJVVFO
-o7BjAQDfo1t5Lr12kg1pMMFioSkS+Xkr4egh4nTgsiztQ9ybyAEAnvnzwOgWbSWl
-t5mwwHHqH9/4f2X5NKq6K97vtzUEKAU=
-=VmlC
------END PGP SIGNATURE-----
+> 
+> Help wanted: This is my first time contributing ftrace selftests. I
+> would appreciate comments and recommendations on test structure and
+> coverage.
 
---W+2lsue7TXY5gcQ4--
+OK, let me review it.
+
+Thanks,
+
+
+> 
+> Basic coverage is included, but this likely needs broader testing across
+> architectures. Feedback and additional test ideas are welcome.
+> 
+> Changes since v2:
+> - Introduce spec-level: :entry/:exit; reject %return with
+>   lists/wildcards
+> - Require explict [GROUP/]EVENT for list/wildcard; keep autogen only for
+>   single literal.
+> - Sanitize autogen names for single-symbol wildcards
+> - Set ctx->funcname = NULL for list/wildcard to bypass BTF
+> - Move list parsing out of __register_trace_fprobe() and into the parse
+>   path
+> - Update docs and tracefs README and add dynevent selftests for
+>   accept/reject and enable/disable flow
+> 
+> Link: https://lore.kernel.org/lkml/20250904103219.f4937968362bfff1ecd3f004@kernel.org/
+> 
+> Ryan Chung (5):
+>   docs: tracing: fprobe: document list filters and :entry/:exit
+>   tracing: fprobe: require explicit [GROUP/]EVENT for list/wildcard
+>   tracing: fprobe: support comma-separated symbols and :entry/:exit
+>   selftests/ftrace: dynevent: add reject cases for list/:entry/:exit
+>   selftests/ftrace: dynevent: add reject cases
+> 
+>  Documentation/trace/fprobetrace.rst           |  27 +-
+>  kernel/trace/trace.c                          |   3 +-
+>  kernel/trace/trace_fprobe.c                   | 247 ++++++++++++++----
+>  .../test.d/dynevent/add_remove_fprobe.tc      | 121 +++++++++
+>  .../test.d/dynevent/fprobe_syntax_errors.tc   |  13 +
+>  5 files changed, 349 insertions(+), 62 deletions(-)
+> 
+> -- 
+> 2.43.0
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
