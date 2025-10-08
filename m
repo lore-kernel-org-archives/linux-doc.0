@@ -1,128 +1,122 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2E0248F77
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 13:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359A1257422
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 13:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759928657; cv=none; b=uonGCB+rBVtYI8KKOz7ZVfjmDM5c3fa/WjvwNPR0s/3ltJAMoT5EDA8NPGDPGtlCvbgmZtF0Eq6/MtsoEkXth2E9eaBClc7mZEKof5TPM9QY2c67KDT4/89vjYvBm/tvD2RDaWmjpKDeiaNQFmqkOkr+jvf33cLYlKETvQimTao=
+	t=1759928812; cv=none; b=ntfjYoq20gEbAQGBtYkwRWqnfRWMQ+hC2lWYc09r7gwATYutYAI00FsLGpQ6fwyuEzjUEqx25ZKi4HcUELqjpYfzSsY08jWeUbqACBIxOtYCt5xYDErBRIl+eRMl5gZL9Go9gRB6waMqyaElrwGUa1FoSk0XXdsqp+GYEaM6aTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759928657; c=relaxed/simple;
-	bh=iombOkx6RZ049iGmftkrgMRMmszUv7qM3smVLV5UOqk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rfdpIDtmSpXQz7m+xv1b2C446f5MbKJKsU//oGdn1kMOG8ibKXfkrjfG1oSwSJ5tBjRSrxoX9uylNo8lHJc+DfjmDMYIdweZQi2Rm+9/eYedQioFaMDg9hl7c3DAKP1VaEeXTocM1cNHmZTpNwakvzKe6z1Nj2TgN02YNcV7Ils=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tFmk/2X8; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1759928812; c=relaxed/simple;
+	bh=F/KLc0AJ5qXXCxdc7wYUMS/kUrn3DDkOw+Xg9ewXk84=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uqWfnugHFnAZEuxiygJkyZVsuRCAyfMI38A6Wz+ZX8e195ZId3IThJdsUR2AZ5rBcBVWXnBmv5qa7O2DJEvVr/Ue0MfqBI6L7UaAko0eN065Z336HE2awl2rBNOegD01t5a7brsMFnbMR450Pyk/qKYw9AZoyAW+vf3X5BlNPQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aticjHYl; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tFmk/2X8"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-639494bed86so6429588a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 06:04:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aticjHYl"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e47cca387so77728555e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 06:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759928653; x=1760533453; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UqAM5J5K6OQvQzOQHzxihWMwPVqmYeUpdruR6N5ZdUg=;
-        b=tFmk/2X8iExVa094zCS3dmlp+I9iU9nfzN6z9RHO8wwtjoKJppXfZdmLZHEI6bYIQU
-         zbGcL/pdCWlhkJ3hApwh/ZjUEgoEdhrHB8/y0ezt+mdnBt2FfyvtYAG88wAXQj5pta0+
-         oDDCiW0ESbkXijvhNB6RZUE8//iEZ9rGUNmnIaf1WtcsC7JkMspY9o2IBFPLTCNy3Gac
-         OuiTmrMbZCJ0SnR5fqFAel1DrnRITcUUbVqiNzAjXLpOYzWlFxHoSswjQwOHKX13JeCn
-         oBp1qczBZt2wz4VS3NToa7yjgz9HG3efh0MHTgi65X2Y19s0Pm0Rf9WyPRR48qigVPn6
-         29qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759928653; x=1760533453;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20230601; t=1759928809; x=1760533609; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=UqAM5J5K6OQvQzOQHzxihWMwPVqmYeUpdruR6N5ZdUg=;
-        b=JgCA5hmtIC98C5H+1m2pzrrPh3g0eoJUK8HyH9DvXkSo4FS0Gcyc4vc5JbVSkyIrK4
-         Xhb/Jk5sKC4qhqsAgZni0BaS7po/yS73WkJzXzvkxbZoHsD8b7TpFix0hhISHO3GJlSI
-         s7gTG3OnbGJFcDyCUzkCj04eKBJ6Fwg2qhiqo9p0C0dQkjRqbC833pAfn1KekMWl8Hte
-         P7jbhZZsLcLJFNxFJvuUfkGIkal/PXJY+1bEDXMI0++i4CAPsVm2UksLzy4hfFwPwVNO
-         wya3G68l/BCel4KAladi/lX8my2bk3OvpHaHk4Bzz5d80JkJbE2aDjR6Ai00ci7iCnoF
-         mHTA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoGfR24qGe1KZ9z6yBrlmDa38jyJnyXLXuxJgyCyKZioFQzWwva344P2GRSLYr8AvJsV89yZED4qk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRTXj0OryTSYFnFQG3ZrCiXvGagsLEAzntwjsqKpAsQrpeEwip
-	9CRA5eBf/mTK69tCLAmU6pc/XEmNvrRwS2xJ5nCJSru9PZu1/LISO1cj0NO1b8DcRRHUGcqH6/I
-	Gu6o9hdHbSd+UfHOjkw==
-X-Google-Smtp-Source: AGHT+IEwDtKAOG3+0GlDuiqWNfaiYirepvfQDt/Qk9gvr2w2apCZsFLWkE0cR2CwoYx8kDzMVpCqB89Jb5iURts=
-X-Received: from edbde21.prod.google.com ([2002:a05:6402:3095:b0:62f:d279:8fa2])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:40cf:b0:636:23c2:e61f with SMTP id 4fb4d7f45d1cf-639d5c5a38dmr3342530a12.26.1759928652918;
- Wed, 08 Oct 2025 06:04:12 -0700 (PDT)
-Date: Wed, 8 Oct 2025 13:04:11 +0000
-In-Reply-To: <20251008124619.3160-3-work@onurozkan.dev>
+        bh=F/KLc0AJ5qXXCxdc7wYUMS/kUrn3DDkOw+Xg9ewXk84=;
+        b=aticjHYlXfEiVK9zv8gtiCSG++sw5pjXRsCdnK6qeDkWDKmzGsg5xZpudCfgB6bH7w
+         q+SB6P2FbQYVGhn/7VZu0wCM5gBMTVOb+WBEjcAAFbEaa7G1eF6+qz0di8aDHBwtKPfy
+         5II0FDkHZvmIYuUXGsw/nl4ZPwy4nXIGt2oeuTZsxC09EuKFovK+PNQ9PksZDkeIGQw/
+         EbXXqpRhguQuOrkwdf1qypfzAF9Ji4g+2Co3+cs+Q+EY7pAOeStv9BZATMOqHGloQAXe
+         bxT5oNz7OE7kjBCLO4fqsio9N+VP8ZcAJCy/RWRAcEHpVS3qGtHS6Y5+8FIpz6e1nTzh
+         ywjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759928809; x=1760533609;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F/KLc0AJ5qXXCxdc7wYUMS/kUrn3DDkOw+Xg9ewXk84=;
+        b=ryKqBZcn0eQpoNj3Z3BcwRvotZ9mxvLuW/NxfK9WqPCO9AojZhJ07BPzZW5Uuo4xsX
+         h+56HbSoZmPA4LvAYXl9jLZDYAN+Brb69GCf9j6Zm9lxhlJgp4VRHTF7gJNUwcIKAhbC
+         pNWB6SJ3cWFcbL0i9dcCbPd24ARkGGBFV0IqiABUkxGjVeXjB4Ax4FWOeEIPFpZGfIuW
+         DAn4K/No70cFcv71D4l3GB44XqvI1YcQJAh03Iyyi3mHB2tizZ2i5pv388ubTJDkcwJ3
+         HHDyuQzl3+Z0dXNKG+j7aQ9WhJFB4QvMQAmRcvk4CNgSS7Rl1UJMC3b36U6KTVUoereS
+         7ytw==
+X-Forwarded-Encrypted: i=1; AJvYcCWq8/P6zZXaMdnqgW2+RAJcf1wShj7n1DqGqytAT/TrBb0TRAG3qJnsMpHU6nKgbGZpzLpnqYX4Wkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfKQYRobywXRCpKYmLiqiC/1oXBYEoe+r3Mhz0FIwXR6L5HJ99
+	olzI9COZp0YA03Gyo0v6/YxA9xuHLLVv9qxeG4033NSdBrhl0eB38986
+X-Gm-Gg: ASbGncs/95h1zREdzCph/ZULDF3816oEz/cLatPBU11DuSjV2aD3rXu1xx4sMxrC6Gw
+	Gpe9+8U/0NcRP/vIir1pSdzrRIAbwFcs7gusNibDjq+33eihqbA7MvgE9isw7WsBx0rnRnxuTbS
+	DcsQqjzGS+ZBRT3wDaUzbFhP8ztTk6CSpn6XFGFz8C733I92f6YLGMs/aX9+iBZRwyV9GqW3P9m
+	CwF4EZ+H4HDqOfJ26LBngmQcQi/7rr2Z0yt61ghcQtiNxdqzXNE1RaNB2jWhpbtGqnddhSmJWIO
+	lAGpwX+HDdcZDopo0jrVWCqehjo4meyZTG7+6ao4qlZqHG4PW9duI/dmeWdPXhOjTbPBLoULwtZ
+	HSTOCvM1x/wcZzID9a77xJabdCHhJy4Hx4wDy/3rd6g022WALS+BtzTY=
+X-Google-Smtp-Source: AGHT+IGs9TvNL0rmTcrQDR+AU/z45s+tapDQMkY0alK/pD4CF+hA5wLEMmSe5+LpHyH6FGvPYm6apw==
+X-Received: by 2002:a05:6000:420a:b0:3ee:1521:95fc with SMTP id ffacd0b85a97d-42666ac6a8emr2097091f8f.14.1759928809216;
+        Wed, 08 Oct 2025 06:06:49 -0700 (PDT)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8a6b40sm29969759f8f.2.2025.10.08.06.06.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 06:06:48 -0700 (PDT)
+Message-ID: <35733a7a33301330260c01b1e59af904c8c4da6b.camel@gmail.com>
+Subject: Re: [PATCH v2 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ linux-gpio@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jean Delvare	 <jdelvare@suse.com>, Jonathan
+ Corbet <corbet@lwn.net>, Linus Walleij	 <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>
+Date: Wed, 08 Oct 2025 14:07:19 +0100
+In-Reply-To: <0ce54816-2f00-4682-8fde-182950c500b9@roeck-us.net>
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com>
+	 <20250903-ltc4283-support-v2-2-6bce091510bf@analog.com>
+	 <742fe9b5-bc53-45f2-a5f1-d086a0c9dd1c@roeck-us.net>
+	 <0765a0b89779331c62a3f136ef030f7f2f40ea47.camel@gmail.com>
+	 <0ce54816-2f00-4682-8fde-182950c500b9@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.0 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251008124619.3160-1-work@onurozkan.dev> <20251008124619.3160-3-work@onurozkan.dev>
-Message-ID: <aOZhS9nTDnH3Zh7N@google.com>
-Subject: Re: [PATCH v2 2/4] rust: xarray: abstract `xa_alloc`
-From: Alice Ryhl <aliceryhl@google.com>
-To: "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	lossin@kernel.org, tmgross@umich.edu, dakr@kernel.org, 
-	linux-kernel@vger.kernel.org, acourbot@nvidia.com, airlied@gmail.com, 
-	simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 
-On Wed, Oct 08, 2025 at 03:46:17PM +0300, Onur =C3=96zkan wrote:
-> Implements `alloc` function to `XArray<T>` that wraps
-> `xa_alloc` safely, which will be used to generate the
-> auxiliary device IDs.
+On Sat, 2025-09-13 at 04:02 -0700, Guenter Roeck wrote:
+> On Fri, Sep 12, 2025 at 03:00:22PM +0100, Nuno S=C3=A1 wrote:
+> ...
+> >=20
+> > i2cdump -y -r 0x41-0x79 1 0x15 w
+> > =C2=A0=C2=A0=C2=A0=C2=A0 0,8=C2=A0 1,9=C2=A0 2,a=C2=A0 3,b=C2=A0 4,c=C2=
+=A0 5,d=C2=A0 6,e=C2=A0 7,f
+> > 40:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b004 0000 b00c a03e a03e a03e 2501
+> > 48: 0000 1a03 e07f e07f f07f e07f e07f e07f
+> > 50: e07f e07f e07f e07f e07f e07f 0000 0000
+> > 58: 0000 7002 7002 7002 b07e b07e b07e a030
+> > 60: 9030 a030 0000 0000 802f 1000 1000 f0ff
+> > 68: a004 a004 0014 a004 a004 c004 0000 0000
+> > 70: 0000 0000 0000 0000 0000 0000 0000 0000
+> > 78: 0000 0000
+> >=20
+> Thanks - this should do. Note that I am traveling and will be away from m=
+y
+> systems until September 25, so I'll only be able to look into this furthe=
+r
+> after I am back.
 >=20
-> Resolves a task from the nova/core task list under the "XArray
-> bindings [XARR]" section in "Documentation/gpu/nova/core/todo.rst"
-> file.
->=20
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> ---
->  rust/kernel/xarray.rs | 41 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 40 insertions(+), 1 deletion(-)
->=20
-> diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-> index 90e27cd5197e..0711ccf99fb4 100644
-> --- a/rust/kernel/xarray.rs
-> +++ b/rust/kernel/xarray.rs
-> @@ -10,7 +10,7 @@
->      ffi::c_void,
->      types::{ForeignOwnable, NotThreadSafe, Opaque},
->  };
-> -use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
-> +use core::{iter, marker::PhantomData, ops::Range, pin::Pin, ptr::NonNull=
-};
->  use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
->=20
->  /// An array which efficiently maps sparse integer indices to owned obje=
-cts.
-> @@ -268,6 +268,45 @@ pub fn store(
->              Ok(unsafe { T::try_from_foreign(old) })
->          }
->      }
-> +
-> +    /// Allocates an empty slot within the given `limit` and stores `val=
-ue` there.
-> +    ///
-> +    /// May drop the lock if needed to allocate memory, and then reacqui=
-re it afterwards.
-> +    ///
-> +    /// On success, returns the allocated index.
-> +    ///
-> +    /// On failure, returns the element which was attempted to be stored=
-.
-> +    pub fn alloc(
-> +        &mut self,
-> +        limit: Range<u32>,
+> Guenter
 
-The Range type is inclusive/exclusive but xa_limit is
-inclusive/inclusive. They should match to avoid confusion.
+Hi Guenter,
 
-Alice
+I was planning in letting merge window to come to an end but I might just a=
+sk
+now. Have you forgotten about this one or do you want me to send v3 with th=
+e
+superficial review and then you go deeper on v3?
+
+Thx
+- Nuno S=C3=A1
