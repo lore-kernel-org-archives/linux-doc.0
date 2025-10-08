@@ -1,132 +1,130 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9812EBBA8
-	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 16:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F29720E030
+	for <linux-doc@vger.kernel.org>; Wed,  8 Oct 2025 17:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759942792; cv=none; b=E4zoX3zvQE6ZQttaUqu9ZVtZvtfmLtK6TLaswux3md+ACXdoTrar4eG+WfnSHdclx6d/Lr7H8oNhlYLulH8LMhTMJRP1qop0Gs4vtJLyX+q2gI1JyfkuUAmbQu7RkQB8CucddXNdsECWaDzjZnk63dQM9Hw2exHTMtUgKgoLI3U=
+	t=1759943136; cv=none; b=GetxLCfLx+d+CfwcfDireoYUx8ERiaTqzI2vqBYLyQsdwOTGFmrhJUSjPBLax8LyhI4RZcFTH4zpjk3pmiJWFvBFQXD2tifef+M2BIhWbr6VSDzbnDfdVbKCxftEfgoQdRmbB31Ew1qEq4LiEiY/pxrz80fCr9o7s/tHTnTIi7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759942792; c=relaxed/simple;
-	bh=U6T66WCwAVe2p4J0jyxKKXb5H7i7GwEg7i80OTReVgg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m4PG4Q+CcFNFadejR3jqRTqiLJpDttK2pJBfdbjLuAd26JBIzKO+OR9gxPEcLnE/rgC+v69IWtuKzIasF+O0oRdv0lfF5uQ1+krIrBhQ95Gprjknsjbw6so3L+JpuasVHNPHlABKijZ86Ot9cS3E4fEldmPkd3VY/V41LvOcaJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9Lpz4ZJ; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759943136; c=relaxed/simple;
+	bh=lykQn+FQT55p68zRDbABBcOsa9TTYqQN8lbfQUCfsfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jG+N1xgCNrvrgYevIsvuJQLWpj6gkRRGr6y/hAz77qrjRMfCN4TlTHA/cyblbKoDYB/8BidN74hmyvdwvDHAf5EIYgs8jF5KxyOOp9+lY15VmnOoIWXBHGuwsRnGmFlqO1WK6W9e3ZZU+/AAM+xoPqRecunoNA7ll6FrGFLgp8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=EvH+GnTm; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9Lpz4ZJ"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-373a1ab2081so64447141fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 09:59:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="EvH+GnTm"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-85cee530df9so3522885a.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 10:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759942789; x=1760547589; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tbyHQEVZUWM5+b8hXROM9euWoMjNsVjY1q+gc+HNpdk=;
-        b=i9Lpz4ZJj6FKCaKoPdaH6Dt3SKPGXD6VuF9P8ZjiEdc8U0Dggs8yav0uSzlw3JPEYB
-         1WFSd2V3sRgWMbdqOX8hHU53pNAZKNBt4piO1wY2Z5EoO6GSLCeMrWChf6rtv+wOo5WZ
-         5QHjq4V5Z5UCH/n2yfZjjs6L/AFc3UVhC87gP2/gC88WC8pJtg/QCbHCby+ibMyDthjJ
-         NlimmlOmlpThIL8inrrJ98gqaZbSJoVoGRX4rpG76bFr5dItIE/C/YLRG+o3x/8nk/SI
-         iklWxA3Hn3w3N0jUbPjyohs+e+/9TpL42fFetfT8+HBwmUTFVsyFtKCHIg+LRxi2UcsL
-         KSVQ==
+        d=gourry.net; s=google; t=1759943133; x=1760547933; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PXvJ84I7DoVfJBSKO4yOsPRB7++PVFt2jBMWq/ZPjB0=;
+        b=EvH+GnTm+k6YDM8esAi37vaDX+VvfVKdXkH/voeTh7/oothCZg+pvk0hIni90+aoBq
+         HIoI9dvfe0/ayaNuYz5s+IWggFAe+4gpY+WrxmvxE5rO+N74IoaVEKqTPKat2Ydoj5sp
+         cJlg4JNJ7MirffoJvMEffpuQDPozToeFWWw/KUO6fbWKAOltLjobC5rV3hMKPB1PWJol
+         6N3t89xTSOtUD+4PXT2u7wO8IU2aMajIxee5LdFha+VOfR4y+r1vkCtJw+a9WXXlXYKW
+         1poyoR5o27mpO6vPCeUNDiBGuCXxZzYOYRhcUcqhQ82bG8fz6qV7Zsjcv7jI8maT3xCE
+         HYrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759942789; x=1760547589;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tbyHQEVZUWM5+b8hXROM9euWoMjNsVjY1q+gc+HNpdk=;
-        b=vdPJksIJtOlhJJb+Hf/wIC2DSt8GguYFQ3tema4YXQKI8/aubcouNaQrUm0Nv4Z5ol
-         XGsTBCEYC+bxwX/EF1ntQPZ7NkFoEjEiNMO9SQG7rbpSR27NNuHxit9rC6iGdIRXqoDT
-         aGWLgPLei4oS/BGH1jNo5QplgJDh2NfI0BbhxRqvdMI40DlWRDZmrYGqf82TpwplFM74
-         a/kFi0WCNcViv44vjdxM6GMw00vuB6ZgTVm9CsraOtPr447hdSNKHIrtZG3hDZiotrtR
-         MSj6WA2wFvlRddLfvSOrCt+So18tafPzBQYQ9sb4ZOnKKgbOCJ40KJJ46mx2RNvWH5+G
-         hlNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWS/1P9udZ2Pm6lKAW0QnZll88tl/g8cMrw/UxCTR4Nennp6FyUKzpONgY3PUief8l3nLOItQZVaEI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS2AUk8kw2MDbQAr7btqc28q9DXNzdVa6iIB7e2xjNEhfm4i6n
-	n+HpjJTe1vkV3sWYVbNTVGCi+H1X6bECUSOu2ESKGzZMECGkPKDGLphmCM8Slor7UH1hAfjaptA
-	GTxgAAbCuVvUaBl4gd7GHGhsYFldXfOA=
-X-Gm-Gg: ASbGncuwNvSzBxrV2opfAyOFixmPf00Tj5TEBvGqlcOLbOiZqFGvO4FeYRdMR9Y5B1w
-	uTzxdfk+yoytHitvbODpKRq0+riipgLR37p3/VBQ1wvuKd1i4oPNiIem28FoiAOuGi/R5Krh7IA
-	QDvZevUATN96AXhKmcUNAqCYPCVBC0dcKuBTI1lM5o0E0R7mXSWH8DCgl8kQViaOfc3wgJBa+3z
-	3EYQZs9fWQmVeugb+tt4H8WjRZUtaJEfqDZ52C4t61WgnQIJ2siH6o+73ks2D3nBXGls2liSMbL
-	FzDd1hR/NRhNgY3IT2y+ygQnoFuYGeQX+A/VpaAosEvzs131V/WnFB8=
-X-Google-Smtp-Source: AGHT+IGwE31TEki+9bgtGRuJBI0XpflFmiVXP2InI4RexshP1L9r4vs0K8grtJNFkGtKKh4judP6Mucbj50jbGgWQT0=
-X-Received: by 2002:a05:651c:12c3:b0:336:6c93:9726 with SMTP id
- 38308e7fff4ca-37609cc1c50mr12805851fa.4.1759942788553; Wed, 08 Oct 2025
- 09:59:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759943133; x=1760547933;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXvJ84I7DoVfJBSKO4yOsPRB7++PVFt2jBMWq/ZPjB0=;
+        b=lyhdAD2ci6mFD5K47D44Gc42WiTzeQhcsiqHrcGWXYGFQAVxrhiCbJbbkxpakIF1KK
+         4oylsRZiehKEnE3tjVCRNa4u3kH9ATnPEq1hUuhQwmac192xOc4VoH5tqOY+yKvL+cde
+         HxxpKKHAsYQpGiImZprXmosIffAVxnZdLNtfDmPHLfK7YYPWSfzRSZEy+gGVRNx5KN0z
+         8YNC60qYnh7iiJbnSv48BnB41YoCdiZ+EV13JtnBGm5otkK1JldCxQaF6k2Qlkr9lFbG
+         OQRlKJmQI0mLwORiq2zpxN4LoBoLPom/EnZi6gIK2+wuycqYKVdI5KWoTGdGwCwDGafE
+         0W/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX2zmgsWsBuSlc7F16bjeReiK23UsaIGupQfwf6JJXFP+eoINOuMuVdEsxGwcvO5zVXBHptVcPawKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFCErvUM55OqlTFgQ4E3PF+Wh+z/Y4yC5mUdvFzBBS6e66dxf8
+	G6EA3YQy8KgW6NP+UnrGlq5jiJSw95NAMpJB591cDyX3bURu6fRXtZVqFpBbRQ055iw=
+X-Gm-Gg: ASbGncug8vqmPzLPR2GIQTbbNp4XRYqjL5mOlHdn9JI7pqebQc18diOEcFgRElXV9ah
+	1DBUW37vsTtxW7DjF4PUZw5H6s2GlIEjDN1Tvo8ZCgj+kDPTwpRfW8h6I2BS5s2sx8iq6e8vBNf
+	9FBbGanPrKE2ADk03gIeSSS9TM5sf+EyIewbcI7dKZLZjk6c4I1fU7u3ffuAwbtYf7BI+ej/owx
+	sb3BVGUzEhUzb6AogkblU8upiIUgdFlF0bDYZXZSNhJhDaHJlthw726j7IktzYIPK4CaoOQDp6p
+	jzhKWj0QDGXocpuLV4AM9mky5mt/za/VSmTjmwXrxW3u0klpSUcpBqr3KNcWWFVM6loSfzBApuN
+	lIm5HUiUYAaqky1JtbupE6zyD4dJLjt1l0nW6PptpUzkn5DhKnQXfnF5/rMZuC3+wVFsjIzQRR3
+	npmao2VDz2BxbIKpNSYVOlY1oYLZYD/59uQvbjY2YP36y0qqVWOyE=
+X-Google-Smtp-Source: AGHT+IHTTVXTCiYKFRjp/R7MyfRa3HWK9EIiUGj0jtPBpCzSk6p5BgpHTweDq92wD5qHBCW74OIL9A==
+X-Received: by 2002:a05:620a:44d0:b0:863:b78e:d159 with SMTP id af79cd13be357-88354ea751amr597920685a.51.1759943132915;
+        Wed, 08 Oct 2025 10:05:32 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878bdf53343sm168514456d6.54.2025.10.08.10.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 10:05:32 -0700 (PDT)
+Date: Wed, 8 Oct 2025 13:05:30 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Frank van der Linden <fvdl@google.com>
+Cc: Michal Hocko <mhocko@suse.com>, David Hildenbrand <david@redhat.com>,
+	linux-mm@kvack.org, corbet@lwn.net, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org, hannes@cmpxchg.org,
+	laoar.shao@gmail.com, brauner@kernel.org, mclapinski@google.com,
+	joel.granados@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+Message-ID: <aOaZ2o3l7ufX-9Ly@gourry-fedora-PF4VCD3F>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZ8PPWMchRN_t5-@tiehlicka>
+ <CAPTztWaH7mJ3ACfqqYr1CFCDycw6Zm727t7wAa4n9Th22bn-yQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008124619.3160-1-work@onurozkan.dev> <20251008124619.3160-3-work@onurozkan.dev>
-In-Reply-To: <20251008124619.3160-3-work@onurozkan.dev>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 8 Oct 2025 09:59:12 -0700
-X-Gm-Features: AS18NWB_7cIMONd68nAMOTgSvZDlnnuuRjeTROznbec4OLsuftEiYVOVmU_FLrg
-Message-ID: <CAJ-ks9mtfVmP+SwZvBVuQSwViiqo2ZngSGQuU5Y7A-Q_JSwjKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] rust: xarray: abstract `xa_alloc`
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	lossin@kernel.org, aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org, 
-	linux-kernel@vger.kernel.org, acourbot@nvidia.com, airlied@gmail.com, 
-	simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPTztWaH7mJ3ACfqqYr1CFCDycw6Zm727t7wAa4n9Th22bn-yQ@mail.gmail.com>
 
-On Wed, Oct 8, 2025 at 6:05=E2=80=AFAM Onur =C3=96zkan <work@onurozkan.dev>=
- wrote:
->
-> Implements `alloc` function to `XArray<T>` that wraps
-> `xa_alloc` safely, which will be used to generate the
-> auxiliary device IDs.
->
-> Resolves a task from the nova/core task list under the "XArray
-> bindings [XARR]" section in "Documentation/gpu/nova/core/todo.rst"
-> file.
->
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> ---
->  rust/kernel/xarray.rs | 41 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 40 insertions(+), 1 deletion(-)
->
-> diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-> index 90e27cd5197e..0711ccf99fb4 100644
-> --- a/rust/kernel/xarray.rs
-> +++ b/rust/kernel/xarray.rs
-> @@ -10,7 +10,7 @@
->      ffi::c_void,
->      types::{ForeignOwnable, NotThreadSafe, Opaque},
->  };
-> -use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
-> +use core::{iter, marker::PhantomData, ops::Range, pin::Pin, ptr::NonNull=
-};
->  use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
->
->  /// An array which efficiently maps sparse integer indices to owned obje=
-cts.
-> @@ -268,6 +268,45 @@ pub fn store(
->              Ok(unsafe { T::try_from_foreign(old) })
->          }
->      }
-> +
-> +    /// Allocates an empty slot within the given `limit` and stores `val=
-ue` there.
-> +    ///
-> +    /// May drop the lock if needed to allocate memory, and then reacqui=
-re it afterwards.
-> +    ///
-> +    /// On success, returns the allocated index.
+On Wed, Oct 08, 2025 at 09:08:01AM -0700, Frank van der Linden wrote:
+> On Wed, Oct 8, 2025 at 7:59 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > Maybe what we really want is to have a configurable zone rather than a
+> > very specific consumer of it instead. What do I mean by that? We clearly
+> > have physically (DMA, DMA32) and usability (NORMAL, MOVABLE) constrained
+> > zones. So rather than having a MOVABLE zone we can have a single zone
+> > $FOO_NAME zone with configurable attributes - like allocation
+> > constrains (kernel, user, movable, etc). Now that we can overlap zones
+...
+> 
+> I agree that having mutiple zone properties is probably the way to go.
+> 
 
-Returning the index is not a very good abstraction. Would the
-reservation API meet your needs?
+Ah, I should also mention that I've been kicking around the idea of a
+ZONE_DEVICE allocator - but this blows up pretty quickly into
+maintaining an entirely separate page allocator for non-general-use
+memory, so i didn't want to start off with that until later.
 
-https://lore.kernel.org/all/20250713-xarray-insert-reserve-v2-3-b939645808a=
-2@gmail.com/
+tl;dr: pgmap->alloc_folio(gfp, order)
 
-If yes, I would appreciate your tags there.
+Then allow driver managed memory to "online" this capacity via
+ZONE_DEVICE and integrate *specific* areas of the kernel to use it -
+rather than everything.  The device's driver is then responsible for
+implementing alloc_folio(gfp, order), and a zone_device_alloc() is
+responsible for hitting all the relevant devices for a compatible
+allocation.
+
+I alluded to this in the hotness/compression discussions - where there
+is some compressed memory you want to draw hard boundaries around how
+it is accessed/mapped, but want it available as a demotion source.
+
+https://lore.kernel.org/linux-mm/aNzWwz5OYLOjwjLv@gourry-fedora-PF4VCD3F/
+
+Not sure if i'm just overcomplicating the discussion here, but if we're
+talking about new ZONEs then maybe it's worth considering something like
+this as well.
+
+~Gregory
