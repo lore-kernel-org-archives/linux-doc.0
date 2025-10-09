@@ -1,79 +1,78 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D0821770B
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5007517555
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760027037; cv=none; b=D4NJVCYB0S88Y6lZL1HUT7q658PQbUepsBauQPxr8Ye+/sJo/zJA4YB1xgeRIzOhP5Kie2OVjG/tUx2qGOPlhy37JeuJV6NtIubxaWvVPFO3U/lSc7fUaNbMy9wuRGiG78svafWKNhwiSWS5hLwoBl/WdfMLXfmY0d4af0M3z98=
+	t=1760028385; cv=none; b=ANJ12FShdfcXtzEBf+GTcGCXLcxQri+oiBwUir4Px6eYolTHhY4iufbwHDzRz03isQ7pECekR9+75IxwlD49SMQIOOU9jstdsxn3w4AvqoT/PYMwokUy3d1BdaH9Bp06hCdxa6rm2hbK3VFUkOC+hTrgGrSjh9NFpJE1qFMCJ0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760027037; c=relaxed/simple;
-	bh=eVvkeQWqrG4dYBffY48He8ILJTh8EX7LtPQhkX3h+lI=;
+	s=arc-20240116; t=1760028385; c=relaxed/simple;
+	bh=uKkoVdHHQpINnOOc7yMyxMdnFxyYgw6tts6v+l9uMss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHe0MlsSR17Loba+TVyZ+TlBOmhKiVkwSDImbBCY3cFucYBWI3BRs3zEvA+rzKrBw4aR5HITUzaKw/+fRBk+nTyiePsdAPucMI0bhW4VLwTJgVpKjbcX4NPO3NjKodrSiV6Qst09yGiGR4uYirPy8ceDgWjJzjNeoKqF/paKZl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCnG8vPR; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zl2XR+N7Ey31l9DHnhZTk5/MtBi852qngqJ709ENRU5N1IFqjxydb2wddwBhIxUGSdLKNkSA8uSLeLWBoUPUZpUl3hWhITBbXSWoQiaBTdZk1AriXhR8wDALWs7HYc57NbJnI1iqqRgqExkunPHqZ+MdLOxAopxCPgCoJj3ZnBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=gxy8k/6i; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCnG8vPR"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so1662973a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:23:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="gxy8k/6i"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-93bd394fab0so35476239f.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760027035; x=1760631835; darn=vger.kernel.org;
+        d=ventanamicro.com; s=google; t=1760028383; x=1760633183; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4C1j3OOKsjCqjPjMDTFb2+CfJ4gki9Qbk/4PqhkQDc=;
-        b=MCnG8vPRQYAB/sRTi4esoaO/JWYoy5ApLLqeX6QndxwVYySMVYJKfC4gJjO3FwPqSV
-         S30/FC8jXscm2L1XPxnjUqDd27oc5xOjcOGAGIa/5BlueteWIktVI8o/v3dMZDbmDeF8
-         z5AR8SUuVLUDndif6y1kd0i2+o7Wee/2h2SVC/9uVSGcm5WK5k7oueRP+T90pEh+XE4a
-         1d/kTqHfwlX9LPsj0YGzfnpL06PNlMtzs7tRQTGQIyBbwtT+lH5U1pKcVbVIix5OkX9B
-         3adjH2abP2vWlPTF0J3nPlLFMQsmVhism3zMR9wh1pzs/U7nQ3hoL6WTMqh4mJNEytzO
-         UfSg==
+        bh=l69sAA+RqcMkjrNYYlZnvTMiAxsxuDk6BohwO3k0jM4=;
+        b=gxy8k/6iWbaPBMaHcPa6UBOZfPQZMJvh/8QzxvONUjVvaAbPF3qMZ+gZ59XeymltuN
+         Ft+vsm/hd6x/LYrjz99UnNAFNcFnkfZbub9wJ+f0/Ozh9IgHWOMmmb39RjmFFcN0CacI
+         qfAWvA5zcyCNy4Ce9fQ7/xo5NE9lMl9uium8PPZNlW6wDX4J9wrfwZxJtQ4SqjkOwjTZ
+         4RabWJxQ9A2smqPGhX+0StTD7h8KPQKMsYp8x7NRiDCXtnjQ5wTBcsP6nRLZs+eWD2sV
+         aeh1O84ypCXty9yPQfJxf66OvPe2oxowpOWWVH3gfsCUCIR0MYlFRnmmWrovIx4JXwFU
+         6o9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760027035; x=1760631835;
+        d=1e100.net; s=20230601; t=1760028383; x=1760633183;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j4C1j3OOKsjCqjPjMDTFb2+CfJ4gki9Qbk/4PqhkQDc=;
-        b=hZum8c9t4jv/mkhAvnIYFZoZ0maSCN7DFlulmzCxP/6d8Z8ckSih6b8LkjghVHJ6eN
-         tpuOfCT/B+pVyeWImfPw6UxB/dxFdYPulwrStbCkxCnfuXDOBWLfTsR/KERdsa3gKk1e
-         Hzl+itBT8tfgyla81weqOZZTsgz7SMSSEoBhBlygopB8rd5KehV6xinOKiFIwzqfvBsV
-         siHiT5Pve3GBLLwVeBH34Bo53yn2HM8D9AGoEdiNba9Gzc34tJszrEUNig5/6q8MWsMJ
-         6RkzfT9bUNwEl+TSMSNQeGf8ghaJ5Cp19nirU6PaasVPu5QcKiqS0u3JeiCw3KPNdueh
-         rzIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEMWdgYnkgVLFafxOaJi1ChOkIHynzR1mcs5syZxcL/xFdFJENe+UwQ0JASieTfYMK1IzgiFTPkbY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztKC/n6WR/TxDa4itOTwNNfneSdXwgXTpmtMU2Cf1dxu9gAgtk
-	EL8yUi7xnXl5aXh40mLutsJFra2IPl2X7lyWZqAyFVXanv76uCpas0yD
-X-Gm-Gg: ASbGncvUVOwWFtyFVXdMZ8Dwe8fslzSL9msEgvf6u5Wj/NtqAnrUA+w+UOhnlL2f8FP
-	Va1xT7HbOlLxZT3P5DFpjp2BgA74v0iZAdmFbDZgCL/9EirdIsHd4wllwI7jxghEkiTrh8PAEqy
-	ijXt7SaIhuH2AkOWnNwGP6XRIZZxWJlpCVP6K1hZhlIv5maW5Gr8Rv+sfLlSnIQTykQoaZjFAty
-	R7vlalNsJ+Wa8RZYnTzOTI0ppfI2tez6s4qDmoWp7Ckacl5CcMlT02AzHDAIgQFc81XGOwM4FIJ
-	9cnwWQIk15Va2DjfsafKBMmfNOlO0MVs0CAxxWroFhhdJmzoTBLsL00m2v8JdOjLKO1MTWJIizL
-	4O7FMGzf38nYfB9JgNPzPk/o9/Geh7dumXP5OXg8zPxVdUz8sU70L/p8=
-X-Google-Smtp-Source: AGHT+IG5iTuS4lml5ybOjWvkOCPTHDj9ZrBTt/dnU/W0P0sGl3oiFllm8k9GBt9WpwjupCqN6+ivSQ==
-X-Received: by 2002:a17:903:1a10:b0:271:d1ab:17ce with SMTP id d9443c01a7336-28ec9cd59afmr138719345ad.26.1760027035566;
-        Thu, 09 Oct 2025 09:23:55 -0700 (PDT)
-Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-29034e1854asm33475565ad.37.2025.10.09.09.23.54
+        bh=l69sAA+RqcMkjrNYYlZnvTMiAxsxuDk6BohwO3k0jM4=;
+        b=H5fDAyvNuPtWjByVrZ1rnNXOyai7l3vMswQxGBCvxkhBzC87y57ZG9cuGp/4dvfCjl
+         Ru2uUZZ313Nq9PGNYI02mdU54HH4s6Fs1NWgGBZ/14dhu4y76GKJN7l+3AiWNlXTPPMo
+         51S5Qvhq399cmnBs8v222Ds+RPbuLS6zCWvYM2HQW0fYD35y2yY2Gk/mobWtDKLuGF9L
+         fl0IJFkvr+Si5GUyPiqsvJ20KF7L+tXEFNKd42bFk+C1WQifE8AcFN3/UPeNbkfW2BjW
+         xi6WGNKPfz8CVHr5hFuZScZybxL4jBm3ASmAo2C3gyWLrmfwcvFcKkqNuSdHx4uE+3Pi
+         D0XA==
+X-Forwarded-Encrypted: i=1; AJvYcCXx9uDznrXPGgRJckscwcJE73dvZEF2/EloDPmlP4EPozqpfPXLH0MSdC+q+REJ+kF0bjfbx2CsZpM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylTfCGnRDf0MET1/aOcMwoLHXibzftK9iyBzp9arM8bjg/z77+
+	RWO+gAwxpfnIyTVlEl7Pqw32wslFbEA2wsLEyAnz/J0LBvdrpIGs1A3IIw/9Q7izgSg=
+X-Gm-Gg: ASbGncvq3hnX0UR5oLAg4G86gfoHScSyFFNjQbixU70EuNpsA81LF2z0oZD+5KztSBa
+	KnkhFQSMYox937Qsev95jExhynFmcn4hKWoBH5VM+eBJuNLfWWnQzClVWv6BeWvM8gTED+cYlcB
+	uNK0nqen6J3y+53tNh9897nYWDFpOhdD1oaZiWdxXAjD2dLgjj7HPfLbxKZvYNJs4hRSLOHlga4
+	v3hFBa0o0O7WX+DVIrxtDk0kYPd3Xq9KXpM4N7LgZCPu83fDU/aj+MITdrakuKzx/SUfpNQrrEr
+	JlTIgkZDm7gQ8kN4C0mhg/gCmN0Qt0NgZysDNPqm0jg+3Jf+BLXSywpbdk10vqdn0BZ42++uFN+
+	GR7CCqj5eTX88uQi6URknP7qML/yLmz7pUqA0tkvpldEaiOhOUZXeRbYuVpA=
+X-Google-Smtp-Source: AGHT+IHb56VLYwDyYpisbd61rv4b/ynpgAfxpu83YRCwm5JW7AaildP7fCF4cs3XdphAf5nkTFwpyQ==
+X-Received: by 2002:a6b:e916:0:b0:8c3:e106:74c2 with SMTP id ca18e2360f4ac-93bc4119105mr1227233739f.5.1760028383330;
+        Thu, 09 Oct 2025 09:46:23 -0700 (PDT)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-93e2594a558sm8145139f.7.2025.10.09.09.46.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 09:23:54 -0700 (PDT)
-Date: Thu, 9 Oct 2025 13:24:54 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org, ukleinek@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH v4 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
- and ADAQ4224
-Message-ID: <aOfh1puxPJr367n7@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1759929814.git.marcelo.schmitt@analog.com>
- <7e51e036ba930284c74cf42afd53b17d49093654.1759929814.git.marcelo.schmitt@analog.com>
- <20251008-penniless-tiling-9a83d4b4ba48@spud>
+        Thu, 09 Oct 2025 09:46:22 -0700 (PDT)
+Date: Thu, 9 Oct 2025 11:46:21 -0500
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	alexghiti@rivosinc.com, shuah@kernel.org, samuel.holland@sifive.com, evan@rivosinc.com, 
+	cleger@rivosinc.com, zihongyao@outlook.com, zhangyin2018@iscas.ac.cn, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Charlie Jenkins <charlie@rivosinc.com>, 
+	Cyan Yang <cyan.yang@sifive.com>, Jesse Taube <jesse@rivosinc.com>, 
+	Yunhui Cui <cuiyunhui@bytedance.com>, Nam Cao <namcao@linutronix.de>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] docs: riscv: Document hwprobe for Zicbop
+Message-ID: <20251009-27aafc23cb2a92c1c9b324b2@orel>
+References: <20251009134318.23040-1-zihong.plct@isrc.iscas.ac.cn>
+ <20251009134318.23040-4-zihong.plct@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,28 +81,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251008-penniless-tiling-9a83d4b4ba48@spud>
+In-Reply-To: <20251009134318.23040-4-zihong.plct@isrc.iscas.ac.cn>
 
-On 10/08, Conor Dooley wrote:
-> On Wed, Oct 08, 2025 at 10:51:37AM -0300, Marcelo Schmitt wrote:
+On Thu, Oct 09, 2025 at 09:41:53PM +0800, Yao Zihong wrote:
+> Update hwprobe.rst to include documentation of the new
+> :c:macro:`RISCV_HWPROBE_EXT_ZICBOP` and
+> :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`, following the same
+> style as the Zicbom and Zicboz entries.
 > 
-> > Change log v3 -> v4
-> > - Now only documenting GPIO setup to control ADAQ PGA pins.
+> The extension bit records support for the Zicbop extension, and
+> the block size key reports the block size in bytes.
 > 
-> > +    else:
-> > +      properties:
-> > +        adi,pga-value: false
+> Signed-off-by: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
+> ---
+>  Documentation/arch/riscv/hwprobe.rst | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> I assume this is an oversight?
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+> index 2f449c9b15bd..3b9c9d7e1409 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -275,6 +275,9 @@ The following keys are defined:
+>         ratified in commit 49f49c842ff9 ("Update to Rafified state") of
+>         riscv-zabha.
+>  
+> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOP`: The Zicbop extension is supported, as
+> +       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
+> +
+>  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
+>       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
+>       mistakenly classified as a bitmask rather than a value.
+> @@ -369,4 +372,7 @@ The following keys are defined:
+>  
+>      * :c:macro:`RISCV_HWPROBE_VENDOR_EXT_XSFVFWMACCQQQ`: The Xsfvfwmaccqqq
+>          vendor extension is supported in version 1.0 of Matrix Multiply Accumulate
+> -	Instruction Extensions Specification.
+> \ No newline at end of file
+> +	Instruction Extensions Specification.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`: An unsigned int which
+> +  represents the size of the Zicbop block in bytes.
+> \ No newline at end of file
 
-Oops. Sure, should have dropped that.
-If the device is not an ADAQ (no PGA circuitry present), then we should not have
-properties associated to that.
-
-+    else:
-+      properties:
-+        pga-gpios: false
-+
+Please ensure this file has a newline so the last line doesn't have
+to change every time we add new keys.
 
 Thanks,
-Marcelo
+drew
