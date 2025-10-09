@@ -1,306 +1,280 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB4277029
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 09:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FF72D877C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 10:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760001553; cv=none; b=ZnWwWQe/wRvTzj+ebZ3zOe3TKhIZbIPyYjpg2hXlvF62Gfuoa+H5CRh1XK1/gun1BrumQaPlNKeAfR3eqP73wMRbwhuob1GfNnh1rouLuUYYpulUi9mg+/NaAiE/UokVR9ZOQavmZ7RCrU5a0ub1mtH1XjFFgvnaCtQRWRPD9zY=
+	t=1760004013; cv=none; b=khGWbxPAhXD28eOwyHYL5H5Qt6GWgMyikwaorhCR+TuBubcLRY9soUewcfSJlwSsB+OsGVZ9gST8DOjwebN6M3Gv1i/3JO1sqFKVTJC5+7Jse1oZ7eaGVbBARdxOkU80YtnS8iRRPKmypZaz5fluhiE69xPSnAirVHOu/tBZpe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760001553; c=relaxed/simple;
-	bh=iAbbBMOs6KgHnQbdcFFLs+hJKFOpiHY/OWCzq6L2+2k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BjbRhVwOquao/XFJObeO0rdxcMenaH9aZbOB9Ed7dYLCp3qyJkOqlPq8BFQYPPCbRo7ldgLhfleFevOFV0MRmruXvo2N9N8mjbF7vSVld8ngnG+i4d0VJzvsMdr4dyqe4JdSkwRrIRJuVHB/rwLmDaEXrJuAeMMKTHXtc6Mma80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PLpDn2Tk; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760004013; c=relaxed/simple;
+	bh=8TJVIQx/l3tg7H2NTqKn6h0/AGsIlw/e7PI7n61qOAQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hejaAZD1859ncq8UEnBBQpboeQqDwlWupSFlMBGBNMnPuiiAx2thzKzWXcB0ErsmVAXfArgN2B6H7UGfLVugMKLzKVy354YaHCR8DJptn7j2nTLnmAIS1bNXq1kXORSw8FCsWYPjz64v4aaMLezsEnF7WNEIiAW2BCJJE7e4OoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LCYGb3El; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PLpDn2Tk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760001549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ym+DdkcmRG4wvpfz5ykb6s+kf1elRde6oG+aT4Hjw8w=;
-	b=PLpDn2TkF0qR74dNg4w+tzTok33vhEtBc+D3bSiW9sQjBSq2nG0GQ26usONRw12kME0ON+
-	gTDVvuONLHJCTHM4wpR2V1Pa/dDaRUh6omXllTfVh+RGleH61gG2iO8dB9eFiYFMqbz9k3
-	Wv+zvwT0kZIBRdyij2BAeKpqme3+Jg8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-523-vrlsoPTJPg-gVM87YAncRA-1; Thu, 09 Oct 2025 05:19:08 -0400
-X-MC-Unique: vrlsoPTJPg-gVM87YAncRA-1
-X-Mimecast-MFC-AGG-ID: vrlsoPTJPg-gVM87YAncRA_1760001547
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-46e4fa584e7so3498685e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 02:19:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LCYGb3El"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-87499a3cd37so5022546d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 03:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760004010; x=1760608810; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BsHNfh2cevZ8eaqWHX2Uah677Z7UfWqdMMb2SSbci5w=;
+        b=LCYGb3El/x6hJVwuKrM6YmN29cxwycbaWoilYJHNDH9QPGkh+fCeJBSgc0MTDuGd06
+         bgvHOBvtZknD5DallVlXwVGb5r0nJnrUqp5/+7UI+PMX48pcumMq71tMmnfGG39gme9v
+         yg1P5fM2DfrqW63Bbgpdv+y3I5d2EFAMcQWkp/RPWmXEZ+Aw3Ue1+dc5zq+MNFrBoy8S
+         grs5vl5d7u4fPTRw8SNIdkwbGK9E8O0DJEDgjJfll/7ucxgV3c2GrfszcjLXqOriLuol
+         97VWdSVlZ/Qdnkvrz4AhaNd1Ay74qNihBz4augyotbUh32J7itRHBIiMv9BC1Q8gcZEe
+         zpYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760001547; x=1760606347;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ym+DdkcmRG4wvpfz5ykb6s+kf1elRde6oG+aT4Hjw8w=;
-        b=uXYc6EacRCCOCwABylREHZRR2HPUxih+trFRaPiP4UJ9v4n5ABUCfUL9yLtJ3GHik1
-         QzOE7pDMF60e2CoXmVpb7xMoWO5n1O7wr5TuzCaUIfI9kt/0gKjG2BRf/Zd7CdB54O5r
-         DmFnLILHv82rZFkM0WU9tmGnD/gNbP/nI7cU2hlmIF6u7KfG83/EtL/NhpHyxPcXMihe
-         rrwS5vGqzdNOvkI6QdXARxL5utmyatHF+6YtQTUEdjMyb/y58/sld03DsBTF3pJgOByl
-         iK9FWfdLpw5/Kfsq+Z3YbsYtcECsaM6923NOJrUl+J8jxeq3gsfBRz9wg6u51e4HUOvw
-         Hvug==
-X-Forwarded-Encrypted: i=1; AJvYcCXBN+Nu2Dq5jxUuxwaoSlG/r5EjHexARiHZWtBkcr1tITLdUQ8n5WG9zkPCTm157c/NTRi8x+EDyAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvQLoKqYt5qULDa6coAeug5azZBkyimz1N4s1+NnwimMwO+nsi
-	KcfSyRf4VIOZJHvwotOJouugaqSi/nQOkpYvs1LXLacDMWU35tnstdFdvAMBXHwStexkfb1aKSw
-	j4R9QnZeGSquplzbUZj0kk5odmnPqFxDWC/diTLmzTPgDQNJARffPHgkemb8MLw==
-X-Gm-Gg: ASbGnct9ObRZkpzMONg9XLuWla/6avrW73IG2vLzPRYHCVwHFVNCxPQMEs5H3alU6un
-	RDJeIR93U8HWm3maeLOgnqBRflbBezaqDMBzHdBcWMBbFlRX/aMHnqQKgNf/yKa5dkqE5Xw2n2r
-	gBwGIuXMG3g9PK2zRQdmV3MlhCP7siKAjMdfu+TWTXqcGvDcrlAcW8u/M+WDsOvdca3v2XwwY7K
-	7o1lyRK45c4dmUJmDS7HDzo8WG0J6Sb29K4n1IK5u9tja237FeM2tsKAKjETtQLBXLOKWhvOjx6
-	cjqEJ+m2hgrBurcShrw0chfKEDYEB+MMkSifaF/aFzziiyUHJs2jbt7FlNYg3IP0vyJjO+NR8t+
-	a5cyecvV4
-X-Received: by 2002:a05:600c:c4a3:b0:46e:1fc2:f9ac with SMTP id 5b1f17b1804b1-46fa9a98fc7mr50624135e9.10.1760001547018;
-        Thu, 09 Oct 2025 02:19:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFReIJdkF3acFZPAnWeL0i3BOZQC/foYxEC2R8ZxnsgKIO/Vq2BUJi9cBf7+x2XtZK2O/u2OA==
-X-Received: by 2002:a05:600c:c4a3:b0:46e:1fc2:f9ac with SMTP id 5b1f17b1804b1-46fa9a98fc7mr50623665e9.10.1760001546471;
-        Thu, 09 Oct 2025 02:19:06 -0700 (PDT)
-Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8a6daasm34080730f8f.7.2025.10.09.02.19.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 02:19:05 -0700 (PDT)
-Message-ID: <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com>
-Date: Thu, 9 Oct 2025 11:19:02 +0200
+        d=1e100.net; s=20230601; t=1760004010; x=1760608810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BsHNfh2cevZ8eaqWHX2Uah677Z7UfWqdMMb2SSbci5w=;
+        b=JU2kCTZH0GcO+0Frb0Y2ayyLFcBn02w+gxeCvgojU9gabQdeCyRhXOCSQgeicaGc+C
+         rBpH8UvKqTOx9SFZPVMbh+Q+a4M5IlXBZ/VJMvukjHWC90ZavZmtVZ2sn1YGAyPODAbu
+         Z1TFQ2hcuAnsAa6iK1KYcofGvvC76Jx6ht7hCrffcH/JWSG4Y8npQXck5J8gCtd/F1R2
+         YfYMyzsBjUwK4SU9XM3GTDDtPvdRK+3yDKoxuwbW6+l1qD4JfhjvuW2kPsYpzffaE2Qo
+         LaTvLbh8rwjDM/rzLnJ+AtSup0epVxpkUoT114RSz0N703JXsvw4azLb9U5zB2Hjx6Im
+         E/3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV7/IY0Pkqn2+Mgh8eB1IB/Yq+lLQFoLzvMNEnAyBr28iMiZKFBmUQvJ87/UKQoMz3IHLoGjgM/ZCg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt0YX5uGGA/8+6mY84jhFhlnvRc5OXeMHo5Xbm+TUI9puTD7jN
+	O3zrHWRLIIZuf+qnTWwWVKKI0pZzdFXA8u5AWigU89ogGDmuseA3GSqwbVcaWjbjZbhYLr+OA4v
+	FZqH/yWJW1UhXoZTqdIeN8kOFOwYfdsY=
+X-Gm-Gg: ASbGncv/HyKzlezua0p8W3WIKyUUbYLGkh0mOGDBJ6SZFPSQFQeZWkc7+7LiCFKhNHY
+	qD/2egyeK+5BLpva4zlDa4KXtarwCdWw0jJa1JjygG7Mudms0I5EVT9D9RqHgUFQNjYpp1GEIYr
+	24D+uBJxq1UL0tsoOYx3E6+/9SyD3ohxsTsHQYHKvO8dHRlt3J/GsU34HPGKEy1UfMW/Nk8KgiY
+	la0ZwISv4smUR0DcLmL9g+wnZD38GPBEO+lqYsImL0mEn2wC/M+/lvPfMF6Zu0V2kM+uUXlEkTP
+	/7Az4cR03Q==
+X-Google-Smtp-Source: AGHT+IETxQVsMJZ6FUrqxCOJXTq/1lBKlldBdCCphIo2WiWqP2OQZ5MBwrkw2Mvl/zoM5NqKDP1WjJ0VU5dCT5Ozh/c=
+X-Received: by 2002:a05:6214:4003:b0:850:d233:62ab with SMTP id
+ 6a1803df08f44-87b2ef73213mr99406266d6.63.1760004010105; Thu, 09 Oct 2025
+ 03:00:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+ <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com> <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
+ <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com> <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
+ <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com> <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
+ <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com> <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com>
+In-Reply-To: <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Thu, 9 Oct 2025 17:59:33 +0800
+X-Gm-Features: AS18NWBlPtBCYqodlkqsQpTW3fhlgQOczuwvYOS9Vl81gX2DcaljddI-xWUUb9I
+Message-ID: <CALOAHbD8ko104PEFHPYjvnhKL50XTtpbHL_ehTLCCwSX0HG3-A@mail.gmail.com>
 Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
  order selection
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov
- <alexei.starovoitov@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>, baolin.wang@linux.alibaba.com,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, usamaarif642@gmail.com,
- gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>,
- 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>,
- Tejun Heo <tj@kernel.org>, lance.yang@linux.dev,
- Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20250930055826.9810-1-laoar.shao@gmail.com>
- <20250930055826.9810-4-laoar.shao@gmail.com>
- <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
- <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com>
- <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
- <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com>
- <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
- <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com>
- <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
- <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: David Hildenbrand <david@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	Matthew Wilcox <willy@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Amery Hung <ameryhung@gmail.com>, David Rientjes <rientjes@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Tejun Heo <tj@kernel.org>, lance.yang@linux.dev, Randy Dunlap <rdunlap@infradead.org>, 
+	bpf <bpf@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 08.10.25 15:11, Yafang Shao wrote:
-> On Wed, Oct 8, 2025 at 8:07 PM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 08.10.25 13:27, Zi Yan wrote:
->>> On 8 Oct 2025, at 5:04, Yafang Shao wrote:
->>>
->>>> On Wed, Oct 8, 2025 at 4:28 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>
->>>>> On 08.10.25 10:18, Yafang Shao wrote:
->>>>>> On Wed, Oct 8, 2025 at 4:08 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>>>
->>>>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
->>>>>>>> On Mon, Sep 29, 2025 at 10:59 PM Yafang Shao <laoar.shao@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *vma,
->>>>>>>>> +                                     enum tva_type type,
->>>>>>>>> +                                     unsigned long orders)
->>>>>>>>> +{
->>>>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
->>>>>>>>> +       int bpf_order;
->>>>>>>>> +
->>>>>>>>> +       /* No BPF program is attached */
->>>>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
->>>>>>>>> +                     &transparent_hugepage_flags))
->>>>>>>>> +               return orders;
->>>>>>>>> +
->>>>>>>>> +       rcu_read_lock();
->>>>>>>>> +       bpf_hook_thp_get_order = rcu_dereference(bpf_thp.thp_get_order);
->>>>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
->>>>>>>>> +               goto out;
->>>>>>>>> +
->>>>>>>>> +       bpf_order = bpf_hook_thp_get_order(vma, type, orders);
->>>>>>>>> +       orders &= BIT(bpf_order);
->>>>>>>>> +
->>>>>>>>> +out:
->>>>>>>>> +       rcu_read_unlock();
->>>>>>>>> +       return orders;
->>>>>>>>> +}
->>>>>>>>
->>>>>>>> I thought I explained it earlier.
->>>>>>>> Nack to a single global prog approach.
->>>>>>>
->>>>>>> I agree. We should have the option to either specify a policy globally,
->>>>>>> or more refined for cgroups/processes.
->>>>>>>
->>>>>>> It's an interesting question if a program would ever want to ship its
->>>>>>> own policy: I can see use cases for that.
->>>>>>>
->>>>>>> So I agree that we should make it more flexible right from the start.
->>>>>>
->>>>>> To achieve per-process granularity, the struct-ops must be embedded
->>>>>> within the mm_struct as follows:
->>>>>>
->>>>>> +#ifdef CONFIG_BPF_MM
->>>>>> +struct bpf_mm_ops {
->>>>>> +#ifdef CONFIG_BPF_THP
->>>>>> +       struct bpf_thp_ops bpf_thp;
->>>>>> +#endif
->>>>>> +};
->>>>>> +#endif
->>>>>> +
->>>>>>     /*
->>>>>>      * Opaque type representing current mm_struct flag state. Must be accessed via
->>>>>>      * mm_flags_xxx() helper functions.
->>>>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
->>>>>>     #ifdef CONFIG_MM_ID
->>>>>>                    mm_id_t mm_id;
->>>>>>     #endif /* CONFIG_MM_ID */
->>>>>> +
->>>>>> +#ifdef CONFIG_BPF_MM
->>>>>> +               struct bpf_mm_ops bpf_mm;
->>>>>> +#endif
->>>>>>            } __randomize_layout;
->>>>>>
->>>>>> We should be aware that this will involve extensive changes in mm/.
->>>>>
->>>>> That's what we do on linux-mm :)
->>>>>
->>>>> It would be great to use Alexei's feedback/experience to come up with
->>>>> something that is flexible for various use cases.
->>>>
->>>> I'm still not entirely convinced that allowing individual processes or
->>>> cgroups to run independent progs is a valid use case. However, since
->>>> we have a consensus that this is the right direction, I will proceed
->>>> with this approach.
->>>>
->>>>>
->>>>> So I think this is likely the right direction.
->>>>>
->>>>> It would be great to evaluate which scenarios we could unlock with this
->>>>> (global vs. per-process vs. per-cgroup) approach, and how
->>>>> extensive/involved the changes will be.
->>>>
->>>> 1. Global Approach
->>>>      - Pros:
->>>>        Simple;
->>>>        Can manage different THP policies for different cgroups or processes.
->>>>     - Cons:
->>>>        Does not allow individual processes to run their own BPF programs.
->>>>
->>>> 2. Per-Process Approach
->>>>       - Pros:
->>>>         Enables each process to run its own BPF program.
->>>>       - Cons:
->>>>         Introduces significant complexity, as it requires handling the
->>>> BPF program's lifecycle (creation, destruction, inheritance) within
->>>> every mm_struct.
->>>>
->>>> 3. Per-Cgroup Approach
->>>>       - Pros:
->>>>          Allows individual cgroups to run their own BPF programs.
->>>>          Less complex than the per-process model, as it can leverage the
->>>> existing cgroup operations structure.
->>>>       - Cons:
->>>>          Creates a dependency on the cgroup subsystem.
->>>>          might not be easy to control at the per-process level.
->>>
->>> Another issue is that how and who to deal with hierarchical cgroup, where one
->>> cgroup is a parent of another. Should bpf program to do that or mm code
->>> to do that? I remember hierarchical cgroup is the main reason THP control
->>> at cgroup level is rejected. If we do per-cgroup bpf control, wouldn't we
->>> get the same rejection from cgroup folks?
->>
->> Valid point.
->>
->> I do wonder if that problem was already encountered elsewhere with bpf
->> and if there is already a solution.
-> 
-> Our standard is to run only one instance of a BPF program type
-> system-wide to avoid conflicts. For example, we can't have both
-> systemd and a container runtime running bpf-thp simultaneously.
+On Thu, Oct 9, 2025 at 5:19=E2=80=AFPM David Hildenbrand <david@redhat.com>=
+ wrote:
+>
+> On 08.10.25 15:11, Yafang Shao wrote:
+> > On Wed, Oct 8, 2025 at 8:07=E2=80=AFPM David Hildenbrand <david@redhat.=
+com> wrote:
+> >>
+> >> On 08.10.25 13:27, Zi Yan wrote:
+> >>> On 8 Oct 2025, at 5:04, Yafang Shao wrote:
+> >>>
+> >>>> On Wed, Oct 8, 2025 at 4:28=E2=80=AFPM David Hildenbrand <david@redh=
+at.com> wrote:
+> >>>>>
+> >>>>> On 08.10.25 10:18, Yafang Shao wrote:
+> >>>>>> On Wed, Oct 8, 2025 at 4:08=E2=80=AFPM David Hildenbrand <david@re=
+dhat.com> wrote:
+> >>>>>>>
+> >>>>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
+> >>>>>>>> On Mon, Sep 29, 2025 at 10:59=E2=80=AFPM Yafang Shao <laoar.shao=
+@gmail.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *v=
+ma,
+> >>>>>>>>> +                                     enum tva_type type,
+> >>>>>>>>> +                                     unsigned long orders)
+> >>>>>>>>> +{
+> >>>>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
+> >>>>>>>>> +       int bpf_order;
+> >>>>>>>>> +
+> >>>>>>>>> +       /* No BPF program is attached */
+> >>>>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
+> >>>>>>>>> +                     &transparent_hugepage_flags))
+> >>>>>>>>> +               return orders;
+> >>>>>>>>> +
+> >>>>>>>>> +       rcu_read_lock();
+> >>>>>>>>> +       bpf_hook_thp_get_order =3D rcu_dereference(bpf_thp.thp_=
+get_order);
+> >>>>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
+> >>>>>>>>> +               goto out;
+> >>>>>>>>> +
+> >>>>>>>>> +       bpf_order =3D bpf_hook_thp_get_order(vma, type, orders)=
+;
+> >>>>>>>>> +       orders &=3D BIT(bpf_order);
+> >>>>>>>>> +
+> >>>>>>>>> +out:
+> >>>>>>>>> +       rcu_read_unlock();
+> >>>>>>>>> +       return orders;
+> >>>>>>>>> +}
+> >>>>>>>>
+> >>>>>>>> I thought I explained it earlier.
+> >>>>>>>> Nack to a single global prog approach.
+> >>>>>>>
+> >>>>>>> I agree. We should have the option to either specify a policy glo=
+bally,
+> >>>>>>> or more refined for cgroups/processes.
+> >>>>>>>
+> >>>>>>> It's an interesting question if a program would ever want to ship=
+ its
+> >>>>>>> own policy: I can see use cases for that.
+> >>>>>>>
+> >>>>>>> So I agree that we should make it more flexible right from the st=
+art.
+> >>>>>>
+> >>>>>> To achieve per-process granularity, the struct-ops must be embedde=
+d
+> >>>>>> within the mm_struct as follows:
+> >>>>>>
+> >>>>>> +#ifdef CONFIG_BPF_MM
+> >>>>>> +struct bpf_mm_ops {
+> >>>>>> +#ifdef CONFIG_BPF_THP
+> >>>>>> +       struct bpf_thp_ops bpf_thp;
+> >>>>>> +#endif
+> >>>>>> +};
+> >>>>>> +#endif
+> >>>>>> +
+> >>>>>>     /*
+> >>>>>>      * Opaque type representing current mm_struct flag state. Must=
+ be accessed via
+> >>>>>>      * mm_flags_xxx() helper functions.
+> >>>>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
+> >>>>>>     #ifdef CONFIG_MM_ID
+> >>>>>>                    mm_id_t mm_id;
+> >>>>>>     #endif /* CONFIG_MM_ID */
+> >>>>>> +
+> >>>>>> +#ifdef CONFIG_BPF_MM
+> >>>>>> +               struct bpf_mm_ops bpf_mm;
+> >>>>>> +#endif
+> >>>>>>            } __randomize_layout;
+> >>>>>>
+> >>>>>> We should be aware that this will involve extensive changes in mm/=
+.
+> >>>>>
+> >>>>> That's what we do on linux-mm :)
+> >>>>>
+> >>>>> It would be great to use Alexei's feedback/experience to come up wi=
+th
+> >>>>> something that is flexible for various use cases.
+> >>>>
+> >>>> I'm still not entirely convinced that allowing individual processes =
+or
+> >>>> cgroups to run independent progs is a valid use case. However, since
+> >>>> we have a consensus that this is the right direction, I will proceed
+> >>>> with this approach.
+> >>>>
+> >>>>>
+> >>>>> So I think this is likely the right direction.
+> >>>>>
+> >>>>> It would be great to evaluate which scenarios we could unlock with =
+this
+> >>>>> (global vs. per-process vs. per-cgroup) approach, and how
+> >>>>> extensive/involved the changes will be.
+> >>>>
+> >>>> 1. Global Approach
+> >>>>      - Pros:
+> >>>>        Simple;
+> >>>>        Can manage different THP policies for different cgroups or pr=
+ocesses.
+> >>>>     - Cons:
+> >>>>        Does not allow individual processes to run their own BPF prog=
+rams.
+> >>>>
+> >>>> 2. Per-Process Approach
+> >>>>       - Pros:
+> >>>>         Enables each process to run its own BPF program.
+> >>>>       - Cons:
+> >>>>         Introduces significant complexity, as it requires handling t=
+he
+> >>>> BPF program's lifecycle (creation, destruction, inheritance) within
+> >>>> every mm_struct.
+> >>>>
+> >>>> 3. Per-Cgroup Approach
+> >>>>       - Pros:
+> >>>>          Allows individual cgroups to run their own BPF programs.
+> >>>>          Less complex than the per-process model, as it can leverage=
+ the
+> >>>> existing cgroup operations structure.
+> >>>>       - Cons:
+> >>>>          Creates a dependency on the cgroup subsystem.
+> >>>>          might not be easy to control at the per-process level.
+> >>>
+> >>> Another issue is that how and who to deal with hierarchical cgroup, w=
+here one
+> >>> cgroup is a parent of another. Should bpf program to do that or mm co=
+de
+> >>> to do that? I remember hierarchical cgroup is the main reason THP con=
+trol
+> >>> at cgroup level is rejected. If we do per-cgroup bpf control, wouldn'=
+t we
+> >>> get the same rejection from cgroup folks?
+> >>
+> >> Valid point.
+> >>
+> >> I do wonder if that problem was already encountered elsewhere with bpf
+> >> and if there is already a solution.
+> >
+> > Our standard is to run only one instance of a BPF program type
+> > system-wide to avoid conflicts. For example, we can't have both
+> > systemd and a container runtime running bpf-thp simultaneously.
+>
+> Right, it's a good question how to combine policies, or "who wins".
 
-Right, it's a good question how to combine policies, or "who wins".
+From my perspective, the ideal approach is to have one BPF-THP
+instance per mm_struct. This allows for separate managers in different
+domains, such as systemd managing BPF-THP for system processes and
+containerd for container processes, while ensuring that any single
+process is managed by only one BPF-THP.
 
-> 
-> Perhaps Alexei can enlighten us, though we'd need to read between his
-> characteristically brief lines. ;-)
+>
+> >
+> > Perhaps Alexei can enlighten us, though we'd need to read between his
+> > characteristically brief lines. ;-)
+>
+> There might be some insights to be had in the bpf OOM discussion at
+>
+> https://lkml.kernel.org/r/CAEf4BzafXv-PstSAP6krers=3DS74ri1+zTB4Y2oT6f+33=
+yznqsA@mail.gmail.com
+>
+> I didn't completely read through that, but that discussion also seems to
+> be about interaction between cgroups and bpd programs.
 
-There might be some insights to be had in the bpf OOM discussion at
+I have reviewed the discussions.
 
-https://lkml.kernel.org/r/CAEf4BzafXv-PstSAP6krers=S74ri1+zTB4Y2oT6f+33yznqsA@mail.gmail.com
+Given that the OOM might be cgroup-specific, implementing a
+cgroup-based BPF-OOM handler makes sense.
 
-I didn't completely read through that, but that discussion also seems to 
-be about interaction between cgroups and bpd programs.
-
--- 
-Cheers
-
-David / dhildenb
-
+--=20
+Regards
+Yafang
