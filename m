@@ -1,63 +1,162 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AE125A655;
-	Thu,  9 Oct 2025 20:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5791EA7EC;
+	Thu,  9 Oct 2025 20:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760040078; cv=none; b=OqMl+sLKslPCWLTHKIZNm19OehM8zHqv4Vz3tGs9cW5CtbXCwabbKS3VzIK1B/ZBVYotgpIyyMnMgnqGh2TyPSxYgAwIq7TVMteYn+Ftr3POr5pw2p8x6qlprC6emmzuRJf9PwcVEtca3ps9BIivDhZMPHhT4IcfgovxMvJTDYY=
+	t=1760040982; cv=none; b=Ou5WvHtMq04NL0+5ZTnMiziz4h8O5Kkw//6B9OqngFo/VNaTW6NoBnfvyr36DyWOE7MgKzdsyxjxAAoeT6UwFZqAvAQbUYIO4flq7VD5rZtHB6Xo3E1rk45GJvlwvSdJz0iyL349WfhU+ipASc+VDPVBjfgkXGK5DWF8Fzl30Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760040078; c=relaxed/simple;
-	bh=RUvu35+0YNtAinjMsjdcUAfU4+Xz002c5lWxDAfaSEg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=efIOKOWJCSFlyirqDisqsQvzVZvmn4NUOzIEUbbuq9NCiHfjh/p1UJ8uN2FrWX+pBG88O+s0PIr0cvbQfrR0Y8xQRYVEqbhcahcWu8l64d9Q9Te3or0raXoO2IbIOp1sv727zJBqAgz01DRUs7imr8z9ANFDA/0MsE2zQgVDsDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 48BA746826;
-	Thu,  9 Oct 2025 20:01:09 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 963AD20;
-	Thu,  9 Oct 2025 20:01:06 +0000 (UTC)
-Message-ID: <cd0a44fcedec36fdfb9540106ce62279613564e3.camel@perches.com>
-Subject: Re: [PATCH v2 0/2] checkpatch: add new check PLACEHOLDER_USE
-From: Joe Perches <joe@perches.com>
-To: Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, 
-	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Thu, 09 Oct 2025 13:01:05 -0700
-In-Reply-To: <20250917173725.22547-1-work@onurozkan.dev>
-References: <20250917173725.22547-1-work@onurozkan.dev>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1760040982; c=relaxed/simple;
+	bh=IWSnNSei8RRn9htiOUVDRbUjeFnamuDaQ4nZ4n46zLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8Jt62rnU2jdMYe5ElXEDr8wSAZApD8nvyyjIP/LIVQO6K9/aN59qZDvyfKZrqBkadERKRboyiY51FS0Hk+uWuz8dHFyzqr2cijfAJeQep0tIZhcf2uUChZY+f7o5njr/XcdGJRJIAC313j5v7s5yOyceoQ/EfPomcIKQxzHFGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FP3xQ7GX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FP3xQ7GX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5526FC4CEE7;
+	Thu,  9 Oct 2025 20:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760040981;
+	bh=IWSnNSei8RRn9htiOUVDRbUjeFnamuDaQ4nZ4n46zLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FP3xQ7GXQp/QP+gpUaLPNEvB4S8G+2unZHJq/Q3L3XBufoDkCFIjQs2cvk1nOhW5G
+	 X3oggIEsnEjcWhnuidq7ynvjwZ02SAFXfFXOmFldkxXKs0Y7zUR6HjoJIdCpXQW9cx
+	 +ALVNkipODgz9r+kGGUKPYeaU+c+hx/kumOpyqz6WFhscNLQ8ygVyRvZ0ZOcPP1jld
+	 cJh28wb1uKFTNw+A0YM3mQWqKgbo00hF/19PwY/hG33WUb3IOw9kbxqjVz1hF9eQhh
+	 ONefS/VVhVblCjmG9Q7OuE2HBFvbsIvzTQcuRNUy+dvD33FHoU8nK3YFF4wX1ZRunt
+	 Pc3RJXPJ0J/sw==
+Date: Thu, 9 Oct 2025 15:16:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, gregkh@linuxfoundation.org,
+	rdunlap@infradead.org, christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v15 1/3] dt-bindings: leds: add TI/National Semiconductor
+ LP5812 LED Driver
+Message-ID: <20251009201620.GA3267176-robh@kernel.org>
+References: <20251005153337.94025-1-trannamatk@gmail.com>
+ <20251005153337.94025-2-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: g34q1kzz84rxm8ze4zhn59kki3mmapu5
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 963AD20
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX184dOLiXLyLh3s1X/Pt0yK+BJmlv0WYWg0=
-X-HE-Tag: 1760040066-35579
-X-HE-Meta: U2FsdGVkX1/zpFW/evcjquidmgjko7O7pqGck5cHdJXp2geKrSEahCYhrjsg32m5YosfPj+1PyshkBXXxTXEiyUxurK4OaQwugsxP9bs+a+TjomIbeZJrJSaGguJeTBZGv9FCcxEhSJnsF3ROa2GaKaOEpuse816sowIwRdBXknRLwRpIGmhzFSSdws7xPvR7ADrpIq70VjsWY4Hgk5pVH3b4DVf/sguNWW4fDtGuJgnY3BuoO+yKbw/BJxANVgP55ItOsM4u5iNRPr5qrwtmtmI06IwYPSkpirCdUsBRf4Pt7RZo3VuBFoK3hCKXms4YA5OxnTZnG9uuqiDQvI8tNBXMGakIKXOzycFW40qSb1uyG3jKeZARlw9EQgy3A4+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251005153337.94025-2-trannamatk@gmail.com>
 
-On Wed, 2025-09-17 at 20:37 +0300, Onur =D6zkan wrote:
-> Changes in v2:
->   - The check is documented in Documentation/dev-tools/checkpatch.rst fil=
-e.
->   - Used ERROR instead of WARN on detection.
->=20
-> Onur =D6zkan (2):
->   checkpatch: detect unhandled placeholders in cover letters
->   checkpatch: document new check PLACEHOLDER_USE
->=20
->  Documentation/dev-tools/checkpatch.rst | 10 ++++++++++
->  scripts/checkpatch.pl                  |  7 +++++++
->  2 files changed, 17 insertions(+)
+On Sun, Oct 05, 2025 at 10:33:35PM +0700, Nam Tran wrote:
+> The LP5812 is a 4x3 RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
+> or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
+> dimming, including exponential PWM for smooth brightness control.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  .../devicetree/bindings/leds/ti,lp5812.yaml   | 290 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 296 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/ti,lp5812.yaml b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> new file mode 100644
+> index 000000000000..d759ba7a86fc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> @@ -0,0 +1,290 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/ti,lp5812.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LP5812 4x3 Matrix RGB LED Driver with Autonomous Control
+> +
+> +maintainers:
+> +  - Nam Tran <trannamatk@gmail.com>
+> +
+> +description: |
+> +  The LP5812 is a 4x3 matrix RGB LED driver with I2C interface
+> +  and autonomous animation engine control.
+> +  For more product information please see the link below:
+> +  https://www.ti.com/product/LP5812#tech-docs
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,lp5812
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ti,operation-mode:
+> +    description: |
+> +      Selects the LED operation mode of the LP5812. The device supports
+> +      three modes:
+> +        - Direct-drive mode ("direct_mode") drives up to 4 LEDs directly
+> +        by internal current sinks (LED0-LED3).
 
-Acked-by: Joe Perches <joe@perches.com>
+I would make this the default and call the property 'ti,scan-mode'.
+
+> +        - TCM-drive mode ("tcmscan:<n>:<order...>") drives up to 12 LEDs
+> +        (4 RGB) using 1-4 scan multiplexing. The <n> specifies the number
+> +        of scans (1-4), and <order...> defines the scan order of the outputs.
+> +        - Mix-drive mode ("mixscan:<n>:<direct>:<order...>") combines
+> +        direct-drive and TCM-drive outputs. The <n> specifies the number
+> +        of scans, <direct> selects the direct-drive outputs, and <order...>
+> +        defines the scan order.
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum:
+> +      - direct_mode
+> +      - tcmscan:1:0
+> +      - tcmscan:1:1
+> +      - tcmscan:1:2
+> +      - tcmscan:1:3
+> +      - tcmscan:2:0:1
+> +      - tcmscan:2:0:2
+> +      - tcmscan:2:0:3
+> +      - tcmscan:2:1:2
+> +      - tcmscan:2:1:3
+> +      - tcmscan:2:2:3
+> +      - tcmscan:3:0:1:2
+> +      - tcmscan:3:0:1:3
+> +      - tcmscan:3:0:2:3
+> +      - tcmscan:4:0:1:2:3
+> +      - mixscan:1:0:1
+> +      - mixscan:1:0:2
+> +      - mixscan:1:0:3
+> +      - mixscan:1:1:0
+> +      - mixscan:1:1:2
+> +      - mixscan:1:1:3
+> +      - mixscan:1:2:0
+> +      - mixscan:1:2:1
+> +      - mixscan:1:2:3
+> +      - mixscan:1:3:0
+> +      - mixscan:1:3:1
+> +      - mixscan:1:3:2
+> +      - mixscan:2:0:1:2
+> +      - mixscan:2:0:1:3
+> +      - mixscan:2:0:2:3
+> +      - mixscan:2:1:0:2
+> +      - mixscan:2:1:0:3
+> +      - mixscan:2:1:2:3
+> +      - mixscan:2:2:0:1
+> +      - mixscan:2:2:0:3
+> +      - mixscan:2:2:1:3
+> +      - mixscan:2:3:0:1
+> +      - mixscan:2:3:0:2
+> +      - mixscan:2:3:1:2
+> +      - mixscan:3:0:1:2:3
+> +      - mixscan:3:1:0:2:3
+> +      - mixscan:3:2:0:1:3
+> +      - mixscan:3:3:0:1:2
+
+I'm not sure its worth listing out every combination. I'd just do this 
+even if illegal combinations are allowed:
+
+pattern: '^(tcm|mix):[1-4](:[0-3]){1,4}$'
+
+Rob
