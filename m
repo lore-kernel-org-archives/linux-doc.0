@@ -1,355 +1,159 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B316EB42
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 01:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD351A23A4
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 01:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759972055; cv=none; b=KOLD1ngvoIeSuZbp36w120vNY76IC7UxwXx2tQrgdyRsgDQIs9L1PyYte8aLqNBKi822UgK74okuESUIH17fgtz8teOYbW3U7MMCNJNMcWVRyfvL0h3/cLKXdbVjS9fV0T9ss/I1MuD92kFLsw1PHJI2bPtNpAbfB8DJLLJfGj8=
+	t=1759975118; cv=none; b=KbTBIVx1iXKJZ4eDV3YYCAiszZcLK8iM9qw9s2A4/wqDquWwz74e9/obfyJu59LMiPoYm8xuWRA0uJGTiK+iZ4EWaQFnjvW/Tg/Rp6E9yAcgMynKkw7+BGvKALR6ym05G5uFeQAimMP8lKS3wQREk5cWPlHIXzTCpdMuNT+DFpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759972055; c=relaxed/simple;
-	bh=fCWniQpVEHektq92KuVAxruTIAsTPnp+MkQmRRm57Xc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Re0fs+vODupms0VVy2hktYC2AZ5yhBRiDbMU9XO4BrMwccujW8vvYFDifh2hvciMHrWruvT9BK1CJks0ke7ZKdpvfRDVUj13V5SJcLM4p3F8pflXYkQU4lx/wUkEdaSIQrqNfhfsiLcB+ptsemPxVsldpt/AmkWavRDW7axrb4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QW2Xq7fb; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1759975118; c=relaxed/simple;
+	bh=cBbOyvyZ60m9YZe8t1WrE6nNLEs0DHt+yuPxFq4aEwY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jY8+JyEP3iT2ZlFs5/YXuIdWtLiT+b98UIy4ccmpjb5mivDrkFdviWN3dDW0h1rgn9lKMGsuQoLAwvUicSk8QvCEhanZ1u7T0dlP8MFmLnwTHG2LB5xl+y54QSnCTgCwLWLJZMWWIcSWuQEc5kuzAXOJGzsV+KzG7hWszAn9A5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OeaOoTks; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QW2Xq7fb"
-Message-ID: <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1759972039;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7VBPwGyoeD8uP185Gv+2G5xRNeY5xlzR+XoG36QLrYY=;
-	b=QW2Xq7fb/0R8eSRnkRtiWsJZ71xUtS6VNS3PESNmVdcnpqsCZzuAjKaee6Nev31bfcYbFc
-	I6A01Up3Gl//GX2irEKLkdDHDTXBESO0d6dXHrZMgfmBIgIR3stAsDlmWpY9ivV3ZBpK9J
-	12HYXF03sV4fbLu0WH0H0gXW3v6xTBk=
-Date: Wed, 8 Oct 2025 18:07:00 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OeaOoTks"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-78f3bfe3f69so381940b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 18:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759975114; x=1760579914; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
+        b=OeaOoTksmUgF99l4uyLBl/lvuXiKLe0VALVsZhTF3+CtKWeJi1XOnbOCdX6NE4Mv0z
+         eajM0qNNFgDr7cafrhMMOqnPygCCzuwGMbAyVC1O6n8HkFO4AYsbP/Ghnkdjge73Eu//
+         hF5LNRmEZEmpsZKSu/Kpw4Do2qvBpm4tC4xULLE1/+sbO+53EuPgPJC3SfuuUjIbQLbu
+         6hYw90ZFlvMgTB4n79tB8XQuhxPorUQLDsOL+WGqz1D3QoucUh1K+iLxCsjlFXjf1W0p
+         riRpXEVzOq8SxWf2JPB7KZXe8s8SSFvmcRx2ZL2rtJcVw5wnwa2LDUcxMbZiDAOcJqWD
+         UCjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759975114; x=1760579914;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
+        b=rfWZ5Ah/7VX07xubkBBMOS/s2VastgihkgI1v8Q+7HUBw0wOAbxqpVIj6sjw4Z9teS
+         GwRr3sn/0LXP28YV9cNaLNkYyo6QTMRWWx0GCOTgywvAvGvI4lJKZjl325+1MW0Ruej1
+         azBxVm+rYJ+XMEnfE1b2j0kxUH0hHRWI5qN2WmEGY1GCI+72d15cDZ0Xk5kn1JR0eEtd
+         3+wPJU/zU4fkwb+30uzfc6gXCNurNxSzpV8ycvwhSbMLefYqy7J8aW0CfzmlyPAm+dL3
+         tpg6jWQexe/1/55KSuLnKoZA6s7ZYu04PIEZhwMfTotGBd4CRv53HY3+wIIy9nbwfsi3
+         a2AA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqI3oEs2SjuWZq640x1HDmflNh9vCLmOP3rO53qY/X6wUxLFynNF5AxNSp2aOLgxnlSKe1xr/3FCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMY0T197BT8p+iWozmk26Zm5pRnbktq2qSx14aNkjFYqKMTQ01
+	lk+LKmzH/1mmrmrQG/PWdMq2t0cjpEYB+Ka/KlRLqpfdjXCMbnDLk5Lo
+X-Gm-Gg: ASbGnctBGtX2Xeu8KJ/vKabTZ8qTfLuqiZvCMOnLhsVeCyUxn7/Tqt8rUfef7ns5KxQ
+	4EJsDIIVh9bS2cxZkJQj4BP+WsSaIqiKOX5MPxhs4bNvMZCtXPhN+H3wnB/RDeY4DLXEx8a9/lB
+	Fo/fP9o6EZHUMcT1gNMqKt0Nm4yYHYqVRrCQTV9ZH6KPBS9ZgUHRMCY3V2LboWQIHJufqGYtb4x
+	+KJd0gFclmU+UW4ciTnTjXqi4Ylzqy6Fi2hiaYQF0fkZKYPVQmEk243N4pJWU4tfhs9T8FIksNz
+	+SCRuyAxfCIU9pUaKZYyfEVHtQwwK9HPmUtNNFSyYu8NjW/9Q1kih3Go6aNdCsUTxJtewjypHaD
+	Nj/c8lqa5jO99LyXxlDZ+Mjt85eHS7O5I5en7ISzMMngKo/DmyPAKQhxW44M0WO5xv2eLzL0kGe
+	N7m+JxmN3+xCbKZJ0TiQUY+g2EvyKPmg==
+X-Google-Smtp-Source: AGHT+IFRnXDNLeO6K/K3wthKcVdDZ0k79jHMKp0eRtg+qp5MtCtdWauMOoFNlF0VJLS/II4OcfTVwg==
+X-Received: by 2002:a05:6a20:3956:b0:303:8207:eb56 with SMTP id adf61e73a8af0-32da8190b86mr7638215637.5.1759975114450;
+        Wed, 08 Oct 2025 18:58:34 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b51102259sm4986725a91.7.2025.10.08.18.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Oct 2025 18:58:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c7d01ff6-0e09-4ea1-8c5d-59be5e3fff16@roeck-us.net>
+Date: Wed, 8 Oct 2025 18:58:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
- monitoring
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
- jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
- rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
- rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
- kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
- masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
- yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
- chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
- jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
- dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org,
- rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org,
- zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
- brauner@kernel.org, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
- jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/13] hwmon: Add Apple Silicon SMC hwmon driver
+To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
+ <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "yanjun.zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 8/6/25 6:44 PM, Pasha Tatashin wrote:
-> Introduce a sysfs interface for the Live Update Orchestrator
-> under /sys/kernel/liveupdate/. This interface provides a way for
-> userspace tools and scripts to monitor the current state of the LUO
-> state machine.
+On 10/7/25 04:16, James Calligeros wrote:
+> The System Management Controller on Apple Silicon devices is responsible
+> for integrating and exposing the data reported by the vast array of
+> hardware monitoring sensors present on these devices. It is also
+> responsible for fan control, and allows users to manually set fan
+> speeds if they so desire. Add a hwmon driver to expose current,
+> power, temperature, and voltage monitoring sensors, as well as
+> fan speed monitoring and control via the SMC on Apple Silicon devices.
 > 
-> The main feature is a read-only file, state, which displays the
-> current LUO state as a string ("normal", "prepared", "frozen",
-> "updated"). The interface uses sysfs_notify to allow userspace
-> listeners (e.g., via poll) to be efficiently notified of state changes.
+> The SMC firmware has no consistency between devices, even when they
+> share an SoC. The FourCC keys used to access sensors are almost
+> random. An M1 Mac mini will have different FourCCs for its CPU core
+> temperature sensors to an M1 MacBook Pro, for example. For this
+> reason, the valid sensors for a given device are specified in a
+> child of the SMC Devicetree node. The driver uses this information
+> to determine which sensors to make available at runtime.
 > 
-> ABI documentation for this new sysfs interface is added in
-> Documentation/ABI/testing/sysfs-kernel-liveupdate.
-> 
-> This read-only sysfs interface complements the main ioctl interface
-> provided by /dev/liveupdate, which handles LUO control operations and
-> resource management.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->   .../ABI/testing/sysfs-kernel-liveupdate       | 51 ++++++++++
->   kernel/liveupdate/Kconfig                     | 18 ++++
->   kernel/liveupdate/Makefile                    |  1 +
->   kernel/liveupdate/luo_core.c                  |  1 +
->   kernel/liveupdate/luo_internal.h              |  6 ++
->   kernel/liveupdate/luo_sysfs.c                 | 92 +++++++++++++++++++
->   6 files changed, 169 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-kernel-liveupdate
->   create mode 100644 kernel/liveupdate/luo_sysfs.c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Documentation/ABI/testing/sysfs-kernel-liveupdate
-> new file mode 100644
-> index 000000000000..bb85cbae4943
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
-> @@ -0,0 +1,51 @@
-> +What:		/sys/kernel/liveupdate/
-> +Date:		May 2025
-> +KernelVersion:	6.16.0
-> +Contact:	pasha.tatashin@soleen.com
-> +Description:	Directory containing interfaces to query the live
-> +		update orchestrator. Live update is the ability to reboot the
-> +		host kernel (e.g., via kexec, without a full power cycle) while
-> +		keeping specifically designated devices operational ("alive")
-> +		across the transition. After the new kernel boots, these devices
-> +		can be re-attached to their original workloads (e.g., virtual
-> +		machines) with their state preserved. This is particularly
-> +		useful, for example, for quick hypervisor updates without
-> +		terminating running virtual machines.
-> +
-> +
-> +What:		/sys/kernel/liveupdate/state
-> +Date:		May 2025
-> +KernelVersion:	6.16.0
-> +Contact:	pasha.tatashin@soleen.com
-> +Description:	Read-only file that displays the current state of the live
-> +		update orchestrator as a string. Possible values are:
-> +
-> +		"normal"	No live update operation is in progress. This is
-> +				the default operational state.
-> +
-> +		"prepared"	The live update preparation phase has completed
-> +				successfully (e.g., triggered via the
-> +				/dev/liveupdate event). Kernel subsystems have
-> +				been notified via the %LIVEUPDATE_PREPARE
-> +				event/callback and should have initiated state
-> +				saving. User workloads (e.g., VMs) are generally
-> +				still running, but some operations (like device
-> +				unbinding or new DMA mappings) might be
-> +				restricted. The system is ready for the reboot
-> +				trigger.
-> +
-> +		"frozen"	The final reboot notification has been sent
-> +				(e.g., triggered via the 'reboot()' syscall),
-> +				corresponding to the %LIVEUPDATE_REBOOT kernel
-> +				event. Subsystems have had their final chance to
-> +				save state. User workloads must be suspended.
-> +				The system is about to execute the reboot into
-> +				the new kernel (imminent kexec). This state
-> +				corresponds to the "blackout window".
-> +
-> +		"updated"	The system has successfully rebooted into the
-> +				new kernel via live update. Restoration of
-> +				preserved resources can now occur (typically via
-> +				ioctl commands). The system is awaiting the
-> +				final 'finish' signal after user space completes
-> +				restoration tasks.
-> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-> index f6b0bde188d9..75a17ca8a592 100644
-> --- a/kernel/liveupdate/Kconfig
-> +++ b/kernel/liveupdate/Kconfig
-> @@ -29,6 +29,24 @@ config LIVEUPDATE
->   
->   	  If unsure, say N.
->   
-> +config LIVEUPDATE_SYSFS_API
-> +	bool "Live Update sysfs monitoring interface"
-> +	depends on SYSFS
-> +	depends on LIVEUPDATE
-> +	help
-> +	  Enable a sysfs interface for the Live Update Orchestrator
-> +	  at /sys/kernel/liveupdate/.
-> +
-> +	  This allows monitoring the LUO state ('normal', 'prepared',
-> +	  'frozen', 'updated') via the read-only 'state' file.
-> +
-> +	  This interface complements the primary /dev/liveupdate ioctl
-> +	  interface, which handles the full update process.
-> +	  This sysfs API may be useful for scripting, or userspace monitoring
-> +	  needed to coordinate application restarts and minimize downtime.
-> +
-> +	  If unsure, say N.
-> +
->   config KEXEC_HANDOVER
->   	bool "kexec handover"
->   	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
-> diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-> index c67fa2797796..47f5d0378a75 100644
-> --- a/kernel/liveupdate/Makefile
-> +++ b/kernel/liveupdate/Makefile
-> @@ -13,3 +13,4 @@ obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
->   obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
->   
->   obj-$(CONFIG_LIVEUPDATE)		+= luo.o
-> +obj-$(CONFIG_LIVEUPDATE_SYSFS_API)	+= luo_sysfs.o
-> diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
-> index 64d53b31d6d8..bd07ee859112 100644
-> --- a/kernel/liveupdate/luo_core.c
-> +++ b/kernel/liveupdate/luo_core.c
-> @@ -100,6 +100,7 @@ static inline bool is_current_luo_state(enum liveupdate_state expected_state)
->   static void __luo_set_state(enum liveupdate_state state)
->   {
->   	WRITE_ONCE(luo_state, state);
-> +	luo_sysfs_notify();
->   }
->   
->   static inline void luo_set_state(enum liveupdate_state state)
-> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-> index 01bd0d3b023b..9091ed04c606 100644
-> --- a/kernel/liveupdate/luo_internal.h
-> +++ b/kernel/liveupdate/luo_internal.h
-> @@ -47,4 +47,10 @@ int luo_file_freeze(u64 token);
->   int luo_file_cancel(u64 token);
->   int luo_file_finish(u64 token);
->   
-> +#ifdef CONFIG_LIVEUPDATE_SYSFS_API
-> +void luo_sysfs_notify(void);
-> +#else
-> +static inline void luo_sysfs_notify(void) {}
-> +#endif
-> +
->   #endif /* _LINUX_LUO_INTERNAL_H */
-> diff --git a/kernel/liveupdate/luo_sysfs.c b/kernel/liveupdate/luo_sysfs.c
-> new file mode 100644
-> index 000000000000..935946bb741b
-> --- /dev/null
-> +++ b/kernel/liveupdate/luo_sysfs.c
-> @@ -0,0 +1,92 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +
-> +/**
-> + * DOC: LUO sysfs interface
-> + *
-> + * Provides a sysfs interface at ``/sys/kernel/liveupdate/`` for monitoring LUO
-> + * state.  Live update allows rebooting the kernel (via kexec) while preserving
-> + * designated device state for attached workloads (e.g., VMs), useful for
-> + * minimizing downtime during hypervisor updates.
-> + *
-> + * /sys/kernel/liveupdate/state
-> + * ----------------------------
-> + * - Permissions:  Read-only
-> + * - Description:  Displays the current LUO state string.
-> + * - Valid States:
-> + *     @normal
-> + *       Idle state.
-> + *     @prepared
-> + *       Preparation phase complete (triggered via '/dev/liveupdate'). Resources
-> + *       checked, state saving initiated via %LIVEUPDATE_PREPARE event.
-> + *       Workloads mostly running but may be restricted. Ready forreboot
-> + *       trigger.
-> + *     @frozen
-> + *       Final reboot notification sent (triggered via 'reboot'). Corresponds to
-> + *       %LIVEUPDATE_REBOOT event. Final state saving. Workloads must be
-> + *       suspended. System about to kexec ("blackout window").
-> + *     @updated
-> + *       New kernel booted via live update. Awaiting 'finish' signal.
-> + *
-> + * Userspace Interaction & Blackout Window Reduction
-> + * -------------------------------------------------
-> + * Userspace monitors the ``state`` file to coordinate actions:
-> + *   - Suspend workloads before @frozen state is entered.
-> + *   - Initiate resource restoration upon entering @updated state.
-> + *   - Resume workloads after restoration, minimizing downtime.
-> + */
-> +
-> +#include <linux/kobject.h>
-> +#include <linux/liveupdate.h>
-> +#include <linux/sysfs.h>
-> +#include "luo_internal.h"
-> +
-> +static bool luo_sysfs_initialized;
-> +
-> +#define LUO_DIR_NAME	"liveupdate"
-> +
-> +void luo_sysfs_notify(void)
-> +{
-> +	if (luo_sysfs_initialized)
-> +		sysfs_notify(kernel_kobj, LUO_DIR_NAME, "state");
-> +}
-> +
-> +/* Show the current live update state */
-> +static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
-> +			  char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n", luo_current_state_str());
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Co-developed-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-Because the window of kernel live update is short, it is difficult to 
-statistics how many times the kernel is live updated.
-
-Is it possible to add a variable to statistics the times that the kernel 
-is live updated?
-
-For example, define a global variable of type atomic_t or u64 in the 
-core module:
-
-#include <linux/atomic.h>
-
-static atomic_t klu_counter = ATOMIC_INIT(0);
-
-
-Every time a live update completes successfully, increment the counter:
-
-atomic_inc(&klu_counter);
-
-Then exporting this value through /proc or /sys so that user space can 
-check it:
-
-static ssize_t klu_counter_show(struct kobject *kobj, struct 
-kobj_attribute *attr, char *buf)
-{
-     return sprintf(buf, "%d\n", atomic_read(&klu_counter));
-}
-
-Yanjun.Zhu
-
-
-> +}
-> +
-> +static struct kobj_attribute state_attribute = __ATTR_RO(state);
-> +
-> +static struct attribute *luo_attrs[] = {
-> +	&state_attribute.attr,
-> +	NULL
-> +};
-> +
-> +static struct attribute_group luo_attr_group = {
-> +	.attrs = luo_attrs,
-> +	.name = LUO_DIR_NAME,
-> +};
-> +
-> +static int __init luo_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = sysfs_create_group(kernel_kobj, &luo_attr_group);
-> +	if (ret) {
-> +		pr_err("Failed to create group\n");
-> +		return ret;
-> +	}
-> +
-> +	luo_sysfs_initialized = true;
-> +	pr_info("Initialized\n");
-> +
-> +	return 0;
-> +}
-> +subsys_initcall(luo_init);
-
+Acked-by: Guenter Roeck <linux@roeck-us.net>
