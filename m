@@ -1,130 +1,205 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5007517555
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D3717555
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028385; cv=none; b=ANJ12FShdfcXtzEBf+GTcGCXLcxQri+oiBwUir4Px6eYolTHhY4iufbwHDzRz03isQ7pECekR9+75IxwlD49SMQIOOU9jstdsxn3w4AvqoT/PYMwokUy3d1BdaH9Bp06hCdxa6rm2hbK3VFUkOC+hTrgGrSjh9NFpJE1qFMCJ0M=
+	t=1760028392; cv=none; b=SL7wZy4RwbmdCJmedLciWt1QqoxwNOX63gFPs/8TmSKDT1Olwasw1OICxz9zs7frKgnXF+XBY73V26NKKNr9kRlYHjPpKJuIFF63/rs99sZnTPjeBKuFNzO+geeYw/Aa7DKQoGVL7EKvGHHeYcpgBYgQtuj5QKTTS2gUwTTJeoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028385; c=relaxed/simple;
-	bh=uKkoVdHHQpINnOOc7yMyxMdnFxyYgw6tts6v+l9uMss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zl2XR+N7Ey31l9DHnhZTk5/MtBi852qngqJ709ENRU5N1IFqjxydb2wddwBhIxUGSdLKNkSA8uSLeLWBoUPUZpUl3hWhITBbXSWoQiaBTdZk1AriXhR8wDALWs7HYc57NbJnI1iqqRgqExkunPHqZ+MdLOxAopxCPgCoJj3ZnBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=gxy8k/6i; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1760028392; c=relaxed/simple;
+	bh=0YzEi/FKr4gAZLlOWGsCp0p08GtODGPitU0V9xWloho=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t7xgP8yaGFozLRrN1nuL1X0ljlw8lNPrFqhzXOzW8gvBU1uGeNO/jElws8F4OQ4kN6YsvdlnGLiZ4c9iPuNxl0qXpirLgyYWQ7pYcLRwVMHUPp94eQ0tK+QniNLgRiHDKMVjN04eDzqBpM9Rnkgjg2HxIxwcqqt16qYKztOLS6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FGb46r6h; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="gxy8k/6i"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-93bd394fab0so35476239f.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:46:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FGb46r6h"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4df3fabe9c2so2901cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1760028383; x=1760633183; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l69sAA+RqcMkjrNYYlZnvTMiAxsxuDk6BohwO3k0jM4=;
-        b=gxy8k/6iWbaPBMaHcPa6UBOZfPQZMJvh/8QzxvONUjVvaAbPF3qMZ+gZ59XeymltuN
-         Ft+vsm/hd6x/LYrjz99UnNAFNcFnkfZbub9wJ+f0/Ozh9IgHWOMmmb39RjmFFcN0CacI
-         qfAWvA5zcyCNy4Ce9fQ7/xo5NE9lMl9uium8PPZNlW6wDX4J9wrfwZxJtQ4SqjkOwjTZ
-         4RabWJxQ9A2smqPGhX+0StTD7h8KPQKMsYp8x7NRiDCXtnjQ5wTBcsP6nRLZs+eWD2sV
-         aeh1O84ypCXty9yPQfJxf66OvPe2oxowpOWWVH3gfsCUCIR0MYlFRnmmWrovIx4JXwFU
-         6o9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760028383; x=1760633183;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1760028389; x=1760633189; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l69sAA+RqcMkjrNYYlZnvTMiAxsxuDk6BohwO3k0jM4=;
-        b=H5fDAyvNuPtWjByVrZ1rnNXOyai7l3vMswQxGBCvxkhBzC87y57ZG9cuGp/4dvfCjl
-         Ru2uUZZ313Nq9PGNYI02mdU54HH4s6Fs1NWgGBZ/14dhu4y76GKJN7l+3AiWNlXTPPMo
-         51S5Qvhq399cmnBs8v222Ds+RPbuLS6zCWvYM2HQW0fYD35y2yY2Gk/mobWtDKLuGF9L
-         fl0IJFkvr+Si5GUyPiqsvJ20KF7L+tXEFNKd42bFk+C1WQifE8AcFN3/UPeNbkfW2BjW
-         xi6WGNKPfz8CVHr5hFuZScZybxL4jBm3ASmAo2C3gyWLrmfwcvFcKkqNuSdHx4uE+3Pi
-         D0XA==
-X-Forwarded-Encrypted: i=1; AJvYcCXx9uDznrXPGgRJckscwcJE73dvZEF2/EloDPmlP4EPozqpfPXLH0MSdC+q+REJ+kF0bjfbx2CsZpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylTfCGnRDf0MET1/aOcMwoLHXibzftK9iyBzp9arM8bjg/z77+
-	RWO+gAwxpfnIyTVlEl7Pqw32wslFbEA2wsLEyAnz/J0LBvdrpIGs1A3IIw/9Q7izgSg=
-X-Gm-Gg: ASbGncvq3hnX0UR5oLAg4G86gfoHScSyFFNjQbixU70EuNpsA81LF2z0oZD+5KztSBa
-	KnkhFQSMYox937Qsev95jExhynFmcn4hKWoBH5VM+eBJuNLfWWnQzClVWv6BeWvM8gTED+cYlcB
-	uNK0nqen6J3y+53tNh9897nYWDFpOhdD1oaZiWdxXAjD2dLgjj7HPfLbxKZvYNJs4hRSLOHlga4
-	v3hFBa0o0O7WX+DVIrxtDk0kYPd3Xq9KXpM4N7LgZCPu83fDU/aj+MITdrakuKzx/SUfpNQrrEr
-	JlTIgkZDm7gQ8kN4C0mhg/gCmN0Qt0NgZysDNPqm0jg+3Jf+BLXSywpbdk10vqdn0BZ42++uFN+
-	GR7CCqj5eTX88uQi6URknP7qML/yLmz7pUqA0tkvpldEaiOhOUZXeRbYuVpA=
-X-Google-Smtp-Source: AGHT+IHb56VLYwDyYpisbd61rv4b/ynpgAfxpu83YRCwm5JW7AaildP7fCF4cs3XdphAf5nkTFwpyQ==
-X-Received: by 2002:a6b:e916:0:b0:8c3:e106:74c2 with SMTP id ca18e2360f4ac-93bc4119105mr1227233739f.5.1760028383330;
-        Thu, 09 Oct 2025 09:46:23 -0700 (PDT)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-93e2594a558sm8145139f.7.2025.10.09.09.46.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 09:46:22 -0700 (PDT)
-Date: Thu, 9 Oct 2025 11:46:21 -0500
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	alexghiti@rivosinc.com, shuah@kernel.org, samuel.holland@sifive.com, evan@rivosinc.com, 
-	cleger@rivosinc.com, zihongyao@outlook.com, zhangyin2018@iscas.ac.cn, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Charlie Jenkins <charlie@rivosinc.com>, 
-	Cyan Yang <cyan.yang@sifive.com>, Jesse Taube <jesse@rivosinc.com>, 
-	Yunhui Cui <cuiyunhui@bytedance.com>, Nam Cao <namcao@linutronix.de>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 3/4] docs: riscv: Document hwprobe for Zicbop
-Message-ID: <20251009-27aafc23cb2a92c1c9b324b2@orel>
-References: <20251009134318.23040-1-zihong.plct@isrc.iscas.ac.cn>
- <20251009134318.23040-4-zihong.plct@isrc.iscas.ac.cn>
+        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
+        b=FGb46r6hSI4mLnolXEJ/yTaoR+b6l70oW2PLOJIjoLyS7rAQl7r7B7Se4F9saXsMFQ
+         Lqn/2eMDtw6Fpt13lXNjiuM7qPDcZ1DWmV3tFWHaZWmWxiQGucflA2Yczq5vPZJIJHPF
+         4GcBbbghvT56IRB0R6qn9ckTHcjJ7EDaqtl2LDonMZGVvoNdAI6+TuSsAApkEuEvyQfH
+         aBRIOEnwVAa6i4YUTEcUoM25KUNTe9pvZmvbck/f3mkSfschYpwvb3LI41+7oOEuJ2ww
+         VboX6unb3BkpfbTrpBT/LKQ2w2QSidadL869KKVyEDr3ic8ng7r6iQvx+VfDKSU2mjpB
+         YgjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760028389; x=1760633189;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
+        b=xMnMIBRZFV5aay3naAj0jh5/2y1oUsV3rEC9J8wGGqB2izCXXLGD7dgVFxvzPOJ0RD
+         owoTiW9XR5za1pFpNRcSsHhh9sA0OCthgqtZWms+iw/37cOSEjJ2zRT/pUXw+0lKDCRv
+         x+nf21X7xSWqO+S1R8waOZsyE7devEUiivpkAe/zBr+wUii7oLM2r6uKe0dgEiFvB9Ci
+         slvYFa1Z6yPUFPU/Uf9UC1Qtj9ueZacv1Sw+qc8cEaoY2IPgEiNMamsw53o6zfltxjaB
+         zraYNQkvjudUEy0fGeDahIJYxl8Yl7bkt1FPNoBb70ER78VHefKT3sspDI92HkBbmoyR
+         zREw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcBwBlQqttXX5NwM65U9aSkuB7KvhgJqc+wwHUtRZ/xAl0eBCdSFQLksEw/1e+Ms3sIySe0wJPnRk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytW2OvQrmIauegNAmQcb8FkOGRv4iHsFYcc4uiKkLHoQ02hHk+
+	m5RK1LRRYml062d8IPp+4Ycwe6XJt43lvmCz3bxg9OKy5Gt0xS1Er/2poGumk1m1ntmRnEG/VVY
+	0f5VhuwjxoSf52EpHhHEUidylBxggdVuTR6QiYHX6
+X-Gm-Gg: ASbGncvBnb7A7/oFslU/dyVQ9+jriMl6ue8JP4xc8JlR65g+JhMCZvfEc8IJg1Q1R7n
+	9KkOCQRE+zYTpGBmjzueUea6PNyfoRD621IS8j9ZY4UhHyZ1NDBlgU9jihdpe7cMqSf/CMP6oaa
+	Tyy7uX/5VlzhSb8X8m4Xp5fUcly3xheeqvoTJCt6/PfhSKTHSXmfZjUFdts+tlklKKedc+ifcVw
+	EgR/oEZ+KTvNnFmMpJlwpQeMMcv/LO4B4jFxbQJGFHFyfP4xFUwY5J1AeDFjObdxXHhuF4=
+X-Google-Smtp-Source: AGHT+IF70ucIJMpJA0vPDQgicdHZr5JjOzPiEUk9y5SQTUUUNRoZE52nw8qSw3T5aRdmC55lZrWVgbTQ4VOEIK5o6D4=
+X-Received: by 2002:a05:622a:344:b0:4b7:9b7a:1cfc with SMTP id
+ d75a77b69052e-4e6eabce6d2mr16470351cf.10.1760028388319; Thu, 09 Oct 2025
+ 09:46:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251009134318.23040-4-zihong.plct@isrc.iscas.ac.cn>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+ <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
+ <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
+ <20251008193551.GA3839422@nvidia.com> <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
+ <20251009144822.GD3839422@nvidia.com> <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
+In-Reply-To: <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
+From: Samiullah Khawaja <skhawaja@google.com>
+Date: Thu, 9 Oct 2025 09:46:16 -0700
+X-Gm-Features: AS18NWBgKgmWhR1-EKut7z0eede2LXIJaTXH-__gJayThOTTr-r8gXegH0ezPFY
+Message-ID: <CAAywjhSU7ibji=Z50U+OcX7eemhid2sB7OK_fsgzds3vGTZOjw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09, 2025 at 09:41:53PM +0800, Yao Zihong wrote:
-> Update hwprobe.rst to include documentation of the new
-> :c:macro:`RISCV_HWPROBE_EXT_ZICBOP` and
-> :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`, following the same
-> style as the Zicbom and Zicboz entries.
-> 
-> The extension bit records support for the Zicbop extension, and
-> the block size key reports the block size in bytes.
-> 
-> Signed-off-by: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
-> ---
->  Documentation/arch/riscv/hwprobe.rst | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index 2f449c9b15bd..3b9c9d7e1409 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -275,6 +275,9 @@ The following keys are defined:
->         ratified in commit 49f49c842ff9 ("Update to Rafified state") of
->         riscv-zabha.
->  
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOP`: The Zicbop extension is supported, as
-> +       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
-> +
->  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
->       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
->       mistakenly classified as a bitmask rather than a value.
-> @@ -369,4 +372,7 @@ The following keys are defined:
->  
->      * :c:macro:`RISCV_HWPROBE_VENDOR_EXT_XSFVFWMACCQQQ`: The Xsfvfwmaccqqq
->          vendor extension is supported in version 1.0 of Matrix Multiply Accumulate
-> -	Instruction Extensions Specification.
-> \ No newline at end of file
-> +	Instruction Extensions Specification.
-> +
-> +* :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`: An unsigned int which
-> +  represents the size of the Zicbop block in bytes.
-> \ No newline at end of file
+On Thu, Oct 9, 2025 at 8:02=E2=80=AFAM Pasha Tatashin <pasha.tatashin@solee=
+n.com> wrote:
+>
+> On Thu, Oct 9, 2025 at 10:48=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> =
+wrote:
+> >
+> > On Wed, Oct 08, 2025 at 04:26:39PM -0400, Pasha Tatashin wrote:
+> > > On Wed, Oct 8, 2025 at 3:36=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.co=
+m> wrote:
+> > > >
+> > > > On Wed, Oct 08, 2025 at 12:40:34PM -0400, Pasha Tatashin wrote:
+> > > > > 1. Ordered Un-preservation
+> > > > > The un-preservation of file descriptors must also be ordered and =
+must
+> > > > > occur in the reverse order of preservation. For example, if a use=
+r
+> > > > > preserves a memfd first and then an iommufd that depends on it, t=
+he
+> > > > > iommufd must be un-preserved before the memfd when the session is
+> > > > > closed or the FDs are explicitly un-preserved.
+> > > >
+> > > > Why?
+> > > >
+> > > > I imagined the first to unpreserve would restore the struct file * =
+-
+> > > > that would satisfy the order.
+> > >
+> > > In my description, "un-preserve" refers to the action of canceling a
+> > > preservation request in the outgoing kernel, before kexec ever
+> > > happens. It's the pre-reboot counterpart to the PRESERVE_FD ioctl,
+> > > used when a user decides not to go through with the live update for a
+> > > specific FD.
+> > >
+> > > The terminology I am using:
+> > > preserve: Put FD into LUO in the outgoing kernel
+> > > unpreserve: Remove FD from LUO from the outgoing kernel
+> > > retrieve: Restore FD and return it to user in the next kernel
+> >
+> > Ok
+> >
+> > > For the retrieval part, we are going to be using FIFO order, the same
+> > > as preserve.
+> >
+> > This won't work. retrieval is driven by early boot discovery ordering
+> > and then by userspace. It will be in whatever order it wants. We need
+> > to be able to do things like make the struct file * at the moment
+> > something requests it..
+>
+> I thought we wanted only the user to do "struct file" creation when
+> the user retrieves FD back. In this case we can enforce strict
+> ordering during retrieval. If "struct file" can be retrieved by
+> anything within the kernel, then that could be any kernel process
+> during boot, meaning that charging is not going to be properly applied
+> when kernel allocations are performed.
+>
+> We specifically decided that while "struct file"s are going to be
+> created only by the user, the other subsystems can have early access
+> to the preserved file data, if they know how to parse it.
+>
+> > > > This doesn't seem right, the API should be more like 'luo get
+> > > > serialization handle for this file *'
+> > >
+> > > How about:
+> > >
+> > > int liveupdate_find_token(struct liveupdate_session *session,
+> > >                           struct file *file, u64 *token);
+> >
+> > This sort of thing should not be used on the preserve side..
+> >
+> > > And if needed:
+> > > int liveupdate_find_file(struct liveupdate_session *session,
+> > >                          u64 token, struct file **file);
+> > >
+> > > Return: 0 on success, or -ENOENT if the file is not preserved.
+> >
+> > I would argue it should always cause a preservation...
+> >
+> > But this is still backwards, what we need is something like
+> >
+> > liveupdate_preserve_file(session, file, &token);
+> > my_preserve_blob.file_token =3D token
 
-Please ensure this file has a newline so the last line doesn't have
-to change every time we add new keys.
+Please clarify if you still consider that the user does register the
+dependencies FDs explicitly, but this API just triggers the
+"prepare()" or "preserve()" callback so the preservation order is
+enforced/synchronized?
+>
+> We cannot do that, the user should have already preserved that file
+> and provided us with a token to use, if that file was not preserved by
+> the user it is a bug. With this proposal, we would have to generate a
+> token, and it was argued that the kernel should not do that.
 
-Thanks,
-drew
+Agreed. Another thing that I was wondering about is how does the user
+space know that its FD was preserved as dependency?
+
+>
+> > file =3D liveupdate_retrieve_file(session, my_preserve_blob.file_token)=
+;
+> >
+> > And these can run in any order, and be called multiple times.
+> >
+> > Jason
