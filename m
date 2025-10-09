@@ -1,68 +1,37 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD351A23A4
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 01:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69608615A;
+	Thu,  9 Oct 2025 02:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759975118; cv=none; b=KbTBIVx1iXKJZ4eDV3YYCAiszZcLK8iM9qw9s2A4/wqDquWwz74e9/obfyJu59LMiPoYm8xuWRA0uJGTiK+iZ4EWaQFnjvW/Tg/Rp6E9yAcgMynKkw7+BGvKALR6ym05G5uFeQAimMP8lKS3wQREk5cWPlHIXzTCpdMuNT+DFpM=
+	t=1759976332; cv=none; b=DyLBILrrzVtHiyScm9eH88Yv3YpDwArb1ijbiP7wFSrt9P+XzAsieUF9mcKihvqd6iUfgSLxg/KZdOsNnFiVgJA+0TR7HSznDkT2yESM2moS38QAqqDNixiIlwAXdfH1KrYP2jWEfyQFqHRl8nhm8o2M6iXghffUDmet6TCs5CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759975118; c=relaxed/simple;
-	bh=cBbOyvyZ60m9YZe8t1WrE6nNLEs0DHt+yuPxFq4aEwY=;
+	s=arc-20240116; t=1759976332; c=relaxed/simple;
+	bh=oBUzBCGdHcKBGvVSdjsLDIxDVH+8Cz1l/MCI7DjjKrI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jY8+JyEP3iT2ZlFs5/YXuIdWtLiT+b98UIy4ccmpjb5mivDrkFdviWN3dDW0h1rgn9lKMGsuQoLAwvUicSk8QvCEhanZ1u7T0dlP8MFmLnwTHG2LB5xl+y54QSnCTgCwLWLJZMWWIcSWuQEc5kuzAXOJGzsV+KzG7hWszAn9A5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OeaOoTks; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=sia155PXUeEL5QbacS1eeu8PIWTr7sKZpJB+BpxVQlNB9+z5DylS0AshVFCGF2xXHVNJM1gsXmoNd6qZfj891CTyvMu47L4bIDoqScP+/A4mraCfboP2aSs2/y/aljFv53oI3eTrIdqRJ7g+LPyrsrj477KWMZXk0s0BrXzd4E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W4GhgsyA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OeaOoTks"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-78f3bfe3f69so381940b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 18:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759975114; x=1760579914; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
-        b=OeaOoTksmUgF99l4uyLBl/lvuXiKLe0VALVsZhTF3+CtKWeJi1XOnbOCdX6NE4Mv0z
-         eajM0qNNFgDr7cafrhMMOqnPygCCzuwGMbAyVC1O6n8HkFO4AYsbP/Ghnkdjge73Eu//
-         hF5LNRmEZEmpsZKSu/Kpw4Do2qvBpm4tC4xULLE1/+sbO+53EuPgPJC3SfuuUjIbQLbu
-         6hYw90ZFlvMgTB4n79tB8XQuhxPorUQLDsOL+WGqz1D3QoucUh1K+iLxCsjlFXjf1W0p
-         riRpXEVzOq8SxWf2JPB7KZXe8s8SSFvmcRx2ZL2rtJcVw5wnwa2LDUcxMbZiDAOcJqWD
-         UCjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759975114; x=1760579914;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
-        b=rfWZ5Ah/7VX07xubkBBMOS/s2VastgihkgI1v8Q+7HUBw0wOAbxqpVIj6sjw4Z9teS
-         GwRr3sn/0LXP28YV9cNaLNkYyo6QTMRWWx0GCOTgywvAvGvI4lJKZjl325+1MW0Ruej1
-         azBxVm+rYJ+XMEnfE1b2j0kxUH0hHRWI5qN2WmEGY1GCI+72d15cDZ0Xk5kn1JR0eEtd
-         3+wPJU/zU4fkwb+30uzfc6gXCNurNxSzpV8ycvwhSbMLefYqy7J8aW0CfzmlyPAm+dL3
-         tpg6jWQexe/1/55KSuLnKoZA6s7ZYu04PIEZhwMfTotGBd4CRv53HY3+wIIy9nbwfsi3
-         a2AA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqI3oEs2SjuWZq640x1HDmflNh9vCLmOP3rO53qY/X6wUxLFynNF5AxNSp2aOLgxnlSKe1xr/3FCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMY0T197BT8p+iWozmk26Zm5pRnbktq2qSx14aNkjFYqKMTQ01
-	lk+LKmzH/1mmrmrQG/PWdMq2t0cjpEYB+Ka/KlRLqpfdjXCMbnDLk5Lo
-X-Gm-Gg: ASbGnctBGtX2Xeu8KJ/vKabTZ8qTfLuqiZvCMOnLhsVeCyUxn7/Tqt8rUfef7ns5KxQ
-	4EJsDIIVh9bS2cxZkJQj4BP+WsSaIqiKOX5MPxhs4bNvMZCtXPhN+H3wnB/RDeY4DLXEx8a9/lB
-	Fo/fP9o6EZHUMcT1gNMqKt0Nm4yYHYqVRrCQTV9ZH6KPBS9ZgUHRMCY3V2LboWQIHJufqGYtb4x
-	+KJd0gFclmU+UW4ciTnTjXqi4Ylzqy6Fi2hiaYQF0fkZKYPVQmEk243N4pJWU4tfhs9T8FIksNz
-	+SCRuyAxfCIU9pUaKZYyfEVHtQwwK9HPmUtNNFSyYu8NjW/9Q1kih3Go6aNdCsUTxJtewjypHaD
-	Nj/c8lqa5jO99LyXxlDZ+Mjt85eHS7O5I5en7ISzMMngKo/DmyPAKQhxW44M0WO5xv2eLzL0kGe
-	N7m+JxmN3+xCbKZJ0TiQUY+g2EvyKPmg==
-X-Google-Smtp-Source: AGHT+IFRnXDNLeO6K/K3wthKcVdDZ0k79jHMKp0eRtg+qp5MtCtdWauMOoFNlF0VJLS/II4OcfTVwg==
-X-Received: by 2002:a05:6a20:3956:b0:303:8207:eb56 with SMTP id adf61e73a8af0-32da8190b86mr7638215637.5.1759975114450;
-        Wed, 08 Oct 2025 18:58:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b51102259sm4986725a91.7.2025.10.08.18.58.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 18:58:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c7d01ff6-0e09-4ea1-8c5d-59be5e3fff16@roeck-us.net>
-Date: Wed, 8 Oct 2025 18:58:31 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W4GhgsyA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=03eJIUjJueS97yN5grY/zqy0eGrSPsBwtVlizMh56y8=; b=W4GhgsyAGTqgPC7wUoYO6o63lF
+	vpLOJhCnsNX60F+dBytfdtBGWiPX4l3wdDCtZwW7pcwEy7znhhy07YWEZwSBSRed1ZMfAmluNz1dM
+	l+NoxFQKDb0BvQ2GsMDGj7LFGiuz7cfkZMu6XUoYZCUwdk+2QlCUh3a/FdS447uNWpk5gZ56qPGAi
+	mm6aT34/A2iGP7x5j8Fp4N+uVzHBf873z/R5hCpzzTJM3rTsfwT8mvdPK0xqZU5vqZ8h7kSnFVPIz
+	CXAStTlyb4cim5USOHB6P3H9waMSBtGm0gkMrsx06F6CxmS6B5TiDYtCDeLWE7xrYN24aWcSOSyPC
+	W/ZH25Fw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v6gEz-000000052j4-34Xq;
+	Thu, 09 Oct 2025 02:18:49 +0000
+Message-ID: <6e29c0d3-f8a0-474c-8d75-74f222621049@infradead.org>
+Date: Wed, 8 Oct 2025 19:18:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,90 +39,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/13] hwmon: Add Apple Silicon SMC hwmon driver
-To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
- <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
+Subject: Re: [PATCH] Documentation: sysrq: Remove contradicting sentence on
+ extra /proc/sysrq-trigger characters
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Serial <linux-serial@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>,
+ Tomas Mudrunka <tomas.mudrunka@gmail.com>, Jiri Slaby
+ <jirislaby@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
+References: <20251008112409.33622-1-bagasdotme@gmail.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251008112409.33622-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/7/25 04:16, James Calligeros wrote:
-> The System Management Controller on Apple Silicon devices is responsible
-> for integrating and exposing the data reported by the vast array of
-> hardware monitoring sensors present on these devices. It is also
-> responsible for fan control, and allows users to manually set fan
-> speeds if they so desire. Add a hwmon driver to expose current,
-> power, temperature, and voltage monitoring sensors, as well as
-> fan speed monitoring and control via the SMC on Apple Silicon devices.
-> 
-> The SMC firmware has no consistency between devices, even when they
-> share an SoC. The FourCC keys used to access sensors are almost
-> random. An M1 Mac mini will have different FourCCs for its CPU core
-> temperature sensors to an M1 MacBook Pro, for example. For this
-> reason, the valid sensors for a given device are specified in a
-> child of the SMC Devicetree node. The driver uses this information
-> to determine which sensors to make available at runtime.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+
+On 10/8/25 4:24 AM, Bagas Sanjaya wrote:
+> /proc/sysrq-trigger documentation states that only first character is
+> processed and the rest is ignored, yet it is not recommended to write
+> any extra characters to it. The latter statement is contradictive as
+> these characters are also ignored as implied by preceding sentence.
+> 
+> Remove it.
+> 
+> Link: https://lore.kernel.org/lkml/7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/admin-guide/sysrq.rst | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+> index 9c7aa817adc72d..63ff415ce85d66 100644
+> --- a/Documentation/admin-guide/sysrq.rst
+> +++ b/Documentation/admin-guide/sysrq.rst
+> @@ -77,9 +77,7 @@ On other
+>  On all
+>  	Write a single character to /proc/sysrq-trigger.
+>  	Only the first character is processed, the rest of the string is
+> -	ignored. However, it is not recommended to write any extra characters
+> -	as the behavior is undefined and might change in the future versions.
+> -	E.g.::
+> +	ignored. E.g.::
+>  
+>  		echo t > /proc/sysrq-trigger
+>  
+> 
+> base-commit: c746c3b5169831d7fb032a1051d8b45592ae8d78
+
