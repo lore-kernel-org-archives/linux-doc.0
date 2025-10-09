@@ -1,122 +1,215 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F0A220F3E
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F401A9FAF
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025827; cv=none; b=DnodQTuYvg2pWs7p2sVRaro18rS2vasD3+/5rC0zgp+0aGLNUgsNeVI2/JB+B+hPDzdi6n/XS4upQp4Qisyr7OvR8X2r/ro/27SFTWyBXxF6iPMRQuJbiY25kFrE6o2pPJ6Mh9e2XL3jVz9L4yONkd+Sf3gfKpU73ZWAEMhSbHQ=
+	t=1760026525; cv=none; b=q17HG5BeHBQJkbvZep5hbWGMDTiDTi1uZPBILIriZKI9ImaEWGtqyr8luWCt0RADRYD/wHRG/re5yGIfQ96X+rYUqJClyOp8pWkGTrtEm65PvPFp7SOt97KViEPgwO6yAxYzdXD4Ehz/HRbl+3qo6uhRx9C2Fo+s2zRRWlyaal0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025827; c=relaxed/simple;
-	bh=KkSS1IRbrwHyMwaaOVUv7HIIqDxX8kS2Iel+y5l0otI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mcRokndnM6+0gWFNuTlW0652NotoEEx98AGMzUVfM/gINmZrC5IiqGT8+jIh1ZLz17riC46tzdg7iKYi1m6+ixehxpqljWj1kppzYL1VSxDVAA8T1ntncVqXbFsVtFFEEcucq6d1N3qBYZfWutEZkkvPJnRzOglxr3Wzs7n9V44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AhXYk7R6; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1760026525; c=relaxed/simple;
+	bh=oGk2QLydZ4vPVtGl33YOjNXkPTH69PgzTxez7YUnJ7s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nQz/6yaXz7mphESuPpp03Gox5q3tlHTFEq8pLtVAJ7COqOPgqUHFPIB+qP4tYZt8Yb+75q+Jv1HO4mrv7cCjuVTLEaUMHLPdj1W2ImIHzCdz0wz8fT2paC1NMZuoq8FF9n0AgSzDVV/4h1d0K87kUHpEogwN/iiKPLBkrUk6LT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=P4J0IxF2; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AhXYk7R6"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-33082c95fd0so1512450a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:03:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="P4J0IxF2"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-875d55217a5so120731485a.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760025825; x=1760630625; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zj8LfnqLwL+Gx5l1gM/bvFwx6FdJuno6EYMDHRGmO08=;
-        b=AhXYk7R61buf7ixmKpwehEZBQEIv4ZuG5kfSJbakBB0Bk7r0fOldNYPAKQ2sNfLI2V
-         cFV+vrDeBN7efR4V2bCDGHH1CAgDYyKcrWltt3Oft3pOBD+nooj64E6DvjwlaVG69M8P
-         DB1LhKMRS/PiUBGz0Xt8TY0yN1WTcpT/EEvYYJD82oS6JuV/9G2RvNScM5DKV2VJpujj
-         2ruumDSP3bk0L3jZZBKcrKlzIz/YYzlhs5wM86VPMj0l2k22KGe/vHNFEN0HE0sNXr/Q
-         DSc5a34g68W2zznTVF+ahy4usT5RieI+jHRTFplVkcAObk3ZvKPiLkqwmbfejyQeJQDZ
-         a5qQ==
+        d=gourry.net; s=google; t=1760026521; x=1760631321; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1+5SvdqRqDaLVpZovzo/tjgIBi731xvYHaxEt2u52vI=;
+        b=P4J0IxF2obcqdX+Dmnm2EWX0PfZ8lQ28UyD2+CZ8+luaV2KLubQToFCdv1gKyVi3qs
+         mZI+H3mN0tQ6L14W70deg4y5/0J4Ar28cWWikj52zjly3/Ehraez/gOhAikkjkeg/71U
+         OWoqWiplnioHzxrow8msLW9GsVW1Iu0hb/WA9k28/WfOlQMZTfwVCL/xYiLdnkrqu+4G
+         RVajzcf++Ibf3i36uPyioXJMP3B0yS86/DRbi+baIm4Y5YQwK+rbO0C90At9fMEDTppc
+         GJq5zRRGIdGLRZS3YNr5vE+D3KnzEelZGAqlJcMtb46pRpzAwCmMqLpIrml7qHCS3eCp
+         BGGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760025825; x=1760630625;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1760026521; x=1760631321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Zj8LfnqLwL+Gx5l1gM/bvFwx6FdJuno6EYMDHRGmO08=;
-        b=oGhiidxTjLt3UiOlDTCH3yYi9WJ+RHLtst8m5HS1eTjyndZJ83UDkEF3B8M6T4nCq1
-         lOV1QkL3ATWm1TFnj59qBN1Vp3K7t+ENFvO6WI+4v2Wg8WEMXmgQOOPJXyF/nZAoG4q1
-         yeBMqmcmVy7c6jjR9oAVH9UMsfqPoBWIdKu2vBGxBxKFKbouOqw9N/eSxV72BzGHihE6
-         5DI9PgYROs6WDPmfvl3yMn+vZq3kENgZ24UQ5JE4mSZ0EmoXDbbE7RgVBc6f2k/PZeDF
-         A7ejVfEtccFn5FpInMBHgWhc5AMBwqLXxUxECsZJhJ/y569qLGjgZJ8ywJ4Ie7UjM2nv
-         PanQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVxus3bojCEm8pN2+6fnD25weaIBr/ojTe7H5PFvOZkfwlEVrQu5TwDyzqQuBxIRnE1PFDxG6auCX0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsPaMzSmM4GS7U4HUjLtuH3AdgT+Nz7T8mCFXtoOSS9VrSNLeM
-	qLKq801yQZJ0PfBEuviqftQ01ZFJNygmfoG0cjCFQi2CrbQtJiGANb61hoIhdsU/5SwpXKFO3gR
-	PXQbNU/v6zoLRrcB54xHKvJKAy69AB0xXz95mT3AWog==
-X-Gm-Gg: ASbGnctnTYBBbG1P/0zQZw9MUGyTWQSJFArjzH7T5m3TBdea0um06wJL2vD9np+e4ih
-	p0PWUxCNmxZX8LfoGofPk4zQOnilRh8uDcrh+MpNqu1ZG0sltZ+W3H38/MUiJFBeZvBDdWsTQ4W
-	0Xknv9AP+pp1r8TuHUIX1yOox59eve1WDMCjmh2DJr8VS/n0MX4e8/d0BzPUQevbJZmiHRuDN87
-	kzN2bbKoX9LrDjbbk3XvUoW4O/W58rtlL12
-X-Google-Smtp-Source: AGHT+IFWZP1sOUCVxhD5rut22TgyJiSvAxe/PqeY6yT6cbXfcUKECeTUVY2YIzCllx+tjT2TLCT77aX1c7tYXB/6Wdw=
-X-Received: by 2002:a17:90b:1b50:b0:332:250e:eec8 with SMTP id
- 98e67ed59e1d1-33b51168e20mr11597847a91.15.1760025825128; Thu, 09 Oct 2025
- 09:03:45 -0700 (PDT)
+        bh=1+5SvdqRqDaLVpZovzo/tjgIBi731xvYHaxEt2u52vI=;
+        b=dzziOgZnTnYENQEn48KGgtbgXrSyotXd2qRHGvICyYCtCKOJPuq9lk1tHldTA3JEIE
+         hSdqH9mw4nDK2holqJeZtkafexhJmGILbp53VERi2ajZYMdIxSf3FrJbGqYU6BN33NMx
+         PWwaMfJaie6I0LyUma3TFAFzIZ5XvxZK/8hpapjk6L/jQNx+GQReWiyL1JsY8hs946u5
+         wUgFESI8WDYprv9DQZU+HD7nif+0JP0dNCGEBJZJctvBul4IsxkX4J9C9DL+f5qA7ugJ
+         bdmJf8yXuPItwB3sLgkGjLT9I7QSvcqXM8i8WJBbdmQ1756hw72p3ejsGUyde9iaBUP9
+         VSJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNA2XIZHQidbOcXnu0d/BRQI3nkMM+CNKQcEYCg7zdPxH6wz6t+nGunUlHxUHQFPCkrEEov2nc9nE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuiZsVRsZUwKhc+QedC4EE12Z2ur2Psq56aAEpg0gpcq7pqor9
+	pR8VbCXCPlsk8ut8JKZAzKBHkrVm89eL4WY18OMB/lSyaFdBgs88UwsWa4N+TmVmCNA=
+X-Gm-Gg: ASbGncveMHu/q8j7kZS7NQrOl0Fxvce/tH+lv8S8pdGXgT2JUYAyMY3DnJSYM8PYYZK
+	2mFy95CZOCczSFFpnM+9RarKJweyxX+UYPu+AIWJXfl22x+UvYfm+4jk9MDYWBDeZg/EX9y4YCF
+	2g0syj15kLYkjzeyIeYOMhyOMcVzvFvaLxvKg1PN3eZ8SkhYeVfcd3d+iL4qbmhjumulmL3btQZ
+	gJ22FPwFwmZXrB1flgIk0RIqreFASR7Y6XF91mSB5wHJsMXyx218n3QskZTrGSgwaKbgkAbLaJJ
+	e79RGbocGachXLPP6cJHu1qY5iYOpxeeCbHIJ7iVVAkn43/zZIrsZ0iw8iPqhNTdMj5MMtkqapX
+	bBKHgcQM6+3nmr5AJflFK4Web8oZ17+PWbkCN9EwawPzXbLaaVH08HccJ2zrcQISJNs+CVWVb1H
+	nsM4ENQvjSPTUTWlyrY2uRM2ohNU28+avofq6yW7d/s/5/EQ==
+X-Google-Smtp-Source: AGHT+IEj2zy9apxWY9vObYs3hv/JmdQttOhxDDHvUjAsMStwiARm4lbIvINlMgC2GhXAwwntSoBprQ==
+X-Received: by 2002:a05:620a:bd5:b0:870:90ff:90d with SMTP id af79cd13be357-883533693admr1130340185a.8.1760026520890;
+        Thu, 09 Oct 2025 09:15:20 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8849f2e2098sm224285685a.13.2025.10.09.09.15.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 09:15:20 -0700 (PDT)
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: corbet@lwn.net,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@redhat.com,
+	akpm@linux-foundation.org,
+	hannes@cmpxchg.org,
+	laoar.shao@gmail.com,
+	gourry@gourry.net,
+	mclapinski@google.com,
+	joel.granados@kernel.org,
+	jack@suse.cz,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	David Rientjes <rientjes@google.com>
+Subject: [RFC PATCH] mm, hugetlb: implement movable_gigantic_pages sysctl
+Date: Thu,  9 Oct 2025 12:15:15 -0400
+Message-ID: <20251009161515.422292-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org> <20251002-james-cs-syncfreq-v3-5-fe5df2bf91d1@linaro.org>
-In-Reply-To: <20251002-james-cs-syncfreq-v3-5-fe5df2bf91d1@linaro.org>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 9 Oct 2025 17:03:34 +0100
-X-Gm-Features: AS18NWBRPxicWlO6Xkw2qzlt4rKgSo68ZX2bh5k8tmBbwfyeBqn1yur95FngjNs
-Message-ID: <CAJ9a7VhZwXdGQDDqQ=o3D=yVOjZ5xdqHKvXRdM-Auu6pum6JuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] coresight: docs: Document etm4x ts_interval
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Leo Yan <leo.yan@arm.com>, coresight@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2 Oct 2025 at 11:10, James Clark <james.clark@linaro.org> wrote:
->
-> Document how the new field is used, maximum value and the interaction
-> with SYNC timestamps.
->
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  Documentation/trace/coresight/coresight.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> index 806699871b80..0cd83119b83f 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -619,6 +619,20 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
->       - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
->         default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
->         value, as indicated via TRCIDR3.CCITMIN, then the minimum value will be used instead.
-> +   * - ts_level
-> +     - Controls frequency of timestamps. The reload value of the
-> +       timestamp counter is 2 raised to the power of this value. If the value is
-> +       0 then the reload value is 1, if the value is 10 then the reload value is
-> +       1024. Maximum allowed value is 15, and setting the maximum disables
-> +       generation of timestamps via the counter, freeing the counter resources.
-> +       Timestamps will be generated after 2 ^ ts_level cycles.
-> +
-> +       Separately to this value, timestamps will also be emitted when a SYNC
-> +       packet is generated, although this is only for every 4096 bytes of trace.
-> +       Therefore it's not possible to generate timestamps less frequently than
-> +       that and ts_level timestamps are always in addition to SYNC timestamps.
-> +       Timestamps must be enabled for this to have effect.
-> +
->
->  How to use the STM module
->  -------------------------
->
-> --
-> 2.34.1
->
+This reintroduces a concept removed by
+commit d6cb41cc44c6 ("mm, hugetlb: remove hugepages_treat_as_movable sysctl")
 
-Reviewed-by: Mike Leach <mike.leach@linaro.org>
+This sysctl provides some flexibility between multiple requirements which
+are difficult to square without adding significantly more complexity.
 
+1) onlining memory in ZONE_MOVABLE to maintain hotplug compatibility
+2) onlining memory in ZONE_MOVABLE to increase reliability of hugepage
+   allocation.
+
+When the user's intent for ZONE_MOVABLE is to allow more reliable huge
+page allocation (as opposed to enabling hotplugability), disallowing 1GB
+hugepages in this region this region is pointless.  So if hotplug is not
+a requirement, we can loosen the restrictions to allow 1GB gigantic pages
+in ZONE_MOVABLE.
+
+Since 1GB can be difficult to migrate / has impacts on compaction /
+defragmentation, we don't enable this by default.  However, since there
+are scenarios where gigantic pages are migratable (hugetlb available in
+multiple places), we should allow use of these on zone movable regions.
+
+Note: Boot-time CMA is not possible for driver-managed hotplug memory,
+as CMA requires the memory to be registered as SystemRAM at boot time.
+
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Alexandru Moise <00moses.alexander00@gmail.com>
+Suggested-by: David Rientjes <rientjes@google.com>
+Signed-off-by: Gregory Price <gourry@gourry.net>
+Link: https://lore.kernel.org/all/20180201193132.Hk7vI_xaU%25akpm@linux-foundation.org/
+---
+ Documentation/admin-guide/sysctl/vm.rst | 17 +++++++++++++++++
+ include/linux/hugetlb.h                 |  3 ++-
+ mm/hugetlb.c                            | 11 +++++++++++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 4d71211fdad8..89dcee3c3239 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -54,6 +54,7 @@ Currently, these files are in /proc/sys/vm:
+ - mmap_min_addr
+ - mmap_rnd_bits
+ - mmap_rnd_compat_bits
++- movable_gigantic_pages
+ - nr_hugepages
+ - nr_hugepages_mempolicy
+ - nr_overcommit_hugepages
+@@ -624,6 +625,22 @@ This value can be changed after boot using the
+ /proc/sys/vm/mmap_rnd_compat_bits tunable
+ 
+ 
++movable_gigantic_pages
++======================
++
++This parameter controls whether gigantic pages may be allocated from
++ZONE_MOVABLE. If set to non-zero, gigantic hugepages can be allocated
++from ZONE_MOVABLE. ZONE_MOVABLE memory may be created via the kernel
++boot parameter `kernelcore` or via memory hotplug as discussed in
++Documentation/admin-guide/mm/memory-hotplug.rst.
++
++Support may depend on specific architecture.
++
++Note that using ZONE_MOVABLE gigantic pages may make features like
++memory hotremove more unreliable, as migrating gigantic pages is more
++difficult due to needing larger amounts of phyiscally contiguous memory.
++
++
+ nr_hugepages
+ ============
+ 
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 526d27e88b3b..38870d21724a 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -172,6 +172,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
+ 
+ struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
+ 
++extern int movable_gigantic_pages __read_mostly;
+ extern int sysctl_hugetlb_shm_group;
+ extern struct list_head huge_boot_pages[MAX_NUMNODES];
+ 
+@@ -916,7 +917,7 @@ static inline bool hugepage_movable_supported(struct hstate *h)
+ 	if (!hugepage_migration_supported(h))
+ 		return false;
+ 
+-	if (hstate_is_gigantic(h))
++	if (hstate_is_gigantic(h) && !movable_gigantic_pages)
+ 		return false;
+ 	return true;
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 753f99b4c718..24dbd30d1b69 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -55,6 +55,8 @@
+ #include "hugetlb_cma.h"
+ #include <linux/page-isolation.h>
+ 
++int movable_gigantic_pages;
++
+ int hugetlb_max_hstate __read_mostly;
+ unsigned int default_hstate_idx;
+ struct hstate hstates[HUGE_MAX_HSTATE];
+@@ -5195,6 +5197,15 @@ static const struct ctl_table hugetlb_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= hugetlb_overcommit_handler,
+ 	},
++#ifdef CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION
++	{
++		.procname	= "movable_gigantic_pages",
++		.data		= &movable_gigantic_pages,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++	},
++#endif
+ };
+ 
+ static void __init hugetlb_sysctl_init(void)
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+2.51.0
+
