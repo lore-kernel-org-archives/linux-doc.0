@@ -1,128 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463532EA496
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 14:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDD11991CA
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 14:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760020034; cv=none; b=trhls3yFj2ZfUaF99olTQvvZilLPvDFOHYeTEahP9QlfWDLy4y1Yl+51SYzUX9u8RSRzT1y12eOmmcU7cJiU7uBAv7X0WMWrx8sjOAWIyRFfqmO2HOYMlLKVk0hN4svwQMqobl0VFmjV09d35NBqXmEA9ZivP0WAZ4FO1Z7HfAE=
+	t=1760020220; cv=none; b=m96FDAHL7pD1j2Aa+QUat80Bev5HQD4Epgc8MzP69aizE9XVQZdfjalvV+sgxYKV5Xt49vFM6VAt66k8LMzLl/gBDHEqteoK+x1B8IgZSrceWIavPNWPgC244TRq4A1xpipWp2GqVa7IiCKhXes7lKKH+5iWLrOvT0xnVSxXjGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760020034; c=relaxed/simple;
-	bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LMxpKuPYST/+q0nyXqIn0Msd80zWsncyBYWXfQ83lLfVa+J3y34TUCS6tx6Zchw51UxNYI4gfnpNBqynEN1tUJody46XHB47FkHRAAMI+MU4gf3KfSWkveORtqsg1q8azGwMjOoCLxBJVYJ0Tpacn5OPSJz3wiuypRxcj+imAV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IQH5MGD0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760020220; c=relaxed/simple;
+	bh=MbAn6IxXoYCyZexFvoEXvgKWUGG3Aew40oi74OvfjFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oWmLiXlneef4FNGX2matYQlVQJyzMiHL2UbwMIFf2zwsntEHxB9aloQobT4PSsjffjS8rocmUMi98XorabMOJbQx4p+G41Sh0q/vZvTN7XAmgb+uIeKgUfFRh/a2GkaDsXf2y0DlXkUtTADGcTtbc4ekSBKkvAbbLqOBbRg4sxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=BOkzVqFH; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IQH5MGD0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760020031;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
-	b=IQH5MGD0UDxq+A04zJcE0f80/9nfkfcKWTuAJH9W8DVD4X5ZPk+CR5HSTAASeB9GJfqzlY
-	q11bo++aUV06F6vsXQERpEddS1Egho8bx22l9n3z9PL1MrARk9XQurZ/pQN6yL0lTuws+i
-	FwgiqFNuAautaI5/Xy4g45miV0lC95E=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-nSxhld6SNQWwunAkmkxPMw-1; Thu, 09 Oct 2025 10:27:09 -0400
-X-MC-Unique: nSxhld6SNQWwunAkmkxPMw-1
-X-Mimecast-MFC-AGG-ID: nSxhld6SNQWwunAkmkxPMw_1760020029
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b4ea3f1c12eso175943966b.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 07:27:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="BOkzVqFH"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4dfb1f481ecso13387921cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 07:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1760020216; x=1760625016; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e09H8JuVw4CGVu4LXKpckxUyqmwU5fhDRfovcXXQuDM=;
+        b=BOkzVqFHxBDiA5B0s0XrbYRIfIs3hMDIUxv0Sybl8y4n2B8DcePA27hNQgrqXTj2zt
+         0DSpSWD9cnmfrAdN5QX/5yGNHk7hBf+DDAJmo0B+4vuIMNUj/DRdsXC4PAQ5dGpEcHYf
+         F6MGf3+s2lx41xJtXjHeCOtIABWiHUaSWpRJ+79n6Mkowu54MBferX6uOOLrM6kqdgxt
+         idp46Xbl72Y/STWAy0GWt+QRAYUpOb73rodLXBR8A6cPk0A7obPUy+GliGxBujiCVZIx
+         2TiHqHoC+sAYG9cfUUl7B6jSQcM4oB3v32ErSnYeCxh10kRbxJn+FEI7iTZWDTLo1TyG
+         qZpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760020028; x=1760624828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r/F02S07YxY/vR+W+qaExDIN6Da+5SzwX0AXZ3uJSi4=;
-        b=b4G3P3iMrkHZnYRllKQGo6xeq1UtYXGKvguvCbAgh4PG0FugXpsarLzu3UscrFLHSy
-         48jeBksHM7SjRAjvK1N1vqw6AF/04xbIn5ZcLQtTtSLa9d6PY++BS8iyCSDChD3yc8xo
-         MzNPAOSJMBGIDGi3onQUk/XTuC1BzcYTQQAmfAq7nrNxqs03q1JRuuz25hMsEZrJ1osF
-         NUHRT6/iaCAAyu1hM1X6RikejtmgN+R2x9efhWYeuzJCtn/oklK5hTfsDr8ZsIP4+u25
-         1MC9avxD4BDa7tQHefKIyS32/xwwrrEj+OI2lDcCg2GMhNUMKyISgrLQlGL/mz8T2N/I
-         aUqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWisI+NOL953kQtSeu6EHcz8jFno0tYT8kcTK1YgsUMCO3noaGUQfy+tSUY5vKUIs320YX4IdqQ24o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI787hzFn2m7mZjLtVOPYpQKjbqiAaVzZ7llLyOlpoj62mkSk5
-	T3f+ELCA7WFb8R9ky+zWc1d0TbZ1Yw8kVdIMlEfTDB/qF71b4dsna+M/K51C+ogaJQyrpMUgzHr
-	ahqn4Go8Oi64kMGz3M516cWKEfn9O3bkQJXYKCJqphUSOVZZ1pvVrtZNncEzOA9euA6XUN6Rjhi
-	ro6VHTTfF3Yv55Aus4Wkge4QqoaDbhV2ZIdxlw
-X-Gm-Gg: ASbGncuiKsJDVGw+GuMMli0upV3HdmM9szqOZqqAZ9uJG8tSWlE+awvrwDoYtgTAvD8
-	ubagIijWZ7DodPt6AncvOzTHrJiLeLTSt4hgsJekbfe42p1ALZgNq6qU+anhVOLjTfm9Szm2T3A
-	SwuGQSharEPSj7bv8kWe8h+qzBSA==
-X-Received: by 2002:a17:907:94c8:b0:b47:de64:df1b with SMTP id a640c23a62f3a-b50abfd6d92mr811671366b.39.1760020028558;
-        Thu, 09 Oct 2025 07:27:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF9K4Ovcv1oyU3VJoFriYFnWdSwGIcpMlhvL4pFzCqlwbu14cCZhq1aVRyK7USxJfsD/yZfE8XNTnaHJkha3f4=
-X-Received: by 2002:a17:907:94c8:b0:b47:de64:df1b with SMTP id
- a640c23a62f3a-b50abfd6d92mr811668266b.39.1760020028075; Thu, 09 Oct 2025
- 07:27:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760020216; x=1760625016;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e09H8JuVw4CGVu4LXKpckxUyqmwU5fhDRfovcXXQuDM=;
+        b=MDxeQEb9jhaebn5nE42RFrjVFi56d0L5PG7LFVpZZN6rsBCMiArqwl8xdetLqRt9Kl
+         ImwO9UMjIXMJ4nvNps5DrKdrEpN39KnJbNQhUQrXSvfm6oULy2TNPwQ11hVXIwz7ne7v
+         Vi6Tk65dgYPJPVCyQMMuLHZtFlQn31wC1J2f6Y+4cfONKz+ppqGtFymLenjQKFV/5iti
+         ldunM+uKOe95aBS6fwwg3NzxjC3gg71Da5asHc4NckDk5488Tn5/EkC3VrF7usWF1pSn
+         NY98YOu0XXyNTAQ4D42XRUmWmvqKzTvYN9yqaaFKNtiWhH88fDvxkw0f186KpxoGx1++
+         DoeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkf3PgMmDncXo+5n1L4Mhv75Kh1KbrplHZdtScOnVqCd7Lv1gGmbklMMgGv9CEnooaWGt0RgMklmA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5xWs4dx7jXaYIF4faxumT7FnvFFDzrRdxPTfC638xWLREOSs2
+	WSh5eb1wBBErH3u7JD9yFULxe2/uVhNr0iJG9lTj9/ZRstbd86UyxO4ehQ2HdUPoFwI=
+X-Gm-Gg: ASbGnct+mC9N1WdP1nVWDiE69e+T8zJjMXhE8LsS2cEA1/Hg1kn7PusMCinaCmriure
+	fSu0I0OpE0HjHbzj72FtFy6fnNbI7O2wyikWeBXs2FMyg9s4NqpVuvmmOt50/Cnrdp8A8LAeJ1L
+	Sls+wRNcSkAbK8jcRbxJIpZemxInNeOINbV4xmO9PjYOAqJJbA4vyf7Yt8vQq7zlCBNL4V5W/yT
+	bM3Hfym2/Z2bYf+pUFLeEtnXjqCQ5FYGRtsQ+XntVDhNXZH2hcnKMQfcbB0e0p/mDyeHkh6xSXx
+	zDz/QNZkyfXvGjq34kizPRbyO0pRgDX2B+8ZvMyVBs2VTddTDnHxCsW+ZC6AAwqDnmgZmUz8ovz
+	0DhrR72uKa1nZJX4JTil5vGYs9SgGU81dcl6TUvFuz6aaFlZFqikbo4jnYNszYDGp4HNXLdLM6U
+	ReA1JwsKA1sGWHjeryo8v1tx3u3ZCr3SJVFGC1eNqE
+X-Google-Smtp-Source: AGHT+IEuLK9K8/tHFdY+GPJPmi23LKwWmvNrqeBvd0kYXhrW7D0oKUmleIkRDgwlwwcejqyQl94Zlg==
+X-Received: by 2002:a05:622a:5889:b0:4e4:5f64:b61d with SMTP id d75a77b69052e-4e6eace67eemr119642921cf.19.1760020216302;
+        Thu, 09 Oct 2025 07:30:16 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4e6e7c88cb2sm46457091cf.26.2025.10.09.07.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 07:30:15 -0700 (PDT)
+Date: Thu, 9 Oct 2025 10:30:13 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Robert Richter <rrichter@amd.com>,
+	Cheatham Benjamin <benjamin.cheatham@amd.com>
+Subject: Re: [PATCH 3/4 v5] cxl/core: Enable Region creation on x86 with LMH
+Message-ID: <aOfG9XKnGRrzxad8@gourry-fedora-PF4VCD3F>
+References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
+ <20251006155836.791418-4-fabio.m.de.francesco@linux.intel.com>
+ <aOQAb9H-wIxc6j31@gourry-fedora-PF4VCD3F>
+ <ed390a72-2470-4e09-8fbe-56915d619dfa@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAP4=nvTjauRawBPTnGEztZpdDSNhGpgSJtjoTFuq+cCQHP5oEg@mail.gmail.com>
- <20251008184522.13201-1-krishnagopi487@gmail.com>
-In-Reply-To: <20251008184522.13201-1-krishnagopi487@gmail.com>
-From: Tomas Glozar <tglozar@redhat.com>
-Date: Thu, 9 Oct 2025 16:26:56 +0200
-X-Gm-Features: AS18NWCYOpNrF7B48EqcyTUqbw_46aTsbs0KByL75_VH-zZNmvaxGmgx_22fbq8
-Message-ID: <CAP4=nvQT5xkOCvVK9J-aYMjwqPv=F8bJ6m1yj2W9OcUwwJw+7A@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation/rtla: rename common_xxx.rst files to common_xxx.txt
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>
-Cc: rostedt@goodmis.org, corbet@lwn.net, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, crwood@redhat.com, 
-	costa.shul@redhat.com, jkacur@redhat.com, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed390a72-2470-4e09-8fbe-56915d619dfa@intel.com>
 
-st 8. 10. 2025 v 20:45 odes=C3=ADlatel Gopi Krishna Menon
-<krishnagopi487@gmail.com> napsal:
+On Tue, Oct 07, 2025 at 01:25:11PM -0700, Dave Jiang wrote:
+> On 10/6/25 10:46 AM, Gregory Price wrote:
+> >> @@ -1779,8 +1788,13 @@ static int match_cxlsd_to_cxled_by_range(struct device *dev, const void *data)
+> >>  	r1 = &cxlsd->cxld.hpa_range;
+> >>  	r2 = &cxled->cxld.hpa_range;
+> >>  
+> >> -	if (is_root_decoder(dev))
+> >> -		return range_contains(r1, r2);
+> >> +	if (is_root_decoder(dev)) {
+> >> +		if (range_contains(r1, r2))
+> >> +			return 1;
+> >> +		cxlrd = to_cxl_root_decoder(dev);
+> >> +		if (platform_cxlrd_matches_cxled(cxlrd, cxled))
+> >> +			return 1;
+> >> +	}
+> > 
+> > Is there any concern for longer term maintainability if addition
+> > match_*() functions are added?  Or is this upkeep just the unfortunate
+> > maintenance cost of supportering the quirk?
+> 
+> Suggestions welcome. Would be nice if we have cleaner ways of dealing with this.
 >
-> Running "make htmldocs" reports the following build errors for
-> common_options.rst:
->
-> Documentation/tools/rtla/common_options.rst:58: ERROR: Undefined substitu=
-tion referenced: "threshold".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "tool".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "thresharg".
-> Documentation/tools/rtla/common_options.rst:88: ERROR: Undefined substitu=
-tion referenced: "tracer".
-> Documentation/tools/rtla/common_options.rst:92: ERROR: Undefined substitu=
-tion referenced: "tracer".
-> Documentation/tools/rtla/common_options.rst:98: ERROR: Undefined substitu=
-tion referenced: "actionsperf".
-> Documentation/tools/rtla/common_options.rst:113: ERROR: Undefined substit=
-ution referenced: "tool".
->
-> common_*.rst files are intended to be included by other rtla documents
-> and are not meant to be built as a standalone document.
-> common_options.rst in particular contains substitutions that are only
-> resolved by other documents, so building it independently results in
-> 'undefined substitution referenced' errors.
->
-> Rename all common_*.rst files to common_*.txt to prevent Sphinx from
-> building them as standalone documents and update all include references
-> accordingly.
->
-> Suggested-by: Tomas Glozar <tglozar@redhat.com>
-> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
-> ---
 
-Looks good!
+Had a bit of a think about it, but nothing immediately pops out
+that doesn't just end with more obfuscation.  It is what it is.
 
-Reviewed-by: Tomas Glozar <tglozar@redhat.com>
-
-Tomas
-
+~Gregory
