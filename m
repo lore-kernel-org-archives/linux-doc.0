@@ -1,82 +1,51 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15282749F1
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 20:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7742836A6;
+	Thu,  9 Oct 2025 21:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760043434; cv=none; b=FH/bEq+vLoVVNTL7jdgM1Zg5N3SMdJAxG6/KGCDkLQEF24ZdcUEAp1InwhCdRC/ckXfrGk11mmdtkUuSRfyt+aPBUCWV9D4TXzSevwSg+dOn4uBLjmn/dRtqXXOQtWKDfls5wPmvZtIrXl5DfLkgXR5YcsaAkQCfM5yXaOSi4CA=
+	t=1760044847; cv=none; b=TaUIk6eRpluAe+ytfcBaUEa0o239Si3xXmcu5tPdmqV1N4CYnfB/90gv+zWXi0Y3MgDqUxXgmU8GlUfkicABOVJ9Qv0n3LWuItqm6EPafsYaR0O99xofST4inZ1s+CviCuO/xFyOrw0SReP8ddk67UBu7CQxCZaAxR0nuRQ81xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760043434; c=relaxed/simple;
-	bh=T0PVueyZAQppF4N+039OGDfCHzmf4XUC8Q9rGzQVMC8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RlCNzWtBEwgoSvGLhxIbB6aSA5HVbEfkZ4ZYMNbQlHxEfgt0fq76TV8A/nM+uDNwLWy0HK/342u16Zre2IT/CmvLof++UNTbwDwSiZS7wMT1w8Bo/hL4oiu4df9w4s5U4IXtucUQzZFv10REN7/tO+S60Jt/dfoHK1tFJhusYL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGQI0j2r; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760044847; c=relaxed/simple;
+	bh=nekOneHT0qlNtQ+gWdv8vT78FwyljTSbgaiOetg+PmI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hY4x+wfH3c+NIXuvRcUDjxTaA3iQ8HUJdBoQ0XLQNMlPcdAETucFtTGQ083OoIAeyfurcP1K2HSSBL4mlMbTOGYKKXk2Mg+hc+kELkJ9r/pBNhJZz5P+b5w4P14XPYfHhrY1NEyo37uxwml4HZNC77xpMkA7wqxIcYN5vmReXMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a8fKGveB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGQI0j2r"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3305c08d9f6so1176708a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 13:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760043430; x=1760648230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UBU9CIin0aSQlgiuIOoBqzV8Cr1MkEV15GdrNj0ffJ0=;
-        b=bGQI0j2rmNWR5awbzS1re9z5/qYEMGf4sA63zSpiWlS4fP8erLsm9F3onF6BeQoWvb
-         RowKu2o6BnpbvNIkxq4EVlA40w4hYbkd8bW8Xnqy8sOKqEfSKGHkDD1nreKfO9A5AsQh
-         CSlK3YPemNxlIY3y8wyLCoh4HuQJcqtvjRV7bzY7nI/K5C7eGV2L2pRkhIDjUHYv2ArM
-         SiEn+i6M+OldrCUlLg/+gX46iF+6BnrQrqJq+c2VhGprZRGOeXtsGP3hPAv1EK2PhJ1m
-         EGbB6gdTwf78izd31ovNLQ4t44/GyujaQHvTukWds4TkbKjwz5xcLwL9ZexKW+KVojd9
-         Pm8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760043430; x=1760648230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UBU9CIin0aSQlgiuIOoBqzV8Cr1MkEV15GdrNj0ffJ0=;
-        b=Dr29V7XQqlB+E4XnaYrBlfnFVsvr3rTgzY5urin2unUcDaiHg4MwjDYHaBOe2o2/1h
-         6XUU5gz+zrAAJbj9QUyOUl/igPfHDMo+evz9YsKYPXLagt8hqb4P4efEqS9jK2jy7znn
-         z3/UGEKq6E+1tTRWkkuhXNmQwShatQsQtylbI0zQZkRdReggs9VO/jqWfWWSYmrqyGRl
-         O2uqTJPvoOwZJFkAwmtn3EUGw6FPb+DVF4IcU7zEAOSRXamen3XhTSMVSVEElEZIVlVn
-         wKAh+nWDDUwFd9d9kdDxTPsIEUzBIXfhmd7fgaq2aCbBQp/zD4EBqQgkssKDV5ctRvgZ
-         8O5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWtx+dfEkqroGfGjxuGT4ZkCQD6Gt7Kv+ZcWsLeyyi7LjYgxl5bro5MBNwWSvWpVqaksZxWnE+6tsM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkBmZvZS4X9ej+2nLYY7lx+forYRFSKCXTDoJ+onvwvY0g6p5t
-	DdBPTEapVEedXMW6MiwK+WNXkosMgV5ArOuk0/jOxpK3FnrXHaX/o+Kb
-X-Gm-Gg: ASbGnctVTEJCpYaqvuwXU4S6xmWU28mz/lqOp7Wg2O4fUUaTefW9oBCZN8QKZJIv/tN
-	hv9crjfcqefVoqzlFYZgMulgV9SW+XADZP1KijEFhr//k3FVSH2jRok8yFpVT1dhR/6z7Vp/0ZQ
-	8TJpjFOE+7pPW9E7fasq1LnPN95n1tfWyO6zxPf5sOjNyN6FnuR3lj2d5Ql9IhuZ9ug3fu3RWgA
-	jS+TU3hfkfQv2uz0WBcpzMRBH4Fwa0/gdFwiWpXNp43JblkrHG3D1jFVpgI93WURzCbd7lB8noY
-	04zOVaZDFIcGc2nNIk85gQJkN6uFIJljcTXlMp0vdiEX8uvmBWatf0wejqBBL+/u+dedf9YAS6Q
-	1ZPv8FwyvGrewjj5Fv3U8fL7DexTkwSYCG2Izw8Yzxjkl1DmU2QTgWII12hbtq1rAOkGtHs1yGN
-	Iyy716pmJGWknZQIcGan/OGGc/4rhLFiznbZ3siD3AGtDQz2dR+AO8n9KSpQ==
-X-Google-Smtp-Source: AGHT+IHl2mOpDKBPpXarWDHHNYXvl1CEg/AVpUbnT9Eoq+n8NtVfEFDOX6JKVLzFZOBNuGomTFB9OQ==
-X-Received: by 2002:a17:90b:514e:b0:32d:a37c:4e31 with SMTP id 98e67ed59e1d1-339edadd3bdmr17245338a91.17.1760043429652;
-        Thu, 09 Oct 2025 13:57:09 -0700 (PDT)
-Received: from cosmo-ubuntu-2404.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b61ac8d7fsm787678a91.21.2025.10.09.13.57.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 13:57:09 -0700 (PDT)
-From: Cosmo Chou <chou.cosmo@gmail.com>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux@roeck-us.net,
-	corbet@lwn.net
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a8fKGveB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB1EC4CEFE;
+	Thu,  9 Oct 2025 21:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760044846;
+	bh=nekOneHT0qlNtQ+gWdv8vT78FwyljTSbgaiOetg+PmI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a8fKGveBWuMusxISMSYNHfdhyiilx8Nr1VxMuRUTn2hOZM5xoSlfuXOSfbSTzbw59
+	 G8gz0x/nLivZpxl6vIPLbBeClHKZFaM+ovloOggZQ5Yun5/5WSeWyljkz3hP3iOKy9
+	 J28bHQuhE0An/xO9OLh5IsK54Z1wuSGzZA6UzbAFejoOlNRWPjJjOOyjImb0qqIVSm
+	 l3KtkZld0pyexnlcBVfLaKwnuK2X/aJZqkUjiAzaaU/bhlbj+bEP+KykVSqfORcK8g
+	 bsJa8vPOB/ehiAk7YOo9AlpVEXcYVP48NtyjJ1zc+SN95gP8CUURKDC3o5iEmlBf31
+	 gJ9qmGUagkLsQ==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
 	linux-doc@vger.kernel.org,
-	cosmo.chou@quantatw.com,
-	Cosmo Chou <chou.cosmo@gmail.com>
-Subject: [PATCH v2 2/2] hwmon: (pmbus) add driver for MPS MP9945
-Date: Fri, 10 Oct 2025 04:54:58 +0800
-Message-ID: <20251009205458.396368-2-chou.cosmo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251009205458.396368-1-chou.cosmo@gmail.com>
-References: <20251009205458.396368-1-chou.cosmo@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 00/10] mm/damon: allow DAMOS auto-tuned for per-memcg per-node memory usage
+Date: Thu,  9 Oct 2025 14:20:32 -0700
+Message-Id: <20251009212042.60084-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,458 +54,353 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for mp9945 device from Monolithic Power Systems, Inc.
-(MPS) vendor. This is a single phase digital step down converter.
+Introduce two new DAMOS quota auto-tuning target metrics for per-cgroup
+per-NUMA node memory utilization.  Expected use cases are cgroup level
+access-aware NUMA memory managements, such as memory tiering or
+proactive reclamation on cgroup-based multi-tenant NUMA systems.
 
-Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
----
-v2:
-  - Fix build error related to MODULE_IMPORT_NS usage.
+Background
+==========
 
- Documentation/hwmon/index.rst  |   1 +
- Documentation/hwmon/mp9945.rst | 117 ++++++++++++++++
- MAINTAINERS                    |   7 +
- drivers/hwmon/pmbus/Kconfig    |   9 ++
- drivers/hwmon/pmbus/Makefile   |   1 +
- drivers/hwmon/pmbus/mp9945.c   | 243 +++++++++++++++++++++++++++++++++
- 6 files changed, 378 insertions(+)
- create mode 100644 Documentation/hwmon/mp9945.rst
- create mode 100644 drivers/hwmon/pmbus/mp9945.c
+The aim-oriented aggressiveness auto-tuning feature of DAMOS is a highly
+recommended way for modern DAMOS use cases.  Using it, users can specify
+what system status they want to achieve with what access-aware system
+operations.  For example, reclaim cold memory aiming for 0.5 percent of
+memory pressure (proactive reclaim), or migrate hot and cold memory
+between NUMA nodes having different speed (memory tiering).  Then DAMOS
+automatically adjusts the aggressiveness of the system operation (e.g.,
+increase/decrease reclaim target coldness threshold) based on current
+status of the system.
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 51a5bdf75b08..c75486c9cd4a 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -184,6 +184,7 @@ Hardware Monitoring Kernel Drivers
-    mp5920
-    mp5990
-    mp9941
-+   mp9945
-    mpq8785
-    nct6683
-    nct6775
-diff --git a/Documentation/hwmon/mp9945.rst b/Documentation/hwmon/mp9945.rst
-new file mode 100644
-index 000000000000..f406f96efcf9
---- /dev/null
-+++ b/Documentation/hwmon/mp9945.rst
-@@ -0,0 +1,117 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver mp9945
-+=====================
-+
-+Supported chips:
-+
-+  * MPS mp9945
-+
-+    Prefix: 'mp9945'
-+
-+Author:
-+
-+	Cosmo Chou <chou.cosmo@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver implements support for Monolithic Power Systems, Inc. (MPS)
-+MP9945 Digital Single-phase Controller.
-+
-+Device compliant with:
-+
-+- PMBus rev 1.3 interface.
-+
-+The driver exports the following attributes via the 'sysfs' files
-+for input voltage:
-+
-+**in1_input**
-+
-+**in1_label**
-+
-+**in1_crit**
-+
-+**in1_crit_alarm**
-+
-+**in1_lcrit**
-+
-+**in1_lcrit_alarm**
-+
-+**in1_max**
-+
-+**in1_max_alarm**
-+
-+**in1_min**
-+
-+**in1_min_alarm**
-+
-+The driver provides the following attributes for output voltage:
-+
-+**in2_input**
-+
-+**in2_label**
-+
-+**in2_crit**
-+
-+**in2_crit_alarm**
-+
-+**in2_lcrit**
-+
-+**in2_lcrit_alarm**
-+
-+**in2_min**
-+
-+**in2_min_alarm**
-+
-+The driver provides the following attributes for input current:
-+
-+**curr1_input**
-+
-+**curr1_label**
-+
-+**curr1_max**
-+
-+**curr1_max_alarm**
-+
-+The driver provides the following attributes for output current:
-+
-+**curr2_input**
-+
-+**curr2_label**
-+
-+**curr2_crit**
-+
-+**curr2_crit_alarm**
-+
-+**curr2_max**
-+
-+**curr2_max_alarm**
-+
-+The driver provides the following attributes for input power:
-+
-+**power1_input**
-+
-+**power1_label**
-+
-+The driver provides the following attributes for output power:
-+
-+**power2_input**
-+
-+**power2_label**
-+
-+**power2_max**
-+
-+**power2_max_alarm**
-+
-+The driver provides the following attributes for temperature:
-+
-+**temp1_input**
-+
-+**temp1_crit**
-+
-+**temp1_crit_alarm**
-+
-+**temp1_max**
-+
-+**temp1_max_alarm**
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3a27901781c2..0b9835dccb66 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17481,6 +17481,13 @@ S:	Maintained
- F:	Documentation/hwmon/mp9941.rst
- F:	drivers/hwmon/pmbus/mp9941.c
- 
-+MPS MP9945 DRIVER
-+M:	Cosmo Chou <chou.cosmo@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/mp9945.rst
-+F:	drivers/hwmon/pmbus/mp9945.c
-+
- MR800 AVERMEDIA USB FM RADIO DRIVER
- M:	Alexey Klimov <alexey.klimov@linaro.org>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index da04ff6df28b..9829c7a37333 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -471,6 +471,15 @@ config SENSORS_MP9941
- 	  This driver can also be built as a module. If so, the module will
- 	  be called mp9941.
- 
-+config SENSORS_MP9945
-+	tristate "MPS MP9945"
-+	help
-+	  If you say yes here you get hardware monitoring support for MPS
-+	  MP9945.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called mp9945.
-+
- config SENSORS_MPQ7932_REGULATOR
- 	bool "Regulator support for MPQ7932"
- 	depends on SENSORS_MPQ7932 && REGULATOR
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 4c5ff3f32c5e..1629c8b71ac5 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -47,6 +47,7 @@ obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
- obj-$(CONFIG_SENSORS_MP5920)	+= mp5920.o
- obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
- obj-$(CONFIG_SENSORS_MP9941)	+= mp9941.o
-+obj-$(CONFIG_SENSORS_MP9945)	+= mp9945.o
- obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
- obj-$(CONFIG_SENSORS_MPQ8785)	+= mpq8785.o
- obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
-diff --git a/drivers/hwmon/pmbus/mp9945.c b/drivers/hwmon/pmbus/mp9945.c
-new file mode 100644
-index 000000000000..34822e0de812
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mp9945.c
-@@ -0,0 +1,243 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Hardware monitoring driver for MPS Single-phase Digital VR Controllers(MP9945)
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include "pmbus.h"
-+
-+#define MFR_VR_MULTI_CONFIG_R1	0x08
-+#define MFR_SVID_CFG_R1		0xBD
-+
-+/* VOUT_MODE register values */
-+#define VOUT_MODE_LINEAR16	0x17
-+#define VOUT_MODE_VID		0x21
-+#define VOUT_MODE_DIRECT	0x40
-+
-+#define MP9945_PAGE_NUM		1
-+
-+#define MP9945_RAIL1_FUNC	(PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | \
-+				PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | \
-+				PMBUS_HAVE_PIN | PMBUS_HAVE_POUT | \
-+				PMBUS_HAVE_TEMP | \
-+				PMBUS_HAVE_STATUS_VOUT | \
-+				PMBUS_HAVE_STATUS_IOUT | \
-+				PMBUS_HAVE_STATUS_TEMP | \
-+				PMBUS_HAVE_STATUS_INPUT)
-+
-+enum mp9945_vout_mode {
-+	MP9945_VOUT_MODE_VID,
-+	MP9945_VOUT_MODE_DIRECT,
-+	MP9945_VOUT_MODE_LINEAR16,
-+};
-+
-+struct mp9945_data {
-+	struct pmbus_driver_info info;
-+	enum mp9945_vout_mode vout_mode;
-+	int vid_resolution;
-+	int vid_offset;
-+};
-+
-+#define to_mp9945_data(x) container_of(x, struct mp9945_data, info)
-+
-+static int mp9945_read_vout(struct i2c_client *client, struct mp9945_data *data)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_read_word_data(client, PMBUS_READ_VOUT);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret &= GENMASK(11, 0);
-+
-+	switch (data->vout_mode) {
-+	case MP9945_VOUT_MODE_VID:
-+		if (ret > 0)
-+			ret = (ret + data->vid_offset) * data->vid_resolution;
-+		break;
-+	case MP9945_VOUT_MODE_DIRECT:
-+		break;
-+	case MP9945_VOUT_MODE_LINEAR16:
-+		/* LSB: 1000 * 2^-9 (mV) */
-+		ret = DIV_ROUND_CLOSEST(ret * 125, 64);
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mp9945_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		/*
-+		 * Override VOUT_MODE to DIRECT as the driver handles custom
-+		 * VOUT format conversions internally.
-+		 */
-+		return PB_VOUT_MODE_DIRECT;
-+	default:
-+		return -ENODATA;
-+	}
-+}
-+
-+static int mp9945_read_word_data(struct i2c_client *client, int page, int phase,
-+				 int reg)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct mp9945_data *data = to_mp9945_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reg) {
-+	case PMBUS_READ_VOUT:
-+		ret = mp9945_read_vout(client, data);
-+		break;
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+		ret = i2c_smbus_read_word_data(client, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		/* LSB: 1.95 (mV) */
-+		ret = DIV_ROUND_CLOSEST((ret & GENMASK(11, 0)) * 39, 20);
-+		break;
-+	case PMBUS_VOUT_UV_WARN_LIMIT:
-+		ret = i2c_smbus_read_word_data(client, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret &= GENMASK(9, 0);
-+		if (ret > 0)
-+			ret = (ret + data->vid_offset) * data->vid_resolution;
-+		break;
-+	default:
-+		ret = -ENODATA;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mp9945_identify(struct i2c_client *client,
-+			   struct pmbus_driver_info *info)
-+{
-+	struct mp9945_data *data = to_mp9945_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (ret) {
-+	case VOUT_MODE_LINEAR16:
-+		data->vout_mode = MP9945_VOUT_MODE_LINEAR16;
-+		break;
-+	case VOUT_MODE_VID:
-+		data->vout_mode = MP9945_VOUT_MODE_VID;
-+		break;
-+	case VOUT_MODE_DIRECT:
-+		data->vout_mode = MP9945_VOUT_MODE_DIRECT;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 3);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_VR_MULTI_CONFIG_R1);
-+	if (ret < 0)
-+		return ret;
-+
-+	data->vid_resolution = (FIELD_GET(BIT(2), ret)) ? 5 : 10;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_SVID_CFG_R1);
-+	if (ret < 0)
-+		return ret;
-+
-+	data->vid_offset = (FIELD_GET(BIT(15), ret)) ? 19 : 49;
-+
-+	return i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+}
-+
-+static struct pmbus_driver_info mp9945_info = {
-+	.pages = MP9945_PAGE_NUM,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_POWER] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.m[PSC_VOLTAGE_OUT] = 1,
-+	.R[PSC_VOLTAGE_OUT] = 3,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.func[0] = MP9945_RAIL1_FUNC,
-+	.read_word_data = mp9945_read_word_data,
-+	.read_byte_data = mp9945_read_byte_data,
-+	.identify = mp9945_identify,
-+};
-+
-+static int mp9945_probe(struct i2c_client *client)
-+{
-+	struct mp9945_data *data;
-+	int ret;
-+
-+	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	memcpy(&data->info, &mp9945_info, sizeof(mp9945_info));
-+
-+	/*
-+	 * Set page 0 before probe. The core reads paged registers which are
-+	 * only on page 0 for this device.
-+	 */
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	return pmbus_do_probe(client, &data->info);
-+}
-+
-+static const struct i2c_device_id mp9945_id[] = {
-+	{"mp9945"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, mp9945_id);
-+
-+static const struct of_device_id __maybe_unused mp9945_of_match[] = {
-+	{.compatible = "mps,mp9945"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mp9945_of_match);
-+
-+static struct i2c_driver mp9945_driver = {
-+	.driver = {
-+		.name = "mp9945",
-+		.of_match_table = of_match_ptr(mp9945_of_match),
-+	},
-+	.probe = mp9945_probe,
-+	.id_table = mp9945_id,
-+};
-+
-+module_i2c_driver(mp9945_driver);
-+
-+MODULE_AUTHOR("Cosmo Chou <chou.cosmo@gmail.com>");
-+MODULE_DESCRIPTION("PMBus driver for MPS MP9945");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
+The use case is limited by the supported system status metrics for
+specifying the target system status.  Two new system metrics for
+per-node memory usage ratio, namely DAMOS_QUOTA_NODE_MEM_{USED,FREE}_BP,
+were recently added to extend the use cases for access-aware NUMA nodes
+management, such as memory tiering.  Those are expected to be useful for
+not only memory tiering but also general access-aware inter-NUMA node
+page migration, though.
+
+Limitation
+----------
+
+The per-node memory usage based auto-tuning can be applied only
+system-wide.  For cgroups-based multi-tenant systems, it could arguably
+harm the fairness.  For example, a cgroup may use faster NUMA node
+memory more than other cgroup, depending on their access pattern.  If
+the user of each cgroup are promised to get the same quality and amount
+of the system resource, this can arguably be an unfair situation.
+
+DAMOS supports cgroup level system operations via DAMOS filter.  But the
+quota auto-tuning system is not aware of cgroups.
+
+New DAMOS Quota Tuning Metrics for Per-Cgroup Per-NUMA Memory Usage
+===================================================================
+
+To overcome the limitation, introduce two new DAMOS quota auto-tuning
+goal metrics, namely DAMOS_QUOTA_NODE_MEMCG_{USED,FREE}_BP.  Those can
+be thought of as a variant of DAMOS_QUOTA_NODE_MEM_{USED,FREE}_BP that
+extended for cgroups.
+
+The two metrics specifies per-cgroup, per-node amount of used and unused
+memory in ratio to the total memory of the node.  For example, let's
+assume a system has two NUMA nodes of size 100 GiB and 50 GiB.  And two
+cgroups are using 40 GiB and 60 GiB of node 0, 20 GiB and 10 GiB of node
+1, respectively, as illustrated by the below table.
+
+                     node-0    node-1
+    Total memory     100 GiB   50 GiB
+    Cgroup A usage   40 GiB    20 GiB
+    Cgroup B usage   60 GiB    10 GiB
+
+Then, DAMOS_QUOTA_NODE_MEMCG_USED_BP for the cgroups for the first node
+are, 40 GiB / 100 GiB = 4,000 bp (40 percent) and 60 GiB / 100 GiB =
+6,000 bp (60 percent), respectively.  Those for the second node are,
+20 GiB / 50 GiB = 4000 bp (40 percent) and 10 GiB / 50 GiB = 2000 bp (20
+percent), respectively.
+
+DAMOS_QUOTA_NODE_MEMCG_FREE_BP for the four cases are, 60 GiB /100 GiB =
+6000 bp, 40 GiB / 100 GiB = 4000 bp, 30 GiB / 50 GiB = 6000 bp, and 40
+GiB / 50 GiB = 8000 bp, respectively.
+
+    DAMOS_QUOTA_NODE_MEMCG_USED_BP for cgroup A node-0: 4000 bp
+    DAMOS_QUOTA_NODE_MEMCG_USED_BP for cgroup B node-0: 6000 bp
+    DAMOS_QUOTA_NODE_MEMCG_USED_BP for cgroup A node-1: 4000 bp
+    DAMOS_QUOTA_NODE_MEMCG_USED_BP for cgroup B node-1: 2000 bp
+
+    DAMOS_QUOTA_NODE_MEMCG_FREE_BP for cgroup A node-0: 6000 bp
+    DAMOS_QUOTA_NODE_MEMCG_FREE_BP for cgroup B node-0: 4000 bp
+    DAMOS_QUOTA_NODE_MEMCG_FREE_BP for cgroup A node-1: 6000 bp
+    DAMOS_QUOTA_NODE_MEMCG_FREE_BP for cgroup B node-1: 8000 bp
+
+Using these, users can specify how much [un]used amount of memory for
+per-cgroup and per-node DAMOS should make as a result of the
+auto-tuning.
+
+Example Usecase: Cgroup Level Memory Tiering
+============================================
+
+Let's suppose a typical and simple tiered memory system.  The system
+equips two NUMA nodes.  The first node (node 0) is CPU-attached and
+fast.  The second node (node 1) is CPU-unattached and slow.  It runs two
+cgroups that desire to use about 30 percent and 70 percent of the faster
+node as much as possible for their hot data, respectively.  Then, the
+user can implement DAMOS-based memory tiering for the system using the
+DAMON user-space tool (damo), like below.
+
+    # ./damo start \
+    	`# kdamond for node 1 (slow)` \
+        --numa_node 1 --monitoring_intervals_goal 4% 3 5ms 10s \
+	    `# promotion scheme for cgroup a` \
+            --damos_action migrate_hot 0 --damos_access_rate 5% max \
+            --damos_apply_interval 1s \
+	    --damos_filter allow memcg /workloads/a \
+            --damos_filter allow young \
+            --damos_quota_interval 1s --damos_quota_space 200MB \
+            --damos_quota_goal node_memcg_used_bp 29.7% 0 /workloads/a \
+	    \
+	    `# promotion scheme for cgroup b` \
+            --damos_action migrate_hot 0 --damos_access_rate 5% max \
+            --damos_apply_interval 1s \
+	    --damos_filter allow memcg /workloads/b \
+            --damos_filter allow young \
+            --damos_quota_interval 1s --damos_quota_space 200MB \
+            --damos_quota_goal node_memcg_used_bp 69.7% 0 workloads/b \
+	    \
+    	`# kdamond for node 0 (fast)` \
+        --numa_node 0 --monitoring_intervals_goal 4% 3 5ms 10s \
+            `# demotion scheme for cgroup a` \
+            --damos_action migrate_cold 1 --damos_access_rate 0% 0% \
+            --damos_apply_interval 1s \
+	    --damos_filter allow memcg /workloads/a \
+            --damos_filter reject young \
+            --damos_quota_interval 1s --damos_quota_space 200MB \
+            --damos_quota_goal node_memcg_free_bp 70.5% 0 \
+	    \
+            `# demotion scheme for cgroup b` \
+            --damos_action migrate_cold 1 --damos_access_rate 0% 0% \
+            --damos_apply_interval 1s \
+	    --damos_filter allow memcg /workloads/a \
+            --damos_filter reject young \
+            --damos_quota_interval 1s --damos_quota_space 200MB \
+            --damos_quota_goal node_memcg_free_bp 30.5% 0 \
+	    \
+            --damos_nr_quota_goals 1 1 1 1 --damos_nr_filters 1 1 1 1 \
+        --nr_targets 1 1 --nr_schemes 2 2 --nr_ctxs 1 1
+
+With the command, the user-space tool will ask DAMON to spawn two kernel
+threads, each for monitoring accesses to node 1 (slow) and node 0
+(fast), respectively.  It installs two DAMOS schemes on each thread.
+Let's call them "promotion scheme for cgroup a/b", and "demotion scheme
+for cgroup a/b" in the order.  The promotion schemes are installed on
+the DAMON thread for node 1 (slow), and demotion schemes are installed
+on the DAMON thread for node 0 (fast).
+
+Cgroup Level Hot Pages Migration (Promotion)
+--------------------------------------------
+
+Promotion schemes will find memory regions on node 1 (slow), that some
+access was detected.  The schemes will then migrate the found memory to
+node 0 (fast), hottest pages first.
+
+For accurate and effective migration, these schemes use two page level
+filters.  First, the migration will be filtered for only cgroup A and
+cgroup B.  That is, "promotion scheme for cgroup B" will not do the
+migration if the page is for cgroup A.  Secondly, the schemes will
+ignore pages that having their page table's Accessed bits unset.  The
+per-page Accessed bit check logic will also unset the bit if it was set,
+for the next check.
+
+For controlled amounts of system resource consumption and aiming on the
+target memory usage, the schemes use quotas setup.  The migration is
+limited to be done only up to 200 MiB per second, to limit the peak
+system resource usage.  And DAMOS_QUOTA_NODE_MEMCG_USED_BP target is set
+for 29.7% and 69.7% of node 0 (fast), respectively.  The target value is
+lower than the high level goal (30% and 70% system memory), to give
+headroom on node 0 (fast).  DAMOS will adjust the speed of the pages
+migration based on the target and current per-cgroup node 0 memory
+usage.  For example, if cgroup A is utilizing only 10% of node 0, DAMOS
+will try to migrate more of cgroup A hot pages from node 1 to node 0, up
+to 200 MiB per second.  If cgroup A utilizes more than 29.7% of node 0
+memory, the cgroup A hot pages migration from node 1 to node 0 will be
+slowed and eventually stopped.
+
+Cgroup Level Cold Pages Migration (Demotion)
+--------------------------------------------
+
+Demotion schemes are similar to promotion schemes, but differ in
+filtering setup and quota tuning setup.  Those filter out pages having
+their page table Accessed bits set.  And set 70.5% and 30.5% of node 0
+memory free rate for the cgroup A and B, respectively.  Hence, if
+promotion schemes or something made cgroup A and/or B uses more than
+29.5% and 69.5% of node 0, demotion schemes will start migrating cold
+pages of appropriate cgroups in node 0 to node 1, under the 200 MiB per
+second speed cap, while adjusting the speed based on how much more than
+wanted memory is being used.
+
+The quota target values are set to overlap with promotion targets, to
+keep a minimum level of page exchanges between the nodes.  This is to
+avoid a case that the target memory utilization is met, and then access
+pattern changes (pages in node 1 become hotter than pages in node 0)
+while the memory utilization is unchanged.  Without the overlap, neither
+promotion of hotter pages in node 1, nor demotion of colder pages in
+node 0 will happen since both goals are met.  As a result, the faster
+and slower node will unexpectedly serve cold and hot data.
+
+Test: Per-cgroup Memory Tiering
+===============================
+
+I ran a simplified cgroup level memory tiering using the feature, and
+confirmed it works as intended.
+
+Setup
+-----
+
+I configured a QEMU virtual machine representing a simplified version of
+the system that described on the above cgroup level memory tiering
+example use case.  The system equips 40 CPU cores and two NUMA nodes
+each having 30 GiB physical memory.  The first node (node 0) represents
+the faster NUMA node, and the second node (node 1) represents the slower
+NUMA node.  In specific, below qemu command line options are used.
+
+    [...]
+    -object memory-backend-ram,size=30G,id=m0 \
+    -object memory-backend-ram,size=30G,id=m1 \
+    -numa node,cpus=0-39,memdev=m0 \
+    -numa node,memdev=m1 \
+    [...]
+
+I booted the virtual machine with a kernel that this patch series is
+applied.  On the virtual machine, I created two cgroups, namely
+workload_a and workload_b.  And ran a test program in each cgroup,
+resulting in one process per cgroup.  The test program allocates 10 GiB
+memory and evenly split it into 10 regions.  After the allocation, it
+repeatedly access the first region for one minute, than the second one
+for one minute, and so on.  After the one minute repeated access for the
+10-th region is done, it repeats the access from the first region.  So
+the process has 10 GiB of data in total, but only 1 GiB of it is hot at
+a given moment, and the hot data is gradually changed.
+
+While the processes are running, run DAMON for a simple access-aware
+memory tiering using below script.  It migrates hot and cold data of the
+cgroups into node 0 and node 1, aiming the first and the second cgroups
+(workload_a and workload_b, respectively) utilizing about 9.7 percent and
+19.7 percent of node 0, respectively.
+
+Note that this setup is a simplified version of the above example use
+case, for ease of test.  Also note that we assigned 30 GiB physical
+memory to node 0, but DAMON in this setup works for only 27 GiB of the
+memory.  It is due to an internal implementation detail of DAMON
+user-space tool that not really important for this test.
+
+    #!/bin/bash
+    damo start \
+        --numa_node 1 \
+            --damos_action migrate_hot 0 --damos_access_rate 5% max \
+                --damos_apply_interval 1s \
+                --damos_filter allow memcg /workload_a \
+                --damos_filter allow young \
+                --damos_quota_interval 1s \
+                --damos_quota_goal node_memcg_used_bp 9.7% 0 /workload_a \
+            --damos_action migrate_hot 0 --damos_access_rate 5% max \
+                --damos_apply_interval 1s \
+                --damos_filter allow memcg /workload_b \
+                --damos_filter allow young \
+                --damos_quota_interval 1s \
+                --damos_quota_goal node_memcg_used_bp 19.7% 0 /workload_b \
+        --numa_node 0 \
+            --damos_action migrate_cold 1 --damos_access_rate 0% 0% \
+                --damos_apply_interval 1s \
+                --damos_filter allow memcg /workload_a \
+                --damos_filter reject young \
+                --damos_quota_interval 1s \
+                --damos_quota_goal node_memcg_free_bp 90.5% 0 /workload_a \
+            --damos_action migrate_cold 1 --damos_access_rate 0% 0% \
+                --damos_apply_interval 1s \
+                --damos_filter allow memcg /workload_b \
+                --damos_filter reject young \
+                --damos_quota_interval 1s \
+                --damos_quota_goal node_memcg_free_bp 80.5% 0 /workload_b \
+                --damos_nr_quota_goals 1 1 1 1 --damos_nr_filters 2 2 2 2 \
+        --nr_targets 1 1 --nr_schemes 2 2 --nr_ctxs 1 1
+
+After starting DAMON, the pages continuously be migrated across nodes.
+A few minutes later, the memory usage of the cgroups converges into the
+aimed amounts, and keeps the level, as expected.  To confirm the status
+is kept in the target level as expected, I collected the memory usage
+stat of the cgroups using memory.numa_stat file, after the stats are
+converged.  I repeat the stat collection 42 times with 5 seconds delay
+between each of the collections.  The results are as below:
+
+    node0_memory_usage  average  stdev
+    workload_a          2.79GiB  522.06MiB
+    workload_b          5.15GiB  739.10MiB
+
+The average values are quite close to the targeted values: 27 GiB *
+9.7% = 2.619 GiB for workload_a, and 27 GiB * 19.7% = 5.319 GiB.  A
+level of variances are expected, given the overlap of the
+promotion/demotion targets, and dynamic data access pattern of the
+workloads.  Give that, the measured variances are at a reasonable level.
+
+Patches Sequence
+================
+
+The first patch (patch 1) updates the kernel-doc comment of
+damos_quota_goal struct to clarify usage of optional fields of the
+struct, since later patches will add such optional fields.
+
+Following four patches (patches 2-5) implement a new DAMOS quota goal
+metric for per-cgroup per-node memory usage.  Those extends the core
+layer interface for the new metric (patch 2), implement the metric value
+calculation on the core layer (patch 3), add DAMON sysfs interface file
+for the target cgroup specification (patch 4), and implement support of
+the new metric on DAMON sysfs interface (patch 5).
+
+Next two patches implment the second new DAMOS quota goal metric for
+per-cgroup per-node free (or, unused) memory.  Those implement it in the
+core layer (patch 6) and DAMON sysfs interface (patch 7), extending the
+existing implementation for memory usage metric.
+
+Final three patches update the design (patch 8), the usage (patch 9),
+and the ABI (patch 10) documents for the changes that are introduced by
+this patch series.
+
+Changelog
+=========
+
+From RFC v1
+(https://lore.kernel.org/20250619220023.24023-1-sj@kernel.org)
+- Fix wrong totalram unit in memory util calculation.
+- Put mem_cgroup_flush_stats() out of RCU read-side critical section.
+- Handle mem_cgroup_from_id() NULL return case.
+- Add test results on the cover letter.
+- Fix wrong memcg_id kerneldoc comment.
+- Document 'path' file on ABI doc.
+- Collapse too short and mergeable patches.
+- Wordsmith cover letter and commit messages.
+
+SeongJae Park (10):
+  mm/damon: document damos_quota_goal->nid use case
+  mm/damon: add DAMOS quota goal type for per-memcg per-node memory
+    usage
+  mm/damon/core: implement DAMOS_QUOTA_NODE_MEMCG_USED_BP
+  mm/damon/sysfs-schemes: implement path file under quota goal directory
+  mm/damon/sysfs-schemes: support DAMOS_QUOTA_NODE_MEMCG_USED_BP
+  mm/damon/core: add DAMOS quota gaol metric for per-memcg per-numa free
+    memory
+  mm/damon/sysfs-schemes: support DAMOS_QUOTA_NODE_MEMCG_FREE_BP
+  Docs/mm/damon/design: document DAMOS_QUOTA_NODE_MEMCG_{USED,FREE}_BP
+  Docs/admin-guide/mm/damon/usage: document DAMOS quota goal path file
+  Docs/ABI/damon: document DAMOS quota goal path file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++
+ Documentation/admin-guide/mm/damon/usage.rst  |  8 +--
+ Documentation/mm/damon/design.rst             | 21 +++++--
+ include/linux/damon.h                         | 16 ++++-
+ mm/damon/core.c                               | 43 ++++++++++++++
+ mm/damon/sysfs-schemes.c                      | 58 ++++++++++++++++++-
+ 6 files changed, 138 insertions(+), 14 deletions(-)
+
+
+base-commit: 0f450d604596a2ef58581d60f39e9b45368d07e0
 -- 
-2.43.0
-
+2.39.5
