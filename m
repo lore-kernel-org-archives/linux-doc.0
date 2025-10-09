@@ -1,121 +1,126 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3452472AE
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 12:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C962DD5EB
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 12:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760011318; cv=none; b=dmwJDz1ruifuB2vpW6GEApJWcAwmsWekGrtKuvq5/LsD6MDudaFazlbxzwJLYisgy86oqwjwFtDjq4P4oNmcH90Cboc4oHy4G9NweNdgJWo7wFHMoSTj62ExFDw25dH6sY4F/3/FptYSuUe1DuYDhDzzX2uqmXMj86qcZC3XO18=
+	t=1760011671; cv=none; b=mJD29tachdckWhQs0vls/LXCCtzM2IyRgEBmwXnyikkXj3JtEwDuvXZad0b/frgCJ1/5zDQTmBUT6tyVv6ZtNBcvigfL92WdPo8y9QlpudspQtUmT4wjarz3Amhf7xfPU7UlSKTqpIHjHi6mnUPlQXfLU5HsGjmoT/HnfFtRm4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760011318; c=relaxed/simple;
-	bh=GM7HHu3HbolbVRGEPyllWwUcu2/FcpmuCKiQlqwBpNU=;
+	s=arc-20240116; t=1760011671; c=relaxed/simple;
+	bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qx7g7P8pqFjy+Gu9GE38TrH6KvMgGI2kjuf7SJMwfJx0onLSnlyRUw/fB2vWIeMyb5fP6cOHoX2trY0+XRMmgLE0DaZb9SVJfZBqR2lSQShVjLnRpUfLJgIBG9YTIyhEPrYSN1JYtMsJV8N1Dw041JQfneyWM4Dhju7PwRVZUu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=b+zMQNGz; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=fQNfQH69YqkO/o5hD14+9TXOLtfMwjglMTrGBEJNeCVHFEnyzTWgqik+A/X8CEiulz948Le0tgrDQ+Y9ElCl9pz6UQWvlPhx/NbbLTjr2jnHKwmg8Luw2ERGW+/+Wd1ZMpb9Xwff+W8hio51z6R8HHfD0k3v4/hqfOVFgqjoMYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ASnf2qxi; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="b+zMQNGz"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4d9f38478e0so9405511cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 05:01:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ASnf2qxi"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-26d0fbe238bso5853925ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 05:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1760011316; x=1760616116; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1760011668; x=1760616468; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GM7HHu3HbolbVRGEPyllWwUcu2/FcpmuCKiQlqwBpNU=;
-        b=b+zMQNGzBJd1OaeJknxqIgA61IUUVrXkv8oIP3xZ2A0MdE1kUkFPP/N/0/QuUD4AJV
-         N2naFEJj3vuVNfiVA9tpl7OH4gGf5eVN5FROd5V9mKU1OWYCFcuFVssSdauYOi6AUD/6
-         WnMaklKCI1d7IS+RjHFdIpL6cgsbVVuZYf0mekI2EgeAPnUFh0kuUfSy61tIOE+4pa3i
-         MV1oHs6F/pMl5Y8IkkBfyQXR0GRc6waWiZeDGSFpVeE8gLkKgYRBF6vgZfFF8SHims18
-         DJzf5+VMrn7FWtL36gms+zIvDJUV4PXpXGcBx+ITMjtadkuovdUz3uFKpgyR33rvFcGv
-         fCsg==
+        bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
+        b=ASnf2qxiZprtOG/sg3kmX5P98qy3e8qUf6RIjvbEPiHly8MQx1YktSRmlaPlFQHTIx
+         tkkpZ7hbEsyhTQv4vFT6oHXV4qyxdTTbG2NDmpZbVKa5uv9mqZYCJejduRI3QG3TseMX
+         Qm07zbwOHUT14hrDko9mzUmSkLJEtu9a+8Rj09/YKAerhFNMby0vOmFlLVU2HuutJXP8
+         ExVgEn6NURLMPamEiRNcl7A8F1OPu1yeputBi20UmDRrkVPG7JxBnNY9h6b0riPi2E65
+         RgAnTSqbpjLxuT3DnmhDBRbdpoM7ktBGv/VudT50zYMNtGvT+hQj8fDAxqfjYuCjRKXt
+         Q0Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760011316; x=1760616116;
+        d=1e100.net; s=20230601; t=1760011668; x=1760616468;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GM7HHu3HbolbVRGEPyllWwUcu2/FcpmuCKiQlqwBpNU=;
-        b=EMdv9ncISKhha/zKwmax7jn4dBrK0oqRNJ3L8xNFzh2Pqu4p31XZBRPfgvrbSQQK72
-         Jbt92eM7UzIu2drKm08al5x3ZZM2ZOHehNyu/tO29OamcjZlbCYksz/3CcPLzhGQCbJQ
-         1o58TEDCKFewnyT/IFNc4l5rvN69zP3ZQh+JOU4V9KMyCaIqbEh0e7q1X5sQOfjl47je
-         RbBgBruOnQZYMdc4zEUfNK0UP5mI8E19kZglyNDk3LGVxH11Bf3drKk+Vsm8KTcdKeWd
-         UqIcWl9sL7pjS4+o17PZFdawm3726wlCqyVXXgtG2NTC5cAuBjb9Fc/HHrMernR9JDsy
-         IIFA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/ZkNkdZo13zZtd42TVt7vpw/jXRmI4YkuE6Aw4g8ghbiCOHuH5PVrZVJuxd1RXT+zy2kBneGvaK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXxszehFy49KN4WvwhAB9v+jjM3Wnhw3TRqqawWdxKQxN9tz56
-	NUBUU6J3cKrtOet+wMB89XayfK8jAt4a47Ubf1mzXQezdpu/yTc6PO3P3XJNj6GfEHdb1EMS7g0
-	juJWDnrkEslTzT+CITT6z1fCUf0ldz6I2kKEXpDfjyw==
-X-Gm-Gg: ASbGncvORA7qB4IEmc9Uyxv2fAZtmih3ecwiMFJd6xmj7A9AKSmOKCPVBaDA0Wm7iAj
-	M7DdDDs2h0xBE2KcbYdHU/ZLiyazc8m63vwvz1iYq2UONGFJXcmd3k5HWxpSWPo1d8dGTa98SiC
-	frHdHArK+2USJ2Vcf9TSxNoLsJdy7Q4ueLOKf26EXOX1Vxp9QqehAc72NHIcs/DlSGUdhpMNBfK
-	krYsPyZ9yfZO5I8BSacFaNfGWZi
-X-Google-Smtp-Source: AGHT+IE9zb3wwXEpUh5P+ZmZZJCDFFOKUQIOo3/6KsN55Cs1OSGbV39rZ1DIVG9kDY7HFP8FPvwlsRPNuhjvFarm0hU=
-X-Received: by 2002:ac8:5d4d:0:b0:4d2:ba6f:28fa with SMTP id
- d75a77b69052e-4e6de8b5d39mr171303161cf.34.1760011310206; Thu, 09 Oct 2025
- 05:01:50 -0700 (PDT)
+        bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
+        b=RqDZnxva79zIJHWukRX7lTS2GRskfxj+bvZKio4ocpzxNm9s8N1XAgb0U+8TB/aQER
+         ruBxtf884j1lRgmscLMM6ySk9V9BUE0SB4+JKC9+7sfw/o37cYz2VKWiGZnmZDeE69rL
+         PMUClzX5UK64uOl01Y7tv6eh2417zuqdkdQ+xXmOt9FLV8pPJyQC/xi8gxFyHTAZIrbw
+         bdmHuJCGaznU2jkYlgJ5m2g5wHiOhvV0i0uKQ+2kysr+tJtJPB1ErhtCwCQhySh99MlG
+         3MxfZ7JtllBT47Sflp5ZP6b6B50NlRjrF8Ej3xjNwzgA0NyoJhoN5SxPX0f2Ag+It+S5
+         0goA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlaAVdgyOY1x0M5dmTXuJli8gvg0DTYEVUqgYmyUifxKps4EWEtwJFYL7UWSq66q1HpGWXXE0/2eg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIS0Eklv5I++rvq6EGm7BqHFq2N5VDMYa+zQfGx3ZGTVYfz7LD
+	lYvwvInUN+ZO/NGoG/c3o+zCsfzLvsbzcZ89izdDZZcF685LKZleVyaSxRXd+ocq4DlfhLWVEzI
+	NxVTB4Oj9pXsm+57nQ5Cz2Ewz8qq+zhZt6Qi7JNkJ
+X-Gm-Gg: ASbGncukIsS5u4HrOEZepbsTNCxmbdVG5V/Pwsle8gv+HGupazVtb9+K1nnNUgkRipk
+	UZ8VVm1cDZjFFknSsNNd40tKbPIpJ3MDvxLxq/wyeCdN4G4XbCqtiuDYPp9sfQvCvhf75Wo43D5
+	uRfGrD7tlHhpB2PZTav/bx+LP+kGak/GiUTWmHz9tLH2YpI/wAEdIAWqsil4/Doal+0C6mUeqCW
+	+l+SfV8yzFuSwLj3sl/5bk0tEn2b28upImladzIlYab75wu8v+P+9jq8+KQOWB+92Jm
+X-Google-Smtp-Source: AGHT+IGK2999Kxnf1WRLkrVBgJlG2sfTe8NQQmLvAYHDshQ3OJDYVTnqzxr7Hq0u+SA2CL8Dip3ynt4DcSFfDVGoOE8=
+X-Received: by 2002:a17:903:2350:b0:27e:ef96:c153 with SMTP id
+ d9443c01a7336-29027379a5cmr98765325ad.19.1760011667351; Thu, 09 Oct 2025
+ 05:07:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-20-pasha.tatashin@soleen.com> <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
- <mafs0qzvcmje2.fsf@kernel.org>
-In-Reply-To: <mafs0qzvcmje2.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 9 Oct 2025 08:01:13 -0400
-X-Gm-Features: AS18NWB0gqbxGnAmt0TyUGPWI9yXOeOjTQwVBIB2xaJy4b4dnuqgnZXYRRh26fc
-Message-ID: <CA+CK2bCx=kTVORq9dRE2h3Z4QQ-ggxanY2tDPRy13_ARhc+TqA@mail.gmail.com>
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state monitoring
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: "yanjun.zhu" <yanjun.zhu@linux.dev>, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com
+References: <20250315025852.it.568-kees@kernel.org> <20250315031550.473587-2-kees@kernel.org>
+ <aOR15Xb6DfolYM0z@casper.infradead.org> <202510071001.11497F6708@keescook>
+ <e019c59a-ba8b-ec04-dc5b-923cf9dd9d9c@gentwo.org> <CANpmjNMsSGY+QEn=GV8S2sXuuQsioikPR+OhGa3+6EoTqYPkHQ@mail.gmail.com>
+ <202510072114.52B93ED736@keescook> <b17ab23a-b0fb-4fab-afa9-41dfce65675a@oracle.com>
+In-Reply-To: <b17ab23a-b0fb-4fab-afa9-41dfce65675a@oracle.com>
+From: Marco Elver <elver@google.com>
+Date: Thu, 9 Oct 2025 14:07:09 +0200
+X-Gm-Features: AS18NWBVVE-SSQe4ScCSB1Ze0NxTS0A8p2TAsqA4RTj9KK9B9ZbDa15oefynRbc
+Message-ID: <CANpmjNN3UH9vL6x4P29MjSg5L7p3aBScGv5tY9ex7N-xYmqrPw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Kees Cook <kees@kernel.org>, "Christoph Lameter (Ampere)" <cl@gentwo.org>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Pekka Enberg <penberg@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Gustavo A . R . Silva" <gustavoars@kernel.org>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>, 
+	Tony Ambardar <tony.ambardar@gmail.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev, Matteo Rizzo <matteorizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-> > Because the window of kernel live update is short, it is difficult to statistics
-> > how many times the kernel is live updated.
+On Wed, 8 Oct 2025 at 09:49, Vegard Nossum <vegard.nossum@oracle.com> wrote:
+>
+>
+> On 08/10/2025 06:20, Kees Cook wrote:
+> > On Tue, Oct 07, 2025 at 08:18:28PM +0200, Marco Elver wrote:
+> >> On Tue, 7 Oct 2025 at 19:47, Christoph Lameter (Ampere) <cl@gentwo.org> wrote:
+> >>> On Tue, 7 Oct 2025, Kees Cook wrote:
+> >>> iOS did go the path of creating basically one slab cache for each
+> >>> "type" of kmalloc for security reasons.
+> >>>
+> >>> See https://security.apple.com/blog/towards-the-next-generation-of-xnu-memory-safety/
 > >
-> > Is it possible to add a variable to statistics the times that the kernel is live
-> > updated?
+> >> We can get something similar to that with:
+> >> https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/
+> >> Pending compiler support which is going to become available in a few
+> >> months (probably).
+> >> That version used the existing RANDOM_KMALLOC_CACHES choice of 16 slab
+> >> caches, but there's no fundamental limitation to go higher.
+> >
+> > Right -- having compiler support for dealing with types at compile time
+> > means we can create the slab caches statically (instead of any particular
+> > fixed number, even the 16 from RANDOM_KMALLOC_CACHES).
 >
-> The kernel doesn't do the live update on its own. The process is driven
-> and sequenced by userspace. So if you want to keep statistics, you
-> should do it from your userspace (luod maybe?). I don't see any need for
-> this in the kernel.
->
+> Maybe I'm missing the point here, but I think we can already do per-
+> callsite static caches without specific new compiler support:
 
-One use case I can think of is including information in kdump or the
-backtrace warning/panic messages about how many times this machine has
-been live-updated. In the past, I've seen bugs (related to memory
-corruption) that occurred only after several kexecs, not on the first
-one. With live updates, especially while the code is being stabilized,
-I imagine we might have a similar situation. For that reason, it could
-be useful to have a count in the dmesg logs showing how many times
-this machine has been live-updated. While this information is also
-available in userspace, it would be simpler for kernel developers
-triaging these issues if everything were in one place.
-
-Pasha
+What we want is not per-callsite but per-type caches, possibly with
+some smarter cache organization based on the properties of that type
+(does type contain/is pointer), where the latter is required if we
+cannot have as many caches as there are types. Per-callsite caches
+could be stronger than per-type caches (with the exception where a
+single callsite can allocate multiple types), but neither per-callsite
+and full per-type caches are likely feasible due to performance
+reasons. So we need some scheme that allows bounding the number of
+caches, and letting the compiler help us out with type introspection
+is probably the most reasonable approach.
