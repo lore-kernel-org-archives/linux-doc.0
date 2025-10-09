@@ -1,58 +1,58 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190C321ABC1
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 15:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA7619E967
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 15:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760024882; cv=none; b=e3Nigeom087U79ov8RB2px8JffJkb4ICMqLpHfFQvtu01Ki3iX/xKrW3v7Ljxx9ls/3V1y1Y+GJBmN0x0rPY10yP/j4Et5Lwu1m+uwmWn5r1WJuHTaW/6Sedtq296OZg4EDjyDcYe2q85oFBnvXXATmPwCMz5WDSErAKMPlpQHo=
+	t=1760025054; cv=none; b=r7jrUsjvxwYdT6ROdeYrgLjFd3bl39gOXFaaj7WAeyJETDSAOcjgJuiLDrUF3My9G2c1Cetjs+2iJ1/Sgf3RuNdr1eB0sknKZeD0ZyWqRNjJ3fky6hnV65vTSIW+ahYc1Wbe0NH8boxmeVj3UDiI/H7akxh+losofniTE9zxp0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760024882; c=relaxed/simple;
-	bh=Jy4TuMmx3/HLlDxqQuBgdsjeuwfYURVj3Hf9AtpKJv8=;
+	s=arc-20240116; t=1760025054; c=relaxed/simple;
+	bh=wlGgFOdB0rfvdlg38nJ8y5HxdldjF1cCag1Bv/kU8OI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uwOQASXQoXWbVd4uBURJjbKc8kTkiz0lz9oJnZ87N5Sg9q4aVOhUttwmYrJ7Ew77j0gJqb2IX0mzYP4aCW9TgVbILOWGj6seym1qwL1MXQqXNpTdPkz6MzH2MsI7wIPJ/LtIMnah2xfWoxAjT+1YRYCugXNu9q+a+l1WwNWJJIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pJTB4tk5; arc=none smtp.client-ip=209.85.210.170
+	 To:Cc:Content-Type; b=bJK8Odxs8kHQW88zl0eoNZBnlj54u5ougOoEh/93EediRrC9QDCl8Y2vHYVNl2n+alq4yU8HNePsQZaOE1pUAQr9+qcYXGzFJBVdFoeDjvCndaIiB4+hxRNN7K43dbcV04hdrBZAk7/EGz/Kq6p8KBHWzqtXaJFZq0fAyFz9heA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dlA5U5e4; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pJTB4tk5"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-78115430134so777452b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 08:48:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dlA5U5e4"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-796f9a8a088so839488b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 08:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760024880; x=1760629680; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1760025052; x=1760629852; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XGAnFwEnHBldyC19wfHUDKGZkjsePFCHd7Iuxyaa00k=;
-        b=pJTB4tk5S0fARhMASc7cmBOqLukTct8vfQGHHD0SEyEsd+iTWy16NyrPx8bl68rOki
-         RGrDponZvTf/tqOkUxinZPFBVfiPA8spwj56LCN14CjG+zAMr4ujNVWHH2y0m8AgZtVB
-         VVkdVa6QTAJemMAjPpMMksGBAwPRo5i+7mlxMQrwl+kf49t4Esnj7X9zW4arv7zyl1QU
-         QAVRig6gWr9X3hTXPNwe1eZo2uAHxWazVVqxlcAnrH3UISSDdpxWzVaTR2zziJM+/wtc
-         Am1uakaK+e/J8AJer46JPIq7eRzuIEY48MNUuzxzRr6I6NuTb4oPBuBFDc7b+YxVwo1+
-         rmlQ==
+        bh=4JPE0e2708pzpCr6xr7Gt0qmLVgRP/T1aZDZzZ8dnpI=;
+        b=dlA5U5e4bbw6fg1/wW3Y39gtIQmBopz4obF0LNR2RZ2XsmtPbinCP5u5AUmDjo9r1p
+         /nf55zTH26I8/nnfnXuKWp2GnTO+/FaqIfn+Ka4+MQzCFHcCvPeZSCuza148oUMENZxm
+         mLVWwHiS1Y4RhpH9gm2Kd0sOwCJtmZ07+5VPe/SKeqxWsgxCEXrlf4bmruQulO8lgRpk
+         FN060u/EZdQaEF8aFFoePHvbZWofPJPokfiFOqd7wpiej+KeXsSe6GUi2tEE3nV8xhHu
+         CeTpOVHDsX3jjORRcG93djHwLnDgbCIUPsu9r1HQF6uQoaXakqF7HAv9ZDIFvi0u3IHa
+         /Vlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760024880; x=1760629680;
+        d=1e100.net; s=20230601; t=1760025052; x=1760629852;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XGAnFwEnHBldyC19wfHUDKGZkjsePFCHd7Iuxyaa00k=;
-        b=Ibq/gnQfE6wYT+dnPgwMbYc9FZwaGb6TYNiASmHEsA0wRKt5IqbtlD3brH/JuqIWHJ
-         qK87GxcfV5mIL1CZ4k9rFxKlWEO7chDHc4w3mX/ZKcF+dIvbWgVXbgEg+FyWDxvyRcKO
-         NtQIJM+vDtrfk3MQDaN3vpHLnQt9rEcCvlV9XVlH3ltGyk7dMDFVDkTfFW0C56sgW1Zb
-         ZyZ5dYE1ujcQiwjVR/inXN6HySePsV5DNfsE0+B1htr/Qc2OBL/N138a4L5aPbD8hxKs
-         nRnaBtZutHWypSdKEvN9Rl6Y1NUjIrkmkua0kF7+1INsn7BbKchWoP78gr7kKLGe7i3t
-         tYww==
-X-Forwarded-Encrypted: i=1; AJvYcCWwF6WHn7CQoBfRkU3LxSE3KGLFWjXVpXJb+/plz84S3doZVF9UsegeWej7clC6c77Z4f4vthjElZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXmZUcPnnzPpyBOa7JI/unI9j07R8mHbc4qawHl4hplrLWqqJ2
-	QUnF7bX8esLp7+ul14ZAua9RAZ5eEJAVV6W8R7FS2Yc63VsjD+MHrATpt82hFwJPOtK3zHr2Hag
-	cErzGXtEh0IdGwTO8GnI9Hdny+Xam64nFn37nXwKJpA==
-X-Gm-Gg: ASbGnctxbSj9uq7/Or5bl1h0Zad6FFGZB978XdOMmHZjECQ3eE1gYYISlmLTYxeZgF6
-	sNGgy+JGKMjxa81m3yaOo2kMwkQ1+1KQ4AnFfCESeUsfkTBA6qco+H3w02iC46vXSGYIsLSf6m7
-	j8+d7fZNQLozPKnoige+VwkbivZ6jAKBypNKe7oKKM1n6SPy4o+7ujLtBAeH0ABl9/DbI6yfjsq
-	G7H86y4Eed2sMGqqhlYvyvipp5TwCSZnAC7
-X-Google-Smtp-Source: AGHT+IF6lNhbzZO84mSJkdUy7VjpvOVO74iscs8MhONQ8FrkcE27gvqJ+bzvDUmuhGFY3PpfCCeaHDOpOi7Q63g9uok=
-X-Received: by 2002:a05:6a00:987:b0:77e:7302:dbe7 with SMTP id
- d2e1a72fcca58-7938792ac35mr8571610b3a.27.1760024880220; Thu, 09 Oct 2025
- 08:48:00 -0700 (PDT)
+        bh=4JPE0e2708pzpCr6xr7Gt0qmLVgRP/T1aZDZzZ8dnpI=;
+        b=B6xf6m6lUhnfdoii5OWpg28WUZQFNx+9kXoc0BNzsNInvZ0ugRsFiOOkmq3M3BT3lI
+         wumhfycC1ullSQ7Is62ce3MIXksr1OJRSHhUbK8QYl9LO7/GeF1NgVQgCOM6eMboALMT
+         6T+ha8AJCZvJl7hAgctod8qqmxJn0ZBxsiK10XJ72RJKqSdb6oTE9IGgLqNutWuboZWG
+         wPa5EINgrKBnHopLRZeeYqdcUq2NqPo6wBzU6us42O0N1XIkSPadzW0Jj+oQLyR9ODdH
+         iKWww7rmh+9vM145n2T7IA3kAfdc7MlKK550dM+uJR7Cf78ynsOcSfUoc+AvfeH+yY+E
+         RHVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSC8tZjLuhxdHKAUplYUrVEhpVf0ptZDjg0ywVr2XE8pzxOMc9cPCZz7tMv5o2AAsaw+INxP0uwoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGCM3SvnY+RhwNil+DfeTYty0LxQA218WLKQP9JdGW+t7wFbSo
+	EgZMTf39XGYl6AY/7u26wNuhVhrK5hI3F0ehdD06KKptZTZycJTfFO02tzjb093OI+sADx3KyL/
+	9os+duY7yQekDpNfS6+c4XKPUnhoETsRVK9FUptALVQ==
+X-Gm-Gg: ASbGncu7vPGwBXAt8NsgfdQPOrAMGtEZR1boLBLp6xV/AP3/IEiSjUjM+9mzagYjP+F
+	8g8PigGvdj3UeztECZFJnTXoMe7IYe3Liq7ldZyylcL9cwYj431D4OwhWxUXtY7oYBJj4vIOpMs
+	SVtJ1yRKnWhN21vx4s0cGaPNRKdeTP8jdz4/hDMKcko3Tyffcy8+tfBBC5K2M53qyKJa6xGD8oR
+	YsKUZwcFp+vfv3d6ku4YlTNpehqnznY9fA+iCaZ0Q+3R8I=
+X-Google-Smtp-Source: AGHT+IHq2aF8fMGi+ONKT8XSLI0BKZXB2/+I0Sfw04mXALcG67VwBeW8aAPyxSwLKOBRdoTxch3nDK7mD9208RiV66U=
+X-Received: by 2002:a05:6a00:1895:b0:781:1f28:eae9 with SMTP id
+ d2e1a72fcca58-79384f48925mr9316911b3a.3.1760025051506; Thu, 09 Oct 2025
+ 08:50:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,9 +62,9 @@ MIME-Version: 1.0
 References: <20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org> <20251002-james-cs-syncfreq-v3-4-fe5df2bf91d1@linaro.org>
 In-Reply-To: <20251002-james-cs-syncfreq-v3-4-fe5df2bf91d1@linaro.org>
 From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 9 Oct 2025 16:47:48 +0100
-X-Gm-Features: AS18NWB8g7ZmaX0Xqd_icgqiHaagJoUhKP2NaShs4bRrD5R5X7h97DTqGwlgzNw
-Message-ID: <CAJ9a7VjGfiZ2VsnyB05YVv4zZ7FC03uBueKH4M4NUys+=eCaQQ@mail.gmail.com>
+Date: Thu, 9 Oct 2025 16:50:39 +0100
+X-Gm-Features: AS18NWAFM9oP5HaX_9emGZH_eQM76b5_YsTX7-DatASksMSnptAg6shCNo_ZgDw
+Message-ID: <CAJ9a7Vj1NnikoJyabXnad+=3SDULKCyqoZiNb_S66SkG+HD+dw@mail.gmail.com>
 Subject: Re: [PATCH v3 4/5] coresight: Add format attribute for setting the
  timestamp interval
 To: James Clark <james.clark@linaro.org>
@@ -211,6 +211,9 @@ On Thu, 2 Oct 2025 at 11:10, James Clark <james.clark@linaro.org> wrote:
 > +       if (ts_level == FIELD_GET(ATTR_CFG_FLD_ts_level_MASK, UINT_MAX))
 > +               return 0;
 >
+
+Returning 0 from this function _enables_ the timestamps
+
 >         /* No point in trying if we don't have at least one counter */
 >         if (!drvdata->nr_cntr)
 > @@ -667,12 +674,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
@@ -242,8 +245,12 @@ On Thu, 2 Oct 2025 at 11:10, James Clark <james.clark@linaro.org> wrote:
 > 2.34.1
 >
 
+Regards
 
--- 
+
+Mike
+
+--
 Mike Leach
 Principal Engineer, ARM Ltd.
 Manchester Design Centre. UK
