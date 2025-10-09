@@ -1,126 +1,90 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C962DD5EB
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 12:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390AF33D8;
+	Thu,  9 Oct 2025 12:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760011671; cv=none; b=mJD29tachdckWhQs0vls/LXCCtzM2IyRgEBmwXnyikkXj3JtEwDuvXZad0b/frgCJ1/5zDQTmBUT6tyVv6ZtNBcvigfL92WdPo8y9QlpudspQtUmT4wjarz3Amhf7xfPU7UlSKTqpIHjHi6mnUPlQXfLU5HsGjmoT/HnfFtRm4Y=
+	t=1760013082; cv=none; b=DqTN++vnfwiYTCiyRn8dmUl1Y8yKKPdA7Otnu9TGyIXisCK6/rtx7pqFTY1H6RSTq1+kUuHQlkWRIzA+7Vt05hacfGYdG5C30Z88wI6PQnKDXoGlZx4Z9L1NBfrR4TA77Tawc/HGHSO7zGKhccmO3EAVHWpTJo6spdZnxlVtJI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760011671; c=relaxed/simple;
-	bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fQNfQH69YqkO/o5hD14+9TXOLtfMwjglMTrGBEJNeCVHFEnyzTWgqik+A/X8CEiulz948Le0tgrDQ+Y9ElCl9pz6UQWvlPhx/NbbLTjr2jnHKwmg8Luw2ERGW+/+Wd1ZMpb9Xwff+W8hio51z6R8HHfD0k3v4/hqfOVFgqjoMYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ASnf2qxi; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760013082; c=relaxed/simple;
+	bh=XPmYz1+S+KmqCCD+ZvfFDpmo5B52l9HJF9/qsIYDbzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hjuRN+CS6fe9FMytNaR635/KxZ7Hdtojddp1DNPtdjs+GoOjXPjplu4wG2uoCOUGcYAyOKiR23rVH4VrgaRyMTSbJl7jp5mYcne0Kz88fZXVAKYZe50uTNhhTXEF/dh3onHl2+vfVqWXFce65Nwrdlx0bemDaCQBxuYENedO2yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nDxOT2aX; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ASnf2qxi"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-26d0fbe238bso5853925ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 05:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760011668; x=1760616468; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
-        b=ASnf2qxiZprtOG/sg3kmX5P98qy3e8qUf6RIjvbEPiHly8MQx1YktSRmlaPlFQHTIx
-         tkkpZ7hbEsyhTQv4vFT6oHXV4qyxdTTbG2NDmpZbVKa5uv9mqZYCJejduRI3QG3TseMX
-         Qm07zbwOHUT14hrDko9mzUmSkLJEtu9a+8Rj09/YKAerhFNMby0vOmFlLVU2HuutJXP8
-         ExVgEn6NURLMPamEiRNcl7A8F1OPu1yeputBi20UmDRrkVPG7JxBnNY9h6b0riPi2E65
-         RgAnTSqbpjLxuT3DnmhDBRbdpoM7ktBGv/VudT50zYMNtGvT+hQj8fDAxqfjYuCjRKXt
-         Q0Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760011668; x=1760616468;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+p3lQzk+If+FfstGkjdjKHCQavXIY1wiQDGCM90CDQo=;
-        b=RqDZnxva79zIJHWukRX7lTS2GRskfxj+bvZKio4ocpzxNm9s8N1XAgb0U+8TB/aQER
-         ruBxtf884j1lRgmscLMM6ySk9V9BUE0SB4+JKC9+7sfw/o37cYz2VKWiGZnmZDeE69rL
-         PMUClzX5UK64uOl01Y7tv6eh2417zuqdkdQ+xXmOt9FLV8pPJyQC/xi8gxFyHTAZIrbw
-         bdmHuJCGaznU2jkYlgJ5m2g5wHiOhvV0i0uKQ+2kysr+tJtJPB1ErhtCwCQhySh99MlG
-         3MxfZ7JtllBT47Sflp5ZP6b6B50NlRjrF8Ej3xjNwzgA0NyoJhoN5SxPX0f2Ag+It+S5
-         0goA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlaAVdgyOY1x0M5dmTXuJli8gvg0DTYEVUqgYmyUifxKps4EWEtwJFYL7UWSq66q1HpGWXXE0/2eg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIS0Eklv5I++rvq6EGm7BqHFq2N5VDMYa+zQfGx3ZGTVYfz7LD
-	lYvwvInUN+ZO/NGoG/c3o+zCsfzLvsbzcZ89izdDZZcF685LKZleVyaSxRXd+ocq4DlfhLWVEzI
-	NxVTB4Oj9pXsm+57nQ5Cz2Ewz8qq+zhZt6Qi7JNkJ
-X-Gm-Gg: ASbGncukIsS5u4HrOEZepbsTNCxmbdVG5V/Pwsle8gv+HGupazVtb9+K1nnNUgkRipk
-	UZ8VVm1cDZjFFknSsNNd40tKbPIpJ3MDvxLxq/wyeCdN4G4XbCqtiuDYPp9sfQvCvhf75Wo43D5
-	uRfGrD7tlHhpB2PZTav/bx+LP+kGak/GiUTWmHz9tLH2YpI/wAEdIAWqsil4/Doal+0C6mUeqCW
-	+l+SfV8yzFuSwLj3sl/5bk0tEn2b28upImladzIlYab75wu8v+P+9jq8+KQOWB+92Jm
-X-Google-Smtp-Source: AGHT+IGK2999Kxnf1WRLkrVBgJlG2sfTe8NQQmLvAYHDshQ3OJDYVTnqzxr7Hq0u+SA2CL8Dip3ynt4DcSFfDVGoOE8=
-X-Received: by 2002:a17:903:2350:b0:27e:ef96:c153 with SMTP id
- d9443c01a7336-29027379a5cmr98765325ad.19.1760011667351; Thu, 09 Oct 2025
- 05:07:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nDxOT2aX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=eEnoEiQ7x1UW7OqzKfZDiRlKLyvfXySawEDXrSsRNZM=; b=nDxOT2aXHKfgtvt73Y53cNnEOJ
+	dqFm8I9mcp7+6v1i/XBbEByG4WEStfNHUweOq55ppwh4fUCdj0BsWknE1fTtZvFwzUxOpPOh4c9Wh
+	LIRI5ZVc+DsDaHVFmL18Rp+jsmMyb9iQ/mlvMmkN7ZZqCvrFSaeQNy9Srs0CmVEGtqtQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1v6pnU-00AWj0-SY; Thu, 09 Oct 2025 14:31:04 +0200
+Date: Thu, 9 Oct 2025 14:31:04 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] virtio: dwords->qwords
+Message-ID: <26d7d26e-dd45-47bb-885b-45c6d44900bb@lunn.ch>
+References: <cover.1760008797.git.mst@redhat.com>
+ <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315025852.it.568-kees@kernel.org> <20250315031550.473587-2-kees@kernel.org>
- <aOR15Xb6DfolYM0z@casper.infradead.org> <202510071001.11497F6708@keescook>
- <e019c59a-ba8b-ec04-dc5b-923cf9dd9d9c@gentwo.org> <CANpmjNMsSGY+QEn=GV8S2sXuuQsioikPR+OhGa3+6EoTqYPkHQ@mail.gmail.com>
- <202510072114.52B93ED736@keescook> <b17ab23a-b0fb-4fab-afa9-41dfce65675a@oracle.com>
-In-Reply-To: <b17ab23a-b0fb-4fab-afa9-41dfce65675a@oracle.com>
-From: Marco Elver <elver@google.com>
-Date: Thu, 9 Oct 2025 14:07:09 +0200
-X-Gm-Features: AS18NWBVVE-SSQe4ScCSB1Ze0NxTS0A8p2TAsqA4RTj9KK9B9ZbDa15oefynRbc
-Message-ID: <CANpmjNN3UH9vL6x4P29MjSg5L7p3aBScGv5tY9ex7N-xYmqrPw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Kees Cook <kees@kernel.org>, "Christoph Lameter (Ampere)" <cl@gentwo.org>, Matthew Wilcox <willy@infradead.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Pekka Enberg <penberg@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Gustavo A . R . Silva" <gustavoars@kernel.org>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>, 
-	Tony Ambardar <tony.ambardar@gmail.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
-	llvm@lists.linux.dev, Matteo Rizzo <matteorizzo@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
 
-On Wed, 8 Oct 2025 at 09:49, Vegard Nossum <vegard.nossum@oracle.com> wrote:
->
->
-> On 08/10/2025 06:20, Kees Cook wrote:
-> > On Tue, Oct 07, 2025 at 08:18:28PM +0200, Marco Elver wrote:
-> >> On Tue, 7 Oct 2025 at 19:47, Christoph Lameter (Ampere) <cl@gentwo.org> wrote:
-> >>> On Tue, 7 Oct 2025, Kees Cook wrote:
-> >>> iOS did go the path of creating basically one slab cache for each
-> >>> "type" of kmalloc for security reasons.
-> >>>
-> >>> See https://security.apple.com/blog/towards-the-next-generation-of-xnu-memory-safety/
-> >
-> >> We can get something similar to that with:
-> >> https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/
-> >> Pending compiler support which is going to become available in a few
-> >> months (probably).
-> >> That version used the existing RANDOM_KMALLOC_CACHES choice of 16 slab
-> >> caches, but there's no fundamental limitation to go higher.
-> >
-> > Right -- having compiler support for dealing with types at compile time
-> > means we can create the slab caches statically (instead of any particular
-> > fixed number, even the 16 from RANDOM_KMALLOC_CACHES).
->
-> Maybe I'm missing the point here, but I think we can already do per-
-> callsite static caches without specific new compiler support:
+On Thu, Oct 09, 2025 at 07:24:08AM -0400, Michael S. Tsirkin wrote:
+> A "word" is 16 bit. 64 bit integers like virtio uses are not dwords,
+> they are actually qwords.
 
-What we want is not per-callsite but per-type caches, possibly with
-some smarter cache organization based on the properties of that type
-(does type contain/is pointer), where the latter is required if we
-cannot have as many caches as there are types. Per-callsite caches
-could be stronger than per-type caches (with the exception where a
-single callsite can allocate multiple types), but neither per-callsite
-and full per-type caches are likely feasible due to performance
-reasons. So we need some scheme that allows bounding the number of
-caches, and letting the compiler help us out with type introspection
-is probably the most reasonable approach.
+I'm having trouble with this....
+
+This bit makes sense. 4x 16bits = 64 bits.
+
+> -static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
+> +static const u64 vhost_net_features[VIRTIO_FEATURES_QWORDS] = {
+
+If this was u16, and VIRTIO_FEATURES_QWORDS was 4, which the Q would
+imply, than i would agree with what you are saying. But this is a u64
+type.  It is already a QWORD, and this is an array of two of them.
+
+I think the real issue here is not D vs Q, but WORD. We have a default
+meaning of a u16 for a word, especially in C. But that is not the
+actual definition of a word a computer scientist would use. Wikipedia
+has:
+
+  In computing, a word is any processor design's natural unit of
+  data. A word is a fixed-sized datum handled as a unit by the
+  instruction set or the hardware of the processor.
+
+A word can be any size. In this context, virtio is not referring to
+the instruction set, but a protocol. Are all fields in this protocol
+u64? Hence word is u64? And this is an array of two words? That would
+make DWORD correct, it is two words.
+
+If you want to change anything here, i would actually change WORD to
+something else, maybe FIELD?
+
+And i could be wrong here, i've not looked at the actual protocol, so
+i've no idea if all fields in the protocol are u64. There are
+protocols like this, IPv6 uses u32, not octets, and the length field
+in the headers refer to the number of u32s in the header.
+
+	Andrew
