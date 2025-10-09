@@ -1,154 +1,123 @@
-Received: from forward500a.mail.yandex.net (forward500a.mail.yandex.net [178.154.239.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEDF25B311;
-	Thu,  9 Oct 2025 04:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9094120330;
+	Thu,  9 Oct 2025 05:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759985469; cv=none; b=aQv60g0hKpxs7dHEbxb4Uan0EzSe9gkAD9jIODPXJbdw+Xf028O0aC0MWzQcSYu5g6k8hA29Zq/8E95Org3nBOhvItzJ3roDmY+VW5lLJUJK1r4h+yDW2lIiqBj1sf+VrTx8BLl2fyIbXoy97XR1Ewy/qOiH9tplPMDlmec9stA=
+	t=1759987238; cv=none; b=DhnTaqZczqnAmpPCK3CWqSvWSmCYE7haFv/VL54YozGX1+2owWka//eBMdIQEbqdCzYM4LaLaltsNDuL3/AwCYZVZfBN77qvs9WJDL+sriThDykh5HroUtU6WU2mjY55abK0pTbyDkzG4UE/vPaAZURNGu5QmHCJWdbJBbXwlx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759985469; c=relaxed/simple;
-	bh=dD23wYGJzstpufoWQ8iaFldvkDkCluDlE4wFbI0oCOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l1QdwdgbONP4L5AzoxlAfl5I8O8Y65P8wtpJyaSLfdHGnCR4FgSKq8kZ3Vvo1UfpIIerUD/jaEQFq0NZ8ICEhbZOmQwoinc2UrxKCrClQshHg81Ts1wERDZ31Xck79PRwgTmN55TkWtfjgJFjwS6xEhHg3ydK/dC/UiiKCylp3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=U5E/xReg; arc=none smtp.client-ip=178.154.239.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1759987238; c=relaxed/simple;
+	bh=OgkTj9432fZmlNS0UH+uhZjP/yq09nzN3kBXCzSELF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9O3nt3GV8qHqek00ILD2rOGn0WQB5Yg1mCxfvCgcBsQ3qO2X3s15Tq6R7J9taN0PuYz2C90IS28fR8b6qvlafOSXClaQKFulzrZMdULpr+4tLxjU9FzGEZr+j2QF+w/6NdekauS80SnaY4GPEquY/a2hCrtSge21QxiIu/TnG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EO/xg1I5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="U5E/xReg"
-Received: from mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:1311:0:640:df31:0])
-	by forward500a.mail.yandex.net (Yandex) with ESMTPS id 6B5DA81AA4;
-	Thu, 09 Oct 2025 07:51:02 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id uoB8DgVLPGk0-JyaASLja;
-	Thu, 09 Oct 2025 07:51:01 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1759985461;
-	bh=dd0xy8YVEGEJYa0deBqYb5TfXlH/zF7B3uABe0y3qUI=;
-	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
-	b=U5E/xRegcJD26gARSedDkHL71OVqDPD3OboEiPavvJuUUo1HWMap3/vcMEm17JiZ9
-	 OUtCaS3TcHjuLC+pz6wc4no/Nwz/qbZ3rqnVSaWPpYydq2xxssH0ML1fxG3xsYD20N
-	 26/6EAKblaYEFC8qnx0nFndDgLvGixd99of6T3cw=
-Authentication-Results: mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
-Date: Thu, 9 Oct 2025 07:50:54 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dakr@kernel.org, linux-kernel@vger.kernel.org, acourbot@nvidia.com,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, lyude@redhat.com,
- linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 2/4] rust: xarray: abstract `xa_alloc`
-Message-ID: <20251009075054.7ed640c0@nimda.home>
-In-Reply-To: <CAJ-ks9nMziN2LU=T=XGhV8xau6UfGXOMZ49+2Lrt8KGbL7Qngg@mail.gmail.com>
-References: <20251008124619.3160-1-work@onurozkan.dev>
-	<20251008124619.3160-3-work@onurozkan.dev>
-	<CAJ-ks9mtfVmP+SwZvBVuQSwViiqo2ZngSGQuU5Y7A-Q_JSwjKQ@mail.gmail.com>
-	<20251008225002.011378ed@nimda.home>
-	<CAJ-ks9nMziN2LU=T=XGhV8xau6UfGXOMZ49+2Lrt8KGbL7Qngg@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EO/xg1I5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EBDDC4CEE7;
+	Thu,  9 Oct 2025 05:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1759987238;
+	bh=OgkTj9432fZmlNS0UH+uhZjP/yq09nzN3kBXCzSELF8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EO/xg1I5JxJ6Gng6yPKjQlyZ9RssCFhDlylg693XLeMCae87nGqGQdAPxdnk8nFqp
+	 tGbZ2uEepHWq8ACteVrpxj3i53VzsVaJrIn5BN4RwNbKOGlLS4fHBgH090sMdPb0K2
+	 5VclVGHelHJoTEyjNpjKhoyN0Eu+X/Xlw7KJlSIQ=
+Date: Thu, 9 Oct 2025 07:20:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "yanjun.zhu" <yanjun.zhu@linux.dev>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
+ monitoring
+Message-ID: <2025100953-plug-acting-9530@gregkh>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+ <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
 
-On Wed, 8 Oct 2025 13:45:53 -0700
-Tamir Duberstein <tamird@gmail.com> wrote:
+On Wed, Oct 08, 2025 at 06:07:00PM -0700, yanjun.zhu wrote:
+> > +#define LUO_DIR_NAME	"liveupdate"
+> > +
+> > +void luo_sysfs_notify(void)
+> > +{
+> > +	if (luo_sysfs_initialized)
+> > +		sysfs_notify(kernel_kobj, LUO_DIR_NAME, "state");
+> > +}
+> > +
+> > +/* Show the current live update state */
+> > +static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
+> > +			  char *buf)
+> > +{
+> > +	return sysfs_emit(buf, "%s\n", luo_current_state_str());
+> 
+> Because the window of kernel live update is short, it is difficult to
+> statistics how many times the kernel is live updated.
+> 
+> Is it possible to add a variable to statistics the times that the kernel is
+> live updated?
+> 
+> For example, define a global variable of type atomic_t or u64 in the core
+> module:
+> 
+> #include <linux/atomic.h>
+> 
+> static atomic_t klu_counter = ATOMIC_INIT(0);
+> 
+> 
+> Every time a live update completes successfully, increment the counter:
+> 
+> atomic_inc(&klu_counter);
+> 
+> Then exporting this value through /proc or /sys so that user space can check
+> it:
+> 
+> static ssize_t klu_counter_show(struct kobject *kobj, struct kobj_attribute
+> *attr, char *buf)
+> {
+>     return sprintf(buf, "%d\n", atomic_read(&klu_counter));
+> }
 
-> On Wed, Oct 8, 2025 at 12:50=E2=80=AFPM Onur =C3=96zkan <work@onurozkan.d=
-ev> wrote:
-> >
-> > On Wed, 8 Oct 2025 09:59:12 -0700
-> > Tamir Duberstein <tamird@gmail.com> wrote:
-> >
-> > > On Wed, Oct 8, 2025 at 6:05=E2=80=AFAM Onur =C3=96zkan <work@onurozka=
-n.dev>
-> > > wrote:
-> > > >
-> > > > Implements `alloc` function to `XArray<T>` that wraps
-> > > > `xa_alloc` safely, which will be used to generate the
-> > > > auxiliary device IDs.
-> > > >
-> > > > Resolves a task from the nova/core task list under the "XArray
-> > > > bindings [XARR]" section in
-> > > > "Documentation/gpu/nova/core/todo.rst" file.
-> > > >
-> > > > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> > > > ---
-> > > >  rust/kernel/xarray.rs | 41
-> > > > ++++++++++++++++++++++++++++++++++++++++- 1 file changed, 40
-> > > > insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-> > > > index 90e27cd5197e..0711ccf99fb4 100644
-> > > > --- a/rust/kernel/xarray.rs
-> > > > +++ b/rust/kernel/xarray.rs
-> > > > @@ -10,7 +10,7 @@
-> > > >      ffi::c_void,
-> > > >      types::{ForeignOwnable, NotThreadSafe, Opaque},
-> > > >  };
-> > > > -use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
-> > > > +use core::{iter, marker::PhantomData, ops::Range, pin::Pin,
-> > > > ptr::NonNull}; use pin_init::{pin_data, pin_init, pinned_drop,
-> > > > PinInit};
-> > > >
-> > > >  /// An array which efficiently maps sparse integer indices to
-> > > > owned objects. @@ -268,6 +268,45 @@ pub fn store(
-> > > >              Ok(unsafe { T::try_from_foreign(old) })
-> > > >          }
-> > > >      }
-> > > > +
-> > > > +    /// Allocates an empty slot within the given `limit` and
-> > > > stores `value` there.
-> > > > +    ///
-> > > > +    /// May drop the lock if needed to allocate memory, and
-> > > > then reacquire it afterwards.
-> > > > +    ///
-> > > > +    /// On success, returns the allocated index.
-> > >
-> > > Returning the index is not a very good abstraction. Would the
-> > > reservation API meet your needs?
-> > >
-> > > https://lore.kernel.org/all/20250713-xarray-insert-reserve-v2-3-b9396=
-45808a2@gmail.com/
-> > >
-> > > If yes, I would appreciate your tags there.
-> >
-> > It should be "allocated key", I misdocumented it. I don't have a
-> > use-case for this implementation, I am just trying to help on the
-> > nova task list:
-> >     https://docs.kernel.org/gpu/nova/core/todo.html#xarray-bindings-xarr
->=20
-> I think implementing things without understanding the use-case is a
-> good way to build the wrong thing.
->=20
+But the value can change right after you read it, so how do you "know"
+it is up to date?
 
-I was thinking I would get some review notes from people who actually
-need this if something wasn't right. Maybe Alexandre can clarify what
-the expected outcome was, since he created the task.
+What exactly do you want to do with this type of information?  What are
+you going to do with that information?
 
-Onur
+thanks,
 
-> > The task mentions "generate the auxiliary device IDs", which should
-> > be the returned key, right?
->=20
-> I dunno.
->=20
-> > There is also this reference [1] that shows that the returned key
-> > will be useful.
-> >
-> > [1]: https://lore.kernel.org/all/aOTyVzpJNDOaxxs6@google.com/
->=20
-> Sure, it's useful - the reservation API also exposes it. But it is not
-> a proper abstraction.
->=20
-> Cheers.
->=20
-> Tamir
-
+greg k-h
