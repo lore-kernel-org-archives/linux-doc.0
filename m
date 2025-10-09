@@ -1,112 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A567257839;
-	Thu,  9 Oct 2025 18:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923E122127A
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 18:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760033064; cv=none; b=ELCkHtXdNkaw9G81XXru32dusmhF2jSsnFoMFixSJWtW73u29lYOPUf8Uj4SabJrVop5HZCneJoCEXjltg+h/Y/+e9NtK4hWry+Je70MY3JOWqRVT96qUVHy5MO06+gExC3UwBTSy3fDTXuxNTefT9LMK5DNzN9meQ1p+QZQUlU=
+	t=1760035106; cv=none; b=sRc3Qpkm1StTAkTeg4hlSQfhTST41kjIs1TDVxzuShGY285UI9DJfo/PbXVnYlLvlDroP/1s4zQiU+toadhPeBQnYGMIOYLHXsgqIG5KrP85xXBSIyy7zN5vrJ++JavbxMdY5yWxtmRedb36hQmWvPl6HAGVbE9VuNVY2zjIjhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760033064; c=relaxed/simple;
-	bh=3KgeFNDYe74xdOqob4chupVcc+/7QUgmTQnHcfE6VMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS3fO+atWfy3BaASjEetOTpm5IpE9HoESAEM6P/Ldvl2LfELM7E3nBUmw6PtAe2eoL8VOfgt4han443TZ0gcCJxkW+BUVKEBk3Fc0/Te82wLF0MB/7rfV8WbuyOYfpyHoe8aDJIuyyX+BRqEkBccZ83Ofzd0aWRqd6QpO9j02TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JGBc2bxO; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760035106; c=relaxed/simple;
+	bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KWYKNe7JYr4TEwc3oWThEJD7tHK9aNZ8tNXY2Ujtl5yYsHdIURNmSFvKzLTgt3VhiG5na+ztm+6LigHvwE/iNcVK6IUnN/I+Xlm/5Z4zrc5BjEl7+pp1CHtCPa25BO6BOH692Uukof5AsVFKRjWxtUF6XLu7M8wQbzQZffzUlxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DdN8Be6T; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JGBc2bxO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760033063; x=1791569063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3KgeFNDYe74xdOqob4chupVcc+/7QUgmTQnHcfE6VMk=;
-  b=JGBc2bxOcJvlYesMLaCHme3Es2kEasGynjRk0RHhgWn+Am1PB/g4XU/Z
-   e6FIXddrAVhLca+LDZlCK3NsDRrH+mihzMU18I9aZTy3vaYmTwuhcLO2K
-   99wp/j0dk7F0u1+BLlNQcP6wCDDhcUXG8Sr9jG8KkxgPountFV3X4NGaP
-   e6e1W86SeTQN01Yh0dYNu1ga9aMBE0BWNf1n0fETQLTJv8rD3UmDS1k+O
-   agjcRI4mLavzYUFut4rHM8vNMnM+EWsKom+rpyv3Zmb4f9QCiuK58mPeX
-   biD7s25ap/ipZAWV5UTdJBhSHHZqXTjyXaUkZfrL0SMDFiOHVydbmpZH6
-   w==;
-X-CSE-ConnectionGUID: 4XFzhjIPRzSUGqzUF9vUAQ==
-X-CSE-MsgGUID: kqHqsIM6Tv+v8u2RXWLv0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73597059"
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="73597059"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 11:04:22 -0700
-X-CSE-ConnectionGUID: fjHqzhrCRKS1RXXl8zss4w==
-X-CSE-MsgGUID: xQLsRIYRROqFnPRdr5cTPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="217871654"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Oct 2025 11:04:18 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v6uzt-0001At-2i;
-	Thu, 09 Oct 2025 18:04:13 +0000
-Date: Fri, 10 Oct 2025 02:03:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cosmo Chou <chou.cosmo@gmail.com>, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux@roeck-us.net, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, cosmo.chou@quantatw.com,
-	Cosmo Chou <chou.cosmo@gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus) add driver for MPS MP9945
-Message-ID: <202510100100.uGBElhsf-lkp@intel.com>
-References: <20251005204855.190270-2-chou.cosmo@gmail.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DdN8Be6T"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4de584653cfso21729771cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 11:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1760035103; x=1760639903; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
+        b=DdN8Be6TgRd2DJqm9hoEjld7fiiRRoy/gg2rq8hB8XMSGqtbrho1mmlgP3ujmJG9tW
+         EgMnSl2DvAxhhEYB3acFYpzoJri0ZU2ek22364JfA0vqWZ4o49tHEJ6TBjRp2XYXwK26
+         n4b9SXRJsqgZyw9X77BFSpyupFwYFS1qsbTwz1SVxrOohgjFNnWkqbCT8JhEWol38m7g
+         dqVtiFDz1r5RPkZwOOKaa3us56ySMtF8CiemqTwLCRgHOPhiMtYmvOXz3PBUxYPE8VVN
+         yFd+L4agMLB+UvmvlkSAzFkG/0pmSrUAy2XlfiqiMa2d/nzKhSgjEIAu8EK4SZF1FxT+
+         nfHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760035103; x=1760639903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
+        b=e0uNxC13DY7poUbZowVC9Rf0Q3tPUD3ZEYpAaLlHSvCbU7mnpzAdBTR0+ciHOdUflz
+         C17c4z08GtrUfv0vvcCYt3EmZUdbLX13H9qynVkpfPXYEA0QZjoqfKzcBC4QA+H2X55Y
+         mx1LTPES8+oh5vj/GMZINjxIJ3KmlbD9J/FI6SIqfYcwcyQoOdIYy1L66f5LTvRNWvjs
+         vGC8BDXxTkivgjJ0mCab+9AOGNILEbm/7k6QZSljbYv9n8v2XfUyZEOxwWlh+9dHe3R7
+         2DgHdgDKROl/6vWq8oz+aB2WMN1ucw3OFgU7sRHidHi1fKQq6kk4C431zfscYRSyzr+6
+         J9Mg==
+X-Forwarded-Encrypted: i=1; AJvYcCWV6fDDd6lzLUj1pZRDcNK7u14LSXj3kkn4XN4Ml3AA0tRNv32tcjNejMW2dvGcJulBo9IWtIZIm9s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFnWp8xa5twW0VeeERVaN0XY8tioOwj8oxsFeFmio4/TuukFgI
+	uUeT8Jed4/+F5Hir+D0XMpOx5RVjLNEDFgsQ2jdDhAbH/MNKXn8BeWuA8TbjaKaKU9z6lCuIYEX
+	6IKdSdA2LYQq3yJvjvlnFtyxkkkLQqAZw60IpiFC0fg==
+X-Gm-Gg: ASbGnct93E+OkiE7+RTPFC8elIuPKLIM/QM3cJFDUEqH7caE8MZijkgWTEW61Mi4X7M
+	vCBlVa5lpb+hMkGy2WuMW7lymEGrqNstBnnw8ZLsKwONhK3sEj4po7dYUhlTikuqG5fH2LOL9I9
+	Qxj+DZKuCfL8FeV2+Ma/B6PFtBM2e9BrhCvtvCHgBWPzGZ1mHEcJyz1EDJQDAZToLJ0cvj40YhA
+	bjAcZ/lpiRiT1hsg5AjUfu2jCuJ
+X-Google-Smtp-Source: AGHT+IFTvUtN/rpWG7psFmkleFQat5OJKejLftUiIf/dP75zdni12r9jj+HSaQKLJe6iZf61h/vhuCDqOsTOwxoEzRc=
+X-Received: by 2002:a05:622a:5517:b0:4b6:15d:b3f7 with SMTP id
+ d75a77b69052e-4e6eaccd340mr110183671cf.12.1760035103219; Thu, 09 Oct 2025
+ 11:38:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251005204855.190270-2-chou.cosmo@gmail.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+ <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
+ <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
+ <20251008193551.GA3839422@nvidia.com> <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
+ <20251009144822.GD3839422@nvidia.com> <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
+ <20251009173914.GA3899236@nvidia.com>
+In-Reply-To: <20251009173914.GA3899236@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 9 Oct 2025 14:37:44 -0400
+X-Gm-Features: AS18NWCn4swK0ST2nIuzLp0_IoWDyMPKV38mC4btlFHmbHQv1r2bdrSfddLjGqM
+Message-ID: <CA+CK2bBtrkdos6YmCatggS19rwWYBXXDLwiUWmUrs2+ye23cXA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Cosmo,
+On Thu, Oct 9, 2025 at 1:39=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wro=
+te:
+>
+> On Thu, Oct 09, 2025 at 11:01:25AM -0400, Pasha Tatashin wrote:
+> > In this case we can enforce strict
+> > ordering during retrieval. If "struct file" can be retrieved by
+> > anything within the kernel, then that could be any kernel process
+> > during boot, meaning that charging is not going to be properly applied
+> > when kernel allocations are performed.
+>
+> Ugh, yeah, OK that's irritating and might burn us, but we did decide
+> on that strategy.
+>
+> > > I would argue it should always cause a preservation...
+> > >
+> > > But this is still backwards, what we need is something like
+> > >
+> > > liveupdate_preserve_file(session, file, &token);
+> > > my_preserve_blob.file_token =3D token
+> >
+> > We cannot do that, the user should have already preserved that file
+> > and provided us with a token to use, if that file was not preserved by
+> > the user it is a bug. With this proposal, we would have to generate a
+> > token, and it was argued that the kernel should not do that.
+>
+> The token is the label used as ABI across the kexec. Each entity doing
+> a serialization can operate it's labels however it needs.
+>
+> Here I am suggeting that when a kernel entity goes to record a struct
+> file in a kernel ABI structure it can get a kernel generated token for
+> it.
 
-kernel test robot noticed the following build errors:
+Sure, we can consider allowing the kernel to preserve dependent FDs
+automatically in the future, but is there a compelling use case that
+requires it right now?
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on robh/for-next linus/master v6.17 next-20251009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For the initial implementation, I think we should stick to the
+simpler, agreed-upon plan: preservation order is explicitly defined by
+userspace. If a preserve() call fails due to an unmet dependency, the
+error is returned to the user, who is then responsible for correcting
+the order. This keeps the kernel logic straightforward and places the
+preservation responsibility squarely in userspace, where it belongs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmo-Chou/hwmon-pmbus-add-driver-for-MPS-MP9945/20251009-153602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20251005204855.190270-2-chou.cosmo%40gmail.com
-patch subject: [PATCH 2/2] hwmon: (pmbus) add driver for MPS MP9945
-config: x86_64-randconfig-r072-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100100.uGBElhsf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100100.uGBElhsf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100100.uGBElhsf-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hwmon/pmbus/mp9945.c:243:18: error: expected ';' after top level declarator
-     243 | MODULE_IMPORT_NS(PMBUS);
-         |                  ^
-   1 error generated.
-
-
-vim +243 drivers/hwmon/pmbus/mp9945.c
-
-   239	
-   240	MODULE_AUTHOR("Cosmo Chou <chou.cosmo@gmail.com>");
-   241	MODULE_DESCRIPTION("PMBus driver for MPS MP9945");
-   242	MODULE_LICENSE("GPL");
- > 243	MODULE_IMPORT_NS(PMBUS);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pasha
