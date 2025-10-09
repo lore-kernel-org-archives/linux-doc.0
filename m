@@ -1,90 +1,74 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390AF33D8;
-	Thu,  9 Oct 2025 12:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1D633D8;
+	Thu,  9 Oct 2025 12:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760013082; cv=none; b=DqTN++vnfwiYTCiyRn8dmUl1Y8yKKPdA7Otnu9TGyIXisCK6/rtx7pqFTY1H6RSTq1+kUuHQlkWRIzA+7Vt05hacfGYdG5C30Z88wI6PQnKDXoGlZx4Z9L1NBfrR4TA77Tawc/HGHSO7zGKhccmO3EAVHWpTJo6spdZnxlVtJI0=
+	t=1760014612; cv=none; b=jyLdPln4meiMlZVE7qi3amlNzdShfpbQxu07uqZ5AokQXevO1flTlyr++ug+rBjomOTYHFSnapIS9rh/EL82gwGWRQK8dhwjTLy2unGGf3JF0iGLi2stfEGnqb2ai/t+1eHSi6BEmtdwrFe+oY8C4t0kFgCVKjMt+syJ0ZMWWR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760013082; c=relaxed/simple;
-	bh=XPmYz1+S+KmqCCD+ZvfFDpmo5B52l9HJF9/qsIYDbzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hjuRN+CS6fe9FMytNaR635/KxZ7Hdtojddp1DNPtdjs+GoOjXPjplu4wG2uoCOUGcYAyOKiR23rVH4VrgaRyMTSbJl7jp5mYcne0Kz88fZXVAKYZe50uTNhhTXEF/dh3onHl2+vfVqWXFce65Nwrdlx0bemDaCQBxuYENedO2yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nDxOT2aX; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1760014612; c=relaxed/simple;
+	bh=YtPJriu86qx1eJ/nNs64Z9s6KR07EF+KlsNLOB7Bk90=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LZAChsjcqKZ3eGN+pSVFQacV/Ks9TjK9f8Dv5JucsM79CfVS9DpqWebcElGWJXVTn9sdEqi7beDFe7EFBojZjBYw0wx3rdZqenBn1+Y0ZZGEFK2MYVPispGaJtHcojC38rVyjR7rxbNK36lxJiF5Q4trTG37xbQQc4j9ksmRIf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=dOZx/Of/; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nDxOT2aX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=eEnoEiQ7x1UW7OqzKfZDiRlKLyvfXySawEDXrSsRNZM=; b=nDxOT2aXHKfgtvt73Y53cNnEOJ
-	dqFm8I9mcp7+6v1i/XBbEByG4WEStfNHUweOq55ppwh4fUCdj0BsWknE1fTtZvFwzUxOpPOh4c9Wh
-	LIRI5ZVc+DsDaHVFmL18Rp+jsmMyb9iQ/mlvMmkN7ZZqCvrFSaeQNy9Srs0CmVEGtqtQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1v6pnU-00AWj0-SY; Thu, 09 Oct 2025 14:31:04 +0200
-Date: Thu, 9 Oct 2025 14:31:04 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] virtio: dwords->qwords
-Message-ID: <26d7d26e-dd45-47bb-885b-45c6d44900bb@lunn.ch>
-References: <cover.1760008797.git.mst@redhat.com>
- <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="dOZx/Of/"
+Received: from mail-nwsmtp-smtp-production-main-92.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-92.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0f:4880:0:640:22e4:0])
+	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 1BC4880E95;
+	Thu, 09 Oct 2025 15:56:40 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-92.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id auJ7sZaLNOs0-vkA9vxfY;
+	Thu, 09 Oct 2025 15:56:39 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1760014599;
+	bh=dT0nLTSbKuL+mNsLNXaUN4T3goDzZ2vrCJByRRjzh5o=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=dOZx/Of/O6qRK6OsJGW83eDxzB8diUHVIw/ygTLBmdyLOS1S/2iZPDBUSzwQz5JRv
+	 YYLSdDDbWlhHWaUhcni4ZWCmojExWLpKkV23pxUGqtwCaN8F4jKWu7S4+jd9elXgMT
+	 sDp5RTphBkN8xFJQc3Je4RORS2w7bGXpvxVKykw4=
+Authentication-Results: mail-nwsmtp-smtp-production-main-92.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Thu, 9 Oct 2025 15:56:35 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: linux-kernel@vger.kernel.org
+Cc: apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] checkpatch: add new check PLACEHOLDER_USE
+Message-ID: <20251009155635.7f1f2331@nimda.home>
+In-Reply-To: <20250917173725.22547-1-work@onurozkan.dev>
+References: <20250917173725.22547-1-work@onurozkan.dev>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09, 2025 at 07:24:08AM -0400, Michael S. Tsirkin wrote:
-> A "word" is 16 bit. 64 bit integers like virtio uses are not dwords,
-> they are actually qwords.
+On Wed, 17 Sep 2025 20:37:23 +0300
+Onur =C3=96zkan <work@onurozkan.dev> wrote:
 
-I'm having trouble with this....
+> Changes in v2:
+>   - The check is documented in Documentation/dev-tools/checkpatch.rst
+> file.
+>   - Used ERROR instead of WARN on detection.
+>=20
+> Onur =C3=96zkan (2):
+>   checkpatch: detect unhandled placeholders in cover letters
+>   checkpatch: document new check PLACEHOLDER_USE
+>=20
+>  Documentation/dev-tools/checkpatch.rst | 10 ++++++++++
+>  scripts/checkpatch.pl                  |  7 +++++++
+>  2 files changed, 17 insertions(+)
+>=20
 
-This bit makes sense. 4x 16bits = 64 bits.
+A friendly ping on this patch. It's been over two weeks with no
+feedback, would appreciate any thoughts or suggestions.
 
-> -static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
-> +static const u64 vhost_net_features[VIRTIO_FEATURES_QWORDS] = {
-
-If this was u16, and VIRTIO_FEATURES_QWORDS was 4, which the Q would
-imply, than i would agree with what you are saying. But this is a u64
-type.  It is already a QWORD, and this is an array of two of them.
-
-I think the real issue here is not D vs Q, but WORD. We have a default
-meaning of a u16 for a word, especially in C. But that is not the
-actual definition of a word a computer scientist would use. Wikipedia
-has:
-
-  In computing, a word is any processor design's natural unit of
-  data. A word is a fixed-sized datum handled as a unit by the
-  instruction set or the hardware of the processor.
-
-A word can be any size. In this context, virtio is not referring to
-the instruction set, but a protocol. Are all fields in this protocol
-u64? Hence word is u64? And this is an array of two words? That would
-make DWORD correct, it is two words.
-
-If you want to change anything here, i would actually change WORD to
-something else, maybe FIELD?
-
-And i could be wrong here, i've not looked at the actual protocol, so
-i've no idea if all fields in the protocol are u64. There are
-protocols like this, IPv6 uses u32, not octets, and the length field
-in the headers refer to the number of u32s in the header.
-
-	Andrew
+Regards,
+Onur
