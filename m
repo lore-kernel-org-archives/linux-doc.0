@@ -1,97 +1,90 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69608615A;
-	Thu,  9 Oct 2025 02:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2236F1DE3DC
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 03:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759976332; cv=none; b=DyLBILrrzVtHiyScm9eH88Yv3YpDwArb1ijbiP7wFSrt9P+XzAsieUF9mcKihvqd6iUfgSLxg/KZdOsNnFiVgJA+0TR7HSznDkT2yESM2moS38QAqqDNixiIlwAXdfH1KrYP2jWEfyQFqHRl8nhm8o2M6iXghffUDmet6TCs5CU=
+	t=1759979051; cv=none; b=cSHitZG1gCa9UZPtCy8HLhgSvzCZapcShujp62TzqpHXtW+eUJkLSjO9cE+ZbPiVNwMAXW5qZubZGIB4BnWveLFDF8TWq3or9ytiYMVCKyKvFWNGWnAURzbnWccI/FaekfteJgoghtc2VoqP3jMV+TJsgaO1TMFExL1VCh0nomI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759976332; c=relaxed/simple;
-	bh=oBUzBCGdHcKBGvVSdjsLDIxDVH+8Cz1l/MCI7DjjKrI=;
+	s=arc-20240116; t=1759979051; c=relaxed/simple;
+	bh=VTEvkMLVlG2PxqlVtlSF/7ys2dSIRaMlXK+DQqTTTZ0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sia155PXUeEL5QbacS1eeu8PIWTr7sKZpJB+BpxVQlNB9+z5DylS0AshVFCGF2xXHVNJM1gsXmoNd6qZfj891CTyvMu47L4bIDoqScP+/A4mraCfboP2aSs2/y/aljFv53oI3eTrIdqRJ7g+LPyrsrj477KWMZXk0s0BrXzd4E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W4GhgsyA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=YaAvDPyqcmN2yRdeZo/7Jt+wQy/vx07nKXTxAaNK5862lFXsiQcs3mOKuXw8OE1IphyqxrSN7QpZ9ASj4lHbNrlfMQkxITPwPVlRUvd8a0Lw8+hGKG0JgFOHQv2NwnURjqdmZaDM1uCE7q/4a5puqfooBmbUl6zlVvm+oyxpJk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Bx8vpW1o; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W4GhgsyA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=03eJIUjJueS97yN5grY/zqy0eGrSPsBwtVlizMh56y8=; b=W4GhgsyAGTqgPC7wUoYO6o63lF
-	vpLOJhCnsNX60F+dBytfdtBGWiPX4l3wdDCtZwW7pcwEy7znhhy07YWEZwSBSRed1ZMfAmluNz1dM
-	l+NoxFQKDb0BvQ2GsMDGj7LFGiuz7cfkZMu6XUoYZCUwdk+2QlCUh3a/FdS447uNWpk5gZ56qPGAi
-	mm6aT34/A2iGP7x5j8Fp4N+uVzHBf873z/R5hCpzzTJM3rTsfwT8mvdPK0xqZU5vqZ8h7kSnFVPIz
-	CXAStTlyb4cim5USOHB6P3H9waMSBtGm0gkMrsx06F6CxmS6B5TiDYtCDeLWE7xrYN24aWcSOSyPC
-	W/ZH25Fw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6gEz-000000052j4-34Xq;
-	Thu, 09 Oct 2025 02:18:49 +0000
-Message-ID: <6e29c0d3-f8a0-474c-8d75-74f222621049@infradead.org>
-Date: Wed, 8 Oct 2025 19:18:49 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Bx8vpW1o"
+Message-ID: <612e4576-437f-4c63-b56a-fa2ad62779b9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1759979048;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nc0BA2368cULBNmhkzmu+0aM1upoZ74WV8ag6VwaBtA=;
+	b=Bx8vpW1oUFLWj43pRUUUQ3p9yQWAM9Mc5ScpXQ9Ot2Ldetq+STH3gt0F6xAKeixN2Ofllf
+	fhwoKwYK1XCEhRqnEA53npfuPDmTUgjlYoykw9p4X5FpziER+YUHMod/7SPcdT303S7fmr
+	fxTGJEFylUvKfpGONQLLa+rw/PBwpsE=
+Date: Thu, 9 Oct 2025 11:03:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: sysrq: Remove contradicting sentence on
- extra /proc/sysrq-trigger characters
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Serial <linux-serial@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>,
- Tomas Mudrunka <tomas.mudrunka@gmail.com>, Jiri Slaby
- <jirislaby@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
-References: <20251008112409.33622-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251008112409.33622-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 4/4] Docs/admin-guide/mm/zswap: s/red-black tree/xarray/
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko
+ <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Nhat Pham <nphamcs@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosry.ahmed@linux.dev>,
+ kernel-team@meta.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20251003203851.43128-1-sj@kernel.org>
+ <20251003203851.43128-5-sj@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Chengming Zhou <chengming.zhou@linux.dev>
+In-Reply-To: <20251003203851.43128-5-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 10/8/25 4:24 AM, Bagas Sanjaya wrote:
-> /proc/sysrq-trigger documentation states that only first character is
-> processed and the rest is ignored, yet it is not recommended to write
-> any extra characters to it. The latter statement is contradictive as
-> these characters are also ignored as implied by preceding sentence.
+On 2025/10/4 04:38, SeongJae Park wrote:
+> The change from commit 796c2c23e14e ("zswap: replace RB tree with
+> xarray") is not reflected on the document.  Update the document.
 > 
-> Remove it.
-> 
-> Link: https://lore.kernel.org/lkml/7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+Reviewed-by: Chengming Zhou <chengming.zhou@linux.dev>
 
 > ---
->  Documentation/admin-guide/sysrq.rst | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>   Documentation/admin-guide/mm/zswap.rst | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-> index 9c7aa817adc72d..63ff415ce85d66 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -77,9 +77,7 @@ On other
->  On all
->  	Write a single character to /proc/sysrq-trigger.
->  	Only the first character is processed, the rest of the string is
-> -	ignored. However, it is not recommended to write any extra characters
-> -	as the behavior is undefined and might change in the future versions.
-> -	E.g.::
-> +	ignored. E.g.::
->  
->  		echo t > /proc/sysrq-trigger
->  
-> 
-> base-commit: c746c3b5169831d7fb032a1051d8b45592ae8d78
-
+> diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+> index 283d77217c6f..2464425c783d 100644
+> --- a/Documentation/admin-guide/mm/zswap.rst
+> +++ b/Documentation/admin-guide/mm/zswap.rst
+> @@ -59,11 +59,11 @@ returned by the allocation routine and that handle must be mapped before being
+>   accessed.  The compressed memory pool grows on demand and shrinks as compressed
+>   pages are freed.  The pool is not preallocated.
+>   
+> -When a swap page is passed from swapout to zswap, zswap maintains a mapping
+> -of the swap entry, a combination of the swap type and swap offset, to the
+> -zsmalloc handle that references that compressed swap page.  This mapping is
+> -achieved with a red-black tree per swap type.  The swap offset is the search
+> -key for the tree nodes.
+> +When a swap page is passed from swapout to zswap, zswap maintains a mapping of
+> +the swap entry, a combination of the swap type and swap offset, to the zsmalloc
+> +handle that references that compressed swap page.  This mapping is achieved
+> +with an xarray per swap type.  The swap offset is the search key for the xarray
+> +nodes.
+>   
+>   During a page fault on a PTE that is a swap entry, the swapin code calls the
+>   zswap load function to decompress the page into the page allocated by the page
