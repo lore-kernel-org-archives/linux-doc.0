@@ -1,340 +1,95 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9362DF122;
-	Wed,  8 Oct 2025 23:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E41DF6C;
+	Thu,  9 Oct 2025 00:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759966481; cv=none; b=h7o3fUxjd5XEyeQO/y2E1PLTgqhJmBB/NEuSAxtf2ErEt1PBRK1yyaK4tf8tyDEV5gqdeb2O9LjaY5SQqmiku2PNNn4LYQ4pD4gFgDDaqmJSd3nFPMERE8QTWoyu1kV9AKqZz8HIUkm0kfwTYGWhTfpvIxGu3hTT/M96AnUWTJE=
+	t=1759970623; cv=none; b=Yp8Sgv334qMGZwUjckOq94MWeSAzBeRaW6OJkiguvAU5mxW6ZBgBvKp4pYLTQCyn99boRfOyq0s/EvTN44fSQt0H2+Fz4nlJMZPjdSwMubQejaPrgsC/9uB3w1uUMA+TzBkcku93bPoSzNF5tY+tBhds6kMo+vmDqmVIHOnDrxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759966481; c=relaxed/simple;
-	bh=vi21MmW6hNpvJW+ahdrYgZwj9la5FUVN0ykIg2JgtSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TvVDx8go+yNkJH7ETDMKOCzBQj7nl2O3W9vbpdWI3pXeapOJ6ta11II+CLLJacPOaPpKdmnC43Mrrc6JsOFy1TEPmqVTA2Rv38XJ/feWGMkMaNAAoHiy92RQBNayAsNtD4FwSs1Z3h9xeXJdeDdTpnDZHBFk6fac7Zcz3wCvg8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ow/Hqhvk; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1759970623; c=relaxed/simple;
+	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPAC3Bc1srG70TvsS9mzw4+gqAWcWdyA3jCE3CSWg7Y7ZnnLuH6dyJarcaV4WaIoLRagpoedODmyiCuKGkt4G/ZxlzTbWoJx3STqubzn6qX3ZOc+xMIcj4UqkMznNRf6MFoXQrk9uOHdGOnbMCgiZp5Aaq7vhs2XQDxSPm4f0jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/miDTD6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ow/Hqhvk"
-Received: from romank-3650.corp.microsoft.com (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C36542038B7D;
-	Wed,  8 Oct 2025 16:34:38 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C36542038B7D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759966478;
-	bh=sMrXYp/LXKrQSONphfvQVUtB/mFfprwjOJ4nPGwda+I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ow/HqhvksHQjgko5K5FA9sPjLUB7SqWztICnGEWjfjz3ajzEiWLL/Jg/D7pBZ7b3K
-	 qs52QwuEX/FXRd0ilewiq6CH1gqNc4muwOsInw3jnW0tre51dxWKpseqmNagFpd981
-	 458xpwO0EcFWf59tu9GttWvDnuZwAYnlAKv0KbAg=
-From: Roman Kisel <romank@linux.microsoft.com>
-To: arnd@arndb.de,
-	bp@alien8.de,
-	bagasdotme@gmail.com,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	decui@microsoft.com,
-	haiyangz@microsoft.com,
-	hpa@zytor.com,
-	kys@microsoft.com,
-	mikelley@microsoft.com,
-	mingo@redhat.com,
-	tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com,
-	wei.liu@kernel.org,
-	x86@kernel.org,
-	linux-hyperv@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/miDTD6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFE24C4CEE7;
+	Thu,  9 Oct 2025 00:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759970623;
+	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d/miDTD6rOtxCuQvVhd0sT74JQnWl8xOws2qjCrK8PTGimCO/Cih2WPRfelX3vUrC
+	 dFpxSVeBkaCVvgpZUq4wW3XUNYyXwet85zHxnSqCrshdZa5/j+uLXmn1wIYQzOTXWt
+	 Sj6X8HpuLR91VXM7yzkuSrAW/xLiet20fPM2ncUH7EEZC1pwhNc/KXWgX8ta0rg5En
+	 Yt7VBXXwwivQ3Y/p+vHtjPtQAKinE4o7qERQVfdgxCShMcUfCoeEgAZie90AK5YOIM
+	 ycMOijxSoKMVwCNqp0jxYvtFOyodh2z1foXA/7GDpwPskLtQ1uoA4vHjIUQW/7Q+OE
+	 VUrpGpn+Hhreg==
+Date: Wed, 8 Oct 2025 19:43:41 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-rtc@vger.kernel.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Cc: benhill@microsoft.com,
-	bperkins@microsoft.com,
-	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v7 17/17] Drivers: hv: Support establishing the confidential VMBus connection
-Date: Wed,  8 Oct 2025 16:34:19 -0700
-Message-ID: <20251008233419.20372-18-romank@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251008233419.20372-1-romank@linux.microsoft.com>
-References: <20251008233419.20372-1-romank@linux.microsoft.com>
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>, Lee Jones <lee@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH v3 02/13] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+Message-ID: <175997061547.377977.15400204653916198003.robh@kernel.org>
+References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
+ <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
 
-To establish the confidential VMBus connection the CoCo VM, the guest
-first checks on the confidential VMBus availability, and then proceeds
-to initializing the communication stack.
 
-Implement that in the VMBus driver initialization.
+On Tue, 07 Oct 2025 21:16:43 +1000, James Calligeros wrote:
+> Apple Silicon devices integrate a vast array of sensors, monitoring
+> current, power, temperature, and voltage across almost every part of
+> the system. The sensors themselves are all connected to the System
+> Management Controller (SMC). The SMC firmware exposes the data
+> reported by these sensors via its standard FourCC-based key-value
+> API. The SMC is also responsible for monitoring and controlling any
+> fans connected to the system, exposing them in the same way.
+> 
+> For reasons known only to Apple, each device exposes its sensors with
+> an almost totally unique set of keys. This is true even for devices
+> which share an SoC. An M1 Mac mini, for example, will report its core
+> temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> SMC does not provide a way to enumerate the available keys at runtime,
+> nor do the keys follow any sort of reasonable or consistent naming
+> rules that could be used to deduce their purpose. We must therefore
+> know which keys are present on any given device, and which function
+> they serve, ahead of time.
+> 
+> Add a schema so that we can describe the available sensors for a given
+> Apple Silicon device in the Devicetree.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
+>  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
+>  MAINTAINERS                              |  1 +
+>  3 files changed, 123 insertions(+)
+> 
 
-Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/hv/vmbus_drv.c | 168 ++++++++++++++++++++++++++---------------
- 1 file changed, 106 insertions(+), 62 deletions(-)
-
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 2b5bf672c467..0dc4692b411a 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1057,12 +1057,9 @@ static void vmbus_onmessage_work(struct work_struct *work)
- 	kfree(ctx);
- }
- 
--void vmbus_on_msg_dpc(unsigned long data)
-+static void __vmbus_on_msg_dpc(void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu = (void *)data;
--	void *page_addr = hv_cpu->hyp_synic_message_page;
--	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
--				  VMBUS_MESSAGE_SINT;
-+	struct hv_message msg_copy, *msg;
- 	struct vmbus_channel_message_header *hdr;
- 	enum vmbus_channel_message_type msgtype;
- 	const struct vmbus_channel_message_table_entry *entry;
-@@ -1070,6 +1067,10 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	__u8 payload_size;
- 	u32 message_type;
- 
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
-+
- 	/*
- 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
- 	 * it is being used in 'struct vmbus_channel_message_header' definition
-@@ -1195,6 +1196,14 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	vmbus_signal_eom(msg, message_type);
- }
- 
-+void vmbus_on_msg_dpc(unsigned long data)
-+{
-+	struct hv_per_cpu_context *hv_cpu = (void *)data;
-+
-+	__vmbus_on_msg_dpc(hv_cpu->hyp_synic_message_page);
-+	__vmbus_on_msg_dpc(hv_cpu->para_synic_message_page);
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- /*
-  * Fake RESCIND_CHANNEL messages to clean up hv_sock channels by force for
-@@ -1233,21 +1242,19 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
- #endif /* CONFIG_PM_SLEEP */
- 
- /*
-- * Schedule all channels with events pending
-+ * Schedule all channels with events pending.
-+ * The event page can be directly checked to get the id of
-+ * the channel that has the interrupt pending.
-  */
--static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
-+static void vmbus_chan_sched(void *event_page_addr)
- {
- 	unsigned long *recv_int_page;
- 	u32 maxbits, relid;
-+	union hv_synic_event_flags *event;
- 
--	/*
--	 * The event page can be directly checked to get the id of
--	 * the channel that has the interrupt pending.
--	 */
--	void *page_addr = hv_cpu->hyp_synic_event_page;
--	union hv_synic_event_flags *event
--		= (union hv_synic_event_flags *)page_addr +
--					 VMBUS_MESSAGE_SINT;
-+	if (!event_page_addr)
-+		return;
-+	event = (union hv_synic_event_flags *)event_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	maxbits = HV_EVENT_FLAGS_COUNT;
- 	recv_int_page = event->flags;
-@@ -1255,6 +1262,11 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	if (unlikely(!recv_int_page))
- 		return;
- 
-+	/*
-+	 * Suggested-by: Michael Kelley <mhklinux@outlook.com>
-+	 * One possible optimization would be to keep track of the largest relID that's in use,
-+	 * and only scan up to that relID.
-+	 */
- 	for_each_set_bit(relid, recv_int_page, maxbits) {
- 		void (*callback_fn)(void *context);
- 		struct vmbus_channel *channel;
-@@ -1318,26 +1330,35 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	}
- }
- 
--static void vmbus_isr(void)
-+static void vmbus_message_sched(struct hv_per_cpu_context *hv_cpu, void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu
--		= this_cpu_ptr(hv_context.cpu_context);
--	void *page_addr;
- 	struct hv_message *msg;
- 
--	vmbus_chan_sched(hv_cpu);
--
--	page_addr = hv_cpu->hyp_synic_message_page;
--	msg = (struct hv_message *)page_addr + VMBUS_MESSAGE_SINT;
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	/* Check if there are actual msgs to be processed */
- 	if (msg->header.message_type != HVMSG_NONE) {
- 		if (msg->header.message_type == HVMSG_TIMER_EXPIRED) {
- 			hv_stimer0_isr();
- 			vmbus_signal_eom(msg, HVMSG_TIMER_EXPIRED);
--		} else
-+		} else {
- 			tasklet_schedule(&hv_cpu->msg_dpc);
-+		}
- 	}
-+}
-+
-+static void vmbus_isr(void)
-+{
-+	struct hv_per_cpu_context *hv_cpu
-+		= this_cpu_ptr(hv_context.cpu_context);
-+
-+	vmbus_chan_sched(hv_cpu->hyp_synic_event_page);
-+	vmbus_chan_sched(hv_cpu->para_synic_event_page);
-+
-+	vmbus_message_sched(hv_cpu, hv_cpu->hyp_synic_message_page);
-+	vmbus_message_sched(hv_cpu, hv_cpu->para_synic_message_page);
- 
- 	add_interrupt_randomness(vmbus_interrupt);
- }
-@@ -1355,6 +1376,59 @@ static void vmbus_percpu_work(struct work_struct *work)
- 	hv_synic_init(cpu);
- }
- 
-+static int vmbus_alloc_synic_and_connect(void)
-+{
-+	int ret, cpu;
-+	struct work_struct __percpu *works;
-+	int hyperv_cpuhp_online;
-+
-+	ret = hv_synic_alloc();
-+	if (ret < 0)
-+		goto err_alloc;
-+
-+	works = alloc_percpu(struct work_struct);
-+	if (!works) {
-+		ret = -ENOMEM;
-+		goto err_alloc;
-+	}
-+
-+	/*
-+	 * Initialize the per-cpu interrupt state and stimer state.
-+	 * Then connect to the host.
-+	 */
-+	cpus_read_lock();
-+	for_each_online_cpu(cpu) {
-+		struct work_struct *work = per_cpu_ptr(works, cpu);
-+
-+		INIT_WORK(work, vmbus_percpu_work);
-+		schedule_work_on(cpu, work);
-+	}
-+
-+	for_each_online_cpu(cpu)
-+		flush_work(per_cpu_ptr(works, cpu));
-+
-+	/* Register the callbacks for possible CPU online/offline'ing */
-+	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
-+						   hv_synic_init, hv_synic_cleanup);
-+	cpus_read_unlock();
-+	free_percpu(works);
-+	if (ret < 0)
-+		goto err_alloc;
-+	hyperv_cpuhp_online = ret;
-+
-+	ret = vmbus_connect();
-+	if (ret)
-+		goto err_connect;
-+	return 0;
-+
-+err_connect:
-+	cpuhp_remove_state(hyperv_cpuhp_online);
-+	return -ENODEV;
-+err_alloc:
-+	hv_synic_free();
-+	return -ENOMEM;
-+}
-+
- /*
-  * vmbus_bus_init -Main vmbus driver initialization routine.
-  *
-@@ -1365,8 +1439,7 @@ static void vmbus_percpu_work(struct work_struct *work)
-  */
- static int vmbus_bus_init(void)
- {
--	int ret, cpu;
--	struct work_struct __percpu *works;
-+	int ret;
- 
- 	ret = hv_init();
- 	if (ret != 0) {
-@@ -1401,41 +1474,15 @@ static int vmbus_bus_init(void)
- 		}
- 	}
- 
--	ret = hv_synic_alloc();
--	if (ret)
--		goto err_alloc;
--
--	works = alloc_percpu(struct work_struct);
--	if (!works) {
--		ret = -ENOMEM;
--		goto err_alloc;
--	}
--
- 	/*
--	 * Initialize the per-cpu interrupt state and stimer state.
--	 * Then connect to the host.
-+	 * Cache the value as getting it involves a VM exit on x86(_64), and
-+	 * doing that on each VP while initializing SynIC's wastes time.
- 	 */
--	cpus_read_lock();
--	for_each_online_cpu(cpu) {
--		struct work_struct *work = per_cpu_ptr(works, cpu);
--
--		INIT_WORK(work, vmbus_percpu_work);
--		schedule_work_on(cpu, work);
--	}
--
--	for_each_online_cpu(cpu)
--		flush_work(per_cpu_ptr(works, cpu));
--
--	/* Register the callbacks for possible CPU online/offline'ing */
--	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
--						   hv_synic_init, hv_synic_cleanup);
--	cpus_read_unlock();
--	free_percpu(works);
--	if (ret < 0)
--		goto err_alloc;
--	hyperv_cpuhp_online = ret;
--
--	ret = vmbus_connect();
-+	is_confidential = ms_hyperv.confidential_vmbus_available;
-+	if (is_confidential)
-+		pr_info("Establishing connection to the confidential VMBus\n");
-+	hv_para_set_sint_proxy(!is_confidential);
-+	ret = vmbus_alloc_synic_and_connect();
- 	if (ret)
- 		goto err_connect;
- 
-@@ -1451,9 +1498,6 @@ static int vmbus_bus_init(void)
- 	return 0;
- 
- err_connect:
--	cpuhp_remove_state(hyperv_cpuhp_online);
--err_alloc:
--	hv_synic_free();
- 	if (vmbus_irq == -1) {
- 		hv_remove_vmbus_handler();
- 	} else {
--- 
-2.43.0
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
