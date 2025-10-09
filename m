@@ -1,137 +1,133 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175FA223DD4;
-	Thu,  9 Oct 2025 17:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D1B24DCED
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 17:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760032615; cv=none; b=Yai0Gy9evGllgcbbFtnSNcOo0LlSvWqYaIqbFtq0QPhVee1FivhMOMLe4nMC/oxvonpvPNyYm+EGc4I4f+G2hWOQ2x/l9AZ4zcVoH0mff2bt8lBqEE8z/cJv+nPbeFOMiLfzZkpuQHeoNtchEXfU00VkGtCeti3rd7IUDqwFKCg=
+	t=1760032730; cv=none; b=GIOoUb0C/6O2aDLZ8WBCrIEI11WQeTuEFGKk5UCL7qTjdjQ5Bm4FgpIOTwesbPK1K318SVOWOFl+ePKyrl54BAUVw+D1azQO96QYDejsgAZlHWmEjHWWuBE/mc+d9vNnZGLclsURupgax9k+eRSXOZGrkfAG0Ccfjupfrif03x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760032615; c=relaxed/simple;
-	bh=Oc75qG4cTNZNs+023xxXOdGNA0OEKXltKZJtkf6SwuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T/YaVoWGvyKCE6y+GpoSJOF7wfvHwWOIT25qGZV5IW9q9Ah6CQrF5SosznpkP4wiTmjTv5j/WwEPogBpOMaL4oHFHXd9s7v7CLjR9Kla4wBJCvmiqfrt/gpdvP3rwdJDp6ohuBsvR54yV565pUTGhOBuQLXXXnyVG+BB7MA2W24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RG/PKOX+; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1760032730; c=relaxed/simple;
+	bh=sPUfeSm5BrFc1JGDfQfBW2rqApZnuuum7JmLHXwQcOA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DFb+b7WhJHJa1Bp+Qow+BtAm2pWZxSYkSUzPdZwaAG9p8wN/aLK8kqLpuGyVVs1Vjsm2XwumkIZmdA/IYDUpUb24CZfda8djRKZdp0v9QbgSt+PGr+Fkt1eIbcyUAwyTGLmf6c/7LtsZRvMhs5YSD4nIOpbnrMycpsCqizJN4A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3KrmDFB; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RG/PKOX+"
-Message-ID: <d09881f5-0e0b-4795-99bf-cd3711ee48ab@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760032609;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mQtDstGb3CyrZpeSWryCX/If0ajj/tB0us6K4GO5uRQ=;
-	b=RG/PKOX+b9dsfndKPbfywbTI44gZn77HEm5El0GYZFRJnXaZ96AlO6nHjLatm2rS78+wwF
-	QXtEotKWbkSVW8f8eb6U1mr+CVTjybidcHrAro4XlxeF0d1q2x5FUfS4hf/V00ZmvJzTPH
-	15lOKLt9DFUAB2FtRSdtZGn7XTbUs6Q=
-Date: Thu, 9 Oct 2025 10:56:33 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3KrmDFB"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-428551be643so10120725ab.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 10:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760032728; x=1760637528; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=upmZ+84nb0PGLfZ0odEvQVtU0YnnK5GejiW4j5Z157Q=;
+        b=A3KrmDFB7e23eDhEMzJ6oDTmsewP4fjscQ+2lLI1HJo2+FGQnu5fm0JG91TuRcoTba
+         qYWiYnYLwYUdQSOgb71iRjogZwdwrNJ9PCr17kwYZLqm3ywxWfXFXYqpziv2jNqwltcj
+         Pk/xhuVzZhmsK197H3lnt5JP6aJtNDp1S7THzYSGPkz0s3C6+kpTAcBls8NlN4LlLJwH
+         H1nzjOOi3fnM5N/PrXpDJc1KErssx7wX4r2tAhpmQjrEhCP36/ZhJhom2RaeWRPi0QNH
+         +zX5lH3wbSDIw9NqJsAqqUNNfWQe0qmhbRKPhfKSZ59haGRTsQlfFZCblQ5ipaQ+6RLX
+         m6OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760032728; x=1760637528;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=upmZ+84nb0PGLfZ0odEvQVtU0YnnK5GejiW4j5Z157Q=;
+        b=wgMrsYzmmrUMbjVHEwUyfoJ5sJBIOMn91Zz/UwyrzD++fhG5qtVzpQGUiVBVzotndT
+         Xv6lGhWbfXRNI9Y4m86poEOeiT9l8XMWBkvEQMlyGocnI2Me59L4CU0iqBApW1Nxw0VQ
+         WiSiVX1kJLnOP5HZERoF8V7YvIlK2JRvDA5fEgREL9ypTTHOOPjlCxjocVDwKv32nRM/
+         kWlsNvE2qOdbQAilz4qvLf1v7aH/iECYabQocTuT5n0iN8Y5uoFmimG6j7gqzZ+W/UiE
+         otdfjdWVtcz32Xylz0ta/MjjfFbCEx51GC4GXeq4PG8zfM8aavil4s91X5CO0WFuGU84
+         LIfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+pcw2vm0p3xck4Nqc4kRSUyOBmvls822PnNjcwpPFUVOBkPCdnm/orBFetzFIVT+tLKPUekz79L4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKLBfKcyXpzc5pWSHSdUauOTx7NwqTuLk8cLotHbSnwTaG5I77
+	mo9QvovSdnrZoM5xJZGFmE0ZjTQ6nb9M3+4LyXf9miTi2y6hKo+/lqJh
+X-Gm-Gg: ASbGncsmPI80zmO7bQh9AUdh/R5CKVHqzGDfYqhSwmfCA13ANTxoz5/JIGeAHkPu260
+	sg0kF027xdbbBoozirjxuiB6NLWO1TUxh5q6aHxd87oDm9wJ0exO0m7rIrfotznpHKupgSN/mSK
+	JyE++aHJ1H0oYwNT1VcGeVg5fc8w4Wr1Rh7s8hHidhjnQTF6/FOolXQoyx2SbFR9HW6jKj9AySW
+	6nllZOJD4JjNKUSi5ei0MJyLPYj9vtnQlWXmOueLE9dOQTyWxLUy5juQ0qVap1S1eb3UcIGcXuQ
+	NTSzjw1Cp2h09TTUJflUFp0canqYLdtt+pXRyabxF5OAS2XlxPDc+RVWI57htbdSqPfFoUeJMLz
+	kLkWl11h6gNJBoYDuS9t8rakpDvTx3dfdqkJsJ5x5Iv6Rmq5ZwCDIRPIPJF89WWdg7II7vADDpI
+	RIcQBlf0rNg5snB6rIxxtfsf54kHSKmCfjlWyPtAHqkmZSHnKo
+X-Google-Smtp-Source: AGHT+IEP/KYeFsU48bhRAsguavBTqOpW4JiVNFuGMdDXElpSwlucCVx3RZG6w7iiJpXxsucAPDZNmA==
+X-Received: by 2002:a05:6e02:18cf:b0:42e:73f7:79c4 with SMTP id e9e14a558f8ab-42f873fb613mr81674845ab.27.1760032728078;
+        Thu, 09 Oct 2025 10:58:48 -0700 (PDT)
+Received: from godzilla.raven-morpho.ts.net (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
+        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-58f7200c4afsm30256173.35.2025.10.09.10.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 10:58:47 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com
+Cc: gregkh@linuxfoundation.org,
+	ukaszb@chromium.org,
+	louis.chauvet@bootlin.com,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	daniel.vetter@ffwll.ch,
+	tvrtko.ursulin@linux.intel.com,
+	jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	Jim Cromie <jim.cromie@gmail.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v5 02/30] docs/dyndbg: explain flags parse 1st
+Date: Thu,  9 Oct 2025 11:58:06 -0600
+Message-ID: <20251009175834.1024308-3-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251009175834.1024308-1-jim.cromie@gmail.com>
+References: <20251009175834.1024308-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
- monitoring
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com,
- graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
- dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
- rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
- kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
- masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
- yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
- chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
- jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
- dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org,
- rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org,
- zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
- ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
- leonro@nvidia.com, witu@nvidia.com
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-20-pasha.tatashin@soleen.com>
- <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
- <mafs0qzvcmje2.fsf@kernel.org>
- <CA+CK2bCx=kTVORq9dRE2h3Z4QQ-ggxanY2tDPRy13_ARhc+TqA@mail.gmail.com>
- <dc71808c-c6a4-434a-aee9-b97601814c92@linux.dev>
- <CA+CK2bBz3NvDmwUjCPiyTPH9yL6YpZ+vX=o2TkC2C7aViXO-pQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <CA+CK2bBz3NvDmwUjCPiyTPH9yL6YpZ+vX=o2TkC2C7aViXO-pQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
-On 10/9/25 10:04 AM, Pasha Tatashin wrote:
-> On Thu, Oct 9, 2025 at 11:35 AM Zhu Yanjun <yanjun.zhu@linux.dev> wrote:
->>
->> 在 2025/10/9 5:01, Pasha Tatashin 写道:
->>>>> Because the window of kernel live update is short, it is difficult to statistics
->>>>> how many times the kernel is live updated.
->>>>>
->>>>> Is it possible to add a variable to statistics the times that the kernel is live
->>>>> updated?
->>>> The kernel doesn't do the live update on its own. The process is driven
->>>> and sequenced by userspace. So if you want to keep statistics, you
->>>> should do it from your userspace (luod maybe?). I don't see any need for
->>>> this in the kernel.
->>>>
->>> One use case I can think of is including information in kdump or the
->>> backtrace warning/panic messages about how many times this machine has
->>> been live-updated. In the past, I've seen bugs (related to memory
->>> corruption) that occurred only after several kexecs, not on the first
->>> one. With live updates, especially while the code is being stabilized,
->>> I imagine we might have a similar situation. For that reason, it could
->>> be useful to have a count in the dmesg logs showing how many times
->>> this machine has been live-updated. While this information is also
->>> available in userspace, it would be simpler for kernel developers
->>> triaging these issues if everything were in one place.
->> I’m considering this issue from a system security perspective. After the
->> kernel is automatically updated, user-space applications are usually
->> unaware of the change. In one possible scenario, an attacker could
->> replace the kernel with a compromised version, while user-space
->> applications remain unaware of it — which poses a potential security risk.
->>
->> To mitigate this, it would be useful to expose the number of kernel
->> updates through a sysfs interface, so that we can detect whether the
->> kernel has been updated and then collect information about the new
->> kernel to check for possible security issues.
->>
->> Of course, there are other ways to detect kernel updates — for example,
->> by using ftrace to monitor functions involved in live kernel updates —
->> but such approaches tend to have a higher performance overhead. In
->> contrast, adding a simple update counter to track live kernel updates
->> would provide similar monitoring capability with minimal overhead.
-> Would a print during boot, i.e. when we print that this kernel is live
-> updating, we could include the number, work for you? Otherwise, we
-> could export this number in a debugfs.
-Since I received a notification that my previous message was not sent 
-successfully, I am resending it.
+cc: linux-doc@vger.kernel.org
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-IMO, it would be better to export this number via debugfs. This approach 
-reduces the overhead involved in detecting a kernel live update.
-If the number is printed in logs instead, the overhead would be higher 
-compared to using debugfs.
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 4ac18c0a1d95..63a511f2337b 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -109,9 +109,18 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+ 
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
++Note: because the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword values.  Flag errs will hide keyword errs:
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
+ keywords are:::
+ 
+   match-spec ::= 'func' string |
+-- 
+2.51.0
 
-Thanks a lot.
-
-Yanjun.Zhu
-
->
-> Pasha
