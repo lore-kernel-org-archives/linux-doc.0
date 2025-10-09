@@ -1,208 +1,342 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE00E259CB2
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 21:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB223536C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 21:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760045525; cv=none; b=n7ODl854lng/W8ODc+rnpdl5+CSWMV1yFYJ9w0AGRB6M3OkOBDWos82Yb8Ymkr/CYRiqOSBEZ8aamQUz1W+3PIhjpPSMrHwVu5hcOzRxZtbH31XUDqYm2LBAfaLMwHIZffjXJ4kSX1ebxvEPxfrlfieqhP2pjh+JgZjd3Fqglqw=
+	t=1760047108; cv=none; b=MtUj665GZQDtaekEnGtK6zGIHMzNUjvasKHqWXkek2SL+9QhsvOeYCIrNuOnjnnkvUzCsq7v0+MVmd6TUaVJ9edSKaTLGgGZqgnBk2Zk5feFv6BsECep5y1mu8wIVE6EbeVcSd1mvG25Svcf7CGwX/S4pGLdCgxSC6xenCf/rOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760045525; c=relaxed/simple;
-	bh=h4DU4ZI4l26jR/VYDpsmmv1Z5UP5Bh124MolAFeGVUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aDXDN8v4Now1RvUynb3BCBGIGrUQ12bsWmxKJW7NJRRDKa50muf6IXYpQvQKm5sF0XzmghFLxDdQF6b9wFFoLP6tlzPRMJheKTuBiczyMKNtL+WW5gcO0p3TxGJR9rN6LRfXkPggRqfkK74vQOUsAOm5ypAjriwnFBMg+umsfoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=QxosG7fR; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1760047108; c=relaxed/simple;
+	bh=E6cHoG+aVXoaqqDmCd6yNSqXDvxubH/KxDh+Ob6V8Lg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fLqZJB+apk65kxqwbJaChzRWQ90YP2UyKfsvlyaT9wE8AWe0MYr97v7SwqWnuu+oMhZa8c55DJmsxow2ZQVpgm0tH2TsfI6TC7KvANGZeqFAm01vEKV0CfMDEfXrCZ/R+/Fc+Lv7F+ZtnU/KzDHNgvmNoOazSmYJ5lHWQnAadwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xl1MHt/0; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="QxosG7fR"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-85b94fe19e2so146760285a.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 14:32:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xl1MHt/0"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4dcc9cebfdfso37791cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 14:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1760045523; x=1760650323; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hgkwS57YCpvcud1v9OH0HoTyTGxD5e4o9Ce5M90SYb0=;
-        b=QxosG7fRM3vHo7j2Pi5YmcsUTvrW518Fh69m0eFdgbkxTDX+fsX5/ILOmkNJK1Ns1P
-         AejkbFoqND4owDjzQI1Qi9uTbu8sZhQfU5ImigYqMxAIRvoS/DyliW9c+WDx3XKKCeL5
-         ZIPAU6JzIuGCJcT13enXWOogD6+uLnY8TFlneD5SjxAqr2lz/jZwfGW09Vj2UlRcKSml
-         ino20KTx3Ew7wG0eMm932/G2WdK+GJY8ojUxGWQLGTFvZmUiIdQb8Xqw+ZQqU+Dw4FTR
-         s8wziyczAiuH3nLfXkFX0ZfO4fuCkANxGdDS3Wppu/KI/X6318LuBclkTdGny41jX0wF
-         5veg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760045523; x=1760650323;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1760047106; x=1760651906; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hgkwS57YCpvcud1v9OH0HoTyTGxD5e4o9Ce5M90SYb0=;
-        b=PQd/q4zk5ECWbCxZW1ALMn2T9qcnTMk5im49wOxXcKA4cwwsNsMP89R96TtCZ6RMTx
-         /BKcCNsM+nz8BSgBVR1+tMk/m3Olg+Pafn4qtUcGVBqgxELpJRcjsOO7v049QTKFh7Nf
-         y0K532rnIbSUVBLbJnIaPzbrDmptl2LXQ1ZnzwK+d9BtiG8ZeSI/iq3nphcPgH4xY3vp
-         lwOSUqmju+K4OcOAzb8gJXbNAEW4qI5Nshziwkf9IyoU0+kCPF8GgNIpmiPyiIKkx7xo
-         C3l4z+/0ayYZ/xsbak9cZS3GMIFBNvFveEnJ5q4HSsnSzkW95uAdWh6hg4bgPii7UJls
-         3wog==
-X-Forwarded-Encrypted: i=1; AJvYcCUI2qaOYSQUhzBgeYv6/R+ZTQqIC+XoYSGzlmk0n3Xph7tWqCsTxmlryx0ve6kxYyZFhGy0YUFrq20=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbhO83VPAtDQG3os9HTZ21yMLZt1ZsEBUY130jSrXtzKFFSuaQ
-	gRa89+/1xzOZx6ldJeekRUoNyCj02cOrvauyRUQG/a1uMMDBO1cstneemNTAWlhLyAY=
-X-Gm-Gg: ASbGnctbecp551BAXDJrQn70xvoRRShkE/Hvmi2xpNvD+MhrICKrgBh+dt4zHvpLK1S
-	1v0DZ+IViSKNilWFj5bhejl0ZKqE/YA5RRPWUJlZEaZlo8/sMp2IGB2GIicuDM8ic467xEM/jpn
-	rw9DvP9yzmHC2P6/9nJ1tg8XQ+Yo/fSpb23UA7moCooMoOYpCfXyk8V5kjQQaGRm6fMcpHZjh8x
-	UQUBZRedJKdl0XSdCdi/04GZWabI7S/DQKtZVKqgY+LCrFI3KjOGltkKhDzKtI4l0cVqkRjJHAT
-	lxaxnPLyy1mkiYGcpvB4ldj7ecTkDub74H/KUmSUoMvC1vIwhrT27b2IfOyTdePfb/WAs03xxRn
-	MEns8/kMlmu9NyfngsDlykNrifou5q73kpEd5sMc0FBEc7NZ35HPOxBSXwLmfYUFARAaf4rXtTY
-	OwOZNVW+PTAYRGq53Vk7Dstk8DpTdD2Q==
-X-Google-Smtp-Source: AGHT+IFhvYEnNHI2SYbRy0poOwxs6Ed+Sb5tInc1uLHry17j2mYdze22Kto1qFKghdfr0ShMzuu8yA==
-X-Received: by 2002:a05:620a:1922:b0:80a:beb4:7761 with SMTP id af79cd13be357-88352d96abfmr1323195185a.76.1760045522483;
-        Thu, 09 Oct 2025 14:32:02 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-884a23693c0sm281566585a.50.2025.10.09.14.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 14:32:01 -0700 (PDT)
-Date: Thu, 9 Oct 2025 17:31:59 -0400
-From: Gregory Price <gourry@gourry.net>
-To: David Hildenbrand <david@redhat.com>
-Cc: Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, corbet@lwn.net,
-	muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
-	mclapinski@google.com, joel.granados@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mel Gorman <mgorman@suse.de>,
-	Alexandru Moise <00moses.alexander00@gmail.com>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
- sysctl"
-Message-ID: <aOgpz6no2Jx2-Y8Z@gourry-fedora-PF4VCD3F>
-References: <20251007214412.3832340-1-gourry@gourry.net>
- <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
- <aOZ8PPWMchRN_t5-@tiehlicka>
- <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
- <aOaCAG6e5a7BDUxK@tiehlicka>
- <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
- <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
- <aOdSvriKRoCR5IUs@tiehlicka>
- <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
- <ac0393c7-9c0c-4b4d-8b35-5e6369e5431b@redhat.com>
+        bh=Da9rq64jSCHe6oeiNyGExW4qkL69hMLkeHxNHZmMDYA=;
+        b=xl1MHt/0eqwt/VALI5bC/3zAFz/yz4i8v/lt8NhTlZQIC/Vm9vpkq0iq4NK/urbRD5
+         ZXf91Oi1oHGVGNmgLIH0x/qMLPvirCv41/ulhx6o0j7NVFVp/xPMK2fC+IBb58uFHRsO
+         BTkUMRQfrWyvhniKn2wnJ8jZ+5+UTMZCtInU/lf9PI2HAHHUotn7/O973lh1S3v/QA8V
+         f18jww+sD5PPG9Ija+4HXosOTNtuoGei5huNmkuNb6hxsXN6idK+jRN3PFwNcZ/Oacsd
+         +PjoHfaUxI3GWR7+wVKboLKcV1C8vyJ4jeStvTeUyz/yuNZL31qrZHKWGgcO0nAang/9
+         /nIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760047106; x=1760651906;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Da9rq64jSCHe6oeiNyGExW4qkL69hMLkeHxNHZmMDYA=;
+        b=StPbgq+7EaNSHBwDN3OwfJIOMvkDG4I4CnsUAMnHZOwC1SvanVsPpaohAy7p98en6l
+         /rGKb9YgyLhjsnu9bP1EoiOJVLXwiwBF2ohnZsYXqtHGhutgiCQcF9kcC7kAbXQ18JxV
+         flRbtfvc4jzyGKUxranvEJCsktXLaLfd/p/CWWQpk5DteAnGzQl/aH2Phdrj7bqqPHPS
+         vjMMKNeHBjThMiZCDyfLKD0BnQXRejK0bzdnZbLDngMdWlylcNHOXjCAMIGwPkCDvUa0
+         BIGWCqJ10jFjGbPL3kwgJE8GH8I0iU0NU7gmqPP2PvfdhpHXKjW1+NUtMsYvZrrD95z6
+         Bl7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWRHzClysoP9GmMjMjw1mihthcJTdxj6QRtDI0fgrCCi9ubvuIeZo9ArlgUhpreLjtXqDd2aXmipik=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwLSvHWaSeeHMj4VVN/zBAAyeqAU5GrPp/0zE7pbeV55HKNro1
+	zBp4qrMP11DGGuk4mVFLACLQp9YZzh+uzkYvh9XwTCELhzeGDkz1M1tSOnENwUq35a7WbqtAQ5b
+	UryefEimD8ljQPra2PuNfyyzUdiLycmH96IlzPIuR
+X-Gm-Gg: ASbGncs/Ry+iC+OiHGsjknT57i7rb9roHKvgbtVHqGSk2eNFP+vzNZTwFRfYQ4gY+EX
+	kLruNdO7agnx+pCXyM5biRnXFGL8+QUMgC/LxYjdoD1c9VmCtQVlRY+mlXzjYy4sJ/C19pDvuMl
+	XTKIHFHTHNeoW+oLIlq2b+WglqkD8gNkRgtXl+Kf+GbT7vOKMjC8f0jIskCdKYGA6h4EvwFjfb/
+	4ub0OHo0SRN2VxABDedI8Bkj5cNCNqOBPwDkIP3x3Y4MSFI7kTWdbUItnO+4DQUbdHCNfg=
+X-Google-Smtp-Source: AGHT+IHtQMqTo8BIFpnJE01TPxuNwy3HFiU5S+TL2cS82bKmRJ04q7RTWP2H9LIooNmOn6Icee0DawB7J8B4tkpHZn4=
+X-Received: by 2002:ac8:5acb:0:b0:4b7:9e3a:3804 with SMTP id
+ d75a77b69052e-4e6eac3e03dmr19019021cf.16.1760047104907; Thu, 09 Oct 2025
+ 14:58:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac0393c7-9c0c-4b4d-8b35-5e6369e5431b@redhat.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com> <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+In-Reply-To: <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+From: Samiullah Khawaja <skhawaja@google.com>
+Date: Thu, 9 Oct 2025 14:58:12 -0700
+X-Gm-Features: AS18NWAFRVYpxwTRWQpBNTJ0w8vW0qyc8VT4GzWQLZMUeNsIeMEBFK1d54E05pE
+Message-ID: <CAAywjhT_9vV-V+BBs1_=QqhCGQqHo89qWy7r5zW1ej51yHPGJA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09, 2025 at 08:51:54PM +0200, David Hildenbrand wrote:
-> On 09.10.25 17:29, Gregory Price wrote:
-> Or would it be sufficient to selectively enable (explicit opt-in) some user
-> pages to end up on ZONE_MOVABLE? IOW, change the semantics of the zone by an
-> admin.
-> 
-> Like, allowing longterm pinning on ZONE_MOVABLE.
-> 
-> Sure, it would degrade memory hotunplug (until the relevant applications are
-> shut down) and probably some other things.
-> 
-> Further, I am not so sure about the value of having ZONE_MOVABLE sprinkled
-> with small unmovable allocations (same concern regarding any such zone that
-> allows for unmovable things). Kind of against the whole concept.
-> 
-> But I mean, if the admin decides to do that (opt in), so he is to blame.
-> 
+On Tue, Oct 7, 2025 at 10:11=E2=80=AFAM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
+>
+> On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > This series introduces the Live Update Orchestrator (LUO), a kernel
+> > subsystem designed to facilitate live kernel updates. LUO enables
+> > kexec-based reboots with minimal downtime, a critical capability for
+> > cloud environments where hypervisors must be updated without disrupting
+> > running virtual machines. By preserving the state of selected resources=
+,
+> > such as file descriptors and memory, LUO allows workloads to resume
+> > seamlessly in the new kernel.
+> >
+> > The git branch for this series can be found at:
+> > https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v4
+> >
+> > The patch series applies against linux-next tag: next-20250926
+> >
+> > While this series is showed cased using memfd preservation. There are
+> > works to preserve devices:
+> > 1. IOMMU: https://lore.kernel.org/all/20250928190624.3735830-16-skhawaj=
+a@google.com
+> > 2. PCI: https://lore.kernel.org/all/20250916-luo-pci-v2-0-c494053c3c08@=
+kernel.org
+> >
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Changelog since v3:
+> > (https://lore.kernel.org/all/20250807014442.3829950-1-pasha.tatashin@so=
+leen.com):
+> >
+> > - The main architectural change in this version is introduction of
+> >   "sessions" to manage the lifecycle of preserved file descriptors.
+> >   In v3, session management was left to a single userspace agent. This
+> >   approach has been revised to improve robustness. Now, each session is
+> >   represented by a file descriptor (/dev/liveupdate). The lifecycle of
+> >   all preserved resources within a session is tied to this FD, ensuring
+> >   automatic cleanup by the kernel if the controlling userspace agent
+> >   crashes or exits unexpectedly.
+> >
+> > - The first three KHO fixes from the previous series have been merged
+> >   into Linus' tree.
+> >
+> > - Various bug fixes and refactorings, including correcting memory
+> >   unpreservation logic during a kho_abort() sequence.
+> >
+> > - Addressing all comments from reviewers.
+> >
+> > - Removing sysfs interface (/sys/kernel/liveupdate/state), the state
+> >   can now be queried  only via ioctl() API.
+> >
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Hi all,
+>
+> Following up on yesterday's Hypervisor Live Update meeting, we
+> discussed the requirements for the LUO to track dependencies,
+> particularly for IOMMU preservation and other stateful file
+> descriptors. This email summarizes the main design decisions and
+> outcomes from that discussion.
+>
+> For context, the notes from the previous meeting can be found here:
+> https://lore.kernel.org/all/365acb25-4b25-86a2-10b0-1df98703e287@google.c=
+om
+> The notes for yesterday's meeting are not yes available.
+>
+> The key outcomes are as follows:
+>
+> 1. User-Enforced Ordering
+> -------------------------
+> The responsibility for enforcing the correct order of operations will
+> lie with the userspace agent. If fd_A is a dependency for fd_B,
+> userspace must ensure that fd_A is preserved before fd_B. This same
+> ordering must be honored during the restoration phase after the reboot
+> (fd_A must be restored before fd_B). The kernel preserve the ordering.
+>
+> 2. Serialization in PRESERVE_FD
+> -------------------------------
+> To keep the global prepare() phase lightweight and predictable, the
+> consensus was to shift the heavy serialization work into the
+> PRESERVE_FD ioctl handler. This means that when userspace requests to
+> preserve a file, the file handler should perform the bulk of the
+> state-saving work immediately.
+>
+> The proposed sequence of operations reflects this shift:
+>
+> Shutdown Flow:
+> fd_preserve() (heavy serialization) -> prepare() (lightweight final
+> checks) -> Suspend VM -> reboot(KEXEC) -> freeze() (lightweight)
+>
+> Boot & Restore Flow:
+> fd_restore() (lightweight object creation) -> Resume VM -> Heavy
+> post-restore IOCTLs (e.g., hardware page table re-creation) ->
+> finish() (lightweight cleanup)
+>
+> This decision primarily serves as a guideline for file handler
+> implementations. For the LUO core, this implies minor API changes,
+> such as renaming can_preserve() to a more active preserve() and adding
+> a corresponding unpreserve() callback to be called during
+> UNPRESERVE_FD.
+>
+> 3. FD Data Query API
+> --------------------
+> We identified the need for a kernel API to allow subsystems to query
+> preserved FD data during the boot process, before userspace has
+> initiated the restore.
+>
+> The proposed API would allow a file handler to retrieve a list of all
+> its preserved FDs, including their session names, tokens, and the
+> private data payload.
+>
+> Proposed Data Structure:
+>
+> struct liveupdate_fd {
+>         char *session; /* session name */
+>         u64 token; /* Preserved FD token */
+>         u64 data; /* Private preserved data */
+> };
+>
+> Proposed Function:
+> liveupdate_fd_data_query(struct liveupdate_file_handler *h,
+>                          struct liveupdate_fd *fds, long *count);
 
-For what it's worth, this patch (or the new one i posted as an RFC), I
-was able to allocate gigantic pages and migrate them back and forth
-between nodes even after they were allocated for KVM instances.
-
-I was surprised this did not cause pinning.
-
-This was all while running the QEMU machine actively eating ~2GB of
-memory.  So this seems... acceptable?  My primary use case was VM
-hugepages, but it doesn't even seem like these have been pinned.
-
-I think the confidential-compute / guest_memfd path would have an
-issue, because those are pinned and/or entirely unmapped from the
-host, but that just seems like a known quantity and a reason to leave
-this off by default (make them read the docs :]).
-
-Seems like this is pretty stable tbh.  Obviously if you hack off the
-node0 hugepages migration fails - but I feel like you're signing up for
-that when you turn the bit on.
-
-Test I ran is below.
-
-~Gregory
-
----
-Host allocates hugepages, runs a qemu image with numa structure, and
-migrates the huge pages back and forth
-
-cat /proc/sys/vm/movable_gigantic_pages 
-1
-cat .../node0/hugepages/hugepages-1048576kB/nr_hugepages
-24
-cat .../node1/hugepages/hugepages-1048576kB/nr_hugepages
-12
-
-qemu-system-x86_64 \
-  -machine q35,accel=kvm \
-  -cpu host \
-  -smp 8,sockets=1,cores=8,threads=1 \
-  -m 2G \
-  -mem-prealloc \
-  -object memory-backend-file,id=mem0,mem-path=/dev/hugepages,prealloc=on,size=1G,host-nodes=0,policy=bind \
-  -object memory-backend-file,id=mem1,mem-path=/dev/hugepages,prealloc=on,size=1G,host-nodes=1,policy=bind \
-  -numa node,nodeid=0,cpus=0-7,memdev=mem0 \
-  -numa node,nodeid=1,memdev=mem1 \
-  -nographic \
-  -drive file=fedora/hdd.qcow2 \
-  -cdrom fedora/seedci.iso
-
-grep bind /proc/1041805/numa_maps
-7efc80000000 bind:1 file=/dev/hugepages/qemu_back_mem.mem1.xKNv1N\040(deleted) huge anon=1 dirty=1 N1=1 kernelpagesize_kB=1048576
-7efd00000000 bind:0 file=/dev/hugepages/qemu_back_mem.mem0.E19dYs\040(deleted) huge anon=1 dirty=1 N0=1 kernelpagesize_kB=1048576
-
-# Move both to node 0  (uses move_pages(pid, ...)
-./move.sh 0
-Pages migrated successfully
-status[0]: 0
-Pages migrated successfully
-status[0]: 0
-
-grep bind /proc/1041805/numa_maps
-7efc80000000 bind:1 file=/dev/hugepages/qemu_back_mem.mem1.xKNv1N\040(deleted) huge anon=1 dirty=1 N0=1 kernelpagesize_kB=1048576
-7efd00000000 bind:0 file=/dev/hugepages/qemu_back_mem.mem0.E19dYs\040(deleted) huge anon=1 dirty=1 N0=1 kernelpagesize_kB=1048576
-
-# Move both to node 1
-./move.sh 1
-Pages migrated successfully
-status[0]: 1
-Pages migrated successfully
-status[0]: 1
-
-grep bind /proc/1041805/numa_maps 
-7efc80000000 bind:1 file=/dev/hugepages/qemu_back_mem.mem1.xKNv1N\040(deleted) huge anon=1 dirty=1 N1=1 kernelpagesize_kB=1048576
-7efd00000000 bind:0 file=/dev/hugepages/qemu_back_mem.mem0.E19dYs\040(deleted) huge anon=1 dirty=1 N1=1 kernelpagesize_kB=1048576
-
----
-Guest
-Running python script that eats 1.7GB of memory
-
-import time
-
-# 1.2 GB in bytes
-size_in_bytes = int(1.7 * 1024 * 1024 * 1024)
-
-# Allocate memory
-data = bytearray(size_in_bytes)
-
-print(f"Allocated {len(data) / (1024 * 1024 * 1024):.2f} GB of memory.")
-
-# Keep the process alive so you can inspect it (e.g., with top or htop)
-try:
-    while True:
-        print("nom")
-        time.sleep(10)
-except KeyboardInterrupt:
-    print("Exiting.")
+Now that you are adding the "File-Lifecycle-Bound Global State", I was
+wondering if this session data query mechanism is still necessary. It
+seems that any preserved state a file handler needs to restore during
+boot could be fetched using the Global data support instead. For
+example, I don't think session information will be needed to restore
+iommu domains during boot (iommu init), but even if some other file
+handler needs it then it can keep this info in global data. I
+discussed this briefly with Pasha today, but wanted to raise it here
+as well.
+>
+> 4. New File-Lifecycle-Bound Global State
+> ----------------------------------------
+> A new mechanism for managing global state was proposed, designed to be
+> tied to the lifecycle of the preserved files themselves. This would
+> allow a file owner (e.g., the IOMMU subsystem) to save and retrieve
+> global state that is only relevant when one or more of its FDs are
+> being managed by LUO.
+>
+> The key characteristics of this new mechanism are:
+> The global state is optionally created on the first preserve() call
+> for a given file handler.
+> The state can be updated on subsequent preserve() calls.
+> The state is destroyed when the last corresponding file is unpreserved
+> or finished.
+> The data can be accessed during boot.
+>
+> I am thinking of an API like this.
+>
+> 1. Add three more callbacks to liveupdate_file_ops:
+> /*
+>  * Optional. Called by LUO during first get global state call.
+>  * The handler should allocate/KHO preserve its global state object and r=
+eturn a
+>  * pointer to it via 'obj'. It must also provide a u64 handle (e.g., a ph=
+ysical
+>  * address of preserved memory) via 'data_handle' that LUO will save.
+>  * Return: 0 on success.
+>  */
+> int (*global_state_create)(struct liveupdate_file_handler *h,
+>                            void **obj, u64 *data_handle);
+>
+> /*
+>  * Optional. Called by LUO in the new kernel
+>  * before the first access to the global state. The handler receives
+>  * the preserved u64 data_handle and should use it to reconstruct its
+>  * global state object, returning a pointer to it via 'obj'.
+>  * Return: 0 on success.
+>  */
+> int (*global_state_restore)(struct liveupdate_file_handler *h,
+>                             u64 data_handle, void **obj);
+>
+> /*
+>  * Optional. Called by LUO after the last
+>  * file for this handler is unpreserved or finished. The handler
+>  * must free its global state object and any associated resources.
+>  */
+> void (*global_state_destroy)(struct liveupdate_file_handler *h, void *obj=
+);
+>
+> The get/put global state data:
+>
+> /* Get and lock the data with file_handler scoped lock */
+> int liveupdate_fh_global_state_get(struct liveupdate_file_handler *h,
+>                                    void **obj);
+>
+> /* Unlock the data */
+> void liveupdate_fh_global_state_put(struct liveupdate_file_handler *h);
+>
+> Execution Flow:
+> 1. Outgoing Kernel (First preserve() call):
+> 2. Handler's preserve() is called. It needs the global state, so it calls
+>    liveupdate_fh_global_state_get(&h, &obj). LUO acquires h->global_state=
+_lock.
+>    It sees h->global_state_obj is NULL.
+>    LUO calls h->ops->global_state_create(h, &h->global_state_obj, &handle=
+).
+>    The handler allocates its state, preserves it with KHO, and returns it=
+s live
+>    pointer and a u64 handle.
+> 3. LUO stores the handle internally for later serialization.
+> 4. LUO sets *obj =3D h->global_state_obj and returns 0 with the lock stil=
+l held.
+> 5. The preserve() callback does its work using the obj.
+> 6. It calls liveupdate_fh_global_state_put(h), which releases the lock.
+>
+> Global PREPARE:
+> 1. LUO iterates handlers. If h->count > 0, it writes the stored data_hand=
+le into
+>    the LUO FDT.
+>
+> Incoming Kernel (First access):
+> 1. When liveupdate_fh_global_state_get(&h, &obj) is called the first time=
+. LUO
+>    acquires h->global_state_lock.
+> 2. It sees h->global_state_obj is NULL, but it knows it has a preserved u=
+64
+>    handle from the FDT. LUO calls h->ops->global_state_restore()
+> 3. Reconstructs its state object, and returns the live pointer.
+> 4. LUO sets *obj =3D h->global_state_obj and returns 0 with the lock held=
+.
+> 5. The caller does its work.
+> 6. It calls liveupdate_fh_global_state_put(h) to release the lock.
+>
+> Last File Cleanup (in unpreserve or finish):
+> 1. LUO decrements h->count to 0.
+> 2. This triggers the cleanup logic.
+> 3. LUO calls h->ops->global_state_destroy(h, h->global_state_obj).
+> 4. The handler frees its memory and resources.
+> 5. LUO sets h->global_state_obj =3D NULL, resetting it for a future live =
+update
+>    cycle.
+>
+> Pasha
+>
+>
+> Pasha
