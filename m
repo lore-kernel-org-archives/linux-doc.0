@@ -1,148 +1,127 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923E122127A
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 18:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3EB238D52
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 18:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760035106; cv=none; b=sRc3Qpkm1StTAkTeg4hlSQfhTST41kjIs1TDVxzuShGY285UI9DJfo/PbXVnYlLvlDroP/1s4zQiU+toadhPeBQnYGMIOYLHXsgqIG5KrP85xXBSIyy7zN5vrJ++JavbxMdY5yWxtmRedb36hQmWvPl6HAGVbE9VuNVY2zjIjhs=
+	t=1760035666; cv=none; b=klTgrfYDUeVeUUfQ21NjrnnN7bGTpYIFztCKPHwv6ni6MAGg7UR4VfCORG+/JUJeLoYRM/zpFYRJhtiw/jiaMjiAMGurQdkg7jZPBhxo7zIQKf7uZNHdlguBRRtJ0TxblB59Rb2+c9a9ThpcGvU4VbUtvFUZodoO5AWMrHu12ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760035106; c=relaxed/simple;
-	bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KWYKNe7JYr4TEwc3oWThEJD7tHK9aNZ8tNXY2Ujtl5yYsHdIURNmSFvKzLTgt3VhiG5na+ztm+6LigHvwE/iNcVK6IUnN/I+Xlm/5Z4zrc5BjEl7+pp1CHtCPa25BO6BOH692Uukof5AsVFKRjWxtUF6XLu7M8wQbzQZffzUlxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DdN8Be6T; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1760035666; c=relaxed/simple;
+	bh=6HU2ogOxfConCjwhrj/P+y4fX+mCeV5OQFl17ezkvLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1TCsoGZHDA7OdT7QcY0fqPiXe1S0O2c+U76VLkBFqW9fPVS34lRx9sc9Y7Vf1jLyS7sC7orss6KLOtHRDK9k387NBj6mEtJUi7q6y4ShzXJYXgpUlZZHy4oe1iHGjZqx0jr5L8LTACNSsSCuaK4kTB7oLOJSc/t7SZ8R3sEEOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NAmj9lvV; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DdN8Be6T"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4de584653cfso21729771cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 11:38:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NAmj9lvV"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46e6674caa5so7431235e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 11:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1760035103; x=1760639903; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
-        b=DdN8Be6TgRd2DJqm9hoEjld7fiiRRoy/gg2rq8hB8XMSGqtbrho1mmlgP3ujmJG9tW
-         EgMnSl2DvAxhhEYB3acFYpzoJri0ZU2ek22364JfA0vqWZ4o49tHEJ6TBjRp2XYXwK26
-         n4b9SXRJsqgZyw9X77BFSpyupFwYFS1qsbTwz1SVxrOohgjFNnWkqbCT8JhEWol38m7g
-         dqVtiFDz1r5RPkZwOOKaa3us56ySMtF8CiemqTwLCRgHOPhiMtYmvOXz3PBUxYPE8VVN
-         yFd+L4agMLB+UvmvlkSAzFkG/0pmSrUAy2XlfiqiMa2d/nzKhSgjEIAu8EK4SZF1FxT+
-         nfHw==
+        d=suse.com; s=google; t=1760035663; x=1760640463; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VZuz8JrVqo5e+MsWYBkw7+610nun3cMbHCKwMsKJZxA=;
+        b=NAmj9lvVzCccPcKN0AwrekQJkajLbzsyq1nYki1fnf/leQ+2Gb5woLOsi221IFVsaV
+         bUWmcRhDScf35pIetUnEwR97VB8LztQwNT4v8A+0lTgylEJmg/8BgnwfUh4lOAim1JHw
+         2LLK4u0dvkBKmZ9BaazyZYM9afpKHk/x77aYGXAjV/cPh84rpELKOTl2fqGTibt9Udcv
+         595k3egqtn2KZj5+2wD0NuME0v3isETpPvTQ60Fcy5Lr87M96IMrOc/Qk7HHu6tGf9vG
+         BeV+bZ6IVYragCsiT5cnu/XNBo/i5WrAKbzMI8P78tvijezZAgd6zSeb3pW2RcrhMk7e
+         C4IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760035103; x=1760639903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=81ILHOUYQAEk70D7TUtGk2AtcHVEKY4trbt5HGWeKE8=;
-        b=e0uNxC13DY7poUbZowVC9Rf0Q3tPUD3ZEYpAaLlHSvCbU7mnpzAdBTR0+ciHOdUflz
-         C17c4z08GtrUfv0vvcCYt3EmZUdbLX13H9qynVkpfPXYEA0QZjoqfKzcBC4QA+H2X55Y
-         mx1LTPES8+oh5vj/GMZINjxIJ3KmlbD9J/FI6SIqfYcwcyQoOdIYy1L66f5LTvRNWvjs
-         vGC8BDXxTkivgjJ0mCab+9AOGNILEbm/7k6QZSljbYv9n8v2XfUyZEOxwWlh+9dHe3R7
-         2DgHdgDKROl/6vWq8oz+aB2WMN1ucw3OFgU7sRHidHi1fKQq6kk4C431zfscYRSyzr+6
-         J9Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCWV6fDDd6lzLUj1pZRDcNK7u14LSXj3kkn4XN4Ml3AA0tRNv32tcjNejMW2dvGcJulBo9IWtIZIm9s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFnWp8xa5twW0VeeERVaN0XY8tioOwj8oxsFeFmio4/TuukFgI
-	uUeT8Jed4/+F5Hir+D0XMpOx5RVjLNEDFgsQ2jdDhAbH/MNKXn8BeWuA8TbjaKaKU9z6lCuIYEX
-	6IKdSdA2LYQq3yJvjvlnFtyxkkkLQqAZw60IpiFC0fg==
-X-Gm-Gg: ASbGnct93E+OkiE7+RTPFC8elIuPKLIM/QM3cJFDUEqH7caE8MZijkgWTEW61Mi4X7M
-	vCBlVa5lpb+hMkGy2WuMW7lymEGrqNstBnnw8ZLsKwONhK3sEj4po7dYUhlTikuqG5fH2LOL9I9
-	Qxj+DZKuCfL8FeV2+Ma/B6PFtBM2e9BrhCvtvCHgBWPzGZ1mHEcJyz1EDJQDAZToLJ0cvj40YhA
-	bjAcZ/lpiRiT1hsg5AjUfu2jCuJ
-X-Google-Smtp-Source: AGHT+IFTvUtN/rpWG7psFmkleFQat5OJKejLftUiIf/dP75zdni12r9jj+HSaQKLJe6iZf61h/vhuCDqOsTOwxoEzRc=
-X-Received: by 2002:a05:622a:5517:b0:4b6:15d:b3f7 with SMTP id
- d75a77b69052e-4e6eaccd340mr110183671cf.12.1760035103219; Thu, 09 Oct 2025
- 11:38:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760035663; x=1760640463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VZuz8JrVqo5e+MsWYBkw7+610nun3cMbHCKwMsKJZxA=;
+        b=dA4FBDGA2RziHqMyqJj4KThRmM0/ScaHTKqNEGiGKfOmpo3ogxfforYGGVRbOrnGeS
+         8IIFPo6fsmaW2xzG0UHgM0y00+SxaaR0Msch6nJ0Og8hZkzPZF1/LfaL+brCHSKL8Lm7
+         WVfeoaE+ANRGyiFRQJGzpnBNzvLcoySw3P8cE7S2wgpjYanncXJWMw4LgJ9JNMdElFoa
+         AG3AeulAICB6V14JlQxazoWExA9XTv2LbcpcIfSPy+JzGLC+6zIrv805+HxxO4kPFTpD
+         DCIfGlgSATu6y2N1IuJQAhd79QIsGiRvHdpJ8XgGLhYs0esAuAlaaOZEuBmVIv7ims4n
+         w2jw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4dBhVzmv33HJfI28T5107Prx9hfpEGPRiH9BYAqOXB1pe6v+Y4yyJQdDczPspJwMedt78Uwc0UaE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTaTLJvNqecc8rEAjAhHGKZ+AW/g00bfu/bFPlnFbGjnCkrHKe
+	BN3u1crAYMF4Reh+HnvsABVKPWYVwHxJN3ouwkR5ekgKtEx+f7VnpmiJf32D0g30U3M=
+X-Gm-Gg: ASbGnct3Ki36Fjl7k/0LxYPnr/Hyf9OjczXiokpEXehC+2hO1Au6V6ZEcHdhyxjGPBN
+	3NRrAyTojhPKKaYGlI6Fs7V/uWEW/7bdohvnXgJ2bTtN+RAqtgMQ3yV3TgMkXKBanuQZkkgC3d4
+	0JsRknFeu/cXY+cKTuveVRK7W5JA8je63PlOsdsttZnPcFsW7oWFaLafmQ0zwmCWDuJUIwcAAO/
+	NizDDlgMx6cXurGOMwUPFChP1qL6eSQlGuGZ+PvOqBcyD5gZamuTYL2uDeyomDtgmVoVbEBZD0d
+	LHi7WhH/Eld5BEzQpm7xwMvX5BvsaoGY33eQMD+WZtpJ8BqPI9WnRcUX3T0asNq4myDGVER0Yfz
+	yBSf2ftYFlisE3JbxN/8vtvye7FkmGggKDoQ8Muqqu0ETwxhHykwVtrXFRS0B
+X-Google-Smtp-Source: AGHT+IH2XffCPdVW2wDSNYolrsEznFcKKrupYPDvnhkYrZPBJ7pYB+H9+xoQ8tpot3VyG+35KxzuQw==
+X-Received: by 2002:a05:600c:8b74:b0:46e:37d5:dbed with SMTP id 5b1f17b1804b1-46fa9ebd3edmr60535505e9.12.1760035662797;
+        Thu, 09 Oct 2025 11:47:42 -0700 (PDT)
+Received: from localhost (109-81-95-234.rct.o2.cz. [109.81.95.234])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fab36a773sm44576745e9.0.2025.10.09.11.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 11:47:42 -0700 (PDT)
+Date: Thu, 9 Oct 2025 20:47:41 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
+	corbet@lwn.net, muchun.song@linux.dev, osalvador@suse.de,
+	akpm@linux-foundation.org, hannes@cmpxchg.org, laoar.shao@gmail.com,
+	brauner@kernel.org, mclapinski@google.com, joel.granados@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mel Gorman <mgorman@suse.de>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+Message-ID: <aOgDTc-xix66RxXc@tiehlicka>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZ8PPWMchRN_t5-@tiehlicka>
+ <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
+ <aOaCAG6e5a7BDUxK@tiehlicka>
+ <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
+ <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
+ <aOdSvriKRoCR5IUs@tiehlicka>
+ <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
- <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
- <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
- <20251008193551.GA3839422@nvidia.com> <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
- <20251009144822.GD3839422@nvidia.com> <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
- <20251009173914.GA3899236@nvidia.com>
-In-Reply-To: <20251009173914.GA3899236@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 9 Oct 2025 14:37:44 -0400
-X-Gm-Features: AS18NWCn4swK0ST2nIuzLp0_IoWDyMPKV38mC4btlFHmbHQv1r2bdrSfddLjGqM
-Message-ID: <CA+CK2bBtrkdos6YmCatggS19rwWYBXXDLwiUWmUrs2+ye23cXA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
 
-On Thu, Oct 9, 2025 at 1:39=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wro=
-te:
->
-> On Thu, Oct 09, 2025 at 11:01:25AM -0400, Pasha Tatashin wrote:
-> > In this case we can enforce strict
-> > ordering during retrieval. If "struct file" can be retrieved by
-> > anything within the kernel, then that could be any kernel process
-> > during boot, meaning that charging is not going to be properly applied
-> > when kernel allocations are performed.
->
-> Ugh, yeah, OK that's irritating and might burn us, but we did decide
-> on that strategy.
->
-> > > I would argue it should always cause a preservation...
-> > >
-> > > But this is still backwards, what we need is something like
-> > >
-> > > liveupdate_preserve_file(session, file, &token);
-> > > my_preserve_blob.file_token =3D token
-> >
-> > We cannot do that, the user should have already preserved that file
-> > and provided us with a token to use, if that file was not preserved by
-> > the user it is a bug. With this proposal, we would have to generate a
-> > token, and it was argued that the kernel should not do that.
->
-> The token is the label used as ABI across the kexec. Each entity doing
-> a serialization can operate it's labels however it needs.
->
-> Here I am suggeting that when a kernel entity goes to record a struct
-> file in a kernel ABI structure it can get a kernel generated token for
-> it.
+On Thu 09-10-25 11:29:57, Gregory Price wrote:
+> On Thu, Oct 09, 2025 at 08:14:22AM +0200, Michal Hocko wrote:
+> > On Wed 08-10-25 12:31:22, Gregory Price wrote:
+> > > > I'm not quite clear yet on the use case, though. If all the user allocations
+> > > > end up fragmenting the memory, there is also not a lot of benefit to be had
+> > > > from that zone long term.
+> > > >
+> > > 
+> > > The only real use case i've seen is exactly: 
+> > >  - Don't want random GFP_KERNEL to land there
+> > >  - Might want it to be pinnable
+> > > 
+> > > I think that covers what you've described above.
+> > > 
+> > > But adding an entire zone felt a bit heavy handed.  Allowing gigantic in
+> > > movable seemed less - immediately - offensive.
+> > 
+> > The question is whether we need a full zone for that or we can control
+> > those allocation constrains on per memory block bases to override
+> > otherwise default. So it wouldn't be MOVABLE but rather something like
+> > USER zone.
+> 
+> 
+> Mild ignorance here - but I don't think the buddy allocator currently
+> differentiates chunks of memory based on block membership, it just eats
+> folios from certain zones/nodes.
 
-Sure, we can consider allowing the kernel to preserve dependent FDs
-automatically in the future, but is there a compelling use case that
-requires it right now?
-
-For the initial implementation, I think we should stick to the
-simpler, agreed-upon plan: preservation order is explicitly defined by
-userspace. If a preserve() call fails due to an unmet dependency, the
-error is returned to the user, who is then responsible for correcting
-the order. This keeps the kernel logic straightforward and places the
-preservation responsibility squarely in userspace, where it belongs.
-
-Pasha
+No ignorance on your end. As I've said this is not fully thought through
+idea. Memory block was meant to be userspace configurable unit.
+Internally this would need to be mapped into migrate type or something
+like that.
+-- 
+Michal Hocko
+SUSE Labs
