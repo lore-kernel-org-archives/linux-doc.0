@@ -1,231 +1,265 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE83726E146
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 22:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3852868B3
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 22:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760047295; cv=none; b=hEi6j1VWEVISq2ubLO8CRQ733RheL89DqiZsnEkPXQP/aW40Wt4IDpM9ietN/g/dCPuVC90lmoxB98ViJsRaGRCg012+XfAjB4/+XS5n2zuFAn5mqFl/V/zvV2Eze9f6BEFzxPwakd5nrbOvOSYKjOo4CzHXM4Nh6jJ5PTphtLQ=
+	t=1760049770; cv=none; b=oEby/qU4V96oAfkQz4AYcepm1a47+U48uOB+xvNVQ9eYvoK8ex1r1LgoAqj67sYx/FHzRdNnOPzoYfOtOrCUR93bpcZi1GUFpi94X+r9jN1xES8l/w1zsp3PE0QKVclfvkgDbelXlKRoG9tB87iZg6oYRm1+7a9tesqmnXY+tnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760047295; c=relaxed/simple;
-	bh=MvovQ2CZf7lZ5aK0Hw+3F1huuAcGmwy9QQE0CmWBCP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UlZEmxjagUkikH4gQyKKGjrkS0sb+zAv1dIGsjwqQT85NLuLYwTntUGxbo1GJnoBLxGuuUUGc3mUkUbCtO4Un5PQqVXL+Q0/SQPuNPrKGD/5PFtW8mgpu2pCuoomI/LA3t31eRoDk2eXfWolc4qfxDlUo77f9slBIrRtAkQ9qAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jj5cjvUP; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760049770; c=relaxed/simple;
+	bh=ekP0ZQ45qB1qjtzYO3U/Bk6+BdQ2224iAUiUCuv1zO8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gAntLq7REW53UUjugGzWfGg4qthU9jSuwzTZpwuw/yOJlZeyr/qHFfC5EIwV5nufLMRRhAlJQr/P6FV+MvQiyR2b/78AHxlZGbBgqqsGuUFzQg7lio/oxa3KUqFskt1UekeocoxsfYxgIbbZ8GhAvbaIXUEGg0bhzZTeAKTMo4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NfvaH25e; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jj5cjvUP"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-78f3bfe3f69so1420428b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 15:01:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NfvaH25e"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4da37f6e64cso14508341cf.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 15:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760047293; x=1760652093; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ubabA3xLcERhUMalMqnUfMw3y+TLyOaAiUf3iO6bq8Y=;
-        b=Jj5cjvUPyfAoNL3J8Js7Ik3znJz5K1AtIIREP6dCabCmGXVEfw7bTw2/fElmG9H5l/
-         lFKH45HTsJAN5qxeMorrJttxdyDKeowJxfh6ysvkXXNEbcZJFWzcEx3lu+gT2Un6KR8o
-         u1WWvcCgd3Ef9lE2bySDhAWq/bnYfXM654AZKoNSNKLLB1WHtepVDYGnG1qdpx4KBoNj
-         jkSoAowRCnAZif0MhLYtP/9SIluj76u0uVn0UK1AQsIDuVzD71c5kzLTBNQTcjY70B9r
-         TUDS/AueCN+z1o7lMpYAiP3qM5PyHmO6bqeS2z+df7arA7eMwxTgBJvJczbS6kYNOoFA
-         Nikg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760047293; x=1760652093;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1760049767; x=1760654567; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ubabA3xLcERhUMalMqnUfMw3y+TLyOaAiUf3iO6bq8Y=;
-        b=R+dRZWatuHUkXJQyeLPCp1MnIHTGDBmJi7MMLqU4/o5/sBDQmC9UjhlqHjTKKwYVrQ
-         ejt5ba3jmsnCbeoi3MF+Z8SGVpXfpfWU93NcSUnK3uYpbNPlmRG20DU0qD1bO2dKOXRS
-         U7nSe2MwqMQ7AZ7b4ZoG097iQisjKzlH1GVWUHujomrMJDKhHcoP0OjQw6XC6ch2U5e8
-         23CoWA1cEDdnJRAoV83BSwqqMkyhA9CUp6OXo5AC8F0p9HKj2njG/fGYUH4PLuSjVIW5
-         7Q+PoSsJqmj8Hla+snR5pfZjr5wZ2Y4f7RaMJM3j9zm271e0Ilfken9zfiv/JOPMgShB
-         K6/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVm1mMB+WOcRRTw6BkKiLwrmthlXpR/FVC4dRqBOXh51AROSliSCpSkg8yeEr2M/2x526h7dX6ryPQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjlejtyR2wbIZJmpk4n0NGOO5xu9ma9okiW7Kvl7q8VIB/lczh
-	FM2LHkdh32YdNaY13dEBcfKZ4hkkc6pR0p33j5gmnGJbjOgsM7gueewrie67SJV9
-X-Gm-Gg: ASbGncvb7YpA49VgNJwQeo3VWIe2fWVXI8U5bH2cMm6N0CbYz72FtNxhHv52WHS4zAI
-	r8pI/tpw8gnj06Wt6IOdtczdQ4JKIiCsyXcLg5eMYS7krV1Y/EOCUzQcmlEFSBJWy2VSbK3MAL8
-	rQpKwaqvWXgCAENZJy1a5ZnJpLZA7pIaWDvXIp/ZRbdgpjETrqqsIv6XAB4nJs2GKO5HPBAmVAB
-	GyRErXGyO3GVaowPi3hF1KX6A7c4rTFvt7h7XLcGvLjbPW+0ojdVXFUR1jKV6HQKqC/7QUf3jAs
-	YL/8MuER0zcmr9je+2Aa/uCAGGDcyM1GX2lcrqKQ4M9Kw4pDHMNlMcKryzjK3UoGxHZlZuPsvSm
-	yVBmBmifoKIVbbhp0nJgYWJJLWSBQo+e41tLuHSC73qHKHzmYX72Z5eIh87DxBDqZCg==
-X-Google-Smtp-Source: AGHT+IFiwrkXymykwZ3hVNOaThAi1ayt2BMjy61kTS/daz3gz7dkmJAAWVsfMj9rSf6GmAkBMMmekQ==
-X-Received: by 2002:a17:902:ce02:b0:25c:d4b6:f111 with SMTP id d9443c01a7336-290272e4666mr119076335ad.47.1760047292794;
-        Thu, 09 Oct 2025 15:01:32 -0700 (PDT)
-Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-33b61a1d3dbsm937614a91.4.2025.10.09.15.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 15:01:31 -0700 (PDT)
-Date: Thu, 9 Oct 2025 19:02:31 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org, ukleinek@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH v4 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
- and ADAQ4224
-Message-ID: <aOgw95ebGWWhahUx@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1759929814.git.marcelo.schmitt@analog.com>
- <7e51e036ba930284c74cf42afd53b17d49093654.1759929814.git.marcelo.schmitt@analog.com>
- <20251008-swooned-closable-fbc8b71601c0@spud>
+        bh=0FbWfQ96AFEkEG50UixpYovK71meMygfaTOSv2fS0lo=;
+        b=NfvaH25ejd9yhUtOC1bZhYBeS5pBSOeNKHEDhv8F+UTxfjbJyKH2bkVpvSdZagpouN
+         +MY82sRj1dmrtPAl/JLpAXEYSe1Ra3GuT7E+nKyaKz6S+SGX/E4NfkpyURRLaMFyIXyU
+         RpylL/4wCHo6gbn8h2D7tKZgmZp+7uG5SunHfh+bBQJhLqllMie+q2syau3prfNb5vnb
+         MHDQFkl+95oX4H1omSHmfE4G3EttRC5ILBNjZ/DZ3ZTMGLiqGte1UHOpcgASGxiMlgFl
+         mYhxyinNnmuw3AVicq06zrlBNGgJ802MoBI9fxtjAMc9c1Sx9P6dVmyYm4cdSImpEjvm
+         43GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760049767; x=1760654567;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0FbWfQ96AFEkEG50UixpYovK71meMygfaTOSv2fS0lo=;
+        b=CZdQM+FH9wleXUY746NFWTdf65h8hr3yYDqehs5watoCh4xJC3pGCjooOoaapSjoWa
+         yv3gZFml/f9IktIc6ai152dSzKeWTNf9FdMWvk28OZoux/ViVerw+aheaqm1Lsp93Pja
+         ER0NnlCgRHRWQXu8b75pjHk4pjl67hfoS2GsCSaMTY91HkTpw8XlNFJYqCdKKXUYGlCF
+         k0hepF9/HXyZ0Ar+ErS7C5/2+KJ0SpkfdMpIPX09y4bZtHBGYzvHu4Piaqdodk2dMny4
+         c0FlHhzlmKCyY661GDGMd5LVyFKgPeKrYgl7VndyIgdO3Dt116A8qCJwW9xncKNZgSnw
+         T1jA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtfxHd4C65lH9jDZAv4YXx+d3leS3//ckfyRcp0EbS4lsIL0sOjrrdya4rN/2c2Ma9uTSzzjTU3Nc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLwuMgc2sv+Km2jLKPnU7VraT1k484Sy8x+1gopbnEPKdNKnm8
+	5vN4dqg9Mk0+XMXRwTKg3LjKanqcNRIoGnWLD7rZu5miUP/ljcY0BOcf+foG6EykiljK34OEvVY
+	REvQlDxWPgQPXDdilC1ddPnGLbZHhTq+eAwXCqRsrrg==
+X-Gm-Gg: ASbGnctAmwLSAJutFM9heWpa2upyPklribBpVu1GdA6s3ozEyD7zupbE5dhugNWdyXp
+	LgRebmm5jBeH9jvFBmgbYlNC6PWe1aTFqrIPbNfE6nUmgJ8NqgI6TS4ZF3QUYAMFJjxDy6mnBvM
+	5wdpzZSwWkwHu0qVI53ZDP9BWalbjdevCUymnw8T4gh4Wf4J+W3w8RRDbCX7q3L7bTIM0hLn+f8
+	TnxQ2wqlV+jacjuicuCPrjJvUZP
+X-Google-Smtp-Source: AGHT+IHG5W702Zbf4mjn7MvE15WtY39zkt1MK6wHvNWeSpV5Z77scUuTO2nY2xRATETmTz79MrDYNcaEvgfPFiK7ygM=
+X-Received: by 2002:a05:622a:60d:b0:4b6:33c1:4d53 with SMTP id
+ d75a77b69052e-4e6eacccf23mr129760071cf.16.1760049766599; Thu, 09 Oct 2025
+ 15:42:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251008-swooned-closable-fbc8b71601c0@spud>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com> <CAAywjhT_9vV-V+BBs1_=QqhCGQqHo89qWy7r5zW1ej51yHPGJA@mail.gmail.com>
+In-Reply-To: <CAAywjhT_9vV-V+BBs1_=QqhCGQqHo89qWy7r5zW1ej51yHPGJA@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 9 Oct 2025 18:42:09 -0400
+X-Gm-Features: AS18NWD5B-wFlFzrsG8ABOC3Hmjw4CdpOCjhPtFpyfzvKOXdPCdlviqFJ5wfQM0
+Message-ID: <CA+CK2bAe3yk4NocURmihcuTNPUcb2-K0JCaQQ5GJ4B58YLEwEw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Samiullah Khawaja <skhawaja@google.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/08, Conor Dooley wrote:
-> On Wed, Oct 08, 2025 at 10:51:37AM -0300, Marcelo Schmitt wrote:
-> > ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
-> > PGA (programmable gain amplifier) that scales the input signal prior to it
-> > reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
-> > and A1) that set one of four possible signal gain configurations.
-> > 
-> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > ---
-> > Change log v3 -> v4
-> > - Now only documenting GPIO setup to control ADAQ PGA pins.
-> > 
-> > Pin strapped/hardwired connections to PGA pins may benefit from a "fixed-gpios"
-> > driver which may (or may not?) use the shared GPIO abstraction layer [1]. I may
-> > propose support for pin-strapped/hardwired connections when I get a working
-> > fixed-gpios implementation.
-> 
-> What is a "fixed-gpio" as compared to a hog, from a dt point of view?
-> Is it purely a software change?
+On Thu, Oct 9, 2025 at 5:58=E2=80=AFPM Samiullah Khawaja <skhawaja@google.c=
+om> wrote:
+>
+> On Tue, Oct 7, 2025 at 10:11=E2=80=AFAM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
+> > <pasha.tatashin@soleen.com> wrote:
+> > >
+> > > This series introduces the Live Update Orchestrator (LUO), a kernel
+> > > subsystem designed to facilitate live kernel updates. LUO enables
+> > > kexec-based reboots with minimal downtime, a critical capability for
+> > > cloud environments where hypervisors must be updated without disrupti=
+ng
+> > > running virtual machines. By preserving the state of selected resourc=
+es,
+> > > such as file descriptors and memory, LUO allows workloads to resume
+> > > seamlessly in the new kernel.
+> > >
+> > > The git branch for this series can be found at:
+> > > https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v4
+> > >
+> > > The patch series applies against linux-next tag: next-20250926
+> > >
+> > > While this series is showed cased using memfd preservation. There are
+> > > works to preserve devices:
+> > > 1. IOMMU: https://lore.kernel.org/all/20250928190624.3735830-16-skhaw=
+aja@google.com
+> > > 2. PCI: https://lore.kernel.org/all/20250916-luo-pci-v2-0-c494053c3c0=
+8@kernel.org
+> > >
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > Changelog since v3:
+> > > (https://lore.kernel.org/all/20250807014442.3829950-1-pasha.tatashin@=
+soleen.com):
+> > >
+> > > - The main architectural change in this version is introduction of
+> > >   "sessions" to manage the lifecycle of preserved file descriptors.
+> > >   In v3, session management was left to a single userspace agent. Thi=
+s
+> > >   approach has been revised to improve robustness. Now, each session =
+is
+> > >   represented by a file descriptor (/dev/liveupdate). The lifecycle o=
+f
+> > >   all preserved resources within a session is tied to this FD, ensuri=
+ng
+> > >   automatic cleanup by the kernel if the controlling userspace agent
+> > >   crashes or exits unexpectedly.
+> > >
+> > > - The first three KHO fixes from the previous series have been merged
+> > >   into Linus' tree.
+> > >
+> > > - Various bug fixes and refactorings, including correcting memory
+> > >   unpreservation logic during a kho_abort() sequence.
+> > >
+> > > - Addressing all comments from reviewers.
+> > >
+> > > - Removing sysfs interface (/sys/kernel/liveupdate/state), the state
+> > >   can now be queried  only via ioctl() API.
+> > >
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > Hi all,
+> >
+> > Following up on yesterday's Hypervisor Live Update meeting, we
+> > discussed the requirements for the LUO to track dependencies,
+> > particularly for IOMMU preservation and other stateful file
+> > descriptors. This email summarizes the main design decisions and
+> > outcomes from that discussion.
+> >
+> > For context, the notes from the previous meeting can be found here:
+> > https://lore.kernel.org/all/365acb25-4b25-86a2-10b0-1df98703e287@google=
+.com
+> > The notes for yesterday's meeting are not yes available.
+> >
+> > The key outcomes are as follows:
+> >
+> > 1. User-Enforced Ordering
+> > -------------------------
+> > The responsibility for enforcing the correct order of operations will
+> > lie with the userspace agent. If fd_A is a dependency for fd_B,
+> > userspace must ensure that fd_A is preserved before fd_B. This same
+> > ordering must be honored during the restoration phase after the reboot
+> > (fd_A must be restored before fd_B). The kernel preserve the ordering.
+> >
+> > 2. Serialization in PRESERVE_FD
+> > -------------------------------
+> > To keep the global prepare() phase lightweight and predictable, the
+> > consensus was to shift the heavy serialization work into the
+> > PRESERVE_FD ioctl handler. This means that when userspace requests to
+> > preserve a file, the file handler should perform the bulk of the
+> > state-saving work immediately.
+> >
+> > The proposed sequence of operations reflects this shift:
+> >
+> > Shutdown Flow:
+> > fd_preserve() (heavy serialization) -> prepare() (lightweight final
+> > checks) -> Suspend VM -> reboot(KEXEC) -> freeze() (lightweight)
+> >
+> > Boot & Restore Flow:
+> > fd_restore() (lightweight object creation) -> Resume VM -> Heavy
+> > post-restore IOCTLs (e.g., hardware page table re-creation) ->
+> > finish() (lightweight cleanup)
+> >
+> > This decision primarily serves as a guideline for file handler
+> > implementations. For the LUO core, this implies minor API changes,
+> > such as renaming can_preserve() to a more active preserve() and adding
+> > a corresponding unpreserve() callback to be called during
+> > UNPRESERVE_FD.
+> >
+> > 3. FD Data Query API
+> > --------------------
+> > We identified the need for a kernel API to allow subsystems to query
+> > preserved FD data during the boot process, before userspace has
+> > initiated the restore.
+> >
+> > The proposed API would allow a file handler to retrieve a list of all
+> > its preserved FDs, including their session names, tokens, and the
+> > private data payload.
+> >
+> > Proposed Data Structure:
+> >
+> > struct liveupdate_fd {
+> >         char *session; /* session name */
+> >         u64 token; /* Preserved FD token */
+> >         u64 data; /* Private preserved data */
+> > };
+> >
+> > Proposed Function:
+> > liveupdate_fd_data_query(struct liveupdate_file_handler *h,
+> >                          struct liveupdate_fd *fds, long *count);
+>
+> Now that you are adding the "File-Lifecycle-Bound Global State", I was
+> wondering if this session data query mechanism is still necessary. It
+> seems that any preserved state a file handler needs to restore during
+> boot could be fetched using the Global data support instead. For
+> example, I don't think session information will be needed to restore
+> iommu domains during boot (iommu init), but even if some other file
+> handler needs it then it can keep this info in global data. I
+> discussed this briefly with Pasha today, but wanted to raise it here
+> as well.
 
+I agree, the query API is ugly and indeed not needed with the FLB
+Global State. The biggest problem with the query API is that the
+caller must somehow know how to interpret the preserved file-handler
+data before the struct file is reconstructed. This is problematic;
+there should only be one place that knows how to store and interpret
+the data, not multiple.
 
-Short answer:
+It looks like the combination of an enforced ordering:
+Preservation: A->B->C->D
+Un-preservation: D->C->B->A
+Retrieval: A->B->C->D
 
-I think "fixed-gpio" and gpio-hog would mean the same from dt point of view.
-Yes, it's mainly related to software.
+and the FLB Global State (where data is automatically created and
+destroyed when a particular file type participates in a live update)
+solves the need for this query mechanism. For example, the IOMMU
+driver/core can add its data only when an iommufd is preserved and add
+more data as more iommufds are added. The preserved data is also
+automatically removed once the live update is finished or canceled.
 
-
-Long answer:
-
-We would like to read the state of a pin from the GPIO client driver. Maybe we
-are already able to read gpio-hog states from client drivers and just didn't
-find out how.
-
-The idea is to standardize and simplify the dt bindings when peripheral pins can
-either be connected GPIOs or hard-wired to some logic level.
-
-For the particular example of ADAQ4216, it can have PGA control pins connected
-to GPIOs.
-
-    +-------------+         +-------------+
-    |     ADC     |         |     HOST    |
-    |             |         |             |
-    |   SPI lines |<=======>| SPI lines   |
-    |             |         |             |
-    |          A0 |<--------| GPIO_A      |
-    |          A1 |<--------| GPIO_B      |
-    +-------------+         +-------------+
-
-But the pins might instead be hard-wired, like
-
-    +-------------+         +-------------+
-    |     ADC     |         |     HOST    |
-    |             |         |             |
-    |   SPI lines |<=======>| SPI lines   |
-    |             |         +-------------+
-    |          A0 |<-----+
-    |          A1 |<-----+
-    +-------------+      |
-                        VIO
-
-or
-
-    +-------------+         +-------------+
-    |     ADC     |         |     HOST    |
-    |             |         |             |
-    |   SPI lines |<=======>| SPI lines   |
-    |             |         +-------------+
-    |          A0 |<--------- VIO
-    |          A1 |<-----+
-    +-------------+      |
-                        GND
-
-Or even, possibly, a mix of GPIO and hard-wired.
-
-    +-------------+         +-------------+
-    |     ADC     |         |     HOST    |
-    |             |         |             |
-    |   SPI lines |<=======>| SPI lines   |
-    |             |         |             |
-    |          A0 |<--------| GPIO_A      |
-    |             |         +-------------+
-    |          A1 |<-----+
-    +-------------+      |
-                        GND
-
-We have bindings (like adi,ad7191.yaml [1]) describing the hard-wired setups
-with function specific properties. E.g.
-  adi,pga-value:
-    $ref: /schemas/types.yaml#/definitions/uint32
-    description: |
-      Should be present if PGA pins are pin-strapped. Possible values:
-      Gain 1 (PGA1=0, PGA2=0)
-      Gain 8 (PGA1=0, PGA2=1)
-      Gain 64 (PGA1=1, PGA2=0)
-      Gain 128 (PGA1=1, PGA2=1)
-      If defined, pga-gpios must be absent.
-    enum: [1, 8, 64, 128]
-
-This approach works fine, but it requires documenting device-specific values
-(e.g. gain 1, gain 8, ..., gain X) for each new series of ADCs because each
-each series has different hardware properties.
-
-Sometimes peripherals have pins with different functions that are also either
-hard-wired or connected to GPIOs (like adi,ad7606.yaml [2] and adi,ad7625.yaml [3]).
-Software wants to know about the state of those pins. When they are connected
-to GPIOs, we can just read the GPIO value. But when the pins are hard-wired,
-we have to set additional dt properties (e.g. adi,pga-value) and then software
-figures out the state of the pins from the value read from dt.
-What we wonder is whether it would be possible to have both the GPIO and
-hard-wired cases described by gpio properties.
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/iio/adc/adi,ad7191.yaml#n77
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml#n127
-[3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml#n70
-
-For example, instead of having
-
-/* All GPIOs case */
-pga-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>, <&gpio 24 GPIO_ACTIVE_HIGH>;
-
-and
-
-/* All hard-wired (pin-strapped) case */
-adi,pga-value = <1>;
-
-maybe we could have something like
-
-/* All gpios */
-pga-gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>,
-            <&gpio0 1 GPIO_ACTIVE_HIGH>;
-/* or all hard-wired */
-pga-gpios = <&fixed_gpio GPIO_FIXED_LOW>,
-            <&fixed_gpio GPIO_FIXED_LOW>;
-
-as suggested by David [4].
-
-Though, I'm also a bit worried about such way of describing the hard-wired
-connections being potentially confusing as those "fixed-gpios" would not
-necessarily mean any actual GPIO.
-
-[4]: https://lore.kernel.org/linux-iio/CAMknhBHzXLjkbKAjkgRwEps=0YrOgUcdvRpuPRrcPkwfwWo88w@mail.gmail.com/
-
-
-With best regards,
-Marcelo
+Pasha
