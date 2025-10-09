@@ -1,205 +1,116 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D3717555
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750FA226D1E;
+	Thu,  9 Oct 2025 16:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028392; cv=none; b=SL7wZy4RwbmdCJmedLciWt1QqoxwNOX63gFPs/8TmSKDT1Olwasw1OICxz9zs7frKgnXF+XBY73V26NKKNr9kRlYHjPpKJuIFF63/rs99sZnTPjeBKuFNzO+geeYw/Aa7DKQoGVL7EKvGHHeYcpgBYgQtuj5QKTTS2gUwTTJeoI=
+	t=1760029114; cv=none; b=kD1zHVErJDeYAK1wkwOMO9yFMCTIHMexBRALT+6WIfLHxNXnz8OCK9Aw4L8E8rq0bJq4t5GOR7EI7rBG7k8smIEqKXVaX3bXzQhC16gVAtkQtLtiV4o4pTGsCj0fEz7Ub1LWnJfJrfbULYNeDncetR2p0nIKn+EncS4ywXtNUE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028392; c=relaxed/simple;
-	bh=0YzEi/FKr4gAZLlOWGsCp0p08GtODGPitU0V9xWloho=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t7xgP8yaGFozLRrN1nuL1X0ljlw8lNPrFqhzXOzW8gvBU1uGeNO/jElws8F4OQ4kN6YsvdlnGLiZ4c9iPuNxl0qXpirLgyYWQ7pYcLRwVMHUPp94eQ0tK+QniNLgRiHDKMVjN04eDzqBpM9Rnkgjg2HxIxwcqqt16qYKztOLS6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FGb46r6h; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760029114; c=relaxed/simple;
+	bh=ouGPV7oXLO0nXJOGjQeFcq4BgOQGJoUl/Z0W43w/T/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VGywaCISVzyBBUmwm4gKDJpBAUXv6SjYo4cvyEtNehylfggRF8hL5lAxaeL7yTMncdyMnFWlIotoxlGw+XHYJiFTPh//BAFw35X7EuWPbJH1UDpnTRGkojCP5/FdUk7TLETplAS1X2s4EbUs9el+jem2cv9Tc5UouGFwMYpNrb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDeiGwaM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FGb46r6h"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4df3fabe9c2so2901cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 09:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760028389; x=1760633189; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
-        b=FGb46r6hSI4mLnolXEJ/yTaoR+b6l70oW2PLOJIjoLyS7rAQl7r7B7Se4F9saXsMFQ
-         Lqn/2eMDtw6Fpt13lXNjiuM7qPDcZ1DWmV3tFWHaZWmWxiQGucflA2Yczq5vPZJIJHPF
-         4GcBbbghvT56IRB0R6qn9ckTHcjJ7EDaqtl2LDonMZGVvoNdAI6+TuSsAApkEuEvyQfH
-         aBRIOEnwVAa6i4YUTEcUoM25KUNTe9pvZmvbck/f3mkSfschYpwvb3LI41+7oOEuJ2ww
-         VboX6unb3BkpfbTrpBT/LKQ2w2QSidadL869KKVyEDr3ic8ng7r6iQvx+VfDKSU2mjpB
-         YgjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760028389; x=1760633189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
-        b=xMnMIBRZFV5aay3naAj0jh5/2y1oUsV3rEC9J8wGGqB2izCXXLGD7dgVFxvzPOJ0RD
-         owoTiW9XR5za1pFpNRcSsHhh9sA0OCthgqtZWms+iw/37cOSEjJ2zRT/pUXw+0lKDCRv
-         x+nf21X7xSWqO+S1R8waOZsyE7devEUiivpkAe/zBr+wUii7oLM2r6uKe0dgEiFvB9Ci
-         slvYFa1Z6yPUFPU/Uf9UC1Qtj9ueZacv1Sw+qc8cEaoY2IPgEiNMamsw53o6zfltxjaB
-         zraYNQkvjudUEy0fGeDahIJYxl8Yl7bkt1FPNoBb70ER78VHefKT3sspDI92HkBbmoyR
-         zREw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcBwBlQqttXX5NwM65U9aSkuB7KvhgJqc+wwHUtRZ/xAl0eBCdSFQLksEw/1e+Ms3sIySe0wJPnRk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytW2OvQrmIauegNAmQcb8FkOGRv4iHsFYcc4uiKkLHoQ02hHk+
-	m5RK1LRRYml062d8IPp+4Ycwe6XJt43lvmCz3bxg9OKy5Gt0xS1Er/2poGumk1m1ntmRnEG/VVY
-	0f5VhuwjxoSf52EpHhHEUidylBxggdVuTR6QiYHX6
-X-Gm-Gg: ASbGncvBnb7A7/oFslU/dyVQ9+jriMl6ue8JP4xc8JlR65g+JhMCZvfEc8IJg1Q1R7n
-	9KkOCQRE+zYTpGBmjzueUea6PNyfoRD621IS8j9ZY4UhHyZ1NDBlgU9jihdpe7cMqSf/CMP6oaa
-	Tyy7uX/5VlzhSb8X8m4Xp5fUcly3xheeqvoTJCt6/PfhSKTHSXmfZjUFdts+tlklKKedc+ifcVw
-	EgR/oEZ+KTvNnFmMpJlwpQeMMcv/LO4B4jFxbQJGFHFyfP4xFUwY5J1AeDFjObdxXHhuF4=
-X-Google-Smtp-Source: AGHT+IF70ucIJMpJA0vPDQgicdHZr5JjOzPiEUk9y5SQTUUUNRoZE52nw8qSw3T5aRdmC55lZrWVgbTQ4VOEIK5o6D4=
-X-Received: by 2002:a05:622a:344:b0:4b7:9b7a:1cfc with SMTP id
- d75a77b69052e-4e6eabce6d2mr16470351cf.10.1760028388319; Thu, 09 Oct 2025
- 09:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDeiGwaM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FABCC4CEE7;
+	Thu,  9 Oct 2025 16:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760029113;
+	bh=ouGPV7oXLO0nXJOGjQeFcq4BgOQGJoUl/Z0W43w/T/M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qDeiGwaMBznqqiv2IJw492Qxj6TZBLlPZqEJ+urDxl5HvclEpTnt9Q9uOOlesnw35
+	 xVEmPn+KnsIlTnU+5Jn0zq7CaoRfFnjsNqLP7xhdVwKHcztoE4O0iGTR706FLO2GmC
+	 vsr306KtmweaLHjBaifUvRrr8YXMJM97RVbmax3F0wsmUrWqzoNwPyFEVdGy7G/ute
+	 aaEf+1fYs6gJoZiSl7M466NxXHJ/gYWrNKmUYJkJC9Fl8Pj/Gd/ibyH35P3s3Yi5lK
+	 wUWdaTQiH5Fgfp7dy0L5vCVfgyRxlsasyJfPbM3QV1ygSpTmcb7oh5WRem0s9MZ/o0
+	 UYKF2sol7iBnw==
+Date: Thu, 9 Oct 2025 18:58:31 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, jic23@kernel.org, michael.hennerich@analog.com, 
+	nuno.sa@analog.com, eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+	marcelo.schmitt1@gmail.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4 1/8] pwm: Declare waveform stubs for when PWM is not
+ reachable
+Message-ID: <cuq6eh3vcrkgr7tj3xpo7ax4ruiy4ra6fjxgu45a3eqs2jbtah@ualgnhdwxnih>
+References: <cover.1759929814.git.marcelo.schmitt@analog.com>
+ <129ff5c5b7f7be4f4f3f9cf8aa3e1957d713acb7.1759929814.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
- <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
- <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
- <20251008193551.GA3839422@nvidia.com> <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
- <20251009144822.GD3839422@nvidia.com> <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
-In-Reply-To: <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Thu, 9 Oct 2025 09:46:16 -0700
-X-Gm-Features: AS18NWBgKgmWhR1-EKut7z0eede2LXIJaTXH-__gJayThOTTr-r8gXegH0ezPFY
-Message-ID: <CAAywjhSU7ibji=Z50U+OcX7eemhid2sB7OK_fsgzds3vGTZOjw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4les542qp6fpfvza"
+Content-Disposition: inline
+In-Reply-To: <129ff5c5b7f7be4f4f3f9cf8aa3e1957d713acb7.1759929814.git.marcelo.schmitt@analog.com>
+
+
+--4les542qp6fpfvza
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 1/8] pwm: Declare waveform stubs for when PWM is not
+ reachable
+MIME-Version: 1.0
 
-On Thu, Oct 9, 2025 at 8:02=E2=80=AFAM Pasha Tatashin <pasha.tatashin@solee=
-n.com> wrote:
->
-> On Thu, Oct 9, 2025 at 10:48=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> =
-wrote:
-> >
-> > On Wed, Oct 08, 2025 at 04:26:39PM -0400, Pasha Tatashin wrote:
-> > > On Wed, Oct 8, 2025 at 3:36=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.co=
-m> wrote:
-> > > >
-> > > > On Wed, Oct 08, 2025 at 12:40:34PM -0400, Pasha Tatashin wrote:
-> > > > > 1. Ordered Un-preservation
-> > > > > The un-preservation of file descriptors must also be ordered and =
-must
-> > > > > occur in the reverse order of preservation. For example, if a use=
-r
-> > > > > preserves a memfd first and then an iommufd that depends on it, t=
-he
-> > > > > iommufd must be un-preserved before the memfd when the session is
-> > > > > closed or the FDs are explicitly un-preserved.
-> > > >
-> > > > Why?
-> > > >
-> > > > I imagined the first to unpreserve would restore the struct file * =
--
-> > > > that would satisfy the order.
-> > >
-> > > In my description, "un-preserve" refers to the action of canceling a
-> > > preservation request in the outgoing kernel, before kexec ever
-> > > happens. It's the pre-reboot counterpart to the PRESERVE_FD ioctl,
-> > > used when a user decides not to go through with the live update for a
-> > > specific FD.
-> > >
-> > > The terminology I am using:
-> > > preserve: Put FD into LUO in the outgoing kernel
-> > > unpreserve: Remove FD from LUO from the outgoing kernel
-> > > retrieve: Restore FD and return it to user in the next kernel
-> >
-> > Ok
-> >
-> > > For the retrieval part, we are going to be using FIFO order, the same
-> > > as preserve.
-> >
-> > This won't work. retrieval is driven by early boot discovery ordering
-> > and then by userspace. It will be in whatever order it wants. We need
-> > to be able to do things like make the struct file * at the moment
-> > something requests it..
->
-> I thought we wanted only the user to do "struct file" creation when
-> the user retrieves FD back. In this case we can enforce strict
-> ordering during retrieval. If "struct file" can be retrieved by
-> anything within the kernel, then that could be any kernel process
-> during boot, meaning that charging is not going to be properly applied
-> when kernel allocations are performed.
->
-> We specifically decided that while "struct file"s are going to be
-> created only by the user, the other subsystems can have early access
-> to the preserved file data, if they know how to parse it.
->
-> > > > This doesn't seem right, the API should be more like 'luo get
-> > > > serialization handle for this file *'
-> > >
-> > > How about:
-> > >
-> > > int liveupdate_find_token(struct liveupdate_session *session,
-> > >                           struct file *file, u64 *token);
-> >
-> > This sort of thing should not be used on the preserve side..
-> >
-> > > And if needed:
-> > > int liveupdate_find_file(struct liveupdate_session *session,
-> > >                          u64 token, struct file **file);
-> > >
-> > > Return: 0 on success, or -ENOENT if the file is not preserved.
-> >
-> > I would argue it should always cause a preservation...
-> >
-> > But this is still backwards, what we need is something like
-> >
-> > liveupdate_preserve_file(session, file, &token);
-> > my_preserve_blob.file_token =3D token
+Hello,
 
-Please clarify if you still consider that the user does register the
-dependencies FDs explicitly, but this API just triggers the
-"prepare()" or "preserve()" callback so the preservation order is
-enforced/synchronized?
->
-> We cannot do that, the user should have already preserved that file
-> and provided us with a token to use, if that file was not preserved by
-> the user it is a bug. With this proposal, we would have to generate a
-> token, and it was argued that the kernel should not do that.
+On Wed, Oct 08, 2025 at 10:49:44AM -0300, Marcelo Schmitt wrote:
+> Previously, the PWM waveform consumer API would not be declared if
+> CONFIG_PWM was not reachable. That caused kernel builds to fail if a
+> consumer driver was enabled but PWM disabled. Add stubs for PWM waveform
+> functions so client drivers that use, but don't depend on PWM, can build =
+if
+> PWM is disabled.
+>=20
+> Fixes: 6c5126c6406d ("pwm: Provide new consumer API functions for wavefor=
+ms")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202509272028.0zLNiR5w-lkp@i=
+ntel.com/
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
+> I've included this patch in this series because it should save us from be=
+ing
+> notified by 0-day about the build failure this patch fixes. From contribu=
+tor's
+> perspective, it's easier to have this patch together with the rest of ad4=
+030
+> series. Though, no objection if kernel maintainers decide to pick it [1] =
+through
+> the PWM tree.
+>=20
+> [1]: https://lore.kernel.org/linux-pwm/1ac0fc529e02744aacfcb9140ed597ff60=
+886f39.1759873890.git.marcelo.schmitt@analog.com/
 
-Agreed. Another thing that I was wondering about is how does the user
-space know that its FD was preserved as dependency?
+TL;DR: nack
 
->
-> > file =3D liveupdate_retrieve_file(session, my_preserve_blob.file_token)=
-;
-> >
-> > And these can run in any order, and be called multiple times.
-> >
-> > Jason
+I replied to the original submission about why this patch is wrong. See
+there for the details.
+
+Best regards
+Uwe
+
+--4les542qp6fpfvza
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjn6bQACgkQj4D7WH0S
+/k5meQf/ZUbpWgJbz2gIbDh0ItNlTparKj2Q4WVhgedGfKCY8chMHQTmFuUhtvQV
+iuFLynz2QJ4XDGg7SQ6zo2WMvE+DG+aSvELz4adu+8KV1M7FtoWfFP9uACVK2iZV
+Ls6lMV4ZyrCM+2me6/oa+uuKSrr+2/tUXTXz/GZzouBjuAYnsYEoYHjLuCbbjL7/
+XadRRmCRLPBMyDUlLk+b5MAXtLPXVhP9pMby8FAB4i2nQmq6JgdV0VzgpslhMV9b
+F3ekcy9YOJZifaAkQIORUsj9ChFkj86jy/H3uz5YVEGxSAyy5oLvqOgf9RZGZyiE
+2DbWbyB6lqRcjlBEyqWKxo8MGDj/lQ==
+=ZygH
+-----END PGP SIGNATURE-----
+
+--4les542qp6fpfvza--
