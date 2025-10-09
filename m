@@ -1,347 +1,197 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011069.outbound.protection.outlook.com [52.101.52.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07122DC33F
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 11:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760009058; cv=none; b=Th0KTcaQFJzj8vtEP1UqV1sJc9umMOrIXq8I9hwaqCU1SaHZKNgTCLxjA/orjM5vg/WqZfJZEMI60q5D+Y9MOAVZlLVB08HfzYGPDYN+D9m2+2H900upF2YPLVrF+rZfFW0GQqi7WU2HYNULp6+/OZuv0kb2I/M1OX7DvADPex0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760009058; c=relaxed/simple;
-	bh=Eq8QXdg73gutxXm7AKa3FAAyfzoJFtKs/7zU83MmOtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvbpQVkZnEgO7uBBXQlVOnNT1YnLjViP4aOM9TwxbfkVCWQTdYp6i9SM3MyS3j3mZw3SaL23DERM3v4yQTd6mK2NbUiSs33xEiutG0QrEj2x1ggxTDm/ZS8jBjF6V+x1HBt9qjuurY1Cdq4iEgFLIsHttziDillTS3x1fIxT8e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BlisNdhQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F42152E0939;
+	Thu,  9 Oct 2025 11:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760010218; cv=fail; b=k3DA1dtyiZ++gk5spbSs0sLSs0V7W8dK0XSeQrU9IdyKlh8VLGo3aK1jC6+iLf3e4p3fsfLF12TslOtoK4DqefFntiauhDS4ppt0qDjBNSTLOL+mFlSOq2KKZLC4oRz6wmsbb3jbLf9s9CUwdeI59/a4C42mluwyIoMnmGRBAr8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760010218; c=relaxed/simple;
+	bh=H2noSx38XU+SsEHc3CLSB5WBBmql0eZdlLYbryQugTw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=olcycjItya0vlGETzXKj/s9ujI7ewqthxBBhUJfGVroB4EqSt6bnU8uxi4++GGj/enFp2muyY7CivL0esXtxebH13kcVwlkIPo4ZUE1jyhHaWcKp0atfsO55AA70Daxt4DeWdO8JuA3U3WsjOqKWS/zMgjLQil10U81vb9G6Pzo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=C8oU8yWQ; arc=fail smtp.client-ip=52.101.52.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BlisNdhQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760009054;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=74oMbyRbXmj4yyNwDNl68MN1PmvAi+6GhTMV//8rC/U=;
-	b=BlisNdhQQmt/NHMXm6tYZa3Ma1g8/GJFyN3xj1KA1hopRhJ7lNUJBRP+UgmCNWNFif+vVb
-	/zSGCC8iIUwWsDBSflsUmmCgkq4gDYUJZPg8+yHHiiWeakJKJPdwr1MpQpw5+xce7hu2h4
-	BME0xJb+7ykso2kW6JhhtSJn6KFXXHQ=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-6zME6pdfPpaKXrZ8I42QBQ-1; Thu, 09 Oct 2025 07:24:13 -0400
-X-MC-Unique: 6zME6pdfPpaKXrZ8I42QBQ-1
-X-Mimecast-MFC-AGG-ID: 6zME6pdfPpaKXrZ8I42QBQ_1760009053
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-87a0e9be970so31908236d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 04:24:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760009053; x=1760613853;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=74oMbyRbXmj4yyNwDNl68MN1PmvAi+6GhTMV//8rC/U=;
-        b=TvpYu4uXVmmeSTEClZs9IRSDSqBAFRLUefumxO3y+5IK5RQgZkiForTyxPUBO+VmD6
-         kl1VE6jYNXbqJdCDx+ABam8gpkZ0Qk35ePFBBwSS0KIdF2VF34I5fYhIGa8dx1eUh9Sg
-         92TwEVkEYT72eqqjYKHwkgOtXoiRHPDMCcvSkC1KKXU9wERaLHFSD4j5Ewj/oVa6/PcF
-         szaEfLVy4AHr60KeugEhcutyxRE7+vsDt3rPzDyUu3TlwedXHNARx40ye9SpoQFVMeVv
-         LNgKUKTLFystUhN1MzmtmvAXosz4/2dMWW/NSUz/HVf6H15Fu94w/qIxSsGES3Qepxop
-         gLiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUEa4udPmWv/ztaeQxt/1/ds+4y037C2T5zpAt3goskrTaZnA8KXpaAcDaSmOwZrdJuqhKmjazqNbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrE//I7Zz+fjnkVQdJ/7B4Gu/Qp5zbSKrCPj/2Oe0lRtTYCDhe
-	N0SMJtALv1a7rIElrZmhfdywa+UyUeWiq0wqzyuSbamjfcC1LqMQm2O9NxlfYHxwXCFEgDDnTJE
-	yn7GfZmBBfddIpFVkCXmvV0dXwX6FMwBNVX09/T7Q2DxbPUG4Rm2rJbuI1mxg7A==
-X-Gm-Gg: ASbGncsR4FjX5zA+JEg2gMqtV6gHXx4PCV+pR/bydLJZwEt631ljvJ5ZYZE4o8LYDTs
-	FEd2ZV2eyD4aNjvhesm9cR1zfZgnBuVomEseW4LStMRbuQxRDflShD0G23rgfTbLZWI6w6wSrIL
-	6DO+jnfs0+8ayzsGLGxqXoOAoTsjGJV9Ip6/ohM+vIx36jYWFiTPe3esp0FCNguFSP3J8zdCzNu
-	QKP6RfrNzFOeXzVDnbGLCx90EmN+uJnvqmYkfG06bCYIaLVNLZRlK2LOFD2kZh+wsEGrjG/vlmo
-	PUp64uGZIs1ob+Y8tk1Plh97Johf33p/lUA=
-X-Received: by 2002:ad4:5d61:0:b0:78e:c5c7:1209 with SMTP id 6a1803df08f44-87b2ef56229mr83375486d6.56.1760009052906;
-        Thu, 09 Oct 2025 04:24:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGhwynXOsSUCuzIIOIZVdF8Z7wPRpFcney3vzw+6KLV7AofNaekm0l75bt/gqMykMI5XPPJow==
-X-Received: by 2002:ad4:5d61:0:b0:78e:c5c7:1209 with SMTP id 6a1803df08f44-87b2ef56229mr83375156d6.56.1760009052420;
-        Thu, 09 Oct 2025 04:24:12 -0700 (PDT)
-Received: from redhat.com ([138.199.52.81])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878bae60b67sm180829526d6.9.2025.10.09.04.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 04:24:12 -0700 (PDT)
-Date: Thu, 9 Oct 2025 07:24:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] virtio: dwords->qwords
-Message-ID: <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
-References: <cover.1760008797.git.mst@redhat.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="C8oU8yWQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EcPYddNkO1yskEndB3lhVUWkF5bpK2cH+T/IGQiAakFpW6pJ/Gf0v9rRB1SvoM3Daj0mvMKMYxJKXqbHsiVnEBz3wklBfh7hTEimNxc/ilAyQBCKLDYO2MPSTZ3fFM4PoCUQexMtSLtHKXPs3Y2BK4psJYtx4l5Tszh76YOYrs3kr4S06a3tXnWhm5tlMpF5WrosbHIA7tWlrcPgPEHkFgeiVerlZIAfoZ6pE/hi0i3JrzDbxU64/waL6dbn7rB+KOPxyKzCK6/nD2vU/dAxJSK26/DJUUVFPZkxqPKVmFxl7wtvbn6TNgupNoejCLZF1+ItjOdzzf8V4uIz0n4Lsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S4fpd1vW9PBUxA8/4DWLIDn0Ze1AKMP7pFkQmIakdgc=;
+ b=ZJ3XFWnPaO997LXijY/xP6YRIIj0bmpPScAFpziQLtkmdyN8+P0t9xpt/m5GvFgXN+ktUgUOtmGAuG+ZmsH4835IdF+vJeYp1aiaSXTAmnKNCuYCI8uQ1V2H8W8ag6UA5P6SVS/kIpwBITa54/AMrA0bs+//tQwpo4v2mF67oXRqKvecniLs/p2AsvNdHrnAM9oBQqTMxtpa7hOFud87zDDCDxEOfHUUN6r67OVzH2TxLl5wRw+1PMwHPtAXJ1zIC82p9kmJBZWC9i28OH+jhLTByVLFDbcTZFl/l+TQh15OlAJ2iN5yi9mfOIUE28vrO1h/EWfBfvcFtDNRJ+xK5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S4fpd1vW9PBUxA8/4DWLIDn0Ze1AKMP7pFkQmIakdgc=;
+ b=C8oU8yWQOt7eLetCz6AJT0b0MNeNp5unanwK3PycttpN2z28pJOQHb/9jauIirb0Uumk6WNtxnmOEs/KOANAqbrjEFgUhS22VIYioaQ8KoLqQJ5wUV/pglpi/PBa9MOX7AwxaJSANYoxrGN83X/2wv77gkZC4kkjU1/d4zFXyIY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ IA1PR12MB7686.namprd12.prod.outlook.com (2603:10b6:208:422::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Thu, 9 Oct
+ 2025 11:43:34 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%7]) with mapi id 15.20.9203.007; Thu, 9 Oct 2025
+ 11:43:34 +0000
+Message-ID: <6efb1dbb-7c18-4e53-b9ba-ad795a16c0d5@amd.com>
+Date: Thu, 9 Oct 2025 17:13:21 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 12/15] iommupt: Add the x86 64 bit page table format
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+ Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+ Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+References: <12-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
+ <2daa4e59-f5ea-43ca-bfc0-4a29e904e29a@amd.com>
+ <20251008130328.GA3765120@nvidia.com>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <20251008130328.GA3765120@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0098.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:278::7) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1760008797.git.mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|IA1PR12MB7686:EE_
+X-MS-Office365-Filtering-Correlation-Id: e523102d-bd0e-466f-85c2-08de0729138e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K2hWQnlmL2R4QVNIcUJrZ3ZIUVFrTXpaL1ZKamZmQmpQelAyT1oxY0ZvUkZJ?=
+ =?utf-8?B?VnBWSWN0d29lTzRlR0l4N1pkeWQzTkcvaXlsTVhQc1M4cVVkMTZiUDl6dk1r?=
+ =?utf-8?B?d2t3cG5lQWpKWjMxYXhGQ0QwK1lrQWg3TEU4U0dmcUVXc0tkSThJc3pHYkY4?=
+ =?utf-8?B?dWIzMXlwL1M1SS85M2JKQVAybG4zT2JybHBmaTg2R2hFbWh6MDR1ajhtR1d2?=
+ =?utf-8?B?QnR2K2g1OHJZWWFSc3hiTjBVUkNoZ3VDdDY1R2VsWi80VU1BQjc3NHo5dmFV?=
+ =?utf-8?B?S3pvQWcyazYwT21iZ2xoVG9GUmV6NXo2R2wwb3pYUlJKejZwdmtaWnJ6cEJt?=
+ =?utf-8?B?dklablZZZDdlY0g5YXRuZ3FoWEJzWUhScUxQOEFadWFlRmN0WWdNbjQxVmwr?=
+ =?utf-8?B?a0RRSHpQWU9IQ2wvMisvM1A1N01Sam9rcEVROExTTFVWNm16WjMvaFlrYjYv?=
+ =?utf-8?B?aDVoRjdHdVUwdnB5OFNVck9qYzBWTW8vTHJwNzN1MnJSelJiTTBmVkJaaUh3?=
+ =?utf-8?B?WVBNbll2L3N3bEl5UHNUQktidnB6T2FPcEQyc3pDWmd3OW5xa0cxV092b0NK?=
+ =?utf-8?B?UEZON0VQVVpySFVENlZTNi8vZ2JJRC9zYm5IcDNmaDkzUzdWcm9ORFdObnJ0?=
+ =?utf-8?B?MjRYZEtkSjgvemt1bmVNWCt6ZFJIU1lHaUNSMk41OCt1YWpNMk9wbC9lT0NC?=
+ =?utf-8?B?YWxNd1o5TzFGWFU5bm0yYzNoNURjUXlLbXlCcWdHK0F6bW5KMmNYR1VWWVgr?=
+ =?utf-8?B?aDVORUZhbnJ0ZGE5TDE0ZlY3UEtrWkxpdEd0Q2p5anVqOUhVcE9EOHJ3NDdY?=
+ =?utf-8?B?ZDFLQ0dIRWgwd2xRbVQyU203RmFUd0pOME5XOU42QmNCdHJYNnY3S1NIWkxl?=
+ =?utf-8?B?cFF3dUJBNXVVTmt2M0JBVGE0TWtQa0pIbGdHZkdaOEtIN0NNdlM1RlM5cllT?=
+ =?utf-8?B?dUdVaUlXV0hUbjFTWTlta2tjZDVjYm1Ncm1uZXJpcGsxNmhHRWJFQ1ZjL2dN?=
+ =?utf-8?B?V3loVmNNMkJFT3ZBU3MzOXpkbkQrdTh3cnU2N2M3NzhTMnRxSTkvdzNLWGxs?=
+ =?utf-8?B?dWk5ZjlpSzhtVjJZaDJSZEFqbUFKYm4ybGJvWStxZ01SOWVjOHJ1WU0vYWh2?=
+ =?utf-8?B?NndWaWFCeFVwR1BxcVpOcUc0VGpwMzQrVGppbGxCR28yNnNhNkMxRnBrUGZx?=
+ =?utf-8?B?ZDluTDl0RjVPblJVdjNXU3NCblJ0YWYvc0lqV3VTelVYTUtCcXcvcW5EMWp0?=
+ =?utf-8?B?OGJQVDFPRGFNWHdRbXV0cnM5S0pvTytoYjB6ZW9XbTBnMjBaOEVpTWc2RDcx?=
+ =?utf-8?B?Ujk2aTVJZFA0QWdBQ04xam92NFVoOWExazB2ZHBsaTFvTVpyR04vdlovL20z?=
+ =?utf-8?B?Tk1kOTJIZWR6VHVxeCtYR1IwSUV1eG44T2N3aFlRWE9BRkFsdUd0cCtOTkxt?=
+ =?utf-8?B?UmkwZi9WVDdjTWN1cGMva053U2pxZmZ0NEpRNXlNZFZOZVJTMTBlSDRMc1F1?=
+ =?utf-8?B?MXJRZk9Gb3V6VmlzZnJTaVF6aHloNlZQZEJENXBhNU5YcFJwTkFlNjEzbjRa?=
+ =?utf-8?B?RG92cEl4RDkzTk1ZQWFtcmdTbnc1OE5ndlJGYUZxdWxxRUZHY3dRcmY1T1R3?=
+ =?utf-8?B?TWE3Y3pxN2hDTGR4NzB2UnlzeWNEaVpnRzk3dzlxRG5rT01MbVRmdWg2QUUw?=
+ =?utf-8?B?RkRVa0Iwb2E4MVFDSTlUempVcFc4QkFHOU53T0xxbXlyMUlnZFJJaXBHUmVV?=
+ =?utf-8?B?Z0lNSFNlcE1wM0c5cm90R1hkYks3WC9uYXJpcENDb0R5ZzFLN2EzOUpaRTBV?=
+ =?utf-8?B?UExsYTZ5akFDUlk2dnVGYkRMbE1YTFU4OGFVczBwZVlCYlNYcm4rVzNFQ1NL?=
+ =?utf-8?B?ckswK3VtNlk1SjdVeDFIbVRMYVBoUUt2MnJrWmtXdUg0czFvdGhSM29ka3Np?=
+ =?utf-8?Q?6BmFPRSjCj5mzPpPgcflx6wbNlpQF5+0?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?akNLS3k2NFpQMDBFN0hxMkRyOGovQVZDVHkwanU2Wjd6V1Uvbi9WbExFdzUx?=
+ =?utf-8?B?aEU5dnN2OGxDRzF6WEVkdTJmV3pZN1NrVUZRd2VraU84QVJiRDV4TVpDWGxP?=
+ =?utf-8?B?eHNEeTlyMFBiaVhHRzVKUlFiL3FmejM2a2h0bUI5aWlaVy9Na1QvM2NNSE5h?=
+ =?utf-8?B?d2lLeHRYSmdhb0gyL2grYm01anh4QkU5bnJlNm1HT0lNM1lQVTFBZVhBMXJq?=
+ =?utf-8?B?bnVzY1ZjL1F6ZWJWOUVUSWFVTm5Vck1DY2pPa2l1YWpLeVFIakJMdEdOc3JO?=
+ =?utf-8?B?VWJyQlE5aHBwRkJyT3lMN2VJZTNNNmszc0lSQTVoZEw1dldlZjdCVHJZMFdh?=
+ =?utf-8?B?eGNkaGVHSFpjMmpjQWpXMk5VbCtsakc4U0RPRThCaTBJS2FoeGNqWTArNGZY?=
+ =?utf-8?B?NEg5cEMwTTRHRW16YWlBWUdHV0h5cEx4SXdtT0VyQmVBcDlha29CMHlQd053?=
+ =?utf-8?B?dG9zTThEOWZsTzZ2ck9HZTBGczZjV2NXdnk4UWNEblM1NWhqcVpxT3FRTUV4?=
+ =?utf-8?B?NVNEeG9CMEE3SjRWQW5sL3ZYUmJKRDRKUHR1bzE4cmt1Nk1iTlNvdkhXWm9k?=
+ =?utf-8?B?ZzNVKzNsRzBTbXVqUzFqOEM1TEE4bG9tdjIrakZ3azV3dkQ0OWtJUHp1WHYw?=
+ =?utf-8?B?ZGhjY2MrYlZscTBwQXgrUXNCaUJ0Z0l1UEE5UG1RbmlBSDh6Z2J5QUgzZWpR?=
+ =?utf-8?B?eWVXYkxJb05KUGlxVm04SWhTMzFaZkFJTFVuWWZIOXRKMHYwUTR2Nnh3dE9p?=
+ =?utf-8?B?TnRjWnRFK28ydnc2V3hkaCtBYVphb0F4TTVoZDVRdkt0WVlOejlTcGRiR0dp?=
+ =?utf-8?B?MWFkZXBBbGU1WUJyTXpQd251bWR2RTJLczlqU1B6a1NjYTZNamZKWlVWSVlp?=
+ =?utf-8?B?WFA1WWNWcmNqSWtlQ0RhOWNJUGx6Ym5MV0xLcjU3K1JxQnZ1WDRiNFRjemcz?=
+ =?utf-8?B?TnJFYmR6L0RKV1YxMm9OcTZaQitrVllvUklSTEtOblVWNE1wNU9vSXRveTl0?=
+ =?utf-8?B?SzEzM0djQms3UU53Zi9SZllBV0RTMnZyRkhBT3ZUZTRJL0dPb01qYUthM3Bj?=
+ =?utf-8?B?SmZTMkdwV1IxRTFOYlhBYkhNWmM2b3JkbUZBYWxaWUc0b1IvYlRvN1pPcW5Y?=
+ =?utf-8?B?VmtpMDVZQzZVVjYzQmJsald6d2pqUXo2VXJpNE1LeEx4MkJrZCtRRm5SN0tk?=
+ =?utf-8?B?K3NxV0tOK1FjZVc5RTRidDFDYm5rekI4eXZjM1B0d0ZROXhCa1hVbU01OUpa?=
+ =?utf-8?B?ZWlOcmNlSjF2emJIUmlHQ2lxZHhrT2dzeTA3U2RvaHc3ZllpQnlpRU9MS2pG?=
+ =?utf-8?B?OVlSNU1rcGdXbjR2OVNUQmFxZ3NhTXlrNVB6cEJIV01QZGJFRjNXNGxVMUhx?=
+ =?utf-8?B?Y0ZhNFpqcHlTa0dUNzhoTUljMFNlaElFYU9iaklSR2srRktaOVdmSTVIYmZN?=
+ =?utf-8?B?YnZRUFcvdjQwdUVaZ25lNmQxZzI2OFNaZmdVMDl5clB0MlQrUmlPTGlQcmt0?=
+ =?utf-8?B?TUltUURSVFYwYjRCeWNEUEY5Z0J5UndJTVlJejA0dy9MYTdKNDAyMTA1QmQ0?=
+ =?utf-8?B?QVpLK1lsYUVodzJ3bVBRaW0xcTFvQmNxTlA0NG5vRktlVVRwWE1IeWppMXBZ?=
+ =?utf-8?B?SjNiSmppV1FMWGxuQVpqZTRwdFZodTNMdGZoYmhvQVBGcWpUcXdEQmpmbGti?=
+ =?utf-8?B?VFlNbzV0bGpKTFVFYUJQUWtVcWI2UUplTGdiK210RVhmQncyNzFlVmNTeERF?=
+ =?utf-8?B?eTNSL294R1VPYjFsNmFFR2dmVkVqSFVkbkg5VWY3MW1VdTFwQ1ZjbmtiMjJG?=
+ =?utf-8?B?SmNzSDh3QVBKV1VEdnBhLy8rVHRyZ1ZDTU5ERG90aklBa2hueFdZNHFrcUtU?=
+ =?utf-8?B?VDl1b0UrSVhIMzh3U1RoVXNGQ3BJK20vV2hrQ2xaaG1oS0ExdElvSkhsaUE2?=
+ =?utf-8?B?bVBESFY2eU9maEtLUGtUanFFV1dYbklpNE1YdnFJMExUbmFVSE5wdCt6ZGRF?=
+ =?utf-8?B?elEyZXJVRGZqUFBaYkRYWUtmOC83NjBzVDFGNkFGQXBBaVdVUWdhUkxNb1U0?=
+ =?utf-8?B?MUROMEpYcEVIeXlUT0tQaklNN2JQaEQ1YllKaFBaT2I1K0lQMDZYemhsY2hs?=
+ =?utf-8?Q?3LU9k7oYKpiVfbi0+eKIT8cMh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e523102d-bd0e-466f-85c2-08de0729138e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 11:43:34.1281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2yikIkte3kDN7MdME8nB0n6bwWdX+WTLnMDSZMO2KwqqHKDfdOv5+ZG4MqJMnOBCmnItKgJf4RdykVNHa/7+MA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7686
 
-A "word" is 16 bit. 64 bit integers like virtio uses are not dwords,
-they are actually qwords. Fix up macro names accordingly.
 
-Fixes: e7d4c1c5a546 ("virtio: introduce extended features")
-Cc: "Paolo Abeni" <pabeni@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- drivers/vhost/net.c               | 10 +++++-----
- drivers/virtio/virtio.c           |  8 ++++----
- drivers/virtio/virtio_debug.c     |  2 +-
- include/linux/virtio.h            |  2 +-
- include/linux/virtio_features.h   | 24 ++++++++++++------------
- include/linux/virtio_pci_modern.h |  8 ++++----
- scripts/lib/kdoc/kdoc_parser.py   |  2 +-
- 7 files changed, 28 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index 35ded4330431..43d51fb1f8ea 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -69,7 +69,7 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
- 
- #define VHOST_DMA_IS_DONE(len) ((__force u32)(len) >= (__force u32)VHOST_DMA_DONE_LEN)
- 
--static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
-+static const u64 vhost_net_features[VIRTIO_FEATURES_QWORDS] = {
- 	VHOST_FEATURES |
- 	(1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
- 	(1ULL << VIRTIO_NET_F_MRG_RXBUF) |
-@@ -1720,7 +1720,7 @@ static long vhost_net_set_owner(struct vhost_net *n)
- static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 			    unsigned long arg)
- {
--	u64 all_features[VIRTIO_FEATURES_DWORDS];
-+	u64 all_features[VIRTIO_FEATURES_QWORDS];
- 	struct vhost_net *n = f->private_data;
- 	void __user *argp = (void __user *)arg;
- 	u64 __user *featurep = argp;
-@@ -1752,7 +1752,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 
- 		/* Copy the net features, up to the user-provided buffer size */
- 		argp += sizeof(u64);
--		copied = min(count, VIRTIO_FEATURES_DWORDS);
-+		copied = min(count, VIRTIO_FEATURES_QWORDS);
- 		if (copy_to_user(argp, vhost_net_features,
- 				 copied * sizeof(u64)))
- 			return -EFAULT;
-@@ -1767,7 +1767,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 
- 		virtio_features_zero(all_features);
- 		argp += sizeof(u64);
--		copied = min(count, VIRTIO_FEATURES_DWORDS);
-+		copied = min(count, VIRTIO_FEATURES_QWORDS);
- 		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
- 			return -EFAULT;
- 
-@@ -1783,7 +1783,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 				return -EOPNOTSUPP;
- 		}
- 
--		for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
-+		for (i = 0; i < VIRTIO_FEATURES_QWORDS; i++)
- 			if (all_features[i] & ~vhost_net_features[i])
- 				return -EOPNOTSUPP;
- 
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index a09eb4d62f82..08f8357cdd39 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -272,8 +272,8 @@ static int virtio_dev_probe(struct device *_d)
- 	int err, i;
- 	struct virtio_device *dev = dev_to_virtio(_d);
- 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
--	u64 device_features[VIRTIO_FEATURES_DWORDS];
--	u64 driver_features[VIRTIO_FEATURES_DWORDS];
-+	u64 device_features[VIRTIO_FEATURES_QWORDS];
-+	u64 driver_features[VIRTIO_FEATURES_QWORDS];
- 	u64 driver_features_legacy;
- 
- 	/* We have a driver! */
-@@ -303,7 +303,7 @@ static int virtio_dev_probe(struct device *_d)
- 	}
- 
- 	if (virtio_features_test_bit(device_features, VIRTIO_F_VERSION_1)) {
--		for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
-+		for (i = 0; i < VIRTIO_FEATURES_QWORDS; ++i)
- 			dev->features_array[i] = driver_features[i] &
- 						 device_features[i];
- 	} else {
-@@ -325,7 +325,7 @@ static int virtio_dev_probe(struct device *_d)
- 		goto err;
- 
- 	if (drv->validate) {
--		u64 features[VIRTIO_FEATURES_DWORDS];
-+		u64 features[VIRTIO_FEATURES_QWORDS];
- 
- 		virtio_features_copy(features, dev->features_array);
- 		err = drv->validate(dev);
-diff --git a/drivers/virtio/virtio_debug.c b/drivers/virtio/virtio_debug.c
-index d58713ddf2e5..40f6b815caef 100644
---- a/drivers/virtio/virtio_debug.c
-+++ b/drivers/virtio/virtio_debug.c
-@@ -8,7 +8,7 @@ static struct dentry *virtio_debugfs_dir;
- 
- static int virtio_debug_device_features_show(struct seq_file *s, void *data)
- {
--	u64 device_features[VIRTIO_FEATURES_DWORDS];
-+	u64 device_features[VIRTIO_FEATURES_QWORDS];
- 	struct virtio_device *dev = s->private;
- 	unsigned int i;
- 
-diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-index 96c66126c074..5b258451dc0e 100644
---- a/include/linux/virtio.h
-+++ b/include/linux/virtio.h
-@@ -177,7 +177,7 @@ struct virtio_device {
- 	union virtio_map vmap;
- #ifdef CONFIG_VIRTIO_DEBUG
- 	struct dentry *debugfs_dir;
--	u64 debugfs_filter_features[VIRTIO_FEATURES_DWORDS];
-+	u64 debugfs_filter_features[VIRTIO_FEATURES_QWORDS];
- #endif
- };
- 
-diff --git a/include/linux/virtio_features.h b/include/linux/virtio_features.h
-index f748f2f87de8..bf41d8ec50ef 100644
---- a/include/linux/virtio_features.h
-+++ b/include/linux/virtio_features.h
-@@ -4,15 +4,15 @@
- 
- #include <linux/bits.h>
- 
--#define VIRTIO_FEATURES_DWORDS	2
--#define VIRTIO_FEATURES_MAX	(VIRTIO_FEATURES_DWORDS * 64)
--#define VIRTIO_FEATURES_WORDS	(VIRTIO_FEATURES_DWORDS * 2)
-+#define VIRTIO_FEATURES_QWORDS	2
-+#define VIRTIO_FEATURES_MAX	(VIRTIO_FEATURES_QWORDS * 64)
-+#define VIRTIO_FEATURES_WORDS	(VIRTIO_FEATURES_QWORDS * 2)
- #define VIRTIO_BIT(b)		BIT_ULL((b) & 0x3f)
--#define VIRTIO_DWORD(b)		((b) >> 6)
-+#define VIRTIO_QWORD(b)		((b) >> 6)
- #define VIRTIO_DECLARE_FEATURES(name)			\
- 	union {						\
- 		u64 name;				\
--		u64 name##_array[VIRTIO_FEATURES_DWORDS];\
-+		u64 name##_array[VIRTIO_FEATURES_QWORDS];\
- 	}
- 
- static inline bool virtio_features_chk_bit(unsigned int bit)
-@@ -34,26 +34,26 @@ static inline bool virtio_features_test_bit(const u64 *features,
- 					    unsigned int bit)
- {
- 	return virtio_features_chk_bit(bit) &&
--	       !!(features[VIRTIO_DWORD(bit)] & VIRTIO_BIT(bit));
-+	       !!(features[VIRTIO_QWORD(bit)] & VIRTIO_BIT(bit));
- }
- 
- static inline void virtio_features_set_bit(u64 *features,
- 					   unsigned int bit)
- {
- 	if (virtio_features_chk_bit(bit))
--		features[VIRTIO_DWORD(bit)] |= VIRTIO_BIT(bit);
-+		features[VIRTIO_QWORD(bit)] |= VIRTIO_BIT(bit);
- }
- 
- static inline void virtio_features_clear_bit(u64 *features,
- 					     unsigned int bit)
- {
- 	if (virtio_features_chk_bit(bit))
--		features[VIRTIO_DWORD(bit)] &= ~VIRTIO_BIT(bit);
-+		features[VIRTIO_QWORD(bit)] &= ~VIRTIO_BIT(bit);
- }
- 
- static inline void virtio_features_zero(u64 *features)
- {
--	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_DWORDS);
-+	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_QWORDS);
- }
- 
- static inline void virtio_features_from_u64(u64 *features, u64 from)
-@@ -66,7 +66,7 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
- {
- 	int i;
- 
--	for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
-+	for (i = 0; i < VIRTIO_FEATURES_QWORDS; ++i)
- 		if (f1[i] != f2[i])
- 			return false;
- 	return true;
-@@ -74,14 +74,14 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
- 
- static inline void virtio_features_copy(u64 *to, const u64 *from)
- {
--	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_DWORDS);
-+	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_QWORDS);
- }
- 
- static inline void virtio_features_andnot(u64 *to, const u64 *f1, const u64 *f2)
- {
- 	int i;
- 
--	for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
-+	for (i = 0; i < VIRTIO_FEATURES_QWORDS; i++)
- 		to[i] = f1[i] & ~f2[i];
- }
- 
-diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
-index 48bc12d1045b..15818bd04716 100644
---- a/include/linux/virtio_pci_modern.h
-+++ b/include/linux/virtio_pci_modern.h
-@@ -107,7 +107,7 @@ void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
- static inline u64
- vp_modern_get_features(struct virtio_pci_modern_device *mdev)
- {
--	u64 features_array[VIRTIO_FEATURES_DWORDS];
-+	u64 features_array[VIRTIO_FEATURES_QWORDS];
- 
- 	vp_modern_get_extended_features(mdev, features_array);
- 	return features_array[0];
-@@ -116,11 +116,11 @@ vp_modern_get_features(struct virtio_pci_modern_device *mdev)
- static inline u64
- vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
- {
--	u64 features_array[VIRTIO_FEATURES_DWORDS];
-+	u64 features_array[VIRTIO_FEATURES_QWORDS];
- 	int i;
- 
- 	vp_modern_get_driver_extended_features(mdev, features_array);
--	for (i = 1; i < VIRTIO_FEATURES_DWORDS; ++i)
-+	for (i = 1; i < VIRTIO_FEATURES_QWORDS; ++i)
- 		WARN_ON_ONCE(features_array[i]);
- 	return features_array[0];
- }
-@@ -128,7 +128,7 @@ vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
- static inline void
- vp_modern_set_features(struct virtio_pci_modern_device *mdev, u64 features)
- {
--	u64 features_array[VIRTIO_FEATURES_DWORDS];
-+	u64 features_array[VIRTIO_FEATURES_QWORDS];
- 
- 	virtio_features_from_u64(features_array, features);
- 	vp_modern_set_extended_features(mdev, features_array);
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index fe730099eca8..5d629aebc8f0 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -638,7 +638,7 @@ class KernelDoc:
-             (KernRe(r'(?:__)?DECLARE_FLEX_ARRAY\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'\1 \2[]'),
-             (KernRe(r'DEFINE_DMA_UNMAP_ADDR\s*\(' + args_pattern + r'\)', re.S), r'dma_addr_t \1'),
-             (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + args_pattern + r'\)', re.S), r'__u32 \1'),
--            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_DWORDS]'),
-+            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_QWORDS]'),
-         ]
- 
-         # Regexes here are guaranteed to have the end limiter matching
--- 
-MST
+On 10/8/2025 6:33 PM, Jason Gunthorpe wrote:
+> On Wed, Oct 08, 2025 at 03:35:39PM +0530, Vasant Hegde wrote:
+> 
+>>> +static inline pt_oaddr_t x86_64_pt_entry_oa(const struct pt_state *pts)
+>>> +{
+>>> +	return oalog2_mul(FIELD_GET(X86_64_FMT_OA, pts->entry),
+>>> +			  PT_GRANULE_LG2SZ);
+>>
+>> Also here.
+> 
+> Presumably this as well?
+> 
+> @@ -2166,7 +2166,7 @@ static int init_gcr3_table(struct iommu_dev_data *dev_data,
+>                 return ret;
+>  
+>         pt_iommu_x86_64_hw_info(&pdom->amdv2, &pt_info);
+> -       ret = update_gcr3(dev_data, 0, pt_info.gcr3_pt, true);
+> +       ret = update_gcr3(dev_data, 0, __sme_set(pt_info.gcr3_pt), true);
+>         if (ret)
+>                 free_gcr3_table(&dev_data->gcr3_info);
+
+Right.
+
+-Vasant
 
