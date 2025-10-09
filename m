@@ -1,95 +1,355 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E41DF6C;
-	Thu,  9 Oct 2025 00:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B316EB42
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 01:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759970623; cv=none; b=Yp8Sgv334qMGZwUjckOq94MWeSAzBeRaW6OJkiguvAU5mxW6ZBgBvKp4pYLTQCyn99boRfOyq0s/EvTN44fSQt0H2+Fz4nlJMZPjdSwMubQejaPrgsC/9uB3w1uUMA+TzBkcku93bPoSzNF5tY+tBhds6kMo+vmDqmVIHOnDrxI=
+	t=1759972055; cv=none; b=KOLD1ngvoIeSuZbp36w120vNY76IC7UxwXx2tQrgdyRsgDQIs9L1PyYte8aLqNBKi822UgK74okuESUIH17fgtz8teOYbW3U7MMCNJNMcWVRyfvL0h3/cLKXdbVjS9fV0T9ss/I1MuD92kFLsw1PHJI2bPtNpAbfB8DJLLJfGj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759970623; c=relaxed/simple;
-	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UPAC3Bc1srG70TvsS9mzw4+gqAWcWdyA3jCE3CSWg7Y7ZnnLuH6dyJarcaV4WaIoLRagpoedODmyiCuKGkt4G/ZxlzTbWoJx3STqubzn6qX3ZOc+xMIcj4UqkMznNRf6MFoXQrk9uOHdGOnbMCgiZp5Aaq7vhs2XQDxSPm4f0jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/miDTD6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759972055; c=relaxed/simple;
+	bh=fCWniQpVEHektq92KuVAxruTIAsTPnp+MkQmRRm57Xc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Re0fs+vODupms0VVy2hktYC2AZ5yhBRiDbMU9XO4BrMwccujW8vvYFDifh2hvciMHrWruvT9BK1CJks0ke7ZKdpvfRDVUj13V5SJcLM4p3F8pflXYkQU4lx/wUkEdaSIQrqNfhfsiLcB+ptsemPxVsldpt/AmkWavRDW7axrb4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QW2Xq7fb; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/miDTD6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFE24C4CEE7;
-	Thu,  9 Oct 2025 00:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759970623;
-	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d/miDTD6rOtxCuQvVhd0sT74JQnWl8xOws2qjCrK8PTGimCO/Cih2WPRfelX3vUrC
-	 dFpxSVeBkaCVvgpZUq4wW3XUNYyXwet85zHxnSqCrshdZa5/j+uLXmn1wIYQzOTXWt
-	 Sj6X8HpuLR91VXM7yzkuSrAW/xLiet20fPM2ncUH7EEZC1pwhNc/KXWgX8ta0rg5En
-	 Yt7VBXXwwivQ3Y/p+vHtjPtQAKinE4o7qERQVfdgxCShMcUfCoeEgAZie90AK5YOIM
-	 ycMOijxSoKMVwCNqp0jxYvtFOyodh2z1foXA/7GDpwPskLtQ1uoA4vHjIUQW/7Q+OE
-	 VUrpGpn+Hhreg==
-Date: Wed, 8 Oct 2025 19:43:41 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-input@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-rtc@vger.kernel.org, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Janne Grunau <j@jannau.net>, Lee Jones <lee@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, Neal Gompa <neal@gompa.dev>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Sven Peter <sven@kernel.org>
-Subject: Re: [PATCH v3 02/13] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
-Message-ID: <175997061547.377977.15400204653916198003.robh@kernel.org>
-References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
- <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QW2Xq7fb"
+Message-ID: <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1759972039;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7VBPwGyoeD8uP185Gv+2G5xRNeY5xlzR+XoG36QLrYY=;
+	b=QW2Xq7fb/0R8eSRnkRtiWsJZ71xUtS6VNS3PESNmVdcnpqsCZzuAjKaee6Nev31bfcYbFc
+	I6A01Up3Gl//GX2irEKLkdDHDTXBESO0d6dXHrZMgfmBIgIR3stAsDlmWpY9ivV3ZBpK9J
+	12HYXF03sV4fbLu0WH0H0gXW3v6xTBk=
+Date: Wed, 8 Oct 2025 18:07:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
+Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
+ monitoring
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+ jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+ rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+ rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+ kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+ masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+ yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+ chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+ jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+ dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org,
+ rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org,
+ zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+ Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+ aleksander.lobakin@intel.com, ira.weiny@intel.com,
+ andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+ bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+ stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+ brauner@kernel.org, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
+ jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "yanjun.zhu" <yanjun.zhu@linux.dev>
+In-Reply-To: <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-
-On Tue, 07 Oct 2025 21:16:43 +1000, James Calligeros wrote:
-> Apple Silicon devices integrate a vast array of sensors, monitoring
-> current, power, temperature, and voltage across almost every part of
-> the system. The sensors themselves are all connected to the System
-> Management Controller (SMC). The SMC firmware exposes the data
-> reported by these sensors via its standard FourCC-based key-value
-> API. The SMC is also responsible for monitoring and controlling any
-> fans connected to the system, exposing them in the same way.
+On 8/6/25 6:44 PM, Pasha Tatashin wrote:
+> Introduce a sysfs interface for the Live Update Orchestrator
+> under /sys/kernel/liveupdate/. This interface provides a way for
+> userspace tools and scripts to monitor the current state of the LUO
+> state machine.
 > 
-> For reasons known only to Apple, each device exposes its sensors with
-> an almost totally unique set of keys. This is true even for devices
-> which share an SoC. An M1 Mac mini, for example, will report its core
-> temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> SMC does not provide a way to enumerate the available keys at runtime,
-> nor do the keys follow any sort of reasonable or consistent naming
-> rules that could be used to deduce their purpose. We must therefore
-> know which keys are present on any given device, and which function
-> they serve, ahead of time.
+> The main feature is a read-only file, state, which displays the
+> current LUO state as a string ("normal", "prepared", "frozen",
+> "updated"). The interface uses sysfs_notify to allow userspace
+> listeners (e.g., via poll) to be efficiently notified of state changes.
 > 
-> Add a schema so that we can describe the available sensors for a given
-> Apple Silicon device in the Devicetree.
+> ABI documentation for this new sysfs interface is added in
+> Documentation/ABI/testing/sysfs-kernel-liveupdate.
 > 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> This read-only sysfs interface complements the main ioctl interface
+> provided by /dev/liveupdate, which handles LUO control operations and
+> resource management.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
->  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
->  MAINTAINERS                              |  1 +
->  3 files changed, 123 insertions(+)
+>   .../ABI/testing/sysfs-kernel-liveupdate       | 51 ++++++++++
+>   kernel/liveupdate/Kconfig                     | 18 ++++
+>   kernel/liveupdate/Makefile                    |  1 +
+>   kernel/liveupdate/luo_core.c                  |  1 +
+>   kernel/liveupdate/luo_internal.h              |  6 ++
+>   kernel/liveupdate/luo_sysfs.c                 | 92 +++++++++++++++++++
+>   6 files changed, 169 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-kernel-liveupdate
+>   create mode 100644 kernel/liveupdate/luo_sysfs.c
 > 
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+> new file mode 100644
+> index 000000000000..bb85cbae4943
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+> @@ -0,0 +1,51 @@
+> +What:		/sys/kernel/liveupdate/
+> +Date:		May 2025
+> +KernelVersion:	6.16.0
+> +Contact:	pasha.tatashin@soleen.com
+> +Description:	Directory containing interfaces to query the live
+> +		update orchestrator. Live update is the ability to reboot the
+> +		host kernel (e.g., via kexec, without a full power cycle) while
+> +		keeping specifically designated devices operational ("alive")
+> +		across the transition. After the new kernel boots, these devices
+> +		can be re-attached to their original workloads (e.g., virtual
+> +		machines) with their state preserved. This is particularly
+> +		useful, for example, for quick hypervisor updates without
+> +		terminating running virtual machines.
+> +
+> +
+> +What:		/sys/kernel/liveupdate/state
+> +Date:		May 2025
+> +KernelVersion:	6.16.0
+> +Contact:	pasha.tatashin@soleen.com
+> +Description:	Read-only file that displays the current state of the live
+> +		update orchestrator as a string. Possible values are:
+> +
+> +		"normal"	No live update operation is in progress. This is
+> +				the default operational state.
+> +
+> +		"prepared"	The live update preparation phase has completed
+> +				successfully (e.g., triggered via the
+> +				/dev/liveupdate event). Kernel subsystems have
+> +				been notified via the %LIVEUPDATE_PREPARE
+> +				event/callback and should have initiated state
+> +				saving. User workloads (e.g., VMs) are generally
+> +				still running, but some operations (like device
+> +				unbinding or new DMA mappings) might be
+> +				restricted. The system is ready for the reboot
+> +				trigger.
+> +
+> +		"frozen"	The final reboot notification has been sent
+> +				(e.g., triggered via the 'reboot()' syscall),
+> +				corresponding to the %LIVEUPDATE_REBOOT kernel
+> +				event. Subsystems have had their final chance to
+> +				save state. User workloads must be suspended.
+> +				The system is about to execute the reboot into
+> +				the new kernel (imminent kexec). This state
+> +				corresponds to the "blackout window".
+> +
+> +		"updated"	The system has successfully rebooted into the
+> +				new kernel via live update. Restoration of
+> +				preserved resources can now occur (typically via
+> +				ioctl commands). The system is awaiting the
+> +				final 'finish' signal after user space completes
+> +				restoration tasks.
+> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+> index f6b0bde188d9..75a17ca8a592 100644
+> --- a/kernel/liveupdate/Kconfig
+> +++ b/kernel/liveupdate/Kconfig
+> @@ -29,6 +29,24 @@ config LIVEUPDATE
+>   
+>   	  If unsure, say N.
+>   
+> +config LIVEUPDATE_SYSFS_API
+> +	bool "Live Update sysfs monitoring interface"
+> +	depends on SYSFS
+> +	depends on LIVEUPDATE
+> +	help
+> +	  Enable a sysfs interface for the Live Update Orchestrator
+> +	  at /sys/kernel/liveupdate/.
+> +
+> +	  This allows monitoring the LUO state ('normal', 'prepared',
+> +	  'frozen', 'updated') via the read-only 'state' file.
+> +
+> +	  This interface complements the primary /dev/liveupdate ioctl
+> +	  interface, which handles the full update process.
+> +	  This sysfs API may be useful for scripting, or userspace monitoring
+> +	  needed to coordinate application restarts and minimize downtime.
+> +
+> +	  If unsure, say N.
+> +
+>   config KEXEC_HANDOVER
+>   	bool "kexec handover"
+>   	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
+> diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> index c67fa2797796..47f5d0378a75 100644
+> --- a/kernel/liveupdate/Makefile
+> +++ b/kernel/liveupdate/Makefile
+> @@ -13,3 +13,4 @@ obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+>   obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
+>   
+>   obj-$(CONFIG_LIVEUPDATE)		+= luo.o
+> +obj-$(CONFIG_LIVEUPDATE_SYSFS_API)	+= luo_sysfs.o
+> diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+> index 64d53b31d6d8..bd07ee859112 100644
+> --- a/kernel/liveupdate/luo_core.c
+> +++ b/kernel/liveupdate/luo_core.c
+> @@ -100,6 +100,7 @@ static inline bool is_current_luo_state(enum liveupdate_state expected_state)
+>   static void __luo_set_state(enum liveupdate_state state)
+>   {
+>   	WRITE_ONCE(luo_state, state);
+> +	luo_sysfs_notify();
+>   }
+>   
+>   static inline void luo_set_state(enum liveupdate_state state)
+> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+> index 01bd0d3b023b..9091ed04c606 100644
+> --- a/kernel/liveupdate/luo_internal.h
+> +++ b/kernel/liveupdate/luo_internal.h
+> @@ -47,4 +47,10 @@ int luo_file_freeze(u64 token);
+>   int luo_file_cancel(u64 token);
+>   int luo_file_finish(u64 token);
+>   
+> +#ifdef CONFIG_LIVEUPDATE_SYSFS_API
+> +void luo_sysfs_notify(void);
+> +#else
+> +static inline void luo_sysfs_notify(void) {}
+> +#endif
+> +
+>   #endif /* _LINUX_LUO_INTERNAL_H */
+> diff --git a/kernel/liveupdate/luo_sysfs.c b/kernel/liveupdate/luo_sysfs.c
+> new file mode 100644
+> index 000000000000..935946bb741b
+> --- /dev/null
+> +++ b/kernel/liveupdate/luo_sysfs.c
+> @@ -0,0 +1,92 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> + */
+> +
+> +/**
+> + * DOC: LUO sysfs interface
+> + *
+> + * Provides a sysfs interface at ``/sys/kernel/liveupdate/`` for monitoring LUO
+> + * state.  Live update allows rebooting the kernel (via kexec) while preserving
+> + * designated device state for attached workloads (e.g., VMs), useful for
+> + * minimizing downtime during hypervisor updates.
+> + *
+> + * /sys/kernel/liveupdate/state
+> + * ----------------------------
+> + * - Permissions:  Read-only
+> + * - Description:  Displays the current LUO state string.
+> + * - Valid States:
+> + *     @normal
+> + *       Idle state.
+> + *     @prepared
+> + *       Preparation phase complete (triggered via '/dev/liveupdate'). Resources
+> + *       checked, state saving initiated via %LIVEUPDATE_PREPARE event.
+> + *       Workloads mostly running but may be restricted. Ready forreboot
+> + *       trigger.
+> + *     @frozen
+> + *       Final reboot notification sent (triggered via 'reboot'). Corresponds to
+> + *       %LIVEUPDATE_REBOOT event. Final state saving. Workloads must be
+> + *       suspended. System about to kexec ("blackout window").
+> + *     @updated
+> + *       New kernel booted via live update. Awaiting 'finish' signal.
+> + *
+> + * Userspace Interaction & Blackout Window Reduction
+> + * -------------------------------------------------
+> + * Userspace monitors the ``state`` file to coordinate actions:
+> + *   - Suspend workloads before @frozen state is entered.
+> + *   - Initiate resource restoration upon entering @updated state.
+> + *   - Resume workloads after restoration, minimizing downtime.
+> + */
+> +
+> +#include <linux/kobject.h>
+> +#include <linux/liveupdate.h>
+> +#include <linux/sysfs.h>
+> +#include "luo_internal.h"
+> +
+> +static bool luo_sysfs_initialized;
+> +
+> +#define LUO_DIR_NAME	"liveupdate"
+> +
+> +void luo_sysfs_notify(void)
+> +{
+> +	if (luo_sysfs_initialized)
+> +		sysfs_notify(kernel_kobj, LUO_DIR_NAME, "state");
+> +}
+> +
+> +/* Show the current live update state */
+> +static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
+> +			  char *buf)
+> +{
+> +	return sysfs_emit(buf, "%s\n", luo_current_state_str());
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Because the window of kernel live update is short, it is difficult to 
+statistics how many times the kernel is live updated.
+
+Is it possible to add a variable to statistics the times that the kernel 
+is live updated?
+
+For example, define a global variable of type atomic_t or u64 in the 
+core module:
+
+#include <linux/atomic.h>
+
+static atomic_t klu_counter = ATOMIC_INIT(0);
+
+
+Every time a live update completes successfully, increment the counter:
+
+atomic_inc(&klu_counter);
+
+Then exporting this value through /proc or /sys so that user space can 
+check it:
+
+static ssize_t klu_counter_show(struct kobject *kobj, struct 
+kobj_attribute *attr, char *buf)
+{
+     return sprintf(buf, "%d\n", atomic_read(&klu_counter));
+}
+
+Yanjun.Zhu
+
+
+> +}
+> +
+> +static struct kobj_attribute state_attribute = __ATTR_RO(state);
+> +
+> +static struct attribute *luo_attrs[] = {
+> +	&state_attribute.attr,
+> +	NULL
+> +};
+> +
+> +static struct attribute_group luo_attr_group = {
+> +	.attrs = luo_attrs,
+> +	.name = LUO_DIR_NAME,
+> +};
+> +
+> +static int __init luo_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = sysfs_create_group(kernel_kobj, &luo_attr_group);
+> +	if (ret) {
+> +		pr_err("Failed to create group\n");
+> +		return ret;
+> +	}
+> +
+> +	luo_sysfs_initialized = true;
+> +	pr_info("Initialized\n");
+> +
+> +	return 0;
+> +}
+> +subsys_initcall(luo_init);
 
