@@ -1,236 +1,146 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DE5293C44
-	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 06:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2550B824BD
+	for <linux-doc@vger.kernel.org>; Thu,  9 Oct 2025 06:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759989857; cv=none; b=jOaBR2JI99wuaoBod1Evwjccd4GWEYM9c1JI8efNqG+Ayjh0U22a5Zo4Lccmfwp0oPw+OjH+CKTwTwE+iTTTMQvawduv78UWi6C3eHmJK/rF/H0emvGfNG4x4VoQCSTE2GdaUqDYQiTsqg/DjAk0KuxGVk5Yf9Cryds/BxECN28=
+	t=1759990468; cv=none; b=W5oO3hcL4RBadaEXw0joxIEBuBaPrQtIHmogCytx4ZqkQg/DYDSINvnnSl3heAUbv+FtwnSMiOiw3Hv0xreqZvad9geAnu3iiEMAHhYABvRS8FZAZhDd4uIA7fVcS3b8ba6Y45l/i6Pn0hedr5FwlK82b5Fw/OEvOFdE1A/w7WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759989857; c=relaxed/simple;
-	bh=MCtDXNfY+hCnWuDG19CtQcPFRgTrBV77r/r2hU1WMLc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hu5CVAckFt09ICci/ET4VlKCrwFfW87JciK62/hSzeSmXocWuI3TeMvBzeLSa3TPdse0tD8qEsjDa+5PJ27j5h//dHDRirX14/3+DJgjEKM/dsgEHBktlEmaM6cspD3L6fUwyFNyTEXlZHqMTPICPvI96dyo42R+IbUAiLUCmIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgNKz0Ch; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759990468; c=relaxed/simple;
+	bh=+P+32VjyQia2/VMl6L8i5ps1XTSWuqyuULRXQ89ZNT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dX5gao+kal3xlBzlI9EUBRDf4mWtQ78p7EwIEQQzkaePbg4PJodIIrHeIj4xd5yIo0GtgdMccCC4G/n/57+UM9+tTkqdl8ZTh3dhGJvV2cgi1fcudzaVye9qMDg9lru7+oegM+Xi62X5nrJBafE323xxkpNtWbi6bWTlcNMdS+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fM3y8tM2; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KgNKz0Ch"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3327f8ed081so794353a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 23:04:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fM3y8tM2"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3d196b7eeeso87883266b.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Oct 2025 23:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759989855; x=1760594655; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LFYa2J4pKiZKc4e+fpjYh3oOKwVVGWhWq9K6sGGHq9o=;
-        b=KgNKz0ChKPU4nQ8qMrHLBkk+Y77jn8SJ1q+V7+AE4IC9kftR1xl1dGk6oKNUWpnMhW
-         aTfGusdtcq5LyWQ9M5n0cb86gNKftPDROFGagzHwSmPa+N59QI3M4QsyoKi4vo/mxwJz
-         4L3sxdB7EgtelO3FivgS0VgSlmPCSSGtPYJWWWXqqAyS/UHekuA2B9eilDLQUbp+lt8B
-         cFpHiwPgLJ3g2jOApYaLdhqQudyaI7l9KNrVmhcKdleN1nc6qQ/KsYZolPORSgx2WRZj
-         NirqCx2yHf6NlXbwgl8Jsco+ZGnoojjfiattAJ3yH3ThH1FK94ZaNkRcs0Q6b2K0mG9Y
-         crJA==
+        d=suse.com; s=google; t=1759990464; x=1760595264; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tY+RxY77Pgjb4Q3Ych7maYZ2J/C8zV6CQKxbmiyQ6H8=;
+        b=fM3y8tM2rrya4xxuvNo9HiIaGOcOn9yhd/DFLSkkYp3LfPAoBLow7MhwGC2KUawJr+
+         i1pbP7cmft5nNrFDwxZkBATGNCG8DQmJmEpMOqv6QAYGrcPlM2AFSZzaEtYuigjKNFqg
+         +0u/4VqEgD6gr/mD63BJKdDMOpV1APZiHgTyc2Bj7Dto9QuomZGxsxYx5/Cp3+zz46KY
+         XyK2bxs7ynpMrujBICbDiXgR9aQHPUWhdV0GVJWcwJgDE0qlA8tFse0bFz6vjAk0Cwm3
+         886lZJLJ/NBNnaPXxoghpGUFQluNdm8owgwPnTxgGFXMkUMjOsVIds8b+/YuW/uyW8mK
+         O2Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759989855; x=1760594655;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LFYa2J4pKiZKc4e+fpjYh3oOKwVVGWhWq9K6sGGHq9o=;
-        b=omsNiBP2no04699Sf+wJ4TVoE025rtS5gbFKjOovz8gPO+xHoloJ9s2uNkRV4q1wL3
-         BC3eVRQEkhthfRUvR3nEp5SxGyRbruMtqbRF2eWw81jU9jgLD5b3J3HvpnLA4FLlyP2A
-         REVJf5PTKa7LDPSaOJDPVGNcxmevN589+Smyw4TKyqvH8yc7I3PmbwvcFxBG4fgQR5Nh
-         6V1/jzxyJJgmWjBjqsb9wj2xkNPtoWJToYa7WG8MvOlvk84vPBpH1Fo2eEXx+/LXXqai
-         spucWHdUEJRXftfgmbQNPexaKQf7smUbbESHxzHloYyCbkyHuLY62o4hUiE5UBrSgvSz
-         f43g==
-X-Forwarded-Encrypted: i=1; AJvYcCUt1j4RgqUOo70OKxIaBqKRGbH+zXQXEBsUyRXvOLSqv8oj2FsD3K57DLxk6IErfRFk+Yt7cYQCiTU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAiNC3z+KFlCYMPy7mDKP2KPZwkCD7G9M+4dgcOLnAHRQg/EEY
-	mgJpgnvsKDxW7Vf208GilqSoFPT6zPBpw/bbnGnHjBC+nTvT6wzqGBzf
-X-Gm-Gg: ASbGnctmIFc3Dg4Q2g74L/FHauhWdWkEarbLrfrCLsNU0lH2NtlwNmLkgngne7Pic7K
-	63S/kApL5F4NO3v85+4xaBxVKrHyv/MYoO9aOTvOZZhPwIKAffZuClVN5exMwM1VLkzp3SHKM3h
-	3j+7HboAgBZ5577KCxJs9QAcTRa5APcq+cEG6Yzck9HGbAr+5VBd4QIm+hpXWfWvmYs07eKZ0AD
-	q9BxFASrFuZxlNBLTaUu7DHWcE1T2sk0v5YrzTOTz/9wi7lVEYdiBI9BkF/cNI3jeXsCcNNeaNx
-	dz5ELif7LCHqJnMPcDq+ZRmIhnKxXd/piPOvf87oSgiw0ruZFKkU/dFJc1k5Vfts4Zomd3cCNaM
-	tbWY0Ts8c8uMMkfjRuNMhDn6/voM7xhQwcPWDHM6LtA==
-X-Google-Smtp-Source: AGHT+IGGrf+bV3PgiQgJ4fa2Fa/rbMU0yfbnzjWbL4t1zloaFDpyHNgJeQjAGZvfe0dsnpm5WjZqFg==
-X-Received: by 2002:a17:90b:224a:b0:336:9dcf:ed14 with SMTP id 98e67ed59e1d1-33b51375a05mr8937382a91.23.1759989854764;
-        Wed, 08 Oct 2025 23:04:14 -0700 (PDT)
-Received: from localhost ([46.232.121.212])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b529e0e9asm2419477a91.4.2025.10.08.23.04.13
+        d=1e100.net; s=20230601; t=1759990464; x=1760595264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tY+RxY77Pgjb4Q3Ych7maYZ2J/C8zV6CQKxbmiyQ6H8=;
+        b=gxzONpxaD4WUyoZ8uqo+X9LW07foiMfN/4LF+Jt2wR+OfuBwaL1x7w2L1tvsYIm9oF
+         De1HiuLDNgtIhr5Ih3paz3Hv7qTo0GtDyF1KIPyk5J8mLJ1p9MQGJ6qnPJPaM1EAOkt5
+         QI6D1EA/6ZKFIuWdNPQDg/FxhPR/8XyQ/5nmZ8ed77ZjtjiwVMG2DI9wWVAd/sWxQzY2
+         ZR2zp+uf1gaYs/WvdjrCbgv2ki1Bf1stCZlTobM9+YnvsFOST+7y+8zPP9D2Vtv2Xx+a
+         xZ9Mw7Fm3oOWQhNT3eUttSm3PiwTNdvvaf3YdOgW7rv1kiAY4WpFWGExCMaNZrPUkzXA
+         L+mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNrROsTYK7XfarUGbpbYUi5qwbcjrm3Ws+uPuEBR2uWeDOi67cy7iQpRSkchpiV3wk4Ia2KGV2ziA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhgmjY9edQv+OBLWXL+2CNKvKnU1HLgcH/m38rU2U2CGgrgXAv
+	gzXSt8o/lGB036zdWZRGERyh9+Eq9Ekg3TyMPGf+DUIfMhAOU+cB2REh6WwbcxWe5oA=
+X-Gm-Gg: ASbGnctubVYdYcyytqEKaColDQL9gaBpWvZw9l0nJeaCC4WJqneS1IztNy0z9aW2aES
+	HZuEdvQBi99lIWv14TO+PwZDefCnWFa6DMbQWnP1RixwibLlb1FGV/slbxwabNAuloHoUtamD/J
+	X3lwg5a5owGRS/fXYWls2jKO6+jd5vuj8AJEo0E5XIt7eE2nyWwHPGZ0VvjXMDdF/91sM0tv0o4
+	dtzr6j++JHYZHNzhqBGNf3rrAmywHEfUoqcRRFhX1GF5rUXsAOIhlA0MW1pTZp9D/L8a6ue1Pbi
+	Wr4SH9/Hdx2u6VZTqh1wwhgKsnfB6iWKtRfYiDrWIhnUpIR3OwHOvapg+oyg+yPzWOxzH51mw4Q
+	HsDdbl2cW1389f5aCRCrIX+GbAd4qIxZONNdYDIVIfLkhHq/JMpP0FC2Bs5p9Jl2bHHzTfbs=
+X-Google-Smtp-Source: AGHT+IHag+XyI9AEKljQkUUbITbyiNy7sILEJRnoopPBDpFTzbe1XSGFErdxTP4ZeoFPTMso1aYmeQ==
+X-Received: by 2002:a17:906:c146:b0:b3c:f48:ed57 with SMTP id a640c23a62f3a-b50aba9f7b9mr602408966b.35.1759990464254;
+        Wed, 08 Oct 2025 23:14:24 -0700 (PDT)
+Received: from localhost (109-81-95-234.rct.o2.cz. [109.81.95.234])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b486970b5acsm1816673066b.60.2025.10.08.23.14.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 23:04:14 -0700 (PDT)
-From: Frank Cen <focksor@gmail.com>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frank Cen <focksor@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] docs/zh_CN: Add trace debugging Chinese translation
-Date: Thu,  9 Oct 2025 14:03:18 +0800
-Message-ID: <aa9aa17899ac3ec308ad3503b07d0f6d66ff3cec.1759988849.git.focksor@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1759988849.git.focksor@gmail.com>
-References: <cover.1759988849.git.focksor@gmail.com>
+        Wed, 08 Oct 2025 23:14:23 -0700 (PDT)
+Date: Thu, 9 Oct 2025 08:14:22 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
+	corbet@lwn.net, muchun.song@linux.dev, osalvador@suse.de,
+	akpm@linux-foundation.org, hannes@cmpxchg.org, laoar.shao@gmail.com,
+	brauner@kernel.org, mclapinski@google.com, joel.granados@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mel Gorman <mgorman@suse.de>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+Message-ID: <aOdSvriKRoCR5IUs@tiehlicka>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZ8PPWMchRN_t5-@tiehlicka>
+ <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
+ <aOaCAG6e5a7BDUxK@tiehlicka>
+ <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
+ <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
 
-Translate .../trace/debugging.rst into Chinese.
+On Wed 08-10-25 12:31:22, Gregory Price wrote:
+> On Wed, Oct 08, 2025 at 05:43:23PM +0200, David Hildenbrand wrote:
+> > On 08.10.25 17:23, Michal Hocko wrote:
+> > > On Wed 08-10-25 17:14:26, David Hildenbrand wrote:
+> > > > On 08.10.25 16:59, Michal Hocko wrote:
+> > > > > yes, I do agree. This is just muddying the semantic of the zone.
+> > > > > 
+> > > > > Maybe what we really want is to have a configurable zone rather than a
+> > > > > very specific consumer of it instead. What do I mean by that? We clearly
+> > > > > have physically (DMA, DMA32) and usability (NORMAL, MOVABLE) constrained
+> > > > > zones. So rather than having a MOVABLE zone we can have a single zone
+> > > > > $FOO_NAME zone with configurable attributes - like allocation
+> > > > > constrains (kernel, user, movable, etc). Now that we can overlap zones
+> > > > > this should allow for quite a lot flexibility. Implementation wise this
+> > > > > would require some tricks as we have 2 zone types for potentially 3
+> > > > > different major usecases (kernel allocations, userspace reserved ranges
+> > > > > without movability and movable allocations). I haven't thought this
+> > > > > through completely and mostly throwing this as an idea (maybe won't
+> > > > > work). Does that make sense?
+> > > >
+> 
+> I'd also considered something between NORMAL and MOVABLE, something like
+> ZONE_NOKERNEL or ZONE_USER. But that seemed excessive.
+> 
+> > > That is why I called it user allocations because those are supposed to
+> > > be configured for userspace consumation and planned for that use. So you
+> > > would get pretty much a guarantee that no kernel allocations will fall
+> > > there.
+> > 
+> > What could end up on it that would not already end up on ZONE_MOVABLE? I
+> > guess long-term pinned pages, secretmem, guest_memfd, gigantic pages.
+> > 
+> > Anything else?
+> > 
+> > I'm not quite clear yet on the use case, though. If all the user allocations
+> > end up fragmenting the memory, there is also not a lot of benefit to be had
+> > from that zone long term.
+> >
+> 
+> The only real use case i've seen is exactly: 
+>  - Don't want random GFP_KERNEL to land there
+>  - Might want it to be pinnable
+> 
+> I think that covers what you've described above.
+> 
+> But adding an entire zone felt a bit heavy handed.  Allowing gigantic in
+> movable seemed less - immediately - offensive.
 
-Update the translation through commit c44a14f216f4
-("tracing: Enforce the persistent ring buffer to be page aligned")
-
-Signed-off-by: Frank Cen <focksor@gmail.com>
----
- .../translations/zh_CN/trace/debugging.rst    | 133 ++++++++++++++++++
- 1 file changed, 133 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/trace/debugging.rst
-
-diff --git a/Documentation/translations/zh_CN/trace/debugging.rst b/Documentation/translations/zh_CN/trace/debugging.rst
-new file mode 100644
-index 000000000000..c8776fe03bc5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/trace/debugging.rst
-@@ -0,0 +1,133 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+:Original: Documentation/trace/debugging.rst
-+:翻译:
-+
-+ 岑发亮 Frank Cen <focksor@gmail.com>
-+
-+==================
-+使用追踪器进行调试
-+==================
-+
-+Copyright 2024 Google LLC.
-+
-+:Author:   Steven Rostedt <rostedt@goodmis.org>
-+:License:  The GNU Free Documentation License, Version 1.2
-+          (dual licensed under the GPL v2)
-+
-+- Written for: 6.12
-+
-+引言
-+---
-+跟踪框架对于调试 Linux 内核非常有用。本文记录了使用追踪器进行调试的各种方法。
-+
-+首先，确保已经挂载了 tracefs 文件系统::
-+
-+ $ sudo mount -t tracefs tracefs /sys/kernel/tracing
-+
-+
-+使用 trace_printk()
-+-------------------
-+
-+trace_printk() 是一个非常轻量级的工具，可以在内核中除 "noinstr" 部分外的任何上下文使用。
-+它可以在正常、软中断、硬中断甚至 NMI 上下文中使用。
-+跟踪数据以无锁的方式写入到环形缓冲区 (tracing ring buffer) 中。
-+为了使其更轻量，当可能时，它会只记录格式字符串的指针，并将原始参数保存到缓冲区中。格式和参数
-+将在读取环形缓冲区时再进行处理。这样，格式化处理就不会在热路径（即记录追踪的地方）中完成。
-+
-+trace_printk() 只用于调试，绝不应添加到内核的子系统中。如果需要调试跟踪，请改用添加跟踪事件。
-+如果在内核中发现 trace_printk()，则 dmesg 中会出现以下内容::
-+
-+  **********************************************************
-+  **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-+  **                                                      **
-+  ** trace_printk() being used. Allocating extra memory.  **
-+  **                                                      **
-+  ** This means that this is a DEBUG kernel and it is     **
-+  ** unsafe for production use.                           **
-+  **                                                      **
-+  ** If you see this message and you are not debugging    **
-+  ** the kernel, report this immediately to your vendor!  **
-+  **                                                      **
-+  **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-+  **********************************************************
-+
-+
-+调试内核崩溃
-+------------
-+有多种方法可以在内核崩溃时获取系统状态。这可以通过 printk 中的 oops 消息
-+来实现，也可以使用 kexec/kdump。但这些方法只能显示崩溃时的情况，而知道
-+在崩溃发生之前发生了什么则非常有帮助。tracing ring buffer 默认情况下是一个循环缓冲区，
-+它会用较新的事件覆盖较旧的事件。当崩溃发生时，ring buffer 会包含导致崩溃的所有事件。
-+
-+在调试时，可以通过一些内核命令行参数来辅助。第一个参数是 ftrace_dump_on_oops，
-+它会在系统发生 oops 时，把 tracing ring buffer 的内容输出到控制台。如果控制台的输出被记录下来，这会非常有帮助。
-+但如果使用的是串口控制台，建议将环形缓冲区设得相对较小，否则转储环形缓冲区可能需要几分钟甚至数小时才能完成。
-+下面是一个内核命令行示例::
-+
-+  ftrace_dump_on_oops trace_buf_size=50K
-+
-+注意，tracing buffer 由每个 CPU 的缓冲区组成，每个缓冲区又被划分为默认大小为 PAGE_SIZE 的子缓冲区。
-+上面的 trace_buf_size 选项将每个 CPU 的缓冲区设置为 50K，因此在一个有 8 个 CPU 的机器上，
-+总共实际上是 400K。
-+
-+跨重启的持久缓冲区
-+------------------
-+如果系统内存允许，可以在内存中的特定位置指定追踪环形缓冲区。如果该位置在重启时保持不变
-+且内存未被修改，则可以在下一次启动后读取跟踪缓冲区。有两种方法可以为环形缓冲区保留内存。
-+
-+更可靠的方法（在 x86 上）是使用 memmap 内核命令行选项来保留内存，然后将该内存用于 trace_instance。
-+这需要对系统的物理内存布局有一定的了解。使用这种方法的优点是，环形缓冲区的内存位置将始终保持不变::
-+
-+  memmap==12M$0x284500000 trace_instance=boot_map@0x284500000:12M
-+
-+上面的 memmap 选项在物理内存地址 0x284500000 处保留了 12 兆字节的内存。
-+然后，trace_instance 选项将在同一位置创建一个名为 "boot_map" 的 trace instance，
-+这个实例使用与保留的内存相同的大小。由于环形缓冲区被划分为每个 CPU 的缓冲区，
-+因此这 12 兆字节的内存将被均匀地分配给这些 CPU。如果你有 8 个 CPU，
-+那么每个 CPU 的环形缓冲区大小将是 1.5 兆字节。注意，这其中还要包括元数据，
-+因此环形缓冲区实际使用的内存会稍微小一些。
-+
-+另一种更通用但没那么可靠的在启动时分配环形缓冲区映射的方法是使用 reserve_mem 选项::
-+
-+  reserve_mem=12M:4096:trace trace_instance=boot_map@trace
-+
-+上面的 reserve_mem 会在启动时找到 12 兆字节的可用内存，并按 4096 字节对齐。
-+这块内存会被标记为 "trace" 以供后续的命令行选项使用。
-+
-+trace_instance 选项创建了一个名为 "boot_map" 的 trace instance，并将使用
-+由 reserve_mem 保留的、标记为 "trace" 的内存。这种方法更通用，但可能不那么可靠。
-+由于 KASLR（内核地址空间布局随机化）的存在，reserve_mem 保留的内存位置可能会有所不同。
-+当这种情况发生时，环形缓冲区将不是来自上一次启动的内容，并且会被重置。
-+
-+有时我们可以使用更大的对齐方式，来防止 KASLR 以某种方式移动内存位置从而改变 reserve_mem 的位置。
-+通过使用更大的对齐方式，可能会使缓冲区的位置更一致::
-+
-+  reserve_mem=12M:0x2000000:trace trace_instance=boot_map@trace
-+
-+在启动时，会对为 ring buffer 保留的内存进行验证。它会经过一系列测试，以确保 ring buffer 包含有效数据。
-+如果测试通过，该环形缓冲区将被设置为可从实例中读取。如果测试未通过，则会被清空并重新初始化。
-+
-+这块映射内存的布局在不同的内核版本之间可能不一致，因此只有相同的内核版本才能保证工作正常。
-+切换到不同的内核版本可能会发现布局不同，缓冲区将会被标记为无效。
-+
-+注意：映射的地址和大小都必须符合架构的页面对齐要求。
-+
-+在启动阶段使用 trace_printk()
-+-----------------------------
-+默认情况下， trace_printk() 的内容会进入 top level tracing instance。
-+但这个 instance 在重启时不会被保留。为了让 trace_printk() 的内容
-+和其他一些内部 tracing（如 dump stacks）进入被保留的缓冲区，
-+可以从内核命令行设置 instance 为 trace_printk() 的目标，
-+或者在启动后通过 trace_printk_dest 选项进行设置。
-+
-+启动后::
-+
-+  echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
-+
-+在内核命令行设置::
-+
-+  reserve_mem=12M:4096:trace trace_instance=boot_map^traceprintk^traceoff@trace
-+
-+如果在内核命令行中设置，建议同时使用 "traceoff" 标志来禁用追踪，并在启动后再启用追踪。
-+否则，最近一次启动的追踪信息将与上一次启动的追踪信息混在一起，可能会变得难以阅读。
+The question is whether we need a full zone for that or we can control
+those allocation constrains on per memory block bases to override
+otherwise default. So it wouldn't be MOVABLE but rather something like
+USER zone.
 -- 
-2.43.0
-
+Michal Hocko
+SUSE Labs
