@@ -1,245 +1,84 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF9134BA59
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 20:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ADC1DDC33;
+	Fri, 10 Oct 2025 20:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760128220; cv=none; b=lNbAT0/bfljkqfj2arEmkKE5mhZ7WiHcgzlta3XXXr5a06CTqGlLcmENsy4hLBCJF8ykVf55Uruhgv8Y8HK2FGlrcy9Txw6YlrCK+dJJTU0eTKUKebuzVz+5cYNiuQ9jrU6LNYiXhdTEib84J96YCQVvjYsq7H/rzESaFZBUhbc=
+	t=1760128779; cv=none; b=V+0cPbTMN9zDLzM/BhnDlmeCE1h/QyWRzWYKe1RwJwE+1G3ZqZAkZgBjgA3zRTIps/asqMMFwTNt5xKc1wZVfo86n6lV6ayCVqzGk9mklqkrcqPE6rav82RlHzQZN1AKx/um2TP6yTvvDOVPwyiOkvTt0JPv1+nVK6WIok0S1Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760128220; c=relaxed/simple;
-	bh=v2/k8ZBfgqIfQM1A7XfXWIbtHIBC0CbPjCHyajnO5fs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a9eGercqIrEuPXk0y/jkB/X33uLYHH0r/cqSXQN2T+SCpQEDrqix23YbAS1DhDoyGe9585Ape1hlQ5FvSm9n0pAdyFNMKk2XuOAghkSgnOSDRo8Yigy8Ekk0Ow95JuJZlrAzkEPrGg6+A4GMmpYzxRJe6X9WMYMIL+qtkC2znkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3ha9mGzI; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760128779; c=relaxed/simple;
+	bh=23QQchZn74OhbikjpJXXcj/0fhyi1s4y231R27LUpzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFtP2nrFsY4YLiqAxyPIAOPfnHi3NyTkVR8H+TTQG2QtBrLdBqf5+AIiu0+aRi6Dze6afHPyHhv5j3NnKcShr0CcGhRuxal/acSsxmQVR2Oe+IsSFKgfMZiD7wyr1bsKS9QY91020wmIJDVh+7+nqTEWfNnTPazL/jnD9u0qhMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grMAhxX1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3ha9mGzI"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8582a34639aso166727085a.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 13:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760128216; x=1760733016; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cJzF06najOg1Gcry9ekDHccVFcYFO2BDN8L+sxgb1tU=;
-        b=3ha9mGzIax4aYkKl8xOnU4DQBxx/EPGoAxduHIfuGy7GlioACusQiut9MG9tg6mPFF
-         7NGxPvzkOhlyk30r0WzP+PTQGC6mPkV+I1L3qmtfBmBV+qVkvE69w6CG8V+2RO21RP18
-         mukg8iw/bSzDbQrONE5SUTEUStEwDr9WF3FOZ+fRK1nPe2F00TQOFuKqrrN/vBlKLJ/8
-         MYhJ/Y12ir+VDN/7O4kLrNFGYwiu3WuF5KyshTtdHp7gjS4hzu96MEA2ak83NbCjUdKC
-         1sq5eAUrVifXgph2SLT/Di9SgDPfqMo3yaGSYKEXE5ZAwW8AklNnLjxs/n7VC1cOI3U/
-         gZuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760128216; x=1760733016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cJzF06najOg1Gcry9ekDHccVFcYFO2BDN8L+sxgb1tU=;
-        b=QnWj0F5d9deDpi0J+XwF4XS5meGlSwvrbKQE7c8FIsvXfbdqJ3ByvmkOXM64QchfO5
-         os6BGCCpSfE/cuFDavpgHTdgp0QXJdR18dhKRjTktjEJb0o1e1xoQy7/6wNsGDANkR1e
-         m7lmv1X63P1RsEAePKCltZkjNtI9ptiAipu3vfB9a/1jsmEkA2wWL1VkEIT65l2BMWzW
-         QnTDR6zaWVevKXOahjMVPa9EJJ0l+JnGP/rf094DmmUVOdBUTizeIt/ReZwmgZmaIWQQ
-         gpaYFKksjh4/P5dHcx45VbNq6LG5oPq/8oZFpyxfDFBiLbanogAvS8+YkRlErDlN/uBX
-         9XKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdgq4rQBf3kRnmgUWAiX8iY/fU+gNIIHBJzDFL7UhCWRUcQU3AazWyquzvzCIB52xmqdqtaoTJg4Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAK2EGKJsc6ZXcz1/A9go4WV6mr7ILNJyq0pLHt56d+JnRE68t
-	FsI4He49kSw+jonMzftMkDyUhYTn0WW8xu7fwybcbJyLMy2nMcHftOWjF7W6vy83ROQ2CF6zWLM
-	lmpgCoYc/Npyep0OyozLG8HAT0XNu5wbIZ3XC7xa8bgWFODg7AZaDVME7/sy8og==
-X-Gm-Gg: ASbGnctajfzgfIt1ovmAbNK4xSSR7K0Fy3X7ndNnlo+Gl1iI+hxa9Emr3adxZDU9ayT
-	A67PbRLL7y9c7DwS1rduYywD9wN/dk7UF9AItuj4kdMWNQkNXcs+U/XueIQg5YKoT+dzcsdiYYL
-	DOGJ70m4RYMS9FCZJumfSplilIcl8Gn160NqpqnTs/GHw1ai/fEmzyq7jBSAHjcA8ATftXR8tzu
-	JspYfzNik3nkykoFamHzPR3PlhRv8IT2i70WcZcIDTctkMcCC2zu4OO52u6xhdZGQ==
-X-Google-Smtp-Source: AGHT+IEMVwnTb4u9A7SPuNQIjjbJTQej8wCEMMZ/mrxOBPqDW1KfOrO0BqvUY2xxY9mL+cfawvweaEhANedvgVaLwP4=
-X-Received: by 2002:a05:622a:2b0f:b0:4b7:aeda:634b with SMTP id
- d75a77b69052e-4e6eabe6b64mr184459821cf.0.1760128216221; Fri, 10 Oct 2025
- 13:30:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="grMAhxX1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6495C4CEF1;
+	Fri, 10 Oct 2025 20:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760128779;
+	bh=23QQchZn74OhbikjpJXXcj/0fhyi1s4y231R27LUpzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=grMAhxX1/IMkXmvN/KTFayDf9a5qX4x+eOd6D13ZFiyX7LpV41whughu8vkEflqUc
+	 NSQc+tzXKv3dIzQuOxiu660Paich0bb16Y9Lw46DxIXxVRL0z+WN/PbJOmEYr4zLmo
+	 zHk1nzmRdjX6xwhp3PLx2yiUInoA8Uda94XFTfkeD+vVKUc347LgzmKF6HY09vBph5
+	 Z3p+wv9XBhnR3Cmmp2AKAvc2lAQyRq9tAzhB4Zaf0sk6wrw98m79VtycxYOs4lLh1L
+	 jeOMyxdR6DjBxPUalaVWN3ZO3MK/KJfadSPlP5rfmOgds0NinmqjJkdWE9yR89L+JO
+	 f4vyA2SR4nwLQ==
+Date: Fri, 10 Oct 2025 13:39:37 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Divya Bharathi <divya27392@gmail.com>
+Cc: linux-fscrypt@vger.kernel.org, tytso@mit.edu, jaegeuk@kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: fscrypt: document EFAULT return for
+ FS_IOC_SET_ENCRYPTION_POLICY
+Message-ID: <20251010203937.GC2922@quark>
+References: <20251010154753.19216-1-divya27392@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
- <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com> <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
- <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org> <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
- <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
-In-Reply-To: <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
-From: Jonathan Denose <jdenose@google.com>
-Date: Fri, 10 Oct 2025 15:30:05 -0500
-X-Gm-Features: AS18NWC9jtyWGxsfq47KH8p_oP-7oH2DqdyG9IYixNVF9rovGpbJyewtFlvrG6Y
-Message-ID: <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Angela Czubak <aczubak@google.com>, "Sean O'Brien" <seobrien@google.com>, 
-	Lucas GISSOT <lucas.gissot.pro@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010154753.19216-1-divya27392@gmail.com>
 
-Hi all,
+On Fri, Oct 10, 2025 at 09:17:53PM +0530, Divya Bharathi wrote:
+> Signed-off-by: Divya Bharathi <divya27392@gmail.com>
+> ---
+>  Documentation/filesystems/fscrypt.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+> index 4a3e844b7..26cb409e3 100644
+> --- a/Documentation/filesystems/fscrypt.rst
+> +++ b/Documentation/filesystems/fscrypt.rst
+> @@ -729,6 +729,8 @@ FS_IOC_SET_ENCRYPTION_POLICY can fail with the following errors:
+>    version, mode(s), or flags; or reserved bits were set); or a v1
+>    encryption policy was specified but the directory has the casefold
+>    flag enabled (casefolding is incompatible with v1 policies).
+> +- ``EFAULT``: an invalid pointer was passed for the encryption policy
+> +  structure
+>  - ``ENOKEY``: a v2 encryption policy was specified, but the key with
+>    the specified ``master_key_identifier`` has not been added, nor does
+>    the process have the CAP_FOWNER capability in the initial user
+> -- 
+> 2.51.0
+> 
 
-Thanks for looking into this.
+Thanks for the patch!
 
-On Fri, Oct 10, 2025 at 1:55=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Hi,
->
-> I think I found it... see below.
->
->
-> On 10/9/25 11:48 PM, Thorsten Leemhuis wrote:
-> > [Top-Posting for easier consumption]
-> >
-> > Mainly writing this mail to bring Lucas GISSOT in here, who reported th=
-e
-> > same error yesterday here:
-> > https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
-> >
-> > Lucas there suggested:
-> > """but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
-> > hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
-> > Kconfig updated."""
-> >
-> > And Randy: Thx for the closer investigation! It explains some of the
-> > "that feels odd, am I holding this wrong" feeling I had when reporting =
-this.
-> >
-> > Ciao, Thorsten
-> >
-> > On 10/10/25 06:50, Randy Dunlap wrote:
-> >> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
-> >>> On 8/19/25 01:08, Jonathan Denose wrote:
-> >>>> From: Angela Czubak <aczubak@google.com>
-> >>>>
-> >>>> Define a new structure that contains simple haptic device configurat=
-ion
-> >>>> as well as current state.
-> >>>> Add functions that recognize auto trigger and manual trigger reports
-> >>>> as well as save their addresses.Hi,
-> >>>> Verify that the pressure unit is either grams or newtons.
-> >>>> Mark the input device as a haptic touchpad if the unit is correct an=
-d
-> >>>> the reports are found.
-> >>>>  [...]
-> >>>> +config HID_HAPTIC
-> >>>> +  tristate "Haptic touchpad support"
-> >>>> +  default n
-> >>>> +  help
-> >>>> +  Support for touchpads with force sensors and haptic actuators ins=
-tead of a
-> >>>> +  traditional button.
-> >>>> +  Adds extra parsing and FF device for the hid multitouch driver.
-> >>>> +  It can be used for Elan 2703 haptic touchpad.
-> >>>> +
-> >>>> +  If unsure, say N.
-> >>>> +
-> >>>>  menu "Special HID drivers"
-> >>>
-> >>> I suspect this change is related to a build error I ran into today:
-> >>>
-> >>>   MODPOST Module.symvers
-> >>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] und=
-efined!
-> >>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multi=
-touch.ko] undefined!
-> >>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-mul=
-titouch.ko] undefined!
-> >>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multit=
-ouch.ko] undefined!
-> >>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouc=
-h.ko] undefined!
-> >>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multito=
-uch.ko] undefined!
-> >>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitou=
-ch.ko] undefined!
-> >>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: M=
-odule.symvers] Error 1
-> >>>
-> >>> The config where this occurred had this:
-> >>>
-> >>> CONFIG_HID=3Dy
-> >>> CONFIG_HID_MULTITOUCH=3Dm
-> >>> CONFIG_HID_HAPTIC=3Dm
-> >>>
-> >>> Changing the latter to "CONFIG_HID_HAPTIC=3Dy" fixed the problem for =
-me.
-> >>
-> >> Sure, but that's just covering up the problem.
-> >>> First, I get this build error:
-> >>
-> >> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-hapt=
-ic.o
-> >>
->
-> ISTM that tristate is incompatible with this newly added Makefile
-> line:
->
-> +hid-$(CONFIG_HID_HAPTIC)       +=3D hid-haptic.o
->
-> hid-* lists files that should be builtin, not loadable modules.
-> These should all be hid-y.  AFAIK, hid-m is not useful.
-> (A maintainer can correct me as needed.)
->
-> So adding a MODULE_LICENSE() and MODULE_DESCRIPTION() to
-> hid-haptic.c and changing drivers/hid/Makefile to use
-> obj-$(CONFIG_HID_HAPTIC_        +=3D hid-haptic.o
->
-> fixes the build errors for me.
->
-> Angela, Jonathan D., is there any reason that
-> hid-haptic needs to be builtin instead of a loadable
-> module?  It's no problem for hid-multitouch.ko to call
-> into hid-haptic.ko (both as loadable modules) as long as
-> hid-haptic.ko is loaded first.
->
-As long as hid-multitouch.ko is able to call into hid-haptic.ko I
-don't see any issues, but is there a way to enforce that when
-CONFIG_HID_HAPTIC is enabled, hid-haptic.ko will be loaded before
-hid-multitouch.ko?
->
-> Thanks.
->
-> ~Randy
-> ---
-> ---
->  drivers/hid/hid-haptic.c |    3 +++
->  1 file changed, 3 insertions(+)
->
-> --- linux.orig/drivers/hid/hid-haptic.c
-> +++ linux/drivers/hid/hid-haptic.c
-> @@ -10,6 +10,9 @@
->
->  #include "hid-haptic.h"
->
-> +MODULE_DESCRIPTION("HID haptic touchpad support");
-> +MODULE_LICENSE("GPL");
-> +
->  void hid_haptic_feature_mapping(struct hid_device *hdev,
->                                 struct hid_haptic_device *haptic,
->                                 struct hid_field *field, struct hid_usage=
- *usage)
-> ---
->  drivers/hid/Makefile |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> --- linux.orig/drivers/hid/Makefile
-> +++ linux/drivers/hid/Makefile
-> @@ -4,7 +4,8 @@
->  #
->  hid-y                  :=3D hid-core.o hid-input.o hid-quirks.o
->  hid-$(CONFIG_DEBUG_FS)         +=3D hid-debug.o
-> -hid-$(CONFIG_HID_HAPTIC)       +=3D hid-haptic.o
-> +
-> +obj-$(CONFIG_HID_HAPTIC)       +=3D hid-haptic.o
->
->  obj-$(CONFIG_HID_BPF)          +=3D bpf/
->
->
---
-Jonathan
+I think I omitted EFAULT intentionally, since it's always a possibility
+for almost any ioctl or syscall that takes a pointer parameter.
+
+If we'd like to explicitly document it, it probably should be documented
+for all the ioctls in fscrypt.rst, rather than just
+FS_IOC_SET_ENCRYPTION_POLICY.
+
+Also, the list of error codes is alphabetized.  EFAULT should go into
+the correct position in the list.
+
+- Eric
