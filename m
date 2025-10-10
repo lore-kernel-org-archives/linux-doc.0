@@ -1,114 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933281A275;
-	Fri, 10 Oct 2025 00:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B36DDC5
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 01:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760057470; cv=none; b=Z/VNNpIlRKgpMXsb0Dk91G0100yA6PuCUuFqBCZV/1BenAtJna7lByg3ByYDc6xedaj5PwQ+bbFaBbZGFeBsHdfaer5mMX0HyMYvI7wDF9BeBRSeQ+26UoEDAACSzCGqjrxWDcQT+pwNa6hodoTSW5DvufmqKA7KUYQUUxskqAA=
+	t=1760059198; cv=none; b=B6vLyc+cA4AeUgfD8FUb7QhoaWT/Tx55hwE4lbQb8eM7uoaAog3qIql/xaZVJXpB80kay/xMSvK6AMhsILeE7PCMxH4w8DquNSjoW/k7yGC8FpEjMdpJ4pvqYCe4la/sU20QZJ6aTjIW7AEqgdCMcMnwWBDh5d/F2nPm7buVKhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760057470; c=relaxed/simple;
-	bh=A3UrofGwAstq0M2Uw/J4CU3Y1letTXoVhhSuZWoGGb8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=VIcx6jeqEOLAHTEOLuGbUcIbZQKWBi0qImk8Cz26SsFPTkOVtVNWcdVmnH9ej7QUt7S41OAV6MVOMk9X9nF8f5v306gkAcVCiRpzvKXBt/5fxPHurLeRVkNSPAyxc7m/dc2OxNZTmNavXOmK0FnSFeg2afZASJDyEJ5DQFNGv9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=2JktYbzm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760059198; c=relaxed/simple;
+	bh=uaTvHrHRLctEDmqgKU6Co6gfADnqxXrJ/YLmUpeeOrY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=oN2hZt9/kaWqWirH34ULzIDB+quUqi+QOkg5QVNlbB8AmL9HsSbP389EfQiEx7wRAapRd5171qAcXgXUET2MGI5MPTxdbh06EXoqFyVETuXavRGXpXgosI5ZWRUkQNEQDW5vdY/2iGZfGRMBlCo3a3Q9izuARnLEJ0PKhus8P78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Mfd/hyml; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2JktYbzm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24497C4CEE7;
-	Fri, 10 Oct 2025 00:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760057470;
-	bh=A3UrofGwAstq0M2Uw/J4CU3Y1letTXoVhhSuZWoGGb8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=2JktYbzmhzcnUjZxn4TJsLrCa4CdQmyNAz48GhTm60ifXFoRmbMF9Tc/M9RRLbvJV
-	 OTvz7R6JSbLUT9mEhQjhUsNNq5Xpz4vLivUTBLXDvZAdv81wS0YgNddSVET7bP2mj+
-	 E2cRLHzPEXFAzCsftZVpoY141RGvPOXXQkXJVlZA=
-Date: Thu, 9 Oct 2025 17:51:07 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Jinchao Wang <wangjinchao600@gmail.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>, Alexander
- Potapenko <glider@google.com>, Randy Dunlap <rdunlap@infradead.org>, Marco
- Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Ben
- Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin
- Schneider <vschneid@redhat.com>, Arnaldo Carvalho de Melo
- <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
- Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
- "Liang, Kan" <kan.liang@linux.intel.com>, David Hildenbrand
- <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
- Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>, Miguel
- Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Rong Xu
- <xur@google.com>, Naveen N Rao <naveen@kernel.org>, David Kaplan
- <david.kaplan@amd.com>, Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan
- <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-mm@kvack.org, llvm@lists.linux.dev, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry
- Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 00/23] mm/ksw: Introduce real-time KStackWatch
- debugging tool
-Message-Id: <20251009175107.ee07228e3253afca5b487316@linux-foundation.org>
-In-Reply-To: <20251009105650.168917-1-wangjinchao600@gmail.com>
-References: <20251009105650.168917-1-wangjinchao600@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Mfd/hyml"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-33428befc08so6049762a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Oct 2025 18:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760059196; x=1760663996; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Umr72UDM+ef/eu/5GGg59+M3j2MSWUMKK6kjEtNqzt4=;
+        b=Mfd/hymlEn1QCs5BP6bx7Kp6cGxJm9jMAT13K+BusQRgl6R12p+te46wjuQ5f+tbdD
+         a3QVIXbAIjXDEJCzVgdut99Se5An64wmMBYIEeZ2ARMly2xH/V2xl+9IwDPTk0zc5j/C
+         1lkdwg6boq/B2oIuTNmQl/mchTV9tchS72oesmfIePZboNjc0aE/XtKX/tvtjxYWmz8S
+         VarjtKkaNF2x3RetsYD2UGHiRK2m3pAKbdonc30ZEUV8rmpAy+NzbsgEbvUTG3ibZJDj
+         x+DIzwNWGW+eel3Q2btWQyyxFw5NnoalaJ4HSL09CX2Ry/v7Aje3WqjYXKjbX1NscgQt
+         jkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760059196; x=1760663996;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Umr72UDM+ef/eu/5GGg59+M3j2MSWUMKK6kjEtNqzt4=;
+        b=m3F0cL3QT2WxbkS1+pVR87yVDli1rUMbciWBzeeQyEw0Mix3hTYxwu31ILS6q1t/sm
+         jH+ymN54MUkNrMtRelOTDkpi+Cfl8HaAvIBjK8zLqfToCSZU++YzGgu1Xfz8haqBVuef
+         Ap+XsBH5q6MFdzRAhr1zdnmEdYt+LgduSwMuYCzDypa0f9WeLZExJtDZYT0HkNU3D2+3
+         rWv21wgfA3iHy57usmJxd9qzFai1PFbVe1iLDudosDCnsrLQdd0g3ua4hUgmviN2dZrL
+         tt+e9AblQk4/Up9X9h2tEfWKKErRJUpvwCy8j78JCdTaAKgYJQdWWSk42rbEyuGIbeYU
+         Hk3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUETl/HOl0hGmO4l9VSZvcU2zOjJQBdpuH8nsbWMUHtfcjW+lv7a/7s+y4zFIsQpzfffSppDChMImA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzd9jhQsUNiFrEdcLvKZYcQR7vnvlDgyNrlEL2/uCdCK6IwZWS8
+	ty0dHteEnqnCSqzHf5qmMmLnRCUGpKq9HzYChrp6EpMHL0lXrqLAnEClXzhJjxbGcvH/6R23DF2
+	D4nIAhg==
+X-Google-Smtp-Source: AGHT+IE27KyVOHtRVs+A0lEatoDCera078aKUGcBNIuc3h+4WOD0YdO+2yFbdCIN2uDuSh9GKzfzUmBfEEw=
+X-Received: from plbml5.prod.google.com ([2002:a17:903:34c5:b0:28e:7f4e:dd17])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ec83:b0:267:d2f9:2327
+ with SMTP id d9443c01a7336-2902739b36dmr131881235ad.27.1760059195894; Thu, 09
+ Oct 2025 18:19:55 -0700 (PDT)
+Date: Thu,  9 Oct 2025 18:19:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mailer: git-send-email 2.51.0.740.g6adb054d12-goog
+Message-ID: <20251010011951.2136980-1-surenb@google.com>
+Subject: [PATCH 0/8] Guaranteed CMA
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	vbabka@suse.cz, alexandru.elisei@arm.com, peterx@redhat.com, sj@kernel.org, 
+	rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, hch@infradead.org, jack@suse.cz, 
+	willy@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com, 
+	hannes@cmpxchg.org, zhengqi.arch@bytedance.com, shakeel.butt@linux.dev, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+	minchan@kernel.org, surenb@google.com, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu,  9 Oct 2025 18:55:36 +0800 Jinchao Wang <wangjinchao600@gmail.com> wrote:
+Guaranteed CMA (GCMA) is designed to improve utilization of reserved
+memory carveouts without compromising their advantages of:
+1. Guaranteed success of allocation (as long as total allocation size is
+below the size of the reservation.
+2. Low allocation latency.
+The idea is that carved out memory when not used for its primary purpose
+can be donated and used as an extension of the pagecache and any donated
+folio can be taken back at any moment with minimal latency and guaranteed
+success.
 
-> This patch series introduces KStackWatch, a lightweight debugging tool to detect
-> kernel stack corruption in real time. It installs a hardware breakpoint
-> (watchpoint) at a function's specified offset using `kprobe.post_handler` and
-> removes it in `fprobe.exit_handler`. This covers the full execution window and
-> reports corruption immediately with time, location, and a call stack.
-> 
-> The motivation comes from scenarios where corruption occurs silently in one
-> function but manifests later in another, without a direct call trace linking
-> the two. Such bugs are often extremely hard to debug with existing tools.
-> These scenarios are demonstrated in test 3–5 (silent corruption test, patch 20).
-> 
-> ...
->
->  20 files changed, 1809 insertions(+), 62 deletions(-)
+To achieve this, GCMA needs to use memory that is not addressable by the
+kernel (can't be pinned) and that contains content that can be discarded.
+To provide such memory we reintroduce cleancache idea [1] with two major
+changes. New implementation:
+1. Avoids intrusive hooks into filesystem code, limiting them to two hooks
+for filesystem mount/unmount events and a hook for bdev invalidation.
+2. Manages inode to folio association and handles pools of donated folios
+inside cleancache itself, freeing backends of this burden.
 
-It's obviously a substantial project.  We need to decide whether to add
-this to Linux.
+Cleancache provides a simple interface to its backends which lets them
+donate folios to cleancache, take a folio back for own use and return the
+folio back to cleancache when not needed.
 
-There are some really important [0/N] changelog details which I'm not
-immediately seeing:
+With cleancache in place, GCMA becomes a thin layer linking CMA allocator
+to cleancache, which allows existing CMA API to be used for continuous
+memory allocations with additional guarantees listed above.
+The limitation of GCMA is that its donated memory can be used only to
+extend file-backed pagecache. Note that both CMA and GCMA can be used
+at the same time.
 
-Am I correct in thinking that it's x86-only?  If so, what's involved in
-enabling other architectures?  Is there any such work in progress?
+Accounting for folios allocated from GCMA is implemented the same way as
+for CMA. The reasoning is that both CMA and GCMA use reserved memory for
+contiguous allocations with the only difference in how that memory gets
+donated while not in use. CMA donates its memory to the system for movable
+allocations with expectation that it will be returned when it is needed.
+GCMA donatest its memory to cleancache with the same expectation. Once CMA
+or GCMA use that memory for contiguous allocation, the difference between
+them disappears, therefore accounting at that point should not differ.
 
-What motivated the work?  Was there some particular class of failures
-which you were persistently seeing and wished to fix more efficiently?
+The patchset borrows some ideas and code from previous implementations of
+the cleancache and GCMA [2] as well as Android's reference patchset [3]
+implemented by Minchan Kim and used by many Android vendors.
 
-Has this code (or something like it) been used in production systems? 
-If so, by whom and with what results?
+[1] https://elixir.bootlin.com/linux/v5.16.20/source/Documentation/vm/cleancache.rst
+[2] https://lore.kernel.org/lkml/1424721263-25314-1-git-send-email-sj38.park@gmail.com/
+[3] https://android-review.googlesource.com/q/topic:%22gcma_6.12%22
 
-Has it actually found some kernel bugs yet?  If so, details please.
+Patchset is based on mm-new.
 
-Can this be enabled on production systems?  If so, what is the
-measured runtime overhead?
+Minchan Kim (1):
+  mm: introduce GCMA
+
+Suren Baghdasaryan (7):
+  mm: implement cleancache
+  mm/cleancache: add cleancache LRU for folio aging
+  mm/cleancache: readahead support
+  mm/cleancache: add sysfs interface
+  mm/tests: add cleancache kunit test
+  add cleancache documentation
+  mm: integrate GCMA with CMA using dt-bindings
+
+ Documentation/mm/cleancache.rst |  112 +++
+ MAINTAINERS                     |   13 +
+ block/bdev.c                    |    6 +
+ fs/super.c                      |    3 +
+ include/linux/cleancache.h      |   84 +++
+ include/linux/cma.h             |   11 +-
+ include/linux/fs.h              |    6 +
+ include/linux/gcma.h            |   36 +
+ include/linux/pagemap.h         |    1 +
+ kernel/dma/contiguous.c         |   11 +-
+ mm/Kconfig                      |   40 ++
+ mm/Kconfig.debug                |   13 +
+ mm/Makefile                     |    4 +
+ mm/cleancache.c                 | 1144 +++++++++++++++++++++++++++++++
+ mm/cleancache_sysfs.c           |  209 ++++++
+ mm/cleancache_sysfs.h           |   58 ++
+ mm/cma.c                        |   37 +-
+ mm/cma.h                        |    1 +
+ mm/cma_sysfs.c                  |   10 +
+ mm/filemap.c                    |   26 +
+ mm/gcma.c                       |  231 +++++++
+ mm/readahead.c                  |   55 ++
+ mm/tests/Makefile               |    6 +
+ mm/tests/cleancache_kunit.c     |  425 ++++++++++++
+ mm/truncate.c                   |    4 +
+ mm/vmscan.c                     |    1 +
+ 26 files changed, 2534 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/mm/cleancache.rst
+ create mode 100644 include/linux/cleancache.h
+ create mode 100644 include/linux/gcma.h
+ create mode 100644 mm/cleancache.c
+ create mode 100644 mm/cleancache_sysfs.c
+ create mode 100644 mm/cleancache_sysfs.h
+ create mode 100644 mm/gcma.c
+ create mode 100644 mm/tests/Makefile
+ create mode 100644 mm/tests/cleancache_kunit.c
+
+
+base-commit: 70478cb9da6fc4e7b987219173ba1681d5f7dd3d
+-- 
+2.51.0.740.g6adb054d12-goog
+
