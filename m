@@ -1,231 +1,140 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010036.outbound.protection.outlook.com [52.101.69.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861E62F746C;
-	Fri, 10 Oct 2025 14:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760108117; cv=fail; b=eqXAnlgEg0Txm2jBGPRV5zOD5IzxJ7LhSQ1s5zcDJQ9GyAJb8KehjYZdojB/8yhZSePfZe9xJsG6V0Zl6+h/t5i3IsEXFYfCkgMuhugwm0zKOTbp0Kmcvz99Hb2Y3McT3iUC5q1xL2/hBwTizdU2+5HnzsWnq+kTijm2PoITGgY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760108117; c=relaxed/simple;
-	bh=WZSohty9q3H46iyCNo45thZXCzVcBLu7nFAaq6PSZlM=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=c/Te4xyKyzuqAVoSIykyjJIhDc4j3XwUwTS9FC174MpXh0UnVggUvG0a/RfRLq0LohZVV0aPUM6SyR0SIbZIUpmT/S77AKCAeTIn4b/jdImw9GxLbe6m/GLHdIkH92ApZG909zhlpPsGPrxwLCCVhjh52Xrhfx6ULzDenr+M4Wc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=PQUbFGYn; arc=fail smtp.client-ip=52.101.69.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208312F7442
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 14:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760108320; cv=none; b=EC3cpWQqdFcdravBeu2lU/X0vQjlPJd/SdOmB5VWSlgXu+p3KRjxvGHpj9R6zjMRUU8VfPBSJUFlXn1r09Ke3HLsSkeftgH/TyCAs2Y2o2Phdf3cBQsUpRiy9SeTrlTJ2JxqpqjHBS7TUvMQVz8FPkNJ5FfGpdluK9UZDXnkesM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760108320; c=relaxed/simple;
+	bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BElVDR8dtjr09qulPrkfPm8ZymlGDZhEZIVdG/3qoE8eawh79b9NlBREUEx0q43T4440DD6AeEZLLf4I8VqlIKsa2KRxRdVndEsueCLsUsltMVLS2l504kroqo79shnHtFybLFXeupi41NCpbhWO+CR4PAGbkdnLufDpBRozMo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bFoqyy02; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="PQUbFGYn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BmarbYJFQ0Hc4ocS/R0oe2GTvSxM+WdXljXHRwrmGOVAU3m97/xTcS47FscepGEn2/rBCeSUApekzQDeMECI/T70cCvg8jN4gu37uY6Nl2JhvailgYPu4HMvxLFquEkH/0ZLkwwktGRn0KWbN9cKj3x19Tz56H1IMJ4gKXgharLphrFqOWKhy3b6oh8zP/EMxCrLN1yq9sz3dxcy47oOfuPovGihspMlD6d7/XlQkwc5sAbVh9mlpsF3VDjmZ84bAFbUk0C0zd2HGmalKkdSX/CuH5IqCTS2q6xSv5u2e8puPilMbo+CSwuhWsAgMycdML3LY0cnhFgUTv65/pdMng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WZSohty9q3H46iyCNo45thZXCzVcBLu7nFAaq6PSZlM=;
- b=i6HO5q8HpPk0sreEXFP3b/FzIaAzn34wMSqnoaPRhs+CYcX2n/SCH7XpPCG08c/9j1/iA9/K7mnHIBaExm2SbJqyGbbemLGp/YcB85FIjG19LGxq6wCXowiL+7BwFvVSYLWNcWbeYNl3BKF7Eqw0m6UKA4de+1m6ooqqljIelkrMqiK3W1T7WXjIhQCeo/RYM1S8qVVH0kiFUPFHS3qzINFqkNaZLSOgAnTz41wA6fk+aQPFofHbNQw6lr5AlIyxuwZRHAUrg0BhDWcOFqG6xx6MH8645Ty7WJ6tux8AnP5+S1ljReYSTZittLK58uy+pKzyELLbZLrZhk8gvq4Fag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
- header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WZSohty9q3H46iyCNo45thZXCzVcBLu7nFAaq6PSZlM=;
- b=PQUbFGYniUVbhL8jQGnxLbIwA9ex40J2J8CcNehI5Mky4KaMMN92+ogAQqpJEHLJXUWy6Ap3qDMrdIeg6jHNn8WaEWSBu/YEerGot+w+FIF84yOmwZWOL6AhmE/gNGQ+3FztRn8B54AixCcm1jdLtcFuyfwKHwVo73Vd2MlQkJY49wwzQc2hezNP+quzO+N+2mG1LTFfVyPok+4mY7lHk40pmJvUpztWn23k9PXJrVzZOwLfBEf8kHb/5+Cpgrk4hK/8gRM5W3XWVfsR6C35LFOlMVGbVgG0UvNbiOLQFjeoMcJSO41hlIl0EK+KfxbTyDFPDBuS9UlK1xh8fAFxUQ==
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
- by PA3PR07MB10625.eurprd07.prod.outlook.com (2603:10a6:102:4ac::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.16; Fri, 10 Oct
- 2025 14:55:11 +0000
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56%2]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
- 14:55:11 +0000
-From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-To: Paolo Abeni <pabeni@redhat.com>, "edumazet@google.com"
-	<edumazet@google.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "kuniyu@amazon.com" <kuniyu@amazon.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
-	<donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
-	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
-	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
-	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
-	<mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
-	<Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: RE: [PATCH v4 net-next 00/13] AccECN protocol case handling series
-Thread-Topic: [PATCH v4 net-next 00/13] AccECN protocol case handling series
-Thread-Index: AQHcOeg8Mb6b4t46M0qYgAgRF+DklrS7d38AgAAARwA=
-Date: Fri, 10 Oct 2025 14:55:11 +0000
-Message-ID:
- <PAXPR07MB79849FC1F67FD3F380A290B7A3EFA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20251010131727.55196-1-chia-yu.chang@nokia-bell-labs.com>
- <0ec01c17-1c39-4207-96f8-597bc8d6c394@redhat.com>
-In-Reply-To: <0ec01c17-1c39-4207-96f8-597bc8d6c394@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|PA3PR07MB10625:EE_
-x-ms-office365-filtering-correlation-id: 6a484eb5-f1d5-42e8-ab4b-08de080d0308
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021|921020;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?HWwEWtyCQx4ZzAAcMaAXYXI+fedh5SfBlYnb7W59DiNBfputpxEHSVhK5RW+?=
- =?us-ascii?Q?gC5De2kObCcCvACYtEU0SDRLt49Twq6IrYyI7R9ehoCzV66xQF/G3G5pUXQH?=
- =?us-ascii?Q?tYMO6d7g9AVIR8dmAs7EUgw06a73kQMKs3yCYLAsS8of7U2hxlJ21aVhzmua?=
- =?us-ascii?Q?r0BFLhN45qZn7eqQJWudrxoN6iP/T2PUukf6sytuK7Rl2ijU1V3cpt/JeTXY?=
- =?us-ascii?Q?Rxkuf52JO7DEtf0A9WDjeQ6wrZaoJhJuCrrFrDK/52JcY+25NF2yBNfbtWCP?=
- =?us-ascii?Q?eTUWbp1R1Q35p1jzPIAaAS65mKFjdi5gQnKEnsvSgTAfxuJuEy5hUGoOcozY?=
- =?us-ascii?Q?dYWMyOf4gZnFOyXyJ4ge2TFbP/7KQL4u6wkFJ9GOi3BNERWX27eAqKL4vkhb?=
- =?us-ascii?Q?6ITecOf2bHjtgilKQ+bBKsJQZCont7PnL9R4KomVF3HiLB19sGCwdIAmWMCx?=
- =?us-ascii?Q?hKKKm0U7YYH4ETzZYo9t+bLvhQj/v4Yg25Ebd000bjbjscg1ydYWaRAkyEGw?=
- =?us-ascii?Q?WvWTULlGUtxnBOeOZpCpRgiaPWTWRb67W3+1fa4xmGJUzbIeNDzycyRDfM/x?=
- =?us-ascii?Q?xred/gxPmuXNxxBDxerqXiX2rCnkobPvx6/RX56/2uWNw30KIH6FadwMLq/Q?=
- =?us-ascii?Q?hbPgJ80z+OxxsW8hTf1hc1Ek3c21UfZeEgza94hO4zxawklFXSxAV0cRbm42?=
- =?us-ascii?Q?oOenyZu2MBtKmIp+4Q/tsITlup9jZLf8ndV1UIb71pJw23hTiVrfyXeEMVWC?=
- =?us-ascii?Q?VZhoUuVDv+1cmfSk8bU2rQBT2OdSDaqRgGUiGbKnxlz5DbMBxFfEWRIfAUKm?=
- =?us-ascii?Q?3G/nL2ShgCVhU33PVIDr4SVSe1wNpS22TsEVwmhnL4JBO2X6Xm+RKEk+APOu?=
- =?us-ascii?Q?U/nWJUsUXD8hYuckGi0xfurDW6HPpQ4Dhm5w0tJVfSEGJCJz3XVZR/Z1jUKm?=
- =?us-ascii?Q?9tv/8e0ip5MA4wgSwSp1zGakPa45Bz4pQp0QScLvLWPsRjIR2NaV87q9ZY1i?=
- =?us-ascii?Q?Ya51bhzeJR3ka0/a9fyB9Ps5UKz8+otFb2Z2KMdPZYsbN8VFtFpZJqfOXMc4?=
- =?us-ascii?Q?aD3TqR+gsR7PF8/wvSGsuQAhQ4lMLEMBkrD2v03iREs1xuGJTREryP389ba0?=
- =?us-ascii?Q?r39bjNG4A2HntDwsl5HA5NnbsMUPGCwgm3ZACO1Uiiy+USpnRDDZdLNXY9zI?=
- =?us-ascii?Q?3UYhsyimKeMvKPFTTmgsz5P7mjEO5/JU3SmqRoCh295JvxheW9/DMRhXnY7o?=
- =?us-ascii?Q?IUZoso7m/D+qk7u8fi3zq1UWZIR2JUzMli+xwhL8DqFMyEWwtLMaAe4RdrvA?=
- =?us-ascii?Q?9FEsL6RBzV/iqJmHERX22BEI21eBPI0rU6AR6yz6NwkO7/p7ps/dp4S2ygJ2?=
- =?us-ascii?Q?wCF9SYW8l/R0ldlAGYaV04Tptkvt2QoWKLgjrYYcuYEVaPFghtj/Gvu5zkwb?=
- =?us-ascii?Q?PnnqYgm7AWwb60X/Rb1FHnRANX3XDtegc5Fw+qGfH9EIY9t4g7HDx0RQbvJi?=
- =?us-ascii?Q?RHxaVvkLuL0W8vhnQU5ZKNM/vvSyNGWJ6W3F9GX7/z4XHMF5YdMbmPZycg?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Qt4ggxC9C8bjnhkzgz0ReHzyJCiwWPUlZm2r9ZL0SVHAp9VeF/Zcq3qBE7Sj?=
- =?us-ascii?Q?X1YE0tcdQP8faMJsunrY8KC+7QwU2hCkjlnQhngqWfbNAuqjAE39+RkEv6lS?=
- =?us-ascii?Q?Jtr5Hrkcgs20TbtqqwSi1qWY4SY/NX0fGRrrMgZ6BZ8ITa6louYEWKxpMMAg?=
- =?us-ascii?Q?2XQjy/5vOsBzrSCMqDj5I7rIfaJCe0354qbQ9FUIIjOjr9McRkH1321kXO63?=
- =?us-ascii?Q?1xCp7A7l+QG6XNjIuDZ3YP2Fev7Z91gutGHLMCi5dYVZ+pWGGYJgyssSaeWU?=
- =?us-ascii?Q?r70O6GcNEAagrGoWg19KnoXgSXk0qQPTOavpYd66w4vkG09o9PCE28/z8Pf0?=
- =?us-ascii?Q?OvFHfp8CcdoQ/rgR8iKTsNVmHgGPgl4GR1behhtKHAFcVktFBoCkJZucRElK?=
- =?us-ascii?Q?OnMS03F8MRefelXLWmiZTo/xdNWFQhxYswmbaYgYwH7AdMLD/XFajcxexY2o?=
- =?us-ascii?Q?f5rSMIq3lFDpocNAoyH06NaStePmibaElNhrmExX9DU+SVS9UNAVKwbxmw1P?=
- =?us-ascii?Q?0ps4yJbd7nYBZVUILaLUwzXoKbd3Ohjrv1hnLfZrmlLOsi86G4U9j9H2e1LU?=
- =?us-ascii?Q?IYk5m0T4bFyVOLmrqznFtAqooIdY6M/To14od+2/3F3/zY/XfdfynDd+KUag?=
- =?us-ascii?Q?m7saexKmPwBmYiHQu6kRKZgx6KLay3/f/bW3zzB2Y4/I+IXfMFMUpNAhC4tX?=
- =?us-ascii?Q?z/2gxxfk4NGml9ouS3MqPTaaSF4VgiS2ieP/r6CEg9YJj8EFTyd7nhFnhQQy?=
- =?us-ascii?Q?rIAc3uQZ67pSuyXqtRtlh10NQNPdX90y0lQ+TSregnsQq1aoiRQQVIcBvifx?=
- =?us-ascii?Q?CpSezMKfULc5j32oP6n1sXn6tr4BFtcNzsYykv+SIFtCobPhkgxWlZi+T/pY?=
- =?us-ascii?Q?qzKS8WOb/vnqu+gjKiLmfb1tAJyxh3PDuoCh9QVBxoYL91iI/l1NN9Ool7R8?=
- =?us-ascii?Q?T6B/PNLsBdrq3tbcBGKAt/mRbidBFNHVrJEylLwjjWCNnVNauunbwzHXGFRG?=
- =?us-ascii?Q?MR0IP/1Es/tD1Qv3fN3Y3bOyBEQ1hsKKi3SI3K/bn1rlTc/mbKwNq+Y54Bof?=
- =?us-ascii?Q?ReHr2cpkL65C/7pyqKtwYpvbF/yLE/GdJ1pXnPWRyT8bS7eEDaRn2J2zcsUG?=
- =?us-ascii?Q?xD03fF5JM/wpR5gE2/I0HBWIOyAKXeAWUslQIEkK55co5bmMLtTQqPftajC0?=
- =?us-ascii?Q?MMUgvtwy5LFoiiMyUbGmoM6WJ7TZYEkaxy1eRTzorfSfX+47+TUbVbFB2TKQ?=
- =?us-ascii?Q?JwePtuDPOHQ6TrjKtjEF5PKhJ9Hn2wHX7P6QWtKOUZmTWE+5zPHlkyPKceZe?=
- =?us-ascii?Q?H8yopMjHOKFIHl2NtaiE/V8O7CyAanoo+CW+LIM/OOCe57bKOL+vtdHx3P1R?=
- =?us-ascii?Q?25W5BAyYc6pSVdqQnyroiBKWXWpv/8HqTG6+G0X5CDM73OSyLffvUh49f/ca?=
- =?us-ascii?Q?4NQMRzT8QFcaAvSoVM2L51DU+1M+hBxBBfrcPHzvY16PX24JayIwcr9raanN?=
- =?us-ascii?Q?Tr4rFT3B3MNbZw/YiSXfOI0efII45TsFg6ntyj7U6cMDE1xoWxrR9IFWPlne?=
- =?us-ascii?Q?8VHW3QZ4/t+8I1uw73Nh+cujKcYJuVJOm6Kn+t1fFbHxaD1RDrb6dDeMD4AI?=
- =?us-ascii?Q?Qg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bFoqyy02"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4da3019b6b6so19869631cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 07:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1760108318; x=1760713118; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
+        b=bFoqyy02oYGr/LuWsFyi0W5Ej8pKXhjqyohD00Z5dbmSNvYpgSVewN3J+q15yRc6ii
+         69LaSyM2tnR+luiCcl5eZPTkuEaxMlBkiqscmQBocaCErkJ/8uoJ8JQzcs/JRWsBs492
+         ZgPrk5u9q1Nk7hg3EotW9qKnKWO2J2gL22sOWZM97MJcIR6WyTyUXzhBNsJN5wICsyuR
+         jr0+y7OHElysr7a1Coplm6vDUbPt5vsBjlh30Ozonuo3yKa9UDglFAxvSAn3SFNb9k0+
+         iE+F9gR9VJLEooADnWPNwfzCIFrP6cM7wD85seJ/G3+4aKMou9VK6t3t4TxBQuuxR0l7
+         xq6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760108318; x=1760713118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
+        b=LHPfyZQL0R4g2giOWQwgNCF/+n0pAiz4MxFZ/hexxhyMpnY+bAW/nJBB0j8fGiw0cj
+         BzdwKqcJlBIlxJY1Q6Zaj6YhZd1V/tVs0dplLik6xebFWbqzR6yfaacQCQEQKMbjHBQO
+         3Z0G1/EYyMVWFM6I+zRt+T8BMTvv6+4DFgQx+4HMf1w/s7xu4lGrUNV50+mz3nmXa0oJ
+         8eKlTxdYXp7uqOOE7DgTKHTOyYPrwzMs6xewc4mFE4SItRsCGMkPcdBXBf20pdiIUolN
+         sFf8j0uqvFFevOjsmodTOECFB2vBBqLL2x2FVaMjGzzLeUJ139kaJhHI2xuVw/lap1Wp
+         gnMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfon+5dxuRhQO3InudNi9uUV9kVfox/EWlSe33tnntLoz9j0Du3Bvjn00l96wBUWKxEr2z9TT2Ej4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCN7Tfen7V3CvMrO1XiS0JCGP/3yZFjoW3n3K9bZiG28eZZyN4
+	YdP5PNTeTEUK9Gfocp2BzzlqNLd1vxzvuaGJf7bsu3pOske6Ovy4Hr99WZKqGdIQ7DSAJSgrQ/H
+	HhQQtnJ8VY+PRbd0MA7auFKgukNwbU8tec+CqovLPdQ==
+X-Gm-Gg: ASbGnctFDKDpVn4+9ybJ7DxIyi4jqT+DKPaKd4h7HG3PbTUB3NzYCUuqyPeDpWYeIR7
+	JdNtIJE7S3HFJjGZXg4lV9ZwR7eUs3ZLnDfDe2HKXt2Fs4DfMEWshO+hHa44z7HdMnRHBtrS9D7
+	Xnsi8e8Bso3sxZ8VD/SX38erA+I6bTlo+JRcb/oL4G3M7x3Q0l74X14NjdEDmeMbBr3o/ISLzfa
+	xqpMZRBg+ALUZq56ZeVvtE=
+X-Google-Smtp-Source: AGHT+IE0WXDhjauHLcC2POBv0t7LgQCplfzbTEHy7h2aL8mobxzYVpt1EHLlI6ZDdZuKo41ZojriIaW0+E5fBHESUrw=
+X-Received: by 2002:a05:622a:90f:b0:4b9:b915:a26f with SMTP id
+ d75a77b69052e-4e6ead514a2mr181154551cf.52.1760108317513; Fri, 10 Oct 2025
+ 07:58:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a484eb5-f1d5-42e8-ab4b-08de080d0308
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2025 14:55:11.1179
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o1dHjfifqttgMv94vlkrOZYjg2fSLIdLqpYvKtv7pUQrnjFtGHJxAxbV2/cyI3XDk/TtqcysI3IupPC2Dzbb8/bHAuBtRMlF63d6SjtQjbozbPaGTwjAMRPa5XGOrACY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3PR07MB10625
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+ <CAAywjhT_9vV-V+BBs1_=QqhCGQqHo89qWy7r5zW1ej51yHPGJA@mail.gmail.com>
+ <CA+CK2bAe3yk4NocURmihcuTNPUcb2-K0JCaQQ5GJ4B58YLEwEw@mail.gmail.com> <20251010144248.GB3901471@nvidia.com>
+In-Reply-To: <20251010144248.GB3901471@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 10 Oct 2025 10:58:00 -0400
+X-Gm-Features: AS18NWBORXQFPGvPP__b4olxbKs0hTzftz4XLJRMqdjSudzyOrwIdA4I2ICtXVo
+Message-ID: <CA+CK2bBxMpb=jXy3-i19PdBHqxLoLrMMg1sOnditOYwNe1Fr+w@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Paolo Abeni <pabeni@redhat.com>=20
-> Sent: Friday, October 10, 2025 4:54 PM
-> To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>; edumazet@g=
-oogle.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms@kernel.org; dsa=
-hern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; netdev@vger.kernel=
-.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.org; stephen@netwo=
-rkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; davem@davemloft.=
-net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fiberby.net; liuha=
-ngbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.kernel.org; ij@kern=
-el.org; ncardwell@google.com; Koen De Schepper (Nokia) <koen.de_schepper@no=
-kia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.johansson@ericsson.com=
-; mirja.kuehlewind@ericsson.com; cheshire@apple.com; rs.ietf@gmx.at; Jason_=
-Livingood@comcast.com; vidhi_goel@apple.com
-> Subject: Re: [PATCH v4 net-next 00/13] AccECN protocol case handling seri=
-es
->=20
->=20
-> CAUTION: This is an external email. Please be very careful when clicking =
-links or opening attachments. See the URL nok.it/ext for additional informa=
-tion.
->=20
->=20
->=20
-> On 10/10/25 3:17 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+On Fri, Oct 10, 2025 at 10:42=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
+>
+> On Thu, Oct 09, 2025 at 06:42:09PM -0400, Pasha Tatashin wrote:
 > >
-> > Hello,
+> > It looks like the combination of an enforced ordering:
+> > Preservation: A->B->C->D
+> > Un-preservation: D->C->B->A
+> > Retrieval: A->B->C->D
 > >
-> > Plesae find the v4 AccECN case handling patch series, which covers=20
-> > several excpetional case handling of Accurate ECN spec (RFC9768), adds=
-=20
-> > new identifiers to be used by CC modules, adds ecn_delta into=20
-> > rate_sample, and keeps the ACE counter for computation, etc.
-> >
-> > This patch series is part of the full AccECN patch series, which is=20
-> > available at
-> > https://eur03.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
-h
-> > ub.com%2FL4STeam%2Flinux-net-next%2Fcommits%2Fupstream_l4steam%2F&data
-> > =3D05%7C02%7Cchia-yu.chang%40nokia-bell-labs.com%7Cb901188c311e44625384=
-0
-> > 8de080ccfff%7C5d4717519675428d917b70f44f9630b0%7C0%7C0%7C6389570482857
-> > 32929%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAw
-> > MCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdat
-> > a=3D43fGh93FKg1yBBBhGTNzy8tfJvm5Y%2FYmdABUmTuD%2FLU%3D&reserved=3D0
-> >
-> > Best regards,
-> > Chia-Yu
->=20
-> ## Form letter - net-next-closed
->=20
-> The merge window for v6.18 has begun and therefore net-next is closed for=
- new drivers, features, code refactoring and optimizations. We are currentl=
-y accepting bug fixes only.
->=20
-> Please repost when net-next reopens after October 12th.
->=20
-> RFC patches sent for review only are obviously welcome at any time.
+> > and the FLB Global State (where data is automatically created and
+> > destroyed when a particular file type participates in a live update)
+> > solves the need for this query mechanism. For example, the IOMMU
+> > driver/core can add its data only when an iommufd is preserved and add
+> > more data as more iommufds are added. The preserved data is also
+> > automatically removed once the live update is finished or canceled.
+>
+> IDK I think we should try to be flexible on the restoration order.
 
-Sorry for spamming, I will repost after October 12th.
+It is easier to be inflexible at first and then relax the requirement
+than the other way around. I think it is alright to enforce the order
+for now, as it is driven only by userspace.
 
+> Eg, if we project ahead to when we might need to preserve kvm and
+> iommufd FDs as well, the order would likely be:
+>
+> Preservation: memfd -> kvm -> iommufd -> vfio
+> Retrieval: iommud_domain (early boot) kvm -> iommufd -> vfio -> memfd
+
+At some point, we will implement orphaned VMs, where a VM can run
+without a VMM during the live-update period. This would allow us to
+reduce the blackout time and later enable vCPUs to keep running even
+during kexec.
+
+With that, I would assume KVM itself would drive the live update and
+would make LUO calls to preserve the resources in an orderly fashion
+and then restore them in the same order during boot.
+
+Pasha
