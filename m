@@ -1,248 +1,450 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8F7205ABA;
-	Fri, 10 Oct 2025 17:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760116260; cv=fail; b=swCw6DGY+VR26vBkF9LGPylKSC3GiQt9aoqwKPc8n1IxZT8GkkLTsFb0gSC7Lq2QwyDgGsHiykWnICW2W0xqqeerJ65Sd/T5r1j4EYMH5SaqvapJZd70rRgXMTMjhciCBDaF1mUn89uoI1tIHx70rttmk8PiIzq87SdEw6KF6QY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760116260; c=relaxed/simple;
-	bh=L+qbAvsxEQ91J26+TqYgTLtYGXa/2A3pWCVlD3krYOw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=lXOD6ffO+STSLzqM8/sqgiY01TkqZjjT7yjJ/zVO+TtFOiZT6tHjBk4mz8bUDf5xoWDwR2hY0F8taba8B451hdt9AaXfgk20Di6dtWgtXTA0MB3mEbmwTH2g6MwO6nHu/kdVwcquqxWbQmWPEP5R2n9BvlsHPqcjjycBTcLos6k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGa3xMuc; arc=fail smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB854A02
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 17:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760117972; cv=none; b=NXErFS1xUyvkbrEGhagtUjCdeZo34m/uIHPOWUbp/1iu1vNci9G3xQ7BTez+MtqLjVRRfle/iouojshQ5hc9w0qk6d8h0EVsaj2EbtlO7AQ9g3bLonGiluGYmzBq2tL2qE9YH1CB58woFOAROBrUdO6F3s/tU6sz5qIPN2/IL5c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760117972; c=relaxed/simple;
+	bh=p8y/s+CYhyKDayoBztOHI0AHLWMRrYFOjG75hEUhgYk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dZwUpmEG6r880MYxIY1UOJ34IbPVVXdJIVdMkbl2vibmbMJP0q++UMSF1rwEP8Z2Nbo3tdwmCa8sh0Vg64P/vtiuR0N6uCFuJpxRCPugaL5/TABHEzdC0ArU7wNU1j2HmNiKGCgbZpG+aezbPinltZq1z5bWVpj2ONU03YrN+Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jpLHSzkj; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGa3xMuc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760116259; x=1791652259;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=L+qbAvsxEQ91J26+TqYgTLtYGXa/2A3pWCVlD3krYOw=;
-  b=hGa3xMucplGTH/TyYtOMu/+O5qab0P0/C5Ez5nAUIzR8jLSwJvZl1H07
-   ip+xoThqpVfG2r4Xf4Ipy5TwzFfLgYGIOCfaEDwuCEeyRfLd1I7Pyl2A8
-   9ow1/RdrxYUNt1Y/FSX27IzduPl43vx11BJbUwBodBysYXNFRyJF9OpWH
-   ZsDvgKRmK00hZmQxgSB0L+LM5Jc+Ny2YyLf30XfTGY2ZteF6xzX2UDFeg
-   0g2f2YpgvQuV4z25BRiSt1278s396xvGYeh0kZJhNsOGkjguR3uhfzy7q
-   38cGTpEtQ7YB3QF2GbYSB55Wcpk18Q9s+do9quUdsrLIGStFk6IsftwDU
-   w==;
-X-CSE-ConnectionGUID: TOQTZUeRS56YGk9TBhx6ig==
-X-CSE-MsgGUID: HYOjzhSHTo6nik3JI8y7HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="79782546"
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="79782546"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 10:10:58 -0700
-X-CSE-ConnectionGUID: w3NBpcMsRJCAHFNUxW+N3A==
-X-CSE-MsgGUID: aKPv7xYtQ420Yq+dKu8ZXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180606592"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 10:10:58 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 10 Oct 2025 10:10:56 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 10 Oct 2025 10:10:56 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.20) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 10 Oct 2025 10:10:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dQ1Ym4MkKmlSAjq4l+QzmZxlVDvmZYZ0sr60ydzYyBYs4sxD+JJFtwyMx+bzrZyqfBuVCcDem1ipFq5+MzgCnsGUti9/Cf2KDKQm0u2OKOxcHh/lbPOpIAY3CJUD3Wqb11enwH63XkT4i3igv+picmCsliTizysL3n8wVzZ7/MwBN2xVjj+4lU/49/2I8wDTsoV/vNctaWieDDdApDJbB9L9zLcqvMXigCO3PRqlKNjGzNRffBKitAMG6Ey2BYG0vywIHFO0UCWeRCby+Y+xQyP1wf5Y92u84Q6fsyhNgsiTC1ifn693u34mt0mp9KNdD8NY+rdGYrqXztMZoHxbhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bxy1aWvAKrNHT7hqcIEBM+Mp4+Bev9VcUjx+d71KjNU=;
- b=y4JGUtNcbAOvJAJwoLZvgQFr53W5I27/EiVDkszfYlvUshkPn12rgki26W20EbpI4cntVegQYxK32WHDdtWyUw/QPURWeTHmrmvC9cHyjPrwG5w08Nkhx5MvRvPcASQVo0WgwQ3b3EP9njFvBSkleQkKuh5guIbBM46bHL1cxdNmsSTWZZNi2jpuxlmklEkxuWQTsoNhSSQT7GYuCGRjYdIQ5hbtXcIvMKaEFU1sLZQd247Zbji0ueIVHzRb/Jl/1/JYV5jv/5pvo4qW2fIYq9oN5oErkyes2Dg3MiJz9swtIIH68Bxr2etW464m4XUSb6E1Cj6JSCTlJJB6+bvUmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7997.namprd11.prod.outlook.com (2603:10b6:8:125::14)
- by CH3PR11MB8341.namprd11.prod.outlook.com (2603:10b6:610:178::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Fri, 10 Oct
- 2025 17:10:53 +0000
-Received: from DS0PR11MB7997.namprd11.prod.outlook.com
- ([fe80::9105:2b7c:b256:7a6c]) by DS0PR11MB7997.namprd11.prod.outlook.com
- ([fe80::9105:2b7c:b256:7a6c%7]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
- 17:10:52 +0000
-Message-ID: <7c60a20f-6107-43d4-b742-20f0dbfe6d50@intel.com>
-Date: Fri, 10 Oct 2025 10:10:49 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Content-Language: en-US
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "bp@alien8.de"
-	<bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"alexander.shishkin@linux.intel.com" <alexander.shishkin@linux.intel.com>,
-	"luto@kernel.org" <luto@kernel.org>, "david.laight.linux@gmail.com"
-	<david.laight.linux@gmail.com>, "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-	"Luck, Tony" <tony.luck@intel.com>, "linux-efi@vger.kernel.org"
-	<linux-efi@vger.kernel.org>, "kas@kernel.org" <kas@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>, "dwmw@amazon.co.uk"
-	<dwmw@amazon.co.uk>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"vegard.nossum@oracle.com" <vegard.nossum@oracle.com>, "xin@zytor.com"
-	<xin@zytor.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "kees@kernel.org" <kees@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "geert@linux-m68k.org" <geert@linux-m68k.org>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-4-sohil.mehta@intel.com>
- <9240edbe689108f920d4b0c5c786278aea47d1d2.camel@intel.com>
- <07cce6e1-db01-46ad-9848-80cc96f3b468@intel.com>
- <2ac89a5fc103f895a185010f11c81014dcb58d9b.camel@intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <2ac89a5fc103f895a185010f11c81014dcb58d9b.camel@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR13CA0096.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::11) To DS0PR11MB7997.namprd11.prod.outlook.com
- (2603:10b6:8:125::14)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jpLHSzkj"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-43f523fb596so1296488b6e.2
+        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 10:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1760117968; x=1760722768; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PZ+Dy49i07NMHWC9th7IGBEaPJ8wyTfsNg8yJ9Fy9+c=;
+        b=jpLHSzkjzBTfhvqzjF+1UoFXwfHroKWEBjQmLedwpn/L1F4K1yErjcpEDYwELsh9dO
+         Vg5j0/p3qDmiiiT/HpgdHR9XHrn3ppPhB+rIFIs+yL82nhMbPcceU81iMvcTt4S4Ix/a
+         dDzczYVBhGcY/p4E2AJ1NLMV1yX2g4bJh65z4v0JQHfGEbFj8w99EnsYgByCMQlCzX8k
+         ZO/Biz0z+iked0T7lpsw8wIkzUmyxqSM/T6OqkSr2O9bU+clsKHLfR0dabz0uM7goFU1
+         QXlCYmjeo42cB9/wHrOkSlvsXzIHXx6aBUovAFRwIiq07bXv4rf+Oip4+nCue/iFWz9i
+         VAQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760117968; x=1760722768;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PZ+Dy49i07NMHWC9th7IGBEaPJ8wyTfsNg8yJ9Fy9+c=;
+        b=qTGxlW5Mq8T37iU/fYoETqctaGY+Z5vwK5T7LreNUHoa2CnZeWdLzgcvyx73Gl+meR
+         R9BNl1vb/iYisegcl1xAI6ibnnD6mrxinT2sdNezz+Kq9IwWlEt7pyNTDGZ6YHGJ+SEh
+         p1w6p+ikEWipHO7m2w6yqtzA8K4mhHVYC9etpyotZ5pXvRnotLO4ZncQCX0IukNg7uAS
+         tB5iJMkgDjkkPESmgutvFmbC9CJ/6edeCwroXMdJlPLWCbJ07rjo4bIRGRcA6HKGl9lD
+         bfhm+O2Sv8T8J2iwxFG4ZNKZsQ/VOuvs1/A5rzu94iQE3DkYfvP+zc1J5lQLbk2klt2f
+         fd1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUy5OHOqQ1ZM60olxk9Ck4Ww5cQ+gyaC+0o7HXqmZjPQleeH99GS0OSDjpVvmAw5+/336ADke/bW6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznTlf1YxZPcL6p01SKggNSwd+YizvyKqXJOl6+9lURYUavT35f
+	d9rnYrGHmJ6AVdXIoGb2q73mF6laB0DMGiJH2k4V2PnMdhsMz0GsHK65JYrqRopKm6I=
+X-Gm-Gg: ASbGncsLoS0y0OJ3Iwyjzkhd9Um0sw5qyLm3vFvOF6dJg04YA+U1nSkh9Risks69ttC
+	1g2aKjag67tiJeSs/9iuxI+fv+boOrlgRm1qQeWYRYaXT9s4NRE91Hodqi9gJ0rjn1lym6HQUpF
+	XNqpiNCtEIMARKZnZUc1EoPJnbTIRZXfcS0AY+WUsimg8sRA8QJyAn+lBmx+cjHAlpsRbAT7aif
+	I3U6HlKsPCK3ctFE/EFa3/D4co6hsXC4aHcfo8K4hPkZ51/9FjL/0NN5j7zPRsSwjhpT1mPLaib
+	3InchW6xsmlJPDIJeyF+4LyGd4OHBRPxp+hUwsLLAzVjffD2cd8VZgqQtSM3giAkMmAefAX+qW4
+	KUYH71EhuREer209OuNUYIMe21CpjEHgbl/2V2tyKAfE7APdQVr2afHlmC5Y6iN+mhqJswQo8HS
+	Hw3LWPGBYdJgnfMdQ=
+X-Google-Smtp-Source: AGHT+IEYhPYvlDBLZaZqlLGB+iUT5R4ASjXBM6uBeyLBN/sayw6DH2MjRiDQ+SBu7/siJhgOZPrD1g==
+X-Received: by 2002:a05:6808:2223:b0:43f:55f2:4c44 with SMTP id 5614622812f47-4417b2d22c4mr5138879b6e.3.1760117968269;
+        Fri, 10 Oct 2025 10:39:28 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:6d3b:e3bd:4210:32e2? ([2600:8803:e7e4:500:6d3b:e3bd:4210:32e2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c0f915efddsm1009636a34.34.2025.10.10.10.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 10:39:27 -0700 (PDT)
+Message-ID: <56f63486-20e7-4c9b-8a39-da904b4600ad@baylibre.com>
+Date: Fri, 10 Oct 2025 12:39:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7997:EE_|CH3PR11MB8341:EE_
-X-MS-Office365-Filtering-Correlation-Id: e496db48-28e5-48e2-fa66-08de081ff797
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QjQ2TmVWMEJvMGp4dnlINEQrSm1iRFl4czZLaDZTcW1aTS8wd2s1RktJclN2?=
- =?utf-8?B?VXA2YVVweVJmTGpoaXRZVmZTbXN5dWJnMnBSb0lrb3gvbDZadTJOREo4VzE2?=
- =?utf-8?B?OWZtT0RWVERsYzZIY3VsNXVzTFdkdFdtSFdLUDdRZVNaTTZ6UDkvYlA3TXJW?=
- =?utf-8?B?VGRYSmFnY0k3S3lOcTNUU2RzS2p5bmN2VUJUcGRta3hmUllCUnNnRVVwY2p0?=
- =?utf-8?B?UW9xaTBWUmxkVWI0b0VmZmk1VEhtYU5WOHgxc2VVY25ucUxtZVNLc2gwMGM1?=
- =?utf-8?B?T2VoNndwYTJ1aWcwZG5JdUhvd1B5MjYvcDBic2g1WU9iZ2dEZWhweTYyWjJ4?=
- =?utf-8?B?aEFjS0k4WUVnNWRUZDJ4TnBSdnhrdEMrTFZkcFgweEUyanhDODBQV3BwZmpX?=
- =?utf-8?B?bE9DUC9NSGViTmR5L2tJUXQvaXA3U29NL3VUeS9hTmczaHVPQ2txZm1XNU1W?=
- =?utf-8?B?M2I2dVhJZFNTc1BPZERHQmh4V1BHOXlhdS9nbGlCaXNKT0RydmlId1hIbk1J?=
- =?utf-8?B?SC8wZCs3a21Vb05hMjBEbG9vT2tiRGd6Uk5WREd6Vmg4TEtxR0IydlJFajQ4?=
- =?utf-8?B?RkIybGpVWE4rRk1XWGFHNGZsUTR5RFhoOEYwUkp3ZTA3c1A3K1hQcTVqRDhq?=
- =?utf-8?B?akwwL2c5RjE4UnFadlI4d09XVERVcjFJRnZBbElSUzBwMU5ldVl4dVlObldL?=
- =?utf-8?B?S0EzQW0vQ2ZmMUNsQXc3MHFWL1NORzkveG52VEhreWx5dDgwWjdtUlZLRmYy?=
- =?utf-8?B?MXNsT2lhTVo4UWtKOCszUTh0WUpKZ3Z1WC9yeXloM3F0VDZicnVQd0NheTIx?=
- =?utf-8?B?MDhwVjNFR21CdU1yeDRIclI3UVh6YmNvVUVEUkpEOVh4dmdMRHN3YnNZSnY4?=
- =?utf-8?B?QThwRnI3MkJvREc3dkV2M1pwMCtqK2pibWMyRXNvd09VZ3RFZ2lzajZzK09m?=
- =?utf-8?B?Qks1am5LWEZMbkhEb0l1K2FRNy8ySy9KZ3NjV0VOajRyVzBleXE0RVpwTFFZ?=
- =?utf-8?B?bVpSVWNQOExYUmJvcXM5RkN4MnJNZ20waktQNFl3WUZiUmtlRzdkRVRHSGxK?=
- =?utf-8?B?WFFGMnhBTGsySER5QVNpcFFKdS9NdXBBNTEvVDZRSWtRempDY2VYWGhkck1y?=
- =?utf-8?B?UXFZbHZHczBlOC9odDFuWmQrTFVyQ29sL0Jyd2Y1OVg5SVl4NFZZbzBlZkl6?=
- =?utf-8?B?VGR6UDlOcjlGVXhFZ1dRV2l4UWNlNnZ1QldxMXBUOWwzOXpKNWNuWjN5c05H?=
- =?utf-8?B?azlWYThhYi9xNkpMNDhSMnF5TFErYXJURnlVcjQvSHl2NUgrRXZ4UVhxWDc2?=
- =?utf-8?B?ZDg5NXI0VG9mK1RhdHBIQm9kQThYTGZpK0ZGK2RsbmZYdlVYcmdUOURkamNq?=
- =?utf-8?B?aWJ2cWtFR2ZlamE1aG1sZkVJOVR1NUFKZWZMSUZRNnRRdGVNZVBQMUtyczdS?=
- =?utf-8?B?aVNRTXIvTmlVWUM5L0U4NVQ3SVhYVjRmQmt4UGpNVW1CNjFVdTBORjNpNENJ?=
- =?utf-8?B?d1lPcHpQME5ESVBFNmpQVHpFeitQbGNJK0k2cVB3cUt0bit6Z1k3QnA4endt?=
- =?utf-8?B?b3ZkZS80ZEt0Q3BQYkZaTjFlUW51Q1dSYTBORldiMVJmaXAvaW1iekphTmRT?=
- =?utf-8?B?d2loOFdHMkMxd2pUNm85TU5ybk9LSG52eUwybnIxQno2czNzTHkyT0YybTVE?=
- =?utf-8?B?Q1Y5RmsrbkFheUpQbHM4NWNBU1VCWEY0M0RrYWxUREtpcWN0b1lWelVIZnE1?=
- =?utf-8?B?d3Z6SkJpTjNadGNSMzZxSUZzRkRiU2M3bWdoWEhlcU12aEhGNjU5OGgzWHBx?=
- =?utf-8?B?RHVDUVpoSmtIVmpXdHV1VU5FYWlzcmZqa1pIOXBkUk5qMFFPLzZSU2ZDVjJu?=
- =?utf-8?B?cWxpcHk4TktxYUh0elNlR0FYWG9CZHJDRGx5TDRPOUptRGVMb29nS1d6Zkhk?=
- =?utf-8?B?QkVlWnFyc2FhZEFhZmVhdkdhbGptYW5ZZVFxcnN4YVhpbVlqUmRKbEJQLzdC?=
- =?utf-8?B?dVdORHpEdVVRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7997.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEdjS05DN3FQK2JVcEpKQ2ZmODhCeG9xRGIvc0V5ampjYStLcjVkemNaVEtp?=
- =?utf-8?B?bGJLYkR3S25Vb3JOQ1JPTGorV0E1TmZLSzZ6MzQ5SlJRdGdSWmZuZHZVdjU0?=
- =?utf-8?B?TU03U3FJOGsxVVREZ0p4bzgyb29ONG5DejRiK2ZmR2JDYkV1K0sxTnNkY3NM?=
- =?utf-8?B?WTFOekJ0ekcrZWxGNDFIQnhUWE43Q3pPejhQdS9WMGhGSktvc2hXU2FYVHhF?=
- =?utf-8?B?TkFEOE5wZDV2ZHYwUWtyZFM1Z0JoZk03bFZBckg1aldRVWZ6MXpzYjBuNlNR?=
- =?utf-8?B?c1F3elFoMElDeGNvMnpNdHFSN3VSdk9zenlpbzJhY1gvdk4zRFpZN1pabWpW?=
- =?utf-8?B?QWFFenBTaFpncjAwZmFLK21zcUc4SEhSN2c0U1VITDgyMnNrNE4xSkxDNlBk?=
- =?utf-8?B?RVZPVVFuNW12Mks0dnVCeGpPc1ErNkpvK3lmaTJMZHVDdzY5SmRhcHg5Ujh0?=
- =?utf-8?B?SW1Fb0o1THMwN3F1Y0NMVENRbUo3dENqbEdSL2NGUzYyUDB4OC8zK3hMUnpo?=
- =?utf-8?B?VTdHL2RGUnRwMFRBYjIwM21VSnp6RGpZbW1RUFI5YjQ1YTBudTdDOGZrQkhZ?=
- =?utf-8?B?UVhMeGhhdUlpRGUrdHNYaThKTWxacGowQUJLRE9zSUxuYWhJd0ZCMVpycDIx?=
- =?utf-8?B?NWhPVG5CeFByZkVJK3JCUm1CM25pT002MXoxNXRzWEkvbWRPRks5YTRjNkhF?=
- =?utf-8?B?REJhU2N5SUVjVit0KzJBSEpJbGMwOWtyb0pkSHdpM3dJa2FiNGpCZ25lLzJZ?=
- =?utf-8?B?SkhvMDZpclVPQW41UU9pVHJaNG1RdXZ1azEzd3N0NSt6T1hGTzcwQ2FlNVZt?=
- =?utf-8?B?czRHUm80M3h3bHVCamFScjgvM2RQVnVwYnh4SmhSVmNPd1pmREtPckN4RW93?=
- =?utf-8?B?S2IwUmh4SFArbUQyZE5ZWXg1QXVrWWI4TXMrNUhFbEFKTkJwUUowTjFlWG1W?=
- =?utf-8?B?THBRVE5lVFJRTkhBcmpTRXJzbEhmWDh3NVlPN1hwR0ZvOFF6QmpLdmFGbVEx?=
- =?utf-8?B?cVpBbGdlOUZNdkcrbjRJMXNkRVdqZFJmMGxGQlo5dmV5WndCOEtaVGdpVzNu?=
- =?utf-8?B?L0JZclpDc2lKUEpIYzBnYlRuYlJIencwYzhOZFpSN29nNTJmVEZoNmhPMXls?=
- =?utf-8?B?cHM3emFsNHFUUE81UGVKOWM5S2R2OWZpTjZ0ZW1McUhKb1RXU01RaDZCK0Z4?=
- =?utf-8?B?YmZlT2lWTDRQMmEreko2RlpTbVlnZnZpYW0wcVFxQnJPT0RjcjIvZGdoRWpG?=
- =?utf-8?B?MUdpV01kQy9UYVpCa2dmRDhNdFBIWThmMVZhMmxzcmJuQ2FqRXJzMkRubjBY?=
- =?utf-8?B?NUZJYmJNazlTdjZJQTVCRDhSWEhjdS90UDMyM0lDNHhwWUxPZ1J0K1JzaDNh?=
- =?utf-8?B?ZlNiYXYzT3dGWW1UN2FaNXZvYlJ2RFZoTlE3SHdQdjR5YXRGTGVoczJHOUVG?=
- =?utf-8?B?enZzL1Z5T2Y3Nm12eVpTbXVxRWVjay9DS3d2b01oTE1CSHByUHUyaThPRWFl?=
- =?utf-8?B?TFI4NkxoWURhTm8wNC9xY2tVT1NTVTlQWUxGeWppdHVSRkJ4ajJkczVhcU00?=
- =?utf-8?B?WEt5b2U5L2dQUzV0QndtK2ZGT2NDdlhxQ2FUd3JEa0s1Z1RKSzRsM1RKUncv?=
- =?utf-8?B?dkNIR1pRQ3ljRjhCR0VJc05YQi9lZXB2R3JLL0dObWZmZ2Nhak5ub0w1cEdP?=
- =?utf-8?B?bGlhUE9QL1lsNkNvTmlteXdaUTN1SGw5UmdqK0NsZVBSc0ZBbmdsZ1N6Z28v?=
- =?utf-8?B?YUZlVDNGNFc0Y3BmbXhsanMzbStNNXdaL210TE50NE5UMVJnNXJoUVc5MjI3?=
- =?utf-8?B?ckZSQlBQNk1PcERQZ1h3czFYdk96L1E3WlBWcWhobXlvK2NNNzBQRlFXVVdM?=
- =?utf-8?B?cXhYVm9FYld6KzZPdjRUVU5VNEhDV0NFUmJhTEJhMjBoSmF6Z3QrYVY0c0V1?=
- =?utf-8?B?eTdzbEo5bVFUVlZJdDgrdm9rY21pSXdtaGRpb0k3VHJLTVMwVUw2YlZyS09I?=
- =?utf-8?B?WEVxWWRPMXdlMjZCYmRGbFBvM3dYZFRyQ05NZytLYnErUnRLNWdwL1RrVSta?=
- =?utf-8?B?Y01hMHhER1RBYTV6NVg1VUhna3ZPYXppNWFDL1RibjdBZ1p0cktYdjJRUUsz?=
- =?utf-8?Q?fschlsZ0n/0uQg1MsIHHjYZRb?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e496db48-28e5-48e2-fa66-08de081ff797
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7997.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 17:10:52.8775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RGC0a3S2p6wTtl/P9QgzDsqjsOcuatuKTqRGuT9XtT4ovmrLgBG/slIr1ee5YLPXrLM4lFKr5ugZCEAU8UOmDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8341
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 6/8] iio: adc: ad4030: Add SPI offload support
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, ukleinek@kernel.org, michael.hennerich@analog.com,
+ nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ marcelo.schmitt1@gmail.com, Trevor Gamblin <tgamblin@baylibre.com>,
+ Axel Haslam <ahaslam@baylibre.com>
+References: <cover.1759929814.git.marcelo.schmitt@analog.com>
+ <2bde211f1bc730ee147c9540b88339a93b2983e6.1759929814.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <2bde211f1bc730ee147c9540b88339a93b2983e6.1759929814.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10/8/2025 9:22 AM, Edgecombe, Rick P wrote:
-> Honestly, just unconditionally doing stac/clac doesn't sound that bad to me. We
-> already unconditionally enable SMAP, right? If there was some big slowdown for a
-> single copy, people would want an option to disable it. And with text patching
-> it's part a heavier operation already.
-> 
-> Was there previous feedback on that option?
-> 
+On 10/8/25 8:51 AM, Marcelo Schmitt wrote:
 
-Yes. Boris had expressed some concern about the extra toggles.
+...
 
-Dave and PeterZ mainly wanted to keep it separate for code isolation and
-better understanding.
+> +static int ad4030_update_conversion_rate(struct ad4030_state *st,
+> +					 unsigned int freq, unsigned int avg_log2)
 
-https://lore.kernel.org/lkml/7bbf9cae-6392-47a4-906c-7c27b1b1223d@intel.com/
+Always nice to have the units, e.g. freq_hz.
 
-I'll leave them as separate.
->> The issues are interdependent. We need the STAC/CLAC because text poking
->> accesses special memory. We require the inline memcpy/memset because we
->> have now added the STAC/CLAC usage and objtool guards against the
->> potential misuse of STAC/CLAC.
->>
->> Were you looking for any specific change to the wording?
-> 
-> Ah ok, but the compiler could have always uninlined the existing memcpy calls
-> right? So there is an existing theoretical problem, I would think.
-> 
+> +{
+> +	struct spi_offload_trigger_config *config = &st->offload_trigger_config;
+> +	struct pwm_waveform cnv_wf = { };
+> +	u64 target = AD4030_TCNVH_NS;
+> +	u64 offload_period_ns;
+> +	u64 offload_offset_ns;
+> +	int ret;
+> +
+> +	/*
+> +	 * When averaging/oversampling over N samples, we fire the offload
+> +	 * trigger once at every N pulses of the CNV signal. Conversely, the CNV
+> +	 * signal needs to be N times faster than the offload trigger. Take that
+> +	 * into account to correctly re-evaluate both the PWM waveform connected
+> +	 * to CNV and the SPI offload trigger.
+> +	 */
+> +	freq <<= avg_log2;
 
-What theoretical problem?
+nit: modifying function arguments throws me off when reading the code. Would prefer
+an additional local variable for this, e.g. cnv_rate_hz = freq << avg_log2.
 
-The existing text_poke_memcpy() is a wrapper over the kernel standard
-memcpy(). That is an exported function call which shouldn't be inlined
-(or uninlined), right?
+> +
+> +	cnv_wf.period_length_ns = DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
+> +	/*
+> +	 * The datasheet lists a minimum time of 9.8 ns, but no maximum. If the
+> +	 * rounded PWM's value is less than 10, increase the target value by 10
+> +	 * and attempt to round the waveform again, until the value is at least
+> +	 * 10 ns. Use a separate variable to represent the target in case the
+> +	 * rounding is severe enough to keep putting the first few results under
+> +	 * the minimum 10ns condition checked by the while loop.
+> +	 */
+> +	do {
+> +		cnv_wf.duty_length_ns = target;
+> +		ret = pwm_round_waveform_might_sleep(st->cnv_trigger, &cnv_wf);
+> +		if (ret)
+> +			return ret;
+> +		target += AD4030_TCNVH_NS;
+> +	} while (cnv_wf.duty_length_ns < AD4030_TCNVH_NS);
+> +
+> +	if (!in_range(cnv_wf.period_length_ns, AD4030_TCYC_NS, INT_MAX))
+> +		return -EINVAL;
+> +
+> +	offload_period_ns = cnv_wf.period_length_ns;
+> +	/*
+> +	 * Make the offload trigger period be N times longer than the CNV PWM
+> +	 * period when averaging over N samples.
+> +	 */
+> +	offload_period_ns <<= avg_log2;
 
+Then this could be:
 
+	offload_period_ns = DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
+
+Which might avoid some rounding issues.
+
+period_length_ns can have up to 0.5 ns differnce from the exact value, so when
+multiplying that by a large oversampling rate (up to 64k), that rounding error
+would really add up.
+
+> +
+> +	config->periodic.frequency_hz = DIV_ROUND_UP_ULL(NSEC_PER_SEC,
+> +							 offload_period_ns);
+> +
+> +	/*
+> +	 * The hardware does the capture on zone 2 (when SPI trigger PWM
+> +	 * is used). This means that the SPI trigger signal should happen at
+> +	 * tsync + tquiet_con_delay being tsync the conversion signal period
+> +	 * and tquiet_con_delay 9.8ns. Hence set the PWM phase accordingly.
+> +	 *
+> +	 * The PWM waveform API only supports nanosecond resolution right now,
+> +	 * so round this setting to the closest available value.
+> +	 */
+> +	offload_offset_ns = AD4030_TQUIET_CNV_DELAY_NS;
+> +	do {
+> +		config->periodic.offset_ns = offload_offset_ns;
+> +		ret = spi_offload_trigger_validate(st->offload_trigger, config);
+> +		if (ret)
+> +			return ret;
+> +		offload_offset_ns += AD4030_TQUIET_CNV_DELAY_NS;
+> +	} while (config->periodic.offset_ns < AD4030_TQUIET_CNV_DELAY_NS);
+> +
+> +	st->cnv_wf = cnv_wf;
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int ad4030_set_avg_frame_len(struct iio_dev *dev, unsigned long mask, int avg_val)
+> +{
+> +	struct ad4030_state *st = iio_priv(dev);
+> +	unsigned int avg_log2 = ilog2(avg_val);
+> +	unsigned int last_avg_idx = ARRAY_SIZE(ad4030_average_modes) - 1;
+> +	int freq;
+> +	int ret;
+> +
+> +	if (avg_val < 0 || avg_val > ad4030_average_modes[last_avg_idx])
+> +		return -EINVAL;
+> +
+> +	ret = ad4030_set_mode(st, mask, avg_log2);
+
+I still think setting the mode here is wrong for the reasons given in a previous review.
+There is no "correct" mode until we have a request to read a sample.
+
+And if we drop this, then we can return ad4030_set_avg_frame_len() to it's original
+location and reduce the diff.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (st->offload_trigger) {
+> +		/*
+> +		 * The sample averaging and sampling frequency configurations
+> +		 * are mutually dependent one from another. That's because the
+> +		 * effective data sample rate is fCNV / 2^N, where N is the
+> +		 * number of samples being averaged.
+> +		 *
+> +		 * When SPI offload is supported and we have control over the
+> +		 * sample rate, the conversion start signal (CNV) and the SPI
+> +		 * offload trigger frequencies must be re-evaluated so data is
+> +		 * fetched only after 'avg_val' conversions.
+> +		 */
+> +		ad4030_get_sampling_freq(st, &freq);
+> +		ret = ad4030_update_conversion_rate(st, freq, avg_log2);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = regmap_write(st->regmap, AD4030_REG_AVG,
+> +			   AD4030_REG_AVG_MASK_AVG_SYNC |
+> +			   FIELD_PREP(AD4030_REG_AVG_MASK_AVG_VAL, avg_log2));
+> +	if (ret)
+> +		return ret;
+> +
+> +	st->avg_log2 = avg_log2;
+> +	return 0;
+> +}
+> +
+
+...
+
+> @@ -869,7 +1035,11 @@ static int ad4030_get_current_scan_type(const struct iio_dev *indio_dev,
+>  static int ad4030_update_scan_mode(struct iio_dev *indio_dev,
+>  				   const unsigned long *scan_mask)
+>  {
+> -	return ad4030_set_mode(indio_dev, *scan_mask);
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+> +
+
+> +	//return ad4030_set_mode(st, *scan_mask, st->avg_log2);
+> +	//return ad4030_set_mode(iio_priv(indio_dev), &scan_mask, st->avg_log2);
+
+Oops. :-)
+
+> +	return ad4030_set_mode(iio_priv(indio_dev), *scan_mask, st->avg_log2);
+>  }
+>  
+>  static const struct iio_info ad4030_iio_info = {
+> @@ -898,6 +1068,108 @@ static const struct iio_buffer_setup_ops ad4030_buffer_setup_ops = {
+>  	.validate_scan_mask = ad4030_validate_scan_mask,
+>  };
+>  
+> +static void ad4030_prepare_offload_msg(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+> +	u8 offload_bpw;
+> +
+> +	if (st->mode == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF) {
+> +		offload_bpw = 32;
+> +	} else {
+> +		offload_bpw = st->chip->precision_bits;
+> +		offload_bpw += (st->mode == AD4030_OUT_DATA_MD_24_DIFF_8_COM ||
+> +				st->mode == AD4030_OUT_DATA_MD_16_DIFF_8_COM) ? 8 : 0;
+
+The 8-bit common-mode voltage value needs to be in a separate SPI transfer
+so that is gets placed in a separate word in the DMA buffer. Otherwise userspace
+won't be able to interpret it correctly.
+
+> +	}
+> +
+> +	st->offload_xfer.bits_per_word = offload_bpw;
+> +	st->offload_xfer.len = spi_bpw_to_bytes(offload_bpw);
+> +	st->offload_xfer.offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
+> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
+> +}
+> +
+> +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+> +	unsigned int reg_modes;
+> +	int ret, ret2;
+> +
+> +	/*
+> +	 * When data from 2 analog input channels is output through a single
+> +	 * bus line (interleaved mode (LANE_MD == 0b11)) and gets pushed through
+> +	 * DMA, extra hardware is required to do the de-interleaving. While we
+> +	 * don't support such hardware configurations, disallow interleaved mode
+> +	 * when using SPI offload.
+> +	 */
+> +	ret = regmap_read(st->regmap, AD4030_REG_MODES, &reg_modes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (st->chip->num_voltage_inputs > 1 &&
+> +	    FIELD_GET(AD4030_REG_MODES_MASK_LANE_MODE, reg_modes) == AD4030_LANE_MD_INTERLEAVED)
+> +		return -EINVAL;
+> +
+> +	ret = regmap_write(st->regmap, AD4030_REG_EXIT_CFG_MODE, BIT(0));
+
+There is already AD4030_REG_EXIT_CFG_MODE_EXIT_MSK for BIT(0).
+
+Also there is ad4030_exit_config_mode() that could be called instead. Not sure
+why we have that though since there aren't any comments to explain it.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	ad4030_prepare_offload_msg(indio_dev);
+> +	st->offload_msg.offload = st->offload;
+> +	ret = spi_optimize_message(st->spi, &st->offload_msg);
+> +	if (ret)
+> +		goto out_reset_mode;
+> +
+> +	ret = pwm_set_waveform_might_sleep(st->cnv_trigger, &st->cnv_wf, false);
+> +	if (ret)
+> +		goto out_unoptimize;
+> +
+> +	ret = spi_offload_trigger_enable(st->offload, st->offload_trigger,
+> +					 &st->offload_trigger_config);
+> +	if (ret)
+> +		goto out_pwm_disable;
+> +
+> +	return 0;
+> +
+> +out_pwm_disable:
+> +	pwm_disable(st->cnv_trigger);
+> +out_unoptimize:
+> +	spi_unoptimize_message(&st->offload_msg);
+> +out_reset_mode:
+> +	/* reenter register configuration mode */
+> +	ret2 = ad4030_enter_config_mode(st);
+> +	if (ret2)
+> +		dev_err(&st->spi->dev,
+> +			"couldn't reenter register configuration mode: %d\n",
+> +			ret2);
+> +
+> +	return ret;
+> +}
+> +
+
+...
+
+>  static const struct ad4030_chip_info ad4030_24_chip_info = {
+>  	.name = "ad4030-24",
+>  	.available_masks = ad4030_channel_masks,
+> @@ -1125,10 +1511,15 @@ static const struct ad4030_chip_info ad4030_24_chip_info = {
+>  		AD4030_CHAN_CMO(1, 0),
+>  		IIO_CHAN_SOFT_TIMESTAMP(2),
+>  	},
+> +	.offload_channels = {
+> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
+> +		AD4030_CHAN_CMO(1, 0),
+
+We will need a new AD4030_OFFLOAD_CHAN_CMO() that has storagebits = 32.
+
+Also applies to similar items below.
+
+> +	},
+>  	.grade = AD4030_REG_CHIP_GRADE_AD4030_24_GRADE,
+>  	.precision_bits = 24,
+>  	.num_voltage_inputs = 1,
+>  	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
+> +	.max_sample_rate_hz = 2 * HZ_PER_MHZ,
+>  };
+>  
+>  static const struct ad4030_chip_info ad4630_16_chip_info = {
+> @@ -1141,10 +1532,17 @@ static const struct ad4030_chip_info ad4630_16_chip_info = {
+>  		AD4030_CHAN_CMO(3, 1),
+>  		IIO_CHAN_SOFT_TIMESTAMP(4),
+>  	},
+> +	.offload_channels = {
+> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_16_offload_scan_types),
+> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_16_offload_scan_types),
+> +		AD4030_CHAN_CMO(2, 0),
+> +		AD4030_CHAN_CMO(3, 1),
+> +	},
+>  	.grade = AD4030_REG_CHIP_GRADE_AD4630_16_GRADE,
+>  	.precision_bits = 16,
+>  	.num_voltage_inputs = 2,
+>  	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
+> +	.max_sample_rate_hz = 2 * HZ_PER_MHZ,
+>  };
+>  
+>  static const struct ad4030_chip_info ad4630_24_chip_info = {
+> @@ -1157,10 +1555,17 @@ static const struct ad4030_chip_info ad4630_24_chip_info = {
+>  		AD4030_CHAN_CMO(3, 1),
+>  		IIO_CHAN_SOFT_TIMESTAMP(4),
+>  	},
+> +	.offload_channels = {
+> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
+> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_24_offload_scan_types),
+> +		AD4030_CHAN_CMO(2, 0),
+> +		AD4030_CHAN_CMO(3, 1),
+> +	},
+>  	.grade = AD4030_REG_CHIP_GRADE_AD4630_24_GRADE,
+>  	.precision_bits = 24,
+>  	.num_voltage_inputs = 2,
+>  	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
+> +	.max_sample_rate_hz = 2 * HZ_PER_MHZ,
+>  };
+>  
+>  static const struct ad4030_chip_info ad4632_16_chip_info = {
+> @@ -1173,10 +1578,17 @@ static const struct ad4030_chip_info ad4632_16_chip_info = {
+>  		AD4030_CHAN_CMO(3, 1),
+>  		IIO_CHAN_SOFT_TIMESTAMP(4),
+>  	},
+> +	.offload_channels = {
+> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_16_offload_scan_types),
+> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_16_offload_scan_types),
+> +		AD4030_CHAN_CMO(2, 0),
+> +		AD4030_CHAN_CMO(3, 1),
+> +	},
+>  	.grade = AD4030_REG_CHIP_GRADE_AD4632_16_GRADE,
+>  	.precision_bits = 16,
+>  	.num_voltage_inputs = 2,
+>  	.tcyc_ns = AD4632_TCYC_ADJUSTED_NS,
+> +	.max_sample_rate_hz = 500 * HZ_PER_KHZ,
+>  };
+>  
+>  static const struct ad4030_chip_info ad4632_24_chip_info = {
+> @@ -1189,10 +1601,17 @@ static const struct ad4030_chip_info ad4632_24_chip_info = {
+>  		AD4030_CHAN_CMO(3, 1),
+>  		IIO_CHAN_SOFT_TIMESTAMP(4),
+>  	},
+> +	.offload_channels = {
+> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
+> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_24_offload_scan_types),
+> +		AD4030_CHAN_CMO(2, 0),
+> +		AD4030_CHAN_CMO(3, 1),
+> +	},
+>  	.grade = AD4030_REG_CHIP_GRADE_AD4632_24_GRADE,
+>  	.precision_bits = 24,
+>  	.num_voltage_inputs = 2,
+>  	.tcyc_ns = AD4632_TCYC_ADJUSTED_NS,
+> +	.max_sample_rate_hz = 500 * HZ_PER_KHZ,
+>  };
+>  
+>  static const struct spi_device_id ad4030_id_table[] = {
+> @@ -1228,3 +1647,4 @@ module_spi_driver(ad4030_driver);
+>  MODULE_AUTHOR("Esteban Blanc <eblanc@baylibre.com>");
+>  MODULE_DESCRIPTION("Analog Devices AD4630 ADC family driver");
+>  MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS("IIO_DMAENGINE_BUFFER");
 
