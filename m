@@ -1,141 +1,128 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BA32F7459
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 18:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7B23BD01
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 18:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760119939; cv=none; b=P9mKgO5eLhST8qUL/m2J3KVv6oPojC/rz7QwFKKAGriK9bpGVOCh9htNBy+bjRyGm2W8dUeZtfvfuDgvg/Y3ELN2CaGLxTq81Abz6MsO+xGKM9IDTSCu79y6j7S+PGHQIyD8jajWH+UpVwIlRcBh7mEp5ojYFtR9hj5inNLCtzI=
+	t=1760122416; cv=none; b=njSVj4FzUAK1XKrlLf6ACaYy3lSLXH1SCQynYlI5Iu6wf4QxKKzTreFYIFCVa+cKm4oaBIxNqGFHySX85t7J9GR+gr6kY3c9JLvFmug3tMnGQ2kaamMaGE8nmC+GxfVitMUcE6eaKpqTzzsizVkvI2DcgRpPobWCnxVo8V+ubcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760119939; c=relaxed/simple;
-	bh=5sOPNs/pVYr2aEdLdYkxtrupFFKn+aERSvll06ITe7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t5SXkSj9JC0RbV6dj7eLT4taYBJo/T4l90a5U+y52SMau9eC/YnoRIrlCDnvDAG8TVjixmuKvzisz8rPiNhhqxfh8Xvd4C9YPR/V97AfWTWJAOe2ElmfstFukQ9a2kFK5LU/0HUpgKXyJilweNF7B+cGjTaeQAeRkpWPMdbfli4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PBX1mq5r; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1760122416; c=relaxed/simple;
+	bh=1c9xpjEAyzSHEbTovQnqawRw2MZSunBs7oFhwkGp6IY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOGVuW3aQkhrFRXEqTaKbTIcKQlwEB4nU/h5EB8xWj3MfirSBI+IMNIUPyH7tOmUm9GL12S1TGN0K1bupLGlfWWPqVjCegQiCrrriFTcPRmDAKfS4nz/4RdVQr/QRWVgRHtyYEqBu8m4IJDBCDLOdllYQTML7HKtSQ39a0n6pgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Jxu7m7px; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PBX1mq5r"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7a7d79839b2so1916898a34.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 11:12:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Jxu7m7px"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-85ed0a1b35dso211089185a.2
+        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 11:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1760119936; x=1760724736; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kJITi+/a5Uy4Ywybn43TGus/0RCOWKapqQ9K/U9rCqU=;
-        b=PBX1mq5r9veqx2nhSMlcRzjG3ZXNZ9XKO0P3mfcjQjQD8uBRKof0H5usVKH1PJ1D3n
-         OC1mFKC2hhXvY/jJCBYq/WHUNrKuJKcAW+r7pB3cWDJz26HdKJXPW+H9K9WY6Rhtl829
-         Xgh4jNNgtgVJu0ZvwwopeQ0BzIwxAg3kTIViaickRGBjH9vTUwPhB7LfUj0eZwB2OC7L
-         nDvQMJApSYJC7d3yw4qz5COMORlGmk/cQyeqGAwlbHLMPdo9Y37ym58fV2tzsaa6uNBF
-         8ZuQV9N9+UlrMhHkI4IqrXYkfhYHGpwCkq4TMqGnj8UI+4jDyCKXpXFpM5BzLXVB3hNV
-         nFlw==
+        d=gourry.net; s=google; t=1760122414; x=1760727214; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yvk9+2uf5Jy110s1EexKEDqunnlIUh4JFbrOdrqUH1o=;
+        b=Jxu7m7pxX092VH2TA771cV3O8FsblFnpBDecm18yIpEq1XXcTSka8IRHIyoqsAx4xA
+         2YCQqeZHg6o1Xz1yrLAtB67OSSjQm/I5y82gdsmvEHwi4d0rbzHN0F0R/y/9y1dGqzrB
+         NUOLF0b6/7v+RPBmji1GIusX81AznCOzZnyNT7ynqfz55bnyW3IwelBZ0JylBDlnNgqA
+         NFXCfol0tnhTlCDK1FzI8Qa2IIfqb2FKVuqLnf9JJIHYxnkPi86cvZxQ0Rrm44IFIITJ
+         8Y4GSDmBLU3P8mByqFWOeqcKWVrBP1tKSHafZxG2piZKNEkOcf6OXFrszcESGSHWhCJI
+         2ueQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760119936; x=1760724736;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJITi+/a5Uy4Ywybn43TGus/0RCOWKapqQ9K/U9rCqU=;
-        b=XdqG7fUfcl5BE9uKrt20Qv3RkHXPyoRxgu0fwWExeus6HFdMQ7vFMeGooCubhTTHQH
-         QNBuFzU/zh9GZ4+/82TWJdSdFQ2mrpMS9a0IxMpxgYo653cZCECHt6NYgekHm3eO+wKA
-         es1Xdsw0lywDyLVDfO7hzNcSjwci0CuMFiNLHPzrXeZ3LWgoMDvXKwHj4apV4IbimHR9
-         uKk8LYGeEjNIUgx0lvQrr0rpUCTwuZvCfaNA9yiaYl5JfyOV0O96rB90ISsUnl7FKSfR
-         JFWru82jTDdU0lmeOjYyPYDDIRYi0RXOtwwzNgSaDUJE6gCUZcrIUSP/s9yA+V8xCHey
-         CTNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWb7wKW5a5QboTiKujJK/05EHWXim8/X899pQYPeVZwbSJmYNUinSlqzl59lVy2XhAgS/NppcQZzdc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjjS4Le7vyxM3J/FpGL6y+SwvVqv4VwGspxBNuesNuu94xmgp/
-	Zd6Nj6WPoQR95KL0jEzG9v62bQuv1ZAK7T59VBoBF96rPbO77KH6OVAcyzEXQ5KNyXI=
-X-Gm-Gg: ASbGnctjto17E3Eb7TByEgiGhI+1yvT+t3iDJEnG8lE2WsD5COYpi8zsioK2FvBWm0J
-	6AW7x/HFyRRYJ2CCwF4s65t1qS5G4Ztv+MOydsppIBAp8zOFWAlHCul9rN5+7qtY14D02rShH/D
-	KM3KseRaS3exwB2pdrE+Xi3j3D1WtSKKNruzbrL8u0+HgYZ8sIoy7JSWFJHv+WRWkJwRiGt3vDQ
-	0h60GxzLcsUKxOk5IKolm9mlxxkgb2+wQoX5pshi5jwHoIn63fAyu7erTyfcGPWs3xzc1EPCX7N
-	yXbefngfpmcWJpahRYv9rOFAm63xgIsrG6zIRcBCFBZlrQSGvw3YoPNJLWNspp0sNH/0r7fl8Vg
-	xUyFtm1icqeB0A9x+TILuem3vx24lh6po4pr3tZQ3nM2V4pIkjpGZtTCVOAI+pBtru1092LjrW9
-	VMvN5s1balCv5z+J7u8rRR3EyKig==
-X-Google-Smtp-Source: AGHT+IGdiPP3DRGOJKjYj4pluDC86vZ/Ybmz+/mK35EcOXVcyBnRq20OMLL70oFsIcshIMYVWisL+w==
-X-Received: by 2002:a05:6830:210d:b0:746:d22b:11f2 with SMTP id 46e09a7af769-7c0df752992mr6630275a34.4.1760119936239;
-        Fri, 10 Oct 2025 11:12:16 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:6d3b:e3bd:4210:32e2? ([2600:8803:e7e4:500:6d3b:e3bd:4210:32e2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c0f911aefasm1045881a34.31.2025.10.10.11.12.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 11:12:14 -0700 (PDT)
-Message-ID: <07c11aae-6440-46bb-880f-80d09da1bf40@baylibre.com>
-Date: Fri, 10 Oct 2025 13:12:12 -0500
+        d=1e100.net; s=20230601; t=1760122414; x=1760727214;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yvk9+2uf5Jy110s1EexKEDqunnlIUh4JFbrOdrqUH1o=;
+        b=krhVXVdcYmzNFvhPiytqZbY64kl7fuHvU5tVbHUogdNa7j2qnzZBVNS/PQDr5mJm4F
+         wNx9dg+zQmi2/VK7OC+nUEc8AD4vzxay1WQwKQvw0YJpNWHZvSjF8/Orew0YalaIYjzY
+         m1T4a2JflfJOA+/cPsINlQE54HqdHHxzCTIaqsMxcz0Ux/eZGJN+6AHYcB85YmZiPHQK
+         aPqyR2xwbFKnYVigbRBgERaUnEF8DvrponzKYPLHb7TWafNFgGxfYabcxYa4QF676SwL
+         z8i/zQ2/fWGvhhi4MHFr4/vlqYyPVcU/BbabNQikW6yDUwtriAkr5r9nYDWN6pxVyky4
+         1L6A==
+X-Forwarded-Encrypted: i=1; AJvYcCU/SZqzhCxc11AuKI0YGcnMcE3TdLs4M2hIBvShEby47OSG9IzdMsNP2Y/5dj+AJpEhli2m8to0nPE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+tNdhhvkCVgw82ra1Kjs1DBB4zrfXz/WjCG6SCW1l6olodEI8
+	IZ4FPOorlE0XnW+horLhRwwCWcSPHWm68dTiCxSJSfeQZwAfG2YoaTp0NgKJxYKqvBo=
+X-Gm-Gg: ASbGncu3lcCdKODF9h7bfssNIN84d7VLAlDb9N5jQeTl46JQGWnzrKMUI308WQIQ0yr
+	4BwT6VNxfy3PxqlLTIGBm9w+vP5NFCOLXL9dK2OPRiOTpzJhzn4TTI47F6iyqYoU2NUXTQsil4+
+	l/e6Fvlkbny895WJ0hZsxVYZWZuMNTtOVrREkSs67YfhUzr2UDFFObKOq/zCVN6pr4emFGKvfs1
+	HSY0IUAOe6xrf4RR51abDMh75BHxrDhRE9paGjXqLAZUoEHPnEFKcab4aJpnPeSxAnnNm206KzJ
+	ldnpY0IPicAfbuDa9cCFbnr/Lb2edpk5GzlbWxlrdhhAYvKiDkSW9I2gOlkFZwk/obI6NScD7+o
+	NgTRt6HnWJapkPt6HHXeVm168ZXitMhcESQzqpKeZmGOaVWmCVWc6UKn69q/8AP71OvSDuUDBLE
+	52qmdcUzHSjRaiZMt1PlzgUNH1yhGZ0+qcO9Q=
+X-Google-Smtp-Source: AGHT+IFw83apThwu3Bu6mVESZP4W93bdkR0fqUQg02zKaUQROrWdoFXC8bV8nX7m1XqGZM4W610+FA==
+X-Received: by 2002:a05:620a:179f:b0:849:21b9:478f with SMTP id af79cd13be357-883534624f4mr1914757385a.35.1760122413577;
+        Fri, 10 Oct 2025 11:53:33 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8849f9ae48fsm459499385a.24.2025.10.10.11.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 11:53:32 -0700 (PDT)
+Date: Fri, 10 Oct 2025 14:53:30 -0400
+From: Gregory Price <gourry@gourry.net>
+To: David Hildenbrand <david@redhat.com>
+Cc: Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, corbet@lwn.net,
+	muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
+	mclapinski@google.com, joel.granados@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mel Gorman <mgorman@suse.de>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+Message-ID: <aOlWKqyN5P_kaoHc@gourry-fedora-PF4VCD3F>
+References: <aOZ8PPWMchRN_t5-@tiehlicka>
+ <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
+ <aOaCAG6e5a7BDUxK@tiehlicka>
+ <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
+ <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
+ <aOdSvriKRoCR5IUs@tiehlicka>
+ <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
+ <ac0393c7-9c0c-4b4d-8b35-5e6369e5431b@redhat.com>
+ <aOgpz6no2Jx2-Y8Z@gourry-fedora-PF4VCD3F>
+ <1d7476e6-5c6d-4175-b28d-3622222ea8e6@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/8] iio: adc: ad4030: Add support for ADAQ4216 and
- ADAQ4224
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, ukleinek@kernel.org, michael.hennerich@analog.com,
- nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- marcelo.schmitt1@gmail.com
-References: <cover.1759929814.git.marcelo.schmitt@analog.com>
- <7f8a65deb597d2d26e1d1d373d70851c7cb3d3e3.1759929814.git.marcelo.schmitt@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <7f8a65deb597d2d26e1d1d373d70851c7cb3d3e3.1759929814.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d7476e6-5c6d-4175-b28d-3622222ea8e6@redhat.com>
 
-On 10/8/25 8:51 AM, Marcelo Schmitt wrote:
+On Fri, Oct 10, 2025 at 09:40:29AM +0200, David Hildenbrand wrote:
+> > 
+> > Seems like this is pretty stable tbh.  Obviously if you hack off the
+> > node0 hugepages migration fails - but I feel like you're signing up for
+> > that when you turn the bit on.
+> 
+> Right, just needs to be documented thoroughly IMHO.
+> 
 
-...
+happy to make any doc adjustments.
 
-> +static const int adaq4216_hw_gains_db[] = {
-> +	-10,	/* 1/3 V/V gain */
-> +	-5,	/* 5/9 V/V gain */
-> +	7,	/* 20/9 V/V gain */
-> +	16,	/* 20/3 V/V gain */
-> +};
+Better to move any notes every here though:
 
-This is only being used for ARRAY_SIZE() and can be dropped.
+https://lore.kernel.org/linux-mm/20251009161515.422292-1-gourry@gourry.net/T/#u
 
-> +
-> +/*
-> + * Gains computed as fractions of 1000 so they can be expressed by integers.
-> + */
-> +static const int adaq4216_hw_gains_vpv[] = {
-> +	MILLI / 3,		/* 333 */
-> +	(5 * MILLI / 9),	/* 555 */
-> +	(20 * MILLI / 9),	/* 2222 */
-> +	(20 * MILLI / 3),	/* 6666 */
-> +};
-> +
-> +static const int adaq4216_hw_gains_frac[][2] = {
-> +	{ 1, 3 },  /* 1/3 V/V gain */
-> +	{ 5, 9 },  /* 5/9 V/V gain */
-> +	{ 20, 9 }, /* 20/9 V/V gain */
-> +	{ 20, 3 }, /* 20/3 V/V gain */
-> +};
-> +
+---
 
-...
+Maybe worth finding some time at plumbers to discuss block-level
+allocation twiddly bits.  Still not quite clear how this would pan
+out.  Maybe it's as simple as adding GFP flags to blocks and having
+something like:
 
-> @@ -432,7 +533,14 @@ static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
->  
->  	*val2 = scan_type->realbits;
->  
-> -	return IIO_VAL_FRACTIONAL_LOG2;
-> +	/* The LSB of the 8-bit common-mode data is always vref/256. */
-> +	if (scan_type->realbits == 8 || !st->chip->has_pga)
-> +		return IIO_VAL_FRACTIONAL_LOG2;
-> +
-> +	*val = st->scale_avail[st->pga_index][0];
-> +	*val2 = st->scale_avail[st->pga_index][1];
+echo NO_KERNEL > sys/bus/node/devices/node0/memory1234/eligibility
+echo PINNABLE > sys/bus/node/devices/node0/memory1234/eligibility
 
-Instead of writing over val and val2, it would make more sense to
-move the if up a bit, invert the condition, and have it return early.
+folio_to_block(folio)->eligible(gfp)
 
-> +
-> +	return IIO_VAL_INT_PLUS_NANO;
->  }
->  
+The issue here is obviously that it's clearly racey, in that a bit
+twiddle can change the eligibility mid-allocation.  
+
+I'll think a bit more about this.
+
+~Gregory
