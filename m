@@ -1,130 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52B9274FF9;
-	Fri, 10 Oct 2025 07:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5F51A0BD0
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 07:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760081950; cv=none; b=g6iwt7LiL9bclb9LKcxMGBI0MXsJZzXP9bHLcXY4AxQlIVbwiiZDLEpT4/zlWtpojon4L1U+BqkNWoCAX0ens0/kRIJ54P6Mv2i5Auk8C8Ot1sKOSmBC6XPVIQKCWaNOXejxlgph+pX+UsmO4fkA3Bl4l83Y92tUicInXfd9Mhc=
+	t=1760082038; cv=none; b=kfzI55s4Kwla1Yaa87HUWa7Z+trNyBfLZauH4nUiMeCgLOygy8MKjo/y7WBD2g3BTUnu4XQ2WvR2NKDMqqlS/ouDtChdJnLZPkAiabS/5sokSRgFQuKXd0+rR8dXbqBoZmeAH/3QeVegiPU2+TPK2Ie87T+BOtZdZJDN7tYALM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760081950; c=relaxed/simple;
-	bh=t5IJJx4kPbbwg7ljX2+w4hVtPwBcGYi2Buk9ChSRlgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZVP5kX/CLgFAEEcx3b2R6LWEDhjxjXAmyG5C+7uPbLCAi5yC7eGmnBKzRBPdvBDDcjnQBWPd2rEg+B9/5Lemhtft3qc1s5t6PcNLlN2+DnafyF91L/uzB2UVaGthWxW4dvW5daBM//DQgcnRwdgv6XktKF9lx670qMtRi4f9Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp8Atrw/; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760082038; c=relaxed/simple;
+	bh=bAjqW3ERl7MASAWOsSr2+cO5+t8F79Wpb3UBkz/DF3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fdHMRuS2Ebq3M2bP+9wLE3cVIALso4spXcoIWG5jpH1s6I8drmv2M3E3B4Qkb8lL6cODnP2TEYXbfTGuC6Etxd/1kmhziQZr+y0UMDgMegwUcbqRw4WkHrZQcD5GdZQfsxNDubH15LmBfXp3zQvWFL2gisikpQ+NelK62BKEYOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TnD16Eqc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp8Atrw/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760081949; x=1791617949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t5IJJx4kPbbwg7ljX2+w4hVtPwBcGYi2Buk9ChSRlgw=;
-  b=Cp8Atrw/RHIRUNq3r83MhZH2agOxw+T4B8UF+eLDYJMFPI3scqHeyuK8
-   kwrXBLivhWT+myhRGhDu86Xd0ZRvcHx24mEZnFp0JmXZdC/S35/uyta+e
-   BYC//amO2enuDcpC6+vPByCBZEe44YpBWZh7SoYrZbkVmiipXQnHCSJG3
-   sV9wB8SgtEUCTkoYu5lE0QYkGDvrK0I5SjdR40Mbz6xFmoiHneBatMtCf
-   oucdT07SX/RKfbc/R9zheA4gLrDhHqZofD5z/8pA+oi1Jd2EjgP4p2Pbg
-   FJ2ZrYJvef24Omfbeol0x0qTzyYGUfxPParBUWVZ5NZuxkxO1imXBpdPQ
-   Q==;
-X-CSE-ConnectionGUID: F16H7FLjSyeFnL1STn8how==
-X-CSE-MsgGUID: YIHPHj9ARPWu4fAlyWel6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="61330667"
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="61330667"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 00:39:08 -0700
-X-CSE-ConnectionGUID: Rqx7rlU1ShC+slAvdV4afg==
-X-CSE-MsgGUID: 4EPbltHWSIaL7RyweUdzsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="184951573"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Oct 2025 00:39:05 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v77iQ-0002Q7-0S;
-	Fri, 10 Oct 2025 07:39:02 +0000
-Date: Fri, 10 Oct 2025 15:38:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Gregory Price <gourry@gourry.net>,
-	Robert Richter <rrichter@amd.com>,
-	Cheatham Benjamin <benjamin.cheatham@amd.com>,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Subject: Re: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes
- on x86
-Message-ID: <202510101555.zofjGvZF-lkp@intel.com>
-References: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TnD16Eqc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760082035;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fwJz/AqNSYJZ9V1C2xBbiX8Uw8ClPqDAnbOwKwUJ1Rc=;
+	b=TnD16Eqcz/GVBrjokkjO6zXY4qa6z2uLof7sF9uOMYOq/v3oselUlLwekeoaxWyPknLMVy
+	8lzXM3IMW3ud9qqGt5WHYrm8qqS8Z1K3HX1fLLM7trpc5VliLMbLlNOcJeU40eJR5v9V1Z
+	qsPXTf2+VmDwTY5IGVYkufyBIChkXrI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-447-7DTbV29SOWqJYLOUae0wXg-1; Fri, 10 Oct 2025 03:40:33 -0400
+X-MC-Unique: 7DTbV29SOWqJYLOUae0wXg-1
+X-Mimecast-MFC-AGG-ID: 7DTbV29SOWqJYLOUae0wXg_1760082032
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-46e3ed6540fso12323475e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 00:40:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760082032; x=1760686832;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fwJz/AqNSYJZ9V1C2xBbiX8Uw8ClPqDAnbOwKwUJ1Rc=;
+        b=bjnQaOw5w66uZ2dd5gLe15KcLHy6gGET2pWJdjcs7BlWMXnICeZ64Q7B9SGelDTgQq
+         adFns9ylP4X2zVPmubGhpkXUFQ9lz1tWdTQfgiLmSMIXbJREpgilw7h26i8ykX3oNk7R
+         RwC4A3C2AeTLpRxhWul8h8f8saaVyjipy2M3nBOG8mmEhltcCRnVlroj4k8ZaeN4OT45
+         ok0B8xY7NZ0KQinNaa/kcw9G+lrAdFdbqRzctw2v7UBkq1W2e8thDpRDCqe4mZ3RuF4V
+         7XaXr7fDuxXaywpgPpj4esKFl0iBtrPchYxA3MseqL1+BFD1ylqyoabwQR523x6ah1MK
+         84vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6vpgAv8nBfGWLxZRh16MFYAQ7Nrh3WUNGzoSepSkoD3X8DZXLBJS0k0TnLh4mIROs7+GdlbNY3I8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZoCFiXu6Xa3Qxv/NPJ3IDxk7d/Sm3BGM+3kYWYZwhzB1uKI5z
+	ZKFFd6Ku9jD8WdKKhmPgO2TLZyKeg96Xxk0KxroLiEVsz3vSK7YWik+1D0kxYpyZUvtjxZdi/CU
+	UwwMUsdmskH9/tg7iDP76FhbXF0FWEcXToErPYswxv3PS8K/Fw4LDDjjteZnYPg==
+X-Gm-Gg: ASbGnctMxmXJYX8OEK0TS8UqQs5/nhIjq6MQhew1VxgW6NzwoQXnE23boLJDnEH+aQ+
+	8wrZixKzircFmCv3vt3sExTZo9U2MKkuX9tV3CTRJ7fWavcHtLYPSumZKcWM74Bmy3NqCXxE4Ir
+	i+eGDzgOZgeufdS+VH57ftUq07MXBL/7AzsDqkQ61xnVIns/+ge3bG3mbXcKVYZrEBVUHoJHL1l
+	FX4bc6jVgESczcLHPNqGaOn9Zk2nFMIIbWnq/RGQUsxpXwmIH4hVl6tb2CY0SyOtmiZpGfCAeDY
+	5tibdoXvkBuhS2DDHuRufBK6e0Q3WBj5y6MjmMQj0goqPIRAOjDvak/BYL3Ag2itaTDJfC6p1L1
+	rB2M=
+X-Received: by 2002:a05:600c:5486:b0:45f:29eb:2148 with SMTP id 5b1f17b1804b1-46fa9e98810mr73730165e9.7.1760082032398;
+        Fri, 10 Oct 2025 00:40:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3lq9nxHi+CEqnziqdMyoKoOLYsWDdxhE4EmiTf95ov9ATpNl2HHkuJv4MfSmlUI8Cd+bijg==
+X-Received: by 2002:a05:600c:5486:b0:45f:29eb:2148 with SMTP id 5b1f17b1804b1-46fa9e98810mr73729925e9.7.1760082031973;
+        Fri, 10 Oct 2025 00:40:31 -0700 (PDT)
+Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab3d2c1asm54109495e9.1.2025.10.10.00.40.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 00:40:31 -0700 (PDT)
+Message-ID: <1d7476e6-5c6d-4175-b28d-3622222ea8e6@redhat.com>
+Date: Fri, 10 Oct 2025 09:40:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
+ sysctl"
+To: Gregory Price <gourry@gourry.net>
+Cc: Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, corbet@lwn.net,
+ muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
+ hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
+ mclapinski@google.com, joel.granados@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
+ Alexandru Moise <00moses.alexander00@gmail.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, David Rientjes <rientjes@google.com>
+References: <20251007214412.3832340-1-gourry@gourry.net>
+ <402170e6-c49f-4d28-a010-eb253fc2f923@redhat.com>
+ <aOZ8PPWMchRN_t5-@tiehlicka>
+ <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
+ <aOaCAG6e5a7BDUxK@tiehlicka>
+ <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
+ <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F> <aOdSvriKRoCR5IUs@tiehlicka>
+ <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
+ <ac0393c7-9c0c-4b4d-8b35-5e6369e5431b@redhat.com>
+ <aOgpz6no2Jx2-Y8Z@gourry-fedora-PF4VCD3F>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aOgpz6no2Jx2-Y8Z@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Fabio,
+On 09.10.25 23:31, Gregory Price wrote:
+> On Thu, Oct 09, 2025 at 08:51:54PM +0200, David Hildenbrand wrote:
+>> On 09.10.25 17:29, Gregory Price wrote:
+>> Or would it be sufficient to selectively enable (explicit opt-in) some user
+>> pages to end up on ZONE_MOVABLE? IOW, change the semantics of the zone by an
+>> admin.
+>>
+>> Like, allowing longterm pinning on ZONE_MOVABLE.
+>>
+>> Sure, it would degrade memory hotunplug (until the relevant applications are
+>> shut down) and probably some other things.
+>>
+>> Further, I am not so sure about the value of having ZONE_MOVABLE sprinkled
+>> with small unmovable allocations (same concern regarding any such zone that
+>> allows for unmovable things). Kind of against the whole concept.
+>>
+>> But I mean, if the admin decides to do that (opt in), so he is to blame.
+>>
+> 
+> For what it's worth, this patch (or the new one i posted as an RFC), I
+> was able to allocate gigantic pages and migrate them back and forth
+> between nodes even after they were allocated for KVM instances.
+> 
+> I was surprised this did not cause pinning.
 
-kernel test robot noticed the following build errors:
+KVM does not end up longterm-pinning pages (what we care about regarding 
+migration) when mapping stuff into the guest MMU, so KVM in general is 
+not a problem.
 
-[auto build test ERROR on 46037455cbb748c5e85071c95f2244e81986eb58]
+The problem shows up once you would try to use something like vfio, 
+liburing fixed buffers etc, where we will longterm-pin pages.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cxl-core-Change-match_-_by_range-signatures/20251010-111627
-base:   46037455cbb748c5e85071c95f2244e81986eb58
-patch link:    https://lore.kernel.org/r/20251006155836.791418-3-fabio.m.de.francesco%40linux.intel.com
-patch subject: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes on x86
-config: i386-buildonly-randconfig-005-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101555.zofjGvZF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101555.zofjGvZF-lkp@intel.com/reproduce)
+> 
+> This was all while running the QEMU machine actively eating ~2GB of
+> memory.  So this seems... acceptable?  My primary use case was VM
+> hugepages, but it doesn't even seem like these have been pinned.
+> 
+> I think the confidential-compute / guest_memfd path would have an
+> issue, because those are pinned and/or entirely unmapped from the
+> host, but that just seems like a known quantity and a reason to leave
+> this off by default (make them read the docs :]).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101555.zofjGvZF-lkp@intel.com/
+guest_memfd allocates folios without GFP_MOVABLE, because they are ... 
+unmovable. So they would never end up on ZONE_MOVABLE.
 
-All errors (new ones prefixed by >>):
+There are prototypes / ideas to support migration of guest_memfd pages, 
+so it would be solvable. At least for some scenarios.
 
-   ld: drivers/cxl/core/platform_quirks.o: in function `platform_res_adjust':
->> drivers/cxl/core/platform_quirks.c:95:(.text+0x1f1): undefined reference to `__udivdi3'
+> 
+> Seems like this is pretty stable tbh.  Obviously if you hack off the
+> node0 hugepages migration fails - but I feel like you're signing up for
+> that when you turn the bit on.
 
-
-vim +95 drivers/cxl/core/platform_quirks.c
-
-    76	
-    77	void platform_res_adjust(struct resource *res,
-    78				 struct cxl_endpoint_decoder *cxled,
-    79				 const struct cxl_root_decoder *cxlrd)
-    80	{
-    81		if (!platform_cxlrd_matches_cxled(cxlrd, cxled))
-    82			return;
-    83	
-    84		guard(rwsem_write)(&cxl_rwsem.dpa);
-    85		dev_dbg(cxled_to_memdev(cxled)->dev.parent,
-    86			"Low Memory Hole detected. Resources were (%s: %pr, %pr)\n",
-    87			dev_name(&cxled->cxld.dev), res, cxled->dpa_res);
-    88		if (res) {
-    89			/* Trim region resource overlap with LMH */
-    90			res->end = cxlrd->res->end;
-    91		}
-    92		/* Match endpoint decoder's DPA resource to root decoder's */
-    93		cxled->dpa_res->end =
-    94			cxled->dpa_res->start +
-  > 95			resource_size(cxlrd->res) / cxled->cxld.interleave_ways - 1;
+Right, just needs to be documented thoroughly IMHO.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers
+
+David / dhildenb
+
