@@ -1,314 +1,228 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F122724DD13
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 07:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EE0274FF5
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 07:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760082900; cv=none; b=rDI1ln+2pQ97Qg10wJLsx9Km4pzgknWXzYjz/xlZquPBGY46QbDYq6FLKexlht90pc3TW45a+7XzI2CQORoby499R8eVnbSa0tE0pUAMZRVtXK4OHHs042kQ4DdBCJTJrj2dEsBW8AEZq198aeCGQgJY0cG0q2O8ME2JyxXEUfs=
+	t=1760083093; cv=none; b=AV4b14ev6WoBfEEBNRT+EgmkJzrbNV8PKyzydCLP3jFYolMdVBI74Njh5kWiKvrYlCYYK3TsfxVH5VpDPbsAku5S9Fd/IGYXBuGm4olEnQYM7MLs8YATqNa1AuX8q6pgTYs3rpmjdP1ox8S7cvwB74+V933WcMLZVDlvd6Pahe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760082900; c=relaxed/simple;
-	bh=0VorPrLkyHUVrjuMfLD9PMg+6va8lFyrxWCZ5eKOo6c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aESLCTp4ti1pzvttmVIxXXLpyxBDwsm3w4PpbZDcJ+0QdsJhqhgui2fWEBoUa60R5Kx6Kfvew52yRPaqzwSpkHZ0a78qEs66IGiJl9PNitSMun8lcfqkOtsfzbpwC/L3zwh5UO4EN6bvQVjoET9I/X2IAMvcXWi7yScfN5ao0+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DtUab8bh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760083093; c=relaxed/simple;
+	bh=/EqQHNRDCS2YqzBq0RkItK1pvs5vi0KLmvOMTFqnmTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzL+xLt/tl8sT9UAo9VBAl4K2jKWoXdVgWbOT1itYUxCA96Zkn5xX+UP0ptzEwGepPhSf1aTUaZc/qRrZ2HtlEHJEwjecPFT+BGdGH9+0FZMvv2eOmY54p2IM94Tib97IegAaPDdJjyu/WoVJaoF4FyYVmsUcEsRPiTO/ShWDIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LnpTac5Z; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DtUab8bh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760082897;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=M+pjFKpPGhPGCb6BNB3UehKfe41+RfPzqJkeretXuck=;
-	b=DtUab8bhf8tK91VdWbE7Nq5fBW6qLMGWK1MB3we4NEmxi60ABd11FKSjYyj1uKfodqYXm2
-	pq0bV9GOnBVZUfhjU24lUtcGdDCg3wd9UKGkcujb5tXu4bxYLY+3CvDfE4semfcYJI9nhk
-	4hCvdDh5D4Yx+X3XtOYPASvVn0ssczY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-vmq6UzcEMdGP7NCDlhcGrQ-1; Fri, 10 Oct 2025 03:54:55 -0400
-X-MC-Unique: vmq6UzcEMdGP7NCDlhcGrQ-1
-X-Mimecast-MFC-AGG-ID: vmq6UzcEMdGP7NCDlhcGrQ_1760082895
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3efe4fcc9ccso1428181f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 00:54:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LnpTac5Z"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27eceb38eb1so19678345ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 00:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760083091; x=1760687891; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2Nucw4E7LkwzxjCbFb3F737DKijbeBN9zMwZ0PDOoZQ=;
+        b=LnpTac5ZvTS/UYEVB7W5KdB+cWLKdYtewYzALu7433gOuYAcGX1oFy0Q19ip8xcFCa
+         VPvqP8SCUx+/XjNgHL8vB33TujuA0mC2YoXnFFaGf/K6hmYJQSStvsPkmYHDHvwWGBB9
+         H25tihr2gvHnD9+QUe7VqDsb4j4ikRlvsXp8WF71t3vbG8l1ehFojIQi9pYHpBP7W6/A
+         vqU5elROKHmEcCx+LOrpJDHvz4jqYqj6ZObpvjQ2rw6SyAsHiWwVY1K5mSEmwywqFgpO
+         xN/78d3SCni1185cDyOSCn+FmZXFwCwbuKfofh82uNWMtcsHZ4vfgd8JPfiDTxs1PC8C
+         1iDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760082894; x=1760687694;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M+pjFKpPGhPGCb6BNB3UehKfe41+RfPzqJkeretXuck=;
-        b=C8EinDL+4zzArNdiJu+3fOKipas/GNQdSJdPJzwpG1bE2lm6H+T+qIZjc7RiAOnkbI
-         1z1t16TCvK1m3xzSLqr+qZkSg8KvNI4x85+ssF6xRNapSd+iNfOEoZrEWaVTQsGW8cbb
-         hmNRY/IHEISYLZh1KMebArqtmhfGZTPZWJDXu6juH2Pr6J09JY09aJKT/qjpK+TE1F8n
-         eDxAQONm1rShA75SfXcNunTqBtn18P6CyKo1JjuKZ7e3l1S5yVOFMfvZB72AuF8y98jJ
-         aFZkoetrPnxf0TRiHTmYOdgaGRX7D4btAArR0HDuvTLOT6xBydaHOJb7jqOlefSKFPzp
-         gwzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVlQeSlG+Q7hlI5tfA8UAKRB95tM07g1iDY8G+2M6znWRbZ+e2QRkhD2vtgIEKuLaF+IW0ZASJPL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx76Khs7DfGaTSZwzaPYeWFt4oh5aR5tPbZJ2asSts32nYPJo0h
-	WKc0dNoiG797ZGiooYKfZIQwYFL4I7vYJ/+u64IvQGthxkUwnMsktvIVSko/gu1eCTX9IkelX5W
-	0l1iddq2C8p8KJZYl/RMWGN+FkA42fcHq6VWsCNWKz59mSF4DRTPwTdDoK2NxUA==
-X-Gm-Gg: ASbGncvEHP3V06QAj+peG2cCIHg4lX8A7kyTQJl6DQq9mSBLiBnoY4zMNFyBp5TjvE0
-	PfWwiRPApC1p8qdsUBuxXNUZXfTojpcBMtz9SQ/cHxNdsW4WteSaIAw1e7ZOtI7QK9l4VJzhP+E
-	0Cd4sAueMPRhOT77iH36HaqYOLd5Ug+drUeh5rQFHFRmbB+yUakcoBNBbooXEGyWvyGB1UHuo5j
-	ybfC5Hc2di7JfD44j2OwKOa9r0JNCVvvdtO/pr1qyoxiD5geNprndAgDKiITqpaaquoGoysTOvb
-	6qPOQPCpOi10vx2XEIhFqecy9iHKO0g1j7iHckdliGTwdVbUEoO6tas6s1UXbzJtKugzunvH7p5
-	CTWU=
-X-Received: by 2002:a05:6000:26c2:b0:3e7:5f26:f1e5 with SMTP id ffacd0b85a97d-4266e7beb57mr6225749f8f.23.1760082894470;
-        Fri, 10 Oct 2025 00:54:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHTTPZj7hzRMoj+OIEk2jkUAprMdCN7KGM1KZIMXJPUWlJSecGQKX1yuYPKejz1THVQLE0NVA==
-X-Received: by 2002:a05:6000:26c2:b0:3e7:5f26:f1e5 with SMTP id ffacd0b85a97d-4266e7beb57mr6225728f8f.23.1760082893829;
-        Fri, 10 Oct 2025 00:54:53 -0700 (PDT)
-Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb482b9easm35213505e9.1.2025.10.10.00.54.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 00:54:53 -0700 (PDT)
-Message-ID: <3577f7fd-429a-49c5-973b-38174a67be15@redhat.com>
-Date: Fri, 10 Oct 2025 09:54:50 +0200
+        d=1e100.net; s=20230601; t=1760083091; x=1760687891;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Nucw4E7LkwzxjCbFb3F737DKijbeBN9zMwZ0PDOoZQ=;
+        b=CNZxdVEFut6qu7UESNm8jz7QFL8ubQQ0GTrbLV6U7pDnXQKz6L/3juz3uLV+dfq7Jv
+         n43oD/9RhiATajs0MtnSP11+BcZvboeunC7QkxE4Jcn768QC+w1W01HbMoJIPTQPFQVL
+         Xs6UmEnIZsAh7aarDPnmqNLd9Xl8Qrilu9g6WdOQXhSUjIuIC7kBrtj0fc6865Ea0gX4
+         ZjSP9QKec/WOmXuLLnI/mcNs5+LDYNRQ4G7FfIFJ0jrnUwY+mQGtlmrooVVz+uMWQE8s
+         UEyJmoMmqIKRtIbVa2Ml6R/N/oIxTB2CZ6MYNT50vRwKgqXGVLRu4gN2NUCYpySOkPZm
+         Wa5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU22EuhW2DF2z+j32Z4qXV84SYE7omusegSN0j1i9qzzPi7avo+xQccEIxxY4cX2AQrBnG/aLpE49c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL/mxpuyE9v7+S1jnmuyaaRWRW2yKB3jwrPxPZQXoWN8aqK1Vw
+	xxfDZ+Zgfdx5njGnDcUCvJcw0D+IM9lln2maB/zucMj3JMr/hXqahJTq
+X-Gm-Gg: ASbGncuJvRWD9kOczrGyxc+tTvat51fTdMW7Pm5eMm+8Ot0GHuw5V/EIeGMD6DtwqoH
+	zWA1KSkgkKaYVXQd1w46VCiTcZIeA80OFNZa10CYpKqPO/4qlm/vAhuIt5KwcKB6Y65bNjDHy0j
+	XBT568U8yBZo6pQDNl9EepK/eH+2Wg3ie/3HVqEzj7F2+hPGqe+BW5nqOnDWpS960a0cUJLT5y2
+	q1TJnZX7xUGDcCOfMmB1Z0LRyoetrgqotA0eCbizVYGK90s9vvfXsx01xltuAaBR+yOaMJIRQ+o
+	XPdHfaBaJVQLv5v6Uj2UaRG0TED1uIqDjwmJgd87ZgBV9rUArXwG76jrNWK1iPHuHF2Up1tIOeh
+	aq7t8HykPnesNGeapDGlE/5Ib9iibLg/EdP+3RbOtSgSGsDzDnUUpYvqw9Yt3L2aEKcM=
+X-Google-Smtp-Source: AGHT+IFeywA6gB4/SQbmJGvT2KY5YTMhXWywBtcaIqaAsauF4r7EzLqcGRXLsSas3aRqscvIRrL6Qg==
+X-Received: by 2002:a17:903:298e:b0:28e:756c:7082 with SMTP id d9443c01a7336-29027374b38mr134966335ad.15.1760083090502;
+        Fri, 10 Oct 2025 00:58:10 -0700 (PDT)
+Received: from localhost ([103.121.208.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f070ecsm49587725ad.60.2025.10.10.00.58.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 00:58:09 -0700 (PDT)
+Date: Fri, 10 Oct 2025 15:58:03 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 00/23] mm/ksw: Introduce real-time KStackWatch
+ debugging tool
+Message-ID: <aOi8i1Y0decaamaX@mdev>
+References: <20251009105650.168917-1-wangjinchao600@gmail.com>
+ <20251009175107.ee07228e3253afca5b487316@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
- order selection
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov
- <alexei.starovoitov@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>, baolin.wang@linux.alibaba.com,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, usamaarif642@gmail.com,
- gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>,
- 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>,
- Tejun Heo <tj@kernel.org>, lance.yang@linux.dev,
- Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20250930055826.9810-1-laoar.shao@gmail.com>
- <20250930055826.9810-4-laoar.shao@gmail.com>
- <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
- <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com>
- <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
- <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com>
- <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
- <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com>
- <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
- <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
- <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com>
- <CALOAHbD8ko104PEFHPYjvnhKL50XTtpbHL_ehTLCCwSX0HG3-A@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CALOAHbD8ko104PEFHPYjvnhKL50XTtpbHL_ehTLCCwSX0HG3-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251009175107.ee07228e3253afca5b487316@linux-foundation.org>
 
-On 09.10.25 11:59, Yafang Shao wrote:
-> On Thu, Oct 9, 2025 at 5:19 PM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 08.10.25 15:11, Yafang Shao wrote:
->>> On Wed, Oct 8, 2025 at 8:07 PM David Hildenbrand <david@redhat.com> wrote:
->>>>
->>>> On 08.10.25 13:27, Zi Yan wrote:
->>>>> On 8 Oct 2025, at 5:04, Yafang Shao wrote:
->>>>>
->>>>>> On Wed, Oct 8, 2025 at 4:28 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>>>
->>>>>>> On 08.10.25 10:18, Yafang Shao wrote:
->>>>>>>> On Wed, Oct 8, 2025 at 4:08 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>>>>>
->>>>>>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
->>>>>>>>>> On Mon, Sep 29, 2025 at 10:59 PM Yafang Shao <laoar.shao@gmail.com> wrote:
->>>>>>>>>>>
->>>>>>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct *vma,
->>>>>>>>>>> +                                     enum tva_type type,
->>>>>>>>>>> +                                     unsigned long orders)
->>>>>>>>>>> +{
->>>>>>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
->>>>>>>>>>> +       int bpf_order;
->>>>>>>>>>> +
->>>>>>>>>>> +       /* No BPF program is attached */
->>>>>>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
->>>>>>>>>>> +                     &transparent_hugepage_flags))
->>>>>>>>>>> +               return orders;
->>>>>>>>>>> +
->>>>>>>>>>> +       rcu_read_lock();
->>>>>>>>>>> +       bpf_hook_thp_get_order = rcu_dereference(bpf_thp.thp_get_order);
->>>>>>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
->>>>>>>>>>> +               goto out;
->>>>>>>>>>> +
->>>>>>>>>>> +       bpf_order = bpf_hook_thp_get_order(vma, type, orders);
->>>>>>>>>>> +       orders &= BIT(bpf_order);
->>>>>>>>>>> +
->>>>>>>>>>> +out:
->>>>>>>>>>> +       rcu_read_unlock();
->>>>>>>>>>> +       return orders;
->>>>>>>>>>> +}
->>>>>>>>>>
->>>>>>>>>> I thought I explained it earlier.
->>>>>>>>>> Nack to a single global prog approach.
->>>>>>>>>
->>>>>>>>> I agree. We should have the option to either specify a policy globally,
->>>>>>>>> or more refined for cgroups/processes.
->>>>>>>>>
->>>>>>>>> It's an interesting question if a program would ever want to ship its
->>>>>>>>> own policy: I can see use cases for that.
->>>>>>>>>
->>>>>>>>> So I agree that we should make it more flexible right from the start.
->>>>>>>>
->>>>>>>> To achieve per-process granularity, the struct-ops must be embedded
->>>>>>>> within the mm_struct as follows:
->>>>>>>>
->>>>>>>> +#ifdef CONFIG_BPF_MM
->>>>>>>> +struct bpf_mm_ops {
->>>>>>>> +#ifdef CONFIG_BPF_THP
->>>>>>>> +       struct bpf_thp_ops bpf_thp;
->>>>>>>> +#endif
->>>>>>>> +};
->>>>>>>> +#endif
->>>>>>>> +
->>>>>>>>      /*
->>>>>>>>       * Opaque type representing current mm_struct flag state. Must be accessed via
->>>>>>>>       * mm_flags_xxx() helper functions.
->>>>>>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
->>>>>>>>      #ifdef CONFIG_MM_ID
->>>>>>>>                     mm_id_t mm_id;
->>>>>>>>      #endif /* CONFIG_MM_ID */
->>>>>>>> +
->>>>>>>> +#ifdef CONFIG_BPF_MM
->>>>>>>> +               struct bpf_mm_ops bpf_mm;
->>>>>>>> +#endif
->>>>>>>>             } __randomize_layout;
->>>>>>>>
->>>>>>>> We should be aware that this will involve extensive changes in mm/.
->>>>>>>
->>>>>>> That's what we do on linux-mm :)
->>>>>>>
->>>>>>> It would be great to use Alexei's feedback/experience to come up with
->>>>>>> something that is flexible for various use cases.
->>>>>>
->>>>>> I'm still not entirely convinced that allowing individual processes or
->>>>>> cgroups to run independent progs is a valid use case. However, since
->>>>>> we have a consensus that this is the right direction, I will proceed
->>>>>> with this approach.
->>>>>>
->>>>>>>
->>>>>>> So I think this is likely the right direction.
->>>>>>>
->>>>>>> It would be great to evaluate which scenarios we could unlock with this
->>>>>>> (global vs. per-process vs. per-cgroup) approach, and how
->>>>>>> extensive/involved the changes will be.
->>>>>>
->>>>>> 1. Global Approach
->>>>>>       - Pros:
->>>>>>         Simple;
->>>>>>         Can manage different THP policies for different cgroups or processes.
->>>>>>      - Cons:
->>>>>>         Does not allow individual processes to run their own BPF programs.
->>>>>>
->>>>>> 2. Per-Process Approach
->>>>>>        - Pros:
->>>>>>          Enables each process to run its own BPF program.
->>>>>>        - Cons:
->>>>>>          Introduces significant complexity, as it requires handling the
->>>>>> BPF program's lifecycle (creation, destruction, inheritance) within
->>>>>> every mm_struct.
->>>>>>
->>>>>> 3. Per-Cgroup Approach
->>>>>>        - Pros:
->>>>>>           Allows individual cgroups to run their own BPF programs.
->>>>>>           Less complex than the per-process model, as it can leverage the
->>>>>> existing cgroup operations structure.
->>>>>>        - Cons:
->>>>>>           Creates a dependency on the cgroup subsystem.
->>>>>>           might not be easy to control at the per-process level.
->>>>>
->>>>> Another issue is that how and who to deal with hierarchical cgroup, where one
->>>>> cgroup is a parent of another. Should bpf program to do that or mm code
->>>>> to do that? I remember hierarchical cgroup is the main reason THP control
->>>>> at cgroup level is rejected. If we do per-cgroup bpf control, wouldn't we
->>>>> get the same rejection from cgroup folks?
->>>>
->>>> Valid point.
->>>>
->>>> I do wonder if that problem was already encountered elsewhere with bpf
->>>> and if there is already a solution.
->>>
->>> Our standard is to run only one instance of a BPF program type
->>> system-wide to avoid conflicts. For example, we can't have both
->>> systemd and a container runtime running bpf-thp simultaneously.
->>
->> Right, it's a good question how to combine policies, or "who wins".
+On Thu, Oct 09, 2025 at 05:51:07PM -0700, Andrew Morton wrote:
+> On Thu,  9 Oct 2025 18:55:36 +0800 Jinchao Wang <wangjinchao600@gmail.com> wrote:
 > 
->  From my perspective, the ideal approach is to have one BPF-THP
-> instance per mm_struct. This allows for separate managers in different
-> domains, such as systemd managing BPF-THP for system processes and
-> containerd for container processes, while ensuring that any single
-> process is managed by only one BPF-THP.
+> > This patch series introduces KStackWatch, a lightweight debugging tool to detect
+> > kernel stack corruption in real time. It installs a hardware breakpoint
+> > (watchpoint) at a function's specified offset using `kprobe.post_handler` and
+> > removes it in `fprobe.exit_handler`. This covers the full execution window and
+> > reports corruption immediately with time, location, and a call stack.
+> > 
+> > The motivation comes from scenarios where corruption occurs silently in one
+> > function but manifests later in another, without a direct call trace linking
+> > the two. Such bugs are often extremely hard to debug with existing tools.
+> > These scenarios are demonstrated in test 3–5 (silent corruption test, patch 20).
+> > 
+> > ...
+> >
+> >  20 files changed, 1809 insertions(+), 62 deletions(-)
+> 
+> It's obviously a substantial project.  We need to decide whether to add
+> this to Linux.
+> 
+> There are some really important [0/N] changelog details which I'm not
+> immediately seeing:
 
-I came to the same conclusion. At least it's a valid start.
+Thanks for the review and questions.
 
-Maybe we would later want a global fallback BPF-THP prog if none was 
-enabled for a specific MM.
+> 
+> Am I correct in thinking that it's x86-only?  If so, what's involved in
+> enabling other architectures?  Is there any such work in progress?
 
-But I would expect to start with a per MM way of doing it, it gives you 
-way more flexibility in the long run.
+Currently yes.
+There are two architecture-specific dependencies:
+
+- Hardware breakpoint (HWPB) modification in atomic context.
+  This has been implemented for x86 in patches 1–3.
+  I think it is not a big problem for other architectures.
+
+- Stack canary locating mechanism, which does not work on parisc:
+  - Automatic canary discovery scans from the stack base to high memory.
+  - This feature is optional; a stack offset address can be provided instead.
+
+Future work could include enabling support for other architectures such
+as arm64 and riscv once their hardware breakpoint implementations allow
+safe modification in atomic context. I do not currently have the
+environment to test those architectures, but the framework was designed
+to be generic and can be extended by contributors familiar with them.
+
+> What motivated the work?  Was there some particular class of failures
+> which you were persistently seeing and wished to fix more efficiently?
+> 
+> Has this code (or something like it) been used in production systems? 
+> If so, by whom and with what results?
+
+The motivation came from silent stack corruption issues. They occur
+rarely but are extremely difficult to debug. I personally encountered
+two such bugs which each took weeks to isolate, and I know similar
+issues exist in other environments. KStackWatch was developed as a
+result of those debugging efforts. It has been used mainly in my own
+debugging environment and verified with controlled test cases
+(patches 17–21). If it had existed earlier, similar bugs could have
+been resolved much faster.
+
+> 
+> Has it actually found some kernel bugs yet?  If so, details please.
+
+It was designed to help diagnose bugs whose existence was already known
+but whose root cause was difficult to locate. So far it has been used
+in my personal environment and can be validated with controlled test
+cases in patches 17–21.
+
+> 
+> Can this be enabled on production systems?  If so, what is the
+> measured runtime overhead?
+
+I believe it can.  The overhead is summarized below.
+
+Without watching:
+  - Per-task context: 2 * sizeof(ulong) + 4 bytes (≈20 bytes on x86_64)
+
+With watching:
+  - Same per-task context as above
+  - One or more preallocated HWBPs (configurable, at least one)
+  - Small additional memory for managing HWBP and context state
+  - Runtime overhead (measured on x86_64):
+
+       Type                 |   Time (ns)  |  Cycles
+       -----------------------------------------------
+       entry with watch     |     10892    |   32620
+       entry without watch  |       159    |     466
+       exit  with watch     |     12541    |   37556
+       exit  without watch  |       124    |     369
+
+Would you prefer that I include the measurement code (used to collect the
+timing and cycle statistics shown above) in the next version of the patch
+set, or submit it separately as an additional patch?
 
 -- 
-Cheers
-
-David / dhildenb
-
+Jinchao
