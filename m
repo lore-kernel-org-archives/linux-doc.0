@@ -1,228 +1,112 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EE0274FF5
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 07:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C65231830
+	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 08:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760083093; cv=none; b=AV4b14ev6WoBfEEBNRT+EgmkJzrbNV8PKyzydCLP3jFYolMdVBI74Njh5kWiKvrYlCYYK3TsfxVH5VpDPbsAku5S9Fd/IGYXBuGm4olEnQYM7MLs8YATqNa1AuX8q6pgTYs3rpmjdP1ox8S7cvwB74+V933WcMLZVDlvd6Pahe0=
+	t=1760085258; cv=none; b=nn8ShQ9Owhyaxh40xaDmT+Y4ka7dAfN7ToUP9Rn5oXuVed7+sviJL9EmKycbdozDPnos6KigR91X3X+dbpvpH40+cVOv9kj0hIe7qawhWIIm/MQsVSyz3xRIIrtQDV4zD1E2OzEuLdK8zoKZ85G2Lay1M+sXomsWgR8DcFHfVa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760083093; c=relaxed/simple;
-	bh=/EqQHNRDCS2YqzBq0RkItK1pvs5vi0KLmvOMTFqnmTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fzL+xLt/tl8sT9UAo9VBAl4K2jKWoXdVgWbOT1itYUxCA96Zkn5xX+UP0ptzEwGepPhSf1aTUaZc/qRrZ2HtlEHJEwjecPFT+BGdGH9+0FZMvv2eOmY54p2IM94Tib97IegAaPDdJjyu/WoVJaoF4FyYVmsUcEsRPiTO/ShWDIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LnpTac5Z; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760085258; c=relaxed/simple;
+	bh=0nVHt1G+Jqp+oKetIsOYgW2nvWNPm+MyfNq6WGmqwlo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GkOEvuNRmvE7RIJq2a3vmlxwgr9tcSYNDSlwTADMJaS65sruc468PSrcsG2Obrq7QeAa6J44XSokidJRGx6UYE/ns36LLrEI6Vl+urorqPi67xKEzMrA8bfmIpZHu5yG22VYclVbW9hQKrDTCTXRIk1gs1WfL4fLtO6i9/euEMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MaRmnfqY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LnpTac5Z"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27eceb38eb1so19678345ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 00:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760083091; x=1760687891; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2Nucw4E7LkwzxjCbFb3F737DKijbeBN9zMwZ0PDOoZQ=;
-        b=LnpTac5ZvTS/UYEVB7W5KdB+cWLKdYtewYzALu7433gOuYAcGX1oFy0Q19ip8xcFCa
-         VPvqP8SCUx+/XjNgHL8vB33TujuA0mC2YoXnFFaGf/K6hmYJQSStvsPkmYHDHvwWGBB9
-         H25tihr2gvHnD9+QUe7VqDsb4j4ikRlvsXp8WF71t3vbG8l1ehFojIQi9pYHpBP7W6/A
-         vqU5elROKHmEcCx+LOrpJDHvz4jqYqj6ZObpvjQ2rw6SyAsHiWwVY1K5mSEmwywqFgpO
-         xN/78d3SCni1185cDyOSCn+FmZXFwCwbuKfofh82uNWMtcsHZ4vfgd8JPfiDTxs1PC8C
-         1iDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760083091; x=1760687891;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Nucw4E7LkwzxjCbFb3F737DKijbeBN9zMwZ0PDOoZQ=;
-        b=CNZxdVEFut6qu7UESNm8jz7QFL8ubQQ0GTrbLV6U7pDnXQKz6L/3juz3uLV+dfq7Jv
-         n43oD/9RhiATajs0MtnSP11+BcZvboeunC7QkxE4Jcn768QC+w1W01HbMoJIPTQPFQVL
-         Xs6UmEnIZsAh7aarDPnmqNLd9Xl8Qrilu9g6WdOQXhSUjIuIC7kBrtj0fc6865Ea0gX4
-         ZjSP9QKec/WOmXuLLnI/mcNs5+LDYNRQ4G7FfIFJ0jrnUwY+mQGtlmrooVVz+uMWQE8s
-         UEyJmoMmqIKRtIbVa2Ml6R/N/oIxTB2CZ6MYNT50vRwKgqXGVLRu4gN2NUCYpySOkPZm
-         Wa5w==
-X-Forwarded-Encrypted: i=1; AJvYcCU22EuhW2DF2z+j32Z4qXV84SYE7omusegSN0j1i9qzzPi7avo+xQccEIxxY4cX2AQrBnG/aLpE49c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL/mxpuyE9v7+S1jnmuyaaRWRW2yKB3jwrPxPZQXoWN8aqK1Vw
-	xxfDZ+Zgfdx5njGnDcUCvJcw0D+IM9lln2maB/zucMj3JMr/hXqahJTq
-X-Gm-Gg: ASbGncuJvRWD9kOczrGyxc+tTvat51fTdMW7Pm5eMm+8Ot0GHuw5V/EIeGMD6DtwqoH
-	zWA1KSkgkKaYVXQd1w46VCiTcZIeA80OFNZa10CYpKqPO/4qlm/vAhuIt5KwcKB6Y65bNjDHy0j
-	XBT568U8yBZo6pQDNl9EepK/eH+2Wg3ie/3HVqEzj7F2+hPGqe+BW5nqOnDWpS960a0cUJLT5y2
-	q1TJnZX7xUGDcCOfMmB1Z0LRyoetrgqotA0eCbizVYGK90s9vvfXsx01xltuAaBR+yOaMJIRQ+o
-	XPdHfaBaJVQLv5v6Uj2UaRG0TED1uIqDjwmJgd87ZgBV9rUArXwG76jrNWK1iPHuHF2Up1tIOeh
-	aq7t8HykPnesNGeapDGlE/5Ib9iibLg/EdP+3RbOtSgSGsDzDnUUpYvqw9Yt3L2aEKcM=
-X-Google-Smtp-Source: AGHT+IFeywA6gB4/SQbmJGvT2KY5YTMhXWywBtcaIqaAsauF4r7EzLqcGRXLsSas3aRqscvIRrL6Qg==
-X-Received: by 2002:a17:903:298e:b0:28e:756c:7082 with SMTP id d9443c01a7336-29027374b38mr134966335ad.15.1760083090502;
-        Fri, 10 Oct 2025 00:58:10 -0700 (PDT)
-Received: from localhost ([103.121.208.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f070ecsm49587725ad.60.2025.10.10.00.58.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 00:58:09 -0700 (PDT)
-Date: Fri, 10 Oct 2025 15:58:03 +0800
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org, llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MaRmnfqY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760085254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XEPIUQZfoE+JbLbZCi1s6/pbCySyRkdPveDvN9XnJDU=;
+	b=MaRmnfqYsGh+ZF/15hhEJbx0eQNfLJGgxbE4m0eu/lIDO7OaRFdBdzgpWiJjIm10VJOPmx
+	M1EscIhybabXNUN49VxaL04JnkuRAh6h+RRp7OOVZWuJKQ6F5q8yHVE4tz78JHAw4J+CXG
+	3+QZqQ0pw3XeJUwXMbgtQGPRiNumvsk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-84-kjVYaasiM0yHr0H3tFuLMQ-1; Fri,
+ 10 Oct 2025 04:34:12 -0400
+X-MC-Unique: kjVYaasiM0yHr0H3tFuLMQ-1
+X-Mimecast-MFC-AGG-ID: kjVYaasiM0yHr0H3tFuLMQ_1760085251
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BC37A180057A;
+	Fri, 10 Oct 2025 08:34:10 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.44.32.197])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D847519560BB;
+	Fri, 10 Oct 2025 08:34:05 +0000 (UTC)
+From: Tomas Glozar <tglozar@redhat.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 00/23] mm/ksw: Introduce real-time KStackWatch
- debugging tool
-Message-ID: <aOi8i1Y0decaamaX@mdev>
-References: <20251009105650.168917-1-wangjinchao600@gmail.com>
- <20251009175107.ee07228e3253afca5b487316@linux-foundation.org>
+	John Kacur <jkacur@redhat.com>,
+	Luis Goncalves <lgoncalv@redhat.com>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Crystal Wood <crwood@redhat.com>,
+	Attila Fazekas <afazekas@redhat.com>,
+	Tomas Glozar <tglozar@redhat.com>
+Subject: [PATCH 0/9] Documentation/rtla: Cover default options
+Date: Fri, 10 Oct 2025 10:33:29 +0200
+Message-ID: <20251010083338.478961-1-tglozar@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251009175107.ee07228e3253afca5b487316@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Oct 09, 2025 at 05:51:07PM -0700, Andrew Morton wrote:
-> On Thu,  9 Oct 2025 18:55:36 +0800 Jinchao Wang <wangjinchao600@gmail.com> wrote:
-> 
-> > This patch series introduces KStackWatch, a lightweight debugging tool to detect
-> > kernel stack corruption in real time. It installs a hardware breakpoint
-> > (watchpoint) at a function's specified offset using `kprobe.post_handler` and
-> > removes it in `fprobe.exit_handler`. This covers the full execution window and
-> > reports corruption immediately with time, location, and a call stack.
-> > 
-> > The motivation comes from scenarios where corruption occurs silently in one
-> > function but manifests later in another, without a direct call trace linking
-> > the two. Such bugs are often extremely hard to debug with existing tools.
-> > These scenarios are demonstrated in test 3–5 (silent corruption test, patch 20).
-> > 
-> > ...
-> >
-> >  20 files changed, 1809 insertions(+), 62 deletions(-)
-> 
-> It's obviously a substantial project.  We need to decide whether to add
-> this to Linux.
-> 
-> There are some really important [0/N] changelog details which I'm not
-> immediately seeing:
+RTLA has many options that have a default value that is used when
+the option is not set associated with them. Those are not covered in
+the documentation for the options, which creates confusion among users.
 
-Thanks for the review and questions.
+Document the default behavior for all relevant options: -H, -P, -C,
+--trace-buffer-size. Some of these are covered in general
+descriptions, only missing from the option documentation.
 
-> 
-> Am I correct in thinking that it's x86-only?  If so, what's involved in
-> enabling other architectures?  Is there any such work in progress?
+Also, fix a few typos and incorrect naming of tracers.
 
-Currently yes.
-There are two architecture-specific dependencies:
+-----------------------
 
-- Hardware breakpoint (HWPB) modification in atomic context.
-  This has been implemented for x86 in patches 1–3.
-  I think it is not a big problem for other architectures.
+The patchset contains two parts: fixes (first five commits), and new
+additions for default options, which were previously undocumented or
+poorly documented (the rest).
 
-- Stack canary locating mechanism, which does not work on parisc:
-  - Automatic canary discovery scans from the stack base to high memory.
-  - This feature is optional; a stack offset address can be provided instead.
+The patchset assumes [1] is applied, renaming included files to *.txt
+from *.rst, to prevent build error on "make htmldocs".
 
-Future work could include enabling support for other architectures such
-as arm64 and riscv once their hardware breakpoint implementations allow
-safe modification in atomic context. I do not currently have the
-environment to test those architectures, but the framework was designed
-to be generic and can be extended by contributors familiar with them.
+Note: I am aware that there are more issues with the documentation, just
+not everything can (and should) be fixed in one patchset.
 
-> What motivated the work?  Was there some particular class of failures
-> which you were persistently seeing and wished to fix more efficiently?
-> 
-> Has this code (or something like it) been used in production systems? 
-> If so, by whom and with what results?
+[1] https://lore.kernel.org/linux-trace-kernel/20251008184522.13201-1-krishnagopi487@gmail.com/
 
-The motivation came from silent stack corruption issues. They occur
-rarely but are extremely difficult to debug. I personally encountered
-two such bugs which each took weeks to isolate, and I know similar
-issues exist in other environments. KStackWatch was developed as a
-result of those debugging efforts. It has been used mainly in my own
-debugging environment and verified with controlled test cases
-(patches 17–21). If it had existed earlier, similar bugs could have
-been resolved much faster.
+Tomas Glozar (9):
+  Documentation/rtla: Fix typo in common_options.txt
+  Documentation/rtla: Fix typo in common_timerlat_options.txt
+  Documentation/rtla: Fix typo in rtla-timerlat-top.rst
+  Documentation/rtla: Fix typo in common_timerlat_options.txt
+  Documentation/rtla: Correct tracer name for common options
+  Documentation/rtla: Mention default priority
+  Documentation/rtla: Mention default cgroup state
+  Documentation/trace: Specify exact priority for timerlat
+  Documentation/rtla: Include defaults for tracer options
 
-> 
-> Has it actually found some kernel bugs yet?  If so, details please.
-
-It was designed to help diagnose bugs whose existence was already known
-but whose root cause was difficult to locate. So far it has been used
-in my personal environment and can be validated with controlled test
-cases in patches 17–21.
-
-> 
-> Can this be enabled on production systems?  If so, what is the
-> measured runtime overhead?
-
-I believe it can.  The overhead is summarized below.
-
-Without watching:
-  - Per-task context: 2 * sizeof(ulong) + 4 bytes (≈20 bytes on x86_64)
-
-With watching:
-  - Same per-task context as above
-  - One or more preallocated HWBPs (configurable, at least one)
-  - Small additional memory for managing HWBP and context state
-  - Runtime overhead (measured on x86_64):
-
-       Type                 |   Time (ns)  |  Cycles
-       -----------------------------------------------
-       entry with watch     |     10892    |   32620
-       entry without watch  |       159    |     466
-       exit  with watch     |     12541    |   37556
-       exit  without watch  |       124    |     369
-
-Would you prefer that I include the measurement code (used to collect the
-timing and cycle statistics shown above) in the next version of the patch
-set, or submit it separately as an additional patch?
+ Documentation/tools/rtla/common_options.txt      | 16 +++++++++++++---
+ .../tools/rtla/common_timerlat_options.txt       |  4 ++--
+ Documentation/tools/rtla/rtla-timerlat-top.rst   |  2 +-
+ Documentation/trace/timerlat-tracer.rst          | 12 ++++++------
+ 4 files changed, 22 insertions(+), 12 deletions(-)
 
 -- 
-Jinchao
+2.51.0
+
