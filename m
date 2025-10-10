@@ -1,247 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B67C26F297;
-	Fri, 10 Oct 2025 20:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47E530215B;
+	Fri, 10 Oct 2025 20:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760127640; cv=none; b=Ae1hcvR94aE5yyMLfI+VTB0HrXkbZinCU1pyuFPyLqJmjX8E8DpcBcxQXGaW4/YOACRcyIV0FWHgerYFb+c4yI3MLh1Lzs5qT2dV1tnvla6cY1x+262nJr4IDoZ7i3p7FLx80xl4AnX+FcV+K7i1t6oP1U31wTETfjFIzHcU2xo=
+	t=1760127988; cv=none; b=LGHRbmRF8Tt25c7s25Gt8n0w6UwU7ZkGAYZccwRT5bKTLdeAVbgiWPvoig7WeMSmLWnrpNitxcwaYcjhbCLrlraWqz/1KTzkD98EpipzaVDFL6FAhMUWb5ZhksYUKzMNc5j3Y9b5og2j6I0Rb104m7DjJr8oVBFRsMimbvFG0x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760127640; c=relaxed/simple;
-	bh=uVkz8lpHC9sRqbxmG0cbQgUT9iFYMlmYAvK7Zotg0qI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WMsx2JbF3x9/wYdZ3DcbXdJK3kxl1dZxCY5SnLWSz5V25Bjf+MsQ3RNaQwT0+S9vRy4PTPoCtLPoEqxTHFJnPzS1/vpeEJ7CfTNX1dcHGDT3gBp4cEflZkPx5XaSD/bHGuH2H+IIfuS3V4jo9eSVpHZT2rDj2UJKdyiVA+7YQgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ndUXUFIr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760127988; c=relaxed/simple;
+	bh=AscKgj05BtJh9IDBr3hGSKSH55FRqss4Bu8m5A4Qt98=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E6hWGqiYgBk5McO0NGOv/s2U9KO5hyjw2lXz00++A03y6ZQFWXdK7gf0CaaKYmTJKSsjGfm44KWe8aJg34IFKeR5PcMQGA8o41RV5WBE08kJFmuF3RMUu+CIBXpqht6u1Em4yaGoMzjJZCZyb0snIAisWef1fZHkb8G/7qV9uSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5m/ACAI; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ndUXUFIr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9D9C4CEF1;
-	Fri, 10 Oct 2025 20:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760127638;
-	bh=uVkz8lpHC9sRqbxmG0cbQgUT9iFYMlmYAvK7Zotg0qI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ndUXUFIrDC4sy+YuQodWLx1NncOMGEi6Ntd5aZvhTNWsNDQaAPxewqEYUeMV09/Ku
-	 YRH+TZg8HA/2chtSyilVNZpHT53rdKAfleUV94QOMXIEa1o7By8QktAbfxOWx1ZG1R
-	 1CTZEMay805+PBoPLgXOWOYA/u+H3OlmWCsx0hBKE/k/Rl5azUvLVWTqEGJ9yjLEH8
-	 JpDxQFed9N0KEiiENMtfEs6WsTKSXkPagVoYOJt8bd0Wpb/p+2q5Gmu/5ihNvknD95
-	 cupul+zpPbCfBdnZwS073t/xfaGc4MlUbco+Dlzb/PQzGJGOXBLwKhOeJHXCB7L9XM
-	 1AFubXAW7f21w==
-From: SeongJae Park <sj@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	akpm@linux-foundation.org,
-	david@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	vbabka@suse.cz,
-	alexandru.elisei@arm.com,
-	peterx@redhat.com,
-	rppt@kernel.org,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	axboe@kernel.dk,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	hch@infradead.org,
-	jack@suse.cz,
-	willy@infradead.org,
-	m.szyprowski@samsung.com,
-	robin.murphy@arm.com,
-	hannes@cmpxchg.org,
-	zhengqi.arch@bytedance.com,
-	shakeel.butt@linux.dev,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	minchan@kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 6/8] add cleancache documentation
-Date: Fri, 10 Oct 2025 13:20:34 -0700
-Message-Id: <20251010202034.58002-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251010011951.2136980-7-surenb@google.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5m/ACAI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760127987; x=1791663987;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AscKgj05BtJh9IDBr3hGSKSH55FRqss4Bu8m5A4Qt98=;
+  b=W5m/ACAIQ4ncsE5THaX4vwN3w8NwhqKl8cTxoV6K/WU1wDUWF07p1bgS
+   HEZSvylzwp9Balhl6U3kgjlHFeJOH3wZ5sdl0SzJq3K3eFYfp3V5DdGJ8
+   WcXgjdjx1Fy9FsvpKT3fKS0I74q5KtuPGV8px7BNYDnIvXkFvroH7A1Qd
+   GGAD2ovM6q25EJfB8uZWwPfwXPnXqAd0V4jwkxnFOqkuIGtr9+LNpos9s
+   ase7EYOBXUoxaaLkVQ3Ij/6g6wYNzDd/c6BSd6RQUzcs3GcQydpainuR2
+   ylxYTzqvmYrRhYWUqbTriQHBnvCNgcq8iv0aDmCd4SZPByTFeH2WYBlfG
+   Q==;
+X-CSE-ConnectionGUID: nxUdditGT4SdL4DPjIVB2Q==
+X-CSE-MsgGUID: UC+4J0GCQLSu0qoeU3WB5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="64974407"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="64974407"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 13:26:26 -0700
+X-CSE-ConnectionGUID: Fhe87ZQLTb6TwXu4exd1Hg==
+X-CSE-MsgGUID: kEAcKQVcRpKmqg4V6RHnnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="181010994"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2025 13:26:21 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7Jgx-000391-0y;
+	Fri, 10 Oct 2025 20:26:19 +0000
+Date: Sat, 11 Oct 2025 04:25:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Calligeros <jcalligeros99@gmail.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 06/13] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <202510110421.ZnJdu1ds-lkp@intel.com>
+References: <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
 
-Hello Suren,
+Hi James,
 
-On Thu,  9 Oct 2025 18:19:49 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+kernel test robot noticed the following build errors:
 
-> Document cleancache, it's APIs and sysfs interface.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  Documentation/mm/cleancache.rst | 112 ++++++++++++++++++++++++++++++++
->  MAINTAINERS                     |   1 +
+[auto build test ERROR on c746c3b5169831d7fb032a1051d8b45592ae8d78]
 
-I think this great document is better to be linked on mm/index.rst.
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Calligeros/dt-bindings-rtc-Add-Apple-SMC-RTC/20251010-092141
+base:   c746c3b5169831d7fb032a1051d8b45592ae8d78
+patch link:    https://lore.kernel.org/r/20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02%40gmail.com
+patch subject: [PATCH v3 06/13] hwmon: Add Apple Silicon SMC hwmon driver
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20251011/202510110421.ZnJdu1ds-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110421.ZnJdu1ds-lkp@intel.com/reproduce)
 
-Also, would it make sense to split the sysfs interface part and put under
-Documentation/admin-guide/mm/ ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110421.ZnJdu1ds-lkp@intel.com/
 
->  2 files changed, 113 insertions(+)
->  create mode 100644 Documentation/mm/cleancache.rst
-> 
-> diff --git a/Documentation/mm/cleancache.rst b/Documentation/mm/cleancache.rst
-> new file mode 100644
-> index 000000000000..deaf7de51829
-> --- /dev/null
-> +++ b/Documentation/mm/cleancache.rst
-> @@ -0,0 +1,112 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==========
-> +Cleancache
-> +==========
-> +
-> +Motivation
-> +==========
-> +
-> +Cleancache is a feature to utilize unused reserved memory for extending
-> +page cache.
-> +
-> +Cleancache can be thought of as a folio-granularity victim cache for clean
-> +file-backed pages that the kernel's pageframe replacement algorithm (PFRA)
-> +would like to keep around, but can't since there isn't enough memory. So
-> +when the PFRA "evicts" a folio, it stores the data contained in the folio
-> +into cleancache memory which is not directly accessible or addressable by
-> +the kernel (transcendent memory) and is of unknown and possibly
-> +time-varying size.
+All errors (new ones prefixed by >>):
 
-IMHO, "(transcendent memory)" better to be dropped, as it has removed by commit
-814bbf49dcd0 ("xen: remove tmem driver").
-
-> +
-> +Later, when a filesystem wishes to access a folio in a file on disk, it
-> +first checks cleancache to see if it already contains required data; if it
-> +does, the folio data is copied into the kernel and a disk access is
-> +avoided.
-> +
-> +The memory cleancache uses is donated by other system components, which
-> +reserve memory not directly addressable by the kernel. By donating this
-> +memory to cleancache, the memory owner enables its utilization while it
-> +is not used. Memory donation is done using cleancache backend API and any
-> +donated memory can be taken back at any time by its donor without no delay
-
-"without delay" or "with no delay" ?
-
-> +and with guarantees success. Since cleancache uses this memory only to
-> +store clean file-backed data, it can be dropped at any time and therefore
-> +the donor's request to take back the memory can be always satisfied.
-> +
-> +Implementation Overview
-> +=======================
-> +
-> +Cleancache "backend" (donor that provides transcendent memory), registers
-
-Again, "transcendent memory" part seems better to be dropped.
-
-> +itself with cleancache "frontend" and received a unique pool_id which it
-> +can use in all later API calls to identify the pool of folios it donates.
-> +Once registered, backend can call cleancache_backend_put_folio() or
-> +cleancache_backend_put_folios() to donate memory to cleancache. Note that
-> +cleancache currently supports only 0-order folios and will not accept
-> +larger-order ones. Once the backend needs that memory back, it can get it
-> +by calling cleancache_backend_get_folio(). Only the original backend can
-> +take the folio it donated from the cleancache.
-> +
-> +Kernel uses cleancache by first calling cleancache_add_fs() to register
-> +each file system and then using a combination of cleancache_store_folio(),
-> +cleancache_restore_folio(), cleancache_invalidate_{folio|inode} to store,
-> +restore and invalidate folio content.
-> +cleancache_{start|end}_inode_walk() are used to walk over folios inside
-> +an inode and cleancache_restore_from_inode() is used to restore folios
-> +during such walks.
-> +
-> +From kernel's point of view folios which are copied into cleancache have
-> +an indefinite lifetime which is completely unknowable by the kernel and so
-> +may or may not still be in cleancache at any later time. Thus, as its name
-> +implies, cleancache is not suitable for dirty folios. Cleancache has
-> +complete discretion over what folios to preserve and what folios to discard
-> +and when.
-> +
-> +Cleancache Performance Metrics
-> +==============================
-> +
-> +If CONFIG_CLEANCACHE_SYSFS is enabled, monitoring of cleancache performance
-> +can be done via sysfs in the `/sys/kernel/mm/cleancache` directory.
-> +The effectiveness of cleancache can be measured (across all filesystems)
-> +with provided stats.
-> +Global stats are published directly under `/sys/kernel/mm/cleancache` and
-> +include:
-
-``/sys/kernel/mm/cleancache`` ?
-
-> +
-> +``stored``
-> +	number of successful cleancache folio stores.
-> +
-> +``skipped``
-> +	number of folios skipped during cleancache store operation.
-> +
-> +``restored``
-> +	number of successful cleancache folio restore operations.
-> +
-> +``missed``
-> +	number of failed cleancache folio restore operations.
-> +
-> +``reclaimed``
-> +	number of folios reclaimed from the cleancache due to insufficient
-> +	memory.
-> +
-> +``recalled``
-> +	number of times cleancache folio content was discarded as a result
-> +	of the cleancache backend taking the folio back.
-> +
-> +``invalidated``
-> +	number of times cleancache folio content was discarded as a result
-> +	of invalidation.
-> +
-> +``cached``
-> +	number of folios currently cached in the cleancache.
-> +
-> +Per-pool stats are published under `/sys/kernel/mm/cleancache/<pool name>`
-
-``/sys/kernel/mm/cleancache/<pool name>`` ?
-
-> +where "pool name" is the name pool was registered under. These stats
-> +include:
-> +
-> +``size``
-> +	number of folios donated to this pool.
-> +
-> +``cached``
-> +	number of folios currently cached in the pool.
-> +
-> +``recalled``
-> +	number of times cleancache folio content was discarded as a result
-> +	of the cleancache backend taking the folio back from the pool.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1c97227e7ffa..441e68c94177 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6053,6 +6053,7 @@ CLEANCACHE
->  M:	Suren Baghdasaryan <surenb@google.com>
->  L:	linux-mm@kvack.org
->  S:	Maintained
-> +F:	Documentation/mm/cleancache.rst
->  F:	include/linux/cleancache.h
->  F:	mm/cleancache.c
->  F:	mm/cleancache_sysfs.c
-> -- 
-> 2.51.0.740.g6adb054d12-goog
+   drivers/hwmon/macsmc-hwmon.c: In function 'macsmc_hwmon_write_f32':
+>> drivers/hwmon/macsmc-hwmon.c:246:24: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     246 |                 fval = FIELD_PREP(FLT_SIGN_MASK, neg) |
+         |                        ^~~~~~~~~~
 
 
-Thanks,
-SJ
+vim +/FIELD_PREP +246 drivers/hwmon/macsmc-hwmon.c
+
+   225	
+   226	static int macsmc_hwmon_write_f32(struct apple_smc *smc, smc_key key, int value)
+   227	{
+   228		u64 val;
+   229		u32 fval = 0;
+   230		int exp = 0, neg;
+   231	
+   232		val = abs(value);
+   233		neg = val != value;
+   234	
+   235		if (val) {
+   236			int msb = __fls(val) - exp;
+   237	
+   238			if (msb > 23) {
+   239				val >>= msb - FLT_MANT_BIAS;
+   240				exp -= msb - FLT_MANT_BIAS;
+   241			} else if (msb < 23) {
+   242				val <<= FLT_MANT_BIAS - msb;
+   243				exp += msb;
+   244			}
+   245	
+ > 246			fval = FIELD_PREP(FLT_SIGN_MASK, neg) |
+   247			       FIELD_PREP(FLT_EXP_MASK, exp + FLT_EXP_BIAS) |
+   248			       FIELD_PREP(FLT_MANT_MASK, val);
+   249		}
+   250	
+   251		return apple_smc_write_u32(smc, key, fval);
+   252	}
+   253	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
