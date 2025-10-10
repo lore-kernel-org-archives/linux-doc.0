@@ -1,253 +1,474 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5308C2ED860
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 21:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E21EEC0;
+	Fri, 10 Oct 2025 21:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760130587; cv=none; b=rD9WRMPFKvWaZQRykpAtCYvIc5N/dXbPgFLv5gVA01FIMPVeBZRNqB+d1885UV9sxyVJHzJNDggXz5Iqk7PVtMpgwRMON5k1QRf1wJghhKXH8NpnF0weIagoD3KNmf0RDAIb40Qo2x87WARJvDlZzqenCg/UKqNwlX4hbMAlD6w=
+	t=1760130667; cv=none; b=FmbzT49J7lfxtpPOQwllznRLAJ/FAWmpWfqfJZK4AaR2SfhPFA9cJlsnJoIS1AxUOXMRUUkVXwqid+8luCfEgWOq9LgJ6131MclL/mhKhXY2ILjOstkfQL/a0wqjaYIlayK+dlukbd/+rDYG9EO4GCkTjw9pbPVHC2U8sVnL+eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760130587; c=relaxed/simple;
-	bh=hgyCFWAvyhgvatIU/K0unb+MfKo3mrh42mP8FTzGTPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i5NvaT5FpA1QJa5qTLDjfneqG2JZlBBkPOROkK4UJey5wiPcgkm1kCpcQ+ixuFH2/t7WmRg0nVxaZgJ/4+rmkZZBv2Go7CzN6X7C7zf1zBKwFC2vx19xwhQteAmrwR1m65duh9eLrfafXhXNcAto1A5+cd1mUZVPxOEjnjFWGd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxdqAXmt; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760130667; c=relaxed/simple;
+	bh=TBIB0hDbTDA+KeeIuVi7Om3tzVvXuZINkksstgyV1hs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=p1/hr7Zu2+eyFrew61WSGdIvsaHDHIwLvkLmQ06oURxQcEpVlTtpBU4Tvv2IB6U1S4u3xBEhD1xri1we6k4qx7elvITHUQF67Q2TH2ZID/pXTo8F5HU+ws+3G4wvqGMNLY12yKVodIfzPIAXBgUH6bExVb4uh7UuVixTpF3M2XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=is1sJJNg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxdqAXmt"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46e3a50bc0fso19220875e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 14:09:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760130583; x=1760735383; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YL9Lfr4K4sqYkwAFmLjCmYw/FX8K54aol5jtmBg3r+U=;
-        b=DxdqAXmtcHNMWwewyW+k1taGaAShtO0P2C+yfsjFOkZTZtpDtzkzZ5l3iGi/5DvowN
-         0wvOQJnPkuUJbc6dw5huK87ykQlpIld3BkWelKRpOC9b2Gb2SV9faHety9OCu9CKHXNL
-         bnHsbbpWFCh5UAXfL1YgutpOhbZEIE0okVWwlzzlCw0UPTiPlfBR8monmq7gbtf9+f+U
-         lnc3g7Lm0qPbKULzR8GKxj8ABqMo3b0xjUlXRJRHdZMvI6rgsX5ycFBqIFJvJi07tOvv
-         aTG9qc4FHKAMg5pI/l5OgjaMLFH0KJTagMtE+EN2oe3SZ8f83KO9ushWvmeNjrGVTM88
-         /ABw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760130583; x=1760735383;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YL9Lfr4K4sqYkwAFmLjCmYw/FX8K54aol5jtmBg3r+U=;
-        b=UYVXkqK1qcSadKpO9gE2qqRM1ZXDYKiiy+RKcu25PTse/03iGklV3/FJV3tYMpRAb5
-         jdojzUSoaufEZQlwCfUHOCjz3/1oQnflLQOvxzU+nxaqJ5C7OjXx5/TQZukEyk8Q7hTG
-         GAVUi1aLkvxodMntV19xgSSbCkmDHvWNd8MydsmjxgPKYd/fKI/ncUEZAq1jHUv0x2DO
-         FReh8VfcGIXjTXIp6hAD7j2SctqDcbUWYbfhqOVORT20ZuChwMta7GN9EzUOqmI6rkIC
-         S3kM9BQ9Ij8EWLeaQyVSZZ/ff1dU6eJXwscB5kJvNr5sTIzHu6/tPC0pBBcUp2nqQ4ss
-         7zww==
-X-Forwarded-Encrypted: i=1; AJvYcCUaWmGGNdKXXLUNSN5WjWvBLdpX9ZmGOlTyeSJ3vsFSdrNgz61wMF7UNFxl/7kBmFomLFaPpOFOSJI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTzeei9FdifXuXk5MEehWde/BjVsqAEiC4YeF9p8rOrnqMtL1g
-	DghYOCGXr0v9+nXhiO4pGhLn06M2cVPprnDWfpwddpIfudgDtYF3rEGn
-X-Gm-Gg: ASbGnctRL20rWuoJ23sMO3jrWF/WFfz+UA0zqk1nhvG6ZgeG0kw2A0jEOUTU8snCZet
-	VDuDF5zJ2Wo277kKB4LASLIr9KovuOZTKRbuE52FFIcIhoEgEfrEarWpSwK94MuWxToYugmt2cP
-	rZgCnFA7uEnq7bYYZkutxU6s4SJu9LXQStgGXzRiWwG+FPIQeIG6pDT9DpFZKT5H38hvVlo0+eZ
-	4Ma/vyqLi5+eJ7HkJyOosZuLDaXfCfmpDRnLzUERPpHQ74+vV0lFIMTCxO2U5xI8TKxmFDnVWbJ
-	SCD9LgKycABzGge8ATSXHb+K9zuoH0MgllIyq32nSec/7qNAUW8s5ugFwm/ixq2rmRq0elr5gwg
-	9bkiXDHtG6lkqM8Pb+rtLXRsZe7ae+WyFWg3hq+/A8A1uvKYX2r84ld6VFLVrW+fN0kiCg2IYnJ
-	on9VvJnRlXL1mcYv2jNBb0XmRCRfVYJikYLHz8vWvslw0tMOknhu3IDg==
-X-Google-Smtp-Source: AGHT+IGO8jgeWqNOOxRgUfgzCS0O4EYngbpmbTcHl8ghsaUEWelooW8Epj+R+0pCYLOszI7amA9a+w==
-X-Received: by 2002:a05:6000:2509:b0:3ee:147a:9df with SMTP id ffacd0b85a97d-4266e7df9d1mr8719807f8f.39.1760130583273;
-        Fri, 10 Oct 2025 14:09:43 -0700 (PDT)
-Received: from ARSENIURE.localdomain (lfbn-tou-1-1184-225.w90-76.abo.wanadoo.fr. [90.76.241.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e13b6sm5870804f8f.44.2025.10.10.14.09.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 14:09:42 -0700 (PDT)
-Date: Fri, 10 Oct 2025 23:09:39 +0200
-From: Lucas GISSOT <lucas.gissot.pro@gmail.com>
-To: Jonathan Denose <jdenose@google.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Angela Czubak <aczubak@google.com>,
-	Sean O'Brien <seobrien@google.com>
-Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
-Message-ID: <aOl2E75q9L1rCyzd@ARSENIURE.localdomain>
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
- <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com>
- <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
- <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
- <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
- <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
- <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="is1sJJNg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F11C4CEF1;
+	Fri, 10 Oct 2025 21:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760130664;
+	bh=TBIB0hDbTDA+KeeIuVi7Om3tzVvXuZINkksstgyV1hs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=is1sJJNgKA4CXmzla/cTDZQh30fnx0sR41KAdUpnfpnpwpofzG4BmhjYMxF7205MK
+	 zW3CjWqxzXIh2eRJ7/H8nkxYu82z1qVrhc8dWj/W3OPanWONeakAz6bmuSzBnXRv9E
+	 W5e9KdzgI69ZOseyc2zAyBKPTZXgpy9uuc4fS4VuiJiBfFkOtp9OuT6JMxvK0yKB6Y
+	 aprKqjxqdWnPCQCUKe9oKAIOlIs8wTq14HzWHL9iMPRLboW9r+o44aa6qH0zyfrvIU
+	 LwUqjKExWkJN1Vr+daO7vwfMXYzotgsBmCbTgo3UeXBRPGg8HZGL44oXptg83ungn9
+	 p31CNwbET3PGA==
+From: SeongJae Park <sj@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	akpm@linux-foundation.org,
+	david@redhat.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	alexandru.elisei@arm.com,
+	peterx@redhat.com,
+	rppt@kernel.org,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	axboe@kernel.dk,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	hch@infradead.org,
+	jack@suse.cz,
+	willy@infradead.org,
+	m.szyprowski@samsung.com,
+	robin.murphy@arm.com,
+	hannes@cmpxchg.org,
+	zhengqi.arch@bytedance.com,
+	shakeel.butt@linux.dev,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	minchan@kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Minchan Kim <minchan@google.com>
+Subject: Re: [PATCH 7/8] mm: introduce GCMA
+Date: Fri, 10 Oct 2025 14:11:01 -0700
+Message-Id: <20251010211101.59275-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251010011951.2136980-8-surenb@google.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
 
-Hi,
-I applied Randy's patch and built with CONFIG_HID_MULTITOUCH=m and
-CONFIG_HID_HAPTIC=m, it builts; but there is an ld error on hid_haptic_*
-functions as soon as CONFIG_HID_MULTITOUCH is changed to yes.
+Hello Suren,
 
-Is this .config not something desired, and then HID_HAPTIC should not be
-a tristate (if I understood correctly), or is there another problem?
+On Thu,  9 Oct 2025 18:19:50 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+
+> From: Minchan Kim <minchan@google.com>
+> 
+> This patch introduces GCMA (Guaranteed Contiguous Memory Allocator)
+> cleacache backend which reserves some amount of memory at the boot
+> and then donates it to store clean file-backed pages in the cleancache.
+> GCMA aims to guarantee contiguous memory allocation success as well as
+> low and deterministic allocation latency.
+> 
+> Notes:
+> Originally, the idea was posted by SeongJae Park and Minchan Kim [1].
+> Later Minchan reworked it to be used in Android as a reference for
+> Android vendors to use [2].
+> 
+> [1] https://lwn.net/Articles/619865/
+> [2] https://android-review.googlesource.com/q/topic:%22gcma_6.12%22
+> 
+> Signed-off-by: Minchan Kim <minchan@google.com>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  MAINTAINERS          |   2 +
+>  include/linux/gcma.h |  36 +++++++
+>  mm/Kconfig           |  15 +++
+>  mm/Makefile          |   1 +
+>  mm/gcma.c            | 231 +++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 285 insertions(+)
+>  create mode 100644 include/linux/gcma.h
+>  create mode 100644 mm/gcma.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 441e68c94177..95b5ad26ec11 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16361,6 +16361,7 @@ F:	Documentation/admin-guide/mm/
+>  F:	Documentation/mm/
+>  F:	include/linux/cma.h
+>  F:	include/linux/dmapool.h
+> +F:	include/linux/gcma.h
+>  F:	include/linux/ioremap.h
+>  F:	include/linux/memory-tiers.h
+>  F:	include/linux/page_idle.h
+> @@ -16372,6 +16373,7 @@ F:	mm/dmapool.c
+>  F:	mm/dmapool_test.c
+>  F:	mm/early_ioremap.c
+>  F:	mm/fadvise.c
+> +F:	mm/gcma.c
+>  F:	mm/ioremap.c
+>  F:	mm/mapping_dirty_helpers.c
+>  F:	mm/memory-tiers.c
+> diff --git a/include/linux/gcma.h b/include/linux/gcma.h
+> new file mode 100644
+> index 000000000000..20b2c85de87b
+> --- /dev/null
+> +++ b/include/linux/gcma.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __GCMA_H__
+> +#define __GCMA_H__
+> +
+> +#include <linux/types.h>
+> +
+> +#ifdef CONFIG_GCMA
+> +
+> +int gcma_register_area(const char *name,
+> +		       unsigned long start_pfn, unsigned long count);
+> +
+> +/*
+> + * NOTE: allocated pages are still marked reserved and when freeing them
+> + * the caller should ensure they are isolated and not referenced by anyone
+> + * other than the caller.
+> + */
+> +int gcma_alloc_range(unsigned long start_pfn, unsigned long count, gfp_t gfp);
+> +int gcma_free_range(unsigned long start_pfn, unsigned long count);
+> +
+> +#else /* CONFIG_GCMA */
+> +
+> +static inline int gcma_register_area(const char *name,
+> +				     unsigned long start_pfn,
+> +				     unsigned long count)
+> +		{ return -EOPNOTSUPP; }
+> +static inline int gcma_alloc_range(unsigned long start_pfn,
+> +				   unsigned long count, gfp_t gfp)
+> +		{ return -EOPNOTSUPP; }
+> +
+> +static inline int gcma_free_range(unsigned long start_pfn,
+> +				   unsigned long count)
+> +		{ return -EOPNOTSUPP; }
+> +
+> +#endif /* CONFIG_GCMA */
+> +
+> +#endif /* __GCMA_H__ */
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 9f4da8a848f4..41ce5ef8db55 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1013,6 +1013,21 @@ config CMA_AREAS
+>  
+>  	  If unsure, leave the default value "8" in UMA and "20" in NUMA.
+>  
+> +config GCMA
+> +       bool "GCMA (Guaranteed Contiguous Memory Allocator)"
+> +       depends on CLEANCACHE
+> +	help
+> +	  This enables the Guaranteed Contiguous Memory Allocator to allow
+> +	  low latency guaranteed contiguous memory allocations. Memory
+> +	  reserved by GCMA is donated to cleancache to be used as pagecache
+> +	  extension. Once GCMA allocation is requested, necessary pages are
+> +	  taken back from the cleancache and used to satisfy the request.
+> +	  Cleancache guarantees low latency successful allocation as long
+> +	  as the total size of GCMA allocations does not exceed the size of
+> +	  the memory donated to the cleancache.
+> +
+> +	  If unsure, say "N".
+> +
+>  #
+>  # Select this config option from the architecture Kconfig, if available, to set
+>  # the max page order for physically contiguous allocations.
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 845841a140e3..05aee66a8b07 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -149,3 +149,4 @@ obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
+>  obj-$(CONFIG_PT_RECLAIM) += pt_reclaim.o
+>  obj-$(CONFIG_CLEANCACHE) += cleancache.o
+>  obj-$(CONFIG_CLEANCACHE_SYSFS)	+= cleancache_sysfs.o
+> +obj-$(CONFIG_GCMA)	+= gcma.o
+> diff --git a/mm/gcma.c b/mm/gcma.c
+> new file mode 100644
+> index 000000000000..3ee0e1340db3
+> --- /dev/null
+> +++ b/mm/gcma.c
+> @@ -0,0 +1,231 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * GCMA (Guaranteed Contiguous Memory Allocator)
+> + *
+> + */
+> +
+> +#define pr_fmt(fmt) "gcma: " fmt
+> +
+> +#include <linux/cleancache.h>
+> +#include <linux/gcma.h>
+> +#include <linux/hashtable.h>
+> +#include <linux/highmem.h>
+> +#include <linux/idr.h>
+> +#include <linux/slab.h>
+> +#include <linux/xarray.h>
+> +#include "internal.h"
+> +
+> +#define MAX_GCMA_AREAS		64
+> +#define GCMA_AREA_NAME_MAX_LEN	32
+> +
+> +struct gcma_area {
+> +	int pool_id;
+> +	unsigned long start_pfn;
+> +	unsigned long end_pfn;
+> +	char name[GCMA_AREA_NAME_MAX_LEN];
+> +};
+> +
+> +static struct gcma_area areas[MAX_GCMA_AREAS];
+> +static atomic_t nr_gcma_area = ATOMIC_INIT(0);
+> +static DEFINE_SPINLOCK(gcma_area_lock);
+> +
+> +static int free_folio_range(struct gcma_area *area,
+> +			     unsigned long start_pfn, unsigned long end_pfn)
+> +{
+> +	unsigned long scanned = 0;
+> +	struct folio *folio;
+> +	unsigned long pfn;
+> +
+> +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+> +		int err;
+> +
+> +		if (!(++scanned % XA_CHECK_SCHED))
+> +			cond_resched();
+> +
+> +		folio = pfn_folio(pfn);
+> +		err = cleancache_backend_put_folio(area->pool_id, folio);
+
+Why don't you use pfn_folio() directly, like alloc_folio_range() does?
+
+> +		if (WARN(err, "PFN %lu: folio is still in use\n", pfn))
+> +			return -EINVAL;
+
+Why don't you return err, like alloc_folio_range() does?
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int alloc_folio_range(struct gcma_area *area,
+> +			      unsigned long start_pfn, unsigned long end_pfn,
+> +			      gfp_t gfp)
+> +{
+> +	unsigned long scanned = 0;
+> +	unsigned long pfn;
+> +
+> +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+> +		int err;
+> +
+> +		if (!(++scanned % XA_CHECK_SCHED))
+> +			cond_resched();
+> +
+> +		err = cleancache_backend_get_folio(area->pool_id, pfn_folio(pfn));
+> +		if (err) {
+> +			free_folio_range(area, start_pfn, pfn);
+> +			return err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct gcma_area *find_area(unsigned long start_pfn, unsigned long end_pfn)
+> +{
+> +	int nr_area = atomic_read_acquire(&nr_gcma_area);
+> +	int i;
+> +
+> +	for (i = 0; i < nr_area; i++) {
+> +		struct gcma_area *area = &areas[i];
+> +
+> +		if (area->end_pfn <= start_pfn)
+> +			continue;
+> +
+> +		if (area->start_pfn > end_pfn)
+> +			continue;
+> +
+> +		/* The entire range should belong to a single area */
+> +		if (start_pfn < area->start_pfn || end_pfn > area->end_pfn)
+> +			break;
+> +
+> +		/* Found the area containing the entire range */
+> +		return area;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +int gcma_register_area(const char *name,
+> +		       unsigned long start_pfn, unsigned long count)
+> +{
+> +	LIST_HEAD(folios);
+> +	int i, pool_id;
+> +	int nr_area;
+> +	int ret = 0;
+> +
+> +	pool_id = cleancache_backend_register_pool(name);
+> +	if (pool_id < 0)
+> +		return pool_id;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		struct folio *folio;
+> +
+> +		folio = pfn_folio(start_pfn + i);
+> +		folio_clear_reserved(folio);
+> +		folio_set_count(folio, 0);
+> +		list_add(&folio->lru, &folios);
+> +	}
+> +
+> +	cleancache_backend_put_folios(pool_id, &folios);
+> +
+> +	spin_lock(&gcma_area_lock);
+> +
+> +	nr_area = atomic_read(&nr_gcma_area);
+> +	if (nr_area < MAX_GCMA_AREAS) {
+> +		struct gcma_area *area = &areas[nr_area];
+> +
+> +		area->pool_id = pool_id;
+> +		area->start_pfn = start_pfn;
+> +		area->end_pfn = start_pfn + count;
+> +		strscpy(area->name, name);
+> +		/* Ensure above stores complete before we increase the count */
+> +		atomic_set_release(&nr_gcma_area, nr_area + 1);
+> +	} else {
+> +		ret = -ENOMEM;
+> +	}
+> +
+> +	spin_unlock(&gcma_area_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gcma_register_area);
+> +
+> +int gcma_alloc_range(unsigned long start_pfn, unsigned long count, gfp_t gfp)
+> +{
+> +	unsigned long end_pfn = start_pfn + count;
+> +	struct gcma_area *area;
+> +	struct folio *folio;
+> +	int err, order = 0;
+> +
+> +	gfp = current_gfp_context(gfp);
+> +	if (gfp & __GFP_COMP) {
+> +		if (!is_power_of_2(count))
+> +			return -EINVAL;
+> +
+> +		order = ilog2(count);
+> +		if (order >= MAX_PAGE_ORDER)
+> +			return -EINVAL;
+> +	}
+> +
+> +	area = find_area(start_pfn, end_pfn);
+> +	if (!area)
+> +		return -EINVAL;
+> +
+> +	err = alloc_folio_range(area, start_pfn, end_pfn, gfp);
+> +	if (err)
+> +		return err;
+> +
+> +	/*
+> +	 * GCMA returns pages with refcount 1 and expects them to have
+> +	 * the same refcount 1 when they are freed.
+> +	 */
+> +	if (order) {
+> +		folio = pfn_folio(start_pfn);
+> +		set_page_count(&folio->page, 1);
+> +		prep_compound_page(&folio->page, order);
+> +	} else {
+> +		for (unsigned long pfn = start_pfn; pfn < end_pfn; pfn++) {
+> +			folio = pfn_folio(pfn);
+> +			set_page_count(&folio->page, 1);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(gcma_alloc_range);
+
+I'm wondering if the rule of exporting symbols only for in-tree modules that
+use the symbols should be applied here or not, and why.
+
+> +
+> +int gcma_free_range(unsigned long start_pfn, unsigned long count)
+> +{
+> +	unsigned long end_pfn = start_pfn + count;
+> +	struct gcma_area *area;
+> +	struct folio *folio;
+> +
+> +	area = find_area(start_pfn, end_pfn);
+> +	if (!area)
+> +		return -EINVAL;
+> +
+> +	folio = pfn_folio(start_pfn);
+> +	if (folio_test_large(folio)) {
+> +		int expected = folio_nr_pages(folio);
+
+folio_nr_pages() return 'unsigned long'.  Would it be better to match the type?
+
+> +
+> +		if (WARN(count != expected, "PFN %lu: count %lu != expected %d\n",
+> +			  start_pfn, count, expected))
+> +			return -EINVAL;
+> +
+> +		if (WARN(!folio_ref_dec_and_test(folio),
+> +			 "PFN %lu: invalid folio refcount when freeing\n", start_pfn))
+> +			return -EINVAL;
+> +
+> +		free_pages_prepare(&folio->page, folio_order(folio));
+> +	} else {
+> +		for (unsigned long pfn = start_pfn; pfn < end_pfn; pfn++) {
+> +			folio = pfn_folio(pfn);
+> +			if (folio_nr_pages(folio) == 1)
+> +				count--;
+> +
+> +			if (WARN(!folio_ref_dec_and_test(folio),
+> +				 "PFN %lu: invalid folio refcount when freeing\n", pfn))
+> +				return -EINVAL;
+
+Don't we need to increase the previously decreased folio refcounts?
+
+> +
+> +			free_pages_prepare(&folio->page, 0);
+> +		}
+> +		WARN(count != 0, "%lu pages are still in use!\n", count);
+
+Is WARN() but not returning error here ok?
+
+Also, why don't you warn earlier above if 'folio_nr_pages(folio) != 1' ?
+
+> +	}
+> +
+> +	return free_folio_range(area, start_pfn, end_pfn);
+> +}
+> +EXPORT_SYMBOL_GPL(gcma_free_range);
+
+Like the gcma_alloc_range() case, I'm curious if this symbol exporting is
+somewhat intended and the intention is explained.
+
+> -- 
+> 2.51.0.740.g6adb054d12-goog
+
 
 Thanks,
-
-Lucas
-
-On Fri, Oct 10, 2025 at 03:30:05PM -0500, Jonathan Denose wrote:
-> Hi all,
-> 
-> Thanks for looking into this.
-> 
-> On Fri, Oct 10, 2025 at 1:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> >
-> > Hi,
-> >
-> > I think I found it... see below.
-> >
-> >
-> > On 10/9/25 11:48 PM, Thorsten Leemhuis wrote:
-> > > [Top-Posting for easier consumption]
-> > >
-> > > Mainly writing this mail to bring Lucas GISSOT in here, who reported the
-> > > same error yesterday here:
-> > > https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
-> > >
-> > > Lucas there suggested:
-> > > """but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
-> > > hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
-> > > Kconfig updated."""
-> > >
-> > > And Randy: Thx for the closer investigation! It explains some of the
-> > > "that feels odd, am I holding this wrong" feeling I had when reporting this.
-> > >
-> > > Ciao, Thorsten
-> > >
-> > > On 10/10/25 06:50, Randy Dunlap wrote:
-> > >> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
-> > >>> On 8/19/25 01:08, Jonathan Denose wrote:
-> > >>>> From: Angela Czubak <aczubak@google.com>
-> > >>>>
-> > >>>> Define a new structure that contains simple haptic device configuration
-> > >>>> as well as current state.
-> > >>>> Add functions that recognize auto trigger and manual trigger reports
-> > >>>> as well as save their addresses.Hi,
-> > >>>> Verify that the pressure unit is either grams or newtons.
-> > >>>> Mark the input device as a haptic touchpad if the unit is correct and
-> > >>>> the reports are found.
-> > >>>>  [...]
-> > >>>> +config HID_HAPTIC
-> > >>>> +  tristate "Haptic touchpad support"
-> > >>>> +  default n
-> > >>>> +  help
-> > >>>> +  Support for touchpads with force sensors and haptic actuators instead of a
-> > >>>> +  traditional button.
-> > >>>> +  Adds extra parsing and FF device for the hid multitouch driver.
-> > >>>> +  It can be used for Elan 2703 haptic touchpad.
-> > >>>> +
-> > >>>> +  If unsure, say N.
-> > >>>> +
-> > >>>>  menu "Special HID drivers"
-> > >>>
-> > >>> I suspect this change is related to a build error I ran into today:
-> > >>>
-> > >>>   MODPOST Module.symvers
-> > >>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
-> > >>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
-> > >>>
-> > >>> The config where this occurred had this:
-> > >>>
-> > >>> CONFIG_HID=y
-> > >>> CONFIG_HID_MULTITOUCH=m
-> > >>> CONFIG_HID_HAPTIC=m
-> > >>>
-> > >>> Changing the latter to "CONFIG_HID_HAPTIC=y" fixed the problem for me.
-> > >>
-> > >> Sure, but that's just covering up the problem.
-> > >>> First, I get this build error:
-> > >>
-> > >> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
-> > >> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-haptic.o
-> > >>
-> >
-> > ISTM that tristate is incompatible with this newly added Makefile
-> > line:
-> >
-> > +hid-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
-> >
-> > hid-* lists files that should be builtin, not loadable modules.
-> > These should all be hid-y.  AFAIK, hid-m is not useful.
-> > (A maintainer can correct me as needed.)
-> >
-> > So adding a MODULE_LICENSE() and MODULE_DESCRIPTION() to
-> > hid-haptic.c and changing drivers/hid/Makefile to use
-> > obj-$(CONFIG_HID_HAPTIC_        += hid-haptic.o
-> >
-> > fixes the build errors for me.
-> >
-> > Angela, Jonathan D., is there any reason that
-> > hid-haptic needs to be builtin instead of a loadable
-> > module?  It's no problem for hid-multitouch.ko to call
-> > into hid-haptic.ko (both as loadable modules) as long as
-> > hid-haptic.ko is loaded first.
-> >
-> As long as hid-multitouch.ko is able to call into hid-haptic.ko I
-> don't see any issues, but is there a way to enforce that when
-> CONFIG_HID_HAPTIC is enabled, hid-haptic.ko will be loaded before
-> hid-multitouch.ko?
-> >
-> > Thanks.
-> >
-> > ~Randy
-> > ---
-> > ---
-> >  drivers/hid/hid-haptic.c |    3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > --- linux.orig/drivers/hid/hid-haptic.c
-> > +++ linux/drivers/hid/hid-haptic.c
-> > @@ -10,6 +10,9 @@
-> >
-> >  #include "hid-haptic.h"
-> >
-> > +MODULE_DESCRIPTION("HID haptic touchpad support");
-> > +MODULE_LICENSE("GPL");
-> > +
-> >  void hid_haptic_feature_mapping(struct hid_device *hdev,
-> >                                 struct hid_haptic_device *haptic,
-> >                                 struct hid_field *field, struct hid_usage *usage)
-> > ---
-> >  drivers/hid/Makefile |    3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > --- linux.orig/drivers/hid/Makefile
-> > +++ linux/drivers/hid/Makefile
-> > @@ -4,7 +4,8 @@
-> >  #
-> >  hid-y                  := hid-core.o hid-input.o hid-quirks.o
-> >  hid-$(CONFIG_DEBUG_FS)         += hid-debug.o
-> > -hid-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
-> > +
-> > +obj-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
-> >
-> >  obj-$(CONFIG_HID_BPF)          += bpf/
-> >
-> >
-> --
-> Jonathan
+SJ
