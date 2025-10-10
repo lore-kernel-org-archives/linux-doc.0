@@ -1,109 +1,92 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAEE2F5A10
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 15:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C542F7AD8;
+	Fri, 10 Oct 2025 15:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760108562; cv=none; b=j0B192OY7rrjAXzljNqt0BvNePHf46ma/blC33wuNacApKYdxIKFCcvolvmdMsMyTAK+cBqSIjkVvhhVYOI5in8DTteMuaX019pl3uZIzFJMWehmgxoUFPphZ3qZaKpWh/DP7LpTxjcvr+nGitPMqScp+8KbPhdV9opqAkKmkSs=
+	t=1760108667; cv=none; b=hzmqO0O9H0dBuBVZQb4MBW6wkP3VCXIbC9phXdIrmfvWwN/E6JpzQ6UqFwRWN9+THpOJO8EYgHSo/qvrfW7FnjUHipcIsyNKrIb/YEhCHhEyPcTS79GfPm/QVsP3XGF+X9m6XSfeU4IpGGPIxuI0zx3uXB3DLz/JCnMQli6Pn5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760108562; c=relaxed/simple;
-	bh=lLjhJqbBDQ/a2E91zif4RZ281K6W6HFigWXT0cxbz3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=StXXeTwxPXTFKEoeU3MWiXWp3/HsoHG8QyfmccWMfyfWA7PoMhLwjffYWfjzUAyQVuugpWPLqBI7d4DW02sxSikTB0Bq1xgFdxfxkDFZ9IO/aNUPLOJUNgqoq/a2YG0zrEPNnhFrf/MfKVubb90tgKqk6tUXgK6yOX0P7r8COuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFLDqTBw; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760108667; c=relaxed/simple;
+	bh=GfJuozII+KfzUcoxGxodQql3nDzRknSlAkbdqk4rpmU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rvhXhJRH3qvWnFt3Zl7AuvXEOCTxs27I7YH83E9JNEwe3gf5ntTGnpLaqtbudscEFW61lPmD2nLBYCrDAYhVHKSj2v13vUqtRlxJ+2KCH4UGAPMv4RzGyKlcSjoawiSyUcA8FMGaPfrKNF+WBWSZQ/5hG+TFJ67jp11env2K5p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iE4KOTlz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+BVHmD9P; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFLDqTBw"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b403bb7843eso454654566b.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 08:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760108558; x=1760713358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lLjhJqbBDQ/a2E91zif4RZ281K6W6HFigWXT0cxbz3M=;
-        b=aFLDqTBwDW9/tslHGMMpz/fDXm/8YFeWeEqOIcghoh/WbHIq4K/0SzxFSFr2C8rGcg
-         FzfA6mauz29MwswTSj8YO3mq3cxhh5u7GFdf5ExSSfl6BXbILBg23XGuvlNp3mANuW6S
-         eel9qNFJhrnpSPxNuvU8zfBQImKbaXpPm7yI2z/z99IQuraI1weEKXaWKAoKN2dn1Fia
-         VeA9V8C1Loi2AzEhqtTtkmVxXU3/XSg2XO66Oqk58zTi4gP34AT/wGmHBqeZyuMiW54A
-         2nUtDEww8Cwcun3qpGWQvCqHEXtidVmA+q8Oy3lJypcr/DIo7Im2rac59BUjorWx/gNF
-         KEvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760108558; x=1760713358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lLjhJqbBDQ/a2E91zif4RZ281K6W6HFigWXT0cxbz3M=;
-        b=eHFYnMOmRNiJGkAgtSHGDeglnoSIIOuPPVYfGdahyf+P9wCc4udBwUCzruHOhmBhKC
-         olxGX0+ZE7mLXRwcDCnSt/IMl9C6ZE84l5MKz2VcnbVeFwecpVeohxBo565rlC6LeBJh
-         fH5yJ0/0vM/8Z6VA0ASdf9+SpH6dPc6XZ5ZN0paAyi+7pmtlZkmDgOOrpq3DwcTKozVU
-         2aGQuj0AF+diu1vrjTTR/0rF3nBM+f6yD1o7qI/95j4y/PYBf1i3nOj0lF4y91Q2yWO/
-         jEF3rkF84F9NLFYbzXh+COgLXzNTCvWyvU3CPy1G3kjAAyu6zMtPscxR9CoG9XpLjkV/
-         UE+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXT0OkeHilgrP+xnGQ22FKgJF5MF0rB7T2u8Wecm13Tq50+M6cHVtY9LnEBtlhvL90yUc85u0NlxWY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxx5soyG8Z3SwRm+ZpoLbw+6MFq7DcFkpuqmSCqn++sUZuPbuvq
-	YmJdnuoP1jvHfROoPpNeWjgleGCKfqIZ9dx/FenfUXC8t6T4hu5q/s0/NEao51rtsb39ulOhT+x
-	1CRhRAIwAaOHTewdtsGGZl2O9YmbjLbA=
-X-Gm-Gg: ASbGnctXaPn6Py3UQos2YqWyZF4NCcr49prlQm5IcoPbJjiyGxN5uVnFr6WSWgWVzH/
-	5geGirrNt0TY4l3XHouL3uJzN+8U4jxrPqVCnJDuQ0kloMUntQCWraElJbEg4vHpHukIblhjFb2
-	9WC4s0BfFvDXvB0W2zpNx6v6x9FMw/6ePbrsL7d3ac6NLSZNLNn28XwMoeQiTonhfNYh7AxrtRb
-	onmk/vaJQjXWFQOU+04er3QNA==
-X-Google-Smtp-Source: AGHT+IGa/polL6/8Ynsft44cUD0O1NPKwafCC8Smc6nmBnm4TDK7NhR64Y4hIQgBMI+z098vLRzD8f+sU8sdugojvoo=
-X-Received: by 2002:a17:906:c104:b0:b04:9ad9:5b29 with SMTP id
- a640c23a62f3a-b50ac5d1e3bmr1407180966b.54.1760108556823; Fri, 10 Oct 2025
- 08:02:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iE4KOTlz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+BVHmD9P"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1760108663;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lg6gbhiEb2b9MJ+4TBeN5TtqEY4lXSk7G+sLUT4nD4w=;
+	b=iE4KOTlzSoaSLXpDv053i2/qeVegBOOzykZKD7iWCBaAoj22a0rUM3By2zfmzcr3fmjypy
+	+thyyEsufA0ExX+nulR4UZtH50/bFUAiPRO2GkPHjXE89K4q5jWf0v/9uHzzgHDc4l82kG
+	+k0AZPWvm8feP4azoHwFL2twRlXj0v9itsyZqh1ZEyZHz8jLAnpQICb31IZl16SoPXLUjm
+	vFmsfZulFF56wK1zyBeJwD3FNGXDjqaOdAf90cG3LAgI6r6nY+MQA8Nle6f7U4JewVI4wJ
+	ginmBFnLm6OHrHb8AGE06quiWF70a252JecbQuII212wmVic5sJAUb6iroLm4w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1760108663;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lg6gbhiEb2b9MJ+4TBeN5TtqEY4lXSk7G+sLUT4nD4w=;
+	b=+BVHmD9PDx7Psn9jBHZQ5HifBpC6JkbEbxicCHY/xuAScMO1PCmTHm22bNeL1ernVrsooQ
+	vtXZXQksGBEdw5Aw==
+To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>, Tomas Glozar <tglozar@redhat.com>,
+ Juri Lelli <jlelli@redhat.com>, Clark Williams <williams@redhat.com>, John
+ Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v2 20/20] rv: Add deadline monitors
+In-Reply-To: <20250919140954.104920-21-gmonaco@redhat.com>
+References: <20250919140954.104920-1-gmonaco@redhat.com>
+ <20250919140954.104920-21-gmonaco@redhat.com>
+Date: Fri, 10 Oct 2025 17:04:23 +0200
+Message-ID: <87a51yyf0o.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010094047.3111495-1-safinaskar@gmail.com> <20251010094047.3111495-2-safinaskar@gmail.com>
-In-Reply-To: <20251010094047.3111495-2-safinaskar@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 10 Oct 2025 18:02:00 +0300
-X-Gm-Features: AS18NWAoVP5WYC_07QqSXrvsFY0nBG5PiGs9ESaeN2ZfR7dfSMsKUbHhpVYPARc
-Message-ID: <CAHp75VeJM_OoCWDX20FhphRi6e7rG9Z4X6zkjx9vFF12n7Ef7A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] init: remove deprecated "load_ramdisk" and
- "prompt_ramdisk" command line parameters
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
-	Jens Axboe <axboe@kernel.dk>, Aleksa Sarai <cyphar@cyphar.com>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
-	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
-	linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Michal Simek <monstr@monstr.eu>, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Dave Young <dyoung@redhat.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	Nicolas Schichan <nschichan@freebox.fr>, David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Oct 10, 2025 at 12:42=E2=80=AFPM Askar Safin <safinaskar@gmail.com>=
- wrote:
->
-> ...which do nothing. They were deprecated (in documentation) in
-> 6b99e6e6aa62 ("Documentation/admin-guide: blockdev/ramdisk: remove use of
-> "rdev"") and in kernel messages in c8376994c86c ("initrd: remove support
-> for multiple floppies")
+Gabriele Monaco <gmonaco@redhat.com> writes:
+> +/*
+> + * Dummy values if not available
+> + */
+> +#ifndef __NR_sched_setscheduler
+> +#define __NR_sched_setscheduler -1
+> +#endif
+> +#ifndef __NR_sched_setattr
+> +#define __NR_sched_setattr -2
+> +#endif
 
-With all the respect to the work and the series I have noted this:
-1) often the last period is missing in the commit messages;
-2) in this change it's unclear for how long (years) the feature was
-deprecated, i.e. the other patch states that 2020 for something else.
-I wonder if this one has the similar order of oldness.
+You can use __COUNTER__ intead, would make it easier to add to or remove
+from this list later on.
 
---=20
-With Best Regards,
-Andy Shevchenko
+> +static void handle_syscall(void *data, struct pt_regs *regs, long id)
+> +{
+> +	struct task_struct *p;
+> +	int new_policy = -1;
+> +
+> +	new_policy = extract_params(regs, id, &p);
+> +	if (new_policy < 0 || new_policy == p->policy)
+> +		return;
+> +	if (p->policy == SCHED_DEADLINE)
+> +		da_reset(EXPAND_ID(&p->dl, DL_TASK));
+> +	else if (new_policy == SCHED_DEADLINE)
+> +		da_create_conditional(EXPAND_ID(&p->dl, DL_TASK), GFP_NOWAIT);
+> +}
+
+What if the syscall fails for any reason? Wouldn't the monitor stores
+incorrect information?
+
+Nam
