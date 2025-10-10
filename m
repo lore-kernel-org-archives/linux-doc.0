@@ -1,162 +1,113 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74CA301717
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 19:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1013019DE;
+	Fri, 10 Oct 2025 20:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760125510; cv=none; b=lD0GtRaeRmhirGRx7g7lEZb1AgxguRtQjsIQD5KmSxE5nqEnry8YirRqzmGSwbg1tnMio1a3J9467iWae3nI9YklYGGvEfITRx00qnVAeV+lrkAEdsJEiq7urqugU0AMsNhcG+pIqB7SA7FVW0141wC8yUrIEW9KD3JE/b9MtHk=
+	t=1760126547; cv=none; b=PllwvtcNv3FVm0O/4XyNlu+ofVE3Ze/LQRMRtKnk/NO+Kd7QGCwzSDW0moEEy/hn+OC2dwIcpHD0YtaBrQiEcVtSaYgm9U42MaFRf3myKvodBPaHA+Muv0Nj3u5E76f2lrobhC8QeDEYgNZXLkU1ZtnwrwdCNDosfAn5cRtua2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760125510; c=relaxed/simple;
-	bh=j7eRCO8WXdU/zad3n+NWlTSndVmgNqtq1p4vqwLQNX8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mQR1e1Bv30cGYepQExW6Ej/n/tSOAB8IDyCihIPBmvzpV4ebGXTMSW7fKzqXK9eO3vtRnkVALYt2l2xcFjFtLXDkHbN+FM46aTElVWUeBIZ6BcjrisjV4yibe7oDZPtNBId8NN9+Uba95+0iUytrQP1sxlkVgx44Tw19FUHsRNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RuYvCcSf; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760126547; c=relaxed/simple;
+	bh=Gq8iru9xAslZ95vTaUJQXj6P7gEo738ViH0eAmET2Mc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EOoMcc7uTZTIHQWFcR3D9mx5m/RmaLGNMB3C5VdaHmUhSmnkznsnSYwGFGwEf/BBDMRiPUBxtlYa72RRFpDH4Sbn8a90FDkTuN0Ihvl9VQNC8jaFJQqHLD8APPBGoD45FbCWMr+H6r5LMipFjdiUoYdd6EzyXe2LgTW3MCL2te8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Avo+7IaE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RuYvCcSf"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46e504975dbso14533315e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 12:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760125506; x=1760730306; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eQu0rr6UjxQklgSlwaowAdD1/Ytw7JaYBhmk2aJvOXk=;
-        b=RuYvCcSfJyIRhZ2o6Z9aV4YLxxndlUqEqvOjjxTQErygeiptPow5tlZRLSd0WzpIrA
-         xpezIgxuexsk0wMXBurwDM+KPzJPrWaY+05h3DITGERd2QjYQ/w57k7Mg/8aPo2hS8X6
-         g0cfNLDMzAv6m3UxQF1Vr48Yjt0qiRJ8lLr/p3PsFkVMLpgLAIiPjFicXz7v2zwkkw2O
-         nIEntAakKjQNS/Wg9RmrrTd7UYMfNvXxwn82LRW/REyFCfW6oSz034jlLI/nDqyFBNOF
-         Q5+0SxeMQCNW+9APIdfWhbFlFLzoT/+BsLHDxvdkF4GGOh2msKYl/9f/HPJWQLARHhk7
-         3H5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760125506; x=1760730306;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eQu0rr6UjxQklgSlwaowAdD1/Ytw7JaYBhmk2aJvOXk=;
-        b=sr5yUwZRgvelQY6RFgg19826yr0MXGqNXhISn2JMTGDVj5lkRV5+85L8rv7B6DU4SY
-         AHTdWAQpX1y2qov+WlQWVXTtqHngbe1GLXRVVSRXHYmmHFp1uRSg7zl7Fgwb23Je5m07
-         ceJ4KIZsslmAwB0CI5o17lg7c6HyWF5MKsbYk62I49ZMKFGBc0Pl9foAlpKM32Fm/qkb
-         T8DNTBKcdvU1xQ/wr9AY1HkcfDSCe+c5oBQ0pZ6/n0bSu3DzN3uwY4sva+u8wueOhHUR
-         C7lkgFzMAtjRaUBzm4LBK3DEkvCt8sLND2tVk4yuS+/MNAlG1xq/ASCLjnIC7lx1xD7D
-         wOXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVn9AdN36JrIPxlrLWh61aNB8ZMRy9sGkjhGT0IGT2lOXRl0pOM81nZQU5fepSjmh/CsY2cYVqwytY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDGfGNICPSefsRzALpHSaVqNNnxMDGzUTJBJNxGybKmkPdH55I
-	kP2L7sVEHk/0LGRdiyYKZRsobJOHmqKgP6OmWp6veU84sl145BnKg9Gq
-X-Gm-Gg: ASbGnctggayAN/hSDtMt0wSnw333V5Fj6jPD0C4RjmKMwm7zFNgpodX7s5A85etZyEp
-	6tcoamWw2x8qiAHK1TX9yJkdIxDqHjUStSw4kkk2jjMQOiAlxN1eaPdYUwWgAZrwiCWSCxb6mna
-	gV5yitYIbe4SemIV4yp3V0IwOwnbssKRMtQRknYc8KRnzIXqCurBHn7mZ1mzXBdWW0pXmciLPmp
-	EKCWb1P9wdZx/ypO98QbO2dZCxrfXsAJm99B7i35nADdxXcCl/H/Khgf/AD/+1l8UEbZw8h4Ucr
-	aGURqVbATbMxuaPd1hAh3SmUBOsADcqQShPrQVpw8XaiGw4KEFMnOf/Nv8OAQZL9GrUeGwpaZqB
-	jruOvsB0a4umK+yhA1Pz4iX71OW9gj4L/QFmT24GgO6QIlBrMkNEbMHdMpMbMlu9Y1Bo6F9CYi4
-	F3EcBOMxzVK0vctegCoOpxo+qY
-X-Google-Smtp-Source: AGHT+IHHHrb9if1pSYItixsAXjV8Fo41Ye9u4kM+Ypfmjxxvzg1eG3Pwur7ZSPXeiqGWANKsBZ20ow==
-X-Received: by 2002:a05:600c:4506:b0:45b:8a0e:cda9 with SMTP id 5b1f17b1804b1-46fa9a8638dmr92447005e9.2.1760125505754;
-        Fri, 10 Oct 2025 12:45:05 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:94c4:fb0e:28f:2a8d? ([2001:818:ea56:d000:94c4:fb0e:28f:2a8d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb32a84edsm39166195e9.4.2025.10.10.12.45.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 12:45:05 -0700 (PDT)
-Message-ID: <755d4fcea043d62ba6ac44c483f70c0a08b5e41e.camel@gmail.com>
-Subject: Re: [PATCH v4 6/8] iio: adc: ad4030: Add SPI offload support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, Marcelo Schmitt	
- <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pwm@vger.kernel.org, 	linux-spi@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, ukleinek@kernel.org, michael.hennerich@analog.com, 
-	nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	marcelo.schmitt1@gmail.com, Trevor Gamblin <tgamblin@baylibre.com>, Axel
- Haslam	 <ahaslam@baylibre.com>
-Date: Fri, 10 Oct 2025 19:46:01 +0100
-In-Reply-To: <576b582e-7388-4ee4-9a4c-4f7e04fc3fda@baylibre.com>
-References: <cover.1759929814.git.marcelo.schmitt@analog.com>
-	 <2bde211f1bc730ee147c9540b88339a93b2983e6.1759929814.git.marcelo.schmitt@analog.com>
-	 <a86007ab148f9556af032f5ba61991a74a5641c0.camel@gmail.com>
-	 <576b582e-7388-4ee4-9a4c-4f7e04fc3fda@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Avo+7IaE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=1uOItTL0KBTFqu9SxT/ohOMw6976arZ30lgBj7Y1/To=; b=Avo+7IaE91NLFjM4HOJOUnOGLL
+	579y9RDwAw7L205S678TugPGGJueV/XNuSmkwxei4bF6/2W5x2VWUnbbqFLsBbXbeTAzX9Oa1uZld
+	YjIbaZKfyuJOSs6+hja6mjaZfDPm2qk03Q/mtIgTM5vmnNklwo2byLo4ZYWpP4RF/H3JN7TSM/ka6
+	2/InTtiMWRIs2bw+SE9iTahmLMs0c3T5iEQBBcJb9OjV5XJ4kyNWfuOf5SvoqqoBlyD4unvQNTRFh
+	JFzLZKTphPb+Fw+WCUpW9lU986SZmFhw0U+sXf8mBU7+ecoo6KsCLQLI679yMaPn254rqJRJz6AZc
+	y7T7E4/A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v7JJb-00000009HMt-11L2;
+	Fri, 10 Oct 2025 20:02:11 +0000
+Message-ID: <c1b2ec8c-0c09-4356-819c-7d2ee28b47f2@infradead.org>
+Date: Fri, 10 Oct 2025 13:02:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 22/23] docs: add KStackWatch document
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20251009105650.168917-1-wangjinchao600@gmail.com>
+ <20251009105650.168917-23-wangjinchao600@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251009105650.168917-23-wangjinchao600@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2025-10-10 at 11:18 -0500, David Lechner wrote:
-> On 10/10/25 6:19 AM, Nuno S=C3=A1 wrote:
-> > On Wed, 2025-10-08 at 10:51 -0300, Marcelo Schmitt wrote:
-> > > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> > > samples per second (MSPS). Not all SPI controllers are able to achiev=
-e such
-> > > high throughputs and even when the controller is fast enough to run
-> > > transfers at the required speed, it may be costly to the CPU to handl=
-e
-> > > transfer data at such high sample rates. Add SPI offload support for =
-AD4030
-> > > and similar ADCs to enable data capture at maximum sample rates.
-> > >=20
-> > > Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > > Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> > > Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > ---
-> > > Change log v3 -> v4
-> > > - Applied code adjustments suggested to SPI offload patch.
-> > > - Only select SPI_OFFLOAD_TRIGGER_PWM if (SPI_OFFLOAD && PWM).
-> > >=20
-> > > =C2=A0drivers/iio/adc/Kconfig=C2=A0 |=C2=A0=C2=A0 3 +
-> > > =C2=A0drivers/iio/adc/ad4030.c | 504 ++++++++++++++++++++++++++++++++=
-+++----
-> > > =C2=A02 files changed, 465 insertions(+), 42 deletions(-)
-> > >=20
-> > > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> > > index 58a14e6833f6..1ed091b6731a 100644
-> > > --- a/drivers/iio/adc/Kconfig
-> > > +++ b/drivers/iio/adc/Kconfig
-> > > @@ -62,7 +62,10 @@ config AD4030
-> > > =C2=A0	depends on GPIOLIB
-> > > =C2=A0	select REGMAP
-> > > =C2=A0	select IIO_BUFFER
-> > > +	select IIO_BUFFER_DMA
-> > > +	select IIO_BUFFER_DMAENGINE
-> > > =C2=A0	select IIO_TRIGGERED_BUFFER
-> > > +	select SPI_OFFLOAD_TRIGGER_PWM if (SPI_OFFLOAD && PWM)
-> >=20
-> > Two things as I mentioned in [1]:
-> >=20
-> > 1) Wouldn't 'imply SPI_OFFLOAD_TRIGGER_PWM' accomplish the same?
-> > 2) Don't we also need stubs for spi/offload/consumer.h?
->=20
-> It doesn't hurt to enable SPI offload support even if no controller
-> supports it, so I would prefer that drivers that use it just select
-> SPI_OFFLOAD.
 
-It does not hurt for sure. I just don't love enabling code when the feature=
- is
-optional. For things like GPIO it not does not matter much because it's mos=
-t likely
-always enabled anyways.
 
-But, fair enough! I don't feel strong about this at all and if we wanted to=
- be picky
-then we would also have to take into account that IIO_BUFFER_DMA and
-IIO_BUFFER_DMAENGINE also depend on SPI_OFFLOAD being present and we just s=
-elect
-those.
+On 10/9/25 3:55 AM, Jinchao Wang wrote:
+> Add documentation for KStackWatch under Documentation/.
+> 
+> It provides an overview, main features, usage details, configuration
+> parameters, and example scenarios with test cases. The document also
+> explains how to locate function offsets and interpret logs.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
+>  Documentation/dev-tools/index.rst       |   1 +
+>  Documentation/dev-tools/kstackwatch.rst | 314 ++++++++++++++++++++++++
+>  2 files changed, 315 insertions(+)
+>  create mode 100644 Documentation/dev-tools/kstackwatch.rst
+> 
 
-- Nuno S=C3=A1
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
->=20
-> >=20
-> > [1]:
-> > https://lore.kernel.org/linux-pwm/2e82eaf275b5c8df768c8b842167c3562991e=
-50c.camel@gmail.com/T/#t
-> > - Nuno S=C3=A1
-> > =C2=A0
+Thanks.
+
+-- 
+~Randy
