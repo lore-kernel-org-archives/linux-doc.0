@@ -1,128 +1,194 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7B23BD01
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 18:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECC32C08B2;
+	Fri, 10 Oct 2025 18:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760122416; cv=none; b=njSVj4FzUAK1XKrlLf6ACaYy3lSLXH1SCQynYlI5Iu6wf4QxKKzTreFYIFCVa+cKm4oaBIxNqGFHySX85t7J9GR+gr6kY3c9JLvFmug3tMnGQ2kaamMaGE8nmC+GxfVitMUcE6eaKpqTzzsizVkvI2DcgRpPobWCnxVo8V+ubcg=
+	t=1760122520; cv=none; b=Y5AMTprWGi3I0e/2YIAS0kg+sSZyQJXH7n3do6knWSxO6GdXIJKls5RC9Zez1SJPo83q8anoe0g5h+RPtf7ym9dA8PgeTRi6LzItiGQRjsaCHL2rpRd/PEXjGQ+Pf+vARvrwpqIDDY/u+brmFWaOyrREQhmQU/4CyAY9UuF/WZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760122416; c=relaxed/simple;
-	bh=1c9xpjEAyzSHEbTovQnqawRw2MZSunBs7oFhwkGp6IY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOGVuW3aQkhrFRXEqTaKbTIcKQlwEB4nU/h5EB8xWj3MfirSBI+IMNIUPyH7tOmUm9GL12S1TGN0K1bupLGlfWWPqVjCegQiCrrriFTcPRmDAKfS4nz/4RdVQr/QRWVgRHtyYEqBu8m4IJDBCDLOdllYQTML7HKtSQ39a0n6pgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Jxu7m7px; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1760122520; c=relaxed/simple;
+	bh=en9YFWnQpgZbRDUeAplwNqWZdpCubLq+g6tM2tWJ7PA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GWFbDH0M55da+Ov4dYDlHCgTDNGAY0hihCDjwlemGLX2fkQP+0yer6xs283NC+hJWyPA86i6r9gQlbTyixa3hXFOxaxzwwrnlYGkKPZnNbrXLfsN60CzF1u9iazHJJZlxXCcnzI0URu80d6+/dfZlwOdGx3BCJWq3KJ/cPJYwIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GirWNMRb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Jxu7m7px"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-85ed0a1b35dso211089185a.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 11:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1760122414; x=1760727214; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yvk9+2uf5Jy110s1EexKEDqunnlIUh4JFbrOdrqUH1o=;
-        b=Jxu7m7pxX092VH2TA771cV3O8FsblFnpBDecm18yIpEq1XXcTSka8IRHIyoqsAx4xA
-         2YCQqeZHg6o1Xz1yrLAtB67OSSjQm/I5y82gdsmvEHwi4d0rbzHN0F0R/y/9y1dGqzrB
-         NUOLF0b6/7v+RPBmji1GIusX81AznCOzZnyNT7ynqfz55bnyW3IwelBZ0JylBDlnNgqA
-         NFXCfol0tnhTlCDK1FzI8Qa2IIfqb2FKVuqLnf9JJIHYxnkPi86cvZxQ0Rrm44IFIITJ
-         8Y4GSDmBLU3P8mByqFWOeqcKWVrBP1tKSHafZxG2piZKNEkOcf6OXFrszcESGSHWhCJI
-         2ueQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760122414; x=1760727214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yvk9+2uf5Jy110s1EexKEDqunnlIUh4JFbrOdrqUH1o=;
-        b=krhVXVdcYmzNFvhPiytqZbY64kl7fuHvU5tVbHUogdNa7j2qnzZBVNS/PQDr5mJm4F
-         wNx9dg+zQmi2/VK7OC+nUEc8AD4vzxay1WQwKQvw0YJpNWHZvSjF8/Orew0YalaIYjzY
-         m1T4a2JflfJOA+/cPsINlQE54HqdHHxzCTIaqsMxcz0Ux/eZGJN+6AHYcB85YmZiPHQK
-         aPqyR2xwbFKnYVigbRBgERaUnEF8DvrponzKYPLHb7TWafNFgGxfYabcxYa4QF676SwL
-         z8i/zQ2/fWGvhhi4MHFr4/vlqYyPVcU/BbabNQikW6yDUwtriAkr5r9nYDWN6pxVyky4
-         1L6A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/SZqzhCxc11AuKI0YGcnMcE3TdLs4M2hIBvShEby47OSG9IzdMsNP2Y/5dj+AJpEhli2m8to0nPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+tNdhhvkCVgw82ra1Kjs1DBB4zrfXz/WjCG6SCW1l6olodEI8
-	IZ4FPOorlE0XnW+horLhRwwCWcSPHWm68dTiCxSJSfeQZwAfG2YoaTp0NgKJxYKqvBo=
-X-Gm-Gg: ASbGncu3lcCdKODF9h7bfssNIN84d7VLAlDb9N5jQeTl46JQGWnzrKMUI308WQIQ0yr
-	4BwT6VNxfy3PxqlLTIGBm9w+vP5NFCOLXL9dK2OPRiOTpzJhzn4TTI47F6iyqYoU2NUXTQsil4+
-	l/e6Fvlkbny895WJ0hZsxVYZWZuMNTtOVrREkSs67YfhUzr2UDFFObKOq/zCVN6pr4emFGKvfs1
-	HSY0IUAOe6xrf4RR51abDMh75BHxrDhRE9paGjXqLAZUoEHPnEFKcab4aJpnPeSxAnnNm206KzJ
-	ldnpY0IPicAfbuDa9cCFbnr/Lb2edpk5GzlbWxlrdhhAYvKiDkSW9I2gOlkFZwk/obI6NScD7+o
-	NgTRt6HnWJapkPt6HHXeVm168ZXitMhcESQzqpKeZmGOaVWmCVWc6UKn69q/8AP71OvSDuUDBLE
-	52qmdcUzHSjRaiZMt1PlzgUNH1yhGZ0+qcO9Q=
-X-Google-Smtp-Source: AGHT+IFw83apThwu3Bu6mVESZP4W93bdkR0fqUQg02zKaUQROrWdoFXC8bV8nX7m1XqGZM4W610+FA==
-X-Received: by 2002:a05:620a:179f:b0:849:21b9:478f with SMTP id af79cd13be357-883534624f4mr1914757385a.35.1760122413577;
-        Fri, 10 Oct 2025 11:53:33 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8849f9ae48fsm459499385a.24.2025.10.10.11.53.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 11:53:32 -0700 (PDT)
-Date: Fri, 10 Oct 2025 14:53:30 -0400
-From: Gregory Price <gourry@gourry.net>
-To: David Hildenbrand <david@redhat.com>
-Cc: Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, corbet@lwn.net,
-	muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, laoar.shao@gmail.com, brauner@kernel.org,
-	mclapinski@google.com, joel.granados@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mel Gorman <mgorman@suse.de>,
-	Alexandru Moise <00moses.alexander00@gmail.com>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] Revert "mm, hugetlb: remove hugepages_treat_as_movable
- sysctl"
-Message-ID: <aOlWKqyN5P_kaoHc@gourry-fedora-PF4VCD3F>
-References: <aOZ8PPWMchRN_t5-@tiehlicka>
- <271f9af4-695c-4aa5-9249-2d21ad3db76e@redhat.com>
- <aOaCAG6e5a7BDUxK@tiehlicka>
- <83e33641-8c42-4341-8e6e-5c75d00f93b9@redhat.com>
- <aOaR2gXBX_bOpG61@gourry-fedora-PF4VCD3F>
- <aOdSvriKRoCR5IUs@tiehlicka>
- <aOfU9YTKMPWzYOta@gourry-fedora-PF4VCD3F>
- <ac0393c7-9c0c-4b4d-8b35-5e6369e5431b@redhat.com>
- <aOgpz6no2Jx2-Y8Z@gourry-fedora-PF4VCD3F>
- <1d7476e6-5c6d-4175-b28d-3622222ea8e6@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GirWNMRb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5jNCQYIvpduCc+VH5KL3Lm4MDphgs8rymPh/IGBtAvI=; b=GirWNMRbkJheAMGxdxBOFE/fDT
+	V0FAMb9JVnSPXwToKcKVXBqquf361jZaB46Q2dhmwIl9Qn+/jFW9xlvhwzR1gJFXY6Zw12ZN3PdJu
+	TIjXdr/q6Ws7axoVh14OQtasrZpiInwDAw8diKwzjlwLrHnMNt406gTeAIahsaJ2OKfA5jeEM7L3n
+	GmMt5WspbbTtLmUCg3poe+hZELf7Z6/fhTWymPqoET8vT3iDTdru7IaPV6uo0pvMPbaDo3OHsAgJ4
+	krNqYOwDzuLOO14otjJgxJExMzgyus4/bBpzLL+sYPgpUpT6mYwmsEKQwzmilZ2XF6B5uM6jg2PIU
+	psFP7BAw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v7IGm-00000009B8s-11Kg;
+	Fri, 10 Oct 2025 18:55:12 +0000
+Message-ID: <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
+Date: Fri, 10 Oct 2025 11:55:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d7476e6-5c6d-4175-b28d-3622222ea8e6@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+ Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
+ Sean O'Brien <seobrien@google.com>, Lucas GISSOT <lucas.gissot.pro@gmail.com>
+References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+ <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com>
+ <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
+ <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
+ <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 10, 2025 at 09:40:29AM +0200, David Hildenbrand wrote:
-> > 
-> > Seems like this is pretty stable tbh.  Obviously if you hack off the
-> > node0 hugepages migration fails - but I feel like you're signing up for
-> > that when you turn the bit on.
+Hi,
+
+I think I found it... see below.
+
+
+On 10/9/25 11:48 PM, Thorsten Leemhuis wrote:
+> [Top-Posting for easier consumption]
 > 
-> Right, just needs to be documented thoroughly IMHO.
+> Mainly writing this mail to bring Lucas GISSOT in here, who reported the
+> same error yesterday here:
+> https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
 > 
+> Lucas there suggested:
+> """but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
+> hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
+> Kconfig updated."""
+> 
+> And Randy: Thx for the closer investigation! It explains some of the
+> "that feels odd, am I holding this wrong" feeling I had when reporting this.
+> 
+> Ciao, Thorsten
+> 
+> On 10/10/25 06:50, Randy Dunlap wrote:
+>> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
+>>> On 8/19/25 01:08, Jonathan Denose wrote:
+>>>> From: Angela Czubak <aczubak@google.com>
+>>>>
+>>>> Define a new structure that contains simple haptic device configuration
+>>>> as well as current state.
+>>>> Add functions that recognize auto trigger and manual trigger reports
+>>>> as well as save their addresses.Hi,
+>>>> Verify that the pressure unit is either grams or newtons.
+>>>> Mark the input device as a haptic touchpad if the unit is correct and
+>>>> the reports are found.
+>>>>  [...]
+>>>> +config HID_HAPTIC
+>>>> +	tristate "Haptic touchpad support"
+>>>> +	default n
+>>>> +	help
+>>>> +	Support for touchpads with force sensors and haptic actuators instead of a
+>>>> +	traditional button.
+>>>> +	Adds extra parsing and FF device for the hid multitouch driver.
+>>>> +	It can be used for Elan 2703 haptic touchpad.
+>>>> +
+>>>> +	If unsure, say N.
+>>>> +
+>>>>  menu "Special HID drivers"
+>>>
+>>> I suspect this change is related to a build error I ran into today:
+>>>
+>>>   MODPOST Module.symvers
+>>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+>>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
+>>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
+>>>
+>>> The config where this occurred had this:
+>>>
+>>> CONFIG_HID=y
+>>> CONFIG_HID_MULTITOUCH=m
+>>> CONFIG_HID_HAPTIC=m
+>>>
+>>> Changing the latter to "CONFIG_HID_HAPTIC=y" fixed the problem for me.
+>>
+>> Sure, but that's just covering up the problem.
+>>> First, I get this build error:
+>>
+>> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-haptic.o
+>>
 
-happy to make any doc adjustments.
+ISTM that tristate is incompatible with this newly added Makefile
+line:
 
-Better to move any notes every here though:
++hid-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
 
-https://lore.kernel.org/linux-mm/20251009161515.422292-1-gourry@gourry.net/T/#u
+hid-* lists files that should be builtin, not loadable modules.
+These should all be hid-y.  AFAIK, hid-m is not useful.
+(A maintainer can correct me as needed.)
 
+So adding a MODULE_LICENSE() and MODULE_DESCRIPTION() to
+hid-haptic.c and changing drivers/hid/Makefile to use
+obj-$(CONFIG_HID_HAPTIC_	+= hid-haptic.o
+
+fixes the build errors for me.
+
+Angela, Jonathan D., is there any reason that
+hid-haptic needs to be builtin instead of a loadable
+module?  It's no problem for hid-multitouch.ko to call
+into hid-haptic.ko (both as loadable modules) as long as
+hid-haptic.ko is loaded first.
+
+Thanks.
+
+~Randy
 ---
+---
+ drivers/hid/hid-haptic.c |    3 +++
+ 1 file changed, 3 insertions(+)
 
-Maybe worth finding some time at plumbers to discuss block-level
-allocation twiddly bits.  Still not quite clear how this would pan
-out.  Maybe it's as simple as adding GFP flags to blocks and having
-something like:
+--- linux.orig/drivers/hid/hid-haptic.c
++++ linux/drivers/hid/hid-haptic.c
+@@ -10,6 +10,9 @@
+ 
+ #include "hid-haptic.h"
+ 
++MODULE_DESCRIPTION("HID haptic touchpad support");
++MODULE_LICENSE("GPL");
++
+ void hid_haptic_feature_mapping(struct hid_device *hdev,
+ 				struct hid_haptic_device *haptic,
+ 				struct hid_field *field, struct hid_usage *usage)
+---
+ drivers/hid/Makefile |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-echo NO_KERNEL > sys/bus/node/devices/node0/memory1234/eligibility
-echo PINNABLE > sys/bus/node/devices/node0/memory1234/eligibility
+--- linux.orig/drivers/hid/Makefile
++++ linux/drivers/hid/Makefile
+@@ -4,7 +4,8 @@
+ #
+ hid-y			:= hid-core.o hid-input.o hid-quirks.o
+ hid-$(CONFIG_DEBUG_FS)		+= hid-debug.o
+-hid-$(CONFIG_HID_HAPTIC)	+= hid-haptic.o
++
++obj-$(CONFIG_HID_HAPTIC)	+= hid-haptic.o
+ 
+ obj-$(CONFIG_HID_BPF)		+= bpf/
+ 
 
-folio_to_block(folio)->eligible(gfp)
-
-The issue here is obviously that it's clearly racey, in that a bit
-twiddle can change the eligibility mid-allocation.  
-
-I'll think a bit more about this.
-
-~Gregory
