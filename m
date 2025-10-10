@@ -1,100 +1,226 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECDD25A645
-	for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 15:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602D6262FE7;
+	Fri, 10 Oct 2025 15:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760111282; cv=none; b=IU4e41WpUxwWdOuEsjnQuddhgS6Cy8dgnEuq1qGeGnFWHtkWH6N4zEjBDFkrE0Mm7XFfyNBmlHIFNe5ybNzf8FOJms08VATBj38OiF8lBm7HQ7No5Bm4K96PgVv5GNU/eogQSeMUXdzl6UYbC1ZNoREqX3rLI9eTYSJO/R8Arbg=
+	t=1760111583; cv=none; b=fhOyQMo23IWNM5njXLyqks4NNy86IgZVxcRqpaUBIqtFelb3EN7+9O7xp1kwnYF+Nudct8Z+eVYIYL/ymxAfNgUXolwBhVTqHIpSejixgBT9rugxhdy66VBfZ6anjkLWmoE+MlNq3loiF9HdE1eZ7WyR7lOWgHZxkm7Mt1F7YSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760111282; c=relaxed/simple;
-	bh=NdsUvpJDpi+f0utptiH48+P8qxTjCKD1BXdBqHb5OLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NrA2IZHg6GKu2aAAALtiX1aS7ydu2XnqlDl8Wz147yP17xXSBCPWB6B4jeDmA+uGcPtcQ0baq+xRSDraymLeO7X33dhPJ0eWndK5sABfEKJ0gwt7O3ZxeahaEKmGIzMvbEVkI5hrlQPG8Wn+GjxPK9l5BjP550VskqNqRftwrOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bibn0VuR; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760111583; c=relaxed/simple;
+	bh=DD/abvJw2ItDqp3cRU9yINzo4b8UTYCdngAKkF58aDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WsHZceHo2fNTeRsa5Mr8jlwLoag6WcU7+HhWzXycht8qziKYJ1u9oE1XvnAkYvk0mI9WBDYZ4FbBWoR3d220QTpWUHBxAiKfmBJ7/UsN89of6CTXFeCYfNTbtdkj0zOKS/MFV9UxhwgPcMsAd+I9aQYyA0xWvhEJMvjSFOWn89g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+NAGFBW; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bibn0VuR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-26a0a694ea8so16321995ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 08:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760111280; x=1760716080; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IVrsyEiFlMWkB/upPN4SEiDIc8/lApQ9S0UUM9Wa5uQ=;
-        b=Bibn0VuRo1gZ1Ith6+kwbMQxRF6QJO82MZ61cWDTgQ0zR5kc82761192OgOYQVDdf5
-         FSjvU8NTpGPcguygjMc8zxB32iZFmGePFDCc6rfhTuQ2nkDI/0ehO+M9GalPGJZB/nde
-         zauySeYNGccs8gPBMzVnvYXdfuN2+98Aqx2sT7LXKfD7ZPQfqzmlwfBYeWLFnBUgFm8p
-         29VRElBHTnqn8xnsuYJPi6A8xnIup6C/2pF0NImKCx2TFlGdsAYrwUKEHCZ9RRhk546U
-         Q+5G1e9A4WCIewy5KW04z2U4+/QdHYlDtH3+uT1rsdu0sAyVxe4rIfnnql+NNPKaOLLj
-         fHVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760111280; x=1760716080;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IVrsyEiFlMWkB/upPN4SEiDIc8/lApQ9S0UUM9Wa5uQ=;
-        b=QL4RbZR3SELGAWREBtBjBM4g3kGb7Op2zBUbmHbW42nnuTaQnVxvA9SjZCvuBqMFJJ
-         aQ6GGEnnNqmLkh5WSVsFtYNX+EgcixNXCmiFTNtXBJMHBAFLfc4iEaMhhTPgH60mmMVE
-         x2Al4p701IbxHa4dKZtCrqOu7qAggYSfwtSWYV9CxT61IkJ2P1S4T1rc94ICsY3lRiSQ
-         0NlL6L08xRYJND1MDM02nCGA7EfPxJvn2RRQ+YvFwcg9WkO2bedQe+iyC7gUPZj9g65O
-         8EEyeFtBVNWJjzq/ICRpp8E8cKhKN2l6sY9pB2qDKPAF7WKdXlCwK7JeDCNkigXlTtbU
-         Q3/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVmZEsEv5HNy2GEofBSLS/eKOfgf0XhlGoPbMQEu578hRaSZ56E/4rAYKwEKnEKzwD4DQo6TjLOcXg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJSTeBeDSJ1vpLFgml6kGjZS7fSnw6Xc6EgVKxVkesNe3bqN0F
-	VzRy8bdwGehc8sBE6QMjv4NK6j4CN6cyTVpR4jtvxf57NbK/2XRNq1Z3
-X-Gm-Gg: ASbGncuPvSQdo8E98kpiofBxeOYvVTVNbD6TFv2tTRX0uzgG/RX02F9u2BNf1Av5kdl
-	wL/uFMUn0J5zCBU50qYB6qsvu3Ec/Nb/GXwm0XFanlTX6jTfE7IlOlAAvMzyEpwL7qdus5DGO1Z
-	7/QnYPBRV74CHNNVUo3NkOTWA1I3PvFPK9rdV7MbN91jUEiC1bg9UXJnxUlYeW4od1mFFoUcbEM
-	5nMQXcztwePJrxoY6FT5+h1U09nAKNmcfLMpn2lDCgT0Conetw5S69bJ5Ad9DAQpxj4gyfCYH1k
-	vB+PjsND1BUqlyd3zzDkH+HTPvFStyxdFcWhcvG3Xotfw8QBkFScoMfKy3zgrqNqDz6iEdumz63
-	V51P81NaDbIjDyscFQsn/tRRBJVnSfE9p29Q/
-X-Google-Smtp-Source: AGHT+IECq+NaLToeqvLCJlAHobRhWtoU2tfGHlHLrRwiIikFaVG8MgZK2PzLWaGJXCNyUhyUAiHnRg==
-X-Received: by 2002:a17:902:f608:b0:278:9051:8ea5 with SMTP id d9443c01a7336-290272b340fmr165277955ad.21.1760111280220;
-        Fri, 10 Oct 2025 08:48:00 -0700 (PDT)
-Received: from localhost ([122.171.19.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f06c82sm60691875ad.81.2025.10.10.08.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 08:47:59 -0700 (PDT)
-From: Divya Bharathi <divya27392@gmail.com>
-To: linux-fscrypt@vger.kernel.org
-Cc: ebiggers@kernel.org,
-	tytso@mit.edu,
-	aegeuk@kernel.org,
-	orbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Divya Bharathi <divya27392@gmail.com>
-Subject: [PATCH] docs: fscrypt: document EFAULT return for FS_IOC_SET_ENCRYPTION_POLICY
-Date: Fri, 10 Oct 2025 21:17:53 +0530
-Message-ID: <20251010154753.19216-1-divya27392@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+NAGFBW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760111581; x=1791647581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DD/abvJw2ItDqp3cRU9yINzo4b8UTYCdngAKkF58aDY=;
+  b=Q+NAGFBWwIV25qPsKPhjDSvhA/npadGEAwd9Mz10asWcLZ4+Rftqn3DW
+   mUpbwMH8QCb96+R3nb2cK224azR8PI2ywQRqiBeaDXJg6ePe81ylPpD+w
+   UWc+epVtd03t7vZHayDk+mpw82cXUf0Eg/sIcPqEmV2p6Axuyvn2Wv/D3
+   wfm6Ik8Xw0aRaI13kZLuTbyuRkbbviv6rQqwTvOdgkPXcz6OtCYJFsh/i
+   YIMYKbPOZ9DSRC70PT7LlTpr4qxG84jLbwXve66I5jIJPHvAcz3VugicM
+   8MbCX0dHUIFrGJzqRlaohvpG6EFPJs3r8BcyjlY76mmgnOdK6TZ1TLPM0
+   A==;
+X-CSE-ConnectionGUID: QlQpxAwtSYOCUYRvMDHOPQ==
+X-CSE-MsgGUID: x9AF91tQS7SDZY5aaf2C1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="65986451"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="65986451"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 08:52:58 -0700
+X-CSE-ConnectionGUID: Z82LRwkHS2OR8R6OHAvESA==
+X-CSE-MsgGUID: ezsRcgzBQwOn6ubOlZuqPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="186143528"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2025 08:52:55 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7FQL-0002vZ-1Y;
+	Fri, 10 Oct 2025 15:52:53 +0000
+Date: Fri, 10 Oct 2025 23:52:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ryan Chung <seokwoo.chung130@gmail.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	shuah@kernel.org, hca@linux.ibm.com, corbet@lwn.net,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	seokwoo.chung130@gmail.com
+Subject: Re: [PATCH v3 3/5] tracing: fprobe: support comma-separated symbols
+ and :entry/:exit
+Message-ID: <202510102331.y36ENO9m-lkp@intel.com>
+References: <20251004235001.133111-4-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251004235001.133111-4-seokwoo.chung130@gmail.com>
 
-Signed-off-by: Divya Bharathi <divya27392@gmail.com>
----
- Documentation/filesystems/fscrypt.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Hi Ryan,
 
-diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-index 4a3e844b7..26cb409e3 100644
---- a/Documentation/filesystems/fscrypt.rst
-+++ b/Documentation/filesystems/fscrypt.rst
-@@ -729,6 +729,8 @@ FS_IOC_SET_ENCRYPTION_POLICY can fail with the following errors:
-   version, mode(s), or flags; or reserved bits were set); or a v1
-   encryption policy was specified but the directory has the casefold
-   flag enabled (casefolding is incompatible with v1 policies).
-+- ``EFAULT``: an invalid pointer was passed for the encryption policy
-+  structure
- - ``ENOKEY``: a v2 encryption policy was specified, but the key with
-   the specified ``master_key_identifier`` has not been added, nor does
-   the process have the CAP_FOWNER capability in the initial user
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.17]
+[also build test ERROR on linus/master next-20251010]
+[cannot apply to trace/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chung/docs-tracing-fprobe-document-list-filters-and-entry-exit/20251010-111713
+base:   v6.17
+patch link:    https://lore.kernel.org/r/20251004235001.133111-4-seokwoo.chung130%40gmail.com
+patch subject: [PATCH v3 3/5] tracing: fprobe: support comma-separated symbols and :entry/:exit
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251010/202510102331.y36ENO9m-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510102331.y36ENO9m-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510102331.y36ENO9m-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   kernel/trace/trace_fprobe.c: In function 'parse_fprobe_spec':
+>> kernel/trace/trace_fprobe.c:274:28: error: assignment of read-only location '*p'
+     274 |                         *p = '\0';
+         |                            ^
+   kernel/trace/trace_fprobe.c:276:28: error: assignment of read-only location '*p'
+     276 |                         *p = '\0';
+         |                            ^
+   kernel/trace/trace_fprobe.c: In function 'parse_symbol_and_return':
+>> kernel/trace/trace_fprobe.c:1281:31: error: 'nofilter' undeclared (first use in this function); did you mean 'filter'?
+    1281 |         char *filter = NULL; *nofilter = NULL;
+         |                               ^~~~~~~~
+         |                               filter
+   kernel/trace/trace_fprobe.c:1281:31: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/trace/trace_fprobe.c: In function 'trace_fprobe_create_internal':
+   kernel/trace/trace_fprobe.c:1355:14: warning: unused variable 'has_wild' [-Wunused-variable]
+    1355 |         bool has_wild = false;
+         |              ^~~~~~~~
+   kernel/trace/trace_fprobe.c: At top level:
+>> kernel/trace/trace_fprobe.c:1275:12: warning: 'parse_symbol_and_return' defined but not used [-Wunused-function]
+    1275 | static int parse_symbol_and_return(int argc, const char *argv[],
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +274 kernel/trace/trace_fprobe.c
+
+   233	
+   234	static int parse_fprobe_spec(const char *in, bool is_tracepoint,
+   235			char **base, bool *is_return, bool *list_mode,
+   236			char **filter, char **nofilter)
+   237	{
+   238		const char *p;
+   239		char *work = NULL;
+   240		char *b = NULL, *f = NULL, *nf = NULL;
+   241		bool legacy_ret = false;
+   242		bool list = false;
+   243		int ret = 0;
+   244	
+   245		if (!in || !base || !is_return || !list_mode || !filter || !nofilter)
+   246			return -EINVAL;
+   247	
+   248		*base = NULL; *filter = NULL; *nofilter = NULL;
+   249		*is_return = false; *list_mode = false;
+   250	
+   251		if (is_tracepoint) {
+   252			if (strchr(in, ',') || strchr(in, ':'))
+   253				return -EINVAL;
+   254			if (strstr(in, "%return"))
+   255				return -EINVAL;
+   256			for (p = in; *p; p++)
+   257				if (!isalnum(*p) && *p != '_')
+   258					return -EINVAL;
+   259			b = kstrdup(in, GFP_KERNEL);
+   260			if (!b)
+   261				return -ENOMEM;
+   262			*base = b;
+   263			return 0;
+   264		}
+   265	
+   266		work = kstrdup(in, GFP_KERNEL);
+   267		if (!work)
+   268			return -ENOMEM;
+   269	
+   270		p = strstr(work, "%return");
+   271		if (p) {
+   272			if (!strcmp(p, ":exit")) {
+   273				*is_return = true;
+ > 274				*p = '\0';
+   275			} else if (!strcmp(p, ":entry")) {
+   276				*p = '\0';
+   277			} else {
+   278				ret = -EINVAL;
+   279				goto out;
+   280			}
+   281		}
+   282	
+   283		list = !!strchr(work, ',') || has_wildcard(work);
+   284		if (legacy_ret)
+   285			*is_return = true;
+   286	
+   287		b = kstrdup(work, GFP_KERNEL);
+   288		if (!b) {
+   289			ret = -ENOMEM;
+   290			goto out;
+   291		}
+   292	
+   293		if (list) {
+   294			char *tmp = b, *tok;
+   295			size_t fsz = strlen(b) + 1, nfsz = strlen(b) + 1;
+   296	
+   297			f = kzalloc(fsz, GFP_KERNEL);
+   298			nf = kzalloc(nfsz, GFP_KERNEL);
+   299			if (!f || !nf) {
+   300				ret = -ENOMEM;
+   301				goto out;
+   302			}
+   303	
+   304			while ((tok = strsep(&tmp, ",")) != NULL) {
+   305				char *dst;
+   306				bool neg = (*tok == '!');
+   307	
+   308				if (*tok == '\0')
+   309					continue;
+   310				if (neg)
+   311					tok++;
+   312				dst = neg ? nf : f;
+   313				if (dst[0] != '\0')
+   314					strcat(dst, ",");
+   315				strcat(dst, tok);
+   316			}
+   317			*list_mode = true;
+   318		}
+   319	
+   320		*base = b; b = NULL;
+   321		*filter = f; f = NULL;
+   322		*nofilter = nf; nf = NULL;
+   323	
+   324	out:
+   325		kfree(work);
+   326		kfree(b);
+   327		kfree(f);
+   328		kfree(nf);
+   329		return ret;
+   330	}
+   331	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
