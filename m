@@ -1,177 +1,237 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC5C1F3BA4;
-	Sat, 11 Oct 2025 12:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2BD27C854;
+	Sat, 11 Oct 2025 14:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760184290; cv=none; b=kbZ66TnfhF+WaPgArNuQGxz59fwnuOyncMMXLS5mPxbh7iSv9atcw9c0VanaP0ldvT1tryJwWK2N78reVbqa7AAomXrUjLc9YhOeMnzDBj5WldqycwJsv4vcvfhU+/nYHSGSF5P7Bueb2G+Xh5tY/VZg9DNvUfGDltUa7d9AWfo=
+	t=1760193176; cv=none; b=Nfo8sBUulQZPXSa7TftU5MY+XeCTft5CNu5bd/CcbNlw88Me4QSsgk7/C0JVTr69HYy5XsN3wg1vK/uDP94ONlWg1gUFtexONnzDseZFvhCJjwuoR+40td2KGrcf33HBY8bavm1Cj4ufZjL/zZqyyH6J5VWegfPh7iN3GT2boo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760184290; c=relaxed/simple;
-	bh=KxskEjVwkXKRdFE3D2R/m92ezMP7L/SFnTaFKz8we0M=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sk/5XHoe0jfFYn6Oolx90uMlli3lkOO6FNCe1fmjpfhAN4QsFYJ3HTOk5QaPuZ165lzyUUeW+bEfOD6HmVYHSg+PRcLCaCPAmlJXphajR5hhaH4FTWDI9UFSHyFz7uWS5vYLN5rSStZb5j3T3Fp075gEx7KIW6WF6i09tvHeEhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
-	"paulmck@kernel.org" <paulmck@kernel.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"mingo@kernel.org" <mingo@kernel.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"pauld@redhat.com" <pauld@redhat.com>, "joel.granados@kernel.org"
-	<joel.granados@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [????] Re: [PATCH][v2] hung_task: Panic after fixed number of
- hung tasks
-Thread-Topic: [????] Re: [PATCH][v2] hung_task: Panic after fixed number of
- hung tasks
-Thread-Index: AQHcMDksdcRioXB8tEOzfxW7SI8WgLSozsCAgBQcxiA=
-Date: Sat, 11 Oct 2025 12:03:23 +0000
-Message-ID: <2f26d112e8834d378dd00f20cc384f39@baidu.com>
-References: <20250928053137.3412-1-lirongqing@baidu.com>
- <20250929094739.e2d49113f52a315a900a2cd7@kernel.org>
-In-Reply-To: <20250929094739.e2d49113f52a315a900a2cd7@kernel.org>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1760193176; c=relaxed/simple;
+	bh=Rg//Celz7bZVYwFutchuLMutpRd3KAuXCKgvp9l+Sp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uu7KhF7fwvhAZJltRif9BGFK95Mz2SLkT8ozXXphoFME8ZMfzDNZ7A1VTVR5mJCsLDvU+Je/CgURhssyb+CQJXXtWmyXIiYfqdyC191hCrOSU0uKDWXgaOLd9PQ5K9iKpAkfwWpQbZVawd0+xnhLtDASt+MA5a+uPElJQ5QqclU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UjrCKKxZ; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UjrCKKxZ"
+Message-ID: <d25340e3-2017-4614-a472-c5c7244c7ce4@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760193160;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W6DAktFf8ux13w20eariAQM5EE06H68osCBE8i4364c=;
+	b=UjrCKKxZ7HfUt7+I13g5vfVRPU1qXFULaDafrS7I83LwXVt6aH0moEoYrW9v3fMHyte3Lc
+	JIVb1vAXalk/iAX9JV1paqTF7GbCKdZcWmZHtsHe0AsdOKnwoKmIv3g4EwebnsComkRoff
+	oN69fjYfPJQ1nqoEOUx/q55njQikJ+A=
+Date: Sat, 11 Oct 2025 16:32:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-FEAS-Client-IP: 172.31.50.46
-X-FE-Policy-ID: 52:10:53:SYSTEM
+Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
+ TLB flushing
+To: David Hildenbrand <david@redhat.com>, Will Deacon <will@kernel.org>
+Cc: Dave Hansen <dave.hansen@intel.com>, "Roy, Patrick"
+ <roypat@amazon.co.uk>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+ "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+ "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
+ <mhocko@suse.com>, "song@kernel.org" <song@kernel.org>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>,
+ "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "Cali, Marco" <xmarcalx@amazon.co.uk>,
+ "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
+ "tabba@google.com" <tabba@google.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk>
+ <20250924152214.7292-3-roypat@amazon.co.uk>
+ <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
+ <c1875a54-0c87-450f-9370-29e7ec4fea3d@redhat.com>
+ <82bff1c4-987f-46cb-833c-bd99eaa46e7a@intel.com>
+ <c79173d8-6f18-40fa-9621-e691990501e4@redhat.com>
+ <c88514c3-e15f-4853-8acf-15e7b4b979f4@linux.dev>
+ <aNZwmPFAxm_HRYpC@willie-the-truck>
+ <5d11b5f7-3208-4ea8-bbff-f535cf62d576@redhat.com>
+ <be89abc6-97ca-47d8-b8e7-95f58ab9cc67@linux.dev>
+ <f13e06f3-3c7b-4993-b33a-a6921c14231b@redhat.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Patrick Roy <patrick.roy@linux.dev>
+Content-Language: en-US
+In-Reply-To: <f13e06f3-3c7b-4993-b33a-a6921c14231b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWFzYW1pIEhpcmFtYXRz
-dSA8bWhpcmFtYXRAa2VybmVsLm9yZz4NCj4gU2VudDogMjAyNcTqOdTCMjnI1SA4OjQ4DQo+IFRv
-OiBMaSxSb25ncWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+IENjOiBjb3JiZXRAbHduLm5l
-dDsgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgbGFuY2UueWFuZ0BsaW51eC5kZXY7DQo+IHBh
-dWxtY2tAa2VybmVsLm9yZzsgcGF3YW4ua3VtYXIuZ3VwdGFAbGludXguaW50ZWwuY29tOyBtaW5n
-b0BrZXJuZWwub3JnOw0KPiBkYXZlLmhhbnNlbkBsaW51eC5pbnRlbC5jb207IHJvc3RlZHRAZ29v
-ZG1pcy5vcmc7IGtlZXNAa2VybmVsLm9yZzsNCj4gYXJuZEBhcm5kYi5kZTsgZmVuZy50YW5nQGxp
-bnV4LmFsaWJhYmEuY29tOyBwYXVsZEByZWRoYXQuY29tOw0KPiBqb2VsLmdyYW5hZG9zQGtlcm5l
-bC5vcmc7IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmcNCj4gU3ViamVjdDogWz8/Pz9dIFJlOiBbUEFUQ0hdW3YyXSBodW5nX3Rhc2s6IFBh
-bmljIGFmdGVyIGZpeGVkIG51bWJlciBvZiBodW5nDQo+IHRhc2tzDQo+IA0KPiBPbiBTdW4sIDI4
-IFNlcCAyMDI1IDEzOjMxOjM3ICswODAwDQo+IGxpcm9uZ3FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUu
-Y29tPiB3cm90ZToNCj4gDQo+ID4gRnJvbTogTGkgUm9uZ1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUu
-Y29tPg0KPiA+DQo+ID4gQ3VycmVudGx5LCB3aGVuIGh1bmdfdGFza19wYW5pYyBpcyBlbmFibGVk
-LCBrZXJuZWwgd2lsbCBwYW5pYw0KPiA+IGltbWVkaWF0ZWx5IHVwb24gZGV0ZWN0aW5nIHRoZSBm
-aXJzdCBodW5nIHRhc2suIEhvd2V2ZXIsIHNvbWUgaHVuZw0KPiA+IHRhc2tzIGFyZSB0cmFuc2ll
-bnQgYW5kIHRoZSBzeXN0ZW0gY2FuIHJlY292ZXIgZnVsbHksIHdoaWxlIG90aGVycyBhcmUNCj4g
-PiB1bnJlY292ZXJhYmxlIGFuZCB0cmlnZ2VyIGNvbnNlY3V0aXZlIGh1bmcgdGFzayByZXBvcnRz
-LCBhbmQgYSBwYW5pYyBpcw0KPiBleHBlY3RlZC4NCj4gPg0KPiA+IFRoaXMgY29tbWl0IGFkZHMg
-YSBuZXcgc3lzY3RsIHBhcmFtZXRlciBodW5nX3Rhc2tfY291bnRfdG9fcGFuaWMgdG8NCj4gPiBh
-bGxvd3Mgc3BlY2lmeWluZyB0aGUgbnVtYmVyIG9mIGNvbnNlY3V0aXZlIGh1bmcgdGFza3MgdGhh
-dCBtdXN0IGJlDQo+ID4gZGV0ZWN0ZWQgYmVmb3JlIHRyaWdnZXJpbmcgYSBrZXJuZWwgcGFuaWMu
-IFRoaXMgcHJvdmlkZXMgZmluZXIgY29udHJvbA0KPiA+IGZvciBlbnZpcm9ubWVudHMgd2hlcmUg
-dHJhbnNpZW50IGhhbmdzIG1heWJlIGhhcHBlbiBidXQgcGVyc2lzdGVudA0KPiA+IGhhbmdzIHNo
-b3VsZCBzdGlsbCBiZSBmYXRhbC4NCj4gDQo+IElJVUMsIHBlcmhhcHMgdGhlcmUgYXJlIG11bHRp
-cGxlIGdyb3VwcyB0aGF0IHJlcXVpcmUgZGlmZmVyZW50IHRpbWVvdXRzIGZvcg0KPiBoYW5nIGNo
-ZWNrcywgYW5kIHlvdSB3YW50IHRvIHNldCB0aGUgaHVuZyB0YXNrIHRpbWVvdXQgdG8gbWF0Y2gg
-dGhlIHNob3J0ZXINCj4gb25lLCBidXQgaWdub3JlIHRoZSBsb25nZXIgb25lcyBhdCB0aGF0IHBv
-aW50Lg0KPiANCj4gSWYgc28sIHRoaXMgaXMgZXNzZW50aWFsbHkgYSBwcm9ibGVtIHdpdGggYSBs
-b25nIHByb2Nlc3MgdGhhdCBpcyBwZXJmb3JtZWQgdW5kZXINCj4gVEFTS19VTklOVEVSUlVQVElC
-TEUuIElkZWFsbHksIHRoZSBwcm9ncmVzcyBvZiBzdWNoIHByb2Nlc3Mgc2hvdWxkIGJlDQo+IGNo
-ZWNrZWQgcGVyaW9kaWNhbGx5IGFuZCB0aGUgaGFuZyBjaGVjayBzaG91bGQgYmUgcmVzZXQgdW5s
-ZXNzIGl0IGlzIHJlYWwNCj4gYmxvY2tlZC4NCj4gQnV0IHRoaXMgaXMgbm90IGN1cnJlbnRseSBp
-bXBsZW1lbnRlZC4gKEZvciBleGFtcGxlLCBkZXBlbmRpbmcgb24gdGhlIG1lZGlhLA0KPiBpdCBt
-YXkgbm90IGJlIHBvc3NpYmxlIHRvIGNoZWNrIHdoZXRoZXIgbG9uZyBJTyBpcyBiZWluZw0KPiBw
-ZXJmb3JtZWQuKQ0KPiANCj4gVGhlIGh1bmdfdGFza3Mgd2lsbCBldmVuIHNpbXVsYXRlIHRoZXNl
-IHR5cGVzIG9mIGhhbmdzIGFzIHRhc2sgaGFuZy11cHMuIEJ1dCBpZg0KPiB5b3Ugc2V0IGEgbG9u
-ZyBkZXRlY3Rpb24gdGltZSBhY2NvcmRpbmdseSwgeW91IHdpbGwgYWxzbyBoYXZlIHRvIHdhaXQg
-dW50aWwgdGhhdA0KPiBkZXRlY3Rpb24gdGltZSBmb3IgaGFuZ3MgdGhhdCBvY2N1ciBpbiBhIHNo
-b3J0IHBlcmlvZCBvZiB0aW1lLg0KPiANCj4gVGhlIGh1bmcgdGFza3Mgb24gb25lIG1ham9yIGxv
-Y2sgY2FuIHNwcmVhZCBpbiBhIGRvbWlubyBlZmZlY3QuDQo+IFNvIHNldHRpbmcgYSByZWFzb25h
-Ymx5IHNob3J0IGRldGVjdGlvbiB0aW1lLCBidXQgbm90IHBhbmlja2luZyB1bnRpbCB0aGVyZSBh
-cmUNCj4gZW5vdWdoIG9mIHRoZW0sIHNlZW1zIGxpa2UgYSByZWFzb25hYmxlIHN0cmF0ZWd5Lg0K
-PiBCdXQgaW4gdGhpcyBjYXNlLCBJIHRoaW5rIHdlIGFsc28gbmVlZCBhICJoYXJkIHRpbWVvdXQg
-bGltaXQiDQo+IG9mIGh1bmcgdGFza3MsIHdoaWNoIHdpbGwgZGV0ZWN0IGxvbmdlciBvbmVzLiBB
-bmQgYWxzbyB5b3Ugc2hvdWxkIHVzZSBwZWFrDQo+IHZhbHVlIG5vdCBhY2N1bXVsYXRpb24gdmFs
-dWUuDQo+IA0KPiBJZiBpdCBpcyByZWFsbHkgdHJhbnNpZW50ICh0aHVzLCBpdCBpcyBub3QgaHVu
-ZyksIGFjY3VtdWxhdGlvbiBvZiBzdWNoIG5vcm1hbCBidXQNCj4ganVzdCBzbG93IG9wZXJhdGlv
-biB3aWxsIHN0aWxsIGtpY2sgaHVuZ190YXNrcy4NCj4gDQoNCg0KSXMgaXQgcmVhc29uYWJsZSB0
-byBkZXRlY3QgdGhlIGV4aXN0ZW5jZSBvZiBhIGh1bmcgdGFzayBjb250aW51b3VzbHkgZm9yIGEg
-Y2VydGFpbiBudW1iZXIgb2YgdGltZXMgdG8gdHJpZ2dlciBwYW5pYz8NCg0KTGlrZQ0KDQpkaWZm
-IC0tZ2l0IGEva2VybmVsL2h1bmdfdGFzay5jIGIva2VybmVsL2h1bmdfdGFzay5jDQppbmRleCBk
-MTdjZDNmLi4wNDViZWY1IDEwMDY0NA0KLS0tIGEva2VybmVsL2h1bmdfdGFzay5jDQorKysgYi9r
-ZXJuZWwvaHVuZ190YXNrLmMNCkBAIC0zMDQsNiArMzA0LDggQEAgc3RhdGljIHZvaWQgY2hlY2tf
-aHVuZ191bmludGVycnVwdGlibGVfdGFza3ModW5zaWduZWQgbG9uZyB0aW1lb3V0KQ0KICAgICAg
-ICBpbnQgbWF4X2NvdW50ID0gc3lzY3RsX2h1bmdfdGFza19jaGVja19jb3VudDsNCiAgICAgICAg
-dW5zaWduZWQgbG9uZyBsYXN0X2JyZWFrID0gamlmZmllczsNCiAgICAgICAgc3RydWN0IHRhc2tf
-c3RydWN0ICpnLCAqdDsNCisgICAgICAgdW5zaWduZWQgbG9uZyBwcmVfZGV0ZWN0X2NvdW50ID0g
-c3lzY3RsX2h1bmdfdGFza19kZXRlY3RfY291bnQ7DQorICAgICAgIHN0YXRpYyB1bnNpZ25lZCBs
-b25nIGNvbnRpZ3VvdXNfZGV0ZWN0X2NvdW50Ow0KDQogICAgICAgIC8qDQogICAgICAgICAqIElm
-IHRoZSBzeXN0ZW0gY3Jhc2hlZCBhbHJlYWR5IHRoZW4gYWxsIGJldHMgYXJlIG9mZiwNCkBAIC0z
-MjYsNiArMzI4LDE1IEBAIHN0YXRpYyB2b2lkIGNoZWNrX2h1bmdfdW5pbnRlcnJ1cHRpYmxlX3Rh
-c2tzKHVuc2lnbmVkIGxvbmcgdGltZW91dCkNCg0KICAgICAgICAgICAgICAgIGNoZWNrX2h1bmdf
-dGFzayh0LCB0aW1lb3V0KTsNCiAgICAgICAgfQ0KKw0KKyAgICAgICBpZiAoc3lzY3RsX2h1bmdf
-dGFza19kZXRlY3RfY291bnQgIT0gcHJlX2RldGVjdF9jb3VudCkgew0KKyAgICAgICAgICAgICAg
-IGNvbnRpZ3VvdXNfZGV0ZWN0X2NvdW50Kys7DQorICAgICAgICAgICAgICAgaWYgKHN5c2N0bF9t
-YXhfaHVuZ190YXNrX3RvX3BhbmljICYmDQorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGNvbnRpZ3VvdXNfZGV0ZWN0X2NvdW50ID4gc3lzY3RsX21heF9odW5nX3Rhc2tfdG9fcGFuaWMp
-DQorICAgICAgICAgICAgICAgICAgICAgICBodW5nX3Rhc2tfY2FsbF9wYW5pYyA9IDE7DQorICAg
-ICAgIH0NCisgICAgICAgZWxzZQ0KKyAgICAgICAgICAgICAgIGNvbnRpZ3VvdXNfZGV0ZWN0X2Nv
-dW50ID0gMDsNCiAgdW5sb2NrOg0KICAgICAgICByY3VfcmVhZF91bmxvY2soKTsNCiAgICAgICAg
-aWYgKGh1bmdfdGFza19zaG93X2xvY2spDQoNCg0KDQotTGkNCg0KPiBUaGFuayB5b3UsDQo+IA0K
-PiA+DQo+ID4gQWNrZWQtYnk6IExhbmNlIFlhbmcgPGxhbmNlLnlhbmdAbGludXguZGV2Pg0KPiA+
-IFNpZ25lZC1vZmYtYnk6IExpIFJvbmdRaW5nIDxsaXJvbmdxaW5nQGJhaWR1LmNvbT4NCj4gPiAt
-LS0NCj4gPiBEaWZmIHdpdGggdjE6IGNoYW5nZSBkb2N1bWVudGF0aW9uIGFzIExhbmNlIHN1Z2dl
-c3RlZA0KPiA+DQo+ID4gIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvc3lzY3RsL2tlcm5lbC5y
-c3QgfCAgOCArKysrKysrKw0KPiA+ICBrZXJuZWwvaHVuZ190YXNrLmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgMTQgKysrKysrKysrKysrKy0NCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAyMSBp
-bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9hZG1pbi1ndWlkZS9zeXNjdGwva2VybmVsLnJzdA0KPiA+IGIvRG9jdW1lbnRhdGlv
-bi9hZG1pbi1ndWlkZS9zeXNjdGwva2VybmVsLnJzdA0KPiA+IGluZGV4IDhiNDllYWIuLjk4YjQ3
-YTcgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9zeXNjdGwva2Vy
-bmVsLnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvc3lzY3RsL2tlcm5l
-bC5yc3QNCj4gPiBAQCAtNDA1LDYgKzQwNSwxNCBAQCBUaGlzIGZpbGUgc2hvd3MgdXAgaWYNCj4g
-YGBDT05GSUdfREVURUNUX0hVTkdfVEFTS2BgIGlzIGVuYWJsZWQuDQo+ID4gIDEgUGFuaWMgaW1t
-ZWRpYXRlbHkuDQo+ID4gID0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQ0KPiA+DQo+ID4gK2h1bmdfdGFza19jb3VudF90b19wYW5pYw0KPiA+ICs9PT09
-PT09PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK1doZW4gc2V0IHRvIGEgbm9uLXplcm8gdmFs
-dWUsIGEga2VybmVsIHBhbmljIHdpbGwgYmUgdHJpZ2dlcmVkIGlmIHRoZQ0KPiA+ICtudW1iZXIg
-b2YgZGV0ZWN0ZWQgaHVuZyB0YXNrcyByZWFjaGVzIHRoaXMgdmFsdWUuDQo+ID4gKw0KPiA+ICtO
-b3RlIHRoYXQgc2V0dGluZyBodW5nX3Rhc2tfcGFuaWM9MSB3aWxsIHN0aWxsIGNhdXNlIGFuIGlt
-bWVkaWF0ZQ0KPiA+ICtwYW5pYyBvbiB0aGUgZmlyc3QgaHVuZyB0YXNrLg0KPiANCj4gV2hhdCBo
-YXBwZW4gaWYgaXQgaXMgMD8NCj4gDQo+ID4NCj4gPiAgaHVuZ190YXNrX2NoZWNrX2NvdW50DQo+
-ID4gID09PT09PT09PT09PT09PT09PT09PQ0KPiA+IGRpZmYgLS1naXQgYS9rZXJuZWwvaHVuZ190
-YXNrLmMgYi9rZXJuZWwvaHVuZ190YXNrLmMgaW5kZXgNCj4gPiA4NzA4YTEyLi44N2E2NDIxIDEw
-MDY0NA0KPiA+IC0tLSBhL2tlcm5lbC9odW5nX3Rhc2suYw0KPiA+ICsrKyBiL2tlcm5lbC9odW5n
-X3Rhc2suYw0KPiA+IEBAIC04Myw2ICs4Myw4IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgX19yZWFk
-X21vc3RseQ0KPiA+IHN5c2N0bF9odW5nX3Rhc2tfYWxsX2NwdV9iYWNrdHJhY2U7DQo+ID4gIHN0
-YXRpYyB1bnNpZ25lZCBpbnQgX19yZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNrX3BhbmljID0N
-Cj4gPiAgCUlTX0VOQUJMRUQoQ09ORklHX0JPT1RQQVJBTV9IVU5HX1RBU0tfUEFOSUMpOw0KPiA+
-DQo+ID4gK3N0YXRpYyB1bnNpZ25lZCBpbnQgX19yZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNr
-X2NvdW50X3RvX3BhbmljOw0KPiA+ICsNCj4gPiAgc3RhdGljIGludA0KPiA+ICBodW5nX3Rhc2tf
-cGFuaWMoc3RydWN0IG5vdGlmaWVyX2Jsb2NrICp0aGlzLCB1bnNpZ25lZCBsb25nIGV2ZW50LA0K
-PiA+IHZvaWQgKnB0cikgIHsgQEAgLTIxOSw3ICsyMjEsOSBAQCBzdGF0aWMgdm9pZCBjaGVja19o
-dW5nX3Rhc2soc3RydWN0DQo+ID4gdGFza19zdHJ1Y3QgKnQsIHVuc2lnbmVkIGxvbmcgdGltZW91
-dCkNCj4gPg0KPiA+ICAJdHJhY2Vfc2NoZWRfcHJvY2Vzc19oYW5nKHQpOw0KPiA+DQo+ID4gLQlp
-ZiAoc3lzY3RsX2h1bmdfdGFza19wYW5pYykgew0KPiA+ICsJaWYgKHN5c2N0bF9odW5nX3Rhc2tf
-cGFuaWMgfHwNCj4gPiArCSAgICAoc3lzY3RsX2h1bmdfdGFza19jb3VudF90b19wYW5pYyAmJg0K
-PiA+ICsJICAgICAoc3lzY3RsX2h1bmdfdGFza19kZXRlY3RfY291bnQgPj0NCj4gPiArc3lzY3Rs
-X2h1bmdfdGFza19jb3VudF90b19wYW5pYykpKSB7DQo+ID4gIAkJY29uc29sZV92ZXJib3NlKCk7
-DQo+ID4gIAkJaHVuZ190YXNrX3Nob3dfbG9jayA9IHRydWU7DQo+ID4gIAkJaHVuZ190YXNrX2Nh
-bGxfcGFuaWMgPSB0cnVlOw0KPiA+IEBAIC0zODgsNiArMzkyLDE0IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgY3RsX3RhYmxlIGh1bmdfdGFza19zeXNjdGxzW10gPSB7DQo+ID4gIAkJLmV4dHJhMgkJ
-PSBTWVNDVExfT05FLA0KPiA+ICAJfSwNCj4gPiAgCXsNCj4gPiArCQkucHJvY25hbWUJPSAiaHVu
-Z190YXNrX2NvdW50X3RvX3BhbmljIiwNCj4gPiArCQkuZGF0YQkJPSAmc3lzY3RsX2h1bmdfdGFz
-a19jb3VudF90b19wYW5pYywNCj4gPiArCQkubWF4bGVuCQk9IHNpemVvZihpbnQpLA0KPiA+ICsJ
-CS5tb2RlCQk9IDA2NDQsDQo+ID4gKwkJLnByb2NfaGFuZGxlcgk9IHByb2NfZG9pbnR2ZWNfbWlu
-bWF4LA0KPiA+ICsJCS5leHRyYTEJCT0gU1lTQ1RMX1pFUk8sDQo+ID4gKwl9LA0KPiA+ICsJew0K
-PiA+ICAJCS5wcm9jbmFtZQk9ICJodW5nX3Rhc2tfY2hlY2tfY291bnQiLA0KPiA+ICAJCS5kYXRh
-CQk9ICZzeXNjdGxfaHVuZ190YXNrX2NoZWNrX2NvdW50LA0KPiA+ICAJCS5tYXhsZW4JCT0gc2l6
-ZW9mKGludCksDQo+ID4gLS0NCj4gPiAyLjkuNA0KPiA+DQo+IA0KPiANCj4gLS0NCj4gTWFzYW1p
-IEhpcmFtYXRzdSAoR29vZ2xlKSA8bWhpcmFtYXRAa2VybmVsLm9yZz4NCg==
+Hey all,
+
+sorry it took me a while to get back to this, turns out moving
+internationally is move time consuming than I expected.
+
+On Mon, 2025-09-29 at 12:20 +0200, David Hildenbrand wrote:
+> On 27.09.25 09:38, Patrick Roy wrote:
+>> On Fri, 2025-09-26 at 21:09 +0100, David Hildenbrand wrote:
+>>> On 26.09.25 12:53, Will Deacon wrote:
+>>>> On Fri, Sep 26, 2025 at 10:46:15AM +0100, Patrick Roy wrote:
+>>>>> On Thu, 2025-09-25 at 21:13 +0100, David Hildenbrand wrote:
+>>>>>> On 25.09.25 21:59, Dave Hansen wrote:
+>>>>>>> On 9/25/25 12:20, David Hildenbrand wrote:
+>>>>>>>> On 25.09.25 20:27, Dave Hansen wrote:
+>>>>>>>>> On 9/24/25 08:22, Roy, Patrick wrote:
+>>>>>>>>>> Add an option to not perform TLB flushes after direct map manipulations.
+>>>>>>>>>
+>>>>>>>>> I'd really prefer this be left out for now. It's a massive can of worms.
+>>>>>>>>> Let's agree on something that works and has well-defined behavior before
+>>>>>>>>> we go breaking it on purpose.
+>>>>>>>>
+>>>>>>>> May I ask what the big concern here is?
+>>>>>>>
+>>>>>>> It's not a _big_ concern.
+>>>>>>
+>>>>>> Oh, I read "can of worms" and thought there is something seriously problematic :)
+>>>>>>
+>>>>>>> I just think we want to start on something
+>>>>>>> like this as simple, secure, and deterministic as possible.
+>>>>>>
+>>>>>> Yes, I agree. And it should be the default. Less secure would have to be opt-in and documented thoroughly.
+>>>>>
+>>>>> Yes, I am definitely happy to have the 100% secure behavior be the
+>>>>> default, and the skipping of TLB flushes be an opt-in, with thorough
+>>>>> documentation!
+>>>>>
+>>>>> But I would like to include the "skip tlb flushes" option as part of
+>>>>> this patch series straight away, because as I was alluding to in the
+>>>>> commit message, with TLB flushes this is not usable for Firecracker for
+>>>>> performance reasons :(
+>>>>
+>>>> I really don't want that option for arm64. If we're going to bother
+>>>> unmapping from the linear map, we should invalidate the TLB.
+>>>
+>>> Reading "TLB flushes result in a up to 40x elongation of page faults in
+>>> guest_memfd (scaling with the number of CPU cores), or a 5x elongation
+>>> of memory population,", I can understand why one would want that optimization :)
+>>>
+>>> @Patrick, couldn't we use fallocate() to preallocate memory and batch the TLB flush within such an operation?
+>>>
+>>> That is, we wouldn't flush after each individual direct-map modification but after multiple ones part of a single operation like fallocate of a larger range.
+>>>
+>>> Likely wouldn't make all use cases happy.
+>>>
+>>
+>> For Firecracker, we rely a lot on not preallocating _all_ VM memory, and
+>> trying to ensure only the actual "working set" of a VM is faulted in (we
+>> pack a lot more VMs onto a physical host than there is actual physical
+>> memory available). For VMs that are restored from a snapshot, we know
+>> pretty well what memory needs to be faulted in (that's where @Nikita's
+>> write syscall comes in), so there we could try such an optimization. But
+>> for everything else we very much rely on the on-demand nature of guest
+>> memory allocation (and hence direct map removal). And even right now,
+>> the long pole performance-wise are these on-demand faults, so really, we
+>> don't want them to become even slower :(
+> 
+> Makes sense. I guess even without support for large folios one could implement a kind of "fault" around: for example, on access to one addr, allocate+prepare all pages in the same 2 M chunk, flushing the tlb only once after adjusting all the direct map entries.
+> 
+>>
+>> Also, can we really batch multiple TLB flushes as you suggest? Even if
+>> pages are at consecutive indices in guest_memfd, they're not guaranteed
+>> to be continguous physically, e.g. we couldn't just coalesce multiple
+>> TLB flushes into a single TLB flush of a larger range.
+> 
+> Well, you there is the option on just flushing the complete tlb of course :) When trying to flush a range you would indeed run into the problem of flushing an ever growing range.
+
+In the last guest_memfd upstream call (over a week ago now), we've
+discussed the option of batching and deferring TLB flushes, while
+providing a sort of "deadline" at which a TLB flush will
+deterministically be done.  E.g. guest_memfd would keep a counter of how
+many pages got direct map zapped, and do a flush of a range that
+contains all zapped pages every 512 allocated pages (and to ensure the
+flushes even happen in a timely manner if no allocations happen for a
+long time, also every, say, 5 seconds or something like that). Would
+that work for everyone? I briefly tested the performance of
+batch-flushes with secretmem in QEMU, and its within of 30% of the "no
+TLB flushes at all" solution in a simple benchmark that just memsets
+2GiB of memory.
+
+I think something like this, together with the batch-flushing at the end
+of fallocate() / write() as David suggested above should work for
+Firecracker.
+
+>> There's probably other things we can try. Backing guest_memfd with
+>> hugepages would reduce the number TLB flushes by 512x (although not all
+>> users of Firecracker at Amazon [can] use hugepages).
+> 
+> Right.
+> 
+>>
+>> And I do still wonder if it's possible to have "async TLB flushes" where
+>> we simply don't wait for the IPI (x86 terminology, not sure what the
+>> mechanism on arm64 is). Looking at
+>> smp_call_function_many_cond()/invlpgb_kernel_range_flush() on x86, it
+>> seems so? Although seems like on ARM it's actually just handled by a
+>> single instruction (TLBI) and not some interprocess communication
+>> thingy. Maybe there's a variant that's faster / better for this usecase?
+> 
+> Right, some architectures (and IIRC also x86 with some extension) are able to flush remote TLBs without IPIs.
+> 
+> Doing a quick search, there seems to be some research on async TLB flushing, e.g., [1].
+> 
+> In the context here, I wonder whether an async TLB flush would be
+> significantly better than not doing an explicit TLB flush: in both
+> cases, it's not really deterministic when the relevant TLB entries
+> will vanish: with the async variant it might happen faster on average
+> I guess.
+
+I actually did end up playing around with this a while ago, and it made
+things slightly better performance wise, but it was still too bad to be
+useful :(
+
+> 
+> [1] https://cs.yale.edu/homes/abhishek/kumar-taco20.pdf
+>
+
+Best, 
+Patrick
