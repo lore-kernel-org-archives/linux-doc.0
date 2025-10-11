@@ -1,296 +1,159 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D1D170A37
-	for <linux-doc@vger.kernel.org>; Sat, 11 Oct 2025 02:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8101B1957FC;
+	Sat, 11 Oct 2025 02:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760148868; cv=none; b=KE8+uTW59ht99SlxxNxJcBkaPn+WNaWVcKLOIgh8uUMSHseUSsSMT6aDPVEE7+4F74xNsZuHLkZ3BvLzX8TD+oIRgVnFLW5kYs+i2ggCWOThFhD4q6lnbCx5UdDvVRxlUUSDhsTWB0pksJ8T7NhxKlG17/8VKEojakY7fMOFtUQ=
+	t=1760151490; cv=none; b=g2OVHIjd7sQHSiGiS1FuG8E1p3EydzdPLCM8uYfvoEptY2twe5Ah3u4VtvzvT0iUFoOAb797k5kVpR1QtDznoSqf/dvTIor8eqFP6ZXa9IbGGKI/jC5JyR1aKKIur0mDNM4TYJEFJpbYQKO001aEYFeZWnA9VpCNOSua+rSDGs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760148868; c=relaxed/simple;
-	bh=MvLEj9hucysQ43ekc4SLvEyDMBwRfa6Vthc+LLe9js4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OJCk0hJ4pRjkOJvbuj9AYCA5hWgNxJPW04Z9ccb8QGF4F7YeZ5jMvAR8IB4jzxnZIl3lACvHCoAmfC6X5moc4h4VWdJjulFmS9BZCEmP06EjMEbO8OjcPO0Hi61oQg2CZibOJFtuorU+Q45hMAzY3KVa3Xyvk25kppYIdDFytbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dspWmUds; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760151490; c=relaxed/simple;
+	bh=n3Cf2XbDxUMzoSgHrQU9R6SSN64Mq364sx/VyZ4IhmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LCq0A0JsSTS5KchuuI8DlIemdBUj7LpKiRBDVEvbVgjrenfSzBudl3oyhkdS79mYN5JvxBJz6qHSyS65NgpVG1jKAHr6RPecHi3gPwvnHCMUMkktcvYiLwM1czPEtr7PEYgGbvpI5iRVIGFwlJ+8CEzymgrw/l9qdvWKmKrEvhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5ZwjEFg; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dspWmUds"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-78ea15d3489so27756746d6.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Oct 2025 19:14:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760148865; x=1760753665; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OjM7Uo7QXRSYcqIINz76pFr6NJAIPUeKl8+ji06M7jI=;
-        b=dspWmUdscCvqkoFepAyqW4ATgVV+D3bBNXpKrba26EggEL63orZIppAozYFUwWLHHq
-         kM3rDMIBTz/nIPYBmaFidFvLOmX/No2wkODsNUEIE0NN2Ixq49dNZt97G+f/it7jMVGV
-         VYJp1Qk2qY3ZVmgCAe1gXaBiTGOFNhdaMRA1HC4kMDMhidcWrTvqmQJ45pTbOTUMdkpD
-         Mo8UfPE6T7K7FAJGpjrM7VdBzckdKXs8az60hfca2Zxd5/WAJ7qXDC5yEaPKEdmtJ1vU
-         mqJs9RaozKzH2NYxYqba1U8QYQrmsGSDXw8oHroB+oqCHDHTfRJJWDfSJUZVXCqwvY/R
-         udsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760148865; x=1760753665;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OjM7Uo7QXRSYcqIINz76pFr6NJAIPUeKl8+ji06M7jI=;
-        b=jyhnDKDXsDmGIzBCPqKhrVdO+JdGqG9UEtrpIkv+345feg37e0CbsBn97s/lQShp4R
-         wp49gnPER6bctSbWDMqA6ayDNHbam2lgVj74uDtAvANnEMPS0BiFSvNrzsx2j4Ov+Mcn
-         1bcaJjMBC6NY640lxs0hNXZSkc3UbwvJN3Sokw+yWsn1hHzqb1VPX5Jx3z8bzvNzsIjn
-         kIHB9tWggIF340s3cb2keaIf8YqO4GljlDr1aZyETlh9ZAEBG6GhNVl5xbHLtNTYNqx2
-         Ugz9GSqCo9Y0s6vOj7n/hpSH69oc0KWSjermibrH5cITBH0RlsGggXjJnK+q86mYV9Nh
-         CABQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXm26NLvuSRO26vZGD1TckW1IzbwOeeF5X9bliEsgW6NcidS7fNYuKfoAW92YF2pWAOO3ukhPC3+JU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg9ufsrYUs4tt03iyLorstfGyTdVv8FWheVzaIadjYn+R0955a
-	/MH9roK1ofnE1aW+PAd/cJFLgs9D3ANBLIXKipPUGidm7seyJ4xnH7Jsi5TUCWpiO8HwAtYLKwP
-	VkBYJNWKpF9jc1XKzg0EDEt4gKhAXlNk=
-X-Gm-Gg: ASbGncs5x67aQ5QaELYFv7ecspO/JAVKDSXg9qt1QXzuSNj/q1ZjZO/iOYEvpn3o7r0
-	zoXNfdXIxvhMIlDuvBY0pSywOO0fyLDKZM5OnQvn3HDJtbXCmjDfF6Tn8dVlBJlYQzc5R/xiV3u
-	DfvTNXzodL1nbGvfVrlNkFHApquvazgYKpVVXm7BL3at4OZLtkXQG/in/1pvHYNSHMTvLtf1nBP
-	9DwIVPq3J1UA+AFMmHgwOslg0ZoZ8AHgzuS/P6LieCqrr4ECvyEc6+xupU=
-X-Google-Smtp-Source: AGHT+IGaeWexa9bzckVo2Zuz8KIURfJ9ec0dzy2/uD8zB9hlaiwuFTNQBQBPWfvTfKv9XXFEhBIN1ZQ9u4RYMWr8GwE=
-X-Received: by 2002:a05:6214:250d:b0:72a:ba05:7759 with SMTP id
- 6a1803df08f44-87b2105abd3mr248316426d6.28.1760148864567; Fri, 10 Oct 2025
- 19:14:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5ZwjEFg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760151488; x=1791687488;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n3Cf2XbDxUMzoSgHrQU9R6SSN64Mq364sx/VyZ4IhmQ=;
+  b=h5ZwjEFg4v885bhFR6KzxZj/fVVo0QmQYEBCj4x8S71fEJFdI1dASU06
+   zFzIpOTjNqmpxQm2g7TidzOJQA5uPLo2+4KZ1U/KM1K46mUqCYHy+dcg9
+   dSKHe+6GL98nfSb0Y9gtaTHEzfkvvYQFEPU0DUOQ7qMGRP8tz+FtLKEC4
+   YLldkWSZB+rc7FKW4SRs3eNFXkNyaVibW6WLLRLMs74bDpzzsf5zClGAk
+   V7WdzVE1OLrpd8K5vkh46HKyiE9X3FqRKQmVzoQWNGiU7b20OQLdmNH6T
+   Ff3J681rZ8fHoYcaTotchlpOzB7DB4MD2P6nwgWss5XFkGYQO7R1Ai5EW
+   g==;
+X-CSE-ConnectionGUID: zXDQaE2eSvGtQCD1z3Mrvw==
+X-CSE-MsgGUID: b/Nq6Qz7RLeo9IF5GwUxig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62267674"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="62267674"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 19:58:07 -0700
+X-CSE-ConnectionGUID: YrfVI3RNRcqF0tl0N/g1FA==
+X-CSE-MsgGUID: kzR2Jx+RQBOJsvHCexOGmw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Oct 2025 19:58:01 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7Pny-0003S7-2G;
+	Sat, 11 Oct 2025 02:57:58 +0000
+Date: Sat, 11 Oct 2025 10:57:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, david@redhat.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
+	alexandru.elisei@arm.com, peterx@redhat.com, sj@kernel.org,
+	rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, axboe@kernel.dk,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, hch@infradead.org,
+	jack@suse.cz, willy@infradead.org, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, hannes@cmpxchg.org,
+	zhengqi.arch@bytedance.com, shakeel.butt@linux.dev,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	minchan@kernel.org, surenb@google.com, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/8] mm/tests: add cleancache kunit test
+Message-ID: <202510111059.aKceYLLH-lkp@intel.com>
+References: <20251010011951.2136980-6-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250930055826.9810-1-laoar.shao@gmail.com> <20250930055826.9810-4-laoar.shao@gmail.com>
- <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
- <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com> <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
- <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com> <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
- <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com> <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
- <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
- <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com> <CALOAHbD8ko104PEFHPYjvnhKL50XTtpbHL_ehTLCCwSX0HG3-A@mail.gmail.com>
- <3577f7fd-429a-49c5-973b-38174a67be15@redhat.com>
-In-Reply-To: <3577f7fd-429a-49c5-973b-38174a67be15@redhat.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Sat, 11 Oct 2025 10:13:48 +0800
-X-Gm-Features: AS18NWCAaE3m0s9H3fRQL4N3FgUc6r2BHuW_Zdib2ILLDEDUTnQn0cQOhl7yXZI
-Message-ID: <CALOAHbAeS2HzQN96UZNOCuME098=GvXBUh1P4UwUJr0U-bB5EQ@mail.gmail.com>
-Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
- order selection
-To: David Hildenbrand <david@redhat.com>, Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	Matthew Wilcox <willy@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Amery Hung <ameryhung@gmail.com>, David Rientjes <rientjes@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>, 
-	lance.yang@linux.dev, Randy Dunlap <rdunlap@infradead.org>, bpf <bpf@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010011951.2136980-6-surenb@google.com>
 
-On Fri, Oct 10, 2025 at 3:54=E2=80=AFPM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> On 09.10.25 11:59, Yafang Shao wrote:
-> > On Thu, Oct 9, 2025 at 5:19=E2=80=AFPM David Hildenbrand <david@redhat.=
-com> wrote:
-> >>
-> >> On 08.10.25 15:11, Yafang Shao wrote:
-> >>> On Wed, Oct 8, 2025 at 8:07=E2=80=AFPM David Hildenbrand <david@redha=
-t.com> wrote:
-> >>>>
-> >>>> On 08.10.25 13:27, Zi Yan wrote:
-> >>>>> On 8 Oct 2025, at 5:04, Yafang Shao wrote:
-> >>>>>
-> >>>>>> On Wed, Oct 8, 2025 at 4:28=E2=80=AFPM David Hildenbrand <david@re=
-dhat.com> wrote:
-> >>>>>>>
-> >>>>>>> On 08.10.25 10:18, Yafang Shao wrote:
-> >>>>>>>> On Wed, Oct 8, 2025 at 4:08=E2=80=AFPM David Hildenbrand <david@=
-redhat.com> wrote:
-> >>>>>>>>>
-> >>>>>>>>> On 03.10.25 04:18, Alexei Starovoitov wrote:
-> >>>>>>>>>> On Mon, Sep 29, 2025 at 10:59=E2=80=AFPM Yafang Shao <laoar.sh=
-ao@gmail.com> wrote:
-> >>>>>>>>>>>
-> >>>>>>>>>>> +unsigned long bpf_hook_thp_get_orders(struct vm_area_struct =
-*vma,
-> >>>>>>>>>>> +                                     enum tva_type type,
-> >>>>>>>>>>> +                                     unsigned long orders)
-> >>>>>>>>>>> +{
-> >>>>>>>>>>> +       thp_order_fn_t *bpf_hook_thp_get_order;
-> >>>>>>>>>>> +       int bpf_order;
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +       /* No BPF program is attached */
-> >>>>>>>>>>> +       if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
-> >>>>>>>>>>> +                     &transparent_hugepage_flags))
-> >>>>>>>>>>> +               return orders;
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +       rcu_read_lock();
-> >>>>>>>>>>> +       bpf_hook_thp_get_order =3D rcu_dereference(bpf_thp.th=
-p_get_order);
-> >>>>>>>>>>> +       if (WARN_ON_ONCE(!bpf_hook_thp_get_order))
-> >>>>>>>>>>> +               goto out;
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +       bpf_order =3D bpf_hook_thp_get_order(vma, type, order=
-s);
-> >>>>>>>>>>> +       orders &=3D BIT(bpf_order);
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +out:
-> >>>>>>>>>>> +       rcu_read_unlock();
-> >>>>>>>>>>> +       return orders;
-> >>>>>>>>>>> +}
-> >>>>>>>>>>
-> >>>>>>>>>> I thought I explained it earlier.
-> >>>>>>>>>> Nack to a single global prog approach.
-> >>>>>>>>>
-> >>>>>>>>> I agree. We should have the option to either specify a policy g=
-lobally,
-> >>>>>>>>> or more refined for cgroups/processes.
-> >>>>>>>>>
-> >>>>>>>>> It's an interesting question if a program would ever want to sh=
-ip its
-> >>>>>>>>> own policy: I can see use cases for that.
-> >>>>>>>>>
-> >>>>>>>>> So I agree that we should make it more flexible right from the =
-start.
-> >>>>>>>>
-> >>>>>>>> To achieve per-process granularity, the struct-ops must be embed=
-ded
-> >>>>>>>> within the mm_struct as follows:
-> >>>>>>>>
-> >>>>>>>> +#ifdef CONFIG_BPF_MM
-> >>>>>>>> +struct bpf_mm_ops {
-> >>>>>>>> +#ifdef CONFIG_BPF_THP
-> >>>>>>>> +       struct bpf_thp_ops bpf_thp;
-> >>>>>>>> +#endif
-> >>>>>>>> +};
-> >>>>>>>> +#endif
-> >>>>>>>> +
-> >>>>>>>>      /*
-> >>>>>>>>       * Opaque type representing current mm_struct flag state. M=
-ust be accessed via
-> >>>>>>>>       * mm_flags_xxx() helper functions.
-> >>>>>>>> @@ -1268,6 +1281,10 @@ struct mm_struct {
-> >>>>>>>>      #ifdef CONFIG_MM_ID
-> >>>>>>>>                     mm_id_t mm_id;
-> >>>>>>>>      #endif /* CONFIG_MM_ID */
-> >>>>>>>> +
-> >>>>>>>> +#ifdef CONFIG_BPF_MM
-> >>>>>>>> +               struct bpf_mm_ops bpf_mm;
-> >>>>>>>> +#endif
-> >>>>>>>>             } __randomize_layout;
-> >>>>>>>>
-> >>>>>>>> We should be aware that this will involve extensive changes in m=
-m/.
-> >>>>>>>
-> >>>>>>> That's what we do on linux-mm :)
-> >>>>>>>
-> >>>>>>> It would be great to use Alexei's feedback/experience to come up =
-with
-> >>>>>>> something that is flexible for various use cases.
-> >>>>>>
-> >>>>>> I'm still not entirely convinced that allowing individual processe=
-s or
-> >>>>>> cgroups to run independent progs is a valid use case. However, sin=
-ce
-> >>>>>> we have a consensus that this is the right direction, I will proce=
-ed
-> >>>>>> with this approach.
-> >>>>>>
-> >>>>>>>
-> >>>>>>> So I think this is likely the right direction.
-> >>>>>>>
-> >>>>>>> It would be great to evaluate which scenarios we could unlock wit=
-h this
-> >>>>>>> (global vs. per-process vs. per-cgroup) approach, and how
-> >>>>>>> extensive/involved the changes will be.
-> >>>>>>
-> >>>>>> 1. Global Approach
-> >>>>>>       - Pros:
-> >>>>>>         Simple;
-> >>>>>>         Can manage different THP policies for different cgroups or=
- processes.
-> >>>>>>      - Cons:
-> >>>>>>         Does not allow individual processes to run their own BPF p=
-rograms.
-> >>>>>>
-> >>>>>> 2. Per-Process Approach
-> >>>>>>        - Pros:
-> >>>>>>          Enables each process to run its own BPF program.
-> >>>>>>        - Cons:
-> >>>>>>          Introduces significant complexity, as it requires handlin=
-g the
-> >>>>>> BPF program's lifecycle (creation, destruction, inheritance) withi=
-n
-> >>>>>> every mm_struct.
-> >>>>>>
-> >>>>>> 3. Per-Cgroup Approach
-> >>>>>>        - Pros:
-> >>>>>>           Allows individual cgroups to run their own BPF programs.
-> >>>>>>           Less complex than the per-process model, as it can lever=
-age the
-> >>>>>> existing cgroup operations structure.
-> >>>>>>        - Cons:
-> >>>>>>           Creates a dependency on the cgroup subsystem.
-> >>>>>>           might not be easy to control at the per-process level.
-> >>>>>
-> >>>>> Another issue is that how and who to deal with hierarchical cgroup,=
- where one
-> >>>>> cgroup is a parent of another. Should bpf program to do that or mm =
-code
-> >>>>> to do that? I remember hierarchical cgroup is the main reason THP c=
-ontrol
-> >>>>> at cgroup level is rejected. If we do per-cgroup bpf control, would=
-n't we
-> >>>>> get the same rejection from cgroup folks?
-> >>>>
-> >>>> Valid point.
-> >>>>
-> >>>> I do wonder if that problem was already encountered elsewhere with b=
-pf
-> >>>> and if there is already a solution.
-> >>>
-> >>> Our standard is to run only one instance of a BPF program type
-> >>> system-wide to avoid conflicts. For example, we can't have both
-> >>> systemd and a container runtime running bpf-thp simultaneously.
-> >>
-> >> Right, it's a good question how to combine policies, or "who wins".
-> >
-> >  From my perspective, the ideal approach is to have one BPF-THP
-> > instance per mm_struct. This allows for separate managers in different
-> > domains, such as systemd managing BPF-THP for system processes and
-> > containerd for container processes, while ensuring that any single
-> > process is managed by only one BPF-THP.
->
-> I came to the same conclusion. At least it's a valid start.
->
-> Maybe we would later want a global fallback BPF-THP prog if none was
-> enabled for a specific MM.
+Hi Suren,
 
-good idea. We can fallback to the global model when attaching pid 1.
+kernel test robot noticed the following build warnings:
 
->
-> But I would expect to start with a per MM way of doing it, it gives you
-> way more flexibility in the long run.
+[auto build test WARNING on 70478cb9da6fc4e7b987219173ba1681d5f7dd3d]
 
-THP, such as shmem and file-backed THP, are shareable across multiple
-processes and cgroups. If we allow different BPF-THP policies to be
-applied to these shared resources, it could lead to policy
-inconsistencies. This would ultimately recreate a long-standing issue
-in memcg, which still lacks a robust solution for this problem [0].
+url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-implement-cleancache/20251010-134501
+base:   70478cb9da6fc4e7b987219173ba1681d5f7dd3d
+patch link:    https://lore.kernel.org/r/20251010011951.2136980-6-surenb%40google.com
+patch subject: [PATCH 5/8] mm/tests: add cleancache kunit test
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251011/202510111059.aKceYLLH-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111059.aKceYLLH-lkp@intel.com/reproduce)
 
-This suggests that applying SCOPED policies to SHAREABLE memory may be
-fundamentally flawed ;-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111059.aKceYLLH-lkp@intel.com/
 
-[0]. https://lore.kernel.org/linux-mm/YwNold0GMOappUxc@slm.duckdns.org/
+All warnings (new ones prefixed by >>):
 
-(Added the maintainers from the old discussion to this thread.)
+>> mm/tests/cleancache_kunit.c:358:6: warning: variable 'unused' set but not used [-Wunused-but-set-variable]
+     358 |         int unused = 0;
+         |             ^
+   1 warning generated.
 
---=20
-Regards
-Yafang
+
+vim +/unused +358 mm/tests/cleancache_kunit.c
+
+   353	
+   354	static void cleancache_backend_api_test(struct kunit *test)
+   355	{
+   356		struct folio *folio;
+   357		LIST_HEAD(folios);
+ > 358		int unused = 0;
+   359		int used = 0;
+   360	
+   361		/* Store inode folios into cleancache */
+   362		fill_cleancache(test);
+   363	
+   364		/* Get all donated folios back */
+   365		for (int fidx = 0; fidx < FOLIO_COUNT; fidx++) {
+   366			KUNIT_EXPECT_EQ(test, cleancache_backend_get_folio(test_data.pool_id,
+   367							test_data.pool_folios[fidx]),  0);
+   368			set_page_refcounted(&test_data.pool_folios[fidx]->page);
+   369		}
+   370	
+   371		/* Try putting a refcounted folio */
+   372		KUNIT_EXPECT_NE(test, cleancache_backend_put_folio(test_data.pool_id,
+   373						test_data.pool_folios[0]), 0);
+   374	
+   375		/* Put some of the folios back into cleancache */
+   376		for (int fidx = 0; fidx < FOLIOS_PER_INODE; fidx++) {
+   377			folio_ref_freeze(test_data.pool_folios[fidx], 1);
+   378			KUNIT_EXPECT_EQ(test, cleancache_backend_put_folio(test_data.pool_id,
+   379							test_data.pool_folios[fidx]), 0);
+   380		}
+   381	
+   382		/* Put the rest back into cleancache but keep half of folios still refcounted */
+   383		for (int fidx = FOLIOS_PER_INODE; fidx < FOLIO_COUNT; fidx++) {
+   384			if (fidx % 2) {
+   385				folio_ref_freeze(test_data.pool_folios[fidx], 1);
+   386				unused++;
+   387			} else {
+   388				used++;
+   389			}
+   390			list_add(&test_data.pool_folios[fidx]->lru, &folios);
+   391		}
+   392		KUNIT_EXPECT_NE(test, cleancache_backend_put_folios(test_data.pool_id,
+   393						&folios), 0);
+   394		/* Used folios should be still in the list */
+   395		KUNIT_EXPECT_EQ(test, list_count_nodes(&folios), used);
+   396	
+   397		/* Release refcounts and put the remaining folios into cleancache */
+   398		list_for_each_entry(folio, &folios, lru)
+   399			folio_ref_freeze(folio, 1);
+   400		KUNIT_EXPECT_EQ(test, cleancache_backend_put_folios(test_data.pool_id,
+   401						&folios), 0);
+   402		KUNIT_EXPECT_TRUE(test, list_empty(&folios));
+   403	}
+   404	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
