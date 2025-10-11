@@ -1,108 +1,139 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834A02110E;
-	Sat, 11 Oct 2025 00:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C907260B;
+	Sat, 11 Oct 2025 01:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760142315; cv=none; b=r8PwPjqaOw7fQAPYgsSFcRazD5JtKnw+WrKf7d35UwTCXkp+VoOrhRaIQgDhHZWyugt/LRhDFxWYBjPD/ukxs8JYSArsXttAUFcoRLDoYZ3+noEe8EvJZLQdee+G6i90EM8iLHcMcfJqx9b8wnhHx+m+2TiN/bECStQs7mIoqMI=
+	t=1760145176; cv=none; b=MB4fE9lGkGsmvP4fkFNEWR6HB44JwpHJ4/Ii9zsA6TFA+lkZoW5JJdEV4HtlXK2oGEH4EfWyrvZcmZs2mt88CTR1vuaeZo/Qhssxg2oqSqdP3N8SvOTc4K0FzuQIO5HqBYddJS/j3PtXgavHGKPJvUDNbzYPkoguKImxDIXKWWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760142315; c=relaxed/simple;
-	bh=xloi6/dDCBbBdQj0ATV0M5mulI4g6Kjwg6d5B3972vI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VB4aETtTGs+Ocv716pbQcYwdGMJGiaLFtx7cnCwV3EUVHBLP8i6fLvwfmFkof7oiteUUYxi2qeZ8NYfWPu0FriG3glcKQ9H1PRPOyBnNfevL7rrzRJj46KeFGqxwfpHimdvWgJNjaCE4tqxiXvnPDF7LKs+y68BPNZvU98JP0L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uDNbrDyp; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1760145176; c=relaxed/simple;
+	bh=ucy6YOJRmqBcirVEuFy4wQRT/WtafEtff4nZW2czQcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=reSbKGe0/vxjTIVDU0h0Y7k8DYA0zYTcuokezoe4kdiWMgWZNq3KktejbTNM0RkrcROQ8QQ/1QW51y8h5+OAngwZ+ki4wV+Ar/qQjvNkWKwLJRw8VkDTWpdWiJdwrMpRLNAW4SAxU5fpKVdhykMmjfb4R/wyFfhUkK6IIxqT4ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QdytW0yV; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uDNbrDyp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=nC6HbeD+9G+hKIO6m1GM6pRZBQDK7wI3DYn9jMzQYfo=; b=uDNbrDyprSA6K1gO5XOEmoOI55
-	xeoXdqA8MQljbE9wSMoC8Sr020ZHCoiJJlGVaoTOopfCWGwGcSeth+FfFTHYh6e4b3I0lMy7LPLpT
-	lOyXwf9sGPYgsSvC/7zifl0eWxjGyfQkFsAsKRAhkWkw53+fKX/A8WeZ+b8l2nQ0+jbJlggbNOIMJ
-	DSr1+a82fREA15W18zbC4QlBqCPnkXKmkNiBUWDrF+5Mt/MYR1z+lwSCtqWiRtj2lF+prDMGpcmYM
-	F5fM0nMqoMbjohJHe0bFtkZaDUkn/7RjUd9Ti8l6JxyaliJOHOzZHNBZ/nUOK57x7VAxZYDMoITFJ
-	kQL64Z0A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7NQ2-00000009aHM-1fEn;
-	Sat, 11 Oct 2025 00:25:06 +0000
-Message-ID: <d8c6762c-e08c-4b7a-92e9-7dad17ad0b49@infradead.org>
-Date: Fri, 10 Oct 2025 17:25:05 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdytW0yV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760145176; x=1791681176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ucy6YOJRmqBcirVEuFy4wQRT/WtafEtff4nZW2czQcg=;
+  b=QdytW0yVQO0U8KnBoNwgw3ZlBMqNT3cK4ZishvrwnMjpOpWENUpGcYnv
+   rH3yDXdwHmkh7FmthVTsX2he9kBa/k7ZsBWjBTlHUQnedujOVozmrMC61
+   PhQ0mqmi96w1HtxVvl4+BGl6oKM6s4UPZWgBVXvDsAzVBPjnDxuKOlKCo
+   oSF/Cs/NiLe4jip/e+gis/mD60c1v9vyMBx+wSO36/3O/TAcOyBQmznDY
+   XcLnYeeUBarhMM3u4heDgS/b4xageym71zLqzcI+mPJ5nhpuWW+jxaEbq
+   qN6owTrluhOcDyiyX1KceWDEr0gNjcxzwztrFeUg/0o9oqwkr3F2tmne0
+   g==;
+X-CSE-ConnectionGUID: gC4AxNxDSausrHlhU2J4Ew==
+X-CSE-MsgGUID: 7ItuSiKCTfqAF0/3d7ocrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="66220399"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="66220399"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 18:12:55 -0700
+X-CSE-ConnectionGUID: zxk79Xh6Qi2s7rWg5gOvQg==
+X-CSE-MsgGUID: 5w6Sct5DSYWT4cqH8YS1Dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="204783189"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Oct 2025 18:12:50 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7OAC-0003Mv-11;
+	Sat, 11 Oct 2025 01:12:48 +0000
+Date: Sat, 11 Oct 2025 09:12:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH v5 2/2] irqchip/irq-loongarch-ir:Add Redirect irqchip
+ support
+Message-ID: <202510110810.nIsLpJni-lkp@intel.com>
+References: <20251010022845.140234-3-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][v2] hung_task: Panic after fixed number of hung tasks
-To: lirongqing <lirongqing@baidu.com>, corbet@lwn.net,
- akpm@linux-foundation.org, lance.yang@linux.dev, mhiramat@kernel.org,
- paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, mingo@kernel.org,
- dave.hansen@linux.intel.com, rostedt@goodmis.org, kees@kernel.org,
- arnd@arndb.de, feng.tang@linux.alibaba.com, pauld@redhat.com,
- joel.granados@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250928053137.3412-1-lirongqing@baidu.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250928053137.3412-1-lirongqing@baidu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010022845.140234-3-zhangtianyang@loongson.cn>
 
-Hi,
+Hi Tianyang,
 
-On 9/27/25 10:31 PM, lirongqing wrote:
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Currently, when hung_task_panic is enabled, kernel will panic immediately
-> upon detecting the first hung task. However, some hung tasks are transient
-> and the system can recover fully, while others are unrecoverable and
-> trigger consecutive hung task reports, and a panic is expected.
-> 
-> This commit adds a new sysctl parameter hung_task_count_to_panic to allows
-> specifying the number of consecutive hung tasks that must be detected
-> before triggering a kernel panic. This provides finer control for
-> environments where transient hangs maybe happen but persistent hangs should
-> still be fatal.
-> 
-> Acked-by: Lance Yang <lance.yang@linux.dev>
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> ---
-> Diff with v1: change documentation as Lance suggested
-> 
->  Documentation/admin-guide/sysctl/kernel.rst |  8 ++++++++
->  kernel/hung_task.c                          | 14 +++++++++++++-
->  2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 8b49eab..98b47a7 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -405,6 +405,14 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
->  1 Panic immediately.
->  = =================================================
->  
-> +hung_task_count_to_panic
-> +=====================
+kernel test robot noticed the following build warnings:
 
-The underline length should be at least as long as the title to
-prevent kernel-doc build warnings. Same length is preferred.
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on linus/master v6.17 next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +
-> +When set to a non-zero value, a kernel panic will be triggered if the
-> +number of detected hung tasks reaches this value.
-> +
-> +Note that setting hung_task_panic=1 will still cause an immediate panic
-> +on the first hung task.
->  
->  hung_task_check_count
->  =====================
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20251010-131542
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20251010022845.140234-3-zhangtianyang%40loongson.cn
+patch subject: [PATCH v5 2/2] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-randconfig-r121-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110810.nIsLpJni-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110810.nIsLpJni-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110810.nIsLpJni-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-loongarch-ir.c:130:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:130:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:130:34: sparse:     got void *
+>> drivers/irqchip/irq-loongarch-ir.c:130:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:130:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:130:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:159:9: sparse: sparse: context imbalance in 'invalid_enqueue' - wrong count at exit
+   drivers/irqchip/irq-loongarch-ir.c:188:12: sparse: sparse: context imbalance in 'redirect_table_alloc' - wrong count at exit
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:123:34: sparse:     got void *
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *reg_addr @@     got void * @@
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     expected void [noderef] __iomem *reg_addr
+   drivers/irqchip/irq-loongarch-ir.c:116:34: sparse:     got void *
+
+vim +130 drivers/irqchip/irq-loongarch-ir.c
+
+   127	
+   128	static inline u32 redirect_read_reg32(int node, int reg)
+   129	{
+ > 130		void __iomem *reg_addr = REDIRECT_REG(reg, node);
+   131	
+   132		return readl(reg_addr);
+   133	}
+   134	
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
