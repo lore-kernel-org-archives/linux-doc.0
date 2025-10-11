@@ -1,243 +1,137 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8492B33D8
-	for <linux-doc@vger.kernel.org>; Sat, 11 Oct 2025 17:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D253433D8;
+	Sat, 11 Oct 2025 17:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760203467; cv=none; b=IIxS0q8E2wO8wWayji6we+y4MjgAlHGPKdJGkRPfqPqI6uEBCFtPJq2gzH52iJI9LrLngyybsn30qwisfYwyqKbkztDS+iS8xs1LftXbgQ2bxx72mXN+kvy3dSqMaW/3f2pQMaiNaoEsHTpM49u3waimNxBIfr1+dG8GjOdvN9I=
+	t=1760203569; cv=none; b=fnti/Nsrfq+SwJRJgTBDlzfJ/7EmXx/JwZEIr5lmWWU4N2ZZ6opP5MxMjrQBagm1WwYRJRc9DaFcoB0aySmnW1+WtP1DDHRz70/d5dVzVXmC9QQcyZ8/SGx6x48FSk2oGxvDA/3H+AKvN7dE08lQr3noeyQEijHfgcFTjI/DswI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760203467; c=relaxed/simple;
-	bh=wW9RnBHgkY1segWRDpZoIwgvv+8BSy2qVfHh+v6DOF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=APi4bRUsZwMw2Hl6htH95KCxs3DXVDNZLrtrtC+dYfp/21MfNxm4XMdsJ4ydijqZ0ehyRx56RZpsazqqFdDQqFZbnL8D4VYlnatKiYE9ZedxpNhZLjYeHSy6WD3+JrnkPaIKZZB+umeKDlCW9yqLWScjLwBB6UF0E2M6i4FXsXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlsvB1Qf; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760203569; c=relaxed/simple;
+	bh=MXz354onxhQhZwq2LfhNBXdWDHl+z85Ao+4shUSGRTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ih6DVJ/WkuIcgALGoZf38cblw3/UFFRUhJSvmmyyTjCztun1R/SxCPXvaSMlWDcjMyWlnlENPT+mab98DrVZj1V5LurswiTFRX5Y8AOsh9M/+5rmTTO+dE1zi2ER+OcUhpEBk9HYIlF1TUiWit0TjccwOVhY/aPrY+8MVnzCd9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fXK3UTUf; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlsvB1Qf"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-27eda3a38ceso6203755ad.3
-        for <linux-doc@vger.kernel.org>; Sat, 11 Oct 2025 10:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760203465; x=1760808265; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nr75ZFbZ4/qx4rlwkOcGtUvCvFckrNfl3ESmCUVAzBQ=;
-        b=nlsvB1QfFeev0TRg7+g+Ke2aWGOMSIMC0Kaz4UGIm1QeQ+mg4+V3e3Oug0EGPsxsqy
-         punU+Vgbo4xxEaSc9t02ATxy2cf5utikIEljt7aa1FDVmaH0jsR3OAKPRq5FeEo4Q07U
-         2d2MbhPEMy2QsZypkg1w2ARY5oHEuapKy95fE6HZAh4n6hejSaKjqAg4yfaQ9mb2Q3P4
-         GDph3F7bCBYIaH14MVApuRyDZXACcrm30ViCHXtBciGdaJp+VaB7hTbdI7foNfBgRb+S
-         wdTBWJwvmbv1Yt0ROtIydoQURhfqsnXi+te+g1OndDbf1SmA2jllEAO+LrRwXXzMyhWG
-         vxag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760203465; x=1760808265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nr75ZFbZ4/qx4rlwkOcGtUvCvFckrNfl3ESmCUVAzBQ=;
-        b=pXKK4yqcRaKRoWluZew9tDowVFpsWw5rQxGdBXE9aeNwZgg3Hp7WXLI1YBeNLacrmp
-         Uxxc7Pgg/uesq4mE1wjBzRrIsYS1+xK5XlDe6YJ+V3iAR+iJPP/kSTQX1a8RYlUEECGP
-         aalqOkmoutWzyFva5ymMJIiJodSiEqHnLCeu10xqpbukJWfIY1Ir7EJKu7n1PW8I+mu8
-         8sjKrYLCPca4vcqKYYUL53MJgqpv/EKTrXwzbV7b6ZvTI2jf4UQqFMZ6/hbD73cF0ayp
-         vWZy/4kQmHW/GTmlS7pNUQFiRSC6/dLOwldaWm+Ne5pea5ByaTrFBHoRwsa6H/PGSaD8
-         z+1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVrznntS5sYpYHNbrxRc0vV9JZeEzwJ5XNEQ0uoRiWNxzhGilOOkqq8urqLe4Y3RfcEjW3iSH2dIow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPV4/TSgzTmKUN8DJJ4h6r8+tEEOj/K2bF22vJbmvalC55WSzz
-	ETro+H2Bmy6JNB1kpBHiLNLucb3K9RislVov0Xizk/xyLNKbOvwQbOSS
-X-Gm-Gg: ASbGnct+QepG90+cQRZPWPUf/6hIZcMjOH2GNm0MX7H/tKs9wmTPJwKvzQMv5kvGtSC
-	ehPch5YlIKeNV4in5kSHp2oc7UOLva5cT8mIM90VQAmHe//xRftWDzM+4UW42kMAv2s8lf/ALoY
-	H8E9X1W1ctmZuKveUQO0hGP9Ng0kIYJ11fFiQ5jreetbRSiQllXCiarmuE0km4Q4GETtVg1XSy/
-	RPpOqwMtuBEiPPfabOuzlqZbhNlcXDW96oBtxHPueda0NPbda2puhM01CMBdylH7dP71AdeC9lB
-	PsjioExdgmpQT5qpLFDq26B76DpQRSXzCljWZO5sJ1eMQBWKnq8BT2h53bMI3VnnI/V1O0LTfTb
-	RBHpzg6pCINNJBWmk5oXG0R9fbrUiuS96ZBPBn8bT/Cffgsi2ZQZNJ3/1PAM=
-X-Google-Smtp-Source: AGHT+IHDS/1rGu/qMTg3HP/g+EzjHB0vBFkMKwHWzTIyGYYPbY2si4NNPBadPtSI7F369JWGXkWS7w==
-X-Received: by 2002:a17:902:c950:b0:26a:3c75:5241 with SMTP id d9443c01a7336-2902744bc67mr119102425ad.9.1760203464660;
-        Sat, 11 Oct 2025 10:24:24 -0700 (PDT)
-Received: from elitemini.flets-east.jp ([2400:4050:d860:9700:ff1c:3f53:c7ab:f611])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034dea083sm89355075ad.24.2025.10.11.10.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Oct 2025 10:24:24 -0700 (PDT)
-From: Masaharu Noguchi <nogunix@gmail.com>
-To: Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-f2fs-devel@lists.sourceforge.net (open list:F2FS FILE SYSTEM),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Masaharu Noguchi <nogunix@gmail.com>
-Subject: [PATCH] Documentation: f2fs: wrap tables in literal code blocks to fix LaTeX build
-Date: Sun, 12 Oct 2025 02:24:15 +0900
-Message-ID: <20251011172415.114599-1-nogunix@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fXK3UTUf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=h4KeCDAUBdIaLG9b6hjFqL7CT3iy4tpp14+HLRyaEuM=; b=fXK3UTUfwEj5l/SFtZZ6Zhgdah
+	LwYqFMfQjJQ16E8tvBHXYPDuKnnIjeimxL4RhXOe8UTfDrsAQfYW+SpmJ29O+rnzsvVmErzjdVsJB
+	N5632vUPqv7MZVYuL81Cwhh1eSpNX1/bpXnInEac4xyHZ4fCXE5eiKzS1rWjrPKJBsog=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1v7dLv-00Ag51-LW; Sat, 11 Oct 2025 19:25:55 +0200
+Date: Sat, 11 Oct 2025 19:25:55 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] virtio: dwords->qwords
+Message-ID: <6ca20538-d2ab-4b73-8b1a-028f83828f3e@lunn.ch>
+References: <cover.1760008797.git.mst@redhat.com>
+ <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
+ <26d7d26e-dd45-47bb-885b-45c6d44900bb@lunn.ch>
+ <20251009093127-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251009093127-mutt-send-email-mst@kernel.org>
 
-Sphinx LaTeX builder fails with the following error:
+On Thu, Oct 09, 2025 at 09:37:20AM -0400, Michael S. Tsirkin wrote:
+> On Thu, Oct 09, 2025 at 02:31:04PM +0200, Andrew Lunn wrote:
+> > On Thu, Oct 09, 2025 at 07:24:08AM -0400, Michael S. Tsirkin wrote:
+> > > A "word" is 16 bit. 64 bit integers like virtio uses are not dwords,
+> > > they are actually qwords.
+> > 
+> > I'm having trouble with this....
+> > 
+> > This bit makes sense. 4x 16bits = 64 bits.
+> > 
+> > > -static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
+> > > +static const u64 vhost_net_features[VIRTIO_FEATURES_QWORDS] = {
+> > 
+> > If this was u16, and VIRTIO_FEATURES_QWORDS was 4, which the Q would
+> > imply, than i would agree with what you are saying. But this is a u64
+> > type.  It is already a QWORD, and this is an array of two of them.
+> 
+> I don't get what you are saying here.
+> It's an array of qwords and VIRTIO_FEATURES_QWORDS tells you
+> how many QWORDS are needed to fit all of them.
+> 
+> This is how C arrays are declared.
+> 
+> 
+> > I think the real issue here is not D vs Q, but WORD. We have a default
+> > meaning of a u16 for a word, especially in C. But that is not the
+> > actual definition of a word a computer scientist would use. Wikipedia
+> > has:
+> > 
+> >   In computing, a word is any processor design's natural unit of
+> >   data. A word is a fixed-sized datum handled as a unit by the
+> >   instruction set or the hardware of the processor.
+> > 
+> > A word can be any size. In this context, virtio is not referring to
+> > the instruction set, but a protocol. Are all fields in this protocol
+> > u64? Hence word is u64? And this is an array of two words? That would
+> > make DWORD correct, it is two words.
+> > 
+> > If you want to change anything here, i would actually change WORD to
+> > something else, maybe FIELD?
+> > 
+> > And i could be wrong here, i've not looked at the actual protocol, so
+> > i've no idea if all fields in the protocol are u64. There are
+> > protocols like this, IPv6 uses u32, not octets, and the length field
+> > in the headers refer to the number of u32s in the header.
+> > 
+> > 	Andrew
+> 
+> 
+> Virtio uses "dword" to mean "32 bits" in several places:
 
-  Markup is unsupported in LaTeX:
-  filesystems/f2fs:: longtable does not support nesting a table.
+It also uses WORD to represent 32 bits:
 
-Wrap the ASCII tables in literal code blocks so that they are rendered
-as code instead of interpreted as tables. This fixes pdfdocs build
-failure.
+void
+vp_modern_get_driver_extended_features(struct virtio_pci_modern_device *mdev,
+				       u64 *features)
+{
+	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
+	int i;
 
-Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
----
- Documentation/filesystems/f2fs.rst | 106 ++++++++++++++++-------------
- 1 file changed, 57 insertions(+), 49 deletions(-)
+	virtio_features_zero(features);
+	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
+		u64 cur;
 
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index a8d02fe5be83..80f94f309cea 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -188,34 +188,36 @@ fault_type=%d		 Support configuring fault injection type, should be
- 			 enabled with fault_injection option, fault type value
- 			 is shown below, it supports single or combined type.
- 
--			 ===========================      ==========
--			 Type_Name                        Type_Value
--			 ===========================      ==========
--			 FAULT_KMALLOC                    0x00000001
--			 FAULT_KVMALLOC                   0x00000002
--			 FAULT_PAGE_ALLOC                 0x00000004
--			 FAULT_PAGE_GET                   0x00000008
--			 FAULT_ALLOC_BIO                  0x00000010 (obsolete)
--			 FAULT_ALLOC_NID                  0x00000020
--			 FAULT_ORPHAN                     0x00000040
--			 FAULT_BLOCK                      0x00000080
--			 FAULT_DIR_DEPTH                  0x00000100
--			 FAULT_EVICT_INODE                0x00000200
--			 FAULT_TRUNCATE                   0x00000400
--			 FAULT_READ_IO                    0x00000800
--			 FAULT_CHECKPOINT                 0x00001000
--			 FAULT_DISCARD                    0x00002000
--			 FAULT_WRITE_IO                   0x00004000
--			 FAULT_SLAB_ALLOC                 0x00008000
--			 FAULT_DQUOT_INIT                 0x00010000
--			 FAULT_LOCK_OP                    0x00020000
--			 FAULT_BLKADDR_VALIDITY           0x00040000
--			 FAULT_BLKADDR_CONSISTENCE        0x00080000
--			 FAULT_NO_SEGMENT                 0x00100000
--			 FAULT_INCONSISTENT_FOOTER        0x00200000
--			 FAULT_TIMEOUT                    0x00400000 (1000ms)
--			 FAULT_VMALLOC                    0x00800000
--			 ===========================      ==========
-+			 .. code-block:: none
-+
-+			     ===========================      ==========
-+			     Type_Name                        Type_Value
-+			     ===========================      ==========
-+			     FAULT_KMALLOC                    0x00000001
-+			     FAULT_KVMALLOC                   0x00000002
-+			     FAULT_PAGE_ALLOC                 0x00000004
-+			     FAULT_PAGE_GET                   0x00000008
-+			     FAULT_ALLOC_BIO                  0x00000010 (obsolete)
-+			     FAULT_ALLOC_NID                  0x00000020
-+			     FAULT_ORPHAN                     0x00000040
-+			     FAULT_BLOCK                      0x00000080
-+			     FAULT_DIR_DEPTH                  0x00000100
-+			     FAULT_EVICT_INODE                0x00000200
-+			     FAULT_TRUNCATE                   0x00000400
-+			     FAULT_READ_IO                    0x00000800
-+			     FAULT_CHECKPOINT                 0x00001000
-+			     FAULT_DISCARD                    0x00002000
-+			     FAULT_WRITE_IO                   0x00004000
-+			     FAULT_SLAB_ALLOC                 0x00008000
-+			     FAULT_DQUOT_INIT                 0x00010000
-+			     FAULT_LOCK_OP                    0x00020000
-+			     FAULT_BLKADDR_VALIDITY           0x00040000
-+			     FAULT_BLKADDR_CONSISTENCE        0x00080000
-+			     FAULT_NO_SEGMENT                 0x00100000
-+			     FAULT_INCONSISTENT_FOOTER        0x00200000
-+			     FAULT_TIMEOUT                    0x00400000 (1000ms)
-+			     FAULT_VMALLOC                    0x00800000
-+			     ===========================      ==========
- mode=%s			 Control block allocation mode which supports "adaptive"
- 			 and "lfs". In "lfs" mode, there should be no random
- 			 writes towards main area.
-@@ -298,12 +300,14 @@ compress_algorithm=%s	 Control compress algorithm, currently f2fs supports "lzo"
- compress_algorithm=%s:%d Control compress algorithm and its compress level, now, only
- 			 "lz4" and "zstd" support compress level config.
- 
--                         =========      ===========
-+			 .. code-block:: none
-+
-+			     =========      ===========
- 			 algorithm	level range
--                         =========      ===========
-+			     =========      ===========
- 			 lz4		3 - 16
- 			 zstd		1 - 22
--                         =========      ===========
-+			     =========      ===========
- compress_log_size=%u	 Support configuring compress cluster size. The size will
- 			 be 4KB * (1 << %u). The default and minimum sizes are 16KB.
- compress_extension=%s	 Support adding specified extension, so that f2fs can enable
-@@ -368,38 +372,42 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
- 			 the partition in read-only mode. By default it uses "continue"
- 			 mode.
- 
--			 ====================== =============== =============== ========
--			 mode			continue	remount-ro	panic
--			 ====================== =============== =============== ========
--			 access ops		normal		normal		N/A
--			 syscall errors		-EIO		-EROFS		N/A
--			 mount option		rw		ro		N/A
--			 pending dir write	keep		keep		N/A
--			 pending non-dir write	drop		keep		N/A
--			 pending node write	drop		keep		N/A
--			 pending meta write	keep		keep		N/A
--			 ====================== =============== =============== ========
-+			 .. code-block:: none
-+
-+			     ====================== =============== =============== ========
-+			     mode			continue	remount-ro	panic
-+			     ====================== =============== =============== ========
-+			     access ops		normal		normal		N/A
-+			     syscall errors		-EIO		-EROFS		N/A
-+			     mount option		rw		ro		N/A
-+			     pending dir write	keep		keep		N/A
-+			     pending non-dir write	drop		keep		N/A
-+			     pending node write	drop		keep		N/A
-+			     pending meta write	keep		keep		N/A
-+			     ====================== =============== =============== ========
- nat_bits		 Enable nat_bits feature to enhance full/empty nat blocks access,
- 			 by default it's disabled.
- lookup_mode=%s		 Control the directory lookup behavior for casefolded
- 			 directories. This option has no effect on directories
- 			 that do not have the casefold feature enabled.
- 
--			 ================== ========================================
--			 Value		    Description
--			 ================== ========================================
--			 perf		    (Default) Enforces a hash-only lookup.
-+			 .. code-block:: none
-+
-+			     ================== ========================================
-+			     Value		    Description
-+			     ================== ========================================
-+			     perf		    (Default) Enforces a hash-only lookup.
- 					    The linear search fallback is always
- 					    disabled, ignoring the on-disk flag.
--			 compat		    Enables the linear search fallback for
-+			     compat		    Enables the linear search fallback for
- 					    compatibility with directory entries
- 					    created by older kernel that used a
- 					    different case-folding algorithm.
- 					    This mode ignores the on-disk flag.
--			 auto		    F2FS determines the mode based on the
-+			     auto		    F2FS determines the mode based on the
- 					    on-disk `SB_ENC_NO_COMPAT_FALLBACK_FL`
- 					    flag.
--			 ================== ========================================
-+			     ================== ========================================
- ======================== ============================================================
- 
- Debugfs Entries
--- 
-2.51.0
+		vp_iowrite32(i, &cfg->guest_feature_select);
+		cur = vp_ioread32(&cfg->guest_feature);
+		features[i >> 1] |= cur << (32 * (i & 1));
+	}
+}
 
+And this is a function dealing features. So this seems to suggest a
+WORD is a u32, when dealing with features. A DWORD would thus be a
+u64, making the current code correct.
+
+As i said, the problem here is WORD. It means different things to
+different people. And it even has different means to different parts
+of the virtio code, as you pointed out.
+
+If we want to change anything here, i suggest we change WORD to
+something else, to try to avoid the problem that word could be a u16,
+u32, or even a u42, depending on where it is used.
+
+	Andrew
