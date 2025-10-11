@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D031A9FAE;
-	Fri, 10 Oct 2025 22:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834A02110E;
+	Sat, 11 Oct 2025 00:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760136725; cv=none; b=HiPB0utxAVl3BkXAgjRpNxtqA/MZuhTSB6BHFPC578q+3V1KHwmsQLtlBDIamaeSloKVAABt/YWl+W93ohvGXSKlXUmKWOotwqDfS70JC4RuvFBucwXjG1ba8Xaw/I1SoVHnquONqIaXLji0LBewd+MPdDmy3ZkSkteXfS+375o=
+	t=1760142315; cv=none; b=r8PwPjqaOw7fQAPYgsSFcRazD5JtKnw+WrKf7d35UwTCXkp+VoOrhRaIQgDhHZWyugt/LRhDFxWYBjPD/ukxs8JYSArsXttAUFcoRLDoYZ3+noEe8EvJZLQdee+G6i90EM8iLHcMcfJqx9b8wnhHx+m+2TiN/bECStQs7mIoqMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760136725; c=relaxed/simple;
-	bh=k6YhC9NBpNnOSVVMeiqTQaknXO9wXXNTs18UctEB2JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I2amHxJjDEmpXyZMLrTBncYgd2fr7ix02l90IQKQVbBNoH3+iYFB+ssQLnueRXiY6KW65kMZm9DaMYDFeqN/BCoLqP+oG++xtzetuEoOPoWfiZG17gF63az9vmLKyFUxJ35elehxtSmBqXF5zXDB1mvZlrVAEW02kn7wDayBae0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hVE4sueK; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1760142315; c=relaxed/simple;
+	bh=xloi6/dDCBbBdQj0ATV0M5mulI4g6Kjwg6d5B3972vI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=VB4aETtTGs+Ocv716pbQcYwdGMJGiaLFtx7cnCwV3EUVHBLP8i6fLvwfmFkof7oiteUUYxi2qeZ8NYfWPu0FriG3glcKQ9H1PRPOyBnNfevL7rrzRJj46KeFGqxwfpHimdvWgJNjaCE4tqxiXvnPDF7LKs+y68BPNZvU98JP0L8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uDNbrDyp; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hVE4sueK"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uDNbrDyp"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pvO3W/Lz36UxaHl800907mVxlEm6TgC58ZA7A3ouD+k=; b=hVE4sueKJ5q5AVHQLTz9xm4JlI
-	J+7ggztN8pDhc9jGxLFxibA7JKzpFLw4Q4Hp1ECQD6S5rd+C3OWZvzHeVGsZ8fE0H0OKBAR6SMVN4
-	3nwjD/DAG4KJc6RYCG5wlqRu7ehFUQU83FFsBsYQDQbtWkNLAnhbbRgnQTmB5wVwuGqPMVSC/T3nL
-	pSzCf0EutL2NpU1Ljrm4wommXcJrmFk4AnUKBPrYARJXM1LeLpR6c6+TVCzdHOUgIHjwNiEQIh62j
-	tQ7YZI2nGW3TARwSt+KKkbH+eSjqc6iuwVIW4rOWxgtV9vP2SV7364FrvUkU8tiO4SSRlnIN6iFyw
-	mo8JTpAg==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=nC6HbeD+9G+hKIO6m1GM6pRZBQDK7wI3DYn9jMzQYfo=; b=uDNbrDyprSA6K1gO5XOEmoOI55
+	xeoXdqA8MQljbE9wSMoC8Sr020ZHCoiJJlGVaoTOopfCWGwGcSeth+FfFTHYh6e4b3I0lMy7LPLpT
+	lOyXwf9sGPYgsSvC/7zifl0eWxjGyfQkFsAsKRAhkWkw53+fKX/A8WeZ+b8l2nQ0+jbJlggbNOIMJ
+	DSr1+a82fREA15W18zbC4QlBqCPnkXKmkNiBUWDrF+5Mt/MYR1z+lwSCtqWiRtj2lF+prDMGpcmYM
+	F5fM0nMqoMbjohJHe0bFtkZaDUkn/7RjUd9Ti8l6JxyaliJOHOzZHNBZ/nUOK57x7VAxZYDMoITFJ
+	kQL64Z0A==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7Lxu-00000009V7f-2NCK;
-	Fri, 10 Oct 2025 22:51:58 +0000
-Message-ID: <04df1bb8-8409-4ece-a21c-4c71592eb852@infradead.org>
-Date: Fri, 10 Oct 2025 15:51:57 -0700
+	id 1v7NQ2-00000009aHM-1fEn;
+	Sat, 11 Oct 2025 00:25:06 +0000
+Message-ID: <d8c6762c-e08c-4b7a-92e9-7dad17ad0b49@infradead.org>
+Date: Fri, 10 Oct 2025 17:25:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,178 +39,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
-To: Jonathan Denose <jdenose@google.com>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
- Sean O'Brien <seobrien@google.com>, Lucas GISSOT <lucas.gissot.pro@gmail.com>
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
- <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com>
- <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
- <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
- <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
- <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
- <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
+Subject: Re: [PATCH][v2] hung_task: Panic after fixed number of hung tasks
+To: lirongqing <lirongqing@baidu.com>, corbet@lwn.net,
+ akpm@linux-foundation.org, lance.yang@linux.dev, mhiramat@kernel.org,
+ paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, mingo@kernel.org,
+ dave.hansen@linux.intel.com, rostedt@goodmis.org, kees@kernel.org,
+ arnd@arndb.de, feng.tang@linux.alibaba.com, pauld@redhat.com,
+ joel.granados@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250928053137.3412-1-lirongqing@baidu.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
+In-Reply-To: <20250928053137.3412-1-lirongqing@baidu.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-
-On 10/10/25 1:30 PM, Jonathan Denose wrote:
-> Hi all,
+On 9/27/25 10:31 PM, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 > 
-> Thanks for looking into this.
+> Currently, when hung_task_panic is enabled, kernel will panic immediately
+> upon detecting the first hung task. However, some hung tasks are transient
+> and the system can recover fully, while others are unrecoverable and
+> trigger consecutive hung task reports, and a panic is expected.
 > 
-> On Fri, Oct 10, 2025 at 1:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Hi,
->>
->> I think I found it... see below.
->>
->>
->> On 10/9/25 11:48 PM, Thorsten Leemhuis wrote:
->>> [Top-Posting for easier consumption]
->>>
->>> Mainly writing this mail to bring Lucas GISSOT in here, who reported the
->>> same error yesterday here:
->>> https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
->>>
->>> Lucas there suggested:
->>> """but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
->>> hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
->>> Kconfig updated."""
->>>
->>> And Randy: Thx for the closer investigation! It explains some of the
->>> "that feels odd, am I holding this wrong" feeling I had when reporting this.
->>>
->>> Ciao, Thorsten
->>>
->>> On 10/10/25 06:50, Randy Dunlap wrote:
->>>> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
->>>>> On 8/19/25 01:08, Jonathan Denose wrote:
->>>>>> From: Angela Czubak <aczubak@google.com>
->>>>>>
->>>>>> Define a new structure that contains simple haptic device configuration
->>>>>> as well as current state.
->>>>>> Add functions that recognize auto trigger and manual trigger reports
->>>>>> as well as save their addresses.Hi,
->>>>>> Verify that the pressure unit is either grams or newtons.
->>>>>> Mark the input device as a haptic touchpad if the unit is correct and
->>>>>> the reports are found.
->>>>>>  [...]
->>>>>> +config HID_HAPTIC
->>>>>> +  tristate "Haptic touchpad support"
->>>>>> +  default n
->>>>>> +  help
->>>>>> +  Support for touchpads with force sensors and haptic actuators instead of a
->>>>>> +  traditional button.
->>>>>> +  Adds extra parsing and FF device for the hid multitouch driver.
->>>>>> +  It can be used for Elan 2703 haptic touchpad.
->>>>>> +
->>>>>> +  If unsure, say N.
->>>>>> +
->>>>>>  menu "Special HID drivers"
->>>>>
->>>>> I suspect this change is related to a build error I ran into today:
->>>>>
->>>>>   MODPOST Module.symvers
->>>>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
->>>>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
->>>>>
->>>>> The config where this occurred had this:
->>>>>
->>>>> CONFIG_HID=y
->>>>> CONFIG_HID_MULTITOUCH=m
->>>>> CONFIG_HID_HAPTIC=m
->>>>>
->>>>> Changing the latter to "CONFIG_HID_HAPTIC=y" fixed the problem for me.
->>>>
->>>> Sure, but that's just covering up the problem.
->>>>> First, I get this build error:
->>>>
->>>> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
->>>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-haptic.o
->>>>
->>
->> ISTM that tristate is incompatible with this newly added Makefile
->> line:
->>
->> +hid-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
->>
->> hid-* lists files that should be builtin, not loadable modules.
->> These should all be hid-y.  AFAIK, hid-m is not useful.
->> (A maintainer can correct me as needed.)
+> This commit adds a new sysctl parameter hung_task_count_to_panic to allows
+> specifying the number of consecutive hung tasks that must be detected
+> before triggering a kernel panic. This provides finer control for
+> environments where transient hangs maybe happen but persistent hangs should
+> still be fatal.
+> 
+> Acked-by: Lance Yang <lance.yang@linux.dev>
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> ---
+> Diff with v1: change documentation as Lance suggested
+> 
+>  Documentation/admin-guide/sysctl/kernel.rst |  8 ++++++++
+>  kernel/hung_task.c                          | 14 +++++++++++++-
+>  2 files changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 8b49eab..98b47a7 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -405,6 +405,14 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
+>  1 Panic immediately.
+>  = =================================================
+>  
+> +hung_task_count_to_panic
+> +=====================
 
-More correctly, any .o that is listed as being built as part of
-hid.o should is going to be controlled by CONFIG_HID and should
-not its own have a Kconfig symbol at all.
+The underline length should be at least as long as the title to
+prevent kernel-doc build warnings. Same length is preferred.
 
-E.g. here:
- hid-y                  := hid-core.o hid-input.o hid-quirks.o
-hid-core, hid-input, and hid-quirks don't have their own
-Kconfig symbols.
-
-
-
->> So adding a MODULE_LICENSE() and MODULE_DESCRIPTION() to
->> hid-haptic.c and changing drivers/hid/Makefile to use
->> obj-$(CONFIG_HID_HAPTIC_        += hid-haptic.o
->>
->> fixes the build errors for me.
->>
->> Angela, Jonathan D., is there any reason that
->> hid-haptic needs to be builtin instead of a loadable
->> module?  It's no problem for hid-multitouch.ko to call
->> into hid-haptic.ko (both as loadable modules) as long as
->> hid-haptic.ko is loaded first.
->>
-> As long as hid-multitouch.ko is able to call into hid-haptic.ko I
-> don't see any issues, but is there a way to enforce that when
-> CONFIG_HID_HAPTIC is enabled, hid-haptic.ko will be loaded before
-> hid-multitouch.ko?
-
-I only know of two possibilities though there may be more.
-
-a. use request_module(true, "hid-haptic");
-
-This would probably be used in the hid core somewhere, afterthe device matching is done.
-
-b. use udev. When a device that needs hid-multitouch is
-discovered, have udev load both hid-haptic and hid-multitouch.
-
-
-I see that hid-haptic.h is written so that it has stubs for
-when CONFIG_HID_HAPTIC is not enabled. Can hid-multitouch
-operate (in a reduced capacity) when HID_HAPTIC is not enabled?
-So that they are separate modules and hid-multitouch is not
-dependent on hid-haptic?
-
-There is probably a use case for hid-multitouch without having
-hid-haptic loaded since hid-multitouch existed without having
-hid-haptic around at all.
-
-It seems that you want both of them loaded. And then Lucas
-has reported a build error when HID_HAPTIC=m and
-HID_MULTITOUCH=y, so either (like Lucas said) HID_HAPTIC
-should be bool, not tristate; or in Kconfig,
-HID_MULTITOUCH should depend on HID_HAPTIC, which would not
-allow the problem config that Lucas reported.
-But that forces devices that want HID_MULTITOUCH to also
-have HID_HAPTIC loaded, even though they may not need it.
-
+> +
+> +When set to a non-zero value, a kernel panic will be triggered if the
+> +number of detected hung tasks reaches this value.
+> +
+> +Note that setting hung_task_panic=1 will still cause an immediate panic
+> +on the first hung task.
+>  
+>  hung_task_check_count
+>  =====================
 
 -- 
 ~Randy
