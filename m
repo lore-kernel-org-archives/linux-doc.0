@@ -1,109 +1,122 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032A8284893
-	for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 14:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE316288504
+	for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 14:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760279434; cv=none; b=OfuKxj44l6A4tkX5B/wb6GvN9gHY9ouWaiOuVnKcQaAXwCk2WMon2dE7ScDecvc5IVEFnb37YMdr8/KEjmtd6oArLXKgsu5V2jZQDzHdyZE2QN9y2gLal129KAFiHmXMYaOL1R3mkpLRaBHOznVQECfXKUqLIIElYj8MH7g9sJU=
+	t=1760279531; cv=none; b=NNYrj9DAX43r5MGB2b3rbp7OgqfOBygQsTgT2U5uySQGQnd75BIjCnP7NyvxFq9cejcMS0KjfHjJBZtzdlK8/pG7x0U5VnEwLU1DvPfLP9XtJp1CuKAj9a1Gd4cCuVD8Te+W5hq/uR/tWNWtJwRZo6fs8Iy8NNu9s8iTNLa+RN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760279434; c=relaxed/simple;
-	bh=yqb/NPmy5gD6pVb6IkeAsxHMeFbpmoPcjmcGPUy8viU=;
+	s=arc-20240116; t=1760279531; c=relaxed/simple;
+	bh=exVDaTCv2o9KGqW9+Cgff31C7B8DfZakECaMCpf1bfE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYxe0jFz/M9m0Dp9nQtmB6Y4A6ew8D0bttpTV+zyfumYplHQh18iPciVSkL4M8nKFpNHtgG7MaEpJ+xuDqarZEZRP52U12qzxxoFQdfONoczPhG0wyatIjreWlf4xoCFDLtejqko4Ppfk1sXZqNcN0gcz+XqNyKV5b//gMdJmF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1v7x5a-0004vt-0T; Sun, 12 Oct 2025 16:30:22 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1v7x5Z-003EVW-0q;
-	Sun, 12 Oct 2025 16:30:21 +0200
-Received: from pengutronix.de (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id E20B74840B7;
-	Sun, 12 Oct 2025 14:30:20 +0000 (UTC)
-Date: Sun, 12 Oct 2025 16:30:20 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	linux-can@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] can: add Transmitter Delay Compensation (TDC)
- documentation
-Message-ID: <20251012-impartial-nimble-warthog-69b223-mkl@pengutronix.de>
-References: <20251012-can-fd-doc-v1-0-86cc7d130026@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvR3UxkPFjkwnV6UGJNhMRkUAtZyoRYMIP5HQl5ShRodm0KyOrmMciKHkZ2Rja+0B1Anw+ttyTl0q4nMe1JZaNBIZkzPSpcY7hyESvKNrfTIlw5YgswItiY8zu/M2XFUMmu4kC9gqGWoCeH2tAno+5NHhN7TQ60iGw/2odAxJlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1s89k26; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1s89k26"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-879b99b7ca8so49247246d6.0
+        for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 07:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760279528; x=1760884328; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lafAVcrEHvdofnatEPGKT/Xtct7Xl7DSjL6fT41f0Sw=;
+        b=K1s89k26nbYzSwwGw7yMYiYrRjewHFeqMCWTkxii0Kk1TGe8AJjnPIhBf9DswDh9AP
+         Pc8PZkqx8PU/oLLaaseQlS2cn+adpK50u3OR+RUldZVfZbHOgIHTkf2j22hZCKR1/bY8
+         K+WzATCb/aJGKL21QkWActjsYo1QICYWvUqnwm7Y23ReLGJMDnVIHhQ2nCvoLuAZDF4k
+         MFpNBR0+2pc6q0LW7u3kXC9ZmsMz65gusX7+PngKjBo7pwiyG8Q3ip7uRmtL6kKVKXvC
+         P35XoF+hOLRCfEMQFis3zy8k4eGD4BO0dwAafZG96RutusvGhhC7+CY8MhB04M5dSkS+
+         lJbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760279528; x=1760884328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lafAVcrEHvdofnatEPGKT/Xtct7Xl7DSjL6fT41f0Sw=;
+        b=OysCBusoyoOo44C5tY6nP62COjfbJKGowZNIhAUfA5zYtQmrjZ6/muDJjabKCiJdnY
+         rtCYmOLD+3VShAATIg1EfsJD9GT9DAJAcY67b8xE2wDv+TPJySdIdhWjqpmxSPiPe7cb
+         opLnnbFOEtzG2W3oy/8ySjQxDMRMUTLmFtA3ufALYKjsFyvmp/+Z8FMjmoY43Q/1LdfQ
+         BjPPNxUvj5zTBbMhwMEH7CIzwK5I7qWgndiNWB8HdUrsZyCKrXDMGneTszTQuZfEe0rd
+         6A5uv4p8ZNvkNrNsesUVi86M8o4oRd1M+Q1Eh9zTMAjwvuP3x3bXO5E+U/gWg9nvyncp
+         qp8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV5xw+lekYYy5VDE3/NlUWy9ZzVrNcq1OL8wTN+c5p7IRd9JGJufjmvYDEF9glHQy6HFnPgKQTJD/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRPp7qNYBBDsWZzoT1mHLwFEXKJc/QhNk3rFlrWsWIrulDTTKn
+	7NnzIuNdv23CxwHbanzqaHWKuCVu3eS2vhxjHMKkdzMAkkXh5yn3iH6q
+X-Gm-Gg: ASbGncv00CwLDnVu8171ExC/odbz3JA+kqMROGTzOpIN94hUfPgPaTMF0fBMg3QHt5m
+	taolrNCcbppuJxKSH6vCkm3kDzc2OE5wmLPkKTfUUdq5TuW9XA1OEvpsySgexzDJF4l+/6wOGWI
+	/7MMstvBA4j6BpSXdJx0P7Vh3f8uIjwwxUyT0zlNR/g6GcCCEnyE+iwWijsPV7+zhQ0NJdglq3/
+	ZfaF+Sly4LECTb2LQxCS5Q33oW6O/20BKl7s2nUxra70SVwQ8cgXF9mjFMddACX2PU7kP4lPlKp
+	uA2i6edas2ClE8dHCKZnjd3hYw4/bMs2N8CzjrwfRQhD9eLm5cYGXW2RGiDU7Bw9HVUkR/qVvMH
+	qotJOB8plWc+KbYmNux24va2OiqhOGsMZGtZ68ABMVyPh2MCzu6Hm
+X-Google-Smtp-Source: AGHT+IGylxeC57G3HP7/1vZXTCP0woc3CF/bb9piQD8YyNw88k6+Ampz6Ayo2XWXeOakyOz8ZMmEgA==
+X-Received: by 2002:a05:622a:30f:b0:4e7:222e:6725 with SMTP id d75a77b69052e-4e7222e7357mr20155591cf.8.1760279527640;
+        Sun, 12 Oct 2025 07:32:07 -0700 (PDT)
+Received: from gmail.com ([2600:4041:4491:2000:f887:3bb2:9bc6:cbb0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87bc35930f3sm54042686d6.43.2025.10.12.07.32.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 07:32:07 -0700 (PDT)
+Date: Sun, 12 Oct 2025 23:32:05 +0900
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: rostedt@goodmis.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
+	hca@linux.ibm.com, corbet@lwn.net,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] tracing: fprobe: require explicit [GROUP/]EVENT
+ for list/wildcard
+Message-ID: <aOu75evMUGF8pBxE@gmail.com>
+References: <20251004235001.133111-1-seokwoo.chung130@gmail.com>
+ <20251004235001.133111-3-seokwoo.chung130@gmail.com>
+ <20251008095316.cf24f13a84a454ddbf530120@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g6joyd45bjqhurai"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251012-can-fd-doc-v1-0-86cc7d130026@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20251008095316.cf24f13a84a454ddbf530120@kernel.org>
 
+On Wed, Oct 08, 2025 at 09:53:16AM +0900, Masami Hiramatsu wrote:
+> This should be a part of [3/5], because when bisecting, the test will check the
+> README file and check the feature.
+> 
+> Thank you,
+> 
 
---g6joyd45bjqhurai
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/2] can: add Transmitter Delay Compensation (TDC)
- documentation
-MIME-Version: 1.0
+Ok. I will fold the readme_msg change in [3/5] (the patch that
+introduces :entry|:exit and keeps %return for single-symbol input) so
+the tracefs README matches the feature during bisection and for tests.
 
-On 12.10.2025 20:23:41, Vincent Mailhol wrote:
-> TDC was added to the kernel in 2021 but I never took time to update
-> the documentation. The year is now 2025... As we say: "better late
-> than never"!
->=20
-> The first patch is a small clean up which fixes an incorrect statement
-> concerning the CAN DLC, the second patch is the real thing and adds
-> the documentation of how to use the ip tool to configure the TDC.
->=20
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
-
-Added to linux-can.
-
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---g6joyd45bjqhurai
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmjru3kACgkQDHRl3/mQ
-kZyzEwf/UO+I0gwibduyqyu7e/jM2ytjQ6MHjsjWxbWrKa4u3itF1t9Y/YtwcKT9
-fUdIqXsbNOI27n6m5EWuhJbdP4MGT5Zy8K7kSxswWzMgZtT4B7f9V6hnUPN81vSn
-/nzpojfjuF+AYcW1sYTzsLY5Ae0jIdqSgo94bMHjKJ4qiyEggDiVS/ueTkdj9uLr
-fY5nkuA2JGTCCmJLwPekXbqP2dnPKtpECA7WaX9kFOl9HQnTtDPGBstD7kAJimmC
-pRrgK+K37TSJ9QHqRCJWuKGjZLhb01tl66DaC5cfX48FJNRuvHFGcWN4gX894xaF
-VTNHv77UIWH+TGm82Q0b/N0qqJQOug==
-=qxb0
------END PGP SIGNATURE-----
-
---g6joyd45bjqhurai--
+> On Sun,  5 Oct 2025 08:46:56 +0900
+> Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+> 
+> > Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
+> > ---
+> >  kernel/trace/trace.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> > index b3c94fbaf002..ac0d3acc337e 100644
+> > --- a/kernel/trace/trace.c
+> > +++ b/kernel/trace/trace.c
+> > @@ -5524,7 +5524,8 @@ static const char readme_msg[] =
+> >  	"\t           r[maxactive][:[<group>/][<event>]] <place> [<args>]\n"
+> >  #endif
+> >  #ifdef CONFIG_FPROBE_EVENTS
+> > -	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
+> > +	"\t           f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]\n"
+> > +	"\t                (single symbols still accept %return)\n"
+> >  	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
+> >  #endif
+> >  #ifdef CONFIG_HIST_TRIGGERS
+> > -- 
+> > 2.43.0
+> > 
+> 
+> 
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
