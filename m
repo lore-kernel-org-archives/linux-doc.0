@@ -1,75 +1,51 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE316288504
-	for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 14:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D4286410;
+	Sun, 12 Oct 2025 14:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760279531; cv=none; b=NNYrj9DAX43r5MGB2b3rbp7OgqfOBygQsTgT2U5uySQGQnd75BIjCnP7NyvxFq9cejcMS0KjfHjJBZtzdlK8/pG7x0U5VnEwLU1DvPfLP9XtJp1CuKAj9a1Gd4cCuVD8Te+W5hq/uR/tWNWtJwRZo6fs8Iy8NNu9s8iTNLa+RN0=
+	t=1760279970; cv=none; b=LcmSeS53dfVJozeD9ZCScq53/0rtBr1blBXLBEcJu3mXcexWTANrraH7iokxBzhOAqEKnW0MmOT8/isjiGuVhU/a3wOENkpffUYNCVc83SPNuVScZVn58dA0eZzB83l6TcYp9VZMfwjBqeJCaYHdKiNL734fuLCV9Ce9QMMJMWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760279531; c=relaxed/simple;
-	bh=exVDaTCv2o9KGqW9+Cgff31C7B8DfZakECaMCpf1bfE=;
+	s=arc-20240116; t=1760279970; c=relaxed/simple;
+	bh=x6FSE8met5AznBx0nG+InQuLDKapbD1HCiqAUrGl3Hc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CvR3UxkPFjkwnV6UGJNhMRkUAtZyoRYMIP5HQl5ShRodm0KyOrmMciKHkZ2Rja+0B1Anw+ttyTl0q4nMe1JZaNBIZkzPSpcY7hyESvKNrfTIlw5YgswItiY8zu/M2XFUMmu4kC9gqGWoCeH2tAno+5NHhN7TQ60iGw/2odAxJlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1s89k26; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4hMpVfEoKFXLhuTKQjfmD+VVhtXz6BsCJBlzCrvjahyT0AZs5v4W9n6AdS+MFoANHGylHV8nb6RiSrV3Wu9IAgTHFOXxOG2/lnWsQCDGimHwuttMyLxlzsweuux1BD5yvWYrbW0zBFAts5X6cO7VLVt73sHmr5PGaAU+n2OSF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=JfOQ3fs1; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1s89k26"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-879b99b7ca8so49247246d6.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 07:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760279528; x=1760884328; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lafAVcrEHvdofnatEPGKT/Xtct7Xl7DSjL6fT41f0Sw=;
-        b=K1s89k26nbYzSwwGw7yMYiYrRjewHFeqMCWTkxii0Kk1TGe8AJjnPIhBf9DswDh9AP
-         Pc8PZkqx8PU/oLLaaseQlS2cn+adpK50u3OR+RUldZVfZbHOgIHTkf2j22hZCKR1/bY8
-         K+WzATCb/aJGKL21QkWActjsYo1QICYWvUqnwm7Y23ReLGJMDnVIHhQ2nCvoLuAZDF4k
-         MFpNBR0+2pc6q0LW7u3kXC9ZmsMz65gusX7+PngKjBo7pwiyG8Q3ip7uRmtL6kKVKXvC
-         P35XoF+hOLRCfEMQFis3zy8k4eGD4BO0dwAafZG96RutusvGhhC7+CY8MhB04M5dSkS+
-         lJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760279528; x=1760884328;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lafAVcrEHvdofnatEPGKT/Xtct7Xl7DSjL6fT41f0Sw=;
-        b=OysCBusoyoOo44C5tY6nP62COjfbJKGowZNIhAUfA5zYtQmrjZ6/muDJjabKCiJdnY
-         rtCYmOLD+3VShAATIg1EfsJD9GT9DAJAcY67b8xE2wDv+TPJySdIdhWjqpmxSPiPe7cb
-         opLnnbFOEtzG2W3oy/8ySjQxDMRMUTLmFtA3ufALYKjsFyvmp/+Z8FMjmoY43Q/1LdfQ
-         BjPPNxUvj5zTBbMhwMEH7CIzwK5I7qWgndiNWB8HdUrsZyCKrXDMGneTszTQuZfEe0rd
-         6A5uv4p8ZNvkNrNsesUVi86M8o4oRd1M+Q1Eh9zTMAjwvuP3x3bXO5E+U/gWg9nvyncp
-         qp8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5xw+lekYYy5VDE3/NlUWy9ZzVrNcq1OL8wTN+c5p7IRd9JGJufjmvYDEF9glHQy6HFnPgKQTJD/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRPp7qNYBBDsWZzoT1mHLwFEXKJc/QhNk3rFlrWsWIrulDTTKn
-	7NnzIuNdv23CxwHbanzqaHWKuCVu3eS2vhxjHMKkdzMAkkXh5yn3iH6q
-X-Gm-Gg: ASbGncv00CwLDnVu8171ExC/odbz3JA+kqMROGTzOpIN94hUfPgPaTMF0fBMg3QHt5m
-	taolrNCcbppuJxKSH6vCkm3kDzc2OE5wmLPkKTfUUdq5TuW9XA1OEvpsySgexzDJF4l+/6wOGWI
-	/7MMstvBA4j6BpSXdJx0P7Vh3f8uIjwwxUyT0zlNR/g6GcCCEnyE+iwWijsPV7+zhQ0NJdglq3/
-	ZfaF+Sly4LECTb2LQxCS5Q33oW6O/20BKl7s2nUxra70SVwQ8cgXF9mjFMddACX2PU7kP4lPlKp
-	uA2i6edas2ClE8dHCKZnjd3hYw4/bMs2N8CzjrwfRQhD9eLm5cYGXW2RGiDU7Bw9HVUkR/qVvMH
-	qotJOB8plWc+KbYmNux24va2OiqhOGsMZGtZ68ABMVyPh2MCzu6Hm
-X-Google-Smtp-Source: AGHT+IGylxeC57G3HP7/1vZXTCP0woc3CF/bb9piQD8YyNw88k6+Ampz6Ayo2XWXeOakyOz8ZMmEgA==
-X-Received: by 2002:a05:622a:30f:b0:4e7:222e:6725 with SMTP id d75a77b69052e-4e7222e7357mr20155591cf.8.1760279527640;
-        Sun, 12 Oct 2025 07:32:07 -0700 (PDT)
-Received: from gmail.com ([2600:4041:4491:2000:f887:3bb2:9bc6:cbb0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87bc35930f3sm54042686d6.43.2025.10.12.07.32.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 07:32:07 -0700 (PDT)
-Date: Sun, 12 Oct 2025 23:32:05 +0900
-From: Ryan Chung <seokwoo.chung130@gmail.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: rostedt@goodmis.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
-	hca@linux.ibm.com, corbet@lwn.net,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] tracing: fprobe: require explicit [GROUP/]EVENT
- for list/wildcard
-Message-ID: <aOu75evMUGF8pBxE@gmail.com>
-References: <20251004235001.133111-1-seokwoo.chung130@gmail.com>
- <20251004235001.133111-3-seokwoo.chung130@gmail.com>
- <20251008095316.cf24f13a84a454ddbf530120@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="JfOQ3fs1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=TK2hWIUtjAnJM/hdPpjlq0MuFNzIMqUI6yKD+EQ1tVI=; b=JfOQ3fs1Apv6Xi2EDQX2sOW9C+
+	tbwX7vKlePJtBM0fqoPd3FYDbX66CAUwh+ucfwD2fYMip+UANEdCQmH0lGlq2nAQ3LIniGL0SAJPc
+	D3jxRKrqOaqRUTZbV/hxKcb+FK0n9t46aVzq6YZWOIxSYL9Gzz8PBw4eqDf6ViXi7X78=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1v7xE2-00AiRk-Bj; Sun, 12 Oct 2025 16:39:06 +0200
+Date: Sun, 12 Oct 2025 16:39:06 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] virtio: dwords->qwords
+Message-ID: <36501d9c-9db9-45e6-9a77-1efd530545ee@lunn.ch>
+References: <cover.1760008797.git.mst@redhat.com>
+ <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
+ <26d7d26e-dd45-47bb-885b-45c6d44900bb@lunn.ch>
+ <20251009093127-mutt-send-email-mst@kernel.org>
+ <6ca20538-d2ab-4b73-8b1a-028f83828f3e@lunn.ch>
+ <20251011134052-mutt-send-email-mst@kernel.org>
+ <c4aa4304-b675-4a60-bb7e-adcf26a8694d@lunn.ch>
+ <20251012031758-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,45 +54,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251008095316.cf24f13a84a454ddbf530120@kernel.org>
+In-Reply-To: <20251012031758-mutt-send-email-mst@kernel.org>
 
-On Wed, Oct 08, 2025 at 09:53:16AM +0900, Masami Hiramatsu wrote:
-> This should be a part of [3/5], because when bisecting, the test will check the
-> README file and check the feature.
-> 
-> Thank you,
-> 
-
-Ok. I will fold the readme_msg change in [3/5] (the patch that
-introduces :entry|:exit and keeps %return for single-symbol input) so
-the tracefs README matches the feature during bisection and for tests.
-
-> On Sun,  5 Oct 2025 08:46:56 +0900
-> Ryan Chung <seokwoo.chung130@gmail.com> wrote:
-> 
-> > Signed-off-by: Ryan Chung <seokwoo.chung130@gmail.com>
-> > ---
-> >  kernel/trace/trace.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > DeviceFeaturesSel 0x014
 > > 
-> > diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> > index b3c94fbaf002..ac0d3acc337e 100644
-> > --- a/kernel/trace/trace.c
-> > +++ b/kernel/trace/trace.c
-> > @@ -5524,7 +5524,8 @@ static const char readme_msg[] =
-> >  	"\t           r[maxactive][:[<group>/][<event>]] <place> [<args>]\n"
-> >  #endif
-> >  #ifdef CONFIG_FPROBE_EVENTS
-> > -	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
-> > +	"\t           f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]\n"
-> > +	"\t                (single symbols still accept %return)\n"
-> >  	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
-> >  #endif
-> >  #ifdef CONFIG_HIST_TRIGGERS
-> > -- 
-> > 2.43.0
+> > Device (host) features word selection.
+> > Writing to this register selects a set of 32 device feature bits accessible by reading from DeviceFeatures.
 > > 
+> > and
+> > 
+> > DriverFeaturesSel 0x024
+> > 
+> > Activated (guest) features word selection
+> > Writing to this register selects a set of 32 activated feature bits accessible by writing to DriverFeatures.
+> > 
+> > I would interpret this as meaning a feature word is a u32. Hence a
+> > DWORD is a u64, as the current code uses.
+> > 
+> > 	Andrew
 > 
 > 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Hmm indeed.
+> At the same time, pci transport has:
+> 
+>          u8 padding[2];  /* Pad to full dword. */
+> 
+> and i2c has:
+> 
+> The \field{padding} is used to pad to full dword.
+> 
+> both of which use dword to mean 32 bit.
+> 
+> This comes from PCI which also does not define word but uses it
+> to mean 16 bit.
+
+Yes, reading the spec, you need to consider the context 'word' is used
+in. Maybe this is something which can be cleaned up, made uniform
+across the whole document?
+
+> I don't have the problem changing everything to some other
+> wording completely but "chunk" is uninformative, and
+> more importantly does not give a clean way to refer to
+> 2 chunks and 4 chunks.
+> Similarly, if we use "word" to mean 32 bit there is n clean
+> way to refer to 16 bits which we use a lot.
+> 
+> 
+> using word as 16 bit has the advantage that you
+> can say byte/word/dword/qword and these do not
+> cause too much confusion.
+
+> So I am still inclined to align everything on pci terminology
+> but interested to hear what alternative you suggest.
+
+How about something simple:
+
+#define VIRTIO_FEATURES_DU32WORDS	2
+#define VIRTIO_FEATURES_U32WORDS	(VIRTIO_FEATURES_D32WORDS * 2)
+
+or, if the spec moves away from using 'word':
+
+#define VIRTIO_FEATURES_U64S	2
+#define VIRTIO_FEATURES_U32S	(VIRTIO_FEATURES_U32S * 2)
+
+The coding style says not to use Hungarian notation, but here it
+actually make sense, and avoids the ambiguity in the spec.
+
+	Andrew
