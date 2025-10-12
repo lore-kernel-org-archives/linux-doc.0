@@ -1,91 +1,80 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895801EA65;
-	Sun, 12 Oct 2025 16:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9896885260;
+	Sun, 12 Oct 2025 17:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760285056; cv=none; b=Pt3KjHMCuIX9GVmLuHlln/bal7zrCCDOhgqBRCuRciF2bIrnO7SVVLNTvHrIkMB8qsQKLUzvncdPz7I8Rpb+TkCWD4YgCOVWXToqnjIz3tCj1uRN/WLIoHrGssF6cMD5Zof0xUHQr89vh8AFLXj7/mYMtLYuV+kaDEEA59yqRyY=
+	t=1760290866; cv=none; b=quPw4cUM0SXsKwd5YEXCQro/MDG90d2sIuvQK8nbSBSY30lIAmKdUK7Ga3umkb4eMq3sLJ4RXOEjpmtKjKFXQqXdmjEq4a8mIorRPHI2993b3sOLHheqWAPacErjAt4hUu8uz2JHrm7nvE4QS+Mb1UZ6FUGhKKgKZNJDSP/PNMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760285056; c=relaxed/simple;
-	bh=WR6Q3tD7lH4W+kHrgpepvYWn+8m595V2I7douvy1Ac0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKfRcfvvCupoVu1zshZg4BcH+hyRyasqpCc304EDBWV7F32Y8Vb/v49VB10XL9oqIBAf6Fzpeg2MahxFMIu5qVEMS5hTVKfJBqkisILcoOQqAyuPYHUce0Up/Phy7B0BUUDs2eHdYZg9ExOweUBxNYYWLohqGvm4dh9vGRBy0wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Ue6DSK4r; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1760290866; c=relaxed/simple;
+	bh=LMxUQeujUaXa15JA24eIE1Gd7RWwHhOJc9uGZ2F7jnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZvYeCryEXVKUGKBWjVnwUlP6b8tOk/aaRkzULLHIGetTL3qRAq8E2e67kTEl2xmGOb8XMgfgzPe0B6o+sbJfKn5UuIIu0m14tYOORjmz1aFq8yB+00AgksnwG+fHKhq6kj+KAFDuandESISvXRReEDKgm5cOWElSKb+0oE4PIoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrKYMwmC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Ue6DSK4r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=dJjnzH6feA3Ear1JYajKel7MPI/xcKpnYIcZo5d2MMs=; b=Ue6DSK4rmi7deqKKCme1TCN7gi
-	xIe9hp1FTYmjeZZip6a5kTqT+Y0Y09/thWURscQltK45iR1xqam6XwgfHtwiAtwPhA2vpm3uEyXr7
-	sTWHMmQmjUgFGI+6ym3l91dfK8sUWJkesWNK3mpM2ca8sZMlSewDY8+9b1UGNArSfeWY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1v7yYE-00Aist-5z; Sun, 12 Oct 2025 18:04:02 +0200
-Date: Sun, 12 Oct 2025 18:04:02 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-can@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] can: add Transmitter Delay Compensation (TDC)
- documentation
-Message-ID: <b3095bbe-81b5-4062-8662-c5fb1e0f2b4b@lunn.ch>
-References: <20251012-can-fd-doc-v1-0-86cc7d130026@kernel.org>
- <20251012-can-fd-doc-v1-2-86cc7d130026@kernel.org>
- <1b53ea33-1c57-40e9-bc55-619d691e4c32@lunn.ch>
- <0c6045c9-67e1-4358-ae3a-d63c343eef79@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrKYMwmC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D930DC4CEE7;
+	Sun, 12 Oct 2025 17:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760290863;
+	bh=LMxUQeujUaXa15JA24eIE1Gd7RWwHhOJc9uGZ2F7jnw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jrKYMwmCm2KPnwV4jp4h3aCw0NcPMBuwBSX0gFXsSQmUi3tUt4eIVoBgzvX6PHr/Z
+	 Hp+4a/a4QY6YEAZhedvVQDzDbvILE9hz/0oHXGNyboPyKd1aAPzsp9LrbEYlIr6Ia+
+	 lPLFMFQ75VULKUZIPzDIJVSenY3xX0MWtMyrxfVU56ND0MbHdEYROvd1FBJi5HuI0r
+	 +A6ka7/ipHargNWDKP7JlCVYcQ+/Rmknsrzhesli0lbjU3Tf9QHCPrevCncEffNll9
+	 Rh6IKjOfC56QifpWJ0cUu7l4oC8F6/P/M00hbNh66E7FEk8OMnpki54pp3KABaj6b1
+	 Z8tgnRkc565iw==
+Date: Sun, 12 Oct 2025 18:40:50 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <ukleinek@kernel.org>, <michael.hennerich@analog.com>,
+ <nuno.sa@analog.com>, <eblanc@baylibre.com>, <dlechner@baylibre.com>,
+ <andy@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
+Subject: Re: [PATCH v4 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
+ and ADAQ4224
+Message-ID: <20251012184050.5e350077@jic23-huawei>
+In-Reply-To: <7e51e036ba930284c74cf42afd53b17d49093654.1759929814.git.marcelo.schmitt@analog.com>
+References: <cover.1759929814.git.marcelo.schmitt@analog.com>
+	<7e51e036ba930284c74cf42afd53b17d49093654.1759929814.git.marcelo.schmitt@analog.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c6045c9-67e1-4358-ae3a-d63c343eef79@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 13, 2025 at 01:01:15AM +0900, Vincent Mailhol wrote:
-> Hi Andrew,
-> 
-> On 12/10/2025 at 23:47, Andrew Lunn wrote:
-> > On Sun, Oct 12, 2025 at 08:23:43PM +0900, Vincent Mailhol wrote:
-> >> Back in 2021, support for CAN TDC was added to the kernel in series [1]
-> >> and in iproute2 in series [2]. However, the documentation was never
-> >> updated.
-> > 
-> > Hi Vincent
-> > 
-> > I also don't see anything in man ip-link, nor ip link help. Maybe you
-> > can add this documentation as well?
-> 
-> The help is indeed not directly visible. But I think this is intended
-> because can is a sub type. The can is simply listed in man ip-link
-> under the Link types enumeration.
-> 
-> The can help then be obtain by providing that can type:
-> 
->   $ ip link help can
->   Usage: ip link set DEVICE type can
->   	[ bitrate BITRATE [ sample-point SAMPLE-POINT] ] |
->   	[ tq TQ prop-seg PROP_SEG phase-seg1 PHASE-SEG1
->    	  phase-seg2 PHASE-SEG2 [ sjw SJW ] ]
->   	[ dbitrate BITRATE [ dsample-point SAMPLE-POINT] ] |
->   	[ dtq TQ dprop-seg PROP_SEG dphase-seg1 PHASE-SEG1
->    	  dphase-seg2 PHASE-SEG2 [ dsjw SJW ] ]
->   	[ tdcv TDCV tdco TDCO tdcf TDCF ]
+On Wed, 8 Oct 2025 10:51:37 -0300
+Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
 
-O.K. Great, thanks for pointing this out.
+> ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
+> PGA (programmable gain amplifier) that scales the input signal prior to it
+> reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
+> and A1) that set one of four possible signal gain configurations.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
+> Change log v3 -> v4
+> - Now only documenting GPIO setup to control ADAQ PGA pins.
 
-	Andrew
+A comment on a change log is my only contribution to review of this
+version (I didn't have anything else to say!)
+
+Fully agree on separating that issue out.
+
+When we do implement it I 'hope' that whatever we/you come up
+with there can be generic enough that at most we'd just using
+it an extra example for this binding.  I.e. I'd expect it
+to be mostly documented somewhere generic.
+
+I liked the detailed explanation later in the thread btw.
+
+Jonathan
