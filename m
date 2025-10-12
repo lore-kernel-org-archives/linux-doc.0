@@ -1,162 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F4A21FF30
-	for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 07:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCD31BDCF;
+	Sun, 12 Oct 2025 11:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760253990; cv=none; b=YyuEHE73xLQAkGi7cmHuviXPdjmdZ6xdbRdBE9sxfXBVdmUYPqFX0rRmRNp1FGiKcD/LVl0f0nZFUmM4im5cbdyWGXwV1XKPjMUGYqVeuJHBLSrjSrTmkFCavVd1cHKEILmMXLF9eM8/ayNeX0X+jvU3tPTq7ayg3dxmksuuwac=
+	t=1760268259; cv=none; b=Y2EWD5KV7Qhr7GfRMXFByuoQGCt+VFp837hXMZ1YvUegGNmWhyz6hWTM5rzYRtGNRpRUqBfczn+yPXNPKogdJP71bWBGQ/yTrsvPpGrtNgrcKG1A82WnEmlaXVOFEnp8u5rGKqslTkyU1ZXrbkdx5SA0B836w2Uoz/ARF6FmfLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760253990; c=relaxed/simple;
-	bh=UEv2x/Lmp84MhY9spkwvdA5qI6xvme3Kk+89d41lEWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KFq6y6sWksPwKlbdizI3ZEYdiU3WpE/OPAwco4goubCPomd1OTQyJ9ij7n7d67MNlXzbbmln/FfK00U1eYrO6V76KF5sQrNI80b18SAgNQp+nOOAvM5C5FukUxh0JiTipfV5sRwf9L/OmeehIzqpr6EuyPFc/uhuOztWXe4Fc1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BdmKOPcL; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760268259; c=relaxed/simple;
+	bh=8nM7M2R/YQ3nyq7zzGBKueK5f2+Hfv0nMSpOfEVEQaQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fiJ4jAUzIR3ZT9rpV8Xv51YDl9Uw5aukDQWR8MjDA/VzCC0JmvPaQP7r/bgtbMfgo2AuU+PHRwmxXt5/woo5PcQh0eOi94Op7p0ms503NaCmiAUpDbc82HWGDis36l63TBwjqr7n08KrEnt8yY/S2MGXQyQv0LB5E+A90vu5vVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXoJd0fb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BdmKOPcL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760253988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mg3HCPvWm6jwVlci7BHs0yCEk+Zd1iOvD/o3EJNM9JE=;
-	b=BdmKOPcLGmHQBCuih3yJFx7ptznKkA1R7ar72zjy/HdeU79B4j3gBOG4qmW1b2cZ9yQjGO
-	1k44Qsh750Ox2XutuhHIGl8sj//CN9znl0zcIjsEGRVHc2S6ZfzeWRUwpNjQZEzhx9FheX
-	j9TmfmDgkoECLvNBBxPAcLsqrwnoJpA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-8ORTkssINECoS9Ju2SXoMQ-1; Sun, 12 Oct 2025 03:26:26 -0400
-X-MC-Unique: 8ORTkssINECoS9Ju2SXoMQ-1
-X-Mimecast-MFC-AGG-ID: 8ORTkssINECoS9Ju2SXoMQ_1760253985
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e41c32209so17782615e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 00:26:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760253985; x=1760858785;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mg3HCPvWm6jwVlci7BHs0yCEk+Zd1iOvD/o3EJNM9JE=;
-        b=ZFV0z7H9H8t7mMSyUFGEgIble0EgI8D7P7sa1DivWRslCDQrjrwd6EqKkhxctD2MGA
-         jt2G696/BZvZ5a4J04Ezfv4/Q0SqEzD4acbVccXiQ2BnvVqSiYZP2tIpr5lkZStcW8jy
-         flmY3nuL6BihpCJWGrD/zs1g3AySey0uuFU2xof+xtPGe4ak3Dx0IC8efEzFZhyPm+mU
-         y8mkKZh6hihxhD2V3QWfQW8xN5dGKIG2dzaI3jpPMzAyU7bWwnHi7RYo2bGQvE1HL2F2
-         WhkIW5IBz8HXo8svhcxQojbUi/SQUcBo2/ER8sKmddujvPlFTkn1wsPdMviBkNm1oAoG
-         SWSg==
-X-Forwarded-Encrypted: i=1; AJvYcCW86SdhNGtdQA9YgOMi+bjP690Rc7uKMrNwvS5s6gt3829t1rLbvFQeJO3xFPkBYZleHQTFnv8fNRw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXqff0iM+yvJpxiHSZZmvk0bGgfB+qbZ9ow3VPrHHwXezoIOZz
-	h6CSncPN4348ZO7tW2GoG62o7qAOXpO0ZxYNu3V8OWGhpEHQv93okftf4D6dMcUrJ78sEy884jy
-	MJh1BeD6Hdndi+AqTGXUJx0DY6TaALqPB3kOWym0Tn6NE3FgoySRu8yTeTf3iqw==
-X-Gm-Gg: ASbGncvhtNiDuQnsxTc/JQHfXDOdfRkWVoCkU2BLYBI7vqdEeFd1Pz9BcWedspG5bi4
-	b9Ro3On3WMBjFqqigHAhNqDR/UM1i3uIDISqjzm9blk/HiaJQXI4V+Tu0QX10tfc3Th9GNXtMZ4
-	9gJS0OuDwm365y4K6jSPB0Zrh6uO4AO3fi32jTo5H8inOgZRU9vYUnrE0iN2q49qcD/S0WLF7Di
-	gdngv9ptjDBG1GW/bi1vCMOnejjCFZeF4QWvKiIlxIpPFTuZnBgQ+ARPgyAI4fi4ACJTbP97+q8
-	5YAQBJ7t5wHrI1t4VpleKBqrg/USni4sWQ==
-X-Received: by 2002:a05:600c:1c96:b0:46f:c0c9:6961 with SMTP id 5b1f17b1804b1-46fc0e7f6e7mr21553985e9.14.1760253985222;
-        Sun, 12 Oct 2025 00:26:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3gaXMtNNYza81JdpwSjq/QqGvQLh5iun4C2wC9jv6BcMxYyPNrpdbHApBSwlfgxaXbiFriA==
-X-Received: by 2002:a05:600c:1c96:b0:46f:c0c9:6961 with SMTP id 5b1f17b1804b1-46fc0e7f6e7mr21553775e9.14.1760253984757;
-        Sun, 12 Oct 2025 00:26:24 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:152d:b200:2a90:8f13:7c1e:f479])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb483bcf9sm127107785e9.6.2025.10.12.00.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 00:26:24 -0700 (PDT)
-Date: Sun, 12 Oct 2025 03:26:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] virtio: dwords->qwords
-Message-ID: <20251012031758-mutt-send-email-mst@kernel.org>
-References: <cover.1760008797.git.mst@redhat.com>
- <350d0abfaa2dcdb44678098f9119ba41166f375f.1760008798.git.mst@redhat.com>
- <26d7d26e-dd45-47bb-885b-45c6d44900bb@lunn.ch>
- <20251009093127-mutt-send-email-mst@kernel.org>
- <6ca20538-d2ab-4b73-8b1a-028f83828f3e@lunn.ch>
- <20251011134052-mutt-send-email-mst@kernel.org>
- <c4aa4304-b675-4a60-bb7e-adcf26a8694d@lunn.ch>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXoJd0fb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B553BC4CEE7;
+	Sun, 12 Oct 2025 11:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760268259;
+	bh=8nM7M2R/YQ3nyq7zzGBKueK5f2+Hfv0nMSpOfEVEQaQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=UXoJd0fbYXHk5p5EC+wddbp8jtXvhNU0lylNvxhq3JulMP5GhB6U3Pc6iAoMciwzA
+	 7G5C0DOCqJI8HWUMEQfSxkmKKNxX2gFPWFFJFPKLQd/+Li/QkbwB41ptn8Q/tIlFQ+
+	 wz6pLQw08TC+PY807gXxz55rnIuy1DEKeePHgFVorGQjWrm5wMves+skkE50L1YbB4
+	 KFE3pWUB1o0BlsgdODqK0G5T30+lqUMnU4vr6YOYyddBBFX71OxVxIaBoXM8K9QUqo
+	 uFkyEzKjQQl0xY19OGQXCBDgw87BYpzC7/r8Rs59LPw+KX8+5coVRKJp7YXPfWHcFJ
+	 eUDywDOa9o9iA==
+From: Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH 0/2] can: add Transmitter Delay Compensation (TDC)
+ documentation
+Date: Sun, 12 Oct 2025 20:23:41 +0900
+Message-Id: <20251012-can-fd-doc-v1-0-86cc7d130026@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c4aa4304-b675-4a60-bb7e-adcf26a8694d@lunn.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL2P62gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDA0Mj3eTEPN20FN2U/GRdM0ujVPOklBQzYzNLJaCGgqLUtMwKsGHRsbW
+ 1ABKej6tcAAAA
+X-Change-ID: 20251012-can-fd-doc-692e7bdd6369
+To: Oliver Hartkopp <socketcan@hartkopp.net>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ linux-can@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Vincent Mailhol <mailhol@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=885; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=8nM7M2R/YQ3nyq7zzGBKueK5f2+Hfv0nMSpOfEVEQaQ=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDBmv+28ov+oLcrP6Znxw7zLzUq+LZx43bKi6z8wznXl/K
+ nevqHlPRykLgxgXg6yYIsuyck5uhY5C77BDfy1h5rAygQxh4OIUgImoMzP893knUn3yyrTiIpft
+ DLntB06vK/Xs614dMo/5xcH3l4Wl/jIyXPEW9OV7/rxbP0O0c0P3hUt7w3b8vZB9c/WL/okCreq
+ zOQE=
+X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-On Sat, Oct 11, 2025 at 08:52:18PM +0200, Andrew Lunn wrote:
-> > That's not spec, that's linux driver. The spec is the source of truth.
-> 
-> Right, lets follow this.
-> 
-> I'm looking at
-> 
-> https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.html
-> 
-> Is that correct?
-> 
-> That document does not have a definition of word. However, what is
-> interesting is section "4.2.2 MMIO Device Register Layout"
-> 
-> DeviceFeaturesSel 0x014
-> 
-> Device (host) features word selection.
-> Writing to this register selects a set of 32 device feature bits accessible by reading from DeviceFeatures.
-> 
-> and
-> 
-> DriverFeaturesSel 0x024
-> 
-> Activated (guest) features word selection
-> Writing to this register selects a set of 32 activated feature bits accessible by writing to DriverFeatures.
-> 
-> I would interpret this as meaning a feature word is a u32. Hence a
-> DWORD is a u64, as the current code uses.
-> 
-> 	Andrew
+TDC was added to the kernel in 2021 but I never took time to update
+the documentation. The year is now 2025... As we say: "better late
+than never"!
 
+The first patch is a small clean up which fixes an incorrect statement
+concerning the CAN DLC, the second patch is the real thing and adds
+the documentation of how to use the ip tool to configure the TDC.
 
-Hmm indeed.
-At the same time, pci transport has:
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+Vincent Mailhol (2):
+      can: remove false statement about 1:1 mapping between DLC and length
+      can: add Transmitter Delay Compensation (TDC) documentation
 
-         u8 padding[2];  /* Pad to full dword. */
+ Documentation/networking/can.rst | 67 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 63 insertions(+), 4 deletions(-)
+---
+base-commit: 67029a49db6c1f21106a1b5fcdd0ea234a6e0711
+change-id: 20251012-can-fd-doc-692e7bdd6369
 
-and i2c has:
-
-The \field{padding} is used to pad to full dword.
-
-both of which use dword to mean 32 bit.
-
-This comes from PCI which also does not define word but uses it
-to mean 16 bit.
-
-
-
-
-I don't have the problem changing everything to some other
-wording completely but "chunk" is uninformative, and
-more importantly does not give a clean way to refer to
-2 chunks and 4 chunks.
-Similarly, if we use "word" to mean 32 bit there is n clean
-way to refer to 16 bits which we use a lot.
-
-
-using word as 16 bit has the advantage that you
-can say byte/word/dword/qword and these do not
-cause too much confusion.
-
-
-So I am still inclined to align everything on pci terminology
-but interested to hear what alternative you suggest.
-
-
+Best regards,
 -- 
-MST
+Vincent Mailhol <mailhol@kernel.org>
 
