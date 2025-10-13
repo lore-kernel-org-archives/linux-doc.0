@@ -1,428 +1,242 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD213101BB;
-	Mon, 13 Oct 2025 14:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EABC309F11
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 14:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760366199; cv=none; b=V/VIpCkkEwwO63o7kmP8WEssMVCh4UBv6TMbv1hMXENk1ChblHtQXsOdaoK4SzxB42jG8f3sAQnEVDetmsRP+yolneJx+J8/qCk9mcwpMKAOGmsK8cHnc+d/nDwUktx4CAYQksQR9jxq/lglgCMjc5xPcgyf78NOYN3G1FTchDw=
+	t=1760367204; cv=none; b=nJyb94a8DUEk5HbWlsDEvdAvTN6Uowt8AcA2m8U/W3ZylmfNTxa/lrt1AbPu+jQ6pqS0zzoiOponfAhBSZjHywDqoxH9Y1F6zfjAJbplLAYA099EeaTSvEplVMTayn43oL2xuBQM/3yrajdvcXZEmhf0997bqw2D3JWw8Xci25E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760366199; c=relaxed/simple;
-	bh=TgIARC5XLm8nGwCRUQadub0RqRrQanAS6wmttEkHkR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIun0fGI2WAuGAi3kXqL4KCeHV6EZxzcrgraTi4PWCIdqmwlk7xueLW7j8D6FSAutttxVMTZJQq008sfUpl4dyavgRkVRKG/gII8buvUENJsBfyA9xePwHJMHeYcZFJkdesDVPJMtCyxsKvb1H7tyt0BAVwRzD9VkKfwothN2ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB832113E;
-	Mon, 13 Oct 2025 07:36:27 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 869FE3F738;
-	Mon, 13 Oct 2025 07:36:33 -0700 (PDT)
-Date: Mon, 13 Oct 2025 15:36:27 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-	James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-Message-ID: <aO0Oazuxt54hQFbx@e133380.arm.com>
-References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <aNFliMZTTUiXyZzd@e133380.arm.com>
- <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <aNqQAy8nOkLRYx4F@e133380.arm.com>
- <d15d97d1-286c-4857-8688-4d8369271c2c@intel.com>
- <aNv53UmFGDBL0z3O@e133380.arm.com>
- <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
+	s=arc-20240116; t=1760367204; c=relaxed/simple;
+	bh=bSEBq/uVXgrRFdrC3jvOQMbnwmsIHdYUxMJ+CsFrB9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dRaHMXEqE5B1BOaGQjAvnOz5tDFm4yJm0kZlva6V4vkJBNgSqmHbz1V5XuI+RdzJsBxY1BE6V6h/pjSwcwpDI9L6IjC4h5AqgTp9JEipcsMaP4bSP8iY34IL7MgdtahHXyTCbwrW8fqujpcUyR7k90LNm13IHSRn0cZLDkx3Fzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eI5h7Hu2; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eI5h7Hu2"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-46e6ba26c50so25961035e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 07:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760367200; x=1760972000; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dic3M/lLM2/ycZ5ZARs7aXZDn/viBq+O10qSDjyGmLY=;
+        b=eI5h7Hu2yH7LOsJfEAzfkjFKS2FVeOXqWKf43qeyUV5VU5WOmytJpVxVeItaZMECVT
+         rhVyFzeCfU93NyO0ntGLLzO59Xbo581j9aK8onwIjzP8A+FFZLTyhgTg52ouWvd0luR5
+         8uvNePxkBpCODQxjXQWilIjptHnGNL5MeeTTJlgGGycIWO1VQ98A4yKwlIjL7vUlDnv+
+         Qt1Wy8Iw1vWCog1+QzRx+0zhSyciqC2JlIVgT7UivaTSTLOO2HzzI2YOgjmsmtu1TyGg
+         GqyXyVr2cb9km5kE0BKeBQNmQGTUpVvaQEBIIE7jiKJaLCuuGSG5oppKz/eSNHGWrP1b
+         mbGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760367200; x=1760972000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dic3M/lLM2/ycZ5ZARs7aXZDn/viBq+O10qSDjyGmLY=;
+        b=kW85fV0LBi4881nUagxHnQUsShhmtOFnN9fHusgQF+2MXQz+Xs0bVGASz+zV8O+Q82
+         o3J5i0SRiDbK9JPhvHMN6CuN5vKM5hmkMyFekzw4UqyKSjM1nBbM72SaiTN4QAVqX0lI
+         OSBOzCfmfwcmgPfLRBhTBkB92Lv9n88q9xhAvYO78pXI4cxIVdtVFX0rYmBYOjb78DKN
+         9yHcuehFjXP5aai82Y9Xt0LkogGcxR3ouDq6rdXbKNjKqxuC+HCg3uP+jvqnMZdVf5Tv
+         4qMrEOFB2/s5hweVhkLLA0hii2+ICL3ZpiV2+B2fLA8y0K8sGRZY6w9uu7U8JnfcJGOX
+         lxDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnYf1cKJk6cmiYYKHOvjnWnSD+4iAPvde3FLv1pE3iSKrAo8yQ/N2dznsJAQEBQpD03OH/GbzVKks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1rqw4sK05coMcdCKEpPG9i91csoWrKvUPRPC/Essu5Etcbvt4
+	canctx5o7pYtafseok7yKvYfThcWoBIiZL8e0j8NvzFWDx7VkXGp7ZDA
+X-Gm-Gg: ASbGnctHt1jbI9ZTCqPMvGgCfTFCyI5qiMyY4ywmGCeV4cEz6FX/0afd4HZrwyhbuPH
+	lT4DJtrL7+KbD68S4lxT51H7nblxuI1mrQOG3pZuJqrD2572FTknIcVaIIFCUXypjXDx4/fJSls
+	YfYlQJlDxQzuGd1cmWntcSsdPMzdqLqebu8sXe2r4cxIOEhE2Ri8WoCoq7IpKKZ9O5BtySrvJxE
+	QfjCutlbEnMje8eiCXMh+NJR9URDdVovJONJbmtSjuGT0Jum37uGyortps/UVK9UtcNfQz8SUlA
+	1il/GflspDWbgvWz3C/NHzynTcJEpxqXUviRZvS96YzBJ8/04lsi2+gZ3wpP1juGmoai9pvWCAl
+	1812YSYFOF6O2ryRu9dYVcYCdSmTnfJZ5PeA=
+X-Google-Smtp-Source: AGHT+IFDZTW2epAqGg1QWXue+k/9B/Zz7ksBcY03jdXwPOwwoD8VfVpwsFq2UFKu96q8UNrRi/98QQ==
+X-Received: by 2002:a05:600c:4e47:b0:46e:42fa:ffce with SMTP id 5b1f17b1804b1-46fa9a863c4mr151531815e9.2.1760367200111;
+        Mon, 13 Oct 2025 07:53:20 -0700 (PDT)
+Received: from 127.com ([2620:10d:c092:600::1:eb09])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e0e70sm18641085f8f.40.2025.10.13.07.53.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 07:53:18 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Jian Shen <shenjian15@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Alexander Duyck <alexanderduyck@fb.com>,
+	kernel-team@meta.com,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Joe Damato <joe@dama.to>,
+	David Wei <dw@davidwei.uk>,
+	Willem de Bruijn <willemb@google.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Breno Leitao <leitao@debian.org>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH net-next v4 00/24][pull request] Queue configs and large buffer providers
+Date: Mon, 13 Oct 2025 15:54:02 +0100
+Message-ID: <cover.1760364551.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
 
-Hi Reinette,
+Add support for per-queue rx buffer length configuration based on [2]
+and basic infrastructure for using it in memory providers like
+io_uring/zcrx. Note, it only includes net/ patches and leaves out
+zcrx to be merged separately. Large rx buffers can be beneficial with
+hw-gro enabled cards that can coalesce traffic, which reduces the
+number of frags traversing the network stack and resuling in larger
+contiguous chunks of data given to the userspace.
 
-On Fri, Oct 10, 2025 at 09:48:21AM -0700, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> On 9/30/25 8:40 AM, Dave Martin wrote:
-> > On Mon, Sep 29, 2025 at 09:09:35AM -0700, Reinette Chatre wrote:
-> >> On 9/29/25 6:56 AM, Dave Martin wrote:
+Benchmarks with zcrx [2+3] show up to ~30% improvement in CPU util.
+E.g. comparison for 4K vs 32K buffers with a 200Gbit NIC, napi and
+userspace pinned to the same CPU:
 
-[...]
+packets=23987040 (MB=2745098), rps=199559 (MB/s=22837)
+CPU    %usr   %nice    %sys %iowait    %irq   %soft   %idle
+  0    1.53    0.00   27.78    2.72    1.31   66.45    0.22
+packets=24078368 (MB=2755550), rps=200319 (MB/s=22924)
+CPU    %usr   %nice    %sys %iowait    %irq   %soft   %idle
+  0    0.69    0.00    8.26   31.65    1.83   57.00    0.57
 
-> >> 1) Commented schema are "inactive"
-> >> This is unclear to me. In the MB example the commented lines show the 
-> >> finer grained controls. Since the original MB resource is an approximation
-> >> and the hardware must already be configured to support it, would the #-prefixed
-> >> lines not show the actual "active" configuration?
-> > 
-> > They would show the active configuration (possibly more precisely than
-> > "MB" does).
-> 
-> That is how I see it also. This is specific to MB as we try to maintain
-> backward compatibility.
-> 
-> If we are going to make user interface changes to resource allocation then
-> ideally it should consider all known future usage. I am trying to navigate
-> and understand the discussion on how resctrl can support MPAM and this
-> RDT region aware requirements. 
-> 
-> I scanned the MPAM spec and from what I understand a resource may support
-> multiple controls at the same time, each with its own properties, and then
-> there was this:
-> 
-> 	When multiple partitioning controls are active, each affects the partition’s
-> 	bandwidth usage. However, some combinations of controls may not make sense,
-> 	because the regulation of that pair of controls cannot be made to work in concert.
-> 
-> resctrl may thus present an "active configuration" that is not a configuration
-> that "makes sense" ... this may be ok as resctrl would present what hardware
-> supports combined with what user requested.
+netdev + zcrx changes:
+[1] https://github.com/isilence/linux.git zcrx/large-buffers-v4
 
-This is analogous to what the MPAM spec says, though if resctrl offers
-two different schemata for the same hardware control, the control cannot be
-configured with both values simultaneously.
+Per queue configuration series:
+[2] https://lore.kernel.org/all/20250421222827.283737-1-kuba@kernel.org/
 
-For the MPAM hardware controls affecting the same hardware resource,
-they can be programmed to combinations of values that have no sensible
-interpretation, and the values can be read back just fine.  The
-performance effects may not be what the user expected / wanted, but
-this is not directly visible to resctrl.
+Liburing example:
+[3] https://github.com/isilence/liburing.git zcrx/rx-buf-len
 
-So, if we offer independent schemata for MBW_MIN and MBW_MAX, the user
-can program MBW_MIN=75% and MBW_MAX=25% for the same PARTID, and that
-will read back just as programmed.  The architecture does not promise
-what the performance effect of this will be, but resctrl does not need
-to care.
+---
+The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
-[...]
+  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
 
-> > The # is intended to make resctrl ignore the lines when the file
-> > is written by userspace.  This is done so that userspace has to
-> > actually change those lines in order for them to take effect when
-> > writing.  Old userspace can just pass them through without modification,
-> > without anything unexpected happening.
-> 
-> Thank you for highlighting this. I did not consider this use case.
+are available in the Git repository at:
 
-[...]
+  https://github.com/isilence/linux.git tags/net-for-6.19-queue-rx-buf-len
 
-> >> 2) Commented schema are "conflicting"
-> >> The original proposal mentioned "write them back instead of (or in addition to)
-> >> the conflicting entries". I do not know how resctrl will be able to
-> >> handle a user requesting a change to both "MB" and "MB_HW". This seems like
-> >> something that should fail?
-> > 
-> > If userspace is asking for two incompatible things at the same time, we
-> > can either pick one of them and ignore the rest, or do nothing, or fail
-> > explicitly.
-> > 
-> > If we think that it doesn't really matter what happens, then resctrl
-> > could just dumbly process the entries in the order given.  If the
-> > result is not what userspace wanted, that's not our problem.
-> > 
-> > (Today, nothing prevents userspace writing multiple "MB" lines at the
-> > same time: resctrl will process them all, but only the final one will
-> > have a lasting effect.  So, the fact that a resctrl write can contain
-> > mutually incompatible requests does not seem to be new.)
-> 
-> Good point.
+for you to fetch changes up to bc5737ba2a1e5586408cd0398b2db0f218ed3e89:
 
-[...]
-
-> > This proposal is only about numeric controls.  L3 wouldn't change, but
-> > we could still add info/ metadata for bitmap control at the same time
-> > as adding it for numeric controls.
-> 
-> I think we should. At least we should leave space for such an addition since
-> it is not obvious to me how multiple resources with different controls or
-> single resource with multiple controls should be communicated to user space. 
-> 
-> To be specific, the original proposal [1] introduced a set of files for
-> a numeric control and that seems to work for existing and upcoming 
-> schema that need a value in a range. Different controls need different
-> parameters so to integrate this solution I think it needs another parameter
-> (presented as a directory, a file, or within a file) that indicates the
-> type of the control so that user space knows which files/parameters to expect
-> and how to interpret them. 
-
-Agreed.  I wasn't meaning to imply that this proposal shouldn't be
-integrated into something more general.  If we want a richer
-description than the current one, it makes sense to incorporate bitmap
-controls -- this just wasn't my focus.
-
-> Since different controls have different parameters we need to consider
-> whether it is easier to create/parse unique files for each control or
-> present all the parameters within one file with another file noting the type
-> of control.
-
-Separate files works quite well for low-tech tooling built using shell
-scripts, and this seems to follow the sysfs philosophy.  Since there is
-no need to keep re-reading these parameters, simplicity feels more
-important than efficiency?
-
-But we could equally have a single file with multiple pieces of
-information in it.
-
-I don't have a strong view on this.
-
-> I understand the files/parameters are intended to be in the schema's info directory
-> but how this will look is not obvious to me. Part of the MPAM refactoring transitioned
-> the top level info directories to represent the schema entries that currently reflect
-> the resources. When we start having multiple schema entries (multiple controls) for a
-> single resource the simplest implementation may result in a top level info
-> directory for every schema entry ... but the expectation is that these top
-> level directories should be per resource, no?
-
-I had not considered that the info/ directories correspond to resources,
-not individual schemata...
-> 
-> At this time I am envisioning the proposal to result in something like below where
-> there is one resource directory and one directory per schema entry with a (added by me)
-> "schema_type" file to help user find out what the schema type is to know which files are present:
-> 
-> MB
-> ├── bandwidth_gran
-> ├── delay_linear
-> ├── MB
-> │   ├── map
-> │   ├── max
-> │   ├── min
-> │   ├── scale
-> │   ├── schema_type
-> │   └── unit
-> ├── MB_HW
-> │   ├── map
-> │   ├── max
-> │   ├── min
-> │   ├── scale
-> │   ├── schema_type
-> │   └── unit
-> ├── MB_MAX
-> │   └── tbd
-> ├── MB_MIN
-> │   └── tbd
-> ├── min_bandwidth
-> ├── num_closids
-> └── thread_throttle_mode
-
-I see no reason not to do that.  Either way, older userspace just
-ignores the new files and directories.
-
-Perhaps add an intermediate subdirectory to clarify the relationship
-between the resource dir and the individual schema descriptions?
-
-This may also avoid the new descriptions getting mixed up with the old
-description files.
-
-Say,
-
-  info
-  ├── MB
-  │   ├── resource_schemata
-  │   │   ├── MB
-  │   │   │   ├── map
-  │   │   │   ├── max
-  │   ┆   │   ├── min
-  │       │   ┆
-  ┆       │
-          ├── MB_HW
-          │   ├── map
-          │   ┆
-          ┆
-
-> Something else related to control that caught my eye in MPAM spec is this gem:
-> 	MPAM provides discoverable vendor extensions to permit partners
-> 	to invent partitioning controls.
-
-Yup.
-
-Since we have no way to know what vendor-specific controls look like or
-what they mean, we can't do much about this.
-
-So, it's the vendor's job to implement support for it, and we might
-still say no (if there is no sane way to integrate it).
-
-> > MB may be hard to describe in a useful way, though -- at least in the
-> > MPAM case, where the number of steps does not divide into 100, and the
-> > AMD cases where the meaning of the MB control values is different.
-> 
-> Above I do assume that MB would be represented in a new interface since it
-> is a schema entry, if that causes trouble then we could drop it.
-
-Since MB is described by the existing files and the documentation,
-perhaps this it doesn't need an additional description.
-
-Alternatively though, could we just have a special schema_type for this,
-and omit the other properties?  This would mean that we at least have
-an entry for every schema.
-
-> 
-> > 
-> > MB and MB_HW are not interchangeable.  To obtain predictable results
-> > from MB, userspace would need to know precisely how the kernel is going
-> > to round the value.  This feels like an implementation detail that
-> > doesn't belong in the ABI.
-> 
-> ack
-> 
-> ...
-> 
-> > Anyway, going back to the "#" convention:
-> > 
-> > If the initial read of schemata has the new entries "pre-commented",
-> > then userspace wouldn't need to know about the new entries.  It could
-> > just tweak the MB entry (which it knows about), and write the file back:
-> > 
-> > 	MB: 0=43
-> > 	# MB_HW: 0=2
-> > 	# MB_MIN: 0=1
-> > 	# MB_MAX: 0=2
-> > 
-> > then resctrl knows to ignore the hashed lines, and so reading the file
-> > back gives:
-> > 
-> > 	MB: 0=43
-> > 	# MB_HW: 0=3
-> > 	# MB_MIN: 0=2
-> > 	# MB_MAX: 0=3
-> 
-> Thank you for the example. This seems reasonable. I would like to go back
-> to what you wrote in [1]:
-> 
-> > Software that understands the new entries can uncomment the conflicting
-> > entries and write them back instead of (or in addition to) the
-> > conflicting entries.  For example, userspace might write the following:
-> > 
-> > MB_MIN: 0=16, 1=16
-> > MB_MAX: 0=32, 1=32
-> > 
-> > Which might then read back as follows:
-> > 
-> > MB: 0=50, 1=50
-> > # MB_HW: 0=32, 1=32
-> > # MB_MIN: 0=16, 1=16
-> > # MB_MAX: 0=32, 1=32
-> 
-> Could/should resctrl uncomment the lines after userspace modified them?
-
-The '#' wasn't meant to be a state that gets turned on and off.
-
-Rather, userspace would use this to indicate which entries are
-intentionally being modified.
-
-So long as the entries affecting a single resource are ordered so that
-each entry is strictly more specific than the previous entries (as
-illustrated above), then reading schemata and stripping all the hashes
-would allow a previous configuration to be restored; to change just one
-entry, userspace can uncomment just that one, or write only that entry
-(which is what I think we should recommend for new software).
-
-> > (For hardware-specific reasons, the MPAM driver currently internally
-> > programs the MIN bound to be a bit less than the MAX bound, when
-> > userspace writes an "MB" entry into schemata.  The key thing is that
-> > writing MB may cause the MB_MIN/MB_MAX entries to change -- at the
-> > resctrl level, I don't that that we necessarily need to make promises
-> > about what they can change _to_.  The exact effect of MIN and MAX
-> > bounds is likely to be hardware-dependent anyway.)
-> 
-> MPAM has the "HARDLIM" distinction associated with these MAX values
-> and from what I can tell this is per PARTID. Is this something that needs
-> to be supported? To do this resctrl will need to support modifying
-> control properties per resource group.
-
-Possibly.  Since this is a boolean control that determines how the
-MBW_MAX control is applied, we could perhaps present it as an
-additional schema -- if so, it's basically orthogonal.
-
- | MB_HARDMAX: 0=0, 1=1, 2=1, 3=0 [...]
-
-or
-
- | MB_HARDMAX: 0=off, 1=on, 2=on, 3=off [...]
-
-Does this look reasonable?
-
-I don't know whether we have a clear use case for this today, and like
-almost everything else in MPAM, implementing it is optional...
+  net: validate driver supports passed qcfg params (2025-10-13 10:04:05 +0100)
 
 
-> > Regarding new userspce:
-> > 
-> > Going forward, we can explicitly document that there should be no
-> > conflicting or "passenger" entries in a schemata write: don't include
-> > an entry for somehing that you don't explicitly want to set, and if
-> > multiple entries affect the same resource, we don't promise what
-> > happens.
-> > 
-> > (But sadly, we can't impose that rule on existing software after the
-> > fact.)
-> 
-> It may thus not be worth it to make such a rule.
+v4: - Update fbnic qops
+    - Propagate max buf len for hns3
+    - Use configured buf size in __bnxt_alloc_rx_netmem
+    - Minor stylistic changes
+v3: https://lore.kernel.org/all/cover.1755499375.git.asml.silence@gmail.com/
+    - Rebased, excluded zcrx specific patches
+    - Set agg_size_fac to 1 on warning
+v2: https://lore.kernel.org/all/cover.1754657711.git.asml.silence@gmail.com/
+    - Add MAX_PAGE_ORDER check on pp init
+    - Applied comments rewording
+    - Adjust pp.max_len based on order
+    - Patch up mlx5 queue callbacks after rebase
+    - Minor ->queue_mgmt_ops refactoring
+    - Rebased to account for both fill level and agg_size_fac
+    - Pass providers buf length in struct pp_memory_provider_params and
+      apply it in __netdev_queue_confi().
+    - Use ->supported_ring_params to validate drivers support of set
+      qcfg parameters.
 
-Ack.  Perhaps we could recommend it, though.
+Jakub Kicinski (20):
+  docs: ethtool: document that rx_buf_len must control payload lengths
+  net: ethtool: report max value for rx-buf-len
+  net: use zero value to restore rx_buf_len to default
+  net: clarify the meaning of netdev_config members
+  net: add rx_buf_len to netdev config
+  eth: bnxt: read the page size from the adapter struct
+  eth: bnxt: set page pool page order based on rx_page_size
+  eth: bnxt: support setting size of agg buffers via ethtool
+  net: move netdev_config manipulation to dedicated helpers
+  net: reduce indent of struct netdev_queue_mgmt_ops members
+  net: allocate per-queue config structs and pass them thru the queue
+    API
+  net: pass extack to netdev_rx_queue_restart()
+  net: add queue config validation callback
+  eth: bnxt: always set the queue mgmt ops
+  eth: bnxt: store the rx buf size per queue
+  eth: bnxt: adjust the fill level of agg queues with larger buffers
+  netdev: add support for setting rx-buf-len per queue
+  net: wipe the setting of deactived queues
+  eth: bnxt: use queue op config validate
+  eth: bnxt: support per queue configuration of rx-buf-len
 
-(At the very least, avoiding writing redundant entries would be a
-little more efficient for the user.)
+Pavel Begunkov (4):
+  net: page_pool: sanitise allocation order
+  net: hns3: net: use zero to restore rx_buf_len to default
+  net: let pp memory provider to specify rx buf len
+  net: validate driver supports passed qcfg params
 
-> > 
-> > 
-> > One final note: I have not provided any way to indicate that all those
-> > entries control the same hardware resource.  The common "MB" prefix is
-> > intended as a clue, but ultimately, userspace needs to know what an
-> > entry controls before tweaking it.
-> > 
-> > We could try to describe the relationships explicitly, but I'm not sure
-> > that it is useful...
-> 
-> What other relationships should we consider for MPAM? I see that each
-> MPAM allows per-PARTID configurations for secure/non-secure, physical/virtual,
-> ... ? Is it expected that MPAM's support of these should be exposed via resctrl?
+ Documentation/netlink/specs/ethtool.yaml      |   4 +
+ Documentation/netlink/specs/netdev.yaml       |  15 ++
+ Documentation/networking/ethtool-netlink.rst  |   7 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     | 148 +++++++++++---
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   5 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |   9 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c |   6 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.h |   2 +-
+ drivers/net/ethernet/google/gve/gve_main.c    |   9 +-
+ .../ethernet/hisilicon/hns3/hns3_ethtool.c    |  10 +-
+ .../marvell/octeontx2/nic/otx2_ethtool.c      |   6 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  10 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_txrx.c  |   8 +-
+ drivers/net/netdevsim/netdev.c                |   8 +-
+ include/linux/ethtool.h                       |   3 +
+ include/net/netdev_queues.h                   |  88 +++++++--
+ include/net/netdev_rx_queue.h                 |   3 +-
+ include/net/netlink.h                         |  19 ++
+ include/net/page_pool/types.h                 |   1 +
+ .../uapi/linux/ethtool_netlink_generated.h    |   1 +
+ include/uapi/linux/netdev.h                   |   2 +
+ net/core/Makefile                             |   1 +
+ net/core/dev.c                                |  12 +-
+ net/core/dev.h                                |  15 ++
+ net/core/netdev-genl-gen.c                    |  15 ++
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  92 +++++++++
+ net/core/netdev_config.c                      | 183 ++++++++++++++++++
+ net/core/netdev_rx_queue.c                    |  22 ++-
+ net/core/page_pool.c                          |   3 +
+ net/ethtool/common.c                          |   4 +-
+ net/ethtool/netlink.c                         |  14 +-
+ net/ethtool/rings.c                           |  14 +-
+ tools/include/uapi/linux/netdev.h             |   2 +
+ 34 files changed, 650 insertions(+), 92 deletions(-)
+ create mode 100644 net/core/netdev_config.c
 
-Probably not.  These are best regarded as entirely separate instances
-of MPAM; the PARTID spaces are separate.  The Non-secure physical
-address space is the only physical address space directly accessible to
-Linux -- for the others, we can't address the MMIO registers anyway.
+-- 
+2.49.0
 
-For now, the other address spaces are the firmware's problem.
-
-> Have you considered how to express if user wants hardware to have different
-> allocations for, for example, same PARTID at different execution levels?
-> 
-> Reinette
-> 
-> [1] https://lore.kernel.org/lkml/aNFliMZTTUiXyZzd@e133380.arm.com/
-
-MPAM doesn't allow different controls for a PARTID depending on the
-exception level, but it is possible to program different PARTIDs for
-hypervisor/kernel and userspace (i.e., EL2/EL1 and EL0).
-
-I think that if we wanted to go down that road, we would want to expose
-additional "task IDs" in resctrlfs that can be placed into groups
-independently, say
-
-	echo 14161:kernel >>.../some_group/tasks
-	echo 14161:user >>.../other_group/tasks
-
-However, inside the kernel, the boundary between work done on behalf of
-a specific userspace task, work done on behalf of userspace in general,
-and autonomous work inside the kernel is fuzzy and not well defined.
-
-For this reason, we currently only configure the PARTID for EL0.  For
-EL1 (and EL2 if the kernel uses it), we just use the default PARTID (0).
-
-Hopefully this is orthogonal to the discussion of schema descriptions,
-though ...?
-
-Cheers
----Dave
