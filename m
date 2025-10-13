@@ -1,209 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED992FB97F;
-	Mon, 13 Oct 2025 08:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E0212578
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 08:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760344536; cv=none; b=VfOAei1APVb1Nx9J5RN6gVDuUAci+ka7M5Xx8NPAaXn1z3wYrGCMstqF2N9RA4DYKqGe/8l4Ou139A839FgrMDWcBpoHfYfqhL9dLUZEpOA4DMrVODJ9jcruHzdrndTVI5azUeC/AxotXlAJbzjJ6R1sb1X0vvVUH+a3/aCF4uI=
+	t=1760345850; cv=none; b=U2HfwqWKqoNqaH5gdtbcxn0qutP+R3LceSaJGT18GPzF+Qba8Rmo6WZVE1NBPEhGGH6YNVT3y2Pj/jhtv3Z7yCVO+fJQj3lhcWx62CnHwAdsoOp1YsIZNTxhfgiQcRnobb7TxjL3dLEOMU6oAU3J7JbvfEU6D54oieNGiClx8XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760344536; c=relaxed/simple;
-	bh=KLq6UV149iWlcbOb9BAgyPNNCpzPtwQ5QaRQCIh5ebk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Bd6RroZ1p5ZbFLBKreWss+fiN5ttAfQklrRAY0sauQ8KaYqe6Y3Hutqz4ykk2X2tnwEcdUwJEcoShBybhWA5A0MrJZxAIQLKYNwUqMxWAqz7/OoOIcpTs+RthupyhlFVFzMKd+TQXcfd4Rr2x9Wego0DFvzY6x/hr+uK6eLC+nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sl+YtXJN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760345850; c=relaxed/simple;
+	bh=PbjBUK1Z7pXMZ1LfaCuEVsag2X/hL916dnnkBuDLQYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L9VYrlH+3R289W369tepcpjDIKLHWby4mOaqQoUnMPmhbs7lC5rmsIbr5gU4wSTZzWV3mIksqE0Xb69y3KHbmiFQbdli4/WEkyJr/LibXY/15b6u61kzQAEHn1dnSuOQw5y19jQlGv9cTJTrvJLTxE5/kQdP9dIv6h43eo7iKjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2gKTCSY; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sl+YtXJN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ABFAC116B1;
-	Mon, 13 Oct 2025 08:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760344535;
-	bh=KLq6UV149iWlcbOb9BAgyPNNCpzPtwQ5QaRQCIh5ebk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Sl+YtXJNxiPzUTKnj5nq7CzD43piYS7wBecQAXfiXUxaN94nXtUgXkTFnKXYLWHJ2
-	 //ttm99e5QkvlcJSSlRjvk2r9KxeHpidc/j/xyNP4xZdsmAaLg+e2Cf7s9AtBqnO3C
-	 pSDXZGssVOarVlUO1MmNkp7PO/mQoofCC3ur/DX1n3LkOXiLEhvBgUevaaD7in4059
-	 rbgkE5z1rRx6XiG2IjkZty8gHd8FPYtqHixT7yFWMWDhuJ/iXCAc4S/eMw8KQlxMFc
-	 oFSXtPJSwsYIiXrcFSRAfN4eLWO4bJ0rAXdSg5aSjTmIhlPo3ZQk+0ZGJmOjZSjRzM
-	 tWecRHFZNPHQg==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 13 Oct 2025 10:35:20 +0200
-Subject: [PATCH v8 5/5] dma-buf: heaps: cma: Create CMA heap for each CMA
- reserved region
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2gKTCSY"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-782bfd0a977so3401599b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 01:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760345849; x=1760950649; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9i4BBpfXsDT8eFnFn/jmS3zn1/Abb7iqLYlBRwjQgWU=;
+        b=m2gKTCSYk0mI2pgteGHGkyNPjl7VDQo8t7fe/6UN19lnQ9nefk5JQ76jqzQN5rX1eg
+         4EKhD7Hx8PItYNw0drwupNGTEtZrGn5dtcwZolrZnQgxoEfvvuEFoo1AZ3cQiYUXmaY6
+         e84xCXZGgxn5S9jUWi8+FGKVFYGUmSEep2uufftGTCiK4+npHiBrO404ALJeCAuNwcmZ
+         fnKbWADEey3dUYw/uGRGaKg+3JzS9438FiMW//gHAcl4rH24A4D8SHPl9Xm9dnRXvVnF
+         iamtKjz2wXKt7zJ/7XKLfjiD6zy4YTzBXgSb3Ihf3heCyiCr7pTXjtDKHT/32phSmkBb
+         EIBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760345849; x=1760950649;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9i4BBpfXsDT8eFnFn/jmS3zn1/Abb7iqLYlBRwjQgWU=;
+        b=cI1g8CNXWGJ+qE7IqaNO89mZMZMsm8MwVqaGMXzoqDDAqIxwfjNCc6EyeIZVcrSmDL
+         KJYzIjeOwsfNSXbsdtvfAzas5k6EvuM+4WRL9ngTdPyMPV9HgBMo/p/X3PRMz06JS0t6
+         kR7vrO0tFSFpnojPNn3Hfz99iwjNTV4PfDemgTdKS8xFkoi0zKYtfhBbmqfarhxEjXDq
+         UFoy8u+TKZmHjO8L+QqN/CbS/wqYRLHcuZ0XuaQAgn9bhoZI629otH7SmovjrqoOZ8vY
+         MqWJ1zYT6ATblbXK78Xzhy2BN33389pdgYmGbJv3eomFwgNz+yEPSwYZLmlMuoZjJOGT
+         agtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUX0muqUQ6W875VSJFJ6EqGiZl9/pVlqG19AIq9Ej8TYdpOwUlLxkTl+ahYkOCUh1OPIQagXMWsJMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywyy4mxj/57pkwKQScZsLoQkFziL2m/NpbwT+IfYrRcsprZTT8B
+	l8N8/aKKtgAA69psc2/lvE9X7JANtR5wkNWQgjmeQPaJbt9rXDKaw4e8
+X-Gm-Gg: ASbGnctI97L8933EYFwtcaVEPb0BeSsPC2c5YtIm0dnXcJoPSLmvUjXR5g4UKu6HMhE
+	ewQSU6aZUeoOgCNl6siSowYSu45hiToz4D9jb+IxEHyPk1w9s0+hH2LwzLo2SCdUOGHb//Kc7WP
+	4GU3xLi2cGzPg8RSY2/04ONwkXDXRDg7YA734LHjbSLMLtuhlYeOUX7AaWcM7PdU3ZpD86bInzV
+	OtC69MpobpzugBNHrcO+hcZ7tbbjZwlYStwWtvliSa79HGhJgXTfn21Ffwz6dnwO0piunUkYf8r
+	4aaZrDKyAkdONEd+T0Di6b3wbvx2bJlU/uQ9ntUt458XveDSQUiIh1Gi1QJoWL52AgLgJnrdekX
+	dhU7Dtl/iobAzW2ZHshNR/LJRTJ8qdTC8OM7Zl1fLYjqlN/RsGDjijLQ=
+X-Google-Smtp-Source: AGHT+IEchI617YKWuzuNKaFi+lyotd9RD/lcD21mjz/5MfFqEjsOczpStBEFEZvQnAKRfjX4ZFT9TA==
+X-Received: by 2002:a05:6a21:999d:b0:266:1f27:a01e with SMTP id adf61e73a8af0-32da839fe85mr26147206637.39.1760345848542;
+        Mon, 13 Oct 2025 01:57:28 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d096527sm10786617b3a.44.2025.10.13.01.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 01:57:27 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 257F4424BFFB; Mon, 13 Oct 2025 15:57:25 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux EFI <linux-efi@vger.kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Subject: [PATCH v3] Documentation/x86: explain LINUX_EFI_INITRD_MEDIA_GUID
+Date: Mon, 13 Oct 2025 15:57:18 +0700
+Message-ID: <20251013085718.27085-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-dma-buf-ecc-heap-v8-5-04ce150ea3d9@kernel.org>
-References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
-In-Reply-To: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Robin Murphy <robin.murphy@arm.com>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4509; i=bagasdotme@gmail.com; h=from:subject; bh=UnARZcEOs3ird8NeNavJwy55YoDgK0PnaYvM7PciqCM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlv9lX5Xt6xpaaw3UHTfOeuZaYXIg5dKGXmn1Z/gZs7/ nXW8j87OkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjARG2eGf5psv962P7G5sXlF rs1GxcMvhP9bdXes1fjufE5jsp/rQweGfyr2a24903vhpy30OmXmjt/zAksyjq2T98lU8Fu3W0t PhxMA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Aside from the main CMA region, it can be useful to allow userspace to
-allocate from the other CMA reserved regions.
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
 
-Indeed, those regions can have specific properties that can be useful to
-a specific us-case.
+Since the Handover Protocol was deprecated, the recommended approach is
+to provide an initrd using a UEFI boot service with the
+LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+approach has been no more than an admonition with a link to an existing
+implementation.
 
-For example, one of them platform I've been with has ECC enabled on the
-entire memory but for a specific region. Using that region to allocate
-framebuffers can be particular beneficial because enabling the ECC has a
-performance and memory footprint cost.
+Provide a short explanation of this functionality, to ease future
+implementations without having to reverse engineer existing ones.
 
-Thus, exposing these regions as heaps user-space can allocate from and
-import wherever needed allows to cover that use-case.
-
-For now, only shared-dma-pools regions with the reusable property (ie,
-backed by CMA) are supported, but eventually we'll want to support other
-DMA pools types.
-
-Since we collected all the CMA regions created during boot, we can
-simply iterate over all of them to create the heaps.
-
-This has a weird interaction with the recent work on the CMA name, in
-particular the backward compatibility code created by commit
-854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name").
-
-Indeed, the old name was either 'reserved', or the name of the
-reserved-memory region device tree node if the linux,cma-default
-property was set.
-
-In both these cases, we have now collected this region during boot, and
-we're using the same name. So we're now largely redundant with the
-code to handle backward compatibility code, and we can thus remove it
-and the associated Kconfig option.
-
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+[Bagas: Don't use :ref: link to EFI stub documentation and refer to
+OVMF/edk2 implementation]
+Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/userspace-api/dma-buf-heaps.rst |  9 +++++---
- drivers/dma-buf/heaps/Kconfig                 | 10 --------
- drivers/dma-buf/heaps/cma_heap.c              | 33 +++++++++++++--------------
- 3 files changed, 22 insertions(+), 30 deletions(-)
+No changes since v2 [1].
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index 17bf6829efd7963bc849765db54d327644e8c395..b78d2faeba62cda721a1f49d49e02bcb520ad429 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -22,8 +22,11 @@ following heaps:
-    through the ``cma`` parameter, a memory region Device-Tree node with
-    the ``linux,cma-default`` property set, or through the
-    ``CMA_SIZE_MBYTES`` or ``CMA_SIZE_PERCENTAGE`` Kconfig options. Prior
-    to Linux 6.17, its name wasn't stable and could be called
-    ``reserved``, ``linux,cma``, or ``default-pool``, depending on the
--   platform. From Linux 6.17 onwards, the creation of these heaps is
--   controlled through the ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option for
--   backwards compatibility.
-+   platform.
+EFI/x86 maintainers: Would you like to apply this patch on tip/efi tree
+or let Jon handle it through docs-next instead?
+
+[1]: https://lore.kernel.org/linux-doc/20250916073244.590483-1-bagasdotme@gmail.com/
+
+ Documentation/admin-guide/efi-stub.rst |  3 ++
+ Documentation/arch/x86/boot.rst        | 38 ++++++++++++++++++++------
+ 2 files changed, 33 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+index 090f3a185e1897..f8e7407698bd2a 100644
+--- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+ which understands relative paths, whereas the rest of the command line
+ is passed to bzImage.efi.
+ 
++.. hint::
++   It is also possible to provide an initrd using a Linux-specific UEFI
++   protocol at boot time. See :ref:`pe-coff-entry-point` for details.
+ 
+ The "dtb=" option
+ -----------------
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 77e6163288db08..32eea3d2807e1c 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -1431,12 +1431,34 @@ The boot loader *must* fill out the following fields in bp::
+ All other fields should be zero.
+ 
+ .. note::
+-     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+-     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+-     loading protocol (refer to [0] for an example of the bootloader side of
+-     this), which removes the need for any knowledge on the part of the EFI
+-     bootloader regarding the internal representation of boot_params or any
+-     requirements/limitations regarding the placement of the command line
+-     and ramdisk in memory, or the placement of the kernel image itself.
++   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
++   entry point described below.
+ 
+-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _pe-coff-entry-point:
 +
-+ - A heap will be created for each reusable region in the device tree
-+   with the ``shared-dma-pool`` compatible, using the full device tree
-+   node name as its name. The buffer semantics are identical to
-+   ``default-cma-region``.
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index bb369b38b001af51721b56e065df92825022f1f1..a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -10,15 +10,5 @@ config DMABUF_HEAPS_CMA
- 	depends on DMABUF_HEAPS && DMA_CMA
- 	help
- 	  Choose this option to enable dma-buf CMA heap. This heap is backed
- 	  by the Contiguous Memory Allocator (CMA). If your system has these
- 	  regions, you should say Y here.
--
--config DMABUF_HEAPS_CMA_LEGACY
--	bool "Legacy DMA-BUF CMA Heap"
--	default y
--	depends on DMABUF_HEAPS_CMA
--	help
--	  Add a duplicate CMA-backed dma-buf heap with legacy naming derived
--	  from the CMA area's devicetree node, or "reserved" if the area is not
--	  defined in the devicetree. This uses the same underlying allocator as
--	  CONFIG_DMABUF_HEAPS_CMA.
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 2a901af635ed76cdb085915c03258c235e302792..42f88193eab9f8f4571064c7b3b8a73bca20fdf4 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -20,10 +20,12 @@
- #include <linux/err.h>
- #include <linux/highmem.h>
- #include <linux/io.h>
- #include <linux/mm.h>
- #include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
- #define DEFAULT_CMA_NAME "default_cma_region"
-@@ -407,35 +409,32 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
- 	}
- 
- 	return 0;
- }
- 
--static int __init add_default_cma_heap(void)
-+static int __init add_cma_heaps(void)
- {
- 	struct cma *default_cma = dev_get_cma_area(NULL);
--	const char *legacy_cma_name;
-+	unsigned int i;
- 	int ret;
- 
--	if (!default_cma)
--		return 0;
-+	if (default_cma) {
-+		ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
-+		if (ret)
-+			return ret;
-+	}
- 
--	ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
--	if (ret)
--		return ret;
-+	for (i = 0; i < dma_areas_num; i++) {
-+		struct cma *cma = dma_areas[i];
- 
--	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_CMA_LEGACY)) {
--		legacy_cma_name = cma_get_name(default_cma);
--		if (!strcmp(legacy_cma_name, DEFAULT_CMA_NAME)) {
--			pr_warn("legacy name and default name are the same, skipping legacy heap\n");
--			return 0;
-+		ret = __add_cma_heap(cma, cma_get_name(cma));
-+		if (ret) {
-+			pr_warn("Failed to add CMA heap %s", cma_get_name(cma));
-+			continue;
- 		}
- 
--		ret = __add_cma_heap(default_cma, legacy_cma_name);
--		if (ret)
--			pr_warn("failed to add legacy heap: %pe\n",
--				ERR_PTR(ret));
- 	}
- 
- 	return 0;
- }
--module_init(add_default_cma_heap);
-+module_init(add_cma_heaps);
- MODULE_DESCRIPTION("DMA-BUF CMA Heap");
++PE/COFF entry point
++===================
++
++When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
++regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
++implementation details.
++
++The stub loader can request the initrd via a UEFI protocol. For this to work,
++the firmware or bootloader needs to register a handle which carries
++implementations of the ``EFI_LOAD_FILE2`` protocol and the device path
++protocol exposing the ``LINUX_EFI_INITRD_MEDIA_GUID`` vendor media device path.
++In this case, a kernel booting via the EFI stub will invoke
++``LoadFile2::LoadFile()`` method on the registered protocol to instruct the
++firmware to load the initrd into a memory location chosen by the kernel/EFI
++stub.
++
++This approach removes the need for any knowledge on the part of the EFI
++bootloader regarding the internal representation of boot_params or any
++requirements/limitations regarding the placement of the command line and
++ramdisk in memory, or the placement of the kernel image itself.
++
++For sample implementations, refer to `the original u-boot implementation`_ or
++`the OVMF implementation`_.
++
++.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _the OVMF implementation: https://github.com/tianocore/edk2/blob/1780373897f12c25075f8883e073144506441168/OvmfPkg/LinuxInitrdDynamicShellCommand/LinuxInitrdDynamicShellCommand.c
 
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
 -- 
-2.51.0
+An old man doll... just what I always wanted! - Clara
 
