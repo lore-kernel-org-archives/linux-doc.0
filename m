@@ -1,164 +1,186 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFC42D7DDC
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 18:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6FF2D8764
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 18:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760381652; cv=none; b=D80vGj3huHRAU468jSC2G4udW8s8az/EYM23g+y4Nyw7clKGCuPmVA74VEGl1nf+jDornR7bTJsJAHc9Ppa7X6CsTKAsQGdGQa9sLAKUUBW2wToKSqzReUSJp1ZwUFdI4LNrv/QAJe08K3dlP/mITsyC15rSpin6dAJ45m6nt5A=
+	t=1760381951; cv=none; b=OCj0TnvJGFdgh5K7NltkzRKgsJTXQvRLQ25xrX9xTdd2/vTbub8TIG8x/zXdPknIqrQrkh3P6hqQgIen5MY455zQbNFu1/108+at1OafGbMnAbvc4cH2dinp+bsDFuA49G13d5qsDN7jhI1mCt0Fgw4EZoScELRqA/RrFBRoVpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760381652; c=relaxed/simple;
-	bh=Q0A8mwHB6ISznX1IsEIotmy3Sl/eaR8kzKeY3PLseig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p2BO1ioAingm88kdFgAY/4x2V5C2wLJlqISVqzNLwQu1lde75K9zn9Bivy12xwFhZIeE9dk0mfSzvG1T4y014yjwJBGe9xoJRWHhzrmukpD6ZiLgjwXywJyn2TFgWMJ5WNZXpelYRWfofzQWtq5NCwxGXnb3xG92mDIB6TzAcRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iDhhy3hW; arc=none smtp.client-ip=209.85.222.182
+	s=arc-20240116; t=1760381951; c=relaxed/simple;
+	bh=D2DBVOyfmDfuJQ3NbYBcT2oWdkkwKPWux1rjkEGJ5uE=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=L7tfrlXcO34u5OpuHIEiEcMhq57NfaSSLDITWboNgrXVlWdlGc/KA9f49WdEvkHFdwCeMFrLqiJ42V7bxnAiC1LMbxZ7Mq5JhZ3UiyDpc2l/qFdvaUp4+ZhbdW0XW6v/I9GuK7d5Js1UOMYoggZspDoGowAsEcv/jhjdcYBHKqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1PfRJXxy; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iDhhy3hW"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-875d55217a5so626076385a.2
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 11:54:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1PfRJXxy"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-33428befbbaso10982811a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 11:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760381649; x=1760986449; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OHvdDoFLXKQzTfUBohM5QpfVzGeutBShrm8qkwsGAgA=;
-        b=iDhhy3hWQseR7B59Wk9B1f1X5jyath/Vv1m6ebI7H29S1vvYX6vMnQ3ToYPWAWwJUf
-         KogVPsls1PuYOmBJZZsKhmYfqJWhawxOO/jQW2Zd36FIr0VZwKyytraEV8ZQjhsiquKT
-         8U/DgtZm/LBOH3sITn2q+qLwHHdZk/TwqTr0Lgz0PVxEVezb4L01HkZupGnKTuJT3QXX
-         QiK7W69yIlzxc12ngLPQ297WhE1NJBvA+bcqRgtWl/6h7ziB37bozqi/nnWtGcLxzF0e
-         oPd3Ma2yPQ0FfC6+IjBkEPm7sOjUjvE1B5LQKtDCnTp+4z2xorUoAsBv0RJ+504llQ1n
-         umfA==
+        d=google.com; s=20230601; t=1760381948; x=1760986748; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3zyOsXjgR2slTOTUParrmMvaOPp3Y8R1z3YFebNy+kY=;
+        b=1PfRJXxynwvRiatGmDVBkdpDqCkFgOpboiCejEs+hgpKN9o9803KUbunV39Sep8NSZ
+         U8lKZTQwBzGeq/D3Q7eJdJidPucazCJTcclHoXcINZbyd9qkycyTWx1Sr0pYz2Tnz1di
+         kYDMOUEJLs3EEIV4MaphLUK1/BjGZq/ImrhiD9AbUdFCo9VKH2gjvYZEiKYFbLQ7xRQI
+         c3SSh1W9QkjktEE8Fjzk53UbmgQTIA54aAMKkbSjw+Y+Vh84WFSaCNxeAkKVGpcVvIbC
+         cl+LdRc8IX1m2VR9UhTECOG/hPl7YjXl9g0K1f9wrUEwfCMWjMCMDf0SYuCR7kglyUyv
+         D0tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760381649; x=1760986449;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OHvdDoFLXKQzTfUBohM5QpfVzGeutBShrm8qkwsGAgA=;
-        b=UHGNrncGkReJTnDQLZ/qqA7aGvGt5gdNz3CWr2FS5p9MkCdDA0Wy8MxCjpjS/q3f5r
-         R6kqipCoZsZp5YP8jCVlyQbxK7sDy2/Ycz3DykhdIAjsHZ9Z1QLUxnOICsKoTtopbeXH
-         jrQo/i2+1AxnDHljTA4xYR448aTRwgfkoQNZlsbkBPo627YDuWeoEK8F5Wa7SJGvP0Si
-         YYmHjwK7d1opRQ2t9x8zSO5hKMBN9M3h+a6aCsJ2sLftjNvP8UzRzQjRnbIUB+mA82YB
-         /bgOTFUj6xDIeIiTYn6UnKtXA6WyW+0KcJhWzmsiXiMxxG9jIldDHBuH8m6fhBMo2grN
-         PdXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUjAy6LyjgZMGoO3C4WLGMdCSgeK9+vxNHjvjAgXXbZHD4Zfapof8yl6UbF4b43MRxGTzgB2Q3xr9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUed72qfeN306b77ntz0rEnweLLWq0tN2vx+sANeVbAKz3pzrE
-	OsoJ+eU1CiRpxwX/Rka54HQoUAmEcrjTYKMaXsAPOZzUWMuUDkj3w/B5E0FJ8yk12myITmvvZ26
-	0IJ0w30fWLxcsFEm+SPCt63/p2XPKN4XGUJx+GE0D
-X-Gm-Gg: ASbGncs9JBOELZcRBlgsQOzNcTHcNlfhi+zplhFa2nlMbHs3afagyH0nOUyb7yQ79lR
-	ixgAmkIZPOvMpchl72VB7c0KYbg1DvOU5GgkKE2oFnPWXglllXH/7NaxjYJ3jQvlVg8krbU//Ky
-	OoojM/lW0F9NGnggLZ6XJj6yy2nklkfRL0TwJ2qscf9BwbzlRK2MBR5UWMkBl7ANNe/NwHB/T3z
-	NBb0yb0WjqLNOXx0NWQfiVRdB4uUlpA
-X-Google-Smtp-Source: AGHT+IHEX/LXCcXiIAvMWCf1qx+3kkMbx/P3MOisSt6xugJLgd5lVynv5AI5WAJHsRmWmbQAX0ncoNz5Nk1IfQjetPE=
-X-Received: by 2002:ac8:5902:0:b0:4de:b0d4:dda4 with SMTP id
- d75a77b69052e-4e6ead7493fmr328872751cf.69.1760381648539; Mon, 13 Oct 2025
- 11:54:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760381948; x=1760986748;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3zyOsXjgR2slTOTUParrmMvaOPp3Y8R1z3YFebNy+kY=;
+        b=tgIVgTPMF37Dc5L5HW4E+Lw11A2s94zepn/eVVyefE6KdAZhYiFuJm6M7kTbM+TaQx
+         cghH0hGq2ydBZFjt4U5UZrbZi+GdSg3ItgLiImHgVV5aEJyZcHBL9qDAwtjdBB3Mtbx/
+         n2EpgKrx5Kzp4N9Qw3NapUn+48v7fyfcmL9SwWHI6Erv58MrGetLafJGydReYl0G0W7M
+         xZ2B5TqfhXVrQC18GNv5bfSHTCQ2hY306ADrLyx8jv9RG9fRdhwMBp9XIExXLTrTb7cc
+         dvRCt3yRIja5Oc0lisUMBgaVYfcKIr5vkyIDMZyz/vDOL/KEqzwcsm6GhQHAZX/s83Px
+         WCCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMV4iqqo6vAlwACfMeIEco+vfhXqFnbcjDZSRhw/4Ti0pOU9a73iggveD+UkXrluxhV7RIF9wHmy0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws2ki8+LOcRndHcVCF6zKP+OPqGzcEck5qhufFne78S2dPTjb2
+	Dm0KWPbCZ9n1Uy+/eBNKF4oAmi4il0v4d0l0nwuXDnPn1UNAs9TyAYN0pVLP60XY0iGL6AYmR1z
+	/BbFBBd1g0htubg==
+X-Google-Smtp-Source: AGHT+IFQCZ0F3mAV98Keda3BZRrx76PXArL7t60ZigncnYG4BTa+6j6T70pbIysH6cLO49q77f6O/f7NZYgb1A==
+X-Received: from pjbkw19.prod.google.com ([2002:a17:90b:2213:b0:330:8c66:4984])
+ (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:3e82:b0:339:a4ef:c8b9 with SMTP id 98e67ed59e1d1-33b5127ac7fmr33043099a91.17.1760381947731;
+ Mon, 13 Oct 2025 11:59:07 -0700 (PDT)
+Date: Mon, 13 Oct 2025 18:59:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251013101636.69220-1-21cnbao@gmail.com>
-In-Reply-To: <20251013101636.69220-1-21cnbao@gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 13 Oct 2025 11:53:57 -0700
-X-Gm-Features: AS18NWAe_NmExu5WITMBDbR0FpCc3scky7DNzwEUSRCGS5tETmNSC2IUauhYc4w
-Message-ID: <CANn89i+wikOQQrGFXu=L3nKPG62rsBmWer5WpLg5wmBN+RdMqA@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-To: Barry Song <21cnbao@gmail.com>
-Cc: netdev@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.760.g7b8bcc2412-goog
+Message-ID: <20251013185903.1372553-1-jiaqiyan@google.com>
+Subject: [PATCH v4 0/3] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: maz@kernel.org, oliver.upton@linux.dev
+Cc: duenwen@google.com, rananta@google.com, jthoughton@google.com, 
+	vsethi@nvidia.com, jgg@nvidia.com, joey.gouly@arm.com, suzuki.poulose@arm.com, 
+	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, 
+	pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Jiaqi Yan <jiaqiyan@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 13, 2025 at 3:16=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrot=
-e:
->
-> From: Barry Song <v-songbaohua@oppo.com>
->
-> On phones, we have observed significant phone heating when running apps
-> with high network bandwidth. This is caused by the network stack frequent=
-ly
-> waking kswapd for order-3 allocations. As a result, memory reclamation be=
-comes
-> constantly active, even though plenty of memory is still available for ne=
-twork
-> allocations which can fall back to order-0.
->
-> Commit ce27ec60648d ("net: add high_order_alloc_disable sysctl/static key=
-")
-> introduced high_order_alloc_disable for the transmit (TX) path
-> (skb_page_frag_refill()) to mitigate some memory reclamation issues,
-> allowing the TX path to fall back to order-0 immediately, while leaving t=
-he
-> receive (RX) path (__page_frag_cache_refill()) unaffected. Users are
-> generally unaware of the sysctl and cannot easily adjust it for specific =
-use
-> cases. Enabling high_order_alloc_disable also completely disables the
-> benefit of order-3 allocations. Additionally, the sysctl does not apply t=
-o the
-> RX path.
->
-> An alternative approach is to disable kswapd for these frequent
-> allocations and provide best-effort order-3 service for both TX and RX pa=
-ths,
-> while removing the sysctl entirely.
->
->
-...
+Problem
+=======
 
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> ---
->  Documentation/admin-guide/sysctl/net.rst | 12 ------------
->  include/net/sock.h                       |  1 -
->  mm/page_frag_cache.c                     |  2 +-
->  net/core/sock.c                          |  8 ++------
->  net/core/sysctl_net_core.c               |  7 -------
->  5 files changed, 3 insertions(+), 27 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/adm=
-in-guide/sysctl/net.rst
-> index 2ef50828aff1..b903bbae239c 100644
-> --- a/Documentation/admin-guide/sysctl/net.rst
-> +++ b/Documentation/admin-guide/sysctl/net.rst
-> @@ -415,18 +415,6 @@ GRO has decided not to coalesce, it is placed on a p=
-er-NAPI list. This
->  list is then passed to the stack when the number of segments reaches the
->  gro_normal_batch limit.
->
-> -high_order_alloc_disable
-> -------------------------
-> -
-> -By default the allocator for page frags tries to use high order pages (o=
-rder-3
-> -on x86). While the default behavior gives good results in most cases, so=
-me users
-> -might have hit a contention in page allocations/freeing. This was especi=
-ally
-> -true on older kernels (< 5.14) when high-order pages were not stored on =
-per-cpu
-> -lists. This allows to opt-in for order-0 allocation instead but is now m=
-ostly of
-> -historical importance.
-> -
+When host APEI is unable to claim a synchronous external abort (SEA)
+during guest abort, today KVM directly injects an asynchronous SError
+into the VCPU then resumes it. The injected SError usually results in
+unpleasant guest kernel panic.
 
-The sysctl is quite useful for testing purposes, say on a freshly
-booted host, with plenty of free memory.
+One of the major situation of guest SEA is when VCPU consumes recoverable
+uncorrected memory error (UER), which is not uncommon at all in modern
+datacenter servers with large amounts of physical memory. Although SError
+and guest panic is sufficient to stop the propagation of corrupted memory,
+there is room to recover from an UER in a more graceful manner.
 
-Also, having order-3 pages if possible is quite important for IOMM use case=
-s.
+Proposed Solution
+=================
 
-Perhaps kswapd should have some kind of heuristic to not start if a
-recent run has already happened.
+The idea is, we can replay the SEA to the faulting VCPU. If the memory
+error consumption or the fault that cause SEA is not from guest kernel,
+the blast radius can be limited to the poison-consuming guest process,
+while the VM can keep running.
 
-I am guessing phones do not need to send 1.6 Tbit per second on
-network devices (yet),
-an option  could be to disable it in your boot scripts.
+In addition, instead of doing under the hood without involving userspace,
+there are benefits to redirect the SEA to VMM:
+
+- VM customers care about the disruptions caused by memory errors, and
+  VMM usually has the responsibility to start the process of notifying
+  the customers of memory error events in their VMs. For example some
+  cloud provider emits a critical log in their observability UI [1], and
+  provides a playbook for customers on how to mitigate disruptions to
+  their workloads.
+
+- VMM can protect future memory error consumption by unmapping the poisoned
+  pages from stage-2 page table with KVM userfault [2], or by splitting the
+  memslot that contains the poisoned pages.
+
+- VMM can keep track of SEA events in the VM. When VMM thinks the status
+  on the host or the VM is bad enough, e.g. number of distinct SEAs
+  exceeds a threshold, it can restart the VM on another healthy host.
+
+- Behavior parity with x86 architecture. When machine check exception
+  (MCE) is caused by VCPU, kernel or KVM signals userspace SIGBUS to
+  let VMM either recover from the MCE, or terminate itself with VM.
+  The prior RFC proposes to implement SIGBUS on arm64 as well, but
+  Marc preferred KVM exit over signal [3]. However, implementation
+  aside, returning SEA to VMM is on par with returning MCE to VMM.
+
+Once SEA is redirected to VMM, among other actions, VMM is encouraged
+to inject external aborts into the faulting VCPU.
+
+New UAPIs
+=========
+
+This patchset introduces following userspace-visible changes to empower
+VMM to control what happens for SEA on guest memory:
+
+- KVM_CAP_ARM_SEA_TO_USER. While taking SEA, if userspace has enabled
+  this new capability at VM creation, and the SEA is not owned by kernel
+  allocated memory, instead of injecting SError, return KVM_EXIT_ARM_SEA
+  to userspace.
+
+- KVM_EXIT_ARM_SEA. This is the VM exit reason VMM gets. The details
+  about the SEA is provided in arm_sea as much as possible, including
+  sanitized ESR value at EL2, faulting guest virtual and physical
+  addresses if available.
+
+* From v3 [4]
+  - Rebased on commit 3a8660878839 ("Linux 6.18-rc1").
+  - In selftest, print a message if GVA or GPA expects to be valid.
+
+* From v2 [5]:
+  - Rebased on "[PATCH] KVM: arm64: nv: Handle SEAs due to VNCR redirection" [6]
+    and kvmarm/next commit 7b8346bd9fce6 ("KVM: arm64: Don't attempt vLPI
+    mappings when vPE allocation is disabled")
+  - Took the host_owns_sea implementation from Oliver [7, 8].
+  - Excluded the guest SEA injection patches.
+  - Updated selftest.
+
+* From v1 [9]:
+  - Rebased on commit 4d62121ce9b5 ("KVM: arm64: vgic-debug: Avoid
+    dereferencing NULL ITE pointer").
+  - Sanitize ESR_EL2 before reporting it to userspace.
+  - Do not do KVM_EXIT_ARM_SEA when SEA is caused by memory allocated to
+    stage-2 translation table.
+
+[1] https://cloud.google.com/solutions/sap/docs/manage-host-errors
+[2] https://lore.kernel.org/kvm/20250109204929.1106563-1-jthoughton@google.com
+[3] https://lore.kernel.org/kvm/86pljbqqh0.wl-maz@kernel.org
+[4] https://lore.kernel.org/kvmarm/20250731205844.1346839-1-jiaqiyan@google.com
+[5] https://lore.kernel.org/kvm/20250604050902.3944054-1-jiaqiyan@google.com
+[6] https://lore.kernel.org/kvmarm/20250729182342.3281742-1-oliver.upton@linux.dev
+[7] https://lore.kernel.org/kvm/aHFohmTb9qR_JG1E@linux.dev
+[8] https://lore.kernel.org/kvm/aHK-DPufhLy5Dtuk@linux.dev
+[9] https://lore.kernel.org/kvm/20250505161412.1926643-1-jiaqiyan@google.com
+
+Jiaqi Yan (3):
+  KVM: arm64: VM exit to userspace to handle SEA
+  KVM: selftests: Test for KVM_EXIT_ARM_SEA
+  Documentation: kvm: new UAPI for handling SEA
+
+ Documentation/virt/kvm/api.rst                |  61 ++++
+ arch/arm64/include/asm/kvm_host.h             |   2 +
+ arch/arm64/kvm/arm.c                          |   5 +
+ arch/arm64/kvm/mmu.c                          |  68 +++-
+ include/uapi/linux/kvm.h                      |  10 +
+ tools/arch/arm64/include/asm/esr.h            |   2 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../testing/selftests/kvm/arm64/sea_to_user.c | 331 ++++++++++++++++++
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   1 +
+ 9 files changed, 480 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/kvm/arm64/sea_to_user.c
+
+-- 
+2.51.0.760.g7b8bcc2412-goog
+
