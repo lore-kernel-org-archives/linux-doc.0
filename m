@@ -1,82 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C961A9F9B
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 07:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0C82EB867
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 08:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760340633; cv=none; b=MSbO3xX37u8e8N3/rHGPnCGPbiX9JYBfIRDkmjByyqfHLf3tAxb16HQsnG08MX4kGXwPo+HZR/9v1zG5IxwxhMCblavsj3DY0yjFzAimibOJXs51zD04338t4mv+/a6o+7YiSc5AZhJP+WrhHNYJM+XQncF99s4u/QAfl6MWm+Q=
+	t=1760344417; cv=none; b=U1DNZhCvx4jA74+nY5yNVxiwkTH0E/x8uPz9Wz49/x4zvwGVmqq1/qZhCxZNJu3tYDaKMyg9B53CDJS4S3cXSeFOH3ymfUOKIlYmgyWQL53QruAKn5iS9EPJWZJJhVH75UpMu2z3EcXmyeuLMM0hWSvuhcWYjHbZN28+2JOn5fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760340633; c=relaxed/simple;
-	bh=7hKulDyCiG2MZUrEpJuX55XdK4d3NXy+qGwlTfVda+Q=;
+	s=arc-20240116; t=1760344417; c=relaxed/simple;
+	bh=ifGEChEhgS0rXLGxIMkdm1rrqU0pnFP0HEcG4honfGE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I3aQyftPPzT7UNZvnhiphM3O5jj/mCtxDxkoXuxkQ+5YGPcC8vaqUMyqbDqo13+2yQFyE4ttqwIm1DTl0Ji08Q+AdEutS2puDdyoUeKcA4hLncg8uiVU5Ojc+7n/87NEAXZNMXGWwp2wv0V3WdZAanXtFVaTNth5kSBk8Ondd6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B8UnPVfQ; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:MIME-Version; b=nfUfUbWADb0u0hTEK+LGZ0EkpQxlxTrqoSUSepQflAQJUyj/aK/EI2eojqKbjL33lqkPdhkCTLorU2EU/FO7ZGXa7pvSlG7Ntvw5SqTzZKB7e3afsQgJjx0EOTe0TdO7PF0PXHnbovc8dYetc+TVl0AIxgtC2V7sMEQViEbly28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d+LX+Xlw; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B8UnPVfQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d+LX+Xlw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760340630;
+	s=mimecast20190719; t=1760344414;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jvcrm6KIUPUNpc7xmiZElApRSjY4cVtEn4dAkTy/70Q=;
-	b=B8UnPVfQ9+61fnzki8AGahmrz3uL7Itgl/vUl01KV1td38bFseJds3Cj93BPlCA71/xTNP
-	OHBCai8loIfrVpchdihMMt8DK4bKoBk/xyV8KITgRifY7FHbwarXBfJw5/DbOC2qQWhSUw
-	pMzS49IcogthepLBzu496Ewi4KR4V3Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=eHzqoTUxCIyvAxivdG8/KYPlObSpyBug5KjpaqaKlgI=;
+	b=d+LX+XlwcLl1fzLZk8G1kGUgFFmUhtFEdDn3EoSgSX4EjxcOYvFMeM0HQoFEsK7K7D89fm
+	IgL1558bqK2sndtHOd8n1lMqFJGxxJ3b4e/omDO8e3fODZ4VAtFXqrC1ftBpgHX6WLAyJI
+	P5O5oIoIS+VontvTTI7wiL4NQUUsB9I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-ahSSCgCoOTCPHMDyd-AbhQ-1; Mon, 13 Oct 2025 03:30:29 -0400
-X-MC-Unique: ahSSCgCoOTCPHMDyd-AbhQ-1
-X-Mimecast-MFC-AGG-ID: ahSSCgCoOTCPHMDyd-AbhQ_1760340628
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-46e7a2c3773so20218185e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 00:30:28 -0700 (PDT)
+ us-mta-625-0lcWfuXWMESNMk4elru7BA-1; Mon, 13 Oct 2025 04:33:32 -0400
+X-MC-Unique: 0lcWfuXWMESNMk4elru7BA-1
+X-Mimecast-MFC-AGG-ID: 0lcWfuXWMESNMk4elru7BA_1760344411
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e38957979so22222345e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 01:33:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760340628; x=1760945428;
+        d=1e100.net; s=20230601; t=1760344411; x=1760949211;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvcrm6KIUPUNpc7xmiZElApRSjY4cVtEn4dAkTy/70Q=;
-        b=h6CkLIReuevLRCdIg+rAXg+z714UfYBHDjGJFWr5AWRDUk2iC5Nwo6QlN7MsHGsyfQ
-         j6aTDoh76Egs1t7IWSXZtKu5l3mLrSyjFhBpwAG166tBmE1zyVv4OBlEHSTrmk61LewJ
-         960/fjBRQYq/W8o/bDSZ3aqyeFpMcMpc+O9+UetJ904H0FD1N37m8Ie2XRSWXFbfLqx8
-         mLw5yraJBMs5MLbnDB9gwk2gdLZj0TpYZ/7VNwjNT7oT+V7K+xUqpS4jMVtWvjhyKY4a
-         v6HKHlbXC3oiMb9RfmsF9qlgpzVt2Hu+n7/to+egUmPU5DkzOZUYp4TmnVsuFGRsayOX
-         kpUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYhZNqu9AGnSZnV4HbHRYRRFI+Ur0IWO+2uks4VuGrqPJ8ib0waMOhHQBAxmt6SBuwa94WUjlGOaQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPsd9HGxEgIoCDFHBQuhefSyT3CkQg6sd16x0nIgRN8cCO2LEr
-	/VNPs4OG32HDZLoYs8nXeabB59gWVN653PBbiW+tYTWgRFo8Vh6+rMZz+sP00uOVtJY+xM4AAvE
-	cPI58pcrXv0xXxYJYuCRZpt9XAG1NwORgwe4jYC0huImuXj7IMlsnv4c64UEjCg==
-X-Gm-Gg: ASbGncuVhWo+qLyk4N69cWX4v/hTfaAYOTHHvP01C/Xq8P8qPjfy9sN+hwUIIZYug3c
-	zrzJxvql72CUqP2bOSJeNx4sCRGeL1nDVLxqa86lSzlRAf72m6jbnafMtJFy85kFDJhtInzclTU
-	6TDgNN0DsTkSt+Xfx178Z1s/83rZilbJegnJL//phHjqB04VCS4iXCZNHybtiJl0fWq7A7mmlXf
-	QOCcRxX3SBchBhzzOl/I9nYwOYOdbB9TymuzkDlc4hvYe99BPzxelt+ftmjI+r8X8iR+0WrK4G6
-	gm7DmP1EoYqYbW3ly+cDGO0+yHZPuCQQCorT9EO6YfWZ4WwffN8vbhRfi1TjUVoKlQ==
-X-Received: by 2002:a05:600d:824b:b0:46f:c55e:a687 with SMTP id 5b1f17b1804b1-46fc55ea6f7mr15279235e9.7.1760340627726;
-        Mon, 13 Oct 2025 00:30:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEC/F6R+8hlK3CtQbemkFUUvDibbdW2qqB3BO9HixY7B8LvjUh+PY8O3sgUpuovPDwK9I3d/A==
-X-Received: by 2002:a05:600d:824b:b0:46f:c55e:a687 with SMTP id 5b1f17b1804b1-46fc55ea6f7mr15279035e9.7.1760340627301;
-        Mon, 13 Oct 2025 00:30:27 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab3d2c1asm121363435e9.1.2025.10.13.00.30.24
+        bh=eHzqoTUxCIyvAxivdG8/KYPlObSpyBug5KjpaqaKlgI=;
+        b=kqcqpYU4RYw71Q6yBlBMRAG95FMmLul2xGpYOxBdKjae/+HtBjxVV9a6tevrHq7n40
+         kvr7YVqbunXEp8dSPkM0rOxz9pCFAQ0RbgQEM6e1U+0AL2lWXZlH85LsDZyXfJqUGFqh
+         nYa5S5ZOzztg1cEhDXLLM4G6g4bMrb/EMWyD3XqGk3tcNCuVv8KqkLJFS9yWw89QWMtY
+         RmJSj/GCPY/dBn2gh3Nn49zTG8ZNNx9ILaTpXjq8/QjTiRJcF3J9c8Eowwd+tgpOMDuU
+         dwfQd/8zed1CQEoo3bW72311qHNP3sHuFDNO7ZaYsa/4IXJd8fSL6yiIbfWqZhsGJB8s
+         PFXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpEbOcNaRY7H5mIQ3yBZ49s2Lfm5/SjyVz/M1SxNXtWP0MuHm0hO3/r9MmkeJrpBymB3TSaaCqFFc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOXutmA0rDmUSU9nqRmh1wXeOLvd2Ew1eh823NGgNuc4N4sZ88
+	S50MUNW8qQc2/HXUv6650gahj3vRXHOuQAdC2DUWKcMkgVZ1wLXSQzsFfpCCoelfkY0GgRxnKuE
+	bHCWAdYqlIVEX5o1+SNS8s5+pCGw+onyVUl7/XwOTy4082g1/bPo7rbv1/OzmSw==
+X-Gm-Gg: ASbGnctzhpnvvjDO0p/SatzSmtU1z9M0xk47Rbq7SUPHvKpsObCzei3fgrbhm1TwB1j
+	epU2zR6hxSPDD/NORnlYYvdnKmkAoVoEyxlINdQDkLee4qc3fv/zOrsa2i/BjzyUOvdqSBhqJww
+	a8vCqw0NcBSLvJ7f6xneiKl9lEOvRdWSnOWxpg3y65ueoR88NWXDFuGzMjx+x+NPaFAiXD8gUig
+	QtboxeBbDZT7CYR7bletBhZAT0kM0tPC5MiaYqZKhC7cJfkzD/uREb/u1mcCKq8VrQUV23piGlg
+	vLBZ9Y00684PErjetZkc3RUmFWll5s5NdwnIQIXXkDBCP5+tFM7scvk46pedsEnfgg==
+X-Received: by 2002:a05:600c:6304:b0:46f:b42e:e361 with SMTP id 5b1f17b1804b1-46fb42ee3camr82409055e9.41.1760344411396;
+        Mon, 13 Oct 2025 01:33:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7PWpqFZ4D/w/JzkBafScgM+dm2uU2KKBj/FjHvRp7y+l21OlHRHMm58CWEcdN4EUMsrfFXg==
+X-Received: by 2002:a05:600c:6304:b0:46f:b42e:e361 with SMTP id 5b1f17b1804b1-46fb42ee3camr82408935e9.41.1760344410948;
+        Mon, 13 Oct 2025 01:33:30 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.35])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e81d2sm17203089f8f.49.2025.10.13.01.33.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 00:30:26 -0700 (PDT)
-Message-ID: <646db9e9d956f009d53bfabf8b8287c034279066.camel@redhat.com>
-Subject: Re: [PATCH v2 20/20] rv: Add deadline monitors
+        Mon, 13 Oct 2025 01:33:30 -0700 (PDT)
+Message-ID: <041c01207d23e6f9a02702428da6f528ce66599b.camel@redhat.com>
+Subject: Re: [PATCH v2 13/20] Documentation/rv: Add documentation about
+ hybrid automata
 From: Gabriele Monaco <gmonaco@redhat.com>
 To: Nam Cao <namcao@linutronix.de>, linux-kernel@vger.kernel.org, Steven
- Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, Masami
- Hiramatsu	 <mhiramat@kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+ Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
  Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Mon, 13 Oct 2025 09:30:24 +0200
-In-Reply-To: <87a51yyf0o.fsf@yellow.woof>
+Date: Mon, 13 Oct 2025 10:33:29 +0200
+In-Reply-To: <87jz12yimw.fsf@yellow.woof>
 References: <20250919140954.104920-1-gmonaco@redhat.com>
-	 <20250919140954.104920-21-gmonaco@redhat.com> <87a51yyf0o.fsf@yellow.woof>
+	 <20250919140954.104920-14-gmonaco@redhat.com> <87jz12yimw.fsf@yellow.woof>
 Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
  keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
  1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
@@ -96,65 +96,172 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2025-10-10 at 17:04 +0200, Nam Cao wrote:
+On Fri, 2025-10-10 at 15:46 +0200, Nam Cao wrote:
 > Gabriele Monaco <gmonaco@redhat.com> writes:
-> > +/*
-> > + * Dummy values if not available
-> > + */
-> > +#ifndef __NR_sched_setscheduler
-> > +#define __NR_sched_setscheduler -1
-> > +#endif
-> > +#ifndef __NR_sched_setattr
-> > +#define __NR_sched_setattr -2
-> > +#endif
+> > Describe theory and implementation of hybrid automata in the dedicated
+> > page hybrid_automata.rst
+> > Include a section on how to integrate a hybrid automaton in
+> > monitor_synthesis.rst
+> > Also remove a hanging $ in deterministic_automata.rst
+> >=20
+> > Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+> > ---
+> This brings back bad memories from university..
+
+:')
+
+> > +It is important to note that any valid hybrid automaton is a valid
+> > +deterministic automaton
 >=20
-> You can use __COUNTER__ intead, would make it easier to add to or remove
-> from this list later on.
+> Perhaps remove the double "valid". Usually people use the phrase "any
+> valid A is a valid B" to say that B is a superset of A, but it is
+> opposite here.
 
-Right, good point.
+Alright, will do.
 
-> > +static void handle_syscall(void *data, struct pt_regs *regs, long id)
-> > +{
-> > +	struct task_struct *p;
-> > +	int new_policy =3D -1;
+> > +This is a combination of both iterations of the stall example::
 > > +
-> > +	new_policy =3D extract_params(regs, id, &p);
-> > +	if (new_policy < 0 || new_policy =3D=3D p->policy)
-> > +		return;
-> > +	if (p->policy =3D=3D SCHED_DEADLINE)
-> > +		da_reset(EXPAND_ID(&p->dl, DL_TASK));
-> > +	else if (new_policy =3D=3D SCHED_DEADLINE)
-> > +		da_create_conditional(EXPAND_ID(&p->dl, DL_TASK),
-> > GFP_NOWAIT);
-> > +}
+> > +=C2=A0 /* enum representation of X (set of states) to be used as index=
+ */
+> > +=C2=A0 enum states {
+> > +	dequeued =3D 0,
 >=20
-> What if the syscall fails for any reason? Wouldn't the monitor stores
-> incorrect information?
+> I think you already removed this " =3D 0" in an earlier patch?
 
-Yes, that could happen, this seems an issue only in the throttle monitor wh=
-en
-failing a DEADLINE->NORMAL, other cases are at most resetting the monitor.
+Right, missed that.
 
-In this case, the monitor is really saying: a deadline task is no longer
-deadline, so its runtime should be counted as fair server. If the syscall d=
-oes
-fail, we are assuming the fair server as armed (not running) for a bit more=
-.
+> > +	/* Validate invariants in i */
+> > +=C2=A0=C2=A0=C2=A0 if (next_state =3D=3D curr_state || !res)
+> =C2=A0=C2=A0 ^^^^
+> =C2=A0=C2=A0 indentation error ;)
 
-Here I couldn't find a nice way to handle this: if I attach only to the sys=
-call
-return, I see if it succeeded but I lost the previous policy, attaching to =
-both
-(and keep a per-cpu storage just for this process) seems a bit overcomplica=
-ted.
-I see this can potentially lead to errors in the monitor, but I'm not sure =
+Good catch.
+
+> > +Due to the complex nature of environment variables, the user needs to
+> > provide
+> > +functions to get and reset environment variables, although we provide =
+some
+> > +helpers for common types (e.g. clocks with ns or jiffy granularity).
+>=20
+> Is there theoretical reason that functions to get/set variables cannot
+> be generated? Or you just do not have time for it yet?
+
+Not theoretical but practical, the monitor cannot always define /what/ an
+environment variable is. In case of clocks (jiffy and ns) that's easy and t=
+he
+parser does in fact generate get and reset functions, the user only needs t=
+o
+specify the measure unit as explained somewhere else.
+
+It is possible to add more exotic variables that don't follow common clock =
+rules
+and need different get/reset definitions. Now, in practice, that may not ha=
+ppen
+with clocks (I cannot think of an alternative clock definition), but can ha=
+ppen
+for other variables. For instance if the variable describes the preempt cou=
+nt,
+the model cannot know in advance and the user will need to supply how to re=
+ad
+that in the kernel (just like we do with tracepoints, although event names
+/might/ hint something).
+
+As I get it, this isn't so clear so I should probably try and reword it.
+
+I might just assume variables without unit but with a reset are, say, jiffy
+clocks and never expect manual definition of the reset function, but that m=
+ight
+be misleading at times: e.g. if a user wants a ns clock but forgets the uni=
+t,
+the monitor would still build.
+
+>=20
+> > +Since invariants are only defined as clock expirations (e.g. *clk <
+> > +threshold*), the callback for timers armed when entering the state is =
+in
+> > fact a
+> > +failure in the model and triggers a reaction. Leaving the state stops =
 the
-extra complexity is worth it here, considering this failure might only happ=
-en if
-a user really makes wrong calls.
-I tried to avoid creating a new tracepoint on a successful policy change.
+> > timer
+> > +and checks for its expiration, in case the callback was late.
+>=20
+> "callback for timers armed when entering the state is in fact a failure
+> in the model and triggers a reaction." - I have problem parsing this
+> sentence. How can "callback for timers" be armed? Or do you mean arming
+> timers while entering a state is a failure in the model? What is it a fai=
+lure?
 
-What do you think?
+Right, that sentence doesn't make sense.
+We arm a timer when entering the state, expiration of such timer is a failu=
+re.
+The timer is cancelled when leaving the state, so in fact leaving the state
+before the timer expiration is the only valid behaviour.
+
+> > +It is important to note that timers introduce overhead, if the monitor=
+ has
+> > +several instances (e.g. all tasks) this can become an issue.
+> > +If the monitor is guaranteed to *eventually* leave the state and the
+> > incurred
+> > +delay to wait for the next event is acceptable, guards can be use to l=
+ower
+> > the
+> > +monitor's overhead.
+>=20
+> How about having some sort of a "background task" which periodically
+> verifies the invariants?
+
+I didn't update this part, but now timers can work also via timer wheel, wh=
+ich
+is cutting down costs by sacrificing some reactivity (not correctness thoug=
+h). I
+assume the background thread would be quite similar to what the timer wheel
+already does.
+
+But I definitely need to mention this because the timer wheel is not as hea=
+vy as
+the hrtimers and its overhead is usually acceptable (unless proven otherwis=
+e for
+a specific monitor/workload, I'd say).
+
+> > +This is the full example of the last version of the 'stall' model in D=
+OT::
+> > +
+> > +=C2=A0 digraph state_automaton {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D circle] "enqueued"};
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D plaintext, style=3Dinv=
+is, label=3D""] "__init_dequeued"};
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D doublecircle] "dequeue=
+d"};
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D circle] "running"};
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "__init_dequeued" -> "dequeued";
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "enqueued" [label =3D "enqueued\nclk < =
+threshold_jiffies"];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "running" [label =3D "running"];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued" [label =3D "dequeued"];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "enqueued" -> "running" [ label =3D "sw=
+itch_in" ];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "running" -> "dequeued" [ label =3D "de=
+queue" ];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued" -> "enqueued" [ label =3D "e=
+nqueue;reset(clk)" ];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { rank =3D min ;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "__init_dequeue=
+d";
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued";
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> Btw, the last block (rank =3D min) doesn't seem to serve any purpose. But
+> the last time I checked months ago, the parser explodes if it is
+> removed, not sure if it still does now. But this is another reason that
+> I would like a rewrite.
+
+Mmh, that's automatically generated by Supremica and, I believe, in some mo=
+dels
+it's tuning a bit the position of nodes. Quite strange that the parser expl=
+oded,
+those lines should be completely ignored.. Still, we know the parser needs =
+this
+big refactor.
 
 Thanks,
 Gabriele
