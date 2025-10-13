@@ -1,85 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650CC24468D;
-	Mon, 13 Oct 2025 12:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F021C19D
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 12:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760357594; cv=none; b=OQHkrgIzx0K+NQypZe0zUxCbIxZ84oNkOch7ntWupsosSQtf8Gs4k1JnTE7iNKptproJm6qafEyOGTYe9ovUwk5v9e2vdlxgsYbWjv7GuO988IFGtrDA4BoxLQQSY7SW6NqrlYcLghpgUOdU/Az+/A8G1hksJMxDRMeilW9WGd0=
+	t=1760359328; cv=none; b=ktv5Gv1KpGMgUdABqP5Zg0YsEx8QudTJXk7cisB++uYNi5UkOi/StOIEW+QYnzIoK2n1J5n1760FVcaeb9sMHdQ1wBywi+HbBRsmdhzbyb8LMsJWJ7TrrYw68t9kdpWU5oEk8nMQatw1E1iWtv6iHUplLk26CyqCrH1Pqt2gGH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760357594; c=relaxed/simple;
-	bh=Ve9/iWpbfn/kX74iNG2Ij6hQmnMR/JIdGPX40kr4Y6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+jxA33WH6ih0XuphT3XVDJ5uUKzxqnvK2lgpniZED8MGVUur7va4D3yzSHpi0i3e8WGN3u5xjH2SIzp/QAbQBV4CJ5nzvxavVK2/5O8iGMHFcPtPi6gN01xmjOPZV3TVSV2DBh0j2SvqdYRN4wjFNUO8uIgP7rzVKgGcuTEHuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOyWdX+U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760359328; c=relaxed/simple;
+	bh=UtC3ud1uDkWBT2eatRa4V31cwvWr8x1KM9nA7kHeLro=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMWQcpGfDzrTs62AQ0w9vy7SGMQ/xkPmn2pLoCisnZy3ZaGsDPEIReOINfqpYdap4lJkot//IMeishigBdLODmm6TtEFfkJzQMwpx4zTpET5qjqzK8Spu7WJ/01QhVanESP4pH7eOuoL5PoAHq001hVR+91sEwHBrlxG8JJa2wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fSi/Sinh; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOyWdX+U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1528C4CEE7;
-	Mon, 13 Oct 2025 12:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760357594;
-	bh=Ve9/iWpbfn/kX74iNG2Ij6hQmnMR/JIdGPX40kr4Y6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jOyWdX+U00ecIVdoFM2BjCh5Fz7HURlWY4AqFsk/7lfbDVHgBICtfA/PoODLzRP4O
-	 dD7+8DiiYmOWp3dBoZJZR9DV4S7fnR2KZ+yNTiJrK5mPvK1UgeUUuhAZS2KqwpHVy/
-	 XboQtny2cW9/xwPPiPLRU6XcJcDTPIzuauwFSYhbfD4g51CEXHxv4Lcb/GhdX/K7JM
-	 WJPAPCi2lmEA0i1kqEA8qZdgRTXMYcYIkQK2aLgAzl2VKYlZDGZRuSrPxyHt4xAPzY
-	 vlVMU/fn/1DGRRLgB2Vl13fKMyb/Yf2jY95IquhezkSU5gxK0OOpvL5CgC3l10kNtA
-	 +7YIxrhwnLKEg==
-Date: Mon, 13 Oct 2025 13:13:09 +0100
-From: Simon Horman <horms@kernel.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-can@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] can: add Transmitter Delay Compensation (TDC)
- documentation
-Message-ID: <aOzs1TjdaqZqNW8M@horms.kernel.org>
-References: <20251013-can-fd-doc-v2-0-5d53bdc8f2ad@kernel.org>
- <20251013-can-fd-doc-v2-2-5d53bdc8f2ad@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fSi/Sinh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760359325;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=GV6V42eNmRofCKO2ajQk2DVZzbVn5SWQi1G7vlqlVt0=;
+	b=fSi/Sinh1FxlFchbwfTnXvKg5q7TU78HtIIstJVntj1KfHMDc7Gan/EtfIsUSFskJ+8MCz
+	q/1ybPh/Quox0qWr/1zbrNvJjenzFKI44/O+GIea8Tz4lSvZstJsq1JLnsNYM1T3EChX50
+	pTHNv/Ao+/DCK69pBfn8ETpsk8NO7nE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-321-DkO8DMZ_OcSb3TFCZc6CKA-1; Mon, 13 Oct 2025 08:42:04 -0400
+X-MC-Unique: DkO8DMZ_OcSb3TFCZc6CKA-1
+X-Mimecast-MFC-AGG-ID: DkO8DMZ_OcSb3TFCZc6CKA_1760359323
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-46e3ef2dd66so27342825e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 05:42:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760359323; x=1760964123;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GV6V42eNmRofCKO2ajQk2DVZzbVn5SWQi1G7vlqlVt0=;
+        b=sl034GOQSn0057gQU/bdwI+OO+WHw0WbtOZ1EQwGQAxYdLXZhKnHo8AVBpsrKlgrWK
+         2qj3wiIDGI2KAovtS5+1+Q+Ms0zVIS3EUYjQQLunRiQmXZ9MDeMeynKl2x+SSgpQtQ2K
+         TmnLNgZElYfFRjjpx3q3PINCQQaYL5roD2SvGyWP70Hx8myp56yuObMA/qjb4DTXYONx
+         dO5UBlOv2oB89UroNWDxaPmnUGIkGm6M4Vm1vMpMHvSH46pe8RofOg7LXCib6hRwwzI7
+         BOfvqutwqu9TzElJbVu7hfF237+vvmrgtoZ68qVKAhxaup6rFkIHfMBY01q4uKFVNchb
+         jLFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFKrD+qcFIdwP38DtogwCUa8oStEYBvmHQ4233Zvb6hR6g3mtwJIAjeB72gNqqTlx+xvzOTtp/LnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxopgCAiQyCdcPzWjmvfDZSYOU953v0mKeFlHFiqqAIyE339ZUJ
+	h3fIiqyn8J0Z1ePRV4cpoNOOWidLrhx5TrB9O8xG4/kG2EKLIkgk8Wd6vfNohtpx1VFldojfjOU
+	Q+u7RAzSEzugWGP9P9z0XlO7sBhUHSlTmuNsfrUDEhH4Yo/sr6ME28SEy70XfSA==
+X-Gm-Gg: ASbGncsUOLmCJAzG4T7Q3tuu2B7aTbq9z15HUwIamrCY/gGyVZq9XXt1+Mw6jozcQW5
+	mysS3bi2mLUQDP1CY2xdSDTtSyJWlo7ysJU3u5s1KgmPu2oSN5LSwZA5bpDQ2b1y+7GbofaO+L0
+	0EWkOcv33+tyKp4dLadXSSz0QVBxQO1duEBlVgSkODk9EAwTEGGQVdm0VV/D/hSXpbRcduvIDSL
+	F23olfbMYP3DPJNx1VkPm2R4lFlhOwfsTXDJip5rj4dnNItlzsmwakaQzpk6+anOBWbatSAnjbb
+	zeHSdYUk8aPyw2ZXahn8FqS7lCUUNoTcuElGqdy4BsW/L2H2UD+aVLm8LzV3Cd64V8oIk8tIBmK
+	iYW4=
+X-Received: by 2002:a05:600c:674a:b0:45c:b6d3:a11d with SMTP id 5b1f17b1804b1-46fa9e8dc8bmr158955115e9.1.1760359323081;
+        Mon, 13 Oct 2025 05:42:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHauSt6ruiV5Kk8L/+gHwRrp8105EYALDJNBUwgBgUbnyLWlMo37UXqi0DKsbi3Tl2D4kwzpA==
+X-Received: by 2002:a05:600c:674a:b0:45c:b6d3:a11d with SMTP id 5b1f17b1804b1-46fa9e8dc8bmr158954865e9.1.1760359322699;
+        Mon, 13 Oct 2025 05:42:02 -0700 (PDT)
+Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fc78559c8sm29186175e9.4.2025.10.13.05.41.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Oct 2025 05:42:02 -0700 (PDT)
+Message-ID: <7176597b-006f-40ad-9421-860d80d7e696@redhat.com>
+Date: Mon, 13 Oct 2025 14:41:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013-can-fd-doc-v2-2-5d53bdc8f2ad@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 mm-new 03/11] mm: thp: add support for BPF based THP
+ order selection
+To: Yafang Shao <laoar.shao@gmail.com>, Tejun Heo <tj@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Zi Yan <ziy@nvidia.com>, Alexei Starovoitov
+ <alexei.starovoitov@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, baolin.wang@linux.alibaba.com,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, usamaarif642@gmail.com,
+ gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ 21cnbao@gmail.com, Shakeel Butt <shakeel.butt@linux.dev>,
+ lance.yang@linux.dev, Randy Dunlap <rdunlap@infradead.org>,
+ bpf <bpf@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <20250930055826.9810-1-laoar.shao@gmail.com>
+ <20250930055826.9810-4-laoar.shao@gmail.com>
+ <CAADnVQJtrJZOCWZKH498GBA8M0mYVztApk54mOEejs8Wr3nSiw@mail.gmail.com>
+ <27e002e3-b39f-40f9-b095-52da0fbd0fc7@redhat.com>
+ <CALOAHbBFNNXHdzp1zNuD530r9ZjpQF__wGWyAdR7oDLvemYSMw@mail.gmail.com>
+ <7723a2c7-3750-44f7-9eb5-4ef64b64fbb8@redhat.com>
+ <CALOAHbD_tRSyx1LXKfFrUriH6BcRS6Hw9N1=KddCJpgXH8vZug@mail.gmail.com>
+ <96AE1C18-3833-4EB8-9145-202517331DF5@nvidia.com>
+ <f743cfcd-2467-42c5-9a3c-3dceb6ff7aa8@redhat.com>
+ <CALOAHbAY9sjG-M=nwWRdbp3_m2cx_YJCb7DToaXn-kHNV+A5Zg@mail.gmail.com>
+ <129379f6-18c7-4d10-8241-8c6c5596d6d5@redhat.com>
+ <CALOAHbD8ko104PEFHPYjvnhKL50XTtpbHL_ehTLCCwSX0HG3-A@mail.gmail.com>
+ <3577f7fd-429a-49c5-973b-38174a67be15@redhat.com>
+ <CALOAHbAeS2HzQN96UZNOCuME098=GvXBUh1P4UwUJr0U-bB5EQ@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CALOAHbAeS2HzQN96UZNOCuME098=GvXBUh1P4UwUJr0U-bB5EQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 13, 2025 at 07:10:23PM +0900, Vincent Mailhol wrote:
-> Back in 2021, support for CAN TDC was added to the kernel in series [1]
-> and in iproute2 in series [2]. However, the documentation was never
-> updated.
+>> I came to the same conclusion. At least it's a valid start.
+>>
+>> Maybe we would later want a global fallback BPF-THP prog if none was
+>> enabled for a specific MM.
 > 
-> Add a new sub-section under CAN-FD driver support to document how to
-> configure the TDC using the "ip tool".
+> good idea. We can fallback to the global model when attaching pid 1.
 > 
-> [1] add the netlink interface for CAN-FD Transmitter Delay Compensation (TDC)
-> Link: https://lore.kernel.org/all/20210918095637.20108-1-mailhol.vincent@wanadoo.fr/
+>>
+>> But I would expect to start with a per MM way of doing it, it gives you
+>> way more flexibility in the long run.
 > 
-> [2] iplink_can: cleaning, fixes and adding TDC support
-> Link: https://lore.kernel.org/all/20211103164428.692722-1-mailhol.vincent@wanadoo.fr/
-> 
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
-> ---
-> Changes in v2:
-> 
->   - Fix below "make htmldocs" error:
-> 
->       can.rst:1484: ERROR: Unexpected indentation. [docutils]
+> THP, such as shmem and file-backed THP, are shareable across multiple
+> processes and cgroups. If we allow different BPF-THP policies to be
+> applied to these shared resources, it could lead to policy
+> inconsistencies.
 
-Thanks, I confirmed that "make htmldocs" is happy now.
+Sure, but nothing new about that (e.g., VM_HUGEPAGE, VM_NOHUGEPAGE, 
+PR_GET_THP_DISABLE).
 
-> 
->   - Change from "Bullet lists" to "Definition lists" format.
-> 
-> Link to v1: https://lore.kernel.org/all/20251012-can-fd-doc-v1-2-86cc7d130026@kernel.org/
+I'd expect that we focus on anon THP as the first step either way.
 
-...
+Skimming over this series, anon memory seems to be the main focus.
+
+> This would ultimately recreate a long-standing issue
+> in memcg, which still lacks a robust solution for this problem [0].
+> 
+> This suggests that applying SCOPED policies to SHAREABLE memory may be
+> fundamentally flawed ;-)
+
+Yeah, shared memory is usually more tricky: see mempolicy handling for 
+shmem. There, the policy is much rather glued to a file than to a process.
+
+-- 
+Cheers
+
+David / dhildenb
+
