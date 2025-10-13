@@ -1,115 +1,357 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F26145B16
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 04:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB8E1E7C27;
+	Mon, 13 Oct 2025 05:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760330299; cv=none; b=hUD0TcITvli1HO+MEzcR6GQJW4UDinz+M1bjs8bCUqpyZCW+3Qqi5O9OwAo82++CFjiDdCRPxf5UA/26a8H54KP9I+5vTU+VAVvOWSVYZBfHT9qbr82ae7FHsXUFogV9pmyd8qVkJB4oyEtT8bUs7W2ajbB0pCEHmEl8walD1Zs=
+	t=1760333047; cv=none; b=SToUgE8ulh7OgKtiPUBjbpAyMWD38Q+bPiH/uwx6asYF2p0vjCEwOfwRVAqpOqXfJplBMqJ0cQmbqg31nJ/HZ/t10NjvSzZYAPa6jU4qshrfDM7BPXL95h/iiFFsSaikTDecGgrQdD1yEOAe1btON7QSNBdI3k2DKxkxS5we66E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760330299; c=relaxed/simple;
-	bh=u8oK9s5aByPzbWDSJU0MuNHc93b7ngPnC+4lAT7yplE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bbIaS5jBx7K95mLp0yMYz6h35IL8QpWTCesuaG2oL1pW/yeE/nBLZIHbpw1hrRaPnGSaA+dsVDUojMnfbfszStgWYHY9dalW8H62SCe9kVga3KOSEz12hNVzTY9CgXQh+JmXiUzF+0ohvlbsSXQJU3iEAbk8gnXpzaVokJGLf88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6nsm/dH; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6nsm/dH"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32ebcef552eso743705a91.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Oct 2025 21:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760330297; x=1760935097; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/jQ7mGdL6AjL3n52++SuIetPTh8rjsnTvNAsGSM8T6g=;
-        b=G6nsm/dHRc3RliYiPUISlXZw/eRg+0suGV7k3dLPkSwZ2NjxmjxvWq3fnWHieXY8ah
-         ZrQjSraFE8Qw/pLX4ccGEjBD4oYXBMusISYjB3CwAPBpuLcnTj+MHHQUU46DCoy5KGE/
-         EGx37dN9FqPoB4/gLoB2+CXjng6gI3Z+AoRMyWdCjHkwVojrH0Y7syea7JHYIWDxxUzX
-         yEEW4mGNaj2EYcyH/CsQ9/rMyqReT8JDfuQz6z1w1gs/OMupEFWSm/4cO/GmmDIjqgfo
-         Cwbgs04yO2Dv5YBbUajCQIWMFcFb2TbLTp4SwHzwEZyNELFbRH5JStrJZqYSeCHRIQ7X
-         KbxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760330297; x=1760935097;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/jQ7mGdL6AjL3n52++SuIetPTh8rjsnTvNAsGSM8T6g=;
-        b=m2dzZPh9bOxsTDau7U3Z8l2v8WjJD4f/k1glxecUyasgxq4c2CKKi9feLhGfnhMb0+
-         lV06K4GhSpZhoSpWLc65eiheqNNlsDx54ZFYVcw12tN/fojGXptMz01cc8mmuB4GMmKp
-         vWuCVfhxOO23bFeQy51JzhJcaeRpFUImAi2AfuOGEquRx4Q7H4mVjr/OLlRgV9BPbXT1
-         IKHjTDCFUXAI0F4HZ0jgRlwGoWNK3rrga79dCLDPUHYrKKK8Lm1mW4z8HGhEhs4crNtk
-         t6SgbnBlqn5hbBIhERnrv/A0iqNv1WeB3sRTtzXSH5TsDJ/opR4vTjFFpq59teFOpXWC
-         PpIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdCmS8wIkIUhzcDFSwemxxrvoAqABdXyaelhXlBPttL4N6Gz4LQx75hfLyKnmeZFr40qhCDGP4oME=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylnISVHPRldA2y2SyAbGLssugvWRIoRZzC4ecyhTEr3uWTIGGP
-	X2/xmtUS4GfoCD1mNtpQQMC1zWUGDbn450gPyyQXy4+saguNDMYMsyvY
-X-Gm-Gg: ASbGncsj5/OfeUFYDYFJoOmxzXTNE8SqKdN4BxVe6ACFo3lz3KGMkcpqd/dFHcY4eVu
-	ogRFVt2bpeYQJ9o3IkuoaEEiIyRkPGd7XI3/CDfVhhLxRc7Guo4+YAEobVuluyuaHqIp3HAJA7o
-	6scx+p+jKizRIp3xm6gL5Qzx/Yd6Oi+QceSGDMoXCRAnVoCVAHxbCNV/Y+EyVL8BctUSang/gZS
-	pUUmy0UGesTIkKlajWpxRvH18OnGU2GU7GQbmg8/TBWX7ILYfuWvxH4Ynq9JUquRgWeblS5RkUP
-	NoSQbXIvzWy3pLNQaiRXN17b+QIHNGKBnQghX138nKVKYBcMQ89bRzfm20R3ewMczEj83uN63tf
-	eGaHW7WOUb1xBugdqrS6mA/hMgS1zd7b9wqbdbg==
-X-Google-Smtp-Source: AGHT+IECDsp7UtBNbkAMUan55y1XQuX+ULfYaKfSidXHic/wkkfkYOISn2UHW8fXUSR6MSLEloK7xQ==
-X-Received: by 2002:a17:903:24f:b0:26b:1871:1f70 with SMTP id d9443c01a7336-2902727f94amr119251795ad.5.1760330297305;
-        Sun, 12 Oct 2025 21:38:17 -0700 (PDT)
-Received: from localhost ([104.249.174.141])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f070basm120833025ad.77.2025.10.12.21.38.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 21:38:16 -0700 (PDT)
-From: Ben Guo <benx.guo@gmail.com>
-To: si.yanteng@linux.dev
-Cc: a.hindborg@kernel.org,
-	alex.gaynor@gmail.com,
-	alexs@kernel.org,
-	aliceryhl@google.com,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	corbet@lwn.net,
-	dakr@kernel.org,
-	dzm91@hust.edu.cn,
-	gary@garyguo.net,
-	hust-os-kernel-patches@googlegroups.com,
-	justinstitt@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	lossin@kernel.org,
-	morbo@google.com,
-	nathan@kernel.org,
-	nick.desaulniers+lkml@gmail.com,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	tmgross@umich.edu
-Subject: Re: [PATCH v2] docs/zh_CN: Add translation of rust/testing.rst
-Date: Mon, 13 Oct 2025 04:38:10 +0000
-Message-ID: <20251013043812.13186-1-benx.guo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251003074939.465517-1-benx.guo@gmail.com>
-References: <20251003074939.465517-1-benx.guo@gmail.com>
+	s=arc-20240116; t=1760333047; c=relaxed/simple;
+	bh=6Qo/Wic5X1LYWt4OoazfZZbUqoh99G+h1XTb2LemI04=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYKv2Xx0IzscXaWfFKfc47wOLzJj8ZdNOeyP/K885GKb1WdVCKRcapxSsdVUCiELif34zWlaLMe0yiX6RkeJ/fwpBKuvfBDzR0g7IMpRKaccFiDjhYUQgjrjnMpjO6QLQcCyiwJv0GMA8UtM89AmFNZLyyv1kClYMQEu4EfZLr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-68-68ec8cf02760
+Date: Mon, 13 Oct 2025 14:23:54 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: NeilBrown <neil@brown.name>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
+	kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
+	mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+Message-ID: <20251013052354.GA75512@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+ <175947451487.247319.6809470356431942803@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <175947451487.247319.6809470356431942803@noble.neil.brown.name>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH99yXp5fGLtdO44N8MOkwLEyZCMtOCJk6Z7wfZmZmzIwmaCN3
+	ayOlWhTFxU1guG6iYk0lLYKAUDtaEQsz423rcFYqolWKViNvsysQqDUOMQqFtWxGv/3O/3/y
+	P+ckh6PllXgxp87eK+qylVkKLGWkwXlVy58Uj6tWlAXT4G6+kwG9w8SCp96GYOCZHsHzqTIa
+	wgaXBGbbXQjsTfkU/NMwg8E45McQshQjGL26HoIDrSzM9g1TYPHPUOB3/oDgbHUjhlKjB8FI
+	Q6RscvUjaLcWYOjxvw3eZyEMbuNRDI8bMFQWtLNQXmZAcLrcwUDzYIsEbo9NU/DwtIECm2MD
+	DFgCDHSVVFNQOoqhrLSQAuOFVgpeWOokMD2UDC7bsAT6ThgZqA/eYsHdf5eFsYABw4R3iAJ7
+	cYAGx6OI1v7gfag6UsOAqeIhBn14AkFPyxkM/fbZyN3OLhbu2DwMXBz2UdDl6mTAbf6ZgVst
+	F1iovXebgqFBHwuN3TdomDweB56Tx9jVmcLzouOMUHQnjAV7hR0JUy8NSJioLaSFopJIeWU8
+	RAu1XeNYuF5NhJPdy4Vmc59EqHTsE77/M8gKjdZE4VzbKCU46n7EG5dtlaZnilnqXFH3wcc7
+	pKr8uhC9+/6aA55w7GF0LPEnFMMRPpVMFPVSr7jf3EhHmeGXEm+gWRJlzCcQn+/FnL6AX0Iu
+	Nd2P9Es5mrfEEV/p5JzxDr+K3Oy1oyjLeCC/n6lF0SY5X4PIWaNe8p8xn7hNfibKNJ9IfDOj
+	kSQuwnHk/AwXlWP4z8g9y8jcQgv5d4nz8rW5YYT/K4Z4By/+v2ks+cPqY0oQb34j1vxGrPl1
+	bCWi65BcnZ2rUaqzUpNUednqA0k7tRoHivyt5dD0tl/RU8+mDsRzSDFPpmodU8lZZW5OnqYD
+	EY5WLJB99M24Si7LVOYdFHXa7bp9WWJOB4rjGMUi2crJ/Zly/mvlXnGXKO4Wda9ciotZfBil
+	WTIS0Hcl7s9N87Wh+M1VI22/DWz76srLlIR4cR3VaXuQsWtdT8YngUdWfXzh9OVy3Gm62rv2
+	ZujGl+9RT52XTvlSaz49VF9gja/aotqQdyJWuyfll07N1N97lqxYU5+0Nj35ranubyuuaVLS
+	w0e0y2jJh9tp//5TB9u+OJq2ySr1mhVMjkqZnEjrcpT/Aq5cnEezAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUwTdxjH/d1d747OMyeDeEiisdOZkKgz0/hEjUOj8XyZGrPMl0RHI+fa
+	8JrWVdBsoQKhOtDSpG1oURHkhqUKAjOiKWtwdnPCyosMdEKHqbxIuy4bxSAUvGrM/OfJ5/l+
+	n++T54+HxmMjsoW0OvOEoMlUpitIOSHfsyF/xT/FAdUn4XIW/tC7CQiPGwgor3OSYGgok0HH
+	jVoEvrABwcspOw6FzbMEREweCsYn/6Rg1uVBYOk04eBs0mPwX/0MCWP3/kVgHvSTYB3VExAS
+	ixHYhuwUjN7fDkHfXRnM9g9j0DsRQCD6ZzDwu4sQRCxpcLmykYSpdi8OVnMHgiuD/TiM1Etm
+	k2cAgavmDAnPjT/i0O2fB4/CIRIemL8nIdhZjsHf9SRUnHHJ4KLdhCC/qo4Ey8UGApr/ukNB
+	59g0Bk8tJgxqGz4HnzhEwENjJSbdJ03dXAB2az4mlREMzNfvYjApOihoq3pKgJi3DOzt3TJ4
+	VmOjYHpwNcxWZIGndpiC/gtmAm4EvbJkM+JfFp4neEfjLYwv7IqQvPOSE/FTr0yIH6/Ox/lC
+	o9TeC4RwvqDxJF/9MEDyr8I9JO+aqCD43yo5vrR9Bd9s66f4gpYn1L71h+UbU4V0tU7QrNqU
+	IlfpHSE8+/HmnI5IQh4qSTqHYmiOXcMN2BrxKBPsMu7RUDMVZZJdzvX1Tb7R49jF3M2mx9g5
+	JKdxVkzk+qwTb4wP2c+433ucKMoMC9xP5dUoOhTLXkXcZbOBemvM5x6U+Yko42wS1zczKm2i
+	JU7kfpiho3IMu5vrFUewKMezH3HuW79gRsTY3kvb3kvb/k9XINyB4tSZugylOn3tSm2aKjdT
+	nbPyWFZGA5KeUvx2uvQ2Gu/e3opYGinmMvuKAqpYmVKnzc1oRRyNK+KYdacliUlV5p4SNFlf
+	ab5JF7StKJEmFAuYnQeElFj2a+UJIU0QsgXNOxejYxbmod1HJuJ9V7K7wLNkOMJ81xPzZcr5
+	bccSci9s3FG85VoIPt1r3ZNzVCRdXkNCywdOmRf74vrBtqJDJR+ftPTqurKPl+x6saHEvfbJ
+	+mTSn7ouVLejR++t31/jphYlz41T0B2+4ICSdpTN2aprK2ihz6qYMeOan4Pxvx69s2VpKVOl
+	ILQq5eokXKNVvgZzqHjckAMAAA==
+X-CFilter-Loop: Reflected
 
-Hi Yanteng,
+On Fri, Oct 03, 2025 at 04:55:14PM +1000, NeilBrown wrote:
+> On Thu, 02 Oct 2025, Byungchul Park wrote:
+> > This document describes the concept and APIs of dept.
+> >
+> 
+> Thanks for the documentation.  I've been trying to understand it.
 
-I’d like to confirm the expected use of the In-Reply-To header for versioned patches.
+You're welcome.  Feel free to ask me if you have any questions.
 
-In my case:
-  [PATCH]    ->  Message-ID: <20250929163531.376092-1-benx.guo@gmail.com>
-  [PATCH v2] ->  Message-ID: <20251003074939.465517-1-benx.guo@gmail.com>
-  [PATCH v2] -> In-Reply-To: <20250929163531.376092-1-benx.guo@gmail.com>
+> > +How DEPT works
+> > +--------------
+> > +
+> > +Let's take a look how DEPT works with the 1st example in the section
+> > +'Limitation of lockdep'.
+> > +
+> > +   context X    context Y       context Z
+> > +
+> > +                mutex_lock A
+> > +   folio_lock B
+> > +                folio_lock B <- DEADLOCK
+> > +                                mutex_lock A <- DEADLOCK
+> > +                                folio_unlock B
+> > +                folio_unlock B
+> > +                mutex_unlock A
+> > +                                mutex_unlock A
+> > +
+> > +Adding comments to describe DEPT's view in terms of wait and event:
+> > +
+> > +   context X    context Y       context Z
+> > +
+> > +                mutex_lock A
+> > +                /* wait for A */
+> > +   folio_lock B
+> > +   /* wait for A */
+> > +   /* start event A context */
+> > +
+> > +                folio_lock B
+> > +                /* wait for B */ <- DEADLOCK
+> > +                /* start event B context */
+> > +
+> > +                                mutex_lock A
+> > +                                /* wait for A */ <- DEADLOCK
+> > +                                /* start event A context */
+> > +
+> > +                                folio_unlock B
+> > +                                /* event B */
+> > +                folio_unlock B
+> > +                /* event B */
+> > +
+> > +                mutex_unlock A
+> > +                /* event A */
+> > +                                mutex_unlock A
+> > +                                /* event A */
+> > +
+> 
+> I can't see the value of the above section.
+> The first section with no comments is useful as it is easy to see the
+> deadlock being investigate.  The section below is useful as it add
+> comments to explain how DEPT sees the situation.  But the above section,
+> with some but not all of the comments, does seem (to me) to add anything
+> useful.
 
-That means the v2 patch points back to the v1 message ID.
+I just wanted to convert 'locking terms' to 'wait and event terms' by
+one step.  However, I can remove the section you pointed out that you
+thought was useless.
 
-Could you please confirm whether I should start a new thread for [PATCH v2], or if there’s something wrong with how I used the In-Reply-To header?  
-Thanks for helping clarify this.
+> > +Adding more supplementary comments to describe DEPT's view in detail:
+> > +
+> > +   context X    context Y       context Z
+> > +
+> > +                mutex_lock A
+> > +                /* might wait for A */
+> > +                /* start to take into account event A's context */
+> 
+> What do you mean precisely by "context".
 
-Thanks,
-Ben Guo
+That means one of task context, irq context, wq worker context (even
+though it can also be considered as task context), or something.
+
+Of course, in the example above, it must be task context since it showed
+a case involving only sleepible ones.  However, I wanted to use general
+terms in the document to cover all the types of context e.g. irq, task,
+and so on.
+
+> You use the word in the heading "context X  context Y  context Z"
+> so it seems like "context" means "task" or "process".  But then as I
+> read on, I think - maybe it means something else.  If it does, then you
+> should use different words.  Maybe "task X ..." in the heading.
+
+It should cover all the types of context.  What word would you recommend
+for that purpose?
+
+> If the examples that follow It seems that the "context" for event A
+> starts at "mutex lock A" when it (possibly) waits for a mutex and ends
+> at "mutex unlock A" - which are both in the same process.  Clearly
+> various other events that happen between these two points in the same
+> process could be seen as the "context" for event A.
+> 
+> However event B starts in "context X" with "folio_lock B" and ends in
+> "context Z" or "context Y" with "folio_unlock B".  Is that right?
+
+Right.
+
+> My question then is: how do you decide which, of all the event in all
+> the processes in all the system, between the start[S] and the end[E] are
+> considered to be part of the "context" of event A.
+
+DEPT can identify the "context" of event A only *once* the event A is
+actually executed, and builds dependencies between the event and the
+recorded waits in the "context" of event A since [S].
+
+> I think it would help me if you defined what a "context" is earlier.
+
+Sorry if my description was not clear enough.
+
+	Byungchul
+
+> What sorts of things appear in a context?
+> 
+> Thanks,
+> NeilBrown
+> 
+> 
+> > +                /* 1 */
+> > +   folio_lock B
+> > +   /* might wait for B */
+> > +   /* start to take into account event B's context */
+> > +   /* 2 */
+> > +
+> > +                folio_lock B
+> > +                /* might wait for B */ <- DEADLOCK
+> > +                /* start to take into account event B's context */
+> > +                /* 3 */
+> > +
+> > +                                mutex_lock A
+> > +                                /* might wait for A */ <- DEADLOCK
+> > +                                /* start to take into account
+> > +                                   event A's context */
+> > +                                /* 4 */
+> > +
+> > +                                folio_unlock B
+> > +                                /* event B that's been valid since 2 */
+> > +                folio_unlock B
+> > +                /* event B that's been valid since 3 */
+> > +
+> > +                mutex_unlock A
+> > +                /* event A that's been valid since 1 */
+> > +
+> > +                                mutex_unlock A
+> > +                                /* event A that's been valid since 4 */
+> > +
+> > +Let's build up dependency graph with this example. Firstly, context X:
+> > +
+> > +   context X
+> > +
+> > +   folio_lock B
+> > +   /* might wait for B */
+> > +   /* start to take into account event B's context */
+> > +   /* 2 */
+> > +
+> > +There are no events to create dependency. Next, context Y:
+> > +
+> > +   context Y
+> > +
+> > +   mutex_lock A
+> > +   /* might wait for A */
+> > +   /* start to take into account event A's context */
+> > +   /* 1 */
+> > +
+> > +   folio_lock B
+> > +   /* might wait for B */
+> > +   /* start to take into account event B's context */
+> > +   /* 3 */
+> > +
+> > +   folio_unlock B
+> > +   /* event B that's been valid since 3 */
+> > +
+> > +   mutex_unlock A
+> > +   /* event A that's been valid since 1 */
+> > +
+> > +There are two events. For event B, folio_unlock B, since there are no
+> > +waits between 3 and the event, event B does not create dependency. For
+> > +event A, there is a wait, folio_lock B, between 1 and the event. Which
+> > +means event A cannot be triggered if event B does not wake up the wait.
+> > +Therefore, we can say event A depends on event B, say, 'A -> B'. The
+> > +graph will look like after adding the dependency:
+> > +
+> > +   A -> B
+> > +
+> > +   where 'A -> B' means that event A depends on event B.
+> > +
+> > +Lastly, context Z:
+> > +
+> > +   context Z
+> > +
+> > +   mutex_lock A
+> > +   /* might wait for A */
+> > +   /* start to take into account event A's context */
+> > +   /* 4 */
+> > +
+> > +   folio_unlock B
+> > +   /* event B that's been valid since 2 */
+> > +
+> > +   mutex_unlock A
+> > +   /* event A that's been valid since 4 */
+> > +
+> > +There are also two events. For event B, folio_unlock B, there is a
+> > +wait, mutex_lock A, between 2 and the event - remind 2 is at a very
+> > +start and before the wait in timeline. Which means event B cannot be
+> > +triggered if event A does not wake up the wait. Therefore, we can say
+> > +event B depends on event A, say, 'B -> A'. The graph will look like
+> > +after adding the dependency:
+> > +
+> > +    -> A -> B -
+> > +   /           \
+> > +   \           /
+> > +    -----------
+> > +
+> > +   where 'A -> B' means that event A depends on event B.
+> > +
+> > +A new loop has been created. So DEPT can report it as a deadlock. For
+> > +event A, mutex_unlock A, since there are no waits between 4 and the
+> > +event, event A does not create dependency. That's it.
+> > +
+> > +CONCLUSION
+> > +
+> > +DEPT works well with any general synchronization mechanisms by focusing
+> > +on wait, event and its context.
+> > +
