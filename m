@@ -1,219 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B6A30FF30;
-	Mon, 13 Oct 2025 15:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B38314B83
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 15:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760369004; cv=none; b=GeuTT5lChQxV+HzcTX333tw70rJhrDHNoRtu3L5Rg0nfiGgsa5wQhN3kv+92L4AqyQYXsNc3VT1y4iGxLCmd0oRV4HXdxiy3Zf3IktVUKyD20wFiRG+XP5rWtxFVfUaf8DGyaBlrJIn5gXm3EJcZf8L0GIbb43k9BcutTGCe+mw=
+	t=1760370211; cv=none; b=jXmoO40C2qCJyw2PlztIzIS1tnW5CYOv/jCXf6lBqB5XmslldDugFZ8i3rt9fr1mcADkkJbvztYgrM/mtld4CxcOSgOqdqebl583jeGZ4oNnDjbbS2e7oJYQ2vCGxO0fI/jOKE94E272Gsmj5US3IdvKHDgTEoWAKkNQbBAAveI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760369004; c=relaxed/simple;
-	bh=HrpU56u8pxLbc0g2WXKv8ddcf/Eh7MXMNWvvG37jNK4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sWakCjOnIO41j3GFUY3VG2lcNpWe6DZFZSHZReWuoYOn5UbrSnxc1XJmf46pZnmlGWrV+NzxZJH1o5V794OodDgTlI4sr5xPhYirtTLrCtQ76UlK6VB6psCmgV2c59pan04Wu0JNQgcAqg2/AjfZJmduWVg1GxruvJ9MglsZi4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1mwuIjG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760370211; c=relaxed/simple;
+	bh=kIVPmCT9kaUq2YA1N7gOyA1JcTYZFNkXFcLBy2dOX+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VyjEK+KKBU+7a1uAgHKxjXL+JyKU2/dtwrTVbVK03naWNIg0rHN9/cGtRaHR31q7vU3t3fM72LTH+gdKVyq8RShvQChRw8wnMXZclCWA21k1oCgVHMyhEqWjAhlSUBo8k/LPyVQLPgO6d6MvSxF82HGR8KfpEtlUM1DxsV+1qtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f5HycyPM; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1mwuIjG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467E2C4CEE7;
-	Mon, 13 Oct 2025 15:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760369003;
-	bh=HrpU56u8pxLbc0g2WXKv8ddcf/Eh7MXMNWvvG37jNK4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=p1mwuIjGDqqsckgAZg28V4Tdmyj4Dd97sGqbbsa9lgNdyX/sRs42EfYMS3jIPWYV+
-	 nr7vxK2+169v0M8HySQ0uqBzWr5hAOg9GhkSMNabre2gX2OpTEehC8GXK0Effdu/Fa
-	 3qlF51k21MY8e6I51tFIoKonWMKzGJJTeSnhlkhcx9OTkxrj5xVP10uY7uempIhuyC
-	 whGSrPHmNuYmQhrwOqoM1Mm7g38uBzRluMba02MY4iX0Nqu/FbMRr67HApS8b0rMcl
-	 UOdvgHtogP3LzHWRJLxerRuaI1Yn22cFa8aVYGPDj1UhayuNHwJMC1NTcqr0MjEaca
-	 vUKwnxoP+7xhw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
-  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
-  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
-  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
-  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
-  steven.sistare@oracle.com
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-In-Reply-To: <CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
-	(Pasha Tatashin's message of "Thu, 9 Oct 2025 19:50:12 -0400")
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
-	<CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
-	<mafs0ms5zn0nm.fsf@kernel.org>
-	<CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
-Date: Mon, 13 Oct 2025 17:23:13 +0200
-Message-ID: <mafs0o6qaltb2.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f5HycyPM"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-42d7d0c58f9so635115ab.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 08:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760370208; x=1760975008; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GvE2QaubCaNe+b2bi3Ii9pwdFgyDED1xYIH2KKqTA4w=;
+        b=f5HycyPMTH8rgVXgmQyTiokCXEZEUXPC7ztFDYuZh5VzPNxNZeu2Rt563ptKcRa2Oi
+         iclOKSQ/2x29qvifa/uMyBvXW1XemFrAbEqgk82kkPxoYqgsZsc0sxFysITyih+38/JO
+         dW9xmyl383ZTkEkqxIzzaG1rw/qWB9ClSp947Dz21GpvD9vFJQowdo7dvR8C3LgteHbE
+         Y9JImsi4S5TSpk4goUl9dRFm43rf8xcapzv9+WQ3dWXX4LX2jPruekr+uNatluT3t9ry
+         ht4Y6Y/k6aKum3kd2Qjhmuqy72ssxE8YayuiRVd47O+XtSaaf7NmyjaEarlFVI5Znsak
+         yRgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760370208; x=1760975008;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GvE2QaubCaNe+b2bi3Ii9pwdFgyDED1xYIH2KKqTA4w=;
+        b=Lf8L0bGRVYyjfduTuQ/08/zLgQwgzmeSDZg7g0cll9N5Peqdk8VaDS6PDAS0ko/r1u
+         oHE8M3gp0yFTNTzep/q1wlOdg+t0BK9F86s5B8MTUq/fez9bZ7I6xE4JE6XJqOjSBFOt
+         ezFMfHuBMd4nq5Ry7x3ibbcEvkvCgPm5PZgUmFqKq5oBOZNpDVv3c8aJcALVPxByAafn
+         88Szk9r4OvgJMDU6QG5B0k3YAa2nLfwknOEjQHBZljUO8iIihd5M0AJ1ItVpL3TBtdwQ
+         748KUmk94OuCrD+HU+xFLjZsl3VoY2JV0CAvWuHcVHmpURCJOyZQK9OPM1aUTLUgOqMO
+         IMng==
+X-Forwarded-Encrypted: i=1; AJvYcCUebHvJD5vIHyIF9Gq6NlTOu7VTJPZbCfetxwnLoxdKo7NcbrHsTGa6Ae0qiqHuFigRaq82gIZt9PY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhMUHS+BO+BJ2leCjlXHLKZA79QXzjCiTF0a51ry7pavunAOoU
+	eR1gyTvylZpRD4gc5RnSLgsecM0Iy5fatEVFzCCMgKa57PdjDfiCxWD/yX2ZrxZcf3yiylcL2VB
+	rzvLxP1Rn36NzphPTB/Z+hA9ODokY2F2j1SOK9SHi
+X-Gm-Gg: ASbGncucQlOU6ZabxwrtSj4if8iqQBb5L6uOQ+nmbLsonRbPe0+WOxw25URjvDgqEMF
+	k0stfQd19f9+YBgy13sIPCCFPvpEyhPMRT2ZbBohqzFhX7LB9p71ut+D6Dax6qfsCZvzi7fUDi6
+	FX7bp/Wd8+7kuVK5E05Zqa761KEkAePBqwPTroZpM4ufIEuY9KG56Jap/ZWToDyG8nwJrJHUYWg
+	G16GvO4rbduzNve/Qm94Mc0Wcu9qZ2deg+CTtULiu5RKOMeGcbl
+X-Google-Smtp-Source: AGHT+IGi9WTnaWtP/uIr7PgRC+0JilLcGDbVVnkS9tGZZgbSezgQwLrXzu3IZ+mvJsC1St6EdcqZZFWTwoYrtUBb1Hk=
+X-Received: by 2002:a05:622a:808d:b0:4e6:eaea:af3f with SMTP id
+ d75a77b69052e-4e6eaeaaf5dmr26573411cf.3.1760370207737; Mon, 13 Oct 2025
+ 08:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20251010011951.2136980-1-surenb@google.com> <20251010011951.2136980-2-surenb@google.com>
+ <aOyf5FxH8rXmCxLX@infradead.org>
+In-Reply-To: <aOyf5FxH8rXmCxLX@infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 13 Oct 2025 08:43:16 -0700
+X-Gm-Features: AS18NWAw--9GoJimKYZPU6XtnCpJ2t59ru9kAaQP92i8jW-vrfiHymNpWuM0LSo
+Message-ID: <CAJuCfpFs5aKv8E96YC_pasNjH6=eukTuS2X8f=nBGiiuE0Nwhg@mail.gmail.com>
+Subject: Re: [PATCH 1/8] mm: implement cleancache
+To: Christoph Hellwig <hch@infradead.org>
+Cc: akpm@linux-foundation.org, david@redhat.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, alexandru.elisei@arm.com, 
+	peterx@redhat.com, sj@kernel.org, rppt@kernel.org, mhocko@suse.com, 
+	corbet@lwn.net, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, willy@infradead.org, m.szyprowski@samsung.com, 
+	robin.murphy@arm.com, hannes@cmpxchg.org, zhengqi.arch@bytedance.com, 
+	shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, minchan@kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	iommu@lists.linux.dev, Minchan Kim <minchan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09 2025, Pasha Tatashin wrote:
-
-> On Thu, Oct 9, 2025 at 6:58=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
-g> wrote:
->>
->> On Tue, Oct 07 2025, Pasha Tatashin wrote:
->>
->> > On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
->> > <pasha.tatashin@soleen.com> wrote:
->> >>
->> [...]
->> > 4. New File-Lifecycle-Bound Global State
->> > ----------------------------------------
->> > A new mechanism for managing global state was proposed, designed to be
->> > tied to the lifecycle of the preserved files themselves. This would
->> > allow a file owner (e.g., the IOMMU subsystem) to save and retrieve
->> > global state that is only relevant when one or more of its FDs are
->> > being managed by LUO.
->>
->> Is this going to replace LUO subsystems? If yes, then why? The global
->> state will likely need to have its own lifecycle just like the FDs, and
->> subsystems are a simple and clean abstraction to control that. I get the
->> idea of only "activating" a subsystem when one or more of its FDs are
->> participating in LUO, but we can do that while keeping subsystems
->> around.
+On Sun, Oct 12, 2025 at 11:44=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
+rg> wrote:
 >
-> Thanks for the feedback. The FLB Global State is not replacing the LUO
-> subsystems. On the contrary, it's a higher-level abstraction that is
-> itself implemented as a LUO subsystem. The goal is to provide a
-> solution for a pattern that emerged during the PCI and IOMMU
-> discussions.
+> Please don't add abstractions just because you can.  Just call directly
+> into your gcma code instead of adding a costly abstraction with a single
+> user.  That'll also make it much eaiser to review what GCMA actually
+> does.
 
-Okay, makes sense then. I thought we were removing the subsystems idea.
-I didn't follow the PCI and IOMMU discussions that closely.
+Are you suggesting to fold cleancache into GCMA? GCMA is the first
+backend donating its memory to the cleancache but other memory
+carveout owners can do that too. The next two on my list are MTE tag
+storage and memory reserved by kdump.
+Also note that the original GCMA proposal from 2015 [1] used both
+cleancache and frontswap to donate its memory. We don't have frontswap
+today, but this shows that it doesn't have to be a 1-to-1 relation
+between GCMA and cleancache.
+Thanks,
+Suren.
 
-Side note: I see a dependency between subsystems forming. For example,
-the FLB subsystem probably wants to make sure all its dependent
-subsystems (like LUO files) go through their callbacks before getting
-its callback. Maybe in the current implementation doing it in any order
-works, but in general, if it manages data of other subsystems, it should
-be serialized after them.
-
-Same with the hugetlb subsystem for example. On prepare or freeze time,
-it would probably be a good idea if the files callbacks finish first. I
-would imagine most subsystems would want to go after files.
-
-With the current registration mechanism, the order depends on when the
-subsystem is registered, which is hard to control. Maybe we should have
-a global list of subsystems and can manually specify the order? Not sure
-if that is a good idea, just throwing it out there off the top of my
-head.
-
->
-> You can see the WIP implementation here, which shows it registering as
-> a subsystem named "luo-fh-states-v1-struct":
-> https://github.com/soleen/linux/commit/94e191aab6b355d83633718bc4a1d27dda=
-390001
->
-> The existing subsystem API is a low-level tool that provides for the
-> preservation of a raw 8-byte handle. It doesn't provide locking, nor
-> is it explicitly tied to the lifecycle of any higher-level object like
-> a file handler. The new API is designed to solve a more specific
-> problem: allowing global components (like IOMMU or PCI) to
-> automatically track when resources relevant to them are added to or
-> removed from preservation. If HugeTLB requires a subsystem, it can
-> still use it, but I suspect it might benefit from FLB Global State as
-> well.
-
-Hmm, right. Let me see how I can make use of it.
-
->
->> Here is how I imagine the proposed API would compare against subsystems
->> with hugetlb as an example (hugetlb support is still WIP, so I'm still
->> not clear on specifics, but this is how I imagine it will work):
->>
->> - Hugetlb subsystem needs to track its huge page pools and which pages
->>   are allocated and free. This is its global state. The pools get
->>   reconstructed after kexec. Post-kexec, the free pages are ready for
->>   allocation from other "regular" files and the pages used in LUO files
->>   are reserved.
->>
->> - Pre-kexec, when a hugetlb FD is preserved, it marks that as preserved
->>   in hugetlb's global data structure tracking this. This is runtime data
->>   (say xarray), and _not_ serialized data. Reason being, there are
->>   likely more FDs to come so no point in wasting time serializing just
->>   yet.
->>
->>   This can look something like:
->>
->>   hugetlb_luo_preserve_folio(folio, ...);
->>
->>   Nice and simple.
->>
->>   Compare this with the new proposed API:
->>
->>   liveupdate_fh_global_state_get(h, &hugetlb_data);
->>   // This will have update serialized state now.
->>   hugetlb_luo_preserve_folio(hugetlb_data, folio, ...);
->>   liveupdate_fh_global_state_put(h);
->>
->>   We do the same thing but in a very complicated way.
->>
->> - When the system-wide preserve happens, the hugetlb subsystem gets a
->>   callback to serialize. It converts its runtime global state to
->>   serialized state since now it knows no more FDs will be added.
->>
->>   With the new API, this doesn't need to be done since each FD prepare
->>   already updates serialized state.
->>
->> - If there are no hugetlb FDs, then the hugetlb subsystem doesn't put
->>   anything in LUO. This is same as new API.
->>
->> - If some hugetlb FDs are not restored after liveupdate and the finish
->>   event is triggered, the subsystem gets its finish() handler called and
->>   it can free things up.
->>
->>   I don't get how that would work with the new API.
->
-> The new API isn't more complicated; It codifies the common pattern of
-> "create on first use, destroy on last use" into a reusable helper,
-> saving each file handler from having to reinvent the same reference
-> counting and locking scheme. But, as you point out, subsystems provide
-> more control, specifically they handle full creation/free instead of
-> relying on file-handlers for that.
->
->> My point is, I see subsystems working perfectly fine here and I don't
->> get how the proposed API is any better.
->>
->> Am I missing something?
->
-> No, I don't think you are. Your analysis is correct that this is
-> achievable with subsystems. The goal of the new API is to make that
-> specific, common use case simpler.
-
-Right. Thanks for clarifying.
-
->
-> Pasha
-
---=20
-Regards,
-Pratyush Yadav
+[1] https://lore.kernel.org/all/1424721263-25314-4-git-send-email-sj38.park=
+@gmail.com/
