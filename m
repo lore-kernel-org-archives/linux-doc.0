@@ -1,268 +1,181 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0C82EB867
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 08:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C40223DFD;
+	Mon, 13 Oct 2025 08:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760344417; cv=none; b=U1DNZhCvx4jA74+nY5yNVxiwkTH0E/x8uPz9Wz49/x4zvwGVmqq1/qZhCxZNJu3tYDaKMyg9B53CDJS4S3cXSeFOH3ymfUOKIlYmgyWQL53QruAKn5iS9EPJWZJJhVH75UpMu2z3EcXmyeuLMM0hWSvuhcWYjHbZN28+2JOn5fk=
+	t=1760344521; cv=none; b=TagOhPpFTVl/WRTMCVGWLK7niRPotpi5YT+Emp5N29nXdnhC1ssIFCoV6xLq1R3dRX0RXf6ftRNLuNJb4ANAnX3iv9EhEGOLOGDPQgm7FJehyCOoWCHnsmCyllXoedg8Uwhx0NMs3CG2x1sGvNS9nrerSWPbOSl+79vrQkb30Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760344417; c=relaxed/simple;
-	bh=ifGEChEhgS0rXLGxIMkdm1rrqU0pnFP0HEcG4honfGE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nfUfUbWADb0u0hTEK+LGZ0EkpQxlxTrqoSUSepQflAQJUyj/aK/EI2eojqKbjL33lqkPdhkCTLorU2EU/FO7ZGXa7pvSlG7Ntvw5SqTzZKB7e3afsQgJjx0EOTe0TdO7PF0PXHnbovc8dYetc+TVl0AIxgtC2V7sMEQViEbly28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d+LX+Xlw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760344521; c=relaxed/simple;
+	bh=sqP8me6x8vHK+dhZnCoXUPEUGaQUJmxSAwIYgLVXXfQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oCZ2P3LrMWXXuYkoPJc84TkYXaNmY9kt50v1JLjL01PK6K4DIou1sw2e7Hkl8t+feEIsWWgRCH12n2EShi0QkBTMItcXZDKpx+YXkmB/XQSENVIDz9dc8fs6ZEredimdXx2IDYWwPm4VniRswCDJQmBdUyNJF5xoyNPfMdSapOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pwmZt5RI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d+LX+Xlw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760344414;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=eHzqoTUxCIyvAxivdG8/KYPlObSpyBug5KjpaqaKlgI=;
-	b=d+LX+XlwcLl1fzLZk8G1kGUgFFmUhtFEdDn3EoSgSX4EjxcOYvFMeM0HQoFEsK7K7D89fm
-	IgL1558bqK2sndtHOd8n1lMqFJGxxJ3b4e/omDO8e3fODZ4VAtFXqrC1ftBpgHX6WLAyJI
-	P5O5oIoIS+VontvTTI7wiL4NQUUsB9I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-0lcWfuXWMESNMk4elru7BA-1; Mon, 13 Oct 2025 04:33:32 -0400
-X-MC-Unique: 0lcWfuXWMESNMk4elru7BA-1
-X-Mimecast-MFC-AGG-ID: 0lcWfuXWMESNMk4elru7BA_1760344411
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e38957979so22222345e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 01:33:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760344411; x=1760949211;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHzqoTUxCIyvAxivdG8/KYPlObSpyBug5KjpaqaKlgI=;
-        b=kqcqpYU4RYw71Q6yBlBMRAG95FMmLul2xGpYOxBdKjae/+HtBjxVV9a6tevrHq7n40
-         kvr7YVqbunXEp8dSPkM0rOxz9pCFAQ0RbgQEM6e1U+0AL2lWXZlH85LsDZyXfJqUGFqh
-         nYa5S5ZOzztg1cEhDXLLM4G6g4bMrb/EMWyD3XqGk3tcNCuVv8KqkLJFS9yWw89QWMtY
-         RmJSj/GCPY/dBn2gh3Nn49zTG8ZNNx9ILaTpXjq8/QjTiRJcF3J9c8Eowwd+tgpOMDuU
-         dwfQd/8zed1CQEoo3bW72311qHNP3sHuFDNO7ZaYsa/4IXJd8fSL6yiIbfWqZhsGJB8s
-         PFXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVpEbOcNaRY7H5mIQ3yBZ49s2Lfm5/SjyVz/M1SxNXtWP0MuHm0hO3/r9MmkeJrpBymB3TSaaCqFFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOXutmA0rDmUSU9nqRmh1wXeOLvd2Ew1eh823NGgNuc4N4sZ88
-	S50MUNW8qQc2/HXUv6650gahj3vRXHOuQAdC2DUWKcMkgVZ1wLXSQzsFfpCCoelfkY0GgRxnKuE
-	bHCWAdYqlIVEX5o1+SNS8s5+pCGw+onyVUl7/XwOTy4082g1/bPo7rbv1/OzmSw==
-X-Gm-Gg: ASbGnctzhpnvvjDO0p/SatzSmtU1z9M0xk47Rbq7SUPHvKpsObCzei3fgrbhm1TwB1j
-	epU2zR6hxSPDD/NORnlYYvdnKmkAoVoEyxlINdQDkLee4qc3fv/zOrsa2i/BjzyUOvdqSBhqJww
-	a8vCqw0NcBSLvJ7f6xneiKl9lEOvRdWSnOWxpg3y65ueoR88NWXDFuGzMjx+x+NPaFAiXD8gUig
-	QtboxeBbDZT7CYR7bletBhZAT0kM0tPC5MiaYqZKhC7cJfkzD/uREb/u1mcCKq8VrQUV23piGlg
-	vLBZ9Y00684PErjetZkc3RUmFWll5s5NdwnIQIXXkDBCP5+tFM7scvk46pedsEnfgg==
-X-Received: by 2002:a05:600c:6304:b0:46f:b42e:e361 with SMTP id 5b1f17b1804b1-46fb42ee3camr82409055e9.41.1760344411396;
-        Mon, 13 Oct 2025 01:33:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7PWpqFZ4D/w/JzkBafScgM+dm2uU2KKBj/FjHvRp7y+l21OlHRHMm58CWEcdN4EUMsrfFXg==
-X-Received: by 2002:a05:600c:6304:b0:46f:b42e:e361 with SMTP id 5b1f17b1804b1-46fb42ee3camr82408935e9.41.1760344410948;
-        Mon, 13 Oct 2025 01:33:30 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.35])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e81d2sm17203089f8f.49.2025.10.13.01.33.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 01:33:30 -0700 (PDT)
-Message-ID: <041c01207d23e6f9a02702428da6f528ce66599b.camel@redhat.com>
-Subject: Re: [PATCH v2 13/20] Documentation/rv: Add documentation about
- hybrid automata
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>, linux-kernel@vger.kernel.org, Steven
- Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
- Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Mon, 13 Oct 2025 10:33:29 +0200
-In-Reply-To: <87jz12yimw.fsf@yellow.woof>
-References: <20250919140954.104920-1-gmonaco@redhat.com>
-	 <20250919140954.104920-14-gmonaco@redhat.com> <87jz12yimw.fsf@yellow.woof>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pwmZt5RI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99F4FC116C6;
+	Mon, 13 Oct 2025 08:35:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760344521;
+	bh=sqP8me6x8vHK+dhZnCoXUPEUGaQUJmxSAwIYgLVXXfQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=pwmZt5RIWCiJOqlM4kLmg22p30EWttw4n5RbO1SzjJ8m4xXzlcqDSelkkq5d/zJ1l
+	 5WT6Mxii6RJQootl5x0DFx2EdLeowWhCB9zRA6bsC+X2Ezuf7lwfpsTmcO86s/cSic
+	 IoC7l9HyOpeR00mN3w0N4HU4RroNongmYqxLGvdqL/jlGt0+WFodR0a0WaepCS3BvZ
+	 jPbOJSwH7h6WhwnyF60hH5//lpH/4zm2I2Hr2GszteYNPus9EtH8JRUrTLQxK0+R+c
+	 dLrPu3ZkqnuMcCyCxmMfqLliYCr8LPIU8VW3QKnFkgbp1l/DQ8csL8EIwbRmlVmVj7
+	 /IezHZX/0eGzg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v8 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Date: Mon, 13 Oct 2025 10:35:15 +0200
+Message-Id: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMO57GgC/33SyU7DMBAA0F+JfMaRx1uSCqH+B+LgZUxCSVPsN
+ AJV/XecFtSiRBzHkt+sJ5IwdpjIpjiRiFOXumGfg/qhIK41+1eknc8x4YxLpkBR3xtqj4Gic7R
+ Fc6C8NgLAc9dIJPnbIWLoPi/k80uO2y6NQ/y6ZJhgfv0Hm4AyqqSz1jPZKIDtDuMe38shvpJZm
+ /ivoJhksCLwLDApgmdMGzBhIYh7oVoRRBaaynkvtFGBNwtB3gTF2YogKVDrOUIAayV3C0HdBA1
+ rNai5C2O9U7UWRi670DehYs2KoLPgjWtsqFkQyi+E6k7ga5Os5hoE1EIjmEbyP8L5uuqIH8d8N
+ ON136THlMzlaDbF4097DARwASVUXGpe5dG87fJlmbSN6Fszlm7on+bLsSYhzUHfjZti0iVoGp3
+ Kqc7fL7YOk6cCAAA=
+X-Change-ID: 20240515-dma-buf-ecc-heap-28a311d2c94e
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>
+Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
 
-On Fri, 2025-10-10 at 15:46 +0200, Nam Cao wrote:
-> Gabriele Monaco <gmonaco@redhat.com> writes:
-> > Describe theory and implementation of hybrid automata in the dedicated
-> > page hybrid_automata.rst
-> > Include a section on how to integrate a hybrid automaton in
-> > monitor_synthesis.rst
-> > Also remove a hanging $ in deterministic_automata.rst
-> >=20
-> > Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
-> > ---
-> This brings back bad memories from university..
+Hi,
 
-:')
+Here's another attempt at supporting user-space allocations from a
+specific carved-out reserved memory region.
 
-> > +It is important to note that any valid hybrid automaton is a valid
-> > +deterministic automaton
->=20
-> Perhaps remove the double "valid". Usually people use the phrase "any
-> valid A is a valid B" to say that B is a superset of A, but it is
-> opposite here.
+The initial problem we were discussing was that I'm currently working on
+a platform which has a memory layout with ECC enabled. However, enabling
+the ECC has a number of drawbacks on that platform: lower performance,
+increased memory usage, etc. So for things like framebuffers, the
+trade-off isn't great and thus there's a memory region with ECC disabled
+to allocate from for such use cases.
 
-Alright, will do.
+After a suggestion from John, I chose to first start using heap
+allocations flags to allow for userspace to ask for a particular ECC
+setup. This is then backed by a new heap type that runs from reserved
+memory chunks flagged as such, and the existing DT properties to specify
+the ECC properties.
 
-> > +This is a combination of both iterations of the stall example::
-> > +
-> > +=C2=A0 /* enum representation of X (set of states) to be used as index=
- */
-> > +=C2=A0 enum states {
-> > +	dequeued =3D 0,
->=20
-> I think you already removed this " =3D 0" in an earlier patch?
+After further discussion, it was considered that flags were not the
+right solution, and relying on the names of the heaps would be enough to
+let userspace know the kind of buffer it deals with.
 
-Right, missed that.
+Thus, even though the uAPI part of it had been dropped in this second
+version, we still needed a driver to create heaps out of carved-out memory
+regions. In addition to the original usecase, a similar driver can be
+found in BSPs from most vendors, so I believe it would be a useful
+addition to the kernel.
 
-> > +	/* Validate invariants in i */
-> > +=C2=A0=C2=A0=C2=A0 if (next_state =3D=3D curr_state || !res)
-> =C2=A0=C2=A0 ^^^^
-> =C2=A0=C2=A0 indentation error ;)
+Some extra discussion with Rob Herring [1] came to the conclusion that
+some specific compatible for this is not great either, and as such an
+new driver probably isn't called for either.
 
-Good catch.
+Some other discussions we had with John [2] also dropped some hints that
+multiple CMA heaps might be a good idea, and some vendors seem to do
+that too.
 
-> > +Due to the complex nature of environment variables, the user needs to
-> > provide
-> > +functions to get and reset environment variables, although we provide =
-some
-> > +helpers for common types (e.g. clocks with ns or jiffy granularity).
->=20
-> Is there theoretical reason that functions to get/set variables cannot
-> be generated? Or you just do not have time for it yet?
+So here's another attempt that doesn't affect the device tree at all and
+will just create a heap for every CMA reserved memory region.
 
-Not theoretical but practical, the monitor cannot always define /what/ an
-environment variable is. In case of clocks (jiffy and ns) that's easy and t=
-he
-parser does in fact generate get and reset functions, the user only needs t=
-o
-specify the measure unit as explained somewhere else.
+It also falls nicely into the current plan we have to support cgroups in
+DRM/KMS and v4l2, which is an additional benefit.
 
-It is possible to add more exotic variables that don't follow common clock =
-rules
-and need different get/reset definitions. Now, in practice, that may not ha=
-ppen
-with clocks (I cannot think of an alternative clock definition), but can ha=
-ppen
-for other variables. For instance if the variable describes the preempt cou=
-nt,
-the model cannot know in advance and the user will need to supply how to re=
-ad
-that in the kernel (just like we do with tracepoints, although event names
-/might/ hint something).
+Let me know what you think,
+Maxime
 
-As I get it, this isn't so clear so I should probably try and reword it.
+1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c@houat/
+2: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com/
 
-I might just assume variables without unit but with a reset are, say, jiffy
-clocks and never expect manual definition of the reset function, but that m=
-ight
-be misleading at times: e.g. if a user wants a ns clock but forgets the uni=
-t,
-the monitor would still build.
+Let me know what you think,
+Maxime
 
->=20
-> > +Since invariants are only defined as clock expirations (e.g. *clk <
-> > +threshold*), the callback for timers armed when entering the state is =
-in
-> > fact a
-> > +failure in the model and triggers a reaction. Leaving the state stops =
-the
-> > timer
-> > +and checks for its expiration, in case the callback was late.
->=20
-> "callback for timers armed when entering the state is in fact a failure
-> in the model and triggers a reaction." - I have problem parsing this
-> sentence. How can "callback for timers" be armed? Or do you mean arming
-> timers while entering a state is a failure in the model? What is it a fai=
-lure?
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v8:
+- Rebased on top of 6.18-rc1
+- Added TJ R-b
+- Link to v7: https://lore.kernel.org/r/20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org
 
-Right, that sentence doesn't make sense.
-We arm a timer when entering the state, expiration of such timer is a failu=
-re.
-The timer is cancelled when leaving the state, so in fact leaving the state
-before the timer expiration is the only valid behaviour.
+Changes in v7:
+- Invert the logic and register CMA heap from the reserved memory /
+  dma contiguous code, instead of iterating over them from the CMA heap.
+- Link to v6: https://lore.kernel.org/r/20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org
 
-> > +It is important to note that timers introduce overhead, if the monitor=
- has
-> > +several instances (e.g. all tasks) this can become an issue.
-> > +If the monitor is guaranteed to *eventually* leave the state and the
-> > incurred
-> > +delay to wait for the next event is acceptable, guards can be use to l=
-ower
-> > the
-> > +monitor's overhead.
->=20
-> How about having some sort of a "background task" which periodically
-> verifies the invariants?
+Changes in v6:
+- Drop the new driver and allocate a CMA heap for each region now
+- Dropped the binding
+- Rebased on 6.16-rc5
+- Link to v5: https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org
 
-I didn't update this part, but now timers can work also via timer wheel, wh=
-ich
-is cutting down costs by sacrificing some reactivity (not correctness thoug=
-h). I
-assume the background thread would be quite similar to what the timer wheel
-already does.
+Changes in v5:
+- Rebased on 6.16-rc2
+- Switch from property to dedicated binding
+- Link to v4: https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-bd2e1f1bb42c@kernel.org
 
-But I definitely need to mention this because the timer wheel is not as hea=
-vy as
-the hrtimers and its overhead is usually acceptable (unless proven otherwis=
-e for
-a specific monitor/workload, I'd say).
+Changes in v4:
+- Rebased on 6.15-rc7
+- Map buffers only when map is actually called, not at allocation time
+- Deal with restricted-dma-pool and shared-dma-pool
+- Reword Kconfig options
+- Properly report dma_map_sgtable failures
+- Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org
 
-> > +This is the full example of the last version of the 'stall' model in D=
-OT::
-> > +
-> > +=C2=A0 digraph state_automaton {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D circle] "enqueued"};
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D plaintext, style=3Dinv=
-is, label=3D""] "__init_dequeued"};
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D doublecircle] "dequeue=
-d"};
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {node [shape =3D circle] "running"};
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "__init_dequeued" -> "dequeued";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "enqueued" [label =3D "enqueued\nclk < =
-threshold_jiffies"];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "running" [label =3D "running"];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued" [label =3D "dequeued"];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "enqueued" -> "running" [ label =3D "sw=
-itch_in" ];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "running" -> "dequeued" [ label =3D "de=
-queue" ];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued" -> "enqueued" [ label =3D "e=
-nqueue;reset(clk)" ];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { rank =3D min ;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "__init_dequeue=
-d";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "dequeued";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> Btw, the last block (rank =3D min) doesn't seem to serve any purpose. But
-> the last time I checked months ago, the parser explodes if it is
-> removed, not sure if it still does now. But this is another reason that
-> I would like a rewrite.
+Changes in v3:
+- Reworked global variable patch
+- Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org
 
-Mmh, that's automatically generated by Supremica and, I believe, in some mo=
-dels
-it's tuning a bit the position of nodes. Quite strange that the parser expl=
-oded,
-those lines should be completely ignored.. Still, we know the parser needs =
-this
-big refactor.
+Changes in v2:
+- Add vmap/vunmap operations
+- Drop ECC flags uapi
+- Rebase on top of 6.14
+- Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
 
-Thanks,
-Gabriele
+---
+Maxime Ripard (5):
+      doc: dma-buf: List the heaps by name
+      dma-buf: heaps: cma: Register list of CMA regions at boot
+      dma: contiguous: Register reusable CMA regions at boot
+      dma: contiguous: Reserve default CMA heap
+      dma-buf: heaps: cma: Create CMA heap for each CMA reserved region
+
+ Documentation/userspace-api/dma-buf-heaps.rst | 24 ++++++++------
+ MAINTAINERS                                   |  1 +
+ drivers/dma-buf/heaps/Kconfig                 | 10 ------
+ drivers/dma-buf/heaps/cma_heap.c              | 47 +++++++++++++++++----------
+ include/linux/dma-buf/heaps/cma.h             | 16 +++++++++
+ kernel/dma/contiguous.c                       | 11 +++++++
+ 6 files changed, 72 insertions(+), 37 deletions(-)
+---
+base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
+change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
+prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
+prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
+prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
+prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
