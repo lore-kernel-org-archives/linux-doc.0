@@ -1,103 +1,108 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8FE199BC
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 09:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517EC24469B
+	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 09:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760348754; cv=none; b=bl0D05DJTHwJVAA+k/61+sW2WdAKpAaqjNn6LuK8SLUb5Va7xyfGpUoZ5AxeVy7JNVjHXgtGnONSYWg9JpG5Fb/xF8zJGf3KbBqSvX4L5P10enDxjm7TIjPLUMo6VgmP5iUe8v37Nun2JbWLGKYQxuk7gus58ua6GhRuNl4ScEA=
+	t=1760349408; cv=none; b=tRVmARXk7R1nXonSm49xygHfqgZPqkuAp6Htm0gmHxlcNB5UX8334TaEff3SSDJTPz9mNO7Ex57I6SPJ6fBEw+TxGu2hzNYrPvULtxCny7yMKHkj80hTFfp05IQWSNIUVmA0SRpu1LmI+0DCzyne+pTV/f4c4pGHXV4YgdmcFaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760348754; c=relaxed/simple;
-	bh=f5S5EzRGvuz/r4X9fJ+a+VGxsMoAlj8KpasOUBJh7Iw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnwioi+YlNf76YACnJtsFRkMbExZoUSJYYUTDaqzuTH7kRredwytXP+Qzaa7MPP3bHek0rJg7EFI0WhklVg2XNR/JGW8Gu2p95/VbSBciert3TThxrviXcMNLaJs4aUPg01rIi3MbvZZDrOnQagHrNsTs/m4AngCX82dBXJKzY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cMFqA0Wi; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760349408; c=relaxed/simple;
+	bh=EGmxIR9kKOSX51N1HxGcneN2hhaHwAGf1JsXcHdoHVw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lEpJi2C7bw4pRem//f8OrdrqoEizZHaMFO5qTjSdd8ziMMylQBaJbLmXgU38F9AFV1kx1qJ8XTdBtxyRZJh6u+6KsjuLqupDsWWFjJHYlLIHRuHnTJeUqlnPVY82vYaI9swgRA/w/2o7Gh1Ims/LArQRwyUViw+3MsmNhn24BHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4i8Uarc; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cMFqA0Wi"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e384dfde0so41053635e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 02:45:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4i8Uarc"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso2673304a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 02:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760348751; x=1760953551; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oVu1hEkIf44NHHLfFJPgY+f91pjliiXRGzufnhZn7d8=;
-        b=cMFqA0WiHBlr+qcD6I3/7PFTzWl85dVmq/H7T3GWOpm2RsiGufqjMM72VEAJCLkDAe
-         DhwME2wCbZUe7DEF89ZDFF4VAJIqsnIFEAV4/JTlOPfdtrnofR7iyXVAZN1hfd2N1zvD
-         cjkK560wz2MEV8zSGtcv412sbn+D+S2jvHo46NcSOT4S+qM5RMLA/XRskJdCNXcUR6ub
-         vdIHk6GkDbWXdAUqoptWSvI6inMArupUEQsM91Kh7K9Cc82OfnGs1NVqdZdPosvEkm+K
-         9WpEpB5qvuaAYhIBEdqgsjXlBVTSV9WoyT0ozfU53TqH9EdL0CEbRVWMilrPcGyk2xwo
-         xz2A==
+        d=gmail.com; s=20230601; t=1760349406; x=1760954206; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fJifNO/MlvLEol8h2cpUsahhKb87GytRbrPHmHhE5dM=;
+        b=H4i8Uarc6bjN2gVX5qLBjCa0nVGVJQckdrm56FA3S5nghxdBjfny01RXcuz0eA7Kp9
+         X/+QQmMZDkAI00aQCqkx/EuFp0AYIWHE5yHFAV2EOlKG7/EoTiUbR+AiA+1elktykWxR
+         iNq0Icotv2fpyg9xPsrjT6uutm1uHFZtZnu+5is3kXq61WCRmvIQCtBCO2ekcVw7B/dy
+         B5v/AzPQd3MhlKgB6alWIj9iYpcQOw+M1FMAZZLMlKp4av4DYBpmCURMpdGag7vljfLk
+         WgrBGl5vDVHISvG3qzBls1bhaD9GGsOAHUiXiyKWCOHgs1OJIqq/1amz7kAoYptIRNIQ
+         fmJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760348751; x=1760953551;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oVu1hEkIf44NHHLfFJPgY+f91pjliiXRGzufnhZn7d8=;
-        b=id+RrEKsQfGoFveYpPl2NhgLx45MKupCtThc5c1P8ADHwMYJJamFWKnWn6VdSY1GZ1
-         45gSt7Fcf+sNK2S4/AvrgzXSj1XMfglUJxarKwN/22ZoGicCOjy8MnV99ugjz0+EWw8M
-         /ZNgdrodj2ZiLOJQENP1RXAaMFwZvkZC0JnZHxxaE/e0CHA727QS2lZd3nZVBj9xvOCO
-         omEKq/yFmR/ACPoXY3abvCWJPr/lSaGVCHwT3Nnj56xo0QR5GgGKf8kT8mJt6Gcyu1Py
-         5iFYlHOS59Hb/rwmYXq4VuaV+j9P0MDhJZ2QPRsg+b+N6m10NcCl6QBmY/Ubl6v75Q9A
-         LuGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHddwNM/LbZOTBztPK+JYBVNFuoQlqoHRtYL0KL9bNF1PYTtZk6QTulXyHt++WBiELP9nfb7GyMLI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUQlkwhnvaA3mDzLsA3gFFy3ceNMxuBImvU1RjpoE5jEl7LaB4
-	x256cymzdbu+ZsdX0Yq+6ArQg21DldRJ2W7Pv+x9RwmBvz/rW0tvxlL6Lpdr01Ml47z3kLfcvY5
-	lEnr4c+VDgWjDxgQS3KFjqUiEN1lWI7AA0sEDnwf/
-X-Gm-Gg: ASbGncs3E88sZCXLlX58WVUi2yR+FqaUwhjTN1DUbUsMTg9OWAjWrAimgW+0ZENIt9n
-	vzpitnvZWL+aZcxyYJ2XJI7hJjp/B7BHgM5X3FTZDyctCA9o5526S8xMaURyGfXwyUVaMKghfs1
-	0PuAHayXXk6369xMlBT8wW6rhK5sx+4fFpQWvFiM3iaaYnB2yComRosorfrBGY2OHYq5c2luIvz
-	Fs55Ln9V9jDlWS/748GPo05XSoDbOeSBt6TR6HFVPSf4q2kthCJvsybxC/zp6n6ucs6vi/C
-X-Google-Smtp-Source: AGHT+IFqaBixRi77uwFxD0KO5fWa70Oa0mflVhXrjLFcAwKyNCUyus7ehKoAqeSTAbzAk4ZDHyQpfzilqQdd3qFUiUs=
-X-Received: by 2002:a05:600c:502c:b0:46e:3d41:5fe6 with SMTP id
- 5b1f17b1804b1-46fa9a9ebb8mr133351055e9.9.1760348751245; Mon, 13 Oct 2025
- 02:45:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760349406; x=1760954206;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fJifNO/MlvLEol8h2cpUsahhKb87GytRbrPHmHhE5dM=;
+        b=CBjawM+UYd0RVYyJntizLqob/13qjBFJqvqkUz+v7Qge/tNHUb7hkSE8trlKDiG8Vp
+         KPJ+LoyPO+ygGYZonHegrYn/PEpS6F8/hrO/bSHsMJPV+u40EII4X3D5L5yAZ7IpG+9i
+         NseA4t64Xlmsqxx+dhZnPT2MMJTREd7AXhvfJWAyGxrUDXlrZw6pYP8aXcd33wk5X+m/
+         KQCmyKCaIAUAUiQyBVcjtfk7dnRof+L6yAQYkwvCVgkR6e0sCvrUV4AQ0xKlKo20Te9K
+         /oS8d9MDhSozKi+AoQ1ma9TTFYtfwCLeFCnQH1Bqk3weuFB5eU70frMBdM0DMnVSKzIc
+         r+Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzlDN5lYv5zMYBpI82uRSFv6gP5sXYlrLuSZrxpK7jV9ChnRG80aWIkEUp9ARj28qOx3tJGpIGQf0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsdsliBHB/miReDfzy4XmtNI2c/ACmk7ycZEZhRWj1JGeNNuwY
+	N3VbajZdLQe+BXCO6TQP2GOfqrCDimS9qP8H+Odia/A8UOF5MkXwy20j
+X-Gm-Gg: ASbGnctcUU7loSb5s60N75glRCkqACrCVOrJvOCy4lWoJHid62V2dC33GwhllBWWR8K
+	Bmt4nJJlZJSYTr0zg1utbKyGJUy/sZicsWNqfEnWoYU3N/WZVm5BH51KxxuO7Vh913qi+CXuczt
+	gbjmvWoPaXwZVT3W6bs0n+XGnbHD5VkIoOvicENuI1/f3fEyL7wUE/Fx8G0H7I6esyfHObXhNhq
+	LfeCc8LN0nR0Is92Izi6UeYmZlv6R7/uOBzn7R0zFRJ4Ba/P6yNqntOSIvIKWjWQK5VTOj6nQQx
+	X/n4DczImGK4Gdn1y+eoXfYv25btRadp/YyTo2Trf1eW6b6PiTRPpHbWZrTTjA3HmYYI1lPGobt
+	UHCkttYmbfJ8fpdmwbCINtLTv2PEdx6QWmzr9BvF5fbSBqu1SjZuAsDM=
+X-Google-Smtp-Source: AGHT+IGzpC5rqfVmsWGMJXGyOLj84deaeSTSLGbIECeDpck55uHP7Se5TrOU8rzQ6Rt7w04+qGi3PQ==
+X-Received: by 2002:a17:903:903:b0:274:3db8:e755 with SMTP id d9443c01a7336-290272c0358mr237517515ad.30.1760349406411;
+        Mon, 13 Oct 2025 02:56:46 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f078aesm128287165ad.64.2025.10.13.02.56.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 02:56:45 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 3174B424BFFB; Mon, 13 Oct 2025 16:56:43 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	Markus Heiser <markus.heiser@darmarit.de>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Silvio Fricke <silvio.fricke@gmail.com>
+Subject: [PATCH v2 0/2] Associative arrays documentation formatting cleanups
+Date: Mon, 13 Oct 2025 16:56:29 +0700
+Message-ID: <20251013095630.34235-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251003074939.465517-1-benx.guo@gmail.com> <20251013043812.13186-1-benx.guo@gmail.com>
-In-Reply-To: <20251013043812.13186-1-benx.guo@gmail.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 13 Oct 2025 11:45:39 +0200
-X-Gm-Features: AS18NWC7zd8zRon9s3XEh0rKZRaVm37ojpo0BrRNHaKslRzb8eH_XUzUW9LbRAU
-Message-ID: <CAH5fLgi4C454xG67vN-T5rRV1X4-rAGEj_ftnHqTOoN61wtcKw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add translation of rust/testing.rst
-To: Ben Guo <benx.guo@gmail.com>
-Cc: si.yanteng@linux.dev, a.hindborg@kernel.org, alex.gaynor@gmail.com, 
-	alexs@kernel.org, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, 
-	corbet@lwn.net, dakr@kernel.org, dzm91@hust.edu.cn, gary@garyguo.net, 
-	hust-os-kernel-patches@googlegroups.com, justinstitt@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	lossin@kernel.org, morbo@google.com, nathan@kernel.org, 
-	nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, tmgross@umich.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=708; i=bagasdotme@gmail.com; h=from:subject; bh=EGmxIR9kKOSX51N1HxGcneN2hhaHwAGf1JsXcHdoHVw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlvzhTpTzz78X/QzmP7+U+2fnJteX7S43LshGkn3W/9+ aI/RUSbr6OUhUGMi0FWTJFlUiJf0+ldRiIX2tc6wsxhZQIZwsDFKQATuWPA8N9z7deAJX3GIv8c A77en772USUHx4czn1iz2xkEhGTuu51gZPjqqFoiGmv06vyp6M2LP+rNXiFc1tmbf0ti2cfzvWE X1ZkA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 13, 2025 at 6:38=E2=80=AFAM Ben Guo <benx.guo@gmail.com> wrote:
->
-> Hi Yanteng,
->
-> I=E2=80=99d like to confirm the expected use of the In-Reply-To header fo=
-r versioned patches.
->
-> In my case:
->   [PATCH]    ->  Message-ID: <20250929163531.376092-1-benx.guo@gmail.com>
->   [PATCH v2] ->  Message-ID: <20251003074939.465517-1-benx.guo@gmail.com>
->   [PATCH v2] -> In-Reply-To: <20250929163531.376092-1-benx.guo@gmail.com>
->
-> That means the v2 patch points back to the v1 message ID.
->
-> Could you please confirm whether I should start a new thread for [PATCH v=
-2], or if there=E2=80=99s something wrong with how I used the In-Reply-To h=
-eader?
-> Thanks for helping clarify this.
+Hi,
 
-When posting a new version, you should start a new thread.
+Here's two-patch formatting cleanup series for generic associative array
+implementation docs. The shortlog below should be self-explanatory.
 
-Alice
+Enjoy!
+
+Changes since v1 [1]:
+
+  - Apply review trailers (Randy)
+
+[1]: https://lore.kernel.org/linux-doc/20250920024227.19474-2-bagasdotme@gmail.com/
+
+Bagas Sanjaya (2):
+  Documentation: assoc_array: Indent function explanation text
+  Documentation: assoc_array: Format internal tree layout tables
+
+ Documentation/core-api/assoc_array.rst | 196 +++++++++++++------------
+ 1 file changed, 103 insertions(+), 93 deletions(-)
+
+
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+-- 
+An old man doll... just what I always wanted! - Clara
+
