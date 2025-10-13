@@ -1,121 +1,247 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E1725782D
-	for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 14:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A26BA34;
+	Mon, 13 Oct 2025 14:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364861; cv=none; b=oSecrDnG9sc1TVLPgZlt9q7x3LHHgirX3GOL9gna2q8Of0VnFEu4OX1sQU/Zzssy0+UBG3iQvKYSdcISxFsdSrjE95YmwVVsN7sdO0zFMoR6Q5szoegFoLgTGqLDsKedso0q/SQRthRfucULbzmQzOvfjjIzaWLw4E1xiYN94KQ=
+	t=1760365751; cv=none; b=AYMb86/RsCGfha0ARjGu+WMxGTLZIhnb/pq9jhIoejUacmrYbtNiOAo3yccptUFiEjdXLJird1GzpQQ2hXiXS986kpgzItLnzPXuvt6kxcLhwOl0l/AaOyhIKTnseuA6QXYlDp42vDQvw44EGjWLUnOZ0qgntfikElG+I/3pDkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364861; c=relaxed/simple;
-	bh=SCBVOsr/kT8A+RaFkSlJdSvgcPvHd4n/mesfUP90fLw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UHB4js7HVfc2eoBDZAJ/e1sojAShmhda2nXqfNwb9g89ZWcWPCDHSV5Cm8KbAVkUhx0R4K7pMQl4KpR69/h8d8sDSXrkJxNPw3Q3nUfTVKzggi5vuoN38PXCBj8HRuPZtkaMtZKluxKU4JNfxxRrv3JWABGM8MJXcAiz7R29Zpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bv/aovTM; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760365751; c=relaxed/simple;
+	bh=F/2NhTvQoYcHrCoEWLDdV3Gco6Uc84RYWpYsa5Dnf6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aNNakTxz0oOBrQdcxkGeQyMOLMXv+ZUYoa1Yci8iAGcWL4aU+ejMQLnOx2B5cisNgpPQM0/NiwcXiDhu6McqDfKkY5ZnnV+i1DO99ueepPqjEJNEQmCfyxtQXc6xI15X5tgF2BvIx0UUrB5sdQr8RTE0y/qo1f0cjZs3uf46qtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CsRl/NI/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bv/aovTM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760364858;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=avtB/MLVqaqYb6cJjOOoguTOP3UV8Btzs9wLIrHJUWA=;
-	b=bv/aovTMoX9NjMNVoFntpDSC78T6P6MN6k+vdn0dxDpMvWGhILWkrChuscg4qc6V3zuMs/
-	HrzXfCX0Ox00IhNX2wB6R04tHO+LkYsF8NmuMSooK9Aj6AlCSjmsxzgTrn8ssrMxF7JEqr
-	XcZ07zI56afPJN6mdNOgZsG7eLaALNY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-452-92gmUrk1OpyqhNnif15BJw-1; Mon, 13 Oct 2025 10:14:17 -0400
-X-MC-Unique: 92gmUrk1OpyqhNnif15BJw-1
-X-Mimecast-MFC-AGG-ID: 92gmUrk1OpyqhNnif15BJw_1760364856
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-46e3af78819so21880525e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 07:14:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760364856; x=1760969656;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=avtB/MLVqaqYb6cJjOOoguTOP3UV8Btzs9wLIrHJUWA=;
-        b=QwMQXDsuPIvSmZqeSrgeqS+ZoVxccC0aB1W9OaTO+qOpgPCv32ERcpv5qQs95b58/H
-         YfWsHxoT24wDCjl5SoC16OO9z+76/zGtxr0aMLXfGN+4k+53EYZDmytgtF0ycFFJyyoo
-         wi121VhA99RbvE2oThTdz2EoXP62IHDb71ddV+ugx9XYHat9e9kaq1s3qcgNxbdg8/OA
-         rQalsnHUbIsqYACL0n5H0/vdiVW31t9TnlFaYhLpQ/l+rm3fN8ZDQtf5j6rBKkoVY6rH
-         4p6cZhSybtAtfsxnMz3/pLyKOQm+MIToh+nMZgdt8GZaCNmhBsDmLfYkWBOS2ZQelkup
-         xS8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXGfm3xw+0MNPBH3dRDYXf6jiedCjOChTszfBUmjI1i9Iz4T1u//9kk1ht3fPqHXM0wNeL0klx8zyE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQYr9zQopO6AP6bAT64VjljS/+kIF+DaSnR1Jx1u3HvDJbiq8b
-	mXFgUoy4iOQDN9niPHFj0l5yMIHl1KGUphQInhHyA90OeqNNuEXc9DS3au23NQ3G9CZJx0+Y221
-	BaHNp1jRt4axQ8RV3oZHEsFVXqdwvHTPG925GYXZxRnj5jTAgIyA7QdrSZrssCw==
-X-Gm-Gg: ASbGncuZp3FnvH1BxKLUp8napJlWp7m13zxlStVlDbFeOQ0tKSV928aKAsIWJbGvqVP
-	4JcZx08lsyAEwqVhSfvWQ4yjjFC4h4t/7lW6JRIx2xVQUFKMsmq0PDmXIxKk2Di/qD1QGOkkoRy
-	xnQK799MzTQkCtg66uqiEUMHMQQBDMfS80PQmHygFx3d45D9ldlZ/t37heWzbjtftTe77U2/F9t
-	dCcgKSl8fEzkfs3PrREw1cKmwIzCo+g9G3qI3zJbFLoG0IbpLAzImi5HN3ZSDMYs9P/bees3TZ7
-	3lEnJNLYBmrAZvOCnTlZPRL9mOL00i+3YHioPXPiFt0/Et/w/BzRu3Ci8j+R2XLBUQ==
-X-Received: by 2002:a05:600c:628e:b0:46e:38f7:625f with SMTP id 5b1f17b1804b1-46fa9aa2123mr128366665e9.10.1760364856215;
-        Mon, 13 Oct 2025 07:14:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFHETg7OzrKPGssdxOk4Xay7k9qUcbXQBRsqtLsD0xpqB63fcoVeQyDZ4FRhiiS3UOs6njcyA==
-X-Received: by 2002:a05:600c:628e:b0:46e:38f7:625f with SMTP id 5b1f17b1804b1-46fa9aa2123mr128366395e9.10.1760364855797;
-        Mon, 13 Oct 2025 07:14:15 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.35])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab3d2d65sm126639365e9.2.2025.10.13.07.14.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:15 -0700 (PDT)
-Message-ID: <db32cd9db7168a28e6d16d16b3bbe905a6c2c9f9.camel@redhat.com>
-Subject: Re: [PATCH v2 15/20] rv: Convert the opid monitor to a hybrid
- automaton
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>, linux-kernel@vger.kernel.org, Steven
- Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, Masami
- Hiramatsu	 <mhiramat@kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
- Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Date: Mon, 13 Oct 2025 16:14:13 +0200
-In-Reply-To: <87cy6uygn9.fsf@yellow.woof>
-References: <20250919140954.104920-1-gmonaco@redhat.com>
-	 <20250919140954.104920-16-gmonaco@redhat.com> <87cy6uygn9.fsf@yellow.woof>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CsRl/NI/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 997A6C4CEE7;
+	Mon, 13 Oct 2025 14:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760365751;
+	bh=F/2NhTvQoYcHrCoEWLDdV3Gco6Uc84RYWpYsa5Dnf6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CsRl/NI/GDGOUS2eEJYxa1ThhC3yAF9KEAGeSMpwZdyS1BfePHQ/DBHLmsdQjlyRL
+	 SvOgfDalU+O+Cq4xQx3W/8b/SMzL54LgCGnhSimpDtO6LWJxtNHnArYdKC1QQ6sy7h
+	 1CG2XI5VnCcRvCxxqFLUYT4pwfurJA6TQ0er6ZgsVn0o4sWlEzQwHpNIi/cp5kA0Z9
+	 Xnt1m7Qv8cHgVMmBpzQEfJsIm7JimTNzmWr7vIaN9TSwJ7gR3oiZrVw0fAW6beg7g4
+	 Qeb1gvEjP1tKc3UNAhdHk7IP+B2Jo1AUaIGrQZqUkjW9bNYChfmI6pI0ODml6ZPqea
+	 BB+/hba8BPb0g==
+Date: Mon, 13 Oct 2025 16:29:05 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Jonathan Denose <jdenose@google.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, 
+	Thorsten Leemhuis <linux@leemhuis.info>, Jiri Kosina <jikos@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	Sean O'Brien <seobrien@google.com>, Lucas GISSOT <lucas.gissot.pro@gmail.com>
+Subject: Re: [PATCH v3 04/11] HID: haptic: introduce hid_haptic_device
+Message-ID: <auypydfkhx2eg7vp764way4batdilzc35inqda3exwzs3tk3ff@oagat6g46zto>
+References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+ <20250818-support-forcepads-v3-4-e4f9ab0add84@google.com>
+ <2b377001-7ee8-449c-b107-1c0164fa54f0@leemhuis.info>
+ <3184c648-661b-4cf4-b7cf-bd44c381611d@infradead.org>
+ <1cd7fb11-0569-4032-905c-f887f3e0dd4c@leemhuis.info>
+ <f2243a9b-e032-416b-aef8-958198ff3955@infradead.org>
+ <CAMCVhVOm5xzN6pkX5cKMSHrMqvdCD_14+XuunAuJLENgLO1NqA@mail.gmail.com>
+ <04df1bb8-8409-4ece-a21c-4c71592eb852@infradead.org>
+ <CAMCVhVMO4y9P=Y3SWvY6BvA1sUK2o=Gn6Hk2UpaueNN=6CNHZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMCVhVMO4y9P=Y3SWvY6BvA1sUK2o=Gn6Hk2UpaueNN=6CNHZQ@mail.gmail.com>
 
-On Fri, 2025-10-10 at 16:29 +0200, Nam Cao wrote:
-> > +		 * If CONFIG_PREEMPTION is enabled, then the tracepoint
-> > itself disables
-> > +		 * preemption (adding one to the preempt_count). Since we
-> > are
-> > +		 * interested in the preempt_count at the time the
-> > tracepoint was
-> > +		 * hit, we consider 1 as still enabled.
-> > +		 */
-> > +		if (IS_ENABLED(CONFIG_PREEMPTION))
-> > +			return (preempt_count() & PREEMPT_MASK) > 1;
->=20
-> FYI, there is plan to keep preemption enabled during tracepoint
-> handling. So keep that in mind when this monitor breaks.
+On Oct 13 2025, Jonathan Denose wrote:
+> On Fri, Oct 10, 2025 at 5:52 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> >
+> >
+> > On 10/10/25 1:30 PM, Jonathan Denose wrote:
+> > > Hi all,
+> > >
+> > > Thanks for looking into this.
+> > >
+> > > On Fri, Oct 10, 2025 at 1:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> > >>
+> > >> Hi,
+> > >>
+> > >> I think I found it... see below.
+> > >>
+> > >>
+> > >> On 10/9/25 11:48 PM, Thorsten Leemhuis wrote:
+> > >>> [Top-Posting for easier consumption]
+> > >>>
+> > >>> Mainly writing this mail to bring Lucas GISSOT in here, who reported the
+> > >>> same error yesterday here:
+> > >>> https://lore.kernel.org/all/aOgvA8Jiofcnk2xb@ARSENIURE.localdomain/
+> > >>>
+> > >>> Lucas there suggested:
+> > >>> """but it seems to me that the #if IS_ENABLED(CONFIG_HID_HAPTIC) in
+> > >>> hid-haptic.h should be replaced by IS_BUILTIN(CONFIG_HID_HAPTIC) and
+> > >>> Kconfig updated."""
+> > >>>
+> > >>> And Randy: Thx for the closer investigation! It explains some of the
+> > >>> "that feels odd, am I holding this wrong" feeling I had when reporting this.
+> > >>>
+> > >>> Ciao, Thorsten
+> > >>>
+> > >>> On 10/10/25 06:50, Randy Dunlap wrote:
+> > >>>> On 10/9/25 7:43 AM, Thorsten Leemhuis wrote:
+> > >>>>> On 8/19/25 01:08, Jonathan Denose wrote:
+> > >>>>>> From: Angela Czubak <aczubak@google.com>
+> > >>>>>>
+> > >>>>>> Define a new structure that contains simple haptic device configuration
+> > >>>>>> as well as current state.
+> > >>>>>> Add functions that recognize auto trigger and manual trigger reports
+> > >>>>>> as well as save their addresses.Hi,
+> > >>>>>> Verify that the pressure unit is either grams or newtons.
+> > >>>>>> Mark the input device as a haptic touchpad if the unit is correct and
+> > >>>>>> the reports are found.
+> > >>>>>>  [...]
+> > >>>>>> +config HID_HAPTIC
+> > >>>>>> +  tristate "Haptic touchpad support"
+> > >>>>>> +  default n
+> > >>>>>> +  help
+> > >>>>>> +  Support for touchpads with force sensors and haptic actuators instead of a
+> > >>>>>> +  traditional button.
+> > >>>>>> +  Adds extra parsing and FF device for the hid multitouch driver.
+> > >>>>>> +  It can be used for Elan 2703 haptic touchpad.
+> > >>>>>> +
+> > >>>>>> +  If unsure, say N.
+> > >>>>>> +
+> > >>>>>>  menu "Special HID drivers"
+> > >>>>>
+> > >>>>> I suspect this change is related to a build error I ran into today:
+> > >>>>>
+> > >>>>>   MODPOST Module.symvers
+> > >>>>> ERROR: modpost: "hid_haptic_init" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_pressure_increase" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_check_pressure_unit" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_input_configured" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_input_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_feature_mapping" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> ERROR: modpost: "hid_haptic_pressure_reset" [drivers/hid/hid-multitouch.ko] undefined!
+> > >>>>> make[3]: *** [/home/thl/var/linux.dev/scripts/Makefile.modpost:147: Module.symvers] Error 1
+> > >>>>>
+> > >>>>> The config where this occurred had this:
+> > >>>>>
+> > >>>>> CONFIG_HID=y
+> > >>>>> CONFIG_HID_MULTITOUCH=m
+> > >>>>> CONFIG_HID_HAPTIC=m
+> > >>>>>
+> > >>>>> Changing the latter to "CONFIG_HID_HAPTIC=y" fixed the problem for me.
+> > >>>>
+> > >>>> Sure, but that's just covering up the problem.
+> > >>>>> First, I get this build error:
+> > >>>>
+> > >>>> ERROR: modpost: missing MODULE_LICENSE() in drivers/hid/hid-haptic.o
+> > >>>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-haptic.o
+> > >>>>
+> > >>
+> > >> ISTM that tristate is incompatible with this newly added Makefile
+> > >> line:
+> > >>
+> > >> +hid-$(CONFIG_HID_HAPTIC)       += hid-haptic.o
+> > >>
+> > >> hid-* lists files that should be builtin, not loadable modules.
+> > >> These should all be hid-y.  AFAIK, hid-m is not useful.
+> > >> (A maintainer can correct me as needed.)
+> >
+> > More correctly, any .o that is listed as being built as part of
+> > hid.o should is going to be controlled by CONFIG_HID and should
+> > not its own have a Kconfig symbol at all.
+> >
+> > E.g. here:
+> >  hid-y                  := hid-core.o hid-input.o hid-quirks.o
+> > hid-core, hid-input, and hid-quirks don't have their own
+> > Kconfig symbols.
+> >
+> >
+> >
+> > >> So adding a MODULE_LICENSE() and MODULE_DESCRIPTION() to
+> > >> hid-haptic.c and changing drivers/hid/Makefile to use
+> > >> obj-$(CONFIG_HID_HAPTIC_        += hid-haptic.o
+> > >>
+> > >> fixes the build errors for me.
+> > >>
+> > >> Angela, Jonathan D., is there any reason that
+> > >> hid-haptic needs to be builtin instead of a loadable
+> > >> module?  It's no problem for hid-multitouch.ko to call
+> > >> into hid-haptic.ko (both as loadable modules) as long as
+> > >> hid-haptic.ko is loaded first.
+> > >>
+> > > As long as hid-multitouch.ko is able to call into hid-haptic.ko I
+> > > don't see any issues, but is there a way to enforce that when
+> > > CONFIG_HID_HAPTIC is enabled, hid-haptic.ko will be loaded before
+> > > hid-multitouch.ko?
+> >
+> > I only know of two possibilities though there may be more.
+> >
+> > a. use request_module(true, "hid-haptic");
+> >
+> > This would probably be used in the hid core somewhere, afterthe device matching is done.
+> >
+> > b. use udev. When a device that needs hid-multitouch is
+> > discovered, have udev load both hid-haptic and hid-multitouch.
+> >
+> >
+> > I see that hid-haptic.h is written so that it has stubs for
+> > when CONFIG_HID_HAPTIC is not enabled. Can hid-multitouch
+> > operate (in a reduced capacity) when HID_HAPTIC is not enabled?
+> > So that they are separate modules and hid-multitouch is not
+> > dependent on hid-haptic?
+> >
+> > There is probably a use case for hid-multitouch without having
+> > hid-haptic loaded since hid-multitouch existed without having
+> > hid-haptic around at all.
+> >
+> > It seems that you want both of them loaded. And then Lucas
+> > has reported a build error when HID_HAPTIC=m and
+> > HID_MULTITOUCH=y, so either (like Lucas said) HID_HAPTIC
+> > should be bool, not tristate; or in Kconfig,
+> > HID_MULTITOUCH should depend on HID_HAPTIC, which would not
+> > allow the problem config that Lucas reported.
+> > But that forces devices that want HID_MULTITOUCH to also
+> > have HID_HAPTIC loaded, even though they may not need it.
 
-Right, I've heard of it, thanks for the heads up. I'll adapt the monitors o=
-nce
-that happens.
+One way around it is to declare a stub struct haptic_operations and let
+hid-haptic.ko fill in the function pointers when it loads and remove
+them when it unloads. But it can be a little bit tedious, especially
+because making it properly working involves RCUs (we don't want to have
+mutexes everywhere).
 
-Thanks,
-Gabriele
+> >
+> The idea behind these patches was that hid-haptic would depend on
+> hid-multitouch but not the other way around. I am fine changing
+> HID_HAPTIC to bool. That's what I had it as initially, but I was asked
+> to change it.
+> 
+> If everyone else is fine with that, I can send out a patch.
 
+I'd still prefer hid-haptic to be tristate, just because
+input_ff_memless is tristate as well. Right now distributions don't
+support the FF bits, so enforcing this into the kernel seems a little
+bit harsh on them and difficult to debug for early adopters.
+
+That being said, that build failure is pretty bad. So please send a
+(temporary) fix ASAP. If making it boolean solves the issue, then yes,
+send a boolean fix and then we can revisit it. But right now the urgency
+is to fix that.
+
+And if making it proper tristate is too hard, then we can leave with
+bool.
+
+Cheers,
+Benjamin
+
+> > --
+> > ~Randy
+> >
+> -- 
+> Jonathan
