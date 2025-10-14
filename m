@@ -1,71 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C177F2AD2C;
-	Tue, 14 Oct 2025 00:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F31620459A;
+	Tue, 14 Oct 2025 01:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760403598; cv=none; b=XUAUKKruWlABVc0ewl5jtvgIrCq7haE5LhduL5D//gZB5PPWXbVUJFDs06XMaPgezAYSbOVczlMmSrilrKEjj4TuCd6fl3s1c4f+nssVw8q5oBoWKJkLdCz5NZkbXdDzKVvaJHptj20vJABEPXOVx7BFpuEg0BVTCyiu2Swpuio=
+	t=1760404238; cv=none; b=SsIqE7PVwBzhYQTibbHywJr6Qf1/IRZi+kHEWkxdgSZH9A5nJKQhoTO1AhyVhz8/fs+vJUan57MDzlCVhSgJoggH0tmSnb4v7Yaoe1fBaACe9uKAT+l0u53GVRn0w1ZtpG2HxKQhkRGmF2fmUkUwA9GuG2LGF57nuuTvS481LO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760403598; c=relaxed/simple;
-	bh=jyIGK6CqZ70vitj4rxxyNXFbD+WRSwokQAcb0XcUpYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DOrdYnYEbO4v76L67vwC7+i+2KRYDdZ/z94/XsNSYzMpIzCwG/dymf1g3COKZlALeOaimxt59TcEIPmQ+IAhu+19t6i5j/IUkLm4VJu1O6P/qPCLUoVHZg0aSVP+8NMMFjwKS1AJo5bUINkzd1mz41XaGDpAN2WwcVREQRwfZ+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3PK4HS/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760404238; c=relaxed/simple;
+	bh=1cmCUMS7mG4f28VNM+CU4smnr2ARWXs2ei2X92Wc0Yo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sdZwOJSjID6hIg3qTzei8VXpZAL7UmfeeeXRj5ipSIhO1eqjkDOhXjl9/hHC6AxM5wg+Ua/L+CjrBIjqyINR86jzyBoSxQUUbuZFGHBAvpN2mDKq7G/EFsl0WP1uQxWpKcgUGFVQNwnLQP6v81rnnV7hYZlNFAi2NQHTaAu+J2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=K/iZre5+; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3PK4HS/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07BA8C4CEE7;
-	Tue, 14 Oct 2025 00:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760403598;
-	bh=jyIGK6CqZ70vitj4rxxyNXFbD+WRSwokQAcb0XcUpYA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=a3PK4HS/B++6pWmOFHjg5/TLu5KnclqML9r+rOrlEuVVPPLYY0HK1WhSCQrZ7TCrl
-	 F01l5BIKXKozpuaMzOKylsyMOEyUlIvhXuLR8CIls1ybUCjhETYBk/X5TvfJ8mxoYV
-	 D0i8kauhEN77I0mcBQKdSJAEtqP9PWd10JKwHPGqgpJSzxdBip6EUGdpeYAGbYefJx
-	 yICC0q2JnfPLHCgsifhNdOpp9EnqJiw2PZosc+3Qy3Y7Lb+DWQQo4Ph7oO4B8mvRPk
-	 RMM207VuJGLbBfLKxHGc+V9u3G7+lRfB0I/hByEkcynnPlA6SFIg4cTz/c8qYLl2Pd
-	 PxnjWKZXa9jVg==
-Date: Mon, 13 Oct 2025 17:59:56 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?QXNiasO4cm4=?= Sloth =?UTF-8?B?VMO4bm5lc2Vu?=
- <ast@fiberby.net>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov
- <ast@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Arkadiusz Kubalewski
- <arkadiusz.kubalewski@intel.com>, Daniel Borkmann <daniel@iogearbox.net>,
- Daniel Zahka <daniel.zahka@gmail.com>, Donald Hunter
- <donald.hunter@gmail.com>, Jacob Keller <jacob.e.keller@intel.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Jiri Pirko <jiri@resnulli.us>, Joe
- Damato <jdamato@fastly.com>, John Fastabend <john.fastabend@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdl?=
- =?UTF-8?B?bnNlbg==?= <toke@redhat.com>, Vadim Fedorenko
- <vadim.fedorenko@linux.dev>, Willem de Bruijn <willemb@google.com>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 3/6] tools: ynl-gen: use uapi mask definition
- in NLA_POLICY_MASK
-Message-ID: <20251013175956.7a2fcf6d@kernel.org>
-In-Reply-To: <20251013165005.83659-4-ast@fiberby.net>
-References: <20251013165005.83659-1-ast@fiberby.net>
-	<20251013165005.83659-4-ast@fiberby.net>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="K/iZre5+"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59E19p1d1568441
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 13 Oct 2025 18:10:10 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59E19p1d1568441
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025092201; t=1760404210;
+	bh=fXxLpy7MWKqs5wtbmtbBzXIJW+LafuV0UecNrrgbowE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=K/iZre5++7t6qKD3aL2gPA+3D8zE1hIWc3Fv4K41BIKxV3PiaPICffeXeolxogdW4
+	 x0wy6A/rK+Gupq9l42bLT40D9rlUJ8LG1xy1VmxaONUFJ+33VqNFlxSnPXkw2EKt4o
+	 Zw/5fgUA9X0Px7nHRK+jwlYv3b7lOy8U9uM3F+16KbG7cBeSut9e2V5+3Aipzbo+zU
+	 bXdKoAGhCwoX+DuGtHxlbn9vJVfoOFrwFec5+ampdH01wKrNiGUB0FX85dMZOxQimz
+	 ZVOC7y/pMyaATzqycbBqIojVAKjvlVE00iuCwth4QBgh5Xu2Idu78JfQqLbCr+TCKU
+	 rK9c78kcWEA5w==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
+        peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
+        hch@infradead.org
+Subject: [PATCH v8 16/21] KVM: x86: Advertise support for FRED
+Date: Mon, 13 Oct 2025 18:09:45 -0700
+Message-ID: <20251014010950.1568389-17-xin@zytor.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251014010950.1568389-1-xin@zytor.com>
+References: <20251014010950.1568389-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 13 Oct 2025 16:50:00 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
-> Currently when generating policies using NLA_POLICY_MASK(), then
-> we emit a pre-computed decimal mask.
->=20
-> When render-max is set, then we can re-use the mask definition,
-> that has been generated in the uapi header.
+From: Xin Li <xin3.li@intel.com>
 
-This will encourage people to render masks in uAPI which just pollutes
-the uAPI files.
+Advertise support for FRED to userspace after changes required to enable
+FRED in a KVM guest are in place.
+
+Signed-off-by: Xin Li <xin3.li@intel.com>
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
+Tested-by: Xuelian Guo <xuelian.guo@intel.com>
+---
+
+Change in v5:
+* Don't advertise FRED/LKGS together, LKGS can be advertised as an
+  independent feature (Sean).
+* Add TB from Xuelian Guo.
+---
+ arch/x86/kvm/cpuid.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 52524e0ca97f..f4ff5ccbcf1e 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -1014,6 +1014,7 @@ void kvm_set_cpu_caps(void)
+ 		F(FSRS),
+ 		F(FSRC),
+ 		F(WRMSRNS),
++		X86_64_F(FRED),
+ 		X86_64_F(LKGS),
+ 		F(AMX_FP16),
+ 		F(AVX_IFMA),
+-- 
+2.51.0
 
