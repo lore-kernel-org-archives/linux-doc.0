@@ -1,470 +1,589 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA8330DD23;
-	Tue, 14 Oct 2025 22:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760480595; cv=none; b=oqb9/e8XHxEytxzXOQNp4Zt5xm1bVmSpN9MnkvPylu0jF9uDTj07ObuVSVnr9lWrCepmDj/m1ITK8j46Zx5CuvN7Uv98JAnVvr5RmKiOpsL4t6xvTYqt63HbWnHbFzsKWCP12Lk02TnV7LBqmgrg8S00jfoPgOgQExkt7Kbt/Go=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760480595; c=relaxed/simple;
-	bh=3hkzj3Kt/kNPNR2LFD4Dp3vDulhHe66CM8V7HI6q2iA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eO8QZsTwqnWP/NcjzbFRXp6sHzrjLwygNW7ksb1fjxyulMyGjeB5mQSfPD6hDPOIm31v56WIxfl9Do51pKEk9kL0kWRrc1NhOJ7TJys1KUoKcmjNDlOf4y4OfdEzm61I+Rny90vW7wVWReHwm0Rvu9Nh/v4N+8aLJVvqCgcHyHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=lRGPAL/N; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DEA1547D2;
+	Tue, 14 Oct 2025 22:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760482551; cv=fail; b=VUYg34ifrg2euoGI39dmD3aDP20aiGbpbJlzaOGc88GdBjMRfpSjpLms6KV+iKoVvhDrAc2eeWTZ23Pn0Ua+zGutCVPWpb2SrICD2Kt5lyEH4fB5f38B+Y0+jXnzRiIzUKAwpUJ5ryrp7gMcrxeMo10jS4kQNrS0fUjwmlPXtvE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760482551; c=relaxed/simple;
+	bh=qmxMxPYv3ENWK2T0RoO8Y4dMf+h8zW2G5yI2NyLUCRw=;
+	h=Message-ID:Date:From:Subject:To:CC:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=bwyf9XTkxYE8TAvzUikyz0i/cPD0zOds4pBJQYt/EqZf9UIXXehQzn+tRlZ+ql9BHHjRp2hBb+Cngx6IPSb8iziHrOmvCPdPCoMjHoyUn2iSSzHsOArZNddNLJ4cn9FpQdXtl89Q9BkSPz8j0DVQisqRQHrGnAii18cWA/QSQEY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgFKGxC7; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="lRGPAL/N"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EJoFeu015613;
-	Tue, 14 Oct 2025 18:23:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=TGTW8
-	fzk5tHDksz65x4RRk+OyTm7FWBm7GbOZikDkoE=; b=lRGPAL/NrW7PkV0STEjAK
-	QGg3Tpi774p9uVCqD1B/eH4tDPk7MpVuAj7vAOTRrBkOwTOvgPdzaiTgxFYNXozB
-	nSEUwSFvNV7uJuHJGHpovq351krIJNr9q9MQqJ/62NbMTF1gTuVd15Rp4glyPxJP
-	SSEdgoRhga5fTY4/poEVVXVgcSrZcjpYXj4badMqoI78RmrkFcb/X6TCh1+l3/9C
-	/yDH+RTfonVdEvMRUdYJZjCBGKJhqaeNiYRoDm0b049Zw4IHgfLIEwr1P82ULXE6
-	KuiCTuXLVSzFvg5htxV6W30AbCuskiJGmQ5Mw3vmES2ya2meIv66gLwybr2Odlge
-	Q==
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 49qh30veex-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 18:23:08 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 59EMN7D3042922
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 14 Oct 2025 18:23:07 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Tue, 14 Oct
- 2025 18:23:07 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Tue, 14 Oct 2025 18:23:07 -0400
-Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 59EMMqsG005538;
-	Tue, 14 Oct 2025 18:22:54 -0400
-From: Marcelo Schmitt <marcelo.schmitt@analog.com>
-To: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <jic23@kernel.org>, <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
-        <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
-Subject: [PATCH v5 7/7] iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
-Date: Tue, 14 Oct 2025 19:22:51 -0300
-Message-ID: <95db7ffb928f4707c2e68a906a35b826c6a1d29b.1760479760.git.marcelo.schmitt@analog.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1760479760.git.marcelo.schmitt@analog.com>
-References: <cover.1760479760.git.marcelo.schmitt@analog.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgFKGxC7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760482549; x=1792018549;
+  h=message-id:date:from:subject:to:cc:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=qmxMxPYv3ENWK2T0RoO8Y4dMf+h8zW2G5yI2NyLUCRw=;
+  b=DgFKGxC70Tw/Wdp8CbcOHx2mKfhC72NnEFgbGw7EL6L6jFu7U4p0BkGa
+   qBeit/7guEPMS7FCDzmQj/MertW5YTGmgJutE1C3zBmUP0uPKvRWEwiJr
+   E7b1J+LV2xTxYxDSSDX0hFB/0dx4eiSZ2mRU6DZFQDctHl65Box9wBdiD
+   7od9eo7iBz0vNLEk2TGMjrPH/DAK/LuB8eRH9Eq37oLav48EeHPafX9gf
+   r9vPd2uz/3/1T2AQqtQvkNGLvw/GfcTHT2WBqsoTmUTz2jMvL/cHBGMAZ
+   SwtSu1EP4ud0lzbta1sMMmnLZBZJ3EWz+Lhf/LYvTpb4CKymeIwfiRgcL
+   A==;
+X-CSE-ConnectionGUID: GTg/Y315R9GL9q7Vg/ASww==
+X-CSE-MsgGUID: c9TXGbLJTVC5icd27Tui8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="72923878"
+X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
+   d="scan'208";a="72923878"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 15:55:48 -0700
+X-CSE-ConnectionGUID: RaUakXV8TbaVCpmPvNQ5Eg==
+X-CSE-MsgGUID: HKNA8LcRROWUCksxkrLLKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
+   d="scan'208";a="186257493"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 15:55:48 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 14 Oct 2025 15:55:47 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 14 Oct 2025 15:55:47 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.70) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 14 Oct 2025 15:55:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MghKo8dD33q+1Om11l1rpG8kisWV6ZZat5sAutraacj+UX1I2F54d9kWMpJekAudGev1FGg47fL0/6GBSiYhBOdjyxZJUK6XEFZjima1k8AWOzt0NqnXuOT2ORQe0wTWntIa3puEaQu5fJPfo5dBZ/YsFXW9LaBRroiAGw9RDD/sY3oM49IXQKh4y79HHdQaeonhbkc93vsq2/BEoAQChodReJMkfm4JURDIi7e5p2X1jEcHChAPw3FrLw1CCCk2Kj3dCqdwc1103U/6TYe0fA/4OpAH6ixtmH2h4zMqzBPyY3aTw6/hXMDOElsA2v59HJFmdDauZpYAly2ZvcVQgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2OhwO25rEhOwgEIFAZXZaGiUrQQoWJxq41AqQWxnJ6M=;
+ b=AIIGFKldSPpRc8+e8I+9i6KEDtO+dmi2A/WpLBPxzWh1Fe2ACmYJIo//VoOD5V2lZkWnL7sXPxluWSElUhvkLmoIU3qfgcbuDsDauxx/7ef+NcvsNRGSlexVafaZai72d4yH9hHVweU1Ks7gWFR8IJTbn79yflkQYJpJXEpDHwmhIA6H2fXGAFk2iftFgY9smVM0Agan5rnt9n6o3XhWUv0ZaiNwXZp9UboOYUDWpcXTT3bgPIrcEDYMonfjdiTYXwYBM8YBlbfZO6qYysDqyd1oidkP3xdSPfeSTe0IdVg49236vgwO0VbLeHCfOD2Zx4VDxxorDp/9HHW0Hvp+WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH7PR11MB7025.namprd11.prod.outlook.com (2603:10b6:510:208::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Tue, 14 Oct
+ 2025 22:55:43 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.9228.009; Tue, 14 Oct 2025
+ 22:55:43 +0000
+Message-ID: <bf18c704-66d0-40cb-8696-435ac1c928b5@intel.com>
+Date: Tue, 14 Oct 2025 15:55:40 -0700
+User-Agent: Mozilla Thunderbird
+From: Reinette Chatre <reinette.chatre@intel.com>
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+To: Dave Martin <Dave.Martin@arm.com>
+CC: "Luck, Tony" <tony.luck@intel.com>, <linux-kernel@vger.kernel.org>, "James
+ Morse" <james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
+ Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250902162507.18520-1-Dave.Martin@arm.com>
+ <aNFliMZTTUiXyZzd@e133380.arm.com> <aNXJGw9r_k3BB4Xk@agluck-desk3>
+ <aNqQAy8nOkLRYx4F@e133380.arm.com>
+ <d15d97d1-286c-4857-8688-4d8369271c2c@intel.com>
+ <aNv53UmFGDBL0z3O@e133380.arm.com>
+ <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
+ <aO0Oazuxt54hQFbx@e133380.arm.com>
+Content-Language: en-US
+In-Reply-To: <aO0Oazuxt54hQFbx@e133380.arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0329.namprd03.prod.outlook.com
+ (2603:10b6:303:dd::34) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: cACZjnHDiOZEc6aDWDXiIXwBHSoWfx6I
-X-Proofpoint-GUID: cACZjnHDiOZEc6aDWDXiIXwBHSoWfx6I
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyOSBTYWx0ZWRfX6c6kwIoFQUYX
- RjxCuB7KeRY52b+cKLCywNNJp+w50sS1LJd9mALjXkTAsmzzUZxuFfZVY54VWS7++smYlcOCL0I
- W1JFHABtfNaWbDIsv6kTQwlXwGHuUlSLa7GeYa1z571n5Prqj0YiAIu6WhH70f/Rebp2dYjbBbz
- xtV+1eB/nPSz5MXn7VAPrm+GCDRpmbft1nXppupopISdJc4pohOqsgqBB0+Qkq8sigXd9kNwQxG
- ZTWheBAJfujwLUM2j2j8zRXLJcBSodg8dNznEUuVaoMPVpglpr/0pDcw1a6gSIYjcuoN9MQanjq
- +uUTdXIRBRnQYhm+2kxh+n4kTJmjygsErS4PnGuUJzojkh3mY7RZTJFz339LG8JYBfH0VKYsVrx
- bPv8L7Bp55c84SrA14Thg24TWQHDwg==
-X-Authority-Analysis: v=2.4 cv=YscChoYX c=1 sm=1 tr=0 ts=68eecd4d cx=c_pps
- a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gAnH3GRIAAAA:8 a=9XtCXr9kHfidp3qlRtUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110029
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH7PR11MB7025:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba8c8252-d3c2-4d5a-e352-08de0b74cdb5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1dZVlAwakUvcVQxZTZUZ0V5S01TUS9ROE5JVTNWUFFtbW0wY1RIZFdyOHk5?=
+ =?utf-8?B?MmRtNDFZbExyeXFrR1NuOXVqY2theXlGdVJDN093K2pob2ZqTkx3VGZEQ0E1?=
+ =?utf-8?B?RjRoYkVnemRZU3hhQm1OS1V5ZDdGeGpzOTg1VHZFeSsyQytwdXVnTFE2Mkgz?=
+ =?utf-8?B?RzFQZ1c1RXhIbWdUVy9jcFJNOHd2eTg0VVVJbFpHd3ErMGlvZ1Z3azlFdlJI?=
+ =?utf-8?B?NHdBQ2V0SHREWmxVNHl0eW5tUXlETXVpK2E4YUlaQzJ5dElsT0FJQ2xwVys4?=
+ =?utf-8?B?cFE1QUE5cytiWFJLQU9BN2p4OGY5bHRxZzVDQko4T1JOanJvaElaZHMwaDFz?=
+ =?utf-8?B?TVZLZ3R0UnU5d0UxbXRGMXRXTnZTb21oRm1xdCtFSUJ6cFZLa2JOeXVPdXBW?=
+ =?utf-8?B?cGZBNmZqYXpJRTJITmhENmhFemZmT1dyM3RsNHY5NGFuTE9qcnU3RitnU0Nm?=
+ =?utf-8?B?YVhhQlE3WUVZdEd6N0FWVEtBdTdmRGh0MmwzRlUyd0dTdU83cWtiSmFiSGZM?=
+ =?utf-8?B?QzFRT2lDVlk0Uk1WM2IveWR3eUUwZlR5MktEZ2Q3Mnp0V1RXd3NRaFNhQlZy?=
+ =?utf-8?B?UTduU1R5aFhrZmxwNHFCbXBrRTd4Z0k1UFdxRWwxMktQODUzUTJQQndiamhO?=
+ =?utf-8?B?WXo5cUdIakgvVjgvSFFOTmNDeGI3TEg4VGp0U2I3Sk9UczlEUHRVb2dsdi9n?=
+ =?utf-8?B?aDU2d1pGRkJMU2ZrdzdCak1QWHVpWkNIOWhtb1N5cWttYUtlT0lFWndwUmdQ?=
+ =?utf-8?B?azZZNUFxWEcyOWxTT1FmalpYMXZGZkpGNUlUdmd6VE93R1pLdlM5Uzl3dEFR?=
+ =?utf-8?B?aTJPdDJMRmxMOHVxNXczRkhPMzYzaVdaaU0rNitiRzFrMmJRemdHc1ZmaW9D?=
+ =?utf-8?B?YXV0eVQ3d3Z2dzYxWXFmd293N2hlS2xUSjZiUjIzWEppb0VFUkx3V1A4SlFl?=
+ =?utf-8?B?ZHF3ZjhVRm42ZEIyMzh1Z1BjR3BEcVdRc01KclJmcDF3UjlRbG5TL0FEa0R3?=
+ =?utf-8?B?ZVoyYk9MbUplVk0wSkd4dDdPSUNWM0o5TVBYRm5sMG03eDNTRXJDV1QrN1Nq?=
+ =?utf-8?B?U3lYLzc2UTdxRXRIeC9DQTZBOXlPbXlUVkx3U0JWY1VxbTF5RnJsTE1nRGt2?=
+ =?utf-8?B?YlhDQkJpTWZ0OXM2My93c2NjUmJMOHFxL0d6VTBnYmJkaTMrOTZYZ3NYL1VX?=
+ =?utf-8?B?KzJNME85b1VXb0RHWTVMdXN6ZTh4SkMyYzIyU1JPWk1BcVp4di9Ka0JrbEFH?=
+ =?utf-8?B?TDlLd2FRc2dWUDV4aGZsNVcrQ3dYZlZpM2RMY2tqQXE1a1pmUEpBTGowSmNm?=
+ =?utf-8?B?bktYMlk0azhEYlJrNHBnWkRPTTlmR0tOSUVFM0tGbTVkSExRNDRqNWxwV0N4?=
+ =?utf-8?B?Y1VjZWJ4ZjZSclpzOFhjWU1BVDl5WklWVG9ibkhaeHJjamZyeURjOFZzM29z?=
+ =?utf-8?B?eENVUHZ0c0llNmJlSGFvcTQ4SkdBMTd2ZVZaRFBQdUpoQ2QvdzZDMWMwT0FF?=
+ =?utf-8?B?a2hYNkc1QUdFUlluUlh0djlWK0dud2lKQWdPVDFSQm9WRTRST3pwOE10cjFl?=
+ =?utf-8?B?TzR6bFlPTHM2blBuaEdGN3ZuK0VZd3VxM1hXdjlFeGVUL3E4VHRDdmQ4cWhm?=
+ =?utf-8?B?VDUvTEE1VTVyalg4eHRRWE1EWlErdXU5T25xUnJ1enROOG4xMXdjcjl0QldC?=
+ =?utf-8?B?ckZTQ2txWjJkaG9YanVJZXFHNWY2UmZMaWI5eFAyQklITGN4WkM0N1BJYU5k?=
+ =?utf-8?B?TlVOcS9tdDRUbkhhMFdWdlM2eTlhZ25IVnZ5bVpBQWFOWnJTQ1FoM3hMQVls?=
+ =?utf-8?B?T2JESkMyMXVvcDN1TTdrVnZzZUtHNkhxNnV4WXhydjdrUzhRbzJQaklLUnEv?=
+ =?utf-8?B?RW5HekhLMCtyNkdONDdldkVOMCtIMTNMRDVoVk0xS1JsQWc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1Q5VWVtYkNPVnlTcjZlaGxYOFRUc3pXWmYwZm9pZWg5L3I0cTJMZ0JIRnBF?=
+ =?utf-8?B?alNOZTkwSDMzdlYwWlhsaWQ2SU1GU0h5VStjSVlMQjNENXdMZzQwamRFMFdH?=
+ =?utf-8?B?RVNzdTJQRGlBcHdORnlTNEk1K3VhdW9RK1hKbXJFbmVLRUx3TTFUK09DakVu?=
+ =?utf-8?B?ZG02bjQxR3gxUm9vTUFqTVFrbnZDZ3l5SFZCcmRQcnMyWkp1bDBLUXptVHJB?=
+ =?utf-8?B?MTJobUY0aWdMbFViN0tZRkFCbU95MGJjVTFub3c0RERzbDBoVFZZRzRyMUlh?=
+ =?utf-8?B?b2MxUlBIR0ZRUWQxZTlIWDBZTG1YRXd3MVB3RE9DazB2SlVsTlFVSWZ5Q2Z3?=
+ =?utf-8?B?dnpHUGcvL2x2cjN1RHlkUXZHWncyNVAxYXBoWWxVeWlCN2p2NjM5TWhFeTBk?=
+ =?utf-8?B?WWNDbEZrSkxpUnhlZWhmTjkrSW56L1Q0d3BiV3dweGlDdkVZcmljUjY3c0Q4?=
+ =?utf-8?B?UVEwb3lHOUhOMnpxMlBMNnZyU25aWEJvK1VDTElHelZnTG94alFETkM5bUl5?=
+ =?utf-8?B?aE1vMDRTRVJsZEVQa3BkOFNwZkZWa09EaDlmcmN2d1o1d3FpdncraXgzR3FU?=
+ =?utf-8?B?UEJqWTN3SlkvVTYvKzdaS1ZIVGlMVTg5L0hzT1cybzdSazBHZitZd25IR1A4?=
+ =?utf-8?B?RWJYVDJYU1FzUjMyMGxpbW9sWjdRSURRRXA0cmRSL1BnOVBFNUh6VGp3RFZL?=
+ =?utf-8?B?Mi81RTVwUzREbFlzSWZjU2cxTUo3S3pBUzhOYkJJVGVHdk4ya0ZkS0ZNTStV?=
+ =?utf-8?B?cm1QcnhIVDdxbEVGNVpNUTRlZnlpOUNtR2pxTGh3YWhGNGFwcWNEVWVVRVYw?=
+ =?utf-8?B?T0lnM3p1SXJENVBaSWpScWdvUDljNjh6Mm80SE9kaEhHRFRTVkovSmxlUDdE?=
+ =?utf-8?B?d1ByWUFKMHBqRUlsbTNUWXN2WkFpYkkwR05iMTZBa2hYVU05Z1NhMmxhcXk4?=
+ =?utf-8?B?V0NoeVNFTi9CSGdORWk5SXBhSjVYRFo3UkkvNUgzdGovb0VxN0k0WG0zRjNh?=
+ =?utf-8?B?N0g4Z25HNjV4RVVEekZZK0lMaERpS2dJcVNxMjVPeElzSVFkSkEyaVZYcDBh?=
+ =?utf-8?B?N1FaeCsyc3RsU2VoV0NwRHJRVEUzMmdhcDBFU2Y5MWE0NUdTd3RsaU5TS0c1?=
+ =?utf-8?B?OStFQlMyelRub2g1VEFJcndmYlNldUFtbnJwZXJCdUxibzVkK0VMcGtNaG9t?=
+ =?utf-8?B?elJwRnB1RXVRVGJRVnk0TGVocGtIM3F5cEl0aThqSVRRTWlPd3kxdVRBQ0dB?=
+ =?utf-8?B?VVU2TlpjTlZXY1pBZXluSFRHWkxrV0JTM1dSNFVGUDBKTkhlZDFTNmk3Q2xY?=
+ =?utf-8?B?NXpEZ3FHQVJxNDRjczRVOVQ1N2s0aHRuRUJ1Nk1ZbDBjeHFsWXBYaVRHc2gv?=
+ =?utf-8?B?S01IOXJiUWlaK0pIYnNZSDlGcWp5TmlFZFZRQkxNUG5JWVoyZndWdGxyc0JK?=
+ =?utf-8?B?VEdFWmtLU1Jkb0Q1amk3OWRSWGcrNTc3SFpYb0QzdFhUVjFUS0NsNFlsZ0tm?=
+ =?utf-8?B?cmNzSnFhQU40Z1BGWk5WUXI0SGpHYjkyYmR4WmJHN1IyUUtteWFCZVJFekI5?=
+ =?utf-8?B?Q2QrWkYrRHl5WkxyS3NlM2s3Nm9JcU1nUmFFWWhIOWFxVTNRdmt0L3E5NStT?=
+ =?utf-8?B?aUY3YTNjMWlUUkYwVGIvQUNDUnk0Yi8yNGxXaGQyZGNhcGllYzJwd09oZTRY?=
+ =?utf-8?B?b2IzRlk4R1VPeWlyKzQrbTcva3lrSndiWmNvejZWNC9VK3RCNTlzakNJZkgv?=
+ =?utf-8?B?QzlMR3Nkdit5WFJWby9TT2dQTzQzZEd5aGdicnRod3h1ZzVldXYxTDlKdCsr?=
+ =?utf-8?B?SUF3UVZibEZMZ2I2M3hLUVA3dCswdFZXSys2YUp1ZFIxODJhZjgxcGZ6bURL?=
+ =?utf-8?B?Q3ZtYVFXRmdsQktwa1d3N0ViZlBhNUJwd1M3ZktkZGpsZDVQaThTMEVNTkI3?=
+ =?utf-8?B?YjJZdVZIU1c5T3B5L1U3c2lkUnlHcEVhVC8yMXp4bHJBQUVGamZEM1NCNnBp?=
+ =?utf-8?B?c0dkbjdZY040KzBBa0ozQUpyQ3I1Uy9TSWxacXpMbWlLb0lQeDNmZzdGUExV?=
+ =?utf-8?B?QTBLL3hBQWRYR0VTcWZCM1dqVGJaY3U2ZGxaTGNjSnZSbGc2TDRhbldjaTZ2?=
+ =?utf-8?B?YzFEWHExbENxMk9Qc09zMHFNb2I0eEJ2NlVNR2V2ZUVGYlg5WE1kSmxZK2py?=
+ =?utf-8?B?OXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba8c8252-d3c2-4d5a-e352-08de0b74cdb5
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 22:55:42.9900
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +gXFjAUr3maO/xe1MDIycGaMRBal31uJHC+TwfhZVagQrFfEwdGtWKRf93g6wF8XPecHd75jIliDUVgUt1bOVV9GoANI+HGYOX5oZ/zBqzQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7025
+X-OriginatorOrg: intel.com
 
-ADAQ4216 and ADAQ4224 are similar to AD4030, but feature a PGA circuitry
-that scales the analog input signal prior to it reaching the ADC. The PGA
-is controlled through a pair of pins (A0 and A1) whose state define the
-gain that is applied to the input signal.
+Hi Dave,
 
-Add support for ADAQ4216 and ADAQ4224. Provide a list of PGA options
-through the IIO device channel scale available interface and enable control
-of the PGA through the channel scale interface.
+On 10/13/25 7:36 AM, Dave Martin wrote:
+> Hi Reinette,
+> 
+> On Fri, Oct 10, 2025 at 09:48:21AM -0700, Reinette Chatre wrote:
+>> Hi Dave,
+>>
+>> On 9/30/25 8:40 AM, Dave Martin wrote:
+>>> On Mon, Sep 29, 2025 at 09:09:35AM -0700, Reinette Chatre wrote:
+>>>> On 9/29/25 6:56 AM, Dave Martin wrote:
+> 
+> [...]
+> 
+>>>> 1) Commented schema are "inactive"
+>>>> This is unclear to me. In the MB example the commented lines show the 
+>>>> finer grained controls. Since the original MB resource is an approximation
+>>>> and the hardware must already be configured to support it, would the #-prefixed
+>>>> lines not show the actual "active" configuration?
+>>>
+>>> They would show the active configuration (possibly more precisely than
+>>> "MB" does).
+>>
+>> That is how I see it also. This is specific to MB as we try to maintain
+>> backward compatibility.
+>>
+>> If we are going to make user interface changes to resource allocation then
+>> ideally it should consider all known future usage. I am trying to navigate
+>> and understand the discussion on how resctrl can support MPAM and this
+>> RDT region aware requirements. 
+>>
+>> I scanned the MPAM spec and from what I understand a resource may support
+>> multiple controls at the same time, each with its own properties, and then
+>> there was this:
+>>
+>> 	When multiple partitioning controls are active, each affects the partition’s
+>> 	bandwidth usage. However, some combinations of controls may not make sense,
+>> 	because the regulation of that pair of controls cannot be made to work in concert.
+>>
+>> resctrl may thus present an "active configuration" that is not a configuration
+>> that "makes sense" ... this may be ok as resctrl would present what hardware
+>> supports combined with what user requested.
+> 
+> This is analogous to what the MPAM spec says, though if resctrl offers
+> two different schemata for the same hardware control, the control cannot be
+> configured with both values simultaneously.
+> 
+> For the MPAM hardware controls affecting the same hardware resource,
+> they can be programmed to combinations of values that have no sensible
+> interpretation, and the values can be read back just fine.  The
+> performance effects may not be what the user expected / wanted, but
+> this is not directly visible to resctrl.
+> 
+> So, if we offer independent schemata for MBW_MIN and MBW_MAX, the user
+> can program MBW_MIN=75% and MBW_MAX=25% for the same PARTID, and that
+> will read back just as programmed.  The architecture does not promise
+> what the performance effect of this will be, but resctrl does not need
+> to care.
 
-Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
----
-Change log v4 -> v5
-- Dropped leftover adaq4216_hw_gains_db[].
-- Tweaked ad4030_get_chan_scale() so val and val2 don't get overwritten.
+The same appears to be true for Intel RDT where the spec warns ("Undesirable
+and undefined performance effects may result if cap programming guidelines
+are not followed.") but does not seem to prevent such configurations. 
 
- drivers/iio/adc/ad4030.c | 209 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 205 insertions(+), 4 deletions(-)
+...
 
-diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-index 3df0b593c808..1ba49890a3f3 100644
---- a/drivers/iio/adc/ad4030.c
-+++ b/drivers/iio/adc/ad4030.c
-@@ -47,6 +47,8 @@
- #define     AD4030_REG_CHIP_GRADE_AD4630_24_GRADE	0x00
- #define     AD4030_REG_CHIP_GRADE_AD4632_16_GRADE	0x05
- #define     AD4030_REG_CHIP_GRADE_AD4632_24_GRADE	0x02
-+#define     AD4030_REG_CHIP_GRADE_ADAQ4216_GRADE	0x1E
-+#define     AD4030_REG_CHIP_GRADE_ADAQ4224_GRADE	0x1C
- #define     AD4030_REG_CHIP_GRADE_MASK_CHIP_GRADE	GENMASK(7, 3)
- #define AD4030_REG_SCRATCH_PAD			0x0A
- #define AD4030_REG_SPI_REVISION			0x0B
-@@ -124,6 +126,10 @@
- /* Datasheet says 9.8ns, so use the closest integer value */
- #define AD4030_TQUIET_CNV_DELAY_NS	10
- 
-+/* HARDWARE_GAIN */
-+#define ADAQ4616_PGA_PINS		2
-+#define ADAQ4616_PGA_GAIN_MAX_NANO	(NANO * 2 / 3)
-+
- enum ad4030_out_mode {
- 	AD4030_OUT_DATA_MD_DIFF,
- 	AD4030_OUT_DATA_MD_16_DIFF_8_COM,
-@@ -144,6 +150,23 @@ enum {
- 	AD4030_SCAN_TYPE_AVG,
- };
- 
-+/*
-+ * Gains computed as fractions of 1000 so they can be expressed by integers.
-+ */
-+static const int adaq4216_hw_gains_vpv[] = {
-+	MILLI / 3,		/* 333 */
-+	(5 * MILLI / 9),	/* 555 */
-+	(20 * MILLI / 9),	/* 2222 */
-+	(20 * MILLI / 3),	/* 6666 */
-+};
-+
-+static const int adaq4216_hw_gains_frac[][2] = {
-+	{ 1, 3 },  /* 1/3 V/V gain */
-+	{ 5, 9 },  /* 5/9 V/V gain */
-+	{ 20, 9 }, /* 20/9 V/V gain */
-+	{ 20, 3 }, /* 20/3 V/V gain */
-+};
-+
- struct ad4030_chip_info {
- 	const char *name;
- 	const unsigned long *available_masks;
-@@ -151,6 +174,7 @@ struct ad4030_chip_info {
- 	const struct iio_chan_spec offload_channels[AD4030_MAX_IIO_CHANNEL_NB];
- 	u8 grade;
- 	u8 precision_bits;
-+	bool has_pga;
- 	/* Number of hardware channels */
- 	int num_voltage_inputs;
- 	unsigned int tcyc_ns;
-@@ -174,7 +198,11 @@ struct ad4030_state {
- 	struct spi_offload_trigger *offload_trigger;
- 	struct spi_offload_trigger_config offload_trigger_config;
- 	struct pwm_device *cnv_trigger;
-+	size_t scale_avail_size;
- 	struct pwm_waveform cnv_wf;
-+	unsigned int scale_avail[ARRAY_SIZE(adaq4216_hw_gains_vpv)][2];
-+	struct gpio_descs *pga_gpios;
-+	unsigned int pga_index;
- 
- 	/*
- 	 * DMA (thus cache coherency maintenance) requires the transfer buffers
-@@ -231,7 +259,7 @@ struct ad4030_state {
-  * - voltage0-voltage1
-  * - voltage2-voltage3
-  */
--#define __AD4030_CHAN_DIFF(_idx, _scan_type, _offload) {		\
-+#define __AD4030_CHAN_DIFF(_idx, _scan_type, _offload, _pga) {		\
- 	.info_mask_shared_by_all =					\
- 		(_offload ? BIT(IIO_CHAN_INFO_SAMP_FREQ) : 0) |		\
- 		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),			\
-@@ -242,6 +270,7 @@ struct ad4030_state {
- 		BIT(IIO_CHAN_INFO_CALIBBIAS) |				\
- 		BIT(IIO_CHAN_INFO_RAW),					\
- 	.info_mask_separate_available = BIT(IIO_CHAN_INFO_CALIBBIAS) |	\
-+		(_pga ? BIT(IIO_CHAN_INFO_SCALE) : 0) |			\
- 		BIT(IIO_CHAN_INFO_CALIBSCALE),				\
- 	.type = IIO_VOLTAGE,						\
- 	.indexed = 1,							\
-@@ -256,10 +285,16 @@ struct ad4030_state {
- }
- 
- #define AD4030_CHAN_DIFF(_idx, _scan_type)				\
--	__AD4030_CHAN_DIFF(_idx, _scan_type, 0)
-+	__AD4030_CHAN_DIFF(_idx, _scan_type, 0, 0)
- 
- #define AD4030_OFFLOAD_CHAN_DIFF(_idx, _scan_type)			\
--	__AD4030_CHAN_DIFF(_idx, _scan_type, 1)
-+	__AD4030_CHAN_DIFF(_idx, _scan_type, 1, 0)
-+
-+#define ADAQ4216_CHAN_DIFF(_idx, _scan_type)				\
-+	__AD4030_CHAN_DIFF(_idx, _scan_type, 0, 1)
-+
-+#define ADAQ4216_OFFLOAD_CHAN_DIFF(_idx, _scan_type)			\
-+	__AD4030_CHAN_DIFF(_idx, _scan_type, 1, 1)
- 
- static const int ad4030_average_modes[] = {
- 	BIT(0),					/* No averaging/oversampling */
-@@ -413,6 +448,65 @@ static const struct regmap_config ad4030_regmap_config = {
- 	.max_register = AD4030_REG_DIG_ERR,
- };
- 
-+static void ad4030_fill_scale_avail(struct ad4030_state *st)
-+{
-+	unsigned int mag_bits, int_part, fract_part, i;
-+	u64 range;
-+
-+	/*
-+	 * The maximum precision of differential channels is retrieved from the
-+	 * chip properties. The output code of differential channels is in two's
-+	 * complement format (i.e. signed), so the MSB is the sign bit and only
-+	 * (precision_bits - 1) bits express voltage magnitude.
-+	 */
-+	mag_bits = st->chip->precision_bits - 1;
-+
-+	for (i = 0; i < ARRAY_SIZE(adaq4216_hw_gains_frac); i++) {
-+		range = mult_frac(st->vref_uv, adaq4216_hw_gains_frac[i][1],
-+				  adaq4216_hw_gains_frac[i][0]);
-+		/*
-+		 * If range were in mV, we would multiply it by NANO below.
-+		 * Though, range is in µV so multiply it by MICRO only so the
-+		 * result after right shift and division scales output codes to
-+		 * millivolts.
-+		 */
-+		int_part = div_u64_rem(((u64)range * MICRO) >> mag_bits, NANO, &fract_part);
-+		st->scale_avail[i][0] = int_part;
-+		st->scale_avail[i][1] = fract_part;
-+	}
-+}
-+
-+static int ad4030_set_pga_gain(struct ad4030_state *st)
-+{
-+	DECLARE_BITMAP(bitmap, ADAQ4616_PGA_PINS) = { };
-+
-+	bitmap_write(bitmap, st->pga_index, 0, ADAQ4616_PGA_PINS);
-+
-+	return gpiod_multi_set_value_cansleep(st->pga_gpios, bitmap);
-+}
-+
-+static int ad4030_set_pga(struct iio_dev *indio_dev, int gain_int, int gain_fract)
-+{
-+	struct ad4030_state *st = iio_priv(indio_dev);
-+	unsigned int mag_bits = st->chip->precision_bits - 1;
-+	u64 gain_nano, tmp;
-+
-+	if (!st->pga_gpios)
-+		return -EINVAL;
-+
-+	gain_nano = gain_int * NANO + gain_fract;
-+
-+	if (!in_range(gain_nano, 1, ADAQ4616_PGA_GAIN_MAX_NANO))
-+		return -EINVAL;
-+
-+	tmp = DIV_ROUND_CLOSEST_ULL(gain_nano << mag_bits, NANO);
-+	gain_nano = DIV_ROUND_CLOSEST_ULL(st->vref_uv, tmp);
-+	st->pga_index = find_closest(gain_nano, adaq4216_hw_gains_vpv,
-+				     ARRAY_SIZE(adaq4216_hw_gains_vpv));
-+
-+	return ad4030_set_pga_gain(st);
-+}
-+
- static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
- 				 struct iio_chan_spec const *chan,
- 				 int *val,
-@@ -425,6 +519,13 @@ static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
- 	if (IS_ERR(scan_type))
- 		return PTR_ERR(scan_type);
- 
-+	/* The LSB of the 8-bit common-mode data is always vref/256. */
-+	if (st->chip->has_pga && scan_type->realbits != 8) {
-+		*val = st->scale_avail[st->pga_index][0];
-+		*val2 = st->scale_avail[st->pga_index][1];
-+		return IIO_VAL_INT_PLUS_NANO;
-+	}
-+
- 	if (chan->differential)
- 		*val = (st->vref_uv * 2) / MILLI;
- 	else
-@@ -432,7 +533,14 @@ static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
- 
- 	*val2 = scan_type->realbits;
- 
--	return IIO_VAL_FRACTIONAL_LOG2;
-+	/* The LSB of the 8-bit common-mode data is always vref/256. */
-+	if (scan_type->realbits == 8 || !st->chip->has_pga)
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+
-+	*val = st->scale_avail[st->pga_index][0];
-+	*val2 = st->scale_avail[st->pga_index][1];
-+
-+	return IIO_VAL_INT_PLUS_NANO;
- }
- 
- static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
-@@ -894,6 +1002,15 @@ static int ad4030_read_avail(struct iio_dev *indio_dev,
- 		*length = ARRAY_SIZE(ad4030_average_modes);
- 		return IIO_AVAIL_LIST;
- 
-+	case IIO_CHAN_INFO_SCALE:
-+		if (st->scale_avail_size == 1)
-+			*vals = (int *)st->scale_avail[st->pga_index];
-+		else
-+			*vals = (int *)st->scale_avail;
-+		*length = st->scale_avail_size * 2; /* print int and nano part */
-+		*type = IIO_VAL_INT_PLUS_NANO;
-+		return IIO_AVAIL_LIST;
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -969,6 +1086,9 @@ static int ad4030_write_raw_dispatch(struct iio_dev *indio_dev,
- 	case IIO_CHAN_INFO_SAMP_FREQ:
- 		return ad4030_set_sampling_freq(indio_dev, val);
- 
-+	case IIO_CHAN_INFO_SCALE:
-+		return ad4030_set_pga(indio_dev, val, val2);
-+
- 	default:
- 		return -EINVAL;
- 	}
-@@ -990,6 +1110,17 @@ static int ad4030_write_raw(struct iio_dev *indio_dev,
- 	return ret;
- }
- 
-+static int ad4030_write_raw_get_fmt(struct iio_dev *indio_dev,
-+				    struct iio_chan_spec const *chan, long mask)
-+{
-+	switch (mask) {
-+	case IIO_CHAN_INFO_SCALE:
-+		return IIO_VAL_INT_PLUS_NANO;
-+	default:
-+		return IIO_VAL_INT_PLUS_MICRO;
-+	}
-+}
-+
- static int ad4030_reg_access(struct iio_dev *indio_dev, unsigned int reg,
- 			     unsigned int writeval, unsigned int *readval)
- {
-@@ -1036,6 +1167,7 @@ static const struct iio_info ad4030_iio_info = {
- 	.read_avail = ad4030_read_avail,
- 	.read_raw = ad4030_read_raw,
- 	.write_raw = ad4030_write_raw,
-+	.write_raw_get_fmt = &ad4030_write_raw_get_fmt,
- 	.debugfs_reg_access = ad4030_reg_access,
- 	.read_label = ad4030_read_label,
- 	.get_current_scan_type = ad4030_get_current_scan_type,
-@@ -1295,6 +1427,25 @@ static int ad4030_spi_offload_setup(struct iio_dev *indio_dev,
- 							   IIO_BUFFER_DIRECTION_IN);
- }
- 
-+static int ad4030_setup_pga(struct device *dev, struct iio_dev *indio_dev,
-+			    struct ad4030_state *st)
-+{
-+	/* Setup GPIOs for PGA control */
-+	st->pga_gpios = devm_gpiod_get_array(dev, "pga", GPIOD_OUT_LOW);
-+	if (IS_ERR(st->pga_gpios))
-+		return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
-+				     "Failed to get PGA gpios.\n");
-+
-+	if (st->pga_gpios->ndescs != ADAQ4616_PGA_PINS)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Expected 2 GPIOs for PGA control.\n");
-+
-+	st->scale_avail_size = ARRAY_SIZE(adaq4216_hw_gains_vpv);
-+	st->pga_index = 0;
-+
-+	return 0;
-+}
-+
- static int ad4030_probe(struct spi_device *spi)
- {
- 	struct device *dev = &spi->dev;
-@@ -1337,6 +1488,14 @@ static int ad4030_probe(struct spi_device *spi)
- 	if (ret)
- 		return ret;
- 
-+	if (st->chip->has_pga) {
-+		ret = ad4030_setup_pga(dev, indio_dev, st);
-+		if (ret)
-+			return ret;
-+
-+		ad4030_fill_scale_avail(st);
-+	}
-+
- 	ret = ad4030_config(st);
- 	if (ret)
- 		return ret;
-@@ -1591,12 +1750,52 @@ static const struct ad4030_chip_info ad4632_24_chip_info = {
- 	.max_sample_rate_hz = 500 * HZ_PER_KHZ,
- };
- 
-+static const struct ad4030_chip_info adaq4216_chip_info = {
-+	.name = "adaq4216",
-+	.available_masks = ad4030_channel_masks,
-+	.channels = {
-+		ADAQ4216_CHAN_DIFF(0, ad4030_16_scan_types),
-+		AD4030_CHAN_CMO(1, 0),
-+		IIO_CHAN_SOFT_TIMESTAMP(2),
-+	},
-+	.offload_channels = {
-+		ADAQ4216_OFFLOAD_CHAN_DIFF(0, ad4030_16_offload_scan_types),
-+	},
-+	.grade = AD4030_REG_CHIP_GRADE_ADAQ4216_GRADE,
-+	.precision_bits = 16,
-+	.has_pga = true,
-+	.num_voltage_inputs = 1,
-+	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
-+	.max_sample_rate_hz = 2 * HZ_PER_MHZ,
-+};
-+
-+static const struct ad4030_chip_info adaq4224_chip_info = {
-+	.name = "adaq4224",
-+	.available_masks = ad4030_channel_masks,
-+	.channels = {
-+		ADAQ4216_CHAN_DIFF(0, ad4030_24_scan_types),
-+		AD4030_CHAN_CMO(1, 0),
-+		IIO_CHAN_SOFT_TIMESTAMP(2),
-+	},
-+	.offload_channels = {
-+		ADAQ4216_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
-+	},
-+	.grade = AD4030_REG_CHIP_GRADE_ADAQ4224_GRADE,
-+	.precision_bits = 24,
-+	.has_pga = true,
-+	.num_voltage_inputs = 1,
-+	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
-+	.max_sample_rate_hz = 2 * HZ_PER_MHZ,
-+};
-+
- static const struct spi_device_id ad4030_id_table[] = {
- 	{ "ad4030-24", (kernel_ulong_t)&ad4030_24_chip_info },
- 	{ "ad4630-16", (kernel_ulong_t)&ad4630_16_chip_info },
- 	{ "ad4630-24", (kernel_ulong_t)&ad4630_24_chip_info },
- 	{ "ad4632-16", (kernel_ulong_t)&ad4632_16_chip_info },
- 	{ "ad4632-24", (kernel_ulong_t)&ad4632_24_chip_info },
-+	{ "adaq4216", (kernel_ulong_t)&adaq4216_chip_info },
-+	{ "adaq4224", (kernel_ulong_t)&adaq4224_chip_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ad4030_id_table);
-@@ -1607,6 +1806,8 @@ static const struct of_device_id ad4030_of_match[] = {
- 	{ .compatible = "adi,ad4630-24", .data = &ad4630_24_chip_info },
- 	{ .compatible = "adi,ad4632-16", .data = &ad4632_16_chip_info },
- 	{ .compatible = "adi,ad4632-24", .data = &ad4632_24_chip_info },
-+	{ .compatible = "adi,adaq4216", .data = &adaq4216_chip_info },
-+	{ .compatible = "adi,adaq4224", .data = &adaq4224_chip_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ad4030_of_match);
--- 
-2.39.2
+>>> This proposal is only about numeric controls.  L3 wouldn't change, but
+>>> we could still add info/ metadata for bitmap control at the same time
+>>> as adding it for numeric controls.
+>>
+>> I think we should. At least we should leave space for such an addition since
+>> it is not obvious to me how multiple resources with different controls or
+>> single resource with multiple controls should be communicated to user space. 
+>>
+>> To be specific, the original proposal [1] introduced a set of files for
+>> a numeric control and that seems to work for existing and upcoming 
+>> schema that need a value in a range. Different controls need different
+>> parameters so to integrate this solution I think it needs another parameter
+>> (presented as a directory, a file, or within a file) that indicates the
+>> type of the control so that user space knows which files/parameters to expect
+>> and how to interpret them. 
+> 
+> Agreed.  I wasn't meaning to imply that this proposal shouldn't be
+> integrated into something more general.  If we want a richer
+> description than the current one, it makes sense to incorporate bitmap
+> controls -- this just wasn't my focus.
+
+Understood.
+
+> 
+>> Since different controls have different parameters we need to consider
+>> whether it is easier to create/parse unique files for each control or
+>> present all the parameters within one file with another file noting the type
+>> of control.
+> 
+> Separate files works quite well for low-tech tooling built using shell
+> scripts, and this seems to follow the sysfs philosophy.  Since there is
+> no need to keep re-reading these parameters, simplicity feels more
+> important than efficiency?
+> 
+> But we could equally have a single file with multiple pieces of
+> information in it.
+> 
+> I don't have a strong view on this.
+
+If by sysfs philosophy you men "one value per file" then resctrl split from that from
+the beginning (with the schemata file). I am also not advocating for one or the other
+at this time but believe we have some flexibility when faced with implementation
+options/challenges.
+
+> 
+>> I understand the files/parameters are intended to be in the schema's info directory
+>> but how this will look is not obvious to me. Part of the MPAM refactoring transitioned
+>> the top level info directories to represent the schema entries that currently reflect
+>> the resources. When we start having multiple schema entries (multiple controls) for a
+>> single resource the simplest implementation may result in a top level info
+>> directory for every schema entry ... but the expectation is that these top
+>> level directories should be per resource, no?
+> 
+> I had not considered that the info/ directories correspond to resources,
+> not individual schemata...
+>>
+>> At this time I am envisioning the proposal to result in something like below where
+>> there is one resource directory and one directory per schema entry with a (added by me)
+>> "schema_type" file to help user find out what the schema type is to know which files are present:
+>>
+>> MB
+>> ├── bandwidth_gran
+>> ├── delay_linear
+>> ├── MB
+>> │   ├── map
+>> │   ├── max
+>> │   ├── min
+>> │   ├── scale
+>> │   ├── schema_type
+>> │   └── unit
+>> ├── MB_HW
+>> │   ├── map
+>> │   ├── max
+>> │   ├── min
+>> │   ├── scale
+>> │   ├── schema_type
+>> │   └── unit
+>> ├── MB_MAX
+>> │   └── tbd
+>> ├── MB_MIN
+>> │   └── tbd
+>> ├── min_bandwidth
+>> ├── num_closids
+>> └── thread_throttle_mode
+> 
+> I see no reason not to do that.  Either way, older userspace just
+> ignores the new files and directories.
+> 
+> Perhaps add an intermediate subdirectory to clarify the relationship
+> between the resource dir and the individual schema descriptions?
+> 
+> This may also avoid the new descriptions getting mixed up with the old
+> description files.
+> 
+> Say,
+> 
+>   info
+>   ├── MB
+>   │   ├── resource_schemata
+>   │   │   ├── MB
+>   │   │   │   ├── map
+>   │   │   │   ├── max
+>   │   ┆   │   ├── min
+>   │       │   ┆
+>   ┆       │
+>           ├── MB_HW
+>           │   ├── map
+>           │   ┆
+>           ┆
+
+Looks good to me.
+
+> 
+>> Something else related to control that caught my eye in MPAM spec is this gem:
+>> 	MPAM provides discoverable vendor extensions to permit partners
+>> 	to invent partitioning controls.
+> 
+> Yup.
+> 
+> Since we have no way to know what vendor-specific controls look like or
+> what they mean, we can't do much about this.
+> 
+> So, it's the vendor's job to implement support for it, and we might
+> still say no (if there is no sane way to integrate it).
+
+ack.
+
+> 
+>>> MB may be hard to describe in a useful way, though -- at least in the
+>>> MPAM case, where the number of steps does not divide into 100, and the
+>>> AMD cases where the meaning of the MB control values is different.
+>>
+>> Above I do assume that MB would be represented in a new interface since it
+>> is a schema entry, if that causes trouble then we could drop it.
+> 
+> Since MB is described by the existing files and the documentation,
+> perhaps this it doesn't need an additional description.
+> 
+> Alternatively though, could we just have a special schema_type for this,
+> and omit the other properties?  This would mean that we at least have
+> an entry for every schema.
+
+We could do this, yes.
+
+>>> MB and MB_HW are not interchangeable.  To obtain predictable results
+>>> from MB, userspace would need to know precisely how the kernel is going
+>>> to round the value.  This feels like an implementation detail that
+>>> doesn't belong in the ABI.
+>>
+>> ack
+>>
+>> ...
+>>
+>>> Anyway, going back to the "#" convention:
+>>>
+>>> If the initial read of schemata has the new entries "pre-commented",
+>>> then userspace wouldn't need to know about the new entries.  It could
+>>> just tweak the MB entry (which it knows about), and write the file back:
+>>>
+>>> 	MB: 0=43
+>>> 	# MB_HW: 0=2
+>>> 	# MB_MIN: 0=1
+>>> 	# MB_MAX: 0=2
+>>>
+>>> then resctrl knows to ignore the hashed lines, and so reading the file
+>>> back gives:
+>>>
+>>> 	MB: 0=43
+>>> 	# MB_HW: 0=3
+>>> 	# MB_MIN: 0=2
+>>> 	# MB_MAX: 0=3
+>>
+>> Thank you for the example. This seems reasonable. I would like to go back
+>> to what you wrote in [1]:
+>>
+>>> Software that understands the new entries can uncomment the conflicting
+>>> entries and write them back instead of (or in addition to) the
+>>> conflicting entries.  For example, userspace might write the following:
+>>>
+>>> MB_MIN: 0=16, 1=16
+>>> MB_MAX: 0=32, 1=32
+>>>
+>>> Which might then read back as follows:
+>>>
+>>> MB: 0=50, 1=50
+>>> # MB_HW: 0=32, 1=32
+>>> # MB_MIN: 0=16, 1=16
+>>> # MB_MAX: 0=32, 1=32
+>>
+>> Could/should resctrl uncomment the lines after userspace modified them?
+> 
+> The '#' wasn't meant to be a state that gets turned on and off.
+
+Thank you for clarifying. 
+
+> Rather, userspace would use this to indicate which entries are
+> intentionally being modified.
+
+I see. I assume that we should not see many of these '#' entries and expect
+the ones we do see to shadow the legacy schemata entries. New schemata entries
+(that do not shadow legacy ones) should not have the '#' prefix even if
+their initial support does not include all controls.
+> So long as the entries affecting a single resource are ordered so that
+> each entry is strictly more specific than the previous entries (as
+> illustrated above), then reading schemata and stripping all the hashes
+> would allow a previous configuration to be restored; to change just one
+> entry, userspace can uncomment just that one, or write only that entry
+> (which is what I think we should recommend for new software).
+
+This is a good rule of thumb.
+
+> 
+>>> (For hardware-specific reasons, the MPAM driver currently internally
+>>> programs the MIN bound to be a bit less than the MAX bound, when
+>>> userspace writes an "MB" entry into schemata.  The key thing is that
+>>> writing MB may cause the MB_MIN/MB_MAX entries to change -- at the
+>>> resctrl level, I don't that that we necessarily need to make promises
+>>> about what they can change _to_.  The exact effect of MIN and MAX
+>>> bounds is likely to be hardware-dependent anyway.)
+>>
+>> MPAM has the "HARDLIM" distinction associated with these MAX values
+>> and from what I can tell this is per PARTID. Is this something that needs
+>> to be supported? To do this resctrl will need to support modifying
+>> control properties per resource group.
+> 
+> Possibly.  Since this is a boolean control that determines how the
+> MBW_MAX control is applied, we could perhaps present it as an
+> additional schema -- if so, it's basically orthogonal.
+> 
+>  | MB_HARDMAX: 0=0, 1=1, 2=1, 3=0 [...]
+> 
+> or
+> 
+>  | MB_HARDMAX: 0=off, 1=on, 2=on, 3=off [...]
+> 
+> Does this look reasonable?
+
+It does.
+
+> 
+> I don't know whether we have a clear use case for this today, and like
+> almost everything else in MPAM, implementing it is optional...
+> 
+> 
+>>> Regarding new userspce:
+>>>
+>>> Going forward, we can explicitly document that there should be no
+>>> conflicting or "passenger" entries in a schemata write: don't include
+>>> an entry for somehing that you don't explicitly want to set, and if
+>>> multiple entries affect the same resource, we don't promise what
+>>> happens.
+>>>
+>>> (But sadly, we can't impose that rule on existing software after the
+>>> fact.)
+>>
+>> It may thus not be worth it to make such a rule.
+> 
+> Ack.  Perhaps we could recommend it, though.
+
+We could, yes.
+
+> 
+> (At the very least, avoiding writing redundant entries would be a
+> little more efficient for the user.)
+> 
+>>>
+>>>
+>>> One final note: I have not provided any way to indicate that all those
+>>> entries control the same hardware resource.  The common "MB" prefix is
+>>> intended as a clue, but ultimately, userspace needs to know what an
+>>> entry controls before tweaking it.
+>>>
+>>> We could try to describe the relationships explicitly, but I'm not sure
+>>> that it is useful...
+>>
+>> What other relationships should we consider for MPAM? I see that each
+>> MPAM allows per-PARTID configurations for secure/non-secure, physical/virtual,
+>> ... ? Is it expected that MPAM's support of these should be exposed via resctrl?
+> 
+> Probably not.  These are best regarded as entirely separate instances
+> of MPAM; the PARTID spaces are separate.  The Non-secure physical
+> address space is the only physical address space directly accessible to
+> Linux -- for the others, we can't address the MMIO registers anyway.
+> 
+> For now, the other address spaces are the firmware's problem.
+
+Thank you.
+
+> 
+>> Have you considered how to express if user wants hardware to have different
+>> allocations for, for example, same PARTID at different execution levels?
+>>
+>> Reinette
+>>
+>> [1] https://lore.kernel.org/lkml/aNFliMZTTUiXyZzd@e133380.arm.com/
+> 
+> MPAM doesn't allow different controls for a PARTID depending on the
+> exception level, but it is possible to program different PARTIDs for
+> hypervisor/kernel and userspace (i.e., EL2/EL1 and EL0).
+
+I misunderstood this from the spec. Thank you for clarifying.
+
+> 
+> I think that if we wanted to go down that road, we would want to expose
+> additional "task IDs" in resctrlfs that can be placed into groups
+> independently, say
+> 
+> 	echo 14161:kernel >>.../some_group/tasks
+> 	echo 14161:user >>.../other_group/tasks
+> 
+> However, inside the kernel, the boundary between work done on behalf of
+> a specific userspace task, work done on behalf of userspace in general,
+> and autonomous work inside the kernel is fuzzy and not well defined.
+> 
+> For this reason, we currently only configure the PARTID for EL0.  For
+> EL1 (and EL2 if the kernel uses it), we just use the default PARTID (0).
+> 
+> Hopefully this is orthogonal to the discussion of schema descriptions,
+> though ...?
+
+Yes.
+
+Reinette
+
 
