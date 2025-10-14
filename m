@@ -1,66 +1,73 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B3230F94E
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 12:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECBE313E00
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 12:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760446323; cv=none; b=bwkSV+/rA+2+7LufjWglx+egTQ/grZbQHSdqr82Lv6+nSSMAbND3RkhalkU/gxxWHH2aBDuhJvJ+4OzJC+YAjBneWH8O0ay5JbTapg/+vEF1Dkoyji9Pw9Zx36qrkzFKi0IamgwdfrWYYlRAhBkh6MAERFel5ZCfNMdiF9GomDc=
+	t=1760446782; cv=none; b=U9WQ6G11PQtCOW61ucF8YFNLkYBbifUukx48p5uWEoXWc8o16QspzBeno9l8sSy3v/QO8iU/FkdZ8yPQe7ay9CvUlzGNsSpLPLhlUjtCePN7oP1YGJ0rQCVrmD/VwDsNf+vdCkkad1Fm46H190jMZC/urnAeTUlPxLXUcKhD7dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760446323; c=relaxed/simple;
-	bh=lhZBS8xqXDtT7VbeKEzjyokyMGNBcF56sXqc2Q9DJ68=;
+	s=arc-20240116; t=1760446782; c=relaxed/simple;
+	bh=Z1Th0V3A9t5q0RL6uoXSwWvKS3kowUSTZ0Ef18CL46Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ie9gzDVwaEbKTLMDzyOadncJI2xIc8cepcIBb9UFhAQiGPkeD3AVWZL1Du1fxKq+nR2daVMXxwvlF0dZRYRHQvEByFb0fn6NiQYrOSIxWT8hBK6PmuYMBir4ZIdLKjKjH5Aisi3gFNTPwJ9VdVpyvenBPqenRkfXu+pZsY4RZrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BXHBtvVE; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Be1XtKu2N6ahCVmmKEUFSNztzd0fvf6ydMg8TzgrK4KBPLLOjSPe6OmJu2/LgpftUtK14DlNacsh44bgb6x0xeTfTKFIUkhqeHesU6yzny2PuAB9US/zlqWTSBZwN7HVXA4igswCvvoIuc9/MLon6fJ4Cl25IeC2UrmKL+sFN7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H2ver2Ms; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BXHBtvVE"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e5980471eso28918285e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 05:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760446319; x=1761051119; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u4vnL+R+LVejZqTBCW/1skmQQQlc0ydc7YfiCLUDn0w=;
-        b=BXHBtvVEHAvK7Q8mmiYMJ16/vlxIoeSfAY9jPRq63rqfaWa7kEfrgh0fWWyDM0JKqI
-         micUk2eB38L2gXyvom/wA1grjij6QkM5ucpC9ltqywt/NgoFiGoF7gD5IAHyWF/mLq64
-         XIVoKnOnrjFmMCi67uGaDQ5h67+U/zuYKStcmGPjZ/wZzl7FFd0FjWg340EGH0S53WGk
-         v+jW5oxqXIHKzIYR8vJu/Wei8UWKveHZo1wAhWRubqIX3avD504xMbQKEAkDFnOaHV1A
-         UF+znnyPRNAoaxpYKM/3i8X6Z2pXbLhe2F1KguuumllWUYEPWcDfAiuhHJHZKh7S366i
-         A6hg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H2ver2Ms"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760446780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=iu1mp0L5rze+u9w9cyraP7Gulphe1rkUj/3PhF2TPeI=;
+	b=H2ver2Ms/W4BTWyV5as0l2Ig7cuvlJeaZlwkZBmK7p9EpTLxtLlBZjYMdhHGPU+UsmXA4D
+	nL+gB82GZi0kUS+l2JfSTu9H8pDFFBd9DDh8vXLv/8dgcRX7lnvkTsu3cmRl9wEhG1Dvf9
+	QBOlWb5VZuBswmCfzTvQYH+GiM+oGw0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436--T7vfgE5OtavQgrHLsj7hA-1; Tue, 14 Oct 2025 08:59:34 -0400
+X-MC-Unique: -T7vfgE5OtavQgrHLsj7hA-1
+X-Mimecast-MFC-AGG-ID: -T7vfgE5OtavQgrHLsj7hA_1760446773
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aff0df4c4abso726526266b.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 05:59:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760446319; x=1761051119;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u4vnL+R+LVejZqTBCW/1skmQQQlc0ydc7YfiCLUDn0w=;
-        b=OILuxr658xSNOWo5Q6OFiQk/2hK4saUy247WRhDFytAqTA4qsCZX+odhxhgprdZ58c
-         NZ7+SLgol8fO2b3QclAFFRXyfLOxcS+RxsZtRQnslszUXJRLm0FFPOdNl2PSUozqAwDK
-         CVxrn4H9zZXIv+dVmyGIsGUGgEursIwtrHVxa7t4ZV2lnDlliBkU2IqyKa9JWVoK0jRa
-         /PmpE4uxysWGOkv6z64TPD8RL1Jmdd6sudVitrc5fpVrt54IxkXaGyIvk/JKpkVSwgEm
-         c/+7Xpr3qfLDA4ya4JdHN6B+mpM+dS299jtfrVfSoGx/izGs0mCH1DkPxs5dHMRraDRK
-         la3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVgsM+xNspg5pRQ3Qg1KsNNzjRZe1f+0PhfJNnne9qg/qxpHwpzshIfu1mihOdBnhjqbeq0uXWNxXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgxNI27bP86lr+DYS1iF2iFScLa/bC6ZNW+JHf6Daf5WO9TlW/
-	16Sql82tFLgD/fptTqH6EFnHZ3LFEY1DsenGbQqxPgn4u7mnIftICL1p
-X-Gm-Gg: ASbGncuC1Q/SmlHD5P29buUeXCcRFF73mmhvPEVrd2DpPD7KItzsMVMf38WT7SN93sh
-	4QRGBvUwsjMnXdF39DkMV4qtxuPsMYzYrFeaBK5eWN75dJms/Ibu7G0UrvBJCYBPdAnTCndCmm8
-	DbBgk2BrfRQJNbCbRnHmNDaAMPEUCZsLP/HLeBQlyithGaBYN6XU2LnCX424n4VGJEuLovnXtNw
-	sajplUWghe633khRODoiZJpiYQm79MK6nY3Mp9nvRSp0V8DsAr/mu0m1EmkIvYgJmpAvTgAn4S1
-	U4xnFn2ZXUQECrx6MsNPQ+HemkSBKLX+9ZEDgaWm82BNNUOWDd9h/KKiNa2P1fVbeJLgQKCGvTg
-	7JvkmBWKAAiCN3UbyKncYBXNjY9ifuL9A39vIJsImoVYO+0/B0FzH+Am5Z/68guVcHdKrMtY4/3
-	17agvBKtKT
-X-Google-Smtp-Source: AGHT+IHGhuXiI705ZMy4gT9FBX9BE9BgWkwpuFDltW+qidBa5CYSY2HjmkpobxQOHA/DrJoT1AzhIA==
-X-Received: by 2002:a05:600c:1f93:b0:46e:376c:b1f0 with SMTP id 5b1f17b1804b1-46fa9a8ca9fmr177984195e9.7.1760446319404;
-        Tue, 14 Oct 2025 05:51:59 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:7ec0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb49bdfd0sm239969845e9.10.2025.10.14.05.51.57
+        d=1e100.net; s=20230601; t=1760446773; x=1761051573;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iu1mp0L5rze+u9w9cyraP7Gulphe1rkUj/3PhF2TPeI=;
+        b=MkJjkKE9RYmAynnG4+bwREJX8Nasa/Zt9fu0pRJnH1Gcdc/73gmv5GG5uEu2KlgnTb
+         Fjn8hi5w7vEQSxMZLapCgcdf4Q7kvnkeMLqYeP3f5o9lF+/wzIagTEQFbM2supr1cTzW
+         Qx+jJb9VyuX3BsMDbM+otP6nOuy+hu72bCu6vTjh8EIorOYtsgrIHJ07f2Lw1ksVga6d
+         iy0VTcBxt9px9/GdINh+APbL9VpUoVnSEdjhaAmXJevLBfn/Xtxrnl/yzF0mFMQUSC/z
+         d6Hazmsgv0nnZ3WF4UVWi2cXjhZ7ZDf2isz7r2eZVj9H4Cro6Y46qY+GNMqwxxd25cmR
+         wBdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXcFFoGlYc1Vo+ZMCcGkNH3CCB6latPfQlWZlbApuIy+nkGDvS9HCkHjXXAR25pTFufI2vJh/ErqvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+9/mHQDF22r1/BfUsMTuwPDYsU42ur1qTRl72M7iP3BOIP7nm
+	aLshV97CBLgE9tPbNiu9BBe7QbHXFLHwmaA0lpTMY3VruMYvdGPLYLBSWxaW0Yc1eLQPWKqc1Rd
+	4Z7Rl478mH7Semgngp08c4w404Cq1PgNmi2WiOXGqQFhuEM//kCZ3XsTvSHv/mswC1nTLKw==
+X-Gm-Gg: ASbGnct32jl+5/Aw04LNEAbNytcHqEetSIr4U67Mp5u5Ii8qkMvTaXl25gVyOuoYQN7
+	SEtI1Vps0e8IEtiDVEfno8kO35qjS4py9kmghcSCxTfYwvetubNdGNb0jQRNjaGiA33vM8jU+qV
+	05kCzg8NNts/fzNKtpFgvDUJHnZF92K7VPj1IL4N7fcCsj+bcq7c8ADOh6V0jyH2UA8ZvAfCxGX
+	P2f3kBc0c2zwrFJHglEYcgWU2bnec96EC5WXY/Rg2peem9tPxcAgxllBlBTi5oACyV3ZwWeQC24
+	OeZr35GipzkQBCexIIEeTbmLi9nlFFJSX4GmCjUzM63rRzpjKjEZ4QlqXvbzow7GnDZo0jZ9pA=
+	=
+X-Received: by 2002:a17:906:f5a5:b0:b29:c2ae:78f8 with SMTP id a640c23a62f3a-b50ac5d08bamr2706962766b.46.1760446773162;
+        Tue, 14 Oct 2025 05:59:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkEiy+cHw9UIH18Z36gnOBTWV4pz/7vpgUvMjb/aSdBKnsv8qXvi1i95BnCc/gOYElOXfN6Q==
+X-Received: by 2002:a17:906:f5a5:b0:b29:c2ae:78f8 with SMTP id a640c23a62f3a-b50ac5d08bamr2706957766b.46.1760446772515;
+        Tue, 14 Oct 2025 05:59:32 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b58244d17e1sm725071566b.75.2025.10.14.05.59.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 05:51:58 -0700 (PDT)
-Message-ID: <85a85b35-3862-4260-833c-267720125817@gmail.com>
-Date: Tue, 14 Oct 2025 13:53:14 +0100
+        Tue, 14 Oct 2025 05:59:31 -0700 (PDT)
+Message-ID: <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
+Date: Tue, 14 Oct 2025 14:59:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,131 +75,128 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 06/24] net: clarify the meaning of
- netdev_config members
-To: Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
- davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Donald Hunter <donald.hunter@gmail.com>,
- Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Joshua Washington
- <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
- Jijie Shao <shaojijie@huawei.com>, Sunil Goutham <sgoutham@marvell.com>,
- Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep
- <sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Joe Damato <joe@dama.to>, David Wei <dw@davidwei.uk>,
- Willem de Bruijn <willemb@google.com>, Mina Almasry
- <almasrymina@google.com>, Breno Leitao <leitao@debian.org>,
- Dragos Tatulea <dtatulea@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>
-References: <cover.1760364551.git.asml.silence@gmail.com>
- <fa4a6200c614f9f6652624b03e46b3bfa2539a72.1760364551.git.asml.silence@gmail.com>
- <572c425e-d29d-43e5-930f-4be7220e89fc@infradead.org>
+Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
+ large folios (CONFIG_NO_PAGE_MAPCOUNT)
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Muchun Song <muchun.song@linux.dev>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
+References: <20250303163014.1128035-1-david@redhat.com>
+ <20250303163014.1128035-21-david@redhat.com>
+ <20251014122335.dpyk5advbkioojnm@master>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <572c425e-d29d-43e5-930f-4be7220e89fc@infradead.org>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20251014122335.dpyk5advbkioojnm@master>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/13/25 18:12, Randy Dunlap wrote:
-> Hi,
+On 14.10.25 14:23, Wei Yang wrote:
+> On Mon, Mar 03, 2025 at 05:30:13PM +0100, David Hildenbrand wrote:
+> [...]
+>> @@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+>> 		break;
+>> 	case RMAP_LEVEL_PMD:
+>> 	case RMAP_LEVEL_PUD:
+>> +		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
+>> +			last = atomic_add_negative(-1, &folio->_entire_mapcount);
+>> +			if (level == RMAP_LEVEL_PMD && last)
+>> +				nr_pmdmapped = folio_large_nr_pages(folio);
+>> +			nr = folio_dec_return_large_mapcount(folio, vma);
+>> +			if (!nr) {
+>> +				/* Now completely unmapped. */
+>> +				nr = folio_large_nr_pages(folio);
+>> +			} else {
+>> +				partially_mapped = last &&
+>> +						   nr < folio_large_nr_pages(folio);
 > 
-> On 10/13/25 7:54 AM, Pavel Begunkov wrote:
->> From: Jakub Kicinski <kuba@kernel.org>
->>
->> hds_thresh and hds_config are both inside struct netdev_config
->> but have quite different semantics. hds_config is the user config
->> with ternary semantics (on/off/unset). hds_thresh is a straight
->> up value, populated by the driver at init and only modified by
->> user space. We don't expect the drivers to have to pick a special
->> hds_thresh value based on other configuration.
->>
->> The two approaches have different advantages and downsides.
->> hds_thresh ("direct value") gives core easy access to current
->> device settings, but there's no way to express whether the value
->> comes from the user. It also requires the initialization by
->> the driver.
->>
->> hds_config ("user config values") tells us what user wanted, but
->> doesn't give us the current value in the core.
->>
->> Try to explain this a bit in the comments, so at we make a conscious
->> choice for new values which semantics we expect.
->>
->> Move the init inside ethtool_ringparam_get_cfg() to reflect the semantics.
->> Commit 216a61d33c07 ("net: ethtool: fix ethtool_ringparam_get_cfg()
->> returns a hds_thresh value always as 0.") added the setting for the
->> benefit of netdevsim which doesn't touch the value at all on get.
->> Again, this is just to clarify the intention, shouldn't cause any
->> functional change.
->>
->> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
->> [pavel: applied clarification on relationship b/w HDS thresh and config]
->> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
->> ---
->>   include/net/netdev_queues.h | 20 ++++++++++++++++++--
->>   net/ethtool/common.c        |  3 ++-
->>   2 files changed, 20 insertions(+), 3 deletions(-)
->>
->> diff --git a/include/net/netdev_queues.h b/include/net/netdev_queues.h
->> index cd00e0406cf4..9d5dde36c2e5 100644
->> --- a/include/net/netdev_queues.h
->> +++ b/include/net/netdev_queues.h
->> @@ -6,11 +6,27 @@
->>   
->>   /**
->>    * struct netdev_config - queue-related configuration for a netdev
->> - * @hds_thresh:		HDS Threshold value.
->> - * @hds_config:		HDS value from userspace.
->>    */
->>   struct netdev_config {
->> +	/* Direct value
->> +	 *
->> +	 * Driver default is expected to be fixed, and set in this struct
->> +	 * at init. From that point on user may change the value. There is
->> +	 * no explicit way to "unset" / restore driver default. Used only
->> +	 * when @hds_config is set.
->> +	 */
->> +	/** @hds_thresh: HDS Threshold value (ETHTOOL_A_RINGS_HDS_THRESH).
->> +	 */
->>   	u32	hds_thresh;
->> +
->> +	/* User config values
->> +	 *
->> +	 * Contain user configuration. If "set" driver must obey.
->> +	 * If "unset" driver is free to decide, and may change its choice
->> +	 * as other parameters change.
->> +	 */
->> +	/** @hds_config: HDS enabled (ETHTOOL_A_RINGS_TCP_DATA_SPLIT).
->> +	 */
->>   	u8	hds_config;
->>   };
-> 
-> kernel-doc comments should being with
-> /**
-> on a separate line. This will prevent warnings like these new ones:
-> 
-> Warning: include/net/netdev_queues.h:36 struct member 'hds_thresh' not described in 'netdev_config'
-> Warning: include/net/netdev_queues.h:36 struct member 'hds_config' not described in 'netdev_config'
-> Warning: include/net/netdev_queues.h:36 struct member 'rx_buf_len' not described in 'netdev_config'
-> 
-> (but there are 4 variables that this applies to. I don't know why kernel-doc.py
-> only reported 3 of them.)
+> Hi, David
 
-Thanks for taking a look! I was a bit reluctant to change it
-too much since it's not authored by me. I'll be moving in direction
-of removing the patch completely.
+Hi!
+
+> 
+> Do you think this is better to be?
+> 
+> 	partially_mapped = last && nr < nr_pmdmapped;
+
+I see what you mean, it would be similar to the CONFIG_PAGE_MAPCOUNT 
+case below.
+
+But probably it could then be
+
+	partially_mapped = nr < nr_pmdmapped;
+
+because nr_pmdmapped is only set when "last = true".
+
+I'm not sure if there is a good reason to change it at this point 
+though. Smells like a micro-optimization for PUD, which we probably 
+shouldn't worry about.
+
+> 
+> As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
+> folio yet.
+
+We do support partially mapped PUD-sized folios I think, but not 
+anonymous PUD-sized folios.
+
+So consequently the partially_mapped variable will never really be used 
+later on, because the folio_test_anon() will never hit in the PUD case.
 
 -- 
-Pavel Begunkov
+Cheers
+
+David / dhildenb
 
