@@ -1,227 +1,139 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6F73074AC
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 08:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC0C2DC333
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 08:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760429307; cv=none; b=Tr0miQGQLU7ls/M01qJqgFaHhTPME65UmrzaYYSz0Q3Jo37QhGb/qiAYTuw2R2AxpMpaA/5GGe6a0LDpY4h3iskiEOpUPIDPB7MvpjKWQ0JyWHPX7jwqN51ghT78hM1rw2UEFsc+S4jtDwVvSr+He4lxTi+YCLn7FmxEpKxN1kM=
+	t=1760429862; cv=none; b=WqOlBBboD5Oyrb1HDsAsWoIwOb5avpy9sd68N08SoI8mlSXL7p8qOHWDhIrwKQL+xjloJQdkdtC1llnjpTW96FOmKTf5r5xzQS5ZQAGq8WX4i0fiIsJjD6ebYBzOxrGsAJZoivD+wSMgV+5ONIJP6d3EOBdbpgs+q6jxtDeiJSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760429307; c=relaxed/simple;
-	bh=iX8ybayOoB+zfG3Kr8ZxGBnoJV6Y9ikxx5cuxcSDcqo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XcIR6DD2/N9dXbOW73z2Od++YIojOUnPDyIeM/2RksObQZniMN8EVk7pERK4yYKc7taQIZOpkupQsq2salVkMmRpeJJA1mi8lHa9f1tp4TCFIxssfme3JOMeGLHHpR9qvK43K6CpfUxpVIglDdyOmndaVxWsWocTVaanY7qG3EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D1egXWzn; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1760429862; c=relaxed/simple;
+	bh=ZenOGeLl3E07i4+rFBn+dvevjdsbRCIJ235ulzP9wXQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l6Q7mBMWlJpFFXv4yLxSY1qBd1DFkQm55IWOKkBngxFvUj3Lj8kmVjzd5+VY75EkbeEGptS6hAW6kjGT8iR6hfHlZalM5UMULs+oZEn0QNRyoUxr3EYFGbsmYAbywYztgRBpmUoKa6Ru2gk+4ziR5/hcABgutnnmxPri0UBP0R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgyuLe8E; arc=none smtp.client-ip=209.85.222.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1egXWzn"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2680cf68265so39374105ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 01:08:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgyuLe8E"
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-905b08b09f5so1185028241.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 01:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760429305; x=1761034105; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1760429860; x=1761034660; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lNULsJSShi9Qv044L8BUWXwBT0WWB+xiPbW9Mna22LI=;
-        b=D1egXWzn9qKfGDk05loyj0KG1RHa+0j34FhjHtEvxf1y10PZv2ZJE8zZZT5BvGFrLs
-         GawQZxlmjdYZFGFWufVxmz/CdIEPScQBsdmPJk+xzHrpP13PaMUQYje1B1svKRMjK+pa
-         XVsSZMeT5fjFY8Ib/Zio3cP0DhqQz+Tb7RC7h4njR9mgi7Vby80J4zhxZN5G3B01X+kB
-         JBqO5eyB0BODhzzVFZcl+8Jbw6FQUbkvFsDg+DfZeyWoHQGQBHm9Hd1b+ei2EXORnmof
-         wWRJi3S5CnsXZNxuq4E6bz6QcL4iycEInp8cmws2Uszm4ralrVbk/8wou79zOBubg7wi
-         1E6w==
+        bh=hB5XUi1+cDwXRPWde5CzSKgVrGaXvz4WI2PJ/mRCG6U=;
+        b=bgyuLe8ExLUhNGvtBKCIGR1wNkk2Xc0z0JCYLYkJFQ4uugGucHzJIFAlC/8sHbJzWo
+         AhM57hqCDwsFeyRbrFzw4bgufX+sSPq+i4V392HFVmN2p1IobGdw1ilLJck2hhh085LN
+         2XyfgVU5eWwIvf5SYbB1b3nusA16BrmfUpPfh9usHfvjgF5YVs6SOR6GYzLXIXG+XYTg
+         mWtzlL84GGWlG4+efMubetaMcLIDNHDAngbZ5Ptrhl9vR3ybOzsyFWxRivIsnouRnnm0
+         thVYt2k7RXbLCSgnyE10z1xr2KqiTxLYOVtOzY5qX3CMWQFj5cjLsp9CCAFe6RFOGM2y
+         96xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760429305; x=1761034105;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1760429860; x=1761034660;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lNULsJSShi9Qv044L8BUWXwBT0WWB+xiPbW9Mna22LI=;
-        b=sBWC6/SCVsH7Z3/pfHZDxbR68H97sBPFlO6+hWOZi3TXlcNiyxJeZ4I29AjOUe5qRk
-         9dfhaD1M7GjZQxLoB/bf0z/FJGA4pfwB7xANkQ5UFXuaiU2cnB8CTRxus63kWKWRG5GE
-         wF2fcFGt0LFt1YFcW4YPZOrmWUJgvxDbnK815tjsfU/7Ey65ppe4KvlXCaQFQlMZB8LS
-         kykK2+XiqnOqEj4N+VTsHuHql68O6weWQtclJsBFtTU3G5vd5ZpnpPzZXkd0j/lE6G8J
-         OkPbPnjyQvm/Lai7EFnG/Rsd4SvQCjdRtA+emjESP1PX2J6pjsffHLGi7aSqdYN0Mrfg
-         5Y4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUgqa+a+bvzyXGSLJFoYs3/tpcK9S8PTx6C+9yaR7yqldkg3UUvYjpfMEqKPohzI7mHyfJqXXVDswU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhzOnAu+YTJHQ+Or/+kcY9RvCZPb7ls8bId9me39xsS/sGcJSO
-	iRTf1ne1u8gkA0rz/MGz8p0/I0RWQCx0JtzbxsYfTIYZhVI76SRhDNei
-X-Gm-Gg: ASbGncu0W9/asrDGyoVNIEF9rFxBCEuoHg5yZeoCL3Bu+yHawLJhr9DtVDDC/w4wHpZ
-	/Mb3suqXXZz1AQVao4puKhD/CHM8h4CkccYFhJ5Qw8yLgzc0H3DoLgDXvQEPYKUvzK7ZVSYI+eY
-	VHTACW4bZ2m4GCTknHRT9RaM068QbbrKIA0C0JzVOoAIHdIMgMIxqZS0BCRQDMc+qXOuRo4ymOL
-	RibNsnMTRW7HGHz9L/5ajssjA3K+S5JGAvNd5tLcCMgeyxcrPK2nEu+ZOLOeYv2BQn4P02irIMs
-	bGrVIX4jYnjN5qAP4d9chqIfhCRVwvh++ozYO2mnaEMrE9y50LUJWkkGb/mxJB3V7+UJykYQLLb
-	yCmcG4ANfBva+vPVZ4ny5Cpn0gqQ9ijxnNOTG8ENFrotbJMdDm7lVqODTSsik8Ma0GKjQpOrmem
-	sCQt1/Xhk3fAfAfQ==
-X-Google-Smtp-Source: AGHT+IEgCv4Yi86mKXuSGOsGI+y5z9FGwzXobVA9uILnehkakJ1dqhotPD42azyffPNXp0Nf9zpNBg==
-X-Received: by 2002:a17:902:d58e:b0:28e:8c3a:fb02 with SMTP id d9443c01a7336-2902723eeb6mr285920325ad.14.1760429305163;
-        Tue, 14 Oct 2025 01:08:25 -0700 (PDT)
-Received: from Barrys-MBP.hub ([47.72.128.212])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f08912sm155263155ad.78.2025.10.14.01.08.15
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 14 Oct 2025 01:08:24 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: mhocko@suse.com
-Cc: 21cnbao@gmail.com,
-	alexei.starovoitov@gmail.com,
-	corbet@lwn.net,
-	davem@davemloft.net,
-	david@redhat.com,
-	edumazet@google.com,
-	hannes@cmpxchg.org,
-	harry.yoo@oracle.com,
-	horms@kernel.org,
-	jackmanb@google.com,
-	kuba@kernel.org,
-	kuniyu@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linyunsheng@huawei.com,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	roman.gushchin@linux.dev,
-	surenb@google.com,
-	v-songbaohua@oppo.com,
-	vbabka@suse.cz,
-	willemb@google.com,
-	willy@infradead.org,
-	zhouhuacai@oppo.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-Date: Tue, 14 Oct 2025 16:08:12 +0800
-Message-Id: <20251014080812.2985-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <aO37Od0VxOGmWCjm@tiehlicka>
-References: <aO37Od0VxOGmWCjm@tiehlicka>
+        bh=hB5XUi1+cDwXRPWde5CzSKgVrGaXvz4WI2PJ/mRCG6U=;
+        b=s/iCrZePBVYgBkWan0I/0nk6H84giBXipP5unOMKu/euvmJdZQXY+WhQHlQN07TYMC
+         np35jfKa8+YAJBEuy5QQi4clDm8fVdMAlDgbbBTvqqXBperrvSfHmyNUm3B4bxTKvUCR
+         sSRSrrfzYmrhEt03+aEuBDZvetRbVzURm0z1os6WdQpy/+8t9MEwdmkd4GNAUZ9KL506
+         kVE3o6fXKK87cSJv91mYUI62tU3lO1AJo70EWAYra3VkGkzXe1Q7rZwg26PY0msxmEEt
+         zEcVIz/Ko3p25ZyQnPGp481XTOnfytLL0Y24yjS+9A1QVyH5KO0Es+k2HR9bYD0dEkiU
+         4ZJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXkOmuBdN2inl3onN2sbvdeORSOONmYqiiY6IISzMBBwLOqtxHeH9yyYWYG/yR9RBirzMAsB80sutw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yym0TC1WQw2Y59EI+BdNaq8ZDVZkHqVYx9nsha76fe3iFX58l4G
+	84bxEnwWKGz8VEdiMz+eQxaKtZ1fNgwe4TSppNvjOHOta0OvcCzNN1nJ5mZB/4kmEuFg8mNWx0i
+	AjRxI7PNxYh+RQdAnwIh15pCn6Lv5N9g=
+X-Gm-Gg: ASbGncvsQGdf4rCmvWA4wHcEmQJmRgHWFDbmyrl+heJJEWia+b8X9NuJct/OsfJtYca
+	sijL06gxy+/hwpRL9o6xMp0veN8mR8hJpO4OZ8WLefE0z3w4QtZG3+Y0JUuGGnaiMjWr31B9ZdD
+	al7fLldnOC6HHtDiVF7tM67N71Z9bkIDjEkh7kJaLA7M2oCKuCH2WCRyKGmU32eCoIxnkrxB3vh
+	PtLGQ2+xJHmI3ts2D2///eb5Uk8EnaUiJvbwhpgx1D1fWf+U8RYe05VVERmmiuXwd6d
+X-Google-Smtp-Source: AGHT+IE74/+9NMWbvU+qO/+W07sc5FWF1iW+Jodkjrw6Ldi09g2hF8G7tsWXqr3Kth9KAyQqpDa/9zGf3F+nkghdsOo=
+X-Received: by 2002:a05:6102:f07:b0:4fc:1a18:aaa2 with SMTP id
+ ada2fe7eead31-5d5e2217442mr8155988137.5.1760429859483; Tue, 14 Oct 2025
+ 01:17:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CANn89i+wikOQQrGFXu=L3nKPG62rsBmWer5WpLg5wmBN+RdMqA@mail.gmail.com>
+ <20251014035846.1519-1-21cnbao@gmail.com> <CANn89iKCZyYi+J=5t2sdmvtERnknkwXrGi4QRzM9btYUywkDfw@mail.gmail.com>
+ <CAGsJ_4ySSn6B+x+4zE0Ld1+AM4q-WnS0LfxzWw22oXr7n5NZ=g@mail.gmail.com> <CANn89i+j_CZM9Q=xTkSq-7cjeRkt29JikD3WqvmPihDrUHBQEQ@mail.gmail.com>
+In-Reply-To: <CANn89i+j_CZM9Q=xTkSq-7cjeRkt29JikD3WqvmPihDrUHBQEQ@mail.gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Tue, 14 Oct 2025 16:17:21 +0800
+X-Gm-Features: AS18NWDxwbBeHYYzY9zkajM9730iY7yUrkf_deZ_-1VTrKeqK4m8413YWm5g-Tc
+Message-ID: <CAGsJ_4xC=5nCSOv9P7ySONeXwdXN-YK2V+4OZ2zdCOeYiQHvzQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
+To: Eric Dumazet <edumazet@google.com>
+Cc: corbet@lwn.net, davem@davemloft.net, hannes@cmpxchg.org, horms@kernel.org, 
+	jackmanb@google.com, kuba@kernel.org, kuniyu@google.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linyunsheng@huawei.com, mhocko@suse.com, netdev@vger.kernel.org, 
+	pabeni@redhat.com, surenb@google.com, v-songbaohua@oppo.com, vbabka@suse.cz, 
+	willemb@google.com, zhouhuacai@oppo.com, ziy@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 14, 2025 at 3:26 PM Michal Hocko <mhocko@suse.com> wrote:
+On Tue, Oct 14, 2025 at 3:01=E2=80=AFPM Eric Dumazet <edumazet@google.com> =
+wrote:
 >
-> On Mon 13-10-25 20:30:13, Vlastimil Babka wrote:
-> > On 10/13/25 12:16, Barry Song wrote:
-> > > From: Barry Song <v-songbaohua@oppo.com>
-> [...]
-> > I wonder if we should either:
+> On Mon, Oct 13, 2025 at 11:43=E2=80=AFPM Barry Song <21cnbao@gmail.com> w=
+rote:
 > >
-> > 1) sacrifice a new __GFP flag specifically for "!allow_spin" case to
-> > determine it precisely.
+> > > >
+> > > > A problem with the existing sysctl is that it only covers the TX pa=
+th;
+> > > > for the RX path, we also observe that kswapd consumes significant p=
+ower.
+> > > > I could add the patch below to make it support the RX path, but it =
+feels
+> > > > like a bit of a layer violation, since the RX path code resides in =
+mm
+> > > > and is intended to serve generic users rather than networking, even
+> > > > though the current callers are primarily network-related.
+> > >
+> > > You might have a buggy driver.
+> >
+> > We are observing the RX path as follows:
+> >
+> > do_softirq
+> >     taskset_hi_action
+> >        kalPacketAlloc
+> >            __netdev_alloc_skb
+> >                page_frag_alloc_align
+> >                    __page_frag_cache_refill
+> >
+> > This appears to be a fairly common stack.
+> >
+> > So it is a buggy driver?
 >
-> As said in other reply I do not think this is a good fit for this
-> specific case as it is all or nothing approach. Soon enough we discover
-> that "no effort to reclaim/compact" hurts other usecases. So I do not
-> think we need a dedicated flag for this specific case. We need a way to
-> tell kswapd/kcompactd how much to try instead.
+> No idea, kalPacketAlloc is not in upstream trees.
+>
+> It apparently needs high order allocations. It will fail at some point.
+>
+> >
+> > >
+> > > High performance drivers use order-0 allocations only.
+> > >
+> >
+> > Do you have an example of high-performance drivers that use only order-=
+0 memory?
+>
+> About all drivers using XDP, and/or using napi_get_frags()
+>
+> XDP has been using order-0 pages from the very beginning.
 
-+Baolin, who may have observed the same issue.
+Thanks! But there are still many drivers using netdev_alloc_skb()=E2=80=94w=
+e
+shouldn=E2=80=99t overlook them, right?
 
-An issue with vmscan is that kcompactd is woken up very late, only after
-reclaiming a large number of order-0 pages to satisfy an order-3
-application.
-
-static int balance_pgdat(pg_data_t *pgdat, int order, int highest_zoneidx)
-{
-
-...
-                balanced = pgdat_balanced(pgdat, sc.order, highest_zoneidx);
-                if (!balanced && nr_boost_reclaim) {
-                        nr_boost_reclaim = 0;
-                        goto restart;
-                }
-
-                /*
-                 * If boosting is not active then only reclaim if there are no
-                 * eligible zones. Note that sc.reclaim_idx is not used as
-                 * buffer_heads_over_limit may have adjusted it.
-                 */
-                if (!nr_boost_reclaim && balanced)
-                        goto out;
-...
-                if (kswapd_shrink_node(pgdat, &sc))
-                        raise_priority = false;
-...
-
-out:
-
-                ...
-                /*
-                 * As there is now likely space, wakeup kcompact to defragment
-                 * pageblocks.
-                 */
-                wakeup_kcompactd(pgdat, pageblock_order, highest_zoneidx);
-}
-
-As pgdat_balanced() needs at least one 3-order pages to return true:
-
-bool __zone_watermark_ok(struct zone *z, unsigned int order, unsigned long mark,
-                         int highest_zoneidx, unsigned int alloc_flags,
-                         long free_pages)
-{
-        ...  
-        if (free_pages <= min + z->lowmem_reserve[highest_zoneidx])
-                return false;
-
-        /* If this is an order-0 request then the watermark is fine */
-        if (!order)
-                return true;
-
-        /* For a high-order request, check at least one suitable page is free */
-        for (o = order; o < NR_PAGE_ORDERS; o++) {
-                struct free_area *area = &z->free_area[o];
-                int mt;
-
-                if (!area->nr_free)
-                        continue;
-
-                for (mt = 0; mt < MIGRATE_PCPTYPES; mt++) {
-                        if (!free_area_empty(area, mt)) 
-                                return true;
-                }    
-
-#ifdef CONFIG_CMA
-                if ((alloc_flags & ALLOC_CMA) &&
-                    !free_area_empty(area, MIGRATE_CMA)) {
-                        return true;
-                }    
-#endif
-                if ((alloc_flags & (ALLOC_HIGHATOMIC|ALLOC_OOM)) &&
-                    !free_area_empty(area, MIGRATE_HIGHATOMIC)) {
-                        return true;
-                }
-
-}
-
-This appears to be incorrect and will always lead to over-reclamation in order0
-to satisfy high-order applications.
-
-I wonder if we should "goto out" earlier to wake up kcompactd when there
-is plenty of memory available, even if no order-3 pages exist.
-
-Conceptually, what I mean is:
-
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index c80fcae7f2a1..d0e03066bbaa 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -7057,9 +7057,8 @@ static int balance_pgdat(pg_data_t *pgdat, int order, int highest_zoneidx)
-                 * eligible zones. Note that sc.reclaim_idx is not used as
-                 * buffer_heads_over_limit may have adjusted it.
-                 */
--               if (!nr_boost_reclaim && balanced)
-+               if (!nr_boost_reclaim && (balanced || we_have_plenty_memory_to_compact()))
-                        goto out;
-
-                /* Limit the priority of boosting to avoid reclaim writeback */
-                if (nr_boost_reclaim && sc.priority == DEF_PRIORITY - 2)
-                        raise_priority = false;
-
+net % git grep netdev_alloc_skb | wc -l
+     359
 
 Thanks
 Barry
