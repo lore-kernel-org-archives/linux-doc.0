@@ -1,51 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9283A2773F7;
-	Tue, 14 Oct 2025 14:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A0D2FF152;
+	Tue, 14 Oct 2025 14:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760453733; cv=none; b=A6ztHeq8Uesnc/Ea7HPd8NvqMaNwXeyORxFljyAvAvua7XKmP83M/OZXP0V76ZGVqVJ9VrvjiFtkqkL9Y371qrRNsAjMPFW9Q1mNG0mmJoQK0kBEqM4ugk09VRTwfFfybAqluESv8xuSIreVBcm/6udXHfX3oR67CQaot445JeI=
+	t=1760453875; cv=none; b=qCYc7IM/pGRyooh/VudTVz+00nPQoXHQsOn8JY9zibmfb39xvfNofGyDCtMn8uAgsdFngBU+8S1xMMOBRysPZiIB2Y0Tq8FX6rkDGcJLZ8wNX0CR0hKGHi3WDhXLS9s8BdipaBXXnR6lxlDP5GvFhTV6dOZH2BkopJzMZ5TxvxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760453733; c=relaxed/simple;
-	bh=oJjRXMYAtYfstJ1Qe7kiRTx+N9SnMeZBjZHi92bWT2w=;
+	s=arc-20240116; t=1760453875; c=relaxed/simple;
+	bh=LeVdUQ8lX2lg2KlQK3iSPpVCXspigp3O0Kc6mMCPKk4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s3p5RR2RomgdnJJD72iRcsiqYxWaxvPy0Vbhg8KTn+1fGDKeHwGbyBpV+lqKYcgsvKOr4alkHmPDsrNi5IdYQMHLaqJZDOhs7wV68hdG87G2UtLsharb9iTdh57lrVvYfPom7n19MrzFU3INsocqbma7hSNJ3/DjU5bHhgrxdJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U0wFU7Gc; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=gjiIbXG4MKI6tGaNJevM/E3/Lszu3yvNUr+jHxdh5mlKqdeUE1qv195t86AdFvouW894Xp7D9RsG5mRPO9oCJf3F3B8HxpZAZSpuC4cS3Sz7DCm0I9pMkTgUWdsgY6KI18+zojTwRZ5iUIQcFBVqHKqmz9Z62D7XseoMDGf5wVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nty0cZcW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U0wFU7Gc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8807540B1E
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nty0cZcW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2812540B1E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760453730; bh=2NhCZaS0JRHpCMdnPaecLqGEPTG+OSiP6xNnzI2UmlA=;
+	t=1760453873; bh=Bw6pa+0VpuTwWoQO80EmiM4FTaQ5Ki33aDGmh8gXitU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U0wFU7Gc5aXlrvnGS2+/0yPHl5lknOISny431eW8j9/31oHjg0V8CqS0veDMbj3Pq
-	 zNXqBUbFkT4E2ZHSz905Ed12lmOfNnqTovYrnFJ9IT4ZAgC638UPzc3+NPT/uyd/e2
-	 PaqT9D/NKZ+ivU/6gQqcfpSTI8am+lGw03CPbe2aGYUO5vShSnGBRlz38uG06FGaoX
-	 PXeiObeHWk5lWK6xyT9xiSodkGzAKghCBhHKeicqVVzd04W8tGlWyyw8+i4YNA1X+A
-	 EM2uuZFuEp72eJPB3hOmOZybWELdSZ2zeyFS72/qteF4Em6A2ViztDKvVdUQ1wBiRG
-	 OsWb0/j+s9rYQ==
+	b=nty0cZcW4NB5uRUogo5SzI27s+YrJN8OyiXPXhz9DkrTy3Mwb6AS+n5ik3fzCPubH
+	 xw9a6uoT5mAMuLiIUrAF2ztcZjUPdxIOH41xwWzhbzZOXV+wjww5i+DqeuOlF7Q7BO
+	 G5mJogkpX3jmxhnc1r4badY9WLAGI0StaKv70OIdHr0MjIUKeRF3K+pVCC3jgY6HEZ
+	 22Na4mffL6hqVKbHk81wYFriDKNMJCJ+Jneb/3f8rl75chyYVN3cWQ7AvBnyVo1ov+
+	 vCuG9oI+4k5Zbg7Q0PxmeW3qPkolLjnf1UMIDVbcsfj7a5s1VuiZvyewmflLmJpe/2
+	 cMPvwmRLyoBkg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8807540B1E;
-	Tue, 14 Oct 2025 14:55:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2812540B1E;
+	Tue, 14 Oct 2025 14:57:53 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Serial <linux-serial@vger.kernel.org>
-Cc: Cengiz Can <cengiz@kernel.wtf>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Tomas Mudrunka <tomas.mudrunka@gmail.com>, Jiri Slaby
- <jirislaby@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anselm =?utf-8?Q?Sch=C3=BCler?= <mail@anselmschueler.com>
-Subject: Re: [PATCH] Documentation: sysrq: Remove contradicting sentence on
- extra /proc/sysrq-trigger characters
-In-Reply-To: <20251008112409.33622-1-bagasdotme@gmail.com>
-References: <20251008112409.33622-1-bagasdotme@gmail.com>
-Date: Tue, 14 Oct 2025 08:55:29 -0600
-Message-ID: <87wm4xbkim.fsf@trenco.lwn.net>
+To: Akiyoshi Kurita <weibu@redadmin.org>, linux-doc@vger.kernel.org
+Cc: Dave Jiang <dave.jiang@intel.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Shannon Nelson <sln@onemain.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org, Akiyoshi Kurita
+ <weibu@redadmin.org>
+Subject: Re: [PATCH] Documentation: admin-guide: Correct spelling of
+ "userspace"
+In-Reply-To: <20250926190019.41788-1-weibu@redadmin.org>
+References: <20250926190019.41788-1-weibu@redadmin.org>
+Date: Tue, 14 Oct 2025 08:57:52 -0600
+Message-ID: <87seflbken.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,38 +52,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Akiyoshi Kurita <weibu@redadmin.org> writes:
 
-> /proc/sysrq-trigger documentation states that only first character is
-> processed and the rest is ignored, yet it is not recommended to write
-> any extra characters to it. The latter statement is contradictive as
-> these characters are also ignored as implied by preceding sentence.
+> The term "userspace" should be a single word. Fix the typo
+> "userpace" accordingly.
 >
-> Remove it.
->
-> Link: https://lore.kernel.org/lkml/7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 > ---
->  Documentation/admin-guide/sysrq.rst | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  Documentation/admin-guide/tainted-kernels.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-> index 9c7aa817adc72d..63ff415ce85d66 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -77,9 +77,7 @@ On other
->  On all
->  	Write a single character to /proc/sysrq-trigger.
->  	Only the first character is processed, the rest of the string is
-> -	ignored. However, it is not recommended to write any extra characters
-> -	as the behavior is undefined and might change in the future versions.
-> -	E.g.::
-> +	ignored. E.g.::
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index a0cc017e4424..ed1f8f1e86c5 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -186,6 +186,6 @@ More detailed explanation for tainting
+>  
+>   18) ``N`` if an in-kernel test, such as a KUnit test, has been run.
+>  
+> - 19) ``J`` if userpace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+> + 19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+>       to use the devices debugging features. Device debugging features could
+>       cause the device to malfunction in undefined ways.
 
-I'm not sure this is right - there is a warning here that additional
-characters may acquire a meaning in the future, so one should not
-develop the habit of writing them now.  After all these years, I think
-the chances of fundamental sysrq changes are pretty small, but I still
-don't see why we would take the warning out?
+Applied, thanks.
 
 jon
