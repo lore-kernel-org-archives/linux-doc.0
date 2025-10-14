@@ -1,202 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECBE313E00
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 12:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35BF31352D
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 13:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760446782; cv=none; b=U9WQ6G11PQtCOW61ucF8YFNLkYBbifUukx48p5uWEoXWc8o16QspzBeno9l8sSy3v/QO8iU/FkdZ8yPQe7ay9CvUlzGNsSpLPLhlUjtCePN7oP1YGJ0rQCVrmD/VwDsNf+vdCkkad1Fm46H190jMZC/urnAeTUlPxLXUcKhD7dc=
+	t=1760447357; cv=none; b=pftFUmwHxS6AviobefOpqOFbc5Me2yRNxS0YwdXaaKPyrI8uJOEGHhX7nLKNiuVOqxjnvLZZIbCxDGWgy430SdtUkaCYMbomz1/r38bg30j5O/fpgtemyllpENe04+6QSOMByfRCDZvJrCWDtFfb45x1QJIbyRAc5xaw6xRdObE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760446782; c=relaxed/simple;
-	bh=Z1Th0V3A9t5q0RL6uoXSwWvKS3kowUSTZ0Ef18CL46Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Be1XtKu2N6ahCVmmKEUFSNztzd0fvf6ydMg8TzgrK4KBPLLOjSPe6OmJu2/LgpftUtK14DlNacsh44bgb6x0xeTfTKFIUkhqeHesU6yzny2PuAB9US/zlqWTSBZwN7HVXA4igswCvvoIuc9/MLon6fJ4Cl25IeC2UrmKL+sFN7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H2ver2Ms; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760447357; c=relaxed/simple;
+	bh=cT09hkWb6p1Q5laBg5r/C0k/WyFKDN1nFOp/f0E9EIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k7CdUjXCUp+33uyPamcQNFV4/US8o/S/Rty7YsYjl7ti2syktNMKc88PpL6tJKD4rCfhTEy98iRisEt/m3OykfPmYtXCW/sz8LeTr657ltZfq2X7u6xHna+Z77b3ew/bEE8hrEqKdRkAGA7hEyHqwHty1KTH3Tz89SVnPk5cplg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gXjyZpFN; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H2ver2Ms"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760446780;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=iu1mp0L5rze+u9w9cyraP7Gulphe1rkUj/3PhF2TPeI=;
-	b=H2ver2Ms/W4BTWyV5as0l2Ig7cuvlJeaZlwkZBmK7p9EpTLxtLlBZjYMdhHGPU+UsmXA4D
-	nL+gB82GZi0kUS+l2JfSTu9H8pDFFBd9DDh8vXLv/8dgcRX7lnvkTsu3cmRl9wEhG1Dvf9
-	QBOlWb5VZuBswmCfzTvQYH+GiM+oGw0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436--T7vfgE5OtavQgrHLsj7hA-1; Tue, 14 Oct 2025 08:59:34 -0400
-X-MC-Unique: -T7vfgE5OtavQgrHLsj7hA-1
-X-Mimecast-MFC-AGG-ID: -T7vfgE5OtavQgrHLsj7hA_1760446773
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aff0df4c4abso726526266b.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 05:59:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gXjyZpFN"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46f53f88e0bso30160385e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 06:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1760447353; x=1761052153; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBmndkyEtmuH2zqfJVf2MipvEX2Eu2YJsa5R9Svl5+o=;
+        b=gXjyZpFN7dPRuh+vX/6yZxiZDGG1mugCc3Ys83+jGOIfZiPoIIu6Muk8Bi6bRDciqQ
+         kEqlVA/S/G90lP17leDC4Xhue0LATzQolxuZts/beHU2j7OUgIzJWtmUS32qc87vibUp
+         dPTL96RLpIEagq8GNTPPHHZAWEVfm/fmLgrEGdBuR7P/Osj42j7USzNa1nOqQcZVoSTc
+         v21buuptH8kZmQ9Eh+FXeVWwRu3m3iEeyX/JzdpVc3+idFRM04kgaWuciIeBBKJI2tRB
+         LCWMX/t4aOA2bj69rpM2+hUlxQKGvylIkIaGRj3M661jQVHB7UfLKMgAgOGiCg8WMUxl
+         rNNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760446773; x=1761051573;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iu1mp0L5rze+u9w9cyraP7Gulphe1rkUj/3PhF2TPeI=;
-        b=MkJjkKE9RYmAynnG4+bwREJX8Nasa/Zt9fu0pRJnH1Gcdc/73gmv5GG5uEu2KlgnTb
-         Fjn8hi5w7vEQSxMZLapCgcdf4Q7kvnkeMLqYeP3f5o9lF+/wzIagTEQFbM2supr1cTzW
-         Qx+jJb9VyuX3BsMDbM+otP6nOuy+hu72bCu6vTjh8EIorOYtsgrIHJ07f2Lw1ksVga6d
-         iy0VTcBxt9px9/GdINh+APbL9VpUoVnSEdjhaAmXJevLBfn/Xtxrnl/yzF0mFMQUSC/z
-         d6Hazmsgv0nnZ3WF4UVWi2cXjhZ7ZDf2isz7r2eZVj9H4Cro6Y46qY+GNMqwxxd25cmR
-         wBdg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcFFoGlYc1Vo+ZMCcGkNH3CCB6latPfQlWZlbApuIy+nkGDvS9HCkHjXXAR25pTFufI2vJh/ErqvA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+9/mHQDF22r1/BfUsMTuwPDYsU42ur1qTRl72M7iP3BOIP7nm
-	aLshV97CBLgE9tPbNiu9BBe7QbHXFLHwmaA0lpTMY3VruMYvdGPLYLBSWxaW0Yc1eLQPWKqc1Rd
-	4Z7Rl478mH7Semgngp08c4w404Cq1PgNmi2WiOXGqQFhuEM//kCZ3XsTvSHv/mswC1nTLKw==
-X-Gm-Gg: ASbGnct32jl+5/Aw04LNEAbNytcHqEetSIr4U67Mp5u5Ii8qkMvTaXl25gVyOuoYQN7
-	SEtI1Vps0e8IEtiDVEfno8kO35qjS4py9kmghcSCxTfYwvetubNdGNb0jQRNjaGiA33vM8jU+qV
-	05kCzg8NNts/fzNKtpFgvDUJHnZF92K7VPj1IL4N7fcCsj+bcq7c8ADOh6V0jyH2UA8ZvAfCxGX
-	P2f3kBc0c2zwrFJHglEYcgWU2bnec96EC5WXY/Rg2peem9tPxcAgxllBlBTi5oACyV3ZwWeQC24
-	OeZr35GipzkQBCexIIEeTbmLi9nlFFJSX4GmCjUzM63rRzpjKjEZ4QlqXvbzow7GnDZo0jZ9pA=
-	=
-X-Received: by 2002:a17:906:f5a5:b0:b29:c2ae:78f8 with SMTP id a640c23a62f3a-b50ac5d08bamr2706962766b.46.1760446773162;
-        Tue, 14 Oct 2025 05:59:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEkEiy+cHw9UIH18Z36gnOBTWV4pz/7vpgUvMjb/aSdBKnsv8qXvi1i95BnCc/gOYElOXfN6Q==
-X-Received: by 2002:a17:906:f5a5:b0:b29:c2ae:78f8 with SMTP id a640c23a62f3a-b50ac5d08bamr2706957766b.46.1760446772515;
-        Tue, 14 Oct 2025 05:59:32 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b58244d17e1sm725071566b.75.2025.10.14.05.59.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 05:59:31 -0700 (PDT)
-Message-ID: <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
-Date: Tue, 14 Oct 2025 14:59:30 +0200
+        d=1e100.net; s=20230601; t=1760447353; x=1761052153;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XBmndkyEtmuH2zqfJVf2MipvEX2Eu2YJsa5R9Svl5+o=;
+        b=VIhlczgFJ6bM/yh5opKb7sif/PXFbO0oqzCXONieY4wBdGqipzMPUUem1iRmcwdBu4
+         +BSJtYEoYVKJ8BRzH7trF0PPZqd7a3h3O6Qg3lSalR8QL1mTkcl6fWyEX0puXVJhtV6o
+         j6Jps6eRPBFviKDBN33CNUDd5n/rTopmss62Nt7sWlfTYyfvw3ZRXKLLDL6Y2Eu7Pc2E
+         kNiV+QP8hnysQPsyNu38e2nWJioGHSfUrxnN1eHKQwYAOxGpjsMOlFjTQ/7lDjnVKMv9
+         rWOl8hb2FlwqYzoAvVJDwORKGyqTT/tBEdjX005XS2Qu5Q6c+nSozCYHMfAtcugqYPrZ
+         Zf7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXV71IW0faK8qMgZ5pcJBL4vsVrprfu5+jD2yrW0vTNi5n5wHkhTz1GnLOQXCT5QAlrAD8joE8jMSc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9uvHEUlW5ERXac6JsEb7irScxp00w0r+h5ApkDEA3zK3rTayq
+	3BCwyv1UsBaNNomkhKFboxDoKNMRUqjDmaYe+VFAmtH3nUjMCYWa2/lyv1y4wkAqfaI=
+X-Gm-Gg: ASbGncuG0WjKGi2cdHokY6vccMR40pcVoNePjMat+yT14feGyk8PUiXUh0EUBhttiKq
+	5Uw6HHU561XOlzW2R2ZjOAGuVp6/stPxVrToWqDJ2r8quGkPHLaP0cTteF6LOFitBh4GxyN6tLg
+	SGt1RmSNQbHLRXDqWzrhJ5p+/oaX53O+t+WILQMf3ZxX7JmfxrZyH+/4JuG3t0FgjZ0IoOKonSi
+	YSavNPtiWUfSM3t/McL+fyVSJlRZyLOCKxDhUVNpinSJu5byELbgxfDOZoyj/0ySGqyvQTeegpp
+	y/OJXQAkTGxzcuhevJSdOHkkbfaU5UzbJEQZtdXoHIWN1OU/E/7imWyEjstK+Z/kMPYs7Reztaq
+	/p7r2zMUChx+8kS1kIXd7WBqvdWFM3CvBZsJnbJm0vIOwyDoD/enFAahTjlEd9nfvG7ztLw==
+X-Google-Smtp-Source: AGHT+IFGpYfRWYGhqIaSZxufyw3cU/D950Wt8EiMNsuJCAolvX6QytVu1nn4m6ZLSmt3VXgOJE+wuQ==
+X-Received: by 2002:a05:6000:43d4:20b0:426:ed9d:4072 with SMTP id ffacd0b85a97d-426ed9d43d7mr1534097f8f.21.1760447352714;
+        Tue, 14 Oct 2025 06:09:12 -0700 (PDT)
+Received: from pathway.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5cf70fsm22846162f8f.27.2025.10.14.06.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 06:09:12 -0700 (PDT)
+Date: Tue, 14 Oct 2025 15:09:10 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: "Li,Rongqing" <lirongqing@baidu.com>
+Cc: Lance Yang <lance.yang@linux.dev>,
+	"wireguard@lists.zx2c4.com" <wireguard@lists.zx2c4.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>, Russell King <linux@armlinux.org.uk>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Shuah Khan <shuah@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joel Granados <joel.granados@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Phil Auld <pauld@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Simon Horman <horms@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Florian Westphal <fw@strlen.de>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [????] Re: [PATCH][v3] hung_task: Panic after fixed number of
+ hung tasks
+Message-ID: <aO5Ldv4U8QSGgfog@pathway.suse.cz>
+References: <20251012115035.2169-1-lirongqing@baidu.com>
+ <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
+ <aO4boXFaIb0_Wiif@pathway.suse.cz>
+ <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
- large folios (CONFIG_NO_PAGE_MAPCOUNT)
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-References: <20250303163014.1128035-1-david@redhat.com>
- <20250303163014.1128035-21-david@redhat.com>
- <20251014122335.dpyk5advbkioojnm@master>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20251014122335.dpyk5advbkioojnm@master>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
 
-On 14.10.25 14:23, Wei Yang wrote:
-> On Mon, Mar 03, 2025 at 05:30:13PM +0100, David Hildenbrand wrote:
-> [...]
->> @@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
->> 		break;
->> 	case RMAP_LEVEL_PMD:
->> 	case RMAP_LEVEL_PUD:
->> +		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
->> +			last = atomic_add_negative(-1, &folio->_entire_mapcount);
->> +			if (level == RMAP_LEVEL_PMD && last)
->> +				nr_pmdmapped = folio_large_nr_pages(folio);
->> +			nr = folio_dec_return_large_mapcount(folio, vma);
->> +			if (!nr) {
->> +				/* Now completely unmapped. */
->> +				nr = folio_large_nr_pages(folio);
->> +			} else {
->> +				partially_mapped = last &&
->> +						   nr < folio_large_nr_pages(folio);
+On Tue 2025-10-14 10:49:53, Li,Rongqing wrote:
 > 
-> Hi, David
-
-Hi!
-
+> > On Tue 2025-10-14 13:23:58, Lance Yang wrote:
+> > > Thanks for the patch!
+> > >
+> > > I noticed the implementation panics only when N tasks are detected
+> > > within a single scan, because total_hung_task is reset for each
+> > > check_hung_uninterruptible_tasks() run.
+> > 
+> > Great catch!
+> > 
+> > Does it make sense?
+> > Is is the intended behavior, please?
+> > 
 > 
-> Do you think this is better to be?
+> Yes, this is intended behavior
 > 
-> 	partially_mapped = last && nr < nr_pmdmapped;
-
-I see what you mean, it would be similar to the CONFIG_PAGE_MAPCOUNT 
-case below.
-
-But probably it could then be
-
-	partially_mapped = nr < nr_pmdmapped;
-
-because nr_pmdmapped is only set when "last = true".
-
-I'm not sure if there is a good reason to change it at this point 
-though. Smells like a micro-optimization for PUD, which we probably 
-shouldn't worry about.
-
+> > > So some suggestions to align the documentation with the code's
+> > > behavior below :)
+> > 
+> > > On 2025/10/12 19:50, lirongqing wrote:
+> > > > From: Li RongQing <lirongqing@baidu.com>
+> > > >
+> > > > Currently, when 'hung_task_panic' is enabled, the kernel panics
+> > > > immediately upon detecting the first hung task. However, some hung
+> > > > tasks are transient and the system can recover, while others are
+> > > > persistent and may accumulate progressively.
+> > 
+> > My understanding is that this patch wanted to do:
+> > 
+> >    + report even temporary stalls
+> >    + panic only when the stall was much longer and likely persistent
+> > 
+> > Which might make some sense. But the code does something else.
+> > 
 > 
-> As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
-> folio yet.
+> A single task hanging for an extended period may not be a critical
+> issue, as users might still log into the system to investigate.
+> However, if multiple tasks hang simultaneously-such as in cases
+> of I/O hangs caused by disk failures-it could prevent users from
+> logging in and become a serious problem, and a panic is expected.
 
-We do support partially mapped PUD-sized folios I think, but not 
-anonymous PUD-sized folios.
+I see. This another approach and it makes sense as well.
+An this is much more clear description than the original text.
 
-So consequently the partially_mapped variable will never really be used 
-later on, because the folio_test_anon() will never hit in the PUD case.
+I would also update the subject to something like:
 
--- 
-Cheers
+    hung_task: Panic when there are more than N hung tasks at the same time
 
-David / dhildenb
 
+
+That said, I think that both approaches make sense.
+
+Your approach would trigger the panic when many processes are stuck.
+Note that it still might be a transient state. But I agree that
+the more stuck processes exist the more serious the problem
+likely is for the heath of the system.
+
+My approach would trigger panic when a single process hangs
+for a long time. It will trigger more likely only when the problem
+is persistent. The seriousness depends on which particular process
+get stuck.
+
+I am fine with your approach. Just please, make more clear that
+the number means the number of hung tasks at the same time.
+And mention the problems to login, ...
+
+Best Regards,
+Petr
