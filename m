@@ -1,167 +1,319 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E671CEACB;
-	Tue, 14 Oct 2025 01:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAB223C50A
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760406716; cv=none; b=h5QfhYH21j373uLqmpSac5KEePTB39m3oyb1YVtdJJmds5feeYGaYV+uTnKLnJSUSb7jDz6D5o8pW5U96XAtFNNrHDB3DSKDAEhNFcvm8eWsjwHBhXWmoBdVjeqad4yjhPqzxYsumLpGfqZnwP5eCEgnw68G8hcW2LlXXEVzV5I=
+	t=1760408687; cv=none; b=RFz9648uOhmy1HKD2PHvRMv9H6wwAl3b/Q942lHSDyghE8MLVg3X0zZk+IKPwLRheeXUjuAQh2YSiNUODRrK0bNfmImmNmAZFiFMP7zLw7sT69UpaX8RiC2qYhgpHkpRm2wx+b2YRsxm/78o5w0OZijzCPTqCGkQUc913LwHfb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760406716; c=relaxed/simple;
-	bh=D5pq7pWAQYFwhyzSZxyrhL2+MSp19sOiqhoesc+kuCg=;
+	s=arc-20240116; t=1760408687; c=relaxed/simple;
+	bh=sNJUcp+yMKDI0ltf93BaTrl48i0hprVOkdUvZo+ECO4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q8tal22yz/gOiwBhSJ2lCQ0H7mMhSjy54WW2c3uzK0y8uNOxZ8mSI9MF29HGmrAOrwPvi8xxbflAjlRNED53KG42JxSQZ0Rvg3JnbW+1J72yS/MKScfmjHbqdvdebHRRxQxPPfqcWtvTTNnspWfZJZB8cy+yhk15eKeyed2RE08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DhO0hF6g; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=kvUWDj8VUtupIyRgYEU7gr2ua/hIsxt52L6lsZGUQwNIAbhKuTe5/SbCrx5CE1BNlNwb7mAwNH5YJeFNPel2KzF0bwRHl+V7TzlOEZb1DyUix2bY82wiiC4c43U38H6HmvheL/p2MaZAW8ZRsoCpxCNzVrZcfP59iOZayyOb+o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R+xYdbe7; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DhO0hF6g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=GdHHVHX1eK4OumztheWLpvPpWCbLWAPVj4gP9BXPPI8=; b=DhO0hF6gqhy8rmkGEl7on7+oJv
-	VtSUYvYuPcOlDu5fO8rCTFa2F1N/jdAP20m8Nb67fTrBo/fW7xZkTs3E4kNWHnFynKs20G0xEsolC
-	MqH/ufxF3g2GzV+W64oAUH6OPetfyV6FPMJEqWTE/ij6PONb6v3EHCJOmal94Lc0Bi4hK+35ayHKR
-	mt+8n05mNcD2DsFYZBume6lwYieckkKHhLNsYjifIvTzRXNk9td5Pk/x3BSq6HPF1OGCgGKUidim1
-	8H0TuKmkhlQR6ai4NxMDf9cGRmyXPY/ia4v6vaMJvdCXmK4AZRsHC3b9HHij78SAmfr3e1ZC9jXim
-	CxkRoeLg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8UCc-0000000EvJR-1Gkr;
-	Tue, 14 Oct 2025 01:51:50 +0000
-Message-ID: <3efcf624-58f1-4390-b6e2-a0aa5e62a9a3@infradead.org>
-Date: Mon, 13 Oct 2025 18:51:49 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R+xYdbe7"
+Message-ID: <4011ea47-ce74-4a0c-a45d-e8ded75f45a8@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760408683;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OF3rKewz7wX2n3FJZqd/foNJ6TH2t9WmFQxeFbMlfHw=;
+	b=R+xYdbe7i4OJpzYoXUXpXYPtS31s0/Z5Dy/ozMorWtHbqPpAs7adrnnKQeP0iGyDVCBsZ+
+	bN988ii16gLhChP7aB9GEXufqQQG65Zf0CNFc+l9+0kqI9mf8w4cZFUiOj216aSxbnJ+Ph
+	vzyvDkSjgv26z3EipI0s9DuOb/DaMHU=
+Date: Tue, 14 Oct 2025 10:24:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] Documentation: kvm: new UAPI for handling SEA
-To: Jiaqi Yan <jiaqiyan@google.com>, maz@kernel.org, oliver.upton@linux.dev
-Cc: duenwen@google.com, rananta@google.com, jthoughton@google.com,
- vsethi@nvidia.com, jgg@nvidia.com, joey.gouly@arm.com,
- suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com,
- will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org,
- kvm@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20251013185903.1372553-1-jiaqiyan@google.com>
- <20251013185903.1372553-4-jiaqiyan@google.com>
+Subject: Re: [PATCH v3] docs/zh_CN: Add translation of rust/testing.rst
+To: Ben Guo <benx.guo@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20251013234416.6172-1-benx.guo@gmail.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251013185903.1372553-4-jiaqiyan@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20251013234416.6172-1-benx.guo@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
+在 2025/10/14 上午7:44, Ben Guo 写道:
+> Complete the translation of rust/testing.rst and add the testing TOC entry
+> to rust/index.rst.
+>
+> Add the translation based on commit a3b2347343e0
+> ("Documentation: rust: testing: add docs on the new KUnit `#[test]` tests").
+>
+> Signed-off-by: Ben Guo <benx.guo@gmail.com>
 
-On 10/13/25 11:59 AM, Jiaqi Yan wrote:
-> Document the new userspace-visible features and APIs for handling
-> synchronous external abort (SEA)
-> - KVM_CAP_ARM_SEA_TO_USER: How userspace enables the new feature.
-> - KVM_EXIT_ARM_SEA: exit userspace gets when it needs to handle SEA
->   and what userspace gets while taking the SEA.
-> 
-> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cm>
+
+
+Thanks,
+
+Yanteng
+
 > ---
->  Documentation/virt/kvm/api.rst | 61 ++++++++++++++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 6ae24c5ca5598..43bc2a1d78e01 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -7272,6 +7272,55 @@ exit, even without calls to ``KVM_ENABLE_CAP`` or similar.  In this case,
->  it will enter with output fields already valid; in the common case, the
->  ``unknown.ret`` field of the union will be ``TDVMCALL_STATUS_SUBFUNC_UNSUPPORTED``.
->  Userspace need not do anything if it does not wish to support a TDVMCALL.
+> v2->v3: Resend without In-Reply-To header (no code changes).
+> v1->v2: Rebased onto docs-next (no code changes).
+>   .../translations/zh_CN/rust/index.rst         |   1 +
+>   .../translations/zh_CN/rust/testing.rst       | 215 ++++++++++++++++++
+>   2 files changed, 216 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/rust/testing.rst
+>
+> diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+> index 10413b0c17c0..5347d4729588 100644
+> --- a/Documentation/translations/zh_CN/rust/index.rst
+> +++ b/Documentation/translations/zh_CN/rust/index.rst
+> @@ -47,6 +47,7 @@ Rust 支持在 v6.1 版本中合并到主线，以帮助确定 Rust 作为一种
+>       general-information
+>       coding-guidelines
+>       arch-support
+> +    testing
+>   
+>   你还可以在 :doc:`../../../process/kernel-docs` 中找到 Rust 的学习材料。
+>   
+> diff --git a/Documentation/translations/zh_CN/rust/testing.rst b/Documentation/translations/zh_CN/rust/testing.rst
+> new file mode 100644
+> index 000000000000..ca81f1cef6eb
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/rust/testing.rst
+> @@ -0,0 +1,215 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +::
-> +		/* KVM_EXIT_ARM_SEA */
-> +		struct {
-> +  #define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID   (1ULL << 0)
-> +			__u64 flags;
-> +			__u64 esr;
-> +			__u64 gva;
-> +			__u64 gpa;
-> +		} arm_sea;
+> +:Original: Documentation/rust/testing.rst
 > +
-> +Used on arm64 systems. When the VM capability KVM_CAP_ARM_SEA_TO_USER is
-> +enabled, a VM exit is generated if guest causes a synchronous external abort
-> +(SEA) and the host APEI fails to handle the SEA.
+> +:翻译:
 > +
-> +Historically KVM handles SEA by first delegating the SEA to host APEI as there
-> +is high chance that the SEA is caused by consuming uncorrected memory error.
-> +However, not all platforms support SEA handling in APEI, and KVM's fallback
-> +is to inject an asynchronous SError into the guest, which usually panics
-> +guest kernel unpleasantly. As an alternative, userspace can participate into
-
-                                                                           in
-
-> +the SEA handling by enabling KVM_CAP_ARM_SEA_TO_USER at VM creation, after
-> +querying the capability. Once enabled, when KVM has to handle the guest
-
-                                                                     guest-
-> +caused SEA, it returns to userspace with KVM_EXIT_ARM_SEA, with details
-> +about the SEA available in 'arm_sea'.
+> + 郭杰 Ben Guo <benx.guo@gmail.com>
 > +
-> +The 'esr' field holds the value of the exception syndrome register (ESR) while
-> +KVM taking the SEA, which tells userspace the character of the current SEA,
-   KVM takes
-
-> +such as its Exception Class, Synchronous Error Type, Fault Specific Code and
-> +so on. For more details on ESR, check the Arm Architecture Registers
-> +documentation.
+> +测试
+> +====
 > +
-> +The following values are defined for the 'flags' field
-
-Above needs an ending like '.' or ':'.
-(or maybe "::" depending how it is processed by Sphinx)
-
+> +本文介绍了如何在内核中测试 Rust 代码。
 > +
-> +  - KVM_EXIT_ARM_SEA_FLAG_GPA_VALID -- the faulting guest physical address
-> +    is valid and userspace can get its value in the 'gpa' field.
+> +有三种测试类型：
 > +
-> +Note userspace can tell whether the faulting guest virtual address is valid
-> +from the FnV bit in 'esr' field. If FnV bit in 'esr' field is not set, the
-> +'gva' field hols the valid faulting guest virtual address.
-
-               holds (or contains)> +
-> +Userspace needs to take actions to handle guest SEA synchronously, namely in
-> +the same thread that runs KVM_RUN and receives KVM_EXIT_ARM_SEA. One of the
-> +encouraged approaches is to utilize the KVM_SET_VCPU_EVENTS to inject the SEA
-> +to the faulting VCPU. This way, the guest has the opportunity to keep running
-> +and limit the blast radius of the SEA to the particular guest application that
-> +caused the SEA. Userspace may also emulate the SEA to VM by itself using the
-> +KVM_SET_ONE_REG API. In this case, it can use the valid values from 'gva' and
-> +'gpa' fields to manipulate VCPU's registers (e.g. FAR_EL1, HPFAR_EL1).
+> +- KUnit 测试
+> +- ``#[test]`` 测试
+> +- Kselftests
 > +
->  ::
->  
->  		/* Fix the size of the union. */
-> @@ -8689,6 +8738,18 @@ This capability indicate to the userspace whether a PFNMAP memory region
->  can be safely mapped as cacheable. This relies on the presence of
->  force write back (FWB) feature support on the hardware.
->  
-> +7.45 KVM_CAP_ARM_SEA_TO_USER
-> +----------------------------
+> +KUnit 测试
+> +----------
 > +
-> +:Architecture: arm64
-> +:Target: VM
-> +:Parameters: none
-> +:Returns: 0 on success, -EINVAL if unsupported.
+> +这些测试来自 Rust 文档中的示例。它们会被转换为 KUnit 测试。
 > +
-> +This capability, if KVM_CHECK_EXTENSION indicates that it is available, means
-> +that KVM has an implementation that allows userspace to participate in handling
-> +synchronous external abort caused by VM, by an exit of KVM_EXIT_ARM_SEA.
+> +使用
+> +****
 > +
->  8. Other capabilities.
->  ======================
->  
-
--- 
-~Randy
-
+> +这些测试可以通过 KUnit 运行。例如，在命令行中使用 ``kunit_tool`` （ ``kunit.py`` ）::
+> +
+> +	./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y
+> +
+> +或者，KUnit 也可以在内核启动时以内置方式运行。获取更多 KUnit 信息，请参阅
+> +Documentation/dev-tools/kunit/index.rst。
+> +关于内核内置与命令行测试的详细信息，请参阅 Documentation/dev-tools/kunit/architecture.rst。
+> +
+> +要使用这些 KUnit 文档测试，需要在内核配置中启用以下选项::
+> +
+> +	CONFIG_KUNIT
+> +	   Kernel hacking -> Kernel Testing and Coverage -> KUnit - Enable support for unit tests
+> +	CONFIG_RUST_KERNEL_DOCTESTS
+> +	   Kernel hacking -> Rust hacking -> Doctests for the `kernel` crate
+> +
+> +KUnit 测试即文档测试
+> +********************
+> +
+> +文档测试（ *doctests* ）一般用于展示函数、结构体或模块等的使用方法。
+> +
+> +它们非常方便，因为它们就写在文档旁边。例如：
+> +
+> +.. code-block:: rust
+> +
+> +	/// 求和两个数字。
+> +	///
+> +	/// ```
+> +	/// assert_eq!(mymod::f(10, 20), 30);
+> +	/// ```
+> +	pub fn f(a: i32, b: i32) -> i32 {
+> +	    a + b
+> +	}
+> +
+> +在用户空间中，这些测试由 ``rustdoc`` 负责收集并运行。单独使用这个工具已经很有价值，
+> +因为它可以验证示例能否成功编译（确保和代码保持同步），
+> +同时还可以运行那些不依赖内核 API 的示例。
+> +
+> +然而，在内核中，这些测试会转换成 KUnit 测试套件。
+> +这意味着文档测试会被编译成 Rust 内核对象，从而可以在构建的内核环境中运行。
+> +
+> +通过与 KUnit 集成，Rust 的文档测试可以复用内核现有的测试设施。
+> +例如，内核日志会显示::
+> +
+> +	KTAP version 1
+> +	1..1
+> +	    KTAP version 1
+> +	    # Subtest: rust_doctests_kernel
+> +	    1..59
+> +	    # rust_doctest_kernel_build_assert_rs_0.location: rust/kernel/build_assert.rs:13
+> +	    ok 1 rust_doctest_kernel_build_assert_rs_0
+> +	    # rust_doctest_kernel_build_assert_rs_1.location: rust/kernel/build_assert.rs:56
+> +	    ok 2 rust_doctest_kernel_build_assert_rs_1
+> +	    # rust_doctest_kernel_init_rs_0.location: rust/kernel/init.rs:122
+> +	    ok 3 rust_doctest_kernel_init_rs_0
+> +	    ...
+> +	    # rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
+> +	    ok 59 rust_doctest_kernel_types_rs_2
+> +	# rust_doctests_kernel: pass:59 fail:0 skip:0 total:59
+> +	# Totals: pass:59 fail:0 skip:0 total:59
+> +	ok 1 rust_doctests_kernel
+> +
+> +文档测试中，也可以正常使用 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符，例如：
+> +
+> +.. code-block:: rust
+> +
+> +	/// ```
+> +	/// # use kernel::{spawn_work_item, workqueue};
+> +	/// spawn_work_item!(workqueue::system(), || pr_info!("x\n"))?;
+> +	/// # Ok::<(), Error>(())
+> +	/// ```
+> +
+> +这些测试和普通代码一样，也可以在 ``CLIPPY=1`` 条件下通过 Clippy 进行编译，
+> +因此可以从额外的 lint 检查中获益。
+> +
+> +为了便于开发者定位文档测试出错的具体行号，日志会输出一条 KTAP 诊断信息。
+> +其中标明了原始测试的文件和行号（不是 ``rustdoc`` 生成的临时 Rust 文件位置）::
+> +
+> +	# rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
+> +
+> +Rust 测试中常用的断言宏是来自 Rust 标准库（ ``core`` ）中的 ``assert!`` 和 ``assert_eq!`` 宏。
+> +内核提供了一个定制版本，这些宏的调用会被转发到 KUnit。
+> +和 KUnit 测试不同的是，这些宏不需要传递上下文参数（ ``struct kunit *`` ）。
+> +这使得它们更易于使用，同时文档的读者无需关心底层用的是什么测试框架。
+> +此外，这种方式未来也许可以让我们更容易测试第三方代码。
+> +
+> +当前有一个限制：KUnit 不支持在其他任务中执行断言。
+> +因此，如果断言真的失败了，我们只是简单地把错误打印到内核日志里。
+> +另外，文档测试不适用于非公开的函数。
+> +
+> +作为文档中的测试示例，应当像 “实际代码” 一样编写。
+> +例如：不要使用 ``unwrap()`` 或 ``expect()``，请使用 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符。
+> +更多背景信息，请参阅：
+> +
+> +	https://rust.docs.kernel.org/kernel/error/type.Result.html#error-codes-in-c-and-rust
+> +
+> +``#[test]`` 测试
+> +----------------
+> +
+> +此外，还有 ``#[test]`` 测试。与文档测试类似，这些测试与用户空间中的测试方式也非常相近，并且同样会映射到 KUnit。
+> +
+> +这些测试通过 ``kunit_tests`` 过程宏引入，该宏将测试套件的名称作为参数。
+> +
+> +例如，假设想要测试前面文档测试示例中的函数 ``f``，我们可以在定义该函数的同一文件中编写：
+> +
+> +.. code-block:: rust
+> +
+> +	#[kunit_tests(rust_kernel_mymod)]
+> +	mod tests {
+> +	    use super::*;
+> +
+> +	    #[test]
+> +	    fn test_f() {
+> +	        assert_eq!(f(10, 20), 30);
+> +	    }
+> +	}
+> +
+> +如果我们执行这段代码，内核日志会显示::
+> +
+> +	    KTAP version 1
+> +	    # Subtest: rust_kernel_mymod
+> +	    # speed: normal
+> +	    1..1
+> +	    # test_f.speed: normal
+> +	    ok 1 test_f
+> +	ok 1 rust_kernel_mymod
+> +
+> +与文档测试类似， ``assert!`` 和 ``assert_eq!`` 宏被映射回 KUnit 并且不会发生 panic。
+> +同样，支持 `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_ 运算符，
+> +测试函数可以什么都不返回（单元类型 ``()``）或 ``Result`` （任何 ``Result<T, E>``）。例如：
+> +
+> +.. code-block:: rust
+> +
+> +	#[kunit_tests(rust_kernel_mymod)]
+> +	mod tests {
+> +	    use super::*;
+> +
+> +	    #[test]
+> +	    fn test_g() -> Result {
+> +	        let x = g()?;
+> +	        assert_eq!(x, 30);
+> +	        Ok(())
+> +	    }
+> +	}
+> +
+> +如果我们运行测试并且调用 ``g`` 失败，那么内核日志会显示::
+> +
+> +	    KTAP version 1
+> +	    # Subtest: rust_kernel_mymod
+> +	    # speed: normal
+> +	    1..1
+> +	    # test_g: ASSERTION FAILED at rust/kernel/lib.rs:335
+> +	    Expected is_test_result_ok(test_g()) to be true, but is false
+> +	    # test_g.speed: normal
+> +	    not ok 1 test_g
+> +	not ok 1 rust_kernel_mymod
+> +
+> +如果 ``#[test]`` 测试可以对用户起到示例作用，那就应该改用文档测试。
+> +即使是 API 的边界情况，例如错误或边界问题，放在示例中展示也同样有价值。
+> +
+> +``rusttest`` 宿主机测试
+> +-----------------------
+> +
+> +这类测试运行在用户空间，可以通过 ``rusttest`` 目标在构建内核的宿主机中编译并运行::
+> +
+> +	make LLVM=1 rusttest
+> +
+> +当前操作需要内核 ``.config``。
+> +
+> +目前，它们主要用于测试 ``macros`` crate 的示例。
+> +
+> +Kselftests
+> +----------
+> +
+> +Kselftests 可以在 ``tools/testing/selftests/rust`` 文件夹中找到。
+> +
+> +测试所需的内核配置选项列在 ``tools/testing/selftests/rust/config`` 文件中，
+> +可以借助 ``merge_config.sh`` 脚本合并到现有配置中::
+> +
+> +	./scripts/kconfig/merge_config.sh .config tools/testing/selftests/rust/config
+> +
+> +Kselftests 会在内核源码树中构建，以便在运行相同版本内核的系统上执行测试。
+> +
+> +一旦安装并启动了与源码树匹配的内核，测试即可通过以下命令编译并执行::
+> +
+> +	make TARGETS="rust" kselftest
+> +
+> +请参阅 Documentation/dev-tools/kselftest.rst 文档以获取更多信息。
+>
+> base-commit: 344657696e9aa7bf89e48e1848fe0ce551bd1f4a
