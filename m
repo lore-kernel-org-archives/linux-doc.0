@@ -1,160 +1,132 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4676B2F7AD2
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 10:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D172FB99A;
+	Tue, 14 Oct 2025 10:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.3.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760438362; cv=none; b=X2OHYfq5VEHTbe04fmP1nlIPkVT7kQevvvFTgfQb9y8OrfJvaZEi9piMUXnzZ9srhOrKK0HZF8fkSkWRaZR3S5cRfLGxrzBdpQhzq46xBqrxsVvk7z5NhqYWFBkM+ED6bk7mfb3nkHmhW6F05Yw2c4soeV0FUxpj4q7TAn5wTLM=
+	t=1760439368; cv=none; b=oj54E46ea/tOR/G/zxiQ8wJFiRtQcH3Z7n9YM+/TwAyxd6UWnyi1nn4frmBuoLU/j8+jwTN/UikwmSIIfGmr9daydJ4WnY2oKW9CN1O6arHTvtIHU8WP+pIy+x18eP0cgAPsDMxrFFfyy8A7h3qGRy0WGpY2fBPc34AqwYyaCjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760438362; c=relaxed/simple;
-	bh=q9P0PZo6cOuJ7XhtTvcQVZCsmpjkgC3FXXL1ZL3FWEs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EuIeIgt/bo08omDepsPTdYNR9SFqHJBSlIJak6Z6LOTRJdUQjnNMpvmX0DWygLrDguDIE+hePLzEnSD3s76MFXrOc2/aFY5nZOLrCExJFaCcNJgr8bxxKpWe1Vg8Nn2JqMF8fmD4TiKvttCNDkt8Get65vNJ5D3PHJFZEX7GCLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=utz2bd//; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="utz2bd//"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-7960d69f14bso39269536d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 03:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760438359; x=1761043159; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8i8HbdVZPfionD4pRoeQJ/6YsnBufC3F7NgJEHPSzVE=;
-        b=utz2bd//LCgSaXSDGqKeiciqIpkP6tI+Dub1kST75Ar63td5RhjZn1LRHLph1ddm0o
-         W3WmFyGkBnLnL7YpmQiRw2jddQOs7rjCJuLFO0hyJuVQmIDuqyjtWYUO8Z3vKP5yTntx
-         Mb2/ByOmHYXtDRDunQDEalMcJ1Z6lk7aZWSVBv374gfDw1mQsd4qlcb+l3fTh55fBwQP
-         ZtCmjg2Ad6mLufGgehVeLuglw7VbhXtW1NBvqdLWwIWTIAFBy77RoeeZlGmQHc4Hi5Vg
-         ZU2guXOswWdCXlJHfaSaGsLuWYUOmPvB3rvnA63We7uJmzbOjBs62xXm8d0BZ7CccGf6
-         jSKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760438359; x=1761043159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8i8HbdVZPfionD4pRoeQJ/6YsnBufC3F7NgJEHPSzVE=;
-        b=P3nJ0mLRMgL8W1Y57WAb3DRAFQYDszykC0i1XUMg5keCIZXDkjoBZ+sdX0hqSV02xd
-         qQJCvogomAFg/++Wv2paE2DcGr7Hq8VgxsNrZHmi1PaoUS0tinsyXJ0vPX/12L2zbII7
-         GRdipm7v1C3Luy+6Fg1mFfRFJwiKt/N95U5BO+6HGril8k4s4r9GE08Ewmsn/Vhrk6j/
-         EwX8qI8uTw0JStXvLjjQE14wDMqVZQ4xtXmREOQmZtr4rnJm707TaYPnxL9jC2Z24c60
-         ejN83XtY9Excv9JAS/qArAjbUnvbIGihoGj0nL5//bPfuBRFIK9OTHXKq5l+WBH63CgH
-         Xilw==
-X-Forwarded-Encrypted: i=1; AJvYcCXxtQracJezCQbt7leGZBCZ/eI8i0rylAbKCJLBkYxq/169wGYVCvEtW/g/S+7Z++zijx93F7qKA2k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ9ZmF6umkJoCfF8wlSmoAD5ORqhiSrBnZQrPyCaWi3Qh10bpk
-	JAAaOKy4oZNDMpfmx3+6ZnlKqUg0TdaWcWgC90463KJdrcjkTOPyltmtbNbRXakxGkOiMtreL1t
-	Oqcikdq/1dBJEvuelmouTSxmULUXpw6WX5TE9QAAH
-X-Gm-Gg: ASbGncuPefHuZq5aUnl+7emnzMiGaT6ure1RPqkGF/z9xn2cAkjaT85aJktn4koz+tf
-	gdIL08aacXj0bEWfKC6MToHM2BLzV+rSa1vWVOPryguxR2JGOemaiR/QQUP82kHM/LMUA5iuzSM
-	DAK4uh2700bDOwk7Ked+ZgaV9GGzjdpuMZobkvVI/3Lcp6gv12hvlr3R+Wbg6FjtuLQDOwlAUy+
-	FDkETZidInflVpHUal4exeMbttTbexy
-X-Google-Smtp-Source: AGHT+IEFzNXw/v6xZVTk0phPdvVBFB9EdAErZ6ksdm/dcjAu+K9F+ebHYFJ1AyXwmjljbbFPU7Tg80KyboEacHc3cFc=
-X-Received: by 2002:ac8:5d05:0:b0:4e4:2006:b009 with SMTP id
- d75a77b69052e-4e6eaccc55cmr307481031cf.17.1760438358741; Tue, 14 Oct 2025
- 03:39:18 -0700 (PDT)
+	s=arc-20240116; t=1760439368; c=relaxed/simple;
+	bh=46oU0M6vfaQKa3PYOroPhc0emPkc5386Yytt8tuQfOI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gXhzxPRh1CU3/zZXiQPIWudWBDdIp0EZH4k1byIEP7ckme9QzmIryvRQb8UPeS6nhbCkaCI7mz9OWxcUhQxR7ZHeygsAslhUqV3ela9qRsXT1LMPmPsym3D9ONMyq2qallVFfew2jJ6UKW43IOqrajbLZjAIQj/Tw7ip79R5aYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=220.181.3.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: "Li,Rongqing" <lirongqing@baidu.com>
+To: Petr Mladek <pmladek@suse.com>, Lance Yang <lance.yang@linux.dev>
+CC: "wireguard@lists.zx2c4.com" <wireguard@lists.zx2c4.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "Liam R . Howlett"
+	<Liam.Howlett@oracle.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, David Hildenbrand <david@redhat.com>, "Randy
+ Dunlap" <rdunlap@infradead.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+	"Russell King" <linux@armlinux.org.uk>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>, Shuah Khan <shuah@kernel.org>, Steven Rostedt
+	<rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>, Joel Granados
+	<joel.granados@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, Phil
+ Auld <pauld@redhat.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "Masami Hiramatsu" <mhiramat@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, "Pawan Gupta"
+	<pawan.kumar.gupta@linux.intel.com>, Simon Horman <horms@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>, Florian Westphal
+	<fw@strlen.de>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Kees Cook
+	<kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Paul E . McKenney"
+	<paulmck@kernel.org>, Feng Tang <feng.tang@linux.alibaba.com>, "Jason A .
+ Donenfeld" <Jason@zx2c4.com>
+Subject: RE: [????] Re: [PATCH][v3] hung_task: Panic after fixed number of
+ hung tasks
+Thread-Topic: [????] Re: [PATCH][v3] hung_task: Panic after fixed number of
+ hung tasks
+Thread-Index: AQHcPO9h0grxiWd7ak27/owdD96L07TBdJLA
+Date: Tue, 14 Oct 2025 10:49:53 +0000
+Message-ID: <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
+References: <20251012115035.2169-1-lirongqing@baidu.com>
+ <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
+ <aO4boXFaIb0_Wiif@pathway.suse.cz>
+In-Reply-To: <aO4boXFaIb0_Wiif@pathway.suse.cz>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013101636.69220-1-21cnbao@gmail.com> <aO11jqD6jgNs5h8K@casper.infradead.org>
- <CAGsJ_4x9=Be2Prbjia8-p97zAsoqjsPHkZOfXwz74Z_T=RjKAA@mail.gmail.com>
- <CANn89iJpNqZJwA0qKMNB41gKDrWBCaS+CashB9=v1omhJncGBw@mail.gmail.com>
- <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
- <CANn89iKSW-kk-h-B0f1oijwYiCWYOAO0jDrf+Z+fbOfAMJMUbA@mail.gmail.com> <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
-In-Reply-To: <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 14 Oct 2025 03:39:07 -0700
-X-Gm-Features: AS18NWC6tSD-2fPgi67vs3tdqcGs5ZT4phYwNUo9MOM_IOY7jeMq3pOnwQALTO4
-Message-ID: <CANn89iKC_y6Fae9E5ETOE46y-RCqD6cLHnp=7GynL_=sh3noKg@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-To: Barry Song <21cnbao@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Barry Song <v-songbaohua@oppo.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-FEAS-Client-IP: 172.31.50.48
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-On Tue, Oct 14, 2025 at 3:19=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrot=
-e:
->
+
+> On Tue 2025-10-14 13:23:58, Lance Yang wrote:
+> > Thanks for the patch!
+> >
+> > I noticed the implementation panics only when N tasks are detected
+> > within a single scan, because total_hung_task is reset for each
+> > check_hung_uninterruptible_tasks() run.
+>=20
+> Great catch!
+>=20
+> Does it make sense?
+> Is is the intended behavior, please?
+>=20
+
+Yes, this is intended behavior
+
+> > So some suggestions to align the documentation with the code's
+> > behavior below :)
+>=20
+> > On 2025/10/12 19:50, lirongqing wrote:
+> > > From: Li RongQing <lirongqing@baidu.com>
 > > >
-> > > >
-> > > > I think you are missing something to control how much memory  can b=
-e
-> > > > pushed on each TCP socket ?
-> > > >
-> > > > What is tcp_wmem on your phones ? What about tcp_mem ?
-> > > >
-> > > > Have you looked at /proc/sys/net/ipv4/tcp_notsent_lowat
-> > >
-> > > # cat /proc/sys/net/ipv4/tcp_wmem
-> > > 524288  1048576 6710886
-> >
-> > Ouch. That is insane tcp_wmem[0] .
-> >
-> > Please stick to 4096, or risk OOM of various sorts.
-> >
-> > >
-> > > # cat /proc/sys/net/ipv4/tcp_notsent_lowat
-> > > 4294967295
-> > >
-> > > Any thoughts on these settings?
-> >
-> > Please look at
-> > https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
-> >
-> > tcp_notsent_lowat - UNSIGNED INTEGER
-> > A TCP socket can control the amount of unsent bytes in its write queue,
-> > thanks to TCP_NOTSENT_LOWAT socket option. poll()/select()/epoll()
-> > reports POLLOUT events if the amount of unsent bytes is below a per
-> > socket value, and if the write queue is not full. sendmsg() will
-> > also not add new buffers if the limit is hit.
-> >
-> > This global variable controls the amount of unsent data for
-> > sockets not using TCP_NOTSENT_LOWAT. For these sockets, a change
-> > to the global variable has immediate effect.
-> >
-> >
-> > Setting this sysctl to 2MB can effectively reduce the amount of memory
-> > in TCP write queues by 66 %,
-> > or allow you to increase tcp_wmem[2] so that only flows needing big
-> > BDP can get it.
->
-> We obtained these settings from our hardware vendors.
+> > > Currently, when 'hung_task_panic' is enabled, the kernel panics
+> > > immediately upon detecting the first hung task. However, some hung
+> > > tasks are transient and the system can recover, while others are
+> > > persistent and may accumulate progressively.
+>=20
+> My understanding is that this patch wanted to do:
+>=20
+>    + report even temporary stalls
+>    + panic only when the stall was much longer and likely persistent
+>=20
+> Which might make some sense. But the code does something else.
+>=20
 
-Tell them they are wrong.
+A single task hanging for an extended period may not be a critical issue, a=
+s users might still log into the system to investigate. However, if multipl=
+e tasks hang simultaneously-such as in cases of I/O hangs caused by disk fa=
+ilures-it could prevent users from logging in and become a serious problem,=
+ and a panic is expected.=20
 
->
-> It might be worth exploring these settings further, but I can=E2=80=99t q=
-uite see
-> their connection to high-order allocations, since high-order allocations =
-are
-> kernel macros.
->
-> #define SKB_FRAG_PAGE_ORDER     get_order(32768)
-> #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
-> #define PAGE_FRAG_CACHE_MAX_ORDER       get_order(PAGE_FRAG_CACHE_MAX_SIZ=
-E)
->
-> Is there anything I=E2=80=99m missing?
 
-What is your question exactly ? You read these macros just fine. What
-is your point ?
-
-We had in the past something dynamic that we removed
-
-commit d9b2938aabf757da2d40153489b251d4fc3fdd18
-Author: Eric Dumazet <edumazet@google.com>
-Date:   Wed Aug 27 20:49:34 2014 -0700
-
-    net: attempt a single high order allocation
+> > > --- a/kernel/hung_task.c
+> > > +++ b/kernel/hung_task.c
+> > > @@ -229,9 +232,11 @@ static void check_hung_task(struct task_struct
+> *t, unsigned long timeout)
+> > >   	 */
+> > >   	sysctl_hung_task_detect_count++;
+> > > +	total_hung_task =3D sysctl_hung_task_detect_count -
+> > > +prev_detect_count;
+> > >   	trace_sched_process_hang(t);
+> > > -	if (sysctl_hung_task_panic) {
+> > > +	if (sysctl_hung_task_panic &&
+> > > +			(total_hung_task >=3D sysctl_hung_task_panic)) {
+> > >   		console_verbose();
+> > >   		hung_task_show_lock =3D true;
+> > >   		hung_task_call_panic =3D true;
+>=20
+> I would expect that this patch added another counter, similar to
+> sysctl_hung_task_detect_count. It would be incremented only once per chec=
+k
+> when a hung task was detected. And it would be cleared (reset) when no
+> hung task was found.
+>=20
+> Best Regards,
+> Petr
