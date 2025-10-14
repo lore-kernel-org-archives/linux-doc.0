@@ -1,158 +1,277 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE472C159D
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 06:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E101C2010EE;
+	Tue, 14 Oct 2025 06:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760422397; cv=none; b=ejx7K/cVsXP/pFsSr9N/SZXu82fP1O2ZIbC5xbjO8ZjwByKz1AJyw4B86YpgWJLonnjdYmzNM8Vpz621RP23ILxikHZnKVrQYq+l4G2q7wDbLxVP4LHSE3aH08Sai/up+B8j88t0Bat344Nac/2Cb28nm+YxITy2sPcY5EtYgoo=
+	t=1760423932; cv=none; b=WNAlLULDCKWPSEza5dePnMCsNPcTxKwGcctrWh8yDaQtShjRNmEc512BFSJ6MCCiekxXDbISm6xBarMKUvI9S4Wd7JD6wzMqip8GISxoQBzpLk/vTzPJqXRHctld2woMVoNF/vFlD1RtsXm6b4j5P0k1leUPVO7mojT+YUwwkIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760422397; c=relaxed/simple;
-	bh=g4W8XMYhMO9fpc8t4xoroKvujMgme/s8VyUlfFnXjx0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=ff+MHYtGWiauzkvxPMhhX8qAItXj5Hm0hP0XllOUCWwuECnqWi8lsGk2id/xoyxVVJz/fGaMO5bhOlo+TCKVq/hK1DwDFPErC2bt+h2xlQ8ekG2IIUqKJRDL0eFya4kNgP3jvSyiM5dKEHlHBPfoly2WBiLRK8JO+I53ccVNpKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-42f8befcb06so110316485ab.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 23:13:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760422393; x=1761027193;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Mzww+jJw17MS7+VX/G10P5KXQeBF+5UbwFPdlQO6Zk=;
-        b=xIVqniwYbikGp/Xx9cx+C5a7I2P3VtSa0a2YpDwmwBongNgj8qPuYUw/dvDbThj5oh
-         iAd6RM2Mic/Y07AopkUZ9px7MT24BttIbP17fmlIAnno5FhgwQ+vrenl3ZseO2i6C5ih
-         EGKd07Zk2SWCvT8G8FsXX9uITfbFH3HkcWCYLDAgDm08hudyKkZ3m5EIGPbT0n97g1zE
-         2B6T6OKcXRleNu+LXPJiKtPZ3C5yYDpXA+4H+YBHUVWnVOy2S7ne5lScMOf8n2fJukpI
-         x+4wVMvy9qBGw/TdsYhn+w+ZuFMrLPObRNKm2tbjJUHGNRGW2vDDtrvWVn4aQEAAUv74
-         kBHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkQnyy/zndpS26hfu9fxbt3vYT5zNzoTDf0/Q8eUFzmRxCbh+NfQ9u6j2T/PfKZXIW81mC2lN/NT8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfM+lmSv3K4XgnlfbSJHyjUW53H0bWhyPX4khzPf6s79x7uWXv
-	agmUC5SM2uYIDBMBqbdPhRDw+ElOtaQSwFLrU76aYsG7uPPAvwHLPhh25wxqxxslG3/rE8YGT8J
-	ChLgIEagUq809da0RO4p5FRPZUOgMDmjj4xUSqnlxT6fggnTGeVe3WYAdU0o=
-X-Google-Smtp-Source: AGHT+IFaBL3s8pQ5zB38ATZETSq5SoKT4mYbnvlXznqzS/d+bwQj/IeNTbir68JdnXNVfHGMk+Idl3tEapiBH/zmuivO0cMS8rmm
+	s=arc-20240116; t=1760423932; c=relaxed/simple;
+	bh=WTdEIPVnTjVYFmBVT010VFa83HYwQgS+DTRMlHzMHzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I6IU/dR+myfq1GsCZb73Jb2DO9UMNCaZnDFrTgZjF+aBdB0Qy8XsG3LPq9RY5Bd/tdO6IA0i5kTrnewLtndR0ZG2RdC2ZCq49XOKvya32vSM0gtKr8ewKJKRS1P1FMLshof5/KZ5oANr+IOdSk74hwhskM5bi7TXN4WQlYzT8j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-23-68edefefb741
+Date: Tue, 14 Oct 2025 15:38:33 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: NeilBrown <neil@brown.name>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
+	kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
+	mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+Message-ID: <20251014063833.GA58074@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+ <175947451487.247319.6809470356431942803@noble.neil.brown.name>
+ <20251013052354.GA75512@system.software.com>
+ <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:178d:b0:42d:7d2e:2bff with SMTP id
- e9e14a558f8ab-42f873fd943mr203574325ab.22.1760422392890; Mon, 13 Oct 2025
- 23:13:12 -0700 (PDT)
-Date: Mon, 13 Oct 2025 23:13:12 -0700
-In-Reply-To: <20251014010950.1568389-1-xin@zytor.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68ede9f8.a70a0220.b3ac9.0023.GAE@google.com>
-Subject: [syzbot ci] Re: Enable FRED with KVM VMX
-From: syzbot ci <syzbot+ci098fa4ef739d887e@syzkaller.appspotmail.com>
-To: andrew.cooper3@citrix.com, bp@alien8.de, chao.gao@intel.com, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, hch@infradead.org, hpa@zytor.com, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	luto@kernel.org, mingo@redhat.com, pbonzini@redhat.com, peterz@infradead.org, 
-	seanjc@google.com, tglx@linutronix.de, x86@kernel.org, xin@zytor.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbVRjGPfee+9Fm1WvF7DiMJjVzygJuhmTvovuKRm9MbDDGLZkxs8rN
+	2qwULIwNF5NuYxuyEbCmVMogZQzW0SKlsLlOapCPIim4goMVxnAQZCJ0TRDQAQVblsX993uf
+	J+/zvCc5PK2sZDfwOkOOZDRo9CpWjuXhdVXJkUhYu2VoaTsMHm/FcL7BxUKBp4yBf5bKaTjl
+	XcUQNfs5mHtwm4NVnx9BaZ+Zhun2WQSWsQkWrFPHMdgmyzmY6nwXbi3MIKidWKFgovUMgmjp
+	IbBaggj+dMcmn+MEC3+UXKHh5nyEhW7LWRbCfecpuO9mwX7Cx0BFuRnByeoGFkorPBj6ppcp
+	GCk1U+D0vA+BkgtUrC7mNa4HS/2PFPRUj2AYd9g4WB7bCqv2TPA773Fwp9iC4fvwDQa6RwcZ
+	+L3rNAM/mO7GHnFzjALXuUkaCq7PY/ANb4aq0xcxlFWOsNDi68ZQEJ1D4L82TsE59xUGRl2r
+	DARbAwz0O4MYGu6FKAj4f8Fw43o9A029PfTudLGu6SoluipdSFxaNCPxVEmM2mcitFgTmGHF
+	xfkBVvymN1n02u5wYv5Pw5xo9xwW8zvCjNjkSBKrW6YocXh6h+ip+5pNS9ovfzNd0utyJeNr
+	Oz+Vay8W27ksb/LR5vYOZEIVLxQiGU+EVNLRe5t7xN/5/qILEc9jYSPp9O6Oy6ywiYRCD+g4
+	JwgvksbmIaoQyXlaqE0kIevCmvGMsIv8OuBCcVYIQPqdDWuZSsFKkTOBDx7qT5PusgkcZ1pI
+	IqGVKSreRQuJ5NIKH5dlgprcGrWurT4rvERar3atdRFhXEYu50fRwzufIz87QrgECbbHYm2P
+	xdr+j7Ujug4pdYbcDI1On5qizTPojqZ8npnhQbFfW/vV8sfX0GzwwzYk8Ei1ThFamdEqGU1u
+	dl5GGyI8rUpQbDsWkxTpmrwvJWPmAeNhvZTdhhJ5rFqveH3hSLpSOKjJkQ5JUpZkfORSvGyD
+	CRVtbNlv6mF2vH32iTTZy2amf7a303z35LcH/o1gx2JKkfrVQJBseWcPU+PO21vwpDg+d+HI
+	TrXKmyDLMjz1yWb1exkfFadtP1b01vwrg5fIZM3BnC8GVPdrm02pVbs+G6kPLvu3DSwN/aZw
+	vxFU12xy/v28vmOPpXGfPaeoa2+0T8pV4WytZmsSbczW/Adn3NiEsQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfe7z9N5LQ8214riRRLMaozFBZZnbyTCIH6ZXjUSJk8TEaKN3
+	tuHNtYKiMSkCgzCHpVlbaUUrjmpKFaQV7bCGgWVzDBWY2k2RQQqKgE2Ul/BWbF0W/XLyP7//
+	+eecD4fF8hnJYladdUTUZCkzFLSUSFMSC+KDwRHVWl+DBB7nNxEYGy0hcK7WSUNJfYUEHl6r
+	QdAzVoJgYtqKocgzR2DW0MrA6ORTBua8rQhMHQYMTnc+BW/rQjQMtbxBYOwN0GAezCcQtJ9G
+	YBmwMjDo2wwjPY0SmOt+QcGT8WEE9kCIgkBTMYJZUzpcqHLRMN3+AIPZ+BDBxd5uDC/rwqa7
+	9TkC75VTNPTrb2DoCsyHv8aCNNwz/kDDSMc5Cl7X0WA75ZVApdWAoOBSLQ2mynoCnn9/YaBj
+	aIaCZyYDBTX126HHPkCgTV9Fhe8LT12PBau5gAqXlxQYrzZSMGl3MPDnpWcE7LrlYG3vkkDf
+	FQsDM70JMGfLhtaaFwx0nzESuDbyQJJsRMJEURkRHK4GSijqnKUF53knEqanDEgYrS7AQpE+
+	3LYMB7FQ6DoqVLcN08LU2CNa8I7biPBHFS+Ut8cLHks3IxTe+YfZ8dUe6fqDYoY6V9SsSdov
+	Vf18xsYc9sQfc7fcRTpUuaQURbE89zl/1vsKlyKWJdxy3udJjmCaW8H7/ZM4omO4pfx1999U
+	KZKymLPH8X7z+HtjIbeBv//IiSJaxgHfWVPLRLScM1N8cdvO//gC/l5FgEQ05lbx/tAgFdmF
+	uTj+coiN4CguhX/y3Pw+uohbxjc1/EbpkczyUdryUdryIW1D2IFi1Fm5mUp1xrrV2nRVXpb6
+	2OoD2Zn1KPyT9pMz5bfQaNfmZsSxSBEt84eGVXKJMlebl9mMeBYrYmRfnggj2UFl3nFRk71P
+	k5MhaptRHEsUsbKtaeJ+OXdIeURMF8XDouZ/l2KjFutQ2cUV61y/uivcKYGeNbFJ3wf2vDLn
+	7N7Y79uk/2kfKf4s9VP/tOO2+2uTvR2/1e9NNva5BjatNMlzEnVeotmSoPnE7LtZ2VDtOKna
+	GN3YyS76duj+0vjTE0l76Xmvb32TFv208HHfiV3zE1MHf79bNlWecuDHAd0Xk9/1b9uWtrb/
+	0FEF0aqUCauwRqt8B4xzrPqPAwAA
+X-CFilter-Loop: Reflected
 
-syzbot ci has tested the following series
+On Tue, Oct 14, 2025 at 05:03:58PM +1100, NeilBrown wrote:
+> On Mon, 13 Oct 2025, Byungchul Park wrote:
+> > On Fri, Oct 03, 2025 at 04:55:14PM +1000, NeilBrown wrote:
+> > > On Thu, 02 Oct 2025, Byungchul Park wrote:
+> > > > This document describes the concept and APIs of dept.
+> > > >
+> > >
+> > > Thanks for the documentation.  I've been trying to understand it.
+> >
+> > You're welcome.  Feel free to ask me if you have any questions.
+> >
+> > > > +How DEPT works
+> > > > +--------------
+> > > > +
+> > > > +Let's take a look how DEPT works with the 1st example in the section
+> > > > +'Limitation of lockdep'.
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +   folio_lock B
+> > > > +                folio_lock B <- DEADLOCK
+> > > > +                                mutex_lock A <- DEADLOCK
+> > > > +                                folio_unlock B
+> > > > +                folio_unlock B
+> > > > +                mutex_unlock A
+> > > > +                                mutex_unlock A
+> > > > +
+> > > > +Adding comments to describe DEPT's view in terms of wait and event:
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +                /* wait for A */
+> > > > +   folio_lock B
+> > > > +   /* wait for A */
+> > > > +   /* start event A context */
+> > > > +
+> > > > +                folio_lock B
+> > > > +                /* wait for B */ <- DEADLOCK
+> > > > +                /* start event B context */
+> > > > +
+> > > > +                                mutex_lock A
+> > > > +                                /* wait for A */ <- DEADLOCK
+> > > > +                                /* start event A context */
+> > > > +
+> > > > +                                folio_unlock B
+> > > > +                                /* event B */
+> > > > +                folio_unlock B
+> > > > +                /* event B */
+> > > > +
+> > > > +                mutex_unlock A
+> > > > +                /* event A */
+> > > > +                                mutex_unlock A
+> > > > +                                /* event A */
+> > > > +
+> > >
+> > > I can't see the value of the above section.
+> > > The first section with no comments is useful as it is easy to see the
+> > > deadlock being investigate.  The section below is useful as it add
+> > > comments to explain how DEPT sees the situation.  But the above section,
+> > > with some but not all of the comments, does seem (to me) to add anything
+> > > useful.
+> >
+> > I just wanted to convert 'locking terms' to 'wait and event terms' by
+> > one step.  However, I can remove the section you pointed out that you
+> > thought was useless.
+> 
+> But it seems you did it in two steps???
+> 
+> If you think the middle section with some but not all of the comments
+> adds value (And maybe it does - maybe I just haven't seen it yet), the
+> please explain what value is being added at each step.
+> 
+> It is currently documented as:
+> 
+>  +Adding comments to describe DEPT's view in terms of wait and event:
+> 
+> then
+> 
+>  +Adding more supplementary comments to describe DEPT's view in detail:
+> 
+> Maybe if you said more DEPT's view so at this point so that when we see
+> the supplementary comments, we can understand how they relate to DEPT's
+> view.
 
-[v8] Enable FRED with KVM VMX
-https://lore.kernel.org/all/20251014010950.1568389-1-xin@zytor.com
-* [PATCH v8 01/21] KVM: VMX: Add support for the secondary VM exit controls
-* [PATCH v8 02/21] KVM: VMX: Initialize VM entry/exit FRED controls in vmcs_config
-* [PATCH v8 03/21] KVM: VMX: Disable FRED if FRED consistency checks fail
-* [PATCH v8 04/21] x86/cea: Prefix event stack names with ESTACK_
-* [PATCH v8 05/21] x86/cea: Export API for per-CPU exception stacks for KVM
-* [PATCH v8 06/21] KVM: VMX: Initialize VMCS FRED fields
-* [PATCH v8 07/21] KVM: VMX: Set FRED MSR intercepts
-* [PATCH v8 08/21] KVM: VMX: Save/restore guest FRED RSP0
-* [PATCH v8 09/21] KVM: VMX: Add support for saving and restoring FRED MSRs
-* [PATCH v8 10/21] KVM: x86: Add a helper to detect if FRED is enabled for a vCPU
-* [PATCH v8 11/21] KVM: VMX: Virtualize FRED event_data
-* [PATCH v8 12/21] KVM: VMX: Virtualize FRED nested exception tracking
-* [PATCH v8 13/21] KVM: x86: Save/restore the nested flag of an exception
-* [PATCH v8 14/21] KVM: x86: Mark CR4.FRED as not reserved
-* [PATCH v8 15/21] KVM: VMX: Dump FRED context in dump_vmcs()
-* [PATCH v8 16/21] KVM: x86: Advertise support for FRED
-* [PATCH v8 17/21] KVM: nVMX: Add support for the secondary VM exit controls
-* [PATCH v8 18/21] KVM: nVMX: Add FRED VMCS fields to nested VMX context handling
-* [PATCH v8 19/21] KVM: nVMX: Add FRED-related VMCS field checks
-* [PATCH v8 20/21] KVM: nVMX: Add prerequisites to SHADOW_FIELD_R[OW] macros
-* [PATCH v8 21/21] KVM: nVMX: Allow VMX FRED controls
+As you pointed out, I'd better remove the middle part so as to simplify
+it.  It doesn't give much information I also think.
 
-and found the following issue:
-WARNING in vmread_error
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +                /* might wait for A */
+> > > > +                /* start to take into account event A's context */
+> > >
+> > > What do you mean precisely by "context".
+> >
+> > That means one of task context, irq context, wq worker context (even
+> > though it can also be considered as task context), or something.
+> 
+> OK, that makes sense.  If you provide this definition for "context"
+> before you use the term, I think that will help the reader.
 
-Full report is available here:
-https://ci.syzbot.org/series/706e7cbc-a7af-4357-af68-194e1c883968
+Thank you.  I will add it.
 
-***
+> > > If the examples that follow It seems that the "context" for event A
+> > > starts at "mutex lock A" when it (possibly) waits for a mutex and ends
+> > > at "mutex unlock A" - which are both in the same process.  Clearly
+> > > various other events that happen between these two points in the same
+> > > process could be seen as the "context" for event A.
+> > >
+> > > However event B starts in "context X" with "folio_lock B" and ends in
+> > > "context Z" or "context Y" with "folio_unlock B".  Is that right?
+> >
+> > Right.
+> >
+> > > My question then is: how do you decide which, of all the event in all
+> > > the processes in all the system, between the start[S] and the end[E] are
+> > > considered to be part of the "context" of event A.
+> >
+> > DEPT can identify the "context" of event A only *once* the event A is
+> > actually executed, and builds dependencies between the event and the
+> > recorded waits in the "context" of event A since [S].
+> 
+> So a dependency is an ordered set of pairs of "context" and "wait" or
 
-WARNING in vmread_error
+I don't get what you were trying to tell here.  FWIW, DEPT focuses on
+*event* contexts and, within each event context, it tracks pairs of
+waits that appears since [S] and the interesting event that identifies
+the event context.
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      0d97f2067c166eb495771fede9f7b73999c67f66
-arch:      amd64
-compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-config:    https://ci.syzbot.org/builds/0033ed68-ef22-4ef4-a630-0d101fb2cb8e/config
-C repro:   https://ci.syzbot.org/findings/a19ef524-0065-4a83-abb5-c42a195ec916/c_repro
-syz repro: https://ci.syzbot.org/findings/a19ef524-0065-4a83-abb5-c42a195ec916/syz_repro
+> "context" and "event".  "wait"s and "event"s are linked by some abstract
+> identifier for the event (like lockdep's lock classes).
 
-------------[ cut here ]------------
-vmread failed: field=281a
-WARNING: CPU: 0 PID: 5954 at arch/x86/kvm/vmx/vmx.c:425 vmread_error+0x7e/0x90 arch/x86/kvm/vmx/vmx.c:425
-Modules linked in:
-CPU: 0 UID: 0 PID: 5954 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:vmread_error+0x7e/0x90 arch/x86/kvm/vmx/vmx.c:425
-Code: dc 63 8b 48 89 de 5b 5d e9 cf de cf ff e8 0a 62 68 00 c6 05 4c 67 30 0e 01 90 48 c7 c7 80 db 63 8b 48 89 de e8 03 7f 2b 00 90 <0f> 0b 90 90 eb 98 66 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90
-RSP: 0018:ffffc90004d66f28 EFLAGS: 00010246
-RAX: c305e84bb7041f00 RBX: 000000000000281a RCX: ffff888109e48000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-RBP: ffffc90004d674a8 R08: ffff888121024293 R09: 1ffff11024204852
-R10: dffffc0000000000 R11: ffffed1024204853 R12: dffffc0000000000
-R13: ffff8881152e0000 R14: ffff88811292a30f R15: ffff88811292a000
-FS:  0000555576a3b500(0000) GS:ffff88818e70e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 00000001bda0c000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- __vmcs_readl arch/x86/kvm/vmx/vmx_ops.h:111 [inline]
- vmcs_read64 arch/x86/kvm/vmx/vmx_ops.h:177 [inline]
- nested_vmx_enter_non_root_mode+0xa0ef/0xbb20 arch/x86/kvm/vmx/nested.c:3834
- nested_vmx_run+0x5f7/0xc40 arch/x86/kvm/vmx/nested.c:4053
- __vmx_handle_exit arch/x86/kvm/vmx/vmx.c:6821 [inline]
- vmx_handle_exit+0x10a4/0x18c0 arch/x86/kvm/vmx/vmx.c:6838
- vcpu_enter_guest arch/x86/kvm/x86.c:11575 [inline]
- vcpu_run+0x446f/0x6fb0 arch/x86/kvm/x86.c:11733
- kvm_arch_vcpu_ioctl_run+0xfc9/0x1940 arch/x86/kvm/x86.c:12072
- kvm_vcpu_ioctl+0x95c/0xe90 virt/kvm/kvm_main.c:4476
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f22ca18eec9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff1aacefa8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f22ca3e5fa0 RCX: 00007f22ca18eec9
-RDX: 0000000000000000 RSI: 000000000000ae80 RDI: 0000000000000005
-RBP: 00007f22ca211f91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f22ca3e5fa0 R14: 00007f22ca3e5fa0 R15: 0000000000000003
- </TASK>
+Yeah, kind of.
 
+> How are the contexts abstracted. Is it just "same" or "different"
 
-***
+I don't get this.  Can you explain in more detail?
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+	Byungchul
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+> I'll try reading the document again and see how much further I get.
+> 
+> Thanks,
+> NeilBrown
