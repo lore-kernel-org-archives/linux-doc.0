@@ -1,125 +1,123 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA0A270552
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 07:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC3A29BD81
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 07:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760425281; cv=none; b=KRcAV49z+/aOsTSUu41P8QHHtFfasxZbItES94J4zRZXvI6DwtFwe0OSBHElAQHBh5+lBZWo9Qk7p+X+RdLvBOAC7laG/6qGwhjFwiPU3VbYkrOLwaZZe8Isu8766FrRv0mNe+ahl3UB4cjHC8FvtOWwXJklDUvtPa3ejQ1YAVg=
+	t=1760426661; cv=none; b=oqoOlFa8ua+FrXyN2r4Q837HOgjPFnHnvLnvqwafIJx5xx3Jn2o1ailaG9HPpuMU6gXYlifaO48aVZ0scYemOv3KNw2vObE63aV57Fxx0iXB0JGMTT9DDpKlxLUwl2SG8sdJlfffEwUCUL4paAyBCX1F2Tyr3NHA4FAoPM3PHfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760425281; c=relaxed/simple;
-	bh=Wbwb1dO1WLDgacw7LIxGfSzHAltEaTQcEfo+u2xdiR0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=umUbjlGU3FlXtbdMC0EAFbGcPB1IKSiZu8v6YqMBvJx13i9agf3CCMN7/maXeg5UiC6EYJiJiTHyNHgDFMFkyEnzmJOKl5XC+QaoJiRCjGRbV6T4g3hQDfRwTm0ESP9keT+J8MwNMIGTG9qm2KhiAGoi2uXKt5b/FVjieyT/6aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0sIc7ovI; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760426661; c=relaxed/simple;
+	bh=XNpQiaoPmtubQWjx7HZt+FaoHtPtuE6h/eecJifiCfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACD21bosL1L6e4Le6b2F82szm5l4INlVG0jevY2S3sq1UgEm1FC/fKUCBnGDmmE/hL73B1PorKmwX9RPaxdQm1SDl+v4l0UNzJhlQWs4FPjltjGWw6BTyQTsNu1TXRt6cyDdEC8sARUacmar5kRab/46jIPDe4ZxbnxfC9HzIaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=R/y325+A; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0sIc7ovI"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-87bf3d1e7faso12923326d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 00:01:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="R/y325+A"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46e52279279so35268225e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 00:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760425279; x=1761030079; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jsQ1m/aFutWkld5ryO0dQSkVhTvtxn9NWV5ydHxepQA=;
-        b=0sIc7ovItMrk1SHyQCqtJaecI9B6M/fPQD2dqAWlweqGfnCV0W25jnvh62vHahej52
-         o4pbavcfvPG2YWbMcDMXAkA5q0yG6fdQjD1nXUWF1sfYpzwXfyggV4hjOMZbrO0+sbZQ
-         IwV5l05rpg9qucMBJ/jHK/LCg3pd2fn7D/suhl75R49OuqQlZ19/jirWnFMPglzorO0F
-         x8KndrjQLfiSwa4ACT62AydDvd8RRV6wnQHphd4aJSq/iwS0dktmcwPi0jKAmismuJ+z
-         Afbw/GcSwH8cWUWbsqVcKRw9xszxKgUdYeiGhA3Go6k+8lMiz0+/uCcLNsDh0agjG/Ay
-         kmxA==
+        d=suse.com; s=google; t=1760426658; x=1761031458; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJsuSntfzmyGwBLDCIOK8zsxQdVVbjKkDRasCAUOBFU=;
+        b=R/y325+A9c8MxvrcUQukZV+j96qhVzE2ziF8QrunjEewp5G9eqQsioXUUEwqBBtH1e
+         S4vHR0knK68wKOmJppkqHeEoqP+qEriQU/Fg0aJMlzlooYsQg3Quax0Y1oirx5SeXPg3
+         b/3i8ru3btHplF6Pwq2FBUYVE+ySUl3NqsqlhkTp6ovg7vJ3ZgM7R+rL2CFv1ft75oXr
+         RN1cp2dRqIpudgFo1BZJ7y4hliUOrzpIfPEljpKFAb9QEJ/1TLDNy0srWOjY0MNmeYWv
+         bnhYotosgLR1qcHEkK5wWFTSmUwvoiVkYxCl5evyHgeEHp/5s8L4Uu84U2F55nu1ahF7
+         FMgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760425279; x=1761030079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jsQ1m/aFutWkld5ryO0dQSkVhTvtxn9NWV5ydHxepQA=;
-        b=V620+Qrw0RqTYJUDEmOq2jqJzY6dbpsORlljneYs43rn9qWIxwAmsJQ7vMkEYOer2i
-         HjsAn2l0pMR58Yy1FT62YmcxwpAldagfPP+Tbczw10nv6/40tYmHOKTLxSpzmC8lAVP9
-         loJun/8gtdMnmgMmiG5jAbtbTj8Duwn2W9qU8afPxv+OYiTCEK6acxI9laWqSc4mhoxj
-         9NpxUBgpoaR3x0vbpg0ELpEVHXnITFnKEDdUVrWzCBVYP5P5Y/asbWtvaDgXN/AxWkPh
-         X4kWLC80ok+Mg2XMnm+7vdJJKMI5AYTV6kPW3aHIHkwZaQkmY8A1Dd/1jFW+dwcgJ3Fd
-         5Z3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUjZMTtLDZT0Et5HtudICH2TJRgc1B7m8Spk6+jr8jlO4MopxlHnBQKLvgjm0pSOqHUmIpy8flt15s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo1oV50oMqoJzbon3eZ3WRgVp2Iwmfyk9cOv8/szJFKxLvB32u
-	c0t9PbtuA3cN3PvBpIFUtItsKIWS6tblB28kvqcLBulxL7pnpf3GrTWcpA2yRM/IEipxSLphI7C
-	4s74kV5604IXx4TxfEkLGevurgOCPIHDNrzalcBMd
-X-Gm-Gg: ASbGncsnnQzlNnaLtl0moH9/3/nhM7yxwaicNvMh+Bc7mzx8fJrjfy5o6dbs2WzgKl2
-	C+FQcyXJWJI8iwGGgDvSizFath3A4Y9TLSASz3xJFdBo8dzrTBBGY6ARhq7OBfFHwEzL8c+XQ9A
-	dxHeK6u9OEP3hPvSEwISSuw+rxz+4SvWFckPD3lJRdsdY4F/NlfsIBrNrH+9AiScMTiByazorZz
-	g85d5GkwWQLY1U4ad5SClRFYdmb776PLfUsxTz8xsw=
-X-Google-Smtp-Source: AGHT+IHR7KeqfX1q4j3neFi7CD60ffHHvOgtSgSkxcg1JbCbIReg3SIb3TKWDF50WzB6YocPrnOGpWynAn63FWdOqTE=
-X-Received: by 2002:a05:6214:2622:b0:820:a83:ead3 with SMTP id
- 6a1803df08f44-87b21032994mr371828316d6.23.1760425278145; Tue, 14 Oct 2025
- 00:01:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760426658; x=1761031458;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DJsuSntfzmyGwBLDCIOK8zsxQdVVbjKkDRasCAUOBFU=;
+        b=ekvmxf3wQ/eSbqIVkjV7fdhuBC7kkapmrUQflrApBcNqKQjhrOnGnpWqaMrLqDLViI
+         BI/i6BkMrTAKgi3v/Evmj4Tok6HA0rWgTQnzSZa0fooRRdSXeCl6887BYMwYEW36lLmn
+         Xv8bRs1UX1dTMHCzYJ6Yle1/uvlfnhA/mxdJk3XyUgJ4LHQDes13KQ0aQ8HPESZlS66Y
+         J8Kw/Vhcy1juG/pTil9GGNU3CEAFGsc3puZk1RQjh8iAb5Zr8PU5uJvrnXNdNVbehPVk
+         tNCGPJaPwP47vHF9Xst76beVCwD2XSMtt5wQxNh7p2A2CmEs6HLE9xiCHHhvDB0I5GbD
+         6ltQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzcZfZkBkCGXR7tHBXjCKohY85ITMxlBvZRcjrU46SUWXherdoV7j7+jAk3iG7JfreGJltXBl/iW0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB5k6D6uujL0XEnY2XHNsE2zHkdaBuN1qBKNMxf9SvG/kwq011
+	1TfDCmArIyzO4ndYX8WQE+GOFhoIzplfV6u+b5kiY+TFe3PBtsIdd+WX7+fxqIZfQvs=
+X-Gm-Gg: ASbGnctAotv8CvHahap5aT1u7xxmOw9s/hUD7u1lda0d7lyVQQZ/ybJC+AdBIb0eS+l
+	fBqBOOkRBCeElZy+b28yOayqj9+V055CVoE4s93+4+NJIS9LwwbYIRfGUeVFNTu3Q4yh7tqd7E1
+	kXwI6bKSd2uM1koh79bTRw3tHUS7mCy8KqOjG3th8VXSaxfoRQ3iUo06zPTIMff+JLo39/xhM3B
+	NjcguERBI/HRLBz877fXjt0VV2/86cHJNZt8Bef8m2Yyi1pWH6eYyQ2U9vG9ouFP5mCSz1jJSue
+	heaI6dZTKRfdiLASZZS3YA4sSMzxJixN71tfQRKmKJISUNQT0FDjkQoCrzeQCRhQMSOUdbLBeYx
+	fi+etmztkgRjR4JLXhXDYdPET+nfomlTU7OSzLnTBHx9ZokKRhSTzZ04ao6rWHtI=
+X-Google-Smtp-Source: AGHT+IFRg4GPmLD9q+m6Z1pGRfggv0OTz6EOdiAPNLgTJQcEwNtxGs3WA3GtVkRT34c+YV2Jq9/wAw==
+X-Received: by 2002:a05:600c:8b24:b0:46f:b42e:edce with SMTP id 5b1f17b1804b1-46fb42eee44mr106715865e9.39.1760426657567;
+        Tue, 14 Oct 2025 00:24:17 -0700 (PDT)
+Received: from localhost (109-81-16-57.rct.o2.cz. [109.81.16.57])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb492e6ddsm250256765e9.0.2025.10.14.00.24.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 00:24:17 -0700 (PDT)
+Date: Tue, 14 Oct 2025 09:24:16 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Barry Song <21cnbao@gmail.com>,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Barry Song <v-songbaohua@oppo.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Huacai Zhou <zhouhuacai@oppo.com>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network
+ buffer allocation
+Message-ID: <aO36oKRR3UliRFR5@tiehlicka>
+References: <20251013101636.69220-1-21cnbao@gmail.com>
+ <927bcdf7-1283-4ddd-bd5e-d2e399b26f7d@suse.cz>
+ <877bwyxvvl.fsf@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANn89i+wikOQQrGFXu=L3nKPG62rsBmWer5WpLg5wmBN+RdMqA@mail.gmail.com>
- <20251014035846.1519-1-21cnbao@gmail.com> <CANn89iKCZyYi+J=5t2sdmvtERnknkwXrGi4QRzM9btYUywkDfw@mail.gmail.com>
- <CAGsJ_4ySSn6B+x+4zE0Ld1+AM4q-WnS0LfxzWw22oXr7n5NZ=g@mail.gmail.com>
-In-Reply-To: <CAGsJ_4ySSn6B+x+4zE0Ld1+AM4q-WnS0LfxzWw22oXr7n5NZ=g@mail.gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 14 Oct 2025 00:01:07 -0700
-X-Gm-Features: AS18NWD5ciaHerlqKb1LSkLizTAcEH7y8M_BZABcYRSz9LQQyJTFiKiNPr9pVjc
-Message-ID: <CANn89i+j_CZM9Q=xTkSq-7cjeRkt29JikD3WqvmPihDrUHBQEQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-To: Barry Song <21cnbao@gmail.com>
-Cc: corbet@lwn.net, davem@davemloft.net, hannes@cmpxchg.org, horms@kernel.org, 
-	jackmanb@google.com, kuba@kernel.org, kuniyu@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linyunsheng@huawei.com, mhocko@suse.com, netdev@vger.kernel.org, 
-	pabeni@redhat.com, surenb@google.com, v-songbaohua@oppo.com, vbabka@suse.cz, 
-	willemb@google.com, zhouhuacai@oppo.com, ziy@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877bwyxvvl.fsf@linux.dev>
 
-On Mon, Oct 13, 2025 at 11:43=E2=80=AFPM Barry Song <21cnbao@gmail.com> wro=
-te:
->
-> > >
-> > > A problem with the existing sysctl is that it only covers the TX path=
-;
-> > > for the RX path, we also observe that kswapd consumes significant pow=
-er.
-> > > I could add the patch below to make it support the RX path, but it fe=
-els
-> > > like a bit of a layer violation, since the RX path code resides in mm
-> > > and is intended to serve generic users rather than networking, even
-> > > though the current callers are primarily network-related.
-> >
-> > You might have a buggy driver.
->
-> We are observing the RX path as follows:
->
-> do_softirq
->     taskset_hi_action
->        kalPacketAlloc
->            __netdev_alloc_skb
->                page_frag_alloc_align
->                    __page_frag_cache_refill
->
-> This appears to be a fairly common stack.
->
-> So it is a buggy driver?
+On Mon 13-10-25 15:46:54, Roman Gushchin wrote:
+> Vlastimil Babka <vbabka@suse.cz> writes:
+> 
+> > On 10/13/25 12:16, Barry Song wrote:
+[...]
+> >> An alternative approach is to disable kswapd for these frequent
+> >> allocations and provide best-effort order-3 service for both TX and RX paths,
+> >> while removing the sysctl entirely.
+> 
+> I'm not sure this is the right path long-term. There are significant
+> benefits associated with using larger pages, so making the kernel fall
+> back to order-0 pages easier and sooner feels wrong, tbh. Without kswapd
+> trying to defragment memory, the only other option is to force tasks
+> into the direct compaction and it's known to be problematic.
+> 
+> I wonder if instead we should look into optimizing kswapd to be less
+> power-hungry?
 
-No idea, kalPacketAlloc is not in upstream trees.
-
-It apparently needs high order allocations. It will fail at some point.
-
->
-> >
-> > High performance drivers use order-0 allocations only.
-> >
->
-> Do you have an example of high-performance drivers that use only order-0 =
-memory?
-
-About all drivers using XDP, and/or using napi_get_frags()
-
-XDP has been using order-0 pages from the very beginning.
+Exactly. If your specific needs prefer low power consumption to higher
+order pages availability then we should have more flixible way to say
+that than a hardcoded allocation mode. We should be able to tell
+kswapd/kcompactd how much to try for those allocations.
+-- 
+Michal Hocko
+SUSE Labs
