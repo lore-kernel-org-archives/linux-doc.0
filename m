@@ -1,152 +1,184 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEBD2F5A2D
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1009C273D77
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760435111; cv=none; b=uRZEBlsQ6asUnk8gHMr96KkpRC9yLFFtGcAjZKTVQZj42gW1Hgqjs7EFKJpiRgywJins1AVmgE7A1AMJhIldlfoKZ56lN3dAnOljLpCz5fbUbqQLQVB7WzVAo5cRwubkMqfbD/tIFRfer8CAbb9aFhcVaoQfsYuspL1uUth1JLY=
+	t=1760435358; cv=none; b=eQcYYUKXF9ZwDq/KBwHy5MGD+kxDqinv1UEdFbQLWHmjTmk8xUU/Vxg76hMQ2kcOUdx+6AISpf/lrp2eCTT+OaEY4kbn6sGvycZBBhSpqiXatm19EXMzKbhS2ipkYKqq2+yxauFOv1InS74QBZMsm5o3kONCPhHCFoaEolo1E1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760435111; c=relaxed/simple;
-	bh=9+jzJmhp4NDYlmVAzrpZPo68lQ6Jij+VLE6Up3JnboA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5dJJTJ8BegW7XflxiVsqrEjYxyq5Y9OghCKUJEPvASKbTkrmo9swlfN+lIkKZF17ClxwSCtZ2U3MYIZYRGW/RoehInQicBtqKnUQK1plSd7a0+GqwLm3iY2Cs/sKD8ArGUPoljGe5pkN71sj+94q4zvX7Ngr2Dnrlf/wBqa+zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XDV77NON; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1760435358; c=relaxed/simple;
+	bh=gGb9eDVa6GvVYjR9gyWIr55BgaGdEpmDwy6Ql2lMG9k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R3mHJbvOOLpiLutS1Wjd+4WyURaI4iII7O9Oz6QuAf8TniSuQv65rxdC3v4Iz1ke5/vKVB/hjR4PXAhbuNhnj2DxyC+90jCe4NkSXO/WrVf4HKvU632pwJIJt5VCuS+ytu9pNb8+wWLNv6dL1g4Ba57D1nIezsXrftUaLUxxf44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TPBBf6/S; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XDV77NON"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e52279279so36334685e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:45:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TPBBf6/S"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-816ac9f9507so788201785a.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:49:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1760435108; x=1761039908; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R75CvrIgcbILYeZyEie2SvMudL4DW8xIUI8yCH+RsPE=;
-        b=XDV77NONhb6aE+xpGklpzVTPYklSS5txSxipRmfV54Mbn08SCU/o8mWQddE3WtE8Sl
-         gXJYwCIf9nQCIWLFmIIDwKH5tskqCGjOZnmb8DLrKlYO3BHBVq82H/3l6WdI3dRxkJwh
-         TLmut742gMNO3teiW8MPJ/aeDjaZWHLf/93D1stKQ3bHi0p7HwyJ9zLceSnAMqUECGvx
-         49IRbGIa9zjSZLaeTNnVd7+uc8eRC7BTqVguORDDmNVXZypPxP0VyiuxjAaIXDP230zk
-         Jee9KvOcUqzAFW7wjCAVhS4eLPLEGds2OUIepeCFn+13Br1QwjDsBisnKBG82f8oWLla
-         YhYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760435108; x=1761039908;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1760435355; x=1761040155; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R75CvrIgcbILYeZyEie2SvMudL4DW8xIUI8yCH+RsPE=;
-        b=q4u5Gsnq1IBSZgUFZ3jHa/O8Y0VFGaoswdCvh9f2/PZZajKHs8AF7Iw9CVzoJUZkwc
-         nqf72ktY/dqTefeeP/QsMo6IceStlAth/m6zLz4A0rJBoHxyiYOwa3UHp2514JUb3HlB
-         r9jul9howt/l4EMqzeT+8xnUFDSU99mb9t6NvLc5ZlVfDpEIk4lXTj/M2ZbyVxUOLjGG
-         2SaG2Bp9sCzG1BZUNBdHn6v+ByVKtkMxlHjEy3hCiOcFTcXtUJV+jrKXNH5E6lSkTPQO
-         nzRV3S36iin4z3fl0ibt6UL8UnXccvcPsov37yEZnSV/GJto4yOHzBqKBELIsA6/JLo+
-         I60w==
-X-Forwarded-Encrypted: i=1; AJvYcCWm28qi4lGgMK/fbwLpJJH79ux0X7WXORH/i/uX6jp2z5cNpyXVqg/2xFL3QDojCEdTUWmz4eY3uDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMzy3/rYqEI9pxmtYj8kzCmUQl7/ooy6O48hXxnWLkmWbFpNfi
-	sjqRRJp6OW2kBkbf9cAPZdVztPtQypnUiMmO/V77zAtywXnKk9y5109e2gD0hzQ9j7E=
-X-Gm-Gg: ASbGncsM51T25rmCvnSV+sBThvEXCvoxVWBW/1I4kgHsiDoIUKd6ErQNJ5Zxzyep8dG
-	LBEBO1JqwQGcGAQpbEOfKwiKjq8r5m1Rm1TqrlCojE2wsr/DTgpehn3dx+iOfgCd7bmvUMozpzA
-	F8beBVTMbX/bXsWo5SQ/O/qjP6YNRYKCUd+cnEGtVUIBe9HBbd3ig1qMxkagQfuRswVoBHZ429q
-	E//8XdsOkCovcDssRCiswV/nKTP1rHsSdTfrvQtitp7kMk/o0+1ipoMJD6WHEL3C+R5Aquboq+l
-	Isuvo8kLO1BdTSZ2k+Ub/DuqrDP4FU8h3OXQAYugU/J1WTUBdWTk+Y2Ib1neLeBqGfxBkBLSeWq
-	AO39yMevU16AhMW0qjtvImzIHSsFCQ2aq96d6B4ExIlT0f0CHxEg5c78R77Vf8sgnddQ8Jw==
-X-Google-Smtp-Source: AGHT+IFLMF/oRlSecQb1AgZUj9ViudEM8BAiQCOLkhiN8cHZAWDwJ7zBbTzbicn8TdmEii38ZLu7Sw==
-X-Received: by 2002:a05:600c:890d:b0:46e:32f7:98fc with SMTP id 5b1f17b1804b1-46fa9af3656mr132535685e9.21.1760435107774;
-        Tue, 14 Oct 2025 02:45:07 -0700 (PDT)
-Received: from pathway.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489ad27sm230711415e9.15.2025.10.14.02.45.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 02:45:07 -0700 (PDT)
-Date: Tue, 14 Oct 2025 11:45:05 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: lirongqing <lirongqing@baidu.com>, wireguard@lists.zx2c4.com,
-	linux-arm-kernel@lists.infradead.org,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	linux-doc@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stanislav Fomichev <sdf@fomichev.me>, linux-aspeed@lists.ozlabs.org,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>, Russell King <linux@armlinux.org.uk>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Shuah Khan <shuah@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joel Granados <joel.granados@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Phil Auld <pauld@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Simon Horman <horms@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
-	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH][v3] hung_task: Panic after fixed number of hung tasks
-Message-ID: <aO4boXFaIb0_Wiif@pathway.suse.cz>
-References: <20251012115035.2169-1-lirongqing@baidu.com>
- <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
+        bh=/rejcU5EZuKfOaVf3kGuy7qqlEcfNKn49oLZoxZhzh8=;
+        b=TPBBf6/S0rF6DBgg/Wz6eF6o71OngV/9WOKH+K/UYrQblEDvVMR7IaIGypoGhrh8uD
+         ss+yUof6CvLRyK+JXyOUkeW+5rSmaePXuJ8enm63d41z60mvtYwbVjzJSkE3Grcr39qx
+         eeEHy7y9LnJ5H7j/KfhQVb2u7iFArdxPUWwPM/E1tQ/NoNXg365BMOxnXEGM/Z8gAemY
+         MZa1Ycgcm06UjxLaiqzTbKtkc97SNKuf+PCnGLZMvxIFV8ZcbqKmWFEx4vo4A6nbFVS4
+         EhA0ya4zDQ20x6dQD0GtlAioNSQn2okTe8ORycShgj6bcNWq0Bl9z4TMSJC4mKsTAokm
+         neqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760435355; x=1761040155;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/rejcU5EZuKfOaVf3kGuy7qqlEcfNKn49oLZoxZhzh8=;
+        b=FiTRzUmq3F7eVQMYi7/Ae7Gmg/8sIvUbftAn3TJXSqbgjuPYBv405pX4t6IvOfatXx
+         fQCUvnmzXb1/J2tR3pe2qqEeP2Bdk/ba5mPT+Qtvw79VUkW3pp08tubTtO/0DAUe+oBn
+         xdAJvvsERbrCQK3TxJQxXwQL3cjYWadsfQ5V2nm64O0A5Kln0RpVH1vCflq0IXlz8V2x
+         AE/OIdSIWlz0PWZe8MP5v3hGT5kTC00CuxSZV9fpjsQ8Kj7Tlt+K//34b1WVbHhh9Wkt
+         5ky32do/LJ01vAwhVvHuQ900B20QB1N9Rg/cO/sPoIkb9IT2aDB99z6qGLJJgxHmB4H3
+         rIkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/sCnPOGuW+Ythcjo/KsUSPhn2ptzALydtnMEtXZmISNqHs885r0mrK6zRIAnwpGtj78DKTZCuu+8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTM9oBlu1AZWfjpxylvdes5VrRGe3G3g/xyRZGnoJC3LQssNcL
+	PBoNdtBFoxjwnuQl9IShExzMaqtztSVhaHcZTVMjtxMxck3F0xMrbqA62jlsdE6a7vFgMmidozw
+	SOUC4hBSoQJyQxnrOzItloVDA66BlmwPmh4WAkZH5
+X-Gm-Gg: ASbGncti9uxtdMHgHAslYYGLcNhZsckvXpwjriz8MeeTAULrWDf2PJp8c0V5qqTnBjW
+	4ntzBpEkXFh5CC0j1bY0kp5VK9r8ENsKCPp6zHmYPgwQGc0GVF9WB159TwoUOgBcc2VZVgtg3PA
+	sE92KCgwCyicFhKwT9N56Y61qyel8cIvWMylUHxIGdgT6SLIsugu9xWt5bObLsslBwgwCl/A4L2
+	FF+M1hSEEZau20zj8TVUPnA29p3hjrHsk/YTuti+pI=
+X-Google-Smtp-Source: AGHT+IHl4KYhns6HjXctJUP8o5ymMntOlhxSsAztTQ/ElyRGupOcA1nshFbafOIGxpIMTBr9aCbejFNLuYJavjSBG/8=
+X-Received: by 2002:a05:622a:1651:b0:4b7:a1b6:cf29 with SMTP id
+ d75a77b69052e-4e6de928b64mr379844891cf.41.1760435354432; Tue, 14 Oct 2025
+ 02:49:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
+References: <20251013101636.69220-1-21cnbao@gmail.com> <aO11jqD6jgNs5h8K@casper.infradead.org>
+ <CAGsJ_4x9=Be2Prbjia8-p97zAsoqjsPHkZOfXwz74Z_T=RjKAA@mail.gmail.com>
+ <CANn89iJpNqZJwA0qKMNB41gKDrWBCaS+CashB9=v1omhJncGBw@mail.gmail.com> <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
+In-Reply-To: <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 14 Oct 2025 02:49:03 -0700
+X-Gm-Features: AS18NWCJcjmV12JbFBOiX1xuqww7glxnYRIPGxjvTUEA69A11zlzBQw_qx0TUQI
+Message-ID: <CANn89iKSW-kk-h-B0f1oijwYiCWYOAO0jDrf+Z+fbOfAMJMUbA@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
+To: Barry Song <21cnbao@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Barry Song <v-songbaohua@oppo.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 2025-10-14 13:23:58, Lance Yang wrote:
-> Thanks for the patch!
-> 
-> I noticed the implementation panics only when N tasks are detected
-> within a single scan, because total_hung_task is reset for each
-> check_hung_uninterruptible_tasks() run.
+On Tue, Oct 14, 2025 at 1:58=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrot=
+e:
+>
+> On Tue, Oct 14, 2025 at 1:04=E2=80=AFPM Eric Dumazet <edumazet@google.com=
+> wrote:
+> >
+> > On Mon, Oct 13, 2025 at 9:09=E2=80=AFPM Barry Song <21cnbao@gmail.com> =
+wrote:
+> > >
+> > > On Tue, Oct 14, 2025 at 5:56=E2=80=AFAM Matthew Wilcox <willy@infrade=
+ad.org> wrote:
+> > > >
+> > > > On Mon, Oct 13, 2025 at 06:16:36PM +0800, Barry Song wrote:
+> > > > > On phones, we have observed significant phone heating when runnin=
+g apps
+> > > > > with high network bandwidth. This is caused by the network stack =
+frequently
+> > > > > waking kswapd for order-3 allocations. As a result, memory reclam=
+ation becomes
+> > > > > constantly active, even though plenty of memory is still availabl=
+e for network
+> > > > > allocations which can fall back to order-0.
+> > > >
+> > > > I think we need to understand what's going on here a whole lot more=
+ than
+> > > > this!
+> > > >
+> > > > So, we try to do an order-3 allocation.  kswapd runs and ... succee=
+ds in
+> > > > creating order-3 pages?  Or fails to?
+> > > >
+> > >
+> > > Our team observed that most of the time we successfully obtain order-=
+3
+> > > memory, but the cost is excessive memory reclamation, since we end up
+> > > over-reclaiming order-0 pages that could have remained in memory.
+> > >
+> > > > If it fails, that's something we need to sort out.
+> > > >
+> > > > If it succeeds, now we have several order-3 pages, great.  But wher=
+e do
+> > > > they all go that we need to run kswapd again?
+> > >
+> > > The network app keeps running and continues to issue new order-3 allo=
+cation
+> > > requests, so those few order-3 pages won=E2=80=99t be enough to satis=
+fy the
+> > > continuous demand.
+> >
+> > These pages are freed as order-3 pages, and should replenish the buddy
+> > as if nothing happened.
+>
+> Ideally, that would be the case if the workload were simple. However, the
+> system may have many other processes and kernel drivers running
+> simultaneously, also consuming memory from the buddy allocator and possib=
+ly
+> taking the replenished pages. As a result, we can still observe multiple
+> kswapd wakeups and instances of over-reclamation caused by the network
+> stack=E2=80=99s high-order allocations.
+>
+> >
+> > I think you are missing something to control how much memory  can be
+> > pushed on each TCP socket ?
+> >
+> > What is tcp_wmem on your phones ? What about tcp_mem ?
+> >
+> > Have you looked at /proc/sys/net/ipv4/tcp_notsent_lowat
+>
+> # cat /proc/sys/net/ipv4/tcp_wmem
+> 524288  1048576 6710886
 
-Great catch!
+Ouch. That is insane tcp_wmem[0] .
 
-Does it make sense?
-Is is the intended behavior, please?
+Please stick to 4096, or risk OOM of various sorts.
 
-> So some suggestions to align the documentation with the code's
-> behavior below :)
+>
+> # cat /proc/sys/net/ipv4/tcp_notsent_lowat
+> 4294967295
+>
+> Any thoughts on these settings?
 
-> On 2025/10/12 19:50, lirongqing wrote:
-> > From: Li RongQing <lirongqing@baidu.com>
-> > 
-> > Currently, when 'hung_task_panic' is enabled, the kernel panics
-> > immediately upon detecting the first hung task. However, some hung
-> > tasks are transient and the system can recover, while others are
-> > persistent and may accumulate progressively.
+Please look at
+https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
 
-My understanding is that this patch wanted to do:
+tcp_notsent_lowat - UNSIGNED INTEGER
+A TCP socket can control the amount of unsent bytes in its write queue,
+thanks to TCP_NOTSENT_LOWAT socket option. poll()/select()/epoll()
+reports POLLOUT events if the amount of unsent bytes is below a per
+socket value, and if the write queue is not full. sendmsg() will
+also not add new buffers if the limit is hit.
 
-   + report even temporary stalls
-   + panic only when the stall was much longer and likely persistent
+This global variable controls the amount of unsent data for
+sockets not using TCP_NOTSENT_LOWAT. For these sockets, a change
+to the global variable has immediate effect.
 
-Which might make some sense. But the code does something else.
 
-> > --- a/kernel/hung_task.c
-> > +++ b/kernel/hung_task.c
-> > @@ -229,9 +232,11 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
-> >   	 */
-> >   	sysctl_hung_task_detect_count++;
-> > +	total_hung_task = sysctl_hung_task_detect_count - prev_detect_count;
-> >   	trace_sched_process_hang(t);
-> > -	if (sysctl_hung_task_panic) {
-> > +	if (sysctl_hung_task_panic &&
-> > +			(total_hung_task >= sysctl_hung_task_panic)) {
-> >   		console_verbose();
-> >   		hung_task_show_lock = true;
-> >   		hung_task_call_panic = true;
-
-I would expect that this patch added another counter, similar to
-sysctl_hung_task_detect_count. It would be incremented only
-once per check when a hung task was detected. And it would
-be cleared (reset) when no hung task was found.
-
-Best Regards,
-Petr
+Setting this sysctl to 2MB can effectively reduce the amount of memory
+in TCP write queues by 66 %,
+or allow you to increase tcp_wmem[2] so that only flows needing big
+BDP can get it.
