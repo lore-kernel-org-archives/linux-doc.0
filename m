@@ -1,76 +1,114 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8552D248C;
-	Tue, 14 Oct 2025 14:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29422F1FDA
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 14:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760452369; cv=none; b=L5LoAnaWrshWKkD4lNQa3Mv4zHzLmJh3Zaihmyzg51bxiqhIFRt2pNvcTyJhH1KQlC0Dk0X2JzvEmabP9U2duY0kkxWltZzhJTzn5a2z2nkKIBJ6Hf4AJ8UkCiKtl9xrFrJwy1Vo/iHLWjK9qQE0Eo2uSqkl6V/fBttQjlSxTxM=
+	t=1760452691; cv=none; b=WQtzrVL7WJzTa3/698wWva9DVyn7oQyKCzfU5ScoPk9dY6SmT+DBiBkWUg8Hm9apbVaiW0K0CE+xxYmrK3tQvDvt7jLShfltc6aeOdf+CjI4NRK9j9tH+SzEdOOxSY2E75MLvuRoAut6xqrONR9BFjAvQ8/GtmUr8jMC6mBge30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760452369; c=relaxed/simple;
-	bh=oHAN/0DxWPNDDT78S8xHGvdeMdd39Ebo18SZ31HvRdw=;
+	s=arc-20240116; t=1760452691; c=relaxed/simple;
+	bh=VmZbhs3xevNRT7QCNeeCFCNlM8H/SQbw3GEXhb4kOs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dyW+wJs0nNLYXTAQfjd/CtFUVVDlXzkf0J/M4/aQsJLI8XYhWtwDqR2+kCNOxDL2tS+eo2ui6oerJhrHT3kmsaTxV24NF2Op/d9u3wdHZ02zNJff7KeFwIIzBNkAi7gU/+DG1KWGxgwpfkXUEMSt5C4B+9tWwwNpJXMlxFXpy9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gANwOdXe; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcv5n8LQ+09QPnI7p31nXU4UhiisRRf/bVOnIUhDYqe9Zhz5SFmh+1QA5Y09ZRP1Wp60IYd+svlIL7hgTNdW5X7w1ik/fjQ8OQ54gAKAotn0sYDY5rqKnNkvTipXbYGBuRv3qHOy0fJKehhYdycD+VtSo5Yf9G1pZgOiT0n7O3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N7PD/BUD; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gANwOdXe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0GqYhA2elC/r2rvCKhRwX+jvXdEIHrho/9mEfMhvs2g=; b=gANwOdXeFS4A8Uk10aaWilWR7d
-	ySohtwrkya4BSFA9MNyJwI2SZVkT1JJHEAJ1YXe7UWprbY1XwtET/2V4R4oRn4GF67uKnvqNrQQpm
-	yhej7D3Ampn9gV2sdpBOC//k6+7VCRkiUzXc9CAocGziSDmflGDKxlzctCPJMtuj1ame1R/WX62J3
-	/q00WWJeO563d2TrDkgqDV3wLGgpDguZTVQJuU95qNOMg6pvwsczOA0E/TTHHdN4VGFQz3RMBH5p7
-	s4BBoP6jBFf72/l5Iy/B7dE73hYHCsC/5tBuD4pR9oLkR5r5JzFIJiPt40JHliYisLm0SxqKtLxy/
-	LUkZzWEA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8g4v-0000000CSAd-1Vaf;
-	Tue, 14 Oct 2025 14:32:41 +0000
-Date: Tue, 14 Oct 2025 15:32:41 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
- large folios (CONFIG_NO_PAGE_MAPCOUNT)
-Message-ID: <aO5fCT62gZZw9-wQ@casper.infradead.org>
-References: <20250303163014.1128035-1-david@redhat.com>
- <20250303163014.1128035-21-david@redhat.com>
- <20251014122335.dpyk5advbkioojnm@master>
- <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N7PD/BUD"
+Date: Tue, 14 Oct 2025 07:37:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760452684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O+WxWTN/C2HyVblMAccwywFAotrd7QpsKNQRxf1sI58=;
+	b=N7PD/BUDXc/bOVA2AS0yKahxhqfyPMfGVj13erv8XHxrFxgs9quAQp7uIdx7ICDzbZMTS6
+	/pd4lzjh4mPDJMpa+8NUiKnRE6quyJb5WjesKAC5YmqWv0+fbd8lZDwA3zzAFWkaSNd/WK
+	yqDMrA9ChLKXKNM0Q+XNxGFRKTJ5ncs=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Barry Song <21cnbao@gmail.com>
+Cc: Eric Dumazet <edumazet@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network
+ buffer allocation
+Message-ID: <pow5zt7dmo2wiydophoap6ntaycyjt2yrszo3ue7mg2hgnzcmv@oi3epbtyoufn>
+References: <20251013101636.69220-1-21cnbao@gmail.com>
+ <aO11jqD6jgNs5h8K@casper.infradead.org>
+ <CAGsJ_4x9=Be2Prbjia8-p97zAsoqjsPHkZOfXwz74Z_T=RjKAA@mail.gmail.com>
+ <CANn89iJpNqZJwA0qKMNB41gKDrWBCaS+CashB9=v1omhJncGBw@mail.gmail.com>
+ <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
+ <CANn89iKSW-kk-h-B0f1oijwYiCWYOAO0jDrf+Z+fbOfAMJMUbA@mail.gmail.com>
+ <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Oct 14, 2025 at 02:59:30PM +0200, David Hildenbrand wrote:
-> > As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
-> > folio yet.
+On Tue, Oct 14, 2025 at 06:19:05PM +0800, Barry Song wrote:
+> > >
+> > > >
+> > > > I think you are missing something to control how much memory  can be
+> > > > pushed on each TCP socket ?
+> > > >
+> > > > What is tcp_wmem on your phones ? What about tcp_mem ?
+> > > >
+> > > > Have you looked at /proc/sys/net/ipv4/tcp_notsent_lowat
+> > >
+> > > # cat /proc/sys/net/ipv4/tcp_wmem
+> > > 524288  1048576 6710886
+> >
+> > Ouch. That is insane tcp_wmem[0] .
+> >
+> > Please stick to 4096, or risk OOM of various sorts.
+> >
+> > >
+> > > # cat /proc/sys/net/ipv4/tcp_notsent_lowat
+> > > 4294967295
+> > >
+> > > Any thoughts on these settings?
+> >
+> > Please look at
+> > https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+> >
+> > tcp_notsent_lowat - UNSIGNED INTEGER
+> > A TCP socket can control the amount of unsent bytes in its write queue,
+> > thanks to TCP_NOTSENT_LOWAT socket option. poll()/select()/epoll()
+> > reports POLLOUT events if the amount of unsent bytes is below a per
+> > socket value, and if the write queue is not full. sendmsg() will
+> > also not add new buffers if the limit is hit.
+> >
+> > This global variable controls the amount of unsent data for
+> > sockets not using TCP_NOTSENT_LOWAT. For these sockets, a change
+> > to the global variable has immediate effect.
+> >
+> >
+> > Setting this sysctl to 2MB can effectively reduce the amount of memory
+> > in TCP write queues by 66 %,
+> > or allow you to increase tcp_wmem[2] so that only flows needing big
+> > BDP can get it.
 > 
-> We do support partially mapped PUD-sized folios I think, but not anonymous
-> PUD-sized folios.
+> We obtained these settings from our hardware vendors.
+> 
+> It might be worth exploring these settings further, but I can’t quite see
+> their connection to high-order allocations,
 
-I don't think so?  The only mechanism I know of to allocate PUD-sized
-chunks of memory is hugetlb, and that doesn't permit partial mappings.
+I don't think there is a connection between them. Is there a reason you
+are expecting a connection/relation between them?
