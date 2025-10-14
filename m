@@ -1,137 +1,152 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158AB2E7631
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEBD2F5A2D
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760433777; cv=none; b=ain8MeGf9KOZOZoNI5T+uaJnwhrhjSyrNBt1uBgV32Hj3UAQiDBNUW1lU0bLEBLJfcJMEdCrgwn0G9Gpsu9s68oxrp6l6l10V3hmlYE+h2oxgbJPbMf4ySlXD3PMNxpEbAGhDs/VJfUjrpIL+5cw38xOzmJpKsehwJ1oDHJ+lIM=
+	t=1760435111; cv=none; b=uRZEBlsQ6asUnk8gHMr96KkpRC9yLFFtGcAjZKTVQZj42gW1Hgqjs7EFKJpiRgywJins1AVmgE7A1AMJhIldlfoKZ56lN3dAnOljLpCz5fbUbqQLQVB7WzVAo5cRwubkMqfbD/tIFRfer8CAbb9aFhcVaoQfsYuspL1uUth1JLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760433777; c=relaxed/simple;
-	bh=4kdH9JwWn5BUz8jMj6r/TaxLP/NSVJU/tJpy1sBaGwk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jMh0eYGO1wKxSHIeK/FcM+XY+U+4Ah5z5G/uV7jpwWH+U0hhIU+d7wOuLR6xaCtwXnt1I58rXF5S/B5ojCmJlhHmux6lhw/hU7MGjYbe3h/IZjKjaAvbxICqj570dMOdaxyLf36HJAVBkBtmzxtLpq1KPhLZRQkojMVmp8mexM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QQW0d/3+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1760435111; c=relaxed/simple;
+	bh=9+jzJmhp4NDYlmVAzrpZPo68lQ6Jij+VLE6Up3JnboA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M5dJJTJ8BegW7XflxiVsqrEjYxyq5Y9OghCKUJEPvASKbTkrmo9swlfN+lIkKZF17ClxwSCtZ2U3MYIZYRGW/RoehInQicBtqKnUQK1plSd7a0+GqwLm3iY2Cs/sKD8ArGUPoljGe5pkN71sj+94q4zvX7Ngr2Dnrlf/wBqa+zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XDV77NON; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QQW0d/3+"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87Jw3018120
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:22:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pBRR5H2TkKxKF7H4pKihb9Oc+NcrIbt0tfqa5n/nEGc=; b=QQW0d/3+8jWCiqK9
-	aXFu4NReDnyno1hQnDd9X1Jx11vJXCyQNNBumCgDiKLY0VZq6lJdEpMTmqI6cQRM
-	uU/vTq3EwIHSOWzJj//TDDADPs5EtVlvLL7uyRRYkmvRv9hDI4qf2QyanIPc+S3p
-	PP+n9huZ3z6atcPsfZS7gpelklaTApv4fjkZf4OKKEyE9j5k8GsSndCw0R9fcPOG
-	Lgdam1Fl81MDIF3bSFYnnJIjdk5b4Oux7IVOvSEhUnjcSgZNygKhi0jhyGokAsxW
-	Re/i48Izy0xnUje6crVmv+HE5mSiJdwZqZFpTD+WpOR06Q7qOmS8bm9kgr0xsER/
-	ZSUiCw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qferywfn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:22:54 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-85e23ce41bdso291744485a.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:22:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XDV77NON"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e52279279so36334685e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1760435108; x=1761039908; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R75CvrIgcbILYeZyEie2SvMudL4DW8xIUI8yCH+RsPE=;
+        b=XDV77NONhb6aE+xpGklpzVTPYklSS5txSxipRmfV54Mbn08SCU/o8mWQddE3WtE8Sl
+         gXJYwCIf9nQCIWLFmIIDwKH5tskqCGjOZnmb8DLrKlYO3BHBVq82H/3l6WdI3dRxkJwh
+         TLmut742gMNO3teiW8MPJ/aeDjaZWHLf/93D1stKQ3bHi0p7HwyJ9zLceSnAMqUECGvx
+         49IRbGIa9zjSZLaeTNnVd7+uc8eRC7BTqVguORDDmNVXZypPxP0VyiuxjAaIXDP230zk
+         Jee9KvOcUqzAFW7wjCAVhS4eLPLEGds2OUIepeCFn+13Br1QwjDsBisnKBG82f8oWLla
+         YhYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760433773; x=1761038573;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pBRR5H2TkKxKF7H4pKihb9Oc+NcrIbt0tfqa5n/nEGc=;
-        b=v05lNxNIK8cAWxnToabJ7VV7y4pum6k72lbQnZyiLIDEOWEzAKgGCg35943Pz0CS0E
-         4iPnNU2gTMW5qp248eK/2rrilxBxqjlBFjcQ7LpYVwcYVHx/1ykW5PuaWlg+P+w8NAmP
-         TSIQ/Jd7S4IEP91osxcmowgUahKkfPatVHCgd8+2N+MhUzYyiBQbjF2b8eFiDGm8DlDo
-         55R3HsadvuFmgLQWBmZS/9b/o1BhaoO+X1n2leWXAxKGIxpWBObC/Q38NxzkUvJ1NIdK
-         Z5f07NSB0AI98oDT6QJmGx+/2QNHopnwIJYaykAWYOyM/1PMw1Dq4/a5weicd17PDb2G
-         RDqg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4uBFYk+7S1CEOAUbbNuDVXsab0a1xtFH9MDvgHtmnMI6ZCyFt0fEFY91zLMog5k3beDyvJLE29IM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywyoh4CYhgJ0wvp/p/5hjdmKGlu6RXASdmyO4K/iSSPbr0jO1CA
-	h6FtyP7+hNSLz/LNx0zpDBK8UHF8zjEiKSbBIrNUD38dYlaVp68pko/t5F0piDKCuGk2XTYUKHr
-	Z0M/giaf2WHUPIsAiattwL1ycjI6EqPbR/CaF/gRLjmntNl3EiiZdQgTk89zu42o=
-X-Gm-Gg: ASbGncs9nWHa3pXvHMmtzC9tIy5q8u4a2S9fiQ98cJA4zk148CUIR2gMKFOoFMiszGO
-	0pN2ORr/f63YVFiDPJPEsnkGqMbyu0FC1vdgJtsp0B/ZsYTC8ByTd4WWXGg97Q6GBICK3ozypHf
-	FeyyROrdxRLEL09EqaRWTyKe34Cmdqh2eX9a0t7TcIES+YW9u1RD6Q25FI/V37hxqjn2V8Rd+xl
-	8bAjLXXTRMoJyDB2Bal1rYcKgbDOCgu33Xch/KCxw97ot0F4vDv7k7ykxx83Qput6s8geanMq6S
-	tAZs7wQzntCPx1mIyCwrHgz2XYsGyB4UVuyUhKskGyYU8khWPvH4akspibpz8xqacVGAg3T6Vty
-	i1PxH6NXKgigeIjTFV9TnjQ==
-X-Received: by 2002:a05:620a:bca:b0:862:dc6c:e7f3 with SMTP id af79cd13be357-88352e8e8eamr2066567385a.5.1760433773137;
-        Tue, 14 Oct 2025 02:22:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH6lBPtCjgj5B0ks8xM4dqV/qBR4R1q23vBYNJs1dE8aUXN8FmTT9yYWz5xoRUNmm6qC74jzw==
-X-Received: by 2002:a05:620a:bca:b0:862:dc6c:e7f3 with SMTP id af79cd13be357-88352e8e8eamr2066565785a.5.1760433772666;
-        Tue, 14 Oct 2025 02:22:52 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d63c9a3csm1127034066b.23.2025.10.14.02.22.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 02:22:51 -0700 (PDT)
-Message-ID: <87650853-3b4e-4a05-b3f3-4fcb8820ea9f@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 11:22:48 +0200
+        d=1e100.net; s=20230601; t=1760435108; x=1761039908;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R75CvrIgcbILYeZyEie2SvMudL4DW8xIUI8yCH+RsPE=;
+        b=q4u5Gsnq1IBSZgUFZ3jHa/O8Y0VFGaoswdCvh9f2/PZZajKHs8AF7Iw9CVzoJUZkwc
+         nqf72ktY/dqTefeeP/QsMo6IceStlAth/m6zLz4A0rJBoHxyiYOwa3UHp2514JUb3HlB
+         r9jul9howt/l4EMqzeT+8xnUFDSU99mb9t6NvLc5ZlVfDpEIk4lXTj/M2ZbyVxUOLjGG
+         2SaG2Bp9sCzG1BZUNBdHn6v+ByVKtkMxlHjEy3hCiOcFTcXtUJV+jrKXNH5E6lSkTPQO
+         nzRV3S36iin4z3fl0ibt6UL8UnXccvcPsov37yEZnSV/GJto4yOHzBqKBELIsA6/JLo+
+         I60w==
+X-Forwarded-Encrypted: i=1; AJvYcCWm28qi4lGgMK/fbwLpJJH79ux0X7WXORH/i/uX6jp2z5cNpyXVqg/2xFL3QDojCEdTUWmz4eY3uDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMzy3/rYqEI9pxmtYj8kzCmUQl7/ooy6O48hXxnWLkmWbFpNfi
+	sjqRRJp6OW2kBkbf9cAPZdVztPtQypnUiMmO/V77zAtywXnKk9y5109e2gD0hzQ9j7E=
+X-Gm-Gg: ASbGncsM51T25rmCvnSV+sBThvEXCvoxVWBW/1I4kgHsiDoIUKd6ErQNJ5Zxzyep8dG
+	LBEBO1JqwQGcGAQpbEOfKwiKjq8r5m1Rm1TqrlCojE2wsr/DTgpehn3dx+iOfgCd7bmvUMozpzA
+	F8beBVTMbX/bXsWo5SQ/O/qjP6YNRYKCUd+cnEGtVUIBe9HBbd3ig1qMxkagQfuRswVoBHZ429q
+	E//8XdsOkCovcDssRCiswV/nKTP1rHsSdTfrvQtitp7kMk/o0+1ipoMJD6WHEL3C+R5Aquboq+l
+	Isuvo8kLO1BdTSZ2k+Ub/DuqrDP4FU8h3OXQAYugU/J1WTUBdWTk+Y2Ib1neLeBqGfxBkBLSeWq
+	AO39yMevU16AhMW0qjtvImzIHSsFCQ2aq96d6B4ExIlT0f0CHxEg5c78R77Vf8sgnddQ8Jw==
+X-Google-Smtp-Source: AGHT+IFLMF/oRlSecQb1AgZUj9ViudEM8BAiQCOLkhiN8cHZAWDwJ7zBbTzbicn8TdmEii38ZLu7Sw==
+X-Received: by 2002:a05:600c:890d:b0:46e:32f7:98fc with SMTP id 5b1f17b1804b1-46fa9af3656mr132535685e9.21.1760435107774;
+        Tue, 14 Oct 2025 02:45:07 -0700 (PDT)
+Received: from pathway.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489ad27sm230711415e9.15.2025.10.14.02.45.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 02:45:07 -0700 (PDT)
+Date: Tue, 14 Oct 2025 11:45:05 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: lirongqing <lirongqing@baidu.com>, wireguard@lists.zx2c4.com,
+	linux-arm-kernel@lists.infradead.org,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	linux-doc@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stanislav Fomichev <sdf@fomichev.me>, linux-aspeed@lists.ozlabs.org,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>, Russell King <linux@armlinux.org.uk>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Shuah Khan <shuah@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joel Granados <joel.granados@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Phil Auld <pauld@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Simon Horman <horms@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
+	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH][v3] hung_task: Panic after fixed number of hung tasks
+Message-ID: <aO4boXFaIb0_Wiif@pathway.suse.cz>
+References: <20251012115035.2169-1-lirongqing@baidu.com>
+ <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] arm64: dts: qcom: sdm845-oneplus: Correct gpio
- used for slider
-To: david@ixit.cz, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <bentiss@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Casey Connolly <casey.connolly@linaro.org>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-        Gergo Koteles <soyer@irl.hu>
-References: <20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz>
- <20251014-op6-tri-state-v7-2-938a6367197b@ixit.cz>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251014-op6-tri-state-v7-2-938a6367197b@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=R64O2NRX c=1 sm=1 tr=0 ts=68ee166e cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=b_3gLtI3ev4ASzC4froA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: _kF3XuCcBdgg6mqbVo4uCpCyMiX1LFSS
-X-Proofpoint-ORIG-GUID: _kF3XuCcBdgg6mqbVo4uCpCyMiX1LFSS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX9CYDgzGHARrm
- Qy3X+Kuj1/dgie/GcKPI7QWJrzn2qyWPy4zfIRCsGwxgYFoSNH9qh7Zg1ru987aZRxN2CUwAPfi
- CULp1giVUI0vIU3jg4f/24ZloN1Ie36dpdBV7Ow9PQgrjgOw0Xtl+ArwQryrUySHoH9iXGuD4/t
- 9t4EwPAsGHf5dZOaUQ4rM9DUYHaKxX+STgR4cyKyQvvA8eVoxjv1xT/iwMeS96uayrBb5ApiMko
- uoV7LRJEFM7hnDwQgLrgpJhATfYHUuhQ8nnhkd/uYBy6lf4GZTi/1+ioQWD2DoO2671q2/HZicH
- xBOkVRIe9nUkQ5FzHDh8cbJTnkgRyvvIonJ97SpdtdgaBakCVKTThyyNtJuxcKogiZVl4YYiTLs
- HCUdHvsPH7di+yGaT4Q3h/eIyBTXww==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
 
-On 10/14/25 11:20 AM, David Heidelberg via B4 Relay wrote:
-> From: Gergo Koteles <soyer@irl.hu>
+On Tue 2025-10-14 13:23:58, Lance Yang wrote:
+> Thanks for the patch!
 > 
-> The previous GPIO numbers were wrong. Update them to the correct
-> ones and fix the label.
-> 
-> Fixes: 288ef8a42612 ("arm64: dts: sdm845: add oneplus6/6t devices")
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
+> I noticed the implementation panics only when N tasks are detected
+> within a single scan, because total_hung_task is reset for each
+> check_hung_uninterruptible_tasks() run.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Great catch!
 
-Konrad
+Does it make sense?
+Is is the intended behavior, please?
+
+> So some suggestions to align the documentation with the code's
+> behavior below :)
+
+> On 2025/10/12 19:50, lirongqing wrote:
+> > From: Li RongQing <lirongqing@baidu.com>
+> > 
+> > Currently, when 'hung_task_panic' is enabled, the kernel panics
+> > immediately upon detecting the first hung task. However, some hung
+> > tasks are transient and the system can recover, while others are
+> > persistent and may accumulate progressively.
+
+My understanding is that this patch wanted to do:
+
+   + report even temporary stalls
+   + panic only when the stall was much longer and likely persistent
+
+Which might make some sense. But the code does something else.
+
+> > --- a/kernel/hung_task.c
+> > +++ b/kernel/hung_task.c
+> > @@ -229,9 +232,11 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+> >   	 */
+> >   	sysctl_hung_task_detect_count++;
+> > +	total_hung_task = sysctl_hung_task_detect_count - prev_detect_count;
+> >   	trace_sched_process_hang(t);
+> > -	if (sysctl_hung_task_panic) {
+> > +	if (sysctl_hung_task_panic &&
+> > +			(total_hung_task >= sysctl_hung_task_panic)) {
+> >   		console_verbose();
+> >   		hung_task_show_lock = true;
+> >   		hung_task_call_panic = true;
+
+I would expect that this patch added another counter, similar to
+sysctl_hung_task_detect_count. It would be incremented only
+once per check when a hung task was detected. And it would
+be cleared (reset) when no hung task was found.
+
+Best Regards,
+Petr
