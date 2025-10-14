@@ -1,96 +1,89 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mail1.fiberby.net (mail1.fiberby.net [193.104.135.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEE22BE657;
-	Tue, 14 Oct 2025 17:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD3A3019B5;
+	Tue, 14 Oct 2025 17:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.104.135.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760462536; cv=none; b=jUqex7W6a1XBmkGb3a88daC97M4ZMMYzhGUrJKwKeqj1ug38O1mziwKOUsH+wJFa9qhMFyUHfviXy1SrKNVhoFf5oDrS8H81639A0OcTxxj7bACFchMtynwFfDxLsTlD0WW0Q1MgaUc5/Ty2fPPnnCluM1s1E7Ekclzg6dct1tQ=
+	t=1760462991; cv=none; b=mUgCG9UtTe8xBCGGJzv48Zc/d1dZtHvI4jlt3/Sv5xwtCMlPNqPDjsFF3VA/CXKCyKTNFXVDCLmS/tuPI4P4yvNt6mhwCL1/40LSzXy07dnlAO7ZqhRAso3x1XaFlMZPac7IzLMDABWnY9wqXxD2ZhqZcb2Wc8pe/nXLrt7e258=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760462536; c=relaxed/simple;
-	bh=7jSzyvdTX+ecjsuEPFOUJINa/Wqw6pAc2BubrIetiGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zm3Wi/SQC3QChDpXhL2GZljiEa27mRcARW3LZeyMzNjo/wCoq47pesD1g6jeDzOhJH5LSuYQss97LKJViBdfm8/V/akCyVhuyGxivrYGCEdEUX1Skl8B6i1tKC37hNXhjMj2YOY46+9B4KhYx2SWPlFCx3/djFtrRTbJaPizsDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ccWhHIt4; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1760462991; c=relaxed/simple;
+	bh=umIOKuw4Cl92BTjFZLvn+l5GvBsnKpPNG5VctslFvvo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sIs36a+MA+0rL6Fij8+ZBMmAEA2osu2BRAl8Ew9/EIY9NObKQZr/F4EyoLA3ojbUEaW4PjAxghZMsnovog3Sd89zFFmYJ1MvcdnuB+DvSdo1kaQgi3rwUrZp/0/+jtyfYKzsT68lF/L+qNVgnSRcHGKb+VKnniDsSYM4SHdGSE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=mdWttZ76; arc=none smtp.client-ip=193.104.135.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ccWhHIt4"
-Date: Tue, 14 Oct 2025 10:22:03 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760462530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cg4fC44QRmMTn//flsfSUL5Po+sm8kLX2ptgHHTDiPc=;
-	b=ccWhHIt4pfhdqLBvm86UNLCPqVwotniakgd1KLzdMa4mEaDDXZa3SVbdCXvsr+Oht9/BL/
-	DjynZHkqkitOVmyOYVrh9olLI++RKQNNRdO7p9RD6Okyq4D+8/EidPPqB0NAU5V4YlxLn6
-	OdX9Z2MHL7otwLGo3/7m/xBzDQWKAeU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Barry Song <21cnbao@gmail.com>, 
-	netdev@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Eric Dumazet <edumazet@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Brendan Jackman <jackmanb@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Huacai Zhou <zhouhuacai@oppo.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Harry Yoo <harry.yoo@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Matthew Wilcox <willy@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network
- buffer allocation
-Message-ID: <itljl2e4rwbblmnhe2vucmsvxzbu42x5foszf4y5b63evbitpj@qsxj3amwhts3>
-References: <20251013101636.69220-1-21cnbao@gmail.com>
- <927bcdf7-1283-4ddd-bd5e-d2e399b26f7d@suse.cz>
- <aO37Od0VxOGmWCjm@tiehlicka>
- <qztimgoebp5ecdmvvgro6sdsng6r7t3pnddg7ddlxagaom73ge@a5wta5ym7enu>
- <aO5o548uQAuBcw0P@tiehlicka>
+	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="mdWttZ76"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fiberby.net;
+	s=202008; t=1760462979;
+	bh=umIOKuw4Cl92BTjFZLvn+l5GvBsnKpPNG5VctslFvvo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mdWttZ76qpu6mbUf6Kj3WIQKjBlvUyV2NoAAPBwGNNWh1SGf4B2P1AGl5pYHdZmb3
+	 Xsm705nYkO/mvz6yIyjWf/sJkxgthTOlzjjA+L03s/r35dr82hi8lCTrMdzZt45Rw9
+	 WMd3Q2aM4FFs+rviSn8r74z2UFroU/wVDkOWkFrG8FrvJmNVVxz3SqT1Sg09J3yZet
+	 GUSzkC7YFoGTrEqeEeE06miGOXMm2rkiU8eNXEIfcyYr/ISkY6LymhP+Moo0AWv9kd
+	 V1aIiAOgdQCjqDefFIiNElIXvc6UtUxQFl88wUS4g74DgGkDPQQDitpqq+gUjJQKhA
+	 XT8sWfdCBqQYg==
+Received: from x201s (193-104-135-243.ip4.fiberby.net [193.104.135.243])
+	by mail1.fiberby.net (Postfix) with ESMTPSA id 7E45F60075;
+	Tue, 14 Oct 2025 17:29:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by x201s (Postfix) with ESMTP id CCB47201BEC;
+	Tue, 14 Oct 2025 16:27:57 +0000 (UTC)
+Message-ID: <168fe516-b097-4bc3-8b72-acee310216a6@fiberby.net>
+Date: Tue, 14 Oct 2025 16:27:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aO5o548uQAuBcw0P@tiehlicka>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/6] tools: ynl-gen: bitshift the flag values in
+ the generated code
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Daniel Borkmann <daniel@iogearbox.net>, Daniel Zahka
+ <daniel.zahka@gmail.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+ Joe Damato <jdamato@fastly.com>, John Fastabend <john.fastabend@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>,
+ =?UTF-8?Q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Willem de Bruijn <willemb@google.com>, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>
+References: <20251013165005.83659-1-ast@fiberby.net>
+ <20251013165005.83659-2-ast@fiberby.net>
+ <a3835375-6eea-467f-8488-fff62ce4262b@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Asbj=C3=B8rn_Sloth_T=C3=B8nnesen?= <ast@fiberby.net>
+In-Reply-To: <a3835375-6eea-467f-8488-fff62ce4262b@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 14, 2025 at 05:14:47PM +0200, Michal Hocko wrote:
-> On Tue 14-10-25 07:27:06, Shakeel Butt wrote:
-> > On Tue, Oct 14, 2025 at 09:26:49AM +0200, Michal Hocko wrote:
-> > > On Mon 13-10-25 20:30:13, Vlastimil Babka wrote:
-> > > > On 10/13/25 12:16, Barry Song wrote:
-> > > > > From: Barry Song <v-songbaohua@oppo.com>
-> > > [...]
-> > > > I wonder if we should either:
-> > > > 
-> > > > 1) sacrifice a new __GFP flag specifically for "!allow_spin" case to
-> > > > determine it precisely.
-> > > 
-> > > As said in other reply I do not think this is a good fit for this
-> > > specific case as it is all or nothing approach. Soon enough we discover
-> > > that "no effort to reclaim/compact" hurts other usecases. So I do not
-> > > think we need a dedicated flag for this specific case. We need a way to
-> > > tell kswapd/kcompactd how much to try instead.
-> > 
-> > To me this new floag is to decouple two orthogonal requests i.e. no lock
-> > semantic and don't wakeup kswapd. At the moment the lack of kswapd gfp
-> > flag convey the semantics of no lock. This can lead to unintended usage
-> > of no lock semantics by users which for whatever reason don't want to
-> > wakeup kswapd.
+On 10/13/25 11:07 PM, Jacob Keller wrote:
+> On 10/13/2025 9:49 AM, Asbjørn Sloth Tønnesen wrote:
+>> Instead of pre-computing the flag values within the code generator,
+>> then move the bitshift operation into the generated code.
+>>
+>> This IMHO makes the generated code read more like handwritten code.
+>>
+>> No functional changes.
+>>
 > 
-> I would argue that callers should have no business into saying whether
-> the MM should wake up kswapd or not. The flag name currently suggests
-> that but that is mostly for historic reasons. A random page allocator
-> user shouldn't really care about this low level detail, really.
+> Could we use BIT() here? or is that not available within uAPI headers?
 
-I agree but unless we somehow enforce/warn for such cases, there will be
-users doing this. A simple grep shows kmsan is doing this. I worry there
-might be users who are manually setting up gfp flags for their
-allocations and not providing kswapd flag explicitly. Finding such cases
-with grep is not easy.
+Correct, BIT() is not exported to uAPI[1].
+
+Thank you for the reviews!
+
+[1] [PATCH v2] checkpatch: don't complain about BIT macro in uapi
+https://lore.kernel.org/all/1468707033-16173-1-git-send-email-tomas.winkler@intel.com/
+
