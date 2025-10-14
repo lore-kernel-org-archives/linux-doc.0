@@ -1,92 +1,78 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B19D2BE7BA
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 15:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67B862FFF87;
+	Tue, 14 Oct 2025 15:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760455125; cv=none; b=XsPtd8Nm1+7siylYimy4G2Vs1P/8GzihG1HYvDi6BWc4orFSMUbe487Ci5/D8TL8QJCFWIdvSuyFBIbxE0rdV8RHYJmYrXq6vgswJ3UoGQ33mjHCa4/ldtat3ZzeoRJ4ZRtBudUl7ycnzjUYyzgiQbwUn2XHokGQUSMbRHTgmjU=
+	t=1760455690; cv=none; b=kU668W+KJOecpy9vLz5YlxlfvnkDDAi328pkvd7jd/xnlLPZAhENGplhkfeW06kzpwxKenWvjQqilAz1mavCJU6gvDQ1hUht941yS0okN5m3uMU/yNetf6VOSISSgMfv4/cdD//CgiJMKb5Wzoqku5uc2LV7tsfyD1FgM+mdsM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760455125; c=relaxed/simple;
-	bh=JC60HEInNluqzF3bnchV7EOp617mC62c6zir/e0gnlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+/jFR3YPjy5aimwiIi55+UFSgzmbvn4CXYYHvxperUtu4Or7aag327z4XkvQEClFuXLpV+Ckv6qS2f1y9fjDbx0iRSW1mNJma3VQqoyT/bqYWBOg6l5pkPntU+ERT2i/LLKCmaXXLTTrHUgFOr6Zx0QMkyLnRA2/89Lb3K/bzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwFrN2YG; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwFrN2YG"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27ee41e0798so87608375ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 08:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760455124; x=1761059924; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9RG2muNaSakDWxI94gPRyAVmL2U1gaeN0a3vQP8Zu5U=;
-        b=UwFrN2YGIv3vI5HCIqsNtILexdt139q6LdscQO/XGkyIPzkkZMwu2pie4wRdr9FvQC
-         2OwsmvlgG0/wLVlq4PEdF7/jVE3llgJc56KR9H7D1VyCytivjE9hM4gbSb74YnbH/h2H
-         OUQ6ENszTnII05N6TeEmS+f3N7SQpBkjRIY22r4cjc5rmnUbMZuVG6AGNGn7pX8mMNwE
-         yCMEGRRaIcMpGTwxWVhS8d/thUB1nPjpotGuiZgnr8tXRRq6MuwA7dDl858exBOjM5MC
-         r/zzZjEhhIOTlP2l8LdlAcmwg8YQizEsC8MQtvttoB1uKNol6qsMSvXHdNPjzu9mT0g6
-         2TLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760455124; x=1761059924;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9RG2muNaSakDWxI94gPRyAVmL2U1gaeN0a3vQP8Zu5U=;
-        b=cIEZsjiuPz80WTKcOlTOly+RihqiddqaPhYkRS4Tk47KhAjj/Gr8l5pNAQadkvaVjo
-         aJh+7OsZ68G0LbAmkOSRo2w3ebRDoQw16DkcqFvgMBn2jNAgyt7znvxGREpnmGcPRh6H
-         w/tWhf1Wl1TsCiSCvFtCFnL0a/HPvYUUiodSBoXXtQAXNe6XCwqF/ZCaIWfdCwfjKzcA
-         61VGhu0NyNa4J2v95XkVQMG13YEBqS6BY//Fo3LvFwHkwZ7xDFTxhMEFMcJPCikv9Zpa
-         k73O6PtJWnXh7g/U1YTWy8X4liJDRNPCzKxex2Ilcp3SIl20d+usIbURFFCHKLno2x0k
-         lecg==
-X-Forwarded-Encrypted: i=1; AJvYcCXS5Vj3Bjm9dsej4vkOrvvXRZs3Y6iC6MqmzwanzkmnMLgqipfrVw3i92mfBHDvhGxSvidxxLrTUQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJsr6BcTp2SRaSyDxOia5la3RqI9RV3qadtK5aynJsTb6VbNpu
-	jjJP7/KzdFZau5lHY8VXqmvhz097KZGxbZhX4nieGmIRIl+0FRUuepx5
-X-Gm-Gg: ASbGncsKTb972B/V0X0cBHP5VXpryL9wngOGgRO3NszWRFM84EcODZpdGx8ptSDQoPg
-	uHsGpX1RbsReJZlPT36Srl6lQ1rmCIjjLCm6iTbgQ8B8dkHXHZyzaK9E0Ko3xEzNWGnAw7yNknu
-	qDkohGKiuEwYVX3XzJZUQQ7NRTTa2VLYonBzAVcz115Es3wRPjNVKbWKvvk3vBkkhIpTqzn9UwL
-	7uC14WtAuh6DT8omSJ81z62cVb4MDpRQtPtZ+c761Qu1P15ycPXuwgc/vAIVpWNhzhNW6BTkpYJ
-	X8ZPWVeJaE7RHhhzBZKlEgagUecVW3M6m0yQgDBx941RYb3mU7TFzdXg1CtCCrM3wWAj7E2Wsev
-	y6JrHerqdmujuK68qgatSxqPM6Fol9vorI9enObqKyc+Lrw1xoNwocnyIVhGq73md
-X-Google-Smtp-Source: AGHT+IHIsEd1SylS40HYfaucznmGO/M9RGsNWRga99P+rm4jbrckX5mvU1P7jlaSDBhOyjB7a0ocng==
-X-Received: by 2002:a17:903:2ac3:b0:281:613:844b with SMTP id d9443c01a7336-29027418ecdmr315810205ad.52.1760455123527;
-        Tue, 14 Oct 2025 08:18:43 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034e1cc53sm167544325ad.46.2025.10.14.08.18.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 08:18:43 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 14 Oct 2025 08:18:41 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cosmo Chou <chou.cosmo@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, cosmo.chou@quantatw.com
-Subject: Re: [PATCH v2 2/2] hwmon: (pmbus) add driver for MPS MP9945
-Message-ID: <7df1419e-18a1-4656-aba0-2f82914bcfc8@roeck-us.net>
-References: <20251009205458.396368-1-chou.cosmo@gmail.com>
- <20251009205458.396368-2-chou.cosmo@gmail.com>
+	s=arc-20240116; t=1760455690; c=relaxed/simple;
+	bh=2gwkqKgmkP93tErYouCSL+EKMNFEFMnu3v8rIzZDWWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=soOinV0oUrKGcDZUP23uGDaZAVsh3LPqR6dLLa8jL6PrNVQRDmnbt1F0gKZMM/3nIoLhPw13bwBsG3G9KORntgudcftU/AxFxqdzeZsGKX/Z610eiT/9xLQjvLlOb0b7Im+dDi8Tt+vN883LcaH2KnraXaJ6T9GZ3ueMQYKGfbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B4A91A9A;
+	Tue, 14 Oct 2025 08:27:58 -0700 (PDT)
+Received: from JFWG9VK6KM.emea.arm.com (JFWG9VK6KM.cambridge.arm.com [10.1.27.150])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C4303F66E;
+	Tue, 14 Oct 2025 08:28:05 -0700 (PDT)
+From: Leonardo Bras <leo.bras@arm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] doc/kvm/api: Fix VM exit code for full dirty ring
+Date: Tue, 14 Oct 2025 16:28:02 +0100
+Message-ID: <20251014152802.13563-1-leo.bras@arm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251009205458.396368-2-chou.cosmo@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 10, 2025 at 04:54:58AM +0800, Cosmo Chou wrote:
-> Add support for mp9945 device from Monolithic Power Systems, Inc.
-> (MPS) vendor. This is a single phase digital step down converter.
-> 
-> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+While reading the documentation, I saw a exit code I could not grep for, to
+figure out it has a slightly different name.
 
-Applied.
+Fix that name in documentation so it points to the right exit code.
 
-Thanks,
-Guenter
+Signed-off-by: Leonardo Bras <leo.bras@arm.com>
+---
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 6ae24c5ca559..3382adefc772 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8503,21 +8503,21 @@ It's not necessary for userspace to harvest the all dirty GFNs at once.
+ However it must collect the dirty GFNs in sequence, i.e., the userspace
+ program cannot skip one dirty GFN to collect the one next to it.
+ 
+ After processing one or more entries in the ring buffer, userspace
+ calls the VM ioctl KVM_RESET_DIRTY_RINGS to notify the kernel about
+ it, so that the kernel will reprotect those collected GFNs.
+ Therefore, the ioctl must be called *before* reading the content of
+ the dirty pages.
+ 
+ The dirty ring can get full.  When it happens, the KVM_RUN of the
+-vcpu will return with exit reason KVM_EXIT_DIRTY_LOG_FULL.
++vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL.
+ 
+ The dirty ring interface has a major difference comparing to the
+ KVM_GET_DIRTY_LOG interface in that, when reading the dirty ring from
+ userspace, it's still possible that the kernel has not yet flushed the
+ processor's dirty page buffers into the kernel buffer (with dirty bitmaps, the
+ flushing is done by the KVM_GET_DIRTY_LOG ioctl).  To achieve that, one
+ needs to kick the vcpu out of KVM_RUN using a signal.  The resulting
+ vmexit ensures that all dirty GFNs are flushed to the dirty rings.
+ 
+ NOTE: KVM_CAP_DIRTY_LOG_RING_ACQ_REL is the only capability that
+-- 
+2.50.1 (Apple Git-155)
+
