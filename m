@@ -1,165 +1,141 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1A4EACD
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 04:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C3F30B52F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 04:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760416301; cv=none; b=YT1XYx7h68k2UD1sHG7aVWWvsmXlr1Kq0hDUvqUet6Lu/HFD9WiRpBLrA7rpX53bnJtR3tA9rmZpklaQysjtCsriE1aBj81KvTTcm3oSLq5KrKDA6DGOvmlS23zhy0J/mNYi0TW1eUn3PKIMg1PcZP3kNyavsFG/p2cOwDYNiI8=
+	t=1760416914; cv=none; b=KwMYKu4wQqMvjhuodHadAxWFXYnVYRjcSxuE4v8cwzprrDb9IUhz1HFPKgiHL7a9D6xUZJVNxEHGa08Vk4xtrYkBWMY8Fyvqq8vK8cWPVU+hcAS2xaU3+fxk/xVNKQbol7tTBz9ZwKc4/6GZfHlyuDuWwpps0CEq3yRqLx5jpNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760416301; c=relaxed/simple;
-	bh=d2WO01Fcsc8CE0HjUp10UGMCCK0Iw48QSHZld1Ov5ZE=;
+	s=arc-20240116; t=1760416914; c=relaxed/simple;
+	bh=HkIZGagwqQSK/Ux73E//1WE05pc2dBkZn1z8WlsOsmA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NVVL8RPnrHr/aIyQjeFyNyKnyRnRHiXVY+LQtPrcV9+cRTsXedchvdfTWRzSeE6QvlEz4s4N0MGq0+FNKDH9EcMqynkSfJdgGZcqAdY39kI1yl5gDnOiD4plqVD3H5NL74fkWQjKQ5VAg0eYBcFbbz0Ix8MFFf9Z8xjeAMu5Uac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKbPRYNa; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=WBkKa9oL0t8LTw669PnC8frkYVgHvEa4tvqcdAO7j1fu0J6dmGbj2ScfpsHuXafqt4ADPN6sxcIICGiMy9PPrgWoKHWGvO7iGGsVBRAiaIcYGibByPvgrWwb76wirwgWuVoReiVWaH7pfrB93BrpVa4cjyrc/qYZWctXKEaDDOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fjg5Ts3r; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKbPRYNa"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-858183680b4so812251285a.2
-        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 21:31:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fjg5Ts3r"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-587bdad8919so16948e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Oct 2025 21:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760416299; x=1761021099; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1760416911; x=1761021711; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tGqIoZYhEGlF5J9q7UJtMxH13yViEFe+YzUOnnzwEOI=;
-        b=FKbPRYNaDrrZraZ8ZDJIVudatb3vaEdWsrcasnwbTZlkJRI+pVOu1jcGqIbtWJ1i3F
-         Wv23BaAT8IA1xIcJ8jyQt8kfdgQLULqtoEXpzOWK380Hu1usdViADr8TQ8MF4PpFIIcu
-         /ptVAwUwB2siuJiPQkS2MnVzIhA64H/NtqUU/9GR0axoiLI6kiGacAly6dyGBXUQ1GfC
-         tVgbwhLB6TNm35VdnyB4Rzpq9v5Ng2dknkES9Pqbf5rUmGJyW1/G91+gir6srxsGIaVp
-         o0yUlxsfACBEW3hjEdQwnEUcsaoIC/PvY1QHluATGZrkyT05Fvuy6ES185ptwu9jexnr
-         6RSg==
+        bh=/H993Yv05c5jEdeR6de+2fECvHc6eeWZhFT1JvbrSFk=;
+        b=Fjg5Ts3rb495TT6Yz5OTQCOUFV2w1Lr4ec0+zT8Kv1m3K1n6tmGIo8yuSwaOq/B8GT
+         R2sR3qTRX4dJFKiccoz75DpUlfX3eltiZUp7qYsUHKHazetX2H1i0UwpgSbM1y+Ra1pi
+         dGnO4MDyMVzEkByd/f6iuZFdxWgMJ/f4AwRTeEIASbYLOEz5WYSaGxrh6KxENeV6YRtF
+         mymSUb1GnjRntLiaO9L2/8JyQr6T5VU8sW9VHLagryK5TO41AQ8sQWlFsaQLKs6gXWdI
+         m7XMicRMLoeYjwiwNcbIzrCH0JDmEnB6l14qItiOukeZpTUwKoTlBTNlxOP/btbAtT7P
+         aDkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760416299; x=1761021099;
+        d=1e100.net; s=20230601; t=1760416911; x=1761021711;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tGqIoZYhEGlF5J9q7UJtMxH13yViEFe+YzUOnnzwEOI=;
-        b=f9p/WijM8A2g3+tYNPpuYVVcRiVVm/MRrNrDhE3NX27NLGJs+Wh5Y134uCDdctPzuT
-         TnyEENRxf5OwRpM0siQdgx4657n2+38g7GdacWXwOt4ehCo83UoSq1LpGNUaek9qAeHg
-         OXrxstQmCZm+KxDMeF13O6Na5lYe29yr1CGni7s5UECcem3WRSO3M16jAJw4XdgqwROV
-         8ofGbjR6ZAALIuZztVCgI/vpcQGNVyASxRlSFALP57W3qCdA/eX8Y4v5Xbf7YbAlA+uJ
-         We4SmCnAXUDCuYMp7CbBf3sUPY0m/C53vIG+qVv0UJ73tyKafZqhRCMWsLL+TQg/1S/B
-         JgSw==
-X-Forwarded-Encrypted: i=1; AJvYcCWFx6YHySDmfEVVFRaPen1g68N1SIoYHO4HMHq5y/B+0qt//aqAIvfamBpgz9MepqJkT58gvvjwiYY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRQZxeIDAL2iUwix84vbIP9XX34RB02VKEaxAnKDCpe3yBrkof
-	KICY3ILUS2bN8DoK0UvhhyEYBUu8Zl/lU35774bRYpP/aWuf8dQ+XWBht1dR91tcNEoxptR1LU2
-	VnIrWKJngqLurhMHW/O/nmNrBrDRxodM=
-X-Gm-Gg: ASbGnctwjaQGaqQ63ovnzN6gilVpU7hdj4RAJaVrFu0mIV3hfighhoehEv5F4hdB2Ww
-	+OLm+IRWxQPc8v418aJXEldKxyQlu/L/RKuELsmKry8ipI+7PnPxFu+VkohRK/CKZZJCAlEX58w
-	NkwJmbjm5LOxDNbTY9y+JRKAqTrtBls/CvX+cPbyxvCB2eXGUzhhXLJg8/bzn+KUaQs3Sk8eWXi
-	0ypnKw1ljdLPURkR6nkWBs1YBdR9+nfqazyUMnYWdKCK9eDyhJVnQMMy7S/OtRVwEsg
-X-Google-Smtp-Source: AGHT+IEK1Vpz9Egp/lLu8aNOuk9sM4DTRSkzqirUw9B9yuBpU63FECc4XYXC1vijYJUmRARwxWevuR/ubJlXoWz0e5E=
-X-Received: by 2002:a05:620a:a119:b0:88b:72c0:aaec with SMTP id
- af79cd13be357-88b72c0b574mr135616185a.88.1760416299121; Mon, 13 Oct 2025
- 21:31:39 -0700 (PDT)
+        bh=/H993Yv05c5jEdeR6de+2fECvHc6eeWZhFT1JvbrSFk=;
+        b=tWyuGxO1QsmhblTed0uYKlbliZTUUlfrpwEUcCam7AX/1ZjAknWC6teTa3e8bki1iN
+         jZKVuiaOF+4T/Q/GDI/tnh+3htlWsi0NFeAfJ8WosmVTtlcmxf41f7TpgROJrfbAbtP6
+         MC47aQk8tcOPDQ3XGtdhiFFQTPhmbSF+p8euUR0PGX60vf8ZqBGDOMQEPGTXdTseOY5d
+         cmQmXxSt6E0zNiRJmKNnLFyjsqwr8awVcO+6oF965o5ylGbX+77Z14GkmGx47jTt+4OF
+         ujDmLuyz0YWHhGr50kNuHwysDLsP7Qkyh750EVeuua2dPmpAt3t7BIiGarYUTAb+bCQ3
+         +8xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzaO5PiLtqFoUy6uXWIEcH8nrSILxPEvxIjP/i8pkXThYyXbKngjKrSoqoLukLSwOhvkuhqp8ZnMc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmxY9rnR63CrjYXHvvwCXO7MF4fC4dBxRxp6wFKgDYHTkcNJno
+	5jNPhXaFDdF2dwiv/zI8r68//ZrcUutDacH4f3jR5pDsOPJfQqhru7hbcrJQ4QBIaC0XQWUejew
+	a8arCQqgapUnMqX4rjRUxvC2empFPRV1Yt2geVBui
+X-Gm-Gg: ASbGncuGjtR6GXlCZNUt2NJc1Jcy2re+l+CpOGf8zhTPwm/b5iCON9ZY7r1W1yo95AE
+	nh6zmZa4uSmnY25mVMXmb06Kwafl1VBuyy2LjMl9Fb34E9wZWITRnMGxDB2sKj2FvHLnCISLzdY
+	+7kxs2DLno0Ny8Uka+SrZupWAyLU1s1KsjJJ5UxjNR4Tfsgr8d3DY3Rc5JQnRm5AH8Ftm5L9Rgs
+	8xoqTc6dcN58T8wtX6+JP1UhTXi2PaJx5rYcOoc/EGT
+X-Google-Smtp-Source: AGHT+IGO2N6eEZzAYyKaq78kUeEFq20BCf9kSNKrULoXVn92wigmiiTTyiqOtJSWbFILRsrzS2mx9pVSEawVxWJPTh4=
+X-Received: by 2002:a05:6512:6d3:b0:55b:9f89:928b with SMTP id
+ 2adb3069b0e04-5906e383503mr43296e87.1.1760416910537; Mon, 13 Oct 2025
+ 21:41:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013101636.69220-1-21cnbao@gmail.com> <927bcdf7-1283-4ddd-bd5e-d2e399b26f7d@suse.cz>
- <877bwyxvvl.fsf@linux.dev>
-In-Reply-To: <877bwyxvvl.fsf@linux.dev>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 14 Oct 2025 12:31:26 +0800
-X-Gm-Features: AS18NWBKX6vcaZdIWLrNvH9v8Z7LxGQUtWG9jfBGvwWNdS5B-18jtKFOlQNZSPg
-Message-ID: <CAGsJ_4xpSG1D+nkFUMe-XvmKPGR-CdEi_G881snG-QgZBiFozw@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Vlastimil Babka <vbabka@suse.cz>, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Barry Song <v-songbaohua@oppo.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>, 
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>, Harry Yoo <harry.yoo@oracle.com>, 
-	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>
+References: <cover.1760364551.git.asml.silence@gmail.com> <20251013105446.3efcb1b3@kernel.org>
+In-Reply-To: <20251013105446.3efcb1b3@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 13 Oct 2025 21:41:38 -0700
+X-Gm-Features: AS18NWDsUu_PMxJh1iCf-aXLBKzwTZ_46MmoA7_5elnWV_3Q5KDGegO5lPk6knY
+Message-ID: <CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 00/24][pull request] Queue configs and large
+ buffer providers
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
+	Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, 
+	Jijie Shao <shaojijie@huawei.com>, Sunil Goutham <sgoutham@marvell.com>, 
+	Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, 
+	hariprasad <hkelam@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Joe Damato <joe@dama.to>, David Wei <dw@davidwei.uk>, 
+	Willem de Bruijn <willemb@google.com>, Breno Leitao <leitao@debian.org>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 14, 2025 at 6:47=E2=80=AFAM Roman Gushchin <roman.gushchin@linu=
-x.dev> wrote:
+On Mon, Oct 13, 2025 at 10:54=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
+rote:
 >
-> Vlastimil Babka <vbabka@suse.cz> writes:
+> On Mon, 13 Oct 2025 15:54:02 +0100 Pavel Begunkov wrote:
+> > Jakub Kicinski (20):
+> >   docs: ethtool: document that rx_buf_len must control payload lengths
+> >   net: ethtool: report max value for rx-buf-len
+> >   net: use zero value to restore rx_buf_len to default
+> >   net: clarify the meaning of netdev_config members
+> >   net: add rx_buf_len to netdev config
+> >   eth: bnxt: read the page size from the adapter struct
+> >   eth: bnxt: set page pool page order based on rx_page_size
+> >   eth: bnxt: support setting size of agg buffers via ethtool
+> >   net: move netdev_config manipulation to dedicated helpers
+> >   net: reduce indent of struct netdev_queue_mgmt_ops members
+> >   net: allocate per-queue config structs and pass them thru the queue
+> >     API
+> >   net: pass extack to netdev_rx_queue_restart()
+> >   net: add queue config validation callback
+> >   eth: bnxt: always set the queue mgmt ops
+> >   eth: bnxt: store the rx buf size per queue
+> >   eth: bnxt: adjust the fill level of agg queues with larger buffers
+> >   netdev: add support for setting rx-buf-len per queue
+> >   net: wipe the setting of deactived queues
+> >   eth: bnxt: use queue op config validate
+> >   eth: bnxt: support per queue configuration of rx-buf-len
 >
-> > On 10/13/25 12:16, Barry Song wrote:
-> >> From: Barry Song <v-songbaohua@oppo.com>
-> >>
-> >> On phones, we have observed significant phone heating when running app=
-s
-> >> with high network bandwidth. This is caused by the network stack frequ=
-ently
-> >> waking kswapd for order-3 allocations. As a result, memory reclamation=
- becomes
-> >> constantly active, even though plenty of memory is still available for=
- network
-> >> allocations which can fall back to order-0.
-> >>
-> >> Commit ce27ec60648d ("net: add high_order_alloc_disable sysctl/static =
-key")
-> >> introduced high_order_alloc_disable for the transmit (TX) path
-> >> (skb_page_frag_refill()) to mitigate some memory reclamation issues,
-> >> allowing the TX path to fall back to order-0 immediately, while leavin=
-g the
-> >> receive (RX) path (__page_frag_cache_refill()) unaffected. Users are
-> >> generally unaware of the sysctl and cannot easily adjust it for specif=
-ic use
-> >> cases. Enabling high_order_alloc_disable also completely disables the
-> >> benefit of order-3 allocations. Additionally, the sysctl does not appl=
-y to the
-> >> RX path.
-> >>
-> >> An alternative approach is to disable kswapd for these frequent
-> >> allocations and provide best-effort order-3 service for both TX and RX=
- paths,
-> >> while removing the sysctl entirely.
+> I'd like to rework these a little bit.
+> On reflection I don't like the single size control.
+> Please hold off.
 >
-> I'm not sure this is the right path long-term. There are significant
-> benefits associated with using larger pages, so making the kernel fall
-> back to order-0 pages easier and sooner feels wrong, tbh. Without kswapd
-> trying to defragment memory, the only other option is to force tasks
-> into the direct compaction and it's known to be problematic.
 
-I guess the benefits depend on the hardware: for loopback, they might be
-significant, while for slower network devices, order-3 memory may provide
-much smaller gains?
+FWIW when I last looked at this I didn't like that the size control
+seemed to control the size of the allocations made from the pp, but
+not the size actually posted to the NIC.
 
-On the other hand, I wonder if we could make kcompactd more active when
-kswapd is woken for order-3 allocations, instead of reclaiming
-order-0 pages to form order-3.
+I.e. in the scenario where the driver fragments each pp buffer into 2,
+and the user asks for 8K rx-buf-len, the size actually posted to the
+NIC would have actually been 4K (8K / 2 for 2 fragments).
 
->
-> I wonder if instead we should look into optimizing kswapd to be less
-> power-hungry?
+Not sure how much of a concern this really is. I thought it would be
+great if somehow rx-buf-len controlled the buffer sizes actually
+posted to the NIC, because that what ultimately matters, no (it ends
+up being the size of the incoming frags)? Or does that not matter for
+some reason I'm missing?
 
-People have been working on this for years, yet reclaiming a folio still
-requires a lot of effort, including folio_referenced, try_to_unmap_one,
-and compressing folios to swap out to zRAM.
-
->
-> And if you still prefer to disable kswapd for this purpose, at least it
-> should be conditional to vm.laptop_mode. But again, I don't think it's
-> the right long-term approach.
-
-My point is that phones generally have much slower network hardware
-compared to PCs, and far slower hardware compared to servers, so they
-are likely not very sensitive to whether memory is order-3 or order-0. On
-the other hand, phones are highly sensitive to power consumption. As a
-result, the power cost of creating order-3 pages is likely to outweigh any
-benefit that order-3 memory might offer for network performance.
-
-It might be worth extending the existing net_high_order_alloc_disable_key
-to the RX path, as I mentioned in my reply to Eric[1], allowing users to
-decide whether network or power consumption is more important?
-
-[1]  https://lore.kernel.org/linux-mm/20251014035846.1519-1-21cnbao@gmail.c=
-om/
-
-Thanks
-Barry
+--=20
+Thanks,
+Mina
