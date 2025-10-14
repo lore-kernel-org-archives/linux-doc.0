@@ -1,142 +1,77 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2BA264A8D;
-	Tue, 14 Oct 2025 05:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783971990D9;
+	Tue, 14 Oct 2025 05:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760419688; cv=none; b=O3FhPnaeI8ur51XjtXrGHS68sLY8urahoZQKuQf43plMPfekcShIbtSXT09YILP02I2DAxZ1VS/MrbLgb0Kl5IGsz2lQOymtp8+/qQLBjP9j4mK1vV/AaM5rJxIVVUTFQ1UWpBoiwz/wHBGgsLQPWka2qDwOCfsifrE6KQDKHbQ=
+	t=1760420982; cv=none; b=R0Zbui1Siit3cm3GX0mSsQPCUNxkY6umQ6gBwyqaVUx9hDU8E/YPfIac/u2SEPLpUyUOGu/57LcrkMOKjYlgXcR+INsTGtL8ISSDcUxaWnNP9/fOQBampTMEWpEwwerCN6nj8nxYs17YB7a21QCbL4FfOW7H5y0Q1Z23UevAKKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760419688; c=relaxed/simple;
-	bh=8xRuTHFFH2PM8vfqKFhpl/BC7O+sNHzqu+hVzNkYBSM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hx4urnEmWx6jr8q4fWtMGm0yzQmHplK0UpH+Fy/c4m9lhInd8yxv71HO7LqR08yFylvmEWkJpdpyW48qEf7AXZr2MYm9dB1Hdf6+Itzfff30DV/lyzJoSMi2yRGw5dUIaaoQqmRtDf1TCUCFTbsiiXzW8OvR1MZp+4GJX3v9ZUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Gi88Lhdc; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1760420982; c=relaxed/simple;
+	bh=9jJGe8mIjKKf+w4XiUD0Xsuk9sLRMyV8LCUGQ3SWOI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V3jE8TuBSaELWVKG/ORw1JhacHJhATrXUh0SRoAAvOzeETZUY+NUJPOvnZouy/t/tPai0b3xjXxSw01DwIVbqxfpw2u7RRz77qPKwuJ1QFOA0H4HpTUKzUgo6sqJpYBMj6PZcnpEJemRrXtnw4van1lc9EFfsFY/kWa905wUlEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dsMYimzk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Gi88Lhdc"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59E5RjPa1068705;
-	Tue, 14 Oct 2025 00:27:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1760419665;
-	bh=GZkDZiqJHRQS6eYPn2MWS93PH5gkev1yZL05Cge9Pt0=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=Gi88LhdcGPErcxh5788Wua0nCPKCBcEf4fWOaG+hxefH2lCXeHfTGfDniya3rrfls
-	 3fwLmXRuzxhEKfQQZnlzCAcv+6DPjshtalj3cfkdJxp9go6TuIQmH1JWQivkVMtrTV
-	 iygfWITeMqy4olnixHWux3JNDx215fxAHYneY51s=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59E5RjhV783018
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 14 Oct 2025 00:27:45 -0500
-Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 14
- Oct 2025 00:27:44 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 14 Oct 2025 00:27:44 -0500
-Received: from localhost (lcpd911.dhcp.ti.com [172.24.233.130])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59E5RhoE3267084;
-	Tue, 14 Oct 2025 00:27:44 -0500
-Date: Tue, 14 Oct 2025 10:57:43 +0530
-From: Dhruva Gole <d-gole@ti.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: <linux-kernel@vger.kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Pavel
- Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH] docs: power: clean up power_supply_class.rst
-Message-ID: <20251014052743.7epupfxrymbq3eu6@lcpd911>
-References: <20251014031617.764429-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dsMYimzk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3/iYvjKXG/ZA8HX1G461NeObT+RzeCLng+sueDi1iDM=; b=dsMYimzkVLJzFMMC12cA98Z/tR
+	GSCFapeTfTpMd1Yv9+8dcbFstvRjT9t7fWZqp2RkTksrB6AS+Tilym5MHrImekuu3+1V/rMlxW6fI
+	qNJAQ+ZxBSUKwqCJUywYlEV3pP0ZiP9irdUT/xnTXJu6GGg3vy3cEjtRWshqdFV+KxAxTb67Yw4+G
+	95xmvro26ai6u4Mq+qUXlIgX4PswWjvFAb76Xf+t4AYVyjWzCP3Jd/giq2hkohxsTyS77z8fRgY0+
+	/MpO/TDiEMiOMj9I5xAu6ExrL+hOIfB/Y2uHYDFfmTtHSAUfFxMWM8erImWvW6svnuct+nUCy9Zjr
+	/dH2r65g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8Xum-0000000FEi2-0FBq;
+	Tue, 14 Oct 2025 05:49:40 +0000
+Message-ID: <0e335708-d528-4277-a3c4-0b286c34b93f@infradead.org>
+Date: Mon, 13 Oct 2025 22:49:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251014031617.764429-1-rdunlap@infradead.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: power: clean up power_supply_class.rst
+To: Dhruva Gole <d-gole@ti.com>
+Cc: linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
+References: <20251014031617.764429-1-rdunlap@infradead.org>
+ <20251014052743.7epupfxrymbq3eu6@lcpd911>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251014052743.7epupfxrymbq3eu6@lcpd911>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Oct 13, 2025 at 20:16:15 -0700, Randy Dunlap wrote:
-> Clean up grammar, punctuation, etc., in the power supply class
-> documentation.
+
+
+On 10/13/25 10:27 PM, Dhruva Gole wrote:
+> On Oct 13, 2025 at 20:16:15 -0700, Randy Dunlap wrote:
+>> Clean up grammar, punctuation, etc., in the power supply class
+>> documentation.
+>>
+
+>>  
 > 
-> Add article adjectives where needed.
-> Hyphenate some adjectives.
-> Fix punctuation.
-> Fix some verb usage (singular/plural).
-> Fix run-on sentences.
-> Add "is" in a few places.
-> Change "QA" to "Q&A".
+> With that, if you plan to respin feel free to include:
+> Reviewed-by: Dhruva Gole <d-gole@ti.com>
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: Pavel Machek <pavel@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> ---
->  Documentation/power/power_supply_class.rst |   84 +++++++++----------
->  1 file changed, 42 insertions(+), 42 deletions(-)
-> 
-> --- linux-next-20251013.orig/Documentation/power/power_supply_class.rst
-> +++ linux-next-20251013/Documentation/power/power_supply_class.rst
-> @@ -7,35 +7,35 @@ Synopsis
->  Power supply class used to represent battery, UPS, AC or DC power supply
->  properties to user-space.
->  
-> -It defines core set of attributes, which should be applicable to (almost)
-> +It defines a core set of attributes which should be applicable to (almost)
->  every power supply out there. Attributes are available via sysfs and uevent
->  interfaces.
->  
-> -Each attribute has well defined meaning, up to unit of measure used. While
-> +Each attribute has a well-defined meaning, up to unit of measure used. While
 
-Not a native English speaker but see if this makes sense?
-up to "the" unit of measure used.
+Hi,
+Yes, I'll resend with your suggestions.
 
->  the attributes provided are believed to be universally applicable to any
->  power supply, specific monitoring hardware may not be able to provide them
->  all, so any of them may be skipped.
->  
-> -Power supply class is extensible, and allows to define drivers own attributes.
-> -The core attribute set is subject to the standard Linux evolution (i.e.
-> -if it will be found that some attribute is applicable to many power supply
-> -types or their drivers, it can be added to the core set).
-> +The power supply class is extensible and allows drivers to define their own
-> +attributes.  The core attribute set is subject to the standard Linux evolution
-> +(i.e., if it will be found that some attribute is applicable to many power
-
-Reword as follows:
-i.e., if some attribute is found to be applicable to many power supply types
-
-> +supply types or their drivers, it can be added to the core set).
->  
-> -It also integrates with LED framework, for the purpose of providing
-> +It also integrates with the LED framework, for the purpose of providing
->  typically expected feedback of battery charging/fully charged status and
->  AC/USB power supply online status. (Note that specific details of the
->  indication (including whether to use it at all) are fully controllable by
-> -user and/or specific machine defaults, per design principles of LED
-> -framework).
-> +user and/or specific machine defaults, per design principles of the LED
-> +framework.)
->  
-
-With that, if you plan to respin feel free to include:
-Reviewed-by: Dhruva Gole <d-gole@ti.com>
+Thanks.
 
 -- 
-Best regards,
-Dhruva Gole
-Texas Instruments Incorporated
+~Randy
+
