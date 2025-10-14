@@ -1,90 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221C619F48D;
-	Tue, 14 Oct 2025 01:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5852E21D3E6;
+	Tue, 14 Oct 2025 01:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760404343; cv=none; b=PGwp97z2hwzOB7M8KRLH7QMQU6xqRuY8GGhHhhE5aT6GmNJz5/tIuA19uoCCpqEsORJAqYqUsPZgpfGCc+uU5GDD17MMqZyoiYJrEXBXaNZT3/KUTqPwG4o/f3ILYzD2ZA5TveacqCOfEJJvn5meQwsc/vsPrm+wjTGNK+fyBdQ=
+	t=1760405876; cv=none; b=p0Vp2j/hAuxA7NfR/eWQbt4C1XXT4ROlKf33s5DylXAuG4fL8o7LjnTxFhxnlXq/nch188KDR93E5aiy0t8Ifhf60nOFUrjQ6WE/Rw8/CSvErfKR3XeBs+pHS73huH9oz/FhkvekK02HYfh3qblqUCicAJEsbf9/vBmAIcXlDNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760404343; c=relaxed/simple;
-	bh=v1eh061b6dkek5M9HJLBkji6LBvb2K8CkWCnfAVgFRU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=nYt46O1RHc3ie5Ib901AClk3LOfqlFcvFt0uNvM4/7pn4+Gy91eh19Fgu+dcdsco52vNkidK77zkoSI+oU/29LNW8DxHl1frvgvGRScmZwW/st8j/AT/NDCQdrSSn0HcSP9SI+scieBpgua7H3Sm2hM/gtSrZkf4yHiQkHU//as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvlkGI6Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760405876; c=relaxed/simple;
+	bh=HrFBjoy4Zs+VZwHot4gEOtOJxRXfilQq4zCyRDBqeHw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Rox6PwqCgz7tNdA+njPhqXNLOMrd+K4aHmtNuyO/vof1/MYHF72LOryXKZ5hgEDsK923CqiWjeNzhE0ICtE1Ggfl6BSBhkj2JbgDaPhZUXE1FbBC0hHZiwNSOuD0VNnvN1Wvgf7UTImNXadMxrJ+u3CmBYUxzfxBhq3NlSd9Lzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vunw790x; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvlkGI6Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1278C4CEE7;
-	Tue, 14 Oct 2025 01:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760404342;
-	bh=v1eh061b6dkek5M9HJLBkji6LBvb2K8CkWCnfAVgFRU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=MvlkGI6Z2YTW1djrM0AQMX/ZnMuujXo3RFRqY6qbgf1EEsX2N1t830Khh849kvBzF
-	 5XsljbgJAS2NHJbFyF1cKlJhfnN1ZVZ/PAYxTTvdWTn0L1g/K0piBjFw/AzquP2mKp
-	 mHVJFtptmyIYe/JM+FEQvob7UIwecA+O9CFExGSCat4HrcwSbSokflIx2IqqWpXDni
-	 BGaDKMl0aXHjOHSUCQd1MSZTigEu3VtW5WFHx0pZQ+L4K+CunYhkS9tT99qBwuwm2J
-	 tEvNvig7VqXOi2COajpKaRKMotsvjloIm+Cnyb6meKSzOnr3W9jumwEB6nQ0uQwtHi
-	 U30g6rEx8OFoQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70DC6380A962;
-	Tue, 14 Oct 2025 01:12:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vunw790x"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=SCW41sazUXG5KcMtr/XAw0GQBM/OgQxXYdOpaMbHEK8=; b=Vunw790xEYTNY49uEhIAewJymb
+	X5GikfhFUMnMl1ReMC5pYd1Xn1RLzH93C4HAYlVR/5MEu6Rri2ErZ9/du8zhiCFmDbbPVkXSb6kBQ
+	0AA3G9tsERMPDzo9RApk/350l6/1GQjLh8ExHR0hoN/son9IFKunn3cpwV5b3sbNfLBlzkjAEWnnl
+	fRkGvuoT+TmAXOZ4AIqtD5lW46KClOooxYpNXv8ljjl19q7MmHh2tZICmayRdETwSetCKmp2vFm/8
+	mPjAXxPvMTzmupw/prDDCTKAbl5DsN3yZc/0EapJIkVXicoPgsxMPGd16wHyOMFdv/ImqxcZlXB1v
+	+fqikLhw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8Tyl-0000000EuFp-3tOW;
+	Tue, 14 Oct 2025 01:37:31 +0000
+Message-ID: <b16d76de-688a-4697-bcfe-06f2785a1d3c@infradead.org>
+Date: Mon, 13 Oct 2025 18:37:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/5] kcfi: Prepare for GCC support
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <176040432799.3390136.12370033021047300981.git-patchwork-notify@kernel.org>
-Date: Tue, 14 Oct 2025 01:12:07 +0000
-References: <20250825141316.work.967-kees@kernel.org>
-In-Reply-To: <20250825141316.work.967-kees@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: linux-riscv@lists.infradead.org, peterz@infradead.org,
- samitolvanen@google.com, dwmw2@infradead.org, linus.walleij@linaro.org,
- mark.rutland@arm.com, puranjay@kernel.org, corbet@lwn.net, nathan@kernel.org,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
- linux-hardening@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][v3] hung_task: Panic after fixed number of hung tasks
+To: lirongqing <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Andrew Morton <akpm@linux-foundation.org>, Lance Yang
+ <lance.yang@linux.dev>, Masami Hiramatsu <mhiramat@kernel.org>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>, Shuah Khan <shuah@kernel.org>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Feng Tang
+ <feng.tang@linux.alibaba.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Kees Cook
+ <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Phil Auld <pauld@redhat.com>, Joel Granados <joel.granados@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Stanislav Fomichev <sdf@fomichev.me>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ David Hildenbrand <david@redhat.com>, Florian Westphal <fw@strlen.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20251012115035.2169-1-lirongqing@baidu.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251012115035.2169-1-lirongqing@baidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
+Hi--
 
-This series was applied to riscv/linux.git (for-next)
-by Peter Zijlstra <peterz@infradead.org>:
-
-On Mon, 25 Aug 2025 07:25:47 -0700 you wrote:
-> Hi,
+On 10/12/25 4:50 AM, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 > 
-> With KCFI support in GCC coming[1], we need to make some (relatively
-> small) changes in the kernel to deal with it:
-> 
-> - move __nocfi out of compilers-clang.h (so GCC can see it too)
-> - add cfi=debug so future Kees can find breakage easier
-> - remove problematic __noinitretpoline usage
-> - rename CONFIG_CFI_CLANG to CONFIG_CFI (otherwise is it quite confusing)
-> 
-> [...]
 
-Here is the summary with links:
-  - [1/5] compiler_types.h: Move __nocfi out of compiler-specific header
-    https://git.kernel.org/riscv/c/038c7dc66e27
-  - [2/5] x86/traps: Clarify KCFI instruction layout
-    https://git.kernel.org/riscv/c/628a15e0536a
-  - [3/5] x86/cfi: Add option for cfi=debug bootparam
-    (no matching commit)
-  - [4/5] x86/cfi: Remove __noinitretpoline and __noretpoline
-    https://git.kernel.org/riscv/c/0b815825b1b0
-  - [5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-    (no matching commit)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a51ab46..7d9a8ee 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1992,14 +1992,20 @@
+>  			the added memory block itself do not be affected.
+>  
+>  	hung_task_panic=
+> -			[KNL] Should the hung task detector generate panics.
+> -			Format: 0 | 1
+> +			[KNL] Number of hung tasks to trigger kernel panic.
+> +			Format: <int>
+> +
+> +			Set this to the number of hung tasks that must be
+> +			detected before triggering a kernel panic.
+> +
+> +			0: don't panic
+> +			1: panic immediately on first hung task
+> +			N: panic after N hung tasks are detect
 
-You are awesome, thank you!
+			                            are detected
+
+>  
+> -			A value of 1 instructs the kernel to panic when a
+> -			hung task is detected. The default value is controlled
+> -			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
+> -			option. The value selected by this boot parameter can
+> -			be changed later by the kernel.hung_task_panic sysctl.
+> +			The default value is controlled by the
+> +			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value
+> +			selected by this boot parameter can be changed later by the
+> +			kernel.hung_task_panic sysctl.
+>  
+>  	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
+>  				terminal devices. Valid values: 0..8
+
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+~Randy
 
