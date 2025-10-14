@@ -1,163 +1,81 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F39B2571B8
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 13:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1960D30C36C;
+	Tue, 14 Oct 2025 13:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760448697; cv=none; b=jMdSOK5rm/hPNYS0sFSPkd1yLXoh4wOLeX/VwetbTZc4spRmst9tJdJgkn3tM6z6pfwxehsxKKLTJ9PUPxZzhMqkPqHGLBuqrJ67QFm2IhLQb23bsMll4A5Unmd2azQa0DhtqXvsT9ZkOamN5U1g70YWmjxGcQSYrAwpa45hokM=
+	t=1760450216; cv=none; b=Dbrn781Ya/FmanHT7JbuRpcqQDE46AH1EuPj3IJz8bdxOv9xeBgzmjL3nblab1xRI6YX++GuHndJrcvQvgD7eyu6RTUE+0yCi2yZYHN+jQattLMVcNqJGMUmyiJ+1wFQNLcNoIEz4CyjdM1soTsYcGb1AmWP9NXu+NnhRiIUKD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760448697; c=relaxed/simple;
-	bh=iIjZWpm1TiQUVzmyWQwDNnrEF5an80tu+OC+tdhyZC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdmjbT6Br89cGUwjQyLppKJkJ1WIGuaEzeGGe2WgGgmAyOrYw/HaXE2fXhO9itDTTtQqYeTZfYi/ryaBtwqXgIE1sw5SkXxlfWKdwMEgK1clAYW+EEBi9gb/yZpUqZ7p81Z7rtE3RyXIaBruu9lPFC5m+nDQM1/8BOP8NXQFxhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQLkKiQf; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760450216; c=relaxed/simple;
+	bh=PRqYDMj3V0mpjuoGt3aazHK0eVFqNNCONPDyZsC7524=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EFE4HwSFeS9jENkdI68KoAKsb9kfLyVuaa6hmQSxPSoG/DRS8OUDh03Eg+uqxEntdDy5ovP1s2+zMYyTNUhtAt05juFd4rx5QkILrHZSZs4pa+4Mymt1UWSbYPjy+7dpD23bX195v07Zl45LU4D5scpp+vjqVPztOrUV9FGZGHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RvJH0BSw; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQLkKiQf"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6364eb29e74so9391288a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 06:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760448694; x=1761053494; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JRUz1hWdNpegFSxtg102ODjrrEjXcJrCzI5fyTVJ/6Q=;
-        b=DQLkKiQfZND2IFf/h5wDCcU7nsL9b0MO2/wBM6KPAhNCZWhVN94HQy5fsrTU25tbgB
-         2Gq2QvLkWPnA0xkfn7ycw1MgwA2qLz0g6AbmWxcd6bS2Qhofps5FAzMPAi7eFfr7nrj3
-         9J10C2KCHIbn2+sRa1U7qZRnp1tmnEvHAE9WILBT/9Nb9MvbcypJtByoH3PDylNSnu6z
-         Ql/nNsHVyp7t4cPhcemA2LhGv6CkCqMoygInePHf8U8QXwjfwbEAM4W8B9Bdcu/4Y4re
-         drd4lrgRyWoBlvc2EOxKN69l9MeFWyOnJfPQUx/e+/qOIX/3Rdm/jJCyYkveMuFV8AjL
-         NL1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760448694; x=1761053494;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JRUz1hWdNpegFSxtg102ODjrrEjXcJrCzI5fyTVJ/6Q=;
-        b=KJSj73ygZfJhVlY6jJHVQGNfAXXH7m2mEJPtyS4IKWkOk4P83TZayxs55vTQGg209S
-         2Em3wMXJ4hSdXHiQ6asrcYs0Ick97q0fkIEi6HUzM0ZnI9hS7HWmiaPJ6DW3qi9t2Umy
-         +VkLjfTWQhRxrBwvIS0NO0ZwqItAq5QUQ2DYa2p0c0Z8lnzabRKmIBQ8BCcityImjktJ
-         vBl+CpztPpISu3AdbuhwKQSvvDvtY6zywchDpZOr928tWSPoIDouLqvwvI2LDJ1+ShY6
-         vPKepUtck7uibQPYQMPpo5b9DjOub9NCbdAY+1LQKkmki6Nytx5fV77C8seA2aMpBmQh
-         Jnxg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9mf1hLSH7cTSgCN2UGFAV3C5QY+hNDQ3/qGmvobGeQTVglD/g0MxupgRH+9PBfZXz2V6ZQz1Gh/Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH6rYJ3CR/jRmaQDIEkzFjjTAK7nzsKjKHsEzKCQw6NHlDiqkm
-	GWT9bmHAN3kI/wTsALX1rXW6DvZspeNcOCjkHE/Jdn2qaCKuhbeyHnkg
-X-Gm-Gg: ASbGncs6k3rgrOROGpcsEl7kt/ou552PQpk8PRMVWDFeJw/QUyS6ngY/Ddioc7+bSxM
-	0+X5AVRg1M7HguWVY3LkLfroc4Sz/rKl4dYOd7uJe2moyBJtl6IZwrl6jbcfoq7CBd/MmDbZjVB
-	GO2esyt3rUzZL3VFtgj3xp62Vixp92JfJyxINYuAGKj/GccBz0x2LU9dKdfJsF55iLFFIJw9J74
-	XpePOJ+g1R55imEqf09fVGpLf9cMFuAeeALWZ2oMEdhEjanQ1UocYlcDjDQQIFSaZ6IK9GNyOiv
-	Ez3kIn4Dg6EvO+h3n6CQSvv2+cPrvGPwSlU/iY4tk4gsJtL2b5Jj2yqUohm47UAaKb5zCttIYVL
-	3hMOOgZZEhI66ZrLQBL1nOW+5x0/J6N2y5e9nO3BOmBerkazifoM=
-X-Google-Smtp-Source: AGHT+IEgU+DdjYJjvofvtunCeX3nSH0eRUv1dqIRtOgeOUMEIzSuMU2hUdZtSc3ZGyXswVn9RHzZCQ==
-X-Received: by 2002:a17:907:7f0b:b0:b46:31be:e8fe with SMTP id a640c23a62f3a-b50aa48c4f0mr2728492866b.11.1760448693406;
-        Tue, 14 Oct 2025 06:31:33 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d971ec69sm1123110766b.85.2025.10.14.06.31.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Oct 2025 06:31:32 -0700 (PDT)
-Date: Tue, 14 Oct 2025 13:31:32 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
- large folios (CONFIG_NO_PAGE_MAPCOUNT)
-Message-ID: <20251014133132.6garfzi24xlh3jr5@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250303163014.1128035-1-david@redhat.com>
- <20250303163014.1128035-21-david@redhat.com>
- <20251014122335.dpyk5advbkioojnm@master>
- <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RvJH0BSw"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF8A540B21
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1760450214; bh=PRqYDMj3V0mpjuoGt3aazHK0eVFqNNCONPDyZsC7524=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=RvJH0BSwjh/wtqfhQDf0P8XDljS+zuNCsbBIC5CyawwUqzRAbAGVOd7QUlaLqPvDt
+	 Oq1Z4K276ZiVoMIbhMHvNt9SXjPQm9X+tS3Q0SsmxDowuoDiRUbqt5+ui8a6wtsaZk
+	 KrnFjtyGAe9gtG55X8EeGkUAJc6wwT6iTFPF3OpWP0XpCuzawcJAbGM7qSR/7tcOER
+	 YR6PviAGMl9tYt6OthIITDZnIoSxEK3kcy8Fy7LFhrg/QNxAEqnaNb8ozO2HjeXWaD
+	 9jT3T5rLrZtaJ1ctR+4HRBqZtisbD/YvGpn0prCNWsEeVrgmLRNEKjjGbtpDvnXTf1
+	 0MN8S3y4G4Arw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id DF8A540B21;
+	Tue, 14 Oct 2025 13:56:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux EFI <linux-efi@vger.kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Hugo Osvaldo
+ Barrera <hugo@whynothugo.nl>
+Subject: Re: [PATCH v3] Documentation/x86: explain LINUX_EFI_INITRD_MEDIA_GUID
+In-Reply-To: <20251013085718.27085-1-bagasdotme@gmail.com>
+References: <20251013085718.27085-1-bagasdotme@gmail.com>
+Date: Tue, 14 Oct 2025 07:56:53 -0600
+Message-ID: <87jz0xd1sq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain
 
-On Tue, Oct 14, 2025 at 02:59:30PM +0200, David Hildenbrand wrote:
->On 14.10.25 14:23, Wei Yang wrote:
->> On Mon, Mar 03, 2025 at 05:30:13PM +0100, David Hildenbrand wrote:
->> [...]
->> > @@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
->> > 		break;
->> > 	case RMAP_LEVEL_PMD:
->> > 	case RMAP_LEVEL_PUD:
->> > +		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
->> > +			last = atomic_add_negative(-1, &folio->_entire_mapcount);
->> > +			if (level == RMAP_LEVEL_PMD && last)
->> > +				nr_pmdmapped = folio_large_nr_pages(folio);
->> > +			nr = folio_dec_return_large_mapcount(folio, vma);
->> > +			if (!nr) {
->> > +				/* Now completely unmapped. */
->> > +				nr = folio_large_nr_pages(folio);
->> > +			} else {
->> > +				partially_mapped = last &&
->> > +						   nr < folio_large_nr_pages(folio);
->> 
->> Hi, David
->
->Hi!
->
->> 
->> Do you think this is better to be?
->> 
->> 	partially_mapped = last && nr < nr_pmdmapped;
->
->I see what you mean, it would be similar to the CONFIG_PAGE_MAPCOUNT case
->below.
->
->But probably it could then be
->
->	partially_mapped = nr < nr_pmdmapped;
->
->because nr_pmdmapped is only set when "last = true".
->
->I'm not sure if there is a good reason to change it at this point though.
->Smells like a micro-optimization for PUD, which we probably shouldn't worry
->about.
->
->> 
->> As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
->> folio yet.
->
->We do support partially mapped PUD-sized folios I think, but not anonymous
->PUD-sized folios.
->
->So consequently the partially_mapped variable will never really be used later
->on, because the folio_test_anon() will never hit in the PUD case.
->
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Ok, folio_test_anon() takes care of it. We won't add it to defer list by
-accident.
-
->-- 
->Cheers
+> From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
 >
->David / dhildenb
+> Since the Handover Protocol was deprecated, the recommended approach is
+> to provide an initrd using a UEFI boot service with the
+> LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+> approach has been no more than an admonition with a link to an existing
+> implementation.
+>
+> Provide a short explanation of this functionality, to ease future
+> implementations without having to reverse engineer existing ones.
+>
+> Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+> Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+> [Bagas: Don't use :ref: link to EFI stub documentation and refer to
+> OVMF/edk2 implementation]
+> Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> No changes since v2 [1].
 
--- 
-Wei Yang
-Help you, Help me
+Applied, thanks.
+
+jon
