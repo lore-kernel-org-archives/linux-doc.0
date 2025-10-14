@@ -1,184 +1,164 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1009C273D77
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 09:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DE92FC87E
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 10:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760435358; cv=none; b=eQcYYUKXF9ZwDq/KBwHy5MGD+kxDqinv1UEdFbQLWHmjTmk8xUU/Vxg76hMQ2kcOUdx+6AISpf/lrp2eCTT+OaEY4kbn6sGvycZBBhSpqiXatm19EXMzKbhS2ipkYKqq2+yxauFOv1InS74QBZMsm5o3kONCPhHCFoaEolo1E1Q=
+	t=1760436263; cv=none; b=HkOTch6Gcko7ZSRisKg1HAkDFpr2UjkC6Q1pIvO6UanBTNt887lxviKRWdveCxl/MQRgh+cDZRN3hIhs1RQ8PeB7aht/wnlib2NPRr7tDbdCpfLN3xf6XkLLP44OWxsl+vTwowY0wSX8xVbSOiZrl8VUXDRR+94cuLp+RlCHclo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760435358; c=relaxed/simple;
-	bh=gGb9eDVa6GvVYjR9gyWIr55BgaGdEpmDwy6Ql2lMG9k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R3mHJbvOOLpiLutS1Wjd+4WyURaI4iII7O9Oz6QuAf8TniSuQv65rxdC3v4Iz1ke5/vKVB/hjR4PXAhbuNhnj2DxyC+90jCe4NkSXO/WrVf4HKvU632pwJIJt5VCuS+ytu9pNb8+wWLNv6dL1g4Ba57D1nIezsXrftUaLUxxf44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TPBBf6/S; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TPBBf6/S"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-816ac9f9507so788201785a.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 02:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760435355; x=1761040155; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/rejcU5EZuKfOaVf3kGuy7qqlEcfNKn49oLZoxZhzh8=;
-        b=TPBBf6/S0rF6DBgg/Wz6eF6o71OngV/9WOKH+K/UYrQblEDvVMR7IaIGypoGhrh8uD
-         ss+yUof6CvLRyK+JXyOUkeW+5rSmaePXuJ8enm63d41z60mvtYwbVjzJSkE3Grcr39qx
-         eeEHy7y9LnJ5H7j/KfhQVb2u7iFArdxPUWwPM/E1tQ/NoNXg365BMOxnXEGM/Z8gAemY
-         MZa1Ycgcm06UjxLaiqzTbKtkc97SNKuf+PCnGLZMvxIFV8ZcbqKmWFEx4vo4A6nbFVS4
-         EhA0ya4zDQ20x6dQD0GtlAioNSQn2okTe8ORycShgj6bcNWq0Bl9z4TMSJC4mKsTAokm
-         neqA==
+	s=arc-20240116; t=1760436263; c=relaxed/simple;
+	bh=Ktrzl3+rFB0DYSw+mzf8Wr5le2N//JG3Jmezq490Eng=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=Zn618fa37iH04z4ZFhz9ISmNe83Jyb5rigfvwF1TBbfW4EhLUyEClaED9RAU9DYa9xknzgx28rbmBvHUEPrKBCX8Q9LCx+QtVizmxGz7N4ILl8xZjb6PMqXnHgfI8aComRu8DFLUaff7vQxyRXbKWI33ypr4wMqm73LPkNzwv1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-430929af37bso25671275ab.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 03:04:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760435355; x=1761040155;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/rejcU5EZuKfOaVf3kGuy7qqlEcfNKn49oLZoxZhzh8=;
-        b=FiTRzUmq3F7eVQMYi7/Ae7Gmg/8sIvUbftAn3TJXSqbgjuPYBv405pX4t6IvOfatXx
-         fQCUvnmzXb1/J2tR3pe2qqEeP2Bdk/ba5mPT+Qtvw79VUkW3pp08tubTtO/0DAUe+oBn
-         xdAJvvsERbrCQK3TxJQxXwQL3cjYWadsfQ5V2nm64O0A5Kln0RpVH1vCflq0IXlz8V2x
-         AE/OIdSIWlz0PWZe8MP5v3hGT5kTC00CuxSZV9fpjsQ8Kj7Tlt+K//34b1WVbHhh9Wkt
-         5ky32do/LJ01vAwhVvHuQ900B20QB1N9Rg/cO/sPoIkb9IT2aDB99z6qGLJJgxHmB4H3
-         rIkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/sCnPOGuW+Ythcjo/KsUSPhn2ptzALydtnMEtXZmISNqHs885r0mrK6zRIAnwpGtj78DKTZCuu+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTM9oBlu1AZWfjpxylvdes5VrRGe3G3g/xyRZGnoJC3LQssNcL
-	PBoNdtBFoxjwnuQl9IShExzMaqtztSVhaHcZTVMjtxMxck3F0xMrbqA62jlsdE6a7vFgMmidozw
-	SOUC4hBSoQJyQxnrOzItloVDA66BlmwPmh4WAkZH5
-X-Gm-Gg: ASbGncti9uxtdMHgHAslYYGLcNhZsckvXpwjriz8MeeTAULrWDf2PJp8c0V5qqTnBjW
-	4ntzBpEkXFh5CC0j1bY0kp5VK9r8ENsKCPp6zHmYPgwQGc0GVF9WB159TwoUOgBcc2VZVgtg3PA
-	sE92KCgwCyicFhKwT9N56Y61qyel8cIvWMylUHxIGdgT6SLIsugu9xWt5bObLsslBwgwCl/A4L2
-	FF+M1hSEEZau20zj8TVUPnA29p3hjrHsk/YTuti+pI=
-X-Google-Smtp-Source: AGHT+IHl4KYhns6HjXctJUP8o5ymMntOlhxSsAztTQ/ElyRGupOcA1nshFbafOIGxpIMTBr9aCbejFNLuYJavjSBG/8=
-X-Received: by 2002:a05:622a:1651:b0:4b7:a1b6:cf29 with SMTP id
- d75a77b69052e-4e6de928b64mr379844891cf.41.1760435354432; Tue, 14 Oct 2025
- 02:49:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760436260; x=1761041060;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GH+KMJg65TPnbgWnuocNKVgpnsMrWf8epTMXXTaDAq0=;
+        b=angDlZ+0WPcm5Q/fjPEnVWYuc9adToWv5tky/mSfp/Th66VwsS5iD5NilQJnehws5X
+         EEkbFkkCBkMDN25BBk/kU/W6Cv5YCDqdKQ7Y9dG/HArHJFA1Q4doEekQKmeArgLNZ3bz
+         APEOAgpvFcBOcFvdhb1c8ZpAbnasvHJGEJYRXI7tgYnDfLcQdcdhQi0i3VZBoifHajBK
+         GjeCgQvGimRhzE3GGJwG7hGHIUD17qm0zFo1vqpX9lKhelk+a5p761vsCtNLld1GrwE0
+         /J88fN06OLY1Gimpz7T8QZTZ/02RbSOdGU3KrgyRVKQgKZ3uDPm5zILI5oOHNfZDl8B1
+         neWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpWTY+fCbPpQFyhDERQyC7rOFSQ1VmG9XjscUHQOmE9Mr54qoHvkpLeoufbbUoDxVtNQgkReAv0mc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySrjRgII9EXXM4Y+Db35I9hfhsOn2iTQVLuLmslo62YOg0Lif8
+	NkPTBTXMljeTf42dG+C3TvNx3zcQIelGTYV3Pz1pjVIpnyGRJmpIhPTAupiXY803PTmM2dVIJ73
+	S8PPN8XWu9CNQlEkXJjtjKcojh3a0W3MXYWlntcWNG0TYFyfkvOMwJ1mFG+Y=
+X-Google-Smtp-Source: AGHT+IGz2nDs6O23O9XvrI8+go74XaGnVI0mw9uQ08Gv7HrjA7t3Y0/hk3lcuiAO7H/cMIk375ht76/469QuZmsy6j1NehDau3rk
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013101636.69220-1-21cnbao@gmail.com> <aO11jqD6jgNs5h8K@casper.infradead.org>
- <CAGsJ_4x9=Be2Prbjia8-p97zAsoqjsPHkZOfXwz74Z_T=RjKAA@mail.gmail.com>
- <CANn89iJpNqZJwA0qKMNB41gKDrWBCaS+CashB9=v1omhJncGBw@mail.gmail.com> <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
-In-Reply-To: <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 14 Oct 2025 02:49:03 -0700
-X-Gm-Features: AS18NWCJcjmV12JbFBOiX1xuqww7glxnYRIPGxjvTUEA69A11zlzBQw_qx0TUQI
-Message-ID: <CANn89iKSW-kk-h-B0f1oijwYiCWYOAO0jDrf+Z+fbOfAMJMUbA@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-To: Barry Song <21cnbao@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Barry Song <v-songbaohua@oppo.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
+X-Received: by 2002:a05:6e02:1c02:b0:42f:a4d7:ebac with SMTP id
+ e9e14a558f8ab-42fa4d7f0acmr152220895ab.4.1760436260071; Tue, 14 Oct 2025
+ 03:04:20 -0700 (PDT)
+Date: Tue, 14 Oct 2025 03:04:20 -0700
+In-Reply-To: <20251014051825.1084403-2-wilfred.opensource@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68ee2024.050a0220.ac43.00ef.GAE@google.com>
+Subject: [syzbot ci] Re: net/tls: support setting the maximum payload size
+From: syzbot ci <syzbot+cidd78f5a1c7478a8a@syzkaller.appspotmail.com>
+To: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
+	john.fastabend@gmail.com, kuba@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, sd@queasysnail.net, 
+	shuah@kernel.org, wilfred.mallawa@wdc.com, wilfred.opensource@gmail.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 14, 2025 at 1:58=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrot=
-e:
->
-> On Tue, Oct 14, 2025 at 1:04=E2=80=AFPM Eric Dumazet <edumazet@google.com=
-> wrote:
-> >
-> > On Mon, Oct 13, 2025 at 9:09=E2=80=AFPM Barry Song <21cnbao@gmail.com> =
-wrote:
-> > >
-> > > On Tue, Oct 14, 2025 at 5:56=E2=80=AFAM Matthew Wilcox <willy@infrade=
-ad.org> wrote:
-> > > >
-> > > > On Mon, Oct 13, 2025 at 06:16:36PM +0800, Barry Song wrote:
-> > > > > On phones, we have observed significant phone heating when runnin=
-g apps
-> > > > > with high network bandwidth. This is caused by the network stack =
-frequently
-> > > > > waking kswapd for order-3 allocations. As a result, memory reclam=
-ation becomes
-> > > > > constantly active, even though plenty of memory is still availabl=
-e for network
-> > > > > allocations which can fall back to order-0.
-> > > >
-> > > > I think we need to understand what's going on here a whole lot more=
- than
-> > > > this!
-> > > >
-> > > > So, we try to do an order-3 allocation.  kswapd runs and ... succee=
-ds in
-> > > > creating order-3 pages?  Or fails to?
-> > > >
-> > >
-> > > Our team observed that most of the time we successfully obtain order-=
-3
-> > > memory, but the cost is excessive memory reclamation, since we end up
-> > > over-reclaiming order-0 pages that could have remained in memory.
-> > >
-> > > > If it fails, that's something we need to sort out.
-> > > >
-> > > > If it succeeds, now we have several order-3 pages, great.  But wher=
-e do
-> > > > they all go that we need to run kswapd again?
-> > >
-> > > The network app keeps running and continues to issue new order-3 allo=
-cation
-> > > requests, so those few order-3 pages won=E2=80=99t be enough to satis=
-fy the
-> > > continuous demand.
-> >
-> > These pages are freed as order-3 pages, and should replenish the buddy
-> > as if nothing happened.
->
-> Ideally, that would be the case if the workload were simple. However, the
-> system may have many other processes and kernel drivers running
-> simultaneously, also consuming memory from the buddy allocator and possib=
-ly
-> taking the replenished pages. As a result, we can still observe multiple
-> kswapd wakeups and instances of over-reclamation caused by the network
-> stack=E2=80=99s high-order allocations.
->
-> >
-> > I think you are missing something to control how much memory  can be
-> > pushed on each TCP socket ?
-> >
-> > What is tcp_wmem on your phones ? What about tcp_mem ?
-> >
-> > Have you looked at /proc/sys/net/ipv4/tcp_notsent_lowat
->
-> # cat /proc/sys/net/ipv4/tcp_wmem
-> 524288  1048576 6710886
+syzbot ci has tested the following series
 
-Ouch. That is insane tcp_wmem[0] .
+[v5] net/tls: support setting the maximum payload size
+https://lore.kernel.org/all/20251014051825.1084403-2-wilfred.opensource@gmail.com
+* [PATCH net-next v5 1/2] net/tls: support setting the maximum payload size
+* [PATCH net-next v5 2/2] selftests: tls: add tls record_size_limit test
 
-Please stick to 4096, or risk OOM of various sorts.
+and found the following issue:
+general protection fault in tls_setsockopt
 
->
-> # cat /proc/sys/net/ipv4/tcp_notsent_lowat
-> 4294967295
->
-> Any thoughts on these settings?
+Full report is available here:
+https://ci.syzbot.org/series/210c88bf-945a-460c-9fe3-c55bd1958b5d
 
-Please look at
-https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+***
 
-tcp_notsent_lowat - UNSIGNED INTEGER
-A TCP socket can control the amount of unsent bytes in its write queue,
-thanks to TCP_NOTSENT_LOWAT socket option. poll()/select()/epoll()
-reports POLLOUT events if the amount of unsent bytes is below a per
-socket value, and if the write queue is not full. sendmsg() will
-also not add new buffers if the limit is hit.
+general protection fault in tls_setsockopt
 
-This global variable controls the amount of unsent data for
-sockets not using TCP_NOTSENT_LOWAT. For these sockets, a change
-to the global variable has immediate effect.
+tree:      net-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net-next.git
+base:      18a7e218cfcdca6666e1f7356533e4c988780b57
+arch:      amd64
+compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+config:    https://ci.syzbot.org/builds/ae03b3d4-e809-4b0e-bd4a-76b4ae8e9d74/config
+C repro:   https://ci.syzbot.org/findings/d0b97737-6ea7-4c05-b10b-71dc834c9393/c_repro
+syz repro: https://ci.syzbot.org/findings/d0b97737-6ea7-4c05-b10b-71dc834c9393/syz_repro
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000023: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000118-0x000000000000011f]
+CPU: 1 UID: 0 PID: 5970 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:do_tls_setsockopt_tx_payload_len net/tls/tls_main.c:847 [inline]
+RIP: 0010:do_tls_setsockopt net/tls/tls_main.c:887 [inline]
+RIP: 0010:tls_setsockopt+0x189/0x1590 net/tls/tls_main.c:906
+Code: ff df 80 3c 08 00 74 08 4c 89 ff e8 51 67 3c f8 41 bc 18 01 00 00 4d 03 27 4c 89 e0 48 c1 e8 03 49 bf 00 00 00 00 00 fc ff df <42> 80 3c 38 00 74 08 4c 89 e7 e8 28 67 3c f8 49 83 3c 24 00 0f 84
+RSP: 0018:ffffc90003e57cc0 EFLAGS: 00010202
+RAX: 0000000000000023 RBX: ffff88816adfcc00 RCX: dffffc0000000000
+RDX: 0000000000000006 RSI: ffffffff8d7e872a RDI: ffffffff8bc074e0
+RBP: ffffc90003e57e38 R08: ffffffff8f9e0f77 R09: 1ffffffff1f3c1ee
+R10: dffffc0000000000 R11: fffffbfff1f3c1ef R12: 0000000000000118
+R13: 1ffff920007cafa4 R14: ffff88816b33bde8 R15: dffffc0000000000
+FS:  00005555585b2500(0000) GS:ffff8882a9d0f000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000000180 CR3: 000000010739e000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ do_sock_setsockopt+0x17c/0x1b0 net/socket.c:2360
+ __sys_setsockopt net/socket.c:2385 [inline]
+ __do_sys_setsockopt net/socket.c:2391 [inline]
+ __se_sys_setsockopt net/socket.c:2388 [inline]
+ __x64_sys_setsockopt+0x13f/0x1b0 net/socket.c:2388
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f499fb8eec9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffecf309e88 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 00007f499fde5fa0 RCX: 00007f499fb8eec9
+RDX: 0000000000000005 RSI: 000000000000011a RDI: 0000000000000003
+RBP: 00007f499fc11f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f499fde5fa0 R14: 00007f499fde5fa0 R15: 0000000000000005
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:do_tls_setsockopt_tx_payload_len net/tls/tls_main.c:847 [inline]
+RIP: 0010:do_tls_setsockopt net/tls/tls_main.c:887 [inline]
+RIP: 0010:tls_setsockopt+0x189/0x1590 net/tls/tls_main.c:906
+Code: ff df 80 3c 08 00 74 08 4c 89 ff e8 51 67 3c f8 41 bc 18 01 00 00 4d 03 27 4c 89 e0 48 c1 e8 03 49 bf 00 00 00 00 00 fc ff df <42> 80 3c 38 00 74 08 4c 89 e7 e8 28 67 3c f8 49 83 3c 24 00 0f 84
+RSP: 0018:ffffc90003e57cc0 EFLAGS: 00010202
+RAX: 0000000000000023 RBX: ffff88816adfcc00 RCX: dffffc0000000000
+RDX: 0000000000000006 RSI: ffffffff8d7e872a RDI: ffffffff8bc074e0
+RBP: ffffc90003e57e38 R08: ffffffff8f9e0f77 R09: 1ffffffff1f3c1ee
+R10: dffffc0000000000 R11: fffffbfff1f3c1ef R12: 0000000000000118
+R13: 1ffff920007cafa4 R14: ffff88816b33bde8 R15: dffffc0000000000
+FS:  00005555585b2500(0000) GS:ffff8882a9d0f000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000000180 CR3: 000000010739e000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	df 80 3c 08 00 74    	filds  0x7400083c(%rax)
+   6:	08 4c 89 ff          	or     %cl,-0x1(%rcx,%rcx,4)
+   a:	e8 51 67 3c f8       	call   0xf83c6760
+   f:	41 bc 18 01 00 00    	mov    $0x118,%r12d
+  15:	4d 03 27             	add    (%r15),%r12
+  18:	4c 89 e0             	mov    %r12,%rax
+  1b:	48 c1 e8 03          	shr    $0x3,%rax
+  1f:	49 bf 00 00 00 00 00 	movabs $0xdffffc0000000000,%r15
+  26:	fc ff df
+* 29:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	4c 89 e7             	mov    %r12,%rdi
+  33:	e8 28 67 3c f8       	call   0xf83c6760
+  38:	49 83 3c 24 00       	cmpq   $0x0,(%r12)
+  3d:	0f                   	.byte 0xf
+  3e:	84                   	.byte 0x84
 
 
-Setting this sysctl to 2MB can effectively reduce the amount of memory
-in TCP write queues by 66 %,
-or allow you to increase tcp_wmem[2] so that only flows needing big
-BDP can get it.
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
