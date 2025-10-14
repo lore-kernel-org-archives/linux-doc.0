@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA922FF66C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC8C2FF66D;
 	Tue, 14 Oct 2025 01:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760404275; cv=none; b=GoR21Yj+CRz2R12AmPhQmjv8iURkZa6xEC9jvjUP3/KaL/JMHKX04FHOSj50lN4i7j0DslSj7PXVJhouv8eXOtsQIBpTkso6sn23Wlls+ehEQ+VQELfL7ucaYwbZLUxFrF//RSDO7zLtp60NbJmEYxUzDf2yZvjCaMfdVAdLeKI=
+	t=1760404275; cv=none; b=MwOEccmzy+Lyo3rnZR2qgZZNhJGazgaobrn6s1XYu2CCifWqH/pMkIKyKG/6s/GtRpH20bv1MCW4r7S2QZe9YZVW+KWh4SAjYQsOEaW+WdAYjZDklJ4heqIDKohi5vwlvA/eOfL5YSs5Fk6WtHeSQgDny6X2nq8wKoKiU9s0MUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760404275; c=relaxed/simple;
-	bh=DHq5uGTNowsiFid7W+MiqHkhgWSktQxI8GU1iOlRebY=;
+	bh=IFsZ/jOQWWW3xwkxbu3WCd4BvXBkkfrqDLXO3MVgDWc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mlfT4qGHQfDyBRHDhF4hr7Lz1k43UthSpbFAHs1TIDIzLmsKMy9o3NF8/54gem0NUVZjyywLWNKiQJztN6sy+92BOM0FE7VPBo7f+ZhJ53/Sa+RgYtZm3gQHQrtbSVGJdGZIR4+Zbs3MecddG0Pn+BYnBlDTCWUD4mRRk/VbOXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=G5bJ5KB1; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=jX/cX5Tms55/8XAc3ZVz0e/qBGcApMSSjZtEBcRa0E0huyHcXakMz9ic5S/O7hXekOUKm3kT2SXflx3eTZQU3B3SgCQ25iTGtCOHZEMtnCXRrsIGSCECkIAk/RwARhqCDJd22abDg2/X9v2NGggFQfnZ8zSIEnKenqqBlszZZ04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=HQwZ5aop; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="G5bJ5KB1"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="HQwZ5aop"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59E19p1R1568441
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59E19p1a1568441
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 13 Oct 2025 18:09:58 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59E19p1R1568441
+	Mon, 13 Oct 2025 18:10:07 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59E19p1a1568441
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025092201; t=1760404199;
-	bh=SoUdV4rf/zSCuc9w5+G255DLkPF8EY2QJti8HxKvkS0=;
+	s=2025092201; t=1760404208;
+	bh=TfIz7rhAUjyw9R1P12vK4v753WTLFiHdQ6L7wjZZXn4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G5bJ5KB1CGMtmcW2zR6WUiFqvwb2guul/xha8ZdqIGVBm/gVWOGt3E4ElBCumgz9Q
-	 58KvJ4Ai410v/75NvmdiieeyQVbEEJdORgTEvOYJDamFL/cdrIfVpa8Scac8G21/EW
-	 Kh//+kgcKZUWOB94tibQJBzQOU7n+QmF7IVkwzwdWMDm656s9NZYTGYnL2gfxaBctC
-	 mpjJgLY6/Ji6n4helI1iieU+RN6uLwwdvPQPXqfIdEuOvFdkRkiZ8Nlo3pdzzgpYut
-	 Wa2pzcmITRwF9COz224OG9KTl61aRYDjoB+LUeruCVcs7i02fYS7m4DpBD3sG0Dwe9
-	 TKx94Ref2TgZg==
+	b=HQwZ5aoppyqqWorEVCmuxAipw2O7yGgxDGdpQeVzmeaMlkV6ctwJhuYg2aXaBqiTR
+	 IdQs7ERPmCiL+FxjY465UPlSwnpU0WNl/3qyFgVwqRtfrYW0qWdz0DpB6/guL1Bwo2
+	 ZuQkK4ldyehLev34xaDRUhiEHFURecngYE8WFvZhVX4WX4rUnFBbpRKkTAsiUhw0hx
+	 dDab4JJUm88T+NHjyJ65vr8yKO49RHpygTJ2wqoZRpdFnpexpTPzwruvpX9Dubk6Ux
+	 qTLT12ZsGcRxmcYb8T2Ju8sZNmZ0e9pKUSEZStkek7YeYyUfat6M8SBpPjUX1us4xA
+	 xpr4ov+BgQQMg==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -40,9 +40,9 @@ Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
         x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
         peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
         hch@infradead.org
-Subject: [PATCH v8 04/21] x86/cea: Prefix event stack names with ESTACK_
-Date: Mon, 13 Oct 2025 18:09:33 -0700
-Message-ID: <20251014010950.1568389-5-xin@zytor.com>
+Subject: [PATCH v8 13/21] KVM: x86: Save/restore the nested flag of an exception
+Date: Mon, 13 Oct 2025 18:09:42 -0700
+Message-ID: <20251014010950.1568389-14-xin@zytor.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251014010950.1568389-1-xin@zytor.com>
 References: <20251014010950.1568389-1-xin@zytor.com>
@@ -54,225 +54,202 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the ESTACK_ prefix to event stack names to improve clarity and
-readability.  Without the prefix, names like DF, NMI, and DB are too
-brief and potentially ambiguous.
-
-This renaming also prepares for converting __this_cpu_ist_top_va from
-a macro into a function that accepts an enum exception_stack_ordering
-argument, without requiring changes to existing callsites.
+Save/restore the nested flag of an exception during VM save/restore
+and live migration to ensure a correct event stack level is chosen
+when a nested exception is injected through FRED event delivery.
 
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Tested-by: Xuelian Guo <xuelian.guo@intel.com>
 ---
 
-Changes in v7:
-* Move rename code to this patch (Dave Hansen).
-* Fix a vertical alignment (Dave Hansen).
----
- arch/x86/coco/sev/noinstr.c           |  4 ++--
- arch/x86/coco/sev/vc-handle.c         |  2 +-
- arch/x86/include/asm/cpu_entry_area.h | 26 +++++++++++++-------------
- arch/x86/kernel/cpu/common.c          | 10 +++++-----
- arch/x86/kernel/dumpstack_64.c        | 14 +++++++-------
- arch/x86/kernel/fred.c                |  6 +++---
- arch/x86/kernel/traps.c               |  2 +-
- arch/x86/mm/cpu_entry_area.c          | 12 ++++++------
- arch/x86/mm/fault.c                   |  2 +-
- 9 files changed, 39 insertions(+), 39 deletions(-)
+Change in v8:
+* Update KVM_CAP_EXCEPTION_NESTED_FLAG, as the number in v7 is used
+  by another new cap.
 
-diff --git a/arch/x86/coco/sev/noinstr.c b/arch/x86/coco/sev/noinstr.c
-index b527eafb6312..c3985c9b232c 100644
---- a/arch/x86/coco/sev/noinstr.c
-+++ b/arch/x86/coco/sev/noinstr.c
-@@ -30,7 +30,7 @@ static __always_inline bool on_vc_stack(struct pt_regs *regs)
- 	if (ip_within_syscall_gap(regs))
- 		return false;
+Change in v5:
+* Add TB from Xuelian Guo.
+
+Change in v4:
+* Add live migration support for exception nested flag (Chao Gao).
+---
+ Documentation/virt/kvm/api.rst  | 21 ++++++++++++++++++++-
+ arch/x86/include/asm/kvm_host.h |  1 +
+ arch/x86/include/uapi/asm/kvm.h |  4 +++-
+ arch/x86/kvm/x86.c              | 19 ++++++++++++++++++-
+ include/uapi/linux/kvm.h        |  1 +
+ 5 files changed, 43 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 6ae24c5ca559..68e425a97e7c 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1184,6 +1184,10 @@ The following bits are defined in the flags field:
+   fields contain a valid state. This bit will be set whenever
+   KVM_CAP_EXCEPTION_PAYLOAD is enabled.
  
--	return ((sp >= __this_cpu_ist_bottom_va(VC)) && (sp < __this_cpu_ist_top_va(VC)));
-+	return ((sp >= __this_cpu_ist_bottom_va(ESTACK_VC)) && (sp < __this_cpu_ist_top_va(ESTACK_VC)));
- }
++- KVM_VCPUEVENT_VALID_NESTED_FLAG may be set to inform that the
++  exception is a nested exception. This bit will be set whenever
++  KVM_CAP_EXCEPTION_NESTED_FLAG is enabled.
++
+ - KVM_VCPUEVENT_VALID_TRIPLE_FAULT may be set to signal that the
+   triple_fault_pending field contains a valid state. This bit will
+   be set whenever KVM_CAP_X86_TRIPLE_FAULT_EVENT is enabled.
+@@ -1283,6 +1287,10 @@ can be set in the flags field to signal that the
+ exception_has_payload, exception_payload, and exception.pending fields
+ contain a valid state and shall be written into the VCPU.
  
- /*
-@@ -82,7 +82,7 @@ void noinstr __sev_es_ist_exit(void)
- 	/* Read IST entry */
- 	ist = __this_cpu_read(cpu_tss_rw.x86_tss.ist[IST_INDEX_VC]);
++If KVM_CAP_EXCEPTION_NESTED_FLAG is enabled, KVM_VCPUEVENT_VALID_NESTED_FLAG
++can be set in the flags field to inform that the exception is a nested
++exception and exception_is_nested shall be written into the VCPU.
++
+ If KVM_CAP_X86_TRIPLE_FAULT_EVENT is enabled, KVM_VCPUEVENT_VALID_TRIPLE_FAULT
+ can be set in flags field to signal that the triple_fault field contains
+ a valid state and shall be written into the VCPU.
+@@ -8678,7 +8686,7 @@ given VM.
+ When this capability is enabled, KVM resets the VCPU when setting
+ MP_STATE_INIT_RECEIVED through IOCTL.  The original MP_STATE is preserved.
  
--	if (WARN_ON(ist == __this_cpu_ist_top_va(VC)))
-+	if (WARN_ON(ist == __this_cpu_ist_top_va(ESTACK_VC)))
- 		return;
+-7.43 KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED
++7.44 KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED
+ -------------------------------------------
  
- 	/* Read back old IST entry and write it to the TSS */
-diff --git a/arch/x86/coco/sev/vc-handle.c b/arch/x86/coco/sev/vc-handle.c
-index 7fc136a35334..1d3f086ae4c3 100644
---- a/arch/x86/coco/sev/vc-handle.c
-+++ b/arch/x86/coco/sev/vc-handle.c
-@@ -871,7 +871,7 @@ static enum es_result vc_handle_exitcode(struct es_em_ctxt *ctxt,
+ :Architectures: arm64
+@@ -8689,6 +8697,17 @@ This capability indicate to the userspace whether a PFNMAP memory region
+ can be safely mapped as cacheable. This relies on the presence of
+ force write back (FWB) feature support on the hardware.
  
- static __always_inline bool is_vc2_stack(unsigned long sp)
- {
--	return (sp >= __this_cpu_ist_bottom_va(VC2) && sp < __this_cpu_ist_top_va(VC2));
-+	return (sp >= __this_cpu_ist_bottom_va(ESTACK_VC2) && sp < __this_cpu_ist_top_va(ESTACK_VC2));
- }
++7.45 KVM_CAP_EXCEPTION_NESTED_FLAG
++----------------------------------
++
++:Architectures: x86
++:Parameters: args[0] whether feature should be enabled or not
++
++With this capability enabled, an exception is save/restored with the
++additional information of whether it was nested or not. FRED event
++delivery uses this information to ensure a correct event stack level
++is chosen when a VM entry injects a nested exception.
++
+ 8. Other capabilities.
+ ======================
  
- static __always_inline bool vc_from_invalid_context(struct pt_regs *regs)
-diff --git a/arch/x86/include/asm/cpu_entry_area.h b/arch/x86/include/asm/cpu_entry_area.h
-index 462fc34f1317..d0f884c28178 100644
---- a/arch/x86/include/asm/cpu_entry_area.h
-+++ b/arch/x86/include/asm/cpu_entry_area.h
-@@ -18,19 +18,19 @@
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 3b6dadf368eb..5fff22d837aa 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1491,6 +1491,7 @@ struct kvm_arch {
+ 	bool has_mapped_host_mmio;
+ 	bool guest_can_read_msr_platform_info;
+ 	bool exception_payload_enabled;
++	bool exception_nested_flag_enabled;
  
- /* Macro to enforce the same ordering and stack sizes */
- #define ESTACKS_MEMBERS(guardsize, optional_stack_size)		\
--	char	DF_stack_guard[guardsize];			\
--	char	DF_stack[EXCEPTION_STKSZ];			\
--	char	NMI_stack_guard[guardsize];			\
--	char	NMI_stack[EXCEPTION_STKSZ];			\
--	char	DB_stack_guard[guardsize];			\
--	char	DB_stack[EXCEPTION_STKSZ];			\
--	char	MCE_stack_guard[guardsize];			\
--	char	MCE_stack[EXCEPTION_STKSZ];			\
--	char	VC_stack_guard[guardsize];			\
--	char	VC_stack[optional_stack_size];			\
--	char	VC2_stack_guard[guardsize];			\
--	char	VC2_stack[optional_stack_size];			\
--	char	IST_top_guard[guardsize];			\
-+	char	ESTACK_DF_stack_guard[guardsize];		\
-+	char	ESTACK_DF_stack[EXCEPTION_STKSZ];		\
-+	char	ESTACK_NMI_stack_guard[guardsize];		\
-+	char	ESTACK_NMI_stack[EXCEPTION_STKSZ];		\
-+	char	ESTACK_DB_stack_guard[guardsize];		\
-+	char	ESTACK_DB_stack[EXCEPTION_STKSZ];		\
-+	char	ESTACK_MCE_stack_guard[guardsize];		\
-+	char	ESTACK_MCE_stack[EXCEPTION_STKSZ];		\
-+	char	ESTACK_VC_stack_guard[guardsize];		\
-+	char	ESTACK_VC_stack[optional_stack_size];		\
-+	char	ESTACK_VC2_stack_guard[guardsize];		\
-+	char	ESTACK_VC2_stack[optional_stack_size];		\
-+	char	ESTACK_IST_top_guard[guardsize];		\
+ 	bool triple_fault_event;
  
- /* The exception stacks' physical storage. No guard pages required */
- struct exception_stacks {
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index c7d3512914ca..5f78b8f63d8d 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -2332,12 +2332,12 @@ static inline void setup_getcpu(int cpu)
- static inline void tss_setup_ist(struct tss_struct *tss)
- {
- 	/* Set up the per-CPU TSS IST stacks */
--	tss->x86_tss.ist[IST_INDEX_DF] = __this_cpu_ist_top_va(DF);
--	tss->x86_tss.ist[IST_INDEX_NMI] = __this_cpu_ist_top_va(NMI);
--	tss->x86_tss.ist[IST_INDEX_DB] = __this_cpu_ist_top_va(DB);
--	tss->x86_tss.ist[IST_INDEX_MCE] = __this_cpu_ist_top_va(MCE);
-+	tss->x86_tss.ist[IST_INDEX_DF]	= __this_cpu_ist_top_va(ESTACK_DF);
-+	tss->x86_tss.ist[IST_INDEX_NMI]	= __this_cpu_ist_top_va(ESTACK_NMI);
-+	tss->x86_tss.ist[IST_INDEX_DB]	= __this_cpu_ist_top_va(ESTACK_DB);
-+	tss->x86_tss.ist[IST_INDEX_MCE]	= __this_cpu_ist_top_va(ESTACK_MCE);
- 	/* Only mapped when SEV-ES is active */
--	tss->x86_tss.ist[IST_INDEX_VC] = __this_cpu_ist_top_va(VC);
-+	tss->x86_tss.ist[IST_INDEX_VC]	= __this_cpu_ist_top_va(ESTACK_VC);
- }
- #else /* CONFIG_X86_64 */
- static inline void tss_setup_ist(struct tss_struct *tss) { }
-diff --git a/arch/x86/kernel/dumpstack_64.c b/arch/x86/kernel/dumpstack_64.c
-index 6c5defd6569a..40f51e278171 100644
---- a/arch/x86/kernel/dumpstack_64.c
-+++ b/arch/x86/kernel/dumpstack_64.c
-@@ -73,7 +73,7 @@ struct estack_pages {
- 	 PFN_DOWN(CEA_ESTACK_OFFS(st) + CEA_ESTACK_SIZE(st) - 1)] = {	\
- 		.offs	= CEA_ESTACK_OFFS(st),				\
- 		.size	= CEA_ESTACK_SIZE(st),				\
--		.type	= STACK_TYPE_EXCEPTION + ESTACK_ ##st, }
-+		.type	= STACK_TYPE_EXCEPTION + st, }
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+index d420c9c066d4..fbeeea236fc2 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -331,6 +331,7 @@ struct kvm_reinject_control {
+ #define KVM_VCPUEVENT_VALID_SMM		0x00000008
+ #define KVM_VCPUEVENT_VALID_PAYLOAD	0x00000010
+ #define KVM_VCPUEVENT_VALID_TRIPLE_FAULT	0x00000020
++#define KVM_VCPUEVENT_VALID_NESTED_FLAG	0x00000040
  
- /*
-  * Array of exception stack page descriptors. If the stack is larger than
-@@ -83,12 +83,12 @@ struct estack_pages {
-  */
- static const
- struct estack_pages estack_pages[CEA_ESTACK_PAGES] ____cacheline_aligned = {
--	EPAGERANGE(DF),
--	EPAGERANGE(NMI),
--	EPAGERANGE(DB),
--	EPAGERANGE(MCE),
--	EPAGERANGE(VC),
--	EPAGERANGE(VC2),
-+	EPAGERANGE(ESTACK_DF),
-+	EPAGERANGE(ESTACK_NMI),
-+	EPAGERANGE(ESTACK_DB),
-+	EPAGERANGE(ESTACK_MCE),
-+	EPAGERANGE(ESTACK_VC),
-+	EPAGERANGE(ESTACK_VC2),
+ /* Interrupt shadow states */
+ #define KVM_X86_SHADOW_INT_MOV_SS	0x01
+@@ -368,7 +369,8 @@ struct kvm_vcpu_events {
+ 	struct {
+ 		__u8 pending;
+ 	} triple_fault;
+-	__u8 reserved[26];
++	__u8 reserved[25];
++	__u8 exception_is_nested;
+ 	__u8 exception_has_payload;
+ 	__u64 exception_payload;
  };
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 9b3e60c0628e..1d247734dd87 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4968,6 +4968,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_GET_MSR_FEATURES:
+ 	case KVM_CAP_MSR_PLATFORM_INFO:
+ 	case KVM_CAP_EXCEPTION_PAYLOAD:
++	case KVM_CAP_EXCEPTION_NESTED_FLAG:
+ 	case KVM_CAP_X86_TRIPLE_FAULT_EVENT:
+ 	case KVM_CAP_SET_GUEST_DEBUG:
+ 	case KVM_CAP_LAST_CPU:
+@@ -5713,6 +5714,7 @@ static void kvm_vcpu_ioctl_x86_get_vcpu_events(struct kvm_vcpu *vcpu,
+ 	events->exception.error_code = ex->error_code;
+ 	events->exception_has_payload = ex->has_payload;
+ 	events->exception_payload = ex->payload;
++	events->exception_is_nested = ex->nested;
  
- static __always_inline bool in_exception_stack(unsigned long *stack, struct stack_info *info)
-diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
-index 816187da3a47..06d944a3d051 100644
---- a/arch/x86/kernel/fred.c
-+++ b/arch/x86/kernel/fred.c
-@@ -87,7 +87,7 @@ void cpu_init_fred_rsps(void)
- 	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
+ 	events->interrupt.injected =
+ 		vcpu->arch.interrupt.injected && !vcpu->arch.interrupt.soft;
+@@ -5738,6 +5740,8 @@ static void kvm_vcpu_ioctl_x86_get_vcpu_events(struct kvm_vcpu *vcpu,
+ 			 | KVM_VCPUEVENT_VALID_SMM);
+ 	if (vcpu->kvm->arch.exception_payload_enabled)
+ 		events->flags |= KVM_VCPUEVENT_VALID_PAYLOAD;
++	if (vcpu->kvm->arch.exception_nested_flag_enabled)
++		events->flags |= KVM_VCPUEVENT_VALID_NESTED_FLAG;
+ 	if (vcpu->kvm->arch.triple_fault_event) {
+ 		events->triple_fault.pending = kvm_test_request(KVM_REQ_TRIPLE_FAULT, vcpu);
+ 		events->flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+@@ -5752,7 +5756,8 @@ static int kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+ 			      | KVM_VCPUEVENT_VALID_SHADOW
+ 			      | KVM_VCPUEVENT_VALID_SMM
+ 			      | KVM_VCPUEVENT_VALID_PAYLOAD
+-			      | KVM_VCPUEVENT_VALID_TRIPLE_FAULT))
++			      | KVM_VCPUEVENT_VALID_TRIPLE_FAULT
++			      | KVM_VCPUEVENT_VALID_NESTED_FLAG))
+ 		return -EINVAL;
  
- 	/* The FRED equivalents to IST stacks... */
--	wrmsrq(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(DB));
--	wrmsrq(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(NMI));
--	wrmsrq(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(DF));
-+	wrmsrq(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
-+	wrmsrq(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
-+	wrmsrq(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
- }
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 6b22611e69cc..47b7b7495114 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -954,7 +954,7 @@ asmlinkage __visible noinstr struct pt_regs *vc_switch_off_ist(struct pt_regs *r
- 
- 	if (!get_stack_info_noinstr(stack, current, &info) || info.type == STACK_TYPE_ENTRY ||
- 	    info.type > STACK_TYPE_EXCEPTION_LAST)
--		sp = __this_cpu_ist_top_va(VC2);
-+		sp = __this_cpu_ist_top_va(ESTACK_VC2);
- 
- sync:
- 	/*
-diff --git a/arch/x86/mm/cpu_entry_area.c b/arch/x86/mm/cpu_entry_area.c
-index 575f863f3c75..9fa371af8abc 100644
---- a/arch/x86/mm/cpu_entry_area.c
-+++ b/arch/x86/mm/cpu_entry_area.c
-@@ -151,15 +151,15 @@ static void __init percpu_setup_exception_stacks(unsigned int cpu)
- 	 * by guard pages so each stack must be mapped separately. DB2 is
- 	 * not mapped; it just exists to catch triple nesting of #DB.
- 	 */
--	cea_map_stack(DF);
--	cea_map_stack(NMI);
--	cea_map_stack(DB);
--	cea_map_stack(MCE);
-+	cea_map_stack(ESTACK_DF);
-+	cea_map_stack(ESTACK_NMI);
-+	cea_map_stack(ESTACK_DB);
-+	cea_map_stack(ESTACK_MCE);
- 
- 	if (IS_ENABLED(CONFIG_AMD_MEM_ENCRYPT)) {
- 		if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT)) {
--			cea_map_stack(VC);
--			cea_map_stack(VC2);
-+			cea_map_stack(ESTACK_VC);
-+			cea_map_stack(ESTACK_VC2);
- 		}
+ 	if (events->flags & KVM_VCPUEVENT_VALID_PAYLOAD) {
+@@ -5767,6 +5772,13 @@ static int kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+ 		events->exception_has_payload = 0;
  	}
- }
-diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-index 998bd807fc7b..1804eb86cc14 100644
---- a/arch/x86/mm/fault.c
-+++ b/arch/x86/mm/fault.c
-@@ -671,7 +671,7 @@ page_fault_oops(struct pt_regs *regs, unsigned long error_code,
- 		 * and then double-fault, though, because we're likely to
- 		 * break the console driver and lose most of the stack dump.
- 		 */
--		call_on_stack(__this_cpu_ist_top_va(DF) - sizeof(void*),
-+		call_on_stack(__this_cpu_ist_top_va(ESTACK_DF) - sizeof(void*),
- 			      handle_stack_overflow,
- 			      ASM_CALL_ARG3,
- 			      , [arg1] "r" (regs), [arg2] "r" (address), [arg3] "r" (&info));
+ 
++	if (events->flags & KVM_VCPUEVENT_VALID_NESTED_FLAG) {
++		if (!vcpu->kvm->arch.exception_nested_flag_enabled)
++			return -EINVAL;
++	} else {
++		events->exception_is_nested = 0;
++	}
++
+ 	if ((events->exception.injected || events->exception.pending) &&
+ 	    (events->exception.nr > 31 || events->exception.nr == NMI_VECTOR))
+ 		return -EINVAL;
+@@ -5792,6 +5804,7 @@ static int kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+ 	vcpu->arch.exception.error_code = events->exception.error_code;
+ 	vcpu->arch.exception.has_payload = events->exception_has_payload;
+ 	vcpu->arch.exception.payload = events->exception_payload;
++	vcpu->arch.exception.nested = events->exception_is_nested;
+ 
+ 	vcpu->arch.interrupt.injected = events->interrupt.injected;
+ 	vcpu->arch.interrupt.nr = events->interrupt.nr;
+@@ -6912,6 +6925,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 		kvm->arch.exception_payload_enabled = cap->args[0];
+ 		r = 0;
+ 		break;
++	case KVM_CAP_EXCEPTION_NESTED_FLAG:
++		kvm->arch.exception_nested_flag_enabled = cap->args[0];
++		r = 0;
++		break;
+ 	case KVM_CAP_X86_TRIPLE_FAULT_EVENT:
+ 		kvm->arch.triple_fault_event = cap->args[0];
+ 		r = 0;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 6efa98a57ec1..c7d0b6ce1a33 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -963,6 +963,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_RISCV_MP_STATE_RESET 242
+ #define KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED 243
+ #define KVM_CAP_GUEST_MEMFD_MMAP 244
++#define KVM_CAP_EXCEPTION_NESTED_FLAG 245
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
 -- 
 2.51.0
 
