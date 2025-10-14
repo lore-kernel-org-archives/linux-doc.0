@@ -1,129 +1,160 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166BF2F657E
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 10:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4676B2F7AD2
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 10:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760437445; cv=none; b=f+8ZCS2xhsi4xxvJq3gdmo+EGKrWPjK39Jzp1JNAtsGrjLaX2drBzM0LXKHWX90ppzfRxQ5jmYl5l4zTf/OSBVS333lt5p4ImQwBErpbuyb5A92PzYv/myTqAVpLmegC5b8uVAMg9KKfhye3L7YY6poWPg14lyjoYXQdbMJl6uA=
+	t=1760438362; cv=none; b=X2OHYfq5VEHTbe04fmP1nlIPkVT7kQevvvFTgfQb9y8OrfJvaZEi9piMUXnzZ9srhOrKK0HZF8fkSkWRaZR3S5cRfLGxrzBdpQhzq46xBqrxsVvk7z5NhqYWFBkM+ED6bk7mfb3nkHmhW6F05Yw2c4soeV0FUxpj4q7TAn5wTLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760437445; c=relaxed/simple;
-	bh=NvHrsqobRMlVNo+tAxu9F71BW5DWp04J4+78E6v6/2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SeaxzHO9LkCpyWAdD15zVAjnbSEUY1kPMw6uLbrDFtQ+vuBaPhvo3OWgJ4Jzs3RN5cLs7qSn8cNkaywB7XwxTKB0/3brRCr6ir09KQoDxwRlClFNQu4eWIA8TQm66BpNjuba9nntyoIZq9x3CHR8WUqLbqSwf03eEfBp2ndhY5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJGus4q+; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760438362; c=relaxed/simple;
+	bh=q9P0PZo6cOuJ7XhtTvcQVZCsmpjkgC3FXXL1ZL3FWEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EuIeIgt/bo08omDepsPTdYNR9SFqHJBSlIJak6Z6LOTRJdUQjnNMpvmX0DWygLrDguDIE+hePLzEnSD3s76MFXrOc2/aFY5nZOLrCExJFaCcNJgr8bxxKpWe1Vg8Nn2JqMF8fmD4TiKvttCNDkt8Get65vNJ5D3PHJFZEX7GCLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=utz2bd//; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJGus4q+"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e34052bb7so61084595e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 03:24:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="utz2bd//"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-7960d69f14bso39269536d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 03:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760437441; x=1761042241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1760438359; x=1761043159; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2B27CnCtnwt2IGtR8SnAOo/nO7i1YaXCeSpoBrMXO7I=;
-        b=nJGus4q+SYUIGvndAARIM3qO3Lktr1Z0SOm1vq1+sjfRbXZeH6sLkfSF0S7jXNKoAY
-         Dy8fFkrCnXxwbaUC7wSzd3cnb/ANQpABHu0Zsjs2E93SgctEem8y0v783q8iifANnFGI
-         DYTnlBoEV+cf+AZAn4fh513Qxvx416dxglUYMCBIm60Tixd2wluyqzYRLmRKShx1ir7z
-         bA4iRcINkApQgVwOtfchyWghh3EB91tY1ab7RGV1lNX3D9o35dlYF/FwyBynpK0Vbcte
-         +bdCCamUp1Jv/MqnUqCwEIy/ojaOTqskhisZzL45ct46yDBU7IHiU4H+rkzzuVD3qS7T
-         /k3A==
+        bh=8i8HbdVZPfionD4pRoeQJ/6YsnBufC3F7NgJEHPSzVE=;
+        b=utz2bd//LCgSaXSDGqKeiciqIpkP6tI+Dub1kST75Ar63td5RhjZn1LRHLph1ddm0o
+         W3WmFyGkBnLnL7YpmQiRw2jddQOs7rjCJuLFO0hyJuVQmIDuqyjtWYUO8Z3vKP5yTntx
+         Mb2/ByOmHYXtDRDunQDEalMcJ1Z6lk7aZWSVBv374gfDw1mQsd4qlcb+l3fTh55fBwQP
+         ZtCmjg2Ad6mLufGgehVeLuglw7VbhXtW1NBvqdLWwIWTIAFBy77RoeeZlGmQHc4Hi5Vg
+         ZU2guXOswWdCXlJHfaSaGsLuWYUOmPvB3rvnA63We7uJmzbOjBs62xXm8d0BZ7CccGf6
+         jSKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760437441; x=1761042241;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1760438359; x=1761043159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2B27CnCtnwt2IGtR8SnAOo/nO7i1YaXCeSpoBrMXO7I=;
-        b=RYnqf7KaT082NbJz4QNxEOIvpE7vbbDYEaWU7gt13LbyVMe/QdYnmrpM9LlziRxRY7
-         CPjbbenXj3zGnR1urBTqFAnho8K+qbluB38g9CZHB+vBmeyzAVDaE5VovrxmheEY5pQg
-         wdz757Cp5DE7dLGDxQg9sXonOK/fxTM1ENhV7PVZMe8hWBMbFTimLTfkDfMeVsUOLBGo
-         wg0SM/Mf+sbegwCmOzkD/l//ST7H9yXkP51MWbV5FiD1mn9GIR3uCYKRFT4zZ38Zkx4G
-         hSv0xuPc6qm7OIdYcZkYUJIBj0LFqGbG+387bgUXYHeI2skEuAXL3xZuGsMqG6cWMP7r
-         fPZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnB9g3U2lEvrBg03c9VzrjmuFoaAEzqijbiENq/L0L8u38gkiabz3XFrWAupgxrRebYSxVpciWfo8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxgb4H6PYwDr2bBnrLtuqzD0UdTNAa2pgWGqyJaA0IxYiHLB1DH
-	TP9cV7LRaEFFrP4UmGtwbdJUiRTK10dnq4fCe1dKb0OVKN2xNtXCxKDH
-X-Gm-Gg: ASbGncsTZBTX835Grnk4YTZgce9lXwbnTTf8qJ0twUNnXFGv4/jW3hXT0dPre/FXOID
-	YSOhof7qwGgGOY8XT7rUF1i1G/NL4E+t5/r8NvolVHQzieHW2rgR2gbRRME9FSbgTZLV7X4kn2V
-	VfXoV4601aw6dm7sicKSufQg65Rd5xBtoW8By9ZwLPlJqeKoUn3+IwQviNpdcm0n+eO5nTl50SV
-	WSQJw3laJx+hWNy24oRLKvUMsMe3WIWHBeXSSdrLxuvXVBiq+I2AU+ix4DCHTiTIMXF1z6IySwK
-	qGzaFKHCj8+T2h15CjXPCZb+o2NxGwdF9HroPkUCXOmk0AP/h+/sr0mUIxLqP6dTLfAeWwFznfv
-	W/VY59687P1ed5lEF2/0RNt6pSWq9Q7UfcG+nq5OjII2H3Jfm95tVY3TrajrLtxoVE/3+FMBQ62
-	QDY20R0RokXXvOwHwT7g==
-X-Google-Smtp-Source: AGHT+IFJLN+ZyNIVUulNgloN7eKBRUWfhH8DTaEyEj2PWqBPSZ2eXtCGpbEULmWHbXarmuQpgFVGnQ==
-X-Received: by 2002:a05:600c:4688:b0:46e:4372:5395 with SMTP id 5b1f17b1804b1-46fa9b01ff5mr167772905e9.25.1760437441227;
-        Tue, 14 Oct 2025 03:24:01 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5cf70fsm22150016f8f.27.2025.10.14.03.24.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 03:24:00 -0700 (PDT)
-Date: Tue, 14 Oct 2025 11:23:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Finn Thain <fthain@linux-m68k.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Boqun Feng
- <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Mark Rutland
- <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, Geert
- Uytterhoeven <geert@linux-m68k.org>, linux-m68k@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [RFC v3 1/5] documentation: Discourage alignment assumptions
-Message-ID: <20251014112359.451d8058@pumpkin>
-In-Reply-To: <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-References: <cover.1759875560.git.fthain@linux-m68k.org>
-	<76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        bh=8i8HbdVZPfionD4pRoeQJ/6YsnBufC3F7NgJEHPSzVE=;
+        b=P3nJ0mLRMgL8W1Y57WAb3DRAFQYDszykC0i1XUMg5keCIZXDkjoBZ+sdX0hqSV02xd
+         qQJCvogomAFg/++Wv2paE2DcGr7Hq8VgxsNrZHmi1PaoUS0tinsyXJ0vPX/12L2zbII7
+         GRdipm7v1C3Luy+6Fg1mFfRFJwiKt/N95U5BO+6HGril8k4s4r9GE08Ewmsn/Vhrk6j/
+         EwX8qI8uTw0JStXvLjjQE14wDMqVZQ4xtXmREOQmZtr4rnJm707TaYPnxL9jC2Z24c60
+         ejN83XtY9Excv9JAS/qArAjbUnvbIGihoGj0nL5//bPfuBRFIK9OTHXKq5l+WBH63CgH
+         Xilw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxtQracJezCQbt7leGZBCZ/eI8i0rylAbKCJLBkYxq/169wGYVCvEtW/g/S+7Z++zijx93F7qKA2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ9ZmF6umkJoCfF8wlSmoAD5ORqhiSrBnZQrPyCaWi3Qh10bpk
+	JAAaOKy4oZNDMpfmx3+6ZnlKqUg0TdaWcWgC90463KJdrcjkTOPyltmtbNbRXakxGkOiMtreL1t
+	Oqcikdq/1dBJEvuelmouTSxmULUXpw6WX5TE9QAAH
+X-Gm-Gg: ASbGncuPefHuZq5aUnl+7emnzMiGaT6ure1RPqkGF/z9xn2cAkjaT85aJktn4koz+tf
+	gdIL08aacXj0bEWfKC6MToHM2BLzV+rSa1vWVOPryguxR2JGOemaiR/QQUP82kHM/LMUA5iuzSM
+	DAK4uh2700bDOwk7Ked+ZgaV9GGzjdpuMZobkvVI/3Lcp6gv12hvlr3R+Wbg6FjtuLQDOwlAUy+
+	FDkETZidInflVpHUal4exeMbttTbexy
+X-Google-Smtp-Source: AGHT+IEFzNXw/v6xZVTk0phPdvVBFB9EdAErZ6ksdm/dcjAu+K9F+ebHYFJ1AyXwmjljbbFPU7Tg80KyboEacHc3cFc=
+X-Received: by 2002:ac8:5d05:0:b0:4e4:2006:b009 with SMTP id
+ d75a77b69052e-4e6eaccc55cmr307481031cf.17.1760438358741; Tue, 14 Oct 2025
+ 03:39:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251013101636.69220-1-21cnbao@gmail.com> <aO11jqD6jgNs5h8K@casper.infradead.org>
+ <CAGsJ_4x9=Be2Prbjia8-p97zAsoqjsPHkZOfXwz74Z_T=RjKAA@mail.gmail.com>
+ <CANn89iJpNqZJwA0qKMNB41gKDrWBCaS+CashB9=v1omhJncGBw@mail.gmail.com>
+ <CAGsJ_4xGSrfori6RvC9qYEgRhVe3bJKYfgUM6fZ0bX3cjfe74Q@mail.gmail.com>
+ <CANn89iKSW-kk-h-B0f1oijwYiCWYOAO0jDrf+Z+fbOfAMJMUbA@mail.gmail.com> <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
+In-Reply-To: <CAGsJ_4wJHpD10ECtWJtEWHkEyP67sNxHeivkWoA5k5++BCfccA@mail.gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 14 Oct 2025 03:39:07 -0700
+X-Gm-Features: AS18NWC6tSD-2fPgi67vs3tdqcGs5ZT4phYwNUo9MOM_IOY7jeMq3pOnwQALTO4
+Message-ID: <CANn89iKC_y6Fae9E5ETOE46y-RCqD6cLHnp=7GynL_=sh3noKg@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
+To: Barry Song <21cnbao@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Barry Song <v-songbaohua@oppo.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Huacai Zhou <zhouhuacai@oppo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 08 Oct 2025 09:19:20 +1100
-Finn Thain <fthain@linux-m68k.org> wrote:
+On Tue, Oct 14, 2025 at 3:19=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrot=
+e:
+>
+> > >
+> > > >
+> > > > I think you are missing something to control how much memory  can b=
+e
+> > > > pushed on each TCP socket ?
+> > > >
+> > > > What is tcp_wmem on your phones ? What about tcp_mem ?
+> > > >
+> > > > Have you looked at /proc/sys/net/ipv4/tcp_notsent_lowat
+> > >
+> > > # cat /proc/sys/net/ipv4/tcp_wmem
+> > > 524288  1048576 6710886
+> >
+> > Ouch. That is insane tcp_wmem[0] .
+> >
+> > Please stick to 4096, or risk OOM of various sorts.
+> >
+> > >
+> > > # cat /proc/sys/net/ipv4/tcp_notsent_lowat
+> > > 4294967295
+> > >
+> > > Any thoughts on these settings?
+> >
+> > Please look at
+> > https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+> >
+> > tcp_notsent_lowat - UNSIGNED INTEGER
+> > A TCP socket can control the amount of unsent bytes in its write queue,
+> > thanks to TCP_NOTSENT_LOWAT socket option. poll()/select()/epoll()
+> > reports POLLOUT events if the amount of unsent bytes is below a per
+> > socket value, and if the write queue is not full. sendmsg() will
+> > also not add new buffers if the limit is hit.
+> >
+> > This global variable controls the amount of unsent data for
+> > sockets not using TCP_NOTSENT_LOWAT. For these sockets, a change
+> > to the global variable has immediate effect.
+> >
+> >
+> > Setting this sysctl to 2MB can effectively reduce the amount of memory
+> > in TCP write queues by 66 %,
+> > or allow you to increase tcp_wmem[2] so that only flows needing big
+> > BDP can get it.
+>
+> We obtained these settings from our hardware vendors.
 
-> Discourage assumptions that simply don't hold for all Linux ABIs.
-> Exceptions to the natural alignment rule for scalar types include
-> long long on i386 and sh.
-> ---
->  Documentation/core-api/unaligned-memory-access.rst | 7 -------
->  1 file changed, 7 deletions(-)
-> 
-> diff --git a/Documentation/core-api/unaligned-memory-access.rst b/Documentation/core-api/unaligned-memory-access.rst
-> index 5ceeb80eb539..1390ce2b7291 100644
-> --- a/Documentation/core-api/unaligned-memory-access.rst
-> +++ b/Documentation/core-api/unaligned-memory-access.rst
-> @@ -40,9 +40,6 @@ The rule mentioned above forms what we refer to as natural alignment:
->  When accessing N bytes of memory, the base memory address must be evenly
->  divisible by N, i.e. addr % N == 0.
->  
-> -When writing code, assume the target architecture has natural alignment
-> -requirements.
+Tell them they are wrong.
 
-I think I'd be more explicit, perhaps:
-Note that not all architectures align 64bit items on 8 byte boundaries or
-even 32bit items on 4 byte boundaries.
+>
+> It might be worth exploring these settings further, but I can=E2=80=99t q=
+uite see
+> their connection to high-order allocations, since high-order allocations =
+are
+> kernel macros.
+>
+> #define SKB_FRAG_PAGE_ORDER     get_order(32768)
+> #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+> #define PAGE_FRAG_CACHE_MAX_ORDER       get_order(PAGE_FRAG_CACHE_MAX_SIZ=
+E)
+>
+> Is there anything I=E2=80=99m missing?
 
-	David
+What is your question exactly ? You read these macros just fine. What
+is your point ?
 
-> -
->  In reality, only a few architectures require natural alignment on all sizes
->  of memory access. However, we must consider ALL supported architectures;
->  writing code that satisfies natural alignment requirements is the easiest way
-> @@ -103,10 +100,6 @@ Therefore, for standard structure types you can always rely on the compiler
->  to pad structures so that accesses to fields are suitably aligned (assuming
->  you do not cast the field to a type of different length).
->  
-> -Similarly, you can also rely on the compiler to align variables and function
-> -parameters to a naturally aligned scheme, based on the size of the type of
-> -the variable.
-> -
->  At this point, it should be clear that accessing a single byte (u8 or char)
->  will never cause an unaligned access, because all memory addresses are evenly
->  divisible by one.
+We had in the past something dynamic that we removed
 
+commit d9b2938aabf757da2d40153489b251d4fc3fdd18
+Author: Eric Dumazet <edumazet@google.com>
+Date:   Wed Aug 27 20:49:34 2014 -0700
+
+    net: attempt a single high order allocation
