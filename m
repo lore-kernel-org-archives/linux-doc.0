@@ -1,178 +1,121 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35BF31352D
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 13:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4147E315D45;
+	Tue, 14 Oct 2025 13:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760447357; cv=none; b=pftFUmwHxS6AviobefOpqOFbc5Me2yRNxS0YwdXaaKPyrI8uJOEGHhX7nLKNiuVOqxjnvLZZIbCxDGWgy430SdtUkaCYMbomz1/r38bg30j5O/fpgtemyllpENe04+6QSOMByfRCDZvJrCWDtFfb45x1QJIbyRAc5xaw6xRdObE=
+	t=1760447444; cv=none; b=jxVSKkd6U6fM+7W9J/i8v3xa37YaaYxa0eDb2pB4Vdz0wyC7MmAKWfx1UtkD6+J4kfaLLusIgrzWRPELST9JZjTE86H3YIl1umKifrvzmYvREv0pKNtsQBXeijFVZVsojz+bTmT9ABkftwoLux0iSyTHjx409olThNmSmyixny8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760447357; c=relaxed/simple;
-	bh=cT09hkWb6p1Q5laBg5r/C0k/WyFKDN1nFOp/f0E9EIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7CdUjXCUp+33uyPamcQNFV4/US8o/S/Rty7YsYjl7ti2syktNMKc88PpL6tJKD4rCfhTEy98iRisEt/m3OykfPmYtXCW/sz8LeTr657ltZfq2X7u6xHna+Z77b3ew/bEE8hrEqKdRkAGA7hEyHqwHty1KTH3Tz89SVnPk5cplg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gXjyZpFN; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1760447444; c=relaxed/simple;
+	bh=1z29qiTz6h5jyAO8g68bo34GcYPLqTUSe9I3ydJUTw8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZZeLDS5Q/1ITttVT6k7/wzoBeMFTa2v83OhwUsPaUmvFUoGcxmj7YQJkjO/32245HWxVnn7Bn0AthYCIjyWBn3pVFIYBkCFMgwkP9KFkpC3tGh1Qtht4v294JD1xDIa6iTmItHgMUk2RttBVEKdtskFTlEwwnpyK8X+NCewsLPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9+NifUw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gXjyZpFN"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46f53f88e0bso30160385e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 06:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1760447353; x=1761052153; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XBmndkyEtmuH2zqfJVf2MipvEX2Eu2YJsa5R9Svl5+o=;
-        b=gXjyZpFN7dPRuh+vX/6yZxiZDGG1mugCc3Ys83+jGOIfZiPoIIu6Muk8Bi6bRDciqQ
-         kEqlVA/S/G90lP17leDC4Xhue0LATzQolxuZts/beHU2j7OUgIzJWtmUS32qc87vibUp
-         dPTL96RLpIEagq8GNTPPHHZAWEVfm/fmLgrEGdBuR7P/Osj42j7USzNa1nOqQcZVoSTc
-         v21buuptH8kZmQ9Eh+FXeVWwRu3m3iEeyX/JzdpVc3+idFRM04kgaWuciIeBBKJI2tRB
-         LCWMX/t4aOA2bj69rpM2+hUlxQKGvylIkIaGRj3M661jQVHB7UfLKMgAgOGiCg8WMUxl
-         rNNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760447353; x=1761052153;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XBmndkyEtmuH2zqfJVf2MipvEX2Eu2YJsa5R9Svl5+o=;
-        b=VIhlczgFJ6bM/yh5opKb7sif/PXFbO0oqzCXONieY4wBdGqipzMPUUem1iRmcwdBu4
-         +BSJtYEoYVKJ8BRzH7trF0PPZqd7a3h3O6Qg3lSalR8QL1mTkcl6fWyEX0puXVJhtV6o
-         j6Jps6eRPBFviKDBN33CNUDd5n/rTopmss62Nt7sWlfTYyfvw3ZRXKLLDL6Y2Eu7Pc2E
-         kNiV+QP8hnysQPsyNu38e2nWJioGHSfUrxnN1eHKQwYAOxGpjsMOlFjTQ/7lDjnVKMv9
-         rWOl8hb2FlwqYzoAvVJDwORKGyqTT/tBEdjX005XS2Qu5Q6c+nSozCYHMfAtcugqYPrZ
-         Zf7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXV71IW0faK8qMgZ5pcJBL4vsVrprfu5+jD2yrW0vTNi5n5wHkhTz1GnLOQXCT5QAlrAD8joE8jMSc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9uvHEUlW5ERXac6JsEb7irScxp00w0r+h5ApkDEA3zK3rTayq
-	3BCwyv1UsBaNNomkhKFboxDoKNMRUqjDmaYe+VFAmtH3nUjMCYWa2/lyv1y4wkAqfaI=
-X-Gm-Gg: ASbGncuG0WjKGi2cdHokY6vccMR40pcVoNePjMat+yT14feGyk8PUiXUh0EUBhttiKq
-	5Uw6HHU561XOlzW2R2ZjOAGuVp6/stPxVrToWqDJ2r8quGkPHLaP0cTteF6LOFitBh4GxyN6tLg
-	SGt1RmSNQbHLRXDqWzrhJ5p+/oaX53O+t+WILQMf3ZxX7JmfxrZyH+/4JuG3t0FgjZ0IoOKonSi
-	YSavNPtiWUfSM3t/McL+fyVSJlRZyLOCKxDhUVNpinSJu5byELbgxfDOZoyj/0ySGqyvQTeegpp
-	y/OJXQAkTGxzcuhevJSdOHkkbfaU5UzbJEQZtdXoHIWN1OU/E/7imWyEjstK+Z/kMPYs7Reztaq
-	/p7r2zMUChx+8kS1kIXd7WBqvdWFM3CvBZsJnbJm0vIOwyDoD/enFAahTjlEd9nfvG7ztLw==
-X-Google-Smtp-Source: AGHT+IFGpYfRWYGhqIaSZxufyw3cU/D950Wt8EiMNsuJCAolvX6QytVu1nn4m6ZLSmt3VXgOJE+wuQ==
-X-Received: by 2002:a05:6000:43d4:20b0:426:ed9d:4072 with SMTP id ffacd0b85a97d-426ed9d43d7mr1534097f8f.21.1760447352714;
-        Tue, 14 Oct 2025 06:09:12 -0700 (PDT)
-Received: from pathway.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5cf70fsm22846162f8f.27.2025.10.14.06.09.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 06:09:12 -0700 (PDT)
-Date: Tue, 14 Oct 2025 15:09:10 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: "Li,Rongqing" <lirongqing@baidu.com>
-Cc: Lance Yang <lance.yang@linux.dev>,
-	"wireguard@lists.zx2c4.com" <wireguard@lists.zx2c4.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>, Russell King <linux@armlinux.org.uk>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Shuah Khan <shuah@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joel Granados <joel.granados@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Phil Auld <pauld@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Simon Horman <horms@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Florian Westphal <fw@strlen.de>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [????] Re: [PATCH][v3] hung_task: Panic after fixed number of
- hung tasks
-Message-ID: <aO5Ldv4U8QSGgfog@pathway.suse.cz>
-References: <20251012115035.2169-1-lirongqing@baidu.com>
- <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
- <aO4boXFaIb0_Wiif@pathway.suse.cz>
- <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9+NifUw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8533FC4CEE7;
+	Tue, 14 Oct 2025 13:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760447443;
+	bh=1z29qiTz6h5jyAO8g68bo34GcYPLqTUSe9I3ydJUTw8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=g9+NifUwXszKwI+i9b+BADg9CHX9pjgCw2mu/yxA+73glB/SfRpvhpeMLwX+7zeg9
+	 cpZyrZdbl6zsMX+Wo90KkdV6hDFv+HpHH+GKnixUqPtsiiuipRTYlBSA+RFLrU6AdF
+	 z8MA7ZC0dDyvXrecjZhU8nlLLfZCLEsyyqROyne29Obt+UqzwZBF2jT+f8QUD3imN0
+	 gQ5aZfRz1OgEk0IJVCMTbI4VrsIEPNPKNZutUFVMj6TdGeXxePJsX5/R68ibLC+6iv
+	 jZYvfqrXGK5MchNQMt25O838FaWOmrFURP+ZyNfLcRWE1zF4CmsEn6AFbRAtwXlHBn
+	 SOQ76mXQJoW1Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Changyuan Lyu
+ <changyuanl@google.com>,  rppt@kernel.org,  akpm@linux-foundation.org,
+  linux-kernel@vger.kernel.org,  anthony.yznaga@oracle.com,  arnd@arndb.de,
+  ashish.kalra@amd.com,  benh@kernel.crashing.org,  bp@alien8.de,
+  catalin.marinas@arm.com,  corbet@lwn.net,  dave.hansen@linux.intel.com,
+  devicetree@vger.kernel.org,  dwmw2@infradead.org,  ebiederm@xmission.com,
+  graf@amazon.com,  hpa@zytor.com,  jgowans@amazon.com,
+  kexec@lists.infradead.org,  krzk@kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  luto@kernel.org,  mark.rutland@arm.com,
+  mingo@redhat.com,  pasha.tatashin@soleen.com,  pbonzini@redhat.com,
+  peterz@infradead.org,  robh@kernel.org,  rostedt@goodmis.org,
+  saravanak@google.com,  skinsburskii@linux.microsoft.com,
+  tglx@linutronix.de,  thomas.lendacky@amd.com,  will@kernel.org,
+  x86@kernel.org
+Subject: Re: [PATCH v8 01/17] memblock: add MEMBLOCK_RSRV_KERN flag
+In-Reply-To: <2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
+	(Breno Leitao's message of "Tue, 14 Oct 2025 01:34:07 -0700")
+References: <20250509074635.3187114-1-changyuanl@google.com>
+	<20250509074635.3187114-2-changyuanl@google.com>
+	<ef6wfr72set5wa5el3wbbu4yd5tnc4p2rhtjpb5kpmncv3xs5d@i3c5v3ciioi3>
+	<mafs0wm4yluej.fsf@kernel.org> <mafs0h5w2lpqu.fsf@kernel.org>
+	<2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
+Date: Tue, 14 Oct 2025 15:10:37 +0200
+Message-ID: <mafs0cy6pljci.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
+Content-Type: text/plain
 
-On Tue 2025-10-14 10:49:53, Li,Rongqing wrote:
-> 
-> > On Tue 2025-10-14 13:23:58, Lance Yang wrote:
-> > > Thanks for the patch!
-> > >
-> > > I noticed the implementation panics only when N tasks are detected
-> > > within a single scan, because total_hung_task is reset for each
-> > > check_hung_uninterruptible_tasks() run.
-> > 
-> > Great catch!
-> > 
-> > Does it make sense?
-> > Is is the intended behavior, please?
-> > 
-> 
-> Yes, this is intended behavior
-> 
-> > > So some suggestions to align the documentation with the code's
-> > > behavior below :)
-> > 
-> > > On 2025/10/12 19:50, lirongqing wrote:
-> > > > From: Li RongQing <lirongqing@baidu.com>
-> > > >
-> > > > Currently, when 'hung_task_panic' is enabled, the kernel panics
-> > > > immediately upon detecting the first hung task. However, some hung
-> > > > tasks are transient and the system can recover, while others are
-> > > > persistent and may accumulate progressively.
-> > 
-> > My understanding is that this patch wanted to do:
-> > 
-> >    + report even temporary stalls
-> >    + panic only when the stall was much longer and likely persistent
-> > 
-> > Which might make some sense. But the code does something else.
-> > 
-> 
-> A single task hanging for an extended period may not be a critical
-> issue, as users might still log into the system to investigate.
-> However, if multiple tasks hang simultaneously-such as in cases
-> of I/O hangs caused by disk failures-it could prevent users from
-> logging in and become a serious problem, and a panic is expected.
+On Tue, Oct 14 2025, Breno Leitao wrote:
 
-I see. This another approach and it makes sense as well.
-An this is much more clear description than the original text.
+> Hello Pratyush,
+>
+> On Mon, Oct 13, 2025 at 06:40:09PM +0200, Pratyush Yadav wrote:
+>> On Mon, Oct 13 2025, Pratyush Yadav wrote:
+>> >
+>> > I suppose this would be useful. I think enabling memblock debug prints
+>> > would also be helpful (using the "memblock=debug" commandline parameter)
+>> > if it doesn't impact your production environment too much.
+>> 
+>> Actually, I think "memblock=debug" is going to be the more useful thing
+>> since it would also show what function allocated the overlapping range
+>> and the flags it was allocated with.
+>> 
+>> On my qemu VM with KVM, this results in around 70 prints from memblock.
+>> So it adds a bit of extra prints but nothing that should be too
+>> disrupting I think. Plus, only at boot so the worst thing you get is
+>> slightly slower boot times.
+>
+> Unfortunately this issue is happening on production systems, and I don't
+> have an easy way to reproduce it _yet_.
+>
+> At the same time, "memblock=debug" has two problems:
+>
+>  1) It slows the boot time as you suggested. Boot time at large
+>     environments is SUPER critical and time sensitive. It is a bit
+>     weird, but it is common for machines in production to kexec
+>     _thousands_ of times, and kexecing is considered downtime.
 
-I would also update the subject to something like:
+I don't know if it would make a real enough difference on boot times,
+only that it should theoretically affect it, mainly if you are using
+serial for dmesg logs. Anyway, that's your production environment so you
+know best.
 
-    hung_task: Panic when there are more than N hung tasks at the same time
+>
+>     This would be useful if I find some hosts getting this issue, and
+>     then I can easily enable the extra information to collect what
+>     I need, but, this didn't pan out because the hosts I got
+>     `memblock=debug` didn't collaborate.
+>
+>  2) "memblock=debug" is verbose for all cases, which also not necessary
+>     the desired behaviour. I am more interested in only being verbose
+>     when there is a known problem.
+>
+> That said, my suggestion is to only dump extra information when something goes
+> wrong, not affecting the boot time neither boot verbosity.
+>
 
+With your proposed change, we only know what the overlapping area is,
+but not who allocated it. I don't see how that can be done when the
+error is detected. memblock debug lets us know that, which is why I
+suggested it.
 
-
-That said, I think that both approaches make sense.
-
-Your approach would trigger the panic when many processes are stuck.
-Note that it still might be a transient state. But I agree that
-the more stuck processes exist the more serious the problem
-likely is for the heath of the system.
-
-My approach would trigger panic when a single process hangs
-for a long time. It will trigger more likely only when the problem
-is persistent. The seriousness depends on which particular process
-get stuck.
-
-I am fine with your approach. Just please, make more clear that
-the number means the number of hung tasks at the same time.
-And mention the problems to login, ...
-
-Best Regards,
-Petr
+-- 
+Regards,
+Pratyush Yadav
