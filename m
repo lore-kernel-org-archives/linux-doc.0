@@ -1,39 +1,39 @@
 Received: from mail1.fiberby.net (mail1.fiberby.net [193.104.135.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0F93016FD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B174305061;
 	Tue, 14 Oct 2025 17:29:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.104.135.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760462991; cv=none; b=XXEDJAp5nP7E1KVI1qVv5v2Jg/GqNh3s9vO1u+vNuwqWNfXNzrd0wvtimAMm8Pu7mmoPVnnkrfW6DOfvLtySTRIwglwNyQNP3QvDWuWHbAoG7FN8sqpyBW1D7NNUNoTXnCqSp9eXi27Q3vBoLZcR1HKNaI+0AbIkN3n0oEEeCzk=
+	t=1760462991; cv=none; b=FdJlFw2V2skbnfc/J6i3ERUnqgfPZ+03N3gy/KeDcisE0+VQlHuU8eUUtRXEuZ2ifXbfDuhI7oN6gLJ0F/QdwoLYLVnxaiDRXy//Gk0khNh6x+chMTtA6xdSOVXjLyc0R42THoZNjDxBIp+Ct6/z3sQewXx5XT70AntRx0DH34A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760462991; c=relaxed/simple;
-	bh=lDjuXCExYFk19/NGzi68q3S7dGAQ5tJ0UHZhqIDkIG4=;
+	bh=9KJBxjhG38hJDjR/lN8Fu+imHEXVbydQSLgDlbbY6ec=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E45kOezuxs9iZziu3/7ScdYl2wfYtjNeYBIr19kX+jUnW5lKWdGw7euOUSMLHC/6eAe7qP3yLi3JkJ44Wz+kfra3Kt/RJXF/iOaVzPRRBcJ3u8VRvEOYNvJmDKSSLRXyrSU03+l/XSSMRugqtuzB3/dPmA1MJr4j3cFKyq5YRVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=RP5bjAah; arc=none smtp.client-ip=193.104.135.124
+	 In-Reply-To:Content-Type; b=bbr5/WRlkiW1akrM2ELHiljrReCDfukXFZ8I+Nbg1N0ckNWzRDNEFi0rPswH2S5Jnn2dBMJ5v2xebmYpGNNgB1KP8CXHsp6omTTZY5BfrknVfu2LIow5vkf12IUM+BsaokHiBO3oLZG1G6cM2/e/+WA1ztto7jRUvLmkZ1XB/FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=BdCwsSQO; arc=none smtp.client-ip=193.104.135.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="RP5bjAah"
+	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="BdCwsSQO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fiberby.net;
 	s=202008; t=1760462979;
-	bh=lDjuXCExYFk19/NGzi68q3S7dGAQ5tJ0UHZhqIDkIG4=;
+	bh=9KJBxjhG38hJDjR/lN8Fu+imHEXVbydQSLgDlbbY6ec=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RP5bjAahHILoBRIuJAG+KGPL08a/B+GkvunRQW09wtRGQV1Ry8J+ZVT3ipilnScKo
-	 ESLYxDhWdsK4SPwX+nvtzpplA7pJ4DQ4clSM6jb11QCnmkxDPhjsZq9bzXsn/2gPdO
-	 8DFSWyA0v9r6eV83k2D2j1wvgCZX6Xs622nnp48GxtOFCtmNgvj/OeliIL3idOTmE4
-	 fKPRZYeqrVJZOOMXcZDsNzJd4pw3LNgWj0eWqR1bvKMLHl/MwduCb7/MNQY4CqGyw1
-	 yCgdZQnpX4iqBLir5jr1k1AeEmS4JSMWDKwDXnU4Q+DiutsGtcQRXZRMcdh8Tk/qDg
-	 Q95hNLp5JWvhA==
+	b=BdCwsSQOyprdkLeBASULbHg0508Otd/J9TWVwwhLKmwoh1NEZtoz/wacOqYR1iNFK
+	 Gg9Q2f0qoL+GiiunRHyH3Smw8TmrG+6WBWnQ/giMazJZ6FLLu3vsoELWAYKjo7Z+LI
+	 InoyAP85SwRtqcAbRU1lM5JPL4avVucrxaTbtXbhlDwTqddIMaZQKJK59cjXTaKknl
+	 zE3niHLqtxYu/Nhzdpf0EztSuZJq5iRwk/PHypR0fmNxKuuqvW2eMrX8PVZRwx6YmM
+	 gwVhaQ1x+URKOTzPGUdWXiWfxFJvhn+Y1pMT86ElGlnhuPl6KogYcxRyVn8yexe147
+	 r5jPjK4avMgDw==
 Received: from x201s (193-104-135-243.ip4.fiberby.net [193.104.135.243])
-	by mail1.fiberby.net (Postfix) with ESMTPSA id 7C23B6000C;
+	by mail1.fiberby.net (Postfix) with ESMTPSA id 8E786600C1;
 	Tue, 14 Oct 2025 17:29:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by x201s (Postfix) with ESMTP id 9E6062005BE;
-	Tue, 14 Oct 2025 17:29:30 +0000 (UTC)
-Message-ID: <bbbdd1a0-2835-44c4-8b9f-942d2309e067@fiberby.net>
-Date: Tue, 14 Oct 2025 17:29:30 +0000
+	by x201s (Postfix) with ESMTP id 266C1201EBD;
+	Tue, 14 Oct 2025 16:49:23 +0000 (UTC)
+Message-ID: <d3f1427f-e8bc-4ab0-bf15-171b701325b9@fiberby.net>
+Date: Tue, 14 Oct 2025 16:49:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,8 +41,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 3/6] tools: ynl-gen: use uapi mask definition in
- NLA_POLICY_MASK
+Subject: Re: [PATCH net-next 1/6] tools: ynl-gen: bitshift the flag values in
+ the generated code
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
@@ -59,44 +59,34 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  Vadim Fedorenko <vadim.fedorenko@linux.dev>,
  Willem de Bruijn <willemb@google.com>, bpf@vger.kernel.org,
  netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
+ linux-kernel@vger.kernel.org
 References: <20251013165005.83659-1-ast@fiberby.net>
- <20251013165005.83659-4-ast@fiberby.net> <20251013175956.7a2fcf6d@kernel.org>
+ <20251013165005.83659-2-ast@fiberby.net> <20251013175331.281ec43e@kernel.org>
 Content-Language: en-US
 From: =?UTF-8?Q?Asbj=C3=B8rn_Sloth_T=C3=B8nnesen?= <ast@fiberby.net>
-In-Reply-To: <20251013175956.7a2fcf6d@kernel.org>
+In-Reply-To: <20251013175331.281ec43e@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/14/25 12:59 AM, Jakub Kicinski wrote:
-> On Mon, 13 Oct 2025 16:50:00 +0000 Asbjørn Sloth Tønnesen wrote:
->> Currently when generating policies using NLA_POLICY_MASK(), then
->> we emit a pre-computed decimal mask.
+On 10/14/25 12:53 AM, Jakub Kicinski wrote:
+> On Mon, 13 Oct 2025 16:49:58 +0000 Asbjørn Sloth Tønnesen wrote:
+>> Instead of pre-computing the flag values within the code generator,
+>> then move the bitshift operation into the generated code.
 >>
->> When render-max is set, then we can re-use the mask definition,
->> that has been generated in the uapi header.
+>> This IMHO makes the generated code read more like handwritten code.
 > 
-> This will encourage people to render masks in uAPI which just pollutes
-> the uAPI files.
+> I like it the way it is. The values are irrelevant.
 
-It might, but is that a problem, given that most flag-sets are rather small?
+Bit-shifting seams like the preferred way across the uAPI headers.
 
-Example from include/uapi/linux/wireguard.h:
- > enum wgpeer_flag {
- >     WGPEER_F_REMOVE_ME = 1U << 0,
- >     WGPEER_F_REPLACE_ALLOWEDIPS = 1U << 1,
- >     WGPEER_F_UPDATE_ONLY = 1U << 2,
- >     __WGPEER_F_ALL = WGPEER_F_REMOVE_ME | WGPEER_F_REPLACE_ALLOWEDIPS |
- >                      WGPEER_F_UPDATE_ONLY
- > };
+Would you be open to hexadecimal notation, if not bit-shifting?
 
-I agree that a private "WGPEER_F_ALL" would be pollution, but "__WGPEER_F_ALL"
-is less likely to accidentally be used by user-space.
+Currently NLA_POLICY_MASK() is generated with a hexadecimal mask, and
+with these patches, if render-max is not set. If using literal values
+then we should properly consistently generate them as either decimal
+or hexadecimal. I prefer hexadecimal over decimal.
 
-I get why Jason likes having the __WGPEER_F_ALL in a place where it is easy
-to review that it has contains all flags, and why he don't like a policy like
-NLA_POLICY_MASK(.., 0x7).
-
-We could do the mask definition in the kernel code, like many handwritten
-netlink families does, but we still need to keep NETDEV_XDP_ACT_MASK in
-netdev.h or remove it's YNL-GEN header for some time.
+> And returning a string from user_value() is quite ugly.
+It only returns a string, when as_c is set, I am happy to duplicate
+some code instead, and add a dedicated method always returning a string,
+but can we please agree on the generated output, before implementation?
