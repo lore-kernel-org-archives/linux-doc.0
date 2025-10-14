@@ -1,58 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4147E315D45;
-	Tue, 14 Oct 2025 13:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E2C2F6194;
+	Tue, 14 Oct 2025 13:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760447444; cv=none; b=jxVSKkd6U6fM+7W9J/i8v3xa37YaaYxa0eDb2pB4Vdz0wyC7MmAKWfx1UtkD6+J4kfaLLusIgrzWRPELST9JZjTE86H3YIl1umKifrvzmYvREv0pKNtsQBXeijFVZVsojz+bTmT9ABkftwoLux0iSyTHjx409olThNmSmyixny8=
+	t=1760448610; cv=none; b=pqPj6rl/J3HYTbV4s6VKVqytuy0TGYt1M72U8BtxlvWOIGZXLGU2CSM0GsCs/SJRUIeWrM5yDh2jYInZF9N9rQgeF1oBxjcsthXPBRwgvpg4gEvg9UuF2qQZHEipm4iwA3LTK0KkiD/mE7R9t57lvsDjuohNYzgdY5KBCzdhNrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760447444; c=relaxed/simple;
-	bh=1z29qiTz6h5jyAO8g68bo34GcYPLqTUSe9I3ydJUTw8=;
+	s=arc-20240116; t=1760448610; c=relaxed/simple;
+	bh=pNGGyokr8X1AGHFovWK/YwKzLd8yndY2pnPSWQjmLOc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZZeLDS5Q/1ITttVT6k7/wzoBeMFTa2v83OhwUsPaUmvFUoGcxmj7YQJkjO/32245HWxVnn7Bn0AthYCIjyWBn3pVFIYBkCFMgwkP9KFkpC3tGh1Qtht4v294JD1xDIa6iTmItHgMUk2RttBVEKdtskFTlEwwnpyK8X+NCewsLPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9+NifUw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iMaECpvfHc0MQ/oYvzFh/XFZSANI3pSSjbCZgbZquya3f3Z3kYbqDhKlbxU1GcAQHhgqt5oz+j55zf1O1bjhjoQFXt/O9NWBTuCVRsw9RTHFrZEEZxZr75Iyj/Fy1PY9gPOFqzeDMqS11mxppsRLcFZC2XTHix7TLkB4c/Qj/sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrHy1FFo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9+NifUw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8533FC4CEE7;
-	Tue, 14 Oct 2025 13:10:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrHy1FFo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209F8C4CEE7;
+	Tue, 14 Oct 2025 13:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760447443;
-	bh=1z29qiTz6h5jyAO8g68bo34GcYPLqTUSe9I3ydJUTw8=;
+	s=k20201202; t=1760448610;
+	bh=pNGGyokr8X1AGHFovWK/YwKzLd8yndY2pnPSWQjmLOc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=g9+NifUwXszKwI+i9b+BADg9CHX9pjgCw2mu/yxA+73glB/SfRpvhpeMLwX+7zeg9
-	 cpZyrZdbl6zsMX+Wo90KkdV6hDFv+HpHH+GKnixUqPtsiiuipRTYlBSA+RFLrU6AdF
-	 z8MA7ZC0dDyvXrecjZhU8nlLLfZCLEsyyqROyne29Obt+UqzwZBF2jT+f8QUD3imN0
-	 gQ5aZfRz1OgEk0IJVCMTbI4VrsIEPNPKNZutUFVMj6TdGeXxePJsX5/R68ibLC+6iv
-	 jZYvfqrXGK5MchNQMt25O838FaWOmrFURP+ZyNfLcRWE1zF4CmsEn6AFbRAtwXlHBn
-	 SOQ76mXQJoW1Q==
+	b=PrHy1FFo4vOfHgRLP+LZxJrAoiX0f1g6DosVRTkP9hjElSUeRaA1tnwNqdrN1/RNP
+	 rCuPe2GcHw/uA62lAVv0LwUqtXVfO7y3Up7IQSsZx/pLSHidaEipXsgJjA1IZHwSqn
+	 s8QOxS1YJoYZ3lS0VWUn7NwuKt5v8TOZj1lw2aS3xYIW4tR08HJwTRshi33ijbW6rv
+	 tT4cyA2lKl2ikFIA7gNlVVRNFodqD6voRaOl6ej6ozxGTWFejcm0r+Kb5AoO25TOpS
+	 XxnNKMs2DTqMC5RnCxyzWLAWoiuTW8vU56PRAIXGlxUrTlsgqJWZpGrHjjtlr6l8hK
+	 ix4SyXG6XtlNw==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Changyuan Lyu
- <changyuanl@google.com>,  rppt@kernel.org,  akpm@linux-foundation.org,
-  linux-kernel@vger.kernel.org,  anthony.yznaga@oracle.com,  arnd@arndb.de,
-  ashish.kalra@amd.com,  benh@kernel.crashing.org,  bp@alien8.de,
-  catalin.marinas@arm.com,  corbet@lwn.net,  dave.hansen@linux.intel.com,
-  devicetree@vger.kernel.org,  dwmw2@infradead.org,  ebiederm@xmission.com,
-  graf@amazon.com,  hpa@zytor.com,  jgowans@amazon.com,
-  kexec@lists.infradead.org,  krzk@kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  luto@kernel.org,  mark.rutland@arm.com,
-  mingo@redhat.com,  pasha.tatashin@soleen.com,  pbonzini@redhat.com,
-  peterz@infradead.org,  robh@kernel.org,  rostedt@goodmis.org,
-  saravanak@google.com,  skinsburskii@linux.microsoft.com,
-  tglx@linutronix.de,  thomas.lendacky@amd.com,  will@kernel.org,
-  x86@kernel.org
-Subject: Re: [PATCH v8 01/17] memblock: add MEMBLOCK_RSRV_KERN flag
-In-Reply-To: <2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
-	(Breno Leitao's message of "Tue, 14 Oct 2025 01:34:07 -0700")
-References: <20250509074635.3187114-1-changyuanl@google.com>
-	<20250509074635.3187114-2-changyuanl@google.com>
-	<ef6wfr72set5wa5el3wbbu4yd5tnc4p2rhtjpb5kpmncv3xs5d@i3c5v3ciioi3>
-	<mafs0wm4yluej.fsf@kernel.org> <mafs0h5w2lpqu.fsf@kernel.org>
-	<2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
-Date: Tue, 14 Oct 2025 15:10:37 +0200
-Message-ID: <mafs0cy6pljci.fsf@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush Yadav
+ <pratyush@kernel.org>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com,  hughd@google.com,
+  skhawaja@google.com,  chrisl@kernel.org,  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+In-Reply-To: <20251010150116.GC3901471@nvidia.com> (Jason Gunthorpe's message
+	of "Fri, 10 Oct 2025 12:01:16 -0300")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+	<mafs0ms5zn0nm.fsf@kernel.org>
+	<CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
+	<20251010150116.GC3901471@nvidia.com>
+Date: Tue, 14 Oct 2025 15:29:59 +0200
+Message-ID: <mafs0bjm9lig8.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,59 +75,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Tue, Oct 14 2025, Breno Leitao wrote:
+On Fri, Oct 10 2025, Jason Gunthorpe wrote:
 
-> Hello Pratyush,
->
-> On Mon, Oct 13, 2025 at 06:40:09PM +0200, Pratyush Yadav wrote:
->> On Mon, Oct 13 2025, Pratyush Yadav wrote:
+> On Thu, Oct 09, 2025 at 07:50:12PM -0400, Pasha Tatashin wrote:
+>> >   This can look something like:
 >> >
->> > I suppose this would be useful. I think enabling memblock debug prints
->> > would also be helpful (using the "memblock=debug" commandline parameter)
->> > if it doesn't impact your production environment too much.
+>> >   hugetlb_luo_preserve_folio(folio, ...);
+>> >
+>> >   Nice and simple.
+>> >
+>> >   Compare this with the new proposed API:
+>> >
+>> >   liveupdate_fh_global_state_get(h, &hugetlb_data);
+>> >   // This will have update serialized state now.
+>> >   hugetlb_luo_preserve_folio(hugetlb_data, folio, ...);
+>> >   liveupdate_fh_global_state_put(h);
+>> >
+>> >   We do the same thing but in a very complicated way.
+>> >
+>> > - When the system-wide preserve happens, the hugetlb subsystem gets a
+>> >   callback to serialize. It converts its runtime global state to
+>> >   serialized state since now it knows no more FDs will be added.
+>> >
+>> >   With the new API, this doesn't need to be done since each FD prepare
+>> >   already updates serialized state.
+>> >
+>> > - If there are no hugetlb FDs, then the hugetlb subsystem doesn't put
+>> >   anything in LUO. This is same as new API.
+>> >
+>> > - If some hugetlb FDs are not restored after liveupdate and the finish
+>> >   event is triggered, the subsystem gets its finish() handler called and
+>> >   it can free things up.
+>> >
+>> >   I don't get how that would work with the new API.
 >> 
->> Actually, I think "memblock=debug" is going to be the more useful thing
->> since it would also show what function allocated the overlapping range
->> and the flags it was allocated with.
->> 
->> On my qemu VM with KVM, this results in around 70 prints from memblock.
->> So it adds a bit of extra prints but nothing that should be too
->> disrupting I think. Plus, only at boot so the worst thing you get is
->> slightly slower boot times.
+>> The new API isn't more complicated; It codifies the common pattern of
+>> "create on first use, destroy on last use" into a reusable helper,
+>> saving each file handler from having to reinvent the same reference
+>> counting and locking scheme. But, as you point out, subsystems provide
+>> more control, specifically they handle full creation/free instead of
+>> relying on file-handlers for that.
 >
-> Unfortunately this issue is happening on production systems, and I don't
-> have an easy way to reproduce it _yet_.
->
-> At the same time, "memblock=debug" has two problems:
->
->  1) It slows the boot time as you suggested. Boot time at large
->     environments is SUPER critical and time sensitive. It is a bit
->     weird, but it is common for machines in production to kexec
->     _thousands_ of times, and kexecing is considered downtime.
+> I'd say hugetlb *should* be doing the more complicated thing. We
+> should not have global static data for luo floating around the kernel,
+> this is too easily abused in bad ways.
 
-I don't know if it would make a real enough difference on boot times,
-only that it should theoretically affect it, mainly if you are using
-serial for dmesg logs. Anyway, that's your production environment so you
-know best.
+Not sure how much difference this makes in practice, but I get your
+point.
 
 >
->     This would be useful if I find some hosts getting this issue, and
->     then I can easily enable the extra information to collect what
->     I need, but, this didn't pan out because the hosts I got
->     `memblock=debug` didn't collaborate.
+> The above "complicated" sequence forces the caller to have a fd
+> session handle, and "hides" the global state inside luo so the
+> subsystem can't just randomly reach into it whenever it likes.
 >
->  2) "memblock=debug" is verbose for all cases, which also not necessary
->     the desired behaviour. I am more interested in only being verbose
->     when there is a known problem.
+> This is a deliberate and violent way to force clean coding practices
+> and good layering.
 >
-> That said, my suggestion is to only dump extra information when something goes
-> wrong, not affecting the boot time neither boot verbosity.
->
+> Not sure why hugetlb pools would need another xarray??
 
-With your proposed change, we only know what the overlapping area is,
-but not who allocated it. I don't see how that can be done when the
-error is detected. memblock debug lets us know that, which is why I
-suggested it.
+Not sure myself either. I used it to demonstrate my point of having
+runtime state and serialized state separate from each other.
+
+>
+> 1) Use a vmalloc and store a list of the PFNs in the pool. Pool becomes
+>    frozen, can't add/remove PFNs.
+
+Doesn't that circumvent LUO's state machine? The idea with the state
+machine was to have clear points in time when the system goes into the
+"limited capacity"/"frozen" state, which is the LIVEUPDATE_PREPARE
+event. With what you propose, the first FD being preserved implicitly
+triggers the prepare event. Same thing for unprepare/cancel operations.
+
+I am wondering if it is better to do it the other way round: prepare all
+files first, and then prepare the hugetlb subsystem at
+LIVEUPDATE_PREPARE event. At that point it already knows which pages to
+mark preserved so the serialization can be done in one go.
+
+> 2) Require the users of hugetlb memory, like memfd, to
+>    preserve/restore the folios they are using (using their hugetlb order)
+> 3) Just before kexec run over the PFN list and mark a bit if the folio
+>    was preserved by KHO or not. Make sure everything gets KHO
+>    preserved.
+
+"just before kexec" would need a callback from LUO. I suppose a
+subsystem is the place for that callback. I wrote my email under the
+(wrong) impression that we were replacing subsystems.
+
+That makes me wonder: how is the subsystem-level callback supposed to
+access the global data? I suppose it can use the liveupdate_file_handler
+directly, but it is kind of strange since technically the subsystem and
+file handler are two different entities.
+
+Also as Pasha mentioned, 1G pages for guest_memfd will use hugetlb, and
+I'm not sure how that would map with this shared global data. memfd and
+guest_memfd will likely have different liveupdate_file_handler but would
+share data from the same subsystem. Maybe that's a problem to solve for
+later...
+
+>
+> Restore puts the PFNs that were not preserved directly in the free
+> pool, the end user of the folio like the memfd restores and eventually
+> normally frees the other folios.
+
+Yeah, on the restore side this idea works fine I think.
+
+>
+> It is simple and fits nicely into the infrastructure here, where the
+> first time you trigger a global state it does the pfn list and
+> freezing, and the lifecycle and locking for this operation is directly
+> managed by luo.
+>
+> The memfd, when it knows it has hugetlb folios inside it, would
+> trigger this.
+>
+> Jason
 
 -- 
 Regards,
