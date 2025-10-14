@@ -1,438 +1,161 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFFC30E0C5
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 07:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB163274B2B
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 07:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426953; cv=none; b=BoqV8gimFKbuAgM8cbtfDadVBipKcg6UlbByGA/kzpbKmA7DB7OgSiBw2+e2+RPiJPn/zmZiWtf020zwjP39t1HRvWO08fxAUyoO0e+urPXjGxmZKhfDwOP2hUZscCL4+ihl+toGXu2SsudNxAxIiAsXpDyn5QMdBS/8RzeP+H4=
+	t=1760427432; cv=none; b=hTC/KFSkjtPN2puNn9iN+3jZaf7/4EaYF6VPGPwP6yGyN/kOpwFL/ziJEoIIkSFHS9zhhL/vWv2ZJ97rJipqhtMZ9Z+xuL5s+/wPSxMOAiBcX6tqeyKLXN4gNRkfKM0LjLH69cbHFeW1uqOxlOKnvuuq/EaaliQmG+82tEM2fqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426953; c=relaxed/simple;
-	bh=TG1RgJEsVR/aHZhCSznAcSiMQiruU4NjsN5itqkUYcM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q8oJs+4VghoaxagbOJvRGmHdYWV4LJY1vyitFYOHQHig50Eql6M38jMKJCnZsJYAvZw1bzRLVC0iv7Bf02ornHjPMEi6mhbo3mmAp4KxaWcY4gmTISfhonB4NLlQsp7RFy/lgVuiGIJMjPSj+2g6b/thJvHaDCnrafW8topZ+uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz2t1760426863t1ebade9d
-X-QQ-Originating-IP: Tz11S9/WaU5RUFL/yI8wPOxWIcSQxBW7zyKxmryRgfc=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 14 Oct 2025 15:27:41 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9777684139916137296
-EX-QQ-RecipientCnt: 13
-From: Dong Yibo <dong100@mucse.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	andrew+netdev@lunn.ch,
-	danishanwar@ti.com,
-	vadim.fedorenko@linux.dev
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v14 5/5] net: rnpgbe: Add register_netdev
-Date: Tue, 14 Oct 2025 15:27:11 +0800
-Message-Id: <20251014072711.13448-6-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251014072711.13448-1-dong100@mucse.com>
-References: <20251014072711.13448-1-dong100@mucse.com>
+	s=arc-20240116; t=1760427432; c=relaxed/simple;
+	bh=hProa4De93MHpNGZiuwWV3XfuaYyS/n9FFopceUyay0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KPa6pVIQP1qLr0uCSwagSNlM+PyVzuHvFJHxW76c4OV7dKg8JXtgPittqCJdN/yrbMVyiSMNNOSORChAIMPiWREivLeLq4k7VqZQq8WI45jiM4Y5pLfajxmqcWP4EpOKIzrBkzhP9y0aSW6RRif+upGeTX9cnztxbHFwKzI7gAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUpSAt+P; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUpSAt+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C04BC116D0
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 07:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760427431;
+	bh=hProa4De93MHpNGZiuwWV3XfuaYyS/n9FFopceUyay0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lUpSAt+PAXBzfMtxIyX2upACTdV3FC/tPPYSnG8s19TtDm4B6J7jmRwRwcGlO9mwB
+	 o9wsvfS3Lxch0/yH8NIjZVYafSAK+BMu5hjIM1n1hSBkvEOnULAWpHXG0JAnPoLUAA
+	 zDgtL7N9ePAlZ2Rw9yOAQEK9JtD27vO4o2KZ8/bF9yI2Gs2D6Q2ilL6odykv8rwyI+
+	 SahLoW1erQnkcZvq2+6KZ/lhQswHW6uC2R+mHKWEjV30XTW7Yg+4k/SFiX/1PksmjV
+	 avRMqFmqYZ3qGNPJ57br0+95E8eYZd1IsejkaraVzkMVEqYBU8PT+s90leRxE4JlKg
+	 VouKOaO0oSGEA==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-30cce892b7dso2459037fac.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 00:37:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUDAOZfPP3GK4ri8ZpSvHuplINGqkL8FU7pkmM/Ef177clKrtZ13FG1rOxA18dudXjaoCpDJek1QdU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXvtjmMeWCBx6ii7nVd9s6ul/vZwRofxTjQBy4352aHBefpGia
+	u8oyL91ThAfP5ruHlb8OXeimWIx4R125ChEEXXEzhKbxZrCC9b0RXX6ANC+6wYlvoKiaGZytUl0
+	fpIWGBjI4QNcqPCXqjvPQbM091PORATg=
+X-Google-Smtp-Source: AGHT+IG/dMvHNYRvwpUwXTceftiOC3TIsATtVHIjkV4zfu8OBlyWGYJtKNs7wEN5TcaFfhHgV1hDzIkDPKICbkB79OE=
+X-Received: by 2002:a05:6870:df93:b0:3c8:f443:c298 with SMTP id
+ 586e51a60fabf-3c8f443cc66mr2500479fac.33.1760427430454; Tue, 14 Oct 2025
+ 00:37:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Mom5ezI3X1cDp+sHj9Qs2u8h4y7CkzdtjhlhY9TXqz2ZvB1DI8f4RHqW
-	oaGEL75T6uxwzl3MQnxDW0XG6oB+ngmLJFTfPXVBW1JG8cIthxzMN/jXfCB56h5AEQKbWSW
-	DfVkK3x7Ia0R2Kl7sqHoS2ZNg5pf+GoissxTsdx5XdVDQC42XX1E0hiBMzXNw32eIQWmyRc
-	Fpgo282slKG7bjL1OyxI/KRvxFgyTC5Bzv1ogmLH2rzZTSIzahLGX3MvCQXh4P0qxsz8VVO
-	SoPSjzF6Fp7w2EimRe8RvZnqNoqRAyGEM/RETKeuZ26cOQQTYGyip+Ku3aRrsAMDhebbdwp
-	mZwiSEF06FgvtlsuHn4gXg+R77hw91OGyN89/wsIP5KoxVgHJ2C7Zp5f/yqH31qHfUDSmul
-	/6VcCc/XaXRpEdAbQxzwiprOmpl3D5/9gtWqrx8BSw6rCShW5uNJDjutMNnMVOGZFEXWHp4
-	TjhmLfrc5+W2jH6Qs2d7sSonoqjZC2UBQ0Dps6jkfgZrP2xoHpo4+cZ13JmAQ06GfSLQzev
-	AmZu0RiNwkH0iGAZW2t4ukT2hIzhIzt4Itj12N4PvSsU/Umz2AcjzZlCANDSLjvTSRW7BCi
-	S0rXPhGfb+zVyjOlLQoyEEudgT8cC8Q6s+GZm3x6enNnFyB0D056+U7sbCVj5/iL5wN49T5
-	/62vEdawGcl5SGhsv8jOrOof9lqnz+jmjNAvfQvhsjqXBmRrYefPUhVYCH5Oop+wb8OJ6j6
-	dIKZoU/YyWlP6xsOrECBpuk9U0pqC5pm4Ji2XVij8Fm0LE5s+GdXo63ngtB1LYcjWvDZG4K
-	A0WxCWNi6cV8lQE/+DDEByef0zCxvcfwnM7CaFThiEHw6kjJHC2MVxIPXVPgTXYqOz3nVxx
-	phUuzE0htXWIX2OYE7tv72IUKIc2/t7MlO+H8j8XehtowuVVXSXCOdtobVp+f+c8sv1s/c9
-	5L4jGyBfjBjOHGZQQWh/hPjrurfO2kVsuocwnB/q7X41VCRlVRZe++2ZVocpvEKHwrAjFUg
-	EyFtJAAzW+gCDML7+TW/7XAk6s9c4=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+References: <20251013085718.27085-1-bagasdotme@gmail.com>
+In-Reply-To: <20251013085718.27085-1-bagasdotme@gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 14 Oct 2025 09:36:58 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXH5Y+mgT7LuQZOkAf5Ptpf=Gn3U=6XgrXxoe=irQCBnHw@mail.gmail.com>
+X-Gm-Features: AS18NWDUSpmp4_I3c-PxBd1LmVKh1y1aJwWS35tYs6OMPZNUeQEUhvAytzGqTJM
+Message-ID: <CAMj1kXH5Y+mgT7LuQZOkAf5Ptpf=Gn3U=6XgrXxoe=irQCBnHw@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation/x86: explain LINUX_EFI_INITRD_MEDIA_GUID
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux EFI <linux-efi@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Content-Type: text/plain; charset="UTF-8"
 
-Complete the network device (netdev) registration flow for Mucse Gbe
-Ethernet chips, including:
-1. Hardware state initialization:
-   - Send powerup notification to firmware (via echo_fw_status)
-   - Sync with firmware
-   - Reset hardware
-2. MAC address handling:
-   - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
-   - Fallback to random valid MAC (eth_random_addr) if not valid mac
-     from Fw
+On Mon, 13 Oct 2025 at 10:57, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+>
+> Since the Handover Protocol was deprecated, the recommended approach is
+> to provide an initrd using a UEFI boot service with the
+> LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+> approach has been no more than an admonition with a link to an existing
+> implementation.
+>
+> Provide a short explanation of this functionality, to ease future
+> implementations without having to reverse engineer existing ones.
+>
+> Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+> Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+> [Bagas: Don't use :ref: link to EFI stub documentation and refer to
+> OVMF/edk2 implementation]
+> Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> No changes since v2 [1].
+>
+> EFI/x86 maintainers: Would you like to apply this patch on tip/efi tree
+> or let Jon handle it through docs-next instead?
+>
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  24 ++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  73 +++++++++++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 117 +++++++++++++++++-
- 4 files changed, 214 insertions(+), 2 deletions(-)
+Please take this via the documentation tree - thanks.
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index 794581471b22..a8604bf34fc6 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -6,6 +6,7 @@
- 
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/netdevice.h>
- 
- enum rnpgbe_boards {
- 	board_n500,
-@@ -34,18 +35,38 @@ struct mucse_mbx_info {
- 	u32 fwpf_ctrl_base;
- };
- 
-+/* Enum for firmware notification modes,
-+ * more modes (e.g., portup, link_report) will be added in future
-+ **/
-+enum {
-+	mucse_fw_powerup,
-+};
-+
- struct mucse_hw {
- 	void __iomem *hw_addr;
-+	struct pci_dev *pdev;
- 	struct mucse_mbx_info mbx;
-+	int port;
-+	u8 perm_addr[ETH_ALEN];
- 	u8 pfvfnum;
- };
- 
-+struct mucse_stats {
-+	u64 tx_dropped;
-+};
-+
- struct mucse {
- 	struct net_device *netdev;
- 	struct pci_dev *pdev;
- 	struct mucse_hw hw;
-+	struct mucse_stats stats;
- };
- 
-+int rnpgbe_get_permanent_mac(struct mucse_hw *hw);
-+int rnpgbe_reset_hw(struct mucse_hw *hw);
-+int rnpgbe_send_notify(struct mucse_hw *hw,
-+		       bool enable,
-+		       int mode);
- int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
- 
- /* Device IDs */
-@@ -54,4 +75,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
- #define RNPGBE_DEVICE_ID_N500_DUAL_PORT   0x8318
- #define RNPGBE_DEVICE_ID_N210             0x8208
- #define RNPGBE_DEVICE_ID_N210L            0x820a
-+
-+#define mucse_hw_wr32(hw, reg, val) \
-+	writel((val), (hw)->hw_addr + (reg))
- #endif /* _RNPGBE_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-index 5739db98f12a..2ec6e28d2c35 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-@@ -1,11 +1,82 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright(c) 2020 - 2025 Mucse Corporation. */
- 
-+#include <linux/pci.h>
- #include <linux/errno.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
- #include "rnpgbe_mbx.h"
-+#include "rnpgbe_mbx_fw.h"
-+
-+/**
-+ * rnpgbe_get_permanent_mac - Get permanent mac
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_get_permanent_mac tries to get mac from hw
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_get_permanent_mac(struct mucse_hw *hw)
-+{
-+	struct device *dev = &hw->pdev->dev;
-+	u8 *mac_addr = hw->perm_addr;
-+	int err;
-+
-+	err = mucse_mbx_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->port);
-+	if (err) {
-+		dev_err(dev, "Failed to get MAC from FW %d\n", err);
-+		return err;
-+	}
-+
-+	if (!is_valid_ether_addr(mac_addr)) {
-+		dev_err(dev, "Failed to get valid MAC from FW\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_reset_hw - Do a hardware reset
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_reset_hw calls fw to do a hardware
-+ * reset, and cleans some regs to default.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_reset_hw(struct mucse_hw *hw)
-+{
-+	mucse_hw_wr32(hw, RNPGBE_DMA_AXI_EN, 0);
-+	return mucse_mbx_reset_hw(hw);
-+}
-+
-+/**
-+ * rnpgbe_send_notify - Echo fw status
-+ * @hw: hw information structure
-+ * @enable: true or false status
-+ * @mode: status mode
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_send_notify(struct mucse_hw *hw,
-+		       bool enable,
-+		       int mode)
-+{
-+	int err;
-+	/* Keep switch struct to support more modes in the future */
-+	switch (mode) {
-+	case mucse_fw_powerup:
-+		err = mucse_mbx_powerup(hw, enable);
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+
-+	return err;
-+}
- 
- /**
-  * rnpgbe_init_n500 - Setup n500 hw info
-@@ -50,6 +121,8 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
- {
- 	struct mucse_mbx_info *mbx = &hw->mbx;
- 
-+	hw->port = 0;
-+
- 	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
- 	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
- 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-index 268f572936aa..e77e6bc3d3e3 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -11,5 +11,7 @@
- #define MUCSE_N210_FWPF_CTRL_BASE      0x29400
- #define MUCSE_N210_FWPF_SHM_BASE       0x2d900
- 
-+#define RNPGBE_DMA_AXI_EN              0x0010
-+
- #define RNPGBE_MAX_QUEUES 8
- #endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index d8aaac79ff4b..e4392ddfbce2 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -7,6 +7,7 @@
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
-+#include "rnpgbe_mbx_fw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
- 
-@@ -24,6 +25,58 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_open - Called when a network interface is made active
-+ * @netdev: network interface device structure
-+ *
-+ * The open entry point is called when a network interface is made
-+ * active by the system (IFF_UP).
-+ *
-+ * Return: 0
-+ **/
-+static int rnpgbe_open(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_close - Disables a network interface
-+ * @netdev: network interface device structure
-+ *
-+ * The close entry point is called when an interface is de-activated
-+ * by the OS.
-+ *
-+ * Return: 0, this is not allowed to fail
-+ **/
-+static int rnpgbe_close(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_xmit_frame - Send a skb to driver
-+ * @skb: skb structure to be sent
-+ * @netdev: network interface device structure
-+ *
-+ * Return: NETDEV_TX_OK
-+ **/
-+static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-+				     struct net_device *netdev)
-+{
-+	struct mucse *mucse = netdev_priv(netdev);
-+
-+	dev_kfree_skb_any(skb);
-+	mucse->stats.tx_dropped++;
-+
-+	return NETDEV_TX_OK;
-+}
-+
-+static const struct net_device_ops rnpgbe_netdev_ops = {
-+	.ndo_open       = rnpgbe_open,
-+	.ndo_stop       = rnpgbe_close,
-+	.ndo_start_xmit = rnpgbe_xmit_frame,
-+};
-+
- /**
-  * rnpgbe_add_adapter - Add netdev for this pci_dev
-  * @pdev: PCI device information structure
-@@ -42,7 +95,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 	void __iomem *hw_addr;
- 	struct mucse *mucse;
- 	struct mucse_hw *hw;
--	int err;
-+	int err, err_notify;
- 
- 	netdev = alloc_etherdev_mq(sizeof(struct mucse), RNPGBE_MAX_QUEUES);
- 	if (!netdev)
-@@ -64,14 +117,66 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 	}
- 
- 	hw->hw_addr = hw_addr;
-+	hw->pdev = pdev;
-+
- 	err = rnpgbe_init_hw(hw, board_type);
- 	if (err) {
- 		dev_err(&pdev->dev, "Init hw err %d\n", err);
- 		goto err_free_net;
- 	}
-+	/* Step 1: Send power-up notification to firmware (no response expected)
-+	 * This informs firmware to initialize hardware power state, but
-+	 * firmware only acknowledges receipt without returning data. Must be
-+	 * done before synchronization as firmware may be in low-power idle
-+	 * state initially.
-+	 */
-+	err_notify = rnpgbe_send_notify(hw, true, mucse_fw_powerup);
-+	if (err_notify) {
-+		dev_warn(&pdev->dev, "Send powerup to hw failed %d\n",
-+			 err_notify);
-+		dev_warn(&pdev->dev, "Maybe low performance\n");
-+	}
-+	/* Step 2: Synchronize mailbox communication with firmware (requires
-+	 * response) After power-up, confirm firmware is ready to process
-+	 * requests with responses. This ensures subsequent request/response
-+	 * interactions work reliably.
-+	 */
-+	err = mucse_mbx_sync_fw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Sync fw failed! %d\n", err);
-+		goto err_powerdown;
-+	}
- 
--	return 0;
-+	netdev->netdev_ops = &rnpgbe_netdev_ops;
-+	err = rnpgbe_reset_hw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Hw reset failed %d\n", err);
-+		goto err_powerdown;
-+	}
-+
-+	err = rnpgbe_get_permanent_mac(hw);
-+	if (err == -EINVAL) {
-+		dev_warn(&pdev->dev, "Using random MAC\n");
-+		eth_random_addr(hw->perm_addr);
-+	} else if (err) {
-+		dev_err(&pdev->dev, "get perm_addr failed %d\n", err);
-+		goto err_powerdown;
-+	}
-+
-+	eth_hw_addr_set(netdev, hw->perm_addr);
-+	err = register_netdev(netdev);
-+	if (err)
-+		goto err_powerdown;
- 
-+	return 0;
-+err_powerdown:
-+	/* notify powerdown only powerup ok */
-+	if (!err_notify) {
-+		err_notify = rnpgbe_send_notify(hw, false, mucse_fw_powerup);
-+		if (err_notify)
-+			dev_warn(&pdev->dev, "Send powerdown to hw failed %d\n",
-+				 err_notify);
-+	}
- err_free_net:
- 	free_netdev(netdev);
- 	return err;
-@@ -138,11 +243,17 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void rnpgbe_rm_adapter(struct pci_dev *pdev)
- {
- 	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct mucse_hw *hw = &mucse->hw;
- 	struct net_device *netdev;
-+	int err;
- 
- 	if (!mucse)
- 		return;
- 	netdev = mucse->netdev;
-+	unregister_netdev(netdev);
-+	err = rnpgbe_send_notify(hw, false, mucse_fw_powerup);
-+	if (err)
-+		dev_warn(&pdev->dev, "Send powerdown to hw failed %d\n", err);
- 	free_netdev(netdev);
- }
- 
-@@ -173,6 +284,8 @@ static void rnpgbe_dev_shutdown(struct pci_dev *pdev)
- 
- 	rtnl_lock();
- 	netif_device_detach(netdev);
-+	if (netif_running(netdev))
-+		rnpgbe_close(netdev);
- 	rtnl_unlock();
- 	pci_disable_device(pdev);
- }
--- 
-2.25.1
-
+> [1]: https://lore.kernel.org/linux-doc/20250916073244.590483-1-bagasdotme@gmail.com/
+>
+>  Documentation/admin-guide/efi-stub.rst |  3 ++
+>  Documentation/arch/x86/boot.rst        | 38 ++++++++++++++++++++------
+>  2 files changed, 33 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+> index 090f3a185e1897..f8e7407698bd2a 100644
+> --- a/Documentation/admin-guide/efi-stub.rst
+> +++ b/Documentation/admin-guide/efi-stub.rst
+> @@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+>  which understands relative paths, whereas the rest of the command line
+>  is passed to bzImage.efi.
+>
+> +.. hint::
+> +   It is also possible to provide an initrd using a Linux-specific UEFI
+> +   protocol at boot time. See :ref:`pe-coff-entry-point` for details.
+>
+>  The "dtb=" option
+>  -----------------
+> diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+> index 77e6163288db08..32eea3d2807e1c 100644
+> --- a/Documentation/arch/x86/boot.rst
+> +++ b/Documentation/arch/x86/boot.rst
+> @@ -1431,12 +1431,34 @@ The boot loader *must* fill out the following fields in bp::
+>  All other fields should be zero.
+>
+>  .. note::
+> -     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+> -     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+> -     loading protocol (refer to [0] for an example of the bootloader side of
+> -     this), which removes the need for any knowledge on the part of the EFI
+> -     bootloader regarding the internal representation of boot_params or any
+> -     requirements/limitations regarding the placement of the command line
+> -     and ramdisk in memory, or the placement of the kernel image itself.
+> +   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+> +   entry point described below.
+>
+> -[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+> +.. _pe-coff-entry-point:
+> +
+> +PE/COFF entry point
+> +===================
+> +
+> +When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
+> +regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
+> +implementation details.
+> +
+> +The stub loader can request the initrd via a UEFI protocol. For this to work,
+> +the firmware or bootloader needs to register a handle which carries
+> +implementations of the ``EFI_LOAD_FILE2`` protocol and the device path
+> +protocol exposing the ``LINUX_EFI_INITRD_MEDIA_GUID`` vendor media device path.
+> +In this case, a kernel booting via the EFI stub will invoke
+> +``LoadFile2::LoadFile()`` method on the registered protocol to instruct the
+> +firmware to load the initrd into a memory location chosen by the kernel/EFI
+> +stub.
+> +
+> +This approach removes the need for any knowledge on the part of the EFI
+> +bootloader regarding the internal representation of boot_params or any
+> +requirements/limitations regarding the placement of the command line and
+> +ramdisk in memory, or the placement of the kernel image itself.
+> +
+> +For sample implementations, refer to `the original u-boot implementation`_ or
+> +`the OVMF implementation`_.
+> +
+> +.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+> +.. _the OVMF implementation: https://github.com/tianocore/edk2/blob/1780373897f12c25075f8883e073144506441168/OvmfPkg/LinuxInitrdDynamicShellCommand/LinuxInitrdDynamicShellCommand.c
+>
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> --
+> An old man doll... just what I always wanted! - Clara
+>
+>
