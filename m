@@ -1,66 +1,66 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87D52DE1E5
-	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 12:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247132EA74C
+	for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 12:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760445945; cv=none; b=WI9qWBjlepKy9DtWshMO12yBfWzfCBmDWQc9wHoiuFM6gd1VRDE5pKjFUuGQUUxKsjQ0UryD6tz3EOncqlbN/MuQz/rggW0FnA7qAoEyKsni1yE0yOuvATujywrPVromoBFtD8u9Jx3V11lQRzW0S4PrlQb8ZkV4YbYqgGeSD7A=
+	t=1760446174; cv=none; b=HQStA2rvknnrofecf6E+MSCNZOey4g1kwoPEtMAKp0Xto3LaYSP7oGXFmBVp6poQ0G0jFc5jkgeOf1z0Xelwy3CE7RJoRRLoUTjyoTa6CYp0C62oQvDy6BMBZZ6wMJm8tAjTn41TW91+0hlVBd6cDvcem1kUusAmp9YYkin6c60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760445945; c=relaxed/simple;
-	bh=4xAZty85ZHdvBE6Q6Ju6E8/SyfTuwcvhqmJQ6fWLs54=;
+	s=arc-20240116; t=1760446174; c=relaxed/simple;
+	bh=v6U7DLGCjYxoj5ENGgqW08NtBhbBHu0yt05+ofF8WwA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MML+WKkH9DF/h8FasccFhmzSIp5NwBwnK14GrampOYYbRhrFMLMBMN4hnnXbfstpzopAPQg4b2qQtHT1L3e/bfV1w030MmtEey+D0DrxBnrAWMzVCIRftYeshsGY3B4pUfPh2lKnWAoJcIjyzfD5bkv8AIoZWr8OB8eXCjuW9qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SIOhET1l; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:Content-Type; b=TaHipoGpVDejxzX9aI/TdONCR4J23FbkNcA/JCmjkRQ3gyujeSod+ELOn7czVfNvzWFn5NXfw6VC6OSYgwIsbQfmR7n/xmdPuFrZco1JRJExKJ6TmV1RX3V4AISxhP5RWbyyoKmUouI3Y9QhKsoeYeI1x7O5eT4vkEV5Xl/I7nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gtSc4LB7; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SIOhET1l"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e37d10ed2so48868925e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 05:45:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtSc4LB7"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e4473d7f6so34231135e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 05:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760445942; x=1761050742; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760446171; x=1761050971; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=t+s+MnUCBJ5Abbhdfz+BBRkABbDhDMVmHDHwHoH2l6Q=;
-        b=SIOhET1lP1CVEl97faPGO0VQp8rByWy78RyyTQJ62a5gycXaEFN4W95RDO+019HH7D
-         U9fSHg0ptn4JjIuGHDt23ae5jN9cs6Lf4wx02pqBFc1PEyn24REtWb36TUcLn4KLvq2X
-         ZCSuti7V+4r+5smtVUQHuN0GQLO46+F5ChOtFDmbXMkbT7VPE0X73lfqU3zN7rVsPOS2
-         JTMoQpeedNZkxx8ITPlZzzAOqv3vZS5No6nZsD6PpJ0/vwdIqyMYTB+dZvKgXvNa4KYE
-         54rfafm2j6aUCD/0SeLxGBXweMg3Wbq3nqEmP9cry2nfD9U4Rb7UAilPHO43+3utCJsz
-         mV7w==
+        bh=0xSNdK/UPhiag6fJGs/Gpb+fa/gGbLtGUzql412YrQM=;
+        b=gtSc4LB7OA7bRkzqTj38aPPkoYheXqePmcWvS0BDT7u3+FjqbaVOnCg0bQgDzuWVDX
+         i4xiwLOO8eaiJt4ApuZwEvYB4CW/QGH6CAj3ySVxgGUc7PV03bgXViF20i75GGUMZrgR
+         6ssv7ZYr26cbCr8IgsfIbRNEA+dTAv/e9m3kHbPwamAhXFrIjfcdYO/bSiq6OCpGZr+5
+         YmaEEt6ywKIA8U/pTMbEUHPG+NqHITas0i6Q0sNYAR47Z918J4SzCvMgSLuw2hME1HCn
+         5zhQIuN0eSSfrlJQz3Dceg3VDf4MffJYdfsMUB2HjejhcSOSKbtRU1eNs0mS1VobWXLg
+         BccA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760445942; x=1761050742;
+        d=1e100.net; s=20230601; t=1760446171; x=1761050971;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+s+MnUCBJ5Abbhdfz+BBRkABbDhDMVmHDHwHoH2l6Q=;
-        b=I15JS/fB9B3P6kH6ckGkecXvQr61H4Nr+Ya4R2dEFZUXgu/Kb5428B2RqmvDKkPDyV
-         At/IWxSsRxYnvdFDc2FvhQeYUuYpVdb9soBbLRrhwHMs4XE//IV/v3Z7fryevJZN12P5
-         NF2xT8EM5wcLzx3QaLOIm2tHKFraubBbnRnCzZBXLk1rrJ7OGiTH3In74XtXoKTObzdk
-         zTy/TKxnCkS3p3c0Kny5Pgx31zykarEbbOleOIc0VwFigzntJFwaqBXZgJj/MxdoNUlQ
-         4ScG8IHiRJFYyfM0UnB6yCzabINoNqPqW+OCMLoq5aI+8o4fOXdIt2+f0G3NfenhWayZ
-         pGOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWiaBDfC0nlXvNJkQpWHt7EamuMl/Xi/csqqnZFUi0omiX4LP0NFmgJLKImdiGbf57qFRrBuhig38A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZAJ+o5/ZxeFvD3FgMEnuHIiFvPVC5bNucUVeMcQrttIsKAD2E
-	23zkFJPe3HkTRbWH4kPMdRExv1+gFUBfqOy/uh0iNf/vlaRLGYfsmv8g
-X-Gm-Gg: ASbGncvYF0gC2n1AuFxPYhJeMxZEsZggSSI061jZycn4SygfmmpZQAi2Bc3zos7EACK
-	MZYyqVkWXItV1o1y93Xks66NXDbDLrilAb3a8Rdw42VSbwKk1OX8zyzBa/wlWjKxW55prQUYDxY
-	IER8oThZkSbH4He8zKuJw4EuQc0OEPabHkbnqRzd32kpaO8gln7tX9vRjBQgkXgefw0ePKA2FAn
-	Bv5xICaaHBiFc4kng4ncgWbsDc1uSRuDwLv7lWzOxneuQOHYLcCc3uWHgjVwbgCWIszhk1FVRUm
-	zxPiTNB8zgURVKJqUKTtKNeKfFr471Wc2YdrsCVTBpkUFSU1pAelygUrp5eLgICfJO2nT2O6PyA
-	PFiUuTA+huX1eKh9hJI4DiLSUrhRXE2nNAbtbQ0nLYRqtDFRVcatw5QF4R6rfazl3my+qnQRHuT
-	DGNEBT0aCR
-X-Google-Smtp-Source: AGHT+IG37XYlLrmKRzsVTbT8x4wG0Ta4s90KjMR3qbRk2A+e9jHNkHgI8r+1AkdRhNxcKymiD3ZRzw==
-X-Received: by 2002:a05:600c:c162:b0:46e:47cc:a17e with SMTP id 5b1f17b1804b1-46fa9a8f4c8mr165749265e9.1.1760445941678;
-        Tue, 14 Oct 2025 05:45:41 -0700 (PDT)
+        bh=0xSNdK/UPhiag6fJGs/Gpb+fa/gGbLtGUzql412YrQM=;
+        b=P83sEogQ2NoEYuHKVKnMxlnUl7y7Evl7qvaFh0ZKesaQMMMnwVL/qbOWLPGo3TXox8
+         VEfuRRJQIQy5/jfF/IiANEp6rx3CnT5t7ASJAhLmgm5ODC0i4FtGi9xfSf0YAzRX8RWR
+         g7zGz/emwFOl6WXMI+5t8Lqdr7VLvfksynWa14XfqRgNVERhjjTExpxeQWSJx3f3K5A4
+         VNNNh3VxFKylzM1ACYuo9Yn202Fy9EPJ89jsgM82ZaASGNj4Yv89/tkfmRC9XMLaZ296
+         nvCCKIoUiotH7vhxP9eizMZCo8Ym8DcCc2aTwRiiOWdzC5jbEISyjf4nvjnSoDQEqGVH
+         8q6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX8JF3Zj6EztISudxHlpf5QgetaBP3igTos9WJbPjaTL4XTNiC701tvXHJw/oT22riyVXiv0L5V9r8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT4n/MiTq8M3KV0XABtki4vOIyvYVZZfAmghh04G8ByEzRhKL2
+	CwYMxMqyerVihjdMRo2y8j9wBJFTMK527qpMV5DJOwYn7CAktFxYEpDl
+X-Gm-Gg: ASbGncvuvmnvThNBlEL2lrBoH0ZaJN15so1OV+73b94nSyyqMSIfgQVC3+8zg6y6jeg
+	8kOYu3iyFg9sfq2FYBwN5lK98lRKIxKA95k3zp9wvK5SmVp4nRIrau+2lsMLKzCp3iX7QgLy7/z
+	T4ADTIrjF8XFZo0wHwNKTojDjHJgXBHjDYDGz5EYQKyoe4WMAJUYhxqv6y4tK8rqi0AHu27l8Rn
+	YoPILETblKROB6wQma1wK4hjD6/2jvglIiCyj+rQUy2Q7kLIPZmroZqQENXnEbLnOz5jDUuCf0J
+	s8Gmc8nmKVGSj2tPg1K6bIXWAqC4x2/3elQpkQDZuWyNUZ5Yd38Y0LyYKEWatVGrShZ2IAoYd/9
+	nqg7Y/mpTbWmrl392sRwxhp6o+4VGpqiQVWOg+H0LbrvwMYz6YH7pFpUR5++W7jzEpYtGvUDBQo
+	pmj5PiHisxJYDIhO7Eysw=
+X-Google-Smtp-Source: AGHT+IGoUGOOarSp00OMRYWhOXW34mYrkF25elYJu4oLZtBIvtZyX2JSTRSEbwHePA1SLut/vaU6wQ==
+X-Received: by 2002:a05:600c:c091:b0:46e:59bd:f7d3 with SMTP id 5b1f17b1804b1-46fae33dffamr97594825e9.20.1760446171042;
+        Tue, 14 Oct 2025 05:49:31 -0700 (PDT)
 Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:7ec0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb55ac08dsm232559785e9.13.2025.10.14.05.45.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489194dsm238775265e9.12.2025.10.14.05.49.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 05:45:40 -0700 (PDT)
-Message-ID: <0ef2009e-2593-4b15-a96b-512c1dd30151@gmail.com>
-Date: Tue, 14 Oct 2025 13:46:56 +0100
+        Tue, 14 Oct 2025 05:49:29 -0700 (PDT)
+Message-ID: <eadd2a9a-1c48-4329-a021-1b7c8d8b86ff@gmail.com>
+Date: Tue, 14 Oct 2025 13:50:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH net-next v4 00/24][pull request] Queue configs and large
  buffer providers
-To: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>, Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
  davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
@@ -90,66 +90,69 @@ Cc: netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
  Leon Romanovsky <leon@kernel.org>, Alexander Duyck <alexanderduyck@fb.com>,
  kernel-team@meta.com, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
  Joe Damato <joe@dama.to>, David Wei <dw@davidwei.uk>,
- Willem de Bruijn <willemb@google.com>, Mina Almasry
- <almasrymina@google.com>, Breno Leitao <leitao@debian.org>,
+ Willem de Bruijn <willemb@google.com>, Breno Leitao <leitao@debian.org>,
  Dragos Tatulea <dtatulea@nvidia.com>, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, io-uring <io-uring@vger.kernel.org>
+ Jonathan Corbet <corbet@lwn.net>
 References: <cover.1760364551.git.asml.silence@gmail.com>
  <20251013105446.3efcb1b3@kernel.org>
+ <CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20251013105446.3efcb1b3@kernel.org>
+In-Reply-To: <CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/13/25 18:54, Jakub Kicinski wrote:
-> On Mon, 13 Oct 2025 15:54:02 +0100 Pavel Begunkov wrote:
->> Jakub Kicinski (20):
->>    docs: ethtool: document that rx_buf_len must control payload lengths
->>    net: ethtool: report max value for rx-buf-len
->>    net: use zero value to restore rx_buf_len to default
->>    net: clarify the meaning of netdev_config members
->>    net: add rx_buf_len to netdev config
->>    eth: bnxt: read the page size from the adapter struct
->>    eth: bnxt: set page pool page order based on rx_page_size
->>    eth: bnxt: support setting size of agg buffers via ethtool
->>    net: move netdev_config manipulation to dedicated helpers
->>    net: reduce indent of struct netdev_queue_mgmt_ops members
->>    net: allocate per-queue config structs and pass them thru the queue
->>      API
->>    net: pass extack to netdev_rx_queue_restart()
->>    net: add queue config validation callback
->>    eth: bnxt: always set the queue mgmt ops
->>    eth: bnxt: store the rx buf size per queue
->>    eth: bnxt: adjust the fill level of agg queues with larger buffers
->>    netdev: add support for setting rx-buf-len per queue
->>    net: wipe the setting of deactived queues
->>    eth: bnxt: use queue op config validate
->>    eth: bnxt: support per queue configuration of rx-buf-len
+On 10/14/25 05:41, Mina Almasry wrote:
+> On Mon, Oct 13, 2025 at 10:54 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>>
+>> On Mon, 13 Oct 2025 15:54:02 +0100 Pavel Begunkov wrote:
+>>> Jakub Kicinski (20):
+>>>    docs: ethtool: document that rx_buf_len must control payload lengths
+>>>    net: ethtool: report max value for rx-buf-len
+>>>    net: use zero value to restore rx_buf_len to default
+>>>    net: clarify the meaning of netdev_config members
+>>>    net: add rx_buf_len to netdev config
+>>>    eth: bnxt: read the page size from the adapter struct
+>>>    eth: bnxt: set page pool page order based on rx_page_size
+>>>    eth: bnxt: support setting size of agg buffers via ethtool
+>>>    net: move netdev_config manipulation to dedicated helpers
+>>>    net: reduce indent of struct netdev_queue_mgmt_ops members
+>>>    net: allocate per-queue config structs and pass them thru the queue
+>>>      API
+>>>    net: pass extack to netdev_rx_queue_restart()
+>>>    net: add queue config validation callback
+>>>    eth: bnxt: always set the queue mgmt ops
+>>>    eth: bnxt: store the rx buf size per queue
+>>>    eth: bnxt: adjust the fill level of agg queues with larger buffers
+>>>    netdev: add support for setting rx-buf-len per queue
+>>>    net: wipe the setting of deactived queues
+>>>    eth: bnxt: use queue op config validate
+>>>    eth: bnxt: support per queue configuration of rx-buf-len
+>>
+>> I'd like to rework these a little bit.
+>> On reflection I don't like the single size control.
+>> Please hold off.
+>>
 > 
-> I'd like to rework these a little bit.
-> On reflection I don't like the single size control.
-> Please hold off.
+> FWIW when I last looked at this I didn't like that the size control
+> seemed to control the size of the allocations made from the pp, but
+> not the size actually posted to the NIC.
+> 
+> I.e. in the scenario where the driver fragments each pp buffer into 2,
+> and the user asks for 8K rx-buf-len, the size actually posted to the
+> NIC would have actually been 4K (8K / 2 for 2 fragments).
+> 
+> Not sure how much of a concern this really is. I thought it would be
+> great if somehow rx-buf-len controlled the buffer sizes actually
+> posted to the NIC, because that what ultimately matters, no (it ends
+> up being the size of the incoming frags)? Or does that not matter for
+> some reason I'm missing?
 
-I think that would be quite unproductive considering that this series
-has been around for 3 months already with no forward progress, and the
-API was posted 6 months ago. I have a better idea, I'll shrink it down
-by removing all unnecessary parts, that makes it much much simpler and
-should detangle the effort from ethtool bits like Stan once suggested.
-I've also been bothered for some time by it growing to 24 patches, it'll
-help with that as well. And it'll be a good base to put all the netlink
-configuration bits on top if necessary.
-
-> Also what's the resolution for the maintainers entry / cross posting?
-
-I'm pretty much interested as well :) I've been CC'ing netdev as a
-gesture of goodwill, that's despite you blocking an unrelated series
-because of a rule you made up and retrospectively applied and belittling
-my work after. It doesn't seem that you content with it either,
-evidently from you blocking it again. I'm very curious what's that all
-about? And since you're unwilling to deal with the series, maybe you'll
-let other maintainers to handle it?
+Maybe we should just make a rule that if hardware doesn't support
+the given size, qops should fail, but ultimately the userspace
+should be able to handle it either way as gro is packing not
+100% reliably.
 
 -- 
 Pavel Begunkov
