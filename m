@@ -1,106 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0702FFDC8;
-	Wed, 15 Oct 2025 21:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F9A3002D6;
+	Wed, 15 Oct 2025 21:44:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760564479; cv=none; b=UkMCk6kBJtpiepmbtg+4kzJ0PHNUp3tbm/6NRV4AWQi0cCx7olQU2Jlni7Z29DyoTn7k0OXt/sWn20K4j4r4S1mowDC/5YHhY4OCena5Hwi+1+zY1vIHsJfYeajgog6V7xFi4wIxDgi5plgfpLq3yKTo/1nIJbbR+dJ8YrKe1cY=
+	t=1760564667; cv=none; b=ZqRpxtqvvDCrTwhg2kQjZdwiBXswe8W63qCZrpcGiqb53dPZPfZcaedaBlddhXd9amLmOn7k51KmHGdSuZe57Mu93f+pbZ7EygSegcyY3MAESbvYbsYa7Aeh4bG/jHuz1CEhpdmFie4DUhVTd2GJhwvA86aqZynBb2NYmblucpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760564479; c=relaxed/simple;
-	bh=/kakUbYI7dN0tnUfmWgLfsQwT8GNByC3o3xabzSqMxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LrdypfcDVCE29Cbnk1Iw7aqhVBWjt/A7LPSTWONPl8A7MbvW4CmUvq5Qn0kbPDRiylldH132uKlAxMenXvIz6I2mo7P3MXxUuAN6F40XPWXgI/upKZFLKnImEtab6E7ISADIk1sbjIqYq2Tce3vFO8ocg6auLJ57KFxdMXYCL9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UIxKAGXq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760564667; c=relaxed/simple;
+	bh=GvM0H2jemaKiulGxxUGbUsXIG/ynh8EeDADGYYyjn5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ddP7P173zJq3kBLuFvwTFcqGvzfUQz79rZTDBl8qU2vhOGWWG0+7s96AbQHxFtJRU2ygTDNzqYuHlnWfJ3FmTAe/d9MmO4Hz9gJODHjx15SsiONLAg6YhVHeR8F6Lx4uwLX8GlGOEp8jzuVtrwrB6R0w7+HdKXw8NY5XbeUIKbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2FWbtZh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UIxKAGXq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E871AC4CEF8;
-	Wed, 15 Oct 2025 21:41:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2FWbtZh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2C5C4CEF8;
+	Wed, 15 Oct 2025 21:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760564479;
-	bh=/kakUbYI7dN0tnUfmWgLfsQwT8GNByC3o3xabzSqMxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UIxKAGXqYdVYGVq2gq/sq2TFmx3egzDqC+3ItQdleLYD8v9tKIkJFay4mfAHhkzG4
-	 k2n46tqRxoUar02QEiE1oF8W6XMfKR4WXITqvSGQpLeGoxsgXpyaQksj1kh0ZTEMsd
-	 5Qva1s1BpUqMKesFmeau9rYsT5DP2xWSABpWK/kZB0v5Oa2jnfchXLBEi3iHZLl2jd
-	 hcndZk40FNFk9EoY/kWi9/xiaNOfCzFNTAY0UfDGfEC0Yhfn9mcOIN3R/JD9oBSPXS
-	 QxMOzdS4hb8qLogULQKYh+RvxQvltAkrT9759eLaWSYIH6nnHvnL8dJk3Ei9V9GENp
-	 udes3vIjvqDWQ==
-Date: Wed, 15 Oct 2025 14:41:18 -0700
-From: Kees Cook <kees@kernel.org>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Balbir Singh <sblbir@amazon.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation: clarify PR_SPEC_L1D_FLUSH
-Message-ID: <202510151438.DA62BB421@keescook>
-References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
- <20251015-l1d-flush-doc-v1-1-f8cefea3f2f2@google.com>
+	s=k20201202; t=1760564666;
+	bh=GvM0H2jemaKiulGxxUGbUsXIG/ynh8EeDADGYYyjn5s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=A2FWbtZhtIJ18tNFs688T1Q3y2ymznhqxOqETwJIYAKSkM1ggvVkTFlFlnhqqYsYa
+	 1kmYXDte85+LRCcey054AWSeac0I9RjiPPAwpOhTChZxlAgNQgplIWRJYjYQrfHKZz
+	 1F5aY0IoYlLJBOkiLwcc2FMp1KwjkQTsv0e+HXjqMeAhl7cBGIaeNp+2cFrj6zhfjB
+	 AMileyd4NjROUTTsBkjm0rwerUu70ZyAkvest22uEtOC69k0Myzrdyr2PCHaw0rrUv
+	 XCQUOkZCzINEjHdivL3QcAN9pbD1QG/Vol//lqpqVRlt0fQWRMm5wQrGZAjZlrhwU8
+	 MqmYpY1bqf+5w==
+Date: Wed, 15 Oct 2025 18:44:16 -0300
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, linux-next@vger.kernel.org, broonie@kernel.org
+Subject: Re: docs build problems
+Message-ID: <20251015184416.4340e8f2@sal.lan>
+In-Reply-To: <87sefj7tom.fsf@trenco.lwn.net>
+References: <c9e9134c-97a2-405a-918d-41aafdd92fa1@infradead.org>
+	<87sefj7tom.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251015-l1d-flush-doc-v1-1-f8cefea3f2f2@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 15, 2025 at 05:02:05PM +0000, Brendan Jackman wrote:
-> For PR_SPEC_STORE_BYPASS and PR_SPEC_INDIRECT_BRANCH, PR_SPEC_DISABLE
-> means "disable the speculation bug" i.e. "enable the mitigation".
-> 
-> For PR_SPEC_L1D_FLUSH, PR_SPEC_DISABLE means "disable the mitigation".
-> This is not obvious, so document it.
+Em Wed, 15 Oct 2025 15:15:37 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-The only thing I can find in Debian Code Search that actually uses
-PR_SPEC_L1D_FLUSH is stress-ng, and it literally just toggles it before
-restoring it:
-https://sources.debian.org/src/stress-ng/0.19.05-1/stress-prctl.c?hl=893#L893
+> Randy Dunlap <rdunlap@infradead.org> writes:
+>=20
+> > Hi,
+> >
+> > I am back to having one former error and one former pair of warnings
+> > on today's linux-next (20251015):
+> >
+> > ../Documentation/Makefile:71: warning: overriding recipe for target 'pd=
+fdocs'
+> > ../Documentation/Makefile:62: warning: ignoring old recipe for target '=
+pdfdocs'
+> >   File "/usr/bin/sphinx-build", line 1
+> >     =7FELF.=01.
+> > SyntaxError: source code cannot contain null bytes
+> >
+> >
+> > Did something happen to the docs/docs-next tree or was there some kind
+> > of mis-merge problem? =20
+>=20
+> I pulled docs-next forward to -rc1 and merged a few things, but I
+> wouldn't expect any of that to create that kind of problem.  It seems we
+> lost the makefile fix somehow...?
 
-I wonder if we should just fix the prctl to match the existing
-behaviors?
+Just did a rebase. Those patches are missing:
 
--Kees
+e2c3ba36aee2 tools/docs: sphinx-build-wrapper: -q is a boolean, not an inte=
+ger
+0ce66e3f9c8b kernel-doc: output source file name at SEE ALSO
+9b34d25a58ae docs: Makefile: use PYTHONPYCACHEPREFIX
+d5da902cc340 tools/docs: sphinx-build-wrapper: pdflatex is needed only for =
+pdf
+1cad2682b785 docs: Makefile: avoid a warning when using without texlive
+f0a4ad647aad tools/docs/sphinx-build-wrapper: allow skipping sphinx-build s=
+tep
+fb4771ad4ff4 docs: Makefile: fix rustdoc detection
+ed7faec0095d tools/docs: sphinx-build-wrapper: fix compat with recent Tumbl=
+eweed
+ab7dde2453af docs: conf.py: get rid of load_config.py
+8f421d0c327f scripts: remove sphinx-build-wrapper from scripts/
+9a20d16551af tools/docs: sphinx-build-wrapper: handle sphinx-build errors
 
-> 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
->  Documentation/userspace-api/spec_ctrl.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/spec_ctrl.rst b/Documentation/userspace-api/spec_ctrl.rst
-> index 5e8ed9eef9aa84f12fa255af7b15c163ff01aab8..ca89151fc0a8e7205e0a0062134d63b213b9ef11 100644
-> --- a/Documentation/userspace-api/spec_ctrl.rst
-> +++ b/Documentation/userspace-api/spec_ctrl.rst
-> @@ -26,7 +26,8 @@ PR_GET_SPECULATION_CTRL
->  
->  PR_GET_SPECULATION_CTRL returns the state of the speculation misfeature
->  which is selected with arg2 of prctl(2). The return value uses bits 0-3 with
-> -the following meaning:
-> +the following meaning (with the caveat that PR_SPEC_L1D_FLUSH has less obvious
-> +semantics, see documentation for that specific control below):
->  
->  ==== ====================== ==================================================
->  Bit  Define                 Description
-> @@ -110,6 +111,9 @@ Speculation misfeature controls
->  - PR_SPEC_L1D_FLUSH: Flush L1D Cache on context switch out of the task
->                          (works only when tasks run on non SMT cores)
->  
-> +For this control, PR_SPEC_ENABLE means that the **mitigation** is enabled (L1D
-> +is flushed), PR_SPEC_DISABLE means it is disabled.
-> +
->    Invocations:
->     * prctl(PR_GET_SPECULATION_CTRL, PR_SPEC_L1D_FLUSH, 0, 0, 0);
->     * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_L1D_FLUSH, PR_SPEC_ENABLE, 0, 0);
-> 
-> -- 
-> 2.50.1
-> 
+Want me to re-send them?
 
--- 
-Kees Cook
+Regards,
+Mauro
