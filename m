@@ -1,90 +1,159 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5543A258CCC
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 15:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760541703; cv=pass; b=Dn8dScZg3stKG2ETb588/yZ9ub9uuGUOlyPRKtHupQviS9oJsjozW4s8+GX7uqYmRiDJh2baNlMRKEUpy13ztbXqWXacgQZTuIz4JwgVHhCJcxNkOdvnpvj3tgAbW6koD+NcqXDq6uHYYzccOZhUCQFGTnUWLdzAJTA8knuEz48=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760541703; c=relaxed/simple;
-	bh=291n1wiiqMVs+hwkbmIIFLP3e1O56zC2O7D2YS7WjfQ=;
-	h=MIME-Version:Date:From:To:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=hZ1JMzPu/1jG8A2kdc3PU9GrwlPZExlQDmiB0wGjdcU4sFu8vdYGHDVc0V/B6hcdhH0gIM34Tku7qEUv9vdl3G2L30jY96PIA6K2Q58fTIoeN+bBedaFCiPTwNIWYCfv/5Cg1KBKUY5n39gUBYLilla1Faq0bL+GszGsaMyR4Dk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=kgTaeb8/; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F2854262;
+	Wed, 15 Oct 2025 15:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760542228; cv=none; b=YbfolDB9NikviAxwhzbW+Q0cedJOtm4uBUxTawXaS0wFbw+DkLTXRwTwEB22yqsPrTUQ157rEW8Wg71QP5F2Xr7Qr/I5Gmc6XcQHqPvkjzUcbnk0yNvpX1vkqjUunLJSVXtzoQVmbBUxs+g42uY2E11GW3kw6pKYJNPJbw/bpaY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760542228; c=relaxed/simple;
+	bh=iAfD1supnmTcutAfLpNBfRXCPSsq6a/c6jvRpYWxSK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q7twnR8aYM2ic73QGDPvT9qoNGP3J+tIW3kMzcT0dLesJAzxyIErVYG1h+XWBASykGfVPDLwjaDnihZtyOTUKENJo44FzyyD2OaNy8BFFwB05ay9ptIXSbz4R2HBL+k9NP2E62+wasbmj/THIPa66ocyzaBmxG3aNn/ZKITt86k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UGlk5dxE; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="kgTaeb8/"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 1081810A0ECFC;
-	Thu, 16 Oct 2025 00:21:37 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id bMzaNxTrlC3g; Thu, 16 Oct 2025 00:21:33 +0900 (JST)
-Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UGlk5dxE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760542223;
+	bh=iAfD1supnmTcutAfLpNBfRXCPSsq6a/c6jvRpYWxSK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UGlk5dxEuSjLSbtT9NmUo94HkIqMWhZRQe/oeGpEimv/hJEBjdk3BcyV5kSqV1qFa
+	 H/9zyuU8p3Z7piOmEN9VOOJ30qinzDf1k2O9I6nZMNV5XyqcpGh2EQMpjNZzGItgBk
+	 29piFiyIr/XMCDqs3LYAjvVw8RsnBB3LCJfkcf3o1E2kOJWzDUkt5l41LpSccu7HL+
+	 Qzs5CSAVpTtmJhJN50tT3kW2nPJb+Sdhf/90KFqUBCoqeKVrMzBU9Wy3bR3BiXg43I
+	 lFIuS309BpebbEmyj2TCMc0M31FWcyEuCry6RfknT2s1FTCasFcYFaZs8kPxQhtHzO
+	 KLs9wihkZOyWA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: weibu@redadmin.org)
-	by www.redadmin.org (Postfix) with ESMTPSA id 75BC5109D6CBF;
-	Thu, 16 Oct 2025 00:21:33 +0900 (JST)
-DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 75BC5109D6CBF
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1760541693;
-	cv=none; b=FqlYPexZ5WIACc4T6Z/mE486adheQS5uVSDgFTgt06FiqHc2OZd8pL+OeKdTPfcyFLAAmhc1LiWZu9k+M9Oa8Aw7F4fT3GdRBy9Ararh2MYDI/8CHK8qWoR2gr+UsPsN5zAlJpFGMw3QwGmELtyo1+nVkKpot02blYC8+huUFIE=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1760541693; c=relaxed/relaxed;
-	bh=3KeFzSS3ZuU1tkBM5f8xY5oVF4dkukXkmiIOXkjVqCQ=;
-	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding; b=BC5ABRwZuUmfHqdMW3OQczyECaud3xfLMjygwv0t6HOV2PXicJJYMTr0Ko1jw4gRAUzJaadgPfEG3eYFIJTS7u0vGpbhfI2FVANykTPGiCzFkMLIswXKJO9zBbf009NsSrM6Dv0WkgVo3KHmfWmaJy+UV/PZ10XG2n1A1EP92uc=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 75BC5109D6CBF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1760541693;
-	bh=3KeFzSS3ZuU1tkBM5f8xY5oVF4dkukXkmiIOXkjVqCQ=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=kgTaeb8/HtxBUXXv0748qNx2C+0JQK0lt0pMwekcDhiGV7jSPMxOrnyQDHMyCEew9
-	 mS0ODjWl9riZcaESyvRsbNE8Yw3FQmbQNBMnYxhehGztL6iCe6K6+bN93JcQEKxWmC
-	 2i+QyueO0myshVT33Py05hv9zNP8HPl319RXvPsc=
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 00C5417E1060;
+	Wed, 15 Oct 2025 17:30:22 +0200 (CEST)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v4 00/13] drm: Reduce page tables overhead with THP
+Date: Wed, 15 Oct 2025 17:30:04 +0200
+Message-ID: <20251015153018.43735-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 16 Oct 2025 00:21:33 +0900
-From: weibu@redadmin.org
-To: linux-doc@vger.kernel.org, orbet@lwn.net, rdunlap@infradead.org
-Subject: Re: [PATCH] Documentation: admin-guide: Correct spelling of
- "userspace"
-In-Reply-To: <1760540376-6149-mlmmj-2f9fba2d@vger.kernel.org>
-References: <1760540376-6149-mlmmj-2f9fba2d@vger.kernel.org>
-Message-ID: <01e4150998aa10bc488e4e5e60dfce1d@redadmin.org>
-X-Sender: weibu@redadmin.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Thanks. This patch was only to fix the overt typo "userpace"; no 
-treewide wording change intended.
-If there is a preferred style for future docs ("userspace" vs "user 
-space" vs "user-space"), I'm happy to follow it.
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-2025-10-15 23:59 に linux-doc+owner@vger.kernel.org さんは書きました:
-> Greetings!
-> 
-> This is the mlmmj program managing the <linux-doc@vger.kernel.org> 
-> mailing
-> list.
-> 
-> The message from <weibu@redadmin.org> with subject "Re: [PATCH]
-> Documentation: admin-guide: Correct spelling of "userspace"" was unable 
-> to
-> be delivered to the list because the list address was not found in 
-> either
-> the To: or CC: header.
-> 
-> (The denied message is below.)
+It starts by implementing a map_pages handler for GEM objects to map
+pages around a faulty address in a single batch. It also checks in
+both the fault and fault-around handlers whether a faulty address is
+part of a huge page in order to attempt a PMD sized PFN insertion into
+the VMA. It then introduces a dedicated get_unmapped_area file
+operation on the DRM file descriptor for GEM objects to get the best
+virtual address alignment for the underlying shmem buffers.
+
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Loïc Molinari (13):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Implement map_pages fault-around handler
+  drm/shmem-helper: Map huge pages in fault handlers
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mount point helper
+  drm/i915: Use huge tmpfs mount point helper
+  drm/v3d: Use huge tmpfs mount point helper
+  drm/v3d: Fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mount point option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mount point option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  25 ++-
+ drivers/gpu/drm/drm_gem.c                     | 199 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 138 ++++++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  47 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  69 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  10 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |  11 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  19 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |  11 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  19 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  13 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  29 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  60 ------
+ include/drm/drm_device.h                      |  11 +
+ include/drm/drm_gem.h                         |   8 +-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ mm/shmem.c                                    |   1 +
+ 30 files changed, 456 insertions(+), 292 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.47.3
+
