@@ -1,157 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4560205AB6;
-	Wed, 15 Oct 2025 16:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C952D593B
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 16:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760545918; cv=none; b=RhgGGzicslwt0u18fYk6jCc/j0Oae5Z1rGnH0PhzO6edMEmhex2EangBKy6/xREUTZgYA/HtLsXM6tjcHDwXi9ePnuueHGvZYPCEuhYSZpeqxYCO7GuBXOYZe7PxrJVP9WCJiHpEg/NMVdocbCQ9xleCAWU4KaL4iKem0XEQ0qo=
+	t=1760546093; cv=none; b=EISil46MDybfbATVcQIYppG5YtxQLlhc3wAPlrMijf2Jnu07VtPQ8+bDmHHnGa9IkU5yaU3HDRH1ft6vhNy2MZcbA8J5gwQFF6hgaUs1zN1Co/DHQ5iRMWMZC3UwcN3P/EhJcuMegTDaK1Qk6+NG2T53n3EpCWrbNtCeNicPPv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760545918; c=relaxed/simple;
-	bh=BDBgHqGKg8kxASakOnsE9eu2W0NBeHR9L7btp+ec49k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTVGKqxHb46MhKlbhtaA6C8FcgnKfJqHnJQo8ewImhBHn9c4rvbQ1XPyV2KLXkPil2V7p/295c3+6D350X/dJFRpggN0Hw2oDvZ8gHWGh5qtqa1Oj0hUMXssukxdpYPqGI70NquuBe4cwD0ROmVkSn2YWZwgoYWbiD4K4ApMb1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MyQfhI81; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760546093; c=relaxed/simple;
+	bh=8Uj25XmPqiqgNApOOsTcFoqu0/l/zlTJnwyJAYuubnA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=iAbhc0i8Ve9zDf5oVfmqtwlyaR84JqlFXwO2nGB/kNW31aGyAff+n2sqO334rIxZJg2YWEZFlXAmyrsTYrd4WIVCIuPVmcKaCYG9tHBvn2dG9Gf/SgMM2ZJ4RBYFcZsAiER0yz483wvhQVbY1cvvRjjeiaPeQr4b2LlZuXxAHhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NlWIkTdH; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MyQfhI81"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF2CC4CEF8;
-	Wed, 15 Oct 2025 16:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760545918;
-	bh=BDBgHqGKg8kxASakOnsE9eu2W0NBeHR9L7btp+ec49k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MyQfhI81TQhBnjopIRKsT6OpIuahtU9FssuD/WqoqsswyzKW6JnWA+xQc757bJQeW
-	 e2brIY6CGQ5WYCVpyLd2XMQoXcU3RTDWB2MP282SIip/+mUz1ZPQvubWMKfhRmc0rX
-	 Fi8MrcjB7zgmmki2Qs5Df8WywUwqUoFk8vRbRXRgutVC1OoAZw4bNu59UMyRN/Nf+9
-	 e9pAznvqX6zMoE0ZS7jo5Y7ehmbyqoadfzcXkI11Y0OmUJymVtaoCNImp9T2HdDsK6
-	 +9ksMjXgzkz9nX/Q/TtT/wvQdaZfdojKymCaEUaYQjn7ZIZAqcpOWFZmi1Kv9z2GyZ
-	 No774+bwlAO6Q==
-Date: Wed, 15 Oct 2025 17:31:53 +0100
-From: Simon Horman <horms@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
-	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sharath Chandra Vurukala <quic_sharathv@quicinc.com>
-Subject: Re: [PATCH net] net: rmnet: Fix checksum offload header v5 and
- aggregation packet formatting
-Message-ID: <aO_MefPIlQQrCU3j@horms.kernel.org>
-References: <20251015092540.32282-2-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NlWIkTdH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=9HBF2RortDOHymFxvOGd5bFZGUX2+vNSWpEwCcyMy08=; b=NlWIkTdHdTS/LbVX8GY00sfbSB
+	qMqG8bXNfL9VZ8cKdifpvcYutOanW5LG3ML0BRbpQFAGeavGA8psB/KnawM9AXCyd6XWtv80pQ1kg
+	G1oKzuwwj+EPufOG+u2oSd0jieWPz5Ch7TswKdRyFy+AR8PJffWs8YHUWBvI60qTh0MptA+yTsmz5
+	GtEENCToibEBg0rPxmB1DwJY+FE3XpVFzL0IH015TqBffdMZk93N4vomBrjItgSkhRQsh6Sow/HEr
+	64WEP75PWYDhVfGMZxAoWiQg/3E8KJ1J719/ZwR7nuNxY9EDrH8ipZYDjnPKBrFteXS6l/H23v2w6
+	PP9FZieg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v94Sg-00000002IoV-1Aev;
+	Wed, 15 Oct 2025 16:34:50 +0000
+Message-ID: <0ca2b37c-c3a7-45eb-8c81-83c798e00639@infradead.org>
+Date: Wed, 15 Oct 2025 09:34:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251015092540.32282-2-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: admin-guide: Correct spelling of
+ "userspace"
+To: weibu@redadmin.org, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>
+References: <1760540376-6149-mlmmj-2f9fba2d@vger.kernel.org>
+ <01e4150998aa10bc488e4e5e60dfce1d@redadmin.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <01e4150998aa10bc488e4e5e60dfce1d@redadmin.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 15, 2025 at 04:25:41PM +0700, Bagas Sanjaya wrote:
-> Packet format for checksum offload header v5 and aggregation, and header
-> type table for the former, are shown in normal paragraphs instead.
+
+
+On 10/15/25 8:21 AM, weibu@redadmin.org wrote:
+> Thanks. This patch was only to fix the overt typo "userpace"; no treewide wording change intended.
+> If there is a preferred style for future docs ("userspace" vs "user space" vs "user-space"), I'm happy to follow it.
 > 
-> Use appropriate markup.
-> 
-> Fixes: 710b797cf61b ("docs: networking: Add documentation for MAPv5")
-> Fixes: ceed73a2cf4a ("drivers: net: ethernet: qualcomm: rmnet: Initial implementation")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Thanks Bagas,
+No, we have plenty of each of these. No need to fix anything here.
+Thanks.
 
-I agree these are all good improvements.
-
-I would like to add the following, which I noticed during review, for your
-consideration.
-
-diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-index 6877a3260582..b532128ee709 100644
---- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-+++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-@@ -27,7 +27,8 @@ these MAP frames and send them to appropriate PDN's.
- 2. Packet format
- ================
-
--a. MAP packet v1 (data / control)
-+A. MAP packet v1 (data / control)
-+---------------------------------
-
- MAP header fields are in big endian format.
-
-@@ -53,7 +54,8 @@ Multiplexer ID is to indicate the PDN on which data has to be sent.
- Payload length includes the padding length but does not include MAP header
- length.
-
--b. Map packet v4 (data / control)
-+B. Map packet v4 (data / control)
-+---------------------------------
-
- MAP header fields are in big endian format.
-
-@@ -80,7 +82,7 @@ Payload length includes the padding length but does not include MAP header
- length.
-
- Checksum offload header, has the information about the checksum processing done
--by the hardware.Checksum offload header fields are in big endian format.
-+by the hardware. Checksum offload header fields are in big endian format.
-
- Packet format::
-
-@@ -106,7 +108,8 @@ over which checksum is computed.
-
- Checksum value, indicates the checksum computed.
-
--c. MAP packet v5 (data / control)
-+C. MAP packet v5 (data / control)
-+---------------------------------
-
- MAP header fields are in big endian format.
-
-@@ -133,7 +136,8 @@ Multiplexer ID is to indicate the PDN on which data has to be sent.
- Payload length includes the padding length but does not include MAP header
- length.
-
--d. Checksum offload header v5
-+D. Checksum offload header v5
-+-----------------------------
-
- Checksum offload header fields are in big endian format.
-
-@@ -158,7 +162,10 @@ indicates that the calculated packet checksum is invalid.
-
- Reserved bits must be zero when sent and ignored when received.
-
--e. MAP packet v1/v5 (command specific)::
-+E. MAP packet v1/v5 (command specific)
-+--------------------------------------
-+
-+Packet format::
-
-     Bit             0             1         2-7      8 - 15           16 - 31
-     Function   Command         Reserved     Pad   Multiplexer ID    Payload length
-@@ -169,7 +176,7 @@ e. MAP packet v1/v5 (command specific)::
-     Bit          96 - 127
-     Function   Command data
-
--Command 1 indicates disabling flow while 2 is enabling flow
-+Command 1 indicates disabling flow while 2 enables flow.
-
- Command types
-
-@@ -180,7 +187,8 @@ Command types
- 3 is for error during processing of commands
- = ==========================================
-
--f. Aggregation
-+F. Aggregation
-+--------------
-
- Aggregation is multiple MAP packets (can be data or command) delivered to
- rmnet in a single linear skb. rmnet will process the individual
+-- 
+~Randy
 
