@@ -1,173 +1,234 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF20247281
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 13:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264BF23D7D8
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 14:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760536420; cv=none; b=aETSxC65Im3SBL3ervv11uO+GN6XHYwNCUriHVR2f5tpNqthBoY8UItxB9aQNNR7pHq3s94ioFa1BTQzp61vx8fDGXYoOYevwltNWs83+KS2NRCjNifMhaGpt089KH4+Cl6+IRt6iPK1pInm3Q1kQJ8SgfvAz+3+tSnbo0Gv4es=
+	t=1760537854; cv=none; b=hdsZ/zGTwBzmz7THeS/iV9TIg6vLjWpjOKgPCVtynHepF139gg7S+3E9664pNOzxxXfRiICjffyhgce9b0LulOxsdA7SfLUdWh/btWwri99kLlvG434R+UE3OlWf7Z8A4cp5Gf2qFz2T6V+C6YmKA+UVYIRxzCk6CDxr+Br8+r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760536420; c=relaxed/simple;
-	bh=nAMaEtaGYdQF7zxrims38eySXuR9N44DgyDjL/b4jdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZDQkeStOJ0Av9yE3mn6yTlfdZwvBYMcFXTHWrfeaSUp8ilgBnlUUzr5caZWOZJTRhtXbDpGmOgt9+XH3Dx3bamjjNVX76pd5Gb3j/oFvAQLevIx3ZbFc0fjYgpIs4mOvCx9idObGnM+++eznvALREQLxREyCw/AXbhia+TMEezg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d2RoqtRc; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1760537854; c=relaxed/simple;
+	bh=5cKqMqFoVXJgzuoUMbhn1bUDKikb6EWtrIsRBQEYw8s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BFQAXphgUvgVUxIuixHW9Z3QZ+FCDle+LJVHnT926FlQGqN7kigxeluggGUNEFOawqKXlWeAtWwH4xe4IIO/7ovhLXuOC8heLb1bD+vMvqwcdw5V7JvG53m9MO2dc7q/aAGlGcDESC56hJT0NItFQb25slSFuO81t5+YYzzcDMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3WYbOLY; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2RoqtRc"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46b303f7469so45698165e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 06:53:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3WYbOLY"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b5515eaefceso5731657a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 07:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760536416; x=1761141216; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bqOmoGsO8trYgMWNWNZ7iS8eeHupXqHvme7XfA7g8fw=;
-        b=d2RoqtRcNZZ7OgIbR6a/B+bnakofR0frrNNrsUBx2J8Fk+ktFT8VUo+5/GLVyCArVZ
-         cf9CI3VHUTSyBKDAw9TNicpa7Mz2NTB6o5pRT/af41tc/CvnPmwAirRjox10xgYyt0rV
-         aStuPuqsh9vabgPGVRi0j0snuMlinXF27o9tuBwTyNEPgKef0V5DEidH7jzkbHnUl1Rd
-         qrtkm1AWD4YsHUvdx3Xf/TljeZfzTcYKHetT8k3YEFq9UBDmu8rHzO6vvsjiT0UysEYH
-         YOYRsCywIhdpKPOI7/x2e2hNDJpiT1AIfT/uyshIsOA/mtN2fGDkxEphVKpXw9cKHBsT
-         IJHg==
+        d=gmail.com; s=20230601; t=1760537851; x=1761142651; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oj+ydMXRn5MLbgkqPocjemDIu7tpHUxcEZr4FaQqDcI=;
+        b=G3WYbOLYLPSzDSIz1IGjkEEYQib1MFNBI7u9QI+4wS7HA6A3XApuwRGM4I8dY6i4TK
+         m1ggfoW6ahqZm39GAyEOJF8nvr/6WBe7hX2AdNJJ5CGYGiQF0I+z3A97r5i1gJkaIyVv
+         ThxSfRTPQE3NmAV/AIIynY8s/wvywZapsMgSZZCW8+FcHud2MnsJvhuWSMfx9Ts+o0nz
+         4tYnIDQD1W+ZPj1qy2ozYklB8SsYkVHe/x197cd6QsYS2PCxf819B9XPJg+4lwffsArb
+         C01DjLfxSG/sAL30Cc0rHxjCsyEHiV0LapCzM7bWcJWTTGRztOzQmOZ0rLbU2ABe+lhA
+         oDyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760536416; x=1761141216;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bqOmoGsO8trYgMWNWNZ7iS8eeHupXqHvme7XfA7g8fw=;
-        b=axbCtVJC20HMTWZBRpd0OalM3SAIxOZhVTGuhyoCa8JzdlztTeQKxl2QTOYUkGlFgZ
-         S2zcvZJVCIBL4NyIAMyuKxXDmPNGvqSV0IMkquKMoOig34I9gzf2KKI0ebh5vTULQU7X
-         kypFdG65RcxfrXBTUCVXkHXIfPabTAdtyv7POjruRSQAfDGLredZ0p1fShX4paoOo+lP
-         IMHj74rIKOc7pRNnxw+szbl5K/FxHcT3+AVemH79ugLx4jQ5QP1YDezoUtxzxnIuhDKm
-         Ds01Uw5VeLBoiPLceBKre0JahnXBx4ZOvNfqVtw/a9sNAy7QC7rZ+wLwBnFIxQYFF5T5
-         QTfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRc37xNtWT4UFXjlVC3kSd9qimw6u0yabI+W+9LCZ+fN3RxqJnQlCkKaVI8yR06HC03GsT/GpX1eM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0tmWpaBuQSCCJhmjhSobaDoWeilMSa4UaOmvvMYU0tQ0CVLYx
-	go7ho1wGrx2GwvQhifGIXiWUKT9abxladr5V75EuVqDviaKLsl72A5AB
-X-Gm-Gg: ASbGnctGZzXIZkW6J+IyicnffL25MQ5dXoPjbavNceANrxCUlVE6wXdOP5S8e7ABAep
-	yq03x7XosVRw0dzl9YtG7dhC36ztfKpqgL2u1Ik7UdU64D4EshjH9gg7cnKB1vQqc65v21Xi614
-	C43JVZPVRhXSCPYBcuIdK6JTY3wKcTjK+oX/v9ODeMZ8vdVv4AJA7i6wPXUfLjRzTfY2me5/QxV
-	chAD73bNLOYg7WzzHTgz8f2S7a4l+/AIZMIq0QGZsGDz9Kv+DMTPPNTTpQuT3b132PKPC+rJ5AW
-	Ec9vBH4Q3TseiJlu5AK1KBg82pGuEoaJpDEgjFAQg0ASp1eUlfsb13gaLLmtnoOfHt0u/o3UO8l
-	6aueiW9YWit2/UvJJejrXL2e1nGFvhPXD4z1PcVQTgnRBOtkoh7FJNuE3hFCtA1dwnBC2xxYGPb
-	njiHFRgI8=
-X-Google-Smtp-Source: AGHT+IENrsvklw3VMayWb2/SzhwdX4veJ0+2ZwpShwijlf0i60yg9zXIjqKms1bHJUjYdDjkBYD4JQ==
-X-Received: by 2002:a05:600c:6095:b0:46f:b32e:52d9 with SMTP id 5b1f17b1804b1-46fb3cbc5f8mr146733575e9.13.1760536415649;
-        Wed, 15 Oct 2025 06:53:35 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710049cba2sm35932135e9.0.2025.10.15.06.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 06:53:35 -0700 (PDT)
-Date: Wed, 15 Oct 2025 14:53:32 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Finn Thain <fthain@linux-m68k.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Boqun Feng
- <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Mark Rutland
- <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, Geert
- Uytterhoeven <geert@linux-m68k.org>, linux-m68k@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [RFC v3 1/5] documentation: Discourage alignment assumptions
-Message-ID: <20251015145332.260eebe6@pumpkin>
-In-Reply-To: <f5f939ae-f966-37ba-369d-be147c0642a3@linux-m68k.org>
-References: <cover.1759875560.git.fthain@linux-m68k.org>
-	<76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-	<20251014112359.451d8058@pumpkin>
-	<f5f939ae-f966-37ba-369d-be147c0642a3@linux-m68k.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20230601; t=1760537851; x=1761142651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Oj+ydMXRn5MLbgkqPocjemDIu7tpHUxcEZr4FaQqDcI=;
+        b=WPpG0Apw+hV2CZS3iQ05HAxdH64El/uG4bPyWyJkR4CbH2712AR1ZMBhMsHVTb82a+
+         nIz6tUQbBzp+tCN4vvFthLNQagSzseaO4C6kx5riBDPiIYO3vKDGg3bM3vvBSCMqIboL
+         GWF2vOTHUCegOoZIHj4nUZFvSeA/JxixG+Iugh1LDbD51/18ZbEcrhtIeOwMBHW+TGT8
+         lWZ2sl4RUum+tFTsgJTXZLfRqM4lh8hVO/sZfgordRyrXoSeZFvOR2EbSUtIZ6+IKPU0
+         kk24GsBco6dPKz9ePweh4nvr77+pMPVZRlzy2b8q/tUivH3dUIT0TiTKrlFP2C1Pdlbo
+         JALA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKfQaAadBoC/meXiwL9iswAbIxq1AC6hRsHLxERlumKP91iLWRMBiZKxtXdHCJVR1NB09KdwCV2zA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3DXqJ+3QGP0wa89DbZv24PTm8lhAdKe/t+uEtGqdUwD/ZIu/s
+	TtIAHGf2sjHxP4oDtYNvPFK5PlHridVLyMTULkFURzGp2azxz9VoI/lB
+X-Gm-Gg: ASbGncuPzxZidxRLNqNDjx/bR1ZAXL/OeYmKEPgnK7oTkLhtCuD6teXmJRY2WSF5qIG
+	ZCBsco8huNuP8QTdDtco0kF17bTy7wUma2ATT0zGvTH6wm4gRNsTq6PyPoOv8vQ1A4JPQhkdPbt
+	RiMwHMsCS+WC1V09Y+dK8GJKQp4Y3gyHIH1UzOBCRGZfgOzeZFBDKic7XVtDzni/yzLVO435c9V
+	GrBZtCAncJNPC5V5xrYKAkTsfCufcEJGbIPpxx21XD3Fyb3o/jmt/u5H76VLR2i6/opIaEoFVdO
+	rBoddg0ZufqgZ7zjcPWfl1nw5slF3GzV2Z4nd/5FFy4A81CnEiXGG+Eftf9H5s6Ip/EEs/JzuwL
+	cS4KZgjWWKwBEeBg4mSn8+yL3IydS9w/TzDwtFVJWPybvblgHgXwRo6eEy0xUUkqtk/1AGYxwvK
+	k+o/6cThJIllgvUM6o
+X-Google-Smtp-Source: AGHT+IGuJx98l40hIZg5dUMNPdMQulw8HXVOdNxJ7NPVkMrPiNcWb89bHsacFna+VcftnBNkDQpvBw==
+X-Received: by 2002:a17:903:4b08:b0:27e:f005:7d0f with SMTP id d9443c01a7336-290273ffc50mr333828565ad.44.1760537850713;
+        Wed, 15 Oct 2025 07:17:30 -0700 (PDT)
+Received: from localhost.localdomain ([2409:891f:1b80:80c6:cd21:3ff9:2bca:36d1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f32d6fsm199561445ad.96.2025.10.15.07.17.22
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 15 Oct 2025 07:17:29 -0700 (PDT)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: akpm@linux-foundation.org,
+	david@redhat.com,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	hannes@cmpxchg.org,
+	usamaarif642@gmail.com,
+	gutierrez.asier@huawei-partners.com,
+	willy@infradead.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	ameryhung@gmail.com,
+	rientjes@google.com,
+	corbet@lwn.net,
+	21cnbao@gmail.com,
+	shakeel.butt@linux.dev,
+	tj@kernel.org,
+	lance.yang@linux.dev,
+	rdunlap@infradead.org
+Cc: bpf@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yafang Shao <laoar.shao@gmail.com>
+Subject: [RFC PATCH v10 mm-new 0/9] mm, bpf: BPF-MM, BPF-THP 
+Date: Wed, 15 Oct 2025 22:17:07 +0800
+Message-Id: <20251015141716.887-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 15 Oct 2025 18:40:39 +1100 (AEDT)
-Finn Thain <fthain@linux-m68k.org> wrote:
+History
+=======
 
-> On Tue, 14 Oct 2025, David Laight wrote:
-> 
-> > On Wed, 08 Oct 2025 09:19:20 +1100
-> > Finn Thain <fthain@linux-m68k.org> wrote:
-> >   
-> > > Discourage assumptions that simply don't hold for all Linux ABIs.
-> > > Exceptions to the natural alignment rule for scalar types include
-> > > long long on i386 and sh.
-> > > ---
-> > >  Documentation/core-api/unaligned-memory-access.rst | 7 -------
-> > >  1 file changed, 7 deletions(-)
-> > > 
-> > > diff --git a/Documentation/core-api/unaligned-memory-access.rst b/Documentation/core-api/unaligned-memory-access.rst
-> > > index 5ceeb80eb539..1390ce2b7291 100644
-> > > --- a/Documentation/core-api/unaligned-memory-access.rst
-> > > +++ b/Documentation/core-api/unaligned-memory-access.rst
-> > > @@ -40,9 +40,6 @@ The rule mentioned above forms what we refer to as natural alignment:
-> > >  When accessing N bytes of memory, the base memory address must be evenly
-> > >  divisible by N, i.e. addr % N == 0.
-> > >  
-> > > -When writing code, assume the target architecture has natural alignment
-> > > -requirements.  
-> > 
-> > I think I'd be more explicit, perhaps:
-> > Note that not all architectures align 64bit items on 8 byte boundaries or
-> > even 32bit items on 4 byte boundaries.
-> >   
-> 
-> That's what the next para is alluding to...
-> 
-> > > In reality, only a few architectures require natural alignment on all sizes
-> > > of memory access. However, we must consider ALL supported architectures; 
-> > > writing code that satisfies natural alignment requirements is the easiest way 
-> > > to achieve full portability.  
-> 
-> How about this?
-> 
-> "In reality, only a few architectures require natural alignment for all 
-> sizes of memory access. That is, not all architectures need 64-bit values 
-> to be aligned on 8-byte boundaries and 32-bit values on 4-byte boundaries. 
-> However, when writing code intended to achieve full portability, we must 
-> consider all supported architectures."
+RFC v1: fmod_ret based BPF-THP hook
+        https://lore.kernel.org/linux-mm/20250429024139.34365-1-laoar.shao@gmail.com/
 
-There are several separate alignments:
-- The alignment the cpu needs, for most x86 instructions this is 1 byte [1].
-  Many RISC cpu require 'word' alignment (for some definition of 'word').
-  A problematic case is data that crosses page boundaries.
-- The alignment the compiler uses for structure members; returned by _Alignof().
-  m68k only 16bit aligns 32bit values.
-- The 'preferred' alignment returned by __alignof__().
-  32bit x86 returns 8 for 64bit types even though the ABI only 4-byte aligns them.
-- The 'natural' alignment based on the size of the item.
-  I'd guess that 'complex double' (if supported) may only be 8 byte aligned.
+RFC v2: struct_ops based BPF-THP hook
+        https://lore.kernel.org/linux-mm/20250520060504.20251-1-laoar.shao@gmail.com/
 
-What normally matters is the ABI alignment for structure members.
-If you mark anything 'packed' the compiler will generate shifts and masks (etc)
-to get working code.
-Taking the address of an item in a packed structure generates a warning
-for very good reason. 
+RFC v4: Get THP order with interface get_suggested_order()
+        https://lore.kernel.org/linux-mm/20250729091807.84310-1-laoar.shao@gmail.com/
 
-[1] I've fallen foul of gcc deciding to 'vectorise' a loop and then having
-it crash because the buffer address was misaligned.
-Nasty because the code worked in initial testing and I expected the loop
-(32bit adds of a buffer) to work fine even when misaligned.
+v4->v9: Simplify the interface to:
 
-	David
+        unsigned long
+        bpf_hook_thp_get_orders(struct vm_area_struct *vma, enum tva_type type,
+                                unsigned long orders);
 
-> 
-> > > @@ -103,10 +100,6 @@ Therefore, for standard structure types you can always rely on the compiler
-> > >  to pad structures so that accesses to fields are suitably aligned (assuming
-> > >  you do not cast the field to a type of different length).
-> > >  
-> > > -Similarly, you can also rely on the compiler to align variables and function
-> > > -parameters to a naturally aligned scheme, based on the size of the type of
-> > > -the variable.
-> > > -
-> > >  At this point, it should be clear that accessing a single byte (u8 or char)
-> > >  will never cause an unaligned access, because all memory addresses are evenly
-> > >  divisible by one.  
-> > 
-> >   
+        https://lore.kernel.org/linux-mm/20250930055826.9810-1-laoar.shao@gmail.com/
+
+v9->RFC v10: Scope BPF-THP to individual processes
+
+
+The Design
+==========
+
+Scoping BPF-THP to cgroup is rejected
+-------------------------------------
+
+As explained by Gutierrez:
+
+1. It breaks the cgroup hierarchy when 2 siblings have different THP policies
+2. Cgroup was designed for resource management not for grouping processes and
+   tune those processes
+3. We set a precedent for other people adding new flags to cgroup and
+   potentially polluting cgroups. We may end up with cgroups having tens of
+   different flags, making sysadmin's job more complex
+
+The related links are:
+
+  https://lore.kernel.org/linux-mm/1940d681-94a6-48fb-b889-cd8f0b91b330@huawei-partners.com/
+  https://lore.kernel.org/linux-mm/20241030150851.GB706616@cmpxchg.org/
+
+So we has to scope it to process.
+
+Scoping BPF-THP to process
+--------------------------
+
+To eliminate potential conflicts among competing BPF-THP instances, we
+enforce that each process is exclusively managed by a single BPF-THP. This
+approach has received agreement from David. For context, see:
+
+  https://lore.kernel.org/linux-mm/3577f7fd-429a-49c5-973b-38174a67be15@redhat.com/
+
+When registering a BPF-THP, we specify the PID of a target task. The
+BPF-THP is then installed in the task's `mm_struct`
+
+  struct mm_struct {
+      struct bpf_thp_ops __rcu *thp_thp;
+  };
+
+Inheritance Behavior:
+
+- Existing child processes are unaffected
+- Newly forked children inherit the BPF-THP from their parent
+- The BPF-THP persists across execve() calls
+
+A new linked list tracks all tasks managed by each BPF-THP instance:
+
+- Newly managed tasks are added to the list
+- Exiting tasks are automatically removed from the list
+- During BPF-THP unregistration (e.g., when the BPF link is removed), all
+  managed tasks have their bpf_thp pointer set to NULL
+- BPF-THP instances can be dynamically updated, with all tracked tasks
+  automatically migrating to the new version.
+
+This design simplifies BPF-THP management in production environments by
+providing clear lifecycle management and preventing conflicts between
+multiple BPF-THP instances.
+
+Any feedback is welcomed.
+
+Future Work
+===========
+
+Introduce a global fallback mechanism to address shared resource management
+limitations in process and cgroup-based methods:
+
+  https://lore.kernel.org/linux-mm/YwNold0GMOappUxc@slm.duckdns.org/
+
+Yafang Shao (9):
+  mm: thp: remove vm_flags parameter from khugepaged_enter_vma()
+  mm: thp: remove vm_flags parameter from thp_vma_allowable_order()
+  mm: thp: add support for BPF based THP order selection
+  mm: thp: decouple THP allocation between swap and page fault paths
+  mm: thp: enable THP allocation exclusively through khugepaged
+  bpf: mark mm->owner as __safe_rcu_or_null
+  bpf: mark vma->vm_mm as __safe_trusted_or_null
+  selftests/bpf: add a simple BPF based THP policy
+  Documentation: add BPF-based THP policy management
+
+ Documentation/admin-guide/mm/transhuge.rst    |  39 +++
+ MAINTAINERS                                   |   3 +
+ fs/exec.c                                     |   1 +
+ fs/proc/task_mmu.c                            |   3 +-
+ include/linux/huge_mm.h                       |  59 +++-
+ include/linux/khugepaged.h                    |  10 +-
+ include/linux/mm_types.h                      |  18 ++
+ kernel/bpf/verifier.c                         |   8 +
+ kernel/fork.c                                 |   1 +
+ mm/Kconfig                                    |  22 ++
+ mm/Makefile                                   |   1 +
+ mm/huge_memory.c                              |   7 +-
+ mm/huge_memory_bpf.c                          | 306 ++++++++++++++++++
+ mm/khugepaged.c                               |  35 +-
+ mm/madvise.c                                  |   7 +
+ mm/memory.c                                   |  22 +-
+ mm/mmap.c                                     |   1 +
+ mm/shmem.c                                    |   2 +-
+ mm/vma.c                                      |   6 +-
+ tools/testing/selftests/bpf/config            |   3 +
+ .../selftests/bpf/prog_tests/thp_adjust.c     | 245 ++++++++++++++
+ tools/testing/selftests/bpf/progs/lsm.c       |   8 +-
+ .../selftests/bpf/progs/test_thp_adjust.c     |  23 ++
+ 23 files changed, 777 insertions(+), 53 deletions(-)
+ create mode 100644 mm/huge_memory_bpf.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/thp_adjust.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_thp_adjust.c
+
+-- 
+2.47.3
 
