@@ -1,147 +1,140 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7504929C323
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 18:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740F1301022
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 18:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760551409; cv=none; b=L52OeNqbMJxQikn9+jkD/+4a7cHuuKfmXVB8qwHXMuw7f8hdqO8IqAHKCD9Ob12HK6eXfxVy2ihW7nP2Xy72yLDNOuOleKqY7o+A6ss4M4RbQgmuGO2wDp3o2jnFN6U9CVXZ6lb+knvpXpYyZzNvSQhWLmDcSW7Mv+qP7OqfmL4=
+	t=1760552026; cv=none; b=pPdupq7GQhlxSxdpikzpGErMp5uecRMl7uHqIHITwdmQofYc0V2F5sKMa7IC4aqPgCvynqQ6OcFmUDRVPuIhBS4kx/Q74jarfiFGuGtFxn7hKgcM/mfvSCRuFqwi9YdE4TcggTKn9Q1tNkyrgVOaY1Z6Q5RG3nXG5307rIoiCEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760551409; c=relaxed/simple;
-	bh=L+G9B7tN81rwSQPufODyTPs4I+s5vnl3h50pjA/8S+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZRIhRdHmREb/3koUzTxCSPkb/6Ehz57g8sFlOAOCIjH+dLUQv0VH+fumnyLHHequFfQkb0Zq6FWw7+iZdEaaXqQXezYZcXOVrI5eteNVr67dFG96ojiQ53au3aUEYq5Qo+2SXPn1LudSSrOdE8cFSIZrdqAgS8FDQWak6zsni1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqxZxIm3; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760552026; c=relaxed/simple;
+	bh=pkBAvc0IieGGas1vvYQtOkKUWHcQF724uRmRqVMGgPs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dAaTHRXkkotEl0xg9dMvf8qQBEmAMSplbZUULvFj3kwlT8vb924CC7b+zvGGcDmX+1LksNB9W7UTsPghGGDEzW1z+Ii3qj+KCn4uF8cqKPypYMoKTxZizYTRxzlDbseHyjGmTHQBlSZzojAPoFkEvIq7TwSN6CuaDFp24Z6t69s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=SlxRf0vR; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqxZxIm3"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3381f041d7fso1488823a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 11:03:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="SlxRf0vR"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a16bd4d875so1028627b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 11:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760551407; x=1761156207; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=sFRY52fCLsJM3iJuutzJe2Pl8OKrpW4KX5rl2KlcBGA=;
-        b=HqxZxIm3UXgq2FInNToudIHNORqB+FDsGvckwsCopIfzC8b4hD0rP3eMUfExAcXlj4
-         3v+CqR8sm1RqKOV535SBcFof9njUQdVWRwpk5Wpzct3aoBwiIrMqihFU0Oda6x/O2RWm
-         nQScsqr+fMRjVKR214i/s5yN2Pyfl4zhQpRbi09e0meZptiNAzHzFXDqr6u/cjUobkIT
-         1S7W2qQ1wLCevCPsV5QCZiCjh8hIuJtOJT7DHKozqwVKroyEet4VtloF9Ah778ndhkI9
-         LJW7ocbT0S9dQvZ4S6XhuRT+SBmeUl+/exLja4IX9VKZpl1DApj8zDjtGDOz6ZTWeLJC
-         4I0Q==
+        d=rivosinc.com; s=google; t=1760552024; x=1761156824; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RuPJu5G7SzSWQtkc01838lduYo70q11KgqBzT6e6NXg=;
+        b=SlxRf0vR86f+JdCivXZVuho/Ou6syE5bOrJYIXDsr1N2NnwLQbpE78vAaPkCMa2gD5
+         dswCw9Tpnzgdx6fOQImJ8FDo+uaL3zooSIaAr+OoRC8AO09sxFOyX7JBhGbv/SSEO08I
+         7DXG5Rf+/bP+fG56dUZF39Nz3Yp2eE3Fs9Fo07/ICgZd66wTBnJ5CeBSNjUvdgl4SwI7
+         u7zTs60+yqT8Qr0oNNkHlkGcEyjErRmMPy7p2zj0XGysRaFXGPknSakU64SwZqU/UwHx
+         TlMkA8o4Mt6Szf6U7VMqHfptggkKy0v3e470kSwy0S9ofTiwojfRpcJHy8gsEqDwbHMF
+         vWUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760551407; x=1761156207;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sFRY52fCLsJM3iJuutzJe2Pl8OKrpW4KX5rl2KlcBGA=;
-        b=gD0zbAQQQsSk/B0KXALAPY4Feg9kUbP0mzojaJ9PCi4DP3zA30K9s2yfpezykazT33
-         pmv6o4ImzJ1P7rrOCftN7A/Jw8xwdghM1WkKSuMzYGMc9oIrVItC9kfFlQa2HE9LiTGK
-         q+UQkJeOFjXabspYFPR0MH0ufgEpqptm6f/W9BhMUWZaNGlN24GakIrgjCFBNXFcn7rG
-         L+cSN9BHJP5EFK7259yojK6Oq0WFzeFXowYTfzTMUEK7rjzFx43PGCoZw5MHH++Yt/HH
-         XYoJnka4jxxGgAqOBTn+DsAhUEEsVbpMVt/78C6cVla/Nfox7ewu5BS7dWdHKU6IamlC
-         ObhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXmWh5vtYHq3QxImZ9UCGPs1jg6oc7+pzeEXgbmajOOGpg9xOkgQuUHX7j11ku1qLW0eERIwNHVUs8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx71DsJiio6oWVfAJ7BUz7Wit9YYzwpJlV9v+q8HQ7W3+geyslR
-	xJ4UVaPjJIm+aVRdqeQBpSTtBKW9hgAKeR+VOMKnvWB/CFED5ZzMPm5p
-X-Gm-Gg: ASbGncuSUxsYU0mocqXO3H0daZPZwOthqJc9q0HApuZimsXhWw0pp/B23VOHfHsa50v
-	PyrjgT6Z6o67z8fRSoGx/iByFeVgOq/Y3pgr7qWGK6RFMmcaMRHNP8xsNCzOiLvOMpmOMaScf8N
-	OHWWzg8A2rpRGroGF5b7tNqqXXLVUIr9Nu3Ia2O3Y2VzSFHSJU4AccuLytFBgSU+o4ZTwcTBDpb
-	l+kAhdV5I1KhpV2QwtHinc3iawhQ0e1kyrmP5thnlhiWcf+dcNNCkPJOTXbzRQbWbDy8y+PEZvQ
-	IhF6z/Qi2omPNQjGXXc5NEeSwro34640L0yjHk3PsvV6v+9CYnN5KZkddGi9E+hlTtfLk1XK0lJ
-	eA6kZGijH3BCE7jnY1u06Qqt43+K6Q8HLrJXSSrQBUDuepAv7AP3QGk8VFW1S6/QL2K1jAHlypo
-	/xF87iBuoM/Glthu/0NFwY0NDb
-X-Google-Smtp-Source: AGHT+IEVI/bi3ghuzYB7QIJivMbOlY1dqDJiRRUjOSgwmyn0D843vh8YAHf44Mc57hlS0g6eBIrLjA==
-X-Received: by 2002:a17:90b:4f4c:b0:32e:11cc:d17a with SMTP id 98e67ed59e1d1-33b9e08ff85mr1184192a91.4.1760551406514;
-        Wed, 15 Oct 2025 11:03:26 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b61a1d3ffsm20285156a91.1.2025.10.15.11.03.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 11:03:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a8f01470-0eef-4a69-b3de-2e7fd4191ec4@roeck-us.net>
-Date: Wed, 15 Oct 2025 11:03:24 -0700
+        d=1e100.net; s=20230601; t=1760552024; x=1761156824;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RuPJu5G7SzSWQtkc01838lduYo70q11KgqBzT6e6NXg=;
+        b=ulEwJwrLdmAiyev+uYtUyJhM5HxEb0op0xwxxgQQujv0+PspBDAsZaKXzwUe8ULC//
+         4W8UFTGYT4qQ6f12ktS2yGlHzWPKu93vgaaKiUcf2Bnpz8AMpQmZERJPWSo/OtvarrcF
+         lvGvRnvZvbvDuZE62SEEh4tWUv7/7q22FxTlRf5mgDOVCrFMTSgmDYULLfpD4mNCUw6a
+         KHyz+TfPyOsoWPC8BnAMYgherWP8gQu+evHvsgIn0OL/y5VeMTb6saCAwflqskM29T4w
+         29DQ/d0tOyTD53Ajp6gf5uKFNdb449iz77CP+gylLRaxLbWWfA4uYUh6JYRM4M2ikvMx
+         jJyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvjdNg/4SQSI9s4aDJBGKlHyM6LHvmvDdpMIRKQV4/pcNXsSTApLopB7ILUATvDHoS3CFIYuQgWPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM1w0kdQacQ7ty93ZGn+fFMQjrAehri2etKpEAk5heZbrWEepx
+	8hXE6sp6dId27tySGvJzV5JKyu43Y1hIKYmpLyALVApL2G0b3F52Dy9TJqWbAMyU0zc=
+X-Gm-Gg: ASbGnctFw5Zrf2IL6E+7iWDcgMruaSB8MvY/vQTfKaRJDjzRHSNVHc3UUdrvChvVMOL
+	4h0GP685xZTxyPqVi6JqSn7TkmiBrO6oVeg9d231Y0Gp+b7f80e4adTYJRWBTz9ySOzXtpFxgws
+	1lKZPUO0JlGtFD/KHPLWMnYL6s/yk5yIFnJ8eFgSXl78DmLx9sZFlTg/JAlg0RY3z2XalzHpmb3
+	OxWEOvRiBvuB22HkOfcpO17IPFmlh8Wjej6T0GSOv88TxCJfkHG4Y2TS2r21Ym97d9Pi724TSCW
+	xfh9/YGpCVSO58roJxssVnSiy0iBl5jyrfpCOOhIBt/jmriid9brRCqrRZAtrU4geEiK5gXUVwv
+	9BNfUs+9jSmHxtJHWM6BTW2Ywh1uiRmnzVycpp28cXZ6m3YJKnW0/TUsetLJrWQ==
+X-Google-Smtp-Source: AGHT+IE532Sc+sFZCiNmEvoJegTZ+cHh1Xu19llh3mJ+MHzVrRYzHyEQ1nhDnGpeZ7e3G8zwayd1Xg==
+X-Received: by 2002:a17:903:2c10:b0:27e:e96a:4c3 with SMTP id d9443c01a7336-29027374b5amr339106065ad.14.1760552023763;
+        Wed, 15 Oct 2025 11:13:43 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2909930a72esm3126625ad.21.2025.10.15.11.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 11:13:43 -0700 (PDT)
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Wed, 15 Oct 2025 11:13:33 -0700
+Subject: [PATCH v21 01/28] mm: VM_SHADOW_STACK definition for riscv
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] htmldocs: Documentation/hwmon/max17616.rst:4: WARNING:
- Title underline too short.
-To: Kriish Sharma <kriish.sharma2006@gmail.com>, kimseer.paller@analog.com,
- corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251015153527.1646111-1-kriish.sharma2006@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251015153527.1646111-1-kriish.sharma2006@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251015-v5_user_cfi_series-v21-1-6a07856e90e7@rivosinc.com>
+References: <20251015-v5_user_cfi_series-v21-0-6a07856e90e7@rivosinc.com>
+In-Reply-To: <20251015-v5_user_cfi_series-v21-0-6a07856e90e7@rivosinc.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com, 
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com, 
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com, 
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org, 
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org, 
+ Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>, 
+ Deepak Gupta <debug@rivosinc.com>
+X-Mailer: b4 0.13.0
 
-On 10/15/25 08:35, Kriish Sharma wrote:
-> Fix the following warning encountered when running `make htmldocs`:
-> 
->    Documentation/hwmon/max17616.rst:4: WARNING: Title underline too short.
-> 
-> The underline below "Kernel driver max17616" was shorter than the title
-> text, violating reStructuredText formatting rules. Extended the underline
-> to match the title length.
-> 
-> Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+VM_HIGH_ARCH_5 is used for riscv
 
-That is a bit wrong.
+Reviewed-by: Zong Li <zong.li@sifive.com>
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+---
+ include/linux/mm.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index d16b33bacc32..2032d3f195f1 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -380,6 +380,13 @@ extern unsigned int kobjsize(const void *objp);
+ # define VM_SHADOW_STACK	VM_HIGH_ARCH_6
+ #endif
+ 
++#if defined(CONFIG_RISCV_USER_CFI)
++/*
++ * Following x86 and picking up the same bitpos.
++ */
++# define VM_SHADOW_STACK	VM_HIGH_ARCH_5
++#endif
++
+ #ifndef VM_SHADOW_STACK
+ # define VM_SHADOW_STACK	VM_NONE
+ #endif
 
-Thanks for the report. Folded into the original patch.
-
-Guenter
+-- 
+2.43.0
 
