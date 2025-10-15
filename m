@@ -1,167 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684E127467D;
-	Wed, 15 Oct 2025 06:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB0D30FC01
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 06:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760509129; cv=none; b=LKpzCKDGMJQr6CM7Ab5xYiSW4RrdiSDO+lafmMUI7IcrbbAkLRm7HfKZmGb8g46DhO1XQeu5q7f0z7/ab50xZ+ltk3CDfvJgxx/TbWE4Pk8Mjqmkd7/L+y+5gXup+AJ0fHEa1VAtaJIfcvz+Tgga/JME7hErWoQhjXv8U/YlkPs=
+	t=1760509295; cv=none; b=iM/53Er2gJuL1SCntw57MAjtsOpLN71DPrRy1TEc7QXenbrdWQoFsXTDv1xbRyU8kMZcolseWjkZRSD/TJabEc7QDYFBQ2jtW9hq3+/nc686iRr+bwSvUqGzKzxRYS7v2Pv2VvaerkDcoLgM5+7eRKHTcKcWXRSXOlzrizpRZQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760509129; c=relaxed/simple;
-	bh=DZF1ndhiUAR/WGmgBw5roqEhlUKaFpXC0/Hq0pMgxvA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DU57K2oPjWfzrmL/6hBnHXmKFoYMh+dOJbBGW5BdMrmYt9VLgErVcD1wtsnCKfTGRY9S0rOQ+ZbM0LjUyEYT7R/5Gzxvs6c/wCaoWlNcncfIAfxCc0T4pFynNm5l6EPTDhkhV8Ma8rZB7LYlTVHIJ27iwu7nHHbezEq+y16kJx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t2a47GvC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760509295; c=relaxed/simple;
+	bh=K+PHF4WAM2ycA1aZTNdIhMu/j5k4OgimgvuS0a4OP2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VijeLD78D+kzmmAN8E8qeSHqk7oJnQ1cXRvuLvcjJ/5M6lRWTOltV673Kfp0vMFoMX0NBmD3zy3yCbzaCa9rcFgPUOLb1UgYqwtFl4BP33MzhcBGj16NZhtVZbRUXjC3DkRlVPj6sTZA1KbsWw6yWbzXlnoLTkcGyjP3kJpligM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=W9wD8I0S; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t2a47GvC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C824AC4CEF9;
-	Wed, 15 Oct 2025 06:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760509127;
-	bh=DZF1ndhiUAR/WGmgBw5roqEhlUKaFpXC0/Hq0pMgxvA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t2a47GvCC4giD+p4QyoA+z/aI+GrrlVChjRRbuPfvgp148Oj17vUBPEC9fofuSUA6
-	 iGgL8tzglzkrLdJwRC19LYuGAsXyAViyPXkNnkfTUBGTSXmMtD7B8bISk6tar8plfl
-	 ayxYHWxwIqpM/yrR0056Vj0uOOiiu8Bcn74CCL3QW+AS1aGPBcH2vTRd9K/Yl7PCIT
-	 hx9zxvcEhKvW5PTs+7r1Z84bgC+z1imm1c1S5bPCgD4bnJvgQtO4TGxvqRqUP0eiQF
-	 xB/WSgMGh208yb2b43ztvaBK4fVOTana+awcFwhFib/mHBN3Anr94O5KMwPqakgMVo
-	 ogjpoAfvINBxA==
-Message-ID: <0cc09ea7-d4f7-4e1c-9cd0-bf310faba217@kernel.org>
-Date: Wed, 15 Oct 2025 08:18:44 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="W9wD8I0S"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-46e2e6a708fso37545495e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 23:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1760509283; x=1761114083; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L3PV9C1telyfCjlpsA7EV6fPruE8tbKt63BPSU3FM4M=;
+        b=W9wD8I0SB6umE7UJDUWbEUUD7Yxa3gqCMXWiL0S2Mj2ES9vqkPGuvoMmbGbdntAAVQ
+         9glktcDA1lkVhA/ZtjKipFsLFHpPNnWPoqON/3Hu5GPl5ayHt6Zx8Mg5tOQSY/CcVOhL
+         JDfogEU+cXq411rjuEDJxyOmu1C6FPlKMuxG7Y1F+fdIBAo/6H1LJjiR0MJ562KvTCsS
+         W9MNNIZM6iR2M+AvAfSiZWnowwzhOpXvfbsQFwv78P/r3gmY+ig5QO69ZWV7CkW0kkpN
+         dHoMNr5Fom2lZyJBzyYI3hN8GAyERHl98i30SAfbbM2rCeeNrU58slSsKO2+sQhcXpGC
+         OTSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760509283; x=1761114083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L3PV9C1telyfCjlpsA7EV6fPruE8tbKt63BPSU3FM4M=;
+        b=N1DOqYL1xVsZ2so7L50zea89uKtVRUt8jaKK7rLfRET+mMmfUSpoS3XQR6wSXSaezp
+         Bif/iO7DSvcOslkScSWQw5SNmjFHAC8P35iGw01r3/HCtp0Mk3W+0NzRVgfEG6snfNqd
+         WmPxO87/b02DyZf++6YqP7txt4uJ+g7DIqt0HlP6xJZdiQHboFYiexHzaPNmLGNN11g+
+         XfjvuFsJnRtJV7b5Ab+NgYfeVPHWYuvKsGS0pp4GqGFYTUWmkaimOiLvKFGFoaIBFq3N
+         8y9BxJUEp1d6CR8ujw+8FXdePnd8CQAESww4bTOQBQ+mukBBE6ROKUixUyplJwOuCFYX
+         AcaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCyEjXvxZw4f2uLZfl30KdmJWxRInYZpRzOYmTJVIL34nfvqwArHffUzCJQvFJPIietCtKlwBQjSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpaQAMyV5A0SryaNcIGwKR8PwYgsfeM+VtFzM0fQMe524NxiNr
+	04PxtfUjpQZVaC8v/uFCH1/c4AYcjP0BOoV9g8R66+8WcM4Ug9FcEq9fwpJXsXMjbtg=
+X-Gm-Gg: ASbGncsVweXsg5pKh3n+HxPAKbkkGAmXmpUA3aDY414azVkRyo0cegPfZ6timLrPYWv
+	4Uj6r7EtSvwcfc0U82Mr+3n80ngkhCnqmJ17jEtK9/sT0B0OIIKjO6vvs6OyVvCPk5dVEN1RYhT
+	JE2OSP9al9p/1GGbRMk8HRNbweJSAEsjLNJApPW8vu1/aTsNDOfWTJBsT1RbxhFtq92ZyJZsmUj
+	4A7FYSLoLUZ4vsLg9hqmSSHby/IG9mtXz/aIpOwBljFMh8sLirLerYumn40uvC2U88pKpY8on+y
+	DWvdzhhWo8qSe38S4Meu57o+5IoLPHFRH/9gSZX38s00u/QEVpikNCeoJZFjl+ys8Zv/Zn7pxZY
+	xJXpWShgJOeKqJhgsotVDB1CsnW+NrGLd3BkuWfOwI0Lu5s+Hu+sDzGZq0j2+Fyc=
+X-Google-Smtp-Source: AGHT+IGxun/Yco6mevgEGwKjaOT0R/pW6Puo6dQ1aSXUtNSS99XdqPVFdMPH7X0OcIpuodI7EV7NzQ==
+X-Received: by 2002:a05:600c:6383:b0:45d:d353:a491 with SMTP id 5b1f17b1804b1-46fa9a8c425mr178418635e9.1.1760509282825;
+        Tue, 14 Oct 2025 23:21:22 -0700 (PDT)
+Received: from localhost (109-81-16-57.rct.o2.cz. [109.81.16.57])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426e50ef821sm12670523f8f.38.2025.10.14.23.21.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 23:21:22 -0700 (PDT)
+Date: Wed, 15 Oct 2025 08:21:21 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Barry Song <21cnbao@gmail.com>,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Barry Song <v-songbaohua@oppo.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Huacai Zhou <zhouhuacai@oppo.com>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network
+ buffer allocation
+Message-ID: <aO89YYhEJ-GDPWFg@tiehlicka>
+References: <20251013101636.69220-1-21cnbao@gmail.com>
+ <927bcdf7-1283-4ddd-bd5e-d2e399b26f7d@suse.cz>
+ <aO37Od0VxOGmWCjm@tiehlicka>
+ <qztimgoebp5ecdmvvgro6sdsng6r7t3pnddg7ddlxagaom73ge@a5wta5ym7enu>
+ <aO5o548uQAuBcw0P@tiehlicka>
+ <itljl2e4rwbblmnhe2vucmsvxzbu42x5foszf4y5b63evbitpj@qsxj3amwhts3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: sysrq: Remove contradicting sentence on
- extra /proc/sysrq-trigger characters
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Randy Dunlap
- <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Serial <linux-serial@vger.kernel.org>
-Cc: Cengiz Can <cengiz@kernel.wtf>, Tomas Mudrunka
- <tomas.mudrunka@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
-References: <20251008112409.33622-1-bagasdotme@gmail.com>
- <87wm4xbkim.fsf@trenco.lwn.net>
- <d6cd375c-dad6-4047-9574-bac7dfc24315@infradead.org>
- <aO7mnXCajeIdUYON@archie.me>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <aO7mnXCajeIdUYON@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <itljl2e4rwbblmnhe2vucmsvxzbu42x5foszf4y5b63evbitpj@qsxj3amwhts3>
 
-On 15. 10. 25, 2:11, Bagas Sanjaya wrote:
-> On Tue, Oct 14, 2025 at 10:57:45AM -0700, Randy Dunlap wrote:
->>
->>
->> On 10/14/25 7:55 AM, Jonathan Corbet wrote:
->>> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->>>
->>>> /proc/sysrq-trigger documentation states that only first character is
->>>> processed and the rest is ignored, yet it is not recommended to write
->>>> any extra characters to it. The latter statement is contradictive as
->>>> these characters are also ignored as implied by preceding sentence.
->>>>
->>>> Remove it.
->>>>
->>>> Link: https://lore.kernel.org/lkml/7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com/
->>>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>>> ---
->>>>   Documentation/admin-guide/sysrq.rst | 4 +---
->>>>   1 file changed, 1 insertion(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
->>>> index 9c7aa817adc72d..63ff415ce85d66 100644
->>>> --- a/Documentation/admin-guide/sysrq.rst
->>>> +++ b/Documentation/admin-guide/sysrq.rst
->>>> @@ -77,9 +77,7 @@ On other
->>>>   On all
->>>>   	Write a single character to /proc/sysrq-trigger.
->>>>   	Only the first character is processed, the rest of the string is
->>>> -	ignored. However, it is not recommended to write any extra characters
->>>> -	as the behavior is undefined and might change in the future versions.
->>>> -	E.g.::
->>>> +	ignored. E.g.::
->>>
->>> I'm not sure this is right - there is a warning here that additional
->>> characters may acquire a meaning in the future, so one should not
->>> develop the habit of writing them now.  After all these years, I think
->>> the chances of fundamental sysrq changes are pretty small, but I still
->>> don't see why we would take the warning out?
->>
->> but the following paragraph says:
->>
->> 	Alternatively, write multiple characters prepended by underscore.
->> 	This way, all characters will be processed. E.g.::
->>
->> 		echo _reisub > /proc/sysrq-trigger
->>
->> so it is confuzing.
+On Tue 14-10-25 10:22:03, Shakeel Butt wrote:
+> On Tue, Oct 14, 2025 at 05:14:47PM +0200, Michal Hocko wrote:
+> > On Tue 14-10-25 07:27:06, Shakeel Butt wrote:
+> > > On Tue, Oct 14, 2025 at 09:26:49AM +0200, Michal Hocko wrote:
+> > > > On Mon 13-10-25 20:30:13, Vlastimil Babka wrote:
+> > > > > On 10/13/25 12:16, Barry Song wrote:
+> > > > > > From: Barry Song <v-songbaohua@oppo.com>
+> > > > [...]
+> > > > > I wonder if we should either:
+> > > > > 
+> > > > > 1) sacrifice a new __GFP flag specifically for "!allow_spin" case to
+> > > > > determine it precisely.
+> > > > 
+> > > > As said in other reply I do not think this is a good fit for this
+> > > > specific case as it is all or nothing approach. Soon enough we discover
+> > > > that "no effort to reclaim/compact" hurts other usecases. So I do not
+> > > > think we need a dedicated flag for this specific case. We need a way to
+> > > > tell kswapd/kcompactd how much to try instead.
+> > > 
+> > > To me this new floag is to decouple two orthogonal requests i.e. no lock
+> > > semantic and don't wakeup kswapd. At the moment the lack of kswapd gfp
+> > > flag convey the semantics of no lock. This can lead to unintended usage
+> > > of no lock semantics by users which for whatever reason don't want to
+> > > wakeup kswapd.
+> > 
+> > I would argue that callers should have no business into saying whether
+> > the MM should wake up kswapd or not. The flag name currently suggests
+> > that but that is mostly for historic reasons. A random page allocator
+> > user shouldn't really care about this low level detail, really.
 > 
-> I guess the whole "On all" description can be rewritten like:
-> 
-> Write a single character to /proc/sysrq-trigger, e.g.::
-> 
-> <snipped>...
-> 
-> If a string (multiple characters) is written instead, only the first character
-> is processed unless the string is prepended by an underscore, like::
-> 
-> <snipped>...
+> I agree but unless we somehow enforce/warn for such cases, there will be
+> users doing this. A simple grep shows kmsan is doing this. I worry there
+> might be users who are manually setting up gfp flags for their
+> allocations and not providing kswapd flag explicitly. Finding such cases
+> with grep is not easy.
 
-Some kind of, yes. So Either:
-* you write no underscore and a character -- the rest is ignored and you 
-should not write more than one.
-* you prepend underscore and write more of them -- all are processed.
+You are right but this is inherent problem of our gfp interface. It is
+too late to have a defensive interface I am afraid.
 
-thanks,
 -- 
-js
-suse labs
+Michal Hocko
+SUSE Labs
