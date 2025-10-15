@@ -1,113 +1,114 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF34627E056
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 01:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EE42F9DAF;
+	Wed, 15 Oct 2025 01:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760491782; cv=none; b=oBswrr9JFSOKUxFnI3BW4k/tTlyRV9FvuKjPxEHUtdYMGEEoshVJiCWaJmgW45HqMTudPSah898Fd0l20mdZs92s0WPs4vAI5rJhAROCHyvHCpcrngW+yHN2ktFqH2Dh5XzHbEwOj295HK4532Nyd9C3OU8NIHdi5GOQzmeP5Dw=
+	t=1760492482; cv=none; b=ojjBTWHLIT4J9lqJ8odWUwJGue3/9R5blRlnZGPhDOOEedh9niPbkv4tnLV8RtShtlfUe8+mlHI8BiO6m756LLthqmHVU0SGHz+dHDFNZ0HIUgwDBSXL9JVkN1xF8tJzUkMDC9Sv28Q2iH+rBq/znVdP8NhjOOKm8OMzRcQ6E20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760491782; c=relaxed/simple;
-	bh=EkDTdmk7VtedbDx8TuiDmQUnQUo94nagjsaRQEZkOHs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N2tGHGJoubYTuDIePu14dX4m0UFaBhaBs0KHrD03arjnadslfO7Tq/5C4P3quKgvHjw3/kxsjHHJhap/AYhbt+xyi4ZwCnX52ow2qSuA5rPs0EHb0EjwfgTGiu6yD2Hp4G5S7x+nVf7kQqDMBfYHWwTWicA7NHN3jsvZZtyxhfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wlx1tl4h; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760492482; c=relaxed/simple;
+	bh=SyJQgJW0irdP5xxqqLPTFxfy59JUm3m73O6H7QTmz2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FZ8RXAH1mTRHJ3AvovyHFzkVfgR8YkfGh2keoxC4Vei3SueKCyRGua0r2BaKQfhR+DQPj65IZQnEiyqDlYI74VBW1j8UOJu6JiO3T2rWqmmNLQSY/7MvmGew0H9FOk7hBW5eZXZ4PHA9zwO0cywTkn68AOiKs/8ylKLT70yFZcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sMiL3hX8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wlx1tl4h"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-269af38418aso69419635ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Oct 2025 18:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760491780; x=1761096580; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fvYbXimvUZhpQiNzNTlCeS9B/GqAi72nC59INjCGqc=;
-        b=Wlx1tl4h/Qv9WqX9xaAg20hc84AIE4gnWq0jAT+Uq4GdyRwdJUQ9UNC8Lpahizjt2N
-         smvNiPvztxGXTEfH6leWPntx1a/GPQsdr/5NHquuk5Mc55iEyYDbMCba/lMjbXPFKFCo
-         kV+NDJr3m6yM9BPFZwC20QPlMwahCj8xxzNQcKfj75vmxo5sY6Ap/CVzPeXgHJKr3iUV
-         hLxO4xv+/M5l9JdWMKC/g/PuGKWNWG9YkuPK3FbureJU7/yfQ6Xfc+eU4IONhxG+QRRg
-         Gy51yWv6e2HQjN8gonJZ8n5dJSR+u7YRC6AsSa/6HiPkHs3gsWXFMldABlkIx9wg93a9
-         rsHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760491780; x=1761096580;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1fvYbXimvUZhpQiNzNTlCeS9B/GqAi72nC59INjCGqc=;
-        b=IgPvp2FAiLABAnIbCeJ5Oh0jqqWw9RWNzfNCHlKDI7DTnqvg3elDyphDoZnLotBGtd
-         lfNxV/z5cyDgVPr6V2n1ljK3uzH9koG6tPsgGUAuKa+wrcIeRUx0DI+Jk4uzYWiYPkSj
-         tXubAyqUhue1n4ruuoJ6vspv2aTmbFVz8TrcDJiquNfHvDCs8qe7ZBcjVKWYULzkx6eE
-         wn8IwosSgV0pjIhX+xvaR9PEH3kN0eFl46b0tQWDH/ivoQfURTbxbiWo1rRLKwxnOeY1
-         5vTnNoWMymVVfVcmuZHo8wUokzMj8X7akferqFAEjZHVVNLEsdyYbdWHUsPP8lzhMaMi
-         qMLQ==
-X-Gm-Message-State: AOJu0Yy3+vi9yylWmuIouLSciqc38WEd4/5/6VuMxrXWCC0IVN/QFb8v
-	LX6XBdXtJE/cw1JKblB73tG4kwDrXn6vfMJLz9M8kCmQZVv3QIMfmTRjgGR4GqwT
-X-Gm-Gg: ASbGnctwSybs+ZcVaAyJodRfVBlsRzWPswmg+rlCX/AE6/8H1Ir2ruAhU5aW3P0TnAA
-	+HtwwwLhOT58+qRSYrKe9Ar9bM9MFZfrz8Wsok5FqjDZugJcT2tUHwsgrIBwyZ2KV+Y9bYqYr8l
-	hfL3Bh474Oa6nYQCLaclSUNv+eyfR8ZiHSZaynSrBY1vtb48jYdPIPUzOaGRv/R3Qrzpm8bmubv
-	GtAFbbQLz1pZEIjo+HWkgYX6bwyMR3muKMCsj+xxpvw9RIL903lr5nuUo17AyrRv6Ww6XdOCUtX
-	DD5DrRssg6LsyyNroC/jG/7y7srRyNMWTLpOOHoM992/UlgLz03H21xTVOV8nwAjCajbkW2U1+o
-	jN1N9pNoA2ko+mSgGfLL9NfVyHwbf/FywabSTRJC8zSd0BvtbeuyaT1kK3JnPLJwxe84/JWAwg0
-	w4fth+2A==
-X-Google-Smtp-Source: AGHT+IETwzTDN79xce98tBpGmn6d5BjHIybgvoONdJrdp+zyqvV2gOBUk6dEmaq5sMqA1PTfzaY8Iw==
-X-Received: by 2002:a17:902:e78f:b0:269:74bf:f19a with SMTP id d9443c01a7336-2902735639emr331745545ad.11.1760491779973;
-        Tue, 14 Oct 2025 18:29:39 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([152.57.123.102])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034deb0e7sm177275485ad.11.2025.10.14.18.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 18:29:39 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	bhanuseshukumar@gmail.com
-Subject: [PATCH] docs: Makefile: Sort Documentation targets case-insensitively in make help
-Date: Wed, 15 Oct 2025 06:59:22 +0530
-Message-Id: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sMiL3hX8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C61AC4CEE7;
+	Wed, 15 Oct 2025 01:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760492482;
+	bh=SyJQgJW0irdP5xxqqLPTFxfy59JUm3m73O6H7QTmz2Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sMiL3hX8vxmiEwgCLvgeRSHprM1Kj/R/uq/r3jfd5NO/FWqCmRxpFs5sHM7n9Hyws
+	 T7Qt21vQQB8W9v7t1ZZJR7ZJrMVBnFzeW6OrTrpxScom0/IRNfJ351buvSTEq/bcNe
+	 ZkhxT2XLAtTPWraUxejX3cgKhZPkDL8pkPCxik/ZIhZJHtj8tIuG7cXJnBZpdVupOQ
+	 6+kf4nHZexMOM6AN7j2UQfITgko/mGweSwTayw/ZZuTySR6R0/jIiIwdep5skQNPq7
+	 WrOxvCz1btwFJZ5GDSq1TRjDwugSA1SJJlFmlpa8oz1JvO2/Bqp3DdjUSP5dGZN/yF
+	 lVxbgMTSumU1g==
+Date: Tue, 14 Oct 2025 18:41:19 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, Andrew
+ Lunn <andrew@lunn.ch>, davem@davemloft.net, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Michael Chan
+ <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend
+ <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, Joshua
+ Washington <joshwash@google.com>, Harshitha Ramamurthy
+ <hramamurthy@google.com>, Jian Shen <shenjian15@huawei.com>, Salil Mehta
+ <salil.mehta@huawei.com>, Jijie Shao <shaojijie@huawei.com>, Sunil Goutham
+ <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>, Bharat
+ Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq
+ Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Joe
+ Damato <joe@dama.to>, David Wei <dw@davidwei.uk>, Willem de Bruijn
+ <willemb@google.com>, Breno Leitao <leitao@debian.org>, Dragos Tatulea
+ <dtatulea@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: [PATCH net-next v4 00/24][pull request] Queue configs and large
+ buffer providers
+Message-ID: <20251014184119.3ba2dd70@kernel.org>
+In-Reply-To: <CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
+References: <cover.1760364551.git.asml.silence@gmail.com>
+	<20251013105446.3efcb1b3@kernel.org>
+	<CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Avoid case-sensitive sorting when listing Documentation targets in make help.
-Previously, targets like PCI and RCU appeared ahead of others due to uppercase
-names.
+On Mon, 13 Oct 2025 21:41:38 -0700 Mina Almasry wrote:
+> > I'd like to rework these a little bit.
+> > On reflection I don't like the single size control.
+> > Please hold off.
+>
+> FWIW when I last looked at this I didn't like that the size control
+> seemed to control the size of the allocations made from the pp, but
+> not the size actually posted to the NIC.
+>=20
+> I.e. in the scenario where the driver fragments each pp buffer into 2,
+> and the user asks for 8K rx-buf-len, the size actually posted to the
+> NIC would have actually been 4K (8K / 2 for 2 fragments).
+>=20
+> Not sure how much of a concern this really is. I thought it would be
+> great if somehow rx-buf-len controlled the buffer sizes actually
+> posted to the NIC, because that what ultimately matters, no (it ends
+> up being the size of the incoming frags)? Or does that not matter for
+> some reason I'm missing?
 
-Normalize casing during _SPHINXDIRS generation to ensure consistent and
-intuitive ordering.
+I spent a couple of hours trying to write up my thoughts but I still haven't
+finished =F0=9F=98=85=EF=B8=8F I'll send the full thing tomorrow.
 
-Fixes: 965fc39f7393 ("Documentation: sort _SPHINXDIRS for 'make help'")
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
----
- Notes
- - Patch is tested with make help command.
- - Verified case-insensitive sorting.
+You may have looked at hns3 is that right? It bumps the page pool order
+by 1 so that it can fit two allocations into each page. I'm guessing
+it's a remnant of "page flipping". The other current user of rx-buf-len
+(otx2) doesn't do that - it uses simple page_order(rx_buf_len), AFAICT.
+If that's what you mean - I'd chalk the hns3 behavior to "historical
+reasons", it can probably be straightened out today to everyone's
+benefit.
 
- Documentation/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I wanted to reply already (before I present my "full case" :)) because
+my thinking started slipping in the opposite direction of being
+concerned about "buffer sizes actually posted to the NIC".=20
+Say the NIC packs packet payloads into buffers like this:
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 3609cb86137b..00c81e7947a9 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -23,7 +23,7 @@ SPHINXOPTS    =
- SPHINXDIRS    = .
- DOCS_THEME    =
- DOCS_CSS      =
--_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
-+_SPHINXDIRS   = $(shell printf "%s\n" $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)) | sort -f)
- SPHINX_CONF   = conf.py
- PAPER         =
- BUILDDIR      = $(obj)/output
--- 
-2.34.1
+          1          2     3     =20
+packets:  xxxxxxxxx  yyyy  zzzzzzz
+buffers:  [xxxx] [xxxx] [x|yyy] [y|zzz] [zzzz]
 
+Hope the diagram makes sense, each [....] is 4k, headers went elsewhere.
+
+If the user filled in the page pool with 16k buffers, and driver split
+it up into 4k chunks. HW packed the payloads into those 4k chunks,
+and GRO reformed them back into just 2 skb frags. Do we really care
+about the buffer size on the HW fill ring being 4kB ? Isn't what user
+cares about that they saw 2 frags not 5 ?
