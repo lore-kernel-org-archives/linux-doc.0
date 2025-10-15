@@ -1,147 +1,108 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFF33054F6;
-	Wed, 15 Oct 2025 15:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B276F2D24AC
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 15:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760542259; cv=none; b=HNB9gWMHkOqMYaHdlxfNfn51za2+rxxypadUX4SbR2yxGr9MAq5fDv+mbhBcy6grdyLrT/PS7S1j4EN0DG2K5fBe8QuJcG1lAY12z0n7OOkxNNaKL4tJJYnXW70WzM5V7fRNy3lOapz1XF1SxwOJwWTM9+FiSC8FIFByeKsaOuY=
+	t=1760542655; cv=none; b=H3chIGtkVp60e4X9Q40kL9RHEroWEXqaNe7jjaxuuY48utOjO7kyRvpIcvfxXUeMbcvxverVqM/KYNi/6GxgynazfHWf2M2Z6snQwgw8LCaP3cxdpJTuuEVUJ1toDobm6B9pA23ud1uXIgrKJnuxuEzrHf7kgMtlILkmB1vm2t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760542259; c=relaxed/simple;
-	bh=p24aKtUnOv8fOlBIkkg8gEu+LqJuafLvKyczTp6ZjwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E+c/j3lteS0lp6aMqlbH/mI4tvDaXGvCNMO5XRMmDrDSbFu1zsvatwl0TxhfrSZY9Gsm5zdwXsG4ytawbBRlv8iZjZje3RQtRdAqErrnSp4qOo4cJjCZtPgaF2e6qnratLDMlTpqYNpthMQEIDaMEJlDWb/HxCC0OuaEYiu0qT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MEWQfOsC; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1760542655; c=relaxed/simple;
+	bh=aLlRdlh9FDUPd1JAE8xBaQc227ypKkHoxuDPxDr9ql4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dp6QOvxydMMutKcZz904CGMQOTJndsoVZWBq7rgeb/HcZ3/4cxdHYDCFpYU07/dOPysZSCHp6zDnHW8sCOvkD7OdJ4dlyYfnmAHEGTENgSxXNOSNOaE8YMxwcXqUlGeeWx32iE5HWOpNfOL+Jyw3cDbGJ133fr1z9VW49Tomc6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ih5k1QUB; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MEWQfOsC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760542256;
-	bh=p24aKtUnOv8fOlBIkkg8gEu+LqJuafLvKyczTp6ZjwE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MEWQfOsCnRe6aZZhYvFIqCiIoQf3UYeJT8GZNE11MLdXGrg7qQ99gGn0Mv1U5z26U
-	 hG9wdE50d/yKpuWNzmz7/B8MOUMTpJBwb05ymIJu7pAsnJs4YPyOzkvsgCcHAftyKV
-	 KsQL+eY9RSD8kFFjMdo32EzSAaD2p4TJrhgq8N55T5GDpkoNXuWBr/NEu4lalt6bKG
-	 bUwPvfd+5x2LCuHthh8sS/qcuAbZvG8qFEneVQHgSmPf98TC4ZhRo/5gMwZXN2W83R
-	 Yd6N+hYdGkGsufOyOah/xrsePiDYufrifamK0JwB7ria3gzFXxWObkpUFVOl72Qi8O
-	 nttUt+QahpoqA==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2095217E00A3;
-	Wed, 15 Oct 2025 17:30:55 +0200 (CEST)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ih5k1QUB"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b551350adfaso5510852a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 08:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760542652; x=1761147452; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hn9avPxUFptKtiboarOpoGxvc9w+QcujEJ396q5eQtA=;
+        b=ih5k1QUBkcqYqtgLFsRSYm3xAcltkjkYyVMNP4riod5hCzyKwFgHs3ayC2N4KQL2I7
+         f9z1tj1nZo9u4pX6oaLc4boLXSyhEmk41nXZoFwhV3kwKJql5mEcCjUEyFttpDsynXiE
+         NaEi3XE4DEh1Bn7hDDIyU0CuT2dHG/OPtFLA37YaeLYYz9AdnsS63loP22lczp1zrEnr
+         zuTZFQ4WV4xBrb+zVX1Wekl7M58ohkFRLdUmxfQ/JXOVUB7iMzlE/kSsR4F5Ua/pBeLt
+         A8Nos01jXzbN1i0whfYYcuGk4ohs3lvQB/+QNhhhD+65On/SU6rrs3UXAWHI/xaDAhjw
+         Tn9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760542652; x=1761147452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hn9avPxUFptKtiboarOpoGxvc9w+QcujEJ396q5eQtA=;
+        b=LE3CqG8zSeT8SpJ5oPS7RqTSP7KbKbg8Fhk/RFdyb14kxM9OlGkIB1Rc2dh5aRRAyB
+         jd6xDXXQ1kOmVFMQoTxJ6zWtK/cdzDqJXpQfWgr+thkLadDC9mRSQe9ZDg5PzU1c1TPr
+         7vVeisjruxZbKlbWSrshOmZHiTAa9NlD7yYoNzSS3CWEsOB1e3Xnp4C6baS3ZMLSyH8h
+         jZ/WjwkTUOs8UyTCLgaYmf1kIoOzZSz/b07Gy04diaFXr5VklfY0lm9v/gHcNaxtdEf3
+         7LUI01QsK0kprlViJrV5aJPAcjHAsaPl3Dgi1fbl+erkdhw5afN2xOZyhRuqxUfglFqJ
+         MhGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZZ+WJsYQ29FUtreB1+9KdF5/1B0ksfEtAwNgwAVYiNtN1ANOkzu5m0O8Q4y54thdmWUruV46JYL0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1GPQCqUM0d1mF5xaZ+O+1cZGrZbm9RUcrIUfzLQ70zRaU5qzP
+	vat3aTUicAeFrQ05jBPQIccGZ3kybBFF9kqmSq+xpcmRfChPhq0K6VmE
+X-Gm-Gg: ASbGncugy2ukp8eiA80sXZG8W8+2xje/RKF1rAuJIcV17Us3kB2DzApc600BgC+TmpC
+	rP85TlqBN2bPky8ojKknA5Gdufcay0gg2BlbWk3kGDm5WQzgdGpI0m2upWrb4FROlMf4qyT1c/5
+	OKaIAJJ+aA8l7nxdikf2uvipLEYNOEtySk2ysMzicpPDJ0shIkoiWauUo358XAmgJlJS9kIUVr3
+	jrWgfjbUhK1i9wno7f0ibgKvW90SVJ4XYz8PSiVe0Pd2NpwsOM+f7lilUCl7LpcwUZoGoHgsgzE
+	ZBKyW+BkrP9Ln74ynesZccQxGByVJoXHb77fWdtZXmmCeyEJwP/VtPtys9mO3rgpRIKJBI1iRVt
+	iXoD+oHrcgzrydJNm7wKKItFK/CEFVRQ9so6Qu0EQmh5rA3cg/5FoHg1HjGU=
+X-Google-Smtp-Source: AGHT+IH+yHJj6xUqrD/D2julKj+3TgI0zyx5td0Q6jzoMKQ8APWTNss3bNdH/1RhbmHAbB5CH048bg==
+X-Received: by 2002:a17:903:3c66:b0:282:eea8:764d with SMTP id d9443c01a7336-290273ecb72mr398634825ad.35.1760542651777;
+        Wed, 15 Oct 2025 08:37:31 -0700 (PDT)
+Received: from crl-3.node2.local ([125.63.65.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f87b23sm201655935ad.113.2025.10.15.08.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 08:37:31 -0700 (PDT)
+From: Kriish Sharma <kriish.sharma2006@gmail.com>
+To: kimseer.paller@analog.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v4 13/13] Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
-Date: Wed, 15 Oct 2025 17:30:17 +0200
-Message-ID: <20251015153018.43735-14-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251015153018.43735-1-loic.molinari@collabora.com>
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
+	linux-kernel@vger.kernel.org,
+	Kriish Sharma <kriish.sharma2006@gmail.com>
+Subject: [PATCH] htmldocs: Documentation/hwmon/max17616.rst:4: WARNING: Title underline too short.
+Date: Wed, 15 Oct 2025 15:35:27 +0000
+Message-Id: <20251015153527.1646111-1-kriish.sharma2006@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
+Fix the following warning encountered when running `make htmldocs`:
 
-v4:
-- fix wording after huge_pages handler removal
+  Documentation/hwmon/max17616.rst:4: WARNING: Title underline too short.
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+The underline below "Kernel driver max17616" was shorter than the title
+text, violating reStructuredText formatting rules. Extended the underline
+to match the title length.
+
+Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
 ---
- Documentation/gpu/drm-mm.rst | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ Documentation/hwmon/max17616.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..3d6176adc7ca 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -283,6 +283,9 @@ made up of several fields, the more interesting ones being:
- 		void (*open)(struct vm_area_struct * area);
- 		void (*close)(struct vm_area_struct * area);
- 		vm_fault_t (*fault)(struct vm_fault *vmf);
-+		vm_fault_t (*map_pages)(struct vm_fault *vmf,
-+					pgoff_t start_pgoff,
-+					pgoff_t end_pgoff);
- 	};
+diff --git a/Documentation/hwmon/max17616.rst b/Documentation/hwmon/max17616.rst
+index 936447159f87..a3dc429048ae 100644
+--- a/Documentation/hwmon/max17616.rst
++++ b/Documentation/hwmon/max17616.rst
+@@ -1,7 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
+ Kernel driver max17616
+-====================
++======================
  
-@@ -290,15 +293,27 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
+ Supported chips:
  
--The fault operation handler is responsible for mapping individual pages
--to userspace when a page fault occurs. Depending on the memory
--allocation scheme, drivers can allocate pages at fault time, or can
--decide to allocate memory for the GEM object at the time the object is
--created.
-+The fault and map_pages operations are responsible for mapping pages to
-+userspace when a page fault occurs. Depending on the memory allocation
-+scheme, drivers can allocate pages at fault time, or can decide to
-+allocate memory for the GEM object at the time the object is created.
- 
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+managed to allocate a huge page for a faulty address, the fault and
-+map_pages handlers will first attempt to insert that huge page into the
-+VMA before falling back to individual page insertion. mmap() user
-+address alignment for GEM objects is handled by providing a custom
-+get_unmapped_area file operation which forwards to the shmem backing
-+store. For most drivers, which don't create a huge mountpoint by default
-+or through a module parameter, transparent huge pages can be enabled by
-+either setting the "transparent_hugepage_shmem" kernel parameter or the
-+"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
 -- 
-2.47.3
+2.34.1
 
