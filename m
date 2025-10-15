@@ -1,74 +1,92 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D8F189BB0;
-	Wed, 15 Oct 2025 21:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FDA24EAB1;
+	Wed, 15 Oct 2025 21:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760562941; cv=none; b=fegr6K0DUN7v+C07vXdxGw+F7txSobKOJjHiLViadlhFjCSPCWsFmyMNzujprshXfBBh4aVsYR07OJ+V8oNDJg08wvdoqWMhWt5R8AX3uid/NO4+3We94wPEvLeH/bsUG0p+nqmMLDfw0hcgTAMSNDA2/9FiofIj+n/oPJV6vxA=
+	t=1760562958; cv=none; b=EBlCEBMxZTG0Gnb5sotOf35RBacxQH6BafMhaeBMbdc4IlEID8WY8rMi9paxwG6R40ZFhZQRPj3rUCCDNwo00OMFIsb4MaKB41l5V2w2cPLTGfpO9qAFXlNonphc6hm1IHRHGSp6GycnodHkQaD4FWzNhk0KHpt/1cUGcdTmuC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760562941; c=relaxed/simple;
-	bh=jw4cDwRkjNKtlpMGmqqyF9m3kHzUo+QIUbf8d3pDnXw=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RL8o9K7TwnW4KGCecK/vKd4UiDBOpxSfJh5/o8Y2NvGGBKDlxSiiOSDtCiXrcd0PWzACP2VVp6s9coWnYRngcocoiVCkQ6A+yNy5DaQ33tKM1LxgcqJUWv3ZAaJVc2gJ51/nYDAs+CdGrz5JbJNxWotn8tsrrYv250lLjICWAU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=M50JlXRg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1760562958; c=relaxed/simple;
+	bh=GWTkK+g893u2Bo9C1ZcK/xtqM0IlFsO6FTCH4d9igYM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FtHVisDBo9S6MhazjYkVZLk7i6ppPuLlq4II1jmA2gfe3IvpmIhbC/aj0s4E7hUAIh8G5DQEW4eWaoGrHtuvHwi06iD3J7pPB6UNWivH7wMKjtuzBpDucCO091KmVIMB2BUI1ZeowwS217e2FFVFDEajoJMY/1hdZN5NGEJIpGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RnkZIvLL; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="M50JlXRg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E24D40B34
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760562938; bh=C3G08R5OrlNFIPsLcOefDKo+QazsDQjgsk9YpxVFijc=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=M50JlXRg5UJxrrjgFZ5Qra1E6lTXsjQImxGfvfqmjHjMW7MyChCDgCAvY5H14pJO5
-	 /xY/sSWfacxJyQpjoCPy49aSBqNk9xdlc2G4RYC/GBKGVbu3xPLaKqQES8cwpwcRZA
-	 ASi0yEFJr04JtVezqNPxS+zr0klh3i5an8s1HGQKSQjeBJaN16br8TjPgsTMyzfq3Z
-	 wlMy7yo8wWh+sKtD+DOfDaICtGX+iW/9ZOmQ87XRkXykKmqC93hmvCUhoQv1HTOJ75
-	 YtgJrEhso2MrQnbvAbbATPHAySKN3J+z1NC74CG3sPtAFJorvjbVTX+HFpXnStS9TI
-	 GN/BctKWUMvzg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5E24D40B34;
-	Wed, 15 Oct 2025 21:15:38 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, linux-next@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>, broonie@kernel.org
-Subject: Re: docs build problems
-In-Reply-To: <c9e9134c-97a2-405a-918d-41aafdd92fa1@infradead.org>
-References: <c9e9134c-97a2-405a-918d-41aafdd92fa1@infradead.org>
-Date: Wed, 15 Oct 2025 15:15:37 -0600
-Message-ID: <87sefj7tom.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RnkZIvLL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OsIzzSgIyHHVfEtzgbmUMNVpppKlYHA6ALdxJJpPxbY=; b=RnkZIvLLV4lmf3DXRCNoXIhmjP
+	a+VRgIg4zXKorvo7Li9rE3AVOS5LFIroAKhqNo1zTZKIcy0gBfXC2qGHsf8QPgTi23EbPWzqCmbim
+	zxbvgmYhjHkYtKz5EIWJpHf9HrdhTSIF8Fh4nw1EaNkW3rYNDnYZFsA75kfNvdqN+yB+XK//X6Qy/
+	ZkZ7y67qSa99p4mBf3CFAXJAP2HxA4f0I+axsl7azxkzJWbl3xVIMn0DpXYtnfCa1BFdKD5dZS1L9
+	9NZhipo7ZVdvyf8ClkucidLNjbW78l295FdmRpwO8J/cSZlLefBlLkMhyZSnXsw4TNKHR8wWnxyJK
+	KGgurUqA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v98qg-00000002vdI-3oTQ;
+	Wed, 15 Oct 2025 21:15:54 +0000
+Message-ID: <0389eec6-a2f3-44f2-9101-c4794c898f96@infradead.org>
+Date: Wed, 15 Oct 2025 14:15:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
+ quote warning
+To: Kriish Sharma <kriish.sharma2006@gmail.com>, sumit.semwal@linaro.org,
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com,
+ tjmercier@google.com, corbet@lwn.net
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Hi,
->
-> I am back to having one former error and one former pair of warnings
-> on today's linux-next (20251015):
->
-> ../Documentation/Makefile:71: warning: overriding recipe for target 'pdfdocs'
-> ../Documentation/Makefile:62: warning: ignoring old recipe for target 'pdfdocs'
->   File "/usr/bin/sphinx-build", line 1
->     ELF..
-> SyntaxError: source code cannot contain null bytes
->
->
-> Did something happen to the docs/docs-next tree or was there some kind
-> of mis-merge problem?
 
-I pulled docs-next forward to -rc1 and merged a few things, but I
-wouldn't expect any of that to create that kind of problem.  It seems we
-lost the makefile fix somehow...?
+On 10/15/25 11:34 AM, Kriish Sharma wrote:
+> Fix the following warning encountered when running `make htmldocs`:
+> 
+>   Documentation/userspace-api/dma-buf-heaps.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent
+> 
+> Added a blank line before the "Naming Convention" heading to comply with reST
+> 
+> Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
 
-jon
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/userspace-api/dma-buf-heaps.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+> index a0979440d2a4..c0035dc257e0 100644
+> --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -26,6 +26,7 @@ following heaps:
+>     ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
+>     created following legacy naming conventions; the legacy name might be
+>     ``reserved``, ``linux,cma``, or ``default-pool``.
+> +
+>  Naming Convention
+>  =================
+>  
+
+-- 
+~Randy
