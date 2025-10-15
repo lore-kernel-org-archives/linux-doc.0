@@ -1,76 +1,75 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0DC2F60CB
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 02:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAD01DE3A4;
+	Wed, 15 Oct 2025 03:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760496286; cv=none; b=PQQbVqwoNUSRbHB0YfCrDbda3hjC45uZyuZEuPRCkQbgnHHQeUPyx5h2r7Zqb0r+oH80Kp7B4i78skgVpaIRx/fconEO/rDKELFvFh5F/Bbp59SaozlM1Tzj66+l4LweULLWy+7jl9gEhZv7KmMbBswWgHICz5ljoBj3/epE4pA=
+	t=1760499633; cv=none; b=SCP34qcArR4iCiHbo3GNmLEAIKoPqmt/OqzdDvHVNlhZCBqfeAW7vzM6LPaaJJznj1OvyG22taJd582qryMELt5dEs5VY/uqKrnLnY+TXzrNRtUHdMtK1lXo7fJTREBbFnUkIfqizfs3EPMGlK3Ym4aZT9Flu8SpCmtdzdhdq1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760496286; c=relaxed/simple;
-	bh=gs6Xxgdq5vKc/+FDa3BISnYoT4uHbfxCbX1jm2/R9k4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=afj00xi4z6EdsugA9IESCXnBvaljAQ+EdytnqJl7XNRbPCIne5F8gOtIafuILniq7ZDORzFu5iHc2CTYTfVICEb93R8dr+t91hple9qCuOiJA1MKf0ow2zIHcjHX4BzdxbNjyybeaJotKBIX8CcEAc7Yjt9sSRY5rOqi4/7/Fv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=QhHHVTTC; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1760499633; c=relaxed/simple;
+	bh=tF8UVJ7iV9XbY4WtnFX6iDlveE635HSDujJ70qOG/W4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VBJlBGzp0l5KKdsiXVT3R5YdiigstIrEpvmdMth9QV/xjAl/YjDO7r338SqT2jeKsXHXMezpbyurAR2/hAMVpYv9nLy7X7/58fTQoS22Bx6+XJBURU3M6fLGYdq74rnt1SZgAeUpgtp4oN9ZXibE3pFTl54MS0d4Yuk/QOnSyQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=xLbMLvvL; arc=none smtp.client-ip=211.125.139.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="QhHHVTTC"
-Received: from trampoline.thunk.org (pool-173-48-113-184.bstnma.fios.verizon.net [173.48.113.184])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 59F2iJxd021706
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 22:44:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1760496261; bh=90VMANy8wywHNISJvnfEyPddEYG5BudxXWSnPN4cEHs=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=QhHHVTTCxxB3UGSl3LhT1IRQjPejaeLz+utulbLeiA0JxO4OLpQWV/CP8CVnVt0BG
-	 Jr+MFB6g2+V4FN7QhXnGnVLaoL9W9cBucjOu1pURjMg1pAgupqKTEL3blc/uxysWEH
-	 FGtY/GwgtZBkvlt1mgoIVYOgniTp4MPR4/nXORzOvTRLKzeNL8twNrqvIzkVUmxyXW
-	 T9t05pU/t4DnxgTZ763z891loAEVTDxxrNeesHZDecRloIYY4aYoNfE1/GkUX6j29V
-	 x+NoBzVva20bFApZoPea7fBggNctUBQDOQTipnoHRIJ9+RvnIEL8xgQaewa0I4S8Cg
-	 nE91NkH3aZEjw==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 448F02E00DC; Tue, 14 Oct 2025 22:44:19 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zeno Endemann <zeno.endemann@mailbox.org>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] ext4, doc: fix and improve directory hash tree description
-Date: Tue, 14 Oct 2025 22:44:15 -0400
-Message-ID: <176049624800.779602.3824744552232012410.b4-ty@mit.edu>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250925152435.22749-1-zeno.endemann@mailbox.org>
-References: <20250925152435.22749-1-zeno.endemann@mailbox.org>
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="xLbMLvvL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1760499630; x=1792035630;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=h+wM+eAwDJ3fdxxHZktrCzap9vXJ+Q0aN8qJ3Pnqwx0=;
+  b=xLbMLvvL5qMZl3kuH5Cf4vmk+SRYsQx8WT4a3ayNU9+GZuIOEB8FNDob
+   hwFlj3h1jz2H2NLrFF8fV+/lwpDpzii6e4p+B2pL/QwR6ts8ROLLm4EGZ
+   5SdCyCqxM4IfkFiagXiMdJDITq3PKmVBfipQWPFs1bLIl3lM60b3+000E
+   1qv4qmtR80fwYObWw/LpNRpxCg1ZkFetOwGHkIeeyQq1/HYlA4624zTSU
+   fwHB5qqmY0Y9aOzZG0zkYSIFow994NwK/+96FoSqyhhM2Ys3mAOaeyQ85
+   fofSwJl/ZndfkpwfNszZB4NQBFIfzyuHD435vsrg9cfX3C0/IFIieAPeu
+   w==;
+Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 12:30:21 +0900
+X-IronPort-AV: E=Sophos;i="6.19,227,1754924400"; 
+   d="scan'208";a="45749282"
+Received: from unknown (HELO asagi..) ([43.11.56.84])
+  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP; 15 Oct 2025 12:30:20 +0900
+From: Yohei Kojima <Yohei.Kojima@sony.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Yohei Kojima <Yohei.Kojima@sony.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: admin-guide: Fix a typo in kernel-parameters.txt
+Date: Wed, 15 Oct 2025 12:31:03 +0900
+Message-ID: <edda15e3fcae13265278d3c3bd93ab077345d78f.1760498951.git.Yohei.Kojima@sony.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Fix a typo in the stacktrace parameter description in kernel-parameters.txt
 
-On Thu, 25 Sep 2025 17:24:33 +0200, Zeno Endemann wrote:
-> Some of the details about how directory hash trees work were confusing or
-> outright wrong, this patch should fix those.
-> 
-> A note on dx_tail's dt_reserved member, as far as I can tell the kernel
-> never sets this explicitly, so its content is apparently left-overs from
-> what was there before (for the dx_root I've seen remnants of a
-> ext4_dir_entry_tail struct from when the dir was not yet a hash dir).
-> 
-> [...]
+Signed-off-by: Yohei Kojima <Yohei.Kojima@sony.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks!
-
-[1/1] ext4, doc: fix and improve directory hash tree description
-      commit: 4b471b736ea1ce08113a12bd7dcdaea621b0f65f
-
-Best regards,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6c42061ca20e..f29ba44b5be2 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7150,7 +7150,7 @@
+ 			limit. Default value is 8191 pools.
+ 
+ 	stacktrace	[FTRACE]
+-			Enabled the stack tracer on boot up.
++			Enable the stack tracer on boot up.
+ 
+ 	stacktrace_filter=[function-list]
+ 			[FTRACE] Limit the functions that the stack tracer
 -- 
-Theodore Ts'o <tytso@mit.edu>
+2.43.0
+
