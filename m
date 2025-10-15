@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1F833A012
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 17:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7FB33CE90
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 17:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760547747; cv=none; b=ZCrGEdEgCBXL5RYokLIycXnHqmc/aPvizDIUhhJ/5sXL2nXUsCxJXRFNk5MwHF3s1z6o13R3lCLroM4fqnNd4Ba/yCCEuZlpegMPlvsH5PBoznykvz/bNNZOJyn9U8UlSL2GVRPWN6S8ich+3hEIUahnQYMuhrK2yAIxjm1RUbU=
+	t=1760547748; cv=none; b=Nk22Sz7ZumROtx1q85/J7bmdn6NXF8S8rEw1vkBepySFQGkjC61Q4I4SkhYbXyEhVgnFMXSLhcunhb6kEC0BLpu/Zz3V1WG8rQl2sY6L4IaOjGO9Co8LU0VB7aM+YTrgNQRfBu8LU0flOtPhTr0XRoaW8Owo3p8nJnPFiOM7SxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760547747; c=relaxed/simple;
-	bh=1jed6GmDT1FsL0aWAQrTOmSmNfkR/x9qXkLi2gdyspE=;
+	s=arc-20240116; t=1760547748; c=relaxed/simple;
+	bh=z7jbkJWCiHJzDsZp2daYSUCdawNKubcfe8rNVKzOBZE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KdDZKFjNFlQFhLGNw4+1Lajrar6rv53m/k7JO+rdNQdJX7eNqotwSGPZ4xYXNq11fa/TW6N4Zmnd3ry2nRlfUI2FMpqKPBls4SPAzZ4Y0YKCbHmCya8Vsa3BlBFIDCNnf1SoZtUEpJFZ+85c+h8R1OQZ7dZuT+vEQF+sHhOAg9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IuaKdqJf; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=Mpvu92MwrNiRQvx7Y18DrPMw9frfR7mVcKffDeudcdMn3jzFb0gU8lmwxjeQxuCD7fy4XdMDwPph7Y5G+qI4d0wDduVEFkMkEMAkjPYSGlSTd1pdzhM4KI1G5Oh2aRkVsyhzBI1BlHjVXt3eidzk+T2/4/HYsnwhYj5HfK0LJ7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vMv5tJCP; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IuaKdqJf"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-470ffd40c16so3244175e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 10:02:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vMv5tJCP"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3ece0fd841cso5150094f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 10:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760547744; x=1761152544; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1760547746; x=1761152546; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MFa5MsvOEgP3p/Hez6gTFGugruhQ98Q36uD5Tr4UKtc=;
-        b=IuaKdqJfvvwjIqtkpNjIUSKpuPGx4QJ9ERpU+mojB0TGlrCD7y43s5Qqjod0AEHnJr
-         kQbxj1jTW5bGJStKkMIZLOOlQAxjMi4QCteYt8Rm6AfT8w6iMdWXQv51oLOc3naXhetU
-         hcQvdhimQmgDautnYr24mdoHxcSNtjQLtZbYfbGdOLhIjbXlpguQ7tYKuXG+xuoVX9x7
-         l4TsZLDQW96G/Ef0ERhjoN6VolYTrbwaQf6ntnwhIZsWbo9NZlx3uX3ipTPR/ouAQ0t7
-         M9vVR4MF6tvDcqqAsKc0bIOrkmida+qaEnpHTKuPM0eUjax2D6r/iIU8DfvMYdQzC8Je
-         atbg==
+        bh=qHQ/My45H6NW6pE8FY9S/15tlaPt8FNQ7uHm7Il0FNA=;
+        b=vMv5tJCPJZsFH8/dGfay0bq/aeIdA98O86DRMjgS7gHEW3NJN3ktHDgopayy5/X6qh
+         jX8fNaCSFH8Ym5AJN420JarURcpVu7P1KpnsKToC0kTxjSyIv4rONzFDrRt0mR86mRXU
+         4FQRKkp07j0Y4ZwQrwz9oxCmTQO3pb6zeDT3ZVcTGqNNIMMtONjiamps3O7Dc9OtRvZT
+         zpsxLVWfGxVfcewjBnxJ+91aHMd/7Jl/BBDR2YXQiCVnobiMCNEdK/rNBA4SZDFO4Kyw
+         5JzJNh3uD9I3NvnO92d8elLtQowXo8CdrRAfk2kLMG8z4A70P+UGlf+U4gFSPfw8aBxx
+         wzJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760547744; x=1761152544;
+        d=1e100.net; s=20230601; t=1760547746; x=1761152546;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MFa5MsvOEgP3p/Hez6gTFGugruhQ98Q36uD5Tr4UKtc=;
-        b=xVGB7XtjcI0s+GKVT8gDTKnXt0LRf0osj1GfJ2goYiA59l5OPOcRyNg3tJ95grys8I
-         D8XWbze0ImfJkWTbLomIEJL2TyxANjBZzVHnaQw3bWdbvSLlcLSwpsIVnunXoIYE7MKG
-         xObzdt2iOrCS+uKk5+ALznRfaC7SVEbg3jnHBC2yf/VgzIEBb9xpR9sVRN8Hc5h4I/tN
-         LuXw6QdNDn54HkKmwauv71tG53B9E+N5AhXIPKWbouzo9NqqLtbjTXNT6zmzIQaR8R7M
-         4rgs3suYu1C3IohddmkpGkV9D2DFKms9XYQ6rxrUl55Wz6nx0BAYvEHBAJaHM4l72xUM
-         ZuTQ==
-X-Gm-Message-State: AOJu0YxZZI7Vuh3dLhoX8r2iil/tHV11aUPl/2cQCOzXVEIuHLBYDedW
-	b3aW1JijCOvVDzC0z3wGM0z8+ZoWRvlUtqBScIgt7k0lRlYDfHYZG6bU9WReTep6U7JLlI7DLuO
-	3UJaomHdV0hBfvg==
-X-Google-Smtp-Source: AGHT+IFvxc3sGG1SeHoxohU8Q35w8zbZLd6mM8Sf9fcI92y8FVCNPWrspXmbbM6LPsQib/+IzMUzo5jzGr5ojw==
-X-Received: from wmoo1.prod.google.com ([2002:a05:600d:101:b0:45d:e2f3:c626])
+        bh=qHQ/My45H6NW6pE8FY9S/15tlaPt8FNQ7uHm7Il0FNA=;
+        b=nCU4hhxcjZ0t827axMcWcva9PUrXslHhn6VcRkXdXUEHHUsvTG2QdewOXucQ8EEnUp
+         kIKtCqHYwhrEMmxV4nuXz+5LFLx9VmC0+dqA7Sl2Z1Z+70Iw3QFgDg1F27o+uUE/WqFJ
+         GXy921jiMdHDmegzVl3wO4qiQ01+Ga+IFlAvodp6p1ZsE/jZ6u379/JBLZQwuzFOkQEa
+         6maCL8AKsmyNwdGT+enAVTYoVXX/+d7kAyzMFdczs1vCc0hv7yAHxKl4jRQ6lk5BcN9t
+         P8bfvfhf6SZ8Mktk0CFNl0DUOSSnEjDJRg5hVcX4FSLHqPN+TchdvXpzlieL+7oVwsmM
+         ICVQ==
+X-Gm-Message-State: AOJu0YxyyZO2OYgpdGjgRScC3+V2ZazBb8X0sDfDdClQP6BsTbvarsQH
+	mpR0/CRpQ1AtcTUSQCp2/l5oh+KCTD/bB5S20nm2oKvmNt0m5GIlJTqmrzyASegDx2wFRS3JnK7
+	A7iFXoIeccMxuxA==
+X-Google-Smtp-Source: AGHT+IHR9hnAt3TkdZgTBDb3KtT9RID/f89jZOUFMT5Pu2QM6neA//FwvD/h9k3LegqwxIgWoIii48dZZ8xSlA==
+X-Received: from wrbgw33.prod.google.com ([2002:a05:6000:40e1:b0:3ec:de41:d5be])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:699b:b0:46e:410f:f645 with SMTP id 5b1f17b1804b1-46fa9af8fa5mr219134815e9.21.1760547743670;
- Wed, 15 Oct 2025 10:02:23 -0700 (PDT)
-Date: Wed, 15 Oct 2025 17:02:05 +0000
+ 2002:a05:6000:2082:b0:3e9:2fea:6795 with SMTP id ffacd0b85a97d-4266e8de1damr21457560f8f.53.1760547745778;
+ Wed, 15 Oct 2025 10:02:25 -0700 (PDT)
+Date: Wed, 15 Oct 2025 17:02:06 +0000
 In-Reply-To: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
 X-Mailer: b4 0.14.2
-Message-ID: <20251015-l1d-flush-doc-v1-1-f8cefea3f2f2@google.com>
-Subject: [PATCH 1/2] Documentation: clarify PR_SPEC_L1D_FLUSH
+Message-ID: <20251015-l1d-flush-doc-v1-2-f8cefea3f2f2@google.com>
+Subject: [PATCH 2/2] Documentation: fix reference to PR_SPEC_L1D_FLUSH
 From: Brendan Jackman <jackmanb@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
 	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
@@ -68,41 +68,26 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Brendan Jackman <jackmanb@google.com>, Kees Cook <kees@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-For PR_SPEC_STORE_BYPASS and PR_SPEC_INDIRECT_BRANCH, PR_SPEC_DISABLE
-means "disable the speculation bug" i.e. "enable the mitigation".
-
-For PR_SPEC_L1D_FLUSH, PR_SPEC_DISABLE means "disable the mitigation".
-This is not obvious, so document it.
+PR_SET_L1D_FLUSH does not exist.
 
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- Documentation/userspace-api/spec_ctrl.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/hw-vuln/l1d_flush.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/spec_ctrl.rst b/Documentation/userspace-api/spec_ctrl.rst
-index 5e8ed9eef9aa84f12fa255af7b15c163ff01aab8..ca89151fc0a8e7205e0a0062134d63b213b9ef11 100644
---- a/Documentation/userspace-api/spec_ctrl.rst
-+++ b/Documentation/userspace-api/spec_ctrl.rst
-@@ -26,7 +26,8 @@ PR_GET_SPECULATION_CTRL
+diff --git a/Documentation/admin-guide/hw-vuln/l1d_flush.rst b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
+index 210020bc3f5684a4510792aad5d0fcec659ad7d2..35dc25159b28a280793ad147d25d582f31a77999 100644
+--- a/Documentation/admin-guide/hw-vuln/l1d_flush.rst
++++ b/Documentation/admin-guide/hw-vuln/l1d_flush.rst
+@@ -31,7 +31,7 @@ specifically opt into the feature to enable it.
+ Mitigation
+ ----------
  
- PR_GET_SPECULATION_CTRL returns the state of the speculation misfeature
- which is selected with arg2 of prctl(2). The return value uses bits 0-3 with
--the following meaning:
-+the following meaning (with the caveat that PR_SPEC_L1D_FLUSH has less obvious
-+semantics, see documentation for that specific control below):
+-When PR_SET_L1D_FLUSH is enabled for a task a flush of the L1D cache is
++When PR_SPEC_L1D_FLUSH is enabled for a task a flush of the L1D cache is
+ performed when the task is scheduled out and the incoming task belongs to a
+ different process and therefore to a different address space.
  
- ==== ====================== ==================================================
- Bit  Define                 Description
-@@ -110,6 +111,9 @@ Speculation misfeature controls
- - PR_SPEC_L1D_FLUSH: Flush L1D Cache on context switch out of the task
-                         (works only when tasks run on non SMT cores)
- 
-+For this control, PR_SPEC_ENABLE means that the **mitigation** is enabled (L1D
-+is flushed), PR_SPEC_DISABLE means it is disabled.
-+
-   Invocations:
-    * prctl(PR_GET_SPECULATION_CTRL, PR_SPEC_L1D_FLUSH, 0, 0, 0);
-    * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_L1D_FLUSH, PR_SPEC_ENABLE, 0, 0);
 
 -- 
 2.50.1
