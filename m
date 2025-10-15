@@ -1,83 +1,83 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED69239E63
-	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 23:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7579C239562
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 23:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760572608; cv=none; b=tl/cGqKI2z0HoQpFQD6KNFHiY+L11OAw1mzfySSZaujlhIzqLPeWyCjWC56ECFYsJ9Q8QqFDohl6Pe9upvsodrGJZm4YRZVlrKj1Hbmuw7wo0RDWyPrkUWwS5GH65hYAT0lULrlWIM3wVRBc1b+Rha5ZQRwRlXTvZaSOE2AKNts=
+	t=1760572689; cv=none; b=pSkYXU16s5KLE4rwXA//heDIqK1qHtNEhK5SOz0psMQ/3iZh2mHEgL/qRP4XOsgNo6u6MmSeRc46lgrdw6jx0l+t3kVI77B1uVRO0e/3DxSUHvjhk35LHog/rRwaCIE8WT9UxaeshgMubFKMI1sCtctF5rzhM04zpDuVQXFezSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760572608; c=relaxed/simple;
-	bh=VrdjKA95pfJlziaCm9nOUEwTPMyNUSWxkOAgrsJdVf0=;
+	s=arc-20240116; t=1760572689; c=relaxed/simple;
+	bh=u8uiznWCVqnREUf+CXO4AJ4aXCu7jmn3pb4tv4zAwj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F2uMzdSltgGSL8RS+3zVca6LWTb64ts3SCfrLIPPif/G6tYDJCAVICuQkEXj2uJ8jaTYe53JcKhjH3kyXVYFt63w2ezgtHdl5HzQr9FtsBvPlYiKeAD1FkCx4ZXV/6F6VsYB+A4HoFW35k2tficax1A4OsI9QzbC/HPmLHpq8zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EmNo3KLc; arc=none smtp.client-ip=209.85.215.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=SktwKnmHu9hnv24eJIZuLVEhERV8/Zog4qFPi2OOIBDRX4457T9AIlRVko47q9Yzk1D5UBgBlA0KyMal1vTwFHdbcp/RZGTha/xiXa5O/OVQ12ewtxlRXDzSRTUsg6WxfxcJmvizJZNpe/Q+8bAuyR8uj4UQF/eE/j7fWJsH7HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjtI9mlx; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmNo3KLc"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b550eff972eso46778a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 16:56:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjtI9mlx"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-27c369f898fso2125555ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 16:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760572606; x=1761177406; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760572687; x=1761177487; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VrdjKA95pfJlziaCm9nOUEwTPMyNUSWxkOAgrsJdVf0=;
-        b=EmNo3KLchX5BOKY+Gug74htQ8237XXTPl3MyGg0kEITSNrVU8h1+FLzUn28cRCsDPA
-         llyHcg+S7CNE7CkiQHold5YA/XgVMZmYq1sIB+nIcBrEtFlnTI5bLbFPQa4a7yTOiZno
-         9eAQLi/pTtJRsshVJ262jo7eCXIWorVjq6ADgz0EejBNAko1bw8mztDFN2kvdmFal2Ub
-         8fgIYZGor3QsKXjOsrbL5/Hllp/ttwSCO+pv2ImM+sGSRI24e0GouTxd/VEqZiQf9DUh
-         Ie6DG8CZ+cehNFLnIRPmYVMVOV4NsS8Vg35M4BxtOSq6eyxvMf37h5ilaE11pSOpO+xM
-         bF9w==
+        bh=kTdhM5dq4qUOwln9YvvCvYcbtpAId+tRa1KojSh33Ug=;
+        b=XjtI9mlxHcxfCYAc0v8bH736hWP8PgdY1EZQq2al1cPk9XQ8MTB2V6afD+ezD8CaAL
+         Yhkrw1XX7R9eRwFND/FhXAShDN0cKezz/19NYe/kbMOhuSvJt4eFoLrlwltqpxCguVtP
+         US6GSDeCehweMYJd4FO4Wq0aJv6vpHjR5lZemf4pYkTHGZNn4kUS8MzLnVAvZ/4SPBLZ
+         OTrCkbGCpDp7MINdf8hDPD4IfrmSnpEWbqur+rB0a+xwUo1fPC570Mw4qfZnxKCL8SJ+
+         yP0+M8NlQKLc9Ik1sJkrl9QxnaY8qhTjm18/86ApZQ2GiqG+qMc7Y0AJke6e9gMAFa27
+         7z5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760572606; x=1761177406;
+        d=1e100.net; s=20230601; t=1760572687; x=1761177487;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VrdjKA95pfJlziaCm9nOUEwTPMyNUSWxkOAgrsJdVf0=;
-        b=iLcjYUc9P+14zDQMFAA0AMdbEmuMKeSiqPKmQx43pz4fH+QiF3sNrm3V1Ik3LKJvnt
-         /myjTieWK9j5SUU1rHUmLNN2UqTi91K83I1P1onA4a95kDh+9e6em+sIhgrIntuvUL6U
-         EMdFepmJwx9nVf0wmNkwJcGfrQrRVfIjxwaQ5n0uZtCLIXHsu8PrtUCsEKH1yK4waf8T
-         1FChX/q7H0SPWADU4Iic3I3wC7O1Jv2wS1WO7liwqh9UMbPVtCkgS9Mv36SN2BV71Oyj
-         CHfxePpE4UZwWp7PnVpHWy1Yvx8LyJFYXnmM4ZxIDKAt/7BU4ynfTb9tx9lIyde2K48M
-         rg3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXSpNJ7ySpSAHQaX4x/SreEn1Yyhy7xpybWYqSyv5LceR5fOL2qf3p4sSAHLnJlDO94s0NVg+71wm0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVp5m1N4t5jijq6TBwr3q/6PA7hhSoS354IZk20gT68O3+r3Il
-	3Th2J2blYXD4uIFrIalKs2eTliaPnhxneJy6UsXiMP58cbq1fLQiHnrz
-X-Gm-Gg: ASbGncvM2s0T/bUZNodH13qqjjYhjRzLUgLEfTRpOQor0TgxxYnGmoNk8kunBZTHzvA
-	Ikk9NTbqkhYRtED6lAuLPoMk7nHea4I09JtXJCYxi+20MLpxTMYTvJF9314iTlrHvdvzXGE0MlT
-	Gz9JiPO+FaJ0a/bdnjugbRFJmOhxhlzHg9Y+4bF7aLp+Vvl+8keNUDlq/5K5fZonSRlqv36AwdJ
-	uiYDJztuyZQwkp7Q3BDOCJqp0fTJETkUCN3OsH2so1fDLPJfAp6p9HsFRZ/noEju8qYbYmQsO0G
-	5cQKoFyj9Csqc+5oPF+2tt+cKl5RItpZ7qMrt9k7Tt0xM+J6Ct3lOpyDspx3T5pJwWebTMAzStY
-	x0N7XqJqAYrYJQ2upvszrskQym6eEC/91nRx51y289wuuixWeYLmsRC2LiYQkwDZwPoaQEheHV0
-	5EAQN1aikyGF5jyX16aX/1ZbOg
-X-Google-Smtp-Source: AGHT+IGSJiLb5NMgZSUQODUANG+2COIewb92cwb9YvRlW3gs67WecUf+O5HmxRj2ud/Z7M+Voe3WDQ==
-X-Received: by 2002:a17:902:cf41:b0:267:776b:a315 with SMTP id d9443c01a7336-290272c2019mr363652655ad.32.1760572605763;
-        Wed, 15 Oct 2025 16:56:45 -0700 (PDT)
+        bh=kTdhM5dq4qUOwln9YvvCvYcbtpAId+tRa1KojSh33Ug=;
+        b=cZtS4PYf+kRY43qcB8/oGduOGQe+iBY0IBgsqgMosq0r0mUFApPAn7M7mPcSL2ClCX
+         R1hUY25nT42z5p3Xv+THz79Rut+uBK2Q+FTnXFfCy1NpwkY2I3IzKzZB/onM594eu7QA
+         rVdbZTHF2BIi/XL2jNKTDDfTr9Kn+oWVq/4rGDfpSOV0rSS5e365BUC9Mbx2Tz0UEZtd
+         Q49GK62WxrIsnexYVvjnz5OltiSxkBogwKuDrdHnWiMTaSnPK8dYyTk9+jTn+22Hf3Xu
+         u5geDUiV+AtEmWCstDYLLrYcBkYE7Z8qreRSMHubzEiyx2mE6tz1rIRRQxULTDClOatQ
+         G+gA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6v8MNHwLyPKF8waecjguwzjAjFUxn9lly4jFuAhoFQ8QiKZ9AJpDciLqaFetJ6i6BgLVEazL6OsU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzztVNIGzdFxJQigZyKm2AlyalnWsk9NbCV/YLimOgjHAD2pit+
+	8aQXXoBKSsl3m3IRdG+ElkNmhpLppcJegOGR11iF5O8177CuwD03OIYk
+X-Gm-Gg: ASbGncvB/+USafcUZCPHJiglMnarvF6gFv80jriGif9YydXEeVmhGrOgKC39OGK3qp1
+	Aq/YIrVH6pIWZgOTx/PRi5m6cmkjaFmZTxLJNDZ2A4yFvHM2PXr7yD9eqfg3W4NR134jJoqzy9c
+	Mav3m/uIODXC7goycmXJpLjYHQLEUniD7zCiOQ95ReAJvXTbAbwFRt+kqdNLti7PDqkXuY5oblx
+	dkR3x43lxvK7pPUJ0+wAsPPwwoOsyt2MdvN7rh4K/O+ItypfD3/riYfTyIT/MW3uoZcBiWhq8AI
+	JFXlpQa8F1vCjBr3a20QDNQsd2/CAplNuZscuPuwGKtOR65QDBebhzVFPojkqEPzf3LZ2A7Qj7S
+	EatNMC/P1Bd+2FF1ke0cIvNQwdOpNVOOCz/GkJarXiKOKRt+rxCtkX80N2xxHRShZHJLM+E4scG
+	kjdc4=
+X-Google-Smtp-Source: AGHT+IHAUXKf9omA7q8TkGJJHfP4J+1Abke/cJs4eEJgCs6mDtovqt2QgeF6g2Mw5XNJRdEPCf3CUA==
+X-Received: by 2002:a17:902:fc4c:b0:276:bbd9:4593 with SMTP id d9443c01a7336-290272c1a4cmr361189585ad.33.1760572686460;
+        Wed, 15 Oct 2025 16:58:06 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b97878b03sm3872453a91.16.2025.10.15.16.56.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-290ad0004e1sm48585ad.7.2025.10.15.16.58.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 16:56:44 -0700 (PDT)
+        Wed, 15 Oct 2025 16:58:05 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 27E53419B28D; Thu, 16 Oct 2025 06:56:42 +0700 (WIB)
-Date: Thu, 16 Oct 2025 06:56:41 +0700
+	id BDBD8420B701; Thu, 16 Oct 2025 06:57:59 +0700 (WIB)
+Date: Thu, 16 Oct 2025 06:57:59 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Simon Horman <horms@kernel.org>
 Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
 	Linux Networking <netdev@vger.kernel.org>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
+	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Vasudev Kamath <vasudev@copyninja.info>,
-	Krishna Kumar <krikku@gmail.com>
-Subject: Re: [PATCH net] Documentation: net: net_failover: Separate
- cloud-ifupdown-helper and reattach-vf.sh code blocks marker
-Message-ID: <aPA0ucheaqqhuUqb@archie.me>
-References: <20251015094502.35854-2-bagasdotme@gmail.com>
- <aO_OPBukiAjmO43g@horms.kernel.org>
+	Sharath Chandra Vurukala <quic_sharathv@quicinc.com>
+Subject: Re: [PATCH net] net: rmnet: Fix checksum offload header v5 and
+ aggregation packet formatting
+Message-ID: <aPA1BzY88pULdWJ9@archie.me>
+References: <20251015092540.32282-2-bagasdotme@gmail.com>
+ <aO_MefPIlQQrCU3j@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,39 +85,134 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pwZlaeVNL9Fp5cUU"
+	protocol="application/pgp-signature"; boundary="ZHKkadDGbrovTJ8O"
 Content-Disposition: inline
-In-Reply-To: <aO_OPBukiAjmO43g@horms.kernel.org>
+In-Reply-To: <aO_MefPIlQQrCU3j@horms.kernel.org>
 
 
---pwZlaeVNL9Fp5cUU
+--ZHKkadDGbrovTJ8O
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 15, 2025 at 05:39:24PM +0100, Simon Horman wrote:
-> Hi Bagas,
+On Wed, Oct 15, 2025 at 05:31:53PM +0100, Simon Horman wrote:
+> I would like to add the following, which I noticed during review, for your
+> consideration.
 >=20
-> For the above maybe this is more succinct and intuitive:
+> diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rm=
+net.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.r=
+st
+> index 6877a3260582..b532128ee709 100644
+> --- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
+> +++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
+> @@ -27,7 +27,8 @@ these MAP frames and send them to appropriate PDN's.
+>  2. Packet format
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 >=20
-> Debian cloud images::
+> -a. MAP packet v1 (data / control)
+> +A. MAP packet v1 (data / control)
+> +---------------------------------
 >=20
-> ...
+>  MAP header fields are in big endian format.
+>=20
+> @@ -53,7 +54,8 @@ Multiplexer ID is to indicate the PDN on which data has=
+ to be sent.
+>  Payload length includes the padding length but does not include MAP head=
+er
+>  length.
+>=20
+> -b. Map packet v4 (data / control)
+> +B. Map packet v4 (data / control)
+> +---------------------------------
+>=20
+>  MAP header fields are in big endian format.
+>=20
+> @@ -80,7 +82,7 @@ Payload length includes the padding length but does not=
+ include MAP header
+>  length.
+>=20
+>  Checksum offload header, has the information about the checksum processi=
+ng done
+> -by the hardware.Checksum offload header fields are in big endian format.
+> +by the hardware. Checksum offload header fields are in big endian format.
+>=20
+>  Packet format::
+>=20
+> @@ -106,7 +108,8 @@ over which checksum is computed.
+>=20
+>  Checksum value, indicates the checksum computed.
+>=20
+> -c. MAP packet v5 (data / control)
+> +C. MAP packet v5 (data / control)
+> +---------------------------------
+>=20
+>  MAP header fields are in big endian format.
+>=20
+> @@ -133,7 +136,8 @@ Multiplexer ID is to indicate the PDN on which data h=
+as to be sent.
+>  Payload length includes the padding length but does not include MAP head=
+er
+>  length.
+>=20
+> -d. Checksum offload header v5
+> +D. Checksum offload header v5
+> +-----------------------------
+>=20
+>  Checksum offload header fields are in big endian format.
+>=20
+> @@ -158,7 +162,10 @@ indicates that the calculated packet checksum is inv=
+alid.
+>=20
+>  Reserved bits must be zero when sent and ignored when received.
+>=20
+> -e. MAP packet v1/v5 (command specific)::
+> +E. MAP packet v1/v5 (command specific)
+> +--------------------------------------
+> +
+> +Packet format::
+>=20
+>      Bit             0             1         2-7      8 - 15           16=
+ - 31
+>      Function   Command         Reserved     Pad   Multiplexer ID    Payl=
+oad length
+> @@ -169,7 +176,7 @@ e. MAP packet v1/v5 (command specific)::
+>      Bit          96 - 127
+>      Function   Command data
+>=20
+> -Command 1 indicates disabling flow while 2 is enabling flow
+> +Command 1 indicates disabling flow while 2 enables flow.
+>=20
+>  Command types
+>=20
+> @@ -180,7 +187,8 @@ Command types
+>  3 is for error during processing of commands
+>  =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> -f. Aggregation
+> +F. Aggregation
+> +--------------
+>=20
+>  Aggregation is multiple MAP packets (can be data or command) delivered to
+>  rmnet in a single linear skb. rmnet will process the individual
+>=20
 
-Thanks for the suggestion! I will include it in v2.
+I think that can go on separate net-next patch.
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---pwZlaeVNL9Fp5cUU
+--ZHKkadDGbrovTJ8O
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPA0tQAKCRD2uYlJVVFO
-o4oFAQDBERR//Sh1k48W7RWGnLb3IrKcEpaa2Ru8q8OMSFVD/wEAzCIBRrvx10Ap
-XZKRtUoSLGf+YfhBQfKerigKla/hpg0=
-=GtTb
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPA1BwAKCRD2uYlJVVFO
+o5njAP9fbcZqLKiQ5Y2DAGi8x1JQMAtVAV+fbBnd60BnvnMaxQD+L7adTKlkQ7JC
+fKo24/DpTLZ80pQ7KyjMcqGuJELo/A0=
+=1UZq
 -----END PGP SIGNATURE-----
 
---pwZlaeVNL9Fp5cUU--
+--ZHKkadDGbrovTJ8O--
