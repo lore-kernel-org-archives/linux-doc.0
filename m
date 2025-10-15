@@ -1,177 +1,420 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f227.google.com (mail-il1-f227.google.com [209.85.166.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3F0BE49;
-	Wed, 15 Oct 2025 10:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C921031B82A
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 10:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760522453; cv=none; b=CDFQ1GEkOebcQRUeg8hu4colZh2+HmXC9fSmWBZTG4ULHugdakzODV4r2/JaLxcGJJe6GSwlIew5YMsVEhjzNMxvVJUwXnFR2JTrdomtD8HDwPv50OeJzivfHA6SqGj7V0UWtp5aFA53ZVIKbtIf/lEOIazZTXnRXIolL0BOY2Y=
+	t=1760524195; cv=none; b=LJXVKzCUvWGQkxXMNxSEnuk2WkrCiHIYQGEuyiQZeuoTOg3zqxeotY08qJ0PWkAsQqacwAttVSN6Wg4nGeKBN+3F+H2A+iWs3Isfl+BHRcCv8ec/DkeoZgFS0LyBFRSuL9El7vZ2t8UkvpWzsbGk6l4mlxTMWmVn4XxWSTlR+es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760522453; c=relaxed/simple;
-	bh=ZYZeb++Q7oUU3OeJCz2c/nNPN+HuflD/G0ryZYhjFBs=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=pbX7Xfhfn+BO7C5EpMGbKfzVbR4j8Jx2CuXDWgog+/9g2VAjPIBhVPSoCWnfh/PVy7cg1e/+pLsl8xIGPHCj+3CrzlVxzrZfbRIsYBItjjrFEpFPHfNf+gXis13+G9FkmOnf/u/F96PE6rzyTLX/1NpEyVxhDroaX5vG3lqHk8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=lVlIUbdV; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1760524195; c=relaxed/simple;
+	bh=mjJCEv+U6r90u5X0aQdVl1EmL1XtqRVDsvaF9Ppeb+4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PrXcq+97lU/Yk9yaI1EXJB4xSX4UQbrLIGkfKsWPmkYldxb49UjzK9LEtWpIueXbzjkvWB53rKaXwdY4+4pevIYRU+FQtSxs2hgBwpx55hGItIwccPxIx1Z6gSg9TNCy2Rd4EKpnULsRLsWCGOeAd8/YcLi99XsQQYMxdLf/8/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Ij6w8+EW; arc=none smtp.client-ip=209.85.166.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="lVlIUbdV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1760522441; x=1761127241; i=markus.elfring@web.de;
-	bh=HnMcv6iaZ4GQpFvamOdr+OMWZzHdomct536Nj8zJjPM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=lVlIUbdV5FWNMKBkNzUI0QDZMl2NZPhvsHh1EvjXsJi0p0arjhE6hxm08eUmZOhp
-	 6WjMQ/Pl6J39AO75O9M+pofhrhg/fFgS9kvq/EubjW5/YwqNDueOB7RXaqa7vm8f8
-	 bgs2ZwwwGwbLT9ikuXgzAmK8JRKVSgtzZsg9phUWdnNjVgnsMTVY/+CQ5Lz3cOVMA
-	 aF93sFXUgf6Gin6W2EVMxNs6KcZBsDwvAPMPB3buy0Cwizkp5okmjE76TAoVDdMRU
-	 +pkbBXOxE8NiQNAYo/hmdbM/kQIECZy7PHE5dM1oSEBEl0qvPei1fPvO91TW/7TO8
-	 K0coHxk+uKGTZ2LAIg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.181]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MLRYd-1uqTxC2qZ9-00IASv; Wed, 15
- Oct 2025 12:00:41 +0200
-Message-ID: <b59d625d-18c8-49c9-9e96-bb4e2f509cd7@web.de>
-Date: Wed, 15 Oct 2025 12:00:33 +0200
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Ij6w8+EW"
+Received: by mail-il1-f227.google.com with SMTP id e9e14a558f8ab-42f6100475aso29092135ab.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 03:29:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760524192; x=1761128992;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=q3UxQqGqpoY40xPFZJ1Hjf5BHWAzqMlroJlxni3yCMc=;
+        b=KIIFF4SSIUQel7fur2217MR+QgJbVyyeGp8PAsGsUERyCo5jUIVbqt3YzskYigLyAa
+         W8oKrMoZrTEIiGpO4XpBuUwyT+JYB/naWS39Ghh36D+R47J7uQFrKphFtkSbpGoUbdej
+         4x++iEK5wu4sVemsMGFTU9u7KUsmCg5uunlay67FOgFy7gnEk04OrxKn6dUDpSHY9kCY
+         6G7mSK4DQzbFZhV2wb2plbRcbtBH200pNZIcPwuYNqa6I0AHPI7VHmUs70JInZULJ8hF
+         qazMjHfTm28I5BQYzOGA0m9TAc/5NF9u0qaTVc1x6ph7Q83QY6ReNaW6M+3F4otPxflh
+         o3Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCUg0gdwweFSk5QpRQSnTDPt7SmGbmiDaGLglcJhXCJzENJmt8rzd2oPKgJcvnObRpg2iMkZd/CjLE0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVBJ5oSqvre3m48zoOtFH759ukrwVUayY0c60SmkR52D8S31me
+	n8GlX4hfCSJlcqYa/Yzn1sl2heZutaFtpaInXJL7v98f1o8kcdSRqI4g3YukaXs3yy3kGBElTPw
+	YbYuCjXLkVqWDWguvB+uiwH7R29CSlXOB3YItqOZVt5v1qgG1FT7gtZBVv66diflxLnpG4TjINx
+	MVTb78+J7j9v2LFVqczpwmOzgUs7o4grH+y/J2+RZMCl3U4by0u6XO6nGqY5YR1BNb7T/v/1bEL
+	ey9hiiUDOCOAj8=
+X-Gm-Gg: ASbGnctZh9d8vQ4SlWfhYO3L8H70lCSL+9BapsN+Io/JiKuTU3aTl7elySN+ourDwsU
+	m8zChXth0GCoPQwRU6kk8xwaHW7PEEaG9nmayadbLQ6tybHA5RT4LH3ko0or2bL0fd2ZtCyDpvg
+	p2ygGm4qafFo+9i5/i1xis1LyKCURi0mBY65tyLWPOIQnp3LMzaSF01hwd4jVVUstbl57lr8hOt
+	k5XYm4W30aGMzyHSe0fFGYGXDxQ90PHEG04Us2BKRgKdcRsrnvRKYQb0ot972CUk+lKtoOXxKC4
+	TbRIZZY31LguZEj4zZMmVFwIu0CTIdtdSTupL32CG7Vcwhs9vFyx0cO3K8BWTXJaB2mE14y1QTf
+	su+xgMo8c4UBhkpw/SvK5jsAMf1XNUlFhOk73tLRoXZJM9KbEjb5LzgX541jEAJ5KPysRsjJG5O
+	k=
+X-Google-Smtp-Source: AGHT+IHVNEvfmXt77PUQKghOdSFxN5Pdm05By5Pxnqesa59dTMER9Rm9dpZ7B7tm3lcfV3wUd4ICoErVYs7z
+X-Received: by 2002:a05:6e02:23c4:b0:430:1c6b:7ed2 with SMTP id e9e14a558f8ab-4301c6b82a2mr192181965ab.10.1760524191606;
+        Wed, 15 Oct 2025 03:29:51 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-19.dlp.protect.broadcom.com. [144.49.247.19])
+        by smtp-relay.gmail.com with ESMTPS id 8926c6da1cb9f-58f6d041972sm1253621173.8.2025.10.15.03.29.51
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Oct 2025 03:29:51 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-78427dae77eso9039125b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 03:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1760524190; x=1761128990; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=q3UxQqGqpoY40xPFZJ1Hjf5BHWAzqMlroJlxni3yCMc=;
+        b=Ij6w8+EWwhNHLBOamu7JqKKuAWQ1EPZlWgJPc/L55beJ/6DxoZT3OAJBuUeP3pHuCW
+         P6zfe6AEFPziSZu0Tmz25pFsBYkMcqqZiThzNmDYXM9Uh73f9O/2ega3ML16mB4IURYd
+         6oNsL0EKC+DBOZ8KwftxInJ72giGu2khSRNbk=
+X-Forwarded-Encrypted: i=1; AJvYcCXd1yc7GysuSr99l5JFYRXviQqeUTrU5dFISFDHdW22430rQHjV89GztlUn9xuC8Hfdw5fu9FEBkK4=@vger.kernel.org
+X-Received: by 2002:a05:6a20:2449:b0:306:2a14:d0d4 with SMTP id adf61e73a8af0-32da83e6017mr37874064637.43.1760524189957;
+        Wed, 15 Oct 2025 03:29:49 -0700 (PDT)
+X-Received: by 2002:a05:6a20:2449:b0:306:2a14:d0d4 with SMTP id
+ adf61e73a8af0-32da83e6017mr37874018637.43.1760524189466; Wed, 15 Oct 2025
+ 03:29:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
- netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Bjorn Helgaas <helgaas@kernel.org>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Gur Stavi <gur.stavi@huawei.com>,
- Jakub Kicinski <kuba@kernel.org>, Joe Damato <jdamato@fastly.com>,
- Lee Trager <lee@trager.us>, luosifu@huawei.com, luoyang82@h-partners.com,
- Meny Yossefi <meny.yossefi@huawei.com>, Michael Ellerman
- <mpe@ellerman.id.au>, Paolo Abeni <pabeni@redhat.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Shen Chenyang <shenchenyang1@hisilicon.com>, Shi Jing
- <shijing34@huawei.com>, Simon Horman <horms@kernel.org>,
- Suman Ghosh <sumang@marvell.com>, Vadim Fedorenko
- <vadim.fedorenko@linux.dev>, Wu Like <wulike1@huawei.com>,
- Xin Guo <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>
-References: <68ddc5e9191fcb12d1adb666a3e451af6404ec76.1760502478.git.zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next 2/9] hinic3: Add PF management interfaces
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <68ddc5e9191fcb12d1adb666a3e451af6404ec76.1760502478.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8
+References: <cover.1760502478.git.zhuyikai1@h-partners.com> <905df406fd870da528361f47c48067802588cfb5.1760502478.git.zhuyikai1@h-partners.com>
+In-Reply-To: <905df406fd870da528361f47c48067802588cfb5.1760502478.git.zhuyikai1@h-partners.com>
+From: Pavan Chebbi <pavan.chebbi@broadcom.com>
+Date: Wed, 15 Oct 2025 15:59:36 +0530
+X-Gm-Features: AS18NWB6wjOop2tYYHm7gUl-Ch7WYa9xLfizjawpwcM4ZcnXv7uj0L9myyZ6qeI
+Message-ID: <CALs4sv28UttVJh2vCbax=foQYu83Qn1NsiUWOGQhKHsKg7ZwqA@mail.gmail.com>
+Subject: Re: [PATCH net-next v01 1/9] hinic3: Add PF framework
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>, 
+	Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, 
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, 
+	Shi Jing <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, 
+	Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, 
+	Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000fcb75606412ffa3e"
+
+--000000000000fcb75606412ffa3e
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qRdSXG4YKq7oJAjeeIgrk+c0kf5VQ4Ho3ZesAQJz+AdtSDiLhpe
- ZpPHqfNpdu50lEfhNZPV1V5e+0cZxspd2huBO80HQj5EK4DnYKICkTAccvvlXzA2FXOr6d8
- KyzohhhTuWVYeAne1PFtM43jkJpOz25zCTuEF63wz/B+V2tMRI6uVdqlqjtCy1sawF85mPP
- +52I1ot7CbhYDuJ6LDvPQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XXaFUKwAvo0=;JnU5QG5r1G/vJMifNjmyMA255wD
- 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
 
-> To: Fan Gong =E2=80=A6
+On Wed, Oct 15, 2025 at 12:48=E2=80=AFPM Fan Gong <gongfan1@huawei.com> wro=
+te:
+>
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+> @@ -314,6 +314,9 @@ int hinic3_func_rx_tx_flush(struct hinic3_hwdev *hwde=
+v)
+>                         ret =3D -EFAULT;
+>         }
+>
+> +       if (HINIC3_FUNC_TYPE(hwdev) !=3D HINIC3_FUNC_TYPE_VF)
 
-Please reconsider the distribution of recipient information between messag=
-e fields
-once more.
+Is this check needed? Other places hinic3_set_pf_status() is called
+without checking. I see the function has an internal check for PF.
 
+> +               hinic3_set_pf_status(hwif, HINIC3_PF_STATUS_FLR_START_FLA=
+G);
+> +
+>         clr_res.func_id =3D hwif->attr.func_global_idx;
+>         msg_params.buf_in =3D &clr_res;
+>         msg_params.in_size =3D sizeof(clr_res);
+> @@ -337,6 +340,54 @@ int hinic3_func_rx_tx_flush(struct hinic3_hwdev *hwd=
+ev)
+>         return ret;
+>  }
+>
+> +int hinic3_set_bdf_ctxt(struct hinic3_hwdev *hwdev, u8 bus, u8 device, u=
+8 function)
 
-=E2=80=A6
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
-> @@ -3,19 +3,325 @@
-=E2=80=A6
-> +static void mgmt_resp_msg_handler(struct hinic3_msg_pf_to_mgmt *pf_to_m=
-gmt,
-> +				  struct hinic3_recv_msg *recv_msg)
+You could just send *bdf_info as a parameter with values pre-set,
+makes it look better
+
 > +{
-=E2=80=A6
-> +	spin_lock(&pf_to_mgmt->sync_event_lock);
-> +	if (recv_msg->msg_id !=3D pf_to_mgmt->sync_msg_id) {
-=E2=80=A6
-> +	}
-> +	spin_unlock(&pf_to_mgmt->sync_event_lock);
+> +       struct comm_cmd_bdf_info bdf_info =3D {};
+> +       struct mgmt_msg_params msg_params =3D {};
+> +       int err;
+> +
+> +       bdf_info.function_idx =3D hinic3_global_func_id(hwdev);
+> +       bdf_info.bus =3D bus;
+> +       bdf_info.device =3D device;
+> +       bdf_info.function =3D function;
+> +
+> +       mgmt_msg_params_init_default(&msg_params, &bdf_info, sizeof(bdf_i=
+nfo));
+> +
+> +       err =3D hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_COMM,
+> +                                      COMM_CMD_SEND_BDF_INFO, &msg_param=
+s);
+> +       if (err || bdf_info.head.status) {
+> +               dev_err(hwdev->dev,
+> +                       "Failed to set bdf info to fw, err: %d, status: 0=
+x%x\n",
+> +                       err, bdf_info.head.status);
+> +               return -EIO;
+> +       }
+> +
+> +       return 0;
 > +}
-=E2=80=A6
 
-Will development interests grow to apply a call like =E2=80=9Cscoped_guard=
-(spinlock, &pf_to_mgmt->sync_event_lock)=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.17.1/source/include/linux/spinlock.h#L=
-565-L567
+<-->
 
-Regards,
-Markus
+> +static void set_ppf(struct hinic3_hwdev *hwdev)
+
+Any particular reason why this function does not have hinic3 prefix?
+
+> +{
+> +       struct hinic3_hwif *hwif =3D hwdev->hwif;
+> +       struct hinic3_func_attr *attr;
+> +       u32 addr, val;
+> +
+> +       if (HINIC3_IS_VF(hwdev))
+> +               return;
+> +
+> +       /* Read Modify Write */
+> +       attr =3D &hwif->attr;
+> +       addr =3D HINIC3_CSR_PPF_ELECTION_ADDR;
+> +       val =3D hinic3_hwif_read_reg(hwif, addr);
+> +       val &=3D ~HINIC3_PPF_ELECTION_IDX_MASK;
+> +       val |=3D HINIC3_PPF_ELECTION_SET(attr->func_global_idx, IDX);
+> +       hinic3_hwif_write_reg(hwif, addr, val);
+> +
+> +       /* Check PPF index */
+> +       val =3D hinic3_hwif_read_reg(hwif, addr);
+> +       attr->ppf_idx =3D HINIC3_PPF_ELECTION_GET(val, IDX);
+> +}
+> +
+
+<-->
+
+> +int hinic3_get_default_mac(struct hinic3_hwdev *hwdev, u8 *mac_addr)
+> +{
+> +       struct l2nic_cmd_set_mac mac_info =3D {};
+> +       struct mgmt_msg_params msg_params =3D {};
+> +       int err;
+> +
+> +       mac_info.func_id =3D hinic3_global_func_id(hwdev);
+> +
+> +       mgmt_msg_params_init_default(&msg_params, &mac_info, sizeof(mac_i=
+nfo));
+> +
+> +       err =3D hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
+> +                                      L2NIC_CMD_GET_MAC,
+> +                                      &msg_params);
+> +
+> +       if (err || mac_info.msg_head.status) {
+> +               dev_err(hwdev->dev,
+> +                       "Failed to get mac, err: %d, status: 0x%x\n",
+> +                       err, mac_info.msg_head.status);
+> +               return -EINVAL;
+
+EINVAL looks odd. I see other places it is -EIO.
+
+
+> +       }
+> +
+> +       ether_addr_copy(mac_addr, mac_info.mac);
+> +
+> +       return 0;
+> +}
+> +
+>  int hinic3_set_mac(struct hinic3_hwdev *hwdev, const u8 *mac_addr, u16 v=
+lan_id,
+>                    u16 func_id)
+>  {
+> @@ -157,9 +189,9 @@ int hinic3_set_mac(struct hinic3_hwdev *hwdev, const =
+u8 *mac_addr, u16 vlan_id,
+>                 return -EIO;
+>         }
+>
+> -       if (mac_info.msg_head.status =3D=3D MGMT_STATUS_PF_SET_VF_ALREADY=
+) {
+> +       if (PF_SET_VF_MAC(hwdev, mac_info.msg_head.status)) {
+>                 dev_warn(hwdev->dev, "PF has already set VF mac, Ignore s=
+et operation\n");
+> -               return 0;
+> +               return HINIC3_PF_SET_VF_ALREADY;
+>         }
+>
+>         if (mac_info.msg_head.status =3D=3D MGMT_STATUS_EXIST) {
+> @@ -191,11 +223,17 @@ int hinic3_del_mac(struct hinic3_hwdev *hwdev, cons=
+t u8 *mac_addr, u16 vlan_id,
+>
+>         err =3D hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
+>                                        L2NIC_CMD_DEL_MAC, &msg_params);
+> -       if (err) {
+> +       if (err || (mac_info.msg_head.status &&
+> +                   !PF_SET_VF_MAC(hwdev, mac_info.msg_head.status))) {
+>                 dev_err(hwdev->dev,
+>                         "Failed to delete MAC, err: %d, status: 0x%x\n",
+>                         err, mac_info.msg_head.status);
+> -               return err;
+> +               return -EIO;
+> +       }
+> +
+> +       if (PF_SET_VF_MAC(hwdev, mac_info.msg_head.status)) {
+> +               dev_warn(hwdev->dev, "PF has already set VF mac, Ignore d=
+elete operation.\n");
+> +               return HINIC3_PF_SET_VF_ALREADY;
+>         }
+>
+>         return 0;
+> @@ -231,6 +269,17 @@ int hinic3_update_mac(struct hinic3_hwdev *hwdev, co=
+nst u8 *old_mac,
+>                 return -EIO;
+>         }
+>
+> +       if (PF_SET_VF_MAC(hwdev, mac_info.msg_head.status)) {
+> +               dev_warn(hwdev->dev, "PF has already set VF MAC. Ignore u=
+pdate operation\n");
+> +               return HINIC3_PF_SET_VF_ALREADY;
+> +       }
+> +
+> +       if (mac_info.msg_head.status =3D=3D HINIC3_MGMT_STATUS_EXIST) {
+> +               dev_warn(hwdev->dev,
+> +                        "MAC is repeated. Ignore update operation\n");
+> +               return 0;
+> +       }
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h b/driver=
+s/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
+> index b83b567fa542..08bf14679bf8 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
+> @@ -16,6 +16,8 @@ struct hinic3_nic_dev;
+>  #define HINIC3_MAX_JUMBO_FRAME_SIZE  9600
+>
+>  #define HINIC3_VLAN_ID_MASK          0x7FFF
+> +#define HINIC3_PF_SET_VF_ALREADY     0x4
+> +#define HINIC3_MGMT_STATUS_EXIST     0x6
+>
+>  enum hinic3_nic_event_type {
+>         HINIC3_NIC_EVENT_LINK_DOWN =3D 0,
+> @@ -41,6 +43,7 @@ void hinic3_update_nic_feature(struct hinic3_nic_dev *n=
+ic_dev, u64 feature_cap);
+>  int hinic3_init_function_table(struct hinic3_nic_dev *nic_dev);
+>  int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu);
+>
+> +int hinic3_get_default_mac(struct hinic3_hwdev *hwdev, u8 *mac_addr);
+>  int hinic3_set_mac(struct hinic3_hwdev *hwdev, const u8 *mac_addr, u16 v=
+lan_id,
+>                    u16 func_id);
+>  int hinic3_del_mac(struct hinic3_hwdev *hwdev, const u8 *mac_addr, u16 v=
+lan_id,
+> --
+> 2.43.0
+>
+>
+
+--000000000000fcb75606412ffa3e
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+/HTPxpDrr4vzZL0yoc9XefyCbdiwfyFl99oBekp+1ZxXc5bZsVhRPVyEWFtCys66nqu5cU2GPT3a
+ySQEHOtIKyGGgzMVvitOzO2suQkoMvu/swsftfgCY/PObdlBZhv0BD97+WwR6CQJh/YEuDDEHYCy
+NDeiVtF3/jwT04bHB7lR9n+AiCSLr9wlgBHGdBFIOmT/XMX3K8fuMMGLq9PpGQEMvYa9QTkE9+zc
+MddiNNh1xtCTG0+kC7KIttdXTnffisXKsX44B8ECAwEAAaOCAd0wggHZMA4GA1UdDwEB/wQEAwIF
+oDAMBgNVHRMBAf8EAjAAMIGTBggrBgEFBQcBAQSBhjCBgzBGBggrBgEFBQcwAoY6aHR0cDovL3Nl
+Y3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyNnNtaW1lY2EyMDIzLmNydDA5BggrBgEF
+BQcwAYYtaHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyNnNtaW1lY2EyMDIzMGUGA1Ud
+IAReMFwwCQYHZ4EMAQUDAzALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgoDAjA0MDIGCCsGAQUFBwIB
+FiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzBBBgNVHR8EOjA4MDagNKAy
+hjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAyMy5jcmwwJAYDVR0R
+BB0wG4EZcGF2YW4uY2hlYmJpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
+HSMEGDAWgBQAKTaeXHq6D68tUC3boCOFGLCgkjAdBgNVHQ4EFgQUxJ6fps/yOGneJRYDWUKPuLPk
+miYwDQYJKoZIhvcNAQELBQADggIBAI2j2qBMKYV8SLK1ysjOOS54Lpm3geezjBYrWor/BAKGP7kT
+QN61VWg3QlZqiX21KLNeBWzJH7r+zWiS8ykHApTnBlTjfNGF8ihZz7GkpBTa3xDW5rT/oLfyVQ5k
+Wr2OZ268FfZPyAgHYnrfhmojupPS4c7bT9fQyep3P0sAm6TQxmhLDh/HcsloIn7w1QywGRyesbRw
+CFkRbTnhhTS9Tz3pYs5kHbphHY5oF3HNdKgFPrfpF9ei6dL4LlwvQgNlRB6PhdUBL80CJ0UlY2Oz
+jIAKPusiSluFH+NvwqsI8VuId34ug+B5VOM2dWXR/jY0as0Va5Fpjpn1G+jG2pzr1FQu2OHR5GAh
+6Uw50Yh3H77mYK67fCzQVcHrl0qdOLSZVsz/T3qjRGjAZlIDyFRjewxLNunJl/TGtu1jk1ij7Uzh
+PtF4nfZaVnWJowp/gE+Hr21BXA1nj+wBINHA0eufDHd/Y0/MLK+++i3gPTermGBIfadXUj8NGCGe
+eIj4fd2b29HwMCvfX78QR4JQM9dkDoD1ZFClV17bxRPtxhwEU8DzzcGlLfKJhj8IxkLoww9hqNul
+Md+LwA5kUTLPBBl9irP7Rn3jfftdK1MgrNyomyZUZSI1pisbv0Zn/ru3KD3QZLE17esvHAqCfXAZ
+a2vE+o+ZbomB5XkihtQpb/DYrfjAMYICVzCCAlMCAQEwYjBSMQswCQYDVQQGEwJCRTEZMBcGA1UE
+ChMQR2xvYmFsU2lnbiBudi1zYTEoMCYGA1UEAxMfR2xvYmFsU2lnbiBHQ0MgUjYgU01JTUUgQ0Eg
+MjAyMwIMClwVCDIzIfrgd31IMA0GCWCGSAFlAwQCAQUAoIHHMC8GCSqGSIb3DQEJBDEiBCDYOdWK
+oniHaOYZhNAUPuWwWMag0R7Qcqdi3YG2RPC0IDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwG
+CSqGSIb3DQEJBTEPFw0yNTEwMTUxMDI5NTBaMFwGCSqGSIb3DQEJDzFPME0wCwYJYIZIAWUDBAEq
+MAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEHMAsGCWCG
+SAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBj0z3FRyeJAainWyZB8ge0TgP3T9alVrixuchtvlyq
+2cSV5udlxR6eOM68EUcRLMaqB28S7RBO+HoYfvKakLEAqZtZ7UJHNLFcOZqE4rzHHAgKFPy2VLlA
+foxoSdMScSHv73UOZMfRBH7XHOGcm23row4d5UfWJPV/PlR3s1jgmmG61uB/4urVn7PoLq8aHvQC
+CKNXXw01TxNAtDjt1Bw4TukovChGd4FQZNLlEpI15BXTqFBXtSyxPlsVrqp23MySuAyOz6Cl75nr
+dUxy2ox/4iI401Lagbp62/phOGuGVuu//Ffy75cxmWx3z+wsbR6R2viyym9fhCW318wp3J3v
+--000000000000fcb75606412ffa3e--
