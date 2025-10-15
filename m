@@ -1,105 +1,210 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F0D3148BD;
-	Wed, 15 Oct 2025 07:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760512581; cv=none; b=jgJviRZ8pxlMYe9fqIQ2c3T8n0wUUT6Y7u/0cKV1F/bP1B/+ZjyM44gvHknCA4SGNpsK9bfcVrAaJqX8FPaiGhXkJbP8t4Ow4t7R7D+UfX5cWnFJq7v0LmpaHf6Pr3W7/h+qbQx0q1rlr/640W/h+JN3RaKpey0a7FP8czQQFcg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760512581; c=relaxed/simple;
-	bh=7B4kA3fus5v+g91BOuLJNjDaHG4KoAB4DZKCoUuuCSQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LpLaWYsT0apWmpx33K+3pGUn8q6RC3zIUbuGJJIuYu5iewQLZYMxwbkYKydzhtJJhFWSVnxalTEkLUngwXU7Bl1LA0LJReEuOAuPlmyyW/xlKX+RHM2qJHBIfRfefefkrLpkDMMna3xBxUEHePZtwi34gutwjtOQObHr0ZdiC1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=doODz/HT; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0DC299AAF;
+	Wed, 15 Oct 2025 07:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760513159; cv=fail; b=RPLarIKDizdz4cu/eIOBRYXMi2xauhXzTGru/rbT1grFiv/TOZuXZGwhgQ/jW+oSLpC55cZzijE3zK6a77gFfRLZS6JX6aHjkD4Ob2d4/b22s+lzJoqnf1hrwWmtCBs3JpBpYqjFz6Y+VW1hT08ynIncZDNI/2WTRIRtIYZtIJI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760513159; c=relaxed/simple;
+	bh=znXv3e7vxXzV1PPqIsTnC0fTlOI7aYR2v25Ki3vdG4w=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VnQ3gnWzM/jTc57tUAkn5KEcmajiDurHNFfLhTrFk6pwbgK9zTeYJVjnOYSyV/Y0qqU7/ksGB51axDbxS5D3UiNJzO6O2FhJQn1DccIUyg3jFtv4AX91vewWdz5s4s44RyZMe5FlGI6McuL+ec75eV6Yr4mfSvYKidqDVKKaW/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFVOktnT; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="doODz/HT"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=lzLXlC5xc3e41jHYIE9zMc5uq6scn3dP/PpsZGE84cM=;
-	b=doODz/HTPa5iCUomN6LhO2MlZVHaDA4f3rmfaCesWZGiFRK05pZPOwv9xggkc0AM85vG/Tcp6
-	YUGE6Y3qMFo736AEqaaeliVjhH2Ne2tNLhW+WsSXcz4QVZRBjWYSfOGTi+H9voNwjanQz3sO2yr
-	ov/0Ht0EVdNA0Dm+XG48jAo=
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4cmj6Z0dPyz1cyNt;
-	Wed, 15 Oct 2025 15:15:50 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 467EF140277;
-	Wed, 15 Oct 2025 15:16:10 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFVOktnT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760513158; x=1792049158;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=znXv3e7vxXzV1PPqIsTnC0fTlOI7aYR2v25Ki3vdG4w=;
+  b=FFVOktnTywuT3TGa5arYiD8FIZ64V/Oz7tU3NB53VKkLo3XIzga+Ym9F
+   np0Ty63HoULAyr8asd0RPJxqtd4e8lKzPNetO4cUhoxAESwf0oZZvNbX/
+   qHz+h4wFExs0aAGiVtKNnN1Zjd9DeJuqXl08Z5y+xVcmvrcay5FiXLy8M
+   acThpZksdE3GsP+9xlGGNOGZOmeZWp+t0xc8cztPDbngbn7p4w1sY1d0e
+   k/VGW2LIfJQYg/GhnnOu1OipyIZ67VAK5Fg1dhAUMxHgY0Qw7sskYA4Fi
+   s5AlH8M7gsA+1oTqd/AB/zw4sdRXKuI4cofLFHMo00nZy7R0ZsfZGEVSF
+   g==;
+X-CSE-ConnectionGUID: C5aU2JN0Ryu5EBXZHdApjA==
+X-CSE-MsgGUID: D44c+MzqQ8eNpvPF6Vm0sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62576708"
+X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
+   d="scan'208";a="62576708"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 00:25:57 -0700
+X-CSE-ConnectionGUID: 2cvbPyfTTcOGqgcFABBNSg==
+X-CSE-MsgGUID: o9d6Ez05QkqLtLqhJsE4PQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
+   d="scan'208";a="219238838"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 00:25:56 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 15 Oct 2025 15:16:08 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, Meny Yossefi
-	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
-	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v01 9/9] hinic3: Use array_size instead of multiplying
-Date: Wed, 15 Oct 2025 15:15:35 +0800
-Message-ID: <f61d407225486962ce37d9641f89b12c008711aa.1760502478.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1760502478.git.zhuyikai1@h-partners.com>
-References: <cover.1760502478.git.zhuyikai1@h-partners.com>
+ 15.2.2562.27; Wed, 15 Oct 2025 00:25:55 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Wed, 15 Oct 2025 00:25:55 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.64) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 15 Oct 2025 00:25:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RLrZ9W2K5ftvb3/M0aSoPmLX+vdNtOjLCFvWis3ScFI4+LdojIMzYXds7OBxjSdJELRn6oxENw40CW8d/MQefRYaEtVmo4vlTYYk4VXAjFRcBd5gOaFuVQlro5qw/0FJVzXCWuiSN7zuDzsdLefxv8UxPToKXMfD9xjl0rpQnqZmFmlaG8Z/CnqVxvQuUkoiHAH+qr7HXDuICNRaaRUN1XjoWN6v9TL2zb5VeSHM8s/S6nZNMO6ocP+qORSA/eN/qLgkUNVPsspFg31oi5yIld5rnNWAavhOqMetlfPJX42LyW6TznNuCTNyOxiL2CEOAh00EosOzWs4Wy6kPnL3aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IzcGuoMmKhzyPabMXCHHsqwZyRTiUbB8BmdzBSdXM0M=;
+ b=EW50l6lvb1g9cdtbyh754uFPHn7GxghcK83M2i+jcJzP0WQKVpTCv060Svj2kdTpir5qfDbXu9PB48EpVgoQpI3f2tvXlL4KBoHYILka5D/waWXUyktubRmOvgIMIcR7irZoim+i4+A0NiqhdkT/5UpZ9mPCoQOpn0XPtXlTp6Xr+95Xrl42t6Ap7FudLTFZrkVYC666zvBxhQXWNUWWLnf/UUpgqOhNqgjAAHuQBskLaNrQpRsAhXxjkLEZ9ohCQwZ64qgnBrLd2KjHh7XXOl8egYhL6mwtbcu6M3F8QlsYjmGsaT9LLeBuhmoA5AxgfbvAGjoSqpTl9dyvH0gDgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by SJ0PR11MB4846.namprd11.prod.outlook.com (2603:10b6:a03:2d8::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Wed, 15 Oct
+ 2025 07:25:49 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9228.009; Wed, 15 Oct 2025
+ 07:25:49 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, Joerg Roedel
+	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, Bill Wendling
+	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
+ Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>
+CC: Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
+	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
+ Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH v6 03/15] iommupt: Add the basic structure of the iommu
+ implementation
+Thread-Topic: [PATCH v6 03/15] iommupt: Add the basic structure of the iommu
+ implementation
+Thread-Index: AQHcN6Ux9WAW8NWQnkGxmIenUpHRxLTC2ghQ
+Date: Wed, 15 Oct 2025 07:25:49 +0000
+Message-ID: <BN9PR11MB527642E4F4290938CCB4BE8D8CE8A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
+ <3-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
+In-Reply-To: <3-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SJ0PR11MB4846:EE_
+x-ms-office365-filtering-correlation-id: daceeda4-106e-422f-4d1e-08de0bbc1096
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021|921020;
+x-microsoft-antispam-message-info: =?us-ascii?Q?ZwTtNJDtK9MpYxvFF3Ns+0XdisABE310J4AYYMP2s0i2lOU0hLiwtnQRQidi?=
+ =?us-ascii?Q?NCSaKWI6rqbMNApnlvOxd8LrN29KdvySrOvURnlRcSqbcOkBRjRvdyk2OGzV?=
+ =?us-ascii?Q?IkKCYdiVfF37V7k25NYCZh/g5G+INnq5lgGkCuOCT/jDRKuU1E6rHUiqkwJr?=
+ =?us-ascii?Q?xYOPFCmFQ8NDMjFef25hWJXgQcozealn+K/ZiHrCyH8sNAAaARAkLNTP8Vp2?=
+ =?us-ascii?Q?FIpbthzQLk0kwhdSQbJ7dcEP4LA1k0ieqEy3SSEkUUlERVRoOpNhWL1gd9Ex?=
+ =?us-ascii?Q?omqQlyRMmttKSVVzXIHTAPEtb1KdQXokqj2c9M3TSLikDbX65+XBeoI7py9r?=
+ =?us-ascii?Q?X88LSg6iY7saqe2krOnmchMVENZxpc6i23bPicflZtTSmxafC6hnIhVlBUMs?=
+ =?us-ascii?Q?MhberzlTaUTSpd3fI6rwS0YzgZT7NyQiI0qbRjb1t2YhnNsQIeDboSgeA0HI?=
+ =?us-ascii?Q?HlqZRPjwSiRwdLVXlxnnlolzu175jMsQIkVhg+/IHMTouV3clWTLH4x985+5?=
+ =?us-ascii?Q?vhtZVIrNvs3MZT9lcuoW0tE8GtPjBFG//mIJ+RXiWKqZTrxUCDDgl6n/8SFz?=
+ =?us-ascii?Q?owv0Qa926Jg4njOAaFBkOVlApCTOykYcNw/sYwvHcLnZCSL1EXd8e/ZuMYFi?=
+ =?us-ascii?Q?VueOlNQp/2s31iS1gsXU7ZcvXC3c7A8XoqCbE4S36bAhMDwCW8+dnpAwCkQj?=
+ =?us-ascii?Q?K2R1xBNPvbdlJiOPWwVNgUIcslWskgTFyIRwABArjWp4EWvCadofBQLoWs1s?=
+ =?us-ascii?Q?lqt0K/ftgFumZJZ/1wjNlnW+xp9l6FnrtJu0gKBKm+V7UYNBKBOvLCX1FiRG?=
+ =?us-ascii?Q?kx5Xv9wFe6vNZbbgYyeCy0atI6ORO0jwbzBjdMGfEYuF/KeW+ioRPJsIFBlv?=
+ =?us-ascii?Q?vpvSqdJDCF0VA7NAO1G010x/YiPfqwmVer2TcZ/nos3Zy8v9nhrvcR+z8nHB?=
+ =?us-ascii?Q?dZ8sw6s6gppFtdYUAk06BZHiih5oSAWp/K00TpGb/JyOS/TVHAFHV35c/yKw?=
+ =?us-ascii?Q?27FecIr1DA6ZCabYjaUixZrMEk8bHEQXiMIRnGbdfEVgcQN/wvkj874gaf71?=
+ =?us-ascii?Q?hq1clMmx44qYDiTEx5PO31hS3qHuhFwpjwxJvZbRWyQwItLUU09tlU9H3BT1?=
+ =?us-ascii?Q?rB2x7g8WxxLA4np1VD4SFTpYAA9uhZ8MvPHjQwfqA6pz30ArLZunCfZu6zsV?=
+ =?us-ascii?Q?ldzFZJMGUaWhy1O0+G4lPc3BsK23DkZZ2DkROlu6kWZ0hZ651Ib++bfyEYPG?=
+ =?us-ascii?Q?1KOVL7YtORsRfwPuwhlVy0dsgHZr48LOnx+D5I8qNS3YdA9AH5FxyxQHWpTZ?=
+ =?us-ascii?Q?jDvHo+/G1oiPzmORstHUxgYSDS3GdW7SVKyvb5IpEicYlHofOii9hVC6peaN?=
+ =?us-ascii?Q?LdP8ewk6+yB5HW6AgkmVWOLb416acQNJwCPHfIg/s6mJRosq2FLvBpvG8sDd?=
+ =?us-ascii?Q?Xdyw5g/9MYo2PUQo2KRBT4ARFG4jfzFUEb+vzNdefb0nAOIMOCpD+VnYkZJg?=
+ =?us-ascii?Q?xDZfJ+wtqzlAB6Gsst45lnh0PjXRii/bpCgmB6iUHOKH4X3myYXxLDF+Ng?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?vvREqVEG41eMpjCIVuOOXcTh13xmU4nCGtHhvmS5lXwMaBBakhMAE4gCVBSq?=
+ =?us-ascii?Q?vPf/bdN0kWJmSVwPehU8+1WVGIqH94Q3V8AZw1Sd/hHVoeu++i0hiqjVSz9z?=
+ =?us-ascii?Q?8oEz7sVYE92tMBYBw2Y6O0YFVHj4KJYL6pDto5hymqfBG06YSgL/p8ph7LCM?=
+ =?us-ascii?Q?xqBCSwtY80Ot+d5OLNMx4mViIcTuWJKHJ2S4SkQ5Pu1YtLlq+SMiBbMXu9v9?=
+ =?us-ascii?Q?jbVaOo7mLy932Mxq97EdmTDsqOtSRNpN/9wc6mSawtZoh8C+wkeTEcn2X322?=
+ =?us-ascii?Q?oA9OAygHC6++Mz9CWATFxxKLda4g4p31VwsDKyUlDe13S8utDyDh0aO3bq70?=
+ =?us-ascii?Q?AvYrGomm5EzxwlAwHOTbHuO0TeoHjCJ+ClBAnhel9BP3C9lE084JJAp93gSc?=
+ =?us-ascii?Q?g26Vn7waXe8Qs5EsS/eEU1fIEGwIXyKhHIqsNh5u9k/5pONgnme6t2uqyQDR?=
+ =?us-ascii?Q?27edgJwp8IdagfqQAzMIj4AwcjK6JM3S/X4PTPuX1W1Lb1RPuurXRqjiHOTa?=
+ =?us-ascii?Q?ryaS8cH72JN07URYPQnKKlbk/xGpC3DJ/M0zsawtqbvqIs90ttnKwazReFo9?=
+ =?us-ascii?Q?3oTRfHDVrxBzOAW5ENQqMp4cdtu4P/Ukza97p6dm3KBjp+2xz6dmtFzUDbbz?=
+ =?us-ascii?Q?Y2nFqUuWTYXkLFQeXcGRZERi2jwRqq6Z8zu7x75BIzdriQzOzR+cZ38QmWBn?=
+ =?us-ascii?Q?OsfJw3J6g9K5aryY8ZkTkCKZQebJHqRy/fm6i3Tx8RhHZDPXGd7jlyEPeRmR?=
+ =?us-ascii?Q?i13H1CYyjttqz+WuYfA9IYRzZtaWZMjDb2X1R+FjKLRbXRd5PARhM1bbdmVI?=
+ =?us-ascii?Q?yD5w9FCbMTt0fbPO0mSJGvLpQZl9WzXs5Noy50DJArAX6tU9dGTmzFAUOZ/z?=
+ =?us-ascii?Q?WypJxdokj3pHvb23DF2fbTzlx9CkDSlHHjEso4jGOpS4LkYFmKGpP3jIM51C?=
+ =?us-ascii?Q?AdKR8BtQdlhJWShj3Lte2vNJddeJOtIVtNiMXz671A4ZcEsXlO8JcQW+s4jF?=
+ =?us-ascii?Q?L6uaY807p0681Getkf/Jgxc/HbBtk3OA6HNUYAarmwS0KOv51V9l/DYs/bkq?=
+ =?us-ascii?Q?1MX8ubKlGXWrjgjN8gxn0tJPltVObSBdZjAjQtFGsTMTBw0pdcQk0u7JspZu?=
+ =?us-ascii?Q?KXhEjAdzYet9bqCCmH01mqdp8y9UsRDHtwmf29o5YwEDOWh3NXG1flRp5FTv?=
+ =?us-ascii?Q?ga1pMIEtkg58UKvp/g2vAQn3rWwjFZXsZNloDaRKZ9zEljkHgH/fd5XdG3iL?=
+ =?us-ascii?Q?RuFneaGAuSAdEFv1dnazrekDExSNENujsnjXfJgzHjSj8mWo4EuamcploBPY?=
+ =?us-ascii?Q?BTUloVirS5r3/18dfVUJB5OFs46bbroIr1ghjeSciWaEpgrICqHPukNIxFBE?=
+ =?us-ascii?Q?xDOPpjp67Q+G1TdpCxmy49TJvDwf33sGpvGTsnFitwazxImMYNwQSrqTD0zF?=
+ =?us-ascii?Q?A7Eo26lx0yOrGK7oNI+RFeeZZ8RM6negvUVqfambf/LqDRNZ8uHvaTZDHbbn?=
+ =?us-ascii?Q?RYHCX5/CyH21aVAUxJ70EsQgGeiQGdItPhbPDvaqkaDE1/2tWkSnKFX2Tx+v?=
+ =?us-ascii?Q?K7N1AUQkLrlpTl9M8ra3e4Hi2Oc2tbOBSOQg+z6x?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: daceeda4-106e-422f-4d1e-08de0bbc1096
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2025 07:25:49.2884
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7qPwih9zUKYVp/YxuEe9rerVLNITSqeCvY6WAbnpWxOGJYf7hZNzTdbLWCLv3UHnGWlkoVcQRNgt1JfduMaEOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4846
+X-OriginatorOrg: intel.com
 
-According to comment of patch 03, check codes that were merged and
-use array_size instead of multiplying.
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Wednesday, October 8, 2025 12:12 AM
+> +
+> +config IOMMU_PT
+> +	tristate "IOMMU Page Tables"
+> +	select IOMMU_API
+> +	depends on IOMMU_SUPPORT
+> +	depends on GENERIC_PT
+> +	help
+> +	  Generic library for building IOMMU page tables
+> +
+> +	  IOMMU_PT provides an implementation of the page table
+> operations
+> +	  related struct iommu_domain using GENERIC_PT to abstract the
+> page
+> +	  table format.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+"operations related to struct iommu_domain", and probably split
+the long sentence
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index 7bfd7967967d..5ab6f3e9fe06 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -23,7 +23,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	feature_nego.func_id = hinic3_global_func_id(hwdev);
- 	feature_nego.opcode = opcode;
- 	if (opcode == MGMT_MSG_CMD_OP_SET)
--		memcpy(feature_nego.s_feature, s_feature, size * sizeof(u64));
-+		memcpy(feature_nego.s_feature, s_feature,
-+		       array_size(size, sizeof(u64)));
- 
- 	mgmt_msg_params_init_default(&msg_params, &feature_nego,
- 				     sizeof(feature_nego));
-@@ -37,7 +38,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	}
- 
- 	if (opcode == MGMT_MSG_CMD_OP_GET)
--		memcpy(s_feature, feature_nego.s_feature, size * sizeof(u64));
-+		memcpy(s_feature, feature_nego.s_feature,
-+		       array_size(size, sizeof(u64)));
- 
- 	return 0;
- }
--- 
-2.43.0
-
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
