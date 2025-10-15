@@ -1,302 +1,307 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1809C2FB098;
-	Wed, 15 Oct 2025 15:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9561DE8AF
+	for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 15:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760541500; cv=none; b=ct0L+6FiB2ejv7Ba5U6vsSScwdvtMPa7+zPm726lGioQCEawVypNbPl7RzOH2h6/wfHyQLcNUxB8wENyPyiDvxazf4EYaScxiKMgs/B9WbQzfYc77ddH373Q+BypszBSkRCHrci32aydGzti7KDdzybbzARLObOIW8EGC8JNplI=
+	t=1760541552; cv=none; b=YNZ8e5JxmtSFG81ucgqb2cgCeaoALkO0prZiKFtxCWX2MRPoF3LCcYOiii5FhSa3qzzuW5AJWfo6aGYCJGKpfttIvTr2Il2eM+2bp3oRGcY0rfZJmD8ToHnGATAEtO9ZLWrO3GUqAOY/9KUX4QFQl3o/NRh+541FhyPc718W0vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760541500; c=relaxed/simple;
-	bh=Hrmt+Y7mWkjnLYCZVh4Gs5U5H6hIxRys96aOiCSBM6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHpphCiF8oRvjPSnJ9HXIPytnbv6qCIdz54/IOEjEfLDvclhPL6g4N4gEEel25of/0CIx/GVrZRiqLPNDe4XdkVwtaEAgvdgsHQKPARqbHVJp3QvWi14CPEEFUQPMHrs8JeNOOJERO4pNkOXUWXoAsBWqVh68kC6YRC1NC/zD8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8BAE41655;
-	Wed, 15 Oct 2025 08:18:10 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67D2C3F738;
-	Wed, 15 Oct 2025 08:18:16 -0700 (PDT)
-Date: Wed, 15 Oct 2025 16:18:09 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-Message-ID: <aO+7MeSMV29VdbQs@e133380.arm.com>
-References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <b38f0459-1373-42d3-8526-e8ef9ac4d2e7@intel.com>
- <aNFfs43UBp6tjqPM@e133380.arm.com>
+	s=arc-20240116; t=1760541552; c=relaxed/simple;
+	bh=9xwOjhbT+GpY03m9KlJEQtMVGXICweoyvs7lxP+VuAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nso5m10bwJBy6mIiQ/8vtR+JqsopccImuI+h4uGHMnaXKHtge6Om7D/tGAnEfWuT6NSE+NlSr9NEKQJPm2dcL6le0PEIXN9/Pilyb+SKEoNfmG78yoO3y8aumk47nWA1drHA3ye6JBirlvMR5ROYYUzfdrXS0g7BFVHh9ktG+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IkQ2Yp96; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IkQ2Yp96"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42557c5cedcso3611310f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 08:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760541546; x=1761146346; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ozzqX27qI/om600ZTPA46M3BTEK2ZsX0XsaZoTyCATk=;
+        b=IkQ2Yp96LXaC4/lC2YVySGP6YgR5if2S5hs5v05LVOUHmcFMvyREroNroBOLdHFuIU
+         rn3N+8UQRL7oUnk390VRHiAO5Wmj2RqzV63Ot4QHCFgiAFJARoG5sbMdE4ccoQ7rKVpe
+         9LYJdMfowPxJGiD90p2L1pKOmQRelH7Z7sduAQW8am8olp/9tdm4b/gTl/6JFyc+4NBu
+         WLQMlmgueLQnoOQ/gKtuKMf+pC0ce27IZdpS1KQlvq6T38rk+BPTD7TR8qYBW/ku/w91
+         HREyAlRvl15Rsni4uCH+LTros2Xkw1sM+HtP0q5obJEmj3drO1d2SO67dMSN+tmtT6vR
+         aknw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760541546; x=1761146346;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ozzqX27qI/om600ZTPA46M3BTEK2ZsX0XsaZoTyCATk=;
+        b=pt5kSltTzj5VsqMQcU547cRzM67TlV4654YSHaQUxrwmxNJQDUL6DfyVJFfhbfxCic
+         NLmBrwM7Qv+mgtGvLc851xYLNaC685m619qz/GzJHG9vmwpFqFjSLhLT/0H5S0DMWVxF
+         8VAfVnpMhjI9/YlNhooQIwZMaDiUvvZgozw42rgL6hJYkBNeb7cMQ+pDCyBLgZlRIDW9
+         ex9nVDwjQjdB9uxovJRmQhPLo5kf9J719NPByCvTBB9ch/+L7hsoJ0UIizSh7wSYXr4Y
+         1iWshnA/ZaI9y3K91DokyPlgX1RvYyL293qQEpk083rxPWsy+auo4SUaN0eiBfJc/Cu7
+         a8Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCUyNYookC5duF0X8ZJdG0JwF9sU9pNsKXSbielaUeQ4pSWQLdcqiaH+8+NUR9KYCnKfwKPqh829rko=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRTmcEX1bvORbtiqVkmZMrb1fh3pBmbs5CCsb+kAUQ83sG+09u
+	ukQxDp5iiAQ+p+N3/iF3XibyQaCR40vcayp8z1yoYDdnwI7WFSIP8BtLZiQ1nFS2HSk=
+X-Gm-Gg: ASbGncvbYNLl2HTeoQsyot+ixsClMGoUiH/dSddH1+I8ysVk8V+DWdddold8IDVMHyP
+	fugUOdgTTiNawUpXkVW4mgmia+FCWKp0hzzfLOEWHlHEGz9qd/gQo2smThE4g2s/tNvNLfqYcat
+	mg3ZCcDrP0vHNCorBY+ldNYbPtwfRmA+a3/2QVST7XVW2bxqi8iSKzg7cURCqigVD/TP1P0qKTg
+	TqrZ3nzOQALKet9JN0JmjoEEMkjo8MaeDAnH/DCFiZLFzdz1aWjn1BzYBDlU0CPC1EUAnL5Q8TA
+	JiYnU2hHBebZKoysMH+dh6suEAjLhKGI6sowB3kAC4Vl7aikrKaZP7Q8at+RTG/D/SzktoKmd+i
+	kqYqabbnIiPWia2aXqmlh7KRHe+Iq+31U+k70j/NcDZLoMpChJUw=
+X-Google-Smtp-Source: AGHT+IF3N4RF7wjNKV78n5ehk7O1cj857Eb665p5lv3nX2KcjaMyC/Xbc7kHngxEcnnvUHEwHV5Jog==
+X-Received: by 2002:a05:6000:3105:b0:3f9:1571:fdea with SMTP id ffacd0b85a97d-4266e8dd683mr21126849f8f.44.1760541545655;
+        Wed, 15 Oct 2025 08:19:05 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.76.109])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e0e70sm29524067f8f.40.2025.10.15.08.19.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 08:19:05 -0700 (PDT)
+Message-ID: <bfce6b68-783f-4aa1-b9db-d905230be609@linaro.org>
+Date: Wed, 15 Oct 2025 16:19:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aNFfs43UBp6tjqPM@e133380.arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/5] coresight: Add format attribute for setting the
+ timestamp interval
+To: Mike Leach <mike.leach@linaro.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Leo Yan <leo.yan@arm.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org>
+ <20251002-james-cs-syncfreq-v3-4-fe5df2bf91d1@linaro.org>
+ <CAJ9a7Vj1NnikoJyabXnad+=3SDULKCyqoZiNb_S66SkG+HD+dw@mail.gmail.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <CAJ9a7Vj1NnikoJyabXnad+=3SDULKCyqoZiNb_S66SkG+HD+dw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
 
-Just following up on the skipped L2_NONCONT_CAT test -- see below.
 
-[...]
-
-On Mon, Sep 22, 2025 at 03:39:47PM +0100, Dave Martin wrote:
-
-[...]
-
-> On Fri, Sep 12, 2025 at 03:19:04PM -0700, Reinette Chatre wrote:
-
-[...]
-
-> > On 9/2/25 9:24 AM, Dave Martin wrote:
-
-[...]
-
-> > > Testing: the resctrl MBA and MBM tests pass on a random x86 machine (+
-> > > the other tests except for the NONCONT_CAT tests, which do not seem to
-> > > be supported in my configuration -- and have nothing to do with the
-> > > code touched by this patch).
-> > 
-> > Is the NONCONT_CAT test failing (i.e printing "not ok")?
-> > 
-> > The NONCONT_CAT tests may print error messages as debug information as part of
-> > running, but these errors are expected as part of the test. The test should accurately
-> > state whether it passed or failed though. For example, below attempts to write
-> > a non-contiguous CBM to a system that does not support non-contiguous masks.
-> > This fails as expected, error messages printed as debugging and thus the test passes
-> > with an "ok".
-> > 
-> > # Write schema "L3:0=ff0ff" to resctrl FS # write() failed : Invalid argument                                      
-> > # Non-contiguous CBMs not supported and write of non-contiguous CBM failed as expected                             
-> > ok 5 L3_NONCONT_CAT: test                             
+On 09/10/2025 4:50 pm, Mike Leach wrote:
+> Hi James
 > 
-> I don't think that this was anything to do with my changes, but I don't
-> still seem to have the test output.  (Since this test has to do with
-> bitmap schemata (?), it seemed unlikely to be affected by changes to
-> bw_validate().)
+> On Thu, 2 Oct 2025 at 11:10, James Clark <james.clark@linaro.org> wrote:
+>>
+>> Timestamps are currently emitted at the maximum rate possible, which is
+>> much too frequent for most use cases. Add an attribute to be able to set
+>> the interval. Granular control is not required, so save space in the
+>> config by interpreting it as 2 ^ ts_interval. And then 4 bits (0 - 15) is
+>> enough to set the interval to be larger than the existing SYNC timestamp
+>> interval.
+>>
+>> No sysfs file is needed for this attribute because counter generated
+>> timestamps are only configured for Perf mode.
+>>
+>> Only show this attribute for ETM4x because timestamps aren't configured
+>> in the same way for ETM3x. The attribute is only ever read in
+>> coresight-etm4x-core.c.
+>>
+>> Reviewed-by: Leo Yan <leo.yan@arm.com>
+>> Tested-by: Leo Yan <leo.yan@arm.com>
+>> Signed-off-by: James Clark <james.clark@linaro.org>
+>> ---
+>>   drivers/hwtracing/coresight/coresight-etm-perf.c   | 16 +++++++++++++++-
+>>   drivers/hwtracing/coresight/coresight-etm-perf.h   |  7 +++++++
+>>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 21 ++++++++++++---------
+>>   3 files changed, 34 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> index f677c08233ba..0c1b990fc56e 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> @@ -13,6 +13,7 @@
+>>   #include <linux/mm.h>
+>>   #include <linux/init.h>
+>>   #include <linux/perf_event.h>
+>> +#include <linux/perf/arm_pmu.h>
+>>   #include <linux/percpu-defs.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/stringhash.h>
+>> @@ -69,7 +70,8 @@ PMU_FORMAT_ATTR(sinkid,               "config2:0-31");
+>>   /* config ID - set if a system configuration is selected */
+>>   PMU_FORMAT_ATTR(configid,      "config2:32-63");
+>>   PMU_FORMAT_ATTR(cc_threshold,  "config3:0-11");
+>> -
+>> +/* Interval = (2 ^ ts_level) */
+>> +GEN_PMU_FORMAT_ATTR(ts_level);
+>>
+>>   /*
+>>    * contextid always traces the "PID".  The PID is in CONTEXTIDR_EL1
+>> @@ -103,11 +105,23 @@ static struct attribute *etm_config_formats_attr[] = {
+>>          &format_attr_configid.attr,
+>>          &format_attr_branch_broadcast.attr,
+>>          &format_attr_cc_threshold.attr,
+>> +       &format_attr_ts_level.attr,
+>>          NULL,
+>>   };
+>>
+>> +static umode_t etm_format_attr_is_visible(struct kobject *kobj,
+>> +                                         struct attribute *attr, int unused)
+>> +{
+>> +       if (attr == &format_attr_ts_level.attr &&
+>> +           !IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
+>> +               return 0;
+>> +
+>> +       return attr->mode;
+>> +}
+>> +
+>>   static const struct attribute_group etm_pmu_format_group = {
+>>          .name   = "format",
+>> +       .is_visible = etm_format_attr_is_visible,
+>>          .attrs  = etm_config_formats_attr,
+>>   };
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
+>> index 5febbcdb8696..d2664ffb33e5 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
+>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
+>> @@ -7,6 +7,7 @@
+>>   #ifndef _CORESIGHT_ETM_PERF_H
+>>   #define _CORESIGHT_ETM_PERF_H
+>>
+>> +#include <linux/bits.h>
+>>   #include <linux/percpu-defs.h>
+>>   #include "coresight-priv.h"
+>>
+>> @@ -20,6 +21,12 @@ struct cscfg_config_desc;
+>>    */
+>>   #define ETM_ADDR_CMP_MAX       8
+>>
+>> +#define ATTR_CFG_FLD_ts_level_CFG      config3
+>> +#define ATTR_CFG_FLD_ts_level_LO       12
+>> +#define ATTR_CFG_FLD_ts_level_HI       15
+>> +#define ATTR_CFG_FLD_ts_level_MASK     GENMASK(ATTR_CFG_FLD_ts_level_HI, \
+>> +                                               ATTR_CFG_FLD_ts_level_LO)
+>> +
+>>   /**
+>>    * struct etm_filter - single instruction range or start/stop configuration.
+>>    * @start_addr:        The address to start tracing on.
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> index 920d092ef862..034844f52bb2 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>> @@ -28,6 +28,7 @@
+>>   #include <linux/amba/bus.h>
+>>   #include <linux/seq_file.h>
+>>   #include <linux/uaccess.h>
+>> +#include <linux/perf/arm_pmu.h>
+>>   #include <linux/perf_event.h>
+>>   #include <linux/platform_device.h>
+>>   #include <linux/pm_runtime.h>
+>> @@ -616,7 +617,7 @@ static void etm4_enable_hw_smp_call(void *info)
+>>    *  +--------------+
+>>    *         |
+>>    *  +------v-------+
+>> - *  | Counter x    |   (reload to 1 on underflow)
+>> + *  | Counter x    |   (reload to 2 ^ ts_level on underflow)
+>>    *  +--------------+
+>>    *         |
+>>    *  +------v--------------+
+>> @@ -627,11 +628,17 @@ static void etm4_enable_hw_smp_call(void *info)
+>>    *  | Timestamp Generator  |  (timestamp on resource y)
+>>    *  +----------------------+
+>>    */
+>> -static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+>> +static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata,
+>> +                                      struct perf_event_attr *attr)
+>>   {
+>>          int ctridx;
+>>          int rselector;
+>>          struct etmv4_config *config = &drvdata->config;
+>> +       u8 ts_level = ATTR_CFG_GET_FLD(attr, ts_level);
+>> +
+>> +       /* Disable when ts_level == MAX */
+>> +       if (ts_level == FIELD_GET(ATTR_CFG_FLD_ts_level_MASK, UINT_MAX))
+>> +               return 0;
+>>
 > 
-> I'll need to re-test with and without this patch to check whether it
-> makes any difference.
+> Returning 0 from this function _enables_ the timestamps
+> 
 
-I finally got around to testing this on top of -rc1.
+Returning 0 just means that etm4_parse_event_config() doesn't exit with 
+an error. For ts_level == MAX we want to disable timestamps generated by 
+the counter, but we still want the minimum periodic timestamps.
 
-Disregarding trivial differences, the patched version (+++) doesn't
-seem to introduce any regressions over the vanilla version (---)
-(below).  (The CMT test actually failed with an out-of-tolerance result
-on the vanilla kernel only.  Possibly there was some adverse system
-load interfering.)
+To disable all timestamps you'd need to have attr->config & 
+BIT(ETM_OPT_TS) == false. This is set by the "timestamp" format flag 
+which I tried to explain that in the docs change.
 
+I could also change the comment to say "/* Disable counter generated 
+timestamps with ts_level == MAX */"
 
-Looking at the code, it seems that L2_NONCONT_CAT is not gated by any
-config or mount option.  I think this is just a feature that my
-hardware doesn't support (?)
+It's unfortunate that there are now two format options for timestamps. 
+Maybe instead of adding a second option we can change "timestamp" from a 
+1 bit field to 4 bits, with the following meanings:
 
-arch/x86/kernel/cpu/resctrl/core.c has:
+  0:     No counter timestamps or SYNC timestamps
+  1-14:  Counter timestamps = 2 ^ x. Plus SYNC timestamps
+  15:    Only SYNC timestamps
 
- | static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
- | {
-  
-   [...]
-  
- | 	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL)
- | 		r->cache.arch_has_sparse_bitmasks = ecx.split.noncont;
-  
-   [...]
-  
- | }
+Now we basically have the same meanings except you also have to set the 
+timestamp bit. Seems a bit pointless.
 
-Cheers
----Dave
+Previous versions of Perf were hard coding the timestamp format bit 
+rather than reading it out of 
+"/sys/bus/event_source/devices/cs_etm/format/timestamp" though:
 
+-       /* All good, let the kernel know */
+-       evsel->core.attr.config |= (1 << ETM_OPT_TS);
 
-Full diff of the test output:
+For that reason we'd have to leave that one where it is for backwards 
+compatibility. If it's set it would be equivalent to the new wider 
+timestamp field == 1.
 
---- base/resctrl_tests_6.18.0-rc1.out	2025-10-14 17:11:56.000000000 +0100
-+++ test1/resctrl_tests_6.18.0-rc1-test1.out	2025-10-14 17:21:44.000000000 +0100
-@@ -1,132 +1,132 @@
- TAP version 13
- # Pass: Check kernel supports resctrl filesystem
- # Pass: Check resctrl mountpoint "/sys/fs/resctrl" exists
- # resctrl filesystem not mounted
--# dmesg: [    1.409003] resctrl: L3 allocation detected
--# dmesg: [    1.409040] resctrl: MB allocation detected
--# dmesg: [    1.409072] resctrl: L3 monitoring detected
-+# dmesg: [    1.411733] resctrl: L3 allocation detected
-+# dmesg: [    1.411792] resctrl: MB allocation detected
-+# dmesg: [    1.411831] resctrl: L3 monitoring detected
- 1..6
- # Starting MBM test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- # Writing benchmark parameters to resctrl FS
--# Benchmark PID: 5126
-+# Benchmark PID: 4954
- # Write schema "MB:0=100" to resctrl FS
- # Checking for pass/fail
- # Pass: Check MBM diff within 8%
- # avg_diff_per: 0%
- # Span (MB): 250
--# avg_bw_imc: 6422
--# avg_bw_resc: 6392
-+# avg_bw_imc: 6886
-+# avg_bw_resc: 6943
- ok 1 MBM: test
- # Starting MBA test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- # Writing benchmark parameters to resctrl FS
--# Benchmark PID: 5129
-+# Benchmark PID: 4957
- # Write schema "MB:0=10" to resctrl FS
- # Write schema "MB:0=20" to resctrl FS
- # Write schema "MB:0=30" to resctrl FS
- # Write schema "MB:0=40" to resctrl FS
- # Write schema "MB:0=50" to resctrl FS
- # Write schema "MB:0=60" to resctrl FS
- # Write schema "MB:0=70" to resctrl FS
- # Write schema "MB:0=80" to resctrl FS
- # Write schema "MB:0=90" to resctrl FS
- # Write schema "MB:0=100" to resctrl FS
- # Results are displayed in (MB)
- # Pass: Check MBA diff within 8% for schemata 10
--# avg_diff_per: 1%
--# avg_bw_imc: 2033
--# avg_bw_resc: 2012
-+# avg_diff_per: 0%
-+# avg_bw_imc: 2028
-+# avg_bw_resc: 2032
- # Pass: Check MBA diff within 8% for schemata 20
- # avg_diff_per: 0%
--# avg_bw_imc: 3028
--# avg_bw_resc: 3005
-+# avg_bw_imc: 3006
-+# avg_bw_resc: 3011
- # Pass: Check MBA diff within 8% for schemata 30
- # avg_diff_per: 0%
--# avg_bw_imc: 3982
--# avg_bw_resc: 3958
-+# avg_bw_imc: 4006
-+# avg_bw_resc: 4013
- # Pass: Check MBA diff within 8% for schemata 40
- # avg_diff_per: 0%
--# avg_bw_imc: 6265
--# avg_bw_resc: 6236
-+# avg_bw_imc: 6726
-+# avg_bw_resc: 6732
- # Pass: Check MBA diff within 8% for schemata 50
- # avg_diff_per: 0%
--# avg_bw_imc: 6384
--# avg_bw_resc: 6355
-+# avg_bw_imc: 6854
-+# avg_bw_resc: 6856
- # Pass: Check MBA diff within 8% for schemata 60
- # avg_diff_per: 0%
--# avg_bw_imc: 6405
--# avg_bw_resc: 6376
-+# avg_bw_imc: 6882
-+# avg_bw_resc: 6883
- # Pass: Check MBA diff within 8% for schemata 70
- # avg_diff_per: 0%
--# avg_bw_imc: 6417
--# avg_bw_resc: 6387
-+# avg_bw_imc: 6891
-+# avg_bw_resc: 6889
- # Pass: Check MBA diff within 8% for schemata 80
- # avg_diff_per: 0%
--# avg_bw_imc: 6418
--# avg_bw_resc: 6394
-+# avg_bw_imc: 6893
-+# avg_bw_resc: 6909
- # Pass: Check MBA diff within 8% for schemata 90
- # avg_diff_per: 0%
--# avg_bw_imc: 6412
--# avg_bw_resc: 6384
-+# avg_bw_imc: 6890
-+# avg_bw_resc: 6888
- # Pass: Check MBA diff within 8% for schemata 100
- # avg_diff_per: 0%
--# avg_bw_imc: 6425
--# avg_bw_resc: 6399
-+# avg_bw_imc: 6929
-+# avg_bw_resc: 6951
- # Pass: Check schemata change using MBA
- ok 2 MBA: test
- # Starting CMT test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- # Cache size :23068672
- # Writing benchmark parameters to resctrl FS
--# Benchmark PID: 5135
-+# Benchmark PID: 4970
- # Checking for pass/fail
--# Fail: Check cache miss rate within 15%
--# Percent diff=24
-+# Pass: Check cache miss rate within 15%
-+# Percent diff=4
- # Number of bits: 5
--# Average LLC val: 7942963
-+# Average LLC val: 10918297
- # Cache span (bytes): 10485760
--not ok 3 CMT: test
-+ok 3 CMT: test
- # Starting L3_CAT test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- # Cache size :23068672
- # Writing benchmark parameters to resctrl FS
- # Write schema "L3:0=1f0" to resctrl FS
- # Write schema "L3:0=f" to resctrl FS
- # Write schema "L3:0=1f8" to resctrl FS
- # Write schema "L3:0=7" to resctrl FS
- # Write schema "L3:0=1fc" to resctrl FS
- # Write schema "L3:0=3" to resctrl FS
- # Write schema "L3:0=1fe" to resctrl FS
- # Write schema "L3:0=1" to resctrl FS
- # Checking for pass/fail
- # Number of bits: 4
--# Average LLC val: 71434
-+# Average LLC val: 70161
- # Cache span (lines): 131072
- # Pass: Check cache miss rate changed more than 2.0%
--# Percent diff=70.0
-+# Percent diff=72.1
- # Number of bits: 3
--# Average LLC val: 121463
-+# Average LLC val: 120755
- # Cache span (lines): 98304
- # Pass: Check cache miss rate changed more than 1.0%
--# Percent diff=40.8
-+# Percent diff=42.5
- # Number of bits: 2
--# Average LLC val: 170978
-+# Average LLC val: 172077
- # Cache span (lines): 65536
- # Pass: Check cache miss rate changed more than 0.0%
--# Percent diff=22.8
-+# Percent diff=22.0
- # Number of bits: 1
--# Average LLC val: 209950
-+# Average LLC val: 209893
- # Cache span (lines): 32768
- ok 4 L3_CAT: test
- # Starting L3_NONCONT_CAT test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- # Write schema "L3:0=3f" to resctrl FS
- # Write schema "L3:0=787" to resctrl FS # write() failed : Invalid argument
- # Non-contiguous CBMs not supported and write of non-contiguous CBM failed as expected
- ok 5 L3_NONCONT_CAT: test
- # Starting L2_NONCONT_CAT test ...
- # Mounting resctrl to "/sys/fs/resctrl"
- ok 6 # SKIP Hardware does not support L2_NONCONT_CAT or L2_NONCONT_CAT is disabled
- # 1 skipped test(s) detected. Consider enabling relevant config options to improve coverage.
--# Totals: pass:4 fail:1 xfail:0 xpass:0 skip:1 error:0
-+# Totals: pass:5 fail:0 xfail:0 xpass:0 skip:1 error:0
+I don't know if there's any precedent for changing the bitfield that 
+backs a format field, but presumably that's the point of publishing them 
+in files rather than a header.
 
----
+>>          /* No point in trying if we don't have at least one counter */
+>>          if (!drvdata->nr_cntr)
+>> @@ -667,12 +674,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+>>                  return -ENOSPC;
+>>          }
+>>
+>> -       /*
+>> -        * Initialise original and reload counter value to the smallest
+>> -        * possible value in order to get as much precision as we can.
+>> -        */
+>> -       config->cntr_val[ctridx] = 1;
+>> -       config->cntrldvr[ctridx] = 1;
+>> +       /* Initialise original and reload counter value. */
+>> +       config->cntr_val[ctridx] = config->cntrldvr[ctridx] = 1 << ts_level;
+>>
+>>          /*
+>>           * Trace Counter Control Register TRCCNTCTLRn
+>> @@ -762,7 +765,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>                   * order to correlate instructions executed on different CPUs
+>>                   * (CPU-wide trace scenarios).
+>>                   */
+>> -               ret = etm4_config_timestamp_event(drvdata);
+>> +               ret = etm4_config_timestamp_event(drvdata, attr);
+>>
+>>                  /*
+>>                   * No need to go further if timestamp intervals can't
+>>
+>> --
+>> 2.34.1
+>>
+> 
+> Regards
+> 
+> 
+> Mike
+> 
+> --
+> Mike Leach
+> Principal Engineer, ARM Ltd.
+> Manchester Design Centre. UK
 
