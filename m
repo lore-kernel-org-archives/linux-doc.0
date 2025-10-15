@@ -1,101 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1261C189B84;
-	Wed, 15 Oct 2025 16:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC28325333F;
+	Wed, 15 Oct 2025 16:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760546809; cv=none; b=UkRUStio8P1Bp5LHRCUcIfWBDodm96tNw8I7ZyzPz//3Lr7huMNsjwEj5sAPdjmQup8UGqrqWIU75oDLTAMmFAzwHBCAUQnm497VCxmtMEsVwjmRQXtlfO8a+Jb5EoDP+Zd46RYh57eRmhGjM2BOPB3JbbcfGZQATczWszUz9JE=
+	t=1760547410; cv=none; b=mNmJW9wJFEcP2Kd8qTSXepVoN3hxKHGINN7X8gi6IM6ThoLubpvPz+NcBprpDiRGF4PahRSqG3YpZ6vofOKsTBTBpqYk7larsaE4kb5e2mF9m9G6qLudeuKSgk1KJKtXJkIgm/FhLEceRo4pBwVSbDo+/U7sThXRqobQ5TNcEIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760546809; c=relaxed/simple;
-	bh=0FFNgUviHoyceqwAxmTDFq28OH826jRwx6eKiDBtnic=;
+	s=arc-20240116; t=1760547410; c=relaxed/simple;
+	bh=PYKbb6/RZIWzCrEnMTs12oUuOVy9ens2ny2rUF7vKEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ADzeWmN1MfHoRm0nyJ/ALTrSR7cUUt486qpjwk++4ngICm/8olPkULag3Tu+rj0nAhMleYpvsbwgDvJbKhZ+WxEebmPdrWn5DqYh6tYDVlfbnWZvqLhxVC23XexAzxwYvojaSZ9aE0Apudxm9tZB4VS0NV3wPtGyZVOoRJAqRAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OfXji97u; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=D11DPPMPjN+r6ZJqBtF6boq7tNipfa/5og3My+IKAaqtYrTdvH6QR3SSGxYyIfna/r8/Zv8I8d95QQpiyKLFFzfNPx6agtmYlC3SRc0PH5Aap6PFC7NfNcF463F5EohHnbQEYeySBI+48zWxCfjmAXsK/2G96TVbSZrRGQut/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAts8Yss; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfXji97u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7179AC4CEF8;
-	Wed, 15 Oct 2025 16:46:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAts8Yss"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C58C4CEF8;
+	Wed, 15 Oct 2025 16:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760546807;
-	bh=0FFNgUviHoyceqwAxmTDFq28OH826jRwx6eKiDBtnic=;
+	s=k20201202; t=1760547410;
+	bh=PYKbb6/RZIWzCrEnMTs12oUuOVy9ens2ny2rUF7vKEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OfXji97uoG3XgHw5juL0tZXh1xnYncQ0aojjso9wV/kpxikKg37uBjRkYxztPwIvG
-	 w6CBKKmWmoLzPAFdSqUHwKfZMZ23NaZkkisyHySya5v0041rkqYsS+PUKO72BZjHx+
-	 ytagA9wccAVraEB7lA4/ING+gj3PiUFQ2ubnl7QR64JVYBhYOXZ6ljQDgcxcBS+Gme
-	 l4twauTa+1rsib58oWR8BY7tSGY9eQkfNKo7U7jQpYg9SRgvNNs9KcFf/A9Q5KgpSN
-	 gMPmr11o19K4023AuZ1vcNtZ+BImSAmvzpvW+w54erBx4/HjjZT54jmFqY1eqJHB/T
-	 bk3s91j+CVhvQ==
-Date: Wed, 15 Oct 2025 17:46:40 +0100
-From: Simon Horman <horms@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Gur Stavi <gur.stavi@huawei.com>, Jakub Kicinski <kuba@kernel.org>,
-	Joe Damato <jdamato@fastly.com>, Lee Trager <lee@trager.us>,
-	luosifu@huawei.com, luoyang82@h-partners.com,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Shi Jing <shijing34@huawei.com>, Suman Ghosh <sumang@marvell.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Wu Like <wulike1@huawei.com>, Xin Guo <guoxin09@huawei.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>
-Subject: Re: [PATCH net-next 2/9] hinic3: Add PF management interfaces
-Message-ID: <aO_P8F3CuY4ZvmiY@horms.kernel.org>
-References: <68ddc5e9191fcb12d1adb666a3e451af6404ec76.1760502478.git.zhuyikai1@h-partners.com>
- <b59d625d-18c8-49c9-9e96-bb4e2f509cd7@web.de>
+	b=QAts8YsscOIQN6mvshK+dJ4WK0P2No3eEfWjNJEn3XWuPSB8D5tkyax7LAHR1HLvi
+	 LkipiPKybNksMMIOnV4i5TkglxnLyefQaFUCmZ6Ex9G5Pm28Cq/azwFUHKWEXLLObR
+	 Gsdgw70CbD6Ys+62Syr0wgJGAQe5OBuTGtSF39cmf3oNfpENdcJpQOcqS1vlYjO3+d
+	 JrwIJ6mN1sJLwefAjfMKLyT865RsBX/4ZmG7jzhbzvl9ICnEChkJCHeQwkGuP9q/Ha
+	 fwpQihHTEja8wL5Uw0VPPbgHWD34eaCwJl1CbKl2IOQTPs1UNTV0VdssaBT5i3cvw3
+	 vCilP+gEcvhgQ==
+Date: Wed, 15 Oct 2025 11:56:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, gregkh@linuxfoundation.org,
+	rdunlap@infradead.org, christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v16 1/3] dt-bindings: leds: add TI/National Semiconductor
+ LP5812 LED Driver
+Message-ID: <20251015165648.GA4046261-robh@kernel.org>
+References: <20251013173551.108205-1-trannamatk@gmail.com>
+ <20251013173551.108205-2-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b59d625d-18c8-49c9-9e96-bb4e2f509cd7@web.de>
+In-Reply-To: <20251013173551.108205-2-trannamatk@gmail.com>
 
-On Wed, Oct 15, 2025 at 12:00:33PM +0200, Markus Elfring wrote:
-> > To: Fan Gong …
+On Tue, Oct 14, 2025 at 12:35:49AM +0700, Nam Tran wrote:
+> The LP5812 is a 4x3 RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
+> or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
+> dimming, including exponential PWM for smooth brightness control.
 > 
-> Please reconsider the distribution of recipient information between message fields
-> once more.
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  .../devicetree/bindings/leds/ti,lp5812.yaml   | 249 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 255 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
 > 
-> 
-> …
-> > +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
-> > @@ -3,19 +3,325 @@
-> …
-> > +static void mgmt_resp_msg_handler(struct hinic3_msg_pf_to_mgmt *pf_to_mgmt,
-> > +				  struct hinic3_recv_msg *recv_msg)
-> > +{
-> …
-> > +	spin_lock(&pf_to_mgmt->sync_event_lock);
-> > +	if (recv_msg->msg_id != pf_to_mgmt->sync_msg_id) {
-> …
-> > +	}
-> > +	spin_unlock(&pf_to_mgmt->sync_event_lock);
-> > +}
-> …
-> 
-> Will development interests grow to apply a call like “scoped_guard(spinlock, &pf_to_mgmt->sync_event_lock)”?
-> https://elixir.bootlin.com/linux/v6.17.1/source/include/linux/spinlock.h#L565-L567
+> diff --git a/Documentation/devicetree/bindings/leds/ti,lp5812.yaml b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> new file mode 100644
+> index 000000000000..5208ddb3bdac
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> @@ -0,0 +1,249 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/ti,lp5812.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LP5812 4x3 Matrix RGB LED Driver with Autonomous Control
+> +
+> +maintainers:
+> +  - Nam Tran <trannamatk@gmail.com>
+> +
+> +description: |
+> +  The LP5812 is a 4x3 matrix RGB LED driver with I2C interface
+> +  and autonomous animation engine control.
+> +  For more product information please see the link below:
+> +  https://www.ti.com/product/LP5812#tech-docs
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,lp5812
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ti,scan-mode:
+> +    description: |
+> +      Selects the LED scan mode of the LP5812. The device supports
+> +      three modes:
+> +        - Direct-drive mode ("direct_mode") drives up to 4 LEDs directly
+> +        by internal current sinks (LED0-LED3).
+> +        - TCM-drive mode ("tcm:<n>:<order...>") drives up to 12 LEDs
+> +        (4 RGB) using 1-4 scan multiplexing. The <n> specifies the number
+> +        of scans (1-4), and <order...> defines the scan order of the outputs.
+> +        - Mix-drive mode ("mix:<n>:<direct>:<order...>") combines
+> +        direct-drive and TCM-drive outputs. The <n> specifies the number
+> +        of scans, <direct> selects the direct-drive outputs, and <order...>
+> +        defines the scan order.
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    oneOf:
+> +      - const: direct_mode
 
-Hi Markus, all.
+My suggestion was to drop direct_mode and make no 'ti,scan-mode' 
+property present mean 'use direct mode'. As direct mode is essentially 
+what every other LED driver IC supports, supporting it as the 
+default with no property makes sense.
 
-It's up to the developer. But there is a still a weak preference
-for open-coding, as is done above, in Networking code. So in the
-absence of some other motivation (I have not reviewed this code)
-I would suggest leaving this as-is.
-
-https://docs.kernel.org/process/maintainer-netdev.html#using-device-managed-and-cleanup-h-constructs
+> +      - pattern: '^(tcm|mix):[1-4](:[0-3]){1,4}$'
