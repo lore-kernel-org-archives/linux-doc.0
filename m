@@ -1,130 +1,267 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A6C2F83CC
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370A027732;
+	Thu, 16 Oct 2025 07:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760601322; cv=none; b=cugHuhEx5u8j+hv500rxRAYg7CZb/pkRFK6opJJFUhNUfPmhgNNLE1aj3MhynvKCipVmEEy2rVcLNthu56L/+AC0gnEdwaWSGD9sOa2TgVZGfLdzX0oCyLiVr8K4ei0a3sHUBmX0wnw4t8i3YaJIiR69BGpeXq4mnVTZ3RypGxI=
+	t=1760601589; cv=none; b=slpZ+gfzyyLb2AUx5qVArKvEVvCa1U6SrU2u2i0L45nYs7wsIywHQyT8ft1C4JnJWd7uzSBdnpMc+wh+allQ6p7+bbBtsA663oPauGWy6nBrWB0+AdHFqsqapUHVeihlnt5I8lBLYF1OOFXLu9O8Ks5AW1o4GQ8tHac4/NdDNPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760601322; c=relaxed/simple;
-	bh=l8JMG+ysDeFr5TZgA8X0KLJsxexULhV0axAKW6Rb+V8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aUcwOzNicD/lxh59UfePYnUBDX0t/kMYHu17a3/jlvo3pUXMWh/tGILfiJb3fh1NuiFHhjy2D9gnWkKZW+bNq0hc24XMPq9+g3MbLNaggOdSNp9m7J7PRO+KqPyFXCPBUERjlc+nSb128cweTPW59MIoA7VXvQaruK+GAoq6Fzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIGJbW7H; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760601589; c=relaxed/simple;
+	bh=GLELI6edHgJ4rLrCFdN0EgSviGgY+6eg489je3IK53g=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=h4bqVzh3AO1yK/wfZBraJTYpHIyteQ2I4rnPGdAbRfX4TtbxDdocpYoVrMiid91e15IF8Im4Ps2jTJ1s0G8h6hCxovG4idJLAhSiPaWKPjj3JyeTgmiOZyEzRRatnIFkM4XFrcvw7WGpgxnx3KkIMYmLYgroTaZxa7gW4rGzpys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Dnh00I6k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JYFqVQPa; arc=none smtp.client-ip=202.12.124.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIGJbW7H"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-290a3a4c7ecso4756315ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760601320; x=1761206120; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u6tiWu7yuQ3XN00VI86rkfRhwxpMpuXvOvXa99SVFc4=;
-        b=lIGJbW7HEceFokdsumJ6iIpSIbFrcm5B8BhR7fmTqUkm9/x6OfB6JRGvdqWlMLkFBp
-         UwLxHHHRiQKp9E/bWeqHks752Zgc5snhyZYxT+9zAUaGR8elFVgrGAJ78MPL+Sl9EMNX
-         JL1FcQ0E4bGnfsLp/xvl/VSP6KO5MaDhZqIjJbrXDJp5e+G6R5mEmYwVgwqMhaW6Qgh2
-         xtUhU6ZKWWcwLOiairHGR0xckrFwReEdgh5Gge7kfYzvAXinqQxbGIoGucxUdH5Am1ZK
-         USWXpb7RHu3TrdQKBE8wnosbL/tUKGL3++uiotf4oSXln0YvD4W9YKyrTXMjyOhFWQPe
-         blag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760601320; x=1761206120;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u6tiWu7yuQ3XN00VI86rkfRhwxpMpuXvOvXa99SVFc4=;
-        b=Is3CIWhDmQ7kKAJDXEoTapu9iU3w6y2XPqfqIO/x7OCDUpWWl5L9a1l3eQfyhs6N8V
-         5yWTsBDbOKk4Bww56lPaM4/Vd9TGLzWbd7nkyKU1I2nuNpPuc/LTg312EYeBLvrTvsoJ
-         yGqhRZrgvYufcrV4AYa3/orz2+fiiyyxJIp8BFqtAKHC0PsZjI3VWCnLn91QPwI4xszK
-         fkSMnHZqQm+N3HyeB56ZVPtvoLYNYyptbAKOFjbGKI0U1tecehK7xO3q1tCz2c9JtteR
-         6e/L+ye2p0m9CLGYHgjRtWQfh0AUyTDSvrqL/YHJRhc0HHSeGo9uX3xXf9QMSAuGDODk
-         h6Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCVA/Oj0WssMX7tAqAahqHrkEqta0phLziOdTOXfh2ZRjb7x40r1lWiZ7NrOXlhgMbZUQgnNSGEoZFg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJHBM52PO0QZX6GNUCO/ZvuTd4lSGsPD6nIPeC/ElPoECLshmX
-	zKdi3BD1XA0I6J82bc3LXMXMhEvTQJrnXu/552n7Z6gYf502al+22x/u
-X-Gm-Gg: ASbGncuwUTQoqH9YGFBe5dVFyZk3OcgkLlqrYndtbd1OKQ37UspUlIveANwvwvgjLo1
-	tL0fSUj59UVs4lt/S5+nkWQOTAaQwtTdOZcC4PDxOsc1QrP302NaE/ELZJ1t/Q/6yVqC3ZYC2Oc
-	jXI/ZNFMJba6422Z8ZhaWWOrn3ZEQNsX549hcTNfNvP6n26vbR+VpiV/iAlhKQy3SxgPOeBcyEc
-	wepAwEeAv0rns0y2YBb2qkuf9cxxCMje8LxMxHzt5Yb0kFK7oAl2Fjhi1EApFlWirCGg85MD62y
-	qgTkkWx+BTdS8QSjtRdy3XCpk/lv/Yh0HK0tKkPA+ivF5ghNUaTcUGLKROVv0BpP2W3LjvTED8j
-	wtYB6yNJEjzSF3mV3b3X9PpLizbF/hDRfPYMcsM61mYO/anDP1FIt8c2UtVU1BLbH3HklRdmXvj
-	sBgfU=
-X-Google-Smtp-Source: AGHT+IEo/63Yi6BDxpvQRpnjxo8HKcEDZGgx4k5ciYuENj4di6XHI29o7bd4su5DW6K/ds9jybazWQ==
-X-Received: by 2002:a17:902:ea07:b0:290:b8c7:e6ee with SMTP id d9443c01a7336-290b8c7eb5amr6060835ad.55.1760601320330;
-        Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
-Received: from pc.. ([116.177.28.66])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afe0aasm20263975ad.111.2025.10.16.00.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrei Vagin <avagin@gmail.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs: scheduler: completion: Document complete_on_current_cpu()
-Date: Thu, 16 Oct 2025 15:55:07 +0800
-Message-ID: <20251016-complete_on_current_cpu_doc-v3-1-8ae5d346ea45@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Dnh00I6k";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JYFqVQPa"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 15FA6130062E;
+	Thu, 16 Oct 2025 03:59:45 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 16 Oct 2025 03:59:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1760601584;
+	 x=1760608784; bh=gsmN9Z3FJYObp60BofhTavDFXwdg3R8bCLb5lDfrp7M=; b=
+	Dnh00I6kWVC+90tFamluJ46nm3D90eaqL0not1NLL0Cr+oHq1AUstzTsjXEufvBI
+	NKe2r19Up1jt5g2erE0H9NZzSUsEwNbMW9FRXnxndtl3Lli4e2zbiP0AQv1EWoOD
+	olKL334NBGt24dzX/MGdzVyc7CvR8cP0CZikzEQeB5ajsFcZR3snfokqT0SNLjBO
+	KTPxZAhrqo6BPtJCpjGWLSnlXTYCQlH+qpbeHtMOz2u7RuDiBigtm6UIaOCo9AZ5
+	rsR+zdgIPqAkCD3+fH5VfVEIVTZx+XlTE+gfyauocMOCekgftjlVYi3Qc+/iOsIw
+	Qrtnbjr1vmobuL1Cb/1eDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760601584; x=
+	1760608784; bh=gsmN9Z3FJYObp60BofhTavDFXwdg3R8bCLb5lDfrp7M=; b=J
+	YFqVQPaF5TLM1U/Tn8/wz8rwBmZ3Rf1ciGLzKTV0RIzWA0trjMl+PvprizsQ3eQx
+	EmPoEloHqDhEqFeYQuqcuMa0UihOKKujcw6Kag1LPuJ6awioecbMKklIRPpGGAlm
+	Z/XOeWlGUtgS5sRTc+lPbYDU0CdkOqx8Mc1eRY6nuSDcNzys7BHhzsn2t1sDcNU4
+	s/KclAErUxhVtaxcUjiDz67VQvQAuHap+gGqt3m6rIeRFfw1L65ihkmbxdYKh8B/
+	A12xotHVXjZNTjw7HqOm5H6wDv6FzSAJc3okjrV5tnNyS7Sc1j8LjXcSGLveRDC/
+	PUWvipCNKFttJGawk5P+g==
+X-ME-Sender: <xms:7aXwaCh0KeFEB9Lz8Gt7Nxq4e_TdQu0NcmZkqq0Skmu5qnLvZHdcYQ>
+    <xme:7aXwaN04cb3r_2ZICkRKRvQcS_SYVxXNnyB4RdbSZQfatj2ru8zRQTnJH2uBIAxyl
+    BuhkOqSjhlQVJqi6DkrLV_Emt-lXcmIkxJKv5nYlLFDx3xU0UyzfQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdehjeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgeelpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtoh
+    hprdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhs
+    rdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhgrrhhoqdhmmhdqshhigh
+    eslhhishhtshdrlhhinhgrrhhordhorhhgpdhrtghpthhtoheplhhinhhugidqrhhtqdgu
+    vghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghorhgsvghtse
+    hlfihnrdhnvghtpdhrtghpthhtohepthihthhsohesmhhithdrvgguuhdprhgtphhtthho
+    pehjohgvlhgrghhnvghlfhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepiihihiesnh
+    hvihguihgrrdgtohhmpdhrtghpthhtohepuggrmhhivghnrdhlvghmohgrlhesohhpvghn
+    shhouhhrtggvrdifuggtrdgtohhm
+X-ME-Proxy: <xmx:7qXwaF73EL6Wx1oi645Jpe2lS5LjUOa0e0we3mKVQTSE3p0t5WtlcQ>
+    <xmx:7qXwaF_SZMGZDLyxSroOVGRtH_rQbTm8j5j-1WoqVCGKOxiqi37MRw>
+    <xmx:7qXwaKgQnzHzqlVSGnHM9v5A-eHyieFGElZzCzacMtdBaIymwbCU0g>
+    <xmx:7qXwaBlI2bpTfBZIpc_5FEL5K34_sy966F03LOitDOOWHQPhpIbuUQ>
+    <xmx:8KXwaBm8mD5l3EECvoNK0awzSPWIFuIwr0vxYRb-zAKqRTZQhRxc6xx7>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C2CC7700063; Thu, 16 Oct 2025 03:59:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
-X-Mailer: b4 0.15-dev-e44bb
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760600878; l=1679; i=javier.carrasco.cruz@gmail.com; s=20250209; h=from:subject:message-id; bh=V8LHqLfTQM+om9jJqbfR5TNDEnoucqEKULLH17WOmVs=; b=nB9zaQLTD8o7SLsyK5sIzt2yQE1oWj3q71Q8W9uDER1H4jx82nU5tqkvfbj3jLZl7ivgRQGor AidOK6vTlTRDa95nV/TumgNHNZpvjQrBCfuj3nL8ZmC9xDWGKkbbP8I
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519; pk=/1fPZTF8kAIBZPO3D8IhqidB0sgYzPDkljBZXsXJZM8=
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Aghr8S2aY07B
+Date: Thu, 16 Oct 2025 09:59:11 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Byungchul Park" <byungchul@sk.com>
+Cc: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
+ linux-ide@vger.kernel.org, "Andreas Dilger" <adilger.kernel@dilger.ca>,
+ linux-ext4@vger.kernel.org, "Ingo Molnar" <mingo@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Will Deacon" <will@kernel.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Joel Fernandes" <joel@joelfernandes.org>,
+ "Sasha Levin" <sashal@kernel.org>,
+ "Daniel Vetter" <daniel.vetter@ffwll.ch>, duyuyang@gmail.com,
+ "Johannes Berg" <johannes.berg@intel.com>, "Tejun Heo" <tj@kernel.org>,
+ "Theodore Ts'o" <tytso@mit.edu>, "Matthew Wilcox" <willy@infradead.org>,
+ "Dave Chinner" <david@fromorbit.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, kernel-team@lge.com,
+ linux-mm@kvack.org, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Michal Hocko" <mhocko@kernel.org>, "Minchan Kim" <minchan@kernel.org>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, vdavydov.dev@gmail.com,
+ "SeongJae Park" <sj@kernel.org>, jglisse@redhat.com,
+ "Dennis Zhou" <dennis@kernel.org>, "Christoph Lameter" <cl@linux.com>,
+ "Pekka Enberg" <penberg@kernel.org>,
+ "David Rientjes" <rientjes@google.com>,
+ "Vlastimil Babka" <vbabka@suse.cz>, ngupta@vflare.org,
+ linux-block@vger.kernel.org, "Josef Bacik" <josef@toxicpanda.com>,
+ linux-fsdevel@vger.kernel.org, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Dan Williams" <dan.j.williams@intel.com>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
+ "Gwan-gyeong Mun" <gwan-gyeong.mun@intel.com>,
+ max.byungchul.park@gmail.com, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Waiman Long" <longman@redhat.com>, yunseong.kim@ericsson.com,
+ ysk@kzalloc.com, "Yeoreum Yun" <yeoreum.yun@arm.com>,
+ Netdev <netdev@vger.kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, her0gyugyu@gmail.com,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>, gustavo@padovan.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Andi Shyti" <andi.shyti@kernel.org>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Petr Pavlu" <petr.pavlu@suse.com>, da.gomez@kernel.org,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ "Frederic Weisbecker" <frederic@kernel.org>, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, "Josh Triplett" <josh@joshtriplett.org>,
+ "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+ "Lai Jiangshan" <jiangshanlai@gmail.com>, qiang.zhang@linux.dev,
+ "Juri Lelli" <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>,
+ "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
+ "Benjamin Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
+ "Valentin Schneider" <vschneid@redhat.com>,
+ "Chuck Lever" <chuck.lever@oracle.com>, neil@brown.name,
+ okorniev@redhat.com, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, trondmy@kernel.org,
+ "Anna Schumaker" <anna@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, "Kefeng Wang" <wangkefeng.wang@huawei.com>,
+ "Mark Brown" <broonie@kernel.org>,
+ "Kevin Brodsky" <kevin.brodsky@arm.com>,
+ "David Woodhouse" <dwmw@amazon.co.uk>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Alexei Starovoitov" <ast@kernel.org>, "Zi Yan" <ziy@nvidia.com>,
+ "Yu Zhao" <yuzhao@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>, usamaarif642@gmail.com,
+ joel.granados@kernel.org, "Wei Yang" <richard.weiyang@gmail.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ tim.c.chen@linux.intel.com, linux <linux@treblig.org>,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+ lillian@star-ark.net, "Huacai Chen" <chenhuacai@kernel.org>,
+ francesco@valla.it, guoweikang.kernel@gmail.com, link@vivo.com,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ "Oleg Nesterov" <oleg@redhat.com>, "Mateusz Guzik" <mjguzik@gmail.com>,
+ "Andrii Nakryiko" <andrii@kernel.org>, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-modules@vger.kernel.org, rcu <rcu@vger.kernel.org>,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Message-Id: <6241800d-9456-4d5f-b55d-611e33f2c446@app.fastmail.com>
+In-Reply-To: <20251016004640.GB2948@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-2-byungchul@sk.com>
+ <2025100230-grafted-alias-22a2@gregkh>
+ <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
+ <3bbe14af-ccdc-4c78-a7ca-d4ed39fa6b5d@app.fastmail.com>
+ <20251016004640.GB2948@system.software.com>
+Subject: Re: [PATCH v17 01/47] llist: move llist_{head,node} definition to types.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the
-current cpu") introduced this new function to the completion API that
-has not been documented yet.
+On Thu, Oct 16, 2025, at 02:46, Byungchul Park wrote:
+> On Fri, Oct 03, 2025 at 01:19:33AM +0200, Arnd Bergmann wrote:
+>> On Thu, Oct 2, 2025, at 15:53, Mathieu Desnoyers wrote:
+>> > On 2025-10-02 04:24, Greg KH wrote:
+>> >> On Thu, Oct 02, 2025 at 05:12:01PM +0900, Byungchul Park wrote:
 
-Document complete_on_current_cpu() explaining what it does and when its
-usage is justified.
+>> Maybe a shared linux/list_types.h would work, to specifically
+>
+> I found a way to resolve my issue, but I thought it's good idea
+> regardless of my issue and took a quick look.  However, it seems like
+> there's an overwhelming amount of work since it might require to replace
+> all the existing include <linux/types.h> for use of list things with the
+> new one :-).
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
-Changes in v3:
-- Rebase onto v6.18-rc1
-- Document the scenario where the gain is relevant (Andrei Vagin)
-- Link to v2: https://lore.kernel.org/r/20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com/
+I don't think it's that bad, since almost every header ends up
+including linux/list.h indirectly at the moment.
 
-Changes in v2:
-- Rebase onto v6.17-rc1
-- Fix patch formatting (drop --- before the Signed-off-by tag).
-- Link to v1: https://lore.kernel.org/r/20250703-complete_on_current_cpu_doc-v1-1-262dc859b38a@gmail.com
----
- Documentation/scheduler/completion.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+A little bit of scripting to find the headers that reference
+'struct list_head' but don't also include linux/list.h reveals
+this relatively short set that would need to include the new
+header:
 
-diff --git a/Documentation/scheduler/completion.rst b/Documentation/scheduler/completion.rst
-index adf0c0a56d02..139700c56964 100644
---- a/Documentation/scheduler/completion.rst
-+++ b/Documentation/scheduler/completion.rst
-@@ -272,6 +272,11 @@ Signaling completion from IRQ context is fine as it will appropriately
- lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
- sleep.
- 
-+Use complete_on_current_cpu() to wake up the task on the current CPU.
-+It makes use of the WF_CURRENT_CPU flag to move the task to be woken up
-+to the current CPU, achieving faster context switches. For this optimization
-+to be effective, the current task must be about to go to sleep right after
-+waking the target task.
- 
- try_wait_for_completion()/completion_done():
- --------------------------------------------
+> include/keys/asymmetric-parser.h
+> include/linux/dynamic_debug.h
+> include/linux/genalloc.h
+> include/linux/gpio/machine.h
+> include/linux/hiddev.h
+> include/linux/iio/iio-opaque.h
+> include/linux/iio/sysfs.h
+> include/linux/input/touch-overlay.h
+> include/linux/irq_poll.h
+> include/linux/iscsi_boot_sysfs.h
+> include/linux/kcore.h
+> include/linux/kcsan-checks.h
+> include/linux/kcsan.h
+> include/linux/lockdep_types.h
+> include/linux/logic_pio.h
+> include/linux/maple.h
+> include/linux/mfd/iqs62x.h
+> include/linux/mlx5/macsec.h
+> include/linux/mount.h
+> include/linux/mtd/map.h
+> include/linux/mtd/nand-qpic-common.h
+> include/linux/mtd/partitions.h
+> include/linux/mutex_types.h
+> include/linux/nfs_fs_i.h
+> include/linux/of_iommu.h
+> include/linux/parport_pc.h
+> include/linux/pinctrl/pinctrl.h
+> include/linux/plist_types.h
+> include/linux/pm_wakeup.h
+> include/linux/reboot-mode.h
+> include/linux/shm.h
+> include/linux/smpboot.h
+> include/linux/sunrpc/xprtmultipath.h
+> include/linux/usb/audio.h
+> include/linux/workqueue_types.h
+> include/linux/zpool.h
+> include/net/bluetooth/hci_sync.h
+> include/net/bluetooth/l2cap.h
+> include/net/bluetooth/rfcomm.h
+> include/net/dcbnl.h
+> include/sound/i2c.h
+> include/sound/soc-jack.h
+> include/target/iscsi/iscsi_transport.h
+> include/video/udlfb.h
 
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
+A lot of these don't have any #include statements at all,
+which indicates that they expect to only be included in
+places where the dependencies are already visible.
 
-Best regards,
---  
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
-
+      Arnd
