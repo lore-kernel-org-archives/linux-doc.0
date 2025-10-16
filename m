@@ -1,60 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D798834;
-	Thu, 16 Oct 2025 22:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144941917F1;
+	Thu, 16 Oct 2025 23:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760655112; cv=none; b=GWFXbX2xGgLbLl1ZvSrygej0fgnLUor9kTxQ5RNsoTbPfMr24tw173b8Kw6GBaknL4DA4FCxvHtQOAz549U5ZVWFQKDyLr/kWAxpilS7D71I2fLGghwlXYQ/1QvMjWiBbTksnQAhK4CF5qVDhV786N4QoN/zusBC7z+/OB3cUXs=
+	t=1760655622; cv=none; b=cmEx0Oa9SP/GRK3d1H7fisPQM5qW3ASoJ39EGZUwjsyj5vTuiRQGzjiu1w00WaDCNZvh1NCj/Xk6qqy9mhC92qhVht5EFTJuVX6RkhK1X/cXI3AS8se7Hst3NGEpUIBAaB0LxAXKvuIMfqs7qqXSdrFg5Y0g5ubUBROs08DDzrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760655112; c=relaxed/simple;
-	bh=czlyT27p1N4zgXNRMyPM6mkYeIe0/ofkhpebLmY81Yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pu+DWWEf6143bi9qSGkn0peo14/l3V/rNy6MS+QYRuizbJ5XDJmM7eB1lzr4kU7V5qHkJ2GJFNVikES4H1zhRlIa88fXcy3qogskXVpPa5VM95hODnZYTjK7ehfTU18gcV+rov9EcTCP8x74Bo6NkwhPOQuj7p/Mx5sQFFHxWyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ou5GOCLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760655622; c=relaxed/simple;
+	bh=y1cLi1qiNeoQW0GjMowxZf8p9EuPzw2O8V99suRom+0=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=nYP+7QoPcj/LutbAVYFwgNlanxEtvT4cDfVF+/7Qf7a5oVLAcfqna7MtubqXqIGqJU0sXQzlnM1uNN+BI3u+OEiBQVPy9oT4P96VGTXElp1qmb9OazSlNv4EIwF8XuRytFuW30qCFltyIBnVFCbe0Hlg44qLVmw218UlmHfd3dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evx6unnT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ou5GOCLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4564DC4CEF1;
-	Thu, 16 Oct 2025 22:51:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evx6unnT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5ED6C4CEF1;
+	Thu, 16 Oct 2025 23:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760655111;
-	bh=czlyT27p1N4zgXNRMyPM6mkYeIe0/ofkhpebLmY81Yc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ou5GOCLjNvny7NfsUYQB98oU/oZoszL9irMyTizhziPIrfgmb4AiA1DNAlS2kTfBl
-	 RC8a1yJOM5uG9XtHnOY/Ks5RrkgWT4UvYH6ZnPK3RpJ6nmHLBD9QcdOP82dzXT1MGE
-	 lRdswwEFhRc328eVGolbJPHGGZNz3IJXRpgxkRV6QuSeJPOB5YvbIqsrOuvEjsWN/t
-	 mQtp+7KNEfNMWAEOz8KAvtaQmXvNY9Q7jiGt50lNdcXhNYalgdvheZruypa1xG1beA
-	 cbqrFL57qljspALnjXKVKQD6R8LmppEvQeSMBXTYinWiVGNsOqBhSMAWkbO3UZqzJF
-	 3npQTXFQnuqeQ==
-Date: Thu, 16 Oct 2025 15:51:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
- Documentation <linux-doc@vger.kernel.org>, Linux Networking
- <netdev@vger.kernel.org>, Subash Abhinov Kasiviswanathan
- <subash.a.kasiviswanathan@oss.qualcomm.com>, Sean Tranchetti
- <sean.tranchetti@oss.qualcomm.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Sharath Chandra Vurukala <quic_sharathv@quicinc.com>
-Subject: Re: [PATCH net] net: rmnet: Fix checksum offload header v5 and
- aggregation packet formatting
-Message-ID: <20251016155150.3bc5e351@kernel.org>
-In-Reply-To: <20251015092540.32282-2-bagasdotme@gmail.com>
-References: <20251015092540.32282-2-bagasdotme@gmail.com>
+	s=k20201202; t=1760655621;
+	bh=y1cLi1qiNeoQW0GjMowxZf8p9EuPzw2O8V99suRom+0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=evx6unnT9oSNZN3XJgzUIuD+g9AWt9P2COUA+/Vdw+WpoI8fvYtyjmvk2yIRMpmWj
+	 GSQN1ouWvTQlu7qHrYjD0aGb2kJO05lgiPSaqi4C0x9T1lc5PwNqg8VLJ6fMb1q3zz
+	 pB+70YvP5l4EqDw4jakf6BlBvhaQPAhI+ossPtYRlMBLwG9keEwbh3E7Mf7TDw975h
+	 U0fqR4z/w2pAlzkVs6rUoqvBCTfwQKP2PDcWptFwxVYa6TtZ/ubkxKdYQ/amOX6Pf4
+	 zBH3A8ehiiWZMvHpb+2oBRQksfY0c+Df9w39qW4+Eif6cJsD2Z9onrLkfryFT0vY9P
+	 I3FD3mRIBNRXg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB11D3810902;
+	Thu, 16 Oct 2025 23:00:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: rmnet: Fix checksum offload header v5 and
+ aggregation packet formatting
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176065560576.1937406.6281512047477502044.git-patchwork-notify@kernel.org>
+Date: Thu, 16 Oct 2025 23:00:05 +0000
+References: <20251015092540.32282-2-bagasdotme@gmail.com>
+In-Reply-To: <20251015092540.32282-2-bagasdotme@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, subash.a.kasiviswanathan@oss.qualcomm.com,
+ sean.tranchetti@oss.qualcomm.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ quic_sharathv@quicinc.com
 
-On Wed, 15 Oct 2025 16:25:41 +0700 Bagas Sanjaya wrote:
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 15 Oct 2025 16:25:41 +0700 you wrote:
+> Packet format for checksum offload header v5 and aggregation, and header
+> type table for the former, are shown in normal paragraphs instead.
+> 
+> Use appropriate markup.
+> 
 > Fixes: 710b797cf61b ("docs: networking: Add documentation for MAPv5")
 > Fixes: ceed73a2cf4a ("drivers: net: ethernet: qualcomm: rmnet: Initial implementation")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
+> [...]
 
-Please don't add Fixes tags to markup improvements.
-The patch is probably fine for net but there's no need for the extra
-tags.
+Here is the summary with links:
+  - [net] net: rmnet: Fix checksum offload header v5 and aggregation packet formatting
+    https://git.kernel.org/netdev/net/c/1b0124ad5039
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
