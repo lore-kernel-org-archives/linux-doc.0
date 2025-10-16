@@ -1,221 +1,165 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92B16187332;
-	Thu, 16 Oct 2025 00:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760575613; cv=none; b=pcwaAx+ut2Buh4diMqq3rGFSzPHcC3uE93vIYntrh5MImwbW+o5ZB+bCLSZ26qjwQmw/B8N/OsZx0soQsBA2mPzai2kz4uNrsw46lJBaH68QFa8QQWbmz6wu2VOHo9TD4kEW0XKCtU9Uzmt65Ptv56OSjw8oxobdweQAeK24rHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760575613; c=relaxed/simple;
-	bh=bOKJ6TkZJV7OT6XeerMfxJtiPz1ZRcgBwgHMoF0YAxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+/mwXNGdZ9yl1vvpgnKkvNmM82jQi0Uy7CaQU05urpe+nChaPueD3HfWLiIri/y6SL73nR8s8Iy6EVxUIsuCkqjds/HjKedi4UoilrL7cZskS6ZODwvnNfyv6A006gNEHCGDi00MhMi8oeCGaNIkrVfgJEoe/OlR6ok7vsGEug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-3a-68f040753fb9
-Date: Thu, 16 Oct 2025 09:46:40 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	linux-ide@vger.kernel.org,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	linux-ext4@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>, duyuyang@gmail.com,
-	Johannes Berg <johannes.berg@intel.com>, Tejun Heo <tj@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>, Matthew Wilcox <willy@infradead.org>,
-	Dave Chinner <david@fromorbit.com>,
-	Amir Goldstein <amir73il@gmail.com>, kernel-team@lge.com,
-	linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-	Michal Hocko <mhocko@kernel.org>, Minchan Kim <minchan@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>, vdavydov.dev@gmail.com,
-	SeongJae Park <sj@kernel.org>, jglisse@redhat.com,
-	Dennis Zhou <dennis@kernel.org>, Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, ngupta@vflare.org,
-	linux-block@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
-	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
-	melissa.srw@gmail.com, hamohammed.sa@gmail.com,
-	harry.yoo@oracle.com, chris.p.wilson@intel.com,
-	Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-	max.byungchul.park@gmail.com, Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>, yunseong.kim@ericsson.com,
-	ysk@kzalloc.com, Yeoreum Yun <yeoreum.yun@arm.com>,
-	Netdev <netdev@vger.kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>, her0gyugyu@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, gustavo@padovan.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>, da.gomez@kernel.org,
-	Sami Tolvanen <samitolvanen@google.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	Josh Triplett <josh@joshtriplett.org>,
-	"Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>, qiang.zhang@linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Benjamin Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Chuck Lever <chuck.lever@oracle.com>, neil@brown.name,
-	okorniev@redhat.com, Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>, trondmy@kernel.org,
-	Anna Schumaker <anna@kernel.org>, Kees Cook <kees@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Mark Brown <broonie@kernel.org>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Yu Zhao <yuzhao@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>, usamaarif642@gmail.com,
-	joel.granados@kernel.org, Wei Yang <richard.weiyang@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	tim.c.chen@linux.intel.com, linux <linux@treblig.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	lillian@star-ark.net, Huacai Chen <chenhuacai@kernel.org>,
-	francesco@valla.it, guoweikang.kernel@gmail.com, link@vivo.com,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Oleg Nesterov <oleg@redhat.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>, wangfushuai@baidu.com,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-i2c@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	linux-modules@vger.kernel.org, rcu <rcu@vger.kernel.org>,
-	linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 01/47] llist: move llist_{head,node} definition to
- types.h
-Message-ID: <20251016004640.GB2948@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-2-byungchul@sk.com>
- <2025100230-grafted-alias-22a2@gregkh>
- <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
- <3bbe14af-ccdc-4c78-a7ca-d4ed39fa6b5d@app.fastmail.com>
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010048.outbound.protection.outlook.com [52.101.84.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDFA20322;
+	Thu, 16 Oct 2025 01:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760576895; cv=fail; b=AgY601KmB0GurWdo1CRNzx3mYFpJ4YQrKg7fjuDSGUlz4LkAJIMnvAXOY2AN0k23HjWCQ7WB3ff6Mc+/rPXKLiihMB4It/HX3IvhXSUO8vKNqbTJd1GRtlhhSP1HUU9byUUNIYaPu9oc0G10esK8I5VQcHsk6SjmFnIZyzL40SQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760576895; c=relaxed/simple;
+	bh=RFWNanejLf/PQmE9YZOE9nR0fcXKWdVITnOCGry3I3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=YIhXwvZodg2nfWSL7J/VgF1Shl9nUvQav0PA5QuJUrORO1MEGpwUhmm8sdiEuqL2AlExyH/MFtgbxQVOUTXOCfQdNe5G5sYps4v+ZXe6EaIM0ht33mmR2pyd8zg921EpvqC88y0Ccbu4gGSjiWrnjBfS3ehx6xBKpIrw/P8mvVo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=U8Ao2cxE; arc=fail smtp.client-ip=52.101.84.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="U8Ao2cxE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qmvqXM9VnAu2SV6JAHB2EkBfjgm4+nkoxE8AXnQ+Xt1TP/GWa5RAEz+kGwIHV3Vy4BL5vK+M/9jlItiuR/yTam/g36HhlfCmgUekTlwUnLvIJyvO5N1gZsWmqJ9mupeedy5cl1zldmAGkVS8e+9TkfMN99dV9Ad2S0f4tbzkCjbiP+OUp0ls6faNzQFAv/LtwvEP1xeL2K+orgRiUbj+gM5hj96edpMqJy9en+dKvjnZTIfRIxm1V19eYURwkVhTGv0kxER5zkUKwTQE9KiAEx0ciaoa1cZLLQUC2wLvWZk3kHT1hnud3uXnyubDeVt3flCBbJ1Wo6GD6xPLt45v7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qqoE63KIYeBu+gfBqDGaRh0NS4TOeyDJ7WB8oeFvrcY=;
+ b=RycfwwhNvIqOnAxP2WYSvoDqmHzVPNSA951maTsfjb9r5VrXBHngN8ESj5wv5+NbITqWncM3U3Nmj+Z5wJ3Fhhpmnj2aJhNy84ZlRMmQvO5dBxZ/AnxaUYVwMdHlUEsq0xP8HTDqVCwpOzdob0Re7YwTIziwERRCXbXApqK/Rs4n+026J7VyCyXYhvFoh1bcOD1OibLcNpjuOSoQLwJoJiqYh7tgj30LQCPt9fyItuSvs8syqz41M5ZfYg6SMcNZYMgFyqJ8Z/EOKTSYFmFTwDcj8VPlhMUYQzVuF61IgUds9I/cWDTbdUO11dFersbH93hG3k1OFz6/dDzgIKppXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qqoE63KIYeBu+gfBqDGaRh0NS4TOeyDJ7WB8oeFvrcY=;
+ b=U8Ao2cxE6LRXYeCUxrASGuh2H85gZl89eLLJ1TFIpDgGAh3tzlSByJg2R3IPNYW/J2MkdCdlOh49n21X+d8W52b3STr8YOcpZVurRzqxvN2gqttqDW9N6QhmBmSwAR5RJ5dlFTG2yCSFXjZ23t8iZTVsra4JwZgU+XpH7sJ4IDu8Fm1uOq/ZPPsdnVPkJ52mb0HM7o2t7Z/SEeTg9io62p+RuvEFwX0ZzCB/exRvtHVHAFnJ2r9WQZpuJ89kZ6IjFwHEsJRsMpEpxph+nIh1yEOnLQI7ZnuH809qYgFrYjoXiPqkVtSGzpkLlWrtf7GXD24bmlVQ7I3O+8xDm+huNQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by AS4PR04MB9715.eurprd04.prod.outlook.com (2603:10a6:20b:4f9::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
+ 2025 01:08:11 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
+ 01:08:10 +0000
+Date: Thu, 16 Oct 2025 10:20:22 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v19 0/7] firmware: imx: driver for NXP secure-enclave
+Message-ID: <20251016022021.GA4629@nxa18884-linux.ap.freescale.net>
+References: <20250927-imx-se-if-v19-0-d1e7e960c118@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250927-imx-se-if-v19-0-d1e7e960c118@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: MA0PR01CA0099.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:af::7) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3bbe14af-ccdc-4c78-a7ca-d4ed39fa6b5d@app.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUybZRSG87wfT18aal7rFh5BY6wSCTh0ZgnHxRh+qHtjJCG6ZAkz0WZU
-	21DK1jI+/Ih12UeFJmK1TFqCXWEdoR1j7dgGWyNjUGQ4LWUbRdtZpMLIWmsIXTNYmZS5uH9X
-	7vucK+fH4WipDedyKk2tQquRq2VYzIjj2fYtdaX/KF+e6cqB5LKBgfZTLgwGdxsL/l4ngtSq
-	lYa0ySeC+14fgtZJEw2uM19ScPvyEgLzbBRDwmFEYJm3iiD+xwUW7ocXKJi+E0PgiK5REB06
-	giDdWgU/2D0YVq/+SsNRsx/Brb71/IzvJgJv9wEMf7X00zAVfQyuJRMYxs3NGOKT7RT83YfB
-	dsDLwkBkUAShVhMFTncZTLTYKTi6iMF88gIFP3eGGHDo88F6dYqFe7NbwedcEEH4azMD5/QR
-	EbhnRhEsX5ulwGWcp8EwmGTAPXeDBe9vRXDscBcDbR0hDBe94wwY0ssIfOf/pGBqsB2Dsa+f
-	Bb01xULA6Wfg1EKQggnfTwwcn56kYDYSZEsrhR7PWUo4FEhjwdXhQsLqigkJl2MJWjjoqReO
-	T8SwsJK8joUrdiIMWMIiwebeLxwcibOCp7tQ6Ly4SAnHlpKs4O75CpcXVYhfq1SoVXUK7Uuv
-	fyhW2m6nqb29fIPvykmsR7HsJpTFEX4bGZvz44fsCRvoDDN8PplaTjEZxvwLJBi8u5Fv4p8l
-	5lvzG0zz8wXkO78uw0/wO8kNZ8/GvIQvIfam0XUWc1J+BZHe2Cr7oHicjLdFmQfLhSS4tkg1
-	IW6d88iJNS4TZ/FvkNj1Ixv3bOafI0Nnx6iMh/A3s8iYPfTfoU+SS91BpgXxlke0lke0lv+1
-	NkT3IKlKU1ctV6m3FSsbNaqG4j011W60/reOz+/tPo+W/O8NI55DsmxJpDuhlLLyOl1j9TAi
-	HC3bJCn5NKaUSirljZ8otDUfaPerFbphlMcxshzJK3fqK6X8x/JaRZVCsVehfdhSXFauHuF9
-	sY9kQ9PfW3tLJrd/mzfX8JbTOCFqT9U3n+4vM7xbXRxs/mbU9eqi9M3SnNRAUUFxWWizsbzq
-	felnu+4qq57f+cuuiq78hu3P7AvvyC344nCgeaQLNEudnU8HlE7HU5GKt0VbEocC8XPlv4/U
-	BuzvqE271yIzNZdeHJ/bIf2xtCMsY3RK+dZCWquT/wuiuOeyswMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH87uP37001txVjDeSLKEb6EzwtRlPlCnJJF5NYPsDddlitJGb
-	tQLFtIqgceMZCW4TO9uGVl0HsRIKBQGRihiCo4s6ItipnVqxpvKQMhZpIVBK12LM/Ofkc76P
-	5PxxWFIWpleyKvVRUaNW5MqxhJJkbi1LOZb2r3J958gn8Kikh4JgoJKCC82NGCpba2gYsNsQ
-	DAUrEcyEzCRUOCIUhHVOBgKzTxmIdDsRGAZ1JDS2lxAw1bKAYfz2GwR6rw+DcayEgknrjwhM
-	w2YGxvp2wsRQFw0RzwgBj6f9CKy+BQJ8PacRhA058GttG4ZQ/30SjPoBBL95PSSMtkTNdudz
-	BN31pRheVV8jweVbCn8FJzHc0Z/BMDF4gYB/WjBYSrtpuGjWISira8ZguNhKgePFDQYGx+cJ
-	eGbQEWBrzYAh6zAF96prieh90dTVFWA2lhHRMUqAvqmLgFlrAwN/1j2jwFqcBOZ+Fw0v600M
-	zHs3QMSSD07bCAOes3oK7BP36TQ9EmYqfqaEhrYOQqh4EMZC46VGJITmdEgIXC4jhYrq6Hrb
-	P0kK5W3Hhcv3/FiYCz7EQve0hRLu1vLCuf4UwWHyMEL5rSfMV1u+kaRmi7mqAlGzbttBidIy
-	HiaO2LlC590mXIz8S6pQHMtzn/FtnkoyxhSXxLsCM1SMMbeKd7tnF/V4LpHXjw4vMskNr+bP
-	D2hjvIzL4h/ZGhbzUm4zX1vVF2UJK+PmEG/3h+i3xgf8nRof9ba8hncvjBFViI1yAn9lgY3J
-	cdwO3v/wNI7xcu4jvqfjD6IaSU3vtU3vtU3/ty2IbEDxKnVBnkKVu2mtNkdZpFYVrj2Un9eK
-	ok9pPTV/rhMFXDt7Ecci+RLpi/pJpYxWFGiL8noRz5LyeOnmk36lTJqtKDohavIPaI7litpe
-	lMBS8hXS3fvEgzLuO8VRMUcUj4iady7Bxq0sRvG7iY+nBgO3nExhnnq9p+VA35Wp1Kb6oo2v
-	p9+k7/82/dOUr8O+mj1fRpy/nEwJ9m5JXv75aM7Zpemp7r3N0sc/7BO/KPcmlzrcrw/HaQe8
-	icmO8/aqzKEe+3xId8a1/SfjhyP6XRldaXRC/6q9x/GrrN9P/W30J9pu3PxescuQVHJdTmmV
-	ig1rSI1W8R8ELch0kAMAAA==
-X-CFilter-Loop: Reflected
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AS4PR04MB9715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37450d80-fb89-4084-6ed4-08de0c50795d
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|1800799024|19092799006|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?IDwSt2xfDoLB7izH7LitUrkiEQsgvs/Ipj+0OSog0QHV1Im+aVUExUv7UlIJ?=
+ =?us-ascii?Q?u1KdY/DgBnKOJHINtpk9yybLu4cntjJDvGzZKj8inX+qXPBfwdlvEVptnXdO?=
+ =?us-ascii?Q?JD0dLb8yZR6Pqnj8pCrkJYvohpK/ZpfThKffaQAZ/azbzKdecme18NYeL2tN?=
+ =?us-ascii?Q?5SAH3g8FDAblepNWxt2PnXoxJe3IJ+LCOtvDmm6BewgCY935cv01OcqqfC5f?=
+ =?us-ascii?Q?8TcWfPZFZQSAjEi2kNLQRDA6xl9jyXiBrIqT0fyqjnX1hCnJltr7EQ2b4hPi?=
+ =?us-ascii?Q?IEugLqkJO7RD0XSLQIONE6sPslDgIE4QRl692O+yNwHQdX1p2Ed7BMnCPY23?=
+ =?us-ascii?Q?se8b6d5shFVXtn1kgbF3ZbaDp8LUu3A6R05PwFql/3L7ii6gBijjIk5jxjMY?=
+ =?us-ascii?Q?MPvexXM8+cdyoQ4C8GuCLlAhqI587MrcgnwkWK3zCUVKU13x1JhRTsZ8NolD?=
+ =?us-ascii?Q?g0l6npWiB7h2OhhDg1R+mchV4PQLIfGWXJwOBg6u6BkLqjBLXJS6PpsTaYQ1?=
+ =?us-ascii?Q?Cuxm6niGqreT3NUd5R2sFC82w9CGQuDKerRTfZn7miEnBft/OO1nLWyvpSwq?=
+ =?us-ascii?Q?RefLOd48mvXTmnANlY4oqevTmOuf/FdjaIslEjk0v5Oe74YmlZc7w+fhczQN?=
+ =?us-ascii?Q?DagwlpkZV04Gl2lp9XMSgR86djQZ+ee91Hxg0E5PPCJbunqt0k+VOWBw3egM?=
+ =?us-ascii?Q?RozqZOs7ct9SlcfRtrWh5GB9Ah/TfzkD+wEBppQwn5xksiam9uLS3DVcxVoJ?=
+ =?us-ascii?Q?rDUvTxtO4JDQwU/N3MA0Q+T7G9kTL9nXxdgYiWyzvC36RSkXZrHbJDGpiwH9?=
+ =?us-ascii?Q?rKGbqDPIDdLmWCpP4zJSKEsDSmzQvFU1qDIi0CAwwo232P9aHLCFFuvjZM6u?=
+ =?us-ascii?Q?GtiJPUSg63q4pR5+wsH49HHe1ajBqAZeyDDdA/iCFVqytibra6uDdt7EEmzA?=
+ =?us-ascii?Q?Ib8Xl7j+9II18/+1OLsGRWhNLtnliVO3UAP8qrY+62NMf8bjOXcZyv7dNS6Q?=
+ =?us-ascii?Q?NNWB7EpPb/B6qM21Ku9WvQse0F3N1nMKmyKB/6WkcC6Mx7swzNtmUUpykili?=
+ =?us-ascii?Q?S29KbhZyClBDc2di/H7aeSOBqAaQBCqTsOzAYZSbAUVsI9YL+qGRk2Av0mgs?=
+ =?us-ascii?Q?J4lEVvRvZXcKzfyN8JawQ+TnN81NQOshbHMUZCpuKE7rZDuzk074oamgKFkD?=
+ =?us-ascii?Q?DGWvKg2Pr6wBJ7f7yi4L1pP/0fYBQyy66xqxm52aTyMQFn/ROyfpmgT6hRfG?=
+ =?us-ascii?Q?6sEKXWCiU1i5SnwYHYf1kEC2aQKgPPY3eF3pzyhqhE5IDdbrl1w3rDP+0ZZP?=
+ =?us-ascii?Q?YSU3/FcISKgqDMA8bbrYN6/gcTKxzrnmOU7owjc2ojVjQLc8R+VZPqD9coip?=
+ =?us-ascii?Q?GjGZcJmn9te6Yue5HR3+FXIC5Qn79bSGfsxfH4K46nf7RSa4pjOWXDRFfqQa?=
+ =?us-ascii?Q?GXo37clJUHDE/bMfewz8laPNhoWPDhW3ZM2K+l/94Aw7r0Mw7AH8cxZOaz5a?=
+ =?us-ascii?Q?96fp+zNs+CULaD/CtYnHvWyMSGatBKpzdSmO?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(19092799006)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uMbg2VBJr5hTHcaCGvGoZoYcQycYUyd8qgHtBx2KXCAZdK8v4okfHAaqmpss?=
+ =?us-ascii?Q?YgYA6jk4cdN3hm5hC/VPv6bv1XlNOmpXIYSZ62wBquP50mB4eJ/q2ovfCUsM?=
+ =?us-ascii?Q?/SIBDVUJXk5MCqEIrQWVUOPMzIZ31mJTF+8FIJHIhnKskOXYpTq0fxe9u9zk?=
+ =?us-ascii?Q?KyxjyyZ82fthCwEdXGAFf+XFZWEseJulNxuax8OiP0yIS4Cn1rjygK8983Om?=
+ =?us-ascii?Q?7hVLM+KEolLw9R6FdmAXLWUe0ettZvyGzceaXSmRo88shSfZlI8qgS4KYfnj?=
+ =?us-ascii?Q?elVnv8riIS77JyVqu2MxwRKN9kJYOv/TzJWPRoEOLgKNxt0OYapJPAUKr8gp?=
+ =?us-ascii?Q?Li06cq5Oqh7tD6nJNXS//NQOmhkpYLXWbVvFTeCclBJ3XV1rAtI+mku1wrnp?=
+ =?us-ascii?Q?l6m2g0muolL2/vUHWO2vAfpiUvhvMAkfv6FRSlhi2vd0ziMssCw1k1Ny7Wgi?=
+ =?us-ascii?Q?KitMduE6R2nbK+mK6teH+giSZiO/acemO9EEpL68dl+IbkU1YdVzAqpA14OO?=
+ =?us-ascii?Q?HU9yB6AocCC8YGSY0Az/UBukAMmrUnqAqlKsghCjc6kgVvE1CLGoYYG1FTZR?=
+ =?us-ascii?Q?8EPQ8EtNSgce3MtVqps0usADkil+j/aoe/SW/2OzkzZB6ZmIsaJ+7m8rhulS?=
+ =?us-ascii?Q?HezLqZmTK3pXiwBc8Nj6RpQXMmsj65BDBhtmY6GdcQ16eIncxxaZcLFU7gQy?=
+ =?us-ascii?Q?wSKErNqZbQznv/XQ4v3AIDU4BebwobhFt4XidaHWgfKtlv0hQibkcXZovkFw?=
+ =?us-ascii?Q?Xksr54Bd7fAEMvHrv0hnFIZ4iSTe1C5aMLkCVnDG0Mt0prsoxq4mUdMXHqHv?=
+ =?us-ascii?Q?CM4WO4Jn13Up2NvaXCUrdZDzYpZeTw32IhMshzWhsbFUjdtQU3I5BGJVZJ3N?=
+ =?us-ascii?Q?2aLW6Tgm5SYeaw1lmqvhfAZ02Nj3mBgYVb+jQA/s7fLbGgpItutEkpd5bpZR?=
+ =?us-ascii?Q?Bt3Ek5Y4p5Fhq0n5XaDxPoy9CQ5IywEP2cQAgXQ/YZgYBfl0RWWj0IqK3Gxa?=
+ =?us-ascii?Q?EXDPFkgEMWuTYNd4/CY+8Vyk7bh45p5X3DOSlZNm96uw+hMegNRTkq2IwIk+?=
+ =?us-ascii?Q?g2AB/bYDtG30NOJ2qfZySXrluVgkvv6cb6Zntc+rHvH6Xabzj0+mJ92QgT25?=
+ =?us-ascii?Q?VJpHWamBxmY2qSSN91jIAhbC3zAEhQaT0M2DGP6Cmm9ga19XLcsne7kHodC2?=
+ =?us-ascii?Q?Wr9k4tCpUM5FKHUA1TkSSKNA6YiM9Iw+jY+Qa377F1CqXFGWKW1Kh3N+dLTy?=
+ =?us-ascii?Q?K1hR5snc+BbdlTkdidlSY7heLWRbc5WT6+upg6GpG1lmRoC10krdMYUW7tVY?=
+ =?us-ascii?Q?p1jMg0eCj9FO90SHPozZn3TJU6rhloTjOxvj3NkVKDr/TfVscgeeVk1f51Pi?=
+ =?us-ascii?Q?vVbHRkyPQg5AupiHYKY+FVs2EuZTrLngZGCmPaGaTGCpfRwoYkIsGxjHpByf?=
+ =?us-ascii?Q?jcpSlhFIt5LTM5NPlDrMvKJZizRr54nIlUtSsJ65Cq5n8acPn8jGDPVmS5qk?=
+ =?us-ascii?Q?VGJegYCQW6cjXomt7US3nE6NDJ48pQjw6tNJ1Nf6mjtHw25ZJXPnd0jwPOTy?=
+ =?us-ascii?Q?nZX0qb0B6t/lqkHhYZ+P7uAQUvWOR1kO2Ba0QywJ?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37450d80-fb89-4084-6ed4-08de0c50795d
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 01:08:10.9030
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pJM0wBrvfUCngEhcPs/xTIDQK4wt7mx9eIHbquWQB+s0RqYq5ArnRZf4PMwZrMHTa/7j6w58Y5acSb9eOojTWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9715
 
-On Fri, Oct 03, 2025 at 01:19:33AM +0200, Arnd Bergmann wrote:
-> On Thu, Oct 2, 2025, at 15:53, Mathieu Desnoyers wrote:
-> > On 2025-10-02 04:24, Greg KH wrote:
-> >> On Thu, Oct 02, 2025 at 05:12:01PM +0900, Byungchul Park wrote:
-> >>> llist_head and llist_node can be used by some other header files.  For
-> >>> example, dept for tracking dependencies uses llist in its header.  To
-> >>> avoid header dependency, move them to types.h.
-> >>
-> >> If you need llist in your code, then include llist.h.  Don't force all
-> >> types.h users to do so as there is not a dependency in types.h for
-> >> llist.h.
-> >>
-> >> This patch shouldn't be needed as you are hiding "header dependency" for
-> >> other files.
-> >
-> > I agree that moving this into a catch-all types.h is not what we should
-> > aim for.
-> >
-> > However, it's a good practice to move the type declarations to a
-> > separate header file, so code that only cares about type and not
-> > implementation of static inline functions can include just that.
-> >
-> > Perhaps we can move struct llist_head and struct llist_node to a new
-> > include/linux/llist_types.h instead ?
-> 
-> We have around a dozen types of linked lists, and the most common
-> two of them are currently defined in linux/types.h, while the
-> rest of them are each defined in the same header as the inteface
-> definition.
-> 
-> Duplicating each of those headers by splitting out the trivial
-> type definition doesn't quite seem right either, as we'd end
-> up with even more headers that have to be included indirectly
-> in each compilation unit.
-> 
-> Maybe a shared linux/list_types.h would work, to specifically
+On Sat, Sep 27, 2025 at 02:39:30AM +0530, Pankaj Gupta wrote:
+>
+>---
+>Pankaj Gupta (7):
+>      Documentation/firmware: add imx/se to other_interfaces
+>      dt-bindings: arm: fsl: add imx-se-fw binding doc
+>      firmware: imx: add driver for NXP EdgeLock Enclave
+>      firmware: imx: device context dedicated to priv
+>      firmware: drivers: imx: adds miscdev
+>      arm64: dts: imx8ulp: add secure enclave node
+>      arm64: dts: imx8ulp-evk: add reserved memory property
+>
 
-I found a way to resolve my issue, but I thought it's good idea
-regardless of my issue and took a quick look.  However, it seems like
-there's an overwhelming amount of work since it might require to replace
-all the existing include <linux/types.h> for use of list things with the
-new one :-).
-
-	Byungchul
-
-> contain all the list_head variants that are meant to be included
-> in larger structures?
-> 
->     Arnd
+Tested-by: Peng Fan <peng.fan@nxp.com>
