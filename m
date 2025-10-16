@@ -1,149 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70831A9F93;
-	Thu, 16 Oct 2025 20:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B812580FF
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 20:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760646424; cv=none; b=XjAYbgyy8SG0XMWzzDl/9iQ/GtzOarBLmXrhIlxIEywMSuFfTvQ6vxrhezX2DrLA4sGJlngziXDPvzM5zIgNzhq4Hv8y14kE+BWWH6xjF1wKFyiOGP0wq9I6GSjpxBtNWP2v+yhIIW2OcAlMNlkl3Kyk7EL02qNVSvAhg/YFHFU=
+	t=1760647677; cv=none; b=OlcNqymizSKEBYEyBcruc4cWn8eqc294FEpewQKXhJC8GYaRgOL9tSB/4F8J1BP/kXcVj3MLiJr3ybc+afIZsCTiITwr/M+DZaGjtvtT9syasXB13aVXGEwItOHnEJFRe+k1HnrkOrrvBkFovUghxTjIIa49OjE8xy2lbWRu7QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760646424; c=relaxed/simple;
-	bh=xxvesUj/77OAj0Ah3EU6upE1SK/vnUKpxtya594I4DM=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=iRctQAvACmgKzw/NJHkmuhdPTQw95M6l/teW/pxvn2gI8O3JmUwa8LSb9icGmDwhcwF+YLRsBfnUTZW4phjlD14ETv8at2slJU9IVMB4RVGKwTEmnUndMom6Wzntx08UY5EBg5vTLTEvgiMN9bQZ926RSwrTKLMPidOs7nUb0gQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uko6yZo/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760647677; c=relaxed/simple;
+	bh=ndgdnL4NvZXc2YXbgp6JkfbQHOsj4MuJcCkc5VpFe/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cy2YXW9r6DtRjO7YZeGXxD+/AnVhK/RbdorqqoBISaxQ3gM/6M2BOLRlWwf7BWkM01hUIP8fDTb1Tp+egnPShjwJuP5DjmQrayXOc3GIkyLhalBd3QUqAmUDGQSc68OnpW6VWhJX+6426qZIWZtL1b8f5UylNzEQ8GYidt0wyvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAsYphbZ; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uko6yZo/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86ED7C4CEF1;
-	Thu, 16 Oct 2025 20:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760646422;
-	bh=xxvesUj/77OAj0Ah3EU6upE1SK/vnUKpxtya594I4DM=;
-	h=From:Date:To:cc:Subject:In-Reply-To:References:From;
-	b=Uko6yZo/whJf0nUbs6gMeHcSM30hY6D9x6Bdg/s8Kb4BsvdbgBnlZY+kUs1XPquHw
-	 qATNi7E3UYCq9W8Ev4hgil5cEdsOhSCMw/U7owlZ+e5ptwu5tsYErsqDu/PNa2C5eQ
-	 xySzY2MO0uKaxasLyKZKZhguMtaHSqyod0JGmRcmndGf9FMLcoqnMShRQ69xabafs7
-	 b1yG9y8OFEZ3hpH8Ot33XSJkJUVu7nrZqYxf7JFK27I+OQx2JVu0YTVvFb3q3A4euA
-	 VDgR4qQCKChlx1Z4UYvz5HN8wN8sS3/EgLC6M6WOIGf0oWcLBuj/p97MsyahxKeThm
-	 mGjgrPlTMYUfQ==
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ij@kernel.org>
-Date: Thu, 16 Oct 2025 23:26:57 +0300 (EEST)
-To: Paolo Abeni <pabeni@redhat.com>
-cc: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, 
-    linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org, 
-    dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
-    netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com, 
-    kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com, 
-    jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch, 
-    donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com, 
-    shuah@kernel.org, linux-kselftest@vger.kernel.org, ncardwell@google.com, 
-    koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com, 
-    ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com, 
-    cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com, 
-    vidhi_goel@apple.com
-Subject: Re: [PATCH v4 net-next 02/13] gro: flushing when CWR is set negatively
- affects AccECN
-In-Reply-To: <98342f21-08c8-46de-9309-d58dfc44d0a0@redhat.com>
-Message-ID: <24bc44a8-6045-9565-c798-a9d4597366e8@kernel.org>
-References: <20251013170331.63539-1-chia-yu.chang@nokia-bell-labs.com> <20251013170331.63539-3-chia-yu.chang@nokia-bell-labs.com> <98342f21-08c8-46de-9309-d58dfc44d0a0@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAsYphbZ"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-33ba2f134f1so1211342a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760647675; x=1761252475; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
+        b=UAsYphbZ4MRTWb6nOF2oYdTwBM7kMjqt3H5KRekV1snBYxE/SwbQfN7wge5KyO/PY8
+         83gMgfYuD5ePzwm5dnfRiOovj2f2xMJvBK/nVrcXkk1I9HPIZKOhy4XgxDRYedCwaqSY
+         Qt3W+raQA6SFeD8aFEDciCGljFlf9QrF+yuRtUeH8CH3qHO/72boG3SGgxrsPywOz+VB
+         tqZ2p9vNZd5epbHdlQJa9zg7dlOtszigehn3JHyezeBbljes4hCBUUZ7C/V6gt6yOCN3
+         c90pGCgVX1V+XpQy5s0rVkPoKp+lj1FaBxwjqeblBwmC+mtMPQokFNb3wcWc/26D+N56
+         +0qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760647675; x=1761252475;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
+        b=SsDbQAEG8zjaovgYzg6eBq/b0xaIHcfqE+okLTXvSavR/tQ9iwayzfvkSdT7sGH3l8
+         NeiHxgwLOxPXQapCg09CH2WG+0a2q/2DNzWTV1xIWzx7Q9DVb5j91uWj1wUUZg8spNYe
+         G7fotQJAuAAijo9YMZ71Gv4840eKRfQnPpI0BaBMWqnWjI4z5qrn+W8lUnl7NyfKJTwm
+         2w/wlutMCmj7lNkN2M3XI4GNbsof9jwbfeZW1JGvH0p48eNsUu7l1WNFs2a37pa2N24W
+         NvLqzp8n0v/hLHgLTU4jeX1NuFCUvsWbKSBX6UwF22i3SB7ndlKqqI8RYUtoLNuTuxTN
+         4hGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVpUHZl2I2Om0DUiZEl6ZiYJzb5+NrWxWvSFcj6cO0E9Ue77IFUf7PkUPHIaFBrL03XG3KMlRzWQt0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxKNBsBo/fJjQ0x+Mt2jr3U7gh6x+hRBNQCih6fwmMNaMdntPM
+	A0cLmvvt3xGAU6X9BJCmn29UiOpdSZu/EImMBNCDOQzuWEPWPmDrFvtp+P9FQg==
+X-Gm-Gg: ASbGncslD9KvIrOhMQ94pQethzWmLIst8o1xAO9EhoCvgyz+MWrGGGPmQQvDNs5VmNx
+	IjTKtChI13JwABu3cyVdh7ZJnZbJJPbhM0hgX6aG1KI+CRBdhtskngZJoSCrypTJZULsOABXjxa
+	JBfk0dv9Exwdy71SfHLz/gh8u35LZXUwYe6HfAgEpdUnrUerV0ihWbxgs1O6gMGSH3rzxQYous8
+	ZbgGzvD6zL5tEFcQiiRu++Yfl5pmiOsRWlUhKuiu0rJD4s98qG1M4x3MjNW6oZ8wRBN1pEWO5FQ
+	a7OWuadhVAadZKVP3iWGQ5GmEDsvHgOG7aBMBWxONriLU8dc/I5i15+dEXvvNGX9HtgmvUehjrs
+	yysQ6QkgudXS+DuzMtng2gcryhzns8MMTOfSQEJmbgyQ1fSuZxHxulTbOOXYH3Z5uyuCQr9qPrN
+	8hoQq3ub9yiLJO
+X-Google-Smtp-Source: AGHT+IH4G3cPfsZSOD6swv+Nr/r1bSZCKg8w/Ox7KOwwd15eIqRctEk/RfdSNTo8Nh6NWlqwEHC1PQ==
+X-Received: by 2002:a17:90b:4b0f:b0:32e:8c14:5cd2 with SMTP id 98e67ed59e1d1-33bcf8faac8mr1245917a91.28.1760647675393;
+        Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a22bb5b8fsm3746596a12.37.2025.10.16.13.47.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 13:47:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 16 Oct 2025 13:47:52 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ankan Biswas <spyjetfayed@gmail.com>
+Cc: jdelvare@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	khalid@kernel.org, david.hunter.linux@gmail.com,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs/hwmon: Fix broken links warnings in lm90.rst
+Message-ID: <dff61b90-31fc-4c96-9bc7-0f8aa8404689@roeck-us.net>
+References: <20251016103049.2573-1-spyjetfayed@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1306421146-1760646417=:6153"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016103049.2573-1-spyjetfayed@gmail.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, Oct 16, 2025 at 04:00:47PM +0530, Ankan Biswas wrote:
+> This patch fixes warnings in Documentation/hwmon/lm90.rst reported when
+> running 'make linkcheckdocs'.
+> 
+> On 2011-09-23 National Semiconductors became part of Texas Instruments
+> and national.com is no longer accessible. The datasheet resources for
+> the chips are now available at Texas Instruments website and have been
+> updated for lm90.
+> 
+> In 2021, Maxim Integrated was acquired by Analog Devices and maxim-ic.com
+> redirects to analog.com. The chip datasheets are now available at
+> Analog Devices and have been updated accordingly.
+> 
+> Some additional broken or unavailable links have been replaced with
+> equivalents hosted by DigiKey.
+> 
+> Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 
---8323328-1306421146-1760646417=:6153
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Applied.
 
-On Thu, 16 Oct 2025, Paolo Abeni wrote:
-> On 10/13/25 7:03 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> > From: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> >=20
-> > As AccECN may keep CWR bit asserted due to different
-> > interpretation of the bit, flushing with GRO because of
-> > CWR may effectively disable GRO until AccECN counter
-> > field changes such that CWR-bit becomes 0.
-> >=20
-> > There is no harm done from not immediately forwarding the
-> > CWR'ed segment with RFC3168 ECN.
->=20
-> I guess this change could introduce additional latency for RFC3168
-> notification, which sounds not good.
->=20
-> @Eric: WDYT?
-
-I'm not Eric but I want to add I foresaw somebody making this argument=20
-and thus wanted to not hide this change into some other patch so it can be=
-=20
-properly discussed and rejected if so preferred, either way it's not a=20
-correctness issue.
-
-I agree it's possible for some delay be added but the question is why=20
-would that matter? "CWR" tells sender did already reduce its sending rate=
-=20
-which is where congestion control aims to. So the reaction to congestion=20
-is already done when GRO sees CWR (some might have a misconception that
-delivering CWR causes sender to reduce sending rate but that's not the=20
-case). With RFC 3168 ECN, CWR only tells the receiving end to stop sending=
-=20
-ECE. Why does it matter if that information arrives a bit later?
-
-If there are other segments, they normally don't have CWR with RFC 3168=20
-ECN which normally set CWR once per RTT. A non-CWR'ed segment results in=20
-flush after an inter-packet delay due to flags difference. That delay is=20
-nothing compared to GRO aggregating non-CWR segments en masse which is=20
-in n times the inter-packet delay (simplification, ignores burstiness,=20
-etc.).
-
-If there are no other segments, the receiver won't be sending any ECEs=20
-either, so the extra delay does not seem that impactful.
-
-Some might argue that with this "special delivery" for CWR the segment=20
-could trigger an ACK "sooner", but GRO shouldn't hold the segment forever=
-=20
-either (though I don't recall the details anymore). But if we make that=20
-argument (which is no longer ECN signalling related at all, BTW), why use=
-=20
-GRO at all as it add delay for other segments too delaying other ACKs, why=
-=20
-is this CWR'ed segment so special that it in particular must elicit ACK=20
-ASAP? It's hard to justify that distinction/CWR speciality, unless one has=
-=20
-that misconception CWR must arrive ASAP to expedite congestion reaction=20
-which is based on misunderstanding how RFC 3168 ECN works.
-
-Thus, what I wrote to the changelog about the delay not being harmful=20
-seems well justified.
-
-> On the flip side adding too much
-> AccECN logic to GRO (i.e. to allow aggregation only for AccECN enabled
-> flows) looks overkill.
-
-The usual aggregation works on header bits remaining identical which=20
-just happens to also suit AccECN better here. The RFC 3168 CWR trickery is=
-=20
-what is an expection to the rule, and as explained above, it does not seem=
-=20
-even that useful.
-
-This CWR special delivery rule, on the other hand, is clearly harmful for=
-=20
-aggregating AccECN segments which may have long row of CWR flagged=20
-segments if ACE field remains unchanging. None of them can be aggregated=20
-by GRO if this particular change is not accepted. Not an end of the world=
-=20
-but if we weight the pros and cons, it seems to clearly favor not keeping=
-=20
-this special delivery rule.
-
-
---=20
- i.
-
---8323328-1306421146-1760646417=:6153--
+Thanks,
+Guenter
