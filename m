@@ -1,78 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B0E2580FF;
-	Thu, 16 Oct 2025 20:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D662F2040B6;
+	Thu, 16 Oct 2025 21:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760647830; cv=none; b=hhnngqZf0WOKNhlJoV1C4jHKQHIT1pvOQXIKin/Zf0vYrC618pUaEn8WzBFKNhWpVY0GW9KK5+oBnxhQ9WiNl3PS3LTpZj/6z0tV3jUokJe4jo43uqIeSAm2uia0mcSdqYdZy+KcLL2oH6uzQ5GNmSVlwLV3xbnis/3G0kAiUEM=
+	t=1760648473; cv=none; b=WcxuWdhSYbhc49nNR/W6gGW+nq67axvfLB6HsHjvEVuTcQkLpoVyQbDBTdVFebCWmC35n+EYDD2DSHz1I56fU/IKgyYc62swOca7wodbmlHEi+ha7H8T2qm8+K2LlCvfCpzUhLJdoS3fP+8T73vu81lMq3L+IgG3xMeeNP7EvHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760647830; c=relaxed/simple;
-	bh=ITlIzUAUo5pssT1lw+5f7WFRnL9FQktvSQ7YkS/Swf4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=BO0JUPNAxEmmpdcV5QvnPbWfkm9nFsvHp1IR+6qZP5LrJ0/tj2ddfRR9YNke+Kq3teUt0KdpyvZvjXcnfTAy9hllZqjfpFLx3mAUjSCeFqLIEk3iOmzdvHFRUhu4dP+ZwZ0l6KGvQ5WVpMxUs93YRvUM0tEuz2XRfnMy6Y9MdwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=k+Lz5rZB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760648473; c=relaxed/simple;
+	bh=sVjVLQ3a89J74npqQaPOPQryeVSgngCuzAlyZR5W6v4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UPC3pAheclTjo0smantSjMQ/dplqwh/FGUImx/caHVi/+I2MNBgvbpveYyq7aYwcxB0XGU+8ruUlEN49SAH/o8DvhPlVO88/y9JT81h9T3+h2Tb39waTQ1jQhENegBAUMmICM9a+rKDQrtaDqa5EcmSPN+f6+WRy3szBLvozUvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Zosk7k08; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="k+Lz5rZB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA14C4CEF1;
-	Thu, 16 Oct 2025 20:50:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760647829;
-	bh=ITlIzUAUo5pssT1lw+5f7WFRnL9FQktvSQ7YkS/Swf4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k+Lz5rZBobuGND9FUYtJH8NH5vh9PWxwRUoTE04ieCY9L1ZYOEv6KSowX27XvzdvQ
-	 Z3RDm/K4iKRxg0IJDOOqW0Ghs7z6YfksWl1db3oe8w7t5je78shZgX1cFiARrxlpS/
-	 ANZCwotNwcmuyftujQphlq2yleXvWJEdvZcSQEcI=
-Date: Thu, 16 Oct 2025 13:50:28 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Li,Rongqing" <lirongqing@baidu.com>
-Cc: Lance Yang <lance.yang@linux.dev>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "wireguard@lists.zx2c4.com"
- <wireguard@lists.zx2c4.com>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Anshuman Khandual
- <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David
- Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
- Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
- Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
- <liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>,
- "Phil Auld" <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon
- Horman <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven
- Rostedt <rostedt@goodmis.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: =?UTF-8?Q?[=E5=A4=96=E9=83=A8=E9=82=AE=E4=BB=B6]?= Re:
- [PATCH][v4] hung_task: Panic when there are more than N hung tasks at the
- same time
-Message-Id: <20251016135028.aea65e20b0bc7efee11572f1@linux-foundation.org>
-In-Reply-To: <bb443552b6db40548a4fae98d1f63c80@baidu.com>
-References: <20251015063615.2632-1-lirongqing@baidu.com>
-	<4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
-	<bb443552b6db40548a4fae98d1f63c80@baidu.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Zosk7k08"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1BEE840B1B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1760648465; bh=Q4zir5CoitC9lENc1vI2llXery0GkfKP1Zay9iuNSY8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Zosk7k08VdGtFTvURxaL6UQfC9S894ZdS5Ei5ZYnQGvCw9lsngIG7qd7hoW97zPda
+	 0zvlPR6+POJi1F1KSNZUmaIC0sBSkbz3gfZyXnRw54+qPSjvG64h+BY7ko2SvgnZ9u
+	 NigaGDO0BNHTzrii3ZZVVpmCmdlqO26HvHKn3OdYpavnTQEx6SmexDR0BVaSeqLRer
+	 W6iB1Q6N4X6ye+SCIBrusucYRfr2MiIULeDtwdaqWqx6gLtD3UcmofMqdKCrevPCnn
+	 AxGvjClgdMQGUMuMAs/z54+t0ow4UKt8fp1skhhCnd0UbUgYDZi9/wtCLxvN1fDNjJ
+	 n1F8i8WP4HOXA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1BEE840B1B;
+	Thu, 16 Oct 2025 21:01:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, linux-next@vger.kernel.org,
+ broonie@kernel.org
+Subject: Re: docs build problems
+In-Reply-To: <20251016062322.2fcd6780@sal.lan>
+References: <c9e9134c-97a2-405a-918d-41aafdd92fa1@infradead.org>
+ <87sefj7tom.fsf@trenco.lwn.net> <20251015184416.4340e8f2@sal.lan>
+ <87jz0v7rxe.fsf@trenco.lwn.net> <20251016062322.2fcd6780@sal.lan>
+Date: Thu, 16 Oct 2025 15:01:04 -0600
+Message-ID: <87bjm64l4f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Thu, 16 Oct 2025 05:57:34 +0000 "Li,Rongqing" <lirongqing@baidu.com> wrote:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> > If you agree, likely no need to resend - Andrew could pick it up directly when
-> > applying :)
-> > 
-> 
-> This is better;
-> 
-> Andrew, could you pick it up directly
+> Looking at my docs pending stuff, the only thing missing is this
+> series:
+>
+> 	https://lore.kernel.org/linux-doc/cover.1759329363.git.mchehab+huawei@kernel.org/
+>
+> I double-checked: it applies cleanly on the top of docs-next, as it is
+> unrelated to build wrapper.
 
-No problems, thanks.
+In that posting, you said you weren't sure how you wanted it merged, so
+I have it just sitting in a folder.  I take it you think I should pick
+it up?
+
+jon
