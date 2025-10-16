@@ -1,217 +1,157 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87975262FE9;
-	Thu, 16 Oct 2025 12:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F063417A2E8;
+	Thu, 16 Oct 2025 13:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760619085; cv=none; b=cQH5d2v4iWbi76b0xYj8mmogfu6iBIcgWWEvUQD61aOjtHC+NLpOFjtnQ5N/G1nHBjsW3+0Uq2YcVKGVWvEBF5HcPBFS/CltbmWpkybBi7EDJpy5dXxhhhv6B3FEdKZPhgBYiwOkxZUPAwLrkSUxb0t3wepVoo9nVbXJ+b15wUQ=
+	t=1760621460; cv=none; b=QE6HVW1Guq9X+KzRApuQAfhIeYkN/dYXLyBjL+8QNvUdrcIzvHjI6YALmcwfHZNJHk5pDrdYJ8aEYwFcccvKNew1kYs9oJrBB/6RVZ/xgNmDreRZaesI/UDuebeE9kEtLcDghOv4lG0BRrHVMCU6LkMKDQ5LxEkvv2JlHpYeIXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760619085; c=relaxed/simple;
-	bh=sgjsbnfjXYxa02QLAzec2StJYwfXNJTdwY/bMDFhByI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dmoO8BFplnQFjCcaGeHeBi9wkYRfjypycR+9cTCQpaU1uWknIqIq/YqXtaEw8cecV36kqNwQz2GR3RgDcCWdXzZNQpz+75xWelMZCJ2Q5C8N1nCfxbabF0hgDRVLJoQaGs8/BO+ts+ICa2mFZHdQI0y3Z7wT2dXPWcCtiTMSKBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [141.14.220.42] (g42.guest.molgen.mpg.de [141.14.220.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id CC355601B357B;
-	Thu, 16 Oct 2025 14:47:52 +0200 (CEST)
-Message-ID: <906dd11d-26db-4570-840a-e4797748c05c@molgen.mpg.de>
-Date: Thu, 16 Oct 2025 14:47:51 +0200
+	s=arc-20240116; t=1760621460; c=relaxed/simple;
+	bh=cTsjsQ0FpIOTJ+hSMo8uPh6Cg/szULls3Pr0P8t6aWg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=BpzKqMZI4uOMaSfBVoxWQYeaxXKg6ZVA9KrLomBhxGyJqK5Om5JFRmdzadQwmnHCIOm2Q1szcxz7lbTj7t+odZ+jLyW2SzZuWT9WPKSj25MnLjj/k4kuMs9tv1Xgt/aPg4J2fxncGWARA7Izq+zkMDf+Y+JlJIMvlwOSuZZYFxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SECTnbK1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WztbAwXu; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SECTnbK1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WztbAwXu"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id AC23C1D00245;
+	Thu, 16 Oct 2025 09:30:56 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 16 Oct 2025 09:30:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1760621456;
+	 x=1760707856; bh=s/MRbpBqt2yqYNof35eOW46gF9jvP1qa9ngAy/6u1w0=; b=
+	SECTnbK1aU8FmEyd68ZOtLDgNHywGuo8alcv5/f8WGv76UCcUadVPBd1L3dxwuZY
+	VtKeQdsnwgk4/GOWSC2ffXiT2rzt83NqRRJDMgqIyctbYzqZ0iXuwaUOyE6VzOcG
+	ObootchY8VxoXAp+qsiiKI62+9qMxCktNsp6wHVWlEFRfZ5mJXG+G/fXvYsmzDqn
+	7xgWUAk9ztjtHRRBbWwYUmY1rZPK4vZpAcZ0b7FYHvBxcF1z1Z041FPV94l+xd+u
+	byBMGM4KkLfwzcbLErWTsPRPF0okQDPTmYzRsm/134o8sCiU75hICrZteLMN1cPL
+	OtpXHL1sip856OFHjwg9kw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760621456; x=
+	1760707856; bh=s/MRbpBqt2yqYNof35eOW46gF9jvP1qa9ngAy/6u1w0=; b=W
+	ztbAwXuQfn3MP2FFuXP8oUUmEUdn38vVOJEiPwd49E1kT3CAAsW7BmaN+scFIL/0
+	hulMtq9M8OY8nKz6HECvhY5lI1NqPaCJ2TBnAE2XzPvIFnj8okHBazvY9Iog5Wxn
+	ScVbMZcQ2GDCuC4wlL2hmuF7XYBFA0xW1OfhQCeOkraa7QqiNMIi9scOjn/fOjkA
+	bedEn9cwi55h+hRYDxLFSwgd2/PaQyg6Fm7ijqd0Aijw0/bG0TEsO2YBHrVm5b45
+	IbuXRy6bgq84jxcF0vweGsf2yYso28NkFTL6pRNBYbGSs8RCp4prqv5+GA30d5aZ
+	J/WmzZv8S2INA38P3p1+Q==
+X-ME-Sender: <xms:j_PwaBk_hmJyYpdili7YT9OheBE3ISiao6pmR3OnZt8SMvSZxjLosw>
+    <xme:j_PwaHondES3j4cuJ4j-MdpQAY1YrNhRErT-22Ezj82CraIAPrLy8jHCCaOsbnIKc
+    2e70Gfhz-mF6Zci3fDUczz2z4bFX4Wqo9uA2fc5m8Vr2gby7_ogojQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdeigedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtghomhdprhgtphhtth
+    hopegsohhquhhnrdhfvghnghesghhmrghilhdrtghomhdprhgtphhtthhopehpvghtvghr
+    iiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhr
+    ghdprhgtphhtthhopehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgpdhrtghpth
+    htohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtoheptghorhgs
+    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrtghhsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:kPPwaFUXktOb5IiCYIW3tun37OpNXVlbO22McvRiUi7HNyUaj4kvVQ>
+    <xmx:kPPwaMHs8_M6niyvc4-td5bvUJHucdzX3VEMFOYL_2_Dp1R9TZxgxQ>
+    <xmx:kPPwaPY-Zz76iKBLCH9ztEvorjTMGEsQn33_ZzURQ5SreS-O4YPaPw>
+    <xmx:kPPwaLEe-cCYI2fBE3k6in6e1y41qBaljbrSY8BZs0EnQXO385q4wA>
+    <xmx:kPPwaDd0eolJQdUk_daHOCIeYqnbxMcj0WnsjWo1TNdLh3CBCjHVwavc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DFDC870006D; Thu, 16 Oct 2025 09:30:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][v4] hung_task: Panic when there are more than N hung
- tasks at the same time
-To: Li RongQing <lirongqing@baidu.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lance Yang <lance.yang@linux.dev>, Masami Hiramatsu <mhiramat@kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Anshuman Khandual
- <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- David Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>,
- Jakub Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>,
- Joel Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- Liam Howlett <liam.howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Petr Mladek <pmladek@suse.com>, Phil Auld <pauld@redhat.com>,
- Randy Dunlap <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>,
- Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt <rostedt@goodmis.org>
-References: <20251015063615.2632-1-lirongqing@baidu.com>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20251015063615.2632-1-lirongqing@baidu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AH4YsbVvINyJ
+Date: Thu, 16 Oct 2025 15:30:19 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Finn Thain" <fthain@linux-m68k.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Will Deacon" <will@kernel.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Mark Rutland" <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>, linux-m68k@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Message-Id: <b80e06b8-e568-408b-8132-99565c50a0ff@app.fastmail.com>
+In-Reply-To: 
+ <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
+References: <cover.1759875560.git.fthain@linux-m68k.org>
+ <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
+Subject: Re: [RFC v3 1/5] documentation: Discourage alignment assumptions
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Dear RongQing,
-
-
-Thank you for the patch. One minor comment regarding the Kconfig 
-description.
-
-Am 15.10.25 um 08:36 schrieb lirongqing:
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Currently, when 'hung_task_panic' is enabled, the kernel panics
-> immediately upon detecting the first hung task. However, some hung
-> tasks are transient and allow system recovery, while persistent hangs
-> should trigger a panic when accumulating beyond a threshold.
-> 
-> Extend the 'hung_task_panic' sysctl to accept a threshold value
-> specifying the number of hung tasks that must be detected before
-> triggering a kernel panic. This provides finer control for environments
-> where transient hangs may occur but persistent hangs should be fatal.
-> 
-> The sysctl now accepts:
-> - 0: don't panic (maintains original behavior)
-> - 1: panic on first hung task (maintains original behavior)
-> - N > 1: panic after N hung tasks are detected in a single scan
-> 
-> This maintains backward compatibility while providing flexibility for
-> different hang scenarios.
-> 
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Florian Wesphal <fw@strlen.de>
-> Cc: Jakub Kacinski <kuba@kernel.org>
-> Cc: Jason A. Donenfeld <jason@zx2c4.com>
-> Cc: Joel Granados <joel.granados@kernel.org>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: Liam Howlett <liam.howlett@oracle.com>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-> Cc: "Paul E . McKenney" <paulmck@kernel.org>
-> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Phil Auld <pauld@redhat.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Simon Horman <horms@kernel.org>
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
+ On Wed, Oct 8, 2025, at 00:19, Finn Thain wrote:
+> Discourage assumptions that simply don't hold for all Linux ABIs.
+> Exceptions to the natural alignment rule for scalar types include
+> long long on i386 and sh.
 > ---
-> diff with v3: comments modification, suggested by Lance, Masami, Randy and Petr
-> diff with v2: do not add a new sysctl, extend hung_task_panic, suggested by Kees Cook
+
+I think both of the paragraphs you remove are still correct and I
+would not remove them:
+
+>  Documentation/core-api/unaligned-memory-access.rst | 7 -------
+>  1 file changed, 7 deletions(-)
+>
+> diff --git a/Documentation/core-api/unaligned-memory-access.rst 
+> b/Documentation/core-api/unaligned-memory-access.rst
+> index 5ceeb80eb539..1390ce2b7291 100644
+> --- a/Documentation/core-api/unaligned-memory-access.rst
+> +++ b/Documentation/core-api/unaligned-memory-access.rst
 > 
->   Documentation/admin-guide/kernel-parameters.txt      | 20 +++++++++++++-------
->   Documentation/admin-guide/sysctl/kernel.rst          |  9 +++++----
->   arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
->   kernel/configs/debug.config                          |  2 +-
->   kernel/hung_task.c                                   | 15 ++++++++++-----
->   lib/Kconfig.debug                                    |  9 +++++----
->   tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
->   7 files changed, 36 insertions(+), 23 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a51ab46..492f0bc 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1992,14 +1992,20 @@
->   			the added memory block itself do not be affected.
->   
->   	hung_task_panic=
-> -			[KNL] Should the hung task detector generate panics.
-> -			Format: 0 | 1
-> +			[KNL] Number of hung tasks to trigger kernel panic.
-> +			Format: <int>
-> +
-> +			When set to a non-zero value, a kernel panic will be triggered if
-> +			the number of detected hung tasks reaches this value.
-> +
-> +			0: don't panic
-> +			1: panic immediately on first hung task
-> +			N: panic after N hung tasks are detected in a single scan
->   
-> -			A value of 1 instructs the kernel to panic when a
-> -			hung task is detected. The default value is controlled
-> -			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
-> -			option. The value selected by this boot parameter can
-> -			be changed later by the kernel.hung_task_panic sysctl.
-> +			The default value is controlled by the
-> +			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value
-> +			selected by this boot parameter can be changed later by the
-> +			kernel.hung_task_panic sysctl.
->   
->   	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
->   				terminal devices. Valid values: 0..8
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index f3ee807..0065a55 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -397,13 +397,14 @@ a hung task is detected.
->   hung_task_panic
->   ===============
->   
-> -Controls the kernel's behavior when a hung task is detected.
-> +When set to a non-zero value, a kernel panic will be triggered if the
-> +number of hung tasks found during a single scan reaches this value.
->   This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
->   
-> -= =================================================
-> += =======================================================
->   0 Continue operation. This is the default behavior.
-> -1 Panic immediately.
-> -= =================================================
-> +N Panic when N hung tasks are found during a single scan.
-> += =======================================================
->   
->   
->   hung_task_check_count
+> -When writing code, assume the target architecture has natural alignment
+> -requirements.
+> -
 
-[…]
+It is clearly important to not intentionally misalign variables
+because that breaks on hardware that requires aligned data.
 
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 3034e294..3976c90 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -1258,12 +1258,13 @@ config DEFAULT_HUNG_TASK_TIMEOUT
->   	  Keeping the default should be fine in most cases.
->   
->   config BOOTPARAM_HUNG_TASK_PANIC
-> -	bool "Panic (Reboot) On Hung Tasks"
-> +	int "Number of hung tasks to trigger kernel panic"
->   	depends on DETECT_HUNG_TASK
-> +	default 0
->   	help
-> -	  Say Y here to enable the kernel to panic on "hung tasks",
-> -	  which are bugs that cause the kernel to leave a task stuck
-> -	  in uninterruptible "D" state.
-> +	  When set to a non-zero value, a kernel panic will be triggered
-> +	  if the number of hung tasks found during a single scan reaches
-> +	  this value.
->   
->   	  The panic can be used in combination with panic_timeout,
->   	  to cause the system to reboot automatically after a
-Why not leave the sentence about the uninterruptible "D" state in there?
+Assuming natural alignment is the safe choice here, but you
+could change 'architecture' to 'hardware' here if you
+think that is otherwise ambiguous.
 
-Also, it sounds like, some are actually using this in production. Maybe 
-it should be moved out of `Kconfig.debug` too?
+> -Similarly, you can also rely on the compiler to align variables and function
+> -parameters to a naturally aligned scheme, based on the size of the type of
+> -the variable.
 
+This also seems to refer to something else: even on m68k
+and i386, scalar stack and .data variables have natural
+alignment even though the ABI does not require that.
 
-Kind regards,
+It's probably a good idea to list the specific exceptions to
+the struct layout rules in the previous paragraph, e.g.
 
-Paul
+[
+ Fortunately, the compiler understands the alignment constraints, so in the
+ above case it would insert 2 bytes of padding in between field1 and field2.
+ Therefore, for standard structure types you can always rely on the compiler
+-to pad structures so that accesses to fields are suitably aligned (assuming
+-you do not cast the field to a type of different length).
++to pad structures so that accesses to fields are suitably aligned for
++the CPU hardware.
++On all 64-bit architectures, this means that all scalar struct members
++are naturally aligned. However, some 32-bit ABIs including i386
++only align 64-bit members on 32-bit offsets, and m68k uses at most
++16-bit alignment.
+]
+
+      Arnd
