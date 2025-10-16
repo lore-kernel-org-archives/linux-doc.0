@@ -1,115 +1,124 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7BB3C1F
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 00:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760572918; cv=none; b=A2YrF/QsLESwnR6YK6IS6R3tqn7GsS3Rjg1NdcCYQMzkEfJiPaHzn5QI8wja3nUAcymuntszbNlIfdzzhCj0UlVisfcDhr3Xg9idF3gYjjnFaL4VQ2SU3ZM+hLNc2cDMIx/8bSwiPXD/NOs7nQ4MPs5YLm06irsXH30em+G1mS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760572918; c=relaxed/simple;
-	bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WTPaQ0FuEVzxrIkJb7LrlrAOQmeFtSU1r3KRKybeS7dfpA+b/0ZxEHFItMFMZKM4QnJpjE5Y05RYPaeCzNhISD9DR31acXVIMeMl8EhamPd+ITJzj+hk3EY46NC7sgTRpRP/00EaD2G/rnuTs5vCzywPh0DTerfeRD0FEk1Kuw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLWjhbES; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1B04A21;
+	Thu, 16 Oct 2025 00:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760573129; cv=pass; b=XgIU+59ebtYAXQR7qjs+NZx13vwwor/KLbBzzJrS7ZiJjMXDatym9eHBJ4cZV4lpcJGHAVmLGZzafmrqpjFU9IjavcfdxAMT7T3jzkhpESdDO4D4RwaFFjyK0F+WTh0DkzJ4KI5D1Oh9e9ho6d00Ii6EYE+MN1bGkVqJRxuOmTc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760573129; c=relaxed/simple;
+	bh=PXIvfSkvKhjahz5IfmPNxHSzo2BHASSJSn8cbold3fg=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=FE8G3A2XlT30F2G4fwO4fuJvGP2GnMxFJaIKb1Ks7hoFjSf6yoTdbiucxRfgnuyDEset+h3BFu4GlrOqXkarRfx/Ra+iW5J73MeRZUBLjED1ELytAiEGeTzENRYYyanF+1vRs2XWDm0ubDLAxC9YIK+ySNNhdAXY+LJ415Em6JY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=jz4PLHo+; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLWjhbES"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b55517e74e3so104981a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 17:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760572916; x=1761177716; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-        b=BLWjhbESuViax4jmUHuU1/C5sfslurZOjjWZclg5tojd0F1jYht252vvFgwbY7U9ap
-         YrCbOKrE6/TpNU+1+55xeKMyD8Bjeox/WQqAy4W6q88grrFf9j67GENnULSt9cpu/MfP
-         JUf6RjKvjEF+bKrwT3dqm2wm2aoWCZ3WJg5V/SkHCaSxqlsqChXjztjlBpaiBBLXW+AX
-         oTO5mFZy9U6HO4tjS5saeAfDo+qa4R+Nm39XRK0ujfrzHWU0oblvBBB4HQo1NKvCMOxT
-         fMupSb0BMTzkzfjcjM8f0aEMFyduTvyZ25c4S8brvRKMe7BXt1Anpl/9LbjSue+6H+WU
-         gEqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760572916; x=1761177716;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-        b=s8cHwb+JRsJN2Ws9DNEyvrD4OxuqkwKgPgtCdWRDqjOPg2cYmoBuGcUDRkVOk//N58
-         LfCCNWt0YnF3IlbD4d/rPQbI/RKnkRIO9dSRk/9rEHIdP5LcGACvAg5KmSixoB3mKo8y
-         +H3BTJWaX3P8VLaqSC8HVnirMPUuG37FokKYIhAK+37U0Hffl/jLHfxjAHO972PIzAW1
-         n8uBIu6nKiU7fHB7M/x7A4jiZz9e/jFCxKUxJqLOBJhqRH8VNEqv+MvlIfZAMvHuBg4X
-         dqDKt4F/4GhRM0oK4CHfDybSU5pYXS5XxSYCGEAxpfeAeMKRMXCVNh5wsKsEeC2qxjwl
-         6iwg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2o35vt7sPD5jRwHyWW3Z1lbcsG5ID8IW6QckInMFaUcboIRy/6L47mykFxecCItM1LWPpISXETMQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsRoTAv1BP3KSIq/OKBq+DiL3IIZq5CtVePBBaIhKxbMjSU27l
-	pb1+E28euz/TnFpQ88Q8WlqX8oGXtrgvkEd+c1X9DHHGIhwwKgoMpuh3
-X-Gm-Gg: ASbGncsnW0Z0yqHasR/UpNeo+DgahVCPK5eKUSQ+pI7TZiLds0zhtf6OzI3Lv23tbrG
-	rXXD18jxaY2rbIfYHA4ATh6tTjXxVQAE2h6m0YWpV9G6bf4PCm30STrMoX6LCDMcB2PgJZ8O85E
-	7cnpbiBp5JkPvIC55D28Ds4X2oGaEdFwVSaRmRtlAVF9yefhYEI+R4+M2IbrXKZ/wqNTXDj+cdJ
-	0fYbx3FrIrBJFFWwhr/oAMzRGXk3+L90/irTIjF99VzMJEoAp2EeXWNarwMjob2Kh8DA8kiaGvE
-	pzDZH/ICN5bhXwareD1bXkIqGBO/DcOF1mEsf4k6zqawWY3iWKbvogfCvsbPQa4B1KsAmse0xsj
-	nV9g+0v+hThk7xKRhN/eDKKkTj4fIpG1USFFzqi3YBrKVeYS2QhNzETfX1y8zQm/CTrNkK/TLEE
-	k7SSdkjhdzUEQkgA==
-X-Google-Smtp-Source: AGHT+IHWPFl3wQ4UvDVjKcFZV8JmCaZHewB/K/pGnpEkw5mCOGWpXdamSbh5/nnQLrluiU4qXrWD4A==
-X-Received: by 2002:a05:6a20:3d1c:b0:2e8:1c23:5c2d with SMTP id adf61e73a8af0-32da845fde6mr38728255637.50.1760572916459;
-        Wed, 15 Oct 2025 17:01:56 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992bb11ca0sm20159494b3a.32.2025.10.15.17.01.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 17:01:55 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id AC288420B701; Thu, 16 Oct 2025 07:01:53 +0700 (WIB)
-Date: Thu, 16 Oct 2025 07:01:53 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com, corbet@lwn.net
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
- quote warning
-Message-ID: <aPA18fxQW398WHte@archie.me>
-References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="jz4PLHo+"
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 59G055tq057542
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 16 Oct 2025 09:05:05 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id DBA0A10A0ECFC;
+	Thu, 16 Oct 2025 09:05:04 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id jBj9FxykKqBa; Thu, 16 Oct 2025 09:05:01 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id F09B7109D6CBF;
+	Thu, 16 Oct 2025 09:05:00 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org F09B7109D6CBF
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1760573101;
+	cv=none; b=gXACnEg22hpPOwAvf4A4+BynmYgTUkX9oCkL4CMaXIYwaZ8hKHDj78LKE2Kr4T5tE8ttT5Geuoh/4Pyfu1q8DblHn7UB71IDRwmcWQvS3RCbGwCvVPHOa7tk3Hce0lpg7hYxRjlRMHscTR1oC8Wr5/Qb2/Ot0LbXbt5qBgY1vhY=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1760573101; c=relaxed/relaxed;
+	bh=DPaxnV9aWyZC2x6SIViSVdD5KDV9aYqC64JDt2kRang=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=BqF6R0BhP9Ce/0LI75rq/ZvaUHwtdCWdLry/01RYIhk/ZPGgBTvHDpgWC2lfz5SB08k6B4K5obbQYvLzUAL64tdrZg8lEu0vLPlb7ckbxewtCOVM+egBN5JV2wgEzVlbM/HCH2orhIkUPqE0SJ/fvBJ0eT2de8ieZN1U9vHOUeU=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org F09B7109D6CBF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1760573101;
+	bh=DPaxnV9aWyZC2x6SIViSVdD5KDV9aYqC64JDt2kRang=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jz4PLHo+725Ymxa8YI+Bt1qGtT32YXT5JoolE3Z1zeDR0WfqaIy5/ZSOncmb5gkdl
+	 xdONBrCoimEnKCzfPVcRwJW0Ron4HlGVYZVu4E0derLh2Miw09Ezx4cnxZtB19VzXA
+	 +LjiH5cplfeWjxmY52kCvqh8yjOwtPt4k0xZ6JZ8=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sY9Nki+MnmfjR25j"
-Content-Disposition: inline
-In-Reply-To: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+Date: Thu, 16 Oct 2025 09:05:00 +0900
+From: weibu@redadmin.org
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org,
+        linux-doc@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        "Guilherme G.
+ Piccoli" <gpiccoli@igalia.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: admin-guide: Correct styling of MS-DOS
+In-Reply-To: <87o6q9bkcn.fsf@trenco.lwn.net>
+References: <20250926184824.40270-1-weibu@redadmin.org>
+ <87o6q9bkcn.fsf@trenco.lwn.net>
+Message-ID: <5c079b842219c54faed2224b104533e2@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Jon,
 
---sY9Nki+MnmfjR25j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You have a valid point. I agree that it's probably not worth the churn. 
+Please feel free to drop this patch.
 
-On Wed, Oct 15, 2025 at 06:34:02PM +0000, Kriish Sharma wrote:
-> Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+Thanks,Akiyoshi
 
-The correct blamed fixes should've been:
-
-Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guidelines")
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---sY9Nki+MnmfjR25j
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPA18QAKCRD2uYlJVVFO
-o1mRAQD9zW96GC/QMBetvLQDoIrsCo0iDBbnK6vSUvPUFGiJBgEArGkrI0xtSD65
-ufBe3Zc3jnfHJR/WnO5dziYq1UDYjQw=
-=fHXv
------END PGP SIGNATURE-----
-
---sY9Nki+MnmfjR25j--
+2025-10-14 23:59 に Jonathan Corbet さんは書きました:
+> Akiyoshi Kurita <weibu@redadmin.org> writes:
+> 
+>> "MS-DOS" with a hyphen is the official styling. Change the
+>> less common "MSDOS" to "MS-DOS" for correctness and consistency.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>>  Documentation/admin-guide/pstore-blk.rst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/admin-guide/pstore-blk.rst 
+>> b/Documentation/admin-guide/pstore-blk.rst
+>> index 1bb2a1c292aa..1e2abb2ef500 100644
+>> --- a/Documentation/admin-guide/pstore-blk.rst
+>> +++ b/Documentation/admin-guide/pstore-blk.rst
+>> @@ -59,7 +59,7 @@ When pstore/blk is built into the kernel, "blkdev" 
+>> accepts the following variant
+>>     with no leading 0x, for example b302.
+>>  #. PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF represents the 
+>> unique id of
+>>     a partition if the partition table provides it. The UUID may be 
+>> either an
+>> -   EFI/GPT UUID, or refer to an MSDOS partition using the format 
+>> SSSSSSSS-PP,
+>> +   EFI/GPT UUID, or refer to an MS-DOS partition using the format 
+>> SSSSSSSS-PP,
+>>     where SSSSSSSS is a zero-filled hex representation of the 32-bit
+> 
+> A quick grep shows a lot of occurrences of "MSDOS" in the kernel 
+> source.
+> I don't think the churn of fixing all of those is worth it...?
+> 
+> Thanks,
+> 
+> jon
