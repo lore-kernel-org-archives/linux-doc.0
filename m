@@ -1,104 +1,78 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B812580FF
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 20:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B0E2580FF;
+	Thu, 16 Oct 2025 20:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760647677; cv=none; b=OlcNqymizSKEBYEyBcruc4cWn8eqc294FEpewQKXhJC8GYaRgOL9tSB/4F8J1BP/kXcVj3MLiJr3ybc+afIZsCTiITwr/M+DZaGjtvtT9syasXB13aVXGEwItOHnEJFRe+k1HnrkOrrvBkFovUghxTjIIa49OjE8xy2lbWRu7QA=
+	t=1760647830; cv=none; b=hhnngqZf0WOKNhlJoV1C4jHKQHIT1pvOQXIKin/Zf0vYrC618pUaEn8WzBFKNhWpVY0GW9KK5+oBnxhQ9WiNl3PS3LTpZj/6z0tV3jUokJe4jo43uqIeSAm2uia0mcSdqYdZy+KcLL2oH6uzQ5GNmSVlwLV3xbnis/3G0kAiUEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760647677; c=relaxed/simple;
-	bh=ndgdnL4NvZXc2YXbgp6JkfbQHOsj4MuJcCkc5VpFe/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cy2YXW9r6DtRjO7YZeGXxD+/AnVhK/RbdorqqoBISaxQ3gM/6M2BOLRlWwf7BWkM01hUIP8fDTb1Tp+egnPShjwJuP5DjmQrayXOc3GIkyLhalBd3QUqAmUDGQSc68OnpW6VWhJX+6426qZIWZtL1b8f5UylNzEQ8GYidt0wyvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAsYphbZ; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760647830; c=relaxed/simple;
+	bh=ITlIzUAUo5pssT1lw+5f7WFRnL9FQktvSQ7YkS/Swf4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=BO0JUPNAxEmmpdcV5QvnPbWfkm9nFsvHp1IR+6qZP5LrJ0/tj2ddfRR9YNke+Kq3teUt0KdpyvZvjXcnfTAy9hllZqjfpFLx3mAUjSCeFqLIEk3iOmzdvHFRUhu4dP+ZwZ0l6KGvQ5WVpMxUs93YRvUM0tEuz2XRfnMy6Y9MdwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=k+Lz5rZB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAsYphbZ"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-33ba2f134f1so1211342a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760647675; x=1761252475; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
-        b=UAsYphbZ4MRTWb6nOF2oYdTwBM7kMjqt3H5KRekV1snBYxE/SwbQfN7wge5KyO/PY8
-         83gMgfYuD5ePzwm5dnfRiOovj2f2xMJvBK/nVrcXkk1I9HPIZKOhy4XgxDRYedCwaqSY
-         Qt3W+raQA6SFeD8aFEDciCGljFlf9QrF+yuRtUeH8CH3qHO/72boG3SGgxrsPywOz+VB
-         tqZ2p9vNZd5epbHdlQJa9zg7dlOtszigehn3JHyezeBbljes4hCBUUZ7C/V6gt6yOCN3
-         c90pGCgVX1V+XpQy5s0rVkPoKp+lj1FaBxwjqeblBwmC+mtMPQokFNb3wcWc/26D+N56
-         +0qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760647675; x=1761252475;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=onqj4CjIVJRLh43lyfVP55yMWDw9oV4qH8HlU6gjd2U=;
-        b=SsDbQAEG8zjaovgYzg6eBq/b0xaIHcfqE+okLTXvSavR/tQ9iwayzfvkSdT7sGH3l8
-         NeiHxgwLOxPXQapCg09CH2WG+0a2q/2DNzWTV1xIWzx7Q9DVb5j91uWj1wUUZg8spNYe
-         G7fotQJAuAAijo9YMZ71Gv4840eKRfQnPpI0BaBMWqnWjI4z5qrn+W8lUnl7NyfKJTwm
-         2w/wlutMCmj7lNkN2M3XI4GNbsof9jwbfeZW1JGvH0p48eNsUu7l1WNFs2a37pa2N24W
-         NvLqzp8n0v/hLHgLTU4jeX1NuFCUvsWbKSBX6UwF22i3SB7ndlKqqI8RYUtoLNuTuxTN
-         4hGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpUHZl2I2Om0DUiZEl6ZiYJzb5+NrWxWvSFcj6cO0E9Ue77IFUf7PkUPHIaFBrL03XG3KMlRzWQt0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxKNBsBo/fJjQ0x+Mt2jr3U7gh6x+hRBNQCih6fwmMNaMdntPM
-	A0cLmvvt3xGAU6X9BJCmn29UiOpdSZu/EImMBNCDOQzuWEPWPmDrFvtp+P9FQg==
-X-Gm-Gg: ASbGncslD9KvIrOhMQ94pQethzWmLIst8o1xAO9EhoCvgyz+MWrGGGPmQQvDNs5VmNx
-	IjTKtChI13JwABu3cyVdh7ZJnZbJJPbhM0hgX6aG1KI+CRBdhtskngZJoSCrypTJZULsOABXjxa
-	JBfk0dv9Exwdy71SfHLz/gh8u35LZXUwYe6HfAgEpdUnrUerV0ihWbxgs1O6gMGSH3rzxQYous8
-	ZbgGzvD6zL5tEFcQiiRu++Yfl5pmiOsRWlUhKuiu0rJD4s98qG1M4x3MjNW6oZ8wRBN1pEWO5FQ
-	a7OWuadhVAadZKVP3iWGQ5GmEDsvHgOG7aBMBWxONriLU8dc/I5i15+dEXvvNGX9HtgmvUehjrs
-	yysQ6QkgudXS+DuzMtng2gcryhzns8MMTOfSQEJmbgyQ1fSuZxHxulTbOOXYH3Z5uyuCQr9qPrN
-	8hoQq3ub9yiLJO
-X-Google-Smtp-Source: AGHT+IH4G3cPfsZSOD6swv+Nr/r1bSZCKg8w/Ox7KOwwd15eIqRctEk/RfdSNTo8Nh6NWlqwEHC1PQ==
-X-Received: by 2002:a17:90b:4b0f:b0:32e:8c14:5cd2 with SMTP id 98e67ed59e1d1-33bcf8faac8mr1245917a91.28.1760647675393;
-        Thu, 16 Oct 2025 13:47:55 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a22bb5b8fsm3746596a12.37.2025.10.16.13.47.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 13:47:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 16 Oct 2025 13:47:52 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ankan Biswas <spyjetfayed@gmail.com>
-Cc: jdelvare@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	khalid@kernel.org, david.hunter.linux@gmail.com,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] docs/hwmon: Fix broken links warnings in lm90.rst
-Message-ID: <dff61b90-31fc-4c96-9bc7-0f8aa8404689@roeck-us.net>
-References: <20251016103049.2573-1-spyjetfayed@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="k+Lz5rZB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA14C4CEF1;
+	Thu, 16 Oct 2025 20:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1760647829;
+	bh=ITlIzUAUo5pssT1lw+5f7WFRnL9FQktvSQ7YkS/Swf4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=k+Lz5rZBobuGND9FUYtJH8NH5vh9PWxwRUoTE04ieCY9L1ZYOEv6KSowX27XvzdvQ
+	 Z3RDm/K4iKRxg0IJDOOqW0Ghs7z6YfksWl1db3oe8w7t5je78shZgX1cFiARrxlpS/
+	 ANZCwotNwcmuyftujQphlq2yleXvWJEdvZcSQEcI=
+Date: Thu, 16 Oct 2025 13:50:28 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Li,Rongqing" <lirongqing@baidu.com>
+Cc: Lance Yang <lance.yang@linux.dev>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "wireguard@lists.zx2c4.com"
+ <wireguard@lists.zx2c4.com>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+ <linux-kselftest@vger.kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Anshuman Khandual
+ <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David
+ Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
+ Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
+ Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
+ <liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>,
+ "Phil Auld" <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon
+ Horman <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven
+ Rostedt <rostedt@goodmis.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: =?UTF-8?Q?[=E5=A4=96=E9=83=A8=E9=82=AE=E4=BB=B6]?= Re:
+ [PATCH][v4] hung_task: Panic when there are more than N hung tasks at the
+ same time
+Message-Id: <20251016135028.aea65e20b0bc7efee11572f1@linux-foundation.org>
+In-Reply-To: <bb443552b6db40548a4fae98d1f63c80@baidu.com>
+References: <20251015063615.2632-1-lirongqing@baidu.com>
+	<4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
+	<bb443552b6db40548a4fae98d1f63c80@baidu.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251016103049.2573-1-spyjetfayed@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 16, 2025 at 04:00:47PM +0530, Ankan Biswas wrote:
-> This patch fixes warnings in Documentation/hwmon/lm90.rst reported when
-> running 'make linkcheckdocs'.
-> 
-> On 2011-09-23 National Semiconductors became part of Texas Instruments
-> and national.com is no longer accessible. The datasheet resources for
-> the chips are now available at Texas Instruments website and have been
-> updated for lm90.
-> 
-> In 2021, Maxim Integrated was acquired by Analog Devices and maxim-ic.com
-> redirects to analog.com. The chip datasheets are now available at
-> Analog Devices and have been updated accordingly.
-> 
-> Some additional broken or unavailable links have been replaced with
-> equivalents hosted by DigiKey.
-> 
-> Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
+On Thu, 16 Oct 2025 05:57:34 +0000 "Li,Rongqing" <lirongqing@baidu.com> wrote:
 
-Applied.
+> > If you agree, likely no need to resend - Andrew could pick it up directly when
+> > applying :)
+> > 
+> 
+> This is better;
+> 
+> Andrew, could you pick it up directly
 
-Thanks,
-Guenter
+No problems, thanks.
