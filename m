@@ -1,159 +1,117 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22A8302CDB
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 08:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B46B2FDC4E
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 08:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760602728; cv=none; b=PN9tpy/696RYU33bTn8YV6jer3Mi+rOSCcYzOkqzZs9REOVg2JlesSods7eLuSTXxYEgzFAl/B14Bcq7clQLkHS/3uIvm7+WuTBChu1auI3KM7LY5d2gPvkFCBshovmEeZRw3qPCX/pof6d5gx7GfpzrSw/JcmyKMP+tWX1UBus=
+	t=1760603306; cv=none; b=LWjR56qfQs1eupBy8H6Ei6xIMLee5bM57T9tkZtmkGCW/iXKDrtUPPeo92hsZaX+ckU6+2hjRNymd1GbxwsEc+FSVJ7K/2GHQ5CQU5rf7j2UJPFCAjv9KemlfrkInZUMxLTcMwoYuRl95GeQGt17iSfCK1VKemSpD7BxizTfG7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760602728; c=relaxed/simple;
-	bh=YHky9NJmU5RI/PX1MdgC/LSD2GIkMokTbTvw2kfRtCo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pYMKim/aOKlkGbX/1K3NN2i9i8oxRBdPHPSuoIkiVk2j+Zf9towkAPbLgCicVWBYsa4SqXsEUFznwSIZrsiSG8T80ff3TSP5vXpRTJrAZnDy4f70gJyOudu2c7E1OR2tcx/weTEqW/4PRTHtXJhP/8DO4eqgacQsRBDUpUj9IOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etUeZPzb; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760603306; c=relaxed/simple;
+	bh=J07mpHl21TfE9t4lZeUyE3RSzcFd2BOmMRpfQEgFbA8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=SYAHLj0AfT5dxBPJ4Ppn/t1e4MDpSzOekmP7Xuv4r7qfbooxLMjq+IK8yK/YeR87mzz4Rm5Jvs4GzcqccDAg6NTdypWT6tsHEncm84rvKC9K/xYV5h+yV6M+c17SawxFR57AhH6x7N8xpiMk54CkxVgPSrD5RtwfOYp65NM+Z/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UqpSM0/e; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etUeZPzb"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7815092cd22so5428887b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 01:18:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UqpSM0/e"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-6344e493258so473949a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 01:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760602725; x=1761207525; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zgHYOgNqUKqEBxe2gRboRiYdQxE4NjF5ePcPPbuQMg4=;
-        b=etUeZPzbCirYmFFDYVpbD0LLU5/8ZVfii3caD+IIcgeyXWgjk4jjZTJFk5WRs0R0Wv
-         NTyTh6ZtlYw7CQGZ7SEAB2gwOHfu7QLOdBaWT7ueaH5xWq20IBtbgxRks4Y68Rski5iu
-         n83ZTDc6PAhE7bMYuKVHJTEbn4qw60Ka2Dobmn5m5J7uEk5vWVnvWtvzzYm9TBNhyu6Y
-         eGC+DlfPQUqVS8+8ou9P9J6ZqwNKUa2y9rBk5X4YNyw/bhetm4sgiaBxN163dM8TcUjg
-         4835FLPHRdDTnNLBjA8OIx4oG5CMUoqLVi1mSijUyfaXTiA80IFaC/U3RCasCJ2SamMH
-         FxKQ==
+        d=google.com; s=20230601; t=1760603303; x=1761208103; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JNmsng+cg2p1PdPlY0IWVGfCJ8y/Q3JJAW6eqsqnHZs=;
+        b=UqpSM0/ecihKg0k2HaFS/vXOoFKmZFtC6xw8cxSOh2c1LdTqRLtKc/i+6WwAiLmpjY
+         6lUR7SB0StYuDcYb7VelodXhRpMSd71GNqg0Jn4/qgHY0bt9Xfvisn+EchtRCgWwMeIl
+         0WToLe8z2/bK4rJ/MGQNEIE/vIC6NRk5jXO2GJ52XZqNUUU4Ct3mOlIdy37+8+SnFWp6
+         gpkegEGilFJSgrpRsuFUcV5zbyzb5/Lab5U36oFASNrDvESJGOTRgJrcO0nbAUF9q5UJ
+         E9EjlusI008o8clLgBqmXJG7H5durbDGdmj2MwtyL45VxodWwpBunxcHeKFV9zYnxa6W
+         9Ajw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760602725; x=1761207525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zgHYOgNqUKqEBxe2gRboRiYdQxE4NjF5ePcPPbuQMg4=;
-        b=CAyNPRCve8NQk26kQAbdtBBrLhM9yg36sFwS/Wj5zKZTiG6Lq0erC4dDKOI+dw5IIC
-         HhzkhzgEZQ+smKuyTkfwxof7WbLLHR6AZVwi4ITf4UY7h3yAwqUnwpBQRM+63FCLZMkv
-         LlQe6Iz8/bJvUG1EJdt3yqmmcDwJYXRpGU/Vki9kasdtq1U4UOxnYocI36QMwhCTTnvK
-         nEPyWLnOXIV95K1oa7ttBidcJ1VUTAv/lgGu6IRgVqTtBRbLBvsJhtbQ2OTLTTcNHXLz
-         1yWZ0vgTU4LRgyUeLJaIoHlowBdZ7NGkAWuSoddJpT5A8WMzspQn/BGz0K/D9YAAp01u
-         V28g==
-X-Forwarded-Encrypted: i=1; AJvYcCWoL/UrE2K5u1I4Jot2+FE/O2GFrwj2IqTCzLa2wDL+7L94XU89lXtjbKr3iZyOphWCVJpBOvvfySU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHNqcqpDxBlWMj667s7EYH9qho37GnQ7+9Egrti0l8mWIr4Bm9
-	4vbUrbdcx3Kg72jfz+pn+11GYQxjXuKwuHzzYg1u/h2/YUOB5kxlEgCwtq60Wnh5luDP9y4Vadh
-	ZwemXIF7kpP6+Y+aQFI15H2mkBIZO2e8=
-X-Gm-Gg: ASbGncuig2Iyo1nZ6vgtYq4QtWHsuzq/YdR9RU5u0Na5P2vnIENP0lcAINO33tngb+m
-	6V6EkODoc6p5hK4bRUZBkQsmaO9o98ULVS348c/XTZb9NeuKSTidLn0uqEBKvlAt1+9WLk9/hmw
-	KrB+pKhr1n+R9523BK/F/dC5/4pz4T+oZxUKoIhObBvQxCvwt6jfcsFByenDNU3bfmeNXhleh9v
-	X5SMGoXpTeKZiBJbgsutAnz+872Jf+SqS7hDmvp2pmrly84v2T61rghN82IJQbxapmTdfA5
-X-Google-Smtp-Source: AGHT+IHVqXd5quXoFkL7TseeikvmflCG1zrHiGi4zY5UsuuarF4PtLzgSuWNSHW7MIFsJygYWpoqCYW0WFpL9IgIR0g=
-X-Received: by 2002:a05:690e:4007:b0:63e:dbf:ab89 with SMTP id
- 956f58d0204a3-63e0dbfaf6dmr985502d50.21.1760602724828; Thu, 16 Oct 2025
- 01:18:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760603303; x=1761208103;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JNmsng+cg2p1PdPlY0IWVGfCJ8y/Q3JJAW6eqsqnHZs=;
+        b=ndb23AUNJ4c2RTeWALxl0x35DZqHsgp49IJKekpHfm2gCnsBQzGe6rcBu8c6CG69+b
+         ni49XvGay6pQzH0cAYbRB2XcqAC7l0PDMztZKWqTuORHWxNTNTtRfAeAOwn1uSTXw4fc
+         RlYRsbzF/Mcu//e6EOSwFk+zIBkyC8fjb0iWn6BFZ2iyLkWNnc/ViReVHtHlj8qa8dHT
+         sjtwQ+OJa4HDBCgX2P4oiF5WgvC+FycW1CLZ6WK+NT55nLlioP3M5e3ImE67lgfk4CGr
+         0dOPiYnEQiX97hxz6dgo6ExiRHOS2qZEPhARS+YWiAzqLm8p4c4/1aXVeqstTrejxtxL
+         JGDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWilwCfkcZEcPKbH6Xkce0R7M7FSH01HyAvwQ5xib42cx/cLJSyDH2ObB70o/xqj3dkRlHjVzFgg/s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY9zoCSyf1Bei1QHet54fwqRm5Lz4GWjqCKlbk2YgoAIlU2ZgC
+	XBP6/1nIH4IV1WQ5VwgYlhuNpkrsrlzucYuvGDLsMGxhlsjUBxbNJ70DUFEKSGxbkmltAkTormW
+	fAsJWadmh+66ISw==
+X-Google-Smtp-Source: AGHT+IGgIfWELGcS8CM792Oeson7+h2PhNJbcALhBReQFlhM1RtE+mvU/D5YUvWFzkPTbgP7ct7PeSdqoiYKbw==
+X-Received: from edtq8.prod.google.com ([2002:aa7:cc08:0:b0:636:7d5e:f1f0])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:b28:b0:634:6d87:1d28 with SMTP id 4fb4d7f45d1cf-639d5c74a9fmr20973936a12.35.1760603303299;
+ Thu, 16 Oct 2025 01:28:23 -0700 (PDT)
+Date: Thu, 16 Oct 2025 08:28:22 +0000
+In-Reply-To: <z5zeptd2yij7e435u4xgdqsvnqf6hwjkwixajlh3u4nggp6gej@ej743d4adbb3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251015141716.887-1-laoar.shao@gmail.com> <20251015141716.887-7-laoar.shao@gmail.com>
- <CAEf4BzZYk+LyR0WTQ+TinEqC0Av8MuO-tKxqhEFbOw=Gu+D_gQ@mail.gmail.com>
- <CALOAHbBFcn9fDr_OuT=_JU6ojMz-Rac0CPMYpPfUpF87EWy0kg@mail.gmail.com> <ebf60722-34e1-4607-b6a7-595fc2091998@lucifer.local>
-In-Reply-To: <ebf60722-34e1-4607-b6a7-595fc2091998@lucifer.local>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 16 Oct 2025 16:18:08 +0800
-X-Gm-Features: AS18NWD2AXGKlmvFo5UH1F2cQyeA_L5yHcpBAgeZL4_sZgqmARGxyWqYqUTXbrc
-Message-ID: <CALOAHbDnJyou=MUwPBCEwWeeK+9w2MiOXjpkkcCALExfnsj=_A@mail.gmail.com>
-Subject: Re: [RFC PATCH v10 mm-new 6/9] bpf: mark mm->owner as __safe_rcu_or_null
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrii Nakryiko <andrii.nakryiko@gmail.com>, akpm@linux-foundation.org, david@redhat.com, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
-	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com, 
-	shakeel.butt@linux.dev, tj@kernel.org, lance.yang@linux.dev, 
-	rdunlap@infradead.org, bpf@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Mime-Version: 1.0
+References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
+ <20251015-l1d-flush-doc-v1-1-f8cefea3f2f2@google.com> <202510151438.DA62BB421@keescook>
+ <z5zeptd2yij7e435u4xgdqsvnqf6hwjkwixajlh3u4nggp6gej@ej743d4adbb3>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDJLS7DZYDFW.XKPRC42PXW8I@google.com>
+Subject: Re: [PATCH 1/2] Documentation: clarify PR_SPEC_L1D_FLUSH
+From: Brendan Jackman <jackmanb@google.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>
+Cc: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	Peter Zijlstra <peterz@infradead.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Balbir Singh <sblbir@amazon.com>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 16, 2025 at 3:21=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
+On Wed Oct 15, 2025 at 11:42 PM UTC, Josh Poimboeuf wrote:
+> On Wed, Oct 15, 2025 at 02:41:18PM -0700, Kees Cook wrote:
+>> On Wed, Oct 15, 2025 at 05:02:05PM +0000, Brendan Jackman wrote:
+>> > For PR_SPEC_STORE_BYPASS and PR_SPEC_INDIRECT_BRANCH, PR_SPEC_DISABLE
+>> > means "disable the speculation bug" i.e. "enable the mitigation".
+>> > 
+>> > For PR_SPEC_L1D_FLUSH, PR_SPEC_DISABLE means "disable the mitigation".
+>> > This is not obvious, so document it.
+>> 
+>> The only thing I can find in Debian Code Search that actually uses
+>> PR_SPEC_L1D_FLUSH is stress-ng, and it literally just toggles it before
+>> restoring it:
+>> https://sources.debian.org/src/stress-ng/0.19.05-1/stress-prctl.c?hl=893#L893
+>> 
+>> I wonder if we should just fix the prctl to match the existing
+>> behaviors?
 >
-> On Thu, Oct 16, 2025 at 02:42:43PM +0800, Yafang Shao wrote:
-> > On Thu, Oct 16, 2025 at 12:36=E2=80=AFAM Andrii Nakryiko
-> > <andrii.nakryiko@gmail.com> wrote:
-> > >
-> > > On Wed, Oct 15, 2025 at 7:18=E2=80=AFAM Yafang Shao <laoar.shao@gmail=
-.com> wrote:
-> > > >
-> > > > When CONFIG_MEMCG is enabled, we can access mm->owner under RCU. Th=
-e
-> > > > owner can be NULL. With this change, BPF helpers can safely access
-> > > > mm->owner to retrieve the associated task from the mm. We can then =
-make
-> > > > policy decision based on the task attribute.
-> > > >
-> > > > The typical use case is as follows,
-> > > >
-> > > >   bpf_rcu_read_lock(); // rcu lock must be held for rcu trusted fie=
-ld
-> > > >   @owner =3D @mm->owner; // mm_struct::owner is rcu trusted or null
-> > > >   if (!@owner)
-> > > >       goto out;
-> > > >
-> > > >   /* Do something based on the task attribute */
-> > > >
-> > > > out:
-> > > >   bpf_rcu_read_unlock();
-> > > >
-> > > > Suggested-by: Andrii Nakryiko <andrii@kernel.org>
-> > > > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > > > Acked-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > > > ---
-> > > >  kernel/bpf/verifier.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > >
-> > > I thought you were going to send this and next patches outside of you=
-r
-> > > thp patch set to land them sooner, as they don't have dependency on
-> > > the rest of the patches and are useful on their own?
-> >
-> > Thanks for your reminder.
-> > They have been sent separately:
-> >
-> >   https://lore.kernel.org/bpf/20251016063929.13830-1-laoar.shao@gmail.c=
-om/
->
-> Could we respin this as a v2 without them then please so we can sensibly =
-keep
-> the two separate?
+> This feature has existed for almost 5 years, I don't think we can just
+> reverse the functionality like that?  There could be proprietary users
+> out there (e.g., cloud companies).
 
-Sure, I will send a v2.
+Yeah I'm with Josh on this one. I would guess these 3 situations are
+about equally likely:
 
->
-> Thanks!
->
-> >
-> > --
-> > Regards
-> > Yafang
->
-> I do intend to have a look through the various conversations on this, jus=
-t
-> catching up after 2 weeks vacation :) in the kernel this is an eternity, =
-even
-> during the merge window it seems :P
+1. Nobody uses this flag for security.
 
-Huh, we've been refactoring a bit too fast and furious since your last
-review ;-)
+2. People use it, and they are not getting the security properties they
+   expect.
 
---=20
-Regards
-Yafang
+3. People do, but they know the meaning of the flag because either they
+   read the kernel code (in my experience at Google it's pretty typical
+   for security analysts to do this, they are smart and rigorous) or got
+   suspicious performance numbers (I've also seen this at Google, IIRC
+   this was how we found out about a bug in the Retbleed mitigations).
+   Or, it could be the users are working on the same principle as the
+   author/reviewers of the patch and they expected the current behaviour
+   in the first place.
+
+I think we have to privilege the third case here. Changing the behaviour
+is gonna be extremely inconvenient for anyone depending on the current
+one (if they even find out about it) so I think we'd have to introduce
+a new variant of the API or something. That doesn't seem worth it, I
+think the chance of anyone actually adopting the new API is pretty low.
