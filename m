@@ -1,527 +1,73 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7848C340D8C
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E990345736;
+	Thu, 16 Oct 2025 14:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760626032; cv=none; b=meRwLcW2npf+ahlGfXn+v70oB6mmpmGhxikDEcebPejv5BvXWUnATguRB8BgychENau5cq1LFsBI8JTayYDLArNJCjEMNEISt3X59hw/H70v6BFa3KzPhGRw57t/SWgqrKmukONIPW72CaU6OrBbQEaODKc8iqU8P0WmsPdGFBs=
+	t=1760626238; cv=none; b=HJzaPhfrmbjyg+SewrInX8OSA55GsTnEQgup688/8AOdYEp+kbIXnTqEmtn+vmr5IfRsZbLWo5fNCenUY+yR0zTaFIutPoQWf/JBcGmHXmFTYiEVEB8/rMzFgsiHd4EpDdlHM2A81dqLwilecTafvj02RdkADSmptzSYEbGiC+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760626032; c=relaxed/simple;
-	bh=YGEk3Vxt0xAsLuoBTBKmO6oTHhcJNPGtkDPzHjbgv8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GeHtNtlTZnVEJ5gNcg+Xnn6j1w7Up6s3o0XgDXWQ1BNFo5ufKt5ld2T+6j0vPI1rkl60/Hgdyvtrv1jvYmNsTH1rTHfKkoorpxIxj/8+5sYdxaqtaS0yhz7UInY7dRm/lBScM/ht7uebcL+6F2UmcTur0dkdwb9GjpJO91ea0ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-43f935f7d14so333952b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:47:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760626029; x=1761230829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4PBE8tsArPgVuwR9rYRWZy1yTOJeVVE4k+vcOQXANQY=;
-        b=FOlvNZQ0b6eVs3mmy+PdhgneRfztJgFAohp3DaW8U9TWG/iaCvHvY36fq1O0z3quhe
-         shsPNmGxo2E1ZjCp9LW/iSI4VYoBs0cY23tFI29sMas/72fV5O6qATZnkhjZijDfISfY
-         iejb6bpujbdy4uVuUoO7EFqyYVOfsTu+yR2EpweGC+WRlb8dkmYJxxVGKsP5tTzzf5D1
-         WGae7t6Lj500A71jfR8yawAA/wGCa/dTxF2DyLCSwS2t3mTVv6kO9fDwzIbBX/3XC4EH
-         srRcKWqM0jEGwHhnbktZazfU5Nt26dXiZV+vZZ7LTMJoqmkzuzAChchk+IAoeQeb4eAb
-         CYTg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5CI0ivqEU6QNIGiROXFCDVUhKA9m0AC+yJPjT29o5mIS1Psu/4nO34TQ4+IUUsxxQUbKnFZJdWYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxwnwpGQBy9/IdrnmkszmethFPR6beoWOKIB7oKN2l1EbsWlR3
-	HE+SArIRUL9Swb9XTM+An3m2iji+oWS3/zq2c7O1ekHKoGCy2b90IFIE
-X-Gm-Gg: ASbGncuydU8YPGuiNXNIS9L5KMZS2Rart3+pWv4yKxIrmGwNZe38ovbpCIMWsN+6dmo
-	0SAcxXOwIEEQRKKCIwqdnyCzIrN/EeVB59PuCcNvb77+vpEpxK1EDSZv7inN++SscBvvC4jWSY8
-	xmQJX0ZLNGM6Oej0NrGqszOtTINnCfyB4zGkqyZ8awp8BleMZWeqyJE7KYj5xS4pdwlsp0b3GI3
-	82Q0jI+cxUoP16bkh//awNB1ANNBOtIQo3hQ2iEmKSnA5x8XPfMMxPoOBuhPVKrj1zKAmGJMoK2
-	KQOf+78mngJFvL0JhZXdcDIJTGovZFW+cwBixkFxFfDd3x5KwIaUcCw8Fm3TPMlD602E1UFomZ/
-	B1NnB/M3mex2zoWH16nGdOnewUgd8j6nABwdP+Ls4De4FjNFDPeA+yVcSYD7TkTPRxPNIoKYSo2
-	BS5uYeY9b/SVhQV4ZaF1C7AfBf6Pzmxqnbd9JqQ/vdQaLgr8kzht17Vq7W
-X-Google-Smtp-Source: AGHT+IG5UTBXBR0mcF3hbn7sH8I5dAxaCZxah8MRjFva13+8nwHEh6GWtPkvzNt+eztgSnV1vDranQ==
-X-Received: by 2002:a05:6808:8953:b0:43f:4f34:dd52 with SMTP id 5614622812f47-443a2dd8953mr141131b6e.3.1760626029452;
-        Thu, 16 Oct 2025 07:47:09 -0700 (PDT)
-Received: from localhost.localdomain (syn-067-079-108-173.biz.spectrum.com. [67.79.108.173])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-441cc812f24sm3678018b6e.12.2025.10.16.07.47.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 16 Oct 2025 07:47:08 -0700 (PDT)
-From: Jonathan Perry <yonch@yonch.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	linux-kernel@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
+	s=arc-20240116; t=1760626238; c=relaxed/simple;
+	bh=hs6qVnI/f6YslxIS5hdDDB/6/A1g/tpE0SrPb86ZExg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z4Ix98KWf5MgX7B2Y0b3qB60XhSHyNAoQa2bKVHZV+eWoEnb/Nr7yQ2crSc5gnOuoQOcz3DXbjeNVPS16NsyRU0zbOwWWq3Yd4k3YlRx2G7uI4qds2jHQTMWCR3VbQRa3sqmOB24YLbCIEiRxkwtqvBvG6LEN1hHvfhbPTgTWdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44F121688;
+	Thu, 16 Oct 2025 07:50:21 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 236D03F738;
+	Thu, 16 Oct 2025 07:50:26 -0700 (PDT)
+Date: Thu, 16 Oct 2025 15:50:21 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	James Morse <james.morse@arm.com>,
-	Roman Storozhenko <romeusmeister@gmail.com>,
-	Jonathan Perry <yonch@yonch.com>
-Subject: [PATCH 8/8] resctrl/pmu: Implement .read via direct RMID read; add LLC selftest
-Date: Thu, 16 Oct 2025 09:46:56 -0500
-Message-ID: <20251016144656.74928-9-yonch@yonch.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20251016144656.74928-1-yonch@yonch.com>
-References: <20251016144656.74928-1-yonch@yonch.com>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aPEGLWDL0bd2Y3df@e133380.arm.com>
+References: <aNFliMZTTUiXyZzd@e133380.arm.com>
+ <aNXJGw9r_k3BB4Xk@agluck-desk3>
+ <aNqQAy8nOkLRYx4F@e133380.arm.com>
+ <d15d97d1-286c-4857-8688-4d8369271c2c@intel.com>
+ <aNv53UmFGDBL0z3O@e133380.arm.com>
+ <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
+ <aO0Oazuxt54hQFbx@e133380.arm.com>
+ <bf18c704-66d0-40cb-8696-435ac1c928b5@intel.com>
+ <aO/CEuyaIyZ5L28d@e133380.arm.com>
+ <SJ1PR11MB608386E5B83880643B23E159FCE8A@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ1PR11MB608386E5B83880643B23E159FCE8A@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-Implement reads of monitored values in resctrl_event_update().
+Hi Tony,
 
-If the rdtgroup was deleted, read zero. On RMID read errors, emit a
-WARN_ONCE and read zero.
+On Wed, Oct 15, 2025 at 06:48:55PM +0000, Luck, Tony wrote:
+> > I'll try to pull the state of this discussion together -- maybe as a
+> > draft update to the documentation, describing the interface as proposed
+> > so far.  Does that work for you?
+> 
+> Dave,
+> 
+> Yes please. This discussion has explored a bunch of options. A summary
+> would be perfect.
 
-Introduce mon_event_read_this_cpu() to call mon_event_count() directly,
-with no IPI, as perf infra would ensure .read runs on the bound CPU.
+OK -- next week sometime, probably.
 
-Augment the existing LLC occupancy selftest to also test the PMU.
+I'll try to keep it high-level, since we don't have a final design yet...
 
-Document PMU usage in resctrl.rst.
-
-Signed-off-by: Jonathan Perry <yonch@yonch.com>
----
- Documentation/filesystems/resctrl.rst       | 64 ++++++++++++++
- fs/resctrl/ctrlmondata.c                    | 17 ++++
- fs/resctrl/internal.h                       |  1 +
- fs/resctrl/pmu.c                            | 31 ++++++-
- tools/testing/selftests/resctrl/cache.c     | 94 ++++++++++++++++++++-
- tools/testing/selftests/resctrl/cmt_test.c  | 17 +++-
- tools/testing/selftests/resctrl/pmu_test.c  | 28 +-----
- tools/testing/selftests/resctrl/pmu_utils.c | 32 +++++++
- tools/testing/selftests/resctrl/resctrl.h   |  3 +
- 9 files changed, 253 insertions(+), 34 deletions(-)
- create mode 100644 tools/testing/selftests/resctrl/pmu_utils.c
-
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b7f35b07876a..8f91ba7d622b 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -628,6 +628,70 @@ Resource monitoring rules
-    "mon_data" group.
- 
- 
-+Perf PMU access (resctrl PMU)
-+=============================
-+
-+resctrl registers a perf PMU named "resctrl", which provides read-only access
-+to the same monitoring values exposed via the "mon_data" files. The PMU
-+enables access from eBPF and allows parallelizing reads as it does not lock
-+the system-wide `rdtgroup_mutex`.
-+
-+Selection and usage
-+-------------------
-+- Event selection is performed by passing the file descriptor of a
-+  resctrl monitoring file, for example
-+  "mon_data/mon_L3_00/llc_occupancy", in the `perf_event_attr.config`
-+  field when calling perf_event_open().
-+- The perf event must be CPU-bound (pid = -1 and cpu >= 0).
-+- The chosen CPU must be valid for the domain represented by the
-+  monitoring file:
-+
-+  - For a domain-specific file such as "mon_L3_00/...", choose a CPU that
-+    belongs to that domain.
-+  - For files that provide a sum across domains that share the same L3
-+    cache instance (for example on SNC systems), choose a CPU that
-+    shares that L3 cache instance. See the "Cache IDs" section for the
-+    concepts and mapping.
-+- Exclude flags must be zero. perf_event_open() fails if any exclude
-+  flags are set.
-+
-+Semantics
-+---------
-+- The values from the resctrl PMU match the values what would be
-+  read from the corresponding "mon_data" file at the time of the read.
-+- Sampling is not supported. The PMU provides counts that can be read
-+  on demand; there are no periodic interrupts or per-context filtering
-+  semantics.
-+- It is safe to read a perf event whose underlying resctrl group has been
-+  deleted. However, the returned values are unspecified: the current
-+  implementation returns zeros, but this may change in the future.
-+
-+Discovering the PMU and example
-+-------------------------------
-+- The PMU type is exposed at
-+  "/sys/bus/event_source/devices/resctrl/type" and must be placed in
-+  `perf_event_attr.type`.
-+- A minimal example of opening a resctrl PMU event by passing a
-+  monitoring file descriptor in `config`::
-+
-+      int pmu_type = read_int("/sys/bus/event_source/devices/resctrl/type");
-+      int mon_fd = open("/sys/fs/resctrl/mon_data/mon_L3_00/llc_occupancy", O_RDONLY);
-+      struct perf_event_attr pe = { 0 };
-+
-+      pe.type = pmu_type;
-+      pe.size = sizeof(pe);
-+      pe.config = mon_fd;  /* select event via resctrl file descriptor */
-+      pe.disabled = 1;
-+
-+      int cpu = /* a CPU in the L3_00 domain (see Cache IDs) */;
-+      int fd = perf_event_open(&pe, -1 /* pid */, cpu /* cpu */, -1, 0);
-+
-+      ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
-+      uint64_t val;
-+      read(fd, &val, sizeof(val));
-+      ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
-+
-+
- Notes on cache occupancy monitoring and control
- ===============================================
- When moving a task from one group to another you should remember that
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index d1e4cf6f2128..02f8f256c680 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -594,6 +594,23 @@ void mon_event_read(struct rmid_read *rr, cpumask_t *cpumask)
- 		resctrl_arch_mon_ctx_free(rr->r, rr->evtid, rr->arch_mon_ctx);
- }
- 
-+void mon_event_read_this_cpu(struct rmid_read *rr)
-+{
-+	/* Ensure we're not in a CPU hotplug race */
-+	lockdep_assert_cpus_held();
-+
-+	rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr->r, rr->evtid);
-+	if (IS_ERR(rr->arch_mon_ctx)) {
-+		rr->err = -EINVAL;
-+		return;
-+	}
-+
-+	/* Direct call on current CPU - no IPI needed */
-+	mon_event_count(rr);
-+
-+	resctrl_arch_mon_ctx_free(rr->r, rr->evtid, rr->arch_mon_ctx);
-+}
-+
- int mon_event_setup_read(struct rmid_read *rr, cpumask_t **cpumask,
- 			 struct mon_data *md, struct rdtgroup *rdtgrp)
- {
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index 8cc3a3747c2f..c4adb6eaf101 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -383,6 +383,7 @@ void rmid_read_init(struct rmid_read *rr, struct rdt_resource *r,
- int mon_event_setup_read(struct rmid_read *rr, cpumask_t **cpumask,
- 			 struct mon_data *md, struct rdtgroup *rdtgrp);
- void mon_event_read(struct rmid_read *rr, cpumask_t *cpumask);
-+void mon_event_read_this_cpu(struct rmid_read *rr);
- 
- int resctrl_mon_resource_init(void);
- 
-diff --git a/fs/resctrl/pmu.c b/fs/resctrl/pmu.c
-index bdca0b3a5b0b..e6f5f13f29d2 100644
---- a/fs/resctrl/pmu.c
-+++ b/fs/resctrl/pmu.c
-@@ -132,8 +132,35 @@ static void resctrl_event_destroy(struct perf_event *event)
- 
- static void resctrl_event_update(struct perf_event *event)
- {
--	/* Currently just a stub - would read actual cache occupancy here */
--	local64_set(&event->hw.prev_count, 0);
-+	struct resctrl_pmu_event *resctrl_event = event->pmu_private;
-+	struct rdtgroup *rdtgrp = resctrl_event->rdtgrp;
-+	struct rmid_read rr;
-+	u64 value = 0;
-+
-+	/* Check if rdtgroup has been deleted */
-+	if (rdtgrp->flags & RDT_DELETED) {
-+		local64_set(&event->count, 0);
-+		return;
-+	}
-+
-+	/* Setup rmid_read structure with current parameters */
-+	rr = resctrl_event->rr;
-+	rr.val = 0;
-+	rr.err = 0;
-+
-+	/* Take cpus read lock only around the actual RMID read */
-+	cpus_read_lock();
-+	mon_event_read_this_cpu(&rr);
-+	cpus_read_unlock();
-+
-+	/* Update counter value based on read result */
-+	if (!rr.err)
-+		value = rr.val;
-+	else
-+		WARN_ONCE(1, "resctrl PMU: RMID read error (err=%d) for closid=%u, rmid=%u, evtid=%d\n",
-+			  rr.err, rdtgrp->closid, rdtgrp->mon.rmid, rr.evtid);
-+
-+	local64_set(&event->count, value);
- }
- 
- static void resctrl_event_start(struct perf_event *event, int flags)
-diff --git a/tools/testing/selftests/resctrl/cache.c b/tools/testing/selftests/resctrl/cache.c
-index 1ff1104e6575..826c11589d34 100644
---- a/tools/testing/selftests/resctrl/cache.c
-+++ b/tools/testing/selftests/resctrl/cache.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <stdint.h>
-+#include <fcntl.h>
- #include "resctrl.h"
- 
- char llc_occup_path[1024];
-@@ -92,12 +93,62 @@ static int get_llc_occu_resctrl(unsigned long *llc_occupancy)
- 	return 0;
- }
- 
-+/*
-+ * get_llc_occu_resctrl_pmu - Read LLC occupancy via resctrl PMU
-+ *
-+ * Uses the PMU to read LLC occupancy from the monitored resource given by the
-+ * global variable llc_occup_path.
-+ *
-+ * Return: =0 on success. <0 on failure.
-+ */
-+static int get_llc_occu_resctrl_pmu(unsigned long *llc_occupancy_pmu)
-+{
-+	int pmu_type, mon_fd = -1, perf_fd = -1;
-+	struct perf_event_attr pe = { 0 };
-+	__u64 value = 0;
-+
-+	if (!llc_occup_path[0])
-+		return -1;
-+
-+	pmu_type = resctrl_find_pmu_type("resctrl");
-+	if (pmu_type < 0)
-+		return -1;
-+
-+	mon_fd = open(llc_occup_path, O_RDONLY);
-+	if (mon_fd < 0)
-+		return -1;
-+
-+	memset(&pe, 0, sizeof(pe));
-+	pe.type = pmu_type;
-+	pe.config = mon_fd; /* Pass the monitoring fd */
-+	pe.size = sizeof(pe);
-+	pe.disabled = 0; /* Start enabled */
-+
-+	perf_fd = perf_event_open(&pe, -1, 0, -1, 0);
-+	if (perf_fd < 0)
-+		goto out_close_mon;
-+
-+	if (read(perf_fd, &value, sizeof(value)) != sizeof(value))
-+		goto out_close_all;
-+
-+	*llc_occupancy_pmu = (unsigned long)value;
-+
-+	close(perf_fd);
-+	close(mon_fd);
-+	return 0;
-+
-+out_close_all:
-+	close(perf_fd);
-+out_close_mon:
-+	close(mon_fd);
-+	return -1;
-+}
-+
- /*
-  * print_results_cache:	the cache results are stored in a file
-  * @filename:		file that stores the results
-  * @bm_pid:		child pid that runs benchmark
-- * @llc_value:		perf miss value /
-- *			llc occupancy value reported by resctrl FS
-+ * @llc_value:		perf miss value
-  *
-  * Return:		0 on success, < 0 on error.
-  */
-@@ -121,6 +172,37 @@ static int print_results_cache(const char *filename, pid_t bm_pid, __u64 llc_val
- 	return 0;
- }
- 
-+/*
-+ * print_results_llc:	prints LLC measurements to a file
-+ * @filename:		file that stores the results
-+ * @bm_pid:		child pid that runs benchmark
-+ * @fs_value:		llc occupancy value reported by resctrl FS
-+ * @pmu_value:		llc occupancy value reported by resctrl PMU
-+ *
-+ * Return:		0 on success, < 0 on error.
-+ */
-+static int print_results_llc(const char *filename, pid_t bm_pid,
-+			     unsigned long fs_value, unsigned long pmu_value)
-+{
-+	FILE *fp;
-+
-+	if (strcmp(filename, "stdio") == 0 || strcmp(filename, "stderr") == 0) {
-+		printf("Pid: %d \t llc_value: %lu\t pmu_value: %lu\n",
-+		       (int)bm_pid, fs_value, pmu_value);
-+	} else {
-+		fp = fopen(filename, "a");
-+		if (!fp) {
-+			ksft_perror("Cannot open results file");
-+			return -1;
-+		}
-+		fprintf(fp, "Pid: %d \t llc_value: %lu\t pmu_value: %lu\n",
-+			(int)bm_pid, fs_value, pmu_value);
-+		fclose(fp);
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * perf_event_measure - Measure perf events
-  * @filename:	Filename for writing the results
-@@ -164,13 +246,19 @@ int perf_event_measure(int pe_fd, struct perf_event_read *pe_read,
- int measure_llc_resctrl(const char *filename, pid_t bm_pid)
- {
- 	unsigned long llc_occu_resc = 0;
-+	unsigned long llc_occu_pmu = 0;
- 	int ret;
- 
- 	ret = get_llc_occu_resctrl(&llc_occu_resc);
- 	if (ret < 0)
- 		return ret;
- 
--	return print_results_cache(filename, bm_pid, llc_occu_resc);
-+	/* Try to get PMU value as well */
-+	ret = get_llc_occu_resctrl_pmu(&llc_occu_pmu);
-+	if (ret < 0)
-+		return ret;
-+
-+	return print_results_llc(filename, bm_pid, llc_occu_resc, llc_occu_pmu);
- }
- 
- /*
-diff --git a/tools/testing/selftests/resctrl/cmt_test.c b/tools/testing/selftests/resctrl/cmt_test.c
-index d09e693dc739..28250903bbf0 100644
---- a/tools/testing/selftests/resctrl/cmt_test.c
-+++ b/tools/testing/selftests/resctrl/cmt_test.c
-@@ -78,6 +78,7 @@ static int check_results(struct resctrl_val_param *param, size_t span, int no_of
- {
- 	char *token_array[8], temp[512];
- 	unsigned long sum_llc_occu_resc = 0;
-+	unsigned long sum_llc_occu_pmu = 0;
- 	int runs = 0;
- 	FILE *fp;
- 
-@@ -100,12 +101,24 @@ static int check_results(struct resctrl_val_param *param, size_t span, int no_of
- 
- 		/* Field 3 is llc occ resc value */
- 		sum_llc_occu_resc += strtoul(token_array[3], NULL, 0);
-+
-+		/* Field 5: llc occupancy from PMU */
-+		sum_llc_occu_pmu += strtoul(token_array[5], NULL, 0);
- 		runs++;
- 	}
- 	fclose(fp);
- 
--	return show_results_info(sum_llc_occu_resc, no_of_bits, span,
--				 MAX_DIFF, MAX_DIFF_PERCENT, runs, true);
-+	/* Filesystem-based results */
-+	ksft_print_msg("CMT (resctrl fs):\n");
-+	int ret_fs = show_results_info(sum_llc_occu_resc, no_of_bits, span,
-+				       MAX_DIFF, MAX_DIFF_PERCENT, runs, true);
-+
-+	/* PMU-based results */
-+	ksft_print_msg("CMT (PMU):\n");
-+	int ret_pmu = show_results_info(sum_llc_occu_pmu, no_of_bits, span,
-+					MAX_DIFF, MAX_DIFF_PERCENT, runs, true);
-+
-+	return ret_fs || ret_pmu;
- }
- 
- static void cmt_test_cleanup(void)
-diff --git a/tools/testing/selftests/resctrl/pmu_test.c b/tools/testing/selftests/resctrl/pmu_test.c
-index fb3eec721e43..e4d75a8c0a6c 100644
---- a/tools/testing/selftests/resctrl/pmu_test.c
-+++ b/tools/testing/selftests/resctrl/pmu_test.c
-@@ -16,32 +16,6 @@
- 
- #define RESCTRL_PMU_NAME "resctrl"
- 
--static int find_pmu_type(const char *pmu_name)
--{
--	char path[256];
--	FILE *file;
--	int type;
--
--	snprintf(path, sizeof(path), "/sys/bus/event_source/devices/%s/type",
--		 pmu_name);
--
--	file = fopen(path, "r");
--	if (!file) {
--		ksft_print_msg("Failed to open %s: %s\n", path,
--			       strerror(errno));
--		return -1;
--	}
--
--	if (fscanf(file, "%d", &type) != 1) {
--		ksft_print_msg("Failed to read PMU type from %s\n", path);
--		fclose(file);
--		return -1;
--	}
--
--	fclose(file);
--	return type;
--}
--
- static bool is_allowed_file(const char *filename)
- {
- 	const char *base;
-@@ -288,7 +262,7 @@ static int pmu_run_test(const struct resctrl_test *test,
- 	ksft_print_msg("Testing resctrl PMU file access safety\n");
- 
- 	/* Find the resctrl PMU type */
--	pmu_type = find_pmu_type(RESCTRL_PMU_NAME);
-+	pmu_type = resctrl_find_pmu_type(RESCTRL_PMU_NAME);
- 	if (pmu_type < 0) {
- 		ksft_print_msg("Resctrl PMU not found - PMU is not registered?\n");
- 		return -1;
-diff --git a/tools/testing/selftests/resctrl/pmu_utils.c b/tools/testing/selftests/resctrl/pmu_utils.c
-new file mode 100644
-index 000000000000..2d65d8b6e9e3
---- /dev/null
-+++ b/tools/testing/selftests/resctrl/pmu_utils.c
-@@ -0,0 +1,32 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include "resctrl.h"
-+#include <stdio.h>
-+
-+int resctrl_find_pmu_type(const char *pmu_name)
-+{
-+	char path[256];
-+	FILE *file;
-+	int type;
-+
-+	if (!pmu_name)
-+		return -1;
-+
-+	snprintf(path, sizeof(path), "/sys/bus/event_source/devices/%s/type",
-+		 pmu_name);
-+
-+	file = fopen(path, "r");
-+	if (!file) {
-+		ksft_print_msg("Failed to open %s: %s\n", path, strerror(errno));
-+		return -1;
-+	}
-+
-+	if (fscanf(file, "%d", &type) != 1) {
-+		ksft_print_msg("Failed to read PMU type from %s\n", path);
-+		fclose(file);
-+		return -1;
-+	}
-+
-+	fclose(file);
-+	return type;
-+}
-diff --git a/tools/testing/selftests/resctrl/resctrl.h b/tools/testing/selftests/resctrl/resctrl.h
-index 5b0e6074eaba..d1d2891081cf 100644
---- a/tools/testing/selftests/resctrl/resctrl.h
-+++ b/tools/testing/selftests/resctrl/resctrl.h
-@@ -205,6 +205,9 @@ void signal_handler_unregister(void);
- unsigned int count_bits(unsigned long n);
- int snc_kernel_support(void);
- 
-+/* PMU utilities */
-+int resctrl_find_pmu_type(const char *pmu_name);
-+
- void perf_event_attr_initialize(struct perf_event_attr *pea, __u64 config);
- void perf_event_initialize_read_format(struct perf_event_read *pe_read);
- int perf_open(struct perf_event_attr *pea, pid_t pid, int cpu_no);
+Cheers
+---Dave
