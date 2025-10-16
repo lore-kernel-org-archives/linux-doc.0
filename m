@@ -1,104 +1,116 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE18EEB2
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D057260F;
+	Thu, 16 Oct 2025 03:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760580936; cv=none; b=V02bdy+MQo0bnVHjBcH2wGfYmThUaEbSW/n9mEofAXv0+tl1oXn8yKohvneWJ2GPFI0uOq9Qlbss6ggHFgK1kNaLRODESWA5hf79UsqIyTfRwsoFb0HwsxJT5kww/Z7p0VLUuaVaXiRU3YjOhu2SvvNoCCHsv+X1vSi8QJN/iK0=
+	t=1760584297; cv=none; b=iyjws5dchnXaiJc1uihNWYjMAqXwzlNeuQxLCgjNtrpEAG02T6WHrcJd2cfKokRQsl2U9iTwb0tvSWmFFB4N1g84icLbYg7PAFPVLnLT0wzPEIE3HyUizHgliMiERF9M5LhVinsJd4NOGPxyIvEaNNafTQ+KUhyn5ajxbLYQEyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760580936; c=relaxed/simple;
-	bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UEUy5LCdeVbvwrHvozbEMmIhMG2fnBwv1SWECmqJxGWGupAxysw+N9/pmbbl7G9jbvswJ1ukXuC6v56Y5uGnSis0VJWXu2myOTMFMmvI1X7QFzKdPyIMdE8FJ7xNITfN2rbNbCHaVuO4xBCct9X8Ju+QHOf1PcMP829QkUNgX70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fT5mbzuA; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760584297; c=relaxed/simple;
+	bh=PSUFLzM/sUjlNBalWuNjP/B0B8hxIYxq5kDmv2L17mI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HQ6mPmKC0+fF9lV6gdn8nId87GEjj2CNYCVgfZj7r4vfrhc74cmYpY4hHrZtsQ24kOp1Q9xO6NGVBvRpky+yBOYzqXczGP042K5XvFyrE5SR2LL6Lo1TXty/f/oNDMUChg3+ATdE4keJkSiXgZRoTe5k4zGMiobr39WQbuZroqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=b2iF/cpC; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fT5mbzuA"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b62ed9c3e79so110405a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 19:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760580934; x=1761185734; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
-        b=fT5mbzuAmxD2eXvzc367v/kjGlWToe/KaxukN8gEX0JqPkCenaRG12L1Ias+sey/K/
-         eS9p8HtqLUcA1LKQMwphFi2CQefL+pFrfYZK/cJB1IYc8GZJv1mHqqhTW1s0pV5Y7Pal
-         JRbGPE0Y4GzXv+NIAB2nD0Y5tfMTbMP3QxdXpsdxtalpmtCkdb4O9EmQHvtK7vbPROBT
-         Q2Zx5wPKSxaxmR9kjrXu907pN2HAo9uL0T4eHQyoaGlyQ2objTDe5uNuWXHs9oYhKHio
-         fuA5PbI5KpHc2gGK6H4Jt4kWsG9I0iHnKaNft4N+9RCYtZcfX2SzVZfviVs2HDnSODg3
-         Qlkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760580934; x=1761185734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
-        b=s+lsMRoJ5/Z/qwEYUgimO9sGNJBS74Gh0p4U06ZQliYP8g3CpX4OyUvXuStlcInvJc
-         n6RHG1jN9PTFFo1+FaJ4nSDv6vW9J7FoQRW9ay7uORw1Uj0IPGveXvyFsBrb7Tr/El+5
-         u5mI5XneH8TiVO/MYdyz6F9dT2ft9jA86bvzqMa+aftTQWV7P/QdkknPYdX6/5FXW7bB
-         +ysmvB967ub69Tj/lex2shIEpK8RA0m8p89uy5geHHlqPFWMSj3xIgLnZGIXrF60tlev
-         O1jR0uQRmqYkctvfXBlWbYjgBLAqJjCd4H14IgnIr3GPRTMk1b4dWpy8WawsgR1UNJoy
-         TLpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUYJ2Fn0grzg7hbWcpGuk2wS1bFiE7zAUZ2WU164V4gLvJUHmoglRtfWlSXMeLh08aY88/zlJNXFk0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7bAtPdtmPZWy+gvWzVKynvNpmOXhfUK4wf0Y7/ileY2PaM5tv
-	hUAi2JFUUME3PSHqLrHdb23yzN8yIrNfWvDTXCLwc5ReydkB2he/GlYo+A9suwBG8tDU65tx0qD
-	7hE9S/rH3yAML69NXpaZHKQoz+H4LIrg=
-X-Gm-Gg: ASbGncvYLPtDftVaY68k/RRT47rENZ4Ruzo/Fw+ijMIkiRev2DiiHJHUolgQoFTo8bV
-	tHl8mHhNB3xXa0Yk+xRGoX/kfVxcPHnjhFt1SK8yVpKOR9x7a7yXXK9uVHzSuKiKOvwue8rkVDE
-	kvHZbvwZnAsEICeu9Wsn4YtMeEE5XRQZ0NRUGgor/qXn29DvHo7ds0CRSnOWZbyXWX0zpglGwP9
-	dETM1H5tYaprE6UnlF80HnYAJPeshF9Yue09W6U4DkudVOAeMH4IOx1bzLk
-X-Google-Smtp-Source: AGHT+IEvRoOtfZkD7JBaJ7rZGlNV110A7XDi8jf3vUgY9Fd8pd0a5HquzKeGR4HlB+RP5ldM64qTIlUt/S7CQGX+WI8=
-X-Received: by 2002:a17:903:1447:b0:248:ff5a:b768 with SMTP id
- d9443c01a7336-29027356a2cmr375723705ad.10.1760580934134; Wed, 15 Oct 2025
- 19:15:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="b2iF/cpC"
+Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59G3ARDA2798705
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 15 Oct 2025 20:10:28 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59G3ARDA2798705
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025092201; t=1760584231;
+	bh=eCDrqpdDSCCbgxuvwfM/A/XESeZ1rZMuetA+BzOccp0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b2iF/cpC1bYjFpCVSY9rMyzNqGIsbgvYKHh9V0aSKiFzW+BiG4Y8mSBrVXwgIm5bS
+	 snWktCXM494AvOMMJNsuj2oZ8bITQgfTBd54J95VPwYoJxdILAE4CCWgGNczm2QOHT
+	 aOFIuOGmbazc469Sq6kAdpSY4oiZLSigyoLGaymyADXcvJSGusRb96uJsmBf2Y7Dsd
+	 NeQmxIXBqeDzFVkvwyQh490glQQkxLNfTf43067cjjBaN/OxGDCCYIMvycW/5WBpwL
+	 vJZkAU3xNSL4p4uZdoJM04xnWCFVv31cCr7kW2M6LwWuK855dA2ZwOTY8hCMz0LAWm
+	 Ku4QdqLp1WMaw==
+Message-ID: <6da9ae07-622e-428b-b1de-df4ead7a7761@zytor.com>
+Date: Wed, 15 Oct 2025 20:10:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com> <aPA18fxQW398WHte@archie.me>
-In-Reply-To: <aPA18fxQW398WHte@archie.me>
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-Date: Thu, 16 Oct 2025 07:45:22 +0530
-X-Gm-Features: AS18NWD2IGlwVYDG7C9iI2e3l9CLdrdvxxJHaMKCdoRSM9GgL7yUi4oi3QL3np4
-Message-ID: <CAL4kbRMQCMqnjLq6tXCuGXfGZWMAN+Jn-oQ0Ljzc_WLG3rUazw@mail.gmail.com>
-Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
- quote warning
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
-	corbet@lwn.net, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/15] x86/cpu: Enumerate the LASS feature bits
+To: Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@intel.com>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
+        "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "alexander.shishkin@linux.intel.com" <alexander.shishkin@linux.intel.com>,
+        "kas@kernel.org" <kas@kernel.org>,
+        "seanjc@google.com" <seanjc@google.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
+        "vegard.nossum@oracle.com" <vegard.nossum@oracle.com>,
+        "xin@zytor.com" <xin@zytor.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kees@kernel.org" <kees@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        "geert@linux-m68k.org" <geert@linux-m68k.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-2-sohil.mehta@intel.com>
+ <47fb7efd89698f46a305ca446d0e4471d1f24fbb.camel@intel.com>
+ <5d95d421-1413-46de-a578-c2a0e44e3aa1@intel.com>
+ <ea578640-c02e-4ba9-b0b1-e9a5c9c313a9@intel.com>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <ea578640-c02e-4ba9-b0b1-e9a5c9c313a9@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks for the review, Bagas.
+On 2025-10-07 13:20, Sohil Mehta wrote:
+> 
+> The spec says,
+> "A supervisor-mode data access causes a LASS violation if it would
+> access a linear address of which bit 63 is 0, supervisor-mode access
+> protection is enabled (by setting CR4.SMAP), and either RFLAGS.AC = 0 or
+> the access is an implicit supervisor-mode access."
+> 
+> One could argue that the LASS hardware enforcement of the kernel data
+> accesses *depends* on SMAP being enabled.
+> 
+>> Actually, it might be worth breaking this dependency hunk out into its
+>> own patch, just so there's a nice clean place to discuss this.
+> 
+> Sure, we can talk about the above wording in the spec, as well as the
+> STAC/CLAC dependency in a separate patch.
+> 
+> I included some information in the cover letter to explain that:
+> 
+> When there are valid reasons for the kernel to access memory in the user
+> half, it can temporarily suspend LASS enforcement by toggling the
+> RFLAGS.AC bit. Most of these cases are already covered today through the
+> stac()/clac() pairs, which avoid SMAP violations. However, there are
+> kernel usages, such as text poking, that access mappings (!_PAGE_USER)
+> in the lower half of the address space. LASS-specific AC bit toggling is
+> added for these cases.
 
-I've sent a v2 with the corrected Fixes tag as you suggested:
-https://lore.kernel.org/all/20251016020912.1653230-1-kriish.sharma2006@gmai=
-l.com/
+Just to be clear: there is no reason to spend any time whatsoever on
+supporting LASS without SMAP, because no such hardware is ever expected to
+exist. The CPU feature dependencies are not all necessarily architectural, but
+also Linux implementation choices -- Linux is in no way somehow required to be
+optimized for every combination of features, and a lot of the time it makes
+perfect sense to say "you don't have X, so I won't use Y either."
 
-Thanks,
-Kriish
+	-hpa
 
-
-On Thu, Oct 16, 2025 at 5:31=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Wed, Oct 15, 2025 at 06:34:02PM +0000, Kriish Sharma wrote:
-> > Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
->
-> The correct blamed fixes should've been:
->
-> Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guideline=
-s")
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
