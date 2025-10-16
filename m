@@ -1,157 +1,138 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F063417A2E8;
-	Thu, 16 Oct 2025 13:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692711D0DEE
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760621460; cv=none; b=QE6HVW1Guq9X+KzRApuQAfhIeYkN/dYXLyBjL+8QNvUdrcIzvHjI6YALmcwfHZNJHk5pDrdYJ8aEYwFcccvKNew1kYs9oJrBB/6RVZ/xgNmDreRZaesI/UDuebeE9kEtLcDghOv4lG0BRrHVMCU6LkMKDQ5LxEkvv2JlHpYeIXY=
+	t=1760626024; cv=none; b=FQXUy21TaGdWXjRx/o6Dxzm8AMpnVgPZ28CG0CQjN6kcEzKwFDqDE4YYfc1plXJHMggdaI37oW8q850KE6qdhTjSjkzwcMa9RNZtxi56U9dH0Jn8CYFZIY9Jmh0DE+GGH3llhcN5UYcPkQoiuexMfZEZSUJxUElow1/Df9fXKeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760621460; c=relaxed/simple;
-	bh=cTsjsQ0FpIOTJ+hSMo8uPh6Cg/szULls3Pr0P8t6aWg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=BpzKqMZI4uOMaSfBVoxWQYeaxXKg6ZVA9KrLomBhxGyJqK5Om5JFRmdzadQwmnHCIOm2Q1szcxz7lbTj7t+odZ+jLyW2SzZuWT9WPKSj25MnLjj/k4kuMs9tv1Xgt/aPg4J2fxncGWARA7Izq+zkMDf+Y+JlJIMvlwOSuZZYFxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SECTnbK1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WztbAwXu; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SECTnbK1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WztbAwXu"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id AC23C1D00245;
-	Thu, 16 Oct 2025 09:30:56 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Thu, 16 Oct 2025 09:30:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1760621456;
-	 x=1760707856; bh=s/MRbpBqt2yqYNof35eOW46gF9jvP1qa9ngAy/6u1w0=; b=
-	SECTnbK1aU8FmEyd68ZOtLDgNHywGuo8alcv5/f8WGv76UCcUadVPBd1L3dxwuZY
-	VtKeQdsnwgk4/GOWSC2ffXiT2rzt83NqRRJDMgqIyctbYzqZ0iXuwaUOyE6VzOcG
-	ObootchY8VxoXAp+qsiiKI62+9qMxCktNsp6wHVWlEFRfZ5mJXG+G/fXvYsmzDqn
-	7xgWUAk9ztjtHRRBbWwYUmY1rZPK4vZpAcZ0b7FYHvBxcF1z1Z041FPV94l+xd+u
-	byBMGM4KkLfwzcbLErWTsPRPF0okQDPTmYzRsm/134o8sCiU75hICrZteLMN1cPL
-	OtpXHL1sip856OFHjwg9kw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760621456; x=
-	1760707856; bh=s/MRbpBqt2yqYNof35eOW46gF9jvP1qa9ngAy/6u1w0=; b=W
-	ztbAwXuQfn3MP2FFuXP8oUUmEUdn38vVOJEiPwd49E1kT3CAAsW7BmaN+scFIL/0
-	hulMtq9M8OY8nKz6HECvhY5lI1NqPaCJ2TBnAE2XzPvIFnj8okHBazvY9Iog5Wxn
-	ScVbMZcQ2GDCuC4wlL2hmuF7XYBFA0xW1OfhQCeOkraa7QqiNMIi9scOjn/fOjkA
-	bedEn9cwi55h+hRYDxLFSwgd2/PaQyg6Fm7ijqd0Aijw0/bG0TEsO2YBHrVm5b45
-	IbuXRy6bgq84jxcF0vweGsf2yYso28NkFTL6pRNBYbGSs8RCp4prqv5+GA30d5aZ
-	J/WmzZv8S2INA38P3p1+Q==
-X-ME-Sender: <xms:j_PwaBk_hmJyYpdili7YT9OheBE3ISiao6pmR3OnZt8SMvSZxjLosw>
-    <xme:j_PwaHondES3j4cuJ4j-MdpQAY1YrNhRErT-22Ezj82CraIAPrLy8jHCCaOsbnIKc
-    2e70Gfhz-mF6Zci3fDUczz2z4bFX4Wqo9uA2fc5m8Vr2gby7_ogojQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdeigedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtghomhdprhgtphhtth
-    hopegsohhquhhnrdhfvghnghesghhmrghilhdrtghomhdprhgtphhtthhopehpvghtvghr
-    iiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhr
-    ghdprhgtphhtthhopehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgpdhrtghpth
-    htohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtoheptghorhgs
-    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrtghhsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:kPPwaFUXktOb5IiCYIW3tun37OpNXVlbO22McvRiUi7HNyUaj4kvVQ>
-    <xmx:kPPwaMHs8_M6niyvc4-td5bvUJHucdzX3VEMFOYL_2_Dp1R9TZxgxQ>
-    <xmx:kPPwaPY-Zz76iKBLCH9ztEvorjTMGEsQn33_ZzURQ5SreS-O4YPaPw>
-    <xmx:kPPwaLEe-cCYI2fBE3k6in6e1y41qBaljbrSY8BZs0EnQXO385q4wA>
-    <xmx:kPPwaDd0eolJQdUk_daHOCIeYqnbxMcj0WnsjWo1TNdLh3CBCjHVwavc>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DFDC870006D; Thu, 16 Oct 2025 09:30:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1760626024; c=relaxed/simple;
+	bh=sA59ZYLqRjQRcEDrdphsOdS3J6yviy7YDv1qUdw1/7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e+ydRvgGzslby1N/S1RCom2d6VLZnnT9/4lDlorITyHhUSTPXS7BAV7+sWYEni4ko4O3s3Jxx0ozYf7Vff4PctEmHIXV512b1/gLCg6u4F0BgfyCu4qWP8UH+HcwyQAdtK2k0LUglniOs4BDLbzKN2QNchapt89Xl55zUecfH6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7b00927607eso585778a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:47:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760626021; x=1761230821;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lUqEP1dwmUVPaxUfPgQ2bKqmT6S9ky2aoE0uUBHPT0g=;
+        b=xSKmux0k1H21kLgL9yGmjMz6jtZKm5jGkv1tdLZcjZklipqEaL82O1/9KEy+mZEDVq
+         17NYEUVQhbfUEs6hovGGAaRNVonO/a1li9e2tGTla0QJtcQ3PJURGc/a40AHRjkfljGm
+         LzwCHHez5j4oHuGCd7UYm64J4Tf1jzVVHme1vhn4ZIRBmzT53aYnnfxpTVY/z1bXCv3n
+         fqAo8kLD8uYUPEAIlHIRxigmcE8r0iizt1ao3dbJUShco65MhPuboFl4US8dObBAjAFd
+         ZSYnUwQKxM5tLPdYB5Irig1YeK3b3+SaRD4rnId6Ve3/2uLhnH++aR5PxnSsE7OrkgKv
+         UaCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEnXnzNaUeI8X4jFr1Jw7EjSTwZBosIZmIxA5T9iFnRQHorhaER6hfjpstclw0ukJIrXsxYu9ooYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTFHJD99RX4FuKUxsT+Hq6qtEoF+Pr7As9MEB2gNSRYvmBSdsE
+	Sr/24WCPZSXSrRQ3s/8EL+EACNEBb2hLagGF255U3TCyrQKOT2bSAWaF
+X-Gm-Gg: ASbGncusvvMBu4jZAC6cBrmoI3n2bGQEaO3qFaf6PwFRbbKGKkBuCMUm5R81KiZ2XRE
+	KgbMtoK5pDXchuHpxrqI1UOCGKyWBUHgfCmZvQb8jACI6oPSS9tSjImBFgLzH+JOFjnZeWrpWrB
+	t6FwIoWyICTgKRCVck6/xa2ZSLGcXtkTpx8RK/N3lZfDhXVhA6uEc/8osTtef5rCIyIBezdQueL
+	xlhnyPjAregr+saQMskJFq7XGmrulM3hoHNKToCgROY5/0xyFYkbpWxdpp4pkxn9lUi/hfh3RBV
+	fJJgGctEUiiVKMEWezgieOtay9aU0Q/FmJBxwxecdHHDjy7GIdH+xmNBOCYkMZ/rs4ymP150qUm
+	wCOycefQIOKjMys++P175MJ+8juUtaoU8W4vo6tS6p6NkZbeVpWhNL8fvP5GEBV3XSlxmpZ3/8q
+	poFwL3Dp667iL/vUErSVpVNh3ywPgxB9C992wE97zEgGcHXdAGy2xVPDgVE2UaQmT8e1A=
+X-Google-Smtp-Source: AGHT+IF9DW0Z61L6docyCir97py3czxMKDh5vf9yDUOUUa5eqZnxxy3L15m2srpQ+v03IN0vXX5rpA==
+X-Received: by 2002:a05:6808:30a2:b0:438:3350:8d25 with SMTP id 5614622812f47-443a2ff491dmr103652b6e.40.1760626021433;
+        Thu, 16 Oct 2025 07:47:01 -0700 (PDT)
+Received: from localhost.localdomain (syn-067-079-108-173.biz.spectrum.com. [67.79.108.173])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-441cc812f24sm3678018b6e.12.2025.10.16.07.47.00
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 16 Oct 2025 07:47:01 -0700 (PDT)
+From: Jonathan Perry <yonch@yonch.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	James Morse <james.morse@arm.com>,
+	Roman Storozhenko <romeusmeister@gmail.com>,
+	Jonathan Perry <yonch@yonch.com>
+Subject: [PATCH 0/8] resctrl: Add perf PMU for resctrl monitoring
+Date: Thu, 16 Oct 2025 09:46:48 -0500
+Message-ID: <20251016144656.74928-1-yonch@yonch.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AH4YsbVvINyJ
-Date: Thu, 16 Oct 2025 15:30:19 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Finn Thain" <fthain@linux-m68k.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Will Deacon" <will@kernel.org>
-Cc: "Andrew Morton" <akpm@linux-foundation.org>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Mark Rutland" <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>, linux-m68k@vger.kernel.org,
- linux-doc@vger.kernel.org
-Message-Id: <b80e06b8-e568-408b-8132-99565c50a0ff@app.fastmail.com>
-In-Reply-To: 
- <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-References: <cover.1759875560.git.fthain@linux-m68k.org>
- <76571a0e5ed7716701650ec80b7a0cd1cf07fde6.1759875560.git.fthain@linux-m68k.org>
-Subject: Re: [RFC v3 1/5] documentation: Discourage alignment assumptions
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
- On Wed, Oct 8, 2025, at 00:19, Finn Thain wrote:
-> Discourage assumptions that simply don't hold for all Linux ABIs.
-> Exceptions to the natural alignment rule for scalar types include
-> long long on i386 and sh.
-> ---
+Expose resctrl monitoring data via a lightweight perf PMU. 
 
-I think both of the paragraphs you remove are still correct and I
-would not remove them:
+Background: The kernel's initial cache-monitoring interface shipped via 
+perf (commit 4afbb24ce5e7, 2015). That approach tied monitoring to tasks
+and cgroups. Later, cache control was designed around the resctrl 
+filesystem to better match hardware semantics, and the incompatible perf 
+CQM code was removed (commit c39a0e2c8850, 2017). This series implements
+a thin, generic perf PMU that _is_ compatible with resctrl.
 
->  Documentation/core-api/unaligned-memory-access.rst | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/Documentation/core-api/unaligned-memory-access.rst 
-> b/Documentation/core-api/unaligned-memory-access.rst
-> index 5ceeb80eb539..1390ce2b7291 100644
-> --- a/Documentation/core-api/unaligned-memory-access.rst
-> +++ b/Documentation/core-api/unaligned-memory-access.rst
-> 
-> -When writing code, assume the target architecture has natural alignment
-> -requirements.
-> -
+Motivation: perf support enables measuring cache occupancy and memory 
+bandwidth metrics on hrtimer (high resolution timer) interrupts via eBPF.
+Compared with polling from userspace, hrtimer-based reads remove 
+scheduling jitter and context switch overhead. Further, PMU reads can be 
+parallel, since the PMU read path need not lock resctrl's rdtgroup_mutex.
+Parallelization and reduced jitter enable more accurate snapshots of
+cache occupancy and memory bandwidth. [1] has more details on the 
+motivation and design.
 
-It is clearly important to not intentionally misalign variables
-because that breaks on hardware that requires aligned data.
+Design: The "resctrl" PMU is a small adapter on top of resctrl's 
+monitoring path:
+- Event selection uses `attr.config` to pass an open `mon_data` fd
+  (e.g. `mon_L3_00/llc_occupancy`).
+- Events must be CPU-bound within the file's domain. Perf is responsible 
+  the read executes on the bound CPU.
+- Event init resolves and pins the rdtgroup, prepares struct rmid_read via
+  mon_event_setup_read(), and validates the bound CPU is in the file's 
+  domain CPU mask.
+- Sampling is not supported; reads match the `mon_data` file contents.
+- If the rdtgroup is deleted, reads return 0.
 
-Assuming natural alignment is the safe choice here, but you
-could change 'architecture' to 'hardware' here if you
-think that is otherwise ambiguous.
+Includes a new selftest (tools/testing/selftests/resctrl/pmu_test.c)
+to validate the PMU event init path, and adds PMU testing to existing 
+CMT tests.
 
-> -Similarly, you can also rely on the compiler to align variables and function
-> -parameters to a naturally aligned scheme, based on the size of the type of
-> -the variable.
+Example usage (see Documentation/filesystems/resctrl.rst):
+Open a monitoring file and pass its fd in `perf_event_attr.config`, with
+`attr.type` set to the `resctrl` PMU type.
 
-This also seems to refer to something else: even on m68k
-and i386, scalar stack and .data variables have natural
-alignment even though the ABI does not require that.
+The patches are based on top of v6.18-rc1 (commit 3a8660878839).
 
-It's probably a good idea to list the specific exceptions to
-the struct layout rules in the previous paragraph, e.g.
+[1] https://www.youtube.com/watch?v=4BGhAMJdZTc
 
-[
- Fortunately, the compiler understands the alignment constraints, so in the
- above case it would insert 2 bytes of padding in between field1 and field2.
- Therefore, for standard structure types you can always rely on the compiler
--to pad structures so that accesses to fields are suitably aligned (assuming
--you do not cast the field to a type of different length).
-+to pad structures so that accesses to fields are suitably aligned for
-+the CPU hardware.
-+On all 64-bit architectures, this means that all scalar struct members
-+are naturally aligned. However, some 32-bit ABIs including i386
-+only align 64-bit members on 32-bit offsets, and m68k uses at most
-+16-bit alignment.
-]
+Jonathan Perry (8):
+  resctrl: Pin rdtgroup for mon_data file lifetime
+  resctrl/mon: Split RMID read init from execution
+  resctrl/mon: Select cpumask before invoking mon_event_read()
+  resctrl/mon: Create mon_event_setup_read() helper
+  resctrl: Propagate CPU mask validation error via rr->err
+  resctrl/pmu: Introduce skeleton PMU and selftests
+  resctrl/pmu: Use mon_event_setup_read() and validate CPU
+  resctrl/pmu: Implement .read via direct RMID read; add LLC selftest
 
-      Arnd
+ Documentation/filesystems/resctrl.rst         |  64 ++++
+ fs/resctrl/Makefile                           |   2 +-
+ fs/resctrl/ctrlmondata.c                      | 118 ++++---
+ fs/resctrl/internal.h                         |  24 +-
+ fs/resctrl/monitor.c                          |   8 +-
+ fs/resctrl/pmu.c                              | 217 +++++++++++++
+ fs/resctrl/rdtgroup.c                         | 131 +++++++-
+ tools/testing/selftests/resctrl/cache.c       |  94 +++++-
+ tools/testing/selftests/resctrl/cmt_test.c    |  17 +-
+ tools/testing/selftests/resctrl/pmu_test.c    | 292 ++++++++++++++++++
+ tools/testing/selftests/resctrl/pmu_utils.c   |  32 ++
+ tools/testing/selftests/resctrl/resctrl.h     |   4 +
+ .../testing/selftests/resctrl/resctrl_tests.c |   1 +
+ 13 files changed, 948 insertions(+), 56 deletions(-)
+ create mode 100644 fs/resctrl/pmu.c
+ create mode 100644 tools/testing/selftests/resctrl/pmu_test.c
+ create mode 100644 tools/testing/selftests/resctrl/pmu_utils.c
+
