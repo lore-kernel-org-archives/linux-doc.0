@@ -1,116 +1,155 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D057260F;
-	Thu, 16 Oct 2025 03:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87192222C4
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 05:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760584297; cv=none; b=iyjws5dchnXaiJc1uihNWYjMAqXwzlNeuQxLCgjNtrpEAG02T6WHrcJd2cfKokRQsl2U9iTwb0tvSWmFFB4N1g84icLbYg7PAFPVLnLT0wzPEIE3HyUizHgliMiERF9M5LhVinsJd4NOGPxyIvEaNNafTQ+KUhyn5ajxbLYQEyI=
+	t=1760591280; cv=none; b=Qu8/PBk7IdlPo8F+k/JOife8Em/XGvd1USiKW5J7fybMg6roToo8NyrNzJ74hJupurhERd5mWqIRjSw5QnGp54mmc+wZZtz0PsIDfzWllbLSMK4PelvcnKRtGgnk5GlMLPG37kV8g8ZP9qKheaxH5zP5jRf3iTmwvGUDOR8sh0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760584297; c=relaxed/simple;
-	bh=PSUFLzM/sUjlNBalWuNjP/B0B8hxIYxq5kDmv2L17mI=;
+	s=arc-20240116; t=1760591280; c=relaxed/simple;
+	bh=BUn/w7Ujb8/rDnrs/nT1AxSoHEFiEVHXe9U2H1NnrMQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HQ6mPmKC0+fF9lV6gdn8nId87GEjj2CNYCVgfZj7r4vfrhc74cmYpY4hHrZtsQ24kOp1Q9xO6NGVBvRpky+yBOYzqXczGP042K5XvFyrE5SR2LL6Lo1TXty/f/oNDMUChg3+ATdE4keJkSiXgZRoTe5k4zGMiobr39WQbuZroqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=b2iF/cpC; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	 In-Reply-To:Content-Type; b=JKh7u5iAa0OODG/Rf+7BsTjKGr3+voyQ06VDKamQNJFhR6G2k1WPwGEgtUoBuH5BraJ2rMd09MiRCAq5aH0koOFsUQ4LMoXUgeIvknrKTH/sGWWmEeYq3lhGXwk70oYjDcY3KXiiFCSSv2wokIh8wq+au362jQrvtwLVksw086M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=geBJxByL; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="b2iF/cpC"
-Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59G3ARDA2798705
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 15 Oct 2025 20:10:28 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59G3ARDA2798705
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025092201; t=1760584231;
-	bh=eCDrqpdDSCCbgxuvwfM/A/XESeZ1rZMuetA+BzOccp0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b2iF/cpC1bYjFpCVSY9rMyzNqGIsbgvYKHh9V0aSKiFzW+BiG4Y8mSBrVXwgIm5bS
-	 snWktCXM494AvOMMJNsuj2oZ8bITQgfTBd54J95VPwYoJxdILAE4CCWgGNczm2QOHT
-	 aOFIuOGmbazc469Sq6kAdpSY4oiZLSigyoLGaymyADXcvJSGusRb96uJsmBf2Y7Dsd
-	 NeQmxIXBqeDzFVkvwyQh490glQQkxLNfTf43067cjjBaN/OxGDCCYIMvycW/5WBpwL
-	 vJZkAU3xNSL4p4uZdoJM04xnWCFVv31cCr7kW2M6LwWuK855dA2ZwOTY8hCMz0LAWm
-	 Ku4QdqLp1WMaw==
-Message-ID: <6da9ae07-622e-428b-b1de-df4ead7a7761@zytor.com>
-Date: Wed, 15 Oct 2025 20:10:27 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="geBJxByL"
+Message-ID: <4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760591263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SCAq3Tpy90yiw+VRqp/jzmhdqwWtKZRonlnTXaNao8c=;
+	b=geBJxByLcvWBiujKOiaOahCqNyndVoWuu2mZ45TF8xE284+jE46+6ntqZCrEJOY3tjLJtS
+	CA04TcSdtSgMTu+1LyL0JCiZYt8KyHlnhHzez+oDkOoqTGathzLcXzzn8tcestdiOMA31r
+	Wv+r/T6z/ByuejbAoTutxC4uLBsXkfs=
+Date: Thu, 16 Oct 2025 13:07:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 01/15] x86/cpu: Enumerate the LASS feature bits
-To: Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@intel.com>,
-        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
-        "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "alexander.shishkin@linux.intel.com" <alexander.shishkin@linux.intel.com>,
-        "kas@kernel.org" <kas@kernel.org>,
-        "seanjc@google.com" <seanjc@google.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
-        "vegard.nossum@oracle.com" <vegard.nossum@oracle.com>,
-        "xin@zytor.com" <xin@zytor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kees@kernel.org" <kees@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-        "x86@kernel.org" <x86@kernel.org>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-2-sohil.mehta@intel.com>
- <47fb7efd89698f46a305ca446d0e4471d1f24fbb.camel@intel.com>
- <5d95d421-1413-46de-a578-c2a0e44e3aa1@intel.com>
- <ea578640-c02e-4ba9-b0b1-e9a5c9c313a9@intel.com>
-Content-Language: en-US, sv-SE
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <ea578640-c02e-4ba9-b0b1-e9a5c9c313a9@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH][v4] hung_task: Panic when there are more than N hung
+ tasks at the same time
+Content-Language: en-US
+To: lirongqing <lirongqing@baidu.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, wireguard@lists.zx2c4.com,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Arnd Bergmann
+ <arnd@arndb.de>, David Hildenbrand <david@redhat.com>,
+ Florian Wesphal <fw@strlen.de>, Jakub Kacinski <kuba@kernel.org>,
+ "Jason A . Donenfeld" <jason@zx2c4.com>,
+ Joel Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Petr Mladek <pmladek@suse.com>, Phil Auld <pauld@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>,
+ Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org
+References: <20251015063615.2632-1-lirongqing@baidu.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20251015063615.2632-1-lirongqing@baidu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 2025-10-07 13:20, Sohil Mehta wrote:
-> 
-> The spec says,
-> "A supervisor-mode data access causes a LASS violation if it would
-> access a linear address of which bit 63 is 0, supervisor-mode access
-> protection is enabled (by setting CR4.SMAP), and either RFLAGS.AC = 0 or
-> the access is an implicit supervisor-mode access."
-> 
-> One could argue that the LASS hardware enforcement of the kernel data
-> accesses *depends* on SMAP being enabled.
-> 
->> Actually, it might be worth breaking this dependency hunk out into its
->> own patch, just so there's a nice clean place to discuss this.
-> 
-> Sure, we can talk about the above wording in the spec, as well as the
-> STAC/CLAC dependency in a separate patch.
-> 
-> I included some information in the cover letter to explain that:
-> 
-> When there are valid reasons for the kernel to access memory in the user
-> half, it can temporarily suspend LASS enforcement by toggling the
-> RFLAGS.AC bit. Most of these cases are already covered today through the
-> stac()/clac() pairs, which avoid SMAP violations. However, there are
-> kernel usages, such as text poking, that access mappings (!_PAGE_USER)
-> in the lower half of the address space. LASS-specific AC bit toggling is
-> added for these cases.
+LGTM. It works as expected, thanks!
 
-Just to be clear: there is no reason to spend any time whatsoever on
-supporting LASS without SMAP, because no such hardware is ever expected to
-exist. The CPU feature dependencies are not all necessarily architectural, but
-also Linux implementation choices -- Linux is in no way somehow required to be
-optimized for every combination of features, and a lot of the time it makes
-perfect sense to say "you don't have X, so I won't use Y either."
+On 2025/10/15 14:36, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 
-	-hpa
+For the commit message, I'd suggest the following for better clarity:
 
+```
+The hung_task_panic sysctl is currently a blunt instrument: it's all
+or nothing.
+
+Panicking on a single hung task can be an overreaction to a transient
+glitch. A more reliable indicator of a systemic problem is when multiple
+tasks hang simultaneously.
+
+Extend hung_task_panic to accept an integer threshold, allowing the kernel
+to panic only when N hung tasks are detected in a single scan. This
+provides finer control to distinguish between isolated incidents and
+system-wide failures.
+
+The accepted values are:
+- 0: Don't panic (unchanged)
+- 1: Panic on the first hung task (unchanged)
+- N > 1: Panic after N hung tasks are detected in a single scan
+
+The original behavior is preserved for values 0 and 1, maintaining full
+backward compatibility.
+```
+
+If you agree, likely no need to resend - Andrew could pick it up
+directly when applying :)
+
+> 
+> Currently, when 'hung_task_panic' is enabled, the kernel panics
+> immediately upon detecting the first hung task. However, some hung
+> tasks are transient and allow system recovery, while persistent hangs
+> should trigger a panic when accumulating beyond a threshold.
+> 
+> Extend the 'hung_task_panic' sysctl to accept a threshold value
+> specifying the number of hung tasks that must be detected before
+> triggering a kernel panic. This provides finer control for environments
+> where transient hangs may occur but persistent hangs should be fatal.
+> 
+> The sysctl now accepts:
+> - 0: don't panic (maintains original behavior)
+> - 1: panic on first hung task (maintains original behavior)
+> - N > 1: panic after N hung tasks are detected in a single scan
+> 
+> This maintains backward compatibility while providing flexibility for
+> different hang scenarios.
+> 
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Florian Wesphal <fw@strlen.de>
+> Cc: Jakub Kacinski <kuba@kernel.org>
+> Cc: Jason A. Donenfeld <jason@zx2c4.com>
+> Cc: Joel Granados <joel.granados@kernel.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Lance Yang <lance.yang@linux.dev>
+> Cc: Liam Howlett <liam.howlett@oracle.com>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+> Cc: "Paul E . McKenney" <paulmck@kernel.org>
+> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Phil Auld <pauld@redhat.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> ---
+
+So:
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
+Tested-by: Lance Yang <lance.yang@linux.dev>
+
+Cheers,
+Lance
