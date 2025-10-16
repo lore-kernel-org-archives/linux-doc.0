@@ -1,244 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3062ED871;
-	Thu, 16 Oct 2025 06:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760597760; cv=fail; b=fq7nmcPTxMP2d+kdTuFFZls/6O4j/eqSOKKSv5tGGEwao4E3Lq9efoygFmhWKGB7au/H6IajQD5czhj1PZnaBUzIJUL6VXl5+bxaynPk+7imKlZLtRHkKDg9ctawighFUhKHGY7p7rKBsDqmh8LhnqvyYFIuQF1RtLGH76/dKwQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760597760; c=relaxed/simple;
-	bh=0QB5o0ZzK6+Z8e6WXa4H1+B0YH3u88s9yMKrkAq5OWo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=L+/aWGbnD4g/9dSVtkbtOb5ig+pJIyAZRSPHZd/zMrQ2SXA9JFErl5g2F1Bjs6oAVeBaWcanj88fN7DPBJ0pnqO+kgteAk9JTZ0tOU4gdZ4Tyk0I2X36XWVk67LcQ+Zg1Gb5FZ9yINkd2wWFq087BoIGHJe+91EZFsXZwlFSprE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MdwKS7WO; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5C32F7463;
+	Thu, 16 Oct 2025 07:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760598572; cv=none; b=g/6zAx+0IVeYSFFP4w1CrK36bC9TTAgWVL9zrWlq3uOT9O1ZB90FiMGBGVotg7k4TZYKtX50ESjDWmX3hjBpGzdL1qiJH0vkjjfBCmTS2G18VfFK2fbHZOxVK3u97T8P5SxIVz+tpV9+OQO2g5wIAMhbWpofH2YL5ohgtIPXC6Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760598572; c=relaxed/simple;
+	bh=wn0XYjgDUo7meinqB6BVytuKFbpuX7M+TXDWRXqZTFE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MoYXoyFNTMe5I2HvkdUiOWC+UMDEirou38PqByjH12IIpHJ8ODCpmU06paKkaW813WIinvn2L6Njv8CmkIgkc4ZtuNBzhqZLt98gdXMd/g1eQAI6MeIUu3KsPQEg+7+wP8WywT90nbpW0Ylp2jk/ebSkIIuqolbx0mvas9ciycE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fpKLHuCK; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdwKS7WO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760597759; x=1792133759;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=0QB5o0ZzK6+Z8e6WXa4H1+B0YH3u88s9yMKrkAq5OWo=;
-  b=MdwKS7WOLE//e4AjEu/tIAp7AkWKmuVwGPPyjuCbVWWVZhHDrJvnDhRA
-   7AnB2UwtQ5Qw+yXHaqvG+16KaF1pVP+PZ9MLviOEgRl+muPZYLQ/OBHGe
-   5yExBMRcruI7D9MylUVwrQ1zrUOejrgATl0cJWa89UPZp3RRCyf49SjVO
-   Sl1hHwsuf7bpPoQHlydsI26VrwFuE0XhHHAL1+sFBQA12dR/px4FK16yA
-   a7jtGQppxFK9PkrjUSpU9pmo8IIxD64XBlnV1NzAZL1bXefJTK6WcwxvU
-   B+ObhEU4X1K/TvvoMJaKniO2NXcphmTNGNJdoDS4bFtaw7tNdphfdlv5R
-   A==;
-X-CSE-ConnectionGUID: waPDF8AyTwWRLsmKSFukkQ==
-X-CSE-MsgGUID: IelIHFsmTzy34AcsUjSEUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62712720"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62712720"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 23:55:59 -0700
-X-CSE-ConnectionGUID: tqu2VVjqQdm3F/VOliEy/Q==
-X-CSE-MsgGUID: 6NsogB7lRkS8RMqTrliJ2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="186776770"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 23:55:58 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 15 Oct 2025 23:55:58 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 15 Oct 2025 23:55:58 -0700
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.47) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 15 Oct 2025 23:55:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FmphrvAOpPcGvEeyzp19ERnfQ+H0fGkGMf0ow5hqN6WFg9I2npKdLxgjbbZq1752fK4KYhvGFLUUsHDhlIhgPRGJBmjHPTHPxu+9MdDdBW7GNnHu4j1VdZM74Ir110VCGLjBrWSF/UXtCNAAVlhWwxGgISsxC4nlSGd6JxEv680qs+hPOJUSC4Ctg5TOkZuH3q/kQKG3CzNsqL/Mxhx/vwYu0ySzSn4aRutvCMhuo+s1nvJij4DVE3mAw+j2a7sDM63QupW9SDj6Cg31idDOITmvBJZa1hsS6ojnSToWGileLII00L20NzZnP+jUpQptFrXrIFTmnJRKZU/55beOVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5/Y1/DqxEYn5nIYFyruTyiD6BKvQuWz14YIIBM9pAZ0=;
- b=KxJPL4EI8ZlKJ2DIn3g7/sf/o3AdJEzJgtwqrzLPQaNec3oGUL2/lVFiGFZsuPv0Yew4jYozZO+u5xzuxfdncXUs6ZGndl5th4PLfP1MCloXAvAVbynoX8c6Gw/AiudFNNfzeZzmK7btIthy7eeQMgXdH4t+G5PlMJFsuo00STCzn1tMuT/0v5miv78IHflT6+N7jXXEcnr6PFckewVJj9EnEQ87g83SvQ+9ZqKx6u9sr36hvwbxT//bC4HRJaAqnLOZV2eiFjxWVOoNjoFVhFJUsZuWlx412Wla2zaaKvSMPEMGjcghkN6AlKOE/qUqg16lJZ386ezrmbRAVAnAEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by SN7PR11MB8261.namprd11.prod.outlook.com (2603:10b6:806:26f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
- 2025 06:55:55 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
- 06:55:55 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>
-CC: Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v6 15/15] iommupt: Add a kunit test for the IOMMU
- implementation
-Thread-Topic: [PATCH v6 15/15] iommupt: Add a kunit test for the IOMMU
- implementation
-Thread-Index: AQHcN6UvPQ3cjMoOUkGzo3qunDKEGbTEZHvA
-Date: Thu, 16 Oct 2025 06:55:55 +0000
-Message-ID: <BN9PR11MB52762A0DD0AAD658EE57D3A98CE9A@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <0-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
- <15-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
-In-Reply-To: <15-v6-0fb54a1d9850+36b-iommu_pt_jgg@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SN7PR11MB8261:EE_
-x-ms-office365-filtering-correlation-id: d0c11b6b-9aed-4685-ad79-08de0c810db9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700021|921020;
-x-microsoft-antispam-message-info: =?us-ascii?Q?OhulDxyAudvm9vDTBr8xEsxIssdZHRrl0ObUNhDskTCMNY11n4GdWZHyLPh9?=
- =?us-ascii?Q?TossmeVBQF2fC3Se9tzy4O+9oVjMohn4LRYB7DLKMZgG8f75OQuHZtJ1g60R?=
- =?us-ascii?Q?M9W9inrtq9iwLvSwJ9crAqaBUuqn16DvPayESkrgjfP2tfXJaYCo79N7beiB?=
- =?us-ascii?Q?6wJgc5eJpPgZ8Paxo3wFbeU2Y8sAv3lOSENnOyWoxJdy8amJjzeb0eDUgy44?=
- =?us-ascii?Q?XVgJWfA2m/36fGugO0j7R11oxpyE8f1q6mISpACAl6XWoqsQJpu5JOPbcDV9?=
- =?us-ascii?Q?KqhXC6XYuey1giEE8Xv2AnNns5k9vHzlKoiBakOod9k9z3j3rY8qxTprfw63?=
- =?us-ascii?Q?/JfChlXPxv32Cot+NhHAprjEHPrb0mp9CUt7KudUKV0Xp6Hn2JaHLe/VJ/rO?=
- =?us-ascii?Q?f1V5ObDYuazBdq9bQkXF/2EtYmXDyNVWm92ek5tdsab39XIOuBIbXVt+T+e+?=
- =?us-ascii?Q?i0Ap7w/jWV8ktw/OD4dFC6GcodhklMz/TKv0/tTaVfB9ed6UddEZLKrVV5wH?=
- =?us-ascii?Q?eBrEb2ofDajFE8T0SaGHqi4cJZgg1kiiF1fBAWXz7IUNWcvpEyiLXj1CI7DH?=
- =?us-ascii?Q?cuannvl9otI4iY53RUELPw8H0b1hqoDvjluqltIxb6OLdMibFmEHaR6pbW8R?=
- =?us-ascii?Q?Eipo9yqBFikaIouk0V4rttdqhC8OvoTRWTM2FuFlKnaMdnCQnhd0mMgmswrg?=
- =?us-ascii?Q?b1kc3wGb5uG9ugUJJuSpAXsiuLcsYSG1xKCZqHdMlsxE2ah2fwKatzabVW8v?=
- =?us-ascii?Q?0AitVfaKOLXlgu7e6oXIeE7ZM7kY2HGs6Y7eh+GJZO8wzbfQNR8SEMIqiEXK?=
- =?us-ascii?Q?McCsODnHyEShdmNWGyZwd4dsHxM3CfVcydxSB9PQzFk8Fuh3hPJvmYB5jVs3?=
- =?us-ascii?Q?XVkM4NuOVNxC5UxUXwNDoNACnfg53kJj6VIsNocmp4o2mmlkfZ/C8Wgpj3xc?=
- =?us-ascii?Q?hN1scqElbNkIygnP9vWFNXIMDgEk9a8HQcxsXCJlskteN4VWAmM/G6oAwTKI?=
- =?us-ascii?Q?hqXa2N8ubhrZFawzobxNL7PbD8yAt27eEQxm4Bo1Kc0ziSxOsx+GV+nleWh2?=
- =?us-ascii?Q?dwstQG6/szQ0ha+QR95WtcG8dsAPTyZOmC80LZXT+97N1Od5ns4mHbwBGxD9?=
- =?us-ascii?Q?D0NF9YISU9DZ7oJPTY0br0z0jFxlbbnccI9dOuRE0KpN7eCIxBJ1g0IzuJcJ?=
- =?us-ascii?Q?6VFxeUTyj3z03MycP0eyPA11wpMqLed7P6Pyt3TwmhT1yL0swYgtNE+9KpPa?=
- =?us-ascii?Q?kJJdx7hj38IGp0e3gjOR+JhPH4WetbIhU0iAeZiaDfd5JAATMsiyffZH2N0l?=
- =?us-ascii?Q?aoOYQY47nNV9ubx1sYG81TX0h7Y4akSTlnFcGU4+LrJKQm8PDq7niDLwJ1pU?=
- =?us-ascii?Q?BbhGmlE2gtBXYe5RQqGXwzx5OSclUsvuKfKJT4khWkG7ozBl9Cyv+ZYAczSF?=
- =?us-ascii?Q?pIvzUklFevBRwmWE/IbGeR5Pij9KVJfplshOh9nWpeam7XIE0WhWJviprNoF?=
- =?us-ascii?Q?6/PR+zdaRtSJQ/JYM0OYj/gBvRuIb0jLNZQ5veEklddKS2tam/mpPZZvKw?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oBhqRiXzOI2XmCselQEr7FMQC0EnUiUxaVi4tBkN+Rlg3FBgqmip9I0+IZ/T?=
- =?us-ascii?Q?6JD83dKcIoU+lpmy5WXoocqowM2X+i6S6P79FhyaNwBalDQPq49WTwYH2d8t?=
- =?us-ascii?Q?wQ7bc6S+lg0MIpSbH9bujKg+deUqCyofUoQy+TfKfrZGIkT4rdWXzEIekOW8?=
- =?us-ascii?Q?vP3ViAgx+vg4VxE2+59ci4uS5+cknMk52T73kk/uDZ0RkwTB4B6FB8slGL6b?=
- =?us-ascii?Q?uQhkj3FNg7m/928D6qEEsbxBTNaStwQRVPwso895V0NgOqfOz5PyyFYRKEt9?=
- =?us-ascii?Q?sqxfemCXIEXYwUT+7CHI7nyd8C3e9hR9OEGE6CJ8Q2gVIYszh33m0htn3dmC?=
- =?us-ascii?Q?/0W1wOBTNLp6mXTNqx3lwzZOwUlsKgF6oHL+gH+pcvkRYlEvGo8Y6+s/eBuP?=
- =?us-ascii?Q?viEigjh0N3qxEe67FdW7tmrmoDJG0nK6UwnJGkoMW3o2ekRiFc5WjCNH+FqZ?=
- =?us-ascii?Q?32Bw8lzRqdSc/ug2TiggqjellEToIKQYsPeaabzdj199QWR8s77NIMsD18Sk?=
- =?us-ascii?Q?rDueRfjs8qqvuox8HeTPErxqjjtBe0BVgdO2Gq/LiCBF343TTl5mu1R07ilF?=
- =?us-ascii?Q?ra7M3XufQ//GOkkPaooU9Q4Kts9523Xc0hOeMcc7TgbufNu9DcNeVADzDE8J?=
- =?us-ascii?Q?Xy1+otWtnNAphQ5lt89Rv7mi1LNgCkhAkYHU5eqsjTHJiCRSnlN2M9M6XZ+x?=
- =?us-ascii?Q?jDYAw9HsMeoEqvUjs/HHiC4c1TQWf7PNXCWyTo6PfRM/r+gPzQwqMONDAVSI?=
- =?us-ascii?Q?mtA/xQFeDU1drYVMNCTW3pU6pqVt+rtBd3+TP4cPnutonTO1BMQFNWiAClgG?=
- =?us-ascii?Q?W36AV2XQVJnDH7iUhRIaibPi1kHhsUieJBdawvEsH9/jRTSbzmovTR3gZh+u?=
- =?us-ascii?Q?DewB/zBGouEH1cgqTGUtcg/lQRJnlWlB4DyQHnyy05ik3qSqc+KwtkYzOfx1?=
- =?us-ascii?Q?Nug0+cJiVEj26/UaJv3pxUPmvRQUUIfKeOfxGUu5L4mocqfEg6FQ780JF+Ls?=
- =?us-ascii?Q?Rnsw5odnnBOrpEgVf0V3I+OTm4v4u0cjeo1Mbn0xkaZvnJ2Y1DDI9HSWb+sq?=
- =?us-ascii?Q?fr0foQXWYabvhSUfWgwHRpJhDGjrK1wASNhzRge9WjApShFn92o8JekH2GGP?=
- =?us-ascii?Q?+skchPi6tgjrcfFwPxVrp6pLUj0uLVvju8RLzJT9OHTCkYydXoaIiyVexPRN?=
- =?us-ascii?Q?fSl4HBUzrUaors4sZDKEZo4NQ+YYShgkq/mnLpLOisf2RO/k4icNsDV5lPCG?=
- =?us-ascii?Q?WKKxfudOfgEBJX4G1hsfPxu/SEsDU9tyAimOv21ingtypdYwynaHTuYDrCkL?=
- =?us-ascii?Q?jynpQhDtBaVgUHRtL+cCaqsfn/8R163o0o8Y44cO1fYtAmRIADNNFD9lSAg5?=
- =?us-ascii?Q?E3GGKtR+p/Wo4iY03SlIB7TmEV5hEx5vwNyR/LNWECOL71ZdgvaTefamXXsY?=
- =?us-ascii?Q?SqP7s2+Xv+zRK7c88wp1k47jHd5MKKXD4nLwI817wNhVCBOv4fIPuYR9KmeZ?=
- =?us-ascii?Q?y0wnaTvBeOFeyndfkfRQBmtL9WrsOR9uXs+fkRSuTXKhkeU6wooyFaTs+TvJ?=
- =?us-ascii?Q?GX/ZvxLLOkcAt56157ds72TE6fekySMWjALGxlxo?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fpKLHuCK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760598567;
+	bh=wn0XYjgDUo7meinqB6BVytuKFbpuX7M+TXDWRXqZTFE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fpKLHuCK3bPwex9k7zImSkr4e9sRbUoIKgvaRTS2zY2K5gDqgUytx6A8FGQlm710A
+	 9SpZ6cjecVW/vuaLXncA26yveOEUYMMEx94CVPrNL9QZ2iyJAW/xdt3WmUwFfmukZd
+	 PxqXaM882ixQmb2SWB/X3gRHgJE3IpHedCsrjNy6/QR9J5t6xeBTsDfMhwFrJMsowQ
+	 MAmFsdt9SduJLiwvOmE3UQCTec7G9XeStuEZjBMz9gXqGQICDjDswvdPAsVn/A9Eg6
+	 E/iqNFK3EgTBX1vFeEpzqEt6KXi6WSwsq2EA4/wfRdmHN+wG+1JcRxqYGSJNS5C465
+	 CaYbz1cB1MdNg==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DD4AA17E12BA;
+	Thu, 16 Oct 2025 09:09:26 +0200 (CEST)
+Message-ID: <02c8447d-25fc-4503-873f-0b2932e218ec@collabora.com>
+Date: Thu, 16 Oct 2025 09:09:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0c11b6b-9aed-4685-ad79-08de0c810db9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2025 06:55:55.3539
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hBt4cjP/wPCFLAXu9ePfcCjqj9d3k7vdIVgmxclhdz84IAcWDU+zotDtllgI5+8hR6NifsPeRhmVXXUoeERwmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8261
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/13] drm/v3d: Fix builds with
+ CONFIG_TRANSPARENT_HUGEPAGE=n
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-9-loic.molinari@collabora.com>
+ <20251015201737.3956f801@fedora>
+ <efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+ <20251016075637.3aec3465@fedora>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <20251016075637.3aec3465@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Wednesday, October 8, 2025 12:12 AM
->=20
-> This intends to have high coverage of the page table format functions and
-> the IOMMU implementation itself, exercising the various corner cases.
->=20
-> The kunit tests can be run in the kunit framework, using commands like:
->=20
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_arm64 --arch arm=
-64 -
-> -make_options LLVM=3D-19 --
-> kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_uml --
-> kunitconfig ./drivers/iommu/generic_pt/.kunitconfig --kconfig_add
-> CONFIG_WERROR=3Dn --kconfig_add
-> CONFIG_UML_PCI_OVER_VIRTIO_DEVICE_ID=3D100
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_x86_64 --arch x8=
-6_64
-> --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_i386 --arch i386=
- --
-> kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_i386pae --arch i=
-386 --
-> kunitconfig ./drivers/iommu/generic_pt/.kunitconfig --kconfig_add
-> CONFIG_X86_PAE=3Dy
->=20
-> There are several interesting corner cases on the 32 bit platforms that
-> need checking.
->=20
-> Like the generic tests, these are run on the format's configuration list
-> using kunit "params". This also checks the core iommu parts of the page
-> table code as it enters the logic through a mock iommu_domain.
->=20
-> The following are checked:
->  - PT_FEAT_DYNAMIC_TOP properly adds levels one by one
->  - Every page size can be iommu_map()'d, and mapping creates that size
->  - iommu_iova_to_phys() works with every page size
->  - Test converting OA -> non present -> OA when the two OAs overlap and
->    free table levels
->  - Test that unmap stops at holes, unmap doesn't split, and unmap returns
->    the right values for partial unmap requests
->  - Randomly map/unmap. Checks map with random sizes, that map fails
-> when
->    hitting collisions doing nothing, unmap/map with random intersections =
-and
->    full unmap of random sizes. Also checks iommu_iova_to_phys() with
-> random
->    sizes
->  - Check for memory leaks by monitoring NR_SECONDARY_PAGETABLE
->=20
-> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Hi Boris,
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+On 16/10/2025 07:56, Boris Brezillon wrote:
+> On Wed, 15 Oct 2025 22:41:59 +0200
+> Loïc Molinari <loic.molinari@collabora.com> wrote:
+> 
+>> On 15/10/2025 20:17, Boris Brezillon wrote:
+>>> On Wed, 15 Oct 2025 17:30:12 +0200
+>>> Loïc Molinari <loic.molinari@collabora.com> wrote:
+>>>    
+>>>> Don't declare "super_pages" on builds with CONFIG_TRANSPARENT_HUGEPAGE
+>>>> disabled to prevent build error:
+>>>>
+>>>> ERROR: modpost: "super_pages" [drivers/gpu/drm/v3d/v3d.ko] undefined!
+>>>
+>>> I believe this is a bug introduced by the previous commit: the
+>>> compiler probably drops any code between the
+>>> IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) check and the err label
+>>> because IS_ENABLED() evaluates to false at compile time. So I'd squash
+>>> those changes in the previous commit.
+>>
+>> Right, it's been introduced in previous commit.
+>>
+>>>   
+>>>>
+>>>> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+>>>> ---
+>>>>    drivers/gpu/drm/v3d/v3d_drv.h | 2 ++
+>>>>    drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
+>>>>    2 files changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> index 99a39329bb85..481502104391 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> @@ -564,7 +564,9 @@ extern const struct dma_fence_ops v3d_fence_ops;
+>>>>    struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q);
+>>>>    
+>>>>    /* v3d_gem.c */
+>>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>>>    extern bool super_pages;
+>>>> +#endif
+>>>>    int v3d_gem_init(struct drm_device *dev);
+>>>>    void v3d_gem_destroy(struct drm_device *dev);
+>>>>    void v3d_reset_sms(struct v3d_dev *v3d);
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+>>>> index 635ff0fabe7e..0039063eb8b2 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>>>> @@ -269,7 +269,9 @@ v3d_huge_mnt_init(struct v3d_dev *v3d)
+>>>>    	 * match our usecase.
+>>>>    	 */
+>>>>    
+>>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>>>    	if (super_pages)
+>>>> +#endif
+>>>>    		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+>>>
+>>> Why not
+>>>
+>>> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>>     	if (super_pages)
+>>>     		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+>>> #endif
+>>>
+>>> I guess
+>>>
+>>> 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+>>> 		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+>>>
+>>> would also do, since it's likely to rely on the same optimization the
+>>> previous v3d_gemfs_init() implementation was relying on, but it's
+>>> fragile (not sure what happens when compiled with -O0).
+>>
+>> I'll remove the #ifdef/#endif around the super_pages declaration in
+>> v3d_drv.h because it isn't necessary if super_pages is compiled out in
+>> v3d_huge_mnt_init().
+>>
+>> In v3d_huge_mnt_init(), I'd add the #ifdef before the ret variable
+>> declaration and the #endif right after the last else so that it's clear
+>> drm_notice("THP is recommended...") is called unconditionally when
+>> CONFIG_TRANSPARENT_HUGEPAGE=n, whatever the optim level. What do you think?
+> 
+> First off, I'm not a huge fan of the following pattern
+> 
+> #if foo
+> 	if (xxxx)
+> #endif
+> 		do_something
+> 
+> which also applies to
+> 
+> #if foo
+> 	if (xxxx)
+> 		do_xxx
+> 	else if (yyy)
+> 		do_yyy
+> 	else
+> #endif
+> 		do_something
+> 
+> I'd rather have do_something duplicated in an #else section
+> like that:
+> 
+> #if foo
+> 	if (xxxx)
+> 		do_xxx
+> 	else if (yyy)
+> 		do_yyy
+> 	else
+> 		do_something
+> #else
+> 	do_something
+> #endif
+> 
+> But I'm not even seeing what the problem is here. If you do:
+> 
+> 	int err = 0;
+> 
+> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>      	if (super_pages)
+>      		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> #endif
+> 
+> 	if (v3d->drm.huge_mnt)
+> 		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+> 	else if (err)
+> 		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n", err);
+> 	else
+> 		drm_notice(&v3d->drm,
+> 			   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
+> 
+> You're guaranteed that err=0 and v3d->drm.huge_mnt=NULL when
+> CONFIG_TRANSPARENT_HUGEPAGE=n, so the "THP recommended"
+> message should be displayed unconditionally. Am I missing
+> something?
+
+It doesn't really matter here but I just thought it would be cleaner to 
+explicitly let just the drm_notice() because the compiler doesn't know 
+v3d->drm.huge_mnt is always NULL here and would emit a branch in 
+CONFIG_TRANSPARENT_HUGEPAGE=n builds. I know your dislike for this 
+pattern now, so I will stick to the suggestion :)
+
+Loïc
