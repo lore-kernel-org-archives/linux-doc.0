@@ -1,50 +1,50 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635852D374F
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DAA343201
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760626025; cv=none; b=K8iPkPVcVIrQ9Vr9wSFecpmG5WkFwLbz3DGiXIP/BSxfGrABy5kM+lcqKr5I2jzP6mHYxjQG8KVCi+4W1ZM3hhSZXKed0K72Izm8UOxDeQffG/tPD/472/2osOLOAOq4EIjsvsQsgil5WiEyY6lwWZ2vsL9R8NiwVT/BjFQkDAs=
+	t=1760626026; cv=none; b=MS41uKSA3PHcq1CPFkpDPPqcwSxay4KBYYVNWRXpZTL3JL6jumuDU6KQ6feMNpxN6ms7mA5Z5pOqBFiNpmB7s9W98hpQkmnvOuS5c4IHinFTvQY2QtfHyPKgMUn4xytCNH+i0W9XHmYPteGGeYteDu+Tcf6j1xSbk+1xa7l8sHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760626025; c=relaxed/simple;
-	bh=udG4u+C2ZRYoWfcR0oorTmw5eUGfOQlVhzCX6e7sXHQ=;
+	s=arc-20240116; t=1760626026; c=relaxed/simple;
+	bh=BtawZQfHc3r94zhdPsLAO1Sny98T6rBbY+VgVvkTtNI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=akKqfefMZrse/Fz+fCFTBpxZKAZFHONu3nBgiGZYUyj54ojECxjo/1Bh5lkoBGU4y5HVTDXd7UDp+oas2Wsn4cZcvqqyGJDRGHmZUw3+fBmLZnbhp3KWh7DZrVetV5cH7ATjTsjS+iGf7qu1rexTFdbUOO2EmFD9W5h2kY+pajI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.170
+	 MIME-Version; b=E1PxyAt+xFnyNT7te2DqyAWsreHa751z1X4CDVN/ZaLyUU9XlrLbD4WL/d0l/DI6nBjiNHOlVIWuyhTsj08W5L972icrTFVbdqT6A6Z4vUZWC/QojncL2re8eBBA9IB8LZXMHjr9yWjEaMZ+2iSKv8LApY80cCr2lNK76RnGiGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=yonch.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-43f86ddb3f4so286375b6e.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:47:03 -0700 (PDT)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7c278c25aefso417098a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:47:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760626022; x=1761230822;
+        d=1e100.net; s=20230601; t=1760626023; x=1761230823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oBHn6CsGRDAUCK2Z49Yacln3ofSUz8trsXQy6V4TvmY=;
-        b=HEVKXoRnTpC7BLw9cB1HHdSB3upWqOCw8w9DX5AHivyDxR/RXgHlh1QrnLOIzeKnXI
-         DXRC6l7j2XxV0KjjnTHdU3ttbBzRxyWnl4FV/8Edv9OGEfCFJwGKEfVYSzgwTTfeHflL
-         DwjJWCtTVBDjyCoY/Bb9Kw6yvk8KgpeE7eeSDH1wud+ISeZ6SsU6blAMKPry6Q2YZVIv
-         07e7z9+4A+w1UsvS63GO/jqtXAN5SILbsHIqE52hMsMyudEzbAoeSq/D0mLO/bs17aDg
-         oI589Ik+gtVVLN61nU9qslPeUnVll3+QGs2iVabmOgyIBNxLdbSh1Cf4g38qgQgULKbj
-         h+TA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZujt04GIzPMgkRy6uBqDmLMurluc63xQTy4nB/r+r5gh5Kms9G4w6vdGKEivZ/yBMwOQh88E1B6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQi9mTbSsPYH4ajwAXIIqpASDqErVLJrqzhFulCJQBV4XCHPQ+
-	DIwSobb6EFpNhTmSX8oB7eZbHB9IzjgKCNEDn8j37+cx9HHu9yjUGmlt
-X-Gm-Gg: ASbGnctgVwAyGin3gDHZkEEt+RMAsU2YuxFqUScGpC4gGkzGYl/hvmftHFVKyX6/l8b
-	u4ivixYetCDkjBfj/FakD7IfG7gT4Q/e1AuwjZv/znDIuc0ezGP3vQLt/Cd3H79WMyiDAv8vC4Z
-	V7xiLi1aCB3fYdFPXL02Phnv/JdoSrDLWPkagBcWRa/O7jEUQ3zX//Sr7B+KZNGdfnjy+2OdyqX
-	pUQpLF13KAPZl3w/OLTrR9OiUOvuApMbivHs0TDNzbt7Sd5SNAeZagu8UW43RssOmw16qrpitLl
-	KoVWE+47cBLfIhoRes3CfKfIQ6KfECfUyYDdZaWi3HpFZg/h7c+3vrjymgw6ddN8vbLwMgcW/wG
-	cuBDL4TKN+Qg93Bzcll3XtXeU0t3qTUS8LqUn2eD5dQ9Y8jJJVoh4RzpdpUGkAKxc0QFG9/1w+6
-	FvXbUSViyKbxsTPOejXKaw+F5XYTMttEZzcqHEQG27sWrGb4IrNlNoB+79P63rBYqfMSY=
-X-Google-Smtp-Source: AGHT+IFDXse00m2TWPZi7Thsyfiz1q30tLZZikOylS+Gewam/P4dv7Cstc52U+FEl+CdZhH12tCOWg==
-X-Received: by 2002:a05:6808:1514:b0:43f:6f82:e16f with SMTP id 5614622812f47-443a2dd8597mr136457b6e.12.1760626022395;
-        Thu, 16 Oct 2025 07:47:02 -0700 (PDT)
+        bh=/EHCgPHyfakU523tKXhaAbUatgQF6sU/svILEddytVE=;
+        b=JEk9dfuOQM2cb0H5pN0IrThUVJYs6mINWPRKJ5OWf/v8x8Z3PZN5Tq4CJW7dNANpQf
+         Cx+u7bcHN0VFtbzGOcsvDHSnJgCX/q5nrl2zkRR5cUM/cfB+T6giZxlqz9EAHq1IJAcZ
+         Sus0DPH7oZ7p4AKV23MWo4MtmUzsYy8bDknnky+gSjbZCr2AsWomT01fSmm5ET1Ow8O/
+         cbk+asIiabAmEjU5XNkwB4wcFKMYddRy4e7Dw0jq3dt2dhucsfO9zymTLftxchFYBUFl
+         QAmz8/zg3nykayLXoe733LeSTrpP+S0mPMAJB/BWErfoE2/BqkKW4SXFHjumVr2HfCwL
+         w4nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhGlrsIa3N02XIiJCZTzJUO4PfA+MIgPUqVtWIG2d/cAGUIwVGu8dgPL1+5vkhUFyxV5i6oFqNGw0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwNY9gCsl63zz3cUuQVDWv7CW7/XJasYMvmNn3AjHnbX7PdwEb
+	FKhxxLfc2AovMxjxv3PAddy0LMW8HzTr4mxfrM6jS/LmQrFgJvd7le/f
+X-Gm-Gg: ASbGncvZgWfccXY0XL/3IpT7JMN9w8Y0PLRVKl4ubJk9iqtIsxPct0hm64OzdbjNq12
+	BC9BN2HnvCZf5iDaGfHAPiqEGH6v/zw+peS2JwhJMAyvEKJQjCJgop6jkSJ9vjdNXWB5cJTfikj
+	rdAs0EaA8FBhIbOc2aTAcdQckzeMSndEPA2I9WywHt/mxLOvpIQR4iKohp/Z96J3pYlfxtR4ViQ
+	YByZrQHmX+4uwF1sUlyupmasAIjkED0OfUh95DOKy510WjUqIE7cu///ObIg+Cw5obtVWEl94/1
+	Ux6yTCxf+qhiDJ0KvEzZt4rrzErMCbYU5DxT626miDiKZjI97PaS0A9GrhkghECcb2XwvZkH8aJ
+	5oEZLlVgvbT83w8NGK8pVJnF++42iZxJvCi4hBUI8ky9pgMyYTG42l+SUQfsDy1FmGh4Tv59POw
+	SBEUJdFCdbey4ppS3ddPJxR4wFJ6F0I5ozM8RXH/OL3N4TRxMnJymlPbsW
+X-Google-Smtp-Source: AGHT+IFaoc5h662tQMy3sYuAt7P7VYvJhJI8+JkPL9/LadjSZTqNRwdw+T5zs/QxcPeMC09gOumcZw==
+X-Received: by 2002:a05:6808:250a:b0:441:c9c5:b76d with SMTP id 5614622812f47-443a2e63051mr110288b6e.28.1760626023486;
+        Thu, 16 Oct 2025 07:47:03 -0700 (PDT)
 Received: from localhost.localdomain (syn-067-079-108-173.biz.spectrum.com. [67.79.108.173])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-441cc812f24sm3678018b6e.12.2025.10.16.07.47.01
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-441cc812f24sm3678018b6e.12.2025.10.16.07.47.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 16 Oct 2025 07:47:02 -0700 (PDT)
+        Thu, 16 Oct 2025 07:47:03 -0700 (PDT)
 From: Jonathan Perry <yonch@yonch.com>
 To: Tony Luck <tony.luck@intel.com>,
 	Reinette Chatre <reinette.chatre@intel.com>,
@@ -55,9 +55,9 @@ Cc: linux-kselftest@vger.kernel.org,
 	James Morse <james.morse@arm.com>,
 	Roman Storozhenko <romeusmeister@gmail.com>,
 	Jonathan Perry <yonch@yonch.com>
-Subject: [PATCH 1/8] resctrl: Pin rdtgroup for mon_data file lifetime
-Date: Thu, 16 Oct 2025 09:46:49 -0500
-Message-ID: <20251016144656.74928-2-yonch@yonch.com>
+Subject: [PATCH 2/8] resctrl/mon: Split RMID read init from execution
+Date: Thu, 16 Oct 2025 09:46:50 -0500
+Message-ID: <20251016144656.74928-3-yonch@yonch.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20251016144656.74928-1-yonch@yonch.com>
 References: <20251016144656.74928-1-yonch@yonch.com>
@@ -69,133 +69,136 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add .open and .release handlers to mon_data kernfs files so a
-monitoring file holds a reference to its rdtgroup for the file's
-lifetime. Store the rdtgroup in of->priv on open and drop it on
-release. Provide rdtgroup_get()/rdtgroup_put() helpers.
+Introduce rmid_read_init() to fill struct rmid_read (resource, domain,
+rdtgroup, event id, flags, ci). Change mon_event_read() to accept a
+prepared rmid_read and a CPU mask.
 
-This lets code that only has an open monitoring fd (e.g. the resctrl
-PMU event_init path) safely resolve the rdtgroup without having a
-kernfs active reference.
+Update callers to use rmid_read_init() + mon_event_read().
+
+This prepares reuse from contexts that pre-select the CPU (e.g. the
+perf PMU) without duplicating initialization logic.
 
 No functional change intended.
 
 Signed-off-by: Jonathan Perry <yonch@yonch.com>
 ---
- fs/resctrl/internal.h |  2 ++
- fs/resctrl/rdtgroup.c | 62 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
+ fs/resctrl/ctrlmondata.c | 40 ++++++++++++++++++++++------------------
+ fs/resctrl/internal.h    |  5 +++--
+ fs/resctrl/rdtgroup.c    |  6 ++++--
+ 3 files changed, 29 insertions(+), 22 deletions(-)
 
+diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+index 0d0ef54fc4de..82f8ad2b3053 100644
+--- a/fs/resctrl/ctrlmondata.c
++++ b/fs/resctrl/ctrlmondata.c
+@@ -546,28 +546,31 @@ struct rdt_domain_hdr *resctrl_find_domain(struct list_head *h, int id,
+ 	return NULL;
+ }
+ 
+-void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
++void rmid_read_init(struct rmid_read *rr, struct rdt_resource *r,
+ 		    struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
+-		    cpumask_t *cpumask, int evtid, int first)
++		    int evtid, int first, struct cacheinfo *ci)
+ {
+-	int cpu;
+-
+-	/* When picking a CPU from cpu_mask, ensure it can't race with cpuhp */
+-	lockdep_assert_cpus_held();
+-
+-	/*
+-	 * Setup the parameters to pass to mon_event_count() to read the data.
+-	 */
++	memset(rr, 0, sizeof(*rr));
+ 	rr->rgrp = rdtgrp;
+ 	rr->evtid = evtid;
+ 	rr->r = r;
+ 	rr->d = d;
+ 	rr->first = first;
++	rr->ci = ci;
+ 	if (resctrl_arch_mbm_cntr_assign_enabled(r) &&
+-	    resctrl_is_mbm_event(evtid)) {
++	    resctrl_is_mbm_event(evtid))
+ 		rr->is_mbm_cntr = true;
+-	} else {
+-		rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, evtid);
++}
++
++void mon_event_read(struct rmid_read *rr, cpumask_t *cpumask)
++{
++	int cpu;
++
++	/* When picking a CPU from cpu_mask, ensure it can't race with cpuhp */
++	lockdep_assert_cpus_held();
++
++	if (!rr->is_mbm_cntr) {
++		rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr->r, rr->evtid);
+ 		if (IS_ERR(rr->arch_mon_ctx)) {
+ 			rr->err = -EINVAL;
+ 			return;
+@@ -588,7 +591,7 @@ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+ 		smp_call_on_cpu(cpu, smp_mon_event_count, rr, false);
+ 
+ 	if (rr->arch_mon_ctx)
+-		resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
++		resctrl_arch_mon_ctx_free(rr->r, rr->evtid, rr->arch_mon_ctx);
+ }
+ 
+ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
+@@ -635,9 +638,9 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
+ 				ci = get_cpu_cacheinfo_level(cpu, RESCTRL_L3_CACHE);
+ 				if (!ci)
+ 					continue;
+-				rr.ci = ci;
+-				mon_event_read(&rr, r, NULL, rdtgrp,
+-					       &ci->shared_cpu_map, evtid, false);
++				rmid_read_init(&rr, r, NULL, rdtgrp,
++					       evtid, false, ci);
++				mon_event_read(&rr, &ci->shared_cpu_map);
+ 				goto checkresult;
+ 			}
+ 		}
+@@ -654,7 +657,8 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
+ 			goto out;
+ 		}
+ 		d = container_of(hdr, struct rdt_mon_domain, hdr);
+-		mon_event_read(&rr, r, d, rdtgrp, &d->hdr.cpu_mask, evtid, false);
++		rmid_read_init(&rr, r, d, rdtgrp, evtid, false, NULL);
++		mon_event_read(&rr, &d->hdr.cpu_mask);
+ 	}
+ 
+ checkresult:
 diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index cf1fd82dc5a9..63fb4d6c21a7 100644
+index 63fb4d6c21a7..dcc0b7bea3ac 100644
 --- a/fs/resctrl/internal.h
 +++ b/fs/resctrl/internal.h
-@@ -360,6 +360,8 @@ void resctrl_mon_resource_exit(void);
- void mon_event_count(void *info);
+@@ -363,9 +363,10 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg);
+ int rdtgroup_mondata_open(struct kernfs_open_file *of);
+ void rdtgroup_mondata_release(struct kernfs_open_file *of);
  
- int rdtgroup_mondata_show(struct seq_file *m, void *arg);
-+int rdtgroup_mondata_open(struct kernfs_open_file *of);
-+void rdtgroup_mondata_release(struct kernfs_open_file *of);
- 
- void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+-void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
++void rmid_read_init(struct rmid_read *rr, struct rdt_resource *r,
  		    struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
+-		    cpumask_t *cpumask, int evtid, int first);
++		    int evtid, int first, struct cacheinfo *ci);
++void mon_event_read(struct rmid_read *rr, cpumask_t *cpumask);
+ 
+ int resctrl_mon_resource_init(void);
+ 
 diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 0320360cd7a6..17b61dcfad07 100644
+index 17b61dcfad07..34337abe5345 100644
 --- a/fs/resctrl/rdtgroup.c
 +++ b/fs/resctrl/rdtgroup.c
-@@ -332,6 +332,8 @@ static const struct kernfs_ops rdtgroup_kf_single_ops = {
- static const struct kernfs_ops kf_mondata_ops = {
- 	.atomic_write_len	= PAGE_SIZE,
- 	.seq_show		= rdtgroup_mondata_show,
-+	.open			= rdtgroup_mondata_open,
-+	.release		= rdtgroup_mondata_release,
- };
+@@ -3235,8 +3235,10 @@ static int mon_add_all_files(struct kernfs_node *kn, struct rdt_mon_domain *d,
+ 		if (ret)
+ 			return ret;
  
- static bool is_cpu_list(struct kernfs_open_file *of)
-@@ -2512,12 +2514,26 @@ static struct rdtgroup *kernfs_to_rdtgroup(struct kernfs_node *kn)
+-		if (!do_sum && resctrl_is_mbm_event(mevt->evtid))
+-			mon_event_read(&rr, r, d, prgrp, &d->hdr.cpu_mask, mevt->evtid, true);
++		if (!do_sum && resctrl_is_mbm_event(mevt->evtid)) {
++			rmid_read_init(&rr, r, d, prgrp, mevt->evtid, true, NULL);
++			mon_event_read(&rr, &d->hdr.cpu_mask);
++		}
  	}
- }
  
-+/*
-+ * Convert an kernfs active reference to an rdtgroup reference.
-+ */
- static void rdtgroup_kn_get(struct rdtgroup *rdtgrp, struct kernfs_node *kn)
- {
- 	atomic_inc(&rdtgrp->waitcount);
- 	kernfs_break_active_protection(kn);
- }
- 
-+/*
-+ * Get rdtgroup reference count from existing reference
-+ */
-+void rdtgroup_get(struct rdtgroup *rdtgrp)
-+{
-+	atomic_inc(&rdtgrp->waitcount);
-+}
-+
-+/*
-+ * Decrement rdtgroup reference count, when converted from kernfs active ref
-+ */
- static void rdtgroup_kn_put(struct rdtgroup *rdtgrp, struct kernfs_node *kn)
- {
- 	if (atomic_dec_and_test(&rdtgrp->waitcount) &&
-@@ -2532,6 +2548,20 @@ static void rdtgroup_kn_put(struct rdtgroup *rdtgrp, struct kernfs_node *kn)
- 	}
- }
- 
-+/*
-+ * Decrement rdtgroup reference count
-+ */
-+void rdtgroup_put(struct rdtgroup *rdtgrp)
-+{
-+	if (atomic_dec_and_test(&rdtgrp->waitcount) &&
-+	    (rdtgrp->flags & RDT_DELETED)) {
-+		if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP ||
-+		    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED)
-+			rdtgroup_pseudo_lock_remove(rdtgrp);
-+		rdtgroup_remove(rdtgrp);
-+	}
-+}
-+
- struct rdtgroup *rdtgroup_kn_lock_live(struct kernfs_node *kn)
- {
- 	struct rdtgroup *rdtgrp = kernfs_to_rdtgroup(kn);
-@@ -3364,6 +3394,38 @@ static int mkdir_mondata_all(struct kernfs_node *parent_kn,
- 	return ret;
- }
- 
-+int rdtgroup_mondata_open(struct kernfs_open_file *of)
-+{
-+	struct rdtgroup *rdtgrp;
-+
-+	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-+	if (!rdtgrp) {
-+		rdtgroup_kn_unlock(of->kn);
-+		return -ENOENT;
-+	}
-+
-+	/*
-+	 * resctrl relies an kernfs active references to guard access to struct
-+	 * rdtgroup from kernfs_open_file. Hold a reference in the file
-+	 * descriptor so perf_event_open() can retrieve the rdtgroup.
-+	 */
-+	rdtgroup_get(rdtgrp);
-+	of->priv = rdtgrp;
-+
-+	rdtgroup_kn_unlock(of->kn);
-+	return 0;
-+}
-+
-+void rdtgroup_mondata_release(struct kernfs_open_file *of)
-+{
-+	struct rdtgroup *rdtgrp = of->priv;
-+
-+	if (rdtgrp) {
-+		rdtgroup_put(rdtgrp);
-+		of->priv = NULL;
-+	}
-+}
-+
- /**
-  * cbm_ensure_valid - Enforce validity on provided CBM
-  * @_val:	Candidate CBM
+ 	return 0;
