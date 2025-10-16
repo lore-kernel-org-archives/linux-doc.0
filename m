@@ -1,65 +1,92 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788C63451A8
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246B3254B7
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760626264; cv=none; b=k10a4xtIduy7gXqasrTqPndg9hFAbIM65buZm45OC0rSHDwQKCx0gQMgbnYrjMw6JQ7ou51WxZwdbuu+xH1uv5LLvkLgRLoBLLY+AL6ouPODvYl9du74m+OdOHzU34DBNKWrgzwzfZTbQHqJgxue4mnO2WEB5nF5psfiNdn0eVE=
+	t=1760626494; cv=none; b=ChNiqubVotVwwotgm2BS0kyiIV86KvkcGABA7ApwzAfntLE+TNiOivcHMHGHHNyRKghDdD5xgX+CYIS6K/OB8BCLbY3y9mBSGibbp88Jmj4NteNuMDB+YNJ8TDlwQmh9dNSfSjJkqf1mCA5Aj6sgzoJOCYHn7Y73/jbKpbGktAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760626264; c=relaxed/simple;
-	bh=0UX858MpJw+MYGZQzGM621+QYT8OUeh2rPZrre15ei0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eQ36U0sy85BRVow0ysckHIa8ngvOveWvxHmCUt0l4U8nSGNmUna413Z8KR0k0M+2QAJa8R23c6orww3VYkZI/vrnA9eSLW8wircT1sFWf74/aKNkQP+sYqtymUHOxptq08xMOwcLCgbah9Ci20Y0rMtm0m3gdYg6jqhaRKhi718=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=knOCtAgH; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1760626494; c=relaxed/simple;
+	bh=k6RWhJZ+4jTq6Knupn4lp76iECn20wDlXqE1y+9I4+E=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=NGIL1ahgdf5NtorA2dbzRz7pvkuKW/NjXmjsNid4aOiLt/htB8pobqj42SvYH36XSbHB553LaO1jy0GBtvzPs+3gULEbLNI0bJ+ceANsFFVxLr0Lu+FQ2VIdLVc1WMM8g4sHh2PQojuy9sJ429Gb9y3Rvshbn2MKZAYA6lbm8Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rEWj5eds; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="knOCtAgH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B530D406FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760626256; bh=0UX858MpJw+MYGZQzGM621+QYT8OUeh2rPZrre15ei0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=knOCtAgHcaFYkJLFzH+ETSpllS/SanOPEQnoqOn4yNp5cB2BVOBaFNyu3gzC9ALoe
-	 tfOSpXqrzxavD9sSO4FpNeCf0OE3ahNGGjxuTn72WTcy29kmbgUKwAINpBz+KLcIwB
-	 +QqMMzoYYoYDUaVVSYn5VyqU60tjTzAfN9M2R42+sofNCY9uKJau79B+Xc7ISNzoVa
-	 ko3zsTvwEO87FdltsMY+/4BM1PXyPbm8yhet6QW/5/hkaATeAmy1rXtHoZSqkQMLif
-	 H7197FRr7LNQe0ou5kE+tIjpU5oYZTEwOlyoCe35yWo+NBxok8gdK/j2vi3kWqzHXk
-	 kaCo5f5NsKSYA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B530D406FB;
-	Thu, 16 Oct 2025 14:50:56 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
- <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: parse_headers.pl ?
-In-Reply-To: <9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org>
-References: <9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org>
-Date: Thu, 16 Oct 2025 08:50:55 -0600
-Message-ID: <87ikge6gts.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rEWj5eds"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3ecdb10a612so1511995f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760626491; x=1761231291; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j1x4kkcjWPTIpdS3PJl04Vmqlf3X+DwnupzRCpMcKwc=;
+        b=rEWj5edsSC99X2pkP7Ked95M6IGennQMOQHrkk+gBttUFsx3FfNSeetsmJHXju00mv
+         J2uSZImqwoMGxxytaOqn7d/NPhAsjVLDz3mMoqAX98RVn6LZ/HWzDIL4MD+d/GdjCjrs
+         njWOLmui7HAoRifOI26nt1KF8eRxB2BNgu9reLo/9ZT6X7ZrzPlTeO/3lOs4lp1bNbeT
+         33KY6cJdlE2pYpp9lOQzIn+sxswCwOkBynJbzqTWSDlZFnc86J6dDW1w+qOxwdMLPIYr
+         Noq0HYa0p7nZx6cPegPGGqTsBqO9rSW7uX7ybujTnILpxJcZmDByBesAvs7Pw3bmgnwj
+         v2ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760626491; x=1761231291;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j1x4kkcjWPTIpdS3PJl04Vmqlf3X+DwnupzRCpMcKwc=;
+        b=SXxtM/jn6l6qsRVNYeJcSSGPeIooO9yZ/dKrfSP1npZC6GIP85OFWEH/jpsQ1EvZHF
+         3vnHlwyrrLKKwyJbCYZQ1tZVdQJQ0YDI4NPZk5oHd9mVpf5MUP6T5NI8Pgt5PfG9jyFe
+         GzSgrpGHd1OdRuFL2ISHBoAq+AlGvSd2flzqfb6lNeR1PbQFI02RR9ujLmEnWbwl6tLZ
+         fXitqQK88pDLRx84vzP46KmxbG2NSI30Hr9HLR4sqOOlFHzn3Zpz0RuAzKaN3apZku9E
+         5iXeq6xcYclu4b9935ysSkWjE75MH75zv5yPhfamW07RZVdkwYyjvnfQHBtoBVX4/hGg
+         yQ4w==
+X-Gm-Message-State: AOJu0Yzq76A8YSpAMg7YQLpX0LmnqpdvVJElm4gtPq5t9mTKQRAU/MbI
+	PepXLzqHIeJdSaLGHRNpIqBd9/9UovtHA2vyzhcKvDS53tfc4XjVzmUMSpVSfhlMWnmimKutZWA
+	Op0Qom1zuE3IpdQ==
+X-Google-Smtp-Source: AGHT+IFUAM1+v17VGshRyYrldIe2tyV2DPBK/Lw8YyAgQy2xa1KH/p2eEWwiYMB9Z9jELiZ5yaCbqQRVhBFrsg==
+X-Received: from wrpa2.prod.google.com ([2002:adf:eec2:0:b0:3fd:a97d:9105])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:5f82:0:b0:3e6:116a:8fdf with SMTP id ffacd0b85a97d-42704d7eb5amr371388f8f.13.1760626491456;
+ Thu, 16 Oct 2025 07:54:51 -0700 (PDT)
+Date: Thu, 16 Oct 2025 14:54:50 +0000
+In-Reply-To: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDJU0415JEBQ.H2SD942NMDWX@google.com>
+Subject: Re: [PATCH 0/2] Documentation: fixups for L1D flushing
+From: Brendan Jackman <jackmanb@google.com>
+To: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Balbir Singh <sblbir@amazon.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Randy Dunlap <rdunlap@infradead.org> writes:
-
-> Hi,
+On Wed Oct 15, 2025 at 5:02 PM UTC, Brendan Jackman wrote:
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+> Brendan Jackman (2):
+>       Documentation: clarify PR_SPEC_L1D_FLUSH
+>       Documentation: fix reference to PR_SPEC_L1D_FLUSH
 >
-> Documentation/doc-guide/parse-headers.rst talks about some
-> parse_headers.pl file but I cannot find such a file.
+>  Documentation/admin-guide/hw-vuln/l1d_flush.rst | 2 +-
+>  Documentation/userspace-api/spec_ctrl.rst       | 6 +++++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 0292ef418ce08aad597fc0bba65b6dbb841808ba
+> change-id: 20251015-l1d-flush-doc-029f64d2b0d3
 >
-> Is there a replacement for this documentation?
-> What should it be?
+> Best regards,
 
-Mauro deleted it in aebcc3009ed5; clearly there's some docs work that
-needs to be done to finish the job.
+I just noticed another issue - the docs say you get -ENXIO if control
+isn't possible, but for L1D_FLUSH and INDIR_BRANCH you get -EPERM.
 
-jon
+TBH I think this is a bug but it seems like it's still better to just
+document it than change the behaviour.
