@@ -1,128 +1,133 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72D0343218
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 10:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2203C165F13;
+	Thu, 16 Oct 2025 11:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760611632; cv=none; b=CGoWULbCvu8HCZa2C5VwahKrQWbRB5AhIx3DbOsEjbCHwhskU2q2L4WFDZ5xTo06oE2IrWNxdc953oH1lx57xUJO/og2LHL01+2sVGva10qiqsC/k1p2xe5E/myjek2jweklMhl3/maSDQ85tCrljBeqKJ5qfZHjUDTS+4oTkFc=
+	t=1760613433; cv=none; b=JhT2K2wZk2KcpR2W+cdwAwppZmHkhGKt2xDTbCAj0jQhTGSh9TIWOKZ6TzK/vNjmvL7LSTREd3Idk9m3JmBjN4x9K2HHBwOfjgcFAZ3JYeFiZkslpOEZWaucSo+QaWCyAODj0T5GqWUbXKBFfMP3ZpvrB6t9M+vvZEc/QT4JlKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760611632; c=relaxed/simple;
-	bh=U4Vw9TFefxHy667IjfemK0KK0KGVnSeJFdgB3++3kP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbWLEWXpDe6kyRzSneNWcjzEy2vGXdbIZQkb6kG4VUGjFmvAwXRP5joI3lQVgkFy9vYs4onHIuy4mirgGYbqntVc1Xtq50/NZV7YgNJl04qY42GdlhD32ID4igsrWL/b6ivHJDt5RBGD0vQwXQnIaRB99JuoIeZfDzJSh+LAjA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gL9GascR; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760613433; c=relaxed/simple;
+	bh=DSWwjOXOC7bi7nAeIFr1fihi8RD0f4mgzm3t1e4srsw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cs68DFeuRw8I3rbY1HKJQ+6/6fTBsk+lp6IYbxsKi/qVTI20RYYLySKFCv36M3oepC9eK/aXnS44gGNsLcf68lgu2SWCNDteky3ZFOdWsO5A6qji6swDu6xEvX34K3plyt0llh9y53av/OPPigY1QfPkKXjWczCIvpy8myVY7xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hxewQKBU; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gL9GascR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29091d29fc8so6823185ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 03:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760611630; x=1761216430; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U4Vw9TFefxHy667IjfemK0KK0KGVnSeJFdgB3++3kP8=;
-        b=gL9GascRemtrbu/pBAvJ9Hy8Tm0TW1APBuRhTUv3keyrzLCsdkavLp8x5FTg4rgYpZ
-         ohaDmNHJNLmWs7gI3HQBJ8UinogKM/qCxMt6kQ6bmEslqhdje+2W94qWZ26AUBvPV7sA
-         qsO7M7o1sQz8k3NcQLXivIYC+3wyrIZoU/2B4UnBQge214J6QioT+lmgNjvnhdd9o3rB
-         nKbv9TrnfkJxUJtm/oO/aH70YIq0mIfAYSmegnVMFTwyQ+9d18DAotLvIfp0vEOEkxn/
-         fITZdLa+taQs8vLutThX2arM6FPOQ+zF3f3RtQR3Tsio7kY6dhWct6YcrqA0BKlE+XSw
-         +/SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760611630; x=1761216430;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U4Vw9TFefxHy667IjfemK0KK0KGVnSeJFdgB3++3kP8=;
-        b=Yb68gVQqad+sDLRqsQjIUKmZpp9IXSCb/PHR0aznl+mN+C/DMiwTS4MA2FZVh/g42+
-         8V+fZm49kIPGnznJD2KaHka+KrdF7kRSZwNGU1d2ovB4YKv2B7ETXUTFDb6jY0I15lQq
-         fG0O+2nAUdd+V6uGniGd7tl1t2K0v8eYGk4bXItla0UYqy8tbUpDvFQWhsLTRR24cWrM
-         abPGSjyxGF8pT6Y450R0cfgqbnITPobn/Hz60XKen6Mohf34AoevHEN7CmDJJFmN320I
-         uxeGogWhyL6mv2TpvRvM1FpSlS3llNa/K87wxufltI6feXCcL36lxTrnQx8xPxrP+97m
-         xcVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIix7ruIHUYbHc98sWgaCjXSMQxLHje3Pc2cPi7MbxonxJmRDXtkbECUAoaq9+Ni0bo+CEDPJ6nk0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjgCTDcqbZl6+Bnq/0sKjqvFf+Hmn9TsaRit42JrRLr+pkvmDM
-	iDGQmvYfsgyKOFerkB86YTP6Pa80HZDNG7yDx91wqxp4mUPJJZmrGy3aGmljGHkf
-X-Gm-Gg: ASbGncv72mOag43nmv8ec1QzrBpmuay1hjukvCQHKekFnmcX7FMYwK0bIlYKFemOpxT
-	r6yHLkxrnZuToLFfWr0gPwjVN9mPAmEN1r7A1wmp7R+UZZTSsvAKur6t8KK6B9v4kbBW4KSAL0X
-	Wxhh0EK6vWDuGFSPWtkEVcUAFP8qgDcmEhkYP4AxWXuqF2VFXWPOVkyBq+DepakFYTYv/tj20Nk
-	SYh0F44VcDdr9jvx5nky6uRrWEaln68KktdIiI7R7Hl4TR3NQLWc4oexvvIg5UmjY6tDc0bpMXg
-	kICOELlg2g27BMFeAdGw6UPnE+GJQVg2eJ6JGE9bUinm6tfShRQTCb658nhPIFjU+OZaAZIe1I1
-	i55nq3W2siY/+pYdFgfpsA82l6MJmGT2HnrlDg+zgvfCvcWA89CYdwi+ANKqlq7UyAESEsOonq+
-	WeEo8=
-X-Google-Smtp-Source: AGHT+IHTuRp5je6WAU5xPxz34jRwwCQlRmcYtd63dQHcWlBJO1BdF4M1kQCtuddlLGvoLVhgrUMy2g==
-X-Received: by 2002:a17:903:ac3:b0:272:dee1:c133 with SMTP id d9443c01a7336-2902723facfmr344914025ad.22.1760611629900;
-        Thu, 16 Oct 2025 03:47:09 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2909934fde5sm26007355ad.41.2025.10.16.03.47.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 03:47:08 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9286F40995B9; Thu, 16 Oct 2025 17:47:04 +0700 (WIB)
-Date: Thu, 16 Oct 2025 17:47:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Tomas Mudrunka <tomas.mudrunka@gmail.com>, corbet@lwn.net
-Cc: cengiz@kernel.wtf, gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, mail@anselmschueler.com
-Subject: Re: [PATCH] Documentation: sysrq: Remove contradicting sentence on
- extra /proc/sysrq-trigger characters
-Message-ID: <aPDNJ3f1H_65infk@archie.me>
-References: <87wm4xbkim.fsf@trenco.lwn.net>
- <20251016101758.1441349-1-tomas.mudrunka@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hxewQKBU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760613429;
+	bh=DSWwjOXOC7bi7nAeIFr1fihi8RD0f4mgzm3t1e4srsw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hxewQKBU4XBHVdn3n/KWzRglcS5kWQfTmJoEpRWVU198WIarQ/E/+omVH/nlKQX86
+	 zAeUuogdHv/xjZLpNQ5nYCedzd5JkS8lINjMIOZ+2UbMzQLQO2ie1ZhE/JJ8+rSr1t
+	 gU6UQhHE0FeXHYklZgaWiD7c4UI1m1YLcHSrqe/gcID9ypINTXCRdjOjrQU9APyPJh
+	 IQ7djMFdCLeplC77JE9a1JNCPjJPBYOGMzeQ7JOk2pHwdEnPDqf8t9CWC5Mm6/lqIk
+	 +WSWiXPyBreEMGKgPGQZPAEGB887tu0Is9V//WxznJuFGUUVk/Z5bfYL3y1/LCK1en
+	 jE954CUpZbWmQ==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0F59C17E0C54;
+	Thu, 16 Oct 2025 13:17:08 +0200 (CEST)
+Message-ID: <f564735b-7cbd-486c-9dd4-a4555e73edde@collabora.com>
+Date: Thu, 16 Oct 2025 13:17:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fYTqeHXCD8CdoU8f"
-Content-Disposition: inline
-In-Reply-To: <20251016101758.1441349-1-tomas.mudrunka@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/13] drm/shmem-helper: Map huge pages in fault
+ handlers
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-4-loic.molinari@collabora.com>
+ <aO_ZmA6yoqbzTKt9@casper.infradead.org>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <aO_ZmA6yoqbzTKt9@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi Matthew,
+
+On 15/10/2025 19:27, Matthew Wilcox wrote:
+> On Wed, Oct 15, 2025 at 05:30:07PM +0200, Loïc Molinari wrote:
+> 
+> This looks fine, no need to resend to fix this, but if you'd written
+> the previous patch slightly differently, you'd've reduced the amount of
+> code you moved around in this patch, which would have made it easier to
+> review.
+> 
+>> +	/* Map a range of pages around the faulty address. */
+>> +	do {
+>> +		pfn = page_to_pfn(pages[start_pgoff]);
+>> +		ret = vmf_insert_pfn(vma, addr, pfn);
+>> +		addr += PAGE_SIZE;
+>> +	} while (++start_pgoff <= end_pgoff && ret == VM_FAULT_NOPAGE);
+> 
+> It looks to me like we have an opportunity to do better here by
+> adding a vmf_insert_pfns() interface.  I don't think we should delay
+> your patch series to add it, but let's not forget to do that; it can
+> have very good performnce effects on ARM to use contptes.
+
+Agreed. I initially wanted to provide such an interface based on 
+set_ptes() to benefit from arm64 contptes but thought it'd better be a 
+distinct patch series.
+
+> 
+>> @@ -617,8 +645,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+> [...]
+>>   
+>> -		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+>> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
+>> +		ret = VM_FAULT_NOPAGE;
+>> +		goto out;
+>>   	}
+> 
+> Does this actually work?
+
+Yes, it does. Huge pages are successfully mapped from both map_pages and 
+fault handlers. Anything wrong with it?
 
 
---fYTqeHXCD8CdoU8f
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There seems to be an another issue thought. There are failures [1], all 
+looking like that one [2]. I think it's because map_pages is called with 
+the RCU read lock taken and the DRM GEM map_pages handler must lock the 
+GEM object before accessing pages with dma_resv_lock(). The locking doc 
+says: "If it's not possible to reach a page without blocking, filesystem 
+should skip it.". Unlocking the RCU read lock in the handler seems wrong 
+and doing without a map_pages implementation would be unfortunate. What 
+would you recommend here?
 
-On Thu, Oct 16, 2025 at 12:17:58PM +0200, Tomas Mudrunka wrote:
-> Hi. I am author of that sentence and this is NACK from me.
+Loïc
 
-Oops, I didn't see your review when I send v2 [1].
-
-[1]: https://lore.kernel.org/linux-doc/20251016103609.33897-2-bagasdotme@gm=
-ail.com/
-
->=20
-> > I'm not sure this is right - there is a warning here that additional
-> > characters may acquire a meaning in the future, so one should not
-> > develop the habit of writing them now.
->=20
-> As you've said... I don't see anything confusing about that.
-> The warning was added for a reason, because there was discussion
-> about some people writing extra characters in there, which might
-> cause issues down the line if we refactor the code in future.
-
-Any pointers to these discussions? Or do you have any idea on better
-description on /proc/sysrq-trigger itself?
-
-Confused...
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---fYTqeHXCD8CdoU8f
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPDNJwAKCRD2uYlJVVFO
-o9KxAPkBTuPUaUuBs6BBHv8+0HhycpaDuHMgX2T2NaHa+3O3OQEAzy5RJ2R7rtkg
-k3VhSpHck6n708zue7aH+EZxpD2w0gw=
-=Kjn2
------END PGP SIGNATURE-----
-
---fYTqeHXCD8CdoU8f--
+[1] https://patchwork.freedesktop.org/series/156001/
+[2] 
+https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_156001v1/bat-dg1-7/igt@vgem_basic@dmabuf-mmap.html
