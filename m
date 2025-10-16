@@ -1,120 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED0E26F46F
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 09:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C5B325496;
+	Thu, 16 Oct 2025 09:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760606237; cv=none; b=uKFePi8U4I+/h6fqEuaT9iHKitvjr8VK94wykLNsARcFEoZTEoHb7qsz/+FQiQ9HVltsK51Lj5cn/NIAvw7lrTZGUF2FiBeDEvUtUwnjJsvju0hpX3no0EhwMZ7LN7FHQhnURBfRIKJ3gaipWGLAMNKca86BdBHofyYmGdooQ9o=
+	t=1760606612; cv=none; b=MNMER6JBZeY4Rfjyvvklkc503W8noiIgIoE0HibhMG7AzvpRhSOOEl0NUJTt1IhJDyj8vgsvUiHqADC5t4PxYl2OvR9FTDUGWweMSbPVct8ROTavqwX0VZ73QtXdaM57VeXp1hlNv5rFREoIGLNx3EU3wrsSalY8TEy09elpKv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760606237; c=relaxed/simple;
-	bh=gfUY6k3Za1yX/HAAk7zG4178blXNgWT89fTHHoWhQPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MRetC4x0KgLSM/iMdxjdyGPEBAF3qq+FSFK0/aE2NKk0Z4X7hKbtxM3zVVVS29TDp/sOu/79tj5+xOFJ7xrfz4O0R4sf8b9dkqPYLNxcjL+MjZM3WAGhcZ2JqXyikJlKdERIpvPBetHmXd4BQxAeMlsY8icnkWiX9r2hA0tQK8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YjC3i+Nk; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760606612; c=relaxed/simple;
+	bh=Bm2bb8b7vYEG3+RVnnzeALnMD/nL9qCAGIlgmRxYIsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cLglWQb2XJ2FB30nHd8hT8KSWF6LRzljHPC8ji4bEth6t8vEquzj0v+DTOh0sw0vVxivT8HTmPH+yviw92ydaQD8w+R8zciucKnlEKShlFvFV4at3crhKme+IXyOCWqKblb951Vq4vpF//JkCq+wIGzoMOdOWc3z/DRQlXbdG8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GI0EDuN9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YjC3i+Nk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760606234;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UPLteLwS/Ol+pKkRNcrWyR6iIyl0F/A5LRNN9NP4s6k=;
-	b=YjC3i+NkPHTayS3b759srOGUNUUPkDH10L5CbHKTy3Y2AegOJtawVzD7JXPOUFAOIIsbAX
-	NhiMUwp0wcux9NsSDYij6AJTKxQfkdX/MwiTTGMlelSPHclEDV5q5zohjyTYZMG/tkJuut
-	GoUuIPLz0ovSA5uU/zNr6sXsPL2bL+E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-araJkymrPC-lFKrBlQ6pdg-1; Thu, 16 Oct 2025 05:17:13 -0400
-X-MC-Unique: araJkymrPC-lFKrBlQ6pdg-1
-X-Mimecast-MFC-AGG-ID: araJkymrPC-lFKrBlQ6pdg_1760606232
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-46b303f6c9cso5094205e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:17:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760606231; x=1761211031;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPLteLwS/Ol+pKkRNcrWyR6iIyl0F/A5LRNN9NP4s6k=;
-        b=NkgO32jHySkXOrTF5FNnNGJMm2w+1bdrnt9NbxHRiCz8xQ6WL/eqXBbw1dj1HkOkem
-         KNSUHVML2B0HmBs+6SHK2xDhtIHjoGcxLRL1fjjfPPWSDcNM17VFdKn4kVo2cd8GmuDA
-         Mt+/GlASNiwmNluuey2vdCbsiUcrRnB4pzfQIWK/P77SCJzM9Jj3osh4ofAMCJXkUhFL
-         re0Y84nFFt8H3EvqyTRbIHXj0SZuUuNndu4qSc33Of55aYdEPi56MjLAUrW+b4xwsEoP
-         XHukq2UEw0X90F+YecuJPrRv3z0WNSXxeAFRijYNiRGvbvdPSG295MFP4wdORQcIoT+7
-         GxzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4WwlKEOClPdOlNvGcVZIidsX0ebrgrzb/AFG8EczTcJoVmecgbEyQPDURRswgE5w8li84hpiFYyM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxb9BoqvLNCk7S/Zbar5IG+FET9VoOob2C58L6EUhhXbuQcGzKN
-	GV4Uj9+tgIOSavYYjBYLV7SwDrEYd+9QQQcQVD9S5KlCszrWKuH4+Z7x5Qjj1YGgLED2Y9qw4y8
-	dIJ++tdA8jEeJHDWVbONg2tHLXBEJyVx7LF7KXdxysBs3VDDw3PvVUpl43cMWn/DanaxSCg==
-X-Gm-Gg: ASbGnctJlmhKBe97hvnJS1QtC1EPayHi0g/MO9Z/FewhijkR4+oOSCC00AAj/ehylaB
-	IdhbGI4+VAae+gdxMDOVa6oE3bMMZ+aLqkEL6zLKNF0wzs7iVjQ3KUuGiy7ihJppl9hEUwxWbQm
-	VKiurKlIK2YTRzaD1yQILXRIdvhbPQ1QCaFxKRsVEAT/cFE1c/mHxr70m3fynDBjeUXHW3vr5Yb
-	k9zFJQd/e0Vr1SAkLxnVQujOvlLYrzKFk/FComqp+okYeSY3qWqmaZwQATV/b4Z+ZJt9CkqQBp2
-	8HXB52gJIyl/y3AqOhCfZK69F4Ss4xyurn1fkI8k31WKoV/qMzm7meBddA32OE698TLuMxwMDuT
-	ZEDP5UwZWOW85U1AFAasfzFqT49ppI8lO6Z9i68l/HUm+lgM=
-X-Received: by 2002:a05:600c:138a:b0:45f:2ed1:d1c5 with SMTP id 5b1f17b1804b1-46fa9b171f2mr222149435e9.36.1760606231085;
-        Thu, 16 Oct 2025 02:17:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtQayMfbwHyZG1M7ESHO0HokLA6DuGP71NEXIAOvlVT9W48cYSOggIbCg6sBW0bsUEfsGNsg==
-X-Received: by 2002:a05:600c:138a:b0:45f:2ed1:d1c5 with SMTP id 5b1f17b1804b1-46fa9b171f2mr222148895e9.36.1760606230619;
-        Thu, 16 Oct 2025 02:17:10 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47114428dbfsm14301785e9.5.2025.10.16.02.17.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Oct 2025 02:17:09 -0700 (PDT)
-Message-ID: <98342f21-08c8-46de-9309-d58dfc44d0a0@redhat.com>
-Date: Thu, 16 Oct 2025 11:17:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GI0EDuN9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E40C4CEF1;
+	Thu, 16 Oct 2025 09:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760606612;
+	bh=Bm2bb8b7vYEG3+RVnnzeALnMD/nL9qCAGIlgmRxYIsw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GI0EDuN9oqPairWSyl1uhs7uuICNXislXrtxaYcT+5NqmmwFfIt8bFn8QoMHUcIM2
+	 W/6v5Nb0CFdz3ANAfoIwJKl2BS5JCljvJWzsj/81r6Xn4zgDAiXD/Z6uRrAdnv5NxG
+	 l++CHMGJx0X+C3R4qC69fK4ocHqhqU+FCSG0xdyLrHzitO3ojiQBwoVIO/zby5Ra0i
+	 swDHZwILLsylBqKk79u4d/ALRLojmdIHoJfD2nOwE26ibEgjqvyy8THtxcCv9T424K
+	 8/efugv9sJ2updQExBBFcLu8jKswpKpn8Eu+REtJKH1705jUpDeZoqFB0wgWyeyo7l
+	 9wbWUV0FJWs9w==
+Date: Thu, 16 Oct 2025 06:23:22 -0300
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, linux-next@vger.kernel.org, broonie@kernel.org
+Subject: Re: docs build problems
+Message-ID: <20251016062322.2fcd6780@sal.lan>
+In-Reply-To: <87jz0v7rxe.fsf@trenco.lwn.net>
+References: <c9e9134c-97a2-405a-918d-41aafdd92fa1@infradead.org>
+	<87sefj7tom.fsf@trenco.lwn.net>
+	<20251015184416.4340e8f2@sal.lan>
+	<87jz0v7rxe.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 net-next 02/13] gro: flushing when CWR is set
- negatively affects AccECN
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20251013170331.63539-1-chia-yu.chang@nokia-bell-labs.com>
- <20251013170331.63539-3-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20251013170331.63539-3-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 10/13/25 7:03 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Ilpo Järvinen <ij@kernel.org>
+Em Wed, 15 Oct 2025 15:53:33 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> As AccECN may keep CWR bit asserted due to different
-> interpretation of the bit, flushing with GRO because of
-> CWR may effectively disable GRO until AccECN counter
-> field changes such that CWR-bit becomes 0.
+> > Just did a rebase. Those patches are missing:
+> >
+> > e2c3ba36aee2 tools/docs: sphinx-build-wrapper: -q is a boolean, not an integer
+> > 0ce66e3f9c8b kernel-doc: output source file name at SEE ALSO
+> > 9b34d25a58ae docs: Makefile: use PYTHONPYCACHEPREFIX
+> > d5da902cc340 tools/docs: sphinx-build-wrapper: pdflatex is needed only for pdf
+> > 1cad2682b785 docs: Makefile: avoid a warning when using without texlive
+> > f0a4ad647aad tools/docs/sphinx-build-wrapper: allow skipping sphinx-build step
+> > fb4771ad4ff4 docs: Makefile: fix rustdoc detection
+> > ed7faec0095d tools/docs: sphinx-build-wrapper: fix compat with recent Tumbleweed
+> > ab7dde2453af docs: conf.py: get rid of load_config.py
+> > 8f421d0c327f scripts: remove sphinx-build-wrapper from scripts/
+> > 9a20d16551af tools/docs: sphinx-build-wrapper: handle sphinx-build errors
+> >
+> > Want me to re-send them?  
 > 
-> There is no harm done from not immediately forwarding the
-> CWR'ed segment with RFC3168 ECN.
+> *Sigh*
+> 
+> I forgot to pull the build-script branch back to the desktop machine
+> once I got back home, so I was missing everything that I applied while
+> on the road.  That has been rectified, and the needed patches are now in
+> docs-next.
+> 
+> My apologies for the screwup.
 
-I guess this change could introduce additional latency for RFC3168
-notification, which sounds not good. On the flip side adding too much
-AccECN logic to GRO (i.e. to allow aggregation only for AccECN enabled
-flows) looks overkill.
+Heh, that happens ;-)
 
-@Eric: WDYT?
+All patches from my fixes series are there now. 
 
-Thanks,
+Looking at my docs pending stuff, the only thing missing is this
+series:
 
-Paolo
+	https://lore.kernel.org/linux-doc/cover.1759329363.git.mchehab+huawei@kernel.org/
 
+I double-checked: it applies cleanly on the top of docs-next, as it is
+unrelated to build wrapper.
+
+Regards,
+Mauro
