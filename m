@@ -1,243 +1,130 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ECC2F5A0F;
-	Thu, 16 Oct 2025 07:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A6C2F83CC
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 07:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760599338; cv=none; b=qBCh9y9avIJn0HH/r4dFh3gR8CGfFYGFc28fzNC6Q+XNveolzfXZ/hwIEDrtppFkE+7gNJQpBkdjHkyF5mZGkgP5F5D2E6DdulB0y+wOmvjZCkAqNqZzsR+eAlnggXMK+5y90UoMl8PPfa6fOfOeUXEUX0QRjXnFlhJVVbm/5S4=
+	t=1760601322; cv=none; b=cugHuhEx5u8j+hv500rxRAYg7CZb/pkRFK6opJJFUhNUfPmhgNNLE1aj3MhynvKCipVmEEy2rVcLNthu56L/+AC0gnEdwaWSGD9sOa2TgVZGfLdzX0oCyLiVr8K4ei0a3sHUBmX0wnw4t8i3YaJIiR69BGpeXq4mnVTZ3RypGxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760599338; c=relaxed/simple;
-	bh=IoepIVDWjMVUEYx/JMoNNzAWuBitBwwdY07odCMO0Q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UvVxUbmkBilN6kabnQDX4Ct/vutQRJHs0cnh97NbrmNIq5PoUGWahQNoYMTElmp+uL54qGrhMLGnvROGP36gygAwfm/G0E/RROUuunNQLz5nl/rgttBfRCuYYJmLFneSiZLIDIEutG0RVq9t0SXwHGIQDhlo/+WMN0X0cN20LIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=i5cGQ7rh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1760601322; c=relaxed/simple;
+	bh=l8JMG+ysDeFr5TZgA8X0KLJsxexULhV0axAKW6Rb+V8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aUcwOzNicD/lxh59UfePYnUBDX0t/kMYHu17a3/jlvo3pUXMWh/tGILfiJb3fh1NuiFHhjy2D9gnWkKZW+bNq0hc24XMPq9+g3MbLNaggOdSNp9m7J7PRO+KqPyFXCPBUERjlc+nSb128cweTPW59MIoA7VXvQaruK+GAoq6Fzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIGJbW7H; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i5cGQ7rh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760599333;
-	bh=IoepIVDWjMVUEYx/JMoNNzAWuBitBwwdY07odCMO0Q4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i5cGQ7rhvkjDuErtbB5sX5ggFRBd+1rGKxncPvI/s6TjTXgo1MQZQIyPkkz6s/D3u
-	 J01+9DTEkAR9KOL7ZUQepTLpi9qT4NuGqRIpj7EoHAM/pR8bW9RVqi/mOFotKFX0MG
-	 7OReNQZgSFwj9belOQ1F/n63dbOFBn55qZEl8WnDClGF0rsPm0Kt4zFY+kSF+9vVVG
-	 UigzSGtC5g50UmmqqsV1QxvZEavI52MBBZPRGP8L4zL2l6fIsA7amz/+AFSGLSBFVe
-	 6vL0YQqnYE1OqalIp70NkJnwcgKze8eI+KsFgeRZ+WlkLAdXY8GoRbY6CpqwWDalZp
-	 yJb2MR/ufjNuQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8A48017E0FC2;
-	Thu, 16 Oct 2025 09:22:12 +0200 (CEST)
-Date: Thu, 16 Oct 2025 09:22:08 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v4 08/13] drm/v3d: Fix builds with
- CONFIG_TRANSPARENT_HUGEPAGE=n
-Message-ID: <20251016092208.2b8ae536@fedora>
-In-Reply-To: <02c8447d-25fc-4503-873f-0b2932e218ec@collabora.com>
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
-	<20251015153018.43735-9-loic.molinari@collabora.com>
-	<20251015201737.3956f801@fedora>
-	<efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
-	<20251016075637.3aec3465@fedora>
-	<02c8447d-25fc-4503-873f-0b2932e218ec@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIGJbW7H"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-290a3a4c7ecso4756315ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760601320; x=1761206120; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u6tiWu7yuQ3XN00VI86rkfRhwxpMpuXvOvXa99SVFc4=;
+        b=lIGJbW7HEceFokdsumJ6iIpSIbFrcm5B8BhR7fmTqUkm9/x6OfB6JRGvdqWlMLkFBp
+         UwLxHHHRiQKp9E/bWeqHks752Zgc5snhyZYxT+9zAUaGR8elFVgrGAJ78MPL+Sl9EMNX
+         JL1FcQ0E4bGnfsLp/xvl/VSP6KO5MaDhZqIjJbrXDJp5e+G6R5mEmYwVgwqMhaW6Qgh2
+         xtUhU6ZKWWcwLOiairHGR0xckrFwReEdgh5Gge7kfYzvAXinqQxbGIoGucxUdH5Am1ZK
+         USWXpb7RHu3TrdQKBE8wnosbL/tUKGL3++uiotf4oSXln0YvD4W9YKyrTXMjyOhFWQPe
+         blag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760601320; x=1761206120;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u6tiWu7yuQ3XN00VI86rkfRhwxpMpuXvOvXa99SVFc4=;
+        b=Is3CIWhDmQ7kKAJDXEoTapu9iU3w6y2XPqfqIO/x7OCDUpWWl5L9a1l3eQfyhs6N8V
+         5yWTsBDbOKk4Bww56lPaM4/Vd9TGLzWbd7nkyKU1I2nuNpPuc/LTg312EYeBLvrTvsoJ
+         yGqhRZrgvYufcrV4AYa3/orz2+fiiyyxJIp8BFqtAKHC0PsZjI3VWCnLn91QPwI4xszK
+         fkSMnHZqQm+N3HyeB56ZVPtvoLYNYyptbAKOFjbGKI0U1tecehK7xO3q1tCz2c9JtteR
+         6e/L+ye2p0m9CLGYHgjRtWQfh0AUyTDSvrqL/YHJRhc0HHSeGo9uX3xXf9QMSAuGDODk
+         h6Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCVA/Oj0WssMX7tAqAahqHrkEqta0phLziOdTOXfh2ZRjb7x40r1lWiZ7NrOXlhgMbZUQgnNSGEoZFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJHBM52PO0QZX6GNUCO/ZvuTd4lSGsPD6nIPeC/ElPoECLshmX
+	zKdi3BD1XA0I6J82bc3LXMXMhEvTQJrnXu/552n7Z6gYf502al+22x/u
+X-Gm-Gg: ASbGncuwUTQoqH9YGFBe5dVFyZk3OcgkLlqrYndtbd1OKQ37UspUlIveANwvwvgjLo1
+	tL0fSUj59UVs4lt/S5+nkWQOTAaQwtTdOZcC4PDxOsc1QrP302NaE/ELZJ1t/Q/6yVqC3ZYC2Oc
+	jXI/ZNFMJba6422Z8ZhaWWOrn3ZEQNsX549hcTNfNvP6n26vbR+VpiV/iAlhKQy3SxgPOeBcyEc
+	wepAwEeAv0rns0y2YBb2qkuf9cxxCMje8LxMxHzt5Yb0kFK7oAl2Fjhi1EApFlWirCGg85MD62y
+	qgTkkWx+BTdS8QSjtRdy3XCpk/lv/Yh0HK0tKkPA+ivF5ghNUaTcUGLKROVv0BpP2W3LjvTED8j
+	wtYB6yNJEjzSF3mV3b3X9PpLizbF/hDRfPYMcsM61mYO/anDP1FIt8c2UtVU1BLbH3HklRdmXvj
+	sBgfU=
+X-Google-Smtp-Source: AGHT+IEo/63Yi6BDxpvQRpnjxo8HKcEDZGgx4k5ciYuENj4di6XHI29o7bd4su5DW6K/ds9jybazWQ==
+X-Received: by 2002:a17:902:ea07:b0:290:b8c7:e6ee with SMTP id d9443c01a7336-290b8c7eb5amr6060835ad.55.1760601320330;
+        Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
+Received: from pc.. ([116.177.28.66])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afe0aasm20263975ad.111.2025.10.16.00.55.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 00:55:20 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrei Vagin <avagin@gmail.com>
+Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs: scheduler: completion: Document complete_on_current_cpu()
+Date: Thu, 16 Oct 2025 15:55:07 +0800
+Message-ID: <20251016-complete_on_current_cpu_doc-v3-1-8ae5d346ea45@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
+X-Mailer: b4 0.15-dev-e44bb
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760600878; l=1679; i=javier.carrasco.cruz@gmail.com; s=20250209; h=from:subject:message-id; bh=V8LHqLfTQM+om9jJqbfR5TNDEnoucqEKULLH17WOmVs=; b=nB9zaQLTD8o7SLsyK5sIzt2yQE1oWj3q71Q8W9uDER1H4jx82nU5tqkvfbj3jLZl7ivgRQGor AidOK6vTlTRDa95nV/TumgNHNZpvjQrBCfuj3nL8ZmC9xDWGKkbbP8I
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519; pk=/1fPZTF8kAIBZPO3D8IhqidB0sgYzPDkljBZXsXJZM8=
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 Oct 2025 09:09:26 +0200
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the
+current cpu") introduced this new function to the completion API that
+has not been documented yet.
 
-> Hi Boris,
->=20
-> On 16/10/2025 07:56, Boris Brezillon wrote:
-> > On Wed, 15 Oct 2025 22:41:59 +0200
-> > Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
-> >  =20
-> >> On 15/10/2025 20:17, Boris Brezillon wrote: =20
-> >>> On Wed, 15 Oct 2025 17:30:12 +0200
-> >>> Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
-> >>>     =20
-> >>>> Don't declare "super_pages" on builds with CONFIG_TRANSPARENT_HUGEPA=
-GE
-> >>>> disabled to prevent build error:
-> >>>>
-> >>>> ERROR: modpost: "super_pages" [drivers/gpu/drm/v3d/v3d.ko] undefined=
-! =20
-> >>>
-> >>> I believe this is a bug introduced by the previous commit: the
-> >>> compiler probably drops any code between the
-> >>> IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) check and the err label
-> >>> because IS_ENABLED() evaluates to false at compile time. So I'd squash
-> >>> those changes in the previous commit. =20
-> >>
-> >> Right, it's been introduced in previous commit.
-> >> =20
-> >>>    =20
-> >>>>
-> >>>> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/v3d/v3d_drv.h | 2 ++
-> >>>>    drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
-> >>>>    2 files changed, 4 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d=
-_drv.h
-> >>>> index 99a39329bb85..481502104391 100644
-> >>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> >>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> >>>> @@ -564,7 +564,9 @@ extern const struct dma_fence_ops v3d_fence_ops;
-> >>>>    struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_=
-queue q);
-> >>>>   =20
-> >>>>    /* v3d_gem.c */
-> >>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >>>>    extern bool super_pages;
-> >>>> +#endif
-> >>>>    int v3d_gem_init(struct drm_device *dev);
-> >>>>    void v3d_gem_destroy(struct drm_device *dev);
-> >>>>    void v3d_reset_sms(struct v3d_dev *v3d);
-> >>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d=
-_gem.c
-> >>>> index 635ff0fabe7e..0039063eb8b2 100644
-> >>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> >>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> >>>> @@ -269,7 +269,9 @@ v3d_huge_mnt_init(struct v3d_dev *v3d)
-> >>>>    	 * match our usecase.
-> >>>>    	 */
-> >>>>   =20
-> >>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >>>>    	if (super_pages)
-> >>>> +#endif
-> >>>>    		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size"); =20
-> >>>
-> >>> Why not
-> >>>
-> >>> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >>>     	if (super_pages)
-> >>>     		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
-> >>> #endif
-> >>>
-> >>> I guess
-> >>>
-> >>> 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
-> >>> 		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
-> >>>
-> >>> would also do, since it's likely to rely on the same optimization the
-> >>> previous v3d_gemfs_init() implementation was relying on, but it's
-> >>> fragile (not sure what happens when compiled with -O0). =20
-> >>
-> >> I'll remove the #ifdef/#endif around the super_pages declaration in
-> >> v3d_drv.h because it isn't necessary if super_pages is compiled out in
-> >> v3d_huge_mnt_init().
-> >>
-> >> In v3d_huge_mnt_init(), I'd add the #ifdef before the ret variable
-> >> declaration and the #endif right after the last else so that it's clear
-> >> drm_notice("THP is recommended...") is called unconditionally when
-> >> CONFIG_TRANSPARENT_HUGEPAGE=3Dn, whatever the optim level. What do you=
- think? =20
-> >=20
-> > First off, I'm not a huge fan of the following pattern
-> >=20
-> > #if foo
-> > 	if (xxxx)
-> > #endif
-> > 		do_something
-> >=20
-> > which also applies to
-> >=20
-> > #if foo
-> > 	if (xxxx)
-> > 		do_xxx
-> > 	else if (yyy)
-> > 		do_yyy
-> > 	else
-> > #endif
-> > 		do_something
-> >=20
-> > I'd rather have do_something duplicated in an #else section
-> > like that:
-> >=20
-> > #if foo
-> > 	if (xxxx)
-> > 		do_xxx
-> > 	else if (yyy)
-> > 		do_yyy
-> > 	else
-> > 		do_something
-> > #else
-> > 	do_something
-> > #endif
-> >=20
-> > But I'm not even seeing what the problem is here. If you do:
-> >=20
-> > 	int err =3D 0;
-> >=20
-> > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >      if (super_pages)
-> >      	err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
-> > #endif
-> >=20
-> > 	if (v3d->drm.huge_mnt)
-> > 		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> > 	else if (err)
-> > 		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n", err);
-> > 	else
-> > 		drm_notice(&v3d->drm,
-> > 			   "Transparent Hugepage support is recommended for optimal performa=
-nce on this platform!\n");
-> >=20
-> > You're guaranteed that err=3D0 and v3d->drm.huge_mnt=3DNULL when
-> > CONFIG_TRANSPARENT_HUGEPAGE=3Dn, so the "THP recommended"
-> > message should be displayed unconditionally. Am I missing
-> > something? =20
->=20
-> It doesn't really matter here but I just thought it would be cleaner to=20
-> explicitly let just the drm_notice() because the compiler doesn't know=20
-> v3d->drm.huge_mnt is always NULL here and would emit a branch in=20
-> CONFIG_TRANSPARENT_HUGEPAGE=3Dn builds.
+Document complete_on_current_cpu() explaining what it does and when its
+usage is justified.
 
-Okay, well. I think it would matter if this was a hot-path, maybe? But
-that's clearly not the case, this code is called once at probe time.
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+Changes in v3:
+- Rebase onto v6.18-rc1
+- Document the scenario where the gain is relevant (Andrei Vagin)
+- Link to v2: https://lore.kernel.org/r/20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com/
 
-> I know your dislike for this=20
-> pattern now, so I will stick to the suggestion :)
+Changes in v2:
+- Rebase onto v6.17-rc1
+- Fix patch formatting (drop --- before the Signed-off-by tag).
+- Link to v1: https://lore.kernel.org/r/20250703-complete_on_current_cpu_doc-v1-1-262dc859b38a@gmail.com
+---
+ Documentation/scheduler/completion.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Actually, I would probably stick to the original
+diff --git a/Documentation/scheduler/completion.rst b/Documentation/scheduler/completion.rst
+index adf0c0a56d02..139700c56964 100644
+--- a/Documentation/scheduler/completion.rst
++++ b/Documentation/scheduler/completion.rst
+@@ -272,6 +272,11 @@ Signaling completion from IRQ context is fine as it will appropriately
+ lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
+ sleep.
+ 
++Use complete_on_current_cpu() to wake up the task on the current CPU.
++It makes use of the WF_CURRENT_CPU flag to move the task to be woken up
++to the current CPU, achieving faster context switches. For this optimization
++to be effective, the current task must be about to go to sleep right after
++waking the target task.
+ 
+ try_wait_for_completion()/completion_done():
+ --------------------------------------------
 
-	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
-		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
 
-pattern since it worked so far. If -O0 is really a problem (didn't
-check if it is), and v3d maintainers care about it (I doubt anyone
-forces -O0 to be honest), they'll fix that in a follow-up patchset.
+Best regards,
+--  
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
