@@ -1,80 +1,81 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3A32FF669
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 09:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A8E3002DC
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 09:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760606770; cv=none; b=EPCdhAkCmDes6f4tGj+Rj9laaC6wV4U/0BFX61S0F4AO+p2UyUzLETb98kozotltSpNB3PIe2EWtm7e57HOgWkLX4+9mFA2ty4nTX7k43rq4UDxC5K5NXSuLSDU+ENafFYHBSwoW4gKG9jDBS6igcQx2kN8nZq/qt0eMYxsBX90=
+	t=1760607597; cv=none; b=ieOsdnmk/2i0Ydk/rDKDXd3GxmfXPLdzqF16gBHud/PqpDOYq+JzSI/scKWd15WhGOkkq/QXPbq/gGI/PDHeuMcZPdDF3ADyCPm+ax1LQS/2JRUnIjf0ZQGNG0n778e7Q3g9Y4dWjF6QDS4PZTvpDicXUK5IObuDtm1w93wfmNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760606770; c=relaxed/simple;
-	bh=iBze3ddOIKfLFzK1PdZekaZ25CQzX4/eyJkqv/S9OE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mLq3Vw3CyUA/JBE0BzfGbtqIIPeF0qxAXrOqOiVtJwFd3dlteTSJRU7MDNCatYCOZxogDzPSHd88QTMjfkYUQDOVlGsLxvYQ+3lGncqCiPd1vcG/zMtItGPXub8mOFODmUDIwtiQEIQqikgRzCc+1H8ZkmV4tuYz/lJ07w3ee+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7sFHNFp; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1760607597; c=relaxed/simple;
+	bh=q8o2NQ6L6LFGbktB7GVrgV59ZquhP2NAXmS5kWpAIwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c5QXYvqq6RlS7jzNmqw2a6e896Py3X7JlmxThuwVevb861gm4ISEtGCzxX8Il5+UirgRYeS+wsSLEMObXe5av8ogDHRmIvH+18XLxaXsjiFEXZdmym0o8zwoCgRFjF1nLTm3yLcbzk4DPtR56Y+UuDsgFf7InaOMND+PjLO8A7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtbPb91F; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7sFHNFp"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-79af647cef2so500423b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:26:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtbPb91F"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-27c369f8986so5137645ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760606767; x=1761211567; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760607595; x=1761212395; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Qk2LA4WjclYE0CKmbUH1V37mhz7MI29tST0rKIcgrs=;
-        b=c7sFHNFpNu3v0X4f8ofeTAqwCvknT8qwOus8U1fcSkrAQg/uRWnP3ZgteZlCVUfULX
-         i1T/NmU7qDf1tE2MS8Uuap8Cy40p2EdhhyRrL2UUQMnwQyzLOl03bIo9bMiOc2Ebi5nD
-         ZeelpYRHMf7B4SGCtC7CJkq+kJ6kiQf/V3Npmh1+jF8nd5ghPGLYwVXaeBRKhHUOWJ5r
-         t035Y9AK+eQ5QXGDTdxjRSjhSIcNWvjhlxbQjF3GYWHZ97SMPt4fRbz0Et4KXkQyDgc4
-         A5xmwwTfVCayW1ZRXbagqpMNa3p6YMKzkLGhwckTDBh77x+hpMWrOiPax5JrBORwNUqy
-         ZVpQ==
+        bh=++wbAo7zmbNRe4mjezio8SQcxYljBZGJ4IngYV8TGHU=;
+        b=UtbPb91FtdAPVaz5Sgg6m36fx1IY4vjfL95TkB6br/YBoD38piNZ10ido5L+1u124S
+         7nWL1ApeL9W9rnHC1SCqRIgV14sv2X+hf5yNw2FIjP+dZZfxYGpi/1mZPf4CW/zK5Wsb
+         aquMtpLIWurcR1i7WTI8LyQbXXRRNgEb+rp3RVK2Rc27k9cuc3oOEzos2oZihxxJmGJw
+         AX1jLjv5yhm3PZgBQOpqmwwLGFuMK7Q+GPhHmNx8iiv5cKfjRJcJzkBMu7IRbTQvH9VZ
+         0g/Dsxmt7xZoGXG0LeIF5QYPas9kLb6908h0gQOnHOrNPiM/cSMcCnO7X/fRvdguEQvb
+         b2hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760606767; x=1761211567;
+        d=1e100.net; s=20230601; t=1760607595; x=1761212395;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1Qk2LA4WjclYE0CKmbUH1V37mhz7MI29tST0rKIcgrs=;
-        b=pdJYoOSlhFIH1KqpQRh6H3aXKC25L5NRyAmsCJkqwpcWN1q66MI3bDbKiw4DCpS3zc
-         EDLVkn+4nunB4EDDO2wf9TMtFhhjz6ycETLl/1YleINXiheELpPrk8ZP1ZyU8caceyg2
-         T+FeJQ+GrUuqDy4eITIq+yBaBuJ380ObioltK7RfIilxy8p5ukp+JC+nQJ/svuwQJ2Oa
-         bjdRMeJ/dKJSIHaFVTH6CbOB3zFz7QWcQtMRACV/1VOv5FuY4YM00dFKS6SHoAfejwVF
-         Vw3F4+SWlDNbCEW3M5U3Z1DzkB4t9XVM9By3Z2ZZbbV459x/fklPdeTNSwFlW52XJssm
-         h0Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/yLdigYNaXzc5I8sElKX/xv2e/Xd8ZqjV5gZk9woaivAV2q3H84hmUFPc9IwoZnUcao4SjR8o8lE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7IwxuWe72IwYAQk4d1LhvckVufEXiO6qkQ/GcnP/8tfPkPSvf
-	A5GlkTFhwxkY/7MUjKOEd5tJwJ/2Qy0ZI3FugAly+Ac7LVlRkSlcOMn/
-X-Gm-Gg: ASbGncvC2U+2ydALt2OZ2wud/Dx8p4ztGbo0RPZhKG9TEGmHi0KSo0Q+yrII3nlcuD6
-	uwdfBbQtbWq4stnvHxJCvfXfZNPXQNDAFDu44pGHP/TwcTLcC+eRygdSBJvSnbOZk7tA8zKRgPW
-	S7aSeEXR7k8x5HP3gM9UAoy53jyeMfUJgDf9r7n7fDKgJU0CY+/Y7Ug5oL5s/NSr+QARdtbuKYM
-	2Sy+RLGqMMz/UznVhryqAca22NDsOL2gyku8dElgYCaErb9ScW3Pdz1xJWKpSLbf4GU6UMa5Dxl
-	Np5t5H/EPVGjpewhzsKBTeHkQN5YLCX3ATvtvL+NCP7vdHHOK7oFwYBM7RweSTWYuR8NEbtR27T
-	DKoIjt5gjzT4b0N3bWCwNKhCygif8NMrmfbS/KdPN5E7cfrfrLJDUJdWbgvPjLid9d6IK9bOzUa
-	su8+am12VT+CKzog==
-X-Google-Smtp-Source: AGHT+IG1PdmRmxoRDMSi5DK2MpnEmPqGVIP2q7n1nkEAGkLjqVGAPOgqQssfSdw9ZAOJvcdpLJzgcg==
-X-Received: by 2002:a05:6a00:13a6:b0:78f:6b8c:132 with SMTP id d2e1a72fcca58-79387c18f0amr39958615b3a.29.1760606766779;
-        Thu, 16 Oct 2025 02:26:06 -0700 (PDT)
+        bh=++wbAo7zmbNRe4mjezio8SQcxYljBZGJ4IngYV8TGHU=;
+        b=K4NZjqP/floyqxV+SdOs+SoUiGiPsY7aScjc7Y0cHaGNg+Qz+/Gi++eMQYj82FT4VH
+         HpHR40ChnL1Tjhy9Zvc9ryLDgTw4Mg3JyJaB5+WyFlxNvb75hhHPlkEJFWtkVGHBTklv
+         KRf2BXH7SqG5AxvHAL6OSsIm29AenTmxYy+yuyEVFk/ElcmBLlryuSsURSvRQ7QM21Nh
+         yxCSB36yL6M5BR+GouDS44dukdwPo+6FpqLO1phAcUqwlnqJRY1WK6WALLd2uKeI6AkG
+         RBsUfyPaQS8JCBNrxpBR+ymGFinEa2tIifIc3DP21v0XWhBKrd2HSDTmO7WUQZpk7kGM
+         YN6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXGa//Lv112EUjlE3xx9MjXTtYr/55Lw7oIDhOPtTAAPfUN2+Y81spj0xV++6/rQIYoqexywN2m3Xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1VHPzfw4EkF3yR5U32SYk60yv3mje0/Mt7fDasqq9As9QfBcF
+	Y5sX7XYCCReFD/ekxu3vYO6z3SzipjuCVq2PMa/UglZ2T2Acc3Jh5Zy2
+X-Gm-Gg: ASbGncsO5pSZTBLKCbuyZPmkQ2VcKHL0iy8irNLM1br4+0oqOVcffHU47itZq46nJfM
+	pRjjTHz+DNCJbQjOVkghkM4qFLBUZWy0VRXIUgT/xeKTv5jKdXr65F4e6YBbENxY8fvtGcbDDZz
+	ZRbv/09r/jVc7cWziUBHiay5ZhoKV8jx8wxx7bStBO1zDBKNcTj1w+/KeDUP1WdLQZMu6pRhDVy
+	rYSQSahpzDbViKYtxws+5kwGVvAiRRffQtTBS3zwtEQ3nkE6Te0jLFyRvfAgk5jd4+WVrDdzJQh
+	Q/h3FcCjnUQpzKsMBlT2t3Ekh/SV0fxNDHRA69N+TTsL3U014gXJzohs63KE0KBuAzrTFya6O8z
+	WNiN+GBKLBxRqbco7s0Bl8WRCXIUs5yk+jObPsqcQ+t+cHs7tqOOsLrtisZPO1Kq1UzCvRJPAKz
+	b+OfMa7qwXQSFcKQ==
+X-Google-Smtp-Source: AGHT+IFS9M80syPYksgqDJ9tQreitknkpLZF7Qn/IO4egCYd5QwU4i8pmScawukphLNSoU9cfWZVbw==
+X-Received: by 2002:a17:903:fa6:b0:28e:cb51:1232 with SMTP id d9443c01a7336-2902735656dmr418798465ad.3.1760607594899;
+        Thu, 16 Oct 2025 02:39:54 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b060a38sm21903407b3a.5.2025.10.16.02.26.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099a7b068sm23648445ad.53.2025.10.16.02.39.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 02:26:06 -0700 (PDT)
+        Thu, 16 Oct 2025 02:39:54 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 761B640C0938; Thu, 16 Oct 2025 16:26:02 +0700 (WIB)
+	id C21B640C0938; Thu, 16 Oct 2025 16:39:51 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
 	Linux Networking <netdev@vger.kernel.org>
-Cc: Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
-	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>,
+Cc: Sridhar Samudrala <sridhar.samudrala@intel.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Krishna Kumar <krikku@gmail.com>,
+	Vasudev Kamath <vasudev@copyninja.info>,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next] net: rmnet: Use section heading for packet format subsections
-Date: Thu, 16 Oct 2025 16:25:52 +0700
-Message-ID: <20251016092552.27053-1-bagasdotme@gmail.com>
+Subject: [PATCH net v2] Documentation: net: net_failover: Separate cloud-ifupdown-helper and reattach-vf.sh code blocks marker
+Date: Thu, 16 Oct 2025 16:39:37 +0700
+Message-ID: <20251016093936.29442-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -82,87 +83,54 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2856; i=bagasdotme@gmail.com; h=from:subject; bh=iBze3ddOIKfLFzK1PdZekaZ25CQzX4/eyJkqv/S9OE8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkfdp4z4zP/tXdvtJUyw70JEnz/uQySsze9La/wfti74 g9H0oK2jlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzkNwPDPzML4VeKWoEz70nO eHasyOLtJ82FE1y8245+yzv0qrr060mG/17LJ6TLhfvMj5rMJpKa38DaOOdChJ31ZzPZ6ouC5ao nmQE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1687; i=bagasdotme@gmail.com; h=from:subject; bh=q8o2NQ6L6LFGbktB7GVrgV59ZquhP2NAXmS5kWpAIwo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkf9uy3WLhuyaq1HtsLPD0S5BTeHpR563FPYGKS+g5J9 afcm4697ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEbLUYGXb7L1v9myunTaJd Y245e1rqQV1Th7TFzlZBB74r7t160o/hn84SxeJ2roD+cAvh17H5fTOefklL2nRi+ZZi/uB+574 JLAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Format subsections of "Packet format" section as reST subsections.
+cloud-ifupdown-helper patch and reattach-vf.sh script are rendered in
+htmldocs output as normal paragraphs instead of literal code blocks
+due to missing separator from respective code block marker. Add it.
 
-Link: https://lore.kernel.org/linux-doc/aO_MefPIlQQrCU3j@horms.kernel.org/
-Suggested-by: Simon Horman <horms@kernel.org>
+Fixes: 738baea4970b ("Documentation: networking: net_failover: Fix documentation")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- .../cellular/qualcomm/rmnet.rst               | 20 +++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+Changes since v1 [1]:
 
-diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-index 289c146a829153..1115606496b67d 100644
---- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-+++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-@@ -27,7 +27,8 @@ these MAP frames and send them to appropriate PDN's.
- 2. Packet format
- ================
- 
--a. MAP packet v1 (data / control)
-+A. MAP packet v1 (data / control)
-+---------------------------------
- 
- MAP header fields are in big endian format.
- 
-@@ -53,7 +54,8 @@ Multiplexer ID is to indicate the PDN on which data has to be sent.
- Payload length includes the padding length but does not include MAP header
- length.
- 
--b. Map packet v4 (data / control)
-+B. MAP packet v4 (data / control)
-+---------------------------------
- 
- MAP header fields are in big endian format.
- 
-@@ -106,7 +108,8 @@ over which checksum is computed.
- 
- Checksum value, indicates the checksum computed.
- 
--c. MAP packet v5 (data / control)
-+C. MAP packet v5 (data / control)
-+---------------------------------
- 
- MAP header fields are in big endian format.
- 
-@@ -133,7 +136,8 @@ Multiplexer ID is to indicate the PDN on which data has to be sent.
- Payload length includes the padding length but does not include MAP header
- length.
- 
--d. Checksum offload header v5
-+D. Checksum offload header v5
-+-----------------------------
- 
- Checksum offload header fields are in big endian format.
- 
-@@ -154,7 +158,10 @@ indicates that the calculated packet checksum is invalid.
- 
- Reserved bits must be zero when sent and ignored when received.
- 
--e. MAP packet v1/v5 (command specific)::
-+E. MAP packet v1/v5 (command specific)
-+--------------------------------------
-+
-+Packet format::
- 
-     Bit             0             1         2-7      8 - 15           16 - 31
-     Function   Command         Reserved     Pad   Multiplexer ID    Payload length
-@@ -176,7 +183,8 @@ Command types
- 3 is for error during processing of commands
- = ==========================================
- 
--f. Aggregation
-+F. Aggregation
-+--------------
- 
- Aggregation is multiple MAP packets (can be data or command) delivered to
- rmnet in a single linear skb. rmnet will process the individual
+  - Place code block marker at the end of previous paragraph (Simon)
 
-base-commit: cb85ca4c0a349e246cd35161088aa3689ae5c580
+[1]: https://lore.kernel.org/linux-doc/20251015094502.35854-2-bagasdotme@gmail.com/
+
+ Documentation/networking/net_failover.rst | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/networking/net_failover.rst b/Documentation/networking/net_failover.rst
+index f4e1b4e07adc8d..2f776e90d3183e 100644
+--- a/Documentation/networking/net_failover.rst
++++ b/Documentation/networking/net_failover.rst
+@@ -96,9 +96,8 @@ needed to these network configuration daemons to make sure that an IP is
+ received only on the 'failover' device.
+ 
+ Below is the patch snippet used with 'cloud-ifupdown-helper' script found on
+-Debian cloud images:
++Debian cloud images::
+ 
+-::
+   @@ -27,6 +27,8 @@ do_setup() {
+        local working="$cfgdir/.$INTERFACE"
+        local final="$cfgdir/$INTERFACE"
+@@ -172,9 +171,8 @@ appropriate FDB entry is added.
+ 
+ The following script is executed on the destination hypervisor once migration
+ completes, and it reattaches the VF to the VM and brings down the virtio-net
+-interface.
++interface::
+ 
+-::
+   # reattach-vf.sh
+   #!/bin/bash
+ 
+
+base-commit: 8d93ff40d49d70e05c82a74beae31f883fe0eaf8
 -- 
 An old man doll... just what I always wanted! - Clara
 
