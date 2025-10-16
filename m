@@ -1,73 +1,65 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E990345736;
-	Thu, 16 Oct 2025 14:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788C63451A8
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 14:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760626238; cv=none; b=HJzaPhfrmbjyg+SewrInX8OSA55GsTnEQgup688/8AOdYEp+kbIXnTqEmtn+vmr5IfRsZbLWo5fNCenUY+yR0zTaFIutPoQWf/JBcGmHXmFTYiEVEB8/rMzFgsiHd4EpDdlHM2A81dqLwilecTafvj02RdkADSmptzSYEbGiC+4=
+	t=1760626264; cv=none; b=k10a4xtIduy7gXqasrTqPndg9hFAbIM65buZm45OC0rSHDwQKCx0gQMgbnYrjMw6JQ7ou51WxZwdbuu+xH1uv5LLvkLgRLoBLLY+AL6ouPODvYl9du74m+OdOHzU34DBNKWrgzwzfZTbQHqJgxue4mnO2WEB5nF5psfiNdn0eVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760626238; c=relaxed/simple;
-	bh=hs6qVnI/f6YslxIS5hdDDB/6/A1g/tpE0SrPb86ZExg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z4Ix98KWf5MgX7B2Y0b3qB60XhSHyNAoQa2bKVHZV+eWoEnb/Nr7yQ2crSc5gnOuoQOcz3DXbjeNVPS16NsyRU0zbOwWWq3Yd4k3YlRx2G7uI4qds2jHQTMWCR3VbQRa3sqmOB24YLbCIEiRxkwtqvBvG6LEN1hHvfhbPTgTWdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44F121688;
-	Thu, 16 Oct 2025 07:50:21 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 236D03F738;
-	Thu, 16 Oct 2025 07:50:26 -0700 (PDT)
-Date: Thu, 16 Oct 2025 15:50:21 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-Message-ID: <aPEGLWDL0bd2Y3df@e133380.arm.com>
-References: <aNFliMZTTUiXyZzd@e133380.arm.com>
- <aNXJGw9r_k3BB4Xk@agluck-desk3>
- <aNqQAy8nOkLRYx4F@e133380.arm.com>
- <d15d97d1-286c-4857-8688-4d8369271c2c@intel.com>
- <aNv53UmFGDBL0z3O@e133380.arm.com>
- <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
- <aO0Oazuxt54hQFbx@e133380.arm.com>
- <bf18c704-66d0-40cb-8696-435ac1c928b5@intel.com>
- <aO/CEuyaIyZ5L28d@e133380.arm.com>
- <SJ1PR11MB608386E5B83880643B23E159FCE8A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	s=arc-20240116; t=1760626264; c=relaxed/simple;
+	bh=0UX858MpJw+MYGZQzGM621+QYT8OUeh2rPZrre15ei0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eQ36U0sy85BRVow0ysckHIa8ngvOveWvxHmCUt0l4U8nSGNmUna413Z8KR0k0M+2QAJa8R23c6orww3VYkZI/vrnA9eSLW8wircT1sFWf74/aKNkQP+sYqtymUHOxptq08xMOwcLCgbah9Ci20Y0rMtm0m3gdYg6jqhaRKhi718=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=knOCtAgH; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="knOCtAgH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B530D406FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1760626256; bh=0UX858MpJw+MYGZQzGM621+QYT8OUeh2rPZrre15ei0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=knOCtAgHcaFYkJLFzH+ETSpllS/SanOPEQnoqOn4yNp5cB2BVOBaFNyu3gzC9ALoe
+	 tfOSpXqrzxavD9sSO4FpNeCf0OE3ahNGGjxuTn72WTcy29kmbgUKwAINpBz+KLcIwB
+	 +QqMMzoYYoYDUaVVSYn5VyqU60tjTzAfN9M2R42+sofNCY9uKJau79B+Xc7ISNzoVa
+	 ko3zsTvwEO87FdltsMY+/4BM1PXyPbm8yhet6QW/5/hkaATeAmy1rXtHoZSqkQMLif
+	 H7197FRr7LNQe0ou5kE+tIjpU5oYZTEwOlyoCe35yWo+NBxok8gdK/j2vi3kWqzHXk
+	 kaCo5f5NsKSYA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B530D406FB;
+	Thu, 16 Oct 2025 14:50:56 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: parse_headers.pl ?
+In-Reply-To: <9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org>
+References: <9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org>
+Date: Thu, 16 Oct 2025 08:50:55 -0600
+Message-ID: <87ikge6gts.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB608386E5B83880643B23E159FCE8A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain
 
-Hi Tony,
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-On Wed, Oct 15, 2025 at 06:48:55PM +0000, Luck, Tony wrote:
-> > I'll try to pull the state of this discussion together -- maybe as a
-> > draft update to the documentation, describing the interface as proposed
-> > so far.  Does that work for you?
-> 
-> Dave,
-> 
-> Yes please. This discussion has explored a bunch of options. A summary
-> would be perfect.
+> Hi,
+>
+> Documentation/doc-guide/parse-headers.rst talks about some
+> parse_headers.pl file but I cannot find such a file.
+>
+> Is there a replacement for this documentation?
+> What should it be?
 
-OK -- next week sometime, probably.
+Mauro deleted it in aebcc3009ed5; clearly there's some docs work that
+needs to be done to finish the job.
 
-I'll try to keep it high-level, since we don't have a final design yet...
-
-Cheers
----Dave
+jon
