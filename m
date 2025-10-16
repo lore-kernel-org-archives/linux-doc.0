@@ -1,96 +1,63 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D5927E066;
-	Thu, 16 Oct 2025 15:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC1A1C84B2;
+	Thu, 16 Oct 2025 15:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760628966; cv=none; b=PA/LFCJUuqlsg4PlRpGaZcF8VEep1bOCeBdpSYJrHW3ibmI83X2jEcHAoeCPsojdJ2JmcsNH+j3Dqad2Ta355hYeKNkIz6kW2whh6a5L/uTMbVDXFaC5YKRaoB7ktz/TBUN4rqyAldIVh59CyNWZUSvKeSqVPNhlZRB+T7cI2Zo=
+	t=1760629626; cv=none; b=uTBGjROF7SQ2hWOKPnpRZYaW55U+e1OHF8UdRT87tS/86DwW6UxITp3/r4jOXtOcavNYVUH1cV1bWoOYpGtk86PvM0pRyYadQ/96LHVy/oK6PtP61RjVMCc6ZpLBisXId232fIX64ZaM3EQggCe3En94Cs+lpVgnIvMOXn7sm+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760628966; c=relaxed/simple;
-	bh=XZxC3Z7Brl2vKlEpL+VR3iYPXHyRePQJxpgSpCsm/Mc=;
+	s=arc-20240116; t=1760629626; c=relaxed/simple;
+	bh=XGpBa+a0iKSn9D3dLoUUmRwWIRv0Hk8B3N4MXNUHev4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LZ7xMYIehSgQImc6lv8EcPl3akCibCj7A+jGmyj9BwxCqSgVng9cF4jcC6ZGRfoOgOuRaFg/ffy9wKDOIDVEXaGBhjMwKjCQK47ZhY3HsUK2sLV6huhP4MXTmwM/GfBMMRatJpvqIqyPSJm7I3Gr3AaT2TAIGpmFEsJ5yqUtbFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PlQkXKBJ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=i2uXnxWKucy/MAepQ0QziG/sWi955/9fpJT0D0dOuAsGAIFl8+5jAKqddIupjv7gqE2/2etNRE4gZ/pcyUS7FTwekhM8RwhHYD8bPfVh773wP1egXzPDRP/ZcSt2lPg0q9/Gm1UCLvnPO7EHiOabgt2ts+XkxJs6bAZTrtKwlsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erM9eQUQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PlQkXKBJ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AAB2B40E015B;
-	Thu, 16 Oct 2025 15:35:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 63E0fiiBV7Sf; Thu, 16 Oct 2025 15:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1760628948; bh=zjmrhIJBJoSPs1NvxJc+Q+GQcsPJIJZQEyPo+J6+Xpk=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erM9eQUQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05CE5C4CEFB;
+	Thu, 16 Oct 2025 15:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760629625;
+	bh=XGpBa+a0iKSn9D3dLoUUmRwWIRv0Hk8B3N4MXNUHev4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PlQkXKBJj7ZLIERAyD1oEOZFHmn1CsVj6+nlGx48xCSVZvSbFGSTOgTth098UxoUe
-	 LAYrg56uDuYZocKzECUOg+j/Cp17o6fFRPtqtHncsQOTONFRfs39blPuoCnFpkWJzs
-	 fk7pivKHHbJQ/WHPUxSk1ByMJlwJ7Ez1nypGW66G0cO70UiasLKCaoy4tYURLu9r7h
-	 iz+Ax3tq4ga0X5sVuvwFEioTaaWWYQHRl9zsddrtCQZ5FP3yToYr3sX4x1bigiLvrX
-	 4CtdQdYMQmr5AOolLPn5inmGg14hvKHgwhj+l3tYXLyIE4Ml9lKMbWF8++1lhixgMc
-	 9o/EVuT1wz/CzAx1XT4tNXvzfAPEZCmcut69dfc1KxBibTseCcxtiDelvmo80fmHvB
-	 UgSQir/REVvsm4HGcOCCk0MJ4CDlrPk7/xJ2KHDTluekNBnFAN73qQ7vQD/7/kbqNN
-	 RD/3tXqOHvmoTpruAOTwEWGDQGikA8CzBHinZohmpiMfNLpu8CHDfp8jYJA2j02WeU
-	 lJap/ceYWtN/haPsGdCZ8wzF992Ma3KqQjmPbFBanfTeGYKtZGj1s82s9hjPXF7uzw
-	 g/BtnQqL4XhEBnDotIBKlvaHsWXvP856zK36kVnY2sk9qnhMEZwgliyyyOvEv0vnaG
-	 F1EqIqhfX6jhqIhhnkZq/+VE=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id D86AB40E00DE;
-	Thu, 16 Oct 2025 15:35:20 +0000 (UTC)
-Date: Thu, 16 Oct 2025 17:35:14 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 01/15] x86/cpu: Enumerate the LASS feature bits
-Message-ID: <20251016153514.GDaPEQsj9eNwWfmtLf@fat_crate.local>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-2-sohil.mehta@intel.com>
+	b=erM9eQUQKEyJYflO5Eb2nYfTKT5vUqI9SZvZYGJwH+n/NGpjOnek+V4upW5ANw0Id
+	 QhAYTeYQ94ynt1VpQgHpMTe1qeZORStP/aOV0glnYQtyC1DvQ/oI1feU2pCusUp7ND
+	 vLo3f33d+YtHMKVnSmgajwG0KEYYMJOMnSPHO/4MwjfCwkdpADasf777CdUnLoJ8WT
+	 uVkNOl5F+an9yCzLmv9KE7H1Z8HM5GP6hxja8SDMHx2HrCmQx1DXVGNAw5tBg2PgGu
+	 h6+3M/LufjqMVmk8rQF948a7xWL8nJYyXggV4/ISFwcC1nDlTYEj3ve2K2MOU3t5DY
+	 oO11cp2+Qjzkw==
+Date: Thu, 16 Oct 2025 16:47:00 +0100
+From: Simon Horman <horms@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
+	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH net-next] net: rmnet: Use section heading for packet
+ format subsections
+Message-ID: <aPETdHwdVoqycFVB@horms.kernel.org>
+References: <20251016092552.27053-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251007065119.148605-2-sohil.mehta@intel.com>
+In-Reply-To: <20251016092552.27053-1-bagasdotme@gmail.com>
 
-On Mon, Oct 06, 2025 at 11:51:05PM -0700, Sohil Mehta wrote:
-> Link: https://download.vusec.net/papers/slam_sp24.pdf [1]
+On Thu, Oct 16, 2025 at 04:25:52PM +0700, Bagas Sanjaya wrote:
+> Format subsections of "Packet format" section as reST subsections.
+> 
+> Link: https://lore.kernel.org/linux-doc/aO_MefPIlQQrCU3j@horms.kernel.org/
+> Suggested-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Just give the full paper name and people can search for it. Links tend to get
-stale over time.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
