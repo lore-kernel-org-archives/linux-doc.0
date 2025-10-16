@@ -1,133 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C242550CA;
-	Thu, 16 Oct 2025 05:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650BD242D70;
+	Thu, 16 Oct 2025 05:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760593392; cv=none; b=KujLf1Jj+OOCf94I7HJ40l1R6748NFrCg+uwuQhd3CG2nR6n0bMTtl7pLhWUFd975AG0yF/FWUQZ9mBqgPF2VYxPzA1gvRbWQuIZgZvHqudBgofIgL/GrYEp0Rj08bPLjAyvIElSX2BsHdrLQjPJWDpmgVRLUe+x4tJ4nNRXBkM=
+	t=1760594206; cv=none; b=ZDr5R/YcMHQJITNWs91GKcq7dHkQRLEmpy2hF9etMtpa4xY5PgGJV/d6GrqXj1nbVuYSpfD0JMMCGOI9CsgHHo3SXvR806v/jKqkx2AzRDwn+pIUgaMHz9xntplw9jmKdrnsbKkWbNMuecDqMQHDt/9mo///BNDCxU1Mqn7HTXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760593392; c=relaxed/simple;
-	bh=eIVI8OqgEV3xHp+az9XF8OTJlngtcvHJX8WxH8mJ3xQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QMHVZ6xwUqT29jYX/iZeSnMmsWFV/fUnWxajYe8w8RTu2dUHDC2N5bmNsBz9ZkrImKHbfj88yj/0VghrC0/z+jo00Tv9FYhJ6h2xnbSJF7K389ltI/tqxivW45nbMc6zwwv9n2TJBKsBZ4isAxmO4sM0EOKNzp8D1s0LUqrQsl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjeExjP4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760594206; c=relaxed/simple;
+	bh=v28SW4C2/MMOF14xcWGZoBm6mtw65G/uoNs/VCAmapM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tsCtXI0yM8E5JdzQL1Z1jUoYVNZdaHvk2vH0hSl4iYkTnD2DlcPcmErtE60kPNJtSkR8irZWauWh2o3lfXL5F3NPytmgmCYLYztvouzJ1v22WF/1W4MPl1BH0tBh2vMiEhnCkgEMw7qDVvq141U5dItv3/J1EdYy4ySq4gr3QUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QX6T8jHl; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjeExjP4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC44AC4CEFE;
-	Thu, 16 Oct 2025 05:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760593392;
-	bh=eIVI8OqgEV3xHp+az9XF8OTJlngtcvHJX8WxH8mJ3xQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cjeExjP46ZUNLmcY7FIHFH8hwwe5PyprJG4sl+TBQKzk+A1GardBEaKZaNA8alXeM
-	 Gu967SAsggH42UyYYtUCq1A4L/at5QaeM6drFxlpbMy9Q3uF7PEjcAwjVipIPrpxMu
-	 ntENjMeNC1yZlLMQIVk2YYYFWMWzRd/S11/5J9FNVhwG19aojHMZ0TBmqkW+70fnO6
-	 pgopi7c4Wb57uRIkw0Kw9zPhSpO1e/gIyMmGGO8CpUnjvEt3H+UR/kc6ntIr55ngYs
-	 0HYZAZhnH2frOoL4+/uhdPMPjGaVFIAKjGVzBzc19mMtCggQ0zhszm5DP8KH+XBa72
-	 8f2ctTv2EGbzA==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	tzungbi@kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v5 7/7] platform/chrome: cros_ec_chardev: Secure cros_ec_device via revocable
-Date: Thu, 16 Oct 2025 05:42:04 +0000
-Message-ID: <20251016054204.1523139-8-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0.788.g6d19910ace-goog
-In-Reply-To: <20251016054204.1523139-1-tzungbi@kernel.org>
-References: <20251016054204.1523139-1-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QX6T8jHl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760594202;
+	bh=v28SW4C2/MMOF14xcWGZoBm6mtw65G/uoNs/VCAmapM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QX6T8jHlaUjF0jv51uLgXQcAH7TxnY63c9Eq9eYQ1SzI7HC8icxUPRUT+OqhI3q2a
+	 aNY85XuyJmUMasOXGX4UFdMBaBlsUXPRsLEkcDqYLhYXLCC87kSqkwEAZTGLVKiRJb
+	 RXsiqT3UNRlkB9Txx8SCDvpvuSTsIbsL46Dc0PEWOe5iwjhpl/Mc3MRc2tphIzbg73
+	 GsyPOGwRLs/KVDy6n4d58AS2lyJfGM/dCUIdWvij/K5YtOzG7UDxC2nkMq34mPuzvY
+	 LXm8HjtBEZEL6kXwi2xc4qY3QLgDb9uYZIci2jO8EuCNonyr6x82jtHXk4wRc+X800
+	 5sfj3NaFXCraQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EE9017E05FE;
+	Thu, 16 Oct 2025 07:56:41 +0200 (CEST)
+Date: Thu, 16 Oct 2025 07:56:37 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v4 08/13] drm/v3d: Fix builds with
+ CONFIG_TRANSPARENT_HUGEPAGE=n
+Message-ID: <20251016075637.3aec3465@fedora>
+In-Reply-To: <efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+	<20251015153018.43735-9-loic.molinari@collabora.com>
+	<20251015201737.3956f801@fedora>
+	<efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Miscdevice now supports revocable fops replacement.  Use it to secure
-the cros_ec_device.
+On Wed, 15 Oct 2025 22:41:59 +0200
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-PoC patch.
+> On 15/10/2025 20:17, Boris Brezillon wrote:
+> > On Wed, 15 Oct 2025 17:30:12 +0200
+> > Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+> >  =20
+> >> Don't declare "super_pages" on builds with CONFIG_TRANSPARENT_HUGEPAGE
+> >> disabled to prevent build error:
+> >>
+> >> ERROR: modpost: "super_pages" [drivers/gpu/drm/v3d/v3d.ko] undefined! =
+=20
+> >=20
+> > I believe this is a bug introduced by the previous commit: the
+> > compiler probably drops any code between the
+> > IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) check and the err label
+> > because IS_ENABLED() evaluates to false at compile time. So I'd squash
+> > those changes in the previous commit. =20
+>=20
+> Right, it's been introduced in previous commit.
+>=20
+> > =20
+> >>
+> >> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/v3d/v3d_drv.h | 2 ++
+> >>   drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
+> >>   2 files changed, 4 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_d=
+rv.h
+> >> index 99a39329bb85..481502104391 100644
+> >> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> >> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> >> @@ -564,7 +564,9 @@ extern const struct dma_fence_ops v3d_fence_ops;
+> >>   struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_que=
+ue q);
+> >>  =20
+> >>   /* v3d_gem.c */
+> >> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >>   extern bool super_pages;
+> >> +#endif
+> >>   int v3d_gem_init(struct drm_device *dev);
+> >>   void v3d_gem_destroy(struct drm_device *dev);
+> >>   void v3d_reset_sms(struct v3d_dev *v3d);
+> >> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_g=
+em.c
+> >> index 635ff0fabe7e..0039063eb8b2 100644
+> >> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> >> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> >> @@ -269,7 +269,9 @@ v3d_huge_mnt_init(struct v3d_dev *v3d)
+> >>   	 * match our usecase.
+> >>   	 */
+> >>  =20
+> >> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >>   	if (super_pages)
+> >> +#endif
+> >>   		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size"); =20
+> >=20
+> > Why not
+> >=20
+> > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >    	if (super_pages)
+> >    		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> > #endif
+> >=20
+> > I guess
+> >=20
+> > 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+> > 		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> >=20
+> > would also do, since it's likely to rely on the same optimization the
+> > previous v3d_gemfs_init() implementation was relying on, but it's
+> > fragile (not sure what happens when compiled with -O0). =20
+>=20
+> I'll remove the #ifdef/#endif around the super_pages declaration in=20
+> v3d_drv.h because it isn't necessary if super_pages is compiled out in=20
+> v3d_huge_mnt_init().
+>=20
+> In v3d_huge_mnt_init(), I'd add the #ifdef before the ret variable=20
+> declaration and the #endif right after the last else so that it's clear=20
+> drm_notice("THP is recommended...") is called unconditionally when=20
+> CONFIG_TRANSPARENT_HUGEPAGE=3Dn, whatever the optim level. What do you th=
+ink?
 
-v5:
-- No primary changes but modify the API usage accordingly.
+First off, I'm not a huge fan of the following pattern
 
-v4: https://lore.kernel.org/chrome-platform/20250923075302.591026-8-tzungbi@kernel.org
-- New in the series.
+#if foo
+	if (xxxx)
+#endif
+		do_something
 
- drivers/platform/chrome/cros_ec_chardev.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+which also applies to
 
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index c9d80ad5b57e..01691b023d7e 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/device.h>
- #include <linux/fs.h>
-+#include <linux/fs_revocable.h>
- #include <linux/miscdevice.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-@@ -166,7 +167,6 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -370,6 +370,19 @@ static const struct file_operations chardev_fops = {
- #endif
- };
- 
-+static int cros_ec_chardev_rev_try_access(struct revocable **revs,
-+					  size_t num_revs, void *data)
-+{
-+	struct chardev_priv *priv = data;
-+
-+	priv->ec_dev = revocable_try_access(revs[0]);
-+	return priv->ec_dev ? 0 : -ENODEV;
-+}
-+
-+static const struct fs_revocable_operations cros_ec_chardev_frops = {
-+	.try_access = cros_ec_chardev_rev_try_access,
-+};
-+
- static int cros_ec_chardev_probe(struct platform_device *pdev)
- {
- 	struct cros_ec_dev *ec = dev_get_drvdata(pdev->dev.parent);
-@@ -386,6 +399,13 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
- 	misc->name = ec_platform->ec_name;
- 	misc->parent = pdev->dev.parent;
- 
-+	misc->rps = devm_kcalloc(&pdev->dev, 1, sizeof(*misc->rps), GFP_KERNEL);
-+	if (!misc->rps)
-+		return -ENOMEM;
-+	misc->rps[0] = ec->ec_dev->revocable_provider;
-+	misc->num_rps = 1;
-+	misc->frops = &cros_ec_chardev_frops;
-+
- 	dev_set_drvdata(&pdev->dev, misc);
- 
- 	return misc_register(misc);
--- 
-2.51.0.788.g6d19910ace-goog
+#if foo
+	if (xxxx)
+		do_xxx
+	else if (yyy)
+		do_yyy
+	else
+#endif
+		do_something
 
+I'd rather have do_something duplicated in an #else section
+like that:
+
+#if foo
+	if (xxxx)
+		do_xxx
+	else if (yyy)
+		do_yyy
+	else
+		do_something
+#else
+	do_something
+#endif
+
+But I'm not even seeing what the problem is here. If you do:
+
+	int err =3D 0;
+
+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+    	if (super_pages)
+    		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+#endif
+
+	if (v3d->drm.huge_mnt)
+		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+	else if (err)
+		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n", err);
+	else
+		drm_notice(&v3d->drm,
+			   "Transparent Hugepage support is recommended for optimal performance =
+on this platform!\n");
+
+You're guaranteed that err=3D0 and v3d->drm.huge_mnt=3DNULL when
+CONFIG_TRANSPARENT_HUGEPAGE=3Dn, so the "THP recommended"
+message should be displayed unconditionally. Am I missing
+something?
