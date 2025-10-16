@@ -1,120 +1,104 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50B01DE2DC
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE18EEB2
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760580703; cv=none; b=S92NkO66Aiv6W3VOpYKGEzkd5Hwp5ZGW5+D/Rh9KOvixRLhh+IePaHO+EZySiD7Vdr/j0gh9glWh6fUQhB9KGkty9gPW0g3/uo4+N6aDjuHfUMdAsO/btWl6QqQJ5Yf+WGYGnh3krBSlg+Brtgj8z8aOZA1TfVyGhbhOVhjAu8M=
+	t=1760580936; cv=none; b=V02bdy+MQo0bnVHjBcH2wGfYmThUaEbSW/n9mEofAXv0+tl1oXn8yKohvneWJ2GPFI0uOq9Qlbss6ggHFgK1kNaLRODESWA5hf79UsqIyTfRwsoFb0HwsxJT5kww/Z7p0VLUuaVaXiRU3YjOhu2SvvNoCCHsv+X1vSi8QJN/iK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760580703; c=relaxed/simple;
-	bh=+XyzHt2+lndqbVro9NnPUkSykS/KdNffOJt4rBBZ3DU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PBobGB/74qDjVUFYOT5T3d8/UW7QPBeI/nRDhgKhjQQWZzUAHMXvQH4+ocr83OyvhxSGzkaSe1c3PpDKKtC+momKme/3Ca0L5H42RXpTDiUKBw4Qi5FswA9x3ABW/RDvil83mRaOREG5FSTYAEbi1eUpsPDThq59CVrn3fGa/vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irYzWRXl; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1760580936; c=relaxed/simple;
+	bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UEUy5LCdeVbvwrHvozbEMmIhMG2fnBwv1SWECmqJxGWGupAxysw+N9/pmbbl7G9jbvswJ1ukXuC6v56Y5uGnSis0VJWXu2myOTMFMmvI1X7QFzKdPyIMdE8FJ7xNITfN2rbNbCHaVuO4xBCct9X8Ju+QHOf1PcMP829QkUNgX70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fT5mbzuA; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irYzWRXl"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b555ab7fabaso163558a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 19:11:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fT5mbzuA"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b62ed9c3e79so110405a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Oct 2025 19:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760580701; x=1761185501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sdptM39vQ4ZC4ul+xKv7N2vDIBoFzhiZ3qTbS/fd4wk=;
-        b=irYzWRXlibNEljAZY1RizWQ0zecxxVv3XaFPy64HsuOKsUHASNn+HELJOOWn+WTypo
-         VArSfsfFDB4IoY9oeysXvQIWQdtv95KcjV1xLjoC2vU6Rdml19CA75IaQpxSXVOWMEGv
-         URgdnGs9/s4QsXozI67yhvfEnNf2MdSfBI1Qs5c48ETPMoVdlmAKInhOndgrXjRjdVPc
-         Ym+ocJ8TTtETpgeFHTxrVsdXDSJCarstBjsM4dlMvzI4TOClm8VANgXAAZ5UDcCoRbgz
-         Y6uoU4GB7sUcNIgT9hllNsFtJJBFcmlwaJcYlwOMbsdNKcN3N0V6HZZF0xqYblqOynoT
-         tMfw==
+        d=gmail.com; s=20230601; t=1760580934; x=1761185734; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+        b=fT5mbzuAmxD2eXvzc367v/kjGlWToe/KaxukN8gEX0JqPkCenaRG12L1Ias+sey/K/
+         eS9p8HtqLUcA1LKQMwphFi2CQefL+pFrfYZK/cJB1IYc8GZJv1mHqqhTW1s0pV5Y7Pal
+         JRbGPE0Y4GzXv+NIAB2nD0Y5tfMTbMP3QxdXpsdxtalpmtCkdb4O9EmQHvtK7vbPROBT
+         Q2Zx5wPKSxaxmR9kjrXu907pN2HAo9uL0T4eHQyoaGlyQ2objTDe5uNuWXHs9oYhKHio
+         fuA5PbI5KpHc2gGK6H4Jt4kWsG9I0iHnKaNft4N+9RCYtZcfX2SzVZfviVs2HDnSODg3
+         Qlkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760580701; x=1761185501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sdptM39vQ4ZC4ul+xKv7N2vDIBoFzhiZ3qTbS/fd4wk=;
-        b=dw+/WJXCe5DHRp2E+vVxcAMbaEskPF2SlGl2huYL8T7SnhyfOqtGlx2LkjU4MiBq6a
-         gpeSE4UzTLt1l2NoLT2jJwIsxqCCW5I0RNYP42N2HTdPGTmgsMI46o2w6U2uzKblNiOL
-         jpBM4eQn+zAiG2BbRzykQ5+tj2Mvc8iQcR1V7ERbkxhNeD9mcfmPwGSJiDvl19mnpEwf
-         Y46Hajgpd2UQSs8bN6LNJ8pWXebuCBXDmvzBYZ06J+vLD2XgEc/zSCRg1OSpdXA+wOFs
-         s/ZFeHJ+0q3lSfUyRKjSMKNUNtXHeXHgyqDoRVCBC9ne9MVGlwHLci/3z5t0GLxBMWns
-         /Uiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWeUFgK7iDAN710t2vvKmH6h/grLRK+V4C+M4KXoRHKtik0YF/464bYwlEuEx86vWjaII2ujWsexNg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGreYO1DKarNPTSWYFm8IMeKbYrzO8wxyNYSW4OvP/rzaa0QcE
-	zgnuhVNNrFMcr8KZNWx68xZm7ek3UQnZBNaCYbjhsPpMx1TmgEqC2wyw
-X-Gm-Gg: ASbGncuFv9hKC1olSGW6iHm3BDUtl+bScH/nDX+xQN+D3Y5VnpCefI8/FrDPsRvkAzV
-	n5l3bHGpR/jQlIsDvKVjyf5t86FIss+8hxnVCHkUoNW/7UYv/alm0Uo/okyMF5eWgN2p7Xg+lBF
-	4bv+eSABzl0YmhQsIpy9+EA6Qq3JiPrLfZCR84Jvh7K7fZsyEpyHaTwAv5cc3M0iXLgXP9V3GfP
-	ebIfhVwyoT6iItQ0FEtkgk4eDpIlRZLGAhlFMPLF+fKfBnXc6MK9cWi8UYaWwlqaQk1Ph0jrYJ2
-	44/W5D0hii8RVnzBHuHJlIG24kf67zAqsxUK/Yux1WmpGFfOyI+7EJ1sqemOkhMk3gGkiTIBicj
-	gvpjPGK5ZYh+uhTk0eKX0ghg0EzPOFjJ60FAhri/nOtvvADEUbKROjyN5WLSlGI8LZ/6QnPqvxg
-	hwetV/30QekoooYdoBc9yIqQGSr1lZZTM8IFCnEEg=
-X-Google-Smtp-Source: AGHT+IFbCTTdrxHYHVaVBnRH7IgNG3/mtcqYbWJHh1vVVuc/6HuS6Iye7V7sP+9RojodPULKBM28tQ==
-X-Received: by 2002:a17:902:ccc8:b0:271:49f:eaf5 with SMTP id d9443c01a7336-290273ecb42mr374140105ad.30.1760580700864;
-        Wed, 15 Oct 2025 19:11:40 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afdcc2sm10397715ad.115.2025.10.15.19.11.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 19:11:40 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com,
-	jstultz@google.com,
-	tjmercier@google.com,
-	corbet@lwn.net
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kriish Sharma <kriish.sharma2006@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] htmldocs: userspace-api/dma-buf-heaps.rst: fix block quote warning
-Date: Thu, 16 Oct 2025 02:09:12 +0000
-Message-Id: <20251016020912.1653230-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1760580934; x=1761185734;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+        b=s+lsMRoJ5/Z/qwEYUgimO9sGNJBS74Gh0p4U06ZQliYP8g3CpX4OyUvXuStlcInvJc
+         n6RHG1jN9PTFFo1+FaJ4nSDv6vW9J7FoQRW9ay7uORw1Uj0IPGveXvyFsBrb7Tr/El+5
+         u5mI5XneH8TiVO/MYdyz6F9dT2ft9jA86bvzqMa+aftTQWV7P/QdkknPYdX6/5FXW7bB
+         +ysmvB967ub69Tj/lex2shIEpK8RA0m8p89uy5geHHlqPFWMSj3xIgLnZGIXrF60tlev
+         O1jR0uQRmqYkctvfXBlWbYjgBLAqJjCd4H14IgnIr3GPRTMk1b4dWpy8WawsgR1UNJoy
+         TLpA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYJ2Fn0grzg7hbWcpGuk2wS1bFiE7zAUZ2WU164V4gLvJUHmoglRtfWlSXMeLh08aY88/zlJNXFk0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7bAtPdtmPZWy+gvWzVKynvNpmOXhfUK4wf0Y7/ileY2PaM5tv
+	hUAi2JFUUME3PSHqLrHdb23yzN8yIrNfWvDTXCLwc5ReydkB2he/GlYo+A9suwBG8tDU65tx0qD
+	7hE9S/rH3yAML69NXpaZHKQoz+H4LIrg=
+X-Gm-Gg: ASbGncvYLPtDftVaY68k/RRT47rENZ4Ruzo/Fw+ijMIkiRev2DiiHJHUolgQoFTo8bV
+	tHl8mHhNB3xXa0Yk+xRGoX/kfVxcPHnjhFt1SK8yVpKOR9x7a7yXXK9uVHzSuKiKOvwue8rkVDE
+	kvHZbvwZnAsEICeu9Wsn4YtMeEE5XRQZ0NRUGgor/qXn29DvHo7ds0CRSnOWZbyXWX0zpglGwP9
+	dETM1H5tYaprE6UnlF80HnYAJPeshF9Yue09W6U4DkudVOAeMH4IOx1bzLk
+X-Google-Smtp-Source: AGHT+IEvRoOtfZkD7JBaJ7rZGlNV110A7XDi8jf3vUgY9Fd8pd0a5HquzKeGR4HlB+RP5ldM64qTIlUt/S7CQGX+WI8=
+X-Received: by 2002:a17:903:1447:b0:248:ff5a:b768 with SMTP id
+ d9443c01a7336-29027356a2cmr375723705ad.10.1760580934134; Wed, 15 Oct 2025
+ 19:15:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com> <aPA18fxQW398WHte@archie.me>
+In-Reply-To: <aPA18fxQW398WHte@archie.me>
+From: Kriish Sharma <kriish.sharma2006@gmail.com>
+Date: Thu, 16 Oct 2025 07:45:22 +0530
+X-Gm-Features: AS18NWD2IGlwVYDG7C9iI2e3l9CLdrdvxxJHaMKCdoRSM9GgL7yUi4oi3QL3np4
+Message-ID: <CAL4kbRMQCMqnjLq6tXCuGXfGZWMAN+Jn-oQ0Ljzc_WLG3rUazw@mail.gmail.com>
+Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
+ quote warning
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
+	corbet@lwn.net, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following warning encountered when running `make htmldocs`:
+Thanks for the review, Bagas.
 
-  Documentation/userspace-api/dma-buf-heaps.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent
+I've sent a v2 with the corrected Fixes tag as you suggested:
+https://lore.kernel.org/all/20251016020912.1653230-1-kriish.sharma2006@gmai=
+l.com/
 
-Added a blank line before the "Naming Convention" heading to comply with reST
+Thanks,
+Kriish
 
-Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guidelines")
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
----
-v2:
- - Corrected the Fixes tag per Bagas Sanjaya’s review.
 
-v1: https://lore.kernel.org/all/20251015183402.1649988-1-kriish.sharma2006@gmail.com/
- 
- Documentation/userspace-api/dma-buf-heaps.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index a0979440d2a4..c0035dc257e0 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -26,6 +26,7 @@ following heaps:
-    ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-    created following legacy naming conventions; the legacy name might be
-    ``reserved``, ``linux,cma``, or ``default-pool``.
-+
- Naming Convention
- =================
- 
--- 
-2.34.1
-
+On Thu, Oct 16, 2025 at 5:31=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> On Wed, Oct 15, 2025 at 06:34:02PM +0000, Kriish Sharma wrote:
+> > Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+>
+> The correct blamed fixes should've been:
+>
+> Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guideline=
+s")
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
