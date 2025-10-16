@@ -1,129 +1,122 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00954257853
-	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 09:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA31A257853
+	for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 09:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760605313; cv=none; b=CrVqrcCsBsD4zl+XjGZ7SmzsEc7LDj66yHi6oOGmzd6rOh7coA0djDavaNSCBbKQmH/I4HXszksD3ZHSgXaKlLNhVEHA2YNLMB6TXtM/NkfzXHftO0JLVtMxaxyrJuqAJURlqss8GGS/KQ+dWfeYLIiyWKa+Wj5CVcQki1+yFAQ=
+	t=1760605353; cv=none; b=broJ/PzbAA37fTofB7XbxNdYbgd505i6ThQwn6fm/AvDz1l0jMeDI7RG6wlDRt5rPmH1x0o450I5Z+ZHsd4LDNpRntrMXbgt+/1gftrGa+BknGD1u+JVzjgNaFg9uXmoHt72GVp/rPwiocXab1YZQePm0knF83MHmJ+F3NWHqUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760605313; c=relaxed/simple;
-	bh=suc4JnIRIUGOcWs/9qR0Bix6Z/KdKrVm+w6n80ouM2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c3QFL5/sech71B8rQedVEfsWXSRSTCqptoK0fNZI/KC1DAdXNrV9u4/EiHsC14FWsZ9VNvpxxwCtMl9/vGeukEE04nhWRrBA6dumNpPWUbtgnLg0v66VuwNgvaFu2gryqPfVR+QI/e9R8OGwJHLw5YBBf9IPnM2dGrsNVSsWymo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYP5srU3; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760605353; c=relaxed/simple;
+	bh=+AtvyGqwUgALdVZc2SXcYDz/237PjQqovYd5Z7PxSbA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RBIy2ReXZGMxhHoNXuKqy8IydaL39qJGhPWWEhE6nUO3RxVRn79qlR60p46gtEdiJ6v7VOXyFtgCuVLVH+MzPo2KfXlGOnQLVJ8qYW9doN903/gowEWgxDX29fX/ZyIQS2kYdRkYehYTYupDr6+MEFwvlCW7pKqQUu+4QkX0ItE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CU1XdXuw; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYP5srU3"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-27eed7bdfeeso6181985ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760605311; x=1761210111; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=suc4JnIRIUGOcWs/9qR0Bix6Z/KdKrVm+w6n80ouM2w=;
-        b=LYP5srU36HSTMU0+jbS3BCNJM0Cay+HD5d70VSyE34c31C4gZS9kkkyPF6C/Dh0Ahs
-         aPXMxUlCe+HyJ0150QrTSztoGfrJ9lKgOnXco1S/kk2Twa2pYV+sF60MSxSQbGcn2cg1
-         hHaqG28WBKpcl6PdlOfZq38I4VWqCUSQ8OraTRIoX8vUHj5cJE4hj7Nj54nt4uTN1V0C
-         Yx5BNa3pFSLxjNf5Fk4I89tKOukhg5iyo41ypWxFIRBpELO9M1Y7OZfzUBi8A1g8zEUv
-         46rlyXz3Hrz41qQTGldrsPJF6xtFDzycWMriO4ARZabr7ZqLKAmPLOTxcfBg+uDWp7CB
-         EcRg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CU1XdXuw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760605351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5GQfxStX9qdjnF8aD6SOVhJPa/g/zUO8yOqhMVk2ON4=;
+	b=CU1XdXuwXtAlN5+0UwA9INA9S1zJFuFErCFuDBVib8hpMsHqU+fvDv6znfBqA5++GdNgxs
+	w1RS3BWwwhBvlB1kJrTo1XKV7GPfPIC3ktx6VH91l8Yexg5e57V8Z6S3z17PXl33ZKIkME
+	iQmRMazQZ53TEa7EIA6RlcMH6phv7GY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-RmbPQaLLPlyhib4962kKig-1; Thu, 16 Oct 2025 05:02:29 -0400
+X-MC-Unique: RmbPQaLLPlyhib4962kKig-1
+X-Mimecast-MFC-AGG-ID: RmbPQaLLPlyhib4962kKig_1760605348
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-471005f28d2so1789075e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 02:02:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760605311; x=1761210111;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=suc4JnIRIUGOcWs/9qR0Bix6Z/KdKrVm+w6n80ouM2w=;
-        b=aurrKXA1l3XANrc7zPDytRsU+tBtr0iS3tg3orVjEKfFHthy+nvz/PByOi/d+YMQoY
-         IYuFbIJ05CIbm03NzAFbCwT/yK78mQG+Uk8QkEQZtVZsAlt+mny23jBHLzVJydDJLjz3
-         APWmsa1FG/qM4BmOEGgOiaVZHtZXMFW1i50ls8v1h2d/tr02eVhTlc9OF8pw9XNu5sO2
-         nd0mS/6tNdpsEVJ2lA1b9SkBjS1D9mZ77GCnXtMj/Cns+gKJuGF7wjrqHRyf595WUQ3H
-         2agATuziRmnfsUx639cZT5Z2hoYPpmxQYHup37u5HiERO+ds3KDWTfbcuf59dl6Rt5Eq
-         Osbg==
-X-Forwarded-Encrypted: i=1; AJvYcCViEUUR0EgCbvgeZasMFnHcMsdOl5siPlYOGLXEOFcHZGHrS+9A1rjUWiouEWJilQpPrrzXdoZNrLI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNq+j3Zn3S0RDRCy5AgQNhUlu6cXJChwJ1xdQeb75FTZEaIjl4
-	0kpYBQvQzclBv/gcZgRSFIY/+2sS6vbb9/fynd6NudB0iqnLLKNhYW6P
-X-Gm-Gg: ASbGncty6t0pkAWNnI2ei0/682QKFiy1jsAEIVdNIkHhrKWJsH/TyfpUvXqnz+wzyiz
-	aHm0qNzWZUJEPirEfFuI1MhE4HJQJKO6cGOeB8fP7DTPJh7WungttDBnJ29odHmqjYcZweWTjKs
-	AvySG6rU+Zesa1UrYmOp5zT1buw9bFIe7G7hr+GTh5uBHvfIRsDgA3sZ6rel5N1orMH+V3Olza4
-	Tp4rNjboUBPxFSCYjU8RuCv48rMV8JxJZBdyfYWMYWExv2DPjkEJpX3Y62muVFYxBPzsbSSdPpn
-	m12JY50Z7yPZ2hisjAeJnw+Oi3QjHEXI/bno5PP7zPViwIWrzR+cGClE5GDBHbnNEwvBSgp8krs
-	g/GJ/ggwBtR/9an1k2TeI6Hz1fftqEMYQzX6g0NE1sefVEuvrg/m/tt/h3OZF9gRG9rzZpCFC/G
-	mDXUgSnDzhIsOl/g==
-X-Google-Smtp-Source: AGHT+IE57WvRWVQwP15WqnNytPnJ0vJwjIIRthPOsa4cpEi8X8CD2FPyQJMr+7uqN7uOBtFrHDlVOw==
-X-Received: by 2002:a17:903:1a23:b0:271:9b0e:54c7 with SMTP id d9443c01a7336-29091af3a9cmr42613085ad.11.1760605310973;
-        Thu, 16 Oct 2025 02:01:50 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bb66403f4sm1073355a91.23.2025.10.16.02.01.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 02:01:49 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 098DA40C0938; Thu, 16 Oct 2025 16:01:46 +0700 (WIB)
-Date: Thu, 16 Oct 2025 16:01:46 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
-	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sharath Chandra Vurukala <quic_sharathv@quicinc.com>
-Subject: Re: [PATCH net] net: rmnet: Fix checksum offload header v5 and
- aggregation packet formatting
-Message-ID: <aPC0et6rtTOKyDR6@archie.me>
-References: <20251015092540.32282-2-bagasdotme@gmail.com>
- <aO_MefPIlQQrCU3j@horms.kernel.org>
- <aPA1BzY88pULdWJ9@archie.me>
- <aPCo2f3lybfRJvP0@horms.kernel.org>
+        d=1e100.net; s=20230601; t=1760605348; x=1761210148;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5GQfxStX9qdjnF8aD6SOVhJPa/g/zUO8yOqhMVk2ON4=;
+        b=iaKOt/aXOdSF7rD5vdiBgR5Epq6mifCv0GIgM/grxKI6snNPKW3ZLU5iVUDjM9A2BC
+         yoAeNHhNyNeDBQMgieCMngP/OYCko57aanEB/4BBC6aOGdnndIh5kbu3I9Q6cbOwrCud
+         BRTRMWlz6FUTMU5PTcXmDxiUrGH1ZphLf5717RQR7oZvGDRXGzdxdeI91id1NffUUMf5
+         RrBJPB7+0Nw0BKguH2DfxfD07S9WirXJXCrwGRdB/r6mw5TUC4/zZPLXn1Mzb+srlwkg
+         8OqNbAiEeE70BE0gNmHFOC3e+V7BPxH4sxo5o2xN7+faHd4B5ZyT3u1gOWIt6V46wNKw
+         /Oag==
+X-Forwarded-Encrypted: i=1; AJvYcCWLU5T7JM6Lp58H7ORdHfimS1FX99VxkLR78IBvKVNhioXCv25SQEZ3rTZJ62ibeMOlu/urZbFkjgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq8tL68STCwT+/tEh2mkrCAIltBwiFXT4z7IeLItEKnww3sFy3
+	H2DbCGm0yVsKAN+ExArULM8ExfldTqyKvc5cKgFLAzoZgJXKHDlIqaSg+HnwNl4jtdV1jddy7Xt
+	LdDLnruJ/W0EvI0qjz+oNiTvYGONhtqy+d5bxKpwGnXztjL8r4I9GD7i6E5X3dA==
+X-Gm-Gg: ASbGncvJbUlCa7eNk8yTowNyi/fXaBqGTbILfSxD4FPYHvUkevs4kRgaj2QjTAiX3/F
+	I2zFe9Ddsqua/0Zyx0hAuFxdRi6P5mJgE9AyujSMUQniGVGrnm+gU6GjR0vQKyyCWEsI/2MoNfv
+	2j7xGM+qKihlB2Cq3KB5DhgV6wLI2kesjRZ6Aij4nGXm7Iyr5dI6KbUqSeKfuOyfQ//Lb1hZm6Q
+	Qb31BKUJ+5OErKh+Nml6zEaQXFctBXP7y30Z5LloY/4BIFugLHqRUUG7JKQbUf+J4W5huJBwywP
+	JLZfqaWrVJP8rNHxxgvoXgELFf+WpOALPuUumFuGmVZxPi7Cmz3b9XW8eL8iaZbIHKzLUGoM2uo
+	mk5zxJntUBctP8L1odyVRvGRx8SG6HZGUeVRq8+h//TF9+JY=
+X-Received: by 2002:a05:600c:3b08:b0:456:1b6f:c888 with SMTP id 5b1f17b1804b1-46fa9af364bmr194084305e9.23.1760605348004;
+        Thu, 16 Oct 2025 02:02:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBKaKCixlap2LGsrCQoy/ztjbrbjTMc5FWNVc5/WkapPDjvhhGgdyb9Tum59RrTjzgqDuQQw==
+X-Received: by 2002:a05:600c:3b08:b0:456:1b6f:c888 with SMTP id 5b1f17b1804b1-46fa9af364bmr194083915e9.23.1760605347524;
+        Thu, 16 Oct 2025 02:02:27 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4711444e3fesm14977005e9.15.2025.10.16.02.02.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 02:02:26 -0700 (PDT)
+Message-ID: <4042d1da-a7aa-46c4-87c5-736d74d280a2@redhat.com>
+Date: Thu, 16 Oct 2025 11:02:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="V/bGbS2sUY816rHU"
-Content-Disposition: inline
-In-Reply-To: <aPCo2f3lybfRJvP0@horms.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 net-next 05/13] tcp: accecn: handle unexpected AccECN
+ negotiation feedback
+To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
+ dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
+ kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
+ jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
+ donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
+ ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
+ g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
+ mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
+ Jason_Livingood@comcast.com, vidhi_goel@apple.com
+References: <20251013170331.63539-1-chia-yu.chang@nokia-bell-labs.com>
+ <20251013170331.63539-6-chia-yu.chang@nokia-bell-labs.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251013170331.63539-6-chia-yu.chang@nokia-bell-labs.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---V/bGbS2sUY816rHU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 16, 2025 at 09:12:09AM +0100, Simon Horman wrote:
-> On Thu, Oct 16, 2025 at 06:57:59AM +0700, Bagas Sanjaya wrote:
->=20
-> ...
->=20
-> > I think that can go on separate net-next patch.
->=20
-> Yes, sure.
->=20
-> Would you like to send that patch or should I?
+On 10/13/25 7:03 PM, chia-yu.chang@nokia-bell-labs.com wrote:
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> 
+> According to Section 3.1.2 of AccECN spec (RFC9768), if a TCP Client
+> has sent a SYN requesting AccECN feedback with (AE,CWR,ECE) = (1,1,1)
+> then receives a SYN/ACK with the currently reserved combination
+> (AE,CWR,ECE) = (1,0,1) but it does not have logic specific to such a
+> combination, the Client MUST enable AccECN mode as if the SYN/ACK
+> confirmed that the Server supported AccECN and as if it fed back that
+> the IP-ECN field on the SYN had arrived unchanged.
+> 
+> This patch fix an incorrect AccECN negoation of commit 3cae34274c79
+> ("tcp: accecn: AccECN negotiation").
 
-I'll do it myself.
+Minor nit: with my previous feedback I asked a formal fixes tag here.
 
-Thanks.
+Yes, we can have fixes tag on net-next.
 
---=20
-An old man doll... just what I always wanted! - Clara
+No need to re-submit just for this.
 
---V/bGbS2sUY816rHU
-Content-Type: application/pgp-signature; name=signature.asc
+/P
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPC0dgAKCRD2uYlJVVFO
-o1RbAQDBHNO/O//8dreUmgf0Lc9dgz9gsgk+/PRYBouO4ont9AEAlEQdl9VwuHJJ
-7cOjWsWj/n4O6weq7V/0N67jnElupwU=
-=JFh8
------END PGP SIGNATURE-----
-
---V/bGbS2sUY816rHU--
