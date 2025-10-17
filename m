@@ -1,124 +1,362 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDBD32C94E
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 14:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85C5536CE04;
+	Fri, 17 Oct 2025 14:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760710464; cv=none; b=nXO0F7S/M2Z4leajnpHp1uCdYb7i4ySgu0LripaFMcLyNe4xei5D4GtzO4esPg7LL5tHXMxRW2KP4nWywaalaiif2xzvkgSyPWNL6vC+6Xh62RMu1RBK38/hzPQlU89v53ycvjIPSg6xnER9/VZUFCxECp4kI4AWQOVJn3EfjNo=
+	t=1760710645; cv=none; b=WXsqezOVfZa8fzdvv2CJYe5TooJdtLVnJ8BINnttvEoqnyvwgz16o/B6tcjDYqFUDNu3pVsSCCLcvs2bIkiUIAy5BWv8N/RAEJoXZfh+hpnldPFZTWIwsnfoF4tB4RAVKirxCEXEqzra5SDg4OAjH3HM9PVQQ2ddH9Q+vL8Nsjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760710464; c=relaxed/simple;
-	bh=959p6xV6CKeeWXiRtPPtRMLL/TFd0b3Xs25RXyKYag0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=R+eK/UFaEauYH2ydphyEQeYzAxdHWVD/zCL+GK8vned5f0hehsBruPFp787nnaHKI2PSXJhgDUCVgabioZ96Oeevag7OMdGsyxFrTqkaO0zw6uVG3NuQI+o8xjyHvgfizuaLGSCODjqAmTgqgr3XnCR2FjLeeryUAcZKBaxpE2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Su/2IPOE; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su/2IPOE"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-471066cfc2aso17462905e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 07:14:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760710460; x=1761315260; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FTLnHbprIsxNg0GlvOz1rxX1RAjfsFXOqHQiYRq25LI=;
-        b=Su/2IPOElTtM+RsiQFMRs14hcKxioX7VfmNMd9Wuywrv8kjPCSJROetHVRUc9PhL2I
-         ZjpamG/lE1Ugc0wWzT9ea9ryyVtx17N93Es7t2N2ZupCvSUQQ4BX5UNujWZck9SJoR7q
-         W0QntK1fjnEpyAYA8Q34ed3VaoKiA8s4bzr5BES39aOL+4KzAcjAK2GMPPmbdKlJBdee
-         grP8XDSLyGfaItUt6ripBXvyaBjV4bLCiV7qeau9gC7AfjJ8zVxxQy6cyQy6OFLeQUFV
-         m8fuHnlvJgVRx/g2mdKfuCLgmlOr3OR5ADf1tOZR1OHehThLS7ESA71EksyUqROC8bYa
-         buhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760710460; x=1761315260;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FTLnHbprIsxNg0GlvOz1rxX1RAjfsFXOqHQiYRq25LI=;
-        b=qjUwAbJ0vapNktrIe+fzBrbsINrzhaeJHjmqRK7rMbkroe7SEcsn0t/FOJ8RJ1uJRm
-         gFOypE4tGiyyboShJlcjqwONi9GPe6IkcoFiaDrxUAe0otoccyKkW19NZPcW1p2uiU2l
-         rq4R8jGr674ZpxAviiBQ5u8mv0acpzDso246q6G4spA3/pRN47enQvBYpkVk+pMAVaNg
-         rXnqadDllghhRwHSQaGnQHG99pCVUYKaiGwtVU4HArzXaCmNPA2BIlNYPhbuUPX3lJUx
-         DTTOB6FAG3vCpm1rAM/zjBRF+IVaeZo+xtfjvyfhVed2wybWSX5tBpiamhWTGyXzZWOr
-         1G1A==
-X-Forwarded-Encrypted: i=1; AJvYcCW8x5SpdyhXT4GMHmx2XTNcGCYUSyEkJvZifkfdaNvX8cNst/Ln3YA/dnbmKSm6H7wHT9LQt0tRLWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtEOKxczmz+Pl3jIwl1fQeHNF8SVDCbcbYnHpUbpM2fQWzf1bS
-	72O5atWlXSxr7j+ot0jnUCi8xm5oyruEhXBi9xGt/feJWTwbjBtIkwIc
-X-Gm-Gg: ASbGncvPJqpf+lp4pV1Vl7q9IeauqoJLoAsrku/DtpfujOYJgSnTeIQRwuHhcfF718l
-	So2wgSOZG062YkBjoXrZpsxgm9scXrE892Fj0cnSEZWwoSxNjgbtbtRXuQrhyznM27eHVdtkl+I
-	0wkHSlFrmdXcQ5japORQiZLlyc6nMXM743o9EWKJyiCOEBaJCrdNAJAqb+AF9F0IqvYnP/FrhvP
-	GVpjp8HqSxxlJwapE4gFD3BOCaTaUSOtVcAIW4aqHo6xSlqEGXxaTs76CdBlHAylEFvACFphL9D
-	28fxNiNf4eZkcwXU3/Edi1HJJVnPpu5vDvFxie9hv7N+z3tx/xDJEjgOzRbdVv82kbsTdOGZH2o
-	YFg6U9Eyu06405PPqo6aYJl3kTy63HS6F7F9Heehs8Pz4VYbVnlthp0aULkvfLgrQdZWCMGOwFt
-	XkRTWCugvsFzGBu7qj0/o=
-X-Google-Smtp-Source: AGHT+IF2EM7mT5D52gnp+VTbfiNcarttRakEXF5/pBTZwv3B+9i+o/ZbwXxFScc6ahCV+wEMQcYNyg==
-X-Received: by 2002:a05:600c:821a:b0:46f:b42e:e3a0 with SMTP id 5b1f17b1804b1-4711791dc89mr26441555e9.41.1760710459832;
-        Fri, 17 Oct 2025 07:14:19 -0700 (PDT)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47114423862sm87177925e9.1.2025.10.17.07.14.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 07:14:19 -0700 (PDT)
-Message-ID: <014f2380e9261a1449214907a149f11267acdd11.camel@gmail.com>
-Subject: Re: [PATCH v5 4/7] iio: adc: ad4030: Use BIT macro to improve code
- readability
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com, 
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
- robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	marcelo.schmitt1@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 17 Oct 2025 15:14:52 +0100
-In-Reply-To: <ec78fd7e4348e2cbc99ae08004c48b7ea238ecf7.1760479760.git.marcelo.schmitt@analog.com>
-References: <cover.1760479760.git.marcelo.schmitt@analog.com>
-	 <ec78fd7e4348e2cbc99ae08004c48b7ea238ecf7.1760479760.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 
+	s=arc-20240116; t=1760710645; c=relaxed/simple;
+	bh=jbuJIqHb7ReKr/58anU/M0Jdg6SzL+H6M9yNiSxCoG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IIODFO/U+dBwN+gM1ogDqjSn/TjVTpWaP9x+UBOFH6VL6YeohQM+a3lYNt6FU1XKc/tFbumhqJaUF6i+sGVJP7NCNA7+EoK3Ud+krCNYFEyUvekZo/Sg4so4R1uBKIcAmd2TcKfbgeQylciNXE7cch/OhmtLWUi4keRrd6ABtbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5C84153B;
+	Fri, 17 Oct 2025 07:17:13 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A27283F59E;
+	Fri, 17 Oct 2025 07:17:19 -0700 (PDT)
+Date: Fri, 17 Oct 2025 15:17:11 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
+	James Morse <james.morse@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aPJP52jXJvRYAjjV@e133380.arm.com>
+References: <aNFliMZTTUiXyZzd@e133380.arm.com>
+ <aNXJGw9r_k3BB4Xk@agluck-desk3>
+ <aNqQAy8nOkLRYx4F@e133380.arm.com>
+ <d15d97d1-286c-4857-8688-4d8369271c2c@intel.com>
+ <aNv53UmFGDBL0z3O@e133380.arm.com>
+ <1c4b6b46-16f9-4887-93f5-e0f5e7f30a6f@intel.com>
+ <aO0Oazuxt54hQFbx@e133380.arm.com>
+ <bf18c704-66d0-40cb-8696-435ac1c928b5@intel.com>
+ <aO/CEuyaIyZ5L28d@e133380.arm.com>
+ <dd5ba9e5-9809-4792-966a-e35368ab89f0@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd5ba9e5-9809-4792-966a-e35368ab89f0@intel.com>
 
-On Tue, 2025-10-14 at 19:21 -0300, Marcelo Schmitt wrote:
-> Use BIT macro to make the list of average modes more readable.
->=20
-> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Link:
-> https://lore.kernel.org/linux-iio/CAHp75Vfu-C3Hd0ZXTj4rxEgRe_O84cfo6jiRCP=
-FxZJnYrvROWQ@mail.gmail.com/
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
+Hi Reinette,
 
-I don't find the link particular useful in here. Seems redundant with the
-Suggested-by tag. Anyways:
+On Thu, Oct 16, 2025 at 09:31:45AM -0700, Reinette Chatre wrote:
+> Hi Dave,
+> 
+> On 10/15/25 8:47 AM, Dave Martin wrote:
+> > Hi Reinette,
+> > 
+> > On Tue, Oct 14, 2025 at 03:55:40PM -0700, Reinette Chatre wrote:
+> >> Hi Dave,
+> >>
+> >> On 10/13/25 7:36 AM, Dave Martin wrote:
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+[...]
 
-> =C2=A0drivers/iio/adc/ad4030.c | 8 +++++---
-> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index 4393160c7c77..b2847fd90271 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-> @@ -233,9 +233,11 @@ struct ad4030_state {
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const int ad4030_average_modes[] =3D {
-> -	1, 2, 4, 8, 16, 32, 64, 128,
-> -	256, 512, 1024, 2048, 4096, 8192, 16384, 32768,
-> -	65536,
-> +	BIT(0),					/* No
-> averaging/oversampling */
-> +	BIT(1), BIT(2), BIT(3), BIT(4),		/* 2 to 16 */
-> +	BIT(5), BIT(6), BIT(7), BIT(8),		/* 32 to 256 */
-> +	BIT(9), BIT(10), BIT(11), BIT(12),	/* 512 to 4096 */
-> +	BIT(13), BIT(14), BIT(15), BIT(16),	/* 8192 to 65536 */
-> =C2=A0};
-> =C2=A0
-> =C2=A0static int ad4030_enter_config_mode(struct ad4030_state *st)
+> >>> [...] if we offer independent schemata for MBW_MIN and MBW_MAX, the user
+> >>> can program MBW_MIN=75% and MBW_MAX=25% for the same PARTID, and that
+> >>> will read back just as programmed.  The architecture does not promise
+> >>> what the performance effect of this will be, but resctrl does not need
+> >>> to care.
+> >>
+> >> The same appears to be true for Intel RDT where the spec warns ("Undesirable
+> >> and undefined performance effects may result if cap programming guidelines
+> >> are not followed.") but does not seem to prevent such configurations. 
+> > 
+> > Right.  We _could_ block such a configuration from reaching the hardware,
+> > if the arch backend overrides the MIN limit when the MAX limit is
+> > written and vice-versa, when not doing to would result in crossed-over
+> > bounds.
+> > 
+> > If software wants to program both bounds, then that would be fine: in:
+> > 
+> > # cat <<-EOF >/sys/fs/resctrl/schemata
+> > 	MB_MAX: 0=128
+> > EOF
+> > 
+> > # cat <<-EOF >/sys/fs/resctrl/schemata
+> > 	MB_MIN: 0=256
+> > 	MB_MAX: 0=1024
+> > EOF
+> > 
+> > ... internally programming some value >=256 before programming the
+> > hardware with the new min bound would not stop the final requested
+> > change to MB_MAX from working as userspace expected.
+> > 
+> > (There will be inevitable regulation glitches unless the hardware
+> > provides a way to program both bounds atomically.  MPAM doesn't; I
+> > don't think RDT does either?)
+> > 
+> > 
+> > But we only _need_ to do this if the hardware architecture forbids
+> > programming cross bounds or says that it is unsafe to do so.  So, I am
+> > thinking that the generic code doesn't need to handle this.
+> > 
+> > [...]
+> 
+> Sounds reasonable to me.
+
+OK
+
+[...]
+
+> >>> So long as the entries affecting a single resource are ordered so that
+> >>> each entry is strictly more specific than the previous entries (as
+> >>> illustrated above), then reading schemata and stripping all the hashes
+> >>> would allow a previous configuration to be restored; to change just one
+> >>> entry, userspace can uncomment just that one, or write only that entry
+> >>> (which is what I think we should recommend for new software).
+> >>
+> >> This is a good rule of thumb.
+> > 
+> > To avoid printing entries in the wrong order, do we want to track some
+> > parent/child relationship between schemata.
+> > 
+> > In the above example,
+> > 
+> > 	* MB is the parent of MB_HW;
+> > 
+> > 	* MB_HW is the parent of MB_MIN and MB_MAX.
+> > 
+> > (for MPAM, at least).
+> 
+> Could you please elaborate this relationship? I envisioned the MB_HW to be
+> something similar to Intel RDT's "optimal" bandwidth setting ... something
+> that is expected to be somewhere between the "min" and the "max".
+> 
+> But, now I think I'm a bit lost in MPAM since it is not clear to me what
+> MB_HW represents ... would this be the "memory bandwidth portion
+> partitioning"? Although, that uses a completely different format from
+> "min" and "max".
+
+I confess that I'm thinking with an MPAM mindset here.
+
+Some pseudocode might help to illustrate how these might interact:
+
+	set_MB(partid, val) {
+		set_MB_HW(partid, percent_to_hw_val(val));
+	}
+
+	set_MB_HW(partid, val) {
+		set_MB_MAX(partid, val);
+
+		/*
+		 * Hysteresis to avoid steady flows from ping-ponging
+		 * between low and high priority:
+		 */
+		if (hardware_has_MB_MIN())
+			set_MB_MIN(partid, val * 95%);
+	}
+
+	set_MB_MIN(partid, val) {
+		mpam->MBW_MIN[partid] = val;
+	}
+
+	set_MB_MAX(partid, val) {
+		mpam->MBW_MAX[partid] = val;
+	}
+
+with
+
+	get_MB(partid) {
+		return hw_val_to_percent(get_MB_HW(partid));
+	}
+
+	get_MB_HW(partid) { return get_MB_MAX(partid); }
+
+	get_MB_MIN(partid) { return mpam->MBW_MIN[partid]; }
+
+	get_MB_MAX(partid) { return mpam->MBW_MAX[partid]; }
+
+
+The parent/child relationship I suggested is basically the call-graph
+of this pseudocode.  These could all be exposed as resctrl schemata,
+but the children provide finer / more broken-down control than the
+parents.  Reading a parent provides a merged or approximated view of
+the configuration of the child schemata.
+
+In particular,
+
+	set_child(partid, get_child(partid));
+	get_parent(partid);
+
+yields the same result as
+
+	get_parent(partid);
+
+but will not be true in general, if the roles of parent and child are
+reversed.
+
+I think still this holds true if implementing an "MB_HW" schema for
+newer revisions of RDT.  The pseudocode would be different, but there
+will still be a tree-like call graph (?)
+
+
+Going back to MPAM:
+
+Re MPAM memory bandwidth portion partitioning (a.k.a., MBW_PART or
+MBWPBM), this is a bitmap-type control, analogous to RDT CAT: memory
+bandwidth is split into discrete, non-overlapping chunks, and each
+PARTID is configured with a bitmap saying which chunks it can use.
+This could be done by time-slicing, or controlling which memory
+controllers/ports a PARTID can issue requests to, or something like
+that.
+
+If the MBW_MAX control isn't implemented, then the MPAM current driver
+maps this bitmap control onto the resctrl "MB" schema in a simple way,
+but we are considering dropping this, since the allocation model
+(explicit, static allocation of discrete resources) is not really the
+same as for RDT MBA (dynamic prioritisation based on recent resource
+consumption).
+
+Programming MBW_MAX=50% for four PARTIDs means that the PARTIDs contend
+on an equal footing for memory bandwidth until one exceeds 50% (when it
+will start to be penalised).  Prorgamming bitmaps can't have the same
+effect.  For example, with { 1100, 0110, 0011, 1001 }, no group can use
+more than 50% of the full bandwidth, whatever happens.  Worse, certain
+pairs of groups are fully isolated from each other, while others are
+always in contention, not matter how little actual traffic is generated.
+This is potentially useful, but it's not the same as the MIN/MAX model.
+
+So, it may make more sense to expose this as a separate, bitmap schema.
+
+(The same goes for "Proportional stride" partitioning.  It's another,
+different, control for memory bandwidth.  As of today, I don't think
+that we have a reference platform for experimenting with either of
+these.)
+
+
+> > When schemata is read, parents should always be printed before their
+> > child schemata.  But really, we just need to make sure that the
+> > rdt_schema_all list is correctly ordered.
+> > 
+> > 
+> > Do you think that this relationship needs to be reported to userspace?
+> 
+> You brought up the topic of relationships in
+> https://lore.kernel.org/lkml/aNv53UmFGDBL0z3O@e133380.arm.com/ that prompted me
+> to learn more from the MPAM spec where I learned and went on tangent about all
+> the other possible namespaces without circling back.
+>
+> I was hoping that the namespace prefix would make the relationships clear,
+> something like <resource>_<control>, but I did not expect another layer in
+> the hierarchy like your example above. The idea of "parent" and "child" is
+> also not obvious to me at this point. resctrl gives us a "resource" to start
+> with and we are now discussing multiple controls per resource. Could you please
+> elaborate what you see as "parent" and "child"?
+
+See above -- the parent/child concept is not an MPAM thing; apologies
+if I didn't make that clear.
+
+> We do have the info directory available to express relationships and a
+> hierarchy is already starting to taking shape there.
+
+I'm wondering whether using a common prefix will be future-proof?  It
+may not always be clear which part of a name counts as the common
+prefix.
+
+There were already discussions about appending a number to a schema
+name in order to control different memory regions -- that's another
+prefix/suffix relationship, if so...
+
+We could handle all of this by documenting all the relationships
+explicitly.  But I'm thinking that it could be easier for maintanance
+if the resctrl core code has explicit knowledge of the relationships.
+
+
+That said, using a common prefix is still a good idea.  But maybe we
+shouldn't lean on it too heavily as a way of actually describing the
+relationships?
+
+> > Since the "#" convention is for backward compatibility, maybe we should
+> > not use this for new schemata, and place the burden of managing
+> > conflicts onto userspace going forward.  What do you think?
+> 
+> I agree. The way I understand this is that the '#' will only be used for
+> new controls that shadow the default/current controls of the legacy resources.
+> I do not expect that the prefix will be needed for new resources, even if
+> the initial support of a new resource does not include all possible controls.
+
+OK.  Note, relating this to the above, the # could be interpreted as
+meaning "this is a child of some other schema; don't mess with it
+unless you know what you are doing".
+
+Older software doesn't understand the relationships, so this is just
+there to stop it from shooting itself in the foot.
+
+[...]
+
+> >>>> MPAM has the "HARDLIM" distinction associated with these MAX values
+> >>>> and from what I can tell this is per PARTID. Is this something that needs
+> >>>> to be supported? To do this resctrl will need to support modifying
+> >>>> control properties per resource group.
+> >>>
+> >>> Possibly.  Since this is a boolean control that determines how the
+> >>> MBW_MAX control is applied, we could perhaps present it as an
+> >>> additional schema -- if so, it's basically orthogonal.
+> >>>
+> >>>  | MB_HARDMAX: 0=0, 1=1, 2=1, 3=0 [...]
+> >>>
+> >>> or
+> >>>
+> >>>  | MB_HARDMAX: 0=off, 1=on, 2=on, 3=off [...]
+> >>>
+> >>> Does this look reasonable?
+> >>
+> >> It does.
+> > 
+> > OK -- note, I don't think we have any immediate plan to support this in
+> > the MPAM driver, but it may land eventually in some form.
+> > 
+> 
+> ack.
+
+(Or, of course, anything else that achieves the same goal...)
+
+[...]
+
+> >>> MPAM doesn't allow different controls for a PARTID depending on the
+> >>> exception level, but it is possible to program different PARTIDs for
+> >>> hypervisor/kernel and userspace (i.e., EL2/EL1 and EL0).
+
+[...]
+
+> >>> Hopefully this is orthogonal to the discussion of schema descriptions,
+> >>> though ...?
+> >>
+> >> Yes.
+> > 
+> > OK; I suggest that we put this on one side, for now, then.
+> > 
+> > There is a discussion to be had on this, but it feels like a separate
+> > thing.
+> 
+> agreed.
+> 
+> > 
+> > 
+> > I'll try to pull the state of this discussion together -- maybe as a
+> > draft update to the documentation, describing the interface as proposed
+> > so far.  Does that work for you?
+> 
+> It does. Thank you very much for taking this on.
+> 
+> Reinette
+
+OK, I'll aim to follow up on this next week.
+
+Cheers
+---Dave
