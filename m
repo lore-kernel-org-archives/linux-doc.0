@@ -1,284 +1,444 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB71A31197C;
-	Fri, 17 Oct 2025 06:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CDC311C14
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 06:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760681461; cv=none; b=kQQlJbAV9Sw69kcKCIGjDxI/hi3iafVLrEwPttENE1Pu8FbzhWKOZIRSn/3b3U2sX4CZtVj8QHKJr1yNaGVYal2YA6JKjoTkF3OZ9Ebxk81cpzb1DmPrV6+0ZCR/U3AlC8cIRhkCC4Z5OJP7lmcUk4/axD+DuGXBcJ7OBZ24qpk=
+	t=1760681461; cv=none; b=Z2Xzgn7Up2QBc2S0RAgn96RwUy9rR9k5Z2Jip/jfzEyokvzSw08R+EnF1tdQavSpPE7IexXi7OAEiuFRZwgjLC59e0RL3vKg8VAGtfuSyy/P+ExaLyo58sq0jiP0srlvgiAj9ax7EOS2SL5MmfGTXuDJ6nNEKx44zEpyZoVfEQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760681461; c=relaxed/simple;
-	bh=gZBoHC4dhTKjerEVY8UpMxHtbqqHi2eM972xrc7TgBU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DzG0JHNkajfeHGxRjQqE0m8Wa8TzrZpy99yfsXssNU9t+NaQKbP0D/uGNHmBvIagy1Sr1pIRd6ycUofHHf4DGkMJ6F+frHcfmDZ2sXJMc/BoX6hqFsdVQB62jNeBijP5YVEc8Y7kXC9vS6pN77/981IVWk3q5s2yXDe/FdgjNJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NbdUnKJm; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	bh=bATM6aac632ht2Lhs2ZNT40ldHaeWg8vP8rXRfB+eJ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=C/dCVf/Lg56IGilZrYQSXDdOPx4PFs31M5cXxYGzrKvMR65DGBrbP7+jaV3Tj5efvDQAVgW9wApntojxE8yY3jRvrGOlVqIexLgGTK6h8DnAqJCBcIsDu3RIy1piWaEbgwMZKmoakp2ZrCiQeZWVqg6EzaXEO/2I6oUyg8/qUNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isr4uV9K; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbdUnKJm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760681458; x=1792217458;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=gZBoHC4dhTKjerEVY8UpMxHtbqqHi2eM972xrc7TgBU=;
-  b=NbdUnKJmVcYMoTXGF1JDEN3OutPyhdDcHduEcqQIY9bs+cIkyXy2bpGR
-   pwN/wOqv1TvY2gfo4IkXoFUcOUhlzDGIzbm2CK9s9yqf1/Wq+UG+C/nDV
-   lQXrof0M7d4jvlWzYfJom+RxNuUXedtVCkOuI6Ul2Z+tPBd3pqZy1zLeN
-   IJ0qJLk2gjg0w9HD0ueVaFh8Q0Echc460GjXICsx+oAJtXevnOxTphfpW
-   R1HFXSE7t7HiPZWQEu5hmeAVVxdsUqK0fEW8+l037pXGbGtWx6r7ga3oj
-   Ow5QIyF8LtfbbxQGeAX90i7/+vBmW8tS/Ga2eXO2G25LNB/7CGKl5T7Ob
-   A==;
-X-CSE-ConnectionGUID: hSW/up9GTa+OnrUBoMtt8A==
-X-CSE-MsgGUID: WiKsCDVrQl6tuzbglW1mwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="50453962"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="50453962"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:53 -0700
-X-CSE-ConnectionGUID: zJgdjAXySuSm232We2n4AQ==
-X-CSE-MsgGUID: EZtQJQj2RfyJdJJ/xobLUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="183059495"
-Received: from orcnseosdtjek.jf.intel.com (HELO [10.166.28.70]) ([10.166.28.70])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:53 -0700
-From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Thu, 16 Oct 2025 23:08:35 -0700
-Subject: [PATCH net-next v2 06/14] ice: Extend PTYPE bitmap coverage for
- GTP encapsulated flows
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isr4uV9K"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46fc5e54cceso11186025e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 23:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760681456; x=1761286256; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eWgIwqH7RshFa7F8HHD0DZORzWSphxCks827inGRt3Y=;
+        b=isr4uV9KDlfXmvsGGG4EvziyMwrifcB/13FNnMyckyq45XyG7sU7gfgxqVHGmvPkXr
+         Wkgh3erzSJ8np7WYolS/l2w8FRFw+GFTGvtv2nTqcMco/ipoe3o1v/do/ucMWW8JVzi7
+         f343SoYSpxJLd5ZJg9Ai2i86Szc/8abqWII2crYsnuZuznkoBpq2gIUzhsG2e5lo+oDr
+         TWOGX47nHSntZv0JnTjXwF4R6KBo/rJiSgGbFtQIUvUpIZ8GlnmkTs+m1GsQReWep7nf
+         bLoRAYAbwSIwQFgUWsH+/OBq4zjDGQ2djRrzmxRvICFCEItlQsfJS3wMscKkf6E3AVrD
+         uD/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760681456; x=1761286256;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eWgIwqH7RshFa7F8HHD0DZORzWSphxCks827inGRt3Y=;
+        b=iHRrLWy1mSBQihzthIP+9r5cyxqfPeujWC8wzIdzrOD9WCEccl8yMMhHCyiGOURL5B
+         pMuIQpbMhTh6gd6KP7rJLzLxHHXK/pIKFoZtkRN9nO3kr1KsP/L+I5McxcIV2FUmfxR0
+         Ob68FNXM3/YEMlFj1yAADR8iVt5zFpfQVYuqyw1ndbDyPPXHy9obdyaYNCqCMfOGv5fq
+         ZfJM1ee9rbn6bOFaUYBX5H0fCcpR+rwh/wUugTvGUCncMKi+4Auxi+5V4YypN4N2l+DM
+         j5f/d5MBeDj9YddyfAPoCFkpoeAnQZpjqgKspmHUuS9C0XYSLRKdwcUpnIAl6pUvkWXu
+         RztQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUU7z0+ZTdGMZxgRFbZvpSD7XQPZPuVFHAEkhAtKO5UKEU+7NlSgp4rGxtvli5QrpW/zicX85OiWrI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCuq7XCPI+Z8EBCCzsrIRikLgZm6jc0M7x9v6HAg15l228C63d
+	UI2leXYtPRV46IGRF1C6pGND+w3sEB/yo44G1SCr53I+oZOJpe3M1ZYp
+X-Gm-Gg: ASbGnctfdZbyDZCXoD2sqOPTz/U8BS7JeNV17TCdVRSqLqRno1wiiY1yStK7UFXv38D
+	Wv9h2SWJuiNymjXtWfTeiqVsF1Z7k0xRCEOqyLBgS3ZaYzxqBGOzfDEMP4YG0tLbWuwDT/l8Hsy
+	wsjXjvDrJVyFU+fS5Ll2EQYkSpC8sH2BXD71fK04h1f+uge9QeHKKSeTK666KczwFE+wnF//TeI
+	ZYRJwwl/Ct6Bk1R1rSFbcWwPiaT3OGdPSAMpr9Uy6bk8HI/QzuMi9Jrqk+mz2Q/Ctwp3vxAkqY7
+	Nnp62dT9AGbDnP54MySp/w0KqyCcLvdzH9D0fuxpc5cznxKAVScJZUmiNjGTrqArVcwCRIOXevB
+	GIYRpNMRxUi0hHbjESkkxcEfJaZIctmor98mWDkW18fTLe34vmcnH+QDNc1d7RX5pavtakdYJ1Z
+	Q4pr2RkloCfC0=
+X-Google-Smtp-Source: AGHT+IE3wLtpz8O9wjyUqZlTW2xkNzi1uvDG8cS6sxWvjF5XYMStNyUzSwHm4rj6VyjXI7Ajj4a2pQ==
+X-Received: by 2002:a05:600c:548a:b0:471:ff3:7514 with SMTP id 5b1f17b1804b1-47117877736mr15713675e9.12.1760681456173;
+        Thu, 16 Oct 2025 23:10:56 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4711444d919sm63388875e9.14.2025.10.16.23.10.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 23:10:55 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev
+Subject: [PATCH v3 2/3] initrd: remove deprecated code path (linuxrc)
+Date: Fri, 17 Oct 2025 06:09:55 +0000
+Message-ID: <20251017060956.1151347-3-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251017060956.1151347-1-safinaskar@gmail.com>
+References: <20251017060956.1151347-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251016-jk-iwl-next-2025-10-15-v2-6-ff3a390d9fc6@intel.com>
-References: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-In-Reply-To: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>, 
- Dan Nowlin <dan.nowlin@intel.com>, Qi Zhang <qi.z.zhang@intel.com>, 
- Jie Wang <jie1x.wang@intel.com>, Junfeng Guo <junfeng.guo@intel.com>, 
- Jedrzej Jagielski <jedrzej.jagielski@intel.com>, 
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>, 
- Rafal Romanowski <rafal.romanowski@intel.com>
-X-Mailer: b4 0.15-dev-f4b34
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9462;
- i=jacob.e.keller@intel.com; h=from:subject:message-id;
- bh=wyJ1xpupLz/cB6lR6PiGKy5v/uQhrQijlNDHQojn0m0=;
- b=owGbwMvMwCWWNS3WLp9f4wXjabUkhoyPd59zWjwPO1EZom+e4BDJp2EhcqF51rEDUrdmyZ+dz
- dKSN+9hRykLgxgXg6yYIouCQ8jK68YTwrTeOMvBzGFlAhnCwMUpABNxesfwP4R3+4GmEOHweUvn
- Xfpz5+9JxpnzW65wMcgGNZ25Ot+jy5jhn/1kY63HV7nEjW9U6hw67Ljw0erDF26vkZij7/F5is2
- bDh4A
-X-Developer-Key: i=jacob.e.keller@intel.com; a=openpgp;
- fpr=204054A9D73390562AEC431E6A965D3E6F0F28E8
+Content-Transfer-Encoding: 8bit
 
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Remove linuxrc initrd code path, which was deprecated in 2020.
 
-Consolidate updates to the Protocol Type (PTYPE) bitmap definitions
-across multiple flow types in the Intel ICE driver to support GTP
-(GPRS Tunneling Protocol) encapsulated traffic.
+Initramfs and (non-initial) RAM disks (i. e. brd) still work.
 
-Enable improved Receive Side Scaling (RSS) configuration for both user
-and control plane GTP flows.
+Both built-in and bootloader-supplied initramfs still work.
 
-Cover a wide range of protocol and encapsulation scenarios, including:
- - MAC OFOS and IL
- - IPv4 and IPv6 (OFOS, IL, ALL, no-L4)
- - TCP, SCTP, ICMP
- - GRE OF
- - GTPC (control plane)
+Non-linuxrc initrd code path (i. e. using /dev/ram as final root
+filesystem) still works, but I put deprecation message into it.
 
-Expand the PTYPE bitmap entries to improve classification and
-distribution of GTP traffic across multiple queues, enhancing
-performance and scalability in mobile network environments.
+Also I deprecate command line parameters "noinitrd" and "ramdisk_start=".
 
-Co-developed-by: Dan Nowlin <dan.nowlin@intel.com>
-Signed-off-by: Dan Nowlin <dan.nowlin@intel.com>
-Co-developed-by: Qi Zhang <qi.z.zhang@intel.com>
-Signed-off-by: Qi Zhang <qi.z.zhang@intel.com>
-Co-developed-by: Jie Wang <jie1x.wang@intel.com>
-Signed-off-by: Jie Wang <jie1x.wang@intel.com>
-Co-developed-by: Junfeng Guo <junfeng.guo@intel.com>
-Signed-off-by: Junfeng Guo <junfeng.guo@intel.com>
-Signed-off-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Reviewed-by: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
-Signed-off-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Tested-by: Rafal Romanowski <rafal.romanowski@intel.com>
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- drivers/net/ethernet/intel/ice/ice_flow.c | 52 +++++++++++++++----------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  8 +-
+ fs/init.c                                     | 14 ---
+ include/linux/init_syscalls.h                 |  1 -
+ include/linux/initrd.h                        |  2 -
+ init/do_mounts.c                              |  4 +-
+ init/do_mounts.h                              | 18 +---
+ init/do_mounts_initrd.c                       | 87 ++-----------------
+ init/do_mounts_rd.c                           | 17 +---
+ 8 files changed, 22 insertions(+), 129 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_flow.c b/drivers/net/ethernet/intel/ice/ice_flow.c
-index 4513f1d6cec2..332551ad0bef 100644
---- a/drivers/net/ethernet/intel/ice/ice_flow.c
-+++ b/drivers/net/ethernet/intel/ice/ice_flow.c
-@@ -220,9 +220,9 @@ struct ice_flow_field_info ice_flds_info[ICE_FLOW_FIELD_IDX_MAX] = {
-  */
- static const u32 ice_ptypes_mac_ofos[] = {
- 	0xFDC00846, 0xBFBF7F7E, 0xF70001DF, 0xFEFDFDFB,
--	0x0000077E, 0x00000000, 0x00000000, 0x00000000,
--	0x00400000, 0x03FFF000, 0x7FFFFFE0, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x0000077E, 0x000003FF, 0x00000000, 0x00000000,
-+	0x00400000, 0x03FFF000, 0xFFFFFFE0, 0x00000707,
-+	0xFFFFF000, 0x000003FF, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -245,10 +245,10 @@ static const u32 ice_ptypes_macvlan_il[] = {
-  * include IPv4 other PTYPEs
-  */
- static const u32 ice_ptypes_ipv4_ofos[] = {
--	0x1DC00000, 0x04000800, 0x00000000, 0x00000000,
-+	0x1D800000, 0xBFBF7800, 0x000001DF, 0x00000000,
- 	0x00000000, 0x00000155, 0x00000000, 0x00000000,
--	0x00000000, 0x000FC000, 0x00000000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x000FC000, 0x000002A0, 0x00000000,
-+	0x00015000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -259,10 +259,10 @@ static const u32 ice_ptypes_ipv4_ofos[] = {
-  * IPv4 other PTYPEs
-  */
- static const u32 ice_ptypes_ipv4_ofos_all[] = {
--	0x1DC00000, 0x04000800, 0x00000000, 0x00000000,
-+	0x1D800000, 0x27BF7800, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000155, 0x00000000, 0x00000000,
--	0x00000000, 0x000FC000, 0x83E0F800, 0x00000101,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x000FC000, 0x83E0FAA0, 0x00000101,
-+	0x3FFD5000, 0x00000000, 0x02FBEFBC, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -274,7 +274,7 @@ static const u32 ice_ptypes_ipv4_il[] = {
- 	0xE0000000, 0xB807700E, 0x80000003, 0xE01DC03B,
- 	0x0000000E, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x001FF800, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0xC0FC0000, 0x0000000F, 0xBC0BC0BC, 0x00000BC0,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -285,10 +285,10 @@ static const u32 ice_ptypes_ipv4_il[] = {
-  * include IPv6 other PTYPEs
-  */
- static const u32 ice_ptypes_ipv6_ofos[] = {
--	0x00000000, 0x00000000, 0x77000000, 0x10002000,
-+	0x00000000, 0x00000000, 0x76000000, 0x10002000,
- 	0x00000000, 0x000002AA, 0x00000000, 0x00000000,
--	0x00000000, 0x03F00000, 0x00000000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x03F00000, 0x00000540, 0x00000000,
-+	0x0002A000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -299,10 +299,10 @@ static const u32 ice_ptypes_ipv6_ofos[] = {
-  * IPv6 other PTYPEs
-  */
- static const u32 ice_ptypes_ipv6_ofos_all[] = {
--	0x00000000, 0x00000000, 0x77000000, 0x10002000,
--	0x00000000, 0x000002AA, 0x00000000, 0x00000000,
--	0x00080F00, 0x03F00000, 0x7C1F0000, 0x00000206,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x00000000, 0x76000000, 0xFEFDE000,
-+	0x0000077E, 0x000002AA, 0x00000000, 0x00000000,
-+	0x00000000, 0x03F00000, 0x7C1F0540, 0x00000206,
-+	0xC002A000, 0x000003FF, 0xBC000000, 0x0002FBEF,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -314,7 +314,7 @@ static const u32 ice_ptypes_ipv6_il[] = {
- 	0x00000000, 0x03B80770, 0x000001DC, 0x0EE00000,
- 	0x00000770, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x7FE00000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x3F000000, 0x000003F0, 0x02F02F00, 0x0002F02F,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -387,8 +387,8 @@ static const u32 ice_ptypes_ipv6_il_no_l4[] = {
- static const u32 ice_ptypes_udp_il[] = {
- 	0x81000000, 0x20204040, 0x04000010, 0x80810102,
- 	0x00000040, 0x00000000, 0x00000000, 0x00000000,
--	0x00000000, 0x00410000, 0x90842000, 0x00000007,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x00410000, 0x908427E0, 0x00000007,
-+	0x0413F000, 0x00000041, 0x10410410, 0x00004104,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -400,7 +400,7 @@ static const u32 ice_ptypes_tcp_il[] = {
- 	0x04000000, 0x80810102, 0x10000040, 0x02040408,
- 	0x00000102, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00820000, 0x21084000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x08200000, 0x00000082, 0x20820820, 0x00008208,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -412,7 +412,7 @@ static const u32 ice_ptypes_sctp_il[] = {
- 	0x08000000, 0x01020204, 0x20000081, 0x04080810,
- 	0x00000204, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x01040000, 0x00000000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x10400000, 0x00000104, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -436,7 +436,7 @@ static const u32 ice_ptypes_icmp_il[] = {
- 	0x00000000, 0x02040408, 0x40000102, 0x08101020,
- 	0x00000408, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x42108000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x20800000, 0x00000208, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -448,7 +448,7 @@ static const u32 ice_ptypes_gre_of[] = {
- 	0x00000000, 0xBFBF7800, 0x000001DF, 0xFEFDE000,
- 	0x0000017E, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x00000000, 0xBEFBEFBC, 0x0002FBEF,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -457,7 +457,7 @@ static const u32 ice_ptypes_gre_of[] = {
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 15af6933eab4..df441d1a9555 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4324,8 +4324,10 @@
+ 			Note that this argument takes precedence over
+ 			the CONFIG_RCU_NOCB_CPU_DEFAULT_ALL option.
  
- /* Packet types for packets with an Innermost/Last MAC header */
- static const u32 ice_ptypes_mac_il[] = {
--	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x20000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-@@ -471,7 +471,7 @@ static const u32 ice_ptypes_mac_il[] = {
- static const u32 ice_ptypes_gtpc[] = {
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
--	0x00000000, 0x00000000, 0x00000180, 0x00000000,
-+	0x00000000, 0x00000000, 0x000001E0, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
- 	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-
+-	noinitrd	[RAM] Tells the kernel not to load any configured
+-			initial RAM disk.
++	noinitrd	[Deprecated,RAM] Tells the kernel not to load any configured
++			initial RAM disk. Currently this parameter applies to
++			initrd only, not to initramfs. But it applies to both
++			in EFI mode.
+ 
+ 	nointremap	[X86-64,Intel-IOMMU,EARLY] Do not enable interrupt
+ 			remapping.
+@@ -5338,7 +5340,7 @@
+ 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
+ 			See Documentation/admin-guide/blockdev/ramdisk.rst.
+ 
+-	ramdisk_start=	[RAM] RAM disk image start address
++	ramdisk_start=	[Deprecated,RAM] RAM disk image start address
+ 
+ 	random.trust_cpu=off
+ 			[KNL,EARLY] Disable trusting the use of the CPU's
+diff --git a/fs/init.c b/fs/init.c
+index 07f592ccdba8..60719494d9a0 100644
+--- a/fs/init.c
++++ b/fs/init.c
+@@ -27,20 +27,6 @@ int __init init_mount(const char *dev_name, const char *dir_name,
+ 	return ret;
+ }
+ 
+-int __init init_umount(const char *name, int flags)
+-{
+-	int lookup_flags = LOOKUP_MOUNTPOINT;
+-	struct path path;
+-	int ret;
+-
+-	if (!(flags & UMOUNT_NOFOLLOW))
+-		lookup_flags |= LOOKUP_FOLLOW;
+-	ret = kern_path(name, lookup_flags, &path);
+-	if (ret)
+-		return ret;
+-	return path_umount(&path, flags);
+-}
+-
+ int __init init_chdir(const char *filename)
+ {
+ 	struct path path;
+diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
+index 92045d18cbfc..0bdbc458a881 100644
+--- a/include/linux/init_syscalls.h
++++ b/include/linux/init_syscalls.h
+@@ -2,7 +2,6 @@
+ 
+ int __init init_mount(const char *dev_name, const char *dir_name,
+ 		const char *type_page, unsigned long flags, void *data_page);
+-int __init init_umount(const char *name, int flags);
+ int __init init_chdir(const char *filename);
+ int __init init_chroot(const char *filename);
+ int __init init_chown(const char *filename, uid_t user, gid_t group, int flags);
+diff --git a/include/linux/initrd.h b/include/linux/initrd.h
+index f1a1f4c92ded..7e5d26c8136f 100644
+--- a/include/linux/initrd.h
++++ b/include/linux/initrd.h
+@@ -3,8 +3,6 @@
+ #ifndef __LINUX_INITRD_H
+ #define __LINUX_INITRD_H
+ 
+-#define INITRD_MINOR 250 /* shouldn't collide with /dev/ram* too soon ... */
+-
+ /* starting block # of image */
+ extern int rd_image_start;
+ 
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 0f2f44e6250c..1054ad3c905a 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -476,13 +476,11 @@ void __init prepare_namespace(void)
+ 	if (saved_root_name[0])
+ 		ROOT_DEV = parse_root_device(saved_root_name);
+ 
+-	if (initrd_load(saved_root_name))
+-		goto out;
++	initrd_load();
+ 
+ 	if (root_wait)
+ 		wait_for_root(saved_root_name);
+ 	mount_root(saved_root_name);
+-out:
+ 	devtmpfs_mount();
+ 	init_mount(".", "/", NULL, MS_MOVE, NULL);
+ 	init_chroot(".");
+diff --git a/init/do_mounts.h b/init/do_mounts.h
+index 6069ea3eb80d..a386ee5314c9 100644
+--- a/init/do_mounts.h
++++ b/init/do_mounts.h
+@@ -23,25 +23,15 @@ static inline __init int create_dev(char *name, dev_t dev)
+ }
+ 
+ #ifdef CONFIG_BLK_DEV_RAM
+-
+-int __init rd_load_disk(int n);
+-int __init rd_load_image(char *from);
+-
++int __init rd_load_image(void);
+ #else
+-
+-static inline int rd_load_disk(int n) { return 0; }
+-static inline int rd_load_image(char *from) { return 0; }
+-
++static inline int rd_load_image(void) { return 0; }
+ #endif
+ 
+ #ifdef CONFIG_BLK_DEV_INITRD
+-bool __init initrd_load(char *root_device_name);
++void __init initrd_load(void);
+ #else
+-static inline bool initrd_load(char *root_device_name)
+-{
+-	return false;
+-	}
+-
++static inline void initrd_load(void) { }
+ #endif
+ 
+ /* Ensure that async file closing finished to prevent spurious errors. */
+diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
+index f6867bad0d78..bf381aa0400f 100644
+--- a/init/do_mounts_initrd.c
++++ b/init/do_mounts_initrd.c
+@@ -2,13 +2,7 @@
+ #include <linux/unistd.h>
+ #include <linux/kernel.h>
+ #include <linux/fs.h>
+-#include <linux/minix_fs.h>
+-#include <linux/romfs_fs.h>
+ #include <linux/initrd.h>
+-#include <linux/sched.h>
+-#include <linux/freezer.h>
+-#include <linux/kmod.h>
+-#include <uapi/linux/mount.h>
+ 
+ #include "do_mounts.h"
+ 
+@@ -41,6 +35,7 @@ late_initcall(kernel_do_mounts_initrd_sysctls_init);
+ 
+ static int __init no_initrd(char *str)
+ {
++	pr_warn("noinitrd option is deprecated and will be removed soon\n");
+ 	mount_initrd = 0;
+ 	return 1;
+ }
+@@ -70,85 +65,19 @@ static int __init early_initrd(char *p)
+ }
+ early_param("initrd", early_initrd);
+ 
+-static int __init init_linuxrc(struct subprocess_info *info, struct cred *new)
+-{
+-	ksys_unshare(CLONE_FS | CLONE_FILES);
+-	console_on_rootfs();
+-	/* move initrd over / and chdir/chroot in initrd root */
+-	init_chdir("/root");
+-	init_mount(".", "/", NULL, MS_MOVE, NULL);
+-	init_chroot(".");
+-	ksys_setsid();
+-	return 0;
+-}
+-
+-static void __init handle_initrd(char *root_device_name)
+-{
+-	struct subprocess_info *info;
+-	static char *argv[] = { "linuxrc", NULL, };
+-	extern char *envp_init[];
+-	int error;
+-
+-	pr_warn("using deprecated initrd support, will be removed soon.\n");
+-
+-	real_root_dev = new_encode_dev(ROOT_DEV);
+-	create_dev("/dev/root.old", Root_RAM0);
+-	/* mount initrd on rootfs' /root */
+-	mount_root_generic("/dev/root.old", root_device_name,
+-			   root_mountflags & ~MS_RDONLY);
+-	init_mkdir("/old", 0700);
+-	init_chdir("/old");
+-
+-	info = call_usermodehelper_setup("/linuxrc", argv, envp_init,
+-					 GFP_KERNEL, init_linuxrc, NULL, NULL);
+-	if (!info)
+-		return;
+-	call_usermodehelper_exec(info, UMH_WAIT_PROC|UMH_FREEZABLE);
+-
+-	/* move initrd to rootfs' /old */
+-	init_mount("..", ".", NULL, MS_MOVE, NULL);
+-	/* switch root and cwd back to / of rootfs */
+-	init_chroot("..");
+-
+-	if (new_decode_dev(real_root_dev) == Root_RAM0) {
+-		init_chdir("/old");
+-		return;
+-	}
+-
+-	init_chdir("/");
+-	ROOT_DEV = new_decode_dev(real_root_dev);
+-	mount_root(root_device_name);
+-
+-	printk(KERN_NOTICE "Trying to move old root to /initrd ... ");
+-	error = init_mount("/old", "/root/initrd", NULL, MS_MOVE, NULL);
+-	if (!error)
+-		printk("okay\n");
+-	else {
+-		if (error == -ENOENT)
+-			printk("/initrd does not exist. Ignored.\n");
+-		else
+-			printk("failed\n");
+-		printk(KERN_NOTICE "Unmounting old root\n");
+-		init_umount("/old", MNT_DETACH);
+-	}
+-}
+-
+-bool __init initrd_load(char *root_device_name)
++void __init initrd_load(void)
+ {
+ 	if (mount_initrd) {
+ 		create_dev("/dev/ram", Root_RAM0);
+ 		/*
+-		 * Load the initrd data into /dev/ram0. Execute it as initrd
+-		 * unless /dev/ram0 is supposed to be our actual root device,
+-		 * in that case the ram disk is just set up here, and gets
+-		 * mounted in the normal path.
++		 * Load the initrd data into /dev/ram0.
+ 		 */
+-		if (rd_load_image("/initrd.image") && ROOT_DEV != Root_RAM0) {
+-			init_unlink("/initrd.image");
+-			handle_initrd(root_device_name);
+-			return true;
++		if (rd_load_image()) {
++			pr_warn("using deprecated initrd support, will be removed in September 2026; "
++				"use initramfs instead or (as a last resort) /sys/firmware/initrd; "
++				"see section \"Workaround\" in "
++				"https://lore.kernel.org/lkml/20251010094047.3111495-1-safinaskar@gmail.com\n");
+ 		}
+ 	}
+ 	init_unlink("/initrd.image");
+-	return false;
+ }
+diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+index 5311f2d7edc8..0a021bbcd501 100644
+--- a/init/do_mounts_rd.c
++++ b/init/do_mounts_rd.c
+@@ -22,6 +22,7 @@ int __initdata rd_image_start;		/* starting block # of image */
+ 
+ static int __init ramdisk_start_setup(char *str)
+ {
++	pr_warn("ramdisk_start= option is deprecated and will be removed soon\n");
+ 	rd_image_start = simple_strtol(str,NULL,0);
+ 	return 1;
+ }
+@@ -177,7 +178,7 @@ static unsigned long nr_blocks(struct file *file)
+ 	return i_size_read(inode) >> 10;
+ }
+ 
+-int __init rd_load_image(char *from)
++int __init rd_load_image(void)
+ {
+ 	int res = 0;
+ 	unsigned long rd_blocks, devblocks, nr_disks;
+@@ -191,7 +192,7 @@ int __init rd_load_image(char *from)
+ 	if (IS_ERR(out_file))
+ 		goto out;
+ 
+-	in_file = filp_open(from, O_RDONLY, 0);
++	in_file = filp_open("/initrd.image", O_RDONLY, 0);
+ 	if (IS_ERR(in_file))
+ 		goto noclose_input;
+ 
+@@ -220,10 +221,7 @@ int __init rd_load_image(char *from)
+ 	/*
+ 	 * OK, time to copy in the data
+ 	 */
+-	if (strcmp(from, "/initrd.image") == 0)
+-		devblocks = nblocks;
+-	else
+-		devblocks = nr_blocks(in_file);
++	devblocks = nblocks;
+ 
+ 	if (devblocks == 0) {
+ 		printk(KERN_ERR "RAMDISK: could not determine device size\n");
+@@ -267,13 +265,6 @@ int __init rd_load_image(char *from)
+ 	return res;
+ }
+ 
+-int __init rd_load_disk(int n)
+-{
+-	create_dev("/dev/root", ROOT_DEV);
+-	create_dev("/dev/ram", MKDEV(RAMDISK_MAJOR, n));
+-	return rd_load_image("/dev/root");
+-}
+-
+ static int exit_code;
+ static int decompress_error;
+ 
 -- 
-2.51.0.rc1.197.g6d975e95c9d7
+2.47.3
 
