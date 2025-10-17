@@ -1,134 +1,115 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801BB21576E;
-	Fri, 17 Oct 2025 17:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D6F29B77E
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 18:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760722709; cv=none; b=Njq0OfF4FqT9kGF4/v5Ws2cMrlKNQWn8LTjvBu51ECenpQUEXBycU14gjYz9UdyGDJAOrM8MAo6N3p7lTV391Hp0FE6r8VPvubnJKrxqBsAmkXSJyG7AgrUSOG7rMOqi3HNuQFTr0qJHZCtUO9kzsEHZHMEoMbvO7ANfBww566c=
+	t=1760724159; cv=none; b=urqrP21OYLm92kvrY5KSRN23uk4kkV5q3uE0L2PHyX3g1ErU1Zzbk4K5oCxVYV+koEPtBnELeOhl/BkaT/ziTed1F/zkN9m3pcWOpMdokr7YVpLXrJrbZfzsymwYObFkBVQIYATKlpwvmKSOexDI4z0r+xbgElekqUKaAt/UlOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760722709; c=relaxed/simple;
-	bh=3HdUj0gn3DEUrSYbt10rDq3r6Cxde9MHzvEbHk7eiaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aErCj+CdJX9009/qiWCH8Pfpovvj9F4aQB88eJtv50Qi+KnQIzAVdiVWegdqWB9D6gCUuiGc8euFjIUD//9+v0G6wrsoj4hDli3nEqp/QcTv9UqmNdYBrJ/2dwr3tcMqlg5LMxv4shl8A8lQFrRz5LjCjgkc6JF/THYNJXdR35w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZnZFgIjf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1760724159; c=relaxed/simple;
+	bh=jwRvVCNYLGeSa+0leHMXF7EXzjGL8SPjU5bfAoQyeFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=unANbdvsxHifSDGCDb5nWooS7wwY3kQrM0xDrW6rQ1v5E5jqAa0k7xGQI0/v20MMyVi5CSCJ9vi4I7QS51iuwtILCtOt79/t5Zf8DHI73m9GGUdT/nNG0NC8sQ2ODKDfr8S7wm4Jt9dVaHbdSWl0cbqkzfqOVkKrL8A64pRnNaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=npRBgRq3; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZnZFgIjf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eXk8ilpgowFnp9IUDy5Nr5norSdI0m1xretE6+YcfLo=; b=ZnZFgIjfWC6Jy5gtsRj/XVDZdp
-	e2UDDYPl/gO2hlfkL2zJOaCYJphiT0ihkWpBMtfUT2Q70+ygu/F1s4UOJy9vNgy9BwXoibiEZjeHT
-	LgUXmf9UIln9fQLd1BhUQTPeWXweOFGeFD6+1xdFryktjmBXRw7luR7OabyYvjIj72wZMAhCpFWQ5
-	fExo5n+eeRiLwUVlFdBCtv/2UbNhrQhstf62ZODZ3dw2yu48n4WSq51PBdf8R5x/R9oYQPNC55mli
-	RVs4GLQXe23d74e5RsovgtJz7te0QfQyHOVeP1gwGCG81eQhnCwTMdYp2U8LwqSGu0mhqw1ehmcUt
-	a7wgUIlg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9oPL-00000008c4b-2fU7;
-	Fri, 17 Oct 2025 17:38:27 +0000
-Message-ID: <7e793098-ff46-4840-a5e0-18c42ae1c145@infradead.org>
-Date: Fri, 17 Oct 2025 10:38:27 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="npRBgRq3"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7811fa91774so2072806b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 11:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1760724157; x=1761328957; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ukAYWQ0T+S/AD9w3VhmapO1quF1wQBT8B5YkcopmuU=;
+        b=npRBgRq3dkB+a1KVrRA/IjdAauC0zH/CrON+lsaBqe2S+v1U/f2DnAUjRupS95b+0s
+         HQHqNO92ARYR97LAFks467282SHj2Moa+1crMV+J4Q14rMuADcsGJTDG+u8rmnGvVGyZ
+         SkGy9hMu4MIJPwBn10UmdTR1hr3d04tL6hQiA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760724157; x=1761328957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ukAYWQ0T+S/AD9w3VhmapO1quF1wQBT8B5YkcopmuU=;
+        b=bLW64/yMrd+5bRa8BQsxW8o+8DqY0btGa/TQs7QdO87YFlXPEDjF5GZ4ziK3oV7GxJ
+         0l59TLuh58r5RmwZOKz4essM/9LSGCXGgYQNYBC7d15InUqJfHYK9n10c2dH7QDQ9umq
+         qf0k/SoDyJmSQfRnzuvi7zo4okFL9fjkfp8gYxqkIuLGpUqfRG+MZnN6r/CldXgxScOY
+         UoyUSrjZR9JwkG61wZY9m4b1TKUyDv2bZvCz6V1P44/jU7pyck9EZj/iwfkY1yhJA0Y6
+         JvvEmvIDhVe1wowBAbAdopx5rb8sPHUQKLAJgPNYhEc78ey33/IBHqU/ArSNr07LUgO8
+         OjIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVopYFQIoMXL/m+I7KpwnS8lURxoJwPJgms2Dv9TRek1w50n7psZDq+fVtu+S4wCU+XT36xhUbY92E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhnpEyefox75ltTfhFjOrSquogFZ0Vsgvc4yHm7wDnA+CC/++I
+	UpbCKKhjlX5CiEEnKOMeEv07Z1zJQtl/rk85YNLowHj8I9/9xQgqEtAkAUYTr0UK4A==
+X-Gm-Gg: ASbGncuD0zl1Ifb6++AH+jrHUFDFAsQmF/B6joKZYRXZyQKFijZE+HwYT7RshPo60wL
+	XniHwYptWz2iyiiA/Ns0nq0t+MkTzOXCOb8tVszJ4liGqe1cqlCF+J3o9ufDiy+f0ov/l5S9Tyf
+	mU1c4/gweDIM26QQoqVwakzGDk8N2dKX0odemqk9osZjm4w5et75iMuJBywT1I1SN7RS5UaTxZC
+	HhqxGdTkbavLgXbT62UBUxi5Ef3fKS3Q4wG9ANsOTtHlt97A3xFodtjliLomvjF9iD99/yuAtsu
+	9H+gFGQQlqXIPTsthTjSERiYDQdmnzh2gXyFXjFV1aIaAScE1eGyqfCgAGR2c6V2Zmj1reLFP2m
+	6vuL7m1yq815kDR3plURXuTmY4QLrlCkcd4UHP6WY5iMt1lYMVU1GIFZq9QrjZbgBubHeRPOJoJ
+	Bois8FDbqwkzdhASbhqMRYqgYilnChHXcJd8gvZjrZQgO8+gNC
+X-Google-Smtp-Source: AGHT+IEY+KGbfcrrIWW9UFIVstpKYMq5DjhrzNx35qx3JyQw0vx6QrYeoAPZjdoiMrwc8TIfDGRpdA==
+X-Received: by 2002:a17:902:ce0e:b0:264:befb:829c with SMTP id d9443c01a7336-290c9c8a738mr59262805ad.9.1760724157127;
+        Fri, 17 Oct 2025 11:02:37 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:5ca9:a8d0:7547:32c6])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-292472193c2sm1227785ad.104.2025.10.17.11.02.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Oct 2025 11:02:36 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Joe Perches <joe@perches.com>,
+	Brian Norris <briannorris@chromium.org>
+Subject: [PATCH] docs: checkpatch: Align block comment style
+Date: Fri, 17 Oct 2025 11:02:19 -0700
+Message-ID: <20251017180225.1489398-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.51.0.858.gf9c4a03a3a-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ABI: sysfs-module: list all taint flags
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org
-References: <20251015221348.1125295-1-rdunlap@infradead.org>
- <c58152f1-0fbe-4f50-bb61-e2f4c0584025@suse.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c58152f1-0fbe-4f50-bb61-e2f4c0584025@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Ironically, the block style comments in the checkpatch documentation are
+not aligned properly. Correct that.
 
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
 
-On 10/17/25 4:38 AM, Petr Pavlu wrote:
-> On 10/16/25 12:13 AM, Randy Dunlap wrote:
->> The list of module taint flags has not been updated lately as the
->> taint flags list grows. Instead of trying to keep multiple lists
->> updated, just refer to the list of kernel taint flags since they are
->> the same.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Luis Chamberlain <mcgrof@kernel.org>
->> Cc: Petr Pavlu <petr.pavlu@suse.com>
->> Cc: Daniel Gomez <da.gomez@kernel.org>
->> Cc: Sami Tolvanen <samitolvanen@google.com>
->> Cc: linux-modules@vger.kernel.org
->> ---
->>  Documentation/ABI/testing/sysfs-module        |   10 ++--------
->>  Documentation/admin-guide/tainted-kernels.rst |    2 ++
->>  2 files changed, 4 insertions(+), 8 deletions(-)
->>
->> --- linux-next-20251014.orig/Documentation/ABI/testing/sysfs-module
->> +++ linux-next-20251014/Documentation/ABI/testing/sysfs-module
->> @@ -52,14 +52,8 @@ What:		/sys/module/*/taint
->>  Date:		Jan 2012
->>  KernelVersion:	3.3
->>  Contact:	Kay Sievers <kay.sievers@vrfy.org>
->> -Description:	Module taint flags:
->> -			==  =====================
->> -			P   proprietary module
->> -			O   out-of-tree module
->> -			F   force-loaded module
->> -			C   staging driver module
->> -			E   unsigned module
->> -			==  =====================
->> +Description:	Module taint flags: same as the kernel taint flags.
->> +		See: :ref:`taint_flags` in Documentation/admin-guide/tainted-kernels.rst
-> 
-> The module taint flags that can appear in /sys/module/*/taint are
-> a subset of the kernel taint flags. By looking at the calls to
-> add_taint_module(), they are as follows:
-> 
-> Present:
-> TAINT_PROPRIETARY_MODULE
-> TAINT_OOT_MODULE
-> TAINT_FORCED_MODULE
-> TAINT_CRAP
-> TAINT_UNSIGNED_MODULE
-> 
-> Missing:
-> TAINT_LIVEPATCH
-> TAINT_TEST
-> 
-> + potentially TEST_AUX.
-> 
-> Since this text specifically documents what can appear in
-> /sys/module/*/taint, I think we should still maintain a list of these
-> flags for accuracy.
-> 
-> Additionally, Documentation/admin-guide/tainted-kernels.rst provides
-> taint descriptions for the kernel as a whole, which can be misleading
-> for individual modules. For instance, for TAINT_LIVEPATCH, the document
-> says "kernel has been live patched", but in the context of
-> /sys/module/*/taint, it means "this is a livepatch module".
+ Documentation/dev-tools/checkpatch.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-
-Hi Petr,
-
-Thank you for your comments and corrections.
-
-I'll drop this patch.
-
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index d5c47e560324..d7fe023b3080 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -461,16 +461,16 @@ Comments
+     line comments is::
+ 
+       /*
+-      * This is the preferred style
+-      * for multi line comments.
+-      */
++       * This is the preferred style
++       * for multi line comments.
++       */
+ 
+     The networking comment style is a bit different, with the first line
+     not empty like the former::
+ 
+       /* This is the preferred comment style
+-      * for files in net/ and drivers/net/
+-      */
++       * for files in net/ and drivers/net/
++       */
+ 
+     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+ 
 -- 
-~Randy
+2.51.0.858.gf9c4a03a3a-goog
 
