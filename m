@@ -1,48 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46334EF19;
-	Fri, 17 Oct 2025 20:13:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47F130F803;
+	Fri, 17 Oct 2025 20:20:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760732025; cv=none; b=L8JoQFkN2/X5fw24zpxqpUTvjDzPCz7QVN0PyzJ3lDwc3XsDxuyV/ZGpmMxMTWo/H5umL/IjzEN2Y0LgzDXvjLgdfPyPT03A0a1fF1BwJ3dtE+Xgu2fC8K9AvoIXvcrCkDV7L4AAgm063dIiqGAwz3k/8yKVVBk/3QAQWQMJeOo=
+	t=1760732416; cv=none; b=d8D9gy68dJmpy3/TQ7CYe/KAQKeG9/UEbtmM9O/SXpm9q2bEn1+kjPUd/0FhFZvtgKV4oxmuk8ekIk14hEK6ngE+KQNFUUiIqFO1bbmtS/KTPjSBcSBSXYJ96pXAhkcIRbuZdTaoungwCuhBYmYbR8etsSk4ihpSavKlbALLjgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760732025; c=relaxed/simple;
-	bh=fg/aDgFXGOW1dNkTiOLmBYlehTAOg3mQHbnGOOTiQNQ=;
+	s=arc-20240116; t=1760732416; c=relaxed/simple;
+	bh=lVxo7gpzo9tLZUsK8z0AhiQwbHsKn7Y4N5YA5m8Tc30=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=E81W8re97RK0JfH6sOOws0R7OGeRmXWtue7OZmrOBwcnY9wHgyfYc/g4LBVjNNkthqr9aCQvo1jWMDdIZUvqCiZ/ekP+W/fHtkKTTDvC2rLoiIrryEvPD0RaMZVfVgZbIEf9RFaWq7cVLEd2ck+mKNx/kZ+UpdeXiAL/srPBAHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RlHRXSu/; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=I5vDU2waOD7X28fZEDmhP1ztOLzeLcmZRgMhmx/CxtJF+3FOc1ypKa/MNIz/m+EXOU/WZGinCvKHGf/i/e6TzQU0zxnt9mdi10uKoMa/tA+kVYQFF/c/tq6+93HHGzIWL2VjMODSzRYUGV8wYrhitrwHr5jErRK193vIDfG0WrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m20+4tFW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RlHRXSu/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 17A0140B1D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m20+4tFW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DB58340B1D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760732022; bh=fg/aDgFXGOW1dNkTiOLmBYlehTAOg3mQHbnGOOTiQNQ=;
+	t=1760732412; bh=gKNyP3PkTBwfQLMgcJn8O5cidAK7WPYBk+zGX9Nl70Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RlHRXSu/C6Qmg6jjJj7MOhPh4UeloffbfhwsEdrprROFeZfvehBI+NJbNsGpiLq65
-	 je4cLA2BJbneMA8DyNwMunOcKcaOb/edV3NZqM5UVJc1dTedBH/ZgLCW6ekwmyoVVn
-	 41tn7NFh7tPUJVnEdULCT3Qy5qYXEH75zQQZ0UMWvuxgydUhs/h4+1tuP9+cjC5dCs
-	 yJtW+b6BhfUco/CXQugiaetRcWGPenPOy4/FbOhXep1ppJsiapclsEnIj4QsrEWLT1
-	 w99JVYTgjnMsxKvf2QMt7sEDPBek6SDitWs9qffPQ3Ts0BIEJNUtA7ffez834UukgP
-	 CaSCIdhM/+Gwg==
+	b=m20+4tFWbFdjib2qVxpgeTKBIhvHFQUOAchkGYXIscuWxTcGosAg7mMh3T7/RNtsX
+	 1ReGUX6jhBJHwcnFOdC6elDK8JGaWwLDh83qTLnuP1N2UtoyDjprJ37HfI+ZPkijC6
+	 SxqGlBYBJKG9lkBTkaghDOy1jJpZFSykbLabEwoT80ydM2ioKE0qTlw6WWsqvjdRwY
+	 vyfhWOECECVSVRDueqWtDK7cALmJMHR7uyQtM3hn5e3qvuR1Ilh73TvXQUQqH0ymy/
+	 rvrsJZFpjJY9YmNEI6Wr9XL4xL8ATTOcTRXaBUx/2lrRwwAFIeQzsGrM95cB5KtyUC
+	 DFTHQOcCMNRZg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 17A0140B1D;
-	Fri, 17 Oct 2025 20:13:42 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id DB58340B1D;
+	Fri, 17 Oct 2025 20:20:11 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH v8 00/24] Split sphinx call logic from docs Makefile
-In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
-References: <cover.1758196090.git.mchehab+huawei@kernel.org>
-Date: Fri, 17 Oct 2025 14:13:41 -0600
-Message-ID: <87cy6l1e2y.fsf@trenco.lwn.net>
+To: Yohei Kojima <Yohei.Kojima@sony.com>
+Cc: Yohei Kojima <Yohei.Kojima@sony.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: admin-guide: Fix a typo in kernel-parameters.txt
+In-Reply-To: <edda15e3fcae13265278d3c3bd93ab077345d78f.1760498951.git.Yohei.Kojima@sony.com>
+References: <edda15e3fcae13265278d3c3bd93ab077345d78f.1760498951.git.Yohei.Kojima@sony.com>
+Date: Fri, 17 Oct 2025 14:20:11 -0600
+Message-ID: <878qh91ds4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,19 +49,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Yohei Kojima <Yohei.Kojima@sony.com> writes:
 
-> Hi Jon,
+> Fix a typo in the stacktrace parameter description in kernel-parameters.txt
 >
-> v8 contains a bug fix for ./tools/docs/check-variable-fonts.py command
-> line together with a new --deny-vf argument to it, plus addresses
-> a couple checkpatch warnings. Only 4 patches changed: patches 1, 2, 4
-> and 5.
+> Signed-off-by: Yohei Kojima <Yohei.Kojima@sony.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6c42061ca20e..f29ba44b5be2 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7150,7 +7150,7 @@
+>  			limit. Default value is 8191 pools.
+>  
+>  	stacktrace	[FTRACE]
+> -			Enabled the stack tracer on boot up.
+> +			Enable the stack tracer on boot up.
 
-I have just merged this series, along with the accumulated fixes, into
-docs-mw; after a month of separate exposure in docs-next, I don't think
-that there is a lot of benefit in waiting longer.
-
-It still makes me a bit nervous, hopefully all this will work out!
+Applied, thanks.
 
 jon
