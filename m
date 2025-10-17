@@ -1,215 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD21DC120;
-	Fri, 17 Oct 2025 01:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250EB22B8B0
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 01:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760665234; cv=none; b=q+qL+k78qzhsB5NfNali0P3u1lEeIWQQNJ9jsQaEX8zatJ5lsQ9AyWXGss+TkTmzrkVLnbNmsYh3OqvJ8KphA8DH1dm4IV/ZCf3n1LGBhrCXJ9T0ab0ZY5Hu5eUbF32dP/b9MmCe2xorQcs/jkjkmZlBkrIHjBTBknCSVrs7K6s=
+	t=1760666015; cv=none; b=lZgw0Iw/vFQs5WyIwLvO+MFwxYS/NwBj+KplatrfpDrAgHMlQgd5GdXzso/tmCr9c88mOFVq2O5csBv8qlcNQpi1VHtRgWeYE+gQcS9U4WxufG9fazGNbbgfiflGyfjmt+4TJPncU9sAAfRd1oi0IbIusPaHvkZ8BZ9ya8lUYo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760665234; c=relaxed/simple;
-	bh=INxxigTmqp4oaXvINkHMLTxCH3tFQVLxHePuh/Meru0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QaY6wBrOe9j0/cWVrbyCGSoG5kui/yWIHNIO5Y2Kq5r0Wp8UGYtQv8BGo2e1F5F6W0tI8QpRIr2E4DNnHOVvZV2Mw83WQILEcdDIQRDUIkRnwJwemWjvCZ7+50N3h5vLTqt9Dybik9UEYBGr19N360Qn10NqeQxVK8Nkjh5841Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTzar67k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760666015; c=relaxed/simple;
+	bh=hM1tl4y/lVKyn+dDmiZdlUKnhKkFxFNeGV/L79BL390=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k9CFFffw8v07Fifpw0/8vx3U/CyZgnwVS6mTWtmaaCSohIYpCWG/ehNUDOGeLQlzMl2emkgc4Q69K43Pks21hC4rqsfMS/H0wq9BMQtNDi06/885aRmA9NTDtA7VvLIe3wRWFghalonu3MSrUPev/PbTNMgoKqu2WYx61KwjRbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Es4da3nw; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTzar67k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D0CC4CEF1;
-	Fri, 17 Oct 2025 01:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760665234;
-	bh=INxxigTmqp4oaXvINkHMLTxCH3tFQVLxHePuh/Meru0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mTzar67ka8O3EQTMoLik8RNVXY+Zqikw5XwtyeqQng5k3dYfYwwVvENSJHMXSs0Mi
-	 bDQv7v0lBLM/VAJiqD8WNsbAxOTRBoPOhSR8b0nqZmtEBUFtHCzN8NgNe3oGR4bj/N
-	 mXK8FryoMv4/ldaaVCKRdYDf6PCRfrDHI2ABcCJcIrz/eHQVwCh3ZEBIm2SW16YtaO
-	 38QcEmQIf+kH94G/ONe+ajjQWsamwL/dH7uuLncoAbxRwQwsAyDmOsfNNRiMhzmswE
-	 VajOi/RMGlPgbowKqCGXxbXi6k9sPhc2w/qEboTBvRVuj+J8iBK7oH37agf9haTBr4
-	 fsmQCNNQG11dg==
-Date: Thu, 16 Oct 2025 18:40:31 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, Andrew
- Lunn <andrew@lunn.ch>, davem@davemloft.net, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Michael Chan
- <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend
- <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, Joshua
- Washington <joshwash@google.com>, Harshitha Ramamurthy
- <hramamurthy@google.com>, Jian Shen <shenjian15@huawei.com>, Salil Mehta
- <salil.mehta@huawei.com>, Jijie Shao <shaojijie@huawei.com>, Sunil Goutham
- <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Subbaraya
- Sundeep <sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>, Bharat
- Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq
- Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Alexander Duyck
- <alexanderduyck@fb.com>, kernel-team@meta.com, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Joe Damato <joe@dama.to>, David Wei
- <dw@davidwei.uk>, Willem de Bruijn <willemb@google.com>, Breno Leitao
- <leitao@debian.org>, Dragos Tatulea <dtatulea@nvidia.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>
-Subject: Re: [PATCH net-next v4 00/24][pull request] Queue configs and large
- buffer providers
-Message-ID: <20251016184031.66c92962@kernel.org>
-In-Reply-To: <CAHS8izOnzxbSuW5=aiTAUja7D2ARgtR13qYWr-bXNYSCvm5Bbg@mail.gmail.com>
-References: <cover.1760364551.git.asml.silence@gmail.com>
-	<20251013105446.3efcb1b3@kernel.org>
-	<CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
-	<20251014184119.3ba2dd70@kernel.org>
-	<CAHS8izOnzxbSuW5=aiTAUja7D2ARgtR13qYWr-bXNYSCvm5Bbg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Es4da3nw"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-637dbabdb32so2741827a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 18:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760666011; x=1761270811; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jg3YC8a6su9LqTbpQvqj8XsjlAAqUYFX939NA7tC+rk=;
+        b=Es4da3nwPiQimfM82tzr0+1jza+wbFxFDsge5b5Wcciqt22VgPBlRHsKcAo/AwcYhz
+         V4EcpOdoyDA0/LBvcSVbNw9m4GWsZbKdzlYBLQIFWt7fr/aSBjbI5WFOkBoMs/1hrst8
+         vndlA22+j5yy7aL+uCgQ9ASHhBhUOJbJR4SnUViE1EMAX8XxZJo78F2hM57IJSgoVEy6
+         DmHSry4xSWQbpz5/kKnMaZ+9xC8poocxeNTHTJ9wCJ4I5I+kZKZzuUejPr8AtL2elVXb
+         aS1Eeg0SCt5A/WJ3qPbmkX2JmoUnfjpaLl9WOEdpmm5toQPqoTvdLDdQj/9XVj1SADV0
+         +4ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760666011; x=1761270811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jg3YC8a6su9LqTbpQvqj8XsjlAAqUYFX939NA7tC+rk=;
+        b=vKP35gMAX8jcXa28RFkJlIQ9I0mtYzn06ZjEg5jsxTo/J6h3kcUCeXpp73WOWQG+jS
+         ky8IxqpPSbIE/oU2KExel5j1+yeAk8FWdSJg9iMR4s3tLjfezvuJkLfyj1q8rnA2oe+L
+         S3vavriimeBnRpRQsw40X5qm3ShjZQggWPgbV3F5/+3EUzvPAVGy+WWJM7b5M0LuIk0u
+         JpBKn+1/ij/DE4L65ekPhRNN11pLc1uTuHUVf6KpD1/n2NFziWv/1LZFpI7IgYHASpzM
+         uiw98b0LWiZu9op8AUum0SMxh4hGWFdyPmIAJRHAzxCJjsdhP6yzfDY1zTV2IZ4oRZ3e
+         q9sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIKOouALuwRfbRBnaxOn/xJoLH1dtPjkRzReEN/xuCULario+LTVwIKwGFOTrvTxzFPUCdlktwqFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDLc7cXUxsT50V85Isc7uK8Jz6CDH188NYFRGtrjWMx1LECO8O
+	MDZd4KSm2hx7P0uK65x0Ue/io0rU8ePHfid+VslmpU2N8Bbxt3BWQEtpErOspizgbwMgN2nEcMK
+	o3NFJji8sdfmwnxwDZztWm9LG2DgpYok=
+X-Gm-Gg: ASbGncuxoTTVP4NXLZqrlNa1NtGTQ8dJL0JFnuxohdIm1ZgsHhbzBLAtC8dpZo1ezeq
+	3bZ6Ru0CzoC/d/em28joJUvv5PL57Q8Sw8LzDTMK+AO6mMYExbzJOFHvQcpXveSYrnW55nGkV1a
+	cDKFXyt7DrFm+IGTxi8+hwU5KeeHH9A4D7wAhm30sW18La2gkx8XSZmh2fNhBGNPeanp0lfnGPB
+	EooHKDXyclRWPt76Rb35GrUE1nG1NMD30oVB7vtby2JizDsEPDmbuvc3rnzn3bWtVrF00yGiIUw
+	GLsguJUxv0Jlops=
+X-Google-Smtp-Source: AGHT+IEwGE2DyBw79hahqoYYl+Io8sAm9x+p/Mvm4N2Yz5vRAjrfFya1X4ses6e0GFt/zr8ZT03UC+13/oAZmSfJwPQ=
+X-Received: by 2002:a05:6402:3506:b0:63c:11cd:be57 with SMTP id
+ 4fb4d7f45d1cf-63c1f626e7cmr1509380a12.5.1760666011447; Thu, 16 Oct 2025
+ 18:53:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20251003043140.1341958-1-alistair.francis@wdc.com>
+ <20251003043140.1341958-8-alistair.francis@wdc.com> <591a7eb8-563c-4368-b868-880ed081a432@suse.de>
+In-Reply-To: <591a7eb8-563c-4368-b868-880ed081a432@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 17 Oct 2025 11:53:04 +1000
+X-Gm-Features: AS18NWAQRox_cHhQyvz94xO43zDLu8kahziESzW1tlno9LjS2bcAJiNBl10LBPE
+Message-ID: <CAKmqyKNupEy8dj4B9a8NWymVJTQs_mpeQynLSdCPrO3rBYnByA@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] nvmet-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Oct 2025 10:44:19 -0700 Mina Almasry wrote:
-> I think what you're saying is what I was trying to say, but you said
-> it more eloquently and genetically correct. I'm not familiar with the
-> GRO packing you're referring to so. I just assumed the 'buffer sizes
-> actually posted to the NIC' are the 'buffer sizes we end up seeing in
-> the skb frags'.
+On Mon, Oct 6, 2025 at 4:48=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
+:
+>
+> On 10/3/25 06:31, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receiv=
+e
+> > a KeyUpdate handshake type then the underlying TLS keys need to be
+> > updated.
+> >
+> > If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe host sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v3:
+> >   - Use a write lock for sk_user_data
+> >   - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
+> >   - Remove unused variable
+> > v2:
+> >   - Use a helper function for KeyUpdates
+> >   - Ensure keep alive timer is stopped
+> >   - Wait for TLS KeyUpdate to complete
+> >
+> >   drivers/nvme/target/tcp.c | 90 ++++++++++++++++++++++++++++++++++++--=
+-
+> >   1 file changed, 85 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> > index bee0355195f5..fd59dd3ca632 100644
+> > --- a/drivers/nvme/target/tcp.c
+> > +++ b/drivers/nvme/target/tcp.c
+> > @@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
+> >
+> >       /* TLS state */
+> >       key_serial_t            tls_pskid;
+> > +     key_serial_t            user_session_id;
+> >       struct delayed_work     tls_handshake_tmo_work;
+> >
+> >       unsigned long           poll_end;
+> > @@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
+> >       struct sockaddr_storage sockaddr_peer;
+> >       struct work_struct      release_work;
+> >
+> > +     struct completion       tls_complete;
+> > +
+> >       int                     idx;
+> >       struct list_head        queue_list;
+> >
+> > @@ -836,6 +839,11 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp=
+_queue *queue,
+> >       return 1;
+> >   }
+> >
+> > +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> > +static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
+> > +static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
+> > +#endif
+> > +
+> >   static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
+> >               int budget, int *sends)
+> >   {
+>
+> And we need this why?
+>
+> > @@ -844,6 +852,13 @@ static int nvmet_tcp_try_send(struct nvmet_tcp_que=
+ue *queue,
+> >       for (i =3D 0; i < budget; i++) {
+> >               ret =3D nvmet_tcp_try_send_one(queue, i =3D=3D budget - 1=
+);
+> >               if (unlikely(ret < 0)) {
+> > +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> > +                     if (ret =3D=3D -EKEYEXPIRED &&
+> > +                             queue->state !=3D NVMET_TCP_Q_DISCONNECTI=
+NG &&
+> > +                             queue->state !=3D NVMET_TCP_Q_TLS_HANDSHA=
+KE) {
+> > +                                     goto done;
+> > +                     }
+> > +#endif
+> >                       nvmet_tcp_socket_error(queue, ret);
+> >                       goto done;
+> >               } else if (ret =3D=3D 0) {
+>
+> See my comment to the host patches. Handling an incoming KeyUpdate is
+> vastly different than initiating a KeyUpdate. _and_ the network stack
+> will only ever return -EKEYEXPIRED on receive.
+> So please split the patches in handling an incoming KeyUpdate and
+> initiating a KeyUpdate.
 
-I don't think that code path exists today, buffers posted are frags
-in the skb. But that's easily fixable.
+Ok, removed from both.
 
-> I guess what I'm trying to say in a different way, is: there are lots
-> of buffer sizes in the rx path, AFAICT, at least:
->=20
-> 1. The size of the allocated netmems from the pp.
-> 2. The size of the buffers posted to the NIC (which will be different
-> from #1 if the page_pool_fragment_netmem or some other trick like
-> hns3).
-> 3. The size of the frags that end up in the skb (which will be
-> different from #2 for GRO/other things I don't fully understand).
->=20
-> ...and I'm not sure what rx-buf-len should actually configure. My
-> thinking is that it probably should configure #3, since that is what
-> the user cares about, I agree with that.
->=20
-> IIRC when I last looked at this a few weeks ago, I think as written
-> this patch series makes rx-buf-len actually configure #1.
+>
+> > @@ -1110,6 +1125,45 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
+> >       return false;
+> >   }
+> >
+> > +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> > +static int update_tls_keys(struct nvmet_tcp_queue *queue)
+> > +{
+> > +     int ret;
+> > +
+> > +     cancel_work(&queue->io_work);
+> > +     queue->state =3D NVMET_TCP_Q_TLS_HANDSHAKE;
+> > +
+> > +     /* Restore the default callbacks before starting upcall */
+> > +     write_lock_bh(&queue->sock->sk->sk_callback_lock);
+> > +     queue->sock->sk->sk_data_ready =3D  queue->data_ready;
+> > +     queue->sock->sk->sk_state_change =3D queue->state_change;
+> > +     queue->sock->sk->sk_write_space =3D queue->write_space;
+> > +     queue->sock->sk->sk_user_data =3D NULL;
+> > +     write_unlock_bh(&queue->sock->sk->sk_callback_lock);
+> > +
+> We do have a function for this ...
+>
+> > +     nvmet_stop_keep_alive_timer(queue->nvme_sq.ctrl);
+> > +
+> > +     INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
+> > +                       nvmet_tcp_tls_handshake_timeout);
+> > +
+> > +     ret =3D nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_=
+RECEIVED);
+> > +
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     ret =3D wait_for_completion_interruptible_timeout(&queue->tls_com=
+plete, 10 * HZ);
+> > +
+> > +     if (ret <=3D 0) {
+> > +             tls_handshake_cancel(queue->sock->sk);
+> > +             return ret;
+> > +     }
+> > +
+> > +     queue->state =3D NVMET_TCP_Q_LIVE;
+> > +
+> > +     return ret;
+> > +}
+> > +#endif
+> > +
+> >   static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
+> >               struct msghdr *msg, char *cbuf)
+> >   {
+> > @@ -1135,6 +1189,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_t=
+cp_queue *queue,
+> >                       ret =3D -EAGAIN;
+> >               }
+> >               break;
+> > +     case TLS_RECORD_TYPE_HANDSHAKE:
+> > +             ret =3D -EAGAIN;
+> > +             break;
+>
+> Shouldn't this be rather -EKEYEXPIRED?
 
-#1 or #2. #1 for otx2. For the RFC bnxt implementation they were
-equivalent. But hns3's reading would be that it's #2.
+It shouldn't be. The TLS layer returns -EKEYEXPIRED and we update the
+keys. TLS_RECORD_TYPE_HANDSHAKE occurs after the KeyUpdate when the
+NVMe layer reads the KeyUpdate message, but we have already acted on
+the KeyUpdate from the -EKEYEXPIRED returned by the TLS layer.
+Basically the TLS layer handles decoding the KeyUpdate (already in
+mainline) and returning -EKEYEXPIRED which kicks off the KeyUpdate.
+This is just us clearing the message from the TLS buffer.
 
-=46rom user PoV neither #1 nor #2 is particularly meaningful.
-Assuming driver can fragment - #1 only configures memory accounting
-blocks. #2 configures buffers passed to the HW, but some HW can pack
-payloads into a single buf to save memory. Which means that if previous
-frame was small and ate some of a page, subsequent large frame of
-size M may not fit into a single buf of size X, even if M < X.
-
-So I think the full set of parameters we should define would be
-what you defined as #1 and #2. And on top of that we need some kind of
-min alignment enforcement. David Wei mentioned that one of his main use
-cases is ZC of a buffer which is then sent to storage, which has strict
-alignment requirements. And some NICs will internally fragment the
-page.. Maybe let's define the expected device behavior..
-
-Device models
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Assume we receive 2 5kB packets, "x" means bytes from first packet,
-"y" means bytes from the second packet.
-
-A. Basic-scatter
-----------------
-Packet uses one or more buffers, so 1:n mapping between packets and
-buffers.
-                       unused space
-                      v
- 1kB      [xx] [xx] [x ] [yy] [yy] [y ]
-16kB      [xxxxx            ] [yyyyy             ]
-
-B. Multi-packet
----------------
-The configurations above are still possible, but we can configure=20
-the device to place multiple packets in a large page:
-=20
-                 unused space
-                v
-16kB, 2kB [xxxxx |yyyyy |...] [..................]
-      ^
-      alignment / stride
-
-We can probably assume that this model always comes with alignment
-cause DMA'ing frames at odd offsets is a bad idea. And also note
-that packets smaller that alignment can get scattered to multiple
-bufs.
-
-C. Multi-packet HW-GRO
-----------------------
-For completeness, I guess. We need a third packet here. Assume x-packet
-and z-packet are from the same flow and GRO session, y-packet is not.
-(Good?) HW-GRO gives us out of order placement and hopefully in this
-case we do want to pack:
-
-16kB, 2kB [xxxxxzzzzz |.......] [xxxxx.............]
-                     ^
-      alignment / stride
-
-
-End of sidebar. I think / hope these are all practical buffer layouts
-we need to care about.
-
-
-What does user care about? Presumably three things:
- a) efficiency of memory use (larger pages =3D=3D more chance of low fill)
- b) max size of a buffer (larger buffer =3D fewer iovecs to pass around)
- c) alignment
-I don't think we can make these map 1:1 to any of the knobs we discussed
-at the start. (b) is really neither #1 (if driver fragments) nor #2 (if
-SW GRO can glue back together).
-
-We could simply let the user control #1 - basically user control
-overrides the places where driver would previously use PAGE_SIZE.
-I think this is what Stan suggested long ago as well.
-
-But I wonder if user still needs to know #2 (rx-buf-len) because
-practically speaking, setting page size >4x the size of rx-buf-len
-is likely a lot more fragmentation for little extra aggregation.. ?
-Tho, admittedly I think user only needs to know max-rx-buf-len
-not necessarily set it.
-
-The last knob is alignment / reuse. For allowing multiple packets in
-one buffer we probably need to distinguish these cases to cater to
-sufficiently clever adapters:
- - previous and next packets are from the same flow and
-   - within one GRO session
-   - previous had PSH set (or closed the GRO for another reason,
-     this is to allow realigning the buffer on GRO session close)
-  or
-   - the device doesn't know further distinctions / HW-GRO
- - previous and next are from different flows
-And the actions (for each case separately) are one of:
- - no reuse allowed (release buffer =3D -1?)
- - reuse but must align (align to =3D N)
- - reuse don't align (pack =3D 0)
-
-So to restate do we need:
- - "page order" control
- - max-rx-buf-len
- - 4 alignment knobs?
-
-Corner cases
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-I. Non-power of 2 buffer sizes
-------------------------------
-Looks like multiple devices are limited by width of length fields,
-making max buffer size something like 32kB - 1 or 64kB - 1.
-Should we allow applications to configure the buffer to=20
-
-    power of 2 - alignment=20
-
-? It will probably annoy the page pool code a bit. I guess for now
-we should just make sure that uAPI doesn't bake in the idea that
-buffers are always power of 2.
-
-II. Fractional page sizes
--------------------------
-If the HW has max-rx-buf-len of 16k or 32k, and PAGE_SIZE is 64k
-should we support hunking devmem/iouring into less than a PAGE_SIZE?
+Alistair
