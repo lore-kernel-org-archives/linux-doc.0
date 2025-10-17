@@ -1,137 +1,124 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD9732C925
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 14:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDBD32C94E
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 14:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760710457; cv=none; b=N4SbXzlO7Bm0obhqy8GxRZfvd3nu5LOuRGAfU+6ydfKC0NSm5bOy9r6nlJ3Cr1mw2lUwtyqHPdw6NmM6bPBSZJNIb8m/qnMhuKJDqHjCyUVdHVkNzG+DZ87K1/64rF2HcZHmy4aDwIX+YJk4/3jZN3uS2wMKcSn6RyxsIbV4t9A=
+	t=1760710464; cv=none; b=nXO0F7S/M2Z4leajnpHp1uCdYb7i4ySgu0LripaFMcLyNe4xei5D4GtzO4esPg7LL5tHXMxRW2KP4nWywaalaiif2xzvkgSyPWNL6vC+6Xh62RMu1RBK38/hzPQlU89v53ycvjIPSg6xnER9/VZUFCxECp4kI4AWQOVJn3EfjNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760710457; c=relaxed/simple;
-	bh=QYQqRTcp8A/geB7A9/E0yxzmXaEU4W1lxA8D4eW1+oA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LsAhu8hwJEWp36Nm08YNEPPEzIui8wOB3xsbkDmdTD9SMaKMfFtA6XDgRmSmXTQzHcPikmcQSEZNWJ+cjhV2yKLCGPiduVD11uRD8pkM4efm9/68Tdt+/nyJ1ikIjImGamS87/SnhhyIxE8lUa8HaR1nWESKO1KS+dZDfftP9eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Arpm9A9O; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760710464; c=relaxed/simple;
+	bh=959p6xV6CKeeWXiRtPPtRMLL/TFd0b3Xs25RXyKYag0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R+eK/UFaEauYH2ydphyEQeYzAxdHWVD/zCL+GK8vned5f0hehsBruPFp787nnaHKI2PSXJhgDUCVgabioZ96Oeevag7OMdGsyxFrTqkaO0zw6uVG3NuQI+o8xjyHvgfizuaLGSCODjqAmTgqgr3XnCR2FjLeeryUAcZKBaxpE2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Su/2IPOE; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Arpm9A9O"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 2B589C041EB;
-	Fri, 17 Oct 2025 14:13:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4CBB6606DB;
-	Fri, 17 Oct 2025 14:14:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6758102F235A;
-	Fri, 17 Oct 2025 16:13:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760710445; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=MuAoz+V2YdChsKDB39UbimB2KEWOPHvxJjC4UXDWnig=;
-	b=Arpm9A9OBvgEKac+NiV1ZGQn15/YYbia7KI4e1jFMpKpOU0TTJdEpbNdI2hnjdUJVhT7yb
-	PvsJv9qGJn5HA4Ehfp7rW7Q1wuse5EcZSRA9e1Lvci6rPhqkJ8kVH14PmNNdhjmGIFZH8n
-	WidX9RUsOVCBymMSMx7+GQgq/OTQPbDIvzhDN+U9xFIwkiE55WOxYmRajK/LiygrEyTRhh
-	5I8n0StC23Z5eQ47cw6OEqmKsZ+0lcxW3pXxbGCHR0EEIT6xtJnskYuVbbERq9CgddhxIu
-	aqnRPdydrgnPjN2mGcPwHOSaDeJQ864Aq0AWwetufhuOmzgViXxiqIsNv/xAWQ==
-Message-ID: <3e268abd-620c-470b-ba3b-222a0c39cac5@bootlin.com>
-Date: Fri, 17 Oct 2025 16:13:34 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su/2IPOE"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-471066cfc2aso17462905e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 07:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760710460; x=1761315260; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FTLnHbprIsxNg0GlvOz1rxX1RAjfsFXOqHQiYRq25LI=;
+        b=Su/2IPOElTtM+RsiQFMRs14hcKxioX7VfmNMd9Wuywrv8kjPCSJROetHVRUc9PhL2I
+         ZjpamG/lE1Ugc0wWzT9ea9ryyVtx17N93Es7t2N2ZupCvSUQQ4BX5UNujWZck9SJoR7q
+         W0QntK1fjnEpyAYA8Q34ed3VaoKiA8s4bzr5BES39aOL+4KzAcjAK2GMPPmbdKlJBdee
+         grP8XDSLyGfaItUt6ripBXvyaBjV4bLCiV7qeau9gC7AfjJ8zVxxQy6cyQy6OFLeQUFV
+         m8fuHnlvJgVRx/g2mdKfuCLgmlOr3OR5ADf1tOZR1OHehThLS7ESA71EksyUqROC8bYa
+         buhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760710460; x=1761315260;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FTLnHbprIsxNg0GlvOz1rxX1RAjfsFXOqHQiYRq25LI=;
+        b=qjUwAbJ0vapNktrIe+fzBrbsINrzhaeJHjmqRK7rMbkroe7SEcsn0t/FOJ8RJ1uJRm
+         gFOypE4tGiyyboShJlcjqwONi9GPe6IkcoFiaDrxUAe0otoccyKkW19NZPcW1p2uiU2l
+         rq4R8jGr674ZpxAviiBQ5u8mv0acpzDso246q6G4spA3/pRN47enQvBYpkVk+pMAVaNg
+         rXnqadDllghhRwHSQaGnQHG99pCVUYKaiGwtVU4HArzXaCmNPA2BIlNYPhbuUPX3lJUx
+         DTTOB6FAG3vCpm1rAM/zjBRF+IVaeZo+xtfjvyfhVed2wybWSX5tBpiamhWTGyXzZWOr
+         1G1A==
+X-Forwarded-Encrypted: i=1; AJvYcCW8x5SpdyhXT4GMHmx2XTNcGCYUSyEkJvZifkfdaNvX8cNst/Ln3YA/dnbmKSm6H7wHT9LQt0tRLWA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtEOKxczmz+Pl3jIwl1fQeHNF8SVDCbcbYnHpUbpM2fQWzf1bS
+	72O5atWlXSxr7j+ot0jnUCi8xm5oyruEhXBi9xGt/feJWTwbjBtIkwIc
+X-Gm-Gg: ASbGncvPJqpf+lp4pV1Vl7q9IeauqoJLoAsrku/DtpfujOYJgSnTeIQRwuHhcfF718l
+	So2wgSOZG062YkBjoXrZpsxgm9scXrE892Fj0cnSEZWwoSxNjgbtbtRXuQrhyznM27eHVdtkl+I
+	0wkHSlFrmdXcQ5japORQiZLlyc6nMXM743o9EWKJyiCOEBaJCrdNAJAqb+AF9F0IqvYnP/FrhvP
+	GVpjp8HqSxxlJwapE4gFD3BOCaTaUSOtVcAIW4aqHo6xSlqEGXxaTs76CdBlHAylEFvACFphL9D
+	28fxNiNf4eZkcwXU3/Edi1HJJVnPpu5vDvFxie9hv7N+z3tx/xDJEjgOzRbdVv82kbsTdOGZH2o
+	YFg6U9Eyu06405PPqo6aYJl3kTy63HS6F7F9Heehs8Pz4VYbVnlthp0aULkvfLgrQdZWCMGOwFt
+	XkRTWCugvsFzGBu7qj0/o=
+X-Google-Smtp-Source: AGHT+IF2EM7mT5D52gnp+VTbfiNcarttRakEXF5/pBTZwv3B+9i+o/ZbwXxFScc6ahCV+wEMQcYNyg==
+X-Received: by 2002:a05:600c:821a:b0:46f:b42e:e3a0 with SMTP id 5b1f17b1804b1-4711791dc89mr26441555e9.41.1760710459832;
+        Fri, 17 Oct 2025 07:14:19 -0700 (PDT)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47114423862sm87177925e9.1.2025.10.17.07.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 07:14:19 -0700 (PDT)
+Message-ID: <014f2380e9261a1449214907a149f11267acdd11.camel@gmail.com>
+Subject: Re: [PATCH v5 4/7] iio: adc: ad4030: Use BIT macro to improve code
+ readability
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com, 
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+ robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+	marcelo.schmitt1@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 17 Oct 2025 15:14:52 +0100
+In-Reply-To: <ec78fd7e4348e2cbc99ae08004c48b7ea238ecf7.1760479760.git.marcelo.schmitt@analog.com>
+References: <cover.1760479760.git.marcelo.schmitt@analog.com>
+	 <ec78fd7e4348e2cbc99ae08004c48b7ea238ecf7.1760479760.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 1/5] ethtool: introduce core UAPI and driver
- API for PHY MSE diagnostics
-To: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Kory Maincent <kory.maincent@bootlin.com>, Nishanth Menon <nm@ti.com>
-Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
- linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>,
- Roan van Dijk <roan@protonic.nl>
-References: <20251017104732.3575484-1-o.rempel@pengutronix.de>
- <20251017104732.3575484-2-o.rempel@pengutronix.de>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <20251017104732.3575484-2-o.rempel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Oleksij,
+On Tue, 2025-10-14 at 19:21 -0300, Marcelo Schmitt wrote:
+> Use BIT macro to make the list of average modes more readable.
+>=20
+> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Link:
+> https://lore.kernel.org/linux-iio/CAHp75Vfu-C3Hd0ZXTj4rxEgRe_O84cfo6jiRCP=
+FxZJnYrvROWQ@mail.gmail.com/
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
 
-On 17/10/2025 12:47, Oleksij Rempel wrote:
-> Add the base infrastructure for Mean Square Error (MSE) diagnostics,
-> as proposed by the OPEN Alliance "Advanced diagnostic features for
-> 100BASE-T1 automotive Ethernet PHYs" [1] specification.
-> 
-> The OPEN Alliance spec defines only average MSE and average peak MSE
-> over a fixed number of symbols. However, other PHYs, such as the
-> KSZ9131, additionally expose a worst-peak MSE value latched since the
-> last channel capture. This API accounts for such vendor extensions by
-> adding a distinct capability bit and snapshot field.
-> 
-> Channel-to-pair mapping is normally straightforward, but in some cases
-> (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
-> If hardware does not expose MDI-X status, the exact pair cannot be
-> determined. To avoid returning misleading per-channel data in this case,
-> a LINK selector is defined for aggregate MSE measurements.
-> 
-> All investigated devices differ in MSE capabilities, such
-> as sample rate, number of analyzed symbols, and scaling factors.
-> For example, the KSZ9131 uses different scaling for MSE and pMSE.
-> To make this visible to userspace, scale limits and timing information
-> are returned via get_mse_capability().
-> 
-> Some PHYs sample very few symbols at high frequency (e.g. 2 us update
-> rate). To cover such cases and allow for future high-speed PHYs with
-> even shorter intervals, the refresh rate is reported as u64 in
-> picoseconds.
-> 
-> This patch defines new UAPI enums for MSE capability flags and channel
-> selectors in ethtool_netlink (generated from YAML), kernel-side
-> `struct phy_mse_capability` and `struct phy_mse_snapshot`, and new
-> phy_driver ops:
-> 
->   - get_mse_capability(): report supported capabilities, scaling, and
->     sampling parameters for the current link mode
->   - get_mse_snapshot(): retrieve a correlated set of MSE values from
->     the latest measurement window
-> 
-> These definitions form the core API; no driver implements them yet.
-> 
-> Standardization notes:
-> OPEN Alliance defines presence and interpretation of some metrics but does
-> not fix numeric scales or sampling internals:
-> 
-> - SQI (3-bit, 0..7) is mandatory; correlation to SNR/BER is informative
->   (OA 100BASE-T1 v1.0 6.1.2; OA 1000BASE-T1 v2.2 6.1.2).
-> - MSE is optional; OA recommends 2^16 symbols and scaling to 0..511,
->   with a worst-case latch since last read (OA 100BASE-T1 v1.0 6.1.1; OA
->   1000BASE-T1 v2.2 6.1.1). Refresh is recommended (~0.8-2.0 ms for
->   100BASE-T1; ~80-200 us for 1000BASE-T1). Exact scaling/time windows
->   are vendor-specific.
-> - Peak MSE (pMSE) is defined only for 100BASE-T1 as optional, e.g.
->   128-symbol sliding window with 8-bit range and worst-case latch (OA
->   100BASE-T1 v1.0 6.1.3).
-> 
-> Therefore this UAPI exposes which measures and selectors a PHY supports,
-> and documents where behavior is standard-referenced vs vendor-specific.
-> 
-> [1] <https://opensig.org/wp-content/uploads/2024/01/
->      Advanced_PHY_features_for_automotive_Ethernet_V1.0.pdf>
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+I don't find the link particular useful in here. Seems redundant with the
+Suggested-by tag. Anyways:
 
-This looks good to me,
+Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-
-Maxime
-
+> =C2=A0drivers/iio/adc/ad4030.c | 8 +++++---
+> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> index 4393160c7c77..b2847fd90271 100644
+> --- a/drivers/iio/adc/ad4030.c
+> +++ b/drivers/iio/adc/ad4030.c
+> @@ -233,9 +233,11 @@ struct ad4030_state {
+> =C2=A0}
+> =C2=A0
+> =C2=A0static const int ad4030_average_modes[] =3D {
+> -	1, 2, 4, 8, 16, 32, 64, 128,
+> -	256, 512, 1024, 2048, 4096, 8192, 16384, 32768,
+> -	65536,
+> +	BIT(0),					/* No
+> averaging/oversampling */
+> +	BIT(1), BIT(2), BIT(3), BIT(4),		/* 2 to 16 */
+> +	BIT(5), BIT(6), BIT(7), BIT(8),		/* 32 to 256 */
+> +	BIT(9), BIT(10), BIT(11), BIT(12),	/* 512 to 4096 */
+> +	BIT(13), BIT(14), BIT(15), BIT(16),	/* 8192 to 65536 */
+> =C2=A0};
+> =C2=A0
+> =C2=A0static int ad4030_enter_config_mode(struct ad4030_state *st)
