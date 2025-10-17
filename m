@@ -1,167 +1,152 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042A334AAEE
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 11:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB7E332EA4
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 11:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760700877; cv=none; b=G8JkmOKuqIxABjQeWi8fc5dRK7NkCbzR7KqDzTg9tyY2fD+UwbgJscbs7VhZtmnSKdGLWtNx4PXLp2+Kt2OSaMp+PjNZ0SBVUFAkKk753zKDq8K0w0lBHXBb9xxyuZcNxweoqcaPKbEw8xZS3Wv6F2MYVfW5mSi8YDy0SLRgq/g=
+	t=1760701111; cv=none; b=FXNiYZYJdzHQZ3WEYlknkt4YAIkGjyB9fUh5sxS/4ElDOdnhFfG0KOsfSMtiJMG4JYNLK7xct4ZrLIsGW3aP9D1BenMnv2iNtqACxDoBP6IO3+vtcQVKsdS5v0s+zzgwYEGtur4qlXBOfDQrj7zs4OdMMC5FHZ9dnegJNkhXnc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760700877; c=relaxed/simple;
-	bh=xPKudPe20LVyFE+p3IxJr16x4wx/uGvtSa6tEowpGec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtgOlGmBlwRrZPH5cjBy/lrEVDdoCr6eHVcaAW/o82AI8ojq6pGul4WlE2r9mRUv43pfgYsdybcG1MHcD3f4WayN5gdCGU8/5LJd59CJN6/amSJ+6pHgNn2KALCYFCc3LLX9chMqXL8RhktT73uNpaqlrjB/g/xqGvCnoX80ha0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ReV0lAbr; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760701111; c=relaxed/simple;
+	bh=9msVu+SUBbsb9PBWG/xro47qnP6i3+BAjZkvCCDx/DM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VXX+wf0CBIA/QlQ7Ew8APJbx/XHqmJNktLnDD7+t30J4VeScxB9fkxjDJGa0Xt0qZyhFJdmH157t72I16vYQB5KwokhOfh5XbXPxSADt/VrBbaKtXTLQ5nhMfFNJPwYUzYtW4I7KXzA8SNXKjNwHfoyqOVss2eNpJZrNjdPl0GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RJh6R/sE; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ReV0lAbr"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-33badfbbc48so2380281a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 04:34:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RJh6R/sE"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-426edfffc66so1237095f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 04:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760700874; x=1761305674; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fYfAPtHB/RHiXWE9XxOgOmtRX2AfdTu8oaK5y1u+j8I=;
-        b=ReV0lAbrEXLoA7ZSlXmh6jSMZz275urgTCRGceEXFqCRCX0VQT54AfF3hsM8TWVFtr
-         FFXpYDARFTcKsWF9Jqn2rfqav0xnJb+eIQwEKp1IKncxnIF188wMUgG5m1EX/uS7Xq4W
-         hYvJsZDQUbAsm4D/IXCsoQ+K4sBPGluodtQvePY7YDwv/TD+m20/Tn4qVIzNkuEUn3WS
-         dmpJZDIauzCUvz4hJYTEDIf2tvp4fL7JroMNGwYZk2+QAcIPxuw5cygFMnlJAjgNwVAY
-         fbcTtt71NozCqFaxE5dyUaGqEcOI1flztoB0QmBLxxC1+xgJwi9U6UM0okiiHHsQws9P
-         ZcKg==
+        d=suse.com; s=google; t=1760701107; x=1761305907; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oSsGSmsIxqB5hm0PfffZYkH5rW/rAwPHgsZUjkbnJ5U=;
+        b=RJh6R/sE10jnJYI2cU1wwkRhFzykzZGWp9LPdHSEeeO96YDrImRezsdFp0mpwRSrhT
+         YTWf4kEhpI9aZMm3tM6qEuT62PTCfww9U0oLE1bpm7mX4tXFV2O/letJd1H1wfraACHu
+         VlOgURQfsjHEwZW/xvOdo/IPjgaW7+OA9X1ZnrXmoHWtO+eUYnZi1w2Vr3jbmsVKvn7B
+         INMZr+jl7DRRvYfzY9qtQJVcIBWBu2yb3YEbw+3elRRC9gxNo88HuefbEYi8mZBaCA6U
+         FzcWW6VQEGWW3s8q3Mmo866xxrUtL/shOgc/P7H7y8GH/9Dj6g6gT02h4F0qxPITEnkc
+         1gGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760700874; x=1761305674;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fYfAPtHB/RHiXWE9XxOgOmtRX2AfdTu8oaK5y1u+j8I=;
-        b=oAIlISXYIP1Gq/uYZO3qjs1hVRZViddxHX1vqV+VTr7GN6mzAy0pm8d/HlS/tZvwQt
-         ZR9aBpSEPj7E0kAlWgDJeyrsn01s1IoahufUWBNIkikr9A8OvWj/GHSnPLr3L2v0TKn6
-         aqvSe2oXlYdNVEAOQJJi2lcc/YlxJapIzYa8lwG0HSAe5to/HesE3+QM9oWnKI3Up9J2
-         hznlRkMQaOHVMk5CFlKgd0r/W/IIbLQX2lBDklKdc5jbDlURIIfp5EDYYSrTq3LtuZ/k
-         L5yitQw6egAGKgfAoGOvY6mfpOIjl3G4G1Axd8WXkSg8kKHSYO4pN5s5mMLbAiaoGVyJ
-         yhXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUo1IPCUpmvRxoQUTa+kbxyT4ywvl9JzQxHzFCcqbsWibq/BwzyueZlo67v8wqXCVptGxM29e7zEhE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi0Ncs8lqCdjYpZjzJB0WkpbefqT5o/QKFdnR7QljDB4Gknpz3
-	DljXMtgeWKZDNMWSMSH246y/UilpXFI/IhV3nBo9JfojD2JlroUTcFph
-X-Gm-Gg: ASbGncuXuV2rRankpMnucuph/4IbtbEFpViiPQ6HKTt2YJkNrgJlCeaGoJcJ7lw8Iue
-	77LdYJFynm+D+sXIcHvJDm9O1AHTWHQuNki9BaI2AEKHaY9QtRwSvsHTpZkLCdEan4k1LYWhTdi
-	9CjIyBTyFdxBT6dOMTxdFM2j+liR2VoMxVdwpi4W7FfXIzTb16Dz/ZOGl+QjcJVHUW4VupjPGBL
-	88r01KyBssUJ4aEJ7f1Gsa0s93ZMfYDqjpxm2xOYtSdcCeMepRvJYZxubOS5qrGSxzXXZ14LfyY
-	JIs/W6HX7OMKB3O4dFFzYPZoiGq+Cxc+A/HHiBxiEWFJv45WdbnW9OTyhIjn2dvyVOCzx3FN4/6
-	42G2d7aA76xr3Tg3bzoxgLGe++hsC4MvJmD07jpZXeMLxGqViwd6pxRBYhjz3zsaqVGJ0ymWh+z
-	CVmNf8/vWobQ==
-X-Google-Smtp-Source: AGHT+IFWkL4x7nbwb+9Uvguh+3df9cfdWGeCUM99KzCsQewGs4kLcYRtKcEcc6/or/fk3QS39PWIIA==
-X-Received: by 2002:a17:90b:2f8e:b0:33b:c5f6:40ec with SMTP id 98e67ed59e1d1-33bcf914840mr3603295a91.30.1760700874068;
-        Fri, 17 Oct 2025 04:34:34 -0700 (PDT)
-Received: from localhost ([2804:30c:402b:1a00:ec78:db53:a246:207a])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7992bc13543sm25483583b3a.35.2025.10.17.04.34.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 04:34:33 -0700 (PDT)
-Date: Fri, 17 Oct 2025 08:35:38 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v5 5/7] iio: adc: ad4030: Add SPI offload support
-Message-ID: <aPIqCrvaPQZg7Lo8@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1760479760.git.marcelo.schmitt@analog.com>
- <c12569f251962ad6034395e53cd6d998ce78a63f.1760479760.git.marcelo.schmitt@analog.com>
- <e677f27a-787a-433c-8516-99ff1d33f2c6@baylibre.com>
+        d=1e100.net; s=20230601; t=1760701107; x=1761305907;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oSsGSmsIxqB5hm0PfffZYkH5rW/rAwPHgsZUjkbnJ5U=;
+        b=QQosnzQzPmg29ZZN0KTjzM1gguZQ+jeUnRHhEeM6E1HS0NL5GQCBgdNCLKn2dDnIxB
+         4vgeh/d/wc2p8bIk4zmBXjKn82Dea0bH8OpFdJWAg8P2ZdeE0EHPv/boVA9QD1dla3c9
+         r+ZOatwRL+Qz+p7087RrjdHmqsrTn6bldnF3dW5WrhkwM5D2tBKUxaNb3tNvHKJoqB06
+         JDRDnVrswMHz7fny9bPocoMhyqiVY+QFxC+Gy1FiOZVm2Q/TPYmd/bM3mK9jfXloXrqM
+         8wsOIy1P84ZgTY1b2imp5wC6ZbNuUg9lVP+om2xd8Mp05rC7739c8aU+MVZsUVPZlfzW
+         EQpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWO+XGxCfMqKV9cmuRdtBYnUU83hV4/s4Mky+bBpNGhF+OA2GmZ2ECPwgD7QaxJjiWC6Td2uL4O/Xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSi2iHTCfIQ5eVUJQfIBuzn9h9uep7NnbRRBO+BdX/s+BwsIhj
+	iENzCic3+tpe2wiL+5AE8tS7u4Mos2yrEP3CYejK81h8+wrSODKogPB2pOqLMoK6GUI=
+X-Gm-Gg: ASbGnct8sc3Rx36NTXYzQB3qGTqzOXcLD7pK/GzXRuH68O/gsSXeT9Ndy9sL5pMr87U
+	7q9xiU//bKH5KM7WdHaIRtfE+RMf+8k69o0H91F9MB1su6A4EWF3mYz80l12/GgcM0uFz7zj8hw
+	QEncMCTaedoyflma654yAivmueJfFt294B3/fM6irC7lfj3G6LAL05UjOYzj6vvi+d8PMKw+wG8
+	ywwm0A7EdD4uTZYoZIQvFZaOzwkfFjSvjVm/knXcFmpBxfhjtIhRBtVDTJuLVf3sirqNCw9Ucf5
+	e5OJpnRCRfCusJ8kCRaHwPR4ZBylrM0do2k4Xv+Kc0Zq1hTLQskIbuANuvoFg0/soqGg2Gfdvjb
+	TpSVuNxxraghDEZGpL2KUQdztUNvKlyu1EOURy9Srfsr7KnuD/2/zQqZLvyXvMJLWwk2TYEmREO
+	4m2bkRzDOrvCjvUX9LtphF
+X-Google-Smtp-Source: AGHT+IEvltr4XQUBvXbO5/DAcfM0KgT+zHuTMTdsx4BX5yj88NzF+xLsMdBh0+sxiVD7nd1L1YhGYw==
+X-Received: by 2002:a05:6000:2287:b0:425:7e33:b4a9 with SMTP id ffacd0b85a97d-42704a62705mr2909583f8f.0.1760701107569;
+        Fri, 17 Oct 2025 04:38:27 -0700 (PDT)
+Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426f2f72e18sm19030555f8f.0.2025.10.17.04.38.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Oct 2025 04:38:27 -0700 (PDT)
+Message-ID: <c58152f1-0fbe-4f50-bb61-e2f4c0584025@suse.com>
+Date: Fri, 17 Oct 2025 13:38:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e677f27a-787a-433c-8516-99ff1d33f2c6@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: ABI: sysfs-module: list all taint flags
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org
+References: <20251015221348.1125295-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20251015221348.1125295-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10/16, David Lechner wrote:
-> On 10/14/25 5:22 PM, Marcelo Schmitt wrote:
-> > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> > samples per second (MSPS). Not all SPI controllers are able to achieve such
-> > high throughputs and even when the controller is fast enough to run
-> > transfers at the required speed, it may be costly to the CPU to handle
-> > transfer data at such high sample rates. Add SPI offload support for AD4030
-> > and similar ADCs to enable data capture at maximum sample rates.
-> > 
-> > Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> > Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > ---
-> > Change log v4 -> v5
-> > - Made Kconfig entry depend on PWM and select other features.
-> > - Reused ad4030_exit_config_mode() in ad4030_offload_buffer_postenable().
-> > - Dropped common-mode voltage support on SPI offload setup.
+On 10/16/25 12:13 AM, Randy Dunlap wrote:
+> The list of module taint flags has not been updated lately as the
+> taint flags list grows. Instead of trying to keep multiple lists
+> updated, just refer to the list of kernel taint flags since they are
+> the same.
 > 
-> Curious why you chose this. I guess it will be fine to add it later
-> if anyone ever actually needs it.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Petr Pavlu <petr.pavlu@suse.com>
+> Cc: Daniel Gomez <da.gomez@kernel.org>
+> Cc: Sami Tolvanen <samitolvanen@google.com>
+> Cc: linux-modules@vger.kernel.org
+> ---
+>  Documentation/ABI/testing/sysfs-module        |   10 ++--------
+>  Documentation/admin-guide/tainted-kernels.rst |    2 ++
+>  2 files changed, 4 insertions(+), 8 deletions(-)
 > 
-I had coded that in a way I think would work for the dual channel devices, but
-it didn't really work for single-channel adaq4216. And yes, if anyone asks
-for offload with common-mode data, we shall probably be able to it that later.
+> --- linux-next-20251014.orig/Documentation/ABI/testing/sysfs-module
+> +++ linux-next-20251014/Documentation/ABI/testing/sysfs-module
+> @@ -52,14 +52,8 @@ What:		/sys/module/*/taint
+>  Date:		Jan 2012
+>  KernelVersion:	3.3
+>  Contact:	Kay Sievers <kay.sievers@vrfy.org>
+> -Description:	Module taint flags:
+> -			==  =====================
+> -			P   proprietary module
+> -			O   out-of-tree module
+> -			F   force-loaded module
+> -			C   staging driver module
+> -			E   unsigned module
+> -			==  =====================
+> +Description:	Module taint flags: same as the kernel taint flags.
+> +		See: :ref:`taint_flags` in Documentation/admin-guide/tainted-kernels.rst
 
+The module taint flags that can appear in /sys/module/*/taint are
+a subset of the kernel taint flags. By looking at the calls to
+add_taint_module(), they are as follows:
 
-> > - Adjusted offload trigger period calculation.
-> > - No longer setting data frame mode from ad4030_set_avg_frame_len().
-> > - Rearranged code to reduce patch diff.
-> > 
-> >  drivers/iio/adc/Kconfig  |   5 +
-> >  drivers/iio/adc/ad4030.c | 425 +++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 416 insertions(+), 14 deletions(-)
-> > 
-> 
-> ...
-> 
-> > @@ -512,11 +643,30 @@ static int ad4030_set_avg_frame_len(struct iio_dev *dev, int avg_val)
-> >  	struct ad4030_state *st = iio_priv(dev);
-> >  	unsigned int avg_log2 = ilog2(avg_val);
-> >  	unsigned int last_avg_idx = ARRAY_SIZE(ad4030_average_modes) - 1;
-> > +	int freq_hz;
-> >  	int ret;
-> >  
-> >  	if (avg_val < 0 || avg_val > ad4030_average_modes[last_avg_idx])
-> >  		return -EINVAL;
-> >  
-> > +	if (st->offload_trigger) {
-> > +		/*
-> > +		 * The sample averaging and sampling frequency configurations
-> > +		 * are mutually dependent one from another. That's because the
-> 
-> s/one from another/on each other/
-> 
-> "one from another" makes it sound like they are independent rather than
-> dependent.
+Present:
+TAINT_PROPRIETARY_MODULE
+TAINT_OOT_MODULE
+TAINT_FORCED_MODULE
+TAINT_CRAP
+TAINT_UNSIGNED_MODULE
 
-Ack.
-> 
-> > +		 * effective data sample rate is fCNV / 2^N, where N is the
-> > +		 * number of samples being averaged.
-> > +		 *
-> > +		 * When SPI offload is supported and we have control over the
-> > +		 * sample rate, the conversion start signal (CNV) and the SPI
-> > +		 * offload trigger frequencies must be re-evaluated so data is
-> > +		 * fetched only after 'avg_val' conversions.
-> > +		 */
-> > +		ad4030_get_sampling_freq(st, &freq_hz);
-> > +		ret = ad4030_update_conversion_rate(st, freq_hz, avg_log2);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > +
-> LGTM.
-> 
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
-> 
+Missing:
+TAINT_LIVEPATCH
+TAINT_TEST
+
++ potentially TEST_AUX.
+
+Since this text specifically documents what can appear in
+/sys/module/*/taint, I think we should still maintain a list of these
+flags for accuracy.
+
+Additionally, Documentation/admin-guide/tainted-kernels.rst provides
+taint descriptions for the kernel as a whole, which can be misleading
+for individual modules. For instance, for TAINT_LIVEPATCH, the document
+says "kernel has been live patched", but in the context of
+/sys/module/*/taint, it means "this is a livepatch module".
+
+-- 
 Thanks,
-Marcelo
+Petr
