@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F328D33F8A5;
-	Fri, 17 Oct 2025 19:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CE632C955;
+	Fri, 17 Oct 2025 19:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760729269; cv=none; b=CB7YqO9et1vfG4uyzbNvsHLo9RgSh7FO08W67d4rlaNT6TMYvo7uaIdAyjZYuVuXFKBYZOAd/K8PUOdFw8eGh83yU2Rez6YjFN2376IkfoldQV21G3JelMfgyNxrNLVEHyc5udGA+RBebRvLa0VmHcimmQIKdj9rtm2QOVUXpuw=
+	t=1760729979; cv=none; b=e8SHxkcpP4Sfw2I9GxYqxD2rul1PcBfPHdjAjrLhEIrQqZaxpWP0RYxu43ORnA2GSmWCL4v0bHsH374Eqw2WZMh15G2lP/uZUWeSJOawsAazUUxnFzN+pBRmA02qZCoIi0RXx3GbFjeYQ1uD/G7Hp/fAsEz3IDgw4NTQUof8NCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760729269; c=relaxed/simple;
-	bh=mcoBV77KiMRh2mU/rmsiY4X9DXeBVgX4cPU+NVWl+tw=;
+	s=arc-20240116; t=1760729979; c=relaxed/simple;
+	bh=LhUB0GpUgK9F14BhCiULoa01j3fhb9rDCe/KcxgN2LA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j4cc7xMFw4Km91t/mK3rdeflN+IiDRsCcrW5Uh4RuktNAFXrFsSs8pjqbakwo/WXA7S8Sw7YveWkAecZeU/OIOPevp/Zr0HOlfFRjQaaaCff0cQJuTr5N3regXVA/f2JyJZe/6MWD3UsHXK4bquAOxbwK4Fviksum5mvTh/f3eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZRm8HSWQ; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=YwFEiTin0GWASbdqOdgL0QezBKL7GHPeQLEs92taHGb8yQqHaQQYy2SXs00Cw4+HBvF6a1t+mA2HoGI0hl3sI/RS9xAyQeQiWb19jgQPMdIfIGTmNwW1NmtVu3lYnlbbgEsAVfj4GE2ylIATPX1GG0BENPcvboZxNnPao9MMhgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oXxXfnHl; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZRm8HSWQ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oXxXfnHl"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=U5Ytw4RP5PrcMrnCeeRigKUwGeJ5Azr3SrQLjgFx4k4=; b=ZRm8HSWQtJOLBeP+ciSYefVzWA
-	gtSH7khtTB5h2BtAsFx+OS/infp8XuI/eUjo56YQ66jFO53RvPKCRdvx8QmifOIUeoDaf0//KK+dQ
-	lAGGFYNJyJSnib1bg3mpcDymylQXEbxbHCdKk8LjXdjFpa9wSsvLfq4PScaS9I37W9gpHLee3uNCa
-	F+5ptiIjYikACvk1Pu/vNni04xP0VFDk71R587scN3LB5wpEF4+TH6G56SoBkNr2oC+MmuQA8Gf44
-	klITQjxW0AHSCBNtMu4HpZEW8ZjBo1jHCJsmjMZ0UkuON+3yQ4xnLSMJDsGLwor24A+J4AB5CC3y0
-	zpKkFTeA==;
+	bh=2XmsMIjVw/ixg7JxgZV2GT8GjGC0FM4HT+IGUYyQpcM=; b=oXxXfnHl1uiSuj278E3kXgxwHr
+	RFYzIyqgVUolJ3sDlgnvK9OkbahcdUHzmDgxjgg62dmRGcjX1LBpG596ep5piN0lWNSpWXWpv/lyZ
+	OUPJWeHFeehBFK7rrL/X2FF27uhfyjZ1htvGDDlhm+esQre+rGDQQv8orAcXTZi3mQ+lSUXHGrWKF
+	GW95gbZd4f9OVdhvVB6ohCOg9ocVIe29xIEOH/NT/DzZr4C/OMqR0NmtamI5X03XPH4mtO4b6jQNZ
+	/Sg1djBIV2CYSiX+oFiZ/8o0HvLDuHwPj2CbnCZP5KJHfMBEfFSyEHr0xHCDd77jDUJDWE9oh4BFG
+	PsWgPcfA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9q76-00000008qBs-2RBQ;
-	Fri, 17 Oct 2025 19:27:44 +0000
-Message-ID: <7928c851-649d-47f4-a747-3314c0d45706@infradead.org>
-Date: Fri, 17 Oct 2025 12:27:43 -0700
+	id 1v9qIa-00000008qjf-2XEE;
+	Fri, 17 Oct 2025 19:39:36 +0000
+Message-ID: <b71d9455-610a-40d7-af3e-f030499dd2a0@infradead.org>
+Date: Fri, 17 Oct 2025 12:39:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,70 +39,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: trusted-encrypted: fix htmldocs build error
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, zohar@linux.ibm.com,
- James.Bottomley@HansenPartnership.com, jarkko@kernel.org, corbet@lwn.net,
- Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>,
- Pankaj Gupta <pankaj.gupta@nxp.com>, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- linux-kernel-mentees@lists.linux.dev, khalid@kernel.org
-References: <20251017181135.354411-1-krishnagopi487@gmail.com>
+Subject: Re: [PATCH] docs: checkpatch: Align block comment style
+To: Brian Norris <briannorris@chromium.org>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Joe Perches <joe@perches.com>
+References: <20251017180225.1489398-1-briannorris@chromium.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251017181135.354411-1-krishnagopi487@gmail.com>
+In-Reply-To: <20251017180225.1489398-1-briannorris@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Adding patch signers.
-
-Fixes: 95c46f40aac4 ("docs: trusted-encrypted: trusted-keys as protected keys")
-
-although that might not matter if this patch is only in a -next tree.
 
 
-On 10/17/25 11:11 AM, Gopi Krishna Menon wrote:
-> Running "make htmldocs" generates the following build error and
-> warning in trusted-encrypted.rst:
+On 10/17/25 11:02 AM, Brian Norris wrote:
+> Ironically, the block style comments in the checkpatch documentation are
+> not aligned properly. Correct that.
 > 
-> Documentation/security/keys/trusted-encrypted.rst:18: ERROR: Unexpected indentation.
-> Documentation/security/keys/trusted-encrypted.rst:19: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> Add a blank line before bullet list and fix the indentation of text to
-> fix the build error and resolve the warning.
-> 
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
+However, I would just remove the entire second comment block and
+its lead-in comment.
+Networking no longer has its own comment style and it looks like
+checkpatch no longer checks for that.
+
+
 > ---
 > 
-> Tested by running "make htmldocs" before and after the change,
-> ensuring that output renders correctly in browsers.
+>  Documentation/dev-tools/checkpatch.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
->  Documentation/security/keys/trusted-encrypted.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 2bcaaa7d119b..eae6a36b1c9a 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -14,10 +14,11 @@ Trusted Keys as Protected key
->  =============================
->  It is the secure way of keeping the keys in the kernel key-ring as Trusted-Key,
->  such that:
-> +
->  - Key-blob, an encrypted key-data, created to be stored, loaded and seen by
-> -            userspace.
-> +  userspace.
->  - Key-data, the plain-key text in the system memory, to be used by
-> -            kernel space only.
-> +  kernel space only.
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index d5c47e560324..d7fe023b3080 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -461,16 +461,16 @@ Comments
+>      line comments is::
 >  
->  Though key-data is not accessible to the user-space in plain-text, but it is in
->  plain-text in system memory, when used in kernel space. Even though kernel-space
+>        /*
+> -      * This is the preferred style
+> -      * for multi line comments.
+> -      */
+> +       * This is the preferred style
+> +       * for multi line comments.
+> +       */
+>  
+>      The networking comment style is a bit different, with the first line
+>      not empty like the former::
+>  
+>        /* This is the preferred comment style
+> -      * for files in net/ and drivers/net/
+> -      */
+> +       * for files in net/ and drivers/net/
+> +       */
+>  
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+>  
 
 -- 
 ~Randy
