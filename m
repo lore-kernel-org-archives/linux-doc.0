@@ -1,359 +1,258 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DBA25A2CF
-	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 02:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760752961; cv=none; b=IAoOjTjWNQNscoSHp3wi5GAaYliKu6Dp69VXOEhuFmDkK0v97Mc+qQSjaYZRYqupamrDL2GqJGBiE9GOqMLFtmu4Sr9jr4eXSuQm+ME9Kyq+p3Lx2t86asMlObqzpfCE2XFgi5G3yksbDifzjZvPJuXa9bMUcl4SiiztIHY4PXc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760752961; c=relaxed/simple;
-	bh=l0QqTuIRUdCVYpHuUyY5RP2VDM8HCO8Ik2svVn7zny8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N1MK4hFZ6ohGXkz7vWCnJFavOMaXwdz6z/FRfo1S5E2XZSZ7ZxNMsP1FCQGfcv6LISc0W5cmwvReUfl6N5c6Bp79uBiJu/Zik7/tN4fD9i0NY1XgQHuD9s0DvUEAAAQ2CVBJL+bUB7kOs/yK5loWLtKKg3lz5LQSLd09Q2jnlsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VirI7Bc8; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC87242D84;
+	Sat, 18 Oct 2025 02:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760756041; cv=fail; b=Q3RbRH2fMZUs1VO6B4b/aF4G+edR5yEw5ShHPaZbVS25TeS/diMzMZlIZBCALp22vidNaUgf9yQruRbW2rmKg5VDwVzr5grEeYLAl499t7DtiWymsWsGGqDiByL1aMugYItxukcSo11ilW8fgxqmJfgBe6TTehaaBIwcmJfN+g0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760756041; c=relaxed/simple;
+	bh=s5IYrQXp1atJgbaCbSgWdI2/dRuhn9v6uaF7UWtmbEo=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XkGZMkRpe6k2HuoonyI8Ev/dwryNlLnmSKXEZA0QcTllldvMrxWAseppO5kvxRYZ9opf8nXcjazEQtpyHdOdR3tzdhfP0NCtxUtrTNlqADGDEKDnsmDobiLX5c1Q10gzql7bhP6EaefFNkbH01jw6fnGDYpr2adHbYKRDvpV0lo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBJWggKY; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VirI7Bc8"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 98D804E4115B;
-	Sat, 18 Oct 2025 02:02:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6E85360701;
-	Sat, 18 Oct 2025 02:02:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0E652102F2374;
-	Sat, 18 Oct 2025 04:02:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760752956; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ikMUTSdUdPHc35mX+I2cW0QqiGa0ceHwAYivaRjc9xM=;
-	b=VirI7Bc8AUQ7wbT1JSe0bREwo5LKfew0qVq9FT2/5vrLTG8rf/A8zkBHdCRPKDBiJI32gf
-	tRxDD3M0/Uxs4LKvps5KycxSakLWYUvoM5R3/CV08y9bLfJv8qiCQ5757LObSdjynWXsMX
-	hnhdCaj3Xsr3eBMmkToEoVRwo76g2Y3FTPz26tn2XeL2V0bBd0KNBcBFrpDAJ/jEnl2/2A
-	NrrvP0Y2Yl1flKZ/MfX84OQrbotNbHKLgS4wTtwoZWL60sQkZfsWbca/9M0sH/X5h5PksE
-	LlT6uy3tpgpahaSLSECmlXMHZ6h+LGhouaR7Un7goyBflBy67SovRS9kMFKPLg==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 18 Oct 2025 04:01:22 +0200
-Subject: [PATCH 22/22] drm/vkms: Allows the creation of connector at
- runtime
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBJWggKY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760756040; x=1792292040;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=s5IYrQXp1atJgbaCbSgWdI2/dRuhn9v6uaF7UWtmbEo=;
+  b=KBJWggKYWGFA8kDRtdNlDe1L2YvH5YDjI6ZSmi+qpOOfSC7pUNN54H5F
+   /g5A1KHeJbaVTXiBtjnWRshNtauV3aiaihezSO0dv8cUiKT6M7Vpnx8Do
+   OhDEq8QUD/YuTWWGxFgeP3YwwpVFrRuRzAJl9gYcrLEQBClRqvsFnP9ta
+   GwE8FTRIVQf9lcSvf+wMAK5RTSu5VVqf0MEklPOsx5v94cwUG233FDXaz
+   8Ij/Bch96aQewv6ZBIV2D9+fvfFexU3U5AAYyPUzN3OwsBWnPpE45k9Zq
+   JjvDKKfEqVIoWuv2gc16vNevC5Zu9dJThzN9FHOTOocXfhDPmgKqmsMmm
+   A==;
+X-CSE-ConnectionGUID: e7+YLlM0R+qcVl9jrskcBw==
+X-CSE-MsgGUID: TdBPi7qWTCm402aEvOge/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73572954"
+X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
+   d="scan'208";a="73572954"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 19:53:59 -0700
+X-CSE-ConnectionGUID: 8SwYbQmcT3GCqjIITPZh0g==
+X-CSE-MsgGUID: rnCKD1rHQEShFR6pmzUhWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
+   d="scan'208";a="188179925"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 19:51:33 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 17 Oct 2025 12:28:23 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 17 Oct 2025 12:28:23 -0700
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.37) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 17 Oct 2025 12:28:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bB+cStzQkccpgmXLchqP1yvcoBtSzni7qfPS38IeWFWWvnH3vXLv6Y9zGLKXxDY4XcG+KSx813CjlEZEsXk03B+2WDBSV33+lS2LhBBPb6EjaDfz5UWoP5zKHWCXufza3P/l5XAkfqStaHIPORkkJ9yD1ICBF4k7w2UJ99uocYvP+nbnnZ9EoKUGFK4K9MLCfwKd3NMXKQHUn1iuYVQWHMjGhj5B8JZ9D+MynpnLH4FmBuVVQWpKCbnKHqM5/PlL84rwnIENH/TC3uh1i669fSVyjuzhO30Sb1Jpz+6uYQGHQCXEBsEe9Z8Stw1O0i9Z3acrfaOkwqgJViXOQFZcNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pIZw0tCVTG06wj39SfBIFcx3CX1CKMLo1RyPU9DshYk=;
+ b=s9gUMsS377KvH1xngwz9tg6xksJ4AoiA5kU6kVYiXhSekIDBJiNdGyChTEESvcFZXQmwiE07HAXbkjBn16BnWjuJEPg5aPhC4+qbVdDBXbt78810mGz4/sHhxn9X+1yPBKR6HQ6iTUqemF+DT7veld3hEPgHLHYExTlKTXlrQcS6BXHyg+OgvKiklGSAnhgaOmA8xQ6oV8IPDW4bKh7yQ1HH35BgbM1vSs9dDt++7LVETeiBNHwK9C2vvpD6viii1VHV51MKdKT/Igb2fhfbOizfKzDZ0NmIXKwqFC4EOCVm+1VjQQvUFSm8Y1EK8zC6dugt+bXqWPoTn6OZvBdb7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7997.namprd11.prod.outlook.com (2603:10b6:8:125::14)
+ by DS0PR11MB8082.namprd11.prod.outlook.com (2603:10b6:8:157::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Fri, 17 Oct
+ 2025 19:28:18 +0000
+Received: from DS0PR11MB7997.namprd11.prod.outlook.com
+ ([fe80::9105:2b7c:b256:7a6c]) by DS0PR11MB7997.namprd11.prod.outlook.com
+ ([fe80::9105:2b7c:b256:7a6c%7]) with mapi id 15.20.9228.012; Fri, 17 Oct 2025
+ 19:28:18 +0000
+Message-ID: <cb92cd41-b5bc-4aa1-9cef-f2e73bc05d03@intel.com>
+Date: Fri, 17 Oct 2025 12:28:15 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 05/15] x86/cpu: Defer CR pinning enforcement until
+ late_initcall()
+Content-Language: en-US
+To: <x86@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, "Thomas
+ Gleixner" <tglx@linutronix.de>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Kees Cook <kees@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>, "H . Peter Anvin" <hpa@zytor.com>, "Andy
+ Lutomirski" <luto@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, "Peter
+ Zijlstra" <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, "Kirill A
+ . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse
+	<dwmw@amazon.co.uk>, Sean Christopherson <seanjc@google.com>, Vegard Nossum
+	<vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>, "David
+ Laight" <david.laight.linux@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-efi@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-6-sohil.mehta@intel.com>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <20251007065119.148605-6-sohil.mehta@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY3PR05CA0008.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::13) To DS0PR11MB7997.namprd11.prod.outlook.com
+ (2603:10b6:8:125::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251018-vkms-all-config-v1-22-a7760755d92d@bootlin.com>
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
-In-Reply-To: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
- airlied@gmail.com, thomas.petazzoni@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9690;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=l0QqTuIRUdCVYpHuUyY5RP2VDM8HCO8Ik2svVn7zny8=;
- b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBo8vT/mFddf9A8YjhbEe8wcx3NUxmkZviyUae4u
- I95Mwj5bEqJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaPL0/wAKCRAgrS7GWxAs
- 4uOwEADEu1Us9VwD4VF/tUT1WC91mutz7Oot30nLy2TzNR3G6wmbdMWvurGdN4SxqFAgm5tSB9O
- 3hif+vWd1LOzXmJqWAwu4j24C9LqnhNEn7Db38BF1q6px1J69b4OBr6GPQCi+QxG8hbkWbKJT8W
- kmPaAiSW5JBB91sBF7eHQ8si5Ms36FY/fgO9FXj0h4jVaSc5cYV/BjGEg39W2qY3rYbh949yrNS
- TzJUmi5edM9z/hJSttblq+AnoC9cQk/MHpbIkrhBFuM3bgKSZ9OpJn/c3SjpXgu+++MZc9mNRfm
- Nha16RIaFZAoDo+6tV81z1KNduUiJUb7s2CMSaqjzNP4e0nzsgbNXwnwD0TzbfGPRgjT7pNSloL
- fKqXeScqk1DVcrfStkYV09QDR5mgBuId0O27TUKeJG526M9pLSDYvcUsccbM60TGHOWTgrxwlCk
- nTKx0QGkIDvGOL6jS/NAYnDvXRiTUObBK2Ee9c58Jc8NKS9CS4uZ3bQCJ7tpi57wo0/y5yY2ktK
- aOrZKOU3BPuWywkh/VU+hPZ6Ybz8wfBwHmyk9gjL4oE/b2XsncrastFivmc5WM+DzMQE1piBLSV
- WbJ0uChY+oUzAQzIu1q4H6DOcrz8Ec1hSbaaEiFhbEG1YRrEaa/F3KM4+hOs8RnQcsNfy5DaSkg
- YODXwDEUHfGkzuQ==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7997:EE_|DS0PR11MB8082:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce86b25a-355f-470f-e515-08de0db35365
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZVVXdUJDMDFXLzU0aGYyUzFXTnRaT2RSaXFEbjhSaW1pcFFvWU5FcHNWQW9o?=
+ =?utf-8?B?UEdkb0I5ZGREY0ttNWtnRExQZDQ4UHRWeXVKN3VUaWtmREh2WjVyd1c3SERa?=
+ =?utf-8?B?bGRtRGd3YktEVHRsZThWMEhiMHdtQVVFRHlYZGtLVDh1bTB3Mnc1UGUwU21D?=
+ =?utf-8?B?RUV5NDEwUUNxdW55NjhqRjFXYm1zTGhyNVF3aU1Wc2d2dUFkNUNwWnZQcDlM?=
+ =?utf-8?B?Uy9SVDY3Q01xSS8xTVRyVTNaS1FDamxZMkdOMEJiaW0zTnVxRGVSRjRHc0VT?=
+ =?utf-8?B?MlZaZUNIMEEydkhLb2tLdHhkQyt4U05BbDBoNndrdHJpZ3BLZmdBQmd3YktF?=
+ =?utf-8?B?ZXRHRFd1SzhFTzhmOXEvOU5ZZ0RoL2t1RGozVCtlY2FpTnpFOENKUkdVem1r?=
+ =?utf-8?B?S2wwNVR5RXRsN2tBMnRweFJoSmZuQ0E2OWNVOFMzWndoTnZIaFg4Wno5Q3BC?=
+ =?utf-8?B?QUFOcjROL2o0ODJSYStmSDNlNEY2S2xRVGlWZFo3OU5ZVjFkditYT3lRcmlp?=
+ =?utf-8?B?K0dQQUJYRC9TUlltbTJBUE9xeDExYUpYSnRHM21sbUtydjFyMjJXZEdMTnZW?=
+ =?utf-8?B?RkJBUTNlbXgyTzVINURpNkUzUSsxMWxGU0MzY3BzMlZLWWtlVitwVDJCcENF?=
+ =?utf-8?B?MWtuWUUxT1BZL2piZkxiMG45Znc5eWVDL3FsKzRPOVFTZ0Q2Mk1valNuMm1h?=
+ =?utf-8?B?RTR2RVI0VnZPQmZNbFBSTHFNazRyZHZOVzVhK01VSTFFcTlGK2tqcnBIYzMz?=
+ =?utf-8?B?WmY1ZStjQ2NRTUlDd3lSZUpCRHJrelJzaUNkWU5selkrY1ZuMG04Qkwvc0Zx?=
+ =?utf-8?B?Sk5hQUg3Y1MvaWRpQ3E2b0dibnAvZTFTWmhxYTFMUU5DMFZBdHhONkVZQTNm?=
+ =?utf-8?B?Q2RraE9ZemJjb21wRyt1dkpoQTFMT2lLOWZxZVBRNklMdjN6S25UYUs0MGZ6?=
+ =?utf-8?B?QnJDQnpibnYzTWY4eDBhb0pOMXVvazR6UXdJVFQxcUJVdDdJQWsxSWIvdEZy?=
+ =?utf-8?B?QnhWNTNwdXR5aEVodU92ejg0d1JlUkI2b3hKRms3MlQxZkVMaUNZY3JGcEZ0?=
+ =?utf-8?B?UUxpN1FqQUNDQUt6WVBielJyNXBKaHQ1Y05PLythOENRMVVDQW9yK0ZqNHNh?=
+ =?utf-8?B?VUhyaDU3dnYvaENoTVJOemZ2SDJQRFVzVXdxL0pvcXV5ZDdZS0hOejJOcUhY?=
+ =?utf-8?B?VVlodWNCa2pqVGZ1NTYvczBzeFRWOEEwek4xU2tHU01JRlR2VGlXWVVleFdw?=
+ =?utf-8?B?bkRGNTRZRy9kYk1YTkpDRWNWYmM3T24xbE9Dbko1KzIxL3RnZzU0aWV1Yko0?=
+ =?utf-8?B?UWwzY1BaMlJ1Y0R2T3MxUXRpbXdJZ3NOeU5nRXVZbFpFclErU1JDUXZvL3Vn?=
+ =?utf-8?B?UVRYTm5Ld0dIdHpveWkrb0RSVFZBTWl2RER3MXlQWWtxUk9SK2M2ZVMreFVp?=
+ =?utf-8?B?ZGtWNDloTnR6ckZ4THhLK0E0WTU5YTQ0bEVDTWhkRFgxMUlZOGdxaXFSTmho?=
+ =?utf-8?B?U1NEZDZrQ1h5VUY3b3BMclp0NWNrWVBrbmJvMTFIS1pSMHkwSjlRdmNiMDRH?=
+ =?utf-8?B?cVV1K0E2SHVLZjA5Y3JwM3J2dWhrZWFYdTNnTUMvUWNTaXNqS0NmUElldWIr?=
+ =?utf-8?B?VzVDMTJ2cVMxMVFkdVA5TmlLMWpEMUxFSWluVHhuUXF1NExHT1FEb1pUL0Mv?=
+ =?utf-8?B?ZkJOWXVFRFBlUzc4Y21PQ0orbVYxOXRJc0Jsd1NZeGt6Z1YyejlMazBKMkcy?=
+ =?utf-8?B?ZHRJZnJUaUdIUXdGUmhzeDBhQ0owYTZqblFVZ1VNVlBvOTlaYURNbnNWUy90?=
+ =?utf-8?B?MzEweTREVXRMblRKRHNld1pidDdRVW9Ob3U0K28vbGhwU0JrZmV4NExVV2ZY?=
+ =?utf-8?B?aXpMTExvOEpKVTBZVXF4RHlLZm5seWM1SjJGWXNHZXBEcnhUQ1VkSk5zWTE2?=
+ =?utf-8?Q?SEUIu2znG7DjEkQTraT5cAcVe+xshfEX?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7997.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1pzbzNEcHJNckR2dXRybHVxL0hWQUVodTArWnpwL0xjK1lEUDltOUhUTXM1?=
+ =?utf-8?B?dG1FOUYyOXRJdlBaaDViajNMSlFNYWNqZUdxOS9BQ2E0TVdienNXbytMcTBE?=
+ =?utf-8?B?UVlvYm5ndUxNdUNmSUtDTnl0R05RNmhtTWZRQmhWbXBNSmJmaE9VeUo0NDJq?=
+ =?utf-8?B?VEs2WFdZZGlaTUZVRXFJRU4xQUFUVDdkNVJ6cEYzK3prU28yeU1mR3lmQlJT?=
+ =?utf-8?B?VjQ2emsxUGNhY2xpNE1haXo0eDZ4Vlc1UlNQb004d2FTNmtQeWUzb0pxd0xr?=
+ =?utf-8?B?dkxXRDNmMDVKZldwZ01qZ0JzQjNMd3FyRXhFOVBBSmNRR0NkTmtaa05TODJa?=
+ =?utf-8?B?bDBzL0l0eWdWWXJzZzUvbk1tRkpVT2ZYUER0SXVwSm0vSVY3M09HNmI4S3Vy?=
+ =?utf-8?B?WkkycXZraFU1NnNkRHpJdnI3R3Z5OTFOMGE3b3hkbXFFTzlHSWlKVDZPQmc0?=
+ =?utf-8?B?a1FncnU2OU8vS2JYVWlZbUUvaEJNMUhVUUc5OElKUHpTVHVsS1ZZUkNXSm5h?=
+ =?utf-8?B?K21rU3ZLWmhuV1ZKVDFOZFRDVnV2NVNSU0xHZEY4T0dGZGRyRCtCc1c4ZURN?=
+ =?utf-8?B?aEQ2VkFHV0lZSFA0c2lPQ2xEV0NzY0Zma1Y3RDNYNWIwSHE3cng1K0p0bjFq?=
+ =?utf-8?B?eWg1czRqdXUveTM1QUJvS2p3aVQvMmEyRWlBc3lCeTcyQ25uYkRTQXV2Nkg3?=
+ =?utf-8?B?RGYwZElBSXI4RjVGVkN5M25ZeldsblpsWEdEL0M0M0Q1Y2VGbVNuNDJ5UTZu?=
+ =?utf-8?B?akZrNUFUT2N0SlhKTFRMVmNpSnJnZzc3UmhicmNqSUFBdG5jTis3RnJ1U0JF?=
+ =?utf-8?B?cFlmeVRGNURQaE42QnBjaUZxMENIS2lLYk1lamczeUh6a1J6ODZHWmRaMGVU?=
+ =?utf-8?B?TUNYWHBYbzZlSmt3Uy9OZjREK1pYbzN6T1BOTm5vQXk0N1JkaDNuR0pjT3Fs?=
+ =?utf-8?B?NW4xL2lDNDR1eXhRN0lzbVhhcmtQSHRITDQ1enlianJPVjB0UmlTNTFzOUhk?=
+ =?utf-8?B?VWxlNjdvWWJidTJQUk1mL3lrajlyU1FnV2xPV0MreVBFTG1FZWpCbWdZOFd0?=
+ =?utf-8?B?SlFKSUxQLzNVOXFFYlROS1lSd0hXZHFZd1RlNE8vZSswLzVXYlNUQ2svQnpm?=
+ =?utf-8?B?SlIveGlLRzdwb0tiNm5KYzc4T1VVa2lOUkVvOVQzTkFOZWZnNmhMa3lOZ0xK?=
+ =?utf-8?B?WVVvZTN6RG4zckU4bUlrb0JpQmhRalY0ZDJNeC9jSlh1WDdXWXBnVnZZOERt?=
+ =?utf-8?B?WXRvY2Y0bFpROFcvT1oxUmVxYlNRSHpxalZaQS9UOVVNYTJqM1NaclF4OG5S?=
+ =?utf-8?B?a3hvWDJicE1MSC9YS04xTCtvSEVjYzIrMWFwanV2VEFsY3RJY0FRZVNDeXpB?=
+ =?utf-8?B?bXRESjk5S0pRUGpMMGtMMEtHYXV6bEFPeTNuRUJVcFB2ZjFVUWRJN1BhNHBD?=
+ =?utf-8?B?d2NNUDAxZmZDZ0MvTC9kV21wRnY4aDExT1dEVmpFRVZwcVdHeVhSQnNhSzRr?=
+ =?utf-8?B?MXZEZjZjdm5nYThKdnE3bWhjUzBYdk9rSTlueWFJUnBHQjc3UmxteWhSbFY2?=
+ =?utf-8?B?UEc4djRmVkFXcVhxck11cTFmVUthQVlxMnJzZDJRZzlUdzZJdWpLY0wyczFD?=
+ =?utf-8?B?bDdRZUdXNENpSFM2bGNzUVI1dXVZTTA2Yk5sY2ZtKzhmVEVHM3lzZjNxZ1J6?=
+ =?utf-8?B?WXFQdEQyNnY4ZTlkYkR3UTN5eG1LVDA3UStOam5kRE56dVlZQXh5SktYN1dY?=
+ =?utf-8?B?WE1yM1pYMUdOSFNCYmNFM1Z3QlhXdHBWQVFxZy9lRGo1NWRBdnl0bERTWVpW?=
+ =?utf-8?B?cUNxK2M4QU01eTVMQW9NUzFNYTFsSXJ3SVgxU2NHSyt3b21ycXZLV1R2bXZJ?=
+ =?utf-8?B?Y1JwV21xRUljeEFUaURVTm9aaXJ6SlBYYkY4QzI1MmhyVU5nWTlvWUZaS2pV?=
+ =?utf-8?B?WElGbGpMeHNDS0haZk5xV1ZuOEZEb3hmdWEwdUUzV1pPZ1Rody9mdHQvTnZn?=
+ =?utf-8?B?dzRjc2U1cVVHdmtlMnFYZEtOUkdVb0RqSlRYWHV1cG9jWG9yMGYwTjFDYWlI?=
+ =?utf-8?B?Qmt6ejJQRWlFVDhXRWl6N3VxZmRYSGxRTVhlYjNRc0RUVUdpaUlKNys1aHRZ?=
+ =?utf-8?Q?wbhqmEtm+f4W10/I01Rrlxm7f?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce86b25a-355f-470f-e515-08de0db35365
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7997.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 19:28:18.5229
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dZh3gKSXrTeCEZET+xmB7txQz5HPBrxDoHOIOaohD36sGq77P4LxcuQHfue3h40etgc7zalwHoHSvXfNLHyXCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8082
+X-OriginatorOrg: intel.com
 
-DRM allows the connector to be created after the device. To allows
-emulating this, add two configfs attributes to connector to allows this.
+On 10/6/2025 11:51 PM, Sohil Mehta wrote:
+> Save the pinned bits while initializing the boot CPU because they are
+> needed later to program the value on APs when they come up.
+> 
 
-Using the dynamic attribute you can set if a connector will be dynamic or
-not.
-Using the enabled attribute, you can set at runtime if a dynamic connector
-is present or not.
+Because we are deferring CR pinning, there is no need to program the APs
+with the pinned bits. The pinned bits would get enabled during AP bring
+up like the rest of CR4 features that are not pinned. This patch can be
+simplified to:
 
-Co-developed-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- Documentation/gpu/vkms.rst           |   6 +-
- drivers/gpu/drm/vkms/vkms_configfs.c | 146 ++++++++++++++++++++++++++++++++---
- 2 files changed, 139 insertions(+), 13 deletions(-)
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 61ab332eaf73..d041f04c1969 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -476,8 +476,6 @@ void cr4_init(void)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index bbd03f61e61c..8b17aaa28eeb 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -135,7 +135,7 @@ Last but not least, create one or more connectors::
- 
-   sudo mkdir /config/vkms/my-vkms/connectors/connector0
- 
--Connectors have 5 configurable attribute:
-+Connectors have 7 configurable attribute:
- 
- - status: Connection status: 1 connected, 2 disconnected, 3 unknown (same values
-   as those exposed by the "status" property of a connector)
-@@ -147,7 +147,9 @@ Connectors have 5 configurable attribute:
- - edid_enabled: Enable or not EDID for this connector. Some connectors may not have an
-   EDID but just a list of modes, this attribute allows to disable EDID property.
- - edid: Content of the EDID. Ignored if edid_enabled is not set
--
-+- dynamic: Set to 1 while configuring the device to create a dynamic connector. A dynamic
-+  connector can be used to emulate DP MST connectors.
-+- enabled: For dynamic connector, set it to 1 to create the connector, 0 to remove it.
- 
- To finish the configuration, link the different pipeline items::
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index a977c0842cd6..937b749142ad 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -1115,8 +1115,12 @@ static ssize_t connector_status_store(struct config_item *item,
- 	scoped_guard(mutex, &connector->dev->lock) {
- 		vkms_config_connector_set_status(connector->config, status);
- 
--		if (connector->dev->enabled)
--			vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+		if (connector->dev->enabled) {
-+			if (connector->config->dynamic && connector->config->enabled)
-+				vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+			if (!connector->config->dynamic)
-+				vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+		}
- 	}
- 
- 	return (ssize_t)count;
-@@ -1176,8 +1180,12 @@ static ssize_t connector_type_store(struct config_item *item,
- 	}
- 
- 	scoped_guard(mutex, &connector->dev->lock) {
--		if (connector->dev->enabled)
--			return -EINVAL;
-+		if (connector->dev->enabled) {
-+			if (connector->config->dynamic && connector->config->enabled)
-+				return -EBUSY;
-+			if (!connector->config->dynamic)
-+				return -EBUSY;
-+		}
- 		vkms_config_connector_set_type(connector->config, val);
- 	}
- 
-@@ -1293,6 +1301,102 @@ static ssize_t connector_edid_store(struct config_item *item,
- 		    connector_status_disconnected)
- 			vkms_trigger_connector_hotplug(connector->dev->config->dev);
- 	}
-+	return count;
-+}
-+
-+static ssize_t connector_enabled_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	bool enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		enabled = vkms_config_connector_is_enabled(connector->config);
-+
-+	return sprintf(page, "%d\n", enabled);
-+}
-+
-+static ssize_t connector_enabled_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	bool enabled, was_enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
-+
-+	if (kstrtobool(page, &enabled))
-+		return -EINVAL;
-+
-+	if (!connector->dev->enabled) {
-+		vkms_config_connector_set_enabled(connector_cfg, enabled);
-+	} else {
-+		// Only dynamic connector can be enabled/disabled at runtime
-+		if (!connector_cfg->dynamic)
-+			return -EBUSY;
-+
-+		was_enabled = vkms_config_connector_is_enabled(connector_cfg);
-+		vkms_config_connector_set_enabled(connector_cfg, enabled);
-+
-+		// Resulting configuration is invalid (missing encoder for example)
-+		// Early return to avoid drm core issue
-+		if (!vkms_config_is_valid(connector->dev->config)) {
-+			vkms_config_connector_set_enabled(connector_cfg, was_enabled);
-+			return -EINVAL;
-+		}
-+
-+		if (!was_enabled && enabled) {
-+			// Adding the connector
-+			connector_cfg->connector = vkms_connector_hot_add(connector->dev->config->dev,
-+									  connector_cfg);
-+			if (IS_ERR(connector_cfg->connector)) {
-+				vkms_config_connector_set_enabled(connector_cfg, was_enabled);
-+				return PTR_ERR(connector_cfg->connector);
-+			}
-+		} else if (was_enabled && !enabled) {
-+			vkms_connector_hot_remove(connector->dev->config->dev,
-+						  connector_cfg->connector);
-+		}
-+	}
-+	return count;
-+}
-+
-+static ssize_t connector_dynamic_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	bool enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		enabled = vkms_config_connector_is_dynamic(connector->config);
-+	}
-+
-+	return sprintf(page, "%d\n", enabled);
-+}
-+
-+static ssize_t connector_dynamic_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	bool dynamic;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
-+
-+	if (kstrtobool(page, &dynamic))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		// Can't change the dynamic status when the device is activated
-+		if (connector->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_connector_set_dynamic(connector_cfg, dynamic);
-+	}
- 
- 	return count;
+        if (boot_cpu_has(X86_FEATURE_PCID))
+                cr4 |= X86_CR4_PCIDE;
+-       if (static_branch_likely(&cr_pinning))
+-               cr4 = (cr4 & ~cr4_pinned_mask) | cr4_pinned_bits;
+
+        __write_cr4(cr4);
+
+@@ -486,15 +484,17 @@ void cr4_init(void)
  }
-@@ -1302,6 +1406,8 @@ CONFIGFS_ATTR(connector_, type);
- CONFIGFS_ATTR(connector_, supported_colorspaces);
- CONFIGFS_ATTR(connector_, edid_enabled);
- CONFIGFS_ATTR(connector_, edid);
-+CONFIGFS_ATTR(connector_, dynamic);
-+CONFIGFS_ATTR(connector_, enabled);
- 
- static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_status,
-@@ -1309,19 +1415,28 @@ static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_supported_colorspaces,
- 	&connector_attr_edid_enabled,
- 	&connector_attr_edid,
-+	&connector_attr_dynamic,
-+	&connector_attr_enabled,
- 	NULL,
- };
- 
- static void connector_release(struct config_item *item)
+
+ /*
+- * Once CPU feature detection is finished (and boot params have been
+- * parsed), record any of the sensitive CR bits that are set, and
+- * enable CR pinning.
++ * Before userspace starts, record any of the sensitive CR bits that
++ * are set, and enable CR pinning.
+  */
+-static void __init setup_cr_pinning(void)
++static int __init setup_cr_pinning(void)
  {
- 	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
- 	struct mutex *lock;
- 
- 	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
- 	lock = &connector->dev->lock;
- 
- 	scoped_guard(mutex, lock) {
-+		if (connector->dev->enabled && connector_cfg->dynamic && connector_cfg->enabled)
-+			vkms_connector_hot_remove(connector->dev->config->dev,
-+						  connector_cfg->connector);
+        cr4_pinned_bits = this_cpu_read(cpu_tlbstate.cr4) & cr4_pinned_mask;
+        static_key_enable(&cr_pinning.key);
 +
- 		vkms_config_destroy_connector(connector->config);
-+
- 		kfree(connector);
- 	}
++       return 0;
  }
-@@ -1340,6 +1455,7 @@ static int connector_possible_encoders_allow_link(struct config_item *src,
- 						  struct config_item *target)
- {
- 	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
- 	struct vkms_configfs_encoder *encoder;
- 	int ret;
- 
-@@ -1347,16 +1463,25 @@ static int connector_possible_encoders_allow_link(struct config_item *src,
- 		return -EINVAL;
- 
- 	connector = connector_possible_encoders_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
- 	encoder = encoder_item_to_vkms_configfs_encoder(target);
- 
- 	scoped_guard(mutex, &connector->dev->lock) {
--		if (connector->dev->enabled)
--			return -EBUSY;
-+		if (connector->dev->enabled && connector_cfg->enabled) {
-+			if (!connector_cfg->dynamic)
-+				return -EBUSY;
-+			ret = vkms_connector_hot_attach_encoder(connector->dev->config->dev,
-+								connector->config->connector,
-+								encoder->config->encoder);
-+			if (ret)
-+				return ret;
-+		}
- 
- 		ret = vkms_config_connector_attach_encoder(connector->config,
- 							   encoder->config);
-+		if (ret)
-+			return ret;
- 	}
--
- 	return ret;
- }
- 
-@@ -1394,9 +1519,6 @@ static struct config_group *make_connector_group(struct config_group *group,
- 	dev = child_group_to_vkms_configfs_device(group);
- 
- 	scoped_guard(mutex, &dev->lock) {
--		if (dev->enabled)
--			return ERR_PTR(-EBUSY);
--
- 		connector = kzalloc(sizeof(*connector), GFP_KERNEL);
- 		if (!connector)
- 			return ERR_PTR(-ENOMEM);
-@@ -1409,9 +1531,11 @@ static struct config_group *make_connector_group(struct config_group *group,
- 			return ERR_CAST(connector->config);
- 		}
- 
-+		vkms_config_connector_set_dynamic(connector->config, connector->dev->enabled);
-+		vkms_config_connector_set_enabled(connector->config, !connector->dev->enabled);
-+
- 		config_group_init_type_name(&connector->group, name,
- 					    &connector_item_type);
--
- 		config_group_init_type_name(&connector->possible_encoders_group,
- 					    "possible_encoders",
- 					    &connector_possible_encoders_group_type);
++late_initcall(setup_cr_pinning);
 
--- 
-2.51.0
+ static __init int x86_nofsgsbase_setup(char *arg)
+ {
+@@ -2119,7 +2119,6 @@ static __init void identify_boot_cpu(void)
+        enable_sep_cpu();
+ #endif
+        cpu_detect_tlb(&boot_cpu_data);
+-       setup_cr_pinning();
+
+        tsx_init();
+        tdx_init();
 
