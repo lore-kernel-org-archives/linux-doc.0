@@ -1,237 +1,199 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669322F12A0
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 15:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C028E330B2E;
+	Fri, 17 Oct 2025 15:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760716091; cv=none; b=eUZGyY4kPwmBf2ZqYnZDlz0Bt8XsmtlZbFKwHyyPMkLBzXfJoXrHU7BbRt7uJfNpoeJLmDP0GvrhALnn0vkW7Z1ZEORhMnb1Um90avyeX1bu1SKtQVZaahfQiCVJCVlqtmjs1XwxXyY4WDaUSM+PANpKbjGSA+1FgOh/csCItI8=
+	t=1760716332; cv=none; b=pHviG53B1QgHW4kKfXHB4E45JY2yVV+NPW3aPXSrKFlR/YKwpybYUC27F9BUwaxzNF9iRDvESyZYiHkvtb11DeWIJNLhrlpxFrjVljUiL4Av93WsDlQ72SvzwQJ7WAi24j4NKAECxtNDDfesI9JMjX5Sb0RIkPA7j5ZwCYvIDN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760716091; c=relaxed/simple;
-	bh=K8DFRb0Ztia+qrCcoflV/ZeZ7NwFvRkhWlev7x/h/Qg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S+az0jdahM/pUogevt8lgtm9aPvMarKMDAfqC3ivDN6rkonVkSHmvvlVcXfM1NVjWIUHuz9vp+tqLUMTyR5KdAPXBaXOCLgPjgow0GgmygbwHY/1W0R0+4zWDkQAgymvYHirTMh40gtMiESGVDjHs1GoTTP4BvHxiP6HjQwcANg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0THCF8c; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0THCF8c"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27eec33b737so31337675ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 08:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760716088; x=1761320888; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XA8hB+fKoSI0C5+4jjJikVSM6fs77YDr0e+WwSrJDj0=;
-        b=E0THCF8caNqRdYLPUA5m/gGEVUXfd85xuh9tMyeLuHMBLlh/vIhKx7iT2iAagP+h/P
-         t3pekaAJJ9UJ95zlmdY6DKuzIOAfctyBPLD2H3+T3m1kiPPB1L6+sC0s3Bv4eFS4Orvi
-         tIgyQHO6D4f1JUY3dCFwuIxPBRDbgE0vp2YYfjgEc7qVW5wFa2J9SjW6mkrd3twLvgaX
-         vqSGtBYOqTcioS9UAkghJ87P+/h0f5EbNHbLYag8RhhbDHhMtQbsWArDy3n326QIuaSv
-         NBUZ+UIWyb1NoNh4o4cXtZ/dK9vpGRabSQJY0btB9Ot/PXNcvStbjxrm+9Wr36Ko5kjs
-         cNbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760716088; x=1761320888;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XA8hB+fKoSI0C5+4jjJikVSM6fs77YDr0e+WwSrJDj0=;
-        b=tP8Rc6DmODlFGpM6o1+dNklKFywhIB0IZDo1PWLYofBc/Qu13dLBYXY3Bu1aotJpn7
-         kJkGNNSUqSX2/MzCPyM71QT9aKcvqJCm5OV0X4XZhyfq0ca2l79z23G8hPsSHY/1ApLO
-         tYas99FyN4yC+8mHL/T5wHKWG6Amtittt6cdnGs+Dum8ca8aICdflLrdUP5cAlquJsUT
-         oGYG0ijEFFOh4JQlj4cJ0dykMRfPgYUb0rezlv/kPnExXueFvbALL94uukJdYlLIyrW2
-         gahnuXKAx/zydTfdrQ0cyhbEz8VVUQFBq/eQ4bkUqV5OSHgN5e4OkT5BOB8esLvvWHSU
-         tDBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVX6Zlwb1/sdt6UlRrpvlY7Tcoti56oWRUaGve8bRsan50ganc0bSWFx/cG65pm1RX6iaSfAQGyLmk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN1RLJ5VNbqLPcGLpQDHTjrArpnHvNwQHEON0YmtcSjKKHzB0F
-	V0yFCm+eDjDRdzArDDDymxprr63XZMvvmb/okJt/MuPdCEWr0U1AMwUD
-X-Gm-Gg: ASbGncusBKjEe2g/RoZ/rEoiFafEQe4cddxL4aHniSWmwHEhF1t69XVQQpMcFHusLnX
-	GbU1nobmEaOkL3h/3fxOOA4I7Jd90EVzK5jDc21MRxIuV5fCcN9RAQFIqBS/9C916v+gWofa1j4
-	bcC6ytcA3G2wHIr1lian6T3veNpQ+nDRQ7zrMATfuOqfZYmp30eAkZVhRzRrPwHMyJ+m8RJeH8Y
-	hPh31OB0KpSZ+P6uQh62vZrKdfg8OnM6EH631gaOfJ8UfpaJjL8Ms/9qmc4VK/SVJhuak55bJSk
-	zHKjtutc7PQCdmSymKeeIILXGccGKASGlDL41RK8nypxQuBz2hSZ9VXSwcPPyovngxyLXkFALPC
-	58dOyGwq6uoasik1aG2Ypc0GiSQNrAvsGwnLJrokOmnW9nhzHF8Jin0FcXzhAgYIoGo2hlWw9XS
-	+owT5gCLpTZjG7Hgu3
-X-Google-Smtp-Source: AGHT+IEbaVBUhL2FBwern7+zHOit6xgEgtPgDccPkqcCVLqGnNEkHex6DpAOpZKc6wJEB6vGZjGEkQ==
-X-Received: by 2002:a17:902:d510:b0:267:776b:a31a with SMTP id d9443c01a7336-290ca121a37mr51838215ad.29.1760716087572;
-        Fri, 17 Oct 2025 08:48:07 -0700 (PDT)
-Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2909930a9a7sm67893225ad.18.2025.10.17.08.48.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 08:48:07 -0700 (PDT)
-From: Ankan Biswas <spyjetfayed@gmail.com>
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Ankan Biswas <spyjetfayed@gmail.com>
-Subject: [PATCH v2 1/3] Fix broken maxim-ic.com links to analog.com
-Date: Fri, 17 Oct 2025 21:17:47 +0530
-Message-ID: <20251017154755.32105-1-spyjetfayed@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251017105740.17646-1-spyjetfayed@gmail.com>
-References: <20251017105740.17646-1-spyjetfayed@gmail.com>
+	s=arc-20240116; t=1760716332; c=relaxed/simple;
+	bh=KG2cv8tKePy8Aq4dA2CYm/WJRsZFx/9WRZnz4wtuG1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMKHOZVja1a8ThL01E9V4JbTZrFVFBds3kY31wvAySYGzkgoTOdVsBbdBY7wGyfAjitFXWQ4QnovLy992AU3ebTJwkU/pE9j2tkJ+58LjZtd4hWWrfDfEBg3rpN0e7eKTPqjmRJ5/8pVinyKDTOFbYjLWxsGrmh0yhVDhx1T3q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 061861595;
+	Fri, 17 Oct 2025 08:52:02 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D926D3F59E;
+	Fri, 17 Oct 2025 08:52:07 -0700 (PDT)
+Date: Fri, 17 Oct 2025 16:52:05 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aPJmJVz6In55MMhr@e133380.arm.com>
+References: <20250902162507.18520-1-Dave.Martin@arm.com>
+ <b38f0459-1373-42d3-8526-e8ef9ac4d2e7@intel.com>
+ <aNFfs43UBp6tjqPM@e133380.arm.com>
+ <aO+7MeSMV29VdbQs@e133380.arm.com>
+ <1493d341-16a5-47e9-a834-cd8133b91fed@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1493d341-16a5-47e9-a834-cd8133b91fed@intel.com>
 
-In 2021, Maxim Integrated was acquired by Analog Devices.
-maxim-ic.com & maximintegrated.com links redirect to analog.com.
+Hi there,
 
-Broken redirects fixed to their proper analog.com links.
-Fixes warnings in 'make linkcheckdocs'.
+On Thu, Oct 16, 2025 at 08:57:59AM -0700, Reinette Chatre wrote:
+> Hi Dave,
+> 
+> On 10/15/25 8:18 AM, Dave Martin wrote:
 
-Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
----
- Documentation/hwmon/jc42.rst     | 2 +-
- Documentation/hwmon/max16064.rst | 2 +-
- Documentation/hwmon/max16065.rst | 8 ++++----
- Documentation/hwmon/max1619.rst  | 4 ++--
- Documentation/hwmon/max31790.rst | 2 +-
- Documentation/hwmon/max6650.rst  | 4 ++--
- Documentation/hwmon/max8688.rst  | 2 +-
- 7 files changed, 12 insertions(+), 12 deletions(-)
+[...]
 
-diff --git a/Documentation/hwmon/jc42.rst b/Documentation/hwmon/jc42.rst
-index 19d10512f6c0..3736e63db2a8 100644
---- a/Documentation/hwmon/jc42.rst
-+++ b/Documentation/hwmon/jc42.rst
-@@ -33,7 +33,7 @@ Supported chips:
- 
-     Datasheets:
- 
--	http://datasheets.maxim-ic.com/en/ds/MAX6604.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6604.pdf
- 
-   * Microchip MCP9804, MCP9805, MCP9808, MCP98242, MCP98243, MCP98244, MCP9843
- 
-diff --git a/Documentation/hwmon/max16064.rst b/Documentation/hwmon/max16064.rst
-index c06249292557..2a8a76d7b230 100644
---- a/Documentation/hwmon/max16064.rst
-+++ b/Documentation/hwmon/max16064.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maxim-ic.com/en/ds/MAX16064.pdf
-+    Datasheet: https://www.digikey.com/en/htmldatasheets/production/701833/0/0/1/max16064
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max16065.rst b/Documentation/hwmon/max16065.rst
-index 45f69f334f25..ac3dc6f023dd 100644
---- a/Documentation/hwmon/max16065.rst
-+++ b/Documentation/hwmon/max16065.rst
-@@ -12,7 +12,7 @@ Supported chips:
- 
-     Datasheet:
- 
--	http://datasheets.maxim-ic.com/en/ds/MAX16065-MAX16066.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/max16065-max16066.pdf
- 
-  *  Maxim MAX16067
- 
-@@ -22,7 +22,7 @@ Supported chips:
- 
-     Datasheet:
- 
--	http://datasheets.maxim-ic.com/en/ds/MAX16067.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/max16067.pdf
- 
-  *  Maxim MAX16068
- 
-@@ -32,7 +32,7 @@ Supported chips:
- 
-     Datasheet:
- 
--	http://datasheets.maxim-ic.com/en/ds/MAX16068.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/max16068.pdf
- 
-  *  Maxim MAX16070/MAX16071
- 
-@@ -42,7 +42,7 @@ Supported chips:
- 
-     Datasheet:
- 
--	http://datasheets.maxim-ic.com/en/ds/MAX16070-MAX16071.pdf
-+	https://www.analog.com/media/en/technical-documentation/data-sheets/max16070-max16071.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max1619.rst b/Documentation/hwmon/max1619.rst
-index b5fc175ae18d..f134d0fa9bfd 100644
---- a/Documentation/hwmon/max1619.rst
-+++ b/Documentation/hwmon/max1619.rst
-@@ -9,9 +9,9 @@ Supported chips:
- 
-     Addresses scanned: I2C 0x18-0x1a, 0x29-0x2b, 0x4c-0x4e
- 
--    Datasheet: Publicly available at the Maxim website
-+    Datasheet:
- 
--	       http://pdfserv.maxim-ic.com/en/ds/MAX1619.pdf
-+	       https://www.analog.com/media/en/technical-documentation/data-sheets/MAX1619.pdf
- 
- Authors:
-        - Oleksij Rempel <bug-track@fisher-privat.net>,
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 33c5c7330efc..b8af2d907b6e 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://pdfserv.maximintegrated.com/en/ds/MAX31790.pdf
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31790.pdf
- 
- Author: Il Han <corone.il.han@gmail.com>
- 
-diff --git a/Documentation/hwmon/max6650.rst b/Documentation/hwmon/max6650.rst
-index 7952b6ecaa2d..427f353c5e9c 100644
---- a/Documentation/hwmon/max6650.rst
-+++ b/Documentation/hwmon/max6650.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: none
- 
--    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6650-MAX6651.pdf
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6650-MAX6651.pdf
- 
-   * Maxim MAX6651
- 
-@@ -17,7 +17,7 @@ Supported chips:
- 
-     Addresses scanned: none
- 
--    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6650-MAX6651.pdf
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6650-MAX6651.pdf
- 
- Authors:
-     - Hans J. Koch <hjk@hansjkoch.de>
-diff --git a/Documentation/hwmon/max8688.rst b/Documentation/hwmon/max8688.rst
-index 71e7f2cbe2e2..71b6b9ee90ab 100644
---- a/Documentation/hwmon/max8688.rst
-+++ b/Documentation/hwmon/max8688.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maxim-ic.com/en/ds/MAX8688.pdf
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max8688.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
--- 
-2.51.0
+> > I finally got around to testing this on top of -rc1.
+> > 
+> > Disregarding trivial differences, the patched version (+++) doesn't
+> > seem to introduce any regressions over the vanilla version (---)
+> > (below).  (The CMT test actually failed with an out-of-tolerance result
+> > on the vanilla kernel only.  Possibly there was some adverse system
+> > load interfering.)
+> 
+> My first thought is that this is another unfortunate consequence of the resctrl
+> performance-as-functional tests.
+> The percentage difference you encountered is quite large and that
+> prompted me to take a closer look and it does look to me as though the CMT
+> can be improved. (Whether we should spend more effort on these performance tests
+> instead of creating new deterministic functional tests is another topic.) 
 
+I ran the tests soon after booting a full-fat OS, which may not have helped.
+
+In an ideal world we sort of want two RDT instances, one under test,
+and one outside it to isolate it from the rest of the system...  but
+that would require extra hardware :(
+
+I'll aim to just boot to a shell the next time I run these tests.
+
+
+> > Looking at the code, it seems that L2_NONCONT_CAT is not gated by any
+> > config or mount option.  I think this is just a feature that my
+> > hardware doesn't support (?)
+> 
+> Yes, this is how I also interpret the test output.
+> 
+> Focusing on the CMT test ...
+> 
+> >  # Starting CMT test ...
+> >  # Mounting resctrl to "/sys/fs/resctrl"
+> >  # Cache size :23068672
+> >  # Writing benchmark parameters to resctrl FS
+> > -# Benchmark PID: 5135
+> > +# Benchmark PID: 4970
+> >  # Checking for pass/fail
+> > -# Fail: Check cache miss rate within 15%
+> > -# Percent diff=24
+> > +# Pass: Check cache miss rate within 15%
+> > +# Percent diff=4
+> >  # Number of bits: 5
+> > -# Average LLC val: 7942963
+> > +# Average LLC val: 10918297
+> >  # Cache span (bytes): 10485760
+> > -not ok 3 CMT: test
+> > +ok 3 CMT: test
+> 
+> A 24% difference followed by a 4% difference is a big swing. On a high level
+> the CMT test creates a new resource group with only the test assigned to it. The test
+> initializes and accesses a buffer a couple of time while measuring cache occupancy.
+> "success" is when the cache occupancy is within 15% of the buffer size.
+> 
+> I noticed a couple of places where the test is susceptible to interference and
+> system architecture.
+> 1) The cache allocation of test's resource group overlaps with the rest of the
+>    system. On a busy system it is thus likely that the test's cache entries may be
+>    evicted.
+> 2) The test does not account for cache architecture where, for example, there may be
+>    an L2 cache that can accommodate a large part of the buffer and thus not be
+>    reflected in the LLC occupancy count.
+
+I suppose the test could take all the cache sizes into account, but
+this could get complicated -- for a statistical test, it may not be worth it.
+
+Can we probe it just by setting the CAT mask to all ones (maybe
+excluding one bit to give to the default control group) and then
+flooding with data until the LLC usage stops increasing?
+
+
+> I started experimenting to see what it will take to reduce interference and ended up
+> with a change like below that isolates the cache portions between the test and the
+> rest of the system and if L2 cache allocation is possible, reduces the amount of L2
+> cache the test can allocate into as much as possible. This opened up another tangent
+> where the size of cache portion is the same as the buffer while it is not realistic
+> to expect a user space buffer to fill into the cache so nicely. 
+> 
+> Even with these changes I was not able to get the percentages to drop significantly
+> on my system but it may help to reduce the swings in numbers observed.
+> 
+> But, I do not see how work like this helps to improve resctrl health (compared to,
+> for example, just increasing the "success" percentage).
+
+If I understand correctly, this programs the default control group with
+the inverse of the test's CAT mask, so that there is no overlap?  That
+seems reasonable, if so.
+
+I wonder whether bandwidth contention is also having an effect.  Would
+programming the default control and test control group with MB values
+that don't add up to more than 100% help?
+
+
+Cheers
+---Dave
+
+> diff --git a/tools/testing/selftests/resctrl/cmt_test.c b/tools/testing/selftests/resctrl/cmt_test.c
+> index d09e693dc739..494e98aa8b69 100644
+> --- a/tools/testing/selftests/resctrl/cmt_test.c
+> +++ b/tools/testing/selftests/resctrl/cmt_test.c
+> @@ -19,12 +19,22 @@
+>  #define CON_MON_LCC_OCCUP_PATH		\
+>  	"%s/%s/mon_data/mon_L3_%02d/llc_occupancy"
+>  
+> -static int cmt_init(const struct resctrl_val_param *param, int domain_id)
+> +static int cmt_init(const struct resctrl_test *test,
+> +		    const struct user_params *uparams,
+> +		    const struct resctrl_val_param *param, int domain_id)
+>  {
+> +	char schemata[64];
+> +	int ret;
+> +
+>  	sprintf(llc_occup_path, CON_MON_LCC_OCCUP_PATH, RESCTRL_PATH,
+>  		param->ctrlgrp, domain_id);
+>  
+> -	return 0;
+> +	snprintf(schemata, sizeof(schemata), "%lx", param->mask);
+> +	ret = write_schemata(param->ctrlgrp, schemata, uparams->cpu, test->resource);
+> +	if (!ret && !strcmp(test->resource, "L3") && resctrl_resource_exists("L2"))
+> +		ret = write_schemata(param->ctrlgrp, "0x1", uparams->cpu, "L2");
+> +
+> +	return ret;
+>  }
+
+[...]
+
+> @@ -162,6 +173,11 @@ static int cmt_run_test(const struct resctrl_test *test, const struct user_param
+
+[...]
+
+> +	snprintf(schemata, sizeof(schemata), "%lx", ~param.mask & long_mask);
+> +	ret = write_schemata("", schemata, uparams->cpu, test->resource);
+> +	if (ret)
+> +		return ret;
+> +
+>  	remove(RESULT_FILE_NAME);
+>  
+>  	ret = resctrl_val(test, uparams, &param);
+> diff --git a/tools/testing/selftests/resctrl/mba_test.c b/tools/testing/selftests/resctrl/mba_test.c
+
+[...]
