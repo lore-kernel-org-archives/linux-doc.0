@@ -1,169 +1,87 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0782561C2
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 19:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5333F8DB;
+	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760730827; cv=none; b=atu7QsGHIBrQPQeNtnhbSBP6XLsg8PNOyuGx820xSG7zRCtUtMTs+VwoCpErjM59p1neZw7BHeYcuoYFgIoM4RGGRwWo/2qs4YWOt3qvT8L+E1nZTbDjTWTCUs2I+FY5Ay3XoEmv11tEqqCwjmQTm+5b4fj/m9MeHIgps529tCg=
+	t=1760731723; cv=none; b=N4MSwcbUwpnJN1R99uvQFLG3BCk1VakO1Jt8mWgQkLnb+An0C8FoyQSg2cv62vnCVXSmwuXSaxE0oS+/CC4PqJsiimQqqZIFOR6wE2aft8Hm067CLy7dIPiCD1mtisu/JfVnRR3WaFekUhlfXhAkfNgl+En1jZMTO3Jg/Q87xdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760730827; c=relaxed/simple;
-	bh=i5Hk7l6xoSrN+AXcpR4MGOF8Rj8+Hz0UPLQLCeNrNAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CJMYYRgRGhOtq7ag1ztFTPvXuqO4oFbwKYXhVi/q5XxM4x6bZcHHKKZ+9Wc067O4Tz34SMKe7KJoyyCijer+VmilT1tXiK8iKTEHQbqFI/AhiklJQ9CGAmgpRY+FiEbOOeoTnqJe5CpwBxYpRuJ2OtmHrG70P0gsLRQdbWZBctw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBvNa1Ka; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760731723; c=relaxed/simple;
+	bh=mqgzHYNbed1bkvPNFELxeM/6jxkFoNeu/evIeYHFfEQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=p3aJJJNnQz1mb2Rbyv83AYW3O9enXnxgC8+L6c/ommGk8n2n4ITe/pRADcIY+imIXUi3egzEVK8euMbrMYWOzQFOmIG0J20vtjEwA6cNoUJIm0dvR7fve1rcGcjUrY5CoEEHTkDJCHHLhshO0KjBZNy6PkucCNKB5nwwj6yDtiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IOhdQb09; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBvNa1Ka"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b49c1c130c9so1411217a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 12:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760730825; x=1761335625; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=66FjiNXaw8TmphFF9eNaWop8aMdiITfbjide+1BjBFk=;
-        b=HBvNa1KaWts9c2rgQWDkU20KWOrpUxl8AmeijyxnjLCTYQ+yX8wZwQBP1+mInRgJU/
-         nDuIMZ3LOacOaNqmO7/rDisXD7QbkgKSFnhRI3vVVV2Rk1Zocd6Qg9ZsXe6kr8D2gTcZ
-         yZ5aK+e3qiqVvqypWxOyx0mIZhNcq+NGNtCk1v9VxxGpqYuGZg+F6BH4qArboXz8CpIV
-         k3UWekdRN1beDAIdt1uztpZWQ+dLekrvQbUbekmVnrXh5+tjezrS/7+76K8oSX1SRV/c
-         EmPO0qDPVpbbDsgTiy8wuNSOAllCtDjcSHPkQ11Pb7VSZ8oUW862fefddu+fzKlY9raP
-         5exA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760730825; x=1761335625;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=66FjiNXaw8TmphFF9eNaWop8aMdiITfbjide+1BjBFk=;
-        b=J4405hvONdxi23cOmEYvVASkzJFp+lxkbuXdq/gb310BKiZ7joFobd6Z0oNAAVphs/
-         wIPfEi3NMHg/VeZh94sdJxClA/q6Ac/AFcduvtCKB/1lHUlplFbBqh3uErmbckG+mhim
-         Rg71CqSlfF4rCXpo4RY8yWa8aawn58aQjXW3hPmnmM4eYyAw1UkrqU9ww+oGRXiMC682
-         nceSR0vbTDXaHlHsEJbjDpgRAkpvp5twNJj/nJx1FVwSIlQz2nzKZ0PIbaUiIyQkoY18
-         jydmT7VHgInHVLvKa/cz3d6CjAI3Fbysjk5Zz+CxWezGWDMm7V+GpyX78Q4czjjiWrCP
-         xbRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWaVbFaOY1qa9tt9Yv2uly+JdLGlzJr0UVD0otqJFEzOCRE8OIGriiNclIYTR17kJA1xm/AUaiLzxU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCux+hujOISwpnRYrR4f8rx4a0s7QDke7XIx0AEIE7XsahPJD6
-	cnx9nH6qXQkPWSmnY4/bQ0VSYKS88c1zvd7Eb8d15DplHoDKJGyU5dcL
-X-Gm-Gg: ASbGnctDGUkgjLYt9ODDpnEJx2qs3cY3usAu7f/4ZjGKc7ermpb89GsFwsoKgWKNr0C
-	pvmIyHjyg4TBrzOGX9oUlgtCPu/SUYqZh8AN1mCdAVOf+TdK+4rLA1GLuZ43sjfVwYKGroX8gTt
-	I7T14/OYWoetOoVW2X10vcpMI1JOKo4fNVwMoM0X8ZXTsik0YzrpTdds2xMYVRT2iUFCE7INqKV
-	QxCUS347Uhqd/yW6tQdkI/6WlzdBgAVamrUQtN7qG71hKRriF9sDHg6b04PKKDD+7XMUafN2lII
-	ZFkcuXZlEP5zLYISwUam+NHaVaUnhe5efEGB3dsUF6H/m88QudXlaulqjEKUgUa2LaoJcEB6fR2
-	qcnDWAPQ0hZ1Ir71BAqT6uA4J0CiTskLdcdLFRrJJJsOofFbKqurCeWiFcRXAT/fys00hWxmnfU
-	UHjZslAsCc7+w/FhynUPTRdE6TS4soZhk=
-X-Google-Smtp-Source: AGHT+IFmw4xfU96UxI5JCpiksAaEuctIniSQG6RkIj6XxJvpDrHo87ypYEHktyPgkIumG9POKqgUKQ==
-X-Received: by 2002:a17:902:f550:b0:269:874c:4e48 with SMTP id d9443c01a7336-290cb65ca69mr70425735ad.47.1760730824956;
-        Fri, 17 Oct 2025 12:53:44 -0700 (PDT)
-Received: from localhost ([2804:30c:402b:1a00:ec78:db53:a246:207a])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-292471fd9ddsm3303605ad.89.2025.10.17.12.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 12:53:44 -0700 (PDT)
-Date: Fri, 17 Oct 2025 16:54:49 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, Trevor Gamblin <tgamblin@baylibre.com>,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v5 5/7] iio: adc: ad4030: Add SPI offload support
-Message-ID: <aPKfCbZSXxaHICel@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1760479760.git.marcelo.schmitt@analog.com>
- <c12569f251962ad6034395e53cd6d998ce78a63f.1760479760.git.marcelo.schmitt@analog.com>
- <5e3a1d31f3cec340650e2e63db79903b78ab9a1f.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IOhdQb09"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1110540B1D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1760731720; bh=Eu7Efolufq4MnZu/dPzVcX1UsuGoN4glZCYwWOMEPq4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=IOhdQb09ZMx5KbybaUxCQ2hP7BAEGCwCDQs4Nlf7Z/TeHcdHwOJ28utrF9t54R5om
+	 ieg64H+PosVgN9OboSecRbnM31lS+Eot3uCUtlIN3iCDuJ3RsD4ZZybM03hj/JlQv7
+	 ujc3PXisIY79RXe54ZKdWsfyL0XF5qTOmee/eOWzS1e+ny5DO1lYwPbzdrTwpPJpXx
+	 m3os40pZSUqtWTWIA49En59TgBlTLSTuFDaySC+fLmheNjAVcjoNEezB56Vp7ChaT1
+	 Xq0gZRc24AEsWltCwzjS292+W38vCFBWAs9LGq3rcTbtQnhPxM67E3SjQ0iCzaadE1
+	 2eGDPXgJ9obbA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1110540B1D;
+	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/23] Fix media uAPI cross references
+In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
+References: <cover.1759329363.git.mchehab+huawei@kernel.org>
+Date: Fri, 17 Oct 2025 14:08:39 -0600
+Message-ID: <87h5vx1ebc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5e3a1d31f3cec340650e2e63db79903b78ab9a1f.camel@gmail.com>
+Content-Type: text/plain
 
-On 10/17, Nuno Sá wrote:
-> On Tue, 2025-10-14 at 19:22 -0300, Marcelo Schmitt wrote:
-> > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> > samples per second (MSPS). Not all SPI controllers are able to achieve such
-> > high throughputs and even when the controller is fast enough to run
-> > transfers at the required speed, it may be costly to the CPU to handle
-> > transfer data at such high sample rates. Add SPI offload support for AD4030
-> > and similar ADCs to enable data capture at maximum sample rates.
-> > 
-> > Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> > Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > ---
-> 
-...
-> > +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
-> > +{
-> > +	struct ad4030_state *st = iio_priv(indio_dev);
-> > +	unsigned int reg_modes;
-> > +	int ret, ret2;
-> > +
-...
-> > +	ret = spi_offload_trigger_enable(st->offload, st->offload_trigger,
-> > +					 &st->offload_trigger_config);
-> > +	if (ret)
-> > +		goto out_pwm_disable;
-> > +
-> > +	return 0;
-> > +
-> > +out_pwm_disable:
-> > +	pwm_disable(st->cnv_trigger);
-> > +out_unoptimize:
-> > +	spi_unoptimize_message(&st->offload_msg);
-> > +out_reset_mode:
-> > +	/* reenter register configuration mode */
-> > +	ret2 = ad4030_enter_config_mode(st);
-> 
-> nit: if ret2 is not being used at all, maybe just
-ret2 is logged on the error message below so I guess I'll keep it as it is.
-> 
-> if (ad4030_enter_config_mode(st))
-> 	
-> > +	if (ret2)
-> > +		dev_err(&st->spi->dev,
-> > +			"couldn't reenter register configuration mode: %d\n",
-> > +			ret2);
-here we log the error code. We only reach it if reg access fails after
-something on offload buffer enable have failed first. We cannot reuse ret here 
-because we would be shadowing the original error code.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> > +
-> > +	return ret;
-> > +}
-> > 
-> 
-> ...
-> 
-...
-> > +	} else {
-> > +		/*
-> > +		 * One hardware channel is split in two software channels
-> > when
-> > +		 * using common byte mode. Offloaded SPI transfers can't
-> > support
-> > +		 * software timestamp so no additional timestamp channel is
-> > added.
-> > +		 */
-> > +		indio_dev->num_channels = 2 * st->chip->num_voltage_inputs;
-> 
-> Maybe I'm missing something but common mode is not supported for now so isn't
-> the above wrong?
-> 
+> In the past, media used Docbook to generate documentation, together
+> with some logic to ensure that cross-references would match the
+> actual defined uAPI.
+>
+> The rationale is that we wanted to automatically check for uAPI
+> documentation gaps.
+>
+> The same logic was migrated to Sphinx. Back then, broken links
+> were reported. However, recent versions of it and/or changes at
+> conf.py disabled such checks.
+>
+> The result is that several symbols are now not cross-referenced,
+> and we don't get warnings anymore when something breaks.
+>
+> This series consist on 2 parts:
+>
+> Part 1: extra patches to parse_data_structs.py and kernel_include.py;
+> Part 2: media documentation fixes.
+>
+> I'm not sure what's the best strategy to merge it, as some patches
+> belong to doc while others are media. So, they can be merged on
+> either one of the tree, or split on two series and merged in
+> separate or even being merged via a PR applied on both trees.
+>
+> IMO, the latter is the better strategy.
 
-Yes, that was buggy. Dropping common-mode channels as last minute change was a
-bad idea. I did another set of tests with ADAQ4216 and fixed that for v6. I'll
-also re-add common-mode channel support as a separate patch.
+OK, this series has been applied to -rc1 and is available in my
+media-uapi branch.  I've also merged it into docs-next.
 
 Thanks,
-Marcelo
+
+jon
