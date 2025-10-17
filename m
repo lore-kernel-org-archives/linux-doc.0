@@ -1,93 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDBB2036E9;
-	Fri, 17 Oct 2025 21:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF24523184A;
+	Fri, 17 Oct 2025 21:42:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760737045; cv=none; b=QBEOw+lxd0phQdSYgpcjwzORj5sVJAnKLSsfC/7pmws2jYUff+l/qhwnux6NCqx828MuZQ/rTeRlbtDMebwv4dV48O2RlQZBzNGm8Z1J2xkbFlDJPzmDaaYNbbbIdmRFwuyuHJqDI0guOMt5524LKvHzZApbuARHSysWWsl9e70=
+	t=1760737322; cv=none; b=iDRM2MSscX6UZX5SQBp8SjedLVbUNpg92ESBlBN+Tcz9czY0ocP3Iry3gcjjvYNQixK5lZVXlm4JbnrqkwU5g0OKU93gLUE62GrRWiYtNEBGM/bw5atiQcjVTwhTPqKDNl02lJKRCAMaFGYqV7v8BG7up76zPFDZUkyMd5onA6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760737045; c=relaxed/simple;
-	bh=nYpBafhW7YwCHT2Y3O7Vz/Cfc9k402BvH2+Wh0f/DtA=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=cd9pi7fG1cFjyUBuUA1T/KvVxayvLCNYinxzZkHNwWjUhC+wEPrsqY5nFy0FPpfaInFwhXASPu6m1jVDCLQTUayfplYuiHjIslNzlecVsYjfQe0r6lmQNS8Cm6yrAvC/W3mk+L54YHlZiMJTWC54Glq3d9zcJJ9Uxn+NWnfLmMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FE1dBvUV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760737322; c=relaxed/simple;
+	bh=NLiqceOlHQmsom02gVpkpbYtvUKxr7b4ZoMng8qNyLg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=EhzmpDf0Ek4pQGKWj13sgbB7jRFM6VOkKALeih5T3PaTBU/cN/7dRZVp9pyGLdEY7Rwr6UQvx0BJ9o7v4b64TVwBd/4a1lTtV8rtuhBl8TskykvB5Ph3+3Uh0T7Shne3+ZLyM0gzXyv15ovH1+J1dS0WefPvnknKAMlw41c7nps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ui97tMPp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FE1dBvUV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7221C4CEE7;
-	Fri, 17 Oct 2025 21:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760737044;
-	bh=nYpBafhW7YwCHT2Y3O7Vz/Cfc9k402BvH2+Wh0f/DtA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FE1dBvUVul1ShFrtQ9a2yuuluVLEiX3PNARQaVwbXQaU+qoOwkoZFLo6b4wiRoAnn
-	 EAWR1VKBFA4zRtgkP4k2hogdZvMF/OsA2XiB7rwYq/IaAOtbxaSzMwRQdJIRLlTGrz
-	 ijhhPTnwyBb6OdZP8xn3qakbxsmeiLKTac97LR64=
-Date: Fri, 17 Oct 2025 14:37:22 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Sumanth Korikkar <sumanthk@linux.ibm.com>, Jonathan Corbet
- <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Guo Ren
- <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
- "David S . Miller" <davem@davemloft.net>, Andreas Larsson
- <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He
- <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, Dave Young
- <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, Reinette Chatre
- <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, James Morse
- <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
- ntfs3@lists.linux.dev, kexec@lists.infradead.org,
- kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
- iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v4 11/14] mm/hugetlbfs: update hugetlbfs to use
- mmap_prepare
-Message-Id: <20251017143722.d045a2cd9d1839803da3f28a@linux-foundation.org>
-In-Reply-To: <c64e017a-5219-4382-bba9-d24310ad2c21@lucifer.local>
-References: <cover.1758135681.git.lorenzo.stoakes@oracle.com>
-	<e5532a0aff1991a1b5435dcb358b7d35abc80f3b.1758135681.git.lorenzo.stoakes@oracle.com>
-	<aNKJ6b7kmT_u0A4c@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-	<20250923141704.90fba5bdf8c790e0496e6ac1@linux-foundation.org>
-	<aPI2SZ5rFgZVT-I8@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-	<c64e017a-5219-4382-bba9-d24310ad2c21@lucifer.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ui97tMPp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FC11C4CEE7;
+	Fri, 17 Oct 2025 21:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760737321;
+	bh=NLiqceOlHQmsom02gVpkpbYtvUKxr7b4ZoMng8qNyLg=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+	b=Ui97tMPpQpzMT2zJyaSneZDqt7EWGTXci0QQOmYDl+1bF/roKz2+P/3IJ3uaq0KYR
+	 WRvAeFREUYF9Y86L02m42uolFqVWFYFQRHTQYCxpUwcozWm9VCaORQKif2+H+958Ut
+	 1pFdz2Dk1CspwKzAwO2HDQDIGlAo9hPbdt/mtRU0kAN2qkKeYeV980O5RzKRS2V0Pt
+	 c15lwC0EOfqz19uExbgmMmJAE0zUZwIgYtfG0Uds+Kh2XEUDNnjUG04rHTJklAntC2
+	 siIpq1e8AbDlDCYinLisEq/ZJGxaT/8GNQ8qxCG41HIKyTA+Vhe9mPoKrocQXlH+L1
+	 VkR642d1SbcdA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 17 Oct 2025 23:41:56 +0200
+Message-Id: <DDKXACTUJ9IT.3W11J2HE7SLJW@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Cc: "Tzung-Bi Shih" <tzungbi@kernel.org>, "Benson Leung"
+ <bleung@chromium.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <chrome-platform@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
+ "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Bartosz
+ Golaszewski" <brgl@bgdev.pl>, "Wolfram Sang"
+ <wsa+renesas@sang-engineering.com>, "Simona Vetter"
+ <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>
+To: "Jason Gunthorpe" <jgg@nvidia.com>
+References: <20251016054204.1523139-1-tzungbi@kernel.org>
+ <20251016054204.1523139-6-tzungbi@kernel.org>
+ <20251016123149.GA88213@nvidia.com> <aPGryj-V5PQZRtoI@google.com>
+ <20251017134916.GK3901471@nvidia.com> <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <009c8e5e-02d3-4017-bb84-e3a8f01b9dc9@kernel.org>
+ <20251017163738.GB316284@nvidia.com>
+ <bee969ed-c050-43a4-961c-07443a45943c@kernel.org>
+ <20251017184415.GE316284@nvidia.com>
+In-Reply-To: <20251017184415.GE316284@nvidia.com>
 
-On Fri, 17 Oct 2025 13:46:20 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+On Fri Oct 17, 2025 at 8:44 PM CEST, Jason Gunthorpe wrote:
+> On Fri, Oct 17, 2025 at 08:19:06PM +0200, Danilo Krummrich wrote:
+>> On 10/17/25 6:37 PM, Jason Gunthorpe wrote:
+>> > On Fri, Oct 17, 2025 at 06:29:10PM +0200, Danilo Krummrich wrote:
+>> >=20
+>> >> I'm not sure about MISC device though. Unless there's a good reason,
+>> >> I think MISC device should be "fenced" instead.
+>> >=20
+>> > misc is a very small wrapper around raw fops, and raw fops are
+>> > optimized for performance. Adding locking that many important things
+>> > like normal files don't need to all fops would not be agreed.
+>> >=20
+>> > The sketch in this series where we have a core helper to provide a
+>> > shim fops that adds on the lock is smart and I think could be an
+>> > agreeable way to make a synchronous misc and cdev unregister for
+>> > everyone to trivially use.
+>>=20
+>> Sure, for MISC devices without a parent for instance there are no device
+>> resources to access anyways.
+>
+> There are many situations with misc that can get people into trouble with=
+out
+> parent:
+>
+>  misc_deregister(x);
+>  timer_shutdown_sync(y);
+>  kfree(z);
+>
+> For example. It is is buggy if the fops touch y or z.
+>
+> This is why a _sync version is such a nice clean idea because with 5
+> letters the above can just be fixed.
+>
+> Wrapping everything in a revocable would be a huge PITA.
 
-> > The issue is reproducible again in linux-next with the following commit:
-> > 5fdb155933fa ("mm/hugetlbfs: update hugetlbfs to use mmap_prepare")
-> 
-> Andrew - I see this series in mm-unstable, not sure what it's doing there
-> as I need to rework this (when I get a chance, back from a 2 week vacation
-> and this week has been - difficult :)
-> 
-> Can we please drop this until I have a chance to respin?
+That's a bit of a different problem though. Revocable clearly isn't the
+solution. _sync() works, but doesn't account for the actual problem, which =
+is
+that the file private has at least shared ownership of y and z.
 
-No probs, gone.
+So, it's more of an ownership / lifetime problem. The file private data sho=
+uld
+either own y and z entirely or a corresponding reference count that is drop=
+ped
+in fops release().
+
+Device resources are different though, since we can't just hold on to them =
+with
+a reference count etc.; they're strictly gone once the bus device is unboun=
+d,
+hence revocable when there is no _sync().
