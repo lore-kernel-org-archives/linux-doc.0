@@ -1,444 +1,469 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CDC311C14
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 06:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA353126B1;
+	Fri, 17 Oct 2025 06:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760681461; cv=none; b=Z2Xzgn7Up2QBc2S0RAgn96RwUy9rR9k5Z2Jip/jfzEyokvzSw08R+EnF1tdQavSpPE7IexXi7OAEiuFRZwgjLC59e0RL3vKg8VAGtfuSyy/P+ExaLyo58sq0jiP0srlvgiAj9ax7EOS2SL5MmfGTXuDJ6nNEKx44zEpyZoVfEQE=
+	t=1760681463; cv=none; b=Wwy3+YZPpnOUeQ4s8vcY23p0xj9P0dNGm9vIvRGyI9EcXqJKbtO09AOdAS2F9rqudFJSsd5YWtzvP8th+s5BFnsTYTKk5R60Uh/k2z1SQ0/t4Azxj/ORw+jM6ne6HqCF9f+gGnFa5oJ4vDxh3ui68lgAwJAXLHLRzSfYmcKtvfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760681461; c=relaxed/simple;
-	bh=bATM6aac632ht2Lhs2ZNT40ldHaeWg8vP8rXRfB+eJ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C/dCVf/Lg56IGilZrYQSXDdOPx4PFs31M5cXxYGzrKvMR65DGBrbP7+jaV3Tj5efvDQAVgW9wApntojxE8yY3jRvrGOlVqIexLgGTK6h8DnAqJCBcIsDu3RIy1piWaEbgwMZKmoakp2ZrCiQeZWVqg6EzaXEO/2I6oUyg8/qUNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isr4uV9K; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760681463; c=relaxed/simple;
+	bh=cCUtNqdWL/6aCq2+recY45GdXecsiPSTqnnahyOepj4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CCyjxoNPd6M9Uz8cBeG7nUJlCzwyGCj2tcpqY65E6nfKiEhSvcIoUcKE+SQ4O511fJcyydLok8A6MzbmHHD7dj5mIrURPKjaMBJ6YkDbG6z4ByPytj6ntUp/eJ2LdrJ+cxTEEDFmXEHkcnlvLLaq1erYWAgFvE0+pmK1O9nl5ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzxcTri7; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isr4uV9K"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46fc5e54cceso11186025e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 23:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760681456; x=1761286256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eWgIwqH7RshFa7F8HHD0DZORzWSphxCks827inGRt3Y=;
-        b=isr4uV9KDlfXmvsGGG4EvziyMwrifcB/13FNnMyckyq45XyG7sU7gfgxqVHGmvPkXr
-         Wkgh3erzSJ8np7WYolS/l2w8FRFw+GFTGvtv2nTqcMco/ipoe3o1v/do/ucMWW8JVzi7
-         f343SoYSpxJLd5ZJg9Ai2i86Szc/8abqWII2crYsnuZuznkoBpq2gIUzhsG2e5lo+oDr
-         TWOGX47nHSntZv0JnTjXwF4R6KBo/rJiSgGbFtQIUvUpIZ8GlnmkTs+m1GsQReWep7nf
-         bLoRAYAbwSIwQFgUWsH+/OBq4zjDGQ2djRrzmxRvICFCEItlQsfJS3wMscKkf6E3AVrD
-         uD/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760681456; x=1761286256;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eWgIwqH7RshFa7F8HHD0DZORzWSphxCks827inGRt3Y=;
-        b=iHRrLWy1mSBQihzthIP+9r5cyxqfPeujWC8wzIdzrOD9WCEccl8yMMhHCyiGOURL5B
-         pMuIQpbMhTh6gd6KP7rJLzLxHHXK/pIKFoZtkRN9nO3kr1KsP/L+I5McxcIV2FUmfxR0
-         Ob68FNXM3/YEMlFj1yAADR8iVt5zFpfQVYuqyw1ndbDyPPXHy9obdyaYNCqCMfOGv5fq
-         ZfJM1ee9rbn6bOFaUYBX5H0fCcpR+rwh/wUugTvGUCncMKi+4Auxi+5V4YypN4N2l+DM
-         j5f/d5MBeDj9YddyfAPoCFkpoeAnQZpjqgKspmHUuS9C0XYSLRKdwcUpnIAl6pUvkWXu
-         RztQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUU7z0+ZTdGMZxgRFbZvpSD7XQPZPuVFHAEkhAtKO5UKEU+7NlSgp4rGxtvli5QrpW/zicX85OiWrI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCuq7XCPI+Z8EBCCzsrIRikLgZm6jc0M7x9v6HAg15l228C63d
-	UI2leXYtPRV46IGRF1C6pGND+w3sEB/yo44G1SCr53I+oZOJpe3M1ZYp
-X-Gm-Gg: ASbGnctfdZbyDZCXoD2sqOPTz/U8BS7JeNV17TCdVRSqLqRno1wiiY1yStK7UFXv38D
-	Wv9h2SWJuiNymjXtWfTeiqVsF1Z7k0xRCEOqyLBgS3ZaYzxqBGOzfDEMP4YG0tLbWuwDT/l8Hsy
-	wsjXjvDrJVyFU+fS5Ll2EQYkSpC8sH2BXD71fK04h1f+uge9QeHKKSeTK666KczwFE+wnF//TeI
-	ZYRJwwl/Ct6Bk1R1rSFbcWwPiaT3OGdPSAMpr9Uy6bk8HI/QzuMi9Jrqk+mz2Q/Ctwp3vxAkqY7
-	Nnp62dT9AGbDnP54MySp/w0KqyCcLvdzH9D0fuxpc5cznxKAVScJZUmiNjGTrqArVcwCRIOXevB
-	GIYRpNMRxUi0hHbjESkkxcEfJaZIctmor98mWDkW18fTLe34vmcnH+QDNc1d7RX5pavtakdYJ1Z
-	Q4pr2RkloCfC0=
-X-Google-Smtp-Source: AGHT+IE3wLtpz8O9wjyUqZlTW2xkNzi1uvDG8cS6sxWvjF5XYMStNyUzSwHm4rj6VyjXI7Ajj4a2pQ==
-X-Received: by 2002:a05:600c:548a:b0:471:ff3:7514 with SMTP id 5b1f17b1804b1-47117877736mr15713675e9.12.1760681456173;
-        Thu, 16 Oct 2025 23:10:56 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4711444d919sm63388875e9.14.2025.10.16.23.10.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Oct 2025 23:10:55 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
-	Gao Xiang <hsiangkao@linux.alibaba.com>,
-	Art Nikpal <email2tema@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Graf <graf@amazon.com>,
-	Rob Landley <rob@landley.net>,
-	Lennart Poettering <mzxreary@0pointer.de>,
-	linux-arch@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	initramfs@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dave Young <dyoung@redhat.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Nicolas Schichan <nschichan@freebox.fr>,
-	David Disseldorp <ddiss@suse.de>,
-	patches@lists.linux.dev
-Subject: [PATCH v3 2/3] initrd: remove deprecated code path (linuxrc)
-Date: Fri, 17 Oct 2025 06:09:55 +0000
-Message-ID: <20251017060956.1151347-3-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251017060956.1151347-1-safinaskar@gmail.com>
-References: <20251017060956.1151347-1-safinaskar@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzxcTri7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760681459; x=1792217459;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=cCUtNqdWL/6aCq2+recY45GdXecsiPSTqnnahyOepj4=;
+  b=SzxcTri7RBKWCoX9TSKenLqGgP34b8XWZHVpX9p3DrzLQI9cR6areqJN
+   D1HLRmuD8rYY4StDxmzr8VSsHMNrB/KufCpIhcjhpqgBoNsJD8YM6hVya
+   klzqntH5x4zkCOMBsTTq90d80xjY39FsVdLpADfzHTSZRGx7bgGfUGmgG
+   qpXoDKiCH1bs/pXOVowbK7y09SjNhJlORCui3uGwFAKUVbqxtEILqA2aL
+   hgbo9yed5OgWU64cCxZn1SMddw+3FVnoEIA0oPYQQicA8kw8lOiI+y5cS
+   buYkEhPjtPMCKk6lWsnWMuy+CLrdSgQq7tgZPo/+rQ+2nYbCHDkVZsFby
+   Q==;
+X-CSE-ConnectionGUID: 8m6h9FwoR9eqhzuChdC8IQ==
+X-CSE-MsgGUID: gZ0AYi8YT5WQz56eDxDHQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="50453970"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="50453970"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:53 -0700
+X-CSE-ConnectionGUID: lZtK9NrSRXO37dti9bn0Xw==
+X-CSE-MsgGUID: d+/ySozPSw6zsFOwUMHPEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="183059499"
+Received: from orcnseosdtjek.jf.intel.com (HELO [10.166.28.70]) ([10.166.28.70])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:53 -0700
+From: Jacob Keller <jacob.e.keller@intel.com>
+Date: Thu, 16 Oct 2025 23:08:36 -0700
+Subject: [PATCH net-next v2 07/14] iavf: add RSS support for GTP protocol
+ via ethtool
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251016-jk-iwl-next-2025-10-15-v2-7-ff3a390d9fc6@intel.com>
+References: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
+In-Reply-To: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
+To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>, 
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>, 
+ Jedrzej Jagielski <jedrzej.jagielski@intel.com>, 
+ Rafal Romanowski <rafal.romanowski@intel.com>
+X-Mailer: b4 0.15-dev-f4b34
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13743;
+ i=jacob.e.keller@intel.com; h=from:subject:message-id;
+ bh=Q++Q2ZzYPwo/4s+suHd2x6Xa6gpSbCl3n6V+9xc04WU=;
+ b=owGbwMvMwCWWNS3WLp9f4wXjabUkhoyPd19Ymvqv2Bqhvyuke1fUmXmy59KjbIU5b+Se353fu
+ ce1zTizo5SFQYyLQVZMkUXBIWTldeMJYVpvnOVg5rAygQxh4OIUgInM/sjI8Ppi8Fbp3Xez+1in
+ fveqPs91Jkilw4x/T89ZNcbHXyey/mX4X8zGnvJLxUMyf76v77uJZ39s0bN9Ert+ve3stqOiW48
+ EMgAA
+X-Developer-Key: i=jacob.e.keller@intel.com; a=openpgp;
+ fpr=204054A9D73390562AEC431E6A965D3E6F0F28E8
 
-Remove linuxrc initrd code path, which was deprecated in 2020.
+From: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
 
-Initramfs and (non-initial) RAM disks (i. e. brd) still work.
+Extend the iavf driver to support Receive Side Scaling (RSS)
+configuration for GTP (GPRS Tunneling Protocol) flows using ethtool.
 
-Both built-in and bootloader-supplied initramfs still work.
+The implementation introduces new RSS flow segment headers and hash field
+definitions for various GTP encapsulations, including:
 
-Non-linuxrc initrd code path (i. e. using /dev/ram as final root
-filesystem) still works, but I put deprecation message into it.
+  - GTPC
+  - GTPU (IP, Extension Header, Uplink, Downlink)
+  - TEID-based hashing
 
-Also I deprecate command line parameters "noinitrd" and "ramdisk_start=".
+The ethtool interface is updated to parse and apply these new flow types
+and hash fields, enabling fine-grained traffic distribution for GTP-based
+mobile workloads.
 
-Signed-off-by: Askar Safin <safinaskar@gmail.com>
+This enhancement improves performance and scalability for virtualized
+network functions (VNFs) and user plane functions (UPFs) in 5G and LTE
+deployments.
+
+Reviewed-by: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
+Reviewed-by: Simon Horman <horms@kernel.org>
+Signed-off-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Tested-by: Rafal Romanowski <rafal.romanowski@intel.com>
+Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  8 +-
- fs/init.c                                     | 14 ---
- include/linux/init_syscalls.h                 |  1 -
- include/linux/initrd.h                        |  2 -
- init/do_mounts.c                              |  4 +-
- init/do_mounts.h                              | 18 +---
- init/do_mounts_initrd.c                       | 87 ++-----------------
- init/do_mounts_rd.c                           | 17 +---
- 8 files changed, 22 insertions(+), 129 deletions(-)
+ drivers/net/ethernet/intel/iavf/iavf_adv_rss.h |  31 +++++++
+ drivers/net/ethernet/intel/iavf/iavf_adv_rss.c | 119 ++++++++++++++++++++-----
+ drivers/net/ethernet/intel/iavf/iavf_ethtool.c |  89 ++++++++++++++++++
+ 3 files changed, 216 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 15af6933eab4..df441d1a9555 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4324,8 +4324,10 @@
- 			Note that this argument takes precedence over
- 			the CONFIG_RCU_NOCB_CPU_DEFAULT_ALL option.
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
+index e31eb2afebea..74cc9e0d528c 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
++++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
+@@ -22,6 +22,12 @@ enum iavf_adv_rss_flow_seg_hdr {
+ 	IAVF_ADV_RSS_FLOW_SEG_HDR_TCP	= 0x00000004,
+ 	IAVF_ADV_RSS_FLOW_SEG_HDR_UDP	= 0x00000008,
+ 	IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP	= 0x00000010,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC		= 0x00000400,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC_TEID	= 0x00000800,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_IP	= 0x00001000,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_EH	= 0x00002000,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_DWN	= 0x00004000,
++	IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_UP	= 0x00008000,
+ };
  
--	noinitrd	[RAM] Tells the kernel not to load any configured
--			initial RAM disk.
-+	noinitrd	[Deprecated,RAM] Tells the kernel not to load any configured
-+			initial RAM disk. Currently this parameter applies to
-+			initrd only, not to initramfs. But it applies to both
-+			in EFI mode.
+ #define IAVF_ADV_RSS_FLOW_SEG_HDR_L3		\
+@@ -33,6 +39,14 @@ enum iavf_adv_rss_flow_seg_hdr {
+ 	 IAVF_ADV_RSS_FLOW_SEG_HDR_UDP |	\
+ 	 IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP)
  
- 	nointremap	[X86-64,Intel-IOMMU,EARLY] Do not enable interrupt
- 			remapping.
-@@ -5338,7 +5340,7 @@
- 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
- 			See Documentation/admin-guide/blockdev/ramdisk.rst.
++#define IAVF_ADV_RSS_FLOW_SEG_HDR_GTP		\
++	(IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC |	\
++	 IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC_TEID |	\
++	 IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_IP |	\
++	 IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_EH |	\
++	 IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_DWN |	\
++	 IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_UP)
++
+ enum iavf_adv_rss_flow_field {
+ 	/* L3 */
+ 	IAVF_ADV_RSS_FLOW_FIELD_IDX_IPV4_SA,
+@@ -46,6 +60,17 @@ enum iavf_adv_rss_flow_field {
+ 	IAVF_ADV_RSS_FLOW_FIELD_IDX_UDP_DST_PORT,
+ 	IAVF_ADV_RSS_FLOW_FIELD_IDX_SCTP_SRC_PORT,
+ 	IAVF_ADV_RSS_FLOW_FIELD_IDX_SCTP_DST_PORT,
++	/* GTPC_TEID */
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPC_TEID,
++	/* GTPU_IP */
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_IP_TEID,
++	/* GTPU_EH */
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_EH_TEID,
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_EH_QFI,
++	/* GTPU_UP */
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_UP_TEID,
++	/* GTPU_DWN */
++	IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_DWN_TEID,
  
--	ramdisk_start=	[RAM] RAM disk image start address
-+	ramdisk_start=	[Deprecated,RAM] RAM disk image start address
+ 	/* The total number of enums must not exceed 64 */
+ 	IAVF_ADV_RSS_FLOW_FIELD_IDX_MAX
+@@ -72,6 +97,12 @@ enum iavf_adv_rss_flow_field {
+ 	BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_SCTP_SRC_PORT)
+ #define IAVF_ADV_RSS_HASH_FLD_SCTP_DST_PORT	\
+ 	BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_SCTP_DST_PORT)
++#define IAVF_ADV_RSS_HASH_FLD_GTPC_TEID	BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPC_TEID)
++#define IAVF_ADV_RSS_HASH_FLD_GTPU_IP_TEID BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_IP_TEID)
++#define IAVF_ADV_RSS_HASH_FLD_GTPU_EH_TEID BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_EH_TEID)
++#define IAVF_ADV_RSS_HASH_FLD_GTPU_UP_TEID BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_UP_TEID)
++#define IAVF_ADV_RSS_HASH_FLD_GTPU_DWN_TEID \
++	BIT_ULL(IAVF_ADV_RSS_FLOW_FIELD_IDX_GTPU_DWN_TEID)
  
- 	random.trust_cpu=off
- 			[KNL,EARLY] Disable trusting the use of the CPU's
-diff --git a/fs/init.c b/fs/init.c
-index 07f592ccdba8..60719494d9a0 100644
---- a/fs/init.c
-+++ b/fs/init.c
-@@ -27,20 +27,6 @@ int __init init_mount(const char *dev_name, const char *dir_name,
- 	return ret;
+ /* bookkeeping of advanced RSS configuration */
+ struct iavf_adv_rss {
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
+index a9e1da35e248..4d12dfe1b481 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
+@@ -90,6 +90,55 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
+ 		VIRTCHNL_ADD_PROTO_HDR_FIELD_BIT(hdr, SCTP, DST_PORT);
  }
  
--int __init init_umount(const char *name, int flags)
--{
--	int lookup_flags = LOOKUP_MOUNTPOINT;
--	struct path path;
--	int ret;
--
--	if (!(flags & UMOUNT_NOFOLLOW))
--		lookup_flags |= LOOKUP_FOLLOW;
--	ret = kern_path(name, lookup_flags, &path);
--	if (ret)
--		return ret;
--	return path_umount(&path, flags);
--}
--
- int __init init_chdir(const char *filename)
++/**
++ * iavf_fill_adv_rss_gtp_hdr - Fill GTP-related RSS protocol headers
++ * @proto_hdrs: pointer to the virtchnl protocol headers structure to populate
++ * @packet_hdrs: bitmask of packet header types to configure
++ * @hash_flds: RSS hash field configuration
++ *
++ * This function populates the virtchnl protocol header structure with
++ * appropriate GTP-related header types based on the specified packet_hdrs.
++ * It supports GTPC, GTPU with extension headers, and uplink/downlink PDU
++ * types. For certain GTPU types, it also appends an IPv4 header to enable
++ * hashing on the destination IP address.
++ *
++ * Return: 0 on success or -EOPNOTSUPP if the packet_hdrs value is unsupported.
++ */
++static int
++iavf_fill_adv_rss_gtp_hdr(struct virtchnl_proto_hdrs *proto_hdrs,
++			  u32 packet_hdrs, u64 hash_flds)
++{
++	struct virtchnl_proto_hdr *hdr;
++
++	hdr = &proto_hdrs->proto_hdr[proto_hdrs->count - 1];
++
++	switch (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_GTP) {
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC_TEID:
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC:
++		VIRTCHNL_SET_PROTO_HDR_TYPE(hdr, GTPC);
++		break;
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_EH:
++		VIRTCHNL_SET_PROTO_HDR_TYPE(hdr, GTPU_EH);
++		break;
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_UP:
++		VIRTCHNL_SET_PROTO_HDR_TYPE(hdr, GTPU_EH_PDU_UP);
++		hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
++		iavf_fill_adv_rss_ip4_hdr(hdr, IAVF_ADV_RSS_HASH_FLD_IPV4_DA);
++		break;
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_DWN:
++		VIRTCHNL_SET_PROTO_HDR_TYPE(hdr, GTPU_EH_PDU_DWN);
++		fallthrough;
++	case IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_IP:
++		hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
++		iavf_fill_adv_rss_ip4_hdr(hdr, IAVF_ADV_RSS_HASH_FLD_IPV4_DA);
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++
+ /**
+  * iavf_fill_adv_rss_cfg_msg - fill the RSS configuration into virtchnl message
+  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
+@@ -103,6 +152,8 @@ int
+ iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
+ 			  u32 packet_hdrs, u64 hash_flds, bool symm)
  {
- 	struct path path;
-diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
-index 92045d18cbfc..0bdbc458a881 100644
---- a/include/linux/init_syscalls.h
-+++ b/include/linux/init_syscalls.h
-@@ -2,7 +2,6 @@
++	const u32 packet_l3_hdrs = packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_L3;
++	const u32 packet_l4_hdrs = packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_L4;
+ 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
+ 	struct virtchnl_proto_hdr *hdr;
  
- int __init init_mount(const char *dev_name, const char *dir_name,
- 		const char *type_page, unsigned long flags, void *data_page);
--int __init init_umount(const char *name, int flags);
- int __init init_chdir(const char *filename);
- int __init init_chroot(const char *filename);
- int __init init_chown(const char *filename, uid_t user, gid_t group, int flags);
-diff --git a/include/linux/initrd.h b/include/linux/initrd.h
-index f1a1f4c92ded..7e5d26c8136f 100644
---- a/include/linux/initrd.h
-+++ b/include/linux/initrd.h
-@@ -3,8 +3,6 @@
- #ifndef __LINUX_INITRD_H
- #define __LINUX_INITRD_H
+@@ -113,31 +164,41 @@ iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
  
--#define INITRD_MINOR 250 /* shouldn't collide with /dev/ram* too soon ... */
--
- /* starting block # of image */
- extern int rd_image_start;
+ 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
  
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 0f2f44e6250c..1054ad3c905a 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -476,13 +476,11 @@ void __init prepare_namespace(void)
- 	if (saved_root_name[0])
- 		ROOT_DEV = parse_root_device(saved_root_name);
+-	hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
+-	switch (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_L3) {
+-	case IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4:
+-		iavf_fill_adv_rss_ip4_hdr(hdr, hash_flds);
+-		break;
+-	case IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6:
+-		iavf_fill_adv_rss_ip6_hdr(hdr, hash_flds);
+-		break;
+-	default:
+-		return -EINVAL;
++	if (packet_l3_hdrs) {
++		hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
++		switch (packet_l3_hdrs) {
++		case IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4:
++			iavf_fill_adv_rss_ip4_hdr(hdr, hash_flds);
++			break;
++		case IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6:
++			iavf_fill_adv_rss_ip6_hdr(hdr, hash_flds);
++			break;
++		default:
++			return -EINVAL;
++		}
+ 	}
  
--	if (initrd_load(saved_root_name))
--		goto out;
-+	initrd_load();
+-	hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
+-	switch (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_L4) {
+-	case IAVF_ADV_RSS_FLOW_SEG_HDR_TCP:
+-		iavf_fill_adv_rss_tcp_hdr(hdr, hash_flds);
+-		break;
+-	case IAVF_ADV_RSS_FLOW_SEG_HDR_UDP:
+-		iavf_fill_adv_rss_udp_hdr(hdr, hash_flds);
+-		break;
+-	case IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP:
+-		iavf_fill_adv_rss_sctp_hdr(hdr, hash_flds);
+-		break;
+-	default:
+-		return -EINVAL;
++	if (packet_l4_hdrs) {
++		hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
++		switch (packet_l4_hdrs) {
++		case IAVF_ADV_RSS_FLOW_SEG_HDR_TCP:
++			iavf_fill_adv_rss_tcp_hdr(hdr, hash_flds);
++			break;
++		case IAVF_ADV_RSS_FLOW_SEG_HDR_UDP:
++			iavf_fill_adv_rss_udp_hdr(hdr, hash_flds);
++			break;
++		case IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP:
++			iavf_fill_adv_rss_sctp_hdr(hdr, hash_flds);
++			break;
++		default:
++			return -EINVAL;
++		}
++	}
++
++	if (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_GTP) {
++		hdr = &proto_hdrs->proto_hdr[proto_hdrs->count++];
++		if (iavf_fill_adv_rss_gtp_hdr(proto_hdrs, packet_hdrs, hash_flds))
++			return -EINVAL;
+ 	}
  
- 	if (root_wait)
- 		wait_for_root(saved_root_name);
- 	mount_root(saved_root_name);
--out:
- 	devtmpfs_mount();
- 	init_mount(".", "/", NULL, MS_MOVE, NULL);
- 	init_chroot(".");
-diff --git a/init/do_mounts.h b/init/do_mounts.h
-index 6069ea3eb80d..a386ee5314c9 100644
---- a/init/do_mounts.h
-+++ b/init/do_mounts.h
-@@ -23,25 +23,15 @@ static inline __init int create_dev(char *name, dev_t dev)
- }
+ 	return 0;
+@@ -186,6 +247,8 @@ iavf_print_adv_rss_cfg(struct iavf_adapter *adapter, struct iavf_adv_rss *rss,
+ 		proto = "UDP";
+ 	else if (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP)
+ 		proto = "SCTP";
++	else if (packet_hdrs & IAVF_ADV_RSS_FLOW_SEG_HDR_GTP)
++		proto = "GTP";
+ 	else
+ 		return;
  
- #ifdef CONFIG_BLK_DEV_RAM
--
--int __init rd_load_disk(int n);
--int __init rd_load_image(char *from);
--
-+int __init rd_load_image(void);
- #else
--
--static inline int rd_load_disk(int n) { return 0; }
--static inline int rd_load_image(char *from) { return 0; }
--
-+static inline int rd_load_image(void) { return 0; }
- #endif
+@@ -211,6 +274,16 @@ iavf_print_adv_rss_cfg(struct iavf_adapter *adapter, struct iavf_adv_rss *rss,
+ 			 IAVF_ADV_RSS_HASH_FLD_UDP_DST_PORT |
+ 			 IAVF_ADV_RSS_HASH_FLD_SCTP_DST_PORT))
+ 		strcat(hash_opt, "dst port,");
++	if (hash_flds & IAVF_ADV_RSS_HASH_FLD_GTPC_TEID)
++		strcat(hash_opt, "gtp-c,");
++	if (hash_flds & IAVF_ADV_RSS_HASH_FLD_GTPU_IP_TEID)
++		strcat(hash_opt, "gtp-u ip,");
++	if (hash_flds & IAVF_ADV_RSS_HASH_FLD_GTPU_EH_TEID)
++		strcat(hash_opt, "gtp-u ext,");
++	if (hash_flds & IAVF_ADV_RSS_HASH_FLD_GTPU_UP_TEID)
++		strcat(hash_opt, "gtp-u ul,");
++	if (hash_flds & IAVF_ADV_RSS_HASH_FLD_GTPU_DWN_TEID)
++		strcat(hash_opt, "gtp-u dl,");
  
- #ifdef CONFIG_BLK_DEV_INITRD
--bool __init initrd_load(char *root_device_name);
-+void __init initrd_load(void);
- #else
--static inline bool initrd_load(char *root_device_name)
--{
--	return false;
--	}
--
-+static inline void initrd_load(void) { }
- #endif
- 
- /* Ensure that async file closing finished to prevent spurious errors. */
-diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
-index f6867bad0d78..bf381aa0400f 100644
---- a/init/do_mounts_initrd.c
-+++ b/init/do_mounts_initrd.c
-@@ -2,13 +2,7 @@
- #include <linux/unistd.h>
- #include <linux/kernel.h>
- #include <linux/fs.h>
--#include <linux/minix_fs.h>
--#include <linux/romfs_fs.h>
- #include <linux/initrd.h>
--#include <linux/sched.h>
--#include <linux/freezer.h>
--#include <linux/kmod.h>
--#include <uapi/linux/mount.h>
- 
- #include "do_mounts.h"
- 
-@@ -41,6 +35,7 @@ late_initcall(kernel_do_mounts_initrd_sysctls_init);
- 
- static int __init no_initrd(char *str)
- {
-+	pr_warn("noinitrd option is deprecated and will be removed soon\n");
- 	mount_initrd = 0;
- 	return 1;
- }
-@@ -70,85 +65,19 @@ static int __init early_initrd(char *p)
- }
- early_param("initrd", early_initrd);
- 
--static int __init init_linuxrc(struct subprocess_info *info, struct cred *new)
--{
--	ksys_unshare(CLONE_FS | CLONE_FILES);
--	console_on_rootfs();
--	/* move initrd over / and chdir/chroot in initrd root */
--	init_chdir("/root");
--	init_mount(".", "/", NULL, MS_MOVE, NULL);
--	init_chroot(".");
--	ksys_setsid();
--	return 0;
--}
--
--static void __init handle_initrd(char *root_device_name)
--{
--	struct subprocess_info *info;
--	static char *argv[] = { "linuxrc", NULL, };
--	extern char *envp_init[];
--	int error;
--
--	pr_warn("using deprecated initrd support, will be removed soon.\n");
--
--	real_root_dev = new_encode_dev(ROOT_DEV);
--	create_dev("/dev/root.old", Root_RAM0);
--	/* mount initrd on rootfs' /root */
--	mount_root_generic("/dev/root.old", root_device_name,
--			   root_mountflags & ~MS_RDONLY);
--	init_mkdir("/old", 0700);
--	init_chdir("/old");
--
--	info = call_usermodehelper_setup("/linuxrc", argv, envp_init,
--					 GFP_KERNEL, init_linuxrc, NULL, NULL);
--	if (!info)
--		return;
--	call_usermodehelper_exec(info, UMH_WAIT_PROC|UMH_FREEZABLE);
--
--	/* move initrd to rootfs' /old */
--	init_mount("..", ".", NULL, MS_MOVE, NULL);
--	/* switch root and cwd back to / of rootfs */
--	init_chroot("..");
--
--	if (new_decode_dev(real_root_dev) == Root_RAM0) {
--		init_chdir("/old");
--		return;
--	}
--
--	init_chdir("/");
--	ROOT_DEV = new_decode_dev(real_root_dev);
--	mount_root(root_device_name);
--
--	printk(KERN_NOTICE "Trying to move old root to /initrd ... ");
--	error = init_mount("/old", "/root/initrd", NULL, MS_MOVE, NULL);
--	if (!error)
--		printk("okay\n");
--	else {
--		if (error == -ENOENT)
--			printk("/initrd does not exist. Ignored.\n");
--		else
--			printk("failed\n");
--		printk(KERN_NOTICE "Unmounting old root\n");
--		init_umount("/old", MNT_DETACH);
--	}
--}
--
--bool __init initrd_load(char *root_device_name)
-+void __init initrd_load(void)
- {
- 	if (mount_initrd) {
- 		create_dev("/dev/ram", Root_RAM0);
- 		/*
--		 * Load the initrd data into /dev/ram0. Execute it as initrd
--		 * unless /dev/ram0 is supposed to be our actual root device,
--		 * in that case the ram disk is just set up here, and gets
--		 * mounted in the normal path.
-+		 * Load the initrd data into /dev/ram0.
- 		 */
--		if (rd_load_image("/initrd.image") && ROOT_DEV != Root_RAM0) {
--			init_unlink("/initrd.image");
--			handle_initrd(root_device_name);
--			return true;
-+		if (rd_load_image()) {
-+			pr_warn("using deprecated initrd support, will be removed in September 2026; "
-+				"use initramfs instead or (as a last resort) /sys/firmware/initrd; "
-+				"see section \"Workaround\" in "
-+				"https://lore.kernel.org/lkml/20251010094047.3111495-1-safinaskar@gmail.com\n");
+ 	if (!action)
+ 		action = "";
+diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
+index 05d72be3fe80..a3f8ced23266 100644
+--- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
++++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
+@@ -1336,6 +1336,56 @@ static u32 iavf_adv_rss_parse_hdrs(const struct ethtool_rxfh_fields *cmd)
+ 		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_SCTP |
+ 			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
+ 		break;
++	case GTPU_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_IP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPC_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_UDP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPC_TEID_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC_TEID |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_UDP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPU_EH_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_EH |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPU_UL_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_UP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPU_DL_V4_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_DWN |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV4;
++		break;
++	case GTPU_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_IP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
++	case GTPC_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
++	case GTPC_TEID_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPC_TEID |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
++	case GTPU_EH_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_EH |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
++	case GTPU_UL_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_UP |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
++	case GTPU_DL_V6_FLOW:
++		hdrs |= IAVF_ADV_RSS_FLOW_SEG_HDR_GTPU_DWN |
++			IAVF_ADV_RSS_FLOW_SEG_HDR_IPV6;
++		break;
+ 	default:
+ 		break;
+ 	}
+@@ -1353,6 +1403,12 @@ iavf_adv_rss_parse_hash_flds(const struct ethtool_rxfh_fields *cmd, bool symm)
+ 		case TCP_V4_FLOW:
+ 		case UDP_V4_FLOW:
+ 		case SCTP_V4_FLOW:
++		case GTPU_V4_FLOW:
++		case GTPC_V4_FLOW:
++		case GTPC_TEID_V4_FLOW:
++		case GTPU_EH_V4_FLOW:
++		case GTPU_UL_V4_FLOW:
++		case GTPU_DL_V4_FLOW:
+ 			if (cmd->data & RXH_IP_SRC)
+ 				hfld |= IAVF_ADV_RSS_HASH_FLD_IPV4_SA;
+ 			if (cmd->data & RXH_IP_DST)
+@@ -1361,6 +1417,12 @@ iavf_adv_rss_parse_hash_flds(const struct ethtool_rxfh_fields *cmd, bool symm)
+ 		case TCP_V6_FLOW:
+ 		case UDP_V6_FLOW:
+ 		case SCTP_V6_FLOW:
++		case GTPU_V6_FLOW:
++		case GTPC_V6_FLOW:
++		case GTPC_TEID_V6_FLOW:
++		case GTPU_EH_V6_FLOW:
++		case GTPU_UL_V6_FLOW:
++		case GTPU_DL_V6_FLOW:
+ 			if (cmd->data & RXH_IP_SRC)
+ 				hfld |= IAVF_ADV_RSS_HASH_FLD_IPV6_SA;
+ 			if (cmd->data & RXH_IP_DST)
+@@ -1382,6 +1444,7 @@ iavf_adv_rss_parse_hash_flds(const struct ethtool_rxfh_fields *cmd, bool symm)
+ 			break;
+ 		case UDP_V4_FLOW:
+ 		case UDP_V6_FLOW:
++		case GTPC_V4_FLOW:
+ 			if (cmd->data & RXH_L4_B_0_1)
+ 				hfld |= IAVF_ADV_RSS_HASH_FLD_UDP_SRC_PORT;
+ 			if (cmd->data & RXH_L4_B_2_3)
+@@ -1398,6 +1461,32 @@ iavf_adv_rss_parse_hash_flds(const struct ethtool_rxfh_fields *cmd, bool symm)
+ 			break;
  		}
  	}
- 	init_unlink("/initrd.image");
--	return false;
++	if (cmd->data & RXH_GTP_TEID) {
++		switch (cmd->flow_type) {
++		case GTPC_TEID_V4_FLOW:
++		case GTPC_TEID_V6_FLOW:
++			hfld |= IAVF_ADV_RSS_HASH_FLD_GTPC_TEID;
++			break;
++		case GTPU_V4_FLOW:
++		case GTPU_V6_FLOW:
++			hfld |= IAVF_ADV_RSS_HASH_FLD_GTPU_IP_TEID;
++			break;
++		case GTPU_EH_V4_FLOW:
++		case GTPU_EH_V6_FLOW:
++			hfld |= IAVF_ADV_RSS_HASH_FLD_GTPU_EH_TEID;
++			break;
++		case GTPU_UL_V4_FLOW:
++		case GTPU_UL_V6_FLOW:
++			hfld |= IAVF_ADV_RSS_HASH_FLD_GTPU_UP_TEID;
++			break;
++		case GTPU_DL_V4_FLOW:
++		case GTPU_DL_V6_FLOW:
++			hfld |= IAVF_ADV_RSS_HASH_FLD_GTPU_DWN_TEID;
++			break;
++		default:
++			break;
++		}
++	}
+ 
+ 	return hfld;
  }
-diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
-index 5311f2d7edc8..0a021bbcd501 100644
---- a/init/do_mounts_rd.c
-+++ b/init/do_mounts_rd.c
-@@ -22,6 +22,7 @@ int __initdata rd_image_start;		/* starting block # of image */
- 
- static int __init ramdisk_start_setup(char *str)
- {
-+	pr_warn("ramdisk_start= option is deprecated and will be removed soon\n");
- 	rd_image_start = simple_strtol(str,NULL,0);
- 	return 1;
- }
-@@ -177,7 +178,7 @@ static unsigned long nr_blocks(struct file *file)
- 	return i_size_read(inode) >> 10;
- }
- 
--int __init rd_load_image(char *from)
-+int __init rd_load_image(void)
- {
- 	int res = 0;
- 	unsigned long rd_blocks, devblocks, nr_disks;
-@@ -191,7 +192,7 @@ int __init rd_load_image(char *from)
- 	if (IS_ERR(out_file))
- 		goto out;
- 
--	in_file = filp_open(from, O_RDONLY, 0);
-+	in_file = filp_open("/initrd.image", O_RDONLY, 0);
- 	if (IS_ERR(in_file))
- 		goto noclose_input;
- 
-@@ -220,10 +221,7 @@ int __init rd_load_image(char *from)
- 	/*
- 	 * OK, time to copy in the data
- 	 */
--	if (strcmp(from, "/initrd.image") == 0)
--		devblocks = nblocks;
--	else
--		devblocks = nr_blocks(in_file);
-+	devblocks = nblocks;
- 
- 	if (devblocks == 0) {
- 		printk(KERN_ERR "RAMDISK: could not determine device size\n");
-@@ -267,13 +265,6 @@ int __init rd_load_image(char *from)
- 	return res;
- }
- 
--int __init rd_load_disk(int n)
--{
--	create_dev("/dev/root", ROOT_DEV);
--	create_dev("/dev/ram", MKDEV(RAMDISK_MAJOR, n));
--	return rd_load_image("/dev/root");
--}
--
- static int exit_code;
- static int decompress_error;
- 
+
 -- 
-2.47.3
+2.51.0.rc1.197.g6d975e95c9d7
 
