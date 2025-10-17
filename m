@@ -1,50 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6898636999C;
-	Fri, 17 Oct 2025 14:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD9732C925
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 14:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760709861; cv=none; b=RirryaYFcAyA5+bnhUCGrxVjd/tO6W/SCcqf3Fz1qrhcwZHKWe7VtZsT0PcVsjIo8pUIcwy12IwSzPR5Lie9E7t9gS5MNvUHS2x1POzEEXJUDxSeGExM/yaZm20aGU21wJnptLSy+uZOBoKnAI5cKdBocglHCsk+DSAQWMQA+rI=
+	t=1760710457; cv=none; b=N4SbXzlO7Bm0obhqy8GxRZfvd3nu5LOuRGAfU+6ydfKC0NSm5bOy9r6nlJ3Cr1mw2lUwtyqHPdw6NmM6bPBSZJNIb8m/qnMhuKJDqHjCyUVdHVkNzG+DZ87K1/64rF2HcZHmy4aDwIX+YJk4/3jZN3uS2wMKcSn6RyxsIbV4t9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760709861; c=relaxed/simple;
-	bh=zImbbLQtHWT5qAjudmbkPv6OvBzWWvNQvNB3Kj7AC9Y=;
+	s=arc-20240116; t=1760710457; c=relaxed/simple;
+	bh=QYQqRTcp8A/geB7A9/E0yxzmXaEU4W1lxA8D4eW1+oA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EXjD0uJMhMwl86iV4z+ETfouOKTWgw3j+y4W9jQqvFslonM7KUndcGlKlNKZgkfV+Br6W2Au33eJy9MsecW46PSf5K+Hm4FpXM6cjuo+vUoJrIp4yYgaSMjt41CBcqJOu8GProF2iMAEo7bhc84+ypME53X445BBrBB0mYNSqGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImgBn9wH; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=LsAhu8hwJEWp36Nm08YNEPPEzIui8wOB3xsbkDmdTD9SMaKMfFtA6XDgRmSmXTQzHcPikmcQSEZNWJ+cjhV2yKLCGPiduVD11uRD8pkM4efm9/68Tdt+/nyJ1ikIjImGamS87/SnhhyIxE8lUa8HaR1nWESKO1KS+dZDfftP9eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Arpm9A9O; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImgBn9wH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760709859; x=1792245859;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=zImbbLQtHWT5qAjudmbkPv6OvBzWWvNQvNB3Kj7AC9Y=;
-  b=ImgBn9wHvX75Mb3Ee2AxrA16hM5Csig0RFnp3Znzq/V+xlXA0M1KC2ED
-   ARZQ3lU6IAtDhb9nNL5UMG29W93QOKCTaLsBldRzQ7+RRCJFlr2MXnRQT
-   kHwgjU87qwEZugHTV04u3agHVYoIf2IRmouuAsZvi7/gyg7st5hLwbZKr
-   H86k0ibRVo+UBeYHTcAii5li55OjEZdl2bt5gUFxBvKn87I8Ni8gqMvM8
-   43/L2HcXcIMHe/ULJpw1ZxtchP4mpv/PYKwj2QqIHYdPelBmEVPt3QLON
-   w5Laaltcwu0AePkcicJhKMbAk3hrAiFd2U0cQ1dzh8/+oDObLd0Y45qm/
-   Q==;
-X-CSE-ConnectionGUID: iDZllMWiQbCUQo9zzrfKvA==
-X-CSE-MsgGUID: gsEAowMgSIi78jF8lLR03A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="85537267"
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="85537267"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 07:04:03 -0700
-X-CSE-ConnectionGUID: BXCfA1OMS9q+V2oQKWT6Iw==
-X-CSE-MsgGUID: n9Tg+uD6ThuCOxKonfJsQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="182441817"
-Received: from spandruv-mobl4.amr.corp.intel.com (HELO [10.125.108.40]) ([10.125.108.40])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 07:04:02 -0700
-Message-ID: <aedb4d0f-8361-4366-9513-b01db6e9c7ae@intel.com>
-Date: Fri, 17 Oct 2025 07:02:36 -0700
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Arpm9A9O"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 2B589C041EB;
+	Fri, 17 Oct 2025 14:13:47 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4CBB6606DB;
+	Fri, 17 Oct 2025 14:14:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6758102F235A;
+	Fri, 17 Oct 2025 16:13:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760710445; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=MuAoz+V2YdChsKDB39UbimB2KEWOPHvxJjC4UXDWnig=;
+	b=Arpm9A9OBvgEKac+NiV1ZGQn15/YYbia7KI4e1jFMpKpOU0TTJdEpbNdI2hnjdUJVhT7yb
+	PvsJv9qGJn5HA4Ehfp7rW7Q1wuse5EcZSRA9e1Lvci6rPhqkJ8kVH14PmNNdhjmGIFZH8n
+	WidX9RUsOVCBymMSMx7+GQgq/OTQPbDIvzhDN+U9xFIwkiE55WOxYmRajK/LiygrEyTRhh
+	5I8n0StC23Z5eQ47cw6OEqmKsZ+0lcxW3pXxbGCHR0EEIT6xtJnskYuVbbERq9CgddhxIu
+	aqnRPdydrgnPjN2mGcPwHOSaDeJQ864Aq0AWwetufhuOmzgViXxiqIsNv/xAWQ==
+Message-ID: <3e268abd-620c-470b-ba3b-222a0c39cac5@bootlin.com>
+Date: Fri, 17 Oct 2025 16:13:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,77 +42,96 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] x86/its: use Sapphire Rapids+ feature to opt out
-To: Jon Kohler <jon@nutanix.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
- <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Brian Gerst <brgerst@gmail.com>, Brendan Jackman <jackmanb@google.com>,
- "Ahmed S. Darwish" <darwi@linutronix.de>,
- Alexandre Chartre <alexandre.chartre@oracle.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20251017011834.2941358-1-jon@nutanix.com>
- <9cf0e05b-00e6-4954-96d5-fafeb6e6397a@intel.com>
- <C2A57B61-8E6A-4236-9F50-B0662C39272D@nutanix.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH net-next v6 1/5] ethtool: introduce core UAPI and driver
+ API for PHY MSE diagnostics
+To: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Kory Maincent <kory.maincent@bootlin.com>, Nishanth Menon <nm@ti.com>
+Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>,
+ Roan van Dijk <roan@protonic.nl>
+References: <20251017104732.3575484-1-o.rempel@pengutronix.de>
+ <20251017104732.3575484-2-o.rempel@pengutronix.de>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <C2A57B61-8E6A-4236-9F50-B0662C39272D@nutanix.com>
+In-Reply-To: <20251017104732.3575484-2-o.rempel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 10/17/25 05:21, Jon Kohler wrote:
-> Using that documentation to improve my approach, how about
-> this instead, where A) we have better code comments and B) we
-> also check eIBRS enablement? 
+Hi Oleksij,
 
-No thanks.
+On 17/10/2025 12:47, Oleksij Rempel wrote:
+> Add the base infrastructure for Mean Square Error (MSE) diagnostics,
+> as proposed by the OPEN Alliance "Advanced diagnostic features for
+> 100BASE-T1 automotive Ethernet PHYs" [1] specification.
+> 
+> The OPEN Alliance spec defines only average MSE and average peak MSE
+> over a fixed number of symbols. However, other PHYs, such as the
+> KSZ9131, additionally expose a worst-peak MSE value latched since the
+> last channel capture. This API accounts for such vendor extensions by
+> adding a distinct capability bit and snapshot field.
+> 
+> Channel-to-pair mapping is normally straightforward, but in some cases
+> (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
+> If hardware does not expose MDI-X status, the exact pair cannot be
+> determined. To avoid returning misleading per-channel data in this case,
+> a LINK selector is defined for aggregate MSE measurements.
+> 
+> All investigated devices differ in MSE capabilities, such
+> as sample rate, number of analyzed symbols, and scaling factors.
+> For example, the KSZ9131 uses different scaling for MSE and pMSE.
+> To make this visible to userspace, scale limits and timing information
+> are returned via get_mse_capability().
+> 
+> Some PHYs sample very few symbols at high frequency (e.g. 2 us update
+> rate). To cover such cases and allow for future high-speed PHYs with
+> even shorter intervals, the refresh rate is reported as u64 in
+> picoseconds.
+> 
+> This patch defines new UAPI enums for MSE capability flags and channel
+> selectors in ethtool_netlink (generated from YAML), kernel-side
+> `struct phy_mse_capability` and `struct phy_mse_snapshot`, and new
+> phy_driver ops:
+> 
+>   - get_mse_capability(): report supported capabilities, scaling, and
+>     sampling parameters for the current link mode
+>   - get_mse_snapshot(): retrieve a correlated set of MSE values from
+>     the latest measurement window
+> 
+> These definitions form the core API; no driver implements them yet.
+> 
+> Standardization notes:
+> OPEN Alliance defines presence and interpretation of some metrics but does
+> not fix numeric scales or sampling internals:
+> 
+> - SQI (3-bit, 0..7) is mandatory; correlation to SNR/BER is informative
+>   (OA 100BASE-T1 v1.0 6.1.2; OA 1000BASE-T1 v2.2 6.1.2).
+> - MSE is optional; OA recommends 2^16 symbols and scaling to 0..511,
+>   with a worst-case latch since last read (OA 100BASE-T1 v1.0 6.1.1; OA
+>   1000BASE-T1 v2.2 6.1.1). Refresh is recommended (~0.8-2.0 ms for
+>   100BASE-T1; ~80-200 us for 1000BASE-T1). Exact scaling/time windows
+>   are vendor-specific.
+> - Peak MSE (pMSE) is defined only for 100BASE-T1 as optional, e.g.
+>   128-symbol sliding window with 8-bit range and worst-case latch (OA
+>   100BASE-T1 v1.0 6.1.3).
+> 
+> Therefore this UAPI exposes which measures and selectors a PHY supports,
+> and documents where behavior is standard-referenced vs vendor-specific.
+> 
+> [1] <https://opensig.org/wp-content/uploads/2024/01/
+>      Advanced_PHY_features_for_automotive_Ethernet_V1.0.pdf>
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Sounds like you are doing the right thing and fixing the hypervisor
-that's not exposing thing that it should.
+This looks good to me,
+
+Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+
+Maxime
+
