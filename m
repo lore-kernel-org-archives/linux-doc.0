@@ -1,87 +1,233 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5333F8DB;
-	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F26C2566DD
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 20:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760731723; cv=none; b=N4MSwcbUwpnJN1R99uvQFLG3BCk1VakO1Jt8mWgQkLnb+An0C8FoyQSg2cv62vnCVXSmwuXSaxE0oS+/CC4PqJsiimQqqZIFOR6wE2aft8Hm067CLy7dIPiCD1mtisu/JfVnRR3WaFekUhlfXhAkfNgl+En1jZMTO3Jg/Q87xdI=
+	t=1760731951; cv=none; b=VxJqpGMIVrWJ+0y0loHYV1rOiF65ZFu7Dlx6+kg/oRwzQ4NvpI1x0cG7TKMHzmDVQcq5kx2vARpHabjXH6rpCt4kBfmihdD14ZO9+kyb4DnxAKURNGO8XwcWVJA1XDzGuX6cO9+H/BPULwSnsJzEU+8PU3i4ARR2bzcd6Nas2Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760731723; c=relaxed/simple;
-	bh=mqgzHYNbed1bkvPNFELxeM/6jxkFoNeu/evIeYHFfEQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=p3aJJJNnQz1mb2Rbyv83AYW3O9enXnxgC8+L6c/ommGk8n2n4ITe/pRADcIY+imIXUi3egzEVK8euMbrMYWOzQFOmIG0J20vtjEwA6cNoUJIm0dvR7fve1rcGcjUrY5CoEEHTkDJCHHLhshO0KjBZNy6PkucCNKB5nwwj6yDtiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IOhdQb09; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1760731951; c=relaxed/simple;
+	bh=siWpafnUKoLg4oB+hPXsnce7fcIsRgiCopc1fvAbvC8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=WmdoaPtBFlwVYnxHjxikIgDmZm+iZzzp2kb7YKZL+TldT7sF89/y0nO5FTmgmRHQ5OfqtzwtfLIwPBbcELH1szGVg1s7T2X6KAu39DVpTrqbs9PPFs+aNlRc32hrPIBX6UBP+lNvEilU9Z5MF+ZZe+hFWe2Gtjrplx4agBPJ+l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3iktQPFY; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IOhdQb09"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1110540B1D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760731720; bh=Eu7Efolufq4MnZu/dPzVcX1UsuGoN4glZCYwWOMEPq4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IOhdQb09ZMx5KbybaUxCQ2hP7BAEGCwCDQs4Nlf7Z/TeHcdHwOJ28utrF9t54R5om
-	 ieg64H+PosVgN9OboSecRbnM31lS+Eot3uCUtlIN3iCDuJ3RsD4ZZybM03hj/JlQv7
-	 ujc3PXisIY79RXe54ZKdWsfyL0XF5qTOmee/eOWzS1e+ny5DO1lYwPbzdrTwpPJpXx
-	 m3os40pZSUqtWTWIA49En59TgBlTLSTuFDaySC+fLmheNjAVcjoNEezB56Vp7ChaT1
-	 Xq0gZRc24AEsWltCwzjS292+W38vCFBWAs9LGq3rcTbtQnhPxM67E3SjQ0iCzaadE1
-	 2eGDPXgJ9obbA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1110540B1D;
-	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/23] Fix media uAPI cross references
-In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
-References: <cover.1759329363.git.mchehab+huawei@kernel.org>
-Date: Fri, 17 Oct 2025 14:08:39 -0600
-Message-ID: <87h5vx1ebc.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3iktQPFY"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-33bba464b08so1791529a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 13:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760731949; x=1761336749; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MvNEuSw58UwdjUzqQehycSdzJ+PYeq3LWgjQi3Vxd7A=;
+        b=3iktQPFYRvpQB02J7IsxLgzetTDdC4IfsafK0tnpmojWN4z09ctQkKghFpdWLCFEZm
+         jwC8QIhkztQq9jTLx1dkDq+IQT4V0op7FiD6qw7vCwD/7C1WKcz5IIypiEtddQMUyrry
+         XT9Ic+sHfM+RT/2/qh6eEjRlTC6/XsPgHFaRh4cdJZZrnSPFloueN6Cg8chErztytpg9
+         fKHZ+ZQSMsK5w1P5t9FYGo2VsfQJLynOwKlZz3tDsA8qESr56A0ipqPPoT8Tq3/Kwzs3
+         r5tfgMICeBBfB+/gqKoV8VlM7hm6SU/RxqBsL9a+JCrDF0Hf1k+/q//Rzli2xEn2jrco
+         pklA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760731949; x=1761336749;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MvNEuSw58UwdjUzqQehycSdzJ+PYeq3LWgjQi3Vxd7A=;
+        b=OIarA3QahzrQJrLg8GPp77zuTzy9K9GmoLeSvxC9axIdsZZifhvhfRmSklSiXTl7Gb
+         u+mhxQ/SZzii7eMndhWD35eGXeiU8ewPdQpNDTKrUyhhKe4RmKI0eqEIRpkcHa75Hn4i
+         spDszdf7eXzJ/xwKqNv0iuAk3Km9BJBhGR8qNRZHh+E10R1myrcIEoredJ5suqiRYa2i
+         NroNbY+EenpRfQU6rZMsa2/jwOWMzo92OfBRtg0A1vZXMSbr4rH16Hc7pDfrMJUSqxel
+         O7hGwYmLHa0wPMpAhhTiJe7LnNCVJBFAbYCZcyCPC7Yo36UU7zroITd3iOHnW+xS8Ohz
+         qVRw==
+X-Forwarded-Encrypted: i=1; AJvYcCWRsCBw2jhNvCSJbexlsVCkTYGcX0NJJxURMrFLa9xxFh3kWIRCXs7XMhCnGAuZ+MvwCLAQS5fH6do=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPD6V30ZWiKmqQidXB3kgicpKwnbUoy8oyzziRmHKk7e6WuNXl
+	7UJ21LKguEulQX2z0mmlYZzsgCQ5aB2XO5tUtsd6tuetMMlWhlu9Vkk6SGgl8CzPLGAW9TlXeBV
+	eXPC2dRjKXCNqy8kIldrUxxjOJQ==
+X-Google-Smtp-Source: AGHT+IGm0uDnlmmvVqLxeQbS/GkNVcVJ1vJxluasBXbGw+YdYIXcsi2a/48HhtEUh6v1e/OBtWieEkqS8C8YBg1I5A==
+X-Received: from pjbpm17.prod.google.com ([2002:a17:90b:3c51:b0:33b:b692:47b0])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:4c4e:b0:32e:6019:5d19 with SMTP id 98e67ed59e1d1-33bcf921526mr5690604a91.34.1760731948481;
+ Fri, 17 Oct 2025 13:12:28 -0700 (PDT)
+Date: Fri, 17 Oct 2025 13:11:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.858.gf9c4a03a3a-goog
+Message-ID: <cover.1760731772.git.ackerleytng@google.com>
+Subject: [RFC PATCH v1 00/37] guest_memfd: In-place conversion support
+From: Ackerley Tng <ackerleytng@google.com>
+To: cgroups@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org
+Cc: ackerleytng@google.com, akpm@linux-foundation.org, 
+	binbin.wu@linux.intel.com, bp@alien8.de, brauner@kernel.org, 
+	chao.p.peng@intel.com, chenhuacai@kernel.org, corbet@lwn.net, 
+	dave.hansen@intel.com, dave.hansen@linux.intel.com, david@redhat.com, 
+	dmatlack@google.com, erdemaktas@google.com, fan.du@intel.com, fvdl@google.com, 
+	haibo1.xu@intel.com, hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com, 
+	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com, jack@suse.cz, 
+	james.morse@arm.com, jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, 
+	jhubbard@nvidia.com, jroedel@suse.de, jthoughton@google.com, 
+	jun.miao@intel.com, kai.huang@intel.com, keirf@google.com, 
+	kent.overstreet@linux.dev, liam.merwick@oracle.com, 
+	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
+	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, seanjc@google.com, 
+	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com, 
+	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com, 
+	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com, 
+	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com, 
+	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
+	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
+	yuzenghui@huawei.com, zhiquan1.li@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hello,
 
-> In the past, media used Docbook to generate documentation, together
-> with some logic to ensure that cross-references would match the
-> actual defined uAPI.
->
-> The rationale is that we wanted to automatically check for uAPI
-> documentation gaps.
->
-> The same logic was migrated to Sphinx. Back then, broken links
-> were reported. However, recent versions of it and/or changes at
-> conf.py disabled such checks.
->
-> The result is that several symbols are now not cross-referenced,
-> and we don't get warnings anymore when something breaks.
->
-> This series consist on 2 parts:
->
-> Part 1: extra patches to parse_data_structs.py and kernel_include.py;
-> Part 2: media documentation fixes.
->
-> I'm not sure what's the best strategy to merge it, as some patches
-> belong to doc while others are media. So, they can be merged on
-> either one of the tree, or split on two series and merged in
-> separate or even being merged via a PR applied on both trees.
->
-> IMO, the latter is the better strategy.
+IIUC this is the first independent patch series for guest_memfd's in-place
+conversion series! Happy to finally bring this out on its own.
 
-OK, this series has been applied to -rc1 and is available in my
-media-uapi branch.  I've also merged it into docs-next.
+Previous versions of this feature, part of other series, are available at
+[1][2][3].
 
-Thanks,
+Many prior discussions have led up to these main features of this series, and
+these are the main points I'd like feedback on.
 
-jon
+1. Having private/shared status stored in a maple tree (Thanks Michael for your
+   support of using maple trees over xarrays for performance! [4]).
+2. Having a new guest_memfd ioctl (not a vm ioctl) that performs conversions.
+3. Using ioctls/structs/input attribute similar to the existing vm ioctl
+   KVM_SET_MEMORY_ATTRIBUTES to perform conversions.
+4. Storing requested attributes directly in the maple tree.
+5. Using a KVM module-wide param to toggle between setting memory attributes via
+   vm and guest_memfd ioctls (making them mututally exclusive - a single loaded
+   KVM module can only do one of the two.)
+6. Skipping LRU in guest_memfd folios - make guest_memfd folios not participate
+   in LRU to avoid LRU refcounts from interfering with conversions.
+
+This series is based on kvm/next, followed by
+
++ v12 of NUMA mempolicy support patches [5]
++ 3 cleanup patches from Sean [6][7][8]
+
+Everything is stitched together here for your convenience
+
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v1
+
+Thank you all for helping with this series!
+
+If I missed out your comment from a previous series, it's not intentional!
+Please do raise it again.
+
+TODOs:
+
++ There might be an issue with memory failure handling because when guest_memfd
+  folios stop participating in LRU. From a preliminary analysis,
+  HWPoisonHandlable() is only true if PageLRU() is true. This needs further
+  investigation.
+
+[1] https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
+[2] https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
+[3] https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
+[4] https://lore.kernel.org/all/20250529054227.hh2f4jmyqf6igd3i@amd.com/
+[5] https://lore.kernel.org/all/20251007221420.344669-1-seanjc@google.com/T/
+[6] https://lore.kernel.org/all/20250924174255.2141847-1-seanjc@google.com/
+[7] https://lore.kernel.org/all/20251007224515.374516-1-seanjc@google.com/
+[8] https://lore.kernel.org/all/20251007223625.369939-1-seanjc@google.com/
+
+Ackerley Tng (19):
+  KVM: guest_memfd: Update kvm_gmem_populate() to use gmem attributes
+  KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+  KVM: guest_memfd: Don't set FGP_ACCESSED when getting folios
+  KVM: guest_memfd: Skip LRU for guest_memfd folios
+  KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES
+  KVM: selftests: Update framework to use KVM_SET_MEMORY_ATTRIBUTES2
+  KVM: selftests: guest_memfd: Test basic single-page conversion flow
+  KVM: selftests: guest_memfd: Test conversion flow when INIT_SHARED
+  KVM: selftests: guest_memfd: Test indexing in guest_memfd
+  KVM: selftests: guest_memfd: Test conversion before allocation
+  KVM: selftests: guest_memfd: Convert with allocated folios in
+    different layouts
+  KVM: selftests: guest_memfd: Test precision of conversion
+  KVM: selftests: guest_memfd: Test that truncation does not change
+    shared/private status
+  KVM: selftests: guest_memfd: Test conversion with elevated page
+    refcount
+  KVM: selftests: Reset shared memory after hole-punching
+  KVM: selftests: Provide function to look up guest_memfd details from
+    gpa
+  KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
+  KVM: selftests: Update private_mem_conversions_test to mmap()
+    guest_memfd
+  KVM: selftests: Add script to exercise private_mem_conversions_test
+
+Sean Christopherson (18):
+  KVM: guest_memfd: Introduce per-gmem attributes, use to guard user
+    mappings
+  KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+  KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem
+    is defined
+  KVM: Stub in ability to disable per-VM memory attribute tracking
+  KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem
+    attributes
+  KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
+  KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
+  KVM: Let userspace disable per-VM mem attributes, enable per-gmem
+    attributes
+  KVM: selftests: Create gmem fd before "regular" fd when adding memslot
+  KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
+  KVM: selftests: Add support for mmap() on guest_memfd in core library
+  KVM: selftests: Add helpers for calling ioctls on guest_memfd
+  KVM: selftests: guest_memfd: Test that shared/private status is
+    consistent across processes
+  KVM: selftests: Add selftests global for guest memory attributes
+    capability
+  KVM: selftests: Provide common function to set memory attributes
+  KVM: selftests: Check fd/flags provided to mmap() when setting up
+    memslot
+  KVM: selftests: Update pre-fault test to work with per-guest_memfd
+    attributes
+  KVM: selftests: Update private memory exits test work with per-gmem
+    attributes
+
+ Documentation/virt/kvm/api.rst                |  72 ++-
+ arch/x86/include/asm/kvm_host.h               |   2 +-
+ arch/x86/kvm/Kconfig                          |  15 +-
+ arch/x86/kvm/mmu/mmu.c                        |   4 +-
+ arch/x86/kvm/x86.c                            |  13 +-
+ include/linux/kvm_host.h                      |  44 +-
+ include/trace/events/kvm.h                    |   4 +-
+ include/uapi/linux/kvm.h                      |  17 +
+ mm/filemap.c                                  |   1 +
+ mm/memcontrol.c                               |   2 +
+ tools/testing/selftests/kvm/.gitignore        |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../kvm/guest_memfd_conversions_test.c        | 498 ++++++++++++++++++
+ .../testing/selftests/kvm/include/kvm_util.h  | 127 ++++-
+ .../testing/selftests/kvm/include/test_util.h |  29 +-
+ tools/testing/selftests/kvm/lib/kvm_util.c    | 128 +++--
+ tools/testing/selftests/kvm/lib/test_util.c   |   7 -
+ .../selftests/kvm/pre_fault_memory_test.c     |   2 +-
+ .../kvm/x86/private_mem_conversions_test.c    |  55 +-
+ .../kvm/x86/private_mem_conversions_test.py   | 159 ++++++
+ .../kvm/x86/private_mem_kvm_exits_test.c      |  36 +-
+ virt/kvm/Kconfig                              |   4 +-
+ virt/kvm/guest_memfd.c                        | 414 +++++++++++++--
+ virt/kvm/kvm_main.c                           | 104 +++-
+ 24 files changed, 1554 insertions(+), 185 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/guest_memfd_conversions_test.c
+ create mode 100755 tools/testing/selftests/kvm/x86/private_mem_conversions_test.py
+
+--
+2.51.0.858.gf9c4a03a3a-goog
