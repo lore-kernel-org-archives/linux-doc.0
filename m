@@ -1,79 +1,82 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A0032C94A
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 15:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574CB32E13A
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 15:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760713318; cv=none; b=Es7xJlRkaH/hqiyMF8+9b0Osi+DzUNjzVBeL+XgpHH2cARzywkZ/txAFk5cOGQx3RxNeBmD3LxanxSRFSr+k3sG3WS0fmhp1lBPJ/nkEgFwyja/wr+aXzZ5HJnM05hzS8BPdd68fbA2sp/IWHjIewj96JcSP83NcA7aUKeARMtg=
+	t=1760713394; cv=none; b=W7xJyZzHu46d0PVOpXgLGm4g4az1NuSIGS0Gn35Z66BHySDMbLLy7Al4NMz6Wn92+6i/p1XwmwttCPt79S0y1ZXuC9G7g7g1XomyrojqDabsWp6E+FTMs4rCx7eKUtmVxl/oL4hIk2B2GbLrk8595msI7FJUbQE3Kt56093DWDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760713318; c=relaxed/simple;
-	bh=+xrczsUuKYuB1espPCeVqCRItUgne3A1DqEB9Uh+O2M=;
+	s=arc-20240116; t=1760713394; c=relaxed/simple;
+	bh=DepML/g+us2sXe9XTL0BD4vVQGz+k9RHd20BL/60JyQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=F4kyKkFf7Er86TT2u8Pi+pHmxQqE6DHEHbFkUVBFFsGUkKD7muz5DF+oH+h0BIvMnQiLHZ1kn0m1PwksXUaOPu6V+GZFdH9w19eL+aVyn6CObYjOFjYSmYs3bJnaRrj3JrP3qdTRjyKSlyMnLw6V9zL1Fck/shiiN5z2L9r8bwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWvxfbtm; arc=none smtp.client-ip=209.85.128.42
+	 Content-Type:MIME-Version; b=CPcEJ3LhS+oBT0FW4ZIYalXDDO38FWy53oZ0DZgq6j2QS+6QlZDway5mXfCYBKpjNzCg4R/XwaUqNu6+QO+ku0gIYkPogoXO/pgVSDbClvFIiB9IVB+uBPEsw/ELmZcfzpJHFQV9aqjWGaXsMuob5JXyKH3TS8h0ul4L1x8Bd10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SwJzMIJV; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWvxfbtm"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e6a689bd0so19587685e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 08:01:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SwJzMIJV"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e3a50bc0fso15683255e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 08:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760713313; x=1761318113; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760713391; x=1761318191; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=kVxsWgSHrz2oyX3c7E12BLJmLZ3gHeLAN/+wo/mUNOw=;
-        b=MWvxfbtmPdvvbVd6H8xKJ/AvJWy3ieZmoNR/qZ2cRvgqTvwfYHKpikW+0mYmozZ5bQ
-         Q3P0GBgWwWE8ERRc4iyUlRcaMWGfx2gDHjfP0LsMdIIC7CULICcCDJjRlBe7YJLdzcb9
-         CWLisyMUYKcxpiFPf46EES8SxoH445wyMaiA4bm5lKkHpos6L77fALx2mFj1rPBJlB9y
-         Ig7rUJMI8y+iLYovgb6XoTBgIjDCY2ReKx0txmrp2f1Ez59Yu7MbliLkifE6JVoFxAxv
-         C864GVGbtSSjs/IZQKC/tdc9UlEF6mA7Gy6mH2AoXa6rCdjnUgn4JhWZijeococYontf
-         bEeg==
+        bh=DepML/g+us2sXe9XTL0BD4vVQGz+k9RHd20BL/60JyQ=;
+        b=SwJzMIJVJNWXP2Nw28DNaPYoN+kr+z75YehipFT0qO0fWm6VyAUlfLY+kZKxcYZgmp
+         sMQLw6cPqWLLtN2XcWTH5EFMpGGUkb4yTIRmS2SVjDS4iwZecZzkHdLjW+V9a2NUBgYa
+         hkFmkUIPfDOmrL7poci3rdrqoJs9VjY0s19cvNcGA3DnSSx0/LqrBujveHhx/xfCZnsh
+         RXi5mSUcoSsH94iQMMdWtIcbTodbeYPbIjxZtaZLZSLbR+gku8jcd0s0fN7B1CCUc2xn
+         j7X+oE5JENi1kOD3J6wRMOWgQMUpo26n0VZ7iRSZb0vac+z8aBsSHGc/q84bsbZ0OSet
+         NGrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760713313; x=1761318113;
+        d=1e100.net; s=20230601; t=1760713391; x=1761318191;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kVxsWgSHrz2oyX3c7E12BLJmLZ3gHeLAN/+wo/mUNOw=;
-        b=k323ewkF5NnpGKqeK/r6jZBuiiDitom67T0dAdLYAVK2QgoA9+joHfENYuSAHmqaD8
-         W+wzoWKeIAcBBuTXamWVNMYovNFoD7QaUBhIJS0cyYTbdINz9pQsSOI31lLQDkJDCuVO
-         NKj4BvJtmhu8AoFCR4qyXNbsf+Vgq4btFau/ciNQII10ioV7xBVT76/bdIaHQVDOb8/F
-         FgNZuP8VibI7RORsSG/Ingo+WQXxqCFiN1HAnBfUaafZzesPcjLUdUbx4Np6gsp1JgdY
-         Or+4xZ8ifMzFKk4pq9pXgWRd6H50Sw8nhvPFI/lhIb1WcBhLPCiJfQ4dwPRxNjSe8XUH
-         HTjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUl+mDcTA/D5MnIhjp1adxGe2enhs7diBw0Q9fcja5ojOcZdGNjPq5GIf2mBY2BBl0gAXLq2Avl6o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMhsqlRnYtbVB6tF3dq4uhBpu24b7qn5VXuTaWA8CRAeluXh+g
-	WNMOhRI9R/UQgvhuDIm2xqbLWUa/0uGJNOd4rdidz1o+gehvlWnZDV8i
-X-Gm-Gg: ASbGncs8ymYInR1mtJPL61Y5vmUYM13dvT6fexGXw9DSr227vj1br0xQmEUAiEBldqx
-	oZLPXDVI8g3DCTdxbLc50WLQpiqrxqlF8hfsSVCaYwEdtmaL3eveVHwKZXGifL+uqqQOfOf8OQJ
-	93NXSr9LNpA12tzTCSiecXGnD+w/EpCnM0T1DG5sT6FDJt/Z6D/H89a8NBrC6zBQflSvoiy/bCu
-	Ms2fUYqv2Job7xl/R9GXk51NZ8WQqamruXcLeCS65T7MLIELT5iTSMoRQFm4igDyFAL9KufAAFW
-	B5YmgkqhxZTzwoXyJyA4AE9ovuNYQBvYXKCcCfoIo4CfnopulrvRaC0TZ593dwduN+FTZtda5jQ
-	gpiPOUYqgt8EYiYwlLafzi7xuhRVqighYg2XRNM5g0lMTpkDe3xUv5XOX/FD69MykGfnEM8w9yF
-	Y86tcfVkhQXXdOm0K+sG0=
-X-Google-Smtp-Source: AGHT+IFKXFQd8yXkVDBCZ/mYOBoCZz26SV1cuRznvpqDSwoEzQXZgRlwQyeEdrEnMqY79Pnm7nrISA==
-X-Received: by 2002:a05:600c:681b:b0:45f:2ed1:d1c5 with SMTP id 5b1f17b1804b1-47117925e39mr34862695e9.36.1760713312831;
-        Fri, 17 Oct 2025 08:01:52 -0700 (PDT)
+        bh=DepML/g+us2sXe9XTL0BD4vVQGz+k9RHd20BL/60JyQ=;
+        b=xGiXKs4DJUoqQeuFiQluBa9i0IZx58SuxqCL7N2TCNI7Lv1MEyBOxMLt6HhZohKCdp
+         ocKbbBiycpjk2B02xBq8cuKfoT9kgjM5+5O6fXxGeRXhnQNBJmVCRSQ8AUF7Ug+NaCCX
+         8olnqQ4Qw8CcOpnuu85JP8f3df1MToXGOuGZErnU47Rlu9n2zVM0VK/BZ4agtMYtjLfM
+         58jasQWgcmLU5U6PugY8XTX36Zu+MAveyq06JsRP/FHZePdtDgpXA9DW8HeCVTtBQdQD
+         ktk+SOWCFmjXOy5RRiWqKU6iyyoioWJvyCu1Rhpy6QErFjG5sJdU5u3lJNEqrCniwucN
+         p0Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNy211nwPYIZH8inhDjSzc15d8cqGodlAz82CXMdnyZskWucIAQTDVbP4tpQ3GFvTgF2sVpKRW9o8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywg6szynf/w+W7OdepoRWWWajf1MBDatYYwaq2wYj88ZpVkldKD
+	84Ja/SjomK5gelMM3P8NmlMX9S49Wyv0b1tNzQVOWFX0agffb3o6UXjd0zvSLe0c
+X-Gm-Gg: ASbGnctOqpbQ/1bFMwWfJLW8vNB4kwufyK7ro/ISSeHWTvsqtdeOleQABsjoMhjHmUM
+	ySG3IFCThMD3pk+G21C+TeOHi7S4PYBHxPyy7LcORpX1NlnFrlE1xnvJ12ij5QD6RO8KuqW8v6F
+	cOV8oL9lCipzAYfBtgdgdf99xdI8R0uDH/0X8HvRz0m1WGCbNMIt+jMfBFz71glp5c5/E8Eagje
+	oqy19AxVkwlW6ZqL1cwy4/at3zk0fng/j0V7DOkMfC/enpxu6kbsPyZkvzjHBrDSl6UCp8p11En
+	LDaUSVXfxVoJ03U57y1o9ugg3Bsf1WJjndN+c9YSzrs1aY6CmpTRLmLcwWt4D0fPrrrQdr3JF/q
+	TNCgh5k5GXyI0GBPpeVt6sTKRY1w4LM5t0ClCyCQlVTzKRXyr+YwnG7OwlKLbx1WIJR260XRMoy
+	iPYWn0XYWg
+X-Google-Smtp-Source: AGHT+IFV+Ku+oz8pC4XsMoHhutoyVvOyd/uH27Kd+20XJX5VgjNw5pkgK986EJBySxY2sA+BVs8iUA==
+X-Received: by 2002:a05:600c:8b30:b0:45d:f88f:9304 with SMTP id 5b1f17b1804b1-4711791cbcbmr30598905e9.30.1760713390600;
+        Fri, 17 Oct 2025 08:03:10 -0700 (PDT)
 Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144516fasm94167575e9.16.2025.10.17.08.01.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426f2f72e18sm19966547f8f.0.2025.10.17.08.03.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 08:01:52 -0700 (PDT)
-Message-ID: <5e3a1d31f3cec340650e2e63db79903b78ab9a1f.camel@gmail.com>
+        Fri, 17 Oct 2025 08:03:10 -0700 (PDT)
+Message-ID: <d56b48901843a7a3f7e6543e46eadb3901f58bfe.camel@gmail.com>
 Subject: Re: [PATCH v5 5/7] iio: adc: ad4030: Add SPI offload support
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>, David Lechner
+	 <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
  	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com, 
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
- robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	marcelo.schmitt1@gmail.com, Trevor Gamblin <tgamblin@baylibre.com>, Axel
- Haslam	 <ahaslam@baylibre.com>
-Date: Fri, 17 Oct 2025 16:02:24 +0100
-In-Reply-To: <c12569f251962ad6034395e53cd6d998ce78a63f.1760479760.git.marcelo.schmitt@analog.com>
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+ michael.hennerich@analog.com, 	nuno.sa@analog.com, eblanc@baylibre.com,
+ andy@kernel.org, robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org,
+ corbet@lwn.net, Trevor Gamblin	 <tgamblin@baylibre.com>, Axel Haslam
+ <ahaslam@baylibre.com>
+Date: Fri, 17 Oct 2025 16:03:42 +0100
+In-Reply-To: <aPIqCrvaPQZg7Lo8@debian-BULLSEYE-live-builder-AMD64>
 References: <cover.1760479760.git.marcelo.schmitt@analog.com>
 	 <c12569f251962ad6034395e53cd6d998ce78a63f.1760479760.git.marcelo.schmitt@analog.com>
+	 <e677f27a-787a-433c-8516-99ff1d33f2c6@baylibre.com>
+	 <aPIqCrvaPQZg7Lo8@debian-BULLSEYE-live-builder-AMD64>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.1 
@@ -84,343 +87,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Tue, 2025-10-14 at 19:22 -0300, Marcelo Schmitt wrote:
-> AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> samples per second (MSPS). Not all SPI controllers are able to achieve su=
-ch
-> high throughputs and even when the controller is fast enough to run
-> transfers at the required speed, it may be costly to the CPU to handle
-> transfer data at such high sample rates. Add SPI offload support for AD40=
-30
-> and similar ADCs to enable data capture at maximum sample rates.
->=20
-> Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
+On Fri, 2025-10-17 at 08:35 -0300, Marcelo Schmitt wrote:
+> On 10/16, David Lechner wrote:
+> > On 10/14/25 5:22 PM, Marcelo Schmitt wrote:
+> > > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
+> > > samples per second (MSPS). Not all SPI controllers are able to achiev=
+e
+> > > such
+> > > high throughputs and even when the controller is fast enough to run
+> > > transfers at the required speed, it may be costly to the CPU to handl=
+e
+> > > transfer data at such high sample rates. Add SPI offload support for
+> > > AD4030
+> > > and similar ADCs to enable data capture at maximum sample rates.
+> > >=20
+> > > Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
+> > > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> > > Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
+> > > Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
+> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > ---
+> > > Change log v4 -> v5
+> > > - Made Kconfig entry depend on PWM and select other features.
+> > > - Reused ad4030_exit_config_mode() in ad4030_offload_buffer_postenabl=
+e().
+> > > - Dropped common-mode voltage support on SPI offload setup.
+> >=20
+> > Curious why you chose this. I guess it will be fine to add it later
+> > if anyone ever actually needs it.
+> >=20
+> I had coded that in a way I think would work for the dual channel devices=
+, but
+> it didn't really work for single-channel adaq4216. And yes, if anyone ask=
+s
+> for offload with common-mode data, we shall probably be able to it that l=
+ater.
 
-Hi Marcelo,
-
-> Change log v4 -> v5
-> - Made Kconfig entry depend on PWM and select other features.
-> - Reused ad4030_exit_config_mode() in ad4030_offload_buffer_postenable().
-> - Dropped common-mode voltage support on SPI offload setup.
-> - Adjusted offload trigger period calculation.
-> - No longer setting data frame mode from ad4030_set_avg_frame_len().
-> - Rearranged code to reduce patch diff.
->=20
-> =C2=A0drivers/iio/adc/Kconfig=C2=A0 |=C2=A0=C2=A0 5 +
-> =C2=A0drivers/iio/adc/ad4030.c | 425 ++++++++++++++++++++++++++++++++++++=
-+--
-> =C2=A02 files changed, 416 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index b0580fcefef5..f76df0609b3d 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -60,9 +60,14 @@ config AD4030
-> =C2=A0	tristate "Analog Devices AD4030 ADC Driver"
-> =C2=A0	depends on SPI
-> =C2=A0	depends on GPIOLIB
-> +	depends on PWM
-> =C2=A0	select REGMAP
-> =C2=A0	select IIO_BUFFER
-> +	select IIO_BUFFER_DMA
-> +	select IIO_BUFFER_DMAENGINE
-> =C2=A0	select IIO_TRIGGERED_BUFFER
-> +	select SPI_OFFLOAD
-> +	select SPI_OFFLOAD_TRIGGER_PWM
-> =C2=A0	help
-> =C2=A0	=C2=A0 Say yes here to build support for Analog Devices AD4030 and=
- AD4630
-> high speed
-> =C2=A0	=C2=A0 SPI analog to digital converters (ADC).
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index b2847fd90271..3df0b593c808 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-> @@ -14,15 +14,25 @@
-> =C2=A0 */
-> =C2=A0
-> =C2=A0#include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
-> =C2=A0#include <linux/clk.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/iio/buffer-dmaengine.h>
-> =C2=A0#include <linux/iio/iio.h>
-> =C2=A0#include <linux/iio/trigger_consumer.h>
-> =C2=A0#include <linux/iio/triggered_buffer.h>
-> +#include <linux/limits.h>
-> +#include <linux/log2.h>
-> +#include <linux/math64.h>
-> +#include <linux/minmax.h>
-> +#include <linux/pwm.h>
-> =C2=A0#include <linux/regmap.h>
-> =C2=A0#include <linux/regulator/consumer.h>
-> +#include <linux/spi/offload/consumer.h>
-> =C2=A0#include <linux/spi/spi.h>
-> =C2=A0#include <linux/unaligned.h>
-> =C2=A0#include <linux/units.h>
-> +#include <linux/types.h>
-
-...
-
->=20
-> +
-> +static int ad4030_set_sampling_freq(struct iio_dev *indio_dev, int freq_=
-hz)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +
-> +	/*
-> +	 * We have no control over the sampling frequency without SPI offload
-> +	 * triggering.
-> +	 */
-> +	if (!st->offload_trigger)
-> +		return -ENODEV;
->=20
-
-Isn't the frequency control only available for offload channels? If I'm not
-missing nothing the trigger isn't optional either so I would say the above
-should never happen.
-
-> +	if (!in_range(freq_hz, 1, st->chip->max_sample_rate_hz))
-> +		return -EINVAL;
-> +
-> +	return ad4030_update_conversion_rate(st, freq_hz, st->avg_log2);
-> +}
-> +
-> =C2=A0static int ad4030_set_chan_calibscale(struct iio_dev *indio_dev,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_chan_spec const *chan=
-,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int gain_int,
-> @@ -512,11 +643,30 @@ static int ad4030_set_avg_frame_len(struct iio_dev =
-*dev,
-> int avg_val)
-> =C2=A0	struct ad4030_state *st =3D iio_priv(dev);
-> =C2=A0	unsigned int avg_log2 =3D ilog2(avg_val);
-> =C2=A0	unsigned int last_avg_idx =3D ARRAY_SIZE(ad4030_average_modes) - 1=
-;
-> +	int freq_hz;
-> =C2=A0	int ret;
-> =C2=A0
-> =C2=A0	if (avg_val < 0 || avg_val > ad4030_average_modes[last_avg_idx])
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> +	if (st->offload_trigger) {
-> +		/*
-> +		 * The sample averaging and sampling frequency configurations
-> +		 * are mutually dependent one from another. That's because
-> the
-> +		 * effective data sample rate is fCNV / 2^N, where N is the
-> +		 * number of samples being averaged.
-> +		 *
-> +		 * When SPI offload is supported and we have control over the
-> +		 * sample rate, the conversion start signal (CNV) and the SPI
-> +		 * offload trigger frequencies must be re-evaluated so data
-> is
-> +		 * fetched only after 'avg_val' conversions.
-> +		 */
-> +		ad4030_get_sampling_freq(st, &freq_hz);
-> +		ret =3D ad4030_update_conversion_rate(st, freq_hz, avg_log2);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> =C2=A0	ret =3D regmap_write(st->regmap, AD4030_REG_AVG,
-> =C2=A0			=C2=A0=C2=A0 AD4030_REG_AVG_MASK_AVG_SYNC |
-> =C2=A0			=C2=A0=C2=A0 FIELD_PREP(AD4030_REG_AVG_MASK_AVG_VAL,
-> avg_log2));
-> @@ -769,6 +919,13 @@ static int ad4030_read_raw_dispatch(struct iio_dev
-> *indio_dev,
-> =C2=A0		*val =3D BIT(st->avg_log2);
-> =C2=A0		return IIO_VAL_INT;
-> =C2=A0
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		if (!st->offload_trigger)
-> +			return -ENODEV;
-
-same
-
-> +
-> +		ad4030_get_sampling_freq(st, val);
-> +		return IIO_VAL_INT;
-> +
-> =C2=A0	default:
-> =C2=A0		return -EINVAL;
-> =C2=A0	}
-> @@ -809,6 +966,9 @@ static int ad4030_write_raw_dispatch(struct iio_dev
-> *indio_dev,
-> =C2=A0	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
-> =C2=A0		return ad4030_set_avg_frame_len(indio_dev, val);
-> =C2=A0
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		return ad4030_set_sampling_freq(indio_dev, val);
-> +
-> =C2=A0	default:
-> =C2=A0		return -EINVAL;
-> =C2=A0	}
-> @@ -898,6 +1058,104 @@ static const struct iio_buffer_setup_ops
-> ad4030_buffer_setup_ops =3D {
-> =C2=A0	.validate_scan_mask =3D ad4030_validate_scan_mask,
-> =C2=A0};
-> =C2=A0
-> +static void ad4030_prepare_offload_msg(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +	u8 offload_bpw;
-> +
-> +	if (st->mode =3D=3D AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> +		offload_bpw =3D 32;
-> +	else
-> +		offload_bpw =3D st->chip->precision_bits;
-> +
-> +	st->offload_xfer.bits_per_word =3D offload_bpw;
-> +	st->offload_xfer.len =3D spi_bpw_to_bytes(offload_bpw);
-> +	st->offload_xfer.offload_flags =3D SPI_OFFLOAD_XFER_RX_STREAM;
-> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer,
-> 1);
-> +}
-> +
-> +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +	unsigned int reg_modes;
-> +	int ret, ret2;
-> +
-> +	/*
-> +	 * When data from 2 analog input channels is output through a single
-> +	 * bus line (interleaved mode (LANE_MD =3D=3D 0b11)) and gets pushed
-> through
-> +	 * DMA, extra hardware is required to do the de-interleaving. While
-> we
-> +	 * don't support such hardware configurations, disallow interleaved
-> mode
-> +	 * when using SPI offload.
-> +	 */
-> +	ret =3D regmap_read(st->regmap, AD4030_REG_MODES, &reg_modes);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (st->chip->num_voltage_inputs > 1 &&
-> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(AD4030_REG_MODES_MASK_LANE_MODE, reg_modes=
-) =3D=3D
-> AD4030_LANE_MD_INTERLEAVED)
-> +		return -EINVAL;
-> +
-> +	ret =3D ad4030_exit_config_mode(st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ad4030_prepare_offload_msg(indio_dev);
-> +	st->offload_msg.offload =3D st->offload;
-> +	ret =3D spi_optimize_message(st->spi, &st->offload_msg);
-> +	if (ret)
-> +		goto out_reset_mode;
-> +
-> +	ret =3D pwm_set_waveform_might_sleep(st->cnv_trigger, &st->cnv_wf,
-> false);
-> +	if (ret)
-> +		goto out_unoptimize;
-> +
-> +	ret =3D spi_offload_trigger_enable(st->offload, st->offload_trigger,
-> +					 &st->offload_trigger_config);
-> +	if (ret)
-> +		goto out_pwm_disable;
-> +
-> +	return 0;
-> +
-> +out_pwm_disable:
-> +	pwm_disable(st->cnv_trigger);
-> +out_unoptimize:
-> +	spi_unoptimize_message(&st->offload_msg);
-> +out_reset_mode:
-> +	/* reenter register configuration mode */
-> +	ret2 =3D ad4030_enter_config_mode(st);
-
-nit: if ret2 is not being used at all, maybe just
-
-if (ad4030_enter_config_mode(st))
-=09
-> +	if (ret2)
-> +		dev_err(&st->spi->dev,
-> +			"couldn't reenter register configuration mode: %d\n",
-> +			ret2);
-> +
-> +	return ret;
-> +}
->=20
-
-...
-
->=20
-> =C2=A0static int ad4030_probe(struct spi_device *spi)
-> =C2=A0{
-> =C2=A0	struct device *dev =3D &spi->dev;
-> @@ -1045,24 +1346,61 @@ static int ad4030_probe(struct spi_device *spi)
-> =C2=A0		return dev_err_probe(dev, PTR_ERR(st->cnv_gpio),
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get cnv gpio\n");
-> =C2=A0
-> -	/*
-> -	 * One hardware channel is split in two software channels when using
-> -	 * common byte mode. Add one more channel for the timestamp.
-> -	 */
-> -	indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs + 1;
-> =C2=A0	indio_dev->name =3D st->chip->name;
-> =C2=A0	indio_dev->modes =3D INDIO_DIRECT_MODE;
-> =C2=A0	indio_dev->info =3D &ad4030_iio_info;
-> -	indio_dev->channels =3D st->chip->channels;
-> =C2=A0	indio_dev->available_scan_masks =3D st->chip->available_masks;
-> =C2=A0
-> -	ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio_pollfunc_store_time,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ad4030_trigger_handler,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad4030_buffer_setup_ops);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to setup triggered buffer\n");
-> +	st->offload =3D devm_spi_offload_get(dev, spi, &ad4030_offload_config);
-> +	ret =3D PTR_ERR_OR_ZERO(st->offload);
-> +	if (ret && ret !=3D -ENODEV)
-> +		return dev_err_probe(dev, ret, "failed to get offload\n");
-> +
-> +	/* Fall back to low speed usage when no SPI offload is available. */
-> +	if (ret =3D=3D -ENODEV) {
-> +		/*
-> +		 * One hardware channel is split in two software channels
-> when
-> +		 * using common byte mode. Add one more channel for the
-> timestamp.
-> +		 */
-> +		indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs +
-> 1;
-> +		indio_dev->channels =3D st->chip->channels;
-> +
-> +		ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> iio_pollfunc_store_time,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ad4030_trigger_handler,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> &ad4030_buffer_setup_ops);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to setup triggered
-> buffer\n");
-> +	} else {
-> +		/*
-> +		 * One hardware channel is split in two software channels
-> when
-> +		 * using common byte mode. Offloaded SPI transfers can't
-> support
-> +		 * software timestamp so no additional timestamp channel is
-> added.
-> +		 */
-> +		indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs;
-
-Maybe I'm missing something but common mode is not supported for now so isn=
-'t
-the above wrong?
+I guess that if someone really wants it, the data will still be available i=
+n the
+sample. But yes, it would be nice to properly support it at some point.
 
 - Nuno S=C3=A1
+
