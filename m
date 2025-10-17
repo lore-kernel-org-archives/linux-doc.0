@@ -1,77 +1,76 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C759621B9F5
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 12:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BBB330318
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 12:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760705534; cv=none; b=ebR0jiRko8/ztYDOnIEDn44cTE7n4BXBKt4GOI/4Vr292EBXVg5/LgMK/ZynjCTgJZa8YY5hZo2IzBjKjpV4oHSyUVNJg0DgetoddrY7pCyu9YF8k796U0bxaT07D+rscHE5UIj4kCW0CNtFY+1jbT0lclcTz22JG07KzzsYj74=
+	t=1760705587; cv=none; b=Ux0lT9yyzbPWzPldKhp14VbrScV9xsz/jXWsVFlyn3NCbDWdCLS+SpjPg5VUy0pgRnXtce1Zydh5Mq3/OR0Vm5gaETH25Dzfpx7P//ReNBSRXtw44Q5CEb55Wsv0U33efqB133EPNwAQ1b7eF/8Zlo4swCAGiSEumwxtaotKIfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760705534; c=relaxed/simple;
-	bh=zGnu1o//e3bxZ1ijfWOYdQqIB9ZYrFiOJVInbImT8Dc=;
+	s=arc-20240116; t=1760705587; c=relaxed/simple;
+	bh=q0dKvcJXcIqsz8kbuZxRuCwTz45q3VYiBczF46lCmoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFzKDqCrCbBHRAjVOjVu+MXi4BJ6xZHhRrmmc4IBHDtYyTZEZUBuECnE2Ex1qjuabJKbptb4i4nUT9H4QswkrqQwSahQiMyh6fER+okD7c6OY3mMxZOYx2rQIcNB/bLCI5TsXsqvxB66bjKj0ER519VmbJYBvBwSk3n7Ae1FxGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7oIWL7I; arc=none smtp.client-ip=209.85.215.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=rxg3k5iDkAhrDe5G2gd4b8TrWu08HB2Bl9up+v4PavUkzG3e5P8Nu0nPJ87RTBdTjbN4Ma/e+39z7/rgP5xJQVUv2K+H7fDQVxJjtAKj4GBzv/4NrrI/mOoVWOKSCmKgud2t7EyNgs532hL57iYPvxMtdRERxFYzZhtMEjKb9Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtzqUJ84; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7oIWL7I"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b553412a19bso1267981a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 05:52:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YtzqUJ84"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-292322d10feso1820045ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 05:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760705532; x=1761310332; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760705585; x=1761310385; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GX1z7rpYYkyy+tiYD/wTVd32X+5BN3gi9AYpbkqHgFk=;
-        b=h7oIWL7IwCLGHrBimR3oMBZXgeCMZnN/XxCiTCPU2CcQjHnOCbi1se8kasJFdoKArG
-         VuTLLnjuwDxUYNh8aWwEH+7qpxlHfAwSxnZvwX0uW24CSGmQ2kETgOU7sjwcbeZGZWJO
-         exmU+rU/tetqEfyrM70o5nkN5DzeQ5DaAUoWdi2PHbAWCdtJCLxkeN3tESoxeqpnxje3
-         haFfBcI3t65wtccqVw79YUOUWyx070KV2fauJ66JjhQXj/aomuZxXLqJfW9FLFwophTe
-         hpOuHnPq5GD5pzEdbGCbRXsgqjdFWt2VvEPA8jfBot7eh02dDc7lCIa9kp8Gb0wtMMFZ
-         7G3A==
+        bh=4KPuy8xanc30aUC0NeAjXkSoXgg+j9Yhzu5edLPhaAs=;
+        b=YtzqUJ84tsEAWC7vW200fU3xiSBeMscuRWsJivrTjT1Wbdp8veOATJptoFoxMakSTe
+         2CEOPdYJRN0gFJby7f+6oMQW30Mm7f+O5ZsempqwDtXMekhOF9aIAyjf9TFgff6PpFd0
+         RQRN9IguYcbbfXC95Usy2J5qX9SIBhCWoEODNcO4iyLyXH0jaPI5UHDtx1x91jbgqsan
+         2JsRx76q1EeRKAYpfuUggyJgx8mxan+5Gmnrn4RT5xIHimwSEOAhNyvNMsRNl0vQvFFt
+         XqewDnbnEvoMHeWttQF+FhWwmbDwfqik+V5p5unEP/naY2hjqb7BL3OXbvQZ1OdsAiVg
+         eQCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760705532; x=1761310332;
+        d=1e100.net; s=20230601; t=1760705585; x=1761310385;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GX1z7rpYYkyy+tiYD/wTVd32X+5BN3gi9AYpbkqHgFk=;
-        b=oxFYeVzSLxbHa7uiaLoW+pC7ZnUgRDHFLu8GH7P8hK+EPUIycUUJiE0hu+sWiqNjYO
-         6kx9ODrLTDpLoxNszoHaIcq7TXbyT/bZ67yGODSMD8JHdhf8fFAh8haKZGF5265XGUdK
-         HVsW+iSVDERO4lPrutQjhvBbdEKs2f/egjq+zPCu02g6EiJEzLqdS89kRqZhmm4vnr01
-         KutiJxAl5oqkzfoq1Tp/YH2FRoGpHdtY3301gyJzq3IeZlMEVitqP4YfQyqbZ4OnxbGH
-         OYsnitjIGehL6uzwwwHvBgYeNg9DQkXMIrNDigyZuuR6H1+WsGo5Lbgn9nn89hXjDstI
-         v3Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+yG7jWj/luRaGdKD9To1XfvAPNPAc9QfZTYFZRisaew+r4qgd74VwWYYBx0pReWTqELg6bnbN3cY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4BETRLVMn7vYWVLRM4Klit9Sfu17OjH337KT65UxBdI0TixrP
-	Rrb8sbtwapCP1dF2vFAcOXARHb7xFIWA3BWTRltZ4Tk/9JKPxcPaM6gy
-X-Gm-Gg: ASbGncv/czMEKBuPUdGq10yXNmsL1RQbphIUo1WAEJkkyjpm1G0QDFNlzvEQwj6Vz/7
-	EOzoOa/vbldc9SFbP99rpTyxopTwnfJqgGBDHQhDAeRWFv5XDfsJAyYllB6JMepL8L+QLW71o33
-	TW8M83uNUCoyyJl0rF0ON+St1TODEo6UB4rIov5Oyw9dVHdoaVzn8rye9eVRpCHDh+Lx1r3msY2
-	0SXzBWhVsy4GEH5TT6hU5Vzs6SMmtBAui8rKLKvdDFVjbAzZwydfJy+5ENE+v+XBIwSEfGcmQcG
-	ku7MbFvNiYpL2Q2GhYLpqvwDyA3+fG/dO8VgQrdZnzgxpg96VfVfxUVerW48QIF5y/klhaAb5ew
-	z1ZLSBMqFr/LSrTpds6nnKXGjI1gwogswaoNXJbl1ATIwwsPMlkpfz7ha6EmFtYDIKF4bq/yFdc
-	rakDTEFeKJoUYX8kbryoPtBrk=
-X-Google-Smtp-Source: AGHT+IHBD+b3NB37DW1NNJU0Y7CRgNRfgj81Km3ty7iNT68DqbwCZ3dOZD5XoX8w64DGClNML1SwEg==
-X-Received: by 2002:a17:902:f642:b0:28a:5b8b:1f6b with SMTP id d9443c01a7336-290c9cbbd49mr47303555ad.21.1760705531800;
-        Fri, 17 Oct 2025 05:52:11 -0700 (PDT)
+        bh=4KPuy8xanc30aUC0NeAjXkSoXgg+j9Yhzu5edLPhaAs=;
+        b=TuVA+/pYFOjq8HsSa/lDSHpQJyQudBiBfJtztKKlDfHhEEE2RiGOKO2HXxl0s86hj4
+         CDUwvXA/Pf4zzuQgucbak55z4gOStjiz1dKsxlOLcAKdx5eGBOcY4AEhnwv2/qJFgfwh
+         kEUJhtU0sOTzgxNI1B52p9Jvx+/rDgofqU1AHf5bOWFz85Kn9495b90qIvvo+yZIQVTK
+         Ycqi2VFpO2x1BcsQJ6qZrxAZ/WEjddViAjGQrCeO9kPfT/almWm+Lxr12raAb3dvaHP+
+         3SFIFBV++i8dOWMWjYNQhHtoutktitjOteP7CXnx9dKj6vvv65gnfm5dSvHFZSaUMqkE
+         6lJA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1oortwKft4piPGbmhycilByR8RsLLvEynJEAxiWyeyZI8PsgSD1CC4Rmj1+1D1gnlyAhiQmkooPM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcH/dPM2ojSJy+XsLCFqlrSnbgouuIt51fHvImXZlXo2uJPFqL
+	TEpmWw6a28SOWRsDH/eI5dyez/RzRa9gx2+HUf/eiBgJ7e7b7WPSAlzH
+X-Gm-Gg: ASbGnct7kDwL7WudAsupE6xYpXMHEwS4SD1eknUb1yGLK/RGqtcquZ/8wG1DZT4tRRI
+	RcPv9YNzUf+qBX+52tbEQ/gkNmZvtRxheLnPyeRYHoXaxvyNI0hJMwb5GyXhSPsIsW6dI2BLluj
+	/WxF9i8iw3Zw5eVu/idlqRj6koFOPUclLwb9xecN/zE97lkwRYy1X/LtuzosH3NnvNoX30cd21r
+	GF54LI4RhYuaYm0BP9TxpKvZkFoLLLYcyysv40uINL8HPqs7XoIr/wTU5jddOlHI6RVIlwE4lUe
+	Yih0qNRpMfx8reAs4971rBjkRh5xXnz+aZ+rN7y/Vkb2JFyhKCVTzKLf1HIEmjVMtJpzAgWePjR
+	rlTkodDOrDv7R16YNMpDid9Y5uBvXIeQib/hZAW1eejvZtd5LpKiygUBS2DomwesyxjmkaUnVxw
+	6xJfV5YuwehDPLksvIjfqePg8=
+X-Google-Smtp-Source: AGHT+IG5O3uFCStwtBtYTlo/Za7+Ei3oHkieQstV+E+Ni78R3C1MS3A0qnauKtcp81RiP5MMdGWSXg==
+X-Received: by 2002:a17:902:d58d:b0:265:b60f:d18 with SMTP id d9443c01a7336-290c66d9f6amr39830685ad.1.1760705585006;
+        Fri, 17 Oct 2025 05:53:05 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bb6522d67sm5481626a91.5.2025.10.17.05.52.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2909930a999sm63835595ad.9.2025.10.17.05.53.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 05:52:11 -0700 (PDT)
+        Fri, 17 Oct 2025 05:53:04 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 17 Oct 2025 05:52:10 -0700
+Date: Fri, 17 Oct 2025 05:53:03 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Ankan Biswas <spyjetfayed@gmail.com>
 Cc: corbet@lwn.net, skhan@linuxfoundation.org, khalid@kernel.org,
 	david.hunter.linux@gmail.com, linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 2/3] docs/hwmon: Add missing datasheet links for Maxim
- chips
-Message-ID: <bfbbbf63-bd7d-4b2c-9e03-a3d3c3db04b3@roeck-us.net>
+Subject: Re: [PATCH 3/3] docs/hwmon: Update maxim-ic.com links to analog.com
+Message-ID: <07862286-4e65-41ab-bcbb-ad9b8432ef71@roeck-us.net>
 References: <20251017105740.17646-1-spyjetfayed@gmail.com>
- <20251017105740.17646-3-spyjetfayed@gmail.com>
+ <20251017105740.17646-4-spyjetfayed@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,36 +79,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017105740.17646-3-spyjetfayed@gmail.com>
+In-Reply-To: <20251017105740.17646-4-spyjetfayed@gmail.com>
 
-On Fri, Oct 17, 2025 at 04:27:17PM +0530, Ankan Biswas wrote:
+On Fri, Oct 17, 2025 at 04:27:18PM +0530, Ankan Biswas wrote:
 > In 2021, Maxim Integrated was acquired by Analog Devices.
 > maxim-ic.com & maximintegrated.com links redirect to analog.com.
 > 
-> Missing datasheets now available at Analog Devices added.
+> Update maxim-ic.com & maximintegrated.com links to analog.com links.
 > 
 > Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 > ---
->  Documentation/hwmon/ds1621.rst   | 20 +++++++++++++++-----
->  Documentation/hwmon/lm75.rst     | 13 ++++++++-----
->  Documentation/hwmon/max15301.rst |  8 ++++++--
->  Documentation/hwmon/max31827.rst |  5 +++++
->  Documentation/hwmon/max77705.rst |  4 +++-
->  Documentation/hwmon/pmbus.rst    |  4 ++--
->  6 files changed, 39 insertions(+), 15 deletions(-)
+>  Documentation/hwmon/max127.rst   |  4 +++-
+>  Documentation/hwmon/max16601.rst |  4 +++-
+>  Documentation/hwmon/max1668.rst  |  4 +++-
+>  Documentation/hwmon/max197.rst   |  8 +++++--
+>  Documentation/hwmon/max20730.rst | 16 +++++++++----
+>  Documentation/hwmon/max31722.rst |  8 +++++--
+>  Documentation/hwmon/max31730.rst |  4 +++-
+>  Documentation/hwmon/max31785.rst |  4 +++-
+>  Documentation/hwmon/max34440.rst | 24 ++++++++++++++-----
+>  Documentation/hwmon/max6620.rst  |  4 +++-
+>  Documentation/hwmon/max6639.rst  |  4 +++-
+>  Documentation/hwmon/max6697.rst  | 40 ++++++++++++++++++++++++--------
+>  12 files changed, 93 insertions(+), 31 deletions(-)
 > 
-> diff --git a/Documentation/hwmon/ds1621.rst b/Documentation/hwmon/ds1621.rst
-> index 552b37e9dd34..415d4c3043a7 100644
-> --- a/Documentation/hwmon/ds1621.rst
-> +++ b/Documentation/hwmon/ds1621.rst
-> @@ -9,7 +9,9 @@ Supported chips:
+> diff --git a/Documentation/hwmon/max127.rst b/Documentation/hwmon/max127.rst
+> index dc192dd9c37c..5ff2f64f9daa 100644
+> --- a/Documentation/hwmon/max127.rst
+> +++ b/Documentation/hwmon/max127.rst
+> @@ -13,7 +13,9 @@ Supported chips:
 >  
->      Addresses scanned: none
+>      Prefix: 'max127'
 >  
-> -    Datasheet: Publicly available from www.maximintegrated.com
-> +    Datasheet: Publicly available at the Analog Devices website
+> -    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX127-MAX128.pdf
+> +    Datasheet: Publicly available at the Maxim website
+> +
+> +	       https://www.analog.com/media/en/technical-documentation/data-sheets/max127-max128.pdf
 
-The "Publicly available... " text is intended to identify the web site
-if a direct link is not provided. Either the text or a link, but not both.
+Text or link, but not both.
 
 Guenter
