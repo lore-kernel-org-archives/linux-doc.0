@@ -1,327 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D303168FB;
-	Fri, 17 Oct 2025 06:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F42530FC3B
+	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 06:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760681471; cv=none; b=l+DLMjRZoNvxpzKEpZdc9loUmkGnvmKyhNQGCMtRRmHgdRtQG/RllC5d8Vkwhj1B1T0gYeL9ryTjzV8FOqhC8TdVLfhRT1a+Lw9nMm6QhUwvGS6Z8DuoS6re3Fkvr5BTTObNquC9w5U8688fngwBl/nTFY+olZRJ+vQkVF/UnGY=
+	t=1760681484; cv=none; b=UwKOb5PFoiiqD4Qwg51DAQZXqdwp4mDQ+EBRPd1bJvLNpqMSWB3O4CYhLJ8jy7TlZUucjZbkWop/gWuFQcUaIMaVKAhnpHLQDKLvAJHPYWL+wp+6pdFjAQ4VgHNPXBmJNgT8HDsewX6ki1HcXWQpwmbt6ycObe4HdZFk1CXjuf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760681471; c=relaxed/simple;
-	bh=0YPZ8kN0xDFzPx4eOmBQGeoHeFzYLj3kTyvDZYdZ/K0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gZtRC28kN3W86zVsXIPw9EhWys3Fi7lquDF0a/R4xNSiuVQmcJOwqbORLzR3EmY5lvZGypz7jirwCbijUplEXFSQ3U8yJwtr274r/oP0DAyvA/otN2UPju9OIjn21jXI5wys7JkCScCaKixA7+ZjRdJyBO2rHtNOgmlmPmtwHtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMHr4521; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760681484; c=relaxed/simple;
+	bh=ulNxyjs+7P2Oi91QTv8ZCqiBF+ih61EgQsdAC1fi7Y0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CsG5eODaBxvB56ENmIOg/pkLETZoP9hgN4dvswbUekyHMRfR0KGIebAIob85EWZgLOfi3PmZe21pR9GqvLh0c/Lwn0oWdDNYrADhJZ7SpLfI4agBxuYsMPAhtTcBvPUnM8R7qXy2k6Ago8eB5HT4zk39bFZ4siaIMSTL9RzMvrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxsUWHaQ; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMHr4521"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760681467; x=1792217467;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=0YPZ8kN0xDFzPx4eOmBQGeoHeFzYLj3kTyvDZYdZ/K0=;
-  b=EMHr4521fcgDJhQvbd4fIDDLif+N67CD5c7A/z4iLIhE4WzB8ecT+yX4
-   GTeP6MtBoc4tjwrmJtOeyuVtoFHxiAW0XnAeQMe9s5X6U8UWD61r0CMZD
-   II8LfKNSZPeVQ10O90Py5KXVmxPLy6geguYGTYysH2W+u4JZbX/WGvVPR
-   S9srAOAPCX95YumN/uJTA/xkdn1m4cziKXRhoXRdA+m45EnAgbb42+jYJ
-   H+j1LbPaYtRVHAg4bJ33vQ37g0jyosTrdx+ExEKC2b8TFCqIS8CDEOiCQ
-   TU6nwzk0AbyuhTqd2qhj9b1sOexGezbmF2+664rMcdDIlF/foHHGmj+YT
-   g==;
-X-CSE-ConnectionGUID: 2/U/htO7SQqxCsW5YpWung==
-X-CSE-MsgGUID: YsIM1F1OSWi96JilCmbrVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="50454035"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="50454035"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:56 -0700
-X-CSE-ConnectionGUID: NCqBHw+0RWyJadntaNXpIQ==
-X-CSE-MsgGUID: GzI3N+57Tqy6phIHVQMtNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="183059520"
-Received: from orcnseosdtjek.jf.intel.com (HELO [10.166.28.70]) ([10.166.28.70])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:10:56 -0700
-From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Thu, 16 Oct 2025 23:08:43 -0700
-Subject: [PATCH net-next v2 14/14] e1000e: Introduce private flag to
- disable K1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxsUWHaQ"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4270491e9easo580462f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 23:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760681481; x=1761286281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OqXHg8fIVhNftDZOE9plbEgrQCbIv7x8GRINtPvlAdM=;
+        b=fxsUWHaQhj7CFg7lwcIffAaSGDYWnNOGnC2Wtr3PDtaEQ9OtgWAnhCZQLOr71juH5N
+         3E/e54f8YRt74Evm+pMY6HvoH1eAmF6GGjFao2uXEssAtfz413aAKV/SMCQpVD1yjpF5
+         xc+Ur35Icqe6/d4U7f4prbrV3uXc52+J4ltL6zk0jWtqUqy3Wu1QIgjoRWEs94JGfPf6
+         fN9loldJBtOUIUBY/zuNxxt9O41Ya+f1i0Soerajk472YDphWjYYmMdQOA3QRy7P4Tfa
+         GFMJNBc840prEByFOpUiIYEcNOtpizvHVz2tfiQgiwYAyKEIgyRVv4/P/RFOb4FO9GG8
+         Ps6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760681481; x=1761286281;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OqXHg8fIVhNftDZOE9plbEgrQCbIv7x8GRINtPvlAdM=;
+        b=qTsxeIrCr3tqNH64n5GWFD9AjwOVNdQm4yAatvq9m4oQrwfp0cI2q1jXDqR6csLZtr
+         ZP50gXLdfoKQK/uhjBRRtMhqGYOUaY/ccfYjCrSw/v+If/7adWt4BYlgKKHPqJjTZjMa
+         baYuk2UktPtdkgRwKB0KN4pCZeoY5jVptqIeF2L2aK+aIoFLXUyCNj4KT5+s/qQbtHb3
+         KLpEwHcUXKSGssCFFdplzKi9ikdd0D1EerE5y4M3Mdkdx4vbMIDw/GvLzmKVVgB6Fyy4
+         mfvvH0mKu2jRceDng7PA2hpDqjWgD4ow1lUVRcNjpqtO0v2/MWV/PLqPP6XYwnNJuSvt
+         mkLw==
+X-Forwarded-Encrypted: i=1; AJvYcCUh03UFJbSkFeWW4YCbsCmGRLWpGezMZHEM3VFONr03bSMGRFDbkzq4mD1JYdP+WkLCpCs+II+4TA0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9XEnofJXM6inKm4YDEM7VIfiqjPFo3j3bl4oFGlS3d6QXkLnr
+	8BagJF7jJCj/hEmbWnK1A14A+pRqTDx9zzPltI3xyHvxlvMRk460sOZH
+X-Gm-Gg: ASbGncuYIEMqnKV/5HvOdWBwzz8iYh0wp3vgjf48lt3lSfsp2ZzqRgk2e/BQFXo855q
+	f/80aOliZbx+pVNf/F4ltvzxZ74yDFCunyreQAs19CgacC4yo6XI2nhg5UEduuXGoT2YyY+80ia
+	Mmj0eAHypH2sM/s4rCD0owTG6nbdzlWRJVFSGp04nM2Qh6c07ncRI5xV5XvpVxyx6ooxzoQAXqZ
+	klWnhIq0sgRqiCsVCtVDnu3NnUQ5g1u0sZkFEAbBLTRUmxYfFsL79wiRUkMc7mEqZFV6VJGX0ih
+	4bv4DiZUFxhc1p+dk5xlT66YK4+GqnsbEMS1Eo7n9MIK4RdGja8fSIoFhSqi6n2QxDuoBpgG3Hs
+	/UXeAHkpEPQGeKWi/7KyfVVKDRV9QbTYYpi0yKJaalXvL7M+mIZjEnKv1c+HCVxXUDJBXgn5IWS
+	aah+y4CmNpuo8=
+X-Google-Smtp-Source: AGHT+IG9nFyXU6/YzYNrNEKOmFbcI73aJtoTWz3HhvfOqLzAHFD1KIWSe0W31I+6MYQb5EK9zvZOHQ==
+X-Received: by 2002:a05:6000:2507:b0:425:737a:4804 with SMTP id ffacd0b85a97d-42704d4422dmr1625416f8f.4.1760681480389;
+        Thu, 16 Oct 2025 23:11:20 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ff84cbb7sm7231059f8f.23.2025.10.16.23.11.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 23:11:19 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev
+Subject: [PATCH v3 3/3] init: remove /proc/sys/kernel/real-root-dev
+Date: Fri, 17 Oct 2025 06:09:56 +0000
+Message-ID: <20251017060956.1151347-4-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251017060956.1151347-1-safinaskar@gmail.com>
+References: <20251017060956.1151347-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251016-jk-iwl-next-2025-10-15-v2-14-ff3a390d9fc6@intel.com>
-References: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-In-Reply-To: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>, 
- Vitaly Lifshits <vitaly.lifshits@intel.com>, 
- =?utf-8?q?Timo_Ter=C3=A4s?= <timo.teras@iki.fi>, 
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>, 
- Dima Ruinskiy <dima.ruinskiy@intel.com>, 
- Avraham Koren <Avrahamx.koren@intel.com>
-X-Mailer: b4 0.15-dev-f4b34
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8780;
- i=jacob.e.keller@intel.com; h=from:subject:message-id;
- bh=oAY1c4dYNUs/VsyRZ8VffpRmz9QaW5ieBWzoumsBvf0=;
- b=owGbwMvMwCWWNS3WLp9f4wXjabUkhoyPd18pLvljahr380Ld1Ltz1TfwfI6supNnHfPr/G/D/
- d9vB09Y1VHKwiDGxSArpsii4BCy8rrxhDCtN85yMHNYmUCGMHBxCsBE9k1i+GdgFHnvw6IdB43W
- V1jVrl8Rz75AzUthaoSVSsSB7j8CFw0ZGXoNyqb3J4hN61uTEH31bM3Uc5t/dzi8u7/r1plz1zb
- q3OUHAA==
-X-Developer-Key: i=jacob.e.keller@intel.com; a=openpgp;
- fpr=204054A9D73390562AEC431E6A965D3E6F0F28E8
 
-From: Vitaly Lifshits <vitaly.lifshits@intel.com>
+It is not used anymore.
 
-The K1 state reduces power consumption on ICH family network controllers
-during idle periods, similarly to L1 state on PCI Express NICs. Therefore,
-it is recommended and enabled by default.
-However, on some systems it has been observed to have adverse side
-effects, such as packet loss. It has been established through debug that
-the problem may be due to firmware misconfiguration of specific systems,
-interoperability with certain link partners, or marginal electrical
-conditions of specific units.
-
-These problems typically cannot be fixed in the field, and generic
-workarounds to resolve the side effects on all systems, while keeping K1
-enabled, were found infeasible.
-Therefore, add the option for users to globally disable K1 idle state on
-the adapter.
-
-Additionally, disable K1 by default for MTL and later platforms, due to
-issues reported with the current configuration.
-
-Link: https://lore.kernel.org/intel-wired-lan/CAMqyJG3LVqfgqMcTxeaPur_Jq0oQH7GgdxRuVtRX_6TTH2mX5Q@mail.gmail.com/
-Link: https://lore.kernel.org/intel-wired-lan/20250626153544.1853d106@onyx.my.domain/
-Link: https://lore.kernel.org/intel-wired-lan/Z_z9EjcKtwHCQcZR@mail-itl/
-Link: https://github.com/QubesOS/qubes-issues/issues/9896
-Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2115393
-
-Signed-off-by: Vitaly Lifshits <vitaly.lifshits@intel.com>
-Reviewed-by: Timo Teräs <timo.teras@iki.fi>
-Tested-by: Timo Teräs <timo.teras@iki.fi>
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Reviewed-by: Dima Ruinskiy <dima.ruinskiy@intel.com>
-Tested-by: Avraham Koren <Avrahamx.koren@intel.com>
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- drivers/net/ethernet/intel/e1000e/e1000.h   |  1 +
- drivers/net/ethernet/intel/e1000e/ethtool.c | 45 +++++++++++++++++++++++++----
- drivers/net/ethernet/intel/e1000e/ich8lan.c | 41 ++++++++++++++------------
- drivers/net/ethernet/intel/e1000e/netdev.c  |  3 ++
- 4 files changed, 67 insertions(+), 23 deletions(-)
+ Documentation/admin-guide/sysctl/kernel.rst |  6 ------
+ include/uapi/linux/sysctl.h                 |  1 -
+ init/do_mounts_initrd.c                     | 20 --------------------
+ 3 files changed, 27 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/e1000e/e1000.h b/drivers/net/ethernet/intel/e1000e/e1000.h
-index 018e61aea787..aa08f397988e 100644
---- a/drivers/net/ethernet/intel/e1000e/e1000.h
-+++ b/drivers/net/ethernet/intel/e1000e/e1000.h
-@@ -461,6 +461,7 @@ s32 e1000e_get_base_timinca(struct e1000_adapter *adapter, u32 *timinca);
- #define FLAG2_CHECK_RX_HWTSTAMP           BIT(13)
- #define FLAG2_CHECK_SYSTIM_OVERFLOW       BIT(14)
- #define FLAG2_ENABLE_S0IX_FLOWS           BIT(15)
-+#define FLAG2_DISABLE_K1		   BIT(16)
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index f3ee807b5d8b..218265babaf9 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1215,12 +1215,6 @@ that support this feature.
+ ==  ===========================================================================
  
- #define E1000_RX_DESC_PS(R, i)	    \
- 	(&(((union e1000_rx_desc_packet_split *)((R).desc))[i]))
-diff --git a/drivers/net/ethernet/intel/e1000e/ethtool.c b/drivers/net/ethernet/intel/e1000e/ethtool.c
-index 8e40bb50a01e..cee57a2149ab 100644
---- a/drivers/net/ethernet/intel/e1000e/ethtool.c
-+++ b/drivers/net/ethernet/intel/e1000e/ethtool.c
-@@ -26,6 +26,8 @@ struct e1000_stats {
- static const char e1000e_priv_flags_strings[][ETH_GSTRING_LEN] = {
- #define E1000E_PRIV_FLAGS_S0IX_ENABLED	BIT(0)
- 	"s0ix-enabled",
-+#define E1000E_PRIV_FLAGS_DISABLE_K1	BIT(1)
-+	"disable-k1",
- };
  
- #define E1000E_PRIV_FLAGS_STR_LEN ARRAY_SIZE(e1000e_priv_flags_strings)
-@@ -2301,26 +2303,59 @@ static u32 e1000e_get_priv_flags(struct net_device *netdev)
- 	if (adapter->flags2 & FLAG2_ENABLE_S0IX_FLOWS)
- 		priv_flags |= E1000E_PRIV_FLAGS_S0IX_ENABLED;
- 
-+	if (adapter->flags2 & FLAG2_DISABLE_K1)
-+		priv_flags |= E1000E_PRIV_FLAGS_DISABLE_K1;
-+
- 	return priv_flags;
- }
- 
- static int e1000e_set_priv_flags(struct net_device *netdev, u32 priv_flags)
- {
- 	struct e1000_adapter *adapter = netdev_priv(netdev);
-+	struct e1000_hw *hw = &adapter->hw;
- 	unsigned int flags2 = adapter->flags2;
-+	unsigned int changed;
-+
-+	flags2 &= ~(FLAG2_ENABLE_S0IX_FLOWS | FLAG2_DISABLE_K1);
- 
--	flags2 &= ~FLAG2_ENABLE_S0IX_FLOWS;
- 	if (priv_flags & E1000E_PRIV_FLAGS_S0IX_ENABLED) {
--		struct e1000_hw *hw = &adapter->hw;
+-real-root-dev
+-=============
 -
--		if (hw->mac.type < e1000_pch_cnp)
-+		if (hw->mac.type < e1000_pch_cnp) {
-+			e_err("S0ix is not supported on this device\n");
- 			return -EINVAL;
-+		}
-+
- 		flags2 |= FLAG2_ENABLE_S0IX_FLOWS;
- 	}
+-See Documentation/admin-guide/initrd.rst.
+-
+-
+ reboot-cmd (SPARC only)
+ =======================
  
--	if (flags2 != adapter->flags2)
-+	if (priv_flags & E1000E_PRIV_FLAGS_DISABLE_K1) {
-+		if (hw->mac.type < e1000_ich8lan) {
-+			e_err("Disabling K1 is not supported on this device\n");
-+			return -EINVAL;
-+		}
-+
-+		flags2 |= FLAG2_DISABLE_K1;
-+	}
-+
-+	changed = adapter->flags2 ^ flags2;
-+	if (changed)
- 		adapter->flags2 = flags2;
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 63d1464cb71c..1c7fe0f4dca4 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -92,7 +92,6 @@ enum
+ 	KERN_DOMAINNAME=8,	/* string: domainname */
  
-+	if (changed & FLAG2_DISABLE_K1) {
-+		/* reset the hardware to apply the changes */
-+		while (test_and_set_bit(__E1000_RESETTING,
-+					&adapter->state))
-+			usleep_range(1000, 2000);
-+
-+		if (netif_running(adapter->netdev)) {
-+			e1000e_down(adapter, true);
-+			e1000e_up(adapter);
-+		} else {
-+			e1000e_reset(adapter);
-+		}
-+
-+		clear_bit(__E1000_RESETTING, &adapter->state);
-+	}
-+
- 	return 0;
- }
+ 	KERN_PANIC=15,		/* int: panic timeout */
+-	KERN_REALROOTDEV=16,	/* real root device to mount after initrd */
  
-diff --git a/drivers/net/ethernet/intel/e1000e/ich8lan.c b/drivers/net/ethernet/intel/e1000e/ich8lan.c
-index df4e7d781cb1..0ff8688ac3b8 100644
---- a/drivers/net/ethernet/intel/e1000e/ich8lan.c
-+++ b/drivers/net/ethernet/intel/e1000e/ich8lan.c
-@@ -286,21 +286,26 @@ static void e1000_toggle_lanphypc_pch_lpt(struct e1000_hw *hw)
- }
+ 	KERN_SPARC_REBOOT=21,	/* reboot command on Sparc */
+ 	KERN_CTLALTDEL=22,	/* int: allow ctl-alt-del to reboot */
+diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
+index bf381aa0400f..82613a3be756 100644
+--- a/init/do_mounts_initrd.c
++++ b/init/do_mounts_initrd.c
+@@ -8,31 +8,11 @@
  
- /**
-- * e1000_reconfigure_k1_exit_timeout - reconfigure K1 exit timeout to
-- * align to MTP and later platform requirements.
-+ * e1000_reconfigure_k1_params - reconfigure Kumeran K1 parameters.
-  * @hw: pointer to the HW structure
-  *
-+ * By default K1 is enabled after MAC reset, so this function only
-+ * disables it.
-+ *
-  * Context: PHY semaphore must be held by caller.
-  * Return: 0 on success, negative on failure
-  */
--static s32 e1000_reconfigure_k1_exit_timeout(struct e1000_hw *hw)
-+static s32 e1000_reconfigure_k1_params(struct e1000_hw *hw)
+ unsigned long initrd_start, initrd_end;
+ int initrd_below_start_ok;
+-static unsigned int real_root_dev;	/* do_proc_dointvec cannot handle kdev_t */
+ static int __initdata mount_initrd = 1;
+ 
+ phys_addr_t phys_initrd_start __initdata;
+ unsigned long phys_initrd_size __initdata;
+ 
+-#ifdef CONFIG_SYSCTL
+-static const struct ctl_table kern_do_mounts_initrd_table[] = {
+-	{
+-		.procname       = "real-root-dev",
+-		.data           = &real_root_dev,
+-		.maxlen         = sizeof(int),
+-		.mode           = 0644,
+-		.proc_handler   = proc_dointvec,
+-	},
+-};
+-
+-static __init int kernel_do_mounts_initrd_sysctls_init(void)
+-{
+-	register_sysctl_init("kernel", kern_do_mounts_initrd_table);
+-	return 0;
+-}
+-late_initcall(kernel_do_mounts_initrd_sysctls_init);
+-#endif /* CONFIG_SYSCTL */
+-
+ static int __init no_initrd(char *str)
  {
- 	u16 phy_timeout;
- 	u32 fextnvm12;
- 	s32 ret_val;
- 
--	if (hw->mac.type < e1000_pch_mtp)
-+	if (hw->mac.type < e1000_pch_mtp) {
-+		if (hw->adapter->flags2 & FLAG2_DISABLE_K1)
-+			return e1000_configure_k1_ich8lan(hw, false);
- 		return 0;
-+	}
- 
- 	/* Change Kumeran K1 power down state from P0s to P1 */
- 	fextnvm12 = er32(FEXTNVM12);
-@@ -310,6 +315,8 @@ static s32 e1000_reconfigure_k1_exit_timeout(struct e1000_hw *hw)
- 
- 	/* Wait for the interface the settle */
- 	usleep_range(1000, 1100);
-+	if (hw->adapter->flags2 & FLAG2_DISABLE_K1)
-+		return e1000_configure_k1_ich8lan(hw, false);
- 
- 	/* Change K1 exit timeout */
- 	ret_val = e1e_rphy_locked(hw, I217_PHY_TIMEOUTS_REG,
-@@ -373,8 +380,8 @@ static s32 e1000_init_phy_workarounds_pchlan(struct e1000_hw *hw)
- 		/* At this point the PHY might be inaccessible so don't
- 		 * propagate the failure
- 		 */
--		if (e1000_reconfigure_k1_exit_timeout(hw))
--			e_dbg("Failed to reconfigure K1 exit timeout\n");
-+		if (e1000_reconfigure_k1_params(hw))
-+			e_dbg("Failed to reconfigure K1 parameters\n");
- 
- 		fallthrough;
- 	case e1000_pch_lpt:
-@@ -473,10 +480,10 @@ static s32 e1000_init_phy_workarounds_pchlan(struct e1000_hw *hw)
- 		if (hw->mac.type >= e1000_pch_mtp) {
- 			ret_val = hw->phy.ops.acquire(hw);
- 			if (ret_val) {
--				e_err("Failed to reconfigure K1 exit timeout\n");
-+				e_err("Failed to reconfigure K1 parameters\n");
- 				goto out;
- 			}
--			ret_val = e1000_reconfigure_k1_exit_timeout(hw);
-+			ret_val = e1000_reconfigure_k1_params(hw);
- 			hw->phy.ops.release(hw);
- 		}
- 	}
-@@ -4948,17 +4955,15 @@ static s32 e1000_init_hw_ich8lan(struct e1000_hw *hw)
- 	u16 i;
- 
- 	e1000_initialize_hw_bits_ich8lan(hw);
--	if (hw->mac.type >= e1000_pch_mtp) {
--		ret_val = hw->phy.ops.acquire(hw);
--		if (ret_val)
--			return ret_val;
-+	ret_val = hw->phy.ops.acquire(hw);
-+	if (ret_val)
-+		return ret_val;
- 
--		ret_val = e1000_reconfigure_k1_exit_timeout(hw);
--		hw->phy.ops.release(hw);
--		if (ret_val) {
--			e_dbg("Error failed to reconfigure K1 exit timeout\n");
--			return ret_val;
--		}
-+	ret_val = e1000_reconfigure_k1_params(hw);
-+	hw->phy.ops.release(hw);
-+	if (ret_val) {
-+		e_dbg("Error failed to reconfigure K1 parameters\n");
-+		return ret_val;
- 	}
- 
- 	/* Initialize identification LED */
-diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
-index 201322dac233..116f3c92b5bc 100644
---- a/drivers/net/ethernet/intel/e1000e/netdev.c
-+++ b/drivers/net/ethernet/intel/e1000e/netdev.c
-@@ -7675,6 +7675,9 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	/* init PTP hardware clock */
- 	e1000e_ptp_init(adapter);
- 
-+	if (hw->mac.type >= e1000_pch_mtp)
-+		adapter->flags2 |= FLAG2_DISABLE_K1;
-+
- 	/* reset the hardware with the new settings */
- 	e1000e_reset(adapter);
- 
-
+ 	pr_warn("noinitrd option is deprecated and will be removed soon\n");
 -- 
-2.51.0.rc1.197.g6d975e95c9d7
+2.47.3
 
