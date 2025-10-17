@@ -1,115 +1,98 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCD6233155
-	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 20:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABE2354AC9;
+	Fri, 17 Oct 2025 20:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760733465; cv=none; b=IQB7omFTbgPH84e6Z/8VFh47JQ6lWBK6We75FedHaTV6PYDGA2+pMZfMhKzTxowYHS54lm8ajTCVNwyVpwmKRx3Hw6p+3DYRbuAsoW/usK3iSjBbdnafDp3FeW3ackwdoOUhw5TKKzyN/SgvgGBLYiJrbAfUeaTlYd7IoeGXpvw=
+	t=1760733986; cv=none; b=l1JHJqv3rKb6G7bcEKbeTUgQlGNNxIkkM4V9z+wJraXqIUKbxe7t6sTqtVF/eOAOMGPVcztZhNDNvFGNq5H7rtbfuF8O4sjGX46WwnKYcZwUQy/9niDp0pM2yAm0gHC3fLppyy+G55nWDNbZ30ILMXEgOTcu8xVSaDQEqBP7+fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760733465; c=relaxed/simple;
-	bh=MctnxTuATai4l54nWLFKFelAF8yZCCN6uTLE/mlmEHc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DmWkSD+PlZTpzE/BL3wOCapHpv83FP79kscUVlcxB6lI7QQwpHWKFYm1M6/TRi8klxYC3ZppRO9ZPdkVJ7pdhpWTl1lwAd3yV8XuJqq/ODzvmyZXaX29GrLRvo/qufJv64J0cga82c1c1R9LUBRtG8wQo8U3xC6B9dSE3Wf7PUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gqI4ABPY; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1760733986; c=relaxed/simple;
+	bh=tonlCgAc2fou04wY9oIAPAvVd1QMUHHqi+nHAFLkvmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OCVHuAlUIPVJU8kUxp9fzaepCdPxM4imUVOXQ0OodjW+3gO2sOV2Cx24avnFUWlheObzLMZY/0ygXvWl2dgq45aZkNgxflZt5H82lap3OITiZy8+PZ0heXo46vfCYg/CzkSyPWjYyYMAPOkHlzkQx92iH8yh8Umac6TJEYPhVes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9zR1WIi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gqI4ABPY"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-789fb76b466so2173053b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 13:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760733462; x=1761338262; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ZeBq3Lk7BVfi39KwhzSp3L/wgMnqHyapiXXWG829qc=;
-        b=gqI4ABPYZ4QxRCc4QY3quTX9wWdAeBGRG4f2PXIHFN3czNr438NrTWUk8dW6xUs91Z
-         IqDmV28cJc8njMpB0h5e6xXleESDsYjrODmGS6FduS67qsKnILcQCObgOz6J5Q0PJ0SZ
-         U1p4pUfI6fQq4zt1eEvwMffrKUtyF1tfAfGDs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760733462; x=1761338262;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6ZeBq3Lk7BVfi39KwhzSp3L/wgMnqHyapiXXWG829qc=;
-        b=o5bIlwLWVn6kcGhGf9ggZpQHAmjyRP5vY/NYY9UYQvq9cqETYGsAWLAGLHg8KyE/26
-         0bEzNriwOFMcfdT3VjkpJftghdyR/OoQr42YTTj8QZ/WHm//eciMJ9yD/k6fW8x3t0Ed
-         +rXXtEiIwtpPfHXPefEaDSOa4kgEFZWxmys2kjB9e0I4bVaSjmmcgsy6GZriMGw8ka6E
-         sEUdcVGf99pZBFyvwiN3oTBzpCqtzRPXtEupKu69j95q/pr1//L6gsboctFJxYuK2pxh
-         zDVnDqlcIXdYGa6DmASMRKElP/9MEbPOv2mZSWQtcu3bLJFcAkNpnsN08ft9Q0b+1BcW
-         Yzng==
-X-Gm-Message-State: AOJu0YyPmqX6rYC2iqTAvpB2TwidmF+F0u9l4XDTPo6qHXIqI9RYs5y7
-	L+5sNkSrJhvn5ZSWho+R/vqOgJR4fgyr2Mba/vyREu3wuE1f5lR5RrWVrzyU0Krt1A==
-X-Gm-Gg: ASbGnctptsQVIpViRA0zzX6NObMnF/kcjMFSkT1IKFvxbuynVQxNb76WS3BJ+L6w3Ki
-	7fIAxeGmSutdlxv1HdIE9Pl9gVhkDE4HfDv0sWG+sNcWpz/OcJxKePv2Q2LSgkW6Q+FwlrNf2ss
-	1fYi4jDdBeItpQHwkOz3yZ65s5we6hLQTgRhAebYFruhO8yJ0KeUBg6Zpwamkebdsn0P//71/FT
-	Onz3MRIH8AkV+9jgkyVtyOFSM9b96jLGKeLPOSHQ92kiBcyBIbdhbLfmhvvRtP3Rk/lyAR3dJo0
-	be5YD71eUqGGW6rb32n1HNZqC99dY4LRecDuOnlc3rAKV3B9RescvD9qoJEL5mz9ohi7D5eKVz3
-	UQxps38SY4sYY1lW9DrtC+loMxt0sxUbTPmO+A1WHnw0TZsccVEb9kmEhVhtpzvGHLRqtLrMLyI
-	+f2xUpshb4aw8t75ejh0FRetF928al1KvN7I3g6A==
-X-Google-Smtp-Source: AGHT+IE/YYS3o1+JuvtET9j/q+byOk9MK+q6kmDUXS3KntYy67SnJd6kX1S96rUUu+Rtdegc54AW9Q==
-X-Received: by 2002:a05:6a20:2590:b0:334:9fbb:35c3 with SMTP id adf61e73a8af0-334a862167fmr6473965637.46.1760733462564;
-        Fri, 17 Oct 2025 13:37:42 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:5ca9:a8d0:7547:32c6])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-33bb65268b1sm2837858a91.2.2025.10.17.13.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Oct 2025 13:37:41 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Joe Perches <joe@perches.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: [PATCH v2 2/2] docs: checkpatch: Drop networking comment style
-Date: Fri, 17 Oct 2025 13:37:12 -0700
-Message-ID: <20251017203719.1554224-2-briannorris@chromium.org>
-X-Mailer: git-send-email 2.51.0.858.gf9c4a03a3a-goog
-In-Reply-To: <20251017203719.1554224-1-briannorris@chromium.org>
-References: <20251017203719.1554224-1-briannorris@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9zR1WIi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D85C4CEE7;
+	Fri, 17 Oct 2025 20:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760733985;
+	bh=tonlCgAc2fou04wY9oIAPAvVd1QMUHHqi+nHAFLkvmo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V9zR1WIisBlunuVE6mKDmfQIf2gzMFlpC3TblNQxrHTevdhhlFEXthAqRZ3lJ6xx0
+	 wdmdMOP3ij1RkaaMk7ZVBNg66NTfTKTUYr4gPx0EOJcBD1O4WfwuHQrqPq4OWuAAxI
+	 rrk7TrKxWCiSxXiYo6zM6JmTJJnweI9vq6TGe8JfK2RnRXbDDRE9aY4V1W7wWTYIsd
+	 +09IW6/RnRiKHMKrJhYd7V8u2oi195DyfVvQ0QceRJMNAm2CGe76slpZBCsVFZSGtZ
+	 SQJRrh6ztwc8EmSByEtH2cDJnQR40k/2pW5vW07JyrmhxM6fpyUmXQFyckt/7ymIDd
+	 sH2kCkGWHhsCg==
+Date: Fri, 17 Oct 2025 21:54:12 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Gang Yan <gang.yan@linux.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	David Disseldorp <ddiss@suse.de>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, Gang Yan <yangang@kylinos.cn>
+Subject: Re: [PATCH, v2] kbuild: doc: improve KBUILD_BUILD_TIMESTAMP
+ documentation
+Message-ID: <aPKe5KGR27robyc5@levanger>
+References: <20251017021209.6586-1-gang.yan@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251017021209.6586-1-gang.yan@linux.dev>
 
-Networking no longer has their own comment style, and checkpatch no
-longer checks for this.
+On Fri, Oct 17, 2025 at 10:12:09AM +0800, Gang Yan wrote:
+> From: Gang Yan <yangang@kylinos.cn>
+> 
+> This patch adds an example of how to set KBUILD_BUILD_TIMESTAMP to a
+> specific date. Also, note that the provided timestamp is used for
+> initramfs mtime fields, which are 32-bit and thus limited to dates
+> between the Unix epoch and 2106-02-07 06:28:15 UTC. Dates outside this
+> range will cause errors.
+> 
+> Suggested-by: David Disseldorp <ddiss@suse.de>
+> Signed-off-by: Gang Yan <yangang@kylinos.cn>
+> Reviewed-by: David Disseldorp <ddiss@suse.de>
+> ---
+> Changelog:
+>  v2:
+>   - Replace the invalid example with a valid one.
+>   - Apply David's suggestions.
+> ---
+>  Documentation/kbuild/kbuild.rst | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
 
-Signed-off-by: Brian Norris <briannorris@chromium.org>
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
----
+Thanks to both of you!
 
-Changes in v2:
- * new in v2
+I have only found a tiny nit-pick, see below.
 
- Documentation/dev-tools/checkpatch.rst | 7 -------
- 1 file changed, 7 deletions(-)
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index d7fe023b3080..dfaad0a279ff 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -465,13 +465,6 @@ Comments
-        * for multi line comments.
-        */
- 
--    The networking comment style is a bit different, with the first line
--    not empty like the former::
--
--      /* This is the preferred comment style
--       * for files in net/ and drivers/net/
--       */
--
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
- 
-   **C99_COMMENTS**
--- 
-2.51.0.858.gf9c4a03a3a-goog
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index 3388a10f2dcc..881189ecd0ca 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -328,8 +328,14 @@ KBUILD_BUILD_TIMESTAMP
+>  ----------------------
+>  Setting this to a date string overrides the timestamp used in the
+>  UTS_VERSION definition (uname -v in the running kernel). The value has to
+> -be a string that can be passed to date -d. The default value
+> -is the output of the date command at one point during build.
+> +be a string that can be passed to date -d. E.g.::
+> +
+> +$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
 
+Other code blocks in kbuild.rst are indented by four spaces (and
+accidentally five in one line).
+
+I can add these when applying the patch for kbuild-next, if that is ok
+for you.
+
+Kind regards
+Nicolas
