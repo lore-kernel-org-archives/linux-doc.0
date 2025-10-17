@@ -1,66 +1,64 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FA23346A8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1172236F2
 	for <linux-doc@vger.kernel.org>; Fri, 17 Oct 2025 06:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760683551; cv=none; b=inCmBpPqKGT0OBYNE7GnU0/SE8CXjX3OCHN5UhcT2iWngRxyarDtOXo1t4waVj7KXkcq51tP9Gi29VRr4rpXBXmjhfeKydFlLxQP6p5Xl2jhlzYeyFEwKm+hG4ZLnmMCar3I8dPaTYOb8PEYHGVpAD1tyyiv1ZBRplyMznk9+Zs=
+	t=1760683552; cv=none; b=W1xdoO8jZPnl9vgfprUseGJbMAdZCJEVb6MIxWw/qHeCtLzfBMix6JXt7EX294VDePd+VUSshFbp29QJ6QVRXCYApcrzrIO3K3XdlWQp/z1ggvPkl/TjB6s4eBdbTh+u6DJBTqgMzoG9wLdbz1Ihy6n/d4zRWEbfSqfVQIhzRRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760683551; c=relaxed/simple;
-	bh=FYvJjju1WVaSiGZ+rPPQkrZA9117N9fCrf8pnzruHlg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UEu3SpWKD1GOLlfGQUyYbxwH6NuwwAwyuhh591+dpp8Vb+Bj8OtTNRpljP8cy0Nyq53NH37fnkrVDnQPj9bP2J9VcGjsd3D6vwzk7oj+aJZyoE0n2BDJ+EeZJBD2T5Y6VLRiT2QyBpl5f2fq2Fh5FUE1hSb4QHi4k2TkX48cxeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0+vrWH2; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1760683552; c=relaxed/simple;
+	bh=76MXJi1GEaLekMNsuMxE/KJvLVrO4E/BO/gvBM1ACzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dYrC8y7gILMgs1hNeXkTh4yF1ruaoX0TOUL3oFQQf0GzRGG+2rN/ZFqZI5Qqr/eos3Pudd8he7KBQd7ZpiM/IG11RoAXN1nf0fGZJRnBdZgQrn8rG02I2qv0wAiwbyaQ4DbFk1Qdj58UbKU2FqF4sDy4dJd/BWcRCpjydevc434=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUpAwkPo; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0+vrWH2"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b67684e2904so1103880a12.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUpAwkPo"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7811fa91774so1470704b3a.0
         for <linux-doc@vger.kernel.org>; Thu, 16 Oct 2025 23:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760683549; x=1761288349; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/OTXlHG1bxvEhqF+MtL8+GAk+TyLUEMZOGcZpRcNlI8=;
-        b=N0+vrWH2KiVaSXwLjggSvWpLJc82iPNfw3euYD4UirU7w7bLhwOMSHiT8i/JCQeHna
-         iyJ2PfM6OL07cydWFXL78RBCrBqqCEnCWJaLOrpmAgr7PZj7LJeLQfj5jfUVKQpSCt2D
-         H3Kqw/d9krBPlxqj6qgOcjlnPKTJ89Px/TWkBHic5myGic5jtWW56tJf3zOMZqd/RyRl
-         KjU8Ddkzw7UxwJ08LzzUQJHUFbEVqp/rS7qwFstn5cga1GZkrZZON3+Gl0ayaEkiicMU
-         +KK9MD8YJ5TgsmwuHdz9KL7Rlk3er4bg+r9Wra9Tur1HEum1aO6al6zvOA3pQxwyHWnF
-         h9vQ==
+        d=gmail.com; s=20230601; t=1760683550; x=1761288350; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DTkieSjdzW2L1FZWBBhfo8N9JLViedhpHr/nKm6IjJA=;
+        b=EUpAwkPoBsvUpTUsVUB1z3KQAZsjPCl7tGnqTFufa9M1lupibcqsHy+3IiqxyZr8VZ
+         qjd+24YVLIJ5ScjqwfOPkD4T0E8ngBAEWdQPUDvvchJ9I21WpLy7UyydvcIBRspB3Jlo
+         pCcooLJLageM8onTa87D6MGlWqIG4lr5HNOiBWFscq3EWBN4JvM6pTjuMBOVGM2BPqvx
+         4x3L/W0n2C0MHkTAHC4sirqiz3BzhAS2uvamnG3mUJUvSxcJlN+DMOjhaJIg/vNUIMYk
+         fjN6wM5H8mpDvvuSUFKWkJLifpQTgurzRmAqn+gTX7eOVLhWj2BlgYFsVwBNyRS2NIBb
+         dO8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760683549; x=1761288349;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/OTXlHG1bxvEhqF+MtL8+GAk+TyLUEMZOGcZpRcNlI8=;
-        b=Duxj0SgkdZe0bD7b+hPW0jcJVZyX/ZvcqM8yJ68l9U6xwL/CxiCIwLlMWCWXnhJrj7
-         83mggincRoBlZPC2hLxyY7BUPv7LL38AorhUwDDlGOMPgad0AqHR9uHBW6gOHYkCkSBV
-         6eJQ7JfJTn2lx/T32IRnX8Xd49XNk5UXcbWLNrKuTKIXO8qb2XBMoQM1GgTRKrnX5aYp
-         xi0h6gk29XW3xjoI2CnwbOkWbeFR+tWbCQ2aUh1lR6/CX6eZLU2gzpb/XKaeUEDALz9V
-         JUazI/Xni4STc9xRhyb03Ex2AHMq9A2c+KadlPxrdVClVe1ap8SYqh0H1t5P60wBD1Go
-         Cl2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVjdgRxTR3Y5srFBOI9DcUxy3uqiJp71zgr0w463YADQk9UVlLqPvDkRGbF8cMVqXCH8GmDzAVSCS8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6Uh04NHfnSEV6c1X6iotyddQ3OVuKtYQtTnIpEiuexbWYK7PD
-	IbtYX2H6s1vJAnXOmXAqxQnEHDYumspmcxv8dZBt85kfqHYFxIB01QaT
-X-Gm-Gg: ASbGnctb/Dz+yGB11GWZJtDelpSUhIM5UntuJET0XgVgVC896MtZd/UjOdSyme6bwV/
-	BOpPa4Nkv2ZKS0ba4YVjXdEint/A0TEQrFk8ht6WCB4p0nz8epa/mEFtMpeOIVTGSR9CybLEETc
-	r4CtRMrbIPdg2rytJeMIybjLq7Sesq+0Ka/mOnWcrsAhNYK/cAPjVPndYPp/kPDG/tI57MLHPZX
-	73AUUN3YXOGvNWL69/9qv7CtA+YB8kejKIF0jIHUYAwFUAs4sz5GQphB2HLzSTwfM8WPdLDipn7
-	CT1G+WEpMOBpxm3m+B0b9nXr/SfsF4az3BrKCUJYrGGXNdk5d6CDU59qB8FHEr6NW7EQvy9+Qdo
-	FYGlIikDtd6fTsaFUb8HsFXVeglClJqEdiZSsbgiLzg074wzv+DRJtSnte6cxPeOT+s4tcROISI
-	eC7Wo=
-X-Google-Smtp-Source: AGHT+IHcXLWHNbzKsIB+C9Oh/hpylcx5d6i9aDz/MdYArA+TbwBPxFJyXT0U63tzhiO5gzo4vkuOVA==
-X-Received: by 2002:a17:903:11ce:b0:273:3f62:6eca with SMTP id d9443c01a7336-290c9ca804emr30281085ad.18.1760683549284;
-        Thu, 16 Oct 2025 23:45:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760683550; x=1761288350;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DTkieSjdzW2L1FZWBBhfo8N9JLViedhpHr/nKm6IjJA=;
+        b=asK6u6HNxQzkaaL9Xpor4Euq7C1Q9v8jtQZwQ1uw6ETA+7cuK7G0dwfHDbtkgnNI2p
+         8hJl7rA1fX6weQq1vAPXHRs7cUKRqlihAlCpT/dsqx9EMQOPrsZS4Gb3MN1B9WDB7GNP
+         K7Bq8v9UclU/R64TmXwDV+9FoRrBObr8BpYOnPujCHOA1yuPbCziZ1SRO8qAaiEfqHw8
+         lflD5jeggoxIGOszMpUxytZlk76FOIH4TcCyGTgLBp1pxGmm9wxYUD327UxIZLteVZ/m
+         l2PC5VBPxefv1jHNBQBWBcztgQhFEnmBNSnh2F4q9KplmAZFnlxSlu4xbMWE/sSQNP72
+         tGmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBRrb2QWiftRWqq63ac1l5MqE5oaLVrkgJQwxu5cal86VpmBnr5EkBFKZPp2hiYNUoYCWEuvT8cP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmaAvrHq6zmmLO2YNn/Np0REhm/++dx55dXg2HchF3jiISTrIo
+	Un37xbyQQCmldfH2NVIRlBfmI9SPfRA7NKfzIJFIPWJXnCspg6j4UNFn
+X-Gm-Gg: ASbGncvVn0j4A7s6jNVwocqlsgcvM4RkFNRCWjNunRV8k7ZIpNGaNESj5ZIQyvKLLzD
+	rj2axRplzEO9sOyKNnygALzjY7EOjPM1Gm4tKuqvkKCej35U4LnYVaFVvnHgOkiOrIJlnBwkOHu
+	72kfxFsxNVBEQ/gAW7jJ5nacziNcm589oWioYL+AI+j58qkYUgc+wfGMH73ztljO2djXGHVH4tW
+	m+jriuRCgskEywHFpA8L3vLok6ikmtozSFvXTOErnlv1jtqPORzo9SWZwgUNsssdPL3O3PASwxw
+	lJAy4JxXe+TO1EXC/bGYYTxa4gLIuJWTDkfepyBryA6dKtKAOV5CPEQaCenJJipoRxhRZFOB0Su
+	s+ra7oFL1a+9DdHmIUu0aaQQXwY8JZMGPR187RTSQTvfBAHOmvxF/+ZZuGTOIiijuL367xtuqV/
+	texBrkeDSSjiLl6A==
+X-Google-Smtp-Source: AGHT+IEem/fSrEehwV3DtzcYZfeezgViQv1+qknKNWni/oU4JGS8WMmMY//d2kREKtWf2xINR4Ntsw==
+X-Received: by 2002:a05:6a00:130e:b0:781:15d0:8848 with SMTP id d2e1a72fcca58-7a2208eec13mr3101403b3a.13.1760683550201;
+        Thu, 16 Oct 2025 23:45:50 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afd74esm52471495ad.113.2025.10.16.23.45.48
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-799283c1a15sm5249113b3a.0.2025.10.16.23.45.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 23:45:48 -0700 (PDT)
+        Thu, 16 Oct 2025 23:45:49 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id B8F034528BFC; Fri, 17 Oct 2025 13:45:44 +0700 (WIB)
+	id 265884528ADD; Fri, 17 Oct 2025 13:45:44 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,47 +73,37 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Andreas Koensgen <ajk@comnets.uni-bremen.de>,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next 2/2] net: 6pack: Demote "How to turn on 6pack support" section heading
-Date: Fri, 17 Oct 2025 13:45:26 +0700
-Message-ID: <20251017064525.28836-4-bagasdotme@gmail.com>
+Subject: [PATCH net-next 0/2] networking docs section headings cleanup
+Date: Fri, 17 Oct 2025 13:45:24 +0700
+Message-ID: <20251017064525.28836-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251017064525.28836-2-bagasdotme@gmail.com>
-References: <20251017064525.28836-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1064; i=bagasdotme@gmail.com; h=from:subject; bh=FYvJjju1WVaSiGZ+rPPQkrZA9117N9fCrf8pnzruHlg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkfnxwUPzdpYU3+lm0tx07E8/eWPhZeNY3Ffk7Q+lczh f0etrhEdZSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BeAiGxgZ9pXxfn2fOvuMYbr3 88+b8v6I3UroLnkQeuFfcXzLt+bdixgZvq3+l+sxee2LV13GyyxXndI741XyXuYW80GbRZX5P8K msQEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=537; i=bagasdotme@gmail.com; h=from:subject; bh=76MXJi1GEaLekMNsuMxE/KJvLVrO4E/BO/gvBM1ACzs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkfn2wP2+n+ZsO6mh0sAWeV2pb3qzslGMZvVY9IUbfPW VrJHTWvo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOJC2BkOH+xgGGG+Iaqxwxb S60FV9eYLNjl+vHB7kNzpCcs+sH/r5Dhny3bKkmxBR3iVqGuuVqNj7n+Sni7n5u0f02syrnv9w7 8ZQUA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-"How to turn on 6pack support" is a subsection of "Building and
-installing the 6pack driver". Yet, the former is in the same heading
-level as the latter as sections, making it listed in networking docs
-toctree.
+Hi,
 
-Demote it to subsection.
+Just two net docs patches cleaning up section headings. The shortlog below
+should be self-explanatory.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
+Enjoy!
+
+Bagas Sanjaya (2):
+  net: nfc: Format userspace interface subsection headings
+  net: 6pack: Demote "How to turn on 6pack support" section heading
+
  Documentation/networking/6pack.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/networking/nfc.rst   | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/networking/6pack.rst b/Documentation/networking/6pack.rst
-index bc5bf1f1a98fb7..66d5fd4fc82128 100644
---- a/Documentation/networking/6pack.rst
-+++ b/Documentation/networking/6pack.rst
-@@ -94,7 +94,7 @@ kernels may lead to a compilation error because the interface to a kernel
- function has been changed in the 2.1.8x kernels.
- 
- How to turn on 6pack support:
--=============================
-+-----------------------------
- 
- - In the linux kernel configuration program, select the code maturity level
-   options menu and turn on the prompting for development drivers.
+
+base-commit: 7e0d4c111369ed385ec4aaa6c9c78c46efda54d0
 -- 
 An old man doll... just what I always wanted! - Clara
 
