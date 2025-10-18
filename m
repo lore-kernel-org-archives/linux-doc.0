@@ -1,160 +1,152 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8392D7DD8
-	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 13:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCF21487F4
+	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 14:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760792694; cv=none; b=BHMrN7jD4UC7CdgZfAH+l44DH74PRN81aHEpFEVYabhlJg0Tf5jhZpi6pAI7LhESXn+0PPPdvNLWzMy7nQTA58U0058XfeEfCPRRAIUyN9/NswKSlMOtAO3sDagxM9/56cYlWBgV3RY3ZFB8Rb2QW6pwS1jpQyn5jRdrxetCdSo=
+	t=1760796989; cv=none; b=u0b8QHzA7ZsqIuFGqcMoKzLJR76ZSiRifTDk/rXvmi1eawBMDw4+PvyCwtUc+XK9TsZ+ht75bcxrnl5JCIJ2+qvAPD7ZZwJy9JJlj54JOihNp+A2Oy17/vUlTJak/Ltf76J7vfYvgNjx770Hh10vZ/xmWXoNnl8O71gJD1CcDJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760792694; c=relaxed/simple;
-	bh=/QKA0xRQrUJstKtOglqkTvta05yDY6MtV3GQJq3894Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UxlalK0KLRjun2kIstcjgc8L/jI2U9ztfjvovAutR1hlOuZLkdYxNQVEtZmXCTOUzxNDSsV9J+efOFTdMXNUL62kOlUJNe6BaoQVQyt+ddFSXeK/PqMJUewfl/4hDL3ss4UZ7/5FUOdLExlNLD1PGmMQk/iMTZxIFtDNoYoQj9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKBe9OAt; arc=none smtp.client-ip=209.85.219.44
+	s=arc-20240116; t=1760796989; c=relaxed/simple;
+	bh=X29ameIskitCKG39iDo9fnFG74io4N0elFSW5JYWjCU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RphkRzbIF0QLGpazdAQ4ysebc7NdzkQcD/TmjaNd4wvXW4Mpk/QT/BN9ZTC/VvXZSl7MzmB44dQtXKorhbBKzsmCJt5z5Te52j12N9AQhpn7Hb++SqsPM1fCH+Zo4LSq4XENx/IWEuRT+WCOWQRdPO/Zvr2pwpzVa4QCPq3mPUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvWGG/wU; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKBe9OAt"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-87c1a760df5so55537986d6.1
-        for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 06:04:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvWGG/wU"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42701b29a7eso1341130f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 07:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760792691; x=1761397491; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qWnt+sjZ8ZgsaI+sAzX/D1lkWlG+AQb06P47+lpZEQg=;
-        b=PKBe9OAtNm2mYV7LBc/I1P+3WdYFxg32SnRmqXzmR0AC6IhklsxEs7827chNf1tcmu
-         7buyvT30Mb4C8cHXMTwRPT16ZhLUZNXwtZeABLYMWojXrECnFVtdLiP52bzk9a8s5RV4
-         Gxer1r4m/OGFS1yLYmoL2Tq6q9hP90PyMCweaJQXPSkFGqrxRexa/SPlv07IhaY9Ym1j
-         u0ZHl73Jw5vJfsdwDmyycLtyN3Lhg8HQaecqgEokKffpWKdjgSAc8xh2mWyYp38hsnk7
-         QJlok8rWmf93BTqSlYQ0A6j7S7bl21MoWrWSkW5rOMQtRNHhGK08pRtA4A7qdiS+uiJj
-         p+qQ==
+        d=gmail.com; s=20230601; t=1760796986; x=1761401786; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IlCRwb6ZxMUe1+qjY84Z++qKGjm7fl4y3NpRzyLl6u0=;
+        b=IvWGG/wUtI48CVMZIi9Os8g+nfjkPY39YS79IHWMLT0tVBRwPXOgf8LDfqH+LEcRJ5
+         tx76ayt/kII0DAvvry2RDzch4AdRaKXf6M786FkJR4ES6WADi4A7vhVLStCZTfJY9sxm
+         /SmeQ7F9tMPrTyQKBtPMFxwstaJVZnzeVNzKbYWMAt9ZLLejxQt9IJDn/313AMjPZOsG
+         vPaJFC1HrUgYEFvv2rckwnC6koMxbwMPbcGUWxLH+kPOkcNeiN/XRMO+5MoVtHDoPpUa
+         Z1B9h/EhFHFWI6kyKyUjwq81JvdTW/YmM84hOgkOtaU5ra1S7DoVvrpyzDkjoXgvneDN
+         SyCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760792691; x=1761397491;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qWnt+sjZ8ZgsaI+sAzX/D1lkWlG+AQb06P47+lpZEQg=;
-        b=VwEzQMRgGagTZCzFulGeTX3pQeAVPTI6P37ep/srBphvtLIb50TLeGLy/KJCvC8Ptt
-         jz6mKcnCen2L7ggEoUqxTq66JufQEukRvfHksHxHg9CkCB8T0rIMx7/kFff903UunBjX
-         RD3zRHTi15EfOkyVzj4Y8Hy3oAwdkS9kYbXIa7j9Gaa3fuTCoK94PJ24xeEP0f/y1idx
-         1+o8OonCL6OlZSwsNLYFvbDE5GJyxozQfvwYTnwMhTDy6Pz55gSQSVXdFLlSY31dtPGS
-         b6ZS2d+kInlqPzBJBJM8gdIUsY4HoFaggoussMlb/+kaoxzPBYc3DBI9CZlTFz530DNe
-         +hfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0grpHw8iFPzKUsQEzLKg2KmGIZQ/sduQc6VImXlP6l/P4nk3ZEkxoVIMQWYJXspYZvZVmiLlhrOY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvvD68LleNaN6yQgjO1CVHoD2YLA9B43wHrIx2WYzlE2cm3vTw
-	JCGvbKYlpGeaKM1nYUOqVRkksoBKCS2K+1i9TZcr/ENtqgE+8u+yEziT
-X-Gm-Gg: ASbGncsWoWCNR+OFnb/LnqFNMzlA0TMWH6Q40GpfyyLyzzHzMEFQZ8qSR+uJJ8dOT7G
-	GxVFBvjyzTbUacVcy3X4XkFRZRu4OdxrJzXMQxCf7lolHaepVS6IND8dS02EiOVUFfR93GDMk27
-	QSr7E3KiwGuut5+LuSXYjlYOMMgrg0Ee4j0B8LGau3SbtHRIAVQzwt1U5/UDsouxO1CAK6pC/qb
-	Pt4Gkgo3ktk1P/F8auKDnOCS4lSLXGQgICxLasrH3+Hyh2QMYxgtRxUlH5bpvQe9HV6U71n3tVR
-	/N6Ok39dOthnJM0DDinu/+/pai5Hxf21et3V7xIAvsk0h+MCweR+1XGIHoQaFlZTwo+5jLQ2d2H
-	9Lv3DW1COOJk+zHchXNVaYMZ2oXaqpjXo+pM+WAqaJ3KPQsaU3ZfdOULdvr3quUqG1ZccqYXaOv
-	GULdemEGCKBLiKq9SLd+gEh7jdPJD6l7eLSxH+
-X-Google-Smtp-Source: AGHT+IHmRouhpzmNuhXsb90wciLNRo+Xh2dXpLMyR7s2zHZrsvFLahcyOci9MsF3wzHDrdrwup9N5g==
-X-Received: by 2002:a05:6214:1948:b0:87c:dff0:7c0a with SMTP id 6a1803df08f44-87cdff07d94mr54571536d6.55.1760792691024;
-        Sat, 18 Oct 2025 06:04:51 -0700 (PDT)
-Received: from ideapad.mynetworksettings.com ([2600:4040:5304:d300:275f:6229:da5:6a60])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87d028966fasm15840596d6.33.2025.10.18.06.04.50
+        d=1e100.net; s=20230601; t=1760796986; x=1761401786;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IlCRwb6ZxMUe1+qjY84Z++qKGjm7fl4y3NpRzyLl6u0=;
+        b=db61Qytk6Ejr8K1/DpcAeYwuJwWOAGquazxHVGD54oeWrPqrUlHT0F8fjwTcu8Vyj5
+         wRMc2XPe3AbVGENSfT8mlYTpPmMPh4FNzc88Jfp7HojfkoF4g71401/mh3KI5w2xYa9V
+         X2b0f7rd1TqHT3itPCs1XA49XQUngMRjeex40SEXZ4SdnaiA0TdbKxsONyoQp/b4GyPI
+         qLCApVHRaLnZPIrxx2QwgC0HFCw8CeqsYoWWCdvi1QpJYPRij2fqxIjc9gMYrvmwp0GJ
+         C3uGphyKHNUDoX9KETKA+aMN478oXRcXt3hx02YTdbmeuQP7bGQdokme1y84sy22T5Z4
+         lH4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWyPgXKnZCN405ytpG5oZjC/WpNiiKiTe+7fqr0krNL48JS0zlN/RGqUUyXX0aoxYlBONKBGR4ErYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEnT7ckenLFrFMuPVGrIvq2XA7uvahudprS+UVAFYxOefdjyBi
+	KJXcNwt0Cx2i7Q2XV2QulgDiTFEnLXuQATmz1a4OHc8KkbroR1kK+eQw
+X-Gm-Gg: ASbGnctzwhD69/AvQFBv6OSAq2qfm8olNxHimCl1lA0AJZc6l27nA6ChsBCKYNKLI8a
+	BLnSNuhNI90mLumg/5f517ZM4Kzadh0J/bHtGV/W1BYBfb42WNPCOn9pZTDNMfnAf3Dk4+hLnbj
+	QmVP+Uga61xbqxU9HRBxyLP8GyiQ5GThv4BxOq75n/5ijdLgxapLF9PXxaAo7RlwyZufHX98HAN
+	zfIfDDcS5wtelE0moIi0QcUp8O+LK0RGQnD6CVP4TAKVmQ98538SqRFP3WBNms1C6RczTHKbDQ0
+	uyrbdYI/zxybigPIoa4DiJ51OG+4jWSIzadxfXzo56pTfw84SkmYUUhqau30Crwz3zvCeF5ypH0
+	y/BXeX80TXwKRDb/CbDibAuWecJY0lzQzKj69lyhUTElAJt7EheSXs/Csl6GjibCMyYiwQXPD2h
+	05/0qEH7oy
+X-Google-Smtp-Source: AGHT+IG3AlPGTUhBjZicoKO2fafPrO3Ym6F/9eWov1dBZ28BCJY0XCxolDXbuHb3nvEg1oKZJQkcwQ==
+X-Received: by 2002:a05:6000:40dc:b0:414:fb6c:e369 with SMTP id ffacd0b85a97d-42704b3db2dmr4898244f8f.5.1760796985415;
+        Sat, 18 Oct 2025 07:16:25 -0700 (PDT)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427e1be5d6csm5297975f8f.0.2025.10.18.07.16.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 06:04:50 -0700 (PDT)
-From: Ivan Pravdin <ipravdin.official@gmail.com>
-To: rostedt@goodmis.org,
-	tglozar@redhat.com,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ivan Pravdin <ipravdin.official@gmail.com>
-Subject: [PATCH v4 2/2] rtla: fix -a overriding -t argument
-Date: Sat, 18 Oct 2025 09:04:31 -0400
-Message-ID: <93cf8411e8c23ebdcf2e168f0f7d3e8c9081900b.1760791697.git.ipravdin.official@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1760791697.git.ipravdin.official@gmail.com>
-References: <cover.1760791697.git.ipravdin.official@gmail.com>
+        Sat, 18 Oct 2025 07:16:25 -0700 (PDT)
+Message-ID: <a5cc1d4850b17569900124e1e4cf7549cedc7692.camel@gmail.com>
+Subject: Re: [PATCH v5 5/7] iio: adc: ad4030: Add SPI offload support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+ michael.hennerich@analog.com, 	nuno.sa@analog.com, eblanc@baylibre.com,
+ dlechner@baylibre.com, andy@kernel.org, 	robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, Trevor Gamblin
+ <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>
+Date: Sat, 18 Oct 2025 15:16:57 +0100
+In-Reply-To: <aPKfCbZSXxaHICel@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1760479760.git.marcelo.schmitt@analog.com>
+	 <c12569f251962ad6034395e53cd6d998ce78a63f.1760479760.git.marcelo.schmitt@analog.com>
+	 <5e3a1d31f3cec340650e2e63db79903b78ab9a1f.camel@gmail.com>
+	 <aPKfCbZSXxaHICel@debian-BULLSEYE-live-builder-AMD64>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When running rtla as
+On Fri, 2025-10-17 at 16:54 -0300, Marcelo Schmitt wrote:
+> On 10/17, Nuno S=C3=A1 wrote:
+> > On Tue, 2025-10-14 at 19:22 -0300, Marcelo Schmitt wrote:
+> > > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
+> > > samples per second (MSPS). Not all SPI controllers are able to achiev=
+e
+> > > such
+> > > high throughputs and even when the controller is fast enough to run
+> > > transfers at the required speed, it may be costly to the CPU to handl=
+e
+> > > transfer data at such high sample rates. Add SPI offload support for
+> > > AD4030
+> > > and similar ADCs to enable data capture at maximum sample rates.
+> > >=20
+> > > Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
+> > > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> > > Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
+> > > Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
+> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > ---
+> >=20
+> ...
+> > > +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_de=
+v)
+> > > +{
+> > > +	struct ad4030_state *st =3D iio_priv(indio_dev);
+> > > +	unsigned int reg_modes;
+> > > +	int ret, ret2;
+> > > +
+> ...
+> > > +	ret =3D spi_offload_trigger_enable(st->offload, st-
+> > > >offload_trigger,
+> > > +					 &st->offload_trigger_config);
+> > > +	if (ret)
+> > > +		goto out_pwm_disable;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +out_pwm_disable:
+> > > +	pwm_disable(st->cnv_trigger);
+> > > +out_unoptimize:
+> > > +	spi_unoptimize_message(&st->offload_msg);
+> > > +out_reset_mode:
+> > > +	/* reenter register configuration mode */
+> > > +	ret2 =3D ad4030_enter_config_mode(st);
+> >=20
+> > nit: if ret2 is not being used at all, maybe just
+> ret2 is logged on the error message below so I guess I'll keep it as it i=
+s.
+> >=20
+> > if (ad4030_enter_config_mode(st))
+> > =09
+> > > +	if (ret2)
+> > > +		dev_err(&st->spi->dev,
+> > > +			"couldn't reenter register configuration mode:
+> > > %d\n",
+> > > +			ret2);
+> here we log the error code. We only reach it if reg access fails after
+> something on offload buffer enable have failed first. We cannot reuse ret=
+ here
+> because we would be shadowing the original error code.
 
-    `rtla <timerlat|osnoise> <top|hist> -t custom_file.txt -a 100`
-
--a options override trace output filename specified by -t option.
-Running the command above will create <timerlat|osnoise>_trace.txt file
-instead of custom_file.txt. Fix this by making sure that -a option does
-not override trace output filename even if it's passed after trace
-output filename is specified.
-
-Fixes: 173a3b014827 ("rtla/timerlat: Add the automatic trace option")
-Signed-off-by: Ivan Pravdin <ipravdin.official@gmail.com>
-Reviewed-by: Tomas Glozar <tglozar@redhat.com>
----
- tools/tracing/rtla/src/osnoise_hist.c  | 3 ++-
- tools/tracing/rtla/src/osnoise_top.c   | 2 ++
- tools/tracing/rtla/src/timerlat_hist.c | 3 ++-
- tools/tracing/rtla/src/timerlat_top.c  | 3 ++-
- 4 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/tools/tracing/rtla/src/osnoise_hist.c b/tools/tracing/rtla/src/osnoise_hist.c
-index 8b12d8803998..ae8426f40f8f 100644
---- a/tools/tracing/rtla/src/osnoise_hist.c
-+++ b/tools/tracing/rtla/src/osnoise_hist.c
-@@ -557,7 +557,8 @@ static struct common_params
- 			params->threshold = 1;
- 
- 			/* set trace */
--			trace_output = "osnoise_trace.txt";
-+			if (!trace_output)
-+				trace_output = "osnoise_trace.txt";
- 
- 			break;
- 		case 'b':
-diff --git a/tools/tracing/rtla/src/osnoise_top.c b/tools/tracing/rtla/src/osnoise_top.c
-index 0be400666c05..9487c6a592c2 100644
---- a/tools/tracing/rtla/src/osnoise_top.c
-+++ b/tools/tracing/rtla/src/osnoise_top.c
-@@ -398,6 +398,8 @@ struct common_params *osnoise_top_parse_args(int argc, char **argv)
- 
- 			/* set trace */
- 			trace_output = "osnoise_trace.txt";
-+			if (!trace_output)
-+				trace_output = "osnoise_trace.txt";
- 
- 			break;
- 		case 'c':
-diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
-index 16416192e432..311c4f18ce4c 100644
---- a/tools/tracing/rtla/src/timerlat_hist.c
-+++ b/tools/tracing/rtla/src/timerlat_hist.c
-@@ -878,7 +878,8 @@ static struct common_params
- 			params->print_stack = auto_thresh;
- 
- 			/* set trace */
--			trace_output = "timerlat_trace.txt";
-+			if (!trace_output)
-+				trace_output = "timerlat_trace.txt";
- 
- 			break;
- 		case 'c':
-diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
-index fe4f4e69e00f..3a3b11b5beaa 100644
---- a/tools/tracing/rtla/src/timerlat_top.c
-+++ b/tools/tracing/rtla/src/timerlat_top.c
-@@ -628,7 +628,8 @@ static struct common_params
- 			params->print_stack = auto_thresh;
- 
- 			/* set trace */
--			trace_output = "timerlat_trace.txt";
-+			if (!trace_output)
-+				trace_output = "timerlat_trace.txt";
- 
- 			break;
- 		case '5':
--- 
-2.48.1
+Right :facepalm:
 
