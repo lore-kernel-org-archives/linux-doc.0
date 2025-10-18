@@ -1,160 +1,270 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571E7287510;
-	Sat, 18 Oct 2025 08:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCC523E330
+	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 08:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760777224; cv=none; b=oBaikFfB7FN2aE6PjU4ecoVH6jIjlCRyk0Wv+ow28VUs5GgffBY5+LhdfuBNUgmI3G3qx4fBp+VDVU/rkyUbLIlzFxM8QB7503ocmnEOjxexD5YbI9euFEPfPoworOS1ZG+Fl0Wi8fRP0ivhJIiJ8xx8vTUmLMp1P9N9vI3jUic=
+	t=1760777899; cv=none; b=eAF/l39DetsszTX7BoZngDXgzcSCAw7etjNzUm3k7HzrstnJ0wAsuvUiHwryNz/EZFIfBiwsOHwCARVS3RmlAP8J3WlhTv2LOGMwEx+8aqjLVDKsoXqSAQMsHPABFyhCSLXMyLnvcflT0mXM0VMutLC3RtCbaV518hR6zRFHYbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760777224; c=relaxed/simple;
-	bh=fw6L8ACEjG8b3uUVswZemuK0fXowd7Gbu+ZmHZX7/ew=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=LLCpWyP59eSTQnWBy6ZDhMVjXNr8owwcHLy9AZ27Nl3aKMTbB1iqnzxxKGfPw8zP79OUFmqIac99oA5yuln0VJncn6K/lBoLmtZj/kmxkNj9JuwwlPXwLWp/H6wJqpR4wDOMaoorIi7QuN52tQ5CXSko1zrWDjrLKhY1EzSPnAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=AD5XR7Nm; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1760777899; c=relaxed/simple;
+	bh=J/djA+b81yVeTrkZypaitNCHNkzuqv8Bznz8lT0ww20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rw0dMvZBjqVz++vv/FcdUcZj3LooKJFCfVlgZvOo+Xd3AK/Zc+ewBVxJy4UGBB+KBpT5HGPrX4Y+wsbQd3iv+rXtMaWWB1hVScGuJwl1/UEpnzDHDP/6nNm3K1jsnoeg6EcW1V3p/83rBgZ41aIbD5bjeqSJ0F0tNUKLBGPbnwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oarov2wd; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="AD5XR7Nm"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=PtXeoyMbEb3nG99AFaMa2rNFJ1WX4VazwCqad42ukB8=;
-	b=AD5XR7NmSD71grdrmY7EqMR7hVnfBjEGjLO/Sn5nWEGBbnS3ZCsHvokz8iNNa8zYKy9/+j/PE
-	hk2ALKCefi0mTib91JeeloNYzPxN4DEKO+rPT4UbOzKZ55lxbTgqqDcU4DZd4sJNyvnYb9/uqHf
-	jlx3exQ0zEZsGJKliLGJLh0=
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4cpZzq0xH6zLlVc;
-	Sat, 18 Oct 2025 16:46:31 +0800 (CST)
-Received: from kwepemj200003.china.huawei.com (unknown [7.202.194.15])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3EC951A016C;
-	Sat, 18 Oct 2025 16:46:53 +0800 (CST)
-Received: from [10.67.120.170] (10.67.120.170) by
- kwepemj200003.china.huawei.com (7.202.194.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 18 Oct 2025 16:46:52 +0800
-Message-ID: <9ce597a0-9df4-4c92-913b-ca75fc028972@huawei.com>
-Date: Sat, 18 Oct 2025 16:46:52 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oarov2wd"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-63c11011e01so4132502a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 01:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760777896; x=1761382696; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J/djA+b81yVeTrkZypaitNCHNkzuqv8Bznz8lT0ww20=;
+        b=Oarov2wdBoOmkkYavJY+HFn7wzsOtpOacca9cu5UCMlmHqL0aJaD6qtA1Kc60FI79L
+         pA04VhHvycvuK5HOlfrOM7JHfC4J/IP8HktI7CsjLvwIrYyGOaQbYayaXQWdHNJvqX0V
+         zig9HD+Xo2yASQBmbd2ZFtAl+PEF0fAgtx8BBtlIqJjb2dYVDumds8RPOFmp5NbBH+GJ
+         KdWptSyT7WMUSBCEC6mH+RjjkzkPjOtpgowXzdAxuV+IcDUoHx5o/wGL3sw8I80GFQRp
+         df2i/MhP+b05hODnUMeJVuOYUIVe/W4fNJK08vhFkyH8f+NgWejVGZXsbYc5Cu59WWj/
+         hxxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760777896; x=1761382696;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J/djA+b81yVeTrkZypaitNCHNkzuqv8Bznz8lT0ww20=;
+        b=KJqTZNKhA5G3i91FsrObwzuaabkDughA1prmdy8yuod1VDHXKt3wVWwRSdGJ1S/fYO
+         G2HLorsMbRUNPk0Aje720n6u9SWnLcHozqiaoR6CApRUh0+uccV11/P6qbtOWcc4B3YA
+         ulCxHhhVU6nwGoAs1BxsCIicKAYv/53P1H2nZO65w+bVz5wH7uF4GjIyEu10zRyIhBOf
+         i2lrg5QlWbEnc1vFkSsyBaQHy7cfEBsHpAfRVwTaQ+rxBMTe7riT9FFl4N4IrspDWOHS
+         cB1h9F3Lwi4qEvWGFWeB96vnEQvbQaml7JzjPhrx29B6LN+r2HsSn73Hs/kSy7K5yE9i
+         iC+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZox7bMxNk4MIsrYtamw+iRtZN1PG1nvMaMtV4D505ou/UGd1eFyv2Va9gJJytVbloENkp2qqlUQo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdqpsVvGlexS0cK4XPFbJgYupbhSE7qrCS7K4a3ENa9lFIfnSA
+	0vre7zsRdRNFbdK81jrL6o7xlwCVz0OmQLqDtqDJAlcQntimw2V5wHOTts6sIzqby2G0i5YG/3j
+	acGWxmHC++t5h4kX9QFsG4+Jtc4/k3N4=
+X-Gm-Gg: ASbGnctwoFtSxa+7gKvlXVbrlei0DUah1HA4bH88z4J6+ZNfgHPmftSGSQd13+8HbTQ
+	KPU3DsIKZYizgCGwuAKdP0Ds9fFubbrpiofWTR2lZyAZR/FodY4uBvdfZQgtv2h9bq6Hkx6NCWW
+	mcaC4T8uxzgLWTSTlWP01kRRKebwjBLb2X8cmSJDPKe8d3QQ5TvHWMTFpr47Do994lgqYgAW+eY
+	g2WrMnaj7LYnYPKNY+x8pTWavsvbWg3afIXnh7GbdfQnTyCWjzEoTZWUzVQ
+X-Google-Smtp-Source: AGHT+IGkEhGlzcTcWUp2pwgM4X/apZtq/c3ZQQ4Uodsel1cqd7mqwdYIKWo0ZB5SY1b2sLwewX6r/f9boqZJaLHT4NI=
+X-Received: by 2002:a05:6402:1d4c:b0:63c:489f:df1 with SMTP id
+ 4fb4d7f45d1cf-63c489f20d4mr2280681a12.16.1760777895885; Sat, 18 Oct 2025
+ 01:58:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/4] iommu: Add IOMMU_DEBUG_PAGEALLOC sanitizer
-To: Mostafa Saleh <smostafa@google.com>, <linux-mm@kvack.org>,
-	<iommu@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-CC: <corbet@lwn.net>, <joro@8bytes.org>, <will@kernel.org>,
-	<robin.murphy@arm.com>, <akpm@linux-foundation.org>, <vbabka@suse.cz>,
-	<surenb@google.com>, <mhocko@suse.com>, <jackmanb@google.com>,
-	<hannes@cmpxchg.org>, <ziy@nvidia.com>, <david@redhat.com>,
-	<lorenzo.stoakes@oracle.com>, <Liam.Howlett@oracle.com>, <rppt@kernel.org>
-References: <20251003173229.1533640-1-smostafa@google.com>
-From: Qinxin Xia <xiaqinxin@huawei.com>
-In-Reply-To: <20251003173229.1533640-1-smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemj200003.china.huawei.com (7.202.194.15)
+References: <20251013234416.6172-1-benx.guo@gmail.com>
+In-Reply-To: <20251013234416.6172-1-benx.guo@gmail.com>
+From: Alex Shi <seakeel@gmail.com>
+Date: Sat, 18 Oct 2025 16:57:39 +0800
+X-Gm-Features: AS18NWDQusDCWWDxCSp2ss8jUjkgMbQK3fBZ8ewp7pdIt8kfhP7rJ8-ppg0IUTI
+Message-ID: <CAJy-Am=g66Ku_fmgh4PBDM48EvyNnwrz9iYTnj5UNc3_kiyBOQ@mail.gmail.com>
+Subject: Re: [PATCH v3] docs/zh_CN: Add translation of rust/testing.rst
+To: Ben Guo <benx.guo@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, hust-os-kernel-patches@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-
-
-在 2025/10/4 1:32, Mostafa Saleh 写道:
-> Overview
-> --------
-> This patch series introduces a new debugging feature,
-> IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
-> and IOMMU mapping leaks from buggy drivers.
-> 
-> The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
-> for catching CPU-side memory corruption. However, there is limited
-> runtime sanitization for DMA mappings managed by the IOMMU. A buggy
-> driver can free a page while it is still mapped for DMA, leading to
-> memory corruption or use-after-free vulnerabilities when that page is
-> reallocated and used for a different purpose.
-> 
-> Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
-> per-page basis, as it’s not possible to unmap the pages, because it
-> requires to lock and walk all domains on every kernel free, instead we
-> rely on page_ext to add an IOMMU-specific mapping reference count for
-> each page.
-> And on each page allocated/freed from the kernel we simply check the
-> count and WARN if it is not zero.
-> 
-> Concurrency
-> -----------
-> By design this check is racy where one caller can map pages just after
-> the check, which can lead to false negatives.
-> In my opinion this is acceptable for sanitizers (for ex KCSAN have
-> that property).
-> Otherwise we have to implement locks in iommu_map/unmap for all domains
-> which is not favourable even for a debug feature.
-> The sanitizer only guarantees that the refcount itself doesn’t get
-> corrupted using atomics. And there are no false positives.
-> 
-> CPU vs IOMMU Page Size
-> ----------------------
-> IOMMUs can use different page sizes and which can be non-homogeneous;
-> not even all of them have the same page size.
-> 
-> To solve this, the refcount is always incremented and decremented in
-> units of the smallest page size supported by the IOMMU domain. This
-> ensures the accounting remains consistent regardless of the size of
-> the map or unmap operation, otherwise double counting can happen.
-> 
-> Testing & Performance
-> ---------------------
-> This was tested on Morello with Arm64 + SMMUv3
-> Also I booted RockPi-4b with Rockchip IOMMU.
-> Did some tests on Qemu including different SMMUv3/CPU page size (arm64).
-> 
-> I also ran dma_map_benchmark on Morello:
-> 
-> echo dma_map_benchmark > /sys/bus/pci/devices/0000\:06\:00.0/driver_override
-> echo 0000:06:00.0 >  /sys/bus/pci/devices/0000\:06\:00.0/driver/unbind
-> echo 0000:06:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
-> ./dma_map_bechmark -t $threads -g $nr_pages
-> 
-> CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
-> cmdline refer to "iommu.debug_pagealloc"
-> Numbers are (map latency)/(unmap latency), lower is better.
-> 
-> 			CONFIG=n    CONFIG=y    CONFIG=y
-> 			            cmdline=0   cmdline=1
-> 4K - 1 thread		0.1/0.6     0.1/0.6     0.1/0.7
-> 4K - 4 threads		0.1/1.0     0.1/1.1     0.1/1.1
-> 1M - 1 thread		0.8/21.2    0.8/21.2    5.6/42.5
-> 1M - 4 threads		1.1/46.3    1.1/46.1    5.9/45.5
-> 
-> Thanks,
-> Mostafa
-> 
-> Mostafa Saleh (4):
->    drivers/iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
->    drivers/iommu: Add calls for iommu debug
->    drivers/iommu-debug: Track IOMMU pages
->    drivers/iommu-debug: Check state of mapped/unmapped kernel memory
-> 
->   .../admin-guide/kernel-parameters.txt         |   6 +
->   drivers/iommu/Kconfig                         |  14 ++
->   drivers/iommu/Makefile                        |   1 +
->   drivers/iommu/iommu-debug.c                   | 160 ++++++++++++++++++
->   drivers/iommu/iommu.c                         |  21 ++-
->   include/linux/iommu-debug.h                   |  24 +++
->   include/linux/mm.h                            |   7 +
->   mm/page_ext.c                                 |   4 +
->   8 files changed, 235 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/iommu/iommu-debug.c
->   create mode 100644 include/linux/iommu-debug.h
-> 
-Hi,
-
-I have tested the patch on kunpeng 920 and it works as expected.
-
-Tested-by: Qinxin Xia <xiaqinxin@huawei.com>
-
-Thanks,
-Qinxin Xia
-
+QXBwbGllZCwgVGhhbmtzDQoNCkJlbiBHdW8gPGJlbnguZ3VvQGdtYWlsLmNvbT4g5LqOMjAyNeW5
+tDEw5pyIMTTml6XlkajkuowgMDc6NDTlhpnpgZPvvJoNCj4NCj4gQ29tcGxldGUgdGhlIHRyYW5z
+bGF0aW9uIG9mIHJ1c3QvdGVzdGluZy5yc3QgYW5kIGFkZCB0aGUgdGVzdGluZyBUT0MgZW50cnkN
+Cj4gdG8gcnVzdC9pbmRleC5yc3QuDQo+DQo+IEFkZCB0aGUgdHJhbnNsYXRpb24gYmFzZWQgb24g
+Y29tbWl0IGEzYjIzNDczNDNlMA0KPiAoIkRvY3VtZW50YXRpb246IHJ1c3Q6IHRlc3Rpbmc6IGFk
+ZCBkb2NzIG9uIHRoZSBuZXcgS1VuaXQgYCNbdGVzdF1gIHRlc3RzIikuDQo+DQo+IFNpZ25lZC1v
+ZmYtYnk6IEJlbiBHdW8gPGJlbnguZ3VvQGdtYWlsLmNvbT4NCj4gLS0tDQo+IHYyLT52MzogUmVz
+ZW5kIHdpdGhvdXQgSW4tUmVwbHktVG8gaGVhZGVyIChubyBjb2RlIGNoYW5nZXMpLg0KPiB2MS0+
+djI6IFJlYmFzZWQgb250byBkb2NzLW5leHQgKG5vIGNvZGUgY2hhbmdlcykuDQo+ICAuLi4vdHJh
+bnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgucnN0ICAgICAgICAgfCAgIDEgKw0KPiAgLi4uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9ydXN0L3Rlc3RpbmcucnN0ICAgICAgIHwgMjE1ICsrKysrKysrKysr
+KysrKysrKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAyMTYgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvdGVzdGlu
+Zy5yc3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L3J1c3QvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcnVzdC9p
+bmRleC5yc3QNCj4gaW5kZXggMTA0MTNiMGMxN2MwLi41MzQ3ZDQ3Mjk1ODggMTAwNjQ0DQo+IC0t
+LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgucnN0DQo+ICsr
+KyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgucnN0DQo+IEBA
+IC00Nyw2ICs0Nyw3IEBAIFJ1c3Qg5pSv5oyB5ZyoIHY2LjEg54mI5pys5Lit5ZCI5bm25Yiw5Li7
+57q/77yM5Lul5biu5Yqp56Gu5a6aIFJ1c3Qg5L2c5Li65LiA56eNDQo+ICAgICAgZ2VuZXJhbC1p
+bmZvcm1hdGlvbg0KPiAgICAgIGNvZGluZy1ndWlkZWxpbmVzDQo+ICAgICAgYXJjaC1zdXBwb3J0
+DQo+ICsgICAgdGVzdGluZw0KPg0KPiAg5L2g6L+Y5Y+v5Lul5ZyoIDpkb2M6YC4uLy4uLy4uL3By
+b2Nlc3Mva2VybmVsLWRvY3NgIOS4reaJvuWIsCBSdXN0IOeahOWtpuS5oOadkOaWmeOAgg0KPg0K
+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcnVzdC90ZXN0
+aW5nLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvdGVzdGluZy5y
+c3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi5jYTgxZjFj
+ZWY2ZWINCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9ydXN0L3Rlc3RpbmcucnN0DQo+IEBAIC0wLDAgKzEsMjE1IEBADQo+ICsuLiBTUERY
+LUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWlt
+ZXItemhfQ04ucnN0DQo+ICsNCj4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9ydXN0L3Rlc3Rp
+bmcucnN0DQo+ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDpg63mnbAgQmVuIEd1byA8YmVueC5n
+dW9AZ21haWwuY29tPg0KPiArDQo+ICvmtYvor5UNCj4gKz09PT0NCj4gKw0KPiAr5pys5paH5LuL
+57uN5LqG5aaC5L2V5Zyo5YaF5qC45Lit5rWL6K+VIFJ1c3Qg5Luj56CB44CCDQo+ICsNCj4gK+ac
+ieS4ieenjea1i+ivleexu+Wei++8mg0KPiArDQo+ICstIEtVbml0IOa1i+ivlQ0KPiArLSBgYCNb
+dGVzdF1gYCDmtYvor5UNCj4gKy0gS3NlbGZ0ZXN0cw0KPiArDQo+ICtLVW5pdCDmtYvor5UNCj4g
+Ky0tLS0tLS0tLS0NCj4gKw0KPiAr6L+Z5Lqb5rWL6K+V5p2l6IeqIFJ1c3Qg5paH5qGj5Lit55qE
+56S65L6L44CC5a6D5Lus5Lya6KKr6L2s5o2i5Li6IEtVbml0IOa1i+ivleOAgg0KPiArDQo+ICvk
+vb/nlKgNCj4gKyoqKioNCj4gKw0KPiAr6L+Z5Lqb5rWL6K+V5Y+v5Lul6YCa6L+HIEtVbml0IOi/
+kOihjOOAguS+i+Wmgu+8jOWcqOWRveS7pOihjOS4reS9v+eUqCBgYGt1bml0X3Rvb2xgYCDvvIgg
+YGBrdW5pdC5weWBgIO+8iTo6DQo+ICsNCj4gKyAgICAgICAuL3Rvb2xzL3Rlc3Rpbmcva3VuaXQv
+a3VuaXQucHkgcnVuIC0tbWFrZV9vcHRpb25zIExMVk09MSAtLWFyY2ggeDg2XzY0IC0ta2NvbmZp
+Z19hZGQgQ09ORklHX1JVU1Q9eQ0KPiArDQo+ICvmiJbogIXvvIxLVW5pdCDkuZ/lj6/ku6XlnKjl
+hoXmoLjlkK/liqjml7bku6XlhoXnva7mlrnlvI/ov5DooYzjgILojrflj5bmm7TlpJogS1VuaXQg
+5L+h5oGv77yM6K+35Y+C6ZiFDQo+ICtEb2N1bWVudGF0aW9uL2Rldi10b29scy9rdW5pdC9pbmRl
+eC5yc3TjgIINCj4gK+WFs+S6juWGheaguOWGhee9ruS4juWRveS7pOihjOa1i+ivleeahOivpue7
+huS/oeaBr++8jOivt+WPgumYhSBEb2N1bWVudGF0aW9uL2Rldi10b29scy9rdW5pdC9hcmNoaXRl
+Y3R1cmUucnN044CCDQo+ICsNCj4gK+imgeS9v+eUqOi/meS6myBLVW5pdCDmlofmoaPmtYvor5Xv
+vIzpnIDopoHlnKjlhoXmoLjphY3nva7kuK3lkK/nlKjku6XkuIvpgInpobk6Og0KPiArDQo+ICsg
+ICAgICAgQ09ORklHX0tVTklUDQo+ICsgICAgICAgICAgS2VybmVsIGhhY2tpbmcgLT4gS2VybmVs
+IFRlc3RpbmcgYW5kIENvdmVyYWdlIC0+IEtVbml0IC0gRW5hYmxlIHN1cHBvcnQgZm9yIHVuaXQg
+dGVzdHMNCj4gKyAgICAgICBDT05GSUdfUlVTVF9LRVJORUxfRE9DVEVTVFMNCj4gKyAgICAgICAg
+ICBLZXJuZWwgaGFja2luZyAtPiBSdXN0IGhhY2tpbmcgLT4gRG9jdGVzdHMgZm9yIHRoZSBga2Vy
+bmVsYCBjcmF0ZQ0KPiArDQo+ICtLVW5pdCDmtYvor5XljbPmlofmoaPmtYvor5UNCj4gKyoqKioq
+KioqKioqKioqKioqKioqDQo+ICsNCj4gK+aWh+aho+a1i+ivle+8iCAqZG9jdGVzdHMqIO+8ieS4
+gOiIrOeUqOS6juWxleekuuWHveaVsOOAgee7k+aehOS9k+aIluaooeWdl+etieeahOS9v+eUqOaW
+ueazleOAgg0KPiArDQo+ICvlroPku6zpnZ7luLjmlrnkvr/vvIzlm6DkuLrlroPku6zlsLHlhpnl
+nKjmlofmoaPml4HovrnjgILkvovlpoLvvJoNCj4gKw0KPiArLi4gY29kZS1ibG9jazo6IHJ1c3QN
+Cj4gKw0KPiArICAgICAgIC8vLyDmsYLlkozkuKTkuKrmlbDlrZfjgIINCj4gKyAgICAgICAvLy8N
+Cj4gKyAgICAgICAvLy8gYGBgDQo+ICsgICAgICAgLy8vIGFzc2VydF9lcSEobXltb2Q6OmYoMTAs
+IDIwKSwgMzApOw0KPiArICAgICAgIC8vLyBgYGANCj4gKyAgICAgICBwdWIgZm4gZihhOiBpMzIs
+IGI6IGkzMikgLT4gaTMyIHsNCj4gKyAgICAgICAgICAgYSArIGINCj4gKyAgICAgICB9DQo+ICsN
+Cj4gK+WcqOeUqOaIt+epuumXtOS4re+8jOi/meS6m+a1i+ivleeUsSBgYHJ1c3Rkb2NgYCDotJ/o
+tKPmlLbpm4blubbov5DooYzjgILljZXni6zkvb/nlKjov5nkuKrlt6Xlhbflt7Lnu4/lvojmnInk
+u7flgLzvvIwNCj4gK+WboOS4uuWug+WPr+S7pemqjOivgeekuuS+i+iDveWQpuaIkOWKn+e8luiv
+ke+8iOehruS/neWSjOS7o+eggeS/neaMgeWQjOatpe+8ie+8jA0KPiAr5ZCM5pe26L+Y5Y+v5Lul
+6L+Q6KGM6YKj5Lqb5LiN5L6d6LWW5YaF5qC4IEFQSSDnmoTnpLrkvovjgIINCj4gKw0KPiAr54S2
+6ICM77yM5Zyo5YaF5qC45Lit77yM6L+Z5Lqb5rWL6K+V5Lya6L2s5o2i5oiQIEtVbml0IOa1i+iv
+leWll+S7tuOAgg0KPiAr6L+Z5oSP5ZGz552A5paH5qGj5rWL6K+V5Lya6KKr57yW6K+R5oiQIFJ1
+c3Qg5YaF5qC45a+56LGh77yM5LuO6ICM5Y+v5Lul5Zyo5p6E5bu655qE5YaF5qC4546v5aKD5Lit
+6L+Q6KGM44CCDQo+ICsNCj4gK+mAmui/h+S4jiBLVW5pdCDpm4bmiJDvvIxSdXN0IOeahOaWh+ah
+o+a1i+ivleWPr+S7peWkjeeUqOWGheaguOeOsOacieeahOa1i+ivleiuvuaWveOAgg0KPiAr5L6L
+5aaC77yM5YaF5qC45pel5b+X5Lya5pi+56S6OjoNCj4gKw0KPiArICAgICAgIEtUQVAgdmVyc2lv
+biAxDQo+ICsgICAgICAgMS4uMQ0KPiArICAgICAgICAgICBLVEFQIHZlcnNpb24gMQ0KPiArICAg
+ICAgICAgICAjIFN1YnRlc3Q6IHJ1c3RfZG9jdGVzdHNfa2VybmVsDQo+ICsgICAgICAgICAgIDEu
+LjU5DQo+ICsgICAgICAgICAgICMgcnVzdF9kb2N0ZXN0X2tlcm5lbF9idWlsZF9hc3NlcnRfcnNf
+MC5sb2NhdGlvbjogcnVzdC9rZXJuZWwvYnVpbGRfYXNzZXJ0LnJzOjEzDQo+ICsgICAgICAgICAg
+IG9rIDEgcnVzdF9kb2N0ZXN0X2tlcm5lbF9idWlsZF9hc3NlcnRfcnNfMA0KPiArICAgICAgICAg
+ICAjIHJ1c3RfZG9jdGVzdF9rZXJuZWxfYnVpbGRfYXNzZXJ0X3JzXzEubG9jYXRpb246IHJ1c3Qv
+a2VybmVsL2J1aWxkX2Fzc2VydC5yczo1Ng0KPiArICAgICAgICAgICBvayAyIHJ1c3RfZG9jdGVz
+dF9rZXJuZWxfYnVpbGRfYXNzZXJ0X3JzXzENCj4gKyAgICAgICAgICAgIyBydXN0X2RvY3Rlc3Rf
+a2VybmVsX2luaXRfcnNfMC5sb2NhdGlvbjogcnVzdC9rZXJuZWwvaW5pdC5yczoxMjINCj4gKyAg
+ICAgICAgICAgb2sgMyBydXN0X2RvY3Rlc3Rfa2VybmVsX2luaXRfcnNfMA0KPiArICAgICAgICAg
+ICAuLi4NCj4gKyAgICAgICAgICAgIyBydXN0X2RvY3Rlc3Rfa2VybmVsX3R5cGVzX3JzXzIubG9j
+YXRpb246IHJ1c3Qva2VybmVsL3R5cGVzLnJzOjE1MA0KPiArICAgICAgICAgICBvayA1OSBydXN0
+X2RvY3Rlc3Rfa2VybmVsX3R5cGVzX3JzXzINCj4gKyAgICAgICAjIHJ1c3RfZG9jdGVzdHNfa2Vy
+bmVsOiBwYXNzOjU5IGZhaWw6MCBza2lwOjAgdG90YWw6NTkNCj4gKyAgICAgICAjIFRvdGFsczog
+cGFzczo1OSBmYWlsOjAgc2tpcDowIHRvdGFsOjU5DQo+ICsgICAgICAgb2sgMSBydXN0X2RvY3Rl
+c3RzX2tlcm5lbA0KPiArDQo+ICvmlofmoaPmtYvor5XkuK3vvIzkuZ/lj6/ku6XmraPluLjkvb/n
+lKggYD8gPGh0dHBzOi8vZG9jLnJ1c3QtbGFuZy5vcmcvcmVmZXJlbmNlL2V4cHJlc3Npb25zL29w
+ZXJhdG9yLWV4cHIuaHRtbCN0aGUtcXVlc3Rpb24tbWFyay1vcGVyYXRvcj5gXyDov5DnrpfnrKbv
+vIzkvovlpoLvvJoNCj4gKw0KPiArLi4gY29kZS1ibG9jazo6IHJ1c3QNCj4gKw0KPiArICAgICAg
+IC8vLyBgYGANCj4gKyAgICAgICAvLy8gIyB1c2Uga2VybmVsOjp7c3Bhd25fd29ya19pdGVtLCB3
+b3JrcXVldWV9Ow0KPiArICAgICAgIC8vLyBzcGF3bl93b3JrX2l0ZW0hKHdvcmtxdWV1ZTo6c3lz
+dGVtKCksIHx8IHByX2luZm8hKCJ4XG4iKSk/Ow0KPiArICAgICAgIC8vLyAjIE9rOjo8KCksIEVy
+cm9yPigoKSkNCj4gKyAgICAgICAvLy8gYGBgDQo+ICsNCj4gK+i/meS6m+a1i+ivleWSjOaZrumA
+muS7o+eggeS4gOagt++8jOS5n+WPr+S7peWcqCBgYENMSVBQWT0xYGAg5p2h5Lu25LiL6YCa6L+H
+IENsaXBweSDov5vooYznvJbor5HvvIwNCj4gK+WboOatpOWPr+S7peS7jumineWklueahCBsaW50
+IOajgOafpeS4reiOt+ebiuOAgg0KPiArDQo+ICvkuLrkuobkvr/kuo7lvIDlj5HogIXlrprkvY3m
+lofmoaPmtYvor5Xlh7rplJnnmoTlhbfkvZPooYzlj7fvvIzml6Xlv5fkvJrovpPlh7rkuIDmnaEg
+S1RBUCDor4rmlq3kv6Hmga/jgIINCj4gK+WFtuS4reagh+aYjuS6huWOn+Wni+a1i+ivleeahOaW
+h+S7tuWSjOihjOWPt++8iOS4jeaYryBgYHJ1c3Rkb2NgYCDnlJ/miJDnmoTkuLTml7YgUnVzdCDm
+lofku7bkvY3nva7vvIk6Og0KPiArDQo+ICsgICAgICAgIyBydXN0X2RvY3Rlc3Rfa2VybmVsX3R5
+cGVzX3JzXzIubG9jYXRpb246IHJ1c3Qva2VybmVsL3R5cGVzLnJzOjE1MA0KPiArDQo+ICtSdXN0
+IOa1i+ivleS4reW4uOeUqOeahOaWreiogOWuj+aYr+adpeiHqiBSdXN0IOagh+WHhuW6k++8iCBg
+YGNvcmVgYCDvvInkuK3nmoQgYGBhc3NlcnQhYGAg5ZKMIGBgYXNzZXJ0X2VxIWBgIOWuj+OAgg0K
+PiAr5YaF5qC45o+Q5L6b5LqG5LiA5Liq5a6a5Yi254mI5pys77yM6L+Z5Lqb5a6P55qE6LCD55So
+5Lya6KKr6L2s5Y+R5YiwIEtVbml044CCDQo+ICvlkowgS1VuaXQg5rWL6K+V5LiN5ZCM55qE5piv
+77yM6L+Z5Lqb5a6P5LiN6ZyA6KaB5Lyg6YCS5LiK5LiL5paH5Y+C5pWw77yIIGBgc3RydWN0IGt1
+bml0ICpgYCDvvInjgIINCj4gK+i/meS9v+W+l+Wug+S7rOabtOaYk+S6juS9v+eUqO+8jOWQjOaX
+tuaWh+aho+eahOivu+iAheaXoOmcgOWFs+W/g+W6leWxgueUqOeahOaYr+S7gOS5iOa1i+ivleah
+huaetuOAgg0KPiAr5q2k5aSW77yM6L+Z56eN5pa55byP5pyq5p2l5Lmf6K645Y+v5Lul6K6p5oiR
+5Lus5pu05a655piT5rWL6K+V56ys5LiJ5pa55Luj56CB44CCDQo+ICsNCj4gK+W9k+WJjeacieS4
+gOS4qumZkOWItu+8mktVbml0IOS4jeaUr+aMgeWcqOWFtuS7luS7u+WKoeS4reaJp+ihjOaWreio
+gOOAgg0KPiAr5Zug5q2k77yM5aaC5p6c5pat6KiA55yf55qE5aSx6LSl5LqG77yM5oiR5Lus5Y+q
+5piv566A5Y2V5Zyw5oqK6ZSZ6K+v5omT5Y2w5Yiw5YaF5qC45pel5b+X6YeM44CCDQo+ICvlj6bl
+pJbvvIzmlofmoaPmtYvor5XkuI3pgILnlKjkuo7pnZ7lhazlvIDnmoTlh73mlbDjgIINCj4gKw0K
+PiAr5L2c5Li65paH5qGj5Lit55qE5rWL6K+V56S65L6L77yM5bqU5b2T5YOPIOKAnOWunumZheS7
+o+eggeKAnSDkuIDmoLfnvJblhpnjgIINCj4gK+S+i+Wmgu+8muS4jeimgeS9v+eUqCBgYHVud3Jh
+cCgpYGAg5oiWIGBgZXhwZWN0KClgYO+8jOivt+S9v+eUqCBgPyA8aHR0cHM6Ly9kb2MucnVzdC1s
+YW5nLm9yZy9yZWZlcmVuY2UvZXhwcmVzc2lvbnMvb3BlcmF0b3ItZXhwci5odG1sI3RoZS1xdWVz
+dGlvbi1tYXJrLW9wZXJhdG9yPmBfIOi/kOeul+espuOAgg0KPiAr5pu05aSa6IOM5pmv5L+h5oGv
+77yM6K+35Y+C6ZiF77yaDQo+ICsNCj4gKyAgICAgICBodHRwczovL3J1c3QuZG9jcy5rZXJuZWwu
+b3JnL2tlcm5lbC9lcnJvci90eXBlLlJlc3VsdC5odG1sI2Vycm9yLWNvZGVzLWluLWMtYW5kLXJ1
+c3QNCj4gKw0KPiArYGAjW3Rlc3RdYGAg5rWL6K+VDQo+ICstLS0tLS0tLS0tLS0tLS0tDQo+ICsN
+Cj4gK+atpOWklu+8jOi/mOaciSBgYCNbdGVzdF1gYCDmtYvor5XjgILkuI7mlofmoaPmtYvor5Xn
+sbvkvLzvvIzov5nkupvmtYvor5XkuI7nlKjmiLfnqbrpl7TkuK3nmoTmtYvor5XmlrnlvI/kuZ/p
+nZ7luLjnm7jov5HvvIzlubbkuJTlkIzmoLfkvJrmmKDlsITliLAgS1VuaXTjgIINCj4gKw0KPiAr
+6L+Z5Lqb5rWL6K+V6YCa6L+HIGBga3VuaXRfdGVzdHNgYCDov4fnqIvlro/lvJXlhaXvvIzor6Xl
+ro/lsIbmtYvor5XlpZfku7bnmoTlkI3np7DkvZzkuLrlj4LmlbDjgIINCj4gKw0KPiAr5L6L5aaC
+77yM5YGH6K6+5oOz6KaB5rWL6K+V5YmN6Z2i5paH5qGj5rWL6K+V56S65L6L5Lit55qE5Ye95pWw
+IGBgZmBg77yM5oiR5Lus5Y+v5Lul5Zyo5a6a5LmJ6K+l5Ye95pWw55qE5ZCM5LiA5paH5Lu25Lit
+57yW5YaZ77yaDQo+ICsNCj4gKy4uIGNvZGUtYmxvY2s6OiBydXN0DQo+ICsNCj4gKyAgICAgICAj
+W2t1bml0X3Rlc3RzKHJ1c3Rfa2VybmVsX215bW9kKV0NCj4gKyAgICAgICBtb2QgdGVzdHMgew0K
+PiArICAgICAgICAgICB1c2Ugc3VwZXI6Oio7DQo+ICsNCj4gKyAgICAgICAgICAgI1t0ZXN0XQ0K
+PiArICAgICAgICAgICBmbiB0ZXN0X2YoKSB7DQo+ICsgICAgICAgICAgICAgICBhc3NlcnRfZXEh
+KGYoMTAsIDIwKSwgMzApOw0KPiArICAgICAgICAgICB9DQo+ICsgICAgICAgfQ0KPiArDQo+ICvl
+poLmnpzmiJHku6zmiafooYzov5nmrrXku6PnoIHvvIzlhoXmoLjml6Xlv5fkvJrmmL7npLo6Og0K
+PiArDQo+ICsgICAgICAgICAgIEtUQVAgdmVyc2lvbiAxDQo+ICsgICAgICAgICAgICMgU3VidGVz
+dDogcnVzdF9rZXJuZWxfbXltb2QNCj4gKyAgICAgICAgICAgIyBzcGVlZDogbm9ybWFsDQo+ICsg
+ICAgICAgICAgIDEuLjENCj4gKyAgICAgICAgICAgIyB0ZXN0X2Yuc3BlZWQ6IG5vcm1hbA0KPiAr
+ICAgICAgICAgICBvayAxIHRlc3RfZg0KPiArICAgICAgIG9rIDEgcnVzdF9rZXJuZWxfbXltb2QN
+Cj4gKw0KPiAr5LiO5paH5qGj5rWL6K+V57G75Ly877yMIGBgYXNzZXJ0IWBgIOWSjCBgYGFzc2Vy
+dF9lcSFgYCDlro/ooqvmmKDlsITlm54gS1VuaXQg5bm25LiU5LiN5Lya5Y+R55SfIHBhbmlj44CC
+DQo+ICvlkIzmoLfvvIzmlK/mjIEgYD8gPGh0dHBzOi8vZG9jLnJ1c3QtbGFuZy5vcmcvcmVmZXJl
+bmNlL2V4cHJlc3Npb25zL29wZXJhdG9yLWV4cHIuaHRtbCN0aGUtcXVlc3Rpb24tbWFyay1vcGVy
+YXRvcj5gXyDov5DnrpfnrKbvvIwNCj4gK+a1i+ivleWHveaVsOWPr+S7peS7gOS5iOmDveS4jei/
+lOWbnu+8iOWNleWFg+exu+WeiyBgYCgpYGDvvInmiJYgYGBSZXN1bHRgYCDvvIjku7vkvZUgYGBS
+ZXN1bHQ8VCwgRT5gYO+8ieOAguS+i+Wmgu+8mg0KPiArDQo+ICsuLiBjb2RlLWJsb2NrOjogcnVz
+dA0KPiArDQo+ICsgICAgICAgI1trdW5pdF90ZXN0cyhydXN0X2tlcm5lbF9teW1vZCldDQo+ICsg
+ICAgICAgbW9kIHRlc3RzIHsNCj4gKyAgICAgICAgICAgdXNlIHN1cGVyOjoqOw0KPiArDQo+ICsg
+ICAgICAgICAgICNbdGVzdF0NCj4gKyAgICAgICAgICAgZm4gdGVzdF9nKCkgLT4gUmVzdWx0IHsN
+Cj4gKyAgICAgICAgICAgICAgIGxldCB4ID0gZygpPzsNCj4gKyAgICAgICAgICAgICAgIGFzc2Vy
+dF9lcSEoeCwgMzApOw0KPiArICAgICAgICAgICAgICAgT2soKCkpDQo+ICsgICAgICAgICAgIH0N
+Cj4gKyAgICAgICB9DQo+ICsNCj4gK+WmguaenOaIkeS7rOi/kOihjOa1i+ivleW5tuS4lOiwg+eU
+qCBgYGdgYCDlpLHotKXvvIzpgqPkuYjlhoXmoLjml6Xlv5fkvJrmmL7npLo6Og0KPiArDQo+ICsg
+ICAgICAgICAgIEtUQVAgdmVyc2lvbiAxDQo+ICsgICAgICAgICAgICMgU3VidGVzdDogcnVzdF9r
+ZXJuZWxfbXltb2QNCj4gKyAgICAgICAgICAgIyBzcGVlZDogbm9ybWFsDQo+ICsgICAgICAgICAg
+IDEuLjENCj4gKyAgICAgICAgICAgIyB0ZXN0X2c6IEFTU0VSVElPTiBGQUlMRUQgYXQgcnVzdC9r
+ZXJuZWwvbGliLnJzOjMzNQ0KPiArICAgICAgICAgICBFeHBlY3RlZCBpc190ZXN0X3Jlc3VsdF9v
+ayh0ZXN0X2coKSkgdG8gYmUgdHJ1ZSwgYnV0IGlzIGZhbHNlDQo+ICsgICAgICAgICAgICMgdGVz
+dF9nLnNwZWVkOiBub3JtYWwNCj4gKyAgICAgICAgICAgbm90IG9rIDEgdGVzdF9nDQo+ICsgICAg
+ICAgbm90IG9rIDEgcnVzdF9rZXJuZWxfbXltb2QNCj4gKw0KPiAr5aaC5p6cIGBgI1t0ZXN0XWBg
+IOa1i+ivleWPr+S7peWvueeUqOaIt+i1t+WIsOekuuS+i+S9nOeUqO+8jOmCo+WwseW6lOivpeaU
+ueeUqOaWh+aho+a1i+ivleOAgg0KPiAr5Y2z5L2/5pivIEFQSSDnmoTovrnnlYzmg4XlhrXvvIzk
+vovlpoLplJnor6/miJbovrnnlYzpl67popjvvIzmlL7lnKjnpLrkvovkuK3lsZXnpLrkuZ/lkIzm
+oLfmnInku7flgLzjgIINCj4gKw0KPiArYGBydXN0dGVzdGBgIOWuv+S4u+acuua1i+ivlQ0KPiAr
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr6L+Z57G75rWL6K+V6L+Q6KGM5Zyo55So
+5oi356m66Ze077yM5Y+v5Lul6YCa6L+HIGBgcnVzdHRlc3RgYCDnm67moIflnKjmnoTlu7rlhoXm
+oLjnmoTlrr/kuLvmnLrkuK3nvJbor5Hlubbov5DooYw6Og0KPiArDQo+ICsgICAgICAgbWFrZSBM
+TFZNPTEgcnVzdHRlc3QNCj4gKw0KPiAr5b2T5YmN5pON5L2c6ZyA6KaB5YaF5qC4IGBgLmNvbmZp
+Z2Bg44CCDQo+ICsNCj4gK+ebruWJje+8jOWug+S7rOS4u+imgeeUqOS6jua1i+ivlSBgYG1hY3Jv
+c2BgIGNyYXRlIOeahOekuuS+i+OAgg0KPiArDQo+ICtLc2VsZnRlc3RzDQo+ICstLS0tLS0tLS0t
+DQo+ICsNCj4gK0tzZWxmdGVzdHMg5Y+v5Lul5ZyoIGBgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMv
+cnVzdGBgIOaWh+S7tuWkueS4reaJvuWIsOOAgg0KPiArDQo+ICvmtYvor5XmiYDpnIDnmoTlhoXm
+oLjphY3nva7pgInpobnliJflnKggYGB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9ydXN0L2NvbmZp
+Z2BgIOaWh+S7tuS4re+8jA0KPiAr5Y+v5Lul5YCf5YqpIGBgbWVyZ2VfY29uZmlnLnNoYGAg6ISa
+5pys5ZCI5bm25Yiw546w5pyJ6YWN572u5LitOjoNCj4gKw0KPiArICAgICAgIC4vc2NyaXB0cy9r
+Y29uZmlnL21lcmdlX2NvbmZpZy5zaCAuY29uZmlnIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3J1
+c3QvY29uZmlnDQo+ICsNCj4gK0tzZWxmdGVzdHMg5Lya5Zyo5YaF5qC45rqQ56CB5qCR5Lit5p6E
+5bu677yM5Lul5L6/5Zyo6L+Q6KGM55u45ZCM54mI5pys5YaF5qC455qE57O757uf5LiK5omn6KGM
+5rWL6K+V44CCDQo+ICsNCj4gK+S4gOaXpuWuieijheW5tuWQr+WKqOS6huS4jua6kOeggeagkeWM
+uemFjeeahOWGheaguO+8jOa1i+ivleWNs+WPr+mAmui/h+S7peS4i+WRveS7pOe8luivkeW5tuaJ
+p+ihjDo6DQo+ICsNCj4gKyAgICAgICBtYWtlIFRBUkdFVFM9InJ1c3QiIGtzZWxmdGVzdA0KPiAr
+DQo+ICvor7flj4LpmIUgRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva3NlbGZ0ZXN0LnJzdCDmlofm
+oaPku6Xojrflj5bmm7TlpJrkv6Hmga/jgIINCj4NCj4gYmFzZS1jb21taXQ6IDM0NDY1NzY5NmU5
+YWE3YmY4OWU0OGUxODQ4ZmUwY2U1NTFiZDFmNGENCj4gLS0NCj4gMi40My4wDQo+DQo=
