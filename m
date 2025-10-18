@@ -1,59 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35EB3C38;
-	Sat, 18 Oct 2025 00:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596D9126C17;
+	Sat, 18 Oct 2025 01:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760746027; cv=none; b=cy3MlLB4911Ct48icrqBE76cajPBo2XsUc4B+an9lJ9QQW4kbu+wYflO8sYGp5onUiVMizjE3W87CWifuPeX3BoCRFEIGh5AF++gBwK8Rl4Wxd4b3hHYUvHRYM3ofjdDBj3xE1/vkLwPdYWpGMm2HKz71L/eoa5i1sTzIIoY4yU=
+	t=1760751089; cv=none; b=N2yDfLn/HFe3Vuij439Lt9KO9qhAs4TSZGKPVodQ06RH7FH9ITxqKKtdZNUWr81S+4h7njVpMkFedKI4fKn8tFAQOhOwJ6oVgbgNk9bsap3QkTU3ZXHLJ5Cg7aJd4tzDw3Vsw3/WNv3qIVbewsOU68yW2nlze4FYd419+Z46voY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760746027; c=relaxed/simple;
-	bh=gPSNbnjBtOCUa5ln4W2zbljLfIvxRxCkd4IVH6e8Q0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UC5GKC0WU5Obo9tQ6uuZAPgubJv9KkiPip+RSJStozNwF+KLqzX6yqICEV7G3PUXNXswdn/rZHUbgGLAK1uJR6SYWmtQFvk+FJc4MQQjKiu5ClSJRqzXsZ7CCt96OMEDgSKcWhBZJa5/zwTWm8Z2M2MjBjwUcxZOI7CETbCSJQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bp/2Vy3l; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bp/2Vy3l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0569AC4CEE7;
-	Sat, 18 Oct 2025 00:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760746024;
-	bh=gPSNbnjBtOCUa5ln4W2zbljLfIvxRxCkd4IVH6e8Q0s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bp/2Vy3l9h80sMSvacC4USqL24noFTC5hvvOO3FjJPewnWsL+6GIrkoJGSObEtreZ
-	 bPq2nui9460sv7olanEV+GYIFhfz/Y79VfPZbUOcLU14SeiZaCexRPfjkS6ksjk8Jq
-	 YfxffmLYPaPfqhQ6f2eAWeYkgwAPRwoaR5AUkLHbxxdEmx9QFz5WOENR92B5UXlow1
-	 sEAQo6lofOE8MbVuKNnvagfygZrstiinunaeg2XjHAyblxgGgRdNfMzFuk/vkLR+By
-	 UrxtkSXlOnOVJjDSuCA1As2/xO8+ZdpReTfjLadTv0Y577e954bETGeMtrdn2rcLq0
-	 Nmh/jAakh5Gxg==
-Date: Fri, 17 Oct 2025 17:07:03 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dong Yibo <dong100@mucse.com>
-Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
- danishanwar@ti.com, vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v14 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <20251017170703.3c2dba37@kernel.org>
-In-Reply-To: <20251014072711.13448-4-dong100@mucse.com>
-References: <20251014072711.13448-1-dong100@mucse.com>
-	<20251014072711.13448-4-dong100@mucse.com>
+	s=arc-20240116; t=1760751089; c=relaxed/simple;
+	bh=jVgd9xIpvYLv/agHOy6+SNyn5rSLqBCQfxjIHngMCpE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FAD+ffzE/YsvVMp2kiUL2HTU3tquVfn0FeneN/dr050WjrRfCt6nQAFNgXSdX9vylM6h6VsrNxWktrSqe4F6BBXDFiH4M9bIiAKCM0MWlEHS6l4ujrnpmtqWy2x9y1ZnV9TtnLA+1j1KkeTktThuUOES/fwZtaYpqgu7Ptd5PkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id A2B3787960;
+	Sat, 18 Oct 2025 01:31:26 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 4CDAF20025;
+	Sat, 18 Oct 2025 01:31:24 +0000 (UTC)
+Message-ID: <56f8e40af81a425784cc7f4b9f52038b8369a6d7.camel@perches.com>
+Subject: Re: [PATCH v2 1/2] docs: checkpatch: Align block comment style
+From: Joe Perches <joe@perches.com>
+To: Brian Norris <briannorris@chromium.org>, Dwaipayan Ray	
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Randy Dunlap
+	 <rdunlap@infradead.org>, workflows@vger.kernel.org
+Date: Fri, 17 Oct 2025 18:31:17 -0700
+In-Reply-To: <20251017203719.1554224-1-briannorris@chromium.org>
+References: <20251017203719.1554224-1-briannorris@chromium.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4CDAF20025
+X-Stat-Signature: 7kyh6fu5dtxfbjtrd541yoar7dem8fpb
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX183EUSH/kjwdzjsKSKYPP/EWyXCuX/uUCA=
+X-HE-Tag: 1760751084-403119
+X-HE-Meta: U2FsdGVkX18PFh0EDy4eHBdRU6mdjxbelwAvSIXsFZI0dWLaDCcscFTpNNpoeknZjgDOxO0IMzrZmeZfTgzkoh2bvihQHlP7lZgjukA1CvdByjBWZ4034Lsr8erkX6iy00YjVLoe8jCeM0AhL7/OfmEYqViL1zwMlNdc9PyDY2aosaixk8AUaAyPKJInZAsw9WDMm0DlSp9U9Zlz3yaqcr61hXzqJB7qJYnrnapz8pJ3rpfZ8tijmg2XMKJehiYBCaNs52w2yGvwUKM820V8melBWrg8xWFHVF2P1gUEqm0Dyg4Gh10xhd9tzPcjAG3a
 
-On Tue, 14 Oct 2025 15:27:09 +0800 Dong Yibo wrote:
-> +struct mucse_mbx_stats {
-> +	u32 msgs_tx; /* Number of messages sent from PF to fw */
-> +	u32 msgs_rx; /* Number of messages received from fw to PF */
-> +	u32 acks; /* Number of ACKs received from firmware */
-> +	u32 reqs; /* Number of requests sent to firmware */
-> +};
+On Fri, 2025-10-17 at 13:37 -0700, Brian Norris wrote:
+> Ironically, the block style comments in the checkpatch documentation are
+> not aligned properly. Correct that.
 
-Probably no point adding these stats until you can expose them to the
-user..
+<snort>  Thanks.
+
+And for the deletion too.
+I didn't know about that changed.
