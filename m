@@ -1,57 +1,169 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596D9126C17;
-	Sat, 18 Oct 2025 01:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46FD19F41C
+	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 02:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760751089; cv=none; b=N2yDfLn/HFe3Vuij439Lt9KO9qhAs4TSZGKPVodQ06RH7FH9ITxqKKtdZNUWr81S+4h7njVpMkFedKI4fKn8tFAQOhOwJ6oVgbgNk9bsap3QkTU3ZXHLJ5Cg7aJd4tzDw3Vsw3/WNv3qIVbewsOU68yW2nlze4FYd419+Z46voY=
+	t=1760752915; cv=none; b=tFpk5r3z+J5rW7vbLs+heAu5K8izMXp9OWRH/XycZBWgLXZDKwh7+cxJSOwZbPWmyI44xM71c5n+efo2romzR4DZW0rZvU+7jea23lTWjS4zPR95gkMBTsFDMF5ZWXQvYAZu/0grIjwZdaRw+hfs9d0A9KRVvYcFZUQS5z3UqQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760751089; c=relaxed/simple;
-	bh=jVgd9xIpvYLv/agHOy6+SNyn5rSLqBCQfxjIHngMCpE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FAD+ffzE/YsvVMp2kiUL2HTU3tquVfn0FeneN/dr050WjrRfCt6nQAFNgXSdX9vylM6h6VsrNxWktrSqe4F6BBXDFiH4M9bIiAKCM0MWlEHS6l4ujrnpmtqWy2x9y1ZnV9TtnLA+1j1KkeTktThuUOES/fwZtaYpqgu7Ptd5PkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id A2B3787960;
-	Sat, 18 Oct 2025 01:31:26 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 4CDAF20025;
-	Sat, 18 Oct 2025 01:31:24 +0000 (UTC)
-Message-ID: <56f8e40af81a425784cc7f4b9f52038b8369a6d7.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] docs: checkpatch: Align block comment style
-From: Joe Perches <joe@perches.com>
-To: Brian Norris <briannorris@chromium.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Randy Dunlap
-	 <rdunlap@infradead.org>, workflows@vger.kernel.org
-Date: Fri, 17 Oct 2025 18:31:17 -0700
-In-Reply-To: <20251017203719.1554224-1-briannorris@chromium.org>
-References: <20251017203719.1554224-1-briannorris@chromium.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1760752915; c=relaxed/simple;
+	bh=003LFn2uy5fqD8k7Z23R5zJkloWbJtxKJcMPqbbJ2ag=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=D8Myu5hD8Jai9bZ2Q8Nb/BRJIScRiX63GrnrD4PCbsIsWcw6mM0Johl8GBpldKGwP/ncoC9YwnEwNRKjaGhQIlveyA6WBuoobOaKFscZhc1Vhf0LpZvo2XGhFtxOiWVzeEL7rupQYzETDE96mpv0bQeS/ecwPlGTbU6WPOeEGAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wkwf6Z8o; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wkwf6Z8o"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id BA4984E4115A;
+	Sat, 18 Oct 2025 02:01:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6F9DC60701;
+	Sat, 18 Oct 2025 02:01:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2897E102F236C;
+	Sat, 18 Oct 2025 04:01:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760752907; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=0rJ/ZQA81E9vXEaDFgAcdrOIrS3KjGGGT4lotjatE8I=;
+	b=wkwf6Z8oyG3oJkIvsZ84hlNcL07i4cfRsT/jOVe/9ujKaQbmxfY+IzXtfNDb04aMXDpRAr
+	PGtJWa5QCI8Er073AaBnaPIve+fiR+ys/NQuSZhyr/3mebke/qeQdcyxcfDWAHhTOCj6eU
+	x8EdT1BKCq6dxNGFMjLHiio0GT8JSAJfrlFTcQMmVLjO2j7pdy944+aUf/1hR57XMNgs+W
+	nJUS1pHehkPQlGBl98xBjVFdIt9f9M+832B7Fcs+0hJaQ+bDtoKn76e7aW+J+l1OjbaF5R
+	s+2YJO1S+5v2t/kYbKwK0x3jSTPyKFGaFSetNz+KuWaQUlKu/mGgDxxYJpJyxg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH 00/22] VKMS: Introduce multiple configFS attributes
+Date: Sat, 18 Oct 2025 04:01:00 +0200
+Message-Id: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 4CDAF20025
-X-Stat-Signature: 7kyh6fu5dtxfbjtrd541yoar7dem8fpb
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX183EUSH/kjwdzjsKSKYPP/EWyXCuX/uUCA=
-X-HE-Tag: 1760751084-403119
-X-HE-Meta: U2FsdGVkX18PFh0EDy4eHBdRU6mdjxbelwAvSIXsFZI0dWLaDCcscFTpNNpoeknZjgDOxO0IMzrZmeZfTgzkoh2bvihQHlP7lZgjukA1CvdByjBWZ4034Lsr8erkX6iy00YjVLoe8jCeM0AhL7/OfmEYqViL1zwMlNdc9PyDY2aosaixk8AUaAyPKJInZAsw9WDMm0DlSp9U9Zlz3yaqcr61hXzqJB7qJYnrnapz8pJ3rpfZ8tijmg2XMKJehiYBCaNs52w2yGvwUKM820V8melBWrg8xWFHVF2P1gUEqm0Dyg4Gh10xhd9tzPcjAG3a
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWNwQ6CMBBEf4X07GKXCCIn/8N4KLDgKqXaRUJC+
+ Hcr6G3eJPNmVkKeSVQRzcrTyMKuD4C7SFU307cEXAdWiU5S1HiE8WEFTNdB5fqGWyhrXSVGY37
+ IGhVWT08NT6vxct3Y0+sdxMNWqtIIhbW1PBRR7S1Ylmr/D9DTNHxFlkTM+l9Ev/cMj2mGeYxap
+ wgIdycU0/R0Qe7y07m1hrs4qNV1WT68/65z2wAAAA==
+X-Change-ID: 20251017-vkms-all-config-bd0c2a01846f
+To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
+ airlied@gmail.com, thomas.petazzoni@bootlin.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4176;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=003LFn2uy5fqD8k7Z23R5zJkloWbJtxKJcMPqbbJ2ag=;
+ b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBo8vT9xPMAzWlcyPCRmLateEQE6vEF/B+OE+RwS
+ V1Mhv4JKV6JAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaPL0/QAKCRAgrS7GWxAs
+ 4jroEACf6xghvV2Do8ngGOUIDS4bqHcNRnNW9n14MYRWBInOKrPfdW34NfbDGA3+cFaVu94fkl2
+ kNz2kxKYgEOv1OKZnxo1NdU2z2+KiJoocWs5Ppwt4Wo059a3yJWgwXGyUw0I+qACmJ5P2wem+p2
+ fb4MiTcXgpZ3HbLs2oZjwow2FuSjjayjm/KJvPuK3vLjJEWNqiSouEp4aHgcLOzuv227nASgBkl
+ mP5tVcUbfaLE7v5C2NAwiRAxh/Hzpm2onI4UR7I0QYkcFeSUjXeJFjqs/8ZGJP60zDEflBgNs7l
+ +R1AKyTPU4TVZ2XmWaMcCeNRd9aG+Nk76MJaaf1SrHZQAQhbu+8SMRDfyMfvP2WFZBCCFIVZiOv
+ xf8P9zw3zC+SPg6fMBgIV+uejEx8TNiC7rpmv/WcFBlAWSLnmc39+bETYMGjmX+xj4oNa48wEOf
+ n9hNvzAspEkkjr0lNTwg5SkxTYvra5Iw5isJUc7J5bTS6ho+3jWKgt9hiF1oRjfh5/XMDFu7dZF
+ KRaboJUBcGQ+AoCNYWx5KKQ8ikxnboXgAIvRm3yP57DyHtNPrn0UDSKbhoGP8M2k85fHPkEJVqL
+ ec8SjWCtql4gR7C+SCGMiQ+q0zyTCY/1UmvgPDXv10u0WTEAyz+vuee8sz7NVKBXfKptWBmq1fH
+ 6hSo9rbbOY9pQgQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 2025-10-17 at 13:37 -0700, Brian Norris wrote:
-> Ironically, the block style comments in the checkpatch documentation are
-> not aligned properly. Correct that.
+VKMS have a wide range of options. The aim of this series is to introduce
+many configfs attribute so VKMS can be used to test a wide range of
+configurations.
 
-<snort>  Thanks.
+This series depends on [1] that should be applied soon.
 
-And for the deletion too.
-I didn't know about that changed.
+PATCH 1-13 are for configuring planes
+- name
+- rotation
+- color encoding
+- color range
+- plane formats
+- zpos
+PATCH 14-19 are for configuring the connector
+- type
+- supported colorspace
+- edid
+PATCH 20-22 are to enable dynamic connectors
+
+[1]:https://lore.kernel.org/all/20251016175618.10051-1-jose.exposito89@gmail.com
+
+PS: Each pair of config/configfs patch are independant. I could
+technically create ≈10 different series, but there will be a lot of
+(trivial) conflicts between them. I will be happy to reordoer, split and
+partially apply this series to help the review process.
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Louis Chauvet (22):
+      drm/vkms: Introduce config for plane name
+      drm/vkms: Introduce configfs for plane name
+      drm/vkms: Introduce config for plane rotation
+      drm/vkms: Introduce configfs for plane rotation
+      drm/vkms: Introduce config for plane color encoding
+      drm/vkms: Introduce configfs for plane color encoding
+      drm/vkms: Introduce config for plane color range
+      drm/vkms: Introduce configfs for plane color range
+      drm/vkms: Introduce config for plane format
+      drm/vkms: Introduce configfs for plane format
+      drm/vkms: Properly render plane using their zpos
+      drm/vkms: Introduce config for plane zpos property
+      drm/vkms: Introduce configfs for plane zpos property
+      drm/vkms: Introduce config for connector type
+      drm/vkms: Introduce configfs for connector type
+      drm/vkms: Introduce config for connector supported colorspace
+      drm/vkms: Introduce configfs for connector supported colorspace
+      drm/vkms: Introduce config for connector EDID
+      drm/vkms: Introduce configfs for connector EDID
+      drm/vkms: Store the enabled/disabled status for connector
+      drm/vkms: Allow to hot-add connectors
+      drm/vkms: Allows the creation of connector at runtime
+
+ Documentation/gpu/vkms.rst                    |  42 +-
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c |  18 +
+ drivers/gpu/drm/vkms/vkms_config.c            | 183 ++++++
+ drivers/gpu/drm/vkms/vkms_config.h            | 524 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_configfs.c          | 893 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_connector.c         | 137 +++-
+ drivers/gpu/drm/vkms/vkms_connector.h         |  36 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c              |  11 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+ drivers/gpu/drm/vkms/vkms_output.c            |  19 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |  73 +--
+ 11 files changed, 1865 insertions(+), 77 deletions(-)
+---
+base-commit: b291e4f1a4951204ce858cd01801291d34962a33
+change-id: 20251017-vkms-all-config-bd0c2a01846f
+prerequisite-message-id: 20251016175618.10051-1-jose.exposito89@gmail.com
+prerequisite-patch-id: 74083a8806b1f26d9b4cd2a5107c756b971c4d11
+prerequisite-patch-id: f982390487699921b625b413e8460d67ca7a74c9
+prerequisite-patch-id: 0afca639e43c8fbfea2af1bc395e489efc8e1f10
+prerequisite-patch-id: 6285108b2fd90d30d15d4cb4fdddfef953fad51b
+prerequisite-patch-id: 2eacf5ad4f25f54a60958aa7a2df633d5642ce2f
+prerequisite-patch-id: 81e98ac3aeb3b6128098ab7bab56d3446a3a2705
+prerequisite-patch-id: 973f94c4edb4a5822c84a57d4479ca40e9cf25de
+prerequisite-patch-id: 0efbaf1b0e962a1c40bf5a744b5089d8be696f62
+prerequisite-patch-id: afa0cff94085e6ab216ffd9b99cd3dc882a0a687
+prerequisite-patch-id: 3561347f2b586392985a8e3af9ed1c5c7d3eefd5
+prerequisite-patch-id: 94030044ae8d404f7cdaed9137bddd59cfb22e79
+prerequisite-patch-id: a54b483797d5ffb7ce13b56a8943025181cd0d7a
+prerequisite-patch-id: f148fe7f445cb42437e7e2ba8b59e7e0fd40da8b
+prerequisite-patch-id: 1ef2045872843670c452816c5d6187b713c9258c
+prerequisite-patch-id: 3b9963ea3ae3455ae15ee36b67042c06a2ef6006
+prerequisite-patch-id: 519ee42dfabb4de734e41e59bd07d7a723d810bb
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
