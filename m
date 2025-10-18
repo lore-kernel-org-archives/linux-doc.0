@@ -1,78 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDE1335BA;
-	Sat, 18 Oct 2025 00:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F383C38;
+	Sat, 18 Oct 2025 00:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760745631; cv=none; b=FDqfy654pRcwA9Wl9hoh5MHMTsvd4PrstxwbAca3qsoca5DX6UuWnhq+lKeuCrZmEldcsZKc2ckrLU5pNNyIszUZSBPBUR4Ky8vk0Fi5u+uVL2blVpwj+4tqcgnuACouCluKBCjL8Xtj4Z3rJPnRUu/JNMH7xBUqfOXR/t50DTg=
+	t=1760745973; cv=none; b=UA/ksyC2yz+K8x1hJo58alndBpKO/OZTvFP6Wkl6sd/+hLDXO3A6lLFsZ1YmFRejB9glAmNvC+LYESOrxF51hZXMNNHPQpJ9o+v0UWere12Y5kONRA2HOhrgRE3p6M6KbURuilgOjLaJ1H94AfeGp5c8uLgZTBkJV6PdladOOZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760745631; c=relaxed/simple;
-	bh=Y9jEbxvXW1zlR7DvYBO+PFoOwd8tSJ68hgpMl+Ypi0U=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HKtfamyioulNRzMy3TfdYza6gz1cbs5cudunutl4hnZfxdWoN5MSh+wD4G98RMl0xLC5UzxFhx9F6w7sm9mjRtjbkFqKXFczOZqXDpftBRXKXOIAYthvrKGfOB4LC1MJwDofpZzSGR7Af1fZOQzdT+e8A9GMZKw6vGZi2MeHMpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XD4mczsl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760745973; c=relaxed/simple;
+	bh=jV4Zs/tV6yikwVmrBHnbe2SYjnv2Ls8kBLOfNJx5X14=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JAeaE7bAjyxMM3iKjfq8nIeVhNir0n6hyFITDNBO6zX9YQoI1K8nOl5hDmef6sqeDuiaf8Yk2imQ1E/lx1Zyjhe4oxUY6c9eV1TcIJWHxnFLO5fOYIkYHp2NjDgik7udCCdX/bdiY7zdvbVaWr9801lcw5pFnIIJylmMBtJgeHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEtf1gVd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XD4mczsl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416A4C4CEE7;
-	Sat, 18 Oct 2025 00:00:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEtf1gVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0FBC4CEE7;
+	Sat, 18 Oct 2025 00:06:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760745631;
-	bh=Y9jEbxvXW1zlR7DvYBO+PFoOwd8tSJ68hgpMl+Ypi0U=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XD4mczslteMoZ0OYnURSnmHRK3R5bBOZKVlquxONANYyM7fNwX6eoo/WJeHIiw+/F
-	 8Vk8DYYSjywmCwKEWDWStNlK58qNrgdS9K+9BivzUmQ1rMG7MtaU0iJIgM9HYKyFl6
-	 IprgnaY8xNYQ3scM8GD2J401Q9ktdhfXEHQskG8a37AgUzTXn7h5FbNXznQyhbXeTt
-	 113uePDdVdBUQF+26sXf0sYQVLjQeWBnyHWM+chXLVj2vsoxVh2hv3OmIb3kzmRGMW
-	 DnzinpP1fCh6l6tHSjGl+LiPD1AfMjZOMAMYjQym/WNx+uf0GZEV02vXiHTiz0VpN+
-	 C7DwHnRy6m7CA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB34439EFA61;
-	Sat, 18 Oct 2025 00:00:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1760745971;
+	bh=jV4Zs/tV6yikwVmrBHnbe2SYjnv2Ls8kBLOfNJx5X14=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MEtf1gVd6B59SsEa06Pl0mRRmUC0PFo5X0vLALcL1xEgSh3gf8q0taZAPgD6PMla1
+	 uLEgICYiFCKKttS7E1N1pCbbc6qDXtQJzPsoHzK/OKImcKdfaMqX4UyQju9tqSbh9+
+	 kIVHtCgGtg/qUaxP/e8cw9gqFb9A7m0eDMtv0QYyF3OPqskBDHh8kv7nqw1KWEtj+c
+	 bteswHGDfrx8rCPx1l2ZwD1WPlRb1z+38lJ8Qb3aRs+v6m26XiXGqquKxzRHRbdh5O
+	 /cXY0iaBHxP1CS4LPjKv1OkjLbJs7uc1AR96Hf9NVE+mhNg2mD8n0PvAYlXQ3AXpqR
+	 LFzm4t7OsTj1g==
+Date: Fri, 17 Oct 2025 17:06:10 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Dong Yibo <dong100@mucse.com>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
+ danishanwar@ti.com, vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v14 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <20251017170610.4f5c3f22@kernel.org>
+In-Reply-To: <20251014072711.13448-5-dong100@mucse.com>
+References: <20251014072711.13448-1-dong100@mucse.com>
+	<20251014072711.13448-5-dong100@mucse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] Documentation: net: net_failover: Separate
- cloud-ifupdown-helper and reattach-vf.sh code blocks marker
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176074561449.2830883.10548185381553170961.git-patchwork-notify@kernel.org>
-Date: Sat, 18 Oct 2025 00:00:14 +0000
-References: <20251016093936.29442-2-bagasdotme@gmail.com>
-In-Reply-To: <20251016093936.29442-2-bagasdotme@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, sridhar.samudrala@intel.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, krikku@gmail.com, vasudev@copyninja.info
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Tue, 14 Oct 2025 15:27:10 +0800 Dong Yibo wrote:
+> +/* FW stores extended information in 'ext_info' as a 32-bit
+> + * little-endian value. To make these flags easily accessible in the
+> + * kernel (via named 'bitfields' instead of raw bitmask operations),
+> + * we use the union's 'e_host' struct, which provides named bits
+> + * (e.g., 'wol_en', 'smbus_en')
+> + */
+> +static inline void mucse_hw_info_update_host_endian(struct mucse_hw_info *info)
+> +{
+> +	u32 host_val = le32_to_cpu(info->ext_info);
+> +
+> +	memcpy(&info->e_host, &host_val, sizeof(info->e_host));
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Thu, 16 Oct 2025 16:39:37 +0700 you wrote:
-> cloud-ifupdown-helper patch and reattach-vf.sh script are rendered in
-> htmldocs output as normal paragraphs instead of literal code blocks
-> due to missing separator from respective code block marker. Add it.
-> 
-> Fixes: 738baea4970b ("Documentation: networking: net_failover: Fix documentation")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-> [...]
-
-Here is the summary with links:
-  - [net,v2] Documentation: net: net_failover: Separate cloud-ifupdown-helper and reattach-vf.sh code blocks marker
-    https://git.kernel.org/netdev/net/c/cb74f8c95250
-
-You are awesome, thank you!
+This is not going to be enough. C bitfields are also affected by endian.
+The best practice in the kernel is to define the fields as #defines
+and user FIELD_GET() or direct & / | operations with the constants.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+pw-bot: cr
