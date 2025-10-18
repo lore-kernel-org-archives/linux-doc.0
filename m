@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2A92F361E;
-	Sat, 18 Oct 2025 10:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBF32288F7;
+	Sat, 18 Oct 2025 10:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760784078; cv=none; b=OC8LX047sbpLxGehzGuRLQQM8YIYZ2tB4m35CNnI/0QIxxbmZfMM1rC8b6dzkyPGmjVmT1y/1Y51Neh6Tk2yPokbZWEsgN4CanwGLjcC4v/G0+vejGWaeqQawlsfv7fgvbpVln+t2hoCbL/7HSemWRqeDXzhg3hBnphtrtQ4a2Q=
+	t=1760784842; cv=none; b=KYO2P3Y6kL/gzZ7VZES0TBrTGc2P5F3v9aEQUp6z/OrfaDYAg7CSWIb/3kO5DDe73Yrpla0HoOVUHQU2QhqaBOL7nIqSz5SxWUmq76KJy4MDCie/RWqLHs5EWgjFUinaiKwSBmdBOAS17YYrdm1t5BVPf4bHWqNLInF1bTZDaBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760784078; c=relaxed/simple;
-	bh=EJZ7fXdrMVCkRfhK+Ds9/NpbpDHJ4iXEOM1rIVxCtck=;
+	s=arc-20240116; t=1760784842; c=relaxed/simple;
+	bh=1Z/hD03YVImB7lanZMyt3QIb8DmJkGRNAKcbP5nojF4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u3bgD/cNlvZ5RnRUt0r2ojzTZS0dhptv0EzuWHRTI0btMYlf4J/ZXRwPY+1K2kJYdgrvUut+yBYWpLHVvsc5GStZbEi6Vz1spG+iBRAjEQ+NEAJgVdcNp13qSqLozVKITZ4+NDHq/YGYkKOhDarGSStlPPTnTyYsG7mppMRsUwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s5gWF2ru; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=RvX4LALJTT5xwPdPLgAjCVD64XbU7PIrc7fVfC8f8kiVZ/4Iv6B03In4ik8Pos6a0RpJWQz0yTDpG0sS/2CTdaurDWNHH9sFwvTBbpXlHJNzTO+huYm4Gf4rfgTuefL07KTUwQWu1IV0m5xGm64s8PjAkGa4+dRJ6gp70hWFeeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NyoxoJ8z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s5gWF2ru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371EAC4CEF8;
-	Sat, 18 Oct 2025 10:41:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NyoxoJ8z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31FB1C4CEF8;
+	Sat, 18 Oct 2025 10:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760784078;
-	bh=EJZ7fXdrMVCkRfhK+Ds9/NpbpDHJ4iXEOM1rIVxCtck=;
+	s=k20201202; t=1760784841;
+	bh=1Z/hD03YVImB7lanZMyt3QIb8DmJkGRNAKcbP5nojF4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=s5gWF2runfdVwb3kN8gazRXarEFW/hhVH+7xeXFLVT1L2gybXwz0ZUys2EyUYs32A
-	 42E1HjNnAXlBeXnhHWzWg5oCq0Ivp2nblsUuhrj2dBukmLWCkJyJsZEVJU8sVbD3ye
-	 VPhZGnreBPopAkyBQwZ2DbbqZOSxctUiM7zedGcYiPiYipy2AwKR2kdXpm++gGsi+y
-	 9h9o/g1jy6g/30YBAja6r17pgqVqbLhls39+IqyPvtnDmzqAiWptSuuKLbA0zCKZ3W
-	 5+0yOtBZxyJierG2Q9yEA+nPsDzHU8p+JLDATy7A3ddcU0wXtYrSyJ33w2KQIzImwI
-	 SWQ0/n8l0rG9A==
-Date: Sat, 18 Oct 2025 07:41:09 -0300
+	b=NyoxoJ8zTUl+FmqSBpVMegFKlDK24FWQFMCglpdnl8XOPOh1N3l4SoKrd6Z+BmqLf
+	 rVx7k/g+2Gqz4N+U+0Cijmlj3Nv79BsanLViFNZA0vXOtlkXBCTtUxqBQr8/KwxJQD
+	 C6TCfCRonMUP7Qxiqd8YJ/OcHvlJJZAKLBQpx7FBFRELx6RIKZIKPdNNcF6ocTf4hF
+	 2Jv1ZmHHUrZ/7wRj+qvkk7axxPCiUQO1XgCqiUY9n8l1UbJ9dHcu2PIxgEID4d4z4J
+	 3b1TrEBVkVkjIqkZWlitJyS3WpSY+ZuCqGbQMaPShiTlJG7R0t8Vot8CiVJQT9Mwkr
+	 URGpSDGi//+hw==
+Date: Sat, 18 Oct 2025 07:53:52 -0300
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v8 00/24] Split sphinx call logic from docs Makefile
-Message-ID: <20251018074109.33fdb167@sal.lan>
-In-Reply-To: <87cy6l1e2y.fsf@trenco.lwn.net>
-References: <cover.1758196090.git.mchehab+huawei@kernel.org>
-	<87cy6l1e2y.fsf@trenco.lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 00/23] Fix media uAPI cross references
+Message-ID: <20251018075352.4f65fc94@sal.lan>
+In-Reply-To: <87h5vx1ebc.fsf@trenco.lwn.net>
+References: <cover.1759329363.git.mchehab+huawei@kernel.org>
+	<87h5vx1ebc.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,31 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 17 Oct 2025 14:13:41 -0600
+Hi Jon,
+
+Em Fri, 17 Oct 2025 14:08:39 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
 > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> > Hi Jon,
+> > In the past, media used Docbook to generate documentation, together
+> > with some logic to ensure that cross-references would match the
+> > actual defined uAPI.
 > >
-> > v8 contains a bug fix for ./tools/docs/check-variable-fonts.py command
-> > line together with a new --deny-vf argument to it, plus addresses
-> > a couple checkpatch warnings. Only 4 patches changed: patches 1, 2, 4
-> > and 5.  
+> > The rationale is that we wanted to automatically check for uAPI
+> > documentation gaps.
+> >
+> > The same logic was migrated to Sphinx. Back then, broken links
+> > were reported. However, recent versions of it and/or changes at
+> > conf.py disabled such checks.
+> >
+> > The result is that several symbols are now not cross-referenced,
+> > and we don't get warnings anymore when something breaks.
+> >
+> > This series consist on 2 parts:
+> >
+> > Part 1: extra patches to parse_data_structs.py and kernel_include.py;
+> > Part 2: media documentation fixes.
+> >
+> > I'm not sure what's the best strategy to merge it, as some patches
+> > belong to doc while others are media. So, they can be merged on
+> > either one of the tree, or split on two series and merged in
+> > separate or even being merged via a PR applied on both trees.
+> >
+> > IMO, the latter is the better strategy.  
 > 
-> I have just merged this series, along with the accumulated fixes, into
-> docs-mw; after a month of separate exposure in docs-next, I don't think
-> that there is a lot of benefit in waiting longer.
+> OK, this series has been applied to -rc1 and is available in my
+> media-uapi branch.  I've also merged it into docs-next.
 
 Thanks!
 
+Merged on media-committers next branch as well:
+
+	https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/8652359fc004cbadbf0e95692c1472caac6260c2
 > 
-> It still makes me a bit nervous, hopefully all this will work out!
-
-If something breaks, we can fix it ;-)
-
-Placing everything altogether and callable via command line and
-documented IMHO makes the docs build easier to maintain.
-
-Regards,
-Mauro
+> Thanks,
+> 
+> jon
