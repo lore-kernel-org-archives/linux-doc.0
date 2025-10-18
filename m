@@ -1,216 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D6421CFEF;
-	Sat, 18 Oct 2025 15:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24BA217648
+	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 16:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760800881; cv=none; b=NQG0mR3ujKz7xZBaFrZLP0dcPJtwGC8hjicjzmsRUV20M+vLLdwthZxL9tdN88qJTopjzu5a1SWHthV5qdTJUuQBpKSN2fLOc+inwcqwiyxa5iToL4yZgeQkNOehek4PyI3q/pC4o4ZdAYgBp4+UfZqI9xJX3cJA97QAa0w4W4M=
+	t=1760803411; cv=none; b=MVQ+03Dp0w5q/Blelw/5hXu/Iy49sXSswIeo/l3x5E2PTOU0IdNdweWLP5+XDf/Lh58RD3p24KhcPOE7P4L5PTNILgPhKIUuVZj85PmLbVD3jqxxxVk8AoDL6XUfShBKmTizBEUM//slCmFOfEkTnf9v6+c2PWY/mCqiz79cRMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760800881; c=relaxed/simple;
-	bh=vVYZl4oCLGwM7SQGP//U+44wtpZOiDFyOu33ohtCr0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dJclOGhXCwL/GnHO0+FYAMf56THivJHjkoGX+A2GFDQfegZqesgnz34vq3YZj/BHn6RBGTlK9qPB6E4l7SSaM4DuXgTv8kONGZV/ODbToZeDcjPcnMQSAdIWxoWpvq2MXG++FipWnmNzPWKLJX15MAE5I8Wf/XnmoUHa5uFEzC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DY3MXu2r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760803411; c=relaxed/simple;
+	bh=AqHCcWojn351gM4lS2LpJMueGLu6kVYRaIe4ZTtmHj0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eJpw1KY0tNljAsE5E+LGYJqnoInC1fCCV8gedc1q0PrJKW3QITcp1RjLDkbd9K4fx7UmEfddvXnBUy3WdnIrV7hvVNlhAOL5kdh0nbxyDN0ZYIwqZzRX0H+wUY+TMAm2201SKq0ITrEFgjcikOwI/yD4+sI1sb3wNyRF9KXJkW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QKF7Si/o; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DY3MXu2r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70D3C4CEF8;
-	Sat, 18 Oct 2025 15:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760800880;
-	bh=vVYZl4oCLGwM7SQGP//U+44wtpZOiDFyOu33ohtCr0E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DY3MXu2r0KYyVn2cLnp7wVLtb7YgesBYzYVYeu9Sr9VELnZCcds6AwnUbUhJy7qNo
-	 cQf9numgiNhd7IfTcL0h8/FtyhCvnk67DfsKd6DhITjx4K1krWVr2LHcc/fcS75ga0
-	 fP0wLRRZyBIpB/mlE8Ulr12xbbvbBRwcrp7ste4RUS30Gf1plu81WcJpW7agdIe3YW
-	 rlib9LNwnCOWkmxNX9yNf3q3X385/mCd5AYDW3soo1rvvc9tzClZNw6iPL5UA+NO/C
-	 QYxeSRqXlYVxjAyq9tHUCfm2amnWQRrSXtWfSHBG8prKAsyjQLAJ0LGEpeRDCB0eCS
-	 6n0PhnDbUPmnA==
-Date: Sat, 18 Oct 2025 16:21:13 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/7] docs: iio: New docs for ad4062 driver
-Message-ID: <20251018162113.002d92f7@jic23-huawei>
-In-Reply-To: <20251013-staging-ad4062-v1-2-0f8ce7fef50c@analog.com>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
-	<20251013-staging-ad4062-v1-2-0f8ce7fef50c@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QKF7Si/o"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b472842981fso383063866b.1
+        for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 09:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760803406; x=1761408206; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3PDE1i70uMuyHnvAFVWfjyIRl/K/1UfDOKuhRPGumqU=;
+        b=QKF7Si/odLOpgeq3BmCPpvM/a9SPbdeTblMmb4wrYyrJTMY+s5Dtqqj5zqpp8bxA/c
+         g1JqMusvRWHMxG8omKmad7fwld03Sfg5fFttIhDE65K2q16NQI9QMpLIX51oXms7/HS6
+         lnyCgNaDeVNWI6Od9CqKFuC6vLVZENC3Bm2RQIbZIVscpt5dy2zBRM8oTtMjG+99cZAw
+         WoyOJXx3u6vrWVQyya40gqOsJO8rbD01HrOVGspPOk5S8vYqP837Yl2oz4trgIL+0y34
+         Q4XAGREjugN6Q3FTNkcvLVybJODK15LwDN5PZWzu1KOGxSK+bNIvXsTzy4a8XY/EIh2h
+         7SOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760803406; x=1761408206;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3PDE1i70uMuyHnvAFVWfjyIRl/K/1UfDOKuhRPGumqU=;
+        b=R5FRwm2n1VDDkbUCxFuDhkYp2aBGfdWfF0Kfx5A4SyxRFuC5Qa+TcsB3PHTkFHJfFp
+         7F6I5xAWxy3MexCe4FsyAwqi5zhpc/+K9dvb8QgCkq4fKxFH9nEVndIYYJuDIFc66zvG
+         yZYgA6TVzJt9jMfqqBRJSVujrfEVwYC573YSB2RQmX9QTBYjchWjy+3akP5xW3rZEsGM
+         z/FiKJdQjzxBeqfGikLNz+npUaCZA6wPD/kox+LuTm/B3BrmTmEgVtgQjkNI1BdKaPlg
+         vuLE+TR8BWjGxFshXsocenuP1gdkPgNlEAkT0FNIUNk9zgUyOGSFDQPCt05hZ055KowQ
+         +rNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXc3hBzCSlKFnj3d6ao/sWQP44Rlur85M/sqGt+hBoSPYi75E/B2Fc9DIrcnfGnivwNkG5O9ca3FEg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzZlQuswyquA+kJ6uwoJkOpjg0YzUkxLnG56WMpnmMzLJhyxQn
+	r8g+PrrQi7F7x24DJXExn4hYbnan2VLCmbZ4U9l/1v84GtF47THrJ0ZvMUN0mH00RvRL119m5kp
+	1ypDT/yyqdydIiK4n51O4W5Bg1UQXVfyQ0M4JWFP9KQ==
+X-Gm-Gg: ASbGnctBvRtk2jaiU0uAD4qHQbQEkLtBk1EAtNfLkWpLevcy9SOh3Ynli2fUMHwd5d9
+	BK918G4WA3PEXmjtEQhYY7z0O/zgDBBIWcpzj7fvXZdYpZ9LKHnuvSgiFAQCyX1betYbjqpoZmk
+	smHVs5erV7vr+7x1LUxOwF3P1V6DBvI5JB4zHcecvEQlrSJDejBsfi9iGHGD4aMmVOZZv52VAnG
+	PFcof1r5zAsuReQM+zeX4tptU5ouhvJKvbAeyQkbAHbDWt3XaiwE7AkfpBUKSp48ghzuNTig4zq
+	z7l3JtfWnMi7DbIOaDWxO2cl0N0=
+X-Google-Smtp-Source: AGHT+IHexk19IgNk6IuP2jV+2x2wF7f0unp4c1GwwYyOBf/8w9heBdr+ysi7d7B9dpzKsMkgpYC1PUK3YyRIdsL9bbA=
+X-Received: by 2002:a17:907:97d4:b0:b2a:10a3:7113 with SMTP id
+ a640c23a62f3a-b64725722f3mr807862966b.29.1760803406106; Sat, 18 Oct 2025
+ 09:03:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org> <CAO_48GGD8sCoQt_qWKqcbg6v7Cyi5U9QsxsvNOcqfkLRqHS7_w@mail.gmail.com>
+In-Reply-To: <CAO_48GGD8sCoQt_qWKqcbg6v7Cyi5U9QsxsvNOcqfkLRqHS7_w@mail.gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Sat, 18 Oct 2025 21:33:14 +0530
+X-Gm-Features: AS18NWCxIWZfRS3hG4C_yzteaWS7C2gP5_aCiLwTRjHCdW6sGbeW-DvFPRdxwEc
+Message-ID: <CAO_48GEXC0FDkeRN57e5Yc=4WCwjh=9pDpZXjowZzEaPPsAd-w@mail.gmail.com>
+Subject: Re: [PATCH v8 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+	Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 Oct 2025 09:28:00 +0200
-Jorge Marques <jorge.marques@analog.com> wrote:
+On Wed, 15 Oct 2025 at 13:53, Sumit Semwal <sumit.semwal@linaro.org> wrote:
+>
+> Hi Maxime,
+>
+> On Mon, 13 Oct 2025 at 14:05, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > Hi,
+> >
+> > Here's another attempt at supporting user-space allocations from a
+> > specific carved-out reserved memory region.
+>
+>
+> Thank you for the series - I think it looks pretty decent, and with
+> Marek's Acked-by for the cma patch [1], I'm inclined to merge it.
+>
+> I'll wait till today evening, in case there are any more comments, and
+> then go ahead and merge it.
 
-> This adds a new page to document how to use the ad4062 ADC driver.
-> 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-Hi Jorge,
 
-Various comments inline.
+Thank you; it's merged to drm-misc-next now.
+>
+>
+> Best,
+> Sumit.
+>
+> >
+> > The initial problem we were discussing was that I'm currently working o=
+n
+> > a platform which has a memory layout with ECC enabled. However, enablin=
+g
+> > the ECC has a number of drawbacks on that platform: lower performance,
+> > increased memory usage, etc. So for things like framebuffers, the
+> > trade-off isn't great and thus there's a memory region with ECC disable=
+d
+> > to allocate from for such use cases.
+> >
+> > After a suggestion from John, I chose to first start using heap
+> > allocations flags to allow for userspace to ask for a particular ECC
+> > setup. This is then backed by a new heap type that runs from reserved
+> > memory chunks flagged as such, and the existing DT properties to specif=
+y
+> > the ECC properties.
+> >
+> > After further discussion, it was considered that flags were not the
+> > right solution, and relying on the names of the heaps would be enough t=
+o
+> > let userspace know the kind of buffer it deals with.
+> >
+> > Thus, even though the uAPI part of it had been dropped in this second
+> > version, we still needed a driver to create heaps out of carved-out mem=
+ory
+> > regions. In addition to the original usecase, a similar driver can be
+> > found in BSPs from most vendors, so I believe it would be a useful
+> > addition to the kernel.
+> >
+> > Some extra discussion with Rob Herring [1] came to the conclusion that
+> > some specific compatible for this is not great either, and as such an
+> > new driver probably isn't called for either.
+> >
+> > Some other discussions we had with John [2] also dropped some hints tha=
+t
+> > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > that too.
+> >
+> > So here's another attempt that doesn't affect the device tree at all an=
+d
+> > will just create a heap for every CMA reserved memory region.
+> >
+> > It also falls nicely into the current plan we have to support cgroups i=
+n
+> > DRM/KMS and v4l2, which is an additional benefit.
+> >
+> > Let me know what you think,
+> > Maxime
+> >
+> > 1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c=
+@houat/
+> > 2: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=3Dc71kzFFaWK-fF5rCdnr9=
+P5h1sgPOWSGSw@mail.gmail.com/
+> >
+> > Let me know what you think,
+> > Maxime
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> > Changes in v8:
+> > - Rebased on top of 6.18-rc1
+> > - Added TJ R-b
+> > - Link to v7: https://lore.kernel.org/r/20250721-dma-buf-ecc-heap-v7-0-=
+031836e1a942@kernel.org
+> >
+> > Changes in v7:
+> > - Invert the logic and register CMA heap from the reserved memory /
+> >   dma contiguous code, instead of iterating over them from the CMA heap=
+.
+> > - Link to v6: https://lore.kernel.org/r/20250709-dma-buf-ecc-heap-v6-0-=
+dac9bf80f35d@kernel.org
+> >
+> > Changes in v6:
+> > - Drop the new driver and allocate a CMA heap for each region now
+> > - Dropped the binding
+> > - Rebased on 6.16-rc5
+> > - Link to v5: https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-=
+0abdc5863a4f@kernel.org
+> >
+> > Changes in v5:
+> > - Rebased on 6.16-rc2
+> > - Switch from property to dedicated binding
+> > - Link to v4: https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-=
+bd2e1f1bb42c@kernel.org
+> >
+> > Changes in v4:
+> > - Rebased on 6.15-rc7
+> > - Map buffers only when map is actually called, not at allocation time
+> > - Deal with restricted-dma-pool and shared-dma-pool
+> > - Reword Kconfig options
+> > - Properly report dma_map_sgtable failures
+> > - Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-=
+97cdd36a5f29@kernel.org
+> >
+> > Changes in v3:
+> > - Reworked global variable patch
+> > - Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-=
+043fd006a1af@kernel.org
+> >
+> > Changes in v2:
+> > - Add vmap/vunmap operations
+> > - Drop ECC flags uapi
+> > - Rebase on top of 6.14
+> > - Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-=
+54cbbd049511@kernel.org
+> >
+> > ---
+> > Maxime Ripard (5):
+> >       doc: dma-buf: List the heaps by name
+> >       dma-buf: heaps: cma: Register list of CMA regions at boot
+> >       dma: contiguous: Register reusable CMA regions at boot
+> >       dma: contiguous: Reserve default CMA heap
+> >       dma-buf: heaps: cma: Create CMA heap for each CMA reserved region
+> >
+> >  Documentation/userspace-api/dma-buf-heaps.rst | 24 ++++++++------
+> >  MAINTAINERS                                   |  1 +
+> >  drivers/dma-buf/heaps/Kconfig                 | 10 ------
+> >  drivers/dma-buf/heaps/cma_heap.c              | 47 +++++++++++++++++--=
+--------
+> >  include/linux/dma-buf/heaps/cma.h             | 16 +++++++++
+> >  kernel/dma/contiguous.c                       | 11 +++++++
+> >  6 files changed, 72 insertions(+), 37 deletions(-)
+> > ---
+> > base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
+> > change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
+> > prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
+> > prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
+> > prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
+> > prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
+> >
+> > Best regards,
+> > --
+> > Maxime Ripard <mripard@kernel.org>
+> >
+>
+>
+> --
+> Thanks and regards,
+>
+> Sumit Semwal (he / him)
+> Senior Tech Lead - Android, Platforms and Virtualisation
+> Linaro.org =E2=94=82 Arm Solutions at Light Speed
 
-Thanks,
 
-Jonathan
 
-> ---
->  Documentation/iio/ad4062.rst | 89 ++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                  |  1 +
->  2 files changed, 90 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad4062.rst b/Documentation/iio/ad4062.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b486d7fe1916d2963c94581be3696cf58d51ca48
-> --- /dev/null
-> +++ b/Documentation/iio/ad4062.rst
-> @@ -0,0 +1,89 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD4062 driver
-> +=============
-> +
-> +ADC driver for Analog Devices Inc. AD4060/AD4062 devices. The module name is
-> +``ad4062``.
-> +
-> +Supported devices
-> +=================
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD4060 <https://www.analog.com/AD4060>`_
-> +* `AD4062 <https://www.analog.com/AD4062>`_
-> +
-> +Wiring modes
-> +============
-> +
-> +The ADC is interfaced through an I3C bus, and contains two programmable GPIOs.
-This raises a question on whether it makes sense for the binding to support providing
-gpios from the start (as alternative to interrupts).  Seems like the two pins
-are completely interchangeable so one might well be 'left' for use by some other
-device that needs a gpio pin.
+--=20
+Thanks and regards,
 
-I don't mind that much if we want to leave the binding support for that for later
-but in the ideal case we'd have it from the start (even if the driver doesn't
-support it until we have a user).
-
-> +
-> +The ADC convert-start happens on the SDA rising edge of the I3C stop (P) bit
-> +at the end of the read command.
-> +
-> +The two programmable GPIOS are optional and have a role assigned if present in
-> +the devicetree:
-> +
-> +- GP1: Is assigned the role of Data Ready signal.
-
-I assume that's only the case if GP1 is provided?  If GP0 is the only one
-we should allow use that for data ready.  As long as the DT allows that it is
-permissible for the driver to not do so for now.
-
-> +
-> +Device attributes
-> +=================
-> +
-> +The ADC contains only one channel with following attributes:
-> +
-> +.. list-table:: Channel attributes
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Description
-> +   * - ``in_voltage_calibscale``
-> +     - Sets the scale factor to multiply the raw value.
-That's confusing.  This should be hardware 'tweak' to compensate for
-calibration or similar.  The text doesn't make it clear where that multiply
-is happening. Sounds too much like _scale.
-
-> +   * - ``in_voltage_oversampling_ratio``
-> +     - Sets device's burst averaging mode to over sample using the
-> +       internal sample rate. Value 1 disable the burst averaging mode.
-> +   * - ``in_voltage_oversampling_ratio_available``
-> +     - List of available oversampling values.
-> +   * - ``in_voltage_raw``
-> +     - Returns the raw ADC voltage value.
-> +   * - ``in_voltage_scale``
-> +     - Returs the channel scale in reference to the reference voltage
-
-Spell check needed.  Also this describes why it might take different values
-but not the bit users care about which is the standard ABI thing of
-Real value in mV = _raw * _scale 
-
-> +       ``ref-supply``.
-> +
-> +Also contain the following device attributes:
-> +
-> +.. list-table:: Device attributes
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Description
-> +   * - ``samling_frequency``
-
-Check these.. sampling_frequency.
-
-> +     - Sets the sets the device internal sample rate, used in the burst
-> +       averaging mode.
-
-It's not use otherwise?  That's unusual ABI.  I'd expect it to give
-the right value at least when burst mode isn't used. Or is burst mode
-the only way we do buffered capture?
-
-> +   * - ``sampling_frequency_available``
-> +     - Lists the available device internal sample rates.
-> +
-> +Interrupts
-> +==========
-> +
-> +The interrupts are mapped through the ``interrupt-names`` and ``interrupts``
-> +properties.
-> +
-> +The ``interrupt-names`` ``gp1`` entry sets the role of Data Ready signal.
-> +If it is not present, the driver fallback to enabling the same role as an
-> +I3C IBI.
-
-It feels like it should be easy to use the other GPO pin in this case if that
-is present. 
-
-> +
-> +Low-power mode
-> +==============
-> +
-> +The device enters low-power mode on idle to save power. Enabling an event puts
-> +the device out of the low-power since the ADC autonomously samples to assert
-> +the event condition.
-> +
-> +Unimplemented features
-> +======================
-> +
-> +- Monitor mode
-> +- Trigger mode
-> +- Averaging mode
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index afbfaeba5387b9fbfa9bf1443a059c47dd596d45..ce012c6c719023d3c0355676a335a55d92cf424c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1405,6 +1405,7 @@ M:	Jorge Marques <jorge.marques@analog.com>
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
-> +F:	Documentation/iio/ad4062.rst
->  
->  ANALOG DEVICES INC AD4080 DRIVER
->  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-> 
-
+Sumit Semwal (he / him)
+Senior Tech Lead - Android, Platforms and Virtualisation
+Linaro.org =E2=94=82 Arm Solutions at Light Speed
