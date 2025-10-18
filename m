@@ -1,121 +1,127 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B4F19D074
-	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 14:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492A619D89E
+	for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 14:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760797843; cv=none; b=Rh8dFqlZktY0yKffcdOQXGpNhx0YX/Eg+7etBL7uHiDGmGivDKruftgB7bCe88ylR4DibRHuqU5yyMXBZ75JIc8bEw37z7+0YVOmcrHQCHxkM1pcc6uKHaUIMGmfTQDww/6NXVcK2nwYpWPI4Gbe4l4oCHwdAj7oS4kHddza+Bw=
+	t=1760798650; cv=none; b=fc0odh0PQcS6ErtO04RMDl+W9BhOkr4DIG6rnzpoOmLat4xjN7+vJF0JTW6lURbJ7kOPobzgpCnFx7n2gmEUcUQos2ZMQc98Rcny23L/t1O7ZR5zJJV81nB/9LHwNzoNl3vLAweJFotkrSH5+t6/F7BJ14sHCFwysEMN8O1NvIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760797843; c=relaxed/simple;
-	bh=H5AzUI1YR9TrA+ShwSblAD+3OTi6tR9slfhzioJEg/c=;
+	s=arc-20240116; t=1760798650; c=relaxed/simple;
+	bh=Yiokp8AOA5MBIRRXxZYT3h+Zvsu/4zjHnYtyy0zJE7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uHYkc6OoUytOpv+EQhtF/4FZqkUBc7YIl7+OWgXPaG4/wccW3tprsMT32tSiQJwmemM7RB2/5mO3oa/EICPIxF/vs2hxwejBmqNUoD5U5e6b9t73PHZnmz8RVMSmuC3n22Q4kkzVp8n/ikdaL1oSfwAY/ySS0SFTFrOi+CnqQhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gi+z+SvN; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gi+z+SvN"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3327f8ed081so3582628a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 18 Oct 2025 07:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760797841; x=1761402641; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H5AzUI1YR9TrA+ShwSblAD+3OTi6tR9slfhzioJEg/c=;
-        b=Gi+z+SvNsHkZO9AAIyWP+0DeGfslFOUz69IO0fYboTt/sdoCGN3HRsHrQEFQpekhiu
-         bswXiZb+xoDAzrfqIBq0I2WKq6gk1ejJ1vcRzEKvmGRK9T9gr40h+O7AeSu0UL0qP1ck
-         6GxeYIito3xbM9qsmE3aRAiGqfCbcPYycV9YhbyhdP+DyxlnIiiI8J8o/EMps1ghjKTv
-         cRTJdH6BCLP1gLWYZsH4x0uT3Ssyz7qKzCfd5ahUwgLuBf0uwOsm98NOmfGBjTqlecJT
-         SdokDU6gbkHid5y/PeLBBomoYu+kkg0JhPhDU2YKB/gKbGOczcFWUP/Pw/hjDA6aSyND
-         JaQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760797841; x=1761402641;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H5AzUI1YR9TrA+ShwSblAD+3OTi6tR9slfhzioJEg/c=;
-        b=Jy9Gzx6w6XZh5Kj2WQwRbUYreaHdbntx8iz8hvdiLbvMVCGihRCHrO7FtzvVXtim0i
-         TUCvcmRHf959dUXAA6YXwBafzGP+5TKbJkSGwVdyoABoNQZTZJa1CR4tX3fABdvEEB+E
-         ZPs98aagEWJI51NTcoMduNSRpcZzW8BTSZSJqmaYEcL5yqLoyw7OHNNz3yIhGtzLQKtv
-         3VGGYUvDKnKCHhzSdREuLg0GMfTsZ9HnxSIMRkorG7236crGVsuQSbAfY9qrm95+b5Us
-         esJVfNCuQoLsNArxWEzitFmvS+r3vsASKR1Zvqs5Y5xtIQ8aOCVRbTQa4WWhnB0/jYJ5
-         ltvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpmAbslYbvRIOpZ0F8XtsILHmed5h/RpT6+BfQPcHoqYgErBh5zt8V9FHt+H8ThRp4DHEcmR8bSI4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzheDCRgfdjmnq2BOPcd6WEpPisua9RCdtFbYYCZqnq4U3ERGkQ
-	sPwm4Nb9IDy8DOLYDISwgZC36Ui4TeU9y1DmZpzmxymFDTWenJoLXdr2
-X-Gm-Gg: ASbGncvxWbk2UEJCr7Bga6A1nVFB+d1YzvpT4yYaKg4rUZ0SyWhGf2PmbHwfulnI7ay
-	vDn+Jh25lpPbCljku6o0MJQg2saxKDVrSIF4PWp2nefKJ99fB+RYYf4NvrNCnhlkpnapTZNII3/
-	UysEWVW/InxPAbPGKSYF7mDqfJZD2x52ccyu1jciw0v53WiVc2THVGosK8YJIxUKuY+ktENd4zH
-	KOlcCb2EAjBpefXr0mYADpS7w0I2Mgfrz1N4bZHnGK2X8dAar4zxxbkzPcuA5PX1wZD6J1ctwL0
-	mpg+53HwcohlAx/Nn4CSg5HCJ8JakDkYiAdF+UHJ1ftPGdA+A07X56Mtq+X65eTYijCsDEArtjq
-	FjyYvE5oHvegUcF8mbL+e8XSLy4i1ObWCxO8a/xzX5uCI60BJNNUIR4cekYHVJVM01U+xPpJHCk
-	P1lfGox6w1MWMKIjB+vSDQ/wZ4
-X-Google-Smtp-Source: AGHT+IHWngUQc7B5DhoG9VaMeEWADlJVoOxl/VKkyFHP2uKToZpaKxsuBioQGNTpHSbiFcVbfcshrA==
-X-Received: by 2002:a17:90b:3d87:b0:33b:b020:595e with SMTP id 98e67ed59e1d1-33bcf8f78cfmr9188242a91.25.1760797841284;
-        Sat, 18 Oct 2025 07:30:41 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bae2a4e03sm4525492a91.4.2025.10.18.07.30.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 07:30:40 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 560444241822; Sat, 18 Oct 2025 21:30:37 +0700 (WIB)
-Date: Sat, 18 Oct 2025 21:30:37 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Tomas Glozar <tglozar@redhat.com>,
-	Crystal Wood <crwood@redhat.com>,
-	Gopi Krishna Menon <krishnagopi487@gmail.com>
-Subject: Re: [PATCH] Documentation/rtla: rename common_xxx.rst files to
- common_xxx.txt
-Message-ID: <aPOkjdKXDKeIIsCE@archie.me>
-References: <20251013092719.30780-2-bagasdotme@gmail.com>
- <87zf9pz33e.fsf@trenco.lwn.net>
- <aPMqTSbPucoqNhA1@archie.me>
- <87v7kcz3yl.fsf@trenco.lwn.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rR04U2ieM9ZD646XfVqpZP6ehfrACUnJiOwz4pHuP3e5nugvE6uaDb0T6M1It229D7yHfd9RPWR19JKLfJOVfIPSImdffvsJpDjQEclO7sbDklMvr0oKudQz4yzX9KW7pBNI8PUcK38lq5p4wp35eb4mfjTQlXGwH5RWpyinPJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz19t1760798552t654e3757
+X-QQ-Originating-IP: hsCyHceUJdBsC2HmerHfDa/gauk7WW3wy8RM1wqSyZI=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 18 Oct 2025 22:42:30 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16127192191837545862
+Date: Sat, 18 Oct 2025 22:42:30 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
+	danishanwar@ti.com, vadim.fedorenko@linux.dev,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v14 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <F5F360A04D1E1CAA+20251018144230.GA4362@nic-Precision-5820-Tower>
+References: <20251014072711.13448-1-dong100@mucse.com>
+ <20251014072711.13448-4-dong100@mucse.com>
+ <20251017170703.3c2dba37@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ybs29haJIQVP26Hi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87v7kcz3yl.fsf@trenco.lwn.net>
+In-Reply-To: <20251017170703.3c2dba37@kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz3a-1
+X-QQ-XMAILINFO: Ob047hH1itO57d3RtzjpdoVn7PaYRVnU9L3cRxvoQtYJhUC5rlAPJ8xH
+	xyJIP1/dZsahx5E3zgFoV54KT/gp9UE8FfnfhDB0F3OYgGQh++nPgC3KwQOUJx8YSZk53EQ
+	l4j7xcUXj6jbcwpw5x6x07HW6cLbj/YqvxvPoEzxKtWzszUyHtCGfoFgTn/WPt6SIEqUpAF
+	saAjUrAA9tf3aMnPqxACKTLm6ZFVBCkXSZJz7EbYa46D6aKf+NF/RNGZkhSgnGBM0T9ybsv
+	h31ck7GXkFHCuk9RhtIvePNXLJnkskMWu7huUsCLEiinozLj1ja6SWiRaOZhjbBSXERTxym
+	jhGmYdMQZ2gNSUwM5o3x45ByU5p/W/STzk2yEPGGhUAm2hUFan8wQ+GqAUHnn/DeALyrYxS
+	hRM3QLavRofzmN0EJ+Iptuaa3C6yiCXg2FJJZ8/KYgwim1Q7dkc2bhMB33olmvNKlQBou2H
+	h2FZ1smWqft1BOFFSTt9LaS8R+nZpSeUPNz/C9wPSTsZUmWWozQzLs/n+48t+tFGD66CJj/
+	jpjyd9SJFA5BbnRKmzRY2MebPlSgktod38qqS08cXFgixDxskdMAqIF0/hMTmyv8pu6pnei
+	xpoiWeo5fjplC+Ql6oVZxPgV1IDe5hXlMhDnLVTpg3ZRPwxGRku9J5FR3Vsk/aTItsTE8X8
+	U/tgU1bJW8K+mQ9brO0eyfEm7sa2jYIIcWXvlTp/C8zA8UYxvbSrk27V+lhtu4+KxEyuYNe
+	O8M1c65yYtsOY1Q/XZNF6bN6+xsznYNRdJOLKybLzqqgTcnzFGElCAPdT8rgm2ZhwI5Y/Um
+	mDxsLm6bTBwTQF7yMf+Tt6Ka57d3Z+Sw65KZ/eoNMynJQjTtNmZcmTsOQjaiq4LMiGEs6N6
+	Pp9CjhUPEq4tOSTb1vbPcmfpE5ifwGQMX9Jcj0wb5T7fagjwW4zCZOmGG9c2LOkeQG5UZ/C
+	ywcxLOXk9Z0NTgJjbRc8FcVnnky57M6PcJoXChF5TfXLBrd8qVAp47at4tQga4fmBypD742
+	9f94Ki19OYiYtXWuMc
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
+
+Hi, Jakub:
+
+On Fri, Oct 17, 2025 at 05:07:03PM -0700, Jakub Kicinski wrote:
+> On Tue, 14 Oct 2025 15:27:09 +0800 Dong Yibo wrote:
+> > +struct mucse_mbx_stats {
+> > +	u32 msgs_tx; /* Number of messages sent from PF to fw */
+> > +	u32 msgs_rx; /* Number of messages received from fw to PF */
+> > +	u32 acks; /* Number of ACKs received from firmware */
+> > +	u32 reqs; /* Number of requests sent to firmware */
+> > +};
+> 
+> Probably no point adding these stats until you can expose them to the
+> user..
+> 
+
+Ok, I will remove this for this patch.
+
+By the way, I think there is a similar situation in patch5 (about
+tx_dropped), just bellow:
+
++ * rnpgbe_xmit_frame - Send a skb to driver
++ * @skb: skb structure to be sent
++ * @netdev: network interface device structure
++ *
++ * Return: NETDEV_TX_OK
++ **/
++static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
++				     struct net_device *netdev)
++{
++	struct mucse *mucse = netdev_priv(netdev);
++
++	dev_kfree_skb_any(skb);
++	mucse->stats.tx_dropped++;
++
++	return NETDEV_TX_OK;
++}
+
+tx_dropped stats is sugguested by MD Danish Anwar <danishanwar@ti.com> here:
+https://lore.kernel.org/netdev/94eeae65-0e4b-45ef-a9c0-6bc8d37ae789@ti.com/
+----
+> +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
+> +				     struct net_device *netdev)
+> +{
+> +		dev_kfree_skb_any(skb);
+> +		return NETDEV_TX_OK;
+> +}
+
+Extra indentation on these two lines. Also, the function just drops all
+packets without any actual transmission. This should at least increment
+the drop counter statistics.
+----
+
+And update to my own stats here:
+https://lore.kernel.org/netdev/20250923181639.6755cca4@kernel.org/
+
+And I am not sure how to deal with it since 'mucse->stats.tx_dropped' is
+not exposed to the user just like mbx_stats.
+Please give me some sugguestion, thanks.
 
 
---ybs29haJIQVP26Hi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Oct 18, 2025 at 08:20:34AM -0600, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->=20
-> > Shouldn't this more appropriate as a fix for current cycle (6.18)? I see
-> > the warnings on Linus's tree, though.
->=20
-> As a general rule, I don't see warning fixes as being important enough
-> to send outside of the merge window; the next cycle isn't that far away.
-
-OK, thanks!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---ybs29haJIQVP26Hi
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPOkhwAKCRD2uYlJVVFO
-o3NPAQDfJXtSqbwM4/sAhpfkKAvqBkJII1d9MZNDlAgwoiq+qAEAnu2ndfw7w1wu
-QyJdeJuxkPc2xpzvRc3YXL3d0wwuQAU=
-=jsrl
------END PGP SIGNATURE-----
-
---ybs29haJIQVP26Hi--
