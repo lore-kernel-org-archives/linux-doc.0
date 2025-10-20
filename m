@@ -1,366 +1,165 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6246D3D6F
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 09:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D608B2F693C
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 10:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760952812; cv=none; b=IpDGZdq2GksUfBKwpdyek4q3FgRy8uRtMp6i5Bj04YS/2AYPiksTVMvKQlhCldn2nwmPAj7qIJQ9XX3c4y4TEov/jywPPuAebuT2MLGXS2apRKmX+IowsjhlCj1Cd8Jf6pZydcYPLOdYcXxtBYgadhpHfywrj9lz090qKxSRcII=
+	t=1760956331; cv=none; b=iKdkaeSQcdh18BEq9TpW5drPKlMbAwG73eeEGx+QJO76LKDjb9lp8TIs/lYhThFXWp+m2TDgt6tFJhL0H3XKw4PcR+VWcjeiFd5d7zD4Qtgul1+QX3FuQk4nkDvw8RupLxPvQy8YcHc8P0y2VCLrVNqEfy+HmgiVRlwjwltyaBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760952812; c=relaxed/simple;
-	bh=q7KMqZysh+a3liEOjxIZ5pRAbK2zhPglz1suWJYgrtE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QNomvYX8hdja4Q9PYaBncTPW1PekmXfLt1tPQJn11GiWUcR3jnUWpxznbi8CnGxv2EivYL629Sns8GJysnUi2c5SgxUinjOgXo4Lcc4mCKc0+dkVLxfGn2BghMPbGDW7WDdaXFNOk1Q/kF1JmGRXXbG1Z7lpvaPUPCFnhOsNkgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=g5+Fz/4W; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="g5+Fz/4W"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47117f92e32so24881225e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 02:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760952809; x=1761557609; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=35P1VBGXpvybu0O/QguU3+ECEHWeEOmbTTq+p+G5dt8=;
-        b=g5+Fz/4WhZLjOD6z2nzvpci2WZ3fFSZSzKZsBfNcwBrhBV0Hz5hZ8x3xaWHZDocA1A
-         1bSV7l8ZSYKhTWwihvNV3ly8iaHspaBtgWWK62DdIfdWvecejuXg0V04mfhnLZgL5HhN
-         MVDwKj3ydQb/1oVH7o4xRRDE54LwhSNsN0KinbAb/nliGvFAebDzX3bq8ljOJXvtbdgd
-         875xrRMCEBRPaydmY8btpFEUGtz2TmDu4ADwpHOAa1MufhJaeHwc9yKPO9oO2+oESZZd
-         SJ+NNH3BFkp0sNGqc3keTbXNgNjaLfI7PIo1nDG0TN3TXsBjs2bSNc7lwI5lIddt5qWk
-         c85w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760952809; x=1761557609;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=35P1VBGXpvybu0O/QguU3+ECEHWeEOmbTTq+p+G5dt8=;
-        b=QPW8Md8GZw53YHwB/NHFhftZipRIyOkrHyJP0Ce2iLWIImHHTF/oiuCdQFYEcybCcV
-         Hs3fuuC5f3ip3N55twZ3L128vJY+RrLAfwNAW0mHXMNRyYISf+EfVCIm5/lNo1KUxz6M
-         lT0vybELNW6aPKhNXCkwWjBe2QhDcbDyosri1VKnbQi89r2HNsHTfxyKXqenFqvaEde2
-         FatwzmpR2uO8NrT741pMX9SnhH8xSQwNX/hJ7BfEdRbmdPj/WzwvYsEJu97fyd10tHbv
-         rdFyD53fCE1u9qvcRQnl8ZmhMqWq+LFF9hhF/qboUGYemBoUvKA70mG353dEMiNDkbtA
-         JcIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVHkXcAVQZRONWSGMVGtnmRrMgQOXuMZsjn3w148wS7ifeFZyNjyCX4+tP5R8jx3C1DFHHxKR/fnU0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2M8FwFzDNmxB8G/brKPkABRWarfCcDefdjZScTBPqOi0LWg0I
-	+gBQZELBUvw25UMHmulDxMOqibngl1iiGZGyACEeFmpogEP+0dZ+57FE2WRc5smJQko=
-X-Gm-Gg: ASbGnctnUMNIqYAJgJyIdCl3yXy5zB7DBxQljgpQDOvW3GvTqM8yf6Om18miqjRo1Ni
-	JX2GAGPqnhhWGzUJzlps+Ev3pzGG517abHRtgdU+poBHPTZfJZHks27VRbHGQrJO5SROOUFf2Jw
-	bCH4bdVQKI++eFsjm05RYHHILzx6Msp/djNlOPgitg0J9krz2XawSOGLvrsb+3I8KHJhbr/Y0TU
-	2+MbxidGaswm+qS/tkcqWB5mo9OKz8w3slyCvxRxPGcNb90XI4LXT/Mq+/BsoR7Lxq+E6BY0SLh
-	ortUVvR58EQayXwbaBSPceAMw4SrEsg9Aj8gsdT0Fiu4UcWikVPBbn8Z1Hui21+U5EqgcWN0xZB
-	Kzk+1NhKZdL48+3HQ2byj69XTpxQrYKWseRFNKAsFisMTdlhD5Ogiz6ofIOlVXjv3fwn+D+EZr2
-	rhy6gSFiZLUlNWWxpxSR6xy+spZw==
-X-Google-Smtp-Source: AGHT+IGUDMR8mkIoFpUlAAdUP/6zPdVHLyL+h1bB5WDQD3WBZIgLWI1xtBdpKBPhcrO0v8yIyFyufw==
-X-Received: by 2002:a05:600d:41cc:b0:471:13dd:baef with SMTP id 5b1f17b1804b1-4711791beadmr80450325e9.26.1760952808602;
-        Mon, 20 Oct 2025 02:33:28 -0700 (PDT)
-Received: from [192.168.0.101] ([90.242.12.242])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715520dd65sm134062965e9.15.2025.10.20.02.33.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 02:33:28 -0700 (PDT)
-Message-ID: <0130b962-6cd7-4f2c-8fd0-809a21495e03@ursulin.net>
-Date: Mon, 20 Oct 2025 10:33:27 +0100
+	s=arc-20240116; t=1760956331; c=relaxed/simple;
+	bh=jYY8uRNIqBnKZio8KgxhgXaN25hBqMJYxVaclQ0FIF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SnF/syw1HTwf2PJGMlkdzluwVFFqXR0drsHaOkVxWhGz8bItGFDmIx6JAST2ff1Y0zLPIc2t1wh6z6KXWxnBR7Brqlnpzt8XMDPdXjEgA/jYVihodnHzqgsQaWRmRYS02xZkDLLvJoQe9xtoA/QPk8xVTadWbBtDn/Z64XjKmhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vAnB8-0002zv-AU; Mon, 20 Oct 2025 12:31:50 +0200
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vAnB6-004WvP-0K;
+	Mon, 20 Oct 2025 12:31:48 +0200
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vAnB6-0000000B1KI-00rQ;
+	Mon, 20 Oct 2025 12:31:48 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com,
+	linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>,
+	Roan van Dijk <roan@protonic.nl>
+Subject: [PATCH net-next v7 0/5] ethtool: introduce PHY MSE diagnostics UAPI and drivers
+Date: Mon, 20 Oct 2025 12:31:42 +0200
+Message-ID: <20251020103147.2626645-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/13] drm/v3d: Use huge tmpfs mount point helper
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
- <20251015153018.43735-8-loic.molinari@collabora.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251015153018.43735-8-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+changes v7:
+- htmldoc fixes
+changes v6:
+- rework the code to use uint instead of u32/u64
+- use bitset for flags
+- use nest for each separate channel
+changes v5:
+- add struct phy_mse_snapshot and phy_mse_config to the documentation
+changes v4:
+- remove -ENETDOWN as expected error value for get_mse_config() and
+  get_mse_snapshot()
+- fix htmldocs builds
+- s/__ethtool-a-mse/--ethtool-a-mse
+changes v3:
+- add missing ETHTOOL_A_LINKSTATE_MSE_* yaml changes
+changes v2:
+- rebase on latest net-next
 
-On 15/10/2025 16:30, Loïc Molinari wrote:
-> Make use of the new drm_gem_huge_mnt_create() helper to avoid code
-> duplication. Now that it's just a few lines long, the single function
-> in v3d_gemfs.c is moved into v3d_gem.c.
-> 
-> v3:
-> - use huge tmpfs mountpoint in drm_device
-> - move v3d_gemfs.c into v3d_gem.c
-> 
-> v4:
-> - clean up mountpoint creation error handling
-> 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> ---
->   drivers/gpu/drm/v3d/Makefile    |  3 +-
->   drivers/gpu/drm/v3d/v3d_bo.c    |  5 ++-
->   drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
->   drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
->   drivers/gpu/drm/v3d/v3d_gem.c   | 27 +++++++++++++--
->   drivers/gpu/drm/v3d/v3d_gemfs.c | 60 ---------------------------------
->   6 files changed, 30 insertions(+), 78 deletions(-)
->   delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
-> 
-> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-> index fcf710926057..b7d673f1153b 100644
-> --- a/drivers/gpu/drm/v3d/Makefile
-> +++ b/drivers/gpu/drm/v3d/Makefile
-> @@ -13,8 +13,7 @@ v3d-y := \
->   	v3d_trace_points.o \
->   	v3d_sched.o \
->   	v3d_sysfs.o \
-> -	v3d_submit.o \
-> -	v3d_gemfs.o
-> +	v3d_submit.o
->   
->   v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
->   
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index c41476ddde68..6b9909bfce82 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -112,7 +112,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
->   	if (IS_ERR(sgt))
->   		return PTR_ERR(sgt);
->   
-> -	if (!v3d->gemfs)
-> +	if (!obj->dev->huge_mnt)
+This series introduces a generic kernel-userspace API for retrieving PHY
+Mean Square Error (MSE) diagnostics, together with netlink integration,
+a fast-path reporting hook in LINKSTATE_GET, and initial driver
+implementations for the KSZ9477 and DP83TD510E PHYs.
 
-Maybe it would be a good idea to add a helper for this check. Keeping 
-aligned with drm_gem_huge_mnt_create() something like 
-drm_gem_has_huge_mnt()? That would then hide the optional drm_device 
-struct member if you decide to go for that.
+MSE is defined by the OPEN Alliance "Advanced diagnostic features for
+100BASE-T1 automotive Ethernet PHYs" specification [1] as a measure of
+slicer error rate, typically used internally to derive the Signal
+Quality Indicator (SQI). While SQI is useful as a normalized quality
+index, it hides raw measurement data, varies in scaling and thresholds
+between vendors, and may not indicate certain failure modes - for
+example, cases where autonegotiation would fail even though SQI reports
+a good link. In practice, such scenarios can only be investigated in
+fixed-link mode; here, MSE can provide an empirically estimated value
+indicating conditions under which autonegotiation would not succeed.
 
->   		align = SZ_4K;
->   	else if (obj->size >= SZ_1M)
->   		align = SZ_1M;
-> @@ -148,12 +148,11 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
->   			     size_t unaligned_size)
->   {
->   	struct drm_gem_shmem_object *shmem_obj;
-> -	struct v3d_dev *v3d = to_v3d_dev(dev);
->   	struct v3d_bo *bo;
->   	int ret;
->   
->   	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
-> -						  v3d->gemfs);
-> +						  dev->huge_mnt);
+Example output with current implementation:
+root@DistroKit:~ ethtool lan1
+Settings for lan1:
+...
+        Speed: 1000Mb/s
+        Duplex: Full
+...
+        Link detected: yes
+        SQI: 5/7
+        MSE: 3/127 (channel: worst)
 
-Okay this one goes away by the end of the series.
+root@DistroKit:~ ethtool --show-mse lan1
+MSE diagnostics for lan1:
+MSE Configuration:
+        Max Average MSE: 127
+        Refresh Rate: 2000000 ps
+        Symbols per Sample: 250
+        Supported capabilities: average channel-a channel-b channel-c
+                                channel-d worst
 
->   	if (IS_ERR(shmem_obj))
->   		return ERR_CAST(shmem_obj);
->   	bo = to_v3d_bo(&shmem_obj->base);
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index c5a3bbbc74c5..19ec0ea7f38e 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -106,7 +106,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
->   		args->value = v3d->perfmon_info.max_counters;
->   		return 0;
->   	case DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES:
-> -		args->value = !!v3d->gemfs;
-> +		args->value = !!dev->huge_mnt;
->   		return 0;
->   	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
->   		mutex_lock(&v3d->reset_lock);
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 1884686985b8..99a39329bb85 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -158,11 +158,6 @@ struct v3d_dev {
->   	struct drm_mm mm;
->   	spinlock_t mm_lock;
->   
-> -	/*
-> -	 * tmpfs instance used for shmem backed objects
-> -	 */
-> -	struct vfsmount *gemfs;
-> -
->   	struct work_struct overflow_mem_work;
->   
->   	struct v3d_queue_state queue[V3D_MAX_QUEUES];
-> @@ -569,6 +564,7 @@ extern const struct dma_fence_ops v3d_fence_ops;
->   struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q);
->   
->   /* v3d_gem.c */
-> +extern bool super_pages;
->   int v3d_gem_init(struct drm_device *dev);
->   void v3d_gem_destroy(struct drm_device *dev);
->   void v3d_reset_sms(struct v3d_dev *v3d);
-> @@ -576,11 +572,6 @@ void v3d_reset(struct v3d_dev *v3d);
->   void v3d_invalidate_caches(struct v3d_dev *v3d);
->   void v3d_clean_caches(struct v3d_dev *v3d);
->   
-> -/* v3d_gemfs.c */
-> -extern bool super_pages;
-> -void v3d_gemfs_init(struct v3d_dev *v3d);
-> -void v3d_gemfs_fini(struct v3d_dev *v3d);
-> -
->   /* v3d_submit.c */
->   void v3d_job_cleanup(struct v3d_job *job);
->   void v3d_job_put(struct v3d_job *job);
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index bb110d35f749..635ff0fabe7e 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -258,6 +258,30 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
->   	v3d_invalidate_slices(v3d, 0);
->   }
->   
-> +static void
-> +v3d_huge_mnt_init(struct v3d_dev *v3d)
-> +{
-> +	int err = 0;
-> +
-> +	/*
-> +	 * By using a huge shmemfs mountpoint when the user wants to
-> +	 * enable Super Pages, we can pass in mount flags that better
-> +	 * match our usecase.
-> +	 */
-> +
-> +	if (super_pages)
-> +		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+MSE Snapshot (Channel: a):
+        Average MSE: 4
 
-If it is this patch that is creating the build failure then the two 
-should be squashed.
+MSE Snapshot (Channel: b):
+        Average MSE: 3
 
-Then in "drm/v3d: Fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n" this 
-ends up a bit ugly:
+MSE Snapshot (Channel: c):
+        Average MSE: 2
 
-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-  	if (super_pages)
-#endif
-  		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+MSE Snapshot (Channel: d):
+        Average MSE: 3
 
-Does this not work:
+[1] https://opensig.org/wp-content/uploads/2024/01/Advanced_PHY_features_for_automotive_Ethernet_V1.0.pdf
 
-  	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
-  		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+Oleksij Rempel (5):
+  ethtool: introduce core UAPI and driver API for PHY MSE diagnostics
+  ethtool: netlink: add ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+  ethtool: netlink: add lightweight MSE reporting to LINKSTATE_GET
+  net: phy: micrel: add MSE interface support for KSZ9477 family
+  net: phy: dp83td510: add MSE interface support for 10BASE-T1L
 
-?
+ Documentation/netlink/specs/ethtool.yaml      | 195 +++++++++
+ Documentation/networking/ethtool-netlink.rst  |  82 ++++
+ drivers/net/phy/dp83td510.c                   |  61 +++
+ drivers/net/phy/micrel.c                      | 101 +++++
+ include/linux/phy.h                           | 129 ++++++
+ include/uapi/linux/ethtool.h                  |   2 +
+ .../uapi/linux/ethtool_netlink_generated.h    | 109 +++++
+ net/ethtool/Makefile                          |   2 +-
+ net/ethtool/common.c                          |  13 +
+ net/ethtool/common.h                          |   2 +
+ net/ethtool/linkstate.c                       |  94 ++++
+ net/ethtool/mse.c                             | 411 ++++++++++++++++++
+ net/ethtool/netlink.c                         |  10 +
+ net/ethtool/netlink.h                         |   2 +
+ net/ethtool/strset.c                          |   5 +
+ 15 files changed, 1217 insertions(+), 1 deletion(-)
+ create mode 100644 net/ethtool/mse.c
 
-Regards,
-
-Tvrtko
-
-> +
-> +	if (v3d->drm.huge_mnt)
-> +		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> +	else if (err)
-> +		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n",
-> +			 err);
-> +	else
-> +		drm_notice(&v3d->drm,
-> +			   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
-> +}
-> +
->   int
->   v3d_gem_init(struct drm_device *dev)
->   {
-> @@ -309,7 +333,7 @@ v3d_gem_init(struct drm_device *dev)
->   	v3d_init_hw_state(v3d);
->   	v3d_mmu_set_page_table(v3d);
->   
-> -	v3d_gemfs_init(v3d);
-> +	v3d_huge_mnt_init(v3d);
->   
->   	ret = v3d_sched_init(v3d);
->   	if (ret) {
-> @@ -329,7 +353,6 @@ v3d_gem_destroy(struct drm_device *dev)
->   	enum v3d_queue q;
->   
->   	v3d_sched_fini(v3d);
-> -	v3d_gemfs_fini(v3d);
->   
->   	/* Waiting for jobs to finish would need to be done before
->   	 * unregistering V3D.
-> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
-> deleted file mode 100644
-> index c1a30166c099..000000000000
-> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
-> +++ /dev/null
-> @@ -1,60 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0+
-> -/* Copyright (C) 2024 Raspberry Pi */
-> -
-> -#include <linux/fs.h>
-> -#include <linux/mount.h>
-> -#include <linux/fs_context.h>
-> -
-> -#include "v3d_drv.h"
-> -
-> -void v3d_gemfs_init(struct v3d_dev *v3d)
-> -{
-> -	struct file_system_type *type;
-> -	struct fs_context *fc;
-> -	struct vfsmount *gemfs;
-> -	int ret;
-> -
-> -	/*
-> -	 * By creating our own shmemfs mountpoint, we can pass in
-> -	 * mount flags that better match our usecase. However, we
-> -	 * only do so on platforms which benefit from it.
-> -	 */
-> -	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-> -		goto err;
-> -
-> -	/* The user doesn't want to enable Super Pages */
-> -	if (!super_pages)
-> -		goto err;
-> -
-> -	type = get_fs_type("tmpfs");
-> -	if (!type)
-> -		goto err;
-> -
-> -	fc = fs_context_for_mount(type, SB_KERNMOUNT);
-> -	if (IS_ERR(fc))
-> -		goto err;
-> -	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
-> -	if (!ret)
-> -		ret = vfs_parse_fs_string(fc, "huge", "within_size");
-> -	if (!ret)
-> -		gemfs = fc_mount_longterm(fc);
-> -	put_fs_context(fc);
-> -	if (ret)
-> -		goto err;
-> -
-> -	v3d->gemfs = gemfs;
-> -	drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> -
-> -	return;
-> -
-> -err:
-> -	v3d->gemfs = NULL;
-> -	drm_notice(&v3d->drm,
-> -		   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
-> -}
-> -
-> -void v3d_gemfs_fini(struct v3d_dev *v3d)
-> -{
-> -	if (v3d->gemfs)
-> -		kern_unmount(v3d->gemfs);
-> -}
+--
+2.47.3
 
