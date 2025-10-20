@@ -1,206 +1,148 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E972E264612
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 15:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55E624678F
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 15:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760974324; cv=none; b=eWlHEcUQB7araXZpGN9ii1b2UPxIJ0fQdWGrPLuCzaRIo7aPClIUJRpXpn1IU+oB/RKyTBlBiFYoDrRa5rnhlwR4Aq/VfhthmrQiNNUpa/IvP4f+CVDXvJFQ5XxWuvGHHzBQYJOWQ++uHNw1glDERMsr1MBNfzpqNMr18U4yKoE=
+	t=1760975302; cv=none; b=ghbCZizdrRi7bMmrnLRrQWzrxyp5pPbqcZ9E9CuA/5k/grUBJEZpPq+uIhSBB+NsYQY/ZG3mj4HaSEhqjN3pGERko+Bp/WNJbx0A6dBz0mLHGGXZFJ8BsxIO55s7AzoLdoblW2Wgx3Na828AyY9LBGsgyaRwqBebtGlAdcM8eiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760974324; c=relaxed/simple;
-	bh=hTx9HVxfZXSrtxn8CvPjCWWzLhaDyp1TwWQ5eykxT/c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fSL3uOw+xsEk/kUR3csMqKgJm4VHa+I+MtCoRFP5MU4hRcQnyMa75RKEyJbd1O3fyt/2QjkF/0ZLwJhxEIwp4MuWRoJKN40LD8hZvUtiNVMcIbCm7AFdD1ESz9d29YqqIzQBCH0eiOao5gHnXt3E/Km0bRy4FzMqMtzmm8sALDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kqNoHb+t; arc=none smtp.client-ip=209.85.222.174
+	s=arc-20240116; t=1760975302; c=relaxed/simple;
+	bh=mY4lDRBu+hq4QHSprdmPqj71tWsfEl20Vy/4TMM5oGg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=t7Z4m29wXnYhuMkQ5H3lG5IcNUhjxLm/D76ajvwkRrpVHkzzjMlhE+tQO1XZL48zoZ1sZt1BEQXBIg1SIhsP8xhDRaMAZO2cPDHVsEpOmzU59YczetXUdq7jR48R3gAHWS3Zw8bHjTmHtUymwQQMJsc7xbQ7oa5zgQ0Wr7o2Yjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pK/fEzt/; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kqNoHb+t"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-88f8f346c2cso669473285a.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 08:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pK/fEzt/"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-29085106b99so44732895ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 08:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760974322; x=1761579122; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hTx9HVxfZXSrtxn8CvPjCWWzLhaDyp1TwWQ5eykxT/c=;
-        b=kqNoHb+t9kqF7MM2fykkOUJMAMvWEYQSEXWxHxwHN6cZuWN44kHXULJP6rcpsle7+7
-         SPuOlX+UiYQTDnJpuXWWzWzHIdh993F6cdqYx1MBkHujca2jL8MtdjIeW3cg0vZpQp/0
-         m1jsXImHyF1HsTi9VPjz4E4JdGKgIWPuy8cL50mYH/rPsclRmyV1Rq3sV37eHiemgje3
-         8pvC3B/qldeE2WYKsp+3Bzah5Wzd8kXQ13Suk9wJAaf5NXBf2IH5dPVJybFdD1xIsmxK
-         s74jE8sh2oto0wnIULOJ4qw+oTpcwjytD07lMmmWEgy9jXrb6vReS+cDAiZnDF8nBCY/
-         q0XA==
+        d=google.com; s=20230601; t=1760975300; x=1761580100; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w48hujcBL5OMwKpsjz0a8i5lMom7fWaSgjQnj7gmD0k=;
+        b=pK/fEzt/3RZsx+CxXxbDP8dXATaYy75RHExb2oKRcBo523tkspk0MNJ6PN6oRSi2vL
+         u2nxEeRq8De2WnH4VrKGJ7gVWWEJ2AZSX/51KFHSw4JDJrJPjb3hn3qERxPmGK0j75iD
+         ux8V6lmIERMOMWpVa5gvUPwXAoqahz9yXgtK64oLTYVO2bibkDFlZEHUmWkOO/Ic1vxY
+         Jgo8TrXQSq76uTttNKIiST/ToxzYJmUPCK8aqak86UuyoaxGRrDzJ6i+3WH/NGrenrGo
+         X5P2/AWs2cL/roVieYZJACfJpvkbkep9bj+/MMFaNFvdOldg/JgYA1rtqdInhn1PTbvM
+         EAZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760974322; x=1761579122;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hTx9HVxfZXSrtxn8CvPjCWWzLhaDyp1TwWQ5eykxT/c=;
-        b=Z2ao/NkuEBFcwfY2IhB832OvKJKQj0rGvHfuzvQ4aDxevdt79ecFoPsQUNnjXNl4cY
-         +h1+vm/jwXQ9US244J65S/8Lp/LhyhriBPrxbe8T6Gp16ounyqmWknO0TqXZErQ6l1Qo
-         DaedSH+MRomrFxfGTTnpqRdjH53mffKbz/1SEX3E7RCsWvq0ZJHUY5jGJvuC3xCnizzn
-         Is2W0ryWrBHyD+MGKOWmTcTE/DxUjI8/KvpldPhvqsKj4W74prjJJz+WEAEQzXTMRKpx
-         ngvjnvttgZzQuDZEV1u373wp3RQjmA44oPE8G3FiQqR4w6S0VzfH9C+VuQIinH87IqC7
-         mnYA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5SWeHL+rk/FVWl9VYY6ST4zrnviToZ8MfGhyiIav6/tEzLnbWTercLzO9zNa7e8McbHM4J4A6Z4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzpdzjs422yMngMZCsFOXdZ0OPbDL0JQoAUndR30ZVn7EZKjSFD
-	NU2Af7SwDJS2yJAG7ZUq7l2I4dLXc5PgH60ebC7CEh/y+BtwLorn0yzPFoHkfOG1qCXG8F0i9Dw
-	ZlFsi+p+vLQNMHtPI+LfSqTdomCJzcA9gRlEy15ii
-X-Gm-Gg: ASbGncvnXUd5xl7UZV/+xjT3W6eSFtGICLDI2Fh5CIc7+lrCG8oaIhfoG3WmBf7LzaX
-	L3CZj6vFVT5Sjr4ngTfYQLwK9i0bqUAo0c0bTRnkxYNI2YzjH7kqmJ3fp10c6wCy2ZShs1MJysj
-	mvp/blr6I3CsroywIn4pWoZ9hb6UC/FNuu5dDOVaRFl6fa3YNo7iUhWYGa03r0LVGUUkdvtxLYc
-	TqTBgcd0ILM8CoAFtPul9vOTQAnnr3b+y6/BgveWqM8T5L0xg3/8wVVy6dSy5pmnT2vq+Q=
-X-Google-Smtp-Source: AGHT+IEdHdWyI7mOrpfFqKEne60YjRdxkTiiGct+YFp5FQLwi3H3NnPrv3GzMWIKb1yewXybnZNz6NoRsBAOxXmE8qs=
-X-Received: by 2002:a05:622a:613:b0:4e8:b82e:7092 with SMTP id
- d75a77b69052e-4e8b82e7306mr79282891cf.62.1760974321166; Mon, 20 Oct 2025
- 08:32:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760975300; x=1761580100;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w48hujcBL5OMwKpsjz0a8i5lMom7fWaSgjQnj7gmD0k=;
+        b=Ps3CXeMKEegdm1KkJa3P016cvvvmuV2CC6ers+SbgErJtRpzZSsplsiajfwOoBVqG3
+         sq/0ZtM3JJXUHJ0p7KAjNSbgeQETfFyGGFWoZfuDKRh/oMPcBocCdkwZ4aJMGZAAZiwt
+         KGu0WmEhExvbuQKH5d4SWKZSs+O9r0VXZBX23AVCNevhAkB07tohCFfFfM5s8mLf8PTn
+         lQOS5r8pJKaNd9HcXZmdgDJWMmcpoY1JlNa3KaiHwSaohO88W7RW/Vfxigub9om8MEcD
+         vYaXJXPNPEaSRMsVnzdha9C66n5WCeGJGOHKVn9ktFUiILJs2tmmlSTIE/7Zb+uA36tJ
+         uHfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcQYNDeW50P2Nn4+wTmDJ8nxds3mu2jJO2V3AEG6nJIHXOM1Ku2eOhM9R2hswL17FI7hy/XUFRwpU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzK9PbfCDj7UeCBsOAhlg25rWfYZ4NMw+ZF1GPdNASdCVQ18i92
+	RrFrNVbNQBAT3N2WIu11jexvY6UQ+kXOlr+R4/jujtwiLhjG7w1UsPIWUSn73IYR7OmgNDZxFtQ
+	8t8k9eg==
+X-Google-Smtp-Source: AGHT+IHsykl8GJIbj53Vtm8KX55t6u0dzJKaIOjx9CEFDBi/P2I8JNoJoHyi1ga431I0fD/ZNSfHcjJI0oc=
+X-Received: from pjbst4.prod.google.com ([2002:a17:90b:1fc4:b0:339:dc19:ae60])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:d2c9:b0:286:74e3:3889
+ with SMTP id d9443c01a7336-290cba42e4fmr194123895ad.55.1760975300068; Mon, 20
+ Oct 2025 08:48:20 -0700 (PDT)
+Date: Mon, 20 Oct 2025 08:48:18 -0700
+In-Reply-To: <20251017011253.2937710-1-jon@nutanix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251013170331.63539-1-chia-yu.chang@nokia-bell-labs.com>
- <20251013170331.63539-3-chia-yu.chang@nokia-bell-labs.com>
- <98342f21-08c8-46de-9309-d58dfc44d0a0@redhat.com> <24bc44a8-6045-9565-c798-a9d4597366e8@kernel.org>
- <PAXPR07MB7984DB68F2D9E7468D839BEFA3F5A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-In-Reply-To: <PAXPR07MB7984DB68F2D9E7468D839BEFA3F5A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 20 Oct 2025 08:31:50 -0700
-X-Gm-Features: AS18NWDUZznJqUfVcx0aI9J1KOrbstIH9YmbS1cOmBVfbpztFwRTg_RHcMvp5sE
-Message-ID: <CANn89iKyQFowOpFDXbpewEiEGESdeZ_bgBViOA2NN9n8h6Vkrw@mail.gmail.com>
-Subject: Re: [PATCH v4 net-next 02/13] gro: flushing when CWR is set
- negatively affects AccECN
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ij@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, 
-	"dsahern@kernel.org" <dsahern@kernel.org>, "kuniyu@amazon.com" <kuniyu@amazon.com>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-	"dave.taht@gmail.com" <dave.taht@gmail.com>, "jhs@mojatatu.com" <jhs@mojatatu.com>, 
-	"kuba@kernel.org" <kuba@kernel.org>, "stephen@networkplumber.org" <stephen@networkplumber.org>, 
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
-	"ncardwell@google.com" <ncardwell@google.com>, 
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>, 
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20251017011253.2937710-1-jon@nutanix.com>
+Message-ID: <aPZZwoqWV8cJG2HH@google.com>
+Subject: Re: [PATCH] x86/its: use Sapphire Rapids+ feature to opt out
+From: Sean Christopherson <seanjc@google.com>
+To: Jon Kohler <jon@nutanix.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Brian Gerst <brgerst@gmail.com>, Brendan Jackman <jackmanb@google.com>, 
+	"Ahmed S. Darwish" <darwi@linutronix.de>, Alexandre Chartre <alexandre.chartre@oracle.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Oct 20, 2025 at 8:26=E2=80=AFAM Chia-Yu Chang (Nokia)
-<chia-yu.chang@nokia-bell-labs.com> wrote:
->
-> > -----Original Message-----
-> > From: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> > Sent: Thursday, October 16, 2025 10:27 PM
-> > To: Paolo Abeni <pabeni@redhat.com>
-> > Cc: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>; edumazet=
-@google.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms@kernel.org; d=
-sahern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; netdev@vger.kern=
-el.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.org; stephen@net=
-workplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; davem@davemlof=
-t.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fiberby.net; liu=
-hangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.kernel.org; ncard=
-well@google.com; Koen De Schepper (Nokia) <koen.de_schepper@nokia-bell-labs=
-.com>; g.white@cablelabs.com; ingemar.s.johansson@ericsson.com; mirja.kuehl=
-ewind@ericsson.com; cheshire <cheshire@apple.com>; rs.ietf@gmx.at; Jason_Li=
-vingood@comcast.com; Vidhi Goel <vidhi_goel@apple.com>
-> > Subject: Re: [PATCH v4 net-next 02/13] gro: flushing when CWR is set ne=
-gatively affects AccECN
-> >
-> >
-> > CAUTION: This is an external email. Please be very careful when clickin=
-g links or opening attachments. See the URL nok.it/ext for additional infor=
-mation.
-> >
-> >
-> >
-> > On Thu, 16 Oct 2025, Paolo Abeni wrote:
-> > > On 10/13/25 7:03 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> > > > From: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> > > >
-> > > > As AccECN may keep CWR bit asserted due to different interpretation
-> > > > of the bit, flushing with GRO because of CWR may effectively disabl=
-e
-> > > > GRO until AccECN counter field changes such that CWR-bit becomes 0.
-> > > >
-> > > > There is no harm done from not immediately forwarding the CWR'ed
-> > > > segment with RFC3168 ECN.
-> > >
-> > > I guess this change could introduce additional latency for RFC3168
-> > > notification, which sounds not good.
-> > >
-> > > @Eric: WDYT?
-> >
-> > I'm not Eric but I want to add I foresaw somebody making this argument =
-and thus wanted to not hide this change into some other patch so it can be =
-properly discussed and rejected if so preferred, either way it's not a corr=
-ectness issue.
-> >
-> > I agree it's possible for some delay be added but the question is why w=
-ould that matter? "CWR" tells sender did already reduce its sending rate wh=
-ich is where congestion control aims to. So the reaction to congestion is a=
-lready done when GRO sees CWR (some might have a misconception that deliver=
-ing CWR causes sender to reduce sending rate but that's not the case). With=
- RFC 3168 ECN, CWR only tells the receiving end to stop sending ECE. Why do=
-es it matter if that information arrives a bit later?
-> >
-> > If there are other segments, they normally don't have CWR with RFC 3168=
- ECN which normally set CWR once per RTT. A non-CWR'ed segment results in f=
-lush after an inter-packet delay due to flags difference. That delay is not=
-hing compared to GRO aggregating non-CWR segments en masse which is in n ti=
-mes the inter-packet delay (simplification, ignores burstiness, etc.).
-> >
-> > If there are no other segments, the receiver won't be sending any ECEs =
-either, so the extra delay does not seem that impactful.
-> >
-> > Some might argue that with this "special delivery" for CWR the segment =
-could trigger an ACK "sooner", but GRO shouldn't hold the segment forever e=
-ither (though I don't recall the details anymore). But if we make that argu=
-ment (which is no longer ECN signalling related at all, BTW), why use GRO a=
-t all as it add delay for other segments too delaying other ACKs, why is th=
-is CWR'ed segment so special that it in particular must elicit ACK ASAP? It=
-'s hard to justify that distinction/CWR speciality, unless one has that mis=
-conception CWR must arrive ASAP to expedite congestion reaction which is ba=
-sed on misunderstanding how RFC 3168 ECN works.
-> >
-> > Thus, what I wrote to the changelog about the delay not being harmful s=
-eems well justified.
-> >
-> > > On the flip side adding too much
-> > > AccECN logic to GRO (i.e. to allow aggregation only for AccECN enable=
-d
-> > > flows) looks overkill.
-> >
-> > The usual aggregation works on header bits remaining identical which ju=
-st happens to also suit AccECN better here. The RFC 3168 CWR trickery is wh=
-at is an expection to the rule, and as explained above, it does not seem ev=
-en that useful.
-> >
-> > This CWR special delivery rule, on the other hand, is clearly harmful f=
-or aggregating AccECN segments which may have long row of CWR flagged segme=
-nts if ACE field remains unchanging. None of them can be aggregated by GRO =
-if this particular change is not accepted. Not an end of the world but if w=
-e weight the pros and cons, it seems to clearly favor not keeping this spec=
-ial delivery rule.
->
-> Hi Paolo,
->
-> I agree with what was mentioned by Ilpo above.
->
-> But if Eric can share extra comments or some particular cases would be he=
-lpful.
->
-> Shall we submit all patches with changes (and keep this patch unchanged)?=
- Or please suggest other ways to move forward.
+On Thu, Oct 16, 2025, Jon Kohler wrote:
+> A VMM may not expose ITS_NO or BHI_CTL, so guests cannot rely on those
+> bits to determine whether they might be migrated to ITS-affected
+> hardware. Rather than depending on a control that may be absent, detect
+> ITS-unaffected hosts via a CPU feature that is exclusive to Sapphire
+> Rapids and newer processors.
+> 
+> Use X86_FEATURE_BUS_LOCK_DETECT as the canary: it is present on
+> Sapphire Rapids+ parts and provides a reliable indicator that the guest
+> won't be moved to ITS-affected hardware. This avoids false negatives
+> caused by VMMs that omit ITS_NO or BHI_CTL. For example, QEMU added
+> bhi-ctrl only in v9.2.0 [1], well after adding the Sapphire Rapids
+> model in v8.0.0 [2].
+> 
+> [1] 10eaf9c0fb7 ("target/i386: Add more features enumerated by CPUID.7.2.EDX")
+> [2] 7eb061b06e9 ("i386: Add new CPU model SapphireRapids")
+> 
+> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> Fixes: 159013a7ca1 ("x86/its: Enumerate Indirect Target Selection (ITS) bug")
+> Signed-off-by: Jon Kohler <jon@nutanix.com>
+> ---
+>  .../admin-guide/hw-vuln/indirect-target-selection.rst       | 5 +++--
+>  arch/x86/kernel/cpu/common.c                                | 6 ++++--
+>  2 files changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/hw-vuln/indirect-target-selection.rst b/Documentation/admin-guide/hw-vuln/indirect-target-selection.rst
+> index d9ca64108d23..3cfe4b9f9bd0 100644
+> --- a/Documentation/admin-guide/hw-vuln/indirect-target-selection.rst
+> +++ b/Documentation/admin-guide/hw-vuln/indirect-target-selection.rst
+> @@ -98,8 +98,9 @@ Mitigation in guests
+>  ^^^^^^^^^^^^^^^^^^^^
+>  All guests deploy ITS mitigation by default, irrespective of eIBRS enumeration
+>  and Family/Model of the guest. This is because eIBRS feature could be hidden
+> -from a guest. One exception to this is when a guest enumerates BHI_DIS_S, which
+> -indicates that the guest is running on an unaffected host.
+> +from a guest. One exception to this is when a guest enumerates BHI_DIS_S or
+> +BUS_LOCK_DETECT, either of which indicates that the guest is running on an
+> +unaffected host and would not be migratable to an affected host.
+>  
+>  To prevent guests from unnecessarily deploying the mitigation on unaffected
+>  platforms, Intel has defined ITS_NO bit(62) in MSR IA32_ARCH_CAPABILITIES. When
+> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> index c7d3512914ca..3de4b51d8681 100644
+> --- a/arch/x86/kernel/cpu/common.c
+> +++ b/arch/x86/kernel/cpu/common.c
+> @@ -1361,9 +1361,11 @@ static bool __init vulnerable_to_its(u64 x86_arch_cap_msr)
+>  	/*
+>  	 * If a VMM did not expose ITS_NO, assume that a guest could
+>  	 * be running on a vulnerable hardware or may migrate to such
+> -	 * hardware.
+> +	 * hardware, except in the situation where the guest is presented
+> +	 * with a feature that only exists in non-vulnerable hardware.
+>  	 */
+> -	if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
+> +	if (boot_cpu_has(X86_FEATURE_HYPERVISOR) ||
+> +	    boot_cpu_has(X86_FEATURE_BUS_LOCK_DETECT))
 
-Hmm... maybe now is a good time to amend tools/testing/selftests/net/gro.c
+Uh, don't you want something like this?
 
-In general, the lack of tests in your series is not really appealing to me.
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index c7d3512914ca..8c4bc9b5d8ed 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -1364,7 +1364,7 @@ static bool __init vulnerable_to_its(u64 x86_arch_cap_msr)
+         * hardware.
+         */
+        if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
+-               return true;
++               return !boot_cpu_has(X86_FEATURE_BUS_LOCK_DETECT);
+ 
+        if (cpu_matches(cpu_vuln_blacklist, ITS))
+                return true;
+
+Functionality aside, this is quite heinous.  I don't see why the answer isn't
+"Fix the VMM to specify ITS_NO".
