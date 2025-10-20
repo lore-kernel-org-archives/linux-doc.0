@@ -1,80 +1,66 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DF81B7F4
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 06:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF83A2EDD52
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 09:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760941994; cv=none; b=SfBOzBuX4oOhcRrOEEZeC9O+WIpezoICCbEwEhqXNGJalRGGv1zhZLqXo47fNdoyIlvz8x0OYzh/ePMTT2mKpDyokiL8Ds8xLkTqDqJGYgbvqCYxiwZ6Ve+7a3AbK0x8x4u1JXeeN9RihLU6/cfX3E5qRWxVc4dj+j6jXdJUyp0=
+	t=1760951438; cv=none; b=i/TAWBCSPtrXCQigJ2aEHiDKqFhJMk5u0aqjuNOU5ug41GonxqaYuIXj/RhCeoLgPBUlDDKp8MjzSMO3sGyFQdetMUEJTjq9lCzGki7j3bwpFlzL1jB6w6G/zIoaxNtPPP5BVD529jXInC8lm7L+2vW+vc4irmnVg5OTyaeerzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760941994; c=relaxed/simple;
-	bh=T1C6KNrRX81hte0ENWczXE4+1vLDwuM65mCFX5Y3Gfc=;
+	s=arc-20240116; t=1760951438; c=relaxed/simple;
+	bh=nx0rOgchvwbCRfbsbdDSHiY4agNpvVR5pssOwvrWgug=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fLxW+2KoXdBY+j38hnGFXJXHvCbqsAyTSqHGBIxF1MGuPoMliHGCNTseMONtltcFQ5kOyxgPiB7OKPjfqZfi6r/82Gkcw4p328L/TI2QZ5v1S8OhSXINdYMVXgwcTjyCLWIjhIBPVohaoZd9pwVRfxY8zuHGCZSl53+HDP+Jycs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iS3pzhTr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oWP6UlMh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j5uPdZ5d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1l9JSvhu; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=WDJAYAMxHqmnPfQqTGzdfBXsasd6oTgl9uehJf6GIl0iCydjXcwVnXb3c/uQ9pMkKcsDeqzPBfaPzkj9f42L/50H0+MHMVQZUhiw1n2PWrGo8Ric69dwCCjMQi6o7GPljlmFLE5dzGNiNpZf78590xCtfdEeSkmTSEcboGYdYOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=lyGdEd9E; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iS3pzhTr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oWP6UlMh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j5uPdZ5d";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1l9JSvhu"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 253CB21193;
-	Mon, 20 Oct 2025 06:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760941986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p0JKnFlzd8UXhp4Y2ahcvueD8mr9lOiIzHpyyABEsqo=;
-	b=iS3pzhTrUiYImuqKrSXLLUgPgcR53nvtlNUyX/6oF6NTbyv0nDmguIYJkh19VjO7XdXgoY
-	OU8Dv/jWtnXfig7pUeuRbGS0eXjsAHQ9h8SSGpwG5wk+uhADbLprwNTA6fgeWL5raFudH8
-	2XrwIlswRmdlMy4peWFsAZaT/vO+4dc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760941986;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p0JKnFlzd8UXhp4Y2ahcvueD8mr9lOiIzHpyyABEsqo=;
-	b=oWP6UlMhOLLTbXktLmPNEErrzaNa+ZmUxZvEEa9MuRXt7tqvf3aaeSy8kdqvC082HqphkR
-	svj25b6JCgk/21BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760941982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p0JKnFlzd8UXhp4Y2ahcvueD8mr9lOiIzHpyyABEsqo=;
-	b=j5uPdZ5dR99iR8SZ2KHDneArjSvOf/3m1kNRCdC3xRJbRXkyzcrPmba2bnVMbIstLyFRYx
-	cTrZH58MfyazQ2KZS91WLpqlvLb8FeNqASy09USTbuCoWF2rqRI+gic2GrZs2xw8MmNIK6
-	0DCUImX9QMkEjoKYJRV0c5c/GL9qAGw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760941982;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p0JKnFlzd8UXhp4Y2ahcvueD8mr9lOiIzHpyyABEsqo=;
-	b=1l9JSvhuWBF4M6RNyqjohjr8IWZJ4MnU/PoweesWkkhqvQcnrRBy2t370oq1MQGT+7+4D7
-	yJq/E4t1p6tpp7CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9193B13A8E;
-	Mon, 20 Oct 2025 06:33:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Jp9EIZ3X9WgJXgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 20 Oct 2025 06:33:01 +0000
-Message-ID: <8d6d76b4-6361-4392-9351-bd9d59c96ba0@suse.de>
-Date: Mon, 20 Oct 2025 08:33:01 +0200
+	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="lyGdEd9E"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-471193a9d9eso35629375e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 02:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760951435; x=1761556235; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b5tedAT73HO5ufC/WfszXWOSmLN+gIpMiv+Y/meRlwI=;
+        b=lyGdEd9EhmSkqUeR3EaWCtAIhyolh4zfw6bur84sLAhkhiP0S9GoIxRCG3vuW4NRdO
+         s7JkR1eWiVrPRmsTRjwbcdRkbZukb7kGEG93k6T0WKVWiBx259KzEkdeAxigc84q8TAW
+         ajPgH0rPiYKDE+H5OeDK+2WWaKYKZNhg/6FnPlmmo0pszAZCc+ARNlYEuJGfUwZDCIeW
+         tZiFp9UeSSTL7DpYNwUeTSaN8P8ie+sPTP+UfNYmIpIplPK84x0wi00SoNlVqZMeVxP9
+         a3sSG8mzrbJMBfiq1e2KC5g2O+YRAQxW9cQkuOPjXT6/TPyoCbsIrfsTcjstpnKrA8V2
+         oWTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760951435; x=1761556235;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b5tedAT73HO5ufC/WfszXWOSmLN+gIpMiv+Y/meRlwI=;
+        b=X3blZ+kiGDK8641r9HcHH8/N2h9qExGdn0prZqQH8eH/3bRpn3VtsC0TBTthVnN+U5
+         1QwG++J+MRckr3gxsV1DCmOMV5LCWdciuBzntXAT65BcpEhpJcpUqR73OLG0cLWh/qyQ
+         PnZsK/NxQPESflp81lLk5YDm2ojgmcB/KN0yxyx74QaKU5ALYIJbUSXFx8au6JF12lnS
+         bnXuL7l5yKoThSil/MuCKTlsf5EmjshIcZYCD4ZXJ0QGSCgY3I28DS/bhEryn2AK2Ubr
+         FwjXen+nTbh9plNjkPMTc4N5hpk1ebAo9C0v9KARe+NV3FHAOLvQWbi89FdGHQv3Pd90
+         jJmg==
+X-Forwarded-Encrypted: i=1; AJvYcCX91ieToxp0CFuC7Yl0c2eLj/NJFhD+hupk/ZOYEWriE3oKWb5V1DR8xbD5iBKSyVdZqvlPGMAIuP0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydRtVGruEjmAsYNkCvo1UrMqCm/AQD78k8hU67hr6Q6+/fQFZ3
+	mcInSirowOpn7XBXwDiiP5a2VFX+UG/Y81Ia2Gx6si9LBuOxCYj/wfyXqzvzdqugN1E=
+X-Gm-Gg: ASbGncu5kLDG/4QMkDuyLib6PSKGWMpONwGjLEwnfqLb52lDaOtrTJd0GKf6PnIGTSE
+	aYbLkYS9kHqj721FrzKxiBOkuJPzeM+nxHDxSGVULKq2R7Yx31+QVPg8n8e5T0jPbHaOUdcps9K
+	63MUSmw9BhsM0XJLjTvpBJM2xls92ginS+mMedvDSDOdyXFF2Dd5MJKbUd5xdksFrrrK+W8rdI1
+	T012fxAf7DwQhc+K4uraWxipKUYU74MpcOA2lCVZAL/DDN/+dg0gwAJcj6bQsbuCx2+9gbFojhE
+	tAco8tNPs5AZ4EobDHQh2RAFgsmHCoFjEDjZykWm16RUuyLchWtsY26tcm4pbTBKGIEnWAB8Nc1
+	xmBcrNhnN/tuTwyakMUif6HkR5A1N0hUUibvH4xK0JURubh4uMbuCUPrwHBxODaVbD7Lp06tpqB
+	s4GKpnWXo8niAImE4=
+X-Google-Smtp-Source: AGHT+IH3gXMi4edAZfP0WIQNa+oQTzYbMLse+FRL4oaUtLdeWvDJfxezX0KKAC3SgkQ3mXsP943ZWw==
+X-Received: by 2002:a05:600c:3b03:b0:46e:330a:1762 with SMTP id 5b1f17b1804b1-471179079dfmr97785585e9.22.1760951434703;
+        Mon, 20 Oct 2025 02:10:34 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715257d972sm137948265e9.1.2025.10.20.02.10.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Oct 2025 02:10:34 -0700 (PDT)
+Message-ID: <7584abe7-0c3f-4022-b510-c2a57fd167bb@ursulin.net>
+Date: Mon, 20 Oct 2025 10:10:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,140 +68,202 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/7] nvme-tcp: Allow userspace to trigger a KeyUpdate
- with debugfs
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <20251017042312.1271322-7-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251017042312.1271322-7-alistair.francis@wdc.com>
+Subject: Re: [PATCH v4 05/13] drm/gem: Add huge tmpfs mount point helper
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-6-loic.molinari@collabora.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251015153018.43735-6-loic.molinari@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
 
-On 10/17/25 06:23, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+
+On 15/10/2025 16:30, Loïc Molinari wrote:
+> Add the drm_gem_huge_mnt_create() helper to avoid code duplication in
+> the i915, V3D, Panfrost and Panthor drivers. It creates and mounts a
+> dedicated huge tmpfs mountpoint, for the lifetime of a DRM device,
+> used at GEM object initialization.
 > 
-> Allow userspace to trigger a KeyUpdate via debugfs. This patch exposes a
-> key_update file that can be written to with the queue number to trigger
-> a KeyUpdate on that queue.
+> The next commits will port drivers to this helper.
 > 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v4:
->   - No change
 > v3:
->   - New patch
+> - store huge tmpfs mountpoint in drm_device
 > 
->   drivers/nvme/host/tcp.c | 72 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 72 insertions(+)
+> v4:
+> - return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+> - return 0 when huge_mnt already exists
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 791e0cc91ad8..f5c7b646d002 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -11,6 +11,7 @@
->   #include <linux/crc32.h>
->   #include <linux/nvme-tcp.h>
->   #include <linux/nvme-keyring.h>
-> +#include <linux/debugfs.h>
->   #include <net/sock.h>
->   #include <net/tcp.h>
->   #include <net/tls.h>
-> @@ -1429,6 +1430,75 @@ static void update_tls_keys(struct nvme_tcp_queue *queue)
->   	}
->   }
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+> ---
+>   drivers/gpu/drm/drm_gem.c | 58 +++++++++++++++++++++++++++++++++++++++
+>   include/drm/drm_device.h  | 11 ++++++++
+>   include/drm/drm_gem.h     |  1 +
+>   3 files changed, 70 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index a98d5744cc6c..db8c0a217add 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -29,6 +29,7 @@
+>   #include <linux/export.h>
+>   #include <linux/file.h>
+>   #include <linux/fs.h>
+> +#include <linux/fs_context.h>
+>   #include <linux/iosys-map.h>
+>   #include <linux/mem_encrypt.h>
+>   #include <linux/mm.h>
+> @@ -82,6 +83,63 @@
+>    * up at a later date, and as our interface with shmfs for memory allocation.
+>    */
 >   
-> +#ifdef CONFIG_NVME_TCP_TLS
-> +#define NVME_DEBUGFS_RW_ATTR(field) \
-> +	static int field##_open(struct inode *inode, struct file *file) \
-> +	{ return single_open(file, field##_show, inode->i_private); } \
-> +	\
-> +	static const struct file_operations field##_fops = { \
-> +		.open = field##_open, \
-> +		.read = seq_read, \
-> +		.write = field##_write, \
-> +		.release = single_release, \
-> +	}
-> +
-> +static int nvme_ctrl_key_update_show(struct seq_file *m, void *p)
+> +static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
 > +{
-> +	seq_printf(m, "0\n");
+> +	drm_WARN_ON(dev, dev->huge_mnt == NULL);
+
+I don't see a benefit of adding this check but maybe I am missing something.
+
 > +
-> +	return 0;
+> +	kern_unmount(dev->huge_mnt);
+> +	dev->huge_mnt = NULL;
+
+Ditto - device is going away, no? So why bother clearing the pointer?
+
+Also, is the compiler smart enough to not compile or complain this 
+function is unused in the !CONFIG_TRANSPARENT_HUGEPAGE case?
+
 > +}
 > +
-> +static ssize_t nvme_ctrl_key_update_write(struct file *file, const char __user *buf,
-> +					  size_t count, loff_t *ppos)
+> +/**
+> + * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoint
+> + * @dev: drm_device a huge tmpfs mountpoint should be used with
+> + * @value: huge tmpfs mount option value
+> + *
+> + * This function creates and mounts a dedicated huge tmpfs mountpoint for the
+> + * lifetime of the drm device @dev which is used at GEM object initialization
+> + * with drm_gem_object_init().
+> + *
+> + * The most common option value @value is "within_size" which only allocates
+> + * huge pages if the page will be fully within the GEM object size. "always",
+> + * "advise" and "never" are supported too but the latter would just create a
+> + * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
+> + * Transparent Hugepage for more information.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
 > +{
-> +	struct seq_file *m = file->private_data;
-> +	struct nvme_ctrl *nctrl = m->private;
-> +	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-> +	char kbuf[16] = {0};
-> +	int queue_nr, rc;
-> +	struct nvme_tcp_queue *queue;
+> +	struct file_system_type *type;
+> +	struct fs_context *fc;
+> +	int ret;
 > +
-> +	if (count > sizeof(kbuf) - 1)
-> +		return -EINVAL;
-> +	if (copy_from_user(kbuf, buf, count))
-> +		return -EFAULT;
-> +	kbuf[count] = 0;
+> +	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+> +		return 0;
+
+Is there a specific reason why the !CONFIG_TRANSPARENT_HUGEPAGE path is 
+not implemented in the header as a static inline? That would enable 
+those builds to avoid the pointless function in text and function call 
+in the drivers.
+
+> +	if (unlikely(dev->huge_mnt))
+> +		return 0;
+
+Any special reason why it is allowed to call it multiple times with success?
+
 > +
-> +	rc = kstrtouint(kbuf, 10, &queue_nr);
-> +	if (rc)
-> +		return rc;
+> +	type = get_fs_type("tmpfs");
+> +	if (unlikely(!type))
+> +		return -EOPNOTSUPP;
+> +	fc = fs_context_for_mount(type, SB_KERNMOUNT);
+> +	if (IS_ERR(fc))
+> +		return PTR_ERR(fc);
+> +	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
+> +	if (unlikely(ret))
+> +		return -ENOPARAM;
+> +	ret = vfs_parse_fs_string(fc, "huge", value);
+> +	if (unlikely(ret))
+> +		return -ENOPARAM;
 > +
-> +	if (queue_nr >= nctrl->queue_count)
-> +		return -EINVAL;
+> +	dev->huge_mnt = fc_mount_longterm(fc);
+> +	put_fs_context(fc);
 > +
-> +	queue = &ctrl->queues[queue_nr];
+> +	return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_huge_mnt_create);
 > +
-> +	update_tls_keys(queue);
+>   static void
+>   drm_gem_init_release(struct drm_device *dev, void *ptr)
+>   {
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 778b2cca6c49..352e3db402d7 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -3,6 +3,7 @@
+>   
+>   #include <linux/list.h>
+>   #include <linux/kref.h>
+> +#include <linux/mount.h>
+>   #include <linux/mutex.h>
+>   #include <linux/idr.h>
+>   #include <linux/sched.h>
+> @@ -168,6 +169,16 @@ struct drm_device {
+>   	 */
+>   	struct drm_master *master;
+>   
+> +	/**
+> +	 * @huge_mnt:
+> +	 *
+> +	 * Huge tmpfs mountpoint used at GEM object initialization
+> +	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
+> +	 * create a huge tmfps mountpoint. The default tmpfs mountpoint
+> +	 * (`shm_mnt`) is used if NULL.
+> +	 */
+> +	struct vfsmount *huge_mnt;
 
-Are you sure this is correct?
+Maybe it would be nice to hide this in the !CONFIG_TRANSPARENT_HUGEPAGE 
+case? A bit ugly to add an ifdef but it is also a bit questionable to 
+force the member on everyone.
 
-'update_tls_keys' is issuing a handshake request
-with 'HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED'.
+Regards,
 
-And the patch introducing it states:
-At this time we don't support initiating a KeyUpdate.
+Tvrtko
 
-So please move this to the patchset implementing support
-for initiating KeyUpdates.
+> +
+>   	/**
+>   	 * @driver_features: per-device driver features
+>   	 *
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 7c8bd67d087c..7285a62d9afc 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -492,6 +492,7 @@ struct drm_gem_object {
+>   		DRM_GEM_FOPS,\
+>   	}
+>   
+> +int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
+>   void drm_gem_object_release(struct drm_gem_object *obj);
+>   void drm_gem_object_free(struct kref *kref);
+>   int drm_gem_object_init(struct drm_device *dev,
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
