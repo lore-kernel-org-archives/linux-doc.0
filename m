@@ -1,165 +1,145 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6642D248F7F;
-	Mon, 20 Oct 2025 13:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6911C322541
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760967613; cv=none; b=eYCgZUZ8z86k58vGa1A3E/bhQqevCzdc9z2te8lB9lhEJ0K+TSkPF/YPgmNkjJ90WC1z2buQjLP7dHywh8zkODppW3bt2VuuNn6GHdm1TjwwCwy9zpd7ADFxl2qFiv69lG1GA9CTqKWlUJitMeexcAmkPj84l8+uCo8D+yLGNwQ=
+	t=1760968026; cv=none; b=cQd+4vg7uxqz1LQqH4/7VfrWdXKJDIFNs040ekzmQN5irvrwIfqMKzV9Tg4bwoQQJvZH1dqZpNDaT/d9+yDXV7G2b1zXSszYps3mJVjq/xsXAaiYgJHInIAKi2+m18Ji9i5uTrrjxOFQgzqZiixhTIKVbvHgvgbEP7U0TD6waAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760967613; c=relaxed/simple;
-	bh=jiKHpZ56cLeBkoRbxx48ENzMRCI9UX9Smhb7SclWucM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bw2u181mn8PL4IQrwSGGsrBwq4rg/C8W/1iZYC5A7eHDCe1a2Kr7mENquavYTfGAY54ONF+wc7HytOZv8j/I8UIJmUE6AuveK8UCzDEOsWXE1UIZRSoXTKERJ0tD3RBW6+6njTevNGR9hnp8fk9U+oEqYjEUEQM8N0BK0NEq/GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Ptjzv4kB; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1760968026; c=relaxed/simple;
+	bh=ANgSQSPVOIlXoVYbP+I9m5tJ0ZaaqeZGLzdTf42qYbc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JWAh81ciIZbUzFJQZnMZvfdEOAXC68HAlVB3JdwPV28DUCxYC977YhMPmBYd2PwBYAT3jur8sBRUvsH2B9B7ueyuzgGQDCBhFoBSW57qlUZTYdpetjocEVK1xhcJ3OHZCpfN/o2DHNlqo5R58ZAtQh0LV7qp+gG3dGEXCOV/lA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ajn8vXuN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Ptjzv4kB"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KCRbo4023459;
-	Mon, 20 Oct 2025 13:39:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=ViQ89gOu19UDAiRynbx1fqy0JdIKiO
-	kaAlpGFEg0jmo=; b=Ptjzv4kBROTmkVPoTlFfTfmB/4UXjPZvHkVkOlxHn6JGaF
-	n942llznxWdYPp3MjsYwnIwwcmkfvftLcKeiYvIOAGDY9eX/lZk7P1NAyXX3k+p2
-	vQXts7umot2B8zY367jh/chah1eUCv7e6VHYajk8l2skYinBvfuOiESk/S8QyEd7
-	9HI5stj26Psb5zmVPKAJr/zM5BMClWM9lRnxbtQVQVxRAQKv0qec4Ap64fk56vCU
-	JBrAPOCWLf+9fhpyiyr79baK5Sfts8ijh4b/sAJDz9XwDScfwVr2zFu2Gd1Ci8PO
-	8dpWqQUM2ldPeQw/7da2l3r7Wkl829htX/Zf7J5w==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31rsqg6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Oct 2025 13:39:15 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59KDSrHp023351;
-	Mon, 20 Oct 2025 13:39:14 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31rsqg3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Oct 2025 13:39:14 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59KC35wv002281;
-	Mon, 20 Oct 2025 13:39:13 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 49vqej5p7v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Oct 2025 13:39:12 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59KDd98t29557158
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Oct 2025 13:39:09 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1465F20040;
-	Mon, 20 Oct 2025 13:39:09 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0AE432004B;
-	Mon, 20 Oct 2025 13:39:07 +0000 (GMT)
-Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.111.85.12])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 20 Oct 2025 13:39:06 +0000 (GMT)
-Date: Mon, 20 Oct 2025 15:39:05 +0200
-From: Sumanth Korikkar <sumanthk@linux.ibm.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
-        iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v5 12/15] mm/hugetlbfs: update hugetlbfs to use
- mmap_prepare
-Message-ID: <aPY7eQec0bB9847x@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-References: <cover.1760959441.git.lorenzo.stoakes@oracle.com>
- <b1afa16d3cfa585a03df9ae215ae9f905b3f0ed7.1760959442.git.lorenzo.stoakes@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ajn8vXuN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 297B5C113D0
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760968026;
+	bh=ANgSQSPVOIlXoVYbP+I9m5tJ0ZaaqeZGLzdTf42qYbc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ajn8vXuNnKb1LAbPZxFi0K1SpVKYv6BEENBjvz46Sv9caDB7o+XlW10cYl3uLNOIb
+	 DV1BMPpT9P2ROVtknynYnMUmuw5Yj98O/adWd41Q9N0z5pm5Yg04Zxb8o1YwEdNRWv
+	 /hdbw1ywMjql2m+TwIB/dEWaAe2yJ8HI411QTh7e0dArZNoWSU89ftPtasueR2lic9
+	 yKp2jtGn9yJNS8zZF49TO7B+NfQLEouWx04Xrnig/kWBHsxxrvc8hfCoS/74Mnci7a
+	 pyrpMcPYhrwFib862EgEwt/zugtG1JtfSbo6ARZERY0E0vHdrPUzMtbIGgjJOamR7i
+	 xYKl9K5W5qd0w==
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47121d6da31so1740045e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 06:47:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXVFjE+w4riRi6pxmw1YitXzraiKPWd1vC8D8q/jS+f9gmP/XVw49V9tPPcvG025WmpgAJSvQ4yV1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2hbUV7rMvh9qUqAzizTWZrQQ4mMyHXtZEUU9Z/ftfgbuGSwTB
+	J5S0F3pC8ZcSn0K6eOFe0H2myEJ/1nOLaILMBs2vz2dCYn9rBVLQqR1YX938dcQZv+rOLV4x10C
+	oWvZoS+Qcn/1SATOuHkzx+DiLMH6a+wQ=
+X-Google-Smtp-Source: AGHT+IGpvHBGOazwRpML7L6p+OasmV1SnRg6q1qXry12cbpNN8zhS8TFOb5uYraKUxj/eNcIvfi0sxzsmTyVox3z8JY=
+X-Received: by 2002:a05:600c:3b0c:b0:471:669:ec1f with SMTP id
+ 5b1f17b1804b1-471178785e1mr97856905e9.8.1760968024377; Mon, 20 Oct 2025
+ 06:47:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1afa16d3cfa585a03df9ae215ae9f905b3f0ed7.1760959442.git.lorenzo.stoakes@oracle.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZSoy0DnAVX45duhi1_mDLkuJQ3da5vFy
-X-Proofpoint-GUID: 2FFr9MxsKTbmfu7DnP8tGWY4DhBVRDkg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfXy3CVS9OyeYuF
- 3+tWa5wjvP+gkbv9wIuR2qBo2tCYgmgyTdm2zAqfL8UFStMulHvbtnTG5sqtSbNbGC7YvcprEqv
- 0d6/694Ay5/WaywfyIa71bzqVpJ+YelsfaR6Fgo2F6IMpwfoqzJiZIDNnA7xw0K40cEjnFnUiYM
- oDKF5qlhz607Hjx7bxgydKT4VgnEhOta0jia3+WHEGk61414+0Z9tjdEL7VpIj44M5+o7Y1fW82
- OVInIKfzXUDHTrkjx3GSeH/Sqxwna+Wi9hKxe9JcxyPadb1pe+SyjdPgcUFpynbyWFiFEpi45GP
- 4FvlBMRbqmC01KgzuyyJ/fw2hjq8Pgqs/7uGjoyGcoquemDY7UnpDzBM6gZj/b+AHFmqBo6ZfMD
- TihvVeJSVrOZw0tNC7yiCSCnr0sABw==
-X-Authority-Analysis: v=2.4 cv=IJYPywvG c=1 sm=1 tr=0 ts=68f63b83 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=Ikd4Dj_1AAAA:8 a=VnNF1IyMAAAA:8 a=7mAFR29It3qcuHcA-EIA:9
- a=CjuIK1q_8ugA:10 a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
- a=QOGEsqRv6VhmHaoFNykA:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 spamscore=0
- bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
+References: <20251020042056.30283-1-luxu.kernel@bytedance.com> <20251020042056.30283-4-luxu.kernel@bytedance.com>
+In-Reply-To: <20251020042056.30283-4-luxu.kernel@bytedance.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 20 Oct 2025 21:46:51 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTREY07Eo0EgB9ew1sd6FkMtoFSTgyC5ny2SQKKd83xEtw@mail.gmail.com>
+X-Gm-Features: AS18NWDSEQv09h9pIrv_Q1ibVOSy0wdkcUShHmZExEFgCajrR16Dgx95ctdgozI
+Message-ID: <CAJF2gTREY07Eo0EgB9ew1sd6FkMtoFSTgyC5ny2SQKKd83xEtw@mail.gmail.com>
+Subject: Re: [PATCH v4 03/10] riscv: hwprobe: Export Zalasr extension
+To: Xu Lu <luxu.kernel@bytedance.com>
+Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com, 
+	aou@eecs.berkeley.edu, alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, will@kernel.org, peterz@infradead.org, 
+	boqun.feng@gmail.com, mark.rutland@arm.com, anup@brainfault.org, 
+	atish.patra@linux.dev, pbonzini@redhat.com, shuah@kernel.org, 
+	parri.andrea@gmail.com, ajones@ventanamicro.com, brs@rivosinc.com, 
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	apw@canonical.com, joe@perches.com, lukas.bulwahn@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 20, 2025 at 01:11:29PM +0100, Lorenzo Stoakes wrote:
-> Since we can now perform actions after the VMA is established via
-> mmap_prepare, use desc->action_success_hook to set up the hugetlb lock
-> once the VMA is setup.
-> 
-> We also make changes throughout hugetlbfs to make this possible.
-> 
-> Note that we must hide newly established hugetlb VMAs from the rmap until
-> the operation is entirely complete as we establish a hugetlb lock during
-> VMA setup that can be raced by rmap users.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+On Mon, Oct 20, 2025 at 12:21=E2=80=AFPM Xu Lu <luxu.kernel@bytedance.com> =
+wrote:
+>
+> Export the Zalasr extension to userspace using hwprobe.
+>
+> Signed-off-by: Xu Lu <luxu.kernel@bytedance.com>
+> ---
+>  Documentation/arch/riscv/hwprobe.rst  | 5 ++++-
+>  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+>  arch/riscv/kernel/sys_hwprobe.c       | 1 +
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
+scv/hwprobe.rst
+> index 2aa9be272d5de..067a3595fb9d5 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -249,6 +249,9 @@ The following keys are defined:
+>         defined in the in the RISC-V ISA manual starting from commit e874=
+12e621f1
+>         ("integrate Zaamo and Zalrsc text (#1304)").
+>
+> +  * :c:macro:`RISCV_HWPROBE_EXT_ZALASR`: The Zalasr extension is support=
+ed as
+> +       frozen at commit 194f0094 ("Version 0.9 for freeze") of riscv-zal=
+asr.
+"Frozen Version 0.9" might not be proper; it denotes the current
+temporary state, not the goal of the patch.
 
-Hi Lorenzo,
+> +
+>    * :c:macro:`RISCV_HWPROBE_EXT_ZALRSC`: The Zalrsc extension is support=
+ed as
+>         defined in the in the RISC-V ISA manual starting from commit e874=
+12e621f1
+>         ("integrate Zaamo and Zalrsc text (#1304)").
+> @@ -360,4 +363,4 @@ The following keys are defined:
+>
+>      * :c:macro:`RISCV_HWPROBE_VENDOR_EXT_XSFVFWMACCQQQ`: The Xsfvfwmaccq=
+qq
+>          vendor extension is supported in version 1.0 of Matrix Multiply =
+Accumulate
+> -       Instruction Extensions Specification.
+> \ No newline at end of file
+> +       Instruction Extensions Specification.
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
+api/asm/hwprobe.h
+> index aaf6ad9704993..d3a65f8ff7da4 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -82,6 +82,7 @@ struct riscv_hwprobe {
+>  #define                RISCV_HWPROBE_EXT_ZAAMO         (1ULL << 56)
+>  #define                RISCV_HWPROBE_EXT_ZALRSC        (1ULL << 57)
+>  #define                RISCV_HWPROBE_EXT_ZABHA         (1ULL << 58)
+> +#define                RISCV_HWPROBE_EXT_ZALASR        (1ULL << 59)
+>  #define RISCV_HWPROBE_KEY_CPUPERF_0    5
+>  #define                RISCV_HWPROBE_MISALIGNED_UNKNOWN        (0 << 0)
+>  #define                RISCV_HWPROBE_MISALIGNED_EMULATED       (1 << 0)
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
+obe.c
+> index 0b170e18a2beb..0529e692b1173 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -99,6 +99,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair=
+,
+>                 EXT_KEY(ZAAMO);
+>                 EXT_KEY(ZABHA);
+>                 EXT_KEY(ZACAS);
+> +               EXT_KEY(ZALASR);
+>                 EXT_KEY(ZALRSC);
+>                 EXT_KEY(ZAWRS);
+>                 EXT_KEY(ZBA);
+> --
+> 2.20.1
+>
 
-Tested this patch with libhugetlbfs tests. No locking issues anymore.
 
-Tested-by: Sumanth Korikkar <sumanthk@linux.ibm.com>
-
-Thank you
+--=20
+Best Regards
+ Guo Ren
