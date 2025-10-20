@@ -1,83 +1,159 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A080B261B9D
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 16:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5E4276046
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 16:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760978041; cv=none; b=d4rHpGlXrU9lTPL4Abl6s+kkErFMmVR5Sc25ULEbPWKyl44EpHMS6jWUzI9LIa4SFW/H/477x4a6WQYm+WXYL9Ht5VjpRrBLVcUzFbBGrhKX+dN7sszTx7PhGEMsGYEK+06TaD6QqleYCFlgQ+NKxnQUCcERTF0owsoQr7c9rl8=
+	t=1760978130; cv=none; b=qW8KRalOe8Yb4lLMueJNSh26DtH2Gw43pL130LujklZnG1BCjW3N5uxoHAw+aCO6JEULoHRF6jlfchaIqpQBzwsLccGinTfP9pp+kT2ktEx0a+cZUMlvzlvirt3rxQXrBernI3VK9aqzWL7fUm1eQdLE158mqKlmoM6+B995Rkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760978041; c=relaxed/simple;
-	bh=Y5CEGs0t9LeXRLRCfmnRV+V4yK09SUomkNMkTtKhZbE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YAgiumOmeF59BGY9njpDwug6R9KwX0ijwxfA//dgUsiT8J0T4qPvmRG0Ri145h2XYNeb+ed68+dUGajj2MHMwfxmJca833enIOVDxIQL2/2g3eTEgcGmBXGJ+0su4B7ZzC4JNjNZt/Q+f/d1RkptOT2D0hUjOT17N2fCLspdyZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZZzZ1aWf; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1760978130; c=relaxed/simple;
+	bh=Ggl4GURIKN0o4pra5emg8y/1hbzWm6LY8VHCYb4NIP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYKkTPgal9MXQBnd+XE9t1ZXiuYGv4RW+hIIWCdUahBKZ+Dxiy+AZMoGK0cUdR4hdOuMngd/SYeJeaTDtKQxQ0V6V/F5zGHQEk7tyAZDuapwdTVhirXS9lSxbT4sdjGGhpfv6xRtT9l5Lpdm/acved7Z1O/j235iwy7FJVGhHps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=HVyW9qzN; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZZzZ1aWf"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-b5535902495so2619126a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 09:33:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="HVyW9qzN"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-87c217f4aaaso55503966d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 09:35:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760978039; x=1761582839; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xahSst9CglR2qFJe71Is8QVBM1v0GjyVtyRULSD/218=;
-        b=ZZzZ1aWf/BGewykJ8Q9qUGbrPQukcfrZt0B02Oi8ff+QqNUVMJQjYsyy2eLUcNCzQ8
-         5HUHH6CiSmyRtZ4EDVYXBa8dFjApSUowuVUgYXjV5bacbe9dO9RyDPv+JF9nclfLqqpt
-         IdfMppAP9uIeK6GMJU96xuSsTC2AeCDaNma4X96UKPETy6Eo64osK422sR8SRSNNpf4o
-         Wyc6s1n8stoxlJWqlLQqkgniG8OkK33jVGq5LqE58beJO83LfvVx9gUmnwB/GKNMBo2t
-         yOXseyiy1R7ee9Ng53rEj6jUciJoh6UWzoj6MbOaz7+/qxUoVKU52BrbMv6wW0qmSAzn
-         LY+g==
+        d=gourry.net; s=google; t=1760978128; x=1761582928; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m6jVHb7ezLC5hsANkudCILXiAJL70RDGwYPCifMHsG4=;
+        b=HVyW9qzN3r7JyDdOhkzVNVMRjKfXShlEXghBy0iVYI+i4F1J/q3coVFXeXHhmeKCaW
+         2F/c7WYqrCrGenP9z9zJVqW8AZG0PBZENZdyzckNaHxYqDbGULE4tImwssTJ1IEDLc5P
+         d+HA0vbUtS2cNsA9DXx439ztAPdZjeOxBgFjJ6J8aftkNE+xHpjtrM83mQiOczTeZosM
+         74rl5tWn+bQd0Jh2+3zOuoYEoM+4U/sHGS71auVtUhTQl7YH5ltAurDzE5OW76oNJbtU
+         ZWLtscjfCarnmuSJUMcXhD80xl5QNOzqhf3se66BQ9ucmPzDDC6MVXI29fiqHPjODSZN
+         lGwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760978039; x=1761582839;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xahSst9CglR2qFJe71Is8QVBM1v0GjyVtyRULSD/218=;
-        b=UzhZu9PZkNqn3sFRVK8NYBPCJQnD4GBUvJ2wbV0t4bEMZAWS+scPuFKvyQj/z2rhht
-         NuVB7MFmxWhjhgpyObtvxXIZhID56DuVSvtkUmjJH0wyfVwGeMYCTP0NF46QSj+dxO3W
-         1gA4uDf5XupsaxhOLoBq0i3JcxKAkwvs7ozU+Ha3POGsMN1pzuYm80nNlybhrIKMtHt2
-         UH4VWvyYJ+jTxKWVKje7Cbjd09HLfqbjQQKlOvfar6paIu/PXMt0hbgmd+555kHRDXf0
-         TuiGUxBzvZG2MpCDdMLNVWWJwOO1wFvFyx77dydbPV+CACQu9YeOJz7GjoRnW88jU4fS
-         YXSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXE/KoePdjykY8MDQGCQCHXga8bX0YB/VT4QBH0SG76tvc3hP30RZCc5cfrwqpgvt7UvAfAehLE3as=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhhxtsIjzjdejD7d6vTo0CcVi86vjGLGysn2j+BXOa9/ILhEov
-	K5Gt1LAfLYXvSZX5l9PvNrLjmDY+gud6XOZ/NhILUnqR5flQnqbRXy5nHb/jv5qEVtWiBmS6X6z
-	t8H6OIA==
-X-Google-Smtp-Source: AGHT+IGz3l2nSx5AlR6WsV3KMbX/iOTStifDphqigGBgItnK5hyzgl82eH4fn8NCfPXntYDzW0XJZScJ2gU=
-X-Received: from pjbgk9.prod.google.com ([2002:a17:90b:1189:b0:339:ee99:5e9b])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:db09:b0:290:a3ba:1a8a
- with SMTP id d9443c01a7336-290ccac6d3cmr177014055ad.53.1760978038920; Mon, 20
- Oct 2025 09:33:58 -0700 (PDT)
-Date: Mon, 20 Oct 2025 09:33:01 -0700
-In-Reply-To: <20251014152802.13563-1-leo.bras@arm.com>
+        d=1e100.net; s=20230601; t=1760978128; x=1761582928;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m6jVHb7ezLC5hsANkudCILXiAJL70RDGwYPCifMHsG4=;
+        b=dy2u78ZLbIdNiRC42nSh8Bq63gpc8LJM/bq8SGJfe2z259H82i1sacd3D15U4+l81A
+         9NEsMAKsjCGWEMEjhbVYUR5pUvO0/pWH1s3+6gezTtupQkaETZSd9PNRm5A/lTwpc/8t
+         TWCZ68UJFVsaC6NC2SBJ20xvFPn1wOZu+Rc6OkErKBXs8oC+Kn18djWR9tBQkTcUpiRS
+         7Lcmz0lOdahXxx2wnoy7QQiwDN08ji08BgLaGUtgNd/UBCmfRMk3wNTCtsGrn3m/ZwPT
+         rEQw0JM0g7rzVr+Dc3+RBZCYTKwyfHmoRjXRgCtg7RxxztF76m83QeJg0+oG6XmA97DH
+         i98Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVvktNBpKU7JncudER3ecNDKpEx7fqpP4U3Tw1czxS/3WA+OthMbZPr3BRiBZyAVpQQuP5q/VdWcrU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzY/UYIyCAJ5PVnUfw/FeU1gKJPf4MqgQ0alZ7rV1Teus2UhO0V
+	5YDtfzMLtUzkjDy2QRJn6quA+mi4s3F3NW06eTOCIAbB650O+iZHcp7IsS1sdOzTrHM=
+X-Gm-Gg: ASbGncuIG5HvNOuff8t8MLawnmOBF3/eguofIEA70+R6hllAXy7sm/XWFUg1wETHDuH
+	fAhkMrOngDohTT7zv2663VZckHexTCauxHZ4VrCUpikriydLYREA4d4NPgCAKru3Fxn4gf1oLML
+	rER2zr2sLggQ2R6H9oXMr+CGRqI1wQF6GMegFari/x1BwrTr1KV7JFV+F2elBw6AY+aOYsk6Ryt
+	fR3AmhEDwFbkDKfGwaBoy4YSrvzbm2VWH+hk2lKPO5uYE/B/uwt+erJnsvp4M/fynSlT64BnHrk
+	cYQqaJjwJe2PKljMwDaLm9UTWAlXi3DetNAVb+TcAfEo3vYv7dTM14zEJ7wnsM+WFKxpIk087Rz
+	kngZlj5Z9oxj2q5OqO0dgvl3ikzb0CIPcH7wlVNk6bdY2YrjH4cQcw4wH9YnNJsKVzUN1XKHLbC
+	Vahlfjq29UZnKp44T2F+kQ1CfGYrzz7xLFthwKV8Hc8dFjVOV5T57SDJ9nuLY=
+X-Google-Smtp-Source: AGHT+IGyom00LhOrlga+gwQAQ7ZtNc5cObbKCtXH8k1bXmEvQN3xISJWYitE42OrQ56dVinEXqIIkA==
+X-Received: by 2002:a05:6214:4e83:b0:87c:2213:ee81 with SMTP id 6a1803df08f44-87c2213f473mr139696046d6.33.1760978127833;
+        Mon, 20 Oct 2025 09:35:27 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87d028b4316sm53736976d6.53.2025.10.20.09.35.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 09:35:27 -0700 (PDT)
+Date: Mon, 20 Oct 2025 12:35:25 -0400
+From: Gregory Price <gourry@gourry.net>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-mm@kvack.org, osalvador@suse.de, corbet@lwn.net,
+	muchun.song@linux.dev, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, laoar.shao@gmail.com, mclapinski@google.com,
+	joel.granados@kernel.org, jack@suse.cz, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [RFC PATCH] mm, hugetlb: implement movable_gigantic_pages sysctl
+Message-ID: <aPZkzY6cGfdKo8K8@gourry-fedora-PF4VCD3F>
+References: <20251009161515.422292-1-gourry@gourry.net>
+ <6fe3562d-49b2-4975-aa86-e139c535ad00@redhat.com>
+ <aPZd1dAIzAw7Ii8E@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251014152802.13563-1-leo.bras@arm.com>
-X-Mailer: git-send-email 2.51.0.869.ge66316f041-goog
-Message-ID: <176097609826.440019.16093756252971850484.b4-ty@google.com>
-Subject: Re: [PATCH 1/1] doc/kvm/api: Fix VM exit code for full dirty ring
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Leonardo Bras <leo.bras@arm.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPZd1dAIzAw7Ii8E@gourry-fedora-PF4VCD3F>
 
-On Tue, 14 Oct 2025 16:28:02 +0100, Leonardo Bras wrote:
-> While reading the documentation, I saw a exit code I could not grep for, to
-> figure out it has a slightly different name.
+On Mon, Oct 20, 2025 at 12:05:41PM -0400, Gregory Price wrote:
+> On Mon, Oct 20, 2025 at 04:17:06PM +0200, David Hildenbrand wrote:
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 5549b32cdd31..5def2c53092e 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -6922,8 +6922,12 @@ static bool pfn_range_valid_contig(struct zone *z, unsigned long start_pfn,
+>                 if (PageReserved(page))
+>                         return false;
 > 
-> Fix that name in documentation so it points to the right exit code.
+> -               if (PageHuge(page))
+> -                       return false;
+> +               if (PageHuge(page)) {
+> +                       /* Don't consider moving same size/larger pages */
+> +                       if (!CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION ||
+> +                           ((1 << compound_order(page)) >= nr_pages))
+> +                               return false;
+> +               }
+>         }
+>         return true;
+>  }
 
-Applied to kvm-x86 generic, with a massaged shortlog.  Thanks!
+Quick spot-check of the compaction code suggests this is handled
+essentially the same way - and in fact compaction expects
+alloc_contig to be sending compaction requests w/ hugepages.
 
-[1/1] KVM: Fix VM exit code for full dirty ring in API documentation
-      https://github.com/kvm-x86/linux/commit/04fd067b770d
+So I'll go ahead and submit this separately for discussion.
 
---
-https://github.com/kvm-x86/linux/tree/next
+~Gregory
+
+---
+
+->isolate_migratepages_range()
+->isolate_migratepages_block()
+{
+...
+	if (PageHuge(page)) {
+		const unsigned int order = compound_order(page);
+		/*
+		 * skip hugetlbfs if we are not compacting for pages
+		 * bigger than its order. THPs and other compound pages
+		 * are handled below.
+		 */
+		 ...
+		/* for alloc_contig case */
+		if (locked) {
+			unlock_page_lruvec_irqrestore(locked, flags);
+			locked = NULL;
+		}
+
+	 }
+...
+	/*
+	 * Regardless of being on LRU, compound pages such as THP
+	 * (hugetlbfs is handled above) are not to be compacted unless
+	 * we are attempting an allocation larger than the compound
+	 * page size. We can potentially save a lot of iterations if we
+	 * skip them at once. The check is racy, but we can consider
+	 * only valid values and the only danger is skipping too much.
+	 */
+	if (PageCompound(page) && !cc->alloc_contig) {
+		const unsigned int order = compound_order(page);
+
+		/* Skip based on page order and compaction target order. */
+		if (skip_isolation_on_order(order, cc->order)) {
+			if (order <= MAX_PAGE_ORDER) {
+				low_pfn += (1UL << order) - 1;
+				nr_scanned += (1UL << order) - 1;
+			}
+			goto isolate_fail;
+		}
+	}
+}
