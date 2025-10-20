@@ -1,61 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02ECF17A2F0;
-	Mon, 20 Oct 2025 17:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED25B3EA8D;
+	Mon, 20 Oct 2025 17:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980313; cv=none; b=gmHeRP1F5dF0CFITYHt0JbtpgKvNN2mYq7PePCQfE/+d3B+cO1DShFZibILyr6+GIS4SjcbUSIJeaKQmWn3dCf+5d5WP20gqqj07dO+2NXm9ELhppnaTK+cF8MIZkB8FAyCXhNmuGiUrgzjCMkRBatqt90wOiTqS6hRO5ic+ahY=
+	t=1760980913; cv=none; b=Q9vuFL/XuNmAC88v3ZSxvgNKIp4vQMF/LAb7WG9AorFo/1BV1s/R6c9wnl/1z+TOBxfaBBprPLY5xSkOPaylPzTHXLX+Z/BiL3AyA20Bx4xFbY9ZoB2HnqMK+ZpmGKguqURvS4jHYJpbBrpuajKzblTAQ0CaYVstGVh8v/cyvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980313; c=relaxed/simple;
-	bh=KAlYS6zuzNONWFCiNofiPVTUIcr94HG5Jq+e/8sSYk8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=Ah6zai3mm5QvB6iWcbAu09/HFob22XfV4dnOPJqLhLHwCr2J32M6200ZgEC9+JKIviL6GP4ea7b0SECQ1No4EMZH1maB/wUKBnJJhLfoogY1z+MFrfkMlXKoGpU65dbxum4B/yvWEq+iig+FF86QJbuQ4k78kBQ2Msgt+7LBiI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78F471007;
-	Mon, 20 Oct 2025 10:11:43 -0700 (PDT)
-Received: from JFWG9VK6KM.emea.arm.com (JFWG9VK6KM.cambridge.arm.com [10.1.26.166])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC69D3F66E;
-	Mon, 20 Oct 2025 10:11:49 -0700 (PDT)
-From: Leonardo Bras <leo.bras@arm.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] doc/kvm/api: Fix VM exit code for full dirty ring
-Date: Mon, 20 Oct 2025 18:11:46 +0100
-Message-ID: <aPZtUlTjEm5_bqDe@JFWG9VK6KM.cambridge.arm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <176097609826.440019.16093756252971850484.b4-ty@google.com>
-References: <20251014152802.13563-1-leo.bras@arm.com> <176097609826.440019.16093756252971850484.b4-ty@google.com>
+	s=arc-20240116; t=1760980913; c=relaxed/simple;
+	bh=C8eG7PMjUaKTBS6LaCf8Tbd0+/VSPq+6Aua09Qgzo+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p4O8xfKkdyF8AC+jXe9KWdDqfsGDubZNHerPbAnhsCQyL2k0rbduxSbjX8HwPm5JXCQ9mZjLOJqkAf387UhEjHZGxUCKUPWcly/XeYevs4CtVXd/D+3OSYXunW3856hO9itTMbrcgE2ksSo1Y9k5w1Ob4HddBh8JhOr8fzeAohg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2t9lGOf; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2t9lGOf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F6AC4CEF9;
+	Mon, 20 Oct 2025 17:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760980912;
+	bh=C8eG7PMjUaKTBS6LaCf8Tbd0+/VSPq+6Aua09Qgzo+I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U2t9lGOfNY6Lkx20w2fVB4DPLQ7RNQAT5k/Gy1bRzoMuCqKvcONn9R5Q8SaF6Mp0u
+	 k5ouH3HNB9g4K8O+zH6Hok3sFRVzqmySNOvidRwN0G43JXPWbn08n/8sTz8wOFY0Od
+	 cjmgS652cobnqMLIWBdx7bjZ9VFEwQX1vJW79Ew9BTcGy9P35lRWrtRMlCuW+fZx+U
+	 /ARWcluXqvCoCLKKW805/Q/cvcm2UAjm6fgf8slnos9VTFSrAZ+Dy17ywAtwrJc4tQ
+	 iBD9KrheD9J7RLnfsiuBJzsqz2En0BSGlcfaxC3mFJhPUDuC3z5PYgP5svbn7Fktoa
+	 NNayKWfubeVcw==
+Date: Mon, 20 Oct 2025 18:21:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Xu Lu <luxu.kernel@bytedance.com>
+Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, will@kernel.org,
+	peterz@infradead.org, boqun.feng@gmail.com, mark.rutland@arm.com,
+	anup@brainfault.org, atish.patra@linux.dev, pbonzini@redhat.com,
+	shuah@kernel.org, parri.andrea@gmail.com, ajones@ventanamicro.com,
+	brs@rivosinc.com, guoren@kernel.org, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+	apw@canonical.com, joe@perches.com, lukas.bulwahn@gmail.com
+Subject: Re: [PATCH v4 02/10] dt-bindings: riscv: Add Zalasr ISA extension
+ description
+Message-ID: <20251020-kelp-trustful-1c07c69cd534@spud>
+References: <20251020042056.30283-1-luxu.kernel@bytedance.com>
+ <20251020042056.30283-3-luxu.kernel@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BFPQpvVg8gUO11Ws"
+Content-Disposition: inline
+In-Reply-To: <20251020042056.30283-3-luxu.kernel@bytedance.com>
+
+
+--BFPQpvVg8gUO11Ws
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 20, 2025 at 09:33:01AM -0700, Sean Christopherson wrote:
-> On Tue, 14 Oct 2025 16:28:02 +0100, Leonardo Bras wrote:
-> > While reading the documentation, I saw a exit code I could not grep for, to
-> > figure out it has a slightly different name.
-> > 
-> > Fix that name in documentation so it points to the right exit code.
-> 
-> Applied to kvm-x86 generic, with a massaged shortlog.  Thanks!
-> 
-> [1/1] KVM: Fix VM exit code for full dirty ring in API documentation
->       https://github.com/kvm-x86/linux/commit/04fd067b770d
-> 
-> --
-> https://github.com/kvm-x86/linux/tree/next
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Thanks!
-Leo
+--BFPQpvVg8gUO11Ws
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZvqQAKCRB4tDGHoIJi
+0hvXAP9MBxNLwQ6EaW26x/57UgbQ5Ohba3hlU7D3bJB9ReuoPwEA89307tQnz5Yg
+euZ/obSdJwA33QQLg4HfL//+TgpQAwM=
+=orfO
+-----END PGP SIGNATURE-----
+
+--BFPQpvVg8gUO11Ws--
