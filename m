@@ -1,248 +1,132 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBA333CE9B
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 20:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36D02DBF49
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 21:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760993652; cv=none; b=qtCIkIumkGca5hBxAYhG/uIrj6eLedefzvhT8bG+3r+U9MGaZpXHY0btlH4NqJArYNgPcsR5BH4DsbvXd9FenQuGLGuzI7GwSF2enoKae1bK99kWmF66OE5xnUgliFsIx8rFMX77XkUy+ClWz689Sd49E1v+Rxc+7Dv2aAdBeuk=
+	t=1760994143; cv=none; b=BN+HUSAzv86S+t5jjUrEZGvGBlyp82/sXHEDD4Yjd+5EsIcufB22iP3nXlVQHrhPFPGZCcwb8R1eHdaBgPV7mhS+xXdMpnHRqhRYFxOQuL8PnlzQ4dVbBSc2Zv0H8BV5D+anXtfSVixb0lwxUOBN10X4y4FVROm9rqqnYpGH9fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760993652; c=relaxed/simple;
-	bh=cLWo2uhDyVt9R1FCZMW60Uodtrv8YQrfhgpUR4+sGS4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GlWh95EH8FApv26T3GCnzXXIXyXQrcNrbYNCiMDWBxY0pNRjzZ4pGM73+ln/PFb2gKARmIBSaMnVSxN+6/1wFy5rrlX4DbYAYBrPV2IFnGuRIqZ6OtsTLq/hAqN4tL6U6H8XTwsalAbNcMCz2+n3yEHVRdd5Sdv5mLuR32rhOUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=XhlWzevL; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1760994143; c=relaxed/simple;
+	bh=IgYE1mZTkxVPjcoFUAJYAa4jA2ZPp6tn7R05SstSckI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hxbBKpOoSJWA4SbOhQnVFDUxJQ8Shwo4ncpr0PRrAZ7aNUait/DsGO1sCAQZuC0FD6G8mOxTOSxZYgGY+MUngqIPyrXI26nnmA4c/zNVvwyjxR0mIq1vhgt4oUnmXpmP8ixdiVnJYkbCDcZEGg78alsRMd4fvQaU5xQHI+w0cG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMuqGiiV; arc=none smtp.client-ip=209.85.166.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="XhlWzevL"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-781206cce18so4918458b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:54:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMuqGiiV"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-93e2d42d9b4so207930439f.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 14:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1760993649; x=1761598449; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AJ8YuZo0JJXCWTlV3c5ln2FfCDj9ZwahQ+XrbVt5Sig=;
-        b=XhlWzevLar49zfKzuolIc5g7JQs20gsh8VldGsTK3GAkQ0tR0M0eH+bIDIaivecE/H
-         L+R/mMCbUz/DLFKX74adGKH16LgHkRXgJHfjJvXAx0KbPUnZjn+THo7VwV3w8Ci2kYk4
-         +okKtwSHzgv4Kh8ziD9fKFuRtyc4ocjtyR0H/fzcGxxEbSLKPviaAwzXbmSXM+f8FJzC
-         waHneVH/6VxzzYgoXDHLiS/j3OPLYnojMIkBNWpcn/RTJ5dVCk7SMrpjbcF0Q1WSXbAt
-         uZ5lZA/3RA0UKz+gegk4HjwVTyKNROk8XFVibJgYgp40VHkq4ZNOtEm4n1DhB6oE/jAo
-         Dfwg==
+        d=gmail.com; s=20230601; t=1760994141; x=1761598941; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bEuxap4uXOw4PVhBkZanJl9OA3DpfYNQ9aSaoCPuf2A=;
+        b=UMuqGiiVhhJ27Y3UQ5+FGE6JUilR/j/goVjwHnXsLfldvTBErq7MxbHHm+8Ja+emzj
+         qllmESMNlV0eVPJAkwf9hmaMJM5OETGAx0q7EGDX6kd5IuL+pmUkL53XrQ4ZpyimtVRp
+         GB+KypAuEO3rbcC2+YzL3hPSUHaP9yjCbpIXMsyq9gGpbA+0+qDWNJCinPZBCnMfRS2f
+         nA1mY/G0ZPN6GcV2xEG5b04BPaz0yXqN0zVlV4erE8MqZ7180LNs1t2wCdXaTZw67LBJ
+         bbr3rHBz2QCAW2fXNQP9mKSRVQpxESNrQM0br6DUmTvbxBdTpFop+PhrOs+fi4O0reA8
+         x1bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760993649; x=1761598449;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1760994141; x=1761598941;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AJ8YuZo0JJXCWTlV3c5ln2FfCDj9ZwahQ+XrbVt5Sig=;
-        b=d8XrQnil0vS6FMUsvFAzdUK7J1WFEIglw8xAuxqPdggfy0uxuw/QY3w0QBvL9JM78i
-         wBXftoBAL78m4mOVkGHA3ylSwNLbh+V2ExYV5mc6flKaEECY1NR0mX9hsKJf9J00SneZ
-         PA1rMHFdar6SbHM63ziDWGhErDYULuvViAtv9aXH1FVazwgsKFQ1yW+NJxWaBtYLhBpd
-         /wME1dAqCJPoWvIHD4bW7g8FFzmx7Tu/FBslb+Suo3BVtWxOvBmYRnrfPYDJq+Lp0Msb
-         ze6zMNdu8UriSH9RPaVeUyNOWFt3dVdgmRwfm9dLXmdwcrNV7KAHc2O2msk2B8yIY9Ur
-         ig5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWWov649hflJFG+i4wrw8R/0OrLU4YAvMCKeanC78Mj/PK4T6BFNVrLLhLRHGLW31BKVIH9ojcpgDM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkg5S7MX/9jyc+EAF0fCuG2Y11Ydv0FsLCJsvolJBiTfWeNsOp
-	/HPJNsgFTR8O6NP3lNlsnr6j99VXipTBCF09aMJGoTXoyKEOKVkCZqeCllcL08/ljis=
-X-Gm-Gg: ASbGncs8F6IHEE39UAWC++JykyaBTzV2BQACuf7aBhljH0HFvIyQZUT8Sg7hRQ5T8yk
-	vDRnIUzk5oRGKLcxW0IXSC0DMCF3ZTJg4D5GjxI+B9JW6ijJ2njXwfZ413oEKvOZqUjhmBiHZAh
-	rN4WU5P1biTLlMJ/cJ7aB/oUAbK4iJm+RDIaxdK7bgNGCMkdGob3vsUnPaFOOO9wfx068Z9YB8I
-	u/Makeh7xVwXqJ44w5vrCMLzgAKe8NgIY07B14oAL+e0J2K9dnCXyhXRL3+msVs68CGogUkOl4y
-	rK0UGeK72DHJGKhHrClXXe/zI1UF01yOKOYIXm5kemgBDXlYkVZMGkNjUh5xaw+k4xrD7iUT6sY
-	RCa9yqQ6rjmdedVPvdGFDI3YDnnFOAX29dOXGmI8fC8uOpkjjTvi6bm1n0HBPGXP3UY5P2O40YI
-	MTkfQmhQbD2Q==
-X-Google-Smtp-Source: AGHT+IFB+7tddu1swN+FPZnDNP9flYF+7I5jbpUR/5BtNJV0VX/Du8+wNTTID+AK6UwLh+2SCOPFPQ==
-X-Received: by 2002:a05:6a00:638a:b0:77f:9ab:f5 with SMTP id d2e1a72fcca58-7a210f95542mr14528712b3a.14.1760993649214;
-        Mon, 20 Oct 2025 13:54:09 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff1591dsm9453867b3a.7.2025.10.20.13.54.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 13:54:08 -0700 (PDT)
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Mon, 20 Oct 2025 13:53:44 -0700
-Subject: [PATCH v22 15/28] riscv/traps: Introduce software check exception
- and uprobe handling
+        bh=bEuxap4uXOw4PVhBkZanJl9OA3DpfYNQ9aSaoCPuf2A=;
+        b=KIi2IKgh6p3C5Akh0BewlDLKNZln4Uvg9FYhjsOt89SJ5ZRSYrthVTegb9vWzHmoup
+         nhyacqgzkaW568p8LSC4actp1aManxYfQjAXmmkpt8RMIR89fHDoLHb72ORlqTDmjwEo
+         Gk54F8HuYIG6Xdm5O6mcgxNDEKUj9AX+FQLgvzAnjGigQQkrbU/Uo2AHJh00OS6V2FAS
+         /6n8Y/45HyhCe+jpJ3/zvhDdosOhdMhW3mJxtlQa2mEtUxZj6+MLgXGHQFWygzmxj/N5
+         e2ZLWTdryW/JNNwvH3i/fKdWrGxO6tpyKfo+iIAiGNRgAzVxpaxSshSAgXDUiu58DJ49
+         BnTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6OQMdlC5QWc5dtbVA96JsgSAXdjoxwIOoZ7f7J6jXQAqVqUc9Ne2DMtQ8PRCU8u4XvvyUCPCm4vM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFqrvRI/S3ceBUefkX7DjBS0ZrboRb7oOzHcK5cTEJPYx+7WjT
+	o+reX89R58LPkuLdrNcVksDRR5Uq6Lle0gvlh+/g4qHH5lOWaql4RGCAxJ6qU46op5Sgowhmd/R
+	Au8B8FVi/j8hbel9RRnyfCcm/SOhdh2U=
+X-Gm-Gg: ASbGncuveRo7AFticf7l493K3+s58K3quku7tkYJ3jAY8IwxWbsMW1Z86GNvuJfFA+L
+	UZ/FqUAQykUTAE4RMJd09hNvwUXUIeS4uS/Te1VUAWeSTQHBMgAx5K4w+aGLa7hwjHaaDss/gps
+	QuDWQlBoWF8vCjXbZ19D5oUUO8Oq/vnTOeTDMIeWqmjZ3JPfw+p5Zm8rB/+1fxWKkuBCYwx2bk3
+	5Amj7nI4FLivj+eH3PG+gVZVorkzEyOF+Hbz3Wmnaht0PKxpCvkqJPFY7JWprxIJ1DwuzImlybw
+	4aeuCwYycAo9EtH5N23iFvTr2JKAF05NBUZcWWkMSdht7CEEBLcEMmllqQlievfeVO/4iLPbL5g
+	bIOZ0i/CBFKvEib2bOVgf/282Cq92KSB2mDIuVyVRPiMlO70CWmhfeEBF
+X-Google-Smtp-Source: AGHT+IGAeJGAQIBM2nto3h7wo4Ux1j4JQv5kFnMFKMPjSOsA8laTc7KGJRta+EANCOydZnJICpXKfizFw0bVF/vJHG0=
+X-Received: by 2002:a05:6e02:1fc5:b0:430:e9d2:8f3b with SMTP id
+ e9e14a558f8ab-430e9d28f40mr20917205ab.27.1760994140614; Mon, 20 Oct 2025
+ 14:02:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251020-v5_user_cfi_series-v22-15-9ae5510d1c6f@rivosinc.com>
-References: <20251020-v5_user_cfi_series-v22-0-9ae5510d1c6f@rivosinc.com>
-In-Reply-To: <20251020-v5_user_cfi_series-v22-0-9ae5510d1c6f@rivosinc.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Christian Brauner <brauner@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
- Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-riscv@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com, 
- andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com, 
- atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com, 
- alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org, 
- rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org, 
- Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>
-X-Mailer: b4 0.13.0
+References: <20250910170000.6475-1-gpaoloni@redhat.com> <20250910170000.6475-2-gpaoloni@redhat.com>
+ <878qifgxbj.fsf@trenco.lwn.net> <85166a8a-ad54-42d0-a09f-43e0044cf4f4@redhat.com>
+In-Reply-To: <85166a8a-ad54-42d0-a09f-43e0044cf4f4@redhat.com>
+From: Chuck Wolber <chuckwolber@gmail.com>
+Date: Mon, 20 Oct 2025 21:02:02 +0000
+X-Gm-Features: AS18NWAdMqoSfNFq5XutKr0MnkgQ82Rnk3fUSUQqpBl0J3sT2E2MC5yWctws4W4
+Message-ID: <CAB=6tBQP3aCDWch4ZcEYMqFsJ4OKXSyC_hb9V9hA7ZZty7vFeQ@mail.gmail.com>
+Subject: Re: [RFC v2 PATCH 1/3] Documentation: add guidelines for writing
+ testable code specifications
+To: David Hildenbrand <david@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Gabriele Paoloni <gpaoloni@redhat.com>, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, gregkh@linuxfoundation.org, linux-mm@kvack.org, 
+	safety-architecture@lists.elisa.tech, acarmina@redhat.com, 
+	kstewart@linuxfoundation.org, chuck@wolber.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-zicfiss / zicfilp introduces a new exception to priv isa `software check
-exception` with cause code = 18. This patch implements software check
-exception.
+[Reposting with apologies for the dup and those inflicted by the broken Gma=
+il
+defaults. I have migrated away from Gmail, but some threads are still stuck
+there.]
 
-Additionally it implements a cfi violation handler which checks for code
-in xtval. If xtval=2, it means that sw check exception happened because of
-an indirect branch not landing on 4 byte aligned PC or not landing on
-`lpad` instruction or label value embedded in `lpad` not matching label
-value setup in `x7`. If xtval=3, it means that sw check exception happened
-because of mismatch between link register (x1 or x5) and top of shadow
-stack (on execution of `sspopchk`).
+On Mon, Oct 20, 2025 at 7:35=E2=80=AFPM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> >> +------------
+> >> +The Documentation/doc-guide/kernel-doc.rst chapter describes how to d=
+ocument the code using the kernel-doc format, however it does not specify t=
+he criteria to be followed for writing testable specifications; i.e. specif=
+ications that can be used to for the semantic description of low level requ=
+irements.
+> >
+> > Please, for any future versions, stick to the 80-column limit; this is
+> > especially important for text files that you want humans to read.
+> >
+> > As a nit, you don't need to start by saying what other documents don't
+> > do, just describe the purpose of *this* document.
+> >
+> > More substantially ... I got a way into this document before realizing
+> > that you were describing an addition to the format of kerneldoc
+> > comments.  That would be good to make clear from the outset.
+> >
+> > What I still don't really understand is what is the *purpose* of this
+> > formalized text?  What will be consuming it?  You're asking for a fair
+> > amount of effort to write and maintain these descriptions; what's in it
+> > for the people who do that work?
+>
+> I might be wrong, but sounds to me like someone intends to feed this to
+> AI to generate tests or code.
 
-In case of cfi violation, SIGSEGV is raised with code=SEGV_CPERR.
-SEGV_CPERR was introduced by x86 shadow stack patches.
+Absolutely not the intent. This is about the lossy process of converting hu=
+man
+ideas to code. Reliably going from code to test requires an understanding o=
+f
+what was lost in translation. This project is about filling that gap.
 
-To keep uprobes working, handle the uprobe event first before reporting
-the CFI violation in software-check exception handler. Because when the
-landing pad is activated, if the uprobe point is set at the lpad
-instruction at the beginning of a function, the system triggers a software
--check exception instead of an ebreak exception due to the exception
-priority, then uprobe can't work successfully.
 
-Co-developed-by: Zong Li <zong.li@sifive.com>
-Reviewed-by: Zong Li <zong.li@sifive.com>
-Signed-off-by: Zong Li <zong.li@sifive.com>
-Signed-off-by: Deepak Gupta <debug@rivosinc.com>
----
- arch/riscv/include/asm/asm-prototypes.h |  1 +
- arch/riscv/include/asm/entry-common.h   |  2 ++
- arch/riscv/kernel/entry.S               |  3 ++
- arch/riscv/kernel/traps.c               | 54 +++++++++++++++++++++++++++++++++
- 4 files changed, 60 insertions(+)
+> In that case, no thanks.
+>
+> I'm pretty sure we don't want this.
 
-diff --git a/arch/riscv/include/asm/asm-prototypes.h b/arch/riscv/include/asm/asm-prototypes.h
-index a9988bf21ec8..41ec5cdec367 100644
---- a/arch/riscv/include/asm/asm-prototypes.h
-+++ b/arch/riscv/include/asm/asm-prototypes.h
-@@ -51,6 +51,7 @@ DECLARE_DO_ERROR_INFO(do_trap_ecall_u);
- DECLARE_DO_ERROR_INFO(do_trap_ecall_s);
- DECLARE_DO_ERROR_INFO(do_trap_ecall_m);
- DECLARE_DO_ERROR_INFO(do_trap_break);
-+DECLARE_DO_ERROR_INFO(do_trap_software_check);
- 
- asmlinkage void ret_from_fork_kernel(void *fn_arg, int (*fn)(void *), struct pt_regs *regs);
- asmlinkage void ret_from_fork_user(struct pt_regs *regs);
-diff --git a/arch/riscv/include/asm/entry-common.h b/arch/riscv/include/asm/entry-common.h
-index b28ccc6cdeea..34ed149af5d1 100644
---- a/arch/riscv/include/asm/entry-common.h
-+++ b/arch/riscv/include/asm/entry-common.h
-@@ -40,4 +40,6 @@ static inline int handle_misaligned_store(struct pt_regs *regs)
- }
- #endif
- 
-+bool handle_user_cfi_violation(struct pt_regs *regs);
-+
- #endif /* _ASM_RISCV_ENTRY_COMMON_H */
-diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-index 036a6ca7641f..53c5aa0b6a16 100644
---- a/arch/riscv/kernel/entry.S
-+++ b/arch/riscv/kernel/entry.S
-@@ -495,6 +495,9 @@ SYM_DATA_START_LOCAL(excp_vect_table)
- 	RISCV_PTR do_page_fault   /* load page fault */
- 	RISCV_PTR do_trap_unknown
- 	RISCV_PTR do_page_fault   /* store page fault */
-+	RISCV_PTR do_trap_unknown /* cause=16 */
-+	RISCV_PTR do_trap_unknown /* cause=17 */
-+	RISCV_PTR do_trap_software_check /* cause=18 is sw check exception */
- SYM_DATA_END_LABEL(excp_vect_table, SYM_L_LOCAL, excp_vect_table_end)
- 
- #ifndef CONFIG_MMU
-diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-index 80230de167de..d939a8dbdb15 100644
---- a/arch/riscv/kernel/traps.c
-+++ b/arch/riscv/kernel/traps.c
-@@ -366,6 +366,60 @@ void do_trap_ecall_u(struct pt_regs *regs)
- 
- }
- 
-+#define CFI_TVAL_FCFI_CODE	2
-+#define CFI_TVAL_BCFI_CODE	3
-+/* handle cfi violations */
-+bool handle_user_cfi_violation(struct pt_regs *regs)
-+{
-+	unsigned long tval = csr_read(CSR_TVAL);
-+	bool is_fcfi = (tval == CFI_TVAL_FCFI_CODE && cpu_supports_indirect_br_lp_instr());
-+	bool is_bcfi = (tval == CFI_TVAL_BCFI_CODE && cpu_supports_shadow_stack());
-+
-+	/*
-+	 * Handle uprobe event first. The probe point can be a valid target
-+	 * of indirect jumps or calls, in this case, forward cfi violation
-+	 * will be triggered instead of breakpoint exception. Clear ELP flag
-+	 * on sstatus image as well to avoid recurring fault.
-+	 */
-+	if (is_fcfi && probe_breakpoint_handler(regs)) {
-+		regs->status &= ~SR_ELP;
-+		return true;
-+	}
-+
-+	if (is_fcfi || is_bcfi) {
-+		do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
-+			      "Oops - control flow violation");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * software check exception is defined with risc-v cfi spec. Software check
-+ * exception is raised when:-
-+ * a) An indirect branch doesn't land on 4 byte aligned PC or `lpad`
-+ *    instruction or `label` value programmed in `lpad` instr doesn't
-+ *    match with value setup in `x7`. reported code in `xtval` is 2.
-+ * b) `sspopchk` instruction finds a mismatch between top of shadow stack (ssp)
-+ *    and x1/x5. reported code in `xtval` is 3.
-+ */
-+asmlinkage __visible __trap_section void do_trap_software_check(struct pt_regs *regs)
-+{
-+	if (user_mode(regs)) {
-+		irqentry_enter_from_user_mode(regs);
-+
-+		/* not a cfi violation, then merge into flow of unknown trap handler */
-+		if (!handle_user_cfi_violation(regs))
-+			do_trap_unknown(regs);
-+
-+		irqentry_exit_to_user_mode(regs);
-+	} else {
-+		/* sw check exception coming from kernel is a bug in kernel */
-+		die(regs, "Kernel BUG");
-+	}
-+}
-+
- #ifdef CONFIG_MMU
- asmlinkage __visible noinstr void do_page_fault(struct pt_regs *regs)
- {
+Nor I. If you find any references in our work that amount to a validation o=
+f
+your concerns, please bring them to our attention.
 
--- 
-2.43.0
 
+..Ch:W..
