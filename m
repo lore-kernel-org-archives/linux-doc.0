@@ -1,100 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232FF242D76;
-	Mon, 20 Oct 2025 18:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249CEA926;
+	Mon, 20 Oct 2025 19:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760984172; cv=none; b=WOV02KlHOmt5cPzHh6F6X9MJ3hN5/BQfsb7oxT9VrNtoSu8P6DfePedAhch6bFGN9ukWeV9DlwT9oDS5Q0GmNj1DguLrUVtyo06xB7IlvDjBMcNJLbA3kKf0UJZP7NQa49f5/CMC1z6dAjYxzvfFGh95GZO9RPwHhEtvwQLxLiw=
+	t=1760987530; cv=none; b=fMNTz/31a+xfIpjWZbZQdVEQMnvMkVx21ZCR/TVfMIcV+wwbmxH7WsT/bS6QH28Wy5+ORSyX/m9bBcJSaL825Ss08MfSywnWJt9p58OS5W/c6xaqqXu1ygxk5Rzg7O2GB3i4oAhl9BmFAeQtUA5xVwbjXqXGQ22c5eCZSzM57mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760984172; c=relaxed/simple;
-	bh=g+2VpaD+FlA761mradaWnF6yVcLyinIaa0PWYsivwMA=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=AGlc17a/VBsgtVbSeMznYQkGOZZJFkid0lkXyHMzsZ1FyiuujDwGuW8HgOccooE5Hz9I53guz4XFpnW/RpVUVDb3RiRteCXcPbOwaZpbKnUa+BTHnYxj6QXRo7cq0cdwuujm+IVns/q4gG2ooUK5dHrID4J2bCn3OVaYACy88h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=SFAdAhGZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760987530; c=relaxed/simple;
+	bh=nGxwJURU/oilInwTQUZZ6gbdSgb0KGfYK9QccT8jcwQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T3wlGzevZJcR3tHuw/cPDNkUwdhIv9H9X1/gZAo5Z4jpUWsRAnV3ZUn+m3hLLG/8uR3IRiqp7/XtMjzVFTj3uj1f7J2SHXW16z5FigvrozsV53Ic4A0hVMjO9uy6HbPFQFRcsoAxGSGeb+LMtn1YpFI3Dw6Zj2NbOCDA3aYczcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AhOHkMnn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="SFAdAhGZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C732AC4CEF9;
-	Mon, 20 Oct 2025 18:16:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760984171;
-	bh=g+2VpaD+FlA761mradaWnF6yVcLyinIaa0PWYsivwMA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SFAdAhGZ6XAI3/OSlRoUNUAwPSszkFJ5X78HTOFq1+uod1XbAgAQik0Ms/FVZwL8b
-	 s288oOWO3uGPngOYPSt2YpIWz3iBNwzxaqaJwbvYDnbDsjcDdrwTO7g030gpdL1GAy
-	 kdB06SO/8MeAHhERgECXjIJ5lY1Qda/IfEWb/rTg=
-Date: Mon, 20 Oct 2025 11:16:09 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>, Vasily
- Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, Andreas
- Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>, Muchun Song
- <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
- Hildenbrand <david@redhat.com>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck
- <tony.luck@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Dave
- Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Hugh
- Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Uladzislau Rezki <urezki@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
- ntfs3@lists.linux.dev, kexec@lists.infradead.org,
- kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
- iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Sumanth Korikkar
- <sumanthk@linux.ibm.com>
-Subject: Re: [PATCH v5 00/15] expand mmap_prepare functionality, port more
- users
-Message-Id: <20251020111609.cfafaa22c20ac33be573898f@linux-foundation.org>
-In-Reply-To: <cover.1760959441.git.lorenzo.stoakes@oracle.com>
-References: <cover.1760959441.git.lorenzo.stoakes@oracle.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AhOHkMnn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=q+A06mrhqjgyB7WoXYxFIbVy9xqSyLZ7F6r9ARP4k/M=; b=AhOHkMnnfNzl8Lw+FQh1X92eIy
+	EzjfYAk2NjifHZJlB/LMYlWVKgfA926vtS7TbiOk0fw09mZGiwJRw2I3+UQ28Li/eP5OKHw6TXT01
+	ujcTWyKeMJBxU9uCx0q+M/hHxuTh7PR/qFi3/E9w5E/W/uOKXL9fGJ3RByO0amiVvJDOMIN5uaUBH
+	jc+fQ/RZHdhekYGHE8EG5SRnyWqwvV3UvaBJ0Fsbw1BfPDM/s8lFdjm0UdcGXoge3R9FmAH+q1nPK
+	uaWn3nj86pSdRtQMW31RN0Dlyh6aE0HDLHNspaz4fWUofJeasdFL+ZO23zQNDkEObH0vXCCxJQdKL
+	2O58DwxQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vAvId-0000000EjgW-1UUc;
+	Mon, 20 Oct 2025 19:12:07 +0000
+Message-ID: <6b8e7935-6b80-4f00-9a44-7003071d1a21@infradead.org>
+Date: Mon, 20 Oct 2025 12:12:06 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: sysrq: Rewrite /proc/sysrq-trigger
+ usage
+To: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Serial <linux-serial@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
+References: <20251016103609.33897-2-bagasdotme@gmail.com>
+ <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
+ <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 20 Oct 2025 13:11:17 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-> Since commit c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file
-> callback"), The f_op->mmap hook has been deprecated in favour of
-> f_op->mmap_prepare.
-> 
-> This was introduced in order to make it possible for us to eventually
-> eliminate the f_op->mmap hook which is highly problematic as it allows
-> drivers and filesystems raw access to a VMA which is not yet correctly
-> initialised.
-> 
-> This hook also introduced complexity for the memory mapping operation, as
-> we must correctly unwind what we do should an error arises.
-> 
-> Overall this interface being so open has caused significant problems for
-> us, including security issues, it is important for us to simply eliminate
-> this as a source of problems.
-> 
-> Therefore this series continues what was established by extending the
-> functionality further to permit more drivers and filesystems to use
-> mmap_prepare.
 
-Thanks, I (re-)added this series to mm.git.  I suppressed the usual
-emails.
+On 10/20/25 4:50 AM, Tomáš Mudruňka wrote:
+>> I am still OK with removing the 2 "However" lines. We don't typically
+>> document or provide warnings for how the code might be changed in the
+>> future. If someone modifies this code and the documentation needs to be
+>> updated, it should be updated at that time.
+>>
+>> --
+>> ~Randy
+> 
+> Problem here is, that you cannot really modify the code without warning
+> users in advance. This is the warning.
+
+All code in the kernel is subject to change in the future (anything
+that breaks userspace less so than other code).
+I don't see thousands of warnings about such future changes.
+
+-- 
+~Randy
+
