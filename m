@@ -1,185 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723C231A06F
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6642D248F7F;
+	Mon, 20 Oct 2025 13:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760967285; cv=none; b=bMWAbOfeMcekXon+gNdAUR49NY0YlUMGvRcRZrgqQGeVPb3sfvdGtiZhg/Yx3DaOZQcwL4sYGsqgpmLxFHuZ8Qeu2E1IA0+ODlMgWd8fThR3FFAneyd8NmA1yyFv8bInsby2OqAlcOFpW6+9S3rrs6DyjuIu00QZBWEwzpQT4oI=
+	t=1760967613; cv=none; b=eYCgZUZ8z86k58vGa1A3E/bhQqevCzdc9z2te8lB9lhEJ0K+TSkPF/YPgmNkjJ90WC1z2buQjLP7dHywh8zkODppW3bt2VuuNn6GHdm1TjwwCwy9zpd7ADFxl2qFiv69lG1GA9CTqKWlUJitMeexcAmkPj84l8+uCo8D+yLGNwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760967285; c=relaxed/simple;
-	bh=qaL9YbmZJTW/ixYO94qG+wib+260CKv9uoYvrwMFIF8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TvupkB8K4S8dAmDeFTg39AYNRZ7xTzJd/Pa9geUJj3kTrkO8osL+lZLrOwsH/P1z8jYxiKa6jrSPcx3XcuXuMg2XqSQSGg5M2P7Ou1mx+pj27y4XlEnZ30vfLbPqbWNDtvxURbJoCs7GJ0rY0+/yCYX8sJTsRITcnNOWuOJ8jSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLbFebj0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760967613; c=relaxed/simple;
+	bh=jiKHpZ56cLeBkoRbxx48ENzMRCI9UX9Smhb7SclWucM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bw2u181mn8PL4IQrwSGGsrBwq4rg/C8W/1iZYC5A7eHDCe1a2Kr7mENquavYTfGAY54ONF+wc7HytOZv8j/I8UIJmUE6AuveK8UCzDEOsWXE1UIZRSoXTKERJ0tD3RBW6+6njTevNGR9hnp8fk9U+oEqYjEUEQM8N0BK0NEq/GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Ptjzv4kB; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLbFebj0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15111C19424
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760967285;
-	bh=qaL9YbmZJTW/ixYO94qG+wib+260CKv9uoYvrwMFIF8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LLbFebj0QTtB6YA74PS9tZdmJXL4RcwkLs2Dje0VXKlCPsBntF9N4S5BhECVaKh8m
-	 T0J3oqUTtaQAMyJ/F2CXEQFDJZC6j1Miqb90fy8elhcxnKksssCim0Qx6cM4x5wnIX
-	 f1GtlWBkwBv/GDq74+7rbV93xpPZZTo0UndgA/KA4xkHLVvBFK97ISffCpWWv6+tz/
-	 /0N7AnyJZSY7oG2JIY8wdEd67OGnwo3JlbebG0p/mxRj8Dc5NOmGKf4ZqnekmpTjaJ
-	 8RQmuvjv0Ot0TPGwwngkdYuh3UYIuhKGRruWaVQ84Aru0/71Ns+75YrwLV9iWjqo9v
-	 louuYmT31YEzA==
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-427015003eeso3204353f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 06:34:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQzfCLBSIHC5STJnav7ZjN8SAx3SEW+kH+ShuwOLk61qEUgVEYE2yraxEGZ4p2bWRCJ3p0jvZX4m0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOux+RSQVH44uG8VowWCOVkm+k6a/+s0MPCzETiH2EPY25XNvl
-	SLem3fIn1Shfooc4/yF7rMgq/L9DboRhruQw9zfObIkxdeo1BGngZ1RzNNE9HOgE0GfchsROEKX
-	tZmYzHDfqvzlamQWfnibpRwTb9Z95lL4=
-X-Google-Smtp-Source: AGHT+IFQwlCf7FjnCPutO24ZzoIvXCKxA8V6xzsVKhuniPH312m1I40LeS2q7hRVe9Mx5ZgcbJzBUyetjP4FtY8fo7s=
-X-Received: by 2002:a05:6000:2c0c:b0:427:928:78a0 with SMTP id
- ffacd0b85a97d-42709287a50mr7648478f8f.63.1760967283331; Mon, 20 Oct 2025
- 06:34:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Ptjzv4kB"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KCRbo4023459;
+	Mon, 20 Oct 2025 13:39:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=ViQ89gOu19UDAiRynbx1fqy0JdIKiO
+	kaAlpGFEg0jmo=; b=Ptjzv4kBROTmkVPoTlFfTfmB/4UXjPZvHkVkOlxHn6JGaF
+	n942llznxWdYPp3MjsYwnIwwcmkfvftLcKeiYvIOAGDY9eX/lZk7P1NAyXX3k+p2
+	vQXts7umot2B8zY367jh/chah1eUCv7e6VHYajk8l2skYinBvfuOiESk/S8QyEd7
+	9HI5stj26Psb5zmVPKAJr/zM5BMClWM9lRnxbtQVQVxRAQKv0qec4Ap64fk56vCU
+	JBrAPOCWLf+9fhpyiyr79baK5Sfts8ijh4b/sAJDz9XwDScfwVr2zFu2Gd1Ci8PO
+	8dpWqQUM2ldPeQw/7da2l3r7Wkl829htX/Zf7J5w==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31rsqg6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Oct 2025 13:39:15 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59KDSrHp023351;
+	Mon, 20 Oct 2025 13:39:14 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31rsqg3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Oct 2025 13:39:14 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59KC35wv002281;
+	Mon, 20 Oct 2025 13:39:13 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 49vqej5p7v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Oct 2025 13:39:12 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59KDd98t29557158
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 20 Oct 2025 13:39:09 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1465F20040;
+	Mon, 20 Oct 2025 13:39:09 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0AE432004B;
+	Mon, 20 Oct 2025 13:39:07 +0000 (GMT)
+Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.111.85.12])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 20 Oct 2025 13:39:06 +0000 (GMT)
+Date: Mon, 20 Oct 2025 15:39:05 +0200
+From: Sumanth Korikkar <sumanthk@linux.ibm.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+        Guo Ren <guoren@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
+        Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Hugh Dickins <hughd@google.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
+        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
+        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
+        iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v5 12/15] mm/hugetlbfs: update hugetlbfs to use
+ mmap_prepare
+Message-ID: <aPY7eQec0bB9847x@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+References: <cover.1760959441.git.lorenzo.stoakes@oracle.com>
+ <b1afa16d3cfa585a03df9ae215ae9f905b3f0ed7.1760959442.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251020042056.30283-1-luxu.kernel@bytedance.com> <20251020042056.30283-5-luxu.kernel@bytedance.com>
-In-Reply-To: <20251020042056.30283-5-luxu.kernel@bytedance.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 20 Oct 2025 21:34:27 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRyXPxtw1mvMEAt2NLMUecu++DyN8n+HxmcpbPPF_KB3Q@mail.gmail.com>
-X-Gm-Features: AS18NWDpy2g1Qp1BbuHJudf6VVHWVv_M97q7whwhpvd314t5p96b7PWN5zNzj08
-Message-ID: <CAJF2gTRyXPxtw1mvMEAt2NLMUecu++DyN8n+HxmcpbPPF_KB3Q@mail.gmail.com>
-Subject: Re: [PATCH v4 04/10] riscv: Introduce Zalasr instructions
-To: Xu Lu <luxu.kernel@bytedance.com>
-Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, will@kernel.org, peterz@infradead.org, 
-	boqun.feng@gmail.com, mark.rutland@arm.com, anup@brainfault.org, 
-	atish.patra@linux.dev, pbonzini@redhat.com, shuah@kernel.org, 
-	parri.andrea@gmail.com, ajones@ventanamicro.com, brs@rivosinc.com, 
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	apw@canonical.com, joe@perches.com, lukas.bulwahn@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b1afa16d3cfa585a03df9ae215ae9f905b3f0ed7.1760959442.git.lorenzo.stoakes@oracle.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZSoy0DnAVX45duhi1_mDLkuJQ3da5vFy
+X-Proofpoint-GUID: 2FFr9MxsKTbmfu7DnP8tGWY4DhBVRDkg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfXy3CVS9OyeYuF
+ 3+tWa5wjvP+gkbv9wIuR2qBo2tCYgmgyTdm2zAqfL8UFStMulHvbtnTG5sqtSbNbGC7YvcprEqv
+ 0d6/694Ay5/WaywfyIa71bzqVpJ+YelsfaR6Fgo2F6IMpwfoqzJiZIDNnA7xw0K40cEjnFnUiYM
+ oDKF5qlhz607Hjx7bxgydKT4VgnEhOta0jia3+WHEGk61414+0Z9tjdEL7VpIj44M5+o7Y1fW82
+ OVInIKfzXUDHTrkjx3GSeH/Sqxwna+Wi9hKxe9JcxyPadb1pe+SyjdPgcUFpynbyWFiFEpi45GP
+ 4FvlBMRbqmC01KgzuyyJ/fw2hjq8Pgqs/7uGjoyGcoquemDY7UnpDzBM6gZj/b+AHFmqBo6ZfMD
+ TihvVeJSVrOZw0tNC7yiCSCnr0sABw==
+X-Authority-Analysis: v=2.4 cv=IJYPywvG c=1 sm=1 tr=0 ts=68f63b83 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=Ikd4Dj_1AAAA:8 a=VnNF1IyMAAAA:8 a=7mAFR29It3qcuHcA-EIA:9
+ a=CjuIK1q_8ugA:10 a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
+ a=QOGEsqRv6VhmHaoFNykA:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 spamscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
 
-On Mon, Oct 20, 2025 at 12:21=E2=80=AFPM Xu Lu <luxu.kernel@bytedance.com> =
-wrote:
->
-> Introduce l{b|h|w|d}.{aq|aqrl} and s{b|h|w|d}.{rl|aqrl} instruction
-> encodings.
->
-> Signed-off-by: Xu Lu <luxu.kernel@bytedance.com>
-> ---
->  arch/riscv/include/asm/insn-def.h | 79 +++++++++++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/insn-def.h b/arch/riscv/include/asm/i=
-nsn-def.h
-> index d5adbaec1d010..3fec7e66ce50f 100644
-> --- a/arch/riscv/include/asm/insn-def.h
-> +++ b/arch/riscv/include/asm/insn-def.h
-> @@ -179,6 +179,7 @@
->  #define RV___RS1(v)            __RV_REG(v)
->  #define RV___RS2(v)            __RV_REG(v)
->
-> +#define RV_OPCODE_AMO          RV_OPCODE(47)
->  #define RV_OPCODE_MISC_MEM     RV_OPCODE(15)
->  #define RV_OPCODE_OP_IMM       RV_OPCODE(19)
->  #define RV_OPCODE_SYSTEM       RV_OPCODE(115)
-> @@ -208,6 +209,84 @@
->         __ASM_STR(.error "hlv.d requires 64-bit support")
->  #endif
->
-> +#define LB_AQ(dest, addr)                                      \
-> +       INSN_R(OPCODE_AMO, FUNC3(0), FUNC7(26),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LB_AQRL(dest, addr)                                    \
-> +       INSN_R(OPCODE_AMO, FUNC3(0), FUNC7(27),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LH_AQ(dest, addr)                                      \
-> +       INSN_R(OPCODE_AMO, FUNC3(1), FUNC7(26),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LH_AQRL(dest, addr)                                    \
-> +       INSN_R(OPCODE_AMO, FUNC3(1), FUNC7(27),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LW_AQ(dest, addr)                                      \
-> +       INSN_R(OPCODE_AMO, FUNC3(2), FUNC7(26),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LW_AQRL(dest, addr)                                    \
-> +       INSN_R(OPCODE_AMO, FUNC3(2), FUNC7(27),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define SB_RL(src, addr)                                       \
-> +       INSN_R(OPCODE_AMO, FUNC3(0), FUNC7(29),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SB_AQRL(src, addr)                                     \
-> +       INSN_R(OPCODE_AMO, FUNC3(0), FUNC7(31),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SH_RL(src, addr)                                       \
-> +       INSN_R(OPCODE_AMO, FUNC3(1), FUNC7(29),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SH_AQRL(src, addr)                                     \
-> +       INSN_R(OPCODE_AMO, FUNC3(1), FUNC7(31),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SW_RL(src, addr)                                       \
-> +       INSN_R(OPCODE_AMO, FUNC3(2), FUNC7(29),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SW_AQRL(src, addr)                                     \
-> +       INSN_R(OPCODE_AMO, FUNC3(2), FUNC7(31),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#ifdef CONFIG_64BIT
-> +#define LD_AQ(dest, addr)                                      \
-> +       INSN_R(OPCODE_AMO, FUNC3(3), FUNC7(26),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define LD_AQRL(dest, addr)                                    \
-> +       INSN_R(OPCODE_AMO, FUNC3(3), FUNC7(27),                 \
-> +              RD(dest), RS1(addr), __RS2(0))
-> +
-> +#define SD_RL(src, addr)                                       \
-> +       INSN_R(OPCODE_AMO, FUNC3(3), FUNC7(29),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +
-> +#define SD_AQRL(src, addr)                                     \
-> +       INSN_R(OPCODE_AMO, FUNC3(3), FUNC7(31),                 \
-> +              __RD(0), RS1(addr), RS2(src))
-> +#else
-> +#define LD_AQ(dest, addr)                                      \
-> +       __ASM_STR(.error "ld.aq requires 64-bit support")
-> +
-> +#define LD_AQRL(dest, addr)                                    \
-> +       __ASM_STR(.error "ld.aqrl requires 64-bit support")
-> +
-> +#define SD_RL(dest, addr)                                      \
-> +       __ASM_STR(.error "sd.rl requires 64-bit support")
-> +
-> +#define SD_AQRL(dest, addr)                                    \
-> +       __ASM_STR(.error "sd.aqrl requires 64-bit support")
-> +#endif
-> +
->  #define SINVAL_VMA(vaddr, asid)                                        \
->         INSN_R(OPCODE_SYSTEM, FUNC3(0), FUNC7(11),              \
->                __RD(0), RS1(vaddr), RS2(asid))
-> --
-> 2.20.1
->
-I didn't find problem.
+On Mon, Oct 20, 2025 at 01:11:29PM +0100, Lorenzo Stoakes wrote:
+> Since we can now perform actions after the VMA is established via
+> mmap_prepare, use desc->action_success_hook to set up the hugetlb lock
+> once the VMA is setup.
+> 
+> We also make changes throughout hugetlbfs to make this possible.
+> 
+> Note that we must hide newly established hugetlb VMAs from the rmap until
+> the operation is entirely complete as we establish a hugetlb lock during
+> VMA setup that can be raced by rmap users.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Reviewed-by: Guo Ren <guoren@kernel.org>
+Hi Lorenzo,
 
---=20
-Best Regards
- Guo Ren
+Tested this patch with libhugetlbfs tests. No locking issues anymore.
+
+Tested-by: Sumanth Korikkar <sumanthk@linux.ibm.com>
+
+Thank you
