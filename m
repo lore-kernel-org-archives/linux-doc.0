@@ -1,86 +1,207 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD31628695
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 11:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4C830595A;
+	Mon, 20 Oct 2025 11:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760961029; cv=none; b=uRrUVqy0c/cgU1bSjri/V7iqGbpTAhBMsZcYn0XL9yuMGgapvU8tyCI+uk/ZuNFLL9PDVenygZSKLxaf4PsTGPq6fya8biCaw2H5qyCX6Ku+454zL5IQBbXNevQL7QSLAjA520wR7chxJsPsQ//uWCOWNlNr0R3xivXX0PMiKYk=
+	t=1760961416; cv=none; b=KOG39T/ZU3UoTVs0YJu29Od/6setiv5N+VH8c+hhm7EjsZLbM2KO1/3RuAyyFJRPd27pqV3Ldpt+lkNhe41YKBkLMx5NLXu7dsX9B/uLCrwTHYy5OgK2Z7oBxLleXO2XO+ftM39FZvxXDPRk7nPDClDbXMyo0DWE8EAXmrt/JTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760961029; c=relaxed/simple;
-	bh=3Ib3zrr/tPmm6C+NhCIYGI9GLz3/YlX3IpNvy/WsbBw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EvR0DkYNOLwrXQZIKRemk+sBElGI1cVjPw4Z4UkJaGx3h/Iyxr4Ciknm8bSiq2jy0Dylu8Se7xVD/+fCPnV4Wpubr8Wm6ITULY573xF2AVaCDWJ5vaWHO0RSYvK9GUsECQmYQdRilHgKNkHylUpyQa3AqCHluJiQCTxWLVr5awI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3Q8Fmiw; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760961416; c=relaxed/simple;
+	bh=ZcmJIfsB4LChHE03FyuLCzwTi7dkvnBS3aWOnxBGojg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E2lc6i+Oex8fjzJ0uTYkhWziGNe9IVmnamEM3JU1fotPSjQHhRQG7a6szALZYWD3BeM62B2PnstIYL/DuK5GMkbwSLGXBeGKHRFRHt7qNwYvaqLofxjHraz6IcOk9hFkfmMp+a4KvDTYGqf7fEGshIH2YYaDXDUQfrkkk4HOHz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LuosinnC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3Q8Fmiw"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b3e9d633b78so68086266b.1
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 04:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760961026; x=1761565826; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Ib3zrr/tPmm6C+NhCIYGI9GLz3/YlX3IpNvy/WsbBw=;
-        b=D3Q8FmiwZInTYZCNZ1U12ur50ed8ev7+xzgz0oSlfPRYDYt+iqQpVAcelpSnWzKXhY
-         mc84dPtZSk5q4YPHvst/8GYW1R1Fqz++FYc81xOs3+4o6XZRgdrHKqBc38hcperdMOhM
-         BNi2OmHzGRQ/CvywgZWFgnsmWPJ1zco+44sS4w6YYkVxw6P6XJlwSFAIcHj6jZsz3ku4
-         QxWRbDL6dYs65cfl2du8Brrd8nBagE8+IonYB8qpYmAh2ZcMjZutr+3CumMTv+eNKs+a
-         +zzm7BaRVeaf+rC/WSedHAO2QskhIHw1rKQm4ET4jXBhOUNrGEe+AA/u97YqAoE69vqh
-         XCSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760961026; x=1761565826;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3Ib3zrr/tPmm6C+NhCIYGI9GLz3/YlX3IpNvy/WsbBw=;
-        b=TkeDY6+1BgygWO76SzEhl90jYSzzz+FY/YgyDtZBep+k9hJxtzGRj8gBgpZWkait/k
-         Z85GAAw6tL/HFhC/vldocS/bHriJbEBmZSnPDyS9zN94N6lhDOmhnTHNYdKFheZoo5y+
-         U/qnuIAdwx89GazzF+lKCsY7XIFsFjeGUg7gqK0beZ1YQsU20NJFwrGnqs26rwwjpALA
-         JH2iwVyMRVj3NhGxaI5iC6cbZMNS6sdhk6Lhvq6N7Qh5LvOWrB8hTiPxHSJrUtKbhsx5
-         fM1uKtSNA+vjTU2Cez5fzm4QOZXOYwqsYHXDb4Y60Zx+3aYnYJRdViO5D8cIZCxgik2o
-         mwwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJNol3oftQM41kgRZE5v6wtn8yaeSZDRTDUyBaip9BaFA4OpHCrfjcXFaNSFLZSN+hAKizL+WXqmc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy57ToF0v+IW4XXyF3bAkoiWaR3kkqy5t9ByjBr/oPTVZpR6OPn
-	ZBQPL7e1IFLISU3GjKMC3pN1NpCBKN6I6rosvR1pBBsr/BPCHNyhS3RCJ+sefOyHXXrLcptj2AS
-	Kk+pVZyOJm1L0gyouYlWlPMYkTR2f4g==
-X-Gm-Gg: ASbGncsGseMwLswZB/UofcKw1o37MXyes/3AGa+d1ubpqHrP4jEgr/x1zCSGJrDH1vb
-	G4w14mrVo8xIlfDpQh5266zMvhhamrd+NESNMkhNRfE23BvrKMko+pf3d08rB37XExLJbWbHVbQ
-	1Ub6P1SsdV9fzI/Tb3tQ2GXiQBuATGuu+2AARXpKrpgeY0HysT3J4LRsRlDtewQtlLML9ApYJyb
-	/ZyLPEO9yLxLKNu7cou6+eSnUL/YoyQfRhJ6pY23jy5TrDkbxCw19P7zpMwkucNBhWX
-X-Google-Smtp-Source: AGHT+IHpqrZ2dPIwhNgY2sr456DoKSrudoQCSOVCHp2/+Yamq4lGHHP853dkoUAlwu2plIGKzBU9GigR01lDOFEXyUk=
-X-Received: by 2002:a17:907:c00d:b0:b2e:7614:d92d with SMTP id
- a640c23a62f3a-b604e6d11acmr1848895866b.0.1760961025902; Mon, 20 Oct 2025
- 04:50:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LuosinnC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD59C113D0;
+	Mon, 20 Oct 2025 11:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760961415;
+	bh=ZcmJIfsB4LChHE03FyuLCzwTi7dkvnBS3aWOnxBGojg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LuosinnCXLWb731Ac8RPagWrD082efqHx0geawEzhfsppoChEdah3buWDcIzNFMvP
+	 dBjhbVF1FICX76U3U+smpICUiJLSKAtDF2j1RXc2InKv8KlPtOQ5xABWTneGPbfOIT
+	 ZKbaex0+GtRGAsloox3PuttpCqBcZktL2E/9n8/v2SVhzl7hs94CebygnaJ0Obx7FV
+	 2RGbjJ89+o/UXEom/8NOTLYDw0b+9zxX60pUV30BG6U6mSeyexURsFGm+eO+7F/as1
+	 XAvqfjHE38OEQO6gvtF3Ta+OoJ4Rbf6iAS02EkuIBwoFE5NPCxdM8fDOkASx6slZqD
+	 b53gQhd+bnhJQ==
+Date: Mon, 20 Oct 2025 08:56:43 -0300
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 02/23] tools: docs: parse_data_structs.py: output a line
+ number
+Message-ID: <20251020085643.14007a29@sal.lan>
+In-Reply-To: <1507fe55-d756-46bb-abf1-0d1fb7f9bee0@kernel.org>
+References: <cover.1759329363.git.mchehab+huawei@kernel.org>
+	<dcffa6844dede00052f5fb851a857991468f22b5.1759329363.git.mchehab+huawei@kernel.org>
+	<1507fe55-d756-46bb-abf1-0d1fb7f9bee0@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251016103609.33897-2-bagasdotme@gmail.com> <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
-In-Reply-To: <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
-From: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Date: Mon, 20 Oct 2025 13:50:14 +0200
-X-Gm-Features: AS18NWA3E0Ss9-ztf94LkzgiKtO5TbAFbLXh7zu0w6jJDo6kFqwu4lbvMiqUEHM
-Message-ID: <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: sysrq: Rewrite /proc/sysrq-trigger usage
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux Serial <linux-serial@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>, Jiri Slaby <jirislaby@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> I am still OK with removing the 2 "However" lines. We don't typically
-> document or provide warnings for how the code might be changed in the
-> future. If someone modifies this code and the documentation needs to be
-> updated, it should be updated at that time.
->
-> --
-> ~Randy
+Em Mon, 20 Oct 2025 12:46:50 +0200
+Hans Verkuil <hverkuil+cisco@kernel.org> escreveu:
 
-Problem here is, that you cannot really modify the code without warning
-users in advance. This is the warning.
+> On 01/10/2025 16:49, Mauro Carvalho Chehab wrote:
+> 
+> Missing commit message!
+
+Weird, I'm almost sure I filled some description.
+
+> 
+> I'm less concerned about the missing message (it's clear what is happening here),
+> than I am about the fact that checkpatch wasn't run.
+
+My mailbomb script does run checkpatch for each patch, but I probably
+missed the warnings(*).
+
+(*) By the time I sent this series, I was playing with a new version
+    written in Python. It had several issues, however, mostly because I
+    was unable to find a way for Python to read an e-mail formatted with
+    git format-patch without mangling with content encoding. I got problems
+    on translations, with binary file patches and even with \n at the code.
+
+    On my original script, written in 2015, it was easy to lose checkpatch 
+    messages in the crowd on big series. I did several improvements on
+    it, like running checkpatch in parallel and re-ordering warnings to
+    avoid losing them, but it was done only after sending this series.
+
+In any case, checkpatch currently doesn't have any logic for Python
+or ReST files. It only reports patch descriptions issues like this.
+IMO what it is needed for checkpatch to be more useful for tools is:
+
+1. to define a coding style for Python;
+2. to add some code at checkpatch to handle Python as well.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  tools/docs/lib/parse_data_structs.py | 29 ++++++++++++++--------------
+> >  1 file changed, 15 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/tools/docs/lib/parse_data_structs.py b/tools/docs/lib/parse_data_structs.py
+> > index 6c868f84f029..d28471a045f1 100755
+> > --- a/tools/docs/lib/parse_data_structs.py
+> > +++ b/tools/docs/lib/parse_data_structs.py
+> > @@ -143,7 +143,7 @@ class ParseDataStructs:
+> >          for symbol_type in self.DEF_SYMBOL_TYPES:
+> >              self.symbols[symbol_type] = {}
+> >  
+> > -    def store_type(self, symbol_type: str, symbol: str,
+> > +    def store_type(self, ln, symbol_type: str, symbol: str,
+> >                     ref_name: str = None, replace_underscores: bool = True):
+> >          """
+> >          Stores a new symbol at self.symbols under symbol_type.
+> > @@ -172,7 +172,7 @@ class ParseDataStructs:
+> >          else:
+> >              ref_link = symbol
+> >  
+> > -        self.symbols[symbol_type][symbol] = f"{prefix}{ref_link}{suffix}"
+> > +        self.symbols[symbol_type][symbol] = (f"{prefix}{ref_link}{suffix}", ln)
+> >  
+> >      def store_line(self, line):
+> >          """Stores a line at self.data, properly indented"""
+> > @@ -240,20 +240,20 @@ class ParseDataStructs:
+> >                  if is_enum:
+> >                      match = re.match(r"^\s*([_\w][\w\d_]+)\s*[\,=]?", line)
+> >                      if match:
+> > -                        self.store_type("symbol", match.group(1))
+> > +                        self.store_type(line_no, "symbol", match.group(1))
+> >                      if "}" in line:
+> >                          is_enum = False
+> >                      continue
+> >  
+> >                  match = re.match(r"^\s*#\s*define\s+([\w_]+)\s+_IO", line)
+> >                  if match:
+> > -                    self.store_type("ioctl", match.group(1),
+> > +                    self.store_type(line_no, "ioctl", match.group(1),
+> >                                      replace_underscores=False)
+> >                      continue
+> >  
+> >                  match = re.match(r"^\s*#\s*define\s+([\w_]+)(\s+|$)", line)
+> >                  if match:
+> > -                    self.store_type("define", match.group(1))
+> > +                    self.store_type(line_no, "define", match.group(1))
+> >                      continue
+> >  
+> >                  match = re.match(r"^\s*typedef\s+([_\w][\w\d_]+)\s+(.*)\s+([_\w][\w\d_]+);",
+> > @@ -261,20 +261,20 @@ class ParseDataStructs:
+> >                  if match:
+> >                      name = match.group(2).strip()
+> >                      symbol = match.group(3)
+> > -                    self.store_type("typedef", symbol, ref_name=name)
+> > +                    self.store_type(line_no, "typedef", symbol, ref_name=name)
+> >                      continue
+> >  
+> >                  for re_enum in self.RE_ENUMS:
+> >                      match = re_enum.match(line)
+> >                      if match:
+> > -                        self.store_type("enum", match.group(1))
+> > +                        self.store_type(line_no, "enum", match.group(1))
+> >                          is_enum = True
+> >                          break
+> >  
+> >                  for re_struct in self.RE_STRUCTS:
+> >                      match = re_struct.match(line)
+> >                      if match:
+> > -                        self.store_type("struct", match.group(1))
+> > +                        self.store_type(line_no, "struct", match.group(1))
+> >                          break
+> >  
+> >      def process_exceptions(self, fname: str):
+> > @@ -342,7 +342,8 @@ class ParseDataStructs:
+> >  
+> >                  # Change self.symbols to use the replacement rule
+> >                  if old in self.symbols[c_type]:
+> > -                    self.symbols[c_type][old] = new_ref
+> > +                    (_, ln) = self.symbols[c_type][old]
+> > +                    self.symbols[c_type][old] = (new_ref, ln)
+> >                  else:
+> >                      print(f"{name}:{ln}: Warning: can't find {old} {c_type}")
+> >  
+> > @@ -360,8 +361,8 @@ class ParseDataStructs:
+> >  
+> >              print(f"{c_type}:")
+> >  
+> > -            for symbol, ref in sorted(refs.items()):
+> > -                print(f"  {symbol} -> {ref}")
+> > +            for symbol, (ref, ln) in sorted(refs.items()):
+> > +                print(f"  #{ln:<5d} {symbol} -> {ref}")
+> >  
+> >              print()
+> >  
+> > @@ -384,7 +385,7 @@ class ParseDataStructs:
+> >  
+> >          # Process all reference types
+> >          for ref_dict in self.symbols.values():
+> > -            for symbol, replacement in ref_dict.items():
+> > +            for symbol, (replacement, _) in ref_dict.items():
+> >                  symbol = re.escape(re.sub(r"([\_\`\*\<\>\&\\\\:\/])", r"\\\1", symbol))
+> >                  text = re.sub(fr'{start_delim}{symbol}{end_delim}',
+> >                                fr'\1{replacement}\2', text)
+> > @@ -420,8 +421,8 @@ class ParseDataStructs:
+> >              text.append("")
+> >  
+> >              # Sort symbols alphabetically
+> > -            for symbol, ref in sorted(refs.items()):
+> > -                text.append(f"* :{ref}:")
+> > +            for symbol, (ref, ln) in sorted(refs.items()):
+> > +                text.append(f"* {ref}: line #{ln}")
+> >  
+> >              text.append("")  # Add empty line between categories
+> >    
+> 
