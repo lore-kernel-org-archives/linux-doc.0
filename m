@@ -1,90 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3E5328B4A;
-	Mon, 20 Oct 2025 19:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9E828C866;
+	Mon, 20 Oct 2025 19:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760989503; cv=none; b=M9zN6w2I/vWxjOXNUBxYeIXjnCqLGvdDFRe79uOxVJVOvcT1zlSEL/9u8SjlcyvALC5ugncykFeg0CFro/jNMEqvUVKRickFRwUvRI+DQwDeoYknx/tKRTL0MpyO5uujW4sxutI+MLruDVaKaDfkG+dHZopnGpnLAQliyKh9zys=
+	t=1760990022; cv=none; b=PatoS+QBQq0PPbgF9mxZCVgPAem0lJc1bgpskPfQse+DsH7k9i2/4WzcHMXNw3lXgOmWW6UicghnmcLyDjzwC+Br2aCaxD6dmZ+0H8u11kIf2izC14ZiZQgHhv6kiMk9dS3o6wZQSYZDdvmHmI0+Ts9ns8AE3hD4+KnzMM3X5aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760989503; c=relaxed/simple;
-	bh=RlV65ikxRr47oX9Migjybv1V2We0BdbRY3X2uOWfVlU=;
+	s=arc-20240116; t=1760990022; c=relaxed/simple;
+	bh=GiPuwX2n1KW8u9LdDxhHUa5N4wFAVUmFRo0TNTy5gHA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0PMinGOgp3oG0AMURndIB2W/1A4RqfagSee9DtfKVI2dyN10YwtGNkT1SznqA4cCUDenQ1vksxflQkQzT0FeY9UlvioUmx0uc7cVvZwfKK0Mjw26G4u/WIoRF90uHvV1hO22/4dkxaVCQIxZLuv1wezk9kY5bs/Fab05xtol7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVNMrkAv; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=U9ZveB8wEwtYqUxxLoS9/sUX6RGrTYnD82VcLqJYpOKTz1JSMGdeXGAsFkenFFvC8KPiqJTYUB7LDqMzONNZvJir7WwgfimtXoCcS0NZw8mASwfOeg+hQeUM3F3ymNPFUIZF6pcPRkSK21rQ/5de3S/FVgVGseUUaV3XItt6rE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDelcynU; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVNMrkAv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDelcynU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760989502; x=1792525502;
+  t=1760990020; x=1792526020;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RlV65ikxRr47oX9Migjybv1V2We0BdbRY3X2uOWfVlU=;
-  b=nVNMrkAv3WTPFv/Pm4gtHZFUGn92f8rqxZ6mKVzw4iNnZIU4pxRM8TJ6
-   cHIuf0PSDCYfPzfLSrF4x3CpvOLGYZCideXVZ3YaqVzPdlwka46C1tx07
-   ExY7aGJUCzPm+G69cK4KqTJTDww9k82AeqOq0lKoubB5gfQzRVHujtLsg
-   l/Gp9HpDpydOhsCwh7HRNA2ExKK+tQMtPlJ7EgzJnTJDzpk1z7TDtokxf
-   qhkto0XhKMbzQL0C0okY2X+GB3NuGMcHZqizRuoCc1w34xss1oSnzncRp
-   VNIZ63hDHgS2t5ToQ2KWfJlRP0n29e1paHjw2ezwJa3X9uWUt+eY7xcQ1
-   A==;
-X-CSE-ConnectionGUID: yVrVHjpCQEixK9aPmnxbQQ==
-X-CSE-MsgGUID: WviUuVmVT8WWJrYmADiADA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73403575"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=GiPuwX2n1KW8u9LdDxhHUa5N4wFAVUmFRo0TNTy5gHA=;
+  b=PDelcynUOT3S0NeO1CP8nPmavthcLcFEtfAk7ez1YBckNR43yBwVo5bA
+   Ose/lw3NPZjaAzoewWmukJuBLSSiR+llFZf4J4Q+CV4Sn+P3h8jylD0ZK
+   Z+9hvDH7DreDu+Gi2/ylaEacBfsEHdE4MtLwnqwn/F7Lv7/bZ5Xn1acs+
+   xZXdBXeGUBnGp0w2tfmo+aRQIQTDfzGxA1bGeBviFj6JsGfQC/vEtBcyJ
+   JFj5eEYAEIagWP+uP0har3zz755dC1xcvM+Kr/by92MyzlhfxvTRjt+oK
+   y4ZVjgI+N/M6ea71XR5mGKQ12/Rj4vPgyo+Oq0WUilJjg3L1xb8RoOxdU
+   Q==;
+X-CSE-ConnectionGUID: KQgYuS0GRoSyXkWF18Wurw==
+X-CSE-MsgGUID: 5JaqGGKBQpGJQXLS1gNuBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62814584"
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="73403575"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 12:45:01 -0700
-X-CSE-ConnectionGUID: isk7uufpR+ekF7o1gkIXgg==
-X-CSE-MsgGUID: XOMTcv+YS0qZg8TzfBBmAQ==
+   d="scan'208";a="62814584"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 12:53:40 -0700
+X-CSE-ConnectionGUID: Bs3YZDwuQYGj7XxrwXh3ow==
+X-CSE-MsgGUID: +grhdyUqSyWg3oYXKSzTMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183817614"
+   d="scan'208";a="214029021"
 Received: from tjmaciei-mobl5.ger.corp.intel.com (HELO desk) ([10.124.220.167])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 12:45:00 -0700
-Date: Mon, 20 Oct 2025 12:44:54 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 12:53:39 -0700
+Date: Mon, 20 Oct 2025 12:53:31 -0700
 From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 To: Jon Kohler <jon@nutanix.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+Cc: Dave Hansen <dave.hansen@intel.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Josh Poimboeuf <jpoimboe@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+	Brian Gerst <brgerst@gmail.com>,
 	Brendan Jackman <jackmanb@google.com>,
 	"Ahmed S. Darwish" <darwi@linutronix.de>,
 	Alexandre Chartre <alexandre.chartre@oracle.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] x86/its: use Sapphire Rapids+ feature to opt out
-Message-ID: <20251020194446.w2s5f6nr7i7vw4ve@desk>
+Message-ID: <20251020195331.nnnp4y4o3fyzgwvx@desk>
 References: <20251017011253.2937710-1-jon@nutanix.com>
+ <aPZZwoqWV8cJG2HH@google.com>
+ <413D20D7-AB18-4D46-8128-6179F2565765@nutanix.com>
+ <c1b2162f-5a1e-4072-8695-6c663a1ba0c5@intel.com>
+ <20251020192605.yqg5mmvah2fzyjvu@desk>
+ <7985318A-3669-4A1C-9282-D940F142252F@nutanix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251017011253.2937710-1-jon@nutanix.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7985318A-3669-4A1C-9282-D940F142252F@nutanix.com>
 
-On Thu, Oct 16, 2025 at 06:12:49PM -0700, Jon Kohler wrote:
-> A VMM may not expose ITS_NO or BHI_CTL, so guests cannot rely on those
-> bits to determine whether they might be migrated to ITS-affected
-> hardware. Rather than depending on a control that may be absent, detect
-> ITS-unaffected hosts via a CPU feature that is exclusive to Sapphire
-> Rapids and newer processors.
+On Mon, Oct 20, 2025 at 07:38:40PM +0000, Jon Kohler wrote:
+> 
+> 
+> > On Oct 20, 2025, at 3:26 PM, Pawan Gupta <pawan.kumar.gupta@linux.intel.com> wrote:
+> > 
+> > !-------------------------------------------------------------------|
+> >  CAUTION: External Email
+> > 
+> > |-------------------------------------------------------------------!
+> > 
+> > On Mon, Oct 20, 2025 at 09:21:41AM -0700, Dave Hansen wrote:
+> >> On 10/20/25 09:05, Jon Kohler wrote:
+> >>> Was running into some testing issues with my qemu change internally,
+> >>> but I’ll get that out this week once I clear them.
+> >> 
+> >> BTW, if there are folks out there that are working on things like QEMU
+> >> and want more formal or regular notification from vendors that a FOO_NO
+> >> bit has been added, that can probably be arranged.
+> >> 
+> >> The real issue here is that nobody cared enough to get QEMU to
+> >> comprehend ITS_NO right after the embargo was lifted, right?
+> > 
+> > ITS_NO support was added to QEMU right after the embargo was lifted:
+> > 
+> > https://lore.kernel.org/all/8c1797e488b42650f62d816f25c58726eb522fad.1745946029.git.pawan.kumar.gupta@linux.intel.com/
+> 
+> Pawan - I saw that, but I wasn’t able to get that to work, as the supported
+> feature checker will fail, and the VM will fail to start.
+> 
+> Specifically, kvm_arch_get_supported_msr_feature() will not show it as a
+> “supported” bit, and kick it back, and you’ll get an error like so when setting
+> -cpu … “,its-no=yes"
+> 
+> qemu-kvm: warning: host doesn't support requested feature: MSR(10AH).its-no [bit 62]
+> 
+> That’s because qemu queries KVM side, which is checking against supported
+> hardware bits. Since this doesn’t come from hardware, it goes boom.
 
-BHI_CTRL is also exclusive to Sapphire Rapids and newer processors. Why
-wouldn't it be exposed to guests but BUS_LOCK_DETECT would be?
+So this check isn't working?
 
-Not exposing BHI_CTRL has another disadvantage that guests would deploy the
-BHB-clear sequence when they could have used cheaper hardware mitigation
-for BHI.
+kvm_get_arch_capabilities()
+{
+...
+         if (!boot_cpu_has_bug(X86_BUG_ITS))
+                 data |= ARCH_CAP_ITS_NO;
 
-> Use X86_FEATURE_BUS_LOCK_DETECT as the canary: it is present on
-> Sapphire Rapids+ parts and provides a reliable indicator that the guest
-> won't be moved to ITS-affected hardware.
-
-I am puzzled why BUS_LOCK_DETECT is more reliable than BHI_CTRL?
