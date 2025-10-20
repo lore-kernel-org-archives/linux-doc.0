@@ -1,62 +1,64 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FA628469F
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 20:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCA6248176
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 20:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760991447; cv=none; b=Ty8uz32igg4gptC2zsCMBQdrAPyTfL3MA+ajCfOqda3kxZHG33qTlq/6KBVAnqHMw03iwootxqxyrH1rSzvDudZp7151NXu8YNSWk6eGQKSAZbQTc45/OGW7Fj1wPy4mDuic9N7/z7ULD7SiaAdqt1rrPpYKUUwzyli+4jTozHw=
+	t=1760991455; cv=none; b=FEcW0vP0w/awbHyKCbjf47cyjg9/riopFiRSmSIoJJX4uor3+NAGyd4sN0KLBBXlaDT6isHbI4GsA1M63ssEy0nrfiVH4wySKWHa50IkVpudX6SAqM93Dnd5ebYLtSMOH04tI6FjLmiH+92IppxJGFV4eOOSHtVw9UilnN4KnEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760991447; c=relaxed/simple;
-	bh=eir2cELdE6ctxydT2A/YX9aeKQVEZfkkSYcoewgfQYE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OkBAuM/yFHSpx8zFPMDWKb8OvpyWx+urXuZezKC5HXllNIhK/dyexym5P1hK/FuWPjM3iJ8EniVNsExoze2/JJzDZ1DOhI8rJ24kbe585T3jU0FMHQu797ewaJloZOiJ8Mau79P/EHQj4CXlQm2MwTIye6i+5dB6zI0jG4HcxxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LI0FsbUI; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1760991455; c=relaxed/simple;
+	bh=C4n75EtUZau6mSTuBCJYnmGv0sbGRgbQfabkJqiKw1k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ddXzKxCGijBq5fcWvAIfD1mUkEsfyN33shEL12rAxHYvHwHmJH9BPo4TbYnJoeVJEA9Lmk5o0DZe614d1Vc8fLFwsW+i4op4yTmfm8XhqXGCDPMEFK+GSWbpdCUar9PA5Qt5FKvJucmoia5vXs9OWFuWycVTbPt6cFYVw1uv0ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQUzqk/C; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LI0FsbUI"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f5d497692so5837857b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:17:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQUzqk/C"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so4333514b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 13:17:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760991445; x=1761596245; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PXI3yOz2/6xxfRvTcNICPRU7XaRQOsBCnm/A8qDs1ro=;
-        b=LI0FsbUIR5lqNzvLvL+OOd10gNBZSSLWxu9VYAcR6XkDcw46yo652LUjRhZDbswG73
-         /pigvx1tqZ3CGKTsMkULYPdO7keEBlIzOo+ax7OnhFjHeG50AuQvFKYVRZPL9pDxLX8V
-         x7xUtKIu+gmagY+spPosHu8t0OjArHV4FFGQHPCnIaH7p8fnabOy+eHeT5ovMi5BXJUj
-         ZT2fj+fCJJXSPahOZEWbxEb+zFocOZ2zNuJ4NHzKqH2QPXHAogHy8KkLumkkI64tNya6
-         hCUIOD8vBe6Bzj0U3tAYmXgfSCrAtirIqL2hP0ge+J1HqI+mhR9k1zOAtNUcOBfPAA6a
-         bLtg==
+        d=gmail.com; s=20230601; t=1760991453; x=1761596253; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uga9JOHOylm5AvbLQFDeQho/nQbtIcGlvKSVVqsfm7U=;
+        b=YQUzqk/CZe3lHRMkExNVSqK/8lJ9F+m2cvlHjncSJVgsiHre5LJ/kzQ2CtUs1qhv/5
+         wLblmxGhCKO/ZXKECtBd34UFHrQNMLCY6FNje6o+tEMJS/S373yQgpCdfbsOLm5dR+jv
+         RQvcqFPHPYX24iIXDOYO8jpB1zYE9VpR4N/aU24WnesYhd2nMZhnOCJElKuXWx/bogKz
+         Bo+5OM06+qZlpSy1Efd/ZNTOZ5TP0Y9nV+aZLkoEFl9TI3j5IKeTQ1Orhshz9qB4cRg4
+         5chXYJP5wZGl1K/2hJ82+HQ3eFXBmUfpA1Q56KP6fm448BVMGPhOMr7NbkWaDb8FpSzO
+         goww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760991445; x=1761596245;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PXI3yOz2/6xxfRvTcNICPRU7XaRQOsBCnm/A8qDs1ro=;
-        b=CuEI1q2enVajpbOWhJNj/T2K+1g3sSkehFarpSn+mBi0xCI6ZYFDVsltRSQ0Y6N25G
-         Ix1FsfeJSzJn7fuWD+zGAzXK4Jfm397v6VWzsz6JUu7WD7dpnp2mQS9q32w5AvBpTJhZ
-         ygSSsC90zAEsnIjQbum1mhxQzyVmSvEZIpCa2APOX6MOIgolgOhtTkCGnqpBMZAFKPEy
-         9es6p47ZSfVu8iWfBSmgfartXN2ZanbP9pGRvRgqM9Vt49OOgZMUVNqpnMqBUoFZ6190
-         Xf205bwA/tLK4BbwIyWHW9UwCyoXtUCJB5s7GRUmtandCbbrOxWEBrEFGI4Aac2KJTAf
-         MJrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUM5um0rQj4WMI3TnQOIEv/6pL5Z+Yi45v04oUCTlN1ojFGY3cwFZ30lxCAdOAf2jQijU4MIfJV4yg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJR5Qf09rJ+MK50CehKg0ZVViR7lS74sPFKNB3NfdwmKGuidQW
-	yV3c8SxthbTJNj8mM7IEFkc8qkh63YV8dbd/FAUJJN4JhNy83/05yzD2
-X-Gm-Gg: ASbGncs2jzDVB7/gZ34vWTGGdBL+/ltveRm2Ks3E4Ifxr/BKNwW8Jj+m5eb7Cmbvauf
-	ctrZ+VebQRyJtjVMnkJpMBMCexHh102Y3I/K7mRIVFBkAEvPkYhstIK+524eVNV7MgN5lRmfhCp
-	uORFwUntARf5XlSH6KjKDbWJVajIQnhq1b5SFOFNHfisIPXnSmIXQ+5yJHbMJacMzFUJIvGye0T
-	sSnIEg2+ahr9HfcW52daWfPeVMsP6YzKqJXbhaB+m91LLEXy7WEcFPKNktwkG6HkkiRPiJZirGn
-	pnEsO3hYAoANiHF5UZhmCfChel3Mp8wK800RrU5jAb39cf7meQnQ51NWirBv5z22NtGJHDU/rsj
-	6sU/XtKhZLi5/MSc3plmIKXrRVs1tW7SBbgSMz3FC2r40GB7UmMnjEv0W67doUXTAE2SJBuG3iX
-	HdVIF7x+WeBpo=
-X-Google-Smtp-Source: AGHT+IH2Vu7r+p87tUPq6VF6+nbRh0pDhjMUf60C3OqTCJquCWzcP76GusrxnipnDCr3SE1kNgrVqQ==
-X-Received: by 2002:a05:6a00:2e1f:b0:78a:eff2:6c0 with SMTP id d2e1a72fcca58-7a220b1dd00mr16143036b3a.25.1760991444707;
-        Mon, 20 Oct 2025 13:17:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760991453; x=1761596253;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Uga9JOHOylm5AvbLQFDeQho/nQbtIcGlvKSVVqsfm7U=;
+        b=fv9YjAuKxullKt0JwW338EEyZiAPt8tV7GLNeiaFPRhEW9SNw6wwwRbgJrvh8INeyI
+         cyM2/cbJg79hOYT8bKeRjYMfLBbZ2UnF+FAvLf57b7mIOzIbCNlZ+iV5kuEyo5CAbUEy
+         WQp0asWMLWKAOqUO7t1l9jO7lFkHqIPtoafdI1amMH1jbAdsGAWmnIN8zW2DiR9E0t+r
+         AyOnonKn3pMdYC7aE/IufcHUFfvPRxfxoSTqEzM6k/slqVf4/MvCQgs9Okyb46huMlhu
+         Li+1VCLda0aGc1Xh/rOOgn73jj3ocRQgkpeWul1DiaQ90mQEaZu/jyQgl+JpJIY/Gu/Q
+         J7Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7t2oIYMTIbyPnoBtgleQUkEC5gCK6iU6uGS2EyHBgTba0T7qZMciZ1me6gGK2aD+DNaCEaeDo+tA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuaoW/7RO4vpmdabUkHJX2yNNhc/aEhT5nTJ1gQOJvIfTJl8Iw
+	h4NlzlA0URfMtQobHMVoH5j/nZEUf0NQTz8k3DGJAZuo2ZiQ5Y0s2BjS
+X-Gm-Gg: ASbGnctAFP4XrNY/Rn1VK+vPbE9193JOvoOZntXe5Jlcrpw6L+1vFcr6E73ZGBDF1gP
+	T3GVj6kQhVi510GEurm5+9zYr0qnCPNlkbWCgUmfa04mLTtl5KEBNCh7k1acIdvoqzYvC49ZKaY
+	7GHNohT68Lx33QZRuX0WLx+GRNobdLqKOcyQMEoMWMUzeT6ESG8oSeQXg/lkWouZjsRYhfIh0WN
+	c2mN2hdk/rPegC9fdSlkDQf4ivqCwMIX1Qe84UoADkiHbxaXIhylPa3MVS31MHZwmfmEigz1zOj
+	BLRCZWYMhRKetrNRzK0V8x587VoWd6T4vCnAsRMyy3Ivbi9JWP6oDwvORB/XyQHbNkULNXDEAle
+	JwtE3mTiN0vdL2DM0PsmJgyvl+9NYmj7qlGvrJKzKsf2e62WIiXc6ekhvx5Aj8XjLZ0gXkjMBQ0
+	PLKmVxIwynquY=
+X-Google-Smtp-Source: AGHT+IFcbeiHhVChHhGgVr+DQLb033/vhWJVXc5f9BaiGvg1ErIjX25PrUAwPKcLPmdEptL7IJdg2g==
+X-Received: by 2002:a05:6a00:194b:b0:77e:d2f7:f307 with SMTP id d2e1a72fcca58-7a21fa1434cmr17940908b3a.9.1760991453355;
+        Mon, 20 Oct 2025 13:17:33 -0700 (PDT)
 Received: from pop-os.. ([106.222.200.146])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010df83sm9104263b3a.59.2025.10.20.13.17.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010df83sm9104263b3a.59.2025.10.20.13.17.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 13:17:24 -0700 (PDT)
+        Mon, 20 Oct 2025 13:17:32 -0700 (PDT)
 From: Aditya Dutt <duttaditya18@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	David Lechner <dlechner@baylibre.com>,
@@ -72,10 +74,12 @@ Cc: Aditya Dutt <duttaditya18@gmail.com>,
 	linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 0/2] New driver for ams AS5600 Position Sensor
-Date: Tue, 21 Oct 2025 01:46:51 +0530
-Message-Id: <20251020201653.86181-1-duttaditya18@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: iio: position: Add ams AS5600 Position Sensor
+Date: Tue, 21 Oct 2025 01:46:52 +0530
+Message-Id: <20251020201653.86181-2-duttaditya18@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251020201653.86181-1-duttaditya18@gmail.com>
+References: <20251020201653.86181-1-duttaditya18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,68 +88,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series adds support for the ams AS5600 Position Sensor.
-
 The AS5600 is a Hall-based rotary magnetic position sensor using
 planar sensors that convert the magnetic field component perpendicular
 to the surface of the chip into a voltage, or a numerical value
 available through i2c.
 
-The driver registers the chip as an IIO_ANGL device.
-It also exposes the raw registers through debugfs for further configuration.
+Add dt-bindings for the sensor.
 
 Datasheet: https://ams-osram.com/products/sensor-solutions/position-sensors/ams-as5600-position-sensor
-Co-developed-by: Frank Zago <frank@zago.net> 
-Signed-off-by: Frank Zago <frank@zago.net>
 Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
 ---
-
-This patch is based on the work done by Frank Zago:
-v2: https://lore.kernel.org/all/20211225175353.4254-1-frank@zago.net/
-v1: https://lore.kernel.org/all/20211216202651.120172-1-frank@zago.net/
-
-I have done the changes suggested by Jonathan Cameron in the follow-ups.
-
-I picked this up because there has been no progress on this since 2021 and
-Frank Zago has previously stated he isn't trying to upstream his drivers:
-https://lore.kernel.org/all/e052d872-6de2-42f4-8b36-d1e2f8359624@zago.net/
-
-Currently, I have not added support for:
-- OUT (PWM)
-- PGO (GPIO used for OTP)
-- DIR (GPIO used for clockwise/anti-clockwise detection)
-
-I have tested this on a Beaglebone Black with as5600 support compiled as a
-kernel module (m) as well as in-kernel (y).
-
-changes since Frank Zago's v2:
-- direct register access in debugfs is now raw register access without any
-  mappings as suggested by Jonathan Cameron
-- added device tree support and bindings
-- in as5600_probe(), reading ZPOS and MPOS should be a word not a byte
-- removed "Read then write" behavior in as5600_reg_access_write() since
-  register access is now raw, reading and manipulating the correct bits and
-  writing is now the duty of userspace.
-- changed "Datasheet" links to the product page instead of the direct PDF
-  since the PDF links are not stable
-
-
-Aditya Dutt (2):
-  dt-bindings: iio: position: Add ams AS5600 Position Sensor
-  iio: position: Add support for ams AS5600 angle sensor
-
- .../bindings/iio/position/ams,as5600.yaml     |  42 ++
- Documentation/iio/as5600.rst                  |  84 ++++
- Documentation/iio/index.rst                   |   1 +
- MAINTAINERS                                   |   8 +
- drivers/iio/position/Kconfig                  |  10 +
- drivers/iio/position/Makefile                 |   1 +
- drivers/iio/position/as5600.c                 | 373 ++++++++++++++++++
- 7 files changed, 519 insertions(+)
+ .../bindings/iio/position/ams,as5600.yaml     | 42 +++++++++++++++++++
+ 1 file changed, 42 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
- create mode 100644 Documentation/iio/as5600.rst
- create mode 100644 drivers/iio/position/as5600.c
 
+diff --git a/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
+new file mode 100644
+index 000000000000..d4c92dd41dd6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/position/ams,as5600.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ams AS5600 Position Sensor
++
++maintainers:
++  - Aditya Dutt <duttaditya18@gmail.com>
++
++description: |
++  12-Bit Programmable Contactless Potentiometer
++
++properties:
++  compatible:
++    enum:
++      - ams,as5600
++  reg:
++    maxItems: 1
++    description: |
++      The I2C register address of the device. Typical address for AS5600: 0x36.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ams5600@36 {
++        compatible = "ams,as5600";
++        reg = <0x36>;
++      };
++    };
++
++...
 -- 
 2.34.1
 
