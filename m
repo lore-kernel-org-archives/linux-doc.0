@@ -1,64 +1,61 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE332C026A
-	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 04:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6262B2D5923
+	for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 04:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760934346; cv=none; b=RSz00Mgf9R5hn5R+ECyepXNOxwQQ96KjHMiHcS008mM67RPV1PhuYCJdSj61WQBl8fCiADmdyqIg7jjcvBwUbbxkfdVgPj81NsGolQb1aKHZUVK/FrNBZDSsRN2+I3Rew2YQR8b8Ly0pNKjCwTEJIkt96sMdZPtan16E7AO64EQ=
+	t=1760934558; cv=none; b=B75kZ4FClAqVteqGJG8DlEtNnqk2Nt6NKSETtzTzFjoQHfFe/9jDL8x2Rh6sH6fMdk57mMLBv9C/MuVA45F3CgAml3IVxT40Rupel1usjz9SmXBGKqBMrM+nqA2ubYMXipUgMWCDe+og1Fs3F4upH73bfR7W+8Tf2QbnfdkKZ4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760934346; c=relaxed/simple;
-	bh=B02ziWQmo5WsV+VWudXschLhIhlEAVaMv4vSaAYkoAo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gmCXRi+UlwnBN3u/J53THd9Nys/GzS4oz2l8G9/cXllhQYZ3W2VN4AEea2f5wqOwvPo2ca7wLdbn6qgEhq1G/EYT2Llc7m/Ibxksez301ZHRa1NtqA2oAEvAUf0/vIsZM54h9vZ6U2GWlXVq5hIEfn7NOn8+eN7PoDn4jmSXgEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=XGPSyqSR; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1760934558; c=relaxed/simple;
+	bh=c191XMGekjwyT0k1fIaZ95ZvPfNZBLAH+N5NWD52kwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C9pILDbMHbvHhD3V1BaPz4iMyfI99sYcPCc7ZUFErq6ecX9wQIET2tG1cvWBXkjRcBuuSgQp22Ce405Mz9HlMBZY6kJ1KcT0cRPRW5GjRcfOYneNyoDRQQwKQ2bHnPx3xixGlCTT8zPHpdXurnB/2bng7MWr5b+u1Q6fD48AVqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=NSs58go0; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="XGPSyqSR"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b6a7d3040efso956261a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 19 Oct 2025 21:25:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="NSs58go0"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b5a631b9c82so2532613a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 19 Oct 2025 21:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1760934345; x=1761539145; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nvb+N79+1rz+7OJYvNB/1WfSxRwqST+oSw7w/swSoZg=;
-        b=XGPSyqSRnRhq5JmulstB1NXdKZIsaEyEk5/nwN1cBuSSDVPpH1LoGGVlnP8clTE/aE
-         my4xciFeoPjbtJRO/3H1D6AXEgKk3pna5kfEOLDSaRVTprBYPj94nkdjxgWTPDkWI5/J
-         fiCqGnJXalcvfT7223jn6dqZTs5nGGBHEp7di2alh48AR53v+J9ViKkdy9RNoSRSG+Mf
-         Mz+g/E0pOUZpxEa6UJEAuHAGLEfSKHNy2zE1qthztfi+RF2fLhZi0cA9tfVL6k42+ymy
-         tHQYcAHS8xUBZqlE63JTOV3ygUPL14ISJbRktfNbt8Ewpp7PGEHZ5XFDCR3jwd1f6lEg
-         8BXQ==
+        d=bytedance.com; s=google; t=1760934557; x=1761539357; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K/wZtJxRjsPgsFT1TZQP06vJqUDEl57iCFv88CuZkP4=;
+        b=NSs58go0HdBRQ83pu6c38OEJRSDMhRpsd+KZ2YVjUlboshhfT/vxGd/2WLOMHiKz0v
+         0AogOMMMB4f0CDGLoVD4P9emzk6WlUT9U1UtCMKz8FAEVcPifE4x5uPWzdE4WqaPYa5G
+         CleVhyKg/Cna92SjsvQezDjAyGaLRsjr5nxdzmc1nT6nYom6JJZvNRtnBu+nfRtcVGHX
+         Y52Rmcaqt0eEE9bfrivHoDfP2C4US5v0vUq3THvEBYWZiOaVBGLVdP+vLIXjtHa2lj1K
+         6U75MmoNuW5JzafRxxBVACIFaAlWuUMIZSJkdilwdiUFGWQpD3XPYc9EFjQwUy6M8EAE
+         kyiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760934345; x=1761539145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nvb+N79+1rz+7OJYvNB/1WfSxRwqST+oSw7w/swSoZg=;
-        b=IptdWwbVX5JhnL69v3Fh45yAvZBWK4AOikzTtlgVCcYMlrFOSaI08WKQb+3jvpAium
-         iItJ9d62O1guWnpBy2VF4rcMyXn2JnlUDUV9BbHTNHwCco7+rmdAxDLRzEoO3yW/IwQu
-         yGHqdt5pCDcOnQpafGqQffq/AfFOAFHayn2iu8cJ0C4p+PTrZ4equqOq+dO5buBQlAvQ
-         6+FDYVASbx8Y7CdwVOE9JvDbZIskbKRdBUgw+0yJn3lJvO94+FysPNzYt/Q0kc/HAC6B
-         EY1cfHfbuK2hLHCuItDTo3wMSinXscB4ars+m7PwavcMoBIFXQSD7IXOGSl275LQCs1X
-         eZdQ==
-X-Gm-Message-State: AOJu0YxBjiKDeeN4jnGfHxdW83ohd/e4jXnrKVSM1U/VNJv5or+No8aF
-	fzw0MeG6AHsBjDaTvPsg9NjRW4tSeqkBZIA7KoI80Qsa9mfnswJz8c7hB4Xki7iDIpA=
-X-Gm-Gg: ASbGncvTR4nqv8ByY2J+3ZVwj97Ky2qSwB6dPHLRKErBiRgRLQpqYr/2nenlrMklvSs
-	XdklLiWqJeGTFkiwGtJgvfErCIuKV7c2NGOUBusKK0ysEeaXY7FhFRG2vJSCVpb8xiJemKyfWzE
-	n0LaHbUaJ3WI1B+vHBNS24nMck5N1vXoODwxHpQ/K7OgmgR+5QcYSwr/nLld6qhsnQf2IkTyXQO
-	rHEiMNvjBHbqoyh0GwFtiWqi1WnzmuKiQdzIjFEr6XkC0o1npueIp8Mkq0rLxdhUaEe4kQ8VbMJ
-	j6SG61wSHWejwknFygC/dBecQQdOLrxl5owTznmXY5G/iMbiZN9vley6AZkAHOSsL8cnOCTPB6R
-	tb06Ogb10IG9dE1crFu0+Ke4JP8NnaSSN3AfSiO5bpo35WC7N70aS2V6cPv9keFq/YlVwJmNSEH
-	4LPFVjaAx9EJIWH7XT/xlF3azlhmmM07Pju70p+xCj8Y+klxOFPDglKsmBWA+6JOo/Oyjq3mfoV
-	Q==
-X-Google-Smtp-Source: AGHT+IH0j6CDe697/Hu2JYLa69TXmwS2tLcGClfdWod/OVynSzlnBv0UTOF6Th9AWlAgJGMUHpIxww==
-X-Received: by 2002:a17:903:3c24:b0:269:8f2d:5221 with SMTP id d9443c01a7336-290c9c89cd4mr136224525ad.9.1760934344799;
-        Sun, 19 Oct 2025 21:25:44 -0700 (PDT)
-Received: from J9GPGXL7NT.bytedance.net ([61.213.176.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246ec20a4sm68319325ad.7.2025.10.19.21.25.36
+        d=1e100.net; s=20230601; t=1760934557; x=1761539357;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K/wZtJxRjsPgsFT1TZQP06vJqUDEl57iCFv88CuZkP4=;
+        b=HfkYHNomIAktZhoFHmrDS0jfwVo1yfjgPPiLxSZ5Db+HDMByDYrpjTcQfAPZNTn//0
+         xgw+GrIhzR5SJQ0c8dnjEqxWO3HBWTU28T/2wd5uK0xB20Os7e7DmY8jrsOjIZfNbiiG
+         U8JFLErvcL9dGlG5lRV9bsv4FRTW5PGUCpKpNVRi+QUd3T4rN1gA6GHUWblaDNJdm5an
+         oLGJL+BLbPzz+HrytScnNZgcfz3oNeLW7odjQaoUTpNmPajbPhq+4vb72I9WjsGRH//K
+         WFQmAQz7d/G0rQVR1owRpFnXeYuObXSLlRrx+QPOd2Q9/uOVWWiktoYMHQ9rowI94C9k
+         j5tg==
+X-Gm-Message-State: AOJu0YydFoI2qEA42/OVYzQE8AaugRS1OdeyS6ki8O2J2mc8iYjO66ci
+	C3mBeLGJt7w3s0ZRMLV6mK+pkCLBGI6Fj+6xRv5vNhi+UhtqVqvH0HI42ZsuU/zt7BU=
+X-Gm-Gg: ASbGnctDTLiXEwCJaqsdQs/Bk3zcuYpaE3jvqegpLXLq+CENCcggt9d4iqex3qKWn/c
+	PflKUI7jLNvlJOnImeUza23fRszD52XyEeoozOSdbB/PNnjnnXEN0UkYFvGLHSZu8PUhkrrtrQa
+	Tl4akMrTi3CxzjKPjECPMDE3OxM8WFYVzzgAO5sXeFDKRWvM/bZJLeyj2bE7sfYatWEtq48Gl6Y
+	UICSV4Mj7o3C87xzTqYR9w1auaRQcqQ1kz9TuAkG+G4uW0hX/Sr7dBKHHUQqUp5wFbSbgaNsNHG
+	w+9MRb27gNcCpjkJfqokt2CqrO48cmqbAXaPOWLrXtfiMFnjx/y1g44paGFd0RZ18p+czzZA1NS
+	O8nNpM4gojJ05x8/Noq5Yd6/kyiVZ8Qt0YIcFJl3pRXMuRr1G07qWpkXCvdDYwoDiOBDRX6yJHL
+	p4TZl13VX4gdJiQh6HdlA1Oihab9ktTN6Fbe6+TiXCM+d5ibhZjm32ClLGkS4hitQ=
+X-Google-Smtp-Source: AGHT+IFpyzb2lc+FEvYmYTlRzjGRaKAbU2/1KopbwUla+EaFbZIWmZ4VSEnrtlloLabkn4dzpBObsg==
+X-Received: by 2002:a17:902:e5cf:b0:290:9576:d6ef with SMTP id d9443c01a7336-290cba423b1mr160239305ad.54.1760934556712;
+        Sun, 19 Oct 2025 21:29:16 -0700 (PDT)
+Received: from J9GPGXL7NT.bytedance.net ([61.213.176.57])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a76b35dadsm6932872a12.26.2025.10.19.21.29.08
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 19 Oct 2025 21:25:44 -0700 (PDT)
+        Sun, 19 Oct 2025 21:29:16 -0700 (PDT)
 From: Xu Lu <luxu.kernel@bytedance.com>
 To: corbet@lwn.net,
 	paul.walmsley@sifive.com,
@@ -91,12 +88,10 @@ Cc: linux-doc@vger.kernel.org,
 	joe@perches.com,
 	lukas.bulwahn@gmail.com,
 	Xu Lu <luxu.kernel@bytedance.com>
-Subject: [PATCH v4 09/10] RISC-V: KVM: Allow Zalasr extensions for Guest/VM
-Date: Mon, 20 Oct 2025 12:24:56 +0800
-Message-ID: <20251020042457.30915-5-luxu.kernel@bytedance.com>
+Subject: [PATCH v4 10/10] RISC-V: KVM: selftests: Add Zalasr extensions to get-reg-list test
+Date: Mon, 20 Oct 2025 12:29:04 +0800
+Message-ID: <20251020042904.32096-1-luxu.kernel@bytedance.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251020042457.30915-1-luxu.kernel@bytedance.com>
-References: <20251020042457.30915-1-luxu.kernel@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -105,47 +100,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Extend the KVM ISA extension ONE_REG interface to allow KVM user space
-to detect and enable Zalasr extensions for Guest/VM.
+The KVM RISC-V allows Zalasr extensions for Guest/VM so add these
+extensions to get-reg-list test.
 
 Signed-off-by: Xu Lu <luxu.kernel@bytedance.com>
 ---
- arch/riscv/include/uapi/asm/kvm.h | 1 +
- arch/riscv/kvm/vcpu_onereg.c      | 2 ++
- 2 files changed, 3 insertions(+)
+ tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/asm/kvm.h
-index ef27d4289da11..4fbc32ef888fa 100644
---- a/arch/riscv/include/uapi/asm/kvm.h
-+++ b/arch/riscv/include/uapi/asm/kvm.h
-@@ -185,6 +185,7 @@ enum KVM_RISCV_ISA_EXT_ID {
- 	KVM_RISCV_ISA_EXT_ZICCRSE,
- 	KVM_RISCV_ISA_EXT_ZAAMO,
- 	KVM_RISCV_ISA_EXT_ZALRSC,
-+	KVM_RISCV_ISA_EXT_ZALASR,
- 	KVM_RISCV_ISA_EXT_MAX,
- };
- 
-diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
-index cce6a38ea54f2..6ae5f9859f25b 100644
---- a/arch/riscv/kvm/vcpu_onereg.c
-+++ b/arch/riscv/kvm/vcpu_onereg.c
-@@ -50,6 +50,7 @@ static const unsigned long kvm_isa_ext_arr[] = {
- 	KVM_ISA_EXT_ARR(ZAAMO),
- 	KVM_ISA_EXT_ARR(ZABHA),
- 	KVM_ISA_EXT_ARR(ZACAS),
-+	KVM_ISA_EXT_ARR(ZALASR),
- 	KVM_ISA_EXT_ARR(ZALRSC),
- 	KVM_ISA_EXT_ARR(ZAWRS),
- 	KVM_ISA_EXT_ARR(ZBA),
-@@ -184,6 +185,7 @@ static bool kvm_riscv_vcpu_isa_disable_allowed(unsigned long ext)
- 	case KVM_RISCV_ISA_EXT_ZAAMO:
- 	case KVM_RISCV_ISA_EXT_ZABHA:
- 	case KVM_RISCV_ISA_EXT_ZACAS:
-+	case KVM_RISCV_ISA_EXT_ZALASR:
- 	case KVM_RISCV_ISA_EXT_ZALRSC:
- 	case KVM_RISCV_ISA_EXT_ZAWRS:
- 	case KVM_RISCV_ISA_EXT_ZBA:
+diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
+index a0b7dabb50406..3020e37f621ba 100644
+--- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
++++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
+@@ -65,6 +65,7 @@ bool filter_reg(__u64 reg)
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZAAMO:
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZABHA:
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZACAS:
++	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZALASR:
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZALRSC:
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZAWRS:
+ 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZBA:
+@@ -517,6 +518,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
+ 		KVM_ISA_EXT_ARR(ZAAMO),
+ 		KVM_ISA_EXT_ARR(ZABHA),
+ 		KVM_ISA_EXT_ARR(ZACAS),
++		KVM_ISA_EXT_ARR(ZALASR),
+ 		KVM_ISA_EXT_ARR(ZALRSC),
+ 		KVM_ISA_EXT_ARR(ZAWRS),
+ 		KVM_ISA_EXT_ARR(ZBA),
+@@ -1112,6 +1114,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(svvptc, SVVPTC);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zaamo, ZAAMO);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zabha, ZABHA);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zacas, ZACAS);
++KVM_ISA_EXT_SIMPLE_CONFIG(zalasr, ZALASR);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zalrsc, ZALRSC);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zawrs, ZAWRS);
+ KVM_ISA_EXT_SIMPLE_CONFIG(zba, ZBA);
+@@ -1187,6 +1190,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
+ 	&config_zabha,
+ 	&config_zacas,
+ 	&config_zalrsc,
++	&config_zalasr,
+ 	&config_zawrs,
+ 	&config_zba,
+ 	&config_zbb,
 -- 
 2.20.1
 
