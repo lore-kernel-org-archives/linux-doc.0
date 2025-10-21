@@ -1,147 +1,101 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C7F332EBC;
-	Tue, 21 Oct 2025 11:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AFB269D17;
+	Tue, 21 Oct 2025 11:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761046271; cv=none; b=H3705FM/TSoL8BmnQUpKtYjaZJlLA+yr0oPcAE+OMH4EEttrOy7D1GE2Uim6jljrR3kcwTWqWSWrnYyDrXaUXeBP9OvUWU29tGyQvEnepvijIy51udjkNr8eA3wHaKzj4GJewArdYGxZNYrvvO10HMLCGZoae8oOG1H07djgOiA=
+	t=1761046557; cv=none; b=KQe+gSZ8VwojfsA5pqLBPB/bqpu/DtE6EFe7QLioD5NLkd4QoHQuOgPazjAumDV6G1+ra0bi8X7iRvlf10hewn/Hqfvio4KM9jMj/WAS4L3tuZDjTAZBmXmfUkZEN9KVY8E+OzfFYd0HSx5OYIf4Z5UePg90QVxPgFs75xM7EGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761046271; c=relaxed/simple;
-	bh=p24aKtUnOv8fOlBIkkg8gEu+LqJuafLvKyczTp6ZjwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EEu9D0boHJq/eKvczgtZyVTwIok4yyeU9x8totWW7cK8T9OPkcfwBePcsThfsT9lDhh7g4yEYQnqIJLh/QEhIwIB8aVr3rHArkDy0iog7bIILgSukj6PQeTOEd04CR8KJln8Prh2mCwyc8elb5Jj5oqD4bvfC8uaW8aTy8JQJic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iKj1EaCG; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1761046557; c=relaxed/simple;
+	bh=dGF3MJ1EmOtzDX5b+6Z26q2tCtCiz2znprvPe5dXjBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q7cRFESM1vOnIDcsbAmBjrQcDS8ZC2Wb42w5tKMLL6hXa2bU9X1oqLBbu3KpxYcR4AsbRGCblHBNmHsU0nKUvwnjvK5EZ4aU++IXjKA15cmH0Gg25Zz4z9KF/zW9VibdsrDcMGo/4eJNkQ6OHmR9SDRLzKBjFXKVZnHRZBmUeX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oB8Ry7nU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iKj1EaCG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1761046267;
-	bh=p24aKtUnOv8fOlBIkkg8gEu+LqJuafLvKyczTp6ZjwE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iKj1EaCGNTsPETrUe1acWT3vmK9qn/ywFOv/YCxZDwL+hs9ub3cAFcGJo2vdx5riY
-	 almv8+xbUHu+/4zbSVqz6d/uyyMEcog7ReB8MOHdwVxOHje5lPnAViqmea6QSkQILS
-	 KoH9ThSTjTF0KXo8po71Ehfap7297h05xXFxl0UxZhocpanWarLMtKM694SjxTJ5a6
-	 G3uvUqza7ACZLNO7WNgwJnyx13jwf0lzemdWWanDkBa5jphjjOm3DseWwPuV5wvi5h
-	 H+zHtLwBMzdMr3kBUts6BSpayKeR+SIaVEwXplBjHINiqkSbhQOtL2RfAvo7a89oWf
-	 dyEilM977S4XA==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA72117E1404;
-	Tue, 21 Oct 2025 13:31:06 +0200 (CEST)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oB8Ry7nU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5C6C4CEF1;
+	Tue, 21 Oct 2025 11:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761046556;
+	bh=dGF3MJ1EmOtzDX5b+6Z26q2tCtCiz2znprvPe5dXjBY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oB8Ry7nUCv1GxdY+7Sc3T4YKMCvzbe9L/Q3iQgvK+dPKTj5W5h6lO1jeHn5idyXVU
+	 v+11tM6BpgZe5iDpkVt4DIaVKz4tcjlNsaDMj3z0j/MMXi6wdCWTWKItYxPeZV6o2C
+	 IjMxFc1QEVrwBerLRmtMMcdh2ZpCb+o0sxM1oczNrciFNf6hP6dSqRaSp2EDlWlhVH
+	 rU67P4Gmb6uaufgkwJJjJ8ROb/mi7zYDK769JdherTqucDl5OSzMApYxfJZZxQkv9h
+	 M/bivuqeDVj3oSwyRyC6MHLVpLXLxBJVY2kXUbhn+S3AbhQ9kE37aCTEXUuDehqXHf
+	 8Vbc7TZCrwGTw==
+Date: Tue, 21 Oct 2025 12:35:52 +0100
+From: Simon Horman <horms@kernel.org>
+To: Wilfred Mallawa <wilfred.opensource@gmail.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v5 12/12] Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
-Date: Tue, 21 Oct 2025 13:30:49 +0200
-Message-ID: <20251021113049.17242-13-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251021113049.17242-1-loic.molinari@collabora.com>
-References: <20251021113049.17242-1-loic.molinari@collabora.com>
+	John Fastabend <john.fastabend@gmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>, Shuah Khan <shuah@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH net-next v7 1/2] net/tls: support setting the maximum
+ payload size
+Message-ID: <aPdwGJGUxhqiocBX@horms.kernel.org>
+References: <20251021092917.386645-2-wilfred.opensource@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021092917.386645-2-wilfred.opensource@gmail.com>
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
+On Tue, Oct 21, 2025 at 07:29:17PM +1000, Wilfred Mallawa wrote:
 
-v4:
-- fix wording after huge_pages handler removal
+...
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/drm-mm.rst | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+> diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+> index 36cc7afc2527..ecaa7631ec46 100644
+> --- a/Documentation/networking/tls.rst
+> +++ b/Documentation/networking/tls.rst
+> @@ -280,6 +280,28 @@ If the record decrypted turns out to had been padded or is not a data
+>  record it will be decrypted again into a kernel buffer without zero copy.
+>  Such events are counted in the ``TlsDecryptRetry`` statistic.
+>  
+> +TLS_TX_MAX_PAYLOAD_LEN
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Specifies the maximum size of the plaintext payload for transmitted TLS records.
+> +
+> +When this option is set, the kernel enforces the specified limit on all outgoing
+> +TLS records. No plaintext fragment will exceed this size. This option can be used
+> +to implement the TLS Record Size Limit extension [1].
+> +	- For TLS 1.2, the value corresponds directly to the record size limit.
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..3d6176adc7ca 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -283,6 +283,9 @@ made up of several fields, the more interesting ones being:
- 		void (*open)(struct vm_area_struct * area);
- 		void (*close)(struct vm_area_struct * area);
- 		vm_fault_t (*fault)(struct vm_fault *vmf);
-+		vm_fault_t (*map_pages)(struct vm_fault *vmf,
-+					pgoff_t start_pgoff,
-+					pgoff_t end_pgoff);
- 	};
- 
- 
-@@ -290,15 +293,27 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
- 
--The fault operation handler is responsible for mapping individual pages
--to userspace when a page fault occurs. Depending on the memory
--allocation scheme, drivers can allocate pages at fault time, or can
--decide to allocate memory for the GEM object at the time the object is
--created.
-+The fault and map_pages operations are responsible for mapping pages to
-+userspace when a page fault occurs. Depending on the memory allocation
-+scheme, drivers can allocate pages at fault time, or can decide to
-+allocate memory for the GEM object at the time the object is created.
- 
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+managed to allocate a huge page for a faulty address, the fault and
-+map_pages handlers will first attempt to insert that huge page into the
-+VMA before falling back to individual page insertion. mmap() user
-+address alignment for GEM objects is handled by providing a custom
-+get_unmapped_area file operation which forwards to the shmem backing
-+store. For most drivers, which don't create a huge mountpoint by default
-+or through a module parameter, transparent huge pages can be enabled by
-+either setting the "transparent_hugepage_shmem" kernel parameter or the
-+"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
--- 
-2.47.3
+Hi Wilfred,
 
+Unfortunately make htmldocs seems unhappy with the line above.
+
+.../tls.rst:291: ERROR: Unexpected indentation. [docutils]
+
+This was with Sphinx 8.1.3.
+
+> +	- For TLS 1.3, the value should be set to record_size_limit - 1, since
+> +	  the record size limit includes one additional byte for the ContentType
+> +	  field.
+> +
+> +The valid range for this option is 64 to 16384 bytes for TLS 1.2, and 63 to
+> +16384 bytes for TLS 1.3. The lower minimum for TLS 1.3 accounts for the
+> +extra byte used by the ContentType field.
+> +
+> +For TLS 1.3, getsockopt() will return the total plaintext fragment length,
+> +inclusive of the ContentType field.
+> +
+> +[1] https://datatracker.ietf.org/doc/html/rfc8449
+> +
+>  Statistics
+>  ==========
+
+...
