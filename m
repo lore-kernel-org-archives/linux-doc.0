@@ -1,101 +1,214 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D4A332EC1;
-	Tue, 21 Oct 2025 12:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C52B332ED9
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 12:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761050914; cv=none; b=aU7i55pZU6ixJpEbroHf3oUyaOVZBxt3MrexKj9aSZMR9J+3yDAX83LQ7xyr7XR0HjTW4ZlOpCcz5MGibSYRKDG8v7IDQ/uBocylA/ICmWl6SsEgNh/9WBGy8YwkPeSHm0fHeMRG9b+txPy8B3AyviHHKa3Dmr2eLU26GiA2Ia8=
+	t=1761051580; cv=none; b=iqbBUGEG9n2b5fG48P8F32wU8ZSNrrNI8TsIVa/ddaxKatYvv8gNohLG6AglKv+5Dgd8EIS8PkCENQ/Qj6b0EiXizIDA1wvCgt9Q7fwOVnLMk4MLqQM1HbtUsacufPYYVm9oekvDxd3xNOP+QrKyTUnGhOf2XZht4kwOjKVV9Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761050914; c=relaxed/simple;
-	bh=tNSHcMfdMjXil5gehoy0a3xhu+PGlrxF40sZxea4woQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TjipBpG+JG+D1w0y+0DfLqYyX0Sqg4ew45HsU5O8Y0zN2IovWUOesHQfMSo49WPVm7vWvdev1KJgwj9JEYCLfYtQZUptAYUCJxNM5Jh0SkxBaTBWcZTX6kVVmlp+QGYcMSMUc6CLfN4rbLKn+2UlSQvPUY9r+pyf6+afsD2ykX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=C0zJv5y0; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1761051580; c=relaxed/simple;
+	bh=F2i/t3Rr4/yrOauE4NxVRju8DiBbGS7hQ62g+htZfA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d6SbhDagPCZ+QSTTQqh2qi9P+8UPhlqNLndxSQjEy/HV7CjODQmcUptg84Tf2qHYHWlrNi5d3DEfZRyecAFDKcARRYW2cF4qAK9vQP9cZpOgaZ3f9xok7KfPnrFmXhuDvhjvodB1dCQyiuyqvjInfXpHVrAAo8BUkU0Wfc9d3bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gHTktpJ3; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="C0zJv5y0"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 38AB940E01AB;
-	Tue, 21 Oct 2025 12:48:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id LaiBo3C4YYWW; Tue, 21 Oct 2025 12:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1761050905; bh=zjdz4fznUlZqYgkgEE/leAK6J3jv36NG/bZPQvb50CY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C0zJv5y03oTMIdoZr80Yg5S6cq8NzX8Foz2yKf29Q0n0inJ8zNVR8CS3ckyrpz8Eb
-	 u/i9t2IKRTaIz8lhn5491Nvmpo8uv2o/vZavSdW6wHWO1rz6q7uJKRCaORkmPKbpNt
-	 iOJ1WNDZazAGEx7dfV5NZwvX+gPv3q8UOmNgkk7aQk+O9/B2b72hYOcMwQzjAUIojl
-	 IPFO0gwRLaHLtofdR3pvH2LLwNG59vlYNeo2FNT5vQrssHnU/+sYIK/qJKSJGMNpsB
-	 /L55VkWRugGvwhp+nbNPENo8P6NmmAkbRVhaFfwS/+HVFLJhlP18mlcs6el5ShJkkG
-	 PGWvNDDoqFe3a+yX7kF6GZPSRi2aJ70AvpuzFpO+kpgBkH9mkkaVna+5lIMS3juTdS
-	 x7vhB9BPrh37SnJARTdpC3ZBuS2+u/h9O0ldLT/8NC6cdJZGXwifeb1SMEW/ebqteS
-	 PJfJ/9A2qFiQsda5XKnzJW+CdW8y1pXUgel0NtISa0rH/uqdcj92jmzE3AXEM8tDpO
-	 XqYXpwHhlPJq1g7dhSEgizbN+mRzVfW5n19s0gyt/2dsG/XPd6axn9ZXbJfId2s+3G
-	 kYsKDTWOGOO1JrdnR2Q0be5tnzwoPTnZBo8inAe6ubeuiPa6Yv7zNWmkZah3o60p2m
-	 NhoROR4M9pS2AM7lnezALpDE=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id A242740E01A5;
-	Tue, 21 Oct 2025 12:47:57 +0000 (UTC)
-Date: Tue, 21 Oct 2025 14:47:51 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 02/15] x86/asm: Introduce inline memcpy and memset
-Message-ID: <20251021124751.GLaPeA9z8BCIe8AudC@fat_crate.local>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-3-sohil.mehta@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gHTktpJ3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761051576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=omAB84zm1ZJJGkhLo0LBcnP4dZPVDNNrUkrD6enlyeI=;
+	b=gHTktpJ3ezaTogH9TWNBJJj9pqn4zBw7IB9sjRkdCrsiELnqGkEdro1fILceuluoVvLz0h
+	CGMbQrPBrleoJ2j3+ZKuhDmKETpg8uVFq398SpnjucDh/jmbjYWCjeBXuj7sR/2zrkyx3b
+	mag+H9Mvz9JQ8eEcntlN0yUEQEQrAS4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-133-Qt2X24dVNZ6DjR2jiCC6Pg-1; Tue, 21 Oct 2025 08:59:35 -0400
+X-MC-Unique: Qt2X24dVNZ6DjR2jiCC6Pg-1
+X-Mimecast-MFC-AGG-ID: Qt2X24dVNZ6DjR2jiCC6Pg_1761051574
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47113dcc15dso38678745e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 05:59:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761051573; x=1761656373;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=omAB84zm1ZJJGkhLo0LBcnP4dZPVDNNrUkrD6enlyeI=;
+        b=Cgibok73LjvCbjeZ/xLBP1m+UR3BJrWlh0I1HWA8FfBg5RY51D4CpG0QzGWlAKyvlZ
+         JuxD/MB1lzzjJ0DI0covRAnCSDOqZA20Ec55EMFRoC9r8eynxAiU7dSISxG1Nqv33wBn
+         +JI70yd1pMOOnYc9hK67OSjfy7KhvabqPfdyINYGaQlSVVeMUefuM2We270ypp55Sc+l
+         XWksRRhvjbOYRsoaGvPH0yGYVXBB5zZ6D3206loF02tMLwcG37reV6aypvr9OhLUAxex
+         aw41woeudIBdiIPRKANhhfVgaLswjC3oIslHhu2ni8+Giim2BNu6BOGsorhIK45Cs0l1
+         b6/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWee25cG+7VBA2Jx6+91X69yy6J9cQlt9d5hrp6M71zPHCPaRyK01KxcThxPf3Iswy1dxMo/NsXj78=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF1yoJ5z9uLkFW4g0WxpYa1twd9847dgiXRNx8OF/fjrFZKM//
+	sLYof3i4IejZL0gd/f8pUEhFxGFBSEeC7H6mrSpUi39hvGlIn0bWp47SO0Jhbsoy2XQzQLRNvPe
+	XBzQFY3mHevwcKIZf+aQlfSfFlz+dB3qAI7CB9+MK25aG5pGg6dR++zrbkgOGag==
+X-Gm-Gg: ASbGncuBKOIo+oXNXJFvuIjzEhBlkPoBhr5r/xXj4W/AzQNNYXBsviMHmmNeL/YvfGX
+	du+kDOhQSVAhSRKObRQrk8Q7veh6JRieyzXAtQ5azfutx51wd8sNDPNePFiZp+k0wBRMN1p8PBm
+	Z6ut+r4hxi8ZlKlmy6+hkMe9vvVtDmDBy//tMVvRcXaQsAhtq4rEE/nEH5HU1k2ksMTPVCrM3h3
+	0IaWTE3z2+negD3VvjBfsZL+KOwY8BPwLuX7/JYq5EhCQI4tKtz2lGUuEG0f3ZEQSgMseUb5n4q
+	qsEt2z6xyp0620v69uM5Mk/O5rZ+fyWTn2xdLsNwibooxg2Bv1h7IJF2WnAfQ7wO/ZgFzCyMRJl
+	qDpowfIFIkDV8Wsr3J8mD+Q1zFpDfT2V3VsxTcM04BThB1XE8G29NIpkuk3ts
+X-Received: by 2002:a05:600c:3b03:b0:46e:53cb:9e7f with SMTP id 5b1f17b1804b1-471178a3ff6mr120309575e9.18.1761051572706;
+        Tue, 21 Oct 2025 05:59:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGN1EuUZZ8R3FSSnr8qb9y2RESEr9jR6C/rPmGSz5JIIAcste2ucC0iMZFWCPlNIaKu6Wi9QA==
+X-Received: by 2002:a05:600c:3b03:b0:46e:53cb:9e7f with SMTP id 5b1f17b1804b1-471178a3ff6mr120309195e9.18.1761051572222;
+        Tue, 21 Oct 2025 05:59:32 -0700 (PDT)
+Received: from localhost (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427ea5b3dabsm21210821f8f.16.2025.10.21.05.59.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 05:59:31 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Zi Yan <ziy@nvidia.com>
+Subject: [PATCH v1 00/23] mm: balloon infrastructure cleanups
+Date: Tue, 21 Oct 2025 14:59:05 +0200
+Message-ID: <20251021125929.377194-1-david@redhat.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251007065119.148605-3-sohil.mehta@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 06, 2025 at 11:51:06PM -0700, Sohil Mehta wrote:
-> From: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> 
-> Provide inline memcpy and memset functions that can be used instead of
-> the GCC builtins when necessary. The immediate use case is for the text
-> poking functions to avoid the standard memcpy()/memset() calls within an
-> RFLAGS.AC=1 context.
+This is based on mm/mm-unstable with two PPC CMM fixes I sent out
+separately earlier today [1] applied first.
 
-... because objtool does not allow function calls with AC=1 because... see
-objtool/Documentation/objtool.txt, warning type 9, yadda yadda...
+[1] https://lkml.kernel.org/r/20251021100606.148294-1-david@redhat.com
+
+---
+
+I started with wanting to remove the dependency of the balloon
+infrastructure on the page lock, but ended up performing various other
+cleanups, some of which I had on my todo list for years.
+
+This series heavily cleans up and simplifies our balloon infrastructure,
+including our balloon page migration functionality.
+
+With this series, we no longer make use of the page lock for PageOffline
+pages as part of the balloon infrastructure (preparing for memdescs
+where PageOffline pages won't have any such lock), and simplifies
+migration handling such that refcounting can more easily be adjusted
+later (long-term focus is for PageOffline pages to not have a refcount
+either).
+
+Plenty of related cleanups.
+
+Heavily compile-tested and heavily runtime-tested with virtio-balloon.
+PPC CMM and the VMware balloon are untested and I'd appreciate a helping
+hand from people that have suitable environments.
+
+Not CCing maintainers for the vmscan.c and migrate.c change as they
+are rather trivial and I don't want to patchbomb them.
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jerrin Shaji George <jerrin.shaji-george@broadcom.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: "Eugenio Pérez" <eperezma@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>
+
+David Hildenbrand (23):
+  vmw_balloon: adjust BALLOON_DEFLATE when deflating while migrating
+  vmw_balloon: remove vmballoon_compaction_init()
+  powerpc/pseries/cmm: remove cmm_balloon_compaction_init()
+  mm/balloon_compaction: centralize basic page migration handling
+  mm/balloon_compaction: centralize adjust_managed_page_count() handling
+  vmw_balloon: stop using the balloon_dev_info lock
+  mm/balloon_compaction: use a device-independent balloon (list) lock
+  mm/balloon_compaction: remove dependency on page lock
+  mm/balloon_compaction: make balloon_mops static
+  mm/balloon_compaction: drop fs.h include from balloon_compaction.h
+  drivers/virtio/virtio_balloon: stop using balloon_page_push/pop()
+  mm/balloon_compaction: remove balloon_page_push/pop()
+  mm/balloon_compaction: fold balloon_mapping_gfp_mask() into
+    balloon_page_alloc()
+  mm/balloon_compaction: move internal helpers to memory_compaction.c
+  mm/balloon_compaction: assert that the balloon_pages_lock is held
+  mm/balloon_compaction: mark remaining functions for having proper
+    kerneldoc
+  mm/balloon_compaction: remove "extern" from functions
+  mm/vmscan: drop inclusion of balloon_compaction.h
+  mm: rename balloon_compaction.(c|h) to balloon.(c|h)
+  mm/kconfig: make BALLOON_COMPACTION depend on MIGRATION
+  mm: rename CONFIG_BALLOON_COMPACTION to CONFIG_BALLOON_MIGRATION
+  mm: rename CONFIG_MEMORY_BALLOON -> CONFIG_BALLOON
+  MAINTAINERS: move memory balloon infrastructure to "MEMORY MANAGEMENT
+    - BALLOON"
+
+ .../admin-guide/mm/memory-hotplug.rst         |   8 +-
+ Documentation/core-api/mm-api.rst             |   2 +-
+ MAINTAINERS                                   |  12 +-
+ arch/powerpc/platforms/pseries/Kconfig        |   2 +-
+ arch/powerpc/platforms/pseries/cmm.c          |  53 +----
+ drivers/misc/Kconfig                          |   2 +-
+ drivers/misc/vmw_balloon.c                    | 105 +++-------
+ drivers/virtio/Kconfig                        |   2 +-
+ drivers/virtio/virtio_balloon.c               |  64 ++----
+ include/linux/balloon.h                       |  77 +++++++
+ include/linux/balloon_compaction.h            | 160 ---------------
+ include/linux/vm_event_item.h                 |   8 +-
+ mm/Kconfig                                    |  23 +--
+ mm/Makefile                                   |   2 +-
+ mm/{balloon_compaction.c => balloon.c}        | 194 +++++++++++++-----
+ mm/memory_hotplug.c                           |   4 +-
+ mm/migrate.c                                  |   2 +-
+ mm/vmscan.c                                   |   1 -
+ mm/vmstat.c                                   |   8 +-
+ 19 files changed, 314 insertions(+), 415 deletions(-)
+ create mode 100644 include/linux/balloon.h
+ delete mode 100644 include/linux/balloon_compaction.h
+ rename mm/{balloon_compaction.c => balloon.c} (59%)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.51.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
