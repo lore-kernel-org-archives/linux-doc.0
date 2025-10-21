@@ -1,136 +1,129 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D0B2E8B73
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 09:42:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772C2E8B9A
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 10:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761039760; cv=none; b=RGSef+NGtX0HTvbJS0g6yeLlxL2+xGFBzFbEDkzmN8m+xk4DrpBsuYY4QpfGgx6lDu3R4mEHRphCt4a6VcfKR+gemRmtG4s16RZakxvhDjYKpNy8HecXvw7iItSIINADbfHZS1jASJBe67lzlYuCCGdchO/jl1EqCMmrjptVowU=
+	t=1761040988; cv=none; b=ZCl+uJNfYNYO44XGVkFeXm+3cp8yiqo+WKdC5KhEhIKQ3Z4AkmIFkcNkQ+Jl+otXsQHvKA6OkKnAAfsH5SWb3ujxsB1ux1AVSjAPwuzceOEl1+e6UtmUfSBP2+ohq1I1XdgZ9T2sT8MAeGMuzHpnFQmSjHxr2Lt4UDoTOpy/2Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761039760; c=relaxed/simple;
-	bh=MSVMapS+wT8A48mbedXknuF6hMRfcMnPOR8fjkLNzBQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RA6JyCPPnxTGLGFi5WaQVo29eeMVb6nEIHW7QkYOM/ZqE60KGSTgmS9kTRk2zcXk+zKvIwFQcRe4tOo0FPpm9UDRkCvQOm3hKMyCV8Iu8jm1K9bMhEt4vPps8alGvzOrrCinLAsnNS7E6eYy6H7bJeLoCp8jxzLD3BvMtM7hj/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cYxy82pA; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1761040988; c=relaxed/simple;
+	bh=4X3PCzTUi+t6U3Xb46bofkEjcpM45wzgycTZWdrLVKI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sAZklRupHVIkkB9Syaz41wS64EGaKMNRqwo+fKf4nvczpe0OzKj4zUCyKgTPoHmaBBICCH/3VxjjftlpkkayYJbxmQ8l1rqPz8xHLyo+N96p5BnEyJZi4q3Ue1dJolFOpJcXrb2pMKmNel+nI2eWNDjpaYZRWLX8wKsBggzKBNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GLnzlatY; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cYxy82pA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GLnzlatY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761039757;
+	s=mimecast20190719; t=1761040985;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UHjS/qyeeKcJ3eN+7yFgpurORtwwe8MoT2GpgobO51M=;
-	b=cYxy82pA+fjtnSs8kfgHcNsl0wGBbBsMQRBG41ACA+7CSNb/OBrgqAsEvNwLN+uFxeSpKC
-	vYQaljoIpmyKo7wWCx5axfcPv0WBde3JufWEFIttmhBsoZCjqcgvTBdiXpvwMOo+2s6ojQ
-	47yTjQROpASezdVVcLzBmaTKGKh7+bw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=dh9VBIDeD1YW+winnmo1WNn0Q66KIhY7uXc+kNmNSe8=;
+	b=GLnzlatY42FrIqeYIhY/ghCzjUFt3cmQeuj6tegzQik8DHK3MGofPC86Y7YXPLd72hNuC2
+	URT7lGP6nM60X1A6x3pHMeFksiYR/puCPGraGloBKwucTjhRgC/9Qr89YuvXgzOUDHDNig
+	iXbFT0NZdijTgFgyM4bR2xTA6FcVnRI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-k1hPat_3OfqB5C-6RP9w6A-1; Tue, 21 Oct 2025 05:42:36 -0400
-X-MC-Unique: k1hPat_3OfqB5C-6RP9w6A-1
-X-Mimecast-MFC-AGG-ID: k1hPat_3OfqB5C-6RP9w6A_1761039755
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-88ef355f7a3so2366432585a.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 02:42:35 -0700 (PDT)
+ us-mta-333-JwpsC6Q8P0y4-MXN1DGigQ-1; Tue, 21 Oct 2025 06:03:03 -0400
+X-MC-Unique: JwpsC6Q8P0y4-MXN1DGigQ-1
+X-Mimecast-MFC-AGG-ID: JwpsC6Q8P0y4-MXN1DGigQ_1761040982
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-471148ad64aso22202605e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 03:03:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761039755; x=1761644555;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UHjS/qyeeKcJ3eN+7yFgpurORtwwe8MoT2GpgobO51M=;
-        b=EIMC0slxcKAmw7aKsJ/gXt0Fl616s/SFLR84Q6z5VG5CtF88uQ+nRZJOSBo2dmIi2Y
-         48LeORJ5N4eqK6g1SqVxBS7WAZOAvt5QYHqbC+fcZBujPuKj2iFZXog3FL5G4d4ZQgIV
-         c/jUg5XTgdvWrlO/Z5q5tCgyEY4qWA/endfU+CwEC3WbkgI6KDcPVCcyjQmLSbXROIzR
-         5F43EzFXo2xmit7UKWreXRLhvnqxO/ouzDMcjGvpAQBWKjIdcYuRaHhenAQShP3SrGM/
-         NPbZVcLMRoL3v0T2UcNzw5dsYrTG8Z410oHlGY2M5XAaZk7om8WcOOsRnhzlJvQijWwB
-         avIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFnyAfFg9h3DRrUKT1kgeCbZHBJOKrnzf3JvYvQB0gZ6bTMJeO+uAg2r7DKvI1xV9LdDseISzCtro=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1yC8ZI6KpWY0t5UDLm26AiRYjhYgO99ks+eGyKkOVaFmf1HAu
-	I4s5mK/MmreicQsUopb3mGF9dE66JY9D2Ejmq1eipz+Xzpc39Vqutg7kGuP3Ri3edG42pEv9ccv
-	WECt8O2QwSs/GyUwgKxEp1I6zgmbPxBIwAEY9Fm1wzJIuchF7bz6Yf2Ch8Vlz7vbPsQ9vc04LXw
-	EJq3sWW/qmdZlf3jY+hOR8XmjOZuNd+mR2agly
-X-Gm-Gg: ASbGnctAwWZJvH4hTrwnfA7+77XpHDw/3av9BKh+m8ZFI4gzurCH8PETQjBzKgG3x4X
-	45iplI+vT50c/nFBF5xvB+jHtKcpXbp8UpBx/uY1hqLwNqnCg4LZuIULFPyK93DC2CMcZmBjQHZ
-	Y+eu6IPGZ6qKPzHeEdEU/sY7w6O34k9n5+ZlIsqDzxA3zfEeSoFrcqCTpRr/bTX44AhKZfn5uG2
-	7gw++DakrGO1JFV
-X-Received: by 2002:ac8:5712:0:b0:4b0:6205:d22b with SMTP id d75a77b69052e-4e8b679b7a2mr115979231cf.52.1761039755351;
-        Tue, 21 Oct 2025 02:42:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGtJWXOjke0RTmK0/xZXoqnt4Ou0KacBj/M07aRFHuZEpUI1vDSqa7DdT8a6/Yrxfq2QlaYBVOMZ0kPdqztzzI=
-X-Received: by 2002:ac8:5712:0:b0:4b0:6205:d22b with SMTP id
- d75a77b69052e-4e8b679b7a2mr115979131cf.52.1761039755012; Tue, 21 Oct 2025
- 02:42:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761040982; x=1761645782;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dh9VBIDeD1YW+winnmo1WNn0Q66KIhY7uXc+kNmNSe8=;
+        b=w7YcPYQXTF0XB/QEMoGwu7ppJSHw5qItbAhGb0CoBYuK/AYW3gGcZUOHrMzNBnfo05
+         +HNsOmxzgS3El2v17WhP4wNzHFUFGf1ZSQQ4EL1sXAYBLUh6Ffnhfx20HqVfBcRSAaYY
+         hVsPJG5r4BGYejac2Gt6T0w+4z23xL2kLcGRXDdEAc0qFVUBcv339gRpSvG2+x79tM0x
+         9a5Ltvdv5oPRX8VE6UM32BOVBsvOpEQVgnEgSpyD21CF1zKmT4UyqTFGPlXnyqk1Lp68
+         poUC7+agyxvBQ9a/67fIqdqAVFDVhi/jP7/qYGPhaRlBcCDDNEPoLjcwP8FdhdgZmvLl
+         mtmA==
+X-Forwarded-Encrypted: i=1; AJvYcCULnVUR5N/YWt5ZYJCOjuXXozZxKkguBf/m1QIRY5LZMIgL3Qz/Q+F4DjnHD+0fG+QKs5OZCREOWkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlEl6DoN7gAzOIEv7fXH98apzJvDT1ywxXJ4LarUjFrTbTET0V
+	RWipshWeHIkDzwS+9biJx33k9t749+qF6r2ypEJ2fyt5jH1qxTk7nMMPSiT+gMeKZ7OuBHwBlv0
+	b9i2ob3ICbYVj0aZmwwjlcaKynjVn3QMVIw4nPOAl/OsIUTA/Cji9PRpDEtB45A==
+X-Gm-Gg: ASbGncuj65QwCawn8vzVcVwnfYO+Lo0YB7JFASVPy7xW5SPfo9SeCKwaOcP3FELmFhk
+	tUehwY0PlP2sLwWWqFcsAASo6fEjDmnpWxwQnFK660Wtv8qQFmIlV5OBUUbiY7V2jYsBOIXRI/q
+	T2FbgFQMeC+y0isHb3wgheiJRRLFAMQT8IMcI7yh/+x+Xd23/osEu7uIID4OERs4ye8iwGm0T2v
+	bUD+h9ex3VJlsbyC9K+yDsGdWnJ67l3+pw0i9vtXJGW2yjNphg6BRmPACjqUFpx0BeMWXjOI9V4
+	lGvUoAAsgeTN3+X1U+TavUJrCYEK4YTZkBrW8WmjWhSL38Es+Ys0hLOkks14kdEN8/E7zY3eEX9
+	VyKRWLRdym0HuzyRfuHDbs+ke/zvk0SgT/rlkiDLynvYVPkY=
+X-Received: by 2002:a05:600c:4e89:b0:45d:dc85:c009 with SMTP id 5b1f17b1804b1-471178a236cmr113650975e9.10.1761040982368;
+        Tue, 21 Oct 2025 03:03:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFz0MIaxzEx8MqXNj7QakxLNajYTx+Vzevf5zqj7jjSvfZ+GyZLrKl3dgVva61Mp2iFS2TUNA==
+X-Received: by 2002:a05:600c:4e89:b0:45d:dc85:c009 with SMTP id 5b1f17b1804b1-471178a236cmr113650685e9.10.1761040981961;
+        Tue, 21 Oct 2025 03:03:01 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471553f8a3asm218799785e9.16.2025.10.21.03.02.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 03:03:01 -0700 (PDT)
+Message-ID: <465d5a38-abee-40b4-9026-aefaf47a943c@redhat.com>
+Date: Tue, 21 Oct 2025 12:02:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910170000.6475-1-gpaoloni@redhat.com> <2025102111-facility-dismay-322e@gregkh>
-In-Reply-To: <2025102111-facility-dismay-322e@gregkh>
-From: Gabriele Paoloni <gpaoloni@redhat.com>
-Date: Tue, 21 Oct 2025 11:42:24 +0200
-X-Gm-Features: AS18NWBpQWaCgTUPFKBGe-mp83ffIdDKrAgAWm46CipP2yYr5wYthLbhuHqwos0
-Message-ID: <CA+wEVJZEho_9kvaGYstc=5f6iHGi69x=_0zT+jrC2EqSFUQMWQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/3] Add testable code specifications
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, safety-architecture@lists.elisa.tech, acarmina@redhat.com, 
-	kstewart@linuxfoundation.org, chuckwolber@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v02 3/6] hinic3: Add NIC configuration ops
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Markus.Elfring@web.de, pavan.chebbi@broadcom.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+ Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>,
+ Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>
+References: <cover.1760685059.git.zhuyikai1@h-partners.com>
+ <b5b92e0bdc2bd399c56ee356a7b6593f3ddf69c2.1760685059.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <b5b92e0bdc2bd399c56ee356a7b6593f3ddf69c2.1760685059.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Greg
+On 10/17/25 10:30 AM, Fan Gong wrote:
+> @@ -368,12 +407,16 @@ static void hinic3_nic_remove(struct auxiliary_device *adev)
+>  	netdev = nic_dev->netdev;
+>  	unregister_netdev(netdev);
+>  
+> +	cancel_delayed_work_sync(&nic_dev->periodic_work);
 
-On Tue, Oct 21, 2025 at 9:35=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Wed, Sep 10, 2025 at 06:59:57PM +0200, Gabriele Paoloni wrote:
-> > [1] was an initial proposal defining testable code specifications for
-> > some functions in /drivers/char/mem.c.
-> > However a Guideline to write such specifications was missing and test
-> > cases tracing to such specifications were missing.
-> > This patchset represents a next step and is organised as follows:
-> > - patch 1/3 contains the Guideline for writing code specifications
-> > - patch 2/3 contains examples of code specfications defined for some
-> >   functions of drivers/char/mem.c
-> > - patch 3/3 contains examples of selftests that map to some code
-> >   specifications of patch 2/3
-> >
-> > [1] https://lore.kernel.org/all/20250821170419.70668-1-gpaoloni@redhat.=
-com/
->
-> "RFC" implies there is a request.  I don't see that here, am I missing
-> that?  Or is this "good to go" and want us to seriously consider
-> accepting this?
+periodic_work unconditionally reschedule itself, I think you shoudl use
+disable_delayed_work_sync() here.
 
-I assumed that an RFC (as in request for comments) that comes with proposed
-changes to upstream files would be interpreted as a request for feedbacks
-associated with the proposed changes (what is wrong or what is missing);
-next time I will communicate the request explicitly.
+> +	destroy_workqueue(nic_dev->workq);
+> +
+>  	hinic3_update_nic_feature(nic_dev, 0);
+>  	hinic3_set_nic_feature_to_hw(nic_dev);
+>  	hinic3_sw_uninit(netdev);
+>  
+>  	hinic3_free_nic_io(nic_dev);
+>  
+> +	kfree(nic_dev->vlan_bitmap);
+>  	free_netdev(netdev);
+>  }
 
-WRT this specific patchset, the intent is to introduce formalism in specify=
-ing
-code behavior (so that the same formalism can also be used to write and
-review test cases), so my high level asks would be:
+[...]> @@ -406,6 +418,8 @@ static void hinic3_vport_down(struct
+net_device *netdev)
+>  	netif_carrier_off(netdev);
+>  	netif_tx_disable(netdev);
+>  
+> +	cancel_delayed_work_sync(&nic_dev->moderation_task);
 
-1) In the first part of patch 1/3 we explain why we are doing this and the =
-high
-level goals. Do you agree with these? Are these clear?
+Same here.
 
-2) In the rest of the patchset we introduce the formalism, we propose some
-specs (in patch 2) and associated selftests (in patch 3). Please let us kno=
-w
-if there is something wrong, missing or to be improved.
-
-Thanks and kind regards
-Gab
-
->
-> thanks,
->
-> greg k-h
->
+/P
 
