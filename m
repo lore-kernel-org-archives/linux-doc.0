@@ -1,113 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m15597.qiye.163.com (mail-m15597.qiye.163.com [101.71.155.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED35D15D1;
-	Tue, 21 Oct 2025 01:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD4717B43F;
+	Tue, 21 Oct 2025 02:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761010832; cv=none; b=t6lQ0++Gh44pmodjzgTf0TkS13ALt4GHiCPt9spZWm5MzVcjq1nXgkUMiSG2+34bcQAPZG/+//TCDENB4YYFgjZh+sGZjbt23Wfrx2WcJtDS1RQu61KpaSLmS+gN6q3yGauLk8gIHlBF38blxV6reLcQCDr1vnb5VMZhEmIr5A4=
+	t=1761014557; cv=none; b=SDibE9ws7lbD0gUZBFbRD5Rm1NB/aI/+UxY9wyc1s9uEy21oDzDxN+V+29zx8wOCOEi0vAqNNEJLhRweh1L+rMw0zVnaezSzKxj0Sa7yWYktwCXA+aSbpxDv4XzBstpjah98/dNXGTWULFhZLa3FbLXsEbHHzVIiC/lF/Lb19GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761010832; c=relaxed/simple;
-	bh=vqmbLX8f4urGDiGVZm9x6Y4bYkeTPTxluKAPymbVGCU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=X7u1cPEXrFWfXGeXkr7wJPgHV5AXESwiagKpklXw4nM+uxgiLZ3pbBJtiWY5J51eHd0x/jduvryMphXLuNtR2iCmHqf58s2y4+lgL2xtmP8TbtbilBETYc93qSurfTTTC8inr+QwrLDVcUTlq24eVf2O2XRzla7mbipE+P8Tabk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iFa+gFHV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761014557; c=relaxed/simple;
+	bh=JmWywGJL/0qjCIH8yFJqS1NeOIUTYN9SDlZvv/jVS+w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ExnkXDrEZPWky0m9VuEW5zzQX1qlDxXemAjhnGxd1RAks25yx1OLkgxBNJoLzdUPgTY+UzGy+FBc5i3ujeC57UShKp/IWGpJ4+lYntL9+T2ibDZ5NckoGOV4uRpIWHXOgqmYYl79CbFDrlIlvB48DPk8CWp4bLz/iY7ex5pUu/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=J2T/uNZR; arc=none smtp.client-ip=101.71.155.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iFa+gFHV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C2FC4CEFB;
-	Tue, 21 Oct 2025 01:40:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761010831;
-	bh=vqmbLX8f4urGDiGVZm9x6Y4bYkeTPTxluKAPymbVGCU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=iFa+gFHV0eB273Xl9sBzr9kqfdGe7VUQQ1gPD48SsTkl9NOqou7m+q5tVzBI9zNww
-	 QRtocp/CVACO5MNHXf+NCpwWqcifenf0MTaFfryNQc5JjkBFyjA1T5S0EVMUd5Pnez
-	 92MVtfKa7nJuOrik+P/AzapyCO+rquH+kIwldDg0tniFBxHG7Zc4TsyIiIZoz6a1DR
-	 A611RHtjZ4altHYA4eK+4Gc4Lz//FVNd3iQ6z9FHxC1m+mnFqGlQTMox4Myw1g0Zpk
-	 sTxqhIFBlrManLu3cgX15jCYItpjBJL20WkEjHtOEYiRyPpg6ohbmvGGR7fR/wvwSb
-	 frAUZk9Zdej5A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70EAB3A4102D;
-	Tue, 21 Oct 2025 01:40:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="J2T/uNZR"
+Received: from fedora.localdomain (unknown [1.193.59.83])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2696ffc25;
+	Tue, 21 Oct 2025 10:42:22 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: dzm91@hust.edu.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH] docs/zh_CN: Add keys ecryptfs Chinese translation
+Date: Tue, 21 Oct 2025 10:42:18 +0800
+Message-ID: <20251021024219.752487-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 00/14] Intel Wired LAN Driver Updates
- 2025-10-15 (ice, iavf, ixgbe, i40e, e1000e)
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176101081325.484471.16736237984983898429.git-patchwork-notify@kernel.org>
-Date: Tue, 21 Oct 2025 01:40:13 +0000
-References: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-In-Reply-To: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
- andrew+netdev@lunn.ch, aleksander.lobakin@intel.com, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mheib@redhat.com,
- aleksandr.loktionov@intel.com, rafal.romanowski@intel.com,
- dan.nowlin@intel.com, junfeng.guo@intel.com, ting.xu@intel.com,
- jie1x.wang@intel.com, qi.z.zhang@intel.com, jedrzej.jagielski@intel.com,
- rrameshbabu@nvidia.com, pmenzel@molgen.mpg.de, marcin.szycik@linux.intel.com,
- sx.rinitha@intel.com, hkelam@marvell.com, enjuk@amazon.com,
- vitaly.lifshits@intel.com, timo.teras@iki.fi, dima.ruinskiy@intel.com,
- Avrahamx.koren@intel.com, jbrandeburg@cloudflare.com
+X-HM-Tid: 0a9a04a5719f09d0kunmbb2918ed18705a7
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGh9IVk9MS0NPGhpMTk4YTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVDSFlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=J2T/uNZRvhp1kZSLiTZMLW1iT3apAk7FLEARgtt+YQQ8C0p9FoKvS2/+MLTw60+c65TuIYbhIvOl2J2kSp+wRUQdoLGauD2LO26COSsOpV3WatrwjtJ58X7PAE7muFuP9Xqbxipb9yfFQEYFcJhIABRTapK2/DzWeciap0Ck2Cc=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=ZcDlgUKlvxynyM0gVWb7zaf8gAUNWUkYBkqzwyNqMpU=;
+	h=date:mime-version:subject:message-id:from;
 
-Hello:
+Translate .../security/keys/ecryptfs.rst into Chinese.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Update the translation through commit ff348763775e
+("doc: Fix acronym "FEKEK" in ecryptfs").
 
-On Thu, 16 Oct 2025 23:08:29 -0700 you wrote:
-> Mohammad Heib introduces a new devlink parameter, max_mac_per_vf, for
-> controlling the maximum number of MAC address filters allowed by a VF. This
-> allows administrators to control the VF behavior in a more nuanced manner.
-> 
-> Aleksandr and Przemek add support for Receive Side Scaling of GTP to iAVF
-> for VFs running on E800 series ice hardware. This improves performance and
-> scalability for virtualized network functions in 5G and LTE deployments.
-> 
-> [...]
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+---
+ .../zh_CN/security/keys/ecryptfs.rst          | 69 +++++++++++++++++++
+ .../zh_CN/security/keys/index.rst             |  2 +-
+ 2 files changed, 70 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/keys/ecryptfs.rst
 
-Here is the summary with links:
-  - [net-next,v2,01/14] devlink: Add new "max_mac_per_vf" generic device param
-    (no matching commit)
-  - [net-next,v2,02/14] i40e: support generic devlink param "max_mac_per_vf"
-    (no matching commit)
-  - [net-next,v2,03/14] ice: add flow parsing for GTP and new protocol field support
-    (no matching commit)
-  - [net-next,v2,04/14] ice: add virtchnl and VF context support for GTP RSS
-    (no matching commit)
-  - [net-next,v2,05/14] ice: improve TCAM priority handling for RSS profiles
-    (no matching commit)
-  - [net-next,v2,06/14] ice: Extend PTYPE bitmap coverage for GTP encapsulated flows
-    (no matching commit)
-  - [net-next,v2,07/14] iavf: add RSS support for GTP protocol via ethtool
-    (no matching commit)
-  - [net-next,v2,08/14] net: docs: add missing features that can have stats
-    https://git.kernel.org/netdev/net-next/c/98c2f0b42eea
-  - [net-next,v2,09/14] ice: implement ethtool standard stats
-    https://git.kernel.org/netdev/net-next/c/20ae87514ad5
-  - [net-next,v2,10/14] ice: add tracking of good transmit timestamps
-    https://git.kernel.org/netdev/net-next/c/4368d5fe02f6
-  - [net-next,v2,11/14] ice: implement transmit hardware timestamp statistics
-    https://git.kernel.org/netdev/net-next/c/71462475d002
-  - [net-next,v2,12/14] ice: refactor to use helpers
-    https://git.kernel.org/netdev/net-next/c/a308ea972112
-  - [net-next,v2,13/14] ixgbe: preserve RSS indirection table across admin down/up
-    (no matching commit)
-  - [net-next,v2,14/14] e1000e: Introduce private flag to disable K1
-    https://git.kernel.org/netdev/net-next/c/3c7bf5af2196
-
-You are awesome, thank you!
+diff --git a/Documentation/translations/zh_CN/security/keys/ecryptfs.rst b/Documentation/translations/zh_CN/security/keys/ecryptfs.rst
+new file mode 100644
+index 000000000000..6c2792ad31ff
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/keys/ecryptfs.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/keys/ecryptfs.rst
++
++:翻译:
++
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++==========================
++eCryptfs文件系统的加密密钥
++==========================
++
++eCryptfs是一种堆叠式文件系统，它可以在文件级别上实现透明的加密与解密。每个文件都会
++使用一个随机生成的文件加密密钥（FEK，File Encryption Key）来进行加密。
++
++每个FEK又会通过一个文件加密密钥加密密钥（FEKEK, File Encryption Key Encryption Key）
++进行加密，这个过程可能发生在内核空间或用户空间的守护进程“ecryptfsd”中。在内核空间中
++FEK的加密和解密操作由内核的CryptoAPI直接执行，使用一个由用户输入的口令派生出的 FEKEK。
++在用户空间中，该操作由守护进程“ecryptfsd”完成，并借助外部库以支持更多机制，例如公钥
++加密、PKCS#11，以及基于TPM（可信平台模块）的操作。
++
++为了存储解密 FEK 所需的信息，eCryptfs 定义了一种称为认证令牌（authentication token）的
++数据结构。目前，这种令牌可以存储在内核的“user”类型密钥中，由用户空间的实用工具mount.ecryptfs
++（属于 ecryptfs-utils 软件包）插入到用户的会话密钥环中。
++
++为了与eCryptfs文件系统配合使用，“encrypted” 密钥类型被扩展，引入了新的格式 “ecryptfs”。
++该新格式的加密密钥在其载荷（payload）中保存了一个认证令牌，其中包含一个由内核随机生成的
++FEKEK，并且该FEKEK又受父主密钥（parent master key）保护。
++
++为了防止已知明文攻击（known-plaintext attack），通过命令‘keyctl print’或‘keyctl pipe’
++获得的数据块并不包含完整的认证令牌（其内容是众所周知的），而只包含经过加密的 FEKEK。
++
++eCryptfs文件系统能够切实受益于加密密钥的使用，因为管理员可以在系统启动时，在受控环境
++中通过“trusted”密钥解封后安全地生成所需密钥并挂载文件系统。此外，由于密钥只在内核层
++以明文形式存在，因此可以避免被恶意软件窃取或攻击的风险。
++
++Usage::
++
++   keyctl add encrypted name "new ecryptfs key-type:master-key-name keylen" ring
++   keyctl add encrypted name "load hex_blob" ring
++   keyctl update keyid "update key-type:master-key-name"
++
++Where::
++
++        name:= '<16 hexadecimal characters>'
++        key-type:= 'trusted' | 'user'
++        keylen:= 64
++
++使用eCryptfs文件系统时加密密钥示例：
++
++创建一个长度为64字节的加密密钥“1000100010001000”，格式为‘ecryptfs’，并使用之前加载的用户
++密钥“test”保存它::
++
++    $ keyctl add encrypted 1000100010001000 "new ecryptfs user:test 64" @u
++    19184530
++
++    $ keyctl print 19184530
++    ecryptfs user:test 64 490045d4bfe48c99f0d465fbbbb79e7500da954178e2de0697
++    dd85091f5450a0511219e9f7cd70dcd498038181466f78ac8d4c19504fcc72402bfc41c2
++    f253a41b7507ccaa4b2b03fff19a69d1cc0b16e71746473f023a95488b6edfd86f7fdd40
++    9d292e4bacded1258880122dd553a661
++
++    $ keyctl pipe 19184530 > ecryptfs.blob
++
++使用创建的加密密钥“1000100010001000”将eCryptfs文件系统挂载到‘/secret’目录::
++
++    $ mount -i -t ecryptfs -oecryptfs_sig=1000100010001000,\
++      ecryptfs_cipher=aes,ecryptfs_key_bytes=32 /secret /secret
+diff --git a/Documentation/translations/zh_CN/security/keys/index.rst b/Documentation/translations/zh_CN/security/keys/index.rst
+index 7c28d003fb0a..6c6bd3517b34 100644
+--- a/Documentation/translations/zh_CN/security/keys/index.rst
++++ b/Documentation/translations/zh_CN/security/keys/index.rst
+@@ -14,9 +14,9 @@
+ .. toctree::
+    :maxdepth: 1
+ 
++   ecryptfs
+ 
+ TODOLIST:
+ * core
+-* ecryptfs
+ * request-key
+ * trusted-encrypted
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.49.0
 
