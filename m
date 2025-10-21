@@ -1,144 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9C28460;
-	Tue, 21 Oct 2025 04:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DA22638BC
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 06:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761022207; cv=none; b=R90RsHnPsEKwnefi8LVtx8ItjC8znu26fNLKle8VutVB694zaSwygAaFSD9V4NLgbOzNJJlML0GfDgKW3+w0lAn6agpQEXXxzhc2+eKH6k5CtWNKd/kty+pLCTbodUJXbxbTO3aSj1tYFuya/lzeJW8jv/no/L7MuQA1LIerCQ4=
+	t=1761028825; cv=none; b=o7IBptbOlXUjZB4lJQ+TBJr6oOR8T3ceuhldrgJyX8zQLwC+d8qFRucM7s+CkAnekRQOd8xKgBRt/DGi4SsYtrsWswhZWlFbDC50R1ShlUaJ2GvzDHywmck0Me7CWtb65MCsCiYLQBT5MPV8BQ5kAXlB78oaozTxLTIZQPKRHdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761022207; c=relaxed/simple;
-	bh=QGD45ga5zWdLTFV/K5GdIbJuErXC7zGRF80m5HoRfcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bJe9cmAT4p7VUjIE7ViFBqTPMbU9qjrdEte4H0luB6lZAJQ53lEtHt6LaLIHFPWEEiv9mioekCjvqstlMJWVj6bFoNHcpMCUW7vJPg9BZ5AENnFqs7SxlrO1+m7LmN660tueOUTlwP95RO5XglNe+bO/bA1VWpaFZtLVGSMpU0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ure6nvZC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761028825; c=relaxed/simple;
+	bh=7beMPKfZFqquIXc+53bXjKbRlxvOL+ty+2k+4CwKHwM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Suc21eV7fDS6axq+Q65vOqX/JDds5HSV8jEJEP/YW1w38WxgT4nxtVLcisYyiETcdiUkCh1XpGZOj6OL0J0APQUWGY0fV+XjZ0tYPz69BJkA0nPmVNq8//AFjQArClrJPTmrj/RdhR75f0zuUdWsWPJuh0siWjIHnR0fnRsnqrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CMTIph/G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIv2sfn8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XbgvKi4L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EVODCKCP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ure6nvZC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4AEC4CEF1;
-	Tue, 21 Oct 2025 04:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761022204;
-	bh=QGD45ga5zWdLTFV/K5GdIbJuErXC7zGRF80m5HoRfcU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ure6nvZCgjKTFB34N3cCy9GcbSh3diCqfJgHQ7EbhyZgKv2YKLD+/hBwu00yHGWLE
-	 /9fiGpYQRNIqGeViWBuNEwXa/E0h60bRIpP2TOdADQd/jVbqXfMDNqMEVz4RZEOD6T
-	 Ct6tXaXL2hG+5Sa9WeVD7GGZpQF4/mv3gjwEZxv7jTmNegreiYvX6667D48Jlcx603
-	 +OZuVIn5gCntw56FXnA/G6lwHOGF/kf71T+NkVVNIOrgE7nxg+6/1tsGBRbQ1BcLX0
-	 /qG27Sn5sP1JuSC7rk4ccOZdMcCrPX1aQnO6wrZ7Tnca2u1TBGLx4EuflYd03RU7WH
-	 UMJE3H6PwFbEA==
-Date: Tue, 21 Oct 2025 04:49:59 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <aPcQ99MZse5zmv3o@google.com>
-References: <20251016054204.1523139-1-tzungbi@kernel.org>
- <20251016054204.1523139-6-tzungbi@kernel.org>
- <20251016123149.GA88213@nvidia.com>
- <aPGryj-V5PQZRtoI@google.com>
- <20251017134916.GK3901471@nvidia.com>
- <aPJp3hP44n96Rug9@tzungbi-laptop>
- <20251017162116.GA316284@nvidia.com>
- <aPT-7TTgW_Xop99j@tzungbi-laptop>
- <20251020115734.GH316284@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CMTIph/G";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIv2sfn8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XbgvKi4L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EVODCKCP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E0E6A1F38E;
+	Tue, 21 Oct 2025 06:40:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761028818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
+	b=CMTIph/GAzMOCdEHm0P4Cw7YR/1co+dCMqkANZjNCKckEHYg3PQE0JeYB4MOusIm9DEpcB
+	6uBk9aNiN05EMHxDXS6yFAqNloWDbXetkatKy6oTwhkYTUvM28sgJDZ7WqHVNQvM30aX4p
+	tAqbQhdiviRnQ9NYhcwTqxv2YS2hTEk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761028818;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
+	b=CIv2sfn8/Dm79W/Pz6mAjMTJ0dFtqsDhPRuSHc8MG7C0xzlB4MMcJojOhV89H0ETkn9lC+
+	PP40BgQodw7XEpBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761028813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
+	b=XbgvKi4LGXTo/hXoDJ0p7shBMgXtuKo3oTBqOWzxHZM4yS8DWHhs/cW8BPx9vuxIeBEHec
+	uXRJ+Uzc/dzkc8qJTO4ShOM/uGCEgW+872gMvnifsmE8iubh8NOutkY5qi0hDnkE2T9AlB
+	C5Hq8pfaWdp4XYFtWcespOxSERbJN0w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761028813;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
+	b=EVODCKCPUVXPU5aL7wKcV3mOyNR3SjmFmGUYhXJZk7NG5/XAAb96buUNZ8A0/0ED/gklZn
+	bJhMf2e37m9qq3BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 100D4139D2;
+	Tue, 21 Oct 2025 06:40:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SdgBAc0q92gOJQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 21 Oct 2025 06:40:13 +0000
+Message-ID: <ddadb1f6-d7e9-427d-baf7-814d2288a407@suse.de>
+Date: Tue, 21 Oct 2025 08:40:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020115734.GH316284@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] nvme-tcp: Support receiving KeyUpdate requests
+To: Alistair Francis <alistair23@gmail.com>
+Cc: chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20251017042312.1271322-1-alistair.francis@wdc.com>
+ <fe16288e-e3f2-4de3-838e-181bbb0ce3ee@suse.de>
+ <CAKmqyKP0eB_WTZtMqtaNELPE4Bs9Ln-0U+_Oqk8fuJXTay_DPg@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAKmqyKP0eB_WTZtMqtaNELPE4Bs9Ln-0U+_Oqk8fuJXTay_DPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 
-On Mon, Oct 20, 2025 at 08:57:34AM -0300, Jason Gunthorpe wrote:
-> On Sun, Oct 19, 2025 at 11:08:29PM +0800, Tzung-Bi Shih wrote:
-> > On Fri, Oct 17, 2025 at 01:21:16PM -0300, Jason Gunthorpe wrote:
-> > > On Sat, Oct 18, 2025 at 12:07:58AM +0800, Tzung-Bi Shih wrote:
-> > > > > This is already properly lifetime controlled!
-> > > > > 
-> > > > > It *HAS* to be, and even your patches are assuming it by blindly
-> > > > > reaching into the parent's memory!
-> > > > > 
-> > > > > +	misc->rps[0] = ec->ec_dev->revocable_provider;
-> > > > > 
-> > > > > If the parent driver has been racily unbound at this point the
-> > > > > ec->ec_dev is already a UAF!
-> > > > 
-> > > > Not really, it uses the fact that the caller is from probe().  I think the
-> > > > driver can't be unbound when it is still in probe().
-> > > 
-> > > Right, but that's my point you are already relying on driver binding
-> > > lifetime rules to make your access valid. You should continue to rely
-> > > on that and fix the lack of synchronous remove to fix the bug.
-> > 
-> > I think what you're looking for is something similar to the following
-> > patches.
-> > 
-> > - Instead of having a real resource to protect with revocable, use the
-> >   subsystem device itself as a virtual resource.  Revoke the virtual
-> >   resource when unregistering the device from the subsystem.
-> > 
-> > - Exit earlier if the virtual resource is NULL (i.e. the subsystem device
-> >   has been unregistered) in the file operation wrappers.
+On 10/21/25 03:01, Alistair Francis wrote:
+> On Tue, Oct 21, 2025 at 3:46 AM Hannes Reinecke <hare@suse.de> wrote:
+>>
+>> On 10/17/25 06:23, alistair23@gmail.com wrote:
+>>> From: Alistair Francis <alistair.francis@wdc.com>
+>>>
+>>> The TLS 1.3 specification allows the TLS client or server to send a
+>>> KeyUpdate. This is generally used when the sequence is about to
+>>> overflow or after a certain amount of bytes have been encrypted.
+>>>
+>>> The TLS spec doesn't mandate the conditions though, so a KeyUpdate
+>>> can be sent by the TLS client or server at any time. This includes
+>>> when running NVMe-OF over a TLS 1.3 connection.
+>>>
+>>> As such Linux should be able to handle a KeyUpdate event, as the
+>>> other NVMe side could initiate a KeyUpdate.
+>>>
+>>> Upcoming WD NVMe-TCP hardware controllers implement TLS support
+>>> and send KeyUpdate requests.
+>>>
+>>> This series builds on top of the existing TLS EKEYEXPIRED work,
+>>> which already detects a KeyUpdate request. We can now pass that
+>>> information up to the NVMe layer (target and host) and then pass
+>>> it up to userspace.
+>>>
+>>> Userspace (ktls-utils) will need to save the connection state
+>>> in the keyring during the initial handshake. The kernel then
+>>> provides the key serial back to userspace when handling a
+>>> KeyUpdate. Userspace can use this to restore the connection
+>>> information and then update the keys, this final process
+>>> is similar to the initial handshake.
+>>>
+>>
+>> I am rather sceptical at the current tlshd implementation.
+>> At which place do you update the sending keys?
 > 
-> Sure
->  
-> > By doing so, we don't need to provide a misc_deregister_sync() which could
-> > probably maintain a list of opening files in miscdevice and handle with all
-> > opening files when unregistering.  
+> The sending keys are updated as part of gnutls_session_key_update().
 > 
-> I don't think we want to change the default behavior of
-> misc_deregister.. Maybe if it was a mutex not srcu it would be OK, but
-> srcu you are looking at delaying driver removal by seconds
-> potentially.
+> gnutls_session_key_update() calls update_sending_key() which updates
+> the sending keys.
 > 
-> > @@ -234,6 +240,10 @@ int misc_register(struct miscdevice *misc)
-> >                 return -EINVAL;
-> >         }
-> >  
-> > +       misc->rp = revocable_provider_alloc(misc);
-> > +       if (!misc->rp)
-> > +               return -ENOMEM;
+> The idea is that when the sequence number is about to overflow the
+> kernel will request userspace to update the sending keys via the
+> HANDSHAKE_KEY_UPDATE_TYPE_SEND key_update_type. Userspace updates the
+> keys and initiates a KeyUpdate.
 > 
-> Just get rid of all this revocable stuff, all this needs is a scru or
-> a mutex, none of this obfuscation around a simple lock is helpful in
-> core kernel code.
+That's also what the spec says.
+But in order to do that we would need to get hold of the sequence
+number, which currently is internal to gnutls.
+Can we extract it from the session information?
+And can we display it in sysfs, to give users information
+whether a KeyUpdate had happened?
 
-I didn't get the idea.  With a mutex, how to handle the opening files?
+Cheers,
 
-Are they something like: (?)
-- Maintain a list for opening files in both .open() and .release().
-- In misc_deregister_sync(), traverse the list, do something (what?), and
-  wait for the userspace programs close the files.
-
-> > @@ -1066,6 +1066,7 @@ struct file {
-> >                 freeptr_t               f_freeptr;
-> >         };
-> >         /* --- cacheline 3 boundary (192 bytes) --- */
-> > +       struct fs_revocable_replacement *f_rr;
-> >  } __randomize_layout
-> 
-> The thing that will likely attract objections is this. It is probably
-> a good idea to try to remove it.
-> 
-> For simple misc users the inode->i_cdev will always be valid and you
-> can reach the struct misc_dev/cdev from there in all the calls.
-> 
-> More complex cdev users replace the inode so that wouldn't work
-> universally but it is good enough to get started at least.
-
-The context is meant to be the same lifecycle with file opens/releases but
-not the miscdevice.  I think the mutex vs. revocable stuff is the more
-fundamental issue, we can focus on that first.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
