@@ -1,149 +1,349 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCB0221F0C
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 09:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F4F329C4B
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 09:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761038714; cv=none; b=UTirHTR5+m+wkADYwr4ZC0BADEzKe4g83GC0mmD+84zaChqX7rA0rBexUbl0Jf82xtpqAfFgH222+oQQbXTFuBYhLQwhRd8ZTO694Dd10tkm5AtQZEHhrqMEZjq5bXoCTPI6F0zz/0gULiAzCghlosVHm63bRMnKbF1/3p3skV8=
+	t=1761038983; cv=none; b=LLY7zz4u3Gp3XTsluKxtxd6bxyIbUbpOcLVatWjNXC1hgZKyV2dvFhPT6jaXPi0xNq0fNKorQUfuRZIcHyTVvlFOk2w4YzfocHOCXocWH6bDuDbpVbKX4Kaj5sD4LKZduKeigtDBd8SUOC9Cv4KYNBPo3sIC6QRFuJqlihPWP7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761038714; c=relaxed/simple;
-	bh=70fh7l0TLwEingT0Dlsm17GX58QH+efSGCknR2mPUfQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OOlBcxEj3OK1IkNbVMJdsPM9UUghBLcCW5cTQkngZ5df3C2eFXqPBSjPbh81biyW0d6Rsd47AOfES8astCVbt5230tsWDAw2mPSd9oH57r55u+pPsSWUckZM7p4LlcLxVESKc/y8zCoyVj3ioM73iAj2iFqkNJbOgsSl3Fr9KFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Waxd1GKO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761038983; c=relaxed/simple;
+	bh=ydjNulEtIQL/VUFY0ZG7RKocVMK4HEHcsSkV0RedUKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dfBuz+JtgaPjJV89NnryZgkTNmLY8ZiNmf/FJb82jnTxdy/2SJYCc/Q5c9BF/ePbqtfaFd0LaYlYssWg5N+ZhldQtk9b9LLWNprnK6P2DLBeCdNLNT4v07TqO+JzmPDdsYS+9wIKq5jYHeZXR6sSy1eImegSJPtLGchW8Vvug6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPnSOIbL; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Waxd1GKO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761038711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4RANMdE5VJt3ZJzx3yGMY3tj7r6cm2tCoc3fFUR1o9c=;
-	b=Waxd1GKOmZORm9wGxuuEenpLRd2wDC8mu12YYx9O64VnlQmArRyZP/38VnH+9QcmD1ejBF
-	wVVFwo9qQw+Gk8hULL+UHrAKCLqwUEFyhxfweH3nZtxRq7XGYlYiDDq4W2TTzyppgwI3+i
-	FDXLq/h0uoF/SAtrHp8q4asvx5CPbM4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-182-CtaTFyhGPSm0q8UVj9BnlA-1; Tue, 21 Oct 2025 05:25:10 -0400
-X-MC-Unique: CtaTFyhGPSm0q8UVj9BnlA-1
-X-Mimecast-MFC-AGG-ID: CtaTFyhGPSm0q8UVj9BnlA_1761038709
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3ee888281c3so9800511f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 02:25:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPnSOIbL"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-26a0a694ea8so38688755ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 02:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761038980; x=1761643780; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OyRIWau3piKW51ygIAahcBt+sXvlHI6glcvn3yu2iag=;
+        b=WPnSOIbL6WFXFDcxn2eEcNmaJ7nAGuAR6r+oJy6o04lxoSjo7XQZ8XaS/IrGnidv2H
+         zd8KlOe7yAR23jhTJMIihRmulhWKcI3gsKu8vVgoUg0YnP9ekjUQvsj91q73YByZ1Lpr
+         o0lc7fX0f2FfezHgRtbxMHjkeBNo4YnP94OTEli6u3im+HI93tqqaGU7xbBm8xHf6eEg
+         dYyJ5NUZAYPd1yP/F8NhEd7Y02X4PUJuMEWcgz4cdKhezW5ZmEbLx3faMSPYTOzgeh5s
+         YLyxauUGXgZRzpLc8Kq3/iJhQHkkTjDXavcqit2zTwcit+gGFVfhuoRPUrf0uYJ0s/70
+         HH4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761038709; x=1761643509;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4RANMdE5VJt3ZJzx3yGMY3tj7r6cm2tCoc3fFUR1o9c=;
-        b=epwujE+mc/gRPCswQyQEFHOW5GcWmalgmVm3o+x6PnRsvlv6vnNzXn3n9X/Fa5/QBL
-         DJEVua/l15Xlj9AfmjC81iAfMBZZgNDyyMdVpfhkQ45PYG+TQX95o3DfYsNKe59hwlXL
-         2hD10RHyoW+O2oA9E6s7E6DewsQcU/TDGe9chZfVTTMxlPU+TOLzcRmVj2agoOqw8GKo
-         9uLschV/KKR4YNY6j0BueGq5s31tqPYKOC/vs5xtiXssSKcXtVtkpuI6hieUirMk4cgD
-         vGuaQ+zy1ob0peSle9KeYfaHWEe4oDX7j+eZMP1R5MLhPSM4+DG/p5kHXz5y6JcvY28k
-         U7Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCXGMhH7IieS1zpURFjbfz/4EBy0NR1yzs4jPe3BhvNTsX2j6s8WE6JZN77tVBg+ueyvr+jorVILia4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyctdkJb05pEYumW2v5xD9iV09iI1lv4aXSZc50P6eEKHi7HOmo
-	deFc3ir/wT4RLtu5Kyrsp5UqIVCpRLb/sm5Kj2obWAqAqjVa8vGRIrYQqQAxOku3Nzzoe492q7q
-	K2oFGnyebqauiQmdnSU2AOGgtIlq2RjOrZ7aXnHBxky6Y060wvO2sIcUYEUqYnA==
-X-Gm-Gg: ASbGncsfNYA9m7VxFclOzf7Ob7+DmMJgeRlR92UhW+J/dSR+wvhGKkQTGlnXKyuz7ry
-	nPrnTMh7BO5EA3RZGNAlmel9ycmifO6Tbrmze1Qzps5lvChOlFhAFXPPgbw1F9NV03uzThxoH8h
-	unzkfE3HAE/E0pQs4xvo1gre/gJiQKk1Rn6CHUhdnNUfPpf1Zt3+yBHUrg8FuZm7FCEkyLWAiUK
-	0R4edZbEI0dSz6+sQV9xOYgU3OTdfAtoiwgIWC3jpHTRHfbCz5kWNhNRgNQsUZx1KO8n+sC0xj0
-	u1a8DegDqW3JMh8sN2MbMZyMIjAZ2upxzYTwmq6Co5V3tfZDR9Fc68n+vvLsUlVkVxd/9fqkRJZ
-	Sax+r9GJJLebkPYL3/e6qHFxfaz2s5DB5eCdLhN8RRjINN20=
-X-Received: by 2002:a05:6000:22c6:b0:3ec:db18:1695 with SMTP id ffacd0b85a97d-42704dc9395mr11530732f8f.45.1761038709183;
-        Tue, 21 Oct 2025 02:25:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEW/8VpN7+oRVVI2gacXOhu1lhYOkSBU8WbVYkhEZvqfdiTjdCOVwmyWkwuv1K6C+wnD9GcTg==
-X-Received: by 2002:a05:6000:22c6:b0:3ec:db18:1695 with SMTP id ffacd0b85a97d-42704dc9395mr11530698f8f.45.1761038708787;
-        Tue, 21 Oct 2025 02:25:08 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5a0f88sm18692002f8f.7.2025.10.21.02.25.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 02:25:08 -0700 (PDT)
-Message-ID: <c2534ab3-a843-43db-9447-19954467e2ed@redhat.com>
-Date: Tue, 21 Oct 2025 11:25:00 +0200
+        d=1e100.net; s=20230601; t=1761038980; x=1761643780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OyRIWau3piKW51ygIAahcBt+sXvlHI6glcvn3yu2iag=;
+        b=VZZTgerTONpt60vNFClofkz7N1MK31B47bAjywGiG/72dxC+4Cl7BjJaHteeI3eISd
+         nQWm6smUsNV0BKfNaRpsyjqiRqP4L4ZNZLfBef0dPDhfp1QU5FG9VWZ+b+SpaHWmbpu1
+         vj01C+jEY69pLsJkJtjPfTg2XDJ1fUJ2bSkbyn65tCMUDlWzDjiHyQoCN6H5NQk3URNZ
+         FBj/tnveNwHPpgsSJ7SrgLzV46hMWjWH67obiF7vN58SLKzw+TLujHxKwYXML4BVp/hK
+         FrnCdTCqVeucgAYsB/gQMsZWle4xg5EMp/Zdh4hLryNS2sb+7DX6jirB2S1jmO1gRclQ
+         Vpxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfowHpAs9XTXTdYqZh9k13yQcjYyLnQUNpV0wY/1PTA/OXteyIwxyeJhqk30vu2pwc+L+Q0W7BiJE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkY/iaNzQ0fdJHb64K7NU3cEEkY9OpSvfjpaNjPd1q05KbQDVg
+	u17GKkCSWqDdLANqjlFaA6oO2vO48PP9MhjQoxD+1YVwLbcEV9INlIeS
+X-Gm-Gg: ASbGncvpHnvpIfkxDvHrXJ0s+1Mo4wU+rZ2Dr6atdSdmH+WDkM9Am9NTHTYYB2GAP0i
+	XYamLf6lIxB9iY5PrhXAEAPUtstw08mvkrDGm4vmf2U0vV/uNcI23WcVpNvhzbNuHK2iq1BuEka
+	grOiT39hnG7xe3kF3fw42ZuMsOrBlkN99dpyWOarLRSpq0lnPJjFz02pPYBJ6EznXGY2oHgYxOe
+	mafBslMD/nSMciw9cfKSOg4Zxuyfy9dzUUzSjKHHQqyJZce5gsrLzIcJ2wdExgsBdVkyACBLuLA
+	DIml+khWJoUMCuw/9DXgiArfPcLYJqjGZLorf4jNtvukO8VufeAULVcvQ7TxKOjHnLV0RWgDvWm
+	kV27k6HEWRy9nuDBE2nAeqZ04gI6Eu1Tr3X4pR1OuxfLpuXaooVsi2nSolL//SEm1MJ9SZ3eGaZ
+	P4DtHEmn5zDJ5AT88=
+X-Google-Smtp-Source: AGHT+IEJYOxTUq6g5cMID2h9haxbzYTCF6o6B9VftSTQfCXLvzoMK8wkk7HT6AEAPC6X5HED33+s3Q==
+X-Received: by 2002:a17:903:138a:b0:28e:c9f6:867b with SMTP id d9443c01a7336-290c9cd4adbmr188938385ad.23.1761038980324;
+        Tue, 21 Oct 2025 02:29:40 -0700 (PDT)
+Received: from fedora ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246fcc83esm104497195ad.38.2025.10.21.02.29.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 02:29:39 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Simon Horman <horms@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH net-next v7 1/2] net/tls: support setting the maximum payload size
+Date: Tue, 21 Oct 2025 19:29:17 +1000
+Message-ID: <20251021092917.386645-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v02 2/6] hinic3: Add PF management interfaces
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Markus.Elfring@web.de, pavan.chebbi@broadcom.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
- Shen Chenyang <shenchenyang1@hisilicon.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>,
- Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>
-References: <cover.1760685059.git.zhuyikai1@h-partners.com>
- <8ad645360ce86569ec9c2c6532441352c06bc44a.1760685059.git.zhuyikai1@h-partners.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <8ad645360ce86569ec9c2c6532441352c06bc44a.1760685059.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/17/25 10:30 AM, Fan Gong wrote:
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
-> index 78cface6ddd7..58c0c0b55097 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
-> @@ -39,24 +39,25 @@ struct hinic3_pcidev {
->  };
->  
->  struct hinic3_hwdev {
-> -	struct hinic3_pcidev        *adapter;
-> -	struct pci_dev              *pdev;
-> -	struct device               *dev;
-> -	int                         dev_id;
-> -	struct hinic3_hwif          *hwif;
-> -	struct hinic3_cfg_mgmt_info *cfg_mgmt;
-> -	struct hinic3_aeqs          *aeqs;
-> -	struct hinic3_ceqs          *ceqs;
-> -	struct hinic3_mbox          *mbox;
-> -	struct hinic3_cmdqs         *cmdqs;
-> -	struct delayed_work         sync_time_task;
-> -	struct workqueue_struct     *workq;
-> -	/* protect channel init and uninit */
-> -	spinlock_t                  channel_lock;
-> -	u64                         features[COMM_MAX_FEATURE_QWORD];
-> -	u32                         wq_page_size;
-> -	u8                          max_cmdq;
-> -	ulong                       func_state;
-> +	struct hinic3_pcidev         *adapter;
-> +	struct pci_dev               *pdev;
-> +	struct device                *dev;
-> +	int                          dev_id;
-> +	struct hinic3_hwif           *hwif;
-> +	struct hinic3_cfg_mgmt_info  *cfg_mgmt;
-> +	struct hinic3_aeqs           *aeqs;
-> +	struct hinic3_ceqs           *ceqs;
-> +	struct hinic3_mbox           *mbox;
-> +	struct hinic3_msg_pf_to_mgmt *pf_to_mgmt;
-> +	struct hinic3_cmdqs          *cmdqs;
-> +	struct delayed_work          sync_time_task;
-> +	struct workqueue_struct      *workq;
-> +	/* protect hwdev channel init and uninit */
-> +	spinlock_t                   channel_lock;
-> +	u64                          features[COMM_MAX_FEATURE_QWORD];
-> +	u32                          wq_page_size;
-> +	u8                           max_cmdq;
-> +	ulong                        func_state;
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The above is a nice way to hide a single line addition. Please either
-avoid the reformatting entirely (preferred) or do the re-indentation in
-a separate pre-req patch.
+During a handshake, an endpoint may specify a maximum record size limit.
+Currently, the kernel defaults to TLS_MAX_PAYLOAD_SIZE (16KB) for the
+maximum record size. Meaning that, the outgoing records from the kernel
+can exceed a lower size negotiated during the handshake. In such a case,
+the TLS endpoint must send a fatal "record_overflow" alert [1], and
+thus the record is discarded.
 
-/P
+Upcoming Western Digital NVMe-TCP hardware controllers implement TLS
+support. For these devices, supporting TLS record size negotiation is
+necessary because the maximum TLS record size supported by the controller
+is less than the default 16KB currently used by the kernel.
+
+Currently, there is no way to inform the kernel of such a limit. This patch
+adds support to a new setsockopt() option `TLS_TX_MAX_PAYLOAD_LEN` that
+allows for setting the maximum plaintext fragment size. Once set, outgoing
+records are no larger than the size specified. This option can be used to
+specify the record size limit.
+
+[1] https://www.rfc-editor.org/rfc/rfc8449
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+V6 -> V7:
+ - Added more information to the description regarding record_size_limit
+ - For TLS 1.3, setsockopt() now allows a 63 byte minimum to account for the
+   ContentType
+ - getsockopt() returns the total plaintext length, for TLS 1.3, this will
+   1 byte higher than what is set using setsockopt().
+---
+ Documentation/networking/tls.rst | 22 +++++++++++
+ include/net/tls.h                |  3 ++
+ include/uapi/linux/tls.h         |  2 +
+ net/tls/tls_device.c             |  2 +-
+ net/tls/tls_main.c               | 68 ++++++++++++++++++++++++++++++++
+ net/tls/tls_sw.c                 |  2 +-
+ 6 files changed, 97 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+index 36cc7afc2527..ecaa7631ec46 100644
+--- a/Documentation/networking/tls.rst
++++ b/Documentation/networking/tls.rst
+@@ -280,6 +280,28 @@ If the record decrypted turns out to had been padded or is not a data
+ record it will be decrypted again into a kernel buffer without zero copy.
+ Such events are counted in the ``TlsDecryptRetry`` statistic.
+ 
++TLS_TX_MAX_PAYLOAD_LEN
++~~~~~~~~~~~~~~~~~~~~~~
++
++Specifies the maximum size of the plaintext payload for transmitted TLS records.
++
++When this option is set, the kernel enforces the specified limit on all outgoing
++TLS records. No plaintext fragment will exceed this size. This option can be used
++to implement the TLS Record Size Limit extension [1].
++	- For TLS 1.2, the value corresponds directly to the record size limit.
++	- For TLS 1.3, the value should be set to record_size_limit - 1, since
++	  the record size limit includes one additional byte for the ContentType
++	  field.
++
++The valid range for this option is 64 to 16384 bytes for TLS 1.2, and 63 to
++16384 bytes for TLS 1.3. The lower minimum for TLS 1.3 accounts for the
++extra byte used by the ContentType field.
++
++For TLS 1.3, getsockopt() will return the total plaintext fragment length,
++inclusive of the ContentType field.
++
++[1] https://datatracker.ietf.org/doc/html/rfc8449
++
+ Statistics
+ ==========
+ 
+diff --git a/include/net/tls.h b/include/net/tls.h
+index 857340338b69..f2af113728aa 100644
+--- a/include/net/tls.h
++++ b/include/net/tls.h
+@@ -53,6 +53,8 @@ struct tls_rec;
+ 
+ /* Maximum data size carried in a TLS record */
+ #define TLS_MAX_PAYLOAD_SIZE		((size_t)1 << 14)
++/* Minimum record size limit as per RFC8449 */
++#define TLS_MIN_RECORD_SIZE_LIM		((size_t)1 << 6)
+ 
+ #define TLS_HEADER_SIZE			5
+ #define TLS_NONCE_OFFSET		TLS_HEADER_SIZE
+@@ -226,6 +228,7 @@ struct tls_context {
+ 	u8 rx_conf:3;
+ 	u8 zerocopy_sendfile:1;
+ 	u8 rx_no_pad:1;
++	u16 tx_max_payload_len;
+ 
+ 	int (*push_pending_record)(struct sock *sk, int flags);
+ 	void (*sk_write_space)(struct sock *sk);
+diff --git a/include/uapi/linux/tls.h b/include/uapi/linux/tls.h
+index b66a800389cc..b8b9c42f848c 100644
+--- a/include/uapi/linux/tls.h
++++ b/include/uapi/linux/tls.h
+@@ -41,6 +41,7 @@
+ #define TLS_RX			2	/* Set receive parameters */
+ #define TLS_TX_ZEROCOPY_RO	3	/* TX zerocopy (only sendfile now) */
+ #define TLS_RX_EXPECT_NO_PAD	4	/* Attempt opportunistic zero-copy */
++#define TLS_TX_MAX_PAYLOAD_LEN	5	/* Maximum plaintext size */
+ 
+ /* Supported versions */
+ #define TLS_VERSION_MINOR(ver)	((ver) & 0xFF)
+@@ -194,6 +195,7 @@ enum {
+ 	TLS_INFO_RXCONF,
+ 	TLS_INFO_ZC_RO_TX,
+ 	TLS_INFO_RX_NO_PAD,
++	TLS_INFO_TX_MAX_PAYLOAD_LEN,
+ 	__TLS_INFO_MAX,
+ };
+ #define TLS_INFO_MAX (__TLS_INFO_MAX - 1)
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index caa2b5d24622..4d29b390aed9 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -462,7 +462,7 @@ static int tls_push_data(struct sock *sk,
+ 	/* TLS_HEADER_SIZE is not counted as part of the TLS record, and
+ 	 * we need to leave room for an authentication tag.
+ 	 */
+-	max_open_record_len = TLS_MAX_PAYLOAD_SIZE +
++	max_open_record_len = tls_ctx->tx_max_payload_len +
+ 			      prot->prepend_size;
+ 	do {
+ 		rc = tls_do_allocation(sk, ctx, pfrag, prot->prepend_size);
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index 39a2ab47fe72..b234d44bd789 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -541,6 +541,32 @@ static int do_tls_getsockopt_no_pad(struct sock *sk, char __user *optval,
+ 	return 0;
+ }
+ 
++static int do_tls_getsockopt_tx_payload_len(struct sock *sk, char __user *optval,
++					    int __user *optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	u16 payload_len = ctx->tx_max_payload_len;
++	int len;
++
++	if (get_user(len, optlen))
++		return -EFAULT;
++
++	/* For TLS 1.3 payload length includes ContentType */
++	if (ctx->prot_info.version == TLS_1_3_VERSION)
++		payload_len++;
++
++	if (len < sizeof(payload_len))
++		return -EINVAL;
++
++	if (put_user(sizeof(payload_len), optlen))
++		return -EFAULT;
++
++	if (copy_to_user(optval, &payload_len, sizeof(payload_len)))
++		return -EFAULT;
++
++	return 0;
++}
++
+ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 			     char __user *optval, int __user *optlen)
+ {
+@@ -560,6 +586,9 @@ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_getsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_MAX_PAYLOAD_LEN:
++		rc = do_tls_getsockopt_tx_payload_len(sk, optval, optlen);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -809,6 +838,32 @@ static int do_tls_setsockopt_no_pad(struct sock *sk, sockptr_t optval,
+ 	return rc;
+ }
+ 
++static int do_tls_setsockopt_tx_payload_len(struct sock *sk, sockptr_t optval,
++					    unsigned int optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	struct tls_sw_context_tx *sw_ctx = tls_sw_ctx_tx(ctx);
++	u16 value;
++	bool tls_13 = ctx->prot_info.version == TLS_1_3_VERSION;
++
++	if (sw_ctx && sw_ctx->open_rec)
++		return -EBUSY;
++
++	if (sockptr_is_null(optval) || optlen != sizeof(value))
++		return -EINVAL;
++
++	if (copy_from_sockptr(&value, optval, sizeof(value)))
++		return -EFAULT;
++
++	if (value < TLS_MIN_RECORD_SIZE_LIM - (tls_13 ? 1 : 0) ||
++	    value > TLS_MAX_PAYLOAD_SIZE)
++		return -EINVAL;
++
++	ctx->tx_max_payload_len = value;
++
++	return 0;
++}
++
+ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 			     unsigned int optlen)
+ {
+@@ -830,6 +885,11 @@ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_setsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_MAX_PAYLOAD_LEN:
++		lock_sock(sk);
++		rc = do_tls_setsockopt_tx_payload_len(sk, optval, optlen);
++		release_sock(sk);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -1019,6 +1079,7 @@ static int tls_init(struct sock *sk)
+ 
+ 	ctx->tx_conf = TLS_BASE;
+ 	ctx->rx_conf = TLS_BASE;
++	ctx->tx_max_payload_len = TLS_MAX_PAYLOAD_SIZE;
+ 	update_sk_prot(sk, ctx);
+ out:
+ 	write_unlock_bh(&sk->sk_callback_lock);
+@@ -1108,6 +1169,12 @@ static int tls_get_info(struct sock *sk, struct sk_buff *skb, bool net_admin)
+ 			goto nla_failure;
+ 	}
+ 
++	err = nla_put_u16(skb, TLS_INFO_TX_MAX_PAYLOAD_LEN,
++			  ctx->tx_max_payload_len);
++
++	if (err)
++		goto nla_failure;
++
+ 	rcu_read_unlock();
+ 	nla_nest_end(skb, start);
+ 	return 0;
+@@ -1129,6 +1196,7 @@ static size_t tls_get_info_size(const struct sock *sk, bool net_admin)
+ 		nla_total_size(sizeof(u16)) +	/* TLS_INFO_TXCONF */
+ 		nla_total_size(0) +		/* TLS_INFO_ZC_RO_TX */
+ 		nla_total_size(0) +		/* TLS_INFO_RX_NO_PAD */
++		nla_total_size(sizeof(u16)) +   /* TLS_INFO_TX_MAX_PAYLOAD_LEN */
+ 		0;
+ 
+ 	return size;
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index d17135369980..9937d4c810f2 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1079,7 +1079,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 		orig_size = msg_pl->sg.size;
+ 		full_record = false;
+ 		try_to_copy = msg_data_left(msg);
+-		record_room = TLS_MAX_PAYLOAD_SIZE - msg_pl->sg.size;
++		record_room = tls_ctx->tx_max_payload_len - msg_pl->sg.size;
+ 		if (try_to_copy >= record_room) {
+ 			try_to_copy = record_room;
+ 			full_record = true;
+-- 
+2.51.0
 
