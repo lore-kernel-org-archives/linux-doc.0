@@ -1,288 +1,129 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B41F244693;
-	Tue, 21 Oct 2025 11:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E78C355026;
+	Tue, 21 Oct 2025 12:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761047022; cv=none; b=tXnIjoQBwlo5P2cAnbmoqTgEe4pWZImKdzIBItvVPW0wqZ9S9nvTlX8C5BlhVcGP/hEYR3GIM3cVFim/sJRxmwc8ykH1wA4SA5sRGXmvuu3VAewvdi+HT8ccTO+za+YBR9C1+disEqI9X3jHfGcRY9cW3DyUCktHK8ATBzWxwxI=
+	t=1761048768; cv=none; b=n737z//9fh+QjlQmAr7HYtdgaMsAo6Tt3kP1h3GJRAuDfDWEBJU/FzYoxwECZL62IsS/wjvIhImToNp8MGmfyJXjo0ac9LAqh1dxcIyjZcj6bwmrwZZDs5GCPYLMTYFy/40PfrCr48Z1H5ss847uazKV15QLMbkzvF0rNaREekM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761047022; c=relaxed/simple;
-	bh=4/wPubUubr6qTSSbAihLczvGyM352rWdAaTJHeSVTBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JPnBvw/aoGAzkHbqbaj+cbbdbWtNBUG8W9KwFwYN3LuxsGzyBjA8wgI2RV+31nKZ2PhxLwdqCg0Mf3vbQE7nyEdShn4QoXa0HBQpBdJV09ik3BTtnJtL71OWkuthdYskUhAkVWFlMFxjYeSsZdF/RP2Nge/kYZMy6F1t/emUgQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=X6A8Vg+W; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1761048768; c=relaxed/simple;
+	bh=wiD+0/AZVa3NKyDlqbcnqHnYQ4oQcnmmX54eoGAi9Qk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ufr9oyEdcd53bHK/9JSX9uir5++2GU90LUXmYSOampX1LT1L6vk6dw+fa3mazqfslbxvXPntZMQ7A5+dMhyK5uVBBbG4eCtSV0DDo9r7UJHK+XnQoqeq6HqVvNpIgz8Ey1Oi6WCX8gICgnI9czIVJdI8jHJDDIDDs+y5Fb0eyeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=qpJz1HmD; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X6A8Vg+W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1761047018;
-	bh=4/wPubUubr6qTSSbAihLczvGyM352rWdAaTJHeSVTBo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X6A8Vg+WYATpuhsFpQ3ZsJxt/QswcDrcGTpcfIoEoQIS63m673G0GbGfTRQL8aydv
-	 +ccpa8fOn0/TF2FvpJGMdtw0ffwoUDQLJn4zA96ldPBS/BlMMsG0uGyrMbwdSvDkCk
-	 cVP37O9DJBzFd7fbgnfPjW19UrL+XZOngS5BcIhOxhb68KfeAFiC5BfWfW778xBL8h
-	 BSoMudQQwKJw2RKbCnudstHVmQkkoJ+MN8CSXPhp3tlKlBOakfHMPpnKe+73m08/Rz
-	 LG9VWkhwuOkiPA+fmuEVp4neXVFjyrD3lXjoSoHMVuM2ex8xkyMuVCoWQuGDd+kyaA
-	 selFJWS4cADRA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 873A917E0CA3;
-	Tue, 21 Oct 2025 13:43:37 +0200 (CEST)
-Date: Tue, 21 Oct 2025 13:43:31 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v5 05/12] drm/gem: Add huge tmpfs mountpoint helpers
-Message-ID: <20251021134331.549ebeea@fedora>
-In-Reply-To: <20251021113049.17242-6-loic.molinari@collabora.com>
-References: <20251021113049.17242-1-loic.molinari@collabora.com>
-	<20251021113049.17242-6-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="qpJz1HmD"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ZYnZ5rl8ra5LMmp0nS6khBlS0UWmleV+sVAGtX9r6VA=;
+	b=qpJz1HmD7inbH6v+Umr1oyzEbNOvum+nx9YHpWOIidwVrx8FLHIgwb1TEuXSPWfAScqYLEgSF
+	cWJeZgZJpW58BVuq09wwW8yTA8HXdMaykH/g+hkkOPsl114ujhRKr2WbsUlmmccLGYS3I+9Uu2C
+	pXwGmNGbmwyaCiZ25QuS08o=
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4crWP073JKzcZyT;
+	Tue, 21 Oct 2025 20:11:32 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7B5DF18006C;
+	Tue, 21 Oct 2025 20:12:42 +0800 (CST)
+Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 21 Oct 2025 20:12:42 +0800
+Received: from huawei.com (10.67.174.28) by kwepemq200011.china.huawei.com
+ (7.202.195.155) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 21 Oct
+ 2025 20:12:41 +0800
+From: Liao Chang <liaochang1@huawei.com>
+To: <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<akpm@linux-foundation.org>, <paulmck@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>, <bp@alien8.de>,
+	<kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>, <maz@kernel.org>,
+	<broonie@kernel.org>, <oliver.upton@linux.dev>, <yeoreum.yun@arm.com>,
+	<yangyicong@hisilicon.com>, <james.morse@arm.com>, <ardb@kernel.org>,
+	<hardevsinh.palaniya@siliconsignals.io>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses to IMPDEF regs
+Date: Tue, 21 Oct 2025 11:54:28 +0000
+Message-ID: <20251021115428.557084-1-liaochang1@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq200011.china.huawei.com (7.202.195.155)
 
-On Tue, 21 Oct 2025 13:30:42 +0200
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+Add kernel parameter to allow system-wide EL0 access to IMPDEF system
+regregisters and instructions without trapping to EL1/EL2. Since trap
+overhead will compromises benefits, and it's even worse in
+virtualization on CPU where certain IMPDEF registers and instructions
+are designed for EL0 performance use.
 
-> Add the drm_gem_huge_mnt_create() and drm_gem_has_huge_mnt() helpers
-> to avoid code duplication in the i915, V3D, Panfrost and Panthor
-> drivers. The former creates and mounts a dedicated huge tmpfs
-> mountpoint, for the lifetime of a DRM device, used at GEM object
-> initialization. The latter checks whether a dedicated huge tmpfs
-> mountpoint is in use by a DRM device.
->=20
-> The next commits will port drivers to this helper.
->=20
-> v3:
-> - store huge tmpfs mountpoint in drm_device
->=20
-> v4:
-> - return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
-> - return 0 when huge_mnt already exists
-> - use new vfs_parse_fs_string() helper
->=20
-> v5:
-> - removed warning on !dev->huge_mnt and reset to NULL on free
-> - inline drm_gem_huge_mnt_create() to remove func from text and avoid
->   calls in builds with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
-> - compile out drm_device's huge_mnt field in builds with
->   CONFIG_TRANSPARENT_HUGEPAGE=3Dn
-> - add drm_gem_has_huge_mnt() helper
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem.c | 39 +++++++++++++++++++++++++++++
->  include/drm/drm_device.h  | 15 +++++++++++
->  include/drm/drm_gem.h     | 52 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 106 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index a98d5744cc6c..161da048330e 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -29,6 +29,9 @@
->  #include <linux/export.h>
->  #include <linux/file.h>
->  #include <linux/fs.h>
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +#include <linux/fs_context.h>
-> +#endif
->  #include <linux/iosys-map.h>
->  #include <linux/mem_encrypt.h>
->  #include <linux/mm.h>
-> @@ -82,6 +85,42 @@
->   * up at a later date, and as our interface with shmfs for memory alloca=
-tion.
->   */
-> =20
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
-> +{
-> +	kern_unmount(dev->huge_mnt);
-> +}
-> +
-> +int __drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
-> +{
-> +	struct file_system_type *type;
-> +	struct fs_context *fc;
-> +	int ret;
-> +
-> +	if (unlikely(drm_gem_has_huge_mnt(dev)))
-> +		return 0;
-> +
-> +	type =3D get_fs_type("tmpfs");
-> +	if (unlikely(!type))
-> +		return -EOPNOTSUPP;
-> +	fc =3D fs_context_for_mount(type, SB_KERNMOUNT);
-> +	if (IS_ERR(fc))
-> +		return PTR_ERR(fc);
-> +	ret =3D vfs_parse_fs_string(fc, "source", "tmpfs");
-> +	if (unlikely(ret))
-> +		return -ENOPARAM;
-> +	ret =3D vfs_parse_fs_string(fc, "huge", value);
-> +	if (unlikely(ret))
-> +		return -ENOPARAM;
-> +
-> +	dev->huge_mnt =3D fc_mount_longterm(fc);
-> +	put_fs_context(fc);
-> +
-> +	return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(__drm_gem_huge_mnt_create);
-> +#endif
-> +
->  static void
->  drm_gem_init_release(struct drm_device *dev, void *ptr)
->  {
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 778b2cca6c49..684939987d83 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -3,6 +3,9 @@
-> =20
->  #include <linux/list.h>
->  #include <linux/kref.h>
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +#include <linux/mount.h>
-> +#endif
->  #include <linux/mutex.h>
->  #include <linux/idr.h>
->  #include <linux/sched.h>
-> @@ -168,6 +171,18 @@ struct drm_device {
->  	 */
->  	struct drm_master *master;
-> =20
-> +	/**
-> +	 * @huge_mnt:
-> +	 *
-> +	 * Huge tmpfs mountpoint used at GEM object initialization
-> +	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
-> +	 * create a huge tmfps mountpoint. The default tmpfs mountpoint
-> +	 * (`shm_mnt`) is used if NULL.
-> +	 */
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+More early discussion could be found from link below.
 
-Can we move the ifdef before the kernel doc for this field?
+Link: https://lore.kernel.org/all/24afb8de-622a-4865-bd8e-8e89ccfff8f4@huawei.com/
+Tested-by: Xinyu Zheng <zhengxinyu6@huawei.com>
+Signed-off-by: Liao Chang <liaochang1@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  9 +++++++++
+ arch/arm64/kernel/cpufeature.c                  | 14 +++++++++++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-> +	struct vfsmount *huge_mnt;
-> +#endif
-> +
->  	/**
->  	 * @driver_features: per-device driver features
->  	 *
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 7c8bd67d087c..9845854850fb 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -492,6 +492,58 @@ struct drm_gem_object {
->  		DRM_GEM_FOPS,\
->  	}
-> =20
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +int __drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
-> +#endif
-> +
-> +/**
-> + * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoi=
-nt
-> + * @dev: DRM device a huge tmpfs mountpoint should be used with
-> + * @value: huge tmpfs mount option value
-> + *
-> + * This function creates and mounts a dedicated huge tmpfs mountpoint fo=
-r the
-> + * lifetime of the DRM device @dev which is used at GEM object initializ=
-ation
-> + * with drm_gem_object_init().
-> + *
-> + * The most common option value @value is "within_size" which only alloc=
-ates
-> + * huge pages if the page will be fully within the GEM object size. "alw=
-ays",
-> + * "advise" and "never" are supported too but the latter would just crea=
-te a
-> + * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
-> + * Transparent Hugepage for more information.
-> + *
-> + * Returns:
-> + * 0 on success or a negative error code on failure.
-> + */
-> +static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
-> +					  const char *value)
-> +{
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	return __drm_gem_huge_mnt_create(dev, value);
-> +#else
-> +	return 0;
-> +#endif
-> +}
-
-Unless __drm_gem_huge_mnt_create() is really used internally (at first
-glance, that doesn't seem to be the case), I'd suggest renaming it
-drm_gem_huge_mnt_create() and having:
-
-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
-#else
-static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
-					  const char *value)
-{
-	return 0;
-}
-#endif
-
-> +
-> +/**
-> + * drm_gem_has_huge_mnt - Check if a huge tmpfs mountpoint is in use
-> + * @dev: DRM device
-> + *
-> + * This function checks whether a huge tmpfs mountpoint is in use after =
-by DRM
-> + * device @dev. A huge tmpfs mountpoint is used after a successful call =
-to
-> + * drm_gem_huge_mnt_create() on builds with Transparent Hugepage enabled.
-> + *
-> + * Returns:
-> + * true on success, false otherwise.
-> + */
-> +static inline bool drm_gem_has_huge_mnt(struct drm_device *dev)
-> +{
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	return !!dev->huge_mnt;
-> +#else
-> +	return false;
-> +#endif
-> +}
-> +
->  void drm_gem_object_release(struct drm_gem_object *obj);
->  void drm_gem_object_free(struct kref *kref);
->  int drm_gem_object_init(struct drm_device *dev,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 5a7a83c411e9..11ffa9f7b972 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -326,6 +326,15 @@
+ 			See Documentation/arch/arm64/asymmetric-32bit.rst for more
+ 			information.
+ 
++	no_trap_el0_impdef [Arm64,EARLY]
++			Allow system-wide EL0 access to IMPDEF system registers
++			and instructions without trapping to EL1/EL2.
++			Since trap overhead compromises benefits, and it's even
++			worse in virtualization on CPU where certain IMPDEF
++			registers and instructions are designed for EL0
++			performance use. This assumes the kernel adds the
++			support for Armv8.8 extension FEAT_TIDCP1.
++
+ 	amd_iommu=	[HW,X86-64]
+ 			Pass parameters to the AMD IOMMU driver in the system.
+ 			Possible values are:
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index ef269a5a37e1..d12e35d799ee 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -2459,9 +2459,21 @@ static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, in
+ }
+ #endif /* CONFIG_KVM */
+ 
++static bool no_trap_el0_impdef;
++
++static int __init parse_no_trap_el0_impdef(char *p)
++{
++	no_trap_el0_impdef = true;
++	return 0;
++}
++early_param("no_trap_el0_impdef", parse_no_trap_el0_impdef);
++
+ static void cpu_trap_el0_impdef(const struct arm64_cpu_capabilities *__unused)
+ {
+-	sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
++	if (no_trap_el0_impdef)
++		sysreg_clear_set(sctlr_el1, SCTLR_EL1_TIDCP, 0);
++	else
++		sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
+ }
+ 
+ static void cpu_enable_dit(const struct arm64_cpu_capabilities *__unused)
+-- 
+2.34.1
 
