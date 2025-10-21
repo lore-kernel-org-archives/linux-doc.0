@@ -1,47 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AFB269D17;
-	Tue, 21 Oct 2025 11:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8CC32E68E;
+	Tue, 21 Oct 2025 11:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761046557; cv=none; b=KQe+gSZ8VwojfsA5pqLBPB/bqpu/DtE6EFe7QLioD5NLkd4QoHQuOgPazjAumDV6G1+ra0bi8X7iRvlf10hewn/Hqfvio4KM9jMj/WAS4L3tuZDjTAZBmXmfUkZEN9KVY8E+OzfFYd0HSx5OYIf4Z5UePg90QVxPgFs75xM7EGM=
+	t=1761046773; cv=none; b=GmvVLNVZGmdReziCnZ7wwzX25Cjizz6QfEAJnes0U35Fe7/1mvCWNDlxvhd1SB06aeEaabRtY+SAD5Db4uyWiJZnTKzXjczAenUOyS5kSlPCyzmrm6mo8KF0Qfn65fGgowOS+rr+YQ3pNGGM8N5t3YWE06oWuwhCFZjGdQrAWQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761046557; c=relaxed/simple;
-	bh=dGF3MJ1EmOtzDX5b+6Z26q2tCtCiz2znprvPe5dXjBY=;
+	s=arc-20240116; t=1761046773; c=relaxed/simple;
+	bh=xz/tDN+yPZVBPbH2r+TgaMdFHP9mm8qxk6gUQVmMafY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7cRFESM1vOnIDcsbAmBjrQcDS8ZC2Wb42w5tKMLL6hXa2bU9X1oqLBbu3KpxYcR4AsbRGCblHBNmHsU0nKUvwnjvK5EZ4aU++IXjKA15cmH0Gg25Zz4z9KF/zW9VibdsrDcMGo/4eJNkQ6OHmR9SDRLzKBjFXKVZnHRZBmUeX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oB8Ry7nU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNbi0/xMyNX7MEoGVOvZ9ENLPn6r+0W9KNRw8/aVXfQia8ljomp+Sht0Tgi7lWP3Glcch5IPskeTJmvRvkgAiKk92xv23fv75uoLSngpnuLTWSvWWsl5nLIZblTmvQB7ToXWI6L+cglOxdJfo1O+H2hiP2xqaGRlo6g9+pTosJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL9vmEQX; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oB8Ry7nU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5C6C4CEF1;
-	Tue, 21 Oct 2025 11:35:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761046556;
-	bh=dGF3MJ1EmOtzDX5b+6Z26q2tCtCiz2znprvPe5dXjBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oB8Ry7nUCv1GxdY+7Sc3T4YKMCvzbe9L/Q3iQgvK+dPKTj5W5h6lO1jeHn5idyXVU
-	 v+11tM6BpgZe5iDpkVt4DIaVKz4tcjlNsaDMj3z0j/MMXi6wdCWTWKItYxPeZV6o2C
-	 IjMxFc1QEVrwBerLRmtMMcdh2ZpCb+o0sxM1oczNrciFNf6hP6dSqRaSp2EDlWlhVH
-	 rU67P4Gmb6uaufgkwJJjJ8ROb/mi7zYDK769JdherTqucDl5OSzMApYxfJZZxQkv9h
-	 M/bivuqeDVj3oSwyRyC6MHLVpLXLxBJVY2kXUbhn+S3AbhQ9kE37aCTEXUuDehqXHf
-	 8Vbc7TZCrwGTw==
-Date: Tue, 21 Oct 2025 12:35:52 +0100
-From: Simon Horman <horms@kernel.org>
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Sabrina Dubroca <sd@queasysnail.net>, Shuah Khan <shuah@kernel.org>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: Re: [PATCH net-next v7 1/2] net/tls: support setting the maximum
- payload size
-Message-ID: <aPdwGJGUxhqiocBX@horms.kernel.org>
-References: <20251021092917.386645-2-wilfred.opensource@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL9vmEQX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761046772; x=1792582772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xz/tDN+yPZVBPbH2r+TgaMdFHP9mm8qxk6gUQVmMafY=;
+  b=kL9vmEQXVjD8ioe09bBhLt9zxGj7hMrqnbODwSHMHJdPAibTTdm83OLh
+   pBYhLDTn4KNetObG8HDYdY3kzijVmybsu+gU1zV+WbfKPNv/uNm5kQprf
+   y5vYlIlrWjT/qzA6A73BHRsiUc7a9GA91xQtH5LR+EHx0ZzYZ9Zuq+A94
+   TsBXmnvW9U+CcP1G8XT2p9DnK/U4Tqyeufn1NoM9AOSB3NOG2D03ZSAZt
+   e/xZZGObFVq9KX7WJgppqpzUBxRQsDrpJUmGlCM52HdRu9PtLg3ka/yYL
+   KKEip2Z2GLAArKhD+Qs8lodCsIXfrVCG+3rbNt+DVVWCl0d6i171/C15G
+   g==;
+X-CSE-ConnectionGUID: CND1X+q0T+SKFoa7feiaBA==
+X-CSE-MsgGUID: yjBMkFSaS22rhYF1irlWQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62200920"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="62200920"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 04:39:31 -0700
+X-CSE-ConnectionGUID: VfWszDUCQn+u64i4HQ/nHg==
+X-CSE-MsgGUID: GyUtjuDpR4+bmGSr0f3T0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="183970757"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2025 04:39:27 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBAha-000Amr-27;
+	Tue, 21 Oct 2025 11:39:02 +0000
+Date: Tue, 21 Oct 2025 19:38:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aditya Dutt <duttaditya18@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>
+Cc: oe-kbuild-all@lists.linux.dev, Aditya Dutt <duttaditya18@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] iio: position: Add support for ams AS5600 angle
+ sensor
+Message-ID: <202510211921.F1RPF3gj-lkp@intel.com>
+References: <20251020201653.86181-3-duttaditya18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,52 +72,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021092917.386645-2-wilfred.opensource@gmail.com>
+In-Reply-To: <20251020201653.86181-3-duttaditya18@gmail.com>
 
-On Tue, Oct 21, 2025 at 07:29:17PM +1000, Wilfred Mallawa wrote:
+Hi Aditya,
 
-...
+kernel test robot noticed the following build warnings:
 
-> diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
-> index 36cc7afc2527..ecaa7631ec46 100644
-> --- a/Documentation/networking/tls.rst
-> +++ b/Documentation/networking/tls.rst
-> @@ -280,6 +280,28 @@ If the record decrypted turns out to had been padded or is not a data
->  record it will be decrypted again into a kernel buffer without zero copy.
->  Such events are counted in the ``TlsDecryptRetry`` statistic.
->  
-> +TLS_TX_MAX_PAYLOAD_LEN
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Specifies the maximum size of the plaintext payload for transmitted TLS records.
-> +
-> +When this option is set, the kernel enforces the specified limit on all outgoing
-> +TLS records. No plaintext fragment will exceed this size. This option can be used
-> +to implement the TLS Record Size Limit extension [1].
-> +	- For TLS 1.2, the value corresponds directly to the record size limit.
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi Wilfred,
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Dutt/dt-bindings-iio-position-Add-ams-AS5600-Position-Sensor/20251021-042001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251020201653.86181-3-duttaditya18%40gmail.com
+patch subject: [PATCH 2/2] iio: position: Add support for ams AS5600 angle sensor
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251021/202510211921.F1RPF3gj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211921.F1RPF3gj-lkp@intel.com/reproduce)
 
-Unfortunately make htmldocs seems unhappy with the line above.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510211921.F1RPF3gj-lkp@intel.com/
 
-.../tls.rst:291: ERROR: Unexpected indentation. [docutils]
+All warnings (new ones prefixed by >>):
 
-This was with Sphinx 8.1.3.
+>> drivers/iio/position/as5600.c:127:12: warning: implicit conversion from 'long' to 'int' changes value from 4096000000 to -198967296 [-Wconstant-conversion]
+     127 |                         *val2 = 4096000000;
+         |                               ~ ^~~~~~~~~~
+   1 warning generated.
 
-> +	- For TLS 1.3, the value should be set to record_size_limit - 1, since
-> +	  the record size limit includes one additional byte for the ContentType
-> +	  field.
-> +
-> +The valid range for this option is 64 to 16384 bytes for TLS 1.2, and 63 to
-> +16384 bytes for TLS 1.3. The lower minimum for TLS 1.3 accounts for the
-> +extra byte used by the ContentType field.
-> +
-> +For TLS 1.3, getsockopt() will return the total plaintext fragment length,
-> +inclusive of the ContentType field.
-> +
-> +[1] https://datatracker.ietf.org/doc/html/rfc8449
-> +
->  Statistics
->  ==========
 
-...
+vim +127 drivers/iio/position/as5600.c
+
+    93	
+    94	static int as5600_read_raw(struct iio_dev *indio_dev,
+    95				   struct iio_chan_spec const *chan,
+    96				   int *val, int *val2, long mask)
+    97	{
+    98		struct as5600_priv *priv = iio_priv(indio_dev);
+    99		u16 bitmask;
+   100		s32 ret;
+   101		u16 reg;
+   102	
+   103		switch (mask) {
+   104		case IIO_CHAN_INFO_RAW:
+   105			if (chan->channel == 0) {
+   106				reg = AS5600_REG_RAW_ANGLE;
+   107				bitmask = AS5600_FIELD_RAW_ANGLE;
+   108			} else {
+   109				reg = AS5600_REG_ANGLE;
+   110				bitmask = AS5600_FIELD_ANGLE;
+   111			}
+   112			ret = i2c_smbus_read_word_swapped(priv->client, reg);
+   113	
+   114			if (ret < 0)
+   115				return ret;
+   116			*val = ret & bitmask;
+   117	
+   118			return IIO_VAL_INT;
+   119	
+   120		case IIO_CHAN_INFO_SCALE:
+   121			/* Always 4096 steps, but angle range varies between
+   122			 * 18 and 360 degrees.
+   123			 */
+   124			if (chan->channel == 0) {
+   125				/* Whole angle range = 2*pi / 4096 */
+   126				*val = 2 * 3141592;
+ > 127				*val2 = 4096000000;
+   128			} else {
+   129				s32 range;
+   130	
+   131				/* MPOS - ZPOS defines the active angle selection */
+   132				/* Partial angle = (range / 4096) * (2*pi / 4096) */
+   133				mutex_lock(&priv->lock);
+   134				range = priv->mpos - priv->zpos;
+   135				mutex_unlock(&priv->lock);
+   136				if (range <= 0)
+   137					range += 4096;
+   138	
+   139				*val = range * 2 * 314159;
+   140				*val /= 4096;
+   141				*val2 = 409600000;
+   142			}
+   143	
+   144			return IIO_VAL_FRACTIONAL;
+   145	
+   146		default:
+   147			return -EINVAL;
+   148		}
+   149	}
+   150	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
