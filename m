@@ -1,69 +1,69 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9892478F4A
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 20:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D69528506A
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 20:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761080262; cv=none; b=V/+mBgtXbAc4B8+aH8o/pbAKTwKwEPYugWBaIYt6fUHoGkn7HTV7SONxFgxRl9ZoWjclChtE7C+ffMywKU/Rie6xlUc+w3kvBTFNTGgD23TndxNY/xe2cyvXROu8tAeIDiESxPddHihUtHYeEZET3GlbVSCgvMhC4LpIXIMX4H0=
+	t=1761080361; cv=none; b=VhAULK5e15pzScUhlqRD/RrL4IAnCA/PQyJLpucqPOCQida94NiLwx9R68DWUJBoJVJCnaZ4j/g/6OHLznV7fKLJHyj4n/4yy6ghFjehi2WKQPHN3f7ZkkmFm+bRNWtq+s4rkN97k9MEp0asKe9LRyt6MvepDm3WMvr+ZjCD1V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761080262; c=relaxed/simple;
-	bh=PiEF4dZTXzB/bahHoYvpvUwN2xzfC3fULfkA9PjR6I4=;
+	s=arc-20240116; t=1761080361; c=relaxed/simple;
+	bh=JxsgrbLIMb5BvKZzkAFDuSG7tbjQ67Wby1+vPYYWBDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vzt25w/QNrT+c3K0I3KliQ96acoaBE9uTHctRXVtcOMzuRSwpYKETIkTAF2FXtEaNJCUCm7KR7T3q9cJ8E0sxgE+inYZoYLFj6YBrCrXkcuIPAuuffCNWjY+WgvP+1KOMHpMfkYSa38BEpj1Ue0HyXdQpPn3aDnG1cUYFthJmNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QsRRpi7z; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sj79AKha1XS8zbp6F+heD9//Wxt1JbFBEcFYJxfxrGlhXJ+D48qwZ4vmYXaYhRrJHKMOABnagksb5Whc6IAWnslAU+FM8yjdRrv11XosTmR8tklDaXm+DGIHmAoFwLiFHHyE650pHi2DjMqEttSAb6h5ZkF+twzNG7Dwk7fx3Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ak2MiQod; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QsRRpi7z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ak2MiQod"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761080258;
+	s=mimecast20190719; t=1761080357;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9bAJqRa8uA5UrlbIgGaXWwm0Ps33WDl0PlkuKaJzgdU=;
-	b=QsRRpi7zPGdwEv+PDNTXHMSWklKabZAG5PipGNRpMRGgAbTM17/lhuAhDvMD3XXyCMlJnJ
-	/tld72mMyCL2Wd0gcSAgvmNgVqqT26njOg+7I/FnuWMeheCz5rtJiDwla5hZj3sA/gtwGe
-	hOUPEfREa7/cHvckrrli5FpXbPxt1kk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=JKaU+TdmcHMrV3dqR9kS3A74O+yRTxyeV7YGtEGdpzU=;
+	b=ak2MiQodYy8PrtoUF/ePZHXkPB0d+5eMBbTCj72J5WDRY4auwyLmXitX0JFIwKG6dcAXyN
+	nFJVpNOnQARhHTZl1tjUNyLNmUNZyqFXKGybcNAiibogmkGMG/jB1k4RmgpfSjnSl1iE55
+	rvJ6LeMNpIRwP5tZz8AabrR+ZYXzxWI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-134-fhTH7WWhPdqTKBhayzj21A-1; Tue, 21 Oct 2025 16:57:36 -0400
-X-MC-Unique: fhTH7WWhPdqTKBhayzj21A-1
-X-Mimecast-MFC-AGG-ID: fhTH7WWhPdqTKBhayzj21A_1761080256
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-427015f63faso3077113f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 13:57:36 -0700 (PDT)
+ us-mta-14-JQkt2c-sNDC49S7LOKuCmw-1; Tue, 21 Oct 2025 16:59:16 -0400
+X-MC-Unique: JQkt2c-sNDC49S7LOKuCmw-1
+X-Mimecast-MFC-AGG-ID: JQkt2c-sNDC49S7LOKuCmw_1761080355
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4270a61ec48so4395449f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 13:59:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761080256; x=1761685056;
+        d=1e100.net; s=20230601; t=1761080355; x=1761685155;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9bAJqRa8uA5UrlbIgGaXWwm0Ps33WDl0PlkuKaJzgdU=;
-        b=tSoB0Xsmj8Q4IkF9xboUxjH4iAjb3HES4zLuxXfQmb2gvouunk6iBSPxIPRdRGRHWm
-         8PJuQVb6g/5C/I2sUvlOLBA62g+sjgh90LOtZMX8psXKSbrx0BTRx/P0LtkQ548JZtEC
-         q086kzzzpCIUtAeNAGVHFAQMGlEmoZ67L5olJOztWSCh61GPsGDvuTwHGo8+iqgaEg34
-         JWGV5guiHU2QiF3HgrnPwuS6WcYZLoIcdpH9atDFOpJiHS1IEMDZlhSgpWGtW4i1DRRs
-         j7v13XPGb9UlPik84b0AD4jVr3SzuK9WNef1OOf8Fkmo0L8odTHkeagQDR6UBjVk4wPo
-         4U2g==
-X-Forwarded-Encrypted: i=1; AJvYcCX+7wpuwo15Ysv9lUjxGXpa6LhRVahNQy6Wbz7JPAAWkdKaPzhBoVZymrC+6P7FnzJFf0m2eO3PEW0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjVEEAuel79uTNzvp8JtaLxgQ5Gn0D66dQdq5ER0+cOPcdFoc+
-	RRQ91LgzmigIBRJI80V93EpyEz42ZjX7IDjn32XMK9ktfvEgn0GFdhdkM4N1COPLRj8gyr4MrFM
-	bMDFwlNvCcE45V+DPhfC8/LTSO2xMe6zqeI4nz+wUYw8CUvcUqxUD6Bt+fCJO8g==
-X-Gm-Gg: ASbGncu8b22rosRGz9gGM8tpwfIzstEnd92or70ZePV/szuQ3OyILps2pnESeEfVLWB
-	YH+7SRR/GQKEQ8ZxupD/17+OgkIDvIXnhmEUHYJ3qWLXO/5wl1pTRyeJLAw2BXDce1/ajaFEfxW
-	4zTt5P3RpVnixr7k0DSaiHlBOnW8qU4WgELFH5cUObOK+39HTwBmGK5xPFK+7FxpkL68gxy/Xd0
-	2Raf2IoGczzusxiGyCVuhHq5xijgo/FS8d4YfoqagcKNqtORRZnyXhzs7zdNSkPmFghCQ7v3bGa
-	UuxeWKfs4YjtqZ9u/4b0C+YxahMNN8LRJFBstqxO4GxXOyMQ2xvcen9R5H+8Wr3GDcsz
-X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id 5b1f17b1804b1-471178a4af1mr109338075e9.13.1761080255561;
-        Tue, 21 Oct 2025 13:57:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFnSG23+FoLb+GmLuXvkTK9R1YegvexPcW+2uOk5jzx98hZ61iH9ju7jBpY4P6BKlTjZs87DA==
-X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id 5b1f17b1804b1-471178a4af1mr109337965e9.13.1761080255096;
-        Tue, 21 Oct 2025 13:57:35 -0700 (PDT)
+        bh=JKaU+TdmcHMrV3dqR9kS3A74O+yRTxyeV7YGtEGdpzU=;
+        b=SUL/++2lOor8UMAP/SAW/rnhditJGL2q8Kr+nYPa1cVgVerF6K1dCe90dTmrRrVCM3
+         qg22ONpaP5QP8LC/95C2BnFSGX9g1rUQCn3/j6qr9VSgQc51N1m4fukvnEBy15aSuxpM
+         tnGFc6+PtfU8Zmpf2v0f26p7hFneuxoO+VM6UZdftzger32ApfpJCxG2wl60LqIFgIk3
+         CdbR4/JhbT2vprc6yI1fSh+QIw3x1/yyNbYQoWNSkPQ88Z9EIgGpTp1oC9b7oFavuPmH
+         EBhLAE1b0Hns4CblwujvaXRoxVHZ33xOTv5TwgISM2oMDLk+qB4zXNk/5uxy78pPfW78
+         L0mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqzx/WKJ7+1qVsX/KP7WtDfSBxTZgLokibl5ADFl3Bq5F1Y+kruVRSC5ZEmZ9vEaM+cpAWoDAq5Tc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjrGTpR9l6hFceq0WWI0MjYQB9Z88LNfRQGteA5Xi/J8ZLuBLS
+	hsqH4UB/aULjtQBTCnxHlGjdbWW6qX6Q0YTulSiiZqbgbB0bNTQDZ2mDe+ojAdg4w+ZawhSY5TW
+	ewU5cpnDMv12PQGieN7OAiVc+SxDygoe2NXI06qJhNCDy6C5/MiA7/xfoyTVoKroJCNVMXw==
+X-Gm-Gg: ASbGnctx2v0yhdi2GvHiY+3C3g/1Tj2x+N0HbLm0pGtIKFEl1NLfFlQ3WUW4rSftiV1
+	gky/WCNCcXo2kbPZhA2RGvdXh64diTQv8IotZ/Owmj6NTDx6Lc5ehc2QcQtBMDpmWPm/AonNTlm
+	x5EwIu8QS3npiHCkxfzgTS7Yo4NojJPnDssJrdyAFwrMroIjOcsfaiIxA6yD27Dl8MScleQN8pH
+	4QG11dwD9tccPwJm4nvc0JGGwZ8eyz8Oe9K4CLQxsthCa/uJFyD1neh3yu1a1sOii/qkGiAq69k
+	3jlA+wjVlF6RG8eW2F8C6bPTy9l+3vgBZl/YjPuDqI8dtSIXxOcwpJjdwzO+8+DbHTNa
+X-Received: by 2002:a05:6000:25c7:b0:427:854:787 with SMTP id ffacd0b85a97d-4270854085bmr11773143f8f.51.1761080354908;
+        Tue, 21 Oct 2025 13:59:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFm6nUHK4Q2KcRAx2gRXyZZ7eczPX8h4ab+8B0PRAUXehLh5qUDHKRiFzbQIJWCndKqsBf56w==
+X-Received: by 2002:a05:6000:25c7:b0:427:854:787 with SMTP id ffacd0b85a97d-4270854085bmr11773131f8f.51.1761080354419;
+        Tue, 21 Oct 2025 13:59:14 -0700 (PDT)
 Received: from redhat.com ([2a0d:6fc0:152d:b200:2a90:8f13:7c1e:f479])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c428e9b2sm9981535e9.5.2025.10.21.13.57.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c4369b33sm9493345e9.14.2025.10.21.13.59.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 13:57:34 -0700 (PDT)
-Date: Tue, 21 Oct 2025 16:57:28 -0400
+        Tue, 21 Oct 2025 13:59:13 -0700 (PDT)
+Date: Tue, 21 Oct 2025 16:59:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: David Hildenbrand <david@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -88,11 +88,11 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
 	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
 	Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v1 06/23] vmw_balloon: stop using the balloon_dev_info
- lock
-Message-ID: <20251021165626-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v1 11/23] drivers/virtio/virtio_balloon: stop using
+ balloon_page_push/pop()
+Message-ID: <20251021165854-mutt-send-email-mst@kernel.org>
 References: <20251021125929.377194-1-david@redhat.com>
- <20251021125929.377194-7-david@redhat.com>
+ <20251021125929.377194-12-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -101,111 +101,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021125929.377194-7-david@redhat.com>
+In-Reply-To: <20251021125929.377194-12-david@redhat.com>
 
-On Tue, Oct 21, 2025 at 02:59:11PM +0200, David Hildenbrand wrote:
-> Let's not piggy-back on the existing lock and use a separate lock for the
-> huge page list.
+On Tue, Oct 21, 2025 at 02:59:16PM +0200, David Hildenbrand wrote:
+> Let's stop using these function
 
-which is fine but it is worth documenting that we are also
-no longer disabling interrupts while taking this lock.
+these functions
 
-
-> This is a preparation for changing the locking used to protect
-> balloon_dev_info.
+> so we can remove them. They look like
+> belonging to the balloon API for managing the device balloon list when
+> really they are just simple helpers only used by virtio-balloon.
 > 
-> While at it, talk about "page migration" instead of "page compaction".
-> We'll change that in core code soon as well.
+> Let's just inline them and switch to a proper
+> list_for_each_entry_safe().
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  drivers/misc/vmw_balloon.c | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
+>  drivers/virtio/virtio_balloon.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
-> index 52b8c0f1eead7..53e9335b6718c 100644
-> --- a/drivers/misc/vmw_balloon.c
-> +++ b/drivers/misc/vmw_balloon.c
-> @@ -354,10 +354,15 @@ struct vmballoon {
->  	/**
->  	 * @huge_pages - list of the inflated 2MB pages.
->  	 *
-> -	 * Protected by @b_dev_info.pages_lock .
-> +	 * Protected by @huge_pages_lock.
->  	 */
->  	struct list_head huge_pages;
+> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
+> index f7d6a4a6e54f5..4b22de6a5f845 100644
+> --- a/drivers/virtio/virtio_balloon.c
+> +++ b/drivers/virtio/virtio_balloon.c
+> @@ -242,8 +242,8 @@ static void set_page_pfns(struct virtio_balloon *vb,
+>  static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
+>  {
+>  	unsigned int num_allocated_pages;
+> +	struct page *page, *next;
+>  	unsigned int num_pfns;
+> -	struct page *page;
+>  	LIST_HEAD(pages);
 >  
-> +	/**
-> +	 * @huge_pages_lock: lock for the list of inflated 2MB pages.
-> +	 */
-> +	spinlock_t huge_pages_lock;
+>  	/* We can only do one array worth at a time. */
+> @@ -262,14 +262,15 @@ static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
+>  			break;
+>  		}
+>  
+> -		balloon_page_push(&pages, page);
+> +		list_add(&page->lru, &pages);
+>  	}
+>  
+>  	mutex_lock(&vb->balloon_lock);
+>  
+>  	vb->num_pfns = 0;
+>  
+> -	while ((page = balloon_page_pop(&pages))) {
+> +	list_for_each_entry_safe(page, next, &pages, lru) {
+> +		list_del(&page->lru);
+>  		balloon_page_enqueue(&vb->vb_dev_info, page);
+>  
+>  		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
+> @@ -474,15 +475,19 @@ static inline s64 towards_target(struct virtio_balloon *vb)
+>  static unsigned long return_free_pages_to_mm(struct virtio_balloon *vb,
+>  					     unsigned long num_to_return)
+>  {
+> -	struct page *page;
+> -	unsigned long num_returned;
+> +	unsigned long num_returned = 0;
+> +	struct page *page, *next;
 > +
->  	/**
->  	 * @vmci_doorbell.
->  	 *
-> @@ -987,7 +992,6 @@ static void vmballoon_enqueue_page_list(struct vmballoon *b,
->  					unsigned int *n_pages,
->  					enum vmballoon_page_size_type page_size)
->  {
-> -	unsigned long flags;
->  	struct page *page;
+> +	if (unlikely(!num_to_return))
+> +		return 0;
 >  
->  	if (page_size == VMW_BALLOON_4K_PAGE) {
-> @@ -995,9 +999,9 @@ static void vmballoon_enqueue_page_list(struct vmballoon *b,
+>  	spin_lock_irq(&vb->free_page_list_lock);
+> -	for (num_returned = 0; num_returned < num_to_return; num_returned++) {
+> -		page = balloon_page_pop(&vb->free_page_list);
+> -		if (!page)
+> -			break;
+> +
+> +	list_for_each_entry_safe(page, next, &vb->free_page_list, lru) {
+> +		list_del(&page->lru);
+>  		__free_pages(page, VIRTIO_BALLOON_HINT_BLOCK_ORDER);
+> +		if (++num_returned == num_to_return)
+> +			break;
+>  	}
+>  	vb->num_free_page_blocks -= num_returned;
+>  	spin_unlock_irq(&vb->free_page_list_lock);
+> @@ -717,7 +722,7 @@ static int get_free_page_and_send(struct virtio_balloon *vb)
+>  		}
+>  		virtqueue_kick(vq);
+>  		spin_lock_irq(&vb->free_page_list_lock);
+> -		balloon_page_push(&vb->free_page_list, page);
+> +		list_add(&page->lru, &vb->free_page_list);
+>  		vb->num_free_page_blocks++;
+>  		spin_unlock_irq(&vb->free_page_list_lock);
 >  	} else {
->  		/*
->  		 * Keep the huge pages in a local list which is not available
-> -		 * for the balloon compaction mechanism.
-> +		 * for the balloon page migration.
->  		 */
-> -		spin_lock_irqsave(&b->b_dev_info.pages_lock, flags);
-> +		spin_lock(&b->huge_pages_lock);
->  
->  		list_for_each_entry(page, pages, lru) {
->  			vmballoon_mark_page_offline(page, VMW_BALLOON_2M_PAGE);
-> @@ -1006,7 +1010,7 @@ static void vmballoon_enqueue_page_list(struct vmballoon *b,
->  		list_splice_init(pages, &b->huge_pages);
->  		__count_vm_events(BALLOON_INFLATE, *n_pages *
->  				  vmballoon_page_in_frames(VMW_BALLOON_2M_PAGE));
-> -		spin_unlock_irqrestore(&b->b_dev_info.pages_lock, flags);
-> +		spin_unlock(&b->huge_pages_lock);
->  	}
->  
->  	*n_pages = 0;
-> @@ -1033,7 +1037,6 @@ static void vmballoon_dequeue_page_list(struct vmballoon *b,
->  {
->  	struct page *page, *tmp;
->  	unsigned int i = 0;
-> -	unsigned long flags;
->  
->  	/* In the case of 4k pages, use the compaction infrastructure */
->  	if (page_size == VMW_BALLOON_4K_PAGE) {
-> @@ -1043,7 +1046,7 @@ static void vmballoon_dequeue_page_list(struct vmballoon *b,
->  	}
->  
->  	/* 2MB pages */
-> -	spin_lock_irqsave(&b->b_dev_info.pages_lock, flags);
-> +	spin_lock(&b->huge_pages_lock);
->  	list_for_each_entry_safe(page, tmp, &b->huge_pages, lru) {
->  		vmballoon_mark_page_online(page, VMW_BALLOON_2M_PAGE);
->  
-> @@ -1054,7 +1057,7 @@ static void vmballoon_dequeue_page_list(struct vmballoon *b,
->  
->  	__count_vm_events(BALLOON_DEFLATE,
->  			  i * vmballoon_page_in_frames(VMW_BALLOON_2M_PAGE));
-> -	spin_unlock_irqrestore(&b->b_dev_info.pages_lock, flags);
-> +	spin_unlock(&b->huge_pages_lock);
->  	*n_pages = i;
->  }
->  
-> @@ -1828,6 +1831,7 @@ static int __init vmballoon_init(void)
->  		balloon.b_dev_info.migratepage = vmballoon_migratepage;
->  
->  	INIT_LIST_HEAD(&balloon.huge_pages);
-> +	spin_lock_init(&balloon.huge_pages_lock);
->  	spin_lock_init(&balloon.comm_lock);
->  	init_rwsem(&balloon.conf_sem);
->  	balloon.vmci_doorbell = VMCI_INVALID_HANDLE;
 > -- 
 > 2.51.0
 
