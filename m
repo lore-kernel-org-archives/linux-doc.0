@@ -1,185 +1,200 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DA22638BC
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 06:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863631D516C
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 06:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761028825; cv=none; b=o7IBptbOlXUjZB4lJQ+TBJr6oOR8T3ceuhldrgJyX8zQLwC+d8qFRucM7s+CkAnekRQOd8xKgBRt/DGi4SsYtrsWswhZWlFbDC50R1ShlUaJ2GvzDHywmck0Me7CWtb65MCsCiYLQBT5MPV8BQ5kAXlB78oaozTxLTIZQPKRHdU=
+	t=1761029423; cv=none; b=CeBcU3ScxsbffD93U647+3k3HLEJXCtY1pEJ+XDDuAvcygcb0+pL6Tr2lmscyFHYq5W2hdOn8bMiqTotIoz9QNlsa6yU3iw87RTEWnNAngINsCyF/mzBK158rpCROWln93mU/UG0HjQtjaaU2pG8/KGR41wHjrdpqeSIOKYG6j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761028825; c=relaxed/simple;
-	bh=7beMPKfZFqquIXc+53bXjKbRlxvOL+ty+2k+4CwKHwM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Suc21eV7fDS6axq+Q65vOqX/JDds5HSV8jEJEP/YW1w38WxgT4nxtVLcisYyiETcdiUkCh1XpGZOj6OL0J0APQUWGY0fV+XjZ0tYPz69BJkA0nPmVNq8//AFjQArClrJPTmrj/RdhR75f0zuUdWsWPJuh0siWjIHnR0fnRsnqrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CMTIph/G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIv2sfn8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XbgvKi4L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EVODCKCP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761029423; c=relaxed/simple;
+	bh=4rgZxih5gy2BMHS3YkFWgN8TZfTZVAcw8SO45LmtGow=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UmAhaiRIswoB2fn/indJHB9I1QE2TKvszQ/6ynZqgARTmtFmeIVIIm8LZE1eOzMhGrRob4GoA5JdahEj4cYaCCdmSPevYGcjiwLjrTAnI5GzJY53y5a28/mJbVE216T9cEObR8N1wQN8qirKmDDdIh97a30E8Jko64uGeSYzMEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T0gjyn+T; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CMTIph/G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIv2sfn8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XbgvKi4L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EVODCKCP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E0E6A1F38E;
-	Tue, 21 Oct 2025 06:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761028818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
-	b=CMTIph/GAzMOCdEHm0P4Cw7YR/1co+dCMqkANZjNCKckEHYg3PQE0JeYB4MOusIm9DEpcB
-	6uBk9aNiN05EMHxDXS6yFAqNloWDbXetkatKy6oTwhkYTUvM28sgJDZ7WqHVNQvM30aX4p
-	tAqbQhdiviRnQ9NYhcwTqxv2YS2hTEk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761028818;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
-	b=CIv2sfn8/Dm79W/Pz6mAjMTJ0dFtqsDhPRuSHc8MG7C0xzlB4MMcJojOhV89H0ETkn9lC+
-	PP40BgQodw7XEpBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761028813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
-	b=XbgvKi4LGXTo/hXoDJ0p7shBMgXtuKo3oTBqOWzxHZM4yS8DWHhs/cW8BPx9vuxIeBEHec
-	uXRJ+Uzc/dzkc8qJTO4ShOM/uGCEgW+872gMvnifsmE8iubh8NOutkY5qi0hDnkE2T9AlB
-	C5Hq8pfaWdp4XYFtWcespOxSERbJN0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761028813;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AP37Hl7dZsrUQCdo+Wy/Ujr92FdnjRQ8OmnuPgn1zdc=;
-	b=EVODCKCPUVXPU5aL7wKcV3mOyNR3SjmFmGUYhXJZk7NG5/XAAb96buUNZ8A0/0ED/gklZn
-	bJhMf2e37m9qq3BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 100D4139D2;
-	Tue, 21 Oct 2025 06:40:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SdgBAc0q92gOJQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 21 Oct 2025 06:40:13 +0000
-Message-ID: <ddadb1f6-d7e9-427d-baf7-814d2288a407@suse.de>
-Date: Tue, 21 Oct 2025 08:40:04 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T0gjyn+T"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-87c13813464so97017676d6.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Oct 2025 23:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761029419; x=1761634219; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4rgZxih5gy2BMHS3YkFWgN8TZfTZVAcw8SO45LmtGow=;
+        b=T0gjyn+TTCnzis7uewA64bl2wKGwG1HaM/qMLh/2mENecbbRQWBG4UOOSSElMYZILE
+         ry+wmaGnWorQLqknf6FcaY7/q8Rly/cFlupqq8BAnzJZ8Ixv4asFPYlIEUHVmveIAQ61
+         Tcz89FU2vja6LgmOkifeSuP8wCvD+9MFDB6GiNzlmy3pSmuUrhFHx7Dv/3tA86D6vktr
+         /fRjUkE8/1xHSczU6WrIveO8f2sPYHCfBQ5y2Skl2WR5T22QZPYtQZgc+/BwmPmNB0Bi
+         ODABGsnJi+xcMg2r8xZTyWO+ffwBQiHqXEPcHedVNxJLdm4AcLfnwGc8jtltLpG6BI+h
+         faGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761029419; x=1761634219;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4rgZxih5gy2BMHS3YkFWgN8TZfTZVAcw8SO45LmtGow=;
+        b=wC+Gi1LYbcGlkKdgAGqoegKMKlvqPEdFpqMct8V0CBe6u4ICFdxxCsBDvnAqLdiUFt
+         iSUXIXAOZNBRE1qnrAuiX2Hvv1C42uSrWnOy1Q3B9k6UL9ZHPvdhdzhopZuaUrlzZdx2
+         AjLrPdzsO/YDZzCVc2SbJQRRm2u4Q+cr92GWZT2bbPcbtw1W0Td4j0iBmUQZGG9L0/tM
+         95W5jSAeJk6DSd6DB+AY1TTT0FQ2ZRl7QW0E8YIE4jHh+p0KUE1P3o9cE/u29SZmdYKO
+         J4jGfJG4DfPExGwget+3K6n08In2Y+Q7Q1/KX3eDefZYOZpt3ay7njxD3x4kkk0TEQ3h
+         dSAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOZiMRrOq9SKjwQyQ0HFhQkbXzTTmK7J0evUpmc6gZKNmRPO1S2tc6GwEY+p+B8qK1ujdyKAmHYyU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWbdw29byU5qKb55t00p70yLJIwq/w7WM58S3fB5kYEAlvV3dI
+	oAEc7eQn6IsX8kVS0MIBbhrJpSNuiA3Ar6X9iLqsSBEw6bcIIpuV/rzbWzw/LaXgTzfZUNUWNU8
+	NjIgnbA3f/DqlzuSZA9PWdeStxq0qiEPrKxV8Fyv+
+X-Gm-Gg: ASbGncsuGEIL82NzBKl9qQIp/y8CJ/P+Hgjr6k2hsewvzsT5godHzfPu0FBju/mhzmu
+	y1YctCiceQcaqXLoGzvze3zmdPDcZk+GmtPfsyawupKfBMjG0p9Wsm6oObkRkUpFUEOOBaLtMql
+	vPI+T+qte+c8I2FY5T60/1FU1oSVwkKrl3h2NMDFtDw6PLyG7ovxZlPIzYQ26NaRUaGh6WSUbQV
+	iKks4PKBTOFMUJYa0GVwEPMre2QqhZ7eDC1ADNed6N17ev2NgKP1gNBtfP0mLUUTN1BsrXlqly3
+	Y09n
+X-Google-Smtp-Source: AGHT+IEwdOY2JJFd/djDV/tCyhcmpRjDflrZmOLD/8/gl9y78vUgJEeourUfBnKg6Fzp3WkWdc7W8o4vveQ7Pvu4VV8=
+X-Received: by 2002:a05:6214:3da0:b0:87c:20f5:84ea with SMTP id
+ 6a1803df08f44-87c20f586bcmr209779886d6.18.1761029419224; Mon, 20 Oct 2025
+ 23:50:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: Alistair Francis <alistair23@gmail.com>
-Cc: chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <fe16288e-e3f2-4de3-838e-181bbb0ce3ee@suse.de>
- <CAKmqyKP0eB_WTZtMqtaNELPE4Bs9Ln-0U+_Oqk8fuJXTay_DPg@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAKmqyKP0eB_WTZtMqtaNELPE4Bs9Ln-0U+_Oqk8fuJXTay_DPg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+References: <20251021030605.41610-1-ishikawa.yuy-00@jp.fujitsu.com>
+In-Reply-To: <20251021030605.41610-1-ishikawa.yuy-00@jp.fujitsu.com>
+From: David Gow <davidgow@google.com>
+Date: Tue, 21 Oct 2025 14:50:07 +0800
+X-Gm-Features: AS18NWDYePtgOThCzeGcYSGFxHF2hIfPwo5RJMeELAwIWDtxVneNg3-FT1KJPcU
+Message-ID: <CABVgOSmC5jONnuNHt3YZvMyFK83Y26KWYYFwP6TAoOKnCwAGeA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: add description of kunit.enable parameter
+To: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	misono.tomohiro@fujitsu.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000001d7430641a59d9a"
 
-On 10/21/25 03:01, Alistair Francis wrote:
-> On Tue, Oct 21, 2025 at 3:46 AM Hannes Reinecke <hare@suse.de> wrote:
->>
->> On 10/17/25 06:23, alistair23@gmail.com wrote:
->>> From: Alistair Francis <alistair.francis@wdc.com>
->>>
->>> The TLS 1.3 specification allows the TLS client or server to send a
->>> KeyUpdate. This is generally used when the sequence is about to
->>> overflow or after a certain amount of bytes have been encrypted.
->>>
->>> The TLS spec doesn't mandate the conditions though, so a KeyUpdate
->>> can be sent by the TLS client or server at any time. This includes
->>> when running NVMe-OF over a TLS 1.3 connection.
->>>
->>> As such Linux should be able to handle a KeyUpdate event, as the
->>> other NVMe side could initiate a KeyUpdate.
->>>
->>> Upcoming WD NVMe-TCP hardware controllers implement TLS support
->>> and send KeyUpdate requests.
->>>
->>> This series builds on top of the existing TLS EKEYEXPIRED work,
->>> which already detects a KeyUpdate request. We can now pass that
->>> information up to the NVMe layer (target and host) and then pass
->>> it up to userspace.
->>>
->>> Userspace (ktls-utils) will need to save the connection state
->>> in the keyring during the initial handshake. The kernel then
->>> provides the key serial back to userspace when handling a
->>> KeyUpdate. Userspace can use this to restore the connection
->>> information and then update the keys, this final process
->>> is similar to the initial handshake.
->>>
->>
->> I am rather sceptical at the current tlshd implementation.
->> At which place do you update the sending keys?
-> 
-> The sending keys are updated as part of gnutls_session_key_update().
-> 
-> gnutls_session_key_update() calls update_sending_key() which updates
-> the sending keys.
-> 
-> The idea is that when the sequence number is about to overflow the
-> kernel will request userspace to update the sending keys via the
-> HANDSHAKE_KEY_UPDATE_TYPE_SEND key_update_type. Userspace updates the
-> keys and initiates a KeyUpdate.
-> 
-That's also what the spec says.
-But in order to do that we would need to get hold of the sequence
-number, which currently is internal to gnutls.
-Can we extract it from the session information?
-And can we display it in sysfs, to give users information
-whether a KeyUpdate had happened?
+--00000000000001d7430641a59d9a
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, 21 Oct 2025 at 11:02, Yuya Ishikawa
+<ishikawa.yuy-00@jp.fujitsu.com> wrote:
+>
+> The current KUnit documentation does not mention the kunit.enable
+> kernel parameter, making it unclear how to troubleshoot cases where
+> KUnit tests do not run as expected.
+> Add a note explaining kunit.enable parmaeter. Disabling this parameter
+> prevents all KUnit tests from running even if CONFIG_KUNIT is enabled.
+>
+> Signed-off-by: Yuya Ishikawa <ishikawa.yuy-00@jp.fujitsu.com>
+> ---
+
+Looks good to me, thanks!
+
+Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
+-- David
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+--00000000000001d7430641a59d9a
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
+4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
+mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
+KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
+VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
+ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
+vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
+BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
+OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
+1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
+ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
+BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
+18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
+bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
+AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
+BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
+A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
+MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
+jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
+0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
+jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
+jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
+C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
+NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
+zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
+A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
+hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
+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
+Dxz3AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
+/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFHZtY3XkWtC2
+e2Idfk+0JyK7BLzzMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
+BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
+MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
+LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
+bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
+FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBo
+hqjbVaHxZoT6HHUuwQcTlbgXpuVi59bQPrSwb/6Pn1t3h3SLeuUCvOYpoQjxlWy/FexsPW+nWS0I
+PUmWpt6sxbIRTKPfb7cPk32XezfnA0jexucybiXzkZKTrbI7zoMOzDIWpTKYZAonB9Zzi7Dso4An
+ZOtz/E3yhdR/q1MK30d5fiCS0vorEd0Oy8Jzcc7TJ2HGMzEEXiFFvVrJYJHvfYOeXE4ywAG6YWO0
+x78+bXeB9vkeWHhOYKyYXuAXrnHASddEICg1QlJCHDAISMC1Wn/tjqTMTt3sDAe+dhi9V1FEGTbG
+g9PxPVP4huJEMIBu/MWNMzHfiW4E7eCHVPrmtX7CFDlMik7qsgQBbO5h6EcxBamhIflfMgoISsRJ
+Vyll2E5BNVwkNstMgU3WMg5yIaQcuGFgFnMTrQcaLEEFPV3cCP9pgXovYDirnB7FKNdCZNHfeBY1
+HEXJ2jIPDP6nWSbYoRry0TvPgxh5ZeM5+sc1L7kY75C8U4FV3t4qdC+p7rgqfAggdvDPa5BJbTRg
+KAzwyf3z7XUrYp38pXybmDnsEcRNBIOEqBXoiBxZXaKQqaY921nWAroMM/6I6CVpTnu6JEeQkoi4
+IgGIEaTFPcgAjvpDQ8waLJL84EP6rbLW6dop+97BXbeO9L/fFf40kBhve6IggpJSeU9RdCQ5czGC
+Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
+BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAYQLf/BIzLow9kWqD8My
+PzANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgl/37TsJww6uYTrVOgW9sID+DjtHn
+rdyuStNoe0LMjPswGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUx
+MDIxMDY1MDE5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
+AQEBBQAEggEAewi32D4KDRvho6C/m5xiegr6jfa/giZJ56gmyrwBX1crso8/k78mGoq3UZdGgqeD
+H8Jd4JEo+/D6EuUpzzaFk7OdvWvaEpVGJRMKSza3IK1rdgAeevi4k5/nb0LPJ/5GkwsGMLO9EHMa
+QNxVLj71zNsVnqEDz2Te1Vjm4a+XyMYYh9YZN98Bnpao5BJ2g3t8LrfNFmQMV7fsQoxsAdz87cfl
+HMmAZF9sOmY8jVrBAL5e5ultutG3lTEthJU2RhkhD/XgeGi5M0ljQbtfmqGnIrF0VJWUczxvzsP5
+aQvcun/r57mVqrwROnc7/hFVf8eFrKxqP304RsUVKvN2B1EjAw==
+--00000000000001d7430641a59d9a--
