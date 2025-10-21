@@ -1,129 +1,169 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E78C355026;
-	Tue, 21 Oct 2025 12:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAA335503E;
+	Tue, 21 Oct 2025 12:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761048768; cv=none; b=n737z//9fh+QjlQmAr7HYtdgaMsAo6Tt3kP1h3GJRAuDfDWEBJU/FzYoxwECZL62IsS/wjvIhImToNp8MGmfyJXjo0ac9LAqh1dxcIyjZcj6bwmrwZZDs5GCPYLMTYFy/40PfrCr48Z1H5ss847uazKV15QLMbkzvF0rNaREekM=
+	t=1761048877; cv=none; b=Ooi4gsZygPeqXIAK3xEEOo8hN8UBkC2OGk+WlPulhZ5dMfD79+G7cI8YMTIUVHK9+/0aWqMipcZ7AwqTbU+cw7qhq4p3/Cry/Ek8f8wKG8yfef+GG1uoI3hOrrBXhIJOMKnTvfdUsPkO/kRIEEWfBTY77xcjSGw1FxBX9PuqIM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761048768; c=relaxed/simple;
-	bh=wiD+0/AZVa3NKyDlqbcnqHnYQ4oQcnmmX54eoGAi9Qk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ufr9oyEdcd53bHK/9JSX9uir5++2GU90LUXmYSOampX1LT1L6vk6dw+fa3mazqfslbxvXPntZMQ7A5+dMhyK5uVBBbG4eCtSV0DDo9r7UJHK+XnQoqeq6HqVvNpIgz8Ey1Oi6WCX8gICgnI9czIVJdI8jHJDDIDDs+y5Fb0eyeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=qpJz1HmD; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1761048877; c=relaxed/simple;
+	bh=ElSiGl51SENdQy+zgYpYwRZ/ED2yT+tL43Wf5Uo2oRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ffkUlMd+UOd3cCW4yAfNfC6MBsmCXB/aO9iKrv6qhGc+XxOLrFecuPV2yQ4nrZLNCF+QIZNuKCYeNCdosQsHjcjRlSSsqhEcX3geEm0gTk9sl5f7aPlFMfDiamllN3wyQcaFm9eQCoiUrns4ogQ3cLtTflUVj7SliS5+bW/9tXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mxrTZpeI; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="qpJz1HmD"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=ZYnZ5rl8ra5LMmp0nS6khBlS0UWmleV+sVAGtX9r6VA=;
-	b=qpJz1HmD7inbH6v+Umr1oyzEbNOvum+nx9YHpWOIidwVrx8FLHIgwb1TEuXSPWfAScqYLEgSF
-	cWJeZgZJpW58BVuq09wwW8yTA8HXdMaykH/g+hkkOPsl114ujhRKr2WbsUlmmccLGYS3I+9Uu2C
-	pXwGmNGbmwyaCiZ25QuS08o=
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4crWP073JKzcZyT;
-	Tue, 21 Oct 2025 20:11:32 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7B5DF18006C;
-	Tue, 21 Oct 2025 20:12:42 +0800 (CST)
-Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 21 Oct 2025 20:12:42 +0800
-Received: from huawei.com (10.67.174.28) by kwepemq200011.china.huawei.com
- (7.202.195.155) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 21 Oct
- 2025 20:12:41 +0800
-From: Liao Chang <liaochang1@huawei.com>
-To: <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<akpm@linux-foundation.org>, <paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>, <bp@alien8.de>,
-	<kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>, <maz@kernel.org>,
-	<broonie@kernel.org>, <oliver.upton@linux.dev>, <yeoreum.yun@arm.com>,
-	<yangyicong@hisilicon.com>, <james.morse@arm.com>, <ardb@kernel.org>,
-	<hardevsinh.palaniya@siliconsignals.io>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses to IMPDEF regs
-Date: Tue, 21 Oct 2025 11:54:28 +0000
-Message-ID: <20251021115428.557084-1-liaochang1@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mxrTZpeI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761048876; x=1792584876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ElSiGl51SENdQy+zgYpYwRZ/ED2yT+tL43Wf5Uo2oRo=;
+  b=mxrTZpeIG0TipS+JUltNkZQ9839b6xS7l2ixzrHg9vZ5rZrPe34hBpWO
+   y3dzR56Hqsiixu9WTqRMXaGHYHrSu3RDcM0uAE931p0QVfOUVyhbWMlss
+   3yS13TGwiGkBPnWASW5Pg7N5SRlVGIfIpJic5SPhTOasF0IPsWTKZ5KGQ
+   F0a5lCXJeR4HlORwlATD2LLzbI7hvK3JzSXS3fEiOyHcdhcRmBrXZnVsL
+   Jx/ELusRbCyWmesVDVI2weJ8ia7N1iyB+sXZKg1Dj2nlBmMYOM5CwUoNv
+   3qNo2EJ+RjJnCbU6ORjcr9mJh10uPFbuVev+ovBr89caD7+NSUa4nm9mp
+   Q==;
+X-CSE-ConnectionGUID: NcrZt546TyiBiGmzv3RB5A==
+X-CSE-MsgGUID: tZvMHudGTBKjrL0XPtUj3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73843859"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="73843859"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 05:14:35 -0700
+X-CSE-ConnectionGUID: mFYrMzXCR0aGuLvRqYMPBA==
+X-CSE-MsgGUID: ucocjoz3QIGLiRJSkgBqFg==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Oct 2025 05:14:32 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBBG1-000AoJ-2c;
+	Tue, 21 Oct 2025 12:14:29 +0000
+Date: Tue, 21 Oct 2025 20:14:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aditya Dutt <duttaditya18@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>
+Cc: oe-kbuild-all@lists.linux.dev, Aditya Dutt <duttaditya18@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] iio: position: Add support for ams AS5600 angle
+ sensor
+Message-ID: <202510211910.UK1wOVjv-lkp@intel.com>
+References: <20251020201653.86181-3-duttaditya18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq200011.china.huawei.com (7.202.195.155)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251020201653.86181-3-duttaditya18@gmail.com>
 
-Add kernel parameter to allow system-wide EL0 access to IMPDEF system
-regregisters and instructions without trapping to EL1/EL2. Since trap
-overhead will compromises benefits, and it's even worse in
-virtualization on CPU where certain IMPDEF registers and instructions
-are designed for EL0 performance use.
+Hi Aditya,
 
-More early discussion could be found from link below.
+kernel test robot noticed the following build warnings:
 
-Link: https://lore.kernel.org/all/24afb8de-622a-4865-bd8e-8e89ccfff8f4@huawei.com/
-Tested-by: Xinyu Zheng <zhengxinyu6@huawei.com>
-Signed-off-by: Liao Chang <liaochang1@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  9 +++++++++
- arch/arm64/kernel/cpufeature.c                  | 14 +++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5a7a83c411e9..11ffa9f7b972 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -326,6 +326,15 @@
- 			See Documentation/arch/arm64/asymmetric-32bit.rst for more
- 			information.
- 
-+	no_trap_el0_impdef [Arm64,EARLY]
-+			Allow system-wide EL0 access to IMPDEF system registers
-+			and instructions without trapping to EL1/EL2.
-+			Since trap overhead compromises benefits, and it's even
-+			worse in virtualization on CPU where certain IMPDEF
-+			registers and instructions are designed for EL0
-+			performance use. This assumes the kernel adds the
-+			support for Armv8.8 extension FEAT_TIDCP1.
-+
- 	amd_iommu=	[HW,X86-64]
- 			Pass parameters to the AMD IOMMU driver in the system.
- 			Possible values are:
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index ef269a5a37e1..d12e35d799ee 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -2459,9 +2459,21 @@ static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, in
- }
- #endif /* CONFIG_KVM */
- 
-+static bool no_trap_el0_impdef;
-+
-+static int __init parse_no_trap_el0_impdef(char *p)
-+{
-+	no_trap_el0_impdef = true;
-+	return 0;
-+}
-+early_param("no_trap_el0_impdef", parse_no_trap_el0_impdef);
-+
- static void cpu_trap_el0_impdef(const struct arm64_cpu_capabilities *__unused)
- {
--	sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
-+	if (no_trap_el0_impdef)
-+		sysreg_clear_set(sctlr_el1, SCTLR_EL1_TIDCP, 0);
-+	else
-+		sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
- }
- 
- static void cpu_enable_dit(const struct arm64_cpu_capabilities *__unused)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Dutt/dt-bindings-iio-position-Add-ams-AS5600-Position-Sensor/20251021-042001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251020201653.86181-3-duttaditya18%40gmail.com
+patch subject: [PATCH 2/2] iio: position: Add support for ams AS5600 angle sensor
+config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211910.UK1wOVjv-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211910.UK1wOVjv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510211910.UK1wOVjv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/position/as5600.c:127:12: warning: implicit conversion from 'long long' to 'int' changes value from 4096000000 to -198967296 [-Wconstant-conversion]
+                           *val2 = 4096000000;
+                                 ~ ^~~~~~~~~~
+   1 warning generated.
+
+
+vim +127 drivers/iio/position/as5600.c
+
+    93	
+    94	static int as5600_read_raw(struct iio_dev *indio_dev,
+    95				   struct iio_chan_spec const *chan,
+    96				   int *val, int *val2, long mask)
+    97	{
+    98		struct as5600_priv *priv = iio_priv(indio_dev);
+    99		u16 bitmask;
+   100		s32 ret;
+   101		u16 reg;
+   102	
+   103		switch (mask) {
+   104		case IIO_CHAN_INFO_RAW:
+   105			if (chan->channel == 0) {
+   106				reg = AS5600_REG_RAW_ANGLE;
+   107				bitmask = AS5600_FIELD_RAW_ANGLE;
+   108			} else {
+   109				reg = AS5600_REG_ANGLE;
+   110				bitmask = AS5600_FIELD_ANGLE;
+   111			}
+   112			ret = i2c_smbus_read_word_swapped(priv->client, reg);
+   113	
+   114			if (ret < 0)
+   115				return ret;
+   116			*val = ret & bitmask;
+   117	
+   118			return IIO_VAL_INT;
+   119	
+   120		case IIO_CHAN_INFO_SCALE:
+   121			/* Always 4096 steps, but angle range varies between
+   122			 * 18 and 360 degrees.
+   123			 */
+   124			if (chan->channel == 0) {
+   125				/* Whole angle range = 2*pi / 4096 */
+   126				*val = 2 * 3141592;
+ > 127				*val2 = 4096000000;
+   128			} else {
+   129				s32 range;
+   130	
+   131				/* MPOS - ZPOS defines the active angle selection */
+   132				/* Partial angle = (range / 4096) * (2*pi / 4096) */
+   133				mutex_lock(&priv->lock);
+   134				range = priv->mpos - priv->zpos;
+   135				mutex_unlock(&priv->lock);
+   136				if (range <= 0)
+   137					range += 4096;
+   138	
+   139				*val = range * 2 * 314159;
+   140				*val /= 4096;
+   141				*val2 = 409600000;
+   142			}
+   143	
+   144			return IIO_VAL_FRACTIONAL;
+   145	
+   146		default:
+   147			return -EINVAL;
+   148		}
+   149	}
+   150	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
