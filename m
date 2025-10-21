@@ -1,70 +1,70 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD953385B5
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 12:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F19338923
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 13:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761051600; cv=none; b=TEWDmAmB3lBUB5qVvbYY5iO3+4dRBvbKGAnZgM+odrLFQwEhBteRuDnvawSLrl8271jRPgp+p3BFKHmdMC3z9S1PbamEr1KEP94RrnWCDQ2I74V0W7rJNk5hthqmLIbiBDdd5UdVPC27sC4gtdLd5fzlaonPHJsuHCJujv6pVns=
+	t=1761051602; cv=none; b=BMp/8ttfuOTjOvWa8W7JxSUZdKofvrhijX2H8dXijRHSTOYIc630/wAlN2sSbvvZcxfq2dd88IAOxG8yC3ZaYOxtc8SwlLSsIVtZY3wMCYo1ZxYYJsYuRyFpuNinosh3cTBSPzQEx1vLxDjP7ZQOvrXIg8ID25uMummgnrhCGRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761051600; c=relaxed/simple;
-	bh=RVpO0/1Rr2WqDw7IdAgDtrk1Tta4kn04Oz5nTYeayzU=;
+	s=arc-20240116; t=1761051602; c=relaxed/simple;
+	bh=kfpHhOMhCTafFElzJiRv8QNBxHxjmeSCOSw1fMkjaaU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kJElTzX70pUZKAA/w+nNEAq0xAeivLEU3FyWvMwnSJCWcyInJ2bbUBaWBJhHedydoUH++4+J4s89HRfAynCkWYGtaZ18f2llTmh+ng1GWLkvUl3LGmEP12233n0ir5bstGqTdi3yHGqOvVR0Dts8cXoHLgFA5LEB0DG6hjLYXdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZeqP5W2Y; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=YZ+oeOX00Y2ss/Qw5frAE+Jlf5zs/QxkYQmuEvUBVaaloH5+0jEv10qVFVv80JSGS2ZH1oH0fCmfsGHgxk3Da9Mctb/qGfmq7f4pbeUos/lmqhsh/Oua4QvvGLzhFlcTI2NTr/XUmeiQp57AE8cw2MazLPxTHrXQ2E5sUTCYHWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XlQ2Nq8s; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZeqP5W2Y"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XlQ2Nq8s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761051597;
+	s=mimecast20190719; t=1761051599;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a58UIIapVgV9zdPpt63SgupeCmEgQ8fjnLkqSW0/g7g=;
-	b=ZeqP5W2Ybe1TzfDt/dZ+rbzug9YXzMDndJCEgtExNQ3acemanQFMWZvupPKoPeuIl4DO/K
-	p/DMpE5ieknROaWPPgXWrW0kElvPkJyNKjMXiSa54bP6IkfZaNPckhtuDPwqv4IE/DJEvn
-	H8h4FrdRKO/T5+bnF+l2USfoctKYo4I=
+	bh=sGRFD+OUXBdzIHwpdd8L6KTTXumWjBTMpIxo57Gp8oE=;
+	b=XlQ2Nq8sCU9OzfJYq62c2znzGT5N7hcppg0nVpYXuBgE3nuG9b7gMAcs3XOsezjzJ/odxk
+	Y499cmppdfmZtwHQ/k2XjQ6sUympLPEFnzfbsN16wwBNc5et0zIP/niaIM/nUZMMJWdSwq
+	yJawOkN2O/K2VZZIHQ15NKK3KK1s4s4=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-171-1NSrG9_7PnuSV233jctjvA-1; Tue, 21 Oct 2025 08:59:56 -0400
-X-MC-Unique: 1NSrG9_7PnuSV233jctjvA-1
-X-Mimecast-MFC-AGG-ID: 1NSrG9_7PnuSV233jctjvA_1761051595
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3f6b44ab789so2903891f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 05:59:55 -0700 (PDT)
+ us-mta-41-1Wn7ABmMPdStUJ1RIbh8bg-1; Tue, 21 Oct 2025 08:59:58 -0400
+X-MC-Unique: 1Wn7ABmMPdStUJ1RIbh8bg-1
+X-Mimecast-MFC-AGG-ID: 1Wn7ABmMPdStUJ1RIbh8bg_1761051597
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3ee888281c3so9987245f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 05:59:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761051595; x=1761656395;
+        d=1e100.net; s=20230601; t=1761051597; x=1761656397;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a58UIIapVgV9zdPpt63SgupeCmEgQ8fjnLkqSW0/g7g=;
-        b=MPczE9ah8vDn3M7Oxq/osVgBX2bcXQAMTqV+LqwM4yMTisZXYu64lJK4joW/x4yeZJ
-         lhdwFFFBZRKdXMXRnHvxS1LwGfgUuQ5YWz3ezTWZcAfyG8sYk0cu27yXyeDbXIt9I73o
-         2XGqsAKAc07aJI7GoE++R9FyRz3oWvHlhnUwhHmNvQE4q4Lpl+9W7XX0u0Ha66kusZaV
-         Jv6UBt84bi5E0PnBGSubgfRU7XADxe3fX0KSf1GkPlzEnEhv94phhQkmrRTJhUSz5HuN
-         uQgbuh7qAlAss7SVVJazsQq3nKCbPtYpspUwqHd5ZtwM8wI5ptmhUWxc6AasVSeQ1NfF
-         iViw==
-X-Forwarded-Encrypted: i=1; AJvYcCXgvo5LtXA1Qbohfar+6oZTRY/QM16HWnjYvGxC0Zy67M7Glp0oPtGmV0UCTETdaJ0HUHmiE9pCfp8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0HdRZ5Ly1wVrhhWZFmb0ePvcwAU8/J1J/K0kLiXSnERWGL7fK
-	N3Z6pzu6XxKXi+0nXCl5lIe2Vy574BLlO+wDhQpD68GV08+WSG6Qb8YqzqgD19KTQaRpY3pe4up
-	33v+yON6Q7PBavJrTKw/E1u4slbibl/8yeRIe2gZh8NFy656Lm79f82Pgy95Zcw==
-X-Gm-Gg: ASbGncvruoFHU1L/i/vzp1/kvD51yCjetwg4Hdih6U8hbffaZe2/6rBSpIZzzulr+8T
-	ibRGG+PPx0NOWsbQzBzFIYW6adJPEerGI5zIGgltD9FQSP62XG2oajGOKAA53wOxmWy83EMCGJN
-	D3C7XleTt0Of7ehG/wwIxynB6v1ScStB4dvqbBbkgmoZIxlYuCbhzfn6cRwZt490qYCYwwZ5Wxl
-	my/2GZ9mV9p5lTVPnGdJ+dmEKfCHSCrM3HsqFbA5DwgT1bRryPH3xYnMastpibmU8nLCSb9YZHi
-	ElzyI8hBpMxkNKzd1kLFuVE8l7VDH5pyUD5Mx17eOCj1XuIEXznNaIxRwuTxE6wreAvTVsh5ZtG
-	N0gIWiPVopeEI3cJz66UmCec6/C8NwW4Amm3u5JS1fLO2oyrZU5L87+Sdo4q0
-X-Received: by 2002:a5d:5f48:0:b0:427:2e8:fe5e with SMTP id ffacd0b85a97d-42704d83898mr11742012f8f.13.1761051594852;
-        Tue, 21 Oct 2025 05:59:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOL78NSzfD/K3cQTXDnH1hifM9lFea/fB9GzfGevY7RVlJ9OG6SsU/tMvE3AQ+AuHnf7dxjA==
-X-Received: by 2002:a5d:5f48:0:b0:427:2e8:fe5e with SMTP id ffacd0b85a97d-42704d83898mr11741985f8f.13.1761051594394;
-        Tue, 21 Oct 2025 05:59:54 -0700 (PDT)
+        bh=sGRFD+OUXBdzIHwpdd8L6KTTXumWjBTMpIxo57Gp8oE=;
+        b=LNd/ZzqZPmadNv0U6aXSLPJo/mX9iYqNaOnzfbln4+RpbDrkggaAr/Ibv111SywRyg
+         qxsMD8GJHP5HZ/dd8KeEDb7guqqMzDuSrkOhU0xqLVfbG6dRn/IP7Nyq9hj/uP0hBl4Q
+         buwFCvt0pdWEd7GihnwvPoMVAwv10+aasapLhGuEq98OrI0WKmo7QFVXa6HtP1u2Bu+J
+         wGL0VcRsw5VKunvDbh4f4yYGIMpTPjMljr6Zwa5VeYpTqDUXJ5WCftyXffA/PXFA95wU
+         e64+lBSs44EN4gqKFjl28krXFoWXNJJcIjqk029/CbOSLqxKwUkHL3oyYRAuCqWKE1ZD
+         daOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEOZGDNxxVxWoJfkrXAY/SUXzbcbzhZW8XGp5lH1CgV7lSEt6diCeFgAtNwSsHYpTWOLFD316Vf9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxsk/ApWRYpASbqHAAyzIS+gvG74gh/48tKhDmTOSGtzte0UCJW
+	ctPSWrGEpwwaIU4e1GnlLU7JoAYLdD5ZMrVIIUJyg+FeF8OJgl0jXSBencDEVesXMRlN0emZ9cB
+	W298+8PLl1Q+DllqtcsTolP4F1C5SnWB6qTa2BlIf4t76vUOG+gybws8haEDrLg==
+X-Gm-Gg: ASbGncvpLVUBRGyjWGZ+MkIDGTwxR3KIDQ1OQoypUhqKbxz5bIKsZQR7A//lhuOPsWN
+	sHYP37M16HLkiwAN/TFpExMMDg6Ar5x30bGkl7+Yvka6QNox50tE4NH9DQdT4zcUGDxyXUzb5OV
+	PrZHSPTMfiKwu6yfZqPyM2kv5LchpJSumsv+vKWOC/1A8Y2JCLyawUD5OYLzUxTJTa9EkiRW0SY
+	/El+2rcmlftTPoFhsV4MU/PmO3+zjGWkCihskULeMEQVIhxcRXtujweCV6plx6BF+XuD6og07p0
+	Zx+ilJpq9qploX6PU70pogsJqbc/8n61nRwQBqNfAVZvsh9epSzbEDHosN80aqTcOX2p3HBAja8
+	0DEJe7E8BEuibFaXJ97ygNPWl4Ouu3B1DmC2ri++JGt7Fx321+T0QztIDkiLf
+X-Received: by 2002:a05:6000:2284:b0:400:7e60:7ee0 with SMTP id ffacd0b85a97d-42704c8848cmr11160761f8f.0.1761051597339;
+        Tue, 21 Oct 2025 05:59:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF1yccRPZwAQwYfj1DMBRFBsRJJ5k0BROkzwajkMvCNAUgq3lYo09LUN84ZfbVlOv9dAfW2Ig==
+X-Received: by 2002:a05:6000:2284:b0:400:7e60:7ee0 with SMTP id ffacd0b85a97d-42704c8848cmr11160739f8f.0.1761051596931;
+        Tue, 21 Oct 2025 05:59:56 -0700 (PDT)
 Received: from localhost (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce56csm20023457f8f.50.2025.10.21.05.59.53
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00b9f9dsm20357223f8f.39.2025.10.21.05.59.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 05:59:53 -0700 (PDT)
+        Tue, 21 Oct 2025 05:59:56 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -94,9 +94,9 @@ Cc: linux-mm@kvack.org,
 	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
 	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
 	Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v1 10/23] mm/balloon_compaction: drop fs.h include from balloon_compaction.h
-Date: Tue, 21 Oct 2025 14:59:15 +0200
-Message-ID: <20251021125929.377194-11-david@redhat.com>
+Subject: [PATCH v1 11/23] drivers/virtio/virtio_balloon: stop using balloon_page_push/pop()
+Date: Tue, 21 Oct 2025 14:59:16 +0200
+Message-ID: <20251021125929.377194-12-david@redhat.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251021125929.377194-1-david@redhat.com>
 References: <20251021125929.377194-1-david@redhat.com>
@@ -108,27 +108,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Ever since commit 68f2736a8583 ("mm: Convert all PageMovable users to
-movable_operations") we no longer store an inode in balloon_dev_info,
-so we can stop including "fs.h".
+Let's stop using these function so we can remove them. They look like
+belonging to the balloon API for managing the device balloon list when
+really they are just simple helpers only used by virtio-balloon.
+
+Let's just inline them and switch to a proper
+list_for_each_entry_safe().
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/balloon_compaction.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/virtio/virtio_balloon.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
-index 7db66c2c86cdc..1452ea0635245 100644
---- a/include/linux/balloon_compaction.h
-+++ b/include/linux/balloon_compaction.h
-@@ -42,7 +42,6 @@
- #include <linux/migrate.h>
- #include <linux/gfp.h>
- #include <linux/err.h>
--#include <linux/fs.h>
- #include <linux/list.h>
+diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
+index f7d6a4a6e54f5..4b22de6a5f845 100644
+--- a/drivers/virtio/virtio_balloon.c
++++ b/drivers/virtio/virtio_balloon.c
+@@ -242,8 +242,8 @@ static void set_page_pfns(struct virtio_balloon *vb,
+ static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
+ {
+ 	unsigned int num_allocated_pages;
++	struct page *page, *next;
+ 	unsigned int num_pfns;
+-	struct page *page;
+ 	LIST_HEAD(pages);
  
- /*
+ 	/* We can only do one array worth at a time. */
+@@ -262,14 +262,15 @@ static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
+ 			break;
+ 		}
+ 
+-		balloon_page_push(&pages, page);
++		list_add(&page->lru, &pages);
+ 	}
+ 
+ 	mutex_lock(&vb->balloon_lock);
+ 
+ 	vb->num_pfns = 0;
+ 
+-	while ((page = balloon_page_pop(&pages))) {
++	list_for_each_entry_safe(page, next, &pages, lru) {
++		list_del(&page->lru);
+ 		balloon_page_enqueue(&vb->vb_dev_info, page);
+ 
+ 		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
+@@ -474,15 +475,19 @@ static inline s64 towards_target(struct virtio_balloon *vb)
+ static unsigned long return_free_pages_to_mm(struct virtio_balloon *vb,
+ 					     unsigned long num_to_return)
+ {
+-	struct page *page;
+-	unsigned long num_returned;
++	unsigned long num_returned = 0;
++	struct page *page, *next;
++
++	if (unlikely(!num_to_return))
++		return 0;
+ 
+ 	spin_lock_irq(&vb->free_page_list_lock);
+-	for (num_returned = 0; num_returned < num_to_return; num_returned++) {
+-		page = balloon_page_pop(&vb->free_page_list);
+-		if (!page)
+-			break;
++
++	list_for_each_entry_safe(page, next, &vb->free_page_list, lru) {
++		list_del(&page->lru);
+ 		__free_pages(page, VIRTIO_BALLOON_HINT_BLOCK_ORDER);
++		if (++num_returned == num_to_return)
++			break;
+ 	}
+ 	vb->num_free_page_blocks -= num_returned;
+ 	spin_unlock_irq(&vb->free_page_list_lock);
+@@ -717,7 +722,7 @@ static int get_free_page_and_send(struct virtio_balloon *vb)
+ 		}
+ 		virtqueue_kick(vq);
+ 		spin_lock_irq(&vb->free_page_list_lock);
+-		balloon_page_push(&vb->free_page_list, page);
++		list_add(&page->lru, &vb->free_page_list);
+ 		vb->num_free_page_blocks++;
+ 		spin_unlock_irq(&vb->free_page_list_lock);
+ 	} else {
 -- 
 2.51.0
 
