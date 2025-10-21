@@ -1,157 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548DD342C95
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 15:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159C3175A5;
+	Tue, 21 Oct 2025 15:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761058862; cv=none; b=YtjLiYgg8w2feJ66wuFiQyToeKJ4IdzPvSmufRgY6i5L9fcm3tYHcDGS+65Jxo7wccmkCslcre9TSSsLXxERpA4qZLRdqX0bHwWwJYfrZgcNaPJgNHDBFjjYudqzo/RDn4NMgmHuHJV4zlk7v/K6Qhg2hb1+GPF/4wdvmLDuvWA=
+	t=1761060117; cv=none; b=b+0L1Liv4NMHxPI2d2wiMN/HNm6zMOvd+nIBygUX+S8+WNxIUy0NhLezbEPbUXgxQyAhebV+d7WPFIq3YJ/QGBiGcDQEyvpPSjvY36ODhFeS7P+FYSpQUGY1kiRJoLVP9dKtvy/Y8hnT7pLNligy98tMLZk26zCDTyH5z6CQ37M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761058862; c=relaxed/simple;
-	bh=ulLWxUh8EsRrOFrJv2gdzbq5iaYJxZBYyWiTN0ivhT4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XmZdg1/clEgT33+wzhMSdJ37j3faxyi/fxBHhqZiNlo9wiP/oCnevss69Es6jBQZGXCxseMfLCxr/hhR9nsEbm9Ee8zTrLrVtiT8J/JgXQYht7NwUl+h+NOdQkP22oc0cJMW3Igr5/IZl+B+IBZvY0p2amxjpst/hVnOZzIiRVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K5ydAzyA; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761060117; c=relaxed/simple;
+	bh=UXgrTKJ/4W3zTkrSFbj7mihos+C8e6d3y7L4u+JlBsU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lybxkq9WVEruO1p9Ha/oAaii//HPdqAfHUw2hbyBg1aVS1VsEgYr4WnZQqIfGSkr5bLWlHDR7URX9cFGueTIMAwFqwPFjONLX9lsS2RPXSnLcT+wtX+Idlxm2O7KW6u8cNMDgwUVtQl2eAGPYzwrYYR93q1+vZHKcHRS7jFovZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpAGrqyA; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K5ydAzyA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761058860;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lRubUKoIKZa05nEVw7UJ7l9fUFkh873Slwn5354MkBU=;
-	b=K5ydAzyA7Dk6FCtgUGfOK356kYsdGmwQY/nCZNuNBTdr8EmMxX0EQliC02n8jJ28xyhA8q
-	XR/3A0R+WTQwx5HZNatDscjt8twHSJAKooVn2UWWVbddOPV5QdWtSXGN/DKP+HlNQRGq9L
-	E0/vRMqsMEYbBys2uLpjGHjcmBEDGHw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-282-8w2b7C-vPtm05iyATl_jyQ-1; Tue, 21 Oct 2025 11:00:59 -0400
-X-MC-Unique: 8w2b7C-vPtm05iyATl_jyQ-1
-X-Mimecast-MFC-AGG-ID: 8w2b7C-vPtm05iyATl_jyQ_1761058858
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-427060bc12dso5836192f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 08:00:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761058858; x=1761663658;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lRubUKoIKZa05nEVw7UJ7l9fUFkh873Slwn5354MkBU=;
-        b=wRbspxcjUnsiXGMAtOnJ50R5YXuuEMdVD44uAWSHOrwc2K6mxmxU9Sck6q+7YgJ9Cl
-         URemaCw/l7pVj1ZEp7wAnDbJ6goZXWg+92ysVsxRdYz+a9EBLkKcQe9vdXdfwXTkYBZJ
-         phtYTYxLuSUdYWlvKhFEYCKga4nlsWNUb5lCoITWv0VJ+dM7anU6zqBlOx/KNqruzBDs
-         Dw7mbcDX12edvBZTRQ1R+8ITrOTNMk5UL91bDD3v72DE2VZkNMrbaXGj1qyXjD2nZLOu
-         B91MTVLv5oI8db74X+7wsCCArNtm/H1dgLHtLis3nT8/TWu+WBgQuxDmpq07AClfzjCS
-         bURA==
-X-Forwarded-Encrypted: i=1; AJvYcCXaz0L6yYTU8ekQkRQvykV4GTL2BFaXdTWUcwq8EiZXFTs37usITlW98zSpew2p96O8ttG495+0244=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn/+Fp8JXF6gpoF24igzqqwY9XrA6sxc3vzvEFjxKD50hRXAc9
-	R0xvI1zV473WLL/vwO7niWqQSDxyjro9sKXK6bPkhTY4ydjMyTRFFlPSqFxDpeEFdS/odHtbikE
-	ZZbo+vH1G8l87lP4BZjKnQPMBsFcN5pmWxGU05mRLjWPaNzPKocNjY3sh6eMeQw==
-X-Gm-Gg: ASbGncvDZ7JoU+2lJsRdzcgQ+7aoVoNmWkAPsX96tP3ozJEg0aGpI/FHDfr4aBORksf
-	QrjjDGEn045+UD5xeWLEKvz+IUPYxooNgZM7ZX538a8RjIOdmu+Gn/yE+XnFc5ZL0jaryDhodg8
-	N3USPuhssdHV7kIJRFEjX1IcXJYTdn9Nd/S+Nif8ixhoz3Eyo8Z5v3ABEqydEO4T5QFQPSy0G73
-	yOimnkXsodjFKXjHs1LD/GfMhnxVPYCXsKKKDwZSkwMNP4fPJv3ikWUlyvTPoJ+61BhVrQibLJk
-	JcBFcw9usY1IV4MAPlklPR+zRmQcX5/2audAnnTNSl3Asdfl8o1KSu3i+QpXtvlivFeOfi+SHfs
-	4XaqAQWkBO+ZTZxOZiup3Cbkz7PH84XZuDFqYLlydepIOyauBNtAFxYR7qmsR
-X-Received: by 2002:a5d:5d05:0:b0:427:809:eff5 with SMTP id ffacd0b85a97d-4270809f252mr11795590f8f.53.1761058857378;
-        Tue, 21 Oct 2025 08:00:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGuNdQq7IEo7xmxPaMqWMcC8QeroaNoRnXCBpBegLE0FB0KNfhJhInOomIlaVikmeTIuzyODg==
-X-Received: by 2002:a5d:5d05:0:b0:427:809:eff5 with SMTP id ffacd0b85a97d-4270809f252mr11795534f8f.53.1761058856848;
-        Tue, 21 Oct 2025 08:00:56 -0700 (PDT)
-Received: from localhost (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f009a78csm20793541f8f.26.2025.10.21.08.00.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 08:00:56 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Zi Yan <ziy@nvidia.com>,
-	David Hildenbrand <david@redhat.com>
-Subject: [PATCH v1 23/23] MAINTAINERS: move memory balloon infrastructure to "MEMORY MANAGEMENT - BALLOON"
-Date: Tue, 21 Oct 2025 17:00:40 +0200
-Message-ID: <20251021150040.498160-7-david@redhat.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251021150040.498160-1-david@redhat.com>
-References: <20251021125929.377194-1-david@redhat.com>
- <20251021150040.498160-1-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpAGrqyA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761060116; x=1792596116;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=UXgrTKJ/4W3zTkrSFbj7mihos+C8e6d3y7L4u+JlBsU=;
+  b=GpAGrqyA+RBStlx2pTvY9gMVEyIKHjROIfp/OQwHPAIf1CndyOCMLXkR
+   bnSh6RaOx0zTANGDh4RgPbvZnZh+uHAWzE4GSB6XwzCF84Pplhvh5lIAj
+   Ht0jFmEs3UyGXqn3ISPEym+3j/AQNVVuUKsSjlgIlZit9Pw7AiHF8Jqb1
+   9gpdXgCZb7ezJ02RpHnUdq+AY7vubkdUhx9+HclrPT7orh2JOfd5p0zmQ
+   pwll7pjVRGtgN1QQitl0XGpHuZIFeCbZMX+Yl1Yzt2VF8v7pn+cGSxIMJ
+   WQmS6Y7iGn5fwmsp8gFwMPROPmvdLXCrhy0Ox3obwIeBtShXHwmwVoC+i
+   w==;
+X-CSE-ConnectionGUID: 095QDA25SbuRWZ4Mu5RqAg==
+X-CSE-MsgGUID: BL+7XLh5St2AgmdEBBKidA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62891063"
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="62891063"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:21:55 -0700
+X-CSE-ConnectionGUID: kUOabx+hTVSzHj1gJ2uM5Q==
+X-CSE-MsgGUID: iMoqPCwhQgO08Y0dYOwtjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="184100379"
+Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.108.149]) ([10.125.108.149])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:21:54 -0700
+Message-ID: <67cdba64-d1e7-4f18-b790-4ecd2c573bb0@intel.com>
+Date: Tue, 21 Oct 2025 08:21:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/its: use Sapphire Rapids+ feature to opt out
+To: Jon Kohler <jon@nutanix.com>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
+ <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Brian Gerst <brgerst@gmail.com>, Brendan Jackman <jackmanb@google.com>,
+ "Ahmed S. Darwish" <darwi@linutronix.de>,
+ Alexandre Chartre <alexandre.chartre@oracle.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20251017011253.2937710-1-jon@nutanix.com>
+ <20251020194446.w2s5f6nr7i7vw4ve@desk>
+ <EA2E1D80-07A3-459D-B330-A667821E7C05@nutanix.com>
+ <20251020204026.a7xuhnagsqo4otpx@desk>
+ <225134fd-033f-4d63-b88c-772179054694@intel.com>
+ <20251020224159.xkhfs3phai5o6rzb@desk>
+ <1D952EBC-CA16-49FE-8AD0-48BCE038332B@nutanix.com>
+ <73a22a19-c492-4a75-8352-a4cfac47d812@intel.com>
+ <883EDC14-1A26-46F4-B9E9-C75A6DF07195@nutanix.com>
+Content-Language: en-US
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <883EDC14-1A26-46F4-B9E9-C75A6DF07195@nutanix.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Nowadays, there is nothing virtio-balloon special anymore about these
-files, the basic infrastructure is used by multiple memory balloon
-drivers.
+On 10/21/25 07:39, Jon Kohler wrote:
+> For BHI_CTRL, depending on what QEMU the VM was originally *started* on,
+> the guest may have access to Sapphire Rapids models, but BHI_CTRL may
+> not have existed in the QEMU source at that time, as those were introduced
+> into two different timeframes.
 
-For now we'll route it through Andrew's tree, maybe in some future it
-makes sense to route this through a separate tree.
+I have two solutions for you here, and neither of them involves patching
+the kernel.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- MAINTAINERS | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+First, I personally volunteer to travel to your customers' homes to
+provide in-person education with my "education stick" about why updating
+software is important.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 878e53d0f65ed..17fbf5c1ea2fb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16225,6 +16225,16 @@ T:	quilt git://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new
- F:	mm/
- F:	tools/mm/
- 
-+MEMORY MANAGEMENT - BALLOON
-+M:	Andrew Morton <akpm@linux-foundation.org>
-+M:	David Hildenbrand <david@redhat.com>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+W:	http://www.linux-mm.org
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-+F:	include/linux/balloon.h
-+F:	mm/balloon.c
-+
- MEMORY MANAGEMENT - CORE
- M:	Andrew Morton <akpm@linux-foundation.org>
- M:	David Hildenbrand <david@redhat.com>
-@@ -27062,9 +27072,7 @@ M:	David Hildenbrand <david@redhat.com>
- L:	virtualization@lists.linux.dev
- S:	Maintained
- F:	drivers/virtio/virtio_balloon.c
--F:	include/linux/balloon.h
- F:	include/uapi/linux/virtio_balloon.h
--F:	mm/balloon.c
- 
- VIRTIO BLOCK AND SCSI DRIVERS
- M:	"Michael S. Tsirkin" <mst@redhat.com>
--- 
-2.51.0
+Second, if they continue to be education-resistant, I offer to
+personally travel to the datacenters where these VMs are running to
+inspect the racks where they run and brainstorm solutions. A warning,
+though: I am quite clumsy and I've been known to bump into power cables
+and circuit breakers.
+
 
