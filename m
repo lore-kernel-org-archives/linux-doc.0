@@ -1,662 +1,467 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E0233F8BC;
-	Tue, 21 Oct 2025 14:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F249340276
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 14:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761057991; cv=none; b=Q4ZTKkYr2jX0fgYmqpb40dNFMtTwWDsEEJ7qhR2UambDosu/uoFLYio9g+nGwZXdeduJTOaXW0VNx3T7avDctTGt3cjZQYeeSS67MA3euG6W7/bEcx171/qHd3VxqrYjSQS/vf3SyYGkJNmv6SyHX5ZJTp0FjdpXncPZapTI6BQ=
+	t=1761058624; cv=none; b=tp8MrJW3WBsG4C8kGwf8boKy9xXJ819QIKclC1LvTIH1MAg/hiI/j2+xAouFOwcC7RWdePqNHt7BLevx+kcOmhfHV+xgQRj6wZuLtyFT+UxqpF/jN9VCYSfMYrawqiaiorT0lQ5OsjFY5woL9qM2TmtBG524AJcVdvaoAdbbYBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761057991; c=relaxed/simple;
-	bh=lK/l4Mo51DWvIEf4keqrmAF5OnnHIV1TKC2TIUYW1FA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nwldR36JiX+hgDlOeQwJaIQeoJeb4JIz94qLkI3B5iYLRf67KsQ2Eoo5RAdbbLIYavrLJPXd3loOetmmUz1j9Mt/ZNw/pXj7msodcf2DxVlTcrhvBagifx7yfonoOHX3nCEOFI/sn0x3gVNl5UOVIdc4eLEqCwasyYmck9p8vk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4crZp75T3sz6K6MQ;
-	Tue, 21 Oct 2025 22:45:03 +0800 (CST)
-Received: from mscpeml500004.china.huawei.com (unknown [7.188.26.250])
-	by mail.maildlp.com (Postfix) with ESMTPS id 315EF140133;
-	Tue, 21 Oct 2025 22:46:25 +0800 (CST)
-Received: from huawei-ThinkCentre-M920t.huawei.com (10.123.122.223) by
- mscpeml500004.china.huawei.com (7.188.26.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 21 Oct 2025 17:46:24 +0300
-From: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
-To: <netdev@vger.kernel.org>, Simon Horman <horms@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <andrey.bokhanko@huawei.com>, Dmitry Skorodumov
-	<skorodumov.dmitry@huawei.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-Subject: [PATCH net-next 1/8] ipvlan: Implement learnable L2-bridge
-Date: Tue, 21 Oct 2025 17:44:03 +0300
-Message-ID: <20251021144410.257905-2-skorodumov.dmitry@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251021144410.257905-1-skorodumov.dmitry@huawei.com>
-References: <20251021144410.257905-1-skorodumov.dmitry@huawei.com>
+	s=arc-20240116; t=1761058624; c=relaxed/simple;
+	bh=AVLIVvLMmzihyiFoqaCOv7LfcX6ztXU/U0RIozF0X1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXVATeqvpdagfFyVjIyscwLzcfZQA4lvsWZLftBX5PGPEJQhdcS5FPIEOrgah1sRVQ5KWrsFyLQY58UcXyq6B0NXr2umBW0LvwX7ppcBl0/SJnfsQ7vPtTERltnH+2mAdv0z1b5KNVq7b7rkx2xXnyAvDPJdUFjRR1A7QKszNew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tm5CFhUs; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tm5CFhUs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761058621;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3HnyN62VmsQSoZltMt/v/Uw3xN8BXbh3poYMFdnESII=;
+	b=Tm5CFhUsk049XuWI7lKIDHYw3NT5e0C6b6PTwGUUOP+kwgCVSNWmEiOqwyFls3i8t/7RBQ
+	gEW4M5BIcIiJw1EIKOkIwa3X+xEbd/IrrHq1ZFxd8uLvSfor3aJMfILxAcPvO2oGcXCtBy
+	FsMYuF02dq6FSLG2c4Xm3CpyQLrLkEg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-480-xtwG7lS6O32HsdWdyF5U3g-1; Tue, 21 Oct 2025 10:56:59 -0400
+X-MC-Unique: xtwG7lS6O32HsdWdyF5U3g-1
+X-Mimecast-MFC-AGG-ID: xtwG7lS6O32HsdWdyF5U3g_1761058618
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-471005f28d2so22183605e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 07:56:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761058618; x=1761663418;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3HnyN62VmsQSoZltMt/v/Uw3xN8BXbh3poYMFdnESII=;
+        b=Bysc+mlRVFqJqJJNyG5VT0QbPTCXvWIn6ULFRwLiRCSuzf5M0UqM6Ue0YezN4OXa0B
+         9gSDBcrTBPjXLEKK07CGOTw5AYF4IEQ8ZXeZd0tB+XM/2ba357XEtRLyX7MoGfcTh0y2
+         Qk/MZBJg4wWLYExPf1JsnBOULrvoL9Gkd7iI/LfaHrERAm9VG+T6zg/2eY7yS5XCxt7I
+         FaNWgeZPPt+We6d3NTQJV2QcYCOayDnNOyKTakV0ZbK1dzWZhuscKsYFu8m6eMjWbYs9
+         95nf2YcteHbRf2PrUl2S6Upo1bjSq51lj5w6Q+h24YpTlNaANSTrDKOs2TMnPoMsna4c
+         KNkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8n/ZpdUZg6i1gxSWT8ukxX4GkpO2LmIY9xv7P4GAJkWwmLQk8t0lmc0KYzfBFFBbF+pyO+g01ZV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIZ8leD+YtoNNXtyjD0E96GXAnNykhWAgigvT6W8eY31a/L2tG
+	oXa2+nDFwC1lC6MIXmG8mQIcDnwOPmtKlRyNG+IgKieXHl6ERx3OM+u+vZ+HjRSbhRJUKSPgqBe
+	uGtpsr29uTFTFLHmuNuACVWkvz2wjC+J/YU6CDK5QeAszyd2gEDuPnPdirNjS/A==
+X-Gm-Gg: ASbGncuUIF5r4HNqfu281HwpdDjurrDoLANIp1RrUx0FDnmRYFNHqMMMvWNbSj5B1sO
+	MDHyC1FIkjGnuJTxeW7Geui2i62S1Llk++geztQLWzamNORi87TvZm8EjjOJR6inKlNkhBlSC2N
+	QWCkGPhOknwUaMJQKCWWrg3K4teHFf3EYTWf8Mi/7GvUmT9UxEXh7Itj0U2H4U8tx3mWz2otD/I
+	QBC4L3x0Z4FkM33TWdh6JDJt/G+UVLjV+ivSisMOqG6JkjhCvvEWyK1r9MzKX5rfSeivsgLSlKm
+	7XwdBwKr0gNj65UXIpDm18TvoU+cjL1nH9ZksiiY5YyNqm9bvTvqCNZMDszOPv7qODAW
+X-Received: by 2002:a05:600c:8b0c:b0:471:1717:41c with SMTP id 5b1f17b1804b1-471179121f4mr109537165e9.24.1761058617810;
+        Tue, 21 Oct 2025 07:56:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBZOzYc7c2VHuQcOpok5r/wPxNoUAyILdkMl2YowqSV8PzFe0v+m+49YouxOUkzwhM1pn3Qw==
+X-Received: by 2002:a05:600c:8b0c:b0:471:1717:41c with SMTP id 5b1f17b1804b1-471179121f4mr109536935e9.24.1761058617149;
+        Tue, 21 Oct 2025 07:56:57 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:152d:b200:2a90:8f13:7c1e:f479])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4731c95efb9sm169701525e9.8.2025.10.21.07.56.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 07:56:56 -0700 (PDT)
+Date: Tue, 21 Oct 2025 10:56:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/2] virtio: clean up features qword/dword terms
+Message-ID: <492ef5aaa196d155d0535b5b6f4ad5b3fba70a1b.1761058528.git.mst@redhat.com>
+References: <cover.1761058274.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mscpeml500004.china.huawei.com (7.188.26.250) To
- mscpeml500004.china.huawei.com (7.188.26.250)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1761058274.git.mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 
-Now it is possible to create link in L2E mode: learnable
-bridge. The IPs will be learned from TX-packets of child interfaces.
+virtio pci uses word to mean "16 bits". mmio uses it to mean
+"32 bits".
 
-Also, dev_add_pack() protocol is attached to the main port
-to support communication from main to child interfaces.
+To avoid confusion, let's avoid the term in core virtio
+altogether. Just say U64 to mean "64 bit".
 
-This mode is intended for the desktop virtual machines, for
-bridging to Wireless interfaces.
-
-The mode should be specified while creating first child interface.
-It is not possible to change it after this.
-
-Signed-off-by: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
+Fixes: e7d4c1c5a546 ("virtio: introduce extended features")
+Cc: "Paolo Abeni" <pabeni@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- Documentation/networking/ipvlan.rst |  11 ++
- drivers/net/ipvlan/ipvlan.h         |  21 ++++
- drivers/net/ipvlan/ipvlan_core.c    | 163 +++++++++++++++++++++++++---
- drivers/net/ipvlan/ipvlan_main.c    | 140 +++++++++++++++++++++---
- include/uapi/linux/if_link.h        |   1 +
- 5 files changed, 301 insertions(+), 35 deletions(-)
+ drivers/vhost/net.c                    | 12 +++++------
+ drivers/virtio/virtio.c                | 12 +++++------
+ drivers/virtio/virtio_debug.c          | 10 ++++-----
+ drivers/virtio/virtio_pci_modern_dev.c |  6 +++---
+ include/linux/virtio.h                 |  2 +-
+ include/linux/virtio_config.h          |  2 +-
+ include/linux/virtio_features.h        | 29 +++++++++++++-------------
+ include/linux/virtio_pci_modern.h      |  8 +++----
+ scripts/lib/kdoc/kdoc_parser.py        |  2 +-
+ 9 files changed, 42 insertions(+), 41 deletions(-)
 
-diff --git a/Documentation/networking/ipvlan.rst b/Documentation/networking/ipvlan.rst
-index 895d0ccfd596..9539e8ac99f4 100644
---- a/Documentation/networking/ipvlan.rst
-+++ b/Documentation/networking/ipvlan.rst
-@@ -90,6 +90,17 @@ works in this mode and hence it is L3-symmetric (L3s). This will have slightly l
- performance but that shouldn't matter since you are choosing this mode over plain-L3
- mode to make conn-tracking work.
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index 35ded4330431..afabc5cf31a6 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -69,7 +69,7 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
  
-+4.4 L2E mode:
-+-------------
-+
-+This mode is an extension for the L2 mode. It is primarily intended for
-+desktop virtual machines for bridging to Wireless interfaces. In plain L2
-+mode you have to configure IPs on slave interface to make it possible
-+mux-ing frames between slaves/master. In the L2E mode, ipvlan will
-+learn itself IPv4/IPv6 address from outgoing packets. Moreover,
-+the dev_add_pack() is configured on master interface to capture
-+outgoing frames and mux-ing it to slave interfaces, if needed.
-+
- 5. Mode flags:
- ==============
+ #define VHOST_DMA_IS_DONE(len) ((__force u32)(len) >= (__force u32)VHOST_DMA_DONE_LEN)
  
-diff --git a/drivers/net/ipvlan/ipvlan.h b/drivers/net/ipvlan/ipvlan.h
-index 50de3ee204db..020e80df1e38 100644
---- a/drivers/net/ipvlan/ipvlan.h
-+++ b/drivers/net/ipvlan/ipvlan.h
-@@ -91,6 +91,7 @@ struct ipvl_port {
- 	possible_net_t		pnet;
- 	struct hlist_head	hlhead[IPVLAN_HASH_SIZE];
- 	struct list_head	ipvlans;
-+	struct packet_type	ipvl_ptype;
- 	u16			mode;
- 	u16			flags;
- 	u16			dev_id_start;
-@@ -103,6 +104,7 @@ struct ipvl_port {
- 
- struct ipvl_skb_cb {
- 	bool tx_pkt;
-+	void *mark;
- };
- #define IPVL_SKB_CB(_skb) ((struct ipvl_skb_cb *)&((_skb)->cb[0]))
- 
-@@ -151,12 +153,31 @@ static inline void ipvlan_clear_vepa(struct ipvl_port *port)
- 	port->flags &= ~IPVLAN_F_VEPA;
- }
- 
-+static inline bool ipvlan_is_learnable(struct ipvl_port *port)
-+{
-+	return port->mode == IPVLAN_MODE_L2E;
-+}
-+
-+static inline void ipvlan_mark_skb(struct sk_buff *skb, struct net_device *dev)
-+{
-+	IPVL_SKB_CB(skb)->mark = dev;
-+}
-+
-+static inline bool ipvlan_is_skb_marked(struct sk_buff *skb, struct net_device *dev)
-+{
-+	return (IPVL_SKB_CB(skb)->mark == dev);
-+}
-+
- void ipvlan_init_secret(void);
- unsigned int ipvlan_mac_hash(const unsigned char *addr);
- rx_handler_result_t ipvlan_handle_frame(struct sk_buff **pskb);
-+void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev);
- void ipvlan_process_multicast(struct work_struct *work);
-+void ipvlan_multicast_enqueue(struct ipvl_port *port,
-+			      struct sk_buff *skb, bool tx_pkt);
- int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev);
- void ipvlan_ht_addr_add(struct ipvl_dev *ipvlan, struct ipvl_addr *addr);
-+int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6);
- struct ipvl_addr *ipvlan_find_addr(const struct ipvl_dev *ipvlan,
- 				   const void *iaddr, bool is_v6);
- bool ipvlan_addr_busy(struct ipvl_port *port, void *iaddr, bool is_v6);
-diff --git a/drivers/net/ipvlan/ipvlan_core.c b/drivers/net/ipvlan/ipvlan_core.c
-index d7e3ddbcab6f..ffe8efd2f1aa 100644
---- a/drivers/net/ipvlan/ipvlan_core.c
-+++ b/drivers/net/ipvlan/ipvlan_core.c
-@@ -284,6 +284,18 @@ void ipvlan_process_multicast(struct work_struct *work)
- 		rcu_read_unlock();
- 
- 		if (tx_pkt) {
-+			if (ipvlan_is_learnable(port)) {
-+				/* Inject packet to main dev */
-+				nskb = skb_clone(skb, GFP_ATOMIC);
-+				if (nskb) {
-+					local_bh_disable();
-+					nskb->pkt_type = pkt_type;
-+					nskb->dev = port->dev;
-+					dev_forward_skb(port->dev, nskb);
-+					local_bh_enable();
-+				}
-+			}
-+
- 			/* If the packet originated here, send it out. */
- 			skb->dev = port->dev;
- 			skb->pkt_type = pkt_type;
-@@ -299,7 +311,7 @@ void ipvlan_process_multicast(struct work_struct *work)
- 	}
- }
- 
--static void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev)
-+void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev)
+-static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
++static const u64 vhost_net_features[VIRTIO_FEATURES_ARRAY_SIZE] = {
+ 	VHOST_FEATURES |
+ 	(1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+ 	(1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+@@ -1720,7 +1720,7 @@ static long vhost_net_set_owner(struct vhost_net *n)
+ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 			    unsigned long arg)
  {
- 	bool xnet = true;
+-	u64 all_features[VIRTIO_FEATURES_DWORDS];
++	u64 all_features[VIRTIO_FEATURES_ARRAY_SIZE];
+ 	struct vhost_net *n = f->private_data;
+ 	void __user *argp = (void __user *)arg;
+ 	u64 __user *featurep = argp;
+@@ -1752,7 +1752,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
  
-@@ -414,6 +426,77 @@ struct ipvl_addr *ipvlan_addr_lookup(struct ipvl_port *port, void *lyr3h,
- 	return addr;
- }
+ 		/* Copy the net features, up to the user-provided buffer size */
+ 		argp += sizeof(u64);
+-		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		copied = min(count, (u64)VIRTIO_FEATURES_ARRAY_SIZE);
+ 		if (copy_to_user(argp, vhost_net_features,
+ 				 copied * sizeof(u64)))
+ 			return -EFAULT;
+@@ -1767,13 +1767,13 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
  
-+static inline bool is_ipv4_usable(__be32 addr)
-+{
-+	return !ipv4_is_lbcast(addr) && !ipv4_is_multicast(addr) &&
-+	       !ipv4_is_zeronet(addr);
-+}
-+
-+static inline bool is_ipv6_usable(const struct in6_addr *addr)
-+{
-+	return !ipv6_addr_is_multicast(addr) && !ipv6_addr_loopback(addr) &&
-+	       !ipv6_addr_any(addr);
-+}
-+
-+static void ipvlan_addr_learn(struct ipvl_dev *ipvlan, void *lyr3h,
-+			      int addr_type)
-+{
-+	void *addr = NULL;
-+	bool is_v6;
-+
-+	switch (addr_type) {
-+#if IS_ENABLED(CONFIG_IPV6)
-+	/* No need to handle IPVL_ICMPV6, since it never has valid src-address */
-+	case IPVL_IPV6: {
-+		struct ipv6hdr *ip6h;
-+
-+		ip6h = (struct ipv6hdr *)lyr3h;
-+		if (!is_ipv6_usable(&ip6h->saddr))
-+			return;
-+		is_v6 = true;
-+		addr = &ip6h->saddr;
-+		break;
-+	}
-+#endif
-+	case IPVL_IPV4: {
-+		struct iphdr *ip4h;
-+		__be32 *i4addr;
-+
-+		ip4h = (struct iphdr *)lyr3h;
-+		i4addr = &ip4h->saddr;
-+		if (!is_ipv4_usable(*i4addr))
-+			return;
-+		is_v6 = false;
-+		addr = i4addr;
-+		break;
-+	}
-+	case IPVL_ARP: {
-+		struct arphdr *arph;
-+		unsigned char *arp_ptr;
-+		__be32 *i4addr;
-+
-+		arph = (struct arphdr *)lyr3h;
-+		arp_ptr = (unsigned char *)(arph + 1);
-+		arp_ptr += ipvlan->port->dev->addr_len;
-+		i4addr = (__be32 *)arp_ptr;
-+		if (!is_ipv4_usable(*i4addr))
-+			return;
-+		is_v6 = false;
-+		addr = i4addr;
-+		break;
-+	}
-+	default:
-+		return;
-+	}
-+
-+	if (!ipvlan_ht_addr_lookup(ipvlan->port, addr, is_v6)) {
-+		spin_lock_bh(&ipvlan->addrs_lock);
-+		if (!ipvlan_addr_busy(ipvlan->port, addr, is_v6))
-+			ipvlan_add_addr(ipvlan, addr, is_v6);
-+		spin_unlock_bh(&ipvlan->addrs_lock);
-+	}
-+}
-+
- static noinline_for_stack int ipvlan_process_v4_outbound(struct sk_buff *skb)
- {
- 	struct net_device *dev = skb->dev;
-@@ -561,8 +644,8 @@ static int ipvlan_process_outbound(struct sk_buff *skb)
- 	return ret;
- }
+ 		virtio_features_zero(all_features);
+ 		argp += sizeof(u64);
+-		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		copied = min(count, (u64)VIRTIO_FEATURES_ARRAY_SIZE);
+ 		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
+ 			return -EFAULT;
  
--static void ipvlan_multicast_enqueue(struct ipvl_port *port,
--				     struct sk_buff *skb, bool tx_pkt)
-+void ipvlan_multicast_enqueue(struct ipvl_port *port,
-+			      struct sk_buff *skb, bool tx_pkt)
- {
- 	if (skb->protocol == htons(ETH_P_PAUSE)) {
- 		kfree_skb(skb);
-@@ -618,15 +701,56 @@ static int ipvlan_xmit_mode_l3(struct sk_buff *skb, struct net_device *dev)
- 
- static int ipvlan_xmit_mode_l2(struct sk_buff *skb, struct net_device *dev)
- {
--	const struct ipvl_dev *ipvlan = netdev_priv(dev);
--	struct ethhdr *eth = skb_eth_hdr(skb);
--	struct ipvl_addr *addr;
- 	void *lyr3h;
-+	struct ipvl_addr *addr;
- 	int addr_type;
-+	bool same_mac_addr;
-+	struct ipvl_dev *ipvlan = netdev_priv(dev);
-+	struct ethhdr *eth = skb_eth_hdr(skb);
-+
-+	if (ipvlan_is_learnable(ipvlan->port) &&
-+	    ether_addr_equal(eth->h_source, dev->dev_addr)) {
-+		/* ignore tx-packets from host */
-+		goto out_drop;
-+	}
-+
-+	same_mac_addr = ether_addr_equal(eth->h_dest, eth->h_source);
-+
-+	lyr3h = ipvlan_get_L3_hdr(ipvlan->port, skb, &addr_type);
- 
--	if (!ipvlan_is_vepa(ipvlan->port) &&
--	    ether_addr_equal(eth->h_dest, eth->h_source)) {
--		lyr3h = ipvlan_get_L3_hdr(ipvlan->port, skb, &addr_type);
-+	if (ipvlan_is_learnable(ipvlan->port)) {
-+		if (lyr3h)
-+			ipvlan_addr_learn(ipvlan, lyr3h, addr_type);
-+		/* Mark SKB in advance */
-+		skb = skb_share_check(skb, GFP_ATOMIC);
-+		if (!skb)
-+			return NET_XMIT_DROP;
-+		ipvlan_mark_skb(skb, ipvlan->phy_dev);
-+	}
-+
-+	if (is_multicast_ether_addr(eth->h_dest)) {
-+		skb_reset_mac_header(skb);
-+		ipvlan_skb_crossing_ns(skb, NULL);
-+		ipvlan_multicast_enqueue(ipvlan->port, skb, true);
-+		return NET_XMIT_SUCCESS;
-+	}
-+
-+	if (ipvlan_is_vepa(ipvlan->port))
-+		goto tx_phy_dev;
-+
-+	if (!same_mac_addr &&
-+	    ether_addr_equal(eth->h_dest, ipvlan->phy_dev->dev_addr)) {
-+		/* It is a packet from child with destination to main port.
-+		 * Pass it to main.
-+		 */
-+		skb = skb_share_check(skb, GFP_ATOMIC);
-+		if (!skb)
-+			return NET_XMIT_DROP;
-+		skb->pkt_type = PACKET_HOST;
-+		skb->dev = ipvlan->phy_dev;
-+		dev_forward_skb(ipvlan->phy_dev, skb);
-+		return NET_XMIT_SUCCESS;
-+	} else if (same_mac_addr) {
- 		if (lyr3h) {
- 			addr = ipvlan_addr_lookup(ipvlan->port, lyr3h, addr_type, true);
- 			if (addr) {
-@@ -649,16 +773,14 @@ static int ipvlan_xmit_mode_l2(struct sk_buff *skb, struct net_device *dev)
+ 		/*
+ 		 * Any feature specified by user-space above
+-		 * VIRTIO_FEATURES_MAX is not supported by definition.
++		 * VIRTIO_FEATURES_BITS is not supported by definition.
  		 */
- 		dev_forward_skb(ipvlan->phy_dev, skb);
- 		return NET_XMIT_SUCCESS;
--
--	} else if (is_multicast_ether_addr(eth->h_dest)) {
--		skb_reset_mac_header(skb);
--		ipvlan_skb_crossing_ns(skb, NULL);
--		ipvlan_multicast_enqueue(ipvlan->port, skb, true);
--		return NET_XMIT_SUCCESS;
- 	}
- 
-+tx_phy_dev:
- 	skb->dev = ipvlan->phy_dev;
- 	return dev_queue_xmit(skb);
-+out_drop:
-+	consume_skb(skb);
-+	return NET_XMIT_DROP;
- }
- 
- int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev)
-@@ -674,6 +796,7 @@ int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev)
- 
- 	switch(port->mode) {
- 	case IPVLAN_MODE_L2:
-+	case IPVLAN_MODE_L2E:
- 		return ipvlan_xmit_mode_l2(skb, dev);
- 	case IPVLAN_MODE_L3:
- #ifdef CONFIG_IPVLAN_L3S
-@@ -737,17 +860,22 @@ static rx_handler_result_t ipvlan_handle_mode_l2(struct sk_buff **pskb,
- 	struct ethhdr *eth = eth_hdr(skb);
- 	rx_handler_result_t ret = RX_HANDLER_PASS;
- 
-+	/* Ignore already seen packets. */
-+	if (ipvlan_is_skb_marked(skb, port->dev))
-+		return RX_HANDLER_PASS;
-+
- 	if (is_multicast_ether_addr(eth->h_dest)) {
- 		if (ipvlan_external_frame(skb, port)) {
--			struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
--
- 			/* External frames are queued for device local
- 			 * distribution, but a copy is given to master
- 			 * straight away to avoid sending duplicates later
- 			 * when work-queue processes this frame. This is
- 			 * achieved by returning RX_HANDLER_PASS.
- 			 */
-+			struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
-+
- 			if (nskb) {
-+				ipvlan_mark_skb(skb, port->dev);
- 				ipvlan_skb_crossing_ns(nskb, NULL);
- 				ipvlan_multicast_enqueue(port, nskb, false);
- 			}
-@@ -770,6 +898,7 @@ rx_handler_result_t ipvlan_handle_frame(struct sk_buff **pskb)
- 
- 	switch (port->mode) {
- 	case IPVLAN_MODE_L2:
-+	case IPVLAN_MODE_L2E:
- 		return ipvlan_handle_mode_l2(pskb, port);
- 	case IPVLAN_MODE_L3:
- 		return ipvlan_handle_mode_l3(pskb, port);
-diff --git a/drivers/net/ipvlan/ipvlan_main.c b/drivers/net/ipvlan/ipvlan_main.c
-index 660f3db11766..df5275bc30fc 100644
---- a/drivers/net/ipvlan/ipvlan_main.c
-+++ b/drivers/net/ipvlan/ipvlan_main.c
-@@ -7,6 +7,11 @@
- 
- #include "ipvlan.h"
- 
-+static void ipvlan_set_learnable(struct ipvl_port *port)
-+{
-+	dev_add_pack(&port->ipvl_ptype);
-+}
-+
- static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 				struct netlink_ext_ack *extack)
- {
-@@ -16,6 +21,15 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 
- 	ASSERT_RTNL();
- 	if (port->mode != nval) {
-+		/* Don't allow switch off the learnable bridge mode.
-+		 * Flags also must be set from the first port-link setup.
-+		 */
-+		if (port->mode == IPVLAN_MODE_L2E ||
-+		    (nval == IPVLAN_MODE_L2E && port->count > 1)) {
-+			netdev_err(port->dev, "L2E mode cannot be changed.\n");
-+			return -EINVAL;
-+		}
-+
- 		list_for_each_entry(ipvlan, &port->ipvlans, pnode) {
- 			flags = ipvlan->dev->flags;
- 			if (nval == IPVLAN_MODE_L3 || nval == IPVLAN_MODE_L3S) {
-@@ -40,7 +54,10 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 			ipvlan_l3s_unregister(port);
+ 		for (i = copied; i < count; ++i) {
+ 			if (copy_from_user(&features, featurep + 1 + i,
+@@ -1783,7 +1783,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 				return -EOPNOTSUPP;
  		}
- 		port->mode = nval;
-+		if (port->mode == IPVLAN_MODE_L2E)
-+			ipvlan_set_learnable(port);
+ 
+-		for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
++		for (i = 0; i < VIRTIO_FEATURES_ARRAY_SIZE; i++)
+ 			if (all_features[i] & ~vhost_net_features[i])
+ 				return -EOPNOTSUPP;
+ 
+diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+index a09eb4d62f82..49aa21a7443c 100644
+--- a/drivers/virtio/virtio.c
++++ b/drivers/virtio/virtio.c
+@@ -53,7 +53,7 @@ static ssize_t features_show(struct device *_d,
+ 
+ 	/* We actually represent this as a bitstring, as it could be
+ 	 * arbitrary length in future. */
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++)
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++)
+ 		len += sysfs_emit_at(buf, len, "%c",
+ 			       __virtio_test_bit(dev, i) ? '1' : '0');
+ 	len += sysfs_emit_at(buf, len, "\n");
+@@ -272,8 +272,8 @@ static int virtio_dev_probe(struct device *_d)
+ 	int err, i;
+ 	struct virtio_device *dev = dev_to_virtio(_d);
+ 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
+-	u64 device_features[VIRTIO_FEATURES_DWORDS];
+-	u64 driver_features[VIRTIO_FEATURES_DWORDS];
++	u64 device_features[VIRTIO_FEATURES_ARRAY_SIZE];
++	u64 driver_features[VIRTIO_FEATURES_ARRAY_SIZE];
+ 	u64 driver_features_legacy;
+ 
+ 	/* We have a driver! */
+@@ -286,7 +286,7 @@ static int virtio_dev_probe(struct device *_d)
+ 	virtio_features_zero(driver_features);
+ 	for (i = 0; i < drv->feature_table_size; i++) {
+ 		unsigned int f = drv->feature_table[i];
+-		if (!WARN_ON_ONCE(f >= VIRTIO_FEATURES_MAX))
++		if (!WARN_ON_ONCE(f >= VIRTIO_FEATURES_BITS))
+ 			virtio_features_set_bit(driver_features, f);
  	}
-+
- 	return 0;
  
- fail:
-@@ -59,6 +76,64 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 	return err;
- }
+@@ -303,7 +303,7 @@ static int virtio_dev_probe(struct device *_d)
+ 	}
  
-+static int ipvlan_port_receive(struct sk_buff *skb, struct net_device *wdev,
-+			       struct packet_type *pt, struct net_device *orig_wdev)
-+{
-+	struct ipvl_port *port;
-+	struct ipvl_addr *addr;
-+	struct ethhdr *eth;
-+	void *lyr3h;
-+	int addr_type;
-+
-+	port = container_of(pt, struct ipvl_port, ipvl_ptype);
-+	/* We are interested only in outgoing packets.
-+	 * rx-path is handled in rx_handler().
-+	 */
-+	if (skb->pkt_type != PACKET_OUTGOING || ipvlan_is_skb_marked(skb, port->dev))
-+		goto out;
-+
-+	skb = skb_share_check(skb, GFP_ATOMIC);
-+	if (!skb)
-+		goto no_mem;
-+
-+	/* data should point to eth-header */
-+	skb_push(skb, skb->data - skb_mac_header(skb));
-+	skb->dev = port->dev;
-+	eth = eth_hdr(skb);
-+
-+	if (is_multicast_ether_addr(eth->h_dest)) {
-+		ipvlan_skb_crossing_ns(skb, NULL);
-+		skb->protocol = eth_type_trans(skb, skb->dev);
-+		skb->pkt_type = PACKET_HOST;
-+		ipvlan_mark_skb(skb, port->dev);
-+		ipvlan_multicast_enqueue(port, skb, false);
-+		return 0;
-+	}
-+
-+	lyr3h = ipvlan_get_L3_hdr(port, skb, &addr_type);
-+	if (!lyr3h)
-+		goto out;
-+
-+	addr = ipvlan_addr_lookup(port, lyr3h, addr_type, true);
-+	if (addr) {
-+		int ret, len;
-+
-+		ipvlan_skb_crossing_ns(skb, addr->master->dev);
-+		skb->protocol = eth_type_trans(skb, skb->dev);
-+		skb->pkt_type = PACKET_HOST;
-+		ipvlan_mark_skb(skb, port->dev);
-+		len = skb->len + ETH_HLEN;
-+		ret = netif_rx(skb);
-+		ipvlan_count_rx(ipvlan, len, ret == NET_RX_SUCCESS, false);
-+		return 0;
-+	}
-+
-+out:
-+	dev_kfree_skb(skb);
-+no_mem:
-+	return 0; // actually, ret value is ignored
-+}
-+
- static int ipvlan_port_create(struct net_device *dev)
- {
- 	struct ipvl_port *port;
-@@ -84,6 +159,11 @@ static int ipvlan_port_create(struct net_device *dev)
- 	if (err)
+ 	if (virtio_features_test_bit(device_features, VIRTIO_F_VERSION_1)) {
+-		for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
++		for (i = 0; i < VIRTIO_FEATURES_ARRAY_SIZE; ++i)
+ 			dev->features_array[i] = driver_features[i] &
+ 						 device_features[i];
+ 	} else {
+@@ -325,7 +325,7 @@ static int virtio_dev_probe(struct device *_d)
  		goto err;
  
-+	port->ipvl_ptype.func = ipvlan_port_receive;
-+	port->ipvl_ptype.type = htons(ETH_P_ALL);
-+	port->ipvl_ptype.dev = dev;
-+	port->ipvl_ptype.list.prev = LIST_POISON2;
-+
- 	netdev_hold(dev, &port->dev_tracker, GFP_KERNEL);
- 	return 0;
+ 	if (drv->validate) {
+-		u64 features[VIRTIO_FEATURES_DWORDS];
++		u64 features[VIRTIO_FEATURES_ARRAY_SIZE];
  
-@@ -100,6 +180,8 @@ static void ipvlan_port_destroy(struct net_device *dev)
- 	netdev_put(dev, &port->dev_tracker);
- 	if (port->mode == IPVLAN_MODE_L3S)
- 		ipvlan_l3s_unregister(port);
-+	if (port->ipvl_ptype.list.prev != LIST_POISON2)
-+		dev_remove_pack(&port->ipvl_ptype);
- 	netdev_rx_handler_unregister(dev);
- 	cancel_work_sync(&port->wq);
- 	while ((skb = __skb_dequeue(&port->backlog)) != NULL) {
-@@ -189,10 +271,13 @@ static int ipvlan_open(struct net_device *dev)
- 	else
- 		dev->flags &= ~IFF_NOARP;
+ 		virtio_features_copy(features, dev->features_array);
+ 		err = drv->validate(dev);
+diff --git a/drivers/virtio/virtio_debug.c b/drivers/virtio/virtio_debug.c
+index d58713ddf2e5..92055dc15860 100644
+--- a/drivers/virtio/virtio_debug.c
++++ b/drivers/virtio/virtio_debug.c
+@@ -8,12 +8,12 @@ static struct dentry *virtio_debugfs_dir;
  
--	rcu_read_lock();
--	list_for_each_entry_rcu(addr, &ipvlan->addrs, anode)
--		ipvlan_ht_addr_add(ipvlan, addr);
--	rcu_read_unlock();
-+	/* for learnable, addresses will be obtained from tx-packets. */
-+	if (!ipvlan_is_learnable(ipvlan->port)) {
-+		rcu_read_lock();
-+		list_for_each_entry_rcu(addr, &ipvlan->addrs, anode)
-+			ipvlan_ht_addr_add(ipvlan, addr);
-+		rcu_read_unlock();
-+	}
- 
- 	return 0;
- }
-@@ -581,11 +666,21 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	INIT_LIST_HEAD(&ipvlan->addrs);
- 	spin_lock_init(&ipvlan->addrs_lock);
- 
--	/* TODO Probably put random address here to be presented to the
--	 * world but keep using the physical-dev address for the outgoing
--	 * packets.
-+	/* Flags are per port and latest update overrides. User has
-+	 * to be consistent in setting it just like the mode attribute.
- 	 */
--	eth_hw_addr_set(dev, phy_dev->dev_addr);
-+	if (data && data[IFLA_IPVLAN_MODE])
-+		mode = nla_get_u16(data[IFLA_IPVLAN_MODE]);
-+
-+	if (mode != IPVLAN_MODE_L2E) {
-+		/* TODO Probably put random address here to be presented to the
-+		 * world but keep using the physical-dev address for the outgoing
-+		 * packets.
-+		 */
-+		eth_hw_addr_set(dev, phy_dev->dev_addr);
-+	} else {
-+		eth_hw_addr_random(dev);
-+	}
- 
- 	dev->priv_flags |= IFF_NO_RX_HANDLER;
- 
-@@ -597,6 +692,9 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	port = ipvlan_port_get_rtnl(phy_dev);
- 	ipvlan->port = port;
- 
-+	if (data && data[IFLA_IPVLAN_FLAGS])
-+		port->flags = nla_get_u16(data[IFLA_IPVLAN_FLAGS]);
-+
- 	/* If the port-id base is at the MAX value, then wrap it around and
- 	 * begin from 0x1 again. This may be due to a busy system where lots
- 	 * of slaves are getting created and deleted.
-@@ -625,19 +723,13 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	if (err)
- 		goto remove_ida;
- 
--	/* Flags are per port and latest update overrides. User has
--	 * to be consistent in setting it just like the mode attribute.
--	 */
--	if (data && data[IFLA_IPVLAN_FLAGS])
--		port->flags = nla_get_u16(data[IFLA_IPVLAN_FLAGS]);
--
--	if (data && data[IFLA_IPVLAN_MODE])
--		mode = nla_get_u16(data[IFLA_IPVLAN_MODE]);
--
- 	err = ipvlan_set_port_mode(port, mode, extack);
- 	if (err)
- 		goto unlink_netdev;
- 
-+	if (ipvlan_is_learnable(port))
-+		dev_set_allmulti(dev, 1);
-+
- 	list_add_tail_rcu(&ipvlan->pnode, &port->ipvlans);
- 	netif_stacked_transfer_operstate(phy_dev, dev);
- 	return 0;
-@@ -657,6 +749,9 @@ void ipvlan_link_delete(struct net_device *dev, struct list_head *head)
- 	struct ipvl_dev *ipvlan = netdev_priv(dev);
- 	struct ipvl_addr *addr, *next;
- 
-+	if (ipvlan_is_learnable(ipvlan->port))
-+		dev_set_allmulti(dev, -1);
-+
- 	spin_lock_bh(&ipvlan->addrs_lock);
- 	list_for_each_entry_safe(addr, next, &ipvlan->addrs, anode) {
- 		ipvlan_ht_addr_del(addr);
-@@ -793,6 +888,9 @@ static int ipvlan_device_event(struct notifier_block *unused,
- 		break;
- 
- 	case NETDEV_CHANGEADDR:
-+		if (ipvlan_is_learnable(ipvlan->port))
-+			break;
-+
- 		list_for_each_entry(ipvlan, &port->ipvlans, pnode) {
- 			eth_hw_addr_set(ipvlan->dev, dev->dev_addr);
- 			call_netdevice_notifiers(NETDEV_CHANGEADDR, ipvlan->dev);
-@@ -813,7 +911,7 @@ static int ipvlan_device_event(struct notifier_block *unused,
- }
- 
- /* the caller must held the addrs lock */
--static int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
-+int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
+ static int virtio_debug_device_features_show(struct seq_file *s, void *data)
  {
- 	struct ipvl_addr *addr;
+-	u64 device_features[VIRTIO_FEATURES_DWORDS];
++	u64 device_features[VIRTIO_FEATURES_ARRAY_SIZE];
+ 	struct virtio_device *dev = s->private;
+ 	unsigned int i;
  
-@@ -928,6 +1026,9 @@ static int ipvlan_addr6_validator_event(struct notifier_block *unused,
- 	if (!ipvlan_is_valid_dev(dev))
- 		return NOTIFY_DONE;
+ 	virtio_get_features(dev, device_features);
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++) {
+ 		if (virtio_features_test_bit(device_features, i))
+ 			seq_printf(s, "%u\n", i);
+ 	}
+@@ -26,7 +26,7 @@ static int virtio_debug_filter_features_show(struct seq_file *s, void *data)
+ 	struct virtio_device *dev = s->private;
+ 	unsigned int i;
  
-+	if (ipvlan_is_learnable(ipvlan->port))
-+		return notifier_from_errno(-EADDRNOTAVAIL);
-+
- 	switch (event) {
- 	case NETDEV_UP:
- 		if (ipvlan_addr_busy(ipvlan->port, &i6vi->i6vi_addr, true)) {
-@@ -999,6 +1100,9 @@ static int ipvlan_addr4_validator_event(struct notifier_block *unused,
- 	if (!ipvlan_is_valid_dev(dev))
- 		return NOTIFY_DONE;
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++) {
+ 		if (virtio_features_test_bit(dev->debugfs_filter_features, i))
+ 			seq_printf(s, "%u\n", i);
+ 	}
+@@ -50,7 +50,7 @@ static int virtio_debug_filter_feature_add(void *data, u64 val)
+ {
+ 	struct virtio_device *dev = data;
  
-+	if (ipvlan_is_learnable(ipvlan->port))
-+		return notifier_from_errno(-EADDRNOTAVAIL);
-+
- 	switch (event) {
- 	case NETDEV_UP:
- 		if (ipvlan_addr_busy(ipvlan->port, &ivi->ivi_addr, false)) {
-diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
-index 3b491d96e52e..6b543c05392d 100644
---- a/include/uapi/linux/if_link.h
-+++ b/include/uapi/linux/if_link.h
-@@ -1269,6 +1269,7 @@ enum ipvlan_mode {
- 	IPVLAN_MODE_L2 = 0,
- 	IPVLAN_MODE_L3,
- 	IPVLAN_MODE_L3S,
-+	IPVLAN_MODE_L2E,
- 	IPVLAN_MODE_MAX
+-	if (val >= VIRTIO_FEATURES_MAX)
++	if (val >= VIRTIO_FEATURES_BITS)
+ 		return -EINVAL;
+ 
+ 	virtio_features_set_bit(dev->debugfs_filter_features, val);
+@@ -64,7 +64,7 @@ static int virtio_debug_filter_feature_del(void *data, u64 val)
+ {
+ 	struct virtio_device *dev = data;
+ 
+-	if (val >= VIRTIO_FEATURES_MAX)
++	if (val >= VIRTIO_FEATURES_BITS)
+ 		return -EINVAL;
+ 
+ 	virtio_features_clear_bit(dev->debugfs_filter_features, val);
+diff --git a/drivers/virtio/virtio_pci_modern_dev.c b/drivers/virtio/virtio_pci_modern_dev.c
+index 9e503b7a58d8..413a8c353463 100644
+--- a/drivers/virtio/virtio_pci_modern_dev.c
++++ b/drivers/virtio/virtio_pci_modern_dev.c
+@@ -401,7 +401,7 @@ void vp_modern_get_extended_features(struct virtio_pci_modern_device *mdev,
+ 	int i;
+ 
+ 	virtio_features_zero(features);
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u64 cur;
+ 
+ 		vp_iowrite32(i, &cfg->device_feature_select);
+@@ -427,7 +427,7 @@ vp_modern_get_driver_extended_features(struct virtio_pci_modern_device *mdev,
+ 	int i;
+ 
+ 	virtio_features_zero(features);
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u64 cur;
+ 
+ 		vp_iowrite32(i, &cfg->guest_feature_select);
+@@ -448,7 +448,7 @@ void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
+ 	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u32 cur = features[i >> 1] >> (32 * (i & 1));
+ 
+ 		vp_iowrite32(i, &cfg->guest_feature_select);
+diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+index 96c66126c074..9778adf8c6e3 100644
+--- a/include/linux/virtio.h
++++ b/include/linux/virtio.h
+@@ -177,7 +177,7 @@ struct virtio_device {
+ 	union virtio_map vmap;
+ #ifdef CONFIG_VIRTIO_DEBUG
+ 	struct dentry *debugfs_dir;
+-	u64 debugfs_filter_features[VIRTIO_FEATURES_DWORDS];
++	u64 debugfs_filter_features[VIRTIO_FEATURES_ARRAY_SIZE];
+ #endif
  };
  
+diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
+index 16001e9f9b39..a9b7a5bc90ce 100644
+--- a/include/linux/virtio_config.h
++++ b/include/linux/virtio_config.h
+@@ -80,7 +80,7 @@ struct virtqueue_info {
+  *	Returns the first 64 feature bits.
+  * @get_extended_features:
+  *      vdev: the virtio_device
+- *      Returns the first VIRTIO_FEATURES_MAX feature bits (all we currently
++ *      Returns the first VIRTIO_FEATURES_BITS feature bits (all we currently
+  *      need).
+  * @finalize_features: confirm what device features we'll be using.
+  *	vdev: the virtio_device
+diff --git a/include/linux/virtio_features.h b/include/linux/virtio_features.h
+index f748f2f87de8..9c99014196ea 100644
+--- a/include/linux/virtio_features.h
++++ b/include/linux/virtio_features.h
+@@ -4,15 +4,16 @@
+ 
+ #include <linux/bits.h>
+ 
+-#define VIRTIO_FEATURES_DWORDS	2
+-#define VIRTIO_FEATURES_MAX	(VIRTIO_FEATURES_DWORDS * 64)
+-#define VIRTIO_FEATURES_WORDS	(VIRTIO_FEATURES_DWORDS * 2)
++#define VIRTIO_FEATURES_BITS	(128)
+ #define VIRTIO_BIT(b)		BIT_ULL((b) & 0x3f)
+-#define VIRTIO_DWORD(b)		((b) >> 6)
++#define VIRTIO_U64(b)		((b) >> 6)
++
++#define VIRTIO_FEATURES_ARRAY_SIZE VIRTIO_U64(VIRTIO_FEATURES_BITS)
++
+ #define VIRTIO_DECLARE_FEATURES(name)			\
+ 	union {						\
+ 		u64 name;				\
+-		u64 name##_array[VIRTIO_FEATURES_DWORDS];\
++		u64 name##_array[VIRTIO_FEATURES_ARRAY_SIZE];\
+ 	}
+ 
+ static inline bool virtio_features_chk_bit(unsigned int bit)
+@@ -22,9 +23,9 @@ static inline bool virtio_features_chk_bit(unsigned int bit)
+ 		 * Don't care returning the correct value: the build
+ 		 * will fail before any bad features access
+ 		 */
+-		BUILD_BUG_ON(bit >= VIRTIO_FEATURES_MAX);
++		BUILD_BUG_ON(bit >= VIRTIO_FEATURES_BITS);
+ 	} else {
+-		if (WARN_ON_ONCE(bit >= VIRTIO_FEATURES_MAX))
++		if (WARN_ON_ONCE(bit >= VIRTIO_FEATURES_BITS))
+ 			return false;
+ 	}
+ 	return true;
+@@ -34,26 +35,26 @@ static inline bool virtio_features_test_bit(const u64 *features,
+ 					    unsigned int bit)
+ {
+ 	return virtio_features_chk_bit(bit) &&
+-	       !!(features[VIRTIO_DWORD(bit)] & VIRTIO_BIT(bit));
++	       !!(features[VIRTIO_U64(bit)] & VIRTIO_BIT(bit));
+ }
+ 
+ static inline void virtio_features_set_bit(u64 *features,
+ 					   unsigned int bit)
+ {
+ 	if (virtio_features_chk_bit(bit))
+-		features[VIRTIO_DWORD(bit)] |= VIRTIO_BIT(bit);
++		features[VIRTIO_U64(bit)] |= VIRTIO_BIT(bit);
+ }
+ 
+ static inline void virtio_features_clear_bit(u64 *features,
+ 					     unsigned int bit)
+ {
+ 	if (virtio_features_chk_bit(bit))
+-		features[VIRTIO_DWORD(bit)] &= ~VIRTIO_BIT(bit);
++		features[VIRTIO_U64(bit)] &= ~VIRTIO_BIT(bit);
+ }
+ 
+ static inline void virtio_features_zero(u64 *features)
+ {
+-	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_DWORDS);
++	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_ARRAY_SIZE);
+ }
+ 
+ static inline void virtio_features_from_u64(u64 *features, u64 from)
+@@ -66,7 +67,7 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
++	for (i = 0; i < VIRTIO_FEATURES_ARRAY_SIZE; ++i)
+ 		if (f1[i] != f2[i])
+ 			return false;
+ 	return true;
+@@ -74,14 +75,14 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
+ 
+ static inline void virtio_features_copy(u64 *to, const u64 *from)
+ {
+-	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_DWORDS);
++	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_ARRAY_SIZE);
+ }
+ 
+ static inline void virtio_features_andnot(u64 *to, const u64 *f1, const u64 *f2)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
++	for (i = 0; i < VIRTIO_FEATURES_ARRAY_SIZE; i++)
+ 		to[i] = f1[i] & ~f2[i];
+ }
+ 
+diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
+index 48bc12d1045b..eba5977126ed 100644
+--- a/include/linux/virtio_pci_modern.h
++++ b/include/linux/virtio_pci_modern.h
+@@ -107,7 +107,7 @@ void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
+ static inline u64
+ vp_modern_get_features(struct virtio_pci_modern_device *mdev)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_ARRAY_SIZE];
+ 
+ 	vp_modern_get_extended_features(mdev, features_array);
+ 	return features_array[0];
+@@ -116,11 +116,11 @@ vp_modern_get_features(struct virtio_pci_modern_device *mdev)
+ static inline u64
+ vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_ARRAY_SIZE];
+ 	int i;
+ 
+ 	vp_modern_get_driver_extended_features(mdev, features_array);
+-	for (i = 1; i < VIRTIO_FEATURES_DWORDS; ++i)
++	for (i = 1; i < VIRTIO_FEATURES_ARRAY_SIZE; ++i)
+ 		WARN_ON_ONCE(features_array[i]);
+ 	return features_array[0];
+ }
+@@ -128,7 +128,7 @@ vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
+ static inline void
+ vp_modern_set_features(struct virtio_pci_modern_device *mdev, u64 features)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_ARRAY_SIZE];
+ 
+ 	virtio_features_from_u64(features_array, features);
+ 	vp_modern_set_extended_features(mdev, features_array);
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index fe730099eca8..5d629aebc8f0 100644
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -638,7 +638,7 @@ class KernelDoc:
+             (KernRe(r'(?:__)?DECLARE_FLEX_ARRAY\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'\1 \2[]'),
+             (KernRe(r'DEFINE_DMA_UNMAP_ADDR\s*\(' + args_pattern + r'\)', re.S), r'dma_addr_t \1'),
+             (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + args_pattern + r'\)', re.S), r'__u32 \1'),
+-            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_DWORDS]'),
++            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_QWORDS]'),
+         ]
+ 
+         # Regexes here are guaranteed to have the end limiter matching
 -- 
-2.25.1
+MST
 
