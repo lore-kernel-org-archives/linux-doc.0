@@ -1,158 +1,78 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D4E265CDD;
-	Tue, 21 Oct 2025 20:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81821E1E04;
+	Tue, 21 Oct 2025 20:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761077054; cv=none; b=apkseQWx+mjBSZL6xqhuO88LL4zlFzwfiU4xNmSNMwYFIxflqVCa6FGo1EAXtolMxGjx9Bu2dWymbVhTAHHuQtKlgr3KEV3cvBjGfMeYk3Oe79zUPNmA8IOePInk5aHDtKjSsHAWh/k1jws+62tqV4JdeaPBaxT3/e0am4zrBks=
+	t=1761077793; cv=none; b=uNZTOPfHo4NlSSfPvUjoYwYUNpMRNwSuoO8MehJvOgERERkyCeK7ny4acccQou1cODJEhyv6Dm4cQ5gugzmPhvOM793kL4W0DTR1shCwwRfa2ttcvi6X6GCAyreJJxOfxdFU7HJ/5U5vSmlvdN10vr2efFX3FCpG+jZKj6il9Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761077054; c=relaxed/simple;
-	bh=bvu1hCgaEBFxQCkOQvdBmkEXVLNwGj+rEy6N7mDSE50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLmC9LjTsw5+Fv9lc/MZP/CafUOkbGZLx/rb2ycVglkTj2R/VjciI130gXkjN1sp0jX2Y8rLKSdvtMgEjet5DuT9DU8AEnDfIp/L37VpqXEDfRLH8DGDPInL5Ey5LXs3JKzi+xNPSp+RrW4PwQemQpL0BZGkxyAnxOwYcB4H4oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PJ3NI30V; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1761077793; c=relaxed/simple;
+	bh=2FwEsDAVTL0eZF75eYcjfklo+HwL71jjw92AWzeQXJw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QNBnsqbmwxSSgysX4kHz39B1fJxIlo6JiwdlKhgZ+x0KJsg7xAB74hphS5fADIPaHVBpCP8VOzA+6bD6lgOc2xCZh97JVlxCm2ozM8zEBDnbYwk0BWq3j7VHraauCg4uEvglF4FCOvDQeDH9GlN3iSA0ZdgNySXFg5+p8E6q08U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UQbAnwAu; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PJ3NI30V"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B231440E0200;
-	Tue, 21 Oct 2025 20:04:05 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id mxa2GnDdAkJI; Tue, 21 Oct 2025 20:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1761077042; bh=LqOuAOc3c7dD6s8nXNoTSnIZ/kx2X/BfM4B8Od2Qvyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PJ3NI30VjTbiCHLcday5QU5CsF9G471l400Jgnt1HOwLo0i/09RYT9raBOJ60PCjC
-	 rQzvQaU81lQAGNpp1MTXQxGeuYPgotECVjVemhaw6guaJo5o5TDd2TYZMRjf3SNjc0
-	 6bFPTYWTti0SGsU/u5/fhEw6z/vdpcAdBga5fHN/z6AumO+oR81IdmgijdvUUKIYOY
-	 /yB2dkzr/Xag9kVwgq4uRIIV6wI3ntLyXdMiUR09i8karqhVK3qeXUe2vKWQACchqD
-	 MYGuTqvAwSzELanRpRNk0ahO4wklMYcNcNHojJow1dcC2E9CrAfzyGQkSKISeryn0L
-	 DS7kxKMNbhx9NAp0vqxCkZ2LIwk06hb1DPb7gsR/OdcUxzYrz6LqdYR6j1/Dsl2+LB
-	 fErSDdjgFa5EFWoNtusMCE6RGupdmH1cb+xMlFMtDXStmwZo9BN0oUjeR6m3K/6qBm
-	 1CJ7YTVeAadaH3XM/UZFroSLUqjKjWEdq0XckT9pCgdegXLtDfsZHuYyQSkOO5CV1S
-	 eCdbbiha8/KADB0QBLJnF3XHXmfgokLhmw0ANVswfDGRgXps32tExX4ixCpQmy9GE+
-	 Z8Oqeniw13ojdDv4SNvXWo6rx9uO/cOGkIW31WW1HaYKj9sVUq0osyBZU74+m57nLQ
-	 LhzJPl4FfVAzC7JgyN2regiI=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UQbAnwAu"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8EDC40B28
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1761077785; bh=0BofnvVgBKRkg6q6c8Lc5V1aHmXwTaOpVq7t0+nXVyE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=UQbAnwAuJNZ8wAcyDEnsV679hVb3jLF3NhC8F/EjKr0QdUJHh4JGxugBRmG3qPTmY
+	 XmQm1An4VKyBGqDHQ/HJ0XWIauy+0ybX+phfHMnAm1AzSj8QdHoBdsx8cuW+uCfKwG
+	 a1/O/F7VbE8HARW0vE5ByeH5MSXyZzoNFXohEl7oKfSEufmZndvIuGajpqWoYIBhYO
+	 80wwBrBhJdFPlqF8a+Tt7b+OobQuTBdkfLd9PchdQhJo0pBBr9ScCvsy+jEaKt4nGU
+	 NBvdwglYa8McmdVBmcUAZcE1fBWvaDh35npikHt9eV56hKhc9Uberfa6QVSlOv/8Ed
+	 F99USlYGtKxSQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id E33A640E00DE;
-	Tue, 21 Oct 2025 20:03:34 +0000 (UTC)
-Date: Tue, 21 Oct 2025 22:03:28 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-4-sohil.mehta@intel.com>
+	by ms.lwn.net (Postfix) with ESMTPSA id C8EDC40B28;
+	Tue, 21 Oct 2025 20:16:24 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ally Heev <allyheev@gmail.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, Ally Heev
+ <allyheev@gmail.com>
+Subject: Re: [PATCH v2] Documentation: fix dev-tools broken links in
+ translations
+In-Reply-To: <20251020-aheev-fix-docs-dev-tools-broken-links-v2-1-7db64bf0405a@gmail.com>
+References: <20251020-aheev-fix-docs-dev-tools-broken-links-v2-1-7db64bf0405a@gmail.com>
+Date: Tue, 21 Oct 2025 14:16:23 -0600
+Message-ID: <87qzuwt3hk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251007065119.148605-4-sohil.mehta@intel.com>
+Content-Type: text/plain
 
-On Mon, Oct 06, 2025 at 11:51:07PM -0700, Sohil Mehta wrote:
-> +static __always_inline void lass_clac(void)
-> +{
-> +	alternative("", "clac", X86_FEATURE_LASS);
-> +}
-> +
-> +static __always_inline void lass_stac(void)
-> +{
-> +	alternative("", "stac", X86_FEATURE_LASS);
-> +}
+Ally Heev <allyheev@gmail.com> writes:
 
-So I probably missed the whole discussion on how we arrived at
-lass_{stac,clac}() but just in case, those names sound silly.
+> gdb and kgdb debugging documentation were moved to
+> Documentation/process/debugging/ as a part of
+> Commit d5af79c05e9382d38b8546dc5362381ce07ba3d1 ("Documentation: move
+> dev-tools debugging files to process/debugging/"), but translations/
+> were not updated. Fix them
+>
+> ---
+> Link: https://lore.kernel.org/all/20241210000041.305477-1-rdunlap@infradead.org/
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
+> ---
+> Changes in v2:
+> - fix kgdb doc path in zh_TW/admin-guide/README.rst
+> - Please drop v1 of the patch. It is malformed. Link to v1: https://lore.kernel.org/r/20251020-aheev-fix-docs-dev-tools-broken-links-v1-1-5d127efec0b2@gmail.com
 
-IOW, I'd do this ontop:
+Putting your signoff after the "---" line caused the tooling to not
+include it in the resulting commit.  I've fixed that up this time, and
+added a Fixes: tag as well.
 
-diff --git a/arch/x86/include/asm/smap.h b/arch/x86/include/asm/smap.h
-index 3ecb4b0de1f9..066d83a6b1ff 100644
---- a/arch/x86/include/asm/smap.h
-+++ b/arch/x86/include/asm/smap.h
-@@ -55,16 +55,8 @@ static __always_inline void stac(void)
-  * Use lass_stac()/lass_clac() when accessing kernel mappings
-  * (!_PAGE_USER) in the lower half of the address space.
-  */
--
--static __always_inline void lass_clac(void)
--{
--	alternative("", "clac", X86_FEATURE_LASS);
--}
--
--static __always_inline void lass_stac(void)
--{
--	alternative("", "stac", X86_FEATURE_LASS);
--}
-+#define lass_disable()		stac()
-+#define lass_enable()		clac()
- 
- static __always_inline unsigned long smap_save(void)
- {
-diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-index 6a96dbc60bf1..6cdf5c226c51 100644
---- a/arch/x86/kernel/alternative.c
-+++ b/arch/x86/kernel/alternative.c
-@@ -2487,18 +2487,18 @@ __ro_after_init unsigned long text_poke_mm_addr;
- 
- static void text_poke_memcpy(void *dst, const void *src, size_t len)
- {
--	lass_stac();
-+	lass_disable();
- 	__inline_memcpy(dst, src, len);
--	lass_clac();
-+	lass_enable();
- }
- 
- static void text_poke_memset(void *dst, const void *src, size_t len)
- {
- 	int c = *(const int *)src;
- 
--	lass_stac();
-+	lass_disable();
- 	__inline_memset(dst, c, len);
--	lass_clac();
-+	lass_enable();
- }
- 
- typedef void text_poke_f(void *dst, const void *src, size_t len);
+Applied, thanks,
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+jon
