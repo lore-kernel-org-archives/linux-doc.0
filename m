@@ -1,107 +1,63 @@
-Received: from cp4.obambu.com (cp4.obambu.com [88.99.29.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00EB273F9;
-	Tue, 21 Oct 2025 00:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.29.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AD615624B;
+	Tue, 21 Oct 2025 00:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761005115; cv=none; b=TgKQ5hYkmUK+jdnA6OFrdjYHm9LsFVCYs9sCBI1OsdCOGzAmdmkzgigTjjh/4KNJ2XY1ahiv/0sWl2SMXVVcctpu+YBkE0LxOMUUjfhzEnV/ysciJguyyPs457IEIQyQ06lSipLxWZzJiZSsh7IwPstSuVeq3I4RdAgYDmvh3Gc=
+	t=1761005791; cv=none; b=ERCE5bTJkql3/FXjioPyv0CP8O8FCpIt1UavmebkpAujdj+ScXd1fecJEYMxhL4muvDiZR8ba1xZ8q56TME9x9kR7a8q7CobN+/PIqLL5SsGVfH9jeK1Sl5TJxuYcOgT1UBkdPoc8tXS4QshRw2P9e9VJPjTF6rGIXsqhWCckzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761005115; c=relaxed/simple;
-	bh=F1yV94Y1btTEz9XP1+4UrFoaP4Ef+rr/pPWNdyJQklI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n5UW1GfZIJQrXqadMgK2LNgUN6bt/HQYnkEc90tsCIPyTpAdUt+sTpSqD2ECBMPFu5daYuQM9hfXt4tpLPYzX4wGximYjHq9QwAifMluG32eQwWh0ipCinFs1Kth+N+XJFk1l1ZwdfFvgb0tsTiL5URo0zMaUattD4udb+2dIww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zago.net; spf=pass smtp.mailfrom=zago.net; dkim=pass (2048-bit key) header.d=zago.net header.i=@zago.net header.b=kCpm4ybj; arc=none smtp.client-ip=88.99.29.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zago.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zago.net
+	s=arc-20240116; t=1761005791; c=relaxed/simple;
+	bh=byVn4gwFjcc3i22Bio1fto4stbFidQ3PbKdyebP0pYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G8J1oov2ZKHd1i1eXsi0tL5LnAZywE5rI2b+26LCWV3qIlw6fumD/DA5h2EnHVKwVEm3Q+aMg4Tho1ZCEmyJ8jeIps2xgH5HRt5r8OHNjVWTPBA2P63Xz0VIPch/4y3I9eZcWB3Ow2U3iPVcHWI4PFQq0+Z5aKYOQz2UPgBngVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvg+NYI0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zago.net header.i=@zago.net header.b="kCpm4ybj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=zago.net;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0DrXsX05Grva4tWU6XxJfz/A2NsaAczVNPLro4r7jRM=; b=kCpm4ybjA9C+5MwdBHDiI3WAzU
-	EghG2TGslavBB9P/wFgBzldimwl+3i4PVnxTrjlXgCyiz4gW/PdXzXLOtT7RAMgx3SB84Yz6CT/mF
-	hXzhDIUs6cIO/b9bnVqAZQUfLS+XV9TPoWkOpjemQ/ntplYjEOdgxsfGkT4vF+njOj3rBPKr/JJwn
-	zi+7Wq1FEW8SJSv80lpwJ9NmnWvT6g/249KNgC0LJrrIUMxp85opbqjQf53DyunsKvCFKYqXkHxFr
-	J5h4Q437dzDXra+TEm+NQvnDgnZZFnJgrX/pLVLAL96FH+gP3V9cXuRZuUhLh7DfO6vAFyiwJ9bKO
-	WgdWVBkA==;
-Received: from [68.203.21.78] (port=46264 helo=[192.168.1.205])
-	by cp4.obambu.com with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <frank@zago.net>)
-	id 1vAzZ2-00000004D5u-0fRx;
-	Tue, 21 Oct 2025 01:45:19 +0200
-Message-ID: <5f2f9957-52e1-43a6-b3f0-bd3f4e434ff6@zago.net>
-Date: Mon, 20 Oct 2025 18:45:14 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvg+NYI0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DDC7C4CEFB;
+	Tue, 21 Oct 2025 00:16:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761005791;
+	bh=byVn4gwFjcc3i22Bio1fto4stbFidQ3PbKdyebP0pYc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hvg+NYI0GAjUoeaiQw19JnA2aSWvm1WAy2BVRyHdEDkzgK2WeUk60O4vlADEAdUNt
+	 T1Pe31ZbiIW4NNEsFNl+JIxy57W5ozUoJ8Zp6p3YGG2ZI/o2xlIisKVmNxHw+yALxq
+	 652130m/4xM1sMfa7No3U3Kvv621sdtFCClbSKJTcBommAhs2/coKFBALoekwTsUgg
+	 mLxK7kWIxpFqCAKLqCcoopPEzgSqOERkCLnM6SXia89iFvULvvC9s/9/M0n+IAk1R8
+	 BYpWe5sHOnDiuHBH3M3n8FAKE3q/0oqpM0wpPTUBkpiIzTFqJaFQSxOgqvI9w6rSpr
+	 E6wmBuogNc32g==
+Date: Mon, 20 Oct 2025 17:16:29 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux Networking
+ <netdev@vger.kernel.org>, Subash Abhinov Kasiviswanathan
+ <subash.a.kasiviswanathan@oss.qualcomm.com>, Sean Tranchetti
+ <sean.tranchetti@oss.qualcomm.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: [PATCH net-next] net: rmnet: Use section heading for packet
+ format subsections
+Message-ID: <20251020171629.0c2c5f5e@kernel.org>
+In-Reply-To: <20251016092552.27053-1-bagasdotme@gmail.com>
+References: <20251016092552.27053-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] iio: position: Add support for ams AS5600 angle
- sensor
-To: Aditya Dutt <duttaditya18@gmail.com>, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251020201653.86181-1-duttaditya18@gmail.com>
- <20251020201653.86181-3-duttaditya18@gmail.com>
-Content-Language: en-US
-From: Frank Zago <frank@zago.net>
-In-Reply-To: <20251020201653.86181-3-duttaditya18@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cp4.obambu.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - zago.net
-X-Get-Message-Sender-Via: cp4.obambu.com: authenticated_id: frank@zago.net
-X-Authenticated-Sender: cp4.obambu.com: frank@zago.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 
-Hello,
+On Thu, 16 Oct 2025 16:25:52 +0700 Bagas Sanjaya wrote:
+> -a. MAP packet v1 (data / control)
+> +A. MAP packet v1 (data / control)
+> +---------------------------------
 
-Thanks for updating that driver and making the required changes. I tried to go back to it a few times but motivation was lost. 
-
-The commit message should say "position sensor", not "angle sensor", for consistency.
-
-
-> diff --git a/drivers/iio/position/as5600.c b/drivers/iio/position/as5600.c
-> new file mode 100644
-> index 000000000000..fe716d521548
-> --- /dev/null
-> +++ b/drivers/iio/position/as5600.c
-...
-> +	case AS5600_REG_RAW_ANGLE_L:
-> +	case AS5600_REG_ANGLE_L:
-> +	case AS5600_REG_AGC:
-> +	case AS5600_REG_MAGN_L:
-> +		mask = 0xFF;
-> +		break;
-> +	default:
-> +		/* Not a readable register */
-> +		return -EINVAL;
-> +	}
-> +
-> +
-
-extra empty line
-
-
-I believe you could add this to the second patch:
-Acked-by: Frank Zago <frank@zago.net>
-
-Best regards,
-  Frank.
+Why capitalize the "A" here? it could have stayed the way it was, IMO
+lowercase is actually more common and (at least my) Sphinx doesn't seem
+to detect this leading letter as in any way special.
+-- 
+pw-bot: cr
