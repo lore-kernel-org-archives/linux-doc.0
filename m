@@ -1,79 +1,133 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE621DFD8B;
-	Tue, 21 Oct 2025 17:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5564F2D0C7D;
+	Tue, 21 Oct 2025 17:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761066304; cv=none; b=M+Mvpyt6N7R3tYRSQNMPFlEogZ57J+44KcqArGCrRE/ro58mW/Rbkk4c8l7tju5/TA4CVnJ24eRHwjl8pP+0sVmKDMlVt7yL/U8pQG6RgWnqUeOVb1hXKNotd2wJ9QVJl2Iti7UScwwaBI7ZGi6dGxgkodxG/ajLaCp15A0byp0=
+	t=1761066429; cv=none; b=kp7R76rWJTOmhbytD92wrwh3Xdl5yLVhhk3eOQNhdAcpKXdgxh+EKa953Q0sxzCG/NCPL+v1PzaeDX6YGkPJMttuqh1lw0d5JXTollaLFZcN/gnbfT+43SxRDe9/Q2xSeAmdskURG/zw09kY/2eSfk5J6hNEEVPVO1Up/xvCmAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761066304; c=relaxed/simple;
-	bh=+kwjXs839N2xZLvTKn1xWQBqDurYxN4cpyyYVCuhJQ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RJ9wBmbrs+HdNudk+Ys9h68jn8YIWdYW9SmAotMM0HoEDUp/DX8AS4GHgjYBh9zxc2zzVMA+mQSGChCqKkvGqdBSdjtwVN4S8YPN60FPmvq1jbtMofGjScjDeArlgkthTV3OJjXQDVEzqV8CWasA1rt7ebHoZKoTzklkQTP75BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yLc8NOn6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yLc8NOn6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mY4olOqNwciXe7P6w4zygG2fd6hYPFXexwywwvO9rNg=; b=yLc8NOn6zLdKsEf7KabiGkt9X/
-	7vuHgpZD5UlV3y7zbIFj0smh5mqG9oNn6JDdf64xbA4LRVPkVHG+ywm0dc+yan9RFHcc4sORYhdiN
-	BoqaP6hlHeKbKpTyQpMAw3AEcb4pFid0F5rFr2aOBNWxOh72xUCdqEWbm5pCGpU+O2l+z6t87CK0h
-	1apmLiU/y2neZ/vi1SiPJDo+AdBA4FzY7RFjCq4PHb+G9b0KHHKcTZCCveiJS6WDjxBkBPr9zAGNb
-	ECjpc2sie/SdFHLezJ9g7ylS8sTM74HdsB2c5194DDF0SRnJ0UeLGQwg74gjLVyaiBT8vQyq2Gj+b
-	jKWjJY5Q==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBFn9-00000000Bc3-2NeN;
-	Tue, 21 Oct 2025 17:04:59 +0000
-Message-ID: <1b0acbf2-8ce4-4c8d-a088-1f271233e60a@infradead.org>
-Date: Tue, 21 Oct 2025 10:04:59 -0700
+	s=arc-20240116; t=1761066429; c=relaxed/simple;
+	bh=SfujZNGCUwdHXhnw5KtfoR9q5ts6/wY+0OdokUskIMU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lViFY1yRE0ym/+gfMiGgH/X6WkFMDlECPZV8D2fU80kSu0496D/qOdNTde6d+vn0inN9sAdtc9xox3az9s5JwmgUZxm7J6V02RLUdy1qGUC8ys0KUnbD/XxRmo7PV0jdmeZMo0hsn31k6OJ3X1b+OGHkFwpLAdyS0OWMBwk5OCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id ACE04C05CB;
+	Tue, 21 Oct 2025 17:06:56 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf02.hostedemail.com (Postfix) with ESMTPA id 2365B80009;
+	Tue, 21 Oct 2025 17:06:53 +0000 (UTC)
+Message-ID: <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
+ attribute check
+From: Joe Perches <joe@perches.com>
+To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+  Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>
+Date: Tue, 21 Oct 2025 10:06:52 -0700
+In-Reply-To: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
+References: 
+	<20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: sysrq: Rewrite /proc/sysrq-trigger
- usage
-To: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Serial <linux-serial@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>,
- Jiri Slaby <jirislaby@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
-References: <20251016103609.33897-2-bagasdotme@gmail.com>
- <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
- <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com>
- <6b8e7935-6b80-4f00-9a44-7003071d1a21@infradead.org>
- <CAH2-hc+M-CyXL1HtHkD9o_Q_8PP_OkYLvjqhdBiCnHVBQspedQ@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAH2-hc+M-CyXL1HtHkD9o_Q_8PP_OkYLvjqhdBiCnHVBQspedQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 2365B80009
+X-Stat-Signature: rtipdxzuuspsu4ye6rx1eywenjf4xmbm
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/aK9PuxmffjsTgMj+7z4sgkWUk2J9UG3M=
+X-HE-Tag: 1761066413-389271
+X-HE-Meta: U2FsdGVkX180ftX0W8yiVUd9MfsrdAPQRpyGK5++Zp8ivAXNqnmopqHV64+/SigWNggHzzW7JK87cKTebQm6lUXOd7Ezd4w/lnclCGEtyolye3dNDuFfgCz3Hs4VypC2IH5Jzp8Iv1DwTdSnOiXqZXa4BChHuoGCd2iEt1m6btxx/57curR3NDrqcnDBDmPrCUxSwWUGKP22CYp8VUZGkojDiJ+CnlnKUw9YJUNopTfsA9BOoIpw4hkUN5l4XNqst3pbp/gvcYtZvMVE8qbivsDrS4bHFglsPNZn+cY8QAB0x9/lJGQVQ777+DxamNSr
+
+On Tue, 2025-10-21 at 17:00 +0530, Ally Heev wrote:
+> uninitialized pointers with __free attribute can cause undefined
+> behaviour as the memory allocated to the pointer is freed
+> automatically when the pointer goes out of scope.
+> add check in checkpatch to detect such issues
+
+Seems sensible.  Couple minor points below:
+
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -7721,6 +7721,12 @@ sub process {
+>  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\=
+n$stat\n");
+>  			}
+>  		}
+> +
+> +# check for uninitialized pointers with __free attribute
+> +		if ($line =3D~ /\s*$Type\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*;/) =
+{
+
+The leading \s* isn't useful, but \b should be used.
+
+Perhaps verify that $Type is a pointer as well
+
+		if ($line =3D~ /\b($Type)\s*($Ident)\s*__free\s*\(\s*$Ident\s*\)\s*;/ &&
+		    $1 =3D~ /\*\s*$/) {
+
+to avoid things like:
+
+drivers/net/ethernet/microsoft/mana/gdma_main.c:	cpumask_var_t cpus __free(=
+free_cpumask_var);
 
 
+> +			WARN("UNINITIALIZED_PTR_WITH_FREE",
+> +			      "pointer '$1' with __free attribute should be initialized\n" . =
+$herecurr);
 
-On 10/21/25 1:37 AM, Tomáš Mudruňka wrote:
-> In that case, can we use some short form? Something like
-> "extra characters are ignored for now, which might change in future".
-> 
-> Thing is that i wanted to add handling of extra characters, but
-> maintainer said it cannot be done because people might currently rely
-> on characters being ignored as written in documentation.
+			pointer '$2' etc
 
-Sure, OK with me.
-Thanks.
+And this would not find uses like the below where another definition
+is done before a definition with __free on the same line:
 
--- 
-~Randy
+crypto/testmgr.c:       u8 *ptr, *key __free(kfree);
 
+There are many uses in drivers/opp/ that could be updated where
+the initialization is done after the definition like the below:
+(I've added the opp maintainers to the cc's)
+
+drivers/opp/core.c-unsigned long dev_pm_opp_get_max_clock_latency(struct de=
+vice *dev)
+drivers/opp/core.c-{
+drivers/opp/core.c:     struct opp_table *opp_table __free(put_opp_table);
+drivers/opp/core.c-
+drivers/opp/core.c-     opp_table =3D _find_opp_table(dev);
+
+An aside found while using grep:
+
+There are uses of DEFINE_FREE that seem to have an unnecessary trailing ;
+
+$ git grep -w DEFINE_FREE | grep ';'
+drivers/firmware/efi/libstub/efistub.h:DEFINE_FREE(efi_pool, void *, if (_T=
+) efi_bs_call(free_pool, _T));
+drivers/fwctl/mlx5/main.c:DEFINE_FREE(mlx5ctl, struct mlx5ctl_dev *, if (_T=
+) fwctl_put(&_T->fwctl));
+drivers/pci/msi/msi.c:DEFINE_FREE(free_msi_irqs, struct pci_dev *, if (_T) =
+pci_free_msi_irqs(_T));
+drivers/tty/vt/vc_screen.c:DEFINE_FREE(free_page_ptr, void *, if (_T) free_=
+page((unsigned long)_T));
+fs/pstore/inode.c:DEFINE_FREE(pstore_private, struct pstore_private *, free=
+_pstore_private(_T));
+include/linux/cpumask.h:DEFINE_FREE(free_cpumask_var, struct cpumask *, if =
+(_T) free_cpumask_var(_T));
+include/linux/execmem.h:DEFINE_FREE(execmem, void *, if (_T) execmem_free(_=
+T));
+include/linux/fwctl.h:DEFINE_FREE(fwctl, struct fwctl_device *, if (_T) fwc=
+tl_put(_T));
+net/core/dev.h:DEFINE_FREE(netdev_unlock, struct net_device *, if (_T) netd=
+ev_unlock(_T));
