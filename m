@@ -1,171 +1,288 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8CC32E68E;
-	Tue, 21 Oct 2025 11:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B41F244693;
+	Tue, 21 Oct 2025 11:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761046773; cv=none; b=GmvVLNVZGmdReziCnZ7wwzX25Cjizz6QfEAJnes0U35Fe7/1mvCWNDlxvhd1SB06aeEaabRtY+SAD5Db4uyWiJZnTKzXjczAenUOyS5kSlPCyzmrm6mo8KF0Qfn65fGgowOS+rr+YQ3pNGGM8N5t3YWE06oWuwhCFZjGdQrAWQE=
+	t=1761047022; cv=none; b=tXnIjoQBwlo5P2cAnbmoqTgEe4pWZImKdzIBItvVPW0wqZ9S9nvTlX8C5BlhVcGP/hEYR3GIM3cVFim/sJRxmwc8ykH1wA4SA5sRGXmvuu3VAewvdi+HT8ccTO+za+YBR9C1+disEqI9X3jHfGcRY9cW3DyUCktHK8ATBzWxwxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761046773; c=relaxed/simple;
-	bh=xz/tDN+yPZVBPbH2r+TgaMdFHP9mm8qxk6gUQVmMafY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uNbi0/xMyNX7MEoGVOvZ9ENLPn6r+0W9KNRw8/aVXfQia8ljomp+Sht0Tgi7lWP3Glcch5IPskeTJmvRvkgAiKk92xv23fv75uoLSngpnuLTWSvWWsl5nLIZblTmvQB7ToXWI6L+cglOxdJfo1O+H2hiP2xqaGRlo6g9+pTosJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL9vmEQX; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761047022; c=relaxed/simple;
+	bh=4/wPubUubr6qTSSbAihLczvGyM352rWdAaTJHeSVTBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JPnBvw/aoGAzkHbqbaj+cbbdbWtNBUG8W9KwFwYN3LuxsGzyBjA8wgI2RV+31nKZ2PhxLwdqCg0Mf3vbQE7nyEdShn4QoXa0HBQpBdJV09ik3BTtnJtL71OWkuthdYskUhAkVWFlMFxjYeSsZdF/RP2Nge/kYZMy6F1t/emUgQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=X6A8Vg+W; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL9vmEQX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761046772; x=1792582772;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xz/tDN+yPZVBPbH2r+TgaMdFHP9mm8qxk6gUQVmMafY=;
-  b=kL9vmEQXVjD8ioe09bBhLt9zxGj7hMrqnbODwSHMHJdPAibTTdm83OLh
-   pBYhLDTn4KNetObG8HDYdY3kzijVmybsu+gU1zV+WbfKPNv/uNm5kQprf
-   y5vYlIlrWjT/qzA6A73BHRsiUc7a9GA91xQtH5LR+EHx0ZzYZ9Zuq+A94
-   TsBXmnvW9U+CcP1G8XT2p9DnK/U4Tqyeufn1NoM9AOSB3NOG2D03ZSAZt
-   e/xZZGObFVq9KX7WJgppqpzUBxRQsDrpJUmGlCM52HdRu9PtLg3ka/yYL
-   KKEip2Z2GLAArKhD+Qs8lodCsIXfrVCG+3rbNt+DVVWCl0d6i171/C15G
-   g==;
-X-CSE-ConnectionGUID: CND1X+q0T+SKFoa7feiaBA==
-X-CSE-MsgGUID: yjBMkFSaS22rhYF1irlWQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62200920"
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="62200920"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 04:39:31 -0700
-X-CSE-ConnectionGUID: VfWszDUCQn+u64i4HQ/nHg==
-X-CSE-MsgGUID: GyUtjuDpR4+bmGSr0f3T0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="183970757"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2025 04:39:27 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBAha-000Amr-27;
-	Tue, 21 Oct 2025 11:39:02 +0000
-Date: Tue, 21 Oct 2025 19:38:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aditya Dutt <duttaditya18@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>
-Cc: oe-kbuild-all@lists.linux.dev, Aditya Dutt <duttaditya18@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] iio: position: Add support for ams AS5600 angle
- sensor
-Message-ID: <202510211921.F1RPF3gj-lkp@intel.com>
-References: <20251020201653.86181-3-duttaditya18@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X6A8Vg+W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1761047018;
+	bh=4/wPubUubr6qTSSbAihLczvGyM352rWdAaTJHeSVTBo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X6A8Vg+WYATpuhsFpQ3ZsJxt/QswcDrcGTpcfIoEoQIS63m673G0GbGfTRQL8aydv
+	 +ccpa8fOn0/TF2FvpJGMdtw0ffwoUDQLJn4zA96ldPBS/BlMMsG0uGyrMbwdSvDkCk
+	 cVP37O9DJBzFd7fbgnfPjW19UrL+XZOngS5BcIhOxhb68KfeAFiC5BfWfW778xBL8h
+	 BSoMudQQwKJw2RKbCnudstHVmQkkoJ+MN8CSXPhp3tlKlBOakfHMPpnKe+73m08/Rz
+	 LG9VWkhwuOkiPA+fmuEVp4neXVFjyrD3lXjoSoHMVuM2ex8xkyMuVCoWQuGDd+kyaA
+	 selFJWS4cADRA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 873A917E0CA3;
+	Tue, 21 Oct 2025 13:43:37 +0200 (CEST)
+Date: Tue, 21 Oct 2025 13:43:31 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v5 05/12] drm/gem: Add huge tmpfs mountpoint helpers
+Message-ID: <20251021134331.549ebeea@fedora>
+In-Reply-To: <20251021113049.17242-6-loic.molinari@collabora.com>
+References: <20251021113049.17242-1-loic.molinari@collabora.com>
+	<20251021113049.17242-6-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020201653.86181-3-duttaditya18@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Aditya,
+On Tue, 21 Oct 2025 13:30:42 +0200
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Add the drm_gem_huge_mnt_create() and drm_gem_has_huge_mnt() helpers
+> to avoid code duplication in the i915, V3D, Panfrost and Panthor
+> drivers. The former creates and mounts a dedicated huge tmpfs
+> mountpoint, for the lifetime of a DRM device, used at GEM object
+> initialization. The latter checks whether a dedicated huge tmpfs
+> mountpoint is in use by a DRM device.
+>=20
+> The next commits will port drivers to this helper.
+>=20
+> v3:
+> - store huge tmpfs mountpoint in drm_device
+>=20
+> v4:
+> - return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
+> - return 0 when huge_mnt already exists
+> - use new vfs_parse_fs_string() helper
+>=20
+> v5:
+> - removed warning on !dev->huge_mnt and reset to NULL on free
+> - inline drm_gem_huge_mnt_create() to remove func from text and avoid
+>   calls in builds with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
+> - compile out drm_device's huge_mnt field in builds with
+>   CONFIG_TRANSPARENT_HUGEPAGE=3Dn
+> - add drm_gem_has_huge_mnt() helper
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c | 39 +++++++++++++++++++++++++++++
+>  include/drm/drm_device.h  | 15 +++++++++++
+>  include/drm/drm_gem.h     | 52 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 106 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index a98d5744cc6c..161da048330e 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -29,6 +29,9 @@
+>  #include <linux/export.h>
+>  #include <linux/file.h>
+>  #include <linux/fs.h>
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#include <linux/fs_context.h>
+> +#endif
+>  #include <linux/iosys-map.h>
+>  #include <linux/mem_encrypt.h>
+>  #include <linux/mm.h>
+> @@ -82,6 +85,42 @@
+>   * up at a later date, and as our interface with shmfs for memory alloca=
+tion.
+>   */
+> =20
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
+> +{
+> +	kern_unmount(dev->huge_mnt);
+> +}
+> +
+> +int __drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
+> +{
+> +	struct file_system_type *type;
+> +	struct fs_context *fc;
+> +	int ret;
+> +
+> +	if (unlikely(drm_gem_has_huge_mnt(dev)))
+> +		return 0;
+> +
+> +	type =3D get_fs_type("tmpfs");
+> +	if (unlikely(!type))
+> +		return -EOPNOTSUPP;
+> +	fc =3D fs_context_for_mount(type, SB_KERNMOUNT);
+> +	if (IS_ERR(fc))
+> +		return PTR_ERR(fc);
+> +	ret =3D vfs_parse_fs_string(fc, "source", "tmpfs");
+> +	if (unlikely(ret))
+> +		return -ENOPARAM;
+> +	ret =3D vfs_parse_fs_string(fc, "huge", value);
+> +	if (unlikely(ret))
+> +		return -ENOPARAM;
+> +
+> +	dev->huge_mnt =3D fc_mount_longterm(fc);
+> +	put_fs_context(fc);
+> +
+> +	return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
+> +}
+> +EXPORT_SYMBOL_GPL(__drm_gem_huge_mnt_create);
+> +#endif
+> +
+>  static void
+>  drm_gem_init_release(struct drm_device *dev, void *ptr)
+>  {
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 778b2cca6c49..684939987d83 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -3,6 +3,9 @@
+> =20
+>  #include <linux/list.h>
+>  #include <linux/kref.h>
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#include <linux/mount.h>
+> +#endif
+>  #include <linux/mutex.h>
+>  #include <linux/idr.h>
+>  #include <linux/sched.h>
+> @@ -168,6 +171,18 @@ struct drm_device {
+>  	 */
+>  	struct drm_master *master;
+> =20
+> +	/**
+> +	 * @huge_mnt:
+> +	 *
+> +	 * Huge tmpfs mountpoint used at GEM object initialization
+> +	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
+> +	 * create a huge tmfps mountpoint. The default tmpfs mountpoint
+> +	 * (`shm_mnt`) is used if NULL.
+> +	 */
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.18-rc2 next-20251021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Can we move the ifdef before the kernel doc for this field?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Dutt/dt-bindings-iio-position-Add-ams-AS5600-Position-Sensor/20251021-042001
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20251020201653.86181-3-duttaditya18%40gmail.com
-patch subject: [PATCH 2/2] iio: position: Add support for ams AS5600 angle sensor
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251021/202510211921.F1RPF3gj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211921.F1RPF3gj-lkp@intel.com/reproduce)
+> +	struct vfsmount *huge_mnt;
+> +#endif
+> +
+>  	/**
+>  	 * @driver_features: per-device driver features
+>  	 *
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 7c8bd67d087c..9845854850fb 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -492,6 +492,58 @@ struct drm_gem_object {
+>  		DRM_GEM_FOPS,\
+>  	}
+> =20
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +int __drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
+> +#endif
+> +
+> +/**
+> + * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoi=
+nt
+> + * @dev: DRM device a huge tmpfs mountpoint should be used with
+> + * @value: huge tmpfs mount option value
+> + *
+> + * This function creates and mounts a dedicated huge tmpfs mountpoint fo=
+r the
+> + * lifetime of the DRM device @dev which is used at GEM object initializ=
+ation
+> + * with drm_gem_object_init().
+> + *
+> + * The most common option value @value is "within_size" which only alloc=
+ates
+> + * huge pages if the page will be fully within the GEM object size. "alw=
+ays",
+> + * "advise" and "never" are supported too but the latter would just crea=
+te a
+> + * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
+> + * Transparent Hugepage for more information.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
+> +					  const char *value)
+> +{
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	return __drm_gem_huge_mnt_create(dev, value);
+> +#else
+> +	return 0;
+> +#endif
+> +}
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510211921.F1RPF3gj-lkp@intel.com/
+Unless __drm_gem_huge_mnt_create() is really used internally (at first
+glance, that doesn't seem to be the case), I'd suggest renaming it
+drm_gem_huge_mnt_create() and having:
 
-All warnings (new ones prefixed by >>):
+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
+#else
+static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
+					  const char *value)
+{
+	return 0;
+}
+#endif
 
->> drivers/iio/position/as5600.c:127:12: warning: implicit conversion from 'long' to 'int' changes value from 4096000000 to -198967296 [-Wconstant-conversion]
-     127 |                         *val2 = 4096000000;
-         |                               ~ ^~~~~~~~~~
-   1 warning generated.
+> +
+> +/**
+> + * drm_gem_has_huge_mnt - Check if a huge tmpfs mountpoint is in use
+> + * @dev: DRM device
+> + *
+> + * This function checks whether a huge tmpfs mountpoint is in use after =
+by DRM
+> + * device @dev. A huge tmpfs mountpoint is used after a successful call =
+to
+> + * drm_gem_huge_mnt_create() on builds with Transparent Hugepage enabled.
+> + *
+> + * Returns:
+> + * true on success, false otherwise.
+> + */
+> +static inline bool drm_gem_has_huge_mnt(struct drm_device *dev)
+> +{
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	return !!dev->huge_mnt;
+> +#else
+> +	return false;
+> +#endif
+> +}
+> +
+>  void drm_gem_object_release(struct drm_gem_object *obj);
+>  void drm_gem_object_free(struct kref *kref);
+>  int drm_gem_object_init(struct drm_device *dev,
 
-
-vim +127 drivers/iio/position/as5600.c
-
-    93	
-    94	static int as5600_read_raw(struct iio_dev *indio_dev,
-    95				   struct iio_chan_spec const *chan,
-    96				   int *val, int *val2, long mask)
-    97	{
-    98		struct as5600_priv *priv = iio_priv(indio_dev);
-    99		u16 bitmask;
-   100		s32 ret;
-   101		u16 reg;
-   102	
-   103		switch (mask) {
-   104		case IIO_CHAN_INFO_RAW:
-   105			if (chan->channel == 0) {
-   106				reg = AS5600_REG_RAW_ANGLE;
-   107				bitmask = AS5600_FIELD_RAW_ANGLE;
-   108			} else {
-   109				reg = AS5600_REG_ANGLE;
-   110				bitmask = AS5600_FIELD_ANGLE;
-   111			}
-   112			ret = i2c_smbus_read_word_swapped(priv->client, reg);
-   113	
-   114			if (ret < 0)
-   115				return ret;
-   116			*val = ret & bitmask;
-   117	
-   118			return IIO_VAL_INT;
-   119	
-   120		case IIO_CHAN_INFO_SCALE:
-   121			/* Always 4096 steps, but angle range varies between
-   122			 * 18 and 360 degrees.
-   123			 */
-   124			if (chan->channel == 0) {
-   125				/* Whole angle range = 2*pi / 4096 */
-   126				*val = 2 * 3141592;
- > 127				*val2 = 4096000000;
-   128			} else {
-   129				s32 range;
-   130	
-   131				/* MPOS - ZPOS defines the active angle selection */
-   132				/* Partial angle = (range / 4096) * (2*pi / 4096) */
-   133				mutex_lock(&priv->lock);
-   134				range = priv->mpos - priv->zpos;
-   135				mutex_unlock(&priv->lock);
-   136				if (range <= 0)
-   137					range += 4096;
-   138	
-   139				*val = range * 2 * 314159;
-   140				*val /= 4096;
-   141				*val2 = 409600000;
-   142			}
-   143	
-   144			return IIO_VAL_FRACTIONAL;
-   145	
-   146		default:
-   147			return -EINVAL;
-   148		}
-   149	}
-   150	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
