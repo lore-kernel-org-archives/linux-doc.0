@@ -1,67 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D4727FB1E;
-	Tue, 21 Oct 2025 07:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60702F0C74
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 08:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761032150; cv=none; b=ouYbwThu7nS2m7q+MbBux2o3D9iq931qKtupmetEt07X8B7XE1LD5okJUV8qzhtNdDOZaH6e2ag1hOWFUPx61kbmSDBtbVAAOQ6rj6GbwQOJKDCeVDwTmBiBYh0LQzqnmE1IbELc/23ML0F7KAdv6ZOtjnR4vB3KLHA8HWSYHE0=
+	t=1761035866; cv=none; b=H5xLqTQjp+jL1UzABzES5pGR8ON/+JSFg1BPRUBWHopinoqpHj4VSxMqbsxe0gC8xo7H5B+E5XiB25DeEyHdwHzgjrtEFZWW7sLOJS1+wObqSFXv/WY4Mtg1SYEXjsGuKyJi2fDYxLx2+pOii/W5L8NMuZG6Qc0x72QbuUyk0i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761032150; c=relaxed/simple;
-	bh=X7cRHSjXRGJM7wUbMm04IaWm8HIAEs4IU/+DZbQNmmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TPO2vfZSWA5vyVYjfHVCEoSNoHRJf0h0I3fu6w02gs7rwy1jKCFll9OL5SxPtwbIDkyV8WDn6e3KoCL1nX1ZLLbkLy8+w3n2k86SM60H8i3iBNrcUKwBscdwTLwceqL6tGFDjzRxsErXisIqxMBa8tAmygFHKal+W7Y1Mn8Z3Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZF3m40Jn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761035866; c=relaxed/simple;
+	bh=QjyCWM2eaOA0G4njqmL1QXzj7R90sfd0dteSirTsca4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ExEqzVYp5QUknQvsmHqXfcZKwPQw8zJlOKfJDLCdntEL8w2cYdc9e4PIdKr6GEnpC64Is14bOlWWgZXQ8YKil8dTzGZbIq96CEGMzS1gjauuDFWGckRIwTRb37sxp1XFY7f5UM9Dp7y+0/xCa53Sm0tzdNPske8VTvz2HXyUUM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gx36LVtm; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZF3m40Jn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 296C3C4CEF1;
-	Tue, 21 Oct 2025 07:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761032149;
-	bh=X7cRHSjXRGJM7wUbMm04IaWm8HIAEs4IU/+DZbQNmmY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZF3m40JnrkJq0Zzlrd/gSWdkTrS+ITLiIJ3P7bgYMqVPXjZmxslmq6eQr0R+IjNVK
-	 zFgBRM+8jrLmktKUGfCZLDORZcoyLGjuVDE1ufeVf0dvCe1wWXfFIZn2WuZ6HaYoMN
-	 CncWuoeFy18c5UJIW8HASO+lmdYsqxmBBotPfVtY=
-Date: Tue, 21 Oct 2025 09:35:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	safety-architecture@lists.elisa.tech, acarmina@redhat.com,
-	kstewart@linuxfoundation.org, chuckwolber@gmail.com
-Subject: Re: [RFC PATCH v2 0/3] Add testable code specifications
-Message-ID: <2025102111-facility-dismay-322e@gregkh>
-References: <20250910170000.6475-1-gpaoloni@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gx36LVtm"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b48d8deafaeso1189142566b.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 01:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761035863; x=1761640663; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QjyCWM2eaOA0G4njqmL1QXzj7R90sfd0dteSirTsca4=;
+        b=Gx36LVtmNIzqM8hPLu5g2RBt9sKc3Xr8z4YXyajQafsm8z+85hYTIcZUHC4o0qHgzw
+         Kmj4C2v6qaauSPZnF1wYOt78WB9dJvsiwmXjHEkLP76V45M/cpZdTyu4wAXkPHR6YJGB
+         KQ1Ab2eZp5Pl1oUxuF5xZdR64/uQNax2P4tEs0gM9s9m4wGfUAX9ZQnWzf8G9kIARh/3
+         Jmd7yHDN5Ipy5P1irI+lgmGQYYyYwUfZYj2+Vjg9JcD4lBIVMoGlQtYWC4JBfgiu7fUU
+         w+hY+fNdmrx3FAr54JWk/0CPr52x3/qktPr6h6nbJf4R2wP+R1pBQrU8wxnuS/1lz28L
+         UeTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761035863; x=1761640663;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QjyCWM2eaOA0G4njqmL1QXzj7R90sfd0dteSirTsca4=;
+        b=E+xvXnxQT4i9hnzoPW8DcQEPVRkjSSXdWKBFLY6qwkL27domS46/ukY22554nrEGlk
+         iCF9FUXmjxEWFPMSEJK4DjonZkT4Z5S5U9lr+FEZiqhPbQ6EyiGmKoM+EwJptMkF7r0O
+         ZdFU2l7cZQgHrc4YjPbiWF6Q2ckc9QJnhHOWbjYCAhbDiq/Eapl71QqWTw+CF73AqaNw
+         NjdUf8xmMGOc3S3EqMNkhP0PQpQ7y6cyS94l8OoLXRy32n6FUz40MT48wOAHgERX04Lq
+         FK826jIoe4vl76fR3tJx5Dxp9/94ZjGj9T4F3KmukULdamOfSN4CpxGsr3/2hbMI2Txl
+         pyYw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxhjWuZCck0R1+re+VcBzL+NyAPcKIhc68HY6udVDFhIdbK3UPuGOfvNHkcdvCBATUutApilgHMi0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvqUm3aJgDuje8L+O+DhLNFDLpiLzeJ1OIhzNp1ijZW9kUVjzG
+	vT+fxvlq8kUsvmT66rsMdAsZ0NuH+e9DdCNiKydlYzf7S6ugQ2FKLDIlPNl3ijaolg+jop8vdBd
+	6B0TLG2xPDO2PwibMJlcsuuRxMlIUZvGRG8WZZw==
+X-Gm-Gg: ASbGncsvxt4lkOI+per5Mx6yPxtk7DjF36XptfuOshs6VDs2zCZvBXT3QPFKucfqdZd
+	L+DNBKM/+WsShGq8Xcc3GrpUt4YO8CkrgSLi+buiorjSxOVNMBYDpeGhMBEYov+ahWoq70qZf0f
+	CCn93N20KIZsRdHg66Ylbm/gorab1vO4FJy6EcTYKd4eUXm9LxcBtrtpAuXtwA8EiBap7sZWk5A
+	gpC8XCqfM7kr/yahrtiWIqtV+JhgI2AOgXyRxRUIOx17W2oikpqBh1yVQ==
+X-Google-Smtp-Source: AGHT+IEtZxUVPjSc2WqOyAjA7Fte4RrVXHEh4i2Gbt2zB79A/SDrGDESaIChW2EoFUntYRwCfCiMlt+Yi0KqlqbopSU=
+X-Received: by 2002:a17:907:3dac:b0:b45:8370:ef10 with SMTP id
+ a640c23a62f3a-b647245845bmr1951550566b.22.1761035862848; Tue, 21 Oct 2025
+ 01:37:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910170000.6475-1-gpaoloni@redhat.com>
+References: <20251016103609.33897-2-bagasdotme@gmail.com> <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
+ <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com> <6b8e7935-6b80-4f00-9a44-7003071d1a21@infradead.org>
+In-Reply-To: <6b8e7935-6b80-4f00-9a44-7003071d1a21@infradead.org>
+From: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
+Date: Tue, 21 Oct 2025 10:37:30 +0200
+X-Gm-Features: AS18NWAkzMEdIZQ7IEi0fFSxQKz8uPinwHCWF-5cnXsFVeY8YpgVfIMAZOdWQSE
+Message-ID: <CAH2-hc+M-CyXL1HtHkD9o_Q_8PP_OkYLvjqhdBiCnHVBQspedQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: sysrq: Rewrite /proc/sysrq-trigger usage
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux Serial <linux-serial@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>, Jiri Slaby <jirislaby@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Anselm_Sch=C3=BCler?= <mail@anselmschueler.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 10, 2025 at 06:59:57PM +0200, Gabriele Paoloni wrote:
-> [1] was an initial proposal defining testable code specifications for
-> some functions in /drivers/char/mem.c.
-> However a Guideline to write such specifications was missing and test
-> cases tracing to such specifications were missing.
-> This patchset represents a next step and is organised as follows:
-> - patch 1/3 contains the Guideline for writing code specifications
-> - patch 2/3 contains examples of code specfications defined for some
->   functions of drivers/char/mem.c
-> - patch 3/3 contains examples of selftests that map to some code
->   specifications of patch 2/3
-> 
-> [1] https://lore.kernel.org/all/20250821170419.70668-1-gpaoloni@redhat.com/
+In that case, can we use some short form? Something like
+"extra characters are ignored for now, which might change in future".
 
-"RFC" implies there is a request.  I don't see that here, am I missing
-that?  Or is this "good to go" and want us to seriously consider
-accepting this?
-
-thanks,
-
-greg k-h
+Thing is that i wanted to add handling of extra characters, but
+maintainer said it cannot be done because people might currently rely
+on characters being ignored as written in documentation.
