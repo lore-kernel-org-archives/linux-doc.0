@@ -1,117 +1,144 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF0819F41C;
-	Tue, 21 Oct 2025 04:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9C28460;
+	Tue, 21 Oct 2025 04:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761019219; cv=none; b=mibgzQ6PZUOVSXTwipXSCfcWs7ZCRs10TGQzX73JrQ1xXxv6FES1qY3TKo157CefhuXDG2iD+t8j8svxSY1vIvBvYtMNfIzuabeHVm5ezeMfHkBmMqnWegoevPPoIjgnu5y9/8uskHUPP9ZKu/soiZ+UNbQ1cNIxtLjbppq7GLM=
+	t=1761022207; cv=none; b=R90RsHnPsEKwnefi8LVtx8ItjC8znu26fNLKle8VutVB694zaSwygAaFSD9V4NLgbOzNJJlML0GfDgKW3+w0lAn6agpQEXXxzhc2+eKH6k5CtWNKd/kty+pLCTbodUJXbxbTO3aSj1tYFuya/lzeJW8jv/no/L7MuQA1LIerCQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761019219; c=relaxed/simple;
-	bh=XdZ+bSwZitbUWOlq5HzK0v+64/RHdlaknUCUZVBOaTw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PmGugFRTwVb1pXrxoJod7p6oTtrR9Ck+UY7umA6kqr3LVZky49YzDa7anaZBGAxQ1XyZdsOuSfm2N2FEEc/dQBnXQVDKrvzQcdihnYIAaqqYMyYaMkwej/p9vKB5IXv33jsDVD1iexLeo30T4ohVDm65fNJaQ5g/W1OGOAZ+dWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=fqG04iT6; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1761022207; c=relaxed/simple;
+	bh=QGD45ga5zWdLTFV/K5GdIbJuErXC7zGRF80m5HoRfcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJe9cmAT4p7VUjIE7ViFBqTPMbU9qjrdEte4H0luB6lZAJQ53lEtHt6LaLIHFPWEEiv9mioekCjvqstlMJWVj6bFoNHcpMCUW7vJPg9BZ5AENnFqs7SxlrO1+m7LmN660tueOUTlwP95RO5XglNe+bO/bA1VWpaFZtLVGSMpU0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ure6nvZC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="fqG04iT6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1761019217; x=1792555217;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KTzOv9/b1xNagjNFcLWg7luH3jx9poz7xbR0D710bEY=;
-  b=fqG04iT6zLB3NjCsdMTfNZv1WNGOe5Ee2MTwkXzVod98mI6jYBjDwfmQ
-   naOWHlqizcHEC674H5bEOI8pVLHfMKuePODZmgAYcC+1wA8jZSukDrg5T
-   cWsfQssYm+CPR3waiLjdyQDOhEGeVfEXIOKsY26Wcw+tFNSw0SC8dvZGz
-   Cx26RasjLyLclrWr5rbhzSr5zL8ESFY/CjW8JjhVVu0M2tOsFYHRvGmSA
-   OOcxMMJJHTXcZozK3tJB1NTWp9w8RyIVm9fhbwFUrR6bsWCViw1fGJ91k
-   jHw3iHiSKt8gb4aYDDthb/CnNCFn6FvxnuEXzWJffUC+pKkCs5lTFoOi1
-   g==;
-X-CSE-ConnectionGUID: FOWWBHa8SpORO7ARxemC/w==
-X-CSE-MsgGUID: 820b810wSsWhi59t+ZFK8Q==
-X-IronPort-AV: E=Sophos;i="6.18,281,1751241600"; 
-   d="scan'208";a="5301474"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 04:00:13 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:13820]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.38.191:2525] with esmtp (Farcaster)
- id 9f5b59e0-db79-4614-aa8a-fa0e9880c6ac; Tue, 21 Oct 2025 04:00:13 +0000 (UTC)
-X-Farcaster-Flow-ID: 9f5b59e0-db79-4614-aa8a-fa0e9880c6ac
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Tue, 21 Oct 2025 04:00:13 +0000
-Received: from b0be8375a521.amazon.com (10.37.245.8) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Tue, 21 Oct 2025 04:00:09 +0000
-From: Kohei Enju <enjuk@amazon.com>
-To: <kuba@kernel.org>
-CC: <aleksander.lobakin@intel.com>, <andrew+netdev@lunn.ch>,
-	<anthony.l.nguyen@intel.com>, <corbet@lwn.net>, <davem@davemloft.net>,
-	<edumazet@google.com>, <enjuk@amazon.com>, <horms@kernel.org>,
-	<jacob.e.keller@intel.com>, <jiri@resnulli.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>, <sx.rinitha@intel.com>
-Subject: Re: [PATCH net-next v2 13/14] ixgbe: preserve RSS indirection table across admin down/up
-Date: Tue, 21 Oct 2025 12:59:34 +0900
-Message-ID: <20251021040000.15434-1-enjuk@amazon.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20251020183246.481e08f1@kernel.org>
-References: <20251020183246.481e08f1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ure6nvZC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4AEC4CEF1;
+	Tue, 21 Oct 2025 04:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761022204;
+	bh=QGD45ga5zWdLTFV/K5GdIbJuErXC7zGRF80m5HoRfcU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ure6nvZCgjKTFB34N3cCy9GcbSh3diCqfJgHQ7EbhyZgKv2YKLD+/hBwu00yHGWLE
+	 /9fiGpYQRNIqGeViWBuNEwXa/E0h60bRIpP2TOdADQd/jVbqXfMDNqMEVz4RZEOD6T
+	 Ct6tXaXL2hG+5Sa9WeVD7GGZpQF4/mv3gjwEZxv7jTmNegreiYvX6667D48Jlcx603
+	 +OZuVIn5gCntw56FXnA/G6lwHOGF/kf71T+NkVVNIOrgE7nxg+6/1tsGBRbQ1BcLX0
+	 /qG27Sn5sP1JuSC7rk4ccOZdMcCrPX1aQnO6wrZ7Tnca2u1TBGLx4EuflYd03RU7WH
+	 UMJE3H6PwFbEA==
+Date: Tue, 21 Oct 2025 04:49:59 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <aPcQ99MZse5zmv3o@google.com>
+References: <20251016054204.1523139-1-tzungbi@kernel.org>
+ <20251016054204.1523139-6-tzungbi@kernel.org>
+ <20251016123149.GA88213@nvidia.com>
+ <aPGryj-V5PQZRtoI@google.com>
+ <20251017134916.GK3901471@nvidia.com>
+ <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+ <20251020115734.GH316284@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D046UWB001.ant.amazon.com (10.13.139.187) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251020115734.GH316284@nvidia.com>
 
-On Mon, 20 Oct 2025 18:32:46 -0700, Jakub Kicinski wrote:
+On Mon, Oct 20, 2025 at 08:57:34AM -0300, Jason Gunthorpe wrote:
+> On Sun, Oct 19, 2025 at 11:08:29PM +0800, Tzung-Bi Shih wrote:
+> > On Fri, Oct 17, 2025 at 01:21:16PM -0300, Jason Gunthorpe wrote:
+> > > On Sat, Oct 18, 2025 at 12:07:58AM +0800, Tzung-Bi Shih wrote:
+> > > > > This is already properly lifetime controlled!
+> > > > > 
+> > > > > It *HAS* to be, and even your patches are assuming it by blindly
+> > > > > reaching into the parent's memory!
+> > > > > 
+> > > > > +	misc->rps[0] = ec->ec_dev->revocable_provider;
+> > > > > 
+> > > > > If the parent driver has been racily unbound at this point the
+> > > > > ec->ec_dev is already a UAF!
+> > > > 
+> > > > Not really, it uses the fact that the caller is from probe().  I think the
+> > > > driver can't be unbound when it is still in probe().
+> > > 
+> > > Right, but that's my point you are already relying on driver binding
+> > > lifetime rules to make your access valid. You should continue to rely
+> > > on that and fix the lack of synchronous remove to fix the bug.
+> > 
+> > I think what you're looking for is something similar to the following
+> > patches.
+> > 
+> > - Instead of having a real resource to protect with revocable, use the
+> >   subsystem device itself as a virtual resource.  Revoke the virtual
+> >   resource when unregistering the device from the subsystem.
+> > 
+> > - Exit earlier if the virtual resource is NULL (i.e. the subsystem device
+> >   has been unregistered) in the file operation wrappers.
+> 
+> Sure
+>  
+> > By doing so, we don't need to provide a misc_deregister_sync() which could
+> > probably maintain a list of opening files in miscdevice and handle with all
+> > opening files when unregistering.  
+> 
+> I don't think we want to change the default behavior of
+> misc_deregister.. Maybe if it was a mutex not srcu it would be OK, but
+> srcu you are looking at delaying driver removal by seconds
+> potentially.
+> 
+> > @@ -234,6 +240,10 @@ int misc_register(struct miscdevice *misc)
+> >                 return -EINVAL;
+> >         }
+> >  
+> > +       misc->rp = revocable_provider_alloc(misc);
+> > +       if (!misc->rp)
+> > +               return -ENOMEM;
+> 
+> Just get rid of all this revocable stuff, all this needs is a scru or
+> a mutex, none of this obfuscation around a simple lock is helpful in
+> core kernel code.
 
->On Thu, 16 Oct 2025 23:08:42 -0700 Jacob Keller wrote:
->> Currently, the RSS indirection table configured by user via ethtool is
->> reinitialized to default values during interface resets (e.g., admin
->> down/up, MTU change). As for RSS hash key, commit 3dfbfc7ebb95 ("ixgbe:
->> Check for RSS key before setting value") made it persistent across
->> interface resets.
->> 
->> Adopt the same approach used in igc and igb drivers which reinitializes
->> the RSS indirection table only when the queue count changes. Since the
->> number of RETA entries can also change in ixgbe, let's make user
->> configuration persistent as long as both queue count and the number of
->> RETA entries remain unchanged.
->
->We should take this a step further and also not reinitialize if 
->netif_is_rxfh_configured(). Or am I missing something?
+I didn't get the idea.  With a mutex, how to handle the opening files?
 
-Hi Jakub, thank you for reviewing.
+Are they something like: (?)
+- Maintain a list for opening files in both .open() and .release().
+- In misc_deregister_sync(), traverse the list, do something (what?), and
+  wait for the userspace programs close the files.
 
-Actually, you raise a good point about netif_is_rxfh_configured().
+> > @@ -1066,6 +1066,7 @@ struct file {
+> >                 freeptr_t               f_freeptr;
+> >         };
+> >         /* --- cacheline 3 boundary (192 bytes) --- */
+> > +       struct fs_revocable_replacement *f_rr;
+> >  } __randomize_layout
+> 
+> The thing that will likely attract objections is this. It is probably
+> a good idea to try to remove it.
+> 
+> For simple misc users the inode->i_cdev will always be valid and you
+> can reach the struct misc_dev/cdev from there in all the calls.
+> 
+> More complex cdev users replace the inode so that wouldn't work
+> universally but it is good enough to get started at least.
 
-However, we can't determine whether we should reinitialize or not based
-solely on netif_is_rxfh_configured(), since the RETA table is determined
-by (1) the queue count and (2) the size of RETA table.
-
-So, simply skipping reinitialization on netif_is_rxfh_configured() would
-leave invalid RETA entries when those parameters are to be changed.
-
-For example, consider a scenario where the queue count is 8 with user
-configuration containing values from 0 to 7. When queue count changes
-from 8 to 4 and we skip the reinitialization in this scenario, entries
-pointing to queues 4-7 become invalid. The same issue applies when the
-RETA table size changes.
-
-Furthermore, IIUC, adding netif_is_rxfh_configured() to the current
-condition wouldn't provide additional benefit. When parameters remain
-unchanged, regardless of netif_is_rxfh_configured(), we already preserve
-the RETA entries which might be user-configured or default values, 
-
-Therefore I believe the current logic is correct as is, and we should
-reinitialize the RETA entries when either parameter changes, regardless
-of netif_is_rxfh_configured().
+The context is meant to be the same lifecycle with file opens/releases but
+not the miscdevice.  I think the mutex vs. revocable stuff is the more
+fundamental issue, we can focus on that first.
