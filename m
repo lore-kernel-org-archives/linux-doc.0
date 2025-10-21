@@ -1,116 +1,132 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53852BEFED
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 13:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD9B33B972;
+	Tue, 21 Oct 2025 14:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761054491; cv=none; b=iLPLq05vPMQfw//KvZ41YAGrhH6e1qQ1WZ2xcJRA+ungc4/Ak05NTPHTLS6qb8d7wTju/A3kiH+HM2Bz6VmV3nPqGHRMsvisKR/9ENdpwy5v2TS8gyX+EBopkuo7v+G/+P284+qz8ZUAdIr8leuL0OZrpt1a0KmAVvPRNVROT4Y=
+	t=1761055297; cv=none; b=H4Oqb+U3PUK57I8i2m7r4mSrKfeWZC6bZ3x6Q0tmfiJqmb4fX/n+cVXasDNFjP3bLUxhH5j9aPwIJYNOY68zKIUlIHsso35cxNdD6n9b/m9eL97lZELvlWe46peSqfawyhJ9C4nIfnDbhFGjXFqihsRhve7gyE43AmHbJdAx9Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761054491; c=relaxed/simple;
-	bh=hWVpdQ4qzW3f4IwuZZhcoX4ShVzp4YZhPQ1LBXovShI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXrFuP6MEhVy273h0xmGjlbNEQ9B1gvCAitPJDlylIHCcpOtjnjdB1aGHCPnCI5Ack1ewSLGRXfFjVF8lNXZGF01V6uJcYCI+8Mzts7yRbR8djlj1fj1r3ZKMnqf8htl+Aks6cnw9FBlqbWS/DAg81siD1X6NqcCp1NBAeKzcRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YNJ7zmN1; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761055297; c=relaxed/simple;
+	bh=Hbjc5gKyUpa1HOIxoR6MEzEBgkPttbDkGZX2GtTYuWQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uZbpLrR1oKENgcPjraHbZKLQG/Xsk1skeye6i8NL2POJupf9oeeaLwzI+ZFdzM3WE76+rzg7upYf+7ni7g0daeiu7pwwGEWBJwHqtEMz09brjU1s2cuNRSKpQLPeXp9acorDpussIKAXJ8CCmee/vENsVKRKx9kJjdXlxHFCvH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7VvXxDG; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YNJ7zmN1"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-427091cd4fdso2709001f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 06:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761054486; x=1761659286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fDKI+uqj4/PiSrDUg7xaC6n35ZWBi8QY/gzE9TEB0ME=;
-        b=YNJ7zmN17iHMQuFs/KTWcvDxIYJtnMzrERHM4ZNbU6kCmRvLKIV+JsStIVkOFNAb18
-         EUI69Sl5onBFYOTYukm3PYYVPvJ20GHzV1FKTWCBQZTGGbwBKextq2keypg6MxvAv+QX
-         /xqtV+ZiN0WuCMLMzhxyS5VT/ffVOto55LruF0miMLzgHlSTLTrRoXg6Ds18NtlTHmYA
-         NhYUhcrs0kJ0ZQsmTSbiuNACrJgygH2MeSWmDkpelLWwcfxHqt+tLuHiB7lKgO+JuyMe
-         Nv3Br0iCec68hZhBYpGWcKWt9SZITdSg790JOsWG/lD24jZP2eNmd3tpN6QSkoaQK6Ld
-         jv7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761054486; x=1761659286;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fDKI+uqj4/PiSrDUg7xaC6n35ZWBi8QY/gzE9TEB0ME=;
-        b=kh0ky7BN4U9X44y0e581NjmOjlP+UjVc/je8e2w/blp0yExUOe+msh6L5oEidGQ6gV
-         1uIIysCcTTeRiKjaQ8U3W9c8omsI4LWGDiiRoLkQnwZikQX8r5FtAczScFBSxfzHVjfz
-         yBnaoRz8AqKavcpksvM9P/frTCvjcJXj/EipMqEHjtjgnBEdMcRcACbr16bhBF6l5Y1u
-         yUF9SOeHUUp8oFqNQP09QLdrYaLp1Lx9WhMPBhLCFffWJpCUToH5tkad3OH8ogPmYKbL
-         artw4K0Erb0+WrZvibZ8JUDtGUTo5yleZXAkW/UK76GQ2AkGNOk0HKv+Ayn08ZG/Sq7G
-         YKcA==
-X-Forwarded-Encrypted: i=1; AJvYcCX26wciIwv7Rv/BeyetXkjSGD4ZwdaDxXxhfmvwweBUhCZwz3hhS3OSKE+DVuv2IkbN7C72HLBsPm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRIc84Iboeq8sVGRKdtDM01JfCP4iVd4O6KGCLs8lwejL9OoTJ
-	xgU9DAs0XiQgEn2WGMC0WySfpNq8OaYK7I1Fn4W2UxOaHw2YeEGG0W6m
-X-Gm-Gg: ASbGnct8ZUMinyDK8m63yoQYykvC84aDEtrR49Xu+KHhiQgAvJzscOk1or4mVwaPrgA
-	iAfmS5vsz6qyAr7OcRw00mUUExNdTc+KITcx2B4+uCXOUxAhkjXm+c0UbITKLncYel1XjstOf0b
-	fXp3jAjJ82HsJTw7TRUf+7aBr7kNkmdfcx7M/Tkm1Y9o/G/4vRMBLOOU0+b6wtMSXcQB26kP/3V
-	3n032JHx9Kd9JoStcfs/2PKLeCKIQdmWkCJhqFQUpVMF84db+84V939Vl8hFJ9hmnisok73i9px
-	KfzbxaKx5uxX4yvT4KTm5ENCJ5pjQ22dGcgd5OXbClqdfmmt/ExK4toN2SPNK0AseIG4sib+J+h
-	2zVyzrNLPoYDlO3/D0O7KI/SGU9/laNnUdPtoGja9/+Iaddp6H1o/Ctn7yvQ32DwqLH5Lw5PpxW
-	TlNzvOdABRRSZ9V9kEzEzItfbNPThlINsRoLn3SOdesQ==
-X-Google-Smtp-Source: AGHT+IF6HCVp6aK0SgfW6hE72HLbI/KN18j5SeYFoFF6iWu0oTL02abLRhSo7ownBmlUpl0HSN4Z6A==
-X-Received: by 2002:a05:6000:310b:b0:426:d80c:2759 with SMTP id ffacd0b85a97d-42704d610f8mr10968224f8f.25.1761054485851;
-        Tue, 21 Oct 2025 06:48:05 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a781sm20879873f8f.30.2025.10.21.06.48.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 06:48:05 -0700 (PDT)
-Date: Tue, 21 Oct 2025 14:48:03 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org, Dave Hansen
- <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo
- Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "H . Peter
- Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ard
- Biesheuvel <ardb@kernel.org>, "Kirill A . Shutemov" <kas@kernel.org>, Xin
- Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>, Sean
- Christopherson <seanjc@google.com>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Vegard Nossum <vegard.nossum@oracle.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>, Randy Dunlap
- <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Kees
- Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 02/15] x86/asm: Introduce inline memcpy and memset
-Message-ID: <20251021144803.519e6244@pumpkin>
-In-Reply-To: <20251021124751.GLaPeA9z8BCIe8AudC@fat_crate.local>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
-	<20251007065119.148605-3-sohil.mehta@intel.com>
-	<20251021124751.GLaPeA9z8BCIe8AudC@fat_crate.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7VvXxDG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761055296; x=1792591296;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Hbjc5gKyUpa1HOIxoR6MEzEBgkPttbDkGZX2GtTYuWQ=;
+  b=C7VvXxDGNFXz98lohpTFTHWpJEco8Q8REbP281D78Omi3zPn0fiWme+R
+   fK5ZN1gOrUakz7B5xs69YOzKEAuBNOsMhePSJtZ0eJbCfOR/5f+2Jdsw2
+   3ZlfmRGAdrXtfXnB8nH+PTXXDGXrHHDzbWNknFRYyw5GVgUfDcYXQFWFM
+   VQEPpFnM0uPvJPkdD6qOVcBY8QHE4L7dB0D2KB537DmB9z+hwlCK+jwGd
+   d4sBVUYtzAK+rzN/D/G//Azo5a4DP3ePdgxS1z+wN0zIZsmUj3FQjdA4K
+   3gu2TJ7VE5P85Dcy5VMm3XWOz9h8tuYqqi5l1ifMAZLOMMVLtQZ7qM+55
+   g==;
+X-CSE-ConnectionGUID: fG4T/XG/TKyJgcscwfW4sg==
+X-CSE-MsgGUID: sGVyOnLKTISpY/0o5RRY/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74299556"
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="74299556"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 07:01:35 -0700
+X-CSE-ConnectionGUID: 38z4pWhhQ5WGlf3stPnHBA==
+X-CSE-MsgGUID: ZHq1WzoHSg+J7gqZ1PtX6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="184078928"
+Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.108.149]) ([10.125.108.149])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 07:01:34 -0700
+Message-ID: <73a22a19-c492-4a75-8352-a4cfac47d812@intel.com>
+Date: Tue, 21 Oct 2025 07:01:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/its: use Sapphire Rapids+ feature to opt out
+To: Jon Kohler <jon@nutanix.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
+ <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Brian Gerst <brgerst@gmail.com>, Brendan Jackman <jackmanb@google.com>,
+ "Ahmed S. Darwish" <darwi@linutronix.de>,
+ Alexandre Chartre <alexandre.chartre@oracle.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20251017011253.2937710-1-jon@nutanix.com>
+ <20251020194446.w2s5f6nr7i7vw4ve@desk>
+ <EA2E1D80-07A3-459D-B330-A667821E7C05@nutanix.com>
+ <20251020204026.a7xuhnagsqo4otpx@desk>
+ <225134fd-033f-4d63-b88c-772179054694@intel.com>
+ <20251020224159.xkhfs3phai5o6rzb@desk>
+ <1D952EBC-CA16-49FE-8AD0-48BCE038332B@nutanix.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <1D952EBC-CA16-49FE-8AD0-48BCE038332B@nutanix.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 21 Oct 2025 14:47:51 +0200
-Borislav Petkov <bp@alien8.de> wrote:
+On 10/21/25 06:40, Jon Kohler wrote:
+> So to simplify it down:
+> A guest VM that updates to a ITS-enabled guest kernel sees performance
+> impacts on non-vulnerable hardware, when running on non-BHI_CTRL and/or
+> non-ITS_NO hypervisors, which is a very easy situation to get into, especially
+> on QEMU with live migration-enabled pools.
 
-> On Mon, Oct 06, 2025 at 11:51:06PM -0700, Sohil Mehta wrote:
-> > From: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> > 
-> > Provide inline memcpy and memset functions that can be used instead of
-> > the GCC builtins when necessary. The immediate use case is for the text
-> > poking functions to avoid the standard memcpy()/memset() calls within an
-> > RFLAGS.AC=1 context.  
-> 
-> ... because objtool does not allow function calls with AC=1 because... see
-> objtool/Documentation/objtool.txt, warning type 9, yadda yadda...
-> 
-
-But for the purpose of code patching they don't need to be 'rep movsb'.
-An inline function with a C byte copy loop is fine - provided you do
-something to stop gcc pessimising it.
-
-Obvious options are a volatile pointer (or READ_ONCE()) or a barrier().
-
-	David
+By non-$FEATURE, do you mean that they chose to not enumerate those
+features, or that they are completely ignorant of them?
