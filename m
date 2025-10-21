@@ -1,70 +1,70 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DC2341AB1
-	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 15:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF3533F8B5
+	for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 15:00:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761058853; cv=none; b=W/+KjSEczfH08vL2XPdzSKNL2zlwcPkbGyoOZdlwEV5wyR4y2qcY3cAH1KFBT5auPf0fuApj9UBevBJJUe1+/4z7hVkM8Lw65vlGnYllt7YfDg10iKf8eW8CUn8J0TMe2a7S0Nxr8BjpTltrvFktDFGzKcmbnPLAERI+LlLxZ6k=
+	t=1761058857; cv=none; b=jt6NR6dBmtvh5MHwtMhIaKbSrtbcUIzNKCZPnYlFGxEjCkTIIu6Tlh60WRGmqMOGbl8vegHdq0bdL+F4z7ySBQhYkr0Qr43XOtRDnzjED2/iLZF38xLWub3YncrgI0a2IAZhWGvMK2LciiROqSviPBUP/MKwskQL0fBuQATCQHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761058853; c=relaxed/simple;
-	bh=ptuaLzDjZgkWF1wvDAN8KY/453EoHUcLMwhjUdNpArU=;
+	s=arc-20240116; t=1761058857; c=relaxed/simple;
+	bh=bQcdfA2mrt7mpXYEYdKFgafDPjdfDxx4+RaAhMIH5Tk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m7KCt8Eof6JBWKfopWCOXAdPIEEYMcUyX8zvsxrsQVyBD8DDynMOJCIJbVN68gFPASLy52LVbTCRFawuIYER3fN4hq8eXLbhA8OdvI60s51lT66nzv4IocAWRQVxZFcgZv3Gyth9KX6nFtlglgDS8f+EA7+i9jq547Z2M+7XyoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TJj3rObL; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=OTXG317LOYCvGveSNL4CPj+dH2Ew0DhQkAbiSde7KEO04DCmtPV9iimExgJOJvaIQguIzeN3UThICmN3Pq94JUwGpNj6kMSQnB281qBj4xnWyyHugvm7qJcWHkDhxurveGshAg5MFhz0pgJzLbKnrv8NtTEdAblFOqyV5EjN+Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=STLSOe03; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TJj3rObL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="STLSOe03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761058850;
+	s=mimecast20190719; t=1761058854;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0WXJD5DBTOSdH4OFa5cGG6Bl5vxCoyITjfVMpwdlj+A=;
-	b=TJj3rObLoZgVC/7QhxUQD85N6mptPcdzk+nfl6mGo6pVl4iw14d3o9RWf+dIwD4DpdfEVk
-	WWD6jIC6//wtMiFRpWRSApICdOabEzjli52EnqJDwspHoVxLNkOnVxYSBvjeFNnxijZqfa
-	fniOO/lZTOBm6X9be19EDUVpaqkjxC8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=XDLrgg+nqjJKw4aq9VppMtv44pG2L3C4aYFxjxK1b9A=;
+	b=STLSOe03TfPufvrGzt0aU2Zyrz6z5gNSoma57o56SO8p/QrTtRt55vOhZRQYP1Bfve/ret
+	TWV64IvMGxiACegnQ/h0h9iOZeP8BiMYgYo1DN0VmrRAhuiRg2/SVXTdH3OqnytC28uwQ0
+	lpd3q7Aljc7PpBjfDZo/17NEnKev4tI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-114-ARJePfEBO2aALrTXcrfSLg-1; Tue, 21 Oct 2025 11:00:49 -0400
-X-MC-Unique: ARJePfEBO2aALrTXcrfSLg-1
-X-Mimecast-MFC-AGG-ID: ARJePfEBO2aALrTXcrfSLg_1761058848
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4283bf5b764so1858817f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 08:00:49 -0700 (PDT)
+ us-mta-644-gwZlSZTGOzmP-5pWGkb-iQ-1; Tue, 21 Oct 2025 11:00:52 -0400
+X-MC-Unique: gwZlSZTGOzmP-5pWGkb-iQ-1
+X-Mimecast-MFC-AGG-ID: gwZlSZTGOzmP-5pWGkb-iQ_1761058850
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-471005f28d2so22199295e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 08:00:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761058848; x=1761663648;
+        d=1e100.net; s=20230601; t=1761058850; x=1761663650;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0WXJD5DBTOSdH4OFa5cGG6Bl5vxCoyITjfVMpwdlj+A=;
-        b=CdfFdCzENyi2bULRiCgelhanxZYh9MTl8wCTdBJymWiJKf+9VzglYARZUR7DwpLloB
-         q2fxPZDs9jBJEtPFC4PXKbfXWQhicCbALebe15h0/8eZWs/rVAbLVjFTHC0wNswS7O7o
-         LhckQKykX7McgGMJNk/gHG0PVE9pHNMrDcFjgfYnSy3Pxxrdt4e6pcJzaZUyZWvr3qSa
-         MteP/2Dsti8OsQtyGRKsEVE+TUVo47QGiBl4HteguhSbBcY/Ui6lR0oIOVB2Bbcb8d7g
-         n2XYkpsHtrnqqmg6pkMGiYnwZ+X5kYMBEHxN8HEs6cgJjP7/UKAyQWGkK37tiWMX9rQx
-         Pqpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHI2URIzPY1ZR21AzcBxypNI2HTTY8zm6SlY0rOueu/s7+otsSxGFN0BcbDvqpoqmsu3KZqOVFsfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5IR6MIWH8FtmQ6XgTOl3s8MEh/edl6UAB5Y5g3HDAuf4IUcVa
-	QG4FnFszjBCbSJBzvJRK32WZVptC4kwoisAcmn92VrZEuWyuKw33Pi2qHDlE3cW9/tl5RDnzkjC
-	U+WbsfYlhvrezV6x3LkLNj2LwSW/4TSiTFVKr6AqTRocp0TRPyAuWRrULzI8mFQ==
-X-Gm-Gg: ASbGnctlN4LBZg78j/1GqkRZ+IfT4OvdYAvTriBoCtWXrIch4VpEoeQ98pHjZBu5h5R
-	d5EoxttQXy02RIHqcXSO90lPyy3rxVnfYlq5kBFEtgKuXCNozDZdSJqt66zNMf0FyT60VF52Ub4
-	9z2iuEaJ7LaqUi1CiBh+uPFFBpkNSV0OSCjzNeqe8z/QjPD4oS4LgtiMjk1wsynaY2K5YLxVOl0
-	dclSDQ7NlAqNjij7J8bvFQw3U1MeytLtTleDHzmeBWLEIHQzNQ/Y0+PFSBMpqMn0NMuQDjY4BZX
-	/vBRT/20WjBNNh37wJHyrZ6GFWXzQrmy/No4PvAvkB7ZnD73+YzPxJ+qJaXVobYrEYlnTzzBs9b
-	TyGD3Mj7tG+lMgoI6+I6n6Fe2M65FlPmuVEPyXb6GbfWvYaTtY7eS5282YDMz
-X-Received: by 2002:a05:600c:4e89:b0:46f:b42e:e392 with SMTP id 5b1f17b1804b1-47117931c1dmr117960535e9.39.1761058848064;
-        Tue, 21 Oct 2025 08:00:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDebz8te/SdK4RMl9FXThAzS3UlvHbYsiUZ1AXYYoG1U9LkInArDMPFE9fh7553nINZVhlvg==
-X-Received: by 2002:a05:600c:4e89:b0:46f:b42e:e392 with SMTP id 5b1f17b1804b1-47117931c1dmr117959965e9.39.1761058847485;
-        Tue, 21 Oct 2025 08:00:47 -0700 (PDT)
+        bh=XDLrgg+nqjJKw4aq9VppMtv44pG2L3C4aYFxjxK1b9A=;
+        b=l58xOd8NdfFACGkCgCRTfdTORWIta00wonCACGh3q3HvDAJ2+OiLJnstWtXuz29QKp
+         ywhFxw/Skx3HY2YkZdOy2jSj59IsPI2jnYMiH/5Os/Tn4SubzrIpEI7kmiOZJ5ITeesH
+         RwKp3mFGbLeluxtixVPlBn0XEtA1ASCiHZ+7S5JBwkS7lKlhl5xXOy4vPTA3p5b21XlV
+         Gnesa2BPKNTVhdUJ5HDsbrjBdH2G5OoXDEzX8BVRukrkwImeqyV1bVVXS0br5Sze0eKx
+         j4mE1N3bzI4MFFeDpBEhh5Z2N2z+N524Ssak17SKOKV+ytR2IG95mHzz8plnoitvjBoC
+         Hvmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGm9mQSrQA+3Vhj+Am8v/CgL9JAsEFombGs165h8+LXA+ldLRKKwRxM686SGrzltsjtq+D1N2HP7k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywfp6zJNp/Rb8++FR5CROxOujOenQ+LvNaCnqzLZSa8mIKRi4RK
+	DksIFG6xAJfQYeUoUjhFREqvjD7aWMXUZN/yYqbJznKf+GjoXOviWJLii0BykLtcSYxwnH/U5sl
+	uF2paoeRQr62CjeNaVKZKIgE3nDgRZs13/KMJCqN2BHHEsZUixMeWtV7z0q3RIA==
+X-Gm-Gg: ASbGncvqm4KIjhZ+8nk9HV9pqux6DB2BdsPE3lQFQz3HLoVAUU5DOuccgribKX1hXIO
+	lVjpv1P4JYp/3Zg3bHGW2uqIa776M1oy6/z4aZZ1j95mjLGxGVX6hYS9wQN7Y+MtFO2vb5x/Tk/
+	WTlK9bii3vzmC6b+3c8UOgmglF/g+KfMeh5T4CuBM9o3E6Qs/4KtIKsg0p7BYQkp87VL04+OiFk
+	9cu5Ss/qfkBeoTK6tRdIPHqSa+xtgxJNE6A1YFXHW+zJ2Qezy57mXldn5s5Ldjw6qIUmvjzPNOI
+	24ZU85s9XF02EtU8aP237RGWHA0L9fQ1Suq3/o1rijB8cJqUULISr45OOEytl99zt68mEplqxhC
+	DRX/R4Dj4a1/mpOPi80dcD+/Ob5d9vgqhMYMGVKig0q49hU7HMrPQyUKG062G
+X-Received: by 2002:a05:600c:3f10:b0:46e:59f8:8546 with SMTP id 5b1f17b1804b1-471178afb7amr120260005e9.17.1761058850149;
+        Tue, 21 Oct 2025 08:00:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDk/chsWh4lmzSq81oi5QgoA5chh2GWI8u8p0fIiNZPQgGrNl16RwScdXvWvZ/Onc3FnooFg==
+X-Received: by 2002:a05:600c:3f10:b0:46e:59f8:8546 with SMTP id 5b1f17b1804b1-471178afb7amr120259635e9.17.1761058849707;
+        Tue, 21 Oct 2025 08:00:49 -0700 (PDT)
 Received: from localhost (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144b5c91sm283508025e9.11.2025.10.21.08.00.46
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471553f8a3asm233676345e9.16.2025.10.21.08.00.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 08:00:47 -0700 (PDT)
+        Tue, 21 Oct 2025 08:00:49 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -94,9 +94,9 @@ Cc: linux-mm@kvack.org,
 	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
 	Zi Yan <ziy@nvidia.com>,
 	David Hildenbrand <david@redhat.com>
-Subject: [PATCH v1 19/23] mm: rename balloon_compaction.(c|h) to balloon.(c|h)
-Date: Tue, 21 Oct 2025 17:00:36 +0200
-Message-ID: <20251021150040.498160-3-david@redhat.com>
+Subject: [PATCH v1 20/23] mm/kconfig: make BALLOON_COMPACTION depend on MIGRATION
+Date: Tue, 21 Oct 2025 17:00:37 +0200
+Message-ID: <20251021150040.498160-4-david@redhat.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251021150040.498160-1-david@redhat.com>
 References: <20251021125929.377194-1-david@redhat.com>
@@ -109,163 +109,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Even without CONFIG_BALLOON_COMPACTION this infrastructure implements
-basic list and page management for a memory balloon.
+Migration support for balloon memory depends on MIGRATION not
+COMPACTION. Compaction is simply another user of page migration.
+
+The last dependency on compaction.c was effectively removed with
+commit 3d388584d599 ("mm: convert "movable" flag in page->mapping to a
+page flag"). Ever since, everything for handling movable_ops page
+migration resides in core migration code.
+
+So let's change the dependency and adjust the description +
+help text.
+
+We'll rename BALLOON_COMPACTION separately next.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- Documentation/core-api/mm-api.rst                 |  2 +-
- MAINTAINERS                                       |  4 ++--
- arch/powerpc/platforms/pseries/cmm.c              |  2 +-
- drivers/misc/vmw_balloon.c                        |  2 +-
- drivers/virtio/virtio_balloon.c                   |  2 +-
- include/linux/{balloon_compaction.h => balloon.h} | 11 +++++------
- mm/Makefile                                       |  2 +-
- mm/{balloon_compaction.c => balloon.c}            |  7 +++----
- 8 files changed, 15 insertions(+), 17 deletions(-)
- rename include/linux/{balloon_compaction.h => balloon.h} (92%)
- rename mm/{balloon_compaction.c => balloon.c} (98%)
+ mm/Kconfig | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index 68193a4cfcf52..aabdd3cba58e8 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -130,5 +130,5 @@ More Memory Management Functions
- .. kernel-doc:: mm/vmscan.c
- .. kernel-doc:: mm/memory_hotplug.c
- .. kernel-doc:: mm/mmu_notifier.c
--.. kernel-doc:: mm/balloon_compaction.c
-+.. kernel-doc:: mm/balloon.c
- .. kernel-doc:: mm/huge_memory.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 46126ce2f968e..878e53d0f65ed 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27062,9 +27062,9 @@ M:	David Hildenbrand <david@redhat.com>
- L:	virtualization@lists.linux.dev
- S:	Maintained
- F:	drivers/virtio/virtio_balloon.c
--F:	include/linux/balloon_compaction.h
-+F:	include/linux/balloon.h
- F:	include/uapi/linux/virtio_balloon.h
--F:	mm/balloon_compaction.c
-+F:	mm/balloon.c
+diff --git a/mm/Kconfig b/mm/Kconfig
+index e47321051d765..3aff4d05a2d8c 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -599,17 +599,14 @@ config MEMORY_BALLOON
+ #
+ # support for memory balloon compaction
+ config BALLOON_COMPACTION
+-	bool "Allow for balloon memory compaction/migration"
++	bool "Allow for balloon memory migration"
+ 	default y
+-	depends on COMPACTION && MEMORY_BALLOON
+-	help
+-	  Memory fragmentation introduced by ballooning might reduce
+-	  significantly the number of 2MB contiguous memory blocks that can be
+-	  used within a guest, thus imposing performance penalties associated
+-	  with the reduced number of transparent huge pages that could be used
+-	  by the guest workload. Allowing the compaction & migration for memory
+-	  pages enlisted as being part of memory balloon devices avoids the
+-	  scenario aforementioned and helps improving memory defragmentation.
++	depends on MIGRATION && MEMORY_BALLOON
++	help
++	  Allow for migration of pages inflated in a memory balloon such that
++	  they can be allocated from memory areas only available for movable
++	  allocations (e.g., ZONE_MOVABLE, CMA) and such that they can get
++	  migrated for memory defragmentation purposes by memory compaction.
  
- VIRTIO BLOCK AND SCSI DRIVERS
- M:	"Michael S. Tsirkin" <mst@redhat.com>
-diff --git a/arch/powerpc/platforms/pseries/cmm.c b/arch/powerpc/platforms/pseries/cmm.c
-index 9ed71683ae402..c5aee15e192ea 100644
---- a/arch/powerpc/platforms/pseries/cmm.c
-+++ b/arch/powerpc/platforms/pseries/cmm.c
-@@ -19,7 +19,7 @@
- #include <linux/stringify.h>
- #include <linux/swap.h>
- #include <linux/device.h>
--#include <linux/balloon_compaction.h>
-+#include <linux/balloon.h>
- #include <asm/firmware.h>
- #include <asm/hvcall.h>
- #include <asm/mmu.h>
-diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
-index 53e9335b6718c..7fd3f709108c2 100644
---- a/drivers/misc/vmw_balloon.c
-+++ b/drivers/misc/vmw_balloon.c
-@@ -29,7 +29,7 @@
- #include <linux/rwsem.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
--#include <linux/balloon_compaction.h>
-+#include <linux/balloon.h>
- #include <linux/vmw_vmci_defs.h>
- #include <linux/vmw_vmci_api.h>
- #include <asm/hypervisor.h>
-diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
-index 4b22de6a5f845..5434a7739d588 100644
---- a/drivers/virtio/virtio_balloon.c
-+++ b/drivers/virtio/virtio_balloon.c
-@@ -13,7 +13,7 @@
- #include <linux/delay.h>
- #include <linux/slab.h>
- #include <linux/module.h>
--#include <linux/balloon_compaction.h>
-+#include <linux/balloon.h>
- #include <linux/oom.h>
- #include <linux/wait.h>
- #include <linux/mm.h>
-diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon.h
-similarity index 92%
-rename from include/linux/balloon_compaction.h
-rename to include/linux/balloon.h
-index 7757e0e314fdb..82585542300d6 100644
---- a/include/linux/balloon_compaction.h
-+++ b/include/linux/balloon.h
-@@ -1,8 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * include/linux/balloon_compaction.h
-- *
-- * Common interface definitions for making balloon pages movable by compaction.
-+ * Common interface for implementing a memory balloon, including support
-+ * for migration of pages inflated in a memory balloon.
-  *
-  * Balloon page migration makes use of the general "movable_ops page migration"
-  * feature.
-@@ -35,8 +34,8 @@
-  *
-  * Copyright (C) 2012, Red Hat, Inc.  Rafael Aquini <aquini@redhat.com>
-  */
--#ifndef _LINUX_BALLOON_COMPACTION_H
--#define _LINUX_BALLOON_COMPACTION_H
-+#ifndef _LINUX_BALLOON_H
-+#define _LINUX_BALLOON_H
- #include <linux/pagemap.h>
- #include <linux/page-flags.h>
- #include <linux/migrate.h>
-@@ -75,4 +74,4 @@ static inline void balloon_devinfo_init(struct balloon_dev_info *balloon)
- 	balloon->migratepage = NULL;
- 	balloon->adjust_managed_page_count = false;
- }
--#endif /* _LINUX_BALLOON_COMPACTION_H */
-+#endif /* _LINUX_BALLOON_H */
-diff --git a/mm/Makefile b/mm/Makefile
-index 21abb33535501..ab012157b5109 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -121,7 +121,7 @@ obj-$(CONFIG_CMA)	+= cma.o
- obj-$(CONFIG_NUMA) += numa.o
- obj-$(CONFIG_NUMA_MEMBLKS) += numa_memblks.o
- obj-$(CONFIG_NUMA_EMU) += numa_emulation.o
--obj-$(CONFIG_MEMORY_BALLOON) += balloon_compaction.o
-+obj-$(CONFIG_MEMORY_BALLOON) += balloon.o
- obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
- obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
- obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
-diff --git a/mm/balloon_compaction.c b/mm/balloon.c
-similarity index 98%
-rename from mm/balloon_compaction.c
-rename to mm/balloon.c
-index f41e4a179a431..5734dae81e318 100644
---- a/mm/balloon_compaction.c
-+++ b/mm/balloon.c
-@@ -1,15 +1,14 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * mm/balloon_compaction.c
-- *
-- * Common interface for making balloon pages movable by compaction.
-+ * Common interface for implementing a memory balloon, including support
-+ * for migration of pages inflated in a memory balloon.
-  *
-  * Copyright (C) 2012, Red Hat, Inc.  Rafael Aquini <aquini@redhat.com>
-  */
- #include <linux/mm.h>
- #include <linux/slab.h>
- #include <linux/export.h>
--#include <linux/balloon_compaction.h>
-+#include <linux/balloon.h>
- 
- /*
-  * Lock protecting the balloon_dev_info of all devices. We don't really
+ #
+ # support for memory compaction
 -- 
 2.51.0
 
