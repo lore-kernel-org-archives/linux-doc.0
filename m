@@ -1,35 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2949D78F51;
-	Wed, 22 Oct 2025 00:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02175C96;
+	Wed, 22 Oct 2025 01:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761094244; cv=none; b=SWzIHpwzuTjrRdKW4Jwm0RJYpeXITdp+98XmvarKrO8n0IEUMoI0M89EaFx3S2mZI/cnSy9RjIhA3sFaBOEkdiNzBDii6rTkKbmpW935LTzq1ewCvJco09B9pUXltuvKXh0W9nv/1svS9a5m0l4aLJmA9SNiq5Aoy8disNlh5YI=
+	t=1761095029; cv=none; b=seyxEIs8jxwBxOkSGI1EtrlkDFEwPUbJdAIRszE3821YD8W5PMLAVE9DAw+94fyxhpj3Il15GwE2KLnfmXj5QVZvl1av6HjcVhCNJtmcekRpkoUgSvpWI7WeR/y94yWuV0ONdQeODBXni/X2rJeE3KlaiH/zNojvOcSglrMly1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761094244; c=relaxed/simple;
-	bh=5YiKGTTA0sPWfPkkjbaajZBM+rJdSZYR+vr23Ya6r+M=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FoK40LTudv2j4EaJh/1wvgcpoVLlRMMWu5VfELPL1Cvdh6CfgEA6XFcdwAo3q6a6e/rbSACVGzWzxcuc5C31YE9V7aHaEhvOh2Yy/03Ta/wovB2l3zGnmQZ2BgcPVEP5d5yJoQiHNuTeR3UrLGLEZkviR+qKYf17fO3oOfdis80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCPtmrZm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761095029; c=relaxed/simple;
+	bh=OpMA0/9oAABJIYywTiyokiqjgPxdO7YtYPB8cGTro78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tSC6joENYmzIUpDE47rTUvBw1AfGBbkMU193DwQNl9Kds0EJSum2EkFOURVsQzeSFWUfXZ/3UepJ2zQGHf69Y0H7P9/aCVbRbxGrFJvSiYqJAo/T0km3yQPFlHQuCogb4YRRgqUwZaCf5eevlPknAvm4gkSmM/8x9meXSYoZaLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSFpifbE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCPtmrZm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FD3C4CEF1;
-	Wed, 22 Oct 2025 00:50:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSFpifbE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4EAC4CEF1;
+	Wed, 22 Oct 2025 01:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761094243;
-	bh=5YiKGTTA0sPWfPkkjbaajZBM+rJdSZYR+vr23Ya6r+M=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TCPtmrZmieoXZPsojPGu+pmbO/FQAoGK3VNZ0C17A0fH9C94OoxBex0+s2ZX1d9Rj
-	 olkuHMjOrFk6LwnpPKw9NVIkyecsjpl0vtgNucQE0OYATfiPJRL1QIp8VCmtP5mYAX
-	 jrPNjFRhueQgHxyNPzfYrEhSaHfBlV2xchB81mLsLf5W/MsyMpNQkTN56JzF3hSL9k
-	 O+OFmoGafZUhH4M2usSvL0SzRAyVUz9gdZzE3tzb4uzG6g/dFDXPkRj+c3E3jyeEVk
-	 7eFcwqQjc51q5+42E52Yc+0WbhnJXiveP++U7Ls5zS2Jip7kB2ULk9TLi5wP1KhQG2
-	 Sm8iYXpmyWzrQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CD53A55FA6;
-	Wed, 22 Oct 2025 00:50:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1761095029;
+	bh=OpMA0/9oAABJIYywTiyokiqjgPxdO7YtYPB8cGTro78=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gSFpifbEasbVizf5V3L+2KexanyFQzbtMZbuq1jID6FIIOpVK3LUZLcwNkdppbUfX
+	 KyLZt5A1mWA8+tMC4qhQG3ccj+DqFq5FDiWKnCfw/BqSffd6Q3GcCpQPrWyppEVZgt
+	 fEiVydz2yGP/8nXF0gpqrdCtOVVkhFrickGHoNnFGLswugZP26omm9ZPTIGEqSCKnU
+	 ySvF5uR+tyclSU2n9Ndn3J8WAcC5FZDL9cXvuGOydUp5f0CyzNs+gy4hcaiFKHL82/
+	 j/rZ5EpSy1mOkV5UCVIfXHEUdkQuZBtwfFtQmD7o+ctsQWGS327B4vqY7Kd4p3kWba
+	 IeN2GAkgTIwdg==
+From: SeongJae Park <sj@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 01/23] vmw_balloon: adjust BALLOON_DEFLATE when deflating while migrating
+Date: Tue, 21 Oct 2025 18:03:44 -0700
+Message-ID: <20251022010345.120425-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251021125929.377194-2-david@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,48 +68,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation: networking: ax25: update the mailing list
- info.
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176109422474.1291118.15093123426414398141.git-patchwork-notify@kernel.org>
-Date: Wed, 22 Oct 2025 00:50:24 +0000
-References: <20251020052716.3136773-1-rdunlap@infradead.org>
-In-Reply-To: <20251020052716.3136773-1-rdunlap@infradead.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: netdev@vger.kernel.org, linux-hams@vger.kernel.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, linux-doc@vger.kernel.org
 
-Hello:
+On Tue, 21 Oct 2025 14:59:06 +0200 David Hildenbrand <david@redhat.com> wrote:
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Sun, 19 Oct 2025 22:27:16 -0700 you wrote:
-> Update the mailing list subscription information for the linux-hams
-> mailing list.
+> When we're effectively deflating the balloon while migrating a page
+> because inflating the new page failed, we're not adjusting
+> BALLOON_DEFLATE.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: linux-hams@vger.kernel.org
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Simon Horman <horms@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Let's do that. This is a preparation for factoring out this handling to
+> the core code, making it work in a similar way first.
 > 
-> [...]
+> As this (deflating while migrating because of inflation error) is a
+> corner case that I don't really expect to happen in practice
+> and the stats are not that crucial, this likely doesn't classify as a fix.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Here is the summary with links:
-  - Documentation: networking: ax25: update the mailing list info.
-    https://git.kernel.org/netdev/net/c/86c48f50baba
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Reviewed-by: SeongJae Park <sj@kernel.org>
 
 
+Thanks,
+SJ
+
+[...]
