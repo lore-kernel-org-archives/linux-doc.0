@@ -1,63 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FCB2D73A5
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 04:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04452D77F7
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 04:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761108433; cv=none; b=PpJ+srhlUv6Ej7h259d6SZoCULK4gzC+RofPZxVhdZN1QBAzLtQAFBxZUwwZ9SX3Ff4EJpxE0wAUrVx3IckUPztLljCVWRl4VAEhZlmi0+tNm+j/iUpohbuS9s3zO8i0I4UHmGvXTzTnX5RLBtyMBphXRPJXoa9JzKrKbLh1Z4o=
+	t=1761108434; cv=none; b=loxcC6vrsQujlfNjR07TYZaCmef3dFdlO3zXW+F4F0UjMLHFFARliomZLOgg91Qx9D/Wj+0c5uau253TugJIgmEmhOGq8K+cP0m1o/PuEWzwRrrLDuu8/aQ40bTKVv77NqKkGXs+ujc9GchYEWmKYt60dQ7Qk/iWC3aBBgcZC6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761108433; c=relaxed/simple;
-	bh=DWS7b0OXi35GUhqaHArR2mIysKoute9ykjs7q/LnTyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aXOX+ZnSi/Fp02wEhRtJrBgy2E59p+AV6zd0Qz+T3AXEkK/L0XVb3fC8OxvCMXZvY6b46DHyEBEjckU+Sb5yB3E10f0qPR9lhEK7wrFeh8zGfXVgy5za4oInOB2IMmxYjlUYFU6n6CRDUGYZGZDsmdIb+la2PmdGRPnC5nlr62I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=G7JBiS9L; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1761108434; c=relaxed/simple;
+	bh=emjKQWb3F6rOxwSUr/RzSm5M0/FFlkCkJAaJf7c48pA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UYcTMalvpOwYvDs8yJTCVTnHAvpwLbRPl1yPrlWYX7WPM9sT8fYoOSnDuZVFkEQlHehR1lX2s5iWmsc1Ccrer4U6FqT9jZTxLga/07HR4+b3MurF7FSZlyNXIOwoASZLis05HBIwgEO7iuWSU8GRDNwCNaqz84kCKiRWQCBbuek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=bn1PcFsr; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="G7JBiS9L"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-269639879c3so60484715ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 21:47:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="bn1PcFsr"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-33d28dbced5so5468844a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 21:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=reznichenko.net; s=google; t=1761108430; x=1761713230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OBuTemYA/SGUaF+DBF41ycHM+zeDM425yx/z5PlZWVc=;
-        b=G7JBiS9L+3GrHf4wseXIOFIEvK+EEblLVdX4IdLaVMl0KvPb+gWbsg5C2sdCX9cS4J
-         MUOlVR8FexBqW2BMo8wMzqCSP/4GKhYw9ryofYizqLgk8oeJGKBTSDLNtJgSkYl9dmEv
-         GZQZzmhp3v/AzLb+g8Vt/CdQBxf8mt4zgqByQNOLsIi3C9WOrL5Ig2MKrPGmeZ5xiYhk
-         6z2IDXfqpBcxAQqCtUKpCVFMjehAfpMJhqzpTLr+J2oxyl+GlDsbHEhLQfwoV79mVJQd
-         tG239J3aCJOCs6sYiNfDFINEEMsYQcLJ0ZkDKyTYm4T8wMHdZiyGWQzmW6aV04+OiU9C
-         JHtw==
+        d=reznichenko.net; s=google; t=1761108432; x=1761713232; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f8FKJOKMqwXHhFrO9BQqSZunbt6V18YJAj8RFJDvZcc=;
+        b=bn1PcFsriSRAVEoic025yNndQX3cGFAf0excqQh8HyfOYn4v7NZ1x7jj5emW4veEux
+         ep9bnAKsw+XbLQM7k9FOfd075zTVeFHMrsAiQLghn+Z1Oqi3magIjU0BMWKOk/X1PER3
+         fDspvi/4CPzrd1TWRbS1cYOvAh/tfZaQZBaealRDoyN+ZsWy9Y4uAQXk+/pQksxGo7vi
+         wzmDL5mIhLXesySPjKbV7Sr0SB/Vz8bHWra0hc3TPUSGmKpuYxzc5hYuKHToC5bwj5Yc
+         TLT6DqiClLEQ/lccuMow7tfXIYhKC+FZ9MxwBnq2bhpWkz9T5SkUePjytfrJXxzjVCjN
+         bzZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761108430; x=1761713230;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OBuTemYA/SGUaF+DBF41ycHM+zeDM425yx/z5PlZWVc=;
-        b=VS99puOrkD5kyd66IWEt+R+l9VJDdF7wym2DL6A9SMh+GtakRbT1JyLHb920PoINiD
-         V/s7SS97iLpol2NflphfdZZ6ojgsF+ZNeON82VA2evL0O6tcSwRtIW9Ia/Q3wY4psRIQ
-         U7zMnqPi3UzqtCdwxpqEtrXjRUp2DxuJLEYyMo2FWqVhqrwo2bJ0oUUL3r5UWSYiLP/p
-         pbiIZnFdG/lJ+MVABlyCV+nh/geIoSB7EvCxGpb/feg1M52uTx4a0hdHXvt3y863bCFI
-         llEeb/Rmbv5dMac9kgVNNRwGkLd2eXBDUWpI0RmFVapEFAyLN+ElzRDKI/i8Evi49i+G
-         AUmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXwJgMRBupU8eKZzdbRnI65IqDWB7EhoViJBiY1JH1p+WD3A1X3W2GxRlMyFdSRpfO65fhBfMqMB8A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxnTHV89cVnS7mRyIMF2xqkB7UxM+3RMogRc1PbuGyUEn/sQjE
-	R5ajF/ahpv1CnauddlAC2ZHhEpGW0iNwSkdXbi4W4viwAndY6k6ZWYiYXPFBL+myh4wQkv0/yBW
-	NgRvyh9w=
-X-Gm-Gg: ASbGncuGGhARPMPGak+aX//8KXqY+EmSPK56AXqTjZcjTlUAbIUGSaxVyLKPq2V52mQ
-	SmdQB6B8ceIjBkscaJzjB3KYLqaN4UGNb1NLmWgNiLFdJ22S75G+84j1YtbTkUfSClawCN4QKU8
-	QvXERs+hYstWdsoGOGNs4yxEKTG7XDGepR2WkfJi07FCQoFPSgKOEUZFLKJulndb6MB3BtUwg9H
-	8O2oL0XS8tUX253ACAO8zkRGfO/Kwj4qjP4K9VGoOpDohQMIn2I+nND/uEL52sE8TvCTwEIEq1z
-	qk0DgARtWBNHD34WtZkRpJH6Fh9ttq6qbvEgS+sabHdFEHIdTpMUtkt0pfbGqSkyuvrY4oE+H1t
-	HNtsFEswjxRu1gezIatBNrFI9q1KOV9Qapqa1t9eRAKrH3LiGw72YLDlPINInWrbU9EIwVZtqyX
-	3EWJonLh4zaNdmPH4=
-X-Google-Smtp-Source: AGHT+IHMzyYghXKArrXF4a3abFsvEWo0yK9xR3k3Ts3BFNdVJw1LghdAf673yg3EmO+eQ2pXjMB9AQ==
-X-Received: by 2002:a17:902:ce8d:b0:272:a900:c42e with SMTP id d9443c01a7336-290caf850b1mr243342655ad.35.1761108429966;
-        Tue, 21 Oct 2025 21:47:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761108432; x=1761713232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f8FKJOKMqwXHhFrO9BQqSZunbt6V18YJAj8RFJDvZcc=;
+        b=ZLlGkCjrR87Y73CshZzloVGzcyrBldgaC4nf/HOXEmbZ19Mh7/kZre4lngks7KacRn
+         j2a3XuGbLqUnuqFc0kGqp6KLvokyCBB8vrSz1qNffKQ//0hNLj315MnvFugX9oAM+MPB
+         f0oxM8K2IMK0SnxtqyoINS8VKpdcVyAzb3WvEZhvakQ+9A39Uxvwz971PLARk7k3Y9du
+         o5Nrt1+wXABu3i4xWUyhyOR+6X0/a1b+YqqH44jQXwteShGjMtzafFb/XRgBa3hxOUJU
+         mfKU5Ayjxb2UC/FwucrWyawDA0iEP7loauW+Sg1qNvi0DPDPcvCS1fPEAt6WV6Yg5DGq
+         tsHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2z5eVxhmGe/vN3Kt96BqkNRb03KcWhvlH5VzntjgLooW/XBm1Bt5tDrQbqQDYpym3gqIT1T4cuPE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcHMjxM4O17gRVURDBy4EcEUvNWZV/SN1j6fnlO7yTBbR0JPU5
+	vtrf2ode/sqVZRyBKhabuJs2skcdZHOd4JpObBP4IiDkdWf4F09haNUJnYHzHeul31A=
+X-Gm-Gg: ASbGncu8cXU8YQprtP5kXsZsGt0yoHvE9cXbecPZmgz5QV9PRdzmL9awJTIMMxpZo1r
+	WpVGVQRrDDBO8WVq2KwUbsdQ8FCawErBPYK4OxrN6xpCDL0YKC0TlWUkHkBLQxa08dia4NtHoIi
+	NiBgM8/s0ujtk79ky3rP2oK2lOw8D3q8xIdbIAkJqTj9LGdTplrTYN13aBOiE62/UMYw7rOvwkj
+	nptWuPmDH4UFK9cPV17svFzvB0yY3TKEXbb9YqpHgD4NeGB2hK/Zd6AkOneh3HUTEOnE9xS/Cmw
+	paZx6rxwbeLWKzQVMNXFYoFH5ZfEz+H7rbjfOEW6q8WDEM06Q3B+fcu4+C9I3R6/6gm4GlwdjI/
+	7OI0FfrGD+GgP5QSV9gxMXRXxse84sMC2F+v5nz78QryWVbfBiQKMRF7G27JEnKlriEhj4pp3aW
+	34vgBq
+X-Google-Smtp-Source: AGHT+IElLTdPaMtun1OrDiKuY5Pc6xIJ3dRoMTudaPZDceWpXZomujWtY5sZOb/M5md8LuBAZMbgNQ==
+X-Received: by 2002:a17:90b:270a:b0:33b:ae47:fe72 with SMTP id 98e67ed59e1d1-33bceb1cf3cmr24397298a91.0.1761108431821;
+        Tue, 21 Oct 2025 21:47:11 -0700 (PDT)
 Received: from z440.. ([2601:1c0:4502:2d00:8004:e310:f3d:dd0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223dd9d6sm1257413a91.7.2025.10.21.21.47.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223dd9d6sm1257413a91.7.2025.10.21.21.47.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 21:47:09 -0700 (PDT)
+        Tue, 21 Oct 2025 21:47:11 -0700 (PDT)
 From: Igor Reznichenko <igor@reznichenko.net>
 To: linux@roeck-us.net,
 	robh@kernel.org,
@@ -70,10 +71,12 @@ Cc: linux-hwmon@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 0/5] hwmon: Add TSC1641 I2C power monitor driver
-Date: Tue, 21 Oct 2025 21:47:03 -0700
-Message-ID: <20251022044708.314287-1-igor@reznichenko.net>
+Subject: [PATCH 2/5] drivers/hwmon: Add Kconfig entry for TSC1641
+Date: Tue, 21 Oct 2025 21:47:05 -0700
+Message-ID: <20251022044708.314287-3-igor@reznichenko.net>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251022044708.314287-1-igor@reznichenko.net>
+References: <20251022044708.314287-1-igor@reznichenko.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,32 +85,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series adds support for the ST Microelectronics TSC1641
-I2C power monitor. The TSC1641 provides bus voltage, current, power, 
-and temperature measurements via the hwmon subsystem. The driver 
-supports optional ALERT pin polarity configuration and exposes the
-shunt resistor value and raw shunt voltage via sysfs.
+Add a Kconfig entry for the TSC1641 driver under the HWMON_I2C menu.
+The driver can be built as a module or built-in. Default is module.
 
-Tested on Raspberry Pi 3B+ with a TSC1641 evaluation board.
+Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
+---
+ drivers/hwmon/Kconfig | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Igor Reznichenko (5):
-  drivers/hwmon: Add TSC1641 I2C power monitor driver
-  drivers/hwmon: Add Kconfig entry for TSC1641
-  drivers/hwmon: Add TSC1641 module to Makefile
-  Documentation/hwmon: Add TSC1641 driver documentation
-  Documentation/devicetree/bindings/hwmon: Add TSC1641 binding
-
- .../devicetree/bindings/hwmon/st,tsc1641.yaml |  54 ++
- Documentation/hwmon/index.rst                 |   1 +
- Documentation/hwmon/tsc1641.rst               |  73 ++
- drivers/hwmon/Kconfig                         |  12 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/tsc1641.c                       | 801 ++++++++++++++++++
- 6 files changed, 942 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml
- create mode 100644 Documentation/hwmon/tsc1641.rst
- create mode 100644 drivers/hwmon/tsc1641.c
-
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 2760feb9f83b..b9d7b02932a6 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -2434,6 +2434,18 @@ config SENSORS_TMP513
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called tmp513.
+ 
++config SENSORS_TSC1641
++	tristate "ST Microelectronics TSC1641 Power Monitor"
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  If you say yes here you get support for TSC1641 power  monitor chip.
++	  The TSC1641 driver is configured for the default configuration of
++	  the part except temperature is enabled by default.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called tsc1641.
++
+ config SENSORS_VEXPRESS
+ 	tristate "Versatile Express"
+ 	depends on VEXPRESS_CONFIG
 -- 
 2.43.0
 
