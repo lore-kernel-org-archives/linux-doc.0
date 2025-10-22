@@ -1,103 +1,143 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46D1F181F;
-	Wed, 22 Oct 2025 01:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AD72144C9
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 02:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761096910; cv=none; b=QUDM4XKY/sxflXQ2QL1HQdGwSoIM4EzBL8d5zi0EehO57620NJKKlJtpVIBWrpYlw+dZwABkGIvaL9GOcNIdH5yAX5DIsBQ5QjKa9Ns+hjHp4SDgMvheYxmxs0/lZVZziW42RFGYyWrJWWOav0H0FOcnahziMfOOUFS3SwTkc64=
+	t=1761099366; cv=none; b=jaZQDKhofv+cY1uy4LDZMAzU7ZJWYaGP8/UMOcKIoVx/GE7+/bG6e8aU+/THK4fDPYadDjW7naeRCBZGEbGWtPh+wbrnzXPoixyr9Nssao9nbe/cd7fvk4CtGe0tBrpn/jEMuOrveCurgdQCYyUY/zyQf0+Kbfw7Iw1y5GUY2K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761096910; c=relaxed/simple;
-	bh=vaoB1vhVUzy/nptxwNJGhhyV0PdrEEq0LszYhAyPYyQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IVkn7c+gCHn5LhNUZedkGozZR2J0iXhfOMpQzDf98YDwXZuklwIx9pfHPBGLpNZg3NJvXm3WZpPuJqmre0d+UC+DH89xUg/olGtLxck6qElh8/yO8/eGKBh53y/EMOW7puqb8C2+6P99f18hQldF/Ust9XMzJbAqdcAxHOjqAaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=EHecl6k1; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1761099366; c=relaxed/simple;
+	bh=ZNYpaJWfK2uX7fNuNpV/cydFuI7wkAz8CLs/mB6yfTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNLMcCd4Xl/k2icNdV9r+jEV86tHLQdwOSXtkceyThSdOUEuJ8t8ZoUrpUoiw56cGb+iL2KOC5Adnd+TuEdq2lJcEtJipyo/CPdmGgcVoneOhIiABYRvZzoMN57nf6bil1CmLPSRRwzMo9Cflc+z510QR4YJDJQJVUEZF2ogc88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGvnAwwZ; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="EHecl6k1"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=IEt2zGmZj6lPzbXEb1Zf3HAtidB4DnYkLZze/rH/nlc=;
-	b=EHecl6k1H8ZMxAvgF1e3uN3F3lo3vLhujVmGVHcbENeT7kf79Tv5AeWjmNmrlinBpqNfA7hYW
-	N6s26ZZ6lxB/jMKn9ivWsUytuLYjxzDEaX4zmbKnyPhkB8MRCzq1WwJzegSI+fBgMZ4NSb0IKQr
-	LJz7iSrzS0Ctz2Xvr/Ilhig=
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4crsC7502lz1T4Fg;
-	Wed, 22 Oct 2025 09:34:11 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6A79818006C;
-	Wed, 22 Oct 2025 09:35:05 +0800 (CST)
-Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 22 Oct 2025 09:35:05 +0800
-Received: from [10.67.110.108] (10.67.110.108) by
- kwepemq200011.china.huawei.com (7.202.195.155) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 22 Oct 2025 09:35:04 +0800
-Message-ID: <a3663aaf-14c9-4601-90e2-49650af90d7a@huawei.com>
-Date: Wed, 22 Oct 2025 09:35:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGvnAwwZ"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a265a02477so308167b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 19:16:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761099363; x=1761704163; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+yFbQwKVrg4ulSzHTYcdE0/YBPiD7WzPZ8N0zJ6yfUg=;
+        b=dGvnAwwZt24nsiLUJRQ+UeeMvxr4qhMK7hbIRNA/JtjRZm+MyX5aOyGPmAE9+aG63s
+         sIPjbmktHkBIYrux7vtL2hYmwgKy0ZO3SrjGJoinbBzGJ0vhWAzp3oFa2NwKF+6HSpaF
+         U33/acgsn/aL38aB64HDrZvRVH3aNZwo/M+146H2/AR8b2/2Bsd1Sx4Ti5+ucnXNz4rP
+         jDfYjgKGeoOKPPUszAjZK8/F2YJ5RlC+Z7nmDvQ5Hymjjng1sFkw+m7TSR13ClGpOhwb
+         mWuP6aVNTUZKshV9RAdycFKEF39Uue+m3oIL87XatFOPv0ffaBxrpAiEi6kShMe0dkda
+         r2sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761099363; x=1761704163;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+yFbQwKVrg4ulSzHTYcdE0/YBPiD7WzPZ8N0zJ6yfUg=;
+        b=qk5DIRDpHStzAirp/mVy55ID4PpNk4Pux1R1r/qu7THtSRD1nXvvKnqRMgwMQagwWU
+         v8/NFGItxFEdd6SgrgmmbwuuDsMeX+CU6YEoDrOm76V+9YOAoRwnlh1rYGPCWeuNNKpJ
+         4ijSJ+59T8bX4IjVQQLdSNsduI0l57Keb5SNNO+lJ/7E0qxbLRUlEOjYL2WnTz4f5Ydw
+         1ZRQaDwFglO+BqXtbO9Pta7nxwMt65PthObeC1rNejOOWkU9AdKK3hb/dVWNrM+VVXka
+         v/d+ykDXROGxiHKsIFXY62wc4i4rDD41aITcCCuZc/bUpDVGHQkxpKuM0BSKrjaEOC8l
+         Jh3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWD+IDENeFKSfCo7G0d+ZiKad3KZ29tK503N14B4VxUfdKgYHiNbP6QW3Msk/RU2k22idgLitQTslc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk/AhkeatL2HiDUgnQq3zP8vn/9fWmjxEy2XuCYDtlbWB7eT5T
+	tx+HaB2SOu9HesRlfyenfE7XaHSjK+HB0HSIh2pA5195AeFh0iNN+MyB
+X-Gm-Gg: ASbGncsBjN03A5orilFv/e4kpxrmN+h9c+9CE91f8sMZJTNCbjih4jP8gsBS+l0cRF2
+	hF+ZtjJZTRSxjlu+AQJc2Q4rmEWGU+7KsBUPFKEH68RsW23nZ+etObnJk9gRnR4iEEZJ29RRzuY
+	X2rD2mPT5GqiAgqw0UkPFVY3TtBKwWUb5KCAIrWUcxkhdoVzTwvUmiUxHsFaJ5FVB1Y7rWcRuRv
+	57RYANF+3CTpDCf1czPb0UhL8wad+5yMEXWLGNW2k0hMyqqFr10ibVnAj8gXZjAvoX6O502W+eS
+	uMlG3U618sDo7WV/dzCbaScKjYMwhFfyKzIk4hlo7/QxJrSLSPNGBlr3iy+jw2vZbwazrofoo7c
+	/pLWFJPMxInLPNgb9eAWPjp/1mdo8uWPyUg3F8YZKXKnS7ErKKcVWwc489B3/9fUHzhaj5O54KF
+	pnwG8kgN4ukHy9
+X-Google-Smtp-Source: AGHT+IHgcLczGY0gNkz46ZH3wqYDdp+xytg9WZxLoXNNek71M0Z3I+LEtQXMo7LSXlQTlq9C1XGtow==
+X-Received: by 2002:a05:6a20:5493:b0:304:4f7c:df90 with SMTP id adf61e73a8af0-334a861852amr26222250637.50.1761099363079;
+        Tue, 21 Oct 2025 19:16:03 -0700 (PDT)
+Received: from archie.me ([103.124.138.80])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010da0bsm12753936b3a.55.2025.10.21.19.16.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 19:16:02 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 48C344209E4B; Wed, 22 Oct 2025 09:16:00 +0700 (WIB)
+Date: Wed, 22 Oct 2025 09:16:00 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org, linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
+Subject: Re: [PATCH v3 2/3] initrd: remove deprecated code path (linuxrc)
+Message-ID: <aPg-YF2pcyI-HusN@archie.me>
+References: <20251017060956.1151347-1-safinaskar@gmail.com>
+ <20251017060956.1151347-3-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses
- to IMPDEF regs
-To: Marc Zyngier <maz@kernel.org>
-CC: <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<akpm@linux-foundation.org>, <paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>, <bp@alien8.de>,
-	<kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>, <broonie@kernel.org>,
-	<oliver.upton@linux.dev>, <yeoreum.yun@arm.com>, <james.morse@arm.com>,
-	<ardb@kernel.org>, <hardevsinh.palaniya@siliconsignals.io>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-References: <20251021115428.557084-1-liaochang1@huawei.com>
- <86ecqwwig3.wl-maz@kernel.org>
-From: "Liao, Chang" <liaochang1@huawei.com>
-In-Reply-To: <86ecqwwig3.wl-maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemq200011.china.huawei.com (7.202.195.155)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m/ueW+980/ea0Wf8"
+Content-Disposition: inline
+In-Reply-To: <20251017060956.1151347-3-safinaskar@gmail.com>
 
-在 2025/10/21 20:25, Marc Zyngier 写道:
-> On Tue, 21 Oct 2025 12:54:28 +0100,
-> Liao Chang <liaochang1@huawei.com> wrote:
->>
->> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
->> regregisters and instructions without trapping to EL1/EL2. Since trap
->> overhead will compromises benefits, and it's even worse in
->> virtualization on CPU where certain IMPDEF registers and instructions
->> are designed for EL0 performance use.
-> 
-> Since you mention virtualisation, I want to be clear: there is no way
-> I will consider anything like this for KVM. KVM will always trap and
-> UNDEF such register accesses, no matter where they come from (EL0 or
-> EL1).
-> 
-> Allowing such registers to be accessed from within a guest would make
-> it impossible to context-switch or save/restore the guest correctly.
 
-You've got that right, it seems like both the guest and the host would
-need to save and restore those IMDDEF registers with the VM or task
-context.The only exception would be if the registers aren't for saving
-state or configuration, but instead just act as an interface to trigger
-a special CPU function, such as ICC_IAR1.
+--m/ueW+980/ea0Wf8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Liao, Chang
+On Fri, Oct 17, 2025 at 06:09:55AM +0000, Askar Safin wrote:
+> +		if (rd_load_image()) {
+> +			pr_warn("using deprecated initrd support, will be removed in Septembe=
+r 2026; "
+> +				"use initramfs instead or (as a last resort) /sys/firmware/initrd; "
+> +				"see section \"Workaround\" in "
+> +				"https://lore.kernel.org/lkml/20251010094047.3111495-1-safinaskar@gm=
+ail.com\n");
+>  		}
 
-> 
-> You can of course do what you want in your downstream kernel or your
-> own hypervisor, but I wanted to set the expectations on the upstream
-> side.
-> 
-> 	M.
-> 
+Do you mean that initrd support will be removed in LTS kernel release of 20=
+26?
 
+Thanks.=20
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--m/ueW+980/ea0Wf8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPg+YAAKCRD2uYlJVVFO
+o9OtAQCr/giTF4+FVt9hiDGkb1l4yn/kE0D0NKGYI1gigRnAqAEAhLIU0ssllGOB
+IgSBphGX7ddV9bgZvHiqagtFYOgJwwo=
+=plLG
+-----END PGP SIGNATURE-----
+
+--m/ueW+980/ea0Wf8--
