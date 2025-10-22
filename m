@@ -1,132 +1,118 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA3F32F751
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 11:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB19933374C;
+	Wed, 22 Oct 2025 11:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761131810; cv=none; b=F7FNTfOSha8toraBSaHCfJe5RrqktzkL2ORpuUI1wDXuPwZzBtBptZaZE0NtT8StX35IIQd05fDPjBCs1w14YyqB0zNOJdNbecQnu0GfKKSgdn/f8BpAmq/yd+UMLejeFk3uzTqnhXgsLUdjs/JZ+BZpvd+CNWIzGFOvWqe8wPQ=
+	t=1761132091; cv=none; b=kKrL/o+mDW3TFP7WrKX+y8U+HlMkV6mbsGMuMOQOLuwM2e8eSOwZSyvmYJRM2vvgNZxjhSW4Jp0O4w6ucPShLcSTLAZy3QPdNY7+Wkryug2flk1npowSUlxO1RWAkDlI6ispupbjQQPvnWodsW9+BTzT3AtlRO+zkw8qnfIxV5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761131810; c=relaxed/simple;
-	bh=MkLx2R4aQDQRSte1k6rDu2d4S0+mLWdRZ24YtDib+QU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cUHUBZT69kMTh7jqUxOzMCGm5g7SgtHad97uq1z6F/mnEvBV3LjYLoEKOpFQOFTBe4TknIX42cgbeSxVk9p9M5CLc8DIZqIxtrmh8nTmvYJTkpFaUCNkEsxTnktqOLPphLFcOSWGPUCwzYUByCMVkc5deF534G84mAwoczLQDfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtZ7IAcJ; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtZ7IAcJ"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-63d6ee383bdso4376731a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 04:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761131807; x=1761736607; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
-        b=GtZ7IAcJ+qPUT1UbyjSQlczc/FYy37J5wFuyZSAtHhyN8k8n4AQCldnUC7PgsdQ/Ds
-         nQ9DwjeO5G3bQs1dfBeP0ZiaA3kwUeIuVqrrrDMmpvXtbKgkoC3YE0aRj0MSiIIjOQfm
-         O0h28Bn0E38Y8RxtcMLU6yN6BOzpM0KSZALGkq+kphNBZkwBB1zabOwMjBnSGgIYLHoj
-         eAPCezGxDjNyexsTJwbVrWuZkI1m6S0PagwCbHBXelSO40N+BIGIQkNIso4gV9LZIKak
-         obLWnXS/nhyY3mC2H1SbOaX1toSgPt/gVJdbgNTrfE1lwxxiFxCyYLdjYTyDgoYgd7vb
-         Oc4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761131807; x=1761736607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
-        b=l3mq5H3BMJ7F8Kahmfzhjo25xVa+KR0yaEHVBDFV7aTrPkvJJtAE8A9vLNiBkchJA5
-         gbKVUxKScP2kUlJZe4COHmBacHXpkyd+6ONcBzkCTIH7lA+BF9Mk/3XToIF+yazjMnDf
-         0L1x3nHzn/I6jSlIrTsP4exDUHDArq69tF2ck0DRkzrZtF8NmFAdN+l1PCaKGbfSquBq
-         fLayuXvc0vk+SwFX96n5vKRWr4kBHiZuMR/2EVgmzEWTfORZkrXi1YuYtu5GWjtczqt3
-         HckOCyXTA1aYMwDLQ6ShhtEHF9CMA9wNrVs33LMt6CimTiXp4nYZjpqrBnhh7z/bhbXW
-         QhqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXI5Vxj+nFhMb9qindyKkhfAJhYo+UidKQuD+UvO3KagiifR1T2FTee8UzujHjLXqHw/s7EUTUnp0M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqBNTib87HwLys5srmIM7viBFQRyQJlbaZ33xFSBBfH10HlQOO
-	vBYcR1qM8bKN4D3QIIDzOdeJXC3ZsTHjc9y7hGeXkIvMVFOSoMVR6JM7MAltq9j1txO0wq/yd+a
-	OGjtJRWbB7OD2nwnv6ChQBvxtyHqkie0=
-X-Gm-Gg: ASbGncvK1UpbshbRMIx7Asnz9wSbrmMXNdXiyOulLo+6VE27gMEoIGe+f3H2nj36KkR
-	uNnhj+KA7lKY1zdV/FqEQ8EOnqQOFvFHi6KxvVOsfvAjgF4UlF2mlyNP0nKu6z+Oa9+oLDlSO8Z
-	vbnogsCi49W9zmjyGJesw0srf/Zjq5jCmaa3pl5Umgn8+dC10e1OFUq8f+SBNN7/8ck4HDAVBD/
-	edyOt2FAOGB5Ec/KAp0WPGmPx+cLUBU28E98OqnEA1uNC81jDLbADysXUcPZJeuRxH65byCOsX1
-	kgl+a0HSlQOoM562EVtNCmF+YQ==
-X-Google-Smtp-Source: AGHT+IFeLMsqZpbHAvlJBzKIdahXOOBShjYQZyOY7ATbt5n7WHdXXR/ON08TB4hturxLMLEB0GOq3i/bLAd52DC8p3U=
-X-Received: by 2002:a05:6402:13ca:b0:62f:8274:d6bd with SMTP id
- 4fb4d7f45d1cf-63c1f626dd4mr21176233a12.8.1761131807215; Wed, 22 Oct 2025
- 04:16:47 -0700 (PDT)
+	s=arc-20240116; t=1761132091; c=relaxed/simple;
+	bh=fP7buK1er2UCVxFe/13kgYi2s+JhBGAJkdAoOJbzpo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U1aGMJLKeKvbSDkY+9NtThFWr3WJefoL40TnCH7h9tVLxRwIm/sO8N6Nd4P/YkvGUXlu0RtaHw6vEnWVcddwd9wDJs8ZRC0vkoHAlEGBUIek3noD2Pq4QX+ks8g/whjYRXqEtV4eApRTxmYKzgbdDGf2CsDrfl8xgfen0VILMTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpgz10t1761132062tf02c5ba1
+X-QQ-Originating-IP: tbMILMwLIwoOeiMjYUPtdlDM1kxUWMOdiuIdLLC3FwQ=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 22 Oct 2025 19:21:00 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 2560357849048192699
+Date: Wed, 22 Oct 2025 19:21:00 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	andrew+netdev@lunn.ch, danishanwar@ti.com, geert+renesas@glider.be,
+	mpe@ellerman.id.au, lorenzo@kernel.org, lukas.bulwahn@redhat.com,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v15 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <3CA6D21491D51426+20251022112100.GA61682@nic-Precision-5820-Tower>
+References: <20251022081351.99446-1-dong100@mucse.com>
+ <20251022081351.99446-5-dong100@mucse.com>
+ <d46abe01-2f1d-42ec-ab93-a0be3d431c09@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <20251017042312.1271322-6-alistair.francis@wdc.com> <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
- <CAKmqyKNBN7QmpC8Lb=0xKJ7u9Vru2mfTktwKgtyQURGmq4gUtg@mail.gmail.com> <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
-In-Reply-To: <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 22 Oct 2025 21:16:19 +1000
-X-Gm-Features: AS18NWBDgW-hay2VUeCdIjfUCzoI0NhxABO1jEUfCaPHUmJ8eBnU71SyICyiPWc
-Message-ID: <CAKmqyKM-uX6_a+Ru01RD3-CwoucTN7P_sU+d=MEKSo2pxG_tDA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d46abe01-2f1d-42ec-ab93-a0be3d431c09@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz3a-1
+X-QQ-XMAILINFO: Ndw/mc8X39ObfM92LSarzqTzS5nW1avRkMDlxqA0z/KhET26JNUrNDsi
+	QqMhOteiMtOMn8awuvYuu1hFW8lFM5osddR5QE9XHuzOFmSIoILwxyzutdFEeatuOiJ8HFl
+	QJsm5UPm2AXTiT4O/dFaU+JPSbrR4tS3VBOUB5shdaJYOEuYZoQvNjsWRsi+B0IcyFBNwH9
+	VSzJ+nFA7ejCXlesv8lMEIDOViVn4diwD80rMPA+LMlpHrljVaMpAvb5dTZpbiQdzXM1ZUI
+	eDiAO9Put2pLiCIzHD/zxSLnW2kJ+b7lUydml6V8kcEUTYi+JYH7BO94G9+VW1yMBcy7Agk
+	wsRt+qSr35FUiwhbfpEYAgISThnCbU9vSgPwoSmB8h0UBzfb4+/HZwO63vedMgwnUXgjkNy
+	YkMVggVKm7YxeeqLug2g5ZeTPsCG2L3THUNKWQ0xPcDtLKFStB5QhRDg0LyPmCyltPeCPDC
+	hvseNvfKn/HxyPJliUvfEe+mVEWX/uDLHibBgZNDJ2XrHj+mVq1YKprxea/JmlOuR5Msldn
+	Rvxmm4yTznp/rb1ItEN90OCeIUnUPM2t7zY4lBB14FyT5B+dZ1kiJdLoFslx8MnO6COOQ46
+	V3/zaoEipPiflB8MdntY/96WlVAwMCx5PmHWPsosvSjP03PXHHY7p6Twuk+icOwYrIQ+oip
+	8WzSZxrUqRLgt/OX2+dRs+6PgocpqG6n2cJz/GpuJyWc83mfbnwzAB1EErLVbPzT49e+ftY
+	e479Do1l1zEuYbyXPdLlpMUy06mhgTeu3gMi881OAXQ4OJCHvG8QGXf2iYVul3BwWiMczwK
+	QkUdvLlRm1uzM/NVjzivsNCbosoTTF/+ilyP0GsrEMsWsYShJMfvaoPhpzw+PUxPtv+3Jd+
+	QVLnwW4MoJ63ZrHKxEx1WT9rR7stAVZoQ+jaZ3xLpubDF4wSm0TGHUqq/Xtk+gH5reAs8+y
+	ZvAVVVaYtZPnUsv0W+Ska8m5EX9ikAIedHO111eqXOAgvsGBlhIw+WUQ/TRtzolooBMWc4o
+	oKZ6mJfDYCLT9YI51e
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On Wed, Oct 22, 2025 at 4:56=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 10/22/25 06:35, Alistair Francis wrote:
-> > On Mon, Oct 20, 2025 at 4:22=E2=80=AFPM Hannes Reinecke <hare@suse.de> =
-wrote:
-> >>
-> >> On 10/17/25 06:23, alistair23@gmail.com wrote:
-> >>> From: Alistair Francis <alistair.francis@wdc.com>
-> >>>
-> [ .. ]>>> @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void
-> *data, int status, key_serial_t pskid,
-> >>>                        ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
-> >>>                key_put(tls_key);
-> >>>                queue->tls_err =3D 0;
-> >>> +             queue->user_session_id =3D user_session_id;
-> >>
-> >> Hmm. I wonder, do we need to store the generation number somewhere?
-> >> Currently the sysfs interface is completely oblivious that a key updat=
-e
-> >> has happened. I really would like to have _some_ indicator there telli=
-ng
-> >> us that a key update had happened, and the generation number would be
-> >> ideal here.
-> >
-> > I don't follow.
-> >
-> > The TLS layer will report the number of KeyUpdates that have been
-> > received. Userspace also knows that a KeyUpdate happened as we call to
-> > userspace to handle updating the keys.
-> >
-> Oh, the tlshd will know that (somehow). But everyone else will not; the
-> 'tls_pskid' contents will stay the the same.
-> Can we have a sysfs attribute reporting the sequence number of the most
-> recent KeyUpdate?
+On Wed, Oct 22, 2025 at 12:07:59PM +0100, Vadim Fedorenko wrote:
+> On 22/10/2025 09:13, Dong Yibo wrote:
+> > Add fundamental firmware (FW) communication operations via PF-FW
+> > mailbox, including:
+> > - FW sync (via HW info query with retries)
+> > - HW reset (post FW command to reset hardware)
+> > - MAC address retrieval (request FW for port-specific MAC)
+> > - Power management (powerup/powerdown notification to FW)
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > ---
+> >   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
+> >   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |   4 +
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    |   1 +
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 194 ++++++++++++++++++
+> >   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h |  88 ++++++++
+> >   5 files changed, 289 insertions(+), 1 deletion(-)
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
+> >   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
+> 
+> [...]
+> 
+> > +static int mucse_mbx_get_info(struct mucse_hw *hw)
+> > +{
+> > +	struct mbx_fw_cmd_req req = {
+> > +		.datalen = cpu_to_le16(MUCSE_MBX_REQ_HDR_LEN),
+> > +		.opcode  = cpu_to_le16(GET_HW_INFO),
+> > +	};
+> > +	struct mbx_fw_cmd_reply reply = {};
+> > +	struct mucse_hw_info info = {};
+> > +	int err;
+> > +
+> > +	err = mucse_fw_send_cmd_wait_resp(hw, &req, &reply);
+> > +	if (!err) {
+> > +		memcpy(&info, &reply.hw_info, sizeof(struct mucse_hw_info));
+> > +		hw->pfvfnum = FIELD_GET(GENMASK_U16(7, 0),
+> > +					le16_to_cpu(info.pfnum));
+> 
+> why do you need local struct mucse_hw_info info? The reply is stack
+> allocated, nothing else will use it afterwards. You clear out
+> info on allocation (40 bytes memset), then you copy whole structure from
+> reply to info (another round of 40 bytes reads/writes) and then use only
+> 2 bytes out of it - it does look like an overkill, you can access
+> reply.hwinfo.pfnum directly.
+> 
 
-Why do we want to reveal that to userspace though?
+mm, you are right, I should access it directly. Thanks. 
 
-Realistically it should just be ~2^64 and it'll should remain the same
-number, even after multiple updates
-
-Alistair
-
-> Cheers,
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> 
+> 
