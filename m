@@ -1,124 +1,153 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F5D2FE060;
-	Wed, 22 Oct 2025 08:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EC6309EE3
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 08:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761121567; cv=none; b=MTIixetXCxyiGY8c48o6Yi7tN6+EcFZwrraYmdVYc9CYwhB+i1d5DR2QSED22/QNdtlMwyXBcHqzx/1EZ9bQPAhBEymKTYMOstGi91DUQz3PpGPlJKAlA41xjlgr6Dl7L2zrpz9VDNJ2ECOVuFhamvQqoyJagdprW0kK8mrAA5w=
+	t=1761121577; cv=none; b=lzVGr/iig5SKvlomuC41G2K2z2VdF56/9C+BhTHQPT9GgbNVyQIplgjN8R6s9OqkGnsAdNpm9u4blYY2RMeZoCHYeTVbbj29V3deImLsuROZWuHgyHNojvD2cRVjewwleC/9rHsX1iyyJYBc4YPSo8PSM5uX8bRyViFvKrZoJXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761121567; c=relaxed/simple;
-	bh=GcOayzrpL3XN45TYF8aRFDQHCEpABTubndQWUs/Olos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HwyaE2l2pm2nhdfORft2qMFt5KuayWqpU8ua/6Uce/B64XsyR4CM0hnHhKwDqr8UATKmLQeuy70/o+Kb6EazE8xdZGmiZMBSiQ17RfPmQ2VPXIoV4zRf0ABvgQwdvCeRyUnusxE1iieEmV3UVU3VZzaKEIsujGK/8ihpDT0Ur4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rFRRymTv; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761121577; c=relaxed/simple;
+	bh=Q6H986X15qYys1qfZkB9W2dW8AtLZxTL9G3Hoa0FETk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dzQdJcn9wG2sFKp3haW47c24JtZnH7ThAAGAnNM02EbuGhvk96ZEJJ5i7uGoicR4IVK+N6lnWBPjg+x5IwrjJxJIv8nG0T3twbGiHfXpaLO91ExMbduQRr8Iri7zypXtdc8RHUz1ASlw0KeaIQefHqTMGnhI8pMxhI3ZsgXt5KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g9lSf9jl; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rFRRymTv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HwH5x5HyQ0iNsnWYUIrOkwzBLLqSWs26PFnB9Hw9zrg=; b=rFRRymTvsxiHY5Z9kk6gQcPDdH
-	q+LBhU6IgfqCPMOqEen7bfrcl/FO4M7yDOeIzepUAVgK8BejefMm/2wrIo2IzPrm01EjWc/3p5dYY
-	IXKDjSEqQuLyzlVr/OG1j4WiAmIdzvXNy0RGvCHyoeBahthZWBtRPv8qFrUGmR5O3gbPSI6bm2zGF
-	lPxbFuMuevP7QUkKT34AwysjhhFHQHQzycqeAomW/7DbQqKw8qnf99qOb58IOBuIPAXW2VIdQGbt8
-	mhIjbqyQOhoW/ry50sMIlXZYxK9cVa56MToV19GO+h2b//S1mMkuK7dE7GeVPutVT1b74bkKONyxn
-	aph1QZTw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBUA9-00000000cYB-2CVJ;
-	Wed, 22 Oct 2025 08:25:47 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id BB95330039F; Wed, 22 Oct 2025 10:25:41 +0200 (CEST)
-Date: Wed, 22 Oct 2025 10:25:41 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20251022082541.GL4067720@noisy.programming.kicks-ass.net>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-4-sohil.mehta@intel.com>
- <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9lSf9jl"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b4f323cf89bso1447607766b.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 01:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761121574; x=1761726374; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NDyEa99uEXhpux+y1jdsG/DCyMfzL2pd992wei+/e1g=;
+        b=g9lSf9jlzTL74ZxyfEMsa16zdauZydvqbq6C8BlT0oq+R+RCOZKV7QlN+n7Puwk6X9
+         TK11E1pXhHLdAuoU9qJ8OVl+4QcN5CIDLdvrtHDuaQdch6/it+z8DAx58sBJnRfAmgVz
+         vG4xalYkaDCAiv6gJpIiu08tQML8GZKeBJuCErAqp862qz7oIFTxEML3NDQfa42+q1m5
+         JyZrQGPFKnbdBW9dDJ4+v/Qb2AY9ddKozGeODolVFc91lLhGagiEvJAxutp+Fa0TKdf+
+         VbXPxrycqhr9LTv3VpU2DzC8PZWvGeSgNpfGHO24xPNLpypRN3tDJdofqxE6Q/w05re7
+         zT7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761121574; x=1761726374;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NDyEa99uEXhpux+y1jdsG/DCyMfzL2pd992wei+/e1g=;
+        b=bJ8BUsSZj4J4iS3IPLcOz7lnqjOfPCWFpeX79wtR4jYDcWi2L+YaReYeB2fbEM1xvU
+         DA6OysL86m1Hw2wYcyl30FU0ciOEGNy/FiaHDaADHH/+KNd2OVmroos0JftyjN+2Camn
+         94EpKNBwyaG6TBrcuD+Kl9C3J4/kbbB+paJiPghKDGWXM4mVrIl1LlItueQ2PGs6sVn2
+         ack3QkTeFq6PU4eFqf/b4dh9D1UlCq0p+6wGfYtRJWD+L4og++rXWZVAhjJIDuPaDAEb
+         IrJgVMRbKDHsntdJW5ibyiZprpbATpHLXaEOjARKdPC1Z5Ky4P4+RowDtHdSpIV8FJ2O
+         SXTA==
+X-Forwarded-Encrypted: i=1; AJvYcCWS0EYAusaLjKBcEoDSK/6TgY1l1269cNelpp+pCCscKOViLS9+G7JsNk316s910mkzHx7+uBPAXA0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhZGuryBoa7lKnFUo7/ggxCiisXhp86TwBGklnZiF9yzc+LOYp
+	Jfxbog3tiFXl90jeMddyOfK2u52efr0gZO6De9+Q7PsqXltxKEzTRcGw
+X-Gm-Gg: ASbGncvHhWubHGpSexrTqA8jYGtPvvz95IKY5vngJIa+4RP2XgIMszisQMli3domBU6
+	XD/UWt5M/ftXj1HrmDQWYFBsBFALEDBT7xnHHkZjSap4B15P3N+OpBq1DSss21a94bc5+gs8HeB
+	Dr85L/Klm6GNmHi460pf29W77C85OBfJD3E8muS+sVtPtJSACjNNceBeHNvZ50nRB8530S4QkO4
+	QcbTIIyGJvaDmofUvEt+ClfH5KZzKBKPYVLW5vL9/WK6FqFNZzPWbo2Jrhes0Q+qzGJl1qBEb/R
+	D5nTryrghvR+nKZwkbXLAJpwv/inGrmmAIxxit/2/zESyVN9AmEE22RW4/UT/zD5kf6gKnHJuKJ
+	Ds3SpThdLUH4Qahv6Y7Sgapx2oysQKHNc4MvVS4nTRTJDmQDuL5xAnrBXu0zKWM++5WU0oe6EAK
+	gB
+X-Google-Smtp-Source: AGHT+IFMC1ZTRJ80d2+tQCzLJZEUcRjgNolpnafRAvb1tXsgv9lX8RVp0jdHUx6GvU3poKNRSafE7g==
+X-Received: by 2002:a17:907:7ea6:b0:b3e:3c1c:d2f2 with SMTP id a640c23a62f3a-b6474940fc1mr2581204566b.36.1761121573582;
+        Wed, 22 Oct 2025 01:26:13 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b6cfa6cb6e6sm365510866b.49.2025.10.22.01.26.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 01:26:13 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: hch@infradead.org
+Cc: akpm@linux-foundation.org,
+	andy.shevchenko@gmail.com,
+	arnd@arndb.de,
+	axboe@kernel.dk,
+	bp@alien8.de,
+	brauner@kernel.org,
+	christophe.leroy@csgroup.eu,
+	cyphar@cyphar.com,
+	ddiss@suse.de,
+	dyoung@redhat.com,
+	email2tema@gmail.com,
+	graf@amazon.com,
+	gregkh@linuxfoundation.org,
+	hca@linux.ibm.com,
+	hsiangkao@linux.alibaba.com,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	jrtc27@jrtc27.com,
+	julian.stecklina@cyberus-technology.de,
+	kees@kernel.org,
+	krzk@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mcgrof@kernel.org,
+	monstr@monstr.eu,
+	mzxreary@0pointer.de,
+	nschichan@freebox.fr,
+	patches@lists.linux.dev,
+	rob@landley.net,
+	safinaskar@gmail.com,
+	thomas.weissschuh@linutronix.de,
+	thorsten.blum@linux.dev,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v3 0/3] initrd: remove half of classic initrd support
+Date: Wed, 22 Oct 2025 11:26:04 +0300
+Message-ID: <20251022082604.25437-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aPh9Tx95Yhm_EkLN@infradead.org>
+References: <aPh9Tx95Yhm_EkLN@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 21, 2025 at 10:03:28PM +0200, Borislav Petkov wrote:
-> On Mon, Oct 06, 2025 at 11:51:07PM -0700, Sohil Mehta wrote:
-> > +static __always_inline void lass_clac(void)
-> > +{
-> > +	alternative("", "clac", X86_FEATURE_LASS);
-> > +}
-> > +
-> > +static __always_inline void lass_stac(void)
-> > +{
-> > +	alternative("", "stac", X86_FEATURE_LASS);
-> > +}
+Christoph Hellwig <hch@infradead.org>:
+> On Tue, Oct 21, 2025 at 03:05:35PM +0200, Christian Brauner wrote:
+> > Without Acks or buy-in from other maintainers this is not a change we
+> > can just do given that a few people already piped up and expressed
+> > reservations that this would be doable for them.
+> > 
+> > @Christoph, you marked this as deprecated years ago.
+> > What's your take on this?
 > 
-> So I probably missed the whole discussion on how we arrived at
-> lass_{stac,clac}() but just in case, those names sound silly.
-> 
+> I'd love to see it go obviously.  But IIRC we had various users show
+> up, which speaks against removing it.  Maybe the first step would be
+> a separate config option just for block-based initrd?
 
-Initially the suggestion was to use stac/clac directly iirc; but that
-looses the information these are for LASS only. Hence the LASS specific
-ones.
+So far in recent months 3 people spoke against initrd removal. All they are in Cc. They are:
 
-(its an unfortunate arch detail that LASS and SMAP both use the AC flag
-and all that)
+- Julian Stecklina. He planned to use initrd with erofs, which is currently
+not supported anyway. Also, he replied to v1:
+"You have all my support for nuking so much legacy code!"
+"Acked-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>"
+( https://lore.kernel.org/lkml/1f9aee6090716db537e9911685904786b030111f.camel@cyberus-technology.de/ )
 
-> diff --git a/arch/x86/include/asm/smap.h b/arch/x86/include/asm/smap.h
-> index 3ecb4b0de1f9..066d83a6b1ff 100644
-> --- a/arch/x86/include/asm/smap.h
-> +++ b/arch/x86/include/asm/smap.h
-> @@ -55,16 +55,8 @@ static __always_inline void stac(void)
->   * Use lass_stac()/lass_clac() when accessing kernel mappings
->   * (!_PAGE_USER) in the lower half of the address space.
->   */
-> -
-> -static __always_inline void lass_clac(void)
-> -{
-> -	alternative("", "clac", X86_FEATURE_LASS);
-> -}
-> -
-> -static __always_inline void lass_stac(void)
-> -{
-> -	alternative("", "stac", X86_FEATURE_LASS);
-> -}
-> +#define lass_disable()		stac()
-> +#define lass_enable()		clac()
+- Gao Xiang, maintainer of erofs. He also planned to use initrd with erofs,
+which is currently not supported anyway. Also, he said to me:
+> Again, I don't have any strong opinion to kill initrd entirely because
+> I think initdax may be more efficient and I don't have any time to work
+> on this part -- it's unrelated to my job.
+( https://lore.kernel.org/all/79315382-5ba8-42c1-ad03-5cb448b23b72@linux.alibaba.com/ )
 
-But that's not the same, stac() and clac() are FEATURE_SMAP, these are
-FEATURE_LASS.
+- Nicolas Schichan. He has million devices, which use initrd. But they use
+root=/dev/ram code path, not linuxrc code path, which I'm removing. He
+explained this here:
+https://lore.kernel.org/lkml/20250918152830.438554-1-nschichan@freebox.fr/
 
-If you really want the _disable _enable naming that's fine with me, but
-then perhaps we should also s/clac/smap_disable/ and s/stac/smap_enable/
-for consistency.
+So, this patchset will not impact these people. So, I think it is okay
+to remove linuxrc now. We can revert this patchset if needed.
+
+-- 
+Askar Safin
