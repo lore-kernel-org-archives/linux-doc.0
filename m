@@ -1,85 +1,35 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221DE1925BC
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 00:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2949D78F51;
+	Wed, 22 Oct 2025 00:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761092425; cv=none; b=gcV9EFyqiS+xgFytoywoNquQG1f1b/asquOJQ1k1jVL4gdldfpjjLVkVcXLotEdq631LoBMyhqWRmJlnh+V6yp2NgdHkLoo+BZcC/2fnyz3p2y8+8B3rejcrUCA2iWW35BMMWFo6rd0skUiaE/vat4nCTPs+4gWhkPS0SGs9V/w=
+	t=1761094244; cv=none; b=SWzIHpwzuTjrRdKW4Jwm0RJYpeXITdp+98XmvarKrO8n0IEUMoI0M89EaFx3S2mZI/cnSy9RjIhA3sFaBOEkdiNzBDii6rTkKbmpW935LTzq1ewCvJco09B9pUXltuvKXh0W9nv/1svS9a5m0l4aLJmA9SNiq5Aoy8disNlh5YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761092425; c=relaxed/simple;
-	bh=BRXShLW7W5/j3n6WXYzW3QS+Q7LioQIoXr7V3X8QlnY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q31WZt6Tep+m369rEv3omGZujHGheIjSuwPO1XxvP9jgrhMGQRhoxPTlmF0JK9G8RPYYwotOt3LefkidJf82Hirei3ZYC/OLjord2rHq5wo4EkdycwMCcldxd0xk4Bq5eQ3YWQFThIa9+BRPSVulBdjYlm2H/p+0nyHgYqc9NnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KXE2nZnh; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761094244; c=relaxed/simple;
+	bh=5YiKGTTA0sPWfPkkjbaajZBM+rJdSZYR+vr23Ya6r+M=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=FoK40LTudv2j4EaJh/1wvgcpoVLlRMMWu5VfELPL1Cvdh6CfgEA6XFcdwAo3q6a6e/rbSACVGzWzxcuc5C31YE9V7aHaEhvOh2Yy/03Ta/wovB2l3zGnmQZ2BgcPVEP5d5yJoQiHNuTeR3UrLGLEZkviR+qKYf17fO3oOfdis80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCPtmrZm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXE2nZnh"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b57bffc0248so359353a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 17:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761092423; x=1761697223; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zh6p3zPmQiUeUqLIm43PW7u/eg9Ryz3Ek/pj2nzImMM=;
-        b=KXE2nZnhkem3LmJNhkglie6PeX/ZuWvOGV3X0MET20RmDD+gFiVV4vcRp6q/e16luD
-         NLlg496/XIoFYgrhISvc+XqVGYNoxetJn+UD5DgYwxC0CzIoEc4tJMwsPCk/QHriqQF9
-         HEcTXSs6/EgGR9/ktX0eHld4fig6k2R+xTPX+P+BrUihxh9wZftYlwfUmRfWE42E7n0f
-         /g1fIdSg9MJBOPUQ0OZwz3rlQkrU4T8kCl/HLpXQ1EhAMEgB5enyMZn+0fi1WCnwyYx+
-         JiVx8QzniwJcUqVnsDIAwd102+aC3/WZM6fRUKQHdEcAkU2AQCBVEEdUEj3rnhMO3HXD
-         s8oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761092423; x=1761697223;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zh6p3zPmQiUeUqLIm43PW7u/eg9Ryz3Ek/pj2nzImMM=;
-        b=IJLAIdI6F6/VTfBF5lzA3kisUucTJJWONDHLYZfliiFxrKCzEzBXTgFkGY8WDACwPR
-         rtc4ZoomTDGLPn6F1/mAcMpeTibatChE4Q9VSjgjyOCJThM5Q2nuobH4PQQ+rOQTK67O
-         iE7mYdlRoorvCnMsVQ+fPjPW+VWDe2ym13IkwXiotyyauvy3oANnENyXWd5gNmdNLeOO
-         u4YSTTUFqmIQ5UjWhnvBkGCcAsA6+KHRiuhvLHr2G2Kd7QN+TlV9MChX8Ezs/SULcXQU
-         lzhWxUbR3eYFjoTKtY/zhrs7S8JG9gyoZ+HSfVxjpVe8o8gqGqoQ5Gior+sLX1ldRlMj
-         rtzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXG+1jCO1msdkhvHxyS/ODFUPyav0G/I9VeRHqEwAm2ZkkZNXWj/SvZgOpeJwaCTs3a+5P2nQpKkJc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv2th8swnXFfp2YVuVOS7Qi1pV2bunGSpQbdwhY4w0o9KO8OLt
-	pJ+0sx/IpkXnHactONoQaFyVY1yJtJh0xXaKnhAadsmE6O9rr7MdS9Tz
-X-Gm-Gg: ASbGncs0XJ5G/xdj3kE7IpZDfD8yRCm0olssp1Bj7owDByJIMo4lbvNOpZ4Oep7oKU5
-	nm+EIQgxmLOtp6g1jHkK+oh/zKFAdP2opcX/8xahvMQjcuYtZsHzIGePeVaRs5A552pBf1leLTf
-	2fua6YTp3/TS7rudmHx7YoCjwndn4V4xSpBgdURriqFE0glzBZpj5EdzYQj9eVJEAbpMw49DN3w
-	16XV3IRc8R5tTarjNf+yVN7Wk8WckkoQTRmaBK8wmSqabIee9QbbS9tbvetqnjQ+5zUE0SwV0ak
-	DQ7/esPv3bjTB4KnxG4kiHoRN5W36cop9T+gIt2utYWFe6ATjnL1tNSShqwIHsdzM0dIfWeF5tt
-	09UZXiWERRkgchfKJJ2qvpzxmBZQtiE90QvXtcYH/Piil5CSRg2AK66ZxmjkbtAumiozBMGM5Qz
-	1HqQIOj5oe
-X-Google-Smtp-Source: AGHT+IHNz+zoQ+2Bi98EPbJTECbCqeGyTGzZFef/KyQe6e5Dp6oW7yPraB1RU49wPYv0mxci6bnbpw==
-X-Received: by 2002:a17:903:249:b0:267:44e6:11d6 with SMTP id d9443c01a7336-292ffba4632mr18972615ad.6.1761092423350;
-        Tue, 21 Oct 2025 17:20:23 -0700 (PDT)
-Received: from fedora ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-292471fdcf9sm120759805ad.91.2025.10.21.17.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 17:20:23 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Simon Horman <horms@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH net-next v8 2/2] selftests: tls: add tls record_size_limit test
-Date: Wed, 22 Oct 2025 10:19:37 +1000
-Message-ID: <20251022001937.20155-2-wilfred.opensource@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251022001937.20155-1-wilfred.opensource@gmail.com>
-References: <20251022001937.20155-1-wilfred.opensource@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCPtmrZm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FD3C4CEF1;
+	Wed, 22 Oct 2025 00:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761094243;
+	bh=5YiKGTTA0sPWfPkkjbaajZBM+rJdSZYR+vr23Ya6r+M=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=TCPtmrZmieoXZPsojPGu+pmbO/FQAoGK3VNZ0C17A0fH9C94OoxBex0+s2ZX1d9Rj
+	 olkuHMjOrFk6LwnpPKw9NVIkyecsjpl0vtgNucQE0OYATfiPJRL1QIp8VCmtP5mYAX
+	 jrPNjFRhueQgHxyNPzfYrEhSaHfBlV2xchB81mLsLf5W/MsyMpNQkTN56JzF3hSL9k
+	 O+OFmoGafZUhH4M2usSvL0SzRAyVUz9gdZzE3tzb4uzG6g/dFDXPkRj+c3E3jyeEVk
+	 7eFcwqQjc51q5+42E52Yc+0WbhnJXiveP++U7Ls5zS2Jip7kB2ULk9TLi5wP1KhQG2
+	 Sm8iYXpmyWzrQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CD53A55FA6;
+	Wed, 22 Oct 2025 00:50:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,177 +37,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] Documentation: networking: ax25: update the mailing list
+ info.
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176109422474.1291118.15093123426414398141.git-patchwork-notify@kernel.org>
+Date: Wed, 22 Oct 2025 00:50:24 +0000
+References: <20251020052716.3136773-1-rdunlap@infradead.org>
+In-Reply-To: <20251020052716.3136773-1-rdunlap@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: netdev@vger.kernel.org, linux-hams@vger.kernel.org, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, linux-doc@vger.kernel.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Hello:
 
-Test that outgoing plaintext records respect the tls TLS_TX_MAX_PAYLOAD_LEN
-set using setsockopt(). The limit is set to be 128, thus, in all received
-records, the plaintext must not exceed this amount.
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Also test that setting a new record size limit whilst a pending open
-record exists is handled correctly by discarding the request.
+On Sun, 19 Oct 2025 22:27:16 -0700 you wrote:
+> Update the mailing list subscription information for the linux-hams
+> mailing list.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: linux-hams@vger.kernel.org
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> 
+> [...]
 
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
-V7 -> V8:
- - Drop TLS 1.3 tests for the removed getsockopt() changes from V7 
----
- tools/testing/selftests/net/tls.c | 141 ++++++++++++++++++++++++++++++
- 1 file changed, 141 insertions(+)
+Here is the summary with links:
+  - Documentation: networking: ax25: update the mailing list info.
+    https://git.kernel.org/netdev/net/c/86c48f50baba
 
-diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
-index 5c6d8215021c..da1b50b30719 100644
---- a/tools/testing/selftests/net/tls.c
-+++ b/tools/testing/selftests/net/tls.c
-@@ -2856,6 +2856,147 @@ TEST_F(tls_err, oob_pressure)
- 		EXPECT_EQ(send(self->fd2, buf, 5, MSG_OOB), 5);
- }
- 
-+/*
-+ * Parse a stream of TLS records and ensure that each record respects
-+ * the specified @max_payload_len.
-+ */
-+static size_t parse_tls_records(struct __test_metadata *_metadata,
-+				const __u8 *rx_buf, int rx_len, int overhead,
-+				__u16 max_payload_len)
-+{
-+	const __u8 *rec = rx_buf;
-+	size_t total_plaintext_rx = 0;
-+	const __u8 rec_header_len = 5;
-+
-+	while (rec < rx_buf + rx_len) {
-+		__u16 record_payload_len;
-+		__u16 plaintext_len;
-+
-+		/* Sanity check that it's a TLS header for application data */
-+		ASSERT_EQ(rec[0], 23);
-+		ASSERT_EQ(rec[1], 0x3);
-+		ASSERT_EQ(rec[2], 0x3);
-+
-+		memcpy(&record_payload_len, rec + 3, 2);
-+		record_payload_len = ntohs(record_payload_len);
-+		ASSERT_GE(record_payload_len, overhead);
-+
-+		plaintext_len = record_payload_len - overhead;
-+		total_plaintext_rx += plaintext_len;
-+
-+		/* Plaintext must not exceed the specified limit */
-+		ASSERT_LE(plaintext_len, max_payload_len);
-+		rec += rec_header_len + record_payload_len;
-+	}
-+
-+	return total_plaintext_rx;
-+}
-+
-+TEST(tls_12_tx_max_payload_len)
-+{
-+	struct tls_crypto_info_keys tls12;
-+	int cfd, ret, fd, overhead;
-+	size_t total_plaintext_rx = 0;
-+	__u8 tx[1024], rx[2000];
-+	__u16 limit = 128;
-+	__u16 opt = 0;
-+	unsigned int optlen = sizeof(opt);
-+	bool notls;
-+
-+	tls_crypto_info_init(TLS_1_2_VERSION, TLS_CIPHER_AES_CCM_128,
-+			     &tls12, 0);
-+
-+	ulp_sock_pair(_metadata, &fd, &cfd, &notls);
-+
-+	if (notls)
-+		exit(KSFT_SKIP);
-+
-+	/* Don't install keys on fd, we'll parse raw records */
-+	ret = setsockopt(cfd, SOL_TLS, TLS_TX, &tls12, tls12.len);
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = setsockopt(cfd, SOL_TLS, TLS_TX_MAX_PAYLOAD_LEN, &limit,
-+			 sizeof(limit));
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = getsockopt(cfd, SOL_TLS, TLS_TX_MAX_PAYLOAD_LEN, &opt, &optlen);
-+	EXPECT_EQ(ret, 0);
-+	EXPECT_EQ(limit, opt);
-+	EXPECT_EQ(optlen, sizeof(limit));
-+
-+	memset(tx, 0, sizeof(tx));
-+	ASSERT_EQ(send(cfd, tx, sizeof(tx), 0), sizeof(tx));
-+	close(cfd);
-+
-+	ret = recv(fd, rx, sizeof(rx), 0);
-+
-+	/*
-+	 * 16B tag + 8B IV -- record header (5B) is not counted but we'll
-+	 * need it to walk the record stream
-+	 */
-+	overhead = 16 + 8;
-+	total_plaintext_rx = parse_tls_records(_metadata, rx, ret, overhead,
-+					       limit);
-+
-+	ASSERT_EQ(total_plaintext_rx, sizeof(tx));
-+	close(fd);
-+}
-+
-+TEST(tls_12_tx_max_payload_len_open_rec)
-+{
-+	struct tls_crypto_info_keys tls12;
-+	int cfd, ret, fd, overhead;
-+	size_t total_plaintext_rx = 0;
-+	__u8 tx[1024], rx[2000];
-+	__u16 tx_partial = 256;
-+	__u16 og_limit = 512, limit = 128;
-+	bool notls;
-+
-+	tls_crypto_info_init(TLS_1_2_VERSION, TLS_CIPHER_AES_CCM_128,
-+			     &tls12, 0);
-+
-+	ulp_sock_pair(_metadata, &fd, &cfd, &notls);
-+
-+	if (notls)
-+		exit(KSFT_SKIP);
-+
-+	/* Don't install keys on fd, we'll parse raw records */
-+	ret = setsockopt(cfd, SOL_TLS, TLS_TX, &tls12, tls12.len);
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = setsockopt(cfd, SOL_TLS, TLS_TX_MAX_PAYLOAD_LEN, &og_limit,
-+			 sizeof(og_limit));
-+	ASSERT_EQ(ret, 0);
-+
-+	memset(tx, 0, sizeof(tx));
-+	ASSERT_EQ(send(cfd, tx, tx_partial, MSG_MORE), tx_partial);
-+
-+	/*
-+	 * Changing the payload limit with a pending open record should
-+	 * not be allowed.
-+	 */
-+	ret = setsockopt(cfd, SOL_TLS, TLS_TX_MAX_PAYLOAD_LEN, &limit,
-+			 sizeof(limit));
-+	ASSERT_EQ(ret, -1);
-+	ASSERT_EQ(errno, EBUSY);
-+
-+	ASSERT_EQ(send(cfd, tx + tx_partial, sizeof(tx) - tx_partial, MSG_EOR),
-+		  sizeof(tx) - tx_partial);
-+	close(cfd);
-+
-+	ret = recv(fd, rx, sizeof(rx), 0);
-+
-+	/*
-+	 * 16B tag + 8B IV -- record header (5B) is not counted but we'll
-+	 * need it to walk the record stream
-+	 */
-+	overhead = 16 + 8;
-+	total_plaintext_rx = parse_tls_records(_metadata, rx, ret, overhead,
-+					       og_limit);
-+	ASSERT_EQ(total_plaintext_rx, sizeof(tx));
-+	close(fd);
-+}
-+
- TEST(non_established) {
- 	struct tls12_crypto_info_aes_gcm_256 tls12;
- 	struct sockaddr_in addr;
+You are awesome, thank you!
 -- 
-2.51.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
