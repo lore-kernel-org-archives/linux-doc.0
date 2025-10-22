@@ -1,267 +1,124 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B8B307AF5;
-	Wed, 22 Oct 2025 08:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F5D2FE060;
+	Wed, 22 Oct 2025 08:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761120909; cv=none; b=RF6PLSPpgqwVUo2SkkiUrIu4Cq+CSi9f6/1VmiyrH/MDaPw2ytRtFBKKNQHLGRPyNpHwaSkHdm3w0qFCflVlL/7oKoLeKPobo+on/q19tSW0o4lVCApHynDHx0tVoOqxCzJMHsaQS+3j5aO+bvMjjtqUCdoi0VkD52NDm6nmm2E=
+	t=1761121567; cv=none; b=MTIixetXCxyiGY8c48o6Yi7tN6+EcFZwrraYmdVYc9CYwhB+i1d5DR2QSED22/QNdtlMwyXBcHqzx/1EZ9bQPAhBEymKTYMOstGi91DUQz3PpGPlJKAlA41xjlgr6Dl7L2zrpz9VDNJ2ECOVuFhamvQqoyJagdprW0kK8mrAA5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761120909; c=relaxed/simple;
-	bh=0JJ/ovzmfSJ1jb9Vdak2WoRAgXatAloCuZPSZSQiBUY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JhCbqnPUn4ohR+khTe33lexjBWIBabfu6bRSs1BrfTyz6x+soTwl5p7BnIGLot18ZdKdLHouHvlFFhmhXlQByKJYqCbbto9g/V3qR1FvLCdroNdjw4GhxfQSlS5o+Q+ErkvlOP+hRV+ZoeN5JHUj48v/axKjQUV4fsGek0SBAOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz17t1761120850tb1eb85de
-X-QQ-Originating-IP: Qnq1rIXX6wkrfS7oTX1QPvuBjBCKdt3P49Rf2PK2a3A=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 22 Oct 2025 16:14:08 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12093381508814799168
-EX-QQ-RecipientCnt: 17
-From: Dong Yibo <dong100@mucse.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	andrew+netdev@lunn.ch,
-	danishanwar@ti.com,
-	vadim.fedorenko@linux.dev,
-	geert+renesas@glider.be,
-	mpe@ellerman.id.au,
-	lorenzo@kernel.org,
-	lukas.bulwahn@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v15 2/5] net: rnpgbe: Add n500/n210 chip support with BAR2 mapping
-Date: Wed, 22 Oct 2025 16:13:48 +0800
-Message-Id: <20251022081351.99446-3-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251022081351.99446-1-dong100@mucse.com>
-References: <20251022081351.99446-1-dong100@mucse.com>
+	s=arc-20240116; t=1761121567; c=relaxed/simple;
+	bh=GcOayzrpL3XN45TYF8aRFDQHCEpABTubndQWUs/Olos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HwyaE2l2pm2nhdfORft2qMFt5KuayWqpU8ua/6Uce/B64XsyR4CM0hnHhKwDqr8UATKmLQeuy70/o+Kb6EazE8xdZGmiZMBSiQ17RfPmQ2VPXIoV4zRf0ABvgQwdvCeRyUnusxE1iieEmV3UVU3VZzaKEIsujGK/8ihpDT0Ur4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rFRRymTv; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rFRRymTv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HwH5x5HyQ0iNsnWYUIrOkwzBLLqSWs26PFnB9Hw9zrg=; b=rFRRymTvsxiHY5Z9kk6gQcPDdH
+	q+LBhU6IgfqCPMOqEen7bfrcl/FO4M7yDOeIzepUAVgK8BejefMm/2wrIo2IzPrm01EjWc/3p5dYY
+	IXKDjSEqQuLyzlVr/OG1j4WiAmIdzvXNy0RGvCHyoeBahthZWBtRPv8qFrUGmR5O3gbPSI6bm2zGF
+	lPxbFuMuevP7QUkKT34AwysjhhFHQHQzycqeAomW/7DbQqKw8qnf99qOb58IOBuIPAXW2VIdQGbt8
+	mhIjbqyQOhoW/ry50sMIlXZYxK9cVa56MToV19GO+h2b//S1mMkuK7dE7GeVPutVT1b74bkKONyxn
+	aph1QZTw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBUA9-00000000cYB-2CVJ;
+	Wed, 22 Oct 2025 08:25:47 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id BB95330039F; Wed, 22 Oct 2025 10:25:41 +0200 (CEST)
+Date: Wed, 22 Oct 2025 10:25:41 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <20251022082541.GL4067720@noisy.programming.kicks-ass.net>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-4-sohil.mehta@intel.com>
+ <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz3a-1
-X-QQ-XMAILINFO: NwIS3Zdzte8wjKFJMFA0f9Iyx6T0SGofc2bEl+tk4DZ9sVHZldW8X8eL
-	j5FkUsU3pwQAdBMxl4cPDnaPOp8R9OI/p6ZdbpLSa8YnCLJEMViaoPf/lLLZpWwSa6KBMfW
-	s44B+6IbK3vrygTbDsVBF2e7AUqFpxG22FOEij+Bmv9VoGnzjY/R7EYSJK9VLjk4+uhAgGQ
-	tbbcLJw8qzqrVXCpo8tzin0n3hGiELYRFFfBsd4dD6/ZQI0ht2b4Plm7kGv/2DuR+ek7+uN
-	vwysrjpYh/wMOCtLwKB3Hd25vCh2AQpfYN6nq6pjky0XkOTLo2uy2KPv3crFEIjxzvbjVJd
-	Cy1tdY8sCIf44N8Rmoe8+cF6Dc41MJvfPrmdwRlxhUjYWK8Y+v42fBv0xj0iilICgk0/tJd
-	SvboGhm/uycNpMAwwHVPJ+UgaTz1mlbcuWzmqTh5bU3p3NxVi3D0/O3a1amekLwsAv5PCTK
-	470RAq5PWFdkPOJX3IRL8c0v8J5DKZjJMST/PbpjuADGN2ZVOTLutNZ6TJ2+e1ILEX1LQFZ
-	766n5WnC7qRQQuOUM/HHAq/VIvNQFtJWGLSvc2oIAvw/1mD6S0qBRAnIAw7MtwK/JpzAfyr
-	fQE2hr5bCEk4LTEu5x9iAFl062JNaHojCQY+l7iDRiaURE+QXLIkpCGN45f7g1Z01yubs1T
-	466In6y1m57xlAAAevLKNstm5KDQcHfrtkMFRslYpLM28FQ5QTDDZf9I5lW4Jt0ndJ6ZnmV
-	8YF2RiBxMYfhVlltSAdyDWHLaP/c9m2in6U0x6cxSVdJkxek5zmUn+QblhKQlpFsLlOCHp1
-	Rogl77MqGLc10aJ93aHt95w+UC9VEchEmK6dzNVLWC76p6UJugHiZZokPFkj67z+bDHU9ZK
-	CcXpPjMTvI0Co5JqPVmejs3HoNjsUhGkVAt8R8hHoPZGfCx4KGSWM27XdbqnYujtCmncHK3
-	gHwt5I4Zs0h4sU/cRwrXf4caNr9UWPq06AwBx5bSVOJfxSkPVM955++O0uVItl3iJAd98pM
-	ObCBIs3d1ZEpGSBAAn
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
 
-Add hardware initialization foundation for MUCSE 1Gbe controller,
-including:
-1. Map PCI BAR2 as hardware register base;
-2. Bind PCI device to driver private data (struct mucse) and
-   initialize hardware context (struct mucse_hw);
-3. Reserve board-specific init framework via rnpgbe_init_hw.
+On Tue, Oct 21, 2025 at 10:03:28PM +0200, Borislav Petkov wrote:
+> On Mon, Oct 06, 2025 at 11:51:07PM -0700, Sohil Mehta wrote:
+> > +static __always_inline void lass_clac(void)
+> > +{
+> > +	alternative("", "clac", X86_FEATURE_LASS);
+> > +}
+> > +
+> > +static __always_inline void lass_stac(void)
+> > +{
+> > +	alternative("", "stac", X86_FEATURE_LASS);
+> > +}
+> 
+> So I probably missed the whole discussion on how we arrived at
+> lass_{stac,clac}() but just in case, those names sound silly.
+> 
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Reviewed-by: MD Danish Anwar <danishanwar@ti.com>
----
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 10 +++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  8 ++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 80 +++++++++++++++++++
- 3 files changed, 98 insertions(+)
- create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+Initially the suggestion was to use stac/clac directly iirc; but that
+looses the information these are for LASS only. Hence the LASS specific
+ones.
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index d3439d28c654..a121ce4872a6 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -9,6 +9,16 @@ enum rnpgbe_boards {
- 	board_n210
- };
- 
-+struct mucse_hw {
-+	void __iomem *hw_addr;
-+};
-+
-+struct mucse {
-+	struct net_device *netdev;
-+	struct pci_dev *pdev;
-+	struct mucse_hw hw;
-+};
-+
- /* Device IDs */
- #define PCI_VENDOR_ID_MUCSE               0x8848
- #define RNPGBE_DEVICE_ID_N500_QUAD_PORT   0x8308
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-new file mode 100644
-index 000000000000..3a779806e8be
---- /dev/null
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-+
-+#ifndef _RNPGBE_HW_H
-+#define _RNPGBE_HW_H
-+
-+#define RNPGBE_MAX_QUEUES 8
-+#endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index 019e819fb497..305657d73e25 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -2,8 +2,11 @@
- /* Copyright(c) 2020 - 2025 Mucse Corporation. */
- 
- #include <linux/pci.h>
-+#include <net/rtnetlink.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
-+#include "rnpgbe_hw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
- 
-@@ -21,6 +24,54 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_add_adapter - Add netdev for this pci_dev
-+ * @pdev: PCI device information structure
-+ * @board_type: board type
-+ *
-+ * rnpgbe_add_adapter initializes a netdev for this pci_dev
-+ * structure. Initializes Bar map, private structure, and a
-+ * hardware reset occur.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+static int rnpgbe_add_adapter(struct pci_dev *pdev,
-+			      int board_type)
-+{
-+	struct net_device *netdev;
-+	void __iomem *hw_addr;
-+	struct mucse *mucse;
-+	struct mucse_hw *hw;
-+	int err;
-+
-+	netdev = alloc_etherdev_mq(sizeof(struct mucse), RNPGBE_MAX_QUEUES);
-+	if (!netdev)
-+		return -ENOMEM;
-+
-+	SET_NETDEV_DEV(netdev, &pdev->dev);
-+	mucse = netdev_priv(netdev);
-+	mucse->netdev = netdev;
-+	mucse->pdev = pdev;
-+	pci_set_drvdata(pdev, mucse);
-+
-+	hw = &mucse->hw;
-+	hw_addr = devm_ioremap(&pdev->dev,
-+			       pci_resource_start(pdev, 2),
-+			       pci_resource_len(pdev, 2));
-+	if (!hw_addr) {
-+		err = -EIO;
-+		goto err_free_net;
-+	}
-+
-+	hw->hw_addr = hw_addr;
-+
-+	return 0;
-+
-+err_free_net:
-+	free_netdev(netdev);
-+	return err;
-+}
-+
- /**
-  * rnpgbe_probe - Device initialization routine
-  * @pdev: PCI device information struct
-@@ -33,6 +84,7 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
-  **/
- static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-+	int board_type = id->driver_data;
- 	int err;
- 
- 	err = pci_enable_device_mem(pdev);
-@@ -60,6 +112,10 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto err_free_regions;
- 	}
- 
-+	err = rnpgbe_add_adapter(pdev, board_type);
-+	if (err)
-+		goto err_free_regions;
-+
- 	return 0;
- err_free_regions:
- 	pci_release_mem_regions(pdev);
-@@ -68,6 +124,23 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return err;
- }
- 
-+/**
-+ * rnpgbe_rm_adapter - Remove netdev for this mucse structure
-+ * @pdev: PCI device information struct
-+ *
-+ * rnpgbe_rm_adapter remove a netdev for this mucse structure
-+ **/
-+static void rnpgbe_rm_adapter(struct pci_dev *pdev)
-+{
-+	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct net_device *netdev;
-+
-+	if (!mucse)
-+		return;
-+	netdev = mucse->netdev;
-+	free_netdev(netdev);
-+}
-+
- /**
-  * rnpgbe_remove - Device removal routine
-  * @pdev: PCI device information struct
-@@ -79,6 +152,7 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  **/
- static void rnpgbe_remove(struct pci_dev *pdev)
- {
-+	rnpgbe_rm_adapter(pdev);
- 	pci_release_mem_regions(pdev);
- 	pci_disable_device(pdev);
- }
-@@ -89,6 +163,12 @@ static void rnpgbe_remove(struct pci_dev *pdev)
-  **/
- static void rnpgbe_dev_shutdown(struct pci_dev *pdev)
- {
-+	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct net_device *netdev = mucse->netdev;
-+
-+	rtnl_lock();
-+	netif_device_detach(netdev);
-+	rtnl_unlock();
- 	pci_disable_device(pdev);
- }
- 
--- 
-2.25.1
+(its an unfortunate arch detail that LASS and SMAP both use the AC flag
+and all that)
 
+> diff --git a/arch/x86/include/asm/smap.h b/arch/x86/include/asm/smap.h
+> index 3ecb4b0de1f9..066d83a6b1ff 100644
+> --- a/arch/x86/include/asm/smap.h
+> +++ b/arch/x86/include/asm/smap.h
+> @@ -55,16 +55,8 @@ static __always_inline void stac(void)
+>   * Use lass_stac()/lass_clac() when accessing kernel mappings
+>   * (!_PAGE_USER) in the lower half of the address space.
+>   */
+> -
+> -static __always_inline void lass_clac(void)
+> -{
+> -	alternative("", "clac", X86_FEATURE_LASS);
+> -}
+> -
+> -static __always_inline void lass_stac(void)
+> -{
+> -	alternative("", "stac", X86_FEATURE_LASS);
+> -}
+> +#define lass_disable()		stac()
+> +#define lass_enable()		clac()
+
+But that's not the same, stac() and clac() are FEATURE_SMAP, these are
+FEATURE_LASS.
+
+If you really want the _disable _enable naming that's fine with me, but
+then perhaps we should also s/clac/smap_disable/ and s/stac/smap_enable/
+for consistency.
