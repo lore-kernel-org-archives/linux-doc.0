@@ -1,331 +1,324 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D123451C9;
-	Wed, 22 Oct 2025 14:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EF0234844D;
+	Wed, 22 Oct 2025 15:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761145096; cv=none; b=nKrBZFUDffYrDr3W1etfj4E4gC7JMAOfv/4HByzsapCBbCz5b5FvKyzCWlYXQWCg0kFhciI0FmGPJr33fSVPA5PmxD9QSALZJiaYtUEdpGAruSdW6A06sVvcAg4fRYrXhbNIZuB12+Y4ZEEQN6BG1wLbRfo1msCd8lhKnaEesFk=
+	t=1761145530; cv=none; b=kPg+lnD4uwqwDHvFyyKtB6oZS2iVofGaTWCyFvD0LNOBEtKIGFixgpIcMUO+GnG+h0ea/0yJKCE9c6RDrWfibu3oddArM3ELDTkkpLEzEdTUrFZpQ5+3bBVQ0Q8SsrakZsytv1xBFzuEhv0fDTONIGUq2qLBlkPOZJzbhIc48hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761145096; c=relaxed/simple;
-	bh=v1fCkFl3oIrtd+iM/6lymWwvzU5bXHffbndCeeRvQjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hO+e+foSzx2ptVnKZYa2PYdWbrCo1nPlw65Wn3HGFjXWt1Qwbjqf1yX6xJWS0pMtxwGF39zRZjNudoexeKkEd3v0tFPDvSXI0AjvcBT+iRCIGu6ozPPkhIAGtAOMHdYpn0e8KHTLTAqTkW2AeH670RLUXS8CDOwXqb/NVzXs3/8=
+	s=arc-20240116; t=1761145530; c=relaxed/simple;
+	bh=+SUhYDfPlXhJTf0EZe+qe3Cet5/03cMNLV35GCCCJB0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DlWXgFTCNR547VmstFqd3mAAoixxF4TIzFVMfJf2o+dmVPJYnm5kBCvERWhtqh1WQbUEquUDa10jRBXJyJcBl15ywaSKwFP7P5OaAwcNfF1W8o4ioUyZv3qUsmqApiYc7MToidyyaZasVs5wNwwaQIlff9CPeQYilgcxNqs5Iww=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8357E1063;
-	Wed, 22 Oct 2025 07:58:05 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45AB03F63F;
-	Wed, 22 Oct 2025 07:58:11 -0700 (PDT)
-Date: Wed, 22 Oct 2025 15:58:08 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
-	linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
- per-arch
-Message-ID: <aPjxAIudLd16aU4Z@e133380.arm.com>
-References: <aO0Oazuxt54hQFbx@e133380.arm.com>
- <bf18c704-66d0-40cb-8696-435ac1c928b5@intel.com>
- <aO/CEuyaIyZ5L28d@e133380.arm.com>
- <dd5ba9e5-9809-4792-966a-e35368ab89f0@intel.com>
- <aPJP52jXJvRYAjjV@e133380.arm.com>
- <e788ca62-ec63-4552-978b-9569f369afd5@intel.com>
- <aPZaTk97RC6sg+uQ@e133380.arm.com>
- <aPZj1nDVEYmYytY9@agluck-desk3>
- <aPearyfcnpJJ/e06@e133380.arm.com>
- <aPf0OKwDZ4XbmVRB@agluck-desk3>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 789BD1063;
+	Wed, 22 Oct 2025 08:05:19 -0700 (PDT)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 04A603F63F;
+	Wed, 22 Oct 2025 08:05:24 -0700 (PDT)
+Message-ID: <c7bd3c00-ea1a-40ad-9d6e-2314217db906@arm.com>
+Date: Wed, 22 Oct 2025 16:05:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPf0OKwDZ4XbmVRB@agluck-desk3>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/23] perf: arm_pmuv3: Introduce method to partition
+ the PMU
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20250714225917.1396543-1-coltonlewis@google.com>
+ <20250714225917.1396543-5-coltonlewis@google.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250714225917.1396543-5-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tony,
-
-On Tue, Oct 21, 2025 at 01:59:36PM -0700, Luck, Tony wrote:
-> Hi Dave,
+On 14/07/2025 23:58, Colton Lewis wrote:
+> For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
+> counters into two ranges where counters 0..HPMN-1 are accessible by
+> EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
+> EL2.
 > 
-> On Tue, Oct 21, 2025 at 03:37:35PM +0100, Dave Martin wrote:
-> > Hi Tony,
-> > 
-> > On Mon, Oct 20, 2025 at 09:31:18AM -0700, Luck, Tony wrote:
-
-[...]
-
-> > > Changes to the schemata file are currently "staged" and then applied.
-> > > There's some filesystem level error/sanity checking during the parsing
-> > > phase, but maybe for MB some parts can also be delayed, and re-ordered
-> > > when architecture code applies the changes.
-> > > 
-> > > E.g. while filesystem code could check min <= opt <= max. Architecture
-> > > code would be responsible to write the values to h/w in a sane manner
-> > > (assuming architecture cares about transient effects when things don't
-> > > conform to the ordering).
-> > > 
-> > > E.g. User requests moving from min,opt,max = 10,20,30 to 40,50,60
-> > > Regardless of the order those requests appeared in the write(2) syscall
-> > > architecture bumps max to 60, then opt to 50, and finally min to 40.
-> > 
-> > This could be sorted indeed be sorted out during staging, but I'm not
-> > sure that we can/should rely on it.
-> > 
-> > If we treat the data coming from a single write() as a transaction, and
-> > stage the whole thing before executing it, that's fine.  But I think
-> > this has to be viewed as an optimisation rather than guaranteed
-> > semantics.
-> > 
-> > 
-> > We told userspace that schemata is an S_IFREG regular file, so we have
-> > to accept a write() boundary anywhere in the stream.
-> > 
-> > (In fact, resctrl chokes if a write boundary occurs in the middle of a
-> > line.  In practice, stdio buffering and similar means that this issue
-> > turns out to be difficult to hit, except with shell scripts that try to
-> > emit a line piecemeal -- I have a partial fix for that knocking around,
-> > but this throws up other problems, so I gave up for the time being.)
+> Create module parameter reserved_host_counters to reserve a number of
+> counters for the host. This number is set at boot because the perf
+> subsystem assumes the number of counters will not change after the PMU
+> is probed.
 > 
-> Is this worth the pain and complexity? Maybe just document the reality
-> of the implementation since day 1 of resctrl that each write(2) must
-> contain one or more lines, each terminated with "\n".
-
-<soapbox>
-
-We could, in the same way that a vendor could wire a UART directly to
-the pins of a regular mains power plug.  They could stick a big label
-on it saying exactly how the pins should be hooked up to another low-
-voltage UART and not plugged into a mains power outlet... but you know
-what's going to happen.
-
-The whole point of a file-like interface is that the user doesn't (or
-shouldn't) have to craft I/O directly at the syscall level.  If they
-have to do that, then the reasons for not relying on ioctl() or a
-binary protocol melt away (like that UART).
-
-Because the easy, unsafe way of working with these files almost always
-works, people are almost certainly going to use it, even if we tell
-them not to (IMHO).
-
-</soapbox>
-
-
-That said, for practical purposes, the interface is reliable enough
-(for now).  We probably shouldn't mess with it unless we can come up
-with something that is clearly better.
-
-(I have some ideas, but I think it's off-topic, here.)
-
-> There are already so many ways that the schemata file does not behave
-> like a regular S_IFREG file. E.g. accepting a write to just update
-> one domain in a resource: # echo L3:2=0xff > schemata
-
-That still feels basically file-like.  I can write something into a
-file, then something else can read what I wrote, interpret it in any
-way it likes, and write back something different for me to read.
-
-In our case, it is as if after each write() the kernel magically reads
-and rewrites the file before userspace gets a chance to do anything
-else.  This doesn't work as a protocol between userspace processes, but
-the kernel can pull tricks that are not available to userspace -- so it
-can be made to work for user <-> kernel protocols (modulo the issues
-about write() boundaries etc.)
-
-> So describe schemata in terms of writing "update commands" rather
-> than "Lines"?
-
-That's reasonable.  In practice, each line written is a request to the
-kernel to do something, but it's already the case that the kernel
-doesn't necessarily do exactly what was asked for (due to rounding,
-etc.)
-
-
-Overall, I think the current state of play is that we need to consider
-the lines to be independent "commands", and execute them in the order
-given.
-
-That's the model I've been assuming here.
-
-
-> > We also cannot currently rely on userspace closing the fd between
-> > "transactions".  We never told userspace to do that, previously.  We
-> > could make a new requirement, but it feels unexpected/unreasonable (?)
-> > 
-> > > > 
-> > > > "So, from now on, only write the things that you actually want to set."
-> > > > 
-> > > > Does that sound about right?
-> > > 
-> > > Users might still use their favorite editor on the schemata file and
-> > > so write everything, while only changing a subset. So if we don't go
-> > > for the full two-phase update I describe above this would be:
-> > > 
-> > >   "only *change* the things that you actually want to set".
+> Introduce the function armv8pmu_partition() to modify the PMU driver's
+> cntr_mask of available counters to exclude the counters being reserved
+> for the guest and record reserved_guest_counters as the maximum
+> allowable value for HPMN.
 > 
-> I misremembered where the check for "did the user change the value"
-> happened. I thought it was during parsing, but it is actually in
-> resctrl_arch_update_domains() after all input parsing is complete
-> and resctrl is applying changes. So unless we change things to work
-> the way I hallucinated, then ordering does matter the way you
-> described.
-
-Ah, right.
-
-There would be different ways to do this, but yes, that was my
-understanding of how things work today.
-
-> > 
-> > [...]
-> > 
-> > > -Tony
-> > 
-> > This works if the schemata file is output in the right order (and the
-> > user doesn't change the order):
-> > 
-> > # cat schemata
-> > MB:0=100;1=100
-> > # MB_HW:0=1024;1=1024
-> > 
-> > ->
-> > 
-> > # cat <<EOF >schemata
-> > MB:0=100;1=100
-> > MB_HW:0=512,1=512
-> > EOF
-> > 
-> > ... though it may still be inefficient, if the lines are not staged
-> > together.  The hardware memory bandwidth controls may get programmed
-> > twice, here -- though the final result is probably what was intended.
-> > 
-> > I'd still prefer that we tell people that they should be doing this:
-> > # cat <<EOF >schemata
-> > MB_HW:0=512,1=512
-> > EOF
-> > 
-> > ...if they are really tyring to set MB_HW and don't care about the
-> > effect on MB?
+> Due to the difficulty this feature would create for the driver running
+> in nVHE mode, partitioning is only allowed in VHE mode. In order to
+> support a partitioned on nVHE we'd need to explicitly disable guest
+> counters on every exit and reset HPMN to place all counters in the
+> first range.
 > 
-> I'm starting to worry about this co-existence of old/new syntax for
-> Intel region aware. Life seems simple if there is only one MB_HW
-> connected to the legacy "MB". Updates to either will make both
-> appear with new values when the schemata is read. E.g.
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>   arch/arm/include/asm/arm_pmuv3.h   | 14 ++++++
+>   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
+>   arch/arm64/include/asm/kvm_pmu.h   |  6 +++
+>   arch/arm64/kvm/Makefile            |  2 +-
+>   arch/arm64/kvm/pmu-direct.c        | 22 +++++++++
+>   drivers/perf/arm_pmuv3.c           | 74 +++++++++++++++++++++++++++++-
+>   include/linux/perf/arm_pmu.h       |  1 +
+>   7 files changed, 121 insertions(+), 3 deletions(-)
+>   create mode 100644 arch/arm64/kvm/pmu-direct.c
 > 
-> # cat schemata
-> MB:0=100
-> #MB_HW=255
-> 
-> # echo MB:0=50 > schemata
-> 
-> # cat schemata
-> MB:0=50
-> #MB_HW=127
-> 
-> But Intel will have several MB_HW controls, one for each region.
-> [Schemata names TBD, but I'll just call them 0, 1, 2, 3 here]
-> 
-> # cat schemata
-> MB:0=100
-> #MB_HW0=255
-> #MB_HW1=255
-> #MB_HW2=255
-> #MB_HW3=255
-> 
-> If the user sets just one of the HW controls:
-> 
-> # echo MB_HW1=64
-> 
-> what should resctrl display for the legacy "MB:" line?
->
-> -Tony
+> diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
+> index 2ec0e5e83fc9..49b1f2d7842d 100644
+> --- a/arch/arm/include/asm/arm_pmuv3.h
+> +++ b/arch/arm/include/asm/arm_pmuv3.h
+> @@ -221,6 +221,10 @@ static inline bool kvm_pmu_counter_deferred(struct perf_event_attr *attr)
+>   	return false;
+>   }
+>   
+> +static inline bool kvm_pmu_partition_supported(void)
+> +{
+> +	return false;
+> +}
+>   static inline bool kvm_set_pmuserenr(u64 val)
+>   {
+>   	return false;
+> @@ -228,6 +232,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
+>   
+>   static inline void kvm_vcpu_pmu_resync_el0(void) {}
+>   
+> +static inline bool has_vhe(void)
+> +{
+> +	return false;
+> +}
+> +
+>   /* PMU Version in DFR Register */
+>   #define ARMV8_PMU_DFR_VER_NI        0
+>   #define ARMV8_PMU_DFR_VER_V3P1      0x4
+> @@ -242,6 +251,11 @@ static inline bool pmuv3_implemented(int pmuver)
+>   		 pmuver == ARMV8_PMU_DFR_VER_NI);
+>   }
+>   
+> +static inline bool is_pmuv3p1(int pmuver)
+> +{
+> +	return pmuver >= ARMV8_PMU_DFR_VER_V3P1;
+> +}
+> +
+>   static inline bool is_pmuv3p4(int pmuver)
+>   {
+>   	return pmuver >= ARMV8_PMU_DFR_VER_V3P4;
+> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
+> index cf2b2212e00a..27c4d6d47da3 100644
+> --- a/arch/arm64/include/asm/arm_pmuv3.h
+> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+> @@ -171,6 +171,11 @@ static inline bool pmuv3_implemented(int pmuver)
+>   		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
+>   }
+>   
+> +static inline bool is_pmuv3p1(int pmuver)
+> +{
+> +	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P1;
+> +}
+> +
+>   static inline bool is_pmuv3p4(int pmuver)
+>   {
+>   	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
+> diff --git a/arch/arm64/include/asm/kvm_pmu.h b/arch/arm64/include/asm/kvm_pmu.h
+> index 6c961e877804..8a2ed02e157d 100644
+> --- a/arch/arm64/include/asm/kvm_pmu.h
+> +++ b/arch/arm64/include/asm/kvm_pmu.h
+> @@ -46,6 +46,7 @@ struct arm_pmu_entry {
+>   };
+>   
+>   bool kvm_supports_guest_pmuv3(void);
+> +bool kvm_pmu_partition_supported(void);
+>   #define kvm_arm_pmu_irq_initialized(v)	((v)->arch.pmu.irq_num >= VGIC_NR_SGIS)
+>   u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu, u64 select_idx);
+>   void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu, u64 select_idx, u64 val);
+> @@ -115,6 +116,11 @@ static inline bool kvm_supports_guest_pmuv3(void)
+>   	return false;
+>   }
+>   
+> +static inline bool kvm_pmu_partition_supported(void)
+> +{
+> +	return false;
+> +}
+> +
+>   #define kvm_arm_pmu_irq_initialized(v)	(false)
+>   static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
+>   					    u64 select_idx)
+> diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
+> index 86035b311269..7ce842217575 100644
+> --- a/arch/arm64/kvm/Makefile
+> +++ b/arch/arm64/kvm/Makefile
+> @@ -23,7 +23,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o pvtime.o \
+>   	 vgic/vgic-mmio-v3.o vgic/vgic-kvm-device.o \
+>   	 vgic/vgic-its.o vgic/vgic-debug.o vgic/vgic-v3-nested.o
+>   
+> -kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu.o
+> +kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu-direct.o pmu.o
+>   kvm-$(CONFIG_ARM64_PTR_AUTH)  += pauth.o
+>   kvm-$(CONFIG_PTDUMP_STAGE2_DEBUGFS) += ptdump.o
+>   
+> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+> new file mode 100644
+> index 000000000000..9423d6f65059
+> --- /dev/null
+> +++ b/arch/arm64/kvm/pmu-direct.c
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2025 Google LLC
+> + * Author: Colton Lewis <coltonlewis@google.com>
+> + */
+> +
+> +#include <linux/kvm_host.h>
+> +
+> +#include <asm/kvm_pmu.h>
+> +
+> +/**
+> + * kvm_pmu_partition_supported() - Determine if partitioning is possible
+> + *
+> + * Partitioning is only supported in VHE mode (with PMUv3, assumed
+> + * since we are in the PMUv3 driver)
+> + *
+> + * Return: True if partitioning is possible, false otherwise
+> + */
+> +bool kvm_pmu_partition_supported(void)
+> +{
+> +	return has_vhe();
+> +}
+> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+> index c2e3672e1228..294ccbdc3816 100644
+> --- a/drivers/perf/arm_pmuv3.c
+> +++ b/drivers/perf/arm_pmuv3.c
+> @@ -40,6 +40,12 @@
+>   #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_ACCESS		0xEC
+>   #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_MISS		0xED
+>   
+> +static int reserved_host_counters __read_mostly = -1;
+> +
+> +module_param(reserved_host_counters, int, 0);
+> +MODULE_PARM_DESC(reserved_host_counters,
+> +		 "PMU Partition: -1 = No partition; +N = Reserve N counters for the host");
+> +
+>   /*
+>    * ARMv8 Architectural defined events, not all of these may
+>    * be supported on any given implementation. Unsupported events will
+> @@ -505,6 +511,11 @@ static void armv8pmu_pmcr_write(u64 val)
+>   	write_pmcr(val);
+>   }
+>   
+> +static u64 armv8pmu_pmcr_n_read(void)
+> +{
+> +	return FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
+> +}
+> +
+>   static int armv8pmu_has_overflowed(u64 pmovsr)
+>   {
+>   	return !!(pmovsr & ARMV8_PMU_OVERFLOWED_MASK);
+> @@ -1200,6 +1211,58 @@ struct armv8pmu_probe_info {
+>   	bool present;
+>   };
+>   
+> +/**
+> + * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
+> + * @host_counters: Number of host counters to reserve
+> + *
+> + * Determine if the number of host counters in the argument is an
+> + * allowed reservation, 0 to NR_COUNTERS inclusive.
+> + *
+> + * Return: True if reservation allowed, false otherwise
+> + */
+> +static bool armv8pmu_reservation_is_valid(int host_counters)
+> +{
+> +	return host_counters >= 0 &&
+> +		host_counters <= armv8pmu_pmcr_n_read();
+> +}
+> +
+> +/**
+> + * armv8pmu_partition() - Partition the PMU
+> + * @pmu: Pointer to pmu being partitioned
+> + * @host_counters: Number of host counters to reserve
+> + *
+> + * Partition the given PMU by taking a number of host counters to
+> + * reserve and, if it is a valid reservation, recording the
+> + * corresponding HPMN value in the hpmn_max field of the PMU and
+> + * clearing the guest-reserved counters from the counter mask.
+> + *
+> + * Return: 0 on success, -ERROR otherwise
+> + */
+> +static int armv8pmu_partition(struct arm_pmu *pmu, int host_counters)
+> +{
+> +	u8 nr_counters;
+> +	u8 hpmn;
+> +
+> +	if (!armv8pmu_reservation_is_valid(host_counters))
+> +		return -EINVAL;
+> +
+> +	nr_counters = armv8pmu_pmcr_n_read();
+> +	hpmn = nr_counters - host_counters;
+> +
+> +	pmu->hpmn_max = hpmn;
+> +
+> +	bitmap_clear(pmu->cntr_mask, 0, hpmn);
+> +	bitmap_set(pmu->cntr_mask, hpmn, host_counters);
+> +	clear_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
+> +
+> +	if (pmuv3_has_icntr())
+> +		clear_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
+> +
+> +	pr_info("Partitioned PMU with HPMN %u", hpmn);
+> +
+> +	return 0;
+> +}
+> +
+>   static void __armv8pmu_probe_pmu(void *info)
+>   {
+>   	struct armv8pmu_probe_info *probe = info;
+> @@ -1214,10 +1277,10 @@ static void __armv8pmu_probe_pmu(void *info)
+>   
+>   	cpu_pmu->pmuver = pmuver;
+>   	probe->present = true;
+> +	cpu_pmu->hpmn_max = -1;
+>   
+>   	/* Read the nb of CNTx counters supported from PMNC */
+> -	bitmap_set(cpu_pmu->cntr_mask,
+> -		   0, FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read()));
+> +	bitmap_set(cpu_pmu->cntr_mask, 0, armv8pmu_pmcr_n_read());
+>   
+>   	/* Add the CPU cycles counter */
+>   	set_bit(ARMV8_PMU_CYCLE_IDX, cpu_pmu->cntr_mask);
+> @@ -1226,6 +1289,13 @@ static void __armv8pmu_probe_pmu(void *info)
+>   	if (pmuv3_has_icntr())
+>   		set_bit(ARMV8_PMU_INSTR_IDX, cpu_pmu->cntr_mask);
+>   
+> +	if (reserved_host_counters >= 0) {
+> +		if (kvm_pmu_partition_supported())
+> +			WARN_ON(armv8pmu_partition(cpu_pmu, reserved_host_counters));
 
-Erm, good question.  I hadn't though too carefully about the region-
-aware case.
+Does this really warrant a WARN_ON ? Given we
 
-I think it's reasonable to expect software that writes MB_HW<n>
-independently to pay attention only to these specific schemata when
-reading back -- a bit like accessing a C union.
+1. This can be easily triggered by a user (e.g. with modprobe)
+2. We gracefully handle it and init to a safe setting.
 
-# echo 'MB:0=100' >schemata
-# cat schemata
-->
-	MB:0=100
-	# MB_HW:0=255
-	# MB_HW0:0=255
-	# MB_HW1:0=255
-	# MB_HW2:0=255
-	# MB_HW3:0=255
+A pr_warn is sufficient ?
 
-# echo 'MB:0=100' >schemata
-# cat schemata
-->
-	MB:0=50
-	# MB_HW:0=128
-	# MB_HW0:0=128
-	# MB_HW1:0=128
-	# MB_HW2:0=128
-	# MB_HW3:0=128
+Otherwise looks good to me.
 
-# echo 'MB_HW:0=127' >schemata
-# cat schemata
-->
-	MB:0=50
-	# MB_HW:0=127
-	# MB_HW0:0=127
-	# MB_HW1:0=127
-	# MB_HW2:0=127
-	# MB_HW3:0=127
+Suzuki
 
-# echo 'MB_HW1:0=64' >schemata
-# cat schemata
-->
-	MB:0=???
-	# MB_HW:0=???
-	# MB_HW0:0=127
-	# MB_HW1:0=64
-	# MB_HW2:0=127
-	# MB_HW3:0=127
-
-The rules for populating the ??? entries could be designed to be
-somewhat intuitive, or we could just do the easiest thing.
-
-So, could we just pick one, fixed, region to read the MB_HW value from?
-Say, MB_HW0:
-
-	MB:0=50
-	# MB_HW:0=127
-	# MB_HW0:0=127
-	# MB_HW1:0=64
-	# MB_HW2:0=127
-	# MB_HW3:0=127
-
-Or take the average across all regions:
-
-	MB:0=44
-	# MB_HW:0=111
-	# MB_HW0:0=127
-	# MB_HW1:0=64
-	# MB_HW2:0=127
-	# MB_HW3:0=127
-
-The latter may be more costly or complex to implement, and I don't
-know whether it is really useful.  Software that knows about the
-MB_HW<n> entries also knows that once you have looked at these, MB_HW
-and MB tell you nothing else.
-
-What do you think?
-
-I'm wondering whether setting the MB_HW<n> independently may be quite a
-specialised use case, which not everyone will want/need to do, but
-that's an assumption on my part.
-
-Cheers
----Dave
