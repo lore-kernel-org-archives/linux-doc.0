@@ -1,114 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD722FFFA4;
-	Wed, 22 Oct 2025 08:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D8F3043AD
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 08:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761120363; cv=none; b=HM3aJJRIkG7eQcTciyo5QFbJ6FqxQAbrp9svVChqqIsqUtZOLKNN3cah0wczp4NYBCVuiaEx61bjD+wGqSn67ixCdXmh745XtyFzPCN84et8fAM/D5Y72nDOlQPgNVMAnKdbzKwaOhvJaqz3qTqtNrMTowAFQm2Jh5Qd1mkNeZs=
+	t=1761120398; cv=none; b=SbklDoz1jltagW1KNe2b7+z3PBYCf4rCcUAj0BsSjkVGpBgINiBRSEIUuzjjElsn9tGE7H+7uvzgaogApx+UB3W21QwAK8v7nxKjVK3Cp5XdY1f6fyi8fyCNHHzlO0abEY4FpdSQjg1ieH5a2U8tDBVp4w0nI9OF3UKcINtCAp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761120363; c=relaxed/simple;
-	bh=sEGPFxVuNAAvcbxq9cmERi5JemJMBcOvQ+wey3400IM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pZhEbrIrJvGQa9tYbrSbGyrG7OmYiX1xo57oMINicNOyDEbvHoBRAblXSpFK5R7tGYyL7QtReB9K2Vkneo7lcvik38KAYOaZGo1MeVseqCQ1howXn4k6HFQyyJiUh2szpQaLNshHCsdG4YLiuPcOYNGc5U7Of9WlxDiUIvKtLB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFfAo+E7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761120398; c=relaxed/simple;
+	bh=eyBdO2wWOgqsPzs2lpBJ9/L31r8e4dCSgvgCYmxIx6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QF+eOX2Te49NTbhe+bUrxh15xCcrcw9zz0TBaOpYtLc0We1fbTwgyZMMzbtK6XysROmX3TQb2h77OuMx1irwc0Q+V1gINak2RkyVgELGfpMr/8min4OlvPdc6siiFMTdfFEgWY6fSSIFThBTeoH8p33iZFcNEBThl+KNRZ2jTTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUx/AVC/; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFfAo+E7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14654C4CEE7;
-	Wed, 22 Oct 2025 08:06:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761120363;
-	bh=sEGPFxVuNAAvcbxq9cmERi5JemJMBcOvQ+wey3400IM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kFfAo+E7F7mRth6Qp6bcZHzRhYDaHJ1asp5cb2jSUky6GXKe0h26lajT6YkeNahBh
-	 iXitqeoJRyGNUi+OA3B4bit9M/7fzpupAY++s7JK+zw4LXxY/APb3lHefJZ1s+SMnp
-	 VHdDht+/dvp/u1UtDeLPn03qXOBFiFyoU8zNxwCiHt2gQN6XT2oBqX6xOD+JTQ9kY8
-	 igU7gVk1bf16OLvFepxZ3rIjn+PgMQUsQ7bvlHeGLfsk5tY+AYQ88RPaELTWDJdaWz
-	 nJvs17nvzrUjd6a6FRUv8JyFl34omRMviDlT8KrrF5cDW0WtncjJ1nOO2sq234EeQK
-	 tDHIsEttYFU0w==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vBTr6-0000000G6ap-1UvE;
-	Wed, 22 Oct 2025 08:06:00 +0000
-Date: Wed, 22 Oct 2025 09:05:59 +0100
-Message-ID: <867bwnwec8.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Liao, Chang" <liaochang1@huawei.com>
-Cc: <corbet@lwn.net>,
-	<catalin.marinas@arm.com>,
-	<will@kernel.org>,
-	<akpm@linux-foundation.org>,
-	<paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>,
-	<mingo@kernel.org>,
-	<bp@alien8.de>,
-	<kees@kernel.org>,
-	<arnd@arndb.de>,
-	<fvdl@google.com>,
-	<broonie@kernel.org>,
-	<oliver.upton@linux.dev>,
-	<yeoreum.yun@arm.com>,
-	<james.morse@arm.com>,
-	<ardb@kernel.org>,
-	<hardevsinh.palaniya@siliconsignals.io>,
-	<linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses to IMPDEF regs
-In-Reply-To: <a3663aaf-14c9-4601-90e2-49650af90d7a@huawei.com>
-References: <20251021115428.557084-1-liaochang1@huawei.com>
-	<86ecqwwig3.wl-maz@kernel.org>
-	<a3663aaf-14c9-4601-90e2-49650af90d7a@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUx/AVC/"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-63e0cec110eso2195724a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 01:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761120394; x=1761725194; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=toHlnWQqNYbfD0u6quHogsDi3+miz5wiSuRT4/A88gI=;
+        b=aUx/AVC/VZbpE2oN97dtsPHXthi3yMi5uzy00pyB+I/2aKpB1pOF2pRPdY6cZntp6p
+         +DxMKa9u/iHSxDOYlybze4ivOTbEBXwIlPobhtH9vR+ofclCSVUnFdLZ2x75oKao2T6F
+         BzGLltxDdG1BTWxSKuNX4gqbmqd/hSjjIIFVs0n0Ch4mlkoUiC6dBoLKKuDIBPDKTFUi
+         kFk5uj7UUBrRa5xQZqggiEu3sdLoHgwuGvH/67ISB2+jrRmwVgOB6jqYyuXpupwhrpaf
+         63/jcsA3jGWujqwOZrdyACWvjfRvauXk4GbFXeQNuFeYqpEhKr8/+iUckaeissAGe+rY
+         jSBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761120394; x=1761725194;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=toHlnWQqNYbfD0u6quHogsDi3+miz5wiSuRT4/A88gI=;
+        b=M/0FlyJoTxe7uzLfczBmk+T/Sbye+3h6EtsSwPSAPwZbU/+YOfrYShNSHZzIUOF7ua
+         8pvz0sPCBMs564SMvaDyLBFTtkGpkn/KyLunxLHugmRGjfdY77Vx96g3kWjmzsKMD9gf
+         RKdvsfLNfzzEpQKDTgmHsuOp8CPsjjgu66YM1RYWW89K+w4JoqN+dIM5nGKAoazcwxSq
+         IcllOClNZzLzvwzXo4whG0msZ3gmuxjxVPxNgBlqJlNgbDhhh43vpphM8ZHCSZRxhj4q
+         xIui+rwJf02sjU8C6tAWERpAGNuYppmMCnbxfqEE8XEBGUWJGmMcXT6i7InOph9l+e6B
+         X+0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUjcLihe6GcxxchIltPx0p0/OjSZaxqgg27e2zqmyVYXP7lu3BH9jEsH+U3CnSt6WxYnWHcS4PYG/I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv7XjMeP8y1uJ3RtHccs440s+dgF8+HeVqvLGedFc6SBYoidP0
+	IBxaaDfuyZyD8gLNKAfp5EY4ZZh+3qQfIZG7A8WDWMz6YKYp9l7mxcI1
+X-Gm-Gg: ASbGnctnzwGC9+Hy20Wd30FmKaqXpIdiiYoabZejkumiSKmLxLS+BVTqvta2gIturE+
+	LPOWa78n7K70bSuSB9C+gITJtuOvUOkpBXjKZhRlVB0pW8BjQdIHQZqOSblDDKajnsgczy4KQ4j
+	Vlr3M/QzJUqN6x/hpdWQcwD2mH+1QP+ewCmyXEUersT3dTU7EV9/845MPFGSsOyT71TPb1zFmVM
+	5lfcsSs6WbiNzv9PVJYlFs9UwZzjmz8807dSapbjTaBD2AntN69KOv/eknpqqNh84qUoikwPHlB
+	wMcBb2U+bqfW8dRyffBNhkCXF4dJMKt2SAW+QqaI5kGPZGLMexnPzWNdmFi6pCN+bKHdNPzCmeG
+	dTurHs0fh9QgjOgIOZ90rjXfS4sWrOTcwcDLnyDFneoV3buXYYPPqj/QL7q7VpZ9OWGEX8Tgrag
+	Zs
+X-Google-Smtp-Source: AGHT+IFKMamBOdEkXZztW4+a96FX3cVQPwKK7mU8xvsOl5ZRh1X2aHXQdNoBVmqwPChAhbEjv7M9Xg==
+X-Received: by 2002:a05:6402:2791:b0:63e:23c0:c33e with SMTP id 4fb4d7f45d1cf-63e23c0c43amr1116868a12.27.1761120394218;
+        Wed, 22 Oct 2025 01:06:34 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-63c4945ef49sm11192106a12.29.2025.10.22.01.06.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 01:06:33 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: bagasdotme@gmail.com
+Cc: akpm@linux-foundation.org,
+	andy.shevchenko@gmail.com,
+	arnd@arndb.de,
+	axboe@kernel.dk,
+	bp@alien8.de,
+	brauner@kernel.org,
+	christophe.leroy@csgroup.eu,
+	cyphar@cyphar.com,
+	ddiss@suse.de,
+	dyoung@redhat.com,
+	email2tema@gmail.com,
+	graf@amazon.com,
+	gregkh@linuxfoundation.org,
+	hca@linux.ibm.com,
+	hch@lst.de,
+	hsiangkao@linux.alibaba.com,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	jrtc27@jrtc27.com,
+	julian.stecklina@cyberus-technology.de,
+	kees@kernel.org,
+	krzk@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mcgrof@kernel.org,
+	monstr@monstr.eu,
+	mzxreary@0pointer.de,
+	nschichan@freebox.fr,
+	patches@lists.linux.dev,
+	rob@landley.net,
+	safinaskar@gmail.com,
+	thomas.weissschuh@linutronix.de,
+	thorsten.blum@linux.dev,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v3 2/3] initrd: remove deprecated code path (linuxrc)
+Date: Wed, 22 Oct 2025 11:06:25 +0300
+Message-ID: <20251022080626.24446-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aPg-YF2pcyI-HusN@archie.me>
+References: <aPg-YF2pcyI-HusN@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: liaochang1@huawei.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, mingo@kernel.org, bp@alien8.de, kees@kernel.org, arnd@arndb.de, fvdl@google.com, broonie@kernel.org, oliver.upton@linux.dev, yeoreum.yun@arm.com, james.morse@arm.com, ardb@kernel.org, hardevsinh.palaniya@siliconsignals.io, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Oct 2025 02:35:02 +0100,
-"Liao, Chang" <liaochang1@huawei.com> wrote:
->=20
-> =E5=9C=A8 2025/10/21 20:25, Marc Zyngier =E5=86=99=E9=81=93:
-> > On Tue, 21 Oct 2025 12:54:28 +0100,
-> > Liao Chang <liaochang1@huawei.com> wrote:
-> >>
-> >> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
-> >> regregisters and instructions without trapping to EL1/EL2. Since trap
-> >> overhead will compromises benefits, and it's even worse in
-> >> virtualization on CPU where certain IMPDEF registers and instructions
-> >> are designed for EL0 performance use.
-> >=20
-> > Since you mention virtualisation, I want to be clear: there is no way
-> > I will consider anything like this for KVM. KVM will always trap and
-> > UNDEF such register accesses, no matter where they come from (EL0 or
-> > EL1).
-> >=20
-> > Allowing such registers to be accessed from within a guest would make
-> > it impossible to context-switch or save/restore the guest correctly.
->=20
-> You've got that right, it seems like both the guest and the host would
-> need to save and restore those IMDDEF registers with the VM or task
-> context.The only exception would be if the registers aren't for saving
-> state or configuration, but instead just act as an interface to trigger
-> a special CPU function, such as ICC_IAR1.
+Bagas Sanjaya <bagasdotme@gmail.com>:
+> Do you mean that initrd support will be removed in LTS kernel release of 2026?
 
-Funny that you mention the IAR register. Because contrary to what you
-seem to indicate, IAR does impact state outside of simply acknowledging
-an interrupt. What do you think happens to PMR, APRs, and so on?
+I meant September 2026. But okay, if there is v4, then I will change this to
+"after LTS release in the end of 2026".
 
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
+-- 
+Askar Safin
