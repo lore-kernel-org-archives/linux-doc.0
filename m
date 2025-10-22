@@ -1,102 +1,72 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4582D5A0C;
-	Wed, 22 Oct 2025 10:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107E326D55
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 10:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761130406; cv=none; b=rF/bNsEWEO1BUDRzN3oBsonghq78fvg4idqzmPwdGFA5Y178sr9J1Oi1t2TYAt2M0jkQSqn0kdgvgLpf8i7OAD32e87Q4aI1U6EX4DG8c9x9p9T+GB8nR5pPDfa8bTS4mN+mssN2EdpUf8kDaNFCAsFk9VD4GNCPbDW30Isu4Oc=
+	t=1761130458; cv=none; b=CEeQFgluDrnNmJhjTKhntOPCa17xuApkkdEfUm04r7oC5swOMhe9UXnCqzMwK53VW+Ft3PQ5vrTyOvCwGhvPO5OV1qw3Q7fqGMdLI9PM8moPcuXMF1fGb0qitHsd8ZfNuTFqeYKiSmNeKXb61AqMgOI0L42Hz4T0uS4Gx8WS8Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761130406; c=relaxed/simple;
-	bh=wa9y6VC6nk+UaFLQfO+kcz1XNqHz+k0Uix1DKdIowCk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fgWmpOXFZHhe1yy/gDWcVAvW0J3hhBJfzGEa+DGucDtLsI0ZNXU5kbDNEHRG/koYi6yah/rwwdwbA+4JuWEJwCOcKDZ0mNzxMU0sQMQ2DFjVnNN9ZPaPg8+qrOKJUXCyGKnrlRizMMuaIUKgiYDvXjdMBK8cvfAkEikiA5evBjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YYjqdxr0; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1761130458; c=relaxed/simple;
+	bh=d7jUkFL1eJWTEq7eHvG14dm7yQK74ertjYj/FEO1lbw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P0xl0MgMym3WLIevJl/+bpZpD3k0J0YmwWa/ShEN46Jmuox3AMjSH+eHS3rt2qvyxq74bP3C2DnhNb1BZEEFUS7ur8ONn3+zobNCn7ZVQiW0bccBfImzH05LHKzOXbouAb4b1x61JDDN2uXswY6NgVFzFeTBCw12QAJrGGr1Bqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UwUQ8MOv; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YYjqdxr0"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8093B40E021B;
-	Wed, 22 Oct 2025 10:53:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id UucJL8v8e33A; Wed, 22 Oct 2025 10:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1761130396; bh=tCEcUCjHKCWYK1KKFqmFTHqeTyI6CWgRfbOF0mFOCRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YYjqdxr0iJWnmBGWsR289Yr46Ha/4xxosopgB1DtB+anVpBZmGJpo0+LwXYMN5IxJ
-	 AryrzlrJjYuK27UEMFJmd8/WrEvrm0h3DEPNBpq4y8rsVvdzYP+Yw08rqgczR7CEuz
-	 ncnU0Xt/3QVtBXCJZzMNju1a/CW3izjiHbpGNTj3dfRpyrehVACrvkK0RVsbjdvmhi
-	 jmrX//NTjBB8AjJdYesDYcbFwbVSiHxZ1jbnKI2j5X/pDDYt7kl0eNmjQAiOZAbIKr
-	 5fo8/wtfyvxSE4f8s5+6iXDprREY+3BtSUt594uNddfuk3n0cCVsip1pVKyNvcAG5X
-	 WEsTX67vOTcbDEwS0G5Ck3UTL4Bo3lPiWohPgq6SPVRLlN2MkDZnCaC+biVWPsxyK2
-	 CfZ2TTuNhnaTTmmnOBKIHRTulYZ85cDjezkv2fyWOr1lmjztW4qnxt85l7wROADKAf
-	 sjpErQjdLwZJ+fF7p3ziO2G+iTrs3CTT+DlLk8ictJe78x+dTdhhkrXHY+Y5cwbkZN
-	 ko4VEZEISFW8U+8ExZyH4ECjiOH/nulbCZ/AYSynBAia6PcQGm4dwb4MqW2+vLEXjP
-	 4BB3tA3dOZ+aK0nmaTzBAYteBQCo+yQnjdUQYnclNQtbHyjkapMuvuaSeXR9AgvA9/
-	 P9TkY7gWgcJT/b0wzE7ZBPc8=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C26E240E0200;
-	Wed, 22 Oct 2025 10:52:48 +0000 (UTC)
-Date: Wed, 22 Oct 2025 12:52:42 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20251022105242.GCaPi3eps1PdAWEXOh@fat_crate.local>
-References: <20251007065119.148605-1-sohil.mehta@intel.com>
- <20251007065119.148605-4-sohil.mehta@intel.com>
- <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
- <20251022082541.GL4067720@noisy.programming.kicks-ass.net>
- <20251022094019.GAaPimg3VCgRu6eELd@fat_crate.local>
- <20251022102253.GW3419281@noisy.programming.kicks-ass.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UwUQ8MOv"
+Message-ID: <ef93f062-cee9-46db-ac1e-126257b9cb0c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1761130454;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7r/FSaphUOIgXSDh2hBB3Nz8pJSiLq/cQZ/SimISKqQ=;
+	b=UwUQ8MOv3EbzUvyzYjKh1grzQ9IOXP7RfMcFvIC3nxx1mSx2srYa6xrSpjsMGpr8ADwr3n
+	gNZbHDTLs6gNq/VVv8KPDAdvEWzQFj/5ySD1olqZX3mk5j6JST/RT3wa4SFlTJRM6webYk
+	l+0NdbFqDJ7gYm7xamcIrENXTemo394=
+Date: Wed, 22 Oct 2025 11:54:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251022102253.GW3419281@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH net-next v15 3/5] net: rnpgbe: Add basic mbx ops support
+To: Dong Yibo <dong100@mucse.com>, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ andrew+netdev@lunn.ch, danishanwar@ti.com, geert+renesas@glider.be,
+ mpe@ellerman.id.au, lorenzo@kernel.org, lukas.bulwahn@redhat.com
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251022081351.99446-1-dong100@mucse.com>
+ <20251022081351.99446-4-dong100@mucse.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20251022081351.99446-4-dong100@mucse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 22, 2025 at 12:22:53PM +0200, Peter Zijlstra wrote:
-> I'm thinking that machines without LASS don't need the clac/stac in
-> these places. And when reading the asm, the FEATURE_LASS is a clue.
-
-Yeah, makes sense. The second alternative with LASS sounds like the optimal
-thing.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+On 22/10/2025 09:13, Dong Yibo wrote:
+> Add fundamental mailbox (MBX) communication operations between PF
+> (Physical Function) and firmware for n500/n210 chips
+> 
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>   drivers/net/ethernet/mucse/rnpgbe/Makefile    |   4 +-
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  17 +
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  70 +++
+>   drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   7 +
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |   5 +
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 405 ++++++++++++++++++
+>   .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  20 +
+>   7 files changed, 527 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+>   create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> 
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
