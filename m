@@ -1,44 +1,72 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06116313272;
-	Wed, 22 Oct 2025 09:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9B8295DB8
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 09:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761125160; cv=none; b=pe1QHUjdrGfr+aKMlJHZ8CtW1weEI7PXmRGuXdtjHOWIHEpmk0iWpM/Ui5Oieh7xOxC/bfeaQHkr6xQzv+NU0NaLaqAnVxPn3tlsDhT+3fE3eYbkNS2wlCX+81qWoWcjUupa6ihhPKGD3fZvJNYEWQ/U1wukzUv2+ni1XOuTMz0=
+	t=1761125954; cv=none; b=ALxk/5K+oKDqGAZn0UCtLfyynky36Xl7xDmHpV16kKjozyDlT22Ei2MZg9s3sNQojaCx8fRetX859pJpjufbgrniJ+xZiXEUhUlK4z16xKLcOlFUOqhvJ7OtA+tQJhDrS34pfqQdWqADvxNXPyovR9ZKKEdfPNkE1hRz6PAoU9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761125160; c=relaxed/simple;
-	bh=cpxkDaWD9t5lF3decGWZ8c57zEYskBH/2P5TRepaQlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NWZ/tWurSEb7J9tWarxt1Erkply9+3kr0SBJIaP7EI7vTgLCm+MgZgIhMO7yTY0YP5nGIBexPdne0/Vnp0UGIW8pQ0lV/M7iQDJg7GInkny2tRmSh/XjStMCM00AO6QkFb+ZvPzKMdxof0jSq6bw8IOMt1Sd5yRfS7qKxcs0xCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=IcFDykuW; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1761125954; c=relaxed/simple;
+	bh=UZ0OPkGP8yNVJlDHumkQcuasIKQr+bwGLQCUf7u5PAc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W6lpfvN4p+aIvrPLzU+Y0OJCbsuIatqEDvVVEnmfO16w0+xixWjm0lTgPKCBDu6EKJKsPLNzK+LU0+rYba8izEAX6hE7aS0HdRKTMyGf0hotZcMtlAyqNcHXbHGVX+kJGHmMwvCxN7ur/zrJz9kumuZ7RkO/g2PhUt6abXs9ouk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XppbdrDf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="IcFDykuW"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Uy2pQANmt/EIY8vvrnFu49o9JdxiulocdSZxw8h3NM4=;
-	b=IcFDykuWnJgWYfU5jyfCGXJCCFMA5VvuTnT6EN+Y6A4WEu/zeIyqVYstviUAVW6bl8I2lMXrb
-	rUsnIbbD1u7WollSQS3WQ9r0jyJ/anyK3SvgjYy2uhsqm7KznG1Y3N584mwBWo5OIeminTOq+BF
-	4ChSV3O9JlReQjL00kz1sgw=
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4cs3fM5f2gz1T4Fg;
-	Wed, 22 Oct 2025 17:24:59 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id EF32B140154;
-	Wed, 22 Oct 2025 17:25:53 +0800 (CST)
-Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 22 Oct 2025 17:25:53 +0800
-Received: from [10.67.110.108] (10.67.110.108) by
- kwepemq200011.china.huawei.com (7.202.195.155) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 22 Oct 2025 17:25:52 +0800
-Message-ID: <de4f09aa-3216-4ac5-8d76-899a685e05f5@huawei.com>
-Date: Wed, 22 Oct 2025 17:25:50 +0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XppbdrDf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761125951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MuYmiOLCaPZRj40EIc99HdJ/xOeorodHm2jhiotawYQ=;
+	b=XppbdrDfHttU04DnZISFJ2KWJjG3dnTiyELujazh7bULxpLJhMVE1WM4H+Fq1TW/5S4XS1
+	5JY0PjmFZ1X2C4xAnr6VbHc+vdZGq31grF09ysEBuwAFQ/MTMkrorh+c+8HVFJ/iAEMRyh
+	HTEzUMvBvfk1q5wwklpWYhhAIXkU9do=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-wW3Dk2XNO3qtz5s8Q07OWQ-1; Wed, 22 Oct 2025 05:39:10 -0400
+X-MC-Unique: wW3Dk2XNO3qtz5s8Q07OWQ-1
+X-Mimecast-MFC-AGG-ID: wW3Dk2XNO3qtz5s8Q07OWQ_1761125949
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-42700099ff5so5021467f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 02:39:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761125949; x=1761730749;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MuYmiOLCaPZRj40EIc99HdJ/xOeorodHm2jhiotawYQ=;
+        b=uG0Zmb4RRA1+7PDVlP0g+6+gEPIsiUlw63YBIztdNKVWGDkH2my8PvDT7eCatyxyxY
+         mF1YHxj3Cp+21ep1Zuzg1i5VRNUx/xZUUtV9kfIqkJz8XFImTbcAiLmYiMpy3kSpBURB
+         eN/Kyg21WXvcGB3IcSJmJjGS2HiTHOdqI/+5Ygg6z48yk1QinO5g+DPuadbY0BJO89hc
+         eBrVXmpQll9C1LHPaVkcYB7F/Loqr+ym4Zp/iickVUVRoR6NYcDkRdTd6Lg39sQTQZpR
+         YGeIFkP5KvIJliJAaAZz63SX18g6tEXrOvUDbHqDBT61XoehVy7rF+6leMhcX3SCWnef
+         Ci8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXWK1ZgpQdl9jPZeQoNDfYL9k6XpleLGe31EY+v0jDm/Z7SfhwZcTMvneCunX419vPTPjWVBXsP+TM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzd79iRpyV/8DmQduO20ck6wQMyRyCTdGnHlAAWcIdNvwpIOdMU
+	K9zX4tO5YuJVR7k9uC/CjylN09t41j8ggYP1GMjQkXtBTZyAmXtJPWAoFV4E9M/6lcsdpMd6GtV
+	pdl1fwoX8SQvyJlkzPG6GoBTX9OcrOkdWIpFG/+Se/b1jpLKy/r18CFSXU5/FXg==
+X-Gm-Gg: ASbGnct49hR5+AkdUSiC33k8uIVIwNhIDVnfKMaLd0VibRM1DMpvBoNtjrBj9etn1O1
+	xLv7ATp6WVPQkyAPB+vlhKH4Ui90bUNoTPgFm3OimRAX1prDKUbzBZCpVohtahhjDB+Dh7c7fJf
+	2TASMUFXYnOGSbARTmDyxcPgF7Btg1+oewrvKx/FJfZJW/9GPSt/UzMzsVzUMle0dEBYavGVqo6
+	NPAeKi0xBrc5hJFIN4Qu9IvcNnJnhoI2oCJ3UzNmExXrq8jnoqHwFwegaML2Chh8oVX+1VgeEhA
+	Jkw3/anL1LrrrypMbPuqpynDu5Nm51sVJNITFAOZOiwnFWMZVYyhXYGxv8v9zYZzB2zVBON/QtD
+	oEP9MY9/AhEu7k9B1Wb2k+bwQOhHfiO8Yorip
+X-Received: by 2002:a05:6000:2911:b0:3e7:46bf:f89d with SMTP id ffacd0b85a97d-42704db22camr15953049f8f.44.1761125949411;
+        Wed, 22 Oct 2025 02:39:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG/aOryQn5sy8rYEtqe6i7g3LA3GyVmEJjSxmfNQPD4o765qZMFTbY8a7U8TNz9fPJlo12+lA==
+X-Received: by 2002:a05:6000:2911:b0:3e7:46bf:f89d with SMTP id ffacd0b85a97d-42704db22camr15953008f8f.44.1761125948937;
+        Wed, 22 Oct 2025 02:39:08 -0700 (PDT)
+Received: from [192.168.68.125] (bzq-79-177-149-47.red.bezeqint.net. [79.177.149.47])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5a1505sm24495428f8f.8.2025.10.22.02.39.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 02:39:08 -0700 (PDT)
+Message-ID: <075914db-d497-4428-97e2-256b35f40729@redhat.com>
+Date: Wed, 22 Oct 2025 12:39:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,107 +74,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses
- to IMPDEF regs
-To: Yicong Yang <yangyccccc@gmail.com>, <corbet@lwn.net>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <akpm@linux-foundation.org>,
-	<paulmck@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-	<mingo@kernel.org>, <bp@alien8.de>, <kees@kernel.org>, <arnd@arndb.de>,
-	<fvdl@google.com>, <maz@kernel.org>, <broonie@kernel.org>,
-	<oliver.upton@linux.dev>, <yeoreum.yun@arm.com>, <james.morse@arm.com>,
-	<ardb@kernel.org>, <hardevsinh.palaniya@siliconsignals.io>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-References: <20251021115428.557084-1-liaochang1@huawei.com>
- <1ad9d43b-fd1f-4a66-b67b-14f0b3217aec@gmail.com>
-From: "Liao, Chang" <liaochang1@huawei.com>
-In-Reply-To: <1ad9d43b-fd1f-4a66-b67b-14f0b3217aec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH net-next v2 02/14] i40e: support generic devlink param
+ "max_mac_per_vf"
+To: Jakub Kicinski <kuba@kernel.org>, Jacob Keller <jacob.e.keller@intel.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Rafal Romanowski <rafal.romanowski@intel.com>
+References: <20251016-jk-iwl-next-2025-10-15-v2-0-ff3a390d9fc6@intel.com>
+ <20251016-jk-iwl-next-2025-10-15-v2-2-ff3a390d9fc6@intel.com>
+ <20251020182515.457ad11c@kernel.org>
+ <d39fc2bd-56bf-4c5b-99a2-398433238220@intel.com>
+ <20251021160745.7ff31970@kernel.org>
+Content-Language: en-US
+From: mohammad heib <mheib@redhat.com>
+In-Reply-To: <20251021160745.7ff31970@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemq200011.china.huawei.com (7.202.195.155)
 
-Hi, Yicong
 
-在 2025/10/22 13:26, Yicong Yang 写道:
-> On 2025/10/21 19:54, Liao Chang wrote:
->> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
->> regregisters and instructions without trapping to EL1/EL2. Since trap
->> overhead will compromises benefits, and it's even worse in
->> virtualization on CPU where certain IMPDEF registers and instructions
->> are designed for EL0 performance use.
+Thank you for the review.
+
+As Jacob Keller mentioned, this change enforces that a VF can never go 
+above the maximum allowed value. However, there could still be other 
+hardware-related restrictions.
+
+Regarding the scenario you described, if the maximum is decreased to 2 
+after VF1 has already added 4 filters, then the next time the user tries 
+to add a new MAC address to VF1 (or to any VF that already has 2 or more 
+MAC filters), they will see an error message in the kernel log:
+  "Cannot add more MAC addresses: VF reached its maximum allowed limit 2"
+
+I didn’t really consider the decreasing scenario, since this change is 
+intended to be configured by the system administrator once, before 
+setting up the VFs. If for some reason they decide to reduce the limit 
+during the VF’s lifetime, I believe it’s the user’s responsibility to 
+first remove the old MAC addresses and filters from the VF.
+
+
+On 10/22/25 2:07 AM, Jakub Kicinski wrote:
+> On Tue, 21 Oct 2025 13:39:27 -0700 Jacob Keller wrote:
+>> On 10/20/2025 6:25 PM, Jakub Kicinski wrote:
+>>> On Thu, 16 Oct 2025 23:08:31 -0700 Jacob Keller wrote:
+>>>> - The configured value is a theoretical maximum. Hardware limits may
+>>>>    still prevent additional MAC addresses from being added, even if the
+>>>>    parameter allows it.
+>>>
+>>> Is "administrative policy" better than "theoretical max" ?
 >>
->> More early discussion could be found from link below.
+>> That could be a bit more accurate.
 >>
->> Link: https://lore.kernel.org/all/24afb8de-622a-4865-bd8e-8e89ccfff8f4@huawei.com/
->> Tested-by: Xinyu Zheng <zhengxinyu6@huawei.com>
->> Signed-off-by: Liao Chang <liaochang1@huawei.com>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  9 +++++++++
->>  arch/arm64/kernel/cpufeature.c                  | 14 +++++++++++++-
->>  2 files changed, 22 insertions(+), 1 deletion(-)
+>>> Also -- should we be scanning the existing state to check if some VM
+>>> hasn't violated the new setting and error or at least return a extack
+>>> to the user to warn that the policy is not currently adhered to?
 >>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 5a7a83c411e9..11ffa9f7b972 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -326,6 +326,15 @@
->>  			See Documentation/arch/arm64/asymmetric-32bit.rst for more
->>  			information.
->>  
->> +	no_trap_el0_impdef [Arm64,EARLY]
->> +			Allow system-wide EL0 access to IMPDEF system registers
->> +			and instructions without trapping to EL1/EL2.
->> +			Since trap overhead compromises benefits, and it's even
->> +			worse in virtualization on CPU where certain IMPDEF
->> +			registers and instructions are designed for EL0
->> +			performance use. This assumes the kernel adds the
->> +			support for Armv8.8 extension FEAT_TIDCP1.
->> +
->>  	amd_iommu=	[HW,X86-64]
->>  			Pass parameters to the AMD IOMMU driver in the system.
->>  			Possible values are:
->> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->> index ef269a5a37e1..d12e35d799ee 100644
->> --- a/arch/arm64/kernel/cpufeature.c
->> +++ b/arch/arm64/kernel/cpufeature.c
->> @@ -2459,9 +2459,21 @@ static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, in
->>  }
->>  #endif /* CONFIG_KVM */
->>  
->> +static bool no_trap_el0_impdef;
->> +
->> +static int __init parse_no_trap_el0_impdef(char *p)
->> +{
->> +	no_trap_el0_impdef = true;
->> +	return 0;
->> +}
->> +early_param("no_trap_el0_impdef", parse_no_trap_el0_impdef);
->> +
->>  static void cpu_trap_el0_impdef(const struct arm64_cpu_capabilities *__unused)
->>  {
->> -	sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
->> +	if (no_trap_el0_impdef)
->> +		sysreg_clear_set(sctlr_el1, SCTLR_EL1_TIDCP, 0);
->> +	else
->> +		sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
-> An id override for TIDCP1 seems simpler rather than an early param, and consistent to how we disable other 
-> certain features through boot option like arm64.nosve or arm64.nompam. I see Catalin also suggested in that
-> way in [1],any reason we cannot do it in that way?
-
-Thanks for reminding me of that.
-
-But the problem is on warm reset, SCTLR_ELx.tidcp resets to an unknown value.
-This means using id_aa64mmfr1.tidcp1=0 override for TIDCP1 only skips setting
-SCTLR_ELx.TIDCP to 1, it still can not guarantee the SCTLR_Ex.TIDCP is cleared.
-
-BR,
-Liao, Chang
-
+>> My understanding here is that this enforces the VF to never go *above*
+>> this value, but its possible some other hardware restriction (i.e. out
+>> of filters) could prevent a VF from adding more filters even if the
+>> value is set higher.
+>>
+>> Basically, this sets the maximum allowed number of filters, but doesn't
+>> guarantee that many filters are actually available, at least on X710
+>> where filters are a shared resource and we do not have a good mechanism
+>> to coordinate across PFs to confirm how many have been made available or
+>> reserved already. (Until firmware rejects adding a filter because
+>> resources are capped)
+>>
+>> Thus, I don't think we need to scan to check anything here. VFs should
+>> be unable to exceed this limit, and thats checked on filter add.
 > 
-> [1] https://lore.kernel.org/all/aHqamaqueuk18NyS@arm.com/
-> > Thanks.
->>  }
->>  
->>  static void cpu_enable_dit(const struct arm64_cpu_capabilities *__unused)
+> Sorry, just to be clear -- this comment is independent on the comment
+> about "policy" vs "theoretical".
+> 
+> What if:
+>   - max is set to 4
+>   - VF 1 adds 4 filters
+>   - (some time later) user asks to decrease max to 2
+> 
+> The devlink param is CMODE_RUNTIME so I'm assuming it can be tweaked
+> at any point in time.
+> 
+> We probably don't want to prevent lowering the max as admin has no way
+> to flush the filters. Either we don't let the knob be turned when SRIOV
+> is enabled or we should warn if some VF has more filters than the new
+> max?
+> 
 
