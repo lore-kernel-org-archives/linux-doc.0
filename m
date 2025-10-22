@@ -1,118 +1,152 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B33623ABA1;
-	Wed, 22 Oct 2025 09:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06116313272;
+	Wed, 22 Oct 2025 09:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761124381; cv=none; b=mSDZmartfIQV3uXmnrTu/wvHk5sg1u24xPK5eGLRrC5ZC0Ua5DPdpD6O2Bu76ChQrkpetDZJ8bR9Ogel3bAjoZ8BOvbDzdXcXTh0ku8k2Ry3IqOCMt26wLW+TfeIrf2OqBboU4kMDiVT+uVKNQ33LG7YxFoUUV/CpwB55CeTgvY=
+	t=1761125160; cv=none; b=pe1QHUjdrGfr+aKMlJHZ8CtW1weEI7PXmRGuXdtjHOWIHEpmk0iWpM/Ui5Oieh7xOxC/bfeaQHkr6xQzv+NU0NaLaqAnVxPn3tlsDhT+3fE3eYbkNS2wlCX+81qWoWcjUupa6ihhPKGD3fZvJNYEWQ/U1wukzUv2+ni1XOuTMz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761124381; c=relaxed/simple;
-	bh=pznKN8dUbII3GpPjqx5PyM5eD2eG/eKsDEZkzbIX6y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJOgJ8Pc7QPPxfeAxAT4Tsv1unH8TpCCuIBU65w1BU6juophDqogSrwxG8Lv8vJGuvFBeIo4t+kN8xvZYX45o3j7bGzQTWJBaL2u4MTutgXEEyAmTwHSS5/GMc8i4OX0RQfXftE+byW+dh2GH78QKb7EpvLS2dxOTKDmHNOVYjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7EA3A1063;
-	Wed, 22 Oct 2025 02:12:49 -0700 (PDT)
-Received: from localhost (ionvoi01-desktop.cambridge.arm.com [10.2.80.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9CB93F59E;
-	Wed, 22 Oct 2025 02:12:56 -0700 (PDT)
-Date: Wed, 22 Oct 2025 10:12:55 +0100
-From: Ionela Voinescu <ionela.voinescu@arm.com>
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, lenb@kernel.org,
-	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com,
-	zhenglifeng1@huawei.com, rdunlap@infradead.org, ray.huang@amd.com,
-	gautham.shenoy@amd.com, mario.limonciello@amd.com,
-	perry.yuan@amd.com, linux-pm@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, treding@nvidia.com,
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
-	sanjayc@nvidia.com, bbasu@nvidia.com
-Subject: Re: [PATCH v3 3/8] ACPI: CPPC: extend APIs to support auto_sel and
- epp
-Message-ID: <aPigDd0QTiRjey7K@arm.com>
-References: <20251001150104.1275188-1-sumitg@nvidia.com>
- <20251001150104.1275188-4-sumitg@nvidia.com>
+	s=arc-20240116; t=1761125160; c=relaxed/simple;
+	bh=cpxkDaWD9t5lF3decGWZ8c57zEYskBH/2P5TRepaQlw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NWZ/tWurSEb7J9tWarxt1Erkply9+3kr0SBJIaP7EI7vTgLCm+MgZgIhMO7yTY0YP5nGIBexPdne0/Vnp0UGIW8pQ0lV/M7iQDJg7GInkny2tRmSh/XjStMCM00AO6QkFb+ZvPzKMdxof0jSq6bw8IOMt1Sd5yRfS7qKxcs0xCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=IcFDykuW; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="IcFDykuW"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Uy2pQANmt/EIY8vvrnFu49o9JdxiulocdSZxw8h3NM4=;
+	b=IcFDykuWnJgWYfU5jyfCGXJCCFMA5VvuTnT6EN+Y6A4WEu/zeIyqVYstviUAVW6bl8I2lMXrb
+	rUsnIbbD1u7WollSQS3WQ9r0jyJ/anyK3SvgjYy2uhsqm7KznG1Y3N584mwBWo5OIeminTOq+BF
+	4ChSV3O9JlReQjL00kz1sgw=
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4cs3fM5f2gz1T4Fg;
+	Wed, 22 Oct 2025 17:24:59 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id EF32B140154;
+	Wed, 22 Oct 2025 17:25:53 +0800 (CST)
+Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Oct 2025 17:25:53 +0800
+Received: from [10.67.110.108] (10.67.110.108) by
+ kwepemq200011.china.huawei.com (7.202.195.155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Oct 2025 17:25:52 +0800
+Message-ID: <de4f09aa-3216-4ac5-8d76-899a685e05f5@huawei.com>
+Date: Wed, 22 Oct 2025 17:25:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251001150104.1275188-4-sumitg@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses
+ to IMPDEF regs
+To: Yicong Yang <yangyccccc@gmail.com>, <corbet@lwn.net>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <akpm@linux-foundation.org>,
+	<paulmck@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+	<mingo@kernel.org>, <bp@alien8.de>, <kees@kernel.org>, <arnd@arndb.de>,
+	<fvdl@google.com>, <maz@kernel.org>, <broonie@kernel.org>,
+	<oliver.upton@linux.dev>, <yeoreum.yun@arm.com>, <james.morse@arm.com>,
+	<ardb@kernel.org>, <hardevsinh.palaniya@siliconsignals.io>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+References: <20251021115428.557084-1-liaochang1@huawei.com>
+ <1ad9d43b-fd1f-4a66-b67b-14f0b3217aec@gmail.com>
+From: "Liao, Chang" <liaochang1@huawei.com>
+In-Reply-To: <1ad9d43b-fd1f-4a66-b67b-14f0b3217aec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemq200011.china.huawei.com (7.202.195.155)
 
-Hi Sumit,
+Hi, Yicong
 
-On Wednesday 01 Oct 2025 at 20:30:59 (+0530), Sumit Gupta wrote:
-> - Add auto_sel read support in cppc_get_perf_caps().
-> - Add write of both auto_sel and energy_perf in cppc_set_epp_perf().
-> - Remove redundant energy_perf field from 'struct cppc_perf_caps' as
->   the same is available in 'struct cppc_perf_ctrls' which is used.
+在 2025/10/22 13:26, Yicong Yang 写道:
+> On 2025/10/21 19:54, Liao Chang wrote:
+>> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
+>> regregisters and instructions without trapping to EL1/EL2. Since trap
+>> overhead will compromises benefits, and it's even worse in
+>> virtualization on CPU where certain IMPDEF registers and instructions
+>> are designed for EL0 performance use.
+>>
+>> More early discussion could be found from link below.
+>>
+>> Link: https://lore.kernel.org/all/24afb8de-622a-4865-bd8e-8e89ccfff8f4@huawei.com/
+>> Tested-by: Xinyu Zheng <zhengxinyu6@huawei.com>
+>> Signed-off-by: Liao Chang <liaochang1@huawei.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |  9 +++++++++
+>>  arch/arm64/kernel/cpufeature.c                  | 14 +++++++++++++-
+>>  2 files changed, 22 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 5a7a83c411e9..11ffa9f7b972 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -326,6 +326,15 @@
+>>  			See Documentation/arch/arm64/asymmetric-32bit.rst for more
+>>  			information.
+>>  
+>> +	no_trap_el0_impdef [Arm64,EARLY]
+>> +			Allow system-wide EL0 access to IMPDEF system registers
+>> +			and instructions without trapping to EL1/EL2.
+>> +			Since trap overhead compromises benefits, and it's even
+>> +			worse in virtualization on CPU where certain IMPDEF
+>> +			registers and instructions are designed for EL0
+>> +			performance use. This assumes the kernel adds the
+>> +			support for Armv8.8 extension FEAT_TIDCP1.
+>> +
+>>  	amd_iommu=	[HW,X86-64]
+>>  			Pass parameters to the AMD IOMMU driver in the system.
+>>  			Possible values are:
+>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+>> index ef269a5a37e1..d12e35d799ee 100644
+>> --- a/arch/arm64/kernel/cpufeature.c
+>> +++ b/arch/arm64/kernel/cpufeature.c
+>> @@ -2459,9 +2459,21 @@ static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, in
+>>  }
+>>  #endif /* CONFIG_KVM */
+>>  
+>> +static bool no_trap_el0_impdef;
+>> +
+>> +static int __init parse_no_trap_el0_impdef(char *p)
+>> +{
+>> +	no_trap_el0_impdef = true;
+>> +	return 0;
+>> +}
+>> +early_param("no_trap_el0_impdef", parse_no_trap_el0_impdef);
+>> +
+>>  static void cpu_trap_el0_impdef(const struct arm64_cpu_capabilities *__unused)
+>>  {
+>> -	sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
+>> +	if (no_trap_el0_impdef)
+>> +		sysreg_clear_set(sctlr_el1, SCTLR_EL1_TIDCP, 0);
+>> +	else
+>> +		sysreg_clear_set(sctlr_el1, 0, SCTLR_EL1_TIDCP);
+> An id override for TIDCP1 seems simpler rather than an early param, and consistent to how we disable other 
+> certain features through boot option like arm64.nosve or arm64.nompam. I see Catalin also suggested in that
+> way in [1],any reason we cannot do it in that way?
+
+Thanks for reminding me of that.
+
+But the problem is on warm reset, SCTLR_ELx.tidcp resets to an unknown value.
+This means using id_aa64mmfr1.tidcp1=0 override for TIDCP1 only skips setting
+SCTLR_ELx.TIDCP to 1, it still can not guarantee the SCTLR_Ex.TIDCP is cleared.
+
+BR,
+Liao, Chang
+
 > 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
-[..]
-> @@ -1555,6 +1559,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  	struct cpc_register_resource *auto_sel_reg;
->  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
->  	struct cppc_pcc_data *pcc_ss_data = NULL;
-> +	bool autosel_support_in_ffh_or_sysmem;
-> +	bool epp_support_in_ffh_or_sysmem;
->  	int ret;
->  
->  	if (!cpc_desc) {
-> @@ -1565,6 +1571,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
->  	epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
->  
-> +	epp_support_in_ffh_or_sysmem = CPC_SUPPORTED(epp_set_reg) &&
-> +				(CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
-> +	autosel_support_in_ffh_or_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
-> +				(CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
-> +
->  	if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
->  		if (pcc_ss_id < 0) {
->  			pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
-> @@ -1590,8 +1601,19 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  		ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
->  		up_write(&pcc_ss_data->pcc_lock);
->  	} else if (osc_cpc_flexible_adr_space_confirmed &&
-> -		   CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
-> +		   epp_support_in_ffh_or_sysmem && autosel_support_in_ffh_or_sysmem) {
+> [1] https://lore.kernel.org/all/aHqamaqueuk18NyS@arm.com/
+> > Thanks.
+>>  }
+>>  
+>>  static void cpu_enable_dit(const struct arm64_cpu_capabilities *__unused)
 
-Isn't this problematic for when auto-select is an integer set to 1 or it's
-not present at all? In those cases the EPP register won't be written and
--ENOTSUPP will be returned.
-
-I suppose for the case when auto-select is not present at all in _CPC
-(it's an optional attribute) it's not very clear what one should do
-regarding writing the EPP register. The specification mentions that
-"Writes to this register only have meaning when Autonomous Selection
-is enabled.". From my perspective the OS should not block writes to the
-EPP register for this case, as autonomous selection might still be
-enabled but not exposed to the OS. 
-
-Thanks,
-Ionela.
-
-> +		ret = cpc_write(cpu, auto_sel_reg, enable);
-> +		if (ret) {
-> +			pr_debug("Failed to write auto_sel=%d for CPU:%d\n", enable, cpu);
-> +			return ret;
-> +		}
-> +
->  		ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
-> +		if (ret) {
-> +			pr_debug("Failed to write energy_perf=%u for CPU:%d\n",
-> +				 perf_ctrls->energy_perf, cpu);
-> +			return ret;
-> +		}
->  	} else {
->  		ret = -ENOTSUPP;
->  		pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
-[..]
