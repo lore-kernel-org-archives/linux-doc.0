@@ -1,269 +1,119 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7F0288C2B
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 09:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6513176E7;
+	Wed, 22 Oct 2025 09:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761126255; cv=none; b=OChFwj967OfA5vmqcMeDYf81aMj2KDJjiCWeKBkwY+7P8PR9q6jCITVyLWek+nt4wgRD44SIEImHo0Nos203LGLgH6uXj+kSMGXeJiBQ7QQu7wqj2Nj7kq7U9l5+Pm3Zibz+8V/XAtYzqvAaI8oENdURbr1K0YoDDplHTHupxvU=
+	t=1761127062; cv=none; b=FzD6xKGnE2nC/UECq/taTwiKWXYDHJrPJDqmGWvPwi/X+i5MOhRksVO5EQZU3zxLF1DvxJtg9xj62Ew4eQ0tjsXxlbh75M6wZ+byOicWCUpNGAsmerkAOVQYxHn77NqfZ/sX7+L3IchpHyRrGwJyXW9K+TC5faQX/rEeCB+aYG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761126255; c=relaxed/simple;
-	bh=YSsmQnBs93MkLURrGV5cmfNkALdokMBbIl5S2URZs4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XXuseVRMrQF97bfG14lSP0mAYrsPj/WnH4JhW2/fmFHhEluetUc3bfabe3bIULhlp0rkOjXIgu5SXFniw94LDQ3V2MHXaVisLBf2OkmCeyLNxeFx8dSi//V8LDqY2al3VYU7gvBZZ7LsRvX/kP0UbRKXdxuJvu9VNIjh+TBe0r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E8q4d/gx; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761127062; c=relaxed/simple;
+	bh=12nBu83/hcrrA3IfuoG1+VpxOxa+6gKvxzVWo9bQz5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aIw5wizXYfBBfniTZ8o5ZM/SfnsTk1AU8M5wjOsEU2mlAfKBJ/IjA5v6DXmYjVvZjmVEu3UlF7uaB9N9cZuIR2Q4CXjM1r4y5z8opsFTBMEANk82gyOLG3/jC+OXETzciOn3fZ6UC/llkMnJ6NIlweYXAchCnQm1Ke5mvD3s/+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YdfSi+B2; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E8q4d/gx"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47117e75258so33036225e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 02:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761126251; x=1761731051; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L2q2OfszUqpeadKayMdXndWnS6PaM7t8jQzEItp97vM=;
-        b=E8q4d/gxobhWW49fipSD2pu/EvWAHXJ/k3jj1gk9LLCCuemvkDrgHPszwGTcpjhyfj
-         5WAnKahSBraUqXjuh/LlJ29vxFP6j4z2h7BzDZDEjQnIh2jBmIBPtHyq40n0JlQl6eex
-         4gOmC3Y9iy5mGOvYiz+4IM+kgTfUEisGbQUsf7n1M8Bqz5rsW45AqtUPo/4UTMKatYge
-         gGWvi5a2KamaGHRV6bIWzFs8wIVscgfDskauk9gaHir0JyYd7Q3wI/2oMOaVfy0e+gSb
-         dAewPaMmLVG/6QxpB8zWowN+iHZtimW2NLyTGT0vKDAVtyV4Wef0sUKNpeFTWdQUX9pD
-         bwuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761126251; x=1761731051;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2q2OfszUqpeadKayMdXndWnS6PaM7t8jQzEItp97vM=;
-        b=ZWH/dYNUibLBjbjRzffgihUsmklxkVosag9iJ9BCvy0fd3ORXHFFJlRIWAXWPFiE/G
-         OI7ZPbkOnvW/g4GzhrIZvRZCmQg9OttV1tcQC4vqLCl+Z5j2NGC16fwkW9ogROsUMZ1i
-         Vx+Vdbjlh+9WkShl6lx2bFUw4gh03c52dcB46mpHir6XC9nzkpBN5TxPj62ogkevrvV9
-         cOqOCRseEiSf79qTDWr2UYmE/pafCS170U13tY9ekCDvSLqKeRohq36DcgdmlDw83Qr3
-         C0D+MnAd53kfZwc2fCDjp0dFcD/6V8ZWUixCvht8Mk6QBuOOZIrgPrCdGlaTg80+y0bA
-         l4eA==
-X-Forwarded-Encrypted: i=1; AJvYcCUy0PCXhNrN8bBx9QBHYXho/42xsfuraGSlXwoQCWcANl+A4muEzjlMZEYe2eVm6y8q8TO/9YiHa4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi2hLwsGVfBh0PyhPD/8bbm6uXH9izgiTNUjlKPWZd6SNgOb6u
-	b9bbNoDpxIc1FfkjDhKlRLxGAmCAeerKSmJwaFaAeRwNAq+QHAA1QuQLaewfPE11ELQ=
-X-Gm-Gg: ASbGncug/inS+HdXa/J0zqb0CLHsHbugaPhx/W0ZkA4Ssc0lQiMD6DXGf1YEpk5zuze
-	3MPZrLI84gBMJBzOGIpNPVg4juyfgi6CKCoWX3Pd8npHo1hMAIQt1rxf11kY90gzyv+gtPZc6Lw
-	I8M0m9l7a7t9c0ekH6MCBbB/a+T0ccMbv6piU2g9+JSspmtUkAxHVyCl8qZATtPJEhk5KdbOZHN
-	o+oPOmTcEJAwDO2tEpQ5ZpD2HRcYPLdkP6lkK5D2azhIL067TqksVFne4rHJREMEJIij/LaK6Uo
-	DlnwuM41733Mu+bNFvu/gw+yhYnhbYejvJJY8dKR+7Vczfzc8uFQixErMRHdznhf4kYnMmIBhyN
-	It1wAUzwVVSEbfk9Nhy4nE2LyYo3ftPLaWR+fqfVbYaukLSzcLTthQZ3SmfhN0zCI0JGehC3/xf
-	nN9loF2ZqX9WxTJfqT
-X-Google-Smtp-Source: AGHT+IHyKNaFr6+KT+wcGuk5QcgPZ2E1s+s6FjRqi/hA/8rUpJL4cF8k2yXbn4dNu2GHhIteFm2DEA==
-X-Received: by 2002:a05:600c:4e93:b0:471:9da:524c with SMTP id 5b1f17b1804b1-4711789e39emr140864945e9.12.1761126250776;
-        Wed, 22 Oct 2025 02:44:10 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.76.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47496d26affsm32511685e9.12.2025.10.22.02.44.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 02:44:10 -0700 (PDT)
-Message-ID: <3c6b723c-d3d4-4be7-9333-9ab46d270194@linaro.org>
-Date: Wed, 22 Oct 2025 10:44:09 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YdfSi+B2"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A849840E016E;
+	Wed, 22 Oct 2025 09:57:36 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 1oRRCaHbFJxx; Wed, 22 Oct 2025 09:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1761127051; bh=nv5PZVnhgm8mINL4pcw8nhwEQ/HfogSKAt+4CiULJV4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YdfSi+B2PlfMIL9tmW0EbtaGJtqmdTm+5+ShHq62l/lMgn+LzQtUoEftbvP9K52EJ
+	 zX48IfoqZLrbqMMj0+LBu5fiFEbGISZam7FaAU/mkWf86V8vT8iEV0Y0fiqyv6W+bl
+	 DU9tWOhg4ej2ffX9nAw28J4xkCVTnGzHhGM/qOpvznJHvlYgvzqfaOSCCQ0Nw7HpV+
+	 C7/O/EPu8FlBZUIMo7F0gj3ap2FUi/MIhf7x3xgfnsw6+ZvC7r4pVw+l2mZDtamtYM
+	 0X/gxtYGHzS6i3Rz6/t0FUzUR5p2GchxY4TT9yUMuM+lH/N+OXN0J/X47Qw4+vUKoO
+	 WIDfQXD1Xa65QMgMX17d9jB33nPQ/4wT4MUoaG2JZ10OdYUpOSuFlrA3wRSASNEx3G
+	 lVQrFJvQupLM7fjF1UX8D01DK6+ygPWrCK8MsbK3Ixht2aunktbzhyR/1MBuMPHUKK
+	 FEQsai6tPoDe2EuzwS8yWTdvyn3itzEH+5iiji435ZJxGTDhHJ2rtCHm1EOJG6unBI
+	 iRa+i25coUezE+oG10qM6g5KIFEFvKU7zHf0iivF0uSqFaxaboN57Kdh21uTTZWcQ8
+	 5FaeYBVazWNSKA0L4M9WDiBEjEjbQBglF1/vXVglAT5PNeBjkLJfo+VQE+mWUGSAug
+	 IwmpsVpMaOK0gVKkdzoGqkgg=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id CE39D40E01CD;
+	Wed, 22 Oct 2025 09:57:03 +0000 (UTC)
+Date: Wed, 22 Oct 2025 11:56:57 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <20251022095657.GBaPiqaYxPMonQWLtw@fat_crate.local>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-4-sohil.mehta@intel.com>
+ <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
+ <144029e3-30ea-4e94-9afd-4da53ce4a657@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] coresight: Add format attribute for setting the
- timestamp interval
-To: Leo Yan <leo.yan@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org>
- <20251002-james-cs-syncfreq-v3-4-fe5df2bf91d1@linaro.org>
- <CAJ9a7Vj1NnikoJyabXnad+=3SDULKCyqoZiNb_S66SkG+HD+dw@mail.gmail.com>
- <bfce6b68-783f-4aa1-b9db-d905230be609@linaro.org>
- <20251021172224.GO281971@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20251021172224.GO281971@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <144029e3-30ea-4e94-9afd-4da53ce4a657@intel.com>
 
+On Tue, Oct 21, 2025 at 01:55:51PM -0700, Sohil Mehta wrote:
+> In the series, we directly write to the CR4 bits, so they don't have any
+> wrappers. But in the future, lass_enable()/lass_disable() could be
+> confusing if wrappers were added for the CR4 toggling.
 
+Are you envisioning to export the CR4.LASS toggling to users like those two or
+is former going to be done only at those two places?
 
-On 21/10/2025 6:22 pm, Leo Yan wrote:
-> On Wed, Oct 15, 2025 at 04:19:04PM +0100, James Clark wrote:
+Because CR4 toggling is expensive so you probably don't want to do that very
+often.
+
+> There is an issue here which you had originally objected to.
+> https://lore.kernel.org/lkml/20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local/
+> https://lore.kernel.org/lkml/20240711012333.GAZo80FU30_x77otP4@fat_crate.local/
 > 
-> [...]
-> 
->>>> -static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->>>> +static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata,
->>>> +                                      struct perf_event_attr *attr)
->>>>    {
->>>>           int ctridx;
->>>>           int rselector;
->>>>           struct etmv4_config *config = &drvdata->config;
->>>> +       u8 ts_level = ATTR_CFG_GET_FLD(attr, ts_level);
->>>> +
->>>> +       /* Disable when ts_level == MAX */
->>>> +       if (ts_level == FIELD_GET(ATTR_CFG_FLD_ts_level_MASK, UINT_MAX))
->>>> +               return 0;
->>>>
->>>
->>> Returning 0 from this function _enables_ the timestamps
->>>
->>
->> Returning 0 just means that etm4_parse_event_config() doesn't exit with an
->> error. For ts_level == MAX we want to disable timestamps generated by the
->> counter, but we still want the minimum periodic timestamps.
->>
->> To disable all timestamps you'd need to have attr->config & BIT(ETM_OPT_TS)
->> == false. This is set by the "timestamp" format flag which I tried to
->> explain that in the docs change.
->>
->> I could also change the comment to say "/* Disable counter generated
->> timestamps with ts_level == MAX */"
->>
->> It's unfortunate that there are now two format options for timestamps. Maybe
->> instead of adding a second option we can change "timestamp" from a 1 bit
->> field to 4 bits, with the following meanings:
->>
->>   0:     No counter timestamps or SYNC timestamps
->>   1-14:  Counter timestamps = 2 ^ x. Plus SYNC timestamps
->>   15:    Only SYNC timestamps
-> 
-> I am just wandering how can extend "timestamp" from 1 bit to 4 bits.
-> 
->    #define ETM_OPT_TS              28
->    #define ETM_OPT_RETSTK          29
-> 
->    PMU_FORMAT_ATTR(timestamp,      "config:" __stringify(ETM_OPT_TS));
->    PMU_FORMAT_ATTR(retstack,       "config:" __stringify(ETM_OPT_RETSTK));
-> 
-> "retstack" has occupied a higher bit, we cannot naturelly extend
-> "timestamp" field?
+> These new versions of lass_disable()/lass_enable() will toggle the AC
+> flag on older platforms without X86_FEATURE_LASS. It definitely makes
+> the code easier to read and maintain if we are okay with the minor
+> performance penalty.
 
-Easy, just put it wherever there is a hole. I think there's one in 
-"config:4-7", but it could be put in config3 or config4:
+Hmm, we probably should measure that. The text poking should be a relatively
+seldom operation but we should at least do a quick measurement to see whether
+something registers on the radar...
 
-  /* Old enable timestamp bit for backwards compatibility */
-  #define ETM_OPT_TS_old              28
-  PMU_FORMAT_ATTR(timestamp,      "config:4-7");
+Thx.
 
-The position of the timestamp field is published and tools read it, so 
-as long as we don't change the name of it it works fine.
+-- 
+Regards/Gruss,
+    Boris.
 
-We only keep the old bit 28 because we know old Perf was buggy and 
-didn't read the bit position, but if it wasn't we wouldn't even need to 
-do that.
-
-> 
-> Even we can extend "timestamp" format to 4 bits, it will be mess when
-> run the updated perf on old kernels.  Let's see an example:
-> 
->    perf record -e cs_etm/timestamp=0/ -- test
->    perf record -e cs_etm/timestamp=2/ -- test
-> 
-> Because the lowest bit is cleared for both timestamp=0 and timestamp=2,
-> the old kernel support only one bit always treats these two setting as
-> timestamp disabled, or the perf tool needs to do extra checking for
-> old kernel.
-
-It won't be. Old kernels report a 1 bit field and Perf errors out if you 
-try to put a 2 into 1 bit. Very old Perfs just set bit 28 which new and 
-old kernels will respect.
-
-> 
->> Now we basically have the same meanings except you also have to set the
->> timestamp bit. Seems a bit pointless.
-> 
->> Previous versions of Perf were hard coding the timestamp format bit rather
->> than reading it out of
->> "/sys/bus/event_source/devices/cs_etm/format/timestamp" though:
->>
->> -       /* All good, let the kernel know */
->> -       evsel->core.attr.config |= (1 << ETM_OPT_TS);
->>
->> For that reason we'd have to leave that one where it is for backwards
->> compatibility. If it's set it would be equivalent to the new wider timestamp
->> field == 1.
-> 
-> Are you suggesting the timestamp field to be extended to two
-> non-consecutive fields?
-
-No, just a new 4 bit field in a new position.
-
-> 
-> For me, this is even worse than current two discrete formats. The reason
-> is it is complex in implementation, and it is not directive for usage
-
-I really don't think the implementation is complex. We just extend the 
-field to 4 bits and make 0 off, max is the lowest rate possible, and 
-every other value in between is in between.
-
-> (users need to digest the field for three different semantics: on/off,
-> counter, and SYNC mode only).
-> 
-
-That's like any enum, it has multiple meanings for each value. I'd argue 
-that two fields for the same thing is more complicated because now this 
-won't work out of the box, and it would work if we did 1 field:
-
-   perf record -e cs_etm/ts_level=2/ -- test
-
-There will be no warning, but no timestamps either. You have to specify 
-both manually. And the only reason for that awkwardness in the API is 
-that we added a new field instead of extending the existing one:
-
-   perf record -e cs_etm/ts_level=2,timestamp/ -- test
-
-> Thanks,
-> Leo
-> 
->> I don't know if there's any precedent for changing the bitfield that backs a
->> format field, but presumably that's the point of publishing them in files
->> rather than a header.
-> 
-> 
->>
->>>>           /* No point in trying if we don't have at least one counter */
->>>>           if (!drvdata->nr_cntr)
->>>> @@ -667,12 +674,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->>>>                   return -ENOSPC;
->>>>           }
->>>>
->>>> -       /*
->>>> -        * Initialise original and reload counter value to the smallest
->>>> -        * possible value in order to get as much precision as we can.
->>>> -        */
->>>> -       config->cntr_val[ctridx] = 1;
->>>> -       config->cntrldvr[ctridx] = 1;
->>>> +       /* Initialise original and reload counter value. */
->>>> +       config->cntr_val[ctridx] = config->cntrldvr[ctridx] = 1 << ts_level;
->>>>
->>>>           /*
->>>>            * Trace Counter Control Register TRCCNTCTLRn
->>>> @@ -762,7 +765,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->>>>                    * order to correlate instructions executed on different CPUs
->>>>                    * (CPU-wide trace scenarios).
->>>>                    */
->>>> -               ret = etm4_config_timestamp_event(drvdata);
->>>> +               ret = etm4_config_timestamp_event(drvdata, attr);
->>>>
->>>>                   /*
->>>>                    * No need to go further if timestamp intervals can't
->>>>
->>>> --
->>>> 2.34.1
->>>>
->>>
->>> Regards
->>>
->>>
->>> Mike
->>>
->>> --
->>> Mike Leach
->>> Principal Engineer, ARM Ltd.
->>> Manchester Design Centre. UK
->>
-
+https://people.kernel.org/tglx/notes-about-netiquette
