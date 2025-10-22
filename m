@@ -1,100 +1,166 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4A037160;
-	Wed, 22 Oct 2025 17:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2353E26ED4B;
+	Wed, 22 Oct 2025 17:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761154248; cv=none; b=U+Xl73M1EbiDwdiW33CBL3cQjIiGyPusBUJjRGs6K4KuD0ickVG7urLbw+ebms0c5ZCVF0F136T/Inz2s2fuHOF96jFAjD/HWr1mXKv9qwe4MvyJmMCvxuAWdshZSJ06vdqLLeZHjaBTskGOUUJweWK4asLDzy4mAvCH3Zx6hro=
+	t=1761155455; cv=none; b=AFZKn7dWlwXQbnK+Ix5JNXIaH4NshiSVjwpKcPsn6iLWyjFng0rl7VCa3D0De7HIMynIQAR2bZBdnsh6kCGDjIP9DqLZ/OrZRkBkCdqAB8tA85gOcHrt8dNsL9GR63QnmCyde+2H3IFsqilqEJQzdOaoWQQHkOZ582NBcJFQnt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761154248; c=relaxed/simple;
-	bh=1qmY/CwBJD83zWmp5rWvoLYG9ya3rrBEJYcOdtURn9c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CRukTAoiVztyUGq/rd102UDRs7UAsu0HApiTz7JaJGUVGq3WLpcjmwPOH67iZOep5H9uqqfVjejfCo7MndkMFzB7CYbKrfTg/oMX5wE13Xw4B/S/X1XXWA+HldZNNA5ZZ9QlknOG6nasXjlYSgfmm0y2PCru//lfGBD85KMkV5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=glxIbN8Q; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761155455; c=relaxed/simple;
+	bh=aMBfoiS7TXWQxlK+kUBxkNRtHrKbU0MW+tHVyHacEWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e4c2s4XMoI+AWrltCtizMr+5VEJa5KdOv3ZxBBbWipelYW2c2p4CSjItyA9TMR/T4Jzb2Btx2IGXUo7wb/pgpsf7aiL/lnVGeuGzAlTcR5ocs8OPn/YdwZqQ9joli+pllDqDuRNXxYv68btQ6X//a6fVUtLjoUtiPQIZ78xUYJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmGlDwG3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="glxIbN8Q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CeC5OMKBMYRDelbMUjaS7F56dsB+qLx2c1x5CAej9Xk=; b=glxIbN8QhiARCJCgYFMGzZKmGB
-	LHkhlk24oX1rrwwapt8AOyvPPKlqODK0OMgTF+pVDD9HLLmFIDRlf8acW9OFzidRESCmNRKLZK9iJ
-	nWqdjjv+Bs/v7am+Zu/LUV4dYXRlk45eqo+FIcmrOuUgPOO0eefHt8ay6nVzyNFG/Ot8L0cQU8Ywb
-	NdSxIXMTtA2k4rr+GyWuSWlqTOopUcGfJysRaP2xwACp5+V39TVWzAN3qS2g7Pe29xBDgiXaK4D78
-	j9pdEJ7/eaHV89ylxU8a383FFaM35SlCFpZywak45mLd/l1zpQPGqYmsRdVvmBT8ZUlaa5EMId1zS
-	32z9IpEw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBcfd-00000003nIr-1V7h;
-	Wed, 22 Oct 2025 17:30:45 +0000
-Message-ID: <2997d8b9-a37a-4411-a5d8-b2cfcc3944b8@infradead.org>
-Date: Wed, 22 Oct 2025 10:30:44 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmGlDwG3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E5E3C4CEE7;
+	Wed, 22 Oct 2025 17:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761155454;
+	bh=aMBfoiS7TXWQxlK+kUBxkNRtHrKbU0MW+tHVyHacEWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JmGlDwG3lM+s4sUd1DbnBulxrCsg6Js8EY0vZsV/rPi5RUDPMQMXVwbZnToV7ezDL
+	 neje42tlXom4X5yh+ndfR9ZX4AHeD69oLO15OQj/JxF6SzuYcfXGa1F5IVZ/AHx5yc
+	 qnPcwLpuAB8DbBXm5TRqtrQb06e42p1WF+dXORf0gXVlRTuOhsiwYZIOEdTBeDXVmx
+	 mLFFeX5SX3eiUxX5S5nuff5sSg54IBXXfE0LAGj4pTFCvIOfXxp72ELYiSmmLdo3QK
+	 DJ0a2TgI4yndDYtOhxfPsnMYUQxTYeaSd2l7TBswoBzeycCsp5AVqYvEdHsKh1bmD1
+	 O5HeuVIwM3MiQ==
+Date: Wed, 22 Oct 2025 18:50:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Aditya Dutt <duttaditya18@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: iio: position: Add ams AS5600 Position
+ Sensor
+Message-ID: <20251022-savanna-gluten-0c5397bd4de4@spud>
+References: <20251020201653.86181-1-duttaditya18@gmail.com>
+ <20251020201653.86181-2-duttaditya18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
- stable tree maintainer
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
-References: <20251022034336.22839-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OzPS2Shsrc7Vzr5x"
+Content-Disposition: inline
+In-Reply-To: <20251020201653.86181-2-duttaditya18@gmail.com>
 
 
+--OzPS2Shsrc7Vzr5x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/21/25 8:43 PM, Bagas Sanjaya wrote:
-> Sasha has also maintaining stable branch in conjunction with Greg
-> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
-> maintainer"). Mention him in 2.Process.rst.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On Tue, Oct 21, 2025 at 01:46:52AM +0530, Aditya Dutt wrote:
+> The AS5600 is a Hall-based rotary magnetic position sensor using
+> planar sensors that convert the magnetic field component perpendicular
+> to the surface of the chip into a voltage, or a numerical value
+> available through i2c.
+>=20
+> Add dt-bindings for the sensor.
+>=20
+> Datasheet: https://ams-osram.com/products/sensor-solutions/position-senso=
+rs/ams-as5600-position-sensor
 
+Looks like this device has two supplies, could you document those
+please?
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Additionally, this "PGO" pin - is it necessary for a driver to know what
+state it is in to function correctly? If so, can the information about
+which state it is in be gathered from i2c?
+Should there also be an optional pgo-gpios property for the scenario
+where it is not tied, but set by a GPIO, if that is even possible.
 
-Now matches the MAINTAINERS file.
-
-Thanks.
-
+> Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
 > ---
->  Documentation/process/2.Process.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-> index 8e63d171767db8..7bd41838a5464f 100644
-> --- a/Documentation/process/2.Process.rst
-> +++ b/Documentation/process/2.Process.rst
-> @@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
->  are serious.
->  
->  Once a stable release is made, its ongoing maintenance is passed off to the
-> -"stable team," currently Greg Kroah-Hartman. The stable team will release
-> -occasional updates to the stable release using the 9.x.y numbering scheme.
-> +"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
-> +stable team will release occasional updates to the stable release using the
-> +9.x.y numbering scheme.
+>  .../bindings/iio/position/ams,as5600.yaml     | 42 +++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/position/ams,as=
+5600.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/position/ams,as5600.ya=
+ml b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
+> new file mode 100644
+> index 000000000000..d4c92dd41dd6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/position/ams,as5600.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  To be considered for an update release, a patch must (1) fix a significant
->  bug, and (2) already be merged into the mainline for the next development
->  kernel. Kernels will typically receive stable updates for a little more
-> 
-> base-commit: 0aa760051f4eb3d3bcd812125557bd09629a71e8
+> +title: ams AS5600 Position Sensor
+> +
+> +maintainers:
+> +  - Aditya Dutt <duttaditya18@gmail.com>
+> +
+> +description: |
+> +  12-Bit Programmable Contactless Potentiometer
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ams,as5600
 
--- 
-~Randy
+blank line here please.
+
+> +  reg:
+> +    maxItems: 1
+> +    description: |
+> +      The I2C register address of the device. Typical address for AS5600=
+: 0x36.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      ams5600@36 {
+
+potentiometer@36
+
+pw-bot: changes-requested
+
+Cheers,
+Conor.
+
+> +        compatible =3D "ams,as5600";
+> +        reg =3D <0x36>;
+> +      };
+> +    };
+> +
+> +...
+> --=20
+> 2.34.1
+>=20
+
+--OzPS2Shsrc7Vzr5x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPkZeQAKCRB4tDGHoIJi
+0vBLAP9RMGFPj6gbrBZaaEIaeSxbhiHozKyiE248FCgnAYHnOAEAkrlBQoi+mcMx
+fJLqI8ROL/gWvZhqBI3AEPibBFlUaQ4=
+=GpNy
+-----END PGP SIGNATURE-----
+
+--OzPS2Shsrc7Vzr5x--
