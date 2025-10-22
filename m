@@ -1,78 +1,98 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7014E34CFDB;
-	Wed, 22 Oct 2025 18:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C8834D4FE
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 18:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761157691; cv=none; b=Im4zz3/fJvt+h5N6yYQvRC5Wdrdef0xznxBx1+rqd9mdr5DMW27BllFNZP5ptE+BbI8e/AzSopjo+Jzcuha70fqr7oiQiSfNHId09EU37ZFlvLzcYwmmIYIaOhplog1QoRxuweXRnNX7ORozvzIJ2NjftW26FH/yOa3Dq8HmWH4=
+	t=1761158315; cv=none; b=DM2GJbI1lc0VlU+r5SOe9emVcNoeeTPfwSAW1jU9QvW3JvwhRsgQuOQEKqJ+KC5dGo151kG7OJ0mrCoDTHtU28bymceIxRb7OknwWi2WEUbzqaXi32q4+c996Giy0+1fs7PXjXx6qu7RfopFNfkd/OEnJtbnUpJCZqN3TvjtZHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761157691; c=relaxed/simple;
-	bh=9+WeqbUMUpY6ROiRaae5knohxpc6q4u+xKCz4B6a3L4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bV+MMd+KH2q5422t5VvEAB+9pS/P7TyQlUlwc+h+cDFa/ldJBVLO4/OVlOWCkbTNO3NH+0UQ23r3Anmvo+QqW7aAsSCsxOULQmcINNWjwaAFXRfr5/iDSL4JWhG4tI981IeED4j6IiFNqp/fCR62zQOr59CRLQrpf424g+tkKv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=us.ibm.com; spf=none smtp.mailfrom=linux.vnet.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=MsBxJEBM; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=us.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.vnet.ibm.com
+	s=arc-20240116; t=1761158315; c=relaxed/simple;
+	bh=fl1WQo5E/YjxGfFqNhLuYJqNkMvOHJQ1ANYx17j/Iao=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PESgSR4CmidDhXCkflzN+NF8lIGBQLZLZqrNZ8JJgr8ozRI/nTSyP7OEhvJ53zNNCkptof6hc4XY2Lf7tI16s9EvMWJd98nby2ixHMeaQ+/r56Sqjw6B9rlYz3YzYvOBscnKItIQyKAdh6L+2GWUyygMLLyLzH54/yk4vSp4c2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mdxowlwz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="MsBxJEBM"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MAOXHA003946;
-	Wed, 22 Oct 2025 18:27:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=meFZWl7a64A8cL8YC
-	fMpTCg5cNlveAeMzgceTrc7Ukw=; b=MsBxJEBMBtZ3uq1zV2EItNUQKql6pBnlU
-	prSV/UceL1ATpRRIEk5T+Vee3Bv0IbhXAqeZR7Sskxfx/ziPSoadJTfYZ2637/eN
-	oy6fAJ24M4n5ctA8QYstrpS0AMlufASGk+JbgqGPHiQmDAK6A9nxookfpEvPluRP
-	o8yDPtYZFGnSKaWNOkAIzOXuH7RAiYTF2H5FrwrL3lOiWrB6//wdFEN6IZA3kYry
-	moa/TFr1hGF7v8iL0gu0g9l7L2h5BkVjq+/0GsjexuDLl2+POJGI6tHojL9mjQFd
-	zHfBo6OhJUaeY/s3VIRMPc+B/wfxjT474EO0k5QycopC952QKDbNg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v32hmwa5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Oct 2025 18:27:54 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59MIRXlV012650;
-	Wed, 22 Oct 2025 18:27:54 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v32hmw9y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Oct 2025 18:27:54 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59MHwNrL002381;
-	Wed, 22 Oct 2025 18:27:53 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 49vqejhpu7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Oct 2025 18:27:53 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59MIRpTx10224282
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Oct 2025 18:27:52 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D0BD85805D;
-	Wed, 22 Oct 2025 18:27:51 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8DEF058052;
-	Wed, 22 Oct 2025 18:27:51 +0000 (GMT)
-Received: from localhost (unknown [9.61.190.208])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 Oct 2025 18:27:51 +0000 (GMT)
-From: David Wilder <wilder@us.ibm.com>
-To: netdev@vger.kernel.org
-Cc: jv@jvosburgh.net, wilder@us.ibm.com, pradeep@us.ibm.com,
-        i.maximets@ovn.org, amorenoz@redhat.com, haliu@redhat.com,
-        stephen@networkplumber.org, horms@kernel.org, kuba@kernel.org,
-        pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@google.com,
-        razor@blackwall.org, shuah@kernel.org, corbet@lwn.net,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v14 7/7] bonding: Selftest and documentation for the arp_ip_target parameter.
-Date: Wed, 22 Oct 2025 11:25:34 -0700
-Message-ID: <20251022182721.2567561-8-wilder@us.ibm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251022182721.2567561-1-wilder@us.ibm.com>
-References: <20251022182721.2567561-1-wilder@us.ibm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mdxowlwz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761158312;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sGrCfbpJbLZ7HRMa9iPXf+hCVuEsHMIDx0PfwK6yFh0=;
+	b=MdxowlwzvWwphTTpNcg33TQdvZ+UIQJq7P7dphnKrCMClBf54UFq6sk7erFgsBMe9QEsqM
+	sm8hPlmB2s5fHVQVKgtCF0+eNng6QKfogFolmzdxU8Rz2OveQUnLyCQLO2DMzaTCEeCoho
+	zdUEGKjEHtfKE09ioQ7MEiY8P+4+pEw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-304-1eKGJ1J5OM-DligeSKwWCQ-1; Wed,
+ 22 Oct 2025 14:38:27 -0400
+X-MC-Unique: 1eKGJ1J5OM-DligeSKwWCQ-1
+X-Mimecast-MFC-AGG-ID: 1eKGJ1J5OM-DligeSKwWCQ_1761158300
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EAE2418002C9;
+	Wed, 22 Oct 2025 18:38:15 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.64.41])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D1EB219560A2;
+	Wed, 22 Oct 2025 18:38:02 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Cc: david@redhat.com,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	corbet@lwn.net,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	akpm@linux-foundation.org,
+	baohua@kernel.org,
+	willy@infradead.org,
+	peterx@redhat.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kas@kernel.org,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com,
+	rdunlap@infradead.org,
+	hughd@google.com,
+	richard.weiyang@gmail.com,
+	lance.yang@linux.dev,
+	vbabka@suse.cz,
+	rppt@kernel.org,
+	jannh@google.com,
+	pfalcato@suse.de
+Subject: [PATCH v12 mm-new 00/15] khugepaged: mTHP support
+Date: Wed, 22 Oct 2025 12:37:02 -0600
+Message-ID: <20251022183717.70829-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,285 +100,115 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfXx5qb89SK/H7d
- 9e+Z9z+IgYqn0Y26XcIUooDbTGATQwjtd7oCCST74YMlITqBhJbIxG1vTZOOqVEAhUMYS+LAQ4t
- XFB9hb+e82BChkhTUAyUdXnga7UcTmXEiBy8DZ2J/McjedvaJSCK8TkX+5vxgXz1tZtbTZbu5XX
- MceQ0VQbiZl9u6heQ7amB9QIXZ5hcqrfNB0dNTvs1l+6mKFSchOa3lXrUkyPCHiNUHcY8CnHq8/
- IcxAUsveeggFvRDrtSv2e08bUKnE9q/tXDUj8Oug9b3dYFar8u57e8i3o1uu+40VzVWYc0X0yS6
- wO/6wA1AGpqfb4RuWrqPw0nFtrJdRx1tsJnnAZK0YKD796PSbPOQ11mngWL6mY0bsN8UL6tGxn/
- uB1EnLTJQXwgq5n3JnfPDrXvpPoUKg==
-X-Authority-Analysis: v=2.4 cv=OrVCCi/t c=1 sm=1 tr=0 ts=68f9222a cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8
- a=5H582h-KRMRMVc_AKwkA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: 7q-XxNz2Jgori3RZuQ_6FV8_KPpsZWrr
-X-Proofpoint-ORIG-GUID: s03uzgX91kX3MM8eWScNnXCbitmuCq9D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_07,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
- clxscore=1011 bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Selftest provided as a functional test for the arp_ip_target parameter
-both with and without user supplied vlan tags. Bonding documentation
-has been updated for the arp_ip_target option.
+The following series provides khugepaged with the capability to collapse
+anonymous memory regions to mTHPs.
 
-Signed-off-by: David Wilder <wilder@us.ibm.com>
----
- Documentation/networking/bonding.rst          |  11 +
- .../selftests/drivers/net/bonding/Makefile    |   1 +
- .../drivers/net/bonding/bond-arp-ip-target.sh | 204 ++++++++++++++++++
- 3 files changed, 216 insertions(+)
- create mode 100755 tools/testing/selftests/drivers/net/bonding/bond-arp-ip-target.sh
+To achieve this we generalize the khugepaged functions to no longer depend
+on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
+pages that are occupied (!none/zero). After the PMD scan is done, we do
+binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
+range. The restriction on max_ptes_none is removed during the scan, to make
+sure we account for the whole PMD range. When no mTHP size is enabled, the
+legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
+by the attempted collapse order to determine how full a mTHP must be to be
+eligible for the collapse to occur. If a mTHP collapse is attempted, but
+contains swapped out, or shared pages, we don't perform the collapse. It is
+now also possible to collapse to mTHPs without requiring the PMD THP size
+to be enabled.
 
-diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-index e700bf1d095c..08a3191a0322 100644
---- a/Documentation/networking/bonding.rst
-+++ b/Documentation/networking/bonding.rst
-@@ -330,6 +330,17 @@ arp_ip_target
- 	maximum number of targets that can be specified is 16.  The
- 	default value is no IP addresses.
- 
-+        When an arp_ip_target is configured the bonding driver will
-+        attempt to automatically determine what vlans the arp probe will
-+        pass through. This process of gathering vlan tags is required
-+        for the arp probe to be sent. However, in some configurations
-+        this process may fail. In these cases you may manually
-+        supply a list of vlan tags. To specify a list of vlan tags
-+        append the ipv4 address with [tag1/tag2...]. For example:
-+        arp_ip_target=10.0.0.1[10]. If you simply need to disable the
-+        vlan discovery process you may provide an empty list, for example:
-+        arp_ip_target=10.0.0.1[].
-+
- ns_ip6_target
- 
- 	Specifies the IPv6 addresses to use as IPv6 monitoring peers when
-diff --git a/tools/testing/selftests/drivers/net/bonding/Makefile b/tools/testing/selftests/drivers/net/bonding/Makefile
-index 402d4ee84f2e..b9594790e6df 100644
---- a/tools/testing/selftests/drivers/net/bonding/Makefile
-+++ b/tools/testing/selftests/drivers/net/bonding/Makefile
-@@ -3,6 +3,7 @@
- 
- TEST_PROGS := \
- 	bond-arp-interval-causes-panic.sh \
-+	bond-arp-ip-target.sh \
- 	bond-break-lacpdu-tx.sh \
- 	bond-eth-type-change.sh \
- 	bond-lladdr-target.sh \
-diff --git a/tools/testing/selftests/drivers/net/bonding/bond-arp-ip-target.sh b/tools/testing/selftests/drivers/net/bonding/bond-arp-ip-target.sh
-new file mode 100755
-index 000000000000..9e3ecd8c2ced
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/bonding/bond-arp-ip-target.sh
-@@ -0,0 +1,204 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Test bonding arp_ip_target.
-+# Topology for Bond mode 1,5,6 testing
-+#
-+#  +-------------------------+
-+#  |                         | Server
-+#  |        bond0.10.20      | 192.20.2.1/24
-+#  |            |            |
-+#  |         bond0.10        | 192.10.2.1/24
-+#  |            |            |
-+#  |          bond0          | 192.0.2.1/24
-+#  |            |            |
-+#  |            +            |
-+#  |      eth0  |  eth1      |
-+#  |        +---+---+        |
-+#  |        |       |        |
-+#  +-------------------------+
-+#           |       |
-+#  +-------------------------+
-+#  |        |       |        |
-+#  |    +---+-------+---+    |  Gateway
-+#  |    |      br0      |    |
-+#  |    +-------+-------+    |
-+#  |            |            |
-+#  +-------------------------+
-+#               |
-+#  +-------------------------+
-+#  |            |            |  Client
-+#  |          eth0           | 192.0.0.2/24
-+#  |            |            |
-+#  |         eth0.10         | 192.10.10.2/24
-+#  |            |            |
-+#  |        eth0.10.20       | 192.20.20.2/24
-+#  +-------------------------+
-+
-+# shellcheck disable=SC2317
-+
-+lib_dir=$(dirname "$0")
-+
-+# shellcheck source=/dev/null # Ignore source warning.
-+source "${lib_dir}"/bond_topo_2d1c.sh
-+
-+# shellcheck disable=SC2154 # Ignore unassigned referenced warning.
-+echo "${c_ns}" "${s_ns}" > /dev/null
-+
-+DEBUG=${DEBUG:-0}
-+test "${DEBUG}" -ne 0 && set -x
-+
-+# vlan subnets
-+c_ip4="192.0.2.10"
-+c_ip4v10="192.10.2.10"
-+c_ip4v20="192.20.2.10"
-+
-+export ALL_TESTS="
-+	no_vlan_hints
-+	with_vlan_hints
-+"
-+
-+# Build stacked vlans on top of an interface.
-+stack_vlans()
-+{
-+	RET=0
-+	local interface="$1"
-+	local ns=$2
-+	local last="$interface"
-+	local tags="10 20"
-+
-+	if ! ip -n "${ns}" link show "${interface}" > /dev/null; then
-+		RET=1
-+		msg="Failed to create ${interface}"
-+		return 1
-+	fi
-+
-+	if [ "$ns" == "${s_ns}" ]; then host=1; else host=10;fi
-+
-+	for tag in $tags; do
-+		ip -n "${ns}" link add link "$last" name "$last"."$tag" type vlan id "$tag"
-+		ip -n "${ns}" address add 192."$tag".2."$host"/24 dev "$last"."$tag"
-+		ip -n "${ns}" link set up dev "$last"."$tag"
-+		last=$last.$tag
-+	done
-+}
-+
-+wait_for_arp_request()
-+{
-+	local target=$1
-+	local ip
-+	local interface
-+
-+	ip=$(echo "${target}" | awk -F "[" '{print $1}')
-+	interface="$(ip -n "${c_ns}" -br addr show | grep "${ip}" | awk -F @ '{print $1}')"
-+
-+	tc -n "${c_ns}" qdisc add dev "${interface}" clsact
-+	tc -n "${c_ns}" filter add dev "${interface}" ingress protocol arp \
-+	handle 101 flower skip_hw arp_op request arp_tip "${ip}" action pass
-+
-+	slowwait_for_counter 5 5 tc_rule_handle_stats_get \
-+		"dev ${interface} ingress" 101 ".packets" "-n ${c_ns}" &> /dev/null || RET=1
-+
-+	tc -n "${c_ns}" filter del dev "${interface}" ingress
-+	tc -n "${c_ns}" qdisc del dev "${interface}" clsact
-+
-+	if [ "$RET" -ne 0 ]; then
-+		msg="Arp probe not received by ${interface}"
-+		return 1
-+	fi
-+}
-+
-+# Check for link flapping.
-+# First verify the arp requests are being received
-+# by the target.  Then verify that the Link Failure
-+# Counts are not increasing over time.
-+# Arp probes are sent every 100ms, two probes must
-+# be missed to trigger a slave failure. A one second
-+# wait should be sufficient.
-+check_failure_count()
-+{
-+	local bond=$1
-+	local target=$2
-+	local proc_file=/proc/net/bonding/${bond}
-+
-+	wait_for_arp_request "${target}" || return 1
-+
-+	LinkFailureCount1=$(ip netns exec "${s_ns}" grep -F "Link Failure Count" "${proc_file}" \
-+	| awk -F: '{ sum += $2 } END { print sum }')
-+	sleep 1
-+	LinkFailureCount2=$(ip netns exec "${s_ns}" grep -F "Link Failure Count" "${proc_file}" \
-+	| awk -F: '{ sum += $2 } END { print sum }')
-+
-+	[ "$LinkFailureCount1" != "$LinkFailureCount2" ] && RET=1
-+}
-+
-+setup_bond_topo()
-+{
-+	setup_prepare
-+	setup_wait
-+	stack_vlans bond0 "${s_ns}"
-+	stack_vlans eth0 "${c_ns}"
-+}
-+
-+skip_with_vlan_hints()
-+{
-+	# check if iproute supports arp_ip_target with vlans option.
-+	if ! ip -n "${s_ns}" link add bond2 type bond arp_ip_target 10.0.0.1[10]; then
-+		ip -n "${s_ns}" link del bond2 2> /dev/null
-+		return 0
-+	fi
-+	return 1
-+}
-+
-+no_vlan_hints()
-+{
-+	RET=0
-+	local targets="${c_ip4} ${c_ip4v10} ${c_ip4v20}"
-+	local target
-+	msg=""
-+
-+	for target in $targets; do
-+		bond_reset "mode $mode arp_interval 100 arp_ip_target ${target}"
-+		stack_vlans bond0 "${s_ns}"
-+		if [ "$RET" -ne 0 ]; then
-+			log_test "no_vlan_hints" "${msg}"
-+			return
-+		fi
-+		check_failure_count bond0 "${target}"
-+		log_test "arp_ip_target=${target} ${msg}"
-+	done
-+}
-+
-+with_vlan_hints()
-+{
-+	RET=0
-+	local targets="${c_ip4}[] ${c_ip4v10}[10] ${c_ip4v20}[10/20]"
-+	local target
-+	msg=""
-+
-+	if skip_with_vlan_hints; then
-+		log_test_skip "skip_with_vlan_hints" \
-+		"Installed iproute doesn't support extended arp_ip_target options."
-+		return 0
-+	fi
-+
-+	for target in $targets; do
-+		bond_reset "mode $mode arp_interval 100 arp_ip_target ${target}"
-+		stack_vlans bond0 "${s_ns}"
-+		if [ "$RET" -ne 0 ]; then
-+			log_test "no_vlan_hints" "${msg}"
-+			return
-+		fi
-+		check_failure_count bond0 "${target}"
-+		log_test "arp_ip_target=${target} ${msg}"
-+	done
-+}
-+
-+trap cleanup EXIT
-+
-+mode=active-backup
-+
-+setup_bond_topo
-+tests_run
-+
-+exit "$EXIT_STATUS"
+When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
+4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
+mTHP collapses to prevent collapse "creep" behavior. This prevents
+constantly promoting mTHPs to the next available size, which would occur
+because a collapse introduces more non-zero pages that would satisfy the
+promotion condition on subsequent scans.
+
+Patch 1:     Refactor/rename hpage_collapse
+Patch 2:     Refactoring to combine madvise_collapse and khugepaged
+Patch 3-7:   Generalize khugepaged functions for arbitrary orders
+Patch 8:     skip collapsing mTHP to smaller orders
+Patch 9-10:  Add per-order mTHP statistics and tracepoints
+Patch 11:    Introduce collapse_allowable_orders
+Patch 12-14: Introduce bitmap and mTHP collapse support
+Patch 15:    Documentation
+
+---------
+ Testing
+---------
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- I created a test script that I used to push khugepaged to its limits
+   while monitoring a number of stats and tracepoints. The code is
+   available here[1] (Run in legacy mode for these changes and set mthp
+   sizes to inherit)
+   The summary from my testings was that there was no significant
+   regression noticed through this test. In some cases my changes had
+   better collapse latencies, and was able to scan more pages in the same
+   amount of time/work, but for the most part the results were consistent.
+- redis testing. I tested these changes along with my defer changes
+  (see followup [2] post for more details). We've decided to get the mTHP
+  changes merged first before attempting the defer series.
+- some basic testing on 64k page size.
+- lots of general use.
+
+V12 Changes:
+- variable cleanups & minor nits
+- Documentation updates to be less specific about the internal workings
+- Added Review by Baolin (thanks!)
+- Improved readability of the collapse_max_ptes_none function
+- Improved collapse_scan_pmd max_ptes_none logic using the helper
+
+V11: https://lore.kernel.org/lkml/20250912032810.197475-1-npache@redhat.com/
+V10: https://lore.kernel.org/lkml/20250819134205.622806-1-npache@redhat.com/
+V9 : https://lore.kernel.org/lkml/20250714003207.113275-1-npache@redhat.com/
+V8 : https://lore.kernel.org/lkml/20250702055742.102808-1-npache@redhat.com/
+V7 : https://lore.kernel.org/lkml/20250515032226.128900-1-npache@redhat.com/
+V6 : https://lore.kernel.org/lkml/20250515030312.125567-1-npache@redhat.com/
+V5 : https://lore.kernel.org/lkml/20250428181218.85925-1-npache@redhat.com/
+V4 : https://lore.kernel.org/lkml/20250417000238.74567-1-npache@redhat.com/
+V3 : https://lore.kernel.org/lkml/20250414220557.35388-1-npache@redhat.com/
+V2 : https://lore.kernel.org/lkml/20250211003028.213461-1-npache@redhat.com/
+V1 : https://lore.kernel.org/lkml/20250108233128.14484-1-npache@redhat.com/
+
+A big thanks to everyone that has reviewed, tested, and participated in
+the development process. Its been a great experience working with all of
+you on this endeavour.
+
+[1] - https://gitlab.com/npache/khugepaged_mthp_test
+[2] - https://lore.kernel.org/lkml/20250515033857.132535-1-npache@redhat.com/
+
+Baolin Wang (1):
+  khugepaged: run khugepaged for all orders
+
+Dev Jain (1):
+  khugepaged: generalize alloc_charge_folio()
+
+Nico Pache (13):
+  khugepaged: rename hpage_collapse_* to collapse_*
+  introduce collapse_single_pmd to unify khugepaged and madvise_collapse
+  khugepaged: generalize hugepage_vma_revalidate for mTHP support
+  khugepaged: generalize __collapse_huge_page_* for mTHP support
+  khugepaged: introduce collapse_max_ptes_none helper function
+  khugepaged: generalize collapse_huge_page for mTHP collapse
+  khugepaged: skip collapsing mTHP to smaller orders
+  khugepaged: add per-order mTHP collapse failure statistics
+  khugepaged: improve tracepoints for mTHP orders
+  khugepaged: introduce collapse_allowable_orders helper function
+  khugepaged: Introduce mTHP collapse support
+  khugepaged: avoid unnecessary mTHP collapse attempts
+  Documentation: mm: update the admin guide for mTHP collapse
+
+ Documentation/admin-guide/mm/transhuge.rst |  84 ++-
+ include/linux/huge_mm.h                    |   5 +
+ include/linux/khugepaged.h                 |   2 +
+ include/trace/events/huge_memory.h         |  34 +-
+ mm/huge_memory.c                           |  11 +
+ mm/khugepaged.c                            | 614 +++++++++++++++------
+ mm/mremap.c                                |   2 +-
+ 7 files changed, 539 insertions(+), 213 deletions(-)
+
 -- 
-2.50.1
+2.51.0
 
