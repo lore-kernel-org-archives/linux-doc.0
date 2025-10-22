@@ -1,85 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF31284881;
-	Wed, 22 Oct 2025 06:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F77258CD7;
+	Wed, 22 Oct 2025 06:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761114560; cv=none; b=YHfMpHsjr0igzcUCBV5V1eKtEwVQY3YAjfJ+Vg8KumzE0Jo+f4G9Hkz8H4uQqQTvYz2cQ0ifnbb9BPbrkbccJXB8dqyxj9WiWJ5U+aIXV0ZhNfwYvEUh8E3/oG1FYjx+ItcqtKx0jbH6bHXuWsto02BW9WdHxAPkMHW2tQ8eq+Q=
+	t=1761115482; cv=none; b=VOTT/2n4PP2w7Kkqg/l8adZBSZs8Z0vR/4pqWgCBSEd+p5trO3YaXGyrD0ROtL8XUqH3KstBRCqK7OFVWM/pswXIkVfofCSCr84ac42wRiVEf9dhli7tAloq/wWYu1SqcQzG+0h8Di0v6qSN62PnXiMslrj5muQQCpRZQfmncUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761114560; c=relaxed/simple;
-	bh=QXPLGL8pseRCUe8lWHgA9QU+9DwUxuyGw1dXibFDFP4=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=oLHyqqR1kpcpr2O6aVlZFSVaHJIfkKNE+Ht4sjWKGqgcy9/7MD2yAXrXkfE0j0jONI7/Jx7ohMLUSSdeKALRHIydwNLKWOXCAd3mqLmDBaogC9Nzcj0cUU1GJO7aTgpeL4zxSiYVkm0kWCkYY12ye5kF9jYR2tGqZhTkCUU5lyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=baHWjW0C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761115482; c=relaxed/simple;
+	bh=Z5AWUZgXIxpUHQV1fNHHxpTVV6Oicr9t+TxDvGlw+6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G4Bu901eQTK4W0Z92tB3bK/hjksBjCg8UmW01+pTCrng4RxM+d7KkIe4N9Zke8bp3WXUGdTQiHXF9szL1T+lVXu31CuBKOpms2UInMgYfkiXdLuC95pUVoNpMfVwQG910s1Tv/kDnag0rt18pzsN4859BOQcTcercYpCHecSdNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OiRdl3zf; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="baHWjW0C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F50C4CEE7;
-	Wed, 22 Oct 2025 06:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761114559;
-	bh=QXPLGL8pseRCUe8lWHgA9QU+9DwUxuyGw1dXibFDFP4=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=baHWjW0CcOnSygw1t8NqGdIOdWWlGNXbYca2Pnxi59xvRuFi2cUZdmBnA6zswRNVc
-	 hr8yMEomwnRtI+ybwGepOPUmuKRYmW8NE8EITHCQ4ybEPzcL4X1CsG91/VBYaYUW50
-	 TTzTBSQgaqfMA0hHS7ByX360hcPBa8xDdvT7RalT6NI2y+xDz/M57Lq2rjaH1WinHp
-	 DHyjr2CcM+Y5qcrdhz12JYWylQfsqzUJa2YF5W6enP23/p0u6Vrr6SSO93DLXKdCpP
-	 NnE38RsMfTgsemgv26yKKm2wmfqt9vjYqmv/WbiGQ0fyxUE/tbLVLc9pRusS9ZBMSt
-	 1CTfZ2G4S/n9A==
-Date: Wed, 22 Oct 2025 01:29:17 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OiRdl3zf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=kyOfDxXn3l+NgMiyysxqYTdckOUTzb689OEE6eFFTKI=; b=OiRdl3zfcabVHV+WVH9hzNGVFQ
+	0i+ZfByOM4atbb8kHfDy6gQeI7Re38es6JsN5tmh13zxnW9jwICCGbJgvDp18LQsqgV32ieYElvCm
+	mSBTJnTW/OXvoFYW4TatNGmCSiNh9RgVzKHW5wJuRqq/IUeM92y0x5jyeqeqIr6GTr/6dghygJRPh
+	d4VYJqGqBgAKkkR+e7xS8F2Toh0nVymoE0a0kKaDeDrYb06k8cKRISjNVtrAj4JSHGkkdX6fFhWtl
+	C6HlapxNk6t418RIa0UnOCJVeSaJffeaYQkk5jOWvHH2QPTwsfV/zORvRd8vM0nGGyOvOlgVNd4qI
+	Uu3E0uGg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBSaF-00000001hpk-2d9E;
+	Wed, 22 Oct 2025 06:44:31 +0000
+Date: Tue, 21 Oct 2025 23:44:31 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org, linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
+Subject: Re: [PATCH v3 0/3] initrd: remove half of classic initrd support
+Message-ID: <aPh9Tx95Yhm_EkLN@infradead.org>
+References: <20251017060956.1151347-1-safinaskar@gmail.com>
+ <20251021-bannmeile-arkaden-ae2ea9264b85@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: krzk+dt@kernel.org, david.hunter.linux@gmail.com, 
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- conor+dt@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux@roeck-us.net
-To: Igor Reznichenko <igor@reznichenko.net>
-In-Reply-To: <20251022044708.314287-6-igor@reznichenko.net>
-References: <20251022044708.314287-1-igor@reznichenko.net>
- <20251022044708.314287-6-igor@reznichenko.net>
-Message-Id: <176111455721.2322150.17932964087857323488.robh@kernel.org>
-Subject: Re: [PATCH 5/5] Documentation/devicetree/bindings/hwmon: Add
- TSC1641 binding
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021-bannmeile-arkaden-ae2ea9264b85@brauner>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-
-On Tue, 21 Oct 2025 21:47:08 -0700, Igor Reznichenko wrote:
-> Add a devicetree binding for the TSC1641 I2C power monitor.
+On Tue, Oct 21, 2025 at 03:05:35PM +0200, Christian Brauner wrote:
+> Without Acks or buy-in from other maintainers this is not a change we
+> can just do given that a few people already piped up and expressed
+> reservations that this would be doable for them.
 > 
-> Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
-> ---
->  .../devicetree/bindings/hwmon/st,tsc1641.yaml | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml
-> 
+> @Christoph, you marked this as deprecated years ago.
+> What's your take on this?
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml:31:111: [warning] line too long (119 > 110 characters) (line-length)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251022044708.314287-6-igor@reznichenko.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+I'd love to see it go obviously.  But IIRC we had various users show
+up, which speaks against removing it.  Maybe the first step would be
+a separate config option just for block-based initrd?
 
