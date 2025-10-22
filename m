@@ -1,36 +1,36 @@
 Received: from mail1.fiberby.net (mail1.fiberby.net [193.104.135.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171D2EBDEB;
-	Wed, 22 Oct 2025 18:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C54E34C99A;
+	Wed, 22 Oct 2025 18:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.104.135.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761157642; cv=none; b=G5Fksr+QEDvkwYiMK4OE3AYUm5GSqWt3lJVIDby2nhLlMvfIj1o7GScSEGD9qOXzUQjniNGM+dM6QfJs3ay/Mn3HSgXGL7/1QYtpa/sYuZICzFkI1EfLWYLhVSMWgfY2NSNkzLAN/tXMBu16Sy9nmkjVyqqWEgq27RSIn9VTVTg=
+	t=1761157644; cv=none; b=A+IJELZde+zs8rheIcJJxi8RA9wenGkcQJsikZ4cCeabwW0IrIVLS7JGLzHWoscBfweoQrEKKGqp8NY3g2ixokKRrXnAbfcidkvW6RHO74gyj8Zg2ZH9z5ALJqanPWaOovvj3vSOe8zBmWNaV67vdzUv4vE2FukW7MZfs1Wrwhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761157642; c=relaxed/simple;
-	bh=NgDePtBbene/8a4nTruU8kuIN+TmkEF5/1EK9+oGnz0=;
+	s=arc-20240116; t=1761157644; c=relaxed/simple;
+	bh=H4QLUCPTYmum7YJRk09TGBcRUEfaTbbQ/3zKr9PVciw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LTQoDJio2q+lU+NXbvhvDMmIAdpIwVS2QimxAxJm9CD8cKANLzZQzVd4zv4WpaJI3ENM4QT1Phv72M2ce5uAj+KUkrz+n7agO/nQlBRSm0Uth0q0qrJfukUKrcMso62upaJzHNCSZl+q2Q7Kk9rNCS+oBi470gBrGvjGUuh8aEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=hOiDqnde; arc=none smtp.client-ip=193.104.135.124
+	 MIME-Version:Content-Type; b=QcWRQa3p6DsOp7Msm3NpC2eoyJTWMHN1/UDsXHQr5iiUvJ4fIlh6w7SKrYUctL3W3e8RQFsmcMoiZkdrvhlqhrt9bFeRCNw3TJsBBLY+LOPt1+urNxf43c1xtvxf63i8fuh54M3EtjuROVS7DKNF3fMUh+JuGilnIfwP1rnbLcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=Lj6HV18I; arc=none smtp.client-ip=193.104.135.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="hOiDqnde"
+	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="Lj6HV18I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fiberby.net;
 	s=202008; t=1761157634;
-	bh=NgDePtBbene/8a4nTruU8kuIN+TmkEF5/1EK9+oGnz0=;
+	bh=H4QLUCPTYmum7YJRk09TGBcRUEfaTbbQ/3zKr9PVciw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hOiDqndeK1Ti+NJ48nv/TyxZf3fmxptP1cSP4/EtPl5GeZYfAq9QworgSEtqTrvgv
-	 m3mfHLm2GsMHa/2aM34g/g83ArWWkfdys+vtY17bviZE9Tq9wphuZk1yD1tcJEFlSW
-	 srEEcXWqZ2dVXYy/X1WNeX2jXIr/UjQngidKx9iUFDPHxPcO7pDxWinUZC3LGSr3JV
-	 VHYWCzarVM1vLvzZjga/TPlX6QWHFgjpw1d+CNBzCNIeFkLLmN2dcEfCO50ntA0JgS
-	 T59ZrpVQHAuxRv8dOPU5MG14mJVao+gt4OhMlyX9N+cB6G/I2avDQUsu0OcrZHPH79
-	 lrQDpXISYwKow==
+	b=Lj6HV18Ixlw0m5W36H+5K59f3Ish4H5sx1ZQPupjNlC5k0a7UPrSBXTnpsNDFlZSS
+	 8iR0MDQU35DZOzvw9dYSAX8KWtzjjHMPGWo9y+uhJ9Sn7iCdhTmH24TrgPIYAT5CrG
+	 Gt6+OPz1uz+h5FGV0VFsHFn8wMSzjnmUGGVUolZCt1xlAi5iBO95o6QiGjPPIILBdB
+	 JRGUQa8YM5HhZFTxjJQ0uiuu+wznaXpOmtPnGLshK63hWjDYfc9x8aZPOqgdsWXCwH
+	 0j6RdPHiv4jl1LH/1u+2zZ0mbilP9niRB6ymkX4jn/EdB8oppXH7CR1zZ5jY5LKl0A
+	 OiH//VM6x7Sqg==
 Received: from x201s (193-104-135-243.ip4.fiberby.net [193.104.135.243])
-	by mail1.fiberby.net (Postfix) with ESMTPSA id 7A56E600C1;
+	by mail1.fiberby.net (Postfix) with ESMTPSA id 751E36000C;
 	Wed, 22 Oct 2025 18:27:14 +0000 (UTC)
 Received: by x201s (Postfix, from userid 1000)
-	id BCBC12026D9; Wed, 22 Oct 2025 18:27:09 +0000 (UTC)
+	id 81B4A200C27; Wed, 22 Oct 2025 18:27:09 +0000 (UTC)
 From: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>
 To: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -46,9 +46,9 @@ Cc: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH net-next 6/7] netlink: specs: rt-link: set ignore-index on indexed-arrays
-Date: Wed, 22 Oct 2025 18:26:59 +0000
-Message-ID: <20251022182701.250897-7-ast@fiberby.net>
+Subject: [PATCH net-next 1/7] netlink: specs: add ignore-index flag for indexed-array
+Date: Wed, 22 Oct 2025 18:26:54 +0000
+Message-ID: <20251022182701.250897-2-ast@fiberby.net>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251022182701.250897-1-ast@fiberby.net>
 References: <20251022182701.250897-1-ast@fiberby.net>
@@ -61,52 +61,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Most of the indexes in rt-link indexed-arrays have no special meaning,
-they are just written with an iterator index, which refers to the
-order in which they have been packed into the netlink message.
+Add a new YNL attribute `ignore-index` as a way to indicate that a
+given indexed-array attribute is really just used as an array, and
+hence the nested attribute-type aka. the index is unimportant.
 
-Thus this patch sets ignore-index on these two attributes.
+This means that the kernel never uses the index when processing
+received netlink messages, and that it doesn't add any additional
+information when sent by the kernel.
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━┳━━━━━━━━┓
-┃                                     ┃ out/ ┃ input/ ┃ ignore ┃
-┃ Attribute                           ┃ dump ┃ parsed ┃ -index ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━╇━━━━━━━━┩
-│ IFLA_BOND_ARP_IP_TARGET             │ 0++  │ yes(1) │ yes    │
-│ IFLA_BOND_NS_IP6_TARGET             │ 0++  │ yes(1) │ yes    │
-│ IFLA_OFFLOAD_XSTATS_HW_S_INFO       │ (2)  │ -      │ no     │
-└─────────────────────────────────────┴──────┴────────┴────────┘
+For backward compatibility reasons the kernel can continue to set
+the index to a non-zero value in netlink messages, but it can safely
+be disregarded by clients when `ignore-index` is set to true.
 
-Where:
-  0++) incrementing index starting from 0
-  1)   When parsed the index is unused.
-  2)   IFLA_OFFLOAD_XSTATS_L3_STATS is used as index in
-       rtnl_offload_xstats_fill_hw_s_info().
+When the index is non-zero, it is often just an incremental iterator
+value, which provides no additional value, as the order of the array
+elements is already known based on the order in the netlink message.
+
+`ignore-index` is not added for the genetlink protocol, as any new
+families should use multi-attributes, unless they need the index.
 
 Signed-off-by: Asbjørn Sloth Tønnesen <ast@fiberby.net>
 ---
- Documentation/netlink/specs/rt-link.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/netlink/genetlink-c.yaml                   | 6 ++++++
+ Documentation/netlink/genetlink-legacy.yaml              | 6 ++++++
+ Documentation/netlink/netlink-raw.yaml                   | 6 ++++++
+ Documentation/userspace-api/netlink/genetlink-legacy.rst | 3 +++
+ 4 files changed, 21 insertions(+)
 
-diff --git a/Documentation/netlink/specs/rt-link.yaml b/Documentation/netlink/specs/rt-link.yaml
-index 2a23e9699c0b6..d2aaacd29f9f9 100644
---- a/Documentation/netlink/specs/rt-link.yaml
-+++ b/Documentation/netlink/specs/rt-link.yaml
-@@ -1256,6 +1256,7 @@ attribute-sets:
-         name: arp-ip-target
-         type: indexed-array
-         sub-type: u32
-+        ignore-index: true
-         byte-order: big-endian
-         display-hint: ipv4
-       -
-@@ -1330,6 +1331,7 @@ attribute-sets:
-         name: ns-ip6-target
-         type: indexed-array
-         sub-type: binary
-+        ignore-index: true
-         display-hint: ipv6
-         checks:
-           exact-len: 16
+diff --git a/Documentation/netlink/genetlink-c.yaml b/Documentation/netlink/genetlink-c.yaml
+index 5a234e9b5fa2e..5d022772cdb61 100644
+--- a/Documentation/netlink/genetlink-c.yaml
++++ b/Documentation/netlink/genetlink-c.yaml
+@@ -184,6 +184,12 @@ properties:
+               nested-attributes:
+                 description: Name of the space (sub-space) used inside the attribute.
+                 type: string
++              ignore-index:
++                description: |
++                  The indexed-array is just an array. The index, aka. the
++                  nested attribute-type, can be disregarded, as it doesn't
++                  contain anything interesting.
++                type: boolean
+               enum:
+                 description: Name of the enum type used for the attribute.
+                 type: string
+diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
+index 66fb8653a3442..f7991a3c5e2a3 100644
+--- a/Documentation/netlink/genetlink-legacy.yaml
++++ b/Documentation/netlink/genetlink-legacy.yaml
+@@ -233,6 +233,12 @@ properties:
+               nested-attributes:
+                 description: Name of the space (sub-space) used inside the attribute.
+                 type: string
++              ignore-index:
++                description: |
++                  The indexed-array is just an array. The index, aka. the
++                  nested attribute-type, can be disregarded, as it doesn't
++                  contain anything interesting.
++                type: boolean
+               enum:
+                 description: Name of the enum type used for the attribute.
+                 type: string
+diff --git a/Documentation/netlink/netlink-raw.yaml b/Documentation/netlink/netlink-raw.yaml
+index 246fa07bccf68..1d2ff5f79cada 100644
+--- a/Documentation/netlink/netlink-raw.yaml
++++ b/Documentation/netlink/netlink-raw.yaml
+@@ -251,6 +251,12 @@ properties:
+               nested-attributes:
+                 description: Name of the space (sub-space) used inside the attribute.
+                 type: string
++              ignore-index:
++                description: |
++                  The indexed-array is just an array. The index, aka. the
++                  nested attribute-type, can be disregarded, as it doesn't
++                  contain anything interesting.
++                type: boolean
+               enum:
+                 description: Name of the enum type used for the attribute.
+                 type: string
+diff --git a/Documentation/userspace-api/netlink/genetlink-legacy.rst b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+index fa005989193a1..839b0095c9a80 100644
+--- a/Documentation/userspace-api/netlink/genetlink-legacy.rst
++++ b/Documentation/userspace-api/netlink/genetlink-legacy.rst
+@@ -53,6 +53,9 @@ indexed-array
+ limiting its size to 64kB). The ``ENTRY`` nests are special and have the
+ index of the entry as their type instead of normal attribute type.
+ 
++When ``ignore-index`` is set to ``true``, then the ``indexed-array`` is
++just an array, and the index can be disregarded.
++
+ A ``sub-type`` is needed to describe what type in the ``ENTRY``. A ``nest``
+ ``sub-type`` means there are nest arrays in the ``ENTRY``, with the structure
+ looks like::
 -- 
 2.51.0
 
