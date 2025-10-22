@@ -1,95 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6961B7F4;
-	Wed, 22 Oct 2025 17:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4A037160;
+	Wed, 22 Oct 2025 17:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761153205; cv=none; b=Axyst1VYT6UrfEN3qsmpuW3l4DhF3ZFPavgLBKVqszJ9qzW228jYrWOTmRkG+LU/Xh8YJnk4Fm3TNhLvsGhRurAPSo0q6xV/5X8VdmXPJn5eBZqVXy43oqhG5SQ9tOxCgmvyJG9w5vvRKeRud1jbgvBzgFaB1gG33icOrEOh4+8=
+	t=1761154248; cv=none; b=U+Xl73M1EbiDwdiW33CBL3cQjIiGyPusBUJjRGs6K4KuD0ickVG7urLbw+ebms0c5ZCVF0F136T/Inz2s2fuHOF96jFAjD/HWr1mXKv9qwe4MvyJmMCvxuAWdshZSJ06vdqLLeZHjaBTskGOUUJweWK4asLDzy4mAvCH3Zx6hro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761153205; c=relaxed/simple;
-	bh=Oc5cL4PM3GS59XiGaVYHm7x2QglMaN7Tq26+NOil5DE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTFRvby2F3zThc/bSbR2DA+v/KU96ZCSUemnOcTBxRuj9XUumIRg/youb2fkskFbi0H4TB2YieHvWU5Y2UflSGi5KklPAMLDsc/+TlraJQAVMSiXEh4lqY572zJlKu9N5SHOzShENXScTsrxZegLXk2pY6sb06rroZozViiYlNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fM26tfZs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761154248; c=relaxed/simple;
+	bh=1qmY/CwBJD83zWmp5rWvoLYG9ya3rrBEJYcOdtURn9c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CRukTAoiVztyUGq/rd102UDRs7UAsu0HApiTz7JaJGUVGq3WLpcjmwPOH67iZOep5H9uqqfVjejfCo7MndkMFzB7CYbKrfTg/oMX5wE13Xw4B/S/X1XXWA+HldZNNA5ZZ9QlknOG6nasXjlYSgfmm0y2PCru//lfGBD85KMkV5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=glxIbN8Q; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fM26tfZs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FAAC4CEE7;
-	Wed, 22 Oct 2025 17:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761153204;
-	bh=Oc5cL4PM3GS59XiGaVYHm7x2QglMaN7Tq26+NOil5DE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fM26tfZs84ldeAddOmNXArn5RbP7iEp+oNUSPg92OafLdEp2A2CltfwxTYDTDbSBt
-	 yhtDIrkROBstCq84hJRIv0uvNE852TNVAVBfnIvhjfb5K+f+sBF1WJ88PbKKep8MPs
-	 rsTBFdIzM2FKvPUMhlYOGddUPz2hWCETV98K98SI=
-Date: Wed, 22 Oct 2025 19:13:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	safety-architecture@lists.elisa.tech, acarmina@redhat.com,
-	kstewart@linuxfoundation.org, chuckwolber@gmail.com
-Subject: Re: [RFC PATCH v2 0/3] Add testable code specifications
-Message-ID: <2025102211-wolverine-cradling-b4ec@gregkh>
-References: <20250910170000.6475-1-gpaoloni@redhat.com>
- <2025102111-facility-dismay-322e@gregkh>
- <CA+wEVJZEho_9kvaGYstc=5f6iHGi69x=_0zT+jrC2EqSFUQMWQ@mail.gmail.com>
- <2025102124-punctuate-kilogram-da50@gregkh>
- <CA+wEVJajSGzb85YTiv98yAY3bcJFS0Qp_xjLc++wnU8t=wDAOg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="glxIbN8Q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=CeC5OMKBMYRDelbMUjaS7F56dsB+qLx2c1x5CAej9Xk=; b=glxIbN8QhiARCJCgYFMGzZKmGB
+	LHkhlk24oX1rrwwapt8AOyvPPKlqODK0OMgTF+pVDD9HLLmFIDRlf8acW9OFzidRESCmNRKLZK9iJ
+	nWqdjjv+Bs/v7am+Zu/LUV4dYXRlk45eqo+FIcmrOuUgPOO0eefHt8ay6nVzyNFG/Ot8L0cQU8Ywb
+	NdSxIXMTtA2k4rr+GyWuSWlqTOopUcGfJysRaP2xwACp5+V39TVWzAN3qS2g7Pe29xBDgiXaK4D78
+	j9pdEJ7/eaHV89ylxU8a383FFaM35SlCFpZywak45mLd/l1zpQPGqYmsRdVvmBT8ZUlaa5EMId1zS
+	32z9IpEw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBcfd-00000003nIr-1V7h;
+	Wed, 22 Oct 2025 17:30:45 +0000
+Message-ID: <2997d8b9-a37a-4411-a5d8-b2cfcc3944b8@infradead.org>
+Date: Wed, 22 Oct 2025 10:30:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+wEVJajSGzb85YTiv98yAY3bcJFS0Qp_xjLc++wnU8t=wDAOg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: process: Also mention Sasha Levin as
+ stable tree maintainer
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
+References: <20251022034336.22839-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251022034336.22839-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 22, 2025 at 04:06:10PM +0200, Gabriele Paoloni wrote:
-> > Every in-kernel api documented in a "formal" way like this?  Or a
-> > subset?  If a subset, which ones specifically?  How many?  And who is
-> > going to do that?  And who is going to maintain it?  And most
-> > importantly, why is it needed at all?
-> >
-> > For some reason Linux has succeeded in pretty much every place an
-> > operating system is needed for cpus that it can run on (zephyr for those
-> > others that it can not.)  So why are we suddenly now, after many
-> > decades, requiring basic user/kernel stuff to be formally documented
-> > like this?
+
+
+On 10/21/25 8:43 PM, Bagas Sanjaya wrote:
+> Sasha has also maintaining stable branch in conjunction with Greg
+> since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
+> maintainer"). Mention him in 2.Process.rst.
 > 
-> Let me try to answer starting from the "why".
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Let's ignore the "why" for now, and get to the "how" and "what" which
-you skipped from my questions above.
 
-_Exactly_ how many in-kernel functions are you claiming is needed to be
-documented in this type of way before Linux would become "acceptable" to
-these regulatory agencies, and which ones _specifically_ are they?
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Without knowing that, we could argue about the format all day long, and
-yet have nothing to show for it.
+Now matches the MAINTAINERS file.
 
-And then, I have to ask, exactly "who" is going to do that work.
+Thanks.
 
-I'll point at another "you must do this for reasons" type of request we
-have had in the past, SPDX.  Sadly that task was never actually finished
-as it looks like no one really cared to do the real work involved.  We
-got other benefits out of that effort, but the "goal" that people
-started that effort with was never met.  Part of that is me not pushing
-back hard enough on the "who is going to do the work" part of that
-question, which is important in stuff like this.
+> ---
+>  Documentation/process/2.Process.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index 8e63d171767db8..7bd41838a5464f 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
+>  are serious.
+>  
+>  Once a stable release is made, its ongoing maintenance is passed off to the
+> -"stable team," currently Greg Kroah-Hartman. The stable team will release
+> -occasional updates to the stable release using the 9.x.y numbering scheme.
+> +"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
+> +stable team will release occasional updates to the stable release using the
+> +9.x.y numbering scheme.
+> +
+>  To be considered for an update release, a patch must (1) fix a significant
+>  bug, and (2) already be merged into the mainline for the next development
+>  kernel. Kernels will typically receive stable updates for a little more
+> 
+> base-commit: 0aa760051f4eb3d3bcd812125557bd09629a71e8
 
-If you never complete the effort, your end goal of passing Linux off to
-those customers will never happen.
-
-So, try to answer that, with lots and lots of specifics, and then, if we
-agree that it is a sane thing to attempt (i.e. you are going to do all
-the work and it actually would be possible to complete), then we can
-argue about the format of the text :)
-
-thanks,
-
-greg k-h
+-- 
+~Randy
