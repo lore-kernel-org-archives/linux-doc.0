@@ -1,278 +1,165 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FEC344021
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 14:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E40F188734
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 14:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761141988; cv=none; b=dY9aJwwRm4DQFQsc6oq/ipa5lu8URSQSOqoBYZLxRwi91/VFZLPUG/gV1o0ML5DMmFsH/nUOJo8AcJnKOaLHyZ7Xw4yElOHuzDSb67rjOz/d6rvb/djtewXhh4Cmi6DSY4KpDXpaPVG8lCu3Qyf3EPP3E4yjgb73Ws0mv1tYHlQ=
+	t=1761142049; cv=none; b=jMklqiqfH+y4aWbT5tRzNArRLd4uirdAZy75su7KnZma/Ba6QpRvppz6l186dQDo3R+yZ6r6pgN4wgUIl37r1+1IY5WS6EIu5dYUt9hAlRt3LQhd6Fw5cxxAfbl3wy5UBXSmOVl/ByD7jn/B1qRLuHDZGrd91SwZVk/KcMNSxxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761141988; c=relaxed/simple;
-	bh=5mNGUoLWRLP5PAgJDUcOekik2r6Ky7tQKPOFqRi0yxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qAy8GZaZwPtBT93o9Wm1Uqx5VMOyO051/RoxtAN3DsDaNzgdkrDlpQmDSHR3L6F8smrURvg30fdyX58NB/cIMRBkuV7a4mXda3FsM2xomm9g9yZRlxvo7iAvcDRH6vL+p0+/yUQoEWHNSY+IYpzQkO59bdD+QCDmYAHSsVfoEA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IWh59COS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761142049; c=relaxed/simple;
+	bh=1C17DoVvYolAyaHXd5cbIQWFprwLNpCGAH9O/IeMJS8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kAhd9OkeTRVyxNq2O2NgglHLhExezt7tpCoDkboE06xktJUOXJJCppGSxspJp77xqeVtcQ9YKO3XYKjzx8KbCH0AuwtvKU1+Gxcdp3+jYgSWY8t8jTmXz07FfLsycIXCEVIzwXObhfi3uiiktcz/4Zo739Jb5Bal8HlStI53Qp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gt/6aead; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IWh59COS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761141984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpAlIpSy8C909YLuQA//DQkPxxMEs4xSi+qjURZtgFE=;
-	b=IWh59COSwMI5KK9doueEPKKdnmPhawLlV4npjgRbmQS4PNQqUzHEIl1qyjufs/CdHApFjx
-	ocStss4oYDKNpDxPmB0olQO8GiGu0kM+QTJmefBXIEQ/WVdmXH0K8omeY6lDUQyfo5IB+e
-	+DyR3sBtdd8sr8YdPxLlfB1jJ01T2c0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-ejTyYDTeNlKzoBU3CAO0VA-1; Wed, 22 Oct 2025 10:06:22 -0400
-X-MC-Unique: ejTyYDTeNlKzoBU3CAO0VA-1
-X-Mimecast-MFC-AGG-ID: ejTyYDTeNlKzoBU3CAO0VA_1761141982
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4e1015c48c8so23513801cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 07:06:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gt/6aead"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-33d896debe5so5003248a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 07:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761142047; x=1761746847; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WHJCfnJWMLGX7Es1g+WBJ01c0gatEOnm7L9ZExylw/U=;
+        b=Gt/6aead8T6TBSSoY4JGYWRj8InXcxtLX59iYl8emLbVHqsmbeUgDVRvrFVyRdHo7U
+         5U5oFLosAwDuWAsc9W0I1rxlsoGjcR8FMK5Ipe5ZNUVfNHJkjaPLznz6Mj/zryzMlpch
+         hlr9A+JG0szVPcuPK3tWJy8qT+icGnZ9c2YEvWZAzkpiiC/tnnYD/6laAvGQGM4QM4um
+         L+q7e3TSjASyfLXE+VziWFTEzFMc8Hy277fDo0/HuoPgFgnlhKDi8CRhvFp0qibY5wsO
+         EgddAXXnhAQY0hjvkWrSCODvgYiRfiDowyFvOun/zoJKlPxQywZenHg5/tO5W8EUPYN/
+         rkYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761141982; x=1761746782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VpAlIpSy8C909YLuQA//DQkPxxMEs4xSi+qjURZtgFE=;
-        b=YAFOIp82LN10IKNqYD0rJG5FbmQ7JA3qAtr+Wbajw80w62evvxDJM5gSGcRfbkUR0Y
-         dsWJe0lywpj+bGlyRzALQ+8M1XQ8pSowd7YUubbOhNNONcisM4QyO85GMWVP8GV4XaXc
-         26L+Dkhl+fOp0j+AYUqSOAjRVGIcdRAu9mFMfe9cwsUbcOZYSrShwk52yPJWgknqNmh3
-         Tx3+xt9q4VUuchcu+4RCkm910r8ov35SD5+TB4U1+YmsUklksySzzYzBjElnWZZ7Q+Vu
-         FRsfN7DGdQLV+mLOU0yGVfBU+n/EN60KnhHKDtBAPCn684fisyPppprmRDYtr/dlCMae
-         aHeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxcNEEP4bgKDw3YQp5zLLrdxU1hEtSdOBON56CqxHYLnWJ7eXOSMJFbh1L9Jzgj3sEuicxaI5V/lY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2j/vnU2mNHuK5x4hsIPYHg2v0/xZj/QLCwk2epqIqU18+P+zn
-	vTnSx21Gz2vvd1+3GmvCA4+7F20jd4Cw7uUo3+UrAQYL0jXlHWQTNJpe1ytP2fzgrQPKGqNt6ed
-	XV/E0Q7Ya+Z9xY1q2DI7lcqDuuCRMbkSUUVFlv2BOlSJZxaljYyu21N4D6CsU9hRuRRuodnmSvV
-	l34A1lYm5m5TIRR176maR2s2rYg85SkRwmKajs
-X-Gm-Gg: ASbGncshBUaESacwQkQa07qEt4xUS98BMszNg5QSQJJOYlTHU3rX6wHVvhwBObGn4iA
-	BrDRJSFP4ba6+djCXaEx/gDTYMwwPl5BqmhRPePqxMhQGJ2k1MzpB6BasN773hSnnasnbzOK36D
-	Ab7TzaYaux0Xzkx9lYED7c5bEdGrwoBc+6gyKqmEHxcSc8dj0dzdxUWsk5FyXdMWLVXNuLyYKk0
-	czUbptHm64QhSFO
-X-Received: by 2002:a05:622a:13cd:b0:4b2:d40b:997 with SMTP id d75a77b69052e-4eb784b5ddcmr17973011cf.11.1761141982119;
-        Wed, 22 Oct 2025 07:06:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiy688lq0byckzl7pGXnvWhZZPJXPo0bl3cEscD1D5tdzpAQ54kYl/qCOsifbFz5e/sCUwL37uFix9NhXMCD8=
-X-Received: by 2002:a05:622a:13cd:b0:4b2:d40b:997 with SMTP id
- d75a77b69052e-4eb784b5ddcmr17972311cf.11.1761141981436; Wed, 22 Oct 2025
- 07:06:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761142047; x=1761746847;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WHJCfnJWMLGX7Es1g+WBJ01c0gatEOnm7L9ZExylw/U=;
+        b=QAkzSccMm//AOXURk0u4nK7P81UC4E1c+zLlIGZW5BcSsoiI7/cD9PE0pww/Pl6usd
+         uDGJjW7RyUqt6v/psqitecFdWmfPQmyCEZ+DZZM77B5jnXGN2U/WnsKn6UcnH5KhqnjH
+         UisetrZHthVNmfLN7z+DZPabtxdLWfPdP+I57IfCUR8cX9LiQygAdI/LritR0xdRMDtV
+         V22Ky5bi4fjmm8k8QLhiSLvXdq9U3gcne3GgtE3IlPneHT/qU3oXjZNAZLmfV2UI1GOj
+         aMU90f9vumHUIPaHlwQmhuH6IznD1akrnq3QjyqwpGysKyGC7u+ncw5ozMWyacEKC/HU
+         Tc+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWlI6OcWW+w1sDJhGU4Cq15yJM3I643o+pwTBFAC8n8mMwhgvflmPA/nQ+y7WUMFD+eMMqQFOQZaBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNX46feP1RwUrNsos49PQWZBFvKpq1X5gXZM7jgqA2vqOElPse
+	E+YkgJxc7TWCG45QF0YWd1ZHBN7kaOi+hG28yX7LdL1FAiafOwvis9XV
+X-Gm-Gg: ASbGncsQw9N5FO4qL2dITbiWnKKf3DYD/v1Z2uYEg9R5QaW0PaAgZlLg73ORby5Pm/x
+	B9MHaHFBekkzwLb431m9j0dZYIapFuG4+rEdykqrdnu504Kb6u3bUJY3d5WvdpA+RIEmaR4NzKY
+	UPmnqRH+tQbzDVxzoPKURuBcRysRQtXoNDsXi3mK1ZEtue1NNS5RHQ16ehWIEnCD6vqmL6rfm1T
+	bfPRIJfbciWqtrHgwhiK8dgxsmt1YVaY+Q122UMuLP/vJ5V/y/WtGvnARbk7Ydk/XwP+1qx1vNl
+	IykRo71vVsxKf5o5bne1JRIXJqxDGL4WM5Cbkw26te3I9nWdTW+FnMlHKU2qi353EJ2pV6f0uB5
+	If2nf4Jx4Yn4gVATx1FkPgl8Zw3uaXeoe280pD4RQx1TdtY3DYnj8bVhQOon2mVQILQjhg2QzoD
+	gN/TXm16cK1Z9Mu06RjIGJlgmtDtviUpT0xBP8OdlfZGhjUx4fLQWSlpNWq/Q=
+X-Google-Smtp-Source: AGHT+IFeOO2m/QK88KsQxbIIIGJpiMOj19Lffr0deFbuerlgZNfeec+YsiTpPWgAdx2hr78z9hvKTA==
+X-Received: by 2002:a17:90b:2fd0:b0:335:28e3:81cd with SMTP id 98e67ed59e1d1-33bcf8fa1b5mr24895951a91.18.1761142047333;
+        Wed, 22 Oct 2025 07:07:27 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e2247a7f1sm2722930a91.14.2025.10.22.07.07.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 07:07:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <3a4e8cb8-2543-484b-80ab-15eb3490f29b@roeck-us.net>
+Date: Wed, 22 Oct 2025 07:07:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910170000.6475-1-gpaoloni@redhat.com> <2025102111-facility-dismay-322e@gregkh>
- <CA+wEVJZEho_9kvaGYstc=5f6iHGi69x=_0zT+jrC2EqSFUQMWQ@mail.gmail.com> <2025102124-punctuate-kilogram-da50@gregkh>
-In-Reply-To: <2025102124-punctuate-kilogram-da50@gregkh>
-From: Gabriele Paoloni <gpaoloni@redhat.com>
-Date: Wed, 22 Oct 2025 16:06:10 +0200
-X-Gm-Features: AS18NWBUEXjvL5a7yuhDD9EBuivsDI4OlQF-1ILxjqzVH4-eCsEPHeuZ9-Q2Dr0
-Message-ID: <CA+wEVJajSGzb85YTiv98yAY3bcJFS0Qp_xjLc++wnU8t=wDAOg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/3] Add testable code specifications
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, safety-architecture@lists.elisa.tech, acarmina@redhat.com, 
-	kstewart@linuxfoundation.org, chuckwolber@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] hwmon: Add TSC1641 I2C power monitor driver
+To: Igor Reznichenko <igor@reznichenko.net>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251022044708.314287-1-igor@reznichenko.net>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251022044708.314287-1-igor@reznichenko.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Greg
+On 10/21/25 21:47, Igor Reznichenko wrote:
+> This patch series adds support for the ST Microelectronics TSC1641
+> I2C power monitor. The TSC1641 provides bus voltage, current, power,
+> and temperature measurements via the hwmon subsystem. The driver
+> supports optional ALERT pin polarity configuration and exposes the
+> shunt resistor value and raw shunt voltage via sysfs.
+> 
+> Tested on Raspberry Pi 3B+ with a TSC1641 evaluation board.
+> 
+> Igor Reznichenko (5):
+>    drivers/hwmon: Add TSC1641 I2C power monitor driver
+>    drivers/hwmon: Add Kconfig entry for TSC1641
+>    drivers/hwmon: Add TSC1641 module to Makefile
+>    Documentation/hwmon: Add TSC1641 driver documentation
 
-On Tue, Oct 21, 2025 at 6:46=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Tue, Oct 21, 2025 at 11:42:24AM +0200, Gabriele Paoloni wrote:
-> > Hi Greg
-> >
-> > On Tue, Oct 21, 2025 at 9:35=E2=80=AFAM Greg KH <gregkh@linuxfoundation=
-.org> wrote:
-> > >
-> > > On Wed, Sep 10, 2025 at 06:59:57PM +0200, Gabriele Paoloni wrote:
-> > > > [1] was an initial proposal defining testable code specifications f=
-or
-> > > > some functions in /drivers/char/mem.c.
-> > > > However a Guideline to write such specifications was missing and te=
-st
-> > > > cases tracing to such specifications were missing.
-> > > > This patchset represents a next step and is organised as follows:
-> > > > - patch 1/3 contains the Guideline for writing code specifications
-> > > > - patch 2/3 contains examples of code specfications defined for som=
-e
-> > > >   functions of drivers/char/mem.c
-> > > > - patch 3/3 contains examples of selftests that map to some code
-> > > >   specifications of patch 2/3
-> > > >
-> > > > [1] https://lore.kernel.org/all/20250821170419.70668-1-gpaoloni@red=
-hat.com/
-> > >
-> > > "RFC" implies there is a request.  I don't see that here, am I missin=
-g
-> > > that?  Or is this "good to go" and want us to seriously consider
-> > > accepting this?
-> >
-> > I assumed that an RFC (as in request for comments) that comes with prop=
-osed
-> > changes to upstream files would be interpreted as a request for feedbac=
-ks
-> > associated with the proposed changes (what is wrong or what is missing)=
-;
-> > next time I will communicate the request explicitly.
-> >
-> > WRT this specific patchset, the intent is to introduce formalism in spe=
-cifying
-> > code behavior (so that the same formalism can also be used to write and
-> > review test cases), so my high level asks would be:
-> >
-> > 1) In the first part of patch 1/3 we explain why we are doing this and =
-the high
-> > level goals. Do you agree with these? Are these clear?
->
-> No, and no.
->
-> I think this type of thing is, sadly, folly.  You are entering into a
-> path that never ends with no clear goal that you are conveying here to
-> us.
->
-> I might be totally wrong, but I fail to see what you want to have happen
-> in the end.
->
-> Every in-kernel api documented in a "formal" way like this?  Or a
-> subset?  If a subset, which ones specifically?  How many?  And who is
-> going to do that?  And who is going to maintain it?  And most
-> importantly, why is it needed at all?
->
-> For some reason Linux has succeeded in pretty much every place an
-> operating system is needed for cpus that it can run on (zephyr for those
-> others that it can not.)  So why are we suddenly now, after many
-> decades, requiring basic user/kernel stuff to be formally documented
-> like this?
+Please squash all of the above into a single patch.
 
-Let me try to answer starting from the "why".
-IMO There are 2 aspects to consider.
-The first one is that requirements/specification and associated tests
-are valuable in claiming that Linux can be used in safety critical industri=
-es
-(like automotive or aerospace).
-The second one (that goes beyond the business need) is that the duality
-of specifications and tests VS code increases the dependability of the
-code itself so that its expected behaviour and associated constraints
-are clear to the user and there is evidence of the code behaving as specifi=
-ed
-(I already tried to address this point in [1]).
-Some evidence of improvements can be found in the experiments we did.
-E.g.:
-- this [2] is a bug found in __ftrace_event_enable_disable()
-- this [3] is a code optimization that came as we looked at the
-specifications of
-  __ftrace_event_enable_disable()
-- here [4] we have documented assumptions of use that must be met when
-  invoking event_enable_read(), otherwise there could be a wrong event stat=
-us
-  being reported to the user.
+>    Documentation/devicetree/bindings/hwmon: Add TSC1641 binding
 
-Finally the need for having specifications/requirements associated with Ker=
-nel
-code has been already discussed at LPC'24 last year ([5]) and we got a thum=
-b
-up from some key maintainers with initial directions (hence we started
-this activity).
+This patch should come first.
 
-[1] https://lore.kernel.org/all/CA+wEVJatTLKt-3HxyExtXf4M+fmD6pXcmmCuhd+3-n=
-2J_2Tw8A@mail.gmail.com/
-[2] https://lore.kernel.org/all/20250321170821.101403-1-gpaoloni@redhat.com=
-/
-[3] https://lore.kernel.org/all/20250723144928.341184323@kernel.org/
-[4] https://lore.kernel.org/all/20250814122206.109096-1-gpaoloni@redhat.com=
-/
-[5] https://lpc.events/event/18/contributions/1894/
+Thanks,
+Guenter
 
-Now I'll try to answer about the goals.
-I do not expect to have all Kernel APIs to be specified according
-to the format that we are proposing; my initial goal is to have such
-a formalism to be available in the Kernel so that developers that
-need to write such specifications have a guideline available.
-For example today we have a guideline to write kernel-doc comments,
-however (AFAIK) patch acceptance is not gated by these being
-present or not.
-I think that developers having a direct interest can write such
-specifications and associated tests and these could be reviewed and
-eventually accepted by maintainers.
-
->
-> In the past, when we have had "validating bodies" ask for stuff like
-> this, the solution is to provide it in a big thick book, outside of the
-> kernel, by the company that wishes to sell such a product to that
-> organization to justify the cost of doing that labor.  In every instance
-> that I know of, that book sits on a shelf and gathers dust, while Linux
-> is just updated over the years in those sites to new versions and the
-> book goes quickly out of date as no one really cares about it, except
-> it having been a check-box for a purchase order requirement.
-
-I agree and in fact a key ask from maintainers, as we discussed at
-LPC'24 in [5], was to have the code specifications sitting next to the
-code so that they could be maintainable as the code evolves (and they
-would be even more maintainable if specs come with tests that can flag
-regressions as the code evolves).
-
->
-> That's business craziness, no need to get us involved in all of that.
-> Heck, look at the stuff around FIPS certification for more insanity.
-> That's a check-box that is required by organizations and then totally
-> ignored and never actually run at all by the user.  I feel this is much
-> the same.
->
-> So step back, and tell us exactly what files and functions and apis are
-> needed to be documented in this stilted and formal way, who exactly is
-> going to be doing all of that work, and why we should even consider
-> reviewing and accepting and most importantly, maintaining such a thing
-> for the next 40+ years.
-
-Putting business needs aside, I would expect maintainers, today, to
-happily accept kernel-doc compliant code documentation as well as kunit
-or selftests associated with the code; simply because they add technical
-value.
-If my assumption here is correct, having these kernel-doc specifications
-clearly formalised should be an improvement for the maintainers (since
-it would be easier to verify incoming patches when specs and tests are
-in place and also it would be easier for a developer to write such
-patches).
-
-WRT the scope of code to be documented, I expect that to depend on
-the vested interest of companies contributing to it.
-The directions from the LPC24 session were to start with some pilot
-drivers/subsystems first to define 'how' to specify the code and later
-focus on what and scale...
-
->
-> > 2) In the rest of the patchset we introduce the formalism, we propose s=
-ome
-> > specs (in patch 2) and associated selftests (in patch 3). Please let us=
- know
-> > if there is something wrong, missing or to be improved.
->
-> I made many comments on patch 3, the most important one being that the
-> tests created do not seem to follow any of the standards we have for
-> Linux kernel tests for no documented reason.
->
-> The irony of submitting tests for formal specifications that do not
-> follow documented policies is rich :)
-
-Thanks for your comments and sorry for the mistakes, I see that Alessandro
-replied so we'll pay more attention in writing tests in the next revision.
-
-Kind Regards
-Gab
-
->
-> thanks,
->
-> greg k-h
->
+> 
+>   .../devicetree/bindings/hwmon/st,tsc1641.yaml |  54 ++
+>   Documentation/hwmon/index.rst                 |   1 +
+>   Documentation/hwmon/tsc1641.rst               |  73 ++
+>   drivers/hwmon/Kconfig                         |  12 +
+>   drivers/hwmon/Makefile                        |   1 +
+>   drivers/hwmon/tsc1641.c                       | 801 ++++++++++++++++++
+>   6 files changed, 942 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml
+>   create mode 100644 Documentation/hwmon/tsc1641.rst
+>   create mode 100644 drivers/hwmon/tsc1641.c
+> 
 
