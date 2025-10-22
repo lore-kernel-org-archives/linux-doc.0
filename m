@@ -1,117 +1,314 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71A2D12E2
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 03:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD2E272E42
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 04:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761104634; cv=none; b=Ig7reCsk0QsnkUr+gYxwEKsoq1grVe+P0lLqvBaEj7ngKaeVdlzw+f0UzqKf8CmRt+KnuRGtQJ4gOt/BXffNI9yeJdD3snmiEIVBWEEs2tzdqvl3Me+euNZLi7q34XAjXXV3cqh5716NBcoa2Y8QCucdLLxGgvnnf6W7KjCxgF0=
+	t=1761107739; cv=none; b=p69SVitN0XE9WJyqaLFRfpuQatdoMluQbWfsYpLM2mxNTf2zMmKmoPhOmknxMd44UOKTiCsC0Md2Y9uHnXKOcq3hzbItfDqBpYlpJS9KiCgRvYDIT+mD5PATxMGa947H0nk+W7lDO80Zqc7cMDbLUW6If8k7uWBAs4vZXdLRl3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761104634; c=relaxed/simple;
-	bh=dg6Xeh8W9jYy+DaZHQ+BRa/bMuMWs5I/8dF5W8zJ63o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RNgxOt7ocnwNZc/vlY2eenfVO2Z0K7An6xLnG4hN0FyBA8n3EjjBMXzrBf7KUt/GTDHBi+gfUCT0pmPQj/ukzrMtXHJSgXi6N25cTCXNLBJrfLCHUggu1by8S5SdK6BfBho/EwoqxDSIi5IiPg/V/1zCBP8tz/js8NNBSMg0Bxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dhj491uD; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1761107739; c=relaxed/simple;
+	bh=7tAdD3oiYu3/bK3o6xitdgp7OB0lFPYIC2IA0keXGgo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hlQzpTBPNhsYy5VHS0LOFQuU9MrUi1s94gfMuww2xkvdCEzqSC5rATGQp87gzeM5gp2U3rEDGjXuGcG9LiKTAOGrWyWl4MkUl0cm12JhPpr6blIiaIk3RWH4HXjGEXDFb7T1Bv1YgP1B2x9ODOEU7tOfHvMRwQx1PbVEZIl6S6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z8GSd1nf; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dhj491uD"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b40f11a1027so1242009866b.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 20:43:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z8GSd1nf"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b4f323cf89bso1399678766b.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 21:35:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761104631; x=1761709431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vTRF+HmDl+bAL0OAwMRSISeP2Yi5Xj/P9MCjPmh9ndU=;
-        b=Dhj491uDf6GgM98QDG4rMrgqFm6Y58n8M6FCBBSlbDeNKpHfWParpleNOIW63VzvJU
-         OoQbFPtQRX1HkjZFuLqUjICVnSAuGdRG0ltM+9eO4K1c9C4frsmiRF7u1dhx9CpID9AH
-         PRhsQQOuGxQeexv3lbX9lkJS0BCLokA3/542To6uNd/Vww6dXvxe5t843vjvU5ezjxY0
-         OZptqPdPp22XHpCigZDNaKCekDu54tRgd2SAGr0F0feHl3jT5sZWrUzZg/+oyblcJWdS
-         CvR2ELCxwntRh2NEn0qIzuB8D8pAqSTV204DdPIXvMmvTYVl5K2anL6YCw4+tyEdRCl4
-         wu1g==
+        d=gmail.com; s=20230601; t=1761107734; x=1761712534; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lj64m4sFpQ+vBQ3pmykp/cp6K9VYRj1HaNi/Sdpj2VM=;
+        b=Z8GSd1nfTsmSaoQgUFzMoMMZYMCL7TgGgVogMsB1qETCYlVqTixjZ6T/MElrlzpOI9
+         vLpJnODkIlTM4Mn/YFeoOQkKeIsVEyRYkAE88v76IAHzgwjJFHzEs7ZGVl91m3IQ0x+9
+         iJDmTur+R4mAAgtDkI7YZJAS9Q1utBqUFpq60R+tQE7rBvuBJOuc8IMvG+3y2+Jm3q8S
+         hCzJL/ZE2orJ+3vS95E/RJOeXp1xpcUEAdqTuTiwl10p/MzkPqUCl9WA/yXgCSeaFu+U
+         gkI40ys1JyM1rglrf7dM0sqbfRyB/t4wFVfY8yn9iY1ccxydHNVY6u7jmNexhea3F7Uj
+         J6ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761104631; x=1761709431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vTRF+HmDl+bAL0OAwMRSISeP2Yi5Xj/P9MCjPmh9ndU=;
-        b=pHTUsGJfHb8XlFGuygNfSc2ybBJtxO7jMfFFTfvfvcHx8IqMQFr42sLncyLm+4OBNQ
-         o51bAhrIkIcSD2mkbMPkvyrUxD9MWMQsWs5eUqwFDgSrQPczTlmQKICSDdNvppzukjzl
-         XX77htwxf4NAX4w3Nr0vfQRrmtxLWqlwkK7JrIrehJvgxhC4dARzBGe4xMmSuy0LvjRI
-         8AXFDibdkYcFak3V2+3OPe0tXvyFTfxdXgRqqH4fax4YiEYnSiZhgC5v77fohJ8DwVai
-         RuJu05NmoBJj/PfEqQ3R4GA9JIdA+GjGG3YohviyuGrIsqDBCYc8nXUQNwRBKhz7pW92
-         ctYg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/WnqenjRoafflP/FROjJ/t22ZmydqVZG0n5r8a4ufHL9fjsRrf5r83awuHYmuQ6fWgjCIz24Btwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3Bu6XwEhe2QRNlvhfsSc/jzHi2m0eTNlviTiJsRmf+Ogg0Enc
-	/n7FMrm9S2Xy9kn01bGWLjJtERHLXeh3oSO1Mi8N50lecbUsmN/NWLSE
-X-Gm-Gg: ASbGncvoqt0oGg7hlaAl5nmwCwSoaXEX0ivzOeGDQn3900eS0cfnfUKKVW6BeikGdyd
-	nIon5ww6l0pqgELSwT2jrSUWrOKMD3HOZ867Xt0xu1HClvj3dnnKuwzC4P4KM5Wb+5292ZfKOn/
-	5rV3v8PxgTlLRvEJxxoUS1jYYYrOFzFk92HRnoUek5kVVYR47WJebkvjcsby63tZpAUx1KqAFLH
-	pn/rEy4sY40Gqslt8hT1noLbxj4IsfDJf3MPEimwTgOGmzPZS8DDgvXznGOCxV2nfVEIS3vU6ZJ
-	QPM9s9pWc5U1mtDmB1oSDbAnr6A9jai1VQtAiXSb/ZTdtJ9kskcQUcCw53wtmkrXCzFmQ+7u60I
-	Eq0ETtSFlGc/+TFXWnW8Bny+xKUAk76yIxutYd9t/eaDPOAnBEx0ZWP+M0SVn1txfEBwfXiFiUQ
-	upBw==
-X-Google-Smtp-Source: AGHT+IHPO7PWYa0DB82l3UyTHZGWH0MJm65SKGjGbpwKQ7i46gAfvnK/b0OSSMfiAZu596bNELN8nw==
-X-Received: by 2002:a17:906:c103:b0:b3c:de0e:7091 with SMTP id a640c23a62f3a-b6472d5bb42mr2004845666b.8.1761104630850;
-        Tue, 21 Oct 2025 20:43:50 -0700 (PDT)
-Received: from archie.me ([103.124.138.80])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65e8395c52sm1220593966b.30.2025.10.21.20.43.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 20:43:50 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 719D24236CE1; Wed, 22 Oct 2025 10:43:45 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] Documentation: process: Also mention Sasha Levin as stable tree maintainer
-Date: Wed, 22 Oct 2025 10:43:35 +0700
-Message-ID: <20251022034336.22839-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.1.dirty
+        d=1e100.net; s=20230601; t=1761107734; x=1761712534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lj64m4sFpQ+vBQ3pmykp/cp6K9VYRj1HaNi/Sdpj2VM=;
+        b=VFsJZgkWqLdlNT11EvORYTY+XCauI4FwqPwl66sDRMx0zhJQ4Up3aNpRbs9oeaD8oB
+         4c+ohB3cS5i40RO43bg5UN63ORO90DXOYjEReXAANzvsMejtUZz3BLjFtL75SWE/RlB2
+         +mfFOvQgKFro4iU/DXmmA3+Q+3s/REM9EC08btsLH66zeYJhCOjRIsUxwQ3tYoB/ncD/
+         Ax7wPJJaLRBbB8oAoO7rhYUcj72gUCoz8+9ZjyB1YwttDfnQ0wcRO/pbQ3WePbpIIqlE
+         Li3KVylJ3LM4RURqlw1TCL57lUU6pVVLWJeU1jcLM3QiFPL0yYrzmEl3QKNZy1z1Ll3A
+         ZdWg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/EsSLAtbpNhjsZb89/HqIwbovFxi8xhpk1XDu6n8xiDoAP1a33mL9QcHhgWXqA+YGmuF8kgr8Pxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuzGSs9jZ4g4qabQ/xKqn2WLqWteQ1mHnrSHuvUjiIUoRLjXZl
+	Y9IHc5kNDl+tgmlaXW5n3wRHs1gZB0SN+cikRoe/phgxe9cbonPhlOMorRCvP5vdVfalsnXTXh6
+	yIuoGIcfWsX6KM12P8rmbCWcZ7EUgTVc=
+X-Gm-Gg: ASbGnctzvQo6YhQ5dMqtvXNmw5hzH9oQ1vh+jD5e0kuyut8/2WEnrHMb9S2hzu4mxqP
+	e4w1XLt58RK6pNsI6QUYbOv90HJVzHZ0qQkRV7mMzf2EIW3kFH5EZNqk6PBTax8bP5kwo8AeOKp
+	8/MeKB38sqN2MGEgtXSHyCYX76c7Us7+CrSBdbw89+MUguB73I7QeOak9X43jbK6yJfzVqPm1C7
+	ZLYHVEHuDXfLtkO4/uoFKlsp2sTlEW/t9xmG8LckvkHFo5VM/19+audHwPwbCmfV4cph3y/0YaQ
+	Hw4CnpR9AVktNAwZB65K0ywHFQ==
+X-Google-Smtp-Source: AGHT+IEZ3WUWSBwKFpcrNZdWHcs2uENHhK+jxYuhPktOZEvX65BdGAZNuCfRsdi3SwrTO654hvsTxTI1H3lWOnGyc2U=
+X-Received: by 2002:a17:907:3f25:b0:b40:5dac:ed3f with SMTP id
+ a640c23a62f3a-b6472b6047fmr2009158266b.7.1761107734076; Tue, 21 Oct 2025
+ 21:35:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1461; i=bagasdotme@gmail.com; h=from:subject; bh=dg6Xeh8W9jYy+DaZHQ+BRa/bMuMWs5I/8dF5W8zJ63o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBk/gpqT5OacOPDC+KawRsOrkmu8Rx9v9XgcMJ0/bc1H9 ozpt+fv7yhlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEWmYyMjyrXFyeoJDyazqj mLijOOeZ7xGZXoeiWr2TF1z4zvzmzAGG/8UupnIcE9laTvRv4g5s25PjYPPET+orvyjP2468Cvf zTAA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20251017042312.1271322-1-alistair.francis@wdc.com>
+ <20251017042312.1271322-6-alistair.francis@wdc.com> <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+In-Reply-To: <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 22 Oct 2025 14:35:07 +1000
+X-Gm-Features: AS18NWBbcQHf212IwDSHi_pCF6tkVLcWMLdXbgbTquHdoKUeBkgiVMl2L0_vC_o
+Message-ID: <CAKmqyKNBN7QmpC8Lb=0xKJ7u9Vru2mfTktwKgtyQURGmq4gUtg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sasha has also maintaining stable branch in conjunction with Greg
-since cb5d21946d2a2f ("MAINTAINERS: Add Sasha as a stable branch
-maintainer"). Mention him in 2.Process.rst.
+On Mon, Oct 20, 2025 at 4:22=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 10/17/25 06:23, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
+s
+> > on an KeyUpdate event.
+> >
+> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe target sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v4:
+> >   - Remove all support for initiating KeyUpdate
+> >   - Don't call cancel_work() when updating keys
+> > v3:
+> >   - Don't cancel existing handshake requests
+> > v2:
+> >   - Don't change the state
+> >   - Use a helper function for KeyUpdates
+> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+> >   - Remove command message using recvmsg
+> >
+> >   drivers/nvme/host/tcp.c | 60 ++++++++++++++++++++++++++++++++++------=
+-
+> >   1 file changed, 51 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 2696bf97dfac..791e0cc91ad8 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
+> >       bool                    tls_enabled;
+> >       u32                     rcv_crc;
+> >       u32                     snd_crc;
+> > +     key_serial_t            user_session_id;
+> >       __le32                  exp_ddgst;
+> >       __le32                  recv_ddgst;
+> >       struct completion       tls_complete;
+> > @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_t=
+cp_queue *queue,
+> >   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
+> >   {
+> >       char *pdu =3D queue->pdu;
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >       struct msghdr msg =3D {
+> > +             .msg_control =3D cbuf,
+> > +             .msg_controllen =3D sizeof(cbuf),
+> >               .msg_flags =3D MSG_DONTWAIT,
+> >       };
+> >       struct kvec iov =3D {
+> > @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_q=
+ueue *queue)
+> >       if (ret <=3D 0)
+> >               return ret;
+> >
+> > +     hdr =3D queue->pdu;
+> > +     if (hdr->type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
+> > +             dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
+> > +             return 1;
+> > +     }
+> > +
+> >       queue->pdu_remaining -=3D ret;
+> >       queue->pdu_offset +=3D ret;
+> >       if (queue->pdu_remaining)
+> >               return 0;
+> >
+> > -     hdr =3D queue->pdu;
+> >       if (unlikely(hdr->hlen !=3D sizeof(struct nvme_tcp_rsp_pdu))) {
+> >               if (!nvme_tcp_recv_pdu_supported(hdr->type))
+> >                       goto unsupported_pdu;
+> > @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_qu=
+eue *queue)
+> >       struct request *rq =3D
+> >               nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> >       struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >
+> >       if (nvme_tcp_recv_state(queue) !=3D NVME_TCP_RECV_DATA)
+> >               return 0;
+> > @@ -973,12 +983,14 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_=
+queue *queue)
+> >               memset(&msg, 0, sizeof(msg));
+> >               msg.msg_iter =3D req->iter;
+> >               msg.msg_flags =3D MSG_DONTWAIT;
+> > +             msg.msg_control =3D cbuf,
+> > +             msg.msg_controllen =3D sizeof(cbuf),
+> >
+> Watch out. This is the recvmsg bug Olga had been posting patches for.
+> Thing is, if there is a control message the networking code will place
+> the control message payload into the message buffer. But in doing so
+> it expects the message buffer to be an iovec, not a bio vec.
+>
+> To handle this properly you'd need to _not_ set the control buffer,
+> but rather check for 'MSG_CTRUNC' in msg_flags upon return.
+> Then you have to setup a new message with msg_control set and
+> a suitable msg_len (5 bytes, wasn't it?) and re-issue recvmsg
+> with that message.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/process/2.Process.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Fixed
 
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 8e63d171767db8..7bd41838a5464f 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -99,8 +99,10 @@ go out with a handful of known regressions, though, hopefully, none of them
- are serious.
- 
- Once a stable release is made, its ongoing maintenance is passed off to the
--"stable team," currently Greg Kroah-Hartman. The stable team will release
--occasional updates to the stable release using the 9.x.y numbering scheme.
-+"stable team," currently consists of Greg Kroah-Hartman and Sasha Levin. The
-+stable team will release occasional updates to the stable release using the
-+9.x.y numbering scheme.
-+
- To be considered for an update release, a patch must (1) fix a significant
- bug, and (2) already be merged into the mainline for the next development
- kernel. Kernels will typically receive stable updates for a little more
+>
+> And keep fingers crossed that you don't get MSG_CTRUNC on every
+> call to recvmsg() ...
+>
+> >               ret =3D sock_recvmsg(queue->sock, &msg, msg.msg_flags);
+> >               if (ret < 0) {
+> > -                     dev_err(queue->ctrl->ctrl.device,
+> > -                             "queue %d failed to receive request %#x d=
+ata",
+> > -                             nvme_tcp_queue_id(queue), rq->tag);
+> > +                     dev_dbg(queue->ctrl->ctrl.device,
+> > +                             "queue %d failed to receive request %#x d=
+ata, %d",
+> > +                             nvme_tcp_queue_id(queue), rq->tag, ret);
+> >                       return ret;
+> >               }
+> >               if (queue->data_digest)
+> > @@ -1381,17 +1393,42 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp=
+_queue *queue)
+> >               }
+> >       } while (result >=3D 0);
+> >
+> > -     if (result < 0 && result !=3D -EAGAIN) {
+> > +     if (result =3D=3D -EKEYEXPIRED) {
+> > +             return -EKEYEXPIRED;
+> > +     } else if (result =3D=3D -EAGAIN) {
+> > +             return -EAGAIN;
+> > +     } else if (result < 0) {
+> >               dev_err(queue->ctrl->ctrl.device,
+> >                       "receive failed:  %d\n", result);
+> >               queue->rd_enabled =3D false;
+> >               nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+> > -     } else if (result =3D=3D -EAGAIN)
+> > -             result =3D 0;
+> > +     }
+> >
+> >       return result < 0 ? result : (queue->nr_cqe =3D nr_cqe);
+> >   }
+> >
+> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> > +{
+> > +     int qid =3D nvme_tcp_queue_id(queue);
+> > +     int ret;
+> > +
+> > +     dev_dbg(queue->ctrl->ctrl.device,
+> > +             "updating key for queue %d\n", qid);
+> > +
+> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
+> > +
+> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> > +                              queue, queue->ctrl->ctrl.tls_pskid,
+> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> > +
+> > +     if (ret < 0) {
+> > +             dev_err(queue->ctrl->ctrl.device,
+> > +                     "failed to update the keys %d\n", ret);
+> > +             nvme_tcp_fail_request(queue->request);
+> > +             nvme_tcp_done_send_req(queue);
+> > +     }
+> > +}
+> > +
+> >   static void nvme_tcp_io_work(struct work_struct *w)
+> >   {
+> >       struct nvme_tcp_queue *queue =3D
+> > @@ -1414,8 +1451,11 @@ static void nvme_tcp_io_work(struct work_struct =
+*w)
+> >               result =3D nvme_tcp_try_recvmsg(queue);
+> >               if (result > 0)
+> >                       pending =3D true;
+> > -             else if (unlikely(result < 0))
+> > -                     return;
+> > +             else if (unlikely(result < 0)) {
+> > +                     if (result =3D=3D -EKEYEXPIRED)
+> > +                             update_tls_keys(queue);
+> > +                     break;
+> > +             }
+> >
+> >               /* did we get some space after spending time in recv? */
+> >               if (nvme_tcp_queue_has_pending(queue) &&
+> > @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
+tus, key_serial_t pskid,
+> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
+> >               key_put(tls_key);
+> >               queue->tls_err =3D 0;
+> > +             queue->user_session_id =3D user_session_id;
+>
+> Hmm. I wonder, do we need to store the generation number somewhere?
+> Currently the sysfs interface is completely oblivious that a key update
+> has happened. I really would like to have _some_ indicator there telling
+> us that a key update had happened, and the generation number would be
+> ideal here.
 
-base-commit: 0aa760051f4eb3d3bcd812125557bd09629a71e8
--- 
-An old man doll... just what I always wanted! - Clara
+I don't follow.
 
+The TLS layer will report the number of KeyUpdates that have been
+received. Userspace also knows that a KeyUpdate happened as we call to
+userspace to handle updating the keys.
+
+Alistair
+
+>
+> >       }
+> >
+> >   out_complete:
+> > @@ -1752,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
+ctrl,
+> >               keyring =3D key_serial(nctrl->opts->keyring);
+> >       args.ta_keyring =3D keyring;
+> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
+> > +     args.user_session_id =3D queue->user_session_id;
+> >       queue->tls_err =3D -EOPNOTSUPP;
+> >       init_completion(&queue->tls_complete);
+> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+>
+> Chers,
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
