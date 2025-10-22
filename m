@@ -1,166 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.fiberby.net (mail1.fiberby.net [193.104.135.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2353E26ED4B;
-	Wed, 22 Oct 2025 17:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77AF345749;
+	Wed, 22 Oct 2025 18:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.104.135.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761155455; cv=none; b=AFZKn7dWlwXQbnK+Ix5JNXIaH4NshiSVjwpKcPsn6iLWyjFng0rl7VCa3D0De7HIMynIQAR2bZBdnsh6kCGDjIP9DqLZ/OrZRkBkCdqAB8tA85gOcHrt8dNsL9GR63QnmCyde+2H3IFsqilqEJQzdOaoWQQHkOZ582NBcJFQnt0=
+	t=1761157640; cv=none; b=OJYwIuR1wMcp2xtBQ8OEbzFTGm4gK5nunEcsiBtbHjj96mhiN9dsQAO/j1JbYyrUBoc1nXREQGo0DNTLiw4jqM3dwnH2bdLJw0VbUzMg49jWkQe5+PmH0wDfBAXyB6fXloUUhVwp3XsNZmJhR5hfTMnUDH5sQ71Be6RBghQrPZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761155455; c=relaxed/simple;
-	bh=aMBfoiS7TXWQxlK+kUBxkNRtHrKbU0MW+tHVyHacEWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e4c2s4XMoI+AWrltCtizMr+5VEJa5KdOv3ZxBBbWipelYW2c2p4CSjItyA9TMR/T4Jzb2Btx2IGXUo7wb/pgpsf7aiL/lnVGeuGzAlTcR5ocs8OPn/YdwZqQ9joli+pllDqDuRNXxYv68btQ6X//a6fVUtLjoUtiPQIZ78xUYJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmGlDwG3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761157640; c=relaxed/simple;
+	bh=6HQ7FnLmTaEfzf3bCO0gsOgjyTTSNfAG8WwaCExdgsc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dY/MI9eryHhA86r6ShvnMcnr5/GWB93NwuBCcBC3w7M9UIIWhf01dEQO93WCwOyrPjEQFMET46Fl0By2kInhCHCXgBTwUqrpzCE+bjC3XLwHrUuYwunCn8vRfp2IC003uqnDsDu44/k5/qmNC8+wHkfENEXPoSCywo9uGf7rxuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net; spf=pass smtp.mailfrom=fiberby.net; dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b=U5a+i6a5; arc=none smtp.client-ip=193.104.135.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fiberby.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fiberby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmGlDwG3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E5E3C4CEE7;
-	Wed, 22 Oct 2025 17:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761155454;
-	bh=aMBfoiS7TXWQxlK+kUBxkNRtHrKbU0MW+tHVyHacEWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JmGlDwG3lM+s4sUd1DbnBulxrCsg6Js8EY0vZsV/rPi5RUDPMQMXVwbZnToV7ezDL
-	 neje42tlXom4X5yh+ndfR9ZX4AHeD69oLO15OQj/JxF6SzuYcfXGa1F5IVZ/AHx5yc
-	 qnPcwLpuAB8DbBXm5TRqtrQb06e42p1WF+dXORf0gXVlRTuOhsiwYZIOEdTBeDXVmx
-	 mLFFeX5SX3eiUxX5S5nuff5sSg54IBXXfE0LAGj4pTFCvIOfXxp72ELYiSmmLdo3QK
-	 DJ0a2TgI4yndDYtOhxfPsnMYUQxTYeaSd2l7TBswoBzeycCsp5AVqYvEdHsKh1bmD1
-	 O5HeuVIwM3MiQ==
-Date: Wed, 22 Oct 2025 18:50:49 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Aditya Dutt <duttaditya18@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: iio: position: Add ams AS5600 Position
- Sensor
-Message-ID: <20251022-savanna-gluten-0c5397bd4de4@spud>
-References: <20251020201653.86181-1-duttaditya18@gmail.com>
- <20251020201653.86181-2-duttaditya18@gmail.com>
+	dkim=pass (2048-bit key) header.d=fiberby.net header.i=@fiberby.net header.b="U5a+i6a5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fiberby.net;
+	s=202008; t=1761157634;
+	bh=6HQ7FnLmTaEfzf3bCO0gsOgjyTTSNfAG8WwaCExdgsc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=U5a+i6a5/nx2IGH9IG/UcKdHB5lyKpYajqGZmUDxiDAgGUZi3LaAqM8ksHhkTW3To
+	 1uP8EL5yX0aQ6C2m+5Ifqper9HuWryJ93bedNMLyno28DKnp/KbyNA3kGkGalyIFUG
+	 9pqotb9Ni59gM4TdvIONuwTTb9UhDm6wobX0KJERmk1R0+sK40s4FOrnqsGk+zwi/y
+	 kIafMwWy3Kb6NhYdEjBAWB9cDO9pjSj/3n/Ql2iwqmh3QXlzvhnzi23bWtWTx0bnjb
+	 DQTsup0hoPBalQSfEUYUHTuR3WsVEXDlzSyhu6qyIGftWGhDfmiwWoVaUuV/qvh6Rl
+	 SfUUrtEGwqcWw==
+Received: from x201s (193-104-135-243.ip4.fiberby.net [193.104.135.243])
+	by mail1.fiberby.net (Postfix) with ESMTPSA id 77C09600BF;
+	Wed, 22 Oct 2025 18:27:14 +0000 (UTC)
+Received: by x201s (Postfix, from userid 1000)
+	id B23EB2025C5; Wed, 22 Oct 2025 18:27:09 +0000 (UTC)
+From: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
+	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH net-next 5/7] netlink: specs: nlctrl: set ignore-index on indexed-arrays
+Date: Wed, 22 Oct 2025 18:26:58 +0000
+Message-ID: <20251022182701.250897-6-ast@fiberby.net>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251022182701.250897-1-ast@fiberby.net>
+References: <20251022182701.250897-1-ast@fiberby.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OzPS2Shsrc7Vzr5x"
-Content-Disposition: inline
-In-Reply-To: <20251020201653.86181-2-duttaditya18@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The indexes in nlctrl indexed-arrays have no special meaning,
+they are just written with an iterator index, which refers to
+the order in which they have been packed into the netlink message.
 
---OzPS2Shsrc7Vzr5x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thus this patch sets ignore-index on these attributes.
 
-On Tue, Oct 21, 2025 at 01:46:52AM +0530, Aditya Dutt wrote:
-> The AS5600 is a Hall-based rotary magnetic position sensor using
-> planar sensors that convert the magnetic field component perpendicular
-> to the surface of the chip into a voltage, or a numerical value
-> available through i2c.
->=20
-> Add dt-bindings for the sensor.
->=20
-> Datasheet: https://ams-osram.com/products/sensor-solutions/position-senso=
-rs/ams-as5600-position-sensor
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃                                     ┃ out/ ┃ input/ ┃ ignore ┃
+┃ Attribute                           ┃ dump ┃ parsed ┃ -index ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━╇━━━━━━━━┩
+│ CTRL_ATTR_OPS                       │ 1++  │ -      │ yes    │
+│ CTRL_ATTR_MCAST_GROUPS              │ 1++  │ -      │ yes    │
+└─────────────────────────────────────┴──────┴────────┴────────┘
 
-Looks like this device has two supplies, could you document those
-please?
+Where:
+  1++) incrementing index starting from 1
 
-Additionally, this "PGO" pin - is it necessary for a driver to know what
-state it is in to function correctly? If so, can the information about
-which state it is in be gathered from i2c?
-Should there also be an optional pgo-gpios property for the scenario
-where it is not tied, but set by a GPIO, if that is even possible.
+Signed-off-by: Asbjørn Sloth Tønnesen <ast@fiberby.net>
+---
+ Documentation/netlink/specs/nlctrl.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
-> ---
->  .../bindings/iio/position/ams,as5600.yaml     | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/position/ams,as=
-5600.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/position/ams,as5600.ya=
-ml b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
-> new file mode 100644
-> index 000000000000..d4c92dd41dd6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/position/ams,as5600.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/position/ams,as5600.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ams AS5600 Position Sensor
-> +
-> +maintainers:
-> +  - Aditya Dutt <duttaditya18@gmail.com>
-> +
-> +description: |
-> +  12-Bit Programmable Contactless Potentiometer
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ams,as5600
+diff --git a/Documentation/netlink/specs/nlctrl.yaml b/Documentation/netlink/specs/nlctrl.yaml
+index 8b4472a6aa36a..753cf1b48c252 100644
+--- a/Documentation/netlink/specs/nlctrl.yaml
++++ b/Documentation/netlink/specs/nlctrl.yaml
+@@ -67,11 +67,13 @@ attribute-sets:
+         name: ops
+         type: indexed-array
+         sub-type: nest
++        ignore-index: true
+         nested-attributes: op-attrs
+       -
+         name: mcast-groups
+         type: indexed-array
+         sub-type: nest
++        ignore-index: true
+         nested-attributes: mcast-group-attrs
+       -
+         name: policy
+-- 
+2.51.0
 
-blank line here please.
-
-> +  reg:
-> +    maxItems: 1
-> +    description: |
-> +      The I2C register address of the device. Typical address for AS5600=
-: 0x36.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      ams5600@36 {
-
-potentiometer@36
-
-pw-bot: changes-requested
-
-Cheers,
-Conor.
-
-> +        compatible =3D "ams,as5600";
-> +        reg =3D <0x36>;
-> +      };
-> +    };
-> +
-> +...
-> --=20
-> 2.34.1
->=20
-
---OzPS2Shsrc7Vzr5x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPkZeQAKCRB4tDGHoIJi
-0vBLAP9RMGFPj6gbrBZaaEIaeSxbhiHozKyiE248FCgnAYHnOAEAkrlBQoi+mcMx
-fJLqI8ROL/gWvZhqBI3AEPibBFlUaQ4=
-=GpNy
------END PGP SIGNATURE-----
-
---OzPS2Shsrc7Vzr5x--
