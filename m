@@ -1,78 +1,69 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D89314D2A
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 10:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5E326CE2D;
+	Wed, 22 Oct 2025 10:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761128443; cv=none; b=h+8I8DTX+HmLACpL5vMahKQNAyT4iICZTiQ25c3MrShOxnt4F6/XEyjylPKsZCVHTZZ9aIsHeX11YETq3yq9uoZjNCFh5Ogo4ONWSPqHjYpKJrs6wGek8DYEMWiL/gNe+oIQrZEniwqrAUHF32KOjyIDTmeNQEUpbGyoN3DZ/g8=
+	t=1761128605; cv=none; b=LvGRTbyVamuADMuzD/645HsPmZGKn6A7QkB1DSk5p2F+zOFHo9PIzOvMbLrEoifwLSseXqCNBxVAndm3ljuHnZaKGlyF6Oo2Dgtv701uOFBrhg2DkVdOPeql5mVtNidPZT3obr5hydfC7EypMPKQbtlH+uMqlkb9DqaipHtWphA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761128443; c=relaxed/simple;
-	bh=bsLcKTPJEYIr6iWd2hSD2/QqBkscjLQjYwtElmBwUuw=;
+	s=arc-20240116; t=1761128605; c=relaxed/simple;
+	bh=AfH0HOp6dIRA6LJbVwBgTMvik8DPOlQ3HjTpgrwJ9/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppvFl6HLNeWwfJTD7YAovDoUbYDYKlBH0RPaqugLniS91KOQ2xLbl3WhNT/5AAwG1sfS5MeyywV2jfmvQ5ZR71YZR68jSB9UwlcHZkwKyHsw9ZqjYMxQdrvmD+Ks+ftCDuYKMnkvknaxIB7ZX2ZXdlmrGy1HGYquRr5muagcZW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q5eXYtvb; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0FEsnHMAhjxRWlQfQ3vd59rgPcHjI8Ygs5e0WxglSA4EZCVKheOw1V6ugPE17aKvSDujLEtceXYohHOg3B9tLGUOtxiTkV0CLj9bEUAog4JBVaoEIYJe9lnpnUh2pFS6YYh9ExIYPoH48jKW9HtOSBXUG7kzsVOOkekNJS65mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Epi7j6zd; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q5eXYtvb"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-33c4252c3c5so4841822a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 03:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761128441; x=1761733241; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+BERCfgvcR5X/QpiR51/cu4DL63bwSFg1M/A5GNtaI=;
-        b=Q5eXYtvbRn1VEpYB+ckss1F1GCQzUuvuD/3fl40yNikmpxtheQ7sMn5qQvpyDoulT+
-         NuvQXfh9fYXtofOxyEbl6d7RyO70TDEpg64rLRY8Z4vUP9uKQlEXiNkM1M+iM6F81x/F
-         ua9PH5RaMRdzQEV2yy93eyH5PdcySO3Av4XbIIZheaM0qTCVtAjaw4K1QPiveyzwKtZk
-         IHMzU7jBq7zstnoUb6xfZhwSbD/kOa0yLlP1eyBnchlHBEhyO1/otNkfaRLrm8zT1jgP
-         a1tsraAlVachrcTJG4BJNiELwejevit8YN2V0suucIcaXRrV24RUpbMYkEFrEBAwVusc
-         SddA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761128441; x=1761733241;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v+BERCfgvcR5X/QpiR51/cu4DL63bwSFg1M/A5GNtaI=;
-        b=qqbZIH2ZmFWTmPxJQXZ5t2cyAMRA0cmJNWW/GQsFFG0q7vzohDlcgMFc02qTr/T0nm
-         WS6DIfjd3+CHJJ4xbryqzZR+dfAB5GlnuBQ5UAfcW/eGpJPfTYNa8zRxaIxE4uFw1xfK
-         LhscaNLw2/IjZQq+gcvWS92Yuu1UJbL+nJ19dS4OzJBnN5yeaLlxcqKwd9mbYbbsLhrz
-         GvhMs2ercfegyrKGGNoqnKjhohuU23jqx+eIvzvsdDnoAmdUlcQuqQb8waOLaaw6LuRA
-         Vzy+dZXGbMlowBca6UROeurRD/PJoWWSG1S0H8/jz2B8/gvxlCGFSvy9wiTFSS+zR8+n
-         GiCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNGiSe1uCGDccqwjG4PVmlJbCLtJuDLUgCZJS3xe8yyQAP1b3QVMFd3Fyaho14yrfTrAlW64Bww64=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze6aNVdKeBPWBROiGci8EjQiWYlCJYvLGqzCTQ+3Bc1pkjnEfF
-	CyfPv5mk8dWv6yEFygwE5VwPMIuFZA/VUzOPRzpm5I9rCB8BXBQq2b2wpNlhitOP9nI=
-X-Gm-Gg: ASbGnctCRwHS9wLnChMWtS9oIMqQguRI8S4XZ7prAyszIxEWgvejlyml935nW2j1QLO
-	iRVOdHG9UjcywkiDZmO/JVeWb5rBWsvNNtku/8GiQ+2eSq8b4bO6pLrkYrGaXz8YlqgCJ2UwOSK
-	L+O50ciHpR0rk/Roxnr+zACWbm0ubQGApZ165Foz0hbZNf68SPD90t6cucKz9lF21fSZZkVmvch
-	GCb2xcXcEYlmZIRPZD28JIhxiDsmu2iMAPEi1wveu5UY0qMBE/K9Qeb7Y0nFiZGag87DTAYWBJK
-	IVCPxJLVBeqtmfkRlvjKlGE7uWdHkYUPVPF5J7Gl6+9RjySZJDL9pXzVtY7Vg2QyZ36TVnwplYm
-	lpFrhlf+HBKNDH4WrLlPCNvRVuvDXh7PWLm83kX7YJQZgreSkf31LqqMIRCqSRkpcYpVrrTVoFA
-	D/uBeOdBylF0Nb
-X-Google-Smtp-Source: AGHT+IEPudXWObjJLDv2XWqM26sgZsiKQXdb5QBSpUD/P+viWtBD0+IrqTmFx+e1SWZr7yyFfz4vMg==
-X-Received: by 2002:a17:90b:5105:b0:32d:dc3e:5575 with SMTP id 98e67ed59e1d1-33bcf8625b0mr23541723a91.5.1761128440788;
-        Wed, 22 Oct 2025 03:20:40 -0700 (PDT)
-Received: from localhost ([122.172.87.183])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223f0124sm2159272a91.11.2025.10.22.03.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 03:20:40 -0700 (PDT)
-Date: Wed, 22 Oct 2025 15:50:37 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Joe Perches <joe@perches.com>
-Cc: Ally Heev <allyheev@gmail.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Dan Carpenter <dan.carpenter@linaro.org>, David Hunter <david.hunter.linux@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-pm <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
- attribute check
-Message-ID: <a6yf3ms7smzjfcm54z7khg6g3zpepqwxcbhwzm74dk33famolr@s2at2tnyxoed>
-References: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
- <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Epi7j6zd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=etZw5gn8CVF/PJZZ4oulMIW858XJRdicPsa/oqCkWQI=; b=Epi7j6zdJk8KGMZHyT9bkaxOI4
+	EOkbySSC9iaf4a4NyCEn3I2+GiQAwbaNQPUj32RdKYHw1dPZEKj8iaPw544CNzldd6qlDiQ1Fj9kq
+	rpBvw2c9yfg6xRTu3uLbHDvrV7Xcf609lMo9OgErB+auUwZBMEG/uen9uPYWhSmZfq+22G4aekcC3
+	zOjF49qN1B8bOHOnHweXNeTGkQmu3Bm0HplSSYuEjVhDC0tZXSfxniUhT9aZvldEJIds3NlQQf/W+
+	ox9GBg5Tia4hnroj28WsMObDGTzUIo08IoV300jL/A+ijZocARd77OaHPCOwfzRbKrOHDiiW5I5Ed
+	vvYm0haA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBV7u-00000000SY9-3I9H;
+	Wed, 22 Oct 2025 09:27:27 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D4AF730039F; Wed, 22 Oct 2025 12:22:53 +0200 (CEST)
+Date: Wed, 22 Oct 2025 12:22:53 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v10 03/15] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <20251022102253.GW3419281@noisy.programming.kicks-ass.net>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-4-sohil.mehta@intel.com>
+ <20251021200328.GMaPfnEDibnBrhNTmQ@fat_crate.local>
+ <20251022082541.GL4067720@noisy.programming.kicks-ass.net>
+ <20251022094019.GAaPimg3VCgRu6eELd@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,20 +72,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+In-Reply-To: <20251022094019.GAaPimg3VCgRu6eELd@fat_crate.local>
 
-On 21-10-25, 10:06, Joe Perches wrote:
-> There are many uses in drivers/opp/ that could be updated where
-> the initialization is done after the definition like the below:
-> (I've added the opp maintainers to the cc's)
+On Wed, Oct 22, 2025 at 11:40:19AM +0200, Borislav Petkov wrote:
+
+> > But that's not the same, stac() and clac() are FEATURE_SMAP, these are
+> > FEATURE_LASS.
 > 
-> drivers/opp/core.c-unsigned long dev_pm_opp_get_max_clock_latency(struct device *dev)
-> drivers/opp/core.c-{
-> drivers/opp/core.c:     struct opp_table *opp_table __free(put_opp_table);
-> drivers/opp/core.c-
-> drivers/opp/core.c-     opp_table = _find_opp_table(dev);
+> So?
 
-https://lore.kernel.org/all/45a64ff434a027c296d1d5c35f442e51378c9425.1761128347.git.viresh.kumar@linaro.org/
+That's confusing. Just keep them separate alternatives.
 
--- 
-viresh
+> Are you thinking of toggling features and then something else getting disabled
+> in the process?
+
+I'm thinking that machines without LASS don't need the clac/stac in
+these places. And when reading the asm, the FEATURE_LASS is a clue.
+
