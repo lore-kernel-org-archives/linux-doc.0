@@ -1,80 +1,81 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012047.outbound.protection.outlook.com [40.93.195.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BE4252904;
-	Tue, 21 Oct 2025 23:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761091023; cv=fail; b=kbZswbLF7cJpaB/x8eRfrm8N/I5rJBTHOp78S/QN1KswqfvdBzuxg3E6JJWKWQB+8EPLzgC1Sup8vqqeYvKYXFXkKhHHYm9/M5fWX71cqslxMi40miuXQ4XYIoCNEBN0PpxzgxtLqRjqgcsTTF9ZPWyqr3R80iUb3niIwhMbjmo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761091023; c=relaxed/simple;
-	bh=ENbSuET7mJmpreF96qgKB0XU8chLGatGlplx1qKy3l4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QKxv2gSHpU2i3x2FKh6EgTUJrYEWct4u0AEOAtNbgDsWplaKRJZwmByafRNDdRHCDfgVC7sUwnwLZhS26nEWjNdvw8NaR2Y8d6kcazQWBzbIFUESiKqudpsy5WQKKIzJVCsB6JpfaJP2vyFL0VfPQSHxC5dV57qW4IegW/XPqlE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xpiFL4Ka; arc=fail smtp.client-ip=40.93.195.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D92B1624C0
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 00:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761092420; cv=none; b=gFFI9l+9u2K6+3lClkXl0FlfWu6boTx4uI6+lwl0WnWE14lVrYutWliGVMHgMgCb+7a9QZpsoit17/amYXzfRET5f44z1cNNXe8MqXE0K/5IBqb9BX+iK6Sii1h6lU6wjAJqOTJaNqg2EXnbmJja1a2Ms4IoaEejMlz3l9FRSMQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761092420; c=relaxed/simple;
+	bh=CxJjQEtSRciuN/yaJMf58GHY7wZzFO6GcnAk26Ue4e0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vq+ChXlM0MVTdcd/lropI0TmRYLl6Sd4OTqQwMuvvnAqlaWL5vUDsXG09Oz1Mr0wTOyhNAhE8WySp5Aa1NVMOOjgmxGH4LKvi66q8bJSeUHC7wyBI0k4Y9zW6zEc4vsRGA1yw8kIbLGb1+AHHjAWZgRy4stWxUD9JqAm2wRUOnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jxqORTZw; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xpiFL4Ka"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FRR+TOPp1i/EpV6MaSSTCaraWVIIxYbdT/Nt1jaYfT4lpNjcAJkunYDpkNaoMGD3sq8yayl4e+xC0n6ya1XbNOlJSMUDa/GyFBTVZ4kOLDRwnW7UTSPb43CR8EWELZx1FBX5RHNJ813WPtc5eo2JnuGaYBU10DmSC+CBJp+jkMkfTUHO96oAEX2z+NjQxnaR8I4MWE3O3CwLPmge04sIuS+Ng1y88dkHmJQVfhYbqQuNR6ujuivUfzpolM0oRfbjEgJ2PYDg6IUV1Zts8iGa9VBZYVVBU3WWa9r2dN4iF4YvAWWue/UxzDggjQ7gXcqVpFAGo/IuABDWPkIgU6kImQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q5m7kcwHbK9e+7lYS2Q2cn0OuiKllib0viICXK15pYg=;
- b=fgjbnsAXCh9ktqlUB7IMP9TZqxt4/tJ16+JlaTlSRYstA76hJ3kuo3SrWlgXUfecZKpPsZ/7leSfKxNFWYBG5CTeJu9nZntMZcuyzb/V5rYuHIWO4fV7QYBE40kTjegTZXbdIm5dNrYi9nC8XimV9aqHQYZOfXl7jh82Fvu7PGxkE0cKWkq94jE3U87mHj/p71ft1rX9hNzjdoN3cE6CXjkuWokT4MhpAs1XnBThFD2gvprwKfYClIwavkFav5wVQt9tVtIcPd/3oLlXFzRVfCFAPJDYgGvNdsbzc2K0leOhJLmx9q5fLoXmU/AewLEFfTjedFX4giVY6WAuEDCv4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q5m7kcwHbK9e+7lYS2Q2cn0OuiKllib0viICXK15pYg=;
- b=xpiFL4Kad8SUrXwGzicudd+HormMmUEeZ1j5jnL6TpUVFAx+8q7hmgNcII17RUJnR6vWCOJJD/4f4aGIdMt7kgTc36lK5QurjFtT9DhQTBgwQFzPB2DRMFpoWc4hhholthR586/KCvJpKTydohYRw0Mh2QD5srn5qT3I2mkaf0Q=
-Received: from MN0PR05CA0024.namprd05.prod.outlook.com (2603:10b6:208:52c::32)
- by MW4PR12MB7333.namprd12.prod.outlook.com (2603:10b6:303:21b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.15; Tue, 21 Oct
- 2025 23:56:56 +0000
-Received: from MN1PEPF0000ECD7.namprd02.prod.outlook.com
- (2603:10b6:208:52c:cafe::94) by MN0PR05CA0024.outlook.office365.com
- (2603:10b6:208:52c::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.12 via Frontend Transport; Tue,
- 21 Oct 2025 23:56:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MN1PEPF0000ECD7.mail.protection.outlook.com (10.167.242.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9253.7 via Frontend Transport; Tue, 21 Oct 2025 23:56:56 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 21 Oct
- 2025 16:56:52 -0700
-From: Babu Moger <babu.moger@amd.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <corbet@lwn.net>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<babu.moger@amd.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>,
-	<seanjc@google.com>, <pawan.kumar.gupta@linux.intel.com>, <xin@zytor.com>,
-	<thomas.lendacky@amd.com>, <sohil.mehta@intel.com>, <jarkko@kernel.org>,
-	<chang.seok.bae@intel.com>, <ebiggers@google.com>,
-	<elena.reshetova@intel.com>, <ak@linux.intel.com>,
-	<mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>
-Subject: [PATCH v10 10/10] fs/resctrl: Update bit_usage to reflect io_alloc
-Date: Tue, 21 Oct 2025 18:54:53 -0500
-Message-ID: <022b992dd61b4456220c0ca1fac75d73374922e9.1761090860.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1761090859.git.babu.moger@amd.com>
-References: <cover.1761090859.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jxqORTZw"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-290cd62acc3so58330265ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 17:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761092418; x=1761697218; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7CC5KiCyQRes+/Q+dJgQGBWAYblavqSaxCcfd2V4e0=;
+        b=jxqORTZwxNF18urTEIB59crr7lyrOVO+UJ5dipbvGMqsis6PyKYxiqx1JG/+gR5VE/
+         P1AQRP//qZZ+sHtN1KYTvF7a+Tl1n4WUrSQFbjwG6oZ0xS2c0iA5d9baRJpQ3j9CdA/9
+         MPmU8A93ppXUCu+JVNaiKOm5gGsh0N015+KqXfgoWROA3vxei15uu3OZkLdZPmTfePJD
+         WhMMN1l/OJZEyuxyajgUmpSYT4TeNBt4VemHR/tgXJFbLv6jAji+yQoGAdusJAEwJxHm
+         4cpM6y5EWM/RkRjYhHFLsZWyI3ZIldQR977UKtfovjnfU26RWOK/GGyglI/fi/XWv7uy
+         q4Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761092418; x=1761697218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l7CC5KiCyQRes+/Q+dJgQGBWAYblavqSaxCcfd2V4e0=;
+        b=LU/hB6rDZjZ+atY/v718qgT8vIT0GH4J031/m2Wi6J20InnXwvoT0g6nLm1euyZU5x
+         Nr5pHHTmK2YbRCpZ1ecNaNeShIFiyftXqTHuagpv1FKd8ByD8oZB5ViuAky89ArzS/oi
+         IBZaSQwkOwJto3DxPqUncO9d7aj0l7XwYYnrGQhBpgcL0c+4zWXDJjYbQnSTuqce8jMP
+         VLnb9aUd/BTQ/iH3oCEBdREYnHU3fceT6gn5XEmoA17B48xC73bBa2lhyU4i7/sqZKF9
+         vIADfFPrBiIVSdox9WwMY80MusqYzE6x1gt65mrl6eppbt7ghEFKTqbXSLUZlmyKe7sE
+         o+0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV/D4I2MWocgG84BWo4GUrLAJhL4KfPIp3sbVAnzO5+7cnsXVs44XgJiW4ew5YhSKAleEHJcVrh8II=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIRPv22+pUDlCvh4+Lirr9BIjG/ajO8Umz5pAAMXyOWFX4C2T6
+	VHDv7IFAczjbL1ovLZD16zjmcMnlHeT7/yURLOViAgi2NHcnlsOxCSgA
+X-Gm-Gg: ASbGncujs9OPRgbA4i6tiKgId2+nueXxCrVy266odeB5pETHeWuaU2mAktx3EjTvPN0
+	NMY5zx08nTFchxd9UA+kOsSZAIE8gC4+nx/sFIwfgKAss78bfBg3QHQBrEE17v9lWNHBwpQ97SQ
+	wt9N9WYuXi8hVkO9UmSyFXaIn1RUjFs/slvkPHoAwhzXjEHoBMpfi77t3Ba6qjMpt97Yuo0sDzR
+	HrhSN3LV7LUNt0FMCNf5L/hyos3o2Fx/S2VvBNFvoEFoTwKb/lUWboeLKfY1ow0NoCLXiKddAlM
+	TGcBQq0adnV4JKZOTYztXnC5M8bSsDN6R4c2ThM5kOp7/hzykhojcms0E7MNlgcWrfmlj6bXUIp
+	TtEUt5OntWH+Dc3tYYL8BcXf+lQQ+ltDn2fkzcioBX9KGK8nBZ7Ioy+rGpuG+YE9bECWymLjJwe
+	nsSvrUH4yj
+X-Google-Smtp-Source: AGHT+IF6K3puMMF/VwJpVpPgNw5oEgtDkIrXWDky51zezoFPd5SugRkbQY/Tc2zS73/dT1q4Z/GbWw==
+X-Received: by 2002:a17:902:ef44:b0:268:f83a:835a with SMTP id d9443c01a7336-290ccab5e9bmr210607575ad.60.1761092417873;
+        Tue, 21 Oct 2025 17:20:17 -0700 (PDT)
+Received: from fedora ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-292471fdcf9sm120759805ad.91.2025.10.21.17.20.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 17:20:17 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Simon Horman <horms@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH net-next v8 1/2] net/tls: support setting the maximum payload size
+Date: Wed, 22 Oct 2025 10:19:36 +1000
+Message-ID: <20251022001937.20155-1-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,219 +83,259 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD7:EE_|MW4PR12MB7333:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86cf5b2d-249b-4c46-cd90-08de10fd8410
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FZ7qwqnSCzH73Gsy4T6uHW0lu8ugsdotRQQpKYntm4BJuvh0KGT3JVBf+IRR?=
- =?us-ascii?Q?Fzl+dhxyk3gT7GhVkkpJqpAlbN5+kFGR23Ey2wzNJCc4xRHZ+JU1DjwlSVHx?=
- =?us-ascii?Q?n0bUjNhMBpS3H97f30UVy+YsRsWbClhGk0FYDPIXDUr5mMbYCvzHYIbhTRvx?=
- =?us-ascii?Q?YVdO4bCLOTePgrXOojCi+g3ghaURBmdneSOQNGt0iMh7ZCV2d6I1vs/OqJKg?=
- =?us-ascii?Q?ZrZtAOuFazgP9GIfSfW/f/+FhUqBz/aZYm86bUFig6mV5HNWNvd5atPatE8c?=
- =?us-ascii?Q?FGla52hzB4F6W6cf3HZCAdRyLYEURtDblPZSTOZE2Jym3JC7BMWPyepAzaed?=
- =?us-ascii?Q?XodbWjmtjAZX7FH7T2x2fmlTQ42opEmpdSlv3R8tvNP4ku/E+zBzRWyLemjh?=
- =?us-ascii?Q?tNz5AChwXsfh6ULhUbOPxUjKYZHqDz0+do3asuAleXl0Xb+3W5zLuGsio56F?=
- =?us-ascii?Q?oSDP/OrIana0mcZ4DWxlm5h1apmgWfYtQJn0eS0shaLtf3GtKfLMNX1GmfdC?=
- =?us-ascii?Q?nEkM4tVA9AJ6kIDBiTMopVc+jFVRxDKtMxJGe7nrwCLtOdnMQH3MRd2Hm6s6?=
- =?us-ascii?Q?g1eZsehc+zSpqRyh6tSjYFWbf4CuY1nufZIZTiRV6lNQO6+Z10gPZp7XBPeT?=
- =?us-ascii?Q?kxBShY4uMwRALLLUIKgkgCRCnwHCIrb2UvLo1YNPGXqeL6brYTsQCvPDkz5U?=
- =?us-ascii?Q?Gwv4wHceWmX5rE3+/MPoLsW6MeAckFB8CRyW6XTw7HeN3WXhBT2uJYqIANEC?=
- =?us-ascii?Q?6uNqKMN6BwlMBTdkI/9ycMDHIDdN8vzbq/uePgVT4RDobsFW7wJQPPsGHXD9?=
- =?us-ascii?Q?htQdk1g2cJXCTwiqOzGfM/pwJ2wsYPC07WpWjxhKep2AH+GYKjpBBhGjAYge?=
- =?us-ascii?Q?+bWThYjbhwxtypTbL2fnwZfHyA29e292WPlxcP0tSwE3Ri3ZhECyo0LjVRKS?=
- =?us-ascii?Q?KNqnN09pIYeAUDaRUvOLIVGHgW2dTj6LaJ1s2Cqym+AUXZyzcf9vXobXEkqL?=
- =?us-ascii?Q?wyGdMR+87F9i5qZ8vVvGDRRM6hGZvI2hX6dzO6GBkJtA9YGCO4UlVNBNtWZ1?=
- =?us-ascii?Q?7rbfG/lH0haQY/YZEyknRDfYjZWLXAOu/J1ADAhoUKZn5ynkI0XLQrOEAQPP?=
- =?us-ascii?Q?rqWo6qLBWBMtvAIFKGECdnIAb2O1ZZv6j/3p9GK2oE1D3j11UWGYYJvfptRJ?=
- =?us-ascii?Q?DETjHZcYI+606lhWrV79aSByewRx4CP14RBEQIvVl4lbH9TDWQ/7nL+yKsma?=
- =?us-ascii?Q?OD4cAAi+uchk0fzWzlGQNVkm60sZQXPvI/vRjcBTpgXMMdbpaPxBpFh6qmW8?=
- =?us-ascii?Q?wS8rmwCBoGYcdIMxxxpRyfe8WgOwm1lMYFiz//gYdMyQxj3yKbfkW933jAal?=
- =?us-ascii?Q?yV7yZJeQnrzlgvcY1GP6ff8u0h3TzBxNsdeqUDUPTlkgH9/dZvvJZQOsMdK+?=
- =?us-ascii?Q?KDBV0FveTgeg9UUndgyyVPKYF17LpekT6RC/wmNHwn9ChaR2CmGrdS1aAZTP?=
- =?us-ascii?Q?EO1KYIeOKj1WjtNTL0rijMa59Fb8PRxHm8OpcyIAjroIf4U5pZGd+14Nk0IR?=
- =?us-ascii?Q?LOC7QJyEgxBKErJQwCc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 23:56:56.1221
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86cf5b2d-249b-4c46-cd90-08de10fd8410
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECD7.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7333
 
-The "shareable_bits" and "bit_usage" resctrl files associated with cache
-resources give insight into how instances of a cache is used.
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Update the annotated capacity bitmasks displayed by "bit_usage" to include the
-cache portions allocated for I/O via the "io_alloc" feature. "shareable_bits"
-is a global bitmask of shareable cache with I/O and can thus not present the
-per-domain I/O allocations possible with the "io_alloc" feature. Revise the
-"shareable_bits" documentation to direct users to "bit_usage" for accurate
-cache usage information.
+During a handshake, an endpoint may specify a maximum record size limit.
+Currently, the kernel defaults to TLS_MAX_PAYLOAD_SIZE (16KB) for the
+maximum record size. Meaning that, the outgoing records from the kernel
+can exceed a lower size negotiated during the handshake. In such a case,
+the TLS endpoint must send a fatal "record_overflow" alert [1], and
+thus the record is discarded.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
+Upcoming Western Digital NVMe-TCP hardware controllers implement TLS
+support. For these devices, supporting TLS record size negotiation is
+necessary because the maximum TLS record size supported by the controller
+is less than the default 16KB currently used by the kernel.
+
+Currently, there is no way to inform the kernel of such a limit. This patch
+adds support to a new setsockopt() option `TLS_TX_MAX_PAYLOAD_LEN` that
+allows for setting the maximum plaintext fragment size. Once set, outgoing
+records are no larger than the size specified. This option can be used to
+specify the record size limit.
+
+[1] https://www.rfc-editor.org/rfc/rfc8449
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 ---
-v10: Changelog update.
-     Updated schematas to schemata.
-
-v9: Changelog update.
-    Added code comments about CDP.
-    Updated the "bit_usage" section of resctrl.rst for io_alloc.
-
-v8: Moved the patch to last after all the concepts are initialized.
-    Updated user doc resctrl.rst.
-    Simplified the CDT check  in rdt_bit_usage_show() as CDP_DATA and CDP_CODE
-    are in sync with io_alloc enabled.
-
-v7: New patch split from earlier patch #5.
-    Added resctrl_io_alloc_closid() to return max COSID.
+V7 -> V8:
+ - Fixup HTML doc indentation
+ - Drop the getsockopt() change in V7 where ContentType was included in the
+   max payload length
 ---
- Documentation/filesystems/resctrl.rst | 35 ++++++++++++++++-----------
- fs/resctrl/ctrlmondata.c              |  2 +-
- fs/resctrl/internal.h                 |  2 ++
- fs/resctrl/rdtgroup.c                 | 21 ++++++++++++++--
- 4 files changed, 43 insertions(+), 17 deletions(-)
+ Documentation/networking/tls.rst | 20 ++++++++++
+ include/net/tls.h                |  3 ++
+ include/uapi/linux/tls.h         |  2 +
+ net/tls/tls_device.c             |  2 +-
+ net/tls/tls_main.c               | 64 ++++++++++++++++++++++++++++++++
+ net/tls/tls_sw.c                 |  2 +-
+ 6 files changed, 91 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index dab4b430d3a3..ccc425b65b27 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -91,12 +91,19 @@ related to allocation:
- 		must be set when writing a mask.
+diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+index 36cc7afc2527..980c442d7161 100644
+--- a/Documentation/networking/tls.rst
++++ b/Documentation/networking/tls.rst
+@@ -280,6 +280,26 @@ If the record decrypted turns out to had been padded or is not a data
+ record it will be decrypted again into a kernel buffer without zero copy.
+ Such events are counted in the ``TlsDecryptRetry`` statistic.
  
- "shareable_bits":
--		Bitmask of shareable resource with other executing
--		entities (e.g. I/O). User can use this when
--		setting up exclusive cache partitions. Note that
--		some platforms support devices that have their
--		own settings for cache use which can over-ride
--		these bits.
-+		Bitmask of shareable resource with other executing entities
-+		(e.g. I/O). Applies to all instances of this resource. User
-+		can use this when setting up exclusive cache partitions.
-+		Note that some platforms support devices that have their
-+		own settings for cache use which can over-ride these bits.
++TLS_TX_MAX_PAYLOAD_LEN
++~~~~~~~~~~~~~~~~~~~~~~
 +
-+		When "io_alloc" is enabled, a portion of each cache instance can
-+		be configured for shared use between hardware and software.
-+		"bit_usage" should be used to see which portions of each cache
-+		instance is configured for hardware use via "io_alloc" feature
-+		because every cache instance can have its "io_alloc" bitmask
-+		configured independently via "io_alloc_cbm".
++Specifies the maximum size of the plaintext payload for transmitted TLS records.
 +
- "bit_usage":
- 		Annotated capacity bitmasks showing how all
- 		instances of the resource are used. The legend is:
-@@ -110,16 +117,16 @@ related to allocation:
- 			"H":
- 			      Corresponding region is used by hardware only
- 			      but available for software use. If a resource
--			      has bits set in "shareable_bits" but not all
--			      of these bits appear in the resource groups'
--			      schematas then the bits appearing in
--			      "shareable_bits" but no resource group will
--			      be marked as "H".
-+			      has bits set in "shareable_bits" or "io_alloc_cbm"
-+			      but not all of these bits appear in the resource
-+			      groups' schemata then the bits appearing in
-+			      "shareable_bits" or "io_alloc_cbm" but no
-+			      resource group will be marked as "H".
- 			"X":
- 			      Corresponding region is available for sharing and
--			      used by hardware and software. These are the
--			      bits that appear in "shareable_bits" as
--			      well as a resource group's allocation.
-+			      used by hardware and software. These are the bits
-+			      that appear in "shareable_bits" or "io_alloc_cbm"
-+			      as well as a resource group's allocation.
- 			"S":
- 			      Corresponding region is used by software
- 			      and available for sharing.
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index a15479dd74a9..1a1374fce603 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -750,7 +750,7 @@ static int resctrl_io_alloc_init_cbm(struct resctrl_schema *s, u32 closid)
-  * resource. Note that if Code Data Prioritization (CDP) is enabled, the number
-  * of available CLOSIDs is reduced by half.
-  */
--static u32 resctrl_io_alloc_closid(struct rdt_resource *r)
-+u32 resctrl_io_alloc_closid(struct rdt_resource *r)
++When this option is set, the kernel enforces the specified limit on all outgoing
++TLS records. No plaintext fragment will exceed this size. This option can be used
++to implement the TLS Record Size Limit extension [1].
++
++* For TLS 1.2, the value corresponds directly to the record size limit.
++* For TLS 1.3, the value should be set to record_size_limit - 1, since
++  the record size limit includes one additional byte for the ContentType
++  field.
++
++The valid range for this option is 64 to 16384 bytes for TLS 1.2, and 63 to
++16384 bytes for TLS 1.3. The lower minimum for TLS 1.3 accounts for the
++extra byte used by the ContentType field.
++
++[1] https://datatracker.ietf.org/doc/html/rfc8449
++
+ Statistics
+ ==========
+ 
+diff --git a/include/net/tls.h b/include/net/tls.h
+index 857340338b69..f2af113728aa 100644
+--- a/include/net/tls.h
++++ b/include/net/tls.h
+@@ -53,6 +53,8 @@ struct tls_rec;
+ 
+ /* Maximum data size carried in a TLS record */
+ #define TLS_MAX_PAYLOAD_SIZE		((size_t)1 << 14)
++/* Minimum record size limit as per RFC8449 */
++#define TLS_MIN_RECORD_SIZE_LIM		((size_t)1 << 6)
+ 
+ #define TLS_HEADER_SIZE			5
+ #define TLS_NONCE_OFFSET		TLS_HEADER_SIZE
+@@ -226,6 +228,7 @@ struct tls_context {
+ 	u8 rx_conf:3;
+ 	u8 zerocopy_sendfile:1;
+ 	u8 rx_no_pad:1;
++	u16 tx_max_payload_len;
+ 
+ 	int (*push_pending_record)(struct sock *sk, int flags);
+ 	void (*sk_write_space)(struct sock *sk);
+diff --git a/include/uapi/linux/tls.h b/include/uapi/linux/tls.h
+index b66a800389cc..b8b9c42f848c 100644
+--- a/include/uapi/linux/tls.h
++++ b/include/uapi/linux/tls.h
+@@ -41,6 +41,7 @@
+ #define TLS_RX			2	/* Set receive parameters */
+ #define TLS_TX_ZEROCOPY_RO	3	/* TX zerocopy (only sendfile now) */
+ #define TLS_RX_EXPECT_NO_PAD	4	/* Attempt opportunistic zero-copy */
++#define TLS_TX_MAX_PAYLOAD_LEN	5	/* Maximum plaintext size */
+ 
+ /* Supported versions */
+ #define TLS_VERSION_MINOR(ver)	((ver) & 0xFF)
+@@ -194,6 +195,7 @@ enum {
+ 	TLS_INFO_RXCONF,
+ 	TLS_INFO_ZC_RO_TX,
+ 	TLS_INFO_RX_NO_PAD,
++	TLS_INFO_TX_MAX_PAYLOAD_LEN,
+ 	__TLS_INFO_MAX,
+ };
+ #define TLS_INFO_MAX (__TLS_INFO_MAX - 1)
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index caa2b5d24622..4d29b390aed9 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -462,7 +462,7 @@ static int tls_push_data(struct sock *sk,
+ 	/* TLS_HEADER_SIZE is not counted as part of the TLS record, and
+ 	 * we need to leave room for an authentication tag.
+ 	 */
+-	max_open_record_len = TLS_MAX_PAYLOAD_SIZE +
++	max_open_record_len = tls_ctx->tx_max_payload_len +
+ 			      prot->prepend_size;
+ 	do {
+ 		rc = tls_do_allocation(sk, ctx, pfrag, prot->prepend_size);
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index 39a2ab47fe72..56ce0bc8317b 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -541,6 +541,28 @@ static int do_tls_getsockopt_no_pad(struct sock *sk, char __user *optval,
+ 	return 0;
+ }
+ 
++static int do_tls_getsockopt_tx_payload_len(struct sock *sk, char __user *optval,
++					    int __user *optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	u16 payload_len = ctx->tx_max_payload_len;
++	int len;
++
++	if (get_user(len, optlen))
++		return -EFAULT;
++
++	if (len < sizeof(payload_len))
++		return -EINVAL;
++
++	if (put_user(sizeof(payload_len), optlen))
++		return -EFAULT;
++
++	if (copy_to_user(optval, &payload_len, sizeof(payload_len)))
++		return -EFAULT;
++
++	return 0;
++}
++
+ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 			     char __user *optval, int __user *optlen)
  {
- 	if (resctrl_arch_get_cdp_enabled(r->rid))
- 		return resctrl_arch_get_num_closid(r) / 2  - 1;
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index bab9d9716783..e5136f406f69 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -443,6 +443,8 @@ int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of, struct seq_file *seq,
- ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of, char *buf,
- 				   size_t nbytes, loff_t off);
+@@ -560,6 +582,9 @@ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_getsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_MAX_PAYLOAD_LEN:
++		rc = do_tls_getsockopt_tx_payload_len(sk, optval, optlen);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -809,6 +834,32 @@ static int do_tls_setsockopt_no_pad(struct sock *sk, sockptr_t optval,
+ 	return rc;
+ }
  
-+u32 resctrl_io_alloc_closid(struct rdt_resource *r);
++static int do_tls_setsockopt_tx_payload_len(struct sock *sk, sockptr_t optval,
++					    unsigned int optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	struct tls_sw_context_tx *sw_ctx = tls_sw_ctx_tx(ctx);
++	u16 value;
++	bool tls_13 = ctx->prot_info.version == TLS_1_3_VERSION;
 +
- const char *rdtgroup_name_by_closid(int closid);
++	if (sw_ctx && sw_ctx->open_rec)
++		return -EBUSY;
++
++	if (sockptr_is_null(optval) || optlen != sizeof(value))
++		return -EINVAL;
++
++	if (copy_from_sockptr(&value, optval, sizeof(value)))
++		return -EFAULT;
++
++	if (value < TLS_MIN_RECORD_SIZE_LIM - (tls_13 ? 1 : 0) ||
++	    value > TLS_MAX_PAYLOAD_SIZE)
++		return -EINVAL;
++
++	ctx->tx_max_payload_len = value;
++
++	return 0;
++}
++
+ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 			     unsigned int optlen)
+ {
+@@ -830,6 +881,11 @@ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_setsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_MAX_PAYLOAD_LEN:
++		lock_sock(sk);
++		rc = do_tls_setsockopt_tx_payload_len(sk, optval, optlen);
++		release_sock(sk);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -1019,6 +1075,7 @@ static int tls_init(struct sock *sk)
  
- #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 236b6e49761a..b7f94d110025 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1062,15 +1062,17 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+ 	ctx->tx_conf = TLS_BASE;
+ 	ctx->rx_conf = TLS_BASE;
++	ctx->tx_max_payload_len = TLS_MAX_PAYLOAD_SIZE;
+ 	update_sk_prot(sk, ctx);
+ out:
+ 	write_unlock_bh(&sk->sk_callback_lock);
+@@ -1108,6 +1165,12 @@ static int tls_get_info(struct sock *sk, struct sk_buff *skb, bool net_admin)
+ 			goto nla_failure;
+ 	}
  
- 	cpus_read_lock();
- 	mutex_lock(&rdtgroup_mutex);
--	hw_shareable = r->cache.shareable_bits;
- 	list_for_each_entry(dom, &r->ctrl_domains, hdr.list) {
- 		if (sep)
- 			seq_putc(seq, ';');
-+		hw_shareable = r->cache.shareable_bits;
- 		sw_shareable = 0;
- 		exclusive = 0;
- 		seq_printf(seq, "%d=", dom->hdr.id);
- 		for (i = 0; i < closids_supported(); i++) {
--			if (!closid_allocated(i))
-+			if (!closid_allocated(i) ||
-+			    (resctrl_arch_get_io_alloc_enabled(r) &&
-+			     i == resctrl_io_alloc_closid(r)))
- 				continue;
- 			ctrl_val = resctrl_arch_get_config(r, dom, i,
- 							   s->conf_type);
-@@ -1098,6 +1100,21 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
- 				break;
- 			}
- 		}
++	err = nla_put_u16(skb, TLS_INFO_TX_MAX_PAYLOAD_LEN,
++			  ctx->tx_max_payload_len);
 +
-+		/*
-+		 * When the "io_alloc" feature is enabled, a portion of the cache
-+		 * is configured for shared use between hardware and software.
-+		 * Also, when CDP is enabled the CBMs of CDP_CODE and CDP_DATA
-+		 * resources are kept in sync. So, the CBMs for "io_alloc" can
-+		 * be accessed through either resource.
-+		 */
-+		if (resctrl_arch_get_io_alloc_enabled(r)) {
-+			ctrl_val = resctrl_arch_get_config(r, dom,
-+							   resctrl_io_alloc_closid(r),
-+							   s->conf_type);
-+			hw_shareable |= ctrl_val;
-+		}
++	if (err)
++		goto nla_failure;
 +
- 		for (i = r->cache.cbm_len - 1; i >= 0; i--) {
- 			pseudo_locked = dom->plr ? dom->plr->cbm : 0;
- 			hwb = test_bit(i, &hw_shareable);
+ 	rcu_read_unlock();
+ 	nla_nest_end(skb, start);
+ 	return 0;
+@@ -1129,6 +1192,7 @@ static size_t tls_get_info_size(const struct sock *sk, bool net_admin)
+ 		nla_total_size(sizeof(u16)) +	/* TLS_INFO_TXCONF */
+ 		nla_total_size(0) +		/* TLS_INFO_ZC_RO_TX */
+ 		nla_total_size(0) +		/* TLS_INFO_RX_NO_PAD */
++		nla_total_size(sizeof(u16)) +   /* TLS_INFO_TX_MAX_PAYLOAD_LEN */
+ 		0;
+ 
+ 	return size;
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index d17135369980..9937d4c810f2 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1079,7 +1079,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 		orig_size = msg_pl->sg.size;
+ 		full_record = false;
+ 		try_to_copy = msg_data_left(msg);
+-		record_room = TLS_MAX_PAYLOAD_SIZE - msg_pl->sg.size;
++		record_room = tls_ctx->tx_max_payload_len - msg_pl->sg.size;
+ 		if (try_to_copy >= record_room) {
+ 			try_to_copy = record_room;
+ 			full_record = true;
 -- 
-2.34.1
+2.51.0
 
