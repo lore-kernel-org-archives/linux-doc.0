@@ -1,93 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02175C96;
-	Wed, 22 Oct 2025 01:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46D1F181F;
+	Wed, 22 Oct 2025 01:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761095029; cv=none; b=seyxEIs8jxwBxOkSGI1EtrlkDFEwPUbJdAIRszE3821YD8W5PMLAVE9DAw+94fyxhpj3Il15GwE2KLnfmXj5QVZvl1av6HjcVhCNJtmcekRpkoUgSvpWI7WeR/y94yWuV0ONdQeODBXni/X2rJeE3KlaiH/zNojvOcSglrMly1I=
+	t=1761096910; cv=none; b=QUDM4XKY/sxflXQ2QL1HQdGwSoIM4EzBL8d5zi0EehO57620NJKKlJtpVIBWrpYlw+dZwABkGIvaL9GOcNIdH5yAX5DIsBQ5QjKa9Ns+hjHp4SDgMvheYxmxs0/lZVZziW42RFGYyWrJWWOav0H0FOcnahziMfOOUFS3SwTkc64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761095029; c=relaxed/simple;
-	bh=OpMA0/9oAABJIYywTiyokiqjgPxdO7YtYPB8cGTro78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tSC6joENYmzIUpDE47rTUvBw1AfGBbkMU193DwQNl9Kds0EJSum2EkFOURVsQzeSFWUfXZ/3UepJ2zQGHf69Y0H7P9/aCVbRbxGrFJvSiYqJAo/T0km3yQPFlHQuCogb4YRRgqUwZaCf5eevlPknAvm4gkSmM/8x9meXSYoZaLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSFpifbE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761096910; c=relaxed/simple;
+	bh=vaoB1vhVUzy/nptxwNJGhhyV0PdrEEq0LszYhAyPYyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IVkn7c+gCHn5LhNUZedkGozZR2J0iXhfOMpQzDf98YDwXZuklwIx9pfHPBGLpNZg3NJvXm3WZpPuJqmre0d+UC+DH89xUg/olGtLxck6qElh8/yO8/eGKBh53y/EMOW7puqb8C2+6P99f18hQldF/Ust9XMzJbAqdcAxHOjqAaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=EHecl6k1; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSFpifbE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4EAC4CEF1;
-	Wed, 22 Oct 2025 01:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761095029;
-	bh=OpMA0/9oAABJIYywTiyokiqjgPxdO7YtYPB8cGTro78=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gSFpifbEasbVizf5V3L+2KexanyFQzbtMZbuq1jID6FIIOpVK3LUZLcwNkdppbUfX
-	 KyLZt5A1mWA8+tMC4qhQG3ccj+DqFq5FDiWKnCfw/BqSffd6Q3GcCpQPrWyppEVZgt
-	 fEiVydz2yGP/8nXF0gpqrdCtOVVkhFrickGHoNnFGLswugZP26omm9ZPTIGEqSCKnU
-	 ySvF5uR+tyclSU2n9Ndn3J8WAcC5FZDL9cXvuGOydUp5f0CyzNs+gy4hcaiFKHL82/
-	 j/rZ5EpSy1mOkV5UCVIfXHEUdkQuZBtwfFtQmD7o+ctsQWGS327B4vqY7Kd4p3kWba
-	 IeN2GAkgTIwdg==
-From: SeongJae Park <sj@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v1 01/23] vmw_balloon: adjust BALLOON_DEFLATE when deflating while migrating
-Date: Tue, 21 Oct 2025 18:03:44 -0700
-Message-ID: <20251022010345.120425-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251021125929.377194-2-david@redhat.com>
-References: 
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="EHecl6k1"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=IEt2zGmZj6lPzbXEb1Zf3HAtidB4DnYkLZze/rH/nlc=;
+	b=EHecl6k1H8ZMxAvgF1e3uN3F3lo3vLhujVmGVHcbENeT7kf79Tv5AeWjmNmrlinBpqNfA7hYW
+	N6s26ZZ6lxB/jMKn9ivWsUytuLYjxzDEaX4zmbKnyPhkB8MRCzq1WwJzegSI+fBgMZ4NSb0IKQr
+	LJz7iSrzS0Ctz2Xvr/Ilhig=
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4crsC7502lz1T4Fg;
+	Wed, 22 Oct 2025 09:34:11 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6A79818006C;
+	Wed, 22 Oct 2025 09:35:05 +0800 (CST)
+Received: from kwepemq200011.china.huawei.com (7.202.195.155) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Oct 2025 09:35:05 +0800
+Received: from [10.67.110.108] (10.67.110.108) by
+ kwepemq200011.china.huawei.com (7.202.195.155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Oct 2025 09:35:04 +0800
+Message-ID: <a3663aaf-14c9-4601-90e2-49650af90d7a@huawei.com>
+Date: Wed, 22 Oct 2025 09:35:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses
+ to IMPDEF regs
+To: Marc Zyngier <maz@kernel.org>
+CC: <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<akpm@linux-foundation.org>, <paulmck@kernel.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>, <bp@alien8.de>,
+	<kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>, <broonie@kernel.org>,
+	<oliver.upton@linux.dev>, <yeoreum.yun@arm.com>, <james.morse@arm.com>,
+	<ardb@kernel.org>, <hardevsinh.palaniya@siliconsignals.io>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+References: <20251021115428.557084-1-liaochang1@huawei.com>
+ <86ecqwwig3.wl-maz@kernel.org>
+From: "Liao, Chang" <liaochang1@huawei.com>
+In-Reply-To: <86ecqwwig3.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemq200011.china.huawei.com (7.202.195.155)
 
-On Tue, 21 Oct 2025 14:59:06 +0200 David Hildenbrand <david@redhat.com> wrote:
-
-> When we're effectively deflating the balloon while migrating a page
-> because inflating the new page failed, we're not adjusting
-> BALLOON_DEFLATE.
+在 2025/10/21 20:25, Marc Zyngier 写道:
+> On Tue, 21 Oct 2025 12:54:28 +0100,
+> Liao Chang <liaochang1@huawei.com> wrote:
+>>
+>> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
+>> regregisters and instructions without trapping to EL1/EL2. Since trap
+>> overhead will compromises benefits, and it's even worse in
+>> virtualization on CPU where certain IMPDEF registers and instructions
+>> are designed for EL0 performance use.
 > 
-> Let's do that. This is a preparation for factoring out this handling to
-> the core code, making it work in a similar way first.
+> Since you mention virtualisation, I want to be clear: there is no way
+> I will consider anything like this for KVM. KVM will always trap and
+> UNDEF such register accesses, no matter where they come from (EL0 or
+> EL1).
 > 
-> As this (deflating while migrating because of inflation error) is a
-> corner case that I don't really expect to happen in practice
-> and the stats are not that crucial, this likely doesn't classify as a fix.
+> Allowing such registers to be accessed from within a guest would make
+> it impossible to context-switch or save/restore the guest correctly.
+
+You've got that right, it seems like both the guest and the host would
+need to save and restore those IMDDEF registers with the VM or task
+context.The only exception would be if the registers aren't for saving
+state or configuration, but instead just act as an interface to trigger
+a special CPU function, such as ICC_IAR1.
+
+BR,
+Liao, Chang
+
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> You can of course do what you want in your downstream kernel or your
+> own hypervisor, but I wanted to set the expectations on the upstream
+> side.
+> 
+> 	M.
+> 
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
-
-
-Thanks,
-SJ
-
-[...]
