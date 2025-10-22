@@ -1,68 +1,68 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB5C2F28F4
-	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 23:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94072FD683
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 23:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761175807; cv=none; b=Ak0YP1+9j/Y1qAhVCAB9cbaa/tQYQ2b/sq7F8HiBXVorSS4LjcxSQoWZGyOlRdiNuqSLrSUAPvwB6JAOv07jO1i9mrMyfTB7G6bHOgVzEfcpC4BLUwHULy9fIZQzlPSDO75CyhDRtaUR7DWnfxxo3YEp/spUxwtgY+kyj6F6+L0=
+	t=1761175812; cv=none; b=ix1wgVCOr2nWJCWfJmzHeVSvzdig7ZwSprKEBoK4txkFCTsXgS1jYPW0UUw3rlnsDhATIMqU7ol4cJaZ0nU+dSmlC6oQrv4R6TIiuryxIYrpaZzx6akEmyQEPaoFhP75fRJ80JODNvra/3jbX3jNCD5OSkQQBs9tdg7d3wAKG6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761175807; c=relaxed/simple;
-	bh=J6pR8GRxWFhgvoVIFkuG4OND1BCNoXiY7FcguKrzJIk=;
+	s=arc-20240116; t=1761175812; c=relaxed/simple;
+	bh=//BKFL/B5DGzgzNcxCALX3+BH8HxJjmHBkOpM1C2zRA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Tt5WdmICEEMbxTe4nuORdM2IBZkxlE7AlGy6n/ItClZPvvsHaGfq2ZA0Szwu9LI/mVhvFkLOKa2DaDj5Qm5H0+WGxSMS9n71PQZfJDmpxJvu7PoqZj0JkHLPQdljPH390TvC4k1+5dqHJSmaymO3YChCSOTisTUxlPeLGghX5DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=QjIU71Ah; arc=none smtp.client-ip=209.85.210.179
+	 In-Reply-To:To:Cc; b=oDHumpruFg6TAOq43htc4zHpp8huJDQ/gW1Qe6DV8YIqOJQ1cq0OZYdmRXDM49FzZU4JpJlat5Xw10+lR+sziPmOgiXe3BWUwIuzsbMI/Z/ZK272kZxfA/iWXrrUa8rERGkm6ml6bOrBnIoNmwkAZF1hxL6u5Ecz0gTp9sEO4Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=Pi9NPr0o; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="QjIU71Ah"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7a2738daea2so186354b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 16:30:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="Pi9NPr0o"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7810289cd4bso190062b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 16:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1761175802; x=1761780602; darn=vger.kernel.org;
+        d=rivosinc.com; s=google; t=1761175807; x=1761780607; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RVfqSsruJ2MSGFolr4q1FtvvuePYAHYekfV2rCXHQ4o=;
-        b=QjIU71AhDobGyhoocmpCd+NPeVACVCTnbO7DDhKdiFMKxWp2l3q6ZG1gGFvjauDHO4
-         PotjR8VOrgee7ONIVkjovxyVlBGvk8NSfZlSsgVNfrIjOHuZJvtdc70gThUu29dnDN8J
-         tSWv7lHZZoPYddJj9AuKwR5HH7ls74mbfLJBXwterFji78PYvhT4omXSsWS03zhUfT18
-         W0MzQA98lWMtAC9pNTzhzClxITp6XZcTsnrAZS1xLe1apcecbH6SVd+3WXP5hOcnCeNV
-         msSAmfrkrJArhg8tYc5yOhMstEZdUQGmy48ckBwb41fMY9w/Z3kb+suFiPYeMzFBN39+
-         orPA==
+        bh=ujHqL1CkFocnxfBg/TilHgsDv7qqfxACnquN+j6SpiE=;
+        b=Pi9NPr0oE39qZ4J2cUfsexz5cuTk1adutHmFJ5zlU65AvBkZsxi5zQfQAOFoZkX16G
+         lnrTCjuIpVmIEDFuQiP2LKEz/SxRX0OwF6npOaVEK6g+Z5vLd0sdjS1Xm+L5ZiPQVzU0
+         sNd66j+O7SN+3jedIbSA4ouIWc+YyhWYdsEOtZNLuYxvx2q/p5Cg0nEuno69hvI2G1YG
+         OOIAXFTquVEbAJBFDTGCMhvWjkL2H8ut/nRKoBwyL+uKS8gO6FX74YSHNOyQaoFPpXtY
+         XTUQvHSi/I1Bu5yW0Go9xp9fSHxTRknTriq1YjAPsjBqJl+1JUJs3DuNoaLZ6Cwab2T+
+         LFdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761175802; x=1761780602;
+        d=1e100.net; s=20230601; t=1761175807; x=1761780607;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RVfqSsruJ2MSGFolr4q1FtvvuePYAHYekfV2rCXHQ4o=;
-        b=Y2e3zf+XOtmA5JCOyg83tfeeNoofs32LHYT5+geKIv0ZShCzEJ/q+SlSGxhTQU+ECj
-         SPSHRAg4bWosEZKvsf7+US5pyXDXjAvYYZddM4/RUklM2Aqag3v1N+saWlMJ7Za9M01f
-         VnCkOxtGxiH9C/rIcKudlZkXEDy0YY/8k4AnfWg0F0Hg6avLNG6KXB8THV03MOqfSE9m
-         z9ex3Km5mSmlg+63ir/ZUccn52HPunzZQn6+MffjVRQfN/5FaZVnzreRmsbBQkNbC4dZ
-         A58lJP71KJWnN+bMgotIii0n9NbMSqhKFkGEbdl09y2OkP5LbD1nRXFkELl3OX++BWVx
-         8XEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUARz79zcRM/jlSX2G4PZXo4d38oAB0Hw/NquUWHgOryC6FjQ/JK7epbZdxk452/kUpGLvdoaGnzE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSJKxpXrpsUdXGxtO7swvCpKH9WmrIHNcUvZKlH1LDjksoHqMj
-	A4YC6HG1dvgYpVmWTaf5t6G2Vep1W30nqd04e6dXhEcfPpqbEFGBP6DkmnFi0nARqE0=
-X-Gm-Gg: ASbGncuxFcr9c/RCFM6hFZFJvaXYH1yGvDSFnnW0BMkSnPGUOFnupZHO7SJ9ckqIZC7
-	BrAoy4oSQgCqV/Qb33QMYKJzROJtSj50ag0pkNG7wcnuxDnwdFNl9sZmPQue1EkJJuiCMNRZiJ0
-	TgZBjxyjO1k01srb+bduRj3uH10SCZnaXbCQcupYXYiqORrSii109ROVnzBBPfYuEobgrHoeIbe
-	f2+gx1m2ttQRx2S0+T9INZU3VnKugYNYXoufGrXbI6UNjxRu7/bo+6xsqEplonGw9xHhfaMQT+S
-	WPRqhPHa9N1iCk1fuEV2NAsuPlTEBQ/pzM79grPoDzs5RO1tIrJTgHPsCCe9YtkP0ehDvOCNchx
-	R7lhV7w1qQ50FrVzelOlxGI/XU/nUTMiGWOgxg/2I9xBmWonws7DI6rC617+fjAz+nJdgAJf2kU
-	ZAkq98+pcYIsyMlewxMpK1
-X-Google-Smtp-Source: AGHT+IHMu3PbXDRWGCAcSYG9RlC6jH9uqY3109cYodSUSnOoxKFHI4PgsbW2H+TfhdZFBluurg28jA==
-X-Received: by 2002:a05:6a00:3e18:b0:781:1a9f:aeeb with SMTP id d2e1a72fcca58-7a2206eb4d3mr23989664b3a.1.1761175802088;
-        Wed, 22 Oct 2025 16:30:02 -0700 (PDT)
+        bh=ujHqL1CkFocnxfBg/TilHgsDv7qqfxACnquN+j6SpiE=;
+        b=DY5uRknaJjeMug5CTyNDgyBLk3eZfM7TtxC8fHM1/oIcWAx8zJ0gMtaFHo3b2+LK9n
+         n1Re+FBuHyzaVbjV83MU+8xNAOhbjNz9ybpmNIJ5Z76Hz9ZW2ms4Qdun13zdjxbHGaUr
+         9TvwOMrxGlGnjZYORGKDpVnEvqVheK0CG5YsP1hjq0q7qooGioz8zK6Xtwgf7A3ZPmdU
+         oR/WGY5Xtux1QOgtVZ229iOWEKCIJL/rzfowM3TPrCjyR1xNbyycDdcCL15YznBa9k0S
+         6CJfCMLcGLSZaWHh9TRmf5FYBJPLqJBy6NntG+NquBaMG6ZGTsmCzIBBom1a5UMX24lr
+         Wj0A==
+X-Forwarded-Encrypted: i=1; AJvYcCU3lR/EhljnTdJWlAirOu4t6aEcQ0/JvT8ao0qV18nQ2hsEyiDgSxnIe+9X7Nb63EmO4ZxJRnxNvwM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvQ4isqcGo890Gh2Cy8gbh1aWgB3FSGVolfGAnFcL2OGNBE5YF
+	Rffs2Sf9SeOAJa3Oj2A+FzculgViRIiI/38M7w+8dBamMYLaHwDfBkpa4B3hegsvsBk=
+X-Gm-Gg: ASbGncsP2H+WFLsZTyLSPni8KpkXOZTPwnVweYaZkkBP83F/JfUOlgTC15z0ugwOh3M
+	rfEMyu8okruRqa2yk8G1jFLhWyTIDtoiToDnN7sQ5cxRnAzEYsxoD72Y/kbz05Os1ORLpVqVLjl
+	7HGiA3woyZj4uM5wH/2QeCo97zeGuvnlH+Hz3vQOlnF3FO+gdrjLqUVtVeiLNW72kGm7QJ+Lyhx
+	cC4bWZ5UIacJUkEjw9ex3wHAVOcBDGkSCnLGEykDGagPBu5+28YcWciGAL2SL9TRCSofpUtesz/
+	M5GcxcMJclaDI14N71etx7G2tMyJSvGQAwtlLngjBRVniax7LPCLPksXk/+qYGyCQj0Y0AyJzTI
+	3l6ssHou3HxpPAlSMlvPNiz7yiS2m58tuliPb4SUGpgU8a4sJCH35n6+5jeAaiNozk6vRxTyR1X
+	OGP0zgeOwi949pLOFp5aJp
+X-Google-Smtp-Source: AGHT+IF6gkZs32tv0Sc+yHY/6hVbkvNJoMtqK+eojdM3VMRuuvu79OFo4jjiqTiRVOGksRWCeTn0Nw==
+X-Received: by 2002:a05:6a00:2e03:b0:7a2:6b48:535f with SMTP id d2e1a72fcca58-7a26b487089mr3870490b3a.12.1761175806653;
+        Wed, 22 Oct 2025 16:30:06 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274dc12b2sm392646b3a.67.2025.10.22.16.30.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274dc12b2sm392646b3a.67.2025.10.22.16.30.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 16:30:01 -0700 (PDT)
+        Wed, 22 Oct 2025 16:30:06 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Wed, 22 Oct 2025 16:29:37 -0700
-Subject: [PATCH v22 11/28] riscv/shstk: If needed allocate a new shadow
- stack on clone
+Date: Wed, 22 Oct 2025 16:29:39 -0700
+Subject: [PATCH v22 13/28] prctl: arch-agnostic prctl for indirect branch
+ tracking
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251022-v5_user_cfi_series-v22-11-fdaa7e4022aa@rivosinc.com>
+Message-Id: <20251022-v5_user_cfi_series-v22-13-fdaa7e4022aa@rivosinc.com>
 References: <20251022-v5_user_cfi_series-v22-0-fdaa7e4022aa@rivosinc.com>
 In-Reply-To: <20251022-v5_user_cfi_series-v22-0-fdaa7e4022aa@rivosinc.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
@@ -107,265 +107,141 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.13.0
 
-Userspace specifies CLONE_VM to share address space and spawn new thread.
-`clone` allow userspace to specify a new stack for new thread. However
-there is no way to specify new shadow stack base address without changing
-API. This patch allocates a new shadow stack whenever CLONE_VM is given.
+Three architectures (x86, aarch64, riscv) have support for indirect branch
+tracking feature in a very similar fashion. On a very high level, indirect
+branch tracking is a CPU feature where CPU tracks branches which uses
+memory operand to perform control transfer in program. As part of this
+tracking on indirect branches, CPU goes in a state where it expects a
+landing pad instr on target and if not found then CPU raises some fault
+(architecture dependent)
 
-In case of CLONE_VFORK, parent is suspended until child finishes and thus
-can child use parent shadow stack. In case of !CLONE_VM, COW kicks in
-because entire address space is copied from parent to child.
+x86 landing pad instr - `ENDBRANCH`
+arch64 landing pad instr - `BTI`
+riscv landing instr - `lpad`
 
-`clone3` is extensible and can provide mechanisms using which shadow stack
-as an input parameter can be provided. This is not settled yet and being
-extensively discussed on mailing list. Once that's settled, this commit
-will adapt to that.
+Given that three major arches have support for indirect branch tracking,
+This patch makes `prctl` for indirect branch tracking arch agnostic.
 
+To allow userspace to enable this feature for itself, following prtcls are
+defined:
+ - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect
+   branch tracking.
+ - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch
+   tracking.
+   Following status options are allowed
+       - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
+         thread.
+       - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on user
+         thread.
+ - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branch
+   tracking for user thread.
+
+Reviewed-by: Mark Brown <broonie@kernel.org>
 Reviewed-by: Zong Li <zong.li@sifive.com>
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/include/asm/mmu_context.h |   7 ++
- arch/riscv/include/asm/usercfi.h     |  25 ++++++++
- arch/riscv/kernel/process.c          |  10 +++
- arch/riscv/kernel/usercfi.c          | 120 +++++++++++++++++++++++++++++++++++
- 4 files changed, 162 insertions(+)
+ include/linux/cpu.h        |  4 ++++
+ include/uapi/linux/prctl.h | 27 +++++++++++++++++++++++++++
+ kernel/sys.c               | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 61 insertions(+)
 
-diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
-index 8c4bc49a3a0f..dbf27a78df6c 100644
---- a/arch/riscv/include/asm/mmu_context.h
-+++ b/arch/riscv/include/asm/mmu_context.h
-@@ -48,6 +48,13 @@ static inline unsigned long mm_untag_mask(struct mm_struct *mm)
- }
+diff --git a/include/linux/cpu.h b/include/linux/cpu.h
+index 487b3bf2e1ea..8239cd95a005 100644
+--- a/include/linux/cpu.h
++++ b/include/linux/cpu.h
+@@ -229,4 +229,8 @@ static inline bool cpu_attack_vector_mitigated(enum cpu_attack_vectors v)
+ #define smt_mitigations SMT_MITIGATIONS_OFF
  #endif
  
-+#define deactivate_mm deactivate_mm
-+static inline void deactivate_mm(struct task_struct *tsk,
-+				 struct mm_struct *mm)
-+{
-+	shstk_release(tsk);
-+}
++int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status);
++int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status);
++int arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status);
 +
- #include <asm-generic/mmu_context.h>
+ #endif /* _LINUX_CPU_H_ */
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 51c4e8c82b1e..9b4afdc85099 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -386,4 +386,31 @@ struct prctl_mm_map {
+ # define PR_FUTEX_HASH_SET_SLOTS	1
+ # define PR_FUTEX_HASH_GET_SLOTS	2
  
- #endif /* _ASM_RISCV_MMU_CONTEXT_H */
-diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
-index 4c5233e8f3f9..a16a5dff8b0e 100644
---- a/arch/riscv/include/asm/usercfi.h
-+++ b/arch/riscv/include/asm/usercfi.h
-@@ -8,6 +8,9 @@
- #ifndef __ASSEMBLER__
- #include <linux/types.h>
- 
-+struct task_struct;
-+struct kernel_clone_args;
-+
- #ifdef CONFIG_RISCV_USER_CFI
- struct cfi_state {
- 	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
-@@ -16,6 +19,28 @@ struct cfi_state {
- 	unsigned long shdw_stk_size; /* size of shadow stack */
- };
- 
-+unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
-+				       const struct kernel_clone_args *args);
-+void shstk_release(struct task_struct *tsk);
-+void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, unsigned long size);
-+unsigned long get_shstk_base(struct task_struct *task, unsigned long *size);
-+void set_active_shstk(struct task_struct *task, unsigned long shstk_addr);
-+bool is_shstk_enabled(struct task_struct *task);
-+
-+#else
-+
-+#define shstk_alloc_thread_stack(tsk, args) 0
-+
-+#define shstk_release(tsk)
-+
-+#define get_shstk_base(task, size) 0UL
-+
-+#define set_shstk_base(task, shstk_addr, size) do {} while (0)
-+
-+#define set_active_shstk(task, shstk_addr) do {} while (0)
-+
-+#define is_shstk_enabled(task) false
-+
- #endif /* CONFIG_RISCV_USER_CFI */
- 
- #endif /* __ASSEMBLER__ */
-diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-index 31a392993cb4..72d35adc6e0e 100644
---- a/arch/riscv/kernel/process.c
-+++ b/arch/riscv/kernel/process.c
-@@ -31,6 +31,7 @@
- #include <asm/vector.h>
- #include <asm/cpufeature.h>
- #include <asm/exec.h>
-+#include <asm/usercfi.h>
- 
- #if defined(CONFIG_STACKPROTECTOR) && !defined(CONFIG_STACKPROTECTOR_PER_TASK)
- #include <linux/stackprotector.h>
-@@ -226,6 +227,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
- 	u64 clone_flags = args->flags;
- 	unsigned long usp = args->stack;
- 	unsigned long tls = args->tls;
-+	unsigned long ssp = 0;
- 	struct pt_regs *childregs = task_pt_regs(p);
- 
- 	/* Ensure all threads in this mm have the same pointer masking mode. */
-@@ -245,11 +247,19 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
- 		p->thread.s[1] = (unsigned long)args->fn_arg;
- 		p->thread.ra = (unsigned long)ret_from_fork_kernel_asm;
- 	} else {
-+		/* allocate new shadow stack if needed. In case of CLONE_VM we have to */
-+		ssp = shstk_alloc_thread_stack(p, args);
-+		if (IS_ERR_VALUE(ssp))
-+			return PTR_ERR((void *)ssp);
-+
- 		*childregs = *(current_pt_regs());
- 		/* Turn off status.VS */
- 		riscv_v_vstate_off(childregs);
- 		if (usp) /* User fork */
- 			childregs->sp = usp;
-+		/* if needed, set new ssp */
-+		if (ssp)
-+			set_active_shstk(p, ssp);
- 		if (clone_flags & CLONE_SETTLS)
- 			childregs->tp = tls;
- 		childregs->a0 = 0; /* Return value of fork() */
-diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
-index 0b3bbb41490a..ec3d78efd6f3 100644
---- a/arch/riscv/kernel/usercfi.c
-+++ b/arch/riscv/kernel/usercfi.c
-@@ -19,6 +19,41 @@
- 
- #define SHSTK_ENTRY_SIZE sizeof(void *)
- 
-+bool is_shstk_enabled(struct task_struct *task)
-+{
-+	return task->thread_info.user_cfi_state.ubcfi_en;
-+}
-+
-+void set_shstk_base(struct task_struct *task, unsigned long shstk_addr, unsigned long size)
-+{
-+	task->thread_info.user_cfi_state.shdw_stk_base = shstk_addr;
-+	task->thread_info.user_cfi_state.shdw_stk_size = size;
-+}
-+
-+unsigned long get_shstk_base(struct task_struct *task, unsigned long *size)
-+{
-+	if (size)
-+		*size = task->thread_info.user_cfi_state.shdw_stk_size;
-+	return task->thread_info.user_cfi_state.shdw_stk_base;
-+}
-+
-+void set_active_shstk(struct task_struct *task, unsigned long shstk_addr)
-+{
-+	task->thread_info.user_cfi_state.user_shdw_stk = shstk_addr;
-+}
++/*
++ * Get the current indirect branch tracking configuration for the current
++ * thread, this will be the value configured via PR_SET_INDIR_BR_LP_STATUS.
++ */
++#define PR_GET_INDIR_BR_LP_STATUS      79
 +
 +/*
-+ * If size is 0, then to be compatible with regular stack we want it to be as big as
-+ * regular stack. Else PAGE_ALIGN it and return back
++ * Set the indirect branch tracking configuration. PR_INDIR_BR_LP_ENABLE will
++ * enable cpu feature for user thread, to track all indirect branches and ensure
++ * they land on arch defined landing pad instruction.
++ * x86 - If enabled, an indirect branch must land on `ENDBRANCH` instruction.
++ * arch64 - If enabled, an indirect branch must land on `BTI` instruction.
++ * riscv - If enabled, an indirect branch must land on `lpad` instruction.
++ * PR_INDIR_BR_LP_DISABLE will disable feature for user thread and indirect
++ * branches will no more be tracked by cpu to land on arch defined landing pad
++ * instruction.
 + */
-+static unsigned long calc_shstk_size(unsigned long size)
-+{
-+	if (size)
-+		return PAGE_ALIGN(size);
++#define PR_SET_INDIR_BR_LP_STATUS      80
++# define PR_INDIR_BR_LP_ENABLE		   (1UL << 0)
 +
-+	return PAGE_ALIGN(min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G));
-+}
++/*
++ * Prevent further changes to the specified indirect branch tracking
++ * configuration.  All bits may be locked via this call, including
++ * undefined bits.
++ */
++#define PR_LOCK_INDIR_BR_LP_STATUS      81
 +
- /*
-  * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush` can happen
-  * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap` takes pointer to
-@@ -141,3 +176,88 @@ SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsi
- 
- 	return allocate_shadow_stack(addr, aligned_size, size, set_tok);
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 8b58eece4e58..9071422c1609 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2388,6 +2388,21 @@ int __weak arch_lock_shadow_stack_status(struct task_struct *t, unsigned long st
+ 	return -EINVAL;
  }
-+
-+/*
-+ * This gets called during clone/clone3/fork. And is needed to allocate a shadow stack for
-+ * cases where CLONE_VM is specified and thus a different stack is specified by user. We
-+ * thus need a separate shadow stack too. How does separate shadow stack is specified by
-+ * user is still being debated. Once that's settled, remove this part of the comment.
-+ * This function simply returns 0 if shadow stack are not supported or if separate shadow
-+ * stack allocation is not needed (like in case of !CLONE_VM)
-+ */
-+unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
-+				       const struct kernel_clone_args *args)
+ 
++int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
 +{
-+	unsigned long addr, size;
-+
-+	/* If shadow stack is not supported, return 0 */
-+	if (!cpu_supports_shadow_stack())
-+		return 0;
-+
-+	/*
-+	 * If shadow stack is not enabled on the new thread, skip any
-+	 * switch to a new shadow stack.
-+	 */
-+	if (!is_shstk_enabled(tsk))
-+		return 0;
-+
-+	/*
-+	 * For CLONE_VFORK the child will share the parents shadow stack.
-+	 * Set base = 0 and size = 0, this is special means to track this state
-+	 * so the freeing logic run for child knows to leave it alone.
-+	 */
-+	if (args->flags & CLONE_VFORK) {
-+		set_shstk_base(tsk, 0, 0);
-+		return 0;
-+	}
-+
-+	/*
-+	 * For !CLONE_VM the child will use a copy of the parents shadow
-+	 * stack.
-+	 */
-+	if (!(args->flags & CLONE_VM))
-+		return 0;
-+
-+	/*
-+	 * reaching here means, CLONE_VM was specified and thus a separate shadow
-+	 * stack is needed for new cloned thread. Note: below allocation is happening
-+	 * using current mm.
-+	 */
-+	size = calc_shstk_size(args->stack_size);
-+	addr = allocate_shadow_stack(0, size, 0, false);
-+	if (IS_ERR_VALUE(addr))
-+		return addr;
-+
-+	set_shstk_base(tsk, addr, size);
-+
-+	return addr + size;
++	return -EINVAL;
 +}
 +
-+void shstk_release(struct task_struct *tsk)
++int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status)
 +{
-+	unsigned long base = 0, size = 0;
-+	/* If shadow stack is not supported or not enabled, nothing to release */
-+	if (!cpu_supports_shadow_stack() || !is_shstk_enabled(tsk))
-+		return;
-+
-+	/*
-+	 * When fork() with CLONE_VM fails, the child (tsk) already has a
-+	 * shadow stack allocated, and exit_thread() calls this function to
-+	 * free it.  In this case the parent (current) and the child share
-+	 * the same mm struct. Move forward only when they're same.
-+	 */
-+	if (!tsk->mm || tsk->mm != current->mm)
-+		return;
-+
-+	/*
-+	 * We know shadow stack is enabled but if base is NULL, then
-+	 * this task is not managing its own shadow stack (CLONE_VFORK). So
-+	 * skip freeing it.
-+	 */
-+	base = get_shstk_base(tsk, &size);
-+	if (!base)
-+		return;
-+
-+	vm_munmap(base, size);
-+	set_shstk_base(tsk, 0, 0);
++	return -EINVAL;
 +}
++
++int __weak arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status)
++{
++	return -EINVAL;
++}
++
+ #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
+ 
+ static int prctl_set_vma(unsigned long opt, unsigned long addr,
+@@ -2868,6 +2883,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 	case PR_FUTEX_HASH:
+ 		error = futex_hash_prctl(arg2, arg3, arg4);
+ 		break;
++	case PR_GET_INDIR_BR_LP_STATUS:
++		if (arg3 || arg4 || arg5)
++			return -EINVAL;
++		error = arch_get_indir_br_lp_status(me, (unsigned long __user *)arg2);
++		break;
++	case PR_SET_INDIR_BR_LP_STATUS:
++		if (arg3 || arg4 || arg5)
++			return -EINVAL;
++		error = arch_set_indir_br_lp_status(me, arg2);
++		break;
++	case PR_LOCK_INDIR_BR_LP_STATUS:
++		if (arg3 || arg4 || arg5)
++			return -EINVAL;
++		error = arch_lock_indir_br_lp_status(me, arg2);
++		break;
+ 	default:
+ 		trace_task_prctl_unknown(option, arg2, arg3, arg4, arg5);
+ 		error = -EINVAL;
 
 -- 
 2.43.0
