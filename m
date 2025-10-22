@@ -1,129 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C072F5A1D;
-	Wed, 22 Oct 2025 08:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B33623ABA1;
+	Wed, 22 Oct 2025 09:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761122679; cv=none; b=WUhXV//MLdEgZHn0XLXBRkZbqVZ1WoI2d3eYjWUwYTjEORi24jGerhZt81uqJs37saezrcVR44MZ0O4oz2BkskWN2cdKVK96lLl4fJCHrZ4CaCi+WzdeRzRuF6TX4tEclcAiP1Wea1N1Pk9KDtZEJXoNdj28jqgDjGTHX2KaHpE=
+	t=1761124381; cv=none; b=mSDZmartfIQV3uXmnrTu/wvHk5sg1u24xPK5eGLRrC5ZC0Ua5DPdpD6O2Bu76ChQrkpetDZJ8bR9Ogel3bAjoZ8BOvbDzdXcXTh0ku8k2Ry3IqOCMt26wLW+TfeIrf2OqBboU4kMDiVT+uVKNQ33LG7YxFoUUV/CpwB55CeTgvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761122679; c=relaxed/simple;
-	bh=jbN+CoRUpR8I4L1UUX+XaVKaNlIDiMfIKInpFU2+ytw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qByyCFAWdC7Y/WP11aiAfnL1iyvjjBGeBN7YvRP2+J1e/BIdeE9JXBQfpdzvmnjp0t5kWrjqQa6VAssrtL1Y7ZvpLH2+/O8JElWXKx/Au+f7n/gwTY6pyj6FxYn8AHwCHe/xYtPSPXQrE29++1u2es9mF0RIzQ5v1MytlztSXQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nF4ve3k3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nF4ve3k3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1683C4CEE7;
-	Wed, 22 Oct 2025 08:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761122678;
-	bh=jbN+CoRUpR8I4L1UUX+XaVKaNlIDiMfIKInpFU2+ytw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nF4ve3k3M7eA7mCBacJC4eLH4VVlErlCmFl/H8dDw9mGDnKmyY/KcDahvFn1lRBUv
-	 fUxvm9rCOF0djLvPmdw0ox4keTjao+QL8n1OZeTN+5BPIe5VvM6F/+N84QATAQxEAD
-	 /vM0tZ6oGwOsrPT+fENEuUwywwncl3ujmK2Up+exwkOI8Qm1o/Ny617xyDzaRL099l
-	 DypuJ7u6vlmRCbMFcd1EZdK/7poBZmeDIspnlDej3QGeTUkjqLnkgj0t3JM6QXahIY
-	 GNszmZLl9Ag5xESeAl1CzD3mbCksBrPEWEL/Tg9a3bqeILRXIATYt3ur9ap/P1mDJB
-	 Am2N7+2cWpIzQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vBUSS-0000000G7OH-0TGl;
-	Wed, 22 Oct 2025 08:44:36 +0000
-Date: Wed, 22 Oct 2025 09:44:35 +0100
-Message-ID: <865xc7wcjw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Liao, Chang" <liaochang1@huawei.com>
-Cc: <corbet@lwn.net>,
-	<catalin.marinas@arm.com>,
-	<will@kernel.org>,
-	<akpm@linux-foundation.org>,
-	<paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>,
-	<mingo@kernel.org>,
-	<bp@alien8.de>,
-	<kees@kernel.org>,
-	<arnd@arndb.de>,
-	<fvdl@google.com>,
-	<broonie@kernel.org>,
-	<oliver.upton@linux.dev>,
-	<yeoreum.yun@arm.com>,
-	<yangyicong@hisilicon.com>,
-	<james.morse@arm.com>,
-	<ardb@kernel.org>,
-	<hardevsinh.palaniya@siliconsignals.io>,
-	<linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] arm64: Add kernel parameter to disable trap EL0 accesses to IMPDEF regs
-In-Reply-To: <0e885995-c85e-4f0f-b0e6-edac9928d854@huawei.com>
-References: <20251021115428.557084-1-liaochang1@huawei.com>
-	<86ecqwwig3.wl-maz@kernel.org>
-	<0e885995-c85e-4f0f-b0e6-edac9928d854@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1761124381; c=relaxed/simple;
+	bh=pznKN8dUbII3GpPjqx5PyM5eD2eG/eKsDEZkzbIX6y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hJOgJ8Pc7QPPxfeAxAT4Tsv1unH8TpCCuIBU65w1BU6juophDqogSrwxG8Lv8vJGuvFBeIo4t+kN8xvZYX45o3j7bGzQTWJBaL2u4MTutgXEEyAmTwHSS5/GMc8i4OX0RQfXftE+byW+dh2GH78QKb7EpvLS2dxOTKDmHNOVYjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7EA3A1063;
+	Wed, 22 Oct 2025 02:12:49 -0700 (PDT)
+Received: from localhost (ionvoi01-desktop.cambridge.arm.com [10.2.80.58])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9CB93F59E;
+	Wed, 22 Oct 2025 02:12:56 -0700 (PDT)
+Date: Wed, 22 Oct 2025 10:12:55 +0100
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, lenb@kernel.org,
+	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com,
+	zhenglifeng1@huawei.com, rdunlap@infradead.org, ray.huang@amd.com,
+	gautham.shenoy@amd.com, mario.limonciello@amd.com,
+	perry.yuan@amd.com, linux-pm@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, treding@nvidia.com,
+	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
+	sanjayc@nvidia.com, bbasu@nvidia.com
+Subject: Re: [PATCH v3 3/8] ACPI: CPPC: extend APIs to support auto_sel and
+ epp
+Message-ID: <aPigDd0QTiRjey7K@arm.com>
+References: <20251001150104.1275188-1-sumitg@nvidia.com>
+ <20251001150104.1275188-4-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: liaochang1@huawei.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, mingo@kernel.org, bp@alien8.de, kees@kernel.org, arnd@arndb.de, fvdl@google.com, broonie@kernel.org, oliver.upton@linux.dev, yeoreum.yun@arm.com, yangyicong@hisilicon.com, james.morse@arm.com, ardb@kernel.org, hardevsinh.palaniya@siliconsignals.io, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251001150104.1275188-4-sumitg@nvidia.com>
 
-On Wed, 22 Oct 2025 03:37:04 +0100,
-"Liao, Chang" <liaochang1@huawei.com> wrote:
->=20
-> Hi Marc,
->=20
-> =E5=9C=A8 2025/10/21 20:25, Marc Zyngier =E5=86=99=E9=81=93:
-> > On Tue, 21 Oct 2025 12:54:28 +0100,
-> > Liao Chang <liaochang1@huawei.com> wrote:
-> >>
-> >> Add kernel parameter to allow system-wide EL0 access to IMPDEF system
-> >> regregisters and instructions without trapping to EL1/EL2. Since trap
-> >> overhead will compromises benefits, and it's even worse in
-> >> virtualization on CPU where certain IMPDEF registers and instructions
-> >> are designed for EL0 performance use.
-> >=20
-> > Since you mention virtualisation, I want to be clear: there is no way
-> > I will consider anything like this for KVM. KVM will always trap and
-> > UNDEF such register accesses, no matter where they come from (EL0 or
-> > EL1).
-> >=20
-> > Allowing such registers to be accessed from within a guest would make
-> > it impossible to context-switch or save/restore the guest correctly.
-> >=20
-> > You can of course do what you want in your downstream kernel or your
-> > own hypervisor, but I wanted to set the expectations on the upstream
-> > side.
->=20
-> Does it make sense to allow EL0 access IMPDEF without trapping for some
-> special vendor CPUID, instead of forbidding it as the default setting on
-> the upstream code?
+Hi Sumit,
 
-Let me answer your question with my own questions:
+On Wednesday 01 Oct 2025 at 20:30:59 (+0530), Sumit Gupta wrote:
+> - Add auto_sel read support in cppc_get_perf_caps().
+> - Add write of both auto_sel and energy_perf in cppc_set_epp_perf().
+> - Remove redundant energy_perf field from 'struct cppc_perf_caps' as
+>   the same is available in 'struct cppc_perf_ctrls' which is used.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+[..]
+> @@ -1555,6 +1559,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  	struct cpc_register_resource *auto_sel_reg;
+>  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
+>  	struct cppc_pcc_data *pcc_ss_data = NULL;
+> +	bool autosel_support_in_ffh_or_sysmem;
+> +	bool epp_support_in_ffh_or_sysmem;
+>  	int ret;
+>  
+>  	if (!cpc_desc) {
+> @@ -1565,6 +1571,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
+>  	epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
+>  
+> +	epp_support_in_ffh_or_sysmem = CPC_SUPPORTED(epp_set_reg) &&
+> +				(CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
+> +	autosel_support_in_ffh_or_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
+> +				(CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
+> +
+>  	if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
+>  		if (pcc_ss_id < 0) {
+>  			pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
+> @@ -1590,8 +1601,19 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  		ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
+>  		up_write(&pcc_ss_data->pcc_lock);
+>  	} else if (osc_cpc_flexible_adr_space_confirmed &&
+> -		   CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
+> +		   epp_support_in_ffh_or_sysmem && autosel_support_in_ffh_or_sysmem) {
 
-How can supervisory software (kernel or hypervisor) save and restore
-state that it doesn't know about? How can it ensure isolation of state
-if there are unspecified registers that can change unspecified things
-behind its back?
+Isn't this problematic for when auto-select is an integer set to 1 or it's
+not present at all? In those cases the EPP register won't be written and
+-ENOTSUPP will be returned.
 
-You'd need to add CPU-specific code to the kernel to make that work,
-and SW written to make use of these functionalities wouldn't work
-anywhere else. So if you end-up with a custom userspace, why should
-upstream care? There is zero benefit to the ecosystem.
+I suppose for the case when auto-select is not present at all in _CPC
+(it's an optional attribute) it's not very clear what one should do
+regarding writing the EPP register. The specification mentions that
+"Writes to this register only have meaning when Autonomous Selection
+is enabled.". From my perspective the OS should not block writes to the
+EPP register for this case, as autonomous selection might still be
+enabled but not exposed to the OS. 
 
 Thanks,
+Ionela.
 
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
+> +		ret = cpc_write(cpu, auto_sel_reg, enable);
+> +		if (ret) {
+> +			pr_debug("Failed to write auto_sel=%d for CPU:%d\n", enable, cpu);
+> +			return ret;
+> +		}
+> +
+>  		ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
+> +		if (ret) {
+> +			pr_debug("Failed to write energy_perf=%u for CPU:%d\n",
+> +				 perf_ctrls->energy_perf, cpu);
+> +			return ret;
+> +		}
+>  	} else {
+>  		ret = -ENOTSUPP;
+>  		pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
+[..]
