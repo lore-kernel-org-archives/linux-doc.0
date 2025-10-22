@@ -1,102 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF23B1F5437;
-	Wed, 22 Oct 2025 06:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6781D9346
+	for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 06:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761115764; cv=none; b=NhvSb1pzYrAFkmlq+ovgOpYhPIiJX8DrUzEZExTFzah3F/BMt82P22N2z9BAvi2scpQ7GQ8jb9ruNihXNXp/ld7E3qugOkl2XU+1UyDwmiRqH2B/hVHFdOqJyxKgb3MTDFnVDPP6afwUSD4Y5sq1CfQEZSxhoPZdKGE6pFWGYI0=
+	t=1761115951; cv=none; b=q5LyS1XIksv/5q1j0HwcWpCljxGQaFu6eQTSrtBoHTQXt4bXMHRZq/q4zkfF0ZNC0AvlyUFBWa0sfmDLAGi8a+bkri87ldM/Nu6jOWNKmbWIErtm/s2K7sGVlniwqK07S/tcRO8RRdSwPmGf6DU06GvTNrvElLC3BdX7vGKkBzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761115764; c=relaxed/simple;
-	bh=sSj8YmTZNJ/kRVJNBLx5lnjBZBIJEOdINZaMgskVKxc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HEv91aB6/Jo3DOgaes3bS6WLmBzDjGnAccFqNIndkXMcmH/qupuimLkJx0zcP8cz3gY4SQTekLnOfw7c68pY8FY21zJoNKTCvBhNhiJztKQqNWK4K4sdJeT5mQNyQ8Pe2pXhfwGN61dLFCaaSMlhPVEfBw/uo8wsv1TiwTZBHOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=La4JbHjf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761115951; c=relaxed/simple;
+	bh=s52Slkr6wkat7EzJCzoI0soaZIqwObWpYaED/LO6pXE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=e8invh+cFIRlZJkWQV7HJsBDRZd02CR/p412k5SnPvW/xps6Cq9qEijkZpwejoKh9DG70IpSyBOvZNGT5b/9nHerABn0j2MOyiS+PEhBiYIp/7qc+8HvvbMeVOKO7lY/v+G1P7uCFyZ1yikTmH7znV1tBpNk/WQzfEonMh1XYlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0Op8MER; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="La4JbHjf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85119C4CEF5;
-	Wed, 22 Oct 2025 06:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761115763;
-	bh=sSj8YmTZNJ/kRVJNBLx5lnjBZBIJEOdINZaMgskVKxc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=La4JbHjfmc/S2NCpAW5PQb0dSHY70Hy/LIcLI39BRLTlj2VjfviNKhhE61cLafb4i
-	 259RtRCZxHrgBT2C19vIq58h+gp4Eu4JoP0cGl0rmybS0Z7ipPdzntTePm8okVtXaX
-	 3NXpe/45gH+JIHIm3K1OE1cA5qe2dI+DmXPpFIswezMfu/SxlB08TKafbl0pfI2es+
-	 uv5ORHFql6vwK7BzuqTI7qHwWZmYHXW0v4TSXYxD75uESqeRbG59knrnUxHzyHWOO8
-	 s0VT+eYURnLO1srnLKYWvVn3Fk3ksQqR7wfkjcdTWlrR7UDaJkEf3r7EmVVHZO+KQP
-	 RgWSBxaxx/evw==
-Message-ID: <36e6d378-96e8-47db-90ab-802f686f8cbf@kernel.org>
-Date: Wed, 22 Oct 2025 08:49:20 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0Op8MER"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-27eec33b737so97684325ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Oct 2025 23:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761115949; x=1761720749; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cfCAtQxbjLOYFKdU41YYM4nSvS1I4T1EjpHpy1QIl2Y=;
+        b=M0Op8MERGvvNYr3uZy5Lo4KydLmboaNi+dNz6f5d97ZEMjAF4xqyfmHenEQKTa10fh
+         6nPCCHvQfTZrqQOgqj/vSJE5nKYHXxZ1w+sfKd8sGsnZHRFuJ0JhPUGJWiJ39DJGiXIL
+         2brV4vM2RCBIzBfC3628dQl5Xe63ws7kiDuxn0SKeod/YdDIkYrKFVJ9AbX8Run/PgaY
+         JQ8HQb6d+6d3RNPJa/mGjN0h35VZtgEBLnp4tCsg0tqYYL3C4J1mpMeSYQeHEOymButa
+         d8W8GSlkDfBXvvXFwehjYp4sl/le4219sZ/OOMWsrCl1TisNdyjrh3vgHzFFrbh7gb4I
+         pxhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761115949; x=1761720749;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cfCAtQxbjLOYFKdU41YYM4nSvS1I4T1EjpHpy1QIl2Y=;
+        b=trK5/K+1yv5lJE/rNCmKL4wYW2Shf/2bkn0Ir2d+I5gDN9fdi8Gph9xukymmLDL8sb
+         KwOyuVj1ilZjfZYm9iFCUgAfkorz4iRkoZ3bVgPE75hoxX44HC6bNg17TiE4nfursW4p
+         1dTjBLv9jxJKwt7v1Zcg6abwh5KJTidOjYbTLrtpR07O/lsfYXfq0xuGoTkPpnJlavtg
+         Ol6Lk1Hcl+BWnU4C3M+D42UpdV/9ICV3cfCHt32hU6wnU3lMgLgGwqxZNRKsMbFO/dgZ
+         O3zbLPAiNrU5dmZFv7fOb1MMZKMPXRaiiZyGJg7gtDEg3FaZQNbCWb3OMMOdaGv1n5/x
+         4LpA==
+X-Gm-Message-State: AOJu0YwzwIVhfNo9tazNAAipYyC+3GyKVurXF7xGJFts5+K1UNne1P0/
+	tLvS3MX8q7BD9ulu/mpI21mv20gJwKwam1SUsHTLcsJs914fEi2R03B3
+X-Gm-Gg: ASbGncvODrT2QgGQKG41w2LdLOLQzfnMb2Yv/kXANhgizekiotB8melB5ub5E3XftLN
+	/Hjz6m4jGpd7e7aL85DBwybxIWn2/aYQhzSMqPJGV5yvjHSBgARTgezNz4pGznjDjBjr/PJHNgo
+	nTG+dyf84Co6PtRBiewQZsPwA5vgTNSlYZANgH35EumyMRrV4Ap4LonANIRWnsBBOLB3eYPJTqr
+	HSaKm2yNr1tXFa6KhTKz71xTf3eQHwe9QOw1n4pWYfkX+ozx/0JdIw5AXQwSAF1OIGCRsI0A/0P
+	QLxehp/vodZTYlvWXXlEyX+mQOzCdkAkNymIkCBcYLbzDA8EQntMdFqSOb9feqxnW0a/kMyCO15
+	p5WJ5tOsngg+5878jG8T/JQp1BWFGNJJQ6BMkffpF6njUzoBe0mHR/YbrZGQ1xko0JWp7Izry21
+	V3OoAFn/ls5BG9AUo7MvYxO5tyK7EutGgXMn27FOoIsKQ0EdE=
+X-Google-Smtp-Source: AGHT+IFMSuTEE8EAynNZfouzzGpRK3ZPx5DA2CURr/ENLw6IvstVTll4IoLJt+N4CU1a3g16jTSfkA==
+X-Received: by 2002:a17:903:2441:b0:271:479d:3de3 with SMTP id d9443c01a7336-290c9c93d94mr258464315ad.12.1761115949501;
+        Tue, 21 Oct 2025 23:52:29 -0700 (PDT)
+Received: from ?IPv6:2401:4900:6575:cc6c:809f:5c1e:f090:c761? ([2401:4900:6575:cc6c:809f:5c1e:f090:c761])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-292471d5874sm129655605ad.54.2025.10.21.23.52.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 23:52:29 -0700 (PDT)
+Message-ID: <9e80ec7909b40e662ea719d97151b9e6dbf8faab.camel@gmail.com>
+Subject: Re: [PATCH v2] Documentation: fix dev-tools broken links in
+ translations
+From: ally heev <allyheev@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Yanteng
+ Si	 <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen	
+ <2023002089@link.tyut.edu.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Date: Wed, 22 Oct 2025 12:22:23 +0530
+In-Reply-To: <87qzuwt3hk.fsf@trenco.lwn.net>
+References: 
+	<20251020-aheev-fix-docs-dev-tools-broken-links-v2-1-7db64bf0405a@gmail.com>
+	 <87qzuwt3hk.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drivers/hwmon: Add TSC1641 module to Makefile
-To: Igor Reznichenko <igor@reznichenko.net>, linux@roeck-us.net,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251022044708.314287-1-igor@reznichenko.net>
- <20251022044708.314287-4-igor@reznichenko.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251022044708.314287-4-igor@reznichenko.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 22/10/2025 06:47, Igor Reznichenko wrote:
-> Add the TSC1641 driver to drivers/hwmon/Makefile so it can be
-> built as a module.
-> 
-This patch makes no sense on its own. Squash it.
+On Tue, 2025-10-21 at 14:16 -0600, Jonathan Corbet wrote:
+> Ally Heev <allyheev@gmail.com> writes:
+>=20
+> > gdb and kgdb debugging documentation were moved to
+> > Documentation/process/debugging/ as a part of
+> > Commit d5af79c05e9382d38b8546dc5362381ce07ba3d1 ("Documentation: move
+> > dev-tools debugging files to process/debugging/"), but translations/
+> > were not updated. Fix them
+> >=20
+> > ---
+> > Link: https://lore.kernel.org/all/20241210000041.305477-1-rdunlap@infra=
+dead.org/
+> > Signed-off-by: Ally Heev <allyheev@gmail.com>
+> > ---
+> > Changes in v2:
+> > - fix kgdb doc path in zh_TW/admin-guide/README.rst
+> > - Please drop v1 of the patch. It is malformed. Link to v1: https://lor=
+e.kernel.org/r/20251020-aheev-fix-docs-dev-tools-broken-links-v1-1-5d127efe=
+c0b2@gmail.com
+> Putting your signoff after the "---" line caused the tooling to not
+> include it in the resulting commit.  I've fixed that up this time, and
+> added a Fixes: tag as well.
+> Applied, thanks,
+>=20
+> jon
 
-Best regards,
-Krzysztof
+Sorry for that. b4 messed up the formatting
+
+Regards,
+Ally
