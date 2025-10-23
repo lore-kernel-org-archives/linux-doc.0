@@ -1,142 +1,140 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F899332ECE
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 15:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6A3148DA;
+	Thu, 23 Oct 2025 15:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761232473; cv=none; b=CS4vc3OK/G6huqI4mbnipJtmOb//bl2bBkYMz7U5bp3ruXlFfeQMwunRRwSUQXGY4MxKhhnUgJE7McXoldJ1ESjy9rI2e7Q/+MQX7+Z9yDLtyoDnIGFwhFEwfVU5timnq35gZo6rPs4EIDO0ph0j+PuytS5h2/5cXQV01mzZKeM=
+	t=1761233576; cv=none; b=uduOZJg1rlb91dQv+K4xwdgw2ziqncPk69kYjtBSkfTp02ZjmYCruWASoiEpGkq87cu/2e/x0LdmgN8UNBj0kmTaRCmuuwbhYCI4SP1WZeqRpNPMZt4mlywWcohexUt/xB2rh4iOztkx8fgBpc3BTdnijKD4CdUFMXLed9mpgeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761232473; c=relaxed/simple;
-	bh=IlUUH9LIumXJC7hPJml9W0fQIcePXt8C72UdTwhHdhs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Aon9ycfIRURQchP8K1qTxYbIrLj/5TpdKSpr09s7vVQZCBhx/GW5g+tMS9C21wB2enELp5d6HuHB6+3y7dmMoo4Ww3Yogvrpt38LM4LIi6rNGfPmcZmaaMvckGFEQHKZsV2nYmo+pmyh39I7Dn1rUOTWDKWUmkFICIoH2RCPdIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLV15zP3; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761233576; c=relaxed/simple;
+	bh=XWgIjgaPWWRK/K8ZkgpeSuSzQfaMGgBfkWqh/08psNA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=buIWr5s4BvKD6nFP8murTR7FKQIDffuRNIP994XvcsBokfyp3Ppek7xLo4ZDbcvWqxuwRML22UKG8Awtq4nEdFqqEkTkROs3GGQykKJWhltEcsnZjC3ggANiVTaDLVd6aacJO9nI+A8RKC7CZEQE/hmQG7OxXVF1HV3p/tgQtIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWdbPyqa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLV15zP3"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-339d7c403b6so1095294a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 08:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761232471; x=1761837271; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vkqLO4+M3z7w/Lrmi0Fd0kvLJlcc3V6C2w66dX/d/Xw=;
-        b=FLV15zP3k8p+Ylipj9P2be1to839gkkbWuBHc7AF2ZzUTT50qplv2DhIA+5wNbhJvK
-         QHlJ9Stru6EsBNm/IzR1XoKQY0u7r8ZE8ZOK6bdUKVdzcXo8VgGBEBLJJQtS1NndDmRG
-         v1yDw0ZANnv+ja0EjnDRP7rWkKRcdIYcRVvfaqNVIzoBcwV7YEqLmmx6KQp5aeEXx4yG
-         tIZT8nAWLcc0efFTWi7ghKFWdJAWXvzEgGu/30TK2PSYS/AccxOlfYWSZuDcCgTbbexO
-         New1KMrI09iux4rf9VIvmy/2lrEOfHR/Hy4aXCeO2Eo+Mut45Uk3atXEHvOnrcee2nGs
-         tmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761232471; x=1761837271;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vkqLO4+M3z7w/Lrmi0Fd0kvLJlcc3V6C2w66dX/d/Xw=;
-        b=BALKN5sWS7LbUIz0iUWNCsUMvhnlJNhna7zq4Is+W5kpnvI5gki/HI0QI6iXnxmNe4
-         wdqb8j/QEhXxt3113M8m4rJSw0Gg+2gGIiF9aCo6VGXa5/BicrzeLMw4Ab7HaSxXUpF+
-         p4sZ23Vk132Dn4+Z56/Ixn5QQGGI3jFvutB0KqT4avDfMeBch8WgaD6lZZJvVVmqzDQ8
-         N6SzRRZEliDNFxKeAvgEElc34IndttUXxwOewc/M3j/an5DqQtfJZZQ0xNzHIiauqqMx
-         udNogFnvnQIG7wz59gKt6RjCPVh+AT6IUgAe64PS95iioh28Y59b/7tl87W+BlKQB8+C
-         bvvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKpDWwcsksYwm/HPJadU1AdL7k5WOISzrAlZWcW4cqY8MoB9m2FglrGKtYHmAEoyuX18dJlpZWi9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBmGVDGjmLHMcjx7Jx7hrf4WYN4GN/UHOPDKu1Uqu5Iw6QomUi
-	8F2tzf1LGwnW4nQ/GZ7GT6kMqq3wl2OZcktTi5KbsM5NjpRFvN+gsIJC
-X-Gm-Gg: ASbGncuVO40jwTTmgmLUv7lulYJsMGy0roUwk6l8V0ai6RtIoC5QI1w17BRl4hhQqyD
-	xCoNUGyKu5d5+XidfM9FpJdQfTmekDdwyZ+jFvB4engAAv0MKEPpA7r9taQnnALNrVCHh2VQGIg
-	LLWe/HQg8c1ni4DrSWKcKnbGtfhHAKnYk+3LscbTxDiPcUMKzwMxEFIrjfHEdBQB9aVVWbB/i1b
-	/FlwiBkOXgXdoMyaAe34RFDQo5U0RkOwZyKzzrJy2EgJGYv3W0PI/3TrlENWgx4dkiJR1bfvNP9
-	vEu3D1EArBNKWxokvVoBIDPGKd+qB4S7PxryKeuzW1H0J5bszQmzURJr+2fCxIknRjyY7/5hYGE
-	d9OU9nwl8IZd3fHPFNUDQgdhl6IdYqSAGNhPdBts/cP9cLA1zlz88TCsRNJCh9phEKU513szp82
-	frgT904FyjE/263nhwOe5qMKJvqVdPyjeO9J8HFq1gNvhDeu0iyUhcxl1S
-X-Google-Smtp-Source: AGHT+IFxcOTWNeoO0U9x1abyfX1fIUDpLCIWWsm5Uw/xj/ptlbhHm2XiUrn0s7mXgS6AUwx9tm10+Q==
-X-Received: by 2002:a17:90b:5623:b0:33b:d371:1131 with SMTP id 98e67ed59e1d1-33bd3711391mr30176242a91.34.1761232471346;
-        Thu, 23 Oct 2025 08:14:31 -0700 (PDT)
-Received: from ?IPv6:2401:4900:88f6:3367:7bc9:63ec:e54:c1d0? ([2401:4900:88f6:3367:7bc9:63ec:e54:c1d0])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fb00500b8sm2704496a91.6.2025.10.23.08.14.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 08:14:30 -0700 (PDT)
-Message-ID: <a56a858531e86a456c3a6c213c9f562add517d83.camel@gmail.com>
-Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
- attribute check
-From: ally heev <allyheev@gmail.com>
-To: Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
-Date: Thu, 23 Oct 2025 20:44:23 +0530
-In-Reply-To: <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
-References: 
-	<20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
-	 <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWdbPyqa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69860C4CEE7;
+	Thu, 23 Oct 2025 15:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761233576;
+	bh=XWgIjgaPWWRK/K8ZkgpeSuSzQfaMGgBfkWqh/08psNA=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=UWdbPyqa/eWAUCsL6TzPRPggAxQQWmRNHjOxYHtiy6evueRxeUvtKRb9dGW4c90P6
+	 pIyKAY0bmo/d3iOZDbOnOMMsnZemCOa5XWa+mclxGf0qrZzpec7LhB07pIAeHVCeRl
+	 022nX9pTHkr9sNamsXdGzG05MgKbb+xc34827N7qToLfBDp4DclZxIbvhZSX+pTwAk
+	 kUzBEZPF6Z+1v4KTXLxMnJFw0TDObLMn2dgBHvV62yI4ENPa7CrqpFPGE0WkctCV/o
+	 iY5UEyA7FT07n7EDezsQjWrBNDWMA/O3XMw3XlhYaCZFUxVqMRNLGaqYFBQVKLSCkS
+	 gLLCcyLy6yghQ==
+Message-ID: <07ebf7d9-0071-483c-a68e-645853e83831@kernel.org>
+Date: Thu, 23 Oct 2025 17:32:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kselftest@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Dan Williams <dan.j.williams@intel.com>
+References: <20251016054204.1523139-6-tzungbi@kernel.org>
+ <20251016123149.GA88213@nvidia.com> <aPGryj-V5PQZRtoI@google.com>
+ <20251017134916.GK3901471@nvidia.com> <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <009c8e5e-02d3-4017-bb84-e3a8f01b9dc9@kernel.org>
+ <20251017163738.GB316284@nvidia.com>
+ <bee969ed-c050-43a4-961c-07443a45943c@kernel.org>
+ <20251017184415.GE316284@nvidia.com> <DDKXACTUJ9IT.3W11J2HE7SLJW@kernel.org>
+ <20251017225632.GF316284@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <20251017225632.GF316284@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2025-10-21 at 10:06 -0700, Joe Perches wrote:
-> On Tue, 2025-10-21 at 17:00 +0530, Ally Heev wrote:
-> > uninitialized pointers with __free attribute can cause undefined
-> > behaviour as the memory allocated to the pointer is freed
-> > automatically when the pointer goes out of scope.
-> > add check in checkpatch to detect such issues
->=20
-> Seems sensible.  Couple minor points below:
->=20
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
-> > @@ -7721,6 +7721,12 @@ sub process {
-> >  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$her=
-e\n$stat\n");
-> >  			}
-> >  		}
-> > +
-> > +# check for uninitialized pointers with __free attribute
-> > +		if ($line =3D~ /\s*$Type\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*;/=
-) {
->=20
-> The leading \s* isn't useful, but \b should be used.
+On Sat Oct 18, 2025 at 12:56 AM CEST, Jason Gunthorpe wrote:
+> On Fri, Oct 17, 2025 at 11:41:56PM +0200, Danilo Krummrich wrote:
+>> On Fri Oct 17, 2025 at 8:44 PM CEST, Jason Gunthorpe wrote:
+>> > On Fri, Oct 17, 2025 at 08:19:06PM +0200, Danilo Krummrich wrote:
+>> >> On 10/17/25 6:37 PM, Jason Gunthorpe wrote:
+>> >> > On Fri, Oct 17, 2025 at 06:29:10PM +0200, Danilo Krummrich wrote:
+>> >> > 
+>> >> >> I'm not sure about MISC device though. Unless there's a good reason,
+>> >> >> I think MISC device should be "fenced" instead.
+>> >> > 
+>> >> > misc is a very small wrapper around raw fops, and raw fops are
+>> >> > optimized for performance. Adding locking that many important things
+>> >> > like normal files don't need to all fops would not be agreed.
+>> >> > 
+>> >> > The sketch in this series where we have a core helper to provide a
+>> >> > shim fops that adds on the lock is smart and I think could be an
+>> >> > agreeable way to make a synchronous misc and cdev unregister for
+>> >> > everyone to trivially use.
+>> >> 
+>> >> Sure, for MISC devices without a parent for instance there are no device
+>> >> resources to access anyways.
+>> >
+>> > There are many situations with misc that can get people into trouble without
+>> > parent:
+>> >
+>> >  misc_deregister(x);
+>> >  timer_shutdown_sync(y);
+>> >  kfree(z);
+>> >
+>> > For example. It is is buggy if the fops touch y or z.
+>> >
+>> > This is why a _sync version is such a nice clean idea because with 5
+>> > letters the above can just be fixed.
+>> >
+>> > Wrapping everything in a revocable would be a huge PITA.
+>> 
+>> That's a bit of a different problem though. Revocable clearly isn't the
+>> solution. _sync() works, but doesn't account for the actual problem, which is
+>> that the file private has at least shared ownership of y and z.
+>> 
+>> So, it's more of an ownership / lifetime problem. The file private data should
+>> either own y and z entirely or a corresponding reference count that is dropped
+>> in fops release().
+>
+> I think both versions are popular in the kernel.. You can legimately
+> treat y and z the same as device resources without creating a
+> correctness problem and it is less code.
+>
+> You can also do refcounts.
+>
+> For instance at least in C you'd never argue that people should use
+> refcount private data when they use a timer or irq subsystem. You'd
+> use a simple sync cleanup and be done with it.
 
-Sure
+Don't get me wrong, I'm well aware that there are multiple ways to achieve
+correctness, and I know what's common, not common, etc.
 
->=20
-> Perhaps verify that $Type is a pointer as well
->=20
-> 		if ($line =3D~ /\b($Type)\s*($Ident)\s*__free\s*\(\s*$Ident\s*\)\s*;/ &=
-&
-> 		    $1 =3D~ /\*\s*$/) {
->=20
-> to avoid things like:
->=20
-> drivers/net/ethernet/microsoft/mana/gdma_main.c:	cpumask_var_t cpus __fre=
-e(free_cpumask_var);
->=20
->=20
-> > +			WARN("UNINITIALIZED_PTR_WITH_FREE",
-> > +			      "pointer '$1' with __free attribute should be initialized\n" =
-. $herecurr);
->=20
-> 			pointer '$2' etc
->=20
+And I also don't mean to say "just reference count your private data", which in
+a lot of (maybe even most) cases clearly is the wrong thing to do (compared to
+specific objects contained within the private data).
 
-Nice find. Thanks!=20
+What I'm saying is that it's better to think about the lifetime of an object and
+what it is owned by.
 
-> And this would not find uses like the below where another definition
-> is done before a definition with __free on the same line:
->=20
-> crypto/testmgr.c:       u8 *ptr, *key __free(kfree);
+Let's say we have a memory allocation of some object X, then the question is who
+owns this object. Is it the module, the file private data, device private data,
+interrupt handler, etc.
 
-I will add the check for each pointer defined on the same line
+If it is only owned by a single thing (e.g. file private), then it's simple:
+allocate and initialize in open(), release in release(), and only ever access
+in other fops.
+
+However, if we have shared ownership of an object, and it is contained in
+multiple different private data objects, then reference count is much more
+robust, compared to having your driver manually keeping track of how it can
+synchronize against all the owners of that object.
