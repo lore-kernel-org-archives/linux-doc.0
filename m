@@ -1,60 +1,60 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E85B306480
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 10:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E38303A17
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 11:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761216130; cv=none; b=OUHVNfVj7q8iqnFmWCRO8g+HvRREifeEaVPqImmIof3RT4PLdhBDl9yU+jWoJOZ2UsH2t5dmqGFvlj/vrATc6LgeXZ5PU7SYxcqD5PNn1gdvJZlWH8JmyjQQtNGWm2TQgYun5hV0AxMhkny+9GehkxOQI8s/loz2fn7hJL3UlOs=
+	t=1761217738; cv=none; b=d1QrSDGOdraA4ZqboSRNnzYbIyl1bD3bdlNspECRBkmBGDRzGysu6f1+mf+VZSwEVGpFfYrm8gdSAMb1TBKxarjT/WeOI9xFBHrNtq0j9Uv2O9CC72kIIwrEAy5vqxQ0sjvkZy+TriBn/48IT+kr9PX418/i88shJWy60h1vamg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761216130; c=relaxed/simple;
-	bh=jyg2eZ/1XdoAlTqduehdddaNsDWPY2qdFBzk6zBgRik=;
+	s=arc-20240116; t=1761217738; c=relaxed/simple;
+	bh=2gtsPC5so8y6JlR/LE6EcnMO20S4+I796HirmIgdDJ4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c845/g2wkOa3FkHwXMab9lZAc+ct7PieWx6w3QmqfPEkUcrR0RMRZnQxinBjvVgjoPSyItveYCQ57898ZNUa/qT5zEfjr4qWMI1aXFRkShFr9fRwMoh2qLBOgYxm9B+quslc4SeTwOj3gMTem+HIIcUpDa3pSeWDOvJCDR4Uhb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KMZmyn7B; arc=none smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=Wpywn43gtErVbj+mpcpMAwur7K3AwC1WGG7HDx7hQuSaPCvS6/CQOFOOWxcmdlhE961wh1+i+LKdxjLyZh8ACq6xli8SPZpqzI0aFpXqaTfzAXCRsthn5MDMAdYURjSHqGSUa1qizjkxufggCBqLvmRm//5cpLbmQqNfhoetRZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KdKOa3K6; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KMZmyn7B"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-637e9f9f9fbso1208052a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 03:42:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KdKOa3K6"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-63e12a55270so989504a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 04:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761216127; x=1761820927; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761217735; x=1761822535; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eNwYeVe3zrzgI77kfJc6mmnbUyU3J+W0mAD5mBv2bvM=;
-        b=KMZmyn7B/WFxXkWm30Gzod9FYX4imYKhDQ9n1mJTerhcsgny+cgqDx+hERs+OAOARl
-         j9j5G0crdnySPQ0Tuv7uzQkUTF6OaFlYnvKyzM4BzQAq4w0DOUxGTwVD5dzewb8DajjA
-         NfH5APIxlzWnR3+FoRyz67FRmy7k4mtHcfxlTM0TFbOn+G52nu0pPdcWyvTTKw0BIPpM
-         Mp6Cp2v+WWHTERxkowt5/9tOkSaorOxci/ahr5N+pC2w/lUua6eEjg6bKgR658/nxFE2
-         ffjOM/9n7vSEYkTvjkSH4Wsabm3gcHPe5YBtV2VwoOK/UX3Yq8pidgxPDkUwIKcGkSnb
-         H2bQ==
+        bh=yjVTzYMRUK9px4tCar1m0xiZ+9sd2t0ODPLBN+ZVn8M=;
+        b=KdKOa3K6waUkW0GYhOosJkCYGIJIZqrvpfFr6jzNI1/PdhZGq5ilbKjK2XZEEZbTHc
+         Cc/LT/mrSSVDE682cRd4WLqCuN3akDe5iQqKbwAJ1L2zaeISF70Tk+kPlkj8OJjLpHPi
+         UlhAu6JxbrhBkYTybov3h2fQOdwaXCkAZbDekUBS4NZHspB6eY98cdZonqd4hUrjFVdl
+         wjjTynqdzvJukc+HOztd5Sa9PKEZtPVqhcdu+T0mGvV7VYwOnEKKdVV/j7686rJWiyAU
+         o9EXG0fGjrT8BaeG9GrRFkEToJAi6d3WwHFN5+PgQvJA3aUc/MKzwXHlKlHUk7bvulS/
+         8nLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761216127; x=1761820927;
+        d=1e100.net; s=20230601; t=1761217735; x=1761822535;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eNwYeVe3zrzgI77kfJc6mmnbUyU3J+W0mAD5mBv2bvM=;
-        b=SE4l8FHoEmhfhCQaPKThTnEwtx4EEnDfWcmdy49LFrHx/gGDBMyKrdOGWlov0Oh7QA
-         2XJjq2oaaCH/xEBmhL/osfeCT3RmjfFwIfJ66hyyKKRGSOQMy/0BYqXoWft2LiBMvChf
-         x6JjPLV/eLbi8S17mOuNl5W+2YW+WUldDsF5/FDuLcl8a0KZIqffuY6xBORojguBSAGx
-         IJfK4gqwHZbTkSPrbpooSYKgMUGsrXE30kyds3nmnrbmELv6IvxajMQTQbg0PJQhYUC2
-         JnRnQuFJQdAV760VKGD1LKHro/ORVtdKIXWHdSq349fdd9eyYNU1LMgSYMTCEYNAN+dk
-         j/Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7GSq+vS1VH9TYOaSfRp6KVczRaWz1GRqtc1VjcbbdEgeLFDQOpw2a4n8VCPWLtESHHOqtfvxRCZo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yykt1baMSaB+9pPwE8EaeQfkK4X0WWti/JMVkFGnbGYBXVlYBxz
-	E/WYRLGIxm3KR90NOKVKUgpa9R9xRz4krJE1kzDQuGPQTJVJjSk0pXTmxd3lsGIz+qZUiGrRuRB
-	xKOidzs78ff+jxl2ugsSMVfRVcgNrPmQ=
-X-Gm-Gg: ASbGncuAXVWowpuasv7KGqXkaZ6vOnSkrnfNOb94TGa3Q+D0+vEHiRMKWZ3rq6l/rlA
-	AjpTZmZUjoQiYGxHAyI8pyB0L7ID2J6tVBVjrdG6XaxUc/MEnCU3HXqhZVV5HQKgDjzjMU5C278
-	ZB1cU3opEzYKgjbYMlSqY0CDKVsq+hbxBd9wnNmXAJwxy9knKZg2QoWg/2NLfvEUi0+ApAxjx2d
-	VZpPeV7poylMuLLfbSzlftZRqh0RTddr5iAX0sfs19NF0n3NhCFuJsbBvvdwo8SqZ6JhLoC2fZN
-	KGi6atwcReRHIk8UeEs7UWmxD/BwtA==
-X-Google-Smtp-Source: AGHT+IHj9sqZlFAd6qPNTa4C/OpRKo92Gcn6zexlmgF4iPE+98wHJzEkw8o+T+JQbLSjLVQOB0m1KT0oZjfCmtuivL8=
-X-Received: by 2002:a05:6402:90c:b0:63c:489f:df5 with SMTP id
- 4fb4d7f45d1cf-63e3e10eee3mr2179427a12.16.1761216127196; Thu, 23 Oct 2025
- 03:42:07 -0700 (PDT)
+        bh=yjVTzYMRUK9px4tCar1m0xiZ+9sd2t0ODPLBN+ZVn8M=;
+        b=AoAQz7lwvQ0/AtX632fiBOHANgRKTpKoL+zAKEY+SpjHo81xwZqsfllPfXvEq8YjLS
+         XKpoZ0nYUbwqH2EgTe5rqet+T4Czcxfzf8WHeHy+2mjPf/HHmRuLEEZBJFFMfPbQVirN
+         a0mIZDg8xgo+fmkXs1OZVPeXMs5n0ZPo1Xtblom3W1cFVC+7Rki2bQDDY2Zzs+fbyJEl
+         sPt/F/XW1Fqx/1yhsp5rBR5paYgIvSWM0cJLYFh5dvyIwqHUkgyvnkWcDzaxRDRTJGGO
+         v9TVSelhyCzBiKKwBT9EIN0J+Aj1tYR6/O5TvGlTJtP3FMBm4Yupb3U5B/0ksFzV9jhc
+         d7LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6kprv16H4A7yYF7PAJIpqPt7oBAzMDkH1T2Nx+ZyNlNtGqKpIpWhWwxrXSsPkNd0eqsAnafVs7nU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyThy/ouAFLSzYKBr7yiZWn3Q/FQAR1qyJmki2PBXfNC7NDVQKS
+	If6Yh8Q5YUgR64z3+q9LBFClJpoRrKa8Y/9YVvlFqj9y54Z9BclBkkD9erXnb1YSnutx5qT+wsc
+	Es7HqCg5lgo1YVTH0KBCGrsKpQiBF/Jg=
+X-Gm-Gg: ASbGncthLRCuW7ODtVd0pEddpKZnM7kMGf3obUtYGOhr3CGGcopNdCCcCxNcpbNThQV
+	9Nkc+A9QMdNBx/Jj29GStoz9DYVDHYDnJbuzxf2PJNmXezWUyFxwnCzZ+YTbdqRO9aMVdaisHu/
+	QbfCoekAoiIDHEl77EUE62uNa/mr562NY0f2q3BguaWM8PkYwIf1nmhqTJ6sL7q/ef2JN3qCzNE
+	O2uXooLkTe7ySmjMxws+A+Nlpk65i8s0MGOjjsyzQxJAGyXplmwt5DH97RWT8EnMkdNYvRfdPed
+	2whou2x0ictKdILAKrmdVgXix1uOBA==
+X-Google-Smtp-Source: AGHT+IHaZkNWJBzwX+xnT6zDyIsd+FpAB6bVyKjHzY4MeJJT61pxMSaC+0svUKX7j1+JJd4Z5fMUP57lUimsGmTU5qA=
+X-Received: by 2002:a05:6402:510b:b0:639:dd3f:f25d with SMTP id
+ 4fb4d7f45d1cf-63c1f631b53mr22704985a12.7.1761217734817; Thu, 23 Oct 2025
+ 04:08:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,81 +62,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
- <aPiG_F5EBQUjZqsl@stanley.mountain>
-In-Reply-To: <aPiG_F5EBQUjZqsl@stanley.mountain>
+ <68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch> <f9cabfed7b165299b8048670e548c671f300f2b2.camel@gmail.com>
+In-Reply-To: <f9cabfed7b165299b8048670e548c671f300f2b2.camel@gmail.com>
 From: ally heev <allyheev@gmail.com>
-Date: Thu, 23 Oct 2025 16:11:55 +0530
-X-Gm-Features: AS18NWBdMh0RmpDPGmhjn_SnwsO6o_RPLnVM52wrjLiLq5epUawW0vv-w1GvPEY
-Message-ID: <CAMB6jUGhcJ=W3s96jRBHHTyPfBm+-+d6-VQQ3mXft7=fBJ0jvg@mail.gmail.com>
+Date: Thu, 23 Oct 2025 16:38:43 +0530
+X-Gm-Features: AS18NWALoCjfGGgMJQ1J0KTtA-LIrHjubjnnhPj65_HytxxNdk20M4XgmPj7hPU
+Message-ID: <CAMB6jUG+ES6XY7NL5TF-hFVDmz6O5rd9T-HNk7Q+pJA2_9g4Mw@mail.gmail.com>
 Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
  attribute check
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Hunter <david.hunter.linux@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-pm@vger.kernel.org, 
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+To: dan.j.williams@intel.com, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+	David Hunter <david.hunter.linux@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-pm <linux-pm@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 22, 2025 at 12:55=E2=80=AFPM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
+On Thu, Oct 23, 2025 at 4:01=E2=80=AFPM ally heev <allyheev@gmail.com> wrot=
+e:
+> > I would go futher and suggest that the pattern of:
+> >
+> >       type foo __free(free_foo) =3D NULL;
+> >
+> > ...be made into a warning because that easily leads to situations where
+> > declaration order is out of sync with allocation order. I.e. can be mad=
+e
+> > technically correct, but at a level of cleverness that undermines the
+> > benefit.
 >
-> I made a list of the warnings this generates (on Monday's linux-next).
+> But, does this pattern cause any real issue? I found allocating memory
+> later useful in cases like below
 >
-> None of the warnings are real bugs.  Every single one of these has the
-> assignment as the first statement after the declaration block.  We have
-> had bugs because of this before but Smatch and (I think) Clang detect
-> them so they don't last for long.
+> arch/powerpc/perf/vpa-dtl.c
+> ```
 >
-> regards,
-> dan carpenter
+>         struct vpa_pmu_buf *buf __free(kfree) =3D NULL;
+>         struct page **pglist __free(kfree) =3D NULL;
 >
-> arch/powerpc/platforms/82xx/km82xx.c:30:
-> crypto/asymmetric_keys/x509_cert_parser.c:63:
-> crypto/asymmetric_keys/x509_public_key.c:151:
-> drivers/firmware/arm_scmi/shmem.c:199:
-> drivers/net/ethernet/intel/ice/ice_flow.c:1576:
-> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1015:
-> drivers/net/ethernet/microsoft/mana/gdma_main.c:1508:
-> drivers/net/wireless/intel/iwlwifi/fw/uefi.c:821:
-> drivers/net/wireless/intel/iwlwifi/mld/d3.c:1788:
-> drivers/opp/core.c:1413:
-> drivers/opp/core.c:1480:
-> drivers/opp/core.c:1797:
-> drivers/opp/core.c:1888:
-> drivers/opp/core.c:2874:
-> drivers/opp/core.c:2935:
-> drivers/opp/core.c:2989:
-> drivers/opp/core.c:3065:
-> drivers/opp/core.c:3085:
-> drivers/opp/core.c:3104:
-> drivers/opp/core.c:312:
-> drivers/opp/core.c:330:
-> drivers/opp/core.c:412:
-> drivers/opp/core.c:450:
-> drivers/opp/core.c:608:
-> drivers/opp/cpu.c:157:
-> drivers/opp/cpu.c:204:
-> drivers/opp/cpu.c:59:
-> drivers/opp/of.c:1272:
-> drivers/opp/of.c:1331:
-> drivers/opp/of.c:1428:
-> drivers/opp/of.c:1469:
-> drivers/opp/of.c:149:
-> drivers/opp/of.c:1505:
-> drivers/opp/of.c:174:
-> drivers/opp/of.c:276:
-> drivers/opp/of.c:352:
-> drivers/opp/of.c:409:
-> drivers/opp/of.c:48:
-> drivers/opp/of.c:98:
-> drivers/scsi/scsi_debug.c:2964:
-> drivers/tee/qcomtee/call.c:648:
-> fs/overlayfs/params.c:451:
+>         /* We need at least one page for this to work. */
+>         if (!nr_pages)
+>                 return NULL;
+>
+>         if (cpu =3D=3D -1)
+>                 cpu =3D raw_smp_processor_id();
+>
+>         buf =3D kzalloc_node(sizeof(*buf), GFP_KERNEL,
+> cpu_to_node(cpu));
+> ```
+>
 
-Thanks for reporting these. I will try to get to these in later
-patches. But, how do we test the changes?
-KTODO: run checkpatch with uninitialized pointer with __free attribute
-check and fix the errors
+I will take this back. Found this in `include/linux/cleanup.h`
+```
+* Given that the "__free(...) =3D NULL" pattern for variables defined at
+* the top of the function poses this potential interdependency problem
+* the recommendation is to always define and assign variables in one
+* statement and not group variable definitions at the top of the
+* function when __free() is used.
+```
