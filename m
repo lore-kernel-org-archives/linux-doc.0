@@ -1,197 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F58430AD1D
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 10:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27382C21C3
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 10:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761215065; cv=none; b=mUSHmXk/xZGDVH/IBlgzi67WEDAFDiqmS3Yxw3LhdFi53m0PTnEZRJs65jgiglS9fNwwfO07mRUw078n9in11zTvZrEBnXjb4zshwth0VrnUAtoiRgY3Y/yqI1dirb3ef++10G8myBNjFoN7eeKNI8KwzASu9IniYTVn8yvOpVY=
+	t=1761215488; cv=none; b=WXVoZ6JVMG+UqyblEWhuWTIvY/R4ajC69HbsR6jjkBWm1kpnvxeETbPlIudaV/zjHa1kkLGm+xhLIqatsgP0yf9+Qdi21N2rptoxLpF5SKMNK1JbWbJ3GPtZpMI7iNZbUMeKU2AjWv71kzGM43YHD8qPgKFmxthW9a4VSIEUS88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761215065; c=relaxed/simple;
-	bh=JIzZvR0IM5/lqs80BT7Oz1VCJ8+Q0TiAdIgYrZiCFOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KPqoHDYYGid5otfezHZBJ2btMuumoI6Xkfq8Gh9Ha0uXhT3YKXg3MEUHvG4a5HBDQtf+gyaldhq9vnIB4VTtSFpIu5LHKT3WmR+RPJyvCfk6XBWOZgsZpHd5KvPDGIt/I4nqixDQVaR2igGebDLdrhQZVLcoh5rdEoFyrCxrAeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jILm570E; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761215488; c=relaxed/simple;
+	bh=899QwaS/qBo/eQEEqOZJ1fe2PB580ZJvPRbmYtXKqAw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YYrXsr7x5KY4qgRSuk6K/OuI+4Tib4sbf3/nkEPFXs76wzBK+2Vlgi8lRAyc7Dvngix7CArjQ+A57hBkdg34KfYAXzBdDNUj6QYhO45vcQjRTmOY4zLc1toAWchPKZ0xAuhCjJGUz2UzVIotsQrAvktMNwwuayzwR8p56ppDS3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BOLdOdeL; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jILm570E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761215062;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1/xMKYfvMu1YGz7qL96V/7BwEt8aejHjZ0on8OqbaxM=;
-	b=jILm570E4m+p6SMHB5ffJXHZmy1uvw7oUJi75UAKWC2TR7UkRoBy7JPXZRJeW4PGWVlugy
-	cOnRjOMJvqLOwTF4SwBbulFZ0RfRlm7MWWhKUrSo52W8yDMMlx09Te3TrRJuSED0HB+pc5
-	t32jMmk0gzHofdhYBx5JbmpPAmtja4U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-110-4L3nli_wNNWZWyfB7VBQrA-1; Thu, 23 Oct 2025 06:24:20 -0400
-X-MC-Unique: 4L3nli_wNNWZWyfB7VBQrA-1
-X-Mimecast-MFC-AGG-ID: 4L3nli_wNNWZWyfB7VBQrA_1761215059
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4721b4f3afbso2496215e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 03:24:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BOLdOdeL"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-339d7c4039aso688913a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 03:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761215486; x=1761820286; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wOHVHTnLNd3I5eCIWrj3ovfAwMpdR53sEIeZpKeCdbQ=;
+        b=BOLdOdeLcZgdDkR78FZbWLDh0xyNcjYapxqBhKrpx/vYYu00Xxy5Rvxmr2KvwfqT/w
+         cuBdzCUvri2AARcPK6m/ek3ijnyyQDWRy+7KeFhahE+jmlA/sGaPZmKmTrcYievq14h8
+         AZxBXqiQ6+IZ+b9YjMQPY5BhCgItkD2PIgNd/qLc+1faa7Ji+GrNi820AZ6cfSl58kdp
+         D/D1BuWIVBBP/cAgIk2n1cyCqGL/6bg8M/GHjNLKEeo5CytVma2gPZDduz8wD7WtxMrD
+         N4qy9fyOFM+5k3OjX/4jHxGL0nJz5Du4esGFmP0N+IjhOMrJkiCY/QqAFCrbRT8l6hAb
+         egZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761215059; x=1761819859;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1/xMKYfvMu1YGz7qL96V/7BwEt8aejHjZ0on8OqbaxM=;
-        b=hs8njldtIaZzihUGbKbrKtsHamzW2w1JIEDgPnjv7A2JlZYXgmnpbxd2ScWfegTaqJ
-         V9xPFMEvv3q6bCWgNV8uMItlPyQDWgJs5wogmAGLxrLI+uiAJOk9nUFMOmShrDQuN4J5
-         caNBRESpUcej7ZgOBUxiM3JPslaEP9p3BvzzQFa0amtE29xWIL7BjFhcrY0L3oGQjPT4
-         Hy/LmsTjEHsqfzE3HqjusvnMzauxP/sDIvsktgMG3XKmnarNoQi/6sxb7GbeTdJNALAv
-         sHmRhtLMyGnnNqYvozVdPOIvQETBZGDsF4X+gUEddf0OJ67i9GHHc2n/dhDJizxR9UqT
-         il2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXov3GFeuQiqb6h4JXETKSQ2O2wphyUYYc0OjhQgWgZXoc49D0x5gcqAErEvzz04AnQwdnjiclnr+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7ofowlPDw3FVsImecbiM2lXNDXWidLvjsva1EkRnHtRuJgqrC
-	cNXHM2Bmo/V3ioFg12iw6Qmt0a4FowbuAYqPMwBWvkwBVZZGb9qPy4KLCVWpju5rjwNI1Kp5SxO
-	IIIgmabwwJ094hIPKg0C/6WJnqLNLgyNLsMU0YzdGAp43D0V8b22qge58nlXu8w==
-X-Gm-Gg: ASbGnctl2SQa9sXF59FqNt4ni6eRgR2sZMzjVo2G55401b+yvVxgQ7KRXQ56WU5Mdmi
-	dWjmnm50AwH4GwvdMjNLtOLGSYFYI5zigJ5KsuFD8n0EiU3i1MfengXgSLNVSXf+UG6xMNJArX5
-	0hozOZqVfIttfz80yWEOVLUqFkvnnMF5OdY3rpGqLf1vUY9BYxDnED5wfPOVJuy2SKmKM6Zd/mG
-	ycB+o8w+3uW8GwevmBJ990R/INbcZrbsCfQZ7RHoxzOdMvsavD9bLdMag2W0Fyt2BdRP70ejzdp
-	qXM/5Z5PvdA7dlwnCSHc5KxdNiqYSR4GasFzxBlMDqM9/IODv0WUlMmdehL/oPgEkWebcH1pExH
-	qXI9Xv+EFlxwVkDpMrHt9rz1pmamlv+iWGYSxI3t7Gvq/TkQipWksaMsrbI10HV4jVHw3QMI7CA
-	I9FWuiUuSHrpmW4XcDMgVDJ5/f6B4=
-X-Received: by 2002:a05:600c:870b:b0:471:9da:5252 with SMTP id 5b1f17b1804b1-47117919c1cmr189577965e9.29.1761215059438;
-        Thu, 23 Oct 2025 03:24:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjH/mlHW++27nIjpsj7VgD+B0CKlZFUwUCNHGxzHcP9BXP5cXJRmKaKsGoIUZvaeLFPPT93g==
-X-Received: by 2002:a05:600c:870b:b0:471:9da:5252 with SMTP id 5b1f17b1804b1-47117919c1cmr189577335e9.29.1761215058948;
-        Thu, 23 Oct 2025 03:24:18 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3? (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c428dafesm87035605e9.6.2025.10.23.03.24.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 03:24:18 -0700 (PDT)
-Message-ID: <14f96ff9-9c96-43d3-8588-0730d26a0f87@redhat.com>
-Date: Thu, 23 Oct 2025 12:24:15 +0200
+        d=1e100.net; s=20230601; t=1761215486; x=1761820286;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wOHVHTnLNd3I5eCIWrj3ovfAwMpdR53sEIeZpKeCdbQ=;
+        b=p7Z+wqS5i73DGBJbEXiW3aKW2BiVX96SS4OVuvch6TrAU2yumEJJk0OJKE5gIAyA57
+         +S0/bh041vgMhyy/ESWG8M/I4bZDwfA034axri2k3+NZZFixLQLsgdj7dCho6tSMBhxD
+         YLbn07hy3DBI2VCrfeWA7XXAYTvG7rnoj2Lc75V3VHBJsUHbbg4U0n2L18aLn7FLTzMw
+         kr3jKVRFktqvhEXKFA+2QxWJwFNjy5HpcfRumXOYTTMKzyGKeP/1lvE0m9aI6R9F0BSR
+         7TOQy96vWLk3lJUbMHHdIGIEoR+q6Te7p2sik0eWwMmDDiB7BQ5sIVkDUwt4KxXzRxgz
+         lhQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpkDglf9U4M/QZlkVotPETJkQW+bN4gS0nu390fFTRYQEhhqMb1vc5zO4ZVC0hgH+buUWQMlszqTI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtcs2F71N+uBJYORGT3O17jCxRRuIY3O6/CplzRFtm5wa7l5fH
+	QaqkA53cz2bQrdOD4ztWBFusVbA6S9ix0QiKtfMGBwYcYeHm99S9dBzZ
+X-Gm-Gg: ASbGncsCA3lZmVlOi9DpoYvY9QzxvH8IW1/NloxgGcU4Gzuf6Z5owvmPFo8B8vxfm2F
+	lutKnYZFmfTcwAehrZJLeQeV4SKPAiCfxecogVqaw5zoF0bFuprsKrg+ltJy2VpDx/jsX7r4a5+
+	UHfZ+LhBwsyc4A2HkGwflC3lOuvWqTqPwCqCLQtgy8A2M+TmcYdBQCi5zi/B/GkdJRWnIQx607L
+	NjIo9zHTNPtoFbAoP5jlcRcKWB+gXhXzEA5jtvdZh0mcXAhxz/W/9AI/+IR2tGr5mzpTid00Uaj
+	/LEOWIYBCOIMttru52YilUOrEa8vK2Pu6IROHx07ohiJEofSZMgLRmoDR3fIpJcwLqK4WXd6k9I
+	DgHLvZcAI3pcdrMIcZmXmuvjPc8ZIMXpCL3lU6YmlL4Tk/w3PS/sLDdN5PAwUM3PwAA1b/slNYy
+	MxqWgAURVBrzLdgGEsypGhI/SrKm8yi5bKFqcS9yf4lCa/0ztn6F5y3PXY5qI=
+X-Google-Smtp-Source: AGHT+IHogv3WEFrX775pER3Si5KBPJbqZm7FQPT3+ZWzxhHVrbMp3JyR7pStbZJGZS4bVFRoU52R5g==
+X-Received: by 2002:a17:90b:1dc6:b0:339:a4ef:c8b1 with SMTP id 98e67ed59e1d1-33bcf8f7802mr30752726a91.22.1761215486034;
+        Thu, 23 Oct 2025 03:31:26 -0700 (PDT)
+Received: from ?IPv6:2401:4900:88f6:3367:52e3:7729:9e2c:4d15? ([2401:4900:88f6:3367:52e3:7729:9e2c:4d15])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6cf4c13d58sm1676453a12.15.2025.10.23.03.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 03:31:25 -0700 (PDT)
+Message-ID: <f9cabfed7b165299b8048670e548c671f300f2b2.camel@gmail.com>
+Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
+ attribute check
+From: ally heev <allyheev@gmail.com>
+To: dan.j.williams@intel.com, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan
+ Corbet <corbet@lwn.net>,  Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>
+Date: Thu, 23 Oct 2025 16:01:18 +0530
+In-Reply-To: <68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch>
+References: 
+	<20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
+	 <68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v22 00/28] riscv control-flow integrity for usermode
-To: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Christian Brauner <brauner@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
- andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
- atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
- alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
- rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
- Zong Li <zong.li@sifive.com>, Charles Mirabile <cmirabil@redhat.com>
-References: <20251022-v5_user_cfi_series-v22-0-fdaa7e4022aa@rivosinc.com>
- <aPl3vr-mYljA7Dse@debug.ba.rivosinc.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aPl3vr-mYljA7Dse@debug.ba.rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 23.10.25 02:33, Deepak Gupta wrote:
-> I don't think I am sending that many patches. It's 28 patches.
-> I did send v21 using same smtp settings on my end.
-> 
-> Although since this week whenever I am sending patch series, after 14th/15th
-> patch, I start getting below error for all recipients.
-> 
-> """
-> The user you are trying to contact is receiving mail at a rate that\n
-> 4.2.1 prevents additional messages from being delivered. Please resend your\n
-> 4.2.1 message at a later time. If the user is able to receive mail at that\n
-> 4.2.1 time, your message will be delivered. For more information, go to\n
-> 4.2.1  https://support.google.com/mail/?p=ReceivingRate 98e67ed59e1d1-33dfb7f8310sm153460a91.5 - gsmtp')
-> """
-> 
-> I did try "git config --local sendmail.smtpReloginDelay 60", it doesn't seem to
-> help. If anyone has faced this and knows how to get around that'll be helpful.
-> In the meanwhile, I'll keep figuring it out on what really changed this week.
+On Tue, 2025-10-21 at 09:43 -0700, dan.j.williams@intel.com wrote:
+[...]
+> Looks good to me, but I why WARN and not ERROR? Is there ever a valid
+> reason to ignore this warning?
 
-I got that as well a couple of days ago after patch #16, it's annoying 
-and I did not figure out easily which gmail user to blame.
+makes sense. I will make it an ERROR
 
-After git-send-email failed halfway through, I decided to just send the 
-remaining emails with --in-reply-to="" giving it the message ID of the 
-cover letter.
+>=20
+> I would go futher and suggest that the pattern of:
+>=20
+> 	type foo __free(free_foo) =3D NULL;
+>=20
+> ...be made into a warning because that easily leads to situations where
+> declaration order is out of sync with allocation order. I.e. can be made
+> technically correct, but at a level of cleverness that undermines the
+> benefit.
 
-References: is in that case still messed up for the resends, but at 
-least all emails show up properly in the same thread.
+But, does this pattern cause any real issue? I found allocating memory
+later useful in cases like below
 
-I had to take care of the CC list, which was annoying as well.
+arch/powerpc/perf/vpa-dtl.c
+```
 
--- 
-Cheers
+	struct vpa_pmu_buf *buf __free(kfree) =3D NULL;
+	struct page **pglist __free(kfree) =3D NULL;
 
-David / dhildenb
+	/* We need at least one page for this to work. */
+	if (!nr_pages)
+		return NULL;
+
+	if (cpu =3D=3D -1)
+		cpu =3D raw_smp_processor_id();
+
+	buf =3D kzalloc_node(sizeof(*buf), GFP_KERNEL,
+cpu_to_node(cpu));
+```
 
