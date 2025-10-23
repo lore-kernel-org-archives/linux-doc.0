@@ -1,148 +1,142 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08DC326D42
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 15:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F899332ECE
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 15:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761231938; cv=none; b=fxr6yrShbkh7Qz8vRLBvR6ob5SA7rnT4cjzwmVZlOqYFRWfTnMfiZrnY7DSscfIeE7e4q0N9l0cWLJmsF9+jAD6FiLOn4KrFKraREBBtKqTjz8jAA/+U1AfXwqCEdtsz1VPx1drrNitbScAgwiiL1Pcr1OvMRLASVLQWx/zpYW0=
+	t=1761232473; cv=none; b=CS4vc3OK/G6huqI4mbnipJtmOb//bl2bBkYMz7U5bp3ruXlFfeQMwunRRwSUQXGY4MxKhhnUgJE7McXoldJ1ESjy9rI2e7Q/+MQX7+Z9yDLtyoDnIGFwhFEwfVU5timnq35gZo6rPs4EIDO0ph0j+PuytS5h2/5cXQV01mzZKeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761231938; c=relaxed/simple;
-	bh=jz93bF63ecWHqlpsfaTIWZ1F+DloVz29gxl65xxvxP8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WqIwgVoKB4vIFejteaHj4aFyeI09fOXF7L2o5jnOhEi9bwRl+cC7WHq9/uW6mb3Wf8jG3bCuudyyRcBgFOCSvZiV89L8UL9i/ppbTuyZ7LQp/3MnLq5ZnMzwHNNAAdFwfNXL3SoooBGyY+oiWwTvG6e8tyOFgms8uawZpTzUJ7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M7Zby9xO; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1761232473; c=relaxed/simple;
+	bh=IlUUH9LIumXJC7hPJml9W0fQIcePXt8C72UdTwhHdhs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Aon9ycfIRURQchP8K1qTxYbIrLj/5TpdKSpr09s7vVQZCBhx/GW5g+tMS9C21wB2enELp5d6HuHB6+3y7dmMoo4Ww3Yogvrpt38LM4LIi6rNGfPmcZmaaMvckGFEQHKZsV2nYmo+pmyh39I7Dn1rUOTWDKWUmkFICIoH2RCPdIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLV15zP3; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M7Zby9xO"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-33bba464b08so950832a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 08:05:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLV15zP3"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-339d7c403b6so1095294a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 08:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761231936; x=1761836736; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PvcmXgf+o6Tu2cYvhHpGmpe9m3a/ceHWHcYak3PalII=;
-        b=M7Zby9xOPXaShDYfHfELOZo+QIPupBI+fSUhPtUzu8LpLDzqODas4KLyd45oYCyAF8
-         BDxJv0hNgFLFoB8WQcIXM00OkNa79EuitP9lwB6a1flH00FPjoJql2i6MS0i6b4VNMHd
-         YNSloQK9lH9CXXwzouz+JypLxzeZxgc1xeDUpSCTKAItWzF7UiMt+e/I1MBpFeRulRun
-         HKkA6NEPOx8XCDgUnnkYTUJNHuXc9jt68IA6uqroZdH3pPDKlADQDB4/t2+S7B22u6Hd
-         Xei2sVhVvQyzMKQeO5urHWG2DtyKldzVKDB6mFy7mjgIM6JQsZqlWiyEmbDgTN26HkJA
-         bMfA==
+        d=gmail.com; s=20230601; t=1761232471; x=1761837271; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vkqLO4+M3z7w/Lrmi0Fd0kvLJlcc3V6C2w66dX/d/Xw=;
+        b=FLV15zP3k8p+Ylipj9P2be1to839gkkbWuBHc7AF2ZzUTT50qplv2DhIA+5wNbhJvK
+         QHlJ9Stru6EsBNm/IzR1XoKQY0u7r8ZE8ZOK6bdUKVdzcXo8VgGBEBLJJQtS1NndDmRG
+         v1yDw0ZANnv+ja0EjnDRP7rWkKRcdIYcRVvfaqNVIzoBcwV7YEqLmmx6KQp5aeEXx4yG
+         tIZT8nAWLcc0efFTWi7ghKFWdJAWXvzEgGu/30TK2PSYS/AccxOlfYWSZuDcCgTbbexO
+         New1KMrI09iux4rf9VIvmy/2lrEOfHR/Hy4aXCeO2Eo+Mut45Uk3atXEHvOnrcee2nGs
+         tmgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761231936; x=1761836736;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PvcmXgf+o6Tu2cYvhHpGmpe9m3a/ceHWHcYak3PalII=;
-        b=RDjfwjCpUM03gYu/5F+bvIXHbdN64Lw9Y1RR/Fv3syWRKLzIczri561roDgyuN5uq2
-         sKwvoGaYjkJuzC0Gj+CbwwUaZXV8TWFduGBkWLXrEGhZnKHqTvigcxcK6HZydyA6c2pl
-         Rdozrifqvm1lS8cdpQF5euOcK0nbQzR5fY/9LQJeGVJKvhxe70gEt2/Cd2i2UYTAxpNI
-         DkEUfrscK2ZHkybvfEW4BCXoWItPSLK4plU5y65I6DNZP6fY2TIW60DS6e2V1cKgnt1H
-         NYGqnQKEF4MN5sRDI7g/emVdKD/CAL2R03vwXsq8rAdGQZzLrzEWlnimNSD3yoLJbdVY
-         rBiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURiZW830iRTndtJNW7HsvQs752RjHE9rbPYg5V+8Cd5HN9L7g1NE2d7MlTjpEtymJK0vTEldSPWCU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+G3FoYbhBP9uFSrc2YWt/OCTAqSxSQM9WFHKogneWFnIYMwS/
-	86UgMk0KKJWn2AEjrAMEFkzEERiazAKviqFPPvNbwsxlQgEd29roEIg29g3C+Bh07qJot4eLzr4
-	D9V0G8g==
-X-Google-Smtp-Source: AGHT+IHpWV5RNhKUXvWMGZ+xD8d/MTd1Ze+E21K0nbVEiBP6P7EQ34tE5jerqVVq8m5WkJ7UUYnKv9jKozQ=
-X-Received: from pjbsd7.prod.google.com ([2002:a17:90b:5147:b0:33b:b3b8:216b])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3141:b0:32d:e07f:3236
- with SMTP id 98e67ed59e1d1-33bcf8e3ab0mr32372876a91.22.1761231935591; Thu, 23
- Oct 2025 08:05:35 -0700 (PDT)
-Date: Thu, 23 Oct 2025 08:05:33 -0700
-In-Reply-To: <diqzv7k5emza.fsf@google.com>
+        d=1e100.net; s=20230601; t=1761232471; x=1761837271;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vkqLO4+M3z7w/Lrmi0Fd0kvLJlcc3V6C2w66dX/d/Xw=;
+        b=BALKN5sWS7LbUIz0iUWNCsUMvhnlJNhna7zq4Is+W5kpnvI5gki/HI0QI6iXnxmNe4
+         wdqb8j/QEhXxt3113M8m4rJSw0Gg+2gGIiF9aCo6VGXa5/BicrzeLMw4Ab7HaSxXUpF+
+         p4sZ23Vk132Dn4+Z56/Ixn5QQGGI3jFvutB0KqT4avDfMeBch8WgaD6lZZJvVVmqzDQ8
+         N6SzRRZEliDNFxKeAvgEElc34IndttUXxwOewc/M3j/an5DqQtfJZZQ0xNzHIiauqqMx
+         udNogFnvnQIG7wz59gKt6RjCPVh+AT6IUgAe64PS95iioh28Y59b/7tl87W+BlKQB8+C
+         bvvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKpDWwcsksYwm/HPJadU1AdL7k5WOISzrAlZWcW4cqY8MoB9m2FglrGKtYHmAEoyuX18dJlpZWi9I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBmGVDGjmLHMcjx7Jx7hrf4WYN4GN/UHOPDKu1Uqu5Iw6QomUi
+	8F2tzf1LGwnW4nQ/GZ7GT6kMqq3wl2OZcktTi5KbsM5NjpRFvN+gsIJC
+X-Gm-Gg: ASbGncuVO40jwTTmgmLUv7lulYJsMGy0roUwk6l8V0ai6RtIoC5QI1w17BRl4hhQqyD
+	xCoNUGyKu5d5+XidfM9FpJdQfTmekDdwyZ+jFvB4engAAv0MKEPpA7r9taQnnALNrVCHh2VQGIg
+	LLWe/HQg8c1ni4DrSWKcKnbGtfhHAKnYk+3LscbTxDiPcUMKzwMxEFIrjfHEdBQB9aVVWbB/i1b
+	/FlwiBkOXgXdoMyaAe34RFDQo5U0RkOwZyKzzrJy2EgJGYv3W0PI/3TrlENWgx4dkiJR1bfvNP9
+	vEu3D1EArBNKWxokvVoBIDPGKd+qB4S7PxryKeuzW1H0J5bszQmzURJr+2fCxIknRjyY7/5hYGE
+	d9OU9nwl8IZd3fHPFNUDQgdhl6IdYqSAGNhPdBts/cP9cLA1zlz88TCsRNJCh9phEKU513szp82
+	frgT904FyjE/263nhwOe5qMKJvqVdPyjeO9J8HFq1gNvhDeu0iyUhcxl1S
+X-Google-Smtp-Source: AGHT+IFxcOTWNeoO0U9x1abyfX1fIUDpLCIWWsm5Uw/xj/ptlbhHm2XiUrn0s7mXgS6AUwx9tm10+Q==
+X-Received: by 2002:a17:90b:5623:b0:33b:d371:1131 with SMTP id 98e67ed59e1d1-33bd3711391mr30176242a91.34.1761232471346;
+        Thu, 23 Oct 2025 08:14:31 -0700 (PDT)
+Received: from ?IPv6:2401:4900:88f6:3367:7bc9:63ec:e54:c1d0? ([2401:4900:88f6:3367:7bc9:63ec:e54:c1d0])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fb00500b8sm2704496a91.6.2025.10.23.08.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 08:14:30 -0700 (PDT)
+Message-ID: <a56a858531e86a456c3a6c213c9f562add517d83.camel@gmail.com>
+Subject: Re: [PATCH] checkpatch: add uninitialized pointer with __free
+ attribute check
+From: ally heev <allyheev@gmail.com>
+To: Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Date: Thu, 23 Oct 2025 20:44:23 +0530
+In-Reply-To: <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+References: 
+	<20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com>
+	 <5e11f1bacb6430e1331f02e3e0e326a78e5b0d12.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1760731772.git.ackerleytng@google.com> <8ee16fbf254115b0fd72cc2b5c06d2ccef66eca9.1760731772.git.ackerleytng@google.com>
- <2457cb3b-5dde-4ca1-b75d-174b5daee28a@arm.com> <diqz4irqg9qy.fsf@google.com>
- <diqzy0p2eet3.fsf@google.com> <aPlpKbHGea90IebS@google.com> <diqzv7k5emza.fsf@google.com>
-Message-ID: <aPpEPZ4YfrRHIkal@google.com>
-Subject: Re: [RFC PATCH v1 07/37] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Steven Price <steven.price@arm.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
-	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
-	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
-	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
-	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
-	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
-	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
-	shakeel.butt@linux.dev, shuah@kernel.org, suzuki.poulose@arm.com, 
-	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
-	vkuznets@redhat.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
-	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
-	yuzenghui@huawei.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 
-On Thu, Oct 23, 2025, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> 
-> > On Wed, Oct 22, 2025, Ackerley Tng wrote:
-> >> Ackerley Tng <ackerleytng@google.com> writes:
-> >> 
-> >> Found another issue with KVM_CAP_MEMORY_ATTRIBUTES2.
-> >> 
-> >> KVM_CAP_MEMORY_ATTRIBUTES2 was defined to do the same thing as
-> >> KVM_CAP_MEMORY_ATTRIBUTES, but that's wrong since
-> >> KVM_CAP_MEMORY_ATTRIBUTES2 should indicate the presence of
-> >> KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2.
-> >
-> > No?  If no attributes are supported, whether or not KVM_SET_MEMORY_ATTRIBUTES2
-> > exists is largely irrelevant.
-> 
-> That's true.
-> 
-> > We can even provide the same -ENOTTY errno by
-> > checking that _any_ attributes are supported, i.e. so that doing
-> > KVM_SET_MEMORY_ATTRIBUTES2 on KVM without any support whatsoever fails in the
-> > same way that KVM with code support but no attributes fails.
-> 
-> IIUC KVM_SET_MEMORY_ATTRIBUTES doesn't fail with -ENOTTY now when there
-> are no valid attributes.
-> 
-> Even if there's no valid attributes (as in
-> kvm_supported_mem_attributes() returns 0), it's possible to call
-> KVM_SET_MEMORY_ATTRIBUTES with .attributes set to 0, which will be a
-> no-op, but will return 0.
-> 
-> I think this is kind of correct behavior since .attributes = 0 is
-> actually a valid expression for "I want this range to be shared", and
-> for a VM that doesn't support private memory, it's a valid expression.
-> 
-> 
-> The other way that there are "no attributes" would be if there are no
-> /VM/ attributes, in which case KVM_SET_MEMORY_ATTRIBUTES, sent to as a
-> vm ioctl, will return -ENOTTY.
+On Tue, 2025-10-21 at 10:06 -0700, Joe Perches wrote:
+> On Tue, 2025-10-21 at 17:00 +0530, Ally Heev wrote:
+> > uninitialized pointers with __free attribute can cause undefined
+> > behaviour as the memory allocated to the pointer is freed
+> > automatically when the pointer goes out of scope.
+> > add check in checkpatch to detect such issues
+>=20
+> Seems sensible.  Couple minor points below:
+>=20
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> []
+> > @@ -7721,6 +7721,12 @@ sub process {
+> >  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$her=
+e\n$stat\n");
+> >  			}
+> >  		}
+> > +
+> > +# check for uninitialized pointers with __free attribute
+> > +		if ($line =3D~ /\s*$Type\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*;/=
+) {
+>=20
+> The leading \s* isn't useful, but \b should be used.
 
-Ya, this is what I was trying to say with "_any_ attributes are supported".  I.e.
-by "any" I meant "any attributes in KVM for VMs vs. gmems", not "any attributes
-for this specific VM/gmem instance".
+Sure
 
-> > In other words, I don't see why it can't do both.  Even if we can't massage the
-> > right errno, I would much rather KVM_SET_MEMORY_ATTRIBUTES2 enumerate the set of
-> 
-> Did you mean KVM_CAP_MEMORY_ATTRIBUTES2 in the line above?
+>=20
+> Perhaps verify that $Type is a pointer as well
+>=20
+> 		if ($line =3D~ /\b($Type)\s*($Ident)\s*__free\s*\(\s*$Ident\s*\)\s*;/ &=
+&
+> 		    $1 =3D~ /\*\s*$/) {
+>=20
+> to avoid things like:
+>=20
+> drivers/net/ethernet/microsoft/mana/gdma_main.c:	cpumask_var_t cpus __fre=
+e(free_cpumask_var);
+>=20
+>=20
+> > +			WARN("UNINITIALIZED_PTR_WITH_FREE",
+> > +			      "pointer '$1' with __free attribute should be initialized\n" =
+. $herecurr);
+>=20
+> 			pointer '$2' etc
+>=20
 
-Doh, yes.
+Nice find. Thanks!=20
+
+> And this would not find uses like the below where another definition
+> is done before a definition with __free on the same line:
+>=20
+> crypto/testmgr.c:       u8 *ptr, *key __free(kfree);
+
+I will add the check for each pointer defined on the same line
