@@ -1,699 +1,337 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012030.outbound.protection.outlook.com [52.101.43.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FA7153BED;
-	Thu, 23 Oct 2025 18:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761243397; cv=none; b=SeAEN03psbpVo6GozIgL79qwN0I63YDjAfEwyrVROjtG56jiaqaJnduN5s2Ukpf6L3dpvfDJjI7yiKKk1qcvnzHgoXs2SPLKpXuNd6Wp5lD/s87K3I9+5IvefWEdoj57INu/8HozwlfLwOrsOSmEPwzGaJCJJ4jo24NPxtnqKXc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761243397; c=relaxed/simple;
-	bh=L8dU4HjuuI95mGr+wkCxWgUAWVgxK9kNikgME4ulavM=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dQSCdQWpBnWwupYo9LsVg6WHDz80VJ8YfvVrjtbOw3WvD9Tn324gTc9AKMPnpsUhsQAWx9qh/FK9w8xIWRfaHGb0rQ3VfVZETZIK2kxTkxi/RlcgF41CbGGFz3z6UT0fQeemirOQ01R6G0Rk1i0qkCM5AwNhjVu1jsbQt63k63M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4csvKP6LChz6L4ys;
-	Fri, 24 Oct 2025 02:13:13 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id F30691402FD;
-	Fri, 24 Oct 2025 02:16:29 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 23 Oct
- 2025 19:16:28 +0100
-Date: Thu, 23 Oct 2025 19:16:27 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Aditya Dutt <duttaditya18@gmail.com>
-CC: Jonathan Cameron <jic23@kernel.org>, David Lechner
-	<dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Frank Zago <frank@zago.net>,
-	<linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] iio: position: Add support for ams AS5600 angle
- sensor
-Message-ID: <20251023191627.00003b52@huawei.com>
-In-Reply-To: <20251020201653.86181-3-duttaditya18@gmail.com>
-References: <20251020201653.86181-1-duttaditya18@gmail.com>
-	<20251020201653.86181-3-duttaditya18@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706A22376FC;
+	Thu, 23 Oct 2025 18:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761243656; cv=fail; b=G/0ZoOrO4MwG497hMKjMfrAEs1SzZZqAjO84XqPOaNsmgnCm7VvJtJB151vrB+YPSFIGlXPJdfnCy3D4gR60gM8CQn0hvZVmp8Jlcz6LsXqHeSdWj4k4SaFLzml5pv12NoxNcIdtvyT5q5d3LXqgetnzuhCi+TMqpAqAkoPabwo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761243656; c=relaxed/simple;
+	bh=4aLgSaRpgFf95KPiXVJSyeWdGkMPI7SeG8M3GIgRo1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=C+suChQtN7z8SiSKCUc6PZ6vPF3VyU3YSqsasdCKnEHUwJaJpgkOT1Ll28znXhCUI/h2zl06iAth2UySwXjlOmej6IcYdD4CNJ7xxdknZqXmN8uudiECwEg3nFOGKhBigZm4fOAC5NepN0Eaj7/XRF2dzyRb8WdtM/1abIksG1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=udsd9N4M; arc=fail smtp.client-ip=52.101.43.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="udsd9N4M"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gzPGwDSZk+y/aeKekSUfPOUQbpN6stah7fCMj9X2eJkfdwwe58CZRxX0O7lN4TF2HUPpxIhbGJfh5ybkYDNA2T40gzZSqBWLSVcMs6Z9TZrmj68OtZL7ubOdzehSdjGcuyEGYYNfRQvb/T5/ITRBhjPNMwfDJZCkWY6exLXUXeZzZ9rfBlsT/eUN1CJJ6W2ghncxpK1Wbo6ssxniFhUihd3F8nyIXwDT/gs4fDFfvsXxt5t9yOIbjgT5C4ajWAnpqS+R6uzeUYOVr0TXCul5u07NcF/7PAhJBEnancLR61uZy9G8jbdg9q9l6Qx40loVurwBIi95DBqZ7fsKi9Yd1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g8ifrfoQL5AbwMqMdRwJwMdA1nr7miRmXJHuqu5G0uA=;
+ b=jZjCludiwfffMGNQF6zGSIsxON/4bvbAT9X3+OcnpFEDt5cZH/tmHdOvJvxiD8LBqY0LWcPz0H2SqygH5Rvxpr65xbVezwL5YtyZTU4IPVoqbZdd8BFCz4YIRZJTOAucn2zIVpkpGMiTFxswEpeP8UVXBJQMReUtC4yDC/N7VYHUCu1CaXnbHHEWmVMLp4H8hGIytlJraX8HpTc+uAyaumDb4fzUiRy+rVWrAO67zST9VDBDWlJE51rvwxwNMUhnPU5FtvqgTv8jRxz8OjVn7hbU3SVU0nwMbZnrHZKzxtvNRAzk0xU2eLaURpxD9qLJETrHkMNDO0WIMP8pN0enWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g8ifrfoQL5AbwMqMdRwJwMdA1nr7miRmXJHuqu5G0uA=;
+ b=udsd9N4M9j3UVWPgfPOQu4XJV7aS8z6q+fwGE7tklZOrbF2JAdTEyJNBUKlyq+rbYbS7SmR8RQN3dXjaVhVGTje/9SiLgoo/NuD64WBaVOd9NOUPyZiQWmOZOSFPuRaKtC85xuTBUNmxkUbsX0SFzazX8un+usPX98jJ3niObbaZ5ZVFVCUXJFDBZ8N+uogG3YH7rYG/GJ+FG9FMATiRQcfUWQph6p3X2MFsvuA0gAY61b4KxoOYKc+YVBGuABWprSoFB0kUIEoyO7HnYDZMHd1loGNWX+0ClvvmXvaUgTdoysi6g0hCnW2xpZpqhgFm7QKUpI9g82RS51IzXQ60qg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by CY5PR12MB6106.namprd12.prod.outlook.com (2603:10b6:930:29::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
+ 2025 18:20:50 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 18:20:49 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alexandre Ghiti <alex@ghiti.fr>,
+	Anup Patel <anup@brainfault.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	iommu@lists.linux.dev,
+	Joerg Roedel <joro@8bytes.org>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	llvm@lists.linux.dev,
+	Bill Wendling <morbo@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>
+Cc: Alexey Kardashevskiy <aik@amd.com>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	James Gowans <jgowans@amazon.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	patches@lists.linux.dev
+Subject: [PATCH v7 08/15] iommupt: Add read_and_clear_dirty op
+Date: Thu, 23 Oct 2025 15:20:38 -0300
+Message-ID: <8-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
+In-Reply-To: <0-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
+References:
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY1P220CA0008.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:59d::16) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|CY5PR12MB6106:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7632c1ce-1f1f-44b7-e82f-08de1260e3b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?c+lIiBtqdFhNOZjASbu2vfvcvxXyLph3q89vz6+T1LgT5YCf3lWsGdOYjr9G?=
+ =?us-ascii?Q?cQr2NBvFXQJKs24AOtPbU7Ehgj47uKreXODeNFn6OzJilJNE+XtfO8S2M8e6?=
+ =?us-ascii?Q?jmFTLFFss6TfnUgKj4RhH2v4QErT0LepkNFn0oIKlH5RTpoLHNdAbzgV+JoN?=
+ =?us-ascii?Q?z3B7A4Xd1vOHV7KGFQxg/Imu1wQ2MhAD9Hp2jlzmH46nherX4+1PmTTXt4K0?=
+ =?us-ascii?Q?6m6NFUR0JGOwGeo/ePWNypTy7QKXlNWyhnJSq6qLS7c/noi3E7w8HkNeIyTC?=
+ =?us-ascii?Q?G8O7OSsGW15sds7UsZhAuPP9p6euWk/rV6fPut9VUE+jvjXzVtxBMFH4u750?=
+ =?us-ascii?Q?gJBbM94y97ozTKZ8kW6fMMEZsYqBPlp55QyQq7FK8nib8HGxo6z9JfIBJf21?=
+ =?us-ascii?Q?MZk2rlAZjZ8PqCraWH9gVSR0gHegdDAR/pzpxhZp5ixCVSpuRGa+wgV5iCl2?=
+ =?us-ascii?Q?f8DyfKXIJTem83OQmVJA+20fedzCGj1SS5XxViG8fcUigCxGAAWrpK8khaHL?=
+ =?us-ascii?Q?ixLQSkhjOmokCndCAo1wOk3ihaw68Qb+iId3Wk6BcBa3ncgk2DuAU3dBpleC?=
+ =?us-ascii?Q?pHSPL3Z1eyzixyFI+GUiEGQJz79yoJh70LcSMswuyIHdIKImhQi3LuRkoxuZ?=
+ =?us-ascii?Q?/ViiABmq7y1e+hEcGsplgqzAxbB9W5AL4s1nhW5JLjRrprvdOsHbkgZnLJXy?=
+ =?us-ascii?Q?HF9HLXpG55uwMBGB8sWQ5VD3pw/J5R/DFH+ei0YG95e/X+Q76KG9mQc6133h?=
+ =?us-ascii?Q?KfQXcsFww+io/BQl3VGnNEzfx5NkyQ54+F13L2faHzjGqIrKFbbbre4hkK72?=
+ =?us-ascii?Q?nZI+U4P0Sst+cfm81qDudDSch5YrKd/CexD7DrADHbmLTI7YzXh7sDnnqw74?=
+ =?us-ascii?Q?XArmYAwSbJcj2CQUK9Q8iQKinsQaohvuQ7oMbj+DJ0yZ4jHD79xwZ1qJRH4s?=
+ =?us-ascii?Q?/b0+rXXdc9NAAM74sPt1XEmuNtAj0DFtskpaAsso29TEEcYFagFSHjs0CJwa?=
+ =?us-ascii?Q?xXKwTlFh87+Ur4n2oyKZg9dUCvfzMxk3zB0JYba9QoZzBkK/yVexxxUYCQ7o?=
+ =?us-ascii?Q?9I2iOuJYvp30a+2kLo2VBXyn9ftCmEVXB0Vsgw3bmW+PkG6erGDpJcTNKyXS?=
+ =?us-ascii?Q?yfwPHEqroCknfgSlrwJ9sy3YBO6H/++JEH7s8P7oRmB9uwctwf4eaPQCzcoM?=
+ =?us-ascii?Q?Mw304Q/j/i+flNKzFGSjz8+900AB8RNCVSdkKk3Od/fRjh8u0PO5YXjNX8xp?=
+ =?us-ascii?Q?I/K2ACdC1oOuaBajOfcAYniCD8/TK6kfcZt/mPRjSjChGfNblgMghIzIzGuZ?=
+ =?us-ascii?Q?KLhuWkbEOK3/ih1YSoHCsCir/t1WB7JjagmMx7gSWE2a1A+p5hkdWYkA0EZP?=
+ =?us-ascii?Q?ybuTWfj7v0FDwIfwg4IqeZA2WC82CKGOv7VARgeWd8EwweEjArwBNsrHyZh3?=
+ =?us-ascii?Q?fqOX8JwUloTsyiD86J8obgtUi62DNvS3jSDwWuSRet3qmHayp/nhNqa95ZHS?=
+ =?us-ascii?Q?YBOBPzwqU9gUcys=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?a2SqyA5msRMHpJn9xzB4i8yVy2Ivfk2srJ5ZxRIsK0zbEAj/uuIR+qlHxMPu?=
+ =?us-ascii?Q?Etx1JisMj9DeQofCe0jAmmjFKb/en0y/gudKSwDp3Fboo973tVQxKRlTRQqD?=
+ =?us-ascii?Q?iGIdGl9urLJqW5QKSVXnq2bzSOFkLnslYoJ9l3uwonl/UxZ11WHjV8eO6xMG?=
+ =?us-ascii?Q?k8nU1GuYAoIBCxyFOrFCn8/X+ojYzRijhaaKU26wpDqeAe4TwAUh4/S8UcUK?=
+ =?us-ascii?Q?vZxvz146TQYo4m6SR6kh4JPpt12hj+eoWTCxnYIjUaDRMlBwAUWFaN+p32kH?=
+ =?us-ascii?Q?Jjr7GygI2Bv6jeD/wbQgC8mn6w3hqI1tG/K6DHXYhPLsOJeOvD7R9xnwm3JA?=
+ =?us-ascii?Q?V9T4VTo88Ndu7/6JrA/IyZbWWmF74YzBk3DjkxPU54pwWsgYbhSaVhzkaMs0?=
+ =?us-ascii?Q?QCd8LPSwwhT1VJvGpROTgMEvX+KxssFQ3XHTd1fWgjESe/YoMdmIvMOSzZBy?=
+ =?us-ascii?Q?qr62IjZXgfuBHr7mcYUjbP1nbfKDBvMD/f54YdCATw5oOK57UIu7XJc5yCal?=
+ =?us-ascii?Q?0EahDCDKSbN9+ApmP6BcX0R9GKRWsvyaStzS4KxmMlwE/SNTlbQ4NeXkolbD?=
+ =?us-ascii?Q?cptqAS1zsJXINcvf9JSjL5Cgj6tCmkDaDf+Uki8xmzC8qQ7IDyiggWR7W4Bn?=
+ =?us-ascii?Q?QzZX/1Xy9yogwNSZVSQJ1D1KfoBrvEZYiKRLx0jSQbIQOJdp7Nbujvz1VCdS?=
+ =?us-ascii?Q?JRteIanB7jZNMVvJskSo+xhormjl4IiTs+zOOFXo6HQ/v+8YM4cKgwaFhWq/?=
+ =?us-ascii?Q?wC1mcSsqoQGiNuTQcpxAquaY1WZs0PB7zhyO/Mv5tKHJo+WuytWuYHtlqZ5r?=
+ =?us-ascii?Q?Au8ZPHcFJsbRKE9cZDikx5NhVxhQcISdv8TkJZuM2Ae1iqfBWsIxWgQ5zYma?=
+ =?us-ascii?Q?TgGZ9xFt4UYJL9hstLWaJ7JN0cnPxgDkCIZSu3WDt4LuOdboFDRGY+Lbos7j?=
+ =?us-ascii?Q?ckrnG6SgeowOJ3FloUja9GmrXT4+Lh2BvGu7OJf+kO22GjDwHpwxT833pyCG?=
+ =?us-ascii?Q?HkdT4jTRi3mMKFIitfdsGQO0staYeqbyBnZMrmO7R/JIYxdS1jIhqspT+3fl?=
+ =?us-ascii?Q?EuWN5GPMtRN+Zw/EGexAWXbMx+eUYVggzw1fsg4y5hLbD3CZBhU++/hnp+qL?=
+ =?us-ascii?Q?IUr0aKxnRkTIeCXOIkO3wlJD3+MrUFDof8dSkNXnyXpbNefG/gxNmccF0mXx?=
+ =?us-ascii?Q?hcjdFCsJAfaIm4G0tBbB1mG2HVimDB/0s3KHKn6Re/xYa3z4n87hy6S8SFzC?=
+ =?us-ascii?Q?fDdP6F7ChCNMkBHE3S1pQB4ur0ie8s7UIEcCthkAjJjZk6l6smstfB07c2gC?=
+ =?us-ascii?Q?CmjmsVPPxkdndMRVzejFyeDweWY3bEa3Asv0FnjgXirEVV7W6lO8q9FqpmCb?=
+ =?us-ascii?Q?BfS6r3PTrp3WoQ4w+7FMBvD6t8W2bOoJ0YlNU3Cgj60cxcQ3+HscDeWmna6F?=
+ =?us-ascii?Q?SKVje819G0q4RowmfokZFC/kNUb2OrPXeexculDeldTMkL8/N31IORRs45w0?=
+ =?us-ascii?Q?7ijZNZj7nGHy00jV+B9jsO00z29HeY85TXR0hKR4WOyfnFCSTQPzVHyVF/2y?=
+ =?us-ascii?Q?OoM+xfuyOeJZJ+gtLRhycpGWsemB7i8XdG4+DFq6?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7632c1ce-1f1f-44b7-e82f-08de1260e3b7
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 18:20:49.4128
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XCTUyRkwK+t8tyMm4x7HR4Y1PeL1N4Rk8y/a2te5II8Atq8St7H0yX5Jgu7QeVT2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6106
 
-On Tue, 21 Oct 2025 01:46:53 +0530
-Aditya Dutt <duttaditya18@gmail.com> wrote:
+IOMMU HW now supports updating a dirty bit in an entry when a DMA writes
+to the entry's VA range. iommufd has a uAPI to read and clear the dirty
+bits from the tables.
 
-> The AS5600 is a Hall-based rotary magnetic position sensor using
-> planar sensors that convert the magnetic field component perpendicular
-> to the surface of the chip into a voltage, or a numerical value
-> available through i2c.
-> 
-> The driver registers the chip as an IIO_ANGL device.
-> It also exposes the raw registers through debugfs for further configuration.
-> 
-> Datasheet: https://ams-osram.com/products/sensor-solutions/position-sensors/ams-as5600-position-sensor
-> Co-developed-by: Frank Zago <frank@zago.net>
-> Signed-off-by: Frank Zago <frank@zago.net>
-> Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
+This is a trivial recursive descent algorithm to read and optionally clear
+the dirty bits. The format needs a function to tell if a contiguous entry
+is dirty, and a function to clear a contiguous entry back to clean.
 
-Hi Aditya, Great to see this driver moving forwards.
+Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ drivers/iommu/generic_pt/iommu_pt.h | 104 ++++++++++++++++++++++++++++
+ include/linux/generic_pt/iommu.h    |   6 ++
+ 2 files changed, 110 insertions(+)
 
-A few comments inline on specifics but one thing I'm not sure on is whether
-it is actually useful to expose the raw angle channel in real applications.
-I'd kind of assume the limits etc would be programmed for a given physical
-configuration so it might be sensible to just expose that scaled channel
-instead?
-
-Jonathan
-
-> ---
->  Documentation/iio/as5600.rst  |  84 ++++++++
->  Documentation/iio/index.rst   |   1 +
->  MAINTAINERS                   |   8 +
->  drivers/iio/position/Kconfig  |  10 +
->  drivers/iio/position/Makefile |   1 +
->  drivers/iio/position/as5600.c | 373 ++++++++++++++++++++++++++++++++++
->  6 files changed, 477 insertions(+)
->  create mode 100644 Documentation/iio/as5600.rst
->  create mode 100644 drivers/iio/position/as5600.c
-> 
-> diff --git a/Documentation/iio/as5600.rst b/Documentation/iio/as5600.rst
-> new file mode 100644
-> index 000000000000..d74c4052e590
-> --- /dev/null
-> +++ b/Documentation/iio/as5600.rst
-> @@ -0,0 +1,84 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +=================
-> +ams AS5600 driver
-> +=================
-> +
-> +
-One blank line is probably enough for readability.
-
-> +Overview
-> +========
-> +
-> +The ams AS5600 is a 12-Bit Programmable Contactless Potentiometer. Its
-> +i2c address is 0x36.
-> +
-> +For more information, see the datasheet at
-> +
-> +  https://ams-osram.com/products/sensor-solutions/position-sensors/ams-as5600-position-sensor
-> +
-One blank line here as well.
-
-> +
-> +Channels
-> +========
-> +
-> +The driver provides **two channels**:
-> +
-> +- **Channel 0**: raw, unscaled angle measurement
-> +- **Channel 1**: scaled angle measurement according to the configured
-> +  ``ZPOS`` / ``MPOS`` range
-> +
-> +``ZPOS`` and ``MPOS`` let a user restrict the angle returned, which improves
-> +the precision returned, since the angle returned is still in the 0 to
-> +4095 range. The minimal angle recommended is 18 degrees.
-> +
-> +The following files are exposed under ``/sys/bus/iio/devices/iio:deviceX``
-> +where X is the IIO index of the device.
-> +
-> ++----------------+-------------------------------------------------+
-> +| File           | Description                                     |
-> ++================+=================================================+
-> +| in_angl0_raw   | Raw angle measurement                           |
-> ++----------------+-------------------------------------------------+
-> +| in_angl0_scale | Scale for channel 0                             |
-> ++----------------+-------------------------------------------------+
-> +| in_angl1_raw   | Adjusted angle measurement, scaled by ZPOS/MPOS |
-> ++----------------+-------------------------------------------------+
-> +| in_angl1_scale | Scale for channel 1                             |
-> ++----------------+-------------------------------------------------+
-> +
-> +
-> +Accessing the device registers
-> +==============================
-> +
-> +The driver exposes direct register access via debugfs. This allows reading and
-> +writing I2C registers for debugging or configuration.
-> +
-> +Assuming the device is iio:deviceX, its debugfs path will be:
-> +
-> +.. code-block:: sh
-> +
-> +  $ AS5600=/sys/kernel/debug/iio/iio:deviceX/direct_reg_access
-> +
-> +Locate the index of a register to access in the datasheet, then use
-> +the following commands to read a value:
-> +
-> +.. code-block:: sh
-> +
-> +  $ echo <reg> > $AS5600/direct_reg_access
-> +  $ cat $AS5600/direct_reg_access
-> +
-> +or this to write a value:
-> +
-> +.. code-block:: sh
-> +
-> +  $ echo <reg> <value> > $AS5600/direct_reg_access
-> +
-> +For instance, this would return the lower byte of RAW ANGLE.
-> +
-> +.. code-block:: sh
-> +
-> +  $ echo 0x0D > $AS5600/direct_reg_access
-> +  $ cat $AS5600/direct_reg_access
-> +
-> +.. warning::
-> +
-> +   Register ``BURN`` (0xFF) permanently modifies device behavior.
-> +   Use with caution after reading the datasheet carefully.
-
-Great to have this documentation of useful stuff for a user. Thanks for
-including it!
-> diff --git a/drivers/iio/position/as5600.c b/drivers/iio/position/as5600.c
-> new file mode 100644
-> index 000000000000..fe716d521548
-> --- /dev/null
-> +++ b/drivers/iio/position/as5600.c
-> @@ -0,0 +1,373 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * ams AS5600 -- 12-Bit Programmable Contactless Potentiometer
-> + *
-> + * Copyright (c) 2021 Frank Zago
-> + * Copyright (c) 2025 Aditya Dutt
-> + *
-> + * datasheet
-> + *    https://ams-osram.com/products/sensor-solutions/position-sensors/ams-as5600-position-sensor
-> + *
-> + * The rotating magnet is installed from 0.5mm to 3mm parallel to and
-> + * above the chip.
-> + *
-> + * The raw angle value returned by the chip is [0..4095]. The channel
-> + * 0 (in_angl0_raw) returns the unscaled and unmodified angle, always
-> + * covering the 360 degrees. The channel 1 returns the chip adjusted
-> + * angle, covering from 18 to 360 degrees, as modified by its
-> + * ZPOS/MPOS/MANG values,
-
-I raise the question below on whether there is value in exposing the raw
-angle.  Is userspace ever going to use it?
-> + *
-> + * ZPOS and MPOS can be programmed through their debugfs entries. The
-> + * MANG register doesn't appear to be programmable without flashing
-> + * the chip.
-Whilst true that you can program them I'd not mention it explicitly. That's
-kind of advanced usage that requires someone to really know what they are
-doing.
-
-> + *
-> + * If the DIR pin is grounded, angles will increase when the magnet is
-> + * turned clockwise. If DIR is connected to Vcc, it will be the opposite.
-We need a way to know that state I think. So belongs in DT. 
-We've had some recent discussions on how to handle tied GPIOs on devices
-but for now you'll have to do a property for this.
-
-> + *
-> + * The i2c address of the device is 0x36.
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/delay.h>
-> +#include <linux/i2c.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/module.h>
-
-Follow include what you use principles (mainly - there are a few headers
-where we can always assume they should include via another).
-e.g. mutex.h should be here.
-
-> +
-> +/* Register definitions */
-> +#define AS5600_REG_ZMCO              0x00
-> +#define     AS5600_MASK_ZMCO         GENMASK(1, 0)
-> +#define AS5600_REG_ZPOS_H            0x01
-> +#define     AS5600_MASK_ZPOS_H       GENMASK(3, 0) /* bits 11:8 */
-Some of these will go away with simplified (less protective) debugfs
-interfaces.  Probably you only need to keep the base register and the
-mask of the whole thing that you have below.
-
-> +#define AS5600_REG_ZPOS_L            0x02
-> +#define AS5600_REG_MPOS_H            0x03
-> +#define     AS5600_MASK_MPOS_H       GENMASK(3, 0) /* bits 11:8 */
-> +#define AS5600_REG_MPOS_L            0x04
-> +#define AS5600_REG_MANG_H            0x05
-> +#define     AS5600_MASK_MANG_H       GENMASK(3, 0) /* bits 11:8 */
-> +#define AS5600_REG_MANG_L            0x06
-> +#define AS5600_REG_CONF_H            0x07
-> +#define     AS5600_MASK_CONF_H       GENMASK(5, 0)
-> +#define     AS5600_MASK_SF           GENMASK(1, 0)
-> +#define     AS5600_MASK_FTH          GENMASK(4, 2)
-> +#define     AS5600_MASK_WD           BIT(5)
-> +#define AS5600_REG_CONF_L            0x08
-> +#define     AS5600_MASK_PM           GENMASK(1, 0)
-> +#define     AS5600_MASK_HYST         GENMASK(3, 2)
-> +#define     AS5600_MASK_OUTS         GENMASK(5, 4)
-> +#define     AS5600_MASK_PWMF         GENMASK(7, 6)
-> +#define AS5600_REG_STATUS            0x0B
-> +#define     AS5600_MASK_STATUS       GENMASK(5, 3)
-These masks will probably go away anyway with simplified debugfs, but
-if you had them, they should be built up from the sub fields that follow.
-
-> +#define     AS5600_MASK_MH           BIT(3)
-Make the field names include which register they are in. e.g.
-#define		AS6500_STATUS_MH
-No need to mention mask in a single bit, but do include that
-or multi bit fields.
-
-
-> +#define     AS5600_MASK_ML           BIT(4)
-> +#define     AS5600_MASK_MD           BIT(5)
-> +#define AS5600_REG_RAW_ANGLE_H       0x0C
-> +#define     AS5600_MASK_RAW_ANGLE_H  GENMASK(3, 0) /* bits 11:8 */
-> +#define AS5600_REG_RAW_ANGLE_L       0x0D
-> +#define AS5600_REG_ANGLE_H           0x0E
-> +#define     AS5600_MASK_ANGLE_H      GENMASK(3, 0) /* bits 11:8 */
-> +#define AS5600_REG_ANGLE_L           0x0F
-> +#define AS5600_REG_AGC               0x1A
-> +#define AS5600_REG_MAGN_H            0x1B
-> +#define     AS5600_MASK_MAGN_H       GENMASK(3, 0) /* bits 11:8 */
-> +#define AS5600_REG_MAGN_L            0x1C
-> +#define AS5600_REG_BURN              0xFF
-> +
-> +/* Combined 16-bit register addresses for clarity */
-
-Don't bother with this.  Just use the starting address defined
-above for the calls.  These to my mind just confuse things
-by implying there are 16 bit registers when there aren't.
-
-> +#define AS5600_REG_ZPOS              0x01
-> +#define AS5600_REG_MPOS              0x03
-> +#define AS5600_REG_RAW_ANGLE         0x0C
-> +#define AS5600_REG_ANGLE             0x0E
-> +
-> +/* Field masks for the entire 2 byte */
-
-As above, these are the only ones you should need for these
-(after stopping masking in debugfs interfaces).
-
-> +#define AS5600_FIELD_ZPOS            GENMASK(11, 0)
-> +#define AS5600_FIELD_MPOS            GENMASK(11, 0)
-> +#define AS5600_FIELD_RAW_ANGLE       GENMASK(11, 0)
-> +#define AS5600_FIELD_ANGLE           GENMASK(11, 0)
-> +
-> +struct as5600_priv {
-> +	struct i2c_client *client;
-> +	struct mutex lock;
-> +	u16 zpos;
-> +	u16 mpos;
-> +};
-> +
-> +static int as5600_read_raw(struct iio_dev *indio_dev,
-> +			   struct iio_chan_spec const *chan,
-> +			   int *val, int *val2, long mask)
-> +{
-> +	struct as5600_priv *priv = iio_priv(indio_dev);
-> +	u16 bitmask;
-> +	s32 ret;
-> +	u16 reg;
-> +
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_RAW:
-> +		if (chan->channel == 0) {
-> +			reg = AS5600_REG_RAW_ANGLE;
-> +			bitmask = AS5600_FIELD_RAW_ANGLE;
-
-What is the usecase for exposing this RAW angle?
-
-We often decide not to expose channels if they are just there
-for debug and aren't useful to userspace code. I'm not sure if
-that is true here or not.
-
-> +		} else {
-> +			reg = AS5600_REG_ANGLE;
-> +			bitmask = AS5600_FIELD_ANGLE;
-> +		}
-> +		ret = i2c_smbus_read_word_swapped(priv->client, reg);
-> +
-> +		if (ret < 0)
-> +			return ret;
-> +		*val = ret & bitmask;
-> +
-> +		return IIO_VAL_INT;
-> +
-> +	case IIO_CHAN_INFO_SCALE:
-> +		/* Always 4096 steps, but angle range varies between
-Wrap comments at 80 chars, not less than 70. Also
-		/*
-		 * Always 4096 ...
-		 * ...
-		 */
-
-For multiline comments in IIO (and most of the rest of the kernel).
-
-> +		 * 18 and 360 degrees.
-> +		 */
-> +		if (chan->channel == 0) {
-> +			/* Whole angle range = 2*pi / 4096 */
-> +			*val = 2 * 3141592;
-> +			*val2 = 4096000000;
-> +		} else {
-> +			s32 range;
-> +
-> +			/* MPOS - ZPOS defines the active angle selection */
-> +			/* Partial angle = (range / 4096) * (2*pi / 4096) */
-Use multi line comment syntax for htis.
-> +			mutex_lock(&priv->lock);
-> +			range = priv->mpos - priv->zpos;
-
-As mentioned below. I think reading these back form the device here makes more
-sense than caching them.  This is not normally a fast path as typically a userspace
-program only does this occasionally.
-
-
-> +			mutex_unlock(&priv->lock);
-> +			if (range <= 0)
-> +				range += 4096;
-> +
-> +			*val = range * 2 * 314159;
-> +			*val /= 4096;
-
-Why not push that 4096 into val2? Overflow or something else?  If its overflow
-state that here and provide a little info on why.
-
-> +			*val2 = 409600000;
-> +		}
-> +
-> +		return IIO_VAL_FRACTIONAL;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static ssize_t as5600_reg_access_read( as5600_reg_access_readstruct as5600_priv *priv,
-> +				      unsigned int reg, unsigned int *val)
-> +{
-> +	int ret;
-> +	u8 mask;
-> +
-> +	switch (reg) {
-> +	case AS5600_REG_ZMCO:
-> +		mask = AS5600_MASK_ZMCO;
-> +		break;
-> +	case AS5600_REG_ZPOS_H:
-> +		mask = AS5600_MASK_ZPOS_H;
-> +		break;
-> +	case AS5600_REG_MPOS_H:
-> +		mask = AS5600_MASK_MPOS_H;
-> +		break;
-> +	case AS5600_REG_MANG_H:
-> +		mask = AS5600_MASK_MANG_H;
-> +		break;
-> +	case AS5600_REG_CONF_H:
-> +		mask = AS5600_MASK_CONF_H;
-> +		break;
-> +	case AS5600_REG_STATUS:
-> +		mask = AAS5600_MASK_STATUSS5600_MASK_STATUS;
-> +		break;
-> +	case AS5600_REG_RAW_ANGLE_H:
-> +		mask = AS5600_MASK_RAW_ANGLE_H;
-> +		break;
-> +	case AS5600_REG_ANGLE_H:
-> +		mask = AS5600_MASK_ANGLE_H;
-> +		break;
-> +	case AS5600_REG_MAGN_H:
-> +		mask = AS5600_MASK_MAGN_H;
-> +		break;
-> +	case AS5600_REG_ZPOS_L:
-> +	case AS5600_REG_MPOS_L:
-> +	case AS5600_REG_MANG_L:
-> +	case AS5600_REG_CONF_L:
-> +	case AS5600_REG_RAW_ANGLE_L:
-> +	case AS5600_REG_ANGLE_L:
-> +	case AS5600_REG_AGC:
-> +	case AS5600_REG_MAGN_L:
-> +		mask = 0xFF;
-> +		break;
-> +	default:
-> +		/* Not a readable register */
-> +		return -EINVAL;
-> +	}
-> +
-> +
-> +	ret = i2c_smbus_read_byte_data(priv->client, reg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* because the chip may return garbage data in the unused bits */
-> +	*val = ret & mask;
-
-It's a debug interface only.  I don't think we care if unused bits
-are garbage.  More to the point they almost certainly are not. They
-are just undocumented. Potentially tied to 0 by maybe not.
-
-
-> +	return 0;
-> +}
-> +
-> +static ssize_t as5600_reg_access_write(struct as5600_priv *priv,
-> +				       unsigned int reg, unsigned int writeval)
-> +{
-> +	int ret;
-> +	u8 mask;
-> +
-> +	if (writeval > 0xFF)
-> +		return -EINVAL;
-> +
-> +	switch (reg) {
-> +	case AS5600_REG_ZPOS_H:
-> +		mask = AS5600_MASK_ZPOS_H;
-
-For debug write, this isn't our problem.  Also it is entirely possible someone
-wants to write to bits that aren't documented and we shouldn't prevent that.
-
-Debug interfaces let you poke things that are dangerous.
-
-
-> +		break;
-> +	case AS5600_REG_MPOS_H:
-> +		mask = AS5600_MASK_MPOS_H;
-> +		break;
-> +	case AS5600_REG_MANG_H:
-> +		mask = AS5600_MASK_MANG_H;
-> +		break;
-> +	case AS5600_REG_CONF_H:
-> +		mask = AS5600_MASK_CONF_H;
-> +		break;
-> +	case AS5600_REG_ZPOS_L:
-> +	case AS5600_REG_MPOS_L:
-> +	case AS5600_REG_MANG_L:
-> +	case AS5600_REG_CONF_L:
-> +	case AS5600_REG_BURN:
-> +		mask = 0xFF;
-> +		break;
-> +	default:
-> +		/* Not a writable register */
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = i2c_smbus_write_byte_data(priv->client, reg, writeval & mask);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* update priv->zpos and priv->mpos */
-> +	mutex_lock(&priv->lock);
-guard(mutex)(&priv->lock);
-simplifies this a little. Remember to include linux/cleanup.h as well as mutex.h for
-that.
-
-> +	switch (reg) {
-> +	case AS5600_REG_ZPOS_H:
-> +		priv->zpos = (priv->zpos & 0x00FF) | ((writeval & mask) << 8);
-
-This caching in driver seems like potential overkill for the relatively slow
-path places I think it is read back. Can you just query the hardware for these?
-Of if you need to cache it consider regmap/ regcache for doing so.
-
-> +		break;
-> +	case AS5600_REG_ZPOS_L:
-> +		priv->zpos = (priv->zpos & 0xFF00) | (writeval & mask);
-> +		break;
-> +	case AS5600_REG_MPOS_H:
-> +		priv->mpos = (priv->mpos & 0x00FF) | ((writeval & mask) << 8);
-> +		break;
-> +	case AS5600_REG_MPOS_L:
-> +		priv->mpos = (priv->mpos & 0xFF00) | (writeval & mask);
-> +		break;
-> +	}
-> +	mutex_unlock(&priv->lock);
-with guard() this goes).
-
-> +	return 0;
-> +}
-> +
-> +static int as5600_reg_access(struct iio_dev *indio_dev, unsigned int reg,
-> +			     unsigned int writeval, unsigned int *readval)
-> +{
-> +	struct as5600_priv *priv = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (readval) {
-> +		ret = as5600_reg_access_read(priv, reg, readval);
-
-Might as well return rather than having a local variable.
-
-> +	} else {
-> +		ret = as5600_reg_access_write(priv, reg, writeval);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct iio_chan_spec as5600_channels[] = {
-> +	{
-> +		.type = IIO_ANGL,
-> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-> +			BIT(IIO_CHAN_INFO_SCALE),
-Trivial but nice to align as.
-		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-				      BIT(IIO_CHAN_INFO_SCALE),
-
-as helps readability a tiny bit.
-
-> +		.indexed = 1,
-> +		.channel = 0,
-> +	},
-> +	{
-> +		.type = IIO_ANGL,
-> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-> +			BIT(IIO_CHAN_INFO_SCALE),
-Same here.
-
-> +		.indexed = 1,
-> +		.channel = 1,
-> +	},
-> +};
-
-> +
-> +static int as5600_probe(struct i2c_client *client)
-> +{
-> +	struct as5600_priv *priv;
-> +	struct iio_dev *indio_dev;
-> +	int ret;
-> +
-> +	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*priv));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	priv = iio_priv(indio_dev);
-> +	i2c_set_clientdata(client, indio_dev);
-
-I don't think this is every used.  If not drop setting it.
-
-> +	priv->client = client;
-> +	mutex_init(&priv->lock);
-For new code please use
-	ret = devm_mutex_init(&priv->lock);
-	if (ret)
-		return ret;
-
-Very small advantage if particular lock debugging is turned on.
-It used to not be worth the effort of calling mutex_destroy() but now
-there is this devm_ initializer it adds so little complexity we might
-as well enable that.
-
-> +
-> +	indio_dev->info = &as5600_info;
-> +	indio_dev->name = "as5600";
-> +	indio_dev->modes = INDIO_DIRECT_MODE;
-> +	indio_dev->channels = as5600_channels;
-> +	indio_dev->num_channels = ARRAY_SIZE(as5600_channels);
-> +
-> +	ret = i2c_smbus_read_byte_data(client, AS5600_REG_STATUS);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* No magnet present could be a problem. */
-
-Seems a bit more than could be.  Does it make sense to carry on if this
-happens?  I guess maybe there are physical systems in which the magnet
-is only sometime present? If there are then the warning is going to be
-a bit noisy.
-
-
-> +	if ((ret & AS5600_MASK_MD) == 0)
-> +		dev_warn(&client->dev, "Magnet not detected\n");
-> +
-> +	ret = i2c_smbus_read_word_swapped(client, AS5600_REG_ZPOS);
-> +	if (ret < 0)
-> +		return ret;
-> +	priv->zpos = ret & AS5600_FIELD_ZPOS;
-Prefer FIELD_GET() for this as then I don't need to check it is in lowest
-bits.
-> +
-> +	ret = i2c_smbus_read_word_swapped(client, AS5600_REG_MPOS);
-> +	if (ret < 0)
-> +		return ret;
-> +	priv->mpos = ret & AS5600_FIELD_MPOS;
-FIELD_GET() here as well.
-
-> +
-> +	return devm_iio_device_register(&client->dev, indio_dev);
-> +}
-> +
-> +static const struct i2c_device_id as5600_id[] = {
-> +	{ "as5600" },
-> +	{}
-	{ }
-
-To be consistent and in general this is the standard formatting I'm
-trying to encourage in IIO.
-
-> +};
-> +MODULE_DEVICE_TABLE(i2c, as5600_id);
-> +
-> +static const struct of_device_id as5600_match[] = {
-> +	{ .compatible = "ams,as5600" },
-> +	{ },
-No trailing comma for these 'terminating' entries as nothing
-should ever come after them.
-> +};
-> +MODULE_DEVICE_TABLE(of, as5600_match);
-> +
-> +static struct i2c_driver as5600_driver = {
-> +	.driver = {
-> +		.name = "as5600",
-> +		.of_match_table = as5600_match,
-> +	},
-> +	.probe = as5600_probe,
-> +	.id_table   = as5600_id,
-
-I'd prefer just using a single space before = as it is much
-easier to be consistent and void weird looking formatting like
-this.
-
-> +};
-> +
-> +module_i2c_driver(as5600_driver);
-> +
-> +MODULE_AUTHOR("Frank Zago <frank@zago.net>");
-> +MODULE_AUTHOR("Aditya Dutt <duttaditya18@gmail.com>");
-> +MODULE_DESCRIPTION("ams AS5600 Position Sensor");
-> +MODULE_LICENSE("GPL");
+diff --git a/drivers/iommu/generic_pt/iommu_pt.h b/drivers/iommu/generic_pt/iommu_pt.h
+index f32e81509f4f09..448c5796d4a861 100644
+--- a/drivers/iommu/generic_pt/iommu_pt.h
++++ b/drivers/iommu/generic_pt/iommu_pt.h
+@@ -162,6 +162,108 @@ phys_addr_t DOMAIN_NS(iova_to_phys)(struct iommu_domain *domain,
+ }
+ EXPORT_SYMBOL_NS_GPL(DOMAIN_NS(iova_to_phys), "GENERIC_PT_IOMMU");
+ 
++struct pt_iommu_dirty_args {
++	struct iommu_dirty_bitmap *dirty;
++	unsigned int flags;
++};
++
++static void record_dirty(struct pt_state *pts,
++			 struct pt_iommu_dirty_args *dirty,
++			 unsigned int num_contig_lg2)
++{
++	pt_vaddr_t dirty_len;
++
++	if (num_contig_lg2 != ilog2(1)) {
++		unsigned int index = pts->index;
++		unsigned int end_index = log2_set_mod_max_t(
++			unsigned int, pts->index, num_contig_lg2);
++
++		/* Adjust for being contained inside a contiguous page */
++		end_index = min(end_index, pts->end_index);
++		dirty_len = (end_index - index) *
++				log2_to_int(pt_table_item_lg2sz(pts));
++	} else {
++		dirty_len = log2_to_int(pt_table_item_lg2sz(pts));
++	}
++
++	if (dirty->dirty->bitmap)
++		iova_bitmap_set(dirty->dirty->bitmap, pts->range->va,
++				dirty_len);
++
++	if (!(dirty->flags & IOMMU_DIRTY_NO_CLEAR)) {
++		pt_entry_make_write_clean(pts);
++		iommu_iotlb_gather_add_range(dirty->dirty->gather,
++					     pts->range->va, dirty_len);
++	}
++}
++
++static inline int __read_and_clear_dirty(struct pt_range *range, void *arg,
++					 unsigned int level,
++					 struct pt_table_p *table)
++{
++	struct pt_state pts = pt_init(range, level, table);
++	struct pt_iommu_dirty_args *dirty = arg;
++	int ret;
++
++	for_each_pt_level_entry(&pts) {
++		if (pts.type == PT_ENTRY_TABLE) {
++			ret = pt_descend(&pts, arg, __read_and_clear_dirty);
++			if (ret)
++				return ret;
++			continue;
++		}
++		if (pts.type == PT_ENTRY_OA && pt_entry_is_write_dirty(&pts))
++			record_dirty(&pts, dirty,
++				     pt_entry_num_contig_lg2(&pts));
++	}
++	return 0;
++}
++
++/**
++ * read_and_clear_dirty() - Manipulate the HW set write dirty state
++ * @domain: Domain to manipulate
++ * @iova: IO virtual address to start
++ * @size: Length of the IOVA
++ * @flags: A bitmap of IOMMU_DIRTY_NO_CLEAR
++ * @dirty: Place to store the dirty bits
++ *
++ * Iterate over all the entries in the mapped range and record their write dirty
++ * status in iommu_dirty_bitmap. If IOMMU_DIRTY_NO_CLEAR is not specified then
++ * the entries will be left dirty, otherwise they are returned to being not
++ * write dirty.
++ *
++ * Context: The caller must hold a read range lock that includes @iova.
++ *
++ * Returns: -ERRNO on failure, 0 on success.
++ */
++int DOMAIN_NS(read_and_clear_dirty)(struct iommu_domain *domain,
++				    unsigned long iova, size_t size,
++				    unsigned long flags,
++				    struct iommu_dirty_bitmap *dirty)
++{
++	struct pt_iommu *iommu_table =
++		container_of(domain, struct pt_iommu, domain);
++	struct pt_iommu_dirty_args dirty_args = {
++		.dirty = dirty,
++		.flags = flags,
++	};
++	struct pt_range range;
++	int ret;
++
++#if !IS_ENABLED(CONFIG_IOMMUFD_DRIVER) || !defined(pt_entry_is_write_dirty)
++	return -EOPNOTSUPP;
++#endif
++
++	ret = make_range(common_from_iommu(iommu_table), &range, iova, size);
++	if (ret)
++		return ret;
++
++	ret = pt_walk_range(&range, __read_and_clear_dirty, &dirty_args);
++	PT_WARN_ON(ret);
++	return ret;
++}
++EXPORT_SYMBOL_NS_GPL(DOMAIN_NS(read_and_clear_dirty), "GENERIC_PT_IOMMU");
++
+ struct pt_iommu_collect_args {
+ 	struct iommu_pages_list free_list;
+ 	/* Fail if any OAs are within the range */
+@@ -1015,5 +1117,7 @@ EXPORT_SYMBOL_NS_GPL(pt_iommu_hw_info, "GENERIC_PT_IOMMU");
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("IOMMU Page table implementation for " __stringify(PTPFX_RAW));
+ MODULE_IMPORT_NS("GENERIC_PT");
++/* For iommu_dirty_bitmap_record() */
++MODULE_IMPORT_NS("IOMMUFD");
+ 
+ #endif  /* __GENERIC_PT_IOMMU_PT_H */
+diff --git a/include/linux/generic_pt/iommu.h b/include/linux/generic_pt/iommu.h
+index 0d59423024d57f..03a906fbe12a83 100644
+--- a/include/linux/generic_pt/iommu.h
++++ b/include/linux/generic_pt/iommu.h
+@@ -12,6 +12,7 @@
+ struct iommu_iotlb_gather;
+ struct pt_iommu_ops;
+ struct pt_iommu_driver_ops;
++struct iommu_dirty_bitmap;
+ 
+ /**
+  * DOC: IOMMU Radix Page Table
+@@ -182,6 +183,9 @@ struct pt_iommu_cfg {
+ 		struct iommu_domain *domain, unsigned long iova,               \
+ 		size_t pgsize, size_t pgcount,                                 \
+ 		struct iommu_iotlb_gather *iotlb_gather);                      \
++	int pt_iommu_##fmt##_read_and_clear_dirty(                             \
++		struct iommu_domain *domain, unsigned long iova, size_t size,  \
++		unsigned long flags, struct iommu_dirty_bitmap *dirty);        \
+ 	int pt_iommu_##fmt##_init(struct pt_iommu_##fmt *table,                \
+ 				  const struct pt_iommu_##fmt##_cfg *cfg,      \
+ 				  gfp_t gfp);                                  \
+@@ -202,6 +206,8 @@ struct pt_iommu_cfg {
+ 	.iova_to_phys = &pt_iommu_##fmt##_iova_to_phys, \
+ 	.map_pages = &pt_iommu_##fmt##_map_pages,       \
+ 	.unmap_pages = &pt_iommu_##fmt##_unmap_pages
++#define IOMMU_PT_DIRTY_OPS(fmt) \
++	.read_and_clear_dirty = &pt_iommu_##fmt##_read_and_clear_dirty
+ 
+ /*
+  * The driver should setup its domain struct like
+-- 
+2.43.0
 
