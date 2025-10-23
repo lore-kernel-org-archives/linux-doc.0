@@ -1,179 +1,273 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C178632AAAE
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 14:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19DF731D38E;
+	Thu, 23 Oct 2025 14:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761228078; cv=none; b=ShU5Z6KWcjq8u/YUco0rt8oNSYviqfz9xNG2nHmfjLzt2ykWKgpWN2xN2DwxpojGfeOz2IbVM1M6IFz6RKK2QMG1Sw48y9GL0im+1s0bt7c0UnbnfrwqsVdzF3iXc3bOdB/hLtOHu7QEbB6p6mCC9LxZwJot5c80ADkC8hVZ498=
+	t=1761228272; cv=none; b=Rmt3ivh7Ac172on4R1f/jarsg/gFVqca1a7odmCEQwduwkU4zveJwNbDGjOqkicudysBzMwZ//7kK2FCcRfDb7vShLQE8Yv9WdFtcC7mzxcz6FyCtKEzn6T/CAPevsUpLTmg6KjxzPQ70ggeVOdc9aRDwQBSLhqG7/LPl1dUY8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761228078; c=relaxed/simple;
-	bh=nf2ne/DcUThRcyjkcAtbjjiK8XPQU5PLVC7WSh7jfZU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hsmlktkvVed/rKcb9EL3dzKhRWRQU0kAfQB6fLewr7oz+l4IdI05I92sTRglZTE+YunF/X1jfRIRNJUbXn0xZpQMyoTZ7jqRFdMGNZlc35V5DQ3y5SIvLfWhdyY22DZj61LmQWdvf3dAXv+9NMU7oc9fN+4yam6ZCQ1fSc8bEyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FvgvWu7l; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FvgvWu7l"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b55735710f0so1328587a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 07:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761228075; x=1761832875; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=inXfddpf6Feyogc8n8Jl5cqVWZOSr51ivnMHY9v0Ey4=;
-        b=FvgvWu7lfkFsFHXEZtj4lw7glbTHzzUEGsEFkLBSyj5lOlrLDU1oghGofvy5n8eOsf
-         hNVds9VXo38wQYB6NTIGzXHSQxJqYajWlPt7009pp2gIii3hh6WwEU9ZD/I4QT7d2bea
-         WCWA56SQxCTKKATjTNzT+lP8oUtynF4+UfwgKPQjst0Xh/ycZHGg8SpB0lZqE/5jPJp6
-         CFTvHYr2ydcrrce3Dm0itC9rIq2bP6EIsKxFqfTiJrJTlg+JsT7q3befgm83FU6T6yNe
-         NI15GlfmkS+YcZs/EH0m47+UgRKGlt6IVvi766TFbKBUkqMBdAj7OK5mBSQiizp6e0mx
-         bTcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761228075; x=1761832875;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=inXfddpf6Feyogc8n8Jl5cqVWZOSr51ivnMHY9v0Ey4=;
-        b=PCRUTpHZR/OxC8G2gSn/8FMVO4BFx+lFrH4FuqX3zH+G4lxY/8oBZcqoeSqVefWK/l
-         Cri4MS3AiST78DXBnhQsPczVCbfl/uy4aXVsKG/9TeO0BkddjBDPkpemu7q1C88Lg4jM
-         OphVOxe9NDDevAnYEuaRfYDTskgH/xFWQG5frEe3B+MKznd5qG6vv44RhQh+aDisdHJn
-         6Bk6mGCieiJ5tHUFLXKLdWxj+Q0pTdrCrFDoktGLbXjdoLRhNJDvMM5F/4eqQOXNfdmf
-         EMTwAG1PciapHDr2I4Z5TqyQWwA6xQZ0JG1fD2jrjNFyZjZ4vmzRtb8xGY2KGy84Nm7o
-         +84w==
-X-Forwarded-Encrypted: i=1; AJvYcCV3VemDpTIZlG4ogB9123SbJIW2rP+UyLnI02gw7syR9Ui5AS8qANOesVr1qPXvo0CyfSTInP5hHec=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlNbohAnHTKghw9uRoY36oLSrGZD/JBLNbOh8qEVA3aZQcQSVx
-	nfhnTFMZVFdwfMRTa7Q+mUmyAMQn3cUUstIveEL/cgf6hLSaBQyXJ3P3k3R1Nf3CqWNU0kGGwaS
-	/+gKems0oFa9M+/Ec2RqyQN5hZA==
-X-Google-Smtp-Source: AGHT+IFIN8uFRC6EtqcEGeMEkYd8inzutN6W/XJij2WhQjtYZx5ArSxhlm3XOqfP/3yjcqmWzVtyJ1fSE/ev6eLgRw==
-X-Received: from pjnu4.prod.google.com ([2002:a17:90a:8904:b0:339:dc19:ae5d])
- (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a20:3956:b0:334:91ab:f182 with SMTP id adf61e73a8af0-334a85286f8mr35842433637.10.1761228074886;
- Thu, 23 Oct 2025 07:01:14 -0700 (PDT)
-Date: Thu, 23 Oct 2025 07:01:13 -0700
-In-Reply-To: <aPlpKbHGea90IebS@google.com>
+	s=arc-20240116; t=1761228272; c=relaxed/simple;
+	bh=LdEFzGAgWDyhRHeXYouOhUtUCFbNzY7zZHVrkrO0oyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVNKXZ/TJz3crME3+BGDuraEsb52Xs2A0i47Y4Z2lVQbiglu5zHUbFH09yzykofwlTbji9qzifEPLc+OsKXXwVkaFgZFqHbknfCW1AEcEdShdsLE3uSh7gEJPfViD7tEGGEyJKbUBEocRFZ5Px4M9NQV+q19ST4gAkcfBeD+VhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D1C91516;
+	Thu, 23 Oct 2025 07:04:22 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CA033F59E;
+	Thu, 23 Oct 2025 07:04:28 -0700 (PDT)
+Date: Thu, 23 Oct 2025 15:04:22 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>,
+	linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aPoqbXmmhlbPRIb7@e133380.arm.com>
+References: <aO/CEuyaIyZ5L28d@e133380.arm.com>
+ <dd5ba9e5-9809-4792-966a-e35368ab89f0@intel.com>
+ <aPJP52jXJvRYAjjV@e133380.arm.com>
+ <e788ca62-ec63-4552-978b-9569f369afd5@intel.com>
+ <aPZaTk97RC6sg+uQ@e133380.arm.com>
+ <aPZj1nDVEYmYytY9@agluck-desk3>
+ <aPearyfcnpJJ/e06@e133380.arm.com>
+ <aPf0OKwDZ4XbmVRB@agluck-desk3>
+ <aPjxAIudLd16aU4Z@e133380.arm.com>
+ <aPkEb4CkJHZVDt0V@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1760731772.git.ackerleytng@google.com> <8ee16fbf254115b0fd72cc2b5c06d2ccef66eca9.1760731772.git.ackerleytng@google.com>
- <2457cb3b-5dde-4ca1-b75d-174b5daee28a@arm.com> <diqz4irqg9qy.fsf@google.com>
- <diqzy0p2eet3.fsf@google.com> <aPlpKbHGea90IebS@google.com>
-Message-ID: <diqzv7k5emza.fsf@google.com>
-Subject: Re: [RFC PATCH v1 07/37] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
-From: Ackerley Tng <ackerleytng@google.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Steven Price <steven.price@arm.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
-	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
-	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
-	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
-	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
-	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
-	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
-	shakeel.butt@linux.dev, shuah@kernel.org, suzuki.poulose@arm.com, 
-	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
-	vkuznets@redhat.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
-	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
-	yuzenghui@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPkEb4CkJHZVDt0V@agluck-desk3>
 
-Sean Christopherson <seanjc@google.com> writes:
+Hi Tony,
 
-> On Wed, Oct 22, 2025, Ackerley Tng wrote:
->> Ackerley Tng <ackerleytng@google.com> writes:
->> 
->> Found another issue with KVM_CAP_MEMORY_ATTRIBUTES2.
->> 
->> KVM_CAP_MEMORY_ATTRIBUTES2 was defined to do the same thing as
->> KVM_CAP_MEMORY_ATTRIBUTES, but that's wrong since
->> KVM_CAP_MEMORY_ATTRIBUTES2 should indicate the presence of
->> KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2.
->
-> No?  If no attributes are supported, whether or not KVM_SET_MEMORY_ATTRIBUTES2
-> exists is largely irrelevant.
+On Wed, Oct 22, 2025 at 09:21:03AM -0700, Luck, Tony wrote:
+> Hi Dave,
+> 
+> On Wed, Oct 22, 2025 at 03:58:08PM +0100, Dave Martin wrote:
+> > Hi Tony,
+> > 
+> > On Tue, Oct 21, 2025 at 01:59:36PM -0700, Luck, Tony wrote:
 
-That's true.
+[...]
 
-> We can even provide the same -ENOTTY errno by
-> checking that _any_ attributes are supported, i.e. so that doing
-> KVM_SET_MEMORY_ATTRIBUTES2 on KVM without any support whatsoever fails in the
-> same way that KVM with code support but no attributes fails.
->
+> > <soapbox>
+> > 
+> > We could, in the same way that a vendor could wire a UART directly to
+> > the pins of a regular mains power plug.  They could stick a big label
+> > on it saying exactly how the pins should be hooked up to another low-
+> > voltage UART and not plugged into a mains power outlet... but you know
+> > what's going to happen.
+> 
+> The PDP 11/03 for undegraduate Comp Sci student use at my univeristy had allegedly
+> been student proofed against such things. Oral history said you could wire 240V
+> mains across input pins to get a 50 Hz clock. I didn't test this theory.
 
-IIUC KVM_SET_MEMORY_ATTRIBUTES doesn't fail with -ENOTTY now when there
-are no valid attributes.
-
-Even if there's no valid attributes (as in
-kvm_supported_mem_attributes() returns 0), it's possible to call
-KVM_SET_MEMORY_ATTRIBUTES with .attributes set to 0, which will be a
-no-op, but will return 0.
-
-I think this is kind of correct behavior since .attributes = 0 is
-actually a valid expression for "I want this range to be shared", and
-for a VM that doesn't support private memory, it's a valid expression.
+Now, there's an idea...
 
 
-The other way that there are "no attributes" would be if there are no
-/VM/ attributes, in which case KVM_SET_MEMORY_ATTRIBUTES, sent to as a
-vm ioctl, will return -ENOTTY.
+> > The whole point of a file-like interface is that the user doesn't (or
+> > shouldn't) have to craft I/O directly at the syscall level.  If they
+> > have to do that, then the reasons for not relying on ioctl() or a
+> > binary protocol melt away (like that UART).
+> > 
+> > Because the easy, unsafe way of working with these files almost always
+> > works, people are almost certainly going to use it, even if we tell
+> > them not to (IMHO).
+> > 
+> > </soapbox>
+> > 
+> > 
+> > That said, for practical purposes, the interface is reliable enough
+> > (for now).  We probably shouldn't mess with it unless we can come up
+> > with something that is clearly better.
+> > 
+> > (I have some ideas, but I think it's off-topic, here.)
+> 
+> Agreed off-topic ... but fixing it seems hard. What if I do:
+> 
+> # echo -n "L3:0=" > schemata
+> 
+> and then my control program dies?
 
-> In other words, I don't see why it can't do both.  Even if we can't massage the
-> right errno, I would much rather KVM_SET_MEMORY_ATTRIBUTES2 enumerate the set of
+Probably nothing?
 
-Did you mean KVM_CAP_MEMORY_ATTRIBUTES2 in the line above?
+In my hack for this, I buffered a partial line for each open struct file.
 
-> supported attributes than simply '1'.  E.g. we have no plans to support
-> KVM_SET_MEMORY_ATTRIBUTES on guest_memfd, and so returning simply '1' creates an
-> unwanted and unnecessary dependency.
->
+If the struct file survives the terminated program, something else
+could append more to the incomplete line through any fd still open on
+the struct file (as in my { { echo; ... echo; } >schememta; } shell
+example).
 
-Okay I'll switch this back to what it was.
+Otherwise, when the file is closed with an incomplete line, an error
+could be reported through close().  I implemented this, but it turns
+out not to be a magic bullet -- lots of software doesn't check the
+return value from close() / fclose(), and Linux's version of dup2()
+just silently loses close-time errors on the fd being clobbered.
+(dash, and probably other shells, undo redirections using dup2().
+Dupping the victim fd before the dup2(), so that it can be closed
+separately, can help -- as documented in the dup2() man page.  But as
+of today, most software probably doesn't do this.  Some OSes seem to
+have different dup2() behaviour that doesn't suffer from this problem.)
 
->> @@ -1617,4 +1618,15 @@ struct kvm_pre_fault_memory {
->>  	__u64 padding[5];
->>  };
->>  
->> +/* Available with KVM_CAP_MEMORY_ATTRIBUTES2 */
->> +#define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd6, struct kvm_memory_attributes2)
->
-> Please use the same literal number, 0xd2, as
->
->   #define KVM_SET_MEMORY_ATTRIBUTES              _IOW(KVMIO,  0xd2, struct kvm_memory_attributes)
->
-> The "final" ioctl number that userspace sees incorporates the directionality and
-> the size of the struct, i.e. KVM_SET_MEMORY_ATTRIBUTES and KVM_SET_MEMORY_ATTRIBUTES2
-> are guaranteed to be distinct even if they both use 0xd2 as the "minor" number.
->
+Anyway, all in all, I wasn't convinced that this approach created fewer
+problems than it solved...
 
-Will do.
+[...]
 
->> +
->> +struct kvm_memory_attributes2 {
->> +	__u64 address;
->> +	__u64 size;
->> +	__u64 attributes;
->> +	__u64 flags;
->> +	__u64 reserved[4];
->
-> Maybe be paranoid and reserve 12 u64s?
+> > > I'm starting to worry about this co-existence of old/new syntax for
+> > > Intel region aware. Life seems simple if there is only one MB_HW
+> > > connected to the legacy "MB". Updates to either will make both
+> > > appear with new values when the schemata is read. E.g.
+> > > 
+> > > # cat schemata
+> > > MB:0=100
+> > > #MB_HW=255
+> > > 
+> > > # echo MB:0=50 > schemata
+> > > 
+> > > # cat schemata
+> > > MB:0=50
+> > > #MB_HW=127
+> > > 
+> > > But Intel will have several MB_HW controls, one for each region.
+> > > [Schemata names TBD, but I'll just call them 0, 1, 2, 3 here]
+> > > 
+> > > # cat schemata
+> > > MB:0=100
+> > > #MB_HW0=255
+> > > #MB_HW1=255
+> > > #MB_HW2=255
+> > > #MB_HW3=255
+> > > 
+> > > If the user sets just one of the HW controls:
+> > > 
+> > > # echo MB_HW1=64
+> > > 
+> > > what should resctrl display for the legacy "MB:" line?
+> > >
+> > > -Tony
+> > 
+> > Erm, good question.  I hadn't though too carefully about the region-
+> > aware case.
+> > 
+> > I think it's reasonable to expect software that writes MB_HW<n>
+> > independently to pay attention only to these specific schemata when
+> > reading back -- a bit like accessing a C union.
+> > 
+> > # echo 'MB:0=100' >schemata
+> > # cat schemata
+> > ->
+> > 	MB:0=100
+> > 	# MB_HW:0=255
+> > 	# MB_HW0:0=255
+> > 	# MB_HW1:0=255
+> > 	# MB_HW2:0=255
+> > 	# MB_HW3:0=255
+> > 
+> > # echo 'MB:0=100' >schemata
+> > # cat schemata
+> > ->
+> > 	MB:0=50
+> > 	# MB_HW:0=128
+> > 	# MB_HW0:0=128
+> > 	# MB_HW1:0=128
+> > 	# MB_HW2:0=128
+> > 	# MB_HW3:0=128
+> > 
+> > # echo 'MB_HW:0=127' >schemata
+> > # cat schemata
+> > ->
+> > 	MB:0=50
+> > 	# MB_HW:0=127
+> > 	# MB_HW0:0=127
+> > 	# MB_HW1:0=127
+> > 	# MB_HW2:0=127
+> > 	# MB_HW3:0=127
+> > 
+> > # echo 'MB_HW1:0=64' >schemata
+> > # cat schemata
+> > ->
+> > 	MB:0=???
+> > 	# MB_HW:0=???
+> > 	# MB_HW0:0=127
+> > 	# MB_HW1:0=64
+> > 	# MB_HW2:0=127
+> > 	# MB_HW3:0=127
+> > 
+> > The rules for populating the ??? entries could be designed to be
+> > somewhat intuitive, or we could just do the easiest thing.
+> > 
+> > So, could we just pick one, fixed, region to read the MB_HW value from?
+> > Say, MB_HW0:
+> > 
+> > 	MB:0=50
+> > 	# MB_HW:0=127
+> > 	# MB_HW0:0=127
+> > 	# MB_HW1:0=64
+> > 	# MB_HW2:0=127
+> > 	# MB_HW3:0=127
+> > 
+> > Or take the average across all regions:
+> > 
+> > 	MB:0=44
+> > 	# MB_HW:0=111
+> > 	# MB_HW0:0=127
+> > 	# MB_HW1:0=64
+> > 	# MB_HW2:0=127
+> > 	# MB_HW3:0=127
+> > 
+> > The latter may be more costly or complex to implement, and I don't
+> > know whether it is really useful.  Software that knows about the
+> > MB_HW<n> entries also knows that once you have looked at these, MB_HW
+> > and MB tell you nothing else.
+> > 
+> > What do you think?
+> > 
+> > I'm wondering whether setting the MB_HW<n> independently may be quite a
+> > specialised use case, which not everyone will want/need to do, but
+> > that's an assumption on my part.
+> 
+> It's difficult to guess what users will want to do. But it is likely
+> the case that total available bandwidth to regions will be different
+> (local DDR > remote DDR > CXL). So while the system will boot up with
+> no throttling on any region, it may be useful to enforce more throttling
+> on access to the slower regions.
+> 
+> Rather than trying to make up some number to fill in the ?? for the MB:
+> line, another option would be to stop showing the legacy MB: line in schemata
+> as soon as the user shows they know about the direct HW access mode
+> by writing any of the HW lines.
+> 
+> Any sysadmin trying to mix and match legacy access with direct HW access
+> is going to run into problems very quickly. In the spirit of not giving
+> them the cable to connect mains to the UART, perhaps removing the
+> foot-gun from the table might be a good option?
+> 
+> -Tony
 
-Will do.
+Quite possibly.
+
+Ideally, we'd have some kind of generic interface, but (as with "MB")
+there's always the risk that the hardware evolves in directions that
+don't fit the abstraction.
+
+For now, I will try to refocus the discussion back onto the schema
+description topic.  I think that's probably the easiest thing to get
+nailed down before we try to figure out how to deal with the "shadow
+schema" issue.
+
+Cheers
+---Dave
