@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FB4287505;
-	Thu, 23 Oct 2025 16:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF832882A6;
+	Thu, 23 Oct 2025 16:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761235854; cv=none; b=tbDDSnvfP+0hAytd222bKa01SRMG/m2yTD7QwVcMEjRX+3q/rhHFwicukIYmFlX1Zo7l/l2xqqD2kbKjLJmQKGbwfyVZXvXqYX9fMVMjDDD7zg03IeU/omzCGFS/OY2a49jeA8WfP8LLf7+qyMjxJPjD4KD6Cf6uBQPePJnzry4=
+	t=1761235854; cv=none; b=XkzKh5P3VFIGe+wqQVi1s5SJqhbtyEZ+A/mSATGTp3opGx7jVNMR8e5y0YBRCk/RhwsY9ybpiFq9l7nB0hwBk2WfFc0BvAzBL1t3W+im1dXfMlovahfuJmyY35vKK9lqc/+ic1PTkIsXFgos/hJOSS1bD2NYYcT0ncwKA3QMSbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761235854; c=relaxed/simple;
-	bh=ay7LqayYFLYaK0WgZ03484UBz19Z5TEXubtEz0nzgM4=;
+	bh=GXP3AsEBJRlrI5Px1+f+ZXn0gQuTFpvOmI0BUCuE+yQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Usqux43Tl/vcNtX+qkhgi2fA78tIr6V9o5Mq7lswwNxxUupcjiQnSdvWWxyChe+wgllEtnbwGepu6KVsFOvVUjfuBbwxKuqnC7EZlvA1Z+VkIQ4GNX9gt2lD+Gn1/s5Iah8IG3feKrRckx50GcYgVlX8tvmS2MTWxIrqpjOcikY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tQYSKoZH; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=SSh5/HbNtTrpcqpLRHce2+z2kTo29joU09zOoVxmElmP9eNWrLMOmy7aGYgqvMJtgm0jJFJrSh7HvCiw3TGIJ95YFGqlRIwr1RWHFxdLj6LfWkhlVHq69MDBiHVAUxJagDDSV0Mv14n2isDRZw7Lpb+9IZj8CxQF7LppTSk/C3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Njn0NklU; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tQYSKoZH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D175E40B3D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Njn0NklU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C324540B41
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761235846; bh=3YvOTucfpeUEGbqlTx75y9PY+fjgWvNX5tL1PNjabvI=;
+	t=1761235849; bh=sR/lP58tIJyHcilyEmgV29zZ+b0N+5E3LuZI7egPUxA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tQYSKoZHyDFKuIF1vTN7m8+MGTmXzSjaWlM2pqNXsFVzK1UOlomSX9jzVIFHPwra4
-	 RWIAOZ9mwoWaJdgcmLQvK4ecdjKuGvSorL7S6sTwBO9c01mqBYL+PY08wvjR9mnn5w
-	 W+8/Um4kGhJUoUZlOTwk8lfwfM/5AXe6uDlwNBHcmhEx95ufP6dOrjtHJjNzsaCR4M
-	 ZZ02VHFvS5sg6jqQnqrov5F45r2T9ngrZnE9Z5gCUbl9Kz3mR0kCg36bIFc0z5sR7o
-	 lY70UcFCk4hoq9dqHAKyIeUpWo+XIpfWYdiI0OvjtXMF0HQE8CpwDWZwfhoDSHJJxs
-	 qj3uCD+HF1hPw==
+	b=Njn0NklUPqaRC9qVqAUr6hZFERBrcJKmZKCtjRw6O2y4cKFBMQp0Lw89kzppdOHoY
+	 FP3QSOajQSFGItXXfCqAdYDoYPDz39rwfBriHIM4DPw4S/YFCUBYv+PNcZ1QLCy2wE
+	 F+KgANVtBzJca+lu5d/3Mt0+cCe1BNDVx7+N86xntmo2Yk551dodGwouaXmn2WuXzt
+	 DQhq6wg7IQVaHeHkXWf5WphgvTdJ0gmu7iYbezxT7sloWVb2yh6xekoxJ+KUPaitin
+	 WjCwE6NYCV6opR3U2LpKAfZSy+ePMEzLbr7BH9/UhlWtH3AYkoe/6Nn3ZjjEG+SSYn
+	 3uWpD36V3VIUw==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id D175E40B3D;
-	Thu, 23 Oct 2025 16:10:45 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id C324540B41;
+	Thu, 23 Oct 2025 16:10:48 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -37,9 +37,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 04/10] docs: move scripts/documentation-file-ref-check to tools/docs
-Date: Thu, 23 Oct 2025 10:10:12 -0600
-Message-ID: <20251023161027.697135-5-corbet@lwn.net>
+Subject: [PATCH v2 08/10] docs: move split-man.pl to tools/docs
+Date: Thu, 23 Oct 2025 10:10:16 -0600
+Message-ID: <20251023161027.697135-9-corbet@lwn.net>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251023161027.697135-1-corbet@lwn.net>
 References: <20251023161027.697135-1-corbet@lwn.net>
@@ -49,91 +49,81 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add this script to the growing collection of documentation tools.
+...and update all references to it.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/Makefile                               | 4 ++--
- MAINTAINERS                                          | 3 +--
- scripts/sphinx-pre-install                           | 2 +-
- {scripts => tools/docs}/documentation-file-ref-check | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
- rename {scripts => tools/docs}/documentation-file-ref-check (99%)
+ Documentation/doc-guide/kernel-doc.rst                    | 6 +++---
+ Documentation/translations/it_IT/doc-guide/kernel-doc.rst | 2 +-
+ Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 6 +++---
+ {scripts => tools/docs}/split-man.pl                      | 0
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename {scripts => tools/docs}/split-man.pl (100%)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index b8795f704385..8704566d5197 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -8,7 +8,7 @@ subdir- := devicetree/bindings
- ifneq ($(MAKECMDGOALS),cleandocs)
- # Check for broken documentation file references
- ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
--$(shell $(srctree)/scripts/documentation-file-ref-check --warn)
-+$(shell $(srctree)/tools/docs/documentation-file-ref-check --warn)
- endif
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index dd5854b4131c..6eaf127c5cca 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -584,15 +584,15 @@ from the kernel git tree::
  
- # Check for broken ABI files
-@@ -167,7 +167,7 @@ endif # HAVE_SPHINX
- # work or silently pass without Sphinx.
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
  
- refcheckdocs:
--	$(Q)cd $(srctree);scripts/documentation-file-ref-check
-+	$(Q)cd $(srctree); tools/docs/documentation-file-ref-check
+ Some older versions of git do not support some of the variants of syntax for
+ path exclusion.  One of the following commands may work for those versions::
  
- cleandocs:
- 	$(Q)rm -rf $(BUILDDIR)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0f2d9ff01ae6..7ef1bdfa265b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7302,7 +7302,6 @@ P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
- F:	tools/docs/
--F:	scripts/documentation-file-ref-check
- F:	scripts/get_abi.py
- F:	scripts/kernel-doc*
- F:	scripts/lib/abi/*
-@@ -7342,7 +7341,7 @@ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
- F:	Documentation/sphinx/parse-headers.pl
--F:	scripts/documentation-file-ref-check
-+F:	tools/docs/
- F:	scripts/sphinx-pre-install
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
  
- DOCUMENTATION/ITALIAN
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b8474848df4e..c8cc370df076 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -406,7 +406,7 @@ class MissingCheckers(AncillaryMethods):
-         Right now, we still need Perl for doc build, as it is required
-         by some tools called at docs or kernel build time, like:
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
+diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+index bac959b8b7b9..91184d48e750 100644
+--- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
++++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
+@@ -604,4 +604,4 @@ Come utilizzare kernel-doc per generare pagine man
+ Se volete utilizzare kernel-doc solo per generare delle pagine man, potete
+ farlo direttamente dai sorgenti del kernel::
  
--            scripts/documentation-file-ref-check
-+            tools/docs/documentation-file-ref-check
+-  $ tools/docs/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :^tools) | scripts/split-man.pl /tmp/man
++  $ tools/docs/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :^tools) | tools/docs/split-man.pl /tmp/man
+diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+index fb2bbaaa85c1..7f20171259d0 100644
+--- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
++++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+@@ -484,16 +484,16 @@ kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/k
  
-         Also, checkpatch is on Perl.
-         """
-diff --git a/scripts/documentation-file-ref-check b/tools/docs/documentation-file-ref-check
-similarity index 99%
-rename from scripts/documentation-file-ref-check
-rename to tools/docs/documentation-file-ref-check
-index 408b1dbe7884..0cad42f6943b 100755
---- a/scripts/documentation-file-ref-check
-+++ b/tools/docs/documentation-file-ref-check
-@@ -17,7 +17,7 @@ my %false_positives = (
- );
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
  
- my $scriptname = $0;
--$scriptname =~ s,.*/([^/]+/),$1,;
-+$scriptname =~ s,tools/docs/([^/]+/),$1,;
+ 一些旧版本的git不支持路径排除语法的某些变体。
+ 以下命令之一可能适用于这些版本::
  
- # Parse arguments
- my $help = 0;
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
+ 
+   $ tools/docs/kernel-doc -man \
+     $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+-    | scripts/split-man.pl /tmp/man
++    | tools/docs/split-man.pl /tmp/man
+ 
+diff --git a/scripts/split-man.pl b/tools/docs/split-man.pl
+similarity index 100%
+rename from scripts/split-man.pl
+rename to tools/docs/split-man.pl
 -- 
 2.51.0
 
