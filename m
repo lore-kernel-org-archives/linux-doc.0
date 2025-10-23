@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794BBEEC0;
-	Thu, 23 Oct 2025 01:25:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270E820468D;
+	Thu, 23 Oct 2025 01:25:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761182740; cv=none; b=GtZuYCAwD8tkcWAie5hBeOURUqZEqVz4WM+uBlHWUSGTpe0RlmGNQavirXfoGW01AL1/Jtuzi8mylvWFI80okT+1+GiI3dMlPi6l4ke5C8UhFQ/Qd4lD2dj5V0dq0TlmkcA3Ho8SfW6k/6cAPXZ7Wqg72jfLgxaSUBI+Js0hzBw=
+	t=1761182743; cv=none; b=Q335jNEfkxjbcPLD373KKUIT9zghIxumfXz7TzGeWPDpM0gmivk/SblyErU7dyjsZg399xn3xQK2KMewK7YlOU8AangoJd5RedVoFzK2+TMmDfmHjA/R4yDkS30F/VrKr9VQs3PpZjlGbmGcqYvHz8sak7xJJw//9sgrZLrljGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761182740; c=relaxed/simple;
-	bh=5dAZqb/8nKzWGonIOSbPc0VMsx+iKGKnuvKbkmMuljY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xwf8v6y2qHMOZ8b7GX0hceMdeGsvZrjfJsTMXqmZmYULnRua/C+ARjecDbogesGYVnkfriomFUL6Eodf7HhvyBSAgkLhBX0Y8ROf5E73hwTSZV0Mwv2LkGaxSJFhAelHUdwOVm0gLJlXMcIAZBkk78+X72v7COfSyKw/v+n7kxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p5VsN2Tb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761182743; c=relaxed/simple;
+	bh=65cmnk/bFjxYU2YnQodxix5UeST3Nn+DSFfFevM1UkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mKDimG70jZG1Fvazc2ZzkG1990jlz8ypVx5BGb/S1HSl2CMtEC+XizHloapTDN0HuJ5a7OTtYRwoWgEVRaxYPDK/G3luvDPUvq9jGZy+lWBA2hzx/j6hse7TkFFhmvVzt7/pYFlkgHPogGo+Z2Euie3JPT+z41pYStF0425mQhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=seqwKdRe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p5VsN2Tb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D3AC4CEE7;
-	Thu, 23 Oct 2025 01:25:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="seqwKdRe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1143FC113D0;
+	Thu, 23 Oct 2025 01:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761182740;
-	bh=5dAZqb/8nKzWGonIOSbPc0VMsx+iKGKnuvKbkmMuljY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=p5VsN2TbC2z+vM835LYYIWswWOiEQ6xdRmtG1t7XCvXQBthUHQD9ldMl2vCRCmGR+
-	 FtOBnSJ1Uasrb35cEOosHVnRg1HeG22t8Q7NquQzTBlqF3eoLDcQ7P+hOlXAgoosfP
-	 vbc6jEIZ9llkw5ia3cgAfZa2vMWWmy11FXlagHmY7EwXKYkKAm8UAyZZw+ZgIiVRmy
-	 uiAqXUIecH4ayO+G397CA7tMAUsbWgGf1E8wuK4OwAUOBJG5I5412ud2ShTiiqhOTG
-	 J3wCFqYtDdsHsjIKmKfbo+2jiBMSTuHroHZGzJvwXzPF4La1o37djH9LFvovvuDM+2
-	 pDOY7sCbE04TA==
+	s=k20201202; t=1761182743;
+	bh=65cmnk/bFjxYU2YnQodxix5UeST3Nn+DSFfFevM1UkA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=seqwKdReZCx9ewGiYXyBY16OiRVxGlN2qhItsNVN4JGIPSx1mSoELriFDcSPxD3MU
+	 YJY2WnBCX7OKgsHEMtLs0tvjcteOHiNHrQAq9U3lEwN1Mou5+mU49PsBpejBzl0LhX
+	 Zo4gZHOUgWs3fqOsPEmm+gopm5CPAkb4RQFklQenHIM/9B9LY75GOXxG9MzT7ZmYq+
+	 g0AgIZOD1TYgBA2FKncrLq/5TUmGg+sRDsJjiISybVWdO0i4Qq8yFXD3W9/zMXOJFb
+	 /KevEqQqle25SCJNQt5iDRo8kXVa3kTwLkHvEu3O5Hyqf0UUMh7cecWR8kpWUmgyy4
+	 nQgPTEbp0olWw==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -35,92 +36,70 @@ Cc: SeongJae Park <sj@kernel.org>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Michal Hocko <mhocko@suse.com>,
 	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 0/9] mm/damon: support pin-point targets removal
-Date: Wed, 22 Oct 2025 18:25:24 -0700
-Message-ID: <20251023012535.69625-1-sj@kernel.org>
+Subject: [PATCH 4/9] Docs/admin-guide/mm/damon/usage: document obsolete_target file
+Date: Wed, 22 Oct 2025 18:25:28 -0700
+Message-ID: <20251023012535.69625-5-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251023012535.69625-1-sj@kernel.org>
+References: <20251023012535.69625-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-DAMON maintains the targets in a list, and allows committing only an
-entire list of targets having the new parameters.  Targets having same
-index on the lists are treated as matching source and destination
-targets.  If an existing target cannot find a matching one in the
-sources list, the target is removed.  This means that there is no way to
-remove only a specific monitoring target in the middle of the current
-targets list.
+Document the newly added obsolete_target DAMON sysfs file.
 
-Such pin-point target removal is really needed in some use cases,
-though.  Monitoring access patterns on virtual address spaces of
-processes that spawned from the same ancestor is one example.  If a
-process of the group is terminated, the user may want to remove the
-matching DAMON target as soon as possible, to save in-kernel memory
-usage for the unnecessary target data.  The user may also want to do
-that without turning DAMON off or removing unnecessary targets, to keep
-the current monitoring results for other active processes.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+Reviewed-by: Bijan Tabatabai <bijan311@gmail.com>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Extend DAMON kernel API and sysfs ABI to support the pin-point removal
-in the following way.  For API, add a new damon_target field, namely
-'obsolete'.  If the field on parameters commit source target is set, it
-means the matching destination target is obsolete.  Then the parameters
-commit logic removes the destination target from the existing targets
-list.  For sysfs ABI, add a new file under the target directory, namely
-'obsolete_target'.  It is connected with the 'obsolete' field of the
-commit source targets, so internally using the new API.
-
-Also add a selftest for the new feature.  The related helper scripts for
-manipulating the sysfs interface and dumping in-kernel DAMON status are
-also extended for this.  Note that the selftest part was initially
-posted as an individual RFC series [1], but now merged into this one.
-
-Bijan Tabatabai (bijan311@gmail.com) has originally reported this issue,
-and participated in this solution design on a GitHub issue [1] for DAMON
-user-space tool.
-
-Changes from RFC
-(https://lore.kernel.org/20251016214736.84286-1-sj@kernel.org)
-- Wordsmith commit messages
-- Add Reviewed-by: tags from Bijan
-- Add a kselftest for the functionality of the new feature
-  (https://lore.kernel.org/20251018204448.8906-1-sj@kernel.org)
-
-[1] https://github.com/damonitor/damo/issues/36
-
-SeongJae Park (9):
-  mm/damon/core: add damon_target->obsolete for pin-point removal
-  mm/damon/sysfs: test commit input against realistic destination
-  mm/damon/sysfs: implement obsolete_target file
-  Docs/admin-guide/mm/damon/usage: document obsolete_target file
-  Docs/ABI/damon: document obsolete_target sysfs file
-  selftests/damon/_damon_sysfs: support obsolete_target file
-  drgn_dump_damon_status: dump damon_target->obsolete
-  sysfs.py: extend assert_ctx_committed() for monitoring targets
-  selftests/damon/sysfs: add obsolete_target test
-
- .../ABI/testing/sysfs-kernel-mm-damon         |  7 +++
- Documentation/admin-guide/mm/damon/usage.rst  | 13 +++--
- include/linux/damon.h                         |  6 +++
- mm/damon/core.c                               | 10 +++-
- mm/damon/sysfs.c                              | 51 ++++++++++++++++++-
- tools/testing/selftests/damon/_damon_sysfs.py | 11 +++-
- .../selftests/damon/drgn_dump_damon_status.py |  1 +
- tools/testing/selftests/damon/sysfs.py        | 48 +++++++++++++++++
- 8 files changed, 140 insertions(+), 7 deletions(-)
-
-
-base-commit: a3e008fdd7964bc3e6d876491c202d476406ed59
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 98958975604d..d8a3d6e740b3 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -67,7 +67,7 @@ comma (",").
+     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
+     │ │ │ │ │ │ nr_regions/min,max
+     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
+-    │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target
++    │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target
+     │ │ │ │ │ │ │ :ref:`regions <sysfs_regions>`/nr_regions
+     │ │ │ │ │ │ │ │ :ref:`0 <sysfs_region>`/start,end
+     │ │ │ │ │ │ │ │ ...
+@@ -264,13 +264,20 @@ to ``N-1``.  Each directory represents each monitoring target.
+ targets/<N>/
+ ------------
+ 
+-In each target directory, one file (``pid_target``) and one directory
+-(``regions``) exist.
++In each target directory, two files (``pid_target`` and ``obsolete_target``)
++and one directory (``regions``) exist.
+ 
+ If you wrote ``vaddr`` to the ``contexts/<N>/operations``, each target should
+ be a process.  You can specify the process to DAMON by writing the pid of the
+ process to the ``pid_target`` file.
+ 
++Users can selectively remove targets in the middle of the targets array by
++writing non-zero value to ``obsolete_target`` file and committing it (writing
++``commit`` to ``state`` file).  DAMON will remove the matching targets from its
++internal targets array.  Users are responsible to construct target directories
++again, so that those correctly represent the changed internal targets array.
++
++
+ .. _sysfs_regions:
+ 
+ targets/<N>/regions
 -- 
 2.47.3
