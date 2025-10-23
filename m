@@ -1,77 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10213AC1C;
-	Thu, 23 Oct 2025 01:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5791DF25C
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 02:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761183919; cv=none; b=nIvsKPVeCrVZ7MW/FXLY1YU4D77aJxGJFiC1s+qoj4vSXO7A00KKk6d/ncosGm03PdMRUEMbgEBxFIYTy8TqEChcV8MZfNhuAMqp0RD+qWwmRa07zRa2766v5Dd8NSlHrpDyxqUyBL25dnyOfO1XkCJdJ7I1w0S5JccNz5MX1fU=
+	t=1761188125; cv=none; b=Gb+obVNKurwn8IXV08BJv1eL9MY05EDMV7NkypvareR+8i/hpB9XQeWUXxy6HLdA8TQwTJPlaE8P6Yt6LNXQ1UzD8w3AzShP8YnN0+FreP5nnah3BaxIFd0T2Hca58fkjNAZq+P/NccUphG4LLsrH6+AfFKftfl8AJz8FSRIWfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761183919; c=relaxed/simple;
-	bh=ttnZlZqD9AOwVWY0BumPMO3jxsgOx+axuNso15oTxPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mUPq1w5Byi0oy0B5nhcN1nWmxBJefDHOBKHKISvecWUbQsHAnb48kwnl4yjaKtrCnc+Ju/jvcup3/vsjy3KXNo23OLEmIujIVKO5hSAh0HOm+lx8QLQS7bky40OR2xT2/eGG1TgdU3WzA3ysvCCB6kErNZEXtrNBxgA27L8VcaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wp0mT1xM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761188125; c=relaxed/simple;
+	bh=RTUk2WSlE0halvN9moYsr3H7Bj2oinnqonBwfh8+6Wo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NXVB8HfRdDu4vPtdrvbxsyrd+U35sJLYUXizHIzXOwpF1KBUNzqWTOMISWOJMh7qTwXltd94fau1yu54vF57UsDt6F/Kt34dY9/r7YKQ0JhYcMWCdFMA3HI/9/4iE/aDk7H5MV2JK/4DlNSsdF8Zs5TCkYT9qHc9AeuQXDqoRiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OozcGfgb; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wp0mT1xM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE5CC4CEE7;
-	Thu, 23 Oct 2025 01:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761183919;
-	bh=ttnZlZqD9AOwVWY0BumPMO3jxsgOx+axuNso15oTxPQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Wp0mT1xMf13zTLvjPiHx+Hippwo2+RHMf+Jnzo43L43VLesc/Os6jufVCDCVpFXqD
-	 9oYfuVjvi89+zpFOf5pZ916b2wmMGAGZ99WvdCprYQrQ81wPwJP3MwZBAP/fJgCx2T
-	 AZIwkR5CAMtSVZLBMqw03tn+r4+4DJnFmyOKKXAjum8SmnwPn4dZVxVoSAhGF6ifuJ
-	 QUbnw4+ZRfm/FwA4L6Q2GD0gOB0c+rh2Dq5lh+x1f993Z5G4wQFpF536f++eD9s/z8
-	 wmfYpXsGzU/3Iz3gG7afkY1h6aECjrWjtbSqw0T+21atRbsEJwgMfZk2Czajqjq4iS
-	 g7mfULbqTyz8A==
-Date: Wed, 22 Oct 2025 18:45:17 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?QXNiasO4cm4=?= Sloth =?UTF-8?B?VMO4bm5lc2Vu?=
- <ast@fiberby.net>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Chia-Yu Chang
- <chia-yu.chang@nokia-bell-labs.com>, Chuck Lever <chuck.lever@oracle.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, Simon Horman
- <horms@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 0/7] ynl: add ignore-index flag for
- indexed-array
-Message-ID: <20251022184517.55b95744@kernel.org>
-In-Reply-To: <20251022182701.250897-1-ast@fiberby.net>
-References: <20251022182701.250897-1-ast@fiberby.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OozcGfgb"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-78f3bfe3f69so298524b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 19:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761188123; x=1761792923; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7a6TkCx3t9Jt6uhfJfOsOowa2UNIpvCOCiP3SP22cv8=;
+        b=OozcGfgbZ/akCWzE3KuQNjePE2bGA67nHohMB6jf1IwuZIfFHXj6kzgpa5vCCzlj/K
+         OcCo9Pf+4BJLkiEcloalfeDrJqCCt43FpuJRrodT073aXGVC5ymlcEcufxrZVHyUnTtY
+         BJ+hbxcChUzuIvmkZRFoBTaj7gc4tIRNFu8C5MFkdIVou6LpbUwpT88gM9lanVt2VfBO
+         qbR3N0+uAbn0g3PLKGBG2/0YUsYUMfXoCAWqEveX2uKahNpi2x/iJ7zguiKzgq0aRqF8
+         K6PnKhBG2PuGH16LtSCW6IUnUIgn90FVv3Nj0tYhhGKjXtJHjqBZG5RCABia9YeUGA/p
+         nOqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761188123; x=1761792923;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7a6TkCx3t9Jt6uhfJfOsOowa2UNIpvCOCiP3SP22cv8=;
+        b=d8Qlkk4DQY/lppkd1b9XUwnIB5DG4NxGBnx9uIRGY6bluMQ7/DriX3oGl8foTWnMIg
+         8A1emyEw38dZDR37Ucj/rv7ZXfGipAqKq8K3bATMw8QFjvp6RdhMg7+caOSURUWIwnad
+         YallTtibXl00QXFsnhheP7Rd5ZNJa+0ih5Lh+lONrv4xMG29eQYxrnVqm5tC505YAmUV
+         tRCowsf4x+pNCsqBYyrTTT1kAGU7WcvPNgy47eYAmIKpusjIGCjhGnbqopD+qQL6YNgB
+         xKzDxNBe2LfgvtCLg5NodJkIBm9W3IXIEFH//DebTUze+ml9m6TWmp0VIfRSkoMIyXQW
+         dYFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVP831/Zsq8/aL/mEY/frUpJs+CGfN0bDv87JbhfXBzmoCUirtcwq6DGWXMpM+oA+ZpVXPAH3M0lok=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm6p4dgvC4G5v42X0HeB3cbwDBp4Dse5/dbTcnyHPHU/MPSYog
+	zW2jTCSq8k5QDDst8lqDcbvOA3fam+bh2oywoAiYxeEE+CPgAickHHyX
+X-Gm-Gg: ASbGncsBprpfYD9hVitlKA5aasFLoSVblwhpfXoTnNOaWud9TwlQu7LfAhazZFid2oy
+	8ezLRHPWMzUjuBaKldRKPytQpb+lhxkd4AJ8fgbEC3GQpLsu47h6r9DM6FYfKigrL1l/U0jymMt
+	NGqQPeRUH64360mpAuQzRciYK47fCNMH7pbsBw7vcqQn+QdHpdsEBtPWh5H9+nB4980hjU+VZqU
+	kR//FgnfIU5UajsnnhGDvlxIrZZKOiqutQUy0+aKnxjutdGwWj19DyCmX6H7NXHkezvf3y8DAij
+	z3oBZ7oTDBeMeJiO4aoAuE3+cj8DLT+EcipjziGEvXMJnVqq8Ob+UusNGeHFK99YoOL2aLisoVc
+	gRV0vFtw70BkWck8mW+Rq3nl1ZsFKBBJqc2Af3ZYVOv5omNEW3dOWPT3D0vwz1yTpHcoMIpbZDi
+	E4DJ4=
+X-Google-Smtp-Source: AGHT+IEOQiYULCLq6q4ZVfIhojbHQnwTfEVVcHH2POX69CUfxseKjeD0bXzVVcovqZOKoBJphJtWfQ==
+X-Received: by 2002:a05:6a20:28a5:b0:334:a99f:6b83 with SMTP id adf61e73a8af0-334a99f6ed6mr21844436637.2.1761188122652;
+        Wed, 22 Oct 2025 19:55:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6cf4c4d83dsm558850a12.18.2025.10.22.19.55.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 19:55:21 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7A94D41E88E1; Thu, 23 Oct 2025 09:55:19 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Avery Pennarun <apenwarr@worldvisions.ca>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next v2] Documentation: ARCnet: Update obsolete contact info
+Date: Thu, 23 Oct 2025 09:55:06 +0700
+Message-ID: <20251023025506.23779-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.1.dirty
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5672; i=bagasdotme@gmail.com; h=from:subject; bh=RTUk2WSlE0halvN9moYsr3H7Bj2oinnqonBwfh8+6Wo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBk/p8Txv3y16+DXnd0XsxgdO461LeZx09BP2NnFsGq5t er1e9YLOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRUxGMDB3fW/JPbZgY7dF3 svFTgF/0B+F8Rv5pf59O9uFsLLPiDWNk6NlTks2su+iNtcu12tfv3wp5F2UXX3w+9/yCA+1vlfX D2AE=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Oct 2025 18:26:53 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
-> This patchset adds a way to mark if an indedex array is just an
-> array, and the index is uninteresting, as previously discussed[1].
->=20
-> Which is the case in most of the indexed-arrays in the current specs.
->=20
-> As the name indexed-array kinda implies that the index is interesting,
-> then I am using `ignore-index` to mark if the index is unused.
->=20
-> This adds some noise to YNL, and as it's only few indexed-arrays which
-> actually use the index, then if we can come up with some good naming,
-> it may be better to reverse it so it's the default behaviour.
+ARCnet docs states that inquiries on the subsystem should be emailed to
+Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
+since the beginning of kernel git history and the subsystem is now
+maintained by Michael Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add
+arcnet and take maintainership"). In addition, there used to be a
+dedicated ARCnet mailing list but its archive at epistolary.org has been
+shut down. ARCnet discussion nowadays take place in netdev list.
 
-C code already does this, right? We just collect the attributes
-completely ignoring the index. So why do we need to extend the
-spec.
+Update contact information.
 
-Have you found any case where the index matters and can be
-non-contiguous (other than the known TC kerfuffle).
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
 
-FWIW another concept is what TypeValue does.
-"Inject" the index into the child nest as an extra member.
-Most flexible but also prolly a PITA for user space to init those
-for requests.
+  - s/hesistate/hesitate/ (Simon)
+
+netdev maintainers: Since there is no reply from Avery on v1, can this patch
+be acked and merged into net-next?
+
+[1]: https://lore.kernel.org/linux-doc/20250912042252.19901-1-bagasdotme@gmail.com/
+
+ Documentation/networking/arcnet-hardware.rst | 13 +++---
+ Documentation/networking/arcnet.rst          | 48 +++++---------------
+ 2 files changed, 17 insertions(+), 44 deletions(-)
+
+diff --git a/Documentation/networking/arcnet-hardware.rst b/Documentation/networking/arcnet-hardware.rst
+index 3bf7f99cd7bbf0..e75346f112920a 100644
+--- a/Documentation/networking/arcnet-hardware.rst
++++ b/Documentation/networking/arcnet-hardware.rst
+@@ -4,6 +4,8 @@
+ ARCnet Hardware
+ ===============
+ 
++:Author: Avery Pennarun <apenwarr@worldvisions.ca>
++
+ .. note::
+ 
+    1) This file is a supplement to arcnet.txt.  Please read that for general
+@@ -13,9 +15,9 @@ ARCnet Hardware
+ 
+ Because so many people (myself included) seem to have obtained ARCnet cards
+ without manuals, this file contains a quick introduction to ARCnet hardware,
+-some cabling tips, and a listing of all jumper settings I can find. Please
+-e-mail apenwarr@worldvisions.ca with any settings for your particular card,
+-or any other information you have!
++some cabling tips, and a listing of all jumper settings I can find. If you
++have any settings for your particular card, and/or any other information you
++have, do not hesitate to :ref:`email to netdev <arcnet-netdev>`.
+ 
+ 
+ Introduction to ARCnet
+@@ -3226,9 +3228,6 @@ Settings for IRQ Selection (Lower Jumper Line)
+ Other Cards
+ ===========
+ 
+-I have no information on other models of ARCnet cards at the moment.  Please
+-send any and all info to:
+-
+-	apenwarr@worldvisions.ca
++I have no information on other models of ARCnet cards at the moment.
+ 
+ Thanks.
+diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking/arcnet.rst
+index 82fce606c0f0bc..cd43a18ad1494b 100644
+--- a/Documentation/networking/arcnet.rst
++++ b/Documentation/networking/arcnet.rst
+@@ -4,6 +4,8 @@
+ ARCnet
+ ======
+ 
++:Author: Avery Pennarun <apenwarr@worldvisions.ca>
++
+ .. note::
+ 
+    See also arcnet-hardware.txt in this directory for jumper-setting
+@@ -30,18 +32,7 @@ Come on, be a sport!  Send me a success report!
+ 
+ (hey, that was even better than my original poem... this is getting bad!)
+ 
+-
+-.. warning::
+-
+-   If you don't e-mail me about your success/failure soon, I may be forced to
+-   start SINGING.  And we don't want that, do we?
+-
+-   (You know, it might be argued that I'm pushing this point a little too much.
+-   If you think so, why not flame me in a quick little e-mail?  Please also
+-   include the type of card(s) you're using, software, size of network, and
+-   whether it's working or not.)
+-
+-   My e-mail address is: apenwarr@worldvisions.ca
++----
+ 
+ These are the ARCnet drivers for Linux.
+ 
+@@ -59,23 +50,14 @@ ARCnet 2.10 ALPHA, Tomasz's all-new-and-improved RFC1051 support has been
+ included and seems to be working fine!
+ 
+ 
++.. _arcnet-netdev:
++
+ Where do I discuss these drivers?
+ ---------------------------------
+ 
+-Tomasz has been so kind as to set up a new and improved mailing list.
+-Subscribe by sending a message with the BODY "subscribe linux-arcnet YOUR
+-REAL NAME" to listserv@tichy.ch.uj.edu.pl.  Then, to submit messages to the
+-list, mail to linux-arcnet@tichy.ch.uj.edu.pl.
+-
+-There are archives of the mailing list at:
+-
+-	http://epistolary.org/mailman/listinfo.cgi/arcnet
+-
+-The people on linux-net@vger.kernel.org (now defunct, replaced by
+-netdev@vger.kernel.org) have also been known to be very helpful, especially
+-when we're talking about ALPHA Linux kernels that may or may not work right
+-in the first place.
+-
++ARCnet discussions take place on netdev. Simply send your email to
++netdev@vger.kernel.org and make sure to Cc: maintainer listed in
++"ARCNET NETWORK LAYER" heading of Documentation/process/maintainers.rst.
+ 
+ Other Drivers and Info
+ ----------------------
+@@ -523,17 +505,9 @@ can set up your network then:
+ It works: what now?
+ -------------------
+ 
+-Send mail describing your setup, preferably including driver version, kernel
+-version, ARCnet card model, CPU type, number of systems on your network, and
+-list of software in use to me at the following address:
+-
+-	apenwarr@worldvisions.ca
+-
+-I do send (sometimes automated) replies to all messages I receive.  My email
+-can be weird (and also usually gets forwarded all over the place along the
+-way to me), so if you don't get a reply within a reasonable time, please
+-resend.
+-
++Send mail following :ref:`arcnet-netdev`. Describe your setup, preferably
++including driver version, kernel version, ARCnet card model, CPU type, number
++of systems on your network, and list of software in use.
+ 
+ It doesn't work: what now?
+ --------------------------
+
+base-commit: 26ab9830beabda863766be4a79dc590c7645f4d9
+-- 
+An old man doll... just what I always wanted! - Clara
+
