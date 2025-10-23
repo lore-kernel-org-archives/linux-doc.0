@@ -1,182 +1,279 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EC829A2;
-	Thu, 23 Oct 2025 00:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1982FEACD;
+	Thu, 23 Oct 2025 00:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761177874; cv=none; b=fl4WiELQek+2MU/0jpTlxKXrKgBeTp7aKHzOjm/7PHW1bEhX2ed4zUHr0/NIM0eNGtCDcIhxGCLNZA0QHQY1O+sVa9EbWS4ugfnhxo3XTgUTeHgpMc41Lp+q0qz0Ck91rTfvcBajXqqGb73AFHyYnBkn04KCCC6QIRoxLmeKlBE=
+	t=1761178152; cv=none; b=jrJeGTumqZIP/nEHS3sObuoWud7gO0P/VI0/wdiD/Zw/S1y1LD/XQik5/zXSvAsE5m4aiXUiu7F1tmyOgUZTlcAQb6e9aj5bXugBbE0gjCZhV0msv16iOiSGR71Uj6yqdmsbOm29MwGknJ75Y2Ya40+59j5VJMf2dGVMYSSMays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761177874; c=relaxed/simple;
-	bh=R7sNaw4y/sEBbeMQ9YD6iGrdQApY+snp9f5pwr/so7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOjz2Y/o/F3waVUuKPLm4BiR2D5HZNXwSaIfJMkCTVuCVu60VdnOYfUQf0CEOoKf+oKrnKuZqQtKsBTyY6zLzIuZGxhUM4Btm+illBD6mtqvq66M/7fom9jj6pCvb3EVebqqAJeeLPUPwmBy/bjz3tkrfPqszwKNMsYhu6uOQc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3jBWO5N; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761178152; c=relaxed/simple;
+	bh=vCz8WiAq/PiG2iOCDmerY0sUy0nHqJY1FRkBgAlBoEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iMC10QHjbwo4UAtSRcX28SlzKdCNOqpDjORP0cH9L6NWXgfy2a8B9Ubpkutca0KSF4OJ3A08IEIgWOVHw9E4shypdpLSF+/g65bLiE1yUYhCwPr2wbVmF8j26RlHX4xAE5RNeTAqncpMJhouPEFYLyXPIP6TX8ULNTmIpVQyod4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GFQKLLtt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3jBWO5N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761177873; x=1792713873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R7sNaw4y/sEBbeMQ9YD6iGrdQApY+snp9f5pwr/so7s=;
-  b=h3jBWO5Nr21elAaaquD9VtwOU0FED2CjuiDurhmd32Enrpu8AstOo+pP
-   U0+1MVm566JInYp2z+ICcPe5IgsJhiMf8wScDEjhdIbJhif8Ge/DWpVO5
-   R4I5AT7HxW8OB2GJh/o8PXRd6IiryYFX0HLI3W9zTBCMLAlBiuXLI4l39
-   dVvFna2TG/pxVPs1W6PIq9m5vjyooD5nKCKemW/N6adNYS38/azgDSB0O
-   f0vDTVtsnPsTgFk1tE0VNdvhsY+wZS5+aMiZax9tNm6cnGkJ8HgEZwh5r
-   waPmdAJvhBu7wefDj9SKIqKna+joabx71wKZxjazctquFd3qy8hCqvw+w
-   A==;
-X-CSE-ConnectionGUID: 9p1xJsDKSauBDWIdZXhB9A==
-X-CSE-MsgGUID: Gultst/rS2qMsYrifdH/Kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63433945"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63433945"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 17:04:32 -0700
-X-CSE-ConnectionGUID: RQ5X8IvDSJW+shKWJ/XzaQ==
-X-CSE-MsgGUID: SUBhFPknQIWpRfmqleoJzg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183179024"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Oct 2025 17:04:27 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBiob-000CqZ-2B;
-	Thu, 23 Oct 2025 00:04:25 +0000
-Date: Thu, 23 Oct 2025 08:03:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, quic_yingdeng@quicinc.com,
-	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
-	Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>,
-	Jinlong Mao <jinlong.mao@oss.qualcomm.com>
-Subject: Re: [PATCH v3] stm: class: Add MIPI OST protocol support
-Message-ID: <202510230717.u8tTLt9x-lkp@intel.com>
-References: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GFQKLLtt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B650C4CEE7;
+	Thu, 23 Oct 2025 00:09:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761178152;
+	bh=vCz8WiAq/PiG2iOCDmerY0sUy0nHqJY1FRkBgAlBoEQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GFQKLLtt4hSpToub39Br6yoKbtONyv6XQOSOd+0sSIzW0KG96XK8TCXqg4ac131io
+	 TNFMvfyoWS5K5aEJAzxCfD8qHLfqpHlLoeF6i0IrGmBgZc11/sz5+X0vL8PHPPHJpC
+	 hT536r2JXoeYKlC3xMVFhlrjk23FMTqKyHR7qvBCd46EQwarSEK4CRAYHZzXRhgKfo
+	 tejGhaIawfC7amIheQT5JdCWBuxLtnxyamJHizG4XkmgUbGZVPNEwOLP/Dt+3hsohk
+	 aDwTcY6Ock7QPQwTsPH/Hi6J4fe2M9i62KQ9AsWPnswp5jxKzB3C3jNxQzwJE9UTdD
+	 YlPnzmZVwanBg==
+Date: Wed, 22 Oct 2025 17:09:09 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Dragos Tatulea <dtatulea@nvidia.com>
+Cc: Mina Almasry <almasrymina@google.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, netdev@vger.kernel.org, Andrew Lunn
+ <andrew@lunn.ch>, davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald
+ Hunter <donald.hunter@gmail.com>, Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Stanislav
+ Fomichev <sdf@fomichev.me>, Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, Jian Shen
+ <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Jijie Shao
+ <shaojijie@huawei.com>, Sunil Goutham <sgoutham@marvell.com>, Geetha
+ sowjanya <gakula@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark
+ Bloch <mbloch@nvidia.com>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Joe
+ Damato <joe@dama.to>, David Wei <dw@davidwei.uk>, Willem de Bruijn
+ <willemb@google.com>, Breno Leitao <leitao@debian.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: [PATCH net-next v4 00/24][pull request] Queue configs and large
+ buffer providers
+Message-ID: <20251022170909.70f1d1e7@kernel.org>
+In-Reply-To: <avwfxfpogp7u7ef5wqrfkqsgvzmnytxblwul7e53eaje3zyqyc@7wvlrocyre6j>
+References: <cover.1760364551.git.asml.silence@gmail.com>
+	<20251013105446.3efcb1b3@kernel.org>
+	<CAHS8izOupVhkaZXNDmZo8KzR42M+rxvvmmLW=9r3oPoNOC6pkQ@mail.gmail.com>
+	<20251014184119.3ba2dd70@kernel.org>
+	<CAHS8izOnzxbSuW5=aiTAUja7D2ARgtR13qYWr-bXNYSCvm5Bbg@mail.gmail.com>
+	<20251016184031.66c92962@kernel.org>
+	<avwfxfpogp7u7ef5wqrfkqsgvzmnytxblwul7e53eaje3zyqyc@7wvlrocyre6j>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Yingchao,
+On Wed, 22 Oct 2025 13:17:43 +0000 Dragos Tatulea wrote:
+> On Thu, Oct 16, 2025 at 06:40:31PM -0700, Jakub Kicinski wrote:
+> > On Wed, 15 Oct 2025 10:44:19 -0700 Mina Almasry wrote:  
+> > > I think what you're saying is what I was trying to say, but you said
+> > > it more eloquently and genetically correct. I'm not familiar with the
+> > > GRO packing you're referring to so. I just assumed the 'buffer sizes
+> > > actually posted to the NIC' are the 'buffer sizes we end up seeing in
+> > > the skb frags'.  
+> > 
+> > I don't think that code path exists today, buffers posted are frags
+> > in the skb. But that's easily fixable.
+> >   
+> > > I guess what I'm trying to say in a different way, is: there are lots
+> > > of buffer sizes in the rx path, AFAICT, at least:
+> > > 
+> > > 1. The size of the allocated netmems from the pp.
+> > > 2. The size of the buffers posted to the NIC (which will be different
+> > > from #1 if the page_pool_fragment_netmem or some other trick like
+> > > hns3).
+> > > 3. The size of the frags that end up in the skb (which will be
+> > > different from #2 for GRO/other things I don't fully understand).
+> > > 
+> > > ...and I'm not sure what rx-buf-len should actually configure. My
+> > > thinking is that it probably should configure #3, since that is what
+> > > the user cares about, I agree with that.
+> > > 
+> > > IIRC when I last looked at this a few weeks ago, I think as written
+> > > this patch series makes rx-buf-len actually configure #1.  
+> > 
+> > #1 or #2. #1 for otx2. For the RFC bnxt implementation they were
+> > equivalent. But hns3's reading would be that it's #2.
+> > 
+> > From user PoV neither #1 nor #2 is particularly meaningful.
+> > Assuming driver can fragment - #1 only configures memory accounting
+> > blocks. #2 configures buffers passed to the HW, but some HW can pack
+> > payloads into a single buf to save memory. Which means that if previous
+> > frame was small and ate some of a page, subsequent large frame of
+> > size M may not fit into a single buf of size X, even if M < X.
+> > 
+> > So I think the full set of parameters we should define would be
+> > what you defined as #1 and #2. And on top of that we need some kind of
+> > min alignment enforcement. David Wei mentioned that one of his main use
+> > cases is ZC of a buffer which is then sent to storage, which has strict
+> > alignment requirements. And some NICs will internally fragment the
+> > page.. Maybe let's define the expected device behavior..
+> > 
+> > Device models
+> > =============
+> > Assume we receive 2 5kB packets, "x" means bytes from first packet,
+> > "y" means bytes from the second packet.
+> > 
+> > A. Basic-scatter
+> > ----------------
+> > Packet uses one or more buffers, so 1:n mapping between packets and
+> > buffers.
+> >                        unused space
+> >                       v
+> >  1kB      [xx] [xx] [x ] [yy] [yy] [y ]
+> > 16kB      [xxxxx            ] [yyyyy             ]
+> > 
+> > B. Multi-packet
+> > ---------------
+> > The configurations above are still possible, but we can configure 
+> > the device to place multiple packets in a large page:
+> >  
+> >                  unused space
+> >                 v
+> > 16kB, 2kB [xxxxx |yyyyy |...] [..................]
+> >       ^
+> >       alignment / stride
+> > 
+> > We can probably assume that this model always comes with alignment
+> > cause DMA'ing frames at odd offsets is a bad idea. And also note
+> > that packets smaller that alignment can get scattered to multiple
+> > bufs.
+> > 
+> > C. Multi-packet HW-GRO
+> > ----------------------
+> > For completeness, I guess. We need a third packet here. Assume x-packet
+> > and z-packet are from the same flow and GRO session, y-packet is not.
+> > (Good?) HW-GRO gives us out of order placement and hopefully in this
+> > case we do want to pack:
+> > 
+> > 16kB, 2kB [xxxxxzzzzz |.......] [xxxxx.............]
+> >                      ^
+> >       alignment / stride
+> >   
+>                                    ^^^^^
+>                                    is this y?
 
-kernel test robot noticed the following build errors:
+Yes, my bad
 
-[auto build test ERROR on atorgue-stm32/stm32-next]
-[also build test ERROR on linus/master v6.18-rc2 next-20251022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Not sure I understand this last representation: if x and z are 5kB
+> packets each and the stride size is 2kB, they should occupy 5 strides:
+> 
+> 16kB, 2kB [xx|xx|xz|zz|zz|.......] [yy|yy|y |............]
+> 
+> I think I understand the point, just making sure that I got it straight.
+> Did I?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yingchao-Deng/stm-class-Add-MIPI-OST-protocol-support/20251022-152642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20251022071834.1658684-1-yingchao.deng%40oss.qualcomm.com
-patch subject: [PATCH v3] stm: class: Add MIPI OST protocol support
-config: i386-randconfig-013-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230717.u8tTLt9x-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230717.u8tTLt9x-lkp@intel.com/reproduce)
+Yes, that's right. I was trying to (poorly) express that the alignment
+is not:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230717.u8tTLt9x-lkp@intel.com/
+  16kB, 2kB [xx|xx|x |zz|zz|z |.....] [yy|yy|y |............]
 
-All errors (new ones prefixed by >>):
+IOW that HW-GRO is expected to pack (at least by default).
 
->> drivers/hwtracing/stm/p_ost.c:201:13: error: call to undeclared function 'task_tgid_nr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     201 |         hdr.tgid        = task_tgid_nr(current);
-         |                           ^
-   drivers/hwtracing/stm/p_ost.c:172:6: warning: unused variable 'i' [-Wunused-variable]
-     172 |         int i;
-         |             ^
-   1 warning and 1 error generated.
+> > End of sidebar. I think / hope these are all practical buffer layouts
+> > we need to care about.
+> > 
+> > 
+> > What does user care about? Presumably three things:
+> >  a) efficiency of memory use (larger pages == more chance of low fill)
+> >  b) max size of a buffer (larger buffer = fewer iovecs to pass around)
+> >  c) alignment
+> > I don't think we can make these map 1:1 to any of the knobs we discussed
+> > at the start. (b) is really neither #1 (if driver fragments) nor #2 (if
+> > SW GRO can glue back together).
+> > 
+> > We could simply let the user control #1 - basically user control
+> > overrides the places where driver would previously use PAGE_SIZE.
+> > I think this is what Stan suggested long ago as well.
+> >
+> > But I wonder if user still needs to know #2 (rx-buf-len) because
+> > practically speaking, setting page size >4x the size of rx-buf-len
+> > is likely a lot more fragmentation for little extra aggregation.. ?  
+> So how would rx-buf-len be configured then? Who gets to decide if not the
+> user: the driver or the kernel?
 
+Driver.
 
-vim +/task_tgid_nr +201 drivers/hwtracing/stm/p_ost.c
+> I don't understand what you mean by "setting page size >4x the size of
+> rx-buf-len". I thought it was the other way around: rx-buf-len is an
+> order of page size. Or am I stuck in the mindset of the old proposal?
 
-   154	
-   155	static ssize_t
-   156	notrace ost_write(struct stm_data *data, struct stm_output *output,
-   157			  unsigned int chan, const char *buf, size_t count,
-   158			  struct stm_source_data *source)
-   159	{
-   160		unsigned int c = output->channel + chan;
-   161		unsigned int m = output->master;
-   162		const unsigned char nil = 0;
-   163		u32 header = DATA_HEADER;
-   164		struct trc_hdr {
-   165			u16 version;
-   166			u16 magic;
-   167			u32 cpu;
-   168			u64 timestamp;
-   169			u64 tgid;
-   170		} hdr;
-   171		ssize_t sz;
-   172		int i;
-   173		struct ost_output *op = output->pdrv_private;
-   174	
-   175		/*
-   176		 * Identify the source by entity type.
-   177		 * If entity type is not set, return error value.
-   178		 */
-   179		if (op->node.entity_type)
-   180			header |= ost_entity_value[op->node.entity_type];
-   181		else
-   182			return -EINVAL;
-   183	
-   184		/*
-   185		 * STP framing rules for OST frames:
-   186		 *   * the first packet of the OST frame is marked;
-   187		 *   * the last packet is a FLAG with timestamped tag.
-   188		 */
-   189		/* Message layout: HEADER / DATA / TAIL */
-   190		/* HEADER */
-   191		sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
-   192				  4, (u8 *)&header);
-   193		if (sz <= 0)
-   194			return sz;
-   195	
-   196		/* DATA */
-   197		hdr.version	= STM_MAKE_VERSION(0, 3);
-   198		hdr.magic	= STM_HEADER_MAGIC;
-   199		hdr.cpu		= raw_smp_processor_id();
-   200		hdr.timestamp = sched_clock();
- > 201		hdr.tgid	= task_tgid_nr(current);
-   202		sz = stm_data_write(data, m, c, false, &hdr, sizeof(hdr));
-   203		if (sz <= 0)
-   204			return sz;
-   205	
-   206		sz = stm_data_write(data, m, c, false, buf, count);
-   207	
-   208		/* TAIL */
-   209		if (sz > 0)
-   210			data->packet(data, m, c, STP_PACKET_FLAG,
-   211				STP_PACKET_TIMESTAMPED, 0, &nil);
-   212	
-   213		return sz;
-   214	}
-   215	
+Yes, rx-buf-len is a good match for model A (basic-scatter).
+But in other models it becomes a bit difficult to define the exact
+semantics. 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > Tho, admittedly I think user only needs to know max-rx-buf-len
+> > not necessarily set it.
+> > 
+> > The last knob is alignment / reuse. For allowing multiple packets in
+> > one buffer we probably need to distinguish these cases to cater to
+> > sufficiently clever adapters:
+> >  - previous and next packets are from the same flow and
+> >    - within one GRO session
+> >    - previous had PSH set (or closed the GRO for another reason,
+> >      this is to allow realigning the buffer on GRO session close)
+> >   or
+> >    - the device doesn't know further distinctions / HW-GRO
+> >  - previous and next are from different flows
+> > And the actions (for each case separately) are one of:
+> >  - no reuse allowed (release buffer = -1?)
+> >  - reuse but must align (align to = N)
+> >  - reuse don't align (pack = 0)
+> >   
+> I am assuming that different HW will support a subset of these
+> actions and/or they will apply differently in each case (hence the 4
+> knobs?).
+
+Yup! All the knobs are optional, we can also define extra ones if use
+cases come up and HW can support it. Hopefully we can get selftests 
+to validate the devices behave as configured.
+
+> For example, in mlx5 the actions would work only for the second case
+> (at the end of a GRO session).
+
+Nice, I think that's the most useful one.
+
+Not sure whether we should define all 4 from the start, or just
+document them as a "plan", what the implicit default is expected 
+to be (e.g. HW-GRO packs within a session) and then add as HW/users 
+come around.
+
+> > So to restate do we need:
+> >  - "page order" control
+> >  - max-rx-buf-len
+> >  - 4 alignment knobs?
+> >  
+> We do need at least 1 alignment knob.
+> 
+> > Corner cases
+> > ============
+> > I. Non-power of 2 buffer sizes
+> > ------------------------------
+> > Looks like multiple devices are limited by width of length fields,
+> > making max buffer size something like 32kB - 1 or 64kB - 1.
+> > Should we allow applications to configure the buffer to 
+> > 
+> >     power of 2 - alignment 
+> > 
+> > ? It will probably annoy the page pool code a bit. I guess for now
+> > we should just make sure that uAPI doesn't bake in the idea that
+> > buffers are always power of 2.  
+> What if the hardware uses a log scheme to represent the buffer
+> length? Then it would still need to align down to the next power of 2?
+
+Yes, that's fine, pow-of-2 should obviously work. I was trying to say
+that we shouldn't _require_ power-of-2 in uAPI, because devices with
+are limited to (power-of-2 - 1) would strand ~half of the max length.
+
+> > II. Fractional page sizes
+> > -------------------------
+> > If the HW has max-rx-buf-len of 16k or 32k, and PAGE_SIZE is 64k
+> > should we support hunking devmem/iouring into less than a PAGE_SIZE?  
+
+Thanks for the comments!
