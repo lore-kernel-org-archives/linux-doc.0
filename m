@@ -1,31 +1,74 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950372F616A;
-	Thu, 23 Oct 2025 10:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F58430AD1D
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 10:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761214886; cv=none; b=KwtFTj8wK8AXSRKcrgm19wLq+rOLu6jVsNb+NCKKM1cMDB1EJDz6JqQB8DX5zqKs2D7T6cW2V+3SaNypijhbMIwMAS1TV+f8F1IpCWmxQ9yK134dvYlHBVIJjnBiOY3/flcwIVPJnTV1CO1pTblaDEEtvDhV13DalZmpIukYRuE=
+	t=1761215065; cv=none; b=mUSHmXk/xZGDVH/IBlgzi67WEDAFDiqmS3Yxw3LhdFi53m0PTnEZRJs65jgiglS9fNwwfO07mRUw078n9in11zTvZrEBnXjb4zshwth0VrnUAtoiRgY3Y/yqI1dirb3ef++10G8myBNjFoN7eeKNI8KwzASu9IniYTVn8yvOpVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761214886; c=relaxed/simple;
-	bh=R3QwOkS821VUkwPcZU9o5USpIzukaU7IMUQXZZZ/dh4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=VIMSK+FfGltXQbUVKDIhzvrfl/D/ntOgwiF3c1fEx/G43euZb1Qp70jpf2qU/LWDi7H4rog+RLpc8H+jkcBfg6HUeaEZq9xf92UxPzhATSMxRtWngDBjf2rJEUEq17vI5zogkKQ251KvUhvMvPxz+QwFp3uWCgv/mGQ3XoCTlnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cshmg52Tyz6J79X;
-	Thu, 23 Oct 2025 18:17:39 +0800 (CST)
-Received: from mscpeml500004.china.huawei.com (unknown [7.188.26.250])
-	by mail.maildlp.com (Postfix) with ESMTPS id 181F214025A;
-	Thu, 23 Oct 2025 18:21:21 +0800 (CST)
-Received: from [10.123.122.223] (10.123.122.223) by
- mscpeml500004.china.huawei.com (7.188.26.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 23 Oct 2025 13:21:20 +0300
-Message-ID: <58174e6d-f473-4e95-b78e-7a4a9711174e@huawei.com>
-Date: Thu, 23 Oct 2025 13:21:20 +0300
+	s=arc-20240116; t=1761215065; c=relaxed/simple;
+	bh=JIzZvR0IM5/lqs80BT7Oz1VCJ8+Q0TiAdIgYrZiCFOU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KPqoHDYYGid5otfezHZBJ2btMuumoI6Xkfq8Gh9Ha0uXhT3YKXg3MEUHvG4a5HBDQtf+gyaldhq9vnIB4VTtSFpIu5LHKT3WmR+RPJyvCfk6XBWOZgsZpHd5KvPDGIt/I4nqixDQVaR2igGebDLdrhQZVLcoh5rdEoFyrCxrAeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jILm570E; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jILm570E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761215062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1/xMKYfvMu1YGz7qL96V/7BwEt8aejHjZ0on8OqbaxM=;
+	b=jILm570E4m+p6SMHB5ffJXHZmy1uvw7oUJi75UAKWC2TR7UkRoBy7JPXZRJeW4PGWVlugy
+	cOnRjOMJvqLOwTF4SwBbulFZ0RfRlm7MWWhKUrSo52W8yDMMlx09Te3TrRJuSED0HB+pc5
+	t32jMmk0gzHofdhYBx5JbmpPAmtja4U=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-110-4L3nli_wNNWZWyfB7VBQrA-1; Thu, 23 Oct 2025 06:24:20 -0400
+X-MC-Unique: 4L3nli_wNNWZWyfB7VBQrA-1
+X-Mimecast-MFC-AGG-ID: 4L3nli_wNNWZWyfB7VBQrA_1761215059
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4721b4f3afbso2496215e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 03:24:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761215059; x=1761819859;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1/xMKYfvMu1YGz7qL96V/7BwEt8aejHjZ0on8OqbaxM=;
+        b=hs8njldtIaZzihUGbKbrKtsHamzW2w1JIEDgPnjv7A2JlZYXgmnpbxd2ScWfegTaqJ
+         V9xPFMEvv3q6bCWgNV8uMItlPyQDWgJs5wogmAGLxrLI+uiAJOk9nUFMOmShrDQuN4J5
+         caNBRESpUcej7ZgOBUxiM3JPslaEP9p3BvzzQFa0amtE29xWIL7BjFhcrY0L3oGQjPT4
+         Hy/LmsTjEHsqfzE3HqjusvnMzauxP/sDIvsktgMG3XKmnarNoQi/6sxb7GbeTdJNALAv
+         sHmRhtLMyGnnNqYvozVdPOIvQETBZGDsF4X+gUEddf0OJ67i9GHHc2n/dhDJizxR9UqT
+         il2g==
+X-Forwarded-Encrypted: i=1; AJvYcCXov3GFeuQiqb6h4JXETKSQ2O2wphyUYYc0OjhQgWgZXoc49D0x5gcqAErEvzz04AnQwdnjiclnr+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7ofowlPDw3FVsImecbiM2lXNDXWidLvjsva1EkRnHtRuJgqrC
+	cNXHM2Bmo/V3ioFg12iw6Qmt0a4FowbuAYqPMwBWvkwBVZZGb9qPy4KLCVWpju5rjwNI1Kp5SxO
+	IIIgmabwwJ094hIPKg0C/6WJnqLNLgyNLsMU0YzdGAp43D0V8b22qge58nlXu8w==
+X-Gm-Gg: ASbGnctl2SQa9sXF59FqNt4ni6eRgR2sZMzjVo2G55401b+yvVxgQ7KRXQ56WU5Mdmi
+	dWjmnm50AwH4GwvdMjNLtOLGSYFYI5zigJ5KsuFD8n0EiU3i1MfengXgSLNVSXf+UG6xMNJArX5
+	0hozOZqVfIttfz80yWEOVLUqFkvnnMF5OdY3rpGqLf1vUY9BYxDnED5wfPOVJuy2SKmKM6Zd/mG
+	ycB+o8w+3uW8GwevmBJ990R/INbcZrbsCfQZ7RHoxzOdMvsavD9bLdMag2W0Fyt2BdRP70ejzdp
+	qXM/5Z5PvdA7dlwnCSHc5KxdNiqYSR4GasFzxBlMDqM9/IODv0WUlMmdehL/oPgEkWebcH1pExH
+	qXI9Xv+EFlxwVkDpMrHt9rz1pmamlv+iWGYSxI3t7Gvq/TkQipWksaMsrbI10HV4jVHw3QMI7CA
+	I9FWuiUuSHrpmW4XcDMgVDJ5/f6B4=
+X-Received: by 2002:a05:600c:870b:b0:471:9da:5252 with SMTP id 5b1f17b1804b1-47117919c1cmr189577965e9.29.1761215059438;
+        Thu, 23 Oct 2025 03:24:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHjH/mlHW++27nIjpsj7VgD+B0CKlZFUwUCNHGxzHcP9BXP5cXJRmKaKsGoIUZvaeLFPPT93g==
+X-Received: by 2002:a05:600c:870b:b0:471:9da:5252 with SMTP id 5b1f17b1804b1-47117919c1cmr189577335e9.29.1761215058948;
+        Thu, 23 Oct 2025 03:24:18 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3? (p200300d82f4e3200c99da38b3f3ad4b3.dip0.t-ipconnect.de. [2003:d8:2f4e:3200:c99d:a38b:3f3a:d4b3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c428dafesm87035605e9.6.2025.10.23.03.24.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 03:24:18 -0700 (PDT)
+Message-ID: <14f96ff9-9c96-43d3-8588-0730d26a0f87@redhat.com>
+Date: Thu, 23 Oct 2025 12:24:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,141 +76,122 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
-Subject: Re: [PATCH net-next 1/8] ipvlan: Implement learnable L2-bridge
-To: Simon Horman <horms@kernel.org>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <andrey.bokhanko@huawei.com>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
-	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>
-References: <20251021144410.257905-1-skorodumov.dmitry@huawei.com>
- <20251021144410.257905-2-skorodumov.dmitry@huawei.com>
- <aPjo76T8c8SbOB04@horms.kernel.org>
+Subject: Re: [PATCH v22 00/28] riscv control-flow integrity for usermode
+To: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Christian Brauner <brauner@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+ Zong Li <zong.li@sifive.com>, Charles Mirabile <cmirabil@redhat.com>
+References: <20251022-v5_user_cfi_series-v22-0-fdaa7e4022aa@rivosinc.com>
+ <aPl3vr-mYljA7Dse@debug.ba.rivosinc.com>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-In-Reply-To: <aPjo76T8c8SbOB04@horms.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: mscpeml500004.china.huawei.com (7.188.26.250) To
- mscpeml500004.china.huawei.com (7.188.26.250)
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aPl3vr-mYljA7Dse@debug.ba.rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22.10.2025 17:23, Simon Horman wrote:
-> On Tue, Oct 21, 2025 at 05:44:03PM +0300, Dmitry Skorodumov wrote:
->> Now it is possible to create link in L2E mode: learnable
->> bridge. The IPs will be learned from TX-packets of child interfaces.
-> Is there a standard for this approach - where does the L2E name come from?
+On 23.10.25 02:33, Deepak Gupta wrote:
+> I don't think I am sending that many patches. It's 28 patches.
+> I did send v21 using same smtp settings on my end.
+> 
+> Although since this week whenever I am sending patch series, after 14th/15th
+> patch, I start getting below error for all recipients.
+> 
+> """
+> The user you are trying to contact is receiving mail at a rate that\n
+> 4.2.1 prevents additional messages from being delivered. Please resend your\n
+> 4.2.1 message at a later time. If the user is able to receive mail at that\n
+> 4.2.1 time, your message will be delivered. For more information, go to\n
+> 4.2.1  https://support.google.com/mail/?p=ReceivingRate 98e67ed59e1d1-33dfb7f8310sm153460a91.5 - gsmtp')
+> """
+> 
+> I did try "git config --local sendmail.smtpReloginDelay 60", it doesn't seem to
+> help. If anyone has faced this and knows how to get around that'll be helpful.
+> In the meanwhile, I'll keep figuring it out on what really changed this week.
 
-Actually, I meant "E" here as "Extended". But more or less standard naming - is "MAC NAT" - "Mac network address translation". I discussed a bit naming with LLM, and it suggested name "macsnat".. looks like  it is a better name. Hope it is ok, but I don't mind to rename if anyone has better idea
+I got that as well a couple of days ago after patch #16, it's annoying 
+and I did not figure out easily which gmail user to blame.
 
-> ...
->
-> It is still preferred in networking code to linewrap lines
-> so that they are not wider than 80 columns, where than can be done without
-> reducing readability. Which appears to be the case here.
->
-> Flagged by checkpatch.pl --max-line-length=80
-...
-> Please don't use the inline keyword in .c files
+After git-send-email failed halfway through, I decided to just send the 
+remaining emails with --in-reply-to="" giving it the message ID of the 
+cover letter.
 
-Thank you, this will be fixed
+References: is in that case still messed up for the resends, but at 
+least all emails show up properly in the same thread.
 
->> +static void ipvlan_addr_learn(struct ipvl_dev *ipvlan, void *lyr3h,
->> +			      int addr_type)
->> +{
->> +	void *addr = NULL;
->> +	bool is_v6;
->> +
->> +	switch (addr_type) {
->> +#if IS_ENABLED(CONFIG_IPV6)
->> +	/* No need to handle IPVL_ICMPV6, since it never has valid src-address */
->> +	case IPVL_IPV6: {
->> +		struct ipv6hdr *ip6h;
->> +
->> +		ip6h = (struct ipv6hdr *)lyr3h;
->> +		if (!is_ipv6_usable(&ip6h->saddr))
-> It is preferred to avoid #if / #ifdef in order to improve compile coverage
-> (and, I would argue, readability).
-..
-> In this case I think that can be achieved by changing the line above to:
->
-> 		if (!IS_ENABLED(CONFIG_IPV6) || !is_ipv6_usable(&ip6h->saddr))
->
-> I think it would be interesting to see if a similar approach can be used
-> to remove other #if CONFIG_IPV6 conditions in this file, and if successful
-> provide that as a clean-up as the opening patch in this series.
->
-> However, without that, I can see how one could argue for the approach
-> you have taken here on the basis of consistency.
->
+I had to take care of the CC list, which was annoying as well.
 
-Hmmmm.... this raises a complicated for me questions of testing this refactoring: 
+-- 
+Cheers
 
-- whether IPv6 specific functions (like csum_ipv6_magic(), register_inet6addr_notifier()) are available if kernel is compiled without CONFIG_IPV6
-
-- ideally the code should be retested with kernel without CONFIG_IPV6
-
-This looks like a separate work that requires more or less additional efforts...
-
-> static int ipvlan_xmit_mode_l2(struct sk_buff *skb, struct net_device *dev)
->>  {
->> -	const struct ipvl_dev *ipvlan = netdev_priv(dev);
->> -	struct ethhdr *eth = skb_eth_hdr(skb);
->> -	struct ipvl_addr *addr;
->>  	void *lyr3h;
->> +	struct ipvl_addr *addr;
->>  	int addr_type;
->> +	bool same_mac_addr;
->> +	struct ipvl_dev *ipvlan = netdev_priv(dev);
->> +	struct ethhdr *eth = skb_eth_hdr(skb);
-> I realise that the convention is not followed in the existing code,
-> but please prefer to arrange local variables in reverse xmas tree order -
-> longest line to shortest.
-I fixed all my changes to follow this style, except one - where it seems a bit unnatural to to declare dependent variable before "parent" variable. Hope it is ok.
->> +	    ether_addr_equal(eth->h_source, dev->dev_addr)) {
->> +		/* ignore tx-packets from host */
->> +		goto out_drop;
->> +	}
->> +
->> +	same_mac_addr = ether_addr_equal(eth->h_dest, eth->h_source);
->> +
->> +	lyr3h = ipvlan_get_L3_hdr(ipvlan->port, skb, &addr_type);
->>  
->> -	if (!ipvlan_is_vepa(ipvlan->port) &&
->> -	    ether_addr_equal(eth->h_dest, eth->h_source)) {
->> -		lyr3h = ipvlan_get_L3_hdr(ipvlan->port, skb, &addr_type);
->> +	if (ipvlan_is_learnable(ipvlan->port)) {
->> +		if (lyr3h)
->> +			ipvlan_addr_learn(ipvlan, lyr3h, addr_type);
->> +		/* Mark SKB in advance */
->> +		skb = skb_share_check(skb, GFP_ATOMIC);
->> +		if (!skb)
->> +			return NET_XMIT_DROP;
-> I think that when you drop packets a counter should be incremented.
-> Likewise elsewhere in this function.
-The counter appears to be handled in parent function - in ipvlan_start_xmit()
->> +	addr = ipvlan_addr_lookup(port, lyr3h, addr_type, true);
->> +	if (addr) {
->> +		int ret, len;
->> +
->> +		ipvlan_skb_crossing_ns(skb, addr->master->dev);
->> +		skb->protocol = eth_type_trans(skb, skb->dev);
->> +		skb->pkt_type = PACKET_HOST;
->> +		ipvlan_mark_skb(skb, port->dev);
->> +		len = skb->len + ETH_HLEN;
->> +		ret = netif_rx(skb);
->> +		ipvlan_count_rx(ipvlan, len, ret == NET_RX_SUCCESS, false);
->>
->> This fails to build because ipvlan is not declared in this scope.
->> Perhaps something got missed due to an edit?
-Oops, really. Compilation was fixed in later patches.
->> +
->> +out:
->> +	dev_kfree_skb(skb);
->> +no_mem:
->> +	return 0; // actually, ret value is ignored
-> Maybe, but it seems to me that the return values
-> should follow that of netif_receive_skb_core().
-Agree.. will be fixed.
-
-Dmitru
+David / dhildenb
 
