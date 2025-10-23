@@ -1,129 +1,65 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2919D18B0A
-	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 00:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCBC14286;
+	Thu, 23 Oct 2025 00:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761179752; cv=none; b=XhDHONZ+cDsjXt2UquKOXwflOG4Hg+sJ/058dezw63IJdlClVN84iNp7FMBgSZfdUqQLHKeOEg0VwGGkDeMmhtGoQByFkqAk4SP4ueCbTN1Q3vEgXs8q7KLx+XD9FIEnaJGoKGYPOEJeZn/VcJe+3L2wm21ZF70E1iikaMsgmLA=
+	t=1761180635; cv=none; b=XbZ4YrWAACwwvUIDwNZJx6j7E5j4Skw3s3u2np6KvfP1S1XK1TgEZ2m/8Rq5T1b/giqU2wGM0gw4zIjWIxlHVTkzWTrHaDmYHXFL44PYNP5o3VHGJXee4du1QQ12w/6+Ew2rElAMibBfyhnlTFYF4slkprVwdJVtcuIBsySVuYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761179752; c=relaxed/simple;
-	bh=6MK6l7c29SeWtwE8hQa/CW6Q741RQa2P5rFfmChI2GA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ikN8sIdaaXCXU1HIB6KJ0sIq/1KW4FXSDOilhsethpnvFiYwlbvVMcxo8yJI5cCLFcHeuZbALybKFBC35d2mI2QOPq6KPMd/o4OyJc7D+vZTax5gtN82Iv7N2dE7oQSBDflu+5hNG0bm+zfXnofRKQ51LCK+5UeV77XnYEDtrqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpXTJHoA; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761180635; c=relaxed/simple;
+	bh=AeztyjM4bXsgEXDDu28JWWna7Y3Xvzrm+yByy1v+FhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oECqQbcfjmugzXxB+o5hIyN0qWNKGP03MODI23G8hITKYOVgCra7e/qkfsrg8zbc53fjv5KoEe3R3usNj+2q22ALcd/63Z1YQhqD5RBoHAnLdTcDXNSif7Krfp00QhG+aRMDxMdVr7Mh/AQVDFS86thDEifIQjZfXPQ+OHCjbvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3M3LFft; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpXTJHoA"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29226bc4bafso1648445ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Oct 2025 17:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761179750; x=1761784550; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6MK6l7c29SeWtwE8hQa/CW6Q741RQa2P5rFfmChI2GA=;
-        b=kpXTJHoA/Ev6O2dCk7GcDLTMWwwCOSgSKOK4fUiHKRsUlczkNUdPHHNnS8PXY/Ndqh
-         Tr7CFFa0rO9r6Boc7RWRZvQULD7e9ASERwjiuuhntdN0vn/nbLGWOgqKmpcbsW9gRsfP
-         7Kr5ELjhLHI03f9eDe/mYCA27PJa1ZzgLtzm9eWW+fXmsnuw2UhGTJj8x8ie4hzF7ZC2
-         40Tr5HwBc7UbL2Kz1jv7qMpcPhyM0xEPitChSDYibV6HRWtDNgd/q2fnqs0Ti89uHJbF
-         QbzhnlkuprE0P9PmAl+kXIV87pYV874hm0UJxi8Adblb7mQ21o4d414b6P53yxJWZcsc
-         +VgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761179750; x=1761784550;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6MK6l7c29SeWtwE8hQa/CW6Q741RQa2P5rFfmChI2GA=;
-        b=ALv0H3GvitMA4DX7VABgXoRrVaCkj8ZBJnx/nsanbgcFEl6MEQfxvp0PiUkgPAwx8t
-         OgctTmIxebwZ3LkcHQGWxwFRzAIfQW+mfPzoPNm119SyXyHjiF3i4SM24Q67EyjEjZKI
-         rMKOdmxkeVgfJDgrWDcviLwuvHoslWZcGjq8zslyjWvyop0e9NEbSZkiYf9u6XZIpEsg
-         v7i2C4gZSzECfqaPyCvbzgpFkHQZ6liwvgEAxK6ovTYgRJEA2z6rZCt2sznIt/Ppile7
-         Vj+mlYp6pnqZUPNABEIODbiv3k/VLK7kZ/X5ycNcK8MR+kxfAMhMS36xVcTNzPRgs40m
-         2jXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdeRWGIdDKGmh77bzEs4H7ZOnBEsQAQH8IgZZq4uODFCnPsP+zmFqhFARUfzWyrRzxVu++h9uGtcg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ9gq24l2+Ve2aqDD/xf/UiAAR0VbMP+32qWboiXT0kvK/E98b
-	SaY3sH8FIezs0L3uDB9AncR+xdhqOuqTD+Apigsv5eqWmumsCuCom/zT
-X-Gm-Gg: ASbGncvdDZAu8JknCA2Y0Xh+A9VFAHDWDQID2CGVaLuynF4qZ2OWzpVKx9JYkeJ1/tL
-	0GCDlZrK9jUvWtMcg1S3QUdWpnjY+c2Rm4lsYJ1xgtfVCssIDITopma41weRUrwgkWSfjAhvlzM
-	Xd/egxiSGrHGZGgPg1Swno7e63bFAqPZlmT1I1+TmYlKIB0MabtWstDOmq+dRY/JTWPbvoDkzoC
-	xgjv14Lpjwmb9peQFweCGL2IZFdy2i9WJkPCjpNexga7TfgPzUoq9OpFMJ8eNsMfybbmEtc6X95
-	c3u9sKcEcQlmc10g6W0hyS9wanmCNWZ+ovjEalOWSwWNn9HkMe3kkSW91iYH1059ZdCDttFebxU
-	WybL8z/kOmTmDDXcO1YsZtVcy+gpjt3PiDOAf4MPgYyiW6pryUZLKKfwvwqJw+9wisDfa+ExgUC
-	VY5w9RNZ4ZuwRy40YKWCTeyTHS
-X-Google-Smtp-Source: AGHT+IETXuhhNf78OP3gfzvgezxHrsc4/DYMrC/Ibv4NjwGQFJehIewmkz5tGsD+C3+MBSgJyP9Lfw==
-X-Received: by 2002:a17:902:eccb:b0:290:b53b:745b with SMTP id d9443c01a7336-290cb07cfe3mr354371855ad.39.1761179750274;
-        Wed, 22 Oct 2025 17:35:50 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223cb0a5sm3785593a91.1.2025.10.22.17.35.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 17:35:48 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A98C44241819; Thu, 23 Oct 2025 07:35:46 +0700 (WIB)
-Date: Thu, 23 Oct 2025 07:35:46 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	=?utf-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Serial <linux-serial@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Cengiz Can <cengiz@kernel.wtf>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Anselm =?utf-8?Q?Sch=C3=BCler?= <mail@anselmschueler.com>
-Subject: Re: [PATCH v2] Documentation: sysrq: Rewrite /proc/sysrq-trigger
- usage
-Message-ID: <aPl4YsW6lkYLqx4K@archie.me>
-References: <20251016103609.33897-2-bagasdotme@gmail.com>
- <aa388d29-b83b-454e-a686-638c80c6a7bf@infradead.org>
- <CAH2-hc+XQR7v9Z28yH_CTWZ4ieaF5eQFKBVut1idULP=4w03fQ@mail.gmail.com>
- <6b8e7935-6b80-4f00-9a44-7003071d1a21@infradead.org>
- <CAH2-hc+M-CyXL1HtHkD9o_Q_8PP_OkYLvjqhdBiCnHVBQspedQ@mail.gmail.com>
- <1b0acbf2-8ce4-4c8d-a088-1f271233e60a@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3M3LFft"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F402C4CEE7;
+	Thu, 23 Oct 2025 00:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761180635;
+	bh=AeztyjM4bXsgEXDDu28JWWna7Y3Xvzrm+yByy1v+FhM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=h3M3LFftBYioTjv3yi4hG8J8f9bFEp52AqHeS3tWzGOff3lENVPOdXcRVhQWZS91I
+	 19PQuYGKi2WWkOWU1Q3naAd9RaDMtM0XsLzorBbdTseazwEwKKP+zwVLEVtdWTfH6/
+	 1Tkv+RPy6+qSbm2UKDMmfdTYTJxpc5rLJLvrxOBtdDbpVlFVBCWBEZ0bBAQfkk7fay
+	 fF8xUko3ZvD3Qa1D14Wy436K2cAeP1V8pzDxzbRnWLBZKvFLxkFboMNM35ZP1ssI8p
+	 97yKGFLD503wf2xX+37tds/Z8F9YjPxsh7LKeee0/Q6Qv6OGJAHl3Y8/neSVuJ/xfv
+	 y60MFVRgNa6XA==
+Date: Wed, 22 Oct 2025 17:50:33 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: David Wilder <wilder@us.ibm.com>
+Cc: netdev@vger.kernel.org, jv@jvosburgh.net, pradeep@us.ibm.com,
+ i.maximets@ovn.org, amorenoz@redhat.com, haliu@redhat.com,
+ stephen@networkplumber.org, horms@kernel.org, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, edumazet@google.com, razor@blackwall.org,
+ shuah@kernel.org, corbet@lwn.net, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v14 0/7] bonding: Extend arp_ip_target format
+ to allow for a list of vlan tags.
+Message-ID: <20251022175033.7daec7f6@kernel.org>
+In-Reply-To: <20251022182721.2567561-1-wilder@us.ibm.com>
+References: <20251022182721.2567561-1-wilder@us.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DIlPZY+9ThdZQOFt"
-Content-Disposition: inline
-In-Reply-To: <1b0acbf2-8ce4-4c8d-a088-1f271233e60a@infradead.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed, 22 Oct 2025 11:25:27 -0700 David Wilder wrote:
+> The current implementation of the arp monitor builds a list of vlan-tags by
+> following the chain of net_devices above the bond. See bond_verify_device_path().
+> Unfortunately, with some configurations, this is not possible. One example is
+> when an ovs switch is configured above the bond.
 
---DIlPZY+9ThdZQOFt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Once again if anyone thinks this belongs in the kernel please speak up.
+Otherwise let this be the last posting.
 
-On Tue, Oct 21, 2025 at 10:04:59AM -0700, Randy Dunlap wrote:
->=20
->=20
-> On 10/21/25 1:37 AM, Tom=C3=A1=C5=A1 Mudru=C5=88ka wrote:
-> > In that case, can we use some short form? Something like
-> > "extra characters are ignored for now, which might change in future".
-> >=20
-> > Thing is that i wanted to add handling of extra characters, but
-> > maintainer said it cannot be done because people might currently rely
-> > on characters being ignored as written in documentation.
->=20
-> Sure, OK with me.
-
-No problem on my side.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---DIlPZY+9ThdZQOFt
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPl4XQAKCRD2uYlJVVFO
-o6X1AP9SHBdxr9JAbDQZWyWjpwMWjnGkRkufU73llPjh6pmZ0QEAhyM4k5DgR5wv
-0ePjw3LgJ28FOCa88k6MG9QQRpPGgwQ=
-=UsfV
------END PGP SIGNATURE-----
-
---DIlPZY+9ThdZQOFt--
+*If* someone does speak up in support you will need to find a less ugly
+way to represent the attribute within Netlink. What you invent must work
+in YNL and be added to the spec (Documentation/netlink/specs/rt-link.yaml)
+-- 
+pw-bot: cr
