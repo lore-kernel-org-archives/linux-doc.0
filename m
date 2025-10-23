@@ -1,182 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8C415E97;
-	Thu, 23 Oct 2025 04:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2201DC988;
+	Thu, 23 Oct 2025 04:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761192977; cv=none; b=QHerxskjtFxb7eDy5oJ56OImv3qZP70LZNRzUkNvEWDspHbOutQuPmRndGmeVApGw0cLc3ScNaX7RsUpULhaEtD4hLyGlwkYqI1mL6sXPN45MT1T8dzFxEmrb4kGFocLsErFOOR7lXSG7YUisnwB8tA6Pcp8bBrRY4haqWyeSIc=
+	t=1761193309; cv=none; b=JLexPdmDTUPNOkOXsMuqchMHYkx8mCUrqq7Cm67GLfgnk7OYtleHFSV0uLg8XDaUcCQhGPGlAEJTZgbg1kf01cbnDEZo4uBR2KScFlSeo8l9ZNhZlAR3xPp11HNhPynB3jLwoKJuf7aJWSvqchjWj63KqH/AmbD2sem+0CNbX5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761192977; c=relaxed/simple;
-	bh=6qjfKhCFpW3nxPdf3q9ksCTq53TGoLVq65HUGLHWQeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VWSZrbLiL072idt1GywkRqJWLDjYKLK7+KKBeHF2pGMQHpO40jI0V0OxXzU7jKZpz83FfqPSKNc+chPtB8K1HEHqvHQ5moQzCFVtIBwEKx9CW/6wsU0kPMjoeLQwnSw9iaB9NOfG3mjz+jFPyiJMKIT9xmwmjNY+S+pD/01Zgpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNR2LIJn; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761193309; c=relaxed/simple;
+	bh=I+V1PV1nFcf5G5qvTCXwdQDHsU6tuO5vkHbPQsEDqXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hHRZqewU1LPJHaRA5EMR4g0W4oKnCRWGNTnYZ5UzZUc4FKUi+jPvu0KdneSd0irKJTau833wfBjF8A2wldwaaX5EOlXxKBOdVwu+7IJomyeiSiq8fc8E8TuhVkUvwWYohTqwJpYst87xqunHaV/fbduvsTGbmJp7hdEjwT0dbk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zQ2aQK7U; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNR2LIJn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761192975; x=1792728975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6qjfKhCFpW3nxPdf3q9ksCTq53TGoLVq65HUGLHWQeQ=;
-  b=WNR2LIJnc/GrKN8Id9SKK2MoQGYPdCUain6UPPkABBzN7HsmQhWv/Gjb
-   Dd4T/WAZomqCX/zReqWyXz/H5kRj/oh9hKO9hKy/EH48QuCESQ9W6MGCD
-   nmZgH48l+9ZkJgnudRzVOvcGLj14q5FumcZ6De25LmhIBdkvDGts7Nuq/
-   QNidBq65tqi5r9OdCllT7U53Rms9xcKm2zhlfnBr93SGkAabyFTEjdEj8
-   IhBeJH/L8o72Co7345kbRErEF9Km1669CERhw5/1Mbocj7VwZzvYHTxRd
-   IL9J6kEke1PqpkvkcJ0nR2UrZxaxv9Px/nK0Kc0UXJg4I/nkHh5O9OWDn
-   A==;
-X-CSE-ConnectionGUID: ISKqG3O3Rc6sAPjtlyZWwA==
-X-CSE-MsgGUID: F3a2OoIQQCSt6YbtN68Hxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66996528"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="66996528"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 21:16:15 -0700
-X-CSE-ConnectionGUID: NVNLIeA3SvKuDnsRXMUh8w==
-X-CSE-MsgGUID: cKr3VAJ2Q3OI8L/aitKNqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183945184"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2025 21:16:10 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBmjU-000D0j-3C;
-	Thu, 23 Oct 2025 04:15:34 +0000
-Date: Thu, 23 Oct 2025 12:12:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, quic_yingdeng@quicinc.com,
-	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
-	Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>,
-	Jinlong Mao <jinlong.mao@oss.qualcomm.com>
-Subject: Re: [PATCH v3] stm: class: Add MIPI OST protocol support
-Message-ID: <202510231127.UFDSOpIQ-lkp@intel.com>
-References: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zQ2aQK7U"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=qx4CnZyDfgJy/JD9bUk+6VpnrWuN374ZeMjrNMFRnFE=; b=zQ2aQK7UDx81uE1XYfQ9SylUUv
+	GTFyX6k9wwzkEm5w1BLUpsF2L7H9AGJj8VSGZxFPfJAN933IcYn+X4mN9AKZ3ssDdG2elVLBzrc/E
+	JsVZk7XDjNHeiB1uvn9NBYhAOWM+VoPsftNRjreZnwEsAyYlBI9N1dLDXYASIVdQUowQa33RrUwb5
+	ClQQlqa3jlNIaiMGvwewiVBxSx7QDEg07vX45nf5MGKLrQauEPHXLJsI0tI01/UWWpJVv5QwMaroE
+	5j6I/ndu4Zo+SEuiIdiSOrN9YSuGl1jD4veJcrvzFA1VS7dg8H2tkpyngXPBSEqVlbckNQJqOcd0X
+	rJCsUtbw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vBmpc-000000051k8-2BB5;
+	Thu, 23 Oct 2025 04:21:44 +0000
+Message-ID: <295b96fd-4ece-4e11-be1c-9d92d93b94b7@infradead.org>
+Date: Wed, 22 Oct 2025 21:21:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2] Documentation: ARCnet: Update obsolete
+ contact info
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Avery Pennarun <apenwarr@worldvisions.ca>
+References: <20251023025506.23779-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251023025506.23779-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Yingchao,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 10/22/25 7:55 PM, Bagas Sanjaya wrote:
+> ARCnet docs states that inquiries on the subsystem should be emailed to
+> Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
+> since the beginning of kernel git history and the subsystem is now
+> maintained by Michael Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add
+> arcnet and take maintainership"). In addition, there used to be a
+> dedicated ARCnet mailing list but its archive at epistolary.org has been
+> shut down. ARCnet discussion nowadays take place in netdev list.
+> 
+> Update contact information.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-[auto build test ERROR on atorgue-stm32/stm32-next]
-[also build test ERROR on linus/master v6.18-rc2 next-20251022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The patch LGTM and causes no errors/warnings.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yingchao-Deng/stm-class-Add-MIPI-OST-protocol-support/20251022-152642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20251022071834.1658684-1-yingchao.deng%40oss.qualcomm.com
-patch subject: [PATCH v3] stm: class: Add MIPI OST protocol support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251023/202510231127.UFDSOpIQ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231127.UFDSOpIQ-lkp@intel.com/reproduce)
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231127.UFDSOpIQ-lkp@intel.com/
+I'm wondering about one thing in arcnet-hardware.rst:
+  it refers to www.arcnet.com.
+Did you happen to try that web site?
+Looks like it is something about AIoT.
+I found the ARCnet Trade Association at
+  www.arcnet.cc
 
-All errors (new ones prefixed by >>):
-
-   drivers/hwtracing/stm/p_ost.c: In function 'ost_write':
->> drivers/hwtracing/stm/p_ost.c:201:27: error: implicit declaration of function 'task_tgid_nr' [-Wimplicit-function-declaration]
-     201 |         hdr.tgid        = task_tgid_nr(current);
-         |                           ^~~~~~~~~~~~
-   drivers/hwtracing/stm/p_ost.c:172:13: warning: unused variable 'i' [-Wunused-variable]
-     172 |         int i;
-         |             ^
-
-
-vim +/task_tgid_nr +201 drivers/hwtracing/stm/p_ost.c
-
-   154	
-   155	static ssize_t
-   156	notrace ost_write(struct stm_data *data, struct stm_output *output,
-   157			  unsigned int chan, const char *buf, size_t count,
-   158			  struct stm_source_data *source)
-   159	{
-   160		unsigned int c = output->channel + chan;
-   161		unsigned int m = output->master;
-   162		const unsigned char nil = 0;
-   163		u32 header = DATA_HEADER;
-   164		struct trc_hdr {
-   165			u16 version;
-   166			u16 magic;
-   167			u32 cpu;
-   168			u64 timestamp;
-   169			u64 tgid;
-   170		} hdr;
-   171		ssize_t sz;
-   172		int i;
-   173		struct ost_output *op = output->pdrv_private;
-   174	
-   175		/*
-   176		 * Identify the source by entity type.
-   177		 * If entity type is not set, return error value.
-   178		 */
-   179		if (op->node.entity_type)
-   180			header |= ost_entity_value[op->node.entity_type];
-   181		else
-   182			return -EINVAL;
-   183	
-   184		/*
-   185		 * STP framing rules for OST frames:
-   186		 *   * the first packet of the OST frame is marked;
-   187		 *   * the last packet is a FLAG with timestamped tag.
-   188		 */
-   189		/* Message layout: HEADER / DATA / TAIL */
-   190		/* HEADER */
-   191		sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
-   192				  4, (u8 *)&header);
-   193		if (sz <= 0)
-   194			return sz;
-   195	
-   196		/* DATA */
-   197		hdr.version	= STM_MAKE_VERSION(0, 3);
-   198		hdr.magic	= STM_HEADER_MAGIC;
-   199		hdr.cpu		= raw_smp_processor_id();
-   200		hdr.timestamp = sched_clock();
- > 201		hdr.tgid	= task_tgid_nr(current);
-   202		sz = stm_data_write(data, m, c, false, &hdr, sizeof(hdr));
-   203		if (sz <= 0)
-   204			return sz;
-   205	
-   206		sz = stm_data_write(data, m, c, false, buf, count);
-   207	
-   208		/* TAIL */
-   209		if (sz > 0)
-   210			data->packet(data, m, c, STP_PACKET_FLAG,
-   211				STP_PACKET_TIMESTAMPED, 0, &nil);
-   212	
-   213		return sz;
-   214	}
-   215	
+> ---
+> Changes since v1 [1]:
+> 
+>   - s/hesistate/hesitate/ (Simon)
+> 
+> netdev maintainers: Since there is no reply from Avery on v1, can this patch
+> be acked and merged into net-next?
+> 
+> [1]: https://lore.kernel.org/linux-doc/20250912042252.19901-1-bagasdotme@gmail.com/
+> 
+>  Documentation/networking/arcnet-hardware.rst | 13 +++---
+>  Documentation/networking/arcnet.rst          | 48 +++++---------------
+>  2 files changed, 17 insertions(+), 44 deletions(-)
+> 
+> diff --git a/Documentation/networking/arcnet-hardware.rst b/Documentation/networking/arcnet-hardware.rst
+> index 3bf7f99cd7bbf0..e75346f112920a 100644
+> --- a/Documentation/networking/arcnet-hardware.rst
+> +++ b/Documentation/networking/arcnet-hardware.rst
+> @@ -4,6 +4,8 @@
+>  ARCnet Hardware
+>  ===============
+>  
+> +:Author: Avery Pennarun <apenwarr@worldvisions.ca>
+> +
+>  .. note::
+>  
+>     1) This file is a supplement to arcnet.txt.  Please read that for general
+> @@ -13,9 +15,9 @@ ARCnet Hardware
+>  
+>  Because so many people (myself included) seem to have obtained ARCnet cards
+>  without manuals, this file contains a quick introduction to ARCnet hardware,
+> -some cabling tips, and a listing of all jumper settings I can find. Please
+> -e-mail apenwarr@worldvisions.ca with any settings for your particular card,
+> -or any other information you have!
+> +some cabling tips, and a listing of all jumper settings I can find. If you
+> +have any settings for your particular card, and/or any other information you
+> +have, do not hesitate to :ref:`email to netdev <arcnet-netdev>`.
+>  
+>  
+>  Introduction to ARCnet
+> @@ -3226,9 +3228,6 @@ Settings for IRQ Selection (Lower Jumper Line)
+>  Other Cards
+>  ===========
+>  
+> -I have no information on other models of ARCnet cards at the moment.  Please
+> -send any and all info to:
+> -
+> -	apenwarr@worldvisions.ca
+> +I have no information on other models of ARCnet cards at the moment.
+>  
+>  Thanks.
+> diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking/arcnet.rst
+> index 82fce606c0f0bc..cd43a18ad1494b 100644
+> --- a/Documentation/networking/arcnet.rst
+> +++ b/Documentation/networking/arcnet.rst
+> @@ -4,6 +4,8 @@
+>  ARCnet
+>  ======
+>  
+> +:Author: Avery Pennarun <apenwarr@worldvisions.ca>
+> +
+>  .. note::
+>  
+>     See also arcnet-hardware.txt in this directory for jumper-setting
+> @@ -30,18 +32,7 @@ Come on, be a sport!  Send me a success report!
+>  
+>  (hey, that was even better than my original poem... this is getting bad!)
+>  
+> -
+> -.. warning::
+> -
+> -   If you don't e-mail me about your success/failure soon, I may be forced to
+> -   start SINGING.  And we don't want that, do we?
+> -
+> -   (You know, it might be argued that I'm pushing this point a little too much.
+> -   If you think so, why not flame me in a quick little e-mail?  Please also
+> -   include the type of card(s) you're using, software, size of network, and
+> -   whether it's working or not.)
+> -
+> -   My e-mail address is: apenwarr@worldvisions.ca
+> +----
+>  
+>  These are the ARCnet drivers for Linux.
+>  
+> @@ -59,23 +50,14 @@ ARCnet 2.10 ALPHA, Tomasz's all-new-and-improved RFC1051 support has been
+>  included and seems to be working fine!
+>  
+>  
+> +.. _arcnet-netdev:
+> +
+>  Where do I discuss these drivers?
+>  ---------------------------------
+>  
+> -Tomasz has been so kind as to set up a new and improved mailing list.
+> -Subscribe by sending a message with the BODY "subscribe linux-arcnet YOUR
+> -REAL NAME" to listserv@tichy.ch.uj.edu.pl.  Then, to submit messages to the
+> -list, mail to linux-arcnet@tichy.ch.uj.edu.pl.
+> -
+> -There are archives of the mailing list at:
+> -
+> -	http://epistolary.org/mailman/listinfo.cgi/arcnet
+> -
+> -The people on linux-net@vger.kernel.org (now defunct, replaced by
+> -netdev@vger.kernel.org) have also been known to be very helpful, especially
+> -when we're talking about ALPHA Linux kernels that may or may not work right
+> -in the first place.
+> -
+> +ARCnet discussions take place on netdev. Simply send your email to
+> +netdev@vger.kernel.org and make sure to Cc: maintainer listed in
+> +"ARCNET NETWORK LAYER" heading of Documentation/process/maintainers.rst.
+>  
+>  Other Drivers and Info
+>  ----------------------
+> @@ -523,17 +505,9 @@ can set up your network then:
+>  It works: what now?
+>  -------------------
+>  
+> -Send mail describing your setup, preferably including driver version, kernel
+> -version, ARCnet card model, CPU type, number of systems on your network, and
+> -list of software in use to me at the following address:
+> -
+> -	apenwarr@worldvisions.ca
+> -
+> -I do send (sometimes automated) replies to all messages I receive.  My email
+> -can be weird (and also usually gets forwarded all over the place along the
+> -way to me), so if you don't get a reply within a reasonable time, please
+> -resend.
+> -
+> +Send mail following :ref:`arcnet-netdev`. Describe your setup, preferably
+> +including driver version, kernel version, ARCnet card model, CPU type, number
+> +of systems on your network, and list of software in use.
+>  
+>  It doesn't work: what now?
+>  --------------------------
+> 
+> base-commit: 26ab9830beabda863766be4a79dc590c7645f4d9
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
