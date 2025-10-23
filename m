@@ -1,141 +1,127 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C497B2FE566;
-	Thu, 23 Oct 2025 08:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1900301713
+	for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 08:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761208611; cv=none; b=Q/ahfa4PG8PjYYf+haxwH23+Sk8osAjOPs6IVKhUvENf5osX+2TEUvMMXcIRQiOKXNftC4dqRB9yEIo6lIvP/6fz4Jf60cELxYOPp2lA09iHdeCXH9AFuCqZO0bGzHEbrqc/dqxmxdOCA89sgAY/bkGzGhu/Bnv5tgNVdKbcyiQ=
+	t=1761208997; cv=none; b=OLTN+jBgXFwvE+MCl/Up8KYc5q/DFQhV4ebIbAackPqPEOuyCKoYMvS2PwO4f38LnIc1MUlESaweWQEVbPyZGTasdjn6gl6kkBfCFY1O8ZfljuZw1+NdwYb/nqB6EwtwGNYHyPbBMEG4RPUxY53RgLd7Dx/6qFYfhiXAthQxFYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761208611; c=relaxed/simple;
-	bh=08czwfWnlPMIpqql5kd6oFtIulIPYNZfTQcKVVm39ak=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ljyKH8hPXv3xvJ9gl2Hvo7EMXRdMH1IcBpbO2M9G06iU0fWAKHQYH2mEbErdSSF27t/Z9Kj9Sxgo6GVwrQ5yiTOcIKi3YvBUIn/Z9F8VW1b44F+fzJMvPMc1gLZIkmwPB2yh29eVn3FtO85Len6/pFiYYGpylFX1hifpVUoC8zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ImGUBfjZ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1761208997; c=relaxed/simple;
+	bh=h277j0BdJAJJfrnn3LPaDfuaMi5C0Xtj1wAoSJszDQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJwj5JiQpUujJ7I8wz2Qt5GQBfZwoBk4ZXI2NdK0jNk+6BVPKzvy/qJEfFWtWxbtHH29upumtvB10sN+cSesV+zFdvxqdMe0Cj+n0hX8sF6+F3bp0yu9dwb5dVT11eFZBR/0Vm4ARmRIbhCvUdcqxI5u8HMqRSRmjyTIX2uWSxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJjFc9O5; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ImGUBfjZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1761208606;
-	bh=08czwfWnlPMIpqql5kd6oFtIulIPYNZfTQcKVVm39ak=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=ImGUBfjZmyC2H/390jykNrSExURMxO3gj7gR7HZuoE1JscX//GLPiqrwFzSw98Z8Q
-	 OEgoKoRBw/yquiO4Q6VC/as+scRlGtmqHuTC+q0zyKnvibDjf1nHhcht+WBRS2brt+
-	 nX3r+SBhrlZwnd6Glzx7QIWEZIw70J7zkF1lSndcX27b/O0CxESnHoblK/Hnkugh2a
-	 nbmXoGL/YaDaEJUTezANmZcWe4ar4iIgEbNRxB0mjzuVRDNlQSADDjFSJPIr26Qiz9
-	 jEFOsPP/xJo5VBEAfdStkgFEhofcpeIPsP+uukfuyuKNK593T7ybIGxs2PjRbhLF8+
-	 VGI1GqxTxqqRA==
-Received: from [192.168.100.50] (unknown [144.48.130.189])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0B4F717E0964;
-	Thu, 23 Oct 2025 10:36:43 +0200 (CEST)
-Message-ID: <217840b8-2a44-4788-8e2e-e5525f32ca8f@collabora.com>
-Date: Thu, 23 Oct 2025 13:36:14 +0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJjFc9O5"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-781251eec51so450951b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 01:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761208995; x=1761813795; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KqheznwEahoAcIc95fCF8gQr8sHNf2ct8iY0MfSeg6g=;
+        b=AJjFc9O5UZLxwUqH5yBwCk4w0whgnAKEYXROjOGZwucwIMD8k04nBxjBxte0aZY8NL
+         E1+oAJwO0iYWuzKZ45foqRGzebxOSm5+4M1koj0jxxDntetjG/en0wMr4Ufz5BczRs8t
+         5e23RVZPdMjoDm/FW4u53FMltS0HHnImtwB21Hj2GE6B+sU7Ws85iTm7xNSFDRvW9tD/
+         AeWa8yRnmsiyNM6ZKl26R59nDcWfllI9i5zYs1driEyPMLkc6SXVi3wuSbnfPI0FG95p
+         CRHi9eY+JOWvlHLRgV73oDrvOHgRAPZqNHGigmFUYr5ib72OyLXpgi9NqyLPYDIuDsiV
+         T8GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761208995; x=1761813795;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KqheznwEahoAcIc95fCF8gQr8sHNf2ct8iY0MfSeg6g=;
+        b=p180BDSVRUVLqpcneerVod2kWbJeNUxnBJkjiJTr0LvOYMYQ4auDIWpFaghX8qfkeG
+         e79e9oeDDvwYdCqqHQ9yCyU12379apgbw9uqjT8L1VSSwWofEvQMR/5Uuc04f8BA5IJB
+         3qfx20v8zX5eCBI7a/pOOEklEl/mS1Jg+t/tC7+XlNoMckoKShbgS4WgAYItn7ef9xIs
+         dGnNRrO5akUaEUtmGm9g3kbbd6ug4BSwTxGylDDfCN6W6JARZmBXdfqOy7MYyrXN06mr
+         AiYBPaUG9oY8biRtTu0ztcxtkikAA+738MUg93Fif7/nZnHdfAJxlSXKaZ0NxvrdzGWh
+         76GA==
+X-Forwarded-Encrypted: i=1; AJvYcCXm2TdqocCKiEsBnXxHR1yJimXUVnkpXjB3zwjaRcjlyfvdkC7/6sxqj9uEUwRXbY9uA2tL+qyNZqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWerSnVxT7qVwx0CHQLpRB9Q7WOaAkwtyQ3rCrLKdGzgV6Jowc
+	VvswbRw4IlhWmMEdAKXB8L6XG8dwxcRirSkVoq6iXLOXRUXUHrG5c8GA
+X-Gm-Gg: ASbGnctlopaNkIPsOfoLeCayF0PZJgsUpIkRp3KXZAfqFiGXUtCtOqWSOIgfPcI1lgN
+	un9z1BB7kw/9WV4RSwf82/fQ4Y1b1fLErGumAoBIfKYKRA2hS0HyeAOaoblE1kBbTm7HBNuphOx
+	Cyno1Nr2bxha1I9uLrKNSXSv5FfP72gkxEsE7hvY4jLvxc39Wr4P0LgUYUfqHr5nn7chsv+yo9C
+	hZHy+Mp2113aflaSz9pC//1YXtzFny5eTfr0W+UPYhR8Vhe0o2dT+Apt4IVT0XaUuFj8M9eeTqh
+	2c7lE0x3MR8KTjN6jy5BupvXYrreRYKU+MczOx+h0wZMsHLX8N6x8GhFddR3EiJvqSWHPihBd8J
+	bv86gS1/D+WPkfVa87fOBNSbf9ocQcY+uITxg3AP6Znct6Ss2l4wbt5UH3jSoj2Kk4KDhiuQRkm
+	nq+ZOEh6XM4nU=
+X-Google-Smtp-Source: AGHT+IHEOgGN5yNyJpbzAdkY2kAXHAbs03hm9RTq1jzAuwC08hoEOkO/K6ScXyZjbWhH2WaZz9e7+g==
+X-Received: by 2002:a17:903:1c9:b0:278:9051:8ea9 with SMTP id d9443c01a7336-2946e117e69mr21542875ad.40.1761208994856;
+        Thu, 23 Oct 2025 01:43:14 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946e21fbbdsm15563255ad.99.2025.10.23.01.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 01:43:13 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 94D994206924; Thu, 23 Oct 2025 15:43:11 +0700 (WIB)
+Date: Thu, 23 Oct 2025 15:43:11 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Avery Pennarun <apenwarr@worldvisions.ca>
+Subject: Re: [PATCH net-next v2] Documentation: ARCnet: Update obsolete
+ contact info
+Message-ID: <aPnqn6jDiJkZiUfR@archie.me>
+References: <20251023025506.23779-1-bagasdotme@gmail.com>
+ <295b96fd-4ece-4e11-be1c-9d92d93b94b7@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@collabora.com, "Mario Limonciello (AMD)"
- <superm1@kernel.org>, linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 1/2] PM: Allow device drivers to manage the frozen state
- of a device
-To: Mario Limonciello <mario.limonciello@amd.com>,
- amd-gfx@lists.freedesktop.org, corbet@lwn.net, rafael@kernel.org,
- gregkh@linuxfoundation.org, dakr@kernel.org
-References: <20251022155114.48418-1-mario.limonciello@amd.com>
- <20251022155114.48418-2-mario.limonciello@amd.com>
-Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20251022155114.48418-2-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 10/22/25 8:50 PM, Mario Limonciello wrote:
-> From: "Mario Limonciello (AMD)" <superm1@kernel.org>
-> 
-> During a normal successful hibernate sequence devices will go through
-> the freeze() callbacks create an image, go through the thaw() callbacks,
-> and poweroff() callbacks.
-> 
-> During a successful hibernate sequence some device drivers may want to
-> skip the thaw() callbacks.  This confuses the PM core though because it
-> thinks the device is no longer suspended.
-> 
-> To accommodate drivers that want to do this, introduce a new is_frozen
-> bit that the driver can set and manage.  From the driver perspective
-> any thaw() or restore() callbacks that are being skipped should set
-> is_frozen and return an error code.  The PM core will then put the
-> device back into the list of devices to resume for any aborted hibernate.
-> 
-> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Tested-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-
-> ---
->  Documentation/driver-api/pm/devices.rst | 8 ++++++++
->  drivers/base/power/main.c               | 5 +++++
->  include/linux/pm.h                      | 3 +++
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-> index 36d5c9c9fd11..55c633727108 100644
-> --- a/Documentation/driver-api/pm/devices.rst
-> +++ b/Documentation/driver-api/pm/devices.rst
-> @@ -578,6 +578,14 @@ should already have been stored during the ``freeze``, ``freeze_late`` or
->  the entire system, so it is not necessary for the callback to put the device in
->  a low-power state.
->  
-> +Skipping thaw phase
-> +-------------------
-> +In some rare situations, it may be desirable to skip the thaw phases
-> +(``thaw_noirq``, ``thaw_early``, ``thaw``) of a device entirely.  This can be
-> +achieved by a device driver returning an error code from any of it's thaw
-> +callbacks but also setting dev->power.is_frozen to true.  This indicates to the
-> +PM core that the device is still in the frozen state.  The PM core will consider
-> +this when resuming the device in later phases such as `restore` or `poweroff`.
->  
->  Leaving Hibernation
->  -------------------
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e83503bdc1fd..451d54486645 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1100,6 +1100,11 @@ static void device_resume(struct device *dev, pm_message_t state, bool async)
->  
->   End:
->  	error = dpm_run_callback(callback, dev, state, info);
-> +	/* device manages frozen state */
-> +	if (error && dev->power.is_frozen) {
-> +		dev->power.is_suspended = true;
-> +		error = 0;
-> +	}
->  
->  	device_unlock(dev);
->  	dpm_watchdog_clear(&wd);
-> diff --git a/include/linux/pm.h b/include/linux/pm.h
-> index cc7b2dc28574..52ee38d72aa2 100644
-> --- a/include/linux/pm.h
-> +++ b/include/linux/pm.h
-> @@ -688,6 +688,9 @@ struct dev_pm_info {
->  #else
->  	bool			should_wakeup:1;
->  #endif
-> +#ifdef CONFIG_HIBERNATE_CALLBACKS
-> +	bool			is_frozen:1;	/* Owned by the driver */
-> +#endif
->  #ifdef CONFIG_PM
->  	struct hrtimer		suspend_timer;
->  	u64			timer_expires;
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sYkyoOFIpjBoikjz"
+Content-Disposition: inline
+In-Reply-To: <295b96fd-4ece-4e11-be1c-9d92d93b94b7@infradead.org>
 
 
--- 
----
-Thanks,
-Usama
+--sYkyoOFIpjBoikjz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Oct 22, 2025 at 09:21:43PM -0700, Randy Dunlap wrote:
+> I'm wondering about one thing in arcnet-hardware.rst:
+>   it refers to www.arcnet.com.
+> Did you happen to try that web site?
+> Looks like it is something about AIoT.
+
+And it's membership application form, though. (I'm on the err side to not
+enter my personal data there.)
+
+> I found the ARCnet Trade Association at
+>   www.arcnet.cc
+
+That's ARCNET Resource Center.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--sYkyoOFIpjBoikjz
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPnqmgAKCRD2uYlJVVFO
+o1d3AQCRe0oF2MekWkvylVGpjC6ok/H13SiWxWu7yovWlHyVCAD/eYNUs9+dyZCa
+NX/jHGU7SuQ8ikjpge0Y+EPxhi4V2Ac=
+=jNqa
+-----END PGP SIGNATURE-----
+
+--sYkyoOFIpjBoikjz--
