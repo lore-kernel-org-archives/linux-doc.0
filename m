@@ -1,95 +1,153 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E3A31AF3C;
-	Fri, 24 Oct 2025 13:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D961A9FAC;
+	Fri, 24 Oct 2025 14:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761314363; cv=none; b=cx4/fptbDkmIsg4oc/yFA1q8Yzhqsh1u1ci51ZqouxC9CXLstgHQvZ1NuN0YW8vG9eebynXIuXsG6bkCvW+iVd59JmchjZ2YGXkFi+fPGZiwUu7QGhwr/lw4PsOWAkg23j0emCzthgVllQVfiGUhY9JUpawDHMvZaeJycdD/zY4=
+	t=1761315879; cv=none; b=P800W6NLr50PNNSXbH8YLbvnjpWwMVMDD+rk0BAWn5MeIXsyV0DhSSbG8b/9b0TD6uv0uoxf7J4p6FMHFzmsYqqWLtERzs0tMQmXMi6ptVGqdzvh9ezFWpZeTCIArle8Rmd8GWtnF2EpZcCW5rZuAsYngAVKFV7Cj7UTVUTGKPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761314363; c=relaxed/simple;
-	bh=ofINEK2u/IpLS0SIBjgT0R2qzRiKMaV7PqEs5j3ep10=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rhRtEve5s1DdZ0D06Sm5HOSg3ohRahiJ1SQhz+lqvD35jid7McshsanPdH/zzniDDndAyhj6WOUPUcy4tJgryJJwxB7sb2k9UusmkM32XjE0cSg35sxWL/jMQPnWv2EMdfPSj0nivljq5smatx09a5MvHbV+7tgT3E6xX+/7EoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QsSxPSxl; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1761315879; c=relaxed/simple;
+	bh=eAHw5OUZPHJyXkIei0o2MaB9jn5jCq9NHCTpyU4jQ8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hh0jgDo8t9jVYt5Zc/5gsu18yGneR6mssHWEiWN7ujrN5QLyqtMSOgdHLnxOAjb9RUw9ECart8uLdKv5/WXebakIWwyobJ2LvGY3qZ5IKCc0gGuFw5zbPo/9n1FLB9JgBe6FqiV9W1FwkO8QYjbUEv4mma00ZnHoT6Vilk1ov/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rko+w4s6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QsSxPSxl"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A72240AED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761314360; bh=dRERUy6Vb2iKFJR8a5MnKY1kS2D1WEjXXzuT1Iiq7pg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QsSxPSxlEXnisRIOFuRDTI412GRLNOCbm0htdMZSVpbTacg/AC9CpMH2q0tQxoMXY
-	 cxrbEupVDK8dzTYoRaxr+3iq6s9q2KvGISAAjL7hMuYm/ijTb4whUZX5qzYKwGEC+V
-	 iD9CnJ9C+x14m0nWhpptYgh9UGVmkowwU97ZOyNB0Rrn0q35829G/c5Fg9pD9AhzAq
-	 254WAupHXK++MBDKX/e1RW5dh2hvYsd83yBeEyJ6payp26lUeTm2g/MkE4zsHe6coe
-	 ZqyfF/rdMNGegT55mH5P3EKbiZQXrvpJPBMl/qJEh6zW/hFe9a/nHHLKJ+kNqOnzHR
-	 JrndRvoMP6knw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7A72240AED;
-	Fri, 24 Oct 2025 13:59:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jani
- Nikula <jani.nikula@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rko+w4s6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11847C4CEFF;
+	Fri, 24 Oct 2025 14:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761315879;
+	bh=eAHw5OUZPHJyXkIei0o2MaB9jn5jCq9NHCTpyU4jQ8g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rko+w4s6eu54dHaksuSRcL+BvGJ3mxvBrlQRZWLFK8D5G8MWbvxMIDWXFdt8lY6+R
+	 R0nb18VSxIanHX44H7usKi1WgKK+GQcnzzQHrxR9Gw5fc6XDhxmzf6DwEqQhWcrYrz
+	 Z196B87ekd8s7Z8BiXWxN7eAeYtzkzHGjy89NMVzbES9JEZmpd0mkBJQJ3rSNJ3XnU
+	 T4bLC4Yck+eoZH31fiuNUrECrXpewLA+plN3n9YQ1xKeLnECYZ8/yCbCuCkujBjvas
+	 Fgn3eDMMOo3o16bSAcM8MchI54mFyBRH5sJSSKLe4Do9nOh7jcVIeYvN7PcudcajCy
+	 unZaYQ/Mgclig==
+Date: Fri, 24 Oct 2025 11:24:28 -0300
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>
 Subject: Re: [PATCH v2 00/10] Collect documentation-related tools under
  /tools/docs
-In-Reply-To: <532dcafa-08a8-4e18-b904-53e061734b69@gmail.com>
+Message-ID: <20251024112428.44965f06@sal.lan>
+In-Reply-To: <20251023161027.697135-1-corbet@lwn.net>
 References: <20251023161027.697135-1-corbet@lwn.net>
- <532dcafa-08a8-4e18-b904-53e061734b69@gmail.com>
-Date: Fri, 24 Oct 2025 07:59:19 -0600
-Message-ID: <87y0p0ieo8.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Em Thu, 23 Oct 2025 10:10:08 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Hi Jon,
->
-> On Thu, 23 Oct 2025 10:10:08 -0600, Jonathan Corbet wrote:
->> Our documentation-related tools are spread out over various directories;
->> several are buried in the scripts/ dumping ground.  That makes them harder
->> to discover and harder to maintain.
->> 
->> Recently, the idea of creating a dedicated directory for documentation tools
->> came up; I decided to see what it would look like.  This series creates a
->> new directory, tools/docs, and moves various utilities there, hopefully
->> fixing up all of the relevant references in the process.
->> 
->> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
->> 
->> The big elephant lurking in this small room is the home for Python modules;
->> I left them under scripts/lib, but that is an even less appropriate place
->> than it was before.  I would propose either tools/python or lib/python;
->> thoughts on that matter welcome.
->> 
->> Changes in v2:
->>   - Rebase on top of all of Mauro's changes (the most painful rebase I've
->>     ever done, I think).
->
-> I tried to apply this series on top of current docs-next, and several earlier
-> merge points, but haven't succeeded so far, even with "git am -3" ...
->
-> Where am I supposed to apply this?
->
->         Thanks, Akira
+> Our documentation-related tools are spread out over various directories;
+> several are buried in the scripts/ dumping ground.  That makes them harder
+> to discover and harder to maintain.
+> 
+> Recently, the idea of creating a dedicated directory for documentation tools
+> came up; I decided to see what it would look like.  This series creates a
+> new directory, tools/docs, and moves various utilities there, hopefully
+> fixing up all of the relevant references in the process.
+> 
+> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
+> 
+> The big elephant lurking in this small room is the home for Python modules;
+> I left them under scripts/lib, but that is an even less appropriate place
+> than it was before.  I would propose either tools/python or lib/python;
+> thoughts on that matter welcome.
 
-*Sigh* you're suppose to wait until I get my act together, I guess.
+Hmm... What about tools/docs/python?
 
-It's amazing how hard it can be to properly rebase what seems like such
-a simple series.  Lemme do it one more time, on *current* docs-next this
-time.
+> 
+> Changes in v2:
+>   - Rebase on top of all of Mauro's changes (the most painful rebase I've
+>     ever done, I think).
 
-Apologies,
+Sorry for that! Yeah, renaming patches are very hard to rebase. It is
+usually better to have a renaming script and re-run it if changes get
+merged.
 
-jon
+>   - Land everything in /tools/docs/ rather than /tools/doc/
+> 
+> v1: https://lore.kernel.org/lkml/20250813213218.198582-1-corbet@lwn.net/
+> 
+> Jonathan Corbet (10):
+>   docs: Move the "features" tools to tools/docs
+>   docs: move checktransupdate.py to tools/docs
+>   docs: move scripts/check-variable-fonts.sh to tools/docs
+>   docs: move scripts/documentation-file-ref-check to tools/docs
+>   docs: move get_abi.py to tools/docs
+>   docs: move test_doc_build.py to tools/docs
+>   docs: move kernel-doc to tools/docs
+>   docs: move split-man.pl to tools/docs
+>   docs: move find-unused-docs.sh to tools/docs
+>   docs: remove kernel-doc.pl
+> 
+>  Documentation/Kconfig                         |    2 +-
+>  Documentation/Makefile                        |    8 +-
+>  Documentation/conf.py                         |    2 +-
+>  Documentation/doc-guide/checktransupdate.rst  |    6 +-
+>  Documentation/doc-guide/contributing.rst      |    2 +-
+>  Documentation/doc-guide/kernel-doc.rst        |   18 +-
+>  Documentation/doc-guide/sphinx.rst            |    2 +-
+>  Documentation/kbuild/kbuild.rst               |    2 +-
+>  Documentation/process/coding-style.rst        |    2 +-
+>  Documentation/sphinx/kernel_abi.py            |    2 +-
+>  Documentation/sphinx/kernel_feat.py           |    4 +-
+>  .../it_IT/doc-guide/kernel-doc.rst            |    8 +-
+>  .../sp_SP/process/coding-style.rst            |    2 +-
+>  .../zh_CN/doc-guide/checktransupdate.rst      |    6 +-
+>  .../zh_CN/doc-guide/contributing.rst          |    2 +-
+>  .../zh_CN/doc-guide/kernel-doc.rst            |   16 +-
+>  Documentation/translations/zh_CN/how-to.rst   |    2 +-
+>  .../translations/zh_CN/kbuild/kbuild.rst      |    2 +-
+>  .../zh_CN/process/coding-style.rst            |    2 +-
+>  .../zh_TW/process/coding-style.rst            |    2 +-
+>  MAINTAINERS                                   |    8 +-
+>  Makefile                                      |    2 +-
+>  drivers/gpu/drm/i915/Makefile                 |    2 +-
+>  scripts/kernel-doc                            |    1 -
+>  scripts/kernel-doc.pl                         | 2439 -----------------
+>  scripts/sphinx-pre-install                    |    2 +-
+>  .../docs}/check-variable-fonts.sh             |    2 +-
+>  {scripts => tools/docs}/checktransupdate.py   |    8 +-
+>  .../docs}/documentation-file-ref-check        |    2 +-
+>  .../docs}/features-refresh.sh                 |    0
+>  {scripts => tools/docs}/find-unused-docs.sh   |    8 +-
+>  {scripts => tools/docs}/get_abi.py            |    0
+>  {scripts => tools/docs}/get_feat.pl           |    2 +-
+>  .../kernel-doc.py => tools/docs/kernel-doc    |    0
+>  .../features => tools/docs}/list-arch.sh      |    2 +-
+>  {scripts => tools/docs}/split-man.pl          |    0
+>  {scripts => tools/docs}/test_doc_build.py     |    0
+>  37 files changed, 63 insertions(+), 2507 deletions(-)
+>  delete mode 120000 scripts/kernel-doc
+>  delete mode 100755 scripts/kernel-doc.pl
+>  rename {scripts => tools/docs}/check-variable-fonts.sh (98%)
+>  rename {scripts => tools/docs}/checktransupdate.py (97%)
+>  rename {scripts => tools/docs}/documentation-file-ref-check (99%)
+>  rename {Documentation/features/scripts => tools/docs}/features-refresh.sh (100%)
+>  rename {scripts => tools/docs}/find-unused-docs.sh (79%)
+>  rename {scripts => tools/docs}/get_abi.py (100%)
+>  rename {scripts => tools/docs}/get_feat.pl (99%)
+>  rename scripts/kernel-doc.py => tools/docs/kernel-doc (100%)
+>  rename {Documentation/features => tools/docs}/list-arch.sh (83%)
+>  rename {scripts => tools/docs}/split-man.pl (100%)
+>  rename {scripts => tools/docs}/test_doc_build.py (100%)
+
+At the description you mentioned libs, but I'm not seeing anything
+at the above diffstat showing such renames.
+> 
+
+Regards,
+Mauro
