@@ -1,80 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80471ACED5;
-	Fri, 24 Oct 2025 01:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B056338FA6;
+	Fri, 24 Oct 2025 01:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761268833; cv=none; b=BLDQ2/aS6Ccz9XyMGEY4bW+CIwrb7IDagSoKbtMWruSizvMroOeeexyOamuCghhl4YPWFHWBlDB+RhA7N8KXo2K2lJRr2wntoLT4ZbxQLKJaf16Xx0tJ+ngY5CQ+Ybz9HGadqHHrprC8JWcZOqxDFurIOFLcpljlx8nknIRxfVY=
+	t=1761270248; cv=none; b=mSxZQC8RsQse+ABlelLVc4Thu/868Idf8JLi0shmRTz035VvNaPNsxgB+a8X/5U4cFjmbqlI6G4mxGpUwKcLYDphd+eXQzFhhElsD8p195WEFfIRAg/kdcI/mZXQ4oyTO6mKYw7ZDZZKx2sEMv1mRlYysXojFlqro4NoE3mBLwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761268833; c=relaxed/simple;
-	bh=tlDojOMPUzmLOzZJJ/z+jWO/8mkgNeXOeHjTh0VzK5w=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YQnmixAxhOJMiYTjpKtKxUZ5tFAAHgb55cGU1a14N9S7aCXiB8GGVolyzk21yGax6pGwTO8o0KKA77RAaVA/iAMZ1TBSlCpkT2UI4+obLGIus9w+kGNa2hiKKuw5LPt2BE7VY9gHVtlYB1qj7sZaQSMUidtLVUSJ+tqBptg8jww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3PnmmlH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761270248; c=relaxed/simple;
+	bh=axiWZbssjlpH1aFl7mg+golcYlw6gkQMBkAvr0ja23s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZeTA389PaaahGBL02fBv6IMUKd37x0ZZl7YRXrQZpo/3Quqyzp2dyarnshhj2yPOmEjWJpcdB2HUd4hYtxSpk/sSenms6yE9eoEODSmanRURpEPvIUr+Y+W8o3cApO5AUlEFwrI9wPGuiWDashFKEHZBcbbxkvPdPxqR8pFYDWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ouUbOohm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3PnmmlH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD1DC4CEE7;
-	Fri, 24 Oct 2025 01:20:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ouUbOohm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727FAC4CEE7;
+	Fri, 24 Oct 2025 01:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761268833;
-	bh=tlDojOMPUzmLOzZJJ/z+jWO/8mkgNeXOeHjTh0VzK5w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=S3PnmmlHUbs3tfjcpuK1BmQJm1dno8xdTWiKUbS8ETYWB/+LH6m41na8VgwmZX+pa
-	 vdlj/f8vxkpvfwFyhCxhPD58MbTWernDuALpHqy+gO2sZDFLYHIy7Y9LoLhFUg+V2z
-	 R9u8sbJlPwqAF78aNctmPRPZOg5o+QF5aZ7ObmwaCZqznW+Xtd0obvMwkI9/r14lLC
-	 Ko6rxWK371W3NFXDg1vpWcDGIB/gM/7kwMS/1CY6NRx8UH5wa7lTYHkHStCZXxlpa4
-	 2Db0EIDJmWKS5C3PFIGpwS/mPM2a5fNWpis51Y1emReUrAlwiVIPaAYCC0uw8a1Alh
-	 eoSs8XqczOpxQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE21B3809A38;
-	Fri, 24 Oct 2025 01:20:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1761270246;
+	bh=axiWZbssjlpH1aFl7mg+golcYlw6gkQMBkAvr0ja23s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ouUbOohmzSE5kKxvkHQ+qoiD369U/2WAfU+44lSxnZIB3JmmNxl2ypBy3UyIUbAU1
+	 W+BaQkk+B74MG9QlEmPVicFy3+nE8qt61HCrpeAKqU+1cVm97KU7ILDS85m+D421ks
+	 HD+n7f7zNOUm+zNd6ODja0+nhxjeJifwDXSOedHQ10hpTFI+zOQS7KEOq1a/Fwkc1m
+	 hdyNf//vazgKOqE8jumapXnzgSPuLmBrnW+1SCiHiShVyd124qTfA4M7p7ZS+Vne1w
+	 V1NB7tXEdfvu1F4gkvxtdYDtxky2pwLzmvM+E4G4nPK6vnoG4LbRVSWHPDIhuyB8s4
+	 ZhluJuGJTjPJg==
+Date: Thu, 23 Oct 2025 18:44:04 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Wilfred Mallawa <wilfred.opensource@gmail.com>, Sabrina Dubroca
+ <sd@queasysnail.net>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Simon Horman
+ <horms@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH net-next v8 1/2] net/tls: support setting the maximum
+ payload size
+Message-ID: <20251023184404.4dd617f0@kernel.org>
+In-Reply-To: <20251022001937.20155-1-wilfred.opensource@gmail.com>
+References: <20251022001937.20155-1-wilfred.opensource@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] net: rmnet: Use section heading markup for
- packet
- format subsections
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176126881324.3310205.2043841398135141215.git-patchwork-notify@kernel.org>
-Date: Fri, 24 Oct 2025 01:20:13 +0000
-References: <20251022025456.19004-2-bagasdotme@gmail.com>
-In-Reply-To: <20251022025456.19004-2-bagasdotme@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, subash.a.kasiviswanathan@oss.qualcomm.com,
- sean.tranchetti@oss.qualcomm.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Wed, 22 Oct 2025 10:19:36 +1000 Wilfred Mallawa wrote:
+> +TLS_TX_MAX_PAYLOAD_LEN
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Specifies the maximum size of the plaintext payload for transmitted TLS records.
+> +
+> +When this option is set, the kernel enforces the specified limit on all outgoing
+> +TLS records. No plaintext fragment will exceed this size. This option can be used
+> +to implement the TLS Record Size Limit extension [1].
+> +
+> +* For TLS 1.2, the value corresponds directly to the record size limit.
+> +* For TLS 1.3, the value should be set to record_size_limit - 1, since
+> +  the record size limit includes one additional byte for the ContentType
+> +  field.
+> +
+> +The valid range for this option is 64 to 16384 bytes for TLS 1.2, and 63 to
+> +16384 bytes for TLS 1.3. The lower minimum for TLS 1.3 accounts for the
+> +extra byte used by the ContentType field.
+> +
+> +[1] https://datatracker.ietf.org/doc/html/rfc8449
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Sorry for not paying attention to the last few revisions.
 
-On Wed, 22 Oct 2025 09:54:57 +0700 you wrote:
-> Format subsections of "Packet format" section as reST subsections.
-> 
-> Link: https://lore.kernel.org/linux-doc/aO_MefPIlQQrCU3j@horms.kernel.org/
-> Suggested-by: Simon Horman <horms@kernel.org>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [1]:
-> 
-> [...]
+So we decided to go with the non-RFC definition of the sockopt
+parameter? Is there a reason for that? I like how the "per RFC"
+behavior shifts any blame away from us :)
 
-Here is the summary with links:
-  - [net-next,v2] net: rmnet: Use section heading markup for packet format subsections
-    https://git.kernel.org/netdev/net-next/c/9ff86092655f
+> +	err = nla_put_u16(skb, TLS_INFO_TX_MAX_PAYLOAD_LEN,
+> +			  ctx->tx_max_payload_len);
+> +
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+nit: unnecessary empty line 
 
+> +	if (err)
+> +		goto nla_failure;
 
