@@ -1,62 +1,64 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4B531A558
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 11:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F6931A7F7
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 11:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761303628; cv=none; b=e2qaVjkXGw9sD3D1vFYWVgqbKuINDmcQ3dFBzEcYMNnoMTcIRPv4+zIpSdEcqS6jd9bw3Mo3Mvep4YeyZGgTePPYa+yIwnKZiDsMZOAFQVyddQT0dDPXoLc75ZixKpDPGqDxyOZAbDvgzbhi0q9xLkAY8l4lBiM1EW/w+XgCjmo=
+	t=1761303631; cv=none; b=hpwi2J3ww+NiZ0sYH0SQhYNtEoNND2mturaHPRo6h9oS8DfE48aMRNYM2Xrd+tg1KoNbgTE+aRnmsuT5ZvF34liPb8NDIu0vxe1rL2LIXtPW8/8FcxrcGAu7yEN5s7pMkAvmqrRPFpI9iIwtlsZ7edUvKGLHOJL+BK0WQb8Ou18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761303628; c=relaxed/simple;
-	bh=UUJma3mfHxdsACo5jvuRAN7LQ2A/mwBLWD+dCqbrfSM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N8tRGI5Xv+BI/dwn8ytkMxLDihlM0irYRGObvG5fDIiSW0pkZl42vcrQHgyj/IW7uoUWuAxJoXhphAZU9aX4cNdNpnaff0RB3fus0Cp4ZZE84I98IaC1NtOTXDw4Yh36ob66HBHPkPmS5R6SvW1AGj3ie1lr1j5t+mxd5S9ICIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ap67KMXa; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1761303631; c=relaxed/simple;
+	bh=sRmLVb4WDCfxemO60P2Zl3Rgl7zJ9hn7HxwvQBrR0HA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nbqvnOKejiTbU4aVqxzXHjZ8fmk8lSuIBO42IFY9sISnaArf6Cjo5/ZSidB/RVBYzm7d0HpcK+EdfhCECLdmrbKF78UGPYkile/fRAaF1rg8ZcVA38deBUBqSX4WkkwcQ/NiBdSn4p/79aUCddfyjP58mi0uHCNH+L3OAG0eaMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ohsc8+Jx; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ap67KMXa"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-471b80b994bso27057195e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 04:00:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ohsc8+Jx"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47495477241so15980275e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 04:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761303625; x=1761908425; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lNwQqBemATmxjXx+rJAEDdWPHTVfdvUDQPF043XY79I=;
-        b=Ap67KMXayItpma341b9u0JMZE2ltybepOBM0JUzocHH+JuTxnzxnOH6Vy/Q7ksyBy5
-         7AfvUUT81x20FG7C2z92gE7K3/JOfa4K4wCR/XhtzHyCW6qjeT2IWJR0fsgByWQZ5I0h
-         h11oFyDXSEg6lOrajGSyknpOSuR92cHPNBQvQQ/j2EZDu1YBnTyrgSKXrykCXkKBtRiA
-         dj43w1QKY2kYZ5jI2TUob44WZmkdQlYy+CKCBgDuc4frhi/qWTsSfMbOAfvHZG3sAdqF
-         QWAIGF6AcwUMYcxWseaECz6/zigYsHNFoMdIurQpatEFWE5Ir/IQUuZv3u2e/ZeBkiic
-         FiZw==
+        d=gmail.com; s=20230601; t=1761303628; x=1761908428; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S2DlPJEXE9bFCg3voEVGTmMxEdVMG5zLWK3yFZXX/LI=;
+        b=Ohsc8+JxXZo8CLR0CflOAnqkT3ZYz6TVHYeaEoc4jd8DqcmvfQN34oRj9bOfCo6ViJ
+         SXT6pIyKIX06Eu4RG3ni6RZY0neRBkvteP9LH3c7Z7NZROTLRLA4p6u56a2LaNrJhVyx
+         znAWEwOCrSHaBQLL8eOJDc9LYx2bAGEbS4hm4Nn3jpI6O/Qgs0a+ZdykQQYw5S0Hjrhf
+         JgNwjBmEuR7stxJ2rAHcdVoyR9LWtey6PlubB+iPcQvAqLo4GOag/9CGJOP9moorcdfA
+         h0he1B4X97jVxuOshV52IZqEXb6y+ClHQ05CnGl/7tPPk2TNGXTyq7rb6vYlAb5i7Qym
+         2bvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761303625; x=1761908425;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lNwQqBemATmxjXx+rJAEDdWPHTVfdvUDQPF043XY79I=;
-        b=ZsFL8Sd34lxGZzzhl8NirYrvehpqBopAw271w8Y+NFQvF7TfvFud/vWxt6BXDgJNT5
-         1YTqvHpVuFh8MEDOmJ6oUs0+EPyVu5rSlrzXHT6QceOIICFVKpitMNeTSN0qItWLSMwF
-         TPLHbWLZJfTPG2Q7FfxiR2ab4b4axNb1oeDPS67cbGDOfxrp47pD6cHUpCiXI62rGK73
-         NFJWHpO0MbkG8IJdwGVmNntQTFcHFN/MJmvgveiPmUM5KH+0mFHqvHfsol28EGp6Zt9U
-         0m/83McjRf+H7ZRwzzPdqtchNUAs5oS4jm12xJk6AZb8kdkJ9+25XnKZkH5a79IsHqGW
-         cH3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXKSa8R3ys2/nmJpozXorm7aTFkVVM3JS2YoqILJM/qm3+zB10veRmpt+Qi1pCu5V07aZ6qfzsxBBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWJtl0o9nfAEXOayLoFwCTT6LC9ty78z2pNp5orYw23Bxn18qP
-	FgF3XLT0lc09U16UaW6wM2LWQlQv04wt1DyZPG8w9T6QLdmplbDRy4gZ
-X-Gm-Gg: ASbGncvZWASt/YmmUN62YyBeNp0W6sxGQxisXhOB+B0gcEF/5kpppMHchcu+wxOA0Kx
-	ir2B2YgCW8nk0yejFE8T5BkgRPj/MqJFBTU8VmnhvKa7L9u/d3i4u9JvHAVj4gG6Ll7mi/opNhw
-	QIRNFEwFGNCYpb3PQOWt3NUKaMtdu5tAwZLuwjA1a+nBBNYzCQM3Yc94lwx60/FsiwAlh7X5R2F
-	dByyz1e1IoyuXSJ/ZNeE9ZfW4PGnY8R1k7MUj7EMZ1XKhF8l+HwJcw8ajyxSgCNqqSyU9t5oluN
-	rU2PyE5mOZ33f7h/AIL+AyBNGH0a8DK6OmsJeBuMsFFcW96jt7BPavKRiN0t43ZMdOf7iuAE+Gr
-	QbLqng7Hw1WgFSR2ffLpi/KWnapbVudcHQyU50v+U+/fnwrXvsS/hcDVaduMe3xziz2yVbm+P+F
-	XMkrVTB19KNg==
-X-Google-Smtp-Source: AGHT+IEbRG42e1LgV+3nLNHGYb8yQMIxPTGoVR+OKvME7EdNaQHnxt1RF9GQGXBtioq1FU6OLJLiTw==
-X-Received: by 2002:a05:600c:468d:b0:45f:28d2:bd38 with SMTP id 5b1f17b1804b1-471178b14acmr208423095e9.18.1761303624680;
-        Fri, 24 Oct 2025 04:00:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761303628; x=1761908428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S2DlPJEXE9bFCg3voEVGTmMxEdVMG5zLWK3yFZXX/LI=;
+        b=nyxs46vfLGtLL2uvqrukr2gNdO40wlJrxutAFhg+12E5xWNVgfOCCT92UHvlJIoUCf
+         Bc+nbJ8jnvUpeKVvbV+m7kAwXfMDNtfApiU24sSKnYgEyeBWJMYjPv/tUz0QzY5MVF24
+         CPs6rtOsWMW3r8O2UV6S98uHjdX62x6gVFDIFGRTVEZWBgWJSIFAypPdNiub4WgGEwy0
+         kPRzb0w9Cfe5gUAZS3oAv6Smlkho6+gpiLJ02jZ/8WUDMImrCxmGGi1F3gPP+KP7G/NB
+         7MBim5WtluLAa2aBqtoTDVleo051UAw0uDjW140/pJKo07OJNyPhRwJHb2yczHvLvwcu
+         Q38g==
+X-Forwarded-Encrypted: i=1; AJvYcCWe5ZwUDR6kqufiWMojmhKjwaAdG/hfA1AuorUBsb6ZCwpMwpiXk7u/qOQpFA3jnSsgFXUsClVfA3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7X6y6NXn7shCuVGyTnKEpmvdtjWNVYkeeDpBNHlhVVoW0Q+rz
+	vREajEXATA0UDOMCDiS8mfLq9/4oCfRSsFDfwS94c5tgFvNU3YbjyNwW
+X-Gm-Gg: ASbGncs74jiXX37ncV4/1OLxaIGJqfcenjFk12I5yQsjS4EyqjwePL14bHycF0EBSpK
+	IKRY/2QVdn1hfehEceTI8avlFizcVmBL9saESKwsVzUOoI8gkhoO66yqZdTpCvz4CrQr2dyQYOD
+	zhldbtcHvSXRXeOuNM5OOb+4i3hOcAa/GAQe1S90QtXN9HPZ1nzqbOKGFVUa9R8xa/6T8p4uLix
+	ASpoZwY/ksr7PuvSiPVYLT5vyKqTXW4vb2Cn2P4ULV8EDoRwdUqRFQgtGuGGfURqtqk5aQuikWi
+	YTB2KwZc814MmeFP9n6yx0nOsWFa6d40XjO6b2/4ZX9c0Dr/mopfywscLpwAtDi9ZmeaXpql/nF
+	WBrxVH1A/exHZODnWLc0EWuVGktEIXAZGTFqKAEs6WKtTxQlRoG6hA/VJb76rjo4LPTb7D8ElSB
+	kNbyNgpZPhEfWVyQAAgJKN
+X-Google-Smtp-Source: AGHT+IFDGexIqIJe+aeZRvtxTGvwmt0zUxNNK7H0pqVfPDQQTVgP3yUieL4uwsisR5iCtogwo4ejsQ==
+X-Received: by 2002:a05:600d:8303:b0:46e:396b:f5ae with SMTP id 5b1f17b1804b1-475d43c85bemr7875965e9.16.1761303626317;
+        Fri, 24 Oct 2025 04:00:26 -0700 (PDT)
 Received: from fedora ([37.29.213.75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475cae9253bsm82484615e9.1.2025.10.24.04.00.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475cae9253bsm82484615e9.1.2025.10.24.04.00.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 04:00:24 -0700 (PDT)
+        Fri, 24 Oct 2025 04:00:25 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com,
@@ -71,10 +73,12 @@ Cc: hamohammed.sa@gmail.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 1/2] drm/vkms: Fix run-tests.sh script name
-Date: Fri, 24 Oct 2025 13:00:04 +0200
-Message-ID: <20251024110014.4614-1-jose.exposito89@gmail.com>
+Subject: [PATCH 2/2] drm/vkms: Update testing with IGT IGT_DEVICE
+Date: Fri, 24 Oct 2025 13:00:05 +0200
+Message-ID: <20251024110014.4614-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251024110014.4614-1-jose.exposito89@gmail.com>
+References: <20251024110014.4614-1-jose.exposito89@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,26 +88,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The script is "run-tests.sh", no "run-test.sh".
+VKMS is no longer in the platform bus, instead, it is in the faux bus.
+
+In addition, when present, IGT picks hardware drivers instead of virtual
+drivers, like VKMS or vgem, if they are not forced.
+
+Update the documentation to use IGT_FORCE_DRIVER instead of IGT_DEVICE.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/gpu/vkms.rst | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 3574e01b928d..d8c445c417b7 100644
+index d8c445c417b7..1e79e62a6bc4 100644
 --- a/Documentation/gpu/vkms.rst
 +++ b/Documentation/gpu/vkms.rst
-@@ -161,7 +161,7 @@ To return to graphical mode, do::
+@@ -159,26 +159,23 @@ To return to graphical mode, do::
  
- Once you are in text only mode, you can run tests using the --device switch
- or IGT_DEVICE variable to specify the device filter for the driver we want
--to test. IGT_DEVICE can also be used with the run-test.sh script to run the
-+to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
+   sudo systemctl isolate graphical.target
+ 
+-Once you are in text only mode, you can run tests using the --device switch
+-or IGT_DEVICE variable to specify the device filter for the driver we want
+-to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
++Once you are in text only mode, you can run tests using the IGT_FORCE_DRIVER
++variable to specify the device filter for the driver we want to test.
++IGT_FORCE_DRIVER can also be used with the run-tests.sh script to run the
  tests for a specific driver::
  
-   sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
+-  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
+-  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
+-  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
++  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/<name of test>
++  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t <name of test>
+ 
+ For example, to test the functionality of the writeback library,
+ we can run the kms_writeback test::
+ 
+-  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
+-  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
+-  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
++  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_writeback
++  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t kms_writeback
+ 
+ You can also run subtests if you do not want to run the entire test::
+ 
+-  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+-  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
++  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+ 
+ Testing With KUnit
+ ==================
 -- 
 2.51.0
 
