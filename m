@@ -1,118 +1,194 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8272824BBEC
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 03:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468224F5E0;
+	Fri, 24 Oct 2025 03:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761275458; cv=none; b=V+YjjNq1mXOwT0ecwUVDIHnv60l68eNXY2jtkpVH0cNxR/fKT7Nk+IJa9iLcetInZ11cXDQKK3hs5dPf9/UXBC1TIXycOAuOigdDhZAwJbNvCtW8e1GIqW/PwvoUl2hLSeojEOvyOSdgGE/wJZKmk4N6In3wBwLJNf3gHiM0+SU=
+	t=1761276825; cv=none; b=Qep4ObK7nbG6zJYPWDAdVEynjY+/fj4dgyksfyutA+nGKK2/lM+bIqFt125V9a8KFcOb6TTBD407Jm+Gldw683Kudij1EEyWcum7m3E7ooBr52aBkJ+0NRJuNOxr9n8Y2Mc0G3AXOG1uU4Me59T09EEiaU9en0b/3060uqG/U4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761275458; c=relaxed/simple;
-	bh=+hpHl9CTaTJrHkGNRc+qFqFnnTcwFNIFfglXCTIQstA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GJU84FO3SEwe0ouJHW8f2XDAyw3/ih2khiapzamHunbyppZAwDLuQhkM3mXq3DETPejhofX+A8IaVbyjDn0Gq+g1RbmJ3p8JMexLBMoaollfBH2LJSyuz/JYLa3ypS1obrGSIPBAx5GDTECVW7FfvU1KbD9AhSjKaCq0NR5M/mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQ4JDNLa; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761276825; c=relaxed/simple;
+	bh=sRuvlioDBWR5tiiyL0vKApMcmiSStmC55EJ+Rap/oUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSKNn9Id50yDq8xsPhtVgMEly1NZ2CMZV6gbpeIUbVh1gDdO6wLKBOomBbmSdxJ02mIOxg5K9oTyQyjO1lHoB06XLSV5x2sMMDZXexRnNL2U43LPRJElSlOq3TO3iuH3Ed87/LrzVutOddnkEWXF00dSt/JE9kkfL3EdrFElgtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=nx3aiPBG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IDRUQL3I; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQ4JDNLa"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so2298859a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 20:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761275457; x=1761880257; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LfACKoGL5d6f67A57riboWf6T6eBe4z1rHL4CeVYlqs=;
-        b=hQ4JDNLam2IypJV84PgmNUk0eEMd9hhnl6XEloY76E6Rf5iH5BEvpN9Gq1ym4SA7NW
-         2IzyPl05b0rGjKUiq8X21Ex1zBaQB0dILXMPnLwMb2DaL4vEJkO88MIaFo/exdI3ZnXd
-         22lo15upBP/Kf1I54cQvmvKk9zQ3jaPSRMUdgyTxKoCWtQh2ypZ9anktlOfJl9UBUMjo
-         yg9daFnTBmUcCN/w8e5mP+3aC6Zhk0gpya1uA3bIgjuMFmq/xOXdUAmFC7FcE5HkqzY9
-         9kufl9PqvuCfXHmOK5nDpuj4d/oOLEKVRve66a8WRw0ixNJVFx5Y24ZzvTeNaz/1mpuA
-         Pv8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761275457; x=1761880257;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LfACKoGL5d6f67A57riboWf6T6eBe4z1rHL4CeVYlqs=;
-        b=H/u35iUUmJvlN0Pn7yRVEGLCLA40hEhmBK1wpPSxaF4fjq57+7FUV3J5PplGKkJ0IV
-         7ijXqD9j5dg4xTpA1kkf09ykCl4GiLugveAqKENRTURPJnpXe4joT9D1TtacFF72PcAg
-         mx31xSnNJJ2uVacvl1NIzCWV3FXZLU5KuYQcPbaWMfKmLXEom86C+2lwGmB0U805fzqG
-         ZNHQ4DoLsIIAtZPHGZTdBSznFdRghZ+ftqFNVkV9wdVMX7bSDr9d5Lt+nNYXvlfugt34
-         XqUd5MafCpbApofWkD8CKw3SpivxSZH8t6gRUPPfj+0oQAcGhl/FqY2dm54BJSqdwnbL
-         Y5hw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUbx40RqM1hOMI160M7bEH59i2x1OSJnwZXQXJUaTSIOOTBlkrhAx1vK9pExoOiifBUqsr3TlFpiY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3vxwAYRYWog8mJmF7JKeWoNpU8cS+6r/RPl+u3yBo1X8Ee6lv
-	9A2xuo0ZgU9QTvLd/pNqyrdaFNbD1M/JhcHOMnyzGn58xmZ5O4qwvtvf
-X-Gm-Gg: ASbGncsQRz0X/SJJttu2yptbGjP5iWCRtc1penLMv7fvJ17ltIX46dVldFTMIVMv9FL
-	BajjUDv1UcZ2psRQxt61RTfztJL5ym5bsWxwUtd4hdgQd7PrE9L/KXMnxIIZpcZogb+AhCYYpPq
-	Iaa1Y7v1hV1G/B3P+5jc40mysh7T05dpYboReUv56ccwbaALS3/8SuuR8hmDQ2RV1S9mAXi19/t
-	Ri9fXWv7GBr8hj280MtsamSSk9tMsCsQLAJ/C3xB7HiRU8tdZi6Tzj+9R4ni17IuH5lwCg60VTZ
-	+kKvBYQLd15ZgExxhVZPp4U5UVLiKuConLXSpLO8vf4ENclDX4HQyaHVGReFtnqownWkaeGbIHJ
-	rWjYmpvaI3Fd5j+55T7/xZy2zT0+ho1L9TGK7l2a2ffigcQ5QVCTeCwjKjFizI3+2aZWQlVaXQc
-	0Ta3iyMGdYlBRKD/K1Hot/li/o09cyTb6v+UCn0xFgpv/A1w==
-X-Google-Smtp-Source: AGHT+IFAFr6BWw+28G+Y/+rpNnKUm3jMh5eyliYqb4zVlqFPYgU/mQrru+nYz5MYTkfiQ8N/Q1uKSA==
-X-Received: by 2002:a17:902:ea04:b0:27e:d66e:8729 with SMTP id d9443c01a7336-29489ce21f0mr17665165ad.0.1761275456687;
-        Thu, 23 Oct 2025 20:10:56 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946e0f419csm39405915ad.89.2025.10.23.20.10.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 20:10:56 -0700 (PDT)
-Message-ID: <532dcafa-08a8-4e18-b904-53e061734b69@gmail.com>
-Date: Fri, 24 Oct 2025 12:10:54 +0900
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="nx3aiPBG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IDRUQL3I"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 24CE6EC020E;
+	Thu, 23 Oct 2025 23:33:42 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 23 Oct 2025 23:33:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1761276822; x=1761363222; bh=6Qk94gauP4
+	S6c5TS85B+XqqLkzd0ro5T/4n/atTJLjM=; b=nx3aiPBGrPSQ/PiiPhX6q8lt6n
+	9SGptk/5s0jwAbjuPbs69yBsnxF6a88GGz6xBC3/EDlal86wlF/ClNB8C7jkySkM
+	Ba1Gg099qAt2ndTcCrF945/+FFLAq4gMdGk/aduO2tNTgXqq3+yu3Nn60Op10kxP
+	McczkivT5U9H/w/8m8C2B9e+5nnZePC/cwdbUcxZ7tCVShKOXfwAwjJL8MSNbHXP
+	6Li3Num3Xce5BGpuqBfz0yMjB/1xxKoOCRSlZE9MzOVJDzjd8ThJ+UExc+uMjvLc
+	IsbKVVNo4fR2tD+NTdIXHXry8hzGQMStWTNkguQEGQglkSMwaoYkwu5LorZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1761276822; x=1761363222; bh=6Qk94gauP4S6c5TS85B+XqqLkzd0ro5T/4n
+	/atTJLjM=; b=IDRUQL3I5OcXnFn/0NzqP1oLDouv4AQ0C4qB6xa6BXa+RIbtSaM
+	HOjR5LF5spf3hTexbiA0fmxNiusXNLilJmU2EybpF2PzIhq18DICpHLgtWGaMglJ
+	n9wMxm8gRKMyWspkfYISbg1BiG6SQjGR8/9XqrOlDk1t40rwdJ7gVf/MdNIJ/P9b
+	uPFhveqzKu7J1WhzYCnxGfZX2kV7G9rjEA7UI2VO+jsbEqwRJOlQqXjDWstk8rhv
+	ED4QS9w+7IpA829Z7zdyle67u7LnLU8jwFKhQDh1q7dfd8khHfYPURwVej3lqQAY
+	xQ+mMut+ns6Hn+lxoTK2UZylYV7HtgM8m/Q==
+X-ME-Sender: <xms:lfP6aO9KSrRK9op2v0DUi1c_1LPrFK7OtO1ENhzacsdJeMdlALcERQ>
+    <xme:lfP6aKl0LdD_glT5ikdcStJBb7sZe9Gznf8XF4lI4SAiDTq9W8MbzfJURIUse1eOn
+    E83Uw89I12PVeFJS8KB24hDfFGR7EDFGj2TSwefoApG7BdpQQWxQDw>
+X-ME-Received: <xmr:lfP6aBCdwWOfJ3tOVoVPBNgmhur-8HH8cF8aOcCSB0xc26F5gGnDyJWM9ob9r2CaRrtVEIUDAKP9bnQhIbMHaOZOe7reSNn8sw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddugeekvdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeffgefgtdegueetffdtkeefveeflefhudeifedvgffhgeei
+    heethfeggfekleelfeenucffohhmrghinhepmhhitghrohhsohhfthdrtghomhenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhh
+    uhhtthgvrhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthhtohepuddupdhmohguvg
+    epshhmthhpohhuthdprhgtphhtthhopehjuggvnhhoshgvsehgohhoghhlvgdrtghomhdp
+    rhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnth
+    hishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorhhokhhh
+    ohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpd
+    hrtghpthhtoheprhihuggsvghrghessghithhmrghthhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:lfP6aLWqfdTtmlBIcCqKwt9t4qIUbGn10eCC6GqFj6zUw_BT4YpBpg>
+    <xmx:lfP6aH-GDX420mv4VjrxzZqP1binp0D6NZ0lXSBbfV9zjf3etxijMw>
+    <xmx:lfP6aFSbWiTl7YHFV63RX1cJa7DSGbPh844KPFHuCOHz6l-O7ZGKNA>
+    <xmx:lfP6aEQxHDJu3kj0XDu0T6WN3vN4ubS6pvsbPuxOzk8ORaYAuBDywA>
+    <xmx:lvP6aDUJkVZKToe-Lps70CkyCtf3taW8cU4p5h0RBCaeOV0Bb0m1mjWy>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Oct 2025 23:33:38 -0400 (EDT)
+Date: Fri, 24 Oct 2025 13:30:45 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Jonathan Denose <jdenose@google.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>
+Subject: Re: [PATCH v3 03/11] Input: add INPUT_PROP_HAPTIC_TOUCHPAD
+Message-ID: <20251024033045.GA48918@quokka>
+References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+ <20250818-support-forcepads-v3-3-e4f9ab0add84@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 00/10] Collect documentation-related tools under
- /tools/docs
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <20251023161027.697135-1-corbet@lwn.net>
-Content-Language: en-US
-In-Reply-To: <20251023161027.697135-1-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250818-support-forcepads-v3-3-e4f9ab0add84@google.com>
 
-Hi Jon,
-
-On Thu, 23 Oct 2025 10:10:08 -0600, Jonathan Corbet wrote:
-> Our documentation-related tools are spread out over various directories;
-> several are buried in the scripts/ dumping ground.  That makes them harder
-> to discover and harder to maintain.
+On Mon, Aug 18, 2025 at 11:08:44PM +0000, Jonathan Denose wrote:
+> From: Angela Czubak <aczubak@google.com>
 > 
-> Recently, the idea of creating a dedicated directory for documentation tools
-> came up; I decided to see what it would look like.  This series creates a
-> new directory, tools/docs, and moves various utilities there, hopefully
-> fixing up all of the relevant references in the process.
+> INPUT_PROP_HAPTIC_TOUCHPAD property is to be set for a device with simple
+> haptic capabilities.
 > 
-> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
+> Signed-off-by: Angela Czubak <aczubak@google.com>
+> Co-developed-by: Jonathan Denose <jdenose@google.com>
+> Signed-off-by: Jonathan Denose <jdenose@google.com>
+> ---
+>  Documentation/input/event-codes.rst    | 14 ++++++++++++++
+>  include/uapi/linux/input-event-codes.h |  1 +
+>  2 files changed, 15 insertions(+)
 > 
-> The big elephant lurking in this small room is the home for Python modules;
-> I left them under scripts/lib, but that is an even less appropriate place
-> than it was before.  I would propose either tools/python or lib/python;
-> thoughts on that matter welcome.
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b4557462edd7b3fef9e9cd6c2c3cb2d05bb531ab..1ead9bb8d9c6451a81426665baab643f9e50216a 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -400,6 +400,20 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
+>  All other axes retain their meaning. A device must not mix
+>  regular directional axes and accelerometer axes on the same event node.
+>  
+> +INPUT_PROP_HAPTIC_TOUCHPAD
+> +--------------------------
+> +
+> +The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
+> +- supports simple haptic auto and manual triggering
+> +- can differentiate between at least 5 fingers
+> +- uses correct resolution for the X/Y (units and value)
+> +- reports correct force per touch, and correct units for them (newtons or grams)
+> +- follows the MT protocol type B
+> +
+> +Summing up, such devices follow the MS spec for input devices in
+> +Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
+> +and report correct units for the pressure.
+
+I'm a bit late to the party here but I just had to deal with a related
+bug and I'm wondering if you'd be open to loosening the definition of
+INPUT_PROP_HAPTIC_TOUCHPAD to include touchpads that are *physically*
+haptic touchpads but do not support userspace control of the
+haptics (lack of driver support, usually).
+
+We currently lack support for those "pressurepads" - in theory they
+should report pressure resolution but the number of quirks we ship in
+libinput indicates none or few of them do. Those devices *should*
+report HID 0x0D usage 0x55 and identify them as pressurepads [1] because
+otherwise Windows probably wouldn't work (unfortunately I don't have
+access to any of those devices to verify).
+
+By using this prop for all pressurepads including those not exposing
+actual haptic effects the definition would become:
+
+INPUT_PROP_HAPTIC_TOUCHPAD
+--------------------------
+
+The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
+- can differentiate between at least 5 fingers
+- uses correct resolution for the X/Y (units and value)
+- follows the MT protocol type B
+- may support simple haptic auto and manual triggering and if so:
+  - reports correct force per touch, and correct units for them (newtons or grams)
+
+And then we can hook up the 0x55 usage to set that property and leave it
+up to the client to check if the FF_ bits are in place to verify it's a
+haptic-haptic touchpad?
+
+This would save us from needing a separate INPUT_PROP_PRESSUREPAD.
+
+Cheers,
+  Peter
+
+[1] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
+
+
+> +
+>  Guidelines
+>  ==========
+>  
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 3b2524e4b667d1e7cc02ff5cb674e7c2ac069a66..efe8c36d4ee9a938ffb1b0dd0ddd0ec6a3fcb8fe 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -27,6 +27,7 @@
+>  #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
+>  #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
+>  #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
+> +#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
+>  
+>  #define INPUT_PROP_MAX			0x1f
+>  #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
 > 
-> Changes in v2:
->   - Rebase on top of all of Mauro's changes (the most painful rebase I've
->     ever done, I think).
-
-I tried to apply this series on top of current docs-next, and several earlier
-merge points, but haven't succeeded so far, even with "git am -3" ...
-
-Where am I supposed to apply this?
-
-        Thanks, Akira
-
->   - Land everything in /tools/docs/ rather than /tools/doc/
+> -- 
+> 2.51.0.rc1.193.gad69d77794-goog
 > 
-> v1: https://lore.kernel.org/lkml/20250813213218.198582-1-corbet@lwn.net/
-[...]
+> 
