@@ -1,111 +1,87 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C9C38FA6
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 00:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA671B85F8;
+	Fri, 24 Oct 2025 01:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761266731; cv=none; b=giMUXqoMsIQWwMOos1zo93S2CbclRRpBJ9as/yq4krsOwXx+NtmiHFqcjo/K6lauaGEdmyrcX++ign+Tqc+LWy+ba4VVGDwbfoKm/q4FHqt5LByNp7vydsv6u4XLLLsVWwpjudwYhDWw92k9Sdy934bj7hZVduMO/YXMtTCo2T0=
+	t=1761268215; cv=none; b=qUlHc0M4ww3c+tSwez8KaVwMTZXD6GDboAqKhl46W44ytWmAN9FW0/ziQuGUHxAQa1sb2muqiPk1nFpUcgypeZodfNj/hbHNoUtC7R7LO5xyGowV5MjCv2SaWi/Q/V9omRSDA31ZB0cGlVg+3G0zgn3r8Yry22xIT/n9SxizT3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761266731; c=relaxed/simple;
-	bh=dp/cP8zcAEvQUvgno1S48/Mi8rnaT41MC9uZ0aZ6H9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r2brgFr2Qaj+laG+eOUUolin9dC2g6+e9k89MkLHIeHxc7K+kNfO9ZJBB74C/Cq8iTGOWRmk2Om8CAnJnrTYWWKxsu/yZ99uWi3JZBY0c6g96v2VDat81PyQjwR/SgTxdxyHEDBfqYw0wm2WbfJc5iedfLDUON2xTCiVVyx9PEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mw1l1vku; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761268215; c=relaxed/simple;
+	bh=OLXoSnqBAFgBwoQMFtvAMOPLw94jaNvTQASIeLyNyII=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VEox005NoE9Nm3+x4Znm/nBy0mxit5DaXd1O+9m60qbU+Xt4gi6ncWp5Iam51wcpPZYiZ5Bz9AxNfC5dNCIktNui4FC+PXRJdb0FAAeyIrXdofdJ1r2NP2fUBrHurl42BbgXtUTzCgW1GlZeERTyakr8uCKFT1e6HvY952vW0hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WrKHmuPa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mw1l1vku"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a23208a0c2so1210400b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 17:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761266730; x=1761871530; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BiQAoFGDew/ZqTfreZLnGJFxaRca4v0mR/t0Zt3wPxM=;
-        b=mw1l1vku56L7HpDQG9IYJY0DNNmV2gMQZKbybN1aKpHuZ92bFsXihhEB0RV4kg8SOV
-         VasqW8wWBn88fB0b+tmfiMAMl0RXuraDXvxcWUkIpp+mEm7Iv/UaRp7H6WTBCT1pV2k+
-         GghpZmzjbxuCIlhkHXM5iCS5tEaFrBbgW9XUZ3/VqEWh2uIs0Jc8oCJSZFR3qtujaHb1
-         3IxcVnpdWNAz7flPUyFUO8ch9pigfM7COSUuxy+TosQ5xIkvcsrEUxQwzWyN2cZfuV0S
-         eNgKyTrj/VIIZr3teOWIYgncNGolU+qXXfpC0dUWvfnsmZ5KTC5WeT64fN1/RDC4P9eD
-         SrFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761266730; x=1761871530;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BiQAoFGDew/ZqTfreZLnGJFxaRca4v0mR/t0Zt3wPxM=;
-        b=FM0g2fQvHWSplRWgoGS1GxGNzP7rFPmD29+ssi/+6MvBprlA/nmo9ZFE+NR0Uocia8
-         kiqw4cjYt5H7ZnGcTM1W1ccUCUOXfu38iVOgTv6mJDlfllT8lgrZopHKOnN0zPtYrzwO
-         6uH6RWedEEnHRrQ7sflDrcCwkJYpF39L6ewu2bYs2GO7fBJlJFnuv7MMnbZyD+gQh1rH
-         YujvsJ04ikr9tcYpOxlRMpaoOE5p7QhNoKuQ9MzPBGXLIKw3G2VA5lbSFaBbH967TVyS
-         zy3bm0KBRcZYbtGt9mg/cIQGgCLb51/4Sojrqr7oC+mzZ/1QwOVAVwRqSOLbEc0bcog2
-         X4HA==
-X-Forwarded-Encrypted: i=1; AJvYcCWF4VH/H/bw3NjKVkicISsGcNzNQ8N9KV/pEeRXZgdImvy/o6cwNw8q3AHvaCHoO9xkSdbliM2Aef4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaWFBOvuCZcUYI6JWXtgN61NaCYzOd3JU2dOVpV7l6xiuj9ybQ
-	UiZnk+WBh6xo2WHpXqgEZCBTHt4JKqTmBI9BiAfiRzNesfiKxm6C6VGx
-X-Gm-Gg: ASbGnct2F1y2k/8DVmPreV0+NPlWMCk/T8y5VdouF+A2VSv63/7OSKwVBHfSV1m4eIt
-	9nSQIbzE/kKcTrzwOI3/Qevaz7b6uMjXQjvZXhoNtD9WyAi5hOUFyMkyJNSqdH+/2ydzulL7jRU
-	YdRKTv4+38+lbS97u9LgqEP93I1+lY3P1AJrXJQ7zdNh/Lm1RZzJKpIpYNeEriYyoQ1elzirRT0
-	25X6IoXZj8qaMjDHftaw/mthIq+9otbiqLdABi4MiJp3V8DNOJzwps8iGaO4ivNVVUE3r5LkDWy
-	xNKVaCWpCoXMoINz3VBWkBHxumLZoGKbI+/DzPbBqK8HvbcCceJqIA/gYH6bHZF34NeotswE8zJ
-	tNlxR8K/jILE5w75W5MdqwhHPTqq5szi3x5IG+3S/H6T1qMIAdORgfWRVIw/DR4ymn558DIChOo
-	YawnTnpoMl2yZLdmFrm3I=
-X-Google-Smtp-Source: AGHT+IFnnZIKoGCQomFCAGHPFnchCLdxRUrJ5xP0ExMryJO2JZfGanXAzObKKUl27Cc8JB6hozrsOQ==
-X-Received: by 2002:a05:6a21:6daa:b0:32d:b924:ed87 with SMTP id adf61e73a8af0-334a854ac50mr33328122637.20.1761266729651;
-        Thu, 23 Oct 2025 17:45:29 -0700 (PDT)
-Received: from [192.168.0.150] ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274a602c8sm3973490b3a.7.2025.10.23.17.45.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 17:45:28 -0700 (PDT)
-Message-ID: <c1400c7e-ba80-4814-b5a0-3d326d97d4dd@gmail.com>
-Date: Fri, 24 Oct 2025 07:45:17 +0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WrKHmuPa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DAEC113D0;
+	Fri, 24 Oct 2025 01:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761268214;
+	bh=OLXoSnqBAFgBwoQMFtvAMOPLw94jaNvTQASIeLyNyII=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WrKHmuPagZflA2cQbaM+uEDIZWz7+utTLmFSlMSAPNEEw+e+E1yQnm0YZ+3sskOqS
+	 qEtXImiN9VvvlIjlo6qCtvWgut2rDBAnCNhkTPNb93e7uoiU0Vvyyz4aon7zGDm/d9
+	 35g9lMWnqGFAW1mHhfkRQnVIYBEjU7KxUu5F405kPF3ShnXDxdmGqlL57HFnOPLSht
+	 z3Doxp2nBxo9ElMu2bt2yFm4xMyuqsEV+WG8LAk5nDoE3464Ym6qR9jlfKMl7Nexze
+	 bQtKShADtwAyzv5zY1mV3J59MgzusTVAH2ses4qh3Zl8oYa2eGPWDt+G/GeR1zKC1U
+	 PjZ9K9aEWyIvg==
+Date: Thu, 23 Oct 2025 18:10:12 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Kory Maincent
+ <kory.maincent@bootlin.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Nishanth Menon <nm@ti.com>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v7 3/5] ethtool: netlink: add lightweight MSE
+ reporting to LINKSTATE_GET
+Message-ID: <20251023181012.6bf107a6@kernel.org>
+In-Reply-To: <20251020103147.2626645-4-o.rempel@pengutronix.de>
+References: <20251020103147.2626645-1-o.rempel@pengutronix.de>
+	<20251020103147.2626645-4-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] Documentation: ARCnet: Update obsolete
- contact info
-To: Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Avery Pennarun <apenwarr@worldvisions.ca>
-References: <20251023025506.23779-1-bagasdotme@gmail.com>
- <295b96fd-4ece-4e11-be1c-9d92d93b94b7@infradead.org>
- <aPnqn6jDiJkZiUfR@archie.me>
- <b77b8a60-2809-4849-8a6e-a391eacf050b@infradead.org>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <b77b8a60-2809-4849-8a6e-a391eacf050b@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 10/23/25 23:43, Randy Dunlap wrote:
+On Mon, 20 Oct 2025 12:31:45 +0200 Oleksij Rempel wrote:
+> Extend ETHTOOL_MSG_LINKSTATE_GET to optionally return a simplified
+> Mean Square Error (MSE) reading alongside existing link status fields.
 > 
+> The new attributes are:
+>   - ETHTOOL_A_LINKSTATE_MSE_VALUE: current average MSE value
+>   - ETHTOOL_A_LINKSTATE_MSE_MAX: scale limit for the reported value
+>   - ETHTOOL_A_LINKSTATE_MSE_CHANNEL: source channel selector
 > 
-> On 10/23/25 1:43 AM, Bagas Sanjaya wrote:
->> On Wed, Oct 22, 2025 at 09:21:43PM -0700, Randy Dunlap wrote:
->>> I found the ARCnet Trade Association at
->>>    www.arcnet.cc
->>
->> That's ARCNET Resource Center.
+> This path reuses the PHY MSE core API (struct phy_mse_capability and
+> struct phy_mse_snapshot), but only retrieves a single value intended for
+> quick link-health checks:
+>   * If the PHY supports a WORST channel selector, report its current
+>     average MSE.
+>   * Otherwise, if LINK-wide measurements are supported, report those.
+>   * If neither is available, omit the attributes.
 > 
-> OK, the ATA is  https://arcnet.cc/abtata.htm
+> Unlike the full MSE_GET interface, LINKSTATE_GET does not expose
+> per-channel or peak/worst-peak values and incurs minimal overhead.
+> Drivers that implement get_mse_capability() / get_mse_snapshot() will
+> automatically populate this data.
 > 
-> I suggest changing the link.  what do you think?
-> 
+> The intent is to provide tooling with a "fast path" health indicator
+> without issuing a separate MSE_GET request, though the long-term overlap
+> with the full interface may need reevaluation.
 
-Fair enough.
-
--- 
-An old man doll... just what I always wanted! - Clara
+I don't think this justification is sufficient, we don't normally
+duplicate information in uAPI to make user space have to issue
+fewer calls. ethtool $link already issues a number of calls to
+the kernel.
