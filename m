@@ -1,271 +1,224 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046EB233735
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 14:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31B0322753
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 15:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761317423; cv=none; b=r6u4OyNJ1BfZnWMVZ+nPnqZ+IDJNbLPEX8QGJrAOP2NfO6xMFxeJ9p3rIKDsss7OoiYNHPLSBel0kk+smc6Zq88fpv0s54bcEwA9Ph5uKNw62WcHPTsI8frlXFWh5tKZFe2E2Cwd9JIReF7Xf7XA9NJRLzY74tStblKTLGIOZNA=
+	t=1761318669; cv=none; b=oHye4EMj4ZT5+8rQQJ0R7Mk5S3P5Y6yEm49eaWWN0m9jkJDoO3d9xsgMdvfNhcG9u0VsRCXmfUl2gj8BWwY0U5CEjdL2w0QS+H+B7+8bBnKSMQ9K7MZvO0Rusq4XUZea238LzJfZNgc8jNh22+Qb+LGHWhlz7dP23miUxXQeljE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761317423; c=relaxed/simple;
-	bh=YpmedxoHX103GRZLyFK655XyMWlbKvpw7Z5efNSETFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sRLtBcqYXDmMUTqh+1sqNZVDwgFYddqW9WnXv2o1G2jw3EprzXPntCzXKNIQQcQY8Ki1fyyRt2usqAd1OadyZCQPsCrVPWWtQPVowLvLvyR6vbSbMp6mFoC9geKx9c4ClBqtPeImdvUS+p/69eVJFl5C0NRUJWzArGkLMnKYBNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJj/RkKq; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761318669; c=relaxed/simple;
+	bh=1nO7Q8hQyC3COpeoqfKQV1SPG1bRbzjE5pk6Pr0SPiE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Nz3NAygLasVBUtaaFLooTAlItCQscTXLYuKzzGfHE2tLt9fa1V3DsufWZewM89c7QXgpDTPY+PA08ApT2qQT9KA2rqk6g+RTIXNwVrdJkFulrK6DAgpl9Qd4kGKS0uThGDR5TqdjJINPWgJnV7SmIOIMFBCgmEoO2CSfuJ/XLKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PdFL9bMR; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJj/RkKq"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47117f92e32so20508385e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 07:50:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PdFL9bMR"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7900f597d08so1605267b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 08:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761317420; x=1761922220; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bvkZR2Vh4Krn1ke+GLvqfOD39dvZoqg79ZqoUlC3wn8=;
-        b=VJj/RkKqNecPxwa2IiIGV55ONmphLi1WCgxj2DCBhVPGXXkp3+fbFfCfBlWUfww6Dp
-         r44MFvmfVnl3QHDj2Z6gh/6O1cP8lnvxH8ca5EsRNxB/PDDrQm495UnXEPliE6W496Sh
-         3DIds84tllHlnZF20/QmcXxAOuYkX3kh7Vqo0CZ+AUk56lqVW2qZnGvIbC27mevXdE+k
-         s1zDQXfT2ho7K3LVwiMjC0CeN0gh3PRuzLln4MFoNXWTfB3tuHe8K2BgwGuO7fJxXrvq
-         Si/hi3kUCuQZGIQts4elPd/u+y1WktUATBE/Xn9O1WWupOPQsT2HCPGr8yLsZvF1ofr7
-         nD5Q==
+        d=google.com; s=20230601; t=1761318667; x=1761923467; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8S1KonkShBOqtsinZhRSshiH2hzjBvvVn7bRME6LIQ=;
+        b=PdFL9bMRdmSav6wHntHEigspAqK5ZQVdmglszN15d48ilcnIRTiudjQWMnmee6O6XX
+         SixDILzdJAtbc0M55nkXkuOwd90KpMYbFrwDFzF9JQcm4OwKQHu/HOQo8KqWtjOj1LWr
+         1hDZZeTGn4KbT0aGbqDX+Ha7BIRUqKdYXOj9lC32OUAKdmq8//pp+Ao6NdS2b4tperTx
+         Ldb0XlNGK5/ze2XdkrR3rxHoXwa/cIx7ZxxsJHUG7eF3exUP/9R9Lm7KwD4FWTLYug6t
+         jx6qe+sq3BSS+NLmeXQuUPnmfbsAMTqNFUaGTuhZCCMhIjcsG7FGP8UajYFNhUZv/sbG
+         prbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761317420; x=1761922220;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bvkZR2Vh4Krn1ke+GLvqfOD39dvZoqg79ZqoUlC3wn8=;
-        b=uuupvaqmMpowRfbl7R1h2zUZ8H3Yuns+JrN0FsdaxHZXdwSa8p8bfv7Zt0iajbN1rY
-         w2/L5hPFioI7ThLwJ+VojZvkkvUnuo84mR4CuA8ZLXyJVGWgRzNPHHg145mxW4fsP9NK
-         8LohcC2edEKOgjgLBi1zqz8b8E6Vjd+q6NDN79vACzs14tazr5yRILq1J0a3urVsQoOd
-         CN14YyOrHPha9Uae/3E2XfviLKM+uOTiFftXbNrePZK76EwCq9dlzHzyduTobWG0exmZ
-         iNcsOMheUJtQsMGjmGLQ9U3OaxVxNebLJp5x/Dfx16AtDAteznDkjg4AJaYKqVh2nR4M
-         VKhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYfCAOwCM+NOKOscHAju1fVYTmGNZLT4yAsWvWfkckuV3V3IwusJVWD3RKmWc4Gp0N65jsyRQx6eU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz48xE4r2O+PCONKfTPYPhje9+Xr7GLMtaXEnTz6cfYGfEhQqzv
-	Mvvly5ASNp9YzkhIvnhfrVOJKzWP2bKTeTm29Zb5kM9wNHy+7qtqUZ+B
-X-Gm-Gg: ASbGnctai3t+J1KCMx1DrPbLJtoXB9mA9VF1uRpYe+PEseZ1iGgqjhvDuh4G+c41mIf
-	X4Zk2IdNSw924Fseg4DmTu12rtBCuZyaLeDKKVN5lpovy7E0CcnrHuuN6VYdTsZUzf/vy3Nb3DL
-	CnugkqYer8GsbKII2MCFk8xbB08u9D5313riU5Y6+USw2oHXK6MEINF+ulxKCn3OPNPrzw87WMD
-	sivVdvvLeXqJvmGbHnQQeqEbEXuiEXygbSTt68RfMSQrufeeBPC9B7VE/tl7gqWgz+cbRWijHqL
-	Sj8mnf/Gx0HI4XUN1Kara4ysnQldOKNSxPlFiMYCuOwmHSif5zQ66Gu/VmnDu7XOzZcPxCbeRm4
-	nedRRNvVz1olAmDniQjF9x7ytQkJLa9yoDgf/7vPc8ZuYW4kpFywiDMB6+hGPY3/IgoRkQ99TA7
-	Q=
-X-Google-Smtp-Source: AGHT+IEqlFHh9cUmE6VeJkHTqoWYwUa2BjE3Cj5kkfpXYdD2XEHiKMq5M8rg1Ncamom4v1KrbdbmNw==
-X-Received: by 2002:a05:600c:3b05:b0:471:d13:5762 with SMTP id 5b1f17b1804b1-471178761bemr206849505e9.4.1761317419995;
-        Fri, 24 Oct 2025 07:50:19 -0700 (PDT)
-Received: from fedora ([37.29.213.75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475caf15416sm95153355e9.10.2025.10.24.07.50.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 07:50:19 -0700 (PDT)
-Date: Fri, 24 Oct 2025 16:50:16 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	victoria@system76.com, sebastian.wick@redhat.com,
-	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 04/22] drm/vkms: Introduce configfs for plane rotation
-Message-ID: <aPuSKCNRGRCLDwyp@fedora>
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
- <20251018-vkms-all-config-v1-4-a7760755d92d@bootlin.com>
+        d=1e100.net; s=20230601; t=1761318667; x=1761923467;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8S1KonkShBOqtsinZhRSshiH2hzjBvvVn7bRME6LIQ=;
+        b=Bvln+KWpFsxS1Z+fTS+sJYvcR+MBG1gkmVEO/UYLkdjFCGyxxmWZPJ8PADU7NvZQM+
+         0JPVH1gbXwNiobqzhit3QpTTY9x3s4xGCN1lhUXrCWi9qwMqxhs3j0ZWfblzRIZvlVIW
+         xpK5B0mkyJoAezwDFiMtkiogCXtgxroVT/dQw7UccoZ6w5gDhe6iDA8TE48fR4EIOkcd
+         Jhkz5b0OC+hCvtfCEWUH0bB/3UwZ2EDk+IA4n8TsgHNfV39ttC7ve0wQ+EXn5eSB7mm3
+         iw2xl53bMMXQhX/5yWlcESoLXW/e/WwvrqC39sL5rIs8DvJKCjYDc5reY4/KoEpiuDGm
+         Cr/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVr7oWKGEWw5k6vNoCo3eGrlouARMlOF8hi67Euup/kR/NAnNYQdM9tfa3P3uTm1shhPvn6763gkKk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8xAgZ+/IlkRyQ4HH/1yQFBioh6Ib+BUvjX4wO3M4Ancp2VEmH
+	1WVveEv3WVROZQemkU2whBCudIxlYq9zgAi4/niUWYK22QMz9YNW6OOqnYLRgBGGn2o4rWLGvF2
+	ZBzeJRg==
+X-Google-Smtp-Source: AGHT+IFmiZvDW9+VEv8fXtsDHeyqGJSro010YRSFD/DT0a4vYVNsrLONxsLbwaaV3B5ySTybgRqQQLvhvsY=
+X-Received: from pjbgg11.prod.google.com ([2002:a17:90b:a0b:b0:330:b9e9:7acc])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:a11c:b0:33e:779e:fa7f
+ with SMTP id adf61e73a8af0-33e779efbf6mr1848603637.1.1761318666959; Fri, 24
+ Oct 2025 08:11:06 -0700 (PDT)
+Date: Fri, 24 Oct 2025 08:11:05 -0700
+In-Reply-To: <diqzqzuse58c.fsf@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251018-vkms-all-config-v1-4-a7760755d92d@bootlin.com>
+Mime-Version: 1.0
+References: <cover.1760731772.git.ackerleytng@google.com> <8ee16fbf254115b0fd72cc2b5c06d2ccef66eca9.1760731772.git.ackerleytng@google.com>
+ <2457cb3b-5dde-4ca1-b75d-174b5daee28a@arm.com> <diqz4irqg9qy.fsf@google.com>
+ <diqzy0p2eet3.fsf@google.com> <aPlpKbHGea90IebS@google.com>
+ <diqzv7k5emza.fsf@google.com> <aPpEPZ4YfrRHIkal@google.com> <diqzqzuse58c.fsf@google.com>
+Message-ID: <aPuXCV0Aof0zihW9@google.com>
+Subject: Re: [RFC PATCH v1 07/37] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Steven Price <steven.price@arm.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
+	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
+	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
+	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
+	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
+	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
+	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
+	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
+	shakeel.butt@linux.dev, shuah@kernel.org, suzuki.poulose@arm.com, 
+	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
+	vkuznets@redhat.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
+	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
+	yuzenghui@huawei.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Sat, Oct 18, 2025 at 04:01:04AM +0200, Louis Chauvet wrote:
-> To allows the userspace to test many hardware configuration, introduce a
-> new interface to configure the available rotation per planes. VKMS
-> supports any rotation and reflection, so the userspace can choose any
-> combination.
+On Fri, Oct 24, 2025, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> >> 
+> >> [...snip...]
+> >> 
 > 
-> The supported rotations are configured by writing a rotation bitmask to
-> the file `supported_rotations` and the default rotation is chosen by
-> writing a rotation bitmask to `default_rotation`.
+> I've been thinking more about this:
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  Documentation/gpu/vkms.rst           |  7 ++-
->  drivers/gpu/drm/vkms/vkms_configfs.c | 94 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 100 insertions(+), 1 deletion(-)
+>   #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>   	case KVM_CAP_MEMORY_ATTRIBUTES2:
+>   	case KVM_CAP_MEMORY_ATTRIBUTES:
+>   		if (!vm_memory_attributes)
+>   			return 0;
+>   
+>   		return kvm_supported_mem_attributes(kvm);
+>   #endif
 > 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 3574e01b928d..a432968cc711 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -87,10 +87,15 @@ Start by creating one or more planes::
->  
->    sudo mkdir /config/vkms/my-vkms/planes/plane0
->  
-> -Planes have 1 configurable attribute:
-> +Planes have 3 configurable attribute:
-
-s/attribute/attributes/
-
->  
->  - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->    exposed by the "type" property of a plane)
-> +- possible_rotations: Available rotation for a plane, as a bitmask: 0x01 no rotation,
-> +  0x02 rotate 90°, 0x04 rotate 180°, 0x08 rotate 270°, 0x10 reflect x, 0x20 reflect y
-> +  (same values as those exposed by the "rotation" property of a plane)
-> +- default_rotation: Default rotation presented to the userspace, same values as
-> +  possible_rotations.
->  
->  Continue by creating one or more CRTCs::
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index ea245e2e2fd2..450e45e66a45 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -322,10 +322,104 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
->  	return (ssize_t)count;
->  }
->  
-> +static ssize_t plane_supported_rotations_show(struct config_item *item, char *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	unsigned int plane_supported_rotations;
-> +
-> +	plane = plane_item_to_vkms_configfs_plane(item);
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		plane_supported_rotations = vkms_config_plane_get_supported_rotations(plane->config);
-
-Checkpatch is complaining about this line being 1 character longer than
-it should... Feel free to ignore it:
-
-WARNING: line length of 101 exceeds 100 columns
-#58: FILE: drivers/gpu/drm/vkms/vkms_configfs.c:333:
-+               plane_supported_rotations = vkms_config_plane_get_supported_rotations(plane->config);
-
-
-> +	}
-> +
-> +	return sprintf(page, "%u", plane_supported_rotations);
-> +}
-> +
-> +static ssize_t plane_supported_rotations_store(struct config_item *item,
-> +					       const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-> +	int ret, val = 0;
-> +
-> +	ret = kstrtouint(page, 0, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Should be a supported value */
-> +	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-> +		return -EINVAL;
-> +	/* Should at least provide one rotation */
-> +	if (!(val & DRM_MODE_ROTATE_MASK))
-> +		return -EINVAL;
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		/* Ensures that the default rotation is included in supported rotation */
-> +		if (plane->dev->enabled ||
-> +		    (val & vkms_config_plane_get_default_rotation(plane->config)) !=
-> +		     vkms_config_plane_get_default_rotation(plane->config))
-> +			return -EINVAL;
-
-This makes a bit difficult to change the default supported rotations.
-
-By default, default rotation is DRM_MODE_ROTATE_0. If the user wants to set the
-supported rotations to DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90,
-this will fail because the default rotation is not included in the new set of
-supported rotations.
-
-Therefore, the user would need to add DRM_MODE_ROTATE_0 (DRM_MODE_REFLECT_X |
-DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_0), change the default rotation
-to DRM_MODE_ROTATE_90 and drop DRM_MODE_ROTATE_0 from the supported rotations.
-
-To avoid this, I think we should check this before enabling the device instead,
-in vkms_config_is_valid().
-
-Also, having this logic as a helper called by vkms_config_is_valid() allows to
-add a KUnit test to make sure all cases are covered.
-
-What do you think?
-
-
-> +		vkms_config_plane_set_supported_rotations(plane->config, val);
-> +	}
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t plane_default_rotation_show(struct config_item *item, char *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	unsigned int plane_default_rotation;
-> +
-> +	plane = plane_item_to_vkms_configfs_plane(item);
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		plane_default_rotation = vkms_config_plane_get_default_rotation(plane->config);
-> +	}
-> +
-> +	return sprintf(page, "%u", plane_default_rotation);
-> +}
-> +
-> +static ssize_t plane_default_rotation_store(struct config_item *item,
-> +					    const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-> +	int ret, val = 0;
-> +
-> +	ret = kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Should be a supported value */
-> +	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-> +		return -EINVAL;
-> +	/* Should at least provide one rotation */
-> +	if ((val & DRM_MODE_ROTATE_MASK) == 0)
-> +		return -EINVAL;
-> +	/* Should contains only one rotation */
-> +	if (!is_power_of_2(val & DRM_MODE_ROTATE_MASK))
-> +		return -EINVAL;
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		/* Ensures that the default rotation is included in supported rotation */
-> +		if (plane->dev->enabled ||
-> +		    (val & vkms_config_plane_get_supported_rotations(plane->config)) != val)
-> +			return -EINVAL;
-> +
-> +		vkms_config_plane_set_default_rotation(plane->config, val);
-> +	}
-> +
-> +	return count;
-> +}
-> +
->  CONFIGFS_ATTR(plane_, type);
-> +CONFIGFS_ATTR(plane_, supported_rotations);
-> +CONFIGFS_ATTR(plane_, default_rotation);
->  
->  static struct configfs_attribute *plane_item_attrs[] = {
->  	&plane_attr_type,
-> +	&plane_attr_supported_rotations,
-> +	&plane_attr_default_rotation,
->  	NULL,
->  };
->  
+> And the purpose of adding KVM_CAP_MEMORY_ATTRIBUTES2 is that
+> KVM_CAP_MEMORY_ATTRIBUTES2 tells userspace that
+> KVM_SET_MEMORY_ATTRIBUTES2 is available iff there are valid
+> attributes.
 > 
-> -- 
-> 2.51.0
+> (So there's still a purpose)
 > 
+> Without valid attributes, userspace can't tell if it should use
+> KVM_SET_MEMORY_ATTRIBUTES or the 2 version.
+
+To do what?  If there are no attributes, userspace can't do anything useful anyways.
+
+> I also added KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES, which tells
+> userspace the valid attributes when calling KVM_SET_MEMORY_ATTRIBUTES2
+> on a guest_memfd:
+
+Ya, and that KVM_SET_MEMORY_ATTRIBUTES2 is supported on guest_memfd.
+
+>   #ifdef CONFIG_KVM_GUEST_MEMFD
+>   	case KVM_CAP_GUEST_MEMFD:
+>   		return 1;
+>   	case KVM_CAP_GUEST_MEMFD_FLAGS:
+>   		return kvm_gmem_get_supported_flags(kvm);
+>   	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
+>   		if (vm_memory_attributes)
+>   			return 0;
+>   
+>   		return kvm_supported_mem_attributes(kvm);
+>   #endif
+>   
+> So to set memory attributes, userspace should
+
+Userspace *can*.  User could also decide it only wants to support guest_memfd
+attributes, e.g. because the platform admins controls the entire stack and built
+their entire operation around in-place conversion.
+
+>   if (kvm_check_cap(KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES) > 0)
+> 	use KVM_SET_MEMORY_ATTRIBUTES2 with guest_memfd
+>   else if (kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES2) > 0)
+>         use KVM_SET_MEMORY_ATTRIBUTES2 with VM fd
+>   else if (kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES) > 0)
+> 	use KVM_SET_MEMORY_ATTRIBUTES with VM fd
+>   else
+> 	can't set memory attributes
+> 
+> Something like that?
+
+More or else, ya.
+
+> In selftests there's this, when KVM_SET_USER_MEMORY_REGION2 was
+> introduced:
+> 
+>   #define TEST_REQUIRE_SET_USER_MEMORY_REGION2()			\
+> 	__TEST_REQUIRE(kvm_has_cap(KVM_CAP_USER_MEMORY2),	\
+> 		       "KVM selftests now require KVM_SET_USER_MEMORY_REGION2 (introduced in v6.8)")
+> 
+> But looks like there's no direct equivalent for the introduction of
+> KVM_SET_MEMORY_ATTRIBUTES2?
+
+KVM_CAP_USER_MEMORY2 is the equivalent.
+
+There's was no need to enumerate anything beyond yes/no, because
+SET_USER_MEMORY_REGION2 didn't introduce new flags, it expanded the size of the
+structure passed in from userspace so that KVM_CAP_GUEST_MEMFD could be introduced
+without breaking backwards compatibility.
+
+> The closest would be to add a TEST_REQUIRE_VALID_ATTRIBUTES() which
+> checks KVM_CAP_MEMORY_ATTRIBUTES2 or
+> KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES before making the vm or
+> guest_memfd ioctl respsectively.
+
+Yes.  This is what I did in my (never posted, but functional) version:
+
+@@ -486,6 +488,7 @@ struct kvm_vm *__vm_create(struct vm_shape shape, uint32_t nr_runnable_vcpus,
+        }
+        guest_rng = new_guest_random_state(guest_random_seed);
+        sync_global_to_guest(vm, guest_rng);
++       sync_global_to_guest(vm, kvm_has_gmem_attributes);
+ 
+        kvm_arch_vm_post_create(vm, nr_runnable_vcpus);
+ 
+@@ -2319,6 +2333,8 @@ void __attribute((constructor)) kvm_selftest_init(void)
+        guest_random_seed = last_guest_seed = random();
+        pr_info("Random seed: 0x%x\n", guest_random_seed);
+ 
++       kvm_has_gmem_attributes = kvm_has_cap(KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES);
++
+        kvm_selftest_arch_init();
+ }
+ 
+That way the core library code can pivot on gmem vs. VM attributes without having
+to rely on tests to define anything.  E.g.
+
+static inline void vm_mem_set_memory_attributes(struct kvm_vm *vm, uint64_t gpa,
+						uint64_t size, uint64_t attrs)
+{
+	if (kvm_has_gmem_attributes) {
+		off_t fd_offset;
+		uint64_t len;
+		int fd;
+
+		fd = kvm_gpa_to_guest_memfd(vm, gpa, &fd_offset, &len);
+		TEST_ASSERT(len >= size, "Setting attributes beyond the length of a guest_memfd");
+		gmem_set_memory_attributes(fd, fd_offset, size, attrs);
+	} else {
+		vm_set_memory_attributes(vm, gpa, size, attrs);
+	}
+}
