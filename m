@@ -1,126 +1,122 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D750346781
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 17:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF63B303C8A;
+	Fri, 24 Oct 2025 18:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761327911; cv=none; b=RjjDyM5I4sv+r6ytYfmLyKt/gDCRMZEum7cG2lgTi+m0dtVuGAxUvDFySdTvhAcRp2zmKpF/4EPsjz1k+Fkf6NtJOdsC9lkO4ss8CK5YK2U43sbfsFRmiuSIYH1zPi6ZfmjPAJ3OU5mTkCKxcN4wngwMqdJxRCHizuJGFVmDQAY=
+	t=1761328905; cv=none; b=C29kkAD5v/iu8kMQrmy+OFGwlMY3zjBLnJWvmitqoh0Zr4BzSFWoEnVy8u0isdsurLMTvGEWWLRhB8wec8gKugDt3oZ+UfKSnSer9LOqS+7/NsNIUoS+Eu3vBKkUS11t0rkGMGVJZaB6pJEbWP1FRz+F+lUb0dWKONZyK4EtjZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761327911; c=relaxed/simple;
-	bh=tQchZRo3dfbeEwC4XDdsg27WfVhtytszSYNfMKLDCRk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AF+KGXeQp4SrX7ctrvbHZUCzratIYoKBvrYSsNH4I1R800YAovXfVr1vnjzQ+jZAhdjyT6PIaIjWjP0RvdCZ1NtVXbNTjdbPx2YorZCvPtcHfnk3fzVcu0ih4yTSSiwqrL8R3670zjDMRPyA4LFjUZH5baRmFsjE+ThDgKpnotE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eMnn1vD1; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eMnn1vD1"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-33da21394adso2224423a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 10:45:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761327909; x=1761932709; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9y+RsixQBpMVe8jJ0C0RXhB2GIgsnXkIXIfG2sQ8Z6s=;
-        b=eMnn1vD19Z/AtaGDFSF76Wb8pRldCfdAtrfp1z69jekrJASMUIUv9+MIv6TvFAfRu6
-         meQ0LfQQ/jR3vKxASa8LfEkRwsNQd7cj+hmP0frmqxGXeetPdpXMxuT/Ru/Ahw3k9aQM
-         Zxm5CDHnuhXKwVpLeYm0irNSMLKxvD5bObbmgxRvzQoC1djM24HFU3UAj5LDYGrE1TVL
-         YQVJEer+k6g9sIAGfgKz6uX0vCZYvpHKq84L5IMW+Z3daaahF3rW3wNdwRrgfN4WWUvk
-         VNZ7dQ8vPBa8XDSIllX2KL2P1khde5viPudpfO/vjBiQsP4nJS35nq9fXrpVfHEI/RC+
-         BC3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761327909; x=1761932709;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9y+RsixQBpMVe8jJ0C0RXhB2GIgsnXkIXIfG2sQ8Z6s=;
-        b=Teq2KVmvnNyQyGyH/8+c+/Y6yu1LEeIkxxjdtS0afe6UFts/5X2A8xYwGCekPcmb3q
-         Ihpz49ZmpsO/duEw2bIOEDJrmGI7BT89Q9VvZGxGtlF8kY04w8EeQjDG4osuZxOFz7e5
-         8S4mWD4WGCjSUIXkGfGxC3Z7ILg7bwg4LQnAs/AMazswZtpBQK1tHh0lrLfwk80+mued
-         EovpkyyA2ABKExhXsn/lBH7AQ39SewcGP5yWN+UrbOoSCbeDLI0WP6ivN5RFgwMJgalM
-         9ymIwi0g4xmVobK895289q1VtVh4X1BsrsOuJuofdptuxvcNH0YmIUo0CHzoHH64LljL
-         h+3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVIq1VmEcNNcC7gnAceKmjnsdF6vYnrxv13W9f/kashbxvYt3vRwmH0Y+P2isrfPGv3cCfcnjgwFzo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3xO4lxstrx3iVGlg9N44RmrFozhdU8D3yrovCRcGc3Ijm/sHY
-	RJFjNgmCJlkI0y0QCXXjFPP2ZjbxCPO0lEExc+4GulJeqccdPUDOHYLQCsn97GRi2nESI6ZgQvv
-	5h8S/fQ==
-X-Google-Smtp-Source: AGHT+IGvJAcWikn/2GkAunTJp4wJjRX2y0XegrvA0YCLDSoXMGm33ouWPic5F/FBkAnJdnxZYF98SiNPybw=
-X-Received: from pjte14.prod.google.com ([2002:a17:90a:c20e:b0:33b:ca21:e3e7])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3891:b0:32e:9da9:3e60
- with SMTP id 98e67ed59e1d1-33bcf9375e8mr34102450a91.36.1761327908483; Fri, 24
- Oct 2025 10:45:08 -0700 (PDT)
-Date: Fri, 24 Oct 2025 10:45:06 -0700
-In-Reply-To: <diqzo6pwdzfy.fsf@google.com>
+	s=arc-20240116; t=1761328905; c=relaxed/simple;
+	bh=Xt+ETKSJFI97IrcpNY81LB6CRSBaom6ByUnewAJpqdU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jZldBD3K1UuR43aw1qmIasOlBR7rRhccAVj9tUhVRI9UI6apvW4WlC/VBVEaCUAT/SMOkJqWJxQ6JyQmNh/M46+eVspeQKxF/03IpUC0XLjGkBuQzdrAh7iFAQqFeGVpx0EZvOmLchLWGtSnlkDnpEBDyzEpAG6o9fqGwz1IqQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 4A00DBE731;
+	Fri, 24 Oct 2025 18:01:41 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id CC96920037;
+	Fri, 24 Oct 2025 18:01:36 +0000 (UTC)
+Message-ID: <769268a5035b5a711a375591c25d48d077b46faa.camel@perches.com>
+Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
+ initialized to NULL
+From: Joe Perches <joe@perches.com>
+To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+  Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Date: Fri, 24 Oct 2025 11:01:35 -0700
+In-Reply-To: <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
+References: 
+	<20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+	 <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <8ee16fbf254115b0fd72cc2b5c06d2ccef66eca9.1760731772.git.ackerleytng@google.com>
- <2457cb3b-5dde-4ca1-b75d-174b5daee28a@arm.com> <diqz4irqg9qy.fsf@google.com>
- <diqzy0p2eet3.fsf@google.com> <aPlpKbHGea90IebS@google.com>
- <diqzv7k5emza.fsf@google.com> <aPpEPZ4YfrRHIkal@google.com>
- <diqzqzuse58c.fsf@google.com> <aPuXCV0Aof0zihW9@google.com> <diqzo6pwdzfy.fsf@google.com>
-Message-ID: <aPu7IosMI61NjZY5@google.com>
-Subject: Re: [RFC PATCH v1 07/37] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Steven Price <steven.price@arm.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
-	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
-	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
-	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
-	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
-	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
-	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
-	shakeel.butt@linux.dev, shuah@kernel.org, suzuki.poulose@arm.com, 
-	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
-	vkuznets@redhat.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
-	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
-	yuzenghui@huawei.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-Stat-Signature: eb5s9q3uch3ku4my1dtojkfi97u8a4hi
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: CC96920037
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18IUFoqClvI0Rd89Cboqhy+chZzc4TgnUI=
+X-HE-Tag: 1761328896-239519
+X-HE-Meta: U2FsdGVkX1+4JucxezI4zqxHXyRDfDWSSyYrfAGxTKk8mizadDJ+RGINF8cu03EPljticeWNrB6iDzT2+0C4YgeNoi8DAnflRqiC4s8fx8N7zdEMEVO+99A5Z6Hg+Zy18erM2IxdJLx6BnVsNUGxN/VuOELJ2IvTLet7s+843+yU9h+CyWVLJMGhpcXOFP+DOEXme9vZ+r+b471C2gTKYzdGKGDuR0Nc2RUUGlPD6PCeUzHlJWWGZUwxrxefrgO6OGAu+UwGauY+iz36k02HO8XpbjJZiz7glJQx3qUheMVz9eE7BQ+KtjPPBHmyvwZV8DUDtP9D7n2DXvtZTBPvxwY5i/VIwEDATGKmyDjZCiPwZh0rnKr2b9rRuvxMjLOVNI+RbnOP3DoenSgUV6MElnyXWx1JG+Vx
 
-On Fri, Oct 24, 2025, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> > @@ -486,6 +488,7 @@ struct kvm_vm *__vm_create(struct vm_shape shape, uint32_t nr_runnable_vcpus,
-> >         }
-> >         guest_rng = new_guest_random_state(guest_random_seed);
-> >         sync_global_to_guest(vm, guest_rng);
-> > +       sync_global_to_guest(vm, kvm_has_gmem_attributes);
-> 
-> I ported this [1] except for syncing this value to the guest, because I
-> think the guest shouldn't need to know this information,
+On Fri, 2025-10-24 at 22:59 +0530, Ally Heev wrote:
+> pointers with __free attribute initialized to NULL
+> pose potential cleanup issues [1] when a function uses
+> interdependent variables with cleanup attributes
+>=20
+> Link: https://docs.kernel.org/core-api/cleanup.html [1]
+> Link: https://lore.kernel.org/all/68f7b830ec21a_10e910070@dwillia2-mobl4.=
+notmuch/
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -7728,6 +7728,12 @@ sub process {
+>  			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+>  			      "pointer '$1' with __free attribute should be initialized\n" . =
+$herecurr);
+>  		}
+> +
+> +# check for pointers with __free attribute initialized to NULL
+> +		while ($line =3D~ /\*\s*($Ident)\s+$FreeAttribute\s*=3D\s*NULL\b/g) {
+> +			WARN("NULL_INITIALIZED_PTR_WITH_FREE",
+> +			      "pointer '$1' with __free attribute should be initialized to a =
+non-NULL address\n" . $herecurr);
+> +		}
+>  	}
 
-KVM selftests are about practically and testing, what information should or
-shouldn't be available to a test from e.g. a safety perspective is completely
-irrelevant.  In fact, one of the biggest advantages of selftests over KUT is
-that the guest side can know _exactly_ what's going on in the host.
+I think this a poor idea as almost all the instances where this
+initialization is done are fine.
 
-See the usage in 1850e3da4b03 ("KVM: selftests: Update private_mem_conversions_test
-to mmap() guest_memfd") from:
+And there are a lot of them.
 
-  https://github.com/sean-jc/linux.git x86/gmem_inplace
+$ git grep -P '\b__free\b.*=3D\s*NULL\s*;' | wc -l
+490
 
-> the host should decide what to do. I think, if the guests really need to know
-> this, the test itself can do the syncing.
+And what about these uses that depend on struct path members
+.mnt and .dentry being NULL.=20
 
-Why force tests to do extra work, and potentially introduce subtle bugs due to
-state being stale?
+$ git grep -P '\b__free\b.*=3D\s*\{.*\}\s*;'
+fs/configfs/symlink.c:  struct path path __free(path_put) =3D {};
+fs/fhandle.c:   struct path path __free(path_put) =3D {};
+fs/file_attr.c: struct path filepath __free(path_put) =3D {};
+fs/file_attr.c: struct path filepath __free(path_put) =3D {};
+fs/namei.c:     struct path parent_path __free(path_put) =3D {};
+fs/namei.c:     struct path parent_path __free(path_put) =3D {};
+fs/namespace.c: struct path old_path __free(path_put) =3D {};
+fs/namespace.c: struct path path __free(path_put) =3D {};
+fs/namespace.c: struct path old_path __free(path_put) =3D {};
+fs/namespace.c: struct path path __free(path_put) =3D {};
+fs/namespace.c: struct path to_path __free(path_put) =3D {};
+fs/namespace.c: struct path from_path __free(path_put) =3D {};
+fs/namespace.c: struct path new __free(path_put) =3D {};
+fs/namespace.c: struct path old __free(path_put) =3D {};
+fs/namespace.c: struct path root __free(path_put) =3D {};
+fs/namespace.c: struct klistmount kls __free(klistmount_free) =3D {};
+fs/namespace.c: struct path fs_root __free(path_put) =3D {};
+fs/nsfs.c:      struct path path __free(path_put) =3D {};
+fs/nsfs.c:              struct path path __free(path_put) =3D {};
+fs/nsfs.c:      struct path path __free(path_put) =3D {};
+fs/overlayfs/params.c:  struct path layer_path __free(path_put) =3D {};
+fs/overlayfs/params.c:          struct path path __free(path_put) =3D {};
+fs/pidfs.c:     struct path path __free(path_put) =3D {};
+include/linux/path.h: * struct path path __free(path_put) =3D {};
+kernel/acct.c:  struct path internal __free(path_put) =3D {};     // in tha=
+t order
+kernel/trace/trace_uprobe.c:    struct path path __free(path_put) =3D {};
