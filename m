@@ -1,72 +1,136 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD3E30F52D;
-	Fri, 24 Oct 2025 17:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD818342CBC
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 17:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761326481; cv=none; b=NOzL8HCfU8bNI29mMgQ6JjNulI3Dt6a2e8DzuWps3IYRMXhALbb8wU0dWdT9Rzox9M0HPyEVbhPNX9XXG+Uyz9wqA1eBjAyZLx0OG4wFdMK11HuuwF1RPzmJZB5zoaFfgn/aBdDCfJuWUEVIRjN9j2Q7A3gAFMvzoHh1E8FzKdY=
+	t=1761326981; cv=none; b=JADmQuX8w79+vjP9ib+GdAqMrXthzVR0uJf4PSRo8x5YeXQpiLbFPW72KuSUu2dEX1u/zhRF9POMJy8zWHMT/r4jJYFhCiL7PyLMd2O+AWAvshhwJy183zEKQWl/2FKM0TdGYWzMgvzLUesOkq/bmAi/H18svuKTkQS5D8pTQAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761326481; c=relaxed/simple;
-	bh=YZl+3mWSqSB7EF8WRWN7AJW+TIH9LvMUqfIelgcqYEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SffsBsNGIRKJP1s4A/pt31anukBczJ14Zk9foLqVz9p/3bscgo9Vb2bv4+HX8n1pkFmiNN7BWEyaPQL04ziZK2Qma2nfDoaHcsaaNgsvylcO/iE8MoaIraat5qsMm63cMeKzgsM783FdwoRxDPfyQr1KwbDVqj+JWWjQKvX1P28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MXoETsyv; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761326981; c=relaxed/simple;
+	bh=tkAGkZZm4VXBDBIYaN4VChrZKvpzE6+s6VHxe8EmXVs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WAAkE3wkhmPKSNvCdewxJiBMGqV3N+2OScbIrkzqRKRujddzoj/Q/zXOk+tW/hmb3dmtWmvckDzyFNbTvw7mQ+T8x0TzRVXU+EfDxh8pMwFYnkJBzE/9yzjLBpIKQlnPSjLPQJ/CIURZJiuhM85MeOLBzqxVdxTxxLWmSuxtMPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvekdrI1; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MXoETsyv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JYPvwd+/M7IKOYWzMSWfu7+WmaK3zsnJSflXp8kIby0=; b=MXoETsyvYCNdx8oNUPvK4Fsn7l
-	rst1wxkVDRrbOkBNCQ726xNw5wcpO8vvv/b78MBDGcMIBEJ1rT1MK/vfuo7ABPKhXUZIJ2TYVRcro
-	Pw+GN3kCP1gXP/eWgCDbGowIWfZID/hHhS0HkIjJLooygvjVpyLGix/1kZLQHYJN7Y69WP0hyC/Va
-	LxybJnvUiuJCPA6YPQTM2zUjPcI5N7lddAwO7E10B7iApLStMkQFOZSisURlRYwVghSCpW1/QAyQe
-	9/FQBK8qnXa6/aVAJdHS13as6b/THvlY9/i2SplKjAJOyfJV4nxpmbWCfhlf5ql4l+MpGmlDSw07E
-	BjddqzKw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vCLTW-00000006DjU-2njU;
-	Fri, 24 Oct 2025 17:21:14 +0000
-Date: Fri, 24 Oct 2025 18:21:14 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Brian Foster <bfoster@redhat.com>, brauner@kernel.org,
-	miklos@szeredi.hu, djwong@kernel.org, hch@infradead.org,
-	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 07/14] iomap: track pending read bytes more optimally
-Message-ID: <aPu1ilw6Tq6tKPrf@casper.infradead.org>
-References: <20250926002609.1302233-1-joannelkoong@gmail.com>
- <20250926002609.1302233-8-joannelkoong@gmail.com>
- <aPqDPjnIaR3EF5Lt@bfoster>
- <CAJnrk1aNrARYRS+_b0v8yckR5bO4vyJkGKZHB2788vLKOY7xPw@mail.gmail.com>
- <CAJnrk1b3bHYhbW9q0r4A0NjnMNEbtCFExosAL_rUoBupr1mO3Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvekdrI1"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so2898527a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 10:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761326979; x=1761931779; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cN7ZMnvf82THEzrEsUSGywR0GGJwzb8nUT5u5I/IIf0=;
+        b=PvekdrI1sfGT/nnrDK/4lvinqsF0m20DVEwXO0UX9hqTyKcp4E4ARfEaUZvOvgYGQp
+         jk/ZQ3LAct8fwMMLSl66z6DoLfMgmF8H9m9cEO6sxxTAeN+z8GFitULOoQ57p+b3vf4T
+         tHq9PWml9e7wyq9dXJ79D6Wzm6lY8TrANZk+YaosMRIcNlMPadDItX7CbDeLlw38rmyl
+         FzAwqVcv/337/WLkbtEFKPCZhTfj/nsJzp3JDSwLu/lZPgrLi3422ojpckVRcml22Fcd
+         f+ccTzC3XmmBgelIAjKkLw8zk+Q7JA/ta/m5IWN+dXRuxI5FchvLRi256mQQL5a6POZn
+         LkIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761326979; x=1761931779;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cN7ZMnvf82THEzrEsUSGywR0GGJwzb8nUT5u5I/IIf0=;
+        b=LkNvCkEwu4YwvZTtCU6s5VQEJs3tdGP1OgWoOTpQWLtwxDvncdyRraW/oy4TyPL87/
+         HJkEnwy4KJwCN1a9b2PQVyPUWe6KdSQ3QGBdqEk2g6kWr/IGjgSQZ5DIJNIGTKdNN/HL
+         3GlHDenriPriCYFd+b+73XM7/XoGimdchHna2W9ZoWZCHHqDC8JQ6cm9gSom1OLOJbkt
+         zGlzGOTVAijNirpxFyS5pP4p+FEO8+J5SLRiVf/W3U1+rE56WaVmRB/RW82JqYIwVCi1
+         upwVOHRIJ9J92cg+ZP7z/xONyZNe9HR2P4lq6Tk6bu3BkTtMXMS1takIvSnD2cPuZOHz
+         zipg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ5lfmNZwP0LbQf1/02+JbaMpkouL01PyV0mRnE4A/rKQc88YYz4xHbNpmaAKFqkf3tn+0aLHugaY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyA9Ny1jeX1G8VwUm7DPub/4wmGchi/1I1I/G2sqP+A3H9RE6cQ
+	1pvtpV7nWg2s7WrPhOjcLNcxRcJFBRHyVHeoLV+X5wrp1yqZVTiW6ARgFeKrcH529yE=
+X-Gm-Gg: ASbGncvWxrmJS9C3+IlFqGmR9bLzLHXyoZYFpsrayLMOl7E6TTJ6Qz0k9HyDwsqyLWy
+	Ggx/BHSClV+PjoHCiSvsCcasI8rGV796S43VirwNMh5aiIJpw9odtg6ak5W6XYVEUpVA+U25zcf
+	f61q1TgPEOmYYvGif5E9WOvup+lv89RWji/vN5bH+ORHyWSHHEhcWUAWPZwIk0eEYB2YhfJHjE/
+	0U13njugu3r8cBN/d8WXXKjkhJabbJ9NghLfVWwRsiUdMZGE03Cd9vLSQN6MnpC0wQT2Ob5s7qs
+	IJ14p5J02yldTSmVj7Vz9mTvkZvLPTHFj+jdUmoR2pkPFE2A1cCy6uvXRjX25CnO9vsC4f1+eeg
+	Aa0xmt0HKAyTvtHvbtmF/02nBfQ6bW0D4BX6AZUeqvR28C+6UDc+uSVhgSmOf3FgPbE42/wKJnD
+	32ij7nRhfG3Q==
+X-Google-Smtp-Source: AGHT+IExEqGK30pExEfkyV0gBzPWyWgac7N27+lB/OIuXkwNcep/BAxe9MOY1u0pDHlpOqqViu7rWw==
+X-Received: by 2002:a17:903:1aa4:b0:271:9b0e:54c7 with SMTP id d9443c01a7336-29489d970b9mr43892925ad.11.1761326978569;
+        Fri, 24 Oct 2025 10:29:38 -0700 (PDT)
+Received: from aheev.home ([2401:4900:88f6:d7b0:8f5e:ff90:677:7d74])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dda85e7sm61719615ad.11.2025.10.24.10.29.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 10:29:38 -0700 (PDT)
+From: Ally Heev <allyheev@gmail.com>
+Subject: [PATCH v2 0/2] checkpatch: add checks incorrectly initialized
+ pointers with __free attr
+Date: Fri, 24 Oct 2025 22:59:14 +0530
+Message-Id: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJnrk1b3bHYhbW9q0r4A0NjnMNEbtCFExosAL_rUoBupr1mO3Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGq3+2gC/5WNQQ6CMBBFr0K6tqZTg6gr7mFYDGVKJ0IhLTYq4
+ e5WbmD+6v3Fe6uIFJiiuBWrCJQ48uQz6EMhjEPfk+Qus9BKl6A0SHRESRpH5jHjYpx8eva8MA7
+ 8oU7aQCRLc7raqiRQCCKb5kCWX3vl3mR2HJcpvPdogt/7nz+BzLvYVkFrzlhh3Y/Iw9FMo2i2b
+ fsCM2iMA9YAAAA=
+X-Change-ID: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Hunter <david.hunter.linux@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
+ Ally Heev <allyheev@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1425; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=tkAGkZZm4VXBDBIYaN4VChrZKvpzE6+s6VHxe8EmXVs=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJ+b69OE5hxadfN1B8RE+/t1/v38+M+v2mXV02b+ibwy
+ RTbqltrGDpKWRjEuBhkxRRZGEWl/PQ2SU2IO5z0DWYOKxPIEAYuTgGYSN98RobrNh8nPlTt+yIv
+ o7H05CzFCQ90xZUdSmK0pRZt61+9/ZYFI8PGVKNg1e3zBZY/XzH5WdJnhja9wN7oZ1abNCadFDc
+ 4ocEGAA==
+X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
+ fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
-On Fri, Oct 24, 2025 at 09:25:13AM -0700, Joanne Koong wrote:
-> What I missed was that if all the bytes in the folio are non-uptodate
-> and need to read in by the filesystem, then there's a bug where the
-> read will be ended on the folio twice (in iomap_read_end() and when
-> the filesystem calls iomap_finish_folio_write(), when only the
-> filesystem should end the read), which does 2 folio unlocks which ends
-> up locking the folio. Looking at the writeback patch that does a
-> similar optimization [1], I miss the same thing there.
+Badly initialized pointers with __free attr can
+cause cleanup issues. So,
 
-folio_unlock() contains:
-        VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+Adding checks for
+- uninitialized pointers
+- initialized pointers with NULL
 
-Feels like more filesystem people should be enabling CONFIG_DEBUG_VM
-when testing (excluding performance testing of course; it'll do ugly
-things to your performance numbers).
+Testing:
+ran checkpatch.pl before and after the change on 
+crypto/asymmetric_keys/x509_public_key.c, which has
+both initialized with NULL and uninitialized pointers
+
+---
+Changes in v2:
+- change cover letter and title to reflect new changes
+- fix regex to handle multiple declarations in a single line case
+- convert WARN to ERROR for uninitialized pointers
+- add a new WARN for pointers initialized with NULL 
+- NOTE: tried handling multiple declarations on a single line by splitting
+        them and matching the parts with regex, but, it turned out to be 
+	complex and overkill. Moreover, multi-line declarations pose a threat
+- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
+
+---
+Ally Heev (2):
+      checkpatch: add uninitialized pointer with __free attribute check
+      add check for pointers with __free attribute initialized to NULL
+
+ Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
+ scripts/checkpatch.pl                  | 13 +++++++++++++
+ 2 files changed, 24 insertions(+)
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+
+Best regards,
+-- 
+Ally Heev <allyheev@gmail.com>
+
