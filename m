@@ -1,185 +1,212 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817232548A
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 16:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798D730B52E
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 17:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761324496; cv=none; b=gAfoLKKMT7NQWjjLNrQVb+CAMYHBPjWTT2lylCZd191I9RGVg5wdWbAN4ZsUmaMUGzZwlXV5BKWTPWd8+AWct+0uT5zSa89hxhv0QKiPUrlbELrlNibPnaLy1gyzNVsKsrk8/liN07MgBO1SX1ntUs8aNfpRKtVEvElpvGnbqBc=
+	t=1761325804; cv=none; b=SEvN46qq+gSart4ajjl4CYTBGshFMnQWjDIoL8Stj9UkQxFHFZxtAODN3ntF7KfULSqTXols59AoPdrt7QAlgfRRXAy5B/7WUkNJGq+tnAyySTm07KGg0/TUA1SFckWbCBQGziTtzAnK4t5o9XpI4yDueV6UY/0LF7roR3gXlug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761324496; c=relaxed/simple;
-	bh=f2a3PKTXtxiqGjxZTh9T4s+dCE9zdgxrYpNNXCt4lP4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dOxIjCEPnqTIY5+IXq1MJF0mlzRc/6/v5IW5xx06IDxkbfyKm84wQ1B4/+98rXNAtoOpwpvM8tEdV5Zsn085s1sm80Gp2gsKB1lL+X7XceFWfzIptIxE6pgQaCX62LeLcZNoNX0yWHuK/ExR6JMFeLncwV3rqkSDyaQwT3RqLgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3kE1an0p; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
+	s=arc-20240116; t=1761325804; c=relaxed/simple;
+	bh=zfbjnSdmNt2EienCv40FPTzj6fAWiuESYxeW2rSt/sU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fhKE0cv+8ZBUrzBnC/b7RDrwvix06wpovcGPVy6YmqUaDm4QDLKPbWq40O1LV8GMQ60lu8+Vvv37Z78iNbTrL4RXRR5HQlM1LeuDyS1kLHs8IaxG4QZnQnKyLQb2eIUG6YLAfqBqQljKbKFhPBEab8BowTEUcotw3u7bcZLGdMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TN3TaJjC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3kE1an0p"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b5533921eb2so1316431a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 09:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761324494; x=1761929294; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N0ZqooCPaM4r88VkiqaSJuwNdNXDKXHQHEd4a0Vhrkk=;
-        b=3kE1an0pZPerDXVZT/Eryt9uJLK3d3syqHXqx2U9sE68vp+cA0k//igGNp03uLI6v0
-         bWU0BPVXcZnbk5Cp1wLp0ziT+rVR2R+VT3VF9WQSRVuPO1rEDSDxx10EIkOV2bBqF29i
-         vO9SoLzY3B9//15oc0CnGQia/eN+qYvIaGyyg0xJN5PC6Ro7mmgEFr7rdnazQFjyfylC
-         V8Z/K65gdxDsiJOn7zA2L/fiI7N9ow9FzNYJmItwiEzsnpk9PBme5+h18wyva85Il8xv
-         DXn4xNKhzPIeDLEm07oce/QTQ1rLUINZ6X0qMvPgfRna8f7azAG05IzBLssyFwAa6ZfA
-         udoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761324494; x=1761929294;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N0ZqooCPaM4r88VkiqaSJuwNdNXDKXHQHEd4a0Vhrkk=;
-        b=KFAbuUDSc9BVLHr2GopliEuhEhWZAUpRMwgMP5ti16qeVzZ1czwJFUp9oO/05LaflZ
-         5arqW5Kk4DiI6yq6AnBsrirWhbM+7dPgpgx198r3tfDQUmMHYmyP+Qsmmr007Qf2ON2j
-         pdRGke/vy2ZpYqPvikdlLQGMqV9VmwKQIyexmF5KtxJaKwNoD4/nhtPjxd9F8MyZpVjM
-         4oPW0JScWOoHf2/gWhcW+iCnMwlygh7YENG8M94z/rs2nGV64qKMTDaCMhUwgo+kFs5O
-         kRoIOTeqKZE2/QaKDxejsWsdoKRgIIPBIRaGewIdIOzUj3tc5ivHuqah5YBn6gD6H5Up
-         w8JA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7j+LB2wPNPVdPl3k+EQlm2KP9sSHaeQqMvindh/6CYIxQp0BjqT6SiINI72qkjIkbz+pJ7lvbPwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjAJ5knfOfVHPo3FDq06P8gGyLt4e81240sb26Yu1kutITT2Sv
-	IZnVyfyMEkrMlJclRqQrAZks7zYXuvDZpmxXsTx6Vvizi+NMK7xz83jK9wVKv2T3abtL1xBZuSu
-	PQSgNU6pk60rGq1mvwmedNe2E1A==
-X-Google-Smtp-Source: AGHT+IEK36TdUsL0vlOCqmspe4caiObjbOIOsGdu4QEVuayy/5SWQrXbR3hmNgi0EJY8rePbH10nOdC3ZkaAHHoKBw==
-X-Received: from pjyj23.prod.google.com ([2002:a17:90a:e617:b0:339:ae3b:2bc7])
- (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:9988:b0:334:b8bb:b11d with SMTP id adf61e73a8af0-33dead4c65cmr3868140637.31.1761324494100;
- Fri, 24 Oct 2025 09:48:14 -0700 (PDT)
-Date: Fri, 24 Oct 2025 09:48:12 -0700
-In-Reply-To: <727482ec42baa50cb1488ad89d02e732defda3db.1760731772.git.ackerleytng@google.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TN3TaJjC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761325801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fbGKIbeV9go4zitphfH9ct5W5hcdOyirVtDmZRLfg8g=;
+	b=TN3TaJjCvQDcw04E9QQLlo+kT5xF1JUEQ5cd9BQc424/R1egFVN6TlKH3BZDVWFp/rRWNd
+	tdWveV/fnmhbPSoQAfK1bPoDtFIDkZhzWs9RUF4rDWu9kX9haoi2NuBfB4Ap40MbOcDvTU
+	KpkzVUj7voyrbqfZRLPVGwhIN5m20CI=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-665-MOygjSciPni0YLWg3uBWzg-1; Fri,
+ 24 Oct 2025 13:09:56 -0400
+X-MC-Unique: MOygjSciPni0YLWg3uBWzg-1
+X-Mimecast-MFC-AGG-ID: MOygjSciPni0YLWg3uBWzg_1761325794
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4C6981955F05;
+	Fri, 24 Oct 2025 17:09:53 +0000 (UTC)
+Received: from bfoster (unknown [10.22.65.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AC9B71955E88;
+	Fri, 24 Oct 2025 17:09:50 +0000 (UTC)
+Date: Fri, 24 Oct 2025 13:14:09 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, miklos@szeredi.hu, djwong@kernel.org,
+	hch@infradead.org, hsiangkao@linux.alibaba.com,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 07/14] iomap: track pending read bytes more optimally
+Message-ID: <aPuz4Uop66-jRpN-@bfoster>
+References: <20250926002609.1302233-1-joannelkoong@gmail.com>
+ <20250926002609.1302233-8-joannelkoong@gmail.com>
+ <aPqDPjnIaR3EF5Lt@bfoster>
+ <CAJnrk1aNrARYRS+_b0v8yckR5bO4vyJkGKZHB2788vLKOY7xPw@mail.gmail.com>
+ <CAJnrk1b3bHYhbW9q0r4A0NjnMNEbtCFExosAL_rUoBupr1mO3Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1760731772.git.ackerleytng@google.com> <727482ec42baa50cb1488ad89d02e732defda3db.1760731772.git.ackerleytng@google.com>
-Message-ID: <diqzldl0dz5f.fsf@google.com>
-Subject: Re: [RFC PATCH v1 16/37] KVM: selftests: Add support for mmap() on
- guest_memfd in core library
-From: Ackerley Tng <ackerleytng@google.com>
-To: cgroups@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org
-Cc: akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
-	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
-	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
-	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
-	jroedel@suse.de, jthoughton@google.com, jun.miao@intel.com, 
-	kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev, 
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com, 
-	mail@maciej.szmigiero.name, maobibo@loongson.cn, 
-	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org, 
-	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev, 
-	nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev, palmer@dabbelt.com, 
-	pankaj.gupta@amd.com, paul.walmsley@sifive.com, pbonzini@redhat.com, 
-	peterx@redhat.com, pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, 
-	qperret@google.com, richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, 
-	rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk, 
-	rppt@kernel.org, seanjc@google.com, shakeel.butt@linux.dev, shuah@kernel.org, 
-	steven.price@arm.com, steven.sistare@oracle.com, suzuki.poulose@arm.com, 
-	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
-	vkuznets@redhat.com, wei.w.wang@intel.com, will@kernel.org, 
-	willy@infradead.org, wyihan@google.com, xiaoyao.li@intel.com, 
-	yan.y.zhao@intel.com, yilun.xu@intel.com, yuzenghui@huawei.com, 
-	zhiquan1.li@intel.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1b3bHYhbW9q0r4A0NjnMNEbtCFExosAL_rUoBupr1mO3Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Ackerley Tng <ackerleytng@google.com> writes:
-
-> From: Sean Christopherson <seanjc@google.com>
->
-> Accept gmem_flags in vm_mem_add() to be able to create a guest_memfd within
-> vm_mem_add().
->
-> When vm_mem_add() is used to set up a guest_memfd for a memslot, set up the
-> provided (or created) gmem_fd as the fd for the user memory region. This
-> makes it available to be mmap()-ed from just like fds from other memory
-> sources. mmap() from guest_memfd using the provided gmem_flags and
-> gmem_offset.
->
-> Add a kvm_slot_to_fd() helper to provide convenient access to the file
-> descriptor of a memslot.
->
-> Update existing callers of vm_mem_add() to pass 0 for gmem_flags to
-> preserve existing behavior.
->
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> [For guest_memfds, mmap() using gmem_offset instead of 0 all the time.]
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  tools/testing/selftests/kvm/include/kvm_util.h |  7 ++++++-
->  tools/testing/selftests/kvm/lib/kvm_util.c     | 18 ++++++++++--------
->  .../kvm/x86/private_mem_conversions_test.c     |  2 +-
->  3 files changed, 17 insertions(+), 10 deletions(-)
->
+On Fri, Oct 24, 2025 at 09:25:13AM -0700, Joanne Koong wrote:
+> On Thu, Oct 23, 2025 at 5:01 PM Joanne Koong <joannelkoong@gmail.com> wrote:
+> >
+> > On Thu, Oct 23, 2025 at 12:30 PM Brian Foster <bfoster@redhat.com> wrote:
+> > >
+> > > On Thu, Sep 25, 2025 at 05:26:02PM -0700, Joanne Koong wrote:
+> > > > Instead of incrementing read_bytes_pending for every folio range read in
+> > > > (which requires acquiring the spinlock to do so), set read_bytes_pending
+> > > > to the folio size when the first range is asynchronously read in, keep
+> > > > track of how many bytes total are asynchronously read in, and adjust
+> > > > read_bytes_pending accordingly after issuing requests to read in all the
+> > > > necessary ranges.
+> > > >
+> > > > iomap_read_folio_ctx->cur_folio_in_bio can be removed since a non-zero
+> > > > value for pending bytes necessarily indicates the folio is in the bio.
+> > > >
+> > > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > > Suggested-by: "Darrick J. Wong" <djwong@kernel.org>
+> > > > ---
+> > >
+> > > Hi Joanne,
+> > >
+> > > I was throwing some extra testing at the vfs-6.19.iomap branch since the
+> > > little merge conflict thing with iomap_iter_advance(). I end up hitting
+> > > what appears to be a lockup on XFS with 1k FSB (-bsize=1k) running
+> > > generic/051. It reproduces fairly reliably within a few iterations or so
+> > > and seems to always stall during a read for a dedupe operation:
+> > >
+> > > task:fsstress        state:D stack:0     pid:12094 tgid:12094 ppid:12091  task_flags:0x400140 flags:0x00080003
+> > > Call Trace:
+> > >  <TASK>
+> > >  __schedule+0x2fc/0x7a0
+> > >  schedule+0x27/0x80
+> > >  io_schedule+0x46/0x70
+> > >  folio_wait_bit_common+0x12b/0x310
+> > >  ? __pfx_wake_page_function+0x10/0x10
+> > >  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
+> > >  filemap_read_folio+0x85/0xd0
+> > >  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
+> > >  do_read_cache_folio+0x7c/0x1b0
+> > >  vfs_dedupe_file_range_compare.constprop.0+0xaf/0x2d0
+> > >  __generic_remap_file_range_prep+0x276/0x2a0
+> > >  generic_remap_file_range_prep+0x10/0x20
+> > >  xfs_reflink_remap_prep+0x22c/0x300 [xfs]
+> > >  xfs_file_remap_range+0x84/0x360 [xfs]
+> > >  vfs_dedupe_file_range_one+0x1b2/0x1d0
+> > >  ? remap_verify_area+0x46/0x140
+> > >  vfs_dedupe_file_range+0x162/0x220
+> > >  do_vfs_ioctl+0x4d1/0x940
+> > >  __x64_sys_ioctl+0x75/0xe0
+> > >  do_syscall_64+0x84/0x800
+> > >  ? do_syscall_64+0xbb/0x800
+> > >  ? avc_has_perm_noaudit+0x6b/0xf0
+> > >  ? _copy_to_user+0x31/0x40
+> > >  ? cp_new_stat+0x130/0x170
+> > >  ? __do_sys_newfstat+0x44/0x70
+> > >  ? do_syscall_64+0xbb/0x800
+> > >  ? do_syscall_64+0xbb/0x800
+> > >  ? clear_bhb_loop+0x30/0x80
+> > >  ? clear_bhb_loop+0x30/0x80
+> > >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > > RIP: 0033:0x7fe6bbd9a14d
+> > > RSP: 002b:00007ffde72cd4e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> > > RAX: ffffffffffffffda RBX: 0000000000000068 RCX: 00007fe6bbd9a14d
+> > > RDX: 000000000a1394b0 RSI: 00000000c0189436 RDI: 0000000000000004
+> > > RBP: 00007ffde72cd530 R08: 0000000000001000 R09: 000000000a11a3fc
+> > > R10: 000000000001d6c0 R11: 0000000000000246 R12: 000000000a12cfb0
+> > > R13: 000000000a12ba10 R14: 000000000a14e610 R15: 0000000000019000
+> > >  </TASK>
+> > >
+> > > It wasn't immediately clear to me what the issue was so I bisected and
+> > > it landed on this patch. It kind of looks like we're failing to unlock a
+> > > folio at some point and then tripping over it later..? I can kill the
+> > > fsstress process but then the umount ultimately gets stuck tossing
+> > > pagecache [1], so the mount still ends up stuck indefinitely. Anyways,
+> > > I'll poke at it some more but I figure you might be able to make sense
+> > > of this faster than I can.
+> > >
+> > > Brian
+> >
+> > Hi Brian,
+> >
+> > Thanks for your report and the repro instructions. I will look into
+> > this and report back what I find.
 > 
-> [...snip...]
+> This is the fix:
 > 
-> @@ -1050,13 +1049,16 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_backing_src_type src_type,
->  	}
->  
->  	region->fd = -1;
-> -	if (backing_src_is_shared(src_type))
-> +	if (flags & KVM_MEM_GUEST_MEMFD && gmem_flags & GUEST_MEMFD_FLAG_MMAP)
-> +		region->fd = kvm_dup(gmem_fd);
-> +	else if (backing_src_is_shared(src_type))
->  		region->fd = kvm_memfd_alloc(region->mmap_size,
->  					     src_type == VM_MEM_SRC_SHARED_HUGETLB);
->  
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 4e6258fdb915..aa46fec8362d 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -445,6 +445,9 @@ static void iomap_read_end(struct folio *folio,
+> size_t bytes_pending)
+>                 bool end_read, uptodate;
+>                 size_t bytes_accounted = folio_size(folio) - bytes_pending;
+> 
+> +               if (!bytes_accounted)
+> +                       return;
+> +
+>                 spin_lock_irq(&ifs->state_lock);
+> 
+> 
+> What I missed was that if all the bytes in the folio are non-uptodate
+> and need to read in by the filesystem, then there's a bug where the
+> read will be ended on the folio twice (in iomap_read_end() and when
+> the filesystem calls iomap_finish_folio_write(), when only the
+> filesystem should end the read), which does 2 folio unlocks which ends
+> up locking the folio. Looking at the writeback patch that does a
+> similar optimization [1], I miss the same thing there.
+> 
 
-Doing this makes it hard to test the legacy dual-backing case.
+Makes sense.. though a short comment wouldn't hurt in there. ;) I found
+myself a little confused by the accounted vs. pending naming when
+reading through that code. If I follow correctly, the intent is to refer
+to the additional bytes accounted to read_bytes_pending via the init
+(where it just accounts the whole folio up front) and pending refers to
+submitted I/O.
 
-It actually broke x86/private_mem_conversions_test for the legacy
-dual-backing case because there's no way to mmap or provide a
-userspace_address from the memory provider that is not guest_memfd, as
-determined by src_type.
+Presumably that extra accounting doubly serves as the typical "don't
+complete the op before the submitter is done processing" extra
+reference, except in this full submit case of course. If so, that's
+subtle enough in my mind that a sentence or two on it wouldn't hurt..
 
-I didn't test the legacy dual-backing case before posting this RFC and
-probably should have.
+> I'll fix up both. Thanks for catching this and bisecting it down to
+> this patch. Sorry for the trouble.
+> 
 
-> -	region->mmap_start = kvm_mmap(region->mmap_size, PROT_READ | PROT_WRITE,
-> -				      vm_mem_backing_src_alias(src_type)->flag,
-> -				      region->fd);
-> +	mmap_offset = flags & KVM_MEM_GUEST_MEMFD ? gmem_offset : 0;
-> +	region->mmap_start = __kvm_mmap(region->mmap_size, PROT_READ | PROT_WRITE,
-> +					vm_mem_backing_src_alias(src_type)->flag,
-> +					region->fd, mmap_offset);
->  
->  	TEST_ASSERT(!is_backing_src_hugetlb(src_type) ||
->  		    region->mmap_start == align_ptr_up(region->mmap_start, backing_src_pagesz),
-> @@ -1117,7 +1119,7 @@ void vm_userspace_mem_region_add(struct kvm_vm *vm,
->  				 uint64_t gpa, uint32_t slot, uint64_t npages,
->  				 uint32_t flags)
->  {
-> -	vm_mem_add(vm, src_type, gpa, slot, npages, flags, -1, 0);
-> +	vm_mem_add(vm, src_type, gpa, slot, npages, flags, -1, 0, 0);
->  }
->  
->  /*
-> diff --git a/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c b/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> index 1969f4ab9b280..41f6b38f04071 100644
-> --- a/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> +++ b/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> @@ -399,7 +399,7 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t
->  	for (i = 0; i < nr_memslots; i++)
->  		vm_mem_add(vm, src_type, BASE_DATA_GPA + slot_size * i,
->  			   BASE_DATA_SLOT + i, slot_size / vm->page_size,
-> -			   KVM_MEM_GUEST_MEMFD, memfd, slot_size * i);
-> +			   KVM_MEM_GUEST_MEMFD, memfd, slot_size * i, 0);
->  
->  	for (i = 0; i < nr_vcpus; i++) {
->  		uint64_t gpa =  BASE_DATA_GPA + i * per_cpu_size;
-> -- 
-> 2.51.0.858.gf9c4a03a3a-goog
+No prob. Thanks for the fix!
+
+Brian
+
+> Thanks,
+> Joanne
+> 
+> [1] https://lore.kernel.org/linux-fsdevel/20251009225611.3744728-4-joannelkoong@gmail.com/
+> >
+> > Thanks,
+> > Joanne
+> > >
+> 
+
