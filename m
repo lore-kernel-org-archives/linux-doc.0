@@ -1,104 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8121328DC4;
-	Fri, 24 Oct 2025 00:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C9C38FA6
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 00:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761264224; cv=none; b=HE03jhL/ZS0BvuBs8h37vpLwEiW4DDd5cRbOZ7Ng46vyfUWQZ2E/q9+mGBrN90lVMAv7P1glAhHRo3XPahJcqj10ttHKFKnFVXaWAfCrjfLdku050CJ5QezCIXb8rJBETXi1874rne5SkxmwVZzuB2cpCf6xoZteR4Jt1q8hOjo=
+	t=1761266731; cv=none; b=giMUXqoMsIQWwMOos1zo93S2CbclRRpBJ9as/yq4krsOwXx+NtmiHFqcjo/K6lauaGEdmyrcX++ign+Tqc+LWy+ba4VVGDwbfoKm/q4FHqt5LByNp7vydsv6u4XLLLsVWwpjudwYhDWw92k9Sdy934bj7hZVduMO/YXMtTCo2T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761264224; c=relaxed/simple;
-	bh=82yuS+sWTafw2Py0dWaPeg0/oAhrcVBmZqViILrxQCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mz5PhavMo5RZGVfhFtwkUbMQtCSOohGjy6ddlAF0nIAsuV8n6xMtAZmPhbWoow1Rmtnb8jg5AMHa8KYtZUPftCeZsiYb4MHUMokiZ5/a9LA3dTMlYoYXz2YH8S05lHe9zlqK8/sVcu9JpCKsrBgGN3hG0XYxE13fVYlpLgU5wj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j1Zmsa0J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761266731; c=relaxed/simple;
+	bh=dp/cP8zcAEvQUvgno1S48/Mi8rnaT41MC9uZ0aZ6H9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r2brgFr2Qaj+laG+eOUUolin9dC2g6+e9k89MkLHIeHxc7K+kNfO9ZJBB74C/Cq8iTGOWRmk2Om8CAnJnrTYWWKxsu/yZ99uWi3JZBY0c6g96v2VDat81PyQjwR/SgTxdxyHEDBfqYw0wm2WbfJc5iedfLDUON2xTCiVVyx9PEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mw1l1vku; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j1Zmsa0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 613A3C4CEE7;
-	Fri, 24 Oct 2025 00:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761264224;
-	bh=82yuS+sWTafw2Py0dWaPeg0/oAhrcVBmZqViILrxQCw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=j1Zmsa0Jy/Sm4bV1ai2EZm4v+Swx+9f4ZwcZ1+bhWCsXg/CjjLqlQVw2tOSUqVYNz
-	 aA3aTlJF7crlRXvVJXtwIPhpAk1l4AvA/CuvFObqBc3PC/ZiQdcGM7Qnbmuva/4b2o
-	 vdC/yQBxrVgYVtJRwGa4VGiCu+tmLDNYb5P9uqy5HQ4S7fO/7DWwM4uN/gp8KmjYlc
-	 181T2B3qrz5uvSvrJhNYk1riAoSaA8aYV7cLAKq+CaJ27zO5693mvutTgObBnNDas/
-	 UKAA5AFwC+6Slt6unHxLTjFLt2XWgzIFPpcuEfxpioHySt8OaaZyU+WnOn59XF4BG0
-	 TrwMQiOhoauyg==
-Date: Thu, 23 Oct 2025 17:03:42 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?QXNiasO4cm4=?= Sloth =?UTF-8?B?VMO4bm5lc2Vu?=
- <ast@fiberby.net>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Chia-Yu Chang
- <chia-yu.chang@nokia-bell-labs.com>, Chuck Lever <chuck.lever@oracle.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, Simon Horman
- <horms@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 0/7] ynl: add ignore-index flag for
- indexed-array
-Message-ID: <20251023170342.2bb7ce83@kernel.org>
-In-Reply-To: <f35cb9c8-7a5d-4fb7-b69b-aa14ab7f1dd5@fiberby.net>
-References: <20251022182701.250897-1-ast@fiberby.net>
-	<20251022184517.55b95744@kernel.org>
-	<f35cb9c8-7a5d-4fb7-b69b-aa14ab7f1dd5@fiberby.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mw1l1vku"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a23208a0c2so1210400b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 17:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761266730; x=1761871530; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BiQAoFGDew/ZqTfreZLnGJFxaRca4v0mR/t0Zt3wPxM=;
+        b=mw1l1vku56L7HpDQG9IYJY0DNNmV2gMQZKbybN1aKpHuZ92bFsXihhEB0RV4kg8SOV
+         VasqW8wWBn88fB0b+tmfiMAMl0RXuraDXvxcWUkIpp+mEm7Iv/UaRp7H6WTBCT1pV2k+
+         GghpZmzjbxuCIlhkHXM5iCS5tEaFrBbgW9XUZ3/VqEWh2uIs0Jc8oCJSZFR3qtujaHb1
+         3IxcVnpdWNAz7flPUyFUO8ch9pigfM7COSUuxy+TosQ5xIkvcsrEUxQwzWyN2cZfuV0S
+         eNgKyTrj/VIIZr3teOWIYgncNGolU+qXXfpC0dUWvfnsmZ5KTC5WeT64fN1/RDC4P9eD
+         SrFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761266730; x=1761871530;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BiQAoFGDew/ZqTfreZLnGJFxaRca4v0mR/t0Zt3wPxM=;
+        b=FM0g2fQvHWSplRWgoGS1GxGNzP7rFPmD29+ssi/+6MvBprlA/nmo9ZFE+NR0Uocia8
+         kiqw4cjYt5H7ZnGcTM1W1ccUCUOXfu38iVOgTv6mJDlfllT8lgrZopHKOnN0zPtYrzwO
+         6uH6RWedEEnHRrQ7sflDrcCwkJYpF39L6ewu2bYs2GO7fBJlJFnuv7MMnbZyD+gQh1rH
+         YujvsJ04ikr9tcYpOxlRMpaoOE5p7QhNoKuQ9MzPBGXLIKw3G2VA5lbSFaBbH967TVyS
+         zy3bm0KBRcZYbtGt9mg/cIQGgCLb51/4Sojrqr7oC+mzZ/1QwOVAVwRqSOLbEc0bcog2
+         X4HA==
+X-Forwarded-Encrypted: i=1; AJvYcCWF4VH/H/bw3NjKVkicISsGcNzNQ8N9KV/pEeRXZgdImvy/o6cwNw8q3AHvaCHoO9xkSdbliM2Aef4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaWFBOvuCZcUYI6JWXtgN61NaCYzOd3JU2dOVpV7l6xiuj9ybQ
+	UiZnk+WBh6xo2WHpXqgEZCBTHt4JKqTmBI9BiAfiRzNesfiKxm6C6VGx
+X-Gm-Gg: ASbGnct2F1y2k/8DVmPreV0+NPlWMCk/T8y5VdouF+A2VSv63/7OSKwVBHfSV1m4eIt
+	9nSQIbzE/kKcTrzwOI3/Qevaz7b6uMjXQjvZXhoNtD9WyAi5hOUFyMkyJNSqdH+/2ydzulL7jRU
+	YdRKTv4+38+lbS97u9LgqEP93I1+lY3P1AJrXJQ7zdNh/Lm1RZzJKpIpYNeEriYyoQ1elzirRT0
+	25X6IoXZj8qaMjDHftaw/mthIq+9otbiqLdABi4MiJp3V8DNOJzwps8iGaO4ivNVVUE3r5LkDWy
+	xNKVaCWpCoXMoINz3VBWkBHxumLZoGKbI+/DzPbBqK8HvbcCceJqIA/gYH6bHZF34NeotswE8zJ
+	tNlxR8K/jILE5w75W5MdqwhHPTqq5szi3x5IG+3S/H6T1qMIAdORgfWRVIw/DR4ymn558DIChOo
+	YawnTnpoMl2yZLdmFrm3I=
+X-Google-Smtp-Source: AGHT+IFnnZIKoGCQomFCAGHPFnchCLdxRUrJ5xP0ExMryJO2JZfGanXAzObKKUl27Cc8JB6hozrsOQ==
+X-Received: by 2002:a05:6a21:6daa:b0:32d:b924:ed87 with SMTP id adf61e73a8af0-334a854ac50mr33328122637.20.1761266729651;
+        Thu, 23 Oct 2025 17:45:29 -0700 (PDT)
+Received: from [192.168.0.150] ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274a602c8sm3973490b3a.7.2025.10.23.17.45.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 17:45:28 -0700 (PDT)
+Message-ID: <c1400c7e-ba80-4814-b5a0-3d326d97d4dd@gmail.com>
+Date: Fri, 24 Oct 2025 07:45:17 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2] Documentation: ARCnet: Update obsolete
+ contact info
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Avery Pennarun <apenwarr@worldvisions.ca>
+References: <20251023025506.23779-1-bagasdotme@gmail.com>
+ <295b96fd-4ece-4e11-be1c-9d92d93b94b7@infradead.org>
+ <aPnqn6jDiJkZiUfR@archie.me>
+ <b77b8a60-2809-4849-8a6e-a391eacf050b@infradead.org>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <b77b8a60-2809-4849-8a6e-a391eacf050b@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 23 Oct 2025 18:37:09 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
->  > C code already does this, right? We just collect the attributes
->  > completely ignoring the index. =20
->=20
-> In the userspace C code, for sub-type nest the index is preserved
-> in struct member idx, and elided for other sub-types.
+On 10/23/25 23:43, Randy Dunlap wrote:
+> 
+> 
+> On 10/23/25 1:43 AM, Bagas Sanjaya wrote:
+>> On Wed, Oct 22, 2025 at 09:21:43PM -0700, Randy Dunlap wrote:
+>>> I found the ARCnet Trade Association at
+>>>    www.arcnet.cc
+>>
+>> That's ARCNET Resource Center.
+> 
+> OK, the ATA is  https://arcnet.cc/abtata.htm
+> 
+> I suggest changing the link.  what do you think?
+> 
 
-I see it now, I guess I added it for get but forgot to obey it=20
-for put :(
+Fair enough.
 
->  > So why do we need to extend the spec. =20
->=20
-> For me it's mostly the naming "indexed-array". Earlier it was
-> "array-nest", then we renamed it to "indexed-array" because
-> it doesn't always contain nests.  I think it's counter-intuitive
-> to elide the index by default, for something called "indexed-array".
-> The majority of the families using it don't care about the index.
->=20
-> What if we called it "ordered-array", and then always counted from 1
-> (for families that cares) when packing in user-space code?
->=20
->  > Have you found any case where the index matters and can be
->  > non-contiguous (other than the known TC kerfuffle). =20
->=20
-> IFLA_OFFLOAD_XSTATS_HW_S_INFO could be re-defined as a nest,
-> IFLA_OFFLOAD_XSTATS_L3_STATS is the only index atm.
-
-Isn't that pretty much always true? If the index is significant
-the whole thing could be redefined as a nest, with names provided
-in the spec?
-
-> IFLA_INET_CONF / IFLA_INET6_CONF is on input, but those are
-> also special by having different types depending on direction.
->=20
-> I found a bunch of other ones, using a static index, but they
-> can also be defined as a multi-attr wrapped in an additional
-> outer nest, like IFLA_VF_VLAN_LIST already is.
-
-Multi-attr with an outer nest should at least solve your wg problem=20
-I guess? If all the attrs have type of 0 we can make it a multi-attr.
-
->  > FWIW another concept is what TypeValue does.
->  > "Inject" the index into the child nest as an extra member.
->  > Most flexible but also prolly a PITA for user space to init those
->  > for requests. =20
->=20
-> Same as is done in the userspace C code for indexed-arrays with
-> sub-type nest. For most families it doesn't matter if the C code
-> inits the index or not.
+-- 
+An old man doll... just what I always wanted! - Clara
