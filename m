@@ -1,213 +1,104 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB371DFDE
-	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 00:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8121328DC4;
+	Fri, 24 Oct 2025 00:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761264091; cv=none; b=XtwoixxxYat3dufcb/r9LA2dGdQPDSu5BVodN+7lBUjvKy9SuwfGj6J3iiKxdSZuENvUrUHYEMUi+1t339BAFqTDEF9E/J+MKDsupDe5I1SyeZ64XuSavE/EOo554ymaKx6pvpl3qo0JqMyEjyV329gX9wRWv/6ymTpbdWxC7PE=
+	t=1761264224; cv=none; b=HE03jhL/ZS0BvuBs8h37vpLwEiW4DDd5cRbOZ7Ng46vyfUWQZ2E/q9+mGBrN90lVMAv7P1glAhHRo3XPahJcqj10ttHKFKnFVXaWAfCrjfLdku050CJ5QezCIXb8rJBETXi1874rne5SkxmwVZzuB2cpCf6xoZteR4Jt1q8hOjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761264091; c=relaxed/simple;
-	bh=bubCr/mN0mnspeP8HsbjxerBcLX67vjT45heWM5Tngg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d/MzocFZWtdhmg8fNVeW6bmZSPyYS86H/nWlSScsmvI7lUJl2JM1GU8Xzt23mY8uWCYZLJ+iBoQWKvmqgouuSOh8YPaTVPXFyVQX04apAyA+6c5/6h0SX8ld/8i6pfzBLe1EZlmEwyLr3YNq+wufIlhzdAzgaRYeOU6rTLKwYKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZGTInx+a; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761264224; c=relaxed/simple;
+	bh=82yuS+sWTafw2Py0dWaPeg0/oAhrcVBmZqViILrxQCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mz5PhavMo5RZGVfhFtwkUbMQtCSOohGjy6ddlAF0nIAsuV8n6xMtAZmPhbWoow1Rmtnb8jg5AMHa8KYtZUPftCeZsiYb4MHUMokiZ5/a9LA3dTMlYoYXz2YH8S05lHe9zlqK8/sVcu9JpCKsrBgGN3hG0XYxE13fVYlpLgU5wj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j1Zmsa0J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZGTInx+a"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4e2d2d764a3so11161761cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Oct 2025 17:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761264088; x=1761868888; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SS55Wat3aHjR4MMWG/CBZ2nFmq+zfQc/VuJXnUoVzR4=;
-        b=ZGTInx+aztBuwQ2IgRwQPjv5DNbqo+XqzAv/08b60hjrxyzcp4EAVp6so3JuOEJqmm
-         teHQ6zMbNavhimGqFEwhZwr430UC7dkHEc2HM0WvXrJQSv2qTezUKD0CSBUl94cltZL7
-         wmvPjVWrCBUYhrh7gALdJWKbQN4dsHyq/otzT0HT+tALt0qnUIamCZWvC8Gw0UhDpC91
-         Y2HSTtvN08YgH72ymR0Ml5O3NTr0fQB4u1kiNT80utGJIahWdBC3su1givJVvqb6ZYCa
-         DXsKP8C1dbZOZdQglHvjd7w+oomHfbaJiQ5U3hWx7NgjcYAv2gKEg7LlM9/4BqqzdUb1
-         4hYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761264088; x=1761868888;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SS55Wat3aHjR4MMWG/CBZ2nFmq+zfQc/VuJXnUoVzR4=;
-        b=R7z3ZlBrxTvwSMwK0W6Bb9nDpIEAKmWUupfKCgBfuDw4pnf3siCqDlxOV5dGEWDBvD
-         YsBTL3CAVXPni+NLhhu4biAaPuJU/qV4SiwzSKCfrY4pPukdRp4dI9lDN+oCVGre8ZnK
-         fBAkQSubIG6/BG5ushysTosAnQaB9JtozZf8k0B19rjGNhlEzYl4mHWVTsjk5kPHe8L6
-         o6N1NJoIg5Zuy/mWKUtslhHjxiOWxKpSrzRWL8rzuzSGajJfY//1pPlKuyV/iOPPqLT0
-         HYK9I2VNyyeTgYVQ3il20UcXkOfnVZ5mkrNfXvF5s3fZHk/Lz+Q11sK4a73sYfJ9hvsL
-         232Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXmrMKMAa0e1IuOHL8FTkpdrorC2koIOj5QH5nU7F6eD+6Sy4ntTfy+0r3NLigKLRlBQcAmBUuj1lM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyq/m810KW/gv8jHHFaIEU7M6U+E0V4LwuM74W+ArfZoyDQE/AT
-	ji8KlzvQGQoqxx3nDJGlPICsLZyy91Vw+URdn0r2f3TqY8ojq+U3wg+Beme/K27lnUX3eRXXItA
-	UrvjBtfErFR2RmVXOH/t/asv8RWI21rE=
-X-Gm-Gg: ASbGncu0PVMZYiZpLnlKlJ1Ipvsvc+O8V9aOElkYr9YlSLvm0hHFa/26UT40i6rIWeI
-	gEnRRxmxQL8CclIbYQ6HfwGoKqfEqyPfBUT25p3SgNWqdfwzOmhMNM3Xa0iYO7zjS5fWqSliZDW
-	/C35qoBi0lMCKDQyARsaMNiXkEIZjFuK46Mp5OBcwxrhhzp2tazSP9uNdWDDklIR1NKRP6GIghS
-	A5PpNAdNQ7jD5i8ttGl9FRcDmxQAXzPQhykT6U7obZF3Nfittm+GT6e1UG6EoamIvQ01wG9/rOF
-	XxKmrI6Tr61bbc4=
-X-Google-Smtp-Source: AGHT+IE4hgSCHnM9w+Nj49Niog7hNVTuiW8jTj0btmv/nz9MG2xgckmanBAHREcxjfZdyiJeVTVHBqmYgG0U0DIDru8=
-X-Received: by 2002:a05:622a:c1:b0:4e8:a307:a42b with SMTP id
- d75a77b69052e-4eb810215a0mr63223151cf.4.1761264087710; Thu, 23 Oct 2025
- 17:01:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j1Zmsa0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 613A3C4CEE7;
+	Fri, 24 Oct 2025 00:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761264224;
+	bh=82yuS+sWTafw2Py0dWaPeg0/oAhrcVBmZqViILrxQCw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=j1Zmsa0Jy/Sm4bV1ai2EZm4v+Swx+9f4ZwcZ1+bhWCsXg/CjjLqlQVw2tOSUqVYNz
+	 aA3aTlJF7crlRXvVJXtwIPhpAk1l4AvA/CuvFObqBc3PC/ZiQdcGM7Qnbmuva/4b2o
+	 vdC/yQBxrVgYVtJRwGa4VGiCu+tmLDNYb5P9uqy5HQ4S7fO/7DWwM4uN/gp8KmjYlc
+	 181T2B3qrz5uvSvrJhNYk1riAoSaA8aYV7cLAKq+CaJ27zO5693mvutTgObBnNDas/
+	 UKAA5AFwC+6Slt6unHxLTjFLt2XWgzIFPpcuEfxpioHySt8OaaZyU+WnOn59XF4BG0
+	 TrwMQiOhoauyg==
+Date: Thu, 23 Oct 2025 17:03:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?QXNiasO4cm4=?= Sloth =?UTF-8?B?VMO4bm5lc2Vu?=
+ <ast@fiberby.net>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Chia-Yu Chang
+ <chia-yu.chang@nokia-bell-labs.com>, Chuck Lever <chuck.lever@oracle.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, Simon Horman
+ <horms@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 0/7] ynl: add ignore-index flag for
+ indexed-array
+Message-ID: <20251023170342.2bb7ce83@kernel.org>
+In-Reply-To: <f35cb9c8-7a5d-4fb7-b69b-aa14ab7f1dd5@fiberby.net>
+References: <20251022182701.250897-1-ast@fiberby.net>
+	<20251022184517.55b95744@kernel.org>
+	<f35cb9c8-7a5d-4fb7-b69b-aa14ab7f1dd5@fiberby.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250926002609.1302233-1-joannelkoong@gmail.com>
- <20250926002609.1302233-8-joannelkoong@gmail.com> <aPqDPjnIaR3EF5Lt@bfoster>
-In-Reply-To: <aPqDPjnIaR3EF5Lt@bfoster>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 23 Oct 2025 17:01:16 -0700
-X-Gm-Features: AS18NWCr2gof0qHy0win6WQh6W7_ZK9lH8ZiDMcoGInBYeRlL9GA5J28nTVuopc
-Message-ID: <CAJnrk1aNrARYRS+_b0v8yckR5bO4vyJkGKZHB2788vLKOY7xPw@mail.gmail.com>
-Subject: Re: [PATCH v5 07/14] iomap: track pending read bytes more optimally
-To: Brian Foster <bfoster@redhat.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, djwong@kernel.org, 
-	hch@infradead.org, hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 23, 2025 at 12:30=E2=80=AFPM Brian Foster <bfoster@redhat.com> =
-wrote:
->
-> On Thu, Sep 25, 2025 at 05:26:02PM -0700, Joanne Koong wrote:
-> > Instead of incrementing read_bytes_pending for every folio range read i=
-n
-> > (which requires acquiring the spinlock to do so), set read_bytes_pendin=
-g
-> > to the folio size when the first range is asynchronously read in, keep
-> > track of how many bytes total are asynchronously read in, and adjust
-> > read_bytes_pending accordingly after issuing requests to read in all th=
-e
-> > necessary ranges.
-> >
-> > iomap_read_folio_ctx->cur_folio_in_bio can be removed since a non-zero
-> > value for pending bytes necessarily indicates the folio is in the bio.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > Suggested-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
->
-> Hi Joanne,
->
-> I was throwing some extra testing at the vfs-6.19.iomap branch since the
-> little merge conflict thing with iomap_iter_advance(). I end up hitting
-> what appears to be a lockup on XFS with 1k FSB (-bsize=3D1k) running
-> generic/051. It reproduces fairly reliably within a few iterations or so
-> and seems to always stall during a read for a dedupe operation:
->
-> task:fsstress        state:D stack:0     pid:12094 tgid:12094 ppid:12091 =
- task_flags:0x400140 flags:0x00080003
-> Call Trace:
->  <TASK>
->  __schedule+0x2fc/0x7a0
->  schedule+0x27/0x80
->  io_schedule+0x46/0x70
->  folio_wait_bit_common+0x12b/0x310
->  ? __pfx_wake_page_function+0x10/0x10
->  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
->  filemap_read_folio+0x85/0xd0
->  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
->  do_read_cache_folio+0x7c/0x1b0
->  vfs_dedupe_file_range_compare.constprop.0+0xaf/0x2d0
->  __generic_remap_file_range_prep+0x276/0x2a0
->  generic_remap_file_range_prep+0x10/0x20
->  xfs_reflink_remap_prep+0x22c/0x300 [xfs]
->  xfs_file_remap_range+0x84/0x360 [xfs]
->  vfs_dedupe_file_range_one+0x1b2/0x1d0
->  ? remap_verify_area+0x46/0x140
->  vfs_dedupe_file_range+0x162/0x220
->  do_vfs_ioctl+0x4d1/0x940
->  __x64_sys_ioctl+0x75/0xe0
->  do_syscall_64+0x84/0x800
->  ? do_syscall_64+0xbb/0x800
->  ? avc_has_perm_noaudit+0x6b/0xf0
->  ? _copy_to_user+0x31/0x40
->  ? cp_new_stat+0x130/0x170
->  ? __do_sys_newfstat+0x44/0x70
->  ? do_syscall_64+0xbb/0x800
->  ? do_syscall_64+0xbb/0x800
->  ? clear_bhb_loop+0x30/0x80
->  ? clear_bhb_loop+0x30/0x80
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> RIP: 0033:0x7fe6bbd9a14d
-> RSP: 002b:00007ffde72cd4e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000068 RCX: 00007fe6bbd9a14d
-> RDX: 000000000a1394b0 RSI: 00000000c0189436 RDI: 0000000000000004
-> RBP: 00007ffde72cd530 R08: 0000000000001000 R09: 000000000a11a3fc
-> R10: 000000000001d6c0 R11: 0000000000000246 R12: 000000000a12cfb0
-> R13: 000000000a12ba10 R14: 000000000a14e610 R15: 0000000000019000
->  </TASK>
->
-> It wasn't immediately clear to me what the issue was so I bisected and
-> it landed on this patch. It kind of looks like we're failing to unlock a
-> folio at some point and then tripping over it later..? I can kill the
-> fsstress process but then the umount ultimately gets stuck tossing
-> pagecache [1], so the mount still ends up stuck indefinitely. Anyways,
-> I'll poke at it some more but I figure you might be able to make sense
-> of this faster than I can.
->
-> Brian
+On Thu, 23 Oct 2025 18:37:09 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
+>  > C code already does this, right? We just collect the attributes
+>  > completely ignoring the index. =20
+>=20
+> In the userspace C code, for sub-type nest the index is preserved
+> in struct member idx, and elided for other sub-types.
 
-Hi Brian,
+I see it now, I guess I added it for get but forgot to obey it=20
+for put :(
 
-Thanks for your report and the repro instructions. I will look into
-this and report back what I find.
+>  > So why do we need to extend the spec. =20
+>=20
+> For me it's mostly the naming "indexed-array". Earlier it was
+> "array-nest", then we renamed it to "indexed-array" because
+> it doesn't always contain nests.  I think it's counter-intuitive
+> to elide the index by default, for something called "indexed-array".
+> The majority of the families using it don't care about the index.
+>=20
+> What if we called it "ordered-array", and then always counted from 1
+> (for families that cares) when packing in user-space code?
+>=20
+>  > Have you found any case where the index matters and can be
+>  > non-contiguous (other than the known TC kerfuffle). =20
+>=20
+> IFLA_OFFLOAD_XSTATS_HW_S_INFO could be re-defined as a nest,
+> IFLA_OFFLOAD_XSTATS_L3_STATS is the only index atm.
 
-Thanks,
-Joanne
->
-> [1] umount stack trace:
->
-> task:umount          state:D stack:0     pid:12216 tgid:12216 ppid:2514  =
- task_flags:0x400100 flags:0x00080001
-> Call Trace:
->  <TASK>
->  __schedule+0x2fc/0x7a0
->  schedule+0x27/0x80
->  io_schedule+0x46/0x70
->  folio_wait_bit_common+0x12b/0x310
->  ? __pfx_wake_page_function+0x10/0x10
->  truncate_inode_pages_range+0x42a/0x4d0
->  xfs_fs_evict_inode+0x1f/0x30 [xfs]
->  evict+0x112/0x290
->  evict_inodes+0x209/0x230
->  generic_shutdown_super+0x42/0x100
->  kill_block_super+0x1a/0x40
->  xfs_kill_sb+0x12/0x20 [xfs]
->  deactivate_locked_super+0x33/0xb0
->  cleanup_mnt+0xba/0x150
->  task_work_run+0x5c/0x90
->  exit_to_user_mode_loop+0x12f/0x170
->  do_syscall_64+0x1af/0x800
->  ? vfs_statx+0x80/0x160
->  ? do_statx+0x62/0xa0
->  ? __x64_sys_statx+0xaf/0x100
->  ? do_syscall_64+0xbb/0x800
->  ? __x64_sys_statx+0xaf/0x100
->  ? do_syscall_64+0xbb/0x800
->  ? count_memcg_events+0xdd/0x1b0
->  ? handle_mm_fault+0x220/0x340
->  ? do_user_addr_fault+0x2c3/0x7f0
->  ? clear_bhb_loop+0x30/0x80
->  ? clear_bhb_loop+0x30/0x80
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> RIP: 0033:0x7fdd641ed5ab
-> RSP: 002b:00007ffd671182e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
-> RAX: 0000000000000000 RBX: 0000559b3e2056b0 RCX: 00007fdd641ed5ab
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000559b3e205ac0
-> RBP: 00007ffd671183c0 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000103 R11: 0000000000000246 R12: 0000559b3e2057b8
-> R13: 0000000000000000 R14: 0000559b3e205ac0 R15: 0000000000000000
->  </TASK>
->
+Isn't that pretty much always true? If the index is significant
+the whole thing could be redefined as a nest, with names provided
+in the spec?
+
+> IFLA_INET_CONF / IFLA_INET6_CONF is on input, but those are
+> also special by having different types depending on direction.
+>=20
+> I found a bunch of other ones, using a static index, but they
+> can also be defined as a multi-attr wrapped in an additional
+> outer nest, like IFLA_VF_VLAN_LIST already is.
+
+Multi-attr with an outer nest should at least solve your wg problem=20
+I guess? If all the attrs have type of 0 we can make it a multi-attr.
+
+>  > FWIW another concept is what TypeValue does.
+>  > "Inject" the index into the child nest as an extra member.
+>  > Most flexible but also prolly a PITA for user space to init those
+>  > for requests. =20
+>=20
+> Same as is done in the userspace C code for indexed-arrays with
+> sub-type nest. For most families it doesn't matter if the C code
+> inits the index or not.
