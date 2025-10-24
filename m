@@ -1,153 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D961A9FAC;
-	Fri, 24 Oct 2025 14:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF3F31D392
+	for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 14:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761315879; cv=none; b=P800W6NLr50PNNSXbH8YLbvnjpWwMVMDD+rk0BAWn5MeIXsyV0DhSSbG8b/9b0TD6uv0uoxf7J4p6FMHFzmsYqqWLtERzs0tMQmXMi6ptVGqdzvh9ezFWpZeTCIArle8Rmd8GWtnF2EpZcCW5rZuAsYngAVKFV7Cj7UTVUTGKPI=
+	t=1761316616; cv=none; b=avv/cDQbOVr4duB0cYjnYBBY2uQFlJ+kgMumnbdc5MKh3Z3qZkq3DBZJ0LKcb/fhJRqHFG8EofL+EzspUvrzt19a8OD7QI/G7/33cVL7T8qLUzDIdLiowYR6cR+jWiiEFXd7tVIOE90QsxqZZNzMQap6UXWCccq6SuKYz0yFzRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761315879; c=relaxed/simple;
-	bh=eAHw5OUZPHJyXkIei0o2MaB9jn5jCq9NHCTpyU4jQ8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hh0jgDo8t9jVYt5Zc/5gsu18yGneR6mssHWEiWN7ujrN5QLyqtMSOgdHLnxOAjb9RUw9ECart8uLdKv5/WXebakIWwyobJ2LvGY3qZ5IKCc0gGuFw5zbPo/9n1FLB9JgBe6FqiV9W1FwkO8QYjbUEv4mma00ZnHoT6Vilk1ov/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rko+w4s6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761316616; c=relaxed/simple;
+	bh=7POTLgOQMSvDxIjq1wqPOOdPmObt8KgLrizCHzkYhn0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=lFHEdMN9TUmyhQTib3f0GgsLNy8C2TRsspAwy9+krmaUgwD+RBdnLy52MYd2TY/6s2muqC3SfKjIQgEfgKFFlXRhZK7hwfHw3hwk0qj6X1/gxHcfPjymhG3QiGfIz39L+vhSeDkeqY4vlb9JLpkIzyzMp4m4XKiNPqZoAK0u6KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f4LruAbw; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rko+w4s6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11847C4CEFF;
-	Fri, 24 Oct 2025 14:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761315879;
-	bh=eAHw5OUZPHJyXkIei0o2MaB9jn5jCq9NHCTpyU4jQ8g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rko+w4s6eu54dHaksuSRcL+BvGJ3mxvBrlQRZWLFK8D5G8MWbvxMIDWXFdt8lY6+R
-	 R0nb18VSxIanHX44H7usKi1WgKK+GQcnzzQHrxR9Gw5fc6XDhxmzf6DwEqQhWcrYrz
-	 Z196B87ekd8s7Z8BiXWxN7eAeYtzkzHGjy89NMVzbES9JEZmpd0mkBJQJ3rSNJ3XnU
-	 T4bLC4Yck+eoZH31fiuNUrECrXpewLA+plN3n9YQ1xKeLnECYZ8/yCbCuCkujBjvas
-	 Fgn3eDMMOo3o16bSAcM8MchI54mFyBRH5sJSSKLe4Do9nOh7jcVIeYvN7PcudcajCy
-	 unZaYQ/Mgclig==
-Date: Fri, 24 Oct 2025 11:24:28 -0300
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 00/10] Collect documentation-related tools under
- /tools/docs
-Message-ID: <20251024112428.44965f06@sal.lan>
-In-Reply-To: <20251023161027.697135-1-corbet@lwn.net>
-References: <20251023161027.697135-1-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f4LruAbw"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-28bd8b3fa67so21131015ad.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 07:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761316614; x=1761921414; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gWpJOPikpazVbpXRSUPMCcvrbTBk5c7sNdJD5ZAL5c=;
+        b=f4LruAbwGC7NvQfpfbN76Yj4wOdfUQMXmRa9yXRCYqVLCvpKM+DOcf8qKT+Cq5HmpF
+         eFGQ3Zs08aupJi37oT0laKXktHx9Hi/4GTGLFUSOFQEoa+8RL3W+oi8rjz2N97b8SulF
+         khZYHZdNmQHASNx7zXNnzE691sq0q9m1MBeN5oeldppylyeWbhR2ZjdULm8lPQBDMYTN
+         LqhZ69mvKkaBI53bmuDMu0e0bdTXp4uy5WsJRMXvmTuRz2+DEcMjUKilqSyCN1ACboLD
+         29ytfDZiogxJB0mhQ01wbrG89uPplqKmXe3BJUX/JxkMhigOzYgppF8cNvl2YODRER7r
+         2+Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761316614; x=1761921414;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gWpJOPikpazVbpXRSUPMCcvrbTBk5c7sNdJD5ZAL5c=;
+        b=CKKbjUMF56usRtrymDiK9M1SzHlIS3/Wd4I/cklS1X7ZWqAcVRtMxglaBe3UMBRwEO
+         d92vwUL8BzhAXFikG6ikyHn6Y+77A52M5giBZwENfeqfSrNRxFLZCSKrjrffcgd7GZj7
+         NSnA7eGubNAhklC+nX+nmx468bV0tiGd9h01qe36hJxyed705sS89K3sAl0eFFsFJ1E0
+         AR9+VG6ubwHgkPGhNzTs2GDvcOCe76jmnwtGtHx07YWD9brf3uQkBXjlMBHBspaA/Jbm
+         caXxYueT1MT2we3mdbFaXnIYYH6bdRpxcDZV7ZJ7pPDDVS1CjSwgWtmShJFIDlZVCpMe
+         cKmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVis9ZIsoUTGV0XGg1UCxVO79wDonhe7T5MB4v0kor9tGTJS0Fpy2v5FaNMsWswMvwymV9xBXDioHw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKHbGDG9Pbk1u8sBw1CI5ix+LOM1rpjMtXWRcvBC+r6TkHnepS
+	rpyKkB/CSI3wLweeNUQZ+QINg1z/DCOaQriW0r76mP3H8yuFiJ79dJR17zQ4sbSyner4zKMhdS9
+	VYk6NYg5zgkQKI8nV3aZuJ7Sl8Q==
+X-Google-Smtp-Source: AGHT+IHpZZ9f9FI2oIDKJuatT8tIt0u+E9sskkPVtdG8cewdd4WM+aJNDiUGBZhPHxdPQPN/WAuNAtpnF8qjPR3V7w==
+X-Received: from plcq12.prod.google.com ([2002:a17:902:e30c:b0:290:28e2:ce4e])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:f68c:b0:290:91d2:9304 with SMTP id d9443c01a7336-290c9c8a770mr324316695ad.4.1761316613376;
+ Fri, 24 Oct 2025 07:36:53 -0700 (PDT)
+Date: Fri, 24 Oct 2025 07:36:51 -0700
+In-Reply-To: <aPpEPZ4YfrRHIkal@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <cover.1760731772.git.ackerleytng@google.com> <8ee16fbf254115b0fd72cc2b5c06d2ccef66eca9.1760731772.git.ackerleytng@google.com>
+ <2457cb3b-5dde-4ca1-b75d-174b5daee28a@arm.com> <diqz4irqg9qy.fsf@google.com>
+ <diqzy0p2eet3.fsf@google.com> <aPlpKbHGea90IebS@google.com>
+ <diqzv7k5emza.fsf@google.com> <aPpEPZ4YfrRHIkal@google.com>
+Message-ID: <diqzqzuse58c.fsf@google.com>
+Subject: Re: [RFC PATCH v1 07/37] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+From: Ackerley Tng <ackerleytng@google.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Steven Price <steven.price@arm.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
+	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
+	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
+	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
+	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
+	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
+	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
+	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
+	shakeel.butt@linux.dev, shuah@kernel.org, suzuki.poulose@arm.com, 
+	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
+	vkuznets@redhat.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
+	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
+	yuzenghui@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 
-Em Thu, 23 Oct 2025 10:10:08 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Sean Christopherson <seanjc@google.com> writes:
 
-> Our documentation-related tools are spread out over various directories;
-> several are buried in the scripts/ dumping ground.  That makes them harder
-> to discover and harder to maintain.
-> 
-> Recently, the idea of creating a dedicated directory for documentation tools
-> came up; I decided to see what it would look like.  This series creates a
-> new directory, tools/docs, and moves various utilities there, hopefully
-> fixing up all of the relevant references in the process.
-> 
-> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
-> 
-> The big elephant lurking in this small room is the home for Python modules;
-> I left them under scripts/lib, but that is an even less appropriate place
-> than it was before.  I would propose either tools/python or lib/python;
-> thoughts on that matter welcome.
+> On Thu, Oct 23, 2025, Ackerley Tng wrote:
+>> Sean Christopherson <seanjc@google.com> writes:
+>> 
+>> > On Wed, Oct 22, 2025, Ackerley Tng wrote:
+>> >> Ackerley Tng <ackerleytng@google.com> writes:
+>> >> 
+>> >> Found another issue with KVM_CAP_MEMORY_ATTRIBUTES2.
+>> >> 
+>> >> KVM_CAP_MEMORY_ATTRIBUTES2 was defined to do the same thing as
+>> >> KVM_CAP_MEMORY_ATTRIBUTES, but that's wrong since
+>> >> KVM_CAP_MEMORY_ATTRIBUTES2 should indicate the presence of
+>> >> KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2.
+>> >
+>> > No?  If no attributes are supported, whether or not KVM_SET_MEMORY_ATTRIBUTES2
+>> > exists is largely irrelevant.
+>> 
+>> That's true.
+>> 
+>> > We can even provide the same -ENOTTY errno by
+>> > checking that _any_ attributes are supported, i.e. so that doing
+>> > KVM_SET_MEMORY_ATTRIBUTES2 on KVM without any support whatsoever fails in the
+>> > same way that KVM with code support but no attributes fails.
+>> 
+>> IIUC KVM_SET_MEMORY_ATTRIBUTES doesn't fail with -ENOTTY now when there
+>> are no valid attributes.
+>> 
+>> Even if there's no valid attributes (as in
+>> kvm_supported_mem_attributes() returns 0), it's possible to call
+>> KVM_SET_MEMORY_ATTRIBUTES with .attributes set to 0, which will be a
+>> no-op, but will return 0.
+>> 
+>> I think this is kind of correct behavior since .attributes = 0 is
+>> actually a valid expression for "I want this range to be shared", and
+>> for a VM that doesn't support private memory, it's a valid expression.
+>> 
+>> 
+>> The other way that there are "no attributes" would be if there are no
+>> /VM/ attributes, in which case KVM_SET_MEMORY_ATTRIBUTES, sent to as a
+>> vm ioctl, will return -ENOTTY.
+>
+> Ya, this is what I was trying to say with "_any_ attributes are supported".  I.e.
+> by "any" I meant "any attributes in KVM for VMs vs. gmems", not "any attributes
+> for this specific VM/gmem instance".
+>
+>> 
+>> [...snip...]
+>> 
 
-Hmm... What about tools/docs/python?
+I've been thinking more about this:
 
-> 
-> Changes in v2:
->   - Rebase on top of all of Mauro's changes (the most painful rebase I've
->     ever done, I think).
+  #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+  	case KVM_CAP_MEMORY_ATTRIBUTES2:
+  	case KVM_CAP_MEMORY_ATTRIBUTES:
+  		if (!vm_memory_attributes)
+  			return 0;
+  
+  		return kvm_supported_mem_attributes(kvm);
+  #endif
 
-Sorry for that! Yeah, renaming patches are very hard to rebase. It is
-usually better to have a renaming script and re-run it if changes get
-merged.
+And the purpose of adding KVM_CAP_MEMORY_ATTRIBUTES2 is that
+KVM_CAP_MEMORY_ATTRIBUTES2 tells userspace that
+KVM_SET_MEMORY_ATTRIBUTES2 is available iff there are valid
+attributes.
 
->   - Land everything in /tools/docs/ rather than /tools/doc/
-> 
-> v1: https://lore.kernel.org/lkml/20250813213218.198582-1-corbet@lwn.net/
-> 
-> Jonathan Corbet (10):
->   docs: Move the "features" tools to tools/docs
->   docs: move checktransupdate.py to tools/docs
->   docs: move scripts/check-variable-fonts.sh to tools/docs
->   docs: move scripts/documentation-file-ref-check to tools/docs
->   docs: move get_abi.py to tools/docs
->   docs: move test_doc_build.py to tools/docs
->   docs: move kernel-doc to tools/docs
->   docs: move split-man.pl to tools/docs
->   docs: move find-unused-docs.sh to tools/docs
->   docs: remove kernel-doc.pl
-> 
->  Documentation/Kconfig                         |    2 +-
->  Documentation/Makefile                        |    8 +-
->  Documentation/conf.py                         |    2 +-
->  Documentation/doc-guide/checktransupdate.rst  |    6 +-
->  Documentation/doc-guide/contributing.rst      |    2 +-
->  Documentation/doc-guide/kernel-doc.rst        |   18 +-
->  Documentation/doc-guide/sphinx.rst            |    2 +-
->  Documentation/kbuild/kbuild.rst               |    2 +-
->  Documentation/process/coding-style.rst        |    2 +-
->  Documentation/sphinx/kernel_abi.py            |    2 +-
->  Documentation/sphinx/kernel_feat.py           |    4 +-
->  .../it_IT/doc-guide/kernel-doc.rst            |    8 +-
->  .../sp_SP/process/coding-style.rst            |    2 +-
->  .../zh_CN/doc-guide/checktransupdate.rst      |    6 +-
->  .../zh_CN/doc-guide/contributing.rst          |    2 +-
->  .../zh_CN/doc-guide/kernel-doc.rst            |   16 +-
->  Documentation/translations/zh_CN/how-to.rst   |    2 +-
->  .../translations/zh_CN/kbuild/kbuild.rst      |    2 +-
->  .../zh_CN/process/coding-style.rst            |    2 +-
->  .../zh_TW/process/coding-style.rst            |    2 +-
->  MAINTAINERS                                   |    8 +-
->  Makefile                                      |    2 +-
->  drivers/gpu/drm/i915/Makefile                 |    2 +-
->  scripts/kernel-doc                            |    1 -
->  scripts/kernel-doc.pl                         | 2439 -----------------
->  scripts/sphinx-pre-install                    |    2 +-
->  .../docs}/check-variable-fonts.sh             |    2 +-
->  {scripts => tools/docs}/checktransupdate.py   |    8 +-
->  .../docs}/documentation-file-ref-check        |    2 +-
->  .../docs}/features-refresh.sh                 |    0
->  {scripts => tools/docs}/find-unused-docs.sh   |    8 +-
->  {scripts => tools/docs}/get_abi.py            |    0
->  {scripts => tools/docs}/get_feat.pl           |    2 +-
->  .../kernel-doc.py => tools/docs/kernel-doc    |    0
->  .../features => tools/docs}/list-arch.sh      |    2 +-
->  {scripts => tools/docs}/split-man.pl          |    0
->  {scripts => tools/docs}/test_doc_build.py     |    0
->  37 files changed, 63 insertions(+), 2507 deletions(-)
->  delete mode 120000 scripts/kernel-doc
->  delete mode 100755 scripts/kernel-doc.pl
->  rename {scripts => tools/docs}/check-variable-fonts.sh (98%)
->  rename {scripts => tools/docs}/checktransupdate.py (97%)
->  rename {scripts => tools/docs}/documentation-file-ref-check (99%)
->  rename {Documentation/features/scripts => tools/docs}/features-refresh.sh (100%)
->  rename {scripts => tools/docs}/find-unused-docs.sh (79%)
->  rename {scripts => tools/docs}/get_abi.py (100%)
->  rename {scripts => tools/docs}/get_feat.pl (99%)
->  rename scripts/kernel-doc.py => tools/docs/kernel-doc (100%)
->  rename {Documentation/features => tools/docs}/list-arch.sh (83%)
->  rename {scripts => tools/docs}/split-man.pl (100%)
->  rename {scripts => tools/docs}/test_doc_build.py (100%)
+(So there's still a purpose)
 
-At the description you mentioned libs, but I'm not seeing anything
-at the above diffstat showing such renames.
-> 
+Without valid attributes, userspace can't tell if it should use
+KVM_SET_MEMORY_ATTRIBUTES or the 2 version.
 
-Regards,
-Mauro
+I also added KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES, which tells
+userspace the valid attributes when calling KVM_SET_MEMORY_ATTRIBUTES2
+on a guest_memfd:
+
+  #ifdef CONFIG_KVM_GUEST_MEMFD
+  	case KVM_CAP_GUEST_MEMFD:
+  		return 1;
+  	case KVM_CAP_GUEST_MEMFD_FLAGS:
+  		return kvm_gmem_get_supported_flags(kvm);
+  	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
+  		if (vm_memory_attributes)
+  			return 0;
+  
+  		return kvm_supported_mem_attributes(kvm);
+  #endif
+  
+So to set memory attributes, userspace should
+
+  if (kvm_check_cap(KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES) > 0)
+	use KVM_SET_MEMORY_ATTRIBUTES2 with guest_memfd
+  else if (kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES2) > 0)
+        use KVM_SET_MEMORY_ATTRIBUTES2 with VM fd
+  else if (kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES) > 0)
+	use KVM_SET_MEMORY_ATTRIBUTES with VM fd
+  else
+	can't set memory attributes
+
+Something like that?
+
+
+In selftests there's this, when KVM_SET_USER_MEMORY_REGION2 was
+introduced:
+
+  #define TEST_REQUIRE_SET_USER_MEMORY_REGION2()			\
+	__TEST_REQUIRE(kvm_has_cap(KVM_CAP_USER_MEMORY2),	\
+		       "KVM selftests now require KVM_SET_USER_MEMORY_REGION2 (introduced in v6.8)")
+
+But looks like there's no direct equivalent for the introduction of
+KVM_SET_MEMORY_ATTRIBUTES2?
+
+The closest would be to add a TEST_REQUIRE_VALID_ATTRIBUTES() which
+checks KVM_CAP_MEMORY_ATTRIBUTES2 or
+KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES before making the vm or
+guest_memfd ioctl respsectively.
