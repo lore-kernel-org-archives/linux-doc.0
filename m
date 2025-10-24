@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAD02E5B1E;
-	Fri, 24 Oct 2025 20:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8807A2E6CC4;
+	Fri, 24 Oct 2025 20:08:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761336535; cv=none; b=g4kdCgmgsF9SrveKcjATE1gJbPnWKZSFPgQOteCE2zb3AMEJsY2C5RB5lcbrn9lV9TCuozc8EIza7f82aYoq1bB0T/YyBSuLJ4G1jkW2MZkS8X+3To5n6ECpyYMe3E2oKwZILfb5sH1uPoDLWohIE6LlVpAJDrHKdnrVJb7Md8E=
+	t=1761336536; cv=none; b=vE0npviofCwILBzyuVhj2JzY5TMJ5xPzGgf8hjdDdPP+8CdS4DY0zTZrijzP48wskfxUNFJ0g59gV+MyOKH6K8JkH+aSkyhiOmMWn9GZU3V3X8ZVmPFJyDcNwzIepxJTiTdxjpvrvggp9LTwNP8Hg+qBmTyz/JceexDMAzocNfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761336535; c=relaxed/simple;
-	bh=DkmdZD03tEDIYPmuNfn8kM14uyxWg/1xf0rJpDrJAZE=;
+	s=arc-20240116; t=1761336536; c=relaxed/simple;
+	bh=M67VoMxyAvaa3Q2G2y/IHqN7Ue15OSITp43jSgQUByA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NnZwE31ZaPo5s9Y5lu3ETRm6eML+Ip+BdxwKvFi65c9lmJDxkbOlxvHfESE2Ile/343E5TIWOEPT6UqHHRbOXn6wf5mo26cOKZvRNK0qFNL8e1hHsW2u8gwnD3knH+bVEVGqNJtqLWSYqFE7+bEGX5pblniS0tndhmtTwg+Wx0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=swkkFI9P; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version; b=kvytzQE24TUshtHvMjVKQ9GgDeNwAzUXM4eAiETBT0ueKqhLx/YwS12XM1I3WoDQo1cRhL12tybZ9CcvwdR7w35Bl5olQO8Z2vjV4SH5EK4Y0b/q+LhqCZ57DMrHHzAmbMVW/c52Strm1dT5vzuruZ93n2k0XgTiflH/vxf3F7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=T87SBZgN; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="swkkFI9P"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 04FC440C2F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="T87SBZgN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F064D40C2A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761336530; bh=SLXXvISie5635KSpolRaPdQrJTUSoEUf5MVXYGYQ9bg=;
+	t=1761336527; bh=hWt5ftNAvpwXgRb0lngYloq1RnkyCYaqYr1EN/nuY5E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=swkkFI9PgR7iDm1m/zsmRbv8CrrY+JnJ9YybXTy4nUVVU63SdUC0gWl4GY2tfsif0
-	 /6rZYMd7lGnionuxYX2COxgbJDMsBOh/IBzRmwLb1CvQiIu4Tuh3BKm94yqyGh837s
-	 o1zQfrcj1Zfmt4McfrTcPMmuxQobo2/sPjdhDrnO0vxpcUu/x+2hysyrCDFIC6gh4O
-	 nLnHF09J1UD81o8QP9xUIJbeHeqdNS1WIEFlpSLni3rtgpsrYRZyNzvo3NaY8EgiC4
-	 7UYDvXDKLPP9q/QXPR9mf4w8PkO8L8PPwoJkhYHYllU8MQ4d0QJ3waaIZhiYKnRUPI
-	 E2orZjmfUkQYQ==
+	b=T87SBZgND2TSSiFZN3+D6MM/9bT/1oMZR6hxCFRb0RHJKVNDthsXGDXT7AjP89wBd
+	 1d7K6FODGXgqUqPa3Wm76oN1buTcrf/K27q2PmIcK73XaTqCMkH/UMV9EmRwn6frZK
+	 8zwY5/hTcXKtLSP5bQWf4MVxYtA0yG73TcWT3IFsikga3VkwVfVOpQA0dbZSwfMoGF
+	 Nlwl0Uqq9N5pLPHn4mkDPoq+LC1H1aWgVqNG4FbWWGgip6gL6Y8ElMGAZOJ94pZ3m0
+	 NXU3mWQ+wcVuJCMhzWcr+kyDSwyZ66kf90j52l8nSzu0GAc3ES3mHoZ54Xng/01bo7
+	 RwSZdt3CAl8gA==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 04FC440C2F;
-	Fri, 24 Oct 2025 20:08:49 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id F064D40C2A;
+	Fri, 24 Oct 2025 20:08:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 7/8] docs: move find-unused-docs.sh to tools/docs
-Date: Fri, 24 Oct 2025 14:08:28 -0600
-Message-ID: <20251024200834.20644-8-corbet@lwn.net>
+Subject: [PATCH v3 4/8] docs: move get_abi.py to tools/docs
+Date: Fri, 24 Oct 2025 14:08:25 -0600
+Message-ID: <20251024200834.20644-5-corbet@lwn.net>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251024200834.20644-1-corbet@lwn.net>
 References: <20251024200834.20644-1-corbet@lwn.net>
@@ -50,75 +50,80 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-...and update references accordingly.
+Move this tool out of scripts/ to join the other documentation tools; fix
+up a couple of erroneous references in the process.
+
+It's worth noting that this script will fail badly unless one has a
+PYTHONPATH referencing scripts/lib/abi.
 
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/doc-guide/contributing.rst                    | 2 +-
- Documentation/translations/zh_CN/doc-guide/contributing.rst | 2 +-
- {scripts => tools/docs}/find-unused-docs.sh                 | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename {scripts => tools/docs}/find-unused-docs.sh (85%)
+ Documentation/Kconfig              | 2 +-
+ Documentation/Makefile             | 2 +-
+ Documentation/sphinx/kernel_abi.py | 2 +-
+ MAINTAINERS                        | 1 -
+ {scripts => tools/docs}/get_abi.py | 0
+ 5 files changed, 3 insertions(+), 4 deletions(-)
+ rename {scripts => tools/docs}/get_abi.py (100%)
 
-diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-index 662c7a840cd5..f8047e633113 100644
---- a/Documentation/doc-guide/contributing.rst
-+++ b/Documentation/doc-guide/contributing.rst
-@@ -152,7 +152,7 @@ generate links to that documentation.  Adding ``kernel-doc`` directives to
- the documentation to bring those comments in can help the community derive
- the full value of the work that has gone into creating them.
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+index 3a0e7ac0c4e3..8b6c4b84b218 100644
+--- a/Documentation/Kconfig
++++ b/Documentation/Kconfig
+@@ -19,7 +19,7 @@ config WARN_ABI_ERRORS
+ 	  described at Documentation/ABI/README. Yet, as they're manually
+ 	  written, it would be possible that some of those files would
+ 	  have errors that would break them for being parsed by
+-	  scripts/get_abi.pl. Add a check to verify them.
++	  tools/docs/get_abi.py. Add a check to verify them.
  
--The ``scripts/find-unused-docs.sh`` tool can be used to find these
-+The ``tools/docs/find-unused-docs.sh`` tool can be used to find these
- overlooked comments.
+ 	  If unsure, select 'N'.
  
- Note that the most value comes from pulling in the documentation for
-diff --git a/Documentation/translations/zh_CN/doc-guide/contributing.rst b/Documentation/translations/zh_CN/doc-guide/contributing.rst
-index 394a13b438b0..b0c8ba782b16 100644
---- a/Documentation/translations/zh_CN/doc-guide/contributing.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/contributing.rst
-@@ -124,7 +124,7 @@ C代码编译器发出的警告常常会被视为误报，从而导致出现了
- 这使得这些信息更难找到，例如使Sphinx无法生成指向该文档的链接。将 ``kernel-doc``
- 指令添加到文档中以引入这些注释可以帮助社区获得为编写注释所做工作的全部价值。
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 1476aa1701ce..734ec9c9a62c 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -13,7 +13,7 @@ endif
  
--``scripts/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
-+``tools/docs/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
+ # Check for broken ABI files
+ ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
+-$(shell $(srctree)/scripts/get_abi.py --dir $(srctree)/Documentation/ABI validate)
++$(shell $(srctree)/tools/docs/get_abi.py --dir $(srctree)/Documentation/ABI validate)
+ endif
+ endif
  
- 请注意，将导出的函数和数据结构引入文档是最有价值的。许多子系统还具有供内部
- 使用的kernel-doc注释；除非这些注释放在专门针对相关子系统开发人员的文档中，
-diff --git a/scripts/find-unused-docs.sh b/tools/docs/find-unused-docs.sh
-similarity index 85%
-rename from scripts/find-unused-docs.sh
-rename to tools/docs/find-unused-docs.sh
-index 1fb265a0ffd0..2f2195a77c60 100755
---- a/scripts/find-unused-docs.sh
-+++ b/tools/docs/find-unused-docs.sh
-@@ -5,10 +5,10 @@
- # This script detects files with kernel-doc comments for exported functions
- # that are not included in documentation.
- #
--# usage: Run 'scripts/find-unused-docs.sh directory' from top level of kernel
-+# usage: Run 'tools/docs/find-unused-docs.sh directory' from top level of kernel
- # 	 tree.
- #
--# example: $scripts/find-unused-docs.sh drivers/scsi
-+# example: $tools/docs/find-unused-docs.sh drivers/scsi
- #
- # Licensed under the terms of the GNU GPL License
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 4c4375201b9e..32e39fb8bc3b 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -14,7 +14,7 @@
+     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
  
-@@ -18,7 +18,7 @@ if ! [ -d "Documentation" ]; then
- fi
+     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
+-    scripts/get_abi.py script to parse the Kernel ABI files.
++    AbiParser class to parse the Kernel ABI files.
  
- if [ "$#" -ne 1 ]; then
--	echo "Usage: scripts/find-unused-docs.sh directory"
-+	echo "Usage: tools/docs/find-unused-docs.sh directory"
- 	exit 1
- fi
+     Overview of directive's argument and options.
  
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fc1da52433b6..5c632cd3902c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7411,7 +7411,6 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/get_abi.py
+ F:	scripts/kernel-doc*
+ F:	scripts/lib/abi/*
+ F:	scripts/lib/kdoc/*
+diff --git a/scripts/get_abi.py b/tools/docs/get_abi.py
+similarity index 100%
+rename from scripts/get_abi.py
+rename to tools/docs/get_abi.py
 -- 
 2.51.0
 
