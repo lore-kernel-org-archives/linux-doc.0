@@ -1,68 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D243757EA;
-	Fri, 24 Oct 2025 01:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80471ACED5;
+	Fri, 24 Oct 2025 01:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761268426; cv=none; b=YPt9pg64U6qxs7UTjEa7rXxkBbEP2K+4JFlRE23h7s77FfEiYv8nN3asuVxddEO1kph906v6xsIr6fwtSYoNLJu1/EKtdELeTNKP0UwKDP+gB3NjG1wYxwv63AqosOVJAe2JMQSUtmm/xI0CRF/ceSqHqlaNyi8WcN6tf/maHO0=
+	t=1761268833; cv=none; b=BLDQ2/aS6Ccz9XyMGEY4bW+CIwrb7IDagSoKbtMWruSizvMroOeeexyOamuCghhl4YPWFHWBlDB+RhA7N8KXo2K2lJRr2wntoLT4ZbxQLKJaf16Xx0tJ+ngY5CQ+Ybz9HGadqHHrprC8JWcZOqxDFurIOFLcpljlx8nknIRxfVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761268426; c=relaxed/simple;
-	bh=E52/C2NI1v8LOeNlODaaZwoSzzKa4S3nQNDgy67egio=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cHrHOOzkJLmveeZANYODO2zTXICwZnTLMZz5AhTSp1Mdmu5nQnL+wmw63TQg3CwIsed1LBVXGxRvTlNWMJwp76nUGXyc8960LaJ1eOlKhfILX0ld96QlB4wyqAvZT1weYskFbdFF4xydePMl1mFz9N5Ao/i9ICkiII/tfxBif6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NNtTK093; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761268833; c=relaxed/simple;
+	bh=tlDojOMPUzmLOzZJJ/z+jWO/8mkgNeXOeHjTh0VzK5w=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=YQnmixAxhOJMiYTjpKtKxUZ5tFAAHgb55cGU1a14N9S7aCXiB8GGVolyzk21yGax6pGwTO8o0KKA77RAaVA/iAMZ1TBSlCpkT2UI4+obLGIus9w+kGNa2hiKKuw5LPt2BE7VY9gHVtlYB1qj7sZaQSMUidtLVUSJ+tqBptg8jww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3PnmmlH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NNtTK093"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47D5C4CEE7;
-	Fri, 24 Oct 2025 01:13:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3PnmmlH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD1DC4CEE7;
+	Fri, 24 Oct 2025 01:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761268425;
-	bh=E52/C2NI1v8LOeNlODaaZwoSzzKa4S3nQNDgy67egio=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NNtTK093imMpKanJSxAsIZmnS8ey1uab6wfwn+tI9uMTJlDmexMFDgg+gvV5Zd4nx
-	 LnIoKrQTk/JWVlYy19tad6hDNIiipggQ4qMoENFfcPLLoDSPT1dTh6N78Nr/OhoDvB
-	 tMfgm6k9kl85NsXHVaji+1rWne0+kSi7mskQXzf736FKGE9TwmGqoO540eqAM8hDKv
-	 2ZFINyal8rmWZYmH4fNXrfEOzKsABIin9zEZi3CuBj1RyB4WBGNyNlWgNv5BS6KL2X
-	 SgnU9uI1FQOKrI7rrdvOV/Gi097hwejFgosOVjTHKnBPVcdsMdeXBgJSCrWPM/B7He
-	 tqJILxY+5TQNQ==
-Date: Thu, 23 Oct 2025 18:13:43 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Kory Maincent
- <kory.maincent@bootlin.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Nishanth Menon <nm@ti.com>,
- kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
- linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
- <roan@protonic.nl>
-Subject: Re: [PATCH net-next v7 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <20251023181343.30e883a4@kernel.org>
-In-Reply-To: <20251020103147.2626645-3-o.rempel@pengutronix.de>
-References: <20251020103147.2626645-1-o.rempel@pengutronix.de>
-	<20251020103147.2626645-3-o.rempel@pengutronix.de>
+	s=k20201202; t=1761268833;
+	bh=tlDojOMPUzmLOzZJJ/z+jWO/8mkgNeXOeHjTh0VzK5w=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=S3PnmmlHUbs3tfjcpuK1BmQJm1dno8xdTWiKUbS8ETYWB/+LH6m41na8VgwmZX+pa
+	 vdlj/f8vxkpvfwFyhCxhPD58MbTWernDuALpHqy+gO2sZDFLYHIy7Y9LoLhFUg+V2z
+	 R9u8sbJlPwqAF78aNctmPRPZOg5o+QF5aZ7ObmwaCZqznW+Xtd0obvMwkI9/r14lLC
+	 Ko6rxWK371W3NFXDg1vpWcDGIB/gM/7kwMS/1CY6NRx8UH5wa7lTYHkHStCZXxlpa4
+	 2Db0EIDJmWKS5C3PFIGpwS/mPM2a5fNWpis51Y1emReUrAlwiVIPaAYCC0uw8a1Alh
+	 eoSs8XqczOpxQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE21B3809A38;
+	Fri, 24 Oct 2025 01:20:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] net: rmnet: Use section heading markup for
+ packet
+ format subsections
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176126881324.3310205.2043841398135141215.git-patchwork-notify@kernel.org>
+Date: Fri, 24 Oct 2025 01:20:13 +0000
+References: <20251022025456.19004-2-bagasdotme@gmail.com>
+In-Reply-To: <20251022025456.19004-2-bagasdotme@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, subash.a.kasiviswanathan@oss.qualcomm.com,
+ sean.tranchetti@oss.qualcomm.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net
 
-On Mon, 20 Oct 2025 12:31:44 +0200 Oleksij Rempel wrote:
-> +      -
-> +        name: supported-caps
-> +        type: nest
-> +        nested-attributes: bitset
-> +        enum: phy-mse-capability
+Hello:
 
-This is read only, does it really have to be a bitset?
-YNL will generate the string table automatically for user space to map
-the bits to names. And we have to do a bunch of const_ilog2() and render
-the MASK in the uAPI...
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 22 Oct 2025 09:54:57 +0700 you wrote:
+> Format subsections of "Packet format" section as reST subsections.
+> 
+> Link: https://lore.kernel.org/linux-doc/aO_MefPIlQQrCU3j@horms.kernel.org/
+> Suggested-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> Changes since v1 [1]:
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2] net: rmnet: Use section heading markup for packet format subsections
+    https://git.kernel.org/netdev/net-next/c/9ff86092655f
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
