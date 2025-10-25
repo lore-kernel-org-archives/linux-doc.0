@@ -1,134 +1,152 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFB32C2345
-	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 05:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1811D61BC
+	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 06:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761370672; cv=none; b=YTP1xtvHWeJwemLG+O/Jai4YscVKkvf1ufhSRgLib0mO9l//PrIfOAGraperww2h6zCXnSAf2aOXlplHgo+VeoLr/78FwJxYDxamlJoE1ifinKTX/jMovvGSTxznAd+yEIcag1THKpTPQC1sJzSy/TFh06Awt51E+tP7rbWrnWw=
+	t=1761373039; cv=none; b=MzfF1geyp0INtq8hwVkp93RCiJZEMyVLGdw/j6zg0/cvxmiJfoJjZSp8in55u7IipQ4z5rE68sO6OD5Ef2Hv0/vIy9I1bpu63CiK7WuM7qJHfRj19iZHbNecPV0GeU5B9Sy6jgT5hg19NIGNUj4MAAI6ic5Kp9yM8DInzKBV38Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761370672; c=relaxed/simple;
-	bh=3ek6W1mOhWcu4a+L94jPiS6unr23TPjMvZqPvfl7OIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lm02oq/2kztW/lccS0VfrzBlvN6uLsQbztBdGKAfBlUGRKCg2y/pTAoUuT4U6hiAzR2kFsbnTa8u1tO6daV0YKeCVoM5KorKakekvOVegqJwqTlaKpPJvUvouMYzPI0r4u6u4ozNzMyPz77CddKPuZHrclx1tQmoWLF5+/I3vbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1vCWxs-00026D-FF; Sat, 25 Oct 2025 07:37:20 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1vCWxp-005LEj-15;
-	Sat, 25 Oct 2025 07:37:17 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1vCWxp-00GypS-0Y;
-	Sat, 25 Oct 2025 07:37:17 +0200
-Date: Sat, 25 Oct 2025 07:37:17 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
-Subject: Re: [PATCH net-next v7 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <aPxiDazeEsR1lkgK@pengutronix.de>
-References: <20251020103147.2626645-1-o.rempel@pengutronix.de>
- <20251020103147.2626645-3-o.rempel@pengutronix.de>
- <20251023181343.30e883a4@kernel.org>
- <aPt8jAXU0l1f2zPG@pengutronix.de>
- <20251024161213.2ed58127@kernel.org>
+	s=arc-20240116; t=1761373039; c=relaxed/simple;
+	bh=cn1oi11LG/pF61ql1VCKF0X0phsVnfYnbM22lp/uDU0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KEimtH1iXyWpnTqpR4cMUFcqOr9u1hl4jute2Zm+k+ieonV3C+q4GKtJCxH9bpVpsSXgKCgeRiPRTMKUrPJH3WFfmd8DAH3nhXJAc9YXzYw/lG9k8oxQnXIh6yGGVGk0zFmK8lj7/xxYZz8Mis1lbbdV3i+fmJZBwC783MaySfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRqzPBq+; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRqzPBq+"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7a4176547bfso119619b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 23:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761373037; x=1761977837; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6p7GK3VvKhA8P74byFxrt2YZTTWqdb0ZlXuHY4d+0hM=;
+        b=JRqzPBq+QgOktLnq13zp5shoPGgLCx7woOK62GSPQpTXNtW58jLvS2lWsUc87Qn2wO
+         kd10em+94SBSSXxpLljambxISaKONWmIqvUlonovmcS95abp9AmY/YKl8v/0Ets0Xg3E
+         fGiJnvEVcRjCkCQETTL2/xHsQ2gKU+rfyOg7fCJF+3SikciGYsCp6N97rGRabtU8uH0H
+         0fouLrCQRQysWiD0/+6dIdMcZlpDYo2n8KPTL2ojwvqak4mvAhimOj52s07AJsYVDYjL
+         2VE9UzCEqmjmUxhyZ7wHwAFrZwxe2hVuMVh0vRh8agR7M/9EJD0qrN+m6o0rsuavuU/o
+         4LNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761373037; x=1761977837;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6p7GK3VvKhA8P74byFxrt2YZTTWqdb0ZlXuHY4d+0hM=;
+        b=A+tOBdD5nz/GxMkbooqd8ICYv2EWZ9Cjn6j0OjkpnJkvZs5HXEP4Fc+Q213Tm30eKo
+         tExEf7kYmMSGKymp+mGjY9y8HrUildXc8j6GJAkycYWee8kBaIkS2s0kXv3fiVRaQ+5i
+         Ekg8QNoMLG0FYtAW/ulecw6uk/J6xT+UZ9mTiwMjj05v6XRodUWLllkJESvSeBc8XZR1
+         d4dwrdH+z8/kb/soyhX7g8fV/Oyjug3PEKRMeCp0G7QD45ihlHOoTFW6zvnwhPpSLDnZ
+         /WUxhF4eJ2PHDpY6Zmm4awJ5QxLoevytHXoo1PNug7quI3ANK2Eb8EtyvRVY5W339yxO
+         EMdA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKRDGGniy7xrvUYv+pjSOQSHPYNQ7KsjAfabupEvBg505LuO4JpbehbpRMkybKsTcANQG7c1vnaO8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyptvatb9nwe3fgQf012P1FnFOB57F7Nwze4TpdusEicbum3ftk
+	h55KXPU/TkL/M/9k2DF9r1t9JgYJ7bJZG1sJIMq54bwxa6/CroL2E89F
+X-Gm-Gg: ASbGncvhpxUty3VYV6CTAePWqOkoxnVoCO3N1Z9TGrGyXGbcHNMHpR0dmZ8ojPRQuiY
+	MyIyDYjkmLfDIJ6zSGgDKutPrhL/XxO/Wf/IFghnWyS88W338NqchBf+O0MZK2ajSz0rH412O2r
+	H0aSYOysGDabrOHck+xB1aNnhB0u9UiYK2tf9VE8l78yU2do41zw85Qmgst8doyZ68ohhN4AFzv
+	MK3C0HmhPif4b7SvJUBBjuXCF+yFjJ/hx7ZrhRmbWjMHgXRJM0aVGuxMpAZAJtINQLSGgMiTLQC
+	oO7aOEcM4GqY9TUMcCLUJwlZ51lx90rjK2VXesIcw7A6ol6ZEm0a80D/OtshTftpms5eld9ZlYK
+	QfDNKYYMiTt1cKmC31F00xMT8drhVMWQF/G1bFhJS2TF1BDcNYz+5kDwn06lzCS+G3CACxJJF/g
+	zUNnTYUoa6oVg+UK4kK2evU4A1TNt2zsdacTQZ2FNhf9pdLPZUwsSVE5Uh
+X-Google-Smtp-Source: AGHT+IEnx65olDd4wUsKq9Ohdp5aWegEgeLRj2EY+h3wY1HJDJOM27r0YRmfqUrDPBEW/wTGvWKOoQ==
+X-Received: by 2002:a05:6a00:2e26:b0:7a2:1b8a:ca22 with SMTP id d2e1a72fcca58-7a28685edf4mr5915593b3a.25.1761373036774;
+        Fri, 24 Oct 2025 23:17:16 -0700 (PDT)
+Received: from ?IPv6:2401:4900:88f6:d7b0:443:a828:b6ba:688d? ([2401:4900:88f6:d7b0:443:a828:b6ba:688d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087587sm1158573b3a.58.2025.10.24.23.17.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 23:17:16 -0700 (PDT)
+Message-ID: <14a56a50d5d8803bc822ae99fbe527755323623b.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
+ initialized to NULL
+From: ally heev <allyheev@gmail.com>
+To: Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Date: Sat, 25 Oct 2025 11:47:09 +0530
+In-Reply-To: <769268a5035b5a711a375591c25d48d077b46faa.camel@perches.com>
+References: 
+	<20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+		 <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
+	 <769268a5035b5a711a375591c25d48d077b46faa.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251024161213.2ed58127@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Jakub,
+On Fri, 2025-10-24 at 11:01 -0700, Joe Perches wrote:
+[..]
+> > @@ -7728,6 +7728,12 @@ sub process {
+> >  			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+> >  			      "pointer '$1' with __free attribute should be initialized\n" =
+. $herecurr);
+> >  		}
+> > +
+> > +# check for pointers with __free attribute initialized to NULL
+> > +		while ($line =3D~ /\*\s*($Ident)\s+$FreeAttribute\s*=3D\s*NULL\b/g) =
+{
+> > +			WARN("NULL_INITIALIZED_PTR_WITH_FREE",
+> > +			      "pointer '$1' with __free attribute should be initialized to =
+a non-NULL address\n" . $herecurr);
+> > +		}
+> >  	}
+>=20
+> I think this a poor idea as almost all the instances where this
+> initialization is done are fine.
+>=20
+> And there are a lot of them.
+>=20
+> $ git grep -P '\b__free\b.*=3D\s*NULL\s*;' | wc -l
+> 490
 
-On Fri, Oct 24, 2025 at 04:12:13PM -0700, Jakub Kicinski wrote:
-> On Fri, 24 Oct 2025 15:18:04 +0200 Oleksij Rempel wrote:
-> > Hi Jakub,
-> > 
-> > On Thu, Oct 23, 2025 at 06:13:43PM -0700, Jakub Kicinski wrote:
-> > > On Mon, 20 Oct 2025 12:31:44 +0200 Oleksij Rempel wrote:  
-> > > > +      -
-> > > > +        name: supported-caps
-> > > > +        type: nest
-> > > > +        nested-attributes: bitset
-> > > > +        enum: phy-mse-capability  
-> > > 
-> > > This is read only, does it really have to be a bitset?  
-> > 
-> > It describes the capabilities of the driver/hardware. You can get always
-> > everything... Hm... I think we continue without capabilities for now and
-> > also remove the specific channel request.
-> 
-> That's not what I'm saying. I'm just saying that it could be a basic
-> uint with appropriate enum rather than bitset? At least with YNL its
-> much easier to deal with. The main advantage of bitset is that you
-> can modify individual bits, but that doesn't apply to read-only fields.
-> 
-> Sorry if I'm confused.
+Sorry for not checking this earlier. I looked at quite a few of them
+none were real issues
 
-after discussing this with Marc Kleine-Budde, I realized that the current
-MSE interface is not fully thought through.
+>=20
+> And what about these uses that depend on struct path members
+> .mnt and .dentry being NULL.=20
+>=20
+> $ git grep -P '\b__free\b.*=3D\s*\{.*\}\s*;'
+> fs/configfs/symlink.c:  struct path path __free(path_put) =3D {};
+> fs/fhandle.c:   struct path path __free(path_put) =3D {};
+> fs/file_attr.c: struct path filepath __free(path_put) =3D {};
+> fs/file_attr.c: struct path filepath __free(path_put) =3D {};
+> fs/namei.c:     struct path parent_path __free(path_put) =3D {};
+> fs/namei.c:     struct path parent_path __free(path_put) =3D {};
+> fs/namespace.c: struct path old_path __free(path_put) =3D {};
+> fs/namespace.c: struct path path __free(path_put) =3D {};
+> fs/namespace.c: struct path old_path __free(path_put) =3D {};
+> fs/namespace.c: struct path path __free(path_put) =3D {};
+> fs/namespace.c: struct path to_path __free(path_put) =3D {};
+> fs/namespace.c: struct path from_path __free(path_put) =3D {};
+> fs/namespace.c: struct path new __free(path_put) =3D {};
+> fs/namespace.c: struct path old __free(path_put) =3D {};
+> fs/namespace.c: struct path root __free(path_put) =3D {};
+> fs/namespace.c: struct klistmount kls __free(klistmount_free) =3D {};
+> fs/namespace.c: struct path fs_root __free(path_put) =3D {};
+> fs/nsfs.c:      struct path path __free(path_put) =3D {};
+> fs/nsfs.c:              struct path path __free(path_put) =3D {};
+> fs/nsfs.c:      struct path path __free(path_put) =3D {};
+> fs/overlayfs/params.c:  struct path layer_path __free(path_put) =3D {};
+> fs/overlayfs/params.c:          struct path path __free(path_put) =3D {};
+> fs/pidfs.c:     struct path path __free(path_put) =3D {};
+> include/linux/path.h: * struct path path __free(path_put) =3D {};
+> kernel/acct.c:  struct path internal __free(path_put) =3D {};     // in t=
+hat order
+> kernel/trace/trace_uprobe.c:    struct path path __free(path_put) =3D {};
 
-Right now the interface lets user space select a specific channel to
-poll, but that's not the only relevant selector. Each channel can expose
-multiple metrics, and if we ever want to reduce the amount of data for
-faster polling, we'll need a different, flag-based selector to describe
-which parameters to fetch.
-
-At the moment, however, the kernel simply returns all information that
-the PHY can provide. In this situation, the capability flags are mostly
-useful inside the kernel, but redundant for user space - we already
-provide the values themselves, so there's no need for an extra
-"supported-caps" flag set. They duplicate what the user already sees in
-the reply (we have a value, and a flag telling that we have this value).
-
-Still, user space needs part of the capabilities structure - the scale
-and timing information (max-MSE ranges, refresh rate, number of symbols)
-- to interpret the results and choose an appropriate polling rate.
-
-So for the next revision I plan to:
-- drop the user-space channel selector completely (the kernel will always
-  return all available channels),
-- remove the capability bitset from the UAPI,
-- keep only the scale/timing fields in the capabilities nest,
-- retain capability flags internally in the PHY API for kernel use.
-
-Thanks,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+These are not valid issues too
