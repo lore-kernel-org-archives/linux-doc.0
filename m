@@ -1,37 +1,36 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D35D8F0;
-	Sat, 25 Oct 2025 22:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9495229B224
+	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 23:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761430847; cv=none; b=RcwY2/Dbi4oBpLAus9ZOU+I46WujI93QF8T02hKINwM0kiML2kEDXovoBIYLlWDhDHNRVndyDEXl85rzpeJoDq8xbHQw1MmEahoP8m73PPdcH8fFJGWELozkhMZSBBE/hZ8VXDCfUU7m1od2pT/MBwT6UKeKntBDKe8qYcVMDs4=
+	t=1761436166; cv=none; b=C6W7yy34pWZzn2Qx3Y6Nt5lXi0cw6WJBCCUnTmmyQpJ9rQNXHtEMfNqIPEUkpj+OsCEywn8dKpgocavwpVgmY7A0k2Z8TWwCJzwVjNIFbZcdw7sZNpd7gmcRk3ntYagkAIiQTpbEWqGbgcaZrwz7L0BT/naXYvR53hMcZJXX2OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761430847; c=relaxed/simple;
-	bh=l/b+Yx7vbASjmTNiGPaVJJU4k9e1IDZy00yud1KlT28=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ufa7/IqIJGjkb5sujx/aI31nK0EH1DUIXBk2go5iUeX+bdAhnEO2UyWTbe31hX1ZOKTg5XQxxfOPuwEHaP11r/lW3WeJm/Me7KKJduT2/Q8O0AgMQ9K00RJ6TysJl05FvJtQ+WjeXHKWUk1zuPsSykwNCFA0WmLpVljQom54634=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UMu5+Pe+; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1761436166; c=relaxed/simple;
+	bh=u2zY2AE1iCLjSF/2YQo0jceAk9y6aNlvx+a5Lo8HZPw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=DJQsgQ9ZLiqh7GIfX8OwYo8yT92VJ72xF4cgEYZh29G3rC+pPC7L2bm/wGMN/+97iSglnR28W8shUva2R9dwa+Nh01S+it8rTy9JSRinvOf6QfuSQV0Lw3Hp56sszXeNmJWGDTvjqnhLgr44mEPpJN7kqzUbZt5qvfyD3n3kVbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NZ8+7J+e; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UMu5+Pe+"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NZ8+7J+e"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=0TVPUd4oM+c9CYCjanSYEZ+zsEi27Rc05MbASsefem8=; b=UMu5+Pe+CPrrRXuDCuLPnJgn7l
-	/srtOglIHsNhSrEFjkvTm77aPg+41WeFPMofdY9PANcgXOwE7Tyvd/pUvZu7h/wDoWILLDAOdEpiw
-	BLuwBqk1Z0XVnCuIIw4JfuoV1sLkATKYdycvauJNmjHW0KrbNYkzROez7ldybtnjBGthnJBIfwwqY
-	eOsZ+yTcDUMesnrFf1rSCZFbk4kcF9L+lynvf9//WT/IU8/7EiM31xu3xSKAFCqusgND6kzhKlSZ0
-	iBUz9zaNeNu8F00P+XWhEqus92USl6KhzjCQkaNosn9qmR476mzM2AKqhhAWOE85dVQHZihCqKJwP
-	rgGJnzig==;
+	Content-Type:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Hf98TEhbNhtjfzWeAc9Z+k3ltUnsEbaa5JaKVbgMaiw=; b=NZ8+7J+er8CuuNo/CF1uBSoHlx
+	HBaNxZLMOyIQJgXSa1Irk3Xs6Yk8/cTyjU70/ZCdYzfTyM2QZcsOUxJtb2rPcehPgobSCl9LqL1sL
+	sumXRwI5CPYwckLyAkBZ5A63AARlBUC9/FtOcr/DAYmXziW4nkrvLQFkt3Zw05iIgbrC619/mqPvl
+	K8ra8EERq8kCrAhRVZU2GdeqAQsSfIVacvsWlkC5IcPVHP/JJD6f3yjQStV3tcdhgtLdzroaXhpwm
+	SpEs6M28odtPZbvKMah1HIP0FMB3mT4WfQnHeRE/UjWtQpY/BQYbmyXTWLSwamour+X1aNQYjsHSH
+	tos/fOAA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vCmcs-0000000Booi-0qqT;
-	Sat, 25 Oct 2025 22:20:42 +0000
-Message-ID: <f72d1739-8c3d-4bc8-a26d-8f03b3aecf15@infradead.org>
-Date: Sat, 25 Oct 2025 15:20:41 -0700
+	id 1vCo0h-0000000BrK2-0JQQ;
+	Sat, 25 Oct 2025 23:49:23 +0000
+Message-ID: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
+Date: Sat, 25 Oct 2025 16:49:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,83 +38,87 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: replace broken links in ramfs-rootfs-initramfs docs
-To: Nadav Tasher <tashernadav@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: corbet@lwn.net
-References: <20251025171625.33197-1-tashernadav@gmail.com>
-Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251025171625.33197-1-tashernadav@gmail.com>
+Subject: about make mandocs warnings
+To: Linux Documentation <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Mauro,
 
 
-On 10/25/25 10:16 AM, Nadav Tasher wrote:
-> http://www.uwsg.iu.edu/ doesn't seem to exist anymore.
-> I managed to find backups on archive.org, which helped me find
-> the right links on https://lore.kernel.org/.
-> 
-> http://freecode.com/projects/afio was also down, so I figured
-> it could be replaced with https://linux.die.net/man/1/afio.
-> 
-> Replace broken links to mailing list and aifo tool.
+'make mandocs' on the full kernel tree generates a little over 10,000
+lines of Warning:s.  Then it says:
+  Warning: kernel-doc returned 138 warnings
 
-                                           afio
+What does that number mean?
 
-> Signed-off-by: Nadav Tasher <tashernadav@gmail.com>
+kernel-doc is doing a very good job at finding issues in kernel-doc
+notation, but there are a few cases of erroneous reporting. These are not
+numerous and may not be worth much effort to fix them, although
+some of them should not take much effort (I think). But I am just
+reporting these in case someone wants to fix them.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-> ---
->  Documentation/filesystems/ramfs-rootfs-initramfs.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.rst b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-> index fa4f81099cb4..a9d271e171c3 100644
-> --- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-> +++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-> @@ -290,11 +290,11 @@ Why cpio rather than tar?
->  
->  This decision was made back in December, 2001.  The discussion started here:
->  
-> -  http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1538.html
-> +- https://lore.kernel.org/lkml/a03cke$640$1@cesium.transmeta.com/
->  
->  And spawned a second thread (specifically on tar vs cpio), starting here:
->  
-> -  http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1587.html
-> +- https://lore.kernel.org/lkml/3C25A06D.7030408@zytor.com/
->  
->  The quick and dirty summary version (which is no substitute for reading
->  the above threads) is:
-> @@ -310,7 +310,7 @@ the above threads) is:
->     either way about the archive format, and there are alternative tools,
->     such as:
->  
-> -     http://freecode.com/projects/afio
-> +      https://linux.die.net/man/1/afio
->  
->  2) The cpio archive format chosen by the kernel is simpler and cleaner (and
->     thus easier to create and parse) than any of the (literally dozens of)
-> @@ -331,12 +331,12 @@ the above threads) is:
->  5) Al Viro made the decision (quote: "tar is ugly as hell and not going to be
->     supported on the kernel side"):
->  
-> -      http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1540.html
-> +    - https://lore.kernel.org/lkml/Pine.GSO.4.21.0112222109050.21702-100000@weyl.math.psu.edu/
->  
->     explained his reasoning:
->  
-> -     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html
-> -     - http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html
-> +    - https://lore.kernel.org/lkml/Pine.GSO.4.21.0112222240530.21702-100000@weyl.math.psu.edu/
-> +    - https://lore.kernel.org/lkml/Pine.GSO.4.21.0112230849550.23300-100000@weyl.math.psu.edu/
->  
->     and, most importantly, designed and implemented the initramfs code.
->  
+Examples:
+
+Warning: drivers/misc/vmw_balloon.c:259 struct member '5' not described in 'vmballoon_batch_entry'
+"5" is part of an expression "PAGE_SHIFT - 5" for number of bits in a bitfield:
+struct vmballoon_batch_entry {
+	u64 status : 5;
+	u64 reserved : PAGE_SHIFT - 5;
+	u64 pfn : 52;
+} __packed;
+
+Warning: net/netfilter/nft_set_pipapo.h:102 union member '32' not described in 'nft_pipapo_map_bucket'
+"32" is part of a static_assert() expression. Probably just
+ignore the entire static_assert() [any number of lines].
+
+
+Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_restart            (*__private function)(struct hrtimer *)
+Warning: include/linux/hrtimer_types.h:47 struct member 'enum hrtimer_restart            (*__private function' not described in 'hrtimer'
+"__private" is an attribute from <linux/compiler_types.h> and the
+struct member here should be "function", which is described.
+
+
+Warning: include/linux/rethook.h:38 Invalid param: void (__rcu *handler) (struct rethook_node *, void *, unsigned long, struct pt_regs *)
+Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' not described in 'rethook'
+"__rcu" is an attribute from <linux/compiler_types.h> and the
+struct member here is "handler", which is described.
+
+Warning: security/ipe/hooks.c:54 function parameter '__always_unused' not described in 'ipe_mmap_file'
+Warning: security/ipe/hooks.c:82 function parameter '__always_unused' not described in 'ipe_file_mprotect'
+"__always_unused" is an attribute from <linux/compiler_attributes.h>.
+
+
+
+Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS]
+Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent1' not described in 'is_access_to_paths_allowed'
+Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS]
+Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent2' not described in 'is_access_to_paths_allowed'
+@layer_masks_parent1 and @layer_masks_parent2 are described in kernel-doc.
+
+Warning: security/landlock/fs.c:1142 Invalid param: layer_mask_t (*const layer_masks_dom)[LANDLOCK_NUM_ACCESS_FS]
+Warning: security/landlock/fs.c:1142 function parameter 'layer_mask_t (*const layer_masks_dom' not described in 'collect_domain_accesses'
+@layer_masks_dom is described in kernel-doc.
+
+Warning: security/landlock/ruleset.c:210 Invalid param: const struct landlock_layer (*const layers)[]
+Warning: security/landlock/ruleset.c:210 function parameter 'const struct landlock_layer (*const layers' not described in 'insert_rule'
+@layers is described in kernel-doc.
+
+Warning: security/landlock/ruleset.c:693 Invalid param: layer_mask_t (*const layer_masks)[]
+Warning: security/landlock/ruleset.c:693 function parameter 'layer_mask_t (*const layer_masks' not described in 'landlock_init_layer_masks'
+@layer_masks is described in kernel-doc.
+
+
+
+Note: hundreds (probably thousands) of the mandocs warnings would disappear
+if kernel-doc accepted '-' in addition to ':' as a function parameter
+or struct/union/enum member separator (like it does for
+function/struct/union/enum short description).
 
 -- 
 ~Randy
+
