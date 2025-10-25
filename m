@@ -1,198 +1,257 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E92D1F5834;
-	Sat, 25 Oct 2025 00:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761350420; cv=pass; b=mhTrXM8iLEFvgJ9j6VPvV5nJcUE3QPMxPnErgoeCTPaHngHcN0Rj0aguGk0KnJ9HU4qTUZhBpUZ7zFP/6CV3pQNeNRLJkQGNORrV85TO4ZUFI5n2ECoh08gbwBxGwDhhpetpGJ60n2Nh5GtfWuiOhcnJdFvi5UPgm9qH4OkWULo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761350420; c=relaxed/simple;
-	bh=Pps5zQ61IptH/JiYElQ8NB6qsfmhprZKcH6T2bGpxs8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kg0kQiDBCouN+/ROe596mnB/AngyqHQvT1v0Edg+SIaeEKcb7dGUyuNlhuY+S9KkErDRb/zlBQAz8c3VOJEq4VnDkA5sq/rz8GdwMCAo++rr3ykuPDWYXtQoCQlt+JFaikVyPX6wxUWjSL8rjd4pXSmKTUroGvEWTuaYsSGqbGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=KJRm4YlW; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEA613AF2
+	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 00:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761351898; cv=none; b=AhHBCpLcBkU/O/0ZSOVHWbbHlKyKaBVwb3lRGGjq/TprhTIb7V6k//X4DfWlssC8egXbs47UFCbWW5MTUWkttnNpfmEbe8vGQMyUouaiJCUb5Tw9346RC0fCPRBIgm+6VWJx5nyLzwjN5LB1wk7YbBeNkKRSzviqVL2WgK4kUAA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761351898; c=relaxed/simple;
+	bh=NEwP5oOU+xmnrc/qXQvktbP4weR9cV3E4YrWW5t1/y0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rYw6tQ156VHIo7md1dua9NnLBhnfpiHAWq7hSJ4ud7z8ZCv/KxYLrAfk3PHPlbC/OfCfQozwpcnKBWW1N560BZYNCRkhfqA4ql/6D+0Sf6/jhJLYuGowY56LyYTH3zuBkOA0yJhH84A1l8CE0Zv7fLEPrmt3G6vf0yORMNB0Ca8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np3AcZKH; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="KJRm4YlW"
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 59P003Y8071890
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 25 Oct 2025 09:00:04 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 83E31119B5354;
-	Sat, 25 Oct 2025 08:54:46 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QwEjLo9A5PNO; Sat, 25 Oct 2025 08:54:41 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 3A5E3119B5353; Sat, 25 Oct 2025 08:54:41 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1761350081;
-	cv=none; b=tePiV+E594yoD3JRI7mpWkHb+F6O9WZgQQGrKUc9XFxctpcCadQtyAOEQ2zFEmMnIi2qVgopq9BzTajuP2E91syVfmvpcjISRcwapD878K4PzZ6jVGDWySBUM0nP+iuArvyaHj4QcGQa8lod5TDoRFGKgJGc4tcD2Od0Yx0v4v0=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1761350081; c=relaxed/relaxed;
-	bh=LZ65nPniX8dl2bT2nIt0x3OGLdXFBvLoLJErLJTajV4=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=HeGILTPmo5X06bhG1sOJiuL8xZdWTcC1ln/MyzM+D8MQWCpTWjEasTuWP2f07Qvc4WZil8mnhWbcsJZQlnPhaafhtZgap6kc8KZe7NBBwf+aiilsmj2H7raVEEQSIAXtlhB/xw05cLNhj4Zrb9Qm0gE5oVdA1xwqblHKJqThWk0=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 3A5E3119B5353
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1761350081;
-	bh=LZ65nPniX8dl2bT2nIt0x3OGLdXFBvLoLJErLJTajV4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KJRm4YlWe4QI/GJE2pFgF3z2buzriptaPqc3yoDur5u6K+sE+L4ku9jrZbMHiuQ4T
-	 x7lwajxJhvpn77Xh2en1F+l7YyZiBofYGCJ7I2gDM4Qvpm1N55by/hTsV/VD8u0XMu
-	 GHeRwW9lda3z3/FqXML+8xNqxFKIRVEr841/qZ9M=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: corbet@lwn.net
-Cc: akiyks@gmail.com, shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, weibu@redadmin.org
-Subject: [PATCH] Subject: [PATCH] docs: ja_JP: Move submitting-patches to process/ and add to build
-Date: Sat, 25 Oct 2025 08:54:37 +0900
-Message-ID: <20251024235437.801625-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np3AcZKH"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso2540167a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Oct 2025 17:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761351895; x=1761956695; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7waYNZVKmyie4QyAlCDozACqSO94wVCOTNBrkTDXkco=;
+        b=Np3AcZKHY8kdSB8YcveSYovM6gJjbk/lSzYWEOPsA2ybs80KlVGu8KUCIluUJwaCgn
+         +7kYAv6lotYQAiJDVEFZZxUlngmATPpJDkAH/qkT2Y+qauRpUUIbReboJf+7DAu70luv
+         BaYb2Cd2pbuW+EzDj7sItkI780dsnDRU+6O7VihUlmX6SP3FG8Sox/xUEdyRvjlrIOY5
+         m4ox7KMBHluLMocbvmmunGOrgc0sgi/Vtav9lYi9OpUiLLjb75N/c8ioHViApDaEg/wQ
+         A9rQCWfARHw4qlZtN1d150tVZrg+ceCrSo4BigNgvv1DCqezoL9y3657q62XfuFUnlt/
+         JgWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761351895; x=1761956695;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7waYNZVKmyie4QyAlCDozACqSO94wVCOTNBrkTDXkco=;
+        b=R9mej21lAMh2BzJuvm6MlMD54cTNQqNmg/1j8lsLlkpR8UfLXdKeFKXr1e9I/nGXd+
+         Bejho9Xka7pByKlVTZxr3Yq7uI0lPm5GT3x2UiptyzsghUJlr/Mrcn5WcKqgZCzCdQaq
+         29DxzrlSC5EILcJE/RAscqqP3lb5eiJSe059WAFw/UUuJJyNO7fA3PMNreiJgtKWEJNw
+         0DVLVE+6CDwJI+RkZCu880+j2f8qnEWdWQJ/NXKWLyzfE5//Q3vRNNM8NQXkmdQId6LT
+         /1HMoqKTi7IkQyPAtdvhzD4BTeCdTCYwO+GwAruZA1sk9W055faNhsSY40TRdmPC3SpZ
+         a3YA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQwX6KobUILSgJIDTBASlC0g8VJVX0k5d8mvpqXrtcHruNyc1rxE8SucU4hiiLAZuCJ66/Dr1BoC8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQhMyzob9IF9YlHTay/wqM0a9MJok/9VJEFLcmSigkKawcJqOz
+	z8kosJqonZJwY3KW/doiRDHAdJKA8Qcyk4b91yLXJRAbtPETcCAnkmJ9
+X-Gm-Gg: ASbGncvqY4vR0iuTeq/nGw6R3SRpCzvAIalK4fzYCqXnhnxosLPBkAk36suReWjaX0u
+	e89mGsbsTDyNFTfPDMdjaj2U3kutTDd/UbFXzJExa+awQwA+fjelkopeJ9jMelu/E+g0lSA7RSx
+	7NZIpYZUJJ0pXDVOue6VnkDROXMJLMXt61CMxlKHqI+QqQDtgKyzHzSOA2JN95gq+UTOaC1IabJ
+	VeZMZ9snJS2r/QOwcP1fOuzuu7XDB5aHfRmONPx1UhUdMg942o4+ng3XiYZPWmsFqsJ7KEzttlG
+	6HGrzFA3bnBIC5GztGy+slprTPXneUHd5b7yF7FmCwouGjmaNBLbesiBaTvX1jEmGtKskbA7L31
+	CgHhU50GEMdvAFoGv2gknQTzn0Cuplr13/RJhy+KJUMJZGcIUxcdKGz1turXcLOIaNGhSE9wyiQ
+	tyju0Nd5D0ekeItl8vAE4Slkj/M+8pdNV5NnzHYksfoMPQgjE5mLL6rzSJNhegEeQgxAwqN5Kz/
+	5TDHpoVqUFDmli3hgcJyvcYgUTovg3zCNMlsl1HduJm+VV6YTNHPZtqXaZLo9Cg
+X-Google-Smtp-Source: AGHT+IG8oGxBZCHK7kqo4q+7nyIf3av5yZr0y5kmaXr9sDJtxDyllc6PpENotDwXnMi5ChfG0lIiwg==
+X-Received: by 2002:a17:902:e843:b0:264:ee2:c40f with SMTP id d9443c01a7336-290cb46c41cmr333345805ad.52.1761351894738;
+        Fri, 24 Oct 2025 17:24:54 -0700 (PDT)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf3f4asm4728885ad.11.2025.10.24.17.24.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 17:24:54 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH v4 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
+Date: Sat, 25 Oct 2025 10:24:31 +1000
+Message-Id: <20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL8Y/GgC/2XM0QqCMBTG8VeJXbc425zTrnqP6ELPjjpIDVejE
+ N+9KRSil98Hv//IPA2OPDsfRjZQcN71XRzJ8cCwKbqauLNxMwlSQyZS3hboW+T+VVoKnmcGlEQ
+ QxgKyiB4DVe69BK+3uBvnn/3wWfpBzO8vlW9TQXDg2tgqRUW6Evmlbgt3P2HfsjkV5IpLs+Myc
+ iRNeW51gjLbcvXnAmDPVeTWWFVW1hQEcs2nafoC3zuNRCoBAAA=
+X-Change-ID: 20250816-macsmc-subdevs-87032c017d0c
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Mark Kettenis <kettenis@openbsd.org>, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7029;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=NEwP5oOU+xmnrc/qXQvktbP4weR9cV3E4YrWW5t1/y0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDBl/JM6+NW/U/xjeuFezwPXetcrQbzdNpr85Z3RXXNTDQ
+ eWbcp9kx0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ DXWMdYwYuDgFYKqvcDL84bp1cj7LobIHoszM/3TLRFmLdQT1nV9Ze58J2CKyQsD4PcP/zEM3tCd
+ bFrI83/Kjv4tn5Sq3wwcqfu+u8E+RLNz8QOAPLwA=
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-As requested by Jonathan, move the Japanese translation of
-'SubmittingPatches' to its proper location under 'process/' and
-convert it to reStructuredText.
+Hi all,
 
-This patch also wires the new file into the Japanese documentation's
-toctree, allowing it to be included in the Sphinx build.
+This series adds support for the remaining SMC subdevices. These are the
+RTC, hwmon, and HID devices. They are being submitted together as the RTC
+and hwmon drivers both require changes to the SMC DT schema.
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+The RTC driver is responsible for getting and setting the system clock,
+and requires an NVMEM cell. This series replaces Sven's original RTC driver
+submission [1].
+
+The hwmon function is an interesting one. While each Apple Silicon device
+exposes pretty similar sets of sensors, these all seem to be paired to
+different SMC keys in the firmware interface. This is true even when the
+sensors are on the SoC. For example, an M1 MacBook Pro will use different
+keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
+necessitates describing which keys correspond to which sensors for each
+device individually, and populating the hwmon structs at runtime. We do
+this with a node in the device tree. This series includes only the keys
+for sensors which we know to be common to all devices. The SMC is also
+responsible for monitoring and controlling fan speeds on systems with fans,
+which we expose via the hwmon driver.
+
+The SMC also handles the hardware power button and lid switch. Power
+button presses and lid opening/closing are emitted as HID events, so we
+add an input subdevice to handle them.
+
+Since there are no real dependencies between the components of this series,
+it should be fine for each subsystem to take the relevant patches through
+their trees. The mfd one-liners should be taken in order to avoid trivial
+conflicts.
+
+Regards,
+
+James
+
+[1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
+
 ---
- Documentation/translations/ja_JP/index.rst    |  1 +
- .../submitting-patches.rst}                   | 61 ++++++++++---------
- 2 files changed, 32 insertions(+), 30 deletions(-)
- rename Documentation/translations/ja_JP/{SubmittingPatches =3D> process/su=
-bmitting-patches.rst} (96%)
+Changes in v4:
+- Added Rob's R-b to hwmon Devicetree schema
+- Added missing include to hwmon driver
+- Dropped superfluous dev_info() from hwmon probe
+- Added Guenter's A-b to hwmon driver
+- Renamed INPUT_MACSMC_INPUT to INPUT_MACSMC
+- Dropped leftover mention of HID in input driver
+- Reinstated input driver MODULE_ALIAS
+- Trigger a hard wakeup on power button/lid switch when coming out of
+  s2idle
+- Suppress KEY_POWER event on wakeup to prevent an immediate shutdown
+  when waking up
+- Squashed hwmon Devicetree commits into one
+- Link to v3: https://lore.kernel.org/r/20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com
 
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/tra=
-nslations/ja_JP/index.rst
-index 4159b417bfdd..8e01619d4170 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -11,6 +11,7 @@
- .. toctree::
-    :maxdepth: 1
-=20
-+   process/submitting-patches
-    disclaimer-ja_JP
-    process/howto
-    process/submit-checklist
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documenta=
-tion/translations/ja_JP/process/submitting-patches.rst
-similarity index 96%
-rename from Documentation/translations/ja_JP/SubmittingPatches
-rename to Documentation/translations/ja_JP/process/submitting-patches.rst
-index b950347b5993..4bfa84cc705d 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -1,33 +1,34 @@
--NOTE:
--This is a version of Documentation/process/submitting-patches.rst into Jap=
-anese.
--This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
--and the JF Project team <http://www.linux.or.jp/JF/>.
--If you find any difference between this document and the original file
--or a problem with the translation,
--please contact the maintainer of this file or JF project.
--
--Please also note that the purpose of this file is to be easier to read
--for non English (read: Japanese) speakers and is not intended as a
--fork. So if you have any comments or updates of this file, please try
--to update the original English file first.
--
--Last Updated: 2011/06/09
--
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81
--linux-2.6.39/Documentation/process/submitting-patches.rst =E3=81=AE=E5=92=
-=8C=E8=A8=B3
--=E3=81=A7=E3=81=99=E3=80=82
--=E7=BF=BB=E8=A8=B3=E5=9B=A3=E4=BD=93=EF=BC=9A JF =E3=83=97=E3=83=AD=E3=82=
-=B8=E3=82=A7=E3=82=AF=E3=83=88 < http://www.linux.or.jp/JF/ >
--=E7=BF=BB=E8=A8=B3=E6=97=A5=EF=BC=9A 2011/06/09
--=E7=BF=BB=E8=A8=B3=E8=80=85=EF=BC=9A Keiichi Kii <k-keiichi at bx dot jp d=
-ot nec dot com>
--=E6=A0=A1=E6=AD=A3=E8=80=85=EF=BC=9A Masanari Kobayashi =E3=81=95=E3=82=93=
- <zap03216 at nifty dot ne dot jp>
--         Matsukura =E3=81=95=E3=82=93 <nbh--mats at nifty dot com>
--         Takeshi Hamasaki =E3=81=95=E3=82=93 <hmatrjp at users dot sourcef=
-orge dot jp>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--        Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=A4=89=E6=9B=
-=B4=E3=82=92=E5=8A=A0=E3=81=88=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AE Howto
--        =E5=8F=88=E3=81=AF
--        =E3=81=8B=E3=81=AE Linus Torvalds =E3=81=AE=E5=8F=96=E3=82=8A=E6=
-=89=B1=E3=81=84=E8=AA=AC=E6=98=8E=E6=9B=B8
-+..
-+   NOTE:
-+     This is a version of Documentation/process/submitting-patches.rst int=
-o Japanese.
-+     This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
-+     and the JF Project team <http://www.linux.or.jp/JF/>.
-+     If you find any difference between this document and the original file
-+     or a problem with the translation,
-+     please contact the maintainer of this file or JF project.
-+
-+     Please also note that the purpose of this file is to be easier to read
-+     for non English (read: Japanese) speakers and is not intended as a
-+     fork. So if you have any comments or updates of this file, please try
-+     to update the original English file first.
-+
-+     Last Updated: 2011/06/09
-+
-+     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+     =E3=81=93=E3=82=8C=E3=81=AF=E3=80=81
-+     linux-2.6.39/Documentation/process/submitting-patches.rst =E3=81=AE=
-=E5=92=8C=E8=A8=B3
-+     =E3=81=A7=E3=81=99=E3=80=82
-+     =E7=BF=BB=E8=A8=B3=E5=9B=A3=E4=BD=93=EF=BC=9A JF =E3=83=97=E3=83=AD=
-=E3=82=B8=E3=82=A7=E3=82=AF=E3=83=88 < http://www.linux.or.jp/JF/ >
-+     =E7=BF=BB=E8=A8=B3=E6=97=A5=EF=BC=9A 2011/06/09
-+     =E7=BF=BB=E8=A8=B3=E8=80=85=EF=BC=9A Keiichi Kii <k-keiichi at bx dot=
- jp dot nec dot com>
-+     =E6=A0=A1=E6=AD=A3=E8=80=85=EF=BC=9A Masanari Kobayashi =E3=81=95=E3=
-=82=93 <zap03216 at nifty dot ne dot jp>
-+           Matsukura =E3=81=95=E3=82=93 <nbh--mats at nifty dot com>
-+           Takeshi Hamasaki =E3=81=95=E3=82=93 <hmatrjp at users dot sourc=
-eforge dot jp>
-+     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=A4=89=E6=9B=B4=E3=
-=82=92=E5=8A=A0=E3=81=88=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AE Howto
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=A4=89=E6=9B=B4=E3=
-=82=92=E5=8A=A0=E3=81=88=E3=81=9F=E3=81=84=E3=81=A8=E6=80=9D=E3=81=A3=E3=81=
-=A6=E3=81=84=E3=82=8B=E5=80=8B=E4=BA=BA=E5=8F=88=E3=81=AF=E4=BC=9A=E7=A4=BE=
-=E3=81=AB=E3=81=A8=E3=81=A3=E3=81=A6=E3=80=81=E3=83=91=E3=83=83
- =E3=83=81=E3=81=AE=E6=8A=95=E7=A8=BF=E3=81=AB=E9=96=A2=E9=80=A3=E3=81=97=
-=E3=81=9F=E4=BB=95=E7=B5=84=E3=81=BF=E3=81=AB=E6=85=A3=E3=82=8C=E3=81=A6=E3=
-=81=84=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=E3=80=81=E3=81=9D=E3=81=AE=E9=81=
-=8E=E7=A8=8B=E3=81=AF=E6=99=82=E3=80=85=E3=81=BF=E3=81=AA=E3=81=95=E3=82=93=
-=E3=82=92
---=20
-2.47.3
+Changes in v3:
+- Renamed macsmc-hid to macsmc-input
+- Switched to pm_wakeup_event in macsmc-input
+- macsmc-input now configures its capabilities before registering the device
+- Renamed macsmc_hwmon to macsmc-hwmon
+- Dropped module aliases in macsmc-input and macsmc_hwmon
+- Introduced new SMC FourCC macro to silence GCC errors
+- Condensed hwmon binding using $defs
+- Made label property optional for hwmon sensors
+- Fixed incorrect hwmon is_visible implementation
+- Dropped 64-bit math from SMC float ops
+- Fixed incorrect use of error numbers in hwmon driver
+- Replaced a number of non-fatal dev_errs with dev_dbgs in hwmon driver
+- Added hwmon driver documentation
+- Added hwmon subdevice directly to the DT SMC node
+- Included "common" hwmon sensors in SoC .dtsi files
+- Fixed typo in hwmon-common.dtsi
+- Added Neal's R-b to series
+- Added required nodes to t602x Devicetrees
+- Link to v2: https://lore.kernel.org/r/20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com
+
+Changes in v2:
+- Added Rob's R-b tag to RTC DT binding
+- Removed redundant nesting from hwmon DT binding
+- Dedpulicated property definitions in hwmon DT schema
+- Made label a required property for hwmon DT nodes
+- Clarified semantics in hwmon DT schema definitions
+- Split mfd tree changes into separate commits
+- Fixed numerous style errors in hwmon driver
+- Removed log messages sysfs read/write functions in hwmon driver
+- Removed ignored errors from hwmon driver
+- Removed uses of dev_err for non-errors in hwmon driver
+- Made it more obvious that a number of hwmon fan properties are optional
+- Modified hwmon driver to reflect DT schema changes
+- Added compatible property to hwmon node
+- Link to v1: https://lore.kernel.org/r/20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com
+
+---
+Hector Martin (2):
+      rtc: Add new rtc-macsmc driver for Apple Silicon Macs
+      input: macsmc-input: New driver to handle the Apple Mac SMC buttons/lid
+
+James Calligeros (7):
+      dt-bindings: hwmon: Add Apple System Management Controller hwmon schema
+      mfd: macsmc: Wire up Apple SMC RTC subdevice
+      mfd: macsmc: Add new __SMC_KEY macro
+      hwmon: Add Apple Silicon SMC hwmon driver
+      mfd: macsmc: Wire up Apple SMC hwmon subdevice
+      mfd: macsmc: Wire up Apple SMC input subdevice
+      arm64: dts: apple: t8103, t8112, t60xx: Add hwmon SMC subdevice
+
+Sven Peter (2):
+      dt-bindings: rtc: Add Apple SMC RTC
+      arm64: dts: apple: t8103,t60xx,t8112: Add SMC RTC node
+
+ .../bindings/hwmon/apple,smc-hwmon.yaml  |  86 +++
+ .../bindings/mfd/apple,smc.yaml          |  45 ++
+ .../bindings/rtc/apple,smc-rtc.yaml      |  35 +
+ Documentation/hwmon/macsmc-hwmon.rst     |  71 +++
+ MAINTAINERS                              |   6 +
+ .../boot/dts/apple/hwmon-common.dtsi     |  33 +
+ .../boot/dts/apple/hwmon-fan-dual.dtsi   |  22 +
+ arch/arm64/boot/dts/apple/hwmon-fan.dtsi |  17 +
+ .../boot/dts/apple/hwmon-laptop.dtsi     |  33 +
+ .../boot/dts/apple/hwmon-mac-mini.dtsi   |  15 +
+ .../arm64/boot/dts/apple/t6001-j375c.dts |   2 +
+ arch/arm64/boot/dts/apple/t6001.dtsi     |   2 +
+ .../arm64/boot/dts/apple/t6002-j375d.dts |   2 +
+ .../arm64/boot/dts/apple/t600x-die0.dtsi |  10 +
+ .../boot/dts/apple/t600x-j314-j316.dtsi  |   3 +
+ .../arm64/boot/dts/apple/t602x-die0.dtsi |  10 +
+ arch/arm64/boot/dts/apple/t8103-j274.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts |   3 +
+ arch/arm64/boot/dts/apple/t8103-j313.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j456.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103.dtsi     |  11 +
+ arch/arm64/boot/dts/apple/t8112-j413.dts |   2 +
+ arch/arm64/boot/dts/apple/t8112-j473.dts |   2 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts |   3 +
+ arch/arm64/boot/dts/apple/t8112.dtsi     |  11 +
+ drivers/hwmon/Kconfig                    |  12 +
+ drivers/hwmon/Makefile                   |   1 +
+ drivers/hwmon/macsmc-hwmon.c             | 851 +++++++++++++++++++++++++
+ drivers/input/misc/Kconfig               |  11 +
+ drivers/input/misc/Makefile              |   1 +
+ drivers/input/misc/macsmc-input.c        | 208 ++++++
+ drivers/mfd/macsmc.c                     |   3 +
+ drivers/rtc/Kconfig                      |  11 +
+ drivers/rtc/Makefile                     |   1 +
+ drivers/rtc/rtc-macsmc.c                 | 141 ++++
+ include/linux/mfd/macsmc.h               |   1 +
+ 37 files changed, 1673 insertions(+)
+---
+base-commit: c746c3b5169831d7fb032a1051d8b45592ae8d78
+change-id: 20250816-macsmc-subdevs-87032c017d0c
+
+Best regards,
+-- 
+James Calligeros <jcalligeros99@gmail.com>
 
