@@ -1,172 +1,244 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443EF288C26
-	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 07:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4205635B15F
+	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 10:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761378986; cv=none; b=NNTO7QXxcN5QCRM61kQYvp+LYyWzJcJ0b46AvqscpS9gmlvtyROGLsSR+MKhvraz2ofXUAQu0WWenpsq1tGrrNyu9d3yYaYLVaSbWKZsSX+ymQS2nq2eKwyDodE38BV0ym58t8DtmBsld6RWCwgzPCmriyJeuSCn7D3CjkT1kNI=
+	t=1761388226; cv=none; b=FEyp4Wog3hAxiU/52hXHMz5sw/URTDJaaZgyB8NHml1qzu+oLEIvW2TgmgeRcmuYKHStnOvTbJ5WdGFyUXT/4cMCWpK3Cll4JlvUGgGjJ46vZF7z1UeF5fu8edrPrEi/EO0LvZJflsesMXgGqohbU+notBUK0ZEu8/1+u/CfCKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761378986; c=relaxed/simple;
-	bh=8gVKaVr7mQmOCkjXIqbeVzWh9yXzYrSkI1/lFkAQbAQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rU9YQksTKrGlCsP6IdMhjUdzvov/1jPhoUDcToGIhSB+tnY59onxzoQoRuoGUKBmYtX4kK1EOFy9sHYIDhM/FhbDaTBK3ovZOtDhuHU9FLsXgmhMciUgZTaSuJvVhmf7eIwZBKs4yfO2gJblv7bNuXk0Q5Vxbj9rEj7l9N25Ae4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJRNee8n; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1761388226; c=relaxed/simple;
+	bh=y54jRnBPr+cX8ZHfCbSEr8i0VMuZLwAyADHQPCqAqac=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q/Ail2CLINQ4mC/1iI9bMVVTpSzDR+/uq5MYEKQI740LxHC+mt9K06XFNkNz6hg6RtjweG/Xa7Xu+68NeDhuNjZR8kdrF5J39NdlvVAbvvfKh8S++k8GsSbXpOTKnBB7yH1Hgr33VuLEGG2O3N21IQDUzV24rZB1FIJQtDV4csA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9kmdAHd; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJRNee8n"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b62e7221351so2551569a12.1
-        for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 00:56:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9kmdAHd"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7814273415cso24403227b3.1
+        for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 03:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761378984; x=1761983784; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hVHEeVvTfnJjIr7f3Y35GS9oBs/K0+nn/6SC3ws73x4=;
-        b=YJRNee8n9DdtETcheWWK9DAAMmmpVXlSKbKke9bNZZ8RBXadnfNIzrNkJLjN8m5Su0
-         M67cLAndjhFvsHhevq2kCF9aC/+IqxsBHjPZINIcS++u5SVRMgihEP3ftVOwP5zmbSPS
-         e0rAU9hRV6q0TxK7U7LAkljCrK5OtalWSSnu5N/NmL0tkWd4Id988balyoatENTdSQZt
-         umNw5Xf1jFEkrsYgQN4uTdXQqcsMEMKoAVirCPYJ7Kdu2N2SKJoPvCxoPf3Wdj58Qd83
-         jP2YP9WULeVc5X6H5TMFtMyCDKVmezHf4uXX+YS+kpNHsrQ/YBRVSaBmtAOVnk8JNHrW
-         mT1g==
+        d=gmail.com; s=20230601; t=1761388224; x=1761993024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MEPvmheIE2io12AVHL9xDSvnSfkDXeIW08ryJ+C9gcw=;
+        b=U9kmdAHdrv/yRO57F4skTZCkeEJM7r22fJIsOBdA0Qh7sZBID0jhc4rCzOC8PDp1/F
+         vniJZu5UY6o5XAAvHmACkpnYocrdbvy5Bam2TzeC7DksOHSiqof/Z5eal459lFK5aseW
+         1gjToFpIuEQRGV7T9OCxx9Ph6wC9fQxXHtLc6P6pCsoiKbdPm2wi1vqd4fodkQkp0PDb
+         9F14pjqqlrk98UHqpWnEmPIbxdirzyRZ6Ga+xuWS7inT5o/iOtbDL/0OJoikawQPYq9I
+         PZ9lZ9N1jgwulFXcqAVkYefRXajgnIlGYWP0WU/4uur3RGfQdMni4CuDArZRlHI4lfyh
+         81Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761378984; x=1761983784;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hVHEeVvTfnJjIr7f3Y35GS9oBs/K0+nn/6SC3ws73x4=;
-        b=InRkOwIRJtUQTTElXiFfoq5CtlwEGyh2zr/STkhWl3SUWsYyabQJ6cu407ZPeOBw72
-         ZREDCaTi01T1QT63ZZx7ynuyLA8PYgML4+UDKcqQVECmZsDMa4GtHUDyBqf0Q0j8/zAy
-         o8o7Y1kyE8cv/PiV/05FRogk6X4RSN5bRM8TvXeWrjJcpyD4BQ3R8pK37JdQJZt6p7j1
-         qF6ziw7UUzOKnuit5SMrUqJ84oZFc8AO8F4JZYIkNN3/ZFmusiEpSpdcjfcmoRxXsOGR
-         riDOD4wPM6+c9cBerlZTH2eeI114+BBoPFoH6i5QAygDkrsRXqbsztObUBw3IJ0wdxYd
-         KdAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfzS7jh4J9zmsaULnU8kE0bNZWoifmJ+ezh0+5VUozww3B27u5Du4FqdgSR7N9++nv51Jjy0fAS14=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqspeHoKVlpE48z18xrd9kFszXAgLTkiqNlOjDB3QhYwsC06Dg
-	KpT8KUNf78h7ofJ4D47bLVuv46ik5TzjGOzrXn7Zzvt5SVBPwTrzX5S4kjTRmwix
-X-Gm-Gg: ASbGncvwvcIliuyEpBzUI8ehFVhcW14mq9AfjWc4rqrrUuvXXLAnKbE9PWb6GRE8G07
-	oHethZfhpOi+n4WmqDmMOAgdRkvqeqdFa5FKu/sQYroCXQXe0FAcubCvaKQFoDUqx+Rpo41rdBh
-	0PY0fdTQ9WG+GNY6NpBhvvwf9WKNFsBoSF6YXa+q1NUaMfiI/aANDx509GpVyfNkf/LZqd+MJ0p
-	xupDt72juC8WLDwRMqRxZDxH1nM2QCXCbSG2/RHXFEX7bdKz0Pxd7u7iZir1Jh9NoOoMd2MvG3X
-	9YEYwm/a3YpNM8usbgkgwvVqfUhfJAu4Lx6AXnfChTQ8K2I/ZX0XKdBArTAS76g9G/kKZThHV9k
-	oqLbwkc1dwoI1GxvGD0PD4nXGgBlVFZSvKts5zi41gpmguc159Q23NreYoJ3tKEHwX7rkX2Ae04
-	o=
-X-Google-Smtp-Source: AGHT+IGwvkVJVftLc7N152A3XNiMYQcFGtvvfqDROQl6klMasXSEkx7383k2P/ZS1iFavUlMTbLlyA==
-X-Received: by 2002:a17:902:c943:b0:26d:d860:3dae with SMTP id d9443c01a7336-290c9c93ac6mr393490305ad.3.1761378984475;
-        Sat, 25 Oct 2025 00:56:24 -0700 (PDT)
-Received: from aheev.home ([2401:4900:88f6:d7b0:443:a828:b6ba:688d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d2333fsm14806285ad.50.2025.10.25.00.56.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 00:56:23 -0700 (PDT)
-From: Ally Heev <allyheev@gmail.com>
-Date: Sat, 25 Oct 2025 13:26:16 +0530
-Subject: [PATCH v3] checkpatch: add uninitialized pointer with __free
- attribute check
+        d=1e100.net; s=20230601; t=1761388224; x=1761993024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MEPvmheIE2io12AVHL9xDSvnSfkDXeIW08ryJ+C9gcw=;
+        b=ucaps4EA46joTMWCUgKADeRzMWZWLS/sv0FOG8YLK8sGRVXCG6RQtKvXFrqM1ORA+V
+         wyX4rOEeGfX+yCc9VbgvMxGBLNxizU1XNDf7LSh6jmRHZUimN+EWXQ/0uoDc9z5wQG6C
+         XR4V7KCdOHI7cYDtbcu2koulnkKchVOxFGmF/qxKsD2HLfzJngZLDoUajaiQ04v9FEMc
+         TS7Th91Zu69latEjvNPhDEHNE3Un9++Vxk0d1ZJFGkeWKrZHlK8JYUm4RcC2GldBgsAU
+         WsT9Wd/V/kBK8shbbCVjBm27Wbu0ec920fyxlTUQu8EGoHAFJIhVfKmZLndZrLApF2n4
+         uoVg==
+X-Gm-Message-State: AOJu0YxlbcESaW3Pi9KlCC6l/mSkzgf88MDsOKejn7ad7PGWxgVJDB5w
+	YpXEfHaWYsEBPAiuKcIRM0KvixleTQYScKerEx+Q8ATiY3F3gMnfC3O0WZnYdrljHclLsiYmdgw
+	tu+zhlow2rIqDuM8DPa3hDWwUHKcmviw=
+X-Gm-Gg: ASbGncsXS0ruVzWkforrQ8OCyL1QDCE3xlZbEssLknrkBl3TKE/l+4X0mju5lF3k/Qo
+	SauPaJfAgHxkYNt2A3wFRUGv2nDsSZtjKbg3DROr85qRocZXRGAXVgmIic7jQgsKgOMPr3FKuWp
+	iNRnyCEbRyhoQDlpp/BJDZiGCA3jLaIEz3D540RK7mRK7rGxiHuG35ykCOS7UGBX86fWPv/bPVR
+	asmR+aKbanZHg2LantRMwSjdp3GFnAeOR33uGDTTzJmM4qVyz2InLu/U0eTZ2X7GJaEN419CSsB
+	5oMT
+X-Google-Smtp-Source: AGHT+IHqdFZ6FVQ+TQor9Uo2YmrGqmMyGnJwa+WAS5cPRNDGc0OEkDDC6Hkm/7FiJx7ww0Hh/CbVVPfA2w9uri8cBDk=
+X-Received: by 2002:a53:b3ce:0:b0:63e:914:28c8 with SMTP id
+ 956f58d0204a3-63e1620d7e3mr18349848d50.68.1761388224129; Sat, 25 Oct 2025
+ 03:30:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251025-aheev-checkpatch-uninitialized-free-v3-1-a67f72b1c2bd@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAJ+C/GgC/5XNPQ7CMAyG4augzBjZKeVv4h6IIQ0OsShplZYIq
- Hp30k6MIE+vh+cbVMdRuFOHxaAiJ+mkCTmK5UJZb8KVQS65lUZdEmoC45kTWM/21preengECdK
- LqeXNF3CRGUpb7N22ZEJDKkttZCfPeeV0zu2l65v4mkcTTd///ESQb+cqpMpuzNYcr3cj9co2d
- zX5SX+b699MDQi0sbhH5B0V+G2O4/gBfu11rSoBAAA=
-X-Change-ID: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
- David Hunter <david.hunter.linux@gmail.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
- linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
- Ally Heev <allyheev@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3095; i=allyheev@gmail.com;
- h=from:subject:message-id; bh=8gVKaVr7mQmOCkjXIqbeVzWh9yXzYrSkI1/lFkAQbAQ=;
- b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDL+NC26H2nLc7Uj8V6vE+M+NhPOxze5JdqevlmxofwPT
- 5PvHr/FHaUsDGJcDLJiiiyMolJ+epukJsQdTvoGM4eVCWQIAxenAEwkYSYjw5q9EzSu7MjpOla/
- ck3tB+cC/3M/vSJ6bZLKq1Kcb6wPiGVkaNr5ZdWWds/3zE+dY3+2Sk+80qK7IPban6u7znnW+f+
- 8xwAA
-X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
- fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
+References: <20251023161027.697135-1-corbet@lwn.net> <20251023161027.697135-3-corbet@lwn.net>
+In-Reply-To: <20251023161027.697135-3-corbet@lwn.net>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Sat, 25 Oct 2025 18:29:57 +0800
+X-Gm-Features: AS18NWCSGESk1mh9FMM1MDcf8MIWdtKIxuZGnpbWgHA2kyMR70V2hPW9GWGohbQ
+Message-ID: <CAD-N9QUyd0AbFpdOqxwGAvCoGwcCVVyE+2vcT4XopopcKoMU+A@mail.gmail.com>
+Subject: Re: [PATCH v2 02/10] docs: move checktransupdate.py to tools/docs
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-uninitialized pointers with __free attribute can cause undefined
-behaviour as the memory allocated to the pointer is freed
-automatically when the pointer goes out of scope.
-add check in checkpatch to detect such issues
+On Fri, Oct 24, 2025 at 12:11=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> The checktranslate.py tool currently languishes in scripts/; move it to
+> tools/docs and update references accordingly.
+>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <si.yanteng@linux.dev>
+> Cc: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Ally Heev <allyheev@gmail.com>
----
-Testing:
-ran checkpatch.pl before and after the change on 
-crypto/asymmetric_keys/x509_public_key.c, which has
-both initialized with NULL and uninitialized pointers
----
-Changes in v3:
-- remove $FreeAttribute
-- Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-Changes in v2:
-- change cover letter and title to reflect new changes
-- fix regex to handle multiple declarations in a single line case
-- convert WARN to ERROR for uninitialized pointers
-- add a new WARN for pointers initialized with NULL 
-- NOTE: tried handling multiple declarations on a single line by splitting
-        them and matching the parts with regex, but, it turned out to be 
-	complex and overkill. Moreover, multi-line declarations pose a threat
-- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
----
- Documentation/dev-tools/checkpatch.rst | 5 +++++
- scripts/checkpatch.pl                  | 6 ++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index d5c47e560324fb2399a5b1bc99c891ed1de10535..1a304bf38bcd27e50bbb7cd4383b07ac54d20b0a 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1009,6 +1009,11 @@ Functions and Variables
- 
-       return bar;
- 
-+  **UNINITIALIZED_PTR_WITH_FREE**
-+    Pointers with __free attribute should be initialized. Not doing so
-+    may lead to undefined behavior as the memory allocated (garbage,
-+    in case not initialized) to the pointer is freed automatically
-+    when the pointer goes out of scope.
- 
- Permissions
- -----------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807e8bc40d582621bb 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -7721,6 +7721,12 @@ sub process {
- 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
- 			}
- 		}
-+
-+# check for uninitialized pointers with __free attribute
-+		while ($line =~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g) {
-+			ERROR("UNINITIALIZED_PTR_WITH_FREE",
-+			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
-+		}
- 	}
- 
- 	# If we have no input at all, then there is nothing to report on
-
----
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
-
-Best regards,
--- 
-Ally Heev <allyheev@gmail.com>
-
+> ---
+>  Documentation/doc-guide/checktransupdate.rst              | 6 +++---
+>  .../translations/zh_CN/doc-guide/checktransupdate.rst     | 6 +++---
+>  Documentation/translations/zh_CN/how-to.rst               | 2 +-
+>  MAINTAINERS                                               | 2 +-
+>  {scripts =3D> tools/docs}/checktransupdate.py               | 8 ++++----
+>  5 files changed, 12 insertions(+), 12 deletions(-)
+>  rename {scripts =3D> tools/docs}/checktransupdate.py (97%)
+>
+> diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation=
+/doc-guide/checktransupdate.rst
+> index dfaf9d373747..7b25375cc6d9 100644
+> --- a/Documentation/doc-guide/checktransupdate.rst
+> +++ b/Documentation/doc-guide/checktransupdate.rst
+> @@ -27,15 +27,15 @@ Usage
+>
+>  ::
+>
+> -   ./scripts/checktransupdate.py --help
+> +   tools/docs/checktransupdate.py --help
+>
+>  Please refer to the output of argument parser for usage details.
+>
+>  Samples
+>
+> --  ``./scripts/checktransupdate.py -l zh_CN``
+> +-  ``tools/docs/checktransupdate.py -l zh_CN``
+>     This will print all the files that need to be updated in the zh_CN lo=
+cale.
+> --  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-=
+tools/testing-overview.rst``
+> +-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev=
+-tools/testing-overview.rst``
+>     This will only print the status of the specified file.
+>
+>  Then the output is something like:
+> diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.=
+rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+> index d20b4ce66b9f..dbfd65398077 100644
+> --- a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+> +++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+> @@ -28,15 +28,15 @@
+>
+>  ::
+>
+> -    ./scripts/checktransupdate.py --help
+> +    tools/docs/checktransupdate.py --help
+>
+>  =E5=85=B7=E4=BD=93=E7=94=A8=E6=B3=95=E8=AF=B7=E5=8F=82=E8=80=83=E5=8F=82=
+=E6=95=B0=E8=A7=A3=E6=9E=90=E5=99=A8=E7=9A=84=E8=BE=93=E5=87=BA
+>
+>  =E7=A4=BA=E4=BE=8B
+>
+> --  ``./scripts/checktransupdate.py -l zh_CN``
+> +-  ``tools/docs/checktransupdate.py -l zh_CN``
+>     =E8=BF=99=E5=B0=86=E6=89=93=E5=8D=B0 zh_CN =E8=AF=AD=E8=A8=80=E4=B8=
+=AD=E9=9C=80=E8=A6=81=E6=9B=B4=E6=96=B0=E7=9A=84=E6=89=80=E6=9C=89=E6=96=87=
+=E4=BB=B6=E3=80=82
+> --  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-=
+tools/testing-overview.rst``
+> +-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev=
+-tools/testing-overview.rst``
+>     =E8=BF=99=E5=B0=86=E5=8F=AA=E6=89=93=E5=8D=B0=E6=8C=87=E5=AE=9A=E6=96=
+=87=E4=BB=B6=E7=9A=84=E7=8A=B6=E6=80=81=E3=80=82
+>
+>  =E7=84=B6=E5=90=8E=E8=BE=93=E5=87=BA=E7=B1=BB=E4=BC=BC=E5=A6=82=E4=B8=8B=
+=E7=9A=84=E5=86=85=E5=AE=B9=EF=BC=9A
+> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/=
+translations/zh_CN/how-to.rst
+> index ddd99c0f9b4d..0d51bdf72e95 100644
+> --- a/Documentation/translations/zh_CN/how-to.rst
+> +++ b/Documentation/translations/zh_CN/how-to.rst
+> @@ -437,7 +437,7 @@ git email =E9=BB=98=E8=AE=A4=E4=BC=9A=E6=8A=84=E9=80=
+=81=E7=BB=99=E6=82=A8=E4=B8=80=E4=BB=BD=EF=BC=8C=E6=89=80=E4=BB=A5=E6=82=A8=
+=E5=8F=AF=E4=BB=A5=E5=88=87=E6=8D=A2=E4=B8=BA=E5=AE=A1=E9=98=85=E8=80=85=E7=
+=9A=84=E8=A7=92
+>  =E5=AF=B9=E4=BA=8E=E9=A6=96=E6=AC=A1=E5=8F=82=E4=B8=8E Linux =E5=86=85=
+=E6=A0=B8=E4=B8=AD=E6=96=87=E6=96=87=E6=A1=A3=E7=BF=BB=E8=AF=91=E7=9A=84=E6=
+=96=B0=E6=89=8B=EF=BC=8C=E5=BB=BA=E8=AE=AE=E6=82=A8=E5=9C=A8 linux =E7=9B=
+=AE=E5=BD=95=E4=B8=AD=E8=BF=90=E8=A1=8C=E4=BB=A5=E4=B8=8B=E5=91=BD=E4=BB=A4=
+=EF=BC=9A
+>  ::
+>
+> -       ./script/checktransupdate.py -l zh_CN``
+> +       tools/docs/checktransupdate.py -l zh_CN``
+>
+>  =E8=AF=A5=E5=91=BD=E4=BB=A4=E4=BC=9A=E5=88=97=E5=87=BA=E9=9C=80=E8=A6=81=
+=E7=BF=BB=E8=AF=91=E6=88=96=E6=9B=B4=E6=96=B0=E7=9A=84=E8=8B=B1=E6=96=87=E6=
+=96=87=E6=A1=A3=EF=BC=8C=E7=BB=93=E6=9E=9C=E5=90=8C=E6=97=B6=E4=BF=9D=E5=AD=
+=98=E5=9C=A8 checktransupdate.log =E4=B8=AD=E3=80=82
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dafc11712544..1b5413e779f4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7301,8 +7301,8 @@ S:        Maintained
+>  P:     Documentation/doc-guide/maintainer-profile.rst
+>  T:     git git://git.lwn.net/linux.git docs-next
+>  F:     Documentation/
+> +F:     tools/docs/
+>  F:     scripts/check-variable-fonts.sh
+> -F:     scripts/checktransupdate.py
+>  F:     scripts/documentation-file-ref-check
+>  F:     scripts/get_abi.py
+>  F:     scripts/kernel-doc*
+> diff --git a/scripts/checktransupdate.py b/tools/docs/checktransupdate.py
+> similarity index 97%
+> rename from scripts/checktransupdate.py
+> rename to tools/docs/checktransupdate.py
+> index e39529e46c3d..e894652369a5 100755
+> --- a/scripts/checktransupdate.py
+> +++ b/tools/docs/checktransupdate.py
+> @@ -9,9 +9,9 @@ commit to find the latest english commit from the transla=
+tion commit
+>  differences occur, report the file and commits that need to be updated.
+>
+>  The usage is as follows:
+> -- ./scripts/checktransupdate.py -l zh_CN
+> +- tools/docs/checktransupdate.py -l zh_CN
+>  This will print all the files that need to be updated or translated in t=
+he zh_CN locale.
+> -- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-too=
+ls/testing-overview.rst
+> +- tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-to=
+ols/testing-overview.rst
+>  This will only print the status of the specified file.
+>
+>  The output is something like:
+> @@ -168,7 +168,7 @@ def check_per_file(file_path):
+>  def valid_locales(locale):
+>      """Check if the locale is valid or not"""
+>      script_path =3D os.path.dirname(os.path.abspath(__file__))
+> -    linux_path =3D os.path.join(script_path, "..")
+> +    linux_path =3D os.path.join(script_path, "../..")
+>      if not os.path.isdir(f"{linux_path}/Documentation/translations/{loca=
+le}"):
+>          raise ArgumentTypeError("Invalid locale: {locale}")
+>      return locale
+> @@ -232,7 +232,7 @@ def config_logging(log_level, log_file=3D"checktransu=
+pdate.log"):
+>  def main():
+>      """Main function of the script"""
+>      script_path =3D os.path.dirname(os.path.abspath(__file__))
+> -    linux_path =3D os.path.join(script_path, "..")
+> +    linux_path =3D os.path.join(script_path, "../..")
+>
+>      parser =3D ArgumentParser(description=3D"Check the translation updat=
+e")
+>      parser.add_argument(
+> --
+> 2.51.0
+>
+>
