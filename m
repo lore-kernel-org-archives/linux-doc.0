@@ -1,243 +1,133 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3D32877E7
-	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 19:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFDE76026;
+	Sun, 26 Oct 2025 19:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761506535; cv=none; b=BNZzpZyJlVNfPORC5+OmnNalaG0x4l4CPpPvXpyfUJQKtaCS62KYJdBQty5N6XOf3uhHbd/c6kvplThTEz4XgRjq4h5/AkbSaw3m2KfkcoZA5Zc8qYFA/w7U9dK4N5XAT/v8Y1i7I6zYeHT5ufKxK5rdHlncgFUVAMiQS3GbAGI=
+	t=1761507666; cv=none; b=RH7zXwIjtTi+DkKgmQk5UWCoKAUb6rmGo4iHUsAENMDDxAiQ5DM3XXHyGULXHLIG1sAke0pCgxr+t7VbEhu0G7hwNbBc7/hzudzUT8bUkdPEGH4p/CfLJ8AIJTQ/Jtu2e5F0W1XN4egT+r9fvr9d/ItGl5W7T43Q0ujmVTFvOu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761506535; c=relaxed/simple;
-	bh=5hh5H/oXzBOIk5wRb5bURfhtxKr6bwusAlI0LKPWHHs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Xrwidf5PGkGCBjojIdBUFxZWy0J5pS19fQQoRl1QtcSRsFQO19+dq1rrBLAamIe8pP3vTxu1GlyDk6MMK73t0EzTTMTXweFUIh6a+hrFfavYV0wAe1wtejgyjAbX07I8pHt2/B3JbpqwGwsE8lwHlbxz23WCbsA1W40xj2joHXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyO/C/Ke; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761507666; c=relaxed/simple;
+	bh=lTf4joyzeGXF9zVtIHE2AgWtcJt0N6N9jhyW3FA9Hz4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZEcN9gKY1dM3a665XhuHADQZb/uJYWfebhNY1itHgXZMOV0GoXI3XiJnEH1G1/DNog6QNDmHuairH/HAWcYf5wuWvBdvBPdPtBA1oqPG0qxMAco6uQ3qyoxwm1x5qEafaM3eeQ1k+1ofDPpwKvJ4Vr+1o4NTTeNDTf6mKKFJGiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBKvkDzN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyO/C/Ke"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-27ee41e0798so55953005ad.1
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 12:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761506533; x=1762111333; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1cH1BE6LpM8SseHBjfqUwIPHTH/EsEqQa5n5M8ASBCQ=;
-        b=OyO/C/KewCtnyWNqEnLPQLrZ73QwD76MOyotmGev7xz2s7imCpmHaRYEPY7DV45D+K
-         MKkdY1zczZW15vyi8OTrYRwaFtwy/8QVg3NaogDYLJTsPCzbM2EfnKtb2ukQo8Xnz+eK
-         +pknXZm2w62b/xNwKYB+Yh+IJOlAAzEI0LaIknGBexGEO7ASCP5phW2ZPj/Z0li9VX8d
-         VsvYC1/Vr4CbSwBVEJw0Zi17vdbhfb436x+Qys7fa3o9+lr9ClOSfz0Ei/bquDN7Upx9
-         9YYrdXnbDf38R7cFxteMeHxt3/acSADznoOqG35+YXDmvvIMxodllZZM0SpDHB88141v
-         Tv4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761506533; x=1762111333;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1cH1BE6LpM8SseHBjfqUwIPHTH/EsEqQa5n5M8ASBCQ=;
-        b=nBKNgUKPrcjZiBYvnaNHwFPCKDasHo4Zv8dki70UBnMBExC+TNwLV8aBDSZT6m+9t7
-         YnMlHdO8KiXAENWww04TrxouefHcU0PodXv6ZKKtaxlB8Sk5Sfp+4mRQeFQuDuFLtw0+
-         i3DXdHdK//M8SWc50cmutQ87caOnqwxc0LMhOku7FGFtN52MEgvsDAy+G6WtgTl9+4f2
-         ns3JfXnW7TD0uprDnNxZdN+wTRtxPnTcvuP2x//HHIukYhBXeFS2YaOZucpCVbE6dDQq
-         nF3kctvUAR2XUgWOYdYRdm3Rylf5QP1ZU7QrRUHgB7RS9IeXtEpRABoueZmSt1DU29kg
-         6Xuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyJs+KQUdZy3SmGAhH4Wlqvc60zX5ZeChdFBqa6lmkC6MeJPPNbyVyq5Smjp/Y6Ty3BJnckHicK4w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcUi4KpmcsrdQuXOQ/V/d8BBdORaXN/P4T8rlfdkityiukFMTq
-	CU6C5D4QJF/4R9nsnQF9/5o2f85jvXNXprUu65bcvjP6gB0C2XafYbSV
-X-Gm-Gg: ASbGnct0BnmybLTObL2GxofvQ+CGLy+P4mRev5lu4Wwvkpx37q1LEVaWHLf1cf37mxl
-	2G86zBvQLAYpm868QGemZ8t1RJ4c1O3zMriB0HVaE1FPszantBHKnwg2o5QsMsc8vQylnmyCsPk
-	z9DoapLXL8JQzYr0OCfyeWeYVy2xE5rBHl22ppbM8sg7SnJjQLkVvbob/I7PPduXRzXWKqHO6Ey
-	s3OwNCpecY8wNYW+DEVhaSPj/PZTb49XID8qjoZRwhkgvs8IBXLfO4FzUlJt6EF3YtVnCbaRITP
-	efcaj/rJZO+mq3so24fe3vwtCkUk/kCP8lfLoFvG2nFHbtbRGSgsp4q8v0KKzqnCOz3kHkAFyoe
-	hVNXq/bD9Xu17pDkMnU9Jwt+j5nTcMqiOgxI1qjBRm/4bCsFdyhwMbAPru6H6EL3tgH6fwTRMRS
-	ZGtgZJhPpTuvxO63oLRUYGucp2vCMeMczMhrBjvv134tfslhBBmI4Mu1wCszm52ctNImnY/n1L5
-	w44ZiD3kg==
-X-Google-Smtp-Source: AGHT+IFMIx69T+JS0cQNaPJFmjTEG7wAJoCKtPMQG11v348ofORNvuy7yrfbSjNjsTsoBsw5YAadrg==
-X-Received: by 2002:a17:903:32c6:b0:28b:4ca5:d522 with SMTP id d9443c01a7336-2948ba3bb60mr129121165ad.39.1761506532935;
-        Sun, 26 Oct 2025 12:22:12 -0700 (PDT)
-Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81b40fsm5863762a91.16.2025.10.26.12.22.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Oct 2025 12:22:12 -0700 (PDT)
-Date: Sun, 26 Oct 2025 12:22:10 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Mario Limonciello <superm1@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Armin Wolf <W_Armin@gmx.de>, Len Brown <lenb@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-CC: Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/3=5D_platform/x86=3A_lenovo?=
- =?US-ASCII?Q?-wmi-gamezone_Use_explicit_allow_list?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <4c3a594b-7a57-4b5e-85c8-e9337d70c7e6@kernel.org>
-References: <20251026081240.997038-1-derekjohn.clark@gmail.com> <20251026081240.997038-4-derekjohn.clark@gmail.com> <4c3a594b-7a57-4b5e-85c8-e9337d70c7e6@kernel.org>
-Message-ID: <1411B6CE-132B-4450-BB27-9ED44BD897B0@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBKvkDzN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5D3C4CEE7;
+	Sun, 26 Oct 2025 19:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761507665;
+	bh=lTf4joyzeGXF9zVtIHE2AgWtcJt0N6N9jhyW3FA9Hz4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uBKvkDzNuvY1TXO688T7xl66SarjxU3ScQDXy+53XHL1EGzz+NwqKKx/SVtrr7xcq
+	 0aby4mw4MVfsJaWKuWLh6KfixdMr+Y2IRY5jjR3dYyKbzKn4c3KX3qYflx0WnO6xUh
+	 B5K3meeMwpZC1emfEDEJaD4MJcNaRhksUx79793mF7ANoohDZduJVFRACurxZHB0X3
+	 +Te84WLNLCVc+oBKTLalsZfMAijuC2hV9HatsCic5eJqtUtC9jxpnuSZ/dzoy/jwta
+	 YZfukw/vgs5oLGYAGpJpuFsvd8mnePMShFbJJ2sKSggQXH/APov1NyUjxHSfSuSCEU
+	 NHcEx5S4oPnWg==
+Message-ID: <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
+Date: Sun, 26 Oct 2025 20:41:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
+ power monitor
+To: Igor Reznichenko <igor@reznichenko.net>
+Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
+ devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux@roeck-us.net, robh@kernel.org, skhan@linuxfoundation.org
+References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
+ <20251026184641.631641-1-igor@reznichenko.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251026184641.631641-1-igor@reznichenko.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On October 26, 2025 10:50:40 AM PDT, Mario Limonciello <superm1@kernel=2Eor=
-g> wrote:
->
->
->On 10/26/25 3:12 AM, Derek J=2E Clark wrote:
->> The stubbed extreme mode issue seems to be more prevalent than previous=
-ly
->> thought with multiple users having reported BIOS bugs from setting
->> "performance" when using userspace tools such as PPD=2E To avoid this e=
-ver
->> being possible, make enabling extreme mode an explicit allow list inste=
-ad=2E
->> These users will still be able to set extreme mode using the Fn+Q keybo=
-ard
->> chord, so no functionality is lost=2E Currently no models have been
->> validated with extreme mode=2E
->
->So what exactly happens when a user uses FN+Q to change to extreme mode b=
-ut it's now in the allow list?  Does it report as "custom" mode?
->
-It turns out I got a correction after posting this that I'll need to inclu=
-de for v2=2E Extreme is never actually set using Fn+Q and can only be set i=
-n software=2E In that case, functionality is lost (though extreme should ma=
-tch custom mode default values, so only slightly)=2E The only chance this c=
-ould happen realistically would be if a user switched from windows in extre=
-me mode and then booted windows, since the setting is retained=2E
+On 26/10/2025 19:46, Igor Reznichenko wrote:
+>> Subject: I asked to drop "binding" and not add "support for". "Support
+>> for" makes little sense in terms of binding. How binding can support
+>> anything? This is the "ST TSC1641 power monitor" not support.
+> 
+> Krzysztof,
+> 
+> Thanks for feedback, will fix this and will create following patch versions
+> in new threads.
+> 
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  shunt-resistor-micro-ohms:
+>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
+>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
+>>> +      655.35 mOhm.
+>>> +    minimum: 100
+>>> +    default: 1000
+>>> +    maximum: 655350
+>>> +
+>>> +  st,alert-polarity-active-high:
+>>
+>> Isn't this just interrupt? You need proper interrupts property and then
+>> its flag define the type of interrupt.
+> 
+> This controls a bit written into device register.
+> I omitted interrupt property after looking at existing power monitor bindings,
+> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert 
+> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
+> find many power monitor bindings defining alert pins as interrupts.
 
-TBS, I'm asking some folks to test exactly that situation so we can know d=
-efinitely=2E My assumption was that it would report extreme normally but no=
-t be setable=2E
 
->I feel like this is going to turn into an impedance mismatch=2E  I'm lean=
-ing it's better to just expose extreme mode so that userspace knows what's =
-actually going on=2E
+On INA2xx that's SMBUS Alert. Is this the case here as well?
 
-It's possible, I'll wait for confirmation of the behavior from someone wit=
-h the affected hardware=2E
-
-Thanks,
-Derek
-
->I feel the bug situation will actually improve because PPD and Tuned have=
- no idea what extreme mode means so it won't be "easy" to get into it=2E  T=
-his at least will allow discovery of BIOS bugs as well that can then get re=
-ported and fixed in BIOS=2E
->
->>=20
->> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->> ---
->>   =2E=2E=2E/wmi/devices/lenovo-wmi-gamezone=2Erst       | 10 +++---
->>   drivers/platform/x86/lenovo/wmi-gamezone=2Ec    | 33 ++--------------=
----
->>   2 files changed, 8 insertions(+), 35 deletions(-)
->>=20
->> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst b/Docu=
-mentation/wmi/devices/lenovo-wmi-gamezone=2Erst
->> index 6c908f44a08e=2E=2E79051dc62022 100644
->> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst
->> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst
->> @@ -31,11 +31,11 @@ The following platform profiles are supported:
->>   Extreme
->>   ~~~~~~~~~~~~~~~~~~~~
->>   Some newer Lenovo "Gaming Series" laptops have an "Extreme Mode" prof=
-ile
->> -enabled in their BIOS=2E
->> -
->> -For some newer devices the "Extreme Mode" profile is incomplete in the=
- BIOS
->> -and setting it will cause undefined behavior=2E A BIOS bug quirk table=
- is
->> -provided to ensure these devices cannot set "Extreme Mode" from the dr=
-iver=2E
->> +enabled in their BIOS=2E For some newer devices the "Extreme Mode" pro=
-file
->> +is incomplete in the BIOS and setting it will cause undefined behavior=
-=2E To
->> +prevent ever setting this on unsupported hardware, an explicit allow q=
-uirk
->> +table is provided with all validated devices=2E This ensures only full=
-y
->> +supported devices can set "Extreme Mode" from the driver=2E
->>     Custom Profile
->>   ~~~~~~~~~~~~~~
->> diff --git a/drivers/platform/x86/lenovo/wmi-gamezone=2Ec b/drivers/pla=
-tform/x86/lenovo/wmi-gamezone=2Ec
->> index faabbd4657bd=2E=2E0488162a7194 100644
->> --- a/drivers/platform/x86/lenovo/wmi-gamezone=2Ec
->> +++ b/drivers/platform/x86/lenovo/wmi-gamezone=2Ec
->> @@ -47,10 +47,6 @@ struct quirk_entry {
->>   	bool extreme_supported;
->>   };
->>   -static struct quirk_entry quirk_no_extreme_bug =3D {
->> -	=2Eextreme_supported =3D false,
->> -};
->> -
->>   /**
->>    * lwmi_gz_mode_call() - Call method for lenovo-wmi-other driver noti=
-fier=2E
->>    *
->> @@ -241,31 +237,8 @@ static int lwmi_gz_profile_set(struct device *dev,
->>   	return 0;
->>   }
->>   +/* Explicit allow list */
->>   static const struct dmi_system_id fwbug_list[] =3D {
->> -	{
->> -		=2Eident =3D "Legion Go 8APU1",
->> -		=2Ematches =3D {
->> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8APU1"),
->> -		},
->> -		=2Edriver_data =3D &quirk_no_extreme_bug,
->> -	},
->> -	{
->> -		=2Eident =3D "Legion Go S 8APU1",
->> -		=2Ematches =3D {
->> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8APU1"),
->> -		},
->> -		=2Edriver_data =3D &quirk_no_extreme_bug,
->> -	},
->> -	{
->> -		=2Eident =3D "Legion Go S 8ARP1",
->> -		=2Ematches =3D {
->> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8ARP1"),
->> -		},
->> -		=2Edriver_data =3D &quirk_no_extreme_bug,
->> -	},
->>   	{},
->>     };
->> @@ -278,7 +251,7 @@ static const struct dmi_system_id fwbug_list[] =3D =
-{
->>    * Anything version 5 or lower does not=2E For devices with a version=
- 6 or
->>    * greater do a DMI check, as some devices report a version that supp=
-orts
->>    * extreme mode but have an incomplete entry in the BIOS=2E To ensure=
- this
->> - * cannot be set, quirk them to prevent assignment=2E
->> + * cannot be set, quirk them to enable assignment=2E
->>    *
->>    * Return: bool=2E
->>    */
->> @@ -292,7 +265,7 @@ static bool lwmi_gz_extreme_supported(int profile_s=
-upport_ver)
->>     	dmi_id =3D dmi_first_match(fwbug_list);
->>   	if (!dmi_id)
->> -		return true;
->> +		return false;
->>     	quirks =3D dmi_id->driver_data;
->>  =20
->
-
+Best regards,
+Krzysztof
