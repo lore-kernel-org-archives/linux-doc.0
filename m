@@ -1,209 +1,111 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6049B29408
-	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 13:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EC2366;
+	Sun, 26 Oct 2025 16:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761487100; cv=none; b=R1Vg1Mskn137MlOrxns8z3ov+2duMU6+2zfZai6Vzo0hAjkr9AHWoNXUUPe1Fj81ziT7NuF3pcz2sHTXEl5M9nn+IDiUpjMfnd7CklRojE5MJ7Dz3CI/rRjsmdf2KunAoLXFh7tRfFBuxNXuqmR93k/uTmH6v3JzlTT4lEwJyFE=
+	t=1761496114; cv=none; b=FYwvTcbzYmoIYIgCEy+KTCuHJHRaxRubL+WamtZCduGyru1C8qltjHiYjwGN3XMSI4v2xCuOZoHu1AmetGLnp6fRH6p2zRpWHZia8UgJkNxEH22KMuQur6gNTECyGb3N506ABvPjmcl4bOWYpNeaKQRYOBne75hCE765p8Qp5D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761487100; c=relaxed/simple;
-	bh=8XeXdA5z39ftFVIIxiHKgVDeYFhsrsDZZW+COtgjH3A=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Q+vSHaLUOZB3UlVDwd3MDlJQ3asvGHUS4XN1BX54PfKZm232E6c3R0X4kYhJ1YGuV2snCk75QKWu7H6N0lQ1L1u2E/EE0gU6oY/nt29iWkIPiDkTd/ev8yKAQIMJp3RFAVaJ8Io9k4QiR+bJ5jdGwoGG23d0xzkYdIVfdE6/lrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmusRpvt; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761496114; c=relaxed/simple;
+	bh=3yASdCDSpsywc9Wndc68nvTXELQcTh5qtV/szjNu5xE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F9BA0i1l+P3vT5L6us2KdA2D/ulDixfiSMIDGecMbPH0mILy2eOzgoMaBeXBirRwxPHVziLkkVpjrC8YQ16BulTuEWaNgNKfspk+j1bSeJP83RZmVaVPrjkZqvLireJxrK9GQToZ6OGItJzsRk4lACFhRrAsv2MpBEuLWMySmQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fj/5+86/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmusRpvt"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-63c3c7d3d53so5657370a12.2
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 06:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761487097; x=1762091897; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AGm4j24znqpP2x14ojj3CfonQDYyv+tUiBO9yGfd3gA=;
-        b=FmusRpvtW43yzhwpTGof0pU/lndGlNPgHMW/QTLw9EbS8gp9yXZaBCiJ7YMNXV1OxS
-         IDWsZLDiiPO1xHxicUc0MtpXChDMn1ggZrNjHTWr4RrMqJMf1Kf7hrp1J0qYvDi9EeBZ
-         Oi2jLr30tMhPnjvKq27ONgHWgfIDCYpAciheuQp4VJYWQGa10rrpjiAOr8T7Qi1ZStpE
-         6+TK4i4Rqrcdqs8ilIdIQfOodYqZTcFeava/Vpq0u4af7/aldqMFoOkdePuFZuVVr2B+
-         9lGvv36nhd0m+4UHTpSc9co3lxlKRGuvq8oJwma7to4moEB8pMgQRp55LSDbGgdqn5Wy
-         ToQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761487097; x=1762091897;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AGm4j24znqpP2x14ojj3CfonQDYyv+tUiBO9yGfd3gA=;
-        b=RcSwpo77DwM+5P5VGqin3wTS9Eah4GY4Cw+dnr/Sl8LuxDBY6oyQNltUGAESygL80d
-         anQwwzSpqCxrmk+ZfTNRf5muON/F7Sz0TK04PldNSgpCWXBSeGA1tWvKT0Arkvd5Hr5R
-         eafwd/Kdq+8+h5ERpDV+UNbCypyzF28d+C4GrLKLFbTDHz/hL/b3ANnGigykQM5Z52OH
-         A2+YtH5NpRKndx1rblTYkhCcKWQpPQKxbceGz9+GCSDKdBLt8bptIRiMIS8hvHzvFYoL
-         shPLpimaoaXkDNujveAq3e40tUXS7xZubdLbp7UJku8hhTr+hKK4KlibjDcD5tyCd/kD
-         OgSw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4VRHvGwshZsp7Sj566kHASyQV6pK7dtP7XlT4eFcrRAHaOaGUMUywuFS70aI/jP10wSjtvFIe8BY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlvdS3Vuyp3xPiAsUTpyre9oS6jS9X+wjYh9Ooq67+YTP/ZpJV
-	Vlr18SULVV9THaZbwMyILi0fPw+QGktmF5eccbphzHh1VLrnqze2dLkiufN8IQcE+GfsNIToGEt
-	+usV7CQNrWe+imNflRm9R/qbcgrDxU+k=
-X-Gm-Gg: ASbGncsyBIFYefYLsx1UIeNVVUv0b1SrmsXm8qqiS98F6sVKGx10YKlECGnYg6ahwP4
-	D6EfZmRHRqXIEdYawUsxTNz5J5SZRWHD4jKzDdJSfQv6B9awkXuFrpg0BbVpTwU6EdFX/fX/epo
-	mDlN2RDpQXr8PRQ63SXMpBCS5/Cj51/6IwD7/oi9fxpXOhkS6TjevORGYNur+ABj5MUKJHkW/hR
-	sEmWNwQg1ikT+8IJKXVy695Lro5JhyklWZaYZW6WBaHL7WM02PdorzA31RU
-X-Google-Smtp-Source: AGHT+IElcZxknPTLqtmlk8JoQTkwCJx6B2ZN+N7jWkJmLgq10DmZ1g4gT2iUrFyxH8OUk9ayM2/tsygj87YvOWke3QY=
-X-Received: by 2002:a05:6402:27d1:b0:639:f54d:9274 with SMTP id
- 4fb4d7f45d1cf-63e60003a6dmr7168507a12.2.1761487096456; Sun, 26 Oct 2025
- 06:58:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fj/5+86/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F89C4CEE7;
+	Sun, 26 Oct 2025 16:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761496114;
+	bh=3yASdCDSpsywc9Wndc68nvTXELQcTh5qtV/szjNu5xE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fj/5+86/gF+aahhzpuotc0v2KoFceFmywlGwFqEDLE8YGsIOJgyIuGvIIealak7sW
+	 ZnGllmQPJHtW5XkUTFiSR+sw5KkNgbQgCN2OFAFanolBwMjLMP0h2O86b6fNV9a26/
+	 8Ztdi/6TpQfv56fGg4pAfrsxS0/qGRNdvGVCqRqeFsOYO/3uKE5nXqUzAz9UY5LUOT
+	 /kxHZXrM177D4yzumVZctdSzcNKpqzrtvbBizx4aKbxJsvP5raHmxkbR9PmTXeW76Q
+	 Zblgh01FaX0BOjmV1SNjcEyHjELS8RazAHcdk6XSwp+HWheCvvlxSzP053NT7g3pTX
+	 lWOLD0lHpb9Ag==
+Message-ID: <37850951-99d0-4235-b7d5-a0caa14b7e4b@kernel.org>
+Date: Sun, 26 Oct 2025 17:28:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Alex Shi <seakeel@gmail.com>
-Date: Sun, 26 Oct 2025 21:57:32 +0800
-X-Gm-Features: AWmQ_bm8IjWucjxJWdtg5RJ6sDm53WgT5CWYNF0YvpgOLfKV8aQUl_NumdQX6Ec
-Message-ID: <CAJy-Am=nupkp6V6L1oA5DPxFNKq=4qM=ZVxxLeAw+uSQGSVhrw@mail.gmail.com>
-Subject: [GIT PULL] Chinese-docs changes for v6.18
-To: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] hwmon: Add TSC1641 I2C power monitor driver
+To: Igor Reznichenko <igor@reznichenko.net>, linux-hwmon@vger.kernel.org
+Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
+ devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux@roeck-us.net, robh@kernel.org,
+ skhan@linuxfoundation.org
+References: <20251022044708.314287-1-igor@reznichenko.net>
+ <20251026065057.627276-1-igor@reznichenko.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251026065057.627276-1-igor@reznichenko.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit f44a29784f685804d9970cfb0d3439c9e30981d7:
+On 26/10/2025 07:50, Igor Reznichenko wrote:
+> This patch series adds support for the ST Microelectronics TSC1641
+> I2C power monitor. The TSC1641 provides bus voltage, current, power,
+> and temperature measurements via the hwmon subsystem. The driver 
+> supports optional ALERT pin polarity configuration and exposes the
+> shunt resistor value and update interval via sysfs.
+> 
+> Tested on Raspberry Pi 3B+ with a TSC1641 evaluation board.
 
-  Documentation: update maintainer-pgp-guide for latest best practices
-(2025-09-09 13:43:55 -0600)
 
-are available in the Git repository at:
+Do not attach (thread) your patchsets to some other threads (unrelated
+or older versions). This buries them deep in the mailbox and might
+interfere with applying entire sets. See also:
+https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
-Chinese-docs-6.18
-
-for you to fetch changes up to b5750c27d395f865030d2ab084c447e1df718dd6:
-
-  Revert "Docs/zh_CN: Translate skbuff.rst to Simplified Chinese"
-(2025-10-26 21:33:45 +0800)
-
-----------------------------------------------------------------
-Chinese translation docs for 6.18
-
-This is the Chinese translation subtree for 6.18. It includes
-the following changes:
-        - docs/zh_CN: Add rust Chinese translations
-        - docs/zh_CN: Add scsi Chinese translations
-        - docs/zh_CN: Add gfs2 Chinese translations
-        - Add some other Chinese translations and fixes
-
-Above patches are tested by 'make htmldocs'
-
-Signed-off-by: Alex Shi <alexs@kernel.org>
-
-----------------------------------------------------------------
-Alex Shi (1):
-      Revert "Docs/zh_CN: Translate skbuff.rst to Simplified Chinese"
-
-Ben Guo (2):
-      docs/zh_CN: Update Rust index translation and add reference label
-      docs/zh_CN: Add translation of rust/testing.rst
-
-Shao Mingyin (5):
-      Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
-      Docs/zh_CN: Translate ubifs-authentication.rst to Simplified Chinese
-      Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
-      Docs/zh_CN: Translate gfs2-uevents.rst to Simplified Chinese
-      Docs/zh_CN: Translate gfs2-glocks.rst to Simplified Chinese
-
-Shuo Zhao (4):
-      docs/zh_CN: Add security ipe Chinese translation
-      docs/zh_CN: Add security lsm-development Chinese translation
-      docs/zh_CN: Add security SCTP Chinese translation
-      docs/zh_CN: Add secrets coco Chinese translation
-
-Sun yuxi (2):
-      Docs/zh_CN: Translate mptcp-sysctl.rst to Simplified Chinese
-      Docs/zh_CN: Translate generic-hdlc.rst to Simplified Chinese
-
-Wang Longjie (2):
-      Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
-      Docs/zh_CN: Translate inotify.rst to Simplified Chinese
-
-Wang Yaxin (2):
-      Docs/zh_CN: Translate skbuff.rst to Simplified Chinese
-      Docs/zh_CN: Translate timestamping.rst to Simplified Chinese
-
-doubled (7):
-      docs/zh_CN: Add scsi/index.rst translation
-      docs/zh_CN: Add scsi.rst translation
-      docs/zh_CN: Add scsi_mid_low_api.rst translation
-      docs/zh_CN: Add scsi_eh.rst translation
-      docs/zh_CN: Add scsi-parameters.rst translation
-      docs/zh_CN: Add link_power_management_policy.rst translation
-      docs/zh_CN: Add sd-parameters.rst translation
-
-shaomingyin (3):
-      Docs/zh_CN: add fixed format for the header of gfs2-glocks.rst
-      Docs/zh_CN: align title underline for ubifs.rst
-      Docs/zh_CN: fix the format of proofreader
-
- Documentation/translations/zh_CN/filesystems/dnotify.rst           |   67 ++
- Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst       |
-211 ++++++
- Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst      |   97 +++
- Documentation/translations/zh_CN/filesystems/gfs2.rst              |   57 ++
- Documentation/translations/zh_CN/filesystems/index.rst             |   17 +-
- Documentation/translations/zh_CN/filesystems/inotify.rst           |   80 ++
- .../translations/zh_CN/filesystems/ubifs-authentication.rst        |
-354 +++++++++
- Documentation/translations/zh_CN/filesystems/ubifs.rst             |  114 +++
- Documentation/translations/zh_CN/networking/generic-hdlc.rst       |  176 +++++
- Documentation/translations/zh_CN/networking/index.rst              |    7 +-
- Documentation/translations/zh_CN/networking/mptcp-sysctl.rst       |  139 ++++
- Documentation/translations/zh_CN/networking/timestamping.rst       |
-674 +++++++++++++++++
- Documentation/translations/zh_CN/rust/general-information.rst      |    1 +
- Documentation/translations/zh_CN/rust/index.rst                    |   33 +-
- Documentation/translations/zh_CN/rust/testing.rst                  |
-215 ++++++
- Documentation/translations/zh_CN/scsi/index.rst                    |   92 +++
- .../translations/zh_CN/scsi/link_power_management_policy.rst       |   32 +
- Documentation/translations/zh_CN/scsi/scsi-parameters.rst          |  118 +++
- Documentation/translations/zh_CN/scsi/scsi.rst                     |   48 ++
- Documentation/translations/zh_CN/scsi/scsi_eh.rst                  |
-482 ++++++++++++
- Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst         |
-1174 +++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/scsi/sd-parameters.rst            |   38 +
- Documentation/translations/zh_CN/security/SCTP.rst                 |
-317 ++++++++
- Documentation/translations/zh_CN/security/index.rst                |    4 +-
- Documentation/translations/zh_CN/security/ipe.rst                  |
-398 ++++++++++
- Documentation/translations/zh_CN/security/lsm-development.rst      |   19 +
- Documentation/translations/zh_CN/security/secrets/coco.rst         |   96 +++
- Documentation/translations/zh_CN/security/secrets/index.rst        |    9 +-
- Documentation/translations/zh_CN/subsystem-apis.rst                |    2 +-
- 29 files changed, 5056 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/filesystems/dnotify.rst
- create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
- create mode 100644
-Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
- create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2.rst
- create mode 100644 Documentation/translations/zh_CN/filesystems/inotify.rst
- create mode 100644
-Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
- create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
- create mode 100644 Documentation/translations/zh_CN/networking/generic-hdlc.rst
- create mode 100644 Documentation/translations/zh_CN/networking/mptcp-sysctl.rst
- create mode 100644 Documentation/translations/zh_CN/networking/timestamping.rst
- create mode 100644 Documentation/translations/zh_CN/rust/testing.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/index.rst
- create mode 100644
-Documentation/translations/zh_CN/scsi/link_power_management_policy.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/scsi-parameters.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/scsi.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/scsi_eh.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/sd-parameters.rst
- create mode 100644 Documentation/translations/zh_CN/security/SCTP.rst
- create mode 100644 Documentation/translations/zh_CN/security/ipe.rst
- create mode 100644
-Documentation/translations/zh_CN/security/lsm-development.rst
- create mode 100644 Documentation/translations/zh_CN/security/secrets/coco.rst
+Best regards,
+Krzysztof
