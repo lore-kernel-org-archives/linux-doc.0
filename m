@@ -1,273 +1,205 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f73.google.com (mail-yx1-f73.google.com [74.125.224.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245232EBDF4;
-	Sun, 26 Oct 2025 20:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D192222C8
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 20:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761510034; cv=none; b=l35LAPFefJGL2/piX6IM+HUTxz0zBhWmTrFCLOoZlSW0g3ZeWU/Z/1GRzm/2TQJ79nuE8GwV0yp0xGocjNynSDXa18HFmFvdbFKRMiQOy/zvjqJRqUmYJ41vrpepWAiAwpSkaIxx8NyuAwXyEaANRl3Y7BykISIbgYThtF04Cps=
+	t=1761510978; cv=none; b=b6zsawzCrlArcyQLJgWicBFTyWO/x2a5e/06AidFtOilZmHvWLVs9/dt9ZTRnF/0z+VBAnRoefBUehe8sGWibyRpL0yOimpsKFJAXZTK+qozLs/jOJ31w7euv/8psUecqrNydj7joRomDzR4eG5XyKVdK9BQh2/fWRhMX+UYSUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761510034; c=relaxed/simple;
-	bh=usATtJoAW2DjYy4WMdxPU58cZPLHa4pNtDH3XhomhTg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RqwgcTWTxYru6jJYBMfsvh6LABXc5XKU5jCBirSnqXqmnLacblE1PNFARHxSnDg76a/l2Mo5b1TUaiOAfTO9PvMAk7SmjXA6spt9u4EeIROhJFi6PTIJuT/c2GNNxVkJhklDZ9jner225LymJyv80BSk5faY0/S057tu4Xe4oQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Q8XqUnx7; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1761510978; c=relaxed/simple;
+	bh=EtPHM/rxvf1s6wpudENnj+c1ViV9senew6m5yYbiKog=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LVboPAty4zzzzW507nT22PXTFrXwN06cCmB2bSIsVmP7PKoJOOQ1zNKD5sJL57EjrupCYqBgjmGXOUzS8QbVETRmSqE9pDogO+r928XoOOhK6rKqNWLUDDUWp28FB8hCggb9+9iPhdktLl/didX5lvnuwQ+fUzqZb5bzz1ZFMWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nnPUUDOP; arc=none smtp.client-ip=74.125.224.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Q8XqUnx7"
-Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59QKJBkI505258
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 26 Oct 2025 13:19:20 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59QKJBkI505258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1761509960;
-	bh=Oxf/C0ceWCqTmwQQ6Icav1Tcjem/oXFszHXOadP+T0s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q8XqUnx79hNeGx6z7Ob9gE7c0JWJxA0kvsNrVUTrTHd4E+SW0P+R7EsQCOUFheCFZ
-	 ogk0Ibrj6ZvvQ55ABfQfwzMm59LVm+tim2IRO1W9aZvdu1SqBTd2D2nWp+nnv/jt1s
-	 nAVnNNj1b08pekgBbemHWLegKSQ7RuSv+vnqKfScyDaSqztZ5fiwEO1uEf0VJbLazO
-	 HwMAOWspuJIKqfO0w5RrECi4t/zJXR6LGCj66AnkO5Z3RqdKCGnLvJFuGUwTpFzN27
-	 IHAG43g68da7AMp6oTFEfnYb8vRoQE1mbVfysv0PflYO2PS7JbSBcTTFQyiRQWJvim
-	 1FJGZyRzJ6/fg==
-From: "Xin Li (Intel)" <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
-        peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
-        hch@infradead.org, sohil.mehta@intel.com
-Subject: [PATCH v9 01/22] KVM: VMX: Enable support for secondary VM exit controls
-Date: Sun, 26 Oct 2025 13:18:49 -0700
-Message-ID: <20251026201911.505204-2-xin@zytor.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251026201911.505204-1-xin@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nnPUUDOP"
+Received: by mail-yx1-f73.google.com with SMTP id 956f58d0204a3-63ba1a12aebso4647846d50.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 13:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761510976; x=1762115776; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=oIYNgmwaiZev52ielsOny0g8kp/qW6C19JMGXvUOw8g=;
+        b=nnPUUDOP4vNpiN1JkUwR2VQk5zKdhdf6YMDBHoaqPiKQbK7V78fPyfor29DYhtdN1N
+         rnGgSXXLyrG4LgPUV09tkDDyAZ5VHm8p0h8d6+YYegZMKZWcaMEt17AO2MkJSiEGju0X
+         v0tsRA3l3YDp0Ug/Y0jDFW0Nj7/otmw0Q1/4ugJVReLbW2XMT8n30IEajT2mlc+7RNA9
+         DxkVjsVGpalDNfgZPF0f1AhtuHDDbQ1/kF9rO9jxo/FjiL1zQeo7ySGeYXLOmVVofIhF
+         NM3k7tXzPWeKCsCvueA1wNx7vrAgVD7AUjNQecdUHlZIG2Na/UGb/1loPWMG+3n1yAwt
+         sUzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761510976; x=1762115776;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oIYNgmwaiZev52ielsOny0g8kp/qW6C19JMGXvUOw8g=;
+        b=uxVusoc/pHAGIeBw+IUiiZ6CcssuwdewQqm1GK1vCvpdKFcBwLGbev3CakChZo99vQ
+         vrwlAH6E8BFGBv1IHM3QNqKM/yQD9kYq9GVc9SGZi5W/AujPnV7hpo2gGFhaOqGq/Frr
+         e1yVSq00GUmOxKtyBsK5Sax0qKGd++8WtjHoagPlLblp+YQ0MydVjgJXUu+Bh7QUPJ83
+         oPksioetSea67u2x7a5y8D3aLQwXRT1Jt1g9OKKoOXt3s9b/KHd8wI25PxcQtrD3ImS3
+         YSZuZ61BrxOJdTfZZ/f43CHVrc+miCGebSDLht2ewXnMJgCTvpKUHNIG2tsRH31HnCmE
+         71+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUD2hM3mk0EsVart0bJLoMcOIBYNiQwITYhqYZ8xCEBXSxqbVIsv8G/xnLOs09t3DPcNxA9mKIYB34=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygwWsYeE3PLhv5A/pvT4ODwnbOQ0hohW43yhNVogoz0yl/qU7I
+	OteBCim/bga5FE0BEvWKyxwqnRFcsGZEmoinwXWw20W8ZPYBdEIyVpas0P/iP0ZVpJScC8iVdqK
+	cDEbJxg==
+X-Google-Smtp-Source: AGHT+IEQ9Pwyyd7kjVHYsKEBM6jXV+KGbNmmj3ZfQc3rnB2XqZ4bQZDKRwRIjK4vvzIoUgZwP2mnd9XDO/0=
+X-Received: from yxdd3.prod.google.com ([2002:a05:690e:2443:b0:63f:2d9a:656b])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:690c:9a07:b0:784:8620:1c49
+ with SMTP id 00721157ae682-78486201eacmr444866607b3.30.1761510975632; Sun, 26
+ Oct 2025 13:36:15 -0700 (PDT)
+Date: Sun, 26 Oct 2025 13:36:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.1.851.g4ebd6896fd-goog
+Message-ID: <20251026203611.1608903-1-surenb@google.com>
+Subject: [PATCH v2 0/8] Guaranteed CMA
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	vbabka@suse.cz, alexandru.elisei@arm.com, peterx@redhat.com, sj@kernel.org, 
+	rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, hch@infradead.org, jack@suse.cz, 
+	willy@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com, 
+	hannes@cmpxchg.org, zhengqi.arch@bytedance.com, shakeel.butt@linux.dev, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+	minchan@kernel.org, surenb@google.com, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-From: Xin Li <xin3.li@intel.com>
+Guaranteed CMA (GCMA) is designed to improve utilization of reserved
+memory carveouts without compromising their advantages of:
+1. Guaranteed success of allocation (as long as total allocation size is
+below the size of the reservation.
+2. Low allocation latency.
+The idea is that carved out memory when not used for its primary purpose
+can be donated and used as an extension of the pagecache and any donated
+folio can be taken back at any moment with minimal latency and guaranteed
+success.
 
-Introduce infrastructure to support secondary VM exit controls.
+To achieve this, GCMA needs to use memory that is not addressable by the
+kernel (can't be pinned) and that contains content that can be discarded.
+To provide such memory we reintroduce cleancache idea [1] with two major
+changes. New implementation:
+1. Avoids intrusive hooks into filesystem code, limiting them to two hooks
+for filesystem mount/unmount events and a hook for bdev invalidation.
+2. Manages inode to folio association and handles pools of donated folios
+inside cleancache itself, freeing backends of this burden.
 
-Always load the controls when supported by hardware, though all control
-bits remain clear in this patch.
+Cleancache provides a simple interface to its backends which lets them
+donate folios to cleancache, take a folio back for own use and return the
+folio back to cleancache when not needed.
 
-Signed-off-by: Xin Li <xin3.li@intel.com>
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-Tested-by: Xuelian Guo <xuelian.guo@intel.com>
----
+With cleancache in place, GCMA becomes a thin layer linking CMA allocator
+to cleancache, which allows existing CMA API to be used for continuous
+memory allocations with additional guarantees listed above.
+The limitation of GCMA is that its donated memory can be used only to
+extend file-backed pagecache. Note that both CMA and GCMA can be used
+at the same time.
 
-Change in v5:
-* Add TB from Xuelian Guo.
+Accounting for folios allocated from GCMA is implemented the same way as
+for CMA. The reasoning is that both CMA and GCMA use reserved memory for
+contiguous allocations with the only difference in how that memory gets
+donated while not in use. CMA donates its memory to the system for movable
+allocations with expectation that it will be returned when it is needed.
+GCMA donatest its memory to cleancache with the same expectation. Once CMA
+or GCMA use that memory for contiguous allocation, the difference between
+them disappears, therefore accounting at that point should not differ.
 
-Changes in v4:
-* Fix clearing VM_EXIT_ACTIVATE_SECONDARY_CONTROLS (Chao Gao).
-* Check VM exit/entry consistency based on the new macro from Sean
-  Christopherson.
+The patchset borrows some ideas and code from previous implementations of
+the cleancache and GCMA [2] as well as Android's reference patchset [3]
+implemented by Minchan Kim and used by many Android vendors.
 
-Change in v3:
-* Do FRED controls consistency checks in the VM exit/entry consistency
-  check framework (Sean Christopherson).
+[1] https://elixir.bootlin.com/linux/v5.16.20/source/Documentation/vm/cleancache.rst
+[2] https://lore.kernel.org/lkml/1424721263-25314-1-git-send-email-sj38.park@gmail.com/
+[3] https://android-review.googlesource.com/q/topic:%22gcma_6.12%22
 
-Change in v2:
-* Always load the secondary VM exit controls (Sean Christopherson).
----
- arch/x86/include/asm/msr-index.h |  1 +
- arch/x86/include/asm/vmx.h       |  3 +++
- arch/x86/kvm/vmx/capabilities.h  |  9 ++++++++-
- arch/x86/kvm/vmx/vmcs.h          |  1 +
- arch/x86/kvm/vmx/vmx.c           | 29 +++++++++++++++++++++++++++--
- arch/x86/kvm/vmx/vmx.h           |  7 ++++++-
- 6 files changed, 46 insertions(+), 4 deletions(-)
+Patchset is based on mm-new.
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 9e1720d73244..baf5e1648418 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -1225,6 +1225,7 @@
- #define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
- #define MSR_IA32_VMX_VMFUNC             0x00000491
- #define MSR_IA32_VMX_PROCBASED_CTLS3	0x00000492
-+#define MSR_IA32_VMX_EXIT_CTLS2		0x00000493
- 
- /* Resctrl MSRs: */
- /* - Intel: */
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index c85c50019523..1f60c04d11fb 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -107,6 +107,7 @@
- #define VM_EXIT_PT_CONCEAL_PIP			0x01000000
- #define VM_EXIT_CLEAR_IA32_RTIT_CTL		0x02000000
- #define VM_EXIT_LOAD_CET_STATE                  0x10000000
-+#define VM_EXIT_ACTIVATE_SECONDARY_CONTROLS	0x80000000
- 
- #define VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR	0x00036dff
- 
-@@ -262,6 +263,8 @@ enum vmcs_field {
- 	SHARED_EPT_POINTER		= 0x0000203C,
- 	PID_POINTER_TABLE		= 0x00002042,
- 	PID_POINTER_TABLE_HIGH		= 0x00002043,
-+	SECONDARY_VM_EXIT_CONTROLS	= 0x00002044,
-+	SECONDARY_VM_EXIT_CONTROLS_HIGH	= 0x00002045,
- 	GUEST_PHYSICAL_ADDRESS          = 0x00002400,
- 	GUEST_PHYSICAL_ADDRESS_HIGH     = 0x00002401,
- 	VMCS_LINK_POINTER               = 0x00002800,
-diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-index 02aadb9d730e..6bd67c40ca3b 100644
---- a/arch/x86/kvm/vmx/capabilities.h
-+++ b/arch/x86/kvm/vmx/capabilities.h
-@@ -55,8 +55,9 @@ struct vmcs_config {
- 	u32 cpu_based_exec_ctrl;
- 	u32 cpu_based_2nd_exec_ctrl;
- 	u64 cpu_based_3rd_exec_ctrl;
--	u32 vmexit_ctrl;
- 	u32 vmentry_ctrl;
-+	u32 vmexit_ctrl;
-+	u64 vmexit_2nd_ctrl;
- 	u64 misc;
- 	struct nested_vmx_msrs nested;
- };
-@@ -141,6 +142,12 @@ static inline bool cpu_has_tertiary_exec_ctrls(void)
- 		CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
- }
- 
-+static inline bool cpu_has_secondary_vmexit_ctrls(void)
-+{
-+	return vmcs_config.vmexit_ctrl &
-+		VM_EXIT_ACTIVATE_SECONDARY_CONTROLS;
-+}
-+
- static inline bool cpu_has_vmx_virtualize_apic_accesses(void)
- {
- 	return vmcs_config.cpu_based_2nd_exec_ctrl &
-diff --git a/arch/x86/kvm/vmx/vmcs.h b/arch/x86/kvm/vmx/vmcs.h
-index b25625314658..ae152a9d1963 100644
---- a/arch/x86/kvm/vmx/vmcs.h
-+++ b/arch/x86/kvm/vmx/vmcs.h
-@@ -47,6 +47,7 @@ struct vmcs_host_state {
- struct vmcs_controls_shadow {
- 	u32 vm_entry;
- 	u32 vm_exit;
-+	u64 secondary_vm_exit;
- 	u32 pin;
- 	u32 exec;
- 	u32 secondary_exec;
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 1021d3b65ea0..8de841c9c905 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2595,8 +2595,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	u32 _cpu_based_exec_control = 0;
- 	u32 _cpu_based_2nd_exec_control = 0;
- 	u64 _cpu_based_3rd_exec_control = 0;
--	u32 _vmexit_control = 0;
- 	u32 _vmentry_control = 0;
-+	u32 _vmexit_control = 0;
-+	u64 _vmexit2_control = 0;
- 	u64 basic_msr;
- 	u64 misc_msr;
- 
-@@ -2617,6 +2618,12 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 		{ VM_ENTRY_LOAD_CET_STATE,		VM_EXIT_LOAD_CET_STATE },
- 	};
- 
-+	struct {
-+		u32 entry_control;
-+		u64 exit_control;
-+	} const vmcs_entry_exit2_pairs[] = {
-+	};
-+
- 	memset(vmcs_conf, 0, sizeof(*vmcs_conf));
- 
- 	if (adjust_vmx_controls(KVM_REQUIRED_VMX_CPU_BASED_VM_EXEC_CONTROL,
-@@ -2703,10 +2710,19 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 				&_vmentry_control))
- 		return -EIO;
- 
-+	if (_vmexit_control & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
-+		_vmexit2_control =
-+			adjust_vmx_controls64(KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS,
-+					      MSR_IA32_VMX_EXIT_CTLS2);
-+
- 	if (vmx_check_entry_exit_pairs(vmcs_entry_exit_pairs,
- 				       _vmentry_control, _vmexit_control))
- 		return -EIO;
- 
-+	if (vmx_check_entry_exit_pairs(vmcs_entry_exit2_pairs,
-+				       _vmentry_control, _vmexit2_control))
-+		return -EIO;
-+
- 	/*
- 	 * Some cpus support VM_{ENTRY,EXIT}_IA32_PERF_GLOBAL_CTRL but they
- 	 * can't be used due to an errata where VM Exit may incorrectly clear
-@@ -2755,8 +2771,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	vmcs_conf->cpu_based_exec_ctrl = _cpu_based_exec_control;
- 	vmcs_conf->cpu_based_2nd_exec_ctrl = _cpu_based_2nd_exec_control;
- 	vmcs_conf->cpu_based_3rd_exec_ctrl = _cpu_based_3rd_exec_control;
--	vmcs_conf->vmexit_ctrl         = _vmexit_control;
- 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
-+	vmcs_conf->vmexit_ctrl         = _vmexit_control;
-+	vmcs_conf->vmexit_2nd_ctrl     = _vmexit2_control;
- 	vmcs_conf->misc	= misc_msr;
- 
- #if IS_ENABLED(CONFIG_HYPERV)
-@@ -4429,6 +4446,11 @@ static u32 vmx_get_initial_vmexit_ctrl(void)
- 		~(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL | VM_EXIT_LOAD_IA32_EFER);
- }
- 
-+static u64 vmx_secondary_vmexit_ctrl(void)
-+{
-+	return vmcs_config.vmexit_2nd_ctrl;
-+}
-+
- void vmx_refresh_apicv_exec_ctrl(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-@@ -4771,6 +4793,9 @@ static void init_vmcs(struct vcpu_vmx *vmx)
- 
- 	vm_exit_controls_set(vmx, vmx_get_initial_vmexit_ctrl());
- 
-+	if (cpu_has_secondary_vmexit_ctrls())
-+		secondary_vm_exit_controls_set(vmx, vmx_secondary_vmexit_ctrl());
-+
- 	/* 22.2.1, 20.8.1 */
- 	vm_entry_controls_set(vmx, vmx_get_initial_vmentry_ctrl());
- 
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 6cb04a6afeef..349d96e68f96 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -510,7 +510,11 @@ static inline u8 vmx_get_rvi(void)
- 	       VM_EXIT_CLEAR_BNDCFGS |					\
- 	       VM_EXIT_PT_CONCEAL_PIP |					\
- 	       VM_EXIT_CLEAR_IA32_RTIT_CTL |				\
--	       VM_EXIT_LOAD_CET_STATE)
-+	       VM_EXIT_LOAD_CET_STATE |					\
-+	       VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
-+
-+#define KVM_REQUIRED_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
-+#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
- 
- #define KVM_REQUIRED_VMX_PIN_BASED_VM_EXEC_CONTROL			\
- 	(PIN_BASED_EXT_INTR_MASK |					\
-@@ -623,6 +627,7 @@ static __always_inline void lname##_controls_changebit(struct vcpu_vmx *vmx, u##
- }
- BUILD_CONTROLS_SHADOW(vm_entry, VM_ENTRY_CONTROLS, 32)
- BUILD_CONTROLS_SHADOW(vm_exit, VM_EXIT_CONTROLS, 32)
-+BUILD_CONTROLS_SHADOW(secondary_vm_exit, SECONDARY_VM_EXIT_CONTROLS, 64)
- BUILD_CONTROLS_SHADOW(pin, PIN_BASED_VM_EXEC_CONTROL, 32)
- BUILD_CONTROLS_SHADOW(exec, CPU_BASED_VM_EXEC_CONTROL, 32)
- BUILD_CONTROLS_SHADOW(secondary_exec, SECONDARY_VM_EXEC_CONTROL, 32)
+Changes since v1 [1]:
+- Removed extra address_space parameter in cleancache hooks,
+per Matthew Wilcox
+- Updated comments to replace page with folio, per Matthew Wilcox
+- Removed unnecessary new abbreviations from Kconfig, changelog and
+documentation, per Matthew Wilcox
+- Removed unnecessary comment about lock protecting xarray,
+per Matthew Wilcox
+- Replaced IDR with xarray for storage, per Matthew Wilcox
+- Added unions in the folio for aliased fields, per Matthew Wilcox
+- Removed an unused variable in the test, per kernel test robot
+- Linked the cleancache document in mm/index.rst, per SeongJae Park
+- Split cleancache sysfs documenation into cleancache_sysfs.rst and
+linked it in Documentation/admin-guide/mm/index.rst, per SeongJae Park
+- Cleaned up free_folio_range() code, per SeongJae Park
+- Reworked gcma_free_range() to handle failures and properly rollback
+refcount changes, per SeongJae Park
+- Removed references to transcendent memory, per SeongJae Park
+- Other minor documentation fixups, per SeongJae Park
+- Added Minchan Kim as cleancache maintainer
+- Minor code and documentation cleanups
+
+Minchan Kim (1):
+  mm: introduce GCMA
+
+Suren Baghdasaryan (7):
+  mm: implement cleancache
+  mm/cleancache: add cleancache LRU for folio aging
+  mm/cleancache: readahead support
+  mm/cleancache: add sysfs interface
+  mm/tests: add cleancache kunit test
+  add cleancache documentation
+  mm: integrate GCMA with CMA using dt-bindings
+
+ .../admin-guide/mm/cleancache_sysfs.rst       |   51 +
+ Documentation/admin-guide/mm/index.rst        |    1 +
+ Documentation/mm/cleancache.rst               |   68 +
+ Documentation/mm/index.rst                    |    1 +
+ MAINTAINERS                                   |   15 +
+ block/bdev.c                                  |    6 +
+ fs/super.c                                    |    3 +
+ include/linux/cleancache.h                    |   77 ++
+ include/linux/cma.h                           |   11 +-
+ include/linux/fs.h                            |    6 +
+ include/linux/gcma.h                          |   36 +
+ include/linux/mm_types.h                      |   12 +-
+ include/linux/pagemap.h                       |    1 +
+ kernel/dma/contiguous.c                       |   11 +-
+ mm/Kconfig                                    |   39 +
+ mm/Kconfig.debug                              |   13 +
+ mm/Makefile                                   |    4 +
+ mm/cleancache.c                               | 1127 +++++++++++++++++
+ mm/cleancache_sysfs.c                         |  209 +++
+ mm/cleancache_sysfs.h                         |   58 +
+ mm/cma.c                                      |   37 +-
+ mm/cma.h                                      |    1 +
+ mm/cma_sysfs.c                                |   10 +
+ mm/filemap.c                                  |   26 +
+ mm/gcma.c                                     |  244 ++++
+ mm/readahead.c                                |   54 +
+ mm/tests/Makefile                             |    6 +
+ mm/tests/cleancache_kunit.c                   |  420 ++++++
+ mm/truncate.c                                 |    4 +
+ mm/vmscan.c                                   |    1 +
+ 30 files changed, 2537 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/cleancache_sysfs.rst
+ create mode 100644 Documentation/mm/cleancache.rst
+ create mode 100644 include/linux/cleancache.h
+ create mode 100644 include/linux/gcma.h
+ create mode 100644 mm/cleancache.c
+ create mode 100644 mm/cleancache_sysfs.c
+ create mode 100644 mm/cleancache_sysfs.h
+ create mode 100644 mm/gcma.c
+ create mode 100644 mm/tests/Makefile
+ create mode 100644 mm/tests/cleancache_kunit.c
+
+
+base-commit: 752c460b5865d87117095c915addcce7a68296f2
 -- 
-2.51.0
+2.51.1.851.g4ebd6896fd-goog
 
