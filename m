@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B40C335C7;
-	Sun, 26 Oct 2025 10:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B7E14E2E2
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 11:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761474856; cv=none; b=AlUfBFY8Hn9PPxZ0Y/MeGTzBKmyOPHiX8m1O47pFvZmdlu6CopVXoyLS43OyYgwcPCNajYUaUd1BgEbZIvSX9ggPwyDUtHZ0jDCrkr4LjKcaUQwXrxjWfB0lFaZgNz5A68Fd3JHxJPAnoYinUInohXqI18IF2pggfC0KGKWlU3E=
+	t=1761479967; cv=none; b=d/xouecjYGhIWaA9HDmgfDCaJMZ9TZJ+jNQawR9NXJ6J8VGOHNgvA3dMZ2e9sKyxVFHkoJ0uAjxlXG3nsKpw0hrwN9qsAzStZ4u150I5HmjgwH3hW7HoPMhTf5wOyTSE4I0S9XPE4FVW7NGodoKeVcN1ChaINZMkHiGQCq1zS28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761474856; c=relaxed/simple;
-	bh=hUsqkIixaeDcBz0S0BS43AUlXWbznsf2hkfqXr0Ln9I=;
+	s=arc-20240116; t=1761479967; c=relaxed/simple;
+	bh=41SKNVNuKBZ3CzKXbj5n9PzuNOWnney2F0U+n2T0Bcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eJG1Wm0c3LOHM86fEXcB10Bvc9EqkCAbiyMzLArDQ6iyFSS6z6bbEdd4/sILxd9ffcTpJIQ5gXrWXSHk3mBKhzM1ntO59mR44JaRFld91zXKS00zf0imrpcOtWdPRysA2ZkgHJVFsCbXqj/a8plZBmhahUdVdjpHUftYyGD76XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUrM6ixL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KmVezUpa1jPGCfen9T0+LhvuJQcTu6hbxYX0odqpmY75x8+2mTV7Z/Oa95Jy3mAXYGdkbMQu1GKN22IH1iM6EpVNDzL55LCokuWzG1JNkJ92Z+shnWrBxR75Tb34IOkpiYK4UnToUMhIqO83YkmLy74v57PDMqoFvfj23qgG/sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uT1C1EiW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUrM6ixL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70765C4CEE7;
-	Sun, 26 Oct 2025 10:34:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uT1C1EiW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DAE6C4CEE7;
+	Sun, 26 Oct 2025 11:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761474855;
-	bh=hUsqkIixaeDcBz0S0BS43AUlXWbznsf2hkfqXr0Ln9I=;
+	s=k20201202; t=1761479967;
+	bh=41SKNVNuKBZ3CzKXbj5n9PzuNOWnney2F0U+n2T0Bcc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OUrM6ixLdYffHB1B6FnpTDXMokQ5DxXZtrHvRxhujzHHpX8p9fI9WM5b52Z1Mdoom
-	 kqTQO1NaT/lCi1slZc5WNgx0IopnDJalltCBZF4GHRaP485sRqylxzPCSXVtkmoscu
-	 k9cBamU75Jkvp38r0KIcbipzIm+TMpcnJ2Yqgqicrq+tlqLEZKA3+HwvV+7jbvBtBY
-	 +9DTPPlvhIJKJ3n/xSr0v8mDwf3dSlJ+CLeWoj5xEFshCRhOidnWjS1FQEfXeKVV5r
-	 fpPBulVwHWVl2O6PMGoqDLSonVQzrA/Vxo/IE0Grm469kOKLXY0GKOxPuvDWxT1xpJ
-	 P/FVXsVgtTYkA==
-Date: Sun, 26 Oct 2025 07:34:05 -0300
+	b=uT1C1EiW2s0SzQCz38HynC8yZ9wF8f5t8JCW9L2uj7c77jlx4A9GXY5u/zPT5A3Mq
+	 I+k0VkWLqcq85rz7lNYNxRnp6b37wqwsEjSDzFbljCFxDK4rvKEJ8ctXQP5zaNF3tO
+	 IC33ReAZFHxLDpJoOcwzp6mI98H3l2s9k+PgYVY6r/a9PAEIdrU3N236QKe2MMFecK
+	 e0N7KmHN/JynHK6WTEA/oiwsKgzwKUanQc36EZvLSTHW+GAbMJHylW1nRNX/NCPJO+
+	 G7MKt3BsGHDZJh9sR8Pd1CfGQsQYOSNCDJYbEBQ9u9471d6J3rPxuto9UcqDXgKjjr
+	 i3Jd9BSTqMvzQ==
+Date: Sun, 26 Oct 2025 08:59:17 -0300
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Jani
- Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v3 0/8] Collect documentation-related tools under
- /tools/docs
-Message-ID: <20251026073405.0672c9dd@sal.lan>
-In-Reply-To: <d3f4c7ee-6351-4c6f-ae93-f423245c4c9e@gmail.com>
-References: <20251024200834.20644-1-corbet@lwn.net>
-	<d3f4c7ee-6351-4c6f-ae93-f423245c4c9e@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: about make mandocs warnings
+Message-ID: <20251026085906.2d7e1d70@sal.lan>
+In-Reply-To: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
+References: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,173 +43,169 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Em Sun, 26 Oct 2025 00:14:23 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Em Sat, 25 Oct 2025 16:49:21 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-> On Fri, 24 Oct 2025 14:08:21 -0600, Jonathan Corbet wrote:
-> > Our documentation-related tools are spread out over various directories;
-> > several are buried in the scripts/ dumping ground.  That makes them harder
-> > to discover and harder to maintain.
-> > 
-> > Recent work has started accumulating our documentation-related tools in
-> > /tools/docs.  This series completes that task, moving the rest of our
-> > various utilities there, hopefully fixing up all of the relevant references
-> > in the process.
-> > 
-> > At the end, rather than move the old, Perl kernel-doc, I simply removed it.
-> > 
-> > The big elephant lurking in this small room is the home for Python modules;
-> > I left them under scripts/lib, but that is an even less appropriate place
-> > than it was before.  I would propose either tools/python or lib/python;
-> > thoughts on that matter welcome.
-> > 
-> > Changes in v3:
-> >   - Now with more caffeine! Properly based on docs-next.  
-> 
-> :-) :-)
-> 
-> WRT the build error from test robot, it looks to me like we need these
-> final touches:
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 8e3df5db858e..fbd8e3ae23ea 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -582,7 +582,7 @@ pdf_documents = [
->  # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
->  # the Docs). In a normal build, these are supplied from the Makefile via command
->  # line arguments.
-> -kerneldoc_bin = "../tools/docs/kernel-doc.py"
-> +kerneldoc_bin = "../tools/docs/kernel-doc"
->  kerneldoc_srctree = ".."
->  
->  def setup(app):
-> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-> index 2586b4d4e494..3c815b40026b 100644
-> --- a/Documentation/sphinx/kerneldoc.py
-> +++ b/Documentation/sphinx/kerneldoc.py
-> @@ -289,13 +289,8 @@ def setup_kfiles(app):
->  
->      kerneldoc_bin = app.env.config.kerneldoc_bin
->  
-> -    if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
-> -        print("Using Python kernel-doc")
-> -        out_style = RestFormat()
-> -        kfiles = KernelFiles(out_style=out_style, logger=logger)
-> -    else:
-> -        print(f"Using {kerneldoc_bin}")
-> -
-> +    out_style = RestFormat()
-> +    kfiles = KernelFiles(out_style=out_style, logger=logger)
+> Hi Mauro,
+>=20
+>=20
+> 'make mandocs' on the full kernel tree generates a little over 10,000
+> lines of Warning:s.  Then it says:
+>   Warning: kernel-doc returned 138 warnings
+>=20
+> What does that number mean?
 
-Patch is incomplete, as it doesn't drop the logic which forks
-kernel-doc script run, but see below.
+Basically, at kdoc_files, we have:
 
->  def setup(app):
->      app.add_config_value('kerneldoc_bin', None, 'env')
-> diff --git a/Makefile b/Makefile
-> index d6ff0af5cca6..33b1db1cc0cf 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
->  
->  # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
->  # has a logic to call it
-> -KERNELDOC       = $(srctree)/tools/docs/kernel-doc.py
-> +KERNELDOC       = $(srctree)/tools/docs/kernel-doc
->  export KERNELDOC
->  
->  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> 
-> -----------------------------------------------------------------
-> 
-> The change in Documentation/sphinx/kerneldoc.py is needed because
-> 
->     kerneldoc_bin == ".../kernel-doc.py"
-> 
-> indicated loading it as python lib into the extension, while
-> 
->     kerneldoc_bin == ".../kernel-doc"
-> 
-> indicated invoking it as a script.
-> 
-> Now that we don't have kernel-doc.py, loading python lib looks to me
-> as a natural choice.
-> 
-> Mauro, what do you think?
+    def warning(self, msg):
+        """Ancillary routine to output a warning and increment error count"=
+""
 
-Good point. I'm not sure about this. Yeah, on normal cases, we
-just want to run kernel-doc classes, instead of actually
-executing its binary. Yet, for debugging purposes, it might
-still be interesting to run it as separate processes.
+        self.config.log.warning(msg)
+        self.errors +=3D 1
 
-See, right now, if KERNELDOC is not used, it will use imported
-Python classes, running them directly without creating processes.
-So, it won't actually call ".../kernel-doc". On such case, in
-practice, it will actually ignore KERNELDOC when building docs.
+    def error(self, msg):
+        """Ancillary routine to output an error and increment error count"""
 
-Now, (after this series), if one runs:
+        self.config.log.error(msg)
+        self.errors +=3D 1
 
-	KERNELDOC=tools/docs/kernel-doc make htmldocs
+And kernel-doc itself exits with:
 
-it will run kernel-doc script as a process. This might be useful
-for debugging purposes.
+	error_count =3D kfiles.errors
+	sys.exit(error_count)
 
-Also, please notice that KERNELDOC is used on several files:
+I guess the problem here is that POSIX exit codes are 8 bits only, so
+it ends reporting a wrong number of errors. Not sure what would be the
+best way to fix it.
 
-	$ git grep -l KERNELDOC
-	Makefile
-	drivers/gpu/drm/Makefile
-	drivers/gpu/drm/i915/Makefile
-	include/drm/Makefile
-	scripts/Makefile.build
-	tools/docs/sphinx-build-wrapper
+> kernel-doc is doing a very good job at finding issues in kernel-doc
+> notation, but there are a few cases of erroneous reporting. These are not
+> numerous and may not be worth much effort to fix them, although
+> some of them should not take much effort (I think). But I am just
+> reporting these in case someone wants to fix them.
+>=20
+>=20
+> Examples:
+>=20
+> Warning: drivers/misc/vmw_balloon.c:259 struct member '5' not described i=
+n 'vmballoon_batch_entry'
+> "5" is part of an expression "PAGE_SHIFT - 5" for number of bits in a bit=
+field:
+> struct vmballoon_batch_entry {
+> 	u64 status : 5;
+> 	u64 reserved : PAGE_SHIFT - 5;
+> 	u64 pfn : 52;
+> } __packed;
 
-IMHO, we have some alternatives here:
+Fixing this one could be tricky, if we want to allow math expressions=20
+at the regex, but sounds doable.
 
-1. completely drop support for KERNELDOC variable.
-   On such case, we need to drop from the script:
+>=20
+> Warning: net/netfilter/nft_set_pipapo.h:102 union member '32' not describ=
+ed in 'nft_pipapo_map_bucket'
+> "32" is part of a static_assert() expression. Probably just
+> ignore the entire static_assert() [any number of lines].
 
-	- kerneldoc_bin
-	- run_cmd() function
-	- remove KERNELDOC from Makefiles and sphinx-build-wrapper
+Yeah.
 
-2. keep it as is, which would help debugging (and eventually
-   would allow testing two different implementations of kernel-doc
-   without needing to bisect);
+> Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_res=
+tart            (*__private function)(struct hrtimer *)
+> Warning: include/linux/hrtimer_types.h:47 struct member 'enum hrtimer_res=
+tart            (*__private function' not described in 'hrtimer'
+> "__private" is an attribute from <linux/compiler_types.h> and the
+> struct member here should be "function", which is described.
+>=20
+>=20
+> Warning: include/linux/rethook.h:38 Invalid param: void (__rcu *handler) =
+(struct rethook_node *, void *, unsigned long, struct pt_regs *)
+> Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' =
+not described in 'rethook'
+> "__rcu" is an attribute from <linux/compiler_types.h> and the
+> struct member here is "handler", which is described.
+>=20
+> Warning: security/ipe/hooks.c:54 function parameter '__always_unused' not=
+ described in 'ipe_mmap_file'
+> Warning: security/ipe/hooks.c:82 function parameter '__always_unused' not=
+ described in 'ipe_file_mprotect'
+> "__always_unused" is an attribute from <linux/compiler_attributes.h>.
+>=20
 
-3. change the core of the logic to be something like:
+Probably all we need for the above is to add one line for each,
+to ignore the above macros.
 
-	# kerneldoc_bin = env.config.kerneldoc_bin
-	kerneldoc_bin = os.environ.get("KERNELDOC")
+>=20
+> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const l=
+ayer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS]
+> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*co=
+nst layer_masks_parent1' not described in 'is_access_to_paths_allowed'
+> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const l=
+ayer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS]
+> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*co=
+nst layer_masks_parent2' not described in 'is_access_to_paths_allowed'
+> @layer_masks_parent1 and @layer_masks_parent2 are described in kernel-doc.
+>
+> Warning: security/landlock/fs.c:1142 Invalid param: layer_mask_t (*const =
+layer_masks_dom)[LANDLOCK_NUM_ACCESS_FS]
+> Warning: security/landlock/fs.c:1142 function parameter 'layer_mask_t (*c=
+onst layer_masks_dom' not described in 'collect_domain_accesses'
+> @layer_masks_dom is described in kernel-doc.
+>
+>=20
+> Warning: security/landlock/ruleset.c:210 Invalid param: const struct land=
+lock_layer (*const layers)[]
+> Warning: security/landlock/ruleset.c:210 function parameter 'const struct=
+ landlock_layer (*const layers' not described in 'insert_rule'
+> @layers is described in kernel-doc.
+>=20
+> Warning: security/landlock/ruleset.c:693 Invalid param: layer_mask_t (*co=
+nst layer_masks)[]
+> Warning: security/landlock/ruleset.c:693 function parameter 'layer_mask_t=
+ (*const layer_masks' not described in 'landlock_init_layer_masks'
+> @layer_masks is described in kernel-doc.
 
-	if not kerneldoc_bin:
-	   out_style = RestFormat()
-	   kfiles = KernelFiles(out_style=out_style, logger=logger)
-	else:
-	    print(f"Generating C documentation by running {kerneldoc_bin} binary")
+These would require some extra logic - or a fix at an existing one - to=20
+better handle parenthesis on arguments.
 
-   this would still allow using KERNELDOC to point to a binary
-   that will handle C files executed as a separate process.
+> Note: hundreds (probably thousands) of the mandocs warnings would disappe=
+ar
+> if kernel-doc accepted '-' in addition to ':' as a function parameter
+> or struct/union/enum member separator (like it does for
+> function/struct/union/enum short description).
 
-   Please notice that the current code does:
+This is easy to fix, and QEMU has a patch mentioning what is needed
+at:
+	9cbe72b868b7 ("scripts/kernel-doc: tweak for QEMU coding standards")
 
-	kerneldoc_bin = env.config.kerneldoc_bin
+on its description: basically two regexes from Perl code would need changes:
 
-   This requires an extra logic at the wrapper tool, as this needs
-   to be passed via -D command line option to sphinx-build. That's
-   the reason why several Makefiles also use KERNELDOC env var.
+        -       if (/\s*([\w\s]+?)(\(\))?\s*-/) {
+        +       if (/\s*([\w\s]+?)(\s*-|:)/) {
 
-   If we're willing to adopt this solution, I would simplify
-   the wrapper and the makefiles to not touching KERNELDOC var
-   anymore.
+and:
+        -       if (/-(.*)/) {
+        +       if (/[-:](.*)/) {
 
-For (2) and (3), I would document KERNELDOC somewhere.
+If I'm not mistaken, I got rid of the second regex during rewrite,
+but I might be wrong. If I recall correctly, with Python code, the
+change would be aon a single place at scripts/lib/kdoc/kdoc_parser.py:
 
-My personal preference would be (3), but I don't have strong
-feelings.
+	doc_sect =3D doc_com + \
+-	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*=
+)?$',
++	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*[:-]([^:=
+].*)?$',
+	           flags=3Dre.I, cache=3DFalse)
+
+btw, the [^:] pattern there seems to be trying to avoid catching
+"::". With the new proposed regex, and if "::" is something that we
+need to avoid, if one uses "-:", it would miss the description.=20
+I guess that's ok.
+
+=46rom my side, I'm OK with the new regex, but one has to verify if
+this won't cause unwanted side-effects.
 
 Regards,
 Mauro
