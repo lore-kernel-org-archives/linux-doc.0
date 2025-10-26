@@ -1,105 +1,206 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004521DF75C
-	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 16:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B4E246798
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 16:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761496674; cv=none; b=pfGg/SLA8At7un28mkit2tEEUzRd3pSX4CGEgSWbM5vMEk4popPe1MXo3mJ/eM9mG+wB+cxSXJejLA9E6/737uQoD+BHjxX8asKoitU1vU+LYitZLkS2QwZcNwlIGWUauGFAMlCR3NFE+j1kI0A1aKpuM2uuviRf0uPj65/xsTA=
+	t=1761497020; cv=none; b=bsZrcG4m6HvmF9UHxe5EM9Nl1PgQIPKgAXRY5nMgn0JlPWsSwN5QHl1ZVdbo1K80iv9dGdq9f5EzIFpMrsCps207luCUotMrTTQDstyTWjXlRWZicMOn8o44NnbxKxrQeWFh4Tp1X8cgGKfqLbixiNuKxQxVuasfeC39sA9+974=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761496674; c=relaxed/simple;
-	bh=Jn7ngMBWIUhPYmq3HsmvV2FyXT31L+46gLuKAYt+qfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JgSBUggMMLvdtNL+CkvEwr43GDzXUXhv3pgmzQ4fi6l1vUjcZkPRmWRAcG7ZAVm4ViESHZKHOIE6opuTAcjNpQgxb1TufjCDF2RBWoQT0V7rmgx10kguzH5wF41uL8Spq2scoODJSLfNwd0RCTlVFTDoaSdkoavh9IXpJmSx8ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hyz/GNnF; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761497020; c=relaxed/simple;
+	bh=S7l9pmdXezrNoONzBo7VKhQ787eN1v3dPSRTEBW4R8g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QuxNGgwDbpgmottyzUeLZv5P486ELa7Baj4yhc+MJ4TAJg1/kVhrtmkGGHG1UhM0nqm/jXNNo9Tl4Sban0sDqev2/8NJQCkKbMFXHfeD6xerN3gpxbeqksDh0Gv8TIxU4VJ4jsDEZoi2qh1PDsHjnPN0dsPwle/srmzYDBbrJVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WO7InBdG; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hyz/GNnF"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b4aed12cea3so391018666b.1
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 09:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761496671; x=1762101471; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7XxEe6D+FFfQqIEEbE4sKMO9/YUuuqd9OGSQoRJvBWE=;
-        b=hyz/GNnF0aCD6+j5VZLNSwr5I/e++NY0+Qh5HeeM5t4U+kBRfipDmegwE3UmvV79J+
-         uWdgZyQFWUyItGQ8QqCKzD4v0q1EzanyXytVCg6VXiWyCbMtHklksjRaw/HdFOJw/G9f
-         vVvx8V3aqjmD/D9YCaEXisbwmGR4lduR9yc4bmLmLczjkzId1SvSm8FzdrfixZCZB74T
-         9ICmqOpivpdMPx/idChI57Yvdh9IF0d0fyyrtaGDUidJklATrmWwnmIpqm5F2SwQHg9v
-         5zTtMlJqo9EshP3asxflvPpjI0lkoYpJKg3Ktn7W8PlwB/ylXFagSHUo0SbOo2htYwnB
-         TzOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761496671; x=1762101471;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7XxEe6D+FFfQqIEEbE4sKMO9/YUuuqd9OGSQoRJvBWE=;
-        b=swDwRTsqjVigbhKnHkd+EzzCNXd9ljE6jx7tgbIH14kbozfs+CwtYQxwuJPnS3gmTy
-         oni3e9p/xbTtmBFzzJvILZRJujRMD8VgY2Eq0ZmQ2yUE7M7VGMEsXLnQ+U2dxVsv33ZC
-         wlwmzedWMZYc6TvKX7QKCiujfc/Nd3rHQG8ymjxbxW1c35oJJGQwApE8FrZwyaDyQ0JW
-         4Nd9DPnhd6IFPceDk896OvBTfMAuyRiz0SazIANiH81aL1qnFNvvIvdOLQH67IsnxUxJ
-         bwo9VfzjN9gvUutGLFq+wLwdre9TTyIG4Z6Tb+iL+oBl4sP10KV9skhGpVenvCbJFdda
-         51Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCW+5khGJsNg5NaIC5IZ+lrs9VNAuoVXKFdd/klPNRiFGK6e+nEWiDONpuvxGmzBmR8+f4OrPlhhd/4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGTE1vRtlWKWRPEMTT4FzEpO2+HLxrxq15wfqdqIsC+E2HXgbb
-	7ya7cDM6Vqqv86Km7arOZ6c6UawECUzA8VgIk9NKpCu7VKhVBoihIOks
-X-Gm-Gg: ASbGncs+rolS4TlOvkoB4WwvT9RpMjEb9o90IkZcGR9ZtdXMkgsE6qpb0bexYa4LU0A
-	y1rog0QPIEjSPjuDzXo5G49h21F2wQ+MxhLlmUWE3/q/neGwOQS4RXJexqHcFI4D0yiYtMpEM3S
-	VF+UDXD3eFJU5AAmp+rD6Lryp/dyDux+43cB9viKKBSklY/VEW+PTA3QrlgHUz6MFiO8fp2MsPC
-	PHaN2sZaX8s1g1iN8ZyCFjGkPHwAXSge6SqmQsFIOp6fTNmA6g9+uw1vGSkO2tyXGAwZOEBQLsW
-	o3Xl5pH3SEmv4LJ/11NCaIWLBdWLSfMZIrnEOTqEt4NzHQS7l1HlJiPinTb6FNESZIWMGUHGuGx
-	gXVMExUrJnXLQy1sZLkpuDF6/RPK6yLKalOMqHbbtp8k3ejIUIUyeyYrH/fr6eIsFPuv/JQXRS/
-	K2ZtqUpQ==
-X-Google-Smtp-Source: AGHT+IEoV/OCny3StslIHhY+HhBv9Tk1poW78TbiqX3CKYhoXcDxOU8er8pKIVdW2dVWKc/kXQmqZA==
-X-Received: by 2002:a17:907:968d:b0:b6d:6c8f:6af6 with SMTP id a640c23a62f3a-b6d6c8f6f3fmr960640266b.16.1761496671063;
-        Sun, 26 Oct 2025 09:37:51 -0700 (PDT)
-Received: from home0.fritz.box ([2001:a61:123e:4501:d88:2861:1686:c41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d85445e81sm498050366b.64.2025.10.26.09.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 09:37:49 -0700 (PDT)
-Date: Sun, 26 Oct 2025 17:37:47 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: iio: adc: Add adi,ad4062
-Message-ID: <wla7ldkhm3mca6eadlx2cith43pcvdg4tertmrhjufqa7wqnc7@fcfacbnzcjvo>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
- <20251013-staging-ad4062-v1-1-0f8ce7fef50c@analog.com>
- <20251018161143.0a89495b@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WO7InBdG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xx1eSXOBFyIQ6PX/QX/246YAxPJMyIW4I2svMLjGYxo=; b=WO7InBdGwUd1oRraTA8bh2emD9
+	Ta5DYSNamYT+ZZvF1wspNrXcrWb68sx/k0LB//vdANCUCa94YP92bib2pRd8EZ5nVP+9ZwsWviuUY
+	VLNhgsSbGhpXZuewGegkk+Brn80K0S1F04NuIclxjTprpox/8rHt/nZrdQhuiKi9KoVQBWJ1lP9Ld
+	gsDppss1FfGVUoqEEHy4Wp2waajB+KGQodzSU1CmEmWzpje1aqiONWwt7bLJuJzrM3ezDYvkoKv66
+	hZ4zZQmTwYP1MyKymM80zweo9hIaWgk5x+NXPL2ns/1SOfSzmzKVikh4WQGWSHx4QBC5Uk+O6IDIC
+	AbsjosIQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vD3qB-0000000CY2L-44iU;
+	Sun, 26 Oct 2025 16:43:36 +0000
+Message-ID: <af5d13a3-54ae-443b-bcc4-0b7de2f29ff0@infradead.org>
+Date: Sun, 26 Oct 2025 09:43:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018161143.0a89495b@jic23-huawei>
+User-Agent: Mozilla Thunderbird
+Subject: Re: about make mandocs warnings
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
+ <20251026085906.2d7e1d70@sal.lan>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251026085906.2d7e1d70@sal.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 18, 2025 at 04:11:43PM +0100, Jonathan Cameron wrote:
-> On Mon, 13 Oct 2025 09:27:59 +0200
-> Jorge Marques <jorge.marques@analog.com> wrote:
-> 
-> > Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
-> > monitor capabilities SAR ADCs. Each variant of the family differs in
-> > granuality.
-> 
-> Resolution?  I'm not sure what granularity means for an ADC.
-'Resolution' is the correct term here, thanks.
-> 
-> > The device contains two outputs (gp0, gp1). The outputs can
-> > be configured for range of options, such as threshold and data ready.
-> > The device uses a 2-wire I3C interface.
-> > 
-> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> Otherwise nice simple binding. Nothing to add to Conor's review.
+Hi Mauro,
 
-Best Regards,
-Jorge
+On 10/26/25 4:59 AM, Mauro Carvalho Chehab wrote:
+> Em Sat, 25 Oct 2025 16:49:21 -0700
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
+> 
+>> Hi Mauro,
+>>
+>>
+>> 'make mandocs' on the full kernel tree generates a little over 10,000
+>> lines of Warning:s.  Then it says:
+>>   Warning: kernel-doc returned 138 warnings
+>>
+>> What does that number mean?
+> 
+> Basically, at kdoc_files, we have:
+> 
+>     def warning(self, msg):
+>         """Ancillary routine to output a warning and increment error count"""
+> 
+>         self.config.log.warning(msg)
+>         self.errors += 1
+> 
+>     def error(self, msg):
+>         """Ancillary routine to output an error and increment error count"""
+> 
+>         self.config.log.error(msg)
+>         self.errors += 1
+> 
+> And kernel-doc itself exits with:
+> 
+> 	error_count = kfiles.errors
+> 	sys.exit(error_count)
+
+Oh, the warnings message comes from sphinx-build-wrapper.
+
+> I guess the problem here is that POSIX exit codes are 8 bits only, so
+> it ends reporting a wrong number of errors. Not sure what would be the
+> best way to fix it.
+
+and it's modulo 256, so exiting with 256 looks like exiting with 0.
+Maybe just limit the number of warnings reported to 255 if it is > 255,
+with a note in the source code.
+
+>> kernel-doc is doing a very good job at finding issues in kernel-doc
+>> notation, but there are a few cases of erroneous reporting. These are not
+>> numerous and may not be worth much effort to fix them, although
+>> some of them should not take much effort (I think). But I am just
+>> reporting these in case someone wants to fix them.
+>>
+>>
+>> Examples:
+>>
+>> Warning: drivers/misc/vmw_balloon.c:259 struct member '5' not described in 'vmballoon_batch_entry'
+>> "5" is part of an expression "PAGE_SHIFT - 5" for number of bits in a bitfield:
+>> struct vmballoon_batch_entry {
+>> 	u64 status : 5;
+>> 	u64 reserved : PAGE_SHIFT - 5;
+>> 	u64 pfn : 52;
+>> } __packed;
+> 
+> Fixing this one could be tricky, if we want to allow math expressions 
+> at the regex, but sounds doable.
+> 
+>>
+>> Warning: net/netfilter/nft_set_pipapo.h:102 union member '32' not described in 'nft_pipapo_map_bucket'
+>> "32" is part of a static_assert() expression. Probably just
+>> ignore the entire static_assert() [any number of lines].
+> 
+> Yeah.
+> 
+>> Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_restart            (*__private function)(struct hrtimer *)
+>> Warning: include/linux/hrtimer_types.h:47 struct member 'enum hrtimer_restart            (*__private function' not described in 'hrtimer'
+>> "__private" is an attribute from <linux/compiler_types.h> and the
+>> struct member here should be "function", which is described.
+>>
+>>
+>> Warning: include/linux/rethook.h:38 Invalid param: void (__rcu *handler) (struct rethook_node *, void *, unsigned long, struct pt_regs *)
+>> Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' not described in 'rethook'
+>> "__rcu" is an attribute from <linux/compiler_types.h> and the
+>> struct member here is "handler", which is described.
+>>
+>> Warning: security/ipe/hooks.c:54 function parameter '__always_unused' not described in 'ipe_mmap_file'
+>> Warning: security/ipe/hooks.c:82 function parameter '__always_unused' not described in 'ipe_file_mprotect'
+>> "__always_unused" is an attribute from <linux/compiler_attributes.h>.
+>>
+> 
+> Probably all we need for the above is to add one line for each,
+> to ignore the above macros.
+> 
+>>
+>> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS]
+>> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent1' not described in 'is_access_to_paths_allowed'
+>> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS]
+>> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent2' not described in 'is_access_to_paths_allowed'
+>> @layer_masks_parent1 and @layer_masks_parent2 are described in kernel-doc.
+>>
+>> Warning: security/landlock/fs.c:1142 Invalid param: layer_mask_t (*const layer_masks_dom)[LANDLOCK_NUM_ACCESS_FS]
+>> Warning: security/landlock/fs.c:1142 function parameter 'layer_mask_t (*const layer_masks_dom' not described in 'collect_domain_accesses'
+>> @layer_masks_dom is described in kernel-doc.
+>>
+>>
+>> Warning: security/landlock/ruleset.c:210 Invalid param: const struct landlock_layer (*const layers)[]
+>> Warning: security/landlock/ruleset.c:210 function parameter 'const struct landlock_layer (*const layers' not described in 'insert_rule'
+>> @layers is described in kernel-doc.
+>>
+>> Warning: security/landlock/ruleset.c:693 Invalid param: layer_mask_t (*const layer_masks)[]
+>> Warning: security/landlock/ruleset.c:693 function parameter 'layer_mask_t (*const layer_masks' not described in 'landlock_init_layer_masks'
+>> @layer_masks is described in kernel-doc.
+> 
+> These would require some extra logic - or a fix at an existing one - to 
+> better handle parenthesis on arguments.
+> 
+>> Note: hundreds (probably thousands) of the mandocs warnings would disappear
+>> if kernel-doc accepted '-' in addition to ':' as a function parameter
+>> or struct/union/enum member separator (like it does for
+>> function/struct/union/enum short description).
+> 
+> This is easy to fix, and QEMU has a patch mentioning what is needed
+> at:
+> 	9cbe72b868b7 ("scripts/kernel-doc: tweak for QEMU coding standards")
+> 
+> on its description: basically two regexes from Perl code would need changes:
+> 
+>         -       if (/\s*([\w\s]+?)(\(\))?\s*-/) {
+>         +       if (/\s*([\w\s]+?)(\s*-|:)/) {
+> 
+> and:
+>         -       if (/-(.*)/) {
+>         +       if (/[-:](.*)/) {
+> 
+> If I'm not mistaken, I got rid of the second regex during rewrite,
+> but I might be wrong. If I recall correctly, with Python code, the
+> change would be aon a single place at scripts/lib/kdoc/kdoc_parser.py:
+> 
+> 	doc_sect = doc_com + \
+> -	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
+> +	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*[:-]([^:].*)?$',
+> 	           flags=re.I, cache=False)
+> 
+> btw, the [^:] pattern there seems to be trying to avoid catching
+> "::". With the new proposed regex, and if "::" is something that we
+> need to avoid, if one uses "-:", it would miss the description. 
+> I guess that's ok.
+> 
+> From my side, I'm OK with the new regex, but one has to verify if
+> this won't cause unwanted side-effects.
+
+Yes, for sure. I'm willing to do some testing on a patch.
+Should I begin with the KernRe() change above?Thanks for your comments.
+-- 
+~Randy
+
