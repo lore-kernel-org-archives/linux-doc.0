@@ -1,956 +1,301 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692DA248F5A
-	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 06:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77571D5151;
+	Sun, 26 Oct 2025 07:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761461465; cv=none; b=HDudnWu+WYkloJIiU6bCQLsG6PK1xXmSmcwxPSmxmKejhQLrrfrc2kahCfBEy6b+NsYrHG8UR5JeyjcUbDfZsLa6tguOI75QWz229ruBsiXSovbd++RdtuUuNHzanjt8bjO4wvNplrTk86y5nxMfTXGOIkXrLy5rLWVPPfB4uOA=
+	t=1761464175; cv=none; b=V2COyJ7ampJrupbiPnGtXmRpER3GUnt1+Y1bC3OJT6FGOQFe3mcPxfeXkIfB5miGBipI+4RPtjQd4wXeyTr1ClttGvCywJgZXAWWIqszHV+xyZ8yiQf09Arr0R+6sOyI9s7KPFRYbdBV1MJ/eF1bPa0106p5t/Usdcb3degC6SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761461465; c=relaxed/simple;
-	bh=zlOemitbqaznpy+czGFVs/Mr1akY8MN9pOL1wO81TNQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kfo3RrdgsDfNKyDHI+MOPfCKU5gI62QYzTBPpgaMMOPyKWYpQwF6So+PuYtLbdu7Ps8CJjafDvtlXwun2XcfAUfPPjexvIquhFY/eZrJur8q1/TAQfiVMsOhf7IuhMGgqis2XDpm7qzQ2uir/VkeiAHIpskxtZEz2vJyFImFa8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=hsjhHQPW; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
+	s=arc-20240116; t=1761464175; c=relaxed/simple;
+	bh=RDktcdLGgsUJsC0M9AClxtR0Mc38JLizOfEvqBGVBqY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Jo9EimDalZ2agNeA/DEB+AfAUhHODXWA2fM3gga/ah9VjDB1KsfeqzLFtf7pMxd/jmxg4Xet9Yi1Eof/VNItQQnTRZlvWeNxEyWtVpCOlz4Jw9MGA+4HBVkFNmVincIQ7zYMKx22ql6Xt5ZGhUsWeAput36Ndi6T03C427ZWFjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oATgzllx; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="hsjhHQPW"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b593def09e3so2144102a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 23:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=reznichenko.net; s=google; t=1761461463; x=1762066263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=caOGaySIbNPBFvZo31ZBy7wR96V18ME0q26vW6D4AZY=;
-        b=hsjhHQPWADXo3RbVEm436iyIusdKsUvo2z472JWMavM7b84N2Ui83O2faIuCTXdeOZ
-         SMinoJy7cCZ3DXCsNmA8Zu6ET4iQFiJ1HoYrH2UjVqtQ4OPtOEHCrI0M+JtyE24KX76p
-         EZArxjKcBfFAzLoUTfHh17/Vz9Niw5JEWVlieP78QZAtUE23RFnZHCgwcxoL1vu8Z60M
-         cksca+BEAZ2LeVjUHROOHVU94GxSopqHufGSzWNwglMOdY9nMLZ+nx1MsKcECpQOxBKj
-         onT3u3jnHl2F4Z/y8fMM12mue7SImnJy78wf4eRlKnH2fUywc0FnrP2Zh3fqCghc5vy8
-         2xFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761461463; x=1762066263;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=caOGaySIbNPBFvZo31ZBy7wR96V18ME0q26vW6D4AZY=;
-        b=lC63i75jPWj2fT4vPvBelgcPCrHBIA8dwUMT4RlX/OPQekyO6aRninv6ZPQnD7jyIW
-         Bt00A6mHMhbNjc+JoaZ+Uf58scbFIPni96VxlyjDaazld6FuqXPq1RBL9Ji4vuFFd55M
-         cx2oh4wNplXXWKxt3Rybm62w+xUbRU08uF9xTGZxO/tSuPhcMXppsHH4jaKGBC4ki15q
-         rRGVQDY/Rh9Gh22lM+uLn8M/Iqm5o4UPFQax1KhB4MA+ksiuzNOpFo2MwmSSkdItk7iO
-         b17kZbJrge8ob7s2iaIAVc40x2J9B7oDM0/cG3QMmifIAp9BJXr/0TszEnIjgFHMRrMz
-         ywVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqfgQEaltjy0LQimWSflEaGS9n6Oh6NLZmxgcCmmziQY7nxkIO0WC8P3LmIsggbD59N+FxrU5EgKI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhuphhBE9hw8JXth13ODguSmw+C+Kg9421oLwd0ODuFMfLv44Q
-	6FZEjEsDo8bN2yBMi7NpVlbDZhUmIButAcnvvMIIVWVCp5VCBEcH84Q8iCw9NfK7rxQBn+EPX1l
-	dFfhCFfI=
-X-Gm-Gg: ASbGncszrT51VLSkL5Z0xkvhsUhSEEq+4/9goILMQHjztJwCDJ+MAfB+zU+kcK4dbAW
-	71xJjUnd00yLFi6LZQA0G6b8jtjWKtd9gT81D2ZuEAqVtvUW8pL9gZfFvbu+0l9XVivkdB0b/4s
-	+paeKhN0UXbflZjxfG+HHTo/eL7wx+fbCw8YhUEPtst0YYr+PEVbscA0Nlvmv/IpdpRBfvZWVkh
-	3kgZ0c9aKq1v5NoQ5wU39upir7q4xv4cGFyye4Ifyo6xTuwbjVlEftmq2dW+l9+Qenu1wNT1lXv
-	HlmyBwiDvRGy7UgMVNQW1lDT6IjDkfC4xFugKrdEV7sztwpdtfRA9oSPCwWF3aS+zcnBZOsda0p
-	2v8aT7Iz/iW1RkU7+rqhkX0JMspK3QDLNfcpF1LGSjm/sDqF5LrYNCiKBqOct53PdT2HXkue3SJ
-	c9Q+/GQyn1YQrBGfOo
-X-Google-Smtp-Source: AGHT+IF2KdDPzBU5+euFEVI3Qe8zFyL2X8fEIzj3RQCzwcwZ04QVrg0hTOD/FSjCJ91cmQ0YNxJiwQ==
-X-Received: by 2002:a17:902:f647:b0:279:daa1:676d with SMTP id d9443c01a7336-290c9c89cecmr311297835ad.8.1761461462572;
-        Sat, 25 Oct 2025 23:51:02 -0700 (PDT)
-Received: from z440.. ([2601:1c0:4502:2d00:640c:95e5:94c3:cc2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d4288asm43184905ad.84.2025.10.25.23.51.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 23:51:02 -0700 (PDT)
-From: Igor Reznichenko <igor@reznichenko.net>
-To: linux-hwmon@vger.kernel.org
-Cc: conor+dt@kernel.org,
-	corbet@lwn.net,
-	david.hunter.linux@gmail.com,
-	devicetree@vger.kernel.org,
-	krzk+dt@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH v2 2/2] hwmon: Add TSC1641 I2C power monitor driver
-Date: Sat, 25 Oct 2025 23:50:57 -0700
-Message-ID: <20251026065057.627276-3-igor@reznichenko.net>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251026065057.627276-1-igor@reznichenko.net>
-References: <20251022044708.314287-1-igor@reznichenko.net>
- <20251026065057.627276-1-igor@reznichenko.net>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oATgzllx"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cvT2p4gzqz9tRN;
+	Sun, 26 Oct 2025 08:36:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761464162;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1CjNFhwqKvNkwM/6pPCucywDHItg222ZalOUfvLT6DE=;
+	b=oATgzllxSokxr5YQ9RqGELvCL0CmHD9WGhSOYa3dtBtYeaYNv9Ag+aifSz9cTjdIPuocQT
+	DRpU+I96SPiD1C9Gmbfp5aoHXUDrtDuZuYwxOQYpIwNM7hckGJBdwDOXcs6v4iPsZlxOcU
+	tAYU/pKb3Sxa3dUuYLeajsIoXH8J3pzkP6KYWPub7VeOAZBm0bDSjvvyRdwpp0DPvtpp1E
+	zxF1p8JmI0nMw0M2JHnJcJD1puT5GdI4iiFY+5qMG8IlqTbCL6duv1KKdw7ytoJx/7Bz8h
+	bWbVC0+g7oDHrgSracpbNVuK3QK0pxt/kwYDT0Nj9Z9IjZGhu6c2w10RqQTqHg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=4ed2532edafd1b8d5f029bf9dd472fef7af968f0dc65d8fa70884027829a;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Sun, 26 Oct 2025 08:36:00 +0100
+Message-Id: <DDS2XJZB0ECJ.N4LNABSIJHAJ@mailbox.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Sasha Levin"
+ <sashal@kernel.org>, "Zhixu Liu" <zhixu.liu@gmail.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: Please backport commit 00d95fcc4dee ("docs: kdoc: handle the
+ obsolescensce of docutils.ErrorString()") to v6.17.y
+From: "Andreas Radke" <andreas.radke@mailbox.org>
+To: "Salvatore Bonaccorso" <carnil@debian.org>, "stable"
+ <stable@vger.kernel.org>
+References: <aPUCTJx5uepKVuM9@eldamar.lan>
+In-Reply-To: <aPUCTJx5uepKVuM9@eldamar.lan>
+X-MBO-RS-ID: b041a82afde1a05a3a6
+X-MBO-RS-META: hx577gupz3qr7zaf4asin3r6gc5faxos
 
-Add a driver for the ST Microelectronics TSC1641 16-bit high-precision
-power monitor. The driver supports reading bus voltage, current, power,
-and temperature. Sysfs attributes are exposed for shunt resistor and
-update interval. The driver integrates with the hwmon subsystem and
-supports optional ALERT pin polarity configuration.
+--4ed2532edafd1b8d5f029bf9dd472fef7af968f0dc65d8fa70884027829a
+Content-Type: multipart/mixed;
+ boundary=0f282d91b948f5a8dafe9944292f61d7f2966ef79d8af840914b8dfe5cd3
 
-Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/tsc1641.rst |  84 ++++
- drivers/hwmon/Kconfig           |  12 +
- drivers/hwmon/Makefile          |   1 +
- drivers/hwmon/tsc1641.c         | 703 ++++++++++++++++++++++++++++++++
- 5 files changed, 801 insertions(+)
- create mode 100644 Documentation/hwmon/tsc1641.rst
- create mode 100644 drivers/hwmon/tsc1641.c
+--0f282d91b948f5a8dafe9944292f61d7f2966ef79d8af840914b8dfe5cd3
+Content-Type: multipart/alternative;
+ boundary=aad02b3889c51a4011a426cc8375f2f4700be60b1fd2d029bb1d076b7887
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 51a5bdf75b08..4fb9f91f83b3 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -253,6 +253,7 @@ Hardware Monitoring Kernel Drivers
-    tps40422
-    tps53679
-    tps546d24
-+   tsc1641
-    twl4030-madc-hwmon
-    ucd9000
-    ucd9200
-diff --git a/Documentation/hwmon/tsc1641.rst b/Documentation/hwmon/tsc1641.rst
-new file mode 100644
-index 000000000000..f692a8ccbffc
---- /dev/null
-+++ b/Documentation/hwmon/tsc1641.rst
-@@ -0,0 +1,84 @@
-+Kernel driver tsc1641
-+=====================
-+
-+Supported chips:
-+
-+  * ST TSC1641
-+
-+    Prefix: 'tsc1641'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+	https://www.st.com/resource/en/datasheet/tsc1641.pdf
-+
-+Author:
-+	- Igor Reznichenko <igor@reznichenko.net>
-+
-+
-+Description
-+-----------
-+
-+The TSC1641 is a high-precision current, voltage, power, and temperature
-+monitoring analog front-end (AFE). It monitors current into a shunt resistor and
-+load voltage up to 60 V in a synchronized way. Digital bus interface is
-+I2C/SMbus. The TSC1641 allows the assertion of several alerts regarding the
-+voltage, current, power and temperature.
-+
-+Usage Notes
-+-----------
-+
-+The TSC1641 driver requires the value of the external shunt resistor to
-+correctly compute current and power measurements. The resistor value, in
-+micro-ohms, should be provided either through the device tree property
-+"shunt-resistor-micro-ohms" or via writable sysfs attribute "shunt_resistor".
-+Please refer to the Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml
-+for bindings if the device tree is used.
-+
-+Supported range of shunt resistor values is from 100 uOhm to 655.35 mOhm.
-+When selecting the value keep in mind device maximum DC power measurement is
-+1600W. See datasheet p.22 for ST recommendations on selecting shunt value.
-+
-+If the shunt resistor value is not specified in the device tree, the driver
-+initializes it to 1000 uOhm by default. Users may configure the correct shunt
-+resistor value at runtime by writing to the "shunt_resistor" sysfs attribute.
-+
-+The driver only supports continuous operating mode.
-+Measurement ranges:
-+
-+================ ===============================================================
-+Current          Dependent on shunt
-+Bus voltage      0-60V
-+Maximum DC power 1600W
-+Temperature      -40C to +125C
-+================ ===============================================================
-+
-+Sysfs entries
-+-------------
-+
-+==================== ===========================================================
-+in0_input            bus voltage (mV)
-+in0_crit             bus voltage crit alarm limit (mV)
-+in0_crit_alarm       bus voltage crit alarm limit exceeded
-+in0_lcrit            bus voltage low-crit alarm limit (mV)
-+in0_lcrit_alarm      bus voltage low-crit alarm limit exceeded
-+
-+curr1_input          current measurement (mA)
-+curr1_crit           current crit alarm limit (mA)
-+curr1_crit_alarm     current crit alarm limit exceeded
-+curr1_lcrit          current low-crit alarm limit (mA)
-+curr1_lcrit_alarm    current low-crit alarm limit exceeded
-+
-+power1_input         power measurement (uW)
-+power1_crit          power crit alarm limit (uW)
-+power1_crit_alarm    power crit alarm limit exceeded
-+
-+shunt_resistor       shunt resistor value (uOhms)
-+
-+temp1_input          temperature measurement (mdegC)
-+temp1_crit           temperature crit alarm limit (mdegC)
-+temp1_crit_alarm     temperature crit alarm limit exceeded
-+
-+update_interval      data conversion time (1 - 33ms), longer conversion time
-+                     corresponds to higher effective resolution in bits
-+==================== ===========================================================
-\ No newline at end of file
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 2760feb9f83b..b9d7b02932a6 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -2434,6 +2434,18 @@ config SENSORS_TMP513
- 	  This driver can also be built as a module. If so, the module
- 	  will be called tmp513.
- 
-+config SENSORS_TSC1641
-+	tristate "ST Microelectronics TSC1641 Power Monitor"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get support for TSC1641 power  monitor chip.
-+	  The TSC1641 driver is configured for the default configuration of
-+	  the part except temperature is enabled by default.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called tsc1641.
-+
- config SENSORS_VEXPRESS
- 	tristate "Versatile Express"
- 	depends on VEXPRESS_CONFIG
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 73b2abdcc6dd..a8de5bc69f2a 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -233,6 +233,7 @@ obj-$(CONFIG_SENSORS_TMP401)	+= tmp401.o
- obj-$(CONFIG_SENSORS_TMP421)	+= tmp421.o
- obj-$(CONFIG_SENSORS_TMP464)	+= tmp464.o
- obj-$(CONFIG_SENSORS_TMP513)	+= tmp513.o
-+obj-$(CONFIG_SENSORS_TSC1641)	+= tsc1641.o
- obj-$(CONFIG_SENSORS_VEXPRESS)	+= vexpress-hwmon.o
- obj-$(CONFIG_SENSORS_VIA_CPUTEMP)+= via-cputemp.o
- obj-$(CONFIG_SENSORS_VIA686A)	+= via686a.o
-diff --git a/drivers/hwmon/tsc1641.c b/drivers/hwmon/tsc1641.c
-new file mode 100644
-index 000000000000..56f6d0ba2b49
---- /dev/null
-+++ b/drivers/hwmon/tsc1641.c
-@@ -0,0 +1,703 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for ST Microelectronics TSC1641 I2C power monitor
-+ *
-+ * 60 V, 16-bit high-precision power monitor with I2C and MIPI I3C interface
-+ * Datasheet: https://www.st.com/resource/en/datasheet/tsc1641.pdf
-+ *
-+ * Copyright (C) 2025 Igor Reznichenko <igor@reznichenko.net>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/sysfs.h>
-+
-+/* I2C registers */
-+#define TSC1641_CONFIG		0x00
-+#define TSC1641_SHUNT_VOLTAGE	0x01
-+#define TSC1641_LOAD_VOLTAGE	0x02
-+#define TSC1641_POWER		0x03
-+#define TSC1641_CURRENT		0x04
-+#define TSC1641_TEMP		0x05
-+#define TSC1641_MASK		0x06
-+#define TSC1641_FLAG		0x07
-+#define TSC1641_RSHUNT		0x08 /* Shunt resistance */
-+#define TSC1641_SOL		0x09
-+#define TSC1641_SUL		0x0A
-+#define TSC1641_LOL		0x0B
-+#define TSC1641_LUL		0x0C
-+#define TSC1641_POL		0x0D
-+#define TSC1641_TOL		0x0E
-+#define TSC1641_MANUF_ID	0xFE /* 0x0006 */
-+#define TSC1641_DIE_ID		0xFF /* 0x1000 */
-+#define TSC1641_MAX_REG		0xFF
-+
-+#define TSC1641_RSHUNT_DEFAULT	1000   /* 1mOhm */
-+#define TSC1641_CONFIG_DEFAULT	0x003F /* Enable temperature sensor */
-+#define TSC1641_MASK_DEFAULT	0xFC00 /* Unmask all alerts */
-+
-+/* Bit mask for conversion time in the configuration register */
-+#define TSC1641_CONV_TIME_MASK	GENMASK(7, 4)
-+
-+#define TSC1641_CONV_TIME_DEFAULT	1024
-+#define TSC1641_MIN_UPDATE_INTERVAL	1024
-+
-+/* LSB value of different registers */
-+#define TSC1641_VLOAD_LSB_MVOLT		2
-+#define TSC1641_POWER_LSB_UWATT		25000
-+#define TSC1641_VSHUNT_LSB_NVOLT	2500 /* Use nanovolts to make it integer */
-+#define TSC1641_RSHUNT_LSB_UOHM		10
-+#define TSC1641_TEMP_LSB_MDEGC		500
-+
-+/* Limits based on datasheet */
-+#define TSC1641_RSHUNT_MIN_UOHM		100
-+#define TSC1641_RSHUNT_MAX_UOHM		655350
-+#define TSC1641_VLOAD_MAX_MVOLT		60000
-+#define TSC1641_CURRENT_MIN_MAMP	(-819175)
-+#define TSC1641_CURRENT_MAX_MAMP	819175
-+#define TSC1641_TEMP_MIN_MDEGC		(-20000)
-+#define TSC1641_TEMP_MAX_MDEGC		145000
-+#define TSC1641_POWER_MAX_UWATT		1600000000
-+
-+#define TSC1641_ALERT_POL_MASK		BIT(1)
-+#define TSC1641_ALERT_LATCH_EN_MASK	BIT(0)
-+
-+/* Flags indicating alerts in TSC1641_FLAG register*/
-+#define TSC1641_SHUNT_OV_FLAG		BIT(6)
-+#define TSC1641_SHUNT_UV_FLAG		BIT(5)
-+#define TSC1641_LOAD_OV_FLAG		BIT(4)
-+#define TSC1641_LOAD_UV_FLAG		BIT(3)
-+#define TSC1641_POWER_OVER_FLAG		BIT(2)
-+#define TSC1641_TEMP_OVER_FLAG		BIT(1)
-+
-+static bool tsc1641_writeable_reg(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case TSC1641_CONFIG:
-+	case TSC1641_MASK:
-+	case TSC1641_RSHUNT:
-+	case TSC1641_SOL:
-+	case TSC1641_SUL:
-+	case TSC1641_LOL:
-+	case TSC1641_LUL:
-+	case TSC1641_POL:
-+	case TSC1641_TOL:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool tsc1641_volatile_reg(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case TSC1641_SHUNT_VOLTAGE:
-+	case TSC1641_LOAD_VOLTAGE:
-+	case TSC1641_POWER:
-+	case TSC1641_CURRENT:
-+	case TSC1641_TEMP:
-+	case TSC1641_FLAG:
-+	case TSC1641_MANUF_ID:
-+	case TSC1641_DIE_ID:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_config tsc1641_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.use_single_write = true,
-+	.use_single_read = true,
-+	.max_register = TSC1641_MAX_REG,
-+	.cache_type = REGCACHE_MAPLE,
-+	.volatile_reg = tsc1641_volatile_reg,
-+	.writeable_reg = tsc1641_writeable_reg,
-+};
-+
-+struct tsc1641_data {
-+	long rshunt_uohm;
-+	long current_lsb_ua;
-+	struct regmap *regmap;
-+	struct i2c_client *client;
-+};
-+
-+/*
-+ * Upper limit due to chip 16-bit shunt register, lower limit to
-+ * prevent current and power registers overflow
-+ */
-+static inline int tsc1641_validate_shunt(u32 val)
-+{
-+	if (val < TSC1641_RSHUNT_MIN_UOHM || val > TSC1641_RSHUNT_MAX_UOHM)
-+		return -EINVAL;
-+	return 0;
-+}
-+
-+static int tsc1641_set_shunt(struct tsc1641_data *data, u32 val)
-+{
-+	struct regmap *regmap = data->regmap;
-+	long rshunt_reg;
-+
-+	if (tsc1641_validate_shunt(val) < 0)
-+		return -EINVAL;
-+
-+	data->rshunt_uohm = val;
-+	data->current_lsb_ua = DIV_ROUND_CLOSEST(TSC1641_VSHUNT_LSB_NVOLT * 1000,
-+						 data->rshunt_uohm);
-+	/* RSHUNT register LSB is 10uOhm so need to divide further*/
-+	rshunt_reg = DIV_ROUND_CLOSEST(data->rshunt_uohm, TSC1641_RSHUNT_LSB_UOHM);
-+	return regmap_write(regmap, TSC1641_RSHUNT, clamp_val(rshunt_reg, 0, USHRT_MAX));
-+}
-+
-+/*
-+ * Conversion times in uS, value in CONFIG[CT3:CT0] corresponds to index in this array
-+ * See "Table 14. CT3 to CT0: conversion time" in:
-+ * https://www.st.com/resource/en/datasheet/tsc1641.pdf
-+ */
-+static const int tsc1641_conv_times[] = { 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 };
-+
-+static int tsc1641_reg_to_upd_interval(u16 config)
-+{
-+	int idx = FIELD_GET(TSC1641_CONV_TIME_MASK, config);
-+
-+	idx = clamp_val(idx, 0, ARRAY_SIZE(tsc1641_conv_times) - 1);
-+	int conv_time = tsc1641_conv_times[idx];
-+
-+	/* Don't support sub-millisecond update interval as it's not supported in hwmon */
-+	conv_time = max(conv_time, TSC1641_MIN_UPDATE_INTERVAL);
-+	/* Return nearest value in milliseconds */
-+	return DIV_ROUND_CLOSEST(conv_time, 1000);
-+}
-+
-+static u16 tsc1641_upd_interval_to_reg(long interval)
-+{
-+	/* Supported interval is 1ms - 33ms */
-+	interval = clamp_val(interval, 1, 33);
-+
-+	int conv = interval * 1000;
-+	int conv_bits = find_closest(conv, tsc1641_conv_times,
-+				     ARRAY_SIZE(tsc1641_conv_times));
-+
-+	return FIELD_PREP(TSC1641_CONV_TIME_MASK, conv_bits);
-+}
-+
-+static int tsc1641_chip_write(struct device *dev, u32 attr, long val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+
-+	switch (attr) {
-+	case hwmon_chip_update_interval:
-+		return regmap_update_bits(data->regmap, TSC1641_CONFIG,
-+					  TSC1641_CONV_TIME_MASK,
-+					  tsc1641_upd_interval_to_reg(val));
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int tsc1641_chip_read(struct device *dev, u32 attr, long *val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	u32 regval;
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_chip_update_interval:
-+		ret = regmap_read(data->regmap, TSC1641_CONFIG, &regval);
-+		if (ret)
-+			return ret;
-+
-+		*val = tsc1641_reg_to_upd_interval(regval);
-+		return 0;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int tsc1641_alert_read(struct regmap *regmap, u32 flag, long *val)
-+{
-+	unsigned int regval;
-+	int ret;
-+
-+	ret = regmap_read_bypassed(regmap, TSC1641_FLAG, &regval);
-+	if (ret)
-+		return ret;
-+
-+	*val = !!(regval & flag);
-+	return 0;
-+}
-+
-+static int tsc1641_in_read(struct device *dev, u32 attr, long *val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	unsigned int regval;
-+	int ret, reg;
-+
-+	switch (attr) {
-+	case hwmon_in_input:
-+		reg = TSC1641_LOAD_VOLTAGE;
-+		break;
-+	case hwmon_in_lcrit:
-+		reg = TSC1641_LUL;
-+		break;
-+	case hwmon_in_crit:
-+		reg = TSC1641_LOL;
-+		break;
-+	case hwmon_in_lcrit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_LOAD_UV_FLAG, val);
-+	case hwmon_in_crit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_LOAD_OV_FLAG, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ret = regmap_read(regmap, reg, &regval);
-+	if (ret)
-+		return ret;
-+
-+	*val = regval * TSC1641_VLOAD_LSB_MVOLT;
-+	return 0;
-+}
-+
-+static int tsc1641_curr_read(struct device *dev, u32 attr, long *val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	int regval;
-+	int ret, reg;
-+
-+	/* Current limits are the shunt under/over voltage limits */
-+	switch (attr) {
-+	case hwmon_curr_input:
-+		reg = TSC1641_CURRENT;
-+		break;
-+	case hwmon_curr_lcrit:
-+		reg = TSC1641_SUL;
-+		break;
-+	case hwmon_curr_crit:
-+		reg = TSC1641_SOL;
-+		break;
-+	case hwmon_curr_lcrit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_SHUNT_UV_FLAG, val);
-+	case hwmon_curr_crit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_SHUNT_OV_FLAG, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ret = regmap_read(regmap, reg, &regval);
-+	if (ret)
-+		return ret;
-+
-+	/* Current in milliamps */
-+	*val = DIV_ROUND_CLOSEST((s16)regval * data->current_lsb_ua, 1000);
-+	return 0;
-+}
-+
-+static int tsc1641_power_read(struct device *dev, u32 attr, long *val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	unsigned int regval;
-+	int ret, reg;
-+
-+	switch (attr) {
-+	case hwmon_power_input:
-+		reg = TSC1641_POWER;
-+		break;
-+	case hwmon_power_crit:
-+		reg = TSC1641_POL;
-+		break;
-+	case hwmon_power_crit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_POWER_OVER_FLAG, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ret = regmap_read(regmap, reg, &regval);
-+	if (ret)
-+		return ret;
-+
-+	*val = regval * TSC1641_POWER_LSB_UWATT;
-+	return 0;
-+}
-+
-+static int tsc1641_temp_read(struct device *dev, u32 attr, long *val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	unsigned int regval;
-+	int ret, reg;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		reg = TSC1641_TEMP;
-+		break;
-+	case hwmon_temp_crit:
-+		reg = TSC1641_TOL;
-+		break;
-+	case hwmon_temp_crit_alarm:
-+		return tsc1641_alert_read(regmap, TSC1641_TEMP_OVER_FLAG, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ret = regmap_read(regmap, reg, &regval);
-+	if (ret)
-+		return ret;
-+
-+	*val = (s16)regval * TSC1641_TEMP_LSB_MDEGC;
-+	return 0;
-+}
-+
-+static int tsc1641_in_write(struct device *dev, u32 attr, long val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	unsigned int regval;
-+	int reg;
-+
-+	switch (attr) {
-+	case hwmon_in_lcrit:
-+		reg = TSC1641_LUL;
-+		break;
-+	case hwmon_in_crit:
-+		reg = TSC1641_LOL;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	val = clamp_val(val, 0, TSC1641_VLOAD_MAX_MVOLT);
-+	regval = DIV_ROUND_CLOSEST(val, TSC1641_VLOAD_LSB_MVOLT);
-+
-+	return regmap_write(regmap, reg, clamp_val(regval, 0, USHRT_MAX));
-+}
-+
-+static int tsc1641_curr_write(struct device *dev, u32 attr, long val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	int reg, regval;
-+
-+	switch (attr) {
-+	case hwmon_curr_lcrit:
-+		reg = TSC1641_SUL;
-+		break;
-+	case hwmon_curr_crit:
-+		reg = TSC1641_SOL;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	/* Clamp to max 16-bit represantable current at min Rshunt */
-+	val = clamp_val(val, TSC1641_CURRENT_MIN_MAMP, TSC1641_CURRENT_MAX_MAMP);
-+	/* Convert val in milliamps to voltage */
-+	regval = DIV_ROUND_CLOSEST(val * data->rshunt_uohm, TSC1641_VSHUNT_LSB_NVOLT);
-+
-+	return regmap_write(regmap, reg, clamp_val(regval, SHRT_MIN, SHRT_MAX));
-+}
-+
-+static int tsc1641_power_write(struct device *dev, u32 attr, long val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	unsigned int regval;
-+
-+	switch (attr) {
-+	case hwmon_power_crit:
-+		val = clamp_val(val, 0, TSC1641_POWER_MAX_UWATT);
-+		regval = DIV_ROUND_CLOSEST(val, TSC1641_POWER_LSB_UWATT);
-+		return regmap_write(regmap, TSC1641_POL, clamp_val(regval, 0, USHRT_MAX));
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int tsc1641_temp_write(struct device *dev, u32 attr, long val)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	struct regmap *regmap = data->regmap;
-+	int regval;
-+
-+	switch (attr) {
-+	case hwmon_temp_crit:
-+		val = clamp_val(val, TSC1641_TEMP_MIN_MDEGC, TSC1641_TEMP_MAX_MDEGC);
-+		regval = DIV_ROUND_CLOSEST(val, TSC1641_TEMP_LSB_MDEGC);
-+		return regmap_write(regmap, TSC1641_TOL, clamp_val(regval, SHRT_MIN, SHRT_MAX));
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static umode_t tsc1641_is_visible(const void *data, enum hwmon_sensor_types type,
-+				  u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_chip:
-+		switch (attr) {
-+		case hwmon_chip_update_interval:
-+			return 0644;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			return 0444;
-+		case hwmon_in_lcrit:
-+		case hwmon_in_crit:
-+			return 0644;
-+		case hwmon_in_lcrit_alarm:
-+		case hwmon_in_crit_alarm:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_curr:
-+		switch (attr) {
-+		case hwmon_curr_input:
-+			return 0444;
-+		case hwmon_curr_lcrit:
-+		case hwmon_curr_crit:
-+			return 0644;
-+		case hwmon_curr_lcrit_alarm:
-+		case hwmon_curr_crit_alarm:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_power:
-+		switch (attr) {
-+		case hwmon_power_input:
-+			return 0444;
-+		case hwmon_power_crit:
-+			return 0644;
-+		case hwmon_power_crit_alarm:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			return 0444;
-+		case hwmon_temp_crit:
-+			return 0644;
-+		case hwmon_temp_crit_alarm:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int tsc1641_read(struct device *dev, enum hwmon_sensor_types type,
-+			u32 attr, int channel, long *val)
-+{
-+	switch (type) {
-+	case hwmon_chip:
-+		return tsc1641_chip_read(dev, attr, val);
-+	case hwmon_in:
-+		return tsc1641_in_read(dev, attr, val);
-+	case hwmon_curr:
-+		return tsc1641_curr_read(dev, attr, val);
-+	case hwmon_power:
-+		return tsc1641_power_read(dev, attr, val);
-+	case hwmon_temp:
-+		return tsc1641_temp_read(dev, attr, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int tsc1641_write(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long val)
-+{
-+	switch (type) {
-+	case hwmon_chip:
-+		return tsc1641_chip_write(dev, attr, val);
-+	case hwmon_in:
-+		return tsc1641_in_write(dev, attr, val);
-+	case hwmon_curr:
-+		return tsc1641_curr_write(dev, attr, val);
-+	case hwmon_power:
-+		return tsc1641_power_write(dev, attr, val);
-+	case hwmon_temp:
-+		return tsc1641_temp_write(dev, attr, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static const struct hwmon_channel_info * const tsc1641_info[] = {
-+	HWMON_CHANNEL_INFO(chip,
-+			   HWMON_C_UPDATE_INTERVAL),
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_CRIT | HWMON_I_CRIT_ALARM |
-+			   HWMON_I_LCRIT | HWMON_I_LCRIT_ALARM),
-+	HWMON_CHANNEL_INFO(curr,
-+			   HWMON_C_INPUT | HWMON_C_CRIT | HWMON_C_CRIT_ALARM |
-+			   HWMON_C_LCRIT | HWMON_C_LCRIT_ALARM),
-+	HWMON_CHANNEL_INFO(power,
-+			   HWMON_P_INPUT | HWMON_P_CRIT | HWMON_P_CRIT_ALARM),
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_CRIT_ALARM),
-+	NULL
-+};
-+
-+static ssize_t shunt_resistor_show(struct device *dev,
-+				   struct device_attribute *da, char *buf)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+
-+	return sysfs_emit(buf, "%li\n", data->rshunt_uohm);
-+}
-+
-+static ssize_t shunt_resistor_store(struct device *dev,
-+				    struct device_attribute *da,
-+				    const char *buf, size_t count)
-+{
-+	struct tsc1641_data *data = dev_get_drvdata(dev);
-+	unsigned long val;
-+	int ret;
-+
-+	ret = kstrtoul(buf, 10, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (val > U32_MAX)
-+		return -EINVAL;
-+
-+	ret = tsc1641_set_shunt(data, (u32)val);
-+	if (ret < 0)
-+		return ret;
-+	return count;
-+}
-+
-+static const struct hwmon_ops tsc1641_hwmon_ops = {
-+	.is_visible = tsc1641_is_visible,
-+	.read = tsc1641_read,
-+	.write = tsc1641_write,
-+};
-+
-+static const struct hwmon_chip_info tsc1641_chip_info = {
-+	.ops = &tsc1641_hwmon_ops,
-+	.info = tsc1641_info,
-+};
-+
-+static DEVICE_ATTR_RW(shunt_resistor);
-+
-+/* Shunt resistor value is exposed via sysfs attribute */
-+static struct attribute *tsc1641_attrs[] = {
-+	&dev_attr_shunt_resistor.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(tsc1641);
-+
-+static int tsc1641_init(struct device *dev, struct tsc1641_data *data)
-+{
-+	struct regmap *regmap = data->regmap;
-+	bool active_high;
-+	u32 shunt;
-+	int ret;
-+
-+	if (device_property_read_u32(dev, "shunt-resistor-micro-ohms", &shunt) < 0)
-+		shunt = TSC1641_RSHUNT_DEFAULT;
-+
-+	if (tsc1641_validate_shunt(shunt) < 0) {
-+		dev_err(dev, "invalid shunt resistor value %u\n", shunt);
-+		return -EINVAL;
-+	}
-+
-+	ret = tsc1641_set_shunt(data, shunt);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_write(regmap, TSC1641_CONFIG, TSC1641_CONFIG_DEFAULT);
-+	if (ret < 0)
-+		return ret;
-+
-+	active_high = device_property_read_bool(dev, "st,alert-polarity-active-high");
-+
-+	return regmap_write(regmap, TSC1641_MASK, TSC1641_MASK_DEFAULT |
-+			    FIELD_PREP(TSC1641_ALERT_POL_MASK, active_high));
-+}
-+
-+static int tsc1641_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct tsc1641_data *data;
-+	struct device *hwmon_dev;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->client = client;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &tsc1641_regmap_config);
-+	if (IS_ERR(data->regmap)) {
-+		dev_err(dev, "failed to allocate register map\n");
-+		return PTR_ERR(data->regmap);
-+	}
-+
-+	ret = tsc1641_init(dev, data);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to configure device\n");
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
-+							 data, &tsc1641_chip_info, tsc1641_groups);
-+	if (IS_ERR(hwmon_dev))
-+		return PTR_ERR(hwmon_dev);
-+
-+	dev_info(dev, "power monitor %s (Rshunt = %li uOhm)\n",
-+		 client->name, data->rshunt_uohm);
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id tsc1641_id[] = {
-+	{ "tsc1641", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, tsc1641_id);
-+
-+static const struct of_device_id __maybe_unused tsc1641_of_match[] = {
-+	{ .compatible = "st,tsc1641" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, tsc1641_of_match);
-+
-+static struct i2c_driver tsc1641_driver = {
-+	.driver = {
-+		.name = "tsc1641",
-+		.of_match_table = of_match_ptr(tsc1641_of_match),
-+	},
-+	.probe = tsc1641_probe,
-+	.id_table = tsc1641_id,
-+};
-+
-+module_i2c_driver(tsc1641_driver);
-+
-+MODULE_AUTHOR("Igor Reznichenko <igor@reznichenko.net>");
-+MODULE_DESCRIPTION("tsc1641 driver");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+--aad02b3889c51a4011a426cc8375f2f4700be60b1fd2d029bb1d076b7887
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 
+For kernel 6.12 there's just one more place required to add the fix:
+
+--- a/Documentation/sphinx/kernel_abi.py        2025-10-23 16:20:48.0000000=
+00 +0200
++++ b/Documentation/sphinx/kernel_abi.py.new    2025-10-26 08:08:33.1689859=
+51 +0100
+@@ -42,9 +42,11 @@
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-from docutils.utils.error_reporting import ErrorString
+ from sphinx.util.docutils import switch_source_input
+
++def ErrorString(exc):  # Shamelessly stolen from docutils
++    return f'{exc.__class__.__name}: {exc}'
++
+ __version__  =3D '1.0'
+
+ def setup(app):
+
+--aad02b3889c51a4011a426cc8375f2f4700be60b1fd2d029bb1d076b7887--
+
+--0f282d91b948f5a8dafe9944292f61d7f2966ef79d8af840914b8dfe5cd3
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=94657AB20F2A092B.asc
+Content-Type: application/pgp-keys; charset=UTF-8
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUVOQkUzT2Z5RUJDQUM3Wksz
+S2FFWFhzN0d0aUZMQXA0UmdjaXJYRGRBS3p0Y1ZBcWt2QngvbnhBTGYxTWVICnZ0bFBIUmYvZDB5
+WU1xSTZyMWI1U2V2Kzl3ckcvNEZWUmE3MkFkR2t0ZUZyQUxvazM5eHYxNTRYQ0locm90WnEKMDdF
+byt4UWFRaE1TNlJvdFg3YVJVNDVjakp3c1YxUFhyRCs4dXhUQXN1ZkczcWRwUG5VUHBEQW5WMStm
+VlZDYgowaUFXKzZNREtHZ2JhdFhIQzRLOE43bmVpeGlSeDJjcEplSkVROGRsZW85Rm03ZkRiNmc4
+T3o0QjhqQ1RuUGJUCnB5VGFMR0E3TTR6YVR6TkhUelhNVU1hakxNRWpIT2RUdUU3elpoV3FOTXVX
+d0lFOUJjY0RwOFNpeWJldjRuMUYKdDd2Q1NMOFVaWFNZNWljRGgzY0ZMVEJXbUdWV0paTlFuOXZW
+QUJFQkFBRzBKVUZ1WkhKbFlYTWdVbUZrYTJVZwpQR0Z1WkhseWRISkFZWEpqYUd4cGJuVjRMbTl5
+Wno2SkFaVUVFd0VJQUlrRmdtTEsvWXNFQ3drSUJ3a1FsR1Y2CnNnOHFDU3RIRkFBQUFBQUFIZ0Fn
+YzJGc2RFQnViM1JoZEdsdmJuTXVjMlZ4ZFc5cFlTMXdaM0F1YjNKbmtRZWoKaHZLYm9PZ1ZDcWgv
+OHV1cmxmVGVkeERtWGc2TDBvbmU5UUxqZFpzREZRZ0tCQllDQXdFQ0Y0QUNHUUVDR3dNQwpIZ0VX
+SVFTdHlLSDh3VjRCMUZNUVFaNlVaWHF5RHlvSkt3QUF6MWtIL1IrdllMV2xhRlZZY3FaVHlGSWUw
+aVFMClBXNkFlaDk5Q0h4K2tMYVlHMlZTelFpS2prQ0lnOVlDT0loWkd4ZllPR3VTbjFLanNzWEp5
+d0tMTlNHZ0pDVVMKVVA1dlNoZFE2djJjbHRNd2RZSkVoakx5bzR3VDB5L09nYU1zMTR3ZUcwWThh
+T2tvTUlVZWtlYjVSdWtyTnpyYgpBTmlvYmZadDY2NnRjb2NxZWwzK09qUlQ4dnl4WWJxREhyN2JM
+dzZERkRKRThveEFCam5XZFZqaWdDYjRPUks2CnBrRzBMeThRZlUydi9OOHJEdFc1WndnUnJhRjY0
+Z1NKcCtOM2JBRTNXOVhEcDdodWplMGhyMEpCNE1EcW80VGQKVWNiSCtzZ05jeXZPcnpUMDNmajhE
+MTBPcWs3eXJnV2QxVUlxZlBZZUpUcWkwUW56TWFvemZnckI0K3QvbjJ5MApJRUZ1WkhKbFlYTWdV
+bUZrYTJVZ1BHRXVjbUZrYTJWQVlYSmpiM0l1WkdVK2lRRTJCREFCQ0FBZ0ZpRUVyY2loCi9NRmVB
+ZFJURUVHZWxHVjZzZzhxQ1NzRkFsd1kraFFDSFNBQUNna1FsR1Y2c2c4cUNTdTdLd2dBa240VFdy
+Rm4KVit1NEVWWnV5ZXltd3YrOEZOQVg5TERhVHN3U2ZZSjMrSmNsVmxaUzBwWVIrN05IYTJJd3Js
+YmdxaE9zQ1pxRwpHQVZWejBjVFlTbFdpRk56SjJkN2d3OUxBMXRMZTZhVTdwRHZ6UDgvOUFLVElq
+NWN6MzZNMGt6ci9CR2hLNHZICllUNXpzOWZWTi9BQjYzNDE0Yy9EVW9UQlhCT3NyOXhoZnpHN0FO
+T2NxdHFkc2JydkpJa2FzcW1ISk1uNU1MWlEKbVVwY2pRQzJGa2FLYkFab1FDRmFuRmpXZWNORkVI
+c0Jwb1NQcmZyNzA3K3M3eCt5VWV0dzdrWnVaaW43MmN0dQpyc2JnQWpjSERCOVEzemJiUlpKU3JF
+TXJ3N1QvZTlVVklhVmFNa3Y1TnF5ZHM0Yjc2ZlozNU9lVmoxaWViU2pEClUrVDNHRTEvdzRHWUdy
+UWdRVzVrY21WaGN5QlNZV1JyWlNBOFlXNWtlWEpoWkd0bFFIZGxZaTVrWlQ2SkFUWUUKTUFFSUFD
+QVdJUVN0eUtIOHdWNEIxRk1RUVo2VVpYcXlEeW9KS3dVQ1hCajZGQUlkSUFBS0NSQ1VaWHF5RHlv
+SgpLMlc0Qi85bjlic2E3U0FnTmFKalllZ2w3MFZEQTBoRUIvb1BHQmUwTVZ1T2lhRXNUeC9rdjFG
+VnJWQW44WUFMCldnYld5bi9RdXU1MUFKcURWUnVSejRTMnFrcmdoQUR0NXU1dTlqcTJ5Q1hNbDhV
+aFpWYVVZUll2MTVFMG1rcUEKT3RLTWRkbHI4QjdnK0l5RzZRYmxiUUE1L1NhWWowSGd2a1JrS2dt
+Y0hldUVaa3JQNTJCMkpJbDF2Zm5mdUJOTAplQ0VKOUVxU1JDS0FUYXJ4RmdyWDI4OFFLRWx0N1lE
+ZWQ4WFJpZlhGbW4wdGMzNXhLN1R2SzNYTE9lRlF1ODZNCkVTOW9EbGlEd0RxdWc2cm5CQU5wNjB5
+R05MMTN5SDh0QlhnTFpqRFFLMkY5NkMwWmtzQUduVVIrOU9KdlQ4MWgKeVR1UXJEdUQrM0xBWGc2
+cmJBYUVqS0dHWkUwNHRDVkJibVJ5WldGeklGSmhaR3RsSUR4aGJtUnlaV0Z6TG5KaApaR3RsUUcx
+aGFXd3VaR1UraVFFMkJEQUJDQUFnRmlFRXJjaWgvTUZlQWRSVEVFR2VsR1Y2c2c4cUNTc0ZBbHdZ
+CitoUUNIU0FBQ2drUWxHVjZzZzhxQ1NzUnhRZjhDL21hNjV5U2ZvNkZKa1hIc3BDL1JNNmxLcFl6
+dCs2WUpRMk8KRWFmZWxIeE93RHFrRE9CeTVZek9zNkxiMmRwT0czZmJteDl3ZnNsTjZDc1hyOThI
+cGIrSXhLano0YTZWUWVkUQo5Si9lcDlzZEtUREtPMHRMeWhtbndzeEZDV0xmQSsvL3ozRUIwOEEw
+R1ZIZ0RERG55NlVPeGhDRmxUWFRicDJGCmhjMTBSOTlQdUZTU3ZEVHBmNkh0VDV5UDNpOHV2MGhV
+a1ptc0ZRMEp3dnMvUmJZTXEvUVppTkNFNm9oeGRrNkoKSmNaMFA0T3E5RWxxK0FrWks3aUZ2R3U4
+UmFRWTVhYS9XSDJiMnhFcXNnUFJNYzYvR0NUZUNVamZNS3AzbTU1bgo1QU5wM3JmeDljbFJPRFVk
+dVVYdWhaOE84WHFTaDBxWGc5bkJ5VEFnall0TzRhUThhclFvUVc1a2NtVmhjeUJTCllXUnJaU0E4
+WVc1a2NtVmhjeTV5WVdSclpVQm1jbVZsYm1WMExtUmxQb2tCTmdRd0FRZ0FJQlloQkszSW9mekIK
+WGdIVVV4QkJucFJsZXJJUEtna3JCUUpjR1BvVUFoMGdBQW9KRUpSbGVySVBLZ2tyYjFBSC9pZHdt
+dlFMbmhsSgpJQUNVeW1uQnVmOEMyUm9HWDV6ZEdBSCtaVjV4VG5FL3NOK3RIQk1DYmJrQkxNKyth
+VGVqWEpSMXZxamZjZkpVCncxT044M0N4alZyS29VYk04TS95UVBJU0Yxd3FONHdYOXduRlpqWU9o
+THNhM2FkRGpMWDkxdTE1bGhFSjVyWVgKcWJ2NmlOYlB0WVlNb2F2blkyVlV4YVBNSnhFM1A3VmdT
+eG01cW1rcjlWc2NTWGlSYVF3YVhuMC9vSUZuV0NwZgp1MnVkRDczVkhZRmZINlNsc09xOHRrWlAw
+RkFqVXNraExPVlg1Yk9HV2RUV2VsVUFCcVAwdGE0eWhkWExrcmZUCk4yS1kvNVJZVlhrSUQzSkZL
+dXZRbUtuSFE5TUV3OGc4V1dUZHNHM0JKOVhtMkNSMHNaL3RmbzhrYUZUekdlNjQKZU9pY3ZKK2F0
+b3pSemZITjd3RVFBQUVCQUFBQUFBQUFBQUFBQUFBQS85ai80QUFRU2taSlJnQUJBUUFBQVFBQgpB
+QUQvMndCREFBZ0dCZ2NHQlFnSEJ3Y0pDUWdLREJRTkRBc0xEQmtTRXc4VUhSb2ZIaDBhSEJ3Z0pD
+NG5JQ0lzCkl4d2NLRGNwTERBeE5EUTBIeWM1UFRneVBDNHpOREwvMndCREFRa0pDUXdMREJnTkRS
+Z3lJUndoTWpJeU1qSXkKTWpJeU1qSXlNakl5TWpJeU1qSXlNakl5TWpJeU1qSXlNakl5TWpJeU1q
+SXlNakl5TWpJeU1qSXlNakwvd0FBUgpDQUNVQUhrREFTSUFBaEVCQXhFQi84UUFId0FBQVFVQkFR
+RUJBUUVBQUFBQUFBQUFBQUVDQXdRRkJnY0lDUW9MCi84UUF0UkFBQWdFREF3SUVBd1VGQkFRQUFB
+RjlBUUlEQUFRUkJSSWhNVUVHRTFGaEJ5SnhGREtCa2FFSUkwS3gKd1JWUzBmQWtNMkp5Z2drS0Zo
+Y1lHUm9sSmljb0tTbzBOVFkzT0RrNlEwUkZSa2RJU1VwVFZGVldWMWhaV21OawpaV1puYUdscWMz
+UjFkbmQ0ZVhxRGhJV0doNGlKaXBLVGxKV1dsNWlabXFLanBLV21wNmlwcXJLenRMVzJ0N2k1CnVz
+TER4TVhHeDhqSnl0TFQxTlhXMTlqWjJ1SGk0K1RsNXVmbzZlcng4dlAwOWZiMytQbjYvOFFBSHdF
+QUF3RUIKQVFFQkFRRUJBUUFBQUFBQUFBRUNBd1FGQmdjSUNRb0wvOFFBdFJFQUFnRUNCQVFEQkFj
+RkJBUUFBUUozQUFFQwpBeEVFQlNFeEJoSkJVUWRoY1JNaU1vRUlGRUtSb2JIQkNTTXpVdkFWWW5M
+UkNoWWtOT0VsOFJjWUdSb21KeWdwCktqVTJOemc1T2tORVJVWkhTRWxLVTFSVlZsZFlXVnBqWkdW
+bVoyaHBhbk4wZFhaM2VIbDZnb09FaFlhSGlJbUsKa3BPVWxaYVhtSm1hb3FPa3BhYW5xS21xc3JP
+MHRiYTN1TG02d3NQRXhjYkh5TW5LMHRQVTFkYlgyTm5hNHVQawo1ZWJuNk9ucTh2UDA5ZmIzK1Bu
+Ni85b0FEQU1CQUFJUkF4RUFQd0R2ODBvNjAyZ0drVVNxYXVLZmxIMHFpcHE2CnArUWZTZ1F0Rk1t
+bWpnaWFXWjFqalFaWm1PQUJYbC9pYjRxN0pIdE5BalZ5T0RjdU1qL2dJL3FhR3dQVGJpNnQKN1NN
+eVhFMGNTRHF6c0FQMXJNSGlyUVMrd2F0YVovNjZpdkFidTYxVFZwalBmWE0wN24rK3hJSDRkcXJQ
+WnlBWgpBL0tvNWlsQm4wekJkUVhLQjRKbzVVUGRHQkZTMTh5V2wxcU9uVENXeXVwb0hCNDJNUlhj
+NkY4VnI2emtXRFhJCmZQaTZlY2d3NCtvNkdxVWhPTFI3RlJWTFROVnN0WXNrdTdDNFNhRnU2bmtl
+eEhZMWRxaEMwVWxGQUJSUlNVQVUKRFJta0pwcE5JQ1ZUVnN5cEZibVNSZ3FLQ1dZOUFLb0tlYXdQ
+RjkrOGtGdnBNRGZOTjg4dUQvQU8zNG4rVkp1eQpHbGQyT084WWVJTDN4TGNOYlc3TkZwcUg1VkhC
+bFBxZjhLNTIxMGNBakM1OVRpdTh0OUpUWU9NOWhtclZyb2lxClNjRE9lNHJubFVPNm5RME9VaDBz
+SWNCVDljVklOR0VqWSs2Q2MxMmk2WkVEOHlqUHRVcDB5QTg3Y2UxUnptL3MKZER6eVhRbFZnVlVr
+NHJKMURTV01SWlZCOWhYcWoyQ0tQbEhTc3U3c0l5dVBMRkNtN2t5b3F4NWxvV3Y2aDRWMQpVVDJy
+TjVaSUVzSlB5dVBRMTlBNkxyRnJybWx3MzlvK1k1QnlPNm51RDcxNGo0aDBRcHVtalhqdld0OEs5
+ZE9uCjZ4SnBNekVRM1hLQW5wSVA4Ui9TdW1Fa3p6NmtIQm50RkZGRmFHWVVVVWxBR2NUU0U4VlIw
+dlVsMVd6RnlpN1YKWWtBZHhnMUxkWGtGbkY1azhnUmM0R2U1cWJxMXd1VDdzZlN1TFc0T282eGMz
+WndWM2VYSC91aml0aVhVNTVoTQpxUkNKQWhLbGpsengvZEhUOGF3OURUWmJSWjZrWk5aVGxvYjBG
+ZVIwVnZIOG9IclY5SStnSGVxVUxBY0NyaVM0CjV3YTVqMDRrMGNJQnkzU3BURWhJeDBxRVhDWTVC
+L0FValhwSXdxMGFGYWhOQUFPT2F5N3FBZ0hpcjdUTy9WUUIKN1ZETklwVEJ3RFNaTDBPYnZyVlpZ
+SFIxR0NLNEZyWjdMVm9ybUw1WGpjTUNQVUd2U3JvREorbGNocWtLK2VTcQovTld0Tm5MWGpkSHNk
+cGNDNnM0Ymhla2lCeCtJelU5YzU0SnVqYytGN1lOOTZJdEdmd1BINllyb3E2MGVlTFNVClVtYVlI
+QWVETGp5Yks0aWtiQ3A4K1QySGVtNmRwODJxNmpOcVZ3N2lNdVRHQ2VpOXNWazZQZEM3bmF5Z08z
+emcKb2Z0Z1p5UlhmUnhKQkNzYURDcU1DdVdnbTRLL1FtR3hYbGlpaHRwQWlnRGFRVGl1WjB3NGpR
+RDB4WFRYakJiYQpRc1FGQ2trbnRYRDJsL0huRVhtU0tySExJTzJhMHFLNTAwSGFSMkVjME1ZRytS
+UjdaclJ0L0psQTJ1dlB2WElUCjZyWlcwRFN6VzB2QXlTWEg5RFRiRFdudUZhVzB0WmZMUWdISnhq
+SXlPdnFLdzVUdlZWTFJzN1NXMkF4aGdkeHEKVHk3VzNpSm1rR2ZRYzF5bG40bXVibVdTR0xUTHFW
+b3lReHlvR2Z4Tk1pMUsrMUdKNVZSWU1GZ1VQek1NSEhOSApMYlV2blQwUjBEYWpDeDJ4UU0zdlZX
+N0xGZHpKdEhhc0s1bXY3ZlREZVJ6Q1Z4SXF0Q295d1h1Y0FqTlIyOXpjCjNka2sxNXB5QjJKQlRC
+M0tPeDV6VDVkTG1YdFBlNVM1SzZ1dWR3UEdDYzF5MnJYdHVqY09ISTQrWG5tclBpZlIKWjduVDdl
+U3hoa0V2bkJTa1F4a0VkL2FxVWZod2FiRUE4aGtkajh5ay9LS2NWRmEzSW01dDJzZGg0SjFhQ3gw
+WQp4WFFhTXZNV1VoZU1IRmQwckJsREtRUWVRUlhuTDI2UjIxdTZuOTJ2eThEb0s2enc5Y1NTVzBr
+TEVzc1JBVnZ6CjQvU3RZVHZvVGlNSW9VMVVpemJ6U1pwT0tLMU9BOHMwR0dJZUlJWm8yTzVaV2hr
+QjRQQ25HUlhjeVREZGhSa0EKNEpKd0s4dDFTWk5OOFhSWFZyY3JKRElBd2xSc2pQVG4xeC9oWGRX
+L2lIUTQ0VWpYVTRTeWdBbkRmNFZuRFRRRQptV2RZUXo2UmVSQVpMd3NvQTl4WE0rR3JOVHBhQjEy
+UDVZVWc5aU9QNlYwbHhlUlBZdE5CS2tpRWNNcHlEV05aCjNDTmNCbDREcnUvSHZVMUdkV0hzNzl5
+eEhvYkdPYU9WUXlURERaN2luMitsMjJtV2JXMXFoU051WERPVHV4NjEKcG9IbEErWWo4YVM2aWln
+dEpKSDVPUGxIcWF4NW5heDJxbXQyWStnNzQ0NVpXeUhrY3NjOWhuaW4yc1BrYXk4bwpCOHViTzdI
+OEo5YXRhZFp5dGJGd0NSMU5NZEpvcGNxdWVlRFV0czFVVlpJMFlJQkRQdlB6WjV6Vm1ReFNObmFX
+ClB1S2pzcjJPNXdzeWJHUEFJNlZla2lSSTg4WnFrN29UanFacytWVW5nZWxjMXFSeVd6MjVyb0x0
+d3JFZGE1elUKdWplOVQxTTVhR2lHV0t6YUk1WkhVZ2J1M0ZkQjRjQ0xwdkI1TEhQOHE1d3BHbW5S
+bFNUSmpMWlBYMnJmOE5vVgpzZDV6ODV6VzlKYWl4czdVVkh1Ym1hWFB0VGMwbWZyWFFlU1ZCNFMw
+WlVDLzJYYWtMMDNLVGo4elR6b2xsYnIrCjVzcldQM1dKYTIrMVY1eDhwb3NLN09UdmJMenJuWTho
+MmdaQzlCV0JlUUxaeW9JaHQybnA5ZjhBOVZkUGZNeVgKUTJqT1FheDlSaEVxRml2ekFaSDFxSnh1
+aldsTGxaYXNiamZHdk5HcEF6SmdNQVY1SHBWWFN4a2dMMHFiVTh3SQo1SUpBN2dacmpiMXNlckdW
+MFZiVzR2NGcwY1IzS1FlaHA4VVZ5UXJPejRiams4QTFTdDlZZ2lZN1ZZSHA4d1BOClhGMWFORUto
+UzdIbkM4MVZpNG90d1Jxc0JRdGs1eUc5NnVSenUwWmpmN3k5YzFoeDZwTEpLQkhadGtudXdyb0wK
+V015WVoxQ3NGNTVxWG9FbXpPdVFUSjByQTFSdVRYVFhRK2Mrd3JrZFhsekp0QnBMY3luc1FwcWsw
+cXBBUUMzMwpkM3RYbytseCtUWVJMN1Y0TGVhcGVXR3F5ckZMalkrVkJBT0szTEg0bmEzYnVvbUZ2
+UEd2QlVwdEovRVYyUWpaCkhuVnEwcDZTNkh0ZWFYbXVjOE5lTU5POFJ4N1ltTU4wQmxvSFBQMUhx
+SzZEUCtjMVpnYk9PS2htWDVUVmpLQmMKbGhqNjFCTk5BcW5NcS9uVkFjWDRvdTVyQVJ5d1ozN3NI
+QzU0cm5ENHBobVRGM0E0WmY0NDFKL01WMTJzeUxKSwpHVUFxTzdIRllVMHNLcVMrMEtmK0FqOWFY
+UWFUSWRKdm9UTis3a0RJZVZQdFc3ZXNzc1l4L0VNR3ZQTDdYcmF6CnZBSTR3b1J1WHoxRmRQWmFy
+RmRRSXdrQlZoa0d1S3BHenVqMEtGVFN6SExaR09RNFhqTldZWWlTUnRBQnFSV2EKWGhUajFxN0Rh
+L0wycVUyZDBaTzI1RkhhckVPQUFhdlJ5aU5jWjV4VVlYYnUzVm5YV29JaEtxdzQ2MU5tWnprawpM
+ZjNBUkdiTmNvNkdkbmtQYzRYODZ2WE03M1B5TGtMVDB0d05pZ2NEbXFXaGczekhtL2ltM2FMV3BI
+d2RyQUhOClk2MTZQcW1tcGUzRWticUR1WGoyTmNkZjZIY1dpQ2FKV2toUHAxV3VxblVWck00cXRK
+cHRvcDJWNVBZM2NkemIKeUdPYU5neXNPeHJ1ditGbzZsL3o2d2ZyWG55akpwL0ZhbUI3WTNpV0VI
+ZDlubUI5QlA4QTRpb0x6eFpickQ5eQpSRDMzdUIrb3J6cXgxK2ZWN3FhSkVNVWFKdnl2SjZnYy9u
+WFkyK2pXa0VvbGFQZWVDR2M3eWZ6NlZqRlZIdXpWCnVIUkdmZCtLYmllUVJRTEk3SG9GQi9tZWFM
+YlNOWjFhWmZQZjdPakhxVHovQUkxV3VOZmcwV1M4Ullsa3VXdUcKMnIwd1Blc1M5OFg2cmRLUUpo
+QXAvaGlHUDE2MWFqZmZVam1mUXY4QWpIdzlGbzhNYVIzSWxsZGh1eVJuOHF5dApDMU43U2Y3TXpu
+eTIrN25zYXltbGVTUXU3Rm02a2s1cUxQT1FjSHRWT0thc0NrMDducTFqcTBxS1BsOHdBWTRJCkJ4
+V24vd0FKQ1VIeTI4cFAwcmp0RGwrMjJrYmJzUGpCK3RkRkhwMDdEaGpYSzQyWjJ3cVN0b1dKdFl1
+WlYyb24KbDUvaUo1L0txaXF4KzhTZjYxY1hTM1hCWWsxWmpzZ3ZYclVzZXIzSzF2YjU1WVk5QlY1
+TGZBWmlLdTI5b1R5UgpnZHFubWlDSmdDcFpyRldPY2UyemVLY1VXMm5yTEJNcFVGUk00R2ZyV3dM
+Yjk2RFhJK0pmRTZhWllUV05vLzhBCnBjc2ttNWdmOVd1NC9xYVNUazdJVTVLS3V6amZFb3MwMVY0
+N05Wd25Ec09oYXNmSHVLQ1NUa25KTkorZGQ4VloKV1BOazd1NVowVU5iNnhkUnNHWE1UY0hqSXlE
+WFZhdjR4a1hGdnA3Z1lVQnBkdlRqb0s0UzBhWkpIbjNuYzRLNQp6MXoxcWZPRTl6VEpIeVROTEsw
+c2pGblk1SlBKTlI1SjVQZWtISjV6VHdwSjVCRkFDZ1lYUGMwekhOU25KcU1qClBwUUIwdmhTUXVK
+b0ZPSFU3MC9yWG9tbWFtaGpFYzY3WEhmMXJ5alJicjdEcUtPZUEzeW12VTdIeTVWVnlvT1IKV0ZS
+V1oxMFhkV05nRXpmZDZldUtzdzJ3RGNESjlhZGF2R3FBQlIwcTRDQ0F6SGFvNVBhc21kQ0VTSUFa
+Tkk2QgpqeVBwUmRYVnZhUUdlNW1TS01EbG5iQXJ6enhKOFIwQ3ZiYUxrazhHNFlkUDkwZjFOQ2c1
+YkNsVVVkelQ4VytLCnJmUW9tdHJWbGt2bUhUcUkvYysvdFhrVTB6M0V6eXlNV2R6dVludWFKcHBK
+NVdsa2RuZGpsbUp5U2FpcnBoVFUKRWNWU3E1c1drNXBWR1d5VFM0OTYwTWlMR0NCMkZPYnFQcFJS
+UUFCMlZzcXhVOGpJcXI5cGxWaXVjZ2V0RkZBQwppUjVUOHpuOEtuRVlBNnQrZEZGSUIvbXVwSE83
+L2U1cjAzd2JjeVhPbUF5bkpSdG9QdFJSV2RYNFRhaDhSMTVrCk1FSlpWVWtldjByajcveDFxMXZM
+SkhHbHFBcHdDWXlmNjBVVmlrZE1teml0WTF2VU5adVRMZTNEU0VmZFVjS3YKMEZaUm9vcnFTME9L
+VHV4cE5BSEdhS0taSTdOTnlhS0tFQi8vMllrQlRnUVRBUW9BT0FJYkF3VUxDUWdIQWdZVgpDQWtL
+Q3dJRUZnSURBUUllQVFJWGdCWWhCSzNJb2Z6QlhnSFVVeEJCbnBSbGVySVBLZ2tyQlFKaXl2aCtB
+QW9KCkVKUmxlcklQS2drcjZZb0gvMU10OUs3OWdIZDlvVVpITzJ1alNtaHFra1ZvNjJ4RHNPclNu
+L3A2YndaalJybWwKK3A0T3ZSTGp3UGlYODNmeW8xcU14LzZsODNFeXNBTHlLd1FMT3FLZE9CbVJw
+Nmc0dlZGenYyaXRjZjgrU2pkSAp0endYM2pnV25nZUlYUFlWSjh1QkRKTlg0am5DMmRrcmtGUnRC
+eVVsa0dBaEo0QmpHRVRjeXcyMTUyMlhpSjdCCllyeVBHcm5pREVBa3hQbkhiRVdETUZ2YnF3bDAr
+VzZmU0o3OFgxVEF5Y3IrV2hDZkwxSFJjdndzemJ0MlRBR1MKa0pRSlRraFVrdWd3bTdzWldkTFFZ
+UjN0eFlNVDAxL2ZHeDdHa0hYZ0RTVy82Q01WdCtlMGhBZDZVcnM3MmpCUwovT3Rodksyc1NiTjJw
+ZjN3VVdVYTVsbzZJa2UxeGpEeWZrNWgvaU8wS1VGdVpISmxZWE1nVW1Ga2EyVWdQR0Z1ClpISmxZ
+WE11Y21Ga2EyVkFiV0ZwYkdKdmVDNXZjbWMraVFGT0JCTUJDZ0E0QWhzREJRc0pDQWNDQmhVS0NR
+Z0wKQWdRV0FnTUJBaDRCQWhlQUZpRUVyY2loL01GZUFkUlRFRUdlbEdWNnNnOHFDU3NGQW1MSytI
+NEFDZ2tRbEdWNgpzZzhxQ1Nzb1NRZi9iRHFGa3pVUlo5SjJBeDVjMENHSGQ1TUFGYmdYdWdmRm9t
+a0NEY29zV2RsTWZJb2QyVkdpClNYYXhvYzhpZFFyZjhoMmt4OHBNMVdRalJFcllma01kUUExK1hL
+Q1JZU2tjVHVvdFl0aEtFYzc4dXY4TlkvdjgKdGI5Z0E0NXdPZWFOUUF5cUxSeTZzMERweEJHSFFn
+ZE1mTUREa0IrbVVBN0xMYVZjTzNaNGszK3RFTzhBbUZxRwpVSDVkTENpYVc2aTgrNXJ1TFZQM2lL
+ZktoRTcvRTE2amFPcEFxZ1o1cVo2REZIY0w2aE5GU0gwL3loeGJhblAxCjRJSkZ2YjNyZVlZUXAw
+eDNrOVMyMGRhSHpsN2JaM09tRUU5SmU5UlE5aGVxdnJlSTg1U2NSam1ySFU0K0xPRnQKK0Zwa3g4
+ZmhNY1NGUWNxeWRON2pCQ3FKeVJQOFJ4cXNiYlFqUVc1a2NtVmhjeUJTWVdSclpTQThZVzVrZVhK
+MApja0J0WVdsc1ltOTRMbTl5Wno2SkFVNEVFd0VLQURnQ0d3TUZDd2tJQndJR0ZRZ0pDZ3NDQkJZ
+Q0F3RUNIZ0VDCkY0QVdJUVN0eUtIOHdWNEIxRk1RUVo2VVpYcXlEeW9KS3dVQ1lzcjRmZ0FLQ1JD
+VVpYcXlEeW9KSzgydUIvOTcKd0UxM0hRWHZkZzQ4ejd0MGN4SG5vS2VaNUZaTnZaU250RlFkVkVP
+dmRoVFRrRGo3ZGNZTmtDcjZ1YklxSDQvRApoS3l0ajJlNlFydDY5TFBMWFhjU0JGazVPNGdZd3N4
+amRPQTgrZU4zUGJMSFNHZmhYN0hPYTFZRm5oa1lWS1k0Cm9RUURCK3dUZ0JtN0I2WmowTFJTT3Ru
+SzQzL203dlgxd1RUeVNyZVhqTTFodXJjYnQ2YjJXVzdJQ1pFVDIrZjcKQTQ1WU5jQkNodGVrSXFn
+MVp4QTAxSG5BczNxU3RkS3RDL0xyWkdPRTllRHNQMVJwdnRxdXlVTXpXL01JSGZXUgpVL3NDbEVo
+MXZGQkFob1lTRGZLRFpxcnRTc0lJbzVyV1JYaWdUYnJYOUZKem5aMkR4d3RZTGJzVUx6T2F2bUt3
+CjBLODJiMTlqWFRqNnFQcVNhK2dpdVFFTkJFM09meUVCQ0FDakFRcmVFdUZ0OUhoYkJrT1BUU1RS
+RlRuZU1uNTYKL1pFazZSZGFuTnRybmZITXlQTmNndituTHBONFkxU0NGd0RxdmZ0MjRyRjhXbGow
+SXlXZURPZy9IaTY1d056RQpKUHprUVFQRUg5LzVmcmRmV0FnbkNtZThOMDhKRHlZYk1VaytjTGU3
+QW9seWozREEzMVlYV1ppc2UzZDdvY3dhCm53dEV2em5xcXYxYTVoOGtBSTNxSERDMDBxd2x3L1hi
+cjlnQW1QZTIvVXNnMHNudnZGVDRUMURqaTZoTTBzbEkKRDNFWkpweW85Q1BlZVV4RUJhWm85cTAw
+Vk11S1dvRmkyQzZiWVNwOUdrNkxwTU5NMW5hVlN1eVhKRjFsekR6Zwp2RkxtYkhyNlExc1c0MEFu
+L3d5TncrNkFNV2h6ZzFaODVIbE1ObHRFc0J1Wis3SytrY0Q0b2t3REFCRUJBQUdKCkFYNEVHQUVJ
+QUhJRmdtTEsvWXdKRUpSbGVySVBLZ2tyUnhRQUFBQUFBQjRBSUhOaGJIUkFibTkwWVhScGIyNXoK
+TG5ObGNYVnZhV0V0Y0dkd0xtOXlaOEZxRlJKd04xTEFHSEtpK3RsRndUSlgzQWJOOGN0UzhBMXZP
+Wmp1MUxuQwpBaHNNRmlFRXJjaWgvTUZlQWRSVEVFR2VsR1Y2c2c4cUNTc0FBQm1oQi80b0hUaW5j
+cnIwZzZwTy9CUUVPeldICkhFY1krQ2lvbThWTDRRemw1cVhjV1MwdzRRT1VEbXVZVFRPOC9mQnpS
+SVlmZXZsNW9tRVI1YlovaHBDem8wRGQKRWc2N1luTGc5TjZNdGhxU0YzNHZYZVNZbTJsMWZBNnE5
+TW03THE4SzFkV2FZUGdkd0lwR2IxK05yenFlTXQ3dwptb1E4N1JFWE5acVFWMktSc2tyZC9WRUpL
+bmRjYlVGK1liN2VPcFJwSVR5VkF2K3RpbExrWGFRQ3N2STFReWlnCkpGbThFYnJIRWlnTlhyendL
+MXhiSzA2MFN4TVJKZ1VWQ2p2cTVlcXRib3pkY1B5N29tNUxkUUN2VkpsSUw4V0cKazNNbE1ockNH
+T3pVL2JvNDBhOGE3OUtSUHo0VU1qcmVtZFQyOEZTZThtd214L1dndlYyZEhNL0wyWmJiMzZKTwo9
+VUV4MwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+--0f282d91b948f5a8dafe9944292f61d7f2966ef79d8af840914b8dfe5cd3--
+
+--4ed2532edafd1b8d5f029bf9dd472fef7af968f0dc65d8fa70884027829a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEErcih/MFeAdRTEEGelGV6sg8qCSsFAmj9z2IACgkQlGV6sg8q
+CSstaAgAhFztzUj1FGo37GK43VbsJiQoiNwFFy8z2dJsKbkOdJl2lYsspGfVWpym
+0LqMAsfXqhGC22g78NSGhVzMxuI53RARbdWzJ59gU4F4CpAVvJQ1npizhQqlzSEi
+dj8tvNIZV0UNz467JIlgsh+IAP8SfqPfz2Rg1+nU4vpRLo5cjZSvmCHq1epEmt6O
+1AvvayquSKGwp4VI/arD6qnVwRgphcl+lfn73Okzmxpn1vCEDZ1QUFTM2xqxsVAX
+PNhY6oZ6o0pKfqo5Xk0Z0Ax4Xe4KX34UjtC+SSlIhcy1eFNTeLEVQg7igxst5kg2
+dfefVlWgWQ2HLMh9QpDLKAtKDtb/vQ==
+=qeac
+-----END PGP SIGNATURE-----
+
+--4ed2532edafd1b8d5f029bf9dd472fef7af968f0dc65d8fa70884027829a--
