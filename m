@@ -1,124 +1,144 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9495229B224
-	for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 23:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD9486359
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 01:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761436166; cv=none; b=C6W7yy34pWZzn2Qx3Y6Nt5lXi0cw6WJBCCUnTmmyQpJ9rQNXHtEMfNqIPEUkpj+OsCEywn8dKpgocavwpVgmY7A0k2Z8TWwCJzwVjNIFbZcdw7sZNpd7gmcRk3ntYagkAIiQTpbEWqGbgcaZrwz7L0BT/naXYvR53hMcZJXX2OI=
+	t=1761440724; cv=none; b=SjszKMteyZhtI2NEcGJc6O+G0bywa6FrXr+JViBMzQQwyzGmuG/y2ZoW5URmXF67U09I6oYFlQ6Zao8ox224OkSBkphkfJbAJ9iGLb/QcrKLNa3h4eBEkGkya3mHMnAnWe80mFI1hkEu4Xg1Bmtkzmn6snHHCNiZElUhpUKa/fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761436166; c=relaxed/simple;
-	bh=u2zY2AE1iCLjSF/2YQo0jceAk9y6aNlvx+a5Lo8HZPw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=DJQsgQ9ZLiqh7GIfX8OwYo8yT92VJ72xF4cgEYZh29G3rC+pPC7L2bm/wGMN/+97iSglnR28W8shUva2R9dwa+Nh01S+it8rTy9JSRinvOf6QfuSQV0Lw3Hp56sszXeNmJWGDTvjqnhLgr44mEPpJN7kqzUbZt5qvfyD3n3kVbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NZ8+7J+e; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761440724; c=relaxed/simple;
+	bh=KLqV75PcvEyUm05RQodatiEG/ugFMUNCSjZ4Fbo2bkQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eGW1N2Za1Wq108oEOdGmejfbb8pcH0J7lrtIzUkG0+9r5Zh37WsympXSdS38YRAc4h9LRe9iXy6Ex/rR1KWr+ryVYQLe5V3x+yLZ3XooC4iQ3aZcpRsJaZ+0iqhwgcyeqvw1t0hiBJVMn2EkMSqR2CfVm6beBSREYmeEEOII+gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWe5OMOe; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NZ8+7J+e"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Hf98TEhbNhtjfzWeAc9Z+k3ltUnsEbaa5JaKVbgMaiw=; b=NZ8+7J+er8CuuNo/CF1uBSoHlx
-	HBaNxZLMOyIQJgXSa1Irk3Xs6Yk8/cTyjU70/ZCdYzfTyM2QZcsOUxJtb2rPcehPgobSCl9LqL1sL
-	sumXRwI5CPYwckLyAkBZ5A63AARlBUC9/FtOcr/DAYmXziW4nkrvLQFkt3Zw05iIgbrC619/mqPvl
-	K8ra8EERq8kCrAhRVZU2GdeqAQsSfIVacvsWlkC5IcPVHP/JJD6f3yjQStV3tcdhgtLdzroaXhpwm
-	SpEs6M28odtPZbvKMah1HIP0FMB3mT4WfQnHeRE/UjWtQpY/BQYbmyXTWLSwamour+X1aNQYjsHSH
-	tos/fOAA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vCo0h-0000000BrK2-0JQQ;
-	Sat, 25 Oct 2025 23:49:23 +0000
-Message-ID: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
-Date: Sat, 25 Oct 2025 16:49:21 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWe5OMOe"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-780fc3b181aso2135763b3a.2
+        for <linux-doc@vger.kernel.org>; Sat, 25 Oct 2025 18:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761440722; x=1762045522; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yS34+uhylNdFYNWrvgsPGh1bBy7nTRn8Y42YGAOkzr0=;
+        b=MWe5OMOe824Tdw6FcQvWhgeBq0xyEAepk3Q4yOtpcfeHIoNGUzCF1uEh0/FD2ZPudz
+         u6luLV2YhOzvd7Sks8zL2aHXJLykn8klOFH5TnXf724gSlLB+QGkJyyTHGLNRpTyBGCX
+         L0Qscld6K5t3wYu22El5xRsirPCb0fTf6myS8yr4uqJIyefWFddKxeI2D6BjKamAC0t5
+         bOe2yyUqRlX80THK0F6r7+TzO2k/PoKx9rHMkJ7WKPM9oBTVPBb4sgL/Vk3zsE2gdeb5
+         CnWqvXnpDN9nWif+3aiBSUy3sZsQBLclDn9w9z+Eweq6mVo3D3iVkUA/++dcreZKwJVV
+         VT9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761440722; x=1762045522;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yS34+uhylNdFYNWrvgsPGh1bBy7nTRn8Y42YGAOkzr0=;
+        b=FotrwQV5rijl5xpQJkqExjFM1mxldYDnS3pRI+ltoS91l8K99WQygXaRM/WpBtEEmn
+         0kDStSQEbe+T28hzOVsGz8exGi/1X6uGZVKUrM13iJo8nXbSIwrmyaH7eSzGbRm5oNax
+         7SeDhXpTob7KtydJZTil8RCNfmHl7ka/JyYCCh06OTG8+Hc0SKsTA+P2TG6qlIZdhHD3
+         SB6KT13girV5LkSo37LSUDhuBGW6aATJwXO5qZGB2eFsIOz22VjK+UZTfaUIFsJ/ScI5
+         RGmzPaPcDjBIo0nNaNJCpry1ao6TBrFduzZlaKS0ECJM6TWL9yom9wBtPIkbUNaZxhH5
+         bulw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOI2C7hqgef1vnThv/HDiiJD5u/o9UY3yt5ISyUp1puN70W6r2hSUYw7cW5d2XqnWIbeGj9c43y7o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqNNt/rs2L/pWcgTwFxk5Wfv/MBtFUTw/DEfAv0yaUIRoiV4S7
+	L9bY6oJAI1G/QxwGkpEJmQUI5yYTbx24/7dmkxM1Oh2x8rIElGkyIa1G
+X-Gm-Gg: ASbGncvcfktCGqWE6gJ74kc+n5e6NPBZWJS6GKhzTXCJOU2BHsUBDs5tXjSx3EfTwRf
+	5elkDQBQCiXt/4tAwPzHdNZjMOsAnKgPojtVl3UnuTvRIdBmAku4qy5hnmBWhmD6pCV2ftVOro2
+	FIDuXl7aH7sk2gVjYUHJqj6nFoQ9zLakPCpFqJkRHhA3RsuZgzFMeuhCX5sN+Dgm2TYR/R3UDOk
+	QKCz4K3hm2TrFobgMJEnwHTNLlpqcwvK0Mx3+ulpn6jkNRq4C0cy774Owr6Up294xKGInOjOwpA
+	nvpIeKrZ2IdEWM2dB7SHcntYxG1PYgxsBvL5qgDJCmft8Bpn7F6MrZec7IddyBnzMe71cvUbnW+
+	X4zv58J+KXRq6smpGHXbH7FdOSlONuaDi6UL5Y330casYggn60sUMYqP6sLo9hrr/32PQGcK1ul
+	JFldPl+zVWDnwdCw==
+X-Google-Smtp-Source: AGHT+IGqJ3fK980blF3S2OhDDl1kPCFC3PDx3uiV6lRR9MlLGgQ+c3xMg89feF4XpI76Z2y7cP/wYQ==
+X-Received: by 2002:a05:6a00:23c2:b0:780:f758:4133 with SMTP id d2e1a72fcca58-7a274ba91d9mr12147230b3a.10.1761440722260;
+        Sat, 25 Oct 2025 18:05:22 -0700 (PDT)
+Received: from daniel.. ([221.218.137.209])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a41404987esm3371597b3a.36.2025.10.25.18.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Oct 2025 18:05:21 -0700 (PDT)
+From: jinji zhong <jinji.z.zhong@gmail.com>
+To: minchan@kernel.org,
+	senozhatsky@chromium.org,
+	philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com,
+	corbet@lwn.net,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	axboe@kernel.dk,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	akpm@linux-foundation.org,
+	terrelln@fb.com,
+	dsterba@suse.com
+Cc: muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com,
+	linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-mm@kvack.org,
+	zhongjinji@honor.com,
+	liulu.liu@honor.com,
+	feng.han@honor.com,
+	jinji zhong <jinji.z.zhong@gmail.com>
+Subject: [RFC PATCH 0/3] Introduce per-cgroup compression priority
+Date: Sun, 26 Oct 2025 01:05:07 +0000
+Message-ID: <cover.1761439133.git.jinji.z.zhong@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: about make mandocs warnings
-To: Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro,
+Hello everyone,
 
+On Android, different applications have varying tolerance for
+decompression latency. Applications with higher tolerance for
+decompression latency are better suited for algorithms like ZSTD,
+which provides high compression ratio but slower decompression
+speed. Conversely, applications with lower tolerance for
+decompression latency can use algorithms like LZ4 or LZO that
+offer faster decompression but lower compression ratios. For example,
+lightweight applications (with few anonymous pages) or applications
+without foreground UI typically have higher tolerance for decompression
+latency.
 
-'make mandocs' on the full kernel tree generates a little over 10,000
-lines of Warning:s.  Then it says:
-  Warning: kernel-doc returned 138 warnings
+Similarly, in memory allocation slow paths or under high CPU
+pressure, using algorithms with faster compression speeds might
+be more appropriate.
 
-What does that number mean?
+This patch introduces a per-cgroup compression priority mechanism,
+where different compression priorities map to different algorithms.
+This allows administrators to select appropriate compression
+algorithms on a per-cgroup basis.
 
-kernel-doc is doing a very good job at finding issues in kernel-doc
-notation, but there are a few cases of erroneous reporting. These are not
-numerous and may not be worth much effort to fix them, although
-some of them should not take much effort (I think). But I am just
-reporting these in case someone wants to fix them.
+Currently, this patch is experimental and we would greatly
+appreciate community feedback. I'm uncertain whether obtaining
+compression priority via get_cgroup_comp_priority in zram is the
+best approach. While this implementation is convenient, it seems
+somewhat unusual. Perhaps the next step should be to pass
+compression priority through page->private.
 
+jinji zhong (3):
+  mm/memcontrol: Introduce per-cgroup compression priority
+  zram: Zram supports per-cgroup compression priority
+  Doc: Update documentation for per-cgroup compression priority
 
-Examples:
-
-Warning: drivers/misc/vmw_balloon.c:259 struct member '5' not described in 'vmballoon_batch_entry'
-"5" is part of an expression "PAGE_SHIFT - 5" for number of bits in a bitfield:
-struct vmballoon_batch_entry {
-	u64 status : 5;
-	u64 reserved : PAGE_SHIFT - 5;
-	u64 pfn : 52;
-} __packed;
-
-Warning: net/netfilter/nft_set_pipapo.h:102 union member '32' not described in 'nft_pipapo_map_bucket'
-"32" is part of a static_assert() expression. Probably just
-ignore the entire static_assert() [any number of lines].
-
-
-Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_restart            (*__private function)(struct hrtimer *)
-Warning: include/linux/hrtimer_types.h:47 struct member 'enum hrtimer_restart            (*__private function' not described in 'hrtimer'
-"__private" is an attribute from <linux/compiler_types.h> and the
-struct member here should be "function", which is described.
-
-
-Warning: include/linux/rethook.h:38 Invalid param: void (__rcu *handler) (struct rethook_node *, void *, unsigned long, struct pt_regs *)
-Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' not described in 'rethook'
-"__rcu" is an attribute from <linux/compiler_types.h> and the
-struct member here is "handler", which is described.
-
-Warning: security/ipe/hooks.c:54 function parameter '__always_unused' not described in 'ipe_mmap_file'
-Warning: security/ipe/hooks.c:82 function parameter '__always_unused' not described in 'ipe_file_mprotect'
-"__always_unused" is an attribute from <linux/compiler_attributes.h>.
-
-
-
-Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS]
-Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent1' not described in 'is_access_to_paths_allowed'
-Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS]
-Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent2' not described in 'is_access_to_paths_allowed'
-@layer_masks_parent1 and @layer_masks_parent2 are described in kernel-doc.
-
-Warning: security/landlock/fs.c:1142 Invalid param: layer_mask_t (*const layer_masks_dom)[LANDLOCK_NUM_ACCESS_FS]
-Warning: security/landlock/fs.c:1142 function parameter 'layer_mask_t (*const layer_masks_dom' not described in 'collect_domain_accesses'
-@layer_masks_dom is described in kernel-doc.
-
-Warning: security/landlock/ruleset.c:210 Invalid param: const struct landlock_layer (*const layers)[]
-Warning: security/landlock/ruleset.c:210 function parameter 'const struct landlock_layer (*const layers' not described in 'insert_rule'
-@layers is described in kernel-doc.
-
-Warning: security/landlock/ruleset.c:693 Invalid param: layer_mask_t (*const layer_masks)[]
-Warning: security/landlock/ruleset.c:693 function parameter 'layer_mask_t (*const layer_masks' not described in 'landlock_init_layer_masks'
-@layer_masks is described in kernel-doc.
-
-
-
-Note: hundreds (probably thousands) of the mandocs warnings would disappear
-if kernel-doc accepted '-' in addition to ':' as a function parameter
-or struct/union/enum member separator (like it does for
-function/struct/union/enum short description).
+ Documentation/admin-guide/blockdev/zram.rst | 18 +++--
+ Documentation/admin-guide/cgroup-v2.rst     |  7 ++
+ drivers/block/zram/zram_drv.c               | 74 ++++++++++++++++++---
+ drivers/block/zram/zram_drv.h               |  2 +
+ include/linux/memcontrol.h                  | 19 ++++++
+ mm/memcontrol.c                             | 31 +++++++++
+ 6 files changed, 139 insertions(+), 12 deletions(-)
 
 -- 
-~Randy
+2.48.1
 
