@@ -1,52 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9282F1FE6;
-	Sun, 26 Oct 2025 18:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05D520C001
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 18:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761502946; cv=none; b=ScJc+rmWqD5Icpq+3Wn8JhmEqz3NquZsPS4EJlt5sBGwqzXHKdFLk9EPb3oLffMyhLrxzHc3uKn3qON4to5XrRpnp3F/fg09/OpvmVz4ziPMEEVYvPzP6T74fHJ7URA4HpDE4t+7IgjDUGbZTMMrCcxLp77OjSASUi8GDKBjCGg=
+	t=1761504407; cv=none; b=hief5KZTdZpOT9CxGIpU3sgNU80WbawI39CZyhHlLVzqiWK7Vu8OLV7w7eNC8Vbhl6+JUmvtUn6Qy7H4dd+BfqTmq59ueE4YhRGtFX+nFSVGiWfQd2Pdiq7Kegodnk1HLerczFnJfrcMATa4bdq8adZPCSZM5SVRK0za7GC7NdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761502946; c=relaxed/simple;
-	bh=I1qOOem2KN/JkZ9BYY8eeWzyQQxWRZ7InKt4fNjdwKE=;
+	s=arc-20240116; t=1761504407; c=relaxed/simple;
+	bh=9JElRUYcelJHNX0v60zr/J8lWtgoWXeCAYKccVAcB3o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gw8Q2ePs1BZnnNi9CUiVLpwGIVVC82ZQl4kmrsDBpyyuc2X7eHNP6c2GQ5RXwjugA6WZtSn3DhAgqjgRAzTTFEkJVd/RdBiM1Q63UEJD9XrsSVK1XFJTIhgAyeXJChTYwrKD5MEDNYDEFyRemIixnEu+StSWAaPI+WPLsyUutKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hz1orSbv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=t/s154ArfsP/7P1YOZ8JD/4CdYeTsNAj4gBEQoJ7cPS8yqgiZeJsji8o46IMTPwvYUOnyivMbV4NNenChz4sZohP5rVmKSVqdEdORquLt1Hk62QEgPSbjnzIXPRuuC8QGHun51PWpo9DMnlhOkRuoJ+ql2DRvOcuM5cvVBXZtJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=nfuU5nc0; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hz1orSbv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B4BC116C6;
-	Sun, 26 Oct 2025 18:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761502946;
-	bh=I1qOOem2KN/JkZ9BYY8eeWzyQQxWRZ7InKt4fNjdwKE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hz1orSbvkBt07uCPY9LqB+5RZ4lOiEganPCCSlYwGKdf8CP5+J7XAkwN5Ov9Ow2aX
-	 k1Hp1eHEVwLCMHudHdZ8AZ9Y3xVPutNbeQ8aEDMz0QHP1MCQk+C9E9SplA4v2E/dhG
-	 KSc2I1kpRL2KEyL7ZyrUzL+SZAKWCRwYsWz1E7yGWqMJwdkTzGV3cbPe+oNqtMfeoK
-	 duJx7rjzR/20lz3rrdDelbelInYeuR72NwUwFemhjiPTKLZfPmKmQ9p9pnToJcz3iC
-	 MjbpydH0AkfLc0zE8FfYF33u2a7C6oJIl062xJ3rV3EUmagGbs8KbeE2CHGUI6LP3N
-	 0yzbVz46qNZYg==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	damon@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="nfuU5nc0"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-290ab379d48so35492575ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 11:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=reznichenko.net; s=google; t=1761504405; x=1762109205; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kr+uTiTscqC5xNsxJVLhouOq96vCtcj/UADaRDhqzhs=;
+        b=nfuU5nc0POpV4P3j/DGLhWJQXNqr0k1HE9XSR9yoHSEwcBdUbWJrDZYIJNC/Zigl6F
+         vHDtRKR7oa6eXm8LNFt350e4RLDLiyPUquzPNz6Aw1x35N6To1Q8ve58ATIPNEeiBo11
+         ur7nEaXMjxSGzSoYn4diJtavEwxzJPcZVVmszzlpx690+BugfkfxFVkZgxNNGpnNZlZP
+         Mm5mcMN+BY8C0xEeM+VI47tSDq5MCuJIZWbXA01kn/aNtazHm6o4pnG9RfYsx/ARUmMh
+         ysw1c0ZBFcNMlGfNTBSpKL19nfZYqEPPjLcU+HpQ0hrU3LPAQzmZmrFNLRF1ld4A2q4w
+         VUaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761504405; x=1762109205;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kr+uTiTscqC5xNsxJVLhouOq96vCtcj/UADaRDhqzhs=;
+        b=dMmjMkC1OwIpU65tyoJwwKStzSL500R8wiAanbfTuSqvfifR3HMGTxw7PJXNMpm7Ph
+         IbQbztTnbbm+fSkUlMwB7tw1d/XCCTM7+jF+DhiwzmdcuYcv1pQuMPNIQwYOV5SvNtFs
+         1PZ3RAjk43wXontTBkUqIAfdUUxm/WfQLfCWB2gk/YUboKH/Q9A/MsHISlgtC+Ni/8pD
+         4FvCRQx9V+qH3FEd2l6WFgbhmABXb+zt62uJhUr36Nb0qIoCyGFdkCJlmIm6nqBsv8yO
+         C0skaueLeoQVi0klBVsT5tQ7+hVL85MhNo6aKH9YRkK5Sc89oLZeM2ip5erT8K6bdsPH
+         ssEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtPdwAVspXvWppHHP9dMbrQawrSye2Vk6APmIXjF/6inC+7DTjmB/0YLops7jVbytCz881Odv1z90=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwipczvwgGL7CvsAR8cp1HfrlkgfvZmFWjezt2IoLjOGfEkHvY5
+	MJvsx4p7YvM3EgVQVLeiNt72/7S6q0UofdLExJCH9dpOI80P8yLQCnOaWVdwoClATBM=
+X-Gm-Gg: ASbGncsTlwdjia5mhlh5exTjlSEqvMqy1ePgoawO2y/FzS0m6PYgnORjlXiTsvF8dUs
+	3eZoA1Mmwdihm3bgQn3ecZDR/WDZZkAMvI1H706ALRVKoFUF3yTQ+AUZvuyMtEwGEVl7Y0jZCvR
+	CxnA3qz/gW6BC/rhwqF6kbvONiubQ2D1dWWRA4ITfnyI564HmxrLIl2VZi0Iv4IEcZegdYskVtv
+	ozSsDp1mZ0wp/o93fKItknleijWWRogUv6jPdAi+6rghocCLBctDsHSMsP0Fb8yCHnwqKZuI54m
+	PbPmeMZu7QdRxAhHdfegnYwjjma+K7pqz8m4vq8XyTAC4km3ehDbWbwFxbUvaQW1M2Z8mNNCBe8
+	af27oxCYCjSNfuGK/qk+OEosIfNs3gpmfc41dwAuU7hnrw0Sg7UkgM+Nuxs8rUPPKdRwk+eiQYT
+	Gd5PNKYB0IKmT6bnOq
+X-Google-Smtp-Source: AGHT+IHyb18kbZzmWwrapG89GEeH9zIO5kUERUgBm/20I/UDyDk2AQLJZ+iiUs1VcHb79+gHNkmW7A==
+X-Received: by 2002:a17:902:db05:b0:24e:3cf2:2450 with SMTP id d9443c01a7336-290c9c8a5e6mr441023785ad.2.1761504404962;
+        Sun, 26 Oct 2025 11:46:44 -0700 (PDT)
+Received: from z440.. ([2601:1c0:4502:2d00:a43b:396a:591:2ee9])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed7e2851sm2432460a91.6.2025.10.26.11.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 11:46:44 -0700 (PDT)
+From: Igor Reznichenko <igor@reznichenko.net>
+To: krzk@kernel.org
+Cc: conor+dt@kernel.org,
+	corbet@lwn.net,
+	david.hunter.linux@gmail.com,
+	devicetree@vger.kernel.org,
+	igor@reznichenko.net,
+	krzk+dt@kernel.org,
 	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 8/8] Docs/admin-guide/mm/damon/stat: document negative idle time
-Date: Sun, 26 Oct 2025 11:22:13 -0700
-Message-ID: <20251026182216.118200-9-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251026182216.118200-1-sj@kernel.org>
-References: <20251026182216.118200-1-sj@kernel.org>
+	linux@roeck-us.net,
+	robh@kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641 power monitor
+Date: Sun, 26 Oct 2025 11:46:41 -0700
+Message-ID: <20251026184641.631641-1-igor@reznichenko.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
+References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,39 +87,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit a983a26d5298 ("mm/damon/stat: expose negative idle time")
-introduced the negative idle time feature for DAMON_STAT.  But it is not
-documented.  Document it on the usage document.
+> Subject: I asked to drop "binding" and not add "support for". "Support
+> for" makes little sense in terms of binding. How binding can support
+> anything? This is the "ST TSC1641 power monitor" not support.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/stat.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+Krzysztof,
 
-diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
-index 754f98d47617..e5a5a2c4f803 100644
---- a/Documentation/admin-guide/mm/damon/stat.rst
-+++ b/Documentation/admin-guide/mm/damon/stat.rst
-@@ -74,12 +74,13 @@ memory_idle_ms_percentiles
- Per-byte idle time (milliseconds) percentiles of the system.
- 
- DAMON_STAT calculates how long each byte of the memory was not accessed until
--now (idle time), based on the current DAMON results snapshot.  If DAMON found a
--region of access frequency (nr_accesses) larger than zero, every byte of the
--region gets zero idle time.  If a region has zero access frequency
--(nr_accesses), how long the region was keeping the zero access frequency (age)
--becomes the idle time of every byte of the region.  Then, DAMON_STAT exposes
--the percentiles of the idle time values via this read-only parameter.  Reading
--the parameter returns 101 idle time values in milliseconds, separated by comma.
-+now (idle time), based on the current DAMON results snapshot.  For regions
-+having access frequency (nr_accesses) larger than zero, how long the current
-+access frequency level was kept multiplied by ``-1`` becomes the idlee time of
-+every byte of the region.  If a region has zero access frequency (nr_accesses),
-+how long the region was keeping the zero access frequency (age) becomes the
-+idle time of every byte of the region.  Then, DAMON_STAT exposes the
-+percentiles of the idle time values via this read-only parameter.  Reading the
-+parameter returns 101 idle time values in milliseconds, separated by comma.
- Each value represents 0-th, 1st, 2nd, 3rd, ..., 99th and 100th percentile idle
- times.
--- 
-2.47.3
+Thanks for feedback, will fix this and will create following patch versions
+in new threads.
+
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  shunt-resistor-micro-ohms:
+>> +    description: Shunt resistor value in micro-ohms. Since device has internal
+>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
+>> +      655.35 mOhm.
+>> +    minimum: 100
+>> +    default: 1000
+>> +    maximum: 655350
+>> +
+>> +  st,alert-polarity-active-high:
+>
+>Isn't this just interrupt? You need proper interrupts property and then
+>its flag define the type of interrupt.
+
+This controls a bit written into device register.
+I omitted interrupt property after looking at existing power monitor bindings,
+especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert 
+pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
+find many power monitor bindings defining alert pins as interrupts.
+
+Thanks, Igor
