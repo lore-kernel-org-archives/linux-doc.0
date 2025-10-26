@@ -1,174 +1,184 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F1425A2DD
-	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 19:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0988A263F38;
+	Sun, 26 Oct 2025 20:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761508693; cv=none; b=JU6M+4OpxywFAMK46+wy6E1s/iKjHLPNMak9bYn+XSN/FmJyr283gRbaepcOK9B9Nv8mzsy2rznzk7IlO5qqxMNRsqSzzjrmAdxsq2bUpQSwTcM6AFM74XTH2UD8pQHojBcPSgOntqVIvDw0iouJumIrtFaA/oIIbWAHY62JcHc=
+	t=1761510028; cv=none; b=NI9XiGxIJlo26FCJ2aCytUvKVIVJF1eibK4KK13wFuwWUcpSupJf1+UtJvbmo105CK7DuYSdCT6qDxQV4lv88JrYnFNKcSyGMBgAmm4Xs7f6f6XteS5LbFfyJDCoVxQlAhZU3ic8+srW/NBjK3biLQZBGpsf7hmcRyazCA/05XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761508693; c=relaxed/simple;
-	bh=yOE0P7FWFoGaMhy1Bhi1naXUs1jG5gQoZnDqGoQWcSM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QAvoKOt6iYs608teV87ENN+XHraADrNxii5dg3sIKmSnSyu6NEtU2X8CsmY2zXxnleQn2gpHEhYHgGhHpmqKmQwuumg40HpZskmGBzlSOR/eG2QwT9v8JzUTz/PmwEs7fxtEYZ0o7VVsdFlui5TsPhRusJp3TTfG7zHlD3omHPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SB1s9PDB; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761510028; c=relaxed/simple;
+	bh=O2SlNoha1QEAAQXSu7bbcaoAtrDNQRqBbh2zguKTkFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n8dbDENc1CtrGH+WrVyPqouqgf8LxSUXdF9Nwdu0i93eEL6jS3D2eZNqyTFIzXVx4L8rM7fCn+qzdpAy+5yZULMPQi8OU35JYFeni/pIVpQBvoR1sOXp13qPXuJ0Xyrl3S23bvCJ3o/5yQM5h6nMyrrEdS7VeMh+wUP7N3MCBds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DPPqDugw; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SB1s9PDB"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7a27c67cdc4so2824914b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 12:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761508691; x=1762113491; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=rz+iPjrso650B0W3/FsE0e28IvCi/qUg0X/JHlyUrwk=;
-        b=SB1s9PDBgJsQNM0MCxExgvljtAOM4F5hVfe7POB/MscBlVJDV2an679nt0/Mcn4yTx
-         VEX0LLdOPzyNyj3lBCANxOHywE+Xw+1rcxSc90gzXE6mo2Cdx39BjAv+UEQwKwcz78z6
-         Ag6XSeY0wIytk0JaN08QdLQbrCHZDajAWTtnAZIE3AF+H2IQlffoLftR6AqkNbO9mJ4W
-         rT3UDWO9C2Wsf8ASmfxuoaxRikcGitB8ATsKSzytLJbm7XmkUpziSpFW9DlBeN+AUQsZ
-         jqOvCvCDJtBmPW4c7O/VUS7bJjlkBZowEGX0KZgIZI39KtL4oyuTGD2dajLo79XE5JkI
-         9UJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761508691; x=1762113491;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rz+iPjrso650B0W3/FsE0e28IvCi/qUg0X/JHlyUrwk=;
-        b=ezPZTIOBXajJFDL3jHWIoaXnmPj2BO+iwqw1V2mOUrRwfjiIABDAPHyCD71f1/ecFa
-         cMBtTFgs7K8eF9q1iUw56pvwpaolhNvdHmFo27uNtFMj6QqHk38aGZG9t+lq2JkjpliU
-         pc9m9cUWHNGWiI3T/W/0KnUIyllRfocEMuT6OW/dZ7Bifgp6hYTkSIWlwobtbjikzGiW
-         xlwnOmzJw5HG2Y4O9DVMWpHUv4GTmFPhySDPcppBx5TI4zIdtrzQXK87bgFxwMyy/+R7
-         KErqwqWYB9SuNziHS13vKvjbNyaFpD5vFnbfWBHWCONPrny2MWXFBGaKP92X/CSIu2HM
-         nUyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuAZ9ntgfWahQ+dKujj+m3Fk+6nMfR0V7iycjDACE06zPB1+lyAHOpjx4EigOJtGtVPnHMxWCyImM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3B/Yxk8xriD2S7Rk6DEWkGZffuhDwogcB+dpJY6Ww2FKBQXkU
-	VOVM/lIvmwfUGFWktpwtBWAUhsxCYG7WTrBkKXYun8sZDqg8ocLs56K3
-X-Gm-Gg: ASbGncuXFzlBu6SqGnSq8uKPxjwhjdX2KOEMkvccj+4PL+4uX5fxHJEJvdJSurCevAr
-	AeOsc4XqRiO9Arfzn90za0/BVfLBnsYtAc8G9OZEia4DE/e5fKZyiWGBqu+lc81DbR+g07bZ/6E
-	gBpDfemY1bBcRbHDbGVvFGvwhnAlKG3mYn/nukOoth6FLKhbY9YZfhgV4qg2UlKNHxgXiH0E+T3
-	E2EIyx25A/iC9y40GVQxetmfQ9neEbQzwQdESqfeEa3YcdH0unvum3MmYPAtWPwsd5sbd3D1d2i
-	rG1vaS1dNrIzoKU1HXvCZ+rp88uvhDGOsi/HgNW1VZddH5mCNm1ztf3N+ID+snP+j5iK8DVUyb9
-	5hHQfzZ7X/LcsRvlPh1RHtILkkLUJUlTAt8skLJGeWHAb1rzkdd0hOYNnXSyi5L/NP4o4rJ+GvJ
-	UCXDEntJMUNxag1EA/3chMs++RgHDAZvGoOWEF/MX0Vx0fLIv9
-X-Google-Smtp-Source: AGHT+IFoB+ruOh+nGUiptuYoaCYIh4e90e4xNspCvcjO4DwFEFbyG34XpfKFjr+dDPN56lOiGboX8w==
-X-Received: by 2002:a05:6a00:813:b0:7a4:2294:92ff with SMTP id d2e1a72fcca58-7a4229495a8mr3384862b3a.27.1761508691177;
-        Sun, 26 Oct 2025 12:58:11 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414082e10sm5525818b3a.55.2025.10.26.12.58.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Oct 2025 12:58:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
-Date: Sun, 26 Oct 2025 12:58:08 -0700
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DPPqDugw"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59QKJBkH505258
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Sun, 26 Oct 2025 13:19:18 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59QKJBkH505258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025102301; t=1761509959;
+	bh=r5tiYtYH9iv5FqtgW+BeCM3vdjiEmXUSTWLIgfYre0g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DPPqDugwZ+b9vQQtv2D1JdIgsB6pYHh+6ODowWPrp1sP9/WcXMC6h0ZLqXkcsKHYT
+	 iSu4lQQZPFhrqmB+xrhzfj1d0OL0z/fVqe8lW6zZ5eBHHVQOorCYyVIo8/OrKe7CtY
+	 5vbgaGw7pnjcgqL6AuulplYbUGSftt4ZGVih0GlKXEvTsnaaiJTJaSR283xAbB8Dpf
+	 xi8kY1VJFrLUKwLPzgmVvOX76jo3ufdqrTzdBrO4FcTx2WC9bQIUkLeMWZwZm0Eyfa
+	 nVcllQa870GMeU8vKXITcy6YxeIuD5pQFfjvGSR0IAzx/o9nH+O7XcFZtqKd5a5ta9
+	 EEbeufuvBjgeQ==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
+        peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
+        hch@infradead.org, sohil.mehta@intel.com
+Subject: [PATCH v9 00/22] Enable FRED with KVM VMX
+Date: Sun, 26 Oct 2025 13:18:48 -0700
+Message-ID: <20251026201911.505204-1-xin@zytor.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Igor Reznichenko <igor@reznichenko.net>
-Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
- skhan@linuxfoundation.org
-References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
- <20251026184641.631641-1-igor@reznichenko.net>
- <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/26/25 12:41, Krzysztof Kozlowski wrote:
-> On 26/10/2025 19:46, Igor Reznichenko wrote:
->>> Subject: I asked to drop "binding" and not add "support for". "Support
->>> for" makes little sense in terms of binding. How binding can support
->>> anything? This is the "ST TSC1641 power monitor" not support.
->>
->> Krzysztof,
->>
->> Thanks for feedback, will fix this and will create following patch versions
->> in new threads.
->>
->>>> +
->>>> +  reg:
->>>> +    maxItems: 1
->>>> +
->>>> +  shunt-resistor-micro-ohms:
->>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
->>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
->>>> +      655.35 mOhm.
->>>> +    minimum: 100
->>>> +    default: 1000
->>>> +    maximum: 655350
->>>> +
->>>> +  st,alert-polarity-active-high:
->>>
->>> Isn't this just interrupt? You need proper interrupts property and then
->>> its flag define the type of interrupt.
->>
->> This controls a bit written into device register.
->> I omitted interrupt property after looking at existing power monitor bindings,
->> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
->> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
->> find many power monitor bindings defining alert pins as interrupts.
-> 
-> 
-> On INA2xx that's SMBUS Alert. Is this the case here as well?
-> 
+This patch set enables the Intel flexible return and event delivery
+(FRED) architecture with KVM VMX to allow guests to utilize FRED.
 
-It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
+The FRED architecture defines simple new transitions that change
+privilege level (ring transitions). The FRED architecture was
+designed with the following goals:
 
-Guenter
+1) Improve overall performance and response time by replacing event
+   delivery through the interrupt descriptor table (IDT event
+   delivery) and event return by the IRET instruction with lower
+   latency transitions.
+
+2) Improve software robustness by ensuring that event delivery
+   establishes the full supervisor context and that event return
+   establishes the full user context.
+
+The new transitions defined by the FRED architecture are FRED event
+delivery and, for returning from events, two FRED return instructions.
+FRED event delivery can effect a transition from ring 3 to ring 0, but
+it is used also to deliver events incident to ring 0. One FRED
+instruction (ERETU) effects a return from ring 0 to ring 3, while the
+other (ERETS) returns while remaining in ring 0. Collectively, FRED
+event delivery and the FRED return instructions are FRED transitions.
+
+
+Intel VMX architecture is extended to run FRED guests, and the major
+changes are:
+
+1) New VMCS fields for FRED context management, which includes two new
+event data VMCS fields, eight new guest FRED context VMCS fields and
+eight new host FRED context VMCS fields.
+
+2) VMX nested-exception support for proper virtualization of stack
+levels introduced with FRED architecture.
+
+Search for the latest FRED spec in most search engines with this search
+pattern:
+
+  site:intel.com FRED (flexible return and event delivery) specification
+
+
+Although FRED and CET supervisor shadow stacks are independent CPU
+features, FRED unconditionally includes FRED shadow stack pointer
+MSRs IA32_FRED_SSP[0123], and IA32_FRED_SSP0 is just an alias of the
+CET MSR IA32_PL0_SSP.  IOW, the state management of MSR IA32_PL0_SSP
+becomes an overlap area, and Sean requested that FRED virtualization
+to land after CET virtualization [1].
+
+With CET virtualization now merged in v6.18, the path is clear to submit
+the FRED virtualization patch series :).
+
+
+Changes in v9:
+* Rebased to the latest kvm-x86/next branch, tag kvm-x86-next-2025.10.20-2.
+* Guard FRED state save/restore with guest_cpu_cap_has(vcpu, X86_FEATURE_FRED)
+  in patch 19 (syzbot & Chao).
+* Use array indexing for exception stack access, eliminating the need for
+  the ESTACKS_MEMBERS() macro in struct cea_exception_stacks, and then
+  exported __this_cpu_ist_top_va() in a subsequent patch (Dave Hansen).
+* Rewrote some of the change logs.
+
+
+Following is the link to v8 of this patch set:
+https://lore.kernel.org/lkml/20251014010950.1568389-1-xin@zytor.com/
+
+
+[1]: https://lore.kernel.org/kvm/ZvQaNRhrsSJTYji3@google.com/
+
+
+Xin Li (18):
+  KVM: VMX: Enable support for secondary VM exit controls
+  KVM: VMX: Initialize VM entry/exit FRED controls in vmcs_config
+  KVM: VMX: Disable FRED if FRED consistency checks fail
+  KVM: VMX: Initialize VMCS FRED fields
+  KVM: VMX: Set FRED MSR intercepts
+  KVM: VMX: Save/restore guest FRED RSP0
+  KVM: VMX: Add support for saving and restoring FRED MSRs
+  KVM: x86: Add a helper to detect if FRED is enabled for a vCPU
+  KVM: VMX: Virtualize FRED event_data
+  KVM: VMX: Virtualize FRED nested exception tracking
+  KVM: x86: Mark CR4.FRED as not reserved
+  KVM: VMX: Dump FRED context in dump_vmcs()
+  KVM: x86: Advertise support for FRED
+  KVM: nVMX: Enable support for secondary VM exit controls
+  KVM: nVMX: Handle FRED VMCS fields in nested VMX context
+  KVM: nVMX: Validate FRED-related VMCS fields
+  KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with VMX feature checks
+  KVM: nVMX: Enable VMX FRED controls
+
+Xin Li (Intel) (4):
+  x86/cea: Prefix event stack names with ESTACK_
+  x86/cea: Use array indexing to simplify exception stack access
+  x86/cea: Export __this_cpu_ist_top_va() to KVM
+  KVM: x86: Save/restore the nested flag of an exception
+
+ Documentation/virt/kvm/api.rst        |  21 +-
+ arch/x86/coco/sev/noinstr.c           |   4 +-
+ arch/x86/coco/sev/vc-handle.c         |   2 +-
+ arch/x86/include/asm/cpu_entry_area.h |  70 +++---
+ arch/x86/include/asm/kvm_host.h       |  13 +-
+ arch/x86/include/asm/msr-index.h      |   1 +
+ arch/x86/include/asm/vmx.h            |  48 +++-
+ arch/x86/include/uapi/asm/kvm.h       |   4 +-
+ arch/x86/kernel/cpu/common.c          |  10 +-
+ arch/x86/kernel/dumpstack_64.c        |  18 +-
+ arch/x86/kernel/fred.c                |   6 +-
+ arch/x86/kernel/traps.c               |   2 +-
+ arch/x86/kvm/cpuid.c                  |   1 +
+ arch/x86/kvm/kvm_cache_regs.h         |  15 ++
+ arch/x86/kvm/svm/svm.c                |   2 +-
+ arch/x86/kvm/vmx/capabilities.h       |  25 +-
+ arch/x86/kvm/vmx/nested.c             | 343 +++++++++++++++++++++++---
+ arch/x86/kvm/vmx/nested.h             |  22 ++
+ arch/x86/kvm/vmx/vmcs.h               |   1 +
+ arch/x86/kvm/vmx/vmcs12.c             |  19 ++
+ arch/x86/kvm/vmx/vmcs12.h             |  40 ++-
+ arch/x86/kvm/vmx/vmcs_shadow_fields.h |  37 ++-
+ arch/x86/kvm/vmx/vmx.c                | 247 +++++++++++++++++--
+ arch/x86/kvm/vmx/vmx.h                |  54 +++-
+ arch/x86/kvm/x86.c                    | 131 +++++++++-
+ arch/x86/kvm/x86.h                    |   8 +-
+ arch/x86/mm/cpu_entry_area.c          |  39 ++-
+ arch/x86/mm/fault.c                   |   2 +-
+ include/uapi/linux/kvm.h              |   1 +
+ 29 files changed, 1038 insertions(+), 148 deletions(-)
+
+
+base-commit: 4cc167c50eb19d44ac7e204938724e685e3d8057
+-- 
+2.51.0
 
