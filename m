@@ -1,143 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0250C1D555;
-	Sun, 26 Oct 2025 19:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3D32877E7
+	for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 19:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761506128; cv=none; b=eeGQMPEI0r0KwI0sTg4DEMD2bsFAR3luakBvYYMqcKr2kAqLazSsEpTOUn7qvk2CUpC4OplKXuMpazyYKwzq1Tm03iNtR75TGCE7SQZYmN59f8dZFS2L3mXRpmn4V1XfLg/8xJIYljr3RfmC1XQv7dLm069w0UJ3eTj7+8mFjY8=
+	t=1761506535; cv=none; b=BNZzpZyJlVNfPORC5+OmnNalaG0x4l4CPpPvXpyfUJQKtaCS62KYJdBQty5N6XOf3uhHbd/c6kvplThTEz4XgRjq4h5/AkbSaw3m2KfkcoZA5Zc8qYFA/w7U9dK4N5XAT/v8Y1i7I6zYeHT5ufKxK5rdHlncgFUVAMiQS3GbAGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761506128; c=relaxed/simple;
-	bh=pliB5Ap7K2x1BmXOBTstd+ICLJ6Oz1r01E/QuMU7mNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i09B5qBhOU0QIaFNC/XuVURP35O5HG3hT0pLxj4U2nNpu/a5+oCb3e2B557AjJX7rAaV9DiwO1rpOZq7Cqh0DckMcF2d2mAopvPNhYpmoMP3BNIy4zzlswt/RJKabIVyfBvyT55EJE3HLQsOg1NcHFj1ehs9nygBgwIMPc0TAzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENuykc5O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761506535; c=relaxed/simple;
+	bh=5hh5H/oXzBOIk5wRb5bURfhtxKr6bwusAlI0LKPWHHs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Xrwidf5PGkGCBjojIdBUFxZWy0J5pS19fQQoRl1QtcSRsFQO19+dq1rrBLAamIe8pP3vTxu1GlyDk6MMK73t0EzTTMTXweFUIh6a+hrFfavYV0wAe1wtejgyjAbX07I8pHt2/B3JbpqwGwsE8lwHlbxz23WCbsA1W40xj2joHXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyO/C/Ke; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENuykc5O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA154C4CEE7;
-	Sun, 26 Oct 2025 19:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761506127;
-	bh=pliB5Ap7K2x1BmXOBTstd+ICLJ6Oz1r01E/QuMU7mNs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ENuykc5OU/grHxEdvSV0wYLbH5rsvd2MSQU0NPH/QqIFTCEWZ13CB9B0y/SMzMPOh
-	 j6mT8mDEyoXOaS0m3oCJJTRRyboxLRJpN+a8et8EnhoSMtsDSQdu+U5LG7yUCi2nP3
-	 WPlPUcyZCqF0nyZY6WV6VVY3Huglb0wIw5+PzpdVAUZWPOoCiHPW/YbJjzJQZ7k3Jz
-	 U6h3Bm7t4dDiOQ1Rp8FOi46jDxyrgJq3eaDIVFzsCwZHICb6tJrJ35FfVy2VqwV2I8
-	 UuruCle0yz4K9LyAhWtDQJOIHqX6s7BM5kLamlLY2jyFf/DWog7HGqSnl8MFHcCdDD
-	 ynEgxqKMv9cMg==
-Message-ID: <d0ebc09a-6122-4a52-823b-7cbb2b05741b@kernel.org>
-Date: Sun, 26 Oct 2025 20:15:22 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyO/C/Ke"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-27ee41e0798so55953005ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 12:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761506533; x=1762111333; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1cH1BE6LpM8SseHBjfqUwIPHTH/EsEqQa5n5M8ASBCQ=;
+        b=OyO/C/KewCtnyWNqEnLPQLrZ73QwD76MOyotmGev7xz2s7imCpmHaRYEPY7DV45D+K
+         MKkdY1zczZW15vyi8OTrYRwaFtwy/8QVg3NaogDYLJTsPCzbM2EfnKtb2ukQo8Xnz+eK
+         +pknXZm2w62b/xNwKYB+Yh+IJOlAAzEI0LaIknGBexGEO7ASCP5phW2ZPj/Z0li9VX8d
+         VsvYC1/Vr4CbSwBVEJw0Zi17vdbhfb436x+Qys7fa3o9+lr9ClOSfz0Ei/bquDN7Upx9
+         9YYrdXnbDf38R7cFxteMeHxt3/acSADznoOqG35+YXDmvvIMxodllZZM0SpDHB88141v
+         Tv4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761506533; x=1762111333;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1cH1BE6LpM8SseHBjfqUwIPHTH/EsEqQa5n5M8ASBCQ=;
+        b=nBKNgUKPrcjZiBYvnaNHwFPCKDasHo4Zv8dki70UBnMBExC+TNwLV8aBDSZT6m+9t7
+         YnMlHdO8KiXAENWww04TrxouefHcU0PodXv6ZKKtaxlB8Sk5Sfp+4mRQeFQuDuFLtw0+
+         i3DXdHdK//M8SWc50cmutQ87caOnqwxc0LMhOku7FGFtN52MEgvsDAy+G6WtgTl9+4f2
+         ns3JfXnW7TD0uprDnNxZdN+wTRtxPnTcvuP2x//HHIukYhBXeFS2YaOZucpCVbE6dDQq
+         nF3kctvUAR2XUgWOYdYRdm3Rylf5QP1ZU7QrRUHgB7RS9IeXtEpRABoueZmSt1DU29kg
+         6Xuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyJs+KQUdZy3SmGAhH4Wlqvc60zX5ZeChdFBqa6lmkC6MeJPPNbyVyq5Smjp/Y6Ty3BJnckHicK4w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcUi4KpmcsrdQuXOQ/V/d8BBdORaXN/P4T8rlfdkityiukFMTq
+	CU6C5D4QJF/4R9nsnQF9/5o2f85jvXNXprUu65bcvjP6gB0C2XafYbSV
+X-Gm-Gg: ASbGnct0BnmybLTObL2GxofvQ+CGLy+P4mRev5lu4Wwvkpx37q1LEVaWHLf1cf37mxl
+	2G86zBvQLAYpm868QGemZ8t1RJ4c1O3zMriB0HVaE1FPszantBHKnwg2o5QsMsc8vQylnmyCsPk
+	z9DoapLXL8JQzYr0OCfyeWeYVy2xE5rBHl22ppbM8sg7SnJjQLkVvbob/I7PPduXRzXWKqHO6Ey
+	s3OwNCpecY8wNYW+DEVhaSPj/PZTb49XID8qjoZRwhkgvs8IBXLfO4FzUlJt6EF3YtVnCbaRITP
+	efcaj/rJZO+mq3so24fe3vwtCkUk/kCP8lfLoFvG2nFHbtbRGSgsp4q8v0KKzqnCOz3kHkAFyoe
+	hVNXq/bD9Xu17pDkMnU9Jwt+j5nTcMqiOgxI1qjBRm/4bCsFdyhwMbAPru6H6EL3tgH6fwTRMRS
+	ZGtgZJhPpTuvxO63oLRUYGucp2vCMeMczMhrBjvv134tfslhBBmI4Mu1wCszm52ctNImnY/n1L5
+	w44ZiD3kg==
+X-Google-Smtp-Source: AGHT+IFMIx69T+JS0cQNaPJFmjTEG7wAJoCKtPMQG11v348ofORNvuy7yrfbSjNjsTsoBsw5YAadrg==
+X-Received: by 2002:a17:903:32c6:b0:28b:4ca5:d522 with SMTP id d9443c01a7336-2948ba3bb60mr129121165ad.39.1761506532935;
+        Sun, 26 Oct 2025 12:22:12 -0700 (PDT)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81b40fsm5863762a91.16.2025.10.26.12.22.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Oct 2025 12:22:12 -0700 (PDT)
+Date: Sun, 26 Oct 2025 12:22:10 -0700
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Mario Limonciello <superm1@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Armin Wolf <W_Armin@gmx.de>, Len Brown <lenb@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC: Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/3=5D_platform/x86=3A_lenovo?=
+ =?US-ASCII?Q?-wmi-gamezone_Use_explicit_allow_list?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <4c3a594b-7a57-4b5e-85c8-e9337d70c7e6@kernel.org>
+References: <20251026081240.997038-1-derekjohn.clark@gmail.com> <20251026081240.997038-4-derekjohn.clark@gmail.com> <4c3a594b-7a57-4b5e-85c8-e9337d70c7e6@kernel.org>
+Message-ID: <1411B6CE-132B-4450-BB27-9ED44BD897B0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-To: Guenter Roeck <linux@roeck-us.net>,
- Igor Reznichenko <igor@reznichenko.net>, linux-hwmon@vger.kernel.org
-Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh@kernel.org, skhan@linuxfoundation.org
-References: <20251022044708.314287-1-igor@reznichenko.net>
- <20251026065057.627276-1-igor@reznichenko.net>
- <20251026065057.627276-2-igor@reznichenko.net>
- <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
- <635af2ab-969b-4390-b661-44bf171eda7c@roeck-us.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <635af2ab-969b-4390-b661-44bf171eda7c@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 26/10/2025 18:22, Guenter Roeck wrote:
-> On 10/26/25 09:32, Krzysztof Kozlowski wrote:
->> On 26/10/2025 07:50, Igor Reznichenko wrote:
->>> +properties:
->>> +  compatible:
->>> +    const: st,tsc1641
->>
->> Subject: I asked to drop "binding" and not add "support for". "Support
->> for" makes little sense in terms of binding. How binding can support
->> anything? This is the "ST TSC1641 power monitor" not support.
->>
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  shunt-resistor-micro-ohms:
->>> +    description: Shunt resistor value in micro-ohms. Since device has internal
->>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
->>> +      655.35 mOhm.
->>> +    minimum: 100
->>> +    default: 1000
->>> +    maximum: 655350
->>> +
->>> +  st,alert-polarity-active-high:
->>
->> Isn't this just interrupt? You need proper interrupts property and then
->> its flag define the type of interrupt.
->>
-> 
-> This is a value to write into the chip. It is orthogonal to how the interrupt
-> is reported to the interrupt controller. It may be active low by the chip and
-> inverted, or it may be active high by the chip and inverted. How does one express
-> an additional inverter in the interrupt signal path in a devicetree property ?
-> Can you give an example ?
+On October 26, 2025 10:50:40 AM PDT, Mario Limonciello <superm1@kernel=2Eor=
+g> wrote:
+>
+>
+>On 10/26/25 3:12 AM, Derek J=2E Clark wrote:
+>> The stubbed extreme mode issue seems to be more prevalent than previous=
+ly
+>> thought with multiple users having reported BIOS bugs from setting
+>> "performance" when using userspace tools such as PPD=2E To avoid this e=
+ver
+>> being possible, make enabling extreme mode an explicit allow list inste=
+ad=2E
+>> These users will still be able to set extreme mode using the Fn+Q keybo=
+ard
+>> chord, so no functionality is lost=2E Currently no models have been
+>> validated with extreme mode=2E
+>
+>So what exactly happens when a user uses FN+Q to change to extreme mode b=
+ut it's now in the allow list?  Does it report as "custom" mode?
+>
+It turns out I got a correction after posting this that I'll need to inclu=
+de for v2=2E Extreme is never actually set using Fn+Q and can only be set i=
+n software=2E In that case, functionality is lost (though extreme should ma=
+tch custom mode default values, so only slightly)=2E The only chance this c=
+ould happen realistically would be if a user switched from windows in extre=
+me mode and then booted windows, since the setting is retained=2E
 
+TBS, I'm asking some folks to test exactly that situation so we can know d=
+efinitely=2E My assumption was that it would report extreme normally but no=
+t be setable=2E
 
-If that is the interrupt to the CPU, then it's just like I said - proper
-flag to the interrupts property. There is no need to express inverter
-separately from the interrupts, because that would mean you first
-express interrupts incorrectly and then you add inverter to make it
-correct. Just like people expressing RESET_N GPIO with ACTIVE_HIGH and
-then making reversed set high/low in the driver :/
+>I feel like this is going to turn into an impedance mismatch=2E  I'm lean=
+ing it's better to just expose extreme mode so that userspace knows what's =
+actually going on=2E
 
-Best regards,
-Krzysztof
+It's possible, I'll wait for confirmation of the behavior from someone wit=
+h the affected hardware=2E
+
+Thanks,
+Derek
+
+>I feel the bug situation will actually improve because PPD and Tuned have=
+ no idea what extreme mode means so it won't be "easy" to get into it=2E  T=
+his at least will allow discovery of BIOS bugs as well that can then get re=
+ported and fixed in BIOS=2E
+>
+>>=20
+>> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> ---
+>>   =2E=2E=2E/wmi/devices/lenovo-wmi-gamezone=2Erst       | 10 +++---
+>>   drivers/platform/x86/lenovo/wmi-gamezone=2Ec    | 33 ++--------------=
+---
+>>   2 files changed, 8 insertions(+), 35 deletions(-)
+>>=20
+>> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst b/Docu=
+mentation/wmi/devices/lenovo-wmi-gamezone=2Erst
+>> index 6c908f44a08e=2E=2E79051dc62022 100644
+>> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst
+>> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst
+>> @@ -31,11 +31,11 @@ The following platform profiles are supported:
+>>   Extreme
+>>   ~~~~~~~~~~~~~~~~~~~~
+>>   Some newer Lenovo "Gaming Series" laptops have an "Extreme Mode" prof=
+ile
+>> -enabled in their BIOS=2E
+>> -
+>> -For some newer devices the "Extreme Mode" profile is incomplete in the=
+ BIOS
+>> -and setting it will cause undefined behavior=2E A BIOS bug quirk table=
+ is
+>> -provided to ensure these devices cannot set "Extreme Mode" from the dr=
+iver=2E
+>> +enabled in their BIOS=2E For some newer devices the "Extreme Mode" pro=
+file
+>> +is incomplete in the BIOS and setting it will cause undefined behavior=
+=2E To
+>> +prevent ever setting this on unsupported hardware, an explicit allow q=
+uirk
+>> +table is provided with all validated devices=2E This ensures only full=
+y
+>> +supported devices can set "Extreme Mode" from the driver=2E
+>>     Custom Profile
+>>   ~~~~~~~~~~~~~~
+>> diff --git a/drivers/platform/x86/lenovo/wmi-gamezone=2Ec b/drivers/pla=
+tform/x86/lenovo/wmi-gamezone=2Ec
+>> index faabbd4657bd=2E=2E0488162a7194 100644
+>> --- a/drivers/platform/x86/lenovo/wmi-gamezone=2Ec
+>> +++ b/drivers/platform/x86/lenovo/wmi-gamezone=2Ec
+>> @@ -47,10 +47,6 @@ struct quirk_entry {
+>>   	bool extreme_supported;
+>>   };
+>>   -static struct quirk_entry quirk_no_extreme_bug =3D {
+>> -	=2Eextreme_supported =3D false,
+>> -};
+>> -
+>>   /**
+>>    * lwmi_gz_mode_call() - Call method for lenovo-wmi-other driver noti=
+fier=2E
+>>    *
+>> @@ -241,31 +237,8 @@ static int lwmi_gz_profile_set(struct device *dev,
+>>   	return 0;
+>>   }
+>>   +/* Explicit allow list */
+>>   static const struct dmi_system_id fwbug_list[] =3D {
+>> -	{
+>> -		=2Eident =3D "Legion Go 8APU1",
+>> -		=2Ematches =3D {
+>> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+>> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8APU1"),
+>> -		},
+>> -		=2Edriver_data =3D &quirk_no_extreme_bug,
+>> -	},
+>> -	{
+>> -		=2Eident =3D "Legion Go S 8APU1",
+>> -		=2Ematches =3D {
+>> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+>> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8APU1"),
+>> -		},
+>> -		=2Edriver_data =3D &quirk_no_extreme_bug,
+>> -	},
+>> -	{
+>> -		=2Eident =3D "Legion Go S 8ARP1",
+>> -		=2Ematches =3D {
+>> -			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+>> -			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8ARP1"),
+>> -		},
+>> -		=2Edriver_data =3D &quirk_no_extreme_bug,
+>> -	},
+>>   	{},
+>>     };
+>> @@ -278,7 +251,7 @@ static const struct dmi_system_id fwbug_list[] =3D =
+{
+>>    * Anything version 5 or lower does not=2E For devices with a version=
+ 6 or
+>>    * greater do a DMI check, as some devices report a version that supp=
+orts
+>>    * extreme mode but have an incomplete entry in the BIOS=2E To ensure=
+ this
+>> - * cannot be set, quirk them to prevent assignment=2E
+>> + * cannot be set, quirk them to enable assignment=2E
+>>    *
+>>    * Return: bool=2E
+>>    */
+>> @@ -292,7 +265,7 @@ static bool lwmi_gz_extreme_supported(int profile_s=
+upport_ver)
+>>     	dmi_id =3D dmi_first_match(fwbug_list);
+>>   	if (!dmi_id)
+>> -		return true;
+>> +		return false;
+>>     	quirks =3D dmi_id->driver_data;
+>>  =20
+>
+
