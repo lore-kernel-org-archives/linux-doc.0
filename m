@@ -1,134 +1,119 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D1F2848A7
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 05:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF4C2D5C74
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 05:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761542862; cv=none; b=j4uKgTX6qe79i4gGmw5eBzXtJeHkjHVVyp5n/Z9xVzZ8nPRQ5IGZX466sQFzaTxmQactsFrtoT83HXp267vBjucXvms1r7khY37SdSPhctqikFYRep5VHMa9T3+XVyP9Lp8vWJNPju/RxPmdoQX5vqC43DXEDr018HtZKWAMxMM=
+	t=1761542877; cv=none; b=ZFBb8OT6w7CsFIjVKUZ2rlRRSl5datUbt7xQ18w379D3AVsP/VsX2SR3jCoFwCac8piv0L5GjlCMD63blfVW8w86op1KKbfKq8LnYuaMATIGN8nc4nUhz/ad512lmeK36Ivj4OZxwOer3zBWpHSr54Aof4Sq0Fv0CmUBtiCu6wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761542862; c=relaxed/simple;
-	bh=qh79cjfHvrOLCxvcq4oI/lS6q5OmL9Fn6ODduBM4yG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IN8vxoM6UITfeGGqhxEDkykghGYNnsAqEKp4Ol2yvsZ2EqGLLWl1DVArFwFl+u9nHChu3LPTpU6IB3XHOTgqqTS5YXmgr2Lsz4EoNcprN2FTKRkvru4Mb1keaPDIjTdGqCj3DlInxzIV/gUbJtm48qQR5w2T65ZUx7csl8ILOmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BgtQPv99; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761542877; c=relaxed/simple;
+	bh=inJww/Ob/vbUK/5lqAm9xN5xYDYWYeHnIJvj2WLxyEQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DTwYZVgp4OkkEVNuA0I+/JQKWgyxfnUEtRye5FxDPf1unAL554Gc5LM8VtygFDn3ZEIBkWaluSFmVJ6qGAFeoYZWLHo8jntdFLmGHAH21sY4eUd32iYSjJV3nejIgcuY/WfGPlfSS0lDnS7Yl56Cqt9zjYQLiAJHoBLJQ1MQWTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvM0PHbF; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BgtQPv99"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4298b865f84so2243522f8f.3
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 22:27:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvM0PHbF"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so3061965b3a.2
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 22:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761542859; x=1762147659; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sMQm/qKPeH1g9CIR6f10NMelAH+jy5bqtx5lzdYvSPI=;
-        b=BgtQPv991ykr+JyI16mc3aazZKz2nKl6PYyuef43uLMaE9Lcyrf+UABekbyHVgC7f5
-         H0lwbIbmFVFp/s4rGvsSOqeFSftOIlbzlLmpQRZurbiYMW2nBMawSBIVf84QV0IW4FVI
-         C/IPOxPeG5VGoL4KPUp6EHkINw2cOCGTB+vT0DG+fhh1oSVGrAVIq/cvqJwWeTvSc6o3
-         zySvJcNWYa1D7S6xnvfR7UZ1MWCr/2xB6UODCDHdBdLx5ynu+i0tpKuu9KZBhGuGv4hl
-         uwdVR7BMMXuI3+cbDwTxS0ml/w42LF8meAZuIVu0wFmTTUajmOi9Lc98fN8G9glhuKBJ
-         S8Dg==
+        d=gmail.com; s=20230601; t=1761542875; x=1762147675; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C/RAYqHmH1h4sjp1gNfQ9pppA/esaFm9GV+1pQeVlcQ=;
+        b=DvM0PHbFMTjqnUsL8+H1k6xdPpEpf3qrCeZCus9XI+2Erew75ylAmIQPL+R7WNiwtk
+         o19eqXvJ4j0clrSeLSrgxMHq/IRk6XVLRoCh9XCZ22WrGNH/e++6Xaj4xxp3d2SIiju1
+         0r/5v47b/RGVJaVk3yT12nDFS3ODFIAEoTxBHY9tn/YHsGdfoYGdxsVVdo1R3JaqrnFH
+         QcRgADRi9NogflcD10uKq2mx+zIgpISFaj5EsoSdrBr1swa9gE0Z2JvoguyvDch6q0w0
+         7Kyjsx/Rpx6prYhl+oEnKVkCPc+XVnI7gs9y7rMXT2o0PlXFPvfIaDACbjOBTgaw4RYh
+         HzCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761542859; x=1762147659;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sMQm/qKPeH1g9CIR6f10NMelAH+jy5bqtx5lzdYvSPI=;
-        b=LWcwsRIwgb4Lp0RhJrLN5OtR2lgNss23aQIdFNlco5RJkJy+6OFwj7aJNg5Dsj+vu2
-         1gAw4rX9GFS0ET7yS6WwZs4IYxqcfNo0wiLFk81B1hJHAq0kdDy0cAn5jTHx4+9dmjVR
-         wxZyYD0lCjOF/nuHQPfHpyAhjjN5pVeOpMAwnHFYVfYCjF3THaU1N8hSD5g4/4m6q9jl
-         KB001MWM6cCP7J382zDjfSy8ey11wBKO851JfQj6S0+XDzIUs4yYG4ocbY6cDmhOTi8G
-         vDhDETA9BZBrH241CM+B8wQJJZyhoFf1WI8Wy+TE+3tOrX122j5w/sQ7E2p28nI8pd9r
-         0LMg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTkdcaGMrSLLm+VxVbRNvKFsC5jnDLG1uSifHmCpoAbU2sa2JahkDShSKXL6M7wpW12FcU3h5HECs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwE1//YkuYc60tXkcb50G5k0Edsce8+nIx1tmgoDKGqbrGltJu+
-	IU8ZmzHcO67uQHxb6zFWL6Y9QpzKzUVRHf9mslhCFeFcc+iZR0U5o8ezZ5EqO5h5ni0=
-X-Gm-Gg: ASbGncujccumiVTQtrksszI4J0F0jpIWoKmFMz31B3rdYYW/Au9fC/IH+chVi9t9Vy0
-	PA5YTsdMETLTRyU2n+vidmCvzTowBdFG0Y1pjg9vrRHD4A9Hc971MB4tMmERTyuQnm6/OS2BAF3
-	M5qKFalky8Kqt+EBx3u8WURCUDiyZcPZcNnn/2aUpxDAt5BNvUdjNAcSfNpU4E0mjgO9Y6D+BNp
-	DNHTjkTKeAO1963jaJdT9ecnqkxxYpV/F513rSwmonq56wuW+1uQmLICtsrznsIMnU+mXNkaoq1
-	byFmMIUDvL8qiGa5OQHcLCLGfzVoc169minjoNSJJEqAIWFw2Rsehy/ZE6eInuUgjhiFqPnUEcz
-	0XA4FkLU3+VBVCkOJLHbPY0yIPxU3N6xUgxbWOBfwW5c+AQFcRtabqtqhzrDIShma88wCSc8Nsi
-	pbUrxUpjj67bgf5XAHfxr6kbok14k=
-X-Google-Smtp-Source: AGHT+IGGMWIW5dTfslm/6ukE4iyqbFwa7B8xtQ/z5FIOwZZue/OCt475nBYcheMy53fO8smuBJDifQ==
-X-Received: by 2002:a05:6000:2c0b:b0:427:84a:6dc9 with SMTP id ffacd0b85a97d-427084a6ff0mr24497662f8f.59.1761542858724;
-        Sun, 26 Oct 2025 22:27:38 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952b7b43sm12237102f8f.6.2025.10.26.22.27.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 22:27:38 -0700 (PDT)
-Date: Mon, 27 Oct 2025 08:27:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: ally heev <allyheev@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Whitcroft <apw@canonical.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	David Hunter <david.hunter.linux@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
-Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
- initialized to NULL
-Message-ID: <aP8CxkXYAitKB3vx@stanley.mountain>
-References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
- <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
- <aPvAm1E7CvQfOIuS@stanley.mountain>
- <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
+        d=1e100.net; s=20230601; t=1761542875; x=1762147675;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/RAYqHmH1h4sjp1gNfQ9pppA/esaFm9GV+1pQeVlcQ=;
+        b=gVpuVbp3qXLbxjs4pFKgpF5z+BjdloMb/7l6QB/sMRAM/VxrbKMYlri5qjwGu2jFgS
+         v6v3KMB3ECZXzuw+Si47/V1b4HZ27c5fElGIl8gnRq/E7qE1omV/8S8uxDVnLh50faYC
+         TByd0PRBIKMLehuSkaISB0T/sf1FLRv/QLmmgqPpE3v37+7WLFGEQdHuqcApMOdegsKZ
+         VZvXioQeblrcYzgNchyBXLgR2JJssqLHXCj8Q9nnLdvy0dZuTDEewKDV3yY+C4qkfyeB
+         +xEuLEqIakWcszu8DsdJ2OPfWWicn538v7mN2mN1kuj06zp4fs+DJAFiMqXhsMyXGpuW
+         ZK7w==
+X-Gm-Message-State: AOJu0Yz4zEelZl19HHs49sf5TY85s2j9/g5SUfAw78/gZ7vGg4Tz5tUM
+	esFueCtgxapTsuf6JWzt6fvVoi8xv2V43CzJfn/LZrhcg2WPxhKPD4+Mt1AsuP55
+X-Gm-Gg: ASbGncvDDYF4tsKhoH2UDOXq+xBpb4ejDg9aXdDWE7CUXXgzLV3ERk8yr/UuhZrPnFG
+	2eGJTdXOj8VHXaxHp3+UrW6hZOtoGZGqQ7fRl6cPk309LWp5WjPdZztkEbviePV5+YAU4g3/MpT
+	z6Vpynsid7IqBFY1ism9SlPtycoXmH5QYT44HLaHpT+b70PAlWcLjkeBu0XfCtyXpQypSkFDlGE
+	TcDdkkgt2AkkAF00y6Yi87MQqvo9Y7AzUM7wWUmHkKZM53pDK+ZKzLtSa15HcnbZi9fcONeMWmP
+	EDHEt0TZLwWvW/k2cmCAvRSRVhUz8YpOjedD1TjQ0Oi3AoEMFYTOs7H6yO+wifJ75WFFGQqoT9V
+	ySlsVxxA5p3atcgDsueEw9wCZfuRzns2Xegnf3FblAzbRX1XJGN0aHh5cXXociSP1Acdh8iMFzf
+	0aemI/sbcLgAvyTSpvE4jQCVGBCAYrcS4=
+X-Google-Smtp-Source: AGHT+IEMUesQIHcuQu4FxPZyWoemXbk+ksDyGhqzHexxaBE/vxFXq0kjagvpHbM0Q/C8rA9lLvDSWQ==
+X-Received: by 2002:a05:6a00:27a0:b0:7a2:7f87:7ae7 with SMTP id d2e1a72fcca58-7a27f877cdfmr12402808b3a.19.1761542875391;
+        Sun, 26 Oct 2025 22:27:55 -0700 (PDT)
+Received: from [10.0.2.15] ([14.98.178.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414072487sm6601511b3a.52.2025.10.26.22.27.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Oct 2025 22:27:55 -0700 (PDT)
+Message-ID: <47844424-302b-4a99-9cce-82924c7b7ebb@gmail.com>
+Date: Mon, 27 Oct 2025 10:57:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Makefile: Sort Documentation targets
+ case-insensitively in make help
+To: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
+Content-Language: en-US
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+In-Reply-To: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 25, 2025 at 11:53:56AM +0530, ally heev wrote:
-> On Fri, 2025-10-24 at 21:08 +0300, Dan Carpenter wrote:
-> > On Fri, Oct 24, 2025 at 10:59:16PM +0530, Ally Heev wrote:
-> > > pointers with __free attribute initialized to NULL
-> > > pose potential cleanup issues [1] when a function uses
-> > > interdependent variables with cleanup attributes
-> > > 
-> > > Link: https://docs.kernel.org/core-api/cleanup.html [1]
-> > > Link: https://lore.kernel.org/all/68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch/
-> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > Signed-off-by: Ally Heev <allyheev@gmail.com>
-> > > ---
-> > 
-> > I don't think this patch is a good idea...  There are two issues to
-> > consider 1) The absolute number over warnings.  500+ is too high.
-> > 2) The ratio of bugs to false positives and we don't have any data on
-> > that but I bet it's low.  It needs to be at least 5%.  For anything
-> > lower than that, you're better off just reviewing code at random
-> > instead of looking through warnings.
-> > 
-> > regards,
-> > dan carpenter
+On 15/10/25 06:59, Bhanu Seshu Kumar Valluri wrote:
+> Avoid case-sensitive sorting when listing Documentation targets in make help.
+> Previously, targets like PCI and RCU appeared ahead of others due to uppercase
+> names.
 > 
-> makes sense
+> Normalize casing during _SPHINXDIRS generation to ensure consistent and
+> intuitive ordering.
 > 
-> General question about the process for my understanding:
-> Is checkpatch run on full tree by CI or someone and results reported
-> regularly ?
+> Fixes: 965fc39f7393 ("Documentation: sort _SPHINXDIRS for 'make help'")
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> ---
+>  Notes
+>  - Patch is tested with make help command.
+>  - Verified case-insensitive sorting.
+> 
+>  Documentation/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 3609cb86137b..00c81e7947a9 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -23,7 +23,7 @@ SPHINXOPTS    =
+>  SPHINXDIRS    = .
+>  DOCS_THEME    =
+>  DOCS_CSS      =
+> -_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+> +_SPHINXDIRS   = $(shell printf "%s\n" $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)) | sort -f)
+>  SPHINX_CONF   = conf.py
+>  PAPER         =
+>  BUILDDIR      = $(obj)/output
+Hi,
 
-Newbies run it regularly.  Otherwise it gets run on subsystem CIs and
-the zero-day bot runs it on new patches but it will report the old
-warnings as well under the "Old warnings" section.
+I just wanted to check if you had a chance to review the patch or if any changes are needed from my side.
 
-> My understanding was that we would run it only on patches
-> before submitting them Or we just run it on full tree before adding
-> new checks to understand if they are catching real issues
-
-Eventually someone will look at all the warnings.  And probably it's
-going to be a newbie and so we need to be careful with warning where
-newbies might introduce bugs with their changes.
-
-regards,
-dan carpenter
-
+Regards,
+Bhanu Seshu Kumar Valluri
