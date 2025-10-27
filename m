@@ -1,294 +1,203 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4AE305E2D
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 16:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13765314A8D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 16:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761583891; cv=none; b=s/kFBe1wiQiPvKm0rLt7en8K1CFmEb8d5TFEf4CmSXhrq1gyqeDWrgDaCAJ1mh1MDBQQ6uQETP5IPdonsgfX+Q+xxjJMAR1WSGG+dxlui3EIJTX1TtVRG/ZScXTj0dL4463EXyjK73VoEkLcxnpmFwBELdHG5G5DnVLgHIML/Jk=
+	t=1761583980; cv=none; b=lANbreVChGAXfUqXZ7o3Bwad9Q4nNVarcfDHR0SslAeQxXjjTvLLmbcOG8A7ma7vL8YG5YlWv9nzWEZIeLTbxD8w+RguIne7RyQUCj/83EhO/DOVCfRubjnLqmjXhOzHtpJZjORT6jWQ8hPFY3aXotT5IszxCpGQdyLJaFxM9Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761583891; c=relaxed/simple;
-	bh=BpWkwcvk+ttbEIODEe3Jc2OawoiRUJhFdv7D7duHz60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MRMKeOGlYav34BTsnG5yZ0Oae5ZPaQwSDWuhRDukECIa7oZXWeajrD1erUGoULnVUIosHUB50iw38RUIbUi3R844T7sHZloEnlU+hOvwKpRV8UqdDwoViltyaJxDrsJwlgtsIALLA55t4FFoA4C9LxAOixu7krWwbOY1RerWDaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Omw7nVjx; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761583980; c=relaxed/simple;
+	bh=ez/mIQCI0gAsepx7KDmrGjw1VRoEx13dA304T/Eyp0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a1ruiNJSzyrobr8oS9dFzj5yPxG/Os4W7vkykmg461WBccjSD9u96unx1JVtTwALiiOw7vtZYqDkcCNZxJKTZHTr/oEM1tCkFR+I0Z6rSTUjFCLsX2Bmu07ZdugLL1aie5YInJGYVc2lTNdYsDfJBMQgWV9johfa627NQK+fJeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVi8eGW5; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Omw7nVjx"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4eccff716f4so11141cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:51:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVi8eGW5"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-781206cce18so4867947b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761583888; x=1762188688; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vt6j/nV+hL/aatsW20+tI1ruqJfiHv93rNFzUtULteA=;
-        b=Omw7nVjxAia2dKz+vOOhXXlGy3ws+2gamc9i7ruBp6nMV+clPdiFgsRXvva0oOuICz
-         /hbZhuZZzP0GqfA2HzRQRBqleDOmv5kAmFvzogygXVvnvG6k/uXDBjmHfpMnOHoBaLKd
-         S210xkHwvKEstkRDWKmwrTK01ZIKDhVyYHhsrPASHWTXBKGVeuw3EIQhSZxrxTfUWKo7
-         Z8QmUM6wW97JN1ljJHkwU7Rj/+icRf5mJzRqDlCqm0hh6+/6EGMP8Lt+TpVzesCsfiN0
-         cPO3zcfo8yDLy747M3WgpwV0u0JZeYbMS0wB9W58l9fwIwo0lPFu3fC/Eb5gKyHAOVSw
-         dBhw==
+        d=gmail.com; s=20230601; t=1761583977; x=1762188777; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=1UjUmi5Ka+7gfU5ZG8hAL+hkQbUFpTtINYP7f5ILrSk=;
+        b=jVi8eGW55EGjyrRsXjvBSfyxC/oQYt7Yj6/g+YsyXkn3KA32KIQlrFnNVarbEqBI3s
+         Yx4qQf/bkbAXK1z4QPBiwV8UDOPdwPfsjbIsJZh9egQXn2X5XjhK5foAUzLDDKEtJ5p8
+         IJrLrRQSfJTHWIJPhsWxyFj4A3/EiX0qhpiQBSb+qVO+X/63EumKBAWNheMKLiPULTIt
+         Z9ADbTY4erHT9TGVeiCK4AU+JEK4dRfILsZclYxw7qVDAR6SYcH2s3lK+DjY1MsLmGYC
+         neojcLp6c8ZFgJGOBZmoSsBTevZNq1b7YZ9uEDiW+/zN0VRFK++ccqShGPeAbSWkshYk
+         WqMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761583888; x=1762188688;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vt6j/nV+hL/aatsW20+tI1ruqJfiHv93rNFzUtULteA=;
-        b=t3YRrNiDe3TGEcGy0yMHjjHQf6D3vcaWtGf01zFvs93VXH0cdq0OWTJNV8fBLxD/FZ
-         WXQ6YxncFodEXwCvfYRmz/QKXIj9EhF7soWgMoCWxNImPWzRPoB67b7tR1OHdiQyCemb
-         5DSkm/Yt6xUn54cnBFjUPZ5MTFEl267GEoTPEe24fZK1k7G+IhQyvB+iWUd+3DuKQCbv
-         VFVu8OyQU2okzj1gtHUGsBgEABpC+rpvWCWQoT96P+H3t5r1/KZ0iSIXf4iNJ0ci+Z55
-         4nXYFASOeo01L+U2dbiXmoMYxnfuVH/BWVmZhMoy6+6tyBaxbA9am8jISepgsvCkSVj/
-         J+RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7DXKu14cFkadQCYpaOOVIUkXUjrzUPW2yCbDQxGF5vrOjns1v4qMDZa1/V4tk+YQTuicZFbOFevQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTeIKM09W4poPjXCtRm0Q83RkT3m8aPEgr3VPXctR5P7GhkZtv
-	TF2a1gJeW05I5mez4VVqEUrdg2GYYgBX5X1ZuB0yapQfAfflhZwatRiRyDPVxA1C6CaqSg8gf9x
-	BEvIGgnD4dU+4aer5rrm16e7OOtYZHy4DmvkAgwPQ
-X-Gm-Gg: ASbGnctzeF8ghf1t6tyydKplZf8ZVC86TQFHpDC9vcqF9ThvAczq4wO0ur5koyB5hWO
-	MoySulivf9KL6xtz7OVp8x1sMS1DtSBFhBl6HowgLXYps6eHunx0aT2SIvrqvkfBIjVLurkGiuX
-	we8naeBTmsFy0CZloT06nI3hS63P+3ayjXkcdfIsg1fdhdnsquDvNejkmmVllPsMnu7Yv/17zpT
-	6eEnHn0Az8Dqr8QjT8gFT8hxX+oQ1S9WZwjaDrL/eh5kFaWEWwj7CsnIbY5DrqGYibnQ54HITt6
-	28tf2Q5FgaaVY00xH+HanrgKTg==
-X-Google-Smtp-Source: AGHT+IHSf6XBB13zoI4VmxW32VJTBDOaDjvKRIRZqFXtSwyDht+a+iclLHapLQWD5ps6mgchrQFlzxXZLRPkueBpaF8=
-X-Received: by 2002:ac8:5f84:0:b0:4e8:b4dc:4c58 with SMTP id
- d75a77b69052e-4eba229dfc9mr12906661cf.12.1761583888008; Mon, 27 Oct 2025
- 09:51:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761583977; x=1762188777;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1UjUmi5Ka+7gfU5ZG8hAL+hkQbUFpTtINYP7f5ILrSk=;
+        b=jNa+83r9NWcVMG5pOqQxaP9e013WSb/GsZn9WEc4XYZj7tmaO06LNs7fE7aBL41q2H
+         WxTgTRwaYQYXvw7TvGcUvxHuIEUhJ1onr6V+r91GfEkG03ajpl2JXrzDJwj0pCtWR3Dv
+         lE1F8Jvb5WRPbiJuFDNKAAucmEFWJX8GTawA/hpSVBb6rjZbz947g6BuZt9351sILYzM
+         IZRsIMsNPjIogxI6SdR6VvPyn7rj5A0sfro/Yh/kzShOIMzsTvB5EQX1XU9zSzRJ8/zo
+         Z7Xm6bwEdRpsk9lt+8AzuvtuOfeIjF+flfAR5r5clRLR9f/shKuIt1VYMVwL13gyF55Y
+         b2Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtNP7Gse93xhYZ8sDEjl3v5zmyMDlJs9EfvN23JO5F2q++aVAR3e9sSk7mEaKo4wToy6jK7GZB7g0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9KXlZ4jz4z07EzeOrfL1ksSDKUWrqP9BXTuqw4ysccsDbSkH2
+	KGCOuJLmc7zIQSMu84tNflmg4/Jt5Ysfqb5hEjV0rlwKjVFY6TJc5J9S
+X-Gm-Gg: ASbGncukGvWWrHd8c1Tjg1z/GLM8Uo2k3OML9WYGHj3czUOVfuzAwhNk2RQMmHqtGz0
+	Yz2zlwF6A2M7S7p2tEk+ZYn3xenb267GH1jrCFenmQ82lYikTEqTJPq3EWhmBl7UPhiXBXlhwiy
+	oxpctlkRK/BYjvR/4yv2pBQSeFYBq2pa/J3zehYMPDK3A+pZI9yMWVnfxrDdp5mDDKWE9s64nSv
+	tC+Pz7ZM9j/g5AVbbNGp12mQxV4fLkYTRr96Tuj8VNH/CSnVOpubGVHMmL1bMq3bGhOgzDB7Jpw
+	7jBVD4OEWrCJMmJ8atCS5DqysfwG1lsnPxcuYY9+1xrFq/IZFx7LgdqnsQIaQxp/4c+V3aN+M37
+	KiWnl5Ki8D0lWaPp3gh3J/mMs26KCmNuuXLcLoW8OWjmEO+Wu8HbJkUHujRuqS/qgllIT8RMCbM
+	VkqbwQ3xBLjkAhw3YmCCXvtPRgeHU00cW/J6kjXm4mCiIt+lqkhMJr2bfKdn4=
+X-Google-Smtp-Source: AGHT+IFq+QgzAYa0Pzepb131iFTCn1+g6011G4/2bAwqtv01tirsdxRlxBcZ2qwcf9EHIL7uZdLTBg==
+X-Received: by 2002:a05:6a20:430b:b0:246:3a6:3e47 with SMTP id adf61e73a8af0-344de5ddc8cmr202153637.12.1761583977229;
+        Mon, 27 Oct 2025 09:52:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414012bcesm8972989b3a.8.2025.10.27.09.52.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Oct 2025 09:52:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <afe3f2e6-703b-4d9f-ae88-99da1321d1fc@roeck-us.net>
+Date: Mon, 27 Oct 2025 09:52:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com> <5-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-In-Reply-To: <5-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Mon, 27 Oct 2025 09:51:16 -0700
-X-Gm-Features: AWmQ_bk-2Q_pdXrZkw1tD93f2ALLMLAZxHMjv2ygRXcaD9JlPPU-k11kjCl7bDI
-Message-ID: <CAAywjhTkm89boLCLibkhvsa3qJ0n4p37VF+e9sYdW0rvhTCnEw@mail.gmail.com>
-Subject: Re: [PATCH v7 05/15] iommupt: Add iova_to_phys op
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, 
-	Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	llvm@lists.linux.dev, Bill Wendling <morbo@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, 
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, 
-	James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Michael Roth <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] hwmon: Add TSC1641 I2C power monitor driver
+To: Igor Reznichenko <igor@reznichenko.net>
+Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
+ devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
+ skhan@linuxfoundation.org
+References: <d3365f32-dc92-4a55-91a1-c4a446558c5a@roeck-us.net>
+ <20251027064127.648712-1-igor@reznichenko.net>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251027064127.648712-1-igor@reznichenko.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 23, 2025 at 11:21=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
-rote:
->
-> iova_to_phys is a performance path for the DMA API and iommufd, implement
-> it using an unrolled get_user_pages() like function waterfall scheme.
->
-> The implementation itself is fairly trivial.
->
-> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/generic_pt/iommu_pt.h | 105 ++++++++++++++++++++++++++++
->  include/linux/generic_pt/iommu.h    |  19 +++--
->  2 files changed, 119 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/iommu/generic_pt/iommu_pt.h b/drivers/iommu/generic_=
-pt/iommu_pt.h
-> index 564f2d3a6e11e1..5ff1b887928a46 100644
-> --- a/drivers/iommu/generic_pt/iommu_pt.h
-> +++ b/drivers/iommu/generic_pt/iommu_pt.h
-> @@ -17,6 +17,111 @@
->
->  #define DOMAIN_NS(op) CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), op)
->
-> +static int make_range_ul(struct pt_common *common, struct pt_range *rang=
-e,
-> +                        unsigned long iova, unsigned long len)
-> +{
-> +       unsigned long last;
-> +
-> +       if (unlikely(len =3D=3D 0))
-> +               return -EINVAL;
-> +
-> +       if (check_add_overflow(iova, len - 1, &last))
-> +               return -EOVERFLOW;
-> +
-> +       *range =3D pt_make_range(common, iova, last);
-> +       if (sizeof(iova) > sizeof(range->va)) {
-> +               if (unlikely(range->va !=3D iova || range->last_va !=3D l=
-ast))
-> +                       return -EOVERFLOW;
-> +       }
-> +       return 0;
-> +}
-> +
-> +static __maybe_unused int make_range_u64(struct pt_common *common,
-> +                                        struct pt_range *range, u64 iova=
-,
-> +                                        u64 len)
-> +{
-> +       if (unlikely(iova > ULONG_MAX || len > ULONG_MAX))
-> +               return -EOVERFLOW;
-> +       return make_range_ul(common, range, iova, len);
-> +}
-> +
-> +/*
-> + * Some APIs use unsigned long, while othersuse dma_addr_t as the type. =
-Dispatch
-> + * to the correct validation based on the type.
-> + */
-> +#define make_range_no_check(common, range, iova, len)                   =
-\
-> +       ({                                                              \
-> +               int ret;                                                \
-> +               if (sizeof(iova) > sizeof(unsigned long) ||             \
-> +                   sizeof(len) > sizeof(unsigned long))                \
-> +                       ret =3D make_range_u64(common, range, iova, len);=
- \
-> +               else                                                    \
-> +                       ret =3D make_range_ul(common, range, iova, len); =
- \
-> +               ret;                                                    \
-> +       })
-> +
-> +#define make_range(common, range, iova, len)                            =
- \
-> +       ({                                                               =
-\
-> +               int ret =3D make_range_no_check(common, range, iova, len)=
-; \
-> +               if (!ret)                                                =
-\
-> +                       ret =3D pt_check_range(range);                   =
-  \
-> +               ret;                                                     =
-\
-> +       })
-> +
-> +static __always_inline int __do_iova_to_phys(struct pt_range *range, voi=
-d *arg,
-> +                                            unsigned int level,
-> +                                            struct pt_table_p *table,
-> +                                            pt_level_fn_t descend_fn)
-> +{
-> +       struct pt_state pts =3D pt_init(range, level, table);
-> +       pt_oaddr_t *res =3D arg;
-> +
-> +       switch (pt_load_single_entry(&pts)) {
-> +       case PT_ENTRY_EMPTY:
-> +               return -ENOENT;
-> +       case PT_ENTRY_TABLE:
-> +               return pt_descend(&pts, arg, descend_fn);
-> +       case PT_ENTRY_OA:
-> +               *res =3D pt_entry_oa_exact(&pts);
-> +               return 0;
-> +       }
-> +       return -ENOENT;
-> +}
-> +PT_MAKE_LEVELS(__iova_to_phys, __do_iova_to_phys);
-> +
-> +/**
-> + * iova_to_phys() - Return the output address for the given IOVA
-> + * @iommu_table: Table to query
-> + * @iova: IO virtual address to query
-> + *
-> + * Determine the output address from the given IOVA. @iova may have any
-> + * alignment, the returned physical will be adjusted with any sub page o=
-ffset.
-> + *
-> + * Context: The caller must hold a read range lock that includes @iova.
-> + *
-> + * Return: 0 if there is no translation for the given iova.
-> + */
-> +phys_addr_t DOMAIN_NS(iova_to_phys)(struct iommu_domain *domain,
-> +                                   dma_addr_t iova)
-> +{
-> +       struct pt_iommu *iommu_table =3D
-> +               container_of(domain, struct pt_iommu, domain);
-> +       struct pt_range range;
-> +       pt_oaddr_t res;
-> +       int ret;
-> +
-> +       ret =3D make_range(common_from_iommu(iommu_table), &range, iova, =
-1);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D pt_walk_range(&range, __iova_to_phys, &res);
-> +       /* PHYS_ADDR_MAX would be a better error code */
-> +       if (ret)
-> +               return 0;
-> +       return res;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(DOMAIN_NS(iova_to_phys), "GENERIC_PT_IOMMU");
-> +
->  struct pt_iommu_collect_args {
->         struct iommu_pages_list free_list;
->  };
-> diff --git a/include/linux/generic_pt/iommu.h b/include/linux/generic_pt/=
-iommu.h
-> index dc731fe003d153..5622856e199881 100644
-> --- a/include/linux/generic_pt/iommu.h
-> +++ b/include/linux/generic_pt/iommu.h
-> @@ -116,11 +116,13 @@ struct pt_iommu_cfg {
->  };
->
->  /* Generate the exported function signatures from iommu_pt.h */
-> -#define IOMMU_PROTOTYPES(fmt)                                           =
-  \
-> -       int pt_iommu_##fmt##_init(struct pt_iommu_##fmt *table,          =
- \
-> -                                 const struct pt_iommu_##fmt##_cfg *cfg,=
- \
-> -                                 gfp_t gfp);                            =
- \
-> -       void pt_iommu_##fmt##_hw_info(struct pt_iommu_##fmt *table,      =
- \
-> +#define IOMMU_PROTOTYPES(fmt)                                           =
-       \
-> +       phys_addr_t pt_iommu_##fmt##_iova_to_phys(struct iommu_domain *do=
-main, \
-> +                                                 dma_addr_t iova);      =
-      \
-> +       int pt_iommu_##fmt##_init(struct pt_iommu_##fmt *table,          =
-      \
-> +                                 const struct pt_iommu_##fmt##_cfg *cfg,=
-      \
-> +                                 gfp_t gfp);                            =
-      \
-> +       void pt_iommu_##fmt##_hw_info(struct pt_iommu_##fmt *table,      =
-      \
->                                       struct pt_iommu_##fmt##_hw_info *in=
-fo)
->  #define IOMMU_FORMAT(fmt, member)       \
->         struct pt_iommu_##fmt {         \
-> @@ -129,6 +131,13 @@ struct pt_iommu_cfg {
->         };                              \
->         IOMMU_PROTOTYPES(fmt)
->
-> +/*
-> + * A driver uses IOMMU_PT_DOMAIN_OPS to populate the iommu_domain_ops fo=
-r the
-> + * iommu_pt
-> + */
-> +#define IOMMU_PT_DOMAIN_OPS(fmt) \
-> +       .iova_to_phys =3D &pt_iommu_##fmt##_iova_to_phys,
-> +
->  /*
->   * The driver should setup its domain struct like
->   *     union {
-> --
-> 2.43.0
->
->
+On 10/26/25 23:41, Igor Reznichenko wrote:
+>> In some way this is inconsistent: It accepts a shunt resistor value of, say, 105
+>> even though the chip can only accept multiples of 10 uOhm. In situations like this
+>> I suggest to expect devicetree values to be accurate and to clamp values entered
+>> through sysfs. More on that below.
+>>
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int tsc1641_set_shunt(struct tsc1641_data *data, u32 val)
+>>> +{
+>>> +	struct regmap *regmap = data->regmap;
+>>> +	long rshunt_reg;
+>>> +
+>>> +	if (tsc1641_validate_shunt(val) < 0)
+>>> +		return -EINVAL;
+>>> +
+>>> +	data->rshunt_uohm = val;
+>>> +	data->current_lsb_ua = DIV_ROUND_CLOSEST(TSC1641_VSHUNT_LSB_NVOLT * 1000,
+>>> +						 data->rshunt_uohm);
+>>> +	/* RSHUNT register LSB is 10uOhm so need to divide further*/
+>>> +	rshunt_reg = DIV_ROUND_CLOSEST(data->rshunt_uohm, TSC1641_RSHUNT_LSB_UOHM);
+>>
+>> This means that all calculations do not use the actual shunt resistor values used
+>> by the chip, but an approximation. I would suggest to store and use the actual shunt
+>> resistor value instead, not the one entered by the user.
+> 
+> By "actual shunt" you mean defined in devicetree? Then does it mean disabling
+> writing value by user via sysfs and making "shunt_resistor" read-only or leaving it
+> writable and clamping to devicetree value, thus discarding the user provided value?
+> 
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+I said "used by the chip", and referred to the value written into TSC1641_RSHUNT_LSB_UOHM.
+
+>> See below - clamping is insufficient for negative values, and it is not clear to me if
+>> the limit register is signed or unsigned.
+> 
+>> Also, the datasheet doesn't say that the limit value would be signed. Did you verify
+>> that negative temperature limit values are actually treated as negative values ?
+> 
+> SUL, SOL, TOL are signed, I verified. The negative limits for current and temperature
+> work well based on my testing.
+> 
+
+Please add a respective comment into the code.
+
+>> This doesn't work as intended for negative values. regmap doesn't expect to see
+>> negative register values and returns an error if trying to write one, so clamping
+>> against SHRT_MIN and SHRT_MAX is insufficient. You also need to mask the result
+>> against 0xffff.
+> 
+> I was under impression regmap would handle this masking correctly when defining
+> .val_bits = 16. E.g. in regmap.c:973 it selects formatting function for 16bit values.
+> I can mask explicitly if it's required.
+> It certainly doesn't throw error since negative alerts work as mentioned.
+> 
+
+My unit test code bails out on negative values, returning an error from regmap when
+trying to write negative values. I had seen that before. Masking the value passed
+to regmap with 0xffff solved the problem.
+
+>> Why did you choose lcrit/crit attributes instead of min/max ? If there is only
+>> one alert limit, that usually means the first level of alert, not a critical level.
+>> Raising an alert does not mean it is a critical alert. Please reconsider.
+> 
+> I used hwmon/ina2xx.c as a reference. It covers many similar power monitors which
+> have single threshold alerts and defines only lcrit/crit. If this is a wrong approach
+> I'll change to min/max.
+
+Isn't that great ? You can always find an example for everything in the Linux kernel
+if you are looking for it.
+
+Guenter
+
