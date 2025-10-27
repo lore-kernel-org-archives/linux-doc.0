@@ -1,66 +1,31 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217D829D269
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9F22BCF4C;
+	Mon, 27 Oct 2025 03:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761533639; cv=none; b=TELrWw1zw31GSvES4XZsqKW4i+XlnPMhQqlOjPg9YLOcm24Xif6bFGnp/EnpZm6lpOyW5Kkr8UdP12Br6sY5uSUT71ypweMZ1sGSed32U3Rq9Zi10hxHcWeHGIbacZRaVm4FYenDnKvZuEVtuWTBJnglyDxoEE0dhmIJ8cO6Ppg=
+	t=1761535549; cv=none; b=sgnneWU9A3KYPEwKNw/bW+s2wNeW22kggLGm6VAlJWj1ZBHpXCxsF5m77UBIXVu79Y2BNTO7EI2htyVpxn9LuEyyFaHWytUO5gH1N9k6l3zfb18MpnRVcU+lqjax7XKfyBpgD/MUVLN3KjYorDU8ug+Jkc0qLmpgctFGPDzEyMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761533639; c=relaxed/simple;
-	bh=9ToB783q04/ZLjbD/gt5wlM14tABvZc8zQTEnpTtNAw=;
+	s=arc-20240116; t=1761535549; c=relaxed/simple;
+	bh=AOcMq98EC8CGBYoVOSn6HcM2Q6moUQ8svsurgr3qy7E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V6bIOyQ+cWgEKBXrNpGaZHYtEyB8smO59iqEy9JrnE2L3sFfHGykHrnzKUEcP7AvwwiX8hLJDvGrrxKtGE2IvG9YPkb5xQ6mhEzFSsZx6NlO1Xz+O6nh0KajC9NZUMORlRebqOyKqIIz1EGdtyNqXOXdPzTFiUGd+BTI8DvnXvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOFPk/sl; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=bKyuxYWYwLT0ORJm3WfuElF+Br+XAZwc78bs4/H2XbLgITISsZQKADUOSIlQ9fY9cix18dt2VCbYkpwqeTqC0TGRMInnwXJG0g1qEUkZ6jQDUGTGWkVRFOAsLkLy4Xb3J4fU3afw1nkRoUVbKKH9zwO/uCgOf6kSByzi/B8eQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hkoi81s9; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOFPk/sl"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-290b48e09a7so50635775ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 19:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761533637; x=1762138437; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cVlahTxS7jRPwvwryBn2WGTgohPafv3ZR8htDrtjHFs=;
-        b=QOFPk/slUi/x+4+/KhrtjT2MbZHeg+aAklo7Mt3oDZF1D2N15a6L5F3ie2XdjjbKyb
-         CtTk7bKIkLDKxHLgNYMyaGZsXnVKpMGtAq6DwQKN7vf7N7yjuIEYVUwg0rjxizPTurZP
-         VsdSbth5LPVc399fitGEXQlVbPN4i3jN6pkq+jsccVRuGqDT3xWQvQfG2Ei6j/I2HIBX
-         uLHWisV51wA1MNlzTlhfbkMBj/yk41qIzMPGSfqodxmlaxrMGEhSaLyvQMUmV5YH8cVS
-         uhdD6rSjJ0rwGvno6Pefg1lTkOSUPkudLWzHw6Jb4oS/knwp3u2iwaZAuq4u+IXcRc4B
-         1eXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761533637; x=1762138437;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cVlahTxS7jRPwvwryBn2WGTgohPafv3ZR8htDrtjHFs=;
-        b=OvSES0ZMaYrudzQgxP4EsGWCmand3VxKf27rtVFgkfEOtdp0GkleLynJjwBQ+CBseR
-         WdtI4OaSPyvp22bILL183751FRjuS8uoLd6nJXgjq9y2XQgNecPIKMbk9MMsNX12eqxi
-         tgLRHGoEwlbs0Bs1Nl389n/5qf9IeeKKUm/2saVQumJT/SXN0+T8dGmv2OjR3bXxeeE8
-         8LWqYXCxtsXj7SZhMRL8mK2czDDihnKEpYjrximpnBtN7UjmAgf8S7ggSasVAcC3Rg8J
-         oK3pUud+hH2QoyFYw8QEZBoy1Tn1jkoNqX8+gjA20CC+VwnWDN2kHuUetzlFyOoXnP6F
-         enfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQEpZaYxdizQZBUD3dQPyfF3ALRNTat2lZBM5hg/lYKLClxHZw9UeE2o7KK+Z4tiGqy5nxTI+51KI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPh9rFhYlTNBsfmiuJPkeZsZRHwukR3s6ZGEkYWiKGfmmz9JWH
-	FYcRvgF88AOnw7aTGy3bwEBLgF7ok+VbPgREJggLnQ/o5BXd+L/u7hAS
-X-Gm-Gg: ASbGncskzLo50/VGIVr7YVvkqHHeSGitbQ4oqiUUO9G3DdNtix0YEf7A86FqI59mp/k
-	vbH8Ub/wJromGm5kOVuRIHh/KF9gHMLUXWeWp6IHdcTv9I2sOtaESO8ufY5prfZ6MLD/C4Mrxeb
-	xxc13IB4mD04YjqSfuGoHTTNnDstiRuD1rttW55wpX/tFfKvJW6sTe5RCEbo3shpiJjeU37LrmW
-	/PtVsNKbD2vYFVTOiZ7qHvBQrydA4Mw3xX5AsGDQ25yNHfMW7yeuLY4vqbz39eafa3ANI1EWxfY
-	bqlQ/877G1qo5qCqpeS9A7+Ko7H8Rv3RZ/0NDCWpOGjJlRv0QZUqsxczxbiw/gDRhpG7SxzX0Tp
-	uLlUgRlU29I03+gRFyHzcsxh5IgjIuHe6Sb1umif0uQOsHJg7FBkLNAs4qEUHvwu42iI0H6K7E9
-	fgEcR6LWhFGFPFsGTyjkuIpwmIS22UsiImM213RGYKW7ZXiQ==
-X-Google-Smtp-Source: AGHT+IHkbhlxjiyHB6Qfk8vz4b8fB+Snb1xTbuTgkveEGfECpKJAS/t70w4tpgOAyldU8hd5twy89w==
-X-Received: by 2002:a17:902:cf4b:b0:27e:ed0d:f4ef with SMTP id d9443c01a7336-290cb27eec7mr452422025ad.41.1761533637186;
-        Sun, 26 Oct 2025 19:53:57 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d429c6sm65101965ad.85.2025.10.26.19.53.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Oct 2025 19:53:56 -0700 (PDT)
-Message-ID: <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
-Date: Mon, 27 Oct 2025 11:53:54 +0900
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hkoi81s9"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1761535538; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=/jozjS1vRHTv6C7q6QJDKxw+pz3Pe2g0a97QFylnV28=;
+	b=hkoi81s9qdEt271lM2yx6wIz0Eszac/CbKqTBeqzvYpaxiAuoeXK03rJKtCEguo3QdjsV05KXxPBRmqWTzjdDbkRP1c8cM8isxrAcUfON3LkGlwd1akigWLdhLa0x8vZnB3BbZ4fwpwhu6MGpGVXqzfoZS09TR6QVqSi7cDTYGQ=
+Received: from 30.74.144.189(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Wr-v7UX_1761535533 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 27 Oct 2025 11:25:34 +0800
+Message-ID: <ad974920-658a-4909-8160-c54f7ac9403a@linux.alibaba.com>
+Date: Mon, 27 Oct 2025 11:25:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,178 +33,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Subject: [PATCH] docs: ja_JP: Move submitting-patches to
- process/ and add to build
-To: Akiyoshi Kurita <weibu@redadmin.org>, corbet@lwn.net
-Cc: shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20251024235437.801625-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20251024235437.801625-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v12 mm-new 07/15] khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
+ pfalcato@suse.de
+References: <20251022183717.70829-1-npache@redhat.com>
+ <20251022183717.70829-8-npache@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20251022183717.70829-8-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Kurita-san,
 
-Thank for your continued work on this!
 
-On Sat, 25 Oct 2025 08:54:37 +0900, Akiyoshi Kurita wrote:
-> As requested by Jonathan, move the Japanese translation of
-> 'SubmittingPatches' to its proper location under 'process/' and
-> convert it to reStructuredText.
-
-In https://lore.kernel.org/87jz0xbk6f.fsf@trenco.lwn.net/, Jon said:
-
->> That said ... this is not an RST file, and won't be pulled into the docs
->> build.  I would *love* to see a patch that moves this file into its
->> proper location under .../process/ and brings it into the build.
-
-This patch does the *minimal* thing, namely the rename of the file,
-with minor changes near the top of the doc.
-
-Yes, the resulting .rst doesn't cause any *new* warnings from Sphinx,
-but looking at the resulting HTML (or PDF), I don't think the rendered
-page looks nice.
-
-I'm wondering if this is what Jon would love to see. (Well, Jon doesn't
-read Japanese and would not mind.)
-
-Of course, I understand you are going to do both translation and reST markup
-updates as follow-up changes.  But I'd rather refrain from exposing
-work-in-progress doc in the translations docs.
-
-Please read on in-line comments below:
-
+On 2025/10/23 02:37, Nico Pache wrote:
+> Pass an order and offset to collapse_huge_page to support collapsing anon
+> memory to arbitrary orders within a PMD. order indicates what mTHP size we
+> are attempting to collapse to, and offset indicates were in the PMD to
+> start the collapse attempt.
 > 
-> This patch also wires the new file into the Japanese documentation's
-> toctree, allowing it to be included in the Sphinx build.
+> For non-PMD collapse we must leave the anon VMA write locked until after
+> we collapse the mTHP-- in the PMD case all the pages are isolated, but in
+> the mTHP case this is not true, and we must keep the lock to prevent
+> changes to the VMA from occurring.
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 > ---
->  Documentation/translations/ja_JP/index.rst    |  1 +
->  .../submitting-patches.rst}                   | 61 ++++++++++---------
->  2 files changed, 32 insertions(+), 30 deletions(-)
->  rename Documentation/translations/ja_JP/{SubmittingPatches => process/submitting-patches.rst} (96%)
-> 
-> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
-> index 4159b417bfdd..8e01619d4170 100644
-> --- a/Documentation/translations/ja_JP/index.rst
-> +++ b/Documentation/translations/ja_JP/index.rst
-> @@ -11,6 +11,7 @@
->  .. toctree::
->     :maxdepth: 1
->  
-> +   process/submitting-patches
 
-This should come below process/howto. Still, as I said above, I think this
-addition is premature.  One option would be to put a fat warning at the top
-of the doc saying "This section is work-in-progress!!", or so.
-
->     disclaimer-ja_JP
->     process/howto
->     process/submit-checklist
-> diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> similarity index 96%
-> rename from Documentation/translations/ja_JP/SubmittingPatches
-> rename to Documentation/translations/ja_JP/process/submitting-patches.rst
-> index b950347b5993..4bfa84cc705d 100644
-> --- a/Documentation/translations/ja_JP/SubmittingPatches
-> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> @@ -1,33 +1,34 @@
-> -NOTE:
-> -This is a version of Documentation/process/submitting-patches.rst into Japanese.
-> -This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
-> -and the JF Project team <http://www.linux.or.jp/JF/>.
-> -If you find any difference between this document and the original file
-> -or a problem with the translation,
-> -please contact the maintainer of this file or JF project.
-> -
-> -Please also note that the purpose of this file is to be easier to read
-> -for non English (read: Japanese) speakers and is not intended as a
-> -fork. So if you have any comments or updates of this file, please try
-> -to update the original English file first.
-> -
-> -Last Updated: 2011/06/09
-> -
-> -==================================
-> -これは、
-> -linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
-> -です。
-> -翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
-> -翻訳日： 2011/06/09
-> -翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
-> -校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
-> -         Matsukura さん <nbh--mats at nifty dot com>
-> -         Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot jp>
-> -==================================
-> -
-> -        Linux カーネルに変更を加えるための Howto
-> -        又は
-> -        かの Linus Torvalds の取り扱い説明書
-> +..
-> +   NOTE:
-> +     This is a version of Documentation/process/submitting-patches.rst into Japanese.
-> +     This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
-> +     and the JF Project team <http://www.linux.or.jp/JF/>.
-> +     If you find any difference between this document and the original file
-> +     or a problem with the translation,
-> +     please contact the maintainer of this file or JF project.
-> +
-> +     Please also note that the purpose of this file is to be easier to read
-> +     for non English (read: Japanese) speakers and is not intended as a
-> +     fork. So if you have any comments or updates of this file, please try
-> +     to update the original English file first.
-> +
-> +     Last Updated: 2011/06/09
-> +
-> +     ==================================
-> +     これは、
-> +     linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
-> +     です。
-> +     翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
-> +     翻訳日： 2011/06/09
-> +     翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
-> +     校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
-> +           Matsukura さん <nbh--mats at nifty dot com>
-> +           Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot jp>
-> +     ==================================
-
-This historic contribution record can be removed.  The same happened in
-howto.rst when Shibata-san did the conversion in commit f012733894d3
-("Documentation: Add HOWTO Japanese translation into rst based build
-system").
-
-Instead, please put a translation note referencing the disclaimer
-under the document title as is done in (ja_JP's) howto.rst and
-submit-checklist.rst.
-
-> +
-> +========================================
-> +Linux カーネルに変更を加えるための Howto
-> +========================================
-
-Title of the original now reads:
-
-  Submitting patches: the essential guide to getting your code into the kernel
-
-Back in 2005, it read:
-
-  How to Get Your Change Into the Linux Kernel
-          or
-  Care And Operation Of Your Linus Torvalds
-
-And the Japanese translation has never had the title updated ...
-
-Probably you can align the title with the current one.
-
-As before, if you are not sure of the way to do, please ask me
-before submitting a next version.
-
-        Thanks, Akira
-
->  
->  Linux カーネルに変更を加えたいと思っている個人又は会社にとって、パッ
->  チの投稿に関連した仕組みに慣れていなければ、その過程は時々みなさんを
-
-
+LGTM. And passed my mTHP collapse testing cases. So:
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Tested-by: Baolin Wang <baolin.wang@linux.alibaba.com>
