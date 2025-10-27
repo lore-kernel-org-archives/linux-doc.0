@@ -1,330 +1,147 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7AE9478;
-	Mon, 27 Oct 2025 06:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819961991C9
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 06:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761546537; cv=none; b=ezH9x/ynm93sLKImLwhtbTpLMFZwKxGz0O589G+GWgCZj2vlx9dwA/w9WwgSsva//EiTU6LxHbTlQbd8IJN0puiuqB4Bqkm4TsD0R2VPgEaSZg3l9BnPw4LPhHP6qFQtTaNuwH8L+yKgWcmlVRN2B+XhN0PYOQ83MfysWdGW2DQ=
+	t=1761547293; cv=none; b=lC30mKyvjagD/ocy/Nh3J8fXZaq9096Tpm9FlKHID+1tdvCy9fFb2K411mzeWrpoWaxjNaQMKxIQUKDXbLxJtWPwRnwAjehWrhUE2GxTRE8xBEigZtTcxgnxZ+h8WOxIHdE6+fnmegDOgWjyX2u8X026c09q/SORsSybU/09h40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761546537; c=relaxed/simple;
-	bh=Z1W33HuZk2aG2C4J8ym0e4tPr7p8iUn/opzyXIyqM5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QNELMqCLJpTC6S1TnJqmvzHalDXGj9/tTmHAOdhHLOP9q0PgXd1Uwzi9zPb60rULDmL3FXR2TQW6YISDjjIz+SQT4GocHsnF272uWoZ9gpQ60tvk2+rAc/MF2jPXDmwcwxsP2TeomBNYYxr7CuOqpTjnbRWfFoLlRWpVL9tsVPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=PLIKYE15; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1761547293; c=relaxed/simple;
+	bh=NPMQeSnux1WgQoNx4rxVtVlmNiImFDKpyKy8ElUhOgc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=G7D8agkVjYbO6RrudLfd16clhzxwssY81RhQaMMLk6HWkPh+Jv7U4wt/mWjzDJN0Nrj/Zdaf5gE9lxMkvJlRQC8ixLLqPA9IQCPWTWgN2pHsJBWQA9odB4xqw9iNKB0Sk3YjwG+UnMllGZibLuLen3+ciN0ceDQVqnxQ0JQMD68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=ad57ETgB; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="PLIKYE15"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1761546531; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=u/Mdwh94NP58Pqt0bMM/980ITImsajkPeAqPd9JRQc4=;
-	b=PLIKYE157XdehVAFuuSfqqV3MfVblXlvJ1dXnJDA1G4iHGhLU6/z3cKsozNt1yu2C5i+9orf+1CrOvcOEd+7cFHq9QrxDQqivwYDmndGAC6IcnJ+RkMofblTF72b5AzBaexfZVgkA86JPqgVsFD2S+L/MBZDGxE+35dddNP/68Q=
-Received: from 30.74.144.189(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Wr092Mq_1761546525 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 27 Oct 2025 14:28:47 +0800
-Message-ID: <3d70cc1e-6508-417c-87a5-8fe6de10f5ac@linux.alibaba.com>
-Date: Mon, 27 Oct 2025 14:28:45 +0800
+	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="ad57ETgB"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-33d7589774fso4168729a91.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 23:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=reznichenko.net; s=google; t=1761547291; x=1762152091; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BNYKZ3q1Auj7hMkOKDK6a1DLo0lCG1SQUrXtOHXGU90=;
+        b=ad57ETgBYBam3lMPV2kfwPCdckEBTejF9rB1d800BMCNlzO6inDfKMLuLA+eze7v5Q
+         NJko8MP6zTZ865XM4J7h5F5bg3JLln8mx2/Sduau2Fqcv5aiG4bAXfYrTpca3+p3u0CO
+         HjdCoYohJykQsJ2LVrT6spYk39HApfj4+CWn/O0uOeL+FRl2FJ8jWBI8i5CZ/cdgd+uS
+         MTF38HsZFslgBfMDEeHP4ThrPqL0zgZC1z3WBwOsuM97VzuJPGmQ0bTT+OJRHZ1XGPo8
+         l7yeVBgQTUV72V71MeKesPnB9EItaxHEdmsKnL4AyQo9JADbLQrealTy/Abln87M6SJg
+         MNdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761547291; x=1762152091;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BNYKZ3q1Auj7hMkOKDK6a1DLo0lCG1SQUrXtOHXGU90=;
+        b=YQJ3dLDl3bz+WjPyAKjv36pw4WOOFqrWDouDfhXH+mICcPJLqhUbwbddZJWuQV0jxy
+         sFUEd+geW2oTpPhmHltpVMw1sLPUpafcLsN0EwnvJvCoeH3lGvuimGdcO2cQljEapPyg
+         aFlPo291gd9jEtDUE/qPZtgc3RasZokdGaLiQ3fqF15eHnRZXiwhfuRoo1JWwZCTLuO8
+         7BR7keS2NgOmAdHFPx1L1rgxlLvIQ8Nasl4HLdPZKVHmrloxpMFs5sX8c2QClO7GfvO9
+         QgLAXgly0PQBz7L/uhl/K8pbqiLfq3Y10plbTwL8ZEe+OjCiHq4VT6gcj6T1pxNLIqnV
+         LF2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUgtaG7hZpcpqulFA9Q7I1fB06ikBlV9dAEJFyovNgmy7Wr0b/gSFjPX6Y0v4ESle6UPafHYbyq6uQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdsLVeWeDk0/DeHvnkUaUM4n3orDmG+XFTobU94C7VPOgHuwfy
+	BQqbLQY4Ad6nwMbTlfRufAsmbtmwna/tSLO2FsDcqqrBR4SFz1NO+p0JBEk4udRijYE=
+X-Gm-Gg: ASbGncsuox+gVuKGKXvd4q6jSx9A2RFPC6fYzuUCN5BCgvV32Dt6L76So+b1b/cHVy2
+	BkBKmwgvwaDHfeZWAGhL7FIBAW4sT6beV7gfKbk4xN/j0o4j+ksAZfawqLAeErHGpbsINjQNY1p
+	0y3r9JfWcZfrqSBJMEvAwr9WgomylsUstFz4meHLQgCCtb5v7heCpnHLnx7QYuVkD78XJTjJ+Jr
+	78hVJGJzulvStr/u6DoSOY/0pWyR9cHMtxjr2GFmReLLB0T2EjXZntcYxC/SbMUM+f762K2nP/q
+	Olxd4DoxuDoCTytrCKuA/6cmUFnLIqwM4ziZPrAfkcgtLkybprY6dP0Mru8Wwq4pF32ZfhnUXPI
+	Dqu5umWoTk5vnU08RtLAlwE2PxWSH242pAua/f1x+7hHzOqIeADBrhCDJwDBpO3V9o7PM+sIaFM
+	InlhCw2hDH/qy9Z9RsFGQukHAPRvA=
+X-Google-Smtp-Source: AGHT+IE8qvj8HBsTwz5HGw5OIU28tMFtEpb+ccgQfqfh/iRW6PjNGYH658OE70RjYaYmTrjBpzvyzA==
+X-Received: by 2002:a17:90b:2690:b0:33b:b453:c900 with SMTP id 98e67ed59e1d1-33bcf8e3d67mr49587249a91.19.1761547290681;
+        Sun, 26 Oct 2025 23:41:30 -0700 (PDT)
+Received: from z440.. ([2601:1c0:4502:2d00:599c:824:af74:2513])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81c9e5sm7276917a91.17.2025.10.26.23.41.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 23:41:30 -0700 (PDT)
+From: Igor Reznichenko <igor@reznichenko.net>
+To: linux@roeck-us.net
+Cc: conor+dt@kernel.org,
+	corbet@lwn.net,
+	david.hunter.linux@gmail.com,
+	devicetree@vger.kernel.org,
+	krzk+dt@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 2/2] hwmon: Add TSC1641 I2C power monitor driver
+Date: Sun, 26 Oct 2025 23:41:27 -0700
+Message-ID: <20251027064127.648712-1-igor@reznichenko.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <d3365f32-dc92-4a55-91a1-c4a446558c5a@roeck-us.net>
+References: <d3365f32-dc92-4a55-91a1-c4a446558c5a@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 mm-new 12/15] khugepaged: Introduce mTHP collapse
- support
-To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-13-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20251022183717.70829-13-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+>In some way this is inconsistent: It accepts a shunt resistor value of, say, 105
+>even though the chip can only accept multiples of 10 uOhm. In situations like this
+>I suggest to expect devicetree values to be accurate and to clamp values entered
+>through sysfs. More on that below.
+>
+>> +	return 0;
+>> +}
+>> +
+>> +static int tsc1641_set_shunt(struct tsc1641_data *data, u32 val)
+>> +{
+>> +	struct regmap *regmap = data->regmap;
+>> +	long rshunt_reg;
+>> +
+>> +	if (tsc1641_validate_shunt(val) < 0)
+>> +		return -EINVAL;
+>> +
+>> +	data->rshunt_uohm = val;
+>> +	data->current_lsb_ua = DIV_ROUND_CLOSEST(TSC1641_VSHUNT_LSB_NVOLT * 1000,
+>> +						 data->rshunt_uohm);
+>> +	/* RSHUNT register LSB is 10uOhm so need to divide further*/
+>> +	rshunt_reg = DIV_ROUND_CLOSEST(data->rshunt_uohm, TSC1641_RSHUNT_LSB_UOHM);
+>
+>This means that all calculations do not use the actual shunt resistor values used
+>by the chip, but an approximation. I would suggest to store and use the actual shunt
+>resistor value instead, not the one entered by the user.
 
+By "actual shunt" you mean defined in devicetree? Then does it mean disabling 
+writing value by user via sysfs and making "shunt_resistor" read-only or leaving it
+writable and clamping to devicetree value, thus discarding the user provided value?
 
-On 2025/10/23 02:37, Nico Pache wrote:
-> During PMD range scanning, track occupied pages in a bitmap. If mTHPs are
-> enabled we remove the restriction of max_ptes_none during the scan phase
-> to avoid missing potential mTHP candidates.
-> 
-> Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
-> and determine the best eligible order for the collapse. A stack struct is
-> used instead of traditional recursion. The algorithm splits the bitmap
-> into smaller chunks to find the best fit mTHP.  max_ptes_none is scaled by
-> the attempted collapse order to determine how "full" an order must be
-> before being considered for collapse.
-> 
-> Once we determine what mTHP sizes fits best in that PMD range a collapse
-> is attempted. A minimum collapse order of 2 is used as this is the lowest
-> order supported by anon memory.
-> 
-> mTHP collapses reject regions containing swapped out or shared pages.
-> This is because adding new entries can lead to new none pages, and these
-> may lead to constant promotion into a higher order (m)THP. A similar
-> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
-> introducing at least 2x the number of pages, and on a future scan will
-> satisfy the promotion condition once again. This issue is prevented via
-> the collapse_allowable_orders() function.
-> 
-> Currently madv_collapse is not supported and will only attempt PMD
-> collapse.
-> 
-> We can also remove the check for is_khugepaged inside the PMD scan as
-> the collapse_max_ptes_none() function handles this logic now.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
+>See below - clamping is insufficient for negative values, and it is not clear to me if
+>the limit register is signed or unsigned.
 
-I've tested this patch, and it works as expected. (Some nits are listed 
-below)
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-Tested-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>Also, the datasheet doesn't say that the limit value would be signed. Did you verify
+>that negative temperature limit values are actually treated as negative values ?
 
-> ---
->   include/linux/khugepaged.h |   2 +
->   mm/khugepaged.c            | 128 ++++++++++++++++++++++++++++++++++---
->   2 files changed, 122 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
-> index eb1946a70cff..179ce716e769 100644
-> --- a/include/linux/khugepaged.h
-> +++ b/include/linux/khugepaged.h
-> @@ -1,6 +1,8 @@
->   /* SPDX-License-Identifier: GPL-2.0 */
->   #ifndef _LINUX_KHUGEPAGED_H
->   #define _LINUX_KHUGEPAGED_H
-> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
-> +#define MAX_MTHP_BITMAP_STACK	(1UL << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER))
->   
->   #include <linux/mm.h>
->   
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 89a105124790..e2319bfd0065 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -93,6 +93,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->   
->   static struct kmem_cache *mm_slot_cache __ro_after_init;
->   
-> +struct scan_bit_state {
-> +	u8 order;
-> +	u16 offset;
-> +};
-> +
->   struct collapse_control {
->   	bool is_khugepaged;
->   
-> @@ -101,6 +106,13 @@ struct collapse_control {
->   
->   	/* nodemask for allocation fallback */
->   	nodemask_t alloc_nmask;
-> +
-> +	/*
-> +	 * bitmap used to collapse mTHP sizes.
-> +	 */
-> +	 DECLARE_BITMAP(mthp_bitmap, HPAGE_PMD_NR);
-> +	 DECLARE_BITMAP(mthp_bitmap_mask, HPAGE_PMD_NR);
+SUL, SOL, TOL are signed, I verified. The negative limits for current and temperature
+work well based on my testing.
 
-Nit: please remove the extra spaces.
+>This doesn't work as intended for negative values. regmap doesn't expect to see
+>negative register values and returns an error if trying to write one, so clamping
+>against SHRT_MIN and SHRT_MAX is insufficient. You also need to mask the result
+>against 0xffff.
 
-> +	struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_STACK];
->   };
->   
->   /**
-> @@ -1357,6 +1369,85 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long pmd_address,
->   	return result;
->   }
->   
-> +static void push_mthp_bitmap_stack(struct collapse_control *cc, int *top,
-> +				   u8 order, u16 offset)
-> +{
-> +	cc->mthp_bitmap_stack[++*top] = (struct scan_bit_state)
-> +		{ order, offset };
-> +}
-> +
-> +/*
-> + * collapse_scan_bitmap() consumes the bitmap that is generated during
-> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
-> + *
-> + * Each bit in the bitmap represents a single occupied (!none/zero) page.
-> + * A stack structure cc->mthp_bitmap_stack is used to check different regions
-> + * of the bitmap for collapse eligibility. We start at the PMD order and
-> + * check if it is eligible for collapse; if not, we add two entries to the
-> + * stack at a lower order to represent the left and right halves of the region.
-> + *
-> + * For each region, we calculate the number of set bits and compare it
-> + * against a threshold derived from collapse_max_ptes_none(). A region is
-> + * eligible if the number of set bits exceeds this threshold.
-> + */
-> +static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long address,
-> +		int referenced, int unmapped, struct collapse_control *cc,
-> +		bool *mmap_locked, unsigned long enabled_orders)
-> +{
-> +	u8 order, next_order;
-> +	u16 offset, mid_offset;
-> +	int num_chunks;
-> +	int bits_set, threshold_bits;
-> +	int top = -1;
-> +	int collapsed = 0;
-> +	int ret;
-> +	struct scan_bit_state state;
-> +	unsigned int max_none_ptes;
+I was under impression regmap would handle this masking correctly when defining
+.val_bits = 16. E.g. in regmap.c:973 it selects formatting function for 16bit values.
+I can mask explicitly if it's required.
+It certainly doesn't throw error since negative alerts work as mentioned.
 
-Nit: could you rearrange the order of variable definitions? Like reverse 
-Christmas trees.
+>Why did you choose lcrit/crit attributes instead of min/max ? If there is only
+>one alert limit, that usually means the first level of alert, not a critical level.
+>Raising an alert does not mean it is a critical alert. Please reconsider.
 
-> +
-> +	push_mthp_bitmap_stack(cc, &top, HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0);
-> +
-> +	while (top >= 0) {
-> +		state = cc->mthp_bitmap_stack[top--];
-> +		order = state.order + KHUGEPAGED_MIN_MTHP_ORDER;
-> +		offset = state.offset;
-> +		num_chunks = 1UL << order;
+I used hwmon/ina2xx.c as a reference. It covers many similar power monitors which
+have single threshold alerts and defines only lcrit/crit. If this is a wrong approach
+I'll change to min/max.
 
-Nit: ‘num_chunks’ should be 'unsigned long'.
+The rest of the things are clear, I'll fix those.
 
-> +
-> +		/* Skip mTHP orders that are not enabled */
-> +		if (!test_bit(order, &enabled_orders))
-> +			goto next_order;
-> +
-> +		max_none_ptes = collapse_max_ptes_none(order, !cc->is_khugepaged);
-> +
-> +		/* Calculate weight of the range */
-> +		bitmap_zero(cc->mthp_bitmap_mask, HPAGE_PMD_NR);
-> +		bitmap_set(cc->mthp_bitmap_mask, offset, num_chunks);
-> +		bits_set = bitmap_weight_and(cc->mthp_bitmap,
-> +					     cc->mthp_bitmap_mask, HPAGE_PMD_NR);
-> +
-> +		threshold_bits = (1UL << order) - max_none_ptes - 1;
-> +
-> +		/* Check if the region is eligible based on the threshold */
-> +		if (bits_set > threshold_bits) {
-> +			ret = collapse_huge_page(mm, address, referenced,
-> +						 unmapped, cc, mmap_locked,
-> +						 order, offset);
-> +			if (ret == SCAN_SUCCEED) {
-> +				collapsed += 1UL << order;
-> +				continue;
-> +			}
-> +		}
-> +
-> +next_order:
-> +		if (state.order > 0) {
-> +			next_order = state.order - 1;
-> +			mid_offset = offset + (num_chunks / 2);
-> +			push_mthp_bitmap_stack(cc, &top, next_order, mid_offset);
-> +			push_mthp_bitmap_stack(cc, &top, next_order, offset);
-> +		}
-> +	}
-> +	return collapsed;
-> +}
-> +
->   static int collapse_scan_pmd(struct mm_struct *mm,
->   			     struct vm_area_struct *vma,
->   			     unsigned long start_addr, bool *mmap_locked,
-> @@ -1364,11 +1455,15 @@ static int collapse_scan_pmd(struct mm_struct *mm,
->   {
->   	pmd_t *pmd;
->   	pte_t *pte, *_pte;
-> +	int i;
->   	int result = SCAN_FAIL, referenced = 0;
-> -	int none_or_zero = 0, shared = 0;
-> +	int none_or_zero = 0, shared = 0, nr_collapsed = 0;
->   	struct page *page = NULL;
-> +	unsigned int max_ptes_none;
->   	struct folio *folio = NULL;
->   	unsigned long addr;
-> +	unsigned long enabled_orders;
-> +	bool full_scan = true;
->   	spinlock_t *ptl;
->   	int node = NUMA_NO_NODE, unmapped = 0;
->   
-> @@ -1378,16 +1473,29 @@ static int collapse_scan_pmd(struct mm_struct *mm,
->   	if (result != SCAN_SUCCEED)
->   		goto out;
->   
-> +	bitmap_zero(cc->mthp_bitmap, HPAGE_PMD_NR);
->   	memset(cc->node_load, 0, sizeof(cc->node_load));
->   	nodes_clear(cc->alloc_nmask);
-> +
-> +	enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, cc->is_khugepaged);
-> +
-> +	/*
-> +	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
-> +	 * scan all pages to populate the bitmap for mTHP collapse.
-> +	 */
-> +	if (cc->is_khugepaged && enabled_orders == _BITUL(HPAGE_PMD_ORDER))
-> +		full_scan = false;
-> +	max_ptes_none = collapse_max_ptes_none(HPAGE_PMD_ORDER, full_scan);
-> +
->   	pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
->   	if (!pte) {
->   		result = SCAN_PMD_NULL;
->   		goto out;
->   	}
->   
-> -	for (addr = start_addr, _pte = pte; _pte < pte + HPAGE_PMD_NR;
-> -	     _pte++, addr += PAGE_SIZE) {
-> +	for (i = 0; i < HPAGE_PMD_NR; i++) {
-> +		_pte = pte + i;
-> +		addr = start_addr + i * PAGE_SIZE;
->   		pte_t pteval = ptep_get(_pte);
->   		if (is_swap_pte(pteval)) {
->   			++unmapped;
-> @@ -1412,8 +1520,7 @@ static int collapse_scan_pmd(struct mm_struct *mm,
->   		if (pte_none_or_zero(pteval)) {
->   			++none_or_zero;
->   			if (!userfaultfd_armed(vma) &&
-> -			    (!cc->is_khugepaged ||
-> -			     none_or_zero <= khugepaged_max_ptes_none)) {
-> +			    none_or_zero <= max_ptes_none) {
->   				continue;
->   			} else {
->   				result = SCAN_EXCEED_NONE_PTE;
-> @@ -1461,6 +1568,8 @@ static int collapse_scan_pmd(struct mm_struct *mm,
->   			}
->   		}
->   
-> +		/* Set bit for occupied pages */
-> +		bitmap_set(cc->mthp_bitmap, i, 1);
->   		/*
->   		 * Record which node the original page is from and save this
->   		 * information to cc->node_load[].
-> @@ -1517,9 +1626,12 @@ static int collapse_scan_pmd(struct mm_struct *mm,
->   out_unmap:
->   	pte_unmap_unlock(pte, ptl);
->   	if (result == SCAN_SUCCEED) {
-> -		result = collapse_huge_page(mm, start_addr, referenced,
-> -					    unmapped, cc, mmap_locked,
-> -					    HPAGE_PMD_ORDER, 0);
-> +		nr_collapsed = collapse_scan_bitmap(mm, start_addr, referenced, unmapped,
-> +					      cc, mmap_locked, enabled_orders);
-> +		if (nr_collapsed > 0)
-> +			result = SCAN_SUCCEED;
-> +		else
-> +			result = SCAN_FAIL;
->   	}
->   out:
->   	trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
-
+Thanks, Igor
