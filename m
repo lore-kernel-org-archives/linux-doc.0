@@ -1,175 +1,380 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533230EF95
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 16:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB35029E11E
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 17:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761584037; cv=none; b=t81kzFsgegdT4Ffe37Q5lcCJ6qC5iKupQ749vynBVw3/3MJ0ZKmOjYeOHlj3//jD32PIR1vNuZmJtR07K/D4X0+1Ufy28bD5kV0OtfkbORQviQxx5JEXWlQqg7LwPatZzqzwBjQfiDCv9At1j55YyVTVkWjSTR4iq82vNee7qVs=
+	t=1761584619; cv=none; b=jEFX6cx6miUJl2zQxijDKW4j5pwUNNER6g1uYf1Wj7pwj3/62TISjOmsN2JEdrrtEbqP7rA7GWF8Ky2/U+l4w4Jbru8jm0l4IzafldmBw2yPtRAigvyapaXrCs8ZwKmSGJ+FuLPjV61Mm6GxdDhNt+BIppMTli3Wh/M23urB/dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761584037; c=relaxed/simple;
-	bh=bjtZvodF4iC8SXP8RIJixhrHH9kdGCJEe8zX2Z2VOw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XMKiKYt5mu51uuPUC+H2gA2KxaiuATQRpaSYssVvNCWccB2VG9Eeesjq8CupqKjyM7cNn40fKb7TuvhOz1HvcE2QQZyPONaETD4lD/Ar97KS1r+Ntqg7H1f+oT0ks6fzPEUUl7QZc+R8JEqkpSYn+jhYKRdORnHMMy66xwawmwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Osy3bMHq; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761584619; c=relaxed/simple;
+	bh=76P57XRKfuzAKY1ciduC9CmiJBUvwKTZtkz3qwhdReE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gWArevUs/12vAlOncr+AdmSJ+jv91RgoL5Sw6qxa7TsG1vs25+ClY/8JyTyPpl628PLkAVkh773S2xbppZ6ylSOwtABQRcHHKnlXT2CyzHNpa2U55souj3uaRVhqugIXpq1MaPAOdGDeftjh6K7pPivmKLP5P5UE12Mdbj2QhGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SQjHH5vd; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Osy3bMHq"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so4743336b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:53:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SQjHH5vd"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4eccff716f4so17811cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 10:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761584036; x=1762188836; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=9NDuIHfeCDdX2wqZjc4Jxxi1StzQQhZtJcusn2VZs5E=;
-        b=Osy3bMHqs8Gs4kHSA30m9ZcjBtvq5rXG3nS+Wk7SKk0rwLBTZwSTfkZrEebf7qy2Ta
-         jQEbGGsRezUJmqgVa+HBr/hwAkk5r2zNPjbTpKDDnxCHSUSTOBxw5xQFghiLtEeNNdmi
-         keDbZvjZZrrb46Ew3khiRHYnaYtL/nEtWQKEUhvXRlMjpPMl5wK88YKmxTjb4yU48lxs
-         HXG4f8cXR+IwWHoFPPzRP88kGcRuEfki0KUyVUyYTm5sXxQtKukDj+OrMw1SOJ87zahV
-         F2vP16XtXNJA9c0sSp/Ozx3wWTugT5emqH1Dhquv8dIWFa2wtfF1EOWR2qIz1nXIzK1x
-         QMFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761584036; x=1762188836;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1761584616; x=1762189416; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9NDuIHfeCDdX2wqZjc4Jxxi1StzQQhZtJcusn2VZs5E=;
-        b=gLQY9dvp4nZZsd6n9MWW6X4dT44GuiMQTjuMM4AAx0gr76mqClBUbKIvJKLEjl8KFK
-         8GYSukfeTT0dmdl7wN6iIfvl6sL6IDtpD4bM3XS+Kewhld+zoMbRICwCV1Pu/dMB4UqP
-         TREoaCjA64BcfI4yW9T3iwPJrLL/B3QYPiLnPBtptvLHK2+pQkkMqaF5QyM7B8Fyz4lj
-         WHTpLMeEFsat6aqzzsiEbTH0pPo04c7K//N4LRtYIjUmT1M6z0y+4hIQp9bbFI1+6qGr
-         o96A4ND0/LV45EkpMXH+3H8QJHJtcieWLr75xEkbCM2c0k5zJrnCHwmw27+0w/VnvC/P
-         jHiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVE4lDT/dnVlkchFtACV3vRVp2SpzZx7ohGFzIfPqiDHrLrVoLupXS94HYGBNmB1BeW53zoO1g48p8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4YRxRiwTUVfjHsVsl7HK0ILJyCK7QfqUNzI0I6KLuKjZ1uxAt
-	PAS6kT3F58afdr5QrQKHmv4eNjQ/9MGTQi9gXYoBKV2R6o9qdQ2uFVjg
-X-Gm-Gg: ASbGncsqqZGnh8+7ZQz8eHN18JnWIouVFVWoGhWi0bI21Il818fUpB6SZDFMzgdvnpd
-	t0ctWtOOMD1JVrNpjXvNVLEZgbZOoE+1rfSriVJy8+0C7OrGAdmf339m/YF33cQLu97mNAR/rno
-	Prhb83bRONq+vhIIjYQ2P/hTmGsp/6490tm8R87578E0cF82Inres1y8jyK0r5+G6JDwYCnVU1Z
-	QT42Fbwi82x8zFfBWuDvido2HDxM1j+f61oGAOIDtesdE3slFZnGvde0+XtjLdqpIAd8tM+hNkN
-	cWhJrrodz954bkqQKsAzhMVIoAAvLwZcFw0jjoLfKrfhipfE8y1gjB8EijS3j5v35gzzUivSxwk
-	JLA+vIErDpCwDAqB9oW/gTRdeakqjqaPdHQdmAVdBfe30BMMPg0CI20RiWXQU2kQdyTjIGFIlMk
-	oLcedqu4tL+biP1IjUD/xe/CgM7Bvi2lf1Hr5vc0MVHYwsJqs8
-X-Google-Smtp-Source: AGHT+IF4dFJWqD8ziRWUk4WOLl1Z73HSPs6staL5LnjdEhDwjm8lRRD5dL76dzXSVXC8kqSVIGEa8g==
-X-Received: by 2002:a05:6a20:1586:b0:327:957:f915 with SMTP id adf61e73a8af0-344defde793mr147477637.24.1761584035563;
-        Mon, 27 Oct 2025 09:53:55 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a41403fa75sm8714839b3a.28.2025.10.27.09.53.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 09:53:55 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <0dfcfcde-d207-44af-ae7f-d90d623bac02@roeck-us.net>
-Date: Mon, 27 Oct 2025 09:53:53 -0700
+        bh=CuBWyV8t5IpeOQdEx4tKo7eHcJ5gDZZkmJ8Q6d4IQxs=;
+        b=SQjHH5vdDfQrMcEvDSkfF0LOtLgrZVCRUKP/U4O8kiZvO7EpTb6XRBJAWE4Vvo8b6u
+         aX3DemEBulu2gHUjTQ2ULYdZObIOLCRU95liZWcHosEGbWLuhaPRXxydNOXuKaQLuycD
+         TzTpqZcJ5IJTqppptW9RyFKAazVhIJkWHrdmjNzc5JyFHDv+E5BE7ZajMI9kO+AV7JW4
+         VYGByQf9gXeAHjzbzHdI9pNufrt5IiapZsaBHzDGK3s2JT3dM7yzv8qhKNhgsj3OeSSI
+         FnO5TEama3lm7wMQsW+NxID6epmKrDPY2l7AtcdR5eDOVTww2Jka7IeECPVzw2gtdJOv
+         Z7VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761584616; x=1762189416;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CuBWyV8t5IpeOQdEx4tKo7eHcJ5gDZZkmJ8Q6d4IQxs=;
+        b=ji/R0anFo0ShQa82QSonSHg6gU0ICCa6spDeTCaqHOgsOQ4Ym20RChdTLOSt0CP4um
+         0ZmLvxGKiMRAqUJjQY9mfTYDzTubS2C6jqv4o8nKgiQthytmlxZMYJxB1HNzCtxB598L
+         4CTbDKgyadL3/RQzPpiEYlDFbaY+PvrGfqLd6xM8xLgoi7M6lW+fyGPailjRdc/1WS9y
+         s0bwzaQcXCQ0w+6XMe5quHNVNsdQLAKu4+NQN5nYjaRV9R9ZCgX3QGuP5oCwf/tsO7iH
+         uqf0neSf8dXiisJUah8OwhzB7B46nFkNZj/Xbjx0wcCi/BR7S6GJuhuFRZ1kP2wsjybz
+         ppig==
+X-Forwarded-Encrypted: i=1; AJvYcCXSfmnS4JiV6AJnuordRdKlk6TTfD0kLp7eDbthQ+HU7um7afdoOhYhRalay6zL8hYxfa5l+Noff38=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMnTP+G8PGLrWetiakyy8bGz8tv27GRV+VqhSMpLimVMViTGm/
+	QrNt115SX+xA+BIwhUi0iTg8NrQNSCJBZyXMgQmmulDo9sQVNOGNTeVTRpsNpSW/yelJsZyM1FM
+	ug7wjgUbmtJVXlurbjQOq5aHYsb6Z3qTm93Ff5J7Oabey4mpsZ3cHZMGuaH5qag==
+X-Gm-Gg: ASbGncsTTgowf8N+58Q+UkVl+Bx6sPe4FjYZIX1Yk/OgEKKuLX8u/S6a8+rZxO1kMKI
+	AC85VmQ4mxXj0HV5Au7eG7jqnc6M5zVxPg7smLvhNd3XRc5G4nLgJuH8HCx7ttdTKhwjFzshwmw
+	qaIbGy3sFcJcx3PWKcv8eMBqP1EL19eW1cErLcbG6G6SNXWt/FzMLCqiGrG/+GGPQYUN+U1aO7t
+	CEiaLWxhGZjImPf3Z2bboKQSTJ3AksD7sfl0zxt1/OQSbyUEPzNwZJ6uHdHCNLV0pLYEtCyxEeY
+	SvB6+qM0vh21ciw=
+X-Google-Smtp-Source: AGHT+IFN9TFkidqfzRB2fPd/REPEcFZal1bmTvuVA0pkE0hW3jE0igGvK+Re1w0TU5MjhMypj3WmJMEqZCFYaAXuhjI=
+X-Received: by 2002:a05:622a:1b20:b0:4e8:85ac:f7a7 with SMTP id
+ d75a77b69052e-4ed06edaa9cmr1797841cf.9.1761584616175; Mon, 27 Oct 2025
+ 10:03:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Igor Reznichenko <igor@reznichenko.net>
-Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
- skhan@linuxfoundation.org
-References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
- <20251026184641.631641-1-igor@reznichenko.net>
- <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
- <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
- <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <0-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com> <6-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
+In-Reply-To: <6-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
+From: Samiullah Khawaja <skhawaja@google.com>
+Date: Mon, 27 Oct 2025 10:03:24 -0700
+X-Gm-Features: AWmQ_bkzqL1J7Dno0EwBGFLGJfK57ZidX1YETIjkkxZGoaq69GR5cYhgBr0TIiw
+Message-ID: <CAAywjhQRTuXHGOmK90yL4iefVWCaUs_QgL6itgEy2n0fCzMYUw@mail.gmail.com>
+Subject: Re: [PATCH v7 06/15] iommupt: Add unmap_pages op
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, 
+	Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	llvm@lists.linux.dev, Bill Wendling <morbo@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, 
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, 
+	James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Michael Roth <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/27/25 01:40, Krzysztof Kozlowski wrote:
-> On 26/10/2025 20:58, Guenter Roeck wrote:
->>>>>> +  reg:
->>>>>> +    maxItems: 1
->>>>>> +
->>>>>> +  shunt-resistor-micro-ohms:
->>>>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
->>>>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
->>>>>> +      655.35 mOhm.
->>>>>> +    minimum: 100
->>>>>> +    default: 1000
->>>>>> +    maximum: 655350
->>>>>> +
->>>>>> +  st,alert-polarity-active-high:
->>>>>
->>>>> Isn't this just interrupt? You need proper interrupts property and then
->>>>> its flag define the type of interrupt.
->>>>
->>>> This controls a bit written into device register.
->>>> I omitted interrupt property after looking at existing power monitor bindings,
->>>> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
->>>> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
->>>> find many power monitor bindings defining alert pins as interrupts.
->>>
->>>
->>> On INA2xx that's SMBUS Alert. Is this the case here as well?
->>>
->>
->> It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
-> 
-> So please explain me why CPU interrupt pin, which in every really every
-> device called "interrupts", would not be "interrupts" here? How CPU can
-> even guess the number of the interrupt in such case, without
-> "interrupts" property?
-> 
+On Thu, Oct 23, 2025 at 11:21=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
+>
+> unmap_pages removes mappings and any fully contained interior tables from
+> the given range. This follows the now-standard iommu_domain API definitio=
+n
+> where it does not split up larger page sizes into smaller. The caller mus=
+t
+> perform unmap only on ranges created by map or it must have somehow
+> otherwise determined safe cut points (eg iommufd/vfio use iova_to_phys to
+> scan for them)
+>
+> A future work will provide 'cut' which explicitly does the page size spli=
+t
+> if the HW can support it.
+>
+> unmap is implemented with a recursive descent of the tree. If the caller
+> provides a VA range that spans an entire table item then the table memory
+> can be freed as well.
+>
+> If an entire table item can be freed then this version will also check th=
+e
+> leaf-only level of the tree to ensure that all entries are present to
+> generate -EINVAL. Many of the existing drivers don't do this extra check.
+>
+> This version sits under the iommu_domain_ops as unmap_pages() but does no=
+t
+> require the external page size calculation. The implementation is actuall=
+y
+> unmap_range() and can do arbitrary ranges, internally handling all the
+> validation and supporting any arrangment of page sizes. A future series
+> can optimize __iommu_unmap() to take advantage of this.
+>
+> Freed page table memory is batched up in the gather and will be freed in
+> the driver's iotlb_sync() callback after the IOTLB flush completes.
+>
+> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/generic_pt/iommu_pt.h | 156 ++++++++++++++++++++++++++++
+>  include/linux/generic_pt/iommu.h    |  10 +-
+>  2 files changed, 164 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/iommu/generic_pt/iommu_pt.h b/drivers/iommu/generic_=
+pt/iommu_pt.h
+> index 5ff1b887928a46..e3d1b272723db0 100644
+> --- a/drivers/iommu/generic_pt/iommu_pt.h
+> +++ b/drivers/iommu/generic_pt/iommu_pt.h
+> @@ -14,6 +14,29 @@
+>  #include <linux/export.h>
+>  #include <linux/iommu.h>
+>  #include "../iommu-pages.h"
+> +#include <linux/cleanup.h>
+> +#include <linux/dma-mapping.h>
+> +
+> +static void gather_range_pages(struct iommu_iotlb_gather *iotlb_gather,
+> +                              struct pt_iommu *iommu_table, pt_vaddr_t i=
+ova,
+> +                              pt_vaddr_t len,
+> +                              struct iommu_pages_list *free_list)
+> +{
+> +       struct pt_common *common =3D common_from_iommu(iommu_table);
+> +
+> +       if (pt_feature(common, PT_FEAT_FLUSH_RANGE_NO_GAPS) &&
+> +           iommu_iotlb_gather_is_disjoint(iotlb_gather, iova, len)) {
+> +               iommu_iotlb_sync(&iommu_table->domain, iotlb_gather);
+> +               /*
+> +                * Note that the sync frees the gather's free list, so we=
+ must
+> +                * not have any pages on that list that are covered by io=
+va/len
+> +                */
+> +       } else if (pt_feature(common, PT_FEAT_FLUSH_RANGE)) {
+> +               iommu_iotlb_gather_add_range(iotlb_gather, iova, len);
+> +       }
+> +
+> +       iommu_pages_list_splice(free_list, &iotlb_gather->freelist);
+> +}
+>
+>  #define DOMAIN_NS(op) CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), op)
+>
+> @@ -164,6 +187,139 @@ static inline struct pt_table_p *table_alloc_top(st=
+ruct pt_common *common,
+>                 log2_to_int(pt_top_memsize_lg2(common, top_of_table)));
+>  }
+>
+> +struct pt_unmap_args {
+> +       struct iommu_pages_list free_list;
+> +       pt_vaddr_t unmapped;
+> +};
+> +
+> +static __maybe_unused int __unmap_range(struct pt_range *range, void *ar=
+g,
+> +                                       unsigned int level,
+> +                                       struct pt_table_p *table)
+> +{
+> +       struct pt_state pts =3D pt_init(range, level, table);
+> +       struct pt_unmap_args *unmap =3D arg;
+> +       unsigned int num_oas =3D 0;
+> +       unsigned int start_index;
+> +       int ret =3D 0;
+> +
+> +       _pt_iter_first(&pts);
+> +       start_index =3D pts.index;
+> +       pts.type =3D pt_load_entry_raw(&pts);
+> +       /*
+> +        * A starting index is in the middle of a contiguous entry
+> +        *
+> +        * The IOMMU API does not require drivers to support unmapping pa=
+rts of
+> +        * large pages. Long ago VFIO would try to split maps but the cur=
+rent
+> +        * version never does.
+> +        *
+> +        * Instead when unmap reaches a partial unmap of the start of a l=
+arge
+> +        * IOPTE it should remove the entire IOPTE and return that size t=
+o the
+> +        * caller.
+> +        */
+> +       if (pts.type =3D=3D PT_ENTRY_OA) {
+> +               if (log2_mod(range->va, pt_entry_oa_lg2sz(&pts)))
+> +                       return -EINVAL;
+> +               /* Micro optimization */
+> +               goto start_oa;
+> +       }
+> +
+> +       do {
+> +               if (pts.type !=3D PT_ENTRY_OA) {
+> +                       bool fully_covered;
+> +
+> +                       if (pts.type !=3D PT_ENTRY_TABLE) {
+> +                               ret =3D -EINVAL;
+> +                               break;
+> +                       }
+> +
+> +                       if (pts.index !=3D start_index)
+> +                               pt_index_to_va(&pts);
+> +                       pts.table_lower =3D pt_table_ptr(&pts);
+> +
+> +                       fully_covered =3D pt_entry_fully_covered(
+> +                               &pts, pt_table_item_lg2sz(&pts));
+> +
+> +                       ret =3D pt_descend(&pts, arg, __unmap_range);
+> +                       if (ret)
+> +                               break;
+> +
+> +                       /*
+> +                        * If the unmapping range fully covers the table =
+then we
+> +                        * can free it as well. The clear is delayed unti=
+l we
+> +                        * succeed in clearing the lower table levels.
+> +                        */
+> +                       if (fully_covered) {
+> +                               iommu_pages_list_add(&unmap->free_list,
+> +                                                    pts.table_lower);
+> +                               pt_clear_entries(&pts, ilog2(1));
+> +                       }
+> +                       pts.index++;
+> +               } else {
+> +                       unsigned int num_contig_lg2;
+> +start_oa:
+> +                       /*
+> +                        * If the caller requested an last that falls wit=
+hin a
+> +                        * single entry then the entire entry is unmapped=
+ and
+> +                        * the length returned will be larger than reques=
+ted.
+> +                        */
+> +                       num_contig_lg2 =3D pt_entry_num_contig_lg2(&pts);
+> +                       pt_clear_entries(&pts, num_contig_lg2);
+> +                       num_oas +=3D log2_to_int(num_contig_lg2);
+> +                       pts.index +=3D log2_to_int(num_contig_lg2);
+> +               }
+> +               if (pts.index >=3D pts.end_index)
+> +                       break;
+> +               pts.type =3D pt_load_entry_raw(&pts);
+> +       } while (true);
+> +
+> +       unmap->unmapped +=3D log2_mul(num_oas, pt_table_item_lg2sz(&pts))=
+;
+> +       return ret;
+> +}
+> +
+> +/**
+> + * unmap_pages() - Make a range of IOVA empty/not present
+> + * @domain: Domain to manipulate
+> + * @iova: IO virtual address to start
+> + * @pgsize: Length of each page
+> + * @pgcount: Length of the range in pgsize units starting from @iova
+> + * @iotlb_gather: Gather struct that must be flushed on return
+> + *
+> + * unmap_pages() will remove a translation created by map_pages(). It ca=
+nnot
+> + * subdivide a mapping created by map_pages(), so it should be called wi=
+th IOVA
+> + * ranges that match those passed to map_pages(). The IOVA range can agg=
+regate
+> + * contiguous map_pages() calls so long as no individual range is split.
+> + *
+> + * Context: The caller must hold a write range lock that includes
+> + * the whole range.
+> + *
+> + * Returns: Number of bytes of VA unmapped. iova + res will be the point
+> + * unmapping stopped.
+> + */
+> +size_t DOMAIN_NS(unmap_pages)(struct iommu_domain *domain, unsigned long=
+ iova,
+> +                             size_t pgsize, size_t pgcount,
+> +                             struct iommu_iotlb_gather *iotlb_gather)
+> +{
+> +       struct pt_iommu *iommu_table =3D
+> +               container_of(domain, struct pt_iommu, domain);
+> +       struct pt_unmap_args unmap =3D { .free_list =3D IOMMU_PAGES_LIST_=
+INIT(
+> +                                              unmap.free_list) };
+> +       pt_vaddr_t len =3D pgsize * pgcount;
+> +       struct pt_range range;
+> +       int ret;
+> +
+> +       ret =3D make_range(common_from_iommu(iommu_table), &range, iova, =
+len);
+> +       if (ret)
+> +               return 0;
+> +
+> +       pt_walk_range(&range, __unmap_range, &unmap);
+> +
+> +       gather_range_pages(iotlb_gather, iommu_table, iova, len,
+> +                          &unmap.free_list);
+> +
+> +       return unmap.unmapped;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(DOMAIN_NS(unmap_pages), "GENERIC_PT_IOMMU");
+> +
+>  static void NS(get_info)(struct pt_iommu *iommu_table,
+>                          struct pt_iommu_info *info)
+>  {
+> diff --git a/include/linux/generic_pt/iommu.h b/include/linux/generic_pt/=
+iommu.h
+> index 5622856e199881..ceb6bc9cea37cd 100644
+> --- a/include/linux/generic_pt/iommu.h
+> +++ b/include/linux/generic_pt/iommu.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/iommu.h>
+>  #include <linux/mm_types.h>
+>
+> +struct iommu_iotlb_gather;
+>  struct pt_iommu_ops;
+>
+>  /**
+> @@ -119,6 +120,10 @@ struct pt_iommu_cfg {
+>  #define IOMMU_PROTOTYPES(fmt)                                           =
+       \
+>         phys_addr_t pt_iommu_##fmt##_iova_to_phys(struct iommu_domain *do=
+main, \
+>                                                   dma_addr_t iova);      =
+      \
+> +       size_t pt_iommu_##fmt##_unmap_pages(                             =
+      \
+> +               struct iommu_domain *domain, unsigned long iova,         =
+      \
+> +               size_t pgsize, size_t pgcount,                           =
+      \
+> +               struct iommu_iotlb_gather *iotlb_gather);                =
+      \
+>         int pt_iommu_##fmt##_init(struct pt_iommu_##fmt *table,          =
+      \
+>                                   const struct pt_iommu_##fmt##_cfg *cfg,=
+      \
+>                                   gfp_t gfp);                            =
+      \
+> @@ -135,8 +140,9 @@ struct pt_iommu_cfg {
+>   * A driver uses IOMMU_PT_DOMAIN_OPS to populate the iommu_domain_ops fo=
+r the
+>   * iommu_pt
+>   */
+> -#define IOMMU_PT_DOMAIN_OPS(fmt) \
+> -       .iova_to_phys =3D &pt_iommu_##fmt##_iova_to_phys,
+> +#define IOMMU_PT_DOMAIN_OPS(fmt)                        \
+> +       .iova_to_phys =3D &pt_iommu_##fmt##_iova_to_phys, \
+> +       .unmap_pages =3D &pt_iommu_##fmt##_unmap_pages
+>
+>  /*
+>   * The driver should setup its domain struct like
+> --
+> 2.43.0
+>
+>
 
-I thought we were discussing the need for the st,alert-polarity-active-high
-property, sorry.
-
-Guenter
-
+Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
