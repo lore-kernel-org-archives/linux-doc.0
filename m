@@ -1,157 +1,165 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C7029B8DC;
-	Mon, 27 Oct 2025 11:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9B51FF1AD;
+	Mon, 27 Oct 2025 11:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761564729; cv=none; b=C4WzqV6rc5SBq/Kwnv7t7gmNDHGVHe7RbI6QxRvOujGcbmaiL4dLlekDkgKsYo6aacgPA+ADgOGpEypNWf7dfzB8bnnuG3q93G6RQHAGJzYRKJBKuvwRd3U8xzSczmaZY9q/RV+6XO/RhZeXS5OTiI0Dq0pXComkqVc3tRa76v8=
+	t=1761565075; cv=none; b=QO/UveNKh+uqvIwM6Cei6WUb0ovz7ik5hRt1B5csMXFMUTSx+9YED5r0MyMpfkiTK+Pe2RaTPoCVC/sW4rMuezS8Zcov8veCWoDc4AbeuzCq1RihLZa+44PkpEiHBfMRr7MPuK1vAReOJEJxiedc6+LwAoL+oVqsZ9N9ZnUWlgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761564729; c=relaxed/simple;
-	bh=mzJ6tgFelr1ieJHNluyutTvelTfoU7hmkhH46j4QKzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7OstRW7RBL8Eu+zagB4QwPo+72LMuLlOQop7oQJoj3G9iJUnNwe8XMKen/nBnFeemlkjxNTLuUjuvKdzLOeTG0GRdmIjFCLVwwpYY61IOd/lAwyaMfWjAHQ7Q2TVGuQZmwNNtDXNIJksDsPe1Nv9ikNDKg3wyxVONqopTWbyJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=lf95dUxy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qE4sf2xr; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1761565075; c=relaxed/simple;
+	bh=qEFSBVn7tvYChgqBuSbB762Baav+81SepQq/Uf98LX4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Tg/cX1djWyLahStzNaYVJ0hNofPoy/hpu0t8UgseM07PQNK/LfdQctRVXji7SSJksS/uVgTxiN4vfXotMOk47Z31+aRcvE8OS00WwTfV2rVz2F/5bF4/rKrs2eZy/RnRW4MyGT30gRAvrDNial8T7Oa1Mt9+jymb7zh+WzjP3Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPZB8lkX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="lf95dUxy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qE4sf2xr"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id C97351D00093;
-	Mon, 27 Oct 2025 07:32:04 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Mon, 27 Oct 2025 07:32:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1761564724; x=
-	1761651124; bh=t1ECxHugQwC1OkNvzakKYf0xv9CfVeGrcJAJJJWnXQ4=; b=l
-	f95dUxybDKtE608vj7RLT7i62smFIz3nrtU4wTY4OOQaXYZgHSGBfndRkcMXduRf
-	lr8b1VhQdqtBrUD9ClCgByggGW5KrLSo2TQgaPR/Luyral0dIRmYtegZPkmOjzA1
-	lKQKxgwm7aN+XXZZ8cMhMfyKmuH0YuhvW0enzMUUIdo/zjDm47R1ybfqIrK+ZNEh
-	oQGjcTnTUpvUn2IEnpopyl7SSiVVPhZUONVEbmCMFn3GvoIpsCDCEC44rglK40f5
-	39/JPw7/ERuR03yGZUOX0KgSmlbtG8zpN5+TB/unDFArEyAOph7erRoXbz0Gowa7
-	Nu7zNnEhD36r0RnvTzldg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1761564724; x=1761651124; bh=t1ECxHugQwC1OkNvzakKYf0xv9CfVeGrcJA
-	JJJWnXQ4=; b=qE4sf2xrq00QMi3aVUsYnK3KIjS3GMFE6dOCbg//QvvhOlYqXY+
-	OJe1p8lFwx7L1erlL01bgL7dcP+uvD6GBFhr26NvbB4o5WEr7uD2JQTJFTdUDOsd
-	de6/ncRvFhaqT4fleKbgnfDjT2tmG8xkrthVkEcLerC/wQQwk7DE3MLZq9qbjbZR
-	X/gINeklo9/tiOI5Kg+Bpp0SLQucyxfgdVge+jLSjJu9stzTLaXSDElzdbfQGDKP
-	4KSnZPUMHJuN4mTp9Q+yN1UqeUMR5IQGNPzLY+Xgn/oYNUVELx3Cdu9cEjXwasm6
-	u3fHrax5203zac5d2SXVVjvgc0As32vFUbA==
-X-ME-Sender: <xms:NFj_aL1JpDvxc60KWMktgBtFDfCKlKY_lZjlXQWnJzbkH-YJVOCd4A>
-    <xme:NFj_aNwmNX2HwbaL3dr_LhacYROHOO-hwlKGOiK8rMDhM7tyjsKNjeNEXpVCXgB8u
-    F63EZEc0Qj_9QlzZSWFy3JyeqyJv3hMzLRPpvWxIK33eERXmspWiMY>
-X-ME-Received: <xmr:NFj_aEiB0nL1qlfv1ohBS8DE5_QvA35kJsLnuz2IoZToQQgZVzxC6JEXZheH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheejkeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnheptefghfevheejueehgeekveeuueevgfeggfduieefhfffgfellefgteef
-    iefgvedtnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsugesqhhuvggrshihshhnrghilhdr
-    nhgvthdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtth
-    hopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihilhhfrhgvugdrohhp
-    vghnshhouhhrtggvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhgvthguvghvsehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkshgvlhhfthgvshht
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmh
-    hlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhm
-    pdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:NFj_aCMDqNK2xsTNO6WUNBa_TxtsPb2bU6qKM5GMhqEmTxCFcqvCLQ>
-    <xmx:NFj_aPdPCQL3S7GvrRZqvgH-KD44AaRzl9BgCxpYtEThfe-g1NmeMQ>
-    <xmx:NFj_aEw1ocP_UjgVnUf4zzM5tihv2VbpKNv2p17lV0BZYIH4LgPPBg>
-    <xmx:NFj_aM2MEQ6jwVwdcHDnWs44a3gxjU6FKHw5tPDnHBScnwMkfBQVZA>
-    <xmx:NFj_aFdre-8YRlbTSx6l6ru3Ovxa9seYmG63-sPmTz64duzxfKCs9QNn>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Oct 2025 07:32:03 -0400 (EDT)
-Date: Mon, 27 Oct 2025 12:32:02 +0100
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Wilfred Mallawa <wilfred.opensource@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH net-next v8 1/2] net/tls: support setting the maximum
- payload size
-Message-ID: <aP9YMiW9V7Dkhu_1@krikkit>
-References: <20251022001937.20155-1-wilfred.opensource@gmail.com>
- <20251023184404.4dd617f0@kernel.org>
- <cd557c5b11b04da060f07d3849dc46e7b3625ed1.camel@gmail.com>
- <20251024163336.5fba5cd1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPZB8lkX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC65DC4CEFF;
+	Mon, 27 Oct 2025 11:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761565075;
+	bh=qEFSBVn7tvYChgqBuSbB762Baav+81SepQq/Uf98LX4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=QPZB8lkXka1OfqOTgreoj/P2Lg1hhWZXmp0ATPFjOUcqNjUMSysHbPqTyyVoyY21G
+	 pIPzTIEX+qR7+KzqRNGZ6cuJXse0MlchxX/qiRN2MqZYCiQY5t5V0OXONi9DqK3SSz
+	 K3AyPumi09jDGxYjIm9az3m97OE5uWSLyHisKPIPa2hli7eY0f5ffKsNYg1fH9rG2p
+	 Mc/tUYgYA3hAo/ShlSZseCveHX6OpCES8EJxQWqW8eVPC+0G+rGD1UU4DqFc705ygd
+	 p9jQBRWFkJa9wCUdyjyZpLmnuP/QTLnJSuAhyKVtHkBPYhC5plFZDMfv/br3uPs/P3
+	 MSRt9bNkz34ig==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com,  hughd@google.com,
+  skhawaja@google.com,  chrisl@kernel.org,  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+In-Reply-To: <20251020142924.GS316284@nvidia.com> (Jason Gunthorpe's message
+	of "Mon, 20 Oct 2025 11:29:24 -0300")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+	<mafs0ms5zn0nm.fsf@kernel.org>
+	<CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
+	<20251010150116.GC3901471@nvidia.com> <mafs0bjm9lig8.fsf@kernel.org>
+	<20251020142924.GS316284@nvidia.com>
+Date: Mon, 27 Oct 2025 12:37:44 +0100
+Message-ID: <mafs0y0owd187.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251024163336.5fba5cd1@kernel.org>
+Content-Type: text/plain
 
-2025-10-24, 16:33:36 -0700, Jakub Kicinski wrote:
-> On Fri, 24 Oct 2025 12:11:11 +1000 Wilfred Mallawa wrote:
-> > In the previous record_size_limit approach for TLS 1.3, we need to
-> > account for the ContentType byte. Which complicates get/setsockopt()
-> > and tls_get_info(), where in setsockopt() for TLS 1.3 we need to
-> > subtract 1 to the user provided value and in getsockopt() we need add 1
-> > to keep the symmetry between the two (similarly in tls_get_info()). The
-> > underlying assumption was that userspace passes up directly what the
-> > endpoint specified as the record_size_limit.
-> > 
-> > With this approach we don't need to worry about it and we can pass the
-> > responsibility to user-space as documented, which I think makes the
-> > kernel code simpler.
-> 
-> But we haven't managed to avoid that completely:
-> 
-> +	if (value < TLS_MIN_RECORD_SIZE_LIM - (tls_13 ? 1 : 0) ||
+On Mon, Oct 20 2025, Jason Gunthorpe wrote:
 
-We could, by taking a smaller minimum payload size than what the RFC
-says (anything that allows us to make progress, maybe 8B?). ie, I
-don't think we have to be as strict as rfc8449 (leave the userspace
-library in charge of rejecting bogus values during negotiation of this
-extension).
+> On Tue, Oct 14, 2025 at 03:29:59PM +0200, Pratyush Yadav wrote:
+>> > 1) Use a vmalloc and store a list of the PFNs in the pool. Pool becomes
+>> >    frozen, can't add/remove PFNs.
+>> 
+>> Doesn't that circumvent LUO's state machine? The idea with the state
+>> machine was to have clear points in time when the system goes into the
+>> "limited capacity"/"frozen" state, which is the LIVEUPDATE_PREPARE
+>> event. 
+>
+> I wouldn't get too invested in the FSM, it is there but it doesn't
+> mean every luo client has to be focused on it.
 
-> I understand the motivation, the kernel code is indeed simpler.
+Having each subsystem have its own state machine sounds like a bad idea
+to me. It can get tricky to manage both for us and our users.
 
-Also more consistent: the kernel syscalls work with record payload (at
-the send()/recv() level). The rest is hidden. Userspace could try an
-approximation by sending max_payload-sized chunks with MSG_EOR.
+>
+>> With what you propose, the first FD being preserved implicitly
+>> triggers the prepare event. Same thing for unprepare/cancel operations.
+>
+> Yes, this is easy to write and simple to manage.
+>
+>> I am wondering if it is better to do it the other way round: prepare all
+>> files first, and then prepare the hugetlb subsystem at
+>> LIVEUPDATE_PREPARE event. At that point it already knows which pages to
+>> mark preserved so the serialization can be done in one go.
+>
+> I think this would be slower and more complex?
+>
+>> > 2) Require the users of hugetlb memory, like memfd, to
+>> >    preserve/restore the folios they are using (using their hugetlb order)
+>> > 3) Just before kexec run over the PFN list and mark a bit if the folio
+>> >    was preserved by KHO or not. Make sure everything gets KHO
+>> >    preserved.
+>> 
+>> "just before kexec" would need a callback from LUO. I suppose a
+>> subsystem is the place for that callback. I wrote my email under the
+>> (wrong) impression that we were replacing subsystems.
+>
+> The file descriptors path should have luo client ops that have all
+> the required callbacks. This is probably an existing op.
+>
+>> That makes me wonder: how is the subsystem-level callback supposed to
+>> access the global data? I suppose it can use the liveupdate_file_handler
+>> directly, but it is kind of strange since technically the subsystem and
+>> file handler are two different entities.
+>
+> If we need such things we would need a way to link these together, but
+> I'm wonder if we really don't..
+>
+>> Also as Pasha mentioned, 1G pages for guest_memfd will use hugetlb, and
+>> I'm not sure how that would map with this shared global data. memfd and
+>> guest_memfd will likely have different liveupdate_file_handler but would
+>> share data from the same subsystem. Maybe that's a problem to solve for
+>> later...
+>
+> On preserve memfd should call into hugetlb to activate it as a hugetlb
+> page provider and preserve it too.
 
-> Last night I read the RFC and then this patch, and it took me like
-> 10min to get all of it straight in my head.
+From what I understand, the main problem you want to solve is that the
+life cycle of the global data should be tied to the file descriptors.
+And since everything should have a FD anyway, can't we directly tie the
+subsystems to file handlers? The subsystem gets a "preserve" callback
+when the first FD that uses it gets preserved. It gets a "unpreserve"
+callback when the last FD goes away. And the rest of the state machine
+like prepare, cancel, etc. stay the same.
 
-I don't find this stuff very clear either tbh, but maybe that's a
-problem in the RFC itself.
+I think this gives us a clean abstraction that has LUO-managed lifetime.
 
->  Maybe I was tried but
-> I feel like the user space developers will judge us harshly for 
-> the current uAPI.
+It also works with the guest_memfd and memfd case since both can have
+hugetlb as their underlying subsystem. For example,
 
-But userspace libraries have to do the same computations on their side
-if they want to implement this RFC. They have to figure out what the
-max payload size is as they're building the record, they can't just
-chop off a bit at the end after filling it.
+static const struct liveupdate_file_ops memfd_luo_file_ops = {
+	.preserve = memfd_luo_preserve,
+	.unpreserve = memfd_luo_unpreserve,
+	[...]
+	.subsystem = &luo_hugetlb_subsys,
+};
 
-Quick grepping through gnutls got me to this:
-https://gitlab.com/gnutls/gnutls/-/blob/eb3c9febfa9969792b8ac0ca56ee9fbd9b0bd7ee/lib/ext/record_size_limit.c#L104-106
-
-So I have a slight preference for not being tied to a (kind of
-confusing) RFC.
+And then luo_{un,}preserve_file() can keep a refcount for the subsystem
+and preserve or unpreserve the subsystem as needed. LUO can manage the
+locking for these callbacks too.
 
 -- 
-Sabrina
+Regards,
+Pratyush Yadav
