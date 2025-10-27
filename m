@@ -1,134 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6971C6A3;
-	Mon, 27 Oct 2025 08:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2F2F9C2D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 08:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761554411; cv=none; b=tq3nqF5CTCU+aNDnmorKFL0H3ZgBs44AHQXOvNKNlQMmhf6BkjFiMxVatIM0imJwql+gK6nZzI0Fklf6LRrNVfhDy8L76Zh3GWg1sMXfwgkRdHIRQAAjXsJta819sNvmIJz0P23mdiezRFv1lw1TDIrc7p2AhwKafedwSWR2JbI=
+	t=1761555315; cv=none; b=JAcFMcJnKEOrJT7PJLTR+vWNZy5BjrPN8tqCizimzf+mJFVwvYxKCcmYL8SvGZOsryZsSN6op4eX3R6dVQ+RY883R1jUAyP/koi3YZCRn3hl+G8h2SrriAcnxT929lDbVyyuuwBXZqWcav9o1YLZ9Xpzzn+4bpHl93onXgLc4Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761554411; c=relaxed/simple;
-	bh=pvUgbE/oVYUfBoByjaAA8fILG3lKoJTDuLSKJdOS/A4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5o4FG8URXExV3LdhOg+ZsPtjm7g/MqCVsMb/4d7kmx7mVPXdDwzq1tKYJplxwvyb+6J5DEnuvphVxvsV2Gqv7A0vBYBK5aK6UgoGG5h3MDo9LeDiSegi3nfuCkfQrVw2WRLX4EJFGLGGrHlU25aorgG3oNODXtgnHACyOR4aZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOpKhK+D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761555315; c=relaxed/simple;
+	bh=z0EsUhIYngw3uqM7CqctX09gbNWPgBk6PTy9xZ3ffvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUA/43s7heTtACIVm9JpEn42Iki7+31aKrhXMv+BQp7ejQhxwUuyvYGIyQnDJVkArqAws29CGcGsz2uHiypYHUZgICpY3TxX1iAVhbvES7Rkz8+6iJ/Z8/yo9y7ZbKmagGnMobvR1Rtu2QamZegDKhYudFGNhA7qJlLkWFtXo+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a5nst3Dj; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOpKhK+D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A44CC4CEF1;
-	Mon, 27 Oct 2025 08:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761554411;
-	bh=pvUgbE/oVYUfBoByjaAA8fILG3lKoJTDuLSKJdOS/A4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MOpKhK+DgLDZizQPWOGImQ/dASJaYmJwdQj44QvPvg7uNIOMhw5+TbGkYW8PJvU+q
-	 20H3lfjcN4Zai/LHogBPlspM1hXZ0wcVASpm8txMIMpRpLRJ3+uR9mfdtUmz5Q5uiV
-	 CZ44NKHjzOJIYyyUqn9VUaucJyYZqizP+H3cVcAekWm/XcPqrkkoDCicm2BTbTb2x2
-	 g/yVV3NJ++u4NhjMUkOKFxGM+e3xIsamFHZYKeySCgBkY1o2MvAL+l1n9Ff3WLHeOL
-	 vKfpgDSg8FdXuz7rXqzDUEp7N360OZu/yycoBB27XoZ8aNKOPm9eUd0PwxGH7xxTGf
-	 5zF8CtFjruJhA==
-Message-ID: <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
-Date: Mon, 27 Oct 2025 09:40:06 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a5nst3Dj"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso3449518f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 01:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761555312; x=1762160112; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rTRZ3EhuIswe365aG/XvjvEwriEQziiLr/d1qgrUekA=;
+        b=a5nst3DjgeVJl+Dx0Lq8o8FNTERhlno5ff1WGfJBVBgB7iJKdkN8jWSH5r5BCztlTB
+         YWkdIE4Y2K/twvNtO5/YORBx+iKP2V/PJO/BshlXFmNqdz2lilC07P04zruB1Qkd/SoD
+         u2TQuPE5urk+ozhh8CDBKfF9DxGd965xY0QxDf434VZPFbB7dlo1w7cGRQBNj0LmARy6
+         rYltiLgGn7p/BHrWHPsYt+KiO6Wh6eXG4v2981zNQu0UyDo4G5B1Of01WeTq+W3iV40+
+         HwdHHGHz264tMap+ezS8sUV/SoZ2Lag1bh5dzSFmSHJAcsYnpCJU+l5eMZN+FHe91dmj
+         BwYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761555312; x=1762160112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rTRZ3EhuIswe365aG/XvjvEwriEQziiLr/d1qgrUekA=;
+        b=eyRpFYIX6a8o4RtyroSX5EoHQ/218pnbDMkCNspiyGLgXd8V7mOdVfhXlB/AAF3uIc
+         tPwCmuHQ7NV7GqNg63KLXlbZRrX5gZDQ8sLh0sk6YTADeDABBE87+np4OH9Z51ydse0i
+         ZgQQUPuHOS4q4EQBXCjjMVzninU1J1BNH69FTBm8dAXalVrn5ETNGbbldGUhKvZH25pD
+         IAfrUU35v4KqqkJb5+DHaKeOA8WlXJhzOEiTXH69IkMKofbiaWHexQLQA/W1S0eQHQ6i
+         Bj39NzVjazCJuV3+zVzRHYrVhn+PAXJfjPlRqwh91TZrmM1JdhljCeiDQwsh8svLoEwV
+         MVEA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7Nw7nv0dEkD82I3l9NT9hAjR1emEESx0hGoju4E/odgIV19mrXD/Nhqt66GfJ0br9348sdvUOj4w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQB934P99vuLMRKSChjtELWquZL7lTgaXIDXrLBn05aW/31ySQ
+	fcTxvHIw/JXgESOJwhqMcd4LmVp+O4IVgoSIoukA83hGtpwZoqtNGnTG
+X-Gm-Gg: ASbGnctx1CWBMPN6BIRJcPX1buGC5OJn+hcGb5FGzDTppmisQIx0ocOyPLd8Zfe3voT
+	VsFzuu2GXhZoOFXWSQuydwonkx/Ssml7VYGcB89NOSNjHzqh3BD9LIGtrn8chNknFwtA1bhR/ZF
+	8KNby04F7ytAg3SItbUJxdqBVQQG6bSaZCb24UHnttbKFStz0bBh9mmlKfiGoKKoNvmVUyhmbg+
+	tZGZ7ytK8KGHlDZPSTzRPPxshAfy3YfRnVrQNZOztJOwBtINFy+0AGrfcLDAViHMaVmq/8y3l/Y
+	Kt3MDRw1vZ3fgwKql5wjPAigBKH4O89Mv4xBeoAG/CWdF5GW6s9ZV6rryx8mEk3EcjCAzIz0glH
+	r31612pYIxdCFHS/lwr1BqjluQ7bdYg41ApqrF28o9j5rLSRgyNgdSGEF8HSdtGr9e3p8z7UQCc
+	RqcfZAtU/u
+X-Google-Smtp-Source: AGHT+IGwkEUcJwMJhosHHfH/GxJAl3iU3iW4Mt6ujmdrpnIv7t1iBgzQ7ZFbWVwAn1+OadGrK7omzw==
+X-Received: by 2002:a05:6000:4313:b0:401:2cbf:ccad with SMTP id ffacd0b85a97d-4298f582465mr10291302f8f.17.1761555311692;
+        Mon, 27 Oct 2025 01:55:11 -0700 (PDT)
+Received: from fedora ([94.73.38.14])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd374e41sm124963555e9.12.2025.10.27.01.55.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 01:55:11 -0700 (PDT)
+Date: Mon, 27 Oct 2025 09:55:09 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	victoria@system76.com, sebastian.wick@redhat.com,
+	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 10/22] drm/vkms: Introduce configfs for plane format
+Message-ID: <aP8zbabbfLJ6F4Ok@fedora>
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <20251018-vkms-all-config-v1-10-a7760755d92d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-To: Guenter Roeck <linux@roeck-us.net>,
- Igor Reznichenko <igor@reznichenko.net>
-Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
- skhan@linuxfoundation.org
-References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
- <20251026184641.631641-1-igor@reznichenko.net>
- <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
- <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251018-vkms-all-config-v1-10-a7760755d92d@bootlin.com>
 
-On 26/10/2025 20:58, Guenter Roeck wrote:
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  shunt-resistor-micro-ohms:
->>>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
->>>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
->>>>> +      655.35 mOhm.
->>>>> +    minimum: 100
->>>>> +    default: 1000
->>>>> +    maximum: 655350
->>>>> +
->>>>> +  st,alert-polarity-active-high:
->>>>
->>>> Isn't this just interrupt? You need proper interrupts property and then
->>>> its flag define the type of interrupt.
->>>
->>> This controls a bit written into device register.
->>> I omitted interrupt property after looking at existing power monitor bindings,
->>> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
->>> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
->>> find many power monitor bindings defining alert pins as interrupts.
->>
->>
->> On INA2xx that's SMBUS Alert. Is this the case here as well?
->>
+On Sat, Oct 18, 2025 at 04:01:10AM +0200, Louis Chauvet wrote:
+> To allow the userspace to test many hardware configuration, introduce a
+> new interface to configure the available formats per planes. VKMS supports
+> multiple formats, so the userspace can choose any combination.
 > 
-> It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
+> The supported formats are configured by writing the fourcc code in
+> supported_formats:
+>  # enable AR24 format
+>   echo '+AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
+>  # disable AR24 format
+>   echo '-AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
+>  # enable all format supported by VKMS
+>   echo '+*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
+>  # disable all formats
+>   echo '-*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  Documentation/gpu/vkms.rst           |  7 ++-
+>  drivers/gpu/drm/vkms/vkms_configfs.c | 82 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 88 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index 979f8a545498..deb14e7c48ea 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -87,7 +87,7 @@ Start by creating one or more planes::
+>  
+>    sudo mkdir /config/vkms/my-vkms/planes/plane0
+>  
+> -Planes have 7 configurable attribute:
+> +Planes have 8 configurable attribute:
+>  
+>  - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>    exposed by the "type" property of a plane)
+> @@ -106,6 +106,11 @@ Planes have 7 configurable attribute:
+>    those exposed by the COLOR_RANGE property of a plane)
+>  - default_color_range: Default color range presented to the userspace, same
+>    values as supported_color_range
+> +- supported_formats: List of supported formats for this plane. To add a new item in the
+> +  list, write it using a plus its fourcc code: +XR24
+> +  To remove a format, use a minus and its fourcc: -XR24
+> +  To add all formats use +*
+> +  To remove all formats, use -*
+>  
+>  Continue by creating one or more CRTCs::
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index 0b280c73b0cc..528f22fa2df1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -599,6 +599,86 @@ static ssize_t plane_default_color_encoding_store(struct config_item *item,
+>  	return count;
+>  }
+>  
+> +static ssize_t plane_supported_formats_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	page[0] = '\0';
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +	{
 
-So please explain me why CPU interrupt pin, which in every really every
-device called "interrupts", would not be "interrupts" here? How CPU can
-even guess the number of the interrupt in such case, without
-"interrupts" property?
+This "{" should go in the same line.
 
-Best regards,
-Krzysztof
+> +		u32 *formats = vkms_config_plane_get_supported_formats(plane->config);
+> +
+> +		for (int i = 0;
+> +		     i < vkms_config_plane_get_supported_formats_count(plane->config);
+> +		     i++) {
+> +			char tmp[6] = { 0 };
+> +			const ssize_t ret = snprintf(tmp, ARRAY_SIZE(tmp), "%.*s\n",
+> +					       (int)sizeof(*formats),
+> +					       (char *)&formats[i]);
+> +			if (ret < 0)
+> +				return ret;
+> +			/*
+> +			 * Limitation of ConfigFS attributes, an attribute can't be bigger
+> +			 * than PAGE_SIZE. This will crop the result if this plane support
+> +			 * more than ≈1000 formats.
+> +			 */
+> +			if (ret + strlen(page) > PAGE_SIZE - 1)
+> +				return -ENOMEM;
+> +			strncat(page, tmp, ARRAY_SIZE(tmp));
+> +		}
+> +	}
+> +
+> +	return strlen(page);
+> +}
+> +
+> +static ssize_t plane_supported_formats_store(struct config_item *item,
+> +					     const char *page, size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +	int ret = 0;
+> +	int ptr = 0;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +	{
+
+This "{" should go in the same line.
+
+> +		while (ptr < count) {
+> +			char tmp[4] = { ' ', ' ', ' ', ' ' };
+> +
+> +			memcpy(tmp, &page[ptr + 1], min(sizeof(tmp), count - (ptr + 1)));
+
+This is not handling correctly formats with less than 4 characters.
+
+For example, "+R1" is not handled because it is adding the sctring NULL terminator
+to tmp. I think you need to:
+
+memcpy(tmp, &page[ptr + 1], min(sizeof(tmp), count - 1 - (ptr + 1)));
+
+> +			if (page[ptr] == '+') {
+> +				if (tmp[0] == '*') {
+> +					ret = vkms_config_plane_add_all_formats(plane->config);
+> +					if (ret)
+> +						return ret;
+> +					ptr += 1;
+> +				} else {
+> +					ret = vkms_config_plane_add_format(plane->config,
+> +									   *(int *)tmp);
+> +					if (ret)
+> +						return ret;
+> +					ptr += 4;
+> +				}
+> +			} else if (page[ptr] == '-') {
+> +				if (tmp[0] == '*') {
+> +					vkms_config_plane_remove_all_formats(plane->config);
+> +					ptr += 1;
+> +				} else {
+> +					vkms_config_plane_remove_format(plane->config, *(int *)tmp);
+> +					ptr += 4;
+> +				}
+> +			}
+> +			/* Skip anything that is not a + or a - */
+> +			ptr += 1;
+> +		}
+> +	}
+> +
+> +	return count;
+> +}
+> +
+>  CONFIGFS_ATTR(plane_, type);
+>  CONFIGFS_ATTR(plane_, supported_rotations);
+>  CONFIGFS_ATTR(plane_, default_rotation);
+> @@ -606,6 +686,7 @@ CONFIGFS_ATTR(plane_, supported_color_range);
+>  CONFIGFS_ATTR(plane_, default_color_range);
+>  CONFIGFS_ATTR(plane_, supported_color_encoding);
+>  CONFIGFS_ATTR(plane_, default_color_encoding);
+> +CONFIGFS_ATTR(plane_, supported_formats);
+>  
+>  static struct configfs_attribute *plane_item_attrs[] = {
+>  	&plane_attr_type,
+> @@ -615,6 +696,7 @@ static struct configfs_attribute *plane_item_attrs[] = {
+>  	&plane_attr_default_color_range,
+>  	&plane_attr_supported_color_encoding,
+>  	&plane_attr_default_color_encoding,
+> +	&plane_attr_supported_formats,
+>  	NULL,
+>  };
+>  
+> 
+> -- 
+> 2.51.0
+> 
