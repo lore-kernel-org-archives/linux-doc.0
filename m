@@ -1,378 +1,80 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A552FB635
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 11:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52B842FB962;
+	Mon, 27 Oct 2025 11:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761565105; cv=none; b=jxBAtmEA2JKdKeweXTPLL77IMCcrL9RVACo8WcVbstlAyoZt3/7prmvkgSvSlBB4/sngcKLqTGsWSiLYwi/FqIT5PJftkocm+S4qi+7oDrDPoVBpJTc+al5kMEIAjHmCmnf4wgeCwimK5dfqale/Kdg5aW2MI+RKb+PyMjKhIYs=
+	t=1761565334; cv=none; b=dH2kwDBqwN0Sz4SyfwszEr9rUZu34HOJEHb0pSxfthh4qG1nXih8kzj/S0KW6kqzzGI62y4FOrHl4hr1HzaFNg0Qe/AmrXWRREsLiHlbDk4U2pw6O0k5k0FOam+9OnTKSK7Ylt+JhhcEm50ni47+V0G5kGaDv8BLx8gOZdUtEZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761565105; c=relaxed/simple;
-	bh=MFRb+tw0VjFkBFmO6U3kt1GaIjDLVNtMZCPIqv16Yjk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ERgM5vZqrD27hDB+gFg0hm6G0/ccy5hniz9/JZa30MmkfqRd15/GkbM5v52OTpQ5q1s5NK/gUOoryM99McbrZ+F1QWoAZaglkNF1PQ+58n5pRzHmayFFiH66w5Og0x4GA1BKscUBE+9GSj7J47cuvUkCYcl3FVSRixWPiq0KFBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e+a9nc01; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761565334; c=relaxed/simple;
+	bh=yqzIBFJW1n+nS1+66mDfajB+nxaPKXUzfOcuF+B4uPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxREQEPbdaTmHEZw3EV19ClueKuDjCfACrW4HYLQWyvKBUIbWj+EgFtF9nmIu4FevA9ErIPXH6Ry2sNeLHjsR4bNY2v7SCNPF4wLT0hvbg1oalAKUgn8LA0q2j40WmKQuP4HFTN8N3s9N+9KHy2M9t2ylQZ8F19dISg+b0ekoY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=UBWAu1Le; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e+a9nc01"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-781421f5bf5so49483357b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 04:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761565103; x=1762169903; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kM2IZ9cwj+UJLgsANeLqvUwZb/NBB1zAaY/ie/RunGc=;
-        b=e+a9nc01AGSA8Lvua+96yaabk/eXuxnPnhUAzDu/AjWwCOmeX8lJFj3En/+QrtP/rj
-         rFqquYO9mSAD+7Zfzf8V/Rze2lMQS6S/gR9Tjb7YRHKRbYmCJ/dn7uGRQADsXnoi0+vx
-         LhEGjDkh6Apc0t81WeOs933tBimoAvVpAfJotului54NhjItlJXQwjnMrCP7srTx2XQR
-         bYmA7yFNU4qYb5nRpB17KvCDiI924u1EIy1vCnoGGzmZCbFMYeNBqyslPPhFitWU20dl
-         TTwIbNZWz1VH3qpowHdP588+yFCvPHzmRuRTd+5/bdAiVEezaQoC6+TBJ2xVy67BvaWf
-         1jWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761565103; x=1762169903;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kM2IZ9cwj+UJLgsANeLqvUwZb/NBB1zAaY/ie/RunGc=;
-        b=uFvPgqZe4ae37w1BA6EBapKmQIzCo6xfBopAZwHMBEDvsFMy0SaSt+o8zMplAYQTdL
-         0kCFU6V3jxtmQryoPx10XhH08EHwoLail6UA6wn6cP4IGdvVg2UB0WFxnmgeZ2LH1RDZ
-         UdSXHQntHpgs8sR9EHINW+ADUuZY+X2g4hjGa+Nlw5MqJujBLE2OhZOEJu4k54Vj3xyn
-         VVyGEYj9tZ87sRMCVD6jQt08Vg+zR4VdR55TtuF64oS1LJEBAuqQKaBpE9nPvM4t+SHz
-         Lw6kK0ox9dVUDhpMSsd3wlnLheoY3DUauRju0DdZIRM/8ucBOs2Qbfjul+CBpjSZoxxF
-         Ixzg==
-X-Forwarded-Encrypted: i=1; AJvYcCViwdrcKRLNB7f557ITyIsGXxz60eQ8CP2magOh1VY1RW7HiuJBwAATged4qHbmp40Re3NKAKB6ijw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywafehd2iWLMHEGSxJ+Q5JdUkzdiAfhiC+3InRZ1EPNfI7bVmpY
-	YgYMW5ZrwqPjIUW/EKOXgsgKPWUrm6+aQzm6l/FhYHHhw2f1JLL7iRC9lCg3fssSnQ==
-X-Gm-Gg: ASbGnct+z0VxOvN+J9rttqBUqE1pmM2wSkV1mJRV7e6hdgy5+6b7TplcBiit3UAnp2T
-	YBXFX4kgEQE2xWSmpa0iuFywxcWyNOsFvgbP5Wvq+76O2pv07vxR3dOyH5SCCcSgQ2jHcECjtQC
-	+7Sn5m5Ig4BNm1Z2Hawz94Io1wecw2jFl10tbipaLvVeNggiCJLidI3Ba2a+ktxmZiiO7svhSjv
-	pm2iGuHYnfboFX6RrmzudYH+dAtPm11knHk7YeCXJ/uKt6IfFXs/f3vA8VvFkQkG/8cFzPKyR9q
-	pPHx9nYhS2niwqOi7e36iJ1qSd6ZMHHpcoHEDUmXFfkY5Bzk2LVSOWuqXrnxfJoysCeDsKRDP0n
-	xhZvaeGIIFLbTAm8r5S4ZfYJU5loJaW4RL4z5vYFaKmRGAwt9xawsqQsyTlwKdG7iwgbzLW+QG3
-	0qi3jRnFtYbNCCzM50Tg1vpKZhEL+94X75zZgSfAAC6hPUcWAImVp1zDDqwwCN
-X-Google-Smtp-Source: AGHT+IE4Ub7ALPlx8peQtM84EXgIvuQeQhQB62WRPzDKnIKsnig9v60A6eNZIkmhT0CWSJohULobMg==
-X-Received: by 2002:a05:690c:4806:b0:784:8c2c:320e with SMTP id 00721157ae682-7848c2c3fe4mr478987887b3.34.1761565102322;
-        Mon, 27 Oct 2025 04:38:22 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-63f4c4724b9sm2225325d50.27.2025.10.27.04.38.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 04:38:21 -0700 (PDT)
-Date: Mon, 27 Oct 2025 04:38:18 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-    Maxime Ripard <mripard@kernel.org>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-    Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-    Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-    Tvrtko Ursulin <tursulin@ursulin.net>, 
-    Boris Brezillon <boris.brezillon@collabora.com>, 
-    Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
-    Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>, 
-    =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
-    Hugh Dickins <hughd@google.com>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    Al Viro <viro@zeniv.linux.org.uk>, 
-    =?UTF-8?Q?Miko=C5=82aj_Wasiak?= <mikolaj.wasiak@intel.com>, 
-    Christian Brauner <brauner@kernel.org>, 
-    Nitin Gote <nitin.r.gote@intel.com>, 
-    Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Christopher Healy <healych@amazon.com>, 
-    Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-    linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-    intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, 
-    linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v5 04/12] drm/gem: Introduce drm_gem_get_unmapped_area()
- fop
-In-Reply-To: <20251021113049.17242-5-loic.molinari@collabora.com>
-Message-ID: <f34bd4ef-5779-b364-0df6-e52f8377b461@google.com>
-References: <20251021113049.17242-1-loic.molinari@collabora.com> <20251021113049.17242-5-loic.molinari@collabora.com>
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="UBWAu1Le"
+Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 11C1B598D5;
+	Mon, 27 Oct 2025 12:42:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1761565331;
+	bh=yqzIBFJW1n+nS1+66mDfajB+nxaPKXUzfOcuF+B4uPU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UBWAu1LednunpDwWyA6dN/T5o++Ac0xIHSNyHI2q6aNwwGBoDzmOu5fPBEFc8ArbW
+	 /tt8/W2BQ1vmQ4IAz1Nyb104x9b2KteD0nGMUiIeCt12QtQa7PBYD6YBCnrGAnBc3/
+	 Qn0JhNAhnoCOhZV98otZjkfHLqNDdxzdtqE+wUKrNuac+jsIeeqfsfsGAH/ne5A61+
+	 fJVgnYxkRNIdWQ6FVublLLmG5wjH46QN/ie1gMaNbSwwI4m4daasyct7wC0Ne/pUUf
+	 lpUvTiLRC205Aa4QBlQdiUIjcR8HkRzg6GlsEj28ZWB+3Gdl+rXI9orww+F0KE4FtQ
+	 tusBXnMM4yTlA==
+Date: Mon, 27 Oct 2025 12:42:09 +0100
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, will@kernel.org, 
+	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, 
+	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
+	david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	rppt@kernel.org
+Subject: Re: [RFC PATCH 1/4] drivers/iommu: Add page_ext for
+ IOMMU_DEBUG_PAGEALLOC
+Message-ID: <uwznrzdsbfpbalzf5jxxpguf2ykslphfs47u7gf66ssiwzpqju@dh7nw3van6sr>
+References: <20251003173229.1533640-1-smostafa@google.com>
+ <20251003173229.1533640-2-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1463770367-2004846092-1761565101=:3513"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251003173229.1533640-2-smostafa@google.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1463770367-2004846092-1761565101=:3513
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Tue, 21 Oct 2025, Lo=C3=AFc Molinari wrote:
-
-> mmap() calls on the DRM file pointer currently always end up using
-> mm_get_unmapped_area() to get a free mapping region. On builds with
-> CONFIG_TRANSPARENT_HUGEPAGE enabled, this isn't ideal for GEM objects
-> backed by shmem buffers on mountpoints setting the 'huge=3D' option
-> because it can't correctly figure out the potentially huge address
-> alignment required.
->=20
-> This commit introduces the drm_gem_get_unmapped_area() function which
-> is meant to be used as a get_unmapped_area file operation on the DRM
-> file pointer to lookup GEM objects based on their fake offsets and get
-> a properly aligned region by calling shmem_get_unmapped_area() with
-> the right file pointer. If a GEM object isn't available at the given
-> offset or if the caller isn't granted access to it, the function falls
-> back to mm_get_unmapped_area().
->=20
-> This also makes drm_gem_get_unmapped_area() part of the default GEM
-> file operations so that all the DRM drivers can benefit from more
-> efficient mappings thanks to the huge page fault handler introduced in
-> previous commit 'drm/shmem-helper: Add huge page fault handler'.
->=20
-> The shmem_get_unmapped_area() function needs to be exported so that
-> it can be used from the DRM subsystem.
->=20
-> v3:
-> - add missing include: 'linux/sched/mm.h'
-> - forward to shmem layer in builds with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-
-Seems reasonable, but a couple of minor remarks below.
-
-> ---
->  drivers/gpu/drm/drm_gem.c | 107 ++++++++++++++++++++++++++++++--------
->  include/drm/drm_gem.h     |   4 ++
->  mm/shmem.c                |   1 +
->  3 files changed, 90 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index a1a9c828938b..a98d5744cc6c 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -36,6 +36,7 @@
->  #include <linux/module.h>
->  #include <linux/pagemap.h>
->  #include <linux/pagevec.h>
-> +#include <linux/sched/mm.h>
->  #include <linux/shmem_fs.h>
->  #include <linux/slab.h>
->  #include <linux/string_helpers.h>
-> @@ -1187,36 +1188,27 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, =
-unsigned long obj_size,
->  }
->  EXPORT_SYMBOL(drm_gem_mmap_obj);
-> =20
-> -/**
-> - * drm_gem_mmap - memory map routine for GEM objects
-> - * @filp: DRM file pointer
-> - * @vma: VMA for the area to be mapped
-> - *
-> - * If a driver supports GEM object mapping, mmap calls on the DRM file
-> - * descriptor will end up here.
-> - *
-> - * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
-ill
-> - * contain the fake offset we created when the GTT map ioctl was called =
-on
-> - * the object) and map it with a call to drm_gem_mmap_obj().
-> - *
-> - * If the caller is not granted access to the buffer object, the mmap wi=
-ll fail
-> - * with EACCES. Please see the vma manager for more information.
-> +/*
-> + * Look up a GEM object in offset space based on the exact start address=
-=2E The
-> + * caller must be granted access to the object. Returns a GEM object on =
-success
-> + * or a negative error code on failure. The returned GEM object needs to=
- be
-> + * released with drm_gem_object_put().
->   */
-> -int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +static struct drm_gem_object *
-> +drm_gem_object_lookup_from_offset(struct file *filp, unsigned long start=
-,
-> +=09=09=09=09  unsigned long pages)
->  {
->  =09struct drm_file *priv =3D filp->private_data;
->  =09struct drm_device *dev =3D priv->minor->dev;
->  =09struct drm_gem_object *obj =3D NULL;
->  =09struct drm_vma_offset_node *node;
-> -=09int ret;
-> =20
->  =09if (drm_dev_is_unplugged(dev))
-> -=09=09return -ENODEV;
-> +=09=09return ERR_PTR(-ENODEV);
-> =20
->  =09drm_vma_offset_lock_lookup(dev->vma_offset_manager);
->  =09node =3D drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
-> -=09=09=09=09=09=09  vma->vm_pgoff,
-> -=09=09=09=09=09=09  vma_pages(vma));
-> +=09=09=09=09=09=09  start, pages);
->  =09if (likely(node)) {
->  =09=09obj =3D container_of(node, struct drm_gem_object, vma_node);
->  =09=09/*
-> @@ -1235,14 +1227,85 @@ int drm_gem_mmap(struct file *filp, struct vm_are=
-a_struct *vma)
->  =09drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
-> =20
->  =09if (!obj)
-> -=09=09return -EINVAL;
-> +=09=09return ERR_PTR(-EINVAL);
-> =20
->  =09if (!drm_vma_node_is_allowed(node, priv)) {
->  =09=09drm_gem_object_put(obj);
-> -=09=09return -EACCES;
-> +=09=09return ERR_PTR(-EACCES);
->  =09}
-> =20
-> -=09ret =3D drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
-> +=09return obj;
-> +}
+On Fri, Oct 03, 2025 at 05:32:26PM +0000, Mostafa Saleh wrote:
+> +config IOMMU_DEBUG_PAGEALLOC
+> +	bool "Debug page memory allocations against IOMMU"
+> +	depends on DEBUG_PAGEALLOC && IOMMU_API && PAGE_EXTENSION
+> +	help
+> +		This config checks when a page is freed by the kernel
+> +		it's not mapped in any IOMMU domain. It can help with
+> +		debugging use-after-free from driver doing DMA.
+> +		This santaizer can have false-negative cases where some
+> +		problems won't be detected.
+> +		Expect overhead when enabling this + enabling the kernel
+> +		command line iommu.debug_pagealloc.
 > +
-> +/**
-> + * drm_gem_get_unmapped_area - get memory mapping region routine for GEM=
- objects
-> + * @filp: DRM file pointer
-> + * @uaddr: User address hint
-> + * @len: Mapping length
-> + * @pgoff: Offset (in pages)
-> + * @flags: Mapping flags
-> + *
-> + * If a driver supports GEM object mapping, before ending up in drm_gem_=
-mmap(),
-> + * mmap calls on the DRM file descriptor will first try to find a free l=
-inear
-> + * address space large enough for a mapping. Since GEM objects are backe=
-d by
-> + * shmem buffers, this should preferably be handled by the shmem virtual=
- memory
-> + * filesystem which can appropriately align addresses to huge page sizes=
- when
-> + * needed.
-> + *
-> + * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
-ill
-> + * contain the fake offset we created) and call shmem_get_unmapped_area(=
-) with
-> + * the right file pointer.
-> + *
-> + * If a GEM object is not available at the given offset or if the caller=
- is not
-> + * granted access to it, fall back to mm_get_unmapped_area().
-> + */
-> +unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long=
- uaddr,
-> +=09=09=09=09=09unsigned long len, unsigned long pgoff,
-> +=09=09=09=09=09unsigned long flags)
-> +{
-> +=09struct drm_gem_object *obj;
-> +=09unsigned long ret;
-> +
-> +=09obj =3D drm_gem_object_lookup_from_offset(filp, pgoff, len >> PAGE_SH=
-IFT);
-> +=09if (IS_ERR(obj))
-> +=09=09return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-> +=09=09=09=09=09    flags);
-> +
-> +=09ret =3D shmem_get_unmapped_area(obj->filp, uaddr, len, 0, flags);
-> +
-> +=09drm_gem_object_put(obj);
-> +
-> +=09return ret;
-> +}
-> +EXPORT_SYMBOL(drm_gem_get_unmapped_area);
+> +		If unsure, say N here.
 
-Not something I'll make an issue of, but this does look rather like
-a drm EXPORT_SYMBOL() of a shmem EXPORT_SYMBOL_GPL().
+Expected indentation here is <tab><space><space> and not <tab><tab>.
 
-Not your intention, I think, and a quick look around suggests some
-inconsistency as to whether symbols here are exported _GPL() or not.
+> --- /dev/null
+> +++ b/drivers/iommu/iommu-debug.c
 
-Maybe there's good (historical?) reason for which is which, or
-maybe it's something maintainers would like to clean up one day.
+Is there a plan for this file to contain more than page-alloc debugging? If
+not, it should get a more specific name, like iommu-debug-pagealloc.c or
+similar.
 
-Please make this one EXPORT_SYMBOL_GPL() if you can.
-
-> +
-> +/**
-> + * drm_gem_mmap - memory map routine for GEM objects
-> + * @filp: DRM file pointer
-> + * @vma: VMA for the area to be mapped
-> + *
-> + * If a driver supports GEM object mapping, mmap calls on the DRM file
-> + * descriptor will end up here.
-> + *
-> + * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
-ill
-> + * contain the fake offset we created) and map it with a call to
-> + * drm_gem_mmap_obj().
-> + *
-> + * If the caller is not granted access to the buffer object, the mmap wi=
-ll fail
-> + * with EACCES. Please see the vma manager for more information.
-> + */
-> +int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +=09struct drm_gem_object *obj;
-> +=09int ret;
-> +
-> +=09obj =3D drm_gem_object_lookup_from_offset(filp, vma->vm_pgoff,
-> +=09=09=09=09=09=09vma_pages(vma));
-> +=09if (IS_ERR(obj))
-> +=09=09return PTR_ERR(obj);
-> +
-> +=09ret =3D drm_gem_mmap_obj(obj,
-> +=09=09=09       drm_vma_node_size(&obj->vma_node) << PAGE_SHIFT,
->  =09=09=09       vma);
-> =20
->  =09drm_gem_object_put(obj);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 8d48d2af2649..7c8bd67d087c 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -469,6 +469,7 @@ struct drm_gem_object {
->  =09.poll=09=09=3D drm_poll,\
->  =09.read=09=09=3D drm_read,\
->  =09.llseek=09=09=3D noop_llseek,\
-> +=09.get_unmapped_area=09=3D drm_gem_get_unmapped_area,\
->  =09.mmap=09=09=3D drm_gem_mmap, \
->  =09.fop_flags=09=3D FOP_UNSIGNED_OFFSET
-> =20
-> @@ -506,6 +507,9 @@ void drm_gem_vm_close(struct vm_area_struct *vma);
->  int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->  =09=09     struct vm_area_struct *vma);
->  int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
-> +unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long=
- uaddr,
-> +=09=09=09=09=09unsigned long len, unsigned long pgoff,
-> +=09=09=09=09=09unsigned long flags);
-> =20
->  /**
->   * drm_gem_object_get - acquire a GEM buffer object reference
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index b9081b817d28..612218fc95cb 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -2851,6 +2851,7 @@ unsigned long shmem_get_unmapped_area(struct file *=
-file,
->  =09=09return addr;
->  =09return inflated_addr;
->  }
-> +EXPORT_SYMBOL_GPL(shmem_get_unmapped_area);
-
-As you have it, that export comes under #ifdef CONFIG_SHMEM.
-
-I know parts of drm do "select SHMEM" these days, but you might not
-be covered by those: maybe you need a "select SHMEM" in the relevant
-Kconfig, or maybe you prefer to duplicate that export line after the
-later !CONFIG_SHMEM definitiion of shmem_get_unmapped_area().
-
-Or better, make no export here at all, but drm_gem_get_unmapped_area()
-use obj->filp->f_op->get_unmapped_area()?
-
-> =20
->  #ifdef CONFIG_NUMA
->  static int shmem_set_policy(struct vm_area_struct *vma, struct mempolicy=
- *mpol)
-> --=20
-> 2.47.3
----1463770367-2004846092-1761565101=:3513--
