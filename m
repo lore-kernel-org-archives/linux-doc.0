@@ -1,64 +1,64 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26FD2F1FD9
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287A62F28EA
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761557743; cv=none; b=mNWNh1me406WVjicPSHP0aPKU4e8uaVIY8LhI7DI/yRSkLcsj6ADPdIP5K0/L8VvVKrRsrSZ3ElhuM8af0Jq649RnvfBlRNnM5JohUS36qkOSOfCiS0rfsLV1UGi0fNhQDznJyUuEZ2Wajp/5Mtv5g1TS0sxIGBndFgrojyT4C4=
+	t=1761557918; cv=none; b=S8XePB4ClnjL1wOssH8mN5ISza1YkqLwrb3Tr7nizct8Fy04+GJAQbeAWApeCrl1M4VAsYZRpJqVbTS4pVeblWt3KvU29Xp4gt4PhGxdq13Rp1SooMo22aKT8ahZ2l2jIFeMoU/FelgRhaPypiwZv2mFI9S7aY1qOD4Gwd3cA98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761557743; c=relaxed/simple;
-	bh=8etwBx7q2FHyvk00oRcpeTbpjBXjPekvo0X8OpVOLD0=;
+	s=arc-20240116; t=1761557918; c=relaxed/simple;
+	bh=Bc+qrw/OhAmUr+DULNtCiQuB/GZhGymOqDfLUaPuYFg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nEkCPdZenPaH32OClVHu8AtpP2qMhJihGoAhVELkxd5iPouNTaiG/fgeKE1OcT+l3WZfE/d7j+tmCokJbOc699yjkkX0EvH4kRRZ3NR0yS0Ng4T7Tiyt55ZVmcX9NBRmTAHfj/tPAaBElMrPvx8Ra1gul2CBBUF6Xodew41HYFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAledwRt; arc=none smtp.client-ip=209.85.128.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=gpFu0i2Tsdtde8chyx80Ybf0biyhTCmKkcnTmTjLs3XwJx+R4+MyLaMw+5vzf89NoxSG8Gy+dq3gdXZpTIjRxk9HDxW1Qy4geY0JRGr85a7/rTTp8TZ1zVoURS75oZtiW7Cp9JejoQyFXYoG79KbLpRvRlm3Ik94tGhRoK40cnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8RG+oqz; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAledwRt"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4710a1f9e4cso36602675e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:35:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8RG+oqz"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ee130237a8so2840053f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761557740; x=1762162540; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761557914; x=1762162714; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YOqLOsjgvD3HmEpKNNqQwgAToijdl+SaKUuDAAgKUE=;
-        b=lAledwRt4aOLlOQ4xgMJks5isu7cCTqIsxUUVBDmpLQIIyCDLefKq9UkL5yMf54w64
-         PM8ICLOT6g0OIf/hgKCX007Ii3O/Mxgv9UsKTOLAbVHVW/atSxlCZR0AbjpCXr5D6Dgq
-         Bru5ZKQG/s9GABNiGxBqGLph5L9emN9aPHcSJkRMWgQ5DKwWcJfpykleLLvIrhK53fRa
-         4v8KzQeYNrDgwlmgqVFLHiNUSCCBI71O6YZiJlOObHalvgMG+gmbjUv/9gBRUOFuW+Fg
-         y5WiRTPghPEvPiGqZmAUg6+Xh30fk2HUD8zJyp3EhuBhA6/+LS2KUDxeM5U++QgFaT59
-         by6g==
+        bh=mrXR8lBbY3rQP++NKL3OM/LYz3iXG33tu2GQ0QMPU0o=;
+        b=d8RG+oqzeeFuMi1PL/As9AA0NbwnZMKqpoECfqbhNoY7xL7SaKxL69B7Cs/2qveTJp
+         JQp8CN2dCAXXGNcdUa6gkDyUoWi1xaWSxmJWaVKNasFQigGLWOUI8f+dYbI+bJmU46xB
+         MqmhtYEqDEEjJaDmCgkTKBwG5LFIpX2F0O3P8uj/FqnEMDcBHQFv5Q4zC6C1VWsqnzMy
+         qJD1uthDEkKwLdR3G6WlkbuW+ZtuRb1L/yaKoWL+cP39Vm61Z8Zx5UMbHbCStLzR3TVC
+         zvn3Lvv+2gtGt7EF7Xk6AxynmUz/rC3LY2XJ2f0GfD5snxldgcHV3yov5yB8o3oFTYcX
+         Dc9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761557740; x=1762162540;
+        d=1e100.net; s=20230601; t=1761557914; x=1762162714;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6YOqLOsjgvD3HmEpKNNqQwgAToijdl+SaKUuDAAgKUE=;
-        b=FwpfczVnv1ar0dO5HUr+bLFys76Ihtn91gS2qv2qbV/d0/FQt7rrBzeuQsWgCQTHx/
-         8YDvzQlP/s+QRNIZ0lj95iSirdOO0PLvdmZn63UP4AINuGFgMCMRXhZYNkQvH5xIfPiX
-         l7VyerPIhVU2ieVwTbSP4G3rzdy+alW6XbDOqJx4tedkL4bZu+cAOpmOzfoi/8Wrtm/Q
-         76dm5hNMkY8hdLhtr0mUZ4QmQdVGs0GN53eH47zZMOXuBn5KQ8SxOTUfKB26fzrZAJd9
-         8n9exQ0YifdDRMI02yuUfXGm3/+FSyklXaeZjYmAffP52xj7DuTkfufqXUVa6IG0Uhzz
-         ZOqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWFXYY53F4OiOu7s4MJRVFeOK5QtqkHdSnni7Y8GYikWXMqDkBA2rHlWiUscarKmseimks6soeVqk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzriT4tEPjjoswhdcOohYmoMSi9uxMiVIfA3RXbZX5nHUxEPwY/
-	Hh7Dz5EFjOhzrTNeknsRQOH5fWRP4jbNHsw00hqxvtCoeIkbDXeY/CQN
-X-Gm-Gg: ASbGncu9SXrNOioSbVZjhMaDjtC+Vf5PTYBWiA6gJ0R5l40v4OuKedeTU7smrPz56Gf
-	ZLUn+VmxnLIXLM2UIETx8+lGQLNhl1ToSf255XCAA+4QkpPw/qWulCsTFtKLqglQvmW5b+wp50l
-	xH47Lv3Z8u5fsijoSkMqt2u+pC/ceFbbHvOVyGbF7LzEYxs/cOS1rIeZWKy1sfoKZ5/r1WwALz/
-	YROh735tNgplvUQnYEN18PgD0hDxIEtnwBrb/f5oC72IjhuXjMoyjcB+mgRJohHbfPW/aP/Gmmv
-	0+nAq85HzcQG5vUW+LFG4+MZ8+79lGH0WfyCgET5EVEcSxThMQIloz4yHWe5e3MpJhpfAR5XxX3
-	JnsaDj1kMtWD50ULDwS9EnQuaZRwnRIF+hvEcznHhM/SdIUGBDR8XDhYPIeVxYrOwViTyLnZQ4a
-	mBb8KlFt1t
-X-Google-Smtp-Source: AGHT+IFmnLTW/ZjkapgUduw0uLpX3pFJyDGuV0GxSTKLvnyxWajP7bnM7PWAmAx3tMJP6BGM4OVYbw==
-X-Received: by 2002:a05:600c:540b:b0:46e:7247:cbc0 with SMTP id 5b1f17b1804b1-475d2e95fe2mr95277105e9.18.1761557740195;
-        Mon, 27 Oct 2025 02:35:40 -0700 (PDT)
+        bh=mrXR8lBbY3rQP++NKL3OM/LYz3iXG33tu2GQ0QMPU0o=;
+        b=BVpOCzHoOLqnZhz6fGt0C3D4vytGdG30mrtFiTkFEpEAR0pMyPlzP5U5NL+wOrG6YR
+         QQ4dWeB8LeCkuK2vsphlubzGicMNlV3484fmVp6gQTMVo/eRggOOqj+IZOaNnClUSTQR
+         N9s/mVQ1uTAd7cylNwBW7+KjMWGJ5R/OnpwjL02WmmMYSX5ZCVa2In1h/EmljpF/8B03
+         6B4kMTKgvuZl1un0+MdQ1Aq+EctmnCNncRCcG1086QHjZozuCUWjapGmR02Y8W7z82KX
+         6lA5zsmnPvIKssgtO6JeNpTHWftJIZ0+oQ8EMj30aL6EaBYTF6UtTsd9qfOxcmQr5LIM
+         vmrg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTVUWx6zgj7lEdil0yOAKO1TyGFUg6ietsSEXHrzVYqklN4BASw8uJXvtQdLKbx887ccrqky9lJts=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzc3JjmLBpENJByd+KIp0o9M87GSaNal+j11Tg7RXozIWTWfNWx
+	RcP2EFg4SV1E9jUlUUnpWcmpr/s95v71NRUR1wJSlIGpKmn+tiXniX1F
+X-Gm-Gg: ASbGncuGMp8rCbyZuZZVCQlgCnwCFvR6vM083oP1sVhZVcychO6aSWx5TF0//QAo3EQ
+	V9Dq8zkGnJinUJAzIveNuQkj/z9kDzMFghhudAe/NY72HhY9HWiOHBOMvG0PtytlHbRaazIR9jo
+	5zjBkfiGt0r9nQtGcxCxo0CKBPVjDMKk/zrTaBImVAvCSbY2zyTQvG+PyTlwicXlBmK7xoK/C+i
+	X/tRNfkMncxI1xd6ZaFMl0nUQPvoTtBbylr3FOdvwHIeu+FgsLcyHRdNX+WiybM9bMPw050UD48
+	Q2viBQSC0wv84fvD1CGnrr+0jSvXxxUZNJFJgewTB6UuWbi0vM2863p/zJFwKlhUF7OwVo4UWBy
+	pxYtRLHwvhs1UyvnmSc8lYKrcEH+JLX3f0JL61/2YJxZt7Qe3YeEwGVc68Mcvia7JjS3iLEn/+w
+	==
+X-Google-Smtp-Source: AGHT+IHQ+TEVjMq0y+9SkjrfTyB83zzg4AUyCMIh2DMHA2Qh4W3bcbJMnYyQxYMtIF1VS0cZAPn60w==
+X-Received: by 2002:a05:6000:40cb:b0:427:72d1:e3b2 with SMTP id ffacd0b85a97d-4299072c24amr8621232f8f.35.1761557914436;
+        Mon, 27 Oct 2025 02:38:34 -0700 (PDT)
 Received: from fedora ([94.73.38.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dcbe5587sm146645965e9.0.2025.10.27.02.35.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd00cf3dsm61686405e9.1.2025.10.27.02.38.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 02:35:39 -0700 (PDT)
-Date: Mon, 27 Oct 2025 10:35:38 +0100
+        Mon, 27 Oct 2025 02:38:34 -0700 (PDT)
+Date: Mon, 27 Oct 2025 10:38:32 +0100
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -73,7 +73,7 @@ Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH 16/22] drm/vkms: Introduce config for connector supported
  colorspace
-Message-ID: <aP886ompK4qo-Uvl@fedora>
+Message-ID: <aP89mA408-Y6Kq7q@fedora>
 References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
  <20251018-vkms-all-config-v1-16-a7760755d92d@bootlin.com>
 Precedence: bulk
@@ -85,6 +85,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20251018-vkms-all-config-v1-16-a7760755d92d@bootlin.com>
+
+Sorry for the additional email.
+
+I see that the colorspace is ignored if the connector is not HDMI,
+eDP or Display Port. Should we add some kind of validation?
+
 
 On Sat, Oct 18, 2025 at 04:01:16AM +0200, Louis Chauvet wrote:
 > To emulate some HDR features of displays, it is required to expose some
@@ -133,12 +139,6 @@ On Sat, Oct 18, 2025 at 04:01:16AM +0200, Louis Chauvet wrote:
 >  	int type;
 >  	enum drm_connector_status status;
 > +	u32 supported_colorspaces;
-
-I don't know much about the specifics of colorspaces, so I'd appreciate some
-additional feedback in the connector code.
-
-Here we could add some docs and also print the value in vkms_config_show().
-
 >  	struct xarray possible_encoders;
 >  
 >  	/* Internal usage */
