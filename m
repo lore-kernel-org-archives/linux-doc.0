@@ -1,120 +1,139 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B60732E6B5
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 23:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5302BE7A1;
+	Mon, 27 Oct 2025 23:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761608488; cv=none; b=gKiP17/agbKGZ4bbtsex1+Spcj9Dd6IY3CAvIMdqeb/QJnByErZot5buDYrnqdEMmNnpjA4PLSO6XgJ+64Fgf2ZaRZvvYNSKDW8t7rnmVPYAhqzH1QHeAgZ5DBocsUp+NOvOCYU5JNVTRDlprHXjoUyKeB5TDAZcrbmRKGlnfhs=
+	t=1761608549; cv=none; b=T/jP0zLbO5dWxN2GtyHLSiCxtI3tmyycF+pI3SnuJtPIZnWBNnD1wXiQFH3LRIJ4cb3cbw8Ygy1F24xL3SmO5vAy2WMAfIV4/W4iBJHau9SeICqJjz8Wa+gbETZIvpLyXhkOeLweQHVZmIvmOwQX5BTu2QjoC/801YhH38Q0+gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761608488; c=relaxed/simple;
-	bh=s3TSreP4LnoaIqwTPt/6jjce6Jv8PhhiuGIE2VBvxQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ripYk7l4ElqNjNYARJMgZi3j1dFZAZLmd1A3UHu9/zXr20Q0Ik2pdyHmIOsme9GH6d3MHK9y4OwzWPUL8iIKKUuEa5if0cVkyO/Rs7v6B6SAU92ImF44fG8KPLa7+43/vGpxAtt7o8AvMDsWOlDfr9g5h23h3/xzxWRDSzVUb2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jycW97YE; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761608549; c=relaxed/simple;
+	bh=gG2hH7WhbSVVnynsoyf11RN3a15KjJlc/LYqB/bQr6k=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=nYEH8FCsyMCVJVB6KkX2bstb89eY138wCNvF+oaNbomCX8DXD8HCpbO+v6S0AUn+BnopMJzjyzdFfwc7Oshl+Zriktt/96yc2ERgSbmNOybthFK31/YQ7ZrMGmA50/zOUj5vp8sz7mU9zUUFBtaAv278UH1c75gSXEsF3gON3BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQpSmeEg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jycW97YE"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b5579235200so3705831a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 16:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761608486; x=1762213286; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s3TSreP4LnoaIqwTPt/6jjce6Jv8PhhiuGIE2VBvxQg=;
-        b=jycW97YEWCsbo9DaXwNFPsIwcfXgTClw+zYMM09uK8TzURJ0gqVTWBbeTuALcNvVA0
-         rxq/1jdzJIhVU4Uaw4znVqCb1lBaGDtt6YG/BuiDNg5bT2yRuEH8msFsdz7zoW19/djP
-         GL8TcJwHpR9oVilsml5Ddu9KNTEwjTLeDIoWAr/9qjFOxNNyWVsibCOw5Ber2DGKxl4t
-         ur06DRTInldMCQyBsfQi3/OES2d9glNwkdOHKG9lnyZWWrmL0ETVHb0lksLcv2upij5D
-         QhKN7RJucXyt4GNGMF6F5xUolrUcNto55CyALsvUEwriRXTC0tz4ICza/7FYr9KrGISg
-         ojgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761608486; x=1762213286;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s3TSreP4LnoaIqwTPt/6jjce6Jv8PhhiuGIE2VBvxQg=;
-        b=t6D1sq0DoFfBFNy7AS/11CnHiTdu3tlly5TgjnfrELaFXhVSfrY//yi3oLoQ4FLhME
-         k3Vz35Dc8QuGtn5OuTrywwZqQda+xqmK5xAZH/+f15tr7OIiF8qYcMIe2SiR8sEA9nLr
-         XDFnmGCnyv5PxQnVUEhMPeA7c/nzjTxGmwUvkk4plpS5x7DoqehBXP8sk4s8loIfpzu2
-         DHVkPfwX0OSHCZ+XCj1cLnSWPeCExzAhNKo2HqToapHnsJtZxx55xlkiKgOr3bVPpxv9
-         JxWxaVPIPDW0Ju5xTRrdTqpB76bPPY03sfMNh6VVSBm1hS/DS9xfyay2sK31EiEycYJh
-         znBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXX3AbcN57/PCXjffYRs5CLGe36GH5l4+BmEAmKsoyf8hhL0woIIu8jkF5MZXHIqiZkugfZrgmZ9L8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTeMN2BREq2tiubO9rMAICHe0eTnJtgOZuQPgLo4xQX7n28dq6
-	eJJjDIdXcYVJ55Lc9kNeVjp9xhP7dA5DQnS6+zy13+HC2wriMw/HgwZR
-X-Gm-Gg: ASbGncvTsqeeyV8dpsfpmSAagbHNV/AEETUMCNbh3ju6aOA56qrvjuC9WMD5pSjR4hH
-	5IiuipeFz/6S3yI15zX6lKEPEhQtvEg4HEwJCU6NdExTP0WcN2WPXXGpm5zn7b0OIWH+LKPlB6E
-	Sy6uBFejsfpfJPAjgIIoqPWR5WyHrKy9RsasQBnidqOLrKp5tLNRgvtQVvpnFv4G2O8iY/j+hms
-	+DatJlC1sXK2t7RZ8/hwsnL5Y+LTSZ5t/8X1o4mTQnX2KRXkAzkP+zu89MhhLyrGwoPsaqUkENm
-	X/dfJPR+eX5TzPB+6yRkFRJ0XREdgAy3KAtjiWlzWGY8pBWzzvOmMXJpQtpAk6VIUeBeF9I/1aV
-	NlowpeZsKWu1YUVGkfqLw1nm7Eb2PZe+y5gUCAJWSydkvth5OIj6wqNMxjsx3oQCS3lbQUNUSrL
-	VlNHSWpnt7ag4=
-X-Google-Smtp-Source: AGHT+IElurffGRVabfwITQEOqntwzhUO8dSeIfiaVBREZKYDlvN/XqwOxblskEBswWTWEZMbSi3BXQ==
-X-Received: by 2002:a17:903:2346:b0:270:ced4:911a with SMTP id d9443c01a7336-294cb36e45amr16790625ad.9.1761608486117;
-        Mon, 27 Oct 2025 16:41:26 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf341bsm93730455ad.14.2025.10.27.16.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 16:41:25 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id D53664209E50; Tue, 28 Oct 2025 06:41:22 +0700 (WIB)
-Date: Tue, 28 Oct 2025 06:41:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org
-Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] documentation: networking: arcnet: correct the
- ARCNET web URL
-Message-ID: <aQADIpGASbUxRDzx@archie.me>
-References: <20251027193711.600556-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQpSmeEg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DC26C4CEF1;
+	Mon, 27 Oct 2025 23:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761608548;
+	bh=gG2hH7WhbSVVnynsoyf11RN3a15KjJlc/LYqB/bQr6k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UQpSmeEgbKeE7n0VTh1TeiAoBQeZG363+PEtwIjtQe3waPrX5COqSqnSB3dTl5zM7
+	 EhFzUbRu/xaFK9nfgaqPoI6GQustslioWdYRrTd2lTCVTdbpq4VHII9jKsRkYbM2Ed
+	 Tgx6d1sPvXCGeuk4i8ZD/VC/ykUd1mJs9kuqvB4ga89qztME1MkgXQK2BWsOAc2IO5
+	 0BOS2jSCzXb61VuE3MneYqCloavjOBJGeaQcWcj6SGl4eI+7yRXh9sfSCi9KDHE0AL
+	 /b27W35ABmF0Su1mqLITW45SMmGgGo5yRDwIKoy8DgmoqbkIuc7XXrP8xUXbbMBBzI
+	 TxDpfTeZqNkyw==
+Date: Tue, 28 Oct 2025 08:42:22 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
+ wprobe
+Message-Id: <20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
+In-Reply-To: <20251027224347.4c887cc956df63602f377550@kernel.org>
+References: <175859019940.374439.7398451124225791618.stgit@devnote2>
+	<175859026716.374439.14852239332989324292.stgit@devnote2>
+	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
+	<20251027224347.4c887cc956df63602f377550@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aqE60w0Sukhk/Ofa"
-Content-Disposition: inline
-In-Reply-To: <20251027193711.600556-1-rdunlap@infradead.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 27 Oct 2025 22:43:47 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
---aqE60w0Sukhk/Ofa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, 24 Oct 2025 22:31:06 +0100
+> Mark Brown <broonie@kernel.org> wrote:
+> 
+> > On Tue, Sep 23, 2025 at 10:17:47AM +0900, Masami Hiramatsu (Google) wrote:
+> > > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > > 
+> > > Add 'add_remove_wprobe.tc' testcase for testing wprobe event that
+> > > tests adding and removing operations of the wprobe event.
+> > 
+> > Since this series has landed in -next we've been seeing hangs on a range
+> > of arm64 platforms running the ftrace tests, it looks like it's all of
+> > them.  Unfortunately the systems lock up with no output as soon as they
+> > start trying to do something with wprobes:
+> > 
+> > # ok 19 Generic dynamic event - add/remove kprobe events
+> > # ok 20 Generic dynamic event - add/remove synthetic events
+> > # ok 21 Generic dynamic event - add/remove tracepoint probe events
+> > # ok 22 Generic dynamic event - add/remove tracepoint probe events on module
+> > # ok 23 Generic dynamic event - add/remove/test uprobe events
+> > 
+> > the next test being add_remove_wprobe.tc, which doesn't seem to
+> > complete.  Full log (for what little it's worth):
+> > 
+> >    https://lava.sirena.org.uk/scheduler/job/2000440#L1860
+> > 
+> > I turned on -vvv logging and that generated the rather spectacularly
+> > more verbose:
+> > 
+> >    https://lava.sirena.org.uk/scheduler/job/2000676/log_file/plain
+> > 
+> > (in a somewhat processed format unfortunately.).  Looking at that log I
+> > do notice a bunch of "unexpected operators" reported by the shell, these
+> > systems are running dash not bash, though that doesn't seem related.  It
+> > looks like the script hangs in reset_trigger_file while grepping the
+> > trigger files rather than actually trying to do the test.
+> > 
+> > Sorry about the delay in reporting this.
+> 
+> OK, eventually, I confirmed it is stopped on enabling wprobe
+> 
+> + . /mnt/ftrace/test.d/dynevent/add_remove_wprobe.tc
+> + echo 0
+> + echo
+> + TARGET=jiffies
+> + echo 'w:my_wprobe w@jiffies'
+> + grep -q my_wprobe dynamic_events
+> + '[' 0 -ne 0 ]
+> + test -d events/wprobes/my_wprobe
+> + '[' 0 -ne 0 ]
+> + echo 1
+> 
 
-On Mon, Oct 27, 2025 at 12:37:11PM -0700, Randy Dunlap wrote:
-> The arcnet.com domain has become something other than ARCNET (it is
-> something about AIoT and begins with an application/registration;
-> no other info.) ARCNET info is now at arcnet.cc so update the
-> ARCNET hardware documentation with this URL and page title.
+Interestingly, this stops in the cpu_function_call(). It does not call
+__perf_install_in_context().
 
-I'll fold this into my patch [1] when I roll the v3.
+~ # cd /sys/kernel/tracing/
+/sys/kernel/tracing # echo 'w:my_wprobe w@jiffies' >> dynamic_events 
+/sys/kernel/tracing # echo 1 > events/wprobes/my_wprobe/enable 
+[   54.942288] trace_wprobe: enable_trace_wprobe called
+[   54.945306] trace_wprobe: trying to register wprobes
+[   54.947367] trace_wprobe: __register_trace_wprobe called
+[   54.949586] trace_wprobe: registering wprobe at addr: 0xffffb6ce429fb200, len: 4, type: 2
+[   54.951639] Creating wide hw breakpoint on CPU 0
+[   54.966390] Creating kernel counter on CPU 0 for event type 5
+[   54.967758] perf_install_in_context: event 00000000736da1d9 ctx 000000005d4db900 cpu 0
+[   54.972015] perf_install_in_context2: event 00000000736da1d9 ctx set to 000000005d4db900
+[   54.976697] cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2c8
 
-Thanks.
+What happen if the cpu calls function on itself by
+smp_call_function_single() on arm64?
 
-[1]: https://lore.kernel.org/linux-doc/20251023025506.23779-1-bagasdotme@gm=
-ail.com/
+  smp_call_function_single(this_cpu, remote_function, &data, 1);
 
---=20
-An old man doll... just what I always wanted! - Clara
+Thank you,
 
---aqE60w0Sukhk/Ofa
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQADHQAKCRD2uYlJVVFO
-o2EcAQDqLQCDDc9q+5KW8KHHfbp/58DyQrfeH9wX5LjLgi7B4QEAjuouAs2BOgN7
-hFukh6lzYvKSRVRLCnPlSNMjFutJtQw=
-=ft2/
------END PGP SIGNATURE-----
-
---aqE60w0Sukhk/Ofa--
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
