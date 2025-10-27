@@ -1,114 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF472222AA;
-	Mon, 27 Oct 2025 19:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A868A21576E;
+	Mon, 27 Oct 2025 19:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761592467; cv=none; b=Xbqdu9U+u2B2vCrxWdxJYPTWcFfHp+baN2jkJE6z0G+p+Uo8K0cmyBkLUtU3NXljjD3uzh939XQm5QQGzoNIHDuPs7xR6arhI3D4ViTN8Kw3BHccTpfSGI8a/R+Qg494TmpQqcJuPJRCjYYmRgs7uX7tKSrnWv4aMKH9+mFCt/o=
+	t=1761593837; cv=none; b=Fz5z6slrWrOyrZSWy/hwoYSzJziU6X2WC3diIeNRZ/RMOqypx5vHEHD7GR3wDxkasqERSZI5E/vgXkI3trnTG9+XolLLwEseOItwFPwEZL6+bpF9bkCb32ZQmlh7R9tNheFk8pmlNonQ/hSK8ftys5z2ncj/nlE36zMPNia6odA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761592467; c=relaxed/simple;
-	bh=+mFuXCj6hoQC6YKCQOaY4omuj6mxwalKrIiJMI6Qj3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mStJvJSp2q+LbqjjkkHcPYg1jzgBBIWmt8ZT2PjVCHOe9UfdPhAqCDi+nRRyvcNS4YaP6ZXv5HJq6SShP7o528s3tu6Zz7QPQ+jJOO79iIgWNZl5SVKHD89aZ00/okB6uwj2LIjeJitW/zCVXZJ4GEOOMRraeNR68jiY1cKyGEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTiTG9Fh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761593837; c=relaxed/simple;
+	bh=FXWMy8I5Mg64Tba4DqwmP2O/F44S7/SL5KQ7cjD+FFA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gQkGdrVUJ78ueNlhrA41B4eZC0UvMyTRIBzFJoBEWgECpvMCn4aE4nq8KafTkOu4z40bvTK/2eTnLF+Ospp39aWo+QrApQYRxPF6iJ4lAqnaWlrwe06RGXY9k21JojwNbBnFyvczsGaIcr3HDG+PSNOAK3DUEO9yJhwTI1UGguQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rJboMH3C; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTiTG9Fh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0EF3C4CEF1;
-	Mon, 27 Oct 2025 19:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761592467;
-	bh=+mFuXCj6hoQC6YKCQOaY4omuj6mxwalKrIiJMI6Qj3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PTiTG9Fhyi3L5YSY/ADc8MNw+9LqZhDqUp9Ip5W8h2u2J3kbEXrpLCpplNkRZKFzT
-	 kB3I0iqZDqb4IFbqyPcB9Y/AhtrjU4+MGUGqtPv9cV7UNePIexiPn0xwRnSdRORGLx
-	 6Tcqn58ANHquf1ovMzWQCuVFw8FF2ut1OuMfGs0KTEYqrwPpIIRU0uvk92IpIe+bia
-	 uCuR8wUy445syP7xicFsL99k7p44Gc8Lm+hb60nn+meC6n5Efixml9sOr/e8sIRN75
-	 FbVseMcOB6Yw4trRv7TlmbQR6BtjI7vtq3AqnNrhfFREKkOvGARiOqv6sJEIjIdPLm
-	 DxHNlrazY/08Q==
-Date: Mon, 27 Oct 2025 14:14:25 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Igor Reznichenko <igor@reznichenko.net>, conor+dt@kernel.org,
-	corbet@lwn.net, david.hunter.linux@gmail.com,
-	devicetree@vger.kernel.org, krzk+dt@kernel.org,
-	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-Message-ID: <20251027191425.GA1403533-robh@kernel.org>
-References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
- <20251026184641.631641-1-igor@reznichenko.net>
- <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
- <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
- <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
- <0dfcfcde-d207-44af-ae7f-d90d623bac02@roeck-us.net>
- <ea00a07b-d0d6-49a2-a9d6-ef6c1ecf57dd@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rJboMH3C"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=OUeGYoPHNs62uCqJ5pjVhz5EO6V14o61GpjtJFSfqK0=; b=rJboMH3C6c65fDZ2aAFg9X7O3c
+	dGRHEKq823u9rBU2GypE3vXe6fI/3YgNNvLur7ozBDMNGv4sLHmmfrH2FZ5CF5IM9uRBQ7KD+hiin
+	Pjqk9x8L31+U2UAg791hI7m3J8Vm46ITH28a9djhiipHd3+zGIFWO3/hq6zCpIu1iZTOzYLJzTfVk
+	O6V2u7byX40xjO2KCTqjOuAZe7g7qN1VK9mfgcrzP118T9CRWqrJawwDMU6BNaGBdeuJDpFXYa6od
+	x+p5cBx3IYxX2KwydjPirhrl90pcmQYq6tHLRhQNhCwU3hiBAJdXD114KP12mINO3dHKlz+fm8DpA
+	Ye7K7lKg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vDT1k-0000000EgXD-264v;
+	Mon, 27 Oct 2025 19:37:12 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: netdev@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net] documentation: networking: arcnet: correct the ARCNET web URL
+Date: Mon, 27 Oct 2025 12:37:11 -0700
+Message-ID: <20251027193711.600556-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea00a07b-d0d6-49a2-a9d6-ef6c1ecf57dd@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 27, 2025 at 07:01:47PM +0100, Krzysztof Kozlowski wrote:
-> On 27/10/2025 17:53, Guenter Roeck wrote:
-> > On 10/27/25 01:40, Krzysztof Kozlowski wrote:
-> >> On 26/10/2025 20:58, Guenter Roeck wrote:
-> >>>>>>> +  reg:
-> >>>>>>> +    maxItems: 1
-> >>>>>>> +
-> >>>>>>> +  shunt-resistor-micro-ohms:
-> >>>>>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
-> >>>>>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
-> >>>>>>> +      655.35 mOhm.
-> >>>>>>> +    minimum: 100
-> >>>>>>> +    default: 1000
-> >>>>>>> +    maximum: 655350
-> >>>>>>> +
-> >>>>>>> +  st,alert-polarity-active-high:
-> >>>>>>
-> >>>>>> Isn't this just interrupt? You need proper interrupts property and then
-> >>>>>> its flag define the type of interrupt.
-> >>>>>
-> >>>>> This controls a bit written into device register.
-> >>>>> I omitted interrupt property after looking at existing power monitor bindings,
-> >>>>> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
-> >>>>> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
-> >>>>> find many power monitor bindings defining alert pins as interrupts.
-> >>>>
-> >>>>
-> >>>> On INA2xx that's SMBUS Alert. Is this the case here as well?
-> >>>>
-> >>>
-> >>> It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
-> >>
-> >> So please explain me why CPU interrupt pin, which in every really every
-> >> device called "interrupts", would not be "interrupts" here? How CPU can
-> >> even guess the number of the interrupt in such case, without
-> >> "interrupts" property?
-> >>
-> > 
-> > I thought we were discussing the need for the st,alert-polarity-active-high
-> > property, sorry.
-> 
-> 
-> Yes, we kind of do, I am just trying to understand what is expressed
-> here. If this is a CPU interrupt, its flags should mark the proper
-> signal level, including inverter.
-> 
-> If this is something else (or both), then this property might make
-> sense, I just don't know what is this.
+The arcnet.com domain has become something other than ARCNET (it is
+something about AIoT and begins with an application/registration;
+no other info.) ARCNET info is now at arcnet.cc so update the
+ARCNET hardware documentation with this URL and page title.
 
-If the device's polarity is programmable and there's possibly an 
-inverter, you can't express both with just flags. In that case, flags 
-should be the polarity after the inverter since flags are defined by the 
-interrupt provider. So we'd need something to define the device side. 
-Perhaps wait until someone actually has h/w with an inverter needing 
-this.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/networking/arcnet-hardware.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Rob
+--- linux-next-20251024.orig/Documentation/networking/arcnet-hardware.rst
++++ linux-next-20251024/Documentation/networking/arcnet-hardware.rst
+@@ -73,10 +73,10 @@ splitting," that allows "virtual packets
+ although they are generally kept down to the Ethernet-style 1500 bytes.
+ 
+ For more information on the advantages and disadvantages (mostly the
+-advantages) of ARCnet networks, you might try the "ARCnet Trade Association"
++advantages) of ARCnet networks, you might try the "ARCNET Resource Center"
+ WWW page:
+ 
+-	http://www.arcnet.com
++	http://www.arcnet.cc
+ 
+ 
+ Cabling ARCnet Networks
