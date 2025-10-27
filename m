@@ -1,109 +1,134 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8132B145B16
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 08:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6971C6A3;
+	Mon, 27 Oct 2025 08:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761554073; cv=none; b=btOjR3cSB0JJm8fvPIfN3nnR3eSZCCJLpiTEzml8zOVbLMnO/VgWoiI3PH/5uLBgDHTB4gZGxy/AKUSk+D2Mx7hDm7QuXckW8dfZr0vv04uDRDQVJMiSP5bqYKIbs+4iGhBI/N9wv+BBIES+CWvN+m27j8v1vdEJy1LvrBUqBdY=
+	t=1761554411; cv=none; b=tq3nqF5CTCU+aNDnmorKFL0H3ZgBs44AHQXOvNKNlQMmhf6BkjFiMxVatIM0imJwql+gK6nZzI0Fklf6LRrNVfhDy8L76Zh3GWg1sMXfwgkRdHIRQAAjXsJta819sNvmIJz0P23mdiezRFv1lw1TDIrc7p2AhwKafedwSWR2JbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761554073; c=relaxed/simple;
-	bh=hZTN/tQMYZInh7JvxfdJgJoSNB55wm3j6jMjFgi+HkU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BnhGzAawR0odYiK35e6KMzcGtji2gSG/seS9QMerdD0w6XEDxS+uKApqnBca8puK5NAhmCgKbNgI4B9RnWtnz3hAYY2lGBaYJgP1UL2fwadqMjIhwwImpiTw4Ba4eBMA3Uqr/FfOHB8h2AeTNlIO4O//t8DHDrz/x6w+7mAEOWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyLYAXnn; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761554411; c=relaxed/simple;
+	bh=pvUgbE/oVYUfBoByjaAA8fILG3lKoJTDuLSKJdOS/A4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d5o4FG8URXExV3LdhOg+ZsPtjm7g/MqCVsMb/4d7kmx7mVPXdDwzq1tKYJplxwvyb+6J5DEnuvphVxvsV2Gqv7A0vBYBK5aK6UgoGG5h3MDo9LeDiSegi3nfuCkfQrVw2WRLX4EJFGLGGrHlU25aorgG3oNODXtgnHACyOR4aZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOpKhK+D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyLYAXnn"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b6d6c11f39aso587870766b.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 01:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761554070; x=1762158870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QXqA2AyYDwMAn5NeiBjETLweOL3QhYSqRjqxrljQDYI=;
-        b=kyLYAXnni860iyXZipirj1ouWIpiOII1jtdMfjXMlErQ6dOum3GjUR1FmWlO51eCaf
-         ooziWpmNBHa6xn87D336Taz6sYkrjM+ClNFD3FNo7aM/VUs1r7c6avi4YIhAVhgYCPEk
-         uL+Mk4M1ARpwbIbbYlc1B/sof3Bf3eJ1buTuFf/xsM8AyBXsA3ZiIKmL46OkJpHARTml
-         2HAt85RckGpaqPqYaU/Di8gBH8JtTf23CEqF4ZnQeJbtUdIbYsff5Psolv0MCInD2/cG
-         NRdFLB9gqa+D9XoHOURy2+xLIVVp5QbP6845dopJzXbFaihzSDEeKmQo6nkMh3SSv4oa
-         FRKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761554070; x=1762158870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QXqA2AyYDwMAn5NeiBjETLweOL3QhYSqRjqxrljQDYI=;
-        b=r2k+fj8VTa47ACw6gBcdm3JpHT4UwTGMTljaYCFQ3QVzk4cGjNxP4hWCLydI/OHY1w
-         GoE7sf+oR36+hCIKGYN2dHdQkrDrWkn80ZzCYdvXq3/0UfHEzNxigDPMtW1If+goo6nl
-         jJlgfGb/JR4uFE6wnY8LyB/m9QTo5m3OvP6XA26tPfoB6U6E6+ZooRrlbfOGidGPU643
-         Zq/44WSJWP5lfB5BMurBqefnwz7PySUzhjkI18YthsTnSyL71cLfrD/IZjOABQV7k43f
-         7ez0vEJMie6ljexjrXpqlb1/0+kieWClGzZCg59ZSZc8bd5vaoP7w5gk4/Ekz5B/wGSJ
-         HSlA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXRzM5cUgkAZ3QzW5gb0djaIeZMK//rE9cMM/XhajiHZa+G77Qo3+fTx134dlltge1z158qgEEL6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDhi1hyD3Aatt7CaaxY9YZBtMtG0/QbrJnWuCrlTePuaHr+lhf
-	pqQq20IY9LE/pvy4jaKUkbDhNIpFwx2j2m/I7xZsWw8xzoqUizu951y21hWfu4GCHZyJ3XiMSdd
-	w4cLmcrEGMhC4i3u7fHI1O36suVyTcFs=
-X-Gm-Gg: ASbGnctHhNuZU7NyIplZUU/9IEWvWy7BO3t5pwYlFYs31SSDq/p6HTPKwiHHbwszI/0
-	vIxvpGcjUq3FpOSlq5tOA8COYB3568CpkMU+zzVsSE/QJmO25drK3qTIFBDqEoNLbz103waltxi
-	BEigEmyacfLCASy89F7P3ekUrilP9+awXgHzh1JgtPf+2y7aPzCCi7fl6QoAYdXY+D6GATJKDqB
-	yy4cuh4bCPjzFAmwtFyYqzZm+b9rzszG7ibR3F5MBgOvK1xURSi3HB3lWHCP8icgQJt3qj9Ma4k
-	BCjZaQbI5v7rI4aExtOWqbAUO5YkJA==
-X-Google-Smtp-Source: AGHT+IF4Ku7VBi6Rz5YATQmMp4K6m21OtDlsrRJ8R6TX/Zwi0y9zuA5CLxTmowv0xMLnRyevU+7TIZF7WyaAwQdIbqQ=
-X-Received: by 2002:a17:906:6a12:b0:b40:b6a9:f70f with SMTP id
- a640c23a62f3a-b6d51aefb9amr1645192766b.4.1761554069622; Mon, 27 Oct 2025
- 01:34:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOpKhK+D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A44CC4CEF1;
+	Mon, 27 Oct 2025 08:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761554411;
+	bh=pvUgbE/oVYUfBoByjaAA8fILG3lKoJTDuLSKJdOS/A4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MOpKhK+DgLDZizQPWOGImQ/dASJaYmJwdQj44QvPvg7uNIOMhw5+TbGkYW8PJvU+q
+	 20H3lfjcN4Zai/LHogBPlspM1hXZ0wcVASpm8txMIMpRpLRJ3+uR9mfdtUmz5Q5uiV
+	 CZ44NKHjzOJIYyyUqn9VUaucJyYZqizP+H3cVcAekWm/XcPqrkkoDCicm2BTbTb2x2
+	 g/yVV3NJ++u4NhjMUkOKFxGM+e3xIsamFHZYKeySCgBkY1o2MvAL+l1n9Ff3WLHeOL
+	 vKfpgDSg8FdXuz7rXqzDUEp7N360OZu/yycoBB27XoZ8aNKOPm9eUd0PwxGH7xxTGf
+	 5zF8CtFjruJhA==
+Message-ID: <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
+Date: Mon, 27 Oct 2025 09:40:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
- <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
- <aPvAm1E7CvQfOIuS@stanley.mountain> <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
- <aP8CxkXYAitKB3vx@stanley.mountain>
-In-Reply-To: <aP8CxkXYAitKB3vx@stanley.mountain>
-From: ally heev <allyheev@gmail.com>
-Date: Mon, 27 Oct 2025 14:04:18 +0530
-X-Gm-Features: AWmQ_blvkJ9ZtBmHKBSTV_q6E3sXqzi4cxX3zWvk57-nTx4mfsifVuvdEYK6e1U
-Message-ID: <CAMB6jUGEJeOVKUEpeFosBFA3QsQk3kgdt_e1EAQJi_yqJp7H-A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
- initialized to NULL
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Hunter <david.hunter.linux@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, linux-pm <linux-pm@vger.kernel.org>, 
-	dan.j.williams@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
+ power monitor
+To: Guenter Roeck <linux@roeck-us.net>,
+ Igor Reznichenko <igor@reznichenko.net>
+Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
+ devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
+ skhan@linuxfoundation.org
+References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
+ <20251026184641.631641-1-igor@reznichenko.net>
+ <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
+ <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 27, 2025 at 10:57=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
-> > General question about the process for my understanding:
-> > Is checkpatch run on full tree by CI or someone and results reported
-> > regularly ?
->
-> Newbies run it regularly.  Otherwise it gets run on subsystem CIs and
-> the zero-day bot runs it on new patches but it will report the old
-> warnings as well under the "Old warnings" section.
->
-> > My understanding was that we would run it only on patches
-> > before submitting them Or we just run it on full tree before adding
-> > new checks to understand if they are catching real issues
->
-> Eventually someone will look at all the warnings.  And probably it's
-> going to be a newbie and so we need to be careful with warning where
-> newbies might introduce bugs with their changes.
->
-> regards,
-> dan carpenter
->
-Makes sense. Thanks!!
----
-aheev
+On 26/10/2025 20:58, Guenter Roeck wrote:
+>>>>> +  reg:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  shunt-resistor-micro-ohms:
+>>>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
+>>>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
+>>>>> +      655.35 mOhm.
+>>>>> +    minimum: 100
+>>>>> +    default: 1000
+>>>>> +    maximum: 655350
+>>>>> +
+>>>>> +  st,alert-polarity-active-high:
+>>>>
+>>>> Isn't this just interrupt? You need proper interrupts property and then
+>>>> its flag define the type of interrupt.
+>>>
+>>> This controls a bit written into device register.
+>>> I omitted interrupt property after looking at existing power monitor bindings,
+>>> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
+>>> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
+>>> find many power monitor bindings defining alert pins as interrupts.
+>>
+>>
+>> On INA2xx that's SMBUS Alert. Is this the case here as well?
+>>
+> 
+> It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
+
+So please explain me why CPU interrupt pin, which in every really every
+device called "interrupts", would not be "interrupts" here? How CPU can
+even guess the number of the interrupt in such case, without
+"interrupts" property?
+
+Best regards,
+Krzysztof
