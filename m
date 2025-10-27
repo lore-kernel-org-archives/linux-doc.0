@@ -1,442 +1,270 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5D72D8797;
-	Mon, 27 Oct 2025 03:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761535811; cv=none; b=qNr/oyf9T88lvb0A+Si8pIhRl5E56CVJlWiFFqv0SDBK8CTYyCMVqnWjaJr7Hniab/X5sL1b0/nveWTF9mqPQtHDhhnaNzSy3qXPlZc4ilMO+8SzBSQ4/YCyizWPHcYbcm08T9C04uuczQQNIrxgTuB7K0aqEba75Y2QOraXocE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761535811; c=relaxed/simple;
-	bh=FP3scRSWmy6T/27Xx7Ci/dJ+/UlDf+/Oyo+7Yt0U7Ao=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GHfNP31A0xSGRnRJyI2OcCl/zdZAOapGLWtakTe7cGiR4Uo1wHV4YcJVu8PxSxhWtVgZ8fwZfCcbVsrNwyO+llmXb0dafGEbxI4bvWWwx09NPuXbgKf23TCBXzCkZ7NudWyIK9avjODmtIIGej3Fg9SLdy4njtHUDVIU2vETai8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz2t1761535775t275faa42
-X-QQ-Originating-IP: kHde58sSBI0uA78RvYiv+PC6B4rynyVAad344SkmVsU=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 27 Oct 2025 11:29:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 4632171058279916096
-EX-QQ-RecipientCnt: 17
-From: Dong Yibo <dong100@mucse.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	andrew+netdev@lunn.ch,
-	danishanwar@ti.com,
-	vadim.fedorenko@linux.dev,
-	geert+renesas@glider.be,
-	mpe@ellerman.id.au,
-	lorenzo@kernel.org,
-	lukas.bulwahn@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v16 5/5] net: rnpgbe: Add register_netdev
-Date: Mon, 27 Oct 2025 11:29:05 +0800
-Message-Id: <20251027032905.94147-6-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251027032905.94147-1-dong100@mucse.com>
-References: <20251027032905.94147-1-dong100@mucse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED1319E968;
+	Mon, 27 Oct 2025 04:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761539163; cv=pass; b=jvfsoxnvKiwflzhOTOAnUCd5FrQLT4nxAbQPCUIIoWs5Zb7N4c06bihME3iEqtVJXFF2oIVt4b4P+be8GWEO7NGMFkj0tCmhi9u779IbaoXOPI1cQ9rAcvRto/E4i3C3WA8lvWseirqWyXp0wzDXVjcaLls7k29MiTvWYaEAKTg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761539163; c=relaxed/simple;
+	bh=DNYt74eYYd/1J6KyF4fbjIzMPBtQOkvmUXn/mGVFdVg=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=JoBjeGZqS9rkExlH5yu7GFd0BjRBwjTeeOTmqtPC0dsHjzWmF/i2+pQ0crFbX97qh3xWTn0tOU+a5HQm6UdUfjRmdDdkG4FKnDvk7/7hVZUazBA8TkRwhgRs/tTK0T0VjfJgXwrLxa3Pq69m/iG/L5DKDwAUNWRABllsOVGBX9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=m44zZM76; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="m44zZM76"
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 59R4PhKZ038724
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 27 Oct 2025 13:25:43 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 81A5E106E791A;
+	Mon, 27 Oct 2025 13:25:42 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Llbg0nhPWc9r; Mon, 27 Oct 2025 13:25:37 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 4FB19106E7917;
+	Mon, 27 Oct 2025 13:25:37 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 4FB19106E7917
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1761539137;
+	cv=none; b=u0+ubl/O7lYkOm264kw/TYz4DGhtpkaZcIoGa5SVywA4npDm7cWsgIpkhW6XJebM5+0mDcNW/K5PLJI6mD509ns84AVCafoM53CaFBmyOeD3pxlqa12enaLOoBTXqewZzdaOr54ZfIfoGjwpGu9RUkEOGo9eUT4lHOzK0jOrHwc=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1761539137; c=relaxed/relaxed;
+	bh=rEuEFpJaqguTP6zBfsgvlVykQOT8EAPojPlj+YAPv1Q=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=UH4nZe6COg4AxMqpCKvTPiqh62EhC/i2WlTN2MNVvLsmjkOabKJoyFtaPM+ViArnHs7Azp5pWla8eO/M9yhfb5QauQwuCsYxLp5mfEFlFkWaXuR2992PnFh9GNa0eb78xsaldhpLHDk8wNnfiIiQrSF9i5wHUG9hXV8xTsZ3e2k=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 4FB19106E7917
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1761539137;
+	bh=rEuEFpJaqguTP6zBfsgvlVykQOT8EAPojPlj+YAPv1Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=m44zZM76V/a9njukwvMQv85rxm1+DYEE7Yfr4AjUxH4H29c2nCOHdbokYjIxYebMS
+	 JdRdsABxtpQdIHq/1jVjgeZbV/JV9z4JkA9QfX+2ubU6NYRvyqplz0GezrrWTNGAb5
+	 /hz8znqgajQOVoBYt87u0wSscamJt0uOKgqp0GuY=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Mon, 27 Oct 2025 13:25:37 +0900
+From: weibu@redadmin.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Subject: [PATCH] docs: ja_JP: Move submitting-patches to
+ process/ and add to build
+In-Reply-To: <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
+References: <20251024235437.801625-1-weibu@redadmin.org>
+ <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
+Message-ID: <1a97317518d8dcd7d5f0aea898e21f09@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz3a-1
-X-QQ-XMAILINFO: MrTVJ9obs/HIPIT4cA4uftEEszYdsYs/lHlmYZHlV5udcA4vRACPNRmT
-	Sk7NMfifIxOcJofAiPJYpfFNMvmaq4wP2KX4ae5KiOMuAX2hKbVN7QPqC3vQTHjcsK7oAb6
-	M8VrF+hZ82JMzspC1iwSG0wdw7KCb1rUh6MSLW8P9yoZIPDYSIO85Qodclv490iU36SBsXc
-	z3Y0j9h2tzYL5m4ETHaY7V41HWfjiSJbOi5+9WJkRsvSegsFzPRsPMlzCVBQq36I94pJyhM
-	AyvaLeKo3HZUxEKVotxKPYR4oBeJbgYpx1qjgDIoXecdjZBBnamqeomDRrlNOu9nEdLPzZl
-	J/Wq5U5k17tqpwUHaVd/xG8lmBRabb5mLv1iHdeikIyKN0WcTwDhQBMBTfST08pcUdcPyud
-	wBHma0P0YNLGZXUrw8Qk10WrfSY9mezj3SFZz9wGgCZ5M6af1j7PLtWJpbVf7I9bsvyByjW
-	24Ef412zDOEGEt2SXNFqM089XJe7IoQdUEFuuH0zcCnYaGfElK8XZ06irWLeXDbvcPh+d60
-	vTgOiffSSRqCoidBaYA3E8x5UzoSaZN4aIedxlwKnQtmFrY32J41+9isQAh9q6D9oDoq3NS
-	EGTaF2b5n2sa6IMVsMNzIv77UrkHktHwmenV1WWBZaoLptfeGlVHFDR3Wd6mvRjWKQkCa+X
-	plobKt8Dpb7brRcJ35m9qonWymjzkjFwMbsReKq6BCnuxFL+Fwcc0apWBLKnDg2aARBnz16
-	35TdPJG80g58l7A3yv79nh2bn60dSWW+n2hqK+mRuT9LfJaTSVrdlh3UDCBh1/buYhZZLW3
-	BSpaoayx73mRKS/FZ3pWB/xu9HNcNb/c/sQ3y8i9FZlJ/6MawthJgky/MGvjopec2nfZzmO
-	sOPjJx3QgMvdOU3H1OpNdamLA7yRLnnmviKd00wwe3DK0ZvxaAaYjLo75iOjJTUit8Pl3o+
-	H/PFCAPetrxCI6OXjNqRP57rBBnkKvyF4k6+DO6CE4N/YQ+i2sSkRd9YW+iV+HOdztkjIff
-	ejReb2/qYwLsPv4ePG0vMhjedRojxbMB2HaoIRfgq8jX9fY3x/
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
 
-Complete the network device (netdev) registration flow for Mucse Gbe
-Ethernet chips, including:
-1. Hardware state initialization:
-   - Send powerup notification to firmware (via echo_fw_status)
-   - Sync with firmware
-   - Reset hardware
-2. MAC address handling:
-   - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
-   - Fallback to random valid MAC (eth_random_addr) if not valid mac
-     from Fw
+Hi Akira-san,
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  24 ++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  73 +++++++++++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 117 +++++++++++++++++-
- 4 files changed, 214 insertions(+), 2 deletions(-)
+Thank you for the detailed review. I will work on a v2 patch based on 
+your suggestions.
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index 37bd9278beaa..27fb080c0e37 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -6,6 +6,7 @@
- 
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/netdevice.h>
- 
- enum rnpgbe_boards {
- 	board_n500,
-@@ -26,18 +27,38 @@ struct mucse_mbx_info {
- 	u32 fwpf_ctrl_base;
- };
- 
-+/* Enum for firmware notification modes,
-+ * more modes (e.g., portup, link_report) will be added in future
-+ **/
-+enum {
-+	mucse_fw_powerup,
-+};
-+
- struct mucse_hw {
- 	void __iomem *hw_addr;
-+	struct pci_dev *pdev;
- 	struct mucse_mbx_info mbx;
-+	int port;
-+	u8 perm_addr[ETH_ALEN];
- 	u8 pfvfnum;
- };
- 
-+struct mucse_stats {
-+	u64 tx_dropped;
-+};
-+
- struct mucse {
- 	struct net_device *netdev;
- 	struct pci_dev *pdev;
- 	struct mucse_hw hw;
-+	struct mucse_stats stats;
- };
- 
-+int rnpgbe_get_permanent_mac(struct mucse_hw *hw);
-+int rnpgbe_reset_hw(struct mucse_hw *hw);
-+int rnpgbe_send_notify(struct mucse_hw *hw,
-+		       bool enable,
-+		       int mode);
- int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
- 
- /* Device IDs */
-@@ -46,4 +67,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
- #define RNPGBE_DEVICE_ID_N500_DUAL_PORT   0x8318
- #define RNPGBE_DEVICE_ID_N210             0x8208
- #define RNPGBE_DEVICE_ID_N210L            0x820a
-+
-+#define mucse_hw_wr32(hw, reg, val) \
-+	writel((val), (hw)->hw_addr + (reg))
- #endif /* _RNPGBE_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-index 5739db98f12a..2ec6e28d2c35 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-@@ -1,11 +1,82 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright(c) 2020 - 2025 Mucse Corporation. */
- 
-+#include <linux/pci.h>
- #include <linux/errno.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
- #include "rnpgbe_mbx.h"
-+#include "rnpgbe_mbx_fw.h"
-+
-+/**
-+ * rnpgbe_get_permanent_mac - Get permanent mac
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_get_permanent_mac tries to get mac from hw
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_get_permanent_mac(struct mucse_hw *hw)
-+{
-+	struct device *dev = &hw->pdev->dev;
-+	u8 *mac_addr = hw->perm_addr;
-+	int err;
-+
-+	err = mucse_mbx_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->port);
-+	if (err) {
-+		dev_err(dev, "Failed to get MAC from FW %d\n", err);
-+		return err;
-+	}
-+
-+	if (!is_valid_ether_addr(mac_addr)) {
-+		dev_err(dev, "Failed to get valid MAC from FW\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_reset_hw - Do a hardware reset
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_reset_hw calls fw to do a hardware
-+ * reset, and cleans some regs to default.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_reset_hw(struct mucse_hw *hw)
-+{
-+	mucse_hw_wr32(hw, RNPGBE_DMA_AXI_EN, 0);
-+	return mucse_mbx_reset_hw(hw);
-+}
-+
-+/**
-+ * rnpgbe_send_notify - Echo fw status
-+ * @hw: hw information structure
-+ * @enable: true or false status
-+ * @mode: status mode
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+int rnpgbe_send_notify(struct mucse_hw *hw,
-+		       bool enable,
-+		       int mode)
-+{
-+	int err;
-+	/* Keep switch struct to support more modes in the future */
-+	switch (mode) {
-+	case mucse_fw_powerup:
-+		err = mucse_mbx_powerup(hw, enable);
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+
-+	return err;
-+}
- 
- /**
-  * rnpgbe_init_n500 - Setup n500 hw info
-@@ -50,6 +121,8 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
- {
- 	struct mucse_mbx_info *mbx = &hw->mbx;
- 
-+	hw->port = 0;
-+
- 	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
- 	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
- 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-index 268f572936aa..e77e6bc3d3e3 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -11,5 +11,7 @@
- #define MUCSE_N210_FWPF_CTRL_BASE      0x29400
- #define MUCSE_N210_FWPF_SHM_BASE       0x2d900
- 
-+#define RNPGBE_DMA_AXI_EN              0x0010
-+
- #define RNPGBE_MAX_QUEUES 8
- #endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index d8aaac79ff4b..e4392ddfbce2 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -7,6 +7,7 @@
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
-+#include "rnpgbe_mbx_fw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
- 
-@@ -24,6 +25,58 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_open - Called when a network interface is made active
-+ * @netdev: network interface device structure
-+ *
-+ * The open entry point is called when a network interface is made
-+ * active by the system (IFF_UP).
-+ *
-+ * Return: 0
-+ **/
-+static int rnpgbe_open(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_close - Disables a network interface
-+ * @netdev: network interface device structure
-+ *
-+ * The close entry point is called when an interface is de-activated
-+ * by the OS.
-+ *
-+ * Return: 0, this is not allowed to fail
-+ **/
-+static int rnpgbe_close(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_xmit_frame - Send a skb to driver
-+ * @skb: skb structure to be sent
-+ * @netdev: network interface device structure
-+ *
-+ * Return: NETDEV_TX_OK
-+ **/
-+static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-+				     struct net_device *netdev)
-+{
-+	struct mucse *mucse = netdev_priv(netdev);
-+
-+	dev_kfree_skb_any(skb);
-+	mucse->stats.tx_dropped++;
-+
-+	return NETDEV_TX_OK;
-+}
-+
-+static const struct net_device_ops rnpgbe_netdev_ops = {
-+	.ndo_open       = rnpgbe_open,
-+	.ndo_stop       = rnpgbe_close,
-+	.ndo_start_xmit = rnpgbe_xmit_frame,
-+};
-+
- /**
-  * rnpgbe_add_adapter - Add netdev for this pci_dev
-  * @pdev: PCI device information structure
-@@ -42,7 +95,7 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 	void __iomem *hw_addr;
- 	struct mucse *mucse;
- 	struct mucse_hw *hw;
--	int err;
-+	int err, err_notify;
- 
- 	netdev = alloc_etherdev_mq(sizeof(struct mucse), RNPGBE_MAX_QUEUES);
- 	if (!netdev)
-@@ -64,14 +117,66 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 	}
- 
- 	hw->hw_addr = hw_addr;
-+	hw->pdev = pdev;
-+
- 	err = rnpgbe_init_hw(hw, board_type);
- 	if (err) {
- 		dev_err(&pdev->dev, "Init hw err %d\n", err);
- 		goto err_free_net;
- 	}
-+	/* Step 1: Send power-up notification to firmware (no response expected)
-+	 * This informs firmware to initialize hardware power state, but
-+	 * firmware only acknowledges receipt without returning data. Must be
-+	 * done before synchronization as firmware may be in low-power idle
-+	 * state initially.
-+	 */
-+	err_notify = rnpgbe_send_notify(hw, true, mucse_fw_powerup);
-+	if (err_notify) {
-+		dev_warn(&pdev->dev, "Send powerup to hw failed %d\n",
-+			 err_notify);
-+		dev_warn(&pdev->dev, "Maybe low performance\n");
-+	}
-+	/* Step 2: Synchronize mailbox communication with firmware (requires
-+	 * response) After power-up, confirm firmware is ready to process
-+	 * requests with responses. This ensures subsequent request/response
-+	 * interactions work reliably.
-+	 */
-+	err = mucse_mbx_sync_fw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Sync fw failed! %d\n", err);
-+		goto err_powerdown;
-+	}
- 
--	return 0;
-+	netdev->netdev_ops = &rnpgbe_netdev_ops;
-+	err = rnpgbe_reset_hw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Hw reset failed %d\n", err);
-+		goto err_powerdown;
-+	}
-+
-+	err = rnpgbe_get_permanent_mac(hw);
-+	if (err == -EINVAL) {
-+		dev_warn(&pdev->dev, "Using random MAC\n");
-+		eth_random_addr(hw->perm_addr);
-+	} else if (err) {
-+		dev_err(&pdev->dev, "get perm_addr failed %d\n", err);
-+		goto err_powerdown;
-+	}
-+
-+	eth_hw_addr_set(netdev, hw->perm_addr);
-+	err = register_netdev(netdev);
-+	if (err)
-+		goto err_powerdown;
- 
-+	return 0;
-+err_powerdown:
-+	/* notify powerdown only powerup ok */
-+	if (!err_notify) {
-+		err_notify = rnpgbe_send_notify(hw, false, mucse_fw_powerup);
-+		if (err_notify)
-+			dev_warn(&pdev->dev, "Send powerdown to hw failed %d\n",
-+				 err_notify);
-+	}
- err_free_net:
- 	free_netdev(netdev);
- 	return err;
-@@ -138,11 +243,17 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void rnpgbe_rm_adapter(struct pci_dev *pdev)
- {
- 	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct mucse_hw *hw = &mucse->hw;
- 	struct net_device *netdev;
-+	int err;
- 
- 	if (!mucse)
- 		return;
- 	netdev = mucse->netdev;
-+	unregister_netdev(netdev);
-+	err = rnpgbe_send_notify(hw, false, mucse_fw_powerup);
-+	if (err)
-+		dev_warn(&pdev->dev, "Send powerdown to hw failed %d\n", err);
- 	free_netdev(netdev);
- }
- 
-@@ -173,6 +284,8 @@ static void rnpgbe_dev_shutdown(struct pci_dev *pdev)
- 
- 	rtnl_lock();
- 	netif_device_detach(netdev);
-+	if (netif_running(netdev))
-+		rnpgbe_close(netdev);
- 	rtnl_unlock();
- 	pci_disable_device(pdev);
- }
--- 
-2.25.1
+Thanks, Akiyoshi Kurita
 
+
+2025-10-27 11:53 に Akira Yokosawa さんは書きました:
+> Hi Kurita-san,
+> 
+> Thank for your continued work on this!
+> 
+> On Sat, 25 Oct 2025 08:54:37 +0900, Akiyoshi Kurita wrote:
+>> As requested by Jonathan, move the Japanese translation of
+>> 'SubmittingPatches' to its proper location under 'process/' and
+>> convert it to reStructuredText.
+> 
+> In https://lore.kernel.org/87jz0xbk6f.fsf@trenco.lwn.net/, Jon said:
+> 
+>>> That said ... this is not an RST file, and won't be pulled into the 
+>>> docs
+>>> build.  I would *love* to see a patch that moves this file into its
+>>> proper location under .../process/ and brings it into the build.
+> 
+> This patch does the *minimal* thing, namely the rename of the file,
+> with minor changes near the top of the doc.
+> 
+> Yes, the resulting .rst doesn't cause any *new* warnings from Sphinx,
+> but looking at the resulting HTML (or PDF), I don't think the rendered
+> page looks nice.
+> 
+> I'm wondering if this is what Jon would love to see. (Well, Jon doesn't
+> read Japanese and would not mind.)
+> 
+> Of course, I understand you are going to do both translation and reST 
+> markup
+> updates as follow-up changes.  But I'd rather refrain from exposing
+> work-in-progress doc in the translations docs.
+> 
+> Please read on in-line comments below:
+> 
+>> 
+>> This patch also wires the new file into the Japanese documentation's
+>> toctree, allowing it to be included in the Sphinx build.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>>  Documentation/translations/ja_JP/index.rst    |  1 +
+>>  .../submitting-patches.rst}                   | 61 
+>> ++++++++++---------
+>>  2 files changed, 32 insertions(+), 30 deletions(-)
+>>  rename Documentation/translations/ja_JP/{SubmittingPatches => 
+>> process/submitting-patches.rst} (96%)
+>> 
+>> diff --git a/Documentation/translations/ja_JP/index.rst 
+>> b/Documentation/translations/ja_JP/index.rst
+>> index 4159b417bfdd..8e01619d4170 100644
+>> --- a/Documentation/translations/ja_JP/index.rst
+>> +++ b/Documentation/translations/ja_JP/index.rst
+>> @@ -11,6 +11,7 @@
+>>  .. toctree::
+>>     :maxdepth: 1
+>> 
+>> +   process/submitting-patches
+> 
+> This should come below process/howto. Still, as I said above, I think 
+> this
+> addition is premature.  One option would be to put a fat warning at the 
+> top
+> of the doc saying "This section is work-in-progress!!", or so.
+> 
+>>     disclaimer-ja_JP
+>>     process/howto
+>>     process/submit-checklist
+>> diff --git a/Documentation/translations/ja_JP/SubmittingPatches 
+>> b/Documentation/translations/ja_JP/process/submitting-patches.rst
+>> similarity index 96%
+>> rename from Documentation/translations/ja_JP/SubmittingPatches
+>> rename to 
+>> Documentation/translations/ja_JP/process/submitting-patches.rst
+>> index b950347b5993..4bfa84cc705d 100644
+>> --- a/Documentation/translations/ja_JP/SubmittingPatches
+>> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+>> @@ -1,33 +1,34 @@
+>> -NOTE:
+>> -This is a version of Documentation/process/submitting-patches.rst 
+>> into Japanese.
+>> -This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
+>> -and the JF Project team <http://www.linux.or.jp/JF/>.
+>> -If you find any difference between this document and the original 
+>> file
+>> -or a problem with the translation,
+>> -please contact the maintainer of this file or JF project.
+>> -
+>> -Please also note that the purpose of this file is to be easier to 
+>> read
+>> -for non English (read: Japanese) speakers and is not intended as a
+>> -fork. So if you have any comments or updates of this file, please try
+>> -to update the original English file first.
+>> -
+>> -Last Updated: 2011/06/09
+>> -
+>> -==================================
+>> -これは、
+>> -linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
+>> -です。
+>> -翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+>> -翻訳日： 2011/06/09
+>> -翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
+>> -校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
+>> -         Matsukura さん <nbh--mats at nifty dot com>
+>> -         Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot 
+>> jp>
+>> -==================================
+>> -
+>> -        Linux カーネルに変更を加えるための Howto
+>> -        又は
+>> -        かの Linus Torvalds の取り扱い説明書
+>> +..
+>> +   NOTE:
+>> +     This is a version of 
+>> Documentation/process/submitting-patches.rst into Japanese.
+>> +     This document is maintained by Keiichi KII 
+>> <k-keiichi@bx.jp.nec.com>
+>> +     and the JF Project team <http://www.linux.or.jp/JF/>.
+>> +     If you find any difference between this document and the 
+>> original file
+>> +     or a problem with the translation,
+>> +     please contact the maintainer of this file or JF project.
+>> +
+>> +     Please also note that the purpose of this file is to be easier 
+>> to read
+>> +     for non English (read: Japanese) speakers and is not intended as 
+>> a
+>> +     fork. So if you have any comments or updates of this file, 
+>> please try
+>> +     to update the original English file first.
+>> +
+>> +     Last Updated: 2011/06/09
+>> +
+>> +     ==================================
+>> +     これは、
+>> +     linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
+>> +     です。
+>> +     翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+>> +     翻訳日： 2011/06/09
+>> +     翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
+>> +     校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
+>> +           Matsukura さん <nbh--mats at nifty dot com>
+>> +           Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot 
+>> jp>
+>> +     ==================================
+> 
+> This historic contribution record can be removed.  The same happened in
+> howto.rst when Shibata-san did the conversion in commit f012733894d3
+> ("Documentation: Add HOWTO Japanese translation into rst based build
+> system").
+> 
+> Instead, please put a translation note referencing the disclaimer
+> under the document title as is done in (ja_JP's) howto.rst and
+> submit-checklist.rst.
+> 
+>> +
+>> +========================================
+>> +Linux カーネルに変更を加えるための Howto
+>> +========================================
+> 
+> Title of the original now reads:
+> 
+>   Submitting patches: the essential guide to getting your code into the 
+> kernel
+> 
+> Back in 2005, it read:
+> 
+>   How to Get Your Change Into the Linux Kernel
+>           or
+>   Care And Operation Of Your Linus Torvalds
+> 
+> And the Japanese translation has never had the title updated ...
+> 
+> Probably you can align the title with the current one.
+> 
+> As before, if you are not sure of the way to do, please ask me
+> before submitting a next version.
+> 
+>         Thanks, Akira
+> 
+>> 
+>>  Linux カーネルに変更を加えたいと思っている個人又は会社にとって、パッ
+>>  チの投稿に関連した仕組みに慣れていなければ、その過程は時々みなさんを
