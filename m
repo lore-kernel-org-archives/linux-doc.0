@@ -1,110 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E8B1DFFC;
-	Mon, 27 Oct 2025 02:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217D829D269
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761532185; cv=none; b=kZg8oVdfTX4cAGs+NFBu3IgROLvTylrhA4HYIzq49e54Kp/UrLo2Mgyoxg2URULJ7LV6bgVlM8uZmfDZCBLnerJ+LyzY/sVlf9MGaF//UCThyZpX9qUm9EHxrKD2E1AXs0SxjVsYU1JrRmC0m/935vy8as9CGinSCEbA2dZM+b0=
+	t=1761533639; cv=none; b=TELrWw1zw31GSvES4XZsqKW4i+XlnPMhQqlOjPg9YLOcm24Xif6bFGnp/EnpZm6lpOyW5Kkr8UdP12Br6sY5uSUT71ypweMZ1sGSed32U3Rq9Zi10hxHcWeHGIbacZRaVm4FYenDnKvZuEVtuWTBJnglyDxoEE0dhmIJ8cO6Ppg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761532185; c=relaxed/simple;
-	bh=Jv0StzLdkPw7Qg9z8uEgyVO5Bn1RJ64wxzXC6DVC2TY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=VFB6eUN3fNkrQ1WSdNBA2sn7YX1goViWGPEUj5bcovR5FN72FutKfUTA1zAuq73tudgXmqgO0pby68UDO+HDtwkR4XOoksv3OCjl9stuURBD0IIPzJbVr9qXGUSKNv7xSvHn8NxrqAT2WZVPYnZQyisg0yGHg8uKobOZ8XYVbyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9Vo/wKD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761533639; c=relaxed/simple;
+	bh=9ToB783q04/ZLjbD/gt5wlM14tABvZc8zQTEnpTtNAw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V6bIOyQ+cWgEKBXrNpGaZHYtEyB8smO59iqEy9JrnE2L3sFfHGykHrnzKUEcP7AvwwiX8hLJDvGrrxKtGE2IvG9YPkb5xQ6mhEzFSsZx6NlO1Xz+O6nh0KajC9NZUMORlRebqOyKqIIz1EGdtyNqXOXdPzTFiUGd+BTI8DvnXvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOFPk/sl; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9Vo/wKD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2BFC4CEE7;
-	Mon, 27 Oct 2025 02:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761532185;
-	bh=Jv0StzLdkPw7Qg9z8uEgyVO5Bn1RJ64wxzXC6DVC2TY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=c9Vo/wKDewFAO95sAbUUfzBcIIrwLYXwl11n70C70LnH/SRsZG4SZKClOTqX7sNGg
-	 8muV+pnX0khJDJQzpbKarmehAOJcRb1x9dCkRM+mrpebzSDX71j0WM01OlCvVfjE+F
-	 t+bymSOZLVB+rK3B8YGxwlWIwGzvXfLkH9W/LTNJy3kGIiZWzw9grdlmseXOTKq2AJ
-	 rhbA77IeJVMSBU66HM6cFtYgAP96KgHOI7MOULEcqK+DPD8dodR4xEHUwqQEMWajm1
-	 68SIrV2b1jeuHiSHyhIpyu3RT0PgZuL7kL06uHXew6OZjU7enbK0Aw2LRBvTMKYpwI
-	 O8SmIOPPrRapQ==
-Date: Mon, 27 Oct 2025 11:29:38 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
- wprobe
-Message-Id: <20251027112938.bd34197bdbb5394bb2b220d9@kernel.org>
-In-Reply-To: <aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
-References: <175859019940.374439.7398451124225791618.stgit@devnote2>
-	<175859026716.374439.14852239332989324292.stgit@devnote2>
-	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOFPk/sl"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-290b48e09a7so50635775ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 19:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761533637; x=1762138437; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cVlahTxS7jRPwvwryBn2WGTgohPafv3ZR8htDrtjHFs=;
+        b=QOFPk/slUi/x+4+/KhrtjT2MbZHeg+aAklo7Mt3oDZF1D2N15a6L5F3ie2XdjjbKyb
+         CtTk7bKIkLDKxHLgNYMyaGZsXnVKpMGtAq6DwQKN7vf7N7yjuIEYVUwg0rjxizPTurZP
+         VsdSbth5LPVc399fitGEXQlVbPN4i3jN6pkq+jsccVRuGqDT3xWQvQfG2Ei6j/I2HIBX
+         uLHWisV51wA1MNlzTlhfbkMBj/yk41qIzMPGSfqodxmlaxrMGEhSaLyvQMUmV5YH8cVS
+         uhdD6rSjJ0rwGvno6Pefg1lTkOSUPkudLWzHw6Jb4oS/knwp3u2iwaZAuq4u+IXcRc4B
+         1eXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761533637; x=1762138437;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cVlahTxS7jRPwvwryBn2WGTgohPafv3ZR8htDrtjHFs=;
+        b=OvSES0ZMaYrudzQgxP4EsGWCmand3VxKf27rtVFgkfEOtdp0GkleLynJjwBQ+CBseR
+         WdtI4OaSPyvp22bILL183751FRjuS8uoLd6nJXgjq9y2XQgNecPIKMbk9MMsNX12eqxi
+         tgLRHGoEwlbs0Bs1Nl389n/5qf9IeeKKUm/2saVQumJT/SXN0+T8dGmv2OjR3bXxeeE8
+         8LWqYXCxtsXj7SZhMRL8mK2czDDihnKEpYjrximpnBtN7UjmAgf8S7ggSasVAcC3Rg8J
+         oK3pUud+hH2QoyFYw8QEZBoy1Tn1jkoNqX8+gjA20CC+VwnWDN2kHuUetzlFyOoXnP6F
+         enfA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQEpZaYxdizQZBUD3dQPyfF3ALRNTat2lZBM5hg/lYKLClxHZw9UeE2o7KK+Z4tiGqy5nxTI+51KI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPh9rFhYlTNBsfmiuJPkeZsZRHwukR3s6ZGEkYWiKGfmmz9JWH
+	FYcRvgF88AOnw7aTGy3bwEBLgF7ok+VbPgREJggLnQ/o5BXd+L/u7hAS
+X-Gm-Gg: ASbGncskzLo50/VGIVr7YVvkqHHeSGitbQ4oqiUUO9G3DdNtix0YEf7A86FqI59mp/k
+	vbH8Ub/wJromGm5kOVuRIHh/KF9gHMLUXWeWp6IHdcTv9I2sOtaESO8ufY5prfZ6MLD/C4Mrxeb
+	xxc13IB4mD04YjqSfuGoHTTNnDstiRuD1rttW55wpX/tFfKvJW6sTe5RCEbo3shpiJjeU37LrmW
+	/PtVsNKbD2vYFVTOiZ7qHvBQrydA4Mw3xX5AsGDQ25yNHfMW7yeuLY4vqbz39eafa3ANI1EWxfY
+	bqlQ/877G1qo5qCqpeS9A7+Ko7H8Rv3RZ/0NDCWpOGjJlRv0QZUqsxczxbiw/gDRhpG7SxzX0Tp
+	uLlUgRlU29I03+gRFyHzcsxh5IgjIuHe6Sb1umif0uQOsHJg7FBkLNAs4qEUHvwu42iI0H6K7E9
+	fgEcR6LWhFGFPFsGTyjkuIpwmIS22UsiImM213RGYKW7ZXiQ==
+X-Google-Smtp-Source: AGHT+IHkbhlxjiyHB6Qfk8vz4b8fB+Snb1xTbuTgkveEGfECpKJAS/t70w4tpgOAyldU8hd5twy89w==
+X-Received: by 2002:a17:902:cf4b:b0:27e:ed0d:f4ef with SMTP id d9443c01a7336-290cb27eec7mr452422025ad.41.1761533637186;
+        Sun, 26 Oct 2025 19:53:57 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d429c6sm65101965ad.85.2025.10.26.19.53.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Oct 2025 19:53:56 -0700 (PDT)
+Message-ID: <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
+Date: Mon, 27 Oct 2025 11:53:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Subject: [PATCH] docs: ja_JP: Move submitting-patches to
+ process/ and add to build
+To: Akiyoshi Kurita <weibu@redadmin.org>, corbet@lwn.net
+Cc: shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20251024235437.801625-1-weibu@redadmin.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20251024235437.801625-1-weibu@redadmin.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 24 Oct 2025 22:31:06 +0100
-Mark Brown <broonie@kernel.org> wrote:
+Hi Kurita-san,
 
-> On Tue, Sep 23, 2025 at 10:17:47AM +0900, Masami Hiramatsu (Google) wrote:
-> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > 
-> > Add 'add_remove_wprobe.tc' testcase for testing wprobe event that
-> > tests adding and removing operations of the wprobe event.
-> 
-> Since this series has landed in -next we've been seeing hangs on a range
-> of arm64 platforms running the ftrace tests, it looks like it's all of
-> them.  Unfortunately the systems lock up with no output as soon as they
-> start trying to do something with wprobes:
+Thank for your continued work on this!
 
-Oh, thanks for reporting!
+On Sat, 25 Oct 2025 08:54:37 +0900, Akiyoshi Kurita wrote:
+> As requested by Jonathan, move the Japanese translation of
+> 'SubmittingPatches' to its proper location under 'process/' and
+> convert it to reStructuredText.
 
-> 
-> # ok 19 Generic dynamic event - add/remove kprobe events
-> # ok 20 Generic dynamic event - add/remove synthetic events
-> # ok 21 Generic dynamic event - add/remove tracepoint probe events
-> # ok 22 Generic dynamic event - add/remove tracepoint probe events on module
-> # ok 23 Generic dynamic event - add/remove/test uprobe events
+In https://lore.kernel.org/87jz0xbk6f.fsf@trenco.lwn.net/, Jon said:
 
-OK, let me check.
+>> That said ... this is not an RST file, and won't be pulled into the docs
+>> build.  I would *love* to see a patch that moves this file into its
+>> proper location under .../process/ and brings it into the build.
 
-> 
-> the next test being add_remove_wprobe.tc, which doesn't seem to
-> complete.  Full log (for what little it's worth):
-> 
->    https://lava.sirena.org.uk/scheduler/job/2000440#L1860
-> 
-> I turned on -vvv logging and that generated the rather spectacularly
-> more verbose:
-> 
->    https://lava.sirena.org.uk/scheduler/job/2000676/log_file/plain
-> 
-> (in a somewhat processed format unfortunately.).  Looking at that log I
-> do notice a bunch of "unexpected operators" reported by the shell, these
-> systems are running dash not bash, though that doesn't seem related.  It
-> looks like the script hangs in reset_trigger_file while grepping the
-> trigger files rather than actually trying to do the test.
+This patch does the *minimal* thing, namely the rename of the file,
+with minor changes near the top of the doc.
 
-Yeah, it seems do nothing on wprobe. Let me check why it happens.
+Yes, the resulting .rst doesn't cause any *new* warnings from Sphinx,
+but looking at the resulting HTML (or PDF), I don't think the rendered
+page looks nice.
 
-Thanks!
+I'm wondering if this is what Jon would love to see. (Well, Jon doesn't
+read Japanese and would not mind.)
+
+Of course, I understand you are going to do both translation and reST markup
+updates as follow-up changes.  But I'd rather refrain from exposing
+work-in-progress doc in the translations docs.
+
+Please read on in-line comments below:
 
 > 
-> Sorry about the delay in reporting this.
+> This patch also wires the new file into the Japanese documentation's
+> toctree, allowing it to be included in the Sphinx build.
+> 
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  Documentation/translations/ja_JP/index.rst    |  1 +
+>  .../submitting-patches.rst}                   | 61 ++++++++++---------
+>  2 files changed, 32 insertions(+), 30 deletions(-)
+>  rename Documentation/translations/ja_JP/{SubmittingPatches => process/submitting-patches.rst} (96%)
+> 
+> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+> index 4159b417bfdd..8e01619d4170 100644
+> --- a/Documentation/translations/ja_JP/index.rst
+> +++ b/Documentation/translations/ja_JP/index.rst
+> @@ -11,6 +11,7 @@
+>  .. toctree::
+>     :maxdepth: 1
+>  
+> +   process/submitting-patches
+
+This should come below process/howto. Still, as I said above, I think this
+addition is premature.  One option would be to put a fat warning at the top
+of the doc saying "This section is work-in-progress!!", or so.
+
+>     disclaimer-ja_JP
+>     process/howto
+>     process/submit-checklist
+> diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> similarity index 96%
+> rename from Documentation/translations/ja_JP/SubmittingPatches
+> rename to Documentation/translations/ja_JP/process/submitting-patches.rst
+> index b950347b5993..4bfa84cc705d 100644
+> --- a/Documentation/translations/ja_JP/SubmittingPatches
+> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> @@ -1,33 +1,34 @@
+> -NOTE:
+> -This is a version of Documentation/process/submitting-patches.rst into Japanese.
+> -This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
+> -and the JF Project team <http://www.linux.or.jp/JF/>.
+> -If you find any difference between this document and the original file
+> -or a problem with the translation,
+> -please contact the maintainer of this file or JF project.
+> -
+> -Please also note that the purpose of this file is to be easier to read
+> -for non English (read: Japanese) speakers and is not intended as a
+> -fork. So if you have any comments or updates of this file, please try
+> -to update the original English file first.
+> -
+> -Last Updated: 2011/06/09
+> -
+> -==================================
+> -これは、
+> -linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
+> -です。
+> -翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+> -翻訳日： 2011/06/09
+> -翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
+> -校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
+> -         Matsukura さん <nbh--mats at nifty dot com>
+> -         Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot jp>
+> -==================================
+> -
+> -        Linux カーネルに変更を加えるための Howto
+> -        又は
+> -        かの Linus Torvalds の取り扱い説明書
+> +..
+> +   NOTE:
+> +     This is a version of Documentation/process/submitting-patches.rst into Japanese.
+> +     This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
+> +     and the JF Project team <http://www.linux.or.jp/JF/>.
+> +     If you find any difference between this document and the original file
+> +     or a problem with the translation,
+> +     please contact the maintainer of this file or JF project.
+> +
+> +     Please also note that the purpose of this file is to be easier to read
+> +     for non English (read: Japanese) speakers and is not intended as a
+> +     fork. So if you have any comments or updates of this file, please try
+> +     to update the original English file first.
+> +
+> +     Last Updated: 2011/06/09
+> +
+> +     ==================================
+> +     これは、
+> +     linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
+> +     です。
+> +     翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+> +     翻訳日： 2011/06/09
+> +     翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
+> +     校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
+> +           Matsukura さん <nbh--mats at nifty dot com>
+> +           Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot jp>
+> +     ==================================
+
+This historic contribution record can be removed.  The same happened in
+howto.rst when Shibata-san did the conversion in commit f012733894d3
+("Documentation: Add HOWTO Japanese translation into rst based build
+system").
+
+Instead, please put a translation note referencing the disclaimer
+under the document title as is done in (ja_JP's) howto.rst and
+submit-checklist.rst.
+
+> +
+> +========================================
+> +Linux カーネルに変更を加えるための Howto
+> +========================================
+
+Title of the original now reads:
+
+  Submitting patches: the essential guide to getting your code into the kernel
+
+Back in 2005, it read:
+
+  How to Get Your Change Into the Linux Kernel
+          or
+  Care And Operation Of Your Linus Torvalds
+
+And the Japanese translation has never had the title updated ...
+
+Probably you can align the title with the current one.
+
+As before, if you are not sure of the way to do, please ask me
+before submitting a next version.
+
+        Thanks, Akira
+
+>  
+>  Linux カーネルに変更を加えたいと思っている個人又は会社にとって、パッ
+>  チの投稿に関連した仕組みに慣れていなければ、その過程は時々みなさんを
 
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
