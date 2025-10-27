@@ -1,99 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDC7306B1A;
-	Mon, 27 Oct 2025 14:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657CF296BB6;
+	Mon, 27 Oct 2025 14:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761573870; cv=none; b=nEeCLKswa1f6u+/niiOtXc+h3BfLdTuYlY6Y7yyOI9W25uS+cGbj9JKHHRoSbh1wKfOOFCNZY82dT8ImF4WaaEsNgfsrzhVhVsDVBA89bzwby3WaSLSvR3Zf5QZ1a32/9ih1e5OuclWqqSLx2fDQtnRNXZa/skXA1WpvitCByUE=
+	t=1761576554; cv=none; b=C/ns/iT4f9/YtTMWKflcnihNondq9D4WxBtVQ7HSevJL/0Glo7bqQ0ECANDRQFi8dAm5rhqBu7Q4yYKE2asXTWX2I5sUGlNeo6XCw//ImakflGLtbwwQgTN5zzgx+U+w47Y0LqZZFQx2LFY0Q51Y+eggN0O3GoGV8zZHJyw0j4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761573870; c=relaxed/simple;
-	bh=ylzl9ZrQ1VTqBSBsE4EtAeYnesF+yl7Al++Z2aaqGVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oWNbivwTi40gCVkZH8HdLKe2PMm09/eNaWXYqMnwnGiBSbmchvEBw23uydP0GNj6ZQa1eRfSG0zvf8o6/KXwCDdYRoDFTk0wYSJp7wAmM+mjZ9DxeJmayi1NGyTUZhkCCsD0VSauRr6N4qo2Rv2VnwxZEuP22f6dUArueDbPS2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HihCMwKt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761576554; c=relaxed/simple;
+	bh=LKPXVhbMLyJFUAhnFO5LZpjuc3Rzz6MeJrFVEJFp7mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XbXmIkaG/6vWqgCg4rrgjeTPRZoQZv3/3Zdtew7yB8gEU92MXQVDTALKCbAJEs+A38km2cJhrl1kIOPzZR0oxOVAAorc0q5K+f1G15GIs6p9G304F1Wb0oMpUNZdW7XuLuY7tgEccgv0khb7wNcsswbwLxHQFtKYUhLCJE6PUJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PbBxtZHl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HihCMwKt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4ABFC4CEF1;
-	Mon, 27 Oct 2025 14:04:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PbBxtZHl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3858C4CEFF;
+	Mon, 27 Oct 2025 14:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761573870;
-	bh=ylzl9ZrQ1VTqBSBsE4EtAeYnesF+yl7Al++Z2aaqGVE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HihCMwKtP3kVwDkSg1HY7x8dD1LztfR9dGaWPjYDfb811P6oEkII1mSP5j//6JRs4
-	 TVdTemdHe2LqJ9yCJ9X3/WnVVOAaZpGIEp+xzSg+qhQnjxNFCKQ2z/mnbZSMOEyoTm
-	 oAA0ZRJ0+MdkPkhZIwX75oGow81dvsyh+KQDgp5iaV4+fbC3NR0fUxdwhssqlYDC80
-	 7bNDmJvNq7wsc33y0lhO56JUzACPH0Y+gAHv2FmBjefIvwQjwEL/r5gRnQh6zQsU9c
-	 kwnPJitiZbo2E0HIyJOew/QAdELVzy05Em1C/JVG0N1kfJdTUnJeFZlBUkosSGb94J
-	 8Sb2ZiuqLWvNA==
-Date: Mon, 27 Oct 2025 14:04:23 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
- <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
-Subject: Re: [PATCH v6 8/8] iio: adc: ad4030: Support common-mode channels
- with SPI offloading
-Message-ID: <20251027140423.61d96e88@jic23-huawei>
-In-Reply-To: <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
-References: <cover.1760984107.git.marcelo.schmitt@analog.com>
-	<3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	s=k20201202; t=1761576553;
+	bh=LKPXVhbMLyJFUAhnFO5LZpjuc3Rzz6MeJrFVEJFp7mA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PbBxtZHlvX/bylN0gO7RmgmI1dJ6TVW/yV6mzrZWNpynfqPhTZR7w1rQHJeKICXh/
+	 UGBdvZI6obJHTrEqqiFRO3IgxxPU9bt2jPQBVWLxaQGxMgJY1OFkigiE94tqhx2sqp
+	 rmDp8Y1v3g6y2x6ajwN2A76WojDYI/ck1l3t12c+yJrKa65Jg4SARDjvtviAVCy5tA
+	 9MJp4a3/SXseyXzwUS860jqERdID2eSU2zt6OjEuCuhXZqYlqMfA5cUez7k+3SX5GF
+	 opGzvvC4/hkZMWW0PEeCwVTzrXX3aMiZomZlqivHX54FGqm5HIUbAuFay5h4+vfcYp
+	 90cLX1ygDjgrA==
+Date: Mon, 27 Oct 2025 09:52:06 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: david@ixit.cz
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	Gergo Koteles <soyer@irl.hu>
+Subject: Re: [PATCH v6 1/2] Input: add ABS_SND_PROFILE
+Message-ID: <rdryhql5vrjckh2yvcgbdcnlu2f4aiq6hbokgfzvrtdu33lp5u@fctqxdftabsy>
+References: <20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz>
+ <20250731-op6-tri-state-v6-1-569c25cbc8c2@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250731-op6-tri-state-v6-1-569c25cbc8c2@ixit.cz>
 
-On Mon, 20 Oct 2025 16:15:39 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
-
-> AD4030 and similar devices can read common-mode voltage together with
-> ADC sample data. When enabled, common-mode voltage data is provided in a
-> separate IIO channel since it measures something other than the primary
-> ADC input signal and requires separate scaling to convert to voltage
-> units. The initial SPI offload support patch for AD4030 only provided
-> differential channels. Now, extend the AD4030 driver to also provide
-> common-mode IIO channels when setup with SPI offloading capability.
+On Thu, Jul 31, 2025 at 11:17:01PM +0200, David Heidelberg via B4 Relay wrote:
+> From: Gergo Koteles <soyer@irl.hu>
 > 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
+> switch. This will be used for the alert-slider on OnePlus phones or other
+> phones.
+> 
+> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
+> to input-event-codes.h so they can be used from DTS.
+> 
+
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+
+Regards,
+Bjorn
+
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
-> New patch.
-> I hope this works for ADCs with two channels. It's not clear if works as
-> expected with current HDL and single-channel ADCs (like ADAQ4216).
+>  Documentation/input/event-codes.rst    | 6 ++++++
+>  drivers/hid/hid-debug.c                | 1 +
+>  include/uapi/linux/input-event-codes.h | 9 +++++++++
+>  3 files changed, 16 insertions(+)
 > 
-> The ad4630_fmc HDL project was designed for ADCs with two channels and
-> always streams two data channels to DMA (even when the ADC has only one
-> physical channel). Though, if the ADC has only one physical channel, the
-> data that would come from the second ADC channel comes in as noise and
-> would have to be discarded. Because of that, when using single-channel
-> ADCs, the ADC driver would need to use a special DMA buffer to filter out
-> half of the data that reaches DMA memory. With that, the ADC sample data
-> could be delivered to user space without any noise being added to the IIO
-> buffer. I have implemented a prototype of such specialized buffer
-> (industrialio-buffer-dmaengine-filtered), but it is awful and only worked
-> with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tree). Usual
-> differential channel data is also affected by the extra 0xFFFFFFFF data
-> pushed to DMA. Though, for the differential channel, it's easier to see it
-> shall work for two-channel ADCs (the sine wave appears "filled" in
-> iio-oscilloscope).
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b4557462edd7b3fef9e9cd6c2c3cb2d05bb531ab..d43336e64d6aa4fe8a41b7e9947f4f214df6e1ab 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -241,6 +241,12 @@ A few EV_ABS codes have special meanings:
+>      emitted only when the selected profile changes, indicating the newly
+>      selected profile value.
+>  
+> +* ABS_SND_PROFILE:
+> +
+> +  - Used to describe the state of a multi-value sound profile switch.
+> +    An event is emitted only when the selected profile changes,
+> +    indicating the newly selected profile value.
+> +
+>  * ABS_MT_<name>:
+>  
+>    - Used to describe multitouch input events. Please see
+> diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+> index 7107071c7c516af48c0c5fc1206c1e01bae3889f..c58500d8b94b581e41ae098d6ce99db7783986b7 100644
+> --- a/drivers/hid/hid-debug.c
+> +++ b/drivers/hid/hid-debug.c
+> @@ -3513,6 +3513,7 @@ static const char *absolutes[ABS_CNT] = {
+>  	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
+>  	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
+>  	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
+> +	[ABS_SND_PROFILE] = "SoundProfile",
+>  	[ABS_MISC] = "Misc",
+>  	[ABS_MT_SLOT] = "MTSlot",
+>  	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 08cb157ab59364a41ac425fc9a4ea8eb2fae0e86..f443f61f9bb8e3c212da522d9b99a386a13c4475 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -875,6 +875,7 @@
+>  
+>  #define ABS_VOLUME		0x20
+>  #define ABS_PROFILE		0x21
+> +#define ABS_SND_PROFILE		0x22
+>  
+>  #define ABS_MISC		0x28
+>  
+> @@ -984,4 +985,12 @@
+>  #define SND_MAX			0x07
+>  #define SND_CNT			(SND_MAX+1)
+>  
+> +/*
+> + * ABS_SND_PROFILE values
+> + */
+> +
+> +#define SND_PROFILE_SILENT	0x00
+> +#define SND_PROFILE_VIBRATE	0x01
+> +#define SND_PROFILE_RING	0x02
+> +
+>  #endif
 > 
-> So, I sign this, but don't guarantee it to work.
-
-So what's the path to resolve this?  Waiting on HDL changes or not support
-those devices until we have a clean solution?
-
-Also, just to check, is this only an issue with the additional stuff this
-patch adds or do we have a problem with SPI offload in general (+ this
-IP) and those single channel devices?
-
-Jonathan
-
-
-
+> -- 
+> 2.50.1
+> 
+> 
