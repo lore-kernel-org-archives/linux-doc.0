@@ -1,116 +1,132 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0728A314A8D;
-	Mon, 27 Oct 2025 21:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41513346AB
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 22:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761599999; cv=none; b=aghSMD/d3sasozkGg2G5vfZ1JJrBsY4O7Nzm7ilNi2MiJ0ymRIfS7sTrkL1+DUDsB4dilgWAYv9P6es7R5oDD4mA3Hd8d9WjuFnIVyOVyybam2bIXXM8UJRr55AP/OO3+5JoVpxxz3s10zi6Ybr7HSP8wCyiwHQrxRucxEx6p5o=
+	t=1761605185; cv=none; b=tif03uGx0+SVrvt0S39EHl1m4wl7TKXxszCnHw4T2CA7PsByupb52H7u1qhIGHHGUMYl9ElBYOEvQrtuuf8vowAuBsRgFU/8XsXfbiRo+t2HG5iCQG5qpPZgP88kxeR47kXPb0q2kRoCL4DkS7sSW3bBxoE/H+U+rO+Z5bsZkuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761599999; c=relaxed/simple;
-	bh=IaKAlAq36x6FQovo76KHJGi2+lwcn8LjsjjqBNZdne4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f32cqM9Az41qCLB78G/Dih5kLqcL3GXNdkX4QhKIE3UVCpmaG7q0wYB5y18pZyyhsM/jm3I90yJAQDImcfhC8UT9SeBrz/fr3StTJA4eS+YWBg6HejX9M8vYfZhfZYbSoiApr1SE744LtnA2gtUcZJC4y2y6Klrn+/wINYmMkHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nBl+hOJt; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761605185; c=relaxed/simple;
+	bh=YbNF9xBLgvPcEJ73q19bteNh3qQ4EWHWmqaSpEAAHPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RyU3XKWNgm53O3bMwrd/xNUmKFR9aE7mecG7jeAGKyNLqr5nVYi7or30ClEOrj1m2QF5weMFCwhl8nFZsoCZkNsLlznJQ6zZsqA2aMRafNhEZAgaKxkBMOixrGMrakmp0audsG/ghSR+hya3q4stjboWGFjSXl3Nkt2drJJSXXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3bOrsLM; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nBl+hOJt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=9Iv+ffZpjEZjAYosvgj1AxYfj8Ex0TWhrhWzH//VRvQ=; b=nBl+hOJtJiTxm7KhGiNJ/Q71dn
-	T9DUH3zO9MGalAUW4ruw7kg0OdrzIJoDdR5Egq17KkEjUo0tdXIp3flaqD5ZKGjhqpn27Qj3/ehpC
-	FcRYP6yofjDMNPd0VycSu6PaJurniVxvcYo43iWQwGpDDcxmPtmC0r+qqg7Yr7Im5R6RChjNTIgiK
-	ALQ194/8LCHUjX8neIBt/tdRkr+/Q/7oXGoANAtNxkziBF8kayvNFYbj18ENYhlhGwQyvWm6NjncX
-	zF7KHIvIlSlxpiNZjeqmh+u5aOh7Jpv65BFnJUYly7U53K4m71Ks6rj+6tSlu6hVGtbHxC9bSLNCz
-	OAkFcj5g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDUd8-0000000EmzQ-37s7;
-	Mon, 27 Oct 2025 21:19:54 +0000
-Message-ID: <09faee6c-4075-4eb7-bb2b-1c6650e3f053@infradead.org>
-Date: Mon, 27 Oct 2025 14:19:54 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3bOrsLM"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-475dbc3c9efso19996125e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 15:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761605182; x=1762209982; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YbNF9xBLgvPcEJ73q19bteNh3qQ4EWHWmqaSpEAAHPI=;
+        b=R3bOrsLM90ph+zhd05Sn7igSwGIPADBCQVTuFiwym7wQ8MlicFuMlUzlwD2gBHkY3f
+         1KuwPuFQ8RbZMqTBSMUpT/qtBmK5aMAQ7cc0iuJVDgU5uJ2JP8ELO+8oOF9euAndL0ZV
+         z2KYBXeHISmwQsR38TzkRPbMniliWRieXTugL++3ur17WWTnGkzyWiuGywC56NZcbsDg
+         cjbrKZy+OqahFx7qRKsT+L1Xl6g3ibUFErq/MNJguA8hRjaxIMnqHW+y3JV1JUvGjPH/
+         +5UkA1HTvjPxAFujFHJBPFPWPsFWNbOUUW9S6zQhcecFM0Z4hIzTmG4E9iGm+Wo72lRi
+         APZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761605182; x=1762209982;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YbNF9xBLgvPcEJ73q19bteNh3qQ4EWHWmqaSpEAAHPI=;
+        b=k+4ckrAPfBRErFSKpA0SFVo8JpQjt4PFHspjV/jr512toaq7ppXzAguCB6W0TcxrDf
+         upQcbxwK8yM8GqVuM7Wsa/qrgEQjKAG7LY+dJlXEP0fB+Pbfh+iymXT8wsZCV8UcY5e+
+         Z09y52V/2rjleZGM5NG9DlfGXrXa3gn9dtCYYiTcRkJOvM3b9D8wRnpbIZOrarVmV9aK
+         2yZBnkTz7oGySxtluwh9pB5AoNUn0Ne8j3JbIkVx2HCIorlv+YSAErCimhSrWYi13/Js
+         SJwIx3veuPu5h/ugwa7SONZyAh2l7VV2O/7FlPeGy/SCKJ9HCn3Nn9NhkY6VT8Fo9R3r
+         Oouw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvYJ1Y8BOYKmNoMhYmtyxiz9JKZX3/hjKVgXDW1DUxS1+8/UUCtj8L7QUFbNQwg0SRkiVLMcRFaMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmIPzbJmKyhXgu5FAhMzBpuEjqGKgjWeUlPlCFYZNr8VuzWxH7
+	ofG712NcwfqGYZmXIJcjdUrlhHNmp0t9cqpXFUAoO9NXLOEvgpeck+Sg+y8wmv6yY4YLkIgaC6Y
+	US7/rdSy8qMxx/vpFCu9rODOr7pjzGo8=
+X-Gm-Gg: ASbGncuvnicfZKs70zwSof7wXYBgoihapjeoqXEOQusC6v+UZuUOM89OFhPOZj7f1cw
+	czv4shR6NbhzX7GUP4mNQp9W2xzK/vpT49nvRtXq3eZ5gY0dsDSgq5Boe1pzXTsbi4IiC4fyfGf
+	+JbLW9Ix7FYukv2BALhvzJQt70aCgJAPnxOv9p+im4zgK1R7hrJcgsc1vEb6UFYDc8K0lj4cTNA
+	rnAiQG9cPsy6hJ2iX++fUEe69mCKY4Fve0xqfk4bgYV+ueJIu8YVP57jpO7vi6gv5J1DA==
+X-Google-Smtp-Source: AGHT+IEeNWo2bsGLLqGLfQNsY0L6lNVZZ2khSDzRsqsRr6Jo8tC6B0Avoq1yBzRM+ieeQ79ZgiTz+pEgGuOt7PLnUe4=
+X-Received: by 2002:a05:600c:46d3:b0:471:1415:b545 with SMTP id
+ 5b1f17b1804b1-47717def6demr11070845e9.7.1761605181955; Mon, 27 Oct 2025
+ 15:46:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/30] docs: reporting-issues: mention text is best
- viewed rendered
-To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1761481839.git.linux@leemhuis.info>
- <4f7e2de2a2336c52e55cc49dcda627a4e86b8793.1761481839.git.linux@leemhuis.info>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <4f7e2de2a2336c52e55cc49dcda627a4e86b8793.1761481839.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
+In-Reply-To: <cover.1761439133.git.jinji.z.zhong@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 27 Oct 2025 15:46:10 -0700
+X-Gm-Features: AWmQ_bma6lyHlpvPtwTt1egk70m2KnBJDjgat6AjIDzKFfoBCYrn6d-bXve4s8M
+Message-ID: <CAKEwX=MqsyWki+DfzePb3SwXWTZ_2tcDV-ONBQu62=otnBXCiQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
+To: jinji zhong <jinji.z.zhong@gmail.com>
+Cc: minchan@kernel.org, senozhatsky@chromium.org, philipp.reisner@linbit.com, 
+	lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com, corbet@lwn.net, 
+	tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, axboe@kernel.dk, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	akpm@linux-foundation.org, terrelln@fb.com, dsterba@suse.com, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, 
+	drbd-dev@lists.linbit.com, linux-doc@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-mm@kvack.org, zhongjinji@honor.com, 
+	liulu.liu@honor.com, feng.han@honor.com, 
+	YoungJun Park <youngjun.park@lge.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Oct 25, 2025 at 6:53=E2=80=AFPM jinji zhong <jinji.z.zhong@gmail.co=
+m> wrote:
+>
+> Hello everyone,
+>
+> On Android, different applications have varying tolerance for
+> decompression latency. Applications with higher tolerance for
+> decompression latency are better suited for algorithms like ZSTD,
+> which provides high compression ratio but slower decompression
+> speed. Conversely, applications with lower tolerance for
+> decompression latency can use algorithms like LZ4 or LZO that
+> offer faster decompression but lower compression ratios. For example,
+> lightweight applications (with few anonymous pages) or applications
+> without foreground UI typically have higher tolerance for decompression
+> latency.
+>
+> Similarly, in memory allocation slow paths or under high CPU
+> pressure, using algorithms with faster compression speeds might
+> be more appropriate.
+>
+> This patch introduces a per-cgroup compression priority mechanism,
+> where different compression priorities map to different algorithms.
+> This allows administrators to select appropriate compression
+> algorithms on a per-cgroup basis.
+>
+> Currently, this patch is experimental and we would greatly
+> appreciate community feedback. I'm uncertain whether obtaining
+> compression priority via get_cgroup_comp_priority in zram is the
+> best approach. While this implementation is convenient, it seems
+> somewhat unusual. Perhaps the next step should be to pass
+> compression priority through page->private.
 
+I agree with TJ's and Shakeel's take on this. You (or some other
+zram/zswap users) will have to present a more compelling case for the
+necessity of a hierarchical structure for this property :)
 
-On 10/26/25 5:41 AM, Thorsten Leemhuis wrote:
-> Add a comment before the step-by-step guide explaining that the document
-> is best viewed in the rendered form, as there the internal links will
-> work that later patches will add.
-> 
-> While at it change the double quotes in the license hint at the end of
-> the document into single quotes, which is the preferred style.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/admin-guide/reporting-issues.rst | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-> index a68e6d90927471..3bc47afaf85ea0 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -48,6 +48,16 @@ Once the report is out, answer any questions that come up and help where you
->  can. That includes keeping the ball rolling by occasionally retesting with newer
->  releases and sending a status update afterwards.
->  
-> +..
-> +   Note: If you see this note, you are reading the text's source file. You
-> +   might want to switch to a rendered version: It makes it a lot easier to
-> +   read and navigate this document -- especially when you want to look something
-> +   up in the reference section, then jump back to where you left off.
-> +..
-> +   Find the latest rendered version of this text here:
-> +   https://docs.kernel.org/admin-guide/reporting-issues.html
-> +
-> +
->  Step-by-step guide how to report issues to the kernel maintainers
->  =================================================================
->  
-> @@ -1748,13 +1758,13 @@ art will lay some groundwork to improve the situation over time.
->     you spot a typo or small mistake, feel free to let him know directly and
->     he'll fix it. You are free to do the same in a mostly informal way if you
->     want to contribute changes to the text, but for copyright reasons please CC
-> -   linux-doc@vger.kernel.org and "sign-off" your contribution as
-> -   Documentation/process/submitting-patches.rst outlines in the section "Sign
-> -   your work - the Developer's Certificate of Origin".
-> +   linux-doc@vger.kernel.org and 'sign-off' your contribution as
-> +   Documentation/process/submitting-patches.rst outlines in the section 'Sign
-> +   your work - the Developer's Certificate of Origin'.
+The semantics itself is unclear to me - what's the default? How should
+inheritance be defined? What happens when cgroups are killed etc?
 
-Can you have a single quote (Developer's) inside single quotes?
-Anyway, nack on the quote marks changes.
+As a side note, seems like there is a proposal for swap device
+priority (+ Youngjun)
 
->  ..
->     This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
->     of the file. If you want to distribute this text under CC-BY-4.0 only,
-> -   please use "The Linux kernel developers" for author attribution and link
-> +   please use 'The Linux kernel developers' for author attribution and link
->     this as source:
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
->  ..
+https://lore.kernel.org/all/20250716202006.3640584-1-youngjun.park@lge.com/
 
--- 
-~Randy
+Is this something you can leverage?
 
+Another alternative is to make this zram-internal, i.e add knobs to
+zram sysfs, or extend the recomp parameter. I'll defer to zram
+maintainers and users to comment on this :)
