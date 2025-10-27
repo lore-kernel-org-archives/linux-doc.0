@@ -1,91 +1,95 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5B027A47F;
-	Mon, 27 Oct 2025 17:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7A13090C1;
+	Mon, 27 Oct 2025 17:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761586166; cv=none; b=jBSRt8ACHQ+JEliVRVxFUVlU4n+T6Ce/xBZZ+Th5tRhBz6vWXo8eed/T/8JGj1pu32SGlx+yA0yL/9qTeHNVYAUd34y3HMnkrYJ6M3DBaXnpnaYkjZSlGMSzG7dffQ3IUeFyfFX7Ntnp3bGUhWShBkadXB0ojVln54h7+LjfpFI=
+	t=1761586168; cv=none; b=N8N1AEW20R/KR50xgD0P2+Wt2zmZng0MqjLH3b3dtpaUq8SMNzGyHQDbYnZ8rYFLDwrm0Yamo/xNtP7vkHmgQSjNDXeHLRQU83eOsPs+5Cq6roLqm15PYXPguHEW22N0yKHpqcoGpR1jDPUACn2TsX34A9/tQWpGnjU4jDPK/dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761586166; c=relaxed/simple;
-	bh=Z3F2tXX7F1lgKoPBIWBCsPnF6hDHgsGN4SuNKkya+Mo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=l2DHyt5rZq/phU9U/vpckfnlfPDByWOfyKXTy/mzH847F95bbql45uDqtPnduLLjQpRT9DvJP2h3EsHxH+bc4e72eAkBvVUvd8sY/pXVW8uwoqVpa9RcbOrtBFff8szEfMiREpBA85F51mS9Vrr19f/m1jbhD2UXu58D35X6mVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=o5qW9MNe; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1761586168; c=relaxed/simple;
+	bh=t8Di+fcs9Ip6O8f1bPMb7LPCPEQDcc2NLemRSEhkSzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D2p9KNi3E8aaBTVGSZqUzK4ZKxRlyWNcl8s2w/gkejrMh8aSgubW4rJ2PX3Ui4sb5xgPYhRZiaewU/kCAcGnIcI1Rhvfb+6PT7saKv/caYE40PcGavzEFP8a+qpjueTE2IU2GKiIjUJnFhAoHEaOoW8nfQ7wKMVUcvVKquUkrOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iCrUOTis; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="o5qW9MNe"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3EB40406FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761586164; bh=8RY6ClshNXTTBsicD2sQDwXpiPjKY8koazVs/0WBu9A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=o5qW9MNegmY0gvMnVBBsJJidLgwS17RXU4DiN/D0ussYnG/LNmlzqaNrAvVdDbRKm
-	 Z9aSMHAuF1AM+jsuqMgCAKKfjfUFbLIPy3caLBtl4vBl+/YvD0AYNO0m6NYVYmLKfX
-	 obCi/TYUkRhuuua48bKfdd5pc9hg9FT6oQ3kvfzsOg/xVOVWwF4lfflLbg+llGmGtV
-	 w6teOkqiapaiY2xmwJqNVLABiE+HVXyNsHTF9QsabY92GgOBJz7+/nikV9/KKvcsml
-	 /JxiYaztPqSwtRjeVS4PzixeCpw+pOOeQc57C0rx/6lGYfYlQPbrwvcLhjU+Tx7lH4
-	 w4pUWvyvwJV/w==
-Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3EB40406FB;
-	Mon, 27 Oct 2025 17:29:24 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 03/30] docs: reporting-issues: add conclusion to the
- step-by-step guide
-In-Reply-To: <9a8d7b58f482cf0669bc5028dd0e01301f7f526e.1761481839.git.linux@leemhuis.info>
-References: <cover.1761481839.git.linux@leemhuis.info>
- <9a8d7b58f482cf0669bc5028dd0e01301f7f526e.1761481839.git.linux@leemhuis.info>
-Date: Mon, 27 Oct 2025 11:29:23 -0600
-Message-ID: <87ms5cntho.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iCrUOTis"
+Date: Mon, 27 Oct 2025 10:29:06 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1761586154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hkk/4jH6EBlfw+AjqDX/N89lF3rHfzq/zegSXixlTQg=;
+	b=iCrUOTisVmn0Gyrl01InGTa2hzUTpre3WhDeV4nG+iN68gBLiKGojyC5U0wmDX0tmxfP8z
+	yQJdQfCm8TAAg8+SpB/IJ2zMuTZ+0wMy+kGHMIsY7qgpVRe8LNBWf9cwZImH4btrtwfuDw
+	NENplaCH8pXB94SRHmPauHF+yap+3C8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: jinji zhong <jinji.z.zhong@gmail.com>
+Cc: minchan@kernel.org, senozhatsky@chromium.org, 
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com, 
+	corbet@lwn.net, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
+	axboe@kernel.dk, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	akpm@linux-foundation.org, terrelln@fb.com, dsterba@suse.com, muchun.song@linux.dev, 
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-block@vger.kernel.org, linux-mm@kvack.org, 
+	zhongjinji@honor.com, liulu.liu@honor.com, feng.han@honor.com
+Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
+Message-ID: <k6jwua5rlkds7dxomwvxotwtjq4hauyevvyoxd5hjz733k7kk5@mmezlradxhpu>
+References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1761439133.git.jinji.z.zhong@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Hi Jinji,
 
-> Idea and text comes from
-> Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/admin-guide/reporting-issues.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-> index 90b50c27c0d2b6..9676ba85e1b73c 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -241,6 +241,20 @@ kernels regularly rebased on those. If that is the case, follow these steps:
->  The reference section below explains each of these steps in more detail.
->  
->  
-> +Conclusion of the step-by-step guide
-> +------------------------------------
-> +
-> +Did you run into trouble following the step-by-step guide not cleared up by the
-> +reference section below? Did you spot errors? Or do you have ideas on how to
-> +improve the guide?
-> +
-> +If any of that applies, please take a moment and let the primary author of this
-> +text, Thorsten Leemhuis <linux@leemhuis.info>, know by email while ideally CCing
-> +the public Linux docs mailing list <linux-doc@vger.kernel.org>. Such feedback is
-> +vital to improve this text further, which is in everybody's interest, as it will
-> +enable more people to master the task described here.
-> +
+On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
+> Hello everyone,
+> 
+> On Android, different applications have varying tolerance for
+> decompression latency. Applications with higher tolerance for
+> decompression latency are better suited for algorithms like ZSTD,
+> which provides high compression ratio but slower decompression
+> speed. Conversely, applications with lower tolerance for
+> decompression latency can use algorithms like LZ4 or LZO that
+> offer faster decompression but lower compression ratios. For example,
+> lightweight applications (with few anonymous pages) or applications
+> without foreground UI typically have higher tolerance for decompression
+> latency.
+> 
+> Similarly, in memory allocation slow paths or under high CPU
+> pressure, using algorithms with faster compression speeds might
+> be more appropriate.
+> 
+> This patch introduces a per-cgroup compression priority mechanism,
+> where different compression priorities map to different algorithms.
+> This allows administrators to select appropriate compression
+> algorithms on a per-cgroup basis.
+> 
+> Currently, this patch is experimental and we would greatly
+> appreciate community feedback. I'm uncertain whether obtaining
+> compression priority via get_cgroup_comp_priority in zram is the
+> best approach. While this implementation is convenient, it seems
+> somewhat unusual. Perhaps the next step should be to pass
+> compression priority through page->private.
+> 
 
-Consider also soliciting patches to improve it - one can always hope we
-can bring in some help...
+Setting aside the issues in the implementation (like changing
+compression algorithm of a cgroup while it already has some memory
+compressed using older algo), I don't think memcg interface is the right
+way to go about it. We usually add interfaces to memcg that have
+hierarchical semantics.
 
-Thanks,
-
-jon
+Anyways if you want to have this feature, I think BPF might be the way
+to get this flexibility without introducing any stable API and then you
+can experiment and evaluate if this really helps.
