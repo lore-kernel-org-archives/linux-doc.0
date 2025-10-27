@@ -1,380 +1,96 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB35029E11E
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 17:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6861030C35E;
+	Mon, 27 Oct 2025 17:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761584619; cv=none; b=jEFX6cx6miUJl2zQxijDKW4j5pwUNNER6g1uYf1Wj7pwj3/62TISjOmsN2JEdrrtEbqP7rA7GWF8Ky2/U+l4w4Jbru8jm0l4IzafldmBw2yPtRAigvyapaXrCs8ZwKmSGJ+FuLPjV61Mm6GxdDhNt+BIppMTli3Wh/M23urB/dc=
+	t=1761584671; cv=none; b=gvPINT1kBw6UT6Wi6TBpRkxAqeBSYXGqNH3OkXTFVVWcrZepDZpbHD2w90jxhqZxYOaxz4HZMWWNf3JTGTTU0ItPFXhTgkJ/g0hQ77nK3JToW8vi5QdghckbrKTevHyr94LUMAwG6qDNIPh2M7UBSTbjX9PHQ6laYBS8A1F0alo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761584619; c=relaxed/simple;
-	bh=76P57XRKfuzAKY1ciduC9CmiJBUvwKTZtkz3qwhdReE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gWArevUs/12vAlOncr+AdmSJ+jv91RgoL5Sw6qxa7TsG1vs25+ClY/8JyTyPpl628PLkAVkh773S2xbppZ6ylSOwtABQRcHHKnlXT2CyzHNpa2U55souj3uaRVhqugIXpq1MaPAOdGDeftjh6K7pPivmKLP5P5UE12Mdbj2QhGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SQjHH5vd; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761584671; c=relaxed/simple;
+	bh=eg8eCkMtnxXdBHTy6SvQZG9y8vWb6H8b7Fb8X9VO6L4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gU6vty+5lfybHfLVI8YCAFzHH+BgM8C4zljmYipQDBv7LC778HuDlvI4aV7BnVEKe1ZBhuToEsm0NBuiZ1Lgcw9TR1CvQ/nptxTdpXC73JZbL/q9NXaN/GQFlwz//M1gtifSFqjns0sxHarSsP+IsGbY+f5kFbTgo7SxhPNiVAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JX9DzY+0; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SQjHH5vd"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4eccff716f4so17811cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 10:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761584616; x=1762189416; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CuBWyV8t5IpeOQdEx4tKo7eHcJ5gDZZkmJ8Q6d4IQxs=;
-        b=SQjHH5vdDfQrMcEvDSkfF0LOtLgrZVCRUKP/U4O8kiZvO7EpTb6XRBJAWE4Vvo8b6u
-         aX3DemEBulu2gHUjTQ2ULYdZObIOLCRU95liZWcHosEGbWLuhaPRXxydNOXuKaQLuycD
-         TzTpqZcJ5IJTqppptW9RyFKAazVhIJkWHrdmjNzc5JyFHDv+E5BE7ZajMI9kO+AV7JW4
-         VYGByQf9gXeAHjzbzHdI9pNufrt5IiapZsaBHzDGK3s2JT3dM7yzv8qhKNhgsj3OeSSI
-         FnO5TEama3lm7wMQsW+NxID6epmKrDPY2l7AtcdR5eDOVTww2Jka7IeECPVzw2gtdJOv
-         Z7VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761584616; x=1762189416;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CuBWyV8t5IpeOQdEx4tKo7eHcJ5gDZZkmJ8Q6d4IQxs=;
-        b=ji/R0anFo0ShQa82QSonSHg6gU0ICCa6spDeTCaqHOgsOQ4Ym20RChdTLOSt0CP4um
-         0ZmLvxGKiMRAqUJjQY9mfTYDzTubS2C6jqv4o8nKgiQthytmlxZMYJxB1HNzCtxB598L
-         4CTbDKgyadL3/RQzPpiEYlDFbaY+PvrGfqLd6xM8xLgoi7M6lW+fyGPailjRdc/1WS9y
-         s0bwzaQcXCQ0w+6XMe5quHNVNsdQLAKu4+NQN5nYjaRV9R9ZCgX3QGuP5oCwf/tsO7iH
-         uqf0neSf8dXiisJUah8OwhzB7B46nFkNZj/Xbjx0wcCi/BR7S6GJuhuFRZ1kP2wsjybz
-         ppig==
-X-Forwarded-Encrypted: i=1; AJvYcCXSfmnS4JiV6AJnuordRdKlk6TTfD0kLp7eDbthQ+HU7um7afdoOhYhRalay6zL8hYxfa5l+Noff38=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMnTP+G8PGLrWetiakyy8bGz8tv27GRV+VqhSMpLimVMViTGm/
-	QrNt115SX+xA+BIwhUi0iTg8NrQNSCJBZyXMgQmmulDo9sQVNOGNTeVTRpsNpSW/yelJsZyM1FM
-	ug7wjgUbmtJVXlurbjQOq5aHYsb6Z3qTm93Ff5J7Oabey4mpsZ3cHZMGuaH5qag==
-X-Gm-Gg: ASbGncsTTgowf8N+58Q+UkVl+Bx6sPe4FjYZIX1Yk/OgEKKuLX8u/S6a8+rZxO1kMKI
-	AC85VmQ4mxXj0HV5Au7eG7jqnc6M5zVxPg7smLvhNd3XRc5G4nLgJuH8HCx7ttdTKhwjFzshwmw
-	qaIbGy3sFcJcx3PWKcv8eMBqP1EL19eW1cErLcbG6G6SNXWt/FzMLCqiGrG/+GGPQYUN+U1aO7t
-	CEiaLWxhGZjImPf3Z2bboKQSTJ3AksD7sfl0zxt1/OQSbyUEPzNwZJ6uHdHCNLV0pLYEtCyxEeY
-	SvB6+qM0vh21ciw=
-X-Google-Smtp-Source: AGHT+IFN9TFkidqfzRB2fPd/REPEcFZal1bmTvuVA0pkE0hW3jE0igGvK+Re1w0TU5MjhMypj3WmJMEqZCFYaAXuhjI=
-X-Received: by 2002:a05:622a:1b20:b0:4e8:85ac:f7a7 with SMTP id
- d75a77b69052e-4ed06edaa9cmr1797841cf.9.1761584616175; Mon, 27 Oct 2025
- 10:03:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JX9DzY+0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6F84440AF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1761584669; bh=UbmYkDItxVSm6XujJ/1Ex+f0FGC6PJyQP0m6yEHg91M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JX9DzY+0Bcx5B6TH9mNhamqqgGvlMsx12I6xgJ688CSRST9kQD4uJFMj6sK4qoA2P
+	 U6WM9G6XbJBJt13Z1y9xRewVi+eYHtxVs+fZrGDhcxbPGozr7Mqw3iEPNtYqVEpAaY
+	 m9P0cl3Lu/yxhbrnLm36/He4wuaQY+bHUdfp5xuT+ijyOeP6UDOcHFgOqvvDTy8wUU
+	 Npbds+2JC89wJUF+R1Dv6Z0q7mumdSGIxQowdmaCj2D4sIWP8/kSGd/zC7oFGDTJ9g
+	 86nlja8mcncOktASpwq6S0WqzHhrg/dK4ynMsPjlRuhwxHofD8DdbrAH7jaJDGufv5
+	 KAXgTpgwy81zw==
+Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6F84440AF3;
+	Mon, 27 Oct 2025 17:04:29 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Randy Dunlap
+ <rdunlap@infradead.org>, Jani
+ Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v3 0/8] Collect documentation-related tools under
+ /tools/docs
+In-Reply-To: <20251026073405.0672c9dd@sal.lan>
+References: <20251024200834.20644-1-corbet@lwn.net>
+ <d3f4c7ee-6351-4c6f-ae93-f423245c4c9e@gmail.com>
+ <20251026073405.0672c9dd@sal.lan>
+Date: Mon, 27 Oct 2025 11:04:27 -0600
+Message-ID: <874irkp97o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com> <6-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-In-Reply-To: <6-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Mon, 27 Oct 2025 10:03:24 -0700
-X-Gm-Features: AWmQ_bkzqL1J7Dno0EwBGFLGJfK57ZidX1YETIjkkxZGoaq69GR5cYhgBr0TIiw
-Message-ID: <CAAywjhQRTuXHGOmK90yL4iefVWCaUs_QgL6itgEy2n0fCzMYUw@mail.gmail.com>
-Subject: Re: [PATCH v7 06/15] iommupt: Add unmap_pages op
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, 
-	Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	llvm@lists.linux.dev, Bill Wendling <morbo@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, 
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, 
-	James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Michael Roth <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Thu, Oct 23, 2025 at 11:21=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
-rote:
->
-> unmap_pages removes mappings and any fully contained interior tables from
-> the given range. This follows the now-standard iommu_domain API definitio=
-n
-> where it does not split up larger page sizes into smaller. The caller mus=
-t
-> perform unmap only on ranges created by map or it must have somehow
-> otherwise determined safe cut points (eg iommufd/vfio use iova_to_phys to
-> scan for them)
->
-> A future work will provide 'cut' which explicitly does the page size spli=
-t
-> if the HW can support it.
->
-> unmap is implemented with a recursive descent of the tree. If the caller
-> provides a VA range that spans an entire table item then the table memory
-> can be freed as well.
->
-> If an entire table item can be freed then this version will also check th=
-e
-> leaf-only level of the tree to ensure that all entries are present to
-> generate -EINVAL. Many of the existing drivers don't do this extra check.
->
-> This version sits under the iommu_domain_ops as unmap_pages() but does no=
-t
-> require the external page size calculation. The implementation is actuall=
-y
-> unmap_range() and can do arbitrary ranges, internally handling all the
-> validation and supporting any arrangment of page sizes. A future series
-> can optimize __iommu_unmap() to take advantage of this.
->
-> Freed page table memory is batched up in the gather and will be freed in
-> the driver's iotlb_sync() callback after the IOTLB flush completes.
->
-> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/generic_pt/iommu_pt.h | 156 ++++++++++++++++++++++++++++
->  include/linux/generic_pt/iommu.h    |  10 +-
->  2 files changed, 164 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/iommu/generic_pt/iommu_pt.h b/drivers/iommu/generic_=
-pt/iommu_pt.h
-> index 5ff1b887928a46..e3d1b272723db0 100644
-> --- a/drivers/iommu/generic_pt/iommu_pt.h
-> +++ b/drivers/iommu/generic_pt/iommu_pt.h
-> @@ -14,6 +14,29 @@
->  #include <linux/export.h>
->  #include <linux/iommu.h>
->  #include "../iommu-pages.h"
-> +#include <linux/cleanup.h>
-> +#include <linux/dma-mapping.h>
-> +
-> +static void gather_range_pages(struct iommu_iotlb_gather *iotlb_gather,
-> +                              struct pt_iommu *iommu_table, pt_vaddr_t i=
-ova,
-> +                              pt_vaddr_t len,
-> +                              struct iommu_pages_list *free_list)
-> +{
-> +       struct pt_common *common =3D common_from_iommu(iommu_table);
-> +
-> +       if (pt_feature(common, PT_FEAT_FLUSH_RANGE_NO_GAPS) &&
-> +           iommu_iotlb_gather_is_disjoint(iotlb_gather, iova, len)) {
-> +               iommu_iotlb_sync(&iommu_table->domain, iotlb_gather);
-> +               /*
-> +                * Note that the sync frees the gather's free list, so we=
- must
-> +                * not have any pages on that list that are covered by io=
-va/len
-> +                */
-> +       } else if (pt_feature(common, PT_FEAT_FLUSH_RANGE)) {
-> +               iommu_iotlb_gather_add_range(iotlb_gather, iova, len);
-> +       }
-> +
-> +       iommu_pages_list_splice(free_list, &iotlb_gather->freelist);
-> +}
->
->  #define DOMAIN_NS(op) CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), op)
->
-> @@ -164,6 +187,139 @@ static inline struct pt_table_p *table_alloc_top(st=
-ruct pt_common *common,
->                 log2_to_int(pt_top_memsize_lg2(common, top_of_table)));
->  }
->
-> +struct pt_unmap_args {
-> +       struct iommu_pages_list free_list;
-> +       pt_vaddr_t unmapped;
-> +};
-> +
-> +static __maybe_unused int __unmap_range(struct pt_range *range, void *ar=
-g,
-> +                                       unsigned int level,
-> +                                       struct pt_table_p *table)
-> +{
-> +       struct pt_state pts =3D pt_init(range, level, table);
-> +       struct pt_unmap_args *unmap =3D arg;
-> +       unsigned int num_oas =3D 0;
-> +       unsigned int start_index;
-> +       int ret =3D 0;
-> +
-> +       _pt_iter_first(&pts);
-> +       start_index =3D pts.index;
-> +       pts.type =3D pt_load_entry_raw(&pts);
-> +       /*
-> +        * A starting index is in the middle of a contiguous entry
-> +        *
-> +        * The IOMMU API does not require drivers to support unmapping pa=
-rts of
-> +        * large pages. Long ago VFIO would try to split maps but the cur=
-rent
-> +        * version never does.
-> +        *
-> +        * Instead when unmap reaches a partial unmap of the start of a l=
-arge
-> +        * IOPTE it should remove the entire IOPTE and return that size t=
-o the
-> +        * caller.
-> +        */
-> +       if (pts.type =3D=3D PT_ENTRY_OA) {
-> +               if (log2_mod(range->va, pt_entry_oa_lg2sz(&pts)))
-> +                       return -EINVAL;
-> +               /* Micro optimization */
-> +               goto start_oa;
-> +       }
-> +
-> +       do {
-> +               if (pts.type !=3D PT_ENTRY_OA) {
-> +                       bool fully_covered;
-> +
-> +                       if (pts.type !=3D PT_ENTRY_TABLE) {
-> +                               ret =3D -EINVAL;
-> +                               break;
-> +                       }
-> +
-> +                       if (pts.index !=3D start_index)
-> +                               pt_index_to_va(&pts);
-> +                       pts.table_lower =3D pt_table_ptr(&pts);
-> +
-> +                       fully_covered =3D pt_entry_fully_covered(
-> +                               &pts, pt_table_item_lg2sz(&pts));
-> +
-> +                       ret =3D pt_descend(&pts, arg, __unmap_range);
-> +                       if (ret)
-> +                               break;
-> +
-> +                       /*
-> +                        * If the unmapping range fully covers the table =
-then we
-> +                        * can free it as well. The clear is delayed unti=
-l we
-> +                        * succeed in clearing the lower table levels.
-> +                        */
-> +                       if (fully_covered) {
-> +                               iommu_pages_list_add(&unmap->free_list,
-> +                                                    pts.table_lower);
-> +                               pt_clear_entries(&pts, ilog2(1));
-> +                       }
-> +                       pts.index++;
-> +               } else {
-> +                       unsigned int num_contig_lg2;
-> +start_oa:
-> +                       /*
-> +                        * If the caller requested an last that falls wit=
-hin a
-> +                        * single entry then the entire entry is unmapped=
- and
-> +                        * the length returned will be larger than reques=
-ted.
-> +                        */
-> +                       num_contig_lg2 =3D pt_entry_num_contig_lg2(&pts);
-> +                       pt_clear_entries(&pts, num_contig_lg2);
-> +                       num_oas +=3D log2_to_int(num_contig_lg2);
-> +                       pts.index +=3D log2_to_int(num_contig_lg2);
-> +               }
-> +               if (pts.index >=3D pts.end_index)
-> +                       break;
-> +               pts.type =3D pt_load_entry_raw(&pts);
-> +       } while (true);
-> +
-> +       unmap->unmapped +=3D log2_mul(num_oas, pt_table_item_lg2sz(&pts))=
-;
-> +       return ret;
-> +}
-> +
-> +/**
-> + * unmap_pages() - Make a range of IOVA empty/not present
-> + * @domain: Domain to manipulate
-> + * @iova: IO virtual address to start
-> + * @pgsize: Length of each page
-> + * @pgcount: Length of the range in pgsize units starting from @iova
-> + * @iotlb_gather: Gather struct that must be flushed on return
-> + *
-> + * unmap_pages() will remove a translation created by map_pages(). It ca=
-nnot
-> + * subdivide a mapping created by map_pages(), so it should be called wi=
-th IOVA
-> + * ranges that match those passed to map_pages(). The IOVA range can agg=
-regate
-> + * contiguous map_pages() calls so long as no individual range is split.
-> + *
-> + * Context: The caller must hold a write range lock that includes
-> + * the whole range.
-> + *
-> + * Returns: Number of bytes of VA unmapped. iova + res will be the point
-> + * unmapping stopped.
-> + */
-> +size_t DOMAIN_NS(unmap_pages)(struct iommu_domain *domain, unsigned long=
- iova,
-> +                             size_t pgsize, size_t pgcount,
-> +                             struct iommu_iotlb_gather *iotlb_gather)
-> +{
-> +       struct pt_iommu *iommu_table =3D
-> +               container_of(domain, struct pt_iommu, domain);
-> +       struct pt_unmap_args unmap =3D { .free_list =3D IOMMU_PAGES_LIST_=
-INIT(
-> +                                              unmap.free_list) };
-> +       pt_vaddr_t len =3D pgsize * pgcount;
-> +       struct pt_range range;
-> +       int ret;
-> +
-> +       ret =3D make_range(common_from_iommu(iommu_table), &range, iova, =
-len);
-> +       if (ret)
-> +               return 0;
-> +
-> +       pt_walk_range(&range, __unmap_range, &unmap);
-> +
-> +       gather_range_pages(iotlb_gather, iommu_table, iova, len,
-> +                          &unmap.free_list);
-> +
-> +       return unmap.unmapped;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(DOMAIN_NS(unmap_pages), "GENERIC_PT_IOMMU");
-> +
->  static void NS(get_info)(struct pt_iommu *iommu_table,
->                          struct pt_iommu_info *info)
->  {
-> diff --git a/include/linux/generic_pt/iommu.h b/include/linux/generic_pt/=
-iommu.h
-> index 5622856e199881..ceb6bc9cea37cd 100644
-> --- a/include/linux/generic_pt/iommu.h
-> +++ b/include/linux/generic_pt/iommu.h
-> @@ -9,6 +9,7 @@
->  #include <linux/iommu.h>
->  #include <linux/mm_types.h>
->
-> +struct iommu_iotlb_gather;
->  struct pt_iommu_ops;
->
->  /**
-> @@ -119,6 +120,10 @@ struct pt_iommu_cfg {
->  #define IOMMU_PROTOTYPES(fmt)                                           =
-       \
->         phys_addr_t pt_iommu_##fmt##_iova_to_phys(struct iommu_domain *do=
-main, \
->                                                   dma_addr_t iova);      =
-      \
-> +       size_t pt_iommu_##fmt##_unmap_pages(                             =
-      \
-> +               struct iommu_domain *domain, unsigned long iova,         =
-      \
-> +               size_t pgsize, size_t pgcount,                           =
-      \
-> +               struct iommu_iotlb_gather *iotlb_gather);                =
-      \
->         int pt_iommu_##fmt##_init(struct pt_iommu_##fmt *table,          =
-      \
->                                   const struct pt_iommu_##fmt##_cfg *cfg,=
-      \
->                                   gfp_t gfp);                            =
-      \
-> @@ -135,8 +140,9 @@ struct pt_iommu_cfg {
->   * A driver uses IOMMU_PT_DOMAIN_OPS to populate the iommu_domain_ops fo=
-r the
->   * iommu_pt
->   */
-> -#define IOMMU_PT_DOMAIN_OPS(fmt) \
-> -       .iova_to_phys =3D &pt_iommu_##fmt##_iova_to_phys,
-> +#define IOMMU_PT_DOMAIN_OPS(fmt)                        \
-> +       .iova_to_phys =3D &pt_iommu_##fmt##_iova_to_phys, \
-> +       .unmap_pages =3D &pt_iommu_##fmt##_unmap_pages
->
->  /*
->   * The driver should setup its domain struct like
-> --
-> 2.43.0
->
->
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+> Patch is incomplete, as it doesn't drop the logic which forks
+> kernel-doc script run, but see below.
+
+So I clearly hadn't fully understood how this works.  Before I went and
+broke things, the logic seemed to be:
+
+  If the kerneldoc_bin environment variable is "kernel-doc.py"
+  	don't actually run kernel-doc.py, build it internally instead
+  else
+  	run whatever program the variable points to
+
+  ...
+  set kerneldoc_bin to "kernel-doc.py" by default
+
+This seems ... a bit obscure.  Given that:
+
+> 3. change the core of the logic to be something like:
+> 
+> 	# kerneldoc_bin = env.config.kerneldoc_bin
+> 	kerneldoc_bin = os.environ.get("KERNELDOC")
+> 
+> 	if not kerneldoc_bin:
+> 	   out_style = RestFormat()
+> 	   kfiles = KernelFiles(out_style=out_style, logger=logger)
+> 	else:
+> 	    print(f"Generating C documentation by running {kerneldoc_bin} binary")
+> 
+>    this would still allow using KERNELDOC to point to a binary
+>    that will handle C files executed as a separate process.
+
+This seems like an obvious improvement, and one that, perhaps, should go
+in ahead of my current series in the perhaps vain hope that we're
+finally getting to the end of the list of things I can find to break...
+
+I can send a patch around in the next couple of days if you don't beat
+me to it.
+
+jon
