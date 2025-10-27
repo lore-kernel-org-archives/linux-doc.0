@@ -1,296 +1,381 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F982EF673
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A7A2E7645
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761556674; cv=none; b=m+7+vfsbkCTFPMUCMKzoTFEpcZNoNy45iOesiGKeVkE5qksVVb1GJmiRLnQjlr0zhctO414amh14wDk5V5T6B8ebzlYxPEOL9ZljaX70mXwvur3LBNLaxeJ8cGJykJZC2ZdqSxZy9j8PPZmi0i0dH7ksc+obQQclufYMHrY52MM=
+	t=1761556777; cv=none; b=kuOs/32GfTxEJ8ERUjtuM+wRs/ib34N3IUVBbY8Ybx/S6zcsdTE/SDSEMWObWysGkleXTIq8TuJz8ewewiOziWHTRzAQMehchJSUm3ZHiU0dBAYNTERKFxp1U4ny+Ps51fq/8SlHZXJ7tTanZou0PEMeD7OuU9E9KDJHW/oUwpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761556674; c=relaxed/simple;
-	bh=pr8lCbKq73Mp4PrFh0ihuLm1jAkJ+1oxPzb2i9xJmGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hrLbYfcpGThKpSWPCsxkQKu1FRma9qbfqxL68pDntraMfu7uSidLm9IGD5vw70DNp6lwgcfrDqXMyjZB6NE4IHsLhmyLgVwOSCRCXsumegaGdo6OYAFFfd5GVKOYa7g4wkn0EXYnnvy7vnKm6wqTmxzkA4XdRES2v5RYmxpZnVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=a7VpjxJd; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1761556777; c=relaxed/simple;
+	bh=aUR/o5Tzh5jjaEbJxxPdEANvkhGhslkHX1jzmGcUy5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PESa2W4A4oCo7QwueMLwykhwWr5IxocinLUi1M4hIEUXQjzB8/Ay2A7DrzjQhff75vHBLfdzNJajCmC0BYx8IyPq2gAWQlr2Raa+PRzJLRHg/jPbSdvVVVN2OT4GpPpNZmW0s8oqK8i5V/rpO/5gI9DfuZVhYxQFsxFBEVNLEV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWGKz4OY; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="a7VpjxJd"
-Message-ID: <703b22dc-0123-42ba-9984-074b9cda468c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1761556668;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dm/mUbcMAMZo9wS8DsBcQxN0CKzM7e2WXj+TwSYfMcs=;
-	b=a7VpjxJdsAE7IaId8HUK0fWulHLBBBlPdBgisXLI8HsC5jSpnqn0RWI3TOiFJ+HoLyFGKb
-	fOsLV6/nyVa7CRopxslpJS2jE6iPH3Y7UVgkHeh1oxU5h/DTMIp9n83ksu3aSf5DB9BdIe
-	AAPk02rr8BVzg6VEVgfCPY6Y71vljfo=
-Date: Mon, 27 Oct 2025 17:17:28 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWGKz4OY"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4711f3c386eso33092085e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:19:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761556774; x=1762161574; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RTI5qEHo4F3tyayqLpNzKrDWrYSmqs4Q2J88vtSyuEo=;
+        b=YWGKz4OY8gqnUHRLrVq3MsQKjopX4CDnskVo4/YmHVKGZIn58ndDbfesfldU/XOYAl
+         kFV4RhRD54T/x7nbWe0TpkQGw5mGeiD2KS8FEXnHf1NU+DanDMxzfDz80M0QRlvO9VoB
+         k2kJjqqE9d5Vg5t7b4AHmIVM+nbIDZpu3ACfnIzrt3VPToQFiQzGURuzoQOpR5mmxE3X
+         kN1Cybp1EOd6hYqZ+bLZBNcjT+Hy3E+EcMVwj8dPYLkXzoQxb5pkuX9zEUidp/akTCbY
+         1c7S36CIU4tembJxBOXPf4wJbUfQ0dNlSh5gNz50xDEPPDJmXn1BP6iLmD1cQgJAV8Ss
+         BdDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761556774; x=1762161574;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RTI5qEHo4F3tyayqLpNzKrDWrYSmqs4Q2J88vtSyuEo=;
+        b=FXInNHDIYsSSFWPhh+GHW9Z7rd56/KloDmHMybcZUk1ADbqUi2KZ4s5vOJd+tjKNLV
+         P0L9qnCf+8C7Qq56yujwqil8fE6nQI+nbJ+Gx5tL4+izdo6o78k5CLGin9mSZ1vdn+U/
+         YMGsCPnJ11YO67p2CzZ/o6h5gN/3yEkhsw7ILKRzv28BD+ZCbAXhUxTX2H4dYvDThJZs
+         PaWd/1lYf2zB8Q/Aq72wv0vcUR8Aw+csmYWD37jzLGDw4/4+vh33FUTgkr7uls4PWmg8
+         vicUpTJ8350fI+fEn0YYtFxxV0IP71xWgq9EFn6jVTeiTNbtTWn/DY7BnKMtb8ZYevUt
+         G8Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVfNYWfwhE+LlHcJaUtNVRTzhLf1BIg4/tMINT8Antndl8BIy8bFmEtPziDGCLfou84zc97RJERr4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw43Q2fcGi5GGWc3xB+nBpDiGOuCoU5n0431GhwPgeG6XPl5rNS
+	x1gWsYUhZsMzAyk7r6DQkJR9q8wcYA/w34d1EIEfqP/UJxydmq8byhpL
+X-Gm-Gg: ASbGncv620mYYTqKs/rV6H2uVZ4YlzbEnkG/TbzXtcCoNw5jDuZeV/6kGzZ56a4+u4k
+	LNUjgEqGT2xdb60IIA4G+4i1L46BXow82DnpjUw/A/j+RG7MMk98meXCl/CqjRka38y8bbEcuZ+
+	uzHpG7DB2qy1wAoAVAqrbXl7CL2jRuXpl2bVLHj+bDQbzZ5rBP7D/XTdn0jwLWiV6hgLwyLjC7O
+	0t12pnz0U7SWEKTkMzlGGrazIID489phbfdbtuhqi8mHUbkp3RXU5BpnQtfnXlDQSjxKHJ4JogR
+	WHDjzs/TMVKytvF64ilRyueItmquxCtUs1mNosuFX40aaU8X7tIWBJa0iOCz0G97rjkQb+Y0gfI
+	+VUt1/Z1zarO9OcESN8fH4yGQ8P627NNsIoK4h6h3dQ1hRBPuwLfJvDM+HeLO//zBGtH/Ev3637
+	UqOXcfDaVr
+X-Google-Smtp-Source: AGHT+IEYfZuDR+EDAVwmqpUFyDB0rjYL884Z2JT6vB2wdMgxcgM2I8sCQOec+I32TSlNthShfx7FGQ==
+X-Received: by 2002:a05:600c:4fd4:b0:471:13dd:bae7 with SMTP id 5b1f17b1804b1-4711791c5dfmr297376615e9.30.1761556774328;
+        Mon, 27 Oct 2025 02:19:34 -0700 (PDT)
+Received: from fedora ([94.73.38.14])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952df6b9sm13577660f8f.44.2025.10.27.02.19.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 02:19:33 -0700 (PDT)
+Date: Mon, 27 Oct 2025 10:19:32 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	victoria@system76.com, sebastian.wick@redhat.com,
+	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 13/22] drm/vkms: Introduce configfs for plane zpos
+ property
+Message-ID: <aP85JP02YJdVkYJ2@fedora>
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <20251018-vkms-all-config-v1-13-a7760755d92d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v12 mm-new 05/15] khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-Content-Language: en-US
-To: Nico Pache <npache@redhat.com>
-Cc: david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, baohua@kernel.org, willy@infradead.org,
- peterx@redhat.com, wangkefeng.wang@huawei.com, linux-mm@kvack.org,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
- anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
- will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- vbabka@suse.cz, rppt@kernel.org, jannh@google.com, pfalcato@suse.de,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-6-npache@redhat.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20251022183717.70829-6-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251018-vkms-all-config-v1-13-a7760755d92d@bootlin.com>
 
-
-
-On 2025/10/23 02:37, Nico Pache wrote:
-> generalize the order of the __collapse_huge_page_* functions
-> to support future mTHP collapse.
+On Sat, Oct 18, 2025 at 04:01:13AM +0200, Louis Chauvet wrote:
+> Modern compositor rely on zpos managment to offload some processing to
+> deticated hardware. In order to test multiple configurations, add zpos
+> configuration to configFS.
 > 
-> mTHP collapse will not honor the khugepaged_max_ptes_shared or
-> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
-> shared or swapped entry.
-
-Yeah, IMHO, it's the right call to avoid the complexity of potential
-"collapse creep" at this stage and get the core functionality right first ;)
-
+> Introduce multiple attributes to configure zpos:
+> - zpos_enabled - Create or not the zpos property. If not created, the zpos
+>   is undefined.
+> - zpos_mutable - If the zpos property is created, allow or not the
+>   userspace to modify it
+> - zpos_initial - Intial value for zpos property. Must be between zpos_min
+>   and zpos_max
+> - zpos_min - Minimal zpos value for this plane. Must be smaller than or
+>   equals to zpos_max
+> - zpos_max - Maximal zpos value for this plane. Must be greater than or
+>   equals to zpos_min
 > 
-> No functional changes in this patch.
-> 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
-
-Cool! LGTM.
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
-
->   mm/khugepaged.c | 78 ++++++++++++++++++++++++++++++-------------------
->   1 file changed, 48 insertions(+), 30 deletions(-)
+>  Documentation/gpu/vkms.rst           |   9 +-
+>  drivers/gpu/drm/vkms/vkms_configfs.c | 199 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 207 insertions(+), 1 deletion(-)
 > 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 36ee659acfbb..4ccebf5dda97 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -537,25 +537,25 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
->   }
->   
->   static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
-> -					unsigned long start_addr,
-> -					pte_t *pte,
-> -					struct collapse_control *cc,
-> -					struct list_head *compound_pagelist)
-> +		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
-> +		unsigned int order, struct list_head *compound_pagelist)
->   {
->   	struct page *page = NULL;
->   	struct folio *folio = NULL;
->   	unsigned long addr = start_addr;
->   	pte_t *_pte;
->   	int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
-> +	const unsigned long nr_pages = 1UL << order;
-> +	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
->   
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
-> +	for (_pte = pte; _pte < pte + nr_pages;
->   	     _pte++, addr += PAGE_SIZE) {
->   		pte_t pteval = ptep_get(_pte);
->   		if (pte_none_or_zero(pteval)) {
->   			++none_or_zero;
->   			if (!userfaultfd_armed(vma) &&
->   			    (!cc->is_khugepaged ||
-> -			     none_or_zero <= khugepaged_max_ptes_none)) {
-> +			     none_or_zero <= max_ptes_none)) {
->   				continue;
->   			} else {
->   				result = SCAN_EXCEED_NONE_PTE;
-> @@ -583,8 +583,14 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   		/* See collapse_scan_pmd(). */
->   		if (folio_maybe_mapped_shared(folio)) {
->   			++shared;
-> -			if (cc->is_khugepaged &&
-> -			    shared > khugepaged_max_ptes_shared) {
-> +			/*
-> +			 * TODO: Support shared pages without leading to further
-> +			 * mTHP collapses. Currently bringing in new pages via
-> +			 * shared may cause a future higher order collapse on a
-> +			 * rescan of the same range.
-> +			 */
-> +			if (order != HPAGE_PMD_ORDER || (cc->is_khugepaged &&
-> +			    shared > khugepaged_max_ptes_shared)) {
->   				result = SCAN_EXCEED_SHARED_PTE;
->   				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
->   				goto out;
-> @@ -677,18 +683,18 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   }
->   
->   static void __collapse_huge_page_copy_succeeded(pte_t *pte,
-> -						struct vm_area_struct *vma,
-> -						unsigned long address,
-> -						spinlock_t *ptl,
-> -						struct list_head *compound_pagelist)
-> +		struct vm_area_struct *vma, unsigned long address,
-> +		spinlock_t *ptl, unsigned int order,
-> +		struct list_head *compound_pagelist)
->   {
-> -	unsigned long end = address + HPAGE_PMD_SIZE;
-> +	unsigned long end = address + (PAGE_SIZE << order);
->   	struct folio *src, *tmp;
->   	pte_t pteval;
->   	pte_t *_pte;
->   	unsigned int nr_ptes;
-> +	const unsigned long nr_pages = 1UL << order;
->   
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR; _pte += nr_ptes,
-> +	for (_pte = pte; _pte < pte + nr_pages; _pte += nr_ptes,
->   	     address += nr_ptes * PAGE_SIZE) {
->   		nr_ptes = 1;
->   		pteval = ptep_get(_pte);
-> @@ -741,13 +747,11 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
->   }
->   
->   static void __collapse_huge_page_copy_failed(pte_t *pte,
-> -					     pmd_t *pmd,
-> -					     pmd_t orig_pmd,
-> -					     struct vm_area_struct *vma,
-> -					     struct list_head *compound_pagelist)
-> +		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> +		unsigned int order, struct list_head *compound_pagelist)
->   {
->   	spinlock_t *pmd_ptl;
-> -
-> +	const unsigned long nr_pages = 1UL << order;
->   	/*
->   	 * Re-establish the PMD to point to the original page table
->   	 * entry. Restoring PMD needs to be done prior to releasing
-> @@ -761,7 +765,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->   	 * Release both raw and compound pages isolated
->   	 * in __collapse_huge_page_isolate.
->   	 */
-> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
-> +	release_pte_pages(pte, pte + nr_pages, compound_pagelist);
->   }
->   
->   /*
-> @@ -781,16 +785,16 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->    */
->   static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->   		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> -		unsigned long address, spinlock_t *ptl,
-> +		unsigned long address, spinlock_t *ptl, unsigned int order,
->   		struct list_head *compound_pagelist)
->   {
->   	unsigned int i;
->   	int result = SCAN_SUCCEED;
-> -
-> +	const unsigned long nr_pages = 1UL << order;
->   	/*
->   	 * Copying pages' contents is subject to memory poison at any iteration.
->   	 */
-> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
-> +	for (i = 0; i < nr_pages; i++) {
->   		pte_t pteval = ptep_get(pte + i);
->   		struct page *page = folio_page(folio, i);
->   		unsigned long src_addr = address + i * PAGE_SIZE;
-> @@ -809,10 +813,10 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->   
->   	if (likely(result == SCAN_SUCCEED))
->   		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
-> -						    compound_pagelist);
-> +						    order, compound_pagelist);
->   	else
->   		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
-> -						 compound_pagelist);
-> +						 order, compound_pagelist);
->   
->   	return result;
->   }
-> @@ -985,13 +989,12 @@ static int check_pmd_still_valid(struct mm_struct *mm,
->    * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
->    */
->   static int __collapse_huge_page_swapin(struct mm_struct *mm,
-> -				       struct vm_area_struct *vma,
-> -				       unsigned long start_addr, pmd_t *pmd,
-> -				       int referenced)
-> +		struct vm_area_struct *vma, unsigned long start_addr,
-> +		pmd_t *pmd, int referenced, unsigned int order)
->   {
->   	int swapped_in = 0;
->   	vm_fault_t ret = 0;
-> -	unsigned long addr, end = start_addr + (HPAGE_PMD_NR * PAGE_SIZE);
-> +	unsigned long addr, end = start_addr + (PAGE_SIZE << order);
->   	int result;
->   	pte_t *pte = NULL;
->   	spinlock_t *ptl;
-> @@ -1022,6 +1025,19 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
->   		if (!is_swap_pte(vmf.orig_pte))
->   			continue;
->   
-> +		/*
-> +		 * TODO: Support swapin without leading to further mTHP
-> +		 * collapses. Currently bringing in new pages via swapin may
-> +		 * cause a future higher order collapse on a rescan of the same
-> +		 * range.
-> +		 */
-> +		if (order != HPAGE_PMD_ORDER) {
-> +			pte_unmap(pte);
-> +			mmap_read_unlock(mm);
-> +			result = SCAN_EXCEED_SWAP_PTE;
-> +			goto out;
-> +		}
-> +
->   		vmf.pte = pte;
->   		vmf.ptl = ptl;
->   		ret = do_swap_page(&vmf);
-> @@ -1142,7 +1158,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   		 * that case.  Continuing to collapse causes inconsistency.
->   		 */
->   		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
-> -						     referenced);
-> +						     referenced, HPAGE_PMD_ORDER);
->   		if (result != SCAN_SUCCEED)
->   			goto out_nolock;
->   	}
-> @@ -1190,6 +1206,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
->   	if (pte) {
->   		result = __collapse_huge_page_isolate(vma, address, pte, cc,
-> +						      HPAGE_PMD_ORDER,
->   						      &compound_pagelist);
->   		spin_unlock(pte_ptl);
->   	} else {
-> @@ -1220,6 +1237,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   
->   	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
->   					   vma, address, pte_ptl,
-> +					   HPAGE_PMD_ORDER,
->   					   &compound_pagelist);
->   	pte_unmap(pte);
->   	if (unlikely(result != SCAN_SUCCEED))
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index deb14e7c48ea..d4ad4af45414 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -87,7 +87,7 @@ Start by creating one or more planes::
+>  
+>    sudo mkdir /config/vkms/my-vkms/planes/plane0
+>  
+> -Planes have 8 configurable attribute:
+> +Planes have 13 configurable attribute:
+>  
+>  - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>    exposed by the "type" property of a plane)
+> @@ -111,6 +111,13 @@ Planes have 8 configurable attribute:
+>    To remove a format, use a minus and its fourcc: -XR24
+>    To add all formats use +*
+>    To remove all formats, use -*
+> +- zpos_enabled: Enable or not the zpos property: 1 enable, 0 disable
+> +- zpos_mutable: Create the zpos property as a mutable or imutable property: 1 mutable,
+> +  0 disable. No effect if zpos_enabled is not set.
+> +- zpos_initial: Set the initial zpos value. Must be between zpos_min and zpos_max. No
+> +  effect if zpos_enabled is not set.
+> +- zpos_min: Set the minimal zpos value. No effect if zpos_enabled is not set.
+> +- zpos_max: Set the maximal zpos value. No effect if zpos_enabled is not set.
 
+Aren't zpos_min/max also ignored when zpos_mutable is false?
+
+>  Continue by creating one or more CRTCs::
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index 528f22fa2df1..fd1be7292058 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -1,4 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+> +#include "asm-generic/errno-base.h"
+
+Accidentally included by IDE?
+
+>  #include <linux/cleanup.h>
+>  #include <linux/configfs.h>
+>  #include <linux/mutex.h>
+> @@ -679,6 +680,194 @@ static ssize_t plane_supported_formats_store(struct config_item *item,
+>  	return count;
+>  }
+>  
+> +static ssize_t plane_zpos_enabled_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	bool enabled;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +		enabled = vkms_config_plane_get_zpos_enabled(plane->config);
+> +
+> +	return sprintf(page, "%d\n", enabled);
+> +}
+> +
+> +static ssize_t plane_zpos_enabled_store(struct config_item *item, const char *page,
+> +					size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	bool enabled;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	if (kstrtobool(page, &enabled))
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		if (plane->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		vkms_config_plane_set_zpos_enabled(plane->config, enabled);
+> +	}
+> +
+> +	return (ssize_t)count;
+> +}
+> +
+> +static ssize_t plane_zpos_mutable_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	bool mutable;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +		mutable = vkms_config_plane_get_zpos_mutable(plane->config);
+> +
+> +	return sprintf(page, "%d\n", mutable);
+> +}
+> +
+> +static ssize_t plane_zpos_mutable_store(struct config_item *item, const char *page,
+> +					size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	bool mutable;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	if (kstrtobool(page, &mutable))
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		if (plane->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		vkms_config_plane_set_zpos_mutable(plane->config, mutable);
+> +	}
+> +
+> +	return (ssize_t)count;
+> +}
+> +
+> +static ssize_t plane_zpos_initial_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int initial;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +		initial = vkms_config_plane_get_zpos_initial(plane->config);
+> +
+> +	return sprintf(page, "%u\n", initial);
+> +}
+> +
+> +static ssize_t plane_zpos_initial_store(struct config_item *item, const char *page,
+> +					size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int initial;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	if (kstrtouint(page, 10, &initial))
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		if (plane->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		if (initial > vkms_config_plane_get_zpos_max(plane->config))
+> +			return -EINVAL;
+> +
+> +		if (initial < vkms_config_plane_get_zpos_min(plane->config))
+> +			return -EINVAL;
+> +
+> +		vkms_config_plane_set_zpos_initial(plane->config, initial);
+> +	}
+> +
+> +	return (ssize_t)count;
+> +}
+> +
+> +static ssize_t plane_zpos_min_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int min;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +		min = vkms_config_plane_get_zpos_min(plane->config);
+> +
+> +	return sprintf(page, "%u\n", min);
+> +}
+> +
+> +static ssize_t plane_zpos_min_store(struct config_item *item, const char *page,
+> +				    size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int min;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	if (kstrtouint(page, 10, &min))
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		if (plane->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		if (min > vkms_config_plane_get_zpos_max(plane->config))
+> +			return -EINVAL;
+> +
+> +		if (min > vkms_config_plane_get_zpos_initial(plane->config))
+> +			return -EINVAL;
+> +
+> +		vkms_config_plane_set_zpos_min(plane->config, min);
+> +	}
+> +
+> +	return (ssize_t)count;
+> +}
+> +
+> +static ssize_t plane_zpos_max_show(struct config_item *item, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int max;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	scoped_guard(mutex, &plane->dev->lock)
+> +		max = vkms_config_plane_get_zpos_max(plane->config);
+> +
+> +	return sprintf(page, "%u\n", max);
+> +}
+> +
+> +static ssize_t plane_zpos_max_store(struct config_item *item, const char *page,
+> +				    size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int max;
+> +
+> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +
+> +	if (kstrtouint(page, 10, &max))
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		if (plane->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		if (max < vkms_config_plane_get_zpos_min(plane->config))
+> +			return -EINVAL;
+> +
+> +		if (max < vkms_config_plane_get_zpos_initial(plane->config))
+> +			return -EINVAL;
+> +
+> +		vkms_config_plane_set_zpos_max(plane->config, max);
+> +	}
+> +
+> +	return (ssize_t)count;
+> +}
+> +
+>  CONFIGFS_ATTR(plane_, type);
+>  CONFIGFS_ATTR(plane_, supported_rotations);
+>  CONFIGFS_ATTR(plane_, default_rotation);
+> @@ -687,6 +876,11 @@ CONFIGFS_ATTR(plane_, default_color_range);
+>  CONFIGFS_ATTR(plane_, supported_color_encoding);
+>  CONFIGFS_ATTR(plane_, default_color_encoding);
+>  CONFIGFS_ATTR(plane_, supported_formats);
+> +CONFIGFS_ATTR(plane_, zpos_enabled);
+> +CONFIGFS_ATTR(plane_, zpos_mutable);
+> +CONFIGFS_ATTR(plane_, zpos_initial);
+> +CONFIGFS_ATTR(plane_, zpos_min);
+> +CONFIGFS_ATTR(plane_, zpos_max);
+>  
+>  static struct configfs_attribute *plane_item_attrs[] = {
+>  	&plane_attr_type,
+> @@ -697,6 +891,11 @@ static struct configfs_attribute *plane_item_attrs[] = {
+>  	&plane_attr_supported_color_encoding,
+>  	&plane_attr_default_color_encoding,
+>  	&plane_attr_supported_formats,
+> +	&plane_attr_zpos_enabled,
+> +	&plane_attr_zpos_mutable,
+> +	&plane_attr_zpos_initial,
+> +	&plane_attr_zpos_min,
+> +	&plane_attr_zpos_max,
+
+LGTM, other than my previous comment on adding validation in this layer.
+It can force to change attributtes in a specific order. I think we should
+only validate in vkms_config_is_valid().
+
+>  	NULL,
+>  };
+>  
+> 
+> -- 
+> 2.51.0
+> 
