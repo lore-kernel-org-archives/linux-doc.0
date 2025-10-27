@@ -1,232 +1,156 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFDE2E0916
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39242F49F8;
+	Mon, 27 Oct 2025 09:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761555676; cv=none; b=IllGQcvUCzGS60x6KTMSw6de9MMy1Unju2UnmaNdLgq72lzqQC5rJppQTISnMwEFDbyygU9dEk/RAUtCtBJRfRq6kARKRwoeY/k50zL4Vf8JthOpmVvknGLUDt8uDRg69+/59wH3cAq1RRSb3Iq2cb63RZEgIZvyLd8HmyY1snc=
+	t=1761555776; cv=none; b=YDXGM0Kwa/o7+SG6KksBx85HooZTeG1pXxwukltQV9Uu5bFgAy0TBYoZXHkKqx1berG1qL85weG4/OKjzVnPSat/EJvoGHmMORor47WmDEOA35hfKbyzjrPcxQEKpnxrqc/D7KeFhdFdr//JTqyFMweECyByzcySEzWHKi+Tdkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761555676; c=relaxed/simple;
-	bh=UPiwTkhB/J6BBNQtWBHJvGhNPiYEsm0JTSBHxuibEq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QSI0TTA3OZUoErE2R8t3Pewup1VkcamOaObg7qDjuRHdp1fs46TT6V1nwYqstkmHaJWoEJbteJK0f1eclPwEcA2IDaYQXt34LtC0fnSD+YYpuJj9FdcRecqBOV/xu+Yy+0mNTBdBmmVeGK8RHuLN+v/xGd0+yIONs4/EJ8ELlig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R2MI8qFP; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1761555776; c=relaxed/simple;
+	bh=G1ePlaSWeQMNuAJ53oX32ThxSRn7zfNb9gCAqZMnhFs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tZftzn3cuaqrpP35Ca12E7gA/KVTCK8+eozW12AEXSB3ouP8kM+HRlJTsPnQ8L0DdVRYubFPGkzibU8FapNBsDnLd4tbTNIVrOjX15GKreN+L2ejbSAwGWmGsid7VxaY9gU6Iho4cOv9oEgDdj2b7xiIpBh97brAMqk8OdC2muU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JXLHdXBX; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R2MI8qFP"
-Message-ID: <3aca400f-2fbf-4249-89bc-d683a4e0618d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1761555662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZIxJuwgOmBP+ZkdSSAjjhDddv46eR2/PMPkqFr0INA=;
-	b=R2MI8qFPQ6pU7XLsjr2EjSK0mrr2oa8WAxDi7OPjOOAdBPMpW0J9EDxQakGCniq7rcF56/
-	bbPsAP4TAva0QsNYON1Rg/bEHR36dhrNLVgkH4N11ECbAs79UWe51AIC9WDoPqIJyvwaIn
-	Lg3+8rp3TWZo+4zu0GmV7LT5N4sf1w0=
-Date: Mon, 27 Oct 2025 17:00:31 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JXLHdXBX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761555775; x=1793091775;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=G1ePlaSWeQMNuAJ53oX32ThxSRn7zfNb9gCAqZMnhFs=;
+  b=JXLHdXBXcam66NjXNxTX54ti8b0GzXvEpUaF5MzkBjNLr7N2TGmvVUKO
+   ebS+xQ/Dov41qvvTiQQgGHh5N19lI0pqDsjyvfyse0UYljQtwdcpmQoT1
+   f4oyD7U5UQHWRE2KhM9loFL4wrTF9Ov42QmSYtH5ImLqr/rocFli1xblO
+   9BJfJL9OpUnPcp674iwan6eI9C5eO4T/mHSeFzbGnk99wfLUTa1ehmIJd
+   LEHagUEWVmAL1rKmfaCwh9NQpV0csdoVBkEqFWl85V8r0GLFY8k97NgYq
+   Qo7kX+0+LISNgVzQj16iP0H3txkoA3XO0HO80cz/bPOCFHQoEfVs/MDac
+   Q==;
+X-CSE-ConnectionGUID: dH/HtpCoS7GaBfw8OuzcFQ==
+X-CSE-MsgGUID: a0koW0U7QeuVAEoPMA7i4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73919101"
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="73919101"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 02:02:54 -0700
+X-CSE-ConnectionGUID: u2MvC9QpS4uX+ruEyclGQA==
+X-CSE-MsgGUID: Jyzz3AT/R3aV/tylkEXqnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="184893022"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.35])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 02:02:51 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Subject: Re: [PATCH 21/21] Docs: add Functions parameters order section
+In-Reply-To: <20251025163305.306787-14-yury.norov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251025162858.305236-1-yury.norov@gmail.com>
+ <20251025163305.306787-14-yury.norov@gmail.com>
+Date: Mon, 27 Oct 2025 11:02:48 +0200
+Message-ID: <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v12 mm-new 02/15] introduce collapse_single_pmd to unify
- khugepaged and madvise_collapse
-To: Nico Pache <npache@redhat.com>
-Cc: david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, linux-kernel@vger.kernel.org,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- linux-doc@vger.kernel.org, yang@os.amperecomputing.com, kas@kernel.org,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- vbabka@suse.cz, rppt@kernel.org, jannh@google.com, pfalcato@suse.de
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-3-npache@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20251022183717.70829-3-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-
-
-On 2025/10/23 02:37, Nico Pache wrote:
-> The khugepaged daemon and madvise_collapse have two different
-> implementations that do almost the same thing.
-> 
-> Create collapse_single_pmd to increase code reuse and create an entry
-> point to these two users.
-> 
-> Refactor madvise_collapse and collapse_scan_mm_slot to use the new
-> collapse_single_pmd function. This introduces a minor behavioral change
-> that is most likely an undiscovered bug. The current implementation of
-> khugepaged tests collapse_test_exit_or_disable before calling
-> collapse_pte_mapped_thp, but we weren't doing it in the madvise_collapse
-> case. By unifying these two callers madvise_collapse now also performs
-> this check. We also modify the return value to be SCAN_ANY_PROCESS which
-> properly indicates that this process is no longer valid to operate on.
-> 
-> We also guard the khugepaged_pages_collapsed variable to ensure its only
-> incremented for khugepaged.
-> 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> Standardize parameters ordering in some typical cases to minimize
+> confusion.
+>
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 > ---
-
-Nice cleanup! LGTM.
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
->   mm/khugepaged.c | 97 ++++++++++++++++++++++++++-----------------------
->   1 file changed, 52 insertions(+), 45 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 6c4abc7f45cf..36e31d99e507 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2370,6 +2370,53 @@ static int collapse_scan_file(struct mm_struct *mm, unsigned long addr,
->   	return result;
+>  Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index d1a8e5465ed9..dde24148305c 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
+>  	...
 >   }
->   
-> +/*
-> + * Try to collapse a single PMD starting at a PMD aligned addr, and return
-> + * the results.
-> + */
-> +static int collapse_single_pmd(unsigned long addr,
-> +		struct vm_area_struct *vma, bool *mmap_locked,
-> +		struct collapse_control *cc)
-> +{
-> +	struct mm_struct *mm = vma->vm_mm;
-> +	int result;
-> +	struct file *file;
-> +	pgoff_t pgoff;
+>  
+> +6.2) Function parameters order
+> +------------------------------
 > +
-> +	if (vma_is_anonymous(vma)) {
-> +		result = collapse_scan_pmd(mm, vma, addr, mmap_locked, cc);
-> +		goto end;
-> +	}
+> +The order of parameters is important both for code generation and readability.
+> +Passing parameters in an unusual order is a common source of bugs. Listing
+> +them in standard widely adopted order helps to avoid confusion.
 > +
-> +	file = get_file(vma->vm_file);
-> +	pgoff = linear_page_index(vma, addr);
+> +Many ABIs put first function parameter and return value in R0. If your
+> +function returns one of its parameters, passing it at the very beginning
+> +would lead to a better code generation. For example::
 > +
-> +	mmap_read_unlock(mm);
-> +	*mmap_locked = false;
-> +	result = collapse_scan_file(mm, addr, file, pgoff, cc);
-> +	fput(file);
-> +	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
-> +		goto end;
+> +        void *memset64(uint64_t *s, uint64_t v, size_t count);
+> +        void *memcpy(void *dest, const void *src, size_t count);
 > +
-> +	mmap_read_lock(mm);
-> +	*mmap_locked = true;
-> +	if (collapse_test_exit_or_disable(mm)) {
-> +		mmap_read_unlock(mm);
-> +		*mmap_locked = false;
-> +		return SCAN_ANY_PROCESS;
-> +	}
-> +	result = collapse_pte_mapped_thp(mm, addr, !cc->is_khugepaged);
-> +	if (result == SCAN_PMD_MAPPED)
-> +		result = SCAN_SUCCEED;
-> +	mmap_read_unlock(mm);
-> +	*mmap_locked = false;
+> +If your function doesn't propagate a parameter, but has a meaning of copying
+> +and/or processing data, the best practice is following the traditional order:
+> +destination, source, options, flags.
 > +
-> +end:
-> +	if (cc->is_khugepaged && result == SCAN_SUCCEED)
-> +		++khugepaged_pages_collapsed;
-> +	return result;
-> +}
+> +for_each()-like iterators should take an enumerator the first. For example::
 > +
->   static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
->   					    struct collapse_control *cc)
->   	__releases(&khugepaged_mm_lock)
-> @@ -2440,34 +2487,9 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
->   			VM_BUG_ON(khugepaged_scan.address < hstart ||
->   				  khugepaged_scan.address + HPAGE_PMD_SIZE >
->   				  hend);
-> -			if (!vma_is_anonymous(vma)) {
-> -				struct file *file = get_file(vma->vm_file);
-> -				pgoff_t pgoff = linear_page_index(vma,
-> -						khugepaged_scan.address);
-> -
-> -				mmap_read_unlock(mm);
-> -				mmap_locked = false;
-> -				*result = collapse_scan_file(mm,
-> -					khugepaged_scan.address, file, pgoff, cc);
-> -				fput(file);
-> -				if (*result == SCAN_PTE_MAPPED_HUGEPAGE) {
-> -					mmap_read_lock(mm);
-> -					if (collapse_test_exit_or_disable(mm))
-> -						goto breakouterloop;
-> -					*result = collapse_pte_mapped_thp(mm,
-> -						khugepaged_scan.address, false);
-> -					if (*result == SCAN_PMD_MAPPED)
-> -						*result = SCAN_SUCCEED;
-> -					mmap_read_unlock(mm);
-> -				}
-> -			} else {
-> -				*result = collapse_scan_pmd(mm, vma,
-> -					khugepaged_scan.address, &mmap_locked, cc);
-> -			}
-> -
-> -			if (*result == SCAN_SUCCEED)
-> -				++khugepaged_pages_collapsed;
->   
-> +			*result = collapse_single_pmd(khugepaged_scan.address,
-> +						      vma, &mmap_locked, cc);
->   			/* move to next address */
->   			khugepaged_scan.address += HPAGE_PMD_SIZE;
->   			progress += HPAGE_PMD_NR;
-> @@ -2781,34 +2803,19 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->   		mmap_assert_locked(mm);
->   		memset(cc->node_load, 0, sizeof(cc->node_load));
->   		nodes_clear(cc->alloc_nmask);
-> -		if (!vma_is_anonymous(vma)) {
-> -			struct file *file = get_file(vma->vm_file);
-> -			pgoff_t pgoff = linear_page_index(vma, addr);
->   
-> -			mmap_read_unlock(mm);
-> -			mmap_locked = false;
-> -			result = collapse_scan_file(mm, addr, file, pgoff, cc);
-> -			fput(file);
-> -		} else {
-> -			result = collapse_scan_pmd(mm, vma, addr,
-> -						   &mmap_locked, cc);
-> -		}
-> +		result = collapse_single_pmd(addr, vma, &mmap_locked, cc);
+> +        for_each_set_bit(bit, mask, nbits);
+> +                do_something(bit);
 > +
->   		if (!mmap_locked)
->   			*lock_dropped = true;
->   
-> -handle_result:
->   		switch (result) {
->   		case SCAN_SUCCEED:
->   		case SCAN_PMD_MAPPED:
->   			++thps;
->   			break;
-> -		case SCAN_PTE_MAPPED_HUGEPAGE:
-> -			BUG_ON(mmap_locked);
-> -			mmap_read_lock(mm);
-> -			result = collapse_pte_mapped_thp(mm, addr, true);
-> -			mmap_read_unlock(mm);
-> -			goto handle_result;
->   		/* Whitelisted set of results where continuing OK */
-> +		case SCAN_PTE_MAPPED_HUGEPAGE:
->   		case SCAN_PMD_NULL:
->   		case SCAN_PTE_NON_PRESENT:
->   		case SCAN_PTE_UFFD_WP:
+> +        list_for_each_entry(pos, head, member);
+> +                do_something(pos);
+> +
+> +If function operates on a range or ranges of data, corresponding parameters
+> +may be described as ``start - end`` or ``start - size`` pairs. In both cases,
+> +the parameters should follow each other. For example::
+> +
+> +        int
+> +        check_range(unsigned long vstart, unsigned long vend,
+> +                    unsigned long kstart, unsigned long kend);
+> +
+> +        static inline void flush_icache_range(unsigned long start, unsigned long end);
+> +
+> +        static inline void flush_icache_user_page(struct vm_area_struct *vma,
+> +                                            struct page *page,
+> +                                            unsigned long addr, int len);
+> +
+> +Both ``start`` and ``end`` of the interval are inclusive.
+> +
+> +Describing intervals in order ``end - start`` is unfavorable. One notable
+> +example is the ``GENMASK(high, low)`` macro. While such a notation is popular
+> +in hardware context, particularly to describe registers structure, in context
+> +of software development it looks counter intuitive and confusing. Please switch
+> +to an equivalent ``BITS(low, high)`` version.
+> +
 
+GENMASK when used for defining hardware registers is completely fine,
+and *much* easier to deal with when you cross check against the specs
+that almost invariably define high:low.
+
+Which other parts of coding style take on specific interfaces and tell
+you to switch? Weird. I for one don't want to encourage an influx of
+trivial patches doing GENMASK to BITS conversions, and then keep
+rejecting them. It's just a huge collective waste of time.
+
+Anyway, that's a lot of text on "function parameter order" to justify
+BITS(), but completely skips more important principles such as "context
+parameter first", or "destination first".
+
+
+BR,
+Jani.
+
+
+>  7) Centralized exiting of functions
+>  -----------------------------------
+
+-- 
+Jani Nikula, Intel
