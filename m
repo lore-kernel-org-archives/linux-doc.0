@@ -1,206 +1,141 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287A62F28EA
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 09:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E9E2FCBF3;
+	Mon, 27 Oct 2025 09:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=24.134.29.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761557918; cv=none; b=S8XePB4ClnjL1wOssH8mN5ISza1YkqLwrb3Tr7nizct8Fy04+GJAQbeAWApeCrl1M4VAsYZRpJqVbTS4pVeblWt3KvU29Xp4gt4PhGxdq13Rp1SooMo22aKT8ahZ2l2jIFeMoU/FelgRhaPypiwZv2mFI9S7aY1qOD4Gwd3cA98=
+	t=1761559042; cv=none; b=DpI7ZVsMDpeOLDPld9i4CtEVuWQtQ5BvNTAbN7OcKr+d4ySG87pWl1G2dR/YGck8S7MX8HPR0YiIikRohPB6BoHfhUzV4wRV1Cp82b8zp9XW0WQZuPYcunpyvH1O+inPM1k5KDOktvxqlY+el14aYyaWFfz+q7fIcejohCtfKDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761557918; c=relaxed/simple;
-	bh=Bc+qrw/OhAmUr+DULNtCiQuB/GZhGymOqDfLUaPuYFg=;
+	s=arc-20240116; t=1761559042; c=relaxed/simple;
+	bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gpFu0i2Tsdtde8chyx80Ybf0biyhTCmKkcnTmTjLs3XwJx+R4+MyLaMw+5vzf89NoxSG8Gy+dq3gdXZpTIjRxk9HDxW1Qy4geY0JRGr85a7/rTTp8TZ1zVoURS75oZtiW7Cp9JejoQyFXYoG79KbLpRvRlm3Ik94tGhRoK40cnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8RG+oqz; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bf2qw02qAin8FpbS6hFFbqbPTrvva6ohaEl9PBB0QtQzGKSceZxwq13Lon9i27IN2VJgiaXb3CGelP7vE+vrk1+kVBAEpDskGAPyTnehVqKj0voCimOnyb10GqfT7uvwMgAqVQJN8M8aiR/T1SBMLUDOT3QxhU5kbn9WhQUJ6og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org; spf=pass smtp.mailfrom=sigxcpu.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=LSSge2FT; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=RdN1USwS; arc=none smtp.client-ip=24.134.29.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigxcpu.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8RG+oqz"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ee130237a8so2840053f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 02:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761557914; x=1762162714; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mrXR8lBbY3rQP++NKL3OM/LYz3iXG33tu2GQ0QMPU0o=;
-        b=d8RG+oqzeeFuMi1PL/As9AA0NbwnZMKqpoECfqbhNoY7xL7SaKxL69B7Cs/2qveTJp
-         JQp8CN2dCAXXGNcdUa6gkDyUoWi1xaWSxmJWaVKNasFQigGLWOUI8f+dYbI+bJmU46xB
-         MqmhtYEqDEEjJaDmCgkTKBwG5LFIpX2F0O3P8uj/FqnEMDcBHQFv5Q4zC6C1VWsqnzMy
-         qJD1uthDEkKwLdR3G6WlkbuW+ZtuRb1L/yaKoWL+cP39Vm61Z8Zx5UMbHbCStLzR3TVC
-         zvn3Lvv+2gtGt7EF7Xk6AxynmUz/rC3LY2XJ2f0GfD5snxldgcHV3yov5yB8o3oFTYcX
-         Dc9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761557914; x=1762162714;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mrXR8lBbY3rQP++NKL3OM/LYz3iXG33tu2GQ0QMPU0o=;
-        b=BVpOCzHoOLqnZhz6fGt0C3D4vytGdG30mrtFiTkFEpEAR0pMyPlzP5U5NL+wOrG6YR
-         QQ4dWeB8LeCkuK2vsphlubzGicMNlV3484fmVp6gQTMVo/eRggOOqj+IZOaNnClUSTQR
-         N9s/mVQ1uTAd7cylNwBW7+KjMWGJ5R/OnpwjL02WmmMYSX5ZCVa2In1h/EmljpF/8B03
-         6B4kMTKgvuZl1un0+MdQ1Aq+EctmnCNncRCcG1086QHjZozuCUWjapGmR02Y8W7z82KX
-         6lA5zsmnPvIKssgtO6JeNpTHWftJIZ0+oQ8EMj30aL6EaBYTF6UtTsd9qfOxcmQr5LIM
-         vmrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTVUWx6zgj7lEdil0yOAKO1TyGFUg6ietsSEXHrzVYqklN4BASw8uJXvtQdLKbx887ccrqky9lJts=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzc3JjmLBpENJByd+KIp0o9M87GSaNal+j11Tg7RXozIWTWfNWx
-	RcP2EFg4SV1E9jUlUUnpWcmpr/s95v71NRUR1wJSlIGpKmn+tiXniX1F
-X-Gm-Gg: ASbGncuGMp8rCbyZuZZVCQlgCnwCFvR6vM083oP1sVhZVcychO6aSWx5TF0//QAo3EQ
-	V9Dq8zkGnJinUJAzIveNuQkj/z9kDzMFghhudAe/NY72HhY9HWiOHBOMvG0PtytlHbRaazIR9jo
-	5zjBkfiGt0r9nQtGcxCxo0CKBPVjDMKk/zrTaBImVAvCSbY2zyTQvG+PyTlwicXlBmK7xoK/C+i
-	X/tRNfkMncxI1xd6ZaFMl0nUQPvoTtBbylr3FOdvwHIeu+FgsLcyHRdNX+WiybM9bMPw050UD48
-	Q2viBQSC0wv84fvD1CGnrr+0jSvXxxUZNJFJgewTB6UuWbi0vM2863p/zJFwKlhUF7OwVo4UWBy
-	pxYtRLHwvhs1UyvnmSc8lYKrcEH+JLX3f0JL61/2YJxZt7Qe3YeEwGVc68Mcvia7JjS3iLEn/+w
-	==
-X-Google-Smtp-Source: AGHT+IHQ+TEVjMq0y+9SkjrfTyB83zzg4AUyCMIh2DMHA2Qh4W3bcbJMnYyQxYMtIF1VS0cZAPn60w==
-X-Received: by 2002:a05:6000:40cb:b0:427:72d1:e3b2 with SMTP id ffacd0b85a97d-4299072c24amr8621232f8f.35.1761557914436;
-        Mon, 27 Oct 2025 02:38:34 -0700 (PDT)
-Received: from fedora ([94.73.38.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd00cf3dsm61686405e9.1.2025.10.27.02.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 02:38:34 -0700 (PDT)
-Date: Mon, 27 Oct 2025 10:38:32 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	victoria@system76.com, sebastian.wick@redhat.com,
-	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 16/22] drm/vkms: Introduce config for connector supported
- colorspace
-Message-ID: <aP89mA408-Y6Kq7q@fedora>
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
- <20251018-vkms-all-config-v1-16-a7760755d92d@bootlin.com>
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="LSSge2FT";
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="RdN1USwS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1761559028; bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LSSge2FTR6D3qKRjJ42E13VxBPQKSOpHvoA6MooKqxpc9rN2bpRis+EqbJsuKkkIv
+	 9zFH+yK4V3WFUphrnp/VTs9J9sdyGd3LKWAH6dhwVR3WB/yyG05vsCupYVUNK+ryrR
+	 vJsq25+RrpYP1YB2YjffZscbOox7bmmhkjHpa5/hfXYp4VkkQn1e1NnGaEnlGJoeDQ
+	 4CpCX4YhV0k4LnUWtGHZCOWXtiy9hVvhALxvlaLa9AhKSkhXJExQvXUjfGpAY7xMJk
+	 UGA67PKFTzk/LmRowxyivmVpO2xjcRFQWY+n/ngdOq5VjOZosnbqv+B1Gu8we4o8eo
+	 7wCz1Q9juQkDQ==
+Received: from localhost (localhost [127.0.0.1])
+	by honk.sigxcpu.org (Postfix) with ESMTP id 9D9D9FB03;
+	Mon, 27 Oct 2025 10:57:08 +0100 (CET)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+	by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xOcFvBNfwfNH; Mon, 27 Oct 2025 10:57:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1761559027; bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RdN1USwSr30UpaEyXrknx1J/RlMsNcJW1D+1SgQDqvblndSztBpFLTKWwqGDVYfP+
+	 6gGRNsWD0+asBilsu/M4X7I4BAAcWHPDKebpmcn00ZniJ5AQQq5MfSeikbMe5wSfTP
+	 bxulgTShhIRWA/7A50RBUnXU68pmRzaJbwHsKhw6ZUfkburhzwd2M5zzOBPfYOdg0f
+	 e2fQMnpqgzaKyYO7VABXRkKEbGc3H8W0fs5rPdLeLsNH13oatacn6bh/UIfOrOJjHy
+	 DlAofM7w6pCwgcFaKCONz4UHRxVKqbiRRN+R1Xum1hR6MwNtY2YeipAMUQMPG2dwAk
+	 UY2IbbSFcXSkQ==
+Date: Mon, 27 Oct 2025 10:57:05 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: david@ixit.cz
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+	Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>
+Subject: Re: [PATCH v7 0/3] Add support for sound profile switching and
+ leverage for OnePlus slider
+Message-ID: <aP9B8fPs7y2-dGJi@quark2.heme.sigxcpu.org>
+References: <20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251018-vkms-all-config-v1-16-a7760755d92d@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz>
 
-Sorry for the additional email.
-
-I see that the colorspace is ignored if the connector is not HDMI,
-eDP or Display Port. Should we add some kind of validation?
-
-
-On Sat, Oct 18, 2025 at 04:01:16AM +0200, Louis Chauvet wrote:
-> To emulate some HDR features of displays, it is required to expose some
-> properties on HDMI, eDP and DP connectors.
+Hi,
+On Tue, Oct 14, 2025 at 11:20:32AM +0200, David Heidelberg via B4 Relay wrote:
+> This series add initial support for OnePlus 6 and 6T, but other OnePlus
+> phones contains same mechanism to switch sound profiles.
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> This code was tested for two years within the downstream Snapdragon 845 tree.
+> It is now perfectly integrated with feedbackd in the Phosh environment.
+> 
+> The series is also available (until merged) at
+>   git@gitlab.com:dhxx/linux.git b4/op6-tri-state
+> 
+> Changes in v7:
+> - Separated GPIO number fix from the original commit
+>   "arm64: dts: qcom: sdm845-oneplus: Add alert-slider"
+> - Rebased again next-20251008
+> - Link to v6: https://lore.kernel.org/r/20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz
+> 
+> Changes in v6:
+> - Rebased again next-20250731, otherwise just a resent.
+> - Link to v5: https://lore.kernel.org/r/20250419-op6-tri-state-v5-0-443127078517@ixit.cz
+> 
+> Changes in v5:
+> - Dropped merged
+>   "Input: gpio-keys - add support for linux,input-value DTS property"
+> - Link to v4: https://lore.kernel.org/all/cover.1677022414.git.soyer@irl.hu/
+> 
+> Changes in v4:
+> - DTS: use default debounce-interval, order alphabetically
+> - Link to v3: https://lore.kernel.org/lkml/cover.1676850819.git.soyer@irl.hu/
+> 
+> Changes in v3:
+> - rename tri-state-key to alert-slider, fix DTS warnings,
+> 
+> Changes in v2:
+> - rebase to qcom/for-next
+> add SND_PROFILE_* identifiers to input-event-codes.h
+> 
 > ---
->  drivers/gpu/drm/vkms/tests/vkms_config_test.c |  3 +++
->  drivers/gpu/drm/vkms/vkms_config.c            |  1 +
->  drivers/gpu/drm/vkms/vkms_config.h            | 26 ++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_connector.c         | 15 +++++++++++++++
->  4 files changed, 45 insertions(+)
+> Gergo Koteles (3):
+>       Input: add ABS_SND_PROFILE
+>       arm64: dts: qcom: sdm845-oneplus: Correct gpio used for slider
+>       arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+
+feedbackd has support for this since 0.5.0 so it would be nice to see
+that mainlined.
+
+Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
+Reviewed-by: Guido Günther <agx@sigxcpu.org> 
+
+Cheers,
+ -- Guido
+
 > 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> index 8633210342a4..a89ccd75060d 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> @@ -187,6 +187,9 @@ static void vkms_config_test_default_config(struct kunit *test)
->  	vkms_config_for_each_connector(config, connector_cfg) {
->  		KUNIT_EXPECT_EQ(test, vkms_config_connector_get_type(connector_cfg),
->  				DRM_MODE_CONNECTOR_VIRTUAL);
-> +		KUNIT_EXPECT_EQ(test,
-> +				vkms_config_connector_get_supported_colorspaces(connector_cfg),
-> +				0);
->  	}
->  
->  	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index 20750c9f6d08..56e2082b91c9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -772,6 +772,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
->  	connector_cfg->config = config;
->  	connector_cfg->status = connector_status_connected;
->  	vkms_config_connector_set_type(connector_cfg, DRM_MODE_CONNECTOR_VIRTUAL);
-> +	vkms_config_connector_set_supported_colorspaces(connector_cfg, 0);
->  	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
->  
->  	list_add_tail(&connector_cfg->link, &config->connectors);
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index 36d289a010f6..ec614c2d4a30 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -141,6 +141,7 @@ struct vkms_config_connector {
->  
->  	int type;
->  	enum drm_connector_status status;
-> +	u32 supported_colorspaces;
->  	struct xarray possible_encoders;
->  
->  	/* Internal usage */
-> @@ -239,6 +240,31 @@ struct vkms_config *vkms_config_default_create(bool enable_cursor,
->   */
->  void vkms_config_destroy(struct vkms_config *config);
->  
-> +/**
-> + * vkms_config_connector_set_supported_colorspaces() - Set the supported colorspaces for a connector
-> + * @connector_cfg: Connector configuration to modify
-> + * @supported_colorspaces: Bitmask of supported colorspaces (DRM_COLOR_YCBCR_*)
-> + */
-> +static inline void
-> +vkms_config_connector_set_supported_colorspaces(struct vkms_config_connector *connector_cfg,
-> +						u32 supported_colorspaces)
-> +{
-> +	connector_cfg->supported_colorspaces = supported_colorspaces;
-> +}
-> +
-> +/**
-> + * vkms_config_connector_get_supported_colorspaces() - Get the supported colorspaces for a connector
-> + * @connector_cfg: Connector configuration to query
-> + *
-> + * Returns:
-> + * Bitmask of supported colorspaces (DRM_COLOR_YCBCR_*)
-> + */
-> +static inline u32
-> +vkms_config_connector_get_supported_colorspaces(struct vkms_config_connector *connector_cfg)
-> +{
-> +	return connector_cfg->supported_colorspaces;
-> +}
-> +
->  /**
->   * vkms_config_get_device_name() - Return the name of the device
->   * @config: Configuration to get the device name from
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-> index 5a87dc2d4c63..cc59d13c2d22 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.c
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
-> @@ -84,6 +84,21 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> +	if (vkms_config_connector_get_supported_colorspaces(connector_cfg)) {
-> +		if (connector_cfg->type == DRM_MODE_CONNECTOR_HDMIA) {
-> +			drm_mode_create_hdmi_colorspace_property(&connector->base,
-> +								 vkms_config_connector_get_supported_colorspaces(connector_cfg));
-> +			drm_connector_attach_hdr_output_metadata_property(&connector->base);
-> +			drm_connector_attach_colorspace_property(&connector->base);
-> +		} else if (connector_cfg->type == DRM_MODE_CONNECTOR_DisplayPort ||
-> +			   connector_cfg->type == DRM_MODE_CONNECTOR_eDP) {
-> +			drm_mode_create_dp_colorspace_property(&connector->base,
-> +							       vkms_config_connector_get_supported_colorspaces(connector_cfg));
-> +			drm_connector_attach_hdr_output_metadata_property(&connector->base);
-> +			drm_connector_attach_colorspace_property(&connector->base);
-> +		}
-> +	}
-> +
->  	drm_connector_helper_add(&connector->base, &vkms_conn_helper_funcs);
->  
->  	return connector;
+>  Documentation/input/event-codes.rst                |  6 ++++
+>  .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 39 ++++++++++++++++++++--
+>  drivers/hid/hid-debug.c                            |  1 +
+>  include/uapi/linux/input-event-codes.h             |  9 +++++
+>  4 files changed, 53 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 52ba76324a9d7c39830c850999210a36ef023cde
+> change-id: 20250419-op6-tri-state-ed1a05a11125
 > 
+> Best regards,
 > -- 
-> 2.51.0
+> David Heidelberg <david@ixit.cz>
+> 
 > 
