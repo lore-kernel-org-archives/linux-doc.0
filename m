@@ -1,270 +1,134 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED1319E968;
-	Mon, 27 Oct 2025 04:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761539163; cv=pass; b=jvfsoxnvKiwflzhOTOAnUCd5FrQLT4nxAbQPCUIIoWs5Zb7N4c06bihME3iEqtVJXFF2oIVt4b4P+be8GWEO7NGMFkj0tCmhi9u779IbaoXOPI1cQ9rAcvRto/E4i3C3WA8lvWseirqWyXp0wzDXVjcaLls7k29MiTvWYaEAKTg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761539163; c=relaxed/simple;
-	bh=DNYt74eYYd/1J6KyF4fbjIzMPBtQOkvmUXn/mGVFdVg=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=JoBjeGZqS9rkExlH5yu7GFd0BjRBwjTeeOTmqtPC0dsHjzWmF/i2+pQ0crFbX97qh3xWTn0tOU+a5HQm6UdUfjRmdDdkG4FKnDvk7/7hVZUazBA8TkRwhgRs/tTK0T0VjfJgXwrLxa3Pq69m/iG/L5DKDwAUNWRABllsOVGBX9E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=m44zZM76; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D1F2848A7
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 05:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761542862; cv=none; b=j4uKgTX6qe79i4gGmw5eBzXtJeHkjHVVyp5n/Z9xVzZ8nPRQ5IGZX466sQFzaTxmQactsFrtoT83HXp267vBjucXvms1r7khY37SdSPhctqikFYRep5VHMa9T3+XVyP9Lp8vWJNPju/RxPmdoQX5vqC43DXEDr018HtZKWAMxMM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761542862; c=relaxed/simple;
+	bh=qh79cjfHvrOLCxvcq4oI/lS6q5OmL9Fn6ODduBM4yG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IN8vxoM6UITfeGGqhxEDkykghGYNnsAqEKp4Ol2yvsZ2EqGLLWl1DVArFwFl+u9nHChu3LPTpU6IB3XHOTgqqTS5YXmgr2Lsz4EoNcprN2FTKRkvru4Mb1keaPDIjTdGqCj3DlInxzIV/gUbJtm48qQR5w2T65ZUx7csl8ILOmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BgtQPv99; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="m44zZM76"
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 59R4PhKZ038724
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 27 Oct 2025 13:25:43 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 81A5E106E791A;
-	Mon, 27 Oct 2025 13:25:42 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Llbg0nhPWc9r; Mon, 27 Oct 2025 13:25:37 +0900 (JST)
-Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: weibu@redadmin.org)
-	by www.redadmin.org (Postfix) with ESMTPSA id 4FB19106E7917;
-	Mon, 27 Oct 2025 13:25:37 +0900 (JST)
-DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 4FB19106E7917
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1761539137;
-	cv=none; b=u0+ubl/O7lYkOm264kw/TYz4DGhtpkaZcIoGa5SVywA4npDm7cWsgIpkhW6XJebM5+0mDcNW/K5PLJI6mD509ns84AVCafoM53CaFBmyOeD3pxlqa12enaLOoBTXqewZzdaOr54ZfIfoGjwpGu9RUkEOGo9eUT4lHOzK0jOrHwc=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1761539137; c=relaxed/relaxed;
-	bh=rEuEFpJaqguTP6zBfsgvlVykQOT8EAPojPlj+YAPv1Q=;
-	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding; b=UH4nZe6COg4AxMqpCKvTPiqh62EhC/i2WlTN2MNVvLsmjkOabKJoyFtaPM+ViArnHs7Azp5pWla8eO/M9yhfb5QauQwuCsYxLp5mfEFlFkWaXuR2992PnFh9GNa0eb78xsaldhpLHDk8wNnfiIiQrSF9i5wHUG9hXV8xTsZ3e2k=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 4FB19106E7917
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1761539137;
-	bh=rEuEFpJaqguTP6zBfsgvlVykQOT8EAPojPlj+YAPv1Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=m44zZM76V/a9njukwvMQv85rxm1+DYEE7Yfr4AjUxH4H29c2nCOHdbokYjIxYebMS
-	 JdRdsABxtpQdIHq/1jVjgeZbV/JV9z4JkA9QfX+2ubU6NYRvyqplz0GezrrWTNGAb5
-	 /hz8znqgajQOVoBYt87u0wSscamJt0uOKgqp0GuY=
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BgtQPv99"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4298b865f84so2243522f8f.3
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 22:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761542859; x=1762147659; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sMQm/qKPeH1g9CIR6f10NMelAH+jy5bqtx5lzdYvSPI=;
+        b=BgtQPv991ykr+JyI16mc3aazZKz2nKl6PYyuef43uLMaE9Lcyrf+UABekbyHVgC7f5
+         H0lwbIbmFVFp/s4rGvsSOqeFSftOIlbzlLmpQRZurbiYMW2nBMawSBIVf84QV0IW4FVI
+         C/IPOxPeG5VGoL4KPUp6EHkINw2cOCGTB+vT0DG+fhh1oSVGrAVIq/cvqJwWeTvSc6o3
+         zySvJcNWYa1D7S6xnvfR7UZ1MWCr/2xB6UODCDHdBdLx5ynu+i0tpKuu9KZBhGuGv4hl
+         uwdVR7BMMXuI3+cbDwTxS0ml/w42LF8meAZuIVu0wFmTTUajmOi9Lc98fN8G9glhuKBJ
+         S8Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761542859; x=1762147659;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sMQm/qKPeH1g9CIR6f10NMelAH+jy5bqtx5lzdYvSPI=;
+        b=LWcwsRIwgb4Lp0RhJrLN5OtR2lgNss23aQIdFNlco5RJkJy+6OFwj7aJNg5Dsj+vu2
+         1gAw4rX9GFS0ET7yS6WwZs4IYxqcfNo0wiLFk81B1hJHAq0kdDy0cAn5jTHx4+9dmjVR
+         wxZyYD0lCjOF/nuHQPfHpyAhjjN5pVeOpMAwnHFYVfYCjF3THaU1N8hSD5g4/4m6q9jl
+         KB001MWM6cCP7J382zDjfSy8ey11wBKO851JfQj6S0+XDzIUs4yYG4ocbY6cDmhOTi8G
+         vDhDETA9BZBrH241CM+B8wQJJZyhoFf1WI8Wy+TE+3tOrX122j5w/sQ7E2p28nI8pd9r
+         0LMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTkdcaGMrSLLm+VxVbRNvKFsC5jnDLG1uSifHmCpoAbU2sa2JahkDShSKXL6M7wpW12FcU3h5HECs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwE1//YkuYc60tXkcb50G5k0Edsce8+nIx1tmgoDKGqbrGltJu+
+	IU8ZmzHcO67uQHxb6zFWL6Y9QpzKzUVRHf9mslhCFeFcc+iZR0U5o8ezZ5EqO5h5ni0=
+X-Gm-Gg: ASbGncujccumiVTQtrksszI4J0F0jpIWoKmFMz31B3rdYYW/Au9fC/IH+chVi9t9Vy0
+	PA5YTsdMETLTRyU2n+vidmCvzTowBdFG0Y1pjg9vrRHD4A9Hc971MB4tMmERTyuQnm6/OS2BAF3
+	M5qKFalky8Kqt+EBx3u8WURCUDiyZcPZcNnn/2aUpxDAt5BNvUdjNAcSfNpU4E0mjgO9Y6D+BNp
+	DNHTjkTKeAO1963jaJdT9ecnqkxxYpV/F513rSwmonq56wuW+1uQmLICtsrznsIMnU+mXNkaoq1
+	byFmMIUDvL8qiGa5OQHcLCLGfzVoc169minjoNSJJEqAIWFw2Rsehy/ZE6eInuUgjhiFqPnUEcz
+	0XA4FkLU3+VBVCkOJLHbPY0yIPxU3N6xUgxbWOBfwW5c+AQFcRtabqtqhzrDIShma88wCSc8Nsi
+	pbUrxUpjj67bgf5XAHfxr6kbok14k=
+X-Google-Smtp-Source: AGHT+IGGMWIW5dTfslm/6ukE4iyqbFwa7B8xtQ/z5FIOwZZue/OCt475nBYcheMy53fO8smuBJDifQ==
+X-Received: by 2002:a05:6000:2c0b:b0:427:84a:6dc9 with SMTP id ffacd0b85a97d-427084a6ff0mr24497662f8f.59.1761542858724;
+        Sun, 26 Oct 2025 22:27:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952b7b43sm12237102f8f.6.2025.10.26.22.27.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 22:27:38 -0700 (PDT)
+Date: Mon, 27 Oct 2025 08:27:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: ally heev <allyheev@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	David Hunter <david.hunter.linux@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Subject: Re: [PATCH v2 2/2] add check for pointers with __free attribute
+ initialized to NULL
+Message-ID: <aP8CxkXYAitKB3vx@stanley.mountain>
+References: <20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com>
+ <20251024-aheev-checkpatch-uninitialized-free-v2-2-16c0900e8130@gmail.com>
+ <aPvAm1E7CvQfOIuS@stanley.mountain>
+ <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 27 Oct 2025 13:25:37 +0900
-From: weibu@redadmin.org
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Subject: [PATCH] docs: ja_JP: Move submitting-patches to
- process/ and add to build
-In-Reply-To: <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
-References: <20251024235437.801625-1-weibu@redadmin.org>
- <67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com>
-Message-ID: <1a97317518d8dcd7d5f0aea898e21f09@redadmin.org>
-X-Sender: weibu@redadmin.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81e6af8eea5b0399d1685797d0ea6a6ebc273270.camel@gmail.com>
 
-Hi Akira-san,
+On Sat, Oct 25, 2025 at 11:53:56AM +0530, ally heev wrote:
+> On Fri, 2025-10-24 at 21:08 +0300, Dan Carpenter wrote:
+> > On Fri, Oct 24, 2025 at 10:59:16PM +0530, Ally Heev wrote:
+> > > pointers with __free attribute initialized to NULL
+> > > pose potential cleanup issues [1] when a function uses
+> > > interdependent variables with cleanup attributes
+> > > 
+> > > Link: https://docs.kernel.org/core-api/cleanup.html [1]
+> > > Link: https://lore.kernel.org/all/68f7b830ec21a_10e910070@dwillia2-mobl4.notmuch/
+> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> > > Signed-off-by: Ally Heev <allyheev@gmail.com>
+> > > ---
+> > 
+> > I don't think this patch is a good idea...  There are two issues to
+> > consider 1) The absolute number over warnings.  500+ is too high.
+> > 2) The ratio of bugs to false positives and we don't have any data on
+> > that but I bet it's low.  It needs to be at least 5%.  For anything
+> > lower than that, you're better off just reviewing code at random
+> > instead of looking through warnings.
+> > 
+> > regards,
+> > dan carpenter
+> 
+> makes sense
+> 
+> General question about the process for my understanding:
+> Is checkpatch run on full tree by CI or someone and results reported
+> regularly ?
 
-Thank you for the detailed review. I will work on a v2 patch based on 
-your suggestions.
+Newbies run it regularly.  Otherwise it gets run on subsystem CIs and
+the zero-day bot runs it on new patches but it will report the old
+warnings as well under the "Old warnings" section.
 
-Thanks, Akiyoshi Kurita
+> My understanding was that we would run it only on patches
+> before submitting them Or we just run it on full tree before adding
+> new checks to understand if they are catching real issues
 
+Eventually someone will look at all the warnings.  And probably it's
+going to be a newbie and so we need to be careful with warning where
+newbies might introduce bugs with their changes.
 
-2025-10-27 11:53 に Akira Yokosawa さんは書きました:
-> Hi Kurita-san,
-> 
-> Thank for your continued work on this!
-> 
-> On Sat, 25 Oct 2025 08:54:37 +0900, Akiyoshi Kurita wrote:
->> As requested by Jonathan, move the Japanese translation of
->> 'SubmittingPatches' to its proper location under 'process/' and
->> convert it to reStructuredText.
-> 
-> In https://lore.kernel.org/87jz0xbk6f.fsf@trenco.lwn.net/, Jon said:
-> 
->>> That said ... this is not an RST file, and won't be pulled into the 
->>> docs
->>> build.  I would *love* to see a patch that moves this file into its
->>> proper location under .../process/ and brings it into the build.
-> 
-> This patch does the *minimal* thing, namely the rename of the file,
-> with minor changes near the top of the doc.
-> 
-> Yes, the resulting .rst doesn't cause any *new* warnings from Sphinx,
-> but looking at the resulting HTML (or PDF), I don't think the rendered
-> page looks nice.
-> 
-> I'm wondering if this is what Jon would love to see. (Well, Jon doesn't
-> read Japanese and would not mind.)
-> 
-> Of course, I understand you are going to do both translation and reST 
-> markup
-> updates as follow-up changes.  But I'd rather refrain from exposing
-> work-in-progress doc in the translations docs.
-> 
-> Please read on in-line comments below:
-> 
->> 
->> This patch also wires the new file into the Japanese documentation's
->> toctree, allowing it to be included in the Sphinx build.
->> 
->> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
->> ---
->>  Documentation/translations/ja_JP/index.rst    |  1 +
->>  .../submitting-patches.rst}                   | 61 
->> ++++++++++---------
->>  2 files changed, 32 insertions(+), 30 deletions(-)
->>  rename Documentation/translations/ja_JP/{SubmittingPatches => 
->> process/submitting-patches.rst} (96%)
->> 
->> diff --git a/Documentation/translations/ja_JP/index.rst 
->> b/Documentation/translations/ja_JP/index.rst
->> index 4159b417bfdd..8e01619d4170 100644
->> --- a/Documentation/translations/ja_JP/index.rst
->> +++ b/Documentation/translations/ja_JP/index.rst
->> @@ -11,6 +11,7 @@
->>  .. toctree::
->>     :maxdepth: 1
->> 
->> +   process/submitting-patches
-> 
-> This should come below process/howto. Still, as I said above, I think 
-> this
-> addition is premature.  One option would be to put a fat warning at the 
-> top
-> of the doc saying "This section is work-in-progress!!", or so.
-> 
->>     disclaimer-ja_JP
->>     process/howto
->>     process/submit-checklist
->> diff --git a/Documentation/translations/ja_JP/SubmittingPatches 
->> b/Documentation/translations/ja_JP/process/submitting-patches.rst
->> similarity index 96%
->> rename from Documentation/translations/ja_JP/SubmittingPatches
->> rename to 
->> Documentation/translations/ja_JP/process/submitting-patches.rst
->> index b950347b5993..4bfa84cc705d 100644
->> --- a/Documentation/translations/ja_JP/SubmittingPatches
->> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
->> @@ -1,33 +1,34 @@
->> -NOTE:
->> -This is a version of Documentation/process/submitting-patches.rst 
->> into Japanese.
->> -This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
->> -and the JF Project team <http://www.linux.or.jp/JF/>.
->> -If you find any difference between this document and the original 
->> file
->> -or a problem with the translation,
->> -please contact the maintainer of this file or JF project.
->> -
->> -Please also note that the purpose of this file is to be easier to 
->> read
->> -for non English (read: Japanese) speakers and is not intended as a
->> -fork. So if you have any comments or updates of this file, please try
->> -to update the original English file first.
->> -
->> -Last Updated: 2011/06/09
->> -
->> -==================================
->> -これは、
->> -linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
->> -です。
->> -翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
->> -翻訳日： 2011/06/09
->> -翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
->> -校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
->> -         Matsukura さん <nbh--mats at nifty dot com>
->> -         Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot 
->> jp>
->> -==================================
->> -
->> -        Linux カーネルに変更を加えるための Howto
->> -        又は
->> -        かの Linus Torvalds の取り扱い説明書
->> +..
->> +   NOTE:
->> +     This is a version of 
->> Documentation/process/submitting-patches.rst into Japanese.
->> +     This document is maintained by Keiichi KII 
->> <k-keiichi@bx.jp.nec.com>
->> +     and the JF Project team <http://www.linux.or.jp/JF/>.
->> +     If you find any difference between this document and the 
->> original file
->> +     or a problem with the translation,
->> +     please contact the maintainer of this file or JF project.
->> +
->> +     Please also note that the purpose of this file is to be easier 
->> to read
->> +     for non English (read: Japanese) speakers and is not intended as 
->> a
->> +     fork. So if you have any comments or updates of this file, 
->> please try
->> +     to update the original English file first.
->> +
->> +     Last Updated: 2011/06/09
->> +
->> +     ==================================
->> +     これは、
->> +     linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
->> +     です。
->> +     翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
->> +     翻訳日： 2011/06/09
->> +     翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
->> +     校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
->> +           Matsukura さん <nbh--mats at nifty dot com>
->> +           Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot 
->> jp>
->> +     ==================================
-> 
-> This historic contribution record can be removed.  The same happened in
-> howto.rst when Shibata-san did the conversion in commit f012733894d3
-> ("Documentation: Add HOWTO Japanese translation into rst based build
-> system").
-> 
-> Instead, please put a translation note referencing the disclaimer
-> under the document title as is done in (ja_JP's) howto.rst and
-> submit-checklist.rst.
-> 
->> +
->> +========================================
->> +Linux カーネルに変更を加えるための Howto
->> +========================================
-> 
-> Title of the original now reads:
-> 
->   Submitting patches: the essential guide to getting your code into the 
-> kernel
-> 
-> Back in 2005, it read:
-> 
->   How to Get Your Change Into the Linux Kernel
->           or
->   Care And Operation Of Your Linus Torvalds
-> 
-> And the Japanese translation has never had the title updated ...
-> 
-> Probably you can align the title with the current one.
-> 
-> As before, if you are not sure of the way to do, please ask me
-> before submitting a next version.
-> 
->         Thanks, Akira
-> 
->> 
->>  Linux カーネルに変更を加えたいと思っている個人又は会社にとって、パッ
->>  チの投稿に関連した仕組みに慣れていなければ、その過程は時々みなさんを
+regards,
+dan carpenter
+
