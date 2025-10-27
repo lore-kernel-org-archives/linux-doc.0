@@ -1,50 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C73630F959;
-	Mon, 27 Oct 2025 15:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C531158A;
+	Mon, 27 Oct 2025 15:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761580205; cv=none; b=ZEXnnIm11RSzhvMVRWDcUzKDfdBtgIe+lt3+gn6gdrYbp3qrkgwZout5jWj/UYHtp2RUy49hFcys61QKQ3e/PITFsQeodI7RUmMX2Q26h6oddAnSXYmcvAHceCPRoEJQhWm+WIrSsNkmyNzqkeee2ASdAOyRjUfUs7XTSnydgJo=
+	t=1761580401; cv=none; b=KDXG54Iy2dvWzgY+tTAqO9gJuIHUpzZfjR1GlQu+fzlsnZaJYaEHa+0c0O3/upP9mu5npzn3VMRe7qpR5d1Kdp9vhlgKtKq920405YGjTFK29eMP7U5uBBEF7RHDNdIpMrdtspdp5bmjFDoZ4voesjxLWSQP/nthAOWct9Z7rIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761580205; c=relaxed/simple;
-	bh=RdygzJT2XsrdTbtmQzSWCPJAunS+teSOMTJJuISCOZA=;
+	s=arc-20240116; t=1761580401; c=relaxed/simple;
+	bh=9ed2/B1CeLkGWer5c7mQhrYP3akCLNHeBkJT0wY9xRo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o/21QEXDqHeXAPXqqI4Ih/m1UbIG++09LJgozwArYohXe0/C0dsk9c0b/8wnd0ObCU9ckUXcZPQA8mQs7LvWm8kkxcYN7dciT74XFhXq6Z7/GGKj+phQ86poY5/IigdsGeHOxzO2IHFBh2lLK7XApw8wKp4EYfpxbNwtBi9t5rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5T6yDX2; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=ZWOlPbobAljHPLeS1dA7UGCI0a5g4cJkDSjUSk7Z5x1xoIo/ZED1U1gPPv9RdTxwrtQWRpil8QLl1SjAy8v1N5NNwwpdDSVDlXVDzmkXLiSaKiIJUhEFbR+B3hbxzFRaJhw68e1tQy4CrdB87pFx6r1rm5f3kHtLs8f3rLDBta8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fxtYLifd; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5T6yDX2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761580203; x=1793116203;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RdygzJT2XsrdTbtmQzSWCPJAunS+teSOMTJJuISCOZA=;
-  b=C5T6yDX2rqiH17VCoHwNFH6URWl2JieiJ71bDNQgcjGvNVxzpGNV54UD
-   Fjbkljy+rJ0NDWjjRLUWp0wvcsOsM/hq11Yae3a3r6iEtDLtgv03w+ewe
-   mraBmOv7wzjYj9hsjluMRNsi4iRnYqe77QBlYcwXaLKEH34vVkg9L05hC
-   e8kABoPSnCjnESieOqepxmBmU7nEjsLdfQAWxsNnLO/qgYn12ZQysBMXs
-   t2+jalyQwDh8Jxib/HLf4syGNnxHmdh1cna6b1fvIVUcv5jhGDuwg7zTk
-   s2WxK3Cnpob5INOnGgDswaxlAe+sUXZaZZ6ovFS7jilNKyR6N60lIDN52
-   g==;
-X-CSE-ConnectionGUID: 348FZAcJSfOv3l+ULUpX0w==
-X-CSE-MsgGUID: tVezxVxsQZSFuVDfIk6f4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74263407"
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="74263407"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 08:50:03 -0700
-X-CSE-ConnectionGUID: lS/Zz6CmQuCe+yil2nnJ5A==
-X-CSE-MsgGUID: 2sdsPN4IRkmQJG6oOxEFng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="190288043"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.109.112]) ([10.125.109.112])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 08:50:02 -0700
-Message-ID: <c6a006dd-1ad4-4bd7-a21e-5ae9b1aa688f@intel.com>
-Date: Mon, 27 Oct 2025 08:50:01 -0700
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fxtYLifd"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E75D51A16C3;
+	Mon, 27 Oct 2025 15:53:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BA2F36062C;
+	Mon, 27 Oct 2025 15:53:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 50D1D102F2428;
+	Mon, 27 Oct 2025 16:53:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761580394; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=GlTdPc7pj5urAwGu8OzGWrkdJwvba9a2IKrizTjf7Z8=;
+	b=fxtYLifdMq7FnKTctd0vCyJbBvk1UIIKaV9xFiPnWp4yyLWNdP1x0PkyKbMa2lMwfdYhU0
+	jcXBlYEiXH1zJXMZ4/yMPhPS0kW3AiuASbetTmOZZsl39JfrOdGXAWQslEzc52c0GcYb7l
+	vdWNBBLYVFq12yqranYSyGJCoR4A8uoSjJaHEXy/nm1bg/fvpwFESGHNjK0upxh+rL9IlX
+	FTopSU7VaXlIxjR8MbPJiQWzptbUvC9Hdf00QiAS8AsToxSUdvFDw7NY6HcHcQMxViKW69
+	thd/ZDL7KK6wPr3hNsWgFO6Sd9CnUVL/m+wqkTPZzh7oVfM6mOwBqVNpVRDOhw==
+Message-ID: <0dac7c85-0b44-4a6c-b1e1-5833649e6413@bootlin.com>
+Date: Mon, 27 Oct 2025 16:53:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,72 +42,204 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/22] x86/cea: Export __this_cpu_ist_top_va() to KVM
-To: "Xin Li (Intel)" <xin@zytor.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
- hch@infradead.org, sohil.mehta@intel.com
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-7-xin@zytor.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251026201911.505204-7-xin@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 00/22] VKMS: Introduce multiple configFS attributes
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <aP-OLNFQA0M16xuy@fedora>
+Content-Language: en-US, fr
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <aP-OLNFQA0M16xuy@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 10/26/25 13:18, Xin Li (Intel) wrote:
-> Export __this_cpu_ist_top_va() to allow KVM to retrieve the per-CPU
-> exception stack top.
+
+
+Le 27/10/2025 à 16:22, José Expósito a écrit :
+> Hey Louis,
 > 
-> FRED introduced new fields in the host-state area of the VMCS for stack
-> levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively corresponding to
-> per-CPU exception stacks for #DB, NMI and #DF.  KVM must populate these
-> fields each time a vCPU is loaded onto a CPU.
+> On Sat, Oct 18, 2025 at 04:01:00AM +0200, Louis Chauvet wrote:
+>> VKMS have a wide range of options. The aim of this series is to introduce
+>> many configfs attribute so VKMS can be used to test a wide range of
+>> configurations.
+>>
+>> This series depends on [1] that should be applied soon.
+>>
+>> PATCH 1-13 are for configuring planes
+>> - name
+>> - rotation
+>> - color encoding
+>> - color range
+>> - plane formats
+>> - zpos
+>> PATCH 14-19 are for configuring the connector
+>> - type
+>> - supported colorspace
+>> - edid
+>> PATCH 20-22 are to enable dynamic connectors
+>>
+>> [1]:https://lore.kernel.org/all/20251016175618.10051-1-jose.exposito89@gmail.com
+>>
+>> PS: Each pair of config/configfs patch are independant. I could
+>> technically create ≈10 different series, but there will be a lot of
+>> (trivial) conflicts between them. I will be happy to reordoer, split and
+>> partially apply this series to help the review process.
+> 
+> I just finished reviewing the series.
 
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Thanks a lot, I started to apply your suggestions (I agree to most of them).
+
+> Amazing work, thanks a lot for adding all of these new properties!!
+> 
+> I'd like to see KUnit and IGT coverage to test coner cases and, since this
+> is uAPI, to have a mechanishm to catch regressions without lots of manual
+> testing.
+
+I started to add some Kunits for vkms_config.c, for the format parsing too.
+
+> Let's talk so we can start working on them on v2, I'll be able to help in
+> that front if needed.
+
+I finish to apply your suggestions and I will send the v2 soon, so we 
+can discuss on the same ground. I think we can add a little bit of 
+vkms_config.c testing, but for vkms_configfs I need to see if we can 
+mock configfs interations from kunit tests.
+
+Have a nice week,
+Louis Chauvet
+
+> Best wishes,
+> Jose
+>   
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> ---
+>> Louis Chauvet (22):
+>>        drm/vkms: Introduce config for plane name
+>>        drm/vkms: Introduce configfs for plane name
+>>        drm/vkms: Introduce config for plane rotation
+>>        drm/vkms: Introduce configfs for plane rotation
+>>        drm/vkms: Introduce config for plane color encoding
+>>        drm/vkms: Introduce configfs for plane color encoding
+>>        drm/vkms: Introduce config for plane color range
+>>        drm/vkms: Introduce configfs for plane color range
+>>        drm/vkms: Introduce config for plane format
+>>        drm/vkms: Introduce configfs for plane format
+>>        drm/vkms: Properly render plane using their zpos
+>>        drm/vkms: Introduce config for plane zpos property
+>>        drm/vkms: Introduce configfs for plane zpos property
+>>        drm/vkms: Introduce config for connector type
+>>        drm/vkms: Introduce configfs for connector type
+>>        drm/vkms: Introduce config for connector supported colorspace
+>>        drm/vkms: Introduce configfs for connector supported colorspace
+>>        drm/vkms: Introduce config for connector EDID
+>>        drm/vkms: Introduce configfs for connector EDID
+>>        drm/vkms: Store the enabled/disabled status for connector
+>>        drm/vkms: Allow to hot-add connectors
+>>        drm/vkms: Allows the creation of connector at runtime
+>>
+>>   Documentation/gpu/vkms.rst                    |  42 +-
+>>   drivers/gpu/drm/vkms/tests/vkms_config_test.c |  18 +
+>>   drivers/gpu/drm/vkms/vkms_config.c            | 183 ++++++
+>>   drivers/gpu/drm/vkms/vkms_config.h            | 524 +++++++++++++++
+>>   drivers/gpu/drm/vkms/vkms_configfs.c          | 893 +++++++++++++++++++++++++-
+>>   drivers/gpu/drm/vkms/vkms_connector.c         | 137 +++-
+>>   drivers/gpu/drm/vkms/vkms_connector.h         |  36 +-
+>>   drivers/gpu/drm/vkms/vkms_crtc.c              |  11 +-
+>>   drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>>   drivers/gpu/drm/vkms/vkms_output.c            |  19 +-
+>>   drivers/gpu/drm/vkms/vkms_plane.c             |  73 +--
+>>   11 files changed, 1865 insertions(+), 77 deletions(-)
+>> ---
+>> base-commit: b291e4f1a4951204ce858cd01801291d34962a33
+>> change-id: 20251017-vkms-all-config-bd0c2a01846f
+>> prerequisite-message-id: 20251016175618.10051-1-jose.exposito89@gmail.com
+>> prerequisite-patch-id: 74083a8806b1f26d9b4cd2a5107c756b971c4d11
+>> prerequisite-patch-id: f982390487699921b625b413e8460d67ca7a74c9
+>> prerequisite-patch-id: 0afca639e43c8fbfea2af1bc395e489efc8e1f10
+>> prerequisite-patch-id: 6285108b2fd90d30d15d4cb4fdddfef953fad51b
+>> prerequisite-patch-id: 2eacf5ad4f25f54a60958aa7a2df633d5642ce2f
+>> prerequisite-patch-id: 81e98ac3aeb3b6128098ab7bab56d3446a3a2705
+>> prerequisite-patch-id: 973f94c4edb4a5822c84a57d4479ca40e9cf25de
+>> prerequisite-patch-id: 0efbaf1b0e962a1c40bf5a744b5089d8be696f62
+>> prerequisite-patch-id: afa0cff94085e6ab216ffd9b99cd3dc882a0a687
+>> prerequisite-patch-id: 3561347f2b586392985a8e3af9ed1c5c7d3eefd5
+>> prerequisite-patch-id: 94030044ae8d404f7cdaed9137bddd59cfb22e79
+>> prerequisite-patch-id: a54b483797d5ffb7ce13b56a8943025181cd0d7a
+>> prerequisite-patch-id: f148fe7f445cb42437e7e2ba8b59e7e0fd40da8b
+>> prerequisite-patch-id: 1ef2045872843670c452816c5d6187b713c9258c
+>> prerequisite-patch-id: 3b9963ea3ae3455ae15ee36b67042c06a2ef6006
+>> prerequisite-patch-id: 519ee42dfabb4de734e41e59bd07d7a723d810bb
+>>
+>> Best regards,
+>> -- 
+>> Louis Chauvet <louis.chauvet@bootlin.com>
+>>
+
+-- 
+--
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
