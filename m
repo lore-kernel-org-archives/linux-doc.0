@@ -1,250 +1,192 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A130A2FFFAD
-	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 12:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2630E83B
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 12:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761567136; cv=none; b=INk2vlj0HGuYwj2ZzsU9U5qp3V8AMTapW3c3CT6AJTAwTkEm5iuWKwGayp3sw8G8XwrEqV33WVZnddQdbmr87Ib51SGVJ22JaVt41gt2A7jzUMh6o4/7AqcwCmB59eqtRk0saYxBfk1H8RzA0hyZvM/wU4Rd2QTDFsj4XGlGSU8=
+	t=1761568117; cv=none; b=fzZyd/DKq4FS6W2eOQN6coV/9Sz21OQvjkNwS08QiKIHxAGjzooH2wJy3Rfws6QOQCJ6WpBIf+U9hof3JMZ2+NyN3zJFfsW81U+So5c/KcohYBb9QMsopAHElBlyM/sLv5pzP5eLoXs6LNei8yLw/asBgqqnAo3xoG2ClVObO3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761567136; c=relaxed/simple;
-	bh=Abr5mbwnWBxHCsJT0JX28zRVj7tmgWW1C8etKDryohM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vAPQsh4xHG7A+yvm6dW79WlJp4Pg0+CW2JAA4pkDnU2nV1JWILyAAD0nsVdQSJ4K7u+v3HBs7GJ+af6fULqB3yDdqx7mDZ40BAR8jVw0i07UL61YKfzClCv+VWE4HIWDVH7Ed8pxFYQ5kg0Ofeg+vX50uiIPIE+UBSy51K+d2ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UpUAvZe6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UpUAvZe6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761567133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8QmYcf2qcgHxyLSSNmPzf2VO7g9R1+3AwVMwAbR4/s=;
-	b=UpUAvZe6uK10LI1iZhcTmote/rKR2VL6JEkVbxbinI6FGXxHGltMQApTkyPRs0CsRi9E41
-	gLjUCrll3wBI2YHUYbdIi58f4OPHO91AgYH+4XO3HpHkP52/3V1L1EtLpRhSRi1WgqGXP6
-	/FFHe3mb2Z7P3MNwcBIlJIBg4dz6CA8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-483-gTH_jFoHP2-lTU4NonmGOw-1; Mon,
- 27 Oct 2025 08:12:09 -0400
-X-MC-Unique: gTH_jFoHP2-lTU4NonmGOw-1
-X-Mimecast-MFC-AGG-ID: gTH_jFoHP2-lTU4NonmGOw_1761567127
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 420A81956095;
-	Mon, 27 Oct 2025 12:12:07 +0000 (UTC)
-Received: from bfoster (unknown [10.22.88.105])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE0241955F1B;
-	Mon, 27 Oct 2025 12:12:03 +0000 (UTC)
-Date: Mon, 27 Oct 2025 08:16:22 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, djwong@kernel.org,
-	hch@infradead.org, hsiangkao@linux.alibaba.com,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 07/14] iomap: track pending read bytes more optimally
-Message-ID: <aP9illNXOVJ8SF6m@bfoster>
-References: <20250926002609.1302233-1-joannelkoong@gmail.com>
- <20250926002609.1302233-8-joannelkoong@gmail.com>
- <aPqDPjnIaR3EF5Lt@bfoster>
- <CAJnrk1aNrARYRS+_b0v8yckR5bO4vyJkGKZHB2788vLKOY7xPw@mail.gmail.com>
- <CAJnrk1b3bHYhbW9q0r4A0NjnMNEbtCFExosAL_rUoBupr1mO3Q@mail.gmail.com>
- <aPuz4Uop66-jRpN-@bfoster>
- <CAJnrk1bqjykKtpAdsHLPuuvHTzOHW0tExRZ8KKmKYyfDpuAsTQ@mail.gmail.com>
- <CAJnrk1ZOcnOT77c2fCiqzV=ZiiNnxOcB7wXn4=V+VFijS+-2Rw@mail.gmail.com>
+	s=arc-20240116; t=1761568117; c=relaxed/simple;
+	bh=L9LxTCJnLidjQ0FINVcgyW2iNiTY0y7dkDTbhCm44l4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qnAuHvQjnTgzwIzCN/LeM1drJCLm0TV0FAZ8zyx+SIoGiJTFBQaxm57SYZOyYRn8qD9WLB5i37IVGTCeZT9QUesICO7NhxFKikroHM8rl+X5mpn4Y9kOXROt9tzxvADp0OGhMFu4LdoRqs7vqHYNqoPdlYNIXlhNZAkz3maWLZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vDMKX-0004fr-TA; Mon, 27 Oct 2025 13:28:09 +0100
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vDMKV-005he0-1l;
+	Mon, 27 Oct 2025 13:28:07 +0100
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1vDMKV-000000047aM-1o48;
+	Mon, 27 Oct 2025 13:28:07 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com,
+	linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>,
+	Roan van Dijk <roan@protonic.nl>
+Subject: [PATCH net-next v8 4/4] net: phy: dp83td510: add MSE interface support for 10BASE-T1L
+Date: Mon, 27 Oct 2025 13:28:01 +0100
+Message-ID: <20251027122801.982364-5-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251027122801.982364-1-o.rempel@pengutronix.de>
+References: <20251027122801.982364-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZOcnOT77c2fCiqzV=ZiiNnxOcB7wXn4=V+VFijS+-2Rw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, Oct 24, 2025 at 02:55:20PM -0700, Joanne Koong wrote:
-> On Fri, Oct 24, 2025 at 12:48 PM Joanne Koong <joannelkoong@gmail.com> wrote:
-> >
-> > On Fri, Oct 24, 2025 at 10:10 AM Brian Foster <bfoster@redhat.com> wrote:
-> > >
-> > > On Fri, Oct 24, 2025 at 09:25:13AM -0700, Joanne Koong wrote:
-> > > > On Thu, Oct 23, 2025 at 5:01 PM Joanne Koong <joannelkoong@gmail.com> wrote:
-> > > > >
-> > > > > On Thu, Oct 23, 2025 at 12:30 PM Brian Foster <bfoster@redhat.com> wrote:
-> > > > > >
-> > > > > > On Thu, Sep 25, 2025 at 05:26:02PM -0700, Joanne Koong wrote:
-> > > > > > > Instead of incrementing read_bytes_pending for every folio range read in
-> > > > > > > (which requires acquiring the spinlock to do so), set read_bytes_pending
-> > > > > > > to the folio size when the first range is asynchronously read in, keep
-> > > > > > > track of how many bytes total are asynchronously read in, and adjust
-> > > > > > > read_bytes_pending accordingly after issuing requests to read in all the
-> > > > > > > necessary ranges.
-> > > > > > >
-> > > > > > > iomap_read_folio_ctx->cur_folio_in_bio can be removed since a non-zero
-> > > > > > > value for pending bytes necessarily indicates the folio is in the bio.
-> > > > > > >
-> > > > > > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > > > > > > Suggested-by: "Darrick J. Wong" <djwong@kernel.org>
-> > > > > > > ---
-> > > > > >
-> > > > > > Hi Joanne,
-> > > > > >
-> > > > > > I was throwing some extra testing at the vfs-6.19.iomap branch since the
-> > > > > > little merge conflict thing with iomap_iter_advance(). I end up hitting
-> > > > > > what appears to be a lockup on XFS with 1k FSB (-bsize=1k) running
-> > > > > > generic/051. It reproduces fairly reliably within a few iterations or so
-> > > > > > and seems to always stall during a read for a dedupe operation:
-> > > > > >
-> > > > > > task:fsstress        state:D stack:0     pid:12094 tgid:12094 ppid:12091  task_flags:0x400140 flags:0x00080003
-> > > > > > Call Trace:
-> > > > > >  <TASK>
-> > > > > >  __schedule+0x2fc/0x7a0
-> > > > > >  schedule+0x27/0x80
-> > > > > >  io_schedule+0x46/0x70
-> > > > > >  folio_wait_bit_common+0x12b/0x310
-> > > > > >  ? __pfx_wake_page_function+0x10/0x10
-> > > > > >  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
-> > > > > >  filemap_read_folio+0x85/0xd0
-> > > > > >  ? __pfx_xfs_vm_read_folio+0x10/0x10 [xfs]
-> > > > > >  do_read_cache_folio+0x7c/0x1b0
-> > > > > >  vfs_dedupe_file_range_compare.constprop.0+0xaf/0x2d0
-> > > > > >  __generic_remap_file_range_prep+0x276/0x2a0
-> > > > > >  generic_remap_file_range_prep+0x10/0x20
-> > > > > >  xfs_reflink_remap_prep+0x22c/0x300 [xfs]
-> > > > > >  xfs_file_remap_range+0x84/0x360 [xfs]
-> > > > > >  vfs_dedupe_file_range_one+0x1b2/0x1d0
-> > > > > >  ? remap_verify_area+0x46/0x140
-> > > > > >  vfs_dedupe_file_range+0x162/0x220
-> > > > > >  do_vfs_ioctl+0x4d1/0x940
-> > > > > >  __x64_sys_ioctl+0x75/0xe0
-> > > > > >  do_syscall_64+0x84/0x800
-> > > > > >  ? do_syscall_64+0xbb/0x800
-> > > > > >  ? avc_has_perm_noaudit+0x6b/0xf0
-> > > > > >  ? _copy_to_user+0x31/0x40
-> > > > > >  ? cp_new_stat+0x130/0x170
-> > > > > >  ? __do_sys_newfstat+0x44/0x70
-> > > > > >  ? do_syscall_64+0xbb/0x800
-> > > > > >  ? do_syscall_64+0xbb/0x800
-> > > > > >  ? clear_bhb_loop+0x30/0x80
-> > > > > >  ? clear_bhb_loop+0x30/0x80
-> > > > > >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> > > > > > RIP: 0033:0x7fe6bbd9a14d
-> > > > > > RSP: 002b:00007ffde72cd4e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > > > > > RAX: ffffffffffffffda RBX: 0000000000000068 RCX: 00007fe6bbd9a14d
-> > > > > > RDX: 000000000a1394b0 RSI: 00000000c0189436 RDI: 0000000000000004
-> > > > > > RBP: 00007ffde72cd530 R08: 0000000000001000 R09: 000000000a11a3fc
-> > > > > > R10: 000000000001d6c0 R11: 0000000000000246 R12: 000000000a12cfb0
-> > > > > > R13: 000000000a12ba10 R14: 000000000a14e610 R15: 0000000000019000
-> > > > > >  </TASK>
-> > > > > >
-> > > > > > It wasn't immediately clear to me what the issue was so I bisected and
-> > > > > > it landed on this patch. It kind of looks like we're failing to unlock a
-> > > > > > folio at some point and then tripping over it later..? I can kill the
-> > > > > > fsstress process but then the umount ultimately gets stuck tossing
-> > > > > > pagecache [1], so the mount still ends up stuck indefinitely. Anyways,
-> > > > > > I'll poke at it some more but I figure you might be able to make sense
-> > > > > > of this faster than I can.
-> > > > > >
-> > > > > > Brian
-> > > > >
-> > > > > Hi Brian,
-> > > > >
-> > > > > Thanks for your report and the repro instructions. I will look into
-> > > > > this and report back what I find.
-> > > >
-> > > > This is the fix:
-> > > >
-> > > > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > > > index 4e6258fdb915..aa46fec8362d 100644
-> > > > --- a/fs/iomap/buffered-io.c
-> > > > +++ b/fs/iomap/buffered-io.c
-> > > > @@ -445,6 +445,9 @@ static void iomap_read_end(struct folio *folio,
-> > > > size_t bytes_pending)
-> > > >                 bool end_read, uptodate;
-> > > >                 size_t bytes_accounted = folio_size(folio) - bytes_pending;
-> > > >
-> > > > +               if (!bytes_accounted)
-> > > > +                       return;
-> > > > +
-> > > >                 spin_lock_irq(&ifs->state_lock);
-> > > >
-> > > >
-> > > > What I missed was that if all the bytes in the folio are non-uptodate
-> > > > and need to read in by the filesystem, then there's a bug where the
-> > > > read will be ended on the folio twice (in iomap_read_end() and when
-> > > > the filesystem calls iomap_finish_folio_write(), when only the
-> > > > filesystem should end the read), which does 2 folio unlocks which ends
-> > > > up locking the folio. Looking at the writeback patch that does a
-> > > > similar optimization [1], I miss the same thing there.
-> > > >
-> > >
-> > > Makes sense.. though a short comment wouldn't hurt in there. ;) I found
-> > > myself a little confused by the accounted vs. pending naming when
-> > > reading through that code. If I follow correctly, the intent is to refer
-> > > to the additional bytes accounted to read_bytes_pending via the init
-> > > (where it just accounts the whole folio up front) and pending refers to
-> > > submitted I/O.
-> > >
-> > > Presumably that extra accounting doubly serves as the typical "don't
-> > > complete the op before the submitter is done processing" extra
-> > > reference, except in this full submit case of course. If so, that's
-> > > subtle enough in my mind that a sentence or two on it wouldn't hurt..
-> >
-> > I will add some a comment about this :) That's a good point about the
-> > naming, maybe "bytes_submitted" and "bytes_unsubmitted" is a lot less
-> > confusing than "bytes_pending" and "bytes_accounted".
-> 
-> Thinking about this some more, bytes_unsubmitted sounds even more
-> confusing, so maybe bytes_nonsubmitted or bytes_not_submitted. I'll
-> think about this some more but kept it as pending/accounted for now.
-> 
+Implement get_mse_capability() and get_mse_snapshot() for the DP83TD510E
+to expose its Mean Square Error (MSE) register via the new PHY MSE
+UAPI.
 
-bytes_submitted sounds better than pending to me, not sure about
-unsubmitted or whatever. As long as there's a sentence or two that
-explains what accounted means in the end helper, though, that seems
-reasonable enough to me.
+The DP83TD510E does not document any peak MSE values; it only exposes
+a single average MSE register used internally to derive SQI. This
+implementation therefore advertises only PHY_MSE_CAP_AVG, along with
+LINK and channel-A selectors. Scaling is fixed to 0xFFFF, and the
+refresh interval/number of symbols are estimated from 10BASE-T1L
+symbol rate (7.5 MBd) and typical diagnostic intervals (~1 ms).
 
-Brian
+For 10BASE-T1L deployments, SQI is a reliable indicator of link
+modulation quality once the link is established, but it does not
+indicate whether autonegotiation pulses will be correctly received
+in marginal conditions. MSE provides a direct measurement of slicer
+error rate that can be used to evaluate if autonegotiation is likely
+to succeed under a given cable length and condition. In practice,
+testing such scenarios often requires forcing a fixed-link setup to
+isolate MSE behaviour from the autonegotiation process.
 
-> The fix for this bug is here [1].
-> 
-> Thanks,
-> Joanne
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/20251024215008.3844068-1-joannelkoong@gmail.com/
-> 
-> >
-> > Thanks,
-> > Joanne
-> >
-> > >
-> > > > I'll fix up both. Thanks for catching this and bisecting it down to
-> > > > this patch. Sorry for the trouble.
-> > > >
-> > >
-> > > No prob. Thanks for the fix!
-> > >
-> > > Brian
-> > >
-> > > > Thanks,
-> > > > Joanne
-> > > >
-> > > > [1] https://lore.kernel.org/linux-fsdevel/20251009225611.3744728-4-joannelkoong@gmail.com/
-> > > > >
-> > > > > Thanks,
-> > > > > Joanne
-> > > > > >
-> > > >
-> > >
-> 
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+---
+changes v8:
+- use enum phy_mse_channel channel instead of u32
+changes v7:
+- add Reviewed-by
+---
+ drivers/net/phy/dp83td510.c | 62 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+diff --git a/drivers/net/phy/dp83td510.c b/drivers/net/phy/dp83td510.c
+index 23af1ac194fa..d75dae6071ad 100644
+--- a/drivers/net/phy/dp83td510.c
++++ b/drivers/net/phy/dp83td510.c
+@@ -61,6 +61,7 @@
+ #define DP83TD510E_MASTER_SLAVE_RESOL_FAIL	BIT(15)
+ 
+ #define DP83TD510E_MSE_DETECT			0xa85
++#define DP83TD510E_MSE_MAX			U16_MAX
+ 
+ #define DP83TD510_SQI_MAX	7
+ 
+@@ -249,6 +250,64 @@ struct dp83td510_priv {
+ #define DP83TD510E_ALCD_COMPLETE			BIT(15)
+ #define DP83TD510E_ALCD_CABLE_LENGTH			GENMASK(10, 0)
+ 
++static int dp83td510_get_mse_capability(struct phy_device *phydev,
++					struct phy_mse_capability *cap)
++{
++	/* DP83TD510E documents only a single (average) MSE register
++	 * (used to derive SQI); no peak or worst-peak counters are
++	 * described. Advertise only PHY_MSE_CAP_AVG.
++	 */
++	cap->supported_caps = PHY_MSE_CAP_AVG;
++	/* 10BASE-T1L is a single-pair medium, so there are no B/C/D channels.
++	 * We still advertise PHY_MSE_CAP_CHANNEL_A to indicate that the PHY
++	 * can attribute the measurement to a specific pair (the only one),
++	 * rather than exposing it only as a link-aggregate.
++	 *
++	 * Rationale:
++	 *  - Keeps the ethtool MSE_GET selection logic consistent: per-channel
++	 *    (A/B/C/D) is preferred over WORST/LINK, so userspace receives a
++	 *    CHANNEL_A nest instead of LINK.
++	 *  - Signals to tools that "per-pair" data is available (even if there's
++	 *    just one pair), avoiding the impression that only aggregate values
++	 *    are supported.
++	 *  - Remains compatible with multi-pair PHYs and uniform UI handling.
++	 *
++	 * Note: WORST and other channels are not advertised on 10BASE-T1L.
++	 */
++	cap->supported_caps |= PHY_MSE_CHANNEL_A | PHY_MSE_CAP_LINK;
++	cap->max_average_mse = DP83TD510E_MSE_MAX;
++
++	/* The datasheet does not specify the refresh rate or symbol count,
++	 * but based on similar PHYs and standards, we can assume a common
++	 * value. For 10BASE-T1L, the symbol rate is 7.5 MBd. A common
++	 * diagnostic interval is around 1ms.
++	 * 7.5e6 symbols/sec * 0.001 sec = 7500 symbols.
++	 */
++	cap->refresh_rate_ps = 1000000000; /* 1 ms */
++	cap->num_symbols = 7500;
++
++	return 0;
++}
++
++static int dp83td510_get_mse_snapshot(struct phy_device *phydev,
++				      enum phy_mse_channel channel,
++				      struct phy_mse_snapshot *snapshot)
++{
++	int ret;
++
++	if (channel != PHY_MSE_CHANNEL_LINK &&
++	    channel != PHY_MSE_CHANNEL_A)
++		return -EOPNOTSUPP;
++
++	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_MSE_DETECT);
++	if (ret < 0)
++		return ret;
++
++	snapshot->average_mse = ret;
++
++	return 0;
++}
++
+ static int dp83td510_led_brightness_set(struct phy_device *phydev, u8 index,
+ 					enum led_brightness brightness)
+ {
+@@ -893,6 +952,9 @@ static struct phy_driver dp83td510_driver[] = {
+ 	.get_phy_stats	= dp83td510_get_phy_stats,
+ 	.update_stats	= dp83td510_update_stats,
+ 
++	.get_mse_capability = dp83td510_get_mse_capability,
++	.get_mse_snapshot = dp83td510_get_mse_snapshot,
++
+ 	.led_brightness_set = dp83td510_led_brightness_set,
+ 	.led_hw_is_supported = dp83td510_led_hw_is_supported,
+ 	.led_hw_control_set = dp83td510_led_hw_control_set,
+-- 
+2.47.3
 
