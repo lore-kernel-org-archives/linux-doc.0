@@ -1,40 +1,65 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C9226F28B;
-	Sun, 26 Oct 2025 23:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2838823771E
+	for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 01:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761520126; cv=none; b=OkrOGrTOTXUhqWjut7jUttGwX0PA+8kgOEF/U0Eo0Kj2kvztVzpJ0R1/by4Gy+pcFdnzFtU0ZrFAj0U9BmdqwYq1eLgNMWsHyEzc0hFCZqwmZvEpnYnuS4dr1/zfO9jWeJl4JMYU5hAdUzOWE7I78Kir2bst5bValWZNqHVaQ3I=
+	t=1761530368; cv=none; b=lf3/ifn5Sf9F6aO6PxEOLIblQyRuerAjkBLjVVAakxkL3OEUyQ0x/qsW8VL7KZZBgAQlpKLEsE7cTjeHbJeepQfhYXu2bQdKnSxec8PH9lNXkKYBwHuTmjz4KqcCC0HMxcH+MBKMls6c0fxD78KGnba7Dzfk5t9cyeFjSz5ggt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761520126; c=relaxed/simple;
-	bh=f/C4u5UA9qRZFwCUgLqt/0+lD/cFHCgOd+DAuAIX04k=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hskyPPCwv7e4oSU6v9tMoeRgOot6GFpOin8UpmJb7vDxiMsB54kB/pYBrSfOXthDSDzrtvw84htdFcJZtqFN/kr75F+ELs8/3M1rZimS+7S+AnDxMkcYOADon0y/RvwJShQZ8eg7TtyDMW37NpG33smzBikcvnukehzY8UdgH28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=QZpxA7Y2; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1761530368; c=relaxed/simple;
+	bh=HpEPiCN5qYwVqp7BzMb/oBMUXCw/sD9fYm6WiG+Dyq0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YmyJLAyyq0188hUuyW5Umv1RYDGx/k3/2YWEO8m4mHCP676fFaqIBjTyzV85JJB84W6uJfFkI+k+65ATIUMP1TQnwvjdAz140RkoJao6uUzB2hKT48iZJ0LDZnrrG+r1b0e5hIaGQqL5GtuVJUSeW1h60wPwBYTmWA7+E0BHtfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=goAbfdta; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="QZpxA7Y2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1761520107; x=1762124907; i=w_armin@gmx.de;
-	bh=VCA9uixoFwXY0NAqm4O6suWp7gf1AFZmvAK6AmLL1dM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=QZpxA7Y26Cuj5wVkKI5NgtYVeCP8/dYC37NF8iZSQRDIRbXy8elwdYr1jK28FG0i
-	 Vt87FCNcIeNuRzSKm3x+8zBQLp5NN0ZrFnTbIIYK9xP0jahh84pMHl12vxs3axEYf
-	 4l20YjzMwTHrPuJtxl4qBqvaEGl1v5BOyz9YGT2cGAgReaLIqa4arHs//QEVimQhU
-	 kDrFCYg8AUmn9aj6d+Ar3xx72CIrAGng/UwbOo/wJVLHMOhPNfKrlkAX/QgfFs9PN
-	 HSJuH4FfQCqI8WTMlmm4VGIWm3/0jsEgyWsCE409++Giy1keNhcn/AlAS1RG9T/k8
-	 3ezNiEqzt+OdTtloZA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mi2Jt-1uZiIc1xmD-00euXe; Mon, 27
- Oct 2025 00:08:27 +0100
-Message-ID: <7e078590-28b2-4dc5-bccb-5593f2ce494d@gmx.de>
-Date: Mon, 27 Oct 2025 00:08:21 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="goAbfdta"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-28a5b8b12a1so41316115ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Oct 2025 18:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761530366; x=1762135166; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AKkagDqvy8vzjbyvf1eBUmABe3ymGzGAkczrB89YTZA=;
+        b=goAbfdta1dBYY3EAzWfDurQ1mV5paBdMi1QT8ar6d88M+/eduYtAAU2UrnKgihrkjO
+         7BHELWqm1RweW/IkdxbmwJYL30qQNGvLjHHEODqFPRsa7Z9yl7r2/dwuyJe9MjxIIVpA
+         KAK5UiMgstJgvC3xpaIpsvfHmIpkyZLWtnaI4RDddKgQ0xBR3fcA2FnK+BvR0hKWk3Ow
+         4/qkUCoI9cxZkxKKe04RcE+Zbn+iRvrXkH2Asr+bdoPQOWk582bddbbM4cH8jeybS2An
+         V86MhTpU/JPPh/Zu8A0EB7MMgzLaVeJ67/IX9iIFr0PfB00K+I5gplkN2HIXoORfOjIE
+         tXRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761530366; x=1762135166;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AKkagDqvy8vzjbyvf1eBUmABe3ymGzGAkczrB89YTZA=;
+        b=jWlefqOBugiPMASc/a1MdLPypF91eyIVa4HdfuPX7jVCmzXyKOcgXF+tHR+mCmPht1
+         DHLGtympB4Zi3F3OFkP191toY/0KUdwZX4ub60KOVw8oimEcuzrb5PuX+H3VlT6+4S64
+         wHYkavPmfrjoUB18om7IMYtl3vpCxr+zInbscOWkNPnRdB6ZOaU7Gn4+UFpJMjUxGka7
+         lSH2cI41zWXFElnEzUJu9uWuQOwIz3w537KpcSEhHmJtnAAmylDkz1tiYnD9hx6mkD3D
+         MfDB/fwVYq5dOkGZpzxXe+H4NXHRsE/F/uZgzWwqsGw8Z5iZm9do7LPyWylfgLpeml2T
+         4wHg==
+X-Gm-Message-State: AOJu0YyIwPXtZn+bgABXFLVuAq25+Bx84KGg9Mvsw1446qZ1+l7NOu0E
+	WjBas0moSeWjoa3C2r4YDIXIDYya22gZr/VHBssoWa8WB0L0jyFCBTRd
+X-Gm-Gg: ASbGncvjIWXyFRqKP9a58trPa+/ieMQtVHpVwUKy1XrQx04YUj2vjo6svolJJ4oZagN
+	FOgHheSEmsG3UX0S9SiNQm831MuGLdXCBLu1aznAHcan9Zs81km4wtRQ+7JlfDkUSChHNP6wXQS
+	xOOllmfS9oxJ7ArpPuIg0zz54hraPiqQF8EnoqPtFsxkXARVOomf1MMIUGCG1cKHWSL54SEPDx+
+	VwRJ+d+iy0yZNHdYf/7TgPx9xErcxYDGM0KgQxfaHpYsuq8PaG0GeZqq7sY4tKSIHgIdHWiUlrO
+	g+Xb73mLt1gs+Ma9/QfM5x+NnRKbFBwc45PbDRBL0pmO21msiHg5hZi5gfJSNXGJjRKTVN0Jk/A
+	olv/Wt7A0MNoTpnEhGa4+9+jUy9paTaVEQFTlS4BzXz+yfGnSXNKaPRiiunyLXCvkEHxgQxfqU+
+	x0gd2DLM52q3PhCQuL/L3dE4R6MzLt7yUTyRpCHz7YSWVg9w==
+X-Google-Smtp-Source: AGHT+IHK1+8wkUkZrlVKyHxSIkxWM3L2OtLqZLkiHtzswKb2EhNwF5bCPQ8/IEskBtEZBQzHRol8dg==
+X-Received: by 2002:a17:903:19c3:b0:270:4aa8:2dcc with SMTP id d9443c01a7336-290c9d34dddmr430271895ad.19.1761530366334;
+        Sun, 26 Oct 2025 18:59:26 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d42558sm62269595ad.69.2025.10.26.18.59.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Oct 2025 18:59:25 -0700 (PDT)
+Message-ID: <cb301be6-8d51-4872-8722-60d0accb7387@gmail.com>
+Date: Mon, 27 Oct 2025 10:59:22 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,203 +67,176 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] Add support for Uniwill laptop features
-From: Armin Wolf <W_Armin@gmx.de>
-To: ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, chumuzero@gmail.com,
- corbet@lwn.net, cs@tuxedo.de, wse@tuxedocomputers.com,
- ggo@tuxedocomputers.com
+Subject: Re: [PATCH v3 0/8] Collect documentation-related tools under
+ /tools/docs
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
- alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org,
- pobrn@protonmail.com, nathan@kernel.org
-References: <20251005192049.18515-1-W_Armin@gmx.de>
+ Randy Dunlap <rdunlap@infradead.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <20251024200834.20644-1-corbet@lwn.net>
+ <d3f4c7ee-6351-4c6f-ae93-f423245c4c9e@gmail.com>
+ <20251026073405.0672c9dd@sal.lan>
 Content-Language: en-US
-In-Reply-To: <20251005192049.18515-1-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20251026073405.0672c9dd@sal.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:fDOdZeMhNC3EGjjwQxKhTXUJ3f4sowX8jtaMLK61uSKkYiDnnS9
- aSlv4DPV+fmLpn6aFQx1aFVO8dN/FA9zXPaeOXxyeJOPgPIL66hm45DPX5PUz8cLb4v2UQS
- WrVV1cQN/tHYNOGDhlauin30sHSx++gPQfSLcI+3U/y2SooiNxnLIVUOYoata753MIrk776
- 5R2CzXR7HcT37fOjCx5Xg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Is9khLGRt58=;ktr7H4KwVugS+sIGRqyUAjYHh0G
- FAJ0IaRkw5OBmW7baEZUQsHv55OQeVfKQRds1PpsLgCjIZG3ZNkLp8iTRssHs9ebIZfpUY/rF
- 70kukPt75/gNsOpVwxsRAuMhosonmLmXawwDp5yoelMgNKbpVvVxAEouAEPbKO3SaI0yeRU5u
- BJi9xLLI4wlI/uCNDffoyTicDSNSi9W8W6EWGdH3UmLgt7CXdZCvJXDwbOCb5K5UyYy8U0TP1
- YuW32fzHOLGsKhwC4xnZXYptCnmYXexoK4PhmkPlhUvbW6qpOLWktfjutu9RrfuWy2f26XB0/
- 1kPUvEJ6XfYcVgdUhpkP+ouX2UhcyUnySJs6a3timdspKODfNty+Sk40aKObI8Yzymmvbtr4V
- zacWAhwvuojdWMaLtl2eaacYeeMdHJXQnbbsTHVyJrIMbaTYW3pQn6HuM2ulEN85x7HwCltUD
- Xq9KheDtYm71tty4CCN+jj3g5ZYFn/kWTX/agqmxIxN53zz/HoPOZXA0F/Lvg6UVc/iJ2KaFn
- jCWdoZKend0b2HNiRvFZzq8c9aEYM7xCb61zSxi5Ff+pMtwqtv6yBV6iM1VuvlQwEurEJ+nG7
- HpJ0yGu8S8a/M6XL+Tjo27nCD59Ua7X9rzJQ0uNe+abwDa94EsSadgHygUglrGoOJg/Pv27eX
- Vjf5DxIU4QoYm2oscV1RzbW3RTFgsgnUXA8j6EzkwF4KM8bfOQbwqjL/KCIgqxoYWt30w8Rwi
- FhOvIyVAnxvgayBqfYOtRdUM7q0ZISnbBfoR9n5Hm38KZTtuaJgWGVEI8oWncGNtVfCwl5flC
- BwHo0pqw1GCvqUfvQ9xIvPCBvHCVst7LMt1TBYiz1IHZZHUkrl8uum+ftPHnQtdSUgrqyJFTO
- h6PU0aF2yM51AtZVZlecPNtqhwulG/0L9GXfGUpYSqtd7gcaCSrBP5GNjPQi7uoQn/RpU1cqw
- TRlPEsNMn9hHTfhs/3fzY65xWgVBlD/FK18kfvYzdzprVpXjwvHFWM/8LSF4BxbjpQ0/NViOH
- CRTWS1UjII72t4BWzLanOwSXwHeM8O0oLXT/S9b6BSr6cAE64VIqq7R1p/3Rk4icsNaCp9mIR
- lFW9opdzkWgXFn6Wg1VLxvbodsabvdJ0hrBwUwhsVywVfpVMrsaCYfMGZci1C145T3LjORQyh
- 3QqXuTrmjEEqBQ2WhzOGYuQXH/Pt2gU8G/c7f3S338phQEQYHZRdyR4D0EGE9iFsHIIfOtKe3
- UIYGFUXWngMMe7FlwN3TWR2UzPPnymk5Bc1IYce5kKBngNqki2LWLILYZnfYE1OiwlwvknLqn
- Xlv3KOZbnAYhomUuoD2X04FBBZpjEyOHGNlMj1eW36l1sQGbKQEEp8L9oEfYqlA+zFze2A6t3
- W5uUj4EzOGdfOiM8u28HiuAjsCttOrYB9gVAxDp1O5D0Xm5AJ2uYqDyumlNk8fqqo+t1NgD4O
- PDpFKZX9TlbdsDM2piyaeDOD8LUWvmjUb8zw0en2UN8B8rdW9VLx0Yn/91NPpMbMhDkk0e5Ij
- 29zS/0oRmzYVE4kq6LIyB+QuRI984Xnrfg8QlWW0iWu+hMhWwDHLV3vfQv0nDo4OGoCUekK6T
- ZLeMiXhuqtmWhElmhx5qyc7r1QXm5v+TuxWqmd0/X6rZfmoRgGXBt14G87Vno44WuqnpzZAxs
- CXT6xL42nUGF/o+QsSwGfXQBR8KWyykXjWym97vW7ouZyXjSuMUU9UAzn6yJqvdX8B9M2vrOQ
- ni1S9DffEhfIcO8WMB7vlg90TusBDf093pGAVdfkxR9KL4vhpU+PxFBO6V2yBNbq2A+BwhSwA
- kZBGEd06ZdTAz3RS4/x7hVAPFvZSIXeHmFOvV1ode+YH1nztf62/IhviHgrJ2InTlfWqDUWGQ
- OKw0ccyR34xydBfx+BRQwLJlILbqBuwIJZd+1EAwQL4KumC+PhMBkpAMOgX9mfhNFGGQ4I4Bo
- PLPUmHAYxraHbFByQHDvEoucF1N2bs7Xp7139GTvXnWI3GSvCGeQA4ERyjd+eM9iXAb7ssSRY
- FbK6cRZ0QvomA9RJQp7g9/dAaaVid4PQ1gq2EJiV9IQIAAF6pntVMRQQKrYr2o4jD5Yss681N
- wF5L83nmKddHVoANM8nMCTbbjJXC9ulrgw2k1x3OMkgSakIOI1VvQ01cSXKKTb57znjla037C
- GOdYkFT5TybEZ5ZmXvSX0YLmdo3OrJ7UmoUjESvC8v2kJrUi90Q/L/KixBuFK457nAWGUk9hU
- JcMRH8BE8LvDJZN3ajRjJ1q92X5MrNUawdFmsoZYToOK5Wcz5w/mrQkCaEzZNtIiP4rw+j2/U
- 5SavAxmwDulSKqKEsurJph12vn8ziIsqbr3mSe1/avAibu7GILxHXhOPDixJpxf82JweqKpfk
- frTfp7lFrJrESkAnk90ZhP8vJTlUva32eii4fB5DjmQy4KDP0l48hCyHPyPcXdulPfuYt8+FW
- m2E1TpVUwkzmdS2ENPYpgd/6m/GlA5w4DgMt1kwpWVBP2QyyR7tUtiHhIlDSrt6gHr5aoQ4vJ
- inTZdPrDR1DMmVdqD3YsVkxdGXALrXUKOrHJ3/xaNLj3xsIV0D/RAA76HYz4sOXk25v1ap/dW
- RE5EvExJPxk2W1N5C2YrzWAaUjuNUgt36MqiHfqLHyK+oopNW3o5ew5R+/+tvcKzv7Iz95inG
- BDGI8Xr2Vdx0zonXCIvq+pGOYbPpHkSmeRF7hfJFtUifBM/MJYFclPn/AVyA+LPnEOZfZR0W1
- XsrclVDsKiDD2Tz4nfpNcN12jSVe5/JDUKuDrolS5csmOSyt3n7lfvOBXlkVNSqHD5rWlQ43D
- nVCkV5zMQtGc5rOwHIJttLLOowZKibG4weyZrwPB9TP67ysCpvRtQ/61z9gDi9SMD2MUMMAoR
- TfoTKOTOffcdzaA/FXi7Veau+K6/D3ZFC45QKl2bvHTHbnGd+zqmZuqaQdK6W0Fn4jI6UcSsA
- Xpie3O+KYnhwNXcZQ6KSDAQvMswtHUF8eGOLqo7AhPyafOLJjBcjhJ+6AzWChOGG3l6bk3GyE
- AxzlL+BjpUmu1NqKXu9yoZoBfcllwQ0SmVtSGVjuOwM2ajgcPzw6P50amAY9M1OEPzXCWVEJD
- HgN3NWMvcEcrtOJ48vN55LZwLrIkl4c7YQtOdKk+dCfBqSfZvUd7IVUfEaP+uv/W3gPiw6n2z
- vhmu33WujkgXYvLUFcE8Qkj2TK/VpApsSdeO0KveurX2qJrbfUF43zrg6h3JSbnV14TyJKJMT
- KdEsy5OVvHHlIsN3fiQcJtfoZfXOaNKlyNyqn6SjN6GKLVVE6SgrP5cnbuLmjQB8xuwNF38rA
- TdkPbKCxsbHhgYZ3isQqEnxwIL7/oqh+6Xl9lVx7umw/v5iekP9pDD4AWRiZNF9UQExn0Wh/V
- EIy62TZJloB0kFXQhXSD9IpT6uGxzl0tHu6dlA6Nz/Pr5dtyISEj3mu/KKaBdsc9nVAQsJqHX
- ZbH2V+YW/4f+5w4CD2oyt97ya3G+8lHwO0yndGhXxrFQt0odVXrWs4vlRVWRd+2QHXdgVEhhP
- x8CwVPPe3cG/xxW/f3IXGtykaKL1OQoHTnWd26nv7dQhtIiB67is1bgtClR8qLYY01WtmqyEM
- X1QTkajfd0u25gpnL/pAxrExsng5ZCyIuRnPWu0IxRbapQ1HnegJlni1spugR5p3dpAIeFN2t
- 6h+S3a168T4Z54pWU+Ngl5Lm1PEuDn3MZOOcswo5Rk5i2mnwZnK/XQyKqwEO3I+t/+ZRwobQ/
- 24YxUcnA539ZmG93PvHCwN4lNNy+vZOvbUA3PSy2m7tETcuNzuBOkuIoWrWXWNv8SHnZS9cMh
- /vuAcLFxMKnPeAqoqaBfXTOqP5M2vEHwH5YBKBXvjMEauilG0xpFkPV8tNJo71AzB/by/Bhjc
- a7d2OWSIypAAcxOWWkA6USUqwjU6Jz9IWeUWaCXPTBtmmmh65AAjs8tEpSlJwwhmoylqEfVzx
- +xJWl1hDNbZVil7nKQcTVpFfJsBkZC6nUwoRSMrIptuwUpaambxAcCd1Kvulj0LXss/eDNYpN
- vCbiIUxTN5hEliO88oNrrrCvRZs+1z/4AtH/T/VgMyhIo6OLOy9uwktkeLTCA8F0tCsTiFikc
- yc9ilr72ggJNlsgBJvuP9v0UWjBX7cL0x+gw+naOA8efougnsRAL+2PWz9SZ7QsU9YfjbZBkS
- aEiynxvrImp3FcCMdnF80L4cDpuJIrHnBWuPsxc7quOL2WZMWP+1C7WzOa3IkUnzLipSfZn6m
- QDIlZgQLRGELd/1pZgoEUJ3pQ01UgPIyj/YkLFj06n9xzNZH4abWbLrze1WljBbXLA+AfEg/0
- i8i84umQWbXX0FIEmhpPjDT7i53SpU4joMcV1OXw35w1npf2G0W/2QLu+US7JJfaZWA2EhwuC
- fRosa9AhMRyt6QOE4611ZqqVttFDD5kmAEC/VJY92BdI9+rUtDjEzIwHxBSisD6TWaV3E00FZ
- Cw937Z4m/Hk5xJxiMsJ5REdfTiHyr4vVyEc/9WVSZo1tgTE5vEky5IzqtnBHthK9zRMOCWl0W
- 6Z0HyKbPmxW3ywMU/Lu2e9BHt2L3+AMV5pXkUjzVJhnhrf7GPv3crWcujFIYYS1RY6dfwOWwn
- DudvNR8GLZNMFt/7VCmIITFkdWYQdFW1J3UHaGPSm4wHmLCdro03AA33Sejvnke9sBC45P5RU
- zY2ycYtSF352vx8FYgHB0c14WZBNQr4nnwZHbOuVQmXgOYChrA1eeIBonp1ItNCHenlOsk7d7
- CUJ1qWU70fj2T++5c7lysXn/tXEEkI1M3GO4+HEzNOAR95od4s+tlKFyR7RZf0IYAlide5WSR
- sB+38gunaxg79J7ViASLxhr1cDKL85QtwRajQ5/mVMIXuOmS+xY96yQSVF+sUhQeyME3tFpdw
- 1X0ORhFQiu++mDlki7FMjYiw3Fb/igt7nOISWQcbo9ZrAoL6TM1tZsDw/sxq6OTlPnrSzOtj6
- 9Ht+eNFpMwt5ZsWsXWbOzJGqVh9fulnj9Is=
 
-Am 05.10.25 um 21:20 schrieb Armin Wolf:
+On Sun, 26 Oct 2025 07:34:05 -0300, Mauro Carvalho Chehab wrote:
+> Em Sun, 26 Oct 2025 00:14:23 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+>> On Fri, 24 Oct 2025 14:08:21 -0600, Jonathan Corbet wrote:
+>>> Our documentation-related tools are spread out over various directories;
+>>> several are buried in the scripts/ dumping ground.  That makes them harder
+>>> to discover and harder to maintain.
+>>>
+>>> Recent work has started accumulating our documentation-related tools in
+>>> /tools/docs.  This series completes that task, moving the rest of our
+>>> various utilities there, hopefully fixing up all of the relevant references
+>>> in the process.
+>>>
+>>> At the end, rather than move the old, Perl kernel-doc, I simply removed it.
+>>>
+>>> The big elephant lurking in this small room is the home for Python modules;
+>>> I left them under scripts/lib, but that is an even less appropriate place
+>>> than it was before.  I would propose either tools/python or lib/python;
+>>> thoughts on that matter welcome.
+>>>
+>>> Changes in v3:
+>>>   - Now with more caffeine! Properly based on docs-next.  
+>>
+>> :-) :-)
+>>
+>> WRT the build error from test robot, it looks to me like we need these
+>> final touches:
+>>
+>> diff --git a/Documentation/conf.py b/Documentation/conf.py
+>> index 8e3df5db858e..fbd8e3ae23ea 100644
+>> --- a/Documentation/conf.py
+>> +++ b/Documentation/conf.py
+>> @@ -582,7 +582,7 @@ pdf_documents = [
+>>  # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+>>  # the Docs). In a normal build, these are supplied from the Makefile via command
+>>  # line arguments.
+>> -kerneldoc_bin = "../tools/docs/kernel-doc.py"
+>> +kerneldoc_bin = "../tools/docs/kernel-doc"
+>>  kerneldoc_srctree = ".."
+>>  
+>>  def setup(app):
+>> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+>> index 2586b4d4e494..3c815b40026b 100644
+>> --- a/Documentation/sphinx/kerneldoc.py
+>> +++ b/Documentation/sphinx/kerneldoc.py
+>> @@ -289,13 +289,8 @@ def setup_kfiles(app):
+>>  
+>>      kerneldoc_bin = app.env.config.kerneldoc_bin
+>>  
+>> -    if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
+>> -        print("Using Python kernel-doc")
+>> -        out_style = RestFormat()
+>> -        kfiles = KernelFiles(out_style=out_style, logger=logger)
+>> -    else:
+>> -        print(f"Using {kerneldoc_bin}")
+>> -
+>> +    out_style = RestFormat()
+>> +    kfiles = KernelFiles(out_style=out_style, logger=logger)
+> 
+> Patch is incomplete, as it doesn't drop the logic which forks
+> kernel-doc script run, but see below.
+> 
+>>  def setup(app):
+>>      app.add_config_value('kerneldoc_bin', None, 'env')
+>> diff --git a/Makefile b/Makefile
+>> index d6ff0af5cca6..33b1db1cc0cf 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
+>>  
+>>  # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
+>>  # has a logic to call it
+>> -KERNELDOC       = $(srctree)/tools/docs/kernel-doc.py
+>> +KERNELDOC       = $(srctree)/tools/docs/kernel-doc
+>>  export KERNELDOC
+>>  
+>>  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+>>
+>> -----------------------------------------------------------------
+>>
+>> The change in Documentation/sphinx/kerneldoc.py is needed because
+>>
+>>     kerneldoc_bin == ".../kernel-doc.py"
+>>
+>> indicated loading it as python lib into the extension, while
+>>
+>>     kerneldoc_bin == ".../kernel-doc"
+>>
+>> indicated invoking it as a script.
+>>
+>> Now that we don't have kernel-doc.py, loading python lib looks to me
+>> as a natural choice.
+>>
+>> Mauro, what do you think?
+> 
+> Good point. I'm not sure about this. Yeah, on normal cases, we
+> just want to run kernel-doc classes, instead of actually
+> executing its binary. Yet, for debugging purposes, it might
+> still be interesting to run it as separate processes.
+> 
+> See, right now, if KERNELDOC is not used, it will use imported
+> Python classes, running them directly without creating processes.
+> So, it won't actually call ".../kernel-doc". On such case, in
+> practice, it will actually ignore KERNELDOC when building docs.
+> 
+> Now, (after this series), if one runs:
+> 
+> 	KERNELDOC=tools/docs/kernel-doc make htmldocs
+> 
+> it will run kernel-doc script as a process. This might be useful
+> for debugging purposes.
+> 
+> Also, please notice that KERNELDOC is used on several files:
+> 
+> 	$ git grep -l KERNELDOC
+> 	Makefile
+> 	drivers/gpu/drm/Makefile
+> 	drivers/gpu/drm/i915/Makefile
+> 	include/drm/Makefile
+> 	scripts/Makefile.build
+> 	tools/docs/sphinx-build-wrapper
+> 
+> IMHO, we have some alternatives here:
+> 
+> 1. completely drop support for KERNELDOC variable.
+>    On such case, we need to drop from the script:
+> 
+> 	- kerneldoc_bin
+> 	- run_cmd() function
+> 	- remove KERNELDOC from Makefiles and sphinx-build-wrapper
+> 
+> 2. keep it as is, which would help debugging (and eventually
+>    would allow testing two different implementations of kernel-doc
+>    without needing to bisect);
+> 
 
-> This patch series adds support for the various features found on
-> laptops manufactured by Uniwill. Those features are:
->
->   - battery charge limiting
->   - RGB lightbar control
->   - hwmon support
->   - improved hotkey support
->   - keyboard-related settings
->
-> This patch series is based on the following out-of-tree drivers:
->
->   - https://github.com/pobrn/qc71_laptop
->   - https://gitlab.com/tuxedocomputers/development/packages/tuxedo-drivers
->
-> Additionally the OEM software of the Intel Nuc x15 was
-> reverse-engineered to have a better understanding about the underlying
-> hardware interface.
->
-> The first patch introduces the uniwill-laptop driver that consists of
-> two parts: a WMI part responsible for receiving platform events and
-> a ACPI part that does the majority of the work by talking to the
-> underlying embedded controller using the INOU0000 ACPI device.
-> The whole driver uses a DMI whitelist for identifying supported
-> notebook models as both the ACPI device ID and the WMI device GUID
-> are shared with a wide range of notebook models that might use a
-> different embedded controller register layout.
->
-> The second patch additionally adds some documentation for configuring
-> and using said driver.
->
-> Special thanks go to:
->
->   - github user cyear for bring up this topic on the lm-sensors issue
->     tracker and being the tester for various prototype versions
->   - github user dumingqiao for testing the battery, lightbar and
->     keyboard-related features
->   - Tuxedo computers for giving advice on how to design the userspace
->     interface
->
-> NOTE: During testing it turned out that the touchpad_toggle sysfs
-> attribute does not work. The reason for this is unknown, as the driver
-> emulates the behaviour of the OEM application just fine. I suspect
-> that this feature only controls some obscure key combination we dont
-> know about, so i decided to send out this series regardless.
+So, as far as the build regression reported by the build bot is
+concerned, I think 2. is good enough.
 
-Any updates on this?
+Probably, Jon included the rename of:
 
-Thanks,
-Armin Wolf
+ scripts/kernel-doc                                     |  1 -
+ scripts/kernel-doc.py => tools/docs/kernel-doc         |  0
+ 16 files changed, 22 insertions(+), 24 deletions(-)
+ delete mode 120000 scripts/kernel-doc
+ rename scripts/kernel-doc.py => tools/docs/kernel-doc (100%)
 
->
-> Changes since v4:
-> - add Tested-by tag
-> - fix usage of guard() inside switch statement
->
-> Changes since v3:
-> - Add support for UNIWILL_OSD_SUPER_KEY_LOCK_CHANGED event
-> - rename sysfs files to prepare for future changes
-> - use kstrtobool() for handling sysfs input
-> - add proper led locking
->
-> Changed since v2:
-> - Use the INOU0000 ACPI device for talking to the EC as it is much
->    faster than the WMI interface used before. Additionally the OEM
->    application also uses this ACPI inteface through a special driver.
-> - Merge the uniwill-wmi driver into the uniwill-laptop driver as
->    the WMI driver should only load when matching the DMI whitelist.
-> - Various small fixes
->
-> Changes since v1:
-> - spelling fixes
-> - add missing error handling when reading PWM duty cycle
-> - fix error when setting the super key lock sysfs attribute
->
-> Changes since the RFC series:
-> - spelling fixes
-> - mention the INOU0000 ACPI device inside thew documentation
-> - use MILLIDEGREE_PER_DEGREE instead of 1000
-> - use power_supply_get_property_direct() to prevent deadlock
-> - add support for KEY_KBDILLUMDOWN and KEY_KBDILLUMUP
->
-> Armin Wolf (2):
->    platform/x86: Add Uniwill laptop driver
->    Documentation: laptops: Add documentation for uniwill laptops
->
->   .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
->   Documentation/admin-guide/laptops/index.rst   |    1 +
->   .../admin-guide/laptops/uniwill-laptop.rst    |   60 +
->   Documentation/wmi/devices/uniwill-laptop.rst  |  198 +++
->   MAINTAINERS                                   |   11 +
->   drivers/platform/x86/Kconfig                  |    2 +
->   drivers/platform/x86/Makefile                 |    3 +
->   drivers/platform/x86/uniwill/Kconfig          |   38 +
->   drivers/platform/x86/uniwill/Makefile         |    8 +
->   drivers/platform/x86/uniwill/uniwill-acpi.c   | 1549 +++++++++++++++++
->   drivers/platform/x86/uniwill/uniwill-wmi.c    |   92 +
->   drivers/platform/x86/uniwill/uniwill-wmi.h    |  127 ++
->   12 files changed, 2142 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
->   create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
->   create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
->   create mode 100644 drivers/platform/x86/uniwill/Kconfig
->   create mode 100644 drivers/platform/x86/uniwill/Makefile
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-acpi.c
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.c
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.h
->
+in 6/8 considering it the right thing to do.
+
+Let's keep the symlink of kernel-doc --> kernel-doc.py, at least for the
+time being.
+
+Further tweaks and cleanups around KERNELDOC can wait.
+
+       Thanks, Akira
+
