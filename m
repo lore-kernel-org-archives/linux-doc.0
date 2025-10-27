@@ -1,94 +1,70 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C518A30EF67;
-	Mon, 27 Oct 2025 16:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0AE30EF84;
+	Mon, 27 Oct 2025 16:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761581202; cv=none; b=uO2xf2Jk9pXvS0llNhqL37eYz4bGDahHkfUVnH30DVV8MA79uZIORiGhORn7LPV7TKvz2G+dIXmxI30UZSepH92b7o9hfJcf1CAJvzoeeax5BPjJt+GsWRqaq8PKSgRHGeT9arwMPeA1XkXphkzAHLVz7aViV+OZMnasnsgbaQI=
+	t=1761581210; cv=none; b=mq/PtHIGd36ePvuqcPz3Yl0EJXMa1pq0REqizw0yV18JQjuAvBisvsFwuNFw4ALf5HBU2nRAOec+FkzcQsHy1Oks68oP28p6HTMSNXvEvZTdg7ELnWqcAfQ1UL5BshK12eQM/nesbvQugmyXWPCehCQCctnWhc5M61axl8jZzZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761581202; c=relaxed/simple;
-	bh=U7hGCQMZzCKM4zX96RoFePsPI76AOR86oQ82PJVm/Xw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aVIi3ATMoFeYlmOH/doz2mTHAVC0ltgiyNVfDa1B3p15MM79MyvhpCRJCm5vrQt83/QNTWwuZNyO6S4jvpQsu7di4OK1kbGYBVCd47gJclCsiuo2Hca8X2aTAAwzBUy9yaJuz1vtE5drB4srRH0tAWkiypC91CKYD/GZR741Mws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ajGTKZTt; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1761581210; c=relaxed/simple;
+	bh=lgYGdJqJLSXnsekhf4n7haNtiB25n4IV3mTGIwEdIt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBnODvn+VofiHhFXvU31zomc1ZHWEQeCPjzxqktyS7IYy97kx3BIdF0aTL6nqKG2pDIN08mFwDJHCdkZ9M1E4lMUODC8hoAK0V0a8XfMBpKTw1pRKQlo4IWF+I0SVHhz55I87s1tZBMP8Dehmak9MZWaJo0795j+44XvLo+0/4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtLEgncf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ajGTKZTt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5085840B18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761581194; bh=vQOKca11sHg2oiUoYPo4YwicPuO1vRZcUgu5szp3BLk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ajGTKZTt1t4ord0I/77m/rA+UjQ15SG6KQSDiCEHXRkpM/M5Zaq1DHaJSJRYzVoxF
-	 bBCRLZCzY+kg6KqPSbrA408oIODkZLNBoVF5eInaqasgjVcZSP2cZ0VPLv4CTPptjg
-	 XgLtfA0JxmMXUc+7dMhRjFdRy4LjxMrKrxIgGtS26J7MoGtyv/BE9LLi+ocqNHZZQZ
-	 BWyRHinzHt0W0t0kli7vCp5iHnafHidJa2zVQLGi9RWZDPKXnqsu1Bpjk8+Ndkw22l
-	 tN8IYpYgzXfPf18IQKrPradVMfVaCQPiVwjI+LVjNr6NCMkL1/wkcDUz8b6GqyCnae
-	 z6seuczk7pn2w==
-Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5085840B18;
-	Mon, 27 Oct 2025 16:06:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Salvatore Bonaccorso <carnil@debian.org>, Andreas Radke
- <andreas.radke@mailbox.org>
-Cc: stable <stable@vger.kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, Zhixu Liu
- <zhixu.liu@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: Please backport commit 00d95fcc4dee ("docs: kdoc: handle the
- obsolescensce of docutils.ErrorString()") to v6.17.y
-In-Reply-To: <aP4amn4YQDnzBBCU@eldamar.lan>
-References: <aPUCTJx5uepKVuM9@eldamar.lan>
- <DDS2XJZB0ECJ.N4LNABSIJHAJ@mailbox.org> <aP4amn4YQDnzBBCU@eldamar.lan>
-Date: Mon, 27 Oct 2025 10:06:33 -0600
-Message-ID: <87wm4gpbw6.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtLEgncf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D84C4CEF1;
+	Mon, 27 Oct 2025 16:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761581210;
+	bh=lgYGdJqJLSXnsekhf4n7haNtiB25n4IV3mTGIwEdIt0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BtLEgncf3+Nx2+/q5LePpZKjn73XUJB/FjnjW8HOPme7rRrIUzbkPoZ9yLit4Xdd6
+	 1th/Izvrun+V9r9cyFF2FlcbICtJKaG7RzQ4ySXdiKJ0f+BrpN9c0DmY0cFNsethnt
+	 cdyTZ4OMaCzePVC69gtUtKBPD12NlwU2AB/Xoy51tq8Il91BP9lhqFAok/9W2zvVWJ
+	 NZ4g22e8RDxsHWMXBgWXmPN6PT9kHcGH9sNxc443NtmfgHkcK5kK/BwM3lywrlVfzC
+	 dR1hJ6hqKugOAnPoiTvkuXKy6Xx2ZYi4tCp7OGoNfX+KysZvHF1SvCGQlKhMyvcFdd
+	 M1GxuWkiW9oxw==
+Date: Mon, 27 Oct 2025 06:06:49 -1000
+From: Tejun Heo <tj@kernel.org>
+To: jinji zhong <jinji.z.zhong@gmail.com>
+Cc: minchan@kernel.org, senozhatsky@chromium.org,
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com, corbet@lwn.net,
+	hannes@cmpxchg.org, mkoutny@suse.com, axboe@kernel.dk,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	akpm@linux-foundation.org, terrelln@fb.com, dsterba@suse.com,
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com, linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-mm@kvack.org, zhongjinji@honor.com, liulu.liu@honor.com,
+	feng.han@honor.com
+Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
+Message-ID: <aP-Ymcsoyls04jov@slm.duckdns.org>
+References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1761439133.git.jinji.z.zhong@gmail.com>
 
-Salvatore Bonaccorso <carnil@debian.org> writes:
+Hello,
 
-> Hi,
->
-> On Sun, Oct 26, 2025 at 08:36:00AM +0100, Andreas Radke wrote:
->> For kernel 6.12 there's just one more place required to add the fix:
->> 
->> --- a/Documentation/sphinx/kernel_abi.py        2025-10-23 16:20:48.000000000 +0200
->> +++ b/Documentation/sphinx/kernel_abi.py.new    2025-10-26 08:08:33.168985951 +0100
->> @@ -42,9 +42,11 @@
->>  from docutils import nodes, statemachine
->>  from docutils.statemachine import ViewList
->>  from docutils.parsers.rst import directives, Directive
->> -from docutils.utils.error_reporting import ErrorString
->>  from sphinx.util.docutils import switch_source_input
->> 
->> +def ErrorString(exc):  # Shamelessly stolen from docutils
->> +    return f'{exc.__class__.__name}: {exc}'
->> +
->>  __version__  = '1.0'
->> 
->>  def setup(app):
->
-> Yes this is why I asked Jonathan, how to handle backports to older
-> series, if it is wanted to pick specifically as well faccc0ec64e1
-> ("docs: sphinx/kernel_abi: adjust coding style") or a partial backport
-> of it, or do a 6.12.y backport of 00d95fcc4dee with additional
-> changes (like you pointed out).
->
-> I'm just not sure what is preferred here. 
+On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
+> This patch introduces a per-cgroup compression priority mechanism,
+> where different compression priorities map to different algorithms.
+> This allows administrators to select appropriate compression
+> algorithms on a per-cgroup basis.
 
-I'm not sure it matters that much...the additional change suggested by
-Andreas seems fine.  It's just a backport, and it shouldn't break
-anything, so doesn't seem worth a lot of worry.
+I don't think it makes sense to tie this to cgroups. Is there something
+preventing this from following the process hierarchy?
 
-Thanks,
+Thanks.
 
-jon
+-- 
+tejun
