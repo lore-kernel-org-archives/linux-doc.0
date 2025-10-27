@@ -1,141 +1,111 @@
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E9E2FCBF3;
-	Mon, 27 Oct 2025 09:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=24.134.29.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDED2F6569;
+	Mon, 27 Oct 2025 10:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761559042; cv=none; b=DpI7ZVsMDpeOLDPld9i4CtEVuWQtQ5BvNTAbN7OcKr+d4ySG87pWl1G2dR/YGck8S7MX8HPR0YiIikRohPB6BoHfhUzV4wRV1Cp82b8zp9XW0WQZuPYcunpyvH1O+inPM1k5KDOktvxqlY+el14aYyaWFfz+q7fIcejohCtfKDI=
+	t=1761559240; cv=none; b=FosGXDaZPjPEZ7lIm8MoLIjPFFZkyCFD/WAhrRTIFUzSX2ZerVak3+X5cIuQMfdoKXK+D65rPAfrXD70O3jwKDQndJaHPVW7ep1T1wOfZiizYfdbMLEktS6QCZk1wZNde3GNjxuSBQBDfOJMM90fOnydgh4sjVNtcoeJAGzo2ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761559042; c=relaxed/simple;
-	bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
+	s=arc-20240116; t=1761559240; c=relaxed/simple;
+	bh=+xMfW2hYgWUM+DUd/Q4D7QQsf+nszvvdVnL2yFSt6Bo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bf2qw02qAin8FpbS6hFFbqbPTrvva6ohaEl9PBB0QtQzGKSceZxwq13Lon9i27IN2VJgiaXb3CGelP7vE+vrk1+kVBAEpDskGAPyTnehVqKj0voCimOnyb10GqfT7uvwMgAqVQJN8M8aiR/T1SBMLUDOT3QxhU5kbn9WhQUJ6og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org; spf=pass smtp.mailfrom=sigxcpu.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=LSSge2FT; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=RdN1USwS; arc=none smtp.client-ip=24.134.29.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigxcpu.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=d1q9OVcFzP8WlOBpokrrfQNNJhww9GAQeavnfc/st7D0Ljgi/5H70ElHfb8TjKULDcc3utb4Zy3JQeFl1hJ1jpf9uhKPE1DxgYgmCtIxmNlrc2o/Hhae2aki/owaUxsH2y4lTwQbLxQQYFlQlcJ9M21/FQF4WZ1chZCRQ2K8UEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pE1ta6m8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="LSSge2FT";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="RdN1USwS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
-	t=1761559028; bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pE1ta6m8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B176C4CEF1;
+	Mon, 27 Oct 2025 10:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761559240;
+	bh=+xMfW2hYgWUM+DUd/Q4D7QQsf+nszvvdVnL2yFSt6Bo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LSSge2FTR6D3qKRjJ42E13VxBPQKSOpHvoA6MooKqxpc9rN2bpRis+EqbJsuKkkIv
-	 9zFH+yK4V3WFUphrnp/VTs9J9sdyGd3LKWAH6dhwVR3WB/yyG05vsCupYVUNK+ryrR
-	 vJsq25+RrpYP1YB2YjffZscbOox7bmmhkjHpa5/hfXYp4VkkQn1e1NnGaEnlGJoeDQ
-	 4CpCX4YhV0k4LnUWtGHZCOWXtiy9hVvhALxvlaLa9AhKSkhXJExQvXUjfGpAY7xMJk
-	 UGA67PKFTzk/LmRowxyivmVpO2xjcRFQWY+n/ngdOq5VjOZosnbqv+B1Gu8we4o8eo
-	 7wCz1Q9juQkDQ==
-Received: from localhost (localhost [127.0.0.1])
-	by honk.sigxcpu.org (Postfix) with ESMTP id 9D9D9FB03;
-	Mon, 27 Oct 2025 10:57:08 +0100 (CET)
-Received: from honk.sigxcpu.org ([127.0.0.1])
-	by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xOcFvBNfwfNH; Mon, 27 Oct 2025 10:57:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
-	t=1761559027; bh=thirantOH4kH3f0r2QU+U/UTNUm7Zfvr0Y+urH7YorI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RdN1USwSr30UpaEyXrknx1J/RlMsNcJW1D+1SgQDqvblndSztBpFLTKWwqGDVYfP+
-	 6gGRNsWD0+asBilsu/M4X7I4BAAcWHPDKebpmcn00ZniJ5AQQq5MfSeikbMe5wSfTP
-	 bxulgTShhIRWA/7A50RBUnXU68pmRzaJbwHsKhw6ZUfkburhzwd2M5zzOBPfYOdg0f
-	 e2fQMnpqgzaKyYO7VABXRkKEbGc3H8W0fs5rPdLeLsNH13oatacn6bh/UIfOrOJjHy
-	 DlAofM7w6pCwgcFaKCONz4UHRxVKqbiRRN+R1Xum1hR6MwNtY2YeipAMUQMPG2dwAk
-	 UY2IbbSFcXSkQ==
-Date: Mon, 27 Oct 2025 10:57:05 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: david@ixit.cz
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-	Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>
-Subject: Re: [PATCH v7 0/3] Add support for sound profile switching and
- leverage for OnePlus slider
-Message-ID: <aP9B8fPs7y2-dGJi@quark2.heme.sigxcpu.org>
-References: <20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz>
+	b=pE1ta6m8XcyYS8r7GxUKvmy90HBEUoOVw0WeiSEQFRic39Eb48KbfkpRdvEiattVv
+	 9HBcZOPx1q8E2EF2ouxuxabXs4FyhCMjux40rwGbDExeUXsvebwwwB8dNFJqiYGrw4
+	 KOsi6eJ/wViCTdhET2xPpgZycWT1jBvnFlrAH8Of8gZysWvhCrpm2UOK9DHEcWf9z2
+	 BSnldWQENrlL8uC/LDI8iKzPjFMa2rBD0YxcULT5G9YT/ZT7lzVck8Uh0XDgrP/fpt
+	 GI8Ki4TK5sM9Ie9UmqFIUC/ogAppt66+uEACikr7o+8YemGff3sH2QgpR5cd5pr0+h
+	 ma2igso0Uf1lg==
+Date: Mon, 27 Oct 2025 10:00:32 +0000
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Luo Yang <luoyang82@h-partners.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next v01 1/9] hinic3: Add PF framework
+Message-ID: <aP9CwKkLdgcqHvkc@horms.kernel.org>
+References: <cover.1760502478.git.zhuyikai1@h-partners.com>
+ <905df406fd870da528361f47c48067802588cfb5.1760502478.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251014-op6-tri-state-v7-0-938a6367197b@ixit.cz>
+In-Reply-To: <905df406fd870da528361f47c48067802588cfb5.1760502478.git.zhuyikai1@h-partners.com>
 
-Hi,
-On Tue, Oct 14, 2025 at 11:20:32AM +0200, David Heidelberg via B4 Relay wrote:
-> This series add initial support for OnePlus 6 and 6T, but other OnePlus
-> phones contains same mechanism to switch sound profiles.
+On Wed, Oct 15, 2025 at 03:15:27PM +0800, Fan Gong wrote:
+> Add support for PF framework based on the VF code.
 > 
-> This code was tested for two years within the downstream Snapdragon 845 tree.
-> It is now perfectly integrated with feedbackd in the Phosh environment.
-> 
-> The series is also available (until merged) at
->   git@gitlab.com:dhxx/linux.git b4/op6-tri-state
-> 
-> Changes in v7:
-> - Separated GPIO number fix from the original commit
->   "arm64: dts: qcom: sdm845-oneplus: Add alert-slider"
-> - Rebased again next-20251008
-> - Link to v6: https://lore.kernel.org/r/20250731-op6-tri-state-v6-0-569c25cbc8c2@ixit.cz
-> 
-> Changes in v6:
-> - Rebased again next-20250731, otherwise just a resent.
-> - Link to v5: https://lore.kernel.org/r/20250419-op6-tri-state-v5-0-443127078517@ixit.cz
-> 
-> Changes in v5:
-> - Dropped merged
->   "Input: gpio-keys - add support for linux,input-value DTS property"
-> - Link to v4: https://lore.kernel.org/all/cover.1677022414.git.soyer@irl.hu/
-> 
-> Changes in v4:
-> - DTS: use default debounce-interval, order alphabetically
-> - Link to v3: https://lore.kernel.org/lkml/cover.1676850819.git.soyer@irl.hu/
-> 
-> Changes in v3:
-> - rename tri-state-key to alert-slider, fix DTS warnings,
-> 
-> Changes in v2:
-> - rebase to qcom/for-next
-> add SND_PROFILE_* identifiers to input-event-codes.h
-> 
-> ---
-> Gergo Koteles (3):
->       Input: add ABS_SND_PROFILE
->       arm64: dts: qcom: sdm845-oneplus: Correct gpio used for slider
->       arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
 
-feedbackd has support for this since 0.5.0 so it would be nice to see
-that mainlined.
+...
 
-Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
-Reviewed-by: Guido Günther <agx@sigxcpu.org> 
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
+> index 979f47ca77f9..2b93026845ff 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
+> @@ -117,17 +117,49 @@ int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu)
+>  					 &func_tbl_cfg);
+>  }
+>  
+> +#define PF_SET_VF_MAC(hwdev, status) \
+> +	(HINIC3_IS_VF(hwdev) && (status) == HINIC3_PF_SET_VF_ALREADY)
+> +
 
-Cheers,
- -- Guido
+nit: I think the above could be a function rather than a macro.
 
-> 
->  Documentation/input/event-codes.rst                |  6 ++++
->  .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 39 ++++++++++++++++++++--
->  drivers/hid/hid-debug.c                            |  1 +
->  include/uapi/linux/input-event-codes.h             |  9 +++++
->  4 files changed, 53 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 52ba76324a9d7c39830c850999210a36ef023cde
-> change-id: 20250419-op6-tri-state-ed1a05a11125
-> 
-> Best regards,
-> -- 
-> David Heidelberg <david@ixit.cz>
-> 
-> 
+...
+
+> @@ -157,9 +189,9 @@ int hinic3_set_mac(struct hinic3_hwdev *hwdev, const u8 *mac_addr, u16 vlan_id,
+>  		return -EIO;
+>  	}
+>  
+> -	if (mac_info.msg_head.status == MGMT_STATUS_PF_SET_VF_ALREADY) {
+> +	if (PF_SET_VF_MAC(hwdev, mac_info.msg_head.status)) {
+>  		dev_warn(hwdev->dev, "PF has already set VF mac, Ignore set operation\n");
+> -		return 0;
+> +		return HINIC3_PF_SET_VF_ALREADY;
+
+It seems to me that this custom return value can be propagated up
+and returned by the probe function. If so, this doesn't seem desirable.
+And, overall, I would recommend against the custom calling convention
+that custom return values imply.
+
+>  	}
+>  
+>  	if (mac_info.msg_head.status == MGMT_STATUS_EXIST) {
+
+...
