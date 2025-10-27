@@ -1,125 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59A8315D4E;
-	Mon, 27 Oct 2025 17:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4A43161A5;
+	Mon, 27 Oct 2025 17:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761585556; cv=none; b=nkjUIfGgfX9eteGTxcxPeM4bve274joG6wxtD+v/I+MBs4a58kEUzYmS3YCE6oueLmuuSGfs67Mk0SoUHSATv1G3ZnCFxhF0cWFvYrLD1Pmhz0uIRzBtD/oW1Ok54IMpi0cYbSXWnGmYyFSDZDElP03shOxxLu/yj2vWBMj06eQ=
+	t=1761586027; cv=none; b=pYnQAS2/9eEUUbS370o3wzWbkpHeZHQBsbWSFgNW5mGyx2hM460+dRIOOB6E1bPyz0DGcuwbYaWv7z1HLF1hqsKCuJoRTlcc1eD+Pp8YZxCERFyUiPdRB/7NuOloPw3RTU5JpRhhcj9M8XCpgsnbVlx57/LfITxqK88ZBqWBg3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761585556; c=relaxed/simple;
-	bh=PCbERfcgvUw2fEkvsMjdinpQ0b6sj2+DSxOZAwZ+8yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Md5EIeQDncvUTALbbrBcT0ujkMHcTH6o/je5UbESsu+dMq+6ZRmli0kx7nxf6XHOwXMbw2SgjLUb3KSjUwLnQuRm6BT766qedm+aLhvYkUZDBtqbC74A/3OF0Lr2r08nNEl3QwfMvSQgAnrMyvVtLg1wzn2vXAbqw4emaPeFXwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiRZpR7E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761586027; c=relaxed/simple;
+	bh=0cWFS/aHvcf6zGPoUr9HGepAntK8bTSB3I4wKAoK1Hk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sq1sJYpQkdXQXs68OFUWD70GBofGnGktAvKXZgImnm6R2mkfhtyw1SCGN5cHTHi1cq5Z8JvYEV+dG065rf1N6WBYC3Z/Mu1ttD7hN5Ajy7nVuxhDXwuZD6RcB0W+zAL9kelEHCN7qKKn+SgYe4Y24Y4JP1lGFfPUBA87DcCBv7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FDgk9zr8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiRZpR7E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C25C4CEFD;
-	Mon, 27 Oct 2025 17:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761585555;
-	bh=PCbERfcgvUw2fEkvsMjdinpQ0b6sj2+DSxOZAwZ+8yk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiRZpR7E5aEAnwZeinP27w+be99PhDiZzT8O7biKazF1E833weB+2RLr+k1k2L2yL
-	 ibl+3ks3p3Pw2FNFBpo95EEC+6oSTqcQylsRFQdSEFEJWzRnMbwvLjUD9ITmcnNX8i
-	 Rnut5ejGe1gb6UlGDKqulgSz8JEa6vgn6zkMYGwt+Cn6nHegXxRMOEFXKe6vz22yJf
-	 tkUPxeX0I9MJvOhiD8CGvIYT9v/OglhBRaCZeGkVCDwX+kLVMasHvsT9fmQI4A6K3B
-	 5gg+o5yfujWLqKKd25aazvhpxPCTRRHNC+cWQ05GPjlkNoJP+kRq3a3F/0LoeEYmXW
-	 hA1wusUyBvGOg==
-Date: Mon, 27 Oct 2025 18:19:12 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
-	Francesco Valla <francesco@valla.it>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] Add splash DRM client
-Message-ID: <23clcxtgbzbsji2knwp47xdc5udj7lnhbvzsgqi3vklvmhdgjd@26ycx2ed77l4>
-References: <20251027-drm_client_splash-v1-0-00698933b34a@valla.it>
- <yq4btdc5qqukuqps7y53dratmu64ghyifgprlndnk5rbgml4of@rvca75sncvsm>
- <3edea192-6a3f-44f5-b570-7033776e2ce4@suse.de>
- <5ff10f7d-e9d4-4d4d-ae82-8986dc28d14b@amd.com>
- <i7xxy33do4q4odvxxb77xv4ri5jgr6dup5kvfsjfs4h7mbmhrj@h3ke7h5whyvx>
- <93cbbaef-918f-4300-aa5b-11f098e217b2@amd.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FDgk9zr8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CFC35406FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1761586025; bh=7M4hB0gT8f5ZWd0pSPRtSbMpf9vqmrkcHvnua6p+fBs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FDgk9zr8hgNZBzf91L7NWjqOhK5QzZhW2xhypC3RxH8Hk13A16klh+m+mWsy6NWFG
+	 b5DB31H4/RY5Ve2B7+Acm97xSst9+4TQlwFosLzR6rGSiE4Bz02OyxOxfud3DqZFGS
+	 LmokGpD+KAG4EDx/pu5aPzNv4OLZXg1ZXTlOp2loq6BNrGbSZeWx5znB02QYKrLQV6
+	 jUjyFd9WLM1rxjbVMUpqDBw2JXndYwpozr6ICkWR97hk0upoYfAGhcRmJEELY7AClp
+	 goLYtqJSIQalwnRT19e2t9l+ONyu9kJAm6ToOKNuP2VGS/T0P2YDdSzMDy2ZTkVqQW
+	 mIXWgR0ChYk7A==
+Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CFC35406FB;
+	Mon, 27 Oct 2025 17:27:04 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 02/30] docs: reporting-issues: tweak the reference
+ section intro
+In-Reply-To: <d94aa32d4a1ed5ef9d0f768d05e64987f4a1ae69.1761481839.git.linux@leemhuis.info>
+References: <cover.1761481839.git.linux@leemhuis.info>
+ <d94aa32d4a1ed5ef9d0f768d05e64987f4a1ae69.1761481839.git.linux@leemhuis.info>
+Date: Mon, 27 Oct 2025 11:27:04 -0600
+Message-ID: <87qzuontlj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="swebmu2gokkv3szx"
-Content-Disposition: inline
-In-Reply-To: <93cbbaef-918f-4300-aa5b-11f098e217b2@amd.com>
+Content-Type: text/plain
 
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
---swebmu2gokkv3szx
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 0/3] Add splash DRM client
-MIME-Version: 1.0
+> Small improvements to the intro of the reference section.
 
-On Mon, Oct 27, 2025 at 11:31:06AM -0500, Mario Limonciello wrote:
-> On 10/27/25 11:28 AM, Maxime Ripard wrote:
-> > On Mon, Oct 27, 2025 at 11:01:55AM -0500, Mario Limonciello wrote:
-> > > On 10/27/25 7:35 AM, Thomas Zimmermann wrote:
-> > > > > >  =A0=A0 - a very simple progress bar, which can be driven throu=
-gh sysfs;
-> > > >=20
-> > > > Once you have options to control these settings from user space, you
-> > > > should do it in user space entirely. As Maxime suggested, please im=
-prove
-> > > > plymouth for anything with animation.
-> > > >=20
-> > > > > >  =A0=A0 - a static image (optional).
-> > > >=20
-> > > > Board vendors often provide an image, see /sys/firmware/acpi/bgrt/.=
- This
-> > > > is a candidate for display, or the penguin or a custom image. Please
-> > > > make it configurable by Kconfig. Again, if you need policy and
-> > > > heuristics for deciding what to display, you better do this in user
-> > > > space.
-> > >=20
-> > > I'd actually argue that the static image from BGRT should be the pref=
-erred
-> > > priority.  This can make for a nice hand off to Plymouth.
-> > >=20
-> > > The (UEFI) BIOS already will show this image as soon as the GOP drive=
-r is
-> > > loaded.  Bootloaders like GRUB by default will avoid showing anything=
- or
-> > > will overwrite with the exact same image in the same location.  This =
-can let
-> > > the kernel do the same, and then the moment Plymouth takes over it co=
-uld do
-> > > the same.
-> >=20
-> > And BGRT isn't typically found on embedded systems at all, so I'm not
-> > sure it's a sensible default, let alone a priority. At most a possible
->=20
-> There are certainly embedded machines using UEFI and that have a BGRT.
+That's a bit uninformative ... what is the purpose of these
+improvements?  That information would be especially helpful in a patch
+that simply replaces that section altogether.
 
-Yes, indeed, hence the "typically".
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  .../admin-guide/reporting-issues.rst          | 67 +++++++++----------
+>  1 file changed, 31 insertions(+), 36 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index 3bc47afaf85ea0..90b50c27c0d2b6 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -244,42 +244,37 @@ The reference section below explains each of these steps in more detail.
 
-> How about "Sensible default the top of the priority list if it exists"
+[...]
 
-How about we don't tell contributors what their priorities must be?
+> +The step-by-step guide above outlines all the major steps in brief fashion,
+> +which usually covers everything required. But even experienced users will
+> +sometimes wonder how to actually realize some of those steps or why they are
+> +needed; there are also corner cases the guide ignores for readability. That is
+> +what the entries in this reference section are for, which provide additional
+> +information for each of the steps in the detailed guide.
+> +
+> +A few words of general advice:
+> +
+> +* The Linux kernel developers are well aware that reporting bugs to them is
+> +  more complicated and demanding than in other FLOSS projects. Quite a few
+> +  would love to make it simpler. But that would require convincing a lot of
+> +  developers to change their habits; it, furthermore, would require improvements
+> +  on several technical fronts and people that constantly take care of various
+> +  things. Nobody has stepped up to do or fund that work.
 
-Maxime
+This paragraph ... essentially says "we're making it hard on you because
+kernel developers can't be bothered to work on GitHub".  But a lot of
+the complexity, as reflected in this guide, has to do with properly
+gathering the information that is needed to have a hope at tracking a
+problem down.  I'm not sure this paragraph is needed at all but, if
+you're going to keep it, have it at least reflect that the complexity of
+problem reporting has a lot to do with the complexity of the problem
+domain rather than developers who are stuck in their habits.
 
---swebmu2gokkv3szx
-Content-Type: application/pgp-signature; name="signature.asc"
+Otherwise seems OK.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaP+pkAAKCRAnX84Zoj2+
-drPKAX49FE7QjngVHnA1mf13kfP6ZKCacCVX6G4v2AsdFZMFqxax8CsyueLnuT1S
-O6YBTKQBf2etLxgBAFSiJ0S7jwoNmkZNnFyjp3NcIMTrXmNibOnyBfRHK+RSa2KF
-u0BJYIAKYg==
-=qXHe
------END PGP SIGNATURE-----
-
---swebmu2gokkv3szx--
+jon
