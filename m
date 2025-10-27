@@ -1,245 +1,461 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C531158A;
-	Mon, 27 Oct 2025 15:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761580401; cv=none; b=KDXG54Iy2dvWzgY+tTAqO9gJuIHUpzZfjR1GlQu+fzlsnZaJYaEHa+0c0O3/upP9mu5npzn3VMRe7qpR5d1Kdp9vhlgKtKq920405YGjTFK29eMP7U5uBBEF7RHDNdIpMrdtspdp5bmjFDoZ4voesjxLWSQP/nthAOWct9Z7rIw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761580401; c=relaxed/simple;
-	bh=9ed2/B1CeLkGWer5c7mQhrYP3akCLNHeBkJT0wY9xRo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZWOlPbobAljHPLeS1dA7UGCI0a5g4cJkDSjUSk7Z5x1xoIo/ZED1U1gPPv9RdTxwrtQWRpil8QLl1SjAy8v1N5NNwwpdDSVDlXVDzmkXLiSaKiIJUhEFbR+B3hbxzFRaJhw68e1tQy4CrdB87pFx6r1rm5f3kHtLs8f3rLDBta8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fxtYLifd; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E9030BB8F;
+	Mon, 27 Oct 2025 16:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761580935; cv=fail; b=ll569IM1WeRaIqqSbM/Qxt6ET+o+eDOIuHDfig5vbQroDuJhArh6g+YhkBn/Fp7H7Hx2WmwjYTPEidHsbVBFClDAfxlctVQgulMhFj8LHemY1KyA5XzGCHtioqWBRnmFA5xpaLGIdGdJ9MCpc98M6YIA7NVvbJVkbm/V7ZjccAg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761580935; c=relaxed/simple;
+	bh=/C8M22YOrhDLyoa67GvnMA5E9n21gADW9g/BTtirauE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Mmfoi06rRsTTmr3OBLq20CkP1ws0hz31BTCr+Lf/iB8pSTKosiBX7J5IMOhbs8gZWyABGyHZc3rTJ8YCau8UQZJTKkpcvxlqrHjpIp4utJzIfor1mpUt5YrqycQxpnAGVi/Tg3Hv0cF3Oef2sUjQL8CpSzxQDQ5sXjsf2xbaNCI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ekRDybaw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=NcutKANK; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fxtYLifd"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E75D51A16C3;
-	Mon, 27 Oct 2025 15:53:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BA2F36062C;
-	Mon, 27 Oct 2025 15:53:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 50D1D102F2428;
-	Mon, 27 Oct 2025 16:53:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761580394; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
-	bh=GlTdPc7pj5urAwGu8OzGWrkdJwvba9a2IKrizTjf7Z8=;
-	b=fxtYLifdMq7FnKTctd0vCyJbBvk1UIIKaV9xFiPnWp4yyLWNdP1x0PkyKbMa2lMwfdYhU0
-	jcXBlYEiXH1zJXMZ4/yMPhPS0kW3AiuASbetTmOZZsl39JfrOdGXAWQslEzc52c0GcYb7l
-	vdWNBBLYVFq12yqranYSyGJCoR4A8uoSjJaHEXy/nm1bg/fvpwFESGHNjK0upxh+rL9IlX
-	FTopSU7VaXlIxjR8MbPJiQWzptbUvC9Hdf00QiAS8AsToxSUdvFDw7NY6HcHcQMxViKW69
-	thd/ZDL7KK6wPr3hNsWgFO6Sd9CnUVL/m+wqkTPZzh7oVfM6mOwBqVNpVRDOhw==
-Message-ID: <0dac7c85-0b44-4a6c-b1e1-5833649e6413@bootlin.com>
-Date: Mon, 27 Oct 2025 16:53:03 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ekRDybaw";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="NcutKANK"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59RDYGSI022180;
+	Mon, 27 Oct 2025 16:00:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=ZJdM9fHLCsIUA7UH0Y
+	TR4wOXd7XmM/TWwZwb+PY4MVc=; b=ekRDybaw7609yGompWTCtHvncTZurA2qPU
+	Lj3DPoQm3+oE7j+GtrLlHH3lcTd9dKx9v/y6r8ateS9QWqWtEl5DID7D7U5asFoc
+	cW7EleaeHnIE5kQRpHlVyR0ohJRLTsHM7RMcInJ7xF4Py6jBh2khHuGYYp2hHF5L
+	JnQo8wrX6KQK566IuW6XBHEewL+1kG8wKLrFqVhiF1xrczRQH7IkXclDQar256Fp
+	JybK317EHEMe89pN7C6lUdtW2G3rDfxXXxaI7Nmlbl54UcQLA7H276cXAQk1Y/R9
+	9G+bpIW2nXiPuIcSm51i5eTcUoKv9h0cfeQYbT2P1Uo8mYUWdK4w==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4a22x6s9nk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Oct 2025 16:00:19 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59RF61uZ037611;
+	Mon, 27 Oct 2025 16:00:18 GMT
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010027.outbound.protection.outlook.com [52.101.85.27])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4a0n06ywdv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Oct 2025 16:00:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DYVVwta7uV23XQXwoCMEos4GdY7HuhfJ2msU0ZYBNVzSmJ4lHqg/8UqKnyo3QuKTQmbqepawl2eccVV/pC3JG78NNcr5XtczT5ilRZnPNv6cWrBS36a2IIY2tCy3U+eSpJPTxcDX15VILGpew8VAg4XmUaSSrLwxBWx/ygy0t4xrHSmqSqdqocHwHQ/dkKn8FAgci7dflCCVYOelvP+E1EVs9araEDCfgMTol2tGvEIDZXRBY3KoDmbW2xPqYHdlSxxE9f3xMz02jhJzplEDbGkag8LbMjqiJ34hoRy4FTlkuso/UeM9Wh7zJkxQFBtC4Z7KEYv8rutS+iBFipZ6uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJdM9fHLCsIUA7UH0YTR4wOXd7XmM/TWwZwb+PY4MVc=;
+ b=T+hwMf3pV7Eww3lRqlOd945I0VHXx+MaZddsvUtWU1RYQFi8j3ie3v7wDaGg9xAUhwcxznPPZpoxcJT55F3dyZ2wE95ti9HWDvt0XlfInVqQhohxwT/MxpM8AuRtTiB7WcpC6ngf1eg06DoIJkHIpSv4tsqW/dNg7XXUe/6uSKlcPugIOdux71bXkL5jCtcIiO383oINH796/lKAFTgswiWlvlWuQx1rHK917bvcKYQPpXvtdUH4tVHtape8vHuMEVOkIRIm+gA+6zikCQMHJJiRcwxeUsD/cEtQsfFiIDMPvgvjgHDwAO34dEeI2F9ldlMtXXJbIFk6p18uOxHjyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJdM9fHLCsIUA7UH0YTR4wOXd7XmM/TWwZwb+PY4MVc=;
+ b=NcutKANKFQNMZZhJ6ze5KYAc+db+6BlWSTUlSsQ5OmV5XBAyYQfbycr3K6zWhaGR2PAYgE45rGjTWRoJpfzEf+UKw4AViDSkPpy1OuJyEEIFFbxdvMPDSsC15YbCRhtjpFGkK4EFy0lpDhTVWNwjt3d2hNzE9lvHrYenAOBe/9s=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by IA1PR10MB5898.namprd10.prod.outlook.com (2603:10b6:208:3d6::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Mon, 27 Oct
+ 2025 16:00:12 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%2]) with mapi id 15.20.9253.018; Mon, 27 Oct 2025
+ 16:00:12 +0000
+Date: Mon, 27 Oct 2025 16:00:09 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com,
+        ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+        ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
+        rostedt@goodmis.org, mhiramat@kernel.org,
+        mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+        baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+        sunnanyong@huawei.com, vishal.moola@gmail.com,
+        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+        kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
+        anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+        will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+        cl@gentwo.org, jglisse@google.com, surenb@google.com,
+        zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com,
+        mhocko@suse.com, rdunlap@infradead.org, hughd@google.com,
+        richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz,
+        rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Subject: Re: [PATCH v12 mm-new 05/15] khugepaged: generalize
+ __collapse_huge_page_* for mTHP support
+Message-ID: <c006138d-6d12-4f91-8a06-da279ae3795a@lucifer.local>
+References: <20251022183717.70829-1-npache@redhat.com>
+ <20251022183717.70829-6-npache@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022183717.70829-6-npache@redhat.com>
+X-ClientProxiedBy: LO2P123CA0098.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:139::13) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/22] VKMS: Introduce multiple configFS attributes
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
- <aP-OLNFQA0M16xuy@fedora>
-Content-Language: en-US, fr
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <aP-OLNFQA0M16xuy@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|IA1PR10MB5898:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7079a2b-6e30-42c5-003b-08de1571e90b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nlwBOXKwJP2ik+FcS0kw6wg7x3obC+CQTUETe4GzqLnGAsP9yIqmHsPqiSSD?=
+ =?us-ascii?Q?WkxH7GU+M8SLGQbS1dJxZ00KvftcKN1YBxtmlZLvL6g6gayQnwWISloDLirj?=
+ =?us-ascii?Q?ml9YjQ5dJYi7lMBtG7X/TZtr4QY5m55bzUfJfgS2RtAGEtQaPKUOttBwdPVC?=
+ =?us-ascii?Q?1HU1TiLU4L0U1FN2NQHBJoh1+Ei4Ta0HvDQ7Ge6Abof18/J7d11iORY41amc?=
+ =?us-ascii?Q?+UaNRqcMiDC8NMV9kr/avDntusI4Vti7iGmiTfVusTwcxyjFPm02UjU8rUI7?=
+ =?us-ascii?Q?EWdpAnvZLOtSmZFk3hVloijD9X2XCt4xP+ZTfEA/1xEklKiuMfzbyPpqAHh9?=
+ =?us-ascii?Q?Y9EW7d6b/lymmP1gIwBZcC43crOU4bjHMGkRnVS79ytVQYsnGB0bQHr04HyK?=
+ =?us-ascii?Q?iQEg6vga1U7nBuJjdSbkuJBzVdSslRYGaRhr6xWvVRQhfKB8qLZ/3krwrgDw?=
+ =?us-ascii?Q?SMmGqtjvZ94/vfbrBhAQ3vnee61OoBp0RBGHdHvDOR9YfJH2UAnam3bAUr/0?=
+ =?us-ascii?Q?02AAnpqABzTur7RCRAUR4+1kzPGz2trb9az9Rg0ZQCC2pXKjTcOP+unrhded?=
+ =?us-ascii?Q?CNyWDZcydLClL8zE5nF8Q9Ne11rdN+j9BEYmsEOUGh8DruL/5Hfq1lbb+QhI?=
+ =?us-ascii?Q?hezTHV1c1PyxWDJtw0HhMzFAuTelgG9caYzfr0g0IJQt3U8pelgPmOFBKR8m?=
+ =?us-ascii?Q?r78rMhjplg1paRSPHHew9fjKw/HNl+K6cSd1A+XWL81BmMcTgezPqGrgpr9A?=
+ =?us-ascii?Q?TWzPZXAh7DkELmu5SeYR0ojM5Xw7AWC5H2iZLNCO/CTc9JjQIgqKEkZzc2NI?=
+ =?us-ascii?Q?qnSJtYmFyTLemRP/Jo2rae7WEOLQPuPsKNTsPM7wHntAI58Sxxm6n1NimpCB?=
+ =?us-ascii?Q?d51DuZnO0V/xDWA/BzJewVwEgFpgOlHg2ji0OydPR/UtqQEiMq50B9VQzzCx?=
+ =?us-ascii?Q?fTPeX29hZ1Y9amjJIb+klBufcl+tR1mlNBdvzP9bLz7U8xR+lyV0eoJk1beo?=
+ =?us-ascii?Q?PIbluNX1TzAuRs9d8ImNesKrV5Jh8W1whwwUP44M5zPXOsLnWYhgjlASVi2D?=
+ =?us-ascii?Q?/jZ/ink9JRY6c00ZdEx7h+JwfRlT2CvIt3LNnCGJP2KRcXJtwAtkslz3ro5I?=
+ =?us-ascii?Q?fepKZs5ZxzkuRX77UbxvGg8h6veXRoK1otjJBN06h2Nl6wPoQSczcCxQDIDy?=
+ =?us-ascii?Q?FJ/uqWAsYEjU2pMiZUbxWcLZcg5oYQGGmbXcfln3x0fghZ/t4w2sMNWMfXyv?=
+ =?us-ascii?Q?ikZdcotxA2hqu8iw0UpYFuHXD3Ks3etGrvkUXDwrdpr2t7x6ffMRiy06rUbw?=
+ =?us-ascii?Q?/BlsYfgEoNbdSoRllo5RFDn4HQIjaxPfuY82H1nb2mrj3FoO0JqifrG3v9a8?=
+ =?us-ascii?Q?qdEHeMnNOKdY8SYYypuWpClyE0BvtRu7zj7DMjzEFqRdlobT0vokKvbngD6N?=
+ =?us-ascii?Q?TLe36xRc8bMCAEc/FFM9zXEdxgfMn5Xe?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gTn5DiikZdwWZNmRqs2wWisuRGi0aRpSapoIaL2KVk5fthk3lhcHfnqC01ZW?=
+ =?us-ascii?Q?ae/0JgsMe40chBSnTp/zdrsZaEvX1CyW/5vjUUJZHw6lXuvdedv8cTlMTdRK?=
+ =?us-ascii?Q?ts6KyYDPZGzxmwkDwXdJn3GkuRp/E5dk607XaiP7X2nPQ9m4ULSui3f3v/LR?=
+ =?us-ascii?Q?5BG9R8IeasU2NarLUBXOGpQuaqG1+xqiJrefh5Ro5VCAUh2uhLGVxKuqWEg6?=
+ =?us-ascii?Q?CN0CORdIBtEReBwCb6g1T+tw29g8PwH0tuKo1J13E9p8WlSOLXvjdYnF5/jz?=
+ =?us-ascii?Q?IvfGfKBmS5klAFzPRIRyDxLvvQ3FjSwEnlZLrJ8GZ6bgveDKxICX3cZi7bc4?=
+ =?us-ascii?Q?EReGH+fWlTwcHA1gXEeHjDVJJfhrKvC80aLJWplCZBrCmT1zKVNZQoWtRGRF?=
+ =?us-ascii?Q?vcJ0zhl8fckkmQUJe+GcPhRLaY9Zh9ammT4OTZZVOJ7c8Wz5lHB9t6RNpqFx?=
+ =?us-ascii?Q?2D1D6tdMXIZG8M/yp/nHp0gd7MNfWPLMHoEUuAjMOvm12BQLWVOoTbZmEbCa?=
+ =?us-ascii?Q?RRYUfXgHS/i2eqTDqHG2WG1hQMWJ/l5ED8yPAay1rmRMDHfgNUhkOehL5ZYy?=
+ =?us-ascii?Q?0EjYKvim1+wDpkWzjPCIrmtVjqFuBXKupz5xxlvRbsUE4PJAh0VJysV3ePJ0?=
+ =?us-ascii?Q?dWsa0n6rOk+yTGHNaKB4TeqsmUQyStsekwMLKggX40d8lAXAtR5RjY22c70T?=
+ =?us-ascii?Q?qvzVnOgPm3PlnQgQ/N9W9/pJZwY5pILyXNHzIhHW0aQE9tqVZqNd7Z5QAtc6?=
+ =?us-ascii?Q?dH7i9mp135Aux8V6qHUHjbVMG9YTBJqqjw2y/PvWTbXsOWU9XnqWQcoCH59r?=
+ =?us-ascii?Q?gZY2GDrkR3ldSdh3jay0pXo8LXJMaobjqJ2MgKihjVizy/X2jCS7YxVIJlyW?=
+ =?us-ascii?Q?zhYL6W7uPPQsFb3QhWwJ7zDV1tJ6DZ2HCVPWbIWnx6mtWtqPfZ4zJfRUcqhb?=
+ =?us-ascii?Q?CmAXjMY4qHo0uRPl4lhvCfHe6PDFHkntZ+Pez2PmdfHrWTjC4YSvZJZ2MoTy?=
+ =?us-ascii?Q?ifoPHWSSycX9h2cm3FBSRuQFPkMwkFeXGBCkoZAelT+AkFNieaG8VsIFx6/M?=
+ =?us-ascii?Q?v2Pb6zmQu1aYu6He4dR6IWqEavMBUfVCrmtPKfBq7aCZYmoKuT0j7rjVZpmw?=
+ =?us-ascii?Q?triGycL+M5NVJH/afgiA6bLczGD68c88IzvLBzVaEQHSKdgfQ6LaX7MW8FYa?=
+ =?us-ascii?Q?vlp13vXBDQmmWxT9cKIuqU0sv1yxLpxvVWusRjU1hnl3M0WY+bW1EguvESb0?=
+ =?us-ascii?Q?i8jGMVnnrZ7dyOijflRU3NOFR2N55S4/L9abomxXIHLgo0p9cTMpBb54dHmO?=
+ =?us-ascii?Q?rvWsjEggxyZ0Z4eAwD+FxvMu3Fz4AxhchBMBxX/t9gY93jFY4/yKhxdY2zSq?=
+ =?us-ascii?Q?EHYQkYFnOTd5YxFEnm8b2dLfD5SI+ZQHZSr/Tn7NPVXPkFMOwMhxWCMcJLTz?=
+ =?us-ascii?Q?WkM3A+p/g8dMwU1/M0oSUK4E2+nFgFIacoq00aTOEqFqp4oVQssA+2xNMyW/?=
+ =?us-ascii?Q?karu+VRF1CprIk7aUIMGrzXE7/jzM38v8FeU0+GVPnqeeUagrJkzyTsA5qPl?=
+ =?us-ascii?Q?dl2b1g8q9U3/s6o2w/G2BggmIyijdc4pW4E8vwtW4yvpwsq3IJFr1LCMYgOH?=
+ =?us-ascii?Q?Sw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	aa/Gzs2gKXaDA4uFwxBgVDHXE8oSQH2a/aaCVt3C6E42wQW/UmvZ95ZzuBtczfI6Pza47bhd1uboynxAvY5jj6dVTmoiANZzc/RD+z6wpsXHJe/7Zc+iqEZBhg7C/pDtq6OMg893OXqagkts8JDXPY2/yy+1da0ZYvgiNOeRXEscvPd7Hjn1/QUTZB6rMWkBj7sCaKBdgUJqJ0t7o24CqiN7Z1cTvlmKgexSv+Xk3iXPhoy+Dt+eRERRm1NQq8N7GZaB9SULF6PnwoONplGSOMQ/8T0czOV/W+t43JBCMXIyCGxDqtbiwwhqcQpE+rUMXa8Rs0C6gCY+nv9QPff/I4W5lSq6AlcmbVNxBkXDFByoGu2x5p/0kbFYrpIJLgpH7BNlpR1c1jy03sZRokxXfujXxJEMRsga2NMlrl2LFkUL6hQY+KwHafg8XGeNaR/TKQwuG7E6fbb1A7xsz0qXEWb9DAOQo30SArSrBlq87F6MPLv6z2mlt/exW8w5pogS9Y8I65uEFYZq06mZ9JsSVAC8wiieIQr6IcenwOfsEIfQK5c8cPRpiabRkC+KI6Fz4F/4CpZTcPSnNNm1JzuU6mhOjL2GeqySbM/QGe08FWc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7079a2b-6e30-42c5-003b-08de1571e90b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 16:00:12.0173
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N4pyT3DiToZ9xRkcCsIqfgCJuFcja6PaTUHW79XXBVbhCJz+r4G4SxC/qFYZqFLZZocT5rpuf9KE1NadfrFYDJDeaLF4YjDyt2eHhaL8a2k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB5898
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-27_06,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
+ definitions=main-2510270148
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDA1MiBTYWx0ZWRfX1pCik3V/pPDm
+ dalhEm890r/esChXsYI2Tg99yRxbUz/duIj0iA4bwBS6ug3vp2twwzs/IfvNuhMsO9UNau2gXQp
+ YoUo5vhbHdWlgG8CYlHXUhoh2/VsyV6gt0FnELQqIH37maifSrMoAYZfp190X/D3YSiPvqb4vOT
+ VS/E17/vz9sbgtaKgmCFxht0ntHsf+ZSF78Ai111Fc/QgIaxXSCeI/SSCj9FlkErZBN8XEEr0rH
+ l8XG3enOzXcQTiVE6yDKEf1JPlCq11GBuSwhZOHBhwaSePuHFCNKvJjswuSBeL6wxhjotR7McPB
+ 0270XqErxYkO7xQ/u6m5eveNcOAXvkBD3Zm7nCwutdFCB9R4EbRsJtojrFOu8TXXbxCNISQvD5y
+ tRKzEjFnx/5GYFNm5H2AXCxvfy9dsw==
+X-Proofpoint-GUID: faLy5xjMtySbryGyvQYi14jT1SH3GWY2
+X-Proofpoint-ORIG-GUID: faLy5xjMtySbryGyvQYi14jT1SH3GWY2
+X-Authority-Analysis: v=2.4 cv=dbiNHHXe c=1 sm=1 tr=0 ts=68ff9713 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=SRrdq9N9AAAA:8 a=20KFwNOVAAAA:8 a=7CQSdrXTAAAA:8 a=yPCof4ZbAAAA:8
+ a=zCnaQl7vHYAXJAyuaK8A:9 a=CjuIK1q_8ugA:10 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=QOGEsqRv6VhmHaoFNykA:22
 
+On Wed, Oct 22, 2025 at 12:37:07PM -0600, Nico Pache wrote:
+> generalize the order of the __collapse_huge_page_* functions
+> to support future mTHP collapse.
+>
+> mTHP collapse will not honor the khugepaged_max_ptes_shared or
+> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
+> shared or swapped entry.
+>
+> No functional changes in this patch.
+>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Co-developed-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 
+Thanks for addressing the v10 stuff (didn't check at v11).
 
-Le 27/10/2025 à 16:22, José Expósito a écrit :
-> Hey Louis,
-> 
-> On Sat, Oct 18, 2025 at 04:01:00AM +0200, Louis Chauvet wrote:
->> VKMS have a wide range of options. The aim of this series is to introduce
->> many configfs attribute so VKMS can be used to test a wide range of
->> configurations.
->>
->> This series depends on [1] that should be applied soon.
->>
->> PATCH 1-13 are for configuring planes
->> - name
->> - rotation
->> - color encoding
->> - color range
->> - plane formats
->> - zpos
->> PATCH 14-19 are for configuring the connector
->> - type
->> - supported colorspace
->> - edid
->> PATCH 20-22 are to enable dynamic connectors
->>
->> [1]:https://lore.kernel.org/all/20251016175618.10051-1-jose.exposito89@gmail.com
->>
->> PS: Each pair of config/configfs patch are independant. I could
->> technically create ≈10 different series, but there will be a lot of
->> (trivial) conflicts between them. I will be happy to reordoer, split and
->> partially apply this series to help the review process.
-> 
-> I just finished reviewing the series.
+Overall LGTM, so:
 
-Thanks a lot, I started to apply your suggestions (I agree to most of them).
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-> Amazing work, thanks a lot for adding all of these new properties!!
-> 
-> I'd like to see KUnit and IGT coverage to test coner cases and, since this
-> is uAPI, to have a mechanishm to catch regressions without lots of manual
-> testing.
+Few minor nits below.
 
-I started to add some Kunits for vkms_config.c, for the format parsing too.
+> ---
+>  mm/khugepaged.c | 78 ++++++++++++++++++++++++++++++-------------------
+>  1 file changed, 48 insertions(+), 30 deletions(-)
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 36ee659acfbb..4ccebf5dda97 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -537,25 +537,25 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+>  }
+>
+>  static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+> -					unsigned long start_addr,
+> -					pte_t *pte,
+> -					struct collapse_control *cc,
+> -					struct list_head *compound_pagelist)
+> +		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+> +		unsigned int order, struct list_head *compound_pagelist)
 
-> Let's talk so we can start working on them on v2, I'll be able to help in
-> that front if needed.
+This series isn't the right place for it, but god do we need helper structs in
+this code... :)
 
-I finish to apply your suggestions and I will send the v2 soon, so we 
-can discuss on the same ground. I think we can add a little bit of 
-vkms_config.c testing, but for vkms_configfs I need to see if we can 
-mock configfs interations from kunit tests.
+>  {
+>  	struct page *page = NULL;
+>  	struct folio *folio = NULL;
+>  	unsigned long addr = start_addr;
+>  	pte_t *_pte;
+>  	int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
+> +	const unsigned long nr_pages = 1UL << order;
+> +	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
 
-Have a nice week,
-Louis Chauvet
+Nit, but we should const-ify this too.
 
-> Best wishes,
-> Jose
->   
->> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->> ---
->> Louis Chauvet (22):
->>        drm/vkms: Introduce config for plane name
->>        drm/vkms: Introduce configfs for plane name
->>        drm/vkms: Introduce config for plane rotation
->>        drm/vkms: Introduce configfs for plane rotation
->>        drm/vkms: Introduce config for plane color encoding
->>        drm/vkms: Introduce configfs for plane color encoding
->>        drm/vkms: Introduce config for plane color range
->>        drm/vkms: Introduce configfs for plane color range
->>        drm/vkms: Introduce config for plane format
->>        drm/vkms: Introduce configfs for plane format
->>        drm/vkms: Properly render plane using their zpos
->>        drm/vkms: Introduce config for plane zpos property
->>        drm/vkms: Introduce configfs for plane zpos property
->>        drm/vkms: Introduce config for connector type
->>        drm/vkms: Introduce configfs for connector type
->>        drm/vkms: Introduce config for connector supported colorspace
->>        drm/vkms: Introduce configfs for connector supported colorspace
->>        drm/vkms: Introduce config for connector EDID
->>        drm/vkms: Introduce configfs for connector EDID
->>        drm/vkms: Store the enabled/disabled status for connector
->>        drm/vkms: Allow to hot-add connectors
->>        drm/vkms: Allows the creation of connector at runtime
->>
->>   Documentation/gpu/vkms.rst                    |  42 +-
->>   drivers/gpu/drm/vkms/tests/vkms_config_test.c |  18 +
->>   drivers/gpu/drm/vkms/vkms_config.c            | 183 ++++++
->>   drivers/gpu/drm/vkms/vkms_config.h            | 524 +++++++++++++++
->>   drivers/gpu/drm/vkms/vkms_configfs.c          | 893 +++++++++++++++++++++++++-
->>   drivers/gpu/drm/vkms/vkms_connector.c         | 137 +++-
->>   drivers/gpu/drm/vkms/vkms_connector.h         |  36 +-
->>   drivers/gpu/drm/vkms/vkms_crtc.c              |  11 +-
->>   drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->>   drivers/gpu/drm/vkms/vkms_output.c            |  19 +-
->>   drivers/gpu/drm/vkms/vkms_plane.c             |  73 +--
->>   11 files changed, 1865 insertions(+), 77 deletions(-)
->> ---
->> base-commit: b291e4f1a4951204ce858cd01801291d34962a33
->> change-id: 20251017-vkms-all-config-bd0c2a01846f
->> prerequisite-message-id: 20251016175618.10051-1-jose.exposito89@gmail.com
->> prerequisite-patch-id: 74083a8806b1f26d9b4cd2a5107c756b971c4d11
->> prerequisite-patch-id: f982390487699921b625b413e8460d67ca7a74c9
->> prerequisite-patch-id: 0afca639e43c8fbfea2af1bc395e489efc8e1f10
->> prerequisite-patch-id: 6285108b2fd90d30d15d4cb4fdddfef953fad51b
->> prerequisite-patch-id: 2eacf5ad4f25f54a60958aa7a2df633d5642ce2f
->> prerequisite-patch-id: 81e98ac3aeb3b6128098ab7bab56d3446a3a2705
->> prerequisite-patch-id: 973f94c4edb4a5822c84a57d4479ca40e9cf25de
->> prerequisite-patch-id: 0efbaf1b0e962a1c40bf5a744b5089d8be696f62
->> prerequisite-patch-id: afa0cff94085e6ab216ffd9b99cd3dc882a0a687
->> prerequisite-patch-id: 3561347f2b586392985a8e3af9ed1c5c7d3eefd5
->> prerequisite-patch-id: 94030044ae8d404f7cdaed9137bddd59cfb22e79
->> prerequisite-patch-id: a54b483797d5ffb7ce13b56a8943025181cd0d7a
->> prerequisite-patch-id: f148fe7f445cb42437e7e2ba8b59e7e0fd40da8b
->> prerequisite-patch-id: 1ef2045872843670c452816c5d6187b713c9258c
->> prerequisite-patch-id: 3b9963ea3ae3455ae15ee36b67042c06a2ef6006
->> prerequisite-patch-id: 519ee42dfabb4de734e41e59bd07d7a723d810bb
->>
->> Best regards,
->> -- 
->> Louis Chauvet <louis.chauvet@bootlin.com>
->>
+>
+> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
+> +	for (_pte = pte; _pte < pte + nr_pages;
+>  	     _pte++, addr += PAGE_SIZE) {
+>  		pte_t pteval = ptep_get(_pte);
+>  		if (pte_none_or_zero(pteval)) {
+>  			++none_or_zero;
+>  			if (!userfaultfd_armed(vma) &&
+>  			    (!cc->is_khugepaged ||
+> -			     none_or_zero <= khugepaged_max_ptes_none)) {
+> +			     none_or_zero <= max_ptes_none)) {
+>  				continue;
+>  			} else {
+>  				result = SCAN_EXCEED_NONE_PTE;
+> @@ -583,8 +583,14 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  		/* See collapse_scan_pmd(). */
+>  		if (folio_maybe_mapped_shared(folio)) {
+>  			++shared;
+> -			if (cc->is_khugepaged &&
+> -			    shared > khugepaged_max_ptes_shared) {
+> +			/*
+> +			 * TODO: Support shared pages without leading to further
+> +			 * mTHP collapses. Currently bringing in new pages via
+> +			 * shared may cause a future higher order collapse on a
+> +			 * rescan of the same range.
+> +			 */
 
--- 
---
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yeah, I wish we could find a way to address this in some other way but given the
+mire of THP code putting this comment here for now is probably the only sensible
+way.
 
+> +			if (order != HPAGE_PMD_ORDER || (cc->is_khugepaged &&
+> +			    shared > khugepaged_max_ptes_shared)) {
+>  				result = SCAN_EXCEED_SHARED_PTE;
+>  				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+>  				goto out;
+> @@ -677,18 +683,18 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  }
+>
+>  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+> -						struct vm_area_struct *vma,
+> -						unsigned long address,
+> -						spinlock_t *ptl,
+> -						struct list_head *compound_pagelist)
+> +		struct vm_area_struct *vma, unsigned long address,
+> +		spinlock_t *ptl, unsigned int order,
+> +		struct list_head *compound_pagelist)
+>  {
+> -	unsigned long end = address + HPAGE_PMD_SIZE;
+> +	unsigned long end = address + (PAGE_SIZE << order);
+>  	struct folio *src, *tmp;
+>  	pte_t pteval;
+>  	pte_t *_pte;
+>  	unsigned int nr_ptes;
+> +	const unsigned long nr_pages = 1UL << order;
+>
+> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR; _pte += nr_ptes,
+> +	for (_pte = pte; _pte < pte + nr_pages; _pte += nr_ptes,
+>  	     address += nr_ptes * PAGE_SIZE) {
+>  		nr_ptes = 1;
+>  		pteval = ptep_get(_pte);
+> @@ -741,13 +747,11 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+>  }
+>
+>  static void __collapse_huge_page_copy_failed(pte_t *pte,
+> -					     pmd_t *pmd,
+> -					     pmd_t orig_pmd,
+> -					     struct vm_area_struct *vma,
+> -					     struct list_head *compound_pagelist)
+> +		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> +		unsigned int order, struct list_head *compound_pagelist)
+>  {
+>  	spinlock_t *pmd_ptl;
+> -
+> +	const unsigned long nr_pages = 1UL << order;
+>  	/*
+>  	 * Re-establish the PMD to point to the original page table
+>  	 * entry. Restoring PMD needs to be done prior to releasing
+> @@ -761,7 +765,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>  	 * Release both raw and compound pages isolated
+>  	 * in __collapse_huge_page_isolate.
+>  	 */
+> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+> +	release_pte_pages(pte, pte + nr_pages, compound_pagelist);
+>  }
+>
+>  /*
+> @@ -781,16 +785,16 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>   */
+>  static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>  		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> -		unsigned long address, spinlock_t *ptl,
+> +		unsigned long address, spinlock_t *ptl, unsigned int order,
+>  		struct list_head *compound_pagelist)
+>  {
+>  	unsigned int i;
+>  	int result = SCAN_SUCCEED;
+> -
+> +	const unsigned long nr_pages = 1UL << order;
+>  	/*
+>  	 * Copying pages' contents is subject to memory poison at any iteration.
+>  	 */
+> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
+> +	for (i = 0; i < nr_pages; i++) {
+>  		pte_t pteval = ptep_get(pte + i);
+>  		struct page *page = folio_page(folio, i);
+>  		unsigned long src_addr = address + i * PAGE_SIZE;
+> @@ -809,10 +813,10 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>
+>  	if (likely(result == SCAN_SUCCEED))
+>  		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
+> -						    compound_pagelist);
+> +						    order, compound_pagelist);
+>  	else
+>  		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
+> -						 compound_pagelist);
+> +						 order, compound_pagelist);
+>
+>  	return result;
+>  }
+> @@ -985,13 +989,12 @@ static int check_pmd_still_valid(struct mm_struct *mm,
+>   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
+>   */
+>  static int __collapse_huge_page_swapin(struct mm_struct *mm,
+> -				       struct vm_area_struct *vma,
+> -				       unsigned long start_addr, pmd_t *pmd,
+> -				       int referenced)
+> +		struct vm_area_struct *vma, unsigned long start_addr,
+> +		pmd_t *pmd, int referenced, unsigned int order)
+
+Nit, super nit really, but since other __collapse_huge_page_*() functions have
+..., order, param) as their last parameters, perhaps worth flipping referenced +
+order here?
+
+Not a big deal though.
+
+>  {
+>  	int swapped_in = 0;
+>  	vm_fault_t ret = 0;
+> -	unsigned long addr, end = start_addr + (HPAGE_PMD_NR * PAGE_SIZE);
+> +	unsigned long addr, end = start_addr + (PAGE_SIZE << order);
+>  	int result;
+>  	pte_t *pte = NULL;
+>  	spinlock_t *ptl;
+> @@ -1022,6 +1025,19 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
+>  		if (!is_swap_pte(vmf.orig_pte))
+>  			continue;
+>
+> +		/*
+> +		 * TODO: Support swapin without leading to further mTHP
+> +		 * collapses. Currently bringing in new pages via swapin may
+> +		 * cause a future higher order collapse on a rescan of the same
+> +		 * range.
+> +		 */
+
+Same comment as above re: this, i.e. that it's a pity but probably unavoidable
+for now.
+
+> +		if (order != HPAGE_PMD_ORDER) {
+> +			pte_unmap(pte);
+> +			mmap_read_unlock(mm);
+> +			result = SCAN_EXCEED_SWAP_PTE;
+> +			goto out;
+> +		}
+> +
+>  		vmf.pte = pte;
+>  		vmf.ptl = ptl;
+>  		ret = do_swap_page(&vmf);
+> @@ -1142,7 +1158,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>  		 * that case.  Continuing to collapse causes inconsistency.
+>  		 */
+>  		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
+> -						     referenced);
+> +						     referenced, HPAGE_PMD_ORDER);
+>  		if (result != SCAN_SUCCEED)
+>  			goto out_nolock;
+>  	}
+> @@ -1190,6 +1206,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>  	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+>  	if (pte) {
+>  		result = __collapse_huge_page_isolate(vma, address, pte, cc,
+> +						      HPAGE_PMD_ORDER,
+>  						      &compound_pagelist);
+>  		spin_unlock(pte_ptl);
+>  	} else {
+> @@ -1220,6 +1237,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>
+>  	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+>  					   vma, address, pte_ptl,
+> +					   HPAGE_PMD_ORDER,
+>  					   &compound_pagelist);
+>  	pte_unmap(pte);
+>  	if (unlikely(result != SCAN_SUCCEED))
+> --
+> 2.51.0
+>
