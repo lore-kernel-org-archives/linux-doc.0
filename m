@@ -1,147 +1,114 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC1D2BD033;
-	Mon, 27 Oct 2025 18:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF472222AA;
+	Mon, 27 Oct 2025 19:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761590610; cv=none; b=VGsBrJ3ifUS5MR6sONzXbIQrc7w220ZOnA8awoJ2ituSU0KH2Q7CP57qftUNk5EoU7xj+33vrZcz/kDuxKYRjbl4F6yk3xLHjjsWnRqzFwdmJ4WFRE2A4zIoYBOdTbn7gwn3/WX3RMsH+YHQ5w0VE9TXf5Fj2T2mal0JCSRt8Bc=
+	t=1761592467; cv=none; b=Xbqdu9U+u2B2vCrxWdxJYPTWcFfHp+baN2jkJE6z0G+p+Uo8K0cmyBkLUtU3NXljjD3uzh939XQm5QQGzoNIHDuPs7xR6arhI3D4ViTN8Kw3BHccTpfSGI8a/R+Qg494TmpQqcJuPJRCjYYmRgs7uX7tKSrnWv4aMKH9+mFCt/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761590610; c=relaxed/simple;
-	bh=So8NP6f8CaWcwExTfv/Wr0A00X17Unsc7FQQ3al+beQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I4dNDHuHXCSw1Eo+4LpkWkpvtP+iQl7yzRk8mpF+Z9yBNjeGLmn+j6ZKdxBt43DAgFLcFzCGV1lZoCjRrltBnCqZdl1hFrlrtRAqnpmRBhzyk79caRcIF0tXkp1QnZ1UH7w9u54G5ojl4mI0KBZ0fQtJJ7HXYADgYYwOU1+RPAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XrqSVjkZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1761592467; c=relaxed/simple;
+	bh=+mFuXCj6hoQC6YKCQOaY4omuj6mxwalKrIiJMI6Qj3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mStJvJSp2q+LbqjjkkHcPYg1jzgBBIWmt8ZT2PjVCHOe9UfdPhAqCDi+nRRyvcNS4YaP6ZXv5HJq6SShP7o528s3tu6Zz7QPQ+jJOO79iIgWNZl5SVKHD89aZ00/okB6uwj2LIjeJitW/zCVXZJ4GEOOMRraeNR68jiY1cKyGEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTiTG9Fh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XrqSVjkZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=kuIVSUiix3AgqKsXyCQ0motbBK2F3l1jAUwSf8sfp9Q=; b=XrqSVjkZVoL8la0GFf6b7aMJTC
-	YX2uv1YcOntDybx1GKPTQdO8VoX880cF2WLnXF3mY/YslDiUSc0/jJk6OwQI270BEGo5KnL/lbBWO
-	HGnyD+oxyhcvVM/EjVblqIorjpuBif05+Mf8FlJpO2nbKgbaZlQR0L9QJeMvTaUYvhxnqK6ZpDyEj
-	liN6Haa9gxbkNKGQ03wW2In6J9p5K+szn6eeWTePNGIg/R0brxKDJP/Cq8lYhNxoW3UhQCDS01q/V
-	mBYjbR9S0adudlN7M3Qrtb4tWTEsL1+8/BFHC+Q9f1VZfhXC6zP/9XWG3XsAjcLzT74BJF0UbpbLn
-	K4CRRBtQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDSBj-0000000EYtK-2mcO;
-	Mon, 27 Oct 2025 18:43:27 +0000
-Message-ID: <2ab04392-f133-4ebe-943a-c58050b36f13@infradead.org>
-Date: Mon, 27 Oct 2025 11:43:27 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTiTG9Fh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0EF3C4CEF1;
+	Mon, 27 Oct 2025 19:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761592467;
+	bh=+mFuXCj6hoQC6YKCQOaY4omuj6mxwalKrIiJMI6Qj3M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PTiTG9Fhyi3L5YSY/ADc8MNw+9LqZhDqUp9Ip5W8h2u2J3kbEXrpLCpplNkRZKFzT
+	 kB3I0iqZDqb4IFbqyPcB9Y/AhtrjU4+MGUGqtPv9cV7UNePIexiPn0xwRnSdRORGLx
+	 6Tcqn58ANHquf1ovMzWQCuVFw8FF2ut1OuMfGs0KTEYqrwPpIIRU0uvk92IpIe+bia
+	 uCuR8wUy445syP7xicFsL99k7p44Gc8Lm+hb60nn+meC6n5Efixml9sOr/e8sIRN75
+	 FbVseMcOB6Yw4trRv7TlmbQR6BtjI7vtq3AqnNrhfFREKkOvGARiOqv6sJEIjIdPLm
+	 DxHNlrazY/08Q==
+Date: Mon, 27 Oct 2025 14:14:25 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Igor Reznichenko <igor@reznichenko.net>, conor+dt@kernel.org,
+	corbet@lwn.net, david.hunter.linux@gmail.com,
+	devicetree@vger.kernel.org, krzk+dt@kernel.org,
+	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
+ power monitor
+Message-ID: <20251027191425.GA1403533-robh@kernel.org>
+References: <408c1698-a8ad-4e16-8def-352c2c265f5a@kernel.org>
+ <20251026184641.631641-1-igor@reznichenko.net>
+ <a45ad6b8-b4d5-4e0c-8f1a-3641dddb240d@kernel.org>
+ <e51c3dfa-406b-4dfa-bbb5-c31d1a2e0007@roeck-us.net>
+ <112db7fd-3c0e-4c56-a553-5aca12965bdf@kernel.org>
+ <0dfcfcde-d207-44af-ae7f-d90d623bac02@roeck-us.net>
+ <ea00a07b-d0d6-49a2-a9d6-ef6c1ecf57dd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 21/21] Docs: add Functions parameters order section
-To: Jani Nikula <jani.nikula@intel.com>,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251025162858.305236-1-yury.norov@gmail.com>
- <20251025163305.306787-14-yury.norov@gmail.com>
- <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <723c936f92352352c3b1a84b858d684f5b7a0834@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea00a07b-d0d6-49a2-a9d6-ef6c1ecf57dd@kernel.org>
 
-
-
-On 10/27/25 2:02 AM, Jani Nikula wrote:
-> On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
->> Standardize parameters ordering in some typical cases to minimize
->> confusion.
->>
->> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
->> ---
->>  Documentation/process/coding-style.rst | 48 ++++++++++++++++++++++++++
->>  1 file changed, 48 insertions(+)
->>
->> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
->> index d1a8e5465ed9..dde24148305c 100644
->> --- a/Documentation/process/coding-style.rst
->> +++ b/Documentation/process/coding-style.rst
->> @@ -523,6 +523,54 @@ below, compared to the **declaration** example above)::
->>  	...
->>   }
->>  
->> +6.2) Function parameters order
->> +------------------------------
->> +
->> +The order of parameters is important both for code generation and readability.
->> +Passing parameters in an unusual order is a common source of bugs. Listing
->> +them in standard widely adopted order helps to avoid confusion.
->> +
->> +Many ABIs put first function parameter and return value in R0. If your
->> +function returns one of its parameters, passing it at the very beginning
->> +would lead to a better code generation. For example::
->> +
->> +        void *memset64(uint64_t *s, uint64_t v, size_t count);
->> +        void *memcpy(void *dest, const void *src, size_t count);
->> +
->> +If your function doesn't propagate a parameter, but has a meaning of copying
->> +and/or processing data, the best practice is following the traditional order:
->> +destination, source, options, flags.
->> +
->> +for_each()-like iterators should take an enumerator the first. For example::
->> +
->> +        for_each_set_bit(bit, mask, nbits);
->> +                do_something(bit);
->> +
->> +        list_for_each_entry(pos, head, member);
->> +                do_something(pos);
->> +
->> +If function operates on a range or ranges of data, corresponding parameters
->> +may be described as ``start - end`` or ``start - size`` pairs. In both cases,
->> +the parameters should follow each other. For example::
->> +
->> +        int
->> +        check_range(unsigned long vstart, unsigned long vend,
->> +                    unsigned long kstart, unsigned long kend);
->> +
->> +        static inline void flush_icache_range(unsigned long start, unsigned long end);
->> +
->> +        static inline void flush_icache_user_page(struct vm_area_struct *vma,
->> +                                            struct page *page,
->> +                                            unsigned long addr, int len);
->> +
->> +Both ``start`` and ``end`` of the interval are inclusive.
->> +
->> +Describing intervals in order ``end - start`` is unfavorable. One notable
->> +example is the ``GENMASK(high, low)`` macro. While such a notation is popular
->> +in hardware context, particularly to describe registers structure, in context
->> +of software development it looks counter intuitive and confusing. Please switch
->> +to an equivalent ``BITS(low, high)`` version.
->> +
+On Mon, Oct 27, 2025 at 07:01:47PM +0100, Krzysztof Kozlowski wrote:
+> On 27/10/2025 17:53, Guenter Roeck wrote:
+> > On 10/27/25 01:40, Krzysztof Kozlowski wrote:
+> >> On 26/10/2025 20:58, Guenter Roeck wrote:
+> >>>>>>> +  reg:
+> >>>>>>> +    maxItems: 1
+> >>>>>>> +
+> >>>>>>> +  shunt-resistor-micro-ohms:
+> >>>>>>> +    description: Shunt resistor value in micro-ohms. Since device has internal
+> >>>>>>> +      16-bit RSHUNT register with 10 uOhm LSB, the maximum value is capped at
+> >>>>>>> +      655.35 mOhm.
+> >>>>>>> +    minimum: 100
+> >>>>>>> +    default: 1000
+> >>>>>>> +    maximum: 655350
+> >>>>>>> +
+> >>>>>>> +  st,alert-polarity-active-high:
+> >>>>>>
+> >>>>>> Isn't this just interrupt? You need proper interrupts property and then
+> >>>>>> its flag define the type of interrupt.
+> >>>>>
+> >>>>> This controls a bit written into device register.
+> >>>>> I omitted interrupt property after looking at existing power monitor bindings,
+> >>>>> especially hwmon/ti,ina2xx.yaml. INA226 has very similar bit controlling alert
+> >>>>> pin polarity and binding doesn't define alert pin as interrupt. Overall, I didn't
+> >>>>> find many power monitor bindings defining alert pins as interrupts.
+> >>>>
+> >>>>
+> >>>> On INA2xx that's SMBUS Alert. Is this the case here as well?
+> >>>>
+> >>>
+> >>> It could be wired to SMBus alert, or it could be wired to a CPU interrupt pin.
+> >>
+> >> So please explain me why CPU interrupt pin, which in every really every
+> >> device called "interrupts", would not be "interrupts" here? How CPU can
+> >> even guess the number of the interrupt in such case, without
+> >> "interrupts" property?
+> >>
+> > 
+> > I thought we were discussing the need for the st,alert-polarity-active-high
+> > property, sorry.
 > 
-> GENMASK when used for defining hardware registers is completely fine,
-> and *much* easier to deal with when you cross check against the specs
-> that almost invariably define high:low.
 > 
-> Which other parts of coding style take on specific interfaces and tell
-> you to switch? Weird. I for one don't want to encourage an influx of
-> trivial patches doing GENMASK to BITS conversions, and then keep
-> rejecting them. It's just a huge collective waste of time.
+> Yes, we kind of do, I am just trying to understand what is expressed
+> here. If this is a CPU interrupt, its flags should mark the proper
+> signal level, including inverter.
 > 
-> Anyway, that's a lot of text on "function parameter order" to justify
-> BITS(), but completely skips more important principles such as "context
-> parameter first", or "destination first".
+> If this is something else (or both), then this property might make
+> sense, I just don't know what is this.
 
-and usually flags or gfp_t last (if they are used).
+If the device's polarity is programmable and there's possibly an 
+inverter, you can't express both with just flags. In that case, flags 
+should be the polarity after the inverter since flags are defined by the 
+interrupt provider. So we'd need something to define the device side. 
+Perhaps wait until someone actually has h/w with an inverter needing 
+this.
 
-There are several exceptions to these, but consistency helps and
-lack of it has caused some argument problems in the past.
-
--- 
-~Randy
-
+Rob
