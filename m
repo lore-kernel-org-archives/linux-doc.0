@@ -1,96 +1,96 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D44E23C38C;
-	Tue, 28 Oct 2025 02:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0D226F467;
+	Tue, 28 Oct 2025 03:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761618777; cv=none; b=oOm4yCefwFRrOX5fCUZ97UC2JuIUncDTsxCLAOGlVGyOryugVaAsHID8EGko8oBcTwiKgAY9QsRtn3/sQgysZC3IipOQYBmznUWgR57L9ePr54ICSQ3tR9f4N+F6GXJQOIGyhkolrxpXScA41/f0ALl+EwRHQNL+GJa4IDQ/EgQ=
+	t=1761620540; cv=none; b=U5vH8miH+DQ9X65OFdBQ3gzbDmElnJBk/VVbzuU/+pqv/ayGRsrsVFgJJOjUfIFR0OaWdAtJg5SsPAcYtboYhES6sxXckGQzpJ/bnab6mhEU2vL+wbAKNy2aqVUzkfs1XmikCYmbnybiJcde2w0+/7Kg6YbpCuN1XIbsSxUmLms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761618777; c=relaxed/simple;
-	bh=5j4peJvmjdKmlcEE+4pWVsaPDl8SMVjVPzw/TO6vOZI=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=stkun0Xo1xjCm6WK+WfsT+C/3j4XYxEffUaTMfaaAAigR6BjfRghWfaASFi9B+qVypC14llDsEfHDoPhT6RYStJcfcvn6qA9Y3fhkREtAn1wgo1jwQ68B9vx37slO3DknARcBgCe7hujHyDs6XxetYktiJcUPMOdlKTmdjYjSHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=W9iZNDKV; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1761620540; c=relaxed/simple;
+	bh=ZQvNvNTgIwMz/0FhMCjULlM0zgfyRaaWlEr/sbPqaMs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FGVhh+lYBj/bGrsGvvwRHwHmZZDyMC0KDWwdpHwbHwv9HqcSBMfSTJVJV5azsyaimxqKufwTaRKZC+2Oq3t940umWGKnRj8bP7U8Tbq1UVztBouOoo6Z3C9DOX7GUXe7/6r6bL8ffzRC8jcs7jnjt1o0Hx7xm+I+MA7R5HC4S9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XC17BuFm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="W9iZNDKV"
-Received: from smtpclient.apple ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59S2VZQv1211668
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 27 Oct 2025 19:31:36 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59S2VZQv1211668
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1761618697;
-	bh=5j4peJvmjdKmlcEE+4pWVsaPDl8SMVjVPzw/TO6vOZI=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=W9iZNDKVt/IH+COV/XQ0LMM5CuZvKI+YGNoNiwbh9KfTlC5iN49OnaRdR68AsXJdg
-	 QFjMCVpYd0iUPWEoAcVSrh5OYDpIQfjHWlVevX2ExknG2KH52GX/d4PLLll6U7l5JU
-	 RQMkiQyNR1T4yAfef4hkkGsN5/B1gF6Fc4vGUa5qDypGGhtDKxwgkZuZvzxdS+PzMt
-	 DDXSYH+tHr8LwKBjUdjQez8SLvwCb/ufFU3yaayYyUe1R36poLhtUbwfzXBh8/fwNQ
-	 tZ27CWDj6TpeTTHT1PEwLTfddhrmdyb3JuTWAniWRJyrhIltb5rTkMAbMuuo8tSHEF
-	 d2oBkG5L2zQSw==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XC17BuFm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=vWvbvzXPBIraqYix7+1Mi54hoYzhCyJjY4HTqAgKOFw=; b=XC17BuFmxPDBXG8nygR44WPUxI
+	RaJ5rRt5MDg/kkiVDGr31fmRfwJRciCkIz2qvVD7PFhIRzFM0ZnJBkm2NqAa1wSrBl3FYny7nOgjp
+	YM9W+qtu9kzFcYyykaT4dtTAraJOphyKZLnm7ijZMJL1kJ/WJgCTttiae/1fysV0F8RpzVWaNxQwh
+	eqD0Pz5NMD7crtKlTvS3lzBwyB6wcyX2hp+Dibjkb83eHqLdsjEsCIlRORVhWI5pTLMKup82ns2kU
+	gIRcF9sH3h2R+09hvYFJqn5XoEbL68a/t4+Rb/sMmySt8MZB1nvbqluGgZ/bcbTY+2gD8Z4cojv8j
+	6Ni55h4Q==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vDZyR-0000000F8ql-1m7j;
+	Tue, 28 Oct 2025 03:02:15 +0000
+Message-ID: <67b64046-1420-43da-9b35-a40959ab1e62@infradead.org>
+Date: Mon, 27 Oct 2025 20:02:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [PATCH v9 05/22] x86/cea: Use array indexing to simplify
- exception stack access
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <c65a332e-93e7-4329-a694-c9791ab589b2@intel.com>
-Date: Mon, 27 Oct 2025 19:31:25 -0700
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3F67131F-BD5D-4A4D-AAFD-81993A448D42@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-6-xin@zytor.com>
- <c65a332e-93e7-4329-a694-c9791ab589b2@intel.com>
-To: Dave Hansen <dave.hansen@intel.com>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3] Documentation: ARCnet: Update obsolete
+ contact info
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Avery Pennarun <apenwarr@worldvisions.ca>
+References: <20251028014451.10521-2-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251028014451.10521-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-> On Oct 27, 2025, at 8:49=E2=80=AFAM, Dave Hansen =
-<dave.hansen@intel.com> wrote:
->=20
-> On 10/26/25 13:18, Xin Li (Intel) wrote:
->> Refactor struct cea_exception_stacks to leverage array indexing for
->> exception stack access, improving code clarity and eliminating the
->> need for the ESTACKS_MEMBERS() macro.
->>=20
->> Convert __this_cpu_ist_{bottom,top}_va() from macros to functions,
->> allowing removal of the now-obsolete CEA_ESTACK_BOT and =
-CEA_ESTACK_TOP
->> macros.
->>=20
->> Also drop CEA_ESTACK_SIZE, which just duplicated EXCEPTION_STKSZ.
->>=20
->> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
->> ---
->>=20
->> Change in v9:
->> * Refactor first and then export in a separate patch (Dave Hansen).
->=20
-> Thanks for the changes. This also removes the extra union{} that was =
-in
-> the last version for padding.
+On 10/27/25 6:44 PM, Bagas Sanjaya wrote:
+> ARCnet docs states that inquiries on the subsystem should be emailed to
+> Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
+> since the beginning of kernel git history and her email address is
+> unreachable (bounce). The subsystem is now maintained by Michael
+> Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add arcnet and take
+> maintainership").
+> 
+> In addition, there used to be a dedicated ARCnet mailing list but its
+> archive at epistolary.org has been shut down. ARCnet discussion nowadays
+> take place in netdev list. The arcnet.com domain mentioned has become
+> AIoT (Artificial Intelligence of Things) related Typeform page and
+> ARCnet info now resides on arcnet.cc (ARCnet Resource Center) instead.
+> 
+> Update contact information.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-I would say you foresaw it because you suggested to use array indexing:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-=
-https://lore.kernel.org/lkml/720bc7ac-7e81-4ad9-8cc5-29ac540be283@intel.co=
-m/
+> ---
+> Changes since v2 [1]:
+> 
+>   * Update ARCnet info link (Randy)
+> 
+> [1]: https://lore.kernel.org/linux-doc/20251023025506.23779-1-bagasdotme@gmail.com/
+> 
+>  Documentation/networking/arcnet-hardware.rst | 22 ++++-----
+>  Documentation/networking/arcnet.rst          | 48 +++++---------------
+>  2 files changed, 21 insertions(+), 49 deletions(-)
 
-Thanks a lot for making it much cleaner.
-Xin=
+-- 
+~Randy
