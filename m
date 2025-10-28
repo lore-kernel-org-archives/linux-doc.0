@@ -1,178 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5232857EA;
-	Tue, 28 Oct 2025 15:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11258344025;
+	Tue, 28 Oct 2025 15:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761666146; cv=none; b=CQFFFb3Kj+dAwkrd2+XF8mViyaEdbU5CHQBl8Nlo7/YMkc9FenS8IMQVwBXx2u4QJJwoHrI7pHvqY2tEQHhSKnKejb0QCqx+tWq5q2tNGH0uN0/6HINfnT2TYnvskbuYNIhi6cM7ehL80dvr9px1Jp/OPZcxAmuCO2IA3ZWtTHc=
+	t=1761667105; cv=none; b=orF9jeZnNGJFOrYM0FMM0a3vgF1kn6iHRbx3p9w6o1xM3Q0MGXdbQ4wNjYBplFmyoHMp4GX0r0z8FrJFte22y489Pf5HMVPQjX67oku0pp27iIgYlmDoayzGPfWJm3jtbqznCBPMxbp0QdtIE5vaLXFC6uCDU+Pus1L3sAEwRvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761666146; c=relaxed/simple;
-	bh=cTwXXNk/yazHQqObZ+jp4ZVZEgnfPcH4tyN7EE1hfbc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=OB5uHf3Qo0xuwr9zvBxpK8EtkC1Cj7JUI8frCmoMiBcToiYhivV6lydruysZrI5yJo3am6xpEQs6NV6MNdisQM3K2lQpvHiXaX/g8WuXr3cGjK6jNf5EYEq9OiaNwDNK7B1eIVQ4/5XRMvaUFo5HC4Vc5pHuas/rORowwH4gQz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBSqhqpi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBSqhqpi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E1BFC4CEE7;
-	Tue, 28 Oct 2025 15:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761666146;
-	bh=cTwXXNk/yazHQqObZ+jp4ZVZEgnfPcH4tyN7EE1hfbc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CBSqhqpiDvSVCBoorZfiWuqmKKOLf3RbBbvI/0ey2715+0aQIozCPcM6PtfsgkyUC
-	 Eo09m6w1VxzOLe4xj6zyETxQdPM8ZjHmRvDpPwUHN9yg6sbpY4qArB5Lvn/r02sE/5
-	 bwtxn6So0kb4uRlvXWbR5ar7ByHanVxjiObqLj1b2D2xxZAtxdawfZ739O1lTIYV/R
-	 crboLtqB/j9E9Qzb0OfsmsjDnPUBs+ypg6wiVZ3h0PJuvqSEghkyaXSTQvBkQyJNV+
-	 OFe5JcXnfCD6KoNqOJKDNZk4i2Ityaj6rYLPVQ8z5+MqW97oshY+RUqFZJtuCtp/Vk
-	 IBL5L5rVrfKzw==
-Date: Wed, 29 Oct 2025 00:42:19 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Mark Brown <broonie@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
- <mingo@kernel.org>, x86@kernel.org, Jinchao Wang
- <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
- wprobe
-Message-Id: <20251029004219.dc9cda0eb56ae46c55855844@kernel.org>
-In-Reply-To: <20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
-References: <175859019940.374439.7398451124225791618.stgit@devnote2>
-	<175859026716.374439.14852239332989324292.stgit@devnote2>
-	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
-	<20251027224347.4c887cc956df63602f377550@kernel.org>
-	<20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
-	<20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1761667105; c=relaxed/simple;
+	bh=lyCYgFwWPJURKsOfRYtiF8tVB5dNes6lcF/XpjiZIcc=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QJGs/xEE94S6Cms1/pmQBf/i/ZNxRquyY8TGylq6m/hKUhNrbE+BUjWsT7YlMAvfZl9jbqgp8rKIX+53fo7cORY9hUvdzS5Sl8Q9zVJWE939OfptakmKKIFtuhqSDatlwEIKm1bUHYuDgNaNMiLepbTUG7Y2zcEEU3lmsCYi5nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4cww4S0MQSzHnH4s;
+	Tue, 28 Oct 2025 15:57:28 +0000 (UTC)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id DCB4F140157;
+	Tue, 28 Oct 2025 23:58:18 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 28 Oct
+ 2025 15:58:17 +0000
+Date: Tue, 28 Oct 2025 15:58:16 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+CC: <linux-cxl@vger.kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
+ Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Gregory Price
+	<gourry@gourry.net>, "Robert Richter" <rrichter@amd.com>, Cheatham Benjamin
+	<benjamin.cheatham@amd.com>
+Subject: Re: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes
+ on x86
+Message-ID: <20251028155816.00003161@huawei.com>
+In-Reply-To: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+References: <20251006155836.791418-1-fabio.m.de.francesco@linux.intel.com>
+	<20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Tue, 28 Oct 2025 10:55:49 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+On Mon,  6 Oct 2025 17:58:05 +0200
+"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com> wrote:
 
-> On Tue, 28 Oct 2025 08:42:22 +0900
-> Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+> On a x86 platform with a low memory hole (LHM), the BIOS may publish
+> CFMWS that describes a system physical address (SPA) range that
+> typically is only a subset of the corresponding CXL intermediate switch
+> and endpoint decoder's host physical address (HPA) ranges. The CFMWS
+> range never intersects the LHM and so the driver instantiates a root
+> decoder whose HPA range size doesn't fully contain the matching switch
+> and endpoint decoders' HPA ranges.[1]
 > 
-> > ~ # cd /sys/kernel/tracing/
-> > /sys/kernel/tracing # echo 'w:my_wprobe w@jiffies' >> dynamic_events 
-> > /sys/kernel/tracing # echo 1 > events/wprobes/my_wprobe/enable 
-> > [   54.942288] trace_wprobe: enable_trace_wprobe called
-> > [   54.945306] trace_wprobe: trying to register wprobes
-> > [   54.947367] trace_wprobe: __register_trace_wprobe called
-> > [   54.949586] trace_wprobe: registering wprobe at addr: 0xffffb6ce429fb200, len: 4, type: 2
-> > [   54.951639] Creating wide hw breakpoint on CPU 0
-> > [   54.966390] Creating kernel counter on CPU 0 for event type 5
-> > [   54.967758] perf_install_in_context: event 00000000736da1d9 ctx 000000005d4db900 cpu 0
-> > [   54.972015] perf_install_in_context2: event 00000000736da1d9 ctx set to 000000005d4db900
-> > [   54.976697] cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2c8
-> > 
-> > What happen if the cpu calls function on itself by
-> > smp_call_function_single() on arm64?
-> > 
-> >   smp_call_function_single(this_cpu, remote_function, &data, 1);
+> To construct regions and attach decoders, the driver needs to match root
+> decoders and regions with endpoint decoders. The process fails and
+> returns errors because the driver is not designed to deal with SPA
+> ranges which are smaller than the corresponding hardware decoders HPA
+> ranges.
 > 
-> Sorry, that was printk buffering issue. I used trace_printk() instead
-> and persistent ring buffer[1] to trace it.
+> Introduce two functions that indirectly detect the presence of x86 LMH
+> and allow the matching between a root decoder or an already constructed
+> region with a corresponding intermediate switch or endpoint decoder to
+> enable the construction of a region and the subsequent attachment of the
+> same decoders to that region.
 > 
-> [1] https://docs.kernel.org/trace/debugging.html#persistent-buffers-across-boots
+> These functions return true when SPA/HPA misalignments due to LMH's are
+> detected under specific conditions:
 > 
-> ~ # echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
-> ~ # echo 'w:my_wprobe w@jiffies' >> /sys/kernel/tracing/dynamic_events 
-> ~ # echo 1 > /sys/kernel/tracing/events/wprobes/my_wprobe/enable 
-> QEMU 8.2.2 monitor - type 'help' for more information
-> (qemu) system_reset
-> ...
+> - Both the SPA and HPA ranges must start at LMH_CFMWS_RANGE_START (i.e.,
+>   0x0 on x86 with LMH's).
+> - The SPA range's size is less than HPA's.
+> - The SPA range's size is less than 4G.
+> - The HPA range's size is aligned to the NIW * 256M rule.
 > 
-> ~ # cat /sys/kernel/tracing/instances/boot_map/trace 
-> # tracer: nop
-> #
-> # entries-in-buffer/entries-written: 16/16   #P:1
-> #
-> #                                _-----=> irqs-off/BH-disabled
-> #                               / _----=> need-resched
-> #                              | / _---=> hardirq/softirq
-> #                              || / _--=> preempt-depth
-> #                              ||| / _-=> migrate-disable
-> #                              |||| /     delay
-> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-> #              | |         |   |||||     |         |
->            <...>-63      [000] .....    21.065038: register_wide_hw_breakpoint: Creating wide hw breakpoint on CPU 0
->            <...>-63      [000] .....    21.079678: perf_event_create_kernel_counter: Creating kernel counter on CPU 0 for event type 5
->            <...>-63      [000] .....    21.080051: perf_install_in_context: perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337 cpu 0
->            <...>-63      [000] .....    21.080140: perf_install_in_context: perf_install_in_context2: event 000000000b3ac4d3 ctx set to 00000000097d6337
->            <...>-63      [000] .....    21.080939: cpu_function_call: cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2f0
->            <...>-63      [000] .....    21.080966: smp_call_function_single: smp_call_function_single: calling function on CPU 0, func: remote_function+0x0/0x78, wait=1
->            <...>-63      [000] ...1.    21.080973: smp_call_function_single: smp_call_function_single: running on CPU 0, call CPU 0
->            <...>-63      [000] ...1.    21.081099: smp_call_function_single: smp_call_function_single: checking for potential deadlock conditions
->            <...>-63      [000] ...1.    21.081259: generic_exec_single: generic_exec_single: preparing to call function on CPU 0, func: remote_function+0x0/0x78
->            <...>-63      [000] ...1.    21.081269: generic_exec_single: Executing smp_call_function_single on self CPU 0, func: remote_function+0x0/0x78
->            <...>-63      [000] d..1.    21.081289: csd_do_func: csd_do_func: CPU 0 executing func remote_function+0x0/0x78
->            <...>-63      [000] d..1.    21.081429: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337
->            <...>-63      [000] d..2.    21.083211: hw_breakpoint_control: hw_breakpoint_control: ops=0
->            <...>-63      [000] d..1.    21.084191: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 done, ret=0
->            <...>-63      [000] d..1.    21.084237: csd_do_func: csd_do_func: CPU 0 finished func remote_function+0x0/0x78
->            <...>-63      [000] d..1.    21.084243: generic_exec_single: Finished csd_lock_record(NULL)
-> ~ # 
+> Also introduce a function that adjusts the range end of a region to be
+> constructed and the DPA range's end of the endpoint decoders that will
+> be later attached to that region.
 > 
+> [1] commit 7a81173f3 ("cxl: Documentation/driver-api/cxl: Describe the x86 Low Memory Hole solution")
 > 
-> So the last message is right before the local_irq_restore() in
-> generic_exec_single().
-> 
-> static int generic_exec_single(int cpu, call_single_data_t *csd)
-> {
-> 	...
-> 		csd_lock_record(csd);
-> 		csd_unlock(csd);
-> 		local_irq_save(flags);
-> 		csd_do_func(func, info, NULL);
-> 		csd_lock_record(NULL);
-> 		trace_printk("Finished csd_lock_record(NULL)\n"); <- 
-> 		local_irq_restore(flags);
-> 		return 0;
-> 
-> Actually, I added another trace_printk() right after generic_exec_single().
-> 
-> 	err = generic_exec_single(cpu, csd);
-> 	trace_printk("generic_exec_single returned %d for CPU %d, func: %pS\n",
-> 		err, cpu, func);
-> 
-> This means after setting the hw_breakpoint, when enabing the IRQ,
-> the machine is frozen - but qemu is running busy.
-> 
-> Can we specify the kernel memory address to HW breakpoint on arm64?
+> Cc: Alison Schofield <alison.schofield@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+A few minor comments from me.
 
-Hmm, it seems that jiffies related things are updated frequently
-and it may cause interrupt storm or infinit recursive call.
+> diff --git a/drivers/cxl/core/platform_quirks.c b/drivers/cxl/core/platform_quirks.c
+> new file mode 100644
+> index 000000000000..7e76e392b1ae
+> --- /dev/null
+> +++ b/drivers/cxl/core/platform_quirks.c
+> @@ -0,0 +1,99 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/range.h>
+> +#include "platform_quirks.h"
+> +#include "cxlmem.h"
+> +#include "core.h"
+> +
+> +/* Start of CFMWS range that end before x86 Low Memory Holes */
+> +#define LMH_CFMWS_RANGE_START 0x0ULL
+> +
+> +/**
+> + * platform_cxlrd_matches_cxled() - Platform quirk to match CXL Root and
+> + * Endpoint Decoders. It allows matching on platforms with LMH's.
+> + * @cxlrd: The Root Decoder against which @cxled is tested for matching.
+> + * @cxled: The Endpoint Decoder to be tested for matching @cxlrd.
+> + *
+> + * platform_cxlrd_matches_cxled() is typically called from the
+> + * match_*_by_range() functions in region.c. It checks if an endpoint decoder
+> + * matches a given root decoder and returns true to allow the driver to succeed
+> + * in the construction of regions where it would otherwise fail for the presence
+> + * of a Low Memory Hole (see Documentation/driver-api/cxl/conventions.rst).
+> + *
+> + * In x86 platforms with LMH's, the CFMWS ranges never intersect the LMH, the
+> + * endpoint decoder's HPA range size is always guaranteed aligned to NIW*256MB
+> + * and also typically larger than the matching root decoder's, and the root
+> + * decoder's range end is at an address that is necessarily less than SZ_4G
+> + * (i.e., the Hole is in Low Memory - this function doesn't deal with other
+> + * kinds of holes).
+> + *
+> + * Return: true if an endpoint matches a root decoder, else false.
+> + */
+> +bool platform_cxlrd_matches_cxled(const struct cxl_root_decoder *cxlrd,
+> +				  const struct cxl_endpoint_decoder *cxled)
+> +{
+> +	const struct range *rd_r, *sd_r;
+> +	int align;
+> +
+> +	rd_r = &cxlrd->cxlsd.cxld.hpa_range;
+> +	sd_r = &cxled->cxld.hpa_range;
+> +	align = cxled->cxld.interleave_ways * SZ_256M;
+> +
+> +	if (rd_r->start == LMH_CFMWS_RANGE_START &&
+> +	    rd_r->start == sd_r->start && rd_r->end < sd_r->end &&
+> +	    rd_r->end < (LMH_CFMWS_RANGE_START + SZ_4G) &&
+> +	    IS_ALIGNED(range_len(sd_r), align))
+> +		return true;
+> +
+> +	return false;
+Similar to below.  Simply returning the boolean statement can be simpler
 
-Basically, I think it should be temporarily disabled so that the
-interrupt does not occur during the extension of the HWBP interrupt,
-but I wonder how this works in arm64?
-
-If you know the path, you may be able to prohibit access to the
-related variables. But that maybe more difficult than SWBP like
-kprobes. Maybe this should add at least taint flag.
-
-Thank you,
-
-> 
-> Thank you,
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+	return rd_r->start == LMH_CFMWS_RANGE_START &&
+	       rd_r->start == sd_r->start &&
+	       rd_r->end < sd_r->end &&
+	       rd_r->end < (LMH_CFMWS_RANGE_START + SZ_4G) &&
+	       IS_ALIGNED(range_len(sd_r), align);
 
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> +}
+> +
+> +/**
+> + * platform_region_matches_cxld() - Platform quirk to match a CXL Region and a
+> + * Switch or Endpoint Decoder. It allows matching on platforms with LMH's.
+> + * @p: Region Params against which @cxled is matched.
+> + * @cxld: Switch or Endpoint Decoder to be tested for matching @p.
+> + *
+> + * Similar to platform_cxlrd_matches_cxled(), it matches regions and
+> + * decoders on platforms with LMH's.
+> + *
+> + * Return: true if a Decoder matches a Region, else false.
+> + */
+> +bool platform_region_matches_cxld(const struct cxl_region_params *p,
+> +				  const struct cxl_decoder *cxld)
+> +{
+> +	const struct range *r = &cxld->hpa_range;
+> +	const struct resource *res = p->res;
+> +	int align = cxld->interleave_ways * SZ_256M;
+> +
+> +	if (res->start == LMH_CFMWS_RANGE_START && res->start == r->start &&
+> +	    res->end < r->end && res->end < (LMH_CFMWS_RANGE_START + SZ_4G) &&
+> +	    IS_ALIGNED(range_len(r), align))
+> +		return true;
+
+Dave commented on line break up here, but I'd go further.
+
+	return res->start == LMH_CFMWS_RANGE_START &&
+	       res->start == r->start &&
+	       res->end < r->end &&
+	       res->end < (LMH_CFMWS_RANGE_START + SZ_4G) &&
+	       IS_ALIGNED(range_len(r), align);
+
+> +
+> +	return false;
+> +}
+
+> diff --git a/drivers/cxl/core/platform_quirks.h b/drivers/cxl/core/platform_quirks.h
+> new file mode 100644
+> index 000000000000..a15592b4e90e
+> --- /dev/null
+> +++ b/drivers/cxl/core/platform_quirks.h
+> @@ -0,0 +1,33 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#include "cxl.h"
+> +
+> +#ifdef CONFIG_CXL_PLATFORM_QUIRKS
+> +bool platform_cxlrd_matches_cxled(const struct cxl_root_decoder *cxlrd,
+> +				  const struct cxl_endpoint_decoder *cxled);
+> +bool platform_region_matches_cxld(const struct cxl_region_params *p,
+> +				  const struct cxl_decoder *cxld);
+> +void platform_res_adjust(struct resource *res,
+> +			 struct cxl_endpoint_decoder *cxled,
+> +			 const struct cxl_root_decoder *cxlrd);
+> +#else
+> +static inline bool
+> +platform_root_decoder_contains(const struct cxl_root_decoder *cxlrd,
+> +			       const struct cxl_endpoint_decoder *cxled)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline bool
+> +platform_region_matches_cxld(const struct cxl_region_params *p,
+> +			     const struct cxl_decoder *cxld)
+> +{
+> +	return false;
+> +}
+> +
+> +inline void platform_res_adjust(struct resource *res,
+static 
+> +				struct cxl_endpoint_decoder *cxled,
+> +				const struct cxl_root_decoder *cxlrd)
+> +{
+> +}
+> +#endif /* CONFIG_CXL_PLATFORM_QUIRKS */
+
