@@ -1,144 +1,178 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA42225416
-	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 15:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5232857EA;
+	Tue, 28 Oct 2025 15:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761665630; cv=none; b=CIXWO2nq5HMT41I+RPzp9zWryqceab3B91YWkZUSfvH9fVun+AWvvhBaF4mw3mxCY6xH+pt1A9XE2zi64ic6uSNzbAcVX4yByoCXg0DmAvE/rwZHm4gftqgYLtD7VVuouwx6AjG2VjgItft2Z+7i8Edx1eED/ei+ZaAE9PkCnqM=
+	t=1761666146; cv=none; b=CQFFFb3Kj+dAwkrd2+XF8mViyaEdbU5CHQBl8Nlo7/YMkc9FenS8IMQVwBXx2u4QJJwoHrI7pHvqY2tEQHhSKnKejb0QCqx+tWq5q2tNGH0uN0/6HINfnT2TYnvskbuYNIhi6cM7ehL80dvr9px1Jp/OPZcxAmuCO2IA3ZWtTHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761665630; c=relaxed/simple;
-	bh=eA7Nw5jjmlJ7WDuoEIo2n+iZY2FkYspPQ+ZIWFh7Uok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cRfSaGVyjsgL+HyvdAYQJ6r9wAPXfxSYF57ASUxYMN+iDL1u/9JnS7MKdTFanV5b+7Szzm8bp7XLK93RcvCcyNhl21+Jhkr0O+sgGyb39p7Y5ftOSVFJWXKOqIdVLbtXQrENmFx8gRi+eRaqmGzR3e28H6bsiVAYJ3JvloQ7qpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kvh94TcI; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761666146; c=relaxed/simple;
+	bh=cTwXXNk/yazHQqObZ+jp4ZVZEgnfPcH4tyN7EE1hfbc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=OB5uHf3Qo0xuwr9zvBxpK8EtkC1Cj7JUI8frCmoMiBcToiYhivV6lydruysZrI5yJo3am6xpEQs6NV6MNdisQM3K2lQpvHiXaX/g8WuXr3cGjK6jNf5EYEq9OiaNwDNK7B1eIVQ4/5XRMvaUFo5HC4Vc5pHuas/rORowwH4gQz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBSqhqpi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kvh94TcI"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b6cf3174ca4so4220646a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 08:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761665628; x=1762270428; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kSEOBZR+Exc/CaWTiV/k0angiJlxjY7XZP8jViN6sPg=;
-        b=Kvh94TcIUi4V1CvHdkpedE6cq9h7DZS5KSLsYB/jreNjjJOs7LFHw8L4E2lI8inn26
-         +WOBAVaFAYY4Qj4rNt2x4W8Ai306xQWbuxKmhZDgti2uTytagqTmVkJU2a0pPAZhZeQi
-         r7Molx8NyJM4WpFUtpf7RmOL+wF1GTYg3S0+fAbj2aOJDaTmncXsqyWWZB6j+uw1oRpY
-         eDYw6kZ9tq3tWTU0KpTxHsDsUm2CMnXGDDM+nGKmPZ8+EQQ7N0cdOqaVOWmlAClz9+Xa
-         USYa2yDtxHMAwvZYztoXGyH+9mFgezRHRdGxcgkDXce26oNx1WR8vVAKLop1OtmKbBQb
-         tqcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761665628; x=1762270428;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kSEOBZR+Exc/CaWTiV/k0angiJlxjY7XZP8jViN6sPg=;
-        b=Mjmb3o4HFFmwS2i9cVvKJjoIRV+ngJwaudorjJNJyRSh4WSzZw9YVR4PMEe6/Qdgst
-         4L2A5je2dkWkXmZrtN3eVbjZY87072UM8vvXH0kSfE4SgCwr5JnSGRn9QAvLV5hnVCLU
-         SI0ljjrcGUwSqeh3FV069hjwuUpdAlHphT9TEC1wUygI+T0h2WLjovOgxK7z2a43tJpn
-         9M/yATwgB7nWCnWzfQqSP71Mo3id/A+HvN5pX+PyvwH/dO7aibsxwI9AZeqYON776ZSK
-         Qqu6TOcWPRZpEckIwxDwn1im6O1Dp8OsaukOMWxnBOqt5aRCpGwHsxwWKTIWvKIjOkoV
-         nRIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ7GHDiaF6/0p3SFAWsNUrkoV5Y0H1xhmG40BxGeQxF/8flyRLg47ouuYtWGh9LQVkZ/y1EtrhZao=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOQ/1UksBWEggtVtwwypuWXzDC0++n5Vsj1U5xnrRkaQmzw9Ed
-	D+eMZswpuLGRp9l53ixS8LzwtzeyHLXCTnfyeCs4cRvwYLNnFCwkXhtK1qsRjQ==
-X-Gm-Gg: ASbGncuZB2kPDFypnALvrXhhneOGTz+DbLU0tPf23QpePBIGalWEtn/4IA+csEJdFw+
-	ZoHIU/pCU0VPGQlQ1l962D1EG6L+orIF7Xi85WYabgC3hoHg0gX3v+IWY4BpU34orhwyXiJhTUZ
-	Pm6Ol7Epst0p/3k7b15vvmG1DPTL4NFh+1tI0lakWq8FvkGsZF09sk5vX6u4MIhJaLNnbkJEIL9
-	eQLbJKdxz+mwC4VYVjWWiJGKVJXTXXti3leKTg7UghgVCQ2QddoLFfC7ZAMEMTGzfDP/ERdVl3b
-	kbKr1tE95rlPoGd0pWxpRLeqxMaa7le7i4zcbttOt/iGKKeUjk2OEjG7lzEOhwhLRIiNPgIIPwq
-	sVaNQBlPo1o4OvEd6eUZrpwUdCb4SunUdDqC3UnSxmqlCLTxK+rGDvNPxfO+mAVhH2QiIsGsYn9
-	8cZn4bSFB7QoDiZvSgfz9g0JzxiMybAlfrG5ppqC+NzGTliC+WVIRMPLNTVmI=
-X-Google-Smtp-Source: AGHT+IH5tSe4iYRpSGEmjR46kSp3ohJpOhCnmEWATPv4U1WYhUYftb0nmtWlD4ZwEMfhhEGTWWuJLw==
-X-Received: by 2002:a17:902:d48f:b0:251:5900:9803 with SMTP id d9443c01a7336-294cb3b37a4mr53846165ad.21.1761665628366;
-        Tue, 28 Oct 2025 08:33:48 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed74028fsm12535371a91.8.2025.10.28.08.33.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 08:33:47 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <85e83f3e-3509-484b-8cc8-110156d5a2ab@roeck-us.net>
-Date: Tue, 28 Oct 2025 08:33:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBSqhqpi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E1BFC4CEE7;
+	Tue, 28 Oct 2025 15:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761666146;
+	bh=cTwXXNk/yazHQqObZ+jp4ZVZEgnfPcH4tyN7EE1hfbc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CBSqhqpiDvSVCBoorZfiWuqmKKOLf3RbBbvI/0ey2715+0aQIozCPcM6PtfsgkyUC
+	 Eo09m6w1VxzOLe4xj6zyETxQdPM8ZjHmRvDpPwUHN9yg6sbpY4qArB5Lvn/r02sE/5
+	 bwtxn6So0kb4uRlvXWbR5ar7ByHanVxjiObqLj1b2D2xxZAtxdawfZ739O1lTIYV/R
+	 crboLtqB/j9E9Qzb0OfsmsjDnPUBs+ypg6wiVZ3h0PJuvqSEghkyaXSTQvBkQyJNV+
+	 OFe5JcXnfCD6KoNqOJKDNZk4i2Ityaj6rYLPVQ8z5+MqW97oshY+RUqFZJtuCtp/Vk
+	 IBL5L5rVrfKzw==
+Date: Wed, 29 Oct 2025 00:42:19 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, Mark Brown <broonie@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
+ <mingo@kernel.org>, x86@kernel.org, Jinchao Wang
+ <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
+ wprobe
+Message-Id: <20251029004219.dc9cda0eb56ae46c55855844@kernel.org>
+In-Reply-To: <20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
+References: <175859019940.374439.7398451124225791618.stgit@devnote2>
+	<175859026716.374439.14852239332989324292.stgit@devnote2>
+	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
+	<20251027224347.4c887cc956df63602f377550@kernel.org>
+	<20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
+	<20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641
- power monitor
-To: Igor Reznichenko <igor@reznichenko.net>, robh@kernel.org
-Cc: conor+dt@kernel.org, corbet@lwn.net, david.hunter.linux@gmail.com,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, krzk@kernel.org,
- linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20251027191425.GA1403533-robh@kernel.org>
- <20251028151747.663000-1-igor@reznichenko.net>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251028151747.663000-1-igor@reznichenko.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 10/28/25 08:17, Igor Reznichenko wrote:
-> Understood. The bit in question controls the alert pin polarity on the device side,
-> independent of whether the pin is used as interrupt or not. I'll drop the property
-> for now and revisit if there's a board that actually uses an inverter or needs to
-> program the bit explicitly.
+On Tue, 28 Oct 2025 10:55:49 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+
+> On Tue, 28 Oct 2025 08:42:22 +0900
+> Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 > 
+> > ~ # cd /sys/kernel/tracing/
+> > /sys/kernel/tracing # echo 'w:my_wprobe w@jiffies' >> dynamic_events 
+> > /sys/kernel/tracing # echo 1 > events/wprobes/my_wprobe/enable 
+> > [   54.942288] trace_wprobe: enable_trace_wprobe called
+> > [   54.945306] trace_wprobe: trying to register wprobes
+> > [   54.947367] trace_wprobe: __register_trace_wprobe called
+> > [   54.949586] trace_wprobe: registering wprobe at addr: 0xffffb6ce429fb200, len: 4, type: 2
+> > [   54.951639] Creating wide hw breakpoint on CPU 0
+> > [   54.966390] Creating kernel counter on CPU 0 for event type 5
+> > [   54.967758] perf_install_in_context: event 00000000736da1d9 ctx 000000005d4db900 cpu 0
+> > [   54.972015] perf_install_in_context2: event 00000000736da1d9 ctx set to 000000005d4db900
+> > [   54.976697] cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2c8
+> > 
+> > What happen if the cpu calls function on itself by
+> > smp_call_function_single() on arm64?
+> > 
+> >   smp_call_function_single(this_cpu, remote_function, &data, 1);
+> 
+> Sorry, that was printk buffering issue. I used trace_printk() instead
+> and persistent ring buffer[1] to trace it.
+> 
+> [1] https://docs.kernel.org/trace/debugging.html#persistent-buffers-across-boots
+> 
+> ~ # echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
+> ~ # echo 'w:my_wprobe w@jiffies' >> /sys/kernel/tracing/dynamic_events 
+> ~ # echo 1 > /sys/kernel/tracing/events/wprobes/my_wprobe/enable 
+> QEMU 8.2.2 monitor - type 'help' for more information
+> (qemu) system_reset
+> ...
+> 
+> ~ # cat /sys/kernel/tracing/instances/boot_map/trace 
+> # tracer: nop
+> #
+> # entries-in-buffer/entries-written: 16/16   #P:1
+> #
+> #                                _-----=> irqs-off/BH-disabled
+> #                               / _----=> need-resched
+> #                              | / _---=> hardirq/softirq
+> #                              || / _--=> preempt-depth
+> #                              ||| / _-=> migrate-disable
+> #                              |||| /     delay
+> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> #              | |         |   |||||     |         |
+>            <...>-63      [000] .....    21.065038: register_wide_hw_breakpoint: Creating wide hw breakpoint on CPU 0
+>            <...>-63      [000] .....    21.079678: perf_event_create_kernel_counter: Creating kernel counter on CPU 0 for event type 5
+>            <...>-63      [000] .....    21.080051: perf_install_in_context: perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337 cpu 0
+>            <...>-63      [000] .....    21.080140: perf_install_in_context: perf_install_in_context2: event 000000000b3ac4d3 ctx set to 00000000097d6337
+>            <...>-63      [000] .....    21.080939: cpu_function_call: cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2f0
+>            <...>-63      [000] .....    21.080966: smp_call_function_single: smp_call_function_single: calling function on CPU 0, func: remote_function+0x0/0x78, wait=1
+>            <...>-63      [000] ...1.    21.080973: smp_call_function_single: smp_call_function_single: running on CPU 0, call CPU 0
+>            <...>-63      [000] ...1.    21.081099: smp_call_function_single: smp_call_function_single: checking for potential deadlock conditions
+>            <...>-63      [000] ...1.    21.081259: generic_exec_single: generic_exec_single: preparing to call function on CPU 0, func: remote_function+0x0/0x78
+>            <...>-63      [000] ...1.    21.081269: generic_exec_single: Executing smp_call_function_single on self CPU 0, func: remote_function+0x0/0x78
+>            <...>-63      [000] d..1.    21.081289: csd_do_func: csd_do_func: CPU 0 executing func remote_function+0x0/0x78
+>            <...>-63      [000] d..1.    21.081429: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337
+>            <...>-63      [000] d..2.    21.083211: hw_breakpoint_control: hw_breakpoint_control: ops=0
+>            <...>-63      [000] d..1.    21.084191: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 done, ret=0
+>            <...>-63      [000] d..1.    21.084237: csd_do_func: csd_do_func: CPU 0 finished func remote_function+0x0/0x78
+>            <...>-63      [000] d..1.    21.084243: generic_exec_single: Finished csd_lock_record(NULL)
+> ~ # 
+> 
+> 
+> So the last message is right before the local_irq_restore() in
+> generic_exec_single().
+> 
+> static int generic_exec_single(int cpu, call_single_data_t *csd)
+> {
+> 	...
+> 		csd_lock_record(csd);
+> 		csd_unlock(csd);
+> 		local_irq_save(flags);
+> 		csd_do_func(func, info, NULL);
+> 		csd_lock_record(NULL);
+> 		trace_printk("Finished csd_lock_record(NULL)\n"); <- 
+> 		local_irq_restore(flags);
+> 		return 0;
+> 
+> Actually, I added another trace_printk() right after generic_exec_single().
+> 
+> 	err = generic_exec_single(cpu, csd);
+> 	trace_printk("generic_exec_single returned %d for CPU %d, func: %pS\n",
+> 		err, cpu, func);
+> 
+> This means after setting the hw_breakpoint, when enabing the IRQ,
+> the machine is frozen - but qemu is running busy.
+> 
+> Can we specify the kernel memory address to HW breakpoint on arm64?
 
-This is kind of unusual. The requirement used to be that devicetree properties
-shall be complete. "Only if there is a known use case" is a significant policy
-change. Has the policy changed recently ?
+Hmm, it seems that jiffies related things are updated frequently
+and it may cause interrupt storm or infinit recursive call.
 
-Thanks,
-Guenter
+Basically, I think it should be temporarily disabled so that the
+interrupt does not occur during the extension of the HWBP interrupt,
+but I wonder how this works in arm64?
 
+If you know the path, you may be able to prohibit access to the
+related variables. But that maybe more difficult than SWBP like
+kprobes. Maybe this should add at least taint flag.
+
+Thank you,
+
+> 
+> Thank you,
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
