@@ -1,155 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36211662E7;
-	Tue, 28 Oct 2025 01:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D44E23C38C;
+	Tue, 28 Oct 2025 02:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761616556; cv=none; b=YFa57RKFoTdmsyeBaMFZOqqRsULOrFrESuPDVb32seFtv6X3Bl1aFIohRelljloBpNW/zRZD62+NB9CPHuARB7v1x3QYJuU29iXEt/6hihZs8+EVIAGfm73sQA1C5mCYkublunJf9/U0eEZtapp65lsEclqSwThhBVwYFTKjNoY=
+	t=1761618777; cv=none; b=oOm4yCefwFRrOX5fCUZ97UC2JuIUncDTsxCLAOGlVGyOryugVaAsHID8EGko8oBcTwiKgAY9QsRtn3/sQgysZC3IipOQYBmznUWgR57L9ePr54ICSQ3tR9f4N+F6GXJQOIGyhkolrxpXScA41/f0ALl+EwRHQNL+GJa4IDQ/EgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761616556; c=relaxed/simple;
-	bh=6IlL0RD/b1cmQ2o28E1LFzW/+KMUWhpSmqh1P0RR74k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=sHEf8SKDY4L/8SrYQ164Ic25dapc1c0U/+29Xc+fM0EP7bt5L1QLlUzVNPRX35hZrU6dr7+0fd5jtTGPTNbfFFwWDaLkfrRFvb4l/gNvvYnT4urhSZnhK/yj384cZEMCrvLRncPW78gyZ5qFITbdf2UBZeWX3CuRmPiNX23Z+Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdza6PTp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761618777; c=relaxed/simple;
+	bh=5j4peJvmjdKmlcEE+4pWVsaPDl8SMVjVPzw/TO6vOZI=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=stkun0Xo1xjCm6WK+WfsT+C/3j4XYxEffUaTMfaaAAigR6BjfRghWfaASFi9B+qVypC14llDsEfHDoPhT6RYStJcfcvn6qA9Y3fhkREtAn1wgo1jwQ68B9vx37slO3DknARcBgCe7hujHyDs6XxetYktiJcUPMOdlKTmdjYjSHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=W9iZNDKV; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdza6PTp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62A1C4CEF1;
-	Tue, 28 Oct 2025 01:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761616556;
-	bh=6IlL0RD/b1cmQ2o28E1LFzW/+KMUWhpSmqh1P0RR74k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jdza6PTpVIv54MadO3APb4bau5qFddYhcpvXjSTnjv2TfyE08Z4O4glutGY6oaVhu
-	 nYR75QQXC3SO8VyxMdcwoAVaMYw8Xy0BUdy3xJCg64/2eBMukdCrYKZS6TtEKR2ChL
-	 vK6A0SuB/mo+5xJJ3XLIYsS+pZRZJ0Abcr6Ni1a6iO1CXyo7+YarkUnsfxILXhESBQ
-	 qxbWXagybJU32oddPCU3AnViWYCTgv6gDWtsfwN0AqpXQwRHEO+9YyEUqA2nDm/xxy
-	 Vfju0PPjbRwyhvg21/4c5JIrFUZoBKyycNEa44C5NEQq7MuSbeO1+/2kWuELXZDfVL
-	 TJcr1Hh5zEHlA==
-Date: Tue, 28 Oct 2025 10:55:49 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Masami Hiramatsu (Google) <mhiramat@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
- wprobe
-Message-Id: <20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
-In-Reply-To: <20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
-References: <175859019940.374439.7398451124225791618.stgit@devnote2>
-	<175859026716.374439.14852239332989324292.stgit@devnote2>
-	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
-	<20251027224347.4c887cc956df63602f377550@kernel.org>
-	<20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="W9iZNDKV"
+Received: from smtpclient.apple ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59S2VZQv1211668
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 27 Oct 2025 19:31:36 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59S2VZQv1211668
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025102301; t=1761618697;
+	bh=5j4peJvmjdKmlcEE+4pWVsaPDl8SMVjVPzw/TO6vOZI=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=W9iZNDKVt/IH+COV/XQ0LMM5CuZvKI+YGNoNiwbh9KfTlC5iN49OnaRdR68AsXJdg
+	 QFjMCVpYd0iUPWEoAcVSrh5OYDpIQfjHWlVevX2ExknG2KH52GX/d4PLLll6U7l5JU
+	 RQMkiQyNR1T4yAfef4hkkGsN5/B1gF6Fc4vGUa5qDypGGhtDKxwgkZuZvzxdS+PzMt
+	 DDXSYH+tHr8LwKBjUdjQez8SLvwCb/ufFU3yaayYyUe1R36poLhtUbwfzXBh8/fwNQ
+	 tZ27CWDj6TpeTTHT1PEwLTfddhrmdyb3JuTWAniWRJyrhIltb5rTkMAbMuuo8tSHEF
+	 d2oBkG5L2zQSw==
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Tue, 28 Oct 2025 08:42:22 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
-
-> ~ # cd /sys/kernel/tracing/
-> /sys/kernel/tracing # echo 'w:my_wprobe w@jiffies' >> dynamic_events 
-> /sys/kernel/tracing # echo 1 > events/wprobes/my_wprobe/enable 
-> [   54.942288] trace_wprobe: enable_trace_wprobe called
-> [   54.945306] trace_wprobe: trying to register wprobes
-> [   54.947367] trace_wprobe: __register_trace_wprobe called
-> [   54.949586] trace_wprobe: registering wprobe at addr: 0xffffb6ce429fb200, len: 4, type: 2
-> [   54.951639] Creating wide hw breakpoint on CPU 0
-> [   54.966390] Creating kernel counter on CPU 0 for event type 5
-> [   54.967758] perf_install_in_context: event 00000000736da1d9 ctx 000000005d4db900 cpu 0
-> [   54.972015] perf_install_in_context2: event 00000000736da1d9 ctx set to 000000005d4db900
-> [   54.976697] cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2c8
-> 
-> What happen if the cpu calls function on itself by
-> smp_call_function_single() on arm64?
-> 
->   smp_call_function_single(this_cpu, remote_function, &data, 1);
-
-Sorry, that was printk buffering issue. I used trace_printk() instead
-and persistent ring buffer[1] to trace it.
-
-[1] https://docs.kernel.org/trace/debugging.html#persistent-buffers-across-boots
-
-~ # echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
-~ # echo 'w:my_wprobe w@jiffies' >> /sys/kernel/tracing/dynamic_events 
-~ # echo 1 > /sys/kernel/tracing/events/wprobes/my_wprobe/enable 
-QEMU 8.2.2 monitor - type 'help' for more information
-(qemu) system_reset
-...
-
-~ # cat /sys/kernel/tracing/instances/boot_map/trace 
-# tracer: nop
-#
-# entries-in-buffer/entries-written: 16/16   #P:1
-#
-#                                _-----=> irqs-off/BH-disabled
-#                               / _----=> need-resched
-#                              | / _---=> hardirq/softirq
-#                              || / _--=> preempt-depth
-#                              ||| / _-=> migrate-disable
-#                              |||| /     delay
-#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-#              | |         |   |||||     |         |
-           <...>-63      [000] .....    21.065038: register_wide_hw_breakpoint: Creating wide hw breakpoint on CPU 0
-           <...>-63      [000] .....    21.079678: perf_event_create_kernel_counter: Creating kernel counter on CPU 0 for event type 5
-           <...>-63      [000] .....    21.080051: perf_install_in_context: perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337 cpu 0
-           <...>-63      [000] .....    21.080140: perf_install_in_context: perf_install_in_context2: event 000000000b3ac4d3 ctx set to 00000000097d6337
-           <...>-63      [000] .....    21.080939: cpu_function_call: cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2f0
-           <...>-63      [000] .....    21.080966: smp_call_function_single: smp_call_function_single: calling function on CPU 0, func: remote_function+0x0/0x78, wait=1
-           <...>-63      [000] ...1.    21.080973: smp_call_function_single: smp_call_function_single: running on CPU 0, call CPU 0
-           <...>-63      [000] ...1.    21.081099: smp_call_function_single: smp_call_function_single: checking for potential deadlock conditions
-           <...>-63      [000] ...1.    21.081259: generic_exec_single: generic_exec_single: preparing to call function on CPU 0, func: remote_function+0x0/0x78
-           <...>-63      [000] ...1.    21.081269: generic_exec_single: Executing smp_call_function_single on self CPU 0, func: remote_function+0x0/0x78
-           <...>-63      [000] d..1.    21.081289: csd_do_func: csd_do_func: CPU 0 executing func remote_function+0x0/0x78
-           <...>-63      [000] d..1.    21.081429: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337
-           <...>-63      [000] d..2.    21.083211: hw_breakpoint_control: hw_breakpoint_control: ops=0
-           <...>-63      [000] d..1.    21.084191: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 done, ret=0
-           <...>-63      [000] d..1.    21.084237: csd_do_func: csd_do_func: CPU 0 finished func remote_function+0x0/0x78
-           <...>-63      [000] d..1.    21.084243: generic_exec_single: Finished csd_lock_record(NULL)
-~ # 
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: [PATCH v9 05/22] x86/cea: Use array indexing to simplify
+ exception stack access
+From: Xin Li <xin@zytor.com>
+In-Reply-To: <c65a332e-93e7-4329-a694-c9791ab589b2@intel.com>
+Date: Mon, 27 Oct 2025 19:31:25 -0700
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3F67131F-BD5D-4A4D-AAFD-81993A448D42@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-6-xin@zytor.com>
+ <c65a332e-93e7-4329-a694-c9791ab589b2@intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
 
-So the last message is right before the local_irq_restore() in
-generic_exec_single().
 
-static int generic_exec_single(int cpu, call_single_data_t *csd)
-{
-	...
-		csd_lock_record(csd);
-		csd_unlock(csd);
-		local_irq_save(flags);
-		csd_do_func(func, info, NULL);
-		csd_lock_record(NULL);
-		trace_printk("Finished csd_lock_record(NULL)\n"); <- 
-		local_irq_restore(flags);
-		return 0;
+> On Oct 27, 2025, at 8:49=E2=80=AFAM, Dave Hansen =
+<dave.hansen@intel.com> wrote:
+>=20
+> On 10/26/25 13:18, Xin Li (Intel) wrote:
+>> Refactor struct cea_exception_stacks to leverage array indexing for
+>> exception stack access, improving code clarity and eliminating the
+>> need for the ESTACKS_MEMBERS() macro.
+>>=20
+>> Convert __this_cpu_ist_{bottom,top}_va() from macros to functions,
+>> allowing removal of the now-obsolete CEA_ESTACK_BOT and =
+CEA_ESTACK_TOP
+>> macros.
+>>=20
+>> Also drop CEA_ESTACK_SIZE, which just duplicated EXCEPTION_STKSZ.
+>>=20
+>> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+>> ---
+>>=20
+>> Change in v9:
+>> * Refactor first and then export in a separate patch (Dave Hansen).
+>=20
+> Thanks for the changes. This also removes the extra union{} that was =
+in
+> the last version for padding.
 
-Actually, I added another trace_printk() right after generic_exec_single().
+I would say you foresaw it because you suggested to use array indexing:
 
-	err = generic_exec_single(cpu, csd);
-	trace_printk("generic_exec_single returned %d for CPU %d, func: %pS\n",
-		err, cpu, func);
+=
+https://lore.kernel.org/lkml/720bc7ac-7e81-4ad9-8cc5-29ac540be283@intel.co=
+m/
 
-This means after setting the hw_breakpoint, when enabing the IRQ,
-the machine is frozen - but qemu is running busy.
-
-Can we specify the kernel memory address to HW breakpoint on arm64?
-
-Thank you,
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Thanks a lot for making it much cleaner.
+Xin=
