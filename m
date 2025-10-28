@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671E83563E4;
-	Tue, 28 Oct 2025 22:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23863557E9;
+	Tue, 28 Oct 2025 22:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761689430; cv=none; b=AL+LPXY9H0Gjh72aHGaZP77LXr96JuERpVHHJ9ZDirM2qhSy0xGBwNdWu7rwPYGOO4aNHZhLw0gB8uDg4DP++2Hu7cndab4uzP3VogOjEREyJlidDmjh/FnuMVNvC0SykXdq2/5jtUZr9ox6tiQA2Oo6Zu28bpeeWbx5aaG7gO4=
+	t=1761689432; cv=none; b=hENChI4GvuAHVBb3J+C9qtX4D1VwTDb3ai1/EN+opdFCJV3hS9Qc9drAIsmE+xRp5rU1Hu9LxcmS125hjMjsc4FRVllll+ta83xXKPtLHvPHIU+yEfOAQGPJoTBHfzvuQAUBhKtyeMqx8qVCgb93lafOMD5woCJs1PU5jgn7RwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761689430; c=relaxed/simple;
-	bh=Su8I4ZpmI0lXEKrYUMdIBG2EmR2jPYhJ1smLKIargxo=;
+	s=arc-20240116; t=1761689432; c=relaxed/simple;
+	bh=/14+de53sdHLFxJy3FlGFFHpx3a4rldgHBttfIj2tlc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EeggQLBvUYIY2Uo8pqzSxPiFSmABL/36oTJbwfkvicHao8S3MVPAJJL30PmkNgX7Oyh55Uy4WmyhRa/HKqvEJPpIg/6ePeWUm74Lk0/kwDF0tmfZ85p2OsTtDjGNmH+qJ/hEzFnlj5yrYvQ6GFdjQTy3XD0nGfzR8d5FErhdnZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PBlkGcyT; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=EYLhXiO+oost/X/o0csao+naXyqbEbiI9fXedU2aTH3Rul9psprF9qcQ5oYyjdsb2IWl9dRbnpxV6k03SaYk104If1rL1E37MtV7XfHe+cjoPqSj3ub0cqFCWll8zbroTdmA80YcxCnFTrqy6zAXTdTDmj3ootnlV0pL+z4VD4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Jshba6H9; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PBlkGcyT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5C22140C2D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Jshba6H9"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5A8B240B3A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761689428; bh=XByR8V9qclC7Yr58OJitI2Wdvv3KcBWFUkrYuK1bai4=;
+	t=1761689426; bh=gKQ8fFVrdgwZdfTHmfmE67b43gu/oNObSB701iiqA04=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PBlkGcyTzSSP6xmQDgL+1zmjtbt/PZxFO+jhJLl7OxHJwtoaFQBSZzxFH2kT+nq6b
-	 rxJ5lWYeTqqfi/jy7GM2CF2FblhsSoxz0gtDX00vzzFtQVa9wsnM/pywPKBM3QrSws
-	 77FVn/RO42aBGLZGH8irUASbQjBZbEXqyBhLB+hZae+JHPa4OyXedyQpmMaMyGKyPo
-	 XHhie/FUN1ekUjsmbEkQYwl0hEcvIQSqhNhWkAsXuj54yl6rG8lSHtTjPbzkNTwA4A
-	 jvPygLFbrDfjZAHbhBU8J2fnv/V4JXl9prGE6i9hwTWlKx5fEKDq6Oo3ERG7piBkvj
-	 OOja4/ErTVY7A==
+	b=Jshba6H9+IMkv9V/3NpVeEe1KvqIzqHW1l8sXECeN3KakFChXGnsBSFdvkwJBfMAO
+	 KbnXiR5Ul6/UCzOpcz/nKS+101EIXhep8oQkZzj9b8Q+9VB33K/eHZZmwGT8uSH/QF
+	 zuNcl1uoBIukraDaRLqTZ0QzMCdq+KJoCY+WNVfkMatRKusxwWXxYV8DkY1LGRhDOZ
+	 J2c77OZN2WqF2AkXgQB9ZPtox2Q4ksR3NXFg4B+ZGRpjVl+DUtbbe3gRm+OS9jOqyT
+	 7a6De039t/7V+JdMm+gXzHMJBQOECbOq8HPBJSW7l2I2xqBEw34bQ/qxbTZrcy7fTT
+	 HsVszhyYg7rcg==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 5C22140C2D;
-	Tue, 28 Oct 2025 22:10:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 5A8B240B3A;
+	Tue, 28 Oct 2025 22:10:25 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -37,10 +37,13 @@ Cc: linux-kernel@vger.kernel.org,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
 	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v4 6/7] docs: move find-unused-docs.sh to tools/docs
-Date: Tue, 28 Oct 2025 16:10:14 -0600
-Message-ID: <20251028221017.5785-7-corbet@lwn.net>
+Subject: [PATCH v4 2/7] docs: move checktransupdate.py to tools/docs
+Date: Tue, 28 Oct 2025 16:10:10 -0600
+Message-ID: <20251028221017.5785-3-corbet@lwn.net>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251028221017.5785-1-corbet@lwn.net>
 References: <20251028221017.5785-1-corbet@lwn.net>
@@ -53,73 +56,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-...and update references accordingly.
+The checktranslate.py tool currently languishes in scripts/; move it to
+tools/docs and update references accordingly.
 
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <si.yanteng@linux.dev>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/doc-guide/contributing.rst                    | 2 +-
- Documentation/translations/zh_CN/doc-guide/contributing.rst | 2 +-
- {scripts => tools/docs}/find-unused-docs.sh                 | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename {scripts => tools/docs}/find-unused-docs.sh (85%)
+ Documentation/doc-guide/checktransupdate.rst              | 6 +++---
+ .../translations/zh_CN/doc-guide/checktransupdate.rst     | 6 +++---
+ Documentation/translations/zh_CN/how-to.rst               | 2 +-
+ MAINTAINERS                                               | 1 -
+ {scripts => tools/docs}/checktransupdate.py               | 8 ++++----
+ 5 files changed, 11 insertions(+), 12 deletions(-)
+ rename {scripts => tools/docs}/checktransupdate.py (97%)
 
-diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-index 662c7a840cd5..f8047e633113 100644
---- a/Documentation/doc-guide/contributing.rst
-+++ b/Documentation/doc-guide/contributing.rst
-@@ -152,7 +152,7 @@ generate links to that documentation.  Adding ``kernel-doc`` directives to
- the documentation to bring those comments in can help the community derive
- the full value of the work that has gone into creating them.
+diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
+index dfaf9d373747..7b25375cc6d9 100644
+--- a/Documentation/doc-guide/checktransupdate.rst
++++ b/Documentation/doc-guide/checktransupdate.rst
+@@ -27,15 +27,15 @@ Usage
  
--The ``scripts/find-unused-docs.sh`` tool can be used to find these
-+The ``tools/docs/find-unused-docs.sh`` tool can be used to find these
- overlooked comments.
+ ::
  
- Note that the most value comes from pulling in the documentation for
-diff --git a/Documentation/translations/zh_CN/doc-guide/contributing.rst b/Documentation/translations/zh_CN/doc-guide/contributing.rst
-index 394a13b438b0..b0c8ba782b16 100644
---- a/Documentation/translations/zh_CN/doc-guide/contributing.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/contributing.rst
-@@ -124,7 +124,7 @@ C代码编译器发出的警告常常会被视为误报，从而导致出现了
- 这使得这些信息更难找到，例如使Sphinx无法生成指向该文档的链接。将 ``kernel-doc``
- 指令添加到文档中以引入这些注释可以帮助社区获得为编写注释所做工作的全部价值。
+-   ./scripts/checktransupdate.py --help
++   tools/docs/checktransupdate.py --help
  
--``scripts/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
-+``tools/docs/find-unused-docs.sh`` 工具可以用来找到这些被忽略的评论。
+ Please refer to the output of argument parser for usage details.
  
- 请注意，将导出的函数和数据结构引入文档是最有价值的。许多子系统还具有供内部
- 使用的kernel-doc注释；除非这些注释放在专门针对相关子系统开发人员的文档中，
-diff --git a/scripts/find-unused-docs.sh b/tools/docs/find-unused-docs.sh
-similarity index 85%
-rename from scripts/find-unused-docs.sh
-rename to tools/docs/find-unused-docs.sh
-index d6d397fbf917..05552dbda5bc 100755
---- a/scripts/find-unused-docs.sh
-+++ b/tools/docs/find-unused-docs.sh
-@@ -5,10 +5,10 @@
- # This script detects files with kernel-doc comments for exported functions
- # that are not included in documentation.
- #
--# usage: Run 'scripts/find-unused-docs.sh directory' from top level of kernel
-+# usage: Run 'tools/docs/find-unused-docs.sh directory' from top level of kernel
- # 	 tree.
- #
--# example: $scripts/find-unused-docs.sh drivers/scsi
-+# example: $tools/docs/find-unused-docs.sh drivers/scsi
- #
- # Licensed under the terms of the GNU GPL License
+ Samples
  
-@@ -18,7 +18,7 @@ if ! [ -d "Documentation" ]; then
- fi
+--  ``./scripts/checktransupdate.py -l zh_CN``
++-  ``tools/docs/checktransupdate.py -l zh_CN``
+    This will print all the files that need to be updated in the zh_CN locale.
+--  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
++-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+    This will only print the status of the specified file.
  
- if [ "$#" -ne 1 ]; then
--	echo "Usage: scripts/find-unused-docs.sh directory"
-+	echo "Usage: tools/docs/find-unused-docs.sh directory"
- 	exit 1
- fi
+ Then the output is something like:
+diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+index d20b4ce66b9f..dbfd65398077 100644
+--- a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
++++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+@@ -28,15 +28,15 @@
  
+ ::
+ 
+-    ./scripts/checktransupdate.py --help
++    tools/docs/checktransupdate.py --help
+ 
+ 具体用法请参考参数解析器的输出
+ 
+ 示例
+ 
+--  ``./scripts/checktransupdate.py -l zh_CN``
++-  ``tools/docs/checktransupdate.py -l zh_CN``
+    这将打印 zh_CN 语言中需要更新的所有文件。
+--  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
++-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+    这将只打印指定文件的状态。
+ 
+ 然后输出类似如下的内容：
+diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
+index 714664fec308..7ae5d8765888 100644
+--- a/Documentation/translations/zh_CN/how-to.rst
++++ b/Documentation/translations/zh_CN/how-to.rst
+@@ -437,7 +437,7 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
+ 对于首次参与 Linux 内核中文文档翻译的新手，建议您在 linux 目录中运行以下命令：
+ ::
+ 
+-	./script/checktransupdate.py -l zh_CN``
++	tools/docs/checktransupdate.py -l zh_CN``
+ 
+ 该命令会列出需要翻译或更新的英文文档，结果同时保存在 checktransupdate.log 中。
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5aa6d769b254..cd187b9f1dc2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7411,7 +7411,6 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+ F:	scripts/kernel-doc*
+diff --git a/scripts/checktransupdate.py b/tools/docs/checktransupdate.py
+similarity index 97%
+rename from scripts/checktransupdate.py
+rename to tools/docs/checktransupdate.py
+index e39529e46c3d..e894652369a5 100755
+--- a/scripts/checktransupdate.py
++++ b/tools/docs/checktransupdate.py
+@@ -9,9 +9,9 @@ commit to find the latest english commit from the translation commit
+ differences occur, report the file and commits that need to be updated.
+ 
+ The usage is as follows:
+-- ./scripts/checktransupdate.py -l zh_CN
++- tools/docs/checktransupdate.py -l zh_CN
+ This will print all the files that need to be updated or translated in the zh_CN locale.
+-- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
++- tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+ This will only print the status of the specified file.
+ 
+ The output is something like:
+@@ -168,7 +168,7 @@ def check_per_file(file_path):
+ def valid_locales(locale):
+     """Check if the locale is valid or not"""
+     script_path = os.path.dirname(os.path.abspath(__file__))
+-    linux_path = os.path.join(script_path, "..")
++    linux_path = os.path.join(script_path, "../..")
+     if not os.path.isdir(f"{linux_path}/Documentation/translations/{locale}"):
+         raise ArgumentTypeError("Invalid locale: {locale}")
+     return locale
+@@ -232,7 +232,7 @@ def config_logging(log_level, log_file="checktransupdate.log"):
+ def main():
+     """Main function of the script"""
+     script_path = os.path.dirname(os.path.abspath(__file__))
+-    linux_path = os.path.join(script_path, "..")
++    linux_path = os.path.join(script_path, "../..")
+ 
+     parser = ArgumentParser(description="Check the translation update")
+     parser.add_argument(
 -- 
 2.51.0
 
