@@ -1,259 +1,155 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CB124E00F
-	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 01:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36211662E7;
+	Tue, 28 Oct 2025 01:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761615949; cv=none; b=ekBxKZ2Sgu7cjwMJJyw4UETtpLPLmWgPShMyvkgQT4TwinSM2W82QDBXhG/MPg/Vp5Ylvxs38kMoQM48+XyaAsR2GPgcU7CGscVwdy85HVlMNlCFwoIzgZetSMN10SFuK7J67cUxyWVilxGz1zmWILuxh2pP7o74NsenttP9nG0=
+	t=1761616556; cv=none; b=YFa57RKFoTdmsyeBaMFZOqqRsULOrFrESuPDVb32seFtv6X3Bl1aFIohRelljloBpNW/zRZD62+NB9CPHuARB7v1x3QYJuU29iXEt/6hihZs8+EVIAGfm73sQA1C5mCYkublunJf9/U0eEZtapp65lsEclqSwThhBVwYFTKjNoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761615949; c=relaxed/simple;
-	bh=GF+MC882OMnI8S27LLYciURvp0ZasVg7CZfx3nxVP9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rivlptkbkMXiFDmRfCiI05KQjm9XzSKfnvuTZkfp+JyhlaGIH/i0Ckn+vrxmMqu+w9sLOsg2Xc+UZ/ntofwPGXbMWK21HIy7W9kGBKW412AtWBBEMeSdAZkKcjojoYYIFEMUjLi+yjCxabtbmJib37BAlbLOVx+Oy+WCGNXgpDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4Bte/Aj; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761616556; c=relaxed/simple;
+	bh=6IlL0RD/b1cmQ2o28E1LFzW/+KMUWhpSmqh1P0RR74k=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=sHEf8SKDY4L/8SrYQ164Ic25dapc1c0U/+29Xc+fM0EP7bt5L1QLlUzVNPRX35hZrU6dr7+0fd5jtTGPTNbfFFwWDaLkfrRFvb4l/gNvvYnT4urhSZnhK/yj384cZEMCrvLRncPW78gyZ5qFITbdf2UBZeWX3CuRmPiNX23Z+Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdza6PTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4Bte/Aj"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so5280658a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 18:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761615946; x=1762220746; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9tpNWD1OK7YuCBqN99mwKFZZzGomTddAkF6+EFAt55o=;
-        b=O4Bte/AjRy6+2MxCF80R6ZMqXyqPIOI6u+rKhmJfqcIJvKBY3O9qhEP3ipN0iUeJmc
-         mOYn9PiPuowIdXBlasDfRE7m/Un/ljRi2NBGxdceJSESHNH/kGIReIMtihCuy2u1VTlS
-         mnkjdU82X2OB4a6fhtouiiX7p841Dc7eyseCSnqpXC50d7OjHivCRt83F/QWXrj0V3XK
-         73zgjXA+N4k7l6r/s5ln+NQ+Pbq8qafL475d0VO55rHo8U7kSYrqRu4JisPJsexAxQTB
-         G8Uo2AP1A1oboaGyY3a4ukWnmoTRG0eJn4qqT/ob7jpOw7c9lTo806m7s+NVZgnC177W
-         T4FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761615946; x=1762220746;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9tpNWD1OK7YuCBqN99mwKFZZzGomTddAkF6+EFAt55o=;
-        b=AfgyDwHdbwwCa79dVS8h0AxU0dY2xOe45ceUkQrseZlHS5mxjSBLJ1Pw/Xt1xigN4X
-         QqbU+IEg50cxkF39WfIsbzgCf228Qcyy5MUv/vCD1FI4YPyBwqW1CpHrjDyQapQQkS/Y
-         +/WuL2J07qzPXABFIWtCiwqX3U53jmkBmRuhDR3fwyWdl2v0E80fv/DWvXZVGHi1D15l
-         hh0ZQ7g/7yT6Y6yOZg9RON05YkCc6DPFG5T8YsfqaRPr1q0Y3W9HJ4DnSWlh8K8Bd4Yy
-         dY0l4hRnsi7YExrf/H4jb6j4DUfIBIMVXIhWMpCpjNqU1Toy70ELjyolL1brx7tETpnk
-         vm6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUerPRFxSdCTx1UCiyoCYYfsNm7hbxa+zUxr1lI05bogQcdqALYp3474lDIMK2TtkFBMRDsIOQmGOg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvsdBOIiOxl+jNI8/TDWVJZ8KLSRlCicb3gOz3nqJuK2SQgSgV
-	9dBD6/w5bS5tW44fH+aX2dJAwmC1lY5dhlLsXZNpNHn5kdYp9OcQRhAL
-X-Gm-Gg: ASbGncufYx3SbkwXJWbHzsvHb7ZUfBT4FqxIigJWm3VmWcD8/tGp1+Mr6gLjU6jyso3
-	PjB14SvuIE6QCbCk0ejRu4a98T9udnQXSm7p+pt0yhgr6IfRPOYEeD841e1UqBMLP99CAHwne/B
-	Eo3Fgc9C5hT5CE7MA9hGnvMo9tb1tiPCp65PcJZ+OUsrl8u/59gK+erC2gwRmcb1i9C2L3iZ1vO
-	MHytavx6nfAaLX5gcjRlDD3v449JNvwR1P+bK4UNlEAymM2NZXIqn/ucJ1IuIh5CQN9EtzqI0rb
-	rX6LQUwlmdoP38mHgEGuG7QWoUN/Aa2J5j9WEQy2Q4N3hi+rMyknSiUoRa0Ft5hSaRyYFRIlDfA
-	gAk2sPqp8z1ho7hTu8FBpvi8dhGQTPZAWYIYM5aTvuUOa80dbMdA4IP62UmBLYXc/qebne/dHtW
-	Tr
-X-Google-Smtp-Source: AGHT+IH0lOAi/qG58mWc3adb00/uN60NZKYFZ4tDXmtuyg+Eh2qzzh+KgjeO94z2Zpez7W5wBjLdzg==
-X-Received: by 2002:a17:903:38c8:b0:27d:6995:990d with SMTP id d9443c01a7336-294cc72935emr14333235ad.19.1761615945478;
-        Mon, 27 Oct 2025 18:45:45 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e495e8sm95878565ad.110.2025.10.27.18.45.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 18:45:44 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A10954209E50; Tue, 28 Oct 2025 08:45:42 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Avery Pennarun <apenwarr@worldvisions.ca>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next v3] Documentation: ARCnet: Update obsolete contact info
-Date: Tue, 28 Oct 2025 08:44:52 +0700
-Message-ID: <20251028014451.10521-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdza6PTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62A1C4CEF1;
+	Tue, 28 Oct 2025 01:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761616556;
+	bh=6IlL0RD/b1cmQ2o28E1LFzW/+KMUWhpSmqh1P0RR74k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jdza6PTpVIv54MadO3APb4bau5qFddYhcpvXjSTnjv2TfyE08Z4O4glutGY6oaVhu
+	 nYR75QQXC3SO8VyxMdcwoAVaMYw8Xy0BUdy3xJCg64/2eBMukdCrYKZS6TtEKR2ChL
+	 vK6A0SuB/mo+5xJJ3XLIYsS+pZRZJ0Abcr6Ni1a6iO1CXyo7+YarkUnsfxILXhESBQ
+	 qxbWXagybJU32oddPCU3AnViWYCTgv6gDWtsfwN0AqpXQwRHEO+9YyEUqA2nDm/xxy
+	 Vfju0PPjbRwyhvg21/4c5JIrFUZoBKyycNEa44C5NEQq7MuSbeO1+/2kWuELXZDfVL
+	 TJcr1Hh5zEHlA==
+Date: Tue, 28 Oct 2025 10:55:49 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Masami Hiramatsu (Google) <mhiramat@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
+ wprobe
+Message-Id: <20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
+In-Reply-To: <20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
+References: <175859019940.374439.7398451124225791618.stgit@devnote2>
+	<175859026716.374439.14852239332989324292.stgit@devnote2>
+	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
+	<20251027224347.4c887cc956df63602f377550@kernel.org>
+	<20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6570; i=bagasdotme@gmail.com; h=from:subject; bh=GF+MC882OMnI8S27LLYciURvp0ZasVg7CZfx3nxVP9o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkM8jOl2qfya964IqC5+ljNpGXLn242nnttqu/11EnKG j+knlsKdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiNbKMDCvbHDJnccXMaVw3 b39xgEqXqbmmjF/2l2052w+2CB6cYMLwT4vxQsU//rrnk43sOz/0fJn6mWvyMfl96qu8E30vfr9 /hx0A
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-ARCnet docs states that inquiries on the subsystem should be emailed to
-Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
-since the beginning of kernel git history and her email address is
-unreachable (bounce). The subsystem is now maintained by Michael
-Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add arcnet and take
-maintainership").
+On Tue, 28 Oct 2025 08:42:22 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-In addition, there used to be a dedicated ARCnet mailing list but its
-archive at epistolary.org has been shut down. ARCnet discussion nowadays
-take place in netdev list. The arcnet.com domain mentioned has become
-AIoT (Artificial Intelligence of Things) related Typeform page and
-ARCnet info now resides on arcnet.cc (ARCnet Resource Center) instead.
+> ~ # cd /sys/kernel/tracing/
+> /sys/kernel/tracing # echo 'w:my_wprobe w@jiffies' >> dynamic_events 
+> /sys/kernel/tracing # echo 1 > events/wprobes/my_wprobe/enable 
+> [   54.942288] trace_wprobe: enable_trace_wprobe called
+> [   54.945306] trace_wprobe: trying to register wprobes
+> [   54.947367] trace_wprobe: __register_trace_wprobe called
+> [   54.949586] trace_wprobe: registering wprobe at addr: 0xffffb6ce429fb200, len: 4, type: 2
+> [   54.951639] Creating wide hw breakpoint on CPU 0
+> [   54.966390] Creating kernel counter on CPU 0 for event type 5
+> [   54.967758] perf_install_in_context: event 00000000736da1d9 ctx 000000005d4db900 cpu 0
+> [   54.972015] perf_install_in_context2: event 00000000736da1d9 ctx set to 000000005d4db900
+> [   54.976697] cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2c8
+> 
+> What happen if the cpu calls function on itself by
+> smp_call_function_single() on arm64?
+> 
+>   smp_call_function_single(this_cpu, remote_function, &data, 1);
 
-Update contact information.
+Sorry, that was printk buffering issue. I used trace_printk() instead
+and persistent ring buffer[1] to trace it.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v2 [1]:
+[1] https://docs.kernel.org/trace/debugging.html#persistent-buffers-across-boots
 
-  * Update ARCnet info link (Randy)
+~ # echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
+~ # echo 'w:my_wprobe w@jiffies' >> /sys/kernel/tracing/dynamic_events 
+~ # echo 1 > /sys/kernel/tracing/events/wprobes/my_wprobe/enable 
+QEMU 8.2.2 monitor - type 'help' for more information
+(qemu) system_reset
+...
 
-[1]: https://lore.kernel.org/linux-doc/20251023025506.23779-1-bagasdotme@gmail.com/
+~ # cat /sys/kernel/tracing/instances/boot_map/trace 
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 16/16   #P:1
+#
+#                                _-----=> irqs-off/BH-disabled
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+           <...>-63      [000] .....    21.065038: register_wide_hw_breakpoint: Creating wide hw breakpoint on CPU 0
+           <...>-63      [000] .....    21.079678: perf_event_create_kernel_counter: Creating kernel counter on CPU 0 for event type 5
+           <...>-63      [000] .....    21.080051: perf_install_in_context: perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337 cpu 0
+           <...>-63      [000] .....    21.080140: perf_install_in_context: perf_install_in_context2: event 000000000b3ac4d3 ctx set to 00000000097d6337
+           <...>-63      [000] .....    21.080939: cpu_function_call: cpu_function_call: calling function on CPU 0, func: __perf_install_in_context+0x0/0x2f0
+           <...>-63      [000] .....    21.080966: smp_call_function_single: smp_call_function_single: calling function on CPU 0, func: remote_function+0x0/0x78, wait=1
+           <...>-63      [000] ...1.    21.080973: smp_call_function_single: smp_call_function_single: running on CPU 0, call CPU 0
+           <...>-63      [000] ...1.    21.081099: smp_call_function_single: smp_call_function_single: checking for potential deadlock conditions
+           <...>-63      [000] ...1.    21.081259: generic_exec_single: generic_exec_single: preparing to call function on CPU 0, func: remote_function+0x0/0x78
+           <...>-63      [000] ...1.    21.081269: generic_exec_single: Executing smp_call_function_single on self CPU 0, func: remote_function+0x0/0x78
+           <...>-63      [000] d..1.    21.081289: csd_do_func: csd_do_func: CPU 0 executing func remote_function+0x0/0x78
+           <...>-63      [000] d..1.    21.081429: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 ctx 00000000097d6337
+           <...>-63      [000] d..2.    21.083211: hw_breakpoint_control: hw_breakpoint_control: ops=0
+           <...>-63      [000] d..1.    21.084191: __perf_install_in_context: __perf_install_in_context: event 000000000b3ac4d3 done, ret=0
+           <...>-63      [000] d..1.    21.084237: csd_do_func: csd_do_func: CPU 0 finished func remote_function+0x0/0x78
+           <...>-63      [000] d..1.    21.084243: generic_exec_single: Finished csd_lock_record(NULL)
+~ # 
 
- Documentation/networking/arcnet-hardware.rst | 22 ++++-----
- Documentation/networking/arcnet.rst          | 48 +++++---------------
- 2 files changed, 21 insertions(+), 49 deletions(-)
 
-diff --git a/Documentation/networking/arcnet-hardware.rst b/Documentation/networking/arcnet-hardware.rst
-index 3bf7f99cd7bbf0..20e5075d0d0e7d 100644
---- a/Documentation/networking/arcnet-hardware.rst
-+++ b/Documentation/networking/arcnet-hardware.rst
-@@ -4,18 +4,20 @@
- ARCnet Hardware
- ===============
- 
-+:Author: Avery Pennarun <apenwarr@worldvisions.ca>
-+
- .. note::
- 
--   1) This file is a supplement to arcnet.txt.  Please read that for general
-+   1) This file is a supplement to arcnet.rst.  Please read that for general
-       driver configuration help.
-    2) This file is no longer Linux-specific.  It should probably be moved out
-       of the kernel sources.  Ideas?
- 
- Because so many people (myself included) seem to have obtained ARCnet cards
- without manuals, this file contains a quick introduction to ARCnet hardware,
--some cabling tips, and a listing of all jumper settings I can find. Please
--e-mail apenwarr@worldvisions.ca with any settings for your particular card,
--or any other information you have!
-+some cabling tips, and a listing of all jumper settings I can find. If you
-+have any settings for your particular card, and/or any other information you
-+have, do not hesitate to :ref:`email to netdev <arcnet-netdev>`.
- 
- 
- Introduction to ARCnet
-@@ -72,11 +74,10 @@ level of encapsulation is defined by RFC1201, which I call "packet
- splitting," that allows "virtual packets" to grow as large as 64K each,
- although they are generally kept down to the Ethernet-style 1500 bytes.
- 
--For more information on the advantages and disadvantages (mostly the
--advantages) of ARCnet networks, you might try the "ARCnet Trade Association"
--WWW page:
-+For more information on ARCnet networks, visit the "ARCNET Resource Center"
-+WWW page at:
- 
--	http://www.arcnet.com
-+	https://www.arcnet.cc
- 
- 
- Cabling ARCnet Networks
-@@ -3226,9 +3227,6 @@ Settings for IRQ Selection (Lower Jumper Line)
- Other Cards
- ===========
- 
--I have no information on other models of ARCnet cards at the moment.  Please
--send any and all info to:
--
--	apenwarr@worldvisions.ca
-+I have no information on other models of ARCnet cards at the moment.
- 
- Thanks.
-diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking/arcnet.rst
-index 82fce606c0f0bc..cd43a18ad1494b 100644
---- a/Documentation/networking/arcnet.rst
-+++ b/Documentation/networking/arcnet.rst
-@@ -4,6 +4,8 @@
- ARCnet
- ======
- 
-+:Author: Avery Pennarun <apenwarr@worldvisions.ca>
-+
- .. note::
- 
-    See also arcnet-hardware.txt in this directory for jumper-setting
-@@ -30,18 +32,7 @@ Come on, be a sport!  Send me a success report!
- 
- (hey, that was even better than my original poem... this is getting bad!)
- 
--
--.. warning::
--
--   If you don't e-mail me about your success/failure soon, I may be forced to
--   start SINGING.  And we don't want that, do we?
--
--   (You know, it might be argued that I'm pushing this point a little too much.
--   If you think so, why not flame me in a quick little e-mail?  Please also
--   include the type of card(s) you're using, software, size of network, and
--   whether it's working or not.)
--
--   My e-mail address is: apenwarr@worldvisions.ca
-+----
- 
- These are the ARCnet drivers for Linux.
- 
-@@ -59,23 +50,14 @@ ARCnet 2.10 ALPHA, Tomasz's all-new-and-improved RFC1051 support has been
- included and seems to be working fine!
- 
- 
-+.. _arcnet-netdev:
-+
- Where do I discuss these drivers?
- ---------------------------------
- 
--Tomasz has been so kind as to set up a new and improved mailing list.
--Subscribe by sending a message with the BODY "subscribe linux-arcnet YOUR
--REAL NAME" to listserv@tichy.ch.uj.edu.pl.  Then, to submit messages to the
--list, mail to linux-arcnet@tichy.ch.uj.edu.pl.
--
--There are archives of the mailing list at:
--
--	http://epistolary.org/mailman/listinfo.cgi/arcnet
--
--The people on linux-net@vger.kernel.org (now defunct, replaced by
--netdev@vger.kernel.org) have also been known to be very helpful, especially
--when we're talking about ALPHA Linux kernels that may or may not work right
--in the first place.
--
-+ARCnet discussions take place on netdev. Simply send your email to
-+netdev@vger.kernel.org and make sure to Cc: maintainer listed in
-+"ARCNET NETWORK LAYER" heading of Documentation/process/maintainers.rst.
- 
- Other Drivers and Info
- ----------------------
-@@ -523,17 +505,9 @@ can set up your network then:
- It works: what now?
- -------------------
- 
--Send mail describing your setup, preferably including driver version, kernel
--version, ARCnet card model, CPU type, number of systems on your network, and
--list of software in use to me at the following address:
--
--	apenwarr@worldvisions.ca
--
--I do send (sometimes automated) replies to all messages I receive.  My email
--can be weird (and also usually gets forwarded all over the place along the
--way to me), so if you don't get a reply within a reasonable time, please
--resend.
--
-+Send mail following :ref:`arcnet-netdev`. Describe your setup, preferably
-+including driver version, kernel version, ARCnet card model, CPU type, number
-+of systems on your network, and list of software in use.
- 
- It doesn't work: what now?
- --------------------------
+So the last message is right before the local_irq_restore() in
+generic_exec_single().
 
-base-commit: 5f30bc470672f7b38a60d6641d519f308723085c
+static int generic_exec_single(int cpu, call_single_data_t *csd)
+{
+	...
+		csd_lock_record(csd);
+		csd_unlock(csd);
+		local_irq_save(flags);
+		csd_do_func(func, info, NULL);
+		csd_lock_record(NULL);
+		trace_printk("Finished csd_lock_record(NULL)\n"); <- 
+		local_irq_restore(flags);
+		return 0;
+
+Actually, I added another trace_printk() right after generic_exec_single().
+
+	err = generic_exec_single(cpu, csd);
+	trace_printk("generic_exec_single returned %d for CPU %d, func: %pS\n",
+		err, cpu, func);
+
+This means after setting the hw_breakpoint, when enabing the IRQ,
+the machine is frozen - but qemu is running busy.
+
+Can we specify the kernel memory address to HW breakpoint on arm64?
+
+Thank you,
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
