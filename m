@@ -1,388 +1,117 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from sg-1-39.ptr.blmpb.com (sg-1-39.ptr.blmpb.com [118.26.132.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC93B1BC41
-	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 11:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EE7314D19
+	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 11:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761651609; cv=none; b=GhVxIFNZYEorT2aswfHKkHMHa/4zCu7VvpUWOMPjK1Mu7D/t7L/n80m+2MaC1JfS1qwewxLvaTP45R0jODRsBuQ3a/9hlpqclaJTwxBRPZJSDH5v9v/rvQE1y6ul3Ax7iKBlZAMGhkUe7xTazPqtiimJMLaQpMxer26SO+jJ5W0=
+	t=1761652646; cv=none; b=eVxRQ634msyfN9BSMT2xl6BbV3I0KVIW4LYYlvGTDtLMUj2G6pQ6Uem9ImrVbW7YHR8TYchuiJH9qniHOE3WAbc4l6rXvbmc3SHNBcQjwBkOzbO68loh4GQnIOYIAOMAHndIemJP0/vICyYZi9hkV2t3xA5Tqm0G1eA5R9susqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761651609; c=relaxed/simple;
-	bh=S8+Ja3ralZ2WxCdLK1ixOt+mF2q4rBG1Bbc1fFOF20Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=geHGJ0Rc7jP912FmkEmcJPl/DMTnJhK0JfdY4oV9/PUHF6qPb/G+yI+nd9lAaLlBQPmO67bcbQqBjPW9JuHND7DE0HWYaIzTlKzM9OM2y98eRJ69C/jr6hWJiptMq4l9N8LRvXTDFnt7VrtSyMaQBe9atSvj1+rE0lxKbUXZGRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mAFHpO/E; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761652646; c=relaxed/simple;
+	bh=8kAxUUpvPH+tLSUkOL+TdaqlC7BCFNAQ+DNQrsXJdlg=;
+	h=References:Mime-Version:Subject:In-Reply-To:To:Content-Type:From:
+	 Cc:Date:Message-Id; b=WU/aTgwHLy5D7yFTpyDZ7WN0iUluxC6uKvDNoMTHW7F0LxcVMJVG35DjwI9qoqTl03XRobW0MzOa4Sl0SbYciOZJDEmiCp0Z1BzAv/b+54BubntioatCC17Hx0Un/X1ZQqqskMF4zWN1D4zoe1DHjd1Eqch/3jlWPEFavlYLPrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=fail smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=pfWTrq2I; arc=none smtp.client-ip=118.26.132.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mAFHpO/E"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-79af647cef2so4989187b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 04:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761651607; x=1762256407; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQGkMpWQvkIrFU/utWIdl52vdzB7gtbaDaCLqaVvZwY=;
-        b=mAFHpO/ERlvBgzENIiDBUGgcqj2edkDJ5i9oq4kHVh+9p+z6ZI63uZz1aLXo1wC8pd
-         ZPL1yImqUIAtp+tn6Qbn+M4Z5dUo7RfyfipXqi/I3exuGe2I0N6hO2HD6Q4jj5lg5+T7
-         UalETiVjsShfaZeXFw4Ra+MRgQhQwf097kkyVw8vfu1bXloevb+Cn+q3rzxKhcsBJ5Cb
-         ncNYm61tSwDapv6xoT+E7eCuEBCteb944Jv1J6iZKeOHaYTHhkUZsErmUux9XcVLw9Yf
-         WcUBSS2cPHXxcCVlLMxXkUsUcdB9aN7zXS4U5B60nt4k12R8K/EOs7RnK9z9cm4HUBqv
-         9jyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761651607; x=1762256407;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UQGkMpWQvkIrFU/utWIdl52vdzB7gtbaDaCLqaVvZwY=;
-        b=Oe0Rpfzb2Dk1ligIbHe0O5IMvIbSVGbfx46XbfKERmaCWSe8m1D8ijSyIZQd4Letlm
-         QgOJ7PG+EuKcUBS47iDnyF1ILJ+MoIpMqew6WkWBhQq1nM7Snx/3FEQQzOX6WsGYYm4b
-         gQ3w67w1F/mpC8Pm2DskAHhZLKudZcIL6c1Pl4IetkVAmwEJzUdUD8mG+VeJ6+ytlq0v
-         Ew2ay7vrDpVTe6K6kiLqtZlHu0vcqKB5wJRWDkNx9jFCaPLTn7HCjbZJDa48wokJskQH
-         sBBCwXImYvZz3owi7ydBEcke+mTlrTyMgLxhzsvWSGpMO4XzK2Vd4hhF2pQCySZcJV4g
-         cyug==
-X-Forwarded-Encrypted: i=1; AJvYcCVZgIe24pc7Xj2DJQyam38v2whZu3KsW2UZnnA+V2WUKtVrOy5slqBa9SBo/k7D6zSKy3AjAeLDxyI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAIvckH7/L/zn3vQ44rjXrQJE4sMnmOvyQCJT4q5FaxNjz8PJW
-	1UbL/5T8NipLDcmDzgkUA1wjWBoD20YTPQA5xZDDwq61gkwgjdJLt4Nf
-X-Gm-Gg: ASbGncsYnVXg3xl+c6mx1K22NaIhKPX4kLtVFvfNBTc8T6dbNfmAgfiSXuGOOqldOfO
-	ptiyPZIVzXHLkhEi+xcIfp+XvTNyBXZ6s0S9Jdh4mD8Td+F3sb1OHcGIRohTktAIsMP48YN+7oS
-	7BvendC3tvvOdchYaPRqOCndgiqNhM6Vdvs99BymCCHsvTEnuTIoXevBSdm2hBNx93g25D6TZMe
-	LFkqRN5zfqAbh5giIsBA37MTD4soiYYxNdFckfTYQSmpI82vdH7Mf4B9q1XHqrcl8S3MsqisjaP
-	OtIzKFgMIf+zfIkLKE/sUzHXZaNyLGONSEkkY+l/kwL9Wl0maEGFP8FBsWJZ7hKiNmUm5yyiUqb
-	UEXnY/yEEONCgJzJbB7MS1MkVmqVtmKrogR66ePZsTd8fkcV9ja5ULx44xkJhRqFoxHysWCpUzW
-	zW
-X-Google-Smtp-Source: AGHT+IELfm1V2/9P9RcJo7ple69Pu8CkbUuJnvOHx1MhFw0DK3gnvsbENWcBcTkx8E417BUE9yB8ag==
-X-Received: by 2002:a05:6a20:3ca7:b0:2ff:3752:8375 with SMTP id adf61e73a8af0-344d3a4fdbamr4255473637.45.1761651607102;
-        Tue, 28 Oct 2025 04:40:07 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b71268bd810sm10351782a12.6.2025.10.28.04.40.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 04:40:06 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 931944209E50; Tue, 28 Oct 2025 18:40:03 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux BPF <bpf@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next] net: Reorganize networking documentation toctree
-Date: Tue, 28 Oct 2025 18:39:24 +0700
-Message-ID: <20251028113923.41932-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="pfWTrq2I"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1761652630;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=Gh0h+kP+TFCFkPq7jxPJn9esXy4V4wufNyCV3J/qzQE=;
+ b=pfWTrq2Idjdu3tkVgwYopTANtJ0yssIsk6qd5vHF/lFNi51T0r/Lut84cEOq9ntsNiTIRp
+ j+e0bd3p69nlCE+n4RVaH8L8U746xhcgI4OpJJqVyt/GIB4hx+sIPmGLX2cLXQKtEObTI3
+ P8kDUtp5B2b6pQe99mmoHIrWNfk6coyVkn4IoOTtozqmDgBTKFRwB49EGQUYQs5L1AUVd9
+ 3CV1VoYdU63Pfkah9jLPO4osNbNgb3XLOa2FIGc6jnmyXLM6XdC6Mkjwwyd3ps9M4JpwCM
+ 2hS57v6Cft/i6+ppBB0CnsROgZXrOzDK6Z3coSW5G/hZ+vqPRMQd2Bcw/joB2A==
+References: <20251027072915.3014463-1-linan122@huawei.com> <20251027072915.3014463-2-linan122@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4925; i=bagasdotme@gmail.com; h=from:subject; bh=S8+Ja3ralZ2WxCdLK1ixOt+mF2q4rBG1Bbc1fFOF20Q=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkMq17fbp63pyIq0/jpJI47M/d/5uKyXvj/X43GNtfj+ /9Yf02L6yhlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEipwZGXZ5L11wZYK8MaPh Kf+v2rG88zJv9U6uKZ/RHm79yuRxkSwjw1WBxJ36EQf4Z4mJJP2yUTi45cp5aZbry750OqZLM8a nsQAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Subject: Re: [PATCH v7 1/4] md: delete md_redundancy_group when array is becoming inactive
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251027072915.3014463-2-linan122@huawei.com>
+To: <linan122@huawei.com>, <corbet@lwn.net>, <song@kernel.org>, 
+	<hare@suse.de>, <xni@redhat.com>
+X-Lms-Return-Path: <lba+26900af94+a0a778+vger.kernel.org+yukuai@fnnas.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+From: "Yu Kuai" <yukuai@fnnas.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-raid@vger.kernel.org>, <linan666@huaweicloud.com>, 
+	<yangerkun@huawei.com>, <yi.zhang@huawei.com>
+Date: Tue, 28 Oct 2025 19:57:05 +0800
+Message-Id: <0ef2d9c7-62c7-4e3e-9eab-48cbb2d7e6fd@fnnas.com>
+Received: from [192.168.1.104] ([39.182.0.168]) by smtp.feishu.cn with ESMTPS; Tue, 28 Oct 2025 19:57:07 +0800
+Reply-To: yukuai@fnnas.com
 
-Current netdev docs has one large, unorganized toctree that makes
-finding relevant docs harder like a needle in a haystack. Split the
-toctree into four categories: networking core; protocols; devices; and
-assorted miscellaneous.
+=E5=9C=A8 2025/10/27 15:29, linan122@huawei.com =E5=86=99=E9=81=93:
 
-While at it, also sort the toctree entries and reduce toctree depth.
+> From: Li Nan <linan122@huawei.com>
+>
+> 'md_redundancy_group' are created in md_run() and deleted in del_gendisk(=
+),
+> but these are not paired. Writing inactive/active to sysfs array_state ca=
+n
+> trigger md_run() multiple times without del_gendisk(), leading to
+> duplicate creation as below:
+>
+>   sysfs: cannot create duplicate filename '/devices/virtual/block/md0/md/=
+sync_action'
+>   Call Trace:
+>    dump_stack_lvl+0x9f/0x120
+>    dump_stack+0x14/0x20
+>    sysfs_warn_dup+0x96/0xc0
+>    sysfs_add_file_mode_ns+0x19c/0x1b0
+>    internal_create_group+0x213/0x830
+>    sysfs_create_group+0x17/0x20
+>    md_run+0x856/0xe60
+>    ? __x64_sys_openat+0x23/0x30
+>    do_md_run+0x26/0x1d0
+>    array_state_store+0x559/0x760
+>    md_attr_store+0xc9/0x1e0
+>    sysfs_kf_write+0x6f/0xa0
+>    kernfs_fop_write_iter+0x141/0x2a0
+>    vfs_write+0x1fc/0x5a0
+>    ksys_write+0x79/0x180
+>    __x64_sys_write+0x1d/0x30
+>    x64_sys_call+0x2818/0x2880
+>    do_syscall_64+0xa9/0x580
+>    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>   md: cannot register extra attributes for md0
+>
+> Creation of it depends on 'pers', its lifecycle cannot be aligned with
+> gendisk. So fix this issue by triggering 'md_redundancy_group' deletion
+> when the array is becoming inactive.
+>
+> Fixes: 790abe4d77af ("md: remove/add redundancy group only in level chang=
+e")
+> Signed-off-by: Li Nan <linan122@huawei.com>
+> ---
+>   drivers/md/md.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index fa13eb02874e..f6fd55a1637b 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -6878,6 +6878,10 @@ static int do_md_stop(struct mddev *mddev, int mod=
+e)
+>   		if (!md_is_rdwr(mddev))
+>   			set_disk_ro(disk, 0);
+>  =20
+> +		if (mode =3D=3D 2 && mddev->pers->sync_request &&
+> +		    mddev->to_remove =3D=3D NULL)
+> +			mddev->to_remove =3D &md_redundancy_group;
+> +
+>   		__md_stop_writes(mddev);
+>   		__md_stop(mddev);
+>  =20
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/networking/index.rst | 241 ++++++++++++++++-------------
- 1 file changed, 136 insertions(+), 105 deletions(-)
-
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index c775cababc8c17..ca86e544c5c8e2 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -5,138 +5,169 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
- 
- Contents:
- 
-+Networking core
-+---------------
-+
- .. toctree::
--   :maxdepth: 2
-+   :maxdepth: 1
- 
-    af_xdp
--   bareudp
--   batman-adv
--   can
--   can_ucan_protocol
--   device_drivers/index
--   diagnostic/index
--   dsa/index
--   devlink/index
--   caif/index
--   ethtool-netlink
--   ieee802154
--   iso15765-2
--   j1939
--   kapi
--   msg_zerocopy
--   failover
--   net_dim
--   net_failover
--   page_pool
--   phy
--   sfp-phylink
--   alias
--   bridge
--   snmp_counter
-    checksum-offloads
--   segmentation-offloads
--   scaling
--   tls
--   tls-offload
--   tls-handshake
--   nfc
--   6lowpan
--   6pack
--   arcnet-hardware
--   arcnet
--   atm
--   ax25
--   bonding
--   cdc_mbim
--   dctcp
--   devmem
--   dns_resolver
-+   diagnostic/index
-    driver
--   eql
--   fib_trie
--   filter
--   generic-hdlc
--   generic_netlink
--   ../netlink/specs/index
--   gen_stats
--   gtp
--   ila
--   ioam6-sysctl
--   iou-zcrx
--   ip_dynaddr
--   ipsec
--   ip-sysctl
--   ipv6
--   ipvlan
--   ipvs-sysctl
--   kcm
--   l2tp
--   lapb-module
-+   kapi
-    mac80211-injection
--   mctp
--   mpls-sysctl
--   mptcp
--   mptcp-sysctl
--   multiqueue
--   multi-pf-netdev
-+   msg_zerocopy
-    napi
-    net_cachelines/index
--   netconsole
-    netdev-features
--   netdevices
--   netfilter-sysctl
-    netif-msg
--   netmem
--   nexthop-group-resilient
--   nf_conntrack-sysctl
--   nf_flowtable
--   oa-tc6-framework
--   openvswitch
--   operstates
-    packet_mmap
--   phonet
-+   page_pool
-+   phy
-    phy-link-topology
--   pktgen
-+   scaling
-+   segmentation-offloads
-+   skbuff
-+   strparser
-+   timestamping
-+   xdp-rx-metadata
-+   xsk-tx-metadata
-+
-+Protocols
-+---------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   6pack
-+   arcnet
-+   ax25
-+   bareudp
-+   caif/index
-+   can
-+   can_ucan_protocol
-+   dctcp
-+   gtp
-+   ila
-+   ipsec
-+   ipv6
-+   iso15765-2
-+   j1939
-+   l2tp
-+   mctp
-+   mptcp
-+   oa-tc6-framework
-+   phonet
-+   psp
-+   rxrpc
-+   sctp
-+   tcp-thin
-+   tcp_ao
-+   tipc
-+   tls
-+   tls-handshake
-+   tls-offload
-+   udplite
-+   vxlan
-+   x25
-+
-+Networking devices
-+------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   6lowpan
-+   arcnet-hardware
-+   bonding
-+   bridge
-+   cdc_mbim
-+   device_drivers/index
-+   devlink/index
-+   devmem
-+   dsa/index
-+   eql
-+   ipvlan
-+   multi-pf-netdev
-+   multiqueue
-+   netconsole
-+   netdevices
-+   netmem
-+   operstates
-    plip
-    ppp_generic
-+   representors
-+   sriov
-+   statistics
-+   switchdev
-+   team
-+   tuntap
-+   vrf
-+   x25-iface
-+
-+Packet filtering
-+----------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   filter
-+   netfilter-sysctl
-+   nf_conntrack-sysctl
-+   nf_flowtable
-+   tc-actions-env-rules
-+   tc-queue-filters
-+   tproxy
-+
-+Miscellaneous
-+-------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   ../netlink/specs/index
-+   alias
-+   atm
-+   batman-adv
-+   dns_resolver
-+   ethtool-netlink
-+   failover
-+   fib_trie
-+   gen_stats
-+   generic-hdlc
-+   generic_netlink
-+   ieee802154
-+   ioam6-sysctl
-+   iou-zcrx
-+   ip-sysctl
-+   ip_dynaddr
-+   ipvs-sysctl
-+   kcm
-+   lapb-module
-+   mpls-sysctl
-+   mptcp-sysctl
-+   net_dim
-+   net_failover
-+   nexthop-group-resilient
-+   nfc
-+   openvswitch
-+   pktgen
-    proc_net_tcp
-    pse-pd/index
--   psp
-    radiotap-headers
-    rds
-    regulatory
--   representors
--   rxrpc
--   sctp
-    secid
-    seg6-sysctl
--   skbuff
-+   sfp-phylink
-    smc-sysctl
--   sriov
--   statistics
--   strparser
--   switchdev
-+   snmp_counter
-    sysfs-tagging
--   tc-actions-env-rules
--   tc-queue-filters
--   tcp_ao
--   tcp-thin
--   team
--   timestamping
--   tipc
--   tproxy
--   tuntap
--   udplite
--   vrf
--   vxlan
--   x25
--   x25-iface
-    xfrm_device
-    xfrm_proc
-    xfrm_sync
-    xfrm_sysctl
--   xdp-rx-metadata
--   xsk-tx-metadata
- 
- .. only::  subproject and html
- 
-
-base-commit: 5f30bc470672f7b38a60d6641d519f308723085c
--- 
-An old man doll... just what I always wanted! - Clara
-
+Reviewed-by: Yu Kuai <yukuai@fnnas.com>
