@@ -1,34 +1,34 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23863557E9;
-	Tue, 28 Oct 2025 22:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CC3355811;
+	Tue, 28 Oct 2025 22:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761689432; cv=none; b=hENChI4GvuAHVBb3J+C9qtX4D1VwTDb3ai1/EN+opdFCJV3hS9Qc9drAIsmE+xRp5rU1Hu9LxcmS125hjMjsc4FRVllll+ta83xXKPtLHvPHIU+yEfOAQGPJoTBHfzvuQAUBhKtyeMqx8qVCgb93lafOMD5woCJs1PU5jgn7RwQ=
+	t=1761689433; cv=none; b=qJqRWABvf44JjdyE9wCdxbx4v33xXwnAupUPXiCJp4rXl4BgNpSgJYhVx26SCIqvnjv6qThOG3fvWQqk7IKcYSH3wM6odu77fr/JF5sUndIFh+69HR7AAGZaGEatKsh7ICVx1G8nRfOnR+oRYpGuVEIoOjYxmLZi2Oa+WNGEQSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761689432; c=relaxed/simple;
-	bh=/14+de53sdHLFxJy3FlGFFHpx3a4rldgHBttfIj2tlc=;
+	s=arc-20240116; t=1761689433; c=relaxed/simple;
+	bh=BGJrmBz+LlEN/JX0JNDCunWcL198n52vvjEnUgzCzao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EYLhXiO+oost/X/o0csao+naXyqbEbiI9fXedU2aTH3Rul9psprF9qcQ5oYyjdsb2IWl9dRbnpxV6k03SaYk104If1rL1E37MtV7XfHe+cjoPqSj3ub0cqFCWll8zbroTdmA80YcxCnFTrqy6zAXTdTDmj3ootnlV0pL+z4VD4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Jshba6H9; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version; b=ZdL8CtSC3NteNLNEIemq6zamE0UwSirnA26mUHMULJtT0UyizAkGC39+8im17t8TOU7sz4k9/cPm8TpmTo9hJwqZZJCugAdwTLAD8iDbvJEXx0555HtnoW+RdEMDCtT9BNxgkalvSA9YhFgF4TivMfMO7lZrUAdd+PxhTHR249k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gSxSKruF; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Jshba6H9"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5A8B240B3A
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gSxSKruF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E59AF40B45
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761689426; bh=gKQ8fFVrdgwZdfTHmfmE67b43gu/oNObSB701iiqA04=;
+	t=1761689427; bh=R4IKlDLI/49ZAIPAg6XecBoRQ7zpdNfvZA7OZO2keFI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jshba6H9+IMkv9V/3NpVeEe1KvqIzqHW1l8sXECeN3KakFChXGnsBSFdvkwJBfMAO
-	 KbnXiR5Ul6/UCzOpcz/nKS+101EIXhep8oQkZzj9b8Q+9VB33K/eHZZmwGT8uSH/QF
-	 zuNcl1uoBIukraDaRLqTZ0QzMCdq+KJoCY+WNVfkMatRKusxwWXxYV8DkY1LGRhDOZ
-	 J2c77OZN2WqF2AkXgQB9ZPtox2Q4ksR3NXFg4B+ZGRpjVl+DUtbbe3gRm+OS9jOqyT
-	 7a6De039t/7V+JdMm+gXzHMJBQOECbOq8HPBJSW7l2I2xqBEw34bQ/qxbTZrcy7fTT
-	 HsVszhyYg7rcg==
+	b=gSxSKruFe5+cYOFwKqatb8u5uASypNczdc0YGqAVe5cwPeQvCb2+8JzBShB3WmUe3
+	 E8HLQEBJ9/NHYmWR3b5YtIopbo44S33SCd17uk0YELjkHRNizxV1H7VqtIMf4y6KSb
+	 NzBeb1FAinplH318JNbKxcSfvnNAGVIAG3jEKdThttMcAvScHyo277lUJxmejphRey
+	 EQz/yzhQeaRFLcA4k+/lS+nDUMu2GVHAfLuG5v0KmshUtJUJS+E06pp2hoKhvIU9ty
+	 8RZxRPm7mo0OP07CTA2mTsxtViemOSG//kyI1GbqtCnheADZoeOp57dq1FUTXuIp1H
+	 bz8kZFunvW97w==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 5A8B240B3A;
-	Tue, 28 Oct 2025 22:10:25 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id E59AF40B45;
+	Tue, 28 Oct 2025 22:10:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -37,13 +37,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
 	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v4 2/7] docs: move checktransupdate.py to tools/docs
-Date: Tue, 28 Oct 2025 16:10:10 -0600
-Message-ID: <20251028221017.5785-3-corbet@lwn.net>
+Subject: [PATCH v4 4/7] docs: move get_abi.py to tools/docs
+Date: Tue, 28 Oct 2025 16:10:12 -0600
+Message-ID: <20251028221017.5785-5-corbet@lwn.net>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251028221017.5785-1-corbet@lwn.net>
 References: <20251028221017.5785-1-corbet@lwn.net>
@@ -53,135 +50,81 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The checktranslate.py tool currently languishes in scripts/; move it to
-tools/docs and update references accordingly.
+Move this tool out of scripts/ to join the other documentation tools; fix
+up a couple of erroneous references in the process.
 
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <si.yanteng@linux.dev>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>
+It's worth noting that this script will fail badly unless one has a
+PYTHONPATH referencing scripts/lib/abi.
+
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/doc-guide/checktransupdate.rst              | 6 +++---
- .../translations/zh_CN/doc-guide/checktransupdate.rst     | 6 +++---
- Documentation/translations/zh_CN/how-to.rst               | 2 +-
- MAINTAINERS                                               | 1 -
- {scripts => tools/docs}/checktransupdate.py               | 8 ++++----
- 5 files changed, 11 insertions(+), 12 deletions(-)
- rename {scripts => tools/docs}/checktransupdate.py (97%)
+ Documentation/Kconfig              | 2 +-
+ Documentation/Makefile             | 2 +-
+ Documentation/sphinx/kernel_abi.py | 2 +-
+ MAINTAINERS                        | 1 -
+ {scripts => tools/docs}/get_abi.py | 0
+ 5 files changed, 3 insertions(+), 4 deletions(-)
+ rename {scripts => tools/docs}/get_abi.py (100%)
 
-diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
-index dfaf9d373747..7b25375cc6d9 100644
---- a/Documentation/doc-guide/checktransupdate.rst
-+++ b/Documentation/doc-guide/checktransupdate.rst
-@@ -27,15 +27,15 @@ Usage
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+index 3a0e7ac0c4e3..8b6c4b84b218 100644
+--- a/Documentation/Kconfig
++++ b/Documentation/Kconfig
+@@ -19,7 +19,7 @@ config WARN_ABI_ERRORS
+ 	  described at Documentation/ABI/README. Yet, as they're manually
+ 	  written, it would be possible that some of those files would
+ 	  have errors that would break them for being parsed by
+-	  scripts/get_abi.pl. Add a check to verify them.
++	  tools/docs/get_abi.py. Add a check to verify them.
  
- ::
+ 	  If unsure, select 'N'.
  
--   ./scripts/checktransupdate.py --help
-+   tools/docs/checktransupdate.py --help
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 1476aa1701ce..734ec9c9a62c 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -13,7 +13,7 @@ endif
  
- Please refer to the output of argument parser for usage details.
+ # Check for broken ABI files
+ ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
+-$(shell $(srctree)/scripts/get_abi.py --dir $(srctree)/Documentation/ABI validate)
++$(shell $(srctree)/tools/docs/get_abi.py --dir $(srctree)/Documentation/ABI validate)
+ endif
+ endif
  
- Samples
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 4c4375201b9e..32e39fb8bc3b 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -14,7 +14,7 @@
+     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
  
---  ``./scripts/checktransupdate.py -l zh_CN``
-+-  ``tools/docs/checktransupdate.py -l zh_CN``
-    This will print all the files that need to be updated in the zh_CN locale.
---  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-+-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-    This will only print the status of the specified file.
+     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
+-    scripts/get_abi.py script to parse the Kernel ABI files.
++    AbiParser class to parse the Kernel ABI files.
  
- Then the output is something like:
-diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-index d20b4ce66b9f..dbfd65398077 100644
---- a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-@@ -28,15 +28,15 @@
- 
- ::
- 
--    ./scripts/checktransupdate.py --help
-+    tools/docs/checktransupdate.py --help
- 
- 具体用法请参考参数解析器的输出
- 
- 示例
- 
---  ``./scripts/checktransupdate.py -l zh_CN``
-+-  ``tools/docs/checktransupdate.py -l zh_CN``
-    这将打印 zh_CN 语言中需要更新的所有文件。
---  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-+-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-    这将只打印指定文件的状态。
- 
- 然后输出类似如下的内容：
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index 714664fec308..7ae5d8765888 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -437,7 +437,7 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
- 对于首次参与 Linux 内核中文文档翻译的新手，建议您在 linux 目录中运行以下命令：
- ::
- 
--	./script/checktransupdate.py -l zh_CN``
-+	tools/docs/checktransupdate.py -l zh_CN``
- 
- 该命令会列出需要翻译或更新的英文文档，结果同时保存在 checktransupdate.log 中。
+     Overview of directive's argument and options.
  
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5aa6d769b254..cd187b9f1dc2 100644
+index fc1da52433b6..5c632cd3902c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
 @@ -7411,7 +7411,6 @@ S:	Maintained
  P:	Documentation/doc-guide/maintainer-profile.rst
  T:	git git://git.lwn.net/linux.git docs-next
  F:	Documentation/
--F:	scripts/checktransupdate.py
- F:	scripts/documentation-file-ref-check
- F:	scripts/get_abi.py
+-F:	scripts/get_abi.py
  F:	scripts/kernel-doc*
-diff --git a/scripts/checktransupdate.py b/tools/docs/checktransupdate.py
-similarity index 97%
-rename from scripts/checktransupdate.py
-rename to tools/docs/checktransupdate.py
-index e39529e46c3d..e894652369a5 100755
---- a/scripts/checktransupdate.py
-+++ b/tools/docs/checktransupdate.py
-@@ -9,9 +9,9 @@ commit to find the latest english commit from the translation commit
- differences occur, report the file and commits that need to be updated.
- 
- The usage is as follows:
--- ./scripts/checktransupdate.py -l zh_CN
-+- tools/docs/checktransupdate.py -l zh_CN
- This will print all the files that need to be updated or translated in the zh_CN locale.
--- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+- tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
- This will only print the status of the specified file.
- 
- The output is something like:
-@@ -168,7 +168,7 @@ def check_per_file(file_path):
- def valid_locales(locale):
-     """Check if the locale is valid or not"""
-     script_path = os.path.dirname(os.path.abspath(__file__))
--    linux_path = os.path.join(script_path, "..")
-+    linux_path = os.path.join(script_path, "../..")
-     if not os.path.isdir(f"{linux_path}/Documentation/translations/{locale}"):
-         raise ArgumentTypeError("Invalid locale: {locale}")
-     return locale
-@@ -232,7 +232,7 @@ def config_logging(log_level, log_file="checktransupdate.log"):
- def main():
-     """Main function of the script"""
-     script_path = os.path.dirname(os.path.abspath(__file__))
--    linux_path = os.path.join(script_path, "..")
-+    linux_path = os.path.join(script_path, "../..")
- 
-     parser = ArgumentParser(description="Check the translation update")
-     parser.add_argument(
+ F:	scripts/lib/abi/*
+ F:	scripts/lib/kdoc/*
+diff --git a/scripts/get_abi.py b/tools/docs/get_abi.py
+similarity index 100%
+rename from scripts/get_abi.py
+rename to tools/docs/get_abi.py
 -- 
 2.51.0
 
