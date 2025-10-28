@@ -1,234 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D4121CA0D;
-	Tue, 28 Oct 2025 01:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761614184; cv=fail; b=g8RFQXa+ShtuJscI6h3aKAmNlaUf641xTjJ02W2db0b6fqrPckMKSKWLMNSfwXruSyUWWx5/oAYM549xvTnODvrr1OA94kNWeVMvnI2TZNV+65lkZstF5M0L3MfZGPz55RRLo2ltxOh+cpKlETiba6xmrMVhumq99bKdtM8qNb8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761614184; c=relaxed/simple;
-	bh=kb6/kORm7Bwf8XXOmQXYlVYV4/bgcv3/xSFehETDk6I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VBetmxGugklo/JloiTCQG5+e7o9sx3GOU7FT74l61pgVbKFT0VXQBZxmZaw7+6+KUP0qKXA+sxysCcoHryTzO1HHER9nxUrkInw6CWBTUpFzWUz6H+9ahmp+SfQHvMq3Gkq0L5WBdoZkany+E4/601Bg1z3X75bxJuEJQ87yaCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1aEWdKr; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CB124E00F
+	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 01:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761615949; cv=none; b=ekBxKZ2Sgu7cjwMJJyw4UETtpLPLmWgPShMyvkgQT4TwinSM2W82QDBXhG/MPg/Vp5Ylvxs38kMoQM48+XyaAsR2GPgcU7CGscVwdy85HVlMNlCFwoIzgZetSMN10SFuK7J67cUxyWVilxGz1zmWILuxh2pP7o74NsenttP9nG0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761615949; c=relaxed/simple;
+	bh=GF+MC882OMnI8S27LLYciURvp0ZasVg7CZfx3nxVP9o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rivlptkbkMXiFDmRfCiI05KQjm9XzSKfnvuTZkfp+JyhlaGIH/i0Ckn+vrxmMqu+w9sLOsg2Xc+UZ/ntofwPGXbMWK21HIy7W9kGBKW412AtWBBEMeSdAZkKcjojoYYIFEMUjLi+yjCxabtbmJib37BAlbLOVx+Oy+WCGNXgpDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4Bte/Aj; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1aEWdKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761614181; x=1793150181;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=kb6/kORm7Bwf8XXOmQXYlVYV4/bgcv3/xSFehETDk6I=;
-  b=C1aEWdKr/hHUcoU3PGKGeIlI5uTW3vPKRS0E0ql0wgLLF6E47VGpqtM9
-   Y2YfX3SeKZ611h9uNSgtLqYI/BvbLQUnyIcnHSrQkFg/F/VLi1xIpWlkY
-   JHgFZYEqRhubCqDBwI5ghMGK8VZGb4HP96+xiYnrwu+i6PBBjiq5tMVRR
-   iatFmiNht3sefIl0G6U2hH4ivQA5egsx8oXz96aXs5ev0EdkHbCYUC0Do
-   cgU+vNj0YQDVN9eO5S1z37PLPcmflgkoSB8XQUS8ehbLdUfWnWayGeJDb
-   UowQQqXkmVEPv5ZnJD+QCKlJyEPd0zO/jMzI09KhzbS64xpcf7P0ZpoBT
-   g==;
-X-CSE-ConnectionGUID: ugKxtuLvTTW62Bu0wr4sJg==
-X-CSE-MsgGUID: NKnAFxLTTbyV27tNfc+IJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63742552"
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="63742552"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 18:16:21 -0700
-X-CSE-ConnectionGUID: PKhJ73hXQeCNQ/m3IxdCUQ==
-X-CSE-MsgGUID: WZlyWw78QuOiLHnRfJRADQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="185663022"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 18:16:20 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 27 Oct 2025 18:16:19 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 18:16:19 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.8) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 27 Oct 2025 18:16:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cgeRxSQelDjyfogj7lHhsATdQhWQJnK14vR6ujh9LgxWfRalyo0bzTOjCwD1NY+97yT+XmrU1jzrVBQ6CQTsUpZvhM7uTPH9h4xo2xkl7MQPrTiBl4xquKm3yMtYkJh3stgmzgRBwPNnHEb1Oy40jcc3wQrv4PPKQ56l2ZNls3phVjgc4LF0nqaf5sbZJvbmzbfsusPfPtmbwObIsBXQX5sjwXkebTgRLYgYA9Ja80XCqXwHDTWp9sRpU+me+0DD8v/d1dx6QhMhDOWZqtDc+a+2Fgv61n3sFvtonHt+ks37MpcwjhRfXiQD+gP768EL0vzaMnYYue58WWkDuaLbeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VrbhTJ0r4PO83vR/0raUGTVlVlaAwRq2EDzHSPqsPe8=;
- b=XS4eCy7aLBbc4pMhMpdOpYPNU9gqxloFCDqnZaJPoHjkFgscLFCFlmisfgkurziy05e4EKF+F8y4hO3Q1UUGt7J7qLuHHjOeUfWGDglGtEWz2YpYvWbONTH5BnQtycX/gb5sMk7YIZqrZ5uLBilmcildxARPHLuC3PhWcmCQvdjjsmihNBmgJvESpqU3s1v0Joh7Rgd/LsQ4vSAZW7sDez82+P5kEv25RorOfiLmEdC813oQV2/MdjgEaBD2nupo1s0lDzBlo3ZNMjxw/NnGdrVxeBGlZDKLRI+rzgrpW/xeB941RCSkWe4APrSLMsRjRveGYXGDj8f9TBXkXEEIgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by DM4PR11MB6456.namprd11.prod.outlook.com (2603:10b6:8:bc::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.17; Tue, 28 Oct
- 2025 01:16:15 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9253.018; Tue, 28 Oct 2025
- 01:16:15 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>, "Anup
- Patel" <anup@brainfault.org>, Albert Ou <aou@eecs.berkeley.edu>, "Jonathan
- Corbet" <corbet@lwn.net>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Robin Murphy
-	<robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>, Will Deacon <will@kernel.org>
-CC: Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v7 07/15] iommupt: Add map_pages op
-Thread-Topic: [PATCH v7 07/15] iommupt: Add map_pages op
-Thread-Index: AQHcREnZveRzU+0FVE2mIi5+sC2lDLTWyCug
-Date: Tue, 28 Oct 2025 01:16:15 +0000
-Message-ID: <BN9PR11MB52764CD5E4E461D36FFD2B668CFDA@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <0-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
- <7-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-In-Reply-To: <7-v7-ab019a8791e2+175b8-iommu_pt_jgg@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DM4PR11MB6456:EE_
-x-ms-office365-filtering-correlation-id: c2f9317e-b979-429a-2c3f-08de15bf9788
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021|921020;
-x-microsoft-antispam-message-info: =?us-ascii?Q?NfTBZBHf6S4vVrbT1xYykNcsY1p8ksYZCrWKGebXOUl5eq6IGmPHyA2JOkm1?=
- =?us-ascii?Q?t4azf0W0bc7ekZlnCEKsMZTWcFklmdNuXE2drhQZ+F/OhKxaqN5wtcTuXx/v?=
- =?us-ascii?Q?Oyk4zE04wbHS9+rjJuHn71vGzLTacEKQddcRkC8STv0AQ4dw0ZYiB5mx0v8e?=
- =?us-ascii?Q?4p93jrCReL38582C2Cj1/dDeTixycOn+DeIilkR/vmDKRuOrgtTVFwSpJdtF?=
- =?us-ascii?Q?QKhlwfbAgxgVO4y4CnEKvv0/tk4TsjVOcGSV0TEHmq7r/zkvjTg/6PaYi2tV?=
- =?us-ascii?Q?D3pYpK6b0z+FNs7dLHuHzly5gUnspuI5mSw9KQPRB4N058pRRaTzEL34pLkk?=
- =?us-ascii?Q?kBlwAv78o/ZmRMUjGwqsj+2KIxEkCaPD0JEAwK54K/Q1tEz9LwH0GAPK6zJW?=
- =?us-ascii?Q?mkToXbW1GgTGT6EjlESR+INoFRBk/oLh9617aMxeVygPZTNl2hfrXVHdC/M2?=
- =?us-ascii?Q?56/bhX2p1zsJHoiPimexc7M+a68zy2kAxueFLeI44Er92iVgsBCYvtaJzOYG?=
- =?us-ascii?Q?YFJr8gEvcXHA8IS6BF+ds6XfjaVX8wGsC/8igPsZkUjnedZ2FAhvtinZIqeL?=
- =?us-ascii?Q?LNMo6YlA1ElSFe09YmWiIXwhc6Fx59IZ6U+ySsD7z4/2S8v+gU+00cTnfE9M?=
- =?us-ascii?Q?gEsXijyohifd3NrWYS/qSetlTvXlZXQmcn/zIsLwchNLjWfY47eY/Mdpy6j3?=
- =?us-ascii?Q?Nnv1Fvn22ImDmI3zQM4JATzO6iLLLtKrOhcSpbhVwfa9USaDLx/BHA+8USRB?=
- =?us-ascii?Q?HxxjMFhxcfb58+UNIXzfj54FbjnOG50O1YHjb+hMUo4r7eA+DLAUc3sybrvV?=
- =?us-ascii?Q?t/hgpcebWRdI06A1+b6wpQg19uMkkiYUPlrqfaO5jFQkich5vLhB86/ISHEY?=
- =?us-ascii?Q?4MLGg4oprSQjGRj48XTbUxhN4H401Zfi2sf/YYaI7AFwb+3vpGWBuXCRSWP4?=
- =?us-ascii?Q?1iltYK4wwOC3F+f1uBGDp8HGN8259AgsOtYZIhmyxJF3RVEGGRDyeDoUM0qL?=
- =?us-ascii?Q?hpIdU5oHTTsanvRUjHEY+StuFl+xTtZkDW1m1AcjMCOIQ1tAkVMprhJtFti8?=
- =?us-ascii?Q?AampHtsm7IJiYirL6XX7PZTT5No/aL1arvezs0GqwgHOJjTfoDcNoYOQjYo3?=
- =?us-ascii?Q?cAtK1qWExX6iymhIaZtv68d5WV2brc8syTr/D09nh2CG0xyxj5gDWrLrV1fr?=
- =?us-ascii?Q?DOD+IN078FgBFygjlaFjarML00reDHoKj7sRJRrgqTf8Vj71h8TSIAsr5Mmj?=
- =?us-ascii?Q?Ni4mnTULaL1vHSmj5HCjyWENhpMQLneMDmxfeoMvJvxAl4nVHHUM4T3Cpmey?=
- =?us-ascii?Q?l/lcZWGk+yiqgppzF/vSWVHnt2VPtk8MMN2NR3PWqgntBMwk/tyi9vuyi6pN?=
- =?us-ascii?Q?y+eCEja8EHKJZNKeodg3tiaCGxJeC0iR3ZYxFrN35gAaGkX5EbPLEWjeAtkl?=
- =?us-ascii?Q?WesKgullCKwyvuyUc1LDtSMY10FjlqdJJ2A+wymVkuUvcnErg8cUKCp15fG6?=
- =?us-ascii?Q?a8oTRRpo7LhyD0lNV3Dl2QG4mpInguIY4OivZSu/MXz3G23VBKuhPlJQgQ?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?stYO6gC+aOlPLz8CbzJb2+OPIqMLgRdVt7/tQWHZh6YmdU/EWQ8zpaIMNV5H?=
- =?us-ascii?Q?cv0kfisVkSI3VPTshGZXv+uUpbisIbJ/LDEr6jDeZdY+5+yCy5ZkeoToJdWS?=
- =?us-ascii?Q?3tR1dFVWNnfjx1L87Q2kuhJe6Vrxmpuxr++M58emoSPAQdIgPI0Ia7r8VDp4?=
- =?us-ascii?Q?hYs2Pc5wVA7EohK+wZZivwc5KcsI3PaNhGucKuNi/oBQI2kZuErvHr8/pILx?=
- =?us-ascii?Q?XXRCu3PT7CQ1PSZYU1fTmOPtdhxQYe315VpUvpPrTTI1LLLotMQSAEYzhVIE?=
- =?us-ascii?Q?uY6XB7SJFaZIeynGfjIrQerjueP/ZnEpi0WD4qZ3YwT52rn9Dzf0eYZrh/al?=
- =?us-ascii?Q?sEemoYQL/JFJXLiSiWqrYQIsITmrUBgoCnvtOEMdkZlIIuU3xiXlyfzhBhVQ?=
- =?us-ascii?Q?q99atXo2fyPxp/LrtlqQlSI7BFUf3dOPH7LyW2xp+6s7NQC0y1E7F1ZQsDKJ?=
- =?us-ascii?Q?0Qfm5jwH/zKv5KjX8Q0niNtOrnRklC5G4UBxqpnPYvLq0z/IXWDlb+jMjRsG?=
- =?us-ascii?Q?RH99s7glr+bb++/3hmLnhkqIlzgTDnaYmbLKYyX7N7gqxSwycghlc/Ljb6XX?=
- =?us-ascii?Q?sGlw6jQ4P6dmj2STtESXIcckCuLbR3XH6tCuMoWvNXYV54PKVcBDjxUTlGVw?=
- =?us-ascii?Q?YKrENBMKsijiENCsvi7OPJTzczhcSi0bgBZjDbsDtonvkXPg7ss/R5wbvAGy?=
- =?us-ascii?Q?PyEXREplRgsR9YkvU1NRJAgk1+cGPx/09elqn19ODkJdSIswkNVkALFYkqD9?=
- =?us-ascii?Q?nneQiUKduihqYXItyShfb+gxKvZJDMjnrTQO2sTR8hRyZGRZadPP+TJJu6wZ?=
- =?us-ascii?Q?G87NEQQREhX1o5k6LekL0+xD4bFJOeHk5UPAYrvUvbcM4/7jouzj6scOfCJW?=
- =?us-ascii?Q?mFfFx8Wwiz6OOiteOVWzfszhKk3vk26l1OzP4vN/iwKNZlfMknN7x28Plxt4?=
- =?us-ascii?Q?fD/+E5R+/mZfITKjlI68wQFZVPJiI8RNEObhBH+Ffi+hxx9ko8e7dbJESTin?=
- =?us-ascii?Q?g8X92JIr2KRuquO6FBUMtg1AIRXwTbcfK6fPzjzvG86se59NVE+VqQrBKSNA?=
- =?us-ascii?Q?1aB4rbABipNHTwOXozLK1Sh2Ud3qBfYfmr6BN/F7ldB3Xs49eygzgcDSJXVp?=
- =?us-ascii?Q?+FC6UVfwb3cAT1BJyea8olxd1vavs4KD46xEBLvyeqaJTNjAhHZgHMJna1eP?=
- =?us-ascii?Q?EKhidvgXF6QhrKHsJ8VO9YR94gkprYOOINeOH03q+TlAVNa3qa9dOjKzedTl?=
- =?us-ascii?Q?fbMqD+S1Ri3v3y3xkJmlZ+A4EsN78PHQMXUgBGXoQ3nio94H6b83xhsw6OUX?=
- =?us-ascii?Q?UkiHJtJmVlhNr09BtnAqP/5qAOP9/SaB/hlMQ76uxC3GlXpRBp/cTk7bjknR?=
- =?us-ascii?Q?Z7Qocga8m0ZBRP+BWWmvznw8mwl8NbNHQjbZ3mXoi0eWX2gn/JkOQARpKrI4?=
- =?us-ascii?Q?sVD9XGLVf5vEKqyPysEasOnAv1u16TzlSavWVJWdIODYXU6FEqdFocuLbK+P?=
- =?us-ascii?Q?fJEbKEMzdU14fp9CWZpCQJEpgPY9MSJt5zOem0PSGt2jKbtbYoTTgAGySvVJ?=
- =?us-ascii?Q?4od5AsK4BrpxIkYsDibc2vTs8PsoGJbNAUunw6Wn?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4Bte/Aj"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so5280658a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 18:45:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761615946; x=1762220746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9tpNWD1OK7YuCBqN99mwKFZZzGomTddAkF6+EFAt55o=;
+        b=O4Bte/AjRy6+2MxCF80R6ZMqXyqPIOI6u+rKhmJfqcIJvKBY3O9qhEP3ipN0iUeJmc
+         mOYn9PiPuowIdXBlasDfRE7m/Un/ljRi2NBGxdceJSESHNH/kGIReIMtihCuy2u1VTlS
+         mnkjdU82X2OB4a6fhtouiiX7p841Dc7eyseCSnqpXC50d7OjHivCRt83F/QWXrj0V3XK
+         73zgjXA+N4k7l6r/s5ln+NQ+Pbq8qafL475d0VO55rHo8U7kSYrqRu4JisPJsexAxQTB
+         G8Uo2AP1A1oboaGyY3a4ukWnmoTRG0eJn4qqT/ob7jpOw7c9lTo806m7s+NVZgnC177W
+         T4FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761615946; x=1762220746;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9tpNWD1OK7YuCBqN99mwKFZZzGomTddAkF6+EFAt55o=;
+        b=AfgyDwHdbwwCa79dVS8h0AxU0dY2xOe45ceUkQrseZlHS5mxjSBLJ1Pw/Xt1xigN4X
+         QqbU+IEg50cxkF39WfIsbzgCf228Qcyy5MUv/vCD1FI4YPyBwqW1CpHrjDyQapQQkS/Y
+         +/WuL2J07qzPXABFIWtCiwqX3U53jmkBmRuhDR3fwyWdl2v0E80fv/DWvXZVGHi1D15l
+         hh0ZQ7g/7yT6Y6yOZg9RON05YkCc6DPFG5T8YsfqaRPr1q0Y3W9HJ4DnSWlh8K8Bd4Yy
+         dY0l4hRnsi7YExrf/H4jb6j4DUfIBIMVXIhWMpCpjNqU1Toy70ELjyolL1brx7tETpnk
+         vm6A==
+X-Forwarded-Encrypted: i=1; AJvYcCUerPRFxSdCTx1UCiyoCYYfsNm7hbxa+zUxr1lI05bogQcdqALYp3474lDIMK2TtkFBMRDsIOQmGOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvsdBOIiOxl+jNI8/TDWVJZ8KLSRlCicb3gOz3nqJuK2SQgSgV
+	9dBD6/w5bS5tW44fH+aX2dJAwmC1lY5dhlLsXZNpNHn5kdYp9OcQRhAL
+X-Gm-Gg: ASbGncufYx3SbkwXJWbHzsvHb7ZUfBT4FqxIigJWm3VmWcD8/tGp1+Mr6gLjU6jyso3
+	PjB14SvuIE6QCbCk0ejRu4a98T9udnQXSm7p+pt0yhgr6IfRPOYEeD841e1UqBMLP99CAHwne/B
+	Eo3Fgc9C5hT5CE7MA9hGnvMo9tb1tiPCp65PcJZ+OUsrl8u/59gK+erC2gwRmcb1i9C2L3iZ1vO
+	MHytavx6nfAaLX5gcjRlDD3v449JNvwR1P+bK4UNlEAymM2NZXIqn/ucJ1IuIh5CQN9EtzqI0rb
+	rX6LQUwlmdoP38mHgEGuG7QWoUN/Aa2J5j9WEQy2Q4N3hi+rMyknSiUoRa0Ft5hSaRyYFRIlDfA
+	gAk2sPqp8z1ho7hTu8FBpvi8dhGQTPZAWYIYM5aTvuUOa80dbMdA4IP62UmBLYXc/qebne/dHtW
+	Tr
+X-Google-Smtp-Source: AGHT+IH0lOAi/qG58mWc3adb00/uN60NZKYFZ4tDXmtuyg+Eh2qzzh+KgjeO94z2Zpez7W5wBjLdzg==
+X-Received: by 2002:a17:903:38c8:b0:27d:6995:990d with SMTP id d9443c01a7336-294cc72935emr14333235ad.19.1761615945478;
+        Mon, 27 Oct 2025 18:45:45 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e495e8sm95878565ad.110.2025.10.27.18.45.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 18:45:44 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A10954209E50; Tue, 28 Oct 2025 08:45:42 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Avery Pennarun <apenwarr@worldvisions.ca>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next v3] Documentation: ARCnet: Update obsolete contact info
+Date: Tue, 28 Oct 2025 08:44:52 +0700
+Message-ID: <20251028014451.10521-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2f9317e-b979-429a-2c3f-08de15bf9788
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 01:16:15.8216
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8Dc7vwM5K2Gu/7iy0W08Nr+OTwPAvDI11oGg7wCfh4ngob7SagRbF/3gyzhQde9iLOO8fykd8NS0OCzYxaKxww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6456
-X-OriginatorOrg: intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6570; i=bagasdotme@gmail.com; h=from:subject; bh=GF+MC882OMnI8S27LLYciURvp0ZasVg7CZfx3nxVP9o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkM8jOl2qfya964IqC5+ljNpGXLn242nnttqu/11EnKG j+knlsKdJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiNbKMDCvbHDJnccXMaVw3 b39xgEqXqbmmjF/2l2052w+2CB6cYMLwT4vxQsU//rrnk43sOz/0fJn6mWvyMfl96qu8E30vfr9 /hx0A
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Friday, October 24, 2025 2:21 AM
->=20
-> map is slightly complicated because it has to handle a number of special
-> edge cases:
->  - Overmapping a previously shared, but now empty, table level with an OA=
-.
->    Requries validating and freeing the possibly empty tables
->  - Doing the above across an entire to-be-created contiguous entry
->  - Installing a new shared table level concurrently with another thread
->  - Expanding the table by adding more top levels
->=20
-> Table expansion is a unique feature of AMDv1, this version is quite
-> similar except we handle racing concurrent lockless map. The table top
-> pointer and starting level are encoded in a single uintptr_t which ensure=
-s
-> we can READ_ONCE() without tearing. Any op will do the READ_ONCE() and
-> use
-> that fixed point as its starting point. Concurrent expansion is handled
-> with a table global spinlock.
->=20
-> When inserting a new table entry map checks that the entire portion of th=
-e
-> table is empty. This includes freeing any empty lower tables that will be
-> overwritten by an OA. A separate free list is used while checking and
-> collecting all the empty lower tables so that writing the new entry is
-> uninterrupted, either the new entry fully writes or nothing changes.
->=20
-> A special fast path for PAGE_SIZE is implemented that does a direct walk
-> to the leaf level and installs a single entry. This gives ~15% improvemen=
-t
-> for iommu_map() when mapping lists of single pages.
->=20
-> This version sits under the iommu_domain_ops as map_pages() but does not
-> require the external page size calculation. The implementation is actuall=
-y
-> map_range() and can do arbitrary ranges, internally handling all the
-> validation and supporting any arrangment of page sizes. A future series
-> can optimize iommu_map() to take advantage of this.
->=20
-> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+ARCnet docs states that inquiries on the subsystem should be emailed to
+Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
+since the beginning of kernel git history and her email address is
+unreachable (bounce). The subsystem is now maintained by Michael
+Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add arcnet and take
+maintainership").
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+In addition, there used to be a dedicated ARCnet mailing list but its
+archive at epistolary.org has been shut down. ARCnet discussion nowadays
+take place in netdev list. The arcnet.com domain mentioned has become
+AIoT (Artificial Intelligence of Things) related Typeform page and
+ARCnet info now resides on arcnet.cc (ARCnet Resource Center) instead.
+
+Update contact information.
+
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v2 [1]:
+
+  * Update ARCnet info link (Randy)
+
+[1]: https://lore.kernel.org/linux-doc/20251023025506.23779-1-bagasdotme@gmail.com/
+
+ Documentation/networking/arcnet-hardware.rst | 22 ++++-----
+ Documentation/networking/arcnet.rst          | 48 +++++---------------
+ 2 files changed, 21 insertions(+), 49 deletions(-)
+
+diff --git a/Documentation/networking/arcnet-hardware.rst b/Documentation/networking/arcnet-hardware.rst
+index 3bf7f99cd7bbf0..20e5075d0d0e7d 100644
+--- a/Documentation/networking/arcnet-hardware.rst
++++ b/Documentation/networking/arcnet-hardware.rst
+@@ -4,18 +4,20 @@
+ ARCnet Hardware
+ ===============
+ 
++:Author: Avery Pennarun <apenwarr@worldvisions.ca>
++
+ .. note::
+ 
+-   1) This file is a supplement to arcnet.txt.  Please read that for general
++   1) This file is a supplement to arcnet.rst.  Please read that for general
+       driver configuration help.
+    2) This file is no longer Linux-specific.  It should probably be moved out
+       of the kernel sources.  Ideas?
+ 
+ Because so many people (myself included) seem to have obtained ARCnet cards
+ without manuals, this file contains a quick introduction to ARCnet hardware,
+-some cabling tips, and a listing of all jumper settings I can find. Please
+-e-mail apenwarr@worldvisions.ca with any settings for your particular card,
+-or any other information you have!
++some cabling tips, and a listing of all jumper settings I can find. If you
++have any settings for your particular card, and/or any other information you
++have, do not hesitate to :ref:`email to netdev <arcnet-netdev>`.
+ 
+ 
+ Introduction to ARCnet
+@@ -72,11 +74,10 @@ level of encapsulation is defined by RFC1201, which I call "packet
+ splitting," that allows "virtual packets" to grow as large as 64K each,
+ although they are generally kept down to the Ethernet-style 1500 bytes.
+ 
+-For more information on the advantages and disadvantages (mostly the
+-advantages) of ARCnet networks, you might try the "ARCnet Trade Association"
+-WWW page:
++For more information on ARCnet networks, visit the "ARCNET Resource Center"
++WWW page at:
+ 
+-	http://www.arcnet.com
++	https://www.arcnet.cc
+ 
+ 
+ Cabling ARCnet Networks
+@@ -3226,9 +3227,6 @@ Settings for IRQ Selection (Lower Jumper Line)
+ Other Cards
+ ===========
+ 
+-I have no information on other models of ARCnet cards at the moment.  Please
+-send any and all info to:
+-
+-	apenwarr@worldvisions.ca
++I have no information on other models of ARCnet cards at the moment.
+ 
+ Thanks.
+diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking/arcnet.rst
+index 82fce606c0f0bc..cd43a18ad1494b 100644
+--- a/Documentation/networking/arcnet.rst
++++ b/Documentation/networking/arcnet.rst
+@@ -4,6 +4,8 @@
+ ARCnet
+ ======
+ 
++:Author: Avery Pennarun <apenwarr@worldvisions.ca>
++
+ .. note::
+ 
+    See also arcnet-hardware.txt in this directory for jumper-setting
+@@ -30,18 +32,7 @@ Come on, be a sport!  Send me a success report!
+ 
+ (hey, that was even better than my original poem... this is getting bad!)
+ 
+-
+-.. warning::
+-
+-   If you don't e-mail me about your success/failure soon, I may be forced to
+-   start SINGING.  And we don't want that, do we?
+-
+-   (You know, it might be argued that I'm pushing this point a little too much.
+-   If you think so, why not flame me in a quick little e-mail?  Please also
+-   include the type of card(s) you're using, software, size of network, and
+-   whether it's working or not.)
+-
+-   My e-mail address is: apenwarr@worldvisions.ca
++----
+ 
+ These are the ARCnet drivers for Linux.
+ 
+@@ -59,23 +50,14 @@ ARCnet 2.10 ALPHA, Tomasz's all-new-and-improved RFC1051 support has been
+ included and seems to be working fine!
+ 
+ 
++.. _arcnet-netdev:
++
+ Where do I discuss these drivers?
+ ---------------------------------
+ 
+-Tomasz has been so kind as to set up a new and improved mailing list.
+-Subscribe by sending a message with the BODY "subscribe linux-arcnet YOUR
+-REAL NAME" to listserv@tichy.ch.uj.edu.pl.  Then, to submit messages to the
+-list, mail to linux-arcnet@tichy.ch.uj.edu.pl.
+-
+-There are archives of the mailing list at:
+-
+-	http://epistolary.org/mailman/listinfo.cgi/arcnet
+-
+-The people on linux-net@vger.kernel.org (now defunct, replaced by
+-netdev@vger.kernel.org) have also been known to be very helpful, especially
+-when we're talking about ALPHA Linux kernels that may or may not work right
+-in the first place.
+-
++ARCnet discussions take place on netdev. Simply send your email to
++netdev@vger.kernel.org and make sure to Cc: maintainer listed in
++"ARCNET NETWORK LAYER" heading of Documentation/process/maintainers.rst.
+ 
+ Other Drivers and Info
+ ----------------------
+@@ -523,17 +505,9 @@ can set up your network then:
+ It works: what now?
+ -------------------
+ 
+-Send mail describing your setup, preferably including driver version, kernel
+-version, ARCnet card model, CPU type, number of systems on your network, and
+-list of software in use to me at the following address:
+-
+-	apenwarr@worldvisions.ca
+-
+-I do send (sometimes automated) replies to all messages I receive.  My email
+-can be weird (and also usually gets forwarded all over the place along the
+-way to me), so if you don't get a reply within a reasonable time, please
+-resend.
+-
++Send mail following :ref:`arcnet-netdev`. Describe your setup, preferably
++including driver version, kernel version, ARCnet card model, CPU type, number
++of systems on your network, and list of software in use.
+ 
+ It doesn't work: what now?
+ --------------------------
+
+base-commit: 5f30bc470672f7b38a60d6641d519f308723085c
+-- 
+An old man doll... just what I always wanted! - Clara
+
