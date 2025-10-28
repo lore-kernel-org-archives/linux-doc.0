@@ -1,91 +1,102 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B298738DD8
-	for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 03:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C4A226541;
+	Tue, 28 Oct 2025 07:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761622283; cv=none; b=srGetvoesRpSe6k774hyfab4KOxJit8T/jaydXgeVuiJmASF5TXZjVUMeJJja9PT65YKHVgHrbtGjqzDlQDwAz3rh3iQSdhelzQz+22CtVU+F2lx2hP/xWxQxlsLFTefj2mzW0FLTZ/WGrVYZDfhnqvqDsXSrsuV0/2Gh9Sx11o=
+	t=1761635537; cv=none; b=YqLga0O0nEQDRVkn3h0fFrvl/vAHBeeLTR/LQrrJwQqgAD3tEOCgs2xwSCrsZ9JlVV3xJsGXOFNemectXgsuHULtKdsqnz4REEy8QWu/0oKkAaxD/w13fvupr+M9DyjmWOFmcijBivGkK+dDNGphSFfbNHLI7CzLjCsdEJgwXL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761622283; c=relaxed/simple;
-	bh=/WJvY11yZe5DNuh0SmLl84KhyrfL2n7Y6FVCkvFsiMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Njll4cR5Ue49qXwGWEx2qL1Y//HJx3kEqjjn19hi/Y3ChNMdsy8ULIP/RbEo6Th1iA1kRiOOuJIfpYo7pqoyqG2dZpH+23bG0kq8JbWufIXgVywztJXO2+JiYwlFWhKPvd+BDt7vGB3mLipKdNPW2m8iGisEedLI7xkt34zOfeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mr0pPjTK; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1761635537; c=relaxed/simple;
+	bh=7LNTkhSqDMzMzDMNTb35h/pjqCE/s3amSqowEO4itJc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KQsehV13S4Ri1kQVzTZshcjK9of+pxjw3GD4hsqtEAlcsa6e+T5zk86QNizYLufiLByWM2CMRVfAMIlqMspxiXX+7j1cRxmIACKQ8OT00jrrkq+QLJOty5JhfMoZGN04j1TyiXeoKq9zDExhcdnQQcg1wyos0J0vBWWHxTGucMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HGjZHUUW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mr0pPjTK"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso3733521a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Oct 2025 20:31:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1761622281; x=1762227081; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/WJvY11yZe5DNuh0SmLl84KhyrfL2n7Y6FVCkvFsiMg=;
-        b=mr0pPjTKpqmKglIs4NbjktC22qUtAQDnv5F7niBoXR9XL6cq0j8BGWDf1xYaQ4GzNp
-         ZqMtTTTmHGkW8/iZTQR2hgm67vDtkBS9v//LIu7KXOPI1zV+hB8mEHSdopPUyvAcVWZo
-         M/lxNmOSp4JvdjK/7ouP+R64DZCKANW/dXJI8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761622281; x=1762227081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/WJvY11yZe5DNuh0SmLl84KhyrfL2n7Y6FVCkvFsiMg=;
-        b=rKCnq52hb4vGTjg6Ri//b5OFzFaBTKBFtC6179FZEBz/1qHqOD+GRj2sOmBgDc6g4o
-         k7SUNWePd8dLUfsTBwM3ebu0eFrSJkVQD/Dx87wlauuw3GljE7cPqwu/cDQMfkYqzPLT
-         FkUiUAr1wGXAkUjqr9WSZMh+Be4hTXIJSKweitq7LPsMOTr8YuJoKhVAb7rjt0VFlpNj
-         BDnSACpQnM+4t5lzyNiWNiYjpH9EoI0MjpgMj0h0s1wAJHQ/olzkFGj7OqmSAJGNt+l1
-         mj4KwZi94xt1rr72KMz0DjE16ByoOEQmSqb3Swc6N0Iol54c1T1dyde2inGrKajBN4XI
-         xVYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXt17vPvk0UthwAuAe5YgEmZqjzyBRukspSWe0iQSHnF9Fsto7arLNseFelOKj4hRNWrbQQygyrj98=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1BGCokqA+Ix+qSrMmXi70EHzKPZVC+Wsozo8d/69onSMAueuI
-	VUYk0758tFkWFkc4iCni4h2uDHIgQM2NfheJw1US9zUS9i7dC9NhI0Z/N5A4W9MHMw==
-X-Gm-Gg: ASbGncvcUWpF/Smowqv7oAfoR73TDMnMww8IJimEptB/mu2WBzH77yLrTd7IdL/XrBr
-	X1E3lUPTmujehsF5+tIBehDJBzKmCJBaMnr0iHhsNFXRLPAp3kiF0yV8Q+Z9wCVqgPrsGNyaeCB
-	xw9XLYLMwc2UNrAo0sevpjOcYv/DgQd60F/G5hCKf2WvBHdzTMz4aeE2T5iE8bMQ/kGzeTDmx04
-	1ZUexSjcQAwTjT8er2hZMVQwRMjNOPAKxkW/6BOqtrtdayU7FaqnpK+JsOTvB6BVKFo1zfgOFgp
-	7FIYTRENNqNekHdvLYgtN8NblyuC6jhb9CvdFFMSHfcIhhHscZgn/cnkYiJr26Q2xBZlUu4GsUU
-	C4TMUwEDITPcWRaqfhx1hf6lHQvEwoBzJvohtOqkqA+rsq3Q9YLrk35caH5wV594GWiTn9jYYLG
-	qz2vuW
-X-Google-Smtp-Source: AGHT+IG4vfR0LE0WG8LCYJmEN31gkl7hCsYmhmgxpsNHn1XBOsYb/cbkA/Iv5cZPqQ3IQLRXV2PyoQ==
-X-Received: by 2002:a17:902:dacd:b0:290:af0e:1183 with SMTP id d9443c01a7336-294cb6746c8mr22090685ad.51.1761622280960;
-        Mon, 27 Oct 2025 20:31:20 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:2c65:61c5:8aa8:4b47])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf4a53sm100342125ad.6.2025.10.27.20.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 20:31:20 -0700 (PDT)
-Date: Tue, 28 Oct 2025 12:31:12 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: jinji zhong <jinji.z.zhong@gmail.com>, minchan@kernel.org, 
-	senozhatsky@chromium.org, philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
-	christoph.boehmwalder@linbit.com, corbet@lwn.net, tj@kernel.org, hannes@cmpxchg.org, 
-	mkoutny@suse.com, axboe@kernel.dk, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, akpm@linux-foundation.org, terrelln@fb.com, dsterba@suse.com, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com, 
-	linux-doc@vger.kernel.org, cgroups@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-mm@kvack.org, zhongjinji@honor.com, liulu.liu@honor.com, feng.han@honor.com, 
-	YoungJun Park <youngjun.park@lge.com>
-Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
-Message-ID: <4tqwviq3dmz2536eahhxxw6nj24tbg5am57yybgmmwcf4vtwdn@s7f4n2yfszbe>
-References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
- <CAKEwX=MqsyWki+DfzePb3SwXWTZ_2tcDV-ONBQu62=otnBXCiQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HGjZHUUW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=BksfCO/2CNKUYmi+/GnY08s7Q/H1E9YhdIPtX8Cc4bE=; b=HGjZHUUWLwpAEO/pPM5wOkvwO+
+	1xruBynjIUjFNJOZPWF65jtjH4J/6J/m4nBWZlS0UduKWc66mIpfLY8585RFwI5J9lZmAcQcs8t9L
+	rjcHsA774fUinLLjiLlNlhHUmuO11y+2R4eYMzwQCl07qLlfi3qSHeX2MjbkAbabQJWEHsnltuVkc
+	fKiLRpt183Odcmh7XGBF86T05g75xKoOeKWBfDy4q2lhKcv+2uwLlvpBajHwCigHpf+VOFLmh3EIW
+	XLzyA/yWBBNO89MqvKJOBBZ4+o33UwFlActh4Gf3nGNU/U+E381wplCG0DPKFxs6351xZu+a3rVi0
+	orJelFsA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vDdsK-0000000FORw-2ReW;
+	Tue, 28 Oct 2025 07:12:12 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] kernel-chktaint: add reporting for tainted modules
+Date: Tue, 28 Oct 2025 00:12:11 -0700
+Message-ID: <20251028071211.18065-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKEwX=MqsyWki+DfzePb3SwXWTZ_2tcDV-ONBQu62=otnBXCiQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On (25/10/27 15:46), Nhat Pham wrote:
-> Another alternative is to make this zram-internal, i.e add knobs to
-> zram sysfs, or extend the recomp parameter. I'll defer to zram
-> maintainers and users to comment on this :)
+Check all loaded modules and report any that have their 'taint'
+flags set along with a count of all tainted modules.
+The tainted module output format is:
+<module_name>: taint=<flags>
 
-I think this cannot be purely zram-internal, we'd need some "hint"
-from upper layers which process/cgroup each particular page belongs
-to and what's its priority.
+Example output:
+
+Kernel is "tainted" for the following reasons:
+ * externally-built ('out-of-tree') module was loaded  (#12)
+ * unsigned module was loaded (#13)
+Raw taint value as int/string: 12288/'G           OE      '
+
+Modules tainted: count=1
+dump_test: taint=OE
+
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ tools/debugging/kernel-chktaint |   17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+--- linux-next-20251027.orig/tools/debugging/kernel-chktaint
++++ linux-next-20251027/tools/debugging/kernel-chktaint
+@@ -211,9 +211,24 @@ else
+ 	addout "J"
+ 	echo " * fwctl's mutating debug interface was used (#19)"
+ fi
++echo "Raw taint value as int/string: $taint/'$out'"
++
++# report on any tainted loadable modules
++[ -r /sys/module/ ] && cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0
+ 
++if [ $cnt -ne 0 ]; then
++	echo
++	echo "Modules tainted: count=$cnt"
++	for dir in `ls /sys/module` ; do
++		if [ -r /sys/module/$dir/taint ]; then
++			modtnt=`cat /sys/module/$dir/taint`
++			[ "$modtnt" = "" ] || echo "$dir: taint=$modtnt"
++		fi
++	done
++fi
++
++echo
+ echo "For a more detailed explanation of the various taint flags see"
+ echo " Documentation/admin-guide/tainted-kernels.rst in the Linux kernel sources"
+ echo " or https://kernel.org/doc/html/latest/admin-guide/tainted-kernels.html"
+-echo "Raw taint value as int/string: $taint/'$out'"
+ #EOF#
