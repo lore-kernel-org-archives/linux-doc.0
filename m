@@ -1,80 +1,82 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33043328B7D
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 11:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826CA30BF4F
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 11:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761736445; cv=none; b=fCgTf/qDDeQA8vKuknMNIHHLzyqvCWmWZB/W5oDUCXdPAWQmkhgoNhAxFeARe/DlrHw8cpp7YD9pLMMv8YZD7HUEpwCuXSrdMz6zBzewsjlHcKBjzEkOHvz4JR0E7i+BaPA8OorweSe4HwfRpb9MdPfrBZkgXAr6KUsY794B5Bk=
+	t=1761736610; cv=none; b=AuQXH4Lf5Cc4HRSCAJ4mez/kRwTK+bFhdqa8M4/sUhKpz+r9EtCHiD7fb0ak+RkFWxO8JVIdt13b5RCc77eQtEOOc8apIg547jFwmwYhdVJzvPWIMPc8iDvm4iQ1Sre4rCJ+8U07Q3Ti/M9e/XkSAZAl0qwtUysFbj9UMt2aggk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761736445; c=relaxed/simple;
-	bh=dRMgEAVrbLB6t767VUoWXvx7LGiIWpYgs3DMBhXzxII=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=naZ/WwK7bHKRSITE/Thv9jF4nvPPkjbgdLPY/zBhTsvO1MoOBQKSwWe3nvSHY0uiQz5LB6hkt1fC7ClojYflbS+UFCSVfdto2uHadjEwGDqY4FYOXu+FFuSmZdGevpUVNR4tJ6SlCcwZBJobFVzKgLWMkWtUkMte61JkfQmT9tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOGFpQ8d; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761736610; c=relaxed/simple;
+	bh=iNs2W88xibjLrgXbOdvLwDJqMNBdJqCGzzdryH6uikg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c887toJE5VH0fFp6fvgZSWZJpZFBPSMJT/1tPeC//Wc1oyAxY9eTxaKU9xIKFXCqgBLJRwN5QbGXF+x72wQuNYYgpXCgI1JKo+u7/5XYq2BVzeevlUPAgvv8soWDeZIxaG0SGVC0ToPWPUj2j8KhbNfnsZ8tFdH5u+0iq1FMQq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KP2OTyxf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOGFpQ8d"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-475de184058so18813105e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 04:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761736441; x=1762341241; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cExzyq1+DdekChO1jhj7ZSGYtphuWQrDzLW8j//bDCs=;
-        b=NOGFpQ8d4deZZ8xRDB2G++xrJPmaFu1/dYtYetB8bM9MkghiLwlM1gPwy6D/ky1SRE
-         zXED1ANYYpFFtkCdswuwUs6kLBF40WKGwBhnWQS189WCwPDiH2IkkMec/07Nm53xjM5P
-         yetSYZFeYhm07DLrCprDWJyNfobGkuzapjtKtipSDTu0B07geeDVywsm7EhnpvRqdEjt
-         CvI3sbQxo63LFh6vSGQSN06FiVwLWpVHW5SwZVKll21bQLkHKQewOHns0jNPzsJ/PwgD
-         9YhmZnIXv0DSo9gCzlzUNp87aN4Fi1Ams/Anz2kDXewIhtJYFQocPHCClPzbRled3gsG
-         H5Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761736441; x=1762341241;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cExzyq1+DdekChO1jhj7ZSGYtphuWQrDzLW8j//bDCs=;
-        b=ETMHIswhyeI9orlPd1+DLo4U+TjAWJ4vR3J9CZ6/Mgb0/b6tsPacww89diXYwX1jLn
-         bbQPyFn//XUv4eO7DwuC38D/qZ4vAwA7tqGskT5y6M7yvcyue9vQiMdAArCxzSMoIg6z
-         FNOQ2tx4FTWp3GHB6cuGIPuwi/xD3mebKReCafB7/0JbK0mmdgQu/J0YrMEr3PlGIlzY
-         W20TkxQdVZkcMycZOTsrPqQUp5pbGztUGEbkA5dl78l3rrHKWhMKbTDbXx0IncnK3wBy
-         bw6iVPlL6wkQHQHecrRcZcRLnXyBarxIr/TfDGbww33Ujmmzroio706mC0PHss9jT5VC
-         mPyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVezSkNlkHuaTS5v99pGYK4VThkNQJNWiVKvVGJy4SUWET7Eh06IPuV6E4i9q88Q6JMwdQfGSPsnDM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+Xbrii5oKSqmUP2BWLfeEyM8AOr7BraIPdK3n5O5A8wpZxtiN
-	aDWbILBidtYx5lE1UoKX9gjdz5rhn25KPj38i96R0nOH8woFfE6/h/aq
-X-Gm-Gg: ASbGncsP1bBqM2JxV3in2kmtHQS1HrMEUVvT2rUXEOtbmByhIaSePTv6W+a8Y4oH9OT
-	cgvqNWXy42YbHZ4rO9YVF18ruU2nGF1H4cp6FMdfi88GRXgsXKNYGfNCu0cqpW480EcAuvF54li
-	2HevzE86n+lwFTrs5+rHafu21kQDKIvN3XGmLPDl58PIXX7YvEaKKVLEZAzXwzIZ3+VRen6nM+q
-	brZ4qIqyeUqFHuxZwuiOAlP4fXpWphDOgWvNAHFrEbqBBibSWvLP+3JlpUxiX4AeMwoNml82Gdb
-	qmOOylO8iPUwjacI51y9Ld/s7cPkNxtej8KLdMkfw/PLf3KU53HnXHOeIepJzN8/QNy2bnCorrO
-	kFJpBENw44Ew2EA5c64RCmf6ijNaZB5miFStJtlfDBQolhJJ9fg==
-X-Google-Smtp-Source: AGHT+IGh2i6URRWhV4v6iibwi6PKg5mIhn8IeEnLTzK+ExGgJB2BU2r7APSIyzP/bl5sdigj/wtwxQ==
-X-Received: by 2002:a05:600c:5488:b0:477:10c4:b4e with SMTP id 5b1f17b1804b1-4771e1f59demr21695235e9.41.1761736441089;
-        Wed, 29 Oct 2025 04:14:01 -0700 (PDT)
-Received: from krava ([2a02:8308:a00c:e200::b44f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e235ae1sm51661495e9.17.2025.10.29.04.14.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 04:14:00 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Wed, 29 Oct 2025 12:13:59 +0100
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Add missing BPF k/uprobe program
- types to docs
-Message-ID: <aQH293IIz8hvobH7@krava>
-References: <20251028182818.78640-1-donald.hunter@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KP2OTyxf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7380DC4CEFD;
+	Wed, 29 Oct 2025 11:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761736610;
+	bh=iNs2W88xibjLrgXbOdvLwDJqMNBdJqCGzzdryH6uikg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KP2OTyxf1XEj0XZm6VpkKI9dPY50h2i37uyJuZ2Uuu4cUA+pvJpietR6o0kHynmFd
+	 o37IcYYOofwwx3v03YdOQEeuDmvPZxqON1407AhDyQsCW4ClF5MwSFBHniLC635610
+	 809xOAJik6txGhSk31S8hz1lSV6PQ1JLFaRUfAwFjKb+r7X5L2UpzwYpKPRI+78uvU
+	 2bMedsgAvXw1S4irD+7v0ZOVykEqrlMB3c/StkZiAwB+94u+cIt4K/se0CecNMJ9Q2
+	 T9BeT6oRxpkIAY+WDhujDlSDHrkxFHfZsjvCkpCpMKiHzbAFdVhOlAXIglXcArcIum
+	 JgDH7RYgSOMdA==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 8FB99F40068;
+	Wed, 29 Oct 2025 07:16:48 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 29 Oct 2025 07:16:48 -0400
+X-ME-Sender: <xms:oPcBaZO6lfmC-Mua3l16fCzkSAs7Tx2I_WumYQydLcQc5mVJPEisEQ>
+    <xme:oPcBaVJYoXXvLx7oHEQ-CSoTk-5-i53_LpLSHk1hgLsjKCt15WTx7YG0CvBQ9ssfl
+    UsO3ED-qjNvtn2nC2FBqYEAljgntSVpjDLc7WF0ugQMG7BvTSwUV0w>
+X-ME-Received: <xmr:oPcBach5kS8k0d4J0t4p33_OwiQduxzSe9OQqE9jft7xmvDSqMcET7r7peVQRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieefheelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepheeikeeuveduheevtddvffekhfeufefhvedtudehheektdfhtdehjeevleeuffeg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepgeegpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegusehilhhvohhkhhhinhdrtghomhdprhgtphhtthhopegrkhhpmheslhhinhhugi
+    dqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepuggrvhhiugesrhgvughhrght
+    rdgtohhmpdhrtghpthhtoheplhhorhgvnhiiohdrshhtohgrkhgvshesohhrrggtlhgvrd
+    gtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhmpdhrtghpthhtohepsggr
+    ohhlihhnrdifrghngheslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgtphhtthhope
+    hlihgrmhdrhhhofihlvghtthesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepnhhprggt
+    hhgvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehrhigrnhdrrhhosggvrhhtshesrg
+    hrmhdrtghomh
+X-ME-Proxy: <xmx:oPcBabeMIrjhCPKlIhdYpD-rHjd-YcfavdcFH3S0eYx1o4VLRERtvw>
+    <xmx:oPcBac6KBarARx_Mfm45pzpP9ZhWgQra0xWowHGT287EcoH6-SmJIg>
+    <xmx:oPcBacghqWlpd57EAZ7LYWaeysojbbfbtnMM-5_7T_ceygxaLVwThA>
+    <xmx:oPcBabGhd8r4ILWmiKPmY4EKtO_72rb_uqDDMyzcuTZdrH9yuAHrpw>
+    <xmx:oPcBaXU_6r1C8H2YaGwU98AAAVGTTSx4jp-fGDAqnrtsWWOiHMOzq5RU>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Oct 2025 07:16:47 -0400 (EDT)
+Date: Wed, 29 Oct 2025 11:16:45 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Dmitry Ilvokhin <d@ilvokhin.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2] mm: shmem/tmpfs hugepage defaults config choice
+Message-ID: <ivpba53svcfavp3f4pfqfm5z3goht346ri25rstz4dteggcbuf@73bnztkf53b2>
+References: <aQECPpjd-fU_TC79@shell.ilvokhin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,66 +85,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251028182818.78640-1-donald.hunter@gmail.com>
+In-Reply-To: <aQECPpjd-fU_TC79@shell.ilvokhin.com>
 
-On Tue, Oct 28, 2025 at 06:28:18PM +0000, Donald Hunter wrote:
-> Update the table of program types in the libbpf docs with the missing
-> k/uprobe multi and session program types.
+On Tue, Oct 28, 2025 at 05:49:50PM +0000, Dmitry Ilvokhin wrote:
+> Allow to override defaults for shemem and tmpfs at config time. This is
+> consistent with how transparent hugepages can be configured.
 > 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/bpf/libbpf/program_types.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> Same results can be achieved with the existing
+> 'transparent_hugepage_shmem' and 'transparent_hugepage_tmpfs' settings
+> in the kernel command line, but it is more convenient to define basic
+> settings at config time instead of changing kernel command line later.
 > 
-> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
-> index 218b020a2f81..5e7a202dce5e 100644
-> --- a/Documentation/bpf/libbpf/program_types.rst
-> +++ b/Documentation/bpf/libbpf/program_types.rst
-> @@ -100,10 +100,26 @@ described in more detail in the footnotes.
->  |                                           |                                        | ``uretprobe.s+`` [#uprobe]_      | Yes       |
->  +                                           +                                        +----------------------------------+-----------+
->  |                                           |                                        | ``usdt+`` [#usdt]_               |           |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``usdt.s+`` [#usdt]_             | Yes       |
->  +                                           +----------------------------------------+----------------------------------+-----------+
->  |                                           | ``BPF_TRACE_KPROBE_MULTI``             | ``kprobe.multi+`` [#kpmulti]_    |           |
->  +                                           +                                        +----------------------------------+-----------+
->  |                                           |                                        | ``kretprobe.multi+`` [#kpmulti]_ |           |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``kprobe.session+`` [#kpmulti]_  |           |
-
-hi,
-uprobe/kprobe session have BPF_TRACE_UPROBE_SESSION/BPF_TRACE_KPROBE_SESSION
-attach type respectively
-
-thanks,
-jirka
-
-
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uprobe.multi+`` [#upmul]_      |           |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uprobe.multi.s+`` [#upmul]_    | Yes       |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uretprobe.multi+`` [#upmul]_   |           |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uretprobe.multi.s+`` [#upmul]_ | Yes       |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uprobe.session+`` [#upmul]_    |           |
-> ++                                           +                                        +----------------------------------+-----------+
-> +|                                           |                                        | ``uprobe.session.s+`` [#upmul]_  | Yes       |
->  +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
->  | ``BPF_PROG_TYPE_LIRC_MODE2``              | ``BPF_LIRC_MODE2``                     | ``lirc_mode2``                   |           |
->  +-------------------------------------------+----------------------------------------+----------------------------------+-----------+
-> @@ -219,6 +235,8 @@ described in more detail in the footnotes.
->               non-negative integer.
->  .. [#ksyscall] The ``ksyscall`` attach format is ``ksyscall/<syscall>``.
->  .. [#uprobe] The ``uprobe`` attach format is ``uprobe[.s]/<path>:<function>[+<offset>]``.
-> +.. [#upmul] The ``uprobe.multi`` attach format is ``uprobe.multi[.s]/<path>:<function-pattern>``
-> +            where ``function-pattern`` supports ``*`` and ``?`` wildcards.
->  .. [#usdt] The ``usdt`` attach format is ``usdt/<path>:<provider>:<name>``.
->  .. [#kpmulti] The ``kprobe.multi`` attach format is ``kprobe.multi/<pattern>`` where ``pattern``
->                supports ``*`` and ``?`` wildcards. Valid characters for pattern are
-> -- 
-> 2.51.1
+> Defaults for shmem and tmpfs were not changed. They are remained the
+> same as before: 'never' for both cases. Options 'deny' and 'force' are
+> omitted intentionally since these are special values and supposed to be
+> used for emergencies or testing and are not expected to be permanent
+> ones.
 > 
+> Primary motivation for adding config option is to enable policy
+> enforcement at build time. In large-scale production environments
+> (Meta's for example), the kernel configuration is often maintained
+> centrally close to the kernel code itself and owned by the kernel
+> engineers, while boot parameters are managed independently (e.g.  by
+> provisioning systems).  In such setups, the kernel build defines the
+> supported and expected behavior in a single place, but there is no
+> reliable or uniform control over the kernel command line options.
+> 
+> A build-time default allows kernel integrators to enforce a predictable
+> hugepage policy for shmem/tmpfs on a base layer, ensuring reproducible
+> behavior and avoiding configuration drift caused by possible boot-time
+> differences.
+> 
+> In short, primary benefit is mostly operational: it provides a way to
+> codify preferred policy in the kernel configuration, which is versioned,
+> reviewed, and tested as part of the kernel build process, rather than
+> depending on potentially variable boot parameters.
+> 
+> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+Acked-by: Kiryl Shutsemau <kas@kernel.org>
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
