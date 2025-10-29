@@ -1,68 +1,68 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD04825784A
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A7D28488F
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761769924; cv=none; b=Wn4w9PoDsZ1Bj7DXhH2z2YG0F52K2uQq8QeyX1L1PZUeUzAOUAsxO9f3j33hznbAjzzOasNgezY1zmiF59L4QK6Ek3NcINpun7wiYJ4ydG4jHE+OUg0tt/q1qBqNy2AdkCqOQcpV05phoVu7DiWEr73PE5Op92/lZDOR+tG5N+4=
+	t=1761770128; cv=none; b=jpK7SO8+qgF+Z27GA3w9iBD/oRwma5+WmC4qZHOjnRA0o3vrhqk6iG/r4dSlc4M4GfwfTP7M+ebUnrKOLTFyi+cys7A6aRfpJZEaoKrFftMlRC6sJDPCtDqO/0hMLiultapnJMNnk8hfais++jLWyiI6UYKg9rFkAZ2PRRN6iy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761769924; c=relaxed/simple;
-	bh=YaHtD09W7I9VYtLMrk7MCUuLeIYkfwLpiWs2SkdvK4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r7fGq1p7FPljtclh/oCY8zTo3Cgq3DuIq5zFN4Ops+l27hf0yyVpX1gk76GpgbQhSUE8OfBp9izBZ1C+4dlYopgNf0jyR2RqfGOPXGuD0m7wT9nLA5/NGXVngAl7Un68geTQiDnvgnGOUNngFGy0/OwI/Fl/mq4ZZ8Fok9sUlvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/AdxRXv; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761770128; c=relaxed/simple;
+	bh=wsMNZX+2GZRGbbk6YsF3frBWG4zz+dND7kWKgOXmqkQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fmp1whyORMFVayQ0bwzjNWTDVLGAfi8z8S7F1Gb9OcFkk/MHqpiitbW6WB9yfvG238fRbKlCwKZHDtXoovt4I7kNWx94sD7WjgIYE5aDAWYQq1sR9L3PX6XQr7A6I2Id17sAporEodoO9ZAlblyHKfjTi9sBN03snmnQwlXpD30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MkDQyBi0; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/AdxRXv"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a28226dd13so319435b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MkDQyBi0"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-475dbb524e4so1640865e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761769922; x=1762374722; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=wOfwJ8bWKZa4YFr/NutNmAuLp8W/TU0LOxvVKX01rbE=;
-        b=B/AdxRXv4tvXaGrZCx2HDA7LoS/HfSQtXSp5WH7mpZk+Qp3ad5gvG05Etwat/kMHdX
-         /JmVBoRU1awUG8YotIQAKXj3bgM5C0jsr+00uQrVuH79cvPxFyj8NG7BzqjPgp1x085n
-         8zCu/zAD4MZxA2T8Qxy5c09uYLtCvkZhY2P10ppl077sd3M5jXUiOxxjC8+DHPHyqX4i
-         Zll3fXqT45GuUT82JFbZbBCBjVYp6vaLFc+HBrB/9nQB3yxpmOXXBimyNKN89Syfp3ht
-         zg3qcURgmHlbUPagoxGPLxCW4+c7OqUDeXW2WK4Lz6pjiH0hM1MfI54ivee/Xuwa136r
-         oXWA==
+        d=linaro.org; s=google; t=1761770125; x=1762374925; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5bMBjt+VM1Vp3nKTpZq9XQvYVyPrL/jZ53DiT5wADSM=;
+        b=MkDQyBi0dOHkokY+ysd/6VMyeRJ/fWT4YeKP8EBla+1Dl15n1vAbt8mPCzC6UEH0bl
+         8WSOhknPtSUrQHOesPrq9HawFU2b2MA68mz+tzlT/Sv8Z1L6sYMzpQUjNtL4ihdEb5jD
+         8u6RMTLx1bDrB2Q/o9hE0orPHG6CjMlLUhzJLRUztFWDcFNYnvwTYzYlBkmj/u0fW3UT
+         Ba6x5M0orshbnnILPQDWr7kqyQJnXIXpthS0MlA2aJAEjNpxP1b28Z9O5dt892TcGxae
+         fXneJFfJl957YyrtKV6guyyTxcgHTh6aZP68zgdTtKRyOI2VYSdwmHVQJwCL5D6DL/Wk
+         TsxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761769922; x=1762374722;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wOfwJ8bWKZa4YFr/NutNmAuLp8W/TU0LOxvVKX01rbE=;
-        b=bI2Wz+xhJqJyaFnoh4352Ch6GCqGZfllluPAvtO29TITHwKYAi/f+hJFrzcjYDTK2o
-         zEkjFUn4PYEE4XRMNR2QpqJDdP8JZvRYNSxkiYQb5Xa42LVLTsMEIrtesJuO1Z5rclE1
-         p+GaVSmCC0tbzVVbZASVLJT1hq3aMJ7iUqKVjTbyBVrtS9JiBAcG3PDkr6y5GBPnp7hw
-         iBBHNysjB+lkyREif+EZ08q2ZR2ChO4kgxyqpKMb4X6VQiklMG+r2lLsg43gTmzg2X5W
-         vAxkrZA1YonkNM578dgJvtlyxzglcy9rHL7XpT+887CxO6Mpz/2/1rnbXNdtFeISf03u
-         KkSA==
-X-Forwarded-Encrypted: i=1; AJvYcCVo/vOvt1nJcmPaVZHD/kSWhR/+W0LdP5WHtiQ3uYKC36crBtcht1MmJbHo+yL7oQDQF0m2kr3GsfY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHMZLsPZ6hmZxA2kXPoKE11lrnVUM4VCaoFQfvE4mvrLZKWy6T
-	or76E1EVAuRooiE25KfUL/g7Rqgc7PoIbp4g/spL0wZXTmh+8mfIDpzr
-X-Gm-Gg: ASbGnctcdob7PWKO/ulMaoAXs+oQlFz+RHXtgphYDkqtMHNQz348+6Aw0ZgekyohS/8
-	kUabTi6FQ/422fvvhWHMNCkn8by8st9pa2E7zF30V5FHp2fInwn0z4nbWOkdQ7uIz22/wGW3Be9
-	l7eJpjTNL6rH1Q3ebjr4DwL97tJkT2oR47Q8uAw+7OMfhWvSElw7jt28IcRbNK4RNR+Yk1saPyM
-	+0bzSOxyS/PrpePS8C+py7W4phHZ+mKrZ0Cry2qsYxIZVIc+oyzjH4mJMKVR19XaojmJK3YNjgw
-	UDFOPb7O/pZRne03QAbpTEdCHIBHe8qB/KttlF7biLQNTlm2A6ZpUbVpRumm3sYNPI2PTv9EF8y
-	xKitlM0+vJbbHbkmjH22+IdyOfjzaOQTQ/T2BylLI5jfJcpIV8J+/HXtZtUshaesqImaOrm+Tko
-	bPGV2NtTVi9TAVolWWZ5lryr653yd/ZvfKvSfqe3wU3SIcAVj7
-X-Google-Smtp-Source: AGHT+IFpShubPNxGrw+11hp3PVUyV7xz2+3u2+DGXZIeSF8hccmhTEB6eMksfzjbjPtC3NenMVVflg==
-X-Received: by 2002:a05:6a21:3288:b0:341:e79b:9495 with SMTP id adf61e73a8af0-3478768fb4cmr1044825637.54.1761769922069;
-        Wed, 29 Oct 2025 13:32:02 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414069164sm16398977b3a.45.2025.10.29.13.32.00
+        d=1e100.net; s=20230601; t=1761770125; x=1762374925;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5bMBjt+VM1Vp3nKTpZq9XQvYVyPrL/jZ53DiT5wADSM=;
+        b=jybUrFKtg76NvLIXDwzSpFemi/RGwZypRToVGgfsk7SkGpqwmTSJngkjZWuFBXUdYa
+         8xGPmRPToQB+H5ux7Mf/xMyHY8z+bveV9tSVkwtCBRhrKYoUlzutfoa8p8r9mJEaaqEV
+         EKGhduIaZkaDyEPLb+IJDYJQetZlDKaTNYTZwdlOV27VASos/AhnF1+iavapei8aiWlC
+         4sJruh3oN916oH1Gr5dUNfmQ89XOBztII1QExdmQwY3XRBTex0rXDbzGIOcPu9eCo6sZ
+         i28s1F+JHEcNRfTPNSK+ysf7MCoFrtebi8bl7hR0sNQE4+dJcQvXWKW1mel1njo8inDC
+         R9Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5BxNvGRG/WT5v3Xi4ZBYhzUewhVNp+4CC1rY33VVCis1U2+jmBHbs+BZxrthKZC9UsrE4BtcK2TE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjpZ4B/2vXm4NIVPf9O/wjqddxX4j8ruyLa8hrzAG/Ey1FfYok
+	ecRDgyFnTCtFFLaiEpqFoHxQ2nplhB6L0xi0GZMYeW+lmU2jvijPwwQSndNyU6b+bCQ=
+X-Gm-Gg: ASbGncv2UR5CmJIo7tmp8ZfBXvZM/g49WmJn2s9JJnQrRDfA0iCOj0lJZSESQpHTbMx
+	2rqKFIRhj6MnWpvIhgY9g++BbLzLP9RNGP2jZohXMiCSBHzZJJ/vbrXmGErciRrtu47l3JNsE0D
+	WNF3WyZ7nQgZMpvgX+3+vZe+EPCXVA6iH6+TLbENrHX1Vs9zhRzAGwd/uHyGTfbOuWhd76AwVer
+	hzRtD+Zkxdf2mmBeG3/roEEtdSXSO+Ge/8v9o5yrWoTAfxYPVRxVLzU03NcpVUCMEsmGdrcYZHX
+	yO7ovUtYU9pnogWDb0loTn519s4DNLTqyWflcSb/bfShkjVk3gsXuvtugi5XG/XgKWlZ7ftGzsC
+	XJja/jm2LRERsDpBgNvGnZjU8ipZQr77SQ/jCiTP1U108gUd0bxDNsJs+Ev7t/prhs5lTk8ai9n
+	w77pUcGSvyHe8eSYgWCJOQnsLA96KDiNFWCX/2pNc9YzLxaTDpJg==
+X-Google-Smtp-Source: AGHT+IF6uIhMMwm7yKC3UlQSKCBgpIpqEhODgFU8Ll4WjBwNbuDD7B8WtcIHm/9PH6IkoIdOjhDvSg==
+X-Received: by 2002:a05:600c:190f:b0:477:1bb6:17de with SMTP id 5b1f17b1804b1-4771e1e1154mr37420475e9.30.1761770124813;
+        Wed, 29 Oct 2025 13:35:24 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0? ([2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477289adc18sm2128255e9.6.2025.10.29.13.35.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 13:32:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <049ec6bc-d869-4f93-891a-13a0640f882e@roeck-us.net>
-Date: Wed, 29 Oct 2025 13:32:00 -0700
+        Wed, 29 Oct 2025 13:35:24 -0700 (PDT)
+Message-ID: <ecb7d7de-d674-49d2-b373-39041b363167@linaro.org>
+Date: Wed, 29 Oct 2025 21:35:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,74 +70,126 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: temperature: add support for EMC1812
-To: Marius Cristea <marius.cristea@microchip.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com>
- <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
+From: neil.armstrong@linaro.org
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/4] drm/panel/lpm102a188a: Switch to
+ mipi_dsi_generic_write_seq_multi()
+To: rtapadia730@gmail.com, maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, jessica.zhang@oss.qualcomm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net
+References: <20250921183720.237761-2-rtapadia730@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250921183720.237761-2-rtapadia730@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/29/25 08:50, Marius Cristea wrote:
-> This is the hwmon driver for Microchip EMC1812/13/14/15/33
-> Multichannel Low-Voltage Remote Diode Sensor Family.
+On 9/21/25 20:37, rtapadia730@gmail.com wrote:
+> From: Rajeev Tapadia <rtapadia730@gmail.com>
 > 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+> Replace deprecated mipi_dsi_generic_write_seq() calls with
+> mipi_dsi_generic_write_seq_multi(). This avoids hidden early returns
+> and matches the direction of other panel drivers.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Rajeev Tapadia <rtapadia730@gmail.com>
 > ---
-...
-> +			convrate = find_closest_descending(interval, emc1812_conv_time,
-> +							   ARRAY_SIZE(emc1812_conv_time));
+> 
+> Question for reviewers:
+> In this patch, I switched to using mipi_dsi_generic_write_seq_multi().
+> Currently, if both link1 and link2 return errors, only one error is
+> reported via accum_err. How should this ideally be handled? Should we
+> report the first error, the last, or combine them somehow?
 
-This needs to include linux/util_macros.h.
+No it's fine, the first error is catched and reported.
 
-Guenter
+The good way to do this is via this macro:
+
+#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq...)	\
+		do {								\
+			dsi_ctx.dsi = dsi0;					\
+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
+			dsi_ctx.dsi = dsi1;					\
+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
+		} while (0)
+
+with a single context. The mipi_dsi_dcs_write_seq_multi will print the
+error from the proper DSI and the context will have the appropriate error.
+
+Neil
+
+> 
+>   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> index 5f897e143758..982cb61849a0 100644
+> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+> @@ -162,27 +162,34 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+>   static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+>   {
+>   	/* Clear the manufacturer command access protection */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
+> +	struct mipi_dsi_multi_context dsi_ctx1 = {.dsi = jdi->link1};
+> +	struct mipi_dsi_multi_context dsi_ctx2 = {.dsi = jdi->link2};
+> +
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_CMD_ACS_PROT,
+>   				   MCS_CMD_ACS_PROT_OFF);
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_CMD_ACS_PROT,
+>   				   MCS_CMD_ACS_PROT_OFF);
+>   	/*
+>   	 * Change the VGH/VGL divide rations to move the noise generated by the
+>   	 * TCONN. This should hopefully avoid interaction with the backlight
+>   	 * controller.
+>   	 */
+> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_PWR_CTRL_FUNC,
+>   				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+>   				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+>   				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+>   				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+>   
+> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_PWR_CTRL_FUNC,
+>   				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+>   				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+>   				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+>   				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+>   
+> +	if (dsi_ctx1.accum_err < 0)
+> +		return dsi_ctx1.accum_err;
+> +	if (dsi_ctx2.accum_err < 0)
+> +		return dsi_ctx2.accum_err;
+>   	return 0;
+>   }
+>   
 
