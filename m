@@ -1,42 +1,42 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C18734405F
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 14:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9289533F36B
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761748658; cv=none; b=nqJnycdCCYuNopMY6K98ceivdBecKSF+f3ZIYku2xL1KOPsUKmegXJq9hudToIPmQMjCmQ7rttSqp6NFpYYKBKq5T6KURxVBULa9hVwIYcP5Pc2MWy/rkJkVWoZq1jdKrVFBg2cT0i+CjN3ofo0JeJjVaxlw2XNJnIUy4HVMqis=
+	t=1761748658; cv=none; b=aRefictTczPCjXynBYu7InlmhqxZoCtvMfE8iyZyQx7BoXs7p5JKMUZ6KxUSJxxYZ3BfW+y2YALKnods31K2p9T4ILkD9rkDknme0jzj/dsdp/dkcbLW6eg0A5BEZoxHZO2Bly5v7yeY1tyyrrU4Ipxhm1KH4pdUYn3Och1Jcgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761748658; c=relaxed/simple;
-	bh=v5g2/tFW6cJCpWfZKG7ctdaqLbdAUNKogwWbJ6drI8c=;
+	bh=to6N0s2e3g5+ds9m2twnzI2TlMbRSBVJUFTnMgjwSAk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X+CFsvtP+vmOzf/cxvjplrItTwen4/WAG/Y0bGnlOVkL2lothvk+1T1+B2QRneb89/EatuYAzQF+QSNUIFVgMDDT8Yl/TQU5vfCpDiqzwJ8WCxhryK9ZSIAlOstGU3ky1JCHH7eEaKrGNJxvzKdRMzZQW+nrlIUC2OXbMYfMqJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=vKxLiLBT; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=tYUGkWvIdxhZA1Z9Uh+UyHkcz4ZHcz3hxKbtKSTREk7lrW2TpYtSlchOg7KspcE7CwjhBwM+dJqoSI7Dot2M09Ykygy/ADCxZwd+0naVViQGYJO6XrjBofz9TvZ9L7sj2txl6ijomXj477fIh5Uu422n6qEnHzq7pbMV7rFEUg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YYs0fpiH; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="vKxLiLBT"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YYs0fpiH"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1F36A4E413CB;
-	Wed, 29 Oct 2025 14:37:35 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 244C71A1749;
+	Wed, 29 Oct 2025 14:37:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E6AF6606E8;
-	Wed, 29 Oct 2025 14:37:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 589D2117F81AD;
-	Wed, 29 Oct 2025 15:37:32 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E7ABE606E8;
+	Wed, 29 Oct 2025 14:37:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AE360117F81BC;
+	Wed, 29 Oct 2025 15:37:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761748653; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761748650; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=/SkxqVl9RtXMg923ohzK0NptHaF/IbRJVg/+pganUWk=;
-	b=vKxLiLBTDpT4RKqodVQ4a78yF/qqPUewJUpslNDs4poq70V98QUpsjSAkFEtBRBHDaUy3q
-	ewYRzHHuydKbwo+aaL+4uW6HW40oo8ZULcAlacslayabzg8JDlOX4/+p5Q2helOvEmFSkp
-	150E7/joSdHnQjbtSGt8AdZGS7vIIP6B7d9jzB/JqSUpCV3eTCzt741sjWNW1+N3GEh+Nx
-	mkxyyRP2gefh6eqoy1PgxfUlpK9fh5iYfr6oVbZXPHem7ApXJLfegh1u3zzk7JE9SmGF+8
-	70llBzV02nMeUePF2lWIbDGkaznMkebjipLcgPmb3HyCXH4OZzDn8x4G4eoBig==
+	bh=qMP9RjOBCxKmLcvhFceO5QO4aOVeU1xn/DHi3LCTl8E=;
+	b=YYs0fpiHf0fs7ydqy5kmfUNKL6SbfmHPvLpNRvE/haGYUO+zGzh8l3SBTCDNu1UdNhXvhQ
+	yZj/dnQLXSbkeo2iq8asZO5o02RG2Mc7sKCOrCfhgcUaAQfix8DulSiVeNeAulLVZUxncR
+	so1NDrw27qDfBBt0fJi+wICIhDvd0YWzRlUGdtV7KD6ns0bntZbzAJpdnn32aNwGEZuoIT
+	wgACNxEcFxnIEqauvtRsiJ7aaGvPExTa0eVTE3vq5sBkfTkxp3CnvJ7vWEMYunqKWi+3Jk
+	rBbKEyK7ETPbDkhr+jgLhwp6eGEb14QP5MOiVu5MmCanRKfypdRY+rXIKGK25g==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 29 Oct 2025 15:37:02 +0100
-Subject: [PATCH RESEND v2 25/32] drm/vkms: Introduce configfs for connector
- supported colorspace
+Date: Wed, 29 Oct 2025 15:37:00 +0100
+Subject: [PATCH RESEND v2 23/32] drm/connector: Export
+ drm_get_colorspace_name
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251029-vkms-all-config-v2-25-a49a2d4cba26@bootlin.com>
+Message-Id: <20251029-vkms-all-config-v2-23-a49a2d4cba26@bootlin.com>
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
 In-Reply-To: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -59,113 +59,44 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3130;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=667;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=v5g2/tFW6cJCpWfZKG7ctdaqLbdAUNKogwWbJ6drI8c=;
- b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBpAiZ9llCo3cwKhbwIJTOJ7zIhQm30UYi95QYFc
- PrxMDS7woiJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaQImfQAKCRAgrS7GWxAs
- 4vY7D/4ptjbqjdj8ahDVRRC+Nkadn/jegwez4uSUZiQsEiU3dRvJ95JejUXOOrHm/OTL/0sqEbS
- 47Ra6mFklunjoAz73I3ek+CeNu/0IVgZmYAfei19f17u2QgNnJAEkOCiln54OpsZflULJuSf2SF
- JZnAR8Xzav2yw7LkpwjFGkHyHe/CFSc48nQaZ2IJ1df22F49Tj1RBcmiQHeG57EZ9uFEpH0kyXw
- Gm5HM4BrEocYnlKczoqQjJVhLezqgtJyF28GeFNVoe0Opou7iTUkcFopQvtJlmyYZSMI4/vuFzU
- sOCeQ8jvrjNE+F9PcV18WhF2f2ILEnccGCtzeUBmuWz3CPR/nSrquad+tZTLdDfCwr+0PusNeB1
- OiCeYPKRdY4Jid7CePxMLyTQapBcU5R+9RUP7s5t9/4vLv7UAir3QvdZU0s+anP3is1hlRBKYYD
- oEGa8bVl2esZE2KmOBjUDllJYp7QCmOqjp5mVw1YPBISVTYKt1n2rHOeSlKSp2LdK4/++JPE9v0
- jJ7IKbSOzlMjPBrmjndVDDsnyf5h3HiCWOGhWbbzOqTsvlK3BuLZtjDCs8u/8kprjDxynVgcr80
- /QR1M4yALXWEDPecJzD8agRU9d3SYwejzflJ/NIhNCV9uZc6rE+AuxNAaKagrgnSIf19v5GvJuW
- tk3ayAePm3HMCMA==
+ bh=to6N0s2e3g5+ds9m2twnzI2TlMbRSBVJUFTnMgjwSAk=;
+ b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBpAiZ99VG0sq963pKAN/9rZyxrEpZ1HuS6Bjqq7
+ vTw/WkbqvWJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaQImfQAKCRAgrS7GWxAs
+ 4usDD/4lz/L5M0Z11LFKAa+ecCStJHmBTSXr3fkw+0M3wT8tajZNhzOEJxV28NDj34vjzd/XHtb
+ BruJ08GRAj/0kONl2IqvhCtZJr55kOmEHub+2i/GMK5JQ6a0l7IlqaWF0YG4yDs0d4iPchzE/I5
+ uUKaWhf5nGAKs47A50Dy1tU072KMxDRkXmNnTjo24ckL73bPIwjK9szIRyw/su5moWdhrdjZ1Ho
+ 2eWvDxpvZFEJqqVncANoM2MF3hq4ruzzKL7fWAcrySXAk0cUk11UCEltckaEUv7VFRushmHRru+
+ QgXrtWfbvJWT2Jrt+uYUaDzZ9x5rilyc1uKK/YYKMfeQ/oTPIL5hjXgG8/dp+preeUHDv+LyyYB
+ 3od25wGs3m4QpNrltnzzvP2lzP+Qbov6xGQpmWvqLxvUUC3F0IKkln8m5VWv2LS/XMoDA2eR06t
+ y7AOEWLkMWTqQdmSuZ2SFxRffcxdfisggka31b9wb8pazpx0OkoCiXnoK83y5rzrQSQcvcXx07Y
+ IhuhO23wVdN3fW4mjxerjnzP81YObodTj7C4niqTALTU4prZIXX0HFfC8KDOXCLMedbI09Yr6Ri
+ mIILjkfeYugaZnyj5tieM1j8BISyGbNdvQGfheROimFuUQWJSP3Aob6tuNSsMN76MwSsUu5OTtX
+ 63pZ35zomKqZDgg==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add the attribute supported_colorspaces to configure the supported
-colorspace of a connector. It will allows emulating some HDR features of
-displays. This feature is only supported for HDMI, DP and eDP connectors.
+Export drm_get_colorspace_name so it could be used by VKMS
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst           |  7 ++++++-
- drivers/gpu/drm/vkms/vkms_configfs.c | 39 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_connector.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 99c5cf3dbd78..c762cadac6f4 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -138,11 +138,16 @@ Last but not least, create one or more connectors::
- 
-   sudo mkdir /config/vkms/my-vkms/connectors/connector0
- 
--Connectors have 2 configurable attribute:
-+Connectors have 3 configurable attribute:
- 
- - status: Connection status: 1 connected, 2 disconnected, 3 unknown (same values
-   as those exposed by the "status" property of a connector)
- - type: Type of connector. Same values as exposed by the "type" field in drm_connector.
-+- supported_colorspaces: Supported colorspaces values for HDMI, DP and eDP connectors.
-+  If supported_colorspaces is not 0, the HDR_OUTPUT_METADATA will also be created.
-+  Value is a bitfield, 0x1 = NO_DATA, 0x2 = SMPTE_170M_YCC... see enum drm_colorspace
-+  for full list.
-+
- 
- To finish the configuration, link the different pipeline items::
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index b03e9af569b6..a7f4589403ce 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -1223,12 +1223,51 @@ static ssize_t connector_type_store(struct config_item *item,
- 	return count;
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 272d6254ea47..5b777fb75b05 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1362,6 +1362,7 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
+ 	else
+ 		return "(null)";
  }
++EXPORT_SYMBOL(drm_get_colorspace_name);
  
-+static ssize_t connector_supported_colorspaces_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	int type;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		type = vkms_config_connector_get_supported_colorspaces(connector->config);
-+
-+	return sprintf(page, "%u", type);
-+}
-+
-+static ssize_t connector_supported_colorspaces_store(struct config_item *item,
-+						     const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	int val, ret;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if ((val & -BIT(DRM_MODE_COLORIMETRY_COUNT)) != 0)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		if (connector->dev->enabled)
-+			return -EBUSY;
-+		vkms_config_connector_set_supported_colorspaces(connector->config, val);
-+	}
-+
-+	return count;
-+}
-+
- CONFIGFS_ATTR(connector_, status);
- CONFIGFS_ATTR(connector_, type);
-+CONFIGFS_ATTR(connector_, supported_colorspaces);
- 
- static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_status,
- 	&connector_attr_type,
-+	&connector_attr_supported_colorspaces,
- 	NULL,
- };
- 
+ static const u32 hdmi_colorspaces =
+ 	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
 
 -- 
 2.51.0
