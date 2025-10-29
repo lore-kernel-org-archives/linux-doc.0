@@ -1,195 +1,177 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A7D28488F
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F024F2773F0;
+	Wed, 29 Oct 2025 20:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761770128; cv=none; b=jpK7SO8+qgF+Z27GA3w9iBD/oRwma5+WmC4qZHOjnRA0o3vrhqk6iG/r4dSlc4M4GfwfTP7M+ebUnrKOLTFyi+cys7A6aRfpJZEaoKrFftMlRC6sJDPCtDqO/0hMLiultapnJMNnk8hfais++jLWyiI6UYKg9rFkAZ2PRRN6iy4=
+	t=1761770238; cv=none; b=HmsyDxRkuQsdAUmQod9gGK6GzejumHTAgx4DX7cX7D4KI7nUjAjoZYXyztaLDalMujEEVPG2whan6zwhuXLX57wNpKpfa1BGI/H3en7iDknh08Wzjm/xGrBIk5o9yZcMk1q30GmBS9h2uPD30ak79ZaK3XpYDIqxnYIJARapjOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761770128; c=relaxed/simple;
-	bh=wsMNZX+2GZRGbbk6YsF3frBWG4zz+dND7kWKgOXmqkQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fmp1whyORMFVayQ0bwzjNWTDVLGAfi8z8S7F1Gb9OcFkk/MHqpiitbW6WB9yfvG238fRbKlCwKZHDtXoovt4I7kNWx94sD7WjgIYE5aDAWYQq1sR9L3PX6XQr7A6I2Id17sAporEodoO9ZAlblyHKfjTi9sBN03snmnQwlXpD30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MkDQyBi0; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761770238; c=relaxed/simple;
+	bh=IpX/Efp/7aa50ROsEckRQKklVIBMT4CdHzNQdUOYZSM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=n9k6SuxD6RwO+4n4JYxRIg46q7d2Dl79ZugxQfUGMqODdkmRpIECV+cu+zFC2Bn4D+cB8R75WeAHJSVaRDhdt6vch3ftZ1oAmsNoly0jvTLDkzKQTCveBZtDP4xwJPV0CxwOCc8PSdkX3xWp/kLs6i5gv8ZycbaFF5cUY1pV9Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n09xHDXm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MkDQyBi0"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-475dbb524e4so1640865e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761770125; x=1762374925; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5bMBjt+VM1Vp3nKTpZq9XQvYVyPrL/jZ53DiT5wADSM=;
-        b=MkDQyBi0dOHkokY+ysd/6VMyeRJ/fWT4YeKP8EBla+1Dl15n1vAbt8mPCzC6UEH0bl
-         8WSOhknPtSUrQHOesPrq9HawFU2b2MA68mz+tzlT/Sv8Z1L6sYMzpQUjNtL4ihdEb5jD
-         8u6RMTLx1bDrB2Q/o9hE0orPHG6CjMlLUhzJLRUztFWDcFNYnvwTYzYlBkmj/u0fW3UT
-         Ba6x5M0orshbnnILPQDWr7kqyQJnXIXpthS0MlA2aJAEjNpxP1b28Z9O5dt892TcGxae
-         fXneJFfJl957YyrtKV6guyyTxcgHTh6aZP68zgdTtKRyOI2VYSdwmHVQJwCL5D6DL/Wk
-         TsxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761770125; x=1762374925;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5bMBjt+VM1Vp3nKTpZq9XQvYVyPrL/jZ53DiT5wADSM=;
-        b=jybUrFKtg76NvLIXDwzSpFemi/RGwZypRToVGgfsk7SkGpqwmTSJngkjZWuFBXUdYa
-         8xGPmRPToQB+H5ux7Mf/xMyHY8z+bveV9tSVkwtCBRhrKYoUlzutfoa8p8r9mJEaaqEV
-         EKGhduIaZkaDyEPLb+IJDYJQetZlDKaTNYTZwdlOV27VASos/AhnF1+iavapei8aiWlC
-         4sJruh3oN916oH1Gr5dUNfmQ89XOBztII1QExdmQwY3XRBTex0rXDbzGIOcPu9eCo6sZ
-         i28s1F+JHEcNRfTPNSK+ysf7MCoFrtebi8bl7hR0sNQE4+dJcQvXWKW1mel1njo8inDC
-         R9Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5BxNvGRG/WT5v3Xi4ZBYhzUewhVNp+4CC1rY33VVCis1U2+jmBHbs+BZxrthKZC9UsrE4BtcK2TE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjpZ4B/2vXm4NIVPf9O/wjqddxX4j8ruyLa8hrzAG/Ey1FfYok
-	ecRDgyFnTCtFFLaiEpqFoHxQ2nplhB6L0xi0GZMYeW+lmU2jvijPwwQSndNyU6b+bCQ=
-X-Gm-Gg: ASbGncv2UR5CmJIo7tmp8ZfBXvZM/g49WmJn2s9JJnQrRDfA0iCOj0lJZSESQpHTbMx
-	2rqKFIRhj6MnWpvIhgY9g++BbLzLP9RNGP2jZohXMiCSBHzZJJ/vbrXmGErciRrtu47l3JNsE0D
-	WNF3WyZ7nQgZMpvgX+3+vZe+EPCXVA6iH6+TLbENrHX1Vs9zhRzAGwd/uHyGTfbOuWhd76AwVer
-	hzRtD+Zkxdf2mmBeG3/roEEtdSXSO+Ge/8v9o5yrWoTAfxYPVRxVLzU03NcpVUCMEsmGdrcYZHX
-	yO7ovUtYU9pnogWDb0loTn519s4DNLTqyWflcSb/bfShkjVk3gsXuvtugi5XG/XgKWlZ7ftGzsC
-	XJja/jm2LRERsDpBgNvGnZjU8ipZQr77SQ/jCiTP1U108gUd0bxDNsJs+Ev7t/prhs5lTk8ai9n
-	w77pUcGSvyHe8eSYgWCJOQnsLA96KDiNFWCX/2pNc9YzLxaTDpJg==
-X-Google-Smtp-Source: AGHT+IF6uIhMMwm7yKC3UlQSKCBgpIpqEhODgFU8Ll4WjBwNbuDD7B8WtcIHm/9PH6IkoIdOjhDvSg==
-X-Received: by 2002:a05:600c:190f:b0:477:1bb6:17de with SMTP id 5b1f17b1804b1-4771e1e1154mr37420475e9.30.1761770124813;
-        Wed, 29 Oct 2025 13:35:24 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0? ([2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477289adc18sm2128255e9.6.2025.10.29.13.35.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 13:35:24 -0700 (PDT)
-Message-ID: <ecb7d7de-d674-49d2-b373-39041b363167@linaro.org>
-Date: Wed, 29 Oct 2025 21:35:23 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n09xHDXm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0922EC4CEF7;
+	Wed, 29 Oct 2025 20:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761770237;
+	bh=IpX/Efp/7aa50ROsEckRQKklVIBMT4CdHzNQdUOYZSM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=n09xHDXm0NQvt/2Ihe4zZw4wfbyxmW01sr5F8oIz0+NnVpvOvmas9ZSUBNZuoBGN8
+	 yEUJexJrt6G+WaI+v6LoH9gHjUpBA5BgORDfuZmGBbK3TrpvucNv6D2Vzm5utrHI4q
+	 pBUL8cT3REaEsOervShr6BCXoflf/q4Zf7hRGKWQfXn9qeY6JQuwrG/JnTCqUmOgc5
+	 hT3dN0/xAkSwkHPBtLgg673vpsvLCHWXvgFnnNtDwNVoukqqWeY37QF3Bn8d4S9NOe
+	 mYI5z05LwzeakeUjJcmVfE5NKNLhG1ADoKaEcjy+z5rYJLGUcRLtFsViiwUYIno+Xw
+	 B2KC49VWJpNWw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
+  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
+ preservation and state management
+In-Reply-To: <20250929010321.3462457-15-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Mon, 29 Sep 2025 01:03:05 +0000")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<20250929010321.3462457-15-pasha.tatashin@soleen.com>
+Date: Wed, 29 Oct 2025 21:37:06 +0100
+Message-ID: <mafs0pla5cuml.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/4] drm/panel/lpm102a188a: Switch to
- mipi_dsi_generic_write_seq_multi()
-To: rtapadia730@gmail.com, maarten.lankhorst@linux.intel.com
-Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, jessica.zhang@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net
-References: <20250921183720.237761-2-rtapadia730@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250921183720.237761-2-rtapadia730@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 9/21/25 20:37, rtapadia730@gmail.com wrote:
-> From: Rajeev Tapadia <rtapadia730@gmail.com>
-> 
-> Replace deprecated mipi_dsi_generic_write_seq() calls with
-> mipi_dsi_generic_write_seq_multi(). This avoids hidden early returns
-> and matches the direction of other panel drivers.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Rajeev Tapadia <rtapadia730@gmail.com>
+Hi Pasha,
+
+On Mon, Sep 29 2025, Pasha Tatashin wrote:
+
+> Introducing the userspace interface and internal logic required to
+> manage the lifecycle of file descriptors within a session. Previously, a
+> session was merely a container; this change makes it a functional
+> management unit.
+>
+> The following capabilities are added:
+>
+> A new set of ioctl commands are added, which operate on the file
+> descriptor returned by CREATE_SESSION. This allows userspace to:
+> - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
+>   to be preserved across the live update.
+> - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
+>   descriptor from the session.
+> - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
+>   new kernel using its unique token.
+>
+> A state machine for each individual session, distinct from the global
+> LUO state. This enables more granular control, allowing userspace to
+> prepare or freeze specific sessions independently. This is managed via:
+> - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
+>   CANCEL, or FINISH events to a single session.
+> - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
+>   of a single session.
+>
+> The global subsystem callbacks (luo_session_prepare, luo_session_freeze)
+> are updated to iterate through all existing sessions. They now trigger
+> the appropriate per-session state transitions for any sessions that
+> haven't already been transitioned individually by userspace.
+>
+> The session's .release handler is enhanced to be state-aware. When a
+> session's file descriptor is closed, it now correctly cancels or
+> finishes the session based on its current state before freeing all
+> associated file resources, preventing resource leaks.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
-> 
-> Question for reviewers:
-> In this patch, I switched to using mipi_dsi_generic_write_seq_multi().
-> Currently, if both link1 and link2 return errors, only one error is
-> reported via accum_err. How should this ideally be handled? Should we
-> report the first error, the last, or combine them somehow?
-
-No it's fine, the first error is catched and reported.
-
-The good way to do this is via this macro:
-
-#define mipi_dsi_dual_dcs_write_seq_multi(dsi_ctx, dsi0, dsi1, cmd, seq...)	\
-		do {								\
-			dsi_ctx.dsi = dsi0;					\
-			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
-			dsi_ctx.dsi = dsi1;					\
-			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, cmd, seq);	\
-		} while (0)
-
-with a single context. The mipi_dsi_dcs_write_seq_multi will print the
-error from the proper DSI and the context will have the appropriate error.
-
-Neil
-
-> 
->   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 15 +++++++++++----
->   1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> index 5f897e143758..982cb61849a0 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -162,27 +162,34 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
->   static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
->   {
->   	/* Clear the manufacturer command access protection */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> +	struct mipi_dsi_multi_context dsi_ctx1 = {.dsi = jdi->link1};
-> +	struct mipi_dsi_multi_context dsi_ctx2 = {.dsi = jdi->link2};
+[...]
+> +static int luo_session_restore_fd(struct luo_session *session,
+> +				  struct luo_ucmd *ucmd)
+> +{
+> +	struct liveupdate_session_restore_fd *argp = ucmd->cmd;
+> +	struct file *file;
+> +	int ret;
 > +
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_CMD_ACS_PROT,
->   				   MCS_CMD_ACS_PROT_OFF);
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_CMD_ACS_PROT,
->   				   MCS_CMD_ACS_PROT_OFF);
->   	/*
->   	 * Change the VGH/VGL divide rations to move the noise generated by the
->   	 * TCONN. This should hopefully avoid interaction with the backlight
->   	 * controller.
->   	 */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_PWR_CTRL_FUNC,
->   				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
->   				   MCS_PWR_CTRL_PARAM1_DEFAULT,
->   				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
->   				   MCS_PWR_CTRL_PARAM2_DEFAULT);
->   
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_PWR_CTRL_FUNC,
->   				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
->   				   MCS_PWR_CTRL_PARAM1_DEFAULT,
->   				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
->   				   MCS_PWR_CTRL_PARAM2_DEFAULT);
->   
-> +	if (dsi_ctx1.accum_err < 0)
-> +		return dsi_ctx1.accum_err;
-> +	if (dsi_ctx2.accum_err < 0)
-> +		return dsi_ctx2.accum_err;
->   	return 0;
->   }
->   
+> +	guard(rwsem_read)(&luo_state_rwsem);
+> +	if (!liveupdate_state_updated())
+> +		return -EBUSY;
+> +
+> +	argp->fd = get_unused_fd_flags(O_CLOEXEC);
+> +	if (argp->fd < 0)
+> +		return argp->fd;
+> +
+> +	guard(mutex)(&session->mutex);
+> +
+> +	/* Session might have already finished independatly from global state */
+> +	if (session->state != LIVEUPDATE_STATE_UPDATED)
+> +		return -EBUSY;
+> +
+> +	ret = luo_retrieve_file(session, argp->token, &file);
 
+The retrieve behaviour here causes some nastiness.
+
+When the session is deserialized by luo_session_deserialize(), all the
+files get added to the session's files_list. Now when a process
+retrieves the session after kexec and restores a file, the file
+handler's retrieve callback is invoked, deserializing and restoring the
+file. Once deserialization is done, the callback usually frees up the
+metadata. All this is fine.
+
+The problem is that the file stays on on the files_list. When the
+process closes the session FD, the unpreserve callback is invoked for
+all files.
+
+The unpreserve callback should undo what preserve did. That is, free up
+serialization data. After a file is restored post-kexec, the things to
+free up are different. For example, on a memfd, the folios won't be
+pinned anymore. So invoking unpreserve on a retrieved file doesn't work
+and causes UAF or other invalid behaviour.
+
+I think you should treat retrieve as a unpreserve as well, and remove
+the file from the session's list.
+
+Side note: I see that a lot of code in luo_file.c works with the session
+data structures directly. For example, luo_file_deserialize() adds the
+file to session->files_list. I think the code would be a lot cleaner and
+maintainable if the concerns were clearly separated.
+luo_file_deserialize() should focus on deserializing a file given a
+compatible and data, and all the dealing with the session's state should
+be done by luo_session_deserialize().
+
+luo_file_deserialize() is just an example, but I think the idea can be
+applied in more places.
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
