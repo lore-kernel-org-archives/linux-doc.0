@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9537264F96;
-	Wed, 29 Oct 2025 19:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340363596EB;
+	Wed, 29 Oct 2025 19:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761767163; cv=none; b=JWDzJJEycwRavx0srq0Ii5KOpp9K8bUhpi1wdAottE/rhaDzN6dlW1ihKD7UmQL+xUh3m02tgAdjaFBXVy6/QAK3RVyR7ikZ0G5Y9aZo4RsPViHZwZiid344HiKdbezUxm/Ik3Tkp3qrxSO9i+usXSOFFPI+bRlds1PE4Y3JFO8=
+	t=1761767425; cv=none; b=lq160BUIh/Od9M8cmFk+KFq0uwQn1lkmNawbLcue/W429MOX4TLm6uIHQcBWW4G3dhDQnu3u9vkfL/zpD5saAnLX4D1pLEb5T0McWsSkqjO58vkB8A/3kZtJk3hrXdf/lhUIwZngybpFqgfZu8+OWhWR+Y6PwYZ6PVsMD9O0+dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761767163; c=relaxed/simple;
-	bh=8ZESPlQtZcsBAgAmsnbAeE+zEGnT9bl/r8Ew2Z2G2v8=;
+	s=arc-20240116; t=1761767425; c=relaxed/simple;
+	bh=x2OAfwS5H+/pyr4WR+Khtf97dsVmyBOZ4UxVwpJdZjo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Onrsa2ghxxN1SQmzI74dy7h2SfcXV3vm5Jf2p7p+9bdc4xS8Mt2FkAxqHL6m18n6I5BQvk2C+iu36tM0dD6JXRrMiroQrep1aDI3l6CdPsMK7lbHyzj0EIofXD7+qPdZYMJjdsvWYkxkmOQBMJQ/9x+Iw1L/nqoRKt53B+INNiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GJGexf90; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=lgwpfCKlA51ewHVnqTVmsk1UFWfsG1+Zk91lKZN7CTh5/nmU1sx2QpbB/suqQcYvXHopnniD4WVRQ/d4TLjE8jeJlvyk9xwlwY6zuFTNfqMs0QMA5a7N46+dRm47+xwpxNHlDggNjVJmi9iFOS3KCz8/97EQBD9Fe7rKI+G2WN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IaH0WiB+; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GJGexf90"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IaH0WiB+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WlTdzwiNGenyxsQZTkiMPfopzh3sq++Vf+suBydGokU=; b=GJGexf90/W6Y2IqG/dx6WHeJEc
-	b9etHmb08lbn6zIVvLkvF1YVg5g6httyzqpn+Cz6IgM5UyYKTqetymqLQoIjPtLg3AEYejFsxqN1F
-	5sOD97DiFZLtcq7g0YqwJwg0K71+j/OOk3td1fWlo6uBXGODe2LxbRmADW6dkhaqRNaSGgxvDKuIY
-	M4/eHf/H/JWpyunn7Xzw0Oupqc7ge0FtInmzQNb5LVQxYHwM7hwgJdHtYSMtQUxcNvwqQcbp08F4v
-	Ksd/uu3+FaLto/i9sF17YytaApQSUP9BTDk6BG+6zgqIBHf4W8cIcs4W486HpWKE1/hwv+0zNNW/s
-	LbdNRhCA==;
+	bh=ywMRa9td/qLYvz0QLFt/dHlJeUkQz4iWrYlNlCayuSE=; b=IaH0WiB+Bb8bae/n25tIQisGQE
+	EwhH0nUvAY0WF68tV+bqAjeM5vt1+TFM+p9SWhDN7SSKHd71InQaX+spzoIsKsfRnYzLiPymBfv8b
+	G0YUSVRmmHR72tbVjz7S1JCp1h94cR+krcxjkfnjWvoj0qzTCwutfhbayHRtPzVCrp4DBQP6QMP7E
+	/5l7sL8Z4TbLmfGLBzrYSVUcbZopibwGw10l95Xv2hyvw2OljCjZDfVaA7JzI0kxcTG+eF758lStl
+	ZwIQstpTPU88RRMUCb5P0e0hsxC1roRLf9JTHYYZ9gSRvYXs7n8ZIZ62F6HWHDjILexzwXgNL7cbg
+	SLWmox1g==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEC7K-00000002eQm-3dWp;
-	Wed, 29 Oct 2025 19:45:58 +0000
-Message-ID: <94b517b7-ff20-463b-a748-12e080840985@infradead.org>
-Date: Wed, 29 Oct 2025 12:45:57 -0700
+	id 1vECBX-00000002fGY-0vOJ;
+	Wed, 29 Oct 2025 19:50:19 +0000
+Message-ID: <6c273611-e815-4a4a-822d-f6e55cec3810@infradead.org>
+Date: Wed, 29 Oct 2025 12:50:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,107 +39,50 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kdoc: fix duplicate section warning message
-To: Jacob Keller <jacob.e.keller@intel.com>, Jonathan Corbet
- <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
+Subject: Re: [PATCH 1/3] mm: introduce VM_MAYBE_GUARD and make visible for
+ guard regions
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Andrei Vagin <avagin@gmail.com>
+References: <cover.1761756437.git.lorenzo.stoakes@oracle.com>
+ <7de40603015dee82970f5d37332a6d5af7532063.1761756437.git.lorenzo.stoakes@oracle.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
+In-Reply-To: <7de40603015dee82970f5d37332a6d5af7532063.1761756437.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jacob,
 
-On 10/29/25 11:30 AM, Jacob Keller wrote:
-> The python version of the kernel-doc parser emits some strange warnings
-> with just a line number in certain cases:
-> 
-> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-> Warning: 174
-> Warning: 184
-> Warning: 190
-> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
-> 
-> I eventually tracked this down to the lone call of emit_msg() in the
-> KernelEntry class, which looks like:
-> 
->   self.emit_msg(self.new_start_line, f"duplicate section name '{name}'\n")
-> 
-> This looks like all the other emit_msg calls. Unfortunately, the definition
-> within the KernelEntry class takes only a message parameter and not a line
-> number. The intended message is passed as the warning!
-> 
-> Pass the filename to the KernelEntry class, and use this to build the log
-> message in the same way as the KernelDoc class does.
-> 
-> To avoid future errors, mark the warning parameter for both emit_msg
-> definitions as a keyword-only argument. This will prevent accidentally
-> passing a string as the warning parameter in the future.
-> 
-> Also fix the call in dump_section to avoid an unnecessary additional
-> newline.
-> 
-> Fixes: e3b42e94cf10 ("scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class")
-> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
-> ---
-> We recently discovered this while working on some netdev text
-> infrastructure. All of the duplicate section warnings are not being logged
-> properly, which was confusing the warning comparison logic we have for
-> testing patches in NIPA.
-> 
-> This appears to have been caused by the optimizations in:
-> https://lore.kernel.org/all/cover.1745564565.git.mchehab+huawei@kernel.org/
-> 
-> Before this fix:
-> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-> Warning: 174
-> Warning: 184
-> Warning: 190
-> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
-> 
-> After this fix:
-> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-> Warning: include/linux/virtio_config.h:174 duplicate section name 'Return'
-> Warning: include/linux/virtio_config.h:184 duplicate section name 'Return'
-> Warning: include/linux/virtio_config.h:190 duplicate section name 'Return'
-> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
-> ---
->  scripts/lib/kdoc/kdoc_parser.py | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
-> 
+On 10/29/25 9:50 AM, Lorenzo Stoakes wrote:
 
-> ---
-> base-commit: e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-> change-id: 20251029-jk-fix-kernel-doc-duplicate-return-warning-bd57ea39c628
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 4c3a7e09a159..a2c79ee43d68 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -1478,6 +1478,10 @@ vma_needs_copy(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma)
+>  	if (src_vma->anon_vma)
+>  		return true;
+>  
+> +	/* Guard regions have momdified page tables that require copying. */
 
-What is that base-commit? I don't have it.
-It doesn't apply to linux-next (I didn't check docs-next).
-It does apply cleanly to kernel v6.18-rc3.
+	                      modified
 
-and it does fix the Warning messages to be something useful. Thanks.
-
-We'll have to see if Mauro already has a fix for this. (I reported
-it a couple of weeks ago.)
-If not, then this will need to apply to docs-next AFAIK.
-
-And not a problem with this patch, but those Returns: lines for
-each callback function shouldn't be there as Returns:. This is a
-struct declaration, not a function (or macro) declaration/definition.
-
-Thanks.
+> +	if (src_vma->vm_flags & VM_MAYBE_GUARD)
+> +		return true;
+> +
+>  	/*
+>  	 * Don't copy ptes where a page fault will fill them correctly.  Fork
+>  	 * becomes much lighter when there are big shared or private readonly
 -- 
 ~Randy
 
