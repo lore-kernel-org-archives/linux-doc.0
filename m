@@ -1,139 +1,151 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA87B2EA470
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 02:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4094315F;
+	Wed, 29 Oct 2025 02:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761703934; cv=none; b=mNGzL+Hllbm/3bHxe+0YSciZLP5CJ5dZaCV2RHuL1c/acs33r7BdojRiFkrZFrzD1My40BhFyt65JUIyzo48SfaSuWHO37LHEaLD4K/EqPPBjAA/QlUvkueuXu6eGxpL4VK8rMCwaFxJnt+RjFimu/ZNR1GRxb10rJzIEd/WmtY=
+	t=1761705363; cv=none; b=Ez3nkgwqEWjHafKRN5eCWPkcvAQvkSjVwJCeyeOgrLamxvSkXujohyEpqv18ZZow2FrOwXAjgek5KYhF1bKfbYk0IAgaArHj2Qmk6HYzop9tep9QhBVKo8IDjEJUSgu9JZBPoRYlaftUr8LhBW+26efZjSQ2rTO1skorAwT1Iyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761703934; c=relaxed/simple;
-	bh=2u/Wk1NbGM/WLbKJV6fG6r7efUoHGK3ttrd2UF7emsc=;
+	s=arc-20240116; t=1761705363; c=relaxed/simple;
+	bh=LOllrG/Bx+zcYx1gHD6OWzs68YgnkIafwljzhqiLcAE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V5Anik/bupe2wJFi3tgWEhI6Tc1XK/8aSsF4X/0WDEJyJe7Etcsu7+UMoNPGqgq95JvietetxNpDRAoABr7+fOBrFukt3eoASIhOE9UNgvwcA7xM1tvtLw294MpWIcRlW5EwukAfQiZG2NfipryWhi/CZHKKVHI3lITmPaz1P/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICh07P37; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICh07P37"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a27ab05a2dso5786931b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Oct 2025 19:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761703932; x=1762308732; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N8CrrLgMZrC5k6N21+LS9cAyTSZpxUBjaCGZs29jiuA=;
-        b=ICh07P37XUywEIBx4LF33DW7w7roUo8ABJkqMP4eV9MLbVURRIjotTuaFnyh3emPeX
-         U9kz1WgFC4GvyTKZJspwM47HF8M2gwxF01ZVwsDLQ97ZaHgtapokE/gVbo7KyLQwQyAj
-         3He8nJqh+qokvB7wJitk1T8a+0fK5JOxXXkD4rbNACd03eT75mnKvzitsUuCbPWormxZ
-         ytcfqcV63Ulesi/60IXKSorpTijaUIJy384dmYiys5BjEp5TZJD3hZYHfATARMRjQ6Gq
-         bm7YSgWxUiNyNh2uAuVhWDQLqLe22io+BK9NVuLNLN+NrHsD6lNcZRCa4J8syGf4YMyB
-         WbFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761703932; x=1762308732;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N8CrrLgMZrC5k6N21+LS9cAyTSZpxUBjaCGZs29jiuA=;
-        b=tymNDJ0JRqfZ+fc9DuuhV34nK4EfVpmd2DZ4YbKpRimZGOmScmMyBa7ZylJJKwK0lG
-         7OsTJ/X6aHrmJmNdtZyh+vuJdevPrHjw/1ObyTIS15eXSrIpSCnmQL8inf5eeiWGwRO4
-         GY3yUHSZhl8FOQ+0HT2TC/KVwnHaVxauiM52xHZkQnQJ4dHG5ITb3KOgiAJ0FoompeFD
-         MXXfp1171Aw3aIiJMQNdZlYlndzs3A+Tvbih51pT4Ui70uUbjgCBtmlpc5eGjODS2Ou4
-         iA0KJvQ4+z78EfiGfBtUY0O+7oEfJYWL5imiTUXHfrcaoSBh/RDaagRmAJt6SZVfpY3v
-         bnig==
-X-Forwarded-Encrypted: i=1; AJvYcCUCAPPiebPQvdM5ixj6ZReHwJCs1S8gDzmjePl0fp1jAlj3wp4NQBSiXn9CMc05zFNmrOf/3ZuiAo8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws8M03XKfw86wN3AVtyKqs5BQR64sDQIxGPnFAYNDftA59QKx0
-	CLeVNclrZGZgIobofQdYb5p0xBoPNtnoPWiQATA4zkfHV4uVmxxoAsbo
-X-Gm-Gg: ASbGncty/pYBE/yYofjsK0rJzl1WSXXE6Vq4AALjX+MkwqGqcDMy6nNjFpvOKbm8z5H
-	AyIDWo/CZywoRo+z9G03jB9qst2ljxsCpQxB/mhEo0EKLBSn0bMQh/ElUrMormqhEZCU4UQqbSs
-	//+pU06mHEt0SRPtV816kEb+WRr1TgX3d3CU/znvAsv/F3V850NbNFJOQGLnaWPiFXg1EPvbqHO
-	nox8Et6UdkbScAzH4qDheMoZVjwkHWhlTNYLxs8n08WelqtBDx0EEwQme3m6wm1uBkKglC9DZ7N
-	QxIt0v1lwrkNj1/zbmfLRDC+nkXtWufbT/kBNdE9MidIOlEtCuIXyFVaFkgZK0qX6Pkcoyhxo8N
-	tLX7ZzlN52pP5JJqloqoZU0HkqXrKvMacmfYxeb32QVgUTfYmJmhCgfZePM1CMxL75L2jqWOiGF
-	wAhuzNKa87cVNfrI6MSFQYvX+ZL/xDVoimu2Qc2vWE8lrbWA==
-X-Google-Smtp-Source: AGHT+IHrFtNt4K3MmW+9CM5WKiqHKSvULkjAxuQ8fyOB5ct3Cncp0QJTotTouwywzfBMkVjNxjtoVQ==
-X-Received: by 2002:a05:6a20:a127:b0:334:92ac:6027 with SMTP id adf61e73a8af0-34653335584mr1361914637.20.1761703931937;
-        Tue, 28 Oct 2025 19:12:11 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b712ce3a6efsm11727966a12.24.2025.10.28.19.12.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 19:12:11 -0700 (PDT)
-Message-ID: <91aef821-6355-4135-b179-69b845a827f6@gmail.com>
-Date: Wed, 29 Oct 2025 11:12:08 +0900
+	 In-Reply-To:Content-Type; b=OUDd/lxalhsglakOYZFu9lG2VtBpq/3/FxGKiUd6r2RFIl7oeyKs0Z3qVzBh+dD+cSl7+cpUOsCrC06VcLkFQjcU4OAKRcc+AatWnH8RVo2MDUNBCoy1HT4aA4zxN26KtIU/yKzbxqJSils6NmamvwXN1lRShpl/uyUBgtKYWKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cxBD36GxFzKHMRQ;
+	Wed, 29 Oct 2025 10:34:59 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 61C291A17E4;
+	Wed, 29 Oct 2025 10:35:57 +0800 (CST)
+Received: from [10.174.178.129] (unknown [10.174.178.129])
+	by APP2 (Coremail) with SMTP id Syh0CgBHnESLfQFpseLfBw--.40536S3;
+	Wed, 29 Oct 2025 10:35:57 +0800 (CST)
+Message-ID: <c23c005e-ac94-bc99-1469-138e5707e65b@huaweicloud.com>
+Date: Wed, 29 Oct 2025 10:35:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tools/docs/sphinx-build-wrapper: Emit $SPHINXOPTS later
- in args list
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <eaf4bfd8-fb80-45d0-b3ec-4047692ebbed@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <eaf4bfd8-fb80-45d0-b3ec-4047692ebbed@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 2/4] md: init bioset in mddev_init
+To: yukuai@fnnas.com, corbet@lwn.net, song@kernel.org, hare@suse.de,
+ xni@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, linan666@huaweicloud.com, yangerkun@huawei.com,
+ yi.zhang@huawei.com
+References: <20251027072915.3014463-1-linan122@huawei.com>
+ <20251027072915.3014463-3-linan122@huawei.com>
+ <69829383-8212-473b-9346-d093d33f1d27@fnnas.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <69829383-8212-473b-9346-d093d33f1d27@fnnas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Syh0CgBHnESLfQFpseLfBw--.40536S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFyUXF1DCr1UKr4kGFyxAFb_yoW8Kr4kpa
+	yfGFyakr4ktrW29w13tF1q93WYqa1xtFWjkr4xAw18Zas2vr48KF1Ygr40qryDC3yxuF48
+	X3W8u390g3WrAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v
+	4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7
+	AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
+	vtAUUUUU=
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On Sun, 19 Oct 2025 23:24:51 +0900, Akira Yokosawa wrote:
-> The option list to sphinx-build via SPHINXOPTS should have higher
-> priority than those the wrapper comes up with.
-> sphinx-build will choose the latest one if there are duplicates.
-> 
-> To restore the behavior of Makefile era, when the documentation builds
-> at https://www.kernel.org/doc/html/next/ had been depending on it,
-> reorder the flag list.
-> 
-> Reported-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> Closes: https://lore.kernel.org/20251007-awesome-guan-of-greatness-e6ec75@lemur/
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/c35e690f-0579-49cb-850c-07af98e5253a@gmail.com/
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
+
+
+在 2025/10/28 20:01, Yu Kuai 写道:
 > Hi,
 > 
-> Not having hearing from Mauro on this _minor_ regression, I went
-> forward and made this fix.
+> 在 2025/10/27 15:29, linan122@huawei.com 写道:
+>> From: Li Nan <linan122@huawei.com>
+>>
+>> IO operations may be needed before md_run(), such as updating metadata
+>> after writing sysfs. Without bioset, this triggers a NULL pointer
+>> dereference as below:
+>>
+>>    BUG: kernel NULL pointer dereference, address: 0000000000000020
+>>    Call Trace:
+>>     md_update_sb+0x658/0xe00
+>>     new_level_store+0xc5/0x120
+>>     md_attr_store+0xc9/0x1e0
+>>     sysfs_kf_write+0x6f/0xa0
+>>     kernfs_fop_write_iter+0x141/0x2a0
+>>     vfs_write+0x1fc/0x5a0
+>>     ksys_write+0x79/0x180
+>>     __x64_sys_write+0x1d/0x30
+>>     x64_sys_call+0x2818/0x2880
+>>     do_syscall_64+0xa9/0x580
+>>     entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>>
+>> Reproducer
+>> ```
+>>     mdadm -CR /dev/md0 -l1 -n2 /dev/sd[cd]
+>>     echo inactive > /sys/block/md0/md/array_state
+>>     echo 10 > /sys/block/md0/md/new_level
+>> ```
+>>
+>> Fixes: d981ed841930 ("md: Add new_level sysfs interface")
+>> Signed-off-by: Li Nan <linan122@huawei.com>
+>> ---
+>>    drivers/md/md.c | 74 +++++++++++++++++++++++++------------------------
+>>    1 file changed, 38 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/drivers/md/md.c b/drivers/md/md.c
+>> index f6fd55a1637b..51f0201e4906 100644
+>> --- a/drivers/md/md.c
+>> +++ b/drivers/md/md.c
+>> @@ -730,6 +730,8 @@ static void mddev_clear_bitmap_ops(struct mddev *mddev)
+>>    
+>>    int mddev_init(struct mddev *mddev)
+>>    {
+>> +	int err = 0;
+>> +
+>>    	if (!IS_ENABLED(CONFIG_MD_BITMAP))
+>>    		mddev->bitmap_id = ID_BITMAP_NONE;
+>>    	else
+>> @@ -741,8 +743,26 @@ int mddev_init(struct mddev *mddev)
+>>    
+>>    	if (percpu_ref_init(&mddev->writes_pending, no_op,
+>>    			    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
+>> -		percpu_ref_exit(&mddev->active_io);
+>> -		return -ENOMEM;
+>> +		err = -ENOMEM;
+>> +		goto exit_acitve_io;
+>> +	}
+>> +
+>> +	if (!bioset_initialized(&mddev->bio_set)) {
+>> +		err = bioset_init(&mddev->bio_set, BIO_POOL_SIZE, 0, BIOSET_NEED_BVECS);
 > 
-> Konstantin, could you test this against your doc build environment
-> for linux-next?
-
-Jon, could you consider applying this fix and making it be tested
-directly at https://www.kernel.org/doc/html/next/ ?
-
-The custom "next-2025mmdd" tag there would be helpful for us to catch
-regressions in linux-next docs builds.
-
-        Thanks, Akira
-
+> mddev_init() can only be called once for one mddev, no need to test if bioset
+> is initialized here.
 > 
-> Regards,
-> Akira
-> --
->  tools/docs/sphinx-build-wrapper | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+
+I will fix it in next version. Thanks for your review.
+
+>> +		if (err)
+>> +			goto exit_writes_pending;
+>> +	}
+>> +	if (!bioset_initialized(&mddev->sync_set)) {
 > 
-> diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-> index 3e6d166d4102..1efaca3d16aa 100755
-> --- a/tools/docs/sphinx-build-wrapper
-> +++ b/tools/docs/sphinx-build-wrapper
-> @@ -298,8 +298,8 @@ class SphinxBuilder:
->  
->              cmd += [sphinx_build]
->              cmd += [f"-j{n_jobs}"]
-> -            cmd += self.sphinxopts
->              cmd += build_args
-> +            cmd += self.sphinxopts
->  
->              if self.verbose:
->                  print(" ".join(cmd))
+> same here.
 > 
-> base-commit: 96b546c241b11a97ba1247580208c554458e7866
+
+-- 
+Thanks,
+Nan
 
