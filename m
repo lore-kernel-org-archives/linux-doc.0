@@ -1,285 +1,120 @@
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBD92580E2
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 22:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517502F6193
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 22:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761775236; cv=none; b=G9Yn9WgHm7/EXzxV5w5AM9qcQIfnd9tK+Hp84hHEgXCQIg2OSQeVvZbFIpIubz1COxzLxvVXwgl2qDTflYAleciQaEeTWo6v8JN7eUURFw+PtZOsw+inUe0bOTJ8zJcNVOGiAfdkdAQmqxKTGlTPOQ0aHQOzpc7M7n0pEiyykXk=
+	t=1761775414; cv=none; b=nWQV07ZGjL0jJhnScm5cDMENCen1LievfF20dcKX68CMptYAQtSkybK1n08i7tHRW4MNUSd29Gs+q+lAQnxKDg28U/eSStMHm7Vvu32Wx0XvOyF6NFAoMA51iT+bvPmvIGqfFRLMJklDs6iU6Qzn/PAfgERS6TGUK3InSxPZoZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761775236; c=relaxed/simple;
-	bh=6b6tWgoOYv1BDlNMVl9v4FQpfmpLkAx8er/On0TLus4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VMK35y9htiwz7dhAcfV72zgU/vgYV+YSZA7QwP4EGOIV6DvqJoE3osMhS08YP6B+YHmTQl+/WE1VQbdXV4QcuBXXg+h/FGpEDSe3goHk4ceUlYptAN+MbBQj6EhhEl4NhCrEjtK7BzBZ7CnNAWvmvRc8Zl3GHk6ttTLAT1BUlPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZJR0SwWs; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761775414; c=relaxed/simple;
+	bh=Rpx+i+g4UDOw+uheC336cz/8fzW0yUsW3KtUgY9A9/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M5qIHmcbINTDQN9xsrzO23ue5ljojUm95iK0+JwHcEixef5M/E26o0e2oh/7rE55HEuuibA/A/8d5tLBRm4UqW3Jdh1kDJh8eDpOUX77jSV++IVxPoWxuwE0OcBoUmJQ5S+E1b5T+X63ebfpPldXoBZj9P+F0oSM6qVi8P7O0ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BWxji16n; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZJR0SwWs"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-294f3105435so18875ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWxji16n"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-292fd52d527so3272355ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761775234; x=1762380034; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLD3TQVOiWY5r3Odhgs8R7i+r0sY0ies83ZNYoXLOpk=;
-        b=ZJR0SwWsOdlfHJUtIWxy3O92CkUVWqkobeGiHJJENzAtYTaeQ3EWg+E/JxkTfbJmim
-         fLqn8P93BT++vQ1qvcHtjOqrO9e91WYDetDyZGfgYjdxvfOysQSebNkrK6FDynIoNRqA
-         2pYVOb7rdJZrYkm+JBzMUZYYzCX+SFYMtpFb9S7kZVtnC5N8e9cG49wW7HIsqgDPZ0Sq
-         1uh8cK0O+9bG0tIAUxjmzw6llGmqoxoAB5r0XONQaXiD3ZqVdYkFHSvB8cLc1yu6L4bD
-         NFHpDzhVzAw5Pu59HXdpeE3QDvaDxJSQT4ftrJOZvwqn0IQkkbjIDhjDknNSuGRsEcUi
-         J6Xw==
+        d=gmail.com; s=20230601; t=1761775411; x=1762380211; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Nblfgm5XoVGA2pwggUTGBEWVQZIZxWS8tzQ3rNya1k=;
+        b=BWxji16nJLKjInABvrLXLKUmUE3XuS1E0BNaJ5bmjeGIyBnxSjLDc6MQoRz+9Z+YDX
+         g7pZhhRL+s/VBub26bsKS4eUUb595+susT3Rj8u6paScAqqC6BTvFewfsnh6lMfnivU4
+         +I3b0ql29WFTh/uwApl9Oh/nG9FLsdvHf0mlbyeGfmb9rla+c6zUXV/556oAyKQ4rqte
+         FBfE1Tu1Km3MzpBXnzy4vvaaOivAChYY+/BJxHd8iAWxW0Vkt2PnLqf4pIEG0WHDIq5X
+         zyuFON8aen8D+jrRm/Rxd2SZuSRDH89HRIRSY3Gxq8NvU1prHYzR0Fr7EM9Aewa/LDe+
+         QieQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761775234; x=1762380034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1761775411; x=1762380211;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iLD3TQVOiWY5r3Odhgs8R7i+r0sY0ies83ZNYoXLOpk=;
-        b=fdARB0deRRPNvutLspbmqkAvzduy3ZCHynIb/hGpuD5iCPFBgkUcSNX3mPNEZ0dMxy
-         APx2dCxd363fr7xVa1x+57xuNLH/dOODcZqET3LhrQIcXUJScTcQ2msIxeTwEzHC9yp7
-         +xoEG+Ig+dS7tFAkwUajT1bThYYTPjIBnnh+Cow3qpc3g6xGWnm7bzGrO5186XzDOLGk
-         0Go51KcpNQpoXPThXQzE9PQtU8lbJ80YGEHsOHQMVnnpYsgf+3zWYyqpZaLeqIUhXY0f
-         AKqY/dHzQTxOFpU0xPqmKM8H78LUCDExxOzYmSRpOVYXOpnGnTto7+65ekrW9jc5/g/c
-         /eVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVuIi+lN+/s0lM67DXSoZqqKxOrVdV76KSjSPCbv79GECS/gUHWVuH3S2f9z+Pu0CCUeBn352vkU2w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4oomhO7N2QCtXLAEaB5exi10klbJXj2sa8bOFfZo4/95ia1St
-	DYN0MBINlfK5TH/G16ZOgQUrRJQK07Qu2PxbN5Db5gU1tCMbbfBehiFUTrP+I/PXT2Yajd7HI5g
-	n+PPgBfp4xfvmi4eV29MEQUo6X1aQ6JdjCvVhkxHW
-X-Gm-Gg: ASbGncsYjpFkmWMRSR5sXupIzvygPdJ2IhgaYEuFpuBsTdXxk28OKJYkV/kUjmiqzTu
-	mz64U7MSay9+17FeDp0o54jnAbUseDihdsemSpGWt6T7MJS1QQd/sw7sBUoHt0JGJ5FUUxMMNNY
-	5vlPRd1lmbVZEgL7FhxtYV22Dkj3JgJM6SRLvQEZLY26meKpyTP/jeHI6vA8of/WJJrCU38xwnB
-	A23RzbDAbIgfwSdQE/liPpQPTV9ZsjdEXzTPMwiMHNyqoD6ksYOPzpdC5WWPMBqIus9qzTiL9ji
-	DAOxPbQ278YfwUkPr7NMwmuWRmgn
-X-Google-Smtp-Source: AGHT+IGQiEL8ReoIvOwZKzbVpHBeTpPCQv29yrRij7Hwfs/n1+GX5gwd67TK3b+ch8zjTS1IjIo6qaeBI23B0BA9NWI=
-X-Received: by 2002:a17:902:c40e:b0:26d:72f8:8cfa with SMTP id
- d9443c01a7336-294ef8d21c6mr633415ad.13.1761775233734; Wed, 29 Oct 2025
- 15:00:33 -0700 (PDT)
+        bh=4Nblfgm5XoVGA2pwggUTGBEWVQZIZxWS8tzQ3rNya1k=;
+        b=FvaHCByM35VLbz3Zh31Wli806yk1EOL38n6iFMMSLPImoT6nKMpwj9/NbbyI/HQTFy
+         XPGZSSan2rND5LR0MKz4brrat5bQuXmbt5kD9J62Rd/7yHNLFjZ5SiMKC0N256a+n93m
+         ACGKObNhjICOfLoh6bidu+bJggQs9BOeicMqlRBxFRvARLp9KWZXVAZoTk0BPdzbm5/3
+         LoouW8WhLDPFGTB/RimxKfqSwdavgELDK7kz3JuWZwHCBzQDzudLHGdzDLpMvEcsV0Qa
+         GguS45In1/lRVWUPrQIlyhbIdFzMm45hU09HmkcKFAc/p2LDjeZS8+VJQCx0Vxv/eTar
+         GEpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMxLFKnjAog0dztABuVj1xqZ+soe/kLtScdbLnpbXFW5GCmiWw4aM+jUPNxMx4ML/peyAcgdCbSnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyiu0uR2WqpjbptnrWTQ8xSfrsFZgakimz+TCgpO2o0PEriOAQi
+	ni6Wej1S74UNqEtXHSxhEIFKLSh6pv6gej9vMPVZj6aes+Y7I9BekojCMSCVcA==
+X-Gm-Gg: ASbGnctTqu9kiHo96OdPxb5FevUdqYHnrzdV/ijfE9/2+pkb9GTZ75j7MQE+9HbguWV
+	55BCj1ppyNFTrjfKLO2MaMcR6VFzE0IYzznr0vCOA3mHtfT1vs9U+gPrFMgavL8d0QVtIkGXO9i
+	hwBwDrUwbXefSmxAfEFv2yDrQiZZh3bWfvEeMMXwbgmgf6hEwffh2S/4qiFAInQoQkkZTEoc1u/
+	nXS1UG3Fec7MXFt3xzVeRQ/AH7gVzspcm88HsfYiqEi67Ml2iGy2a44v5Gl1d5hvev1zGU8TYlt
+	bELUKQUVhU9b/Lr5i7byu9QBE8/r+JXTAmrIIj+evV6ttQEgRC+FcZ0v/nUyXEyHzaVBQq0ZuLk
+	uXJH4vRgTKYYKY4SbiNdUibFaWiusV9Bfsnx8m6Zxlqp2a8jN7tgbo0weJAy9XY2OElqdjXiOog
+	WwzuKhNsSVeRmX
+X-Google-Smtp-Source: AGHT+IEwsj2J/ftTrnWWbeM7o5Z+AJ9IhB7ABxIMbByBawCiASkXvvXWBg+ahShIu+FUAW/13d84Zg==
+X-Received: by 2002:a17:903:ad0:b0:269:96db:939 with SMTP id d9443c01a7336-294def33bffmr54489445ad.58.1761775411490;
+        Wed, 29 Oct 2025 15:03:31 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d230basm162597355ad.46.2025.10.29.15.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 15:03:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 29 Oct 2025 15:03:29 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Marius Cristea <marius.cristea@microchip.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: temperature: add support for EMC1812
+Message-ID: <86b94f01-ff93-457e-95cc-4e87009964af@roeck-us.net>
+References: <20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com>
+ <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-15-pasha.tatashin@soleen.com> <mafs0tszhcyrw.fsf@kernel.org>
- <CA+CK2bBVSX26TKwgLkXCDop5u3e9McH3sQMascT47ZwwrwraOw@mail.gmail.com>
-In-Reply-To: <CA+CK2bBVSX26TKwgLkXCDop5u3e9McH3sQMascT47ZwwrwraOw@mail.gmail.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Wed, 29 Oct 2025 15:00:20 -0700
-X-Gm-Features: AWmQ_bkGoprZL04a0uQTcZsPv3KjOr3HxUN9sapy64_kyfy98s5fgevUjY0pmjs
-Message-ID: <CAAywjhTbBx+rYGpPGtTw_--9XhoYZBX8ase5ddM6rxmC5J-2JQ@mail.gmail.com>
-Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
- preservation and state management
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
 
-On Wed, Oct 29, 2025 at 1:13=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> On Wed, Oct 29, 2025 at 3:07=E2=80=AFPM Pratyush Yadav <pratyush@kernel.o=
-rg> wrote:
-> >
-> > Hi Pasha,
-> >
-> > On Mon, Sep 29 2025, Pasha Tatashin wrote:
-> >
-> > > Introducing the userspace interface and internal logic required to
-> > > manage the lifecycle of file descriptors within a session. Previously=
-, a
-> > > session was merely a container; this change makes it a functional
-> > > management unit.
-> > >
-> > > The following capabilities are added:
-> > >
-> > > A new set of ioctl commands are added, which operate on the file
-> > > descriptor returned by CREATE_SESSION. This allows userspace to:
-> > > - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
-> > >   to be preserved across the live update.
-> > > - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
-> > >   descriptor from the session.
-> > > - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
-> > >   new kernel using its unique token.
-> > >
-> > > A state machine for each individual session, distinct from the global
-> > > LUO state. This enables more granular control, allowing userspace to
-> > > prepare or freeze specific sessions independently. This is managed vi=
-a:
-> > > - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
-> > >   CANCEL, or FINISH events to a single session.
-> > > - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
-> > >   of a single session.
-> > >
-> > > The global subsystem callbacks (luo_session_prepare, luo_session_free=
-ze)
-> > > are updated to iterate through all existing sessions. They now trigge=
-r
-> > > the appropriate per-session state transitions for any sessions that
-> > > haven't already been transitioned individually by userspace.
-> > >
-> > > The session's .release handler is enhanced to be state-aware. When a
-> > > session's file descriptor is closed, it now correctly cancels or
-> > > finishes the session based on its current state before freeing all
-> > > associated file resources, preventing resource leaks.
-> > >
-> > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > [...]
-> > > +/**
-> > > + * struct liveupdate_session_get_state - ioctl(LIVEUPDATE_SESSION_GE=
-T_STATE)
-> > > + * @size:     Input; sizeof(struct liveupdate_session_get_state)
-> > > + * @incoming: Input; If 1, query the state of a restored file from t=
-he incoming
-> > > + *            (previous kernel's) set. If 0, query a file being prep=
-ared for
-> > > + *            preservation in the current set.
-> >
-> > Spotted this when working on updating my test suite for LUO. This seems
-> > to be a leftover from a previous version. I don't see it being used
-> > anywhere in the code.
->
-> thank you will remove this.
->
-> > Also, I think the model we should have is to only allow new sessions in
-> > normal state. Currently luo_session_create() allows creating a new
-> > session in updated state. This would end up mixing sessions from a
-> > previous boot and sessions from current boot. I don't really see a
-> > reason for that and I think the userspace should first call finish
-> > before starting new serialization. Keeps things simpler.
->
-> It does. However, yesterday Jason Gunthorpe suggested that we simplify
-> the uapi, at least for the initial landing, by removing the state
-> machine during boot and allowing new sessions to be created at any
-> time. This would also mean separating the incoming and outgoing
-> sessions and removing the ioctl() call used to bring the machine into
-> a normal state; instead, only individual sessions could be brought
-> into a 'normal' state.
->
-> Simplified uAPI Proposal
-> The simplest uAPI would look like this:
-> IOCTLs on /dev/liveupdate (to create and retrieve session FDs):
-> LIVEUPDATE_IOCTL_CREATE_SESSION
-> LIVEUPDATE_IOCTL_RETRIEVE_SESSION
->
-> IOCTLs on session FDs:
-> LIVEUPDATE_CMD_SESSION_PRESERVE_FD
-> LIVEUPDATE_CMD_SESSION_RETRIEVE_FD
-> LIVEUPDATE_CMD_SESSION_FINISH
->
-> Happy Path
-> The happy path would look like this:
-> - luod creates a session with a specific name and passes it to the vmm.
-> - The vmm preserves FDs in a specific order: memfd, iommufd, vfiofd.
-> (If the order is wrong, the preserve callbacks will fail.)
-> - A reboot(KEXEC) is performed.
-> - Each session receives a freeze() callback to notify it that
-> mutations are no longer possible.
-> - During boot, liveupdate_fh_global_state_get(&h, &obj) can be used to
-> retrieve the global state.
-> - Once the machine has booted, luod retrieves the incoming sessions
-> and passes them to the vmms.
-> - The vmm retrieves the FDs from the session and performs the
-> necessary IOCTLs on them.
-> - The vmm calls LIVEUPDATE_CMD_SESSION_FINISH on the session. Each FD
-> receives a finish() callback in LIFO order.
-> - If everything succeeds, the session becomes an empty "outgoing"
-> session. It can then be closed and discarded or reused for the next
-> live update by preserving new FDs into it.
-> - Once the last FD for a file-handler is finished,
-> h->ops->global_state_finish(h, h->global_state_obj) is called to
-> finish the incoming global state.
->
-> Unhappy Paths
-> - If an outgoing session FD is closed, each FD in that session
-> receives an unpreserve callback in LIFO order.
-> - If the last FD for a global state is unpreserved,
-> h->ops->global_state_unpreserve(h, h->global_state_obj) is called.
-> - If freeze() fails, a cancel() is performed on each FD that received
-> freeze() cb, and reboot(KEXEC) returns a failure.
+On Wed, Oct 29, 2025 at 05:50:59PM +0200, Marius Cristea wrote:
+> This is the hwmon driver for Microchip EMC1812/13/14/15/33
+> Multichannel Low-Voltage Remote Diode Sensor Family.
+> 
+> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
 
-nit: Maybe we can rename cancel to unfreeze. So it matches preserve/unprese=
-rve?
-> - If an incoming session FD is closed, the resources are considered
-> "leaked." They are discarded only during the next live-update; this is
-> intended to prevent implementing rare and untested clean-up code.
+One more ...
 
-I am assuming the preserved folios will become unpreserved during
-shutdown and in the next kernel those folios are free.
-> - If a user tries to finish a session and it fails, it is considered
-> the user's problem. This might happen because some IOCTLs still need
-> to be run on the retrieved FDs to bring them to a state where finish
-> is possible.
+> +static int emc1812_parse_fw_config(struct emc1812_data *data, struct device *dev)
+> +{
+> +	unsigned int reg_nr = 0;
+> +	int ret;
+> +
 
-Sounds great.
->
-> This would also mean that subsystems would not be needed, leaving only
-> FLB (File-Lifecycle-Bound Global State) to use as a handle for global
-> state. The API I am proposing for FLB keeps the same global state for
-> a single file-handler type. However, HugeTLB might have multiple file
-> handlers, so the API would need to be extended slightly to support
-> this case. Multiple file handlers will share the same global resource
-> with the same callbacks.
->
-> Pasha
->
-> > > + * @reserved: Must be zero.
-> > > + * @state:    Output; The live update state of this FD.
-> > > + *
-> > > + * Query the current live update state of a specific preserved file =
-descriptor.
-> > > + *
-> > > + * - %LIVEUPDATE_STATE_NORMAL:   Default state
-> > > + * - %LIVEUPDATE_STATE_PREPARED: Prepare callback has been performed=
- on this FD.
-> > > + * - %LIVEUPDATE_STATE_FROZEN:   Freeze callback ahs been performed =
-on this FD.
-> > > + * - %LIVEUPDATE_STATE_UPDATED:  The system has successfully reboote=
-d into the
-> > > + *                               new kernel.
-> > > + *
-> > > + * See the definition of &enum liveupdate_state for more details on =
-each state.
-> > > + *
-> > > + * Return: 0 on success, negative error code on failure.
-> > > + */
-> > > +struct liveupdate_session_get_state {
-> > > +     __u32           size;
-> > > +     __u8            incoming;
-> > > +     __u8            reserved[3];
-> > > +     __u32           state;
-> > > +};
-> > > +
-> > > +#define LIVEUPDATE_SESSION_GET_STATE                                =
- \
-> > > +     _IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_GET_STATE)
-> > [...]
-> >
-> > --
-> > Regards,
-> > Pratyush Yadav
+I added
+	if (!dev_fwnode(dev)) {
+                data->num_channels = data->chip->phys_channels;
+                data->active_ch_mask = BIT(data->num_channels) - 1;
+                return 0;
+        }
+
+to be able to load the driver and run basic unit tests.
+I expect something similar in the final driver.
+
+Also, here is the unit test result from writing negative values
+into the limit registers:
+
+temp1_crit: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+temp1_min: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+temp1_max: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+temp2_crit: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+temp2_min: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+temp2_max: Suspected underflow: [min=0, read 4294903296, written -2147483648]
+
+Thanks,
+Guenter
