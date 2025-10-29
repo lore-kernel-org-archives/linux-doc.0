@@ -1,187 +1,141 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBAD31282A
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C19229BD9B;
+	Wed, 29 Oct 2025 21:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761771561; cv=none; b=px3WOzvNfiNXECw65sTIW4X5/JlvkTGiThjwNkr3CjnL1OaASxMtsT/lPzdmp8U2RYRhZyo0WFuHJPl1oWLnicVU87wklTjg3pF06NdMPTYO5ZJN8Bu3+jxeqfGMIRK2XYEIOG/lLuakIx1n63QfTruzZFFD+TNFPOvluk1TTTE=
+	t=1761771779; cv=none; b=o/kt5gjJDnuqgCdCVFBOaQZMXnQDFTKPgmLPEiaiix+BwlyHCHOtCPUyRORSJ1oD0Lbs12m0yyCwOPqRtDoeeWZr/+Pqla9O4WUWmj9Xfsa93GJOBK6H7IzohJ8HBQ0ba8SJf8kVdP1u8Gyv3mcDRzAg38qwUUy5f8/WyPymaKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761771561; c=relaxed/simple;
-	bh=LbCzKk2cGvRRVZVsuoizSMZfwxwz1pQ654zQNk3mgK0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uasJk6j6+bliZdVJtupqx1k3b0oG6kdFUJiRZU6K387IWlc9WG33AfxwfmiO41e8cNtyYCyEdtj0fgRHViA5jUJtIb9KT5QgG8ab6JWEH3Slpg3m2VSvHccymhKVIpitV7dvAicb4dNawoBqiR+E43B0BGDswU1CPKm8KZiil1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=HfBfEVYA; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1761771779; c=relaxed/simple;
+	bh=0UNToemD7emOpt3lx4cLWDQg1wbn8BekjRhTd01LVtc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ht0uh7QyA60WyR1EH8qxZ/Lu6FMqZWDk1aZ2zQGz3TbTC1++ltXojvWysGIZzjyNUuqqG6Iw9lZDkH0oY8h9V7AZSgj/GhSo5CnMbuSU1vpr58wti8kFCQSTNLgW7R9K3hxO5CujmDawj8AVRYhT/JTMRc/eEBrRoH6DsEf/SEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cTD92XaC; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HfBfEVYA"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so61807666b.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1761771558; x=1762376358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QfAN57AJ3VlZrtEXkpg0YM0RNnc6zjLGC6mTJFKCfBA=;
-        b=HfBfEVYAm6pKrOzMQIBf8PkgeaLjDBNONliYapp6CWViux2Dk2stZc23yzp+kCiYd6
-         eIwPDPx1uHrwbJcnVmI5Pg+8rvb6ndWVMCyoJyvMIZGPC/0eKiQWG+d0VjtgxYlk9evl
-         hU8m51IiiPJYZ1y21+dEwj738WlG4fz9y2Phyr9hvRMQ5bkdqPlqOJbERD339Gs9wo64
-         GjKXrWjxKA4CDHQkRnR5IY2K/kBV2sW5LUnwQtBQ8cH9Au313zSu3BknGP1fZZD4yZpu
-         kt/e7xhhQ2osoba0CbBjrGGZ+/nxysfO43ysnewmOuBtYtgevpout5pD/vq/pm226wsZ
-         Gp+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761771558; x=1762376358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QfAN57AJ3VlZrtEXkpg0YM0RNnc6zjLGC6mTJFKCfBA=;
-        b=bXDDkI+D0nhfTlpOBjasaNEZYREVExJDIMl6KlfbUcPCcVnf1GganiBnZNQz8jAkd/
-         QH4bXRB42xwXHaoW7NFr4KeBvoiFT47L88gS/N5EPp8EOXBQCKOOPB9JA21xgiiUsQcA
-         qm/q4dp2IUmqkVr4s0HCLzP7X7c/q+ewHeNZgJkX3W2Ni5k0nEWB/JvHT81XTBc28b8/
-         JNAvIeEzaQEOQnDn+ttqKjWbVzRv1RF0MSh6OD+NztJLCgKUy/OwblDi2vEBR7+h51Wa
-         bzSdvnCJlc3w36bi6YcURommPZyS6AOHuRZUjsuMxils9/5Lad+9a/ecd1VLw7Aj4wz+
-         AqjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW862Twr806tzVhYrUgopfsP8WVrHm/vpXhN5YXLTECrCkd9xjrXoWgZXJYS1ojG4/3N10vS20sqxE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjIjfNU8iVfZ6uNKAlynaQTrBYdPUys4R49KwYCLPsXSi0FczM
-	Fv23u+Y8ACGq5//FnJnqU8tIJpfSHRCfJn8MFM60bRPFSDZKZxe+Ee9jjd4UuImIM6E4bbFOyMp
-	gGxcFp+7nDr/yAhC5kUuO9Px3KenL5mKkCaaANqKbKA==
-X-Gm-Gg: ASbGncuszfmWp+WhMUNk0GrMadv/3Iu6eS5W+q8/gVUrh709l+p9Qu2GLXSWARpuvVE
-	rVwCKImKUr4uL3JYXK+ydUf2oPCXGc7VeGZzN4N+Fjo6ElPwazoxVkSRDCDyJsPGvUbj+vDdjMj
-	FB1tbt/sepdRBIuxmAEW5YgWTL1QsRYZ84Flp8QGGRSO77HIYuR7kz6APFBkhqjF8iVagxxu+uM
-	f8J3vEB1a/pwnjo6ekyqpbnKKxhYh/71/E1uaD+h9MAkUD9y7FsVUiwdA==
-X-Google-Smtp-Source: AGHT+IE/RXMv8hoooZh1E58NXDF0M8rMKt7Jq2/dOGekqdl2XNp/FrTs01ETHE1dw8Wf9fSE9rBqLnrH1cmST40VDnY=
-X-Received: by 2002:a17:906:6a10:b0:b5c:753a:a4d8 with SMTP id
- a640c23a62f3a-b703d601679mr444730266b.62.1761771557853; Wed, 29 Oct 2025
- 13:59:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cTD92XaC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=7IvXl2TzwOjo9Mm0noPrlRKot5iPpOVifikaYy/HK04=; b=cTD92XaCvXprttPJ39nDs9qUCe
+	lG0MhkaLsdSa9Qz1rBxqlrl+669hm9IyWM+RWOKOIXlrWbJy8Y9mwptdl1GvlIK5LTtMj555il01i
+	OVTL5Nl/lxl/nrTLBh/chFA8j8Qittv1M51VirxWuMRSROXnk/Z6tDewZ+/bInNkn2gVuZLCDC92s
+	OSM+GgeIzueyNeSbB5uJGPypsSUrfVot0H14/1p7etE+diLDf78Un1C2eJXBN9hOZVkjGvfhUUV8P
+	HO/FeWzn9K/BCzqhjjXrifAQFvATBtH2A3o0msEg23s9m2VkonSivCVTaIYexycu4hlrONkN/cYjM
+	se/vUubA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vEDJn-00000002tTP-1rPy;
+	Wed, 29 Oct 2025 21:02:55 +0000
+Message-ID: <e4b63a5e-c549-4c48-aa03-e81ad694b200@infradead.org>
+Date: Wed, 29 Oct 2025 14:02:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-15-pasha.tatashin@soleen.com> <mafs0pla5cuml.fsf@kernel.org>
-In-Reply-To: <mafs0pla5cuml.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 29 Oct 2025 16:58:40 -0400
-X-Gm-Features: AWmQ_bl42EDPtm_TaUQbgHgrX7gDrKin3DS3aEDrxO6qieGZ-fwZboHP8lat9pQ
-Message-ID: <CA+CK2bB6e_=yQ9tQgvh7tJ3q34vCo9v4KpYG8DRF5pRa+YuUrQ@mail.gmail.com>
-Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
- preservation and state management
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 29, 2025 at 4:37=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> Hi Pasha,
->
-> On Mon, Sep 29 2025, Pasha Tatashin wrote:
->
-> > Introducing the userspace interface and internal logic required to
-> > manage the lifecycle of file descriptors within a session. Previously, =
-a
-> > session was merely a container; this change makes it a functional
-> > management unit.
-> >
-> > The following capabilities are added:
-> >
-> > A new set of ioctl commands are added, which operate on the file
-> > descriptor returned by CREATE_SESSION. This allows userspace to:
-> > - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
-> >   to be preserved across the live update.
-> > - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
-> >   descriptor from the session.
-> > - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
-> >   new kernel using its unique token.
-> >
-> > A state machine for each individual session, distinct from the global
-> > LUO state. This enables more granular control, allowing userspace to
-> > prepare or freeze specific sessions independently. This is managed via:
-> > - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
-> >   CANCEL, or FINISH events to a single session.
-> > - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
-> >   of a single session.
-> >
-> > The global subsystem callbacks (luo_session_prepare, luo_session_freeze=
-)
-> > are updated to iterate through all existing sessions. They now trigger
-> > the appropriate per-session state transitions for any sessions that
-> > haven't already been transitioned individually by userspace.
-> >
-> > The session's .release handler is enhanced to be state-aware. When a
-> > session's file descriptor is closed, it now correctly cancels or
-> > finishes the session based on its current state before freeing all
-> > associated file resources, preventing resource leaks.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> [...]
-> > +static int luo_session_restore_fd(struct luo_session *session,
-> > +                               struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_session_restore_fd *argp =3D ucmd->cmd;
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     guard(rwsem_read)(&luo_state_rwsem);
-> > +     if (!liveupdate_state_updated())
-> > +             return -EBUSY;
-> > +
-> > +     argp->fd =3D get_unused_fd_flags(O_CLOEXEC);
-> > +     if (argp->fd < 0)
-> > +             return argp->fd;
-> > +
-> > +     guard(mutex)(&session->mutex);
-> > +
-> > +     /* Session might have already finished independatly from global s=
-tate */
-> > +     if (session->state !=3D LIVEUPDATE_STATE_UPDATED)
-> > +             return -EBUSY;
-> > +
-> > +     ret =3D luo_retrieve_file(session, argp->token, &file);
->
-> The retrieve behaviour here causes some nastiness.
->
-> When the session is deserialized by luo_session_deserialize(), all the
-> files get added to the session's files_list. Now when a process
-> retrieves the session after kexec and restores a file, the file
-> handler's retrieve callback is invoked, deserializing and restoring the
-> file. Once deserialization is done, the callback usually frees up the
-> metadata. All this is fine.
->
-> The problem is that the file stays on on the files_list. When the
-> process closes the session FD, the unpreserve callback is invoked for
-> all files.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] docs: admin-guide: gpio: rpmsg: gpio over rpmsg
+ bus
+To: Shenwei Wang <shenwei.wang@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>, dl-linux-imx <linux-imx@nxp.com>
+References: <20251029195619.152869-1-shenwei.wang@nxp.com>
+ <20251029195619.152869-4-shenwei.wang@nxp.com>
+ <0b5feeb5-87b6-4f26-b9df-a23159b977e7@infradead.org>
+ <PAXPR04MB918593CC07C246CADA458E4689FAA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <PAXPR04MB918593CC07C246CADA458E4689FAA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-> The unpreserve callback should undo what preserve did. That is, free up
 
-Right, we discussed that continous preservation is not going to be
-possible. So, this bug is not going to be present in the next version.
+On 10/29/25 1:52 PM, Shenwei Wang wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Randy Dunlap <rdunlap@infradead.org>
+>> Sent: Wednesday, October 29, 2025 3:47 PM
+>> To: Shenwei Wang <shenwei.wang@nxp.com>; Linus Walleij
+>> <linus.walleij@linaro.org>; Bartosz Golaszewski <brgl@bgdev.pl>; Jonathan
+>> Corbet <corbet@lwn.net>; Bjorn Andersson <andersson@kernel.org>; Mathieu
+>> Poirier <mathieu.poirier@linaro.org>; Rob Herring <robh@kernel.org>; Krzysztof
+>> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Shawn
+>> Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>; linux-
+>> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> linux-remoteproc@vger.kernel.org; devicetree@vger.kernel.org;
+>> imx@lists.linux.dev; dl-linux-imx <linux-imx@nxp.com>
+>> Subject: [EXT] Re: [PATCH v4 3/5] docs: admin-guide: gpio: rpmsg: gpio over
+>> rpmsg bus
+>>
+>> Hi--
+>>
+>> On 10/29/25 12:56 PM, Shenwei Wang wrote:
+>>> Describes the gpio rpmsg transport protocol over the rpmsg bus between
+>>> the cores.
+>>>
+>>> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+>>> ---
+>>>  Documentation/admin-guide/gpio/gpio-rpmsg.rst | 202 ++++++++++++++++++
+>>>  Documentation/admin-guide/gpio/index.rst      |   1 +
+>>>  2 files changed, 203 insertions(+)
+>>>  create mode 100644 Documentation/admin-guide/gpio/gpio-rpmsg.rst
+>>>
+>>
+>> I don't think this should be in admin-guide/gpio/.
+>> How about in driver-api/gpio/?
+>> That may not be perfect either, but transport protocols are not typically admin
+>> material AFAIK.
+>>
+> 
+> How about putting it in Documentation/staging directory?
+> I saw both remoteproc.rst and rpmsg.rst are in the directory.
+> 
+
+Yeah, maybe. That's sort of a last resort location for things
+that don't have a better place.
+
+> 
+>>> diff --git a/Documentation/admin-guide/gpio/index.rst
+>>> b/Documentation/admin-guide/gpio/index.rst
+>>> index 712f379731cb..9c8f4441038a 100644
+>>> --- a/Documentation/admin-guide/gpio/index.rst
+>>> +++ b/Documentation/admin-guide/gpio/index.rst
+>>> @@ -9,6 +9,7 @@ GPIO
+>>>
+>>>      Character Device Userspace API <../../userspace-api/gpio/chardev>
+>>>      gpio-aggregator
+>>> +    gpio-rpmsg
+>>>      gpio-sim
+>>>      gpio-virtuser
+>>>      Obsolete APIs <obsolete>
+>> If someone thinks that it should be in admin-guide/,please explain why.
+>>
+>> Thanks.
+>> --
+>> ~Randy
+
+-- 
+~Randy
+
