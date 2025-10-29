@@ -1,151 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE6A1B3923;
-	Wed, 29 Oct 2025 08:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955F83128CA;
+	Wed, 29 Oct 2025 09:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761726999; cv=none; b=puMt+t9rClxlaeirMvwI4DW38iW7/2UdTJeaPdxI7fPuslf6J45X4S/wHw0dSCNqjP8/wCp+3Rech2NXW++FwFjlVZerb4yFk5hBgMidN1psCJop+OsduO/Um3EsK+VxX+HhU721HOk+oslvJICkiUK9cHEyoUxtmkfndXqKK6o=
+	t=1761729834; cv=none; b=PvLwhdI18CLRRlX6dpEeE0IB7D1wx6Zj2jgxaz0N1BHDNr7n11uATYn4Q6hvlKG4Oq9AQ87aUX7MBo40hXs4Ql3aa9O4qN4fn2g1KP36BuXSo7s44W1PGvH3U74IEM7oa4krXodagNS9ySmdrvCYq4wZqXP2s3f48S+dTzsPIQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761726999; c=relaxed/simple;
-	bh=1rKtagzqCuyPPLrsSkpbDvAK+y4SdzCtc2efQBAaXAw=;
+	s=arc-20240116; t=1761729834; c=relaxed/simple;
+	bh=jTxdkb4v5//ZDCSckJFq++uwvUJsKMWAwmKvwtlqekU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HiwQ/4xsmHJv8gKlJ3voQWDYT0HbLlyz2Pc/mehaS3QnZ1IORTCFfPyFqTzsXwQPAxQQevmj9QrjMilDIxaXyOtL9CX8d33Y9HcPlRjkY83Yvrg7UUFhH8L11td+bli8jhAKvURZIhpZMp0WHA6JzAVVX6K8O9WN6k6swPxLurU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pjrgF0fd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NC+v8RA+NzAyDLUkWkqEVL2e/Y7qr9+FfHf5RNeCjhUmXiCZ2tOknzW5H/wntSxkZGZSHau4KQFE29JDFK3/z5KQc0Z4qjQiHlTdvXkKeb8ITUyc+0aj/69J6SRofuGUaBoynZ5qmnEDH44DGdXoF0qKfxOfk0cPIpaVVDGl1qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GA03knUk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pjrgF0fd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE9EC4CEF7;
-	Wed, 29 Oct 2025 08:36:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761726999;
-	bh=1rKtagzqCuyPPLrsSkpbDvAK+y4SdzCtc2efQBAaXAw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pjrgF0fd1Kw6Rz/hY36Ug6cppaVasCKMFiUTxVsnD3ZwCCquW0JgNgsQDWQSn45OE
-	 Ka0U3KcchPWlwJIPDtlcSxauweiv26U0K2RSuHGHNvbSvVN3rPFhoJiw6En9H+vohz
-	 siC6P4OCbcdk8RO9aqg1erGf7NO7aAPETSdrJnptKWiRf7Yz6GwkEfk8fV46BeScQD
-	 /8nAN1DKNAPffKgftlEfRuZMKmg89xw5c0PgezIaPpF6FX5ef9sYeYzjB32cENm+fh
-	 1bhzcG8iM9dAI3va4KS8UeT2cE3RaCoQtuBs0QphWVLSSrITEEYgiXxEIq6Q+tuwcp
-	 6/yj+oZjlV1vA==
-Date: Wed, 29 Oct 2025 09:36:35 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Francesco Valla <francesco@valla.it>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] Add splash DRM client
-Message-ID: <4uknyhx7lshybin3qjdyh7oq6udtdw3lqagumg6w6qjre3pn55@23c5itmo55f5>
-References: <20251027-drm_client_splash-v1-0-00698933b34a@valla.it>
- <93cbbaef-918f-4300-aa5b-11f098e217b2@amd.com>
- <23clcxtgbzbsji2knwp47xdc5udj7lnhbvzsgqi3vklvmhdgjd@26ycx2ed77l4>
- <4497733.UPlyArG6xL@fedora.fritz.box>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GA03knUk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3Ih05HK+8ZsKOo5cQ+utqVaq+hUnBg4xFJaxP/XkN4A=; b=GA03knUksWMuLiHmkDJ5EtiFSg
+	wtcTt2zLP5rdVxMJlL5t+2bQPR9r1FAu+7TxdPT1FZoVd+9zZqS8DvVU3U58tlcANQo3Ijlxm29r6
+	BIL1s0m3nl0Oj5zeyYWGYkRZrAQgYCgg7EwQeFKub1LK86Uy5OSqSsuBN38/AYPS3gZpPXq24K0x0
+	9hFELXTlQiy0mJ1/LIvBFNKdrwvGhc6WAtCupQZEw8eVo10iVBdtQ2tvC/JcnCTHrsd578Gj8mAoI
+	DiiBs5ov9+QgkPuCXSJMAiWBqFr+vrzwt270IQq6w3w9rvz7L7t9vBla6YL+/OiGk39CXMbQYj+eu
+	RZXfs7tg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vE2P5-00000000TeR-1TcB;
+	Wed, 29 Oct 2025 09:23:39 +0000
+Date: Wed, 29 Oct 2025 02:23:39 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, akpm@linux-foundation.org,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, alexandru.elisei@arm.com,
+	peterx@redhat.com, sj@kernel.org, rppt@kernel.org, mhocko@suse.com,
+	corbet@lwn.net, axboe@kernel.dk, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, jack@suse.cz, willy@infradead.org,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, hannes@cmpxchg.org,
+	zhengqi.arch@bytedance.com, shakeel.butt@linux.dev,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	minchan@kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH v2 0/8] Guaranteed CMA
+Message-ID: <aQHdG_4yk0-o0iEY@infradead.org>
+References: <20251026203611.1608903-1-surenb@google.com>
+ <aP8XMZ_DfJEvrNxL@infradead.org>
+ <CAJuCfpH1Nmnvmg--T2nYQ4r25pgJhDEo=2-GAXMjWaFU5vH7LQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="escnxwlco7olhzqd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4497733.UPlyArG6xL@fedora.fritz.box>
+In-Reply-To: <CAJuCfpH1Nmnvmg--T2nYQ4r25pgJhDEo=2-GAXMjWaFU5vH7LQ@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Mon, Oct 27, 2025 at 12:51:17PM -0700, Suren Baghdasaryan wrote:
+> I'm guessing you missed my reply to your comment in the previous
+> submission: https://lore.kernel.org/all/CAJuCfpFs5aKv8E96YC_pasNjH6=eukTuS2X8f=nBGiiuE0Nwhg@mail.gmail.com/
+> Please check it out and follow up here or on the original thread.
 
---escnxwlco7olhzqd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 0/3] Add splash DRM client
-MIME-Version: 1.0
+I didn't feel to comment on it.  Please don't just build abstractions
+on top of abstractions for no reason.  If you later have to introduce
+them add them when they are actually needed.
 
-On Tue, Oct 28, 2025 at 09:09:06AM +0100, Francesco Valla wrote:
-> Hi,
->=20
-> On Monday, 27 October 2025 at 18:19:12 Maxime Ripard <mripard@kernel.org>=
- wrote:
-> > On Mon, Oct 27, 2025 at 11:31:06AM -0500, Mario Limonciello wrote:
-> > > On 10/27/25 11:28 AM, Maxime Ripard wrote:
-> > > > On Mon, Oct 27, 2025 at 11:01:55AM -0500, Mario Limonciello wrote:
-> > > > > On 10/27/25 7:35 AM, Thomas Zimmermann wrote:
-> > > > > > > >     - a very simple progress bar, which can be driven throu=
-gh sysfs;
-> > > > > >=20
-> > > > > > Once you have options to control these settings from user space=
-, you
-> > > > > > should do it in user space entirely. As Maxime suggested, pleas=
-e improve
-> > > > > > plymouth for anything with animation.
-> > > > > >=20
-> > > > > > > >     - a static image (optional).
-> > > > > >=20
-> > > > > > Board vendors often provide an image, see /sys/firmware/acpi/bg=
-rt/. This
-> > > > > > is a candidate for display, or the penguin or a custom image. P=
-lease
-> > > > > > make it configurable by Kconfig. Again, if you need policy and
-> > > > > > heuristics for deciding what to display, you better do this in =
-user
-> > > > > > space.
-> > > > >=20
-> > > > > I'd actually argue that the static image from BGRT should be the =
-preferred
-> > > > > priority.  This can make for a nice hand off to Plymouth.
-> > > > >=20
-> > > > > The (UEFI) BIOS already will show this image as soon as the GOP d=
-river is
-> > > > > loaded.  Bootloaders like GRUB by default will avoid showing anyt=
-hing or
-> > > > > will overwrite with the exact same image in the same location.  T=
-his can let
-> > > > > the kernel do the same, and then the moment Plymouth takes over i=
-t could do
-> > > > > the same.
-> > > >=20
-> > > > And BGRT isn't typically found on embedded systems at all, so I'm n=
-ot
-> > > > sure it's a sensible default, let alone a priority. At most a possi=
-ble
-> > >=20
-> > > There are certainly embedded machines using UEFI and that have a BGRT.
-> >=20
-> > Yes, indeed, hence the "typically".
-> >=20
-> > > How about "Sensible default the top of the priority list if it exists"
-> >=20
-> > How about we don't tell contributors what their priorities must be?
-> >=20
-> > Maxime
-> >=20
->=20
-> I'm not familiar at all with BGRT, I'll study a bit about it.
->=20
-> A build-time configuration could then let the user select:
->=20
-> - a plain solid color
-> - a custom static image
-> - the penguin logo (?)
-> - (on UEFI systems) BGRT source
-
-It wouldn't work for generic distros that would run with the same config
-on systems with and without BGRT.
-
-Again, that whole discussion around BGRT is very premature, I'd suggest
-to drop it for now.
-
-Maxime
-
---escnxwlco7olhzqd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaQHSEgAKCRAnX84Zoj2+
-dpGIAX422nWOX75YY7H8/KLRytbQNW5Mc3R0yHeeBRF2Es62f2SWmkYJtpd604aL
-gPtkHr0Bf2dw31hWMOP/ppZ975jt6D0JUZCVXttO2ltAPk1jJbxLm0z0Oe2x2aIX
-RT783F5qdw==
-=onat
------END PGP SIGNATURE-----
-
---escnxwlco7olhzqd--
