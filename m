@@ -1,42 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D337C2BD5A8
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 14:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E361A2D0C9D;
+	Wed, 29 Oct 2025 14:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761748619; cv=none; b=UgmWVOZHg933lXH4MGonCe527mdtMNdaHbsF+DCRLB7MOMb/fVnBXUbOCtf7XX642Xq2wZ0AWtZuV5boGIhPempFibVK50ijnAOpxmUv6L+PNcnr0SzkUTLF+FxmcMmsWaRHHb/3carg1evFcBJrwJLdtoBJGhJaO+HeWajFHC4=
+	t=1761748621; cv=none; b=Uky0F9w+td5sjlQEJAxh1N9Ro8cFbxRcLO0J5Hp/K35fgZSGFgygrh26+ikEMKaj5/c0NqnHswI/No3HLdthAIMSSR9nRrEWdBAkLIQUnARuRCGjvqJduAAbVeTLLvToXAgmEBqxuFpYbbeelAgciQ/GcyFAelmBq5kPoxw6Kvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761748619; c=relaxed/simple;
-	bh=P2YQYyxAPSZpXd/i/92Ex57u+40+oZJvWkUOQRGtaCI=;
+	s=arc-20240116; t=1761748621; c=relaxed/simple;
+	bh=voeNI9bwwu8x7aT8ETB3x5UR1BLQoLZlunp+Jro1U6w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pT0wf0argkwyqhIKYOifvZjx1CsF+emN5Htyj5VN3RM7wtiunk9yR/QQqGlOa33v1WAwEL39v5HrGBMHW7S+zSwuT6UiA47OeTYr+eg+Oat7tfKfQO7oyPR6HeOwxqDYpJ2BiWqfBrLzJ3Q++Hn4edzeV+UoML91ThfMProMWyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LP4xLJtC; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=aM4ScMhncdnKOh5k1rZy6v9W3xVCZ88GPHlrN677n6Vjvzf+y0Oo0xw1NA7TXWjqHBPtz6r9j5/tyQUAGD1nZm5AOKf2MGp1wGnaOz4f85UiZkks5/QFeNUdUVrT0ytUQ4EtgbZXQpWf/+n/gfNbjCSLIAvcplH4KIE2uqqG1Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bwCMQdb1; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LP4xLJtC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bwCMQdb1"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 1BEC11A174B;
-	Wed, 29 Oct 2025 14:36:56 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1E9C54E413CB;
+	Wed, 29 Oct 2025 14:36:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E59ED606E8;
-	Wed, 29 Oct 2025 14:36:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9BEF7102F24F9;
-	Wed, 29 Oct 2025 15:36:53 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E90A0606E8;
+	Wed, 29 Oct 2025 14:36:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7458D117F81AD;
+	Wed, 29 Oct 2025 15:36:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761748615; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761748617; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Cp6JpAtoASV5c2ZHnxjic8luGPShZOCddn0tveS2zCk=;
-	b=LP4xLJtCpeo0/5dDEGlvCen7w4edznxJlfh4hXIodgwC983y8R+ka7JswykSJVMQfzmKhs
-	7lqUDNOq/iD6uuMldL5pGETpUyT20yXfyIAxuggiVpJI/IjEYzv57GpuN9AxR7NBjI8pqC
-	v8i0/4FIP9gVRWJ0Gkgym79AZk9XMw+9ivEKalIg/U/R8m2NY748Qj1JMe3wqPJ7wND2DU
-	zclGw7bK3OXJhnYO+4++30uGjZmhqacQKSlxgx3dZmc40KwBwf97F7wQfBxxQKK8mJKlgC
-	q1PRAm5Uu+hNublx+XJEpK/aw/v5BNKPkmDbi8QOjZvMnCLeTgkY9rl2kO7iow==
+	bh=nY1yQcqWIvwZGQdkoeG1HdLDJqiutiLInY6EQwK4N+U=;
+	b=bwCMQdb1PJDBNvU6KB3lPhhah0a04r+JksL+KTxbo6iw7L1sE71/tKsxFcL8kO8esRCVNa
+	+yYit8TunrSqVT9Jw9va7xIH740XtPi8PNDytfSLIbiws1lkKWrL6kFTclOp+YfwVOO58O
+	HtXc9Ek6GY0T5YH6BghH6mNJAbU5Cf8Km8MgccMAI1c3BvsDg85c2cgYJf10S6Xe8CatEg
+	9y4+qm1KUT+d784NUX2K0U8UgAAlutmqN/bEi+504e7blzFQq4WX4pS8am08lNWsWAgtRW
+	gHUloh6vjmNbn0oqmMedmJJaBSqdOJH8gtPa+ySx1Kce7qgtNYfC1pTGSEaqVw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 29 Oct 2025 15:36:40 +0100
-Subject: [PATCH RESEND v2 03/32] drm/vkms: Use enabled/disabled instead of
- 1/0 for debug
+Date: Wed, 29 Oct 2025 15:36:41 +0100
+Subject: [PATCH RESEND v2 04/32] drm/vkms: Explicitly display connector
+ status
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251029-vkms-all-config-v2-3-a49a2d4cba26@bootlin.com>
+Message-Id: <20251029-vkms-all-config-v2-4-a49a2d4cba26@bootlin.com>
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
 In-Reply-To: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -59,27 +59,27 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1094;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1127;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=P2YQYyxAPSZpXd/i/92Ex57u+40+oZJvWkUOQRGtaCI=;
- b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBpAiZ67gTBmoyopTr26ee+sA1L9TqFeiljDye1u
- t9L9WYhhSuJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaQImegAKCRAgrS7GWxAs
- 4hISEADIvecDEqTRDOMd30EJrvFoLJdurexYYJOpbiRQw32Oo0Ll7HkT5kVmCYbk6vOUlNeabLI
- ukxPUg3edy1pY/s5xkiaNiN0pg01HOlEyx50gjhEG1Ex7ghFrb2bWXnJVJaW/I0Pl+nWqkgLvNl
- 9197W66mCD+UWEejgbsWAjbSESG3z6dpDxlwntcik+aDufgGSBgwvEW6nU4gMiK8C0/Zj13RbLq
- HhbC1mKkmH8rWOx90ovac8t5BTM4VrUioQBD6OxQgfpNLBWKDnk2QTIy8ljmA2K/WTkmU4sK5eU
- XsL2MCVmfym8zUMSiptCb9Zvx8lRkUppFfdZQLnb0bxefbL+vFDVGnJ3tgIggrvVDX6qC7rbuBL
- gOQHsbzmQd9k5cq7QvBqA4hUHyAWj5yG0thY5oVILmTHM8ch1tzOn7bT5Hw/PD3eomR3ttXrk1i
- uURqRgLALZlCoSzGZy1TL9FV8dhG6F8waG9J54ZR1xc0RsqGp40OKjfUZaNyU0RWixD+VJH06LQ
- XkKxZcq0erG1J8+Aep2CnS8CukaMXoToZT7T4X4DnC3XFIyXh+gXlHziZtzm1yBE2ejcRK+2DwB
- qJIGbwWX53TZITJWhU5W7dMUqHgkRIPSqn3kQo6GOdEASwk0JnISOsK4OYHgBWHJnzsYZrKTxV+
- jkMXTqKG18EtldA==
+ bh=voeNI9bwwu8x7aT8ETB3x5UR1BLQoLZlunp+Jro1U6w=;
+ b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBpAiZ6J63Cu7MWfHrVZRUGGSsVwW63YUrMj8ac6
+ VykbMdMdCyJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaQImegAKCRAgrS7GWxAs
+ 4mlRD/41crYu4gMKFpLyj0lmxv7pJolD2wVQGyYxrYVFaBM/8I372AJpvveOIDGN3czKCjbpeIm
+ 6HxyN2LG3vZshCrfYBcTWWzpfkfS+dTUj2+YoFLZwLgv+PQAiJzjIcYf4HfHV/nyE+BIWnfxrwH
+ vF2YlUxSAGVgF2I02P3opM0ubDfm3EHbavhP6iunF/YCcnFuq5KLxHU36LOuybflYec1Vls/DUt
+ 60pRwjs0GOELWLqVGNZOkMjoLUyah2vuERqX/2rHojZnIf6LHN6kJfa87s3pKy9uo3bMV8Z5WWq
+ OqqP+DSXx/AFk0scAybgnWUzMapBRg5aPOk6CFexffJVzreMwHWnkjDe9cRBODr+fTxwBefiVUh
+ BxMw9PQAm1wptJJjifwCayH2YLDYlpvR2ca2GfzdHvJCdKCl1XW6d09ZWBqFolzYuG7C1mSKVTz
+ BUpOSN8GHA6LGIkBCK3gxqDX2zd8rgUzlchxsDa5WIjkQc/HV2pIETrJFjcOp75g5EbhY1hhK6A
+ OHpW56BPqP1AHlYaJCku2VHDdlGlOt3QtTbZ0CVANTPwvkVgZXiMF8IcDyUzfVfWr/dfpDb3rZP
+ DT15TKPv9kFKd8zH3ABceNNJ9WblCcQnDdLdzHbhEdO02ojHjd45navW5DH+6febqYspvS9zZZP
+ 4zsrx1SPskMZQLQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Debug information are mainly read by human, so display human
-readable values.
+Debug information are mainly read by human, so use full name instead
+of raw values for connector status.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
@@ -87,28 +87,28 @@ Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index cfdd5f32f234..391794d391c5 100644
+index 391794d391c5..858bec2d1312 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- 
+@@ -3,6 +3,7 @@
  #include <linux/slab.h>
-+#include <linux/string_choices.h>
+ #include <linux/string_choices.h>
  
++#include <drm/drm_connector.h>
  #include <drm/drm_print.h>
  #include <drm/drm_debugfs.h>
-@@ -354,8 +355,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ #include <kunit/visibility.h>
+@@ -364,8 +365,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
  
- 	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
- 		seq_puts(m, "crtc:\n");
--		seq_printf(m, "\twriteback=%d\n",
--			   vkms_config_crtc_get_writeback(crtc_cfg));
-+		seq_printf(m, "\twriteback=%s\n",
-+			   str_enabled_disabled(vkms_config_crtc_get_writeback(crtc_cfg)));
+ 	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
+ 		seq_puts(m, "connector:\n");
+-		seq_printf(m, "\tstatus=%d\n",
+-			   vkms_config_connector_get_status(connector_cfg));
++		seq_printf(m, "\tstatus=%s\n",
++			   drm_get_connector_status_name(vkms_config_connector_get_status(connector_cfg)));
  	}
  
- 	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg)
+ 	return 0;
 
 -- 
 2.51.0
