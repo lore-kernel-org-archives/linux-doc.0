@@ -1,304 +1,174 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012008.outbound.protection.outlook.com [52.101.66.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355273126C0;
-	Wed, 29 Oct 2025 08:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761725213; cv=fail; b=f8Iz37PPihh813jOkSfGwuvGoGsPl7QcJfzXfpq2o7zh53EaC5G8I0Dg/17HN+S1mYzaLwpyhMydN0F93pPO3HZJtpriGNw85yKYAry/CE6j3jEH96lhVHM0TsLnUSw+syz980QslW+btX2+CaKIPeS9pYhmNiJo1uRWAfkFL9o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761725213; c=relaxed/simple;
-	bh=8850ndzH5B1aT/IxWPlGIPpJKtTjWWtEry31wX6aqWk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cN1wNWxrRiWwMrh3zm9rP/vwCuHTLdnmtEr8rSJAb6pJzO5x+UefGW1X/iTZcU6v08hcc950w+GfhBmVBvMi7D78maZKdn7rc8CqNnDJOzotYzrrrwJ0nZFqdGyBgurC3GQxWNCG3bHXvrUwqHZPIaCb0hlqKHnx5TvLZ9bMhuo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=C3gP6yTU; arc=fail smtp.client-ip=52.101.66.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3A432143C
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 08:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761725910; cv=none; b=o7LS6rabEEqfck7xdstepRxJfwsnzHuW8813A/rUz63vtiOla1UBblG0JUIIQqrCuqE5AXIa0lth5tqqiVLJiaiBg2XwPln3euEDPZBVCckGveDum5mb1AOim6Iw0oW1S02GMWVvN1jzOy+wtw/5WdrRBbxE6xoEMo/LqGG6isM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761725910; c=relaxed/simple;
+	bh=ytOgLBaFXH0MjHGi3HQFFq5SOoOzuPaSnXx/JqK3xmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a2PnoN/FlG5EvSdE8dlm0dlhJIHaIYnfoa8y25Mf6/Mnj+DCgeQAS/Um0C4tClh2FJDNW0hvNKKdqBnoy0+yoUarJGZ/WXegBZhjWMdQqutFE+o8INHXCU8jXzjkBJDNlrQXAyzD8/W1XBN9t8HNM9s1J5KpJXD16TH+53/md9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDkJji5N; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="C3gP6yTU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ioyxZAJtf58AJDLHaaIGxAMgRNWb1XdgdSztPYlsPyiDZLVWkBXx+GBSAnRWZlI/tav5sg1NoxGz0BAbh3732X76Kz+zWZuq8j2+9/Wzb5A2iWL7wAetHhnhS4PckfZa8ZyT8LNC7DXMZJ5N5LYDh6hFpwRxXEun+RA6396RPINjdjvnCJQ3vrrA9Q1XFaDreAqxiQLpkUwQVmmxXGqa47ysyqZnqFgV/UM7ZD9+ukLfkNqMJLz86ndtlN3R/c+3QNtv4Rgmj/7/OvhX+hT1cW9qCqy8kYvfw7QYx14t+3emuObTU6BoQhEvMdEiydThfbHKnIu0we9aatXqYx28Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MrA30uj+gGU8p6Le1/lccVv75+H/SkFHkrElhvnrsJM=;
- b=wVpu50KRaBvytjF4PDLfxZ+J350sXbYoOb3w25225BXISNW4bwBYBfu/vKkTKwfchvn9RO3Okcm6E5YAjbxTgsMUSXdOwoztoJLQI4tjBj5+qUr+v2CuYfiiovSsi8BaefJiEFVdnWNBsijo3K9nkSUNoQBx8a6bJyazLeGZ0aMYx/rkYA3bdk+LObQLsW5kHjH6N2FktCVKg5HPDxLDLjKkuJaX0RgSGOhUVZv4f4D6X7bjvYbQ/AHuDofU+Ps1RTMhB8CUk6WY1/fIUfWnqUo4Q7GQKriEDFfFMpKCSEaQAS7N00jqAfdWGl/M3mwh57VTKR2BkZThZn1lY6JedA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 131.228.2.241) smtp.rcpttodomain=apple.com smtp.mailfrom=nokia-bell-labs.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nokia-bell-labs.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MrA30uj+gGU8p6Le1/lccVv75+H/SkFHkrElhvnrsJM=;
- b=C3gP6yTUS2Knt2ekbUBfY+jGmgkG7Zg+SyXzjCugfqC9u14/lLp3hp+YCmZhZ/rxTTQC5kMa8zid2JbqYQVNsM9u+A3zX289RwMi781jTcrXE/Worlca7XeNbtiQH9sCEauOnVvR8oSh3TcYlmC5sLlqUpB1W2HNq4raAycnnSbl8NHr7n9/pHackRrQ6dy/oYtJYj88T0ULcdD3M7XvdIWSEVDI0T07l9DqIu6t+lT3yR4nyP8j8+8EmJs44zjo+r4KqWQUZ2xxJE5QO5uQjJTa/8g3suyfshlXeulO1IWqQ1R9t/fpNTq4XkCA9dXM+Xn4Y0dqo60o+d+N1YHTfw==
-Received: from DB8PR06CA0061.eurprd06.prod.outlook.com (2603:10a6:10:120::35)
- by AS8PR07MB7143.eurprd07.prod.outlook.com (2603:10a6:20b:255::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
- 2025 08:06:43 +0000
-Received: from DU2PEPF00028D05.eurprd03.prod.outlook.com
- (2603:10a6:10:120:cafe::be) by DB8PR06CA0061.outlook.office365.com
- (2603:10a6:10:120::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.20 via Frontend Transport; Wed,
- 29 Oct 2025 08:06:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.241)
- smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nokia-bell-labs.com;
-Received-SPF: Pass (protection.outlook.com: domain of nokia-bell-labs.com
- designates 131.228.2.241 as permitted sender)
- receiver=protection.outlook.com; client-ip=131.228.2.241;
- helo=fihe3nok0734.emea.nsn-net.net; pr=C
-Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.241) by
- DU2PEPF00028D05.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.10
- via Frontend Transport; Wed, 29 Oct 2025 08:06:42 +0000
-Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
-	by fihe3nok0734.emea.nsn-net.net (Postfix) with ESMTP id 21E6C20105;
-	Wed, 29 Oct 2025 10:06:41 +0200 (EET)
-From: chia-yu.chang@nokia-bell-labs.com
-To: pabeni@redhat.com,
-	edumazet@google.com,
-	parav@nvidia.com,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	dave.taht@gmail.com,
-	jhs@mojatatu.com,
-	kuba@kernel.org,
-	stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com,
-	jiri@resnulli.us,
-	davem@davemloft.net,
-	andrew+netdev@lunn.ch,
-	donald.hunter@gmail.com,
-	ast@fiberby.net,
-	liuhangbin@gmail.com,
-	shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	ij@kernel.org,
-	ncardwell@google.com,
-	koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com,
-	ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com,
-	cheshire@apple.com,
-	rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com,
-	vidhi_goel@apple.com
-Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-Subject: [PATCH v5 net-next 13/14] tcp: accecn: detect loss ACK w/ AccECN option and add TCP_ACCECN_OPTION_PERSIST
-Date: Wed, 29 Oct 2025 09:06:07 +0100
-Message-Id: <20251029080608.92428-14-chia-yu.chang@nokia-bell-labs.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251029080608.92428-1-chia-yu.chang@nokia-bell-labs.com>
-References: <20251029080608.92428-1-chia-yu.chang@nokia-bell-labs.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDkJji5N"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-33ba5d8f3bfso6261188a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 01:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761725908; x=1762330708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BU/2ChziUWHxejZHVNmmLwHaGHaf0EEXiVZ1de6fJz8=;
+        b=PDkJji5NpIy/iINL419GnAk+9+qYddfkAKyMuKwFe4mlyO6WGqcObFtOQ+Lptky7WR
+         KJ1Wl2S7CV7RZyN7rjes5T1aweYJdAO3cVjnyE1eIOkSiJxpn0vYDb+9Aowm6Gdv9QCg
+         NqipBCPtCxKEbyo8m9dUSyjA9lKk1B4e/OponYrV6bspekPHH4sAJl3T2EI1Y0xFxgUG
+         XkgNhNQ3p5DvmFratLinp+c/jIfPeTtnog6V0XMo/IJ02fBZAWcgERwN6LMbe8S7mdWK
+         psAfWnLveVVJaQR/Sqfq9Uw3UNAGesj6k0wht6v5yM/SLk6BbMr3MLsh/TK/vfviHkhX
+         Hucw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761725908; x=1762330708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BU/2ChziUWHxejZHVNmmLwHaGHaf0EEXiVZ1de6fJz8=;
+        b=Mz8RufD+izsdLB/S+xs4HhMNUEasACPtEKGTwKlQ9x2JhPyKgBHFRnqXPbrky4Z78X
+         rT/dvnmp9E+QthCC0o9IpLWlGF502/1LIj/+XWcBzWQ3C4PTQInOaoHNe2tCQLlr401X
+         mO9w2DdGTd2cPDtXk2aSwwmJO/yGmc3H4O1NqubE804glk/UkgDOyUQzx3xj2XGqai8f
+         id5UAr2bGA94PZBeML229cG0Bc2+CV2ypSjbrwXzgpKJsEn3H3JsBDeqOyFA86MpAjEq
+         S/qHtzb6yyqACJiYXq3cOb44eEPjh4c8VXb5Z9G+JAe1SpyK2EBKNwmWXvl9oN42LTI3
+         zjjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXdVwao4zCpCtK+v5TPJzDTZghXmw9XszOQJABYNxY1FqOmqLrkrnAOJ/hcWEvwKRYKjUyMXAx8ObA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbfqXkNdAMbCLwn5zN72kqGYHBBZNxl0MskSi7iWkPwM/jvdcl
+	I3dpqaExzI2HLSfXGsw1+k4lAxwb28R8tQHz18qRy2AoK04MD+eOZwsZ
+X-Gm-Gg: ASbGncsYkxAmp4vP/BowBrA0pUHGHhFzRFhvrWhQpvEdZprCic2AC/agz4arJQVlI5e
+	60QrGdjKUuS/psBL5cOMwEEz7d4giMoiMDnF6pS1zsErNs5K6Nk6PiAWBE18pYLjVOJO3ih9m7n
+	D8ipEdtPn1URMKgecf21kmUbHVt736qD/g5ZkVdgawHpLvHEQ6/+KzHt0scQ+ZACkFHNcY/aFO8
+	whloD6M0YAwr4Jwege2hHLK+am4tBFGWpdCe2tLTFm3QdgYjC+I40hNdU/1jxHspzoyKxq3ebvc
+	yMY4wyOeco6640efN5V4iJ8a9VlXPnNNdx0FqH0XB01TQtHPYM+RHCgcLmD5Uzk8DGZ1D6H01/Y
+	89ytWL2x4S0/l+eQ9C/OaaQJ50XEpidVIwQi6ca8TPF6q6VMtEYyd2qrgmYB9TZbhZE9QLpMt5g
+	RlKYiimek=
+X-Google-Smtp-Source: AGHT+IG0hKoAdUsMURHNX2F0gCSO4GHclR682zY7XisnLdYkrJ5vgKbkXR26X+9oYI+y2cVVLM86Wg==
+X-Received: by 2002:a17:90b:514c:b0:336:b60f:3936 with SMTP id 98e67ed59e1d1-3403a26500bmr2931834a91.12.1761725907889;
+        Wed, 29 Oct 2025 01:18:27 -0700 (PDT)
+Received: from LilGuy ([2409:40c2:1057:4837:724a:2122:38a7:2755])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-33fee84db04sm7905429a91.2.2025.10.29.01.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 01:18:27 -0700 (PDT)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-pm@vger.kernel.org (open list:CPU FREQUENCY SCALING FRAMEWORK),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Subject: [PATCH] Documentation: pm: fix duplicate hyperlink target errors
+Date: Wed, 29 Oct 2025 13:47:37 +0000
+Message-ID: <20251029134737.42229-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D05:EE_|AS8PR07MB7143:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: cf222dab-b067-439f-321f-08de16c218da
-X-LD-Processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|1800799024|7416014|82310400026|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?e+b0f8MgAQ7gVq+oDYxmfKM8q0Nv2AmZfL4IdB2Mn4mcjYaTjv7t2FXDQde9?=
- =?us-ascii?Q?Ph0WZOkhehMhYcBI+nxZNchxR6CjXUi7fTA+U3CmREuSjVdX3krND2iUAyfq?=
- =?us-ascii?Q?3HRxZVJChOuKZKOpcn/dhUFmt9AyO/Dmw+JSkfn+6N6SYaqiMKg/iBxRHyPS?=
- =?us-ascii?Q?ldMaaPiwmQeMh8dLMBco5i9EVkZhh1iHF1rhvUHThws8ep+uiBn9AxYCjqkZ?=
- =?us-ascii?Q?4fktOo5rXUUoWN03wCYse0Qb+gXxeLIzvNN+rmGRWXSVqlLi94trsCPe7ngF?=
- =?us-ascii?Q?2R/10mJ7U18c8AO+FKgtY7C/LOt9gV5cb360WhcqPLI8ZMdC5iEDBLVHFBu8?=
- =?us-ascii?Q?9wzbrbGhk3jHU6BGbZolGqSXQ2qchxs5DiM9xkDKI+7S6JxMqVoNK6yt7T0S?=
- =?us-ascii?Q?7KCHcoiWH27FNmCvuEED4cqWiXDnmsmuPeNl+oj/iUG5j4vPnBCHGQcsqRz6?=
- =?us-ascii?Q?RmxVJLOZwmNCQoyWeeppkTLMW2tB2Laws5l8AiXSC031Epvk4vDXEiX1UOku?=
- =?us-ascii?Q?9QYhQpFg4AntXtqIiGa2jqVKvgFHX0DOtLvdvp8aQhwM2wb4cSXkWK83/FcD?=
- =?us-ascii?Q?yGmuqats3cTGTFbTB/fZdJts4OCnZoWmaB/Leq6SzL4QgDnuWffAhjv1uzby?=
- =?us-ascii?Q?3DjMuQC6gFdGKuZwcXXeNzC3a14Xg3r3InBZmfIkNiRxUKTdATqBTs0puDk3?=
- =?us-ascii?Q?wRl55GDBfVcveRRLlKTIlB1NGrF50DxNEulDf2vJk+w+1jAMWJif54g3YR32?=
- =?us-ascii?Q?AUWEM/n6zH66yLVRbSOC12ilmNEIN/AMosL3up5NjI/W/92tZWuKUVv+AwrA?=
- =?us-ascii?Q?zCwyAzNbP+N1RQyehyfBaSe4zjDMD0889dY8ZyiOW8jCydeTr2VlvRPZJ7Yp?=
- =?us-ascii?Q?31nNj0HY+5CTdUDKcj9QEv/iWr3IiRM4Pe7YfYak4rMvO1xWwEzxoLGBn6/j?=
- =?us-ascii?Q?mR/R8IUYDo3KwOshnOffJtQlHFMWt4elsVP4R4f/KX2BCuu892o65yeNwQ1D?=
- =?us-ascii?Q?y/23nB8zL4c48D5g5trDKe66qqCrYevlQ9Zu6A+PiracvKm92sqS94xoK4CQ?=
- =?us-ascii?Q?bDFckRTKcqXEEiZqNY/5abGbrTr0SwXGnfvMGv8IbUYU3BFkii3bpQtPqvaG?=
- =?us-ascii?Q?y1p7dEg2FpUVEO441boc8spU5Vu55BB7szXyltB4m119fLOn6giq7Iwrs3nH?=
- =?us-ascii?Q?EwwaXgEUdjeR2+RV4y39Uhj6VS86m4eibDa+KXyTJzcfQoGHOMT1vMQgC26e?=
- =?us-ascii?Q?t4grVgo6+tnFh77qndj+PhkYV6iTYpwvH2/1yWJRJpJe0U9b7EKdLrgv2Waz?=
- =?us-ascii?Q?PjGaysJ6d8e0hqm/ptMCVdF8VsyrM7ZLfuH5F2WXdywkXtA3tAm1IvZ3ywQG?=
- =?us-ascii?Q?V70xFIlkvCT2kkp+wLqlHCSoGdsU+9c/Y/Ysr+8fnUMNmfsRzQUf11bma2Ho?=
- =?us-ascii?Q?i81r31YrpV42vHsvrafQNft/FfqhaNoNg+T77GeCbz/0leAc3YJgGqOGkOsN?=
- =?us-ascii?Q?atpzaRDFWvqhwSowFtr38O478qSQ9Vt5RV7emS0M5accT+75CmsrfCqxtxF9?=
- =?us-ascii?Q?QMZj83Fc6Ijq6elQPy66OJte8vZ3DFqLynYNQakh?=
-X-Forefront-Antispam-Report:
- CIP:131.228.2.241;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 08:06:42.8789
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf222dab-b067-439f-321f-08de16c218da
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.241];Helo=[fihe3nok0734.emea.nsn-net.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB7143
 
-From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+Fix reST warnings in
+Documentation/admin-guide/pm/intel_pstate.rst caused by missing explicit
+hyperlink labels for section titles.
 
-Detect spurious retransmission of a previously sent ACK carrying the
-AccECN option after the second retransmission. Since this might be caused
-by the middlebox dropping ACK with options it does not recognize, disable
-the sending of the AccECN option in all subsequent ACKs. This patch
-follows Section 3.2.3.2.2 of AccECN spec (RFC9768).
+Before this change, the following errors were printed during
+`make htmldocs`:
 
-Also, a new AccECN option sending mode is added to tcp_ecn_option sysctl:
-(TCP_ECN_OPTION_PERSIST), which ignores the AccECN fallback policy and
-persistently sends AccECN option once it fits into TCP option space.
+  Documentation/admin-guide/pm/intel_pstate.rst:401:
+    ERROR: Indirect hyperlink target (id="id6") refers to target
+    "passive mode", which is a duplicate, and cannot be used as a
+    unique reference.
+  Documentation/admin-guide/pm/intel_pstate.rst:517:
+    ERROR: Indirect hyperlink target (id="id9") refers to target
+    "active mode", which is a duplicate, and cannot be used as a
+    unique reference.
+  Documentation/admin-guide/pm/intel_pstate.rst:611:
+    ERROR: Indirect hyperlink target (id="id15") refers to target
+    "global attributes", which is a duplicate, and cannot be used as
+    a unique reference.
+  ERROR: Duplicate target name, cannot be used as a unique reference:
+  "passive mode", "active mode", "global attributes".
 
-Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+These errors occurred because the sections "Active Mode",
+"Active Mode With HWP", "Passive Mode", and "Global Attributes"
+did not define explicit hyperlink labels. As a result, Sphinx
+auto-generated duplicate anchors when the same titles appeared
+multiple times within the document.
 
+Because of this, the generated HTML documentation contained
+broken references such as:
+
+  `active mode <Active Mode_>`_
+  `passive mode <Passive Mode_>`_
+  `global attributes <Global Attributes_>`_
+
+This patch adds explicit hyperlink labels for the affected sections,
+ensuring all references are unique and correctly resolved.
+
+After applying this patch, `make htmldocs` completes without
+any warnings, and all hyperlinks in intel_pstate.html render properly.
+
+
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
 ---
-v5:
-- Add empty line between variable declarations and code
----
- Documentation/networking/ip-sysctl.rst |  4 +++-
- include/linux/tcp.h                    |  3 ++-
- include/net/tcp_ecn.h                  |  2 ++
- net/ipv4/sysctl_net_ipv4.c             |  2 +-
- net/ipv4/tcp_input.c                   | 10 ++++++++++
- net/ipv4/tcp_output.c                  |  7 ++++++-
- 6 files changed, 24 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/pm/intel_pstate.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index a06cb99d66dc..88ce54bf2a02 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -482,7 +482,9 @@ tcp_ecn_option - INTEGER
- 	1 Send AccECN option sparingly according to the minimum option
- 	  rules outlined in draft-ietf-tcpm-accurate-ecn.
- 	2 Send AccECN option on every packet whenever it fits into TCP
--	  option space.
-+	  option space except when AccECN fallback is triggered.
-+	3 Send AccECN option on every packet whenever it fits into TCP
-+	  option space even when AccECN fallback is triggered.
- 	= ============================================================
- 
- 	Default: 2
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index 683f38362977..32b031d09294 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -294,7 +294,8 @@ struct tcp_sock {
- 	u8	nonagle     : 4,/* Disable Nagle algorithm?             */
- 		rate_app_limited:1;  /* rate_{delivered,interval_us} limited? */
- 	u8	received_ce_pending:4, /* Not yet transmit cnt of received_ce */
--		unused2:4;
-+		accecn_opt_sent:1,/* Sent AccECN option in previous ACK */
-+		unused2:3;
- 	u8	accecn_minlen:2,/* Minimum length of AccECN option sent */
- 		est_ecnfield:2,/* ECN field for AccECN delivered estimates */
- 		accecn_opt_demand:2,/* Demand AccECN option for n next ACKs */
-diff --git a/include/net/tcp_ecn.h b/include/net/tcp_ecn.h
-index c82b5a35db28..d6ffa8492365 100644
---- a/include/net/tcp_ecn.h
-+++ b/include/net/tcp_ecn.h
-@@ -29,6 +29,7 @@ enum tcp_accecn_option {
- 	TCP_ACCECN_OPTION_DISABLED = 0,
- 	TCP_ACCECN_OPTION_MINIMUM = 1,
- 	TCP_ACCECN_OPTION_FULL = 2,
-+	TCP_ACCECN_OPTION_PERSIST = 3,
- };
- 
- /* Apply either ECT(0) or ECT(1) based on TCP_CONG_WANTS_ECT_1 flag */
-@@ -406,6 +407,7 @@ static inline void tcp_accecn_init_counters(struct tcp_sock *tp)
- 	tp->received_ce_pending = 0;
- 	__tcp_accecn_init_bytes_counters(tp->received_ecn_bytes);
- 	__tcp_accecn_init_bytes_counters(tp->delivered_ecn_bytes);
-+	tp->accecn_opt_sent = 0;
- 	tp->accecn_minlen = 0;
- 	tp->accecn_opt_demand = 0;
- 	tp->est_ecnfield = 0;
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 24dbc603cc44..91a90c34a810 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -738,7 +738,7 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
-+		.extra2		= SYSCTL_THREE,
- 	},
- 	{
- 		.procname	= "tcp_ecn_option_beacon",
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index cc39056d446f..ebedcf0ea0d0 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -4802,6 +4802,8 @@ static void tcp_dsack_extend(struct sock *sk, u32 seq, u32 end_seq)
- 
- static void tcp_rcv_spurious_retrans(struct sock *sk, const struct sk_buff *skb)
- {
-+	struct tcp_sock *tp = tcp_sk(sk);
+diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
+index 26e702c7016e..9cdd9dad6516 100644
+--- a/Documentation/admin-guide/pm/intel_pstate.rst
++++ b/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -62,6 +62,8 @@ a certain performance scaling algorithm.  Which of them will be in effect
+ depends on what kernel command line options are used and on the capabilities of
+ the processor.
+
++.. _Active Mode:
 +
- 	/* When the ACK path fails or drops most ACKs, the sender would
- 	 * timeout and spuriously retransmit the same segment repeatedly.
- 	 * If it seems our ACKs are not reaching the other side,
-@@ -4821,6 +4823,14 @@ static void tcp_rcv_spurious_retrans(struct sock *sk, const struct sk_buff *skb)
- 	/* Save last flowlabel after a spurious retrans. */
- 	tcp_save_lrcv_flowlabel(sk, skb);
- #endif
-+	/* Check DSACK info to detect that the previous ACK carrying the
-+	 * AccECN option was lost after the second retransmision, and then
-+	 * stop sending AccECN option in all subsequent ACKs.
-+	 */
-+	if (tcp_ecn_mode_accecn(tp) &&
-+	    TCP_SKB_CB(skb)->seq == tp->duplicate_sack[0].start_seq &&
-+	    tp->accecn_opt_sent)
-+		tcp_accecn_fail_mode_set(tp, TCP_ACCECN_OPT_FAIL_SEND);
- }
- 
- static void tcp_send_dupack(struct sock *sk, const struct sk_buff *skb)
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index d52229d32b4d..41e9a7a50538 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -719,9 +719,12 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
- 		if (tp) {
- 			tp->accecn_minlen = 0;
- 			tp->accecn_opt_tstamp = tp->tcp_mstamp;
-+			tp->accecn_opt_sent = 1;
- 			if (tp->accecn_opt_demand)
- 				tp->accecn_opt_demand--;
- 		}
-+	} else if (tp) {
-+		tp->accecn_opt_sent = 0;
- 	}
- 
- 	if (unlikely(OPTION_SACK_ADVERTISE & options)) {
-@@ -1191,7 +1194,9 @@ static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb
- 	if (tcp_ecn_mode_accecn(tp)) {
- 		int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
- 
--		if (ecn_opt && tp->saw_accecn_opt && !tcp_accecn_opt_fail_send(tp) &&
-+		if (ecn_opt && tp->saw_accecn_opt &&
-+		    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
-+		     !tcp_accecn_opt_fail_send(tp)) &&
- 		    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
- 		     tcp_accecn_option_beacon_check(sk))) {
- 			opts->use_synack_ecn_bytes = 0;
--- 
-2.34.1
+ Active Mode
+ -----------
+
+@@ -94,6 +96,8 @@ Which of the P-state selection algorithms is used by default depends on the
+ Namely, if that option is set, the ``performance`` algorithm will be used by
+ default, and the other one will be used by default if it is not set.
+
++.. _Active Mode With HWP:
++
+ Active Mode With HWP
+ ~~~~~~~~~~~~~~~~~~~~
+
+@@ -192,6 +196,8 @@ This is the default P-state selection algorithm if the
+ :c:macro:`CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE` kernel configuration option
+ is not set.
+
++.. _Passive Mode:
++
+ Passive Mode
+ ------------
+
+@@ -432,6 +438,8 @@ the ``energy_model`` directory in ``debugfs`` (typlically mounted on
+ User Space Interface in ``sysfs``
+ =================================
+
++.. _Global Attributes:
++
+ Global Attributes
+ -----------------
+
+
+base-commit: f30d294530d939fa4b77d61bc60f25c4284841fa
+--
+2.51.1
 
