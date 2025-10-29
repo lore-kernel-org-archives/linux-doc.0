@@ -1,164 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE22C318124
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF74835A921
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761770423; cv=none; b=D1CoVMnBVCJqkfC543dsHqWjOr90bj8m0g5mbZzgqgv5F2i5bEUJVdu32/Quwx5EiU2fRRSTsPmf+WqaEv3sA2rn2xGJWnRnhjtf3G4VKMQrDez61r0gVrC4vZV4OXsr0IW38zNLR6INs4vdyz9+jdtjgscteri+mJHN3nYFKUg=
+	t=1761770667; cv=none; b=PK9OhnPYnEcrDDfkvdqg7KaF6l83cRnBCi+9hjQJpr305yqdpI+r26jFXypq7N8UnNb4qBjh7ah23zmrLRhdqwGWPEpbe0GjHrEOCDOk1j1UnUE4oCGjGcUY0RZGWX+PCys/FZMhhTRpaIRXB6tiS2PkTebOA3zbi5BPENs4/Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761770423; c=relaxed/simple;
-	bh=ns4b6aM37ZgOxDoSOaW+r8bQOQRHH+MqybA/pg189gM=;
+	s=arc-20240116; t=1761770667; c=relaxed/simple;
+	bh=/nRyrHH69bDwdkUwV+ZvUiMlkERSxLC5qY0L4yNkpAA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cEQYlbOH7SvV8OxZHqrpIgrS+QUs7wie88FaRRrK+Vk3RHP7wfeB5QUPBVWGdCAFpZCjrPXuPRL3Li2f9dJvh/FAMrfiXrpUrY7CFsVIOR8x8hFafUqUDgQn+6YeSF/EtjrAFAEDAF/XSDiHlvN3rSgDowAeWPNxV73A0YMkZts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nO+G0kcb; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=rqKO2JP02B/6FvE95ncwlphdP9HlRDeoh3rY1DmUiClj7sZo4g0X75mH4GlMiqnq2fVXJ3kOA2khUDBGwn0gE7LTsbpyeOHIUc80GMhygKKOgHbbLKvv7nC7fX7fDJmYM97nLsiI55lYtnXYXxeAG+FLpKYXdbiA60YwtX3Km0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZIT8FZH5; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nO+G0kcb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5861CC113D0
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761770423;
-	bh=ns4b6aM37ZgOxDoSOaW+r8bQOQRHH+MqybA/pg189gM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nO+G0kcbM7pNCV0+74zGKKhYXh12qoB3q0zZmRBWcYbpkgzrJfDHLPwweS33YDqtH
-	 4fLk99/ctjqqTJFXzdR7IR24tezAvcNATOb9PV3teZreG47IbvhRaWfoQDb6+NMWpx
-	 Rl7todaGEC1nCqhTTfkTN6JenHoNvynolojOHGLMoBgtA3031Kr6uG3J7EpQv6DnPb
-	 5VS+dQtY6Q1ZY6bHCzvnCVblIZqSPtpoTFCg7U/wldYh0H0O8ZYn14VxGLsS6hhENW
-	 FCB5FYBkJtUXPT78XUAn4s6kzVKmGxMiCbJiFNVtKh4lLgdEmlNkez3epdQigRZl6I
-	 p1B6Ikr30M6PA==
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-654ee606fb5so92927eaf.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:40:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUCTuKYyI8wXn18tdy5IMpXgTm8UHOgQxCXcI44JiywPtrpwcG6ih6gxvnQ/XH0nLM8tUldBnpMRx4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPW3DF5jqNKJKVU//+cx6Sv7bqBnmsQkLyvy1Zolz5bjgHl9KM
-	Sg6l4yOqtK4EAGUI7B3XR97hmTmvBQRBO1msp0vFXBwMMhErE0s4UUVb3vlx5C02/7ss9FdE/js
-	AC0hDaWXqeT92IEk0uEmw1g2LNupf8xY=
-X-Google-Smtp-Source: AGHT+IGkw0errFUiWgHSegfRuc0UV+uiohV9K9kD6XTBbEYcHl6IYdAr8WV+LfSRejWvHXoyL9ZP+xb3OppXM4LdNZ0=
-X-Received: by 2002:a05:6820:161e:b0:653:827d:1abb with SMTP id
- 006d021491bc7-65677e52479mr1754431eaf.2.1761770422550; Wed, 29 Oct 2025
- 13:40:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZIT8FZH5"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-378f010bf18so14819061fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:44:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761770664; x=1762375464; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/nRyrHH69bDwdkUwV+ZvUiMlkERSxLC5qY0L4yNkpAA=;
+        b=ZIT8FZH51950wDS/bjbvoKGOA8qhHonV7KO9v4ASHE/9xRn3ynMtghPFcpBjOistJH
+         2lDJC8qO5e33qWIzdICHnbPQyQbleSTxhRTXXmBRLGOGCyZzy+q1Sd+c4kD9S/keZClS
+         MZt8ZPz7P4MLIzfxWg2TmnOnQZh1igfmm8ZEeJ8srgrqVAyq+4zbSyFWUbE7XBWoPObj
+         jw6yyodMDdTkDAscIF6SN8BwOhAbZUdl9M4vi15xPNeKdSfMqdZWqtIpGdFgtw+Sa8tW
+         WjRpVWRJwEG8tvxYBPzUBdlm27ROSFhNUxSh/hDPDKJJLfUfuJmwJAxMt1X6eC6zK8u7
+         BRWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761770664; x=1762375464;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/nRyrHH69bDwdkUwV+ZvUiMlkERSxLC5qY0L4yNkpAA=;
+        b=nsQ7MU/e/lOinI6eryw/Nx6eJf/zqCpX++Z646jIK7/+rts5PCR8SguHsLsvjA7Ay3
+         eCkLdIh2N+fpDgtLvSjgfxdMpnrDxaD2JzbbsBu2Ktxnb3avKIYi6FxOwWuN81y1Ufx/
+         eIcec/pPo2j3saFYC1jAs7W5ZVE2fO5Yr0IhgR4GTMhPX/dtUNN4u5XCU4Bk5OKUvm4H
+         kMeCaQr8WY+8MbzulP1Qc0VJiN2Omm/n8+wiGXfdkzIFkWh8aucgaqp8cZ6/MhaUUcu6
+         m2h1RLAA3DAFEYs1uOtDhOzhQdk3ulvncffgmmTm4KJTvx/8lU79bUWNd6Xc/mo1FKj1
+         pN6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWHNEBqrOXe/U6wJF5tPPtUjQMqq4UDBWITMGK1ZpHwiU/KM4TQXJjSnb1AGDUSnW1cgrSZoxAY8uI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh9aaN757ehl/uN6n0haMQBkjCoNA0MBJY1Dy8qB1srVwgDOFg
+	w4lAALOfm/mIAzVIE/maufBECeB3G7+3VRTv/x0cec6vHNJk0V84X6x9+qFc+NudFSUxZvsZDT/
+	O/SbB2lOMM1sJX8Fquzn0VsTHiMznhu4rmGGdao/8
+X-Gm-Gg: ASbGncstVD4WPOAFJautXFNmEI2Zrw7EgShoHv/UQER1x7JcVgidGWUw2jkzuCDillJ
+	kwcs018zCJiPalI1M6GICdlplfhI2tE812wXg50hCACo6sBpVT5C3qz2coBzgEzfHzGMC9EVVUF
+	QoO4bwh9HQdx7vaS2fX9iyHt1WGazNJAZuasU9fXL1F69fVOzK0YFADkLmJSUcTmDFqOCQ7FIH5
+	KdRmif/MJWqN/5yK00ASxTg1dJl2ecO+ZZJuTqpWa2ysUUOEmM6AeTRKM2x
+X-Google-Smtp-Source: AGHT+IFRYtH5XfTJnxxGfkJO0Gi6f1H2nFBXWvOk+OBKFsn98ppWQIAtWYQQwdGEa9VK8XbxcXnwXcPQMdyC3mUpVtI=
+X-Received: by 2002:a05:651c:32a6:b0:378:d020:b6b3 with SMTP id
+ 38308e7fff4ca-37a1068ccefmr2106821fa.7.1761770663502; Wed, 29 Oct 2025
+ 13:44:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251029134737.42229-1-swarajgaikwad1925@gmail.com>
- <aQHyhU78m-9RPQ8q@archie.me> <81b03d82-6dc7-4af1-bca1-3632e1a0b4c0@infradead.org>
-In-Reply-To: <81b03d82-6dc7-4af1-bca1-3632e1a0b4c0@infradead.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 29 Oct 2025 21:40:11 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0g_v+21S=vq-B9H-vvyYRJjBUtc8fW2MSoP1JvQd9xsWw@mail.gmail.com>
-X-Gm-Features: AWmQ_bnS4mODpTkuRjShVDMELlV7btLcndAf7AWIMblYKgESQ_nlIvEOpV4S5lI
-Message-ID: <CAJZ5v0g_v+21S=vq-B9H-vvyYRJjBUtc8fW2MSoP1JvQd9xsWw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: pm: fix duplicate hyperlink target errors
-To: Randy Dunlap <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, 
-	"open list:CPU FREQUENCY SCALING FRAMEWORK" <linux-pm@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <20250929010321.3462457-15-pasha.tatashin@soleen.com> <mafs0tszhcyrw.fsf@kernel.org>
+ <CA+CK2bBVSX26TKwgLkXCDop5u3e9McH3sQMascT47ZwwrwraOw@mail.gmail.com>
+In-Reply-To: <CA+CK2bBVSX26TKwgLkXCDop5u3e9McH3sQMascT47ZwwrwraOw@mail.gmail.com>
+From: David Matlack <dmatlack@google.com>
+Date: Wed, 29 Oct 2025 13:43:56 -0700
+X-Gm-Features: AWmQ_blzsfm8AU4aSmOo38Baxqd-QolYtNvPxHfj3yJKEB0u3KTJVZdMqBMfTX4
+Message-ID: <CALzav=d_Gmb8xKCwWCGsQQrdxHJrnk5VP-8hvO6FugUP7_ukAw@mail.gmail.com>
+Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
+ preservation and state management
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 6:01=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
+On Wed, Oct 29, 2025 at 1:13=E2=80=AFPM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
+> On Wed, Oct 29, 2025 at 3:07=E2=80=AFPM Pratyush Yadav <pratyush@kernel.o=
+rg> wrote:
+> > Also, I think the model we should have is to only allow new sessions in
+> > normal state. Currently luo_session_create() allows creating a new
+> > session in updated state. This would end up mixing sessions from a
+> > previous boot and sessions from current boot. I don't really see a
+> > reason for that and I think the userspace should first call finish
+> > before starting new serialization. Keeps things simpler.
 >
+> It does. However, yesterday Jason Gunthorpe suggested that we simplify
+> the uapi, at least for the initial landing, by removing the state
+> machine during boot and allowing new sessions to be created at any
+> time. This would also mean separating the incoming and outgoing
+> sessions and removing the ioctl() call used to bring the machine into
+> a normal state; instead, only individual sessions could be brought
+> into a 'normal' state.
 >
+> Simplified uAPI Proposal
+> The simplest uAPI would look like this:
+> IOCTLs on /dev/liveupdate (to create and retrieve session FDs):
+> LIVEUPDATE_IOCTL_CREATE_SESSION
+> LIVEUPDATE_IOCTL_RETRIEVE_SESSION
 >
-> On 10/29/25 3:55 AM, Bagas Sanjaya wrote:
-> > On Wed, Oct 29, 2025 at 01:47:37PM +0000, Swaraj Gaikwad wrote:
-> >> Fix reST warnings in
-> >> Documentation/admin-guide/pm/intel_pstate.rst caused by missing explic=
-it
-> >> hyperlink labels for section titles.
-> >>
-> >> Before this change, the following errors were printed during
-> >> `make htmldocs`:
-> >>
-> >>   Documentation/admin-guide/pm/intel_pstate.rst:401:
-> >>     ERROR: Indirect hyperlink target (id=3D"id6") refers to target
-> >>     "passive mode", which is a duplicate, and cannot be used as a
-> >>     unique reference.
-> >>   Documentation/admin-guide/pm/intel_pstate.rst:517:
-> >>     ERROR: Indirect hyperlink target (id=3D"id9") refers to target
-> >>     "active mode", which is a duplicate, and cannot be used as a
-> >>     unique reference.
-> >>   Documentation/admin-guide/pm/intel_pstate.rst:611:
-> >>     ERROR: Indirect hyperlink target (id=3D"id15") refers to target
-> >>     "global attributes", which is a duplicate, and cannot be used as
-> >>     a unique reference.
-> >>   ERROR: Duplicate target name, cannot be used as a unique reference:
-> >>   "passive mode", "active mode", "global attributes".
-> >
-> > Hmm... I don't see these warnings when I build htmldocs by:
-> >
-> >   $ make SPHINXOPTS=3D'-j 1' htmldocs
-> >
-> > My environment uses docutils 0.21.2 and Sphinx 8.2.3, though. What are =
-yours?
->
->
-> I do see the warnings and this patch fixes them in my testing.
->
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->
-> docutils-3.13 (Docutils 0.22.2, Python 3.13.9, on linux)
-> sphinx-build 8.2.3
->
-> >> diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documenta=
-tion/admin-guide/pm/intel_pstate.rst
-> >> index 26e702c7016e..9cdd9dad6516 100644
-> >> --- a/Documentation/admin-guide/pm/intel_pstate.rst
-> >> +++ b/Documentation/admin-guide/pm/intel_pstate.rst
-> >> @@ -62,6 +62,8 @@ a certain performance scaling algorithm.  Which of t=
-hem will be in effect
-> >>  depends on what kernel command line options are used and on the capab=
-ilities of
-> >>  the processor.
-> >>
-> >> +.. _Active Mode:
-> >> +
-> >>  Active Mode
-> >>  -----------
-> >>
-> >> @@ -94,6 +96,8 @@ Which of the P-state selection algorithms is used by=
- default depends on the
-> >>  Namely, if that option is set, the ``performance`` algorithm will be =
-used by
-> >>  default, and the other one will be used by default if it is not set.
-> >>
-> >> +.. _Active Mode With HWP:
-> >> +
-> >>  Active Mode With HWP
-> >>  ~~~~~~~~~~~~~~~~~~~~
-> >>
-> >> @@ -192,6 +196,8 @@ This is the default P-state selection algorithm if=
- the
-> >>  :c:macro:`CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE` kernel configurati=
-on option
-> >>  is not set.
-> >>
-> >> +.. _Passive Mode:
-> >> +
-> >>  Passive Mode
-> >>  ------------
-> >>
-> >> @@ -432,6 +438,8 @@ the ``energy_model`` directory in ``debugfs`` (typ=
-lically mounted on
-> >>  User Space Interface in ``sysfs``
-> >>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>
-> >> +.. _Global Attributes:
-> >> +
-> >>  Global Attributes
-> >>  -----------------
-> >>
-> >>
-> >
-> > The diff LGTM, nevertheless.
-> >
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> IOCTLs on session FDs:
+> LIVEUPDATE_CMD_SESSION_PRESERVE_FD
+> LIVEUPDATE_CMD_SESSION_RETRIEVE_FD
+> LIVEUPDATE_CMD_SESSION_FINISH
 
-Applied as 6.19 material, thanks!
+Should we drop LIVEUPDATE_CMD_SESSION_FINISH and do this work in
+close(session_fd)? close() can return an error.
+
+I think this cleans up a few parts of the uAPI:
+
+ - One less ioctl.
+ - The only way to get an outgoing session would be through
+LIVEUPDATE_IOCTL_CREATE_SESSION. The kernel does not have to deal with
+an empty incoming session "becoming" an outgoing session (as described
+below).
+ - The kernel can properly leak the session and its resources by
+refusing to close the session file.
