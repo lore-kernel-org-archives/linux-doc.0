@@ -1,99 +1,193 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150892F9D8C
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 10:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE151D27B6
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 10:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761733243; cv=none; b=dnD8VQJX/uefCX6nZkpqhMkK4x/vGqU9X79r9nhVsqUYPiMEjECl+nW4iuhlvWUwYxuM7hdSDeLEzIFS7AJVcBlRIcsff7Odv8ZjJWqb1G8mOLaGSk3mRcvCFaITbU9SEGPm5aPJG9/axCvbm+u14wnnRy3TsJxnyjCLWG2u9d0=
+	t=1761735313; cv=none; b=PjdFFYTHHf9nFgPHTePgw4N6WyUluqkxomdEC3wbdkx2YOehyI1GmBpDvZM8xYvFndRppNsN7p0Q+DKcI0aCpwWJXeLU+PsK5BcFM7lTKrWPIW3NyYXt93mlheb0AcHqtcWKmEsTNDMgLhD9yGqJeYSzrsuwAabG0YgU23t9sdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761733243; c=relaxed/simple;
-	bh=tZH2MFQROUgThRcgEuFL8l07GBDwuI8QzuO8RFhtbQU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PMEhpsXxzcTEMPHOa5sFKHTJL0uzEKM3W342Svdp3adEazHIBthUkIOKk5gGeOU82eJeMw3YLzeUsWS7IVS95GPDK0QjIM82NP25Mpcawm0qQX2Z57evA464oJpQ3OCmU4OufTHXNhPWGhKNFKEnFWCl0c9QQyC74U7JhWp+ZbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=E7pGT2rO; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1761735313; c=relaxed/simple;
+	bh=Rr4PrRD0uTnD5X7DfLkNakDbPave9MXutYtNwHgJApo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQFq41QJlhegT4P0FOAQdDtDMRbiQ8H5sfRA00vfO+HHqgj5cF742DZ71jhvFjapEccKpBAe0nmczRNkHb9vdOaHWLXAbVpwDQdf/IFt+5o/tvZ9XHzzA2Lzhd4eihgPYRV8UZxqZkPVLF4kaKRec4xSWB9QBRG5HfnCbBArV3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEWV12AF; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="E7pGT2rO"
-Message-ID: <2e878c19-077c-4e2f-8065-fe62296a5094@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1761733237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gDaiTXQP14JHHPE0XuBOV5J1pUUU1Y9JQ/SRe31gCyM=;
-	b=E7pGT2rOm0PcEZwQbY1pJuZOdvTDSsj+swA8Fqk9SUHQm5uVtb5uUb5qPgaLo3jIB3PF/H
-	sUt8/Gr/s7eZxJc7I36CeZ/wE+C8X/+czTNmqSwL3EXC5obrIE8+N24aK6TLuevN6PQqoA
-	WuMH5ANcKD2Svaw2B2nSuPRmFBz+Pko=
-Date: Wed, 29 Oct 2025 10:20:29 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEWV12AF"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-781010ff051so4849654b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 03:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761735311; x=1762340111; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M3M8yuoV+WVkfqwV5hF9tFBbA7TseCo339hiIVKayGg=;
+        b=fEWV12AFwGmq7BY4YU2ti/Qo/HDVAWnGnrAB5hoHacrheh6b+0h73CuWQ4n/CZ7jMd
+         MherlildxzUoKObxEPpcAJfmgbwZDkV3sRL0XMmrHJ0XdwBuW5fHB36MjsjkJtXooupD
+         +HvyuQbQU0j4JAH3QxkMBETZ3QY8ZdRtwQv6bzS8MTivsuZ9BnEFcfbDHO81gj8KIbKC
+         R5CSYOfe0xdYt9W9Y1Jy6XP4lUDQCTaZDgVi6NUgci6Vdh/K8W9HK7AQngsEgX0dNF7w
+         HNbIoT3+7fE5mRCu0cpmnMLMEBBdtnZjCwagpvGOegZj1VxpSPpTD6ca4z5r3Q3rcOdd
+         ygzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761735311; x=1762340111;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M3M8yuoV+WVkfqwV5hF9tFBbA7TseCo339hiIVKayGg=;
+        b=iYQcFl3TM71q+vQgtFvDk9Fp43kB1tU7uhv87ZgkTACYTL+jTKGIdHeSGmlCoUgGgd
+         vi6kIHPIb84mjyMnNNXdZBp8vAHwNjAIym0EZB2BkHX0FPuzoPuLB+KRqoteEP84k1He
+         qh8FZC+B0Md/5x+C1UM7KrHtLhePRX+I0o6zkFQ9ooeNjns1KT99ZwIKBFXHuGu+DOE8
+         9euoamgwcp8oVDN7c0zFOxbZC9TFE1+omTjoUhxCGNWlpH9F5jYk1gleKWRoCE6D7LlC
+         63XXAQAE6Rg2tE7wiq7Db8Qc42YM3hGwH/ChbQ1oOVFAaaH2oyVT+bdL/wk+6QLFz45x
+         +9fw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPr1x3vg1qpe8AK2+WdbsoRYz462p8XaVOPflmHdbdDIAalS1HTMFi0LcE9b93nVDAvTGeX3KSjX4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfeQ/DlaAl1Kqp2EMbksWpTxl8EI95omIRxMUKa/o6uuOYexzs
+	N20d/Dpr8HiojDxRJ888AvAhPWWoOtrgO3sASu2ofnITHpfKgN6TD6w/
+X-Gm-Gg: ASbGncu8nge+QflrbDHKNCC/KuxyoUshfCq1ah4tS4KKG+Mqc1iZeMo9A2UC18V1TMM
+	kL9mKaHX2CtuVyJk2RcWtXaLo0mv5uZnqjxtL6rnUgtEBCvhetTxEzu5/WoMFsUTUbx8iIiegjA
+	BDUUWJeZvB6L4wiFMOlCIM6XCUsSPSXUzk5XJiDFH+RzXMCUuEnPdhhbfqsy/wjlebkZwUg2bxE
+	unk5UAaaee6/fOlZZb5pdPpZdWFtkXJ6hDYbDkKgaHSR3+bIEk/wTeKLmLpYDoDIPvnmFMvDdac
+	LeBL8s2C1IKvE7un3Yte59OjExi+HrfeCWs6JfOY1QxqBRXAdBmZo5mkhbzNb+mghcA75dLJx4H
+	qShtblXFD9ZVbl1fJ7dVE3/G2+wKjYGmidV+l89PGgYI+HoSD8QABV8fb4FJgIxUwKBZ96TNeWI
+	xuVcGM2i7EuZ0=
+X-Google-Smtp-Source: AGHT+IGeYe2sO0IYtMLVzcKmcV/3doDaMD9jpsIXsLgc9sjqcKG5guNXcDoYITmYFQ+eGr5BHDzw3Q==
+X-Received: by 2002:a05:6a20:734d:b0:342:9fc7:55bf with SMTP id adf61e73a8af0-34651553e7cmr3644520637.3.1761735310650;
+        Wed, 29 Oct 2025 03:55:10 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414049315sm14689077b3a.32.2025.10.29.03.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 03:55:09 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 20D214206925; Wed, 29 Oct 2025 17:55:01 +0700 (WIB)
+Date: Wed, 29 Oct 2025 17:55:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:CPU FREQUENCY SCALING FRAMEWORK" <linux-pm@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Subject: Re: [PATCH] Documentation: pm: fix duplicate hyperlink target errors
+Message-ID: <aQHyhU78m-9RPQ8q@archie.me>
+References: <20251029134737.42229-1-swarajgaikwad1925@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 1/2] dpll: add phase-adjust-gran pin attribute
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251024144927.587097-1-ivecera@redhat.com>
- <20251024144927.587097-2-ivecera@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20251024144927.587097-2-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1RMd1Zox1MRAM54T"
+Content-Disposition: inline
+In-Reply-To: <20251029134737.42229-1-swarajgaikwad1925@gmail.com>
 
-On 24/10/2025 15:49, Ivan Vecera wrote:
-> Phase-adjust values are currently limited by a min-max range. Some
-> hardware requires, for certain pin types, that values be multiples of
-> a specific granularity, as in the zl3073x driver.
-> 
-> Add a `phase-adjust-gran` pin attribute and an appropriate field in
-> dpll_pin_properties. If set by the driver, use its value to validate
-> user-provided phase-adjust values.
-> 
-> Reviewed-by: Michal Schmidt <mschmidt@redhat.com>
-> Reviewed-by: Petr Oros <poros@redhat.com>
-> Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> ---
->   Documentation/driver-api/dpll.rst     | 36 +++++++++++++++------------
->   Documentation/netlink/specs/dpll.yaml |  7 ++++++
->   drivers/dpll/dpll_netlink.c           | 12 ++++++++-
->   include/linux/dpll.h                  |  1 +
->   include/uapi/linux/dpll.h             |  1 +
->   5 files changed, 40 insertions(+), 17 deletions(-)
-> 
-> @@ -1261,7 +1265,13 @@ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
->   	if (phase_adj > pin->prop.phase_range.max ||
->   	    phase_adj < pin->prop.phase_range.min) {
->   		NL_SET_ERR_MSG_ATTR(extack, phase_adj_attr,
-> -				    "phase adjust value not supported");
-> +				    "phase adjust value of out range");
-> +		return -EINVAL;
-> +	}
-> +	if (pin->prop.phase_gran && phase_adj % pin->prop.phase_gran) {
-> +		NL_SET_ERR_MSG_ATTR_FMT(extack, phase_adj_attr,
-> +					"phase adjust value not multiple of %u",
-> +					pin->prop.phase_gran);
 
-That is pretty strict on the uAPI input. Maybe it's better to allow any
-value, but report back the one that is really applied based on driver's
-understanding of hardware? I mean the driver is doing some math before
-applying the math, it can potentially round any value to the closest
-acceptable and report it back?
+--1RMd1Zox1MRAM54T
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->   		return -EINVAL;
->   	}
->   
+On Wed, Oct 29, 2025 at 01:47:37PM +0000, Swaraj Gaikwad wrote:
+> Fix reST warnings in
+> Documentation/admin-guide/pm/intel_pstate.rst caused by missing explicit
+> hyperlink labels for section titles.
+>=20
+> Before this change, the following errors were printed during
+> `make htmldocs`:
+>=20
+>   Documentation/admin-guide/pm/intel_pstate.rst:401:
+>     ERROR: Indirect hyperlink target (id=3D"id6") refers to target
+>     "passive mode", which is a duplicate, and cannot be used as a
+>     unique reference.
+>   Documentation/admin-guide/pm/intel_pstate.rst:517:
+>     ERROR: Indirect hyperlink target (id=3D"id9") refers to target
+>     "active mode", which is a duplicate, and cannot be used as a
+>     unique reference.
+>   Documentation/admin-guide/pm/intel_pstate.rst:611:
+>     ERROR: Indirect hyperlink target (id=3D"id15") refers to target
+>     "global attributes", which is a duplicate, and cannot be used as
+>     a unique reference.
+>   ERROR: Duplicate target name, cannot be used as a unique reference:
+>   "passive mode", "active mode", "global attributes".
+
+Hmm... I don't see these warnings when I build htmldocs by:
+
+  $ make SPHINXOPTS=3D'-j 1' htmldocs
+
+My environment uses docutils 0.21.2 and Sphinx 8.2.3, though. What are your=
+s?
+
+> diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentatio=
+n/admin-guide/pm/intel_pstate.rst
+> index 26e702c7016e..9cdd9dad6516 100644
+> --- a/Documentation/admin-guide/pm/intel_pstate.rst
+> +++ b/Documentation/admin-guide/pm/intel_pstate.rst
+> @@ -62,6 +62,8 @@ a certain performance scaling algorithm.  Which of them=
+ will be in effect
+>  depends on what kernel command line options are used and on the capabili=
+ties of
+>  the processor.
+>=20
+> +.. _Active Mode:
+> +
+>  Active Mode
+>  -----------
+>=20
+> @@ -94,6 +96,8 @@ Which of the P-state selection algorithms is used by de=
+fault depends on the
+>  Namely, if that option is set, the ``performance`` algorithm will be use=
+d by
+>  default, and the other one will be used by default if it is not set.
+>=20
+> +.. _Active Mode With HWP:
+> +
+>  Active Mode With HWP
+>  ~~~~~~~~~~~~~~~~~~~~
+>=20
+> @@ -192,6 +196,8 @@ This is the default P-state selection algorithm if the
+>  :c:macro:`CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE` kernel configuration =
+option
+>  is not set.
+>=20
+> +.. _Passive Mode:
+> +
+>  Passive Mode
+>  ------------
+>=20
+> @@ -432,6 +438,8 @@ the ``energy_model`` directory in ``debugfs`` (typlic=
+ally mounted on
+>  User Space Interface in ``sysfs``
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> +.. _Global Attributes:
+> +
+>  Global Attributes
+>  -----------------
+>=20
+>=20
+
+The diff LGTM, nevertheless.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--1RMd1Zox1MRAM54T
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQHyggAKCRD2uYlJVVFO
+o4FQAPwI9ysO/Xy3C7EUOrpBOObCsr/d9LYGqaw7KWjOQSptjgEAvEbkgaRLMIuZ
+S8J3is3X+lOzodAVxz1yz2WwK4/iFgA=
+=JGAF
+-----END PGP SIGNATURE-----
+
+--1RMd1Zox1MRAM54T--
