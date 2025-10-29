@@ -1,385 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C862EA17E;
-	Wed, 29 Oct 2025 20:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761769020; cv=fail; b=r2j/gC3o0JpZ50c+TCYgZCXVHay8AqwzZv35UGXyTEt25WX4HsZDyckjFtpRg5OFjQOb3c0mkFFswr3mZTSrdFfd6im3Sf8nJ9ECyy0IdsYwOAUseiDxXQBXLjU00BcB8cVMtbII28SoJlkb82FzbcDSjd8Sc0UY04fX4uvCJ8M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761769020; c=relaxed/simple;
-	bh=TSfYComudZErnYKsH7jURycwPIrwOb8rlOE21Pc8w7U=;
-	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=r259xFJdo6gu61RsBh6wIanEJMOhrL3rTrYLQtWPn1swWpjPwoiO7wHHQiGgHv8CAc+65xYr1/Nfwlls5WpSN1a3bgSwBHGPTjZJRFnmkzUCB2vds4YsD6liOeiiSvyQ7qIk6TRJt40tmszCwj7P4AoeiHP3t/RjNIcM3QIhySI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYh/f+Qq; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD04825784A
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 20:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761769924; cv=none; b=Wn4w9PoDsZ1Bj7DXhH2z2YG0F52K2uQq8QeyX1L1PZUeUzAOUAsxO9f3j33hznbAjzzOasNgezY1zmiF59L4QK6Ek3NcINpun7wiYJ4ydG4jHE+OUg0tt/q1qBqNy2AdkCqOQcpV05phoVu7DiWEr73PE5Op92/lZDOR+tG5N+4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761769924; c=relaxed/simple;
+	bh=YaHtD09W7I9VYtLMrk7MCUuLeIYkfwLpiWs2SkdvK4w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r7fGq1p7FPljtclh/oCY8zTo3Cgq3DuIq5zFN4Ops+l27hf0yyVpX1gk76GpgbQhSUE8OfBp9izBZ1C+4dlYopgNf0jyR2RqfGOPXGuD0m7wT9nLA5/NGXVngAl7Un68geTQiDnvgnGOUNngFGy0/OwI/Fl/mq4ZZ8Fok9sUlvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/AdxRXv; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYh/f+Qq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761769018; x=1793305018;
-  h=message-id:date:subject:from:to:cc:references:
-   in-reply-to:mime-version;
-  bh=TSfYComudZErnYKsH7jURycwPIrwOb8rlOE21Pc8w7U=;
-  b=LYh/f+QquC7HSqtzsfgLUuSUxiUGzs+tpUYb1n4guGYZULA0X0tXxbJ8
-   PwQhri3MHwRg7eTqO4gBE64GQ7w0N4kuSOVrlLInILTSFc+sD5MVrEAjS
-   W/ncRLuPcwFHQSUaRKTveNPaDJs4M0MKzcW18/z3Em4fbrAGvYOCWzuUz
-   GnwYHSurv0sU42Aioey6zNKLPE0w/1DrFFg4f/Noa6N8PbI758ehAKNCc
-   3qagn6wGFjgoVU84hbuyCao7znUrRlq/hGqE5aTCyAagKSl2U17aWXHEp
-   zd8Mjx2UbQB0graT4ZiBYDxNKiHiHuctJis5iWZSpYDEBfGw4mZHC+TVe
-   A==;
-X-CSE-ConnectionGUID: JoALFaVNQtG5UozaRemR0A==
-X-CSE-MsgGUID: Zdxckpz1TgO6kYyzAforoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67738286"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="asc'?scan'208";a="67738286"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 13:16:58 -0700
-X-CSE-ConnectionGUID: pevI70znRKGKHk9TxjvZUQ==
-X-CSE-MsgGUID: DKAV3Z6dSlGot9Lfb6qg7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="asc'?scan'208";a="190895134"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 13:16:57 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 13:16:57 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 29 Oct 2025 13:16:57 -0700
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.59)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 13:16:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j8/upTCRhFf7olCx/8hcj2PvagMXCcAdK3wN+LGhI8bUDHEtJSN6KHtmcruUJ6KicrKAWqPyc6YoxKOGZ5DznyA2L9RnSp4i/05UmfnEo+QN+rEGrpXK0Xq9/eyW2G26rpdYV0bYsysWgce+Ph406B9oAjmFjH2inA1FRE6XlPn/+Zvqher0OayZD1ebveL/eWlhDDevVaaiB4+Rb51J+QxCaw45vCuNwRFAhwDUiAcOPJ8SJa/b2+lcQB3Nl0rDF9UH00RVPMdbWQFEQaJ99xJqytPi94MsFyjaNAzxmV46XsIE1AibaNDV3gOurwyJTADh+o8pIMQEyh2YZOkYJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+R3NUsrVi3kXIGrtKx77REbRipoHR9P5hcT7pViB6ic=;
- b=Aa5XTi+tpTK2BAFizaBMQ2MF2WBJNxFd08+dVznUC0HcpuWNxONed+Cdm9VOJnkAOgHhoW80lXTFbSzePw/dTc17/P/dKR2nu3lE3eeh6ofuP80lzE2Ykc1dlfErT4DrtP6rDGoneXc84MfUOyMc7WEyvIPo16lJWQ5Q1ecT/WpWgMLueNpFoMaz5amgqRYV1mi0nQ4qkEUQLLdR9XmJRFI1O0umyaOiI76qIfpvajsDnVuBfiLBGZB73vWMXrwlZDD/VlF9mhjelOw7gzZn9HdQ84cZvNGa/QxeaSMFx/dyPA48B4TzJnBzN+9SwHlQgec/x3hf24+FCP1lIQ4Srw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
- by PH3PPFB9A266170.namprd11.prod.outlook.com (2603:10b6:518:1::d45) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 29 Oct
- 2025 20:16:55 +0000
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::81f7:c6c0:ca43:11c3]) by CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::81f7:c6c0:ca43:11c3%3]) with mapi id 15.20.9253.017; Wed, 29 Oct 2025
- 20:16:55 +0000
-Message-ID: <8eeed232-8cf4-4a80-a7eb-81d72c49c8a2@intel.com>
-Date: Wed, 29 Oct 2025 13:16:53 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kdoc: fix duplicate section warning message
-From: Jacob Keller <jacob.e.keller@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jakub Kicinski
-	<kuba@kernel.org>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
- <94b517b7-ff20-463b-a748-12e080840985@infradead.org>
- <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
-Content-Language: en-US
-Autocrypt: addr=jacob.e.keller@intel.com; keydata=
- xjMEaFx9ShYJKwYBBAHaRw8BAQdAE+TQsi9s60VNWijGeBIKU6hsXLwMt/JY9ni1wnsVd7nN
- J0phY29iIEtlbGxlciA8amFjb2IuZS5rZWxsZXJAaW50ZWwuY29tPsKTBBMWCgA7FiEEIEBU
- qdczkFYq7EMeapZdPm8PKOgFAmhcfUoCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AA
- CgkQapZdPm8PKOiZAAEA4UV0uM2PhFAw+tlK81gP+fgRqBVYlhmMyroXadv0lH4BAIf4jLxI
- UPEL4+zzp4ekaw8IyFz+mRMUBaS2l+cpoBUBzjgEaFx9ShIKKwYBBAGXVQEFAQEHQF386lYe
- MPZBiQHGXwjbBWS5OMBems5rgajcBMKc4W4aAwEIB8J4BBgWCgAgFiEEIEBUqdczkFYq7EMe
- apZdPm8PKOgFAmhcfUoCGwwACgkQapZdPm8PKOjbUQD+MsPBANqBUiNt+7w0dC73R6UcQzbg
- cFx4Yvms6cJjeD4BAKf193xbq7W3T7r9BdfTw6HRFYDiHXgkyoc/2Q4/T+8H
-In-Reply-To: <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="------------Vh8m9R9uYcgoVkgnRTwHMNx2"
-X-ClientProxiedBy: MW4PR03CA0342.namprd03.prod.outlook.com
- (2603:10b6:303:dc::17) To CO1PR11MB5089.namprd11.prod.outlook.com
- (2603:10b6:303:9b::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/AdxRXv"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a28226dd13so319435b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 13:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761769922; x=1762374722; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=wOfwJ8bWKZa4YFr/NutNmAuLp8W/TU0LOxvVKX01rbE=;
+        b=B/AdxRXv4tvXaGrZCx2HDA7LoS/HfSQtXSp5WH7mpZk+Qp3ad5gvG05Etwat/kMHdX
+         /JmVBoRU1awUG8YotIQAKXj3bgM5C0jsr+00uQrVuH79cvPxFyj8NG7BzqjPgp1x085n
+         8zCu/zAD4MZxA2T8Qxy5c09uYLtCvkZhY2P10ppl077sd3M5jXUiOxxjC8+DHPHyqX4i
+         Zll3fXqT45GuUT82JFbZbBCBjVYp6vaLFc+HBrB/9nQB3yxpmOXXBimyNKN89Syfp3ht
+         zg3qcURgmHlbUPagoxGPLxCW4+c7OqUDeXW2WK4Lz6pjiH0hM1MfI54ivee/Xuwa136r
+         oXWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761769922; x=1762374722;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wOfwJ8bWKZa4YFr/NutNmAuLp8W/TU0LOxvVKX01rbE=;
+        b=bI2Wz+xhJqJyaFnoh4352Ch6GCqGZfllluPAvtO29TITHwKYAi/f+hJFrzcjYDTK2o
+         zEkjFUn4PYEE4XRMNR2QpqJDdP8JZvRYNSxkiYQb5Xa42LVLTsMEIrtesJuO1Z5rclE1
+         p+GaVSmCC0tbzVVbZASVLJT1hq3aMJ7iUqKVjTbyBVrtS9JiBAcG3PDkr6y5GBPnp7hw
+         iBBHNysjB+lkyREif+EZ08q2ZR2ChO4kgxyqpKMb4X6VQiklMG+r2lLsg43gTmzg2X5W
+         vAxkrZA1YonkNM578dgJvtlyxzglcy9rHL7XpT+887CxO6Mpz/2/1rnbXNdtFeISf03u
+         KkSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVo/vOvt1nJcmPaVZHD/kSWhR/+W0LdP5WHtiQ3uYKC36crBtcht1MmJbHo+yL7oQDQF0m2kr3GsfY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHMZLsPZ6hmZxA2kXPoKE11lrnVUM4VCaoFQfvE4mvrLZKWy6T
+	or76E1EVAuRooiE25KfUL/g7Rqgc7PoIbp4g/spL0wZXTmh+8mfIDpzr
+X-Gm-Gg: ASbGnctcdob7PWKO/ulMaoAXs+oQlFz+RHXtgphYDkqtMHNQz348+6Aw0ZgekyohS/8
+	kUabTi6FQ/422fvvhWHMNCkn8by8st9pa2E7zF30V5FHp2fInwn0z4nbWOkdQ7uIz22/wGW3Be9
+	l7eJpjTNL6rH1Q3ebjr4DwL97tJkT2oR47Q8uAw+7OMfhWvSElw7jt28IcRbNK4RNR+Yk1saPyM
+	+0bzSOxyS/PrpePS8C+py7W4phHZ+mKrZ0Cry2qsYxIZVIc+oyzjH4mJMKVR19XaojmJK3YNjgw
+	UDFOPb7O/pZRne03QAbpTEdCHIBHe8qB/KttlF7biLQNTlm2A6ZpUbVpRumm3sYNPI2PTv9EF8y
+	xKitlM0+vJbbHbkmjH22+IdyOfjzaOQTQ/T2BylLI5jfJcpIV8J+/HXtZtUshaesqImaOrm+Tko
+	bPGV2NtTVi9TAVolWWZ5lryr653yd/ZvfKvSfqe3wU3SIcAVj7
+X-Google-Smtp-Source: AGHT+IFpShubPNxGrw+11hp3PVUyV7xz2+3u2+DGXZIeSF8hccmhTEB6eMksfzjbjPtC3NenMVVflg==
+X-Received: by 2002:a05:6a21:3288:b0:341:e79b:9495 with SMTP id adf61e73a8af0-3478768fb4cmr1044825637.54.1761769922069;
+        Wed, 29 Oct 2025 13:32:02 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414069164sm16398977b3a.45.2025.10.29.13.32.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 13:32:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <049ec6bc-d869-4f93-891a-13a0640f882e@roeck-us.net>
+Date: Wed, 29 Oct 2025 13:32:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|PH3PPFB9A266170:EE_
-X-MS-Office365-Filtering-Correlation-Id: c22d66a2-04c9-42a5-69cf-08de17281b0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NXp2UWlYZjJwUGZFaHQvekZiRDZ1b2NQa08vekRBMzZrbnBxVnlWTWVqWFM1?=
- =?utf-8?B?MTVYT0hKUCtXRS9sYk84Z3BMaUZ3MHNWdGpFKzBuOVdKT01pclpscVJUSTUx?=
- =?utf-8?B?RlJnWk1VazV5dFh5Yk5vNXFjK2ppdWhzSi9PWWRDd2MxeXo1K0F2ODIyOWxJ?=
- =?utf-8?B?b1RZVGw3N25JRmhYY1QralhLREEzRzRDdGJCSUhaR0kyUEMvZnAwTnNCYnlN?=
- =?utf-8?B?dlZXdS9FR1dYeXBEdVEwVkdlSEFzNnRjcHpSS25GZ1VRd2NOaXZ4QVVwVUZi?=
- =?utf-8?B?UVJvcTNxeFQ3UXVUbDdVWHNNcWFoYkRWM1BOMGkxa283b3FRNmFOMnBsTGor?=
- =?utf-8?B?TzM1WVNVVnQvakFqUmtGQTRjTWk3WU0wRGdOdVIzVW9TSmRmUUdtRUplK0Vq?=
- =?utf-8?B?LzlhQW1aaWtPMU1Xeko4a2x5dTMrUkR3cVNqS2JTV1I1VHE5S3lwTERSQXZF?=
- =?utf-8?B?OHoyRkNRb1JCaUxFVmdaQUZoOWpPNVpxbUp4UVY5WUhyd24zZVlObjJOaHd4?=
- =?utf-8?B?c1VoUG9aTDZ4bUdDSTM3cTg1NllpUnRGV05DTDZKRjNsd2kySEhBQlgvMm56?=
- =?utf-8?B?ci80bEFRR3ozRmFOR2E1MUYwcDlKL2VSYmZ0dUNYOVgrUUNGOGNLYjltd1Zw?=
- =?utf-8?B?MGJzZzhWZUlpRWd1WDhISlFwMmE0VVhNRjdNVCtxMTJhWFlaTVJKWDVRK0Ey?=
- =?utf-8?B?QnlGdzRqR1drcjJiZUNaMG80cWVxelJhMDZBQnZFVTlJQWpMRDJaQlcrc1Bj?=
- =?utf-8?B?MlVtR09PRVViUWpqeHgxbVhzTTc5OFI0dTZGbm1Bam10bm9FR09VWkJZSGxz?=
- =?utf-8?B?V1FRMVF2UmIwOFNxMFk1Y1lBRVN3cHNnSVRHbEszK3p0ZVMxc2hORG02SWY5?=
- =?utf-8?B?TlJpa01VYVpZb0N1OWh1T28wL3l4U25BQzV6WFhmS1gzYkFRbE8vdDd6UzZz?=
- =?utf-8?B?NWpqQ1FpdGZwaVNzbHVkWkttNldmcXBpallrY05uYitPWGtMRlZwRWFjNnNZ?=
- =?utf-8?B?ZlVhVUNUalYrOFFldWpDenU1cGFoMW92ZGJCVVZ6RElvcDdTaHpDRmtYWXZS?=
- =?utf-8?B?WXRhWFg5MktUTmZJMHN3SFJqTEoxZTJSTUFBUkpoVjU2YXNMVGQzVWplM2tj?=
- =?utf-8?B?ZGcyWlZzaFBZWHl0Y084SEI2WDRLQ2xOdlYrWnZBTFFXTklGRlBqamZLeTI2?=
- =?utf-8?B?bit2MVJRYnVnclREMis4M3UrdDZRU1kwSmluRXR2cjNwbStNYkVKSzJDK2s4?=
- =?utf-8?B?WS9VdjVzRzVOaDdYNG5UMnBNZjlEbGdZZ1BzeUlzSld6UzRZb056ckdhYWN1?=
- =?utf-8?B?VVg2LzBIZjJaSStiZEUyWTJiV21uYm5TWndSR1pwTEJIVEFiL29EclQ5ck92?=
- =?utf-8?B?L3BkeExNTXBjbk9ZQ1BFWWljbmVGR2VFVFlFd0twVHVYeHFsMkZheTI0djQz?=
- =?utf-8?B?Zm9ST0JsNy9TWGZ6MTBjTHNaakxWNElwS1hGQUV2SW1GNnRqTEZabVFaN2Ux?=
- =?utf-8?B?RkhCNGFxcGJPYXdXb21pRGJOYjdjMklTRlQ2MjBpalBNeWljbnNIaXFodTk5?=
- =?utf-8?B?MkpBM1Rmd0JSTHhBQTA1aytCeXBDU3BlWnFJSW9Xc0MwcEM2OW84VlhEbHpw?=
- =?utf-8?B?cUNBZDRPbkdmengxSkJ4Ukd6VEprZENvc1lIWk9IamltNEpReS94ckNKRG9H?=
- =?utf-8?B?dFZucFpYVEZ0SFlvbWw5OVFpYzBHMTREM1pKTmt2eEVmUUw2TlQ2L2tLajY5?=
- =?utf-8?B?L1pJRlRWSGV1enp1WDVBdkZMZlZ0d1kxbmNJU3h1SFhNbEErNVdYMW91SHMy?=
- =?utf-8?B?dlpPcFhxUFZ2UUJlanMvZUdEUGREYzdNU2hQZFdKc0tXbVNaelVYaTFPTkVH?=
- =?utf-8?B?QVg5LzFLU1luQWlqd1dRV085V1h3R3duN2tqTDU2UzJFUG53MzhYL0VCVWNF?=
- =?utf-8?Q?rQL2QaoNAMM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjY1OEc2eXdVdmpVY3ZZTDhCK05DVXVnUTRyTzFzdHlIeVB5MWRJc2daMG91?=
- =?utf-8?B?OENYU21YaGt6V2dQK1d5bEVwRkxPelh5WFBNZ3BrWFhXQUJ5bWhxVDRHeDM1?=
- =?utf-8?B?bXhPRjNHZGlMWS9TbTVCVnlGbmM4MjdhMHEwQlExTm1PWllhWXJpYjZnRnBD?=
- =?utf-8?B?N0JIZTVnMUI3UTVKdXpHNUpQWHNpMHZSbUJabWxnQy9QVG9zQlMrTXdjS3lG?=
- =?utf-8?B?anJ2WnczOXI3LzVCVTIxVFNHenVHNXNad0lseFVuc2tHUmprMkloRmZsUk1v?=
- =?utf-8?B?ZUpYbUhsbUluUmhBU1BkWEdhQm1yRGJaWTBPWWIvZkZxd1ovZGU2WkYrMWNq?=
- =?utf-8?B?V0k2dnZjd2tUUFI0MW5PZklheUorMS9ldDg1TGJNVHZmWnRQdWx2d2dia05x?=
- =?utf-8?B?Z0NKcFNTRGo2amw0YkNFUklPVkZ6aDdVUk9HUlZZaXdnazBKMWRtM2xXOUJG?=
- =?utf-8?B?aUZLbTI1WVNYQTVWSjVvSlN5aXUvZU1obzVxdkxBSDF3cFdSYjFFRElYd0tN?=
- =?utf-8?B?dGpoRVBveDhDYmNlVGpCM3orVmZjekJyeGxacHpIblVLNUs3NzA5WG5EUXgz?=
- =?utf-8?B?bHlHbkpTQ2JiM1Mra1l5dFRPOFBCU29nb3Y4djRLUDBqK3MvVThJV1RwUzAz?=
- =?utf-8?B?bDVLcnNMMHM1SDhsQVFJOGI5czF6NzltZmtRRG1wYVAyYUhnTkgwUm5uNDJw?=
- =?utf-8?B?bDdiY1ovcWdjbjBwRmFNOVlKa2srQlNPSmtydGJmV0NHNU43K0xoRzJPNW9a?=
- =?utf-8?B?YzU1d0tSVkMwQmlrVVQ4NFdYTHRRR0g3Zlo0NTY4Wjh4Vm4vYjVCdlE4RzZ4?=
- =?utf-8?B?QldXcEptV1hFaFhTSkFHRC81K2k0RzBnVWpWK0I5dGRXRGo5UDlOaEpJaFo1?=
- =?utf-8?B?T0U5U1dVcjg3NkN1cHBMVWVuRkRIaDZQcU5pVmlkQXlqbUNmQ3c0NjlEVmpx?=
- =?utf-8?B?QStYYzNmYk9CbkdWRzl1LzRjYWQxMWVEWWdaMFRBUnAvTzVQN1NZOHFQNDNU?=
- =?utf-8?B?SnhMT3ZqU2MzTERiUmlYaGNMSHYwakg4WENvMzRML1ZTS1kzWlQwemRMbGZT?=
- =?utf-8?B?TlREOWg1c0dUNCtZN3FmaGthbHRGdjkvV1kyd2RrS1BzaTN4bk1LYy9OZWpy?=
- =?utf-8?B?VUhkUVFqRnFBWFYwODR4eTN5SnkwUHMvUEQ0S1dDYVptM2JqdXhvNjFSTHdR?=
- =?utf-8?B?QnIrSHNrazNnZFhVYzVuQVdOWWhKN0QxZGpXUjc4dmFlRWJHaXYyOHpqcUln?=
- =?utf-8?B?cFVFNUhEWnBBMlFPV3I0Rm1iazl5Rm40MUFiM0FSWTVOdFF5Mm1QTUs4YzFH?=
- =?utf-8?B?UDVoazhiR0xxNDFQZm1nOC9iNXJxMXlZR2dsZEhES1BCWkQrUmVJSm9RUGlH?=
- =?utf-8?B?Y0pIR0dmYk9UU0pmWHgvaFJWZDNCaWtRQ3p3b0tTdzNnak5hSzlyeDl0V2Qv?=
- =?utf-8?B?Y0o1Z2xXTmtadldOZ0hSeEJCQ3FCZWUvOXlqalR5bk9RUUhoQ0RQazRTalQz?=
- =?utf-8?B?MndMZDhUTFdoTHROZUIzUFNqWE01V1BrQTZMUDFpM2pJTkhIdHZMRVc0UGZ1?=
- =?utf-8?B?L2R4NzhWSFhEREx6L0Y3c05hNVBWMVZVM0tTOXlwUkVQVXZiZlFYem5yZjM2?=
- =?utf-8?B?WE1CRGhnMWpoWEZ0ZnJERHF6TkN0S1F3R1NxRzErTXgxUlBGVjRNQzFXbEx3?=
- =?utf-8?B?NDR5dHpWSzYrWUZZRmoyYWxTUWdJdXllR3MyVGVWVCtidTN4UVJoNFJOQjVl?=
- =?utf-8?B?NUgxQnE3SlJnaStVK1RWV0xZaDRidlVndDZ3Q1BpNklIMG4rVS9SY3ZlaE5n?=
- =?utf-8?B?Mkh6VERSbnR6Z1RSRDI1ZHl2RGpwWTZtUnZjRkExMlExbmRNR2FuM2VOQXV2?=
- =?utf-8?B?RTVsb0tPR3VYTjFGbUJ6Y201M3dRQnM3YTlMUkFIdksyVzZWV05YeWp5cFk0?=
- =?utf-8?B?MytxS2h5ZmpVWkNsZkc0OFByRE80U3k1d005UElRQ01GblNZTjlvUjZJRzIw?=
- =?utf-8?B?UEh5b055aHdkL1ZWbjRndFkzYkUxekVPWjdvaDBqRERvT2MyaUVXUWJrNHZv?=
- =?utf-8?B?b29RQTljKzNwZXZRQ045ZlU4SWRTSDRJc09WUFY0N05hZHgvWjVOS2NDRGpo?=
- =?utf-8?B?K3V4by94eFprYitNbnNlNFEwODlVcndxQ2dDU1pwVFk5TG4xTzQySlc1WVAy?=
- =?utf-8?B?YVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c22d66a2-04c9-42a5-69cf-08de17281b0c
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 20:16:55.4952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T6vWuiMf2KsbOdFNOGmy0BN7yOw1TAZfFaeZqEuad/SJHiB1ZQNFZVSJwcAra5Zx8SIWuTKedWxIKAfL0deUn6s4ej6K/cegVdS1eY8TP40=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFB9A266170
-X-OriginatorOrg: intel.com
-
---------------Vh8m9R9uYcgoVkgnRTwHMNx2
-Content-Type: multipart/mixed; boundary="------------I1ZjE0XUEgvx0sUU0Jjq4qpq";
- protected-headers="v1"
-Message-ID: <8eeed232-8cf4-4a80-a7eb-81d72c49c8a2@intel.com>
-Date: Wed, 29 Oct 2025 13:16:53 -0700
-MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kdoc: fix duplicate section warning message
-From: Jacob Keller <jacob.e.keller@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
- <94b517b7-ff20-463b-a748-12e080840985@infradead.org>
- <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
+Subject: Re: [PATCH 2/2] hwmon: temperature: add support for EMC1812
+To: Marius Cristea <marius.cristea@microchip.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com>
+ <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
 Content-Language: en-US
-Autocrypt: addr=jacob.e.keller@intel.com; keydata=
- xjMEaFx9ShYJKwYBBAHaRw8BAQdAE+TQsi9s60VNWijGeBIKU6hsXLwMt/JY9ni1wnsVd7nN
- J0phY29iIEtlbGxlciA8amFjb2IuZS5rZWxsZXJAaW50ZWwuY29tPsKTBBMWCgA7FiEEIEBU
- qdczkFYq7EMeapZdPm8PKOgFAmhcfUoCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AA
- CgkQapZdPm8PKOiZAAEA4UV0uM2PhFAw+tlK81gP+fgRqBVYlhmMyroXadv0lH4BAIf4jLxI
- UPEL4+zzp4ekaw8IyFz+mRMUBaS2l+cpoBUBzjgEaFx9ShIKKwYBBAGXVQEFAQEHQF386lYe
- MPZBiQHGXwjbBWS5OMBems5rgajcBMKc4W4aAwEIB8J4BBgWCgAgFiEEIEBUqdczkFYq7EMe
- apZdPm8PKOgFAmhcfUoCGwwACgkQapZdPm8PKOjbUQD+MsPBANqBUiNt+7w0dC73R6UcQzbg
- cFx4Yvms6cJjeD4BAKf193xbq7W3T7r9BdfTw6HRFYDiHXgkyoc/2Q4/T+8H
-In-Reply-To: <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---------------I1ZjE0XUEgvx0sUU0Jjq4qpq
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 10/29/25 08:50, Marius Cristea wrote:
+> This is the hwmon driver for Microchip EMC1812/13/14/15/33
+> Multichannel Low-Voltage Remote Diode Sensor Family.
+> 
+> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+> ---
+...
+> +			convrate = find_closest_descending(interval, emc1812_conv_time,
+> +							   ARRAY_SIZE(emc1812_conv_time));
 
+This needs to include linux/util_macros.h.
 
+Guenter
 
-On 10/29/2025 1:04 PM, Jacob Keller wrote:
->=20
->=20
-> On 10/29/2025 12:45 PM, Randy Dunlap wrote:
->> Hi Jacob,
->>
->> On 10/29/25 11:30 AM, Jacob Keller wrote:
->>> The python version of the kernel-doc parser emits some strange warnin=
-gs
->>> with just a line number in certain cases:
->>>
->>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
->>> Warning: 174
->>> Warning: 184
->>> Warning: 190
->>> Warning: include/linux/virtio_config.h:226 No description found for r=
-eturn value of '__virtio_test_bit'
->>> Warning: include/linux/virtio_config.h:259 No description found for r=
-eturn value of 'virtio_has_feature'
->>> Warning: include/linux/virtio_config.h:283 No description found for r=
-eturn value of 'virtio_has_dma_quirk'
->>> Warning: include/linux/virtio_config.h:392 No description found for r=
-eturn value of 'virtqueue_set_affinity'
->>>
->>> I eventually tracked this down to the lone call of emit_msg() in the
->>> KernelEntry class, which looks like:
->>>
->>>   self.emit_msg(self.new_start_line, f"duplicate section name '{name}=
-'\n")
->>>
->>> This looks like all the other emit_msg calls. Unfortunately, the defi=
-nition
->>> within the KernelEntry class takes only a message parameter and not a=
- line
->>> number. The intended message is passed as the warning!
->>>
->>> Pass the filename to the KernelEntry class, and use this to build the=
- log
->>> message in the same way as the KernelDoc class does.
->>>
->>> To avoid future errors, mark the warning parameter for both emit_msg
->>> definitions as a keyword-only argument. This will prevent accidentall=
-y
->>> passing a string as the warning parameter in the future.
->>>
->>> Also fix the call in dump_section to avoid an unnecessary additional
->>> newline.
->>>
->>> Fixes: e3b42e94cf10 ("scripts/lib/kdoc/kdoc_parser.py: move kernel en=
-try to a class")
->>> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
->>> ---
->>> We recently discovered this while working on some netdev text
->>> infrastructure. All of the duplicate section warnings are not being l=
-ogged
->>> properly, which was confusing the warning comparison logic we have fo=
-r
->>> testing patches in NIPA.
->>>
->>> This appears to have been caused by the optimizations in:
->>> https://lore.kernel.org/all/cover.1745564565.git.mchehab+huawei@kerne=
-l.org/
->>>
->>> Before this fix:
->>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
->>> Warning: 174
->>> Warning: 184
->>> Warning: 190
->>> Warning: include/linux/virtio_config.h:226 No description found for r=
-eturn value of '__virtio_test_bit'
->>> Warning: include/linux/virtio_config.h:259 No description found for r=
-eturn value of 'virtio_has_feature'
->>> Warning: include/linux/virtio_config.h:283 No description found for r=
-eturn value of 'virtio_has_dma_quirk'
->>> Warning: include/linux/virtio_config.h:392 No description found for r=
-eturn value of 'virtqueue_set_affinity'
->>>
->>> After this fix:
->>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
->>> Warning: include/linux/virtio_config.h:174 duplicate section name 'Re=
-turn'
->>> Warning: include/linux/virtio_config.h:184 duplicate section name 'Re=
-turn'
->>> Warning: include/linux/virtio_config.h:190 duplicate section name 'Re=
-turn'
->>> Warning: include/linux/virtio_config.h:226 No description found for r=
-eturn value of '__virtio_test_bit'
->>> Warning: include/linux/virtio_config.h:259 No description found for r=
-eturn value of 'virtio_has_feature'
->>> Warning: include/linux/virtio_config.h:283 No description found for r=
-eturn value of 'virtio_has_dma_quirk'
->>> Warning: include/linux/virtio_config.h:392 No description found for r=
-eturn value of 'virtqueue_set_affinity'
->>> ---
->>>  scripts/lib/kdoc/kdoc_parser.py | 20 ++++++++++++--------
->>>  1 file changed, 12 insertions(+), 8 deletions(-)
->>>
->>
->>> ---
->>> base-commit: e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
->>> change-id: 20251029-jk-fix-kernel-doc-duplicate-return-warning-bd57ea=
-39c628
->>
->> What is that base-commit? I don't have it.
->> It doesn't apply to linux-next (I didn't check docs-next).
->> It does apply cleanly to kernel v6.18-rc3.
->>
->=20
-> Hm. Its e53642b87a4f ("Merge tag 'v6.18-rc3-smb-server-fixes' of
-> git://git.samba.org/ksmbd") which was the top of
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git as o=
-f
-> when I made the commit. I wasn't sure which tree to base on since I'm
-> not a regular contributor to the docs stuff, so I just based on Linus's=
-
-> tree instead of linux-next.
->=20
->> and it does fix the Warning messages to be something useful. Thanks.
->>
->> We'll have to see if Mauro already has a fix for this. (I reported
->> it a couple of weeks ago.)
->=20
-
-I rebased clean onto docs-next, so if there is a fix its not on that
-tree as of 90b6a53073df ("Documentation: fix reference to
-PR_SPEC_L1D_FLUSH")
-
-Thanks,
-Jake
-
---------------I1ZjE0XUEgvx0sUU0Jjq4qpq--
-
---------------Vh8m9R9uYcgoVkgnRTwHMNx2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQQgQFSp1zOQVirsQx5qll0+bw8o6AUCaQJ2NgUDAAAAAAAKCRBqll0+bw8o6Bno
-AP9phOXUufLRUsbsY4RWqRHw++f6+Cqv4zoOL27/GUZkPAEAvP5jh0gs02K/evSYZ4MOGN/gxUif
-5npIFcYYUWedggc=
-=+fpS
------END PGP SIGNATURE-----
-
---------------Vh8m9R9uYcgoVkgnRTwHMNx2--
