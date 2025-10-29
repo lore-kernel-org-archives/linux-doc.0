@@ -1,108 +1,146 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B37A2D7DEB
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 14:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162982EBB86
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761749869; cv=none; b=UvTwLwTtx7kwKneJFL1NUptjTimsW7140y49P3EF5sbh5a2p6MobiIktYVyA/rJTUrdc5nmRdD7XAGDJf051XqPolGA82nrfAavdHkwvZysmCbMYg29ub5SpYm4jMfeKpQDyEYYpcmu8l6wYpYS5owLBBiil0AAWGmBESj1lFJg=
+	t=1761750045; cv=none; b=ODSpRtPo2AhRsFKheO7l22NVSBaRSm95VKp2Gtbc8PGhz3ds1tK9LrdShFtr8E5IjHhSMVs68Kdz0xY6GTiyYJLI4v0nriJMMYeUY/iLyyebslqDAqkhRg+so0c0Yke9zZVUrmn8umPF0SLBCFdCelWU4twlN+tAoVifsn3RqVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761749869; c=relaxed/simple;
-	bh=sW0fcO523ng4pGFY9aQJooiGcb2xLELRhF6pvb9Out4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PF3C9wXsz4xS2KfEFjp2eMdsY370qWJhRhWKT7+i2DTosqw0nt8kr07x3oPHAqNXNwVa5+USr++BbT7YhlNykmj6urZQ5MiZUBvuYhWgLX7j6yH0VBo8bx9rXCumWcq8apHg8NnCS6ZuiAy2/GxbjyiGTVI4/kulD8FhlPdId4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P8pSUfFi; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761750045; c=relaxed/simple;
+	bh=+tlRYDhwKjnWGU2DM6wmocuZ6nd/UXarWG9O3eba0S4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NBin95JjnGvrNISWyykbVF1bCiUzR9OFC1N7xOfiIiN5fSAahZkpucQgcLYszhTaLEmUURyYmWig7N5sb/cGDM6upXP1GtuqBqQtae8E6RwnhACsJP/l5fj/G01bBCqwng8lAQlhiG42zHvoCe6cIpH8szy//IUj7szUCotQ9QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mm1AyMC4; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P8pSUfFi"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ea12242d2eso340691cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 07:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761749866; x=1762354666; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d1yPrZJAtYC54ch5kkR2jlvgWTejLF7D5+gBaBiHJFI=;
-        b=P8pSUfFiXDPDvWHmEXuinZOCNdErarnp4POZ0SOm+Nft/ANiXqnl82D1ltOuvaxP2s
-         RH0K4kWiEOjHoyP3J6XC7Vv3EFYLm+P9ul8yKQuoRy8/xTCUNl6MSBeb+CmCWHSPd3Sb
-         JcTJlOBlIgMdppqp1oVg9pEjoUbvzy6XrklLosfX6s5Kb0Cu56C8gBleV0aVVFRKDPe4
-         sJZU483KkhPOrqeiIjJFnj4l5NNwWSxVfdReZGU7PYWWlG3Kzti3eXuhCBOq86OLRrlz
-         7wCz5egdwKvC6zV5PHkrbqNTTZPrHe55bfZvOf9W1rE+KJAu9Rm6qI+EOx5Ke3jEFoDT
-         NoYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761749866; x=1762354666;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d1yPrZJAtYC54ch5kkR2jlvgWTejLF7D5+gBaBiHJFI=;
-        b=rHrm7MrGeW4xRWxPNN9g7rWICsdOYGV0WLNYvYL9arnz9gGH9pYJVDQ077ytbPxFsz
-         de2HeJe9AJXR5IK6xNAqnELUoBRcIo1+DcMbhjy0syiuLRddrgg2t1J7f09Bd88KX3Do
-         5PKSYrm+nsmqiamkQmZMIMEdCwah34+tUfDpQTGKv/KwZRwhHNv2xLT80G4iHym1tt1z
-         1qx1NGcOeQCK30mNRLYGZ0mw82FjS6+RzVO7GfRsjUu6HJFjoXPXZ8i/UbqVYiyerGHM
-         ugeW3ohYCLOCLAiugqxZD+gW5D+274qPAkYJUpekSfgKDQniw6EsxiggrXFk1OjBYuPU
-         g/hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXkOzZJtKKcGS8kLrHT8ZgqfiqrDC1gySrLJ5PFxWJdv9WzFuJjYgsvBwguitJ/dHHofq7z0IGZ1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcwVJAVJkzjIxYScBM0wYcnRd8PaegOvJ+hoAlYJ5md8usE8yS
-	M5q9tTfwOMX7irUNYv+veJqJCqnd2aX9aZB+B0dY9xifL0+gYQ92U+Ezr6fccQGhSYCsuhjnpkD
-	MYw+Y3H0LxXIz61UZ+KMYO80feR/TZvbPOKQ5P31i
-X-Gm-Gg: ASbGncsrTwOY8dZDf3jZkdiB5tU4Xeyg7s2aieCdO70xs8ON0cIL4LMbiduvHaIwQbW
-	StRdW4Ui2VcNnc+I0zxY5QmgVZWADsFbKu1pPsbFePigCy89Fue83FR6mIfDMUkrupWAfOEcy2z
-	me0oeGXXRsNGaKZJsV+2Nic+BptttLib9uUh2TrXk/0jJcP9T06XA+CZE1jTdZXofJQUlypKtMv
-	77ZTreU9SGITbMdAOLeu37bAAfsMGlwZRAAYksLLIQ+wVwQUKGnscHhuzj9vD8SaDYXJHXyNS57
-	ipBI8VTFtdmqDb8Z17SJivq1ug==
-X-Google-Smtp-Source: AGHT+IHJk1Z4xsEEl6nhEK364d+WNrqkglBzi78RQdt59uckdBYZ7htllhsIgZwt9bC5EN7/2oXDuEWCE2gLHAXeC4U=
-X-Received: by 2002:a05:622a:11c8:b0:4e4:d480:ef3a with SMTP id
- d75a77b69052e-4ed165a8088mr6994811cf.13.1761749865638; Wed, 29 Oct 2025
- 07:57:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mm1AyMC4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761750043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/lje2qSf9aCISv8IiiVymSF9NXLzc82e4gvzdRzncDM=;
+	b=Mm1AyMC4qlZXB6QbPaN+711xgFR1lJURUcrv89hR6WR0VJ1/yLExdht4SQV9f24a+pNkpq
+	EVNBRTMLsAallpoQA0a5l7TM69JyO1UuQzfexu0KRS7Iw07mSmOJyNNM+yo0d4OGnETdzD
+	hTcvbqT610Tl9btem5dIivNF2UiK/dA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-629-ADxkmCSCO4ar-tY2CUo5Jg-1; Wed,
+ 29 Oct 2025 11:00:37 -0400
+X-MC-Unique: ADxkmCSCO4ar-tY2CUo5Jg-1
+X-Mimecast-MFC-AGG-ID: ADxkmCSCO4ar-tY2CUo5Jg_1761750034
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 084EA180A22A;
+	Wed, 29 Oct 2025 15:00:33 +0000 (UTC)
+Received: from [10.44.34.31] (unknown [10.44.34.31])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3217F19560AD;
+	Wed, 29 Oct 2025 15:00:27 +0000 (UTC)
+Message-ID: <10e525df-cd38-464a-8df5-ec59100ba40e@redhat.com>
+Date: Wed, 29 Oct 2025 16:00:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251026203611.1608903-1-surenb@google.com> <aP8XMZ_DfJEvrNxL@infradead.org>
- <CAJuCfpH1Nmnvmg--T2nYQ4r25pgJhDEo=2-GAXMjWaFU5vH7LQ@mail.gmail.com> <aQHdG_4yk0-o0iEY@infradead.org>
-In-Reply-To: <aQHdG_4yk0-o0iEY@infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 29 Oct 2025 07:57:34 -0700
-X-Gm-Features: AWmQ_blGYfe_lFn4eY8RCcDjRQso5Ijs05VisPx1zbBZudE9r4ISvY1EtlCdvh4
-Message-ID: <CAJuCfpFPDPaQdHW3fy46fsNczyqje0W8BemHSfroeawB1-SRpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Guaranteed CMA
-To: Christoph Hellwig <hch@infradead.org>
-Cc: akpm@linux-foundation.org, david@redhat.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, vbabka@suse.cz, alexandru.elisei@arm.com, 
-	peterx@redhat.com, sj@kernel.org, rppt@kernel.org, mhocko@suse.com, 
-	corbet@lwn.net, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	jack@suse.cz, willy@infradead.org, m.szyprowski@samsung.com, 
-	robin.murphy@arm.com, hannes@cmpxchg.org, zhengqi.arch@bytedance.com, 
-	shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
-	weixugc@google.com, minchan@kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 29, 2025 at 2:23=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Mon, Oct 27, 2025 at 12:51:17PM -0700, Suren Baghdasaryan wrote:
-> > I'm guessing you missed my reply to your comment in the previous
-> > submission: https://lore.kernel.org/all/CAJuCfpFs5aKv8E96YC_pasNjH6=3De=
-ukTuS2X8f=3DnBGiiuE0Nwhg@mail.gmail.com/
-> > Please check it out and follow up here or on the original thread.
->
-> I didn't feel to comment on it.  Please don't just build abstractions
-> on top of abstractions for no reason.  If you later have to introduce
-> them add them when they are actually needed.
-
-Ok, if it makes it easier to review the code, I'll do it. So, I can:
-1. merge cleancache code (patch 1) with the GCMA code (patch 7). This
-way all the logic will be together.
-2. . LRU additiona (patch 2) and readahead support (patch 3) can stay
-as incremental additions to GCMA, sysfs interface (patch 4) and
-cleancache documentation (
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] dpll: add phase-adjust-gran pin attribute
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+ Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251024144927.587097-1-ivecera@redhat.com>
+ <20251024144927.587097-2-ivecera@redhat.com>
+ <20251028183919.785258a9@kernel.org>
+ <b3f45ab3-348b-4e3e-95af-5dc16bb1be96@redhat.com>
+ <jgebk37r4xs6w4526hjc5u6r7oudanb5ce7v4xlaw2tcswtycx@cvmxkwxvkpek>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <jgebk37r4xs6w4526hjc5u6r7oudanb5ce7v4xlaw2tcswtycx@cvmxkwxvkpek>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
 
->
+
+On 10/29/25 3:20 PM, Jiri Pirko wrote:
+> Wed, Oct 29, 2025 at 08:44:52AM +0100, ivecera@redhat.com wrote:
+>> Hi Kuba,
+>>
+>> On 10/29/25 2:39 AM, Jakub Kicinski wrote:
+>>> On Fri, 24 Oct 2025 16:49:26 +0200 Ivan Vecera wrote:
+>>>> +      -
+>>>> +        name: phase-adjust-gran
+>>>> +        type: s32
+>>>> +        doc: |
+>>>> +          Granularity of phase adjustment, in picoseconds. The value of
+>>>> +          phase adjustment must be a multiple of this granularity.
+>>>
+>>> Do we need this to be signed?
+>>>
+>> To have it unsigned brings a need to use explicit type casting in the core
+>> and driver's code. The phase adjustment can be both positive and
+>> negative it has to be signed. The granularity specifies that adjustment
+>> has to be multiple of granularity value so the core checks for zero
+>> remainder (this patch) and the driver converts the given adjustment
+>> value using division by the granularity.
+>>
+>> If we would have phase-adjust-gran and corresponding structure fields
+>> defined as u32 then we have to explicitly cast the granularity to s32
+>> because for:
+> 
+> I prefer cast. The uapi should be clear. There is not point of having
+> negative granularity.
+> 
+> 
+I will use u32 for phase-adjust-gran and dpll_pin_properties.phase_gran.
+
+OK?
+>> <snip>
+>> s32 phase_adjust, remainder;
+>> u32 phase_gran = 1000;
+>>
+>> phase_adjust = 5000;
+>> remainder = phase_adjust % phase_gran;
+>> /* remainder = 0 -> OK for positive adjust */
+>>
+>> phase_adjust = -5000;
+>> remainder = phase_adjust % phase_gran;
+>> /* remainder = 296
+>> * Wrong for negative adjustment because phase_adjust is casted to u32
+>> * prior division -> 2^32 - 5000 = 4294962296.
+>> * 4294962296 % 1000 = 296
+>> */
+>>
+>> remainder = phase_adjust % (s32)phase_gran;
+>> /* remainder = 0
+>>   * Now OK because phase_adjust remains to be s32
+>>   */
+>> </snip>
+>>
+>> Similarly for division in the driver code if the granularity would be
+>> u32.
+>>
+>> So I have proposed phase adjustment granularity to be s32 to avoid these
+>> explicit type castings and potential bugs in drivers.
+> 
+> Cast in dpll core, no?
+Depends... if the driver will use s32 (sse patch 2) then no castings are 
+necessary.
+
+Thanks,
+Ivan
+
