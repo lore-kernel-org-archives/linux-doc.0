@@ -1,49 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB7E2D8779;
-	Wed, 29 Oct 2025 16:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554822D8779;
+	Wed, 29 Oct 2025 16:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761754535; cv=none; b=eRduSK0Pqn7ZdYOKnnOJEwvPNkKLfppyIZWatqwA+gH/5XhXnJhtbuhnyy1EAcN3M9J36wODUf66xb9yhJDPWZ5JWCYPKz+kJPvZMSjHmUUoB0GiH0j9h7wEEXzKKKzIJC/zwioLJlsedewpcu2eisPUoJnc0HZUWGCIjD7s6ks=
+	t=1761754731; cv=none; b=Rhwm2U8cfvlA1Qwa3M40HVXhCPU985ILoJJX8VZYXTbYf8k3bAAV7HAHAS74g3PCfhmwMg/znYKyyRKuq7KcJmHX1EGVwWeY4es38aG0/Z7IuWFf/bzr6fD86vzkyMLxR3T+bHKUVWv/wQYldx2tz4k3+LMtGLM/26zi2uW77Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761754535; c=relaxed/simple;
-	bh=P4oeid1HL5dlM2icZgrR+rwKVYRUYDzMQTRugMfcxYw=;
+	s=arc-20240116; t=1761754731; c=relaxed/simple;
+	bh=ItsQFA6gHB0B+bH4phqSUxOq4pDY0347EnzmcFg1V68=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ia25ffn6AA7qS9gCirKivHHzx4jLv+A97mlreOSVsgPETY/P5g+DqKhaKPFBj/K3OxcxlQEltUPD94Gho+WrfJPNYSlyFJlqnakFggs0J5LBoRWDcB6Acx9vR9ZEyIHyuUtXwcbo6VXYs6Qur/UnZsvP01oOYcUdctvVZrNK4Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=D2K3ITH8; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=U0c9DtjnCHNjv3UTYh1jKIC+tFgYzobxvkhIjAF/hr16gkk/VI93sVDYLZPpKQWkeMLP7AqKNW2TMhMvxZjh2cOgqNMi5DhdXxtT/262t/DzAZ9ZaTdlTYw+GRkhXElLlF0P9z4Wws+UQfQj4a3TN+yIfcsvCeWIa/8i3ElivEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WReRaWhr; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="D2K3ITH8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 941F3406FB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WReRaWhr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8076E406FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761754532; bh=L8Kiv1HZUF4H6QpVPZ/toYV2pUWfUfVz6DT+A2payl0=;
+	t=1761754729; bh=fipKxuWbGOwA/hJdR+OnXvH3NJNssstojmnRmDx0+gc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=D2K3ITH8Kha3L/FIwspP7fM5n7jF6E1BIxFzPqhUrhs4Gp55B0Qkm9lTWyOcUMSTn
-	 BCM4idQ3UQ9UAGFe7hZhSX/pbXXfOXEjLEhRQIYqJdulF+DVCKsdgeqd4tX4Qafp+6
-	 x2E8mAxubaAFQLFWm4oh5ilnfR6xiZHQ/F9VyqKks6cn5SecFIjU9m5yoTA1rKG12P
-	 aWeERTSVgMdwsJFk+fQENyZTSPKXtEeEXq7sa5MUTM8yAae2kPCQ1cCgBploZz0Thk
-	 jAzxOiTSqXnVopEoL4CPw6HQyT9RkeCwgcB6TVYXJ/T3UPLBoWbxqDrWRNQMtq9yVI
-	 iYKex9Bltjokw==
+	b=WReRaWhr0I/tIRElpLUw8GYU+7drG+ZGue7M5nGQqjJEr83utz/O9qv6fcoA5cPkM
+	 OyKgpzZA3HqK7TW3NDpOXU7AfoKYSDg+RoyAl/l0CX04z0VtCHF8MqyaFJzZqsHOTO
+	 OqDWaRzMnmRADf7EqWlrfRytX3cq+79HE1P8oV7fnpkNkYwLm9bU/H6I1PZ0lef/6U
+	 IN9ZmqONAjFTEqk2BD4yccB6M5jmpqf7OaSMVfM21veuadhwR/OUeZpANYZGEwIYWJ
+	 Tuma5YRc564Hsz0XRrJR5u340unoRUr+gnJNV77x8GIEMhmvnqmcOgLdbQbfpNbXiU
+	 JYX0S5k2C4YPA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 941F3406FB;
-	Wed, 29 Oct 2025 16:15:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8076E406FB;
+	Wed, 29 Oct 2025 16:18:49 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Brendan Jackman <jackmanb@google.com>, Thomas Gleixner
- <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Balbir Singh <sblbir@amazon.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Brendan Jackman
- <jackmanb@google.com>, Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH 0/2] Documentation: fixups for L1D flushing
-In-Reply-To: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
-References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com>
-Date: Wed, 29 Oct 2025 10:15:31 -0600
-Message-ID: <878qgtr8f0.fsf@trenco.lwn.net>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ bhanuseshukumar@gmail.com
+Subject: Re: [PATCH] docs: Makefile: Sort Documentation targets
+ case-insensitively in make help
+In-Reply-To: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
+References: <20251015012922.19467-1-bhanuseshukumar@gmail.com>
+Date: Wed, 29 Oct 2025 10:18:48 -0600
+Message-ID: <874irhr89j.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,18 +53,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Brendan Jackman <jackmanb@google.com> writes:
+Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com> writes:
 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
-> Brendan Jackman (2):
->       Documentation: clarify PR_SPEC_L1D_FLUSH
->       Documentation: fix reference to PR_SPEC_L1D_FLUSH
+> Avoid case-sensitive sorting when listing Documentation targets in make help.
+> Previously, targets like PCI and RCU appeared ahead of others due to uppercase
+> names.
 >
->  Documentation/admin-guide/hw-vuln/l1d_flush.rst | 2 +-
->  Documentation/userspace-api/spec_ctrl.rst       | 6 +++++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
+> Normalize casing during _SPHINXDIRS generation to ensure consistent and
+> intuitive ordering.
+>
+> Fixes: 965fc39f7393 ("Documentation: sort _SPHINXDIRS for 'make help'")
+> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+> ---
+>  Notes
+>  - Patch is tested with make help command.
+>  - Verified case-insensitive sorting.
+>
+>  Documentation/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 3609cb86137b..00c81e7947a9 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -23,7 +23,7 @@ SPHINXOPTS    =
+>  SPHINXDIRS    = .
+>  DOCS_THEME    =
+>  DOCS_CSS      =
+> -_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+> +_SPHINXDIRS   = $(shell printf "%s\n" $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)) | sort -f)
+>  SPHINX_CONF   = conf.py
+>  PAPER         =
+>  BUILDDIR      = $(obj)/output
 
-I've gone ahead and applied these two, thanks.
+I'm unconvinced that the extra complexity is really needed ... but I
+went to apply it anyway.  Unfortunately, this patch doesn't apply to
+docs-next.
+
+Thanks,
 
 jon
