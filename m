@@ -1,177 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F024F2773F0;
-	Wed, 29 Oct 2025 20:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C789726D4F7;
+	Wed, 29 Oct 2025 20:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761770238; cv=none; b=HmsyDxRkuQsdAUmQod9gGK6GzejumHTAgx4DX7cX7D4KI7nUjAjoZYXyztaLDalMujEEVPG2whan6zwhuXLX57wNpKpfa1BGI/H3en7iDknh08Wzjm/xGrBIk5o9yZcMk1q30GmBS9h2uPD30ak79ZaK3XpYDIqxnYIJARapjOI=
+	t=1761770407; cv=none; b=Ep74pMR8ih/rRU+2RPBnRrPvgEFnFxieabQtPfJE5DWwXoAAd9b17T98s8kR3pZ1oErWZoe2QPZQZZs0a8avL2g7irwLPuUREPb26IKouopmkY6Ml4HetXSU9+0MowGXd3/xNiYifyQFtOji9YJJYrwPGpkQMCqamqdQnzgdrUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761770238; c=relaxed/simple;
-	bh=IpX/Efp/7aa50ROsEckRQKklVIBMT4CdHzNQdUOYZSM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=n9k6SuxD6RwO+4n4JYxRIg46q7d2Dl79ZugxQfUGMqODdkmRpIECV+cu+zFC2Bn4D+cB8R75WeAHJSVaRDhdt6vch3ftZ1oAmsNoly0jvTLDkzKQTCveBZtDP4xwJPV0CxwOCc8PSdkX3xWp/kLs6i5gv8ZycbaFF5cUY1pV9Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n09xHDXm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761770407; c=relaxed/simple;
+	bh=Hldxg5wIX16oQThtCclBJU/YEZZATtqu9a9yX5sNY5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QZ0fCnPflbTLcpKfZ6DYIrzt3az7f8kzLy/dA6KWjVgEP35boqSDOGJaU1kq9JedA4cJVKbGqy/vAFsOGAQknp6AEj8MnTnARbvCos2hpL1KvK+ojudODfNJ40ztpVF7ae1WwWknIxXBacv+bCHPpouP9yhJ4WnMX/IbIVISjWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CC0XWT/g; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n09xHDXm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0922EC4CEF7;
-	Wed, 29 Oct 2025 20:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761770237;
-	bh=IpX/Efp/7aa50ROsEckRQKklVIBMT4CdHzNQdUOYZSM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=n09xHDXm0NQvt/2Ihe4zZw4wfbyxmW01sr5F8oIz0+NnVpvOvmas9ZSUBNZuoBGN8
-	 yEUJexJrt6G+WaI+v6LoH9gHjUpBA5BgORDfuZmGBbK3TrpvucNv6D2Vzm5utrHI4q
-	 pBUL8cT3REaEsOervShr6BCXoflf/q4Zf7hRGKWQfXn9qeY6JQuwrG/JnTCqUmOgc5
-	 hT3dN0/xAkSwkHPBtLgg673vpsvLCHWXvgFnnNtDwNVoukqqWeY37QF3Bn8d4S9NOe
-	 mYI5z05LwzeakeUjJcmVfE5NKNLhG1ADoKaEcjy+z5rYJLGUcRLtFsViiwUYIno+Xw
-	 B2KC49VWJpNWw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
-  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
-  steven.sistare@oracle.com
-Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
- preservation and state management
-In-Reply-To: <20250929010321.3462457-15-pasha.tatashin@soleen.com> (Pasha
-	Tatashin's message of "Mon, 29 Sep 2025 01:03:05 +0000")
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
-	<20250929010321.3462457-15-pasha.tatashin@soleen.com>
-Date: Wed, 29 Oct 2025 21:37:06 +0100
-Message-ID: <mafs0pla5cuml.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CC0XWT/g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=UV/VmOJCOfLSipmv50W1vAFDC6k/baUxYyh/BQCyEpA=; b=CC0XWT/gfXNtu9Xw5kcAcNJ/7D
+	yWbrdA638vB4KAJV8RGlYsc6Ws5RkqqKz45UMdC50XRJ4pnRFP2l49817DC8qVTbMtEebXL3maUOZ
+	DRdErQwugmWKqXn/Gf+GxJOzI1obcnkSQ7BdSbmaIRxDsT6Znsn8gnzNg6x3wTuYcC5Z65B/n9PyO
+	8M/z8w05VAfLdi1mFm7xbI9OY5a6mtub8h1LeGKLwAOXasLScVh1w1ftwWuoMKKPSqR+13y2saV9w
+	Kgju7ioVCuGwVwR+Ym3oXehyVm1F4POmZ5szpJVB8Iy12mekI2xUeEQ/qT8dVY1CpUP/4v40VRmwU
+	3MkSU6Gg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vECxY-00000002pOM-05SB;
+	Wed, 29 Oct 2025 20:39:56 +0000
+Message-ID: <f226af11-adbb-444f-9322-1dd3116321f7@infradead.org>
+Date: Wed, 29 Oct 2025 13:39:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kdoc: fix duplicate section warning message
+To: Jacob Keller <jacob.e.keller@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
+ <94b517b7-ff20-463b-a748-12e080840985@infradead.org>
+ <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <e8e0cc0d-3f71-42a9-b549-39840952ef0c@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Pasha,
 
-On Mon, Sep 29 2025, Pasha Tatashin wrote:
 
-> Introducing the userspace interface and internal logic required to
-> manage the lifecycle of file descriptors within a session. Previously, a
-> session was merely a container; this change makes it a functional
-> management unit.
->
-> The following capabilities are added:
->
-> A new set of ioctl commands are added, which operate on the file
-> descriptor returned by CREATE_SESSION. This allows userspace to:
-> - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
->   to be preserved across the live update.
-> - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
->   descriptor from the session.
-> - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
->   new kernel using its unique token.
->
-> A state machine for each individual session, distinct from the global
-> LUO state. This enables more granular control, allowing userspace to
-> prepare or freeze specific sessions independently. This is managed via:
-> - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
->   CANCEL, or FINISH events to a single session.
-> - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
->   of a single session.
->
-> The global subsystem callbacks (luo_session_prepare, luo_session_freeze)
-> are updated to iterate through all existing sessions. They now trigger
-> the appropriate per-session state transitions for any sessions that
-> haven't already been transitioned individually by userspace.
->
-> The session's .release handler is enhanced to be state-aware. When a
-> session's file descriptor is closed, it now correctly cancels or
-> finishes the session based on its current state before freeing all
-> associated file resources, preventing resource leaks.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
-[...]
-> +static int luo_session_restore_fd(struct luo_session *session,
-> +				  struct luo_ucmd *ucmd)
-> +{
-> +	struct liveupdate_session_restore_fd *argp = ucmd->cmd;
-> +	struct file *file;
-> +	int ret;
-> +
-> +	guard(rwsem_read)(&luo_state_rwsem);
-> +	if (!liveupdate_state_updated())
-> +		return -EBUSY;
-> +
-> +	argp->fd = get_unused_fd_flags(O_CLOEXEC);
-> +	if (argp->fd < 0)
-> +		return argp->fd;
-> +
-> +	guard(mutex)(&session->mutex);
-> +
-> +	/* Session might have already finished independatly from global state */
-> +	if (session->state != LIVEUPDATE_STATE_UPDATED)
-> +		return -EBUSY;
-> +
-> +	ret = luo_retrieve_file(session, argp->token, &file);
+On 10/29/25 1:04 PM, Jacob Keller wrote:
+> 
+> 
+> On 10/29/2025 12:45 PM, Randy Dunlap wrote:
+>> Hi Jacob,
+>>
+>> On 10/29/25 11:30 AM, Jacob Keller wrote:
+>>> The python version of the kernel-doc parser emits some strange warnings
+>>> with just a line number in certain cases:
+>>>
+>>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
+>>> Warning: 174
+>>> Warning: 184
+>>> Warning: 190
+>>> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
+>>> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
+>>> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
+>>> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+>>>
+>>> I eventually tracked this down to the lone call of emit_msg() in the
+>>> KernelEntry class, which looks like:
+>>>
+>>>   self.emit_msg(self.new_start_line, f"duplicate section name '{name}'\n")
+>>>
+>>> This looks like all the other emit_msg calls. Unfortunately, the definition
+>>> within the KernelEntry class takes only a message parameter and not a line
+>>> number. The intended message is passed as the warning!
+>>>
+>>> Pass the filename to the KernelEntry class, and use this to build the log
+>>> message in the same way as the KernelDoc class does.
+>>>
+>>> To avoid future errors, mark the warning parameter for both emit_msg
+>>> definitions as a keyword-only argument. This will prevent accidentally
+>>> passing a string as the warning parameter in the future.
+>>>
+>>> Also fix the call in dump_section to avoid an unnecessary additional
+>>> newline.
+>>>
+>>> Fixes: e3b42e94cf10 ("scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class")
+>>> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+>>> ---
+>>> We recently discovered this while working on some netdev text
+>>> infrastructure. All of the duplicate section warnings are not being logged
+>>> properly, which was confusing the warning comparison logic we have for
+>>> testing patches in NIPA.
+>>>
+>>> This appears to have been caused by the optimizations in:
+>>> https://lore.kernel.org/all/cover.1745564565.git.mchehab+huawei@kernel.org/
+>>>
+>>> Before this fix:
+>>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
+>>> Warning: 174
+>>> Warning: 184
+>>> Warning: 190
+>>> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
+>>> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
+>>> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
+>>> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+>>>
+>>> After this fix:
+>>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
+>>> Warning: include/linux/virtio_config.h:174 duplicate section name 'Return'
+>>> Warning: include/linux/virtio_config.h:184 duplicate section name 'Return'
+>>> Warning: include/linux/virtio_config.h:190 duplicate section name 'Return'
+>>> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
+>>> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
+>>> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
+>>> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+>>> ---
+>>>  scripts/lib/kdoc/kdoc_parser.py | 20 ++++++++++++--------
+>>>  1 file changed, 12 insertions(+), 8 deletions(-)
+>>>
+>>
+>>> ---
+>>> base-commit: e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+>>> change-id: 20251029-jk-fix-kernel-doc-duplicate-return-warning-bd57ea39c628
+>>
+>> What is that base-commit? I don't have it.
+>> It doesn't apply to linux-next (I didn't check docs-next).
+>> It does apply cleanly to kernel v6.18-rc3.
+>>
+> 
+> Hm. Its e53642b87a4f ("Merge tag 'v6.18-rc3-smb-server-fixes' of
+> git://git.samba.org/ksmbd") which was the top of
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git as of
+> when I made the commit. I wasn't sure which tree to base on since I'm
+> not a regular contributor to the docs stuff, so I just based on Linus's
+> tree instead of linux-next.
+> 
+>> and it does fix the Warning messages to be something useful. Thanks.
+>>
+>> We'll have to see if Mauro already has a fix for this. (I reported
+>> it a couple of weeks ago.)
+> 
+> I searched mail archives but didn't find a report, so hence the patch.
+> If this already has a proper fix thats fine.
+> 
 
-The retrieve behaviour here causes some nastiness.
+It was discussed here and Mauro said that he sent a patch but I still
+see those warnings in linux-next-20251029.
 
-When the session is deserialized by luo_session_deserialize(), all the
-files get added to the session's files_list. Now when a process
-retrieves the session after kexec and restores a file, the file
-handler's retrieve callback is invoked, deserializing and restoring the
-file. Once deserialization is done, the callback usually frees up the
-metadata. All this is fine.
+https://lore.kernel.org/all/jd5uf3ud2khep2oqyos3uhfkuptvcm4zgboelfxjut43bxpr6o@ye24ej7g3p7n/
 
-The problem is that the file stays on on the files_list. When the
-process closes the session FD, the unpreserve callback is invoked for
-all files.
-
-The unpreserve callback should undo what preserve did. That is, free up
-serialization data. After a file is restored post-kexec, the things to
-free up are different. For example, on a memfd, the folios won't be
-pinned anymore. So invoking unpreserve on a retrieved file doesn't work
-and causes UAF or other invalid behaviour.
-
-I think you should treat retrieve as a unpreserve as well, and remove
-the file from the session's list.
-
-Side note: I see that a lot of code in luo_file.c works with the session
-data structures directly. For example, luo_file_deserialize() adds the
-file to session->files_list. I think the code would be a lot cleaner and
-maintainable if the concerns were clearly separated.
-luo_file_deserialize() should focus on deserializing a file given a
-compatible and data, and all the dealing with the session's state should
-be done by luo_session_deserialize().
-
-luo_file_deserialize() is just an example, but I think the idea can be
-applied in more places.
-
-[...]
+>> If not, then this will need to apply to docs-next AFAIK.
+>>  
+> 
+> Ok, I can rebase if it is necessary. I'll check that out, and can send a
+> v2 if Mauro hasn't already fixed it somehow else.
+> 
+>> And not a problem with this patch, but those Returns: lines for
+>> each callback function shouldn't be there as Returns:. This is a
+>> struct declaration, not a function (or macro) declaration/definition.
+>>
+> 
+> Yep, thats an issue with the header. They're doing something weird by
+> doing some sort of sub-documentation for each method of an ops struct. I
+> don't really know what the best fix is for this doc file, nor do I
+> particularly care. I just used it as an example because its the one that
+> we ran into while looking at output from the netdev testing infrastructure.
 
 -- 
-Regards,
-Pratyush Yadav
+~Randy
+
