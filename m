@@ -1,66 +1,68 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39847325737
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9700533C503
+	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761752802; cv=none; b=REZBRdJ6FMY5B/y80d2cwsOT8/0lUbpc1a/fzb02kqb4tz2+ypMBd4xTZXkBv1joZmMAZ7TYKeSg5W76mx+XIIU8/JfZ49uU2sEKar8SbshWV+iXaCwaSRDRTE8NAjGCaEUtyZCyDw/65wNY/iGz0gC16PSa+mnc/lH83WIGeHU=
+	t=1761752803; cv=none; b=PXix0SUBODEJHEq/hfSvVpwY8jinqri4RNZ2i6sxYT/67MuCOOOalES6/0k4ghkIzBjNd+ipUD67KmQn3axJNPitI7Hw+gFF8Ey+tBrg5oPxwILpEsh3mFInBYAif/uxlZlPD507TKlEyVvBsQA3G1pvkzCNDtqc0YqrmGQ0344=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761752802; c=relaxed/simple;
-	bh=1TP15azltOhFLw0Kefsw27j7zgWEijXVp/Z4E0ktb9A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CZLN/ySCxzIayCbbwQbLerHlc8XlMgf/pxOPz9r5lKqxa5Jx5P71E3mg7c4GTqeLdmdH0xPLR3PZCy8di5Spyx9nDBru8x6F7ebjLEelVlLG+DEm00eGVij/MB/KnH+K3R4OEE6Ltx/AZ+tGb3GFEceNZYm60zRfRzYKvngUljw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r1LB53ui; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1761752803; c=relaxed/simple;
+	bh=3yjrpHkX+aMdTK90nxuOJyMh4ajXQ8n+rTYB1GAa/ak=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CLH2jLs/YvEzSs/uYQHgLooZ9IIwFP6izeB4FXLZ8pDVq7/Derd7/QDzhX8Ki+8OScZAT5J//bhQJ26nt/ES3T8Vai3jdWCGz2RDzr5PJybVOIGpzpk/F2v3Ry3pNK2xS8uMa56MZkFQ0S0kMJPYgg+PhG8f0JrWUo5hRxxQPXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NuyVbyMP; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r1LB53ui"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-475d9de970eso40803585e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 08:46:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NuyVbyMP"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47710acf715so20237765e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 08:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761752798; x=1762357598; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OYmI0eokywhHOoY+WBqC2paCFaISLNGO3jCxnQ7GNHY=;
-        b=r1LB53uiShVe/HFdD091/iRELowd0zYBmPK13pV5N79xcAkJjyAzFoKeETv2Y1A7d0
-         AvIsNExfZXWP4/2f2KWrFu0UPsy1jfHszM8VQrfDcUfFe0iyZ+2PNZNPAWY+UgqNpDR6
-         esirPWho6bt/blvTzimoJmSZgXZM4Wgyfc4JGMNWLaCHwFDcVzoyDPkGPLb7Evb81mc/
-         FFNuCx9C2tgPPs3SLc9KjUXo7VVi62f5XDvgdNBjYar0p69CcsPLyZXDBi9yLULzdZZw
-         Mb+aT08nHsTCRsK3hDcqq32Z+21NYQaK7r2NP3DLcY4uVMuegQmY55H3WIA+5T6SXC2O
-         HYQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761752798; x=1762357598;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1761752800; x=1762357600; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OYmI0eokywhHOoY+WBqC2paCFaISLNGO3jCxnQ7GNHY=;
-        b=jOggzUp1meO99Ndl4t7ahHMI+ml3e5ymCZGlIMkrP82YlIOg93k4JT1D5/jxtUu7K3
-         cO2vLJmT+NbnBAKG3k+FFBDC2dy3qgLRmc+2U9TN36hVSGH6I+GaAF+HbD75/JuhVdnX
-         7GG7xx3AshTIsIsohs7sw3GJmm/B13HNs9rhL7wSSxmGHNiSIZVxc/uOi5E9e2qRhmaF
-         AFZY06xz6TE7CK8B9pPN8dzZuJpGH9JEoILo7TPFux++5S5BaAf1Trnjf3noLxDk3pH+
-         S3PWr9hr4LkxJRa7Ff2e90KjezmAMAC+PNr0bTQHBa8P4KRFBGXfnTSpc/QsFUNtSHuA
-         h/7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWts1QYoSNFTPPxX/IhRp+h2BfuXRypa2U35PQobBl1mg/YKsV/rPTjSX+r11PmiLIVI7mbEKdSCDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwaDU8BRt3ycTHXQKvnwks4mZQ3h5xda6reY1F9ysGr9OBmUyu
-	zd9fM7v0q0Z/Fo1YEOl8bTSsbTJXfYPtmelEJhc77txG3L8ifXKVOhOX2cpKf1FdV7M=
-X-Gm-Gg: ASbGnctbbQFzcvAuA1bIs4IwafXzIpPVJPXo/5By3Z/kVFY7R90fiJ86S4v40cJ6KEB
-	3YIZm78Sywq/r5YRSlND8QcfR6YCH6qHippTgTElSEbktYpTb8WJKjsjJB/uZWsV2cjooj1Gpje
-	Fm+poTEyrvAUDyQ8+9/jP8MhzxWyn2CcQLDsUqPD3OgkQfZwOZWKh2uKlHZmAM7FSAs4zg03GpN
-	hR8U3F+EqEonCvTu5XMHL6lA0gxQ+qBfoOweFKy24q+mGO2vZIMe/U9id4CA7tAxzGXawjYua4c
-	+5iZnx+Lfsy2VbVBvzSCsBy2rLZ5hhlyFha7b3hqxAhFIqJVx0Pevnr2VjB0q9gwoadsOUDK0Eq
-	71F3Z44b6kKnhujYig+KVRitOebvxLzV+DWOxinfeOpn+lVccMXinwxIJdZLH3GCMuKqTVo7UYV
-	LAIcR/P4JBVQ==
-X-Google-Smtp-Source: AGHT+IFwHWp3z0WfR5BEyLr3nsy+4DqHZJcjqlkJZW93LcT7e+RtCP65cMKCJuN+XEYyyExdOCX9Iw==
-X-Received: by 2002:a05:600c:3109:b0:477:19bc:1fe2 with SMTP id 5b1f17b1804b1-4771e1740f8mr35479835e9.6.1761752798296;
-        Wed, 29 Oct 2025 08:46:38 -0700 (PDT)
+        bh=45z9IaVf3DvIHNyRK9bNlm2YHb8XHVPseevdKZOW65I=;
+        b=NuyVbyMPFvRKCK0qEuY+x4O8NN1L75AsJl29v/pjW21LKD8/4Z3tQqXgnfhBMiFBZs
+         MZwD4G9Z3zXL81sfA2DFWn8Y+qZTut4WfIWsS0lRGETv5oM+8RwoaEn2mRjj7M1NIYp7
+         3yVAY9KiBsP2N43p8fkA0FHiz8U53A7JfTb9WUbnk6o33jr40fTQOUfYtR56ucFUz+/k
+         untPNtn7lQbA3FJFqVkLm9HpuFQl/q0m1DETmhxf6SfGeIbJSmrbBaYwWgOQcEW/qu4e
+         G2Et1uNW36oE9Q5oRQPqAz+XBqyqgz/T0ILqjI2/tDDZMPHmOPGswq+tf75NDZ0Cj+J8
+         glQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761752800; x=1762357600;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=45z9IaVf3DvIHNyRK9bNlm2YHb8XHVPseevdKZOW65I=;
+        b=P3XLPSCwsCcApawo/yzM7LQmngzbR0K6T8H4x+joPgs+7qn9SLM94pW9YDdoT1vHuw
+         X9+/VaXVw2pghqQ2YWQNJnA95R+S/30AzJqTZe90/wH2WTO5oXZJ8f/Dwg3mi/h7X796
+         Rq0m5jt9OPAX7e7LpUTQ3BAXnFtmYCG8q6oFLP+uuj1DEE7lfOxgu/uRtp42kd4F30MV
+         qrkSs0nEeu6dkJVtHmlx6/76ZAYvWCJokWkgR/jX1BY/9lPq5lL8tCyNAYnBwkGtt7ph
+         zcMP8L2a8+xFdZHBtj07/UmRcYe4fFO3/O9KeNElRKXw+yt/olWFArD+jU9XWBru25SK
+         0DXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXt5KZ78CWTwwwvX4HVhcKa9ZcIuOKaCsBgbWwFE2y4DwPJdftdn6i2xI+fWT6nK8TgrDtITdGsBMM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9uMRuDWvPNOEL5Dh4TzR/N2IHKvCd/gVPFt0FQ/ExjJ7HhUKI
+	L4i/JyQ/EJOvVGQcitdPaE9re7zZ0lAz5Ru0PH6VIwCoOEsM9aiP/u5vSzVFTNO5cY+gHYuqgB6
+	M8kcDxVw=
+X-Gm-Gg: ASbGnctZEU2BlMpkBEN3hPnL2ePM6HklOPmL9tjsPZbBaT6rDv0NcxfksPHZVh/m3Zl
+	L19851Q83Zr9ftmglvu/r5hhNskrUu/Fp8qywcWJGi1H9YxCfR3vdKCkxekATTZ7PPZF2jOYblT
+	UjZ84Znb7UJi5dEUxo2xXzanUeFWtdNcwoN6sm907l5uodv8SPZ+7g9qa1ktksGBDqizRqToO/3
+	e4T/l1YS26JRHXSEgtuVsfvNlojJKaGHpkgpQw7wkA5t8cnxAq8FNyMtpXfKRScAUeY5s/dxvzL
+	D55dnMiPPK4XwoaYrLtSxw5rBQUX64OQVqZGq2ZKFsHxJyCa+WP+AbLQJy3DSaPZ04gki7f1oE1
+	nrSasGSozDUJux5TZ12uWvQKyO97FFXRIbU0ziDL9Us0mB6ccaC7RuSFgdtoVD7kQjsdm0FR52c
+	eS6A4LsLBIjQ==
+X-Google-Smtp-Source: AGHT+IFr7xoJyrWL0httFE1U9OU6ySb/0qu1huluXCe0kPZLPOso65sDtiDjLwsED64lDMpKMdKhUQ==
+X-Received: by 2002:a05:600c:8484:b0:46e:442c:f5e1 with SMTP id 5b1f17b1804b1-4771e24b0a5mr30445885e9.35.1761752799881;
+        Wed, 29 Oct 2025 08:46:39 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e3b9994sm53745535e9.16.2025.10.29.08.46.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e3b9994sm53745535e9.16.2025.10.29.08.46.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 08:46:37 -0700 (PDT)
+        Wed, 29 Oct 2025 08:46:39 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Subject: [PATCH v9 0/5] perf: arm_spe: Armv8.8 SPE features
-Date: Wed, 29 Oct 2025 15:46:00 +0000
-Message-Id: <20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org>
+Date: Wed, 29 Oct 2025 15:46:01 +0000
+Subject: [PATCH v9 1/5] perf: Add perf_event_attr::config4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,12 +71,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALg2AmkC/43S3UrDMBQH8FcZvTZy8n3ile8hMs6Sk62i60hHU
- cbe3bQgnZYOL/+B/M5Hcml6Li33zdPm0hQe2r7tjjWEh00TD3Tcs2hTzY0CZUFLJd7og3tx4pJ
- FZjpv+xNvOZ+FczFlkzBzCE29fSqc289Jfnmt+dD25658TYUGOZ7+mHrVHKQAoSgqSAZ8jPj83
- h6pdI9d2Y81JsCCuw+kZBAY2aCVt8DY1aDmTqwK65CqEIGksCNK4GgB6RlyYNchXSEvdxBDDgh
- BLyAzQ17JdchUCMgqbyRkzGkB2X9CdhzN76LVuq6IljtyM4SA65CrkEuUTUDr8fdrTZC/gaRZh
- /wIkTc6+0zKhgWEMxTgzmg4/h9WXmNWxv6BrtfrNyPHp0D/AgAA
+Message-Id: <20251029-james-perf-feat_spe_eft-v9-1-d22536b9cf94@linaro.org>
+References: <20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org>
+In-Reply-To: <20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
  Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
  Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -92,82 +91,40 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Support SPE_FEAT_FDS data source filtering.
+Arm FEAT_SPE_FDS adds the ability to filter on the data source of a
+packet using another 64-bits of event filtering control. As the existing
+perf_event_attr::configN fields are all used up for SPE PMU, an
+additional field is needed. Add a new 'config4' field.
 
+Reviewed-by: Leo Yan <leo.yan@arm.com>
+Tested-by: Leo Yan <leo.yan@arm.com>
+Reviewed-by: Ian Rogers <irogers@google.com>
+Signed-off-by: James Clark <james.clark@linaro.org>
 ---
-Changes in v9:
-- Fix another typo in docs: s/data_src_filter/inv_data_src_filter/g
-- Drop already applied patches for other features. Only the data source
-  filtering patches remain.
-- Rebase on latest perf-tools-next
-- Link to v8: https://lore.kernel.org/r/20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org
+ include/uapi/linux/perf_event.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v8:
-- Define __spe_vers_imp before it's used
-- "disable traps to PMSDSFR" -> "disable traps of PMSDSFR to EL2"
-- Link to v7: https://lore.kernel.org/r/20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org
+diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
+index 78a362b80027..0d0ed85ad8cb 100644
+--- a/include/uapi/linux/perf_event.h
++++ b/include/uapi/linux/perf_event.h
+@@ -382,6 +382,7 @@ enum perf_event_read_format {
+ #define PERF_ATTR_SIZE_VER6			120	/* Add: aux_sample_size */
+ #define PERF_ATTR_SIZE_VER7			128	/* Add: sig_data */
+ #define PERF_ATTR_SIZE_VER8			136	/* Add: config3 */
++#define PERF_ATTR_SIZE_VER9			144	/* add: config4 */
+ 
+ /*
+  * 'struct perf_event_attr' contains various attributes that define
+@@ -543,6 +544,7 @@ struct perf_event_attr {
+ 	__u64	sig_data;
+ 
+ 	__u64	config3; /* extension of config2 */
++	__u64	config4; /* extension of config3 */
+ };
+ 
+ /*
 
-Changes in v7:
-- Fix typo in docs: s/data_src_filter/inv_data_src_filter/g
-- Pickup trailers
-- Link to v6: https://lore.kernel.org/r/20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org
-
-Changes in v6:
-- Rebase to resolve conflict with BRBE changes in el2_setup.h
-- Link to v5: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org
-
-Changes in v5:
-- Forgot to pickup tags from v4
-- Forgot to drop test and review tags on v4 patches that were
-  significantly modified
-- Update commit message for data source filtering to mention inversion
-- Link to v4: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org
-
-Changes in v4:
-- Rewrite "const u64 feat_spe_eft_bits" inline
-- Invert data source filter so that it's possible to exclude all data
-  sources without adding an additional 'enable filter' flag
-- Add a macro in el2_setup.h to check for an SPE version
-- Probe valid filter bits instead of hardcoding them
-- Take in Leo's commit to expose the filter bits as it depends on the
-  new filter probing
-- Link to v3: https://lore.kernel.org/r/20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org
-
-Changes in v3:
-- Use PMSIDR_EL1_FDS instead of 1 << PMSIDR_EL1_FDS_SHIFT
-- Add VNCR offsets
-- Link to v2: https://lore.kernel.org/r/20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org
-
-Changes in v2:
-- Fix detection of FEAT_SPE_FDS in el2_setup.h
-- Pickup Marc Z's sysreg change instead which matches the json
-- Restructure and expand docs changes
-- Link to v1: https://lore.kernel.org/r/20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org
-
----
-James Clark (5):
-      perf: Add perf_event_attr::config4
-      perf: arm_spe: Add support for filtering on data source
-      tools headers UAPI: Sync linux/perf_event.h with the kernel sources
-      perf tools: Add support for perf_event_attr::config4
-      perf docs: arm-spe: Document new SPE filtering features
-
- drivers/perf/arm_spe_pmu.c                |  37 +++++++++++
- include/uapi/linux/perf_event.h           |   2 +
- tools/include/uapi/linux/perf_event.h     |   2 +
- tools/perf/Documentation/perf-arm-spe.txt | 104 +++++++++++++++++++++++++++---
- tools/perf/tests/parse-events.c           |  13 +++-
- tools/perf/util/parse-events.c            |  11 ++++
- tools/perf/util/parse-events.h            |   1 +
- tools/perf/util/parse-events.l            |   1 +
- tools/perf/util/pmu.c                     |   8 +++
- tools/perf/util/pmu.h                     |   1 +
- 10 files changed, 170 insertions(+), 10 deletions(-)
----
-base-commit: ab29ff9f6fe06d23c16b5565fcae96bad21be900
-change-id: 20250312-james-perf-feat_spe_eft-66cdf4d8fe99
-
-Best regards,
 -- 
-James Clark <james.clark@linaro.org>
+2.34.1
 
