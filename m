@@ -1,103 +1,104 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA15253F39;
-	Wed, 29 Oct 2025 04:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36A52765EA;
+	Wed, 29 Oct 2025 04:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761712747; cv=none; b=k5e2OOLJnWG579p7KJjOKtgnJklSZ5RVma+DCGDS65v8kel7n90BhxA2LtZY07vnYiRiqGFIC4VMFLMoqGGP0g2O/UuqsVZJ9ZAOcftoD5KPJD5hbRUSMqooK7LYthugtwbxgMpqv0uvcOCy7N7PavupViBHmDHogkbdynOGBfk=
+	t=1761713677; cv=none; b=D3X5j6yRU5MbyyE5z94VeBrlqT+SzwsLEV5q4VKCO+n2Y8mFTYIUXonbBgEFh105nDywIyBkAVjm671QKmZzMLfYxbmhSqTrwDqgsNHflsaFNPX3POORAfKzCV1Aw9uLIsIFaILcAO4H6YSl3SGchVcyCHWi/XAt9CkOhVJQDkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761712747; c=relaxed/simple;
-	bh=PBvzyWHfeXt2N6SNmervaBvYJeqX/VZPaEXWGSW6pyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J8UOk3IW5kcqMvliswYdtR9BfVZUDD2uK8fJyF7zFvCd0D5C6IAWoK8x+4dXwWFd51nj22xKd+ALI18AlDEYeSy5rKgNZmNLTygLVmDhhLtLjsc/9AgsvBt1QNB+OaMeyG8ENNKY6tx/GkNhBjgfqyUOyUUZJdXGlDSm3TFeQU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=36q0vNqL; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1761713677; c=relaxed/simple;
+	bh=Yxtz0VGw/gUgDhlLxzM64pLnCZzVNIMicJTeXRIWr64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hAW971+ghch6z3XfEZIdET1XFvbKp0FvN6LIbxoORMZo3PKq9RWHTPv0KdIuddanCrKnFYyIhgwWxcFfPeIPAT50EmGDZrCFllTdA55+EvnOMqbC5bEhegH69lZyCi6agKRxzAxSso8MX8NkxTHZ3pvs4C5x5Nf7Qnuy5MFW0eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iHurocPo; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="36q0vNqL"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iHurocPo"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=mYBY9h7lVZV5o0amfP/qdHqKx+0pZ/0AV4G3M2wHNdg=; b=36q0vNqLM5WFclDLAoQR8dIE4P
-	9PPpcFUDW6U9oLmvuHt7V7GDrwzwW4DO16Fnjo00t3z8bhg8Ep5nJegwWdG1kCAiYmcItABF8hHc3
-	pROcSXbn0JRzYy+jOloVgjGWO2ni+IRuq3sfpgthZoAA9Z3+c1Gm7XmN0NmXk9UnJ5dLoweeZX0oN
-	qYpxpk6FTPBpGG29Cp3VCpeiWCnCqc67l/88Emb+BMagB5El7YBtLv62Zs1vwWO4ddaWC/qinQWsI
-	rz6DY9Rxd+MWx7CuDGW0W5kELCCsfgikLEq3ozQTS+Y2WuSh8OApruow/At8ozx1BziEwtUvCOKfn
-	uMPu0pMQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=dxPuUYKzQQu126OnSRntHDbA5U4uP2M8U3VvHJ0dodE=; b=iHurocPofv+Q+oW0q0Lc5DReCY
+	S6LJGZxjifzNa3Gut89+rQdAJkBm4WHkjy7Zk9eoTVHd4l1H6B9Uh5rriK6mUSrd1+HavsFZPIFBf
+	axBL3eUots5WCbN5kawYUDtaGI0sD3A4gait/hSMCaoi+Ou4enXclcRiUdvOMihdc9WN9i1uVJp2m
+	MWCxuaZd51iMEf/EwIo47GQWvq+2wL2yDSVJwClU8YCv81HDchyC29VGxulokU4bcBNalkGK0jd3x
+	k+d89ws70XPnakJekI8YiCU5VpyAB2J3p5czjK7ovZxiB6M8GLwhYyStnNsRNp+XvQETRefoIr+N6
+	IcOn9fSw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDxxf-0000000HCFl-09N0;
-	Wed, 29 Oct 2025 04:39:03 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] kernel-chktaint: add reporting for tainted modules
-Date: Tue, 28 Oct 2025 21:39:01 -0700
-Message-ID: <20251029043901.10755-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.51.1
+	id 1vDyCe-0000000HEjt-1k69;
+	Wed, 29 Oct 2025 04:54:32 +0000
+Message-ID: <36fd9408-9008-46e2-87ab-bbc6a84b46ab@infradead.org>
+Date: Tue, 28 Oct 2025 21:54:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] Documentation: netconsole: Remove obsolete
+ contact people
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>
+Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Matt Mackall <mpm@selenic.com>, Satyam Sharma <satyam@infradead.org>,
+ Cong Wang <xiyou.wangcong@gmail.com>
+References: <20251028132027.48102-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251028132027.48102-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Check all loaded modules and report any that have their 'taint'
-flags set along with a count of all tainted modules.
-The tainted module output format is:
- * <module_name> (<taint_flags>)
 
-Example output:
 
-Kernel is "tainted" for the following reasons:
- * externally-built ('out-of-tree') module was loaded  (#12)
- * unsigned module was loaded (#13)
-Raw taint value as int/string: 12288/'G           OE      '
+On 10/28/25 6:20 AM, Bagas Sanjaya wrote:
+> Breno Leitao has been listed in MAINTAINERS as netconsole maintainer
+> since 7c938e438c56db ("MAINTAINERS: make Breno the netconsole
+> maintainer"), but the documentation says otherwise that bug reports
+> should be sent to original netconsole authors.
+> 
+> Remove obsolate contact info.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Modules tainted: 1
- * dump_test (OE)
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: change tainted modules output a bit (Thorsten)
+Thanks.
 
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- tools/debugging/kernel-chktaint |   17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+> ---
+> Cc: Matt Mackall <mpm@selenic.com>
+> Cc: Satyam Sharma <satyam@infradead.org>
+> Cc: Cong Wang <xiyou.wangcong@gmail.com>
+> 
+>  Documentation/networking/netconsole.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+> index 59cb9982afe60a..2555e75e5cc1c3 100644
+> --- a/Documentation/networking/netconsole.rst
+> +++ b/Documentation/networking/netconsole.rst
+> @@ -19,9 +19,6 @@ Userdata append support by Matthew Wood <thepacketgeek@gmail.com>, Jan 22 2024
+>  
+>  Sysdata append support by Breno Leitao <leitao@debian.org>, Jan 15 2025
+>  
+> -Please send bug reports to Matt Mackall <mpm@selenic.com>
+> -Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
+> -
+>  Introduction:
+>  =============
+>  
+> 
+> base-commit: 5f30bc470672f7b38a60d6641d519f308723085c
 
---- linux-next-20251027.orig/tools/debugging/kernel-chktaint
-+++ linux-next-20251027/tools/debugging/kernel-chktaint
-@@ -211,9 +211,24 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+echo "Raw taint value as int/string: $taint/'$out'"
-+
-+# report on any tainted loadable modules
-+[ -r /sys/module/ ] && cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0
- 
-+if [ $cnt -ne 0 ]; then
-+	echo
-+	echo "Modules tainted: $cnt"
-+	for dir in `ls /sys/module` ; do
-+		if [ -r /sys/module/$dir/taint ]; then
-+			modtnt=`cat /sys/module/$dir/taint`
-+			[ "$modtnt" = "" ] || echo " * $dir ($modtnt)"
-+		fi
-+	done
-+fi
-+
-+echo
- echo "For a more detailed explanation of the various taint flags see"
- echo " Documentation/admin-guide/tainted-kernels.rst in the Linux kernel sources"
- echo " or https://kernel.org/doc/html/latest/admin-guide/tainted-kernels.html"
--echo "Raw taint value as int/string: $taint/'$out'"
- #EOF#
+-- 
+~Randy
