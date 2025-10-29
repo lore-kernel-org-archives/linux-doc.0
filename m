@@ -1,120 +1,91 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517502F6193
-	for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 22:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9E3314D2F;
+	Wed, 29 Oct 2025 22:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761775414; cv=none; b=nWQV07ZGjL0jJhnScm5cDMENCen1LievfF20dcKX68CMptYAQtSkybK1n08i7tHRW4MNUSd29Gs+q+lAQnxKDg28U/eSStMHm7Vvu32Wx0XvOyF6NFAoMA51iT+bvPmvIGqfFRLMJklDs6iU6Qzn/PAfgERS6TGUK3InSxPZoZU=
+	t=1761775690; cv=none; b=nOJuZWevX3nyaFrkds2IsaJ3+zt2bTAeoR6jdpc568Z9jyEl4iYRKkhbXta+p556kOmc3SBMEO5+0r2zCXGk3Je/QIKjvvFhuWm64hH16tBXEdITAN0DN5XUVWf4ZEwfha7tr6R+USWyrmr4bCC4tdWzKWL4pQs4KSVc3eYuaZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761775414; c=relaxed/simple;
-	bh=Rpx+i+g4UDOw+uheC336cz/8fzW0yUsW3KtUgY9A9/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5qIHmcbINTDQN9xsrzO23ue5ljojUm95iK0+JwHcEixef5M/E26o0e2oh/7rE55HEuuibA/A/8d5tLBRm4UqW3Jdh1kDJh8eDpOUX77jSV++IVxPoWxuwE0OcBoUmJQ5S+E1b5T+X63ebfpPldXoBZj9P+F0oSM6qVi8P7O0ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BWxji16n; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761775690; c=relaxed/simple;
+	bh=PCMUQE0BW2QoEo1rc9q0qVRgJ7LwUgidps/XqX0NgMs=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=o20ETxqvzB7K4wc4//MRwYZ0iCDAr520AEZOcSWrEpY5+EMLfNDSvVoInEsh1cBmXGoC6ezOG+mKHl4r4hcnl7OBxLIuMPVRsmJYJ+TddENo2qdNe3nmr1B2tTOGzjgIfJ4hk9Isv1N8ren/gwOrG+wwo2oVmO8LWbFA/v5jXrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=lhbf5xPG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWxji16n"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-292fd52d527so3272355ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 15:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761775411; x=1762380211; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4Nblfgm5XoVGA2pwggUTGBEWVQZIZxWS8tzQ3rNya1k=;
-        b=BWxji16nJLKjInABvrLXLKUmUE3XuS1E0BNaJ5bmjeGIyBnxSjLDc6MQoRz+9Z+YDX
-         g7pZhhRL+s/VBub26bsKS4eUUb595+susT3Rj8u6paScAqqC6BTvFewfsnh6lMfnivU4
-         +I3b0ql29WFTh/uwApl9Oh/nG9FLsdvHf0mlbyeGfmb9rla+c6zUXV/556oAyKQ4rqte
-         FBfE1Tu1Km3MzpBXnzy4vvaaOivAChYY+/BJxHd8iAWxW0Vkt2PnLqf4pIEG0WHDIq5X
-         zyuFON8aen8D+jrRm/Rxd2SZuSRDH89HRIRSY3Gxq8NvU1prHYzR0Fr7EM9Aewa/LDe+
-         QieQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761775411; x=1762380211;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Nblfgm5XoVGA2pwggUTGBEWVQZIZxWS8tzQ3rNya1k=;
-        b=FvaHCByM35VLbz3Zh31Wli806yk1EOL38n6iFMMSLPImoT6nKMpwj9/NbbyI/HQTFy
-         XPGZSSan2rND5LR0MKz4brrat5bQuXmbt5kD9J62Rd/7yHNLFjZ5SiMKC0N256a+n93m
-         ACGKObNhjICOfLoh6bidu+bJggQs9BOeicMqlRBxFRvARLp9KWZXVAZoTk0BPdzbm5/3
-         LoouW8WhLDPFGTB/RimxKfqSwdavgELDK7kz3JuWZwHCBzQDzudLHGdzDLpMvEcsV0Qa
-         GguS45In1/lRVWUPrQIlyhbIdFzMm45hU09HmkcKFAc/p2LDjeZS8+VJQCx0Vxv/eTar
-         GEpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMxLFKnjAog0dztABuVj1xqZ+soe/kLtScdbLnpbXFW5GCmiWw4aM+jUPNxMx4ML/peyAcgdCbSnU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyiu0uR2WqpjbptnrWTQ8xSfrsFZgakimz+TCgpO2o0PEriOAQi
-	ni6Wej1S74UNqEtXHSxhEIFKLSh6pv6gej9vMPVZj6aes+Y7I9BekojCMSCVcA==
-X-Gm-Gg: ASbGnctTqu9kiHo96OdPxb5FevUdqYHnrzdV/ijfE9/2+pkb9GTZ75j7MQE+9HbguWV
-	55BCj1ppyNFTrjfKLO2MaMcR6VFzE0IYzznr0vCOA3mHtfT1vs9U+gPrFMgavL8d0QVtIkGXO9i
-	hwBwDrUwbXefSmxAfEFv2yDrQiZZh3bWfvEeMMXwbgmgf6hEwffh2S/4qiFAInQoQkkZTEoc1u/
-	nXS1UG3Fec7MXFt3xzVeRQ/AH7gVzspcm88HsfYiqEi67Ml2iGy2a44v5Gl1d5hvev1zGU8TYlt
-	bELUKQUVhU9b/Lr5i7byu9QBE8/r+JXTAmrIIj+evV6ttQEgRC+FcZ0v/nUyXEyHzaVBQq0ZuLk
-	uXJH4vRgTKYYKY4SbiNdUibFaWiusV9Bfsnx8m6Zxlqp2a8jN7tgbo0weJAy9XY2OElqdjXiOog
-	WwzuKhNsSVeRmX
-X-Google-Smtp-Source: AGHT+IEwsj2J/ftTrnWWbeM7o5Z+AJ9IhB7ABxIMbByBawCiASkXvvXWBg+ahShIu+FUAW/13d84Zg==
-X-Received: by 2002:a17:903:ad0:b0:269:96db:939 with SMTP id d9443c01a7336-294def33bffmr54489445ad.58.1761775411490;
-        Wed, 29 Oct 2025 15:03:31 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d230basm162597355ad.46.2025.10.29.15.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 15:03:30 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 29 Oct 2025 15:03:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Marius Cristea <marius.cristea@microchip.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: temperature: add support for EMC1812
-Message-ID: <86b94f01-ff93-457e-95cc-4e87009964af@roeck-us.net>
-References: <20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com>
- <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="lhbf5xPG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3B9C4CEF7;
+	Wed, 29 Oct 2025 22:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1761775690;
+	bh=PCMUQE0BW2QoEo1rc9q0qVRgJ7LwUgidps/XqX0NgMs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lhbf5xPG+TbHCIl7DykXGj8gTac6GbCqNpXa1cRwVKEwgahz2Xm/rL9q7pwxoGeN2
+	 1+wl3Z2jRhboHibxncTbneKp8ycFKVUwsFckuGoRJXy20OgJHVd2/6hhEFlSIa5KAz
+	 7Pt61sgYPDT+ud4PyWxwBjwCBaxoEAqXXSB8nXj0=
+Date: Wed, 29 Oct 2025 15:08:06 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
+ kbingham@kernel.org, nathan@kernel.org, ryabinin.a.a@gmail.com,
+ dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com,
+ jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org,
+ baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com,
+ wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com,
+ fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
+ ubizjak@gmail.com, ada.coupriediaz@arm.com,
+ nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com,
+ elver@google.com, pankaj.gupta@amd.com, glider@google.com,
+ mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org,
+ thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com,
+ jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com,
+ mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com,
+ vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
+ ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev,
+ ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+ broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
+ maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
+ rppt@kernel.org, will@kernel.org, luto@kernel.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+ linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for
+ x86
+Message-Id: <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
+In-Reply-To: <cover.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029-hw_mon-emc1812-v1-2-be4fd8af016a@microchip.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 29, 2025 at 05:50:59PM +0200, Marius Cristea wrote:
-> This is the hwmon driver for Microchip EMC1812/13/14/15/33
-> Multichannel Low-Voltage Remote Diode Sensor Family.
-> 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+On Wed, 29 Oct 2025 19:05:27 +0000 Maciej Wieczor-Retman <m.wieczorretman@pm.me> wrote:
 
-One more ...
+> The patchset aims to add a KASAN tag-based mode for the x86 architecture
+> with the help of the new CPU feature called Linear Address Masking
+> (LAM). Main improvement introduced by the series is 2x lower memory
+> usage compared to KASAN's generic mode, the only currently available
+> mode on x86. The tag based mode may also find errors that the generic
+> mode couldn't because of differences in how these modes operate.
 
-> +static int emc1812_parse_fw_config(struct emc1812_data *data, struct device *dev)
-> +{
-> +	unsigned int reg_nr = 0;
-> +	int ret;
-> +
+Thanks.  Quite a lot of these patches aren't showing signs of review at
+this time, so I'll skip v6 for now.
 
-I added
-	if (!dev_fwnode(dev)) {
-                data->num_channels = data->chip->phys_channels;
-                data->active_ch_mask = BIT(data->num_channels) - 1;
-                return 0;
-        }
+However patches 1&2 are fixes that have cc:stable.  It's best to
+separate these out from the overall add-a-feature series please - their
+path-to-mainline will be quite different.
 
-to be able to load the driver and run basic unit tests.
-I expect something similar in the final driver.
+I grabbed just those two patches for some testing, however their
+changelogging isn't fully appropriate.  Can I ask that you resend these
+as a two-patch series after updating the changelogs to clearly describe
+the userspace-visible effects of the flaws which the patches fix?
 
-Also, here is the unit test result from writing negative values
-into the limit registers:
-
-temp1_crit: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-temp1_min: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-temp1_max: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-temp2_crit: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-temp2_min: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-temp2_max: Suspected underflow: [min=0, read 4294903296, written -2147483648]
-
-Thanks,
-Guenter
+This is to help -stable maintainers understand why we're proposing the
+backports and it is to help people to predict whether these fixes might
+address an issue which they or their customers are experiencing.
