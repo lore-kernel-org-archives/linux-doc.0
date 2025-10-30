@@ -1,90 +1,143 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2AF2EBB81;
-	Thu, 30 Oct 2025 16:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B6341650
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 16:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761843261; cv=none; b=uC2/zTTJaJFGLVhPOkxHJIGARvlMQcmiMXsVhZFJ02jW2NaT0bXxEJ102UlJDdHLUl3+rC9NDZI5TvWGrUQNJKFotjoLQ2jF13X69xedCpDgp2+RGJEL57R/Gmyos2/IYU7TctkWS++e6wwyvhL5MSQbsB2bwd6mT/YN7O7hPJY=
+	t=1761843505; cv=none; b=EQ2HIoIXyrenmcbuQTPDLzZA8UUp+RM9neoN0ZB3i8Q2IIes5P1wNpWWK6TQ8Xsi05q/ihIA6EmOkNPlNVXsjeawkOm92JFMOC+q8qTZgcDuf0C7XnFtbx4dSr77gnElCF94V1G+sGNH+Ya2+bqJzCc4r5expc3H3s8x0rGn3ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761843261; c=relaxed/simple;
-	bh=IAa3g1dCS+JQYUlzG8wtI5nxRXw7u3GnYsaf9pUaHBM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lQcjR7bYlXQhT/ms8jyIQDYqX7zPuwIs+bn6rAFMJFnU8VQlEGmCWNVdTnpB/hI/553z7AAwIwR2E6BXP+n4DEGC6Ov3/NIX30MX3Ay5+1HjmgvYLKL2ibVvcB/c7ukT1vKVENkSHqkBzEN3VN+i6c5c0AZOlcZjlnKK51vuOzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nEvFbdoz; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1761843505; c=relaxed/simple;
+	bh=Hq8p5I7KnzMNDXe5Bh4E6FjIiLt5mIsSkQFjlD2+pAA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=SrPdNs6s1XkWl9Q5iBgCynwKXEfmG3fBpRpAmaOgrWdBVXGny1mLMMCcXKX5Ag8GIvBvNpyie/BZDbRJCYtodDWTVD6qNW/5/bbT7AyZ4oQx3z0+aqnvlpoYsIjGEAyLU8wj8eaFOHcPackpIkObj7zvzaeDd4BDnBeUH6sixYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9bVXpDO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nEvFbdoz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 292EC40AED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1761843258; bh=3TQG9ZKbIk35Xrzl9XV4HOWfqcpUjDw8Xyqu2bLMh4U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nEvFbdozJpVyAQL6v2ZT51qOqIZi8IK5a1GHA/z/BGchX/M4GUc123Hl1br/IVFW2
-	 NBO94ZvLjWbFn6WfWNGTdhmsz47H6uI90RLblBoGamVo+RlGsd/Cq2xy3mHe6oVSBq
-	 h9Dwn1slnVVL9Q6tebNC2cNTLSKdCZGUo+9M/H1sViCphOQYsa3KHi3vZ0VDxTIQYF
-	 FQQLcPzT1GrkT+1WNCLB/0iXLHCaPaWduS+wTjUArymkSi3Nj7ID77UKeU3DYoPyhe
-	 rWaH48VdpTHnFi8oX+9bpFV8spm11PsEdTfKepNWArFnYxM3UKEel8APFgTmH4y8xJ
-	 hSFzjfwu/v3wg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 292EC40AED;
-	Thu, 30 Oct 2025 16:54:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jacob Keller <jacob.e.keller@intel.com>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH] docs: kdoc: fix duplicate section warning message
-In-Reply-To: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
-References: <20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com>
-Date: Thu, 30 Oct 2025 10:54:17 -0600
-Message-ID: <87frb0miti.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9bVXpDO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43FE3C4CEF1;
+	Thu, 30 Oct 2025 16:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761843505;
+	bh=Hq8p5I7KnzMNDXe5Bh4E6FjIiLt5mIsSkQFjlD2+pAA=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=n9bVXpDOf9VthcUBfHJnC8mpWz6YhCOooMpbFMBp7/ZbvXyo3aD5kV+ZMykjOB93s
+	 wWPwbQaMPlVYGQGmCSTuQBQECegPkvmdqcFcSIiaoPauHMlP8WXMUfe66aNrj3tFEg
+	 KjFF5qfKShrisJ2AkPA19EEJTGDzgW9HzA1nxp3ksoPtKRoGTLLpQ/gEejWVVhlEQY
+	 z3ht9m0v/2PQBZDr6i5r5+x5teguunonpj8L5TTXLE4tWRrqaNYaxFlNKiR7DDYK/x
+	 mklxud8NIb+MlcM9Vb7GpAdW6xJPHCuN4TS6WFBLhOOQlW1XrqEtRDBpgOocjfd17H
+	 qomLuMoffIrKw==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 57047F4006A;
+	Thu, 30 Oct 2025 12:58:23 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Thu, 30 Oct 2025 12:58:23 -0400
+X-ME-Sender: <xms:L5kDaSlUbQA7GCqRAGTpDeO4iqaK3amShbeM434nOKrxQQFYMzXZyQ>
+    <xme:L5kDaUp_hGcJkhoMI3oh8cy-qL4WHo9QoiLfOuCE-RircW3NBuFbg6HO6xHX6r8St
+    sbDGIpn_d0j2TkpsXp-_TWpve-oQtxuKIUdAVJqjTlNotY2PhaKeD4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieejudehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehnugih
+    ucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhepkefhieejfedvueejheehiefgvdfhjeefjeelvdfghfelgeejudevleej
+    uddvvefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudekheei
+    fedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrd
+    hluhhtohdruhhspdhnsggprhgtphhtthhopedvkedpmhhouggvpehsmhhtphhouhhtpdhr
+    tghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepugifmhifsegrmhgrii
+    honhdrtghordhukhdprhgtphhtthhopegrnhgurhgvfidrtghoohhpvghrfeestghithhr
+    ihigrdgtohhmpdhrtghpthhtohepuggrvhhiugdrlhgrihhghhhtrdhlihhnuhigsehgmh
+    grihhlrdgtohhmpdhrtghpthhtohepshgvrghnjhgtsehgohhoghhlvgdrtghomhdprhgt
+    phhtthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehrug
+    hunhhlrghpsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuggrvhgvrdhhrghn
+    shgvnhesihhnthgvlhdrtghomhdprhgtphhtthhopehrihgtkhdrphdrvggughgvtghomh
+    gsvgesihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:L5kDaQvgTbcZS_XKBnDK2gguq4s39S4iUBwOXM_ZNzzlvTJ2mWCRBw>
+    <xmx:L5kDaXHK4ZNhn8FQSyDMxobbBNzdx6G96JZD5_fsogynaiJBbMe34Q>
+    <xmx:L5kDafMflp3Jne2Us4cvLoEgHxHAfjCoVEf9qGYIRYZnwmcVqM3oZA>
+    <xmx:L5kDaaHMq5VbBt14P-ssDJUCKMP2U0cfZl6Flcx8Kuowrwcn7g9PRg>
+    <xmx:L5kDacEkQVGLVk93dJRcCxKyiW_a8DGya7QjDJB8yzD8znCRGuFEDSV_>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 16A5F700054; Thu, 30 Oct 2025 12:58:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-ThreadId: AlsNM-Jg7rAZ
+Date: Thu, 30 Oct 2025 09:58:02 -0700
+From: "Andy Lutomirski" <luto@kernel.org>
+To: "Dave Hansen" <dave.hansen@intel.com>,
+ "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+ "Sohil Mehta" <sohil.mehta@intel.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "Andrew Cooper" <andrew.cooper3@citrix.com>,
+ "Tony Luck" <tony.luck@intel.com>,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+ "Kirill A . Shutemov" <kas@kernel.org>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "David Woodhouse" <dwmw@amazon.co.uk>,
+ "Vegard Nossum" <vegard.nossum@oracle.com>, "Xin Li" <xin@zytor.com>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "Kees Cook" <kees@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>
+Message-Id: <f4ae0030-9bc2-4675-ae43-e477cd894750@app.fastmail.com>
+In-Reply-To: <3e3d2426-6296-4a61-beae-4e3ff5d60f2c@intel.com>
+References: <20251007065119.148605-1-sohil.mehta@intel.com>
+ <20251007065119.148605-9-sohil.mehta@intel.com>
+ <a33d59c7add98dd9ef352ac95178821dbcd0ce0e.camel@intel.com>
+ <3e3d2426-6296-4a61-beae-4e3ff5d60f2c@intel.com>
+Subject: Re: [PATCH v10 08/15] x86/vsyscall: Reorganize the page fault emulation code
 Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Jacob Keller <jacob.e.keller@intel.com> writes:
 
-> The python version of the kernel-doc parser emits some strange warnings
-> with just a line number in certain cases:
+
+On Tue, Oct 7, 2025, at 11:48 AM, Dave Hansen wrote:
+> On 10/7/25 11:37, Edgecombe, Rick P wrote:
+>>>  	/*
+>>>  	 * No point in checking CS -- the only way to get here is a user mode
+>>>  	 * trap to a high address, which means that we're in 64-bit user code.
+>> I don't know. Is this as true any more? We are now sometimes guessing based on
+>> regs->ip of a #GP. What if the kernel accidentally tries to jump to the vsyscall
+>> address? Then we are reading the kernel stack and strange things. Maybe it's
+>> worth replacing the comment with a check? Feel free to call this paranoid.
 >
-> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-> Warning: 174
-> Warning: 184
-> Warning: 190
-> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+> The first check in emulate_vsyscall() is:
 >
-> I eventually tracked this down to the lone call of emit_msg() in the
-> KernelEntry class, which looks like:
+>        /* Write faults or kernel-privilege faults never get fixed up. */
+>        if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
+>                return false;
 >
->   self.emit_msg(self.new_start_line, f"duplicate section name '{name}'\n")
+> If the kernel jumped to the vsyscall page, it would end up there, return
+> false, and never reach the code near the "No point in checking CS" comment.
 >
-> This looks like all the other emit_msg calls. Unfortunately, the definition
-> within the KernelEntry class takes only a message parameter and not a line
-> number. The intended message is passed as the warning!
+> Right? Or am I misunderstanding the scenario you're calling out?
 >
-> Pass the filename to the KernelEntry class, and use this to build the log
-> message in the same way as the KernelDoc class does.
+> If I'm understanding it right, I'd be a bit reluctant to add a CS check
+> as well.
 
-So I would like to thrash the logging more thoroughly in a number of
-ways.  Having separate log() and warn() functions would be a good start.
+IMO it should boil down to exactly the same thing as the current code for the #PF case and, for #GP, there are two logical conditions that we care about:
 
-Failing that, though, this looks to me like a reasonable fix.
+1. Are we in user mode?
 
-However: it doesn't apply to docs-next.  I can try to make a version
-that does in the next day or three, but if you could respin it against
-the current docs, that would be great...?
+2. Are we using a 64-bit CS such that vsyscall emulation makes sense.
 
-Thanks,
+Now I'd be a tiny bit surprised if a CPU allows you to lretq or similar to a 32-bit CS with >2^63 RIP, but what do I know?  One could test this on a variety of machines, both Intel and AMD, to see what actually happens.
 
-jon
+But the kernel wraps all this up as user_64bit_mode(regs).  If user_64bit_mode(regs) is true and RIP points to a vsyscall, then ISTM there aren't a whole lot of options.  Somehow we're in user mode, either via an exit from kernel mode or via CALL/JMP/whatever from user mode, and RIP is pointing at the vsyscall page, and CS is such that, in the absence of LASS, we would execute the vsyscall.  I suppose the #GP could be from some other cause than a LASS violation, but that doesn't seem worth worrying about.
+
+So I think all that's needed is to update "[PATCH v10 10/15] x86/vsyscall: Add vsyscall emulation for #GP" to check user_64bit_mode(regs) for the vsyscall case.  (As submitted, unless I missed something while composing the patches in my head, it's only checking user_mode(regs), and I think it's worth the single extra line of code to make the result a tiny bit more robust.)
