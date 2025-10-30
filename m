@@ -1,124 +1,94 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A595B2EDD70
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 07:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F0D32E733;
+	Thu, 30 Oct 2025 08:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761810630; cv=none; b=ul+znV3okr1qDn+FpRu5tVGf5V3ZteqHMFSlyBkCHIKgX1+RA6U/bGiN5db1UukjiHQST4a0Yv7OI67Cyo+xVvJ5XNfgX5cdlRQwhR7CV2XpuRxA5AmDvyv4KlSHFjPqYgIfllAAYGAGskF0ZLZUhHg00moESiIjvjRKpROp5G4=
+	t=1761811961; cv=none; b=fINnu3xFBIrROcm6i51HfoNG80SdD0uXvk1GTnsf9yXS+kMq/lmBj7pDnSEepZWyKi0GklfZnP1Allv/s3GAfm/2Q5BcF58lqDEg1FxG2/+oi8K1+ur0W6SqRkC25+y4TQhDfwTxJPa1NsvRwTn++hzRNGb8iiJFb6NhW9BPSTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761810630; c=relaxed/simple;
-	bh=JEl9GC42JmfajoHCarU2JPEtxV/Dvh3GNqFUPBkz8So=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P7hgZmgq1N2e/Rw2iYNj3+pjngQuUXt5JDaFq76eLnTK6R8wVtJgN0wGbLqo9kliQ2JTWtAvBCQbziHgnKRchyb2cUInXGlDXelSy4HkpIQq2iLLDNFr+XkDlYNovPZS/EECjhfPGLfoH/IttwdvELU3Clnh6Mn1ZDbRjS3rnKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8PUAp/7; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761811961; c=relaxed/simple;
+	bh=qUof08cVvZpyI5pyttc7D1uPQ9Ry6bp7QcptSABtIRY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=erThUYH/fr9re4dfi8bxHJzMdQCtNflI/fuP0ys76x9ixxBJr6uwRMrT6+pIOSkmbwkP/2ljmp6bqK90KyBnha5EAojDn3bNC3oE27GUDLzfVbc3pU2jx5D6GkOu8SMrmu0GzPHJeeL69Qv9bajYsW6nAd1lilP+Pmz4wt3VZG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=bGulg08Y; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8PUAp/7"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a683385ad8so298241b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 00:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761810628; x=1762415428; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vdDJYs2ftj9g3gsNmVUwfcn6X4b2n8l3NR5CnT8xsbU=;
-        b=d8PUAp/75/QKRXkvqcwfPDCm23XFiMmFSdAKkxyBcCJ4Ft/nxDzTzn/r5+ChTRoTXZ
-         CgIAfjk2mvYQlI9AD0GO50UDn4Uz4RQz+8d6Rtg/Y5PML8fxlrw2RRj42ZVZYviSFLC7
-         2TEh0w6GY7j7fuUCg247cD9wRmQFLycP2pwIRNP+mfZoApeOWHic09OLzYRZWZ50HVQn
-         cDe0/7YhpPTltn+2TnBtVrJ/kO5EPIFKD1xf8t+hZWwG/lDHJx02QHGOrKqREYrgZ31b
-         kMv2klfC+Za1Pj+TWsZVVt8q+cwjkrDK6zGFNucnfoYyYD+0z7E5lNb5sktlA+2w+Zmt
-         getQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761810628; x=1762415428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vdDJYs2ftj9g3gsNmVUwfcn6X4b2n8l3NR5CnT8xsbU=;
-        b=Apgifg9/EJcy/dMKeCXXRZ2jxwZpNOdyTXh05PU0Ocunhlxi/zIDeCvQ8ooqHU+Gl/
-         rtLU4uokLSJ65FvyGL41MolI2GCxecLtBb36PABuLueezbaK0sDvdS7LvWWCDP+LNVfU
-         Nkqs1NLEa6EmTUVhDMdMeMr8QmoZzi8r1m9nJS4WbIfYMLrHHjAzxgvUxxNaxXW6LRF1
-         BalJgyPamWiClOWIarfX3C238cUXNoG4lfoKAaTACR6WAMldLyyPkWUoCrJBSnVuOmFS
-         5EJbiLd1vOkl2BqM0zW5fntpcCOnRA/ZTKW/yw0a8DciY3IRIJj87M4B14fCjiYA2E7f
-         sx+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXh9RHhQZ/mSS6jnppW+c8Gx3TZwC9ajcuAGsi0LeCgMTFcz/mx0S+u6o/dDUtGKq7+c58lnOyk14k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyss0g/iZ37ct/rry6mBnksY1hYdaj4clEkenFTov60+Rd6XO8K
-	dV+s86TDQp18uibDZ3v4/6Ue00vpqjBXoSjvsYCi0ws2YkRCllFKVxsw
-X-Gm-Gg: ASbGncuOaUDr8issMsk+UsFz0LGisHeiOba9Z7n1hXFMqGDWvkushSyONmM+ZEyTcjO
-	GEfZfs3Enxt6S0kh/XYCJRNpsMNigU5B3S//ICp3VjauY9zmGpsmUFrUCz+H3jHpeaWaxT647tf
-	kWoKufFo6eJ87G7Mq4aORqkyNgfOkXhFAO7bV+cm1K1B2uBOpEAmegjJ/TmG2lcncunnvu5Hc9y
-	uhXJpER/HLMyYkCaMQ+4Pu3UCgglt6GjjS7WUxn6NeY+CdhDCmQiSrTmDIsbEtZoWV9hDjyv37K
-	2rjdhaKbrmhK1PK4A1lFEyvhK5N3OaiOGpbPJtcwnsBXdgblGUxLCRq3C5o1gtBuEfihhQEy/EK
-	Nm41BH0m8gnIYWWwTxYFja3KXU42UWkx+kTKf1JO9J0OgunbxqvCJrziEZIqq2ykg51xgzlWgE4
-	sU9ZRp2WHawEE=
-X-Google-Smtp-Source: AGHT+IEnOW3OBrwdrAR2/T02/vIwASDH7t9uKYiCN2IyW2jPQ7gCDPSDpZfSRXEfWPjcVg3PiiwQKA==
-X-Received: by 2002:a17:90b:4c09:b0:32d:d408:e86 with SMTP id 98e67ed59e1d1-3404c3ff4b8mr2592187a91.7.1761810627892;
-        Thu, 30 Oct 2025 00:50:27 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34050bb62casm1554574a91.20.2025.10.30.00.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 00:50:26 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7AD704209E4B; Thu, 30 Oct 2025 14:50:17 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: Breno Leitao <leitao@debian.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next v2] Documentation: netconsole: Separate literal code blocks for full and short netcat command name versions
-Date: Thu, 30 Oct 2025 14:50:13 +0700
-Message-ID: <20251030075013.40418-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="bGulg08Y"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 1191420860;
+	Thu, 30 Oct 2025 09:12:37 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9910oo1jPUIX; Thu, 30 Oct 2025 09:12:36 +0100 (CET)
+Received: from EXCH-01.secunet.de (unknown [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 7C94A20820;
+	Thu, 30 Oct 2025 09:12:36 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 7C94A20820
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1761811956;
+	bh=KlpxZU8es++alJ0W+sTnPbvdyFIjY0cf6QVcV6Ki/IU=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=bGulg08YA9llBIt1RWZnBlnizYu0G4gacfmoBKqE5+4CVKh4bXiP8CYxiqAN+T1d4
+	 OSUQqyqy4lB7VaN0KoCxk8PNjdsPKkdtMAFI2Z+XXEa0OIhVCHcdfBF2bMnviknA6v
+	 MgISJ1Z127ktGUvW0hlo16cS04e54culL2GWC0OZrfMSFYmPHiVR/CAyAgqyIhmTOc
+	 BZUVvOl7jEZhiQs54KxiUMvTxwI2MZam09E5a2vxRPVBGtsPYDR4erzczlvbTEBPTJ
+	 1CTSYlI2yq5LmHerlsuLh57oF5cwidtBpvODVtxsij6kpiLfYpWCzfpYPNKYfU6f0e
+	 Q7gGzztRdHDQg==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 30 Oct
+ 2025 09:12:36 +0100
+Received: (nullmailer pid 1011608 invoked by uid 1000);
+	Thu, 30 Oct 2025 08:12:35 -0000
+Date: Thu, 30 Oct 2025 09:12:35 +0100
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux Networking
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCH net-next 6/6] MAINTAINERS: Add entry for XFRM
+ documentation
+Message-ID: <aQMd886miv39BEPC@secunet.com>
+References: <20251029082615.39518-1-bagasdotme@gmail.com>
+ <20251029082615.39518-7-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=bagasdotme@gmail.com; h=from:subject; bh=JEl9GC42JmfajoHCarU2JPEtxV/Dvh3GNqFUPBkz8So=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJnMEpucuOR/GChNmvJz0qIJUgtObFj4kHXNrRd7Y3S/7 HO5+iZGv6OUhUGMi0FWTJFlUiJf0+ldRiIX2tc6wsxhZQIZwsDFKQAT2SvAyHB0dYPejlmlOdet 1/wKtCh4v+HUdsMvXz9+4uJlLd/LnnCBkeHxnq3C29++ajx83tl4/4u4vh0aSRHVUcyLbULmMCj t2MoLAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251029082615.39518-7-bagasdotme@gmail.com>
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ EXCH-01.secunet.de (10.32.0.171)
 
-Both full and short (abbreviated) command name versions of netcat
-example are combined in single literal code block due to 'or::'
-paragraph being indented one more space than the preceding paragraph
-(before the short version example).
+On Wed, Oct 29, 2025 at 03:26:14PM +0700, Bagas Sanjaya wrote:
+> XFRM patches are supposed to be sent to maintainers under "NETWORKING
+> [IPSEC]" heading, but it doesn't cover XFRM docs yet. Add the entry.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d652f4f27756ef..4f33daad40bed6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18041,6 +18041,7 @@ L:	netdev@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec.git
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git
+> +F:	Documentation/networking/xfrm/
 
-Unindent it to separate the versions.
-
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v1 [1]:
-
-  - Apply proofreading suggestions on patch title and description (Randy)
-
-[1]: https://lore.kernel.org/linux-doc/20251029015940.10350-1-bagasdotme@gmail.com/
-
- Documentation/networking/netconsole.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 59cb9982afe60a..0816ce64dcfd68 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -91,7 +91,7 @@ for example:
- 
- 	nc -u -l -p <port>' / 'nc -u -l <port>
- 
--    or::
-+   or::
- 
- 	netcat -u -l -p <port>' / 'netcat -u -l <port>
- 
-
-base-commit: 1bae0fd90077875b6c9c853245189032cbf019f7
--- 
-An old man doll... just what I always wanted! - Clara
-
+That means that I'm now responsible for this.
+But I'm OK with it if nobody has objections on it.
