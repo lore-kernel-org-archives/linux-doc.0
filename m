@@ -1,114 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686EB307AD0
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 22:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6768F34D395;
+	Thu, 30 Oct 2025 22:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761862135; cv=none; b=ZByT2N1zcAXbpqr7IFs+4GrzOd2FDshy1XC6hiLiRY726W5ZRuLkCLZmpnNworqAooK/MkrfkxjBi/vctkxzqnfwUXbF4kGRQ2OCNPiaxdimx7BTtz4TL5ggtX0VSLysbQsN4TpAMx5RHUQRBuzS4Fn61QctVR9lrWGHZBaE/Ww=
+	t=1761864570; cv=none; b=Ff8PigWkYlU2dYp4cI6R27gi2rv1SXXRh64HA3Hv+BfbxxpV5iN4MkBojXN76FTlyWT7nYq+HwaXWKRcWVFePbrw/a4I5aM0Onuhpio/29ElAC4QR4xJ0yoiKpzGDxMM0zl0LFXI1SXt62TQpzDkY6DgUelX7jDME7y187RYH90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761862135; c=relaxed/simple;
-	bh=QCaxQQp22Ou0uBRcqdmljdY4A1uwLgCFWyFq2Al5hH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uhMGLB83hxXBRy99rn+fNN0lFMrq5QVposNuew6urhx2vLMaeM8mEFAqExc0dFU02ZPuzyJXI9fYkQLYn2jzh8kRlTCizqiZt8YxczRnC5MDCfqRmUFVkHsBHa26bo3eC3oZpZdBitva4fH1PQQsdJ6774UckO3oe1tfNPL+/HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nuv4oOLn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761864570; c=relaxed/simple;
+	bh=UgGB97gFfkBMFKeQUH3mcQQ+pc+E2qEDyTSQDbCoFik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qNVB0OA660f+yRnM+2/7J8BItAuknrcfvRnV8OKv/fayPauGqFtwmCJC+hwVOi0nSzvBDQB9GcoLlvGjR0AV2G+u8C+yReWJBQdHokonkkM95tr6bsY4jKcrQmrWLrESr57CseafZEV9lKSH3FCaycPjSD8LXQuqAQUyDVXxHAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nn3zP5yO; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nuv4oOLn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 183BEC4CEFF
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 22:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761862135;
-	bh=QCaxQQp22Ou0uBRcqdmljdY4A1uwLgCFWyFq2Al5hH0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Nuv4oOLn1T4nMLdqbCNuzl0x9YUWtMIIav7oZMEPLyzSI9jZSAH3ixOWmH3g655NT
-	 OT2H1DzuvDV+vQTh+fN18t5YPY/ZS3bCVI1J9jjAhRKw1tY/dQgt/hip+qTVxCDmHE
-	 M8SXwJUbKyLD9SdmybWHOStuEc1s35vR5tDrjZVq/tan4ai5vRZ+A7KwZ9fl83cPE6
-	 HknJgXdSH4SMPTV3kcphvEEfBoty8u9u2t0k9FYbDaBwFPv2U2LmgKFqtPPQ9Q3AiH
-	 zwQPS4ugvZi2Q93qc8M6MTP0KghAjFdsu/hWJ0N0gghNin2pIw9Q2gttp1yuDsuVf0
-	 KKCWbMPGYP2lA==
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-28a5b8b12a1so17449545ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 15:08:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV6EcbwugGProyBw0/9W1bLSDMhLmnh23rNClHhF2OJxfz4jEjieHO0bQYhobJ5zbO8G5I1DqQQWc0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfgG9ac9RkCIFJYV7PptGUpdA6aoNedzvypsb2/hG+8VdFLk5j
-	jJhhE6ZOp5ZibR3mq2Fq92nY1p4k53nvx8d627jJ5YeXGOa3w2MAE7kxNwjoZz6N48K6oFy3JU7
-	+9NrQSRgMSFWxggmEe0h+BVrvo+DRA50=
-X-Google-Smtp-Source: AGHT+IHEHiUBfUwlW3je89mFpeopWhX58UhG4swXErqOcigIFZnDoujTVPO1LSZCUlt8UHyapOY1EcH0H4JbtJ5zFbU=
-X-Received: by 2002:a17:902:d4ce:b0:293:e0f:3e3 with SMTP id
- d9443c01a7336-2951a440d24mr18670675ad.29.1761862134648; Thu, 30 Oct 2025
- 15:08:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nn3zP5yO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=W39D1CHVnz5ftoUtLOXhSfT0d9vFvzHtYZUvOQ5CQgk=; b=nn3zP5yOZotkrkB2k4BgnxAfmk
+	UlFWyoo4RmBgRnjD5M62q2lTBaT5DK0CwAbfVauIadDlI/jg/HV2vOCQoqTFnWoc82uzLJ/AjuK6/
+	2E6ZbTDnC9/LFOkmo8JDQ1nI5HLB5PQROT66Z+x3se5Ui/n/mCJ0w8Rvc0tnpRllW/QVi3++gqBm3
+	gyhgh3zE+HjqFiXrnQGuxSW7r50+2FibVfnAXDNnbi5i9tQ+vkq2KaFGVXZouvxkVRb4iX7+9aDpn
+	C2qcj6QzMoNl9OsTovabmdxa/SzOx/sGuWCM1FJ+P0EqsfGU1YRHXEGjWromyJ2OlNM8jHCy6Ecre
+	telx9loQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vEbSQ-000000055Ov-28yJ;
+	Thu, 30 Oct 2025 22:49:26 +0000
+Message-ID: <574473a2-e86a-4a4c-875a-cb3013acf4d0@infradead.org>
+Date: Thu, 30 Oct 2025 15:49:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251023233656.661344-1-yanzhuhuang@linux.microsoft.com> <20251023233656.661344-3-yanzhuhuang@linux.microsoft.com>
-In-Reply-To: <20251023233656.661344-3-yanzhuhuang@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Thu, 30 Oct 2025 15:08:42 -0700
-X-Gmail-Original-Message-ID: <CAKtyLkHVQuR+5N5qimAb=+GpGFpDt7YRq+jYC07R4wfRE6xUgg@mail.gmail.com>
-X-Gm-Features: AWmQ_bm80q11eSbg7G-yU6QtbTi5-vtrJoIqly0ibkMkpjNe7gqJ2xgghoMMvTc
-Message-ID: <CAKtyLkHVQuR+5N5qimAb=+GpGFpDt7YRq+jYC07R4wfRE6xUgg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ipe: Update documentation for script enforcement
-To: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-Cc: wufan@kernel.org, paul@paul-moore.com, mic@digikod.net, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: kdoc: fix duplicate section warning message
+To: Jonathan Corbet <corbet@lwn.net>, Jacob Keller
+ <jacob.e.keller@intel.com>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251030-jk-fix-kernel-doc-duplicate-return-warning-v2-1-ec4b5c662881@intel.com>
+ <873470m5wd.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <873470m5wd.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 23, 2025 at 4:37=E2=80=AFPM Yanzhu Huang
-<yanzhuhuang@linux.microsoft.com> wrote:
->
-> This patch adds explanation of script enforcement mechanism in admin
-> guide documentation. Describes how IPE supports integrity enforcement
-> for indirectly executed scripts through the AT_EXECVE_CHECK flag, and
-> how this differs from kernel enforcement for compiled executables.
->
-> Signed-off-by: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/ipe.rst | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-=
-guide/LSM/ipe.rst
-> index dc7088451f9d..1063256559a8 100644
-> --- a/Documentation/admin-guide/LSM/ipe.rst
-> +++ b/Documentation/admin-guide/LSM/ipe.rst
-> @@ -95,7 +95,20 @@ languages when these scripts are invoked by passing th=
-ese program files
->  to the interpreter. This is because the way interpreters execute these
->  files; the scripts themselves are not evaluated as executable code
->  through one of IPE's hooks, but they are merely text files that are read
-> -(as opposed to compiled executables) [#interpreters]_.
-> +(as opposed to compiled executables) [#interpreters]_. However, with the
 
-All looks good to me, however, we could also update the
-[#interpreters] reference to userspace-api/check_exec.
 
--Fan
+On 10/30/25 2:33 PM, Jonathan Corbet wrote:
+> Jacob Keller <jacob.e.keller@intel.com> writes:
+> 
+>> The python version of the kernel-doc parser emits some strange warnings
+>> with just a line number in certain cases:
+>>
+>> $ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
+>> Warning: 174
+>> Warning: 184
+>> Warning: 190
+>> Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
+>> Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
+>> Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
+>> Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+>>
+>> I eventually tracked this down to the lone call of emit_msg() in the
+>> KernelEntry class, which looks like:
+>>
+>>   self.emit_msg(self.new_start_line, f"duplicate section name '{name}'\n")
+>>
+>> This looks like all the other emit_msg calls. Unfortunately, the definition
+>> within the KernelEntry class takes only a message parameter and not a line
+>> number. The intended message is passed as the warning!
+>>
+>> Pass the filename to the KernelEntry class, and use this to build the log
+>> message in the same way as the KernelDoc class does.
+>>
+>> To avoid future errors, mark the warning parameter for both emit_msg
+>> definitions as a keyword-only argument. This will prevent accidentally
+>> passing a string as the warning parameter in the future.
+>>
+>> Also fix the call in dump_section to avoid an unnecessary additional
+>> newline.
+>>
+>> Fixes: e3b42e94cf10 ("scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class")
+>> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 
-> +introduction of the ``AT_EXECVE_CHECK`` flag, interpreters can use it to
-> +signal the kernel that a script file will be executed, and request the
-> +kernel to perform LSM security checks on it.
-> +
-> +IPE's EXECUTE operation enforcement differs between compiled executables=
- and
-> +interpreted scripts: For compiled executables, enforcement is triggered
-> +automatically by the kernel during ``execve()``, ``execveat()``, ``mmap(=
-)``
-> +and ``mprotect()`` syscalls when loading executable content. For interpr=
-eted
-> +scripts, enforcement requires explicit interpreter integration using
-> +``execveat()`` with ``AT_EXECVE_CHECK`` flag. Unlike exec syscalls that =
-IPE
-> +intercepts during the execution process, this mechanism needs the interp=
-reter
-> +to take the initiative, and existing interpreters won't be automatically
-> +supported unless the signal call is added.
->
->  Threat Model
->  ------------
-> --
-> 2.43.0
->
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> 
+> This one applies, thanks.
+> 
+> jon
+> 
+
+-- 
+~Randy
