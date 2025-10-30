@@ -1,303 +1,299 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010021.outbound.protection.outlook.com [52.101.69.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F11274FF5;
-	Thu, 30 Oct 2025 14:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761834908; cv=fail; b=dsKSlwbmEmpgWlPUNOSIGLIFyMoXtqoOQDRMObL4XnGOHgOr2asP4lPqhg5dqlVIh1XLMAK6GJwoHlzQZc27/xTVDQG0PuwrwUEFJZbPXP3nQM4Exts7gobMOsfLfBVMvYZipd8z5/6R95p0N7qF82P8cMhar60jdWAmsiF6TpY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761834908; c=relaxed/simple;
-	bh=QmJXIhNcRZodT/SYCTJLz8cCDxH1bJkqvPdEA6ECA6U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PQ+jXc5GlxuSx9Fr3RoQdA+DJF85QMw8c33vvI3vPI4IxbOGJ4b05HoWcj1agvronskf1vAWK/CcaOmU2xg85QWZu3G4vFDQDB3cTA0AIEgo1LATHZvQhPd4+n6xuobWBP+jMU0YLab1/Pi+ScDOkzZ3RPe+Fijdb9uHneC2niw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=h+4AKr4s; arc=fail smtp.client-ip=52.101.69.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F70260583
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 14:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761835547; cv=none; b=G82ZMFgRrK5R6l9UtSd2hRI53f9LCHvVV8AmTcSjUYmXq3m35zT6Q30utBE3kFCy9LMTGVkK7tf6QxTUDjxq0mqlMzcHM5nR/H2WMo9LcPLHlPFS3EZwCoxfEdulcG/0jxR0hwCrwjQyisW8dEUKREMvZ0wG9CROO3YzvtBK8vA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761835547; c=relaxed/simple;
+	bh=5JpbSHuKX2plvI1/zl+khhJC6C3X1JNbIvIqp8OFli4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P3oFxbtnmz3fTWksdMQsCAR6W8BkQVgt8DMZSoPQGisxZ6NCpEslmqw9ekSIwEiK0usfDNonq5lVz/LeBhVu9ihl4jZsn7lZ13mAHB9cf4rL941po177T8uhp9nIBFGTjkUBrf82hPrH12sVfSLMQJ0/tpCW5kyG8tw+FdrXvLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bJb3QitF; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="h+4AKr4s"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L9FvNK+O0cL7jF/Cg9Fla1NyAQ+My+j+iEtFym+pmHI1XjBFuQXJg0EtGExQ9sR6arZzb0PqkHI7vdRdTCtnnqik1uBHcUpUnx3NROiypOk7zuy7t5yjJMoK7LvCN+MLW3BvLt7rbmP5W4AdTH7VryWOl6XAenF8oTB6pBzMOvOyHc08CxqFbqZ0DTkiA7GSg64CiUwdOMKySh6Y9wjLcq3WvOhTTyXpc/rt/Khn21JdygANoj8VqjgzQSL5FAQsSR6VE2zMPA+DBMGp//VrANeTrUgcJKiJC9VJQv2GUpGQXkSovwM4IsbbVfHb0uhd82b84rd9apWa/8pT0XCuGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=icRboDRj2tx0EaYz/S6i9ohLv9droqiuEroIz3TfvM4=;
- b=cCz/8RV8LxPKc7Uy1MEYTn00dznKb0COY3DfHOUU4KnzMUhdYFqDkPBzWp5b+aCAYv0nTGiMfaPG6INPxpKgx21FAGC7Dl8CFIuaMi8UnPucXx+AlwQGHLABXICciTqSZqKqbuaURTi6xk8eUHXansPikwdxAHS6/lQDT97tc9A0DuIVFqHku9DJ7EPonzVQH8xLJqZ0NF3oB2AfaeKAcEY/126fK6YJWa/g5eludPOfLbN83n+H/Xs6JITwScuhG4Z9Lq6Exk0vhW66mzQTpKB2+/SPPgiokMATxZ5jDGjb3OrdkPa5TPe3UhppNGl1xehOV5F+ry2AJ+57GhNIKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 131.228.2.241) smtp.rcpttodomain=apple.com
- smtp.mailfrom=nokia-bell-labs.com; dmarc=temperror action=none
- header.from=nokia-bell-labs.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=icRboDRj2tx0EaYz/S6i9ohLv9droqiuEroIz3TfvM4=;
- b=h+4AKr4sR1chDz39fEVp1APSSkLimFSgfhLZ1tUd2LCUbEmIULmQ0jUKDViriD6yXW8D7HpkUNs9me02CFrRIioTJpDAGoyWe77GHMCPpTrJe8wYuotIwg/DCsopgYRZVsaqW7/SLnnZRgUnTpKcnRq0vIhxnef6jC19/GS5oQoYtTj7xm4Dz8K0hSnCyOikzQGhznpNJ11vPtUmDTPqXrWyXsab6c9NQmLEygrQfbZNGkX9fhnLNc4YTNuQHoIih8TnYTyts3tMlCUtRL63pN7JT7iiuja10MQThXpz1REdyB2v2RFx2OJaTbYvztQix2TstAT2L1KpmnFv40JtBg==
-Received: from DUZPR01CA0104.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4bb::17) by VI1PR07MB10043.eurprd07.prod.outlook.com
- (2603:10a6:800:1e2::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 14:35:02 +0000
-Received: from DU6PEPF00009525.eurprd02.prod.outlook.com
- (2603:10a6:10:4bb:cafe::5e) by DUZPR01CA0104.outlook.office365.com
- (2603:10a6:10:4bb::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Thu,
- 30 Oct 2025 14:35:06 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 131.228.2.241) smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not
- signed) header.d=none;dmarc=temperror action=none
- header.from=nokia-bell-labs.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of nokia-bell-labs.com: DNS Timeout)
-Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.241) by
- DU6PEPF00009525.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.10 via
- Frontend Transport; Thu, 30 Oct 2025 14:35:00 +0000
-Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
-	by fihe3nok0734.emea.nsn-net.net (Postfix) with ESMTP id 12CAE201E6;
-	Thu, 30 Oct 2025 16:34:59 +0200 (EET)
-From: chia-yu.chang@nokia-bell-labs.com
-To: pabeni@redhat.com,
-	edumazet@google.com,
-	parav@nvidia.com,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	dave.taht@gmail.com,
-	jhs@mojatatu.com,
-	kuba@kernel.org,
-	stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com,
-	jiri@resnulli.us,
-	davem@davemloft.net,
-	andrew+netdev@lunn.ch,
-	donald.hunter@gmail.com,
-	ast@fiberby.net,
-	liuhangbin@gmail.com,
-	shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	ij@kernel.org,
-	ncardwell@google.com,
-	koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com,
-	ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com,
-	cheshire@apple.com,
-	rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com,
-	vidhi_goel@apple.com
-Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-Subject: [PATCH v5 net-next 13/14] tcp: accecn: detect loss ACK w/ AccECN option and add TCP_ACCECN_OPTION_PERSIST
-Date: Thu, 30 Oct 2025 15:34:34 +0100
-Message-Id: <20251030143435.13003-14-chia-yu.chang@nokia-bell-labs.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
-References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bJb3QitF"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-63c45c11be7so1850626a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 07:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1761835544; x=1762440344; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+q1WnNkV6oI/Ffptxas5/IbEl8V9x7m1lbLHWaOLlOc=;
+        b=bJb3QitFCcMsmo0qprz+Tbed9ckO1I7N0cJY7SUdAUc+HeFTihNgAkypRMQKGpqQ1u
+         3nvK7edZzj0aBX7VpBZ2n9dpDO2x7oT9SPlLauCEhxf15glyhd5g4Olf3OpZpkuP8Q4n
+         EOapPIVFlB3Cm7DAs8KUyN7yoVfZalDT6EHtwxCUdY2gqqhfoK5dj1pjQ8cRS8FHiGYU
+         J0DwQSMAlc/hfKdh0N27cgJHqbyfpbRUHWKFP0wMEwBlihuhtL3AQh1y3DJU+/qA04EQ
+         ApPBNnz1IhuAIIw6Tt621B7SHxEVcDu74oxVj8qOBunHXa70j1AYYwyLDIyOI46e6gny
+         YyQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761835544; x=1762440344;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+q1WnNkV6oI/Ffptxas5/IbEl8V9x7m1lbLHWaOLlOc=;
+        b=TXv9ME0sp0s3pmRQ1GGFYGn3Tst1iieHbTejjYpLWhp/cmKWouYSw6WFowiGkJOpo5
+         iiHGVOS9vfpEmaG3wTeKlR67okMUi2D75kl6ryzfLI1zxBDnNtmOuqhs8ZczlgcT1Y/K
+         bCCCaZYUvDdH+ZpL7sP+0K/peLIbOHaQJe6cMwqcoWFoUddXF3NJ3V0k1FCp4RZCFgst
+         29oUhPC1LzmvrXVdjwEr4eBuWlXPxgou4L5y9L2h9zsYXaxK3w4dX2WduC/S9F3qv4qO
+         1aCj9p/o6UbdzSVgaenhusnCfOsDlJzQFfnR9hXlQfdYhQ8GFxZxwUheLb9QmipafV3D
+         /6rg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLO5mhM9kyHiq6hcDBPjLmcv3egl+luS+4Xxrjxjjy0QntPkPnlEslIRApk796Y+8SaC1wKUOgLFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfXNQFkdR/mMSmdwanQFTgopDhAomvcfJkuL0aY+PSqE+OsNym
+	BH0+KyRFUbUEaxAfV9R6IuntbnFn3vivxnIF0YppOgcGLLlvE34GXQcIXu7uiRtkcWIP9KBTa8H
+	OhBlAJzcGoTYEbhoEe+tZusETwtaiEazCngWcLs1C9g==
+X-Gm-Gg: ASbGncvvhUYIEH18y3ZGJnclCK2NyB6NFnHnVOw260P0pIbT38c9zgPgq2RTuPqOiBy
+	Yxl/xbQsfZDngMb29HQJkEbFfdPxIr4pnFQEPCkxWA8Nh8ZqvOC/r8jr0GLmz+5jM/ohAO+4Pkc
+	uii23eD+oPfFxDdwB5OqMi+F9A2e62Q1irR5/4e4EuF6k0oyNzYC4Tl81zYqeuhQhRI+ss21BAA
+	d1y7T5z3darkY+rZWFIG96HTkBMXZe344bfjDyR9NRXKhXxNaPok4Tns9th2rfZxsvM
+X-Google-Smtp-Source: AGHT+IGDU4/Gkv1R1qd17xLlVAOgOMmcUmYUsrlTksKyc7NoB+oWGvlCOuq9OeegwnOVOhMBaIm81jNVaYjX67APFf4=
+X-Received: by 2002:a05:6402:d08:b0:63c:2d72:56e3 with SMTP id
+ 4fb4d7f45d1cf-64044252e1amr5523342a12.23.1761835543199; Thu, 30 Oct 2025
+ 07:45:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF00009525:EE_|VI1PR07MB10043:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 1d6ac3aa-6df6-45ea-9e43-08de17c181c9
-X-LD-Processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?d9hH00PXt8+7Kd9Tlv1f6t9BKb6xDREe6Ck3cpKZIebViSgj7CEbLyhXr118?=
- =?us-ascii?Q?r1cxo9pDqK/JlHHPYoHMQAzs8e2/OZBaBjRp8zCk5KAJrs7WcCeAMz3wIA8s?=
- =?us-ascii?Q?hTq3EV7MwmC+5KI0xcIeRRhTTgvqSAwhv1T1MeKiIMZdt90+UWZAK6lpLgFq?=
- =?us-ascii?Q?Ole2GiALcO97csXSLbXcSj5eNEjNrWsosrS4wsWUsZ+tJxiQfFFapq1hi6y+?=
- =?us-ascii?Q?dFno1Zhv5uCiKZk5pJJj684VfkX8XnZhIrtTm3hCK69nUhzq9VibJvxRLLwu?=
- =?us-ascii?Q?MZab5fJVhA8qRy2HXtd9IL4cyAKAsJ6eEzE/n8gobnNmlOsG1TFv+voowisA?=
- =?us-ascii?Q?dEVIXHPW4p/IzIVavXhtjW0q/daYI0xgesxcl0Kfzq4ZUtpyHQHnYhtX/Xfo?=
- =?us-ascii?Q?BRRpm4e5Fd2+HzDnohc2ymkrBfzCK2OlLICxzRUWKbwGDomEKmT4FQCgzPjn?=
- =?us-ascii?Q?RpZxyc1JRSS2hRFumJU+wI6vqZAqSFkftWxZJ+Gfl9KX6VEejMlzQkCQBw4e?=
- =?us-ascii?Q?RDApFWDGVa0yoEV+mTnItigNSfgcCE+FSsTEqBS47qgONMN8Vr+ueUmQEBuB?=
- =?us-ascii?Q?GPTJ2wucwh3DmmG72RF1lW30+e9KA+gN7+nC/7NS+QNMuMyUqhaUF5yGVBCd?=
- =?us-ascii?Q?MRmEf+4utl/9gdQb2hBbhtpjX68LnyLHiAMoB3V7O4JjfADN0zrL4VNoQjrQ?=
- =?us-ascii?Q?XLsMovgnxKWpSd4U49ZbNNGG9lcV3HO5Y3GyS+lKDWpttgbZNyK5ateH9NT2?=
- =?us-ascii?Q?RsZXvB9Lf+LgPfzqzq3Yxau5qJksSw7r/rsJE/80JZe64hjxnf7G03XcTk+I?=
- =?us-ascii?Q?D17m4Y4BFiegGC8Eyatl2k1q1anOk8I3xgTE07MN30EOLrS2iInnG81f/oQ1?=
- =?us-ascii?Q?pPrGk9hkyjOHieOcAmKynMK9kMoxVN39lXUNNbbOiptegTglkZicgvY30DE4?=
- =?us-ascii?Q?b/1+V7OyaIN+/S/u8QiCp2WIDnV/zMy/NJe7pZcJM5awhpFTJX53dE606Z6m?=
- =?us-ascii?Q?eM0ZhAtNHJNX/RBdPfJDOOMiHEo4hhiBHiVk24LIzjaqyqryh4HmQ8KM1n6I?=
- =?us-ascii?Q?BX6swoISAUfcCD0ZVEGkEl/iXV8yagMbgTpwe4JfBMcpiTMmP1l0CZIng/eO?=
- =?us-ascii?Q?KxcqYmdPINRTvR36uNDDGWmxACGfGkK6SxE7NqL/pBOtc96kI3J9+70nVovQ?=
- =?us-ascii?Q?6+am2RPAh8frg0vIDOr1eQHY1QEIh1YbQJfRA/IYtDf/QBDZidwinwXVVtLz?=
- =?us-ascii?Q?uVIAby2TKZQb63LZbZdmCGyubWh/BYChxoOsxNr/MalJYOATE+10+l0Y1zLl?=
- =?us-ascii?Q?LYPqvB7y55fjLVCc5bsFPBChIY8zenHNxjAPNWOdm0Ze/wul7NWfeBskZRzF?=
- =?us-ascii?Q?h5SdIXGh/HFwDILcEiI7tNH5le71pL2SAuOJbWUGkvcQvuQtwjYPbp5ux8IM?=
- =?us-ascii?Q?UOR7o3bKCLYIo6/B1vwg+DPImo9D7/qqspqW9uZgU0FWX5bmGh3pS2zwTn8/?=
- =?us-ascii?Q?gu89jf+CRjvEd7e4SrbTJutisYrOB82tlX+WMkgTZA86gpFQrsFfmXBNY6kT?=
- =?us-ascii?Q?F9ZVlc3oSMn8/peSqO4G0OJbX1BW/moqxFvNJGCN?=
-X-Forefront-Antispam-Report:
- CIP:131.228.2.241;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 14:35:00.5972
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d6ac3aa-6df6-45ea-9e43-08de17c181c9
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.241];Helo=[fihe3nok0734.emea.nsn-net.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DU6PEPF00009525.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB10043
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <20250929010321.3462457-15-pasha.tatashin@soleen.com> <mafs0tszhcyrw.fsf@kernel.org>
+ <CA+CK2bBVSX26TKwgLkXCDop5u3e9McH3sQMascT47ZwwrwraOw@mail.gmail.com> <CAAywjhTbBx+rYGpPGtTw_--9XhoYZBX8ase5ddM6rxmC5J-2JQ@mail.gmail.com>
+In-Reply-To: <CAAywjhTbBx+rYGpPGtTw_--9XhoYZBX8ase5ddM6rxmC5J-2JQ@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 30 Oct 2025 10:45:06 -0400
+X-Gm-Features: AWmQ_blojHtPMG7BDXtmPjNBm90NSboe9qJfp5atDPpsuilsmQAVEvUy6gel7ys
+Message-ID: <CA+CK2bC8Ge0WM84ei1JGpqTzsZXeP6B3VXbSiNW6ZmHmQsXHCg@mail.gmail.com>
+Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
+ preservation and state management
+To: Samiullah Khawaja <skhawaja@google.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
+	steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+On Wed, Oct 29, 2025 at 6:00=E2=80=AFPM Samiullah Khawaja <skhawaja@google.=
+com> wrote:
+>
+> On Wed, Oct 29, 2025 at 1:13=E2=80=AFPM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > On Wed, Oct 29, 2025 at 3:07=E2=80=AFPM Pratyush Yadav <pratyush@kernel=
+.org> wrote:
+> > >
+> > > Hi Pasha,
+> > >
+> > > On Mon, Sep 29 2025, Pasha Tatashin wrote:
+> > >
+> > > > Introducing the userspace interface and internal logic required to
+> > > > manage the lifecycle of file descriptors within a session. Previous=
+ly, a
+> > > > session was merely a container; this change makes it a functional
+> > > > management unit.
+> > > >
+> > > > The following capabilities are added:
+> > > >
+> > > > A new set of ioctl commands are added, which operate on the file
+> > > > descriptor returned by CREATE_SESSION. This allows userspace to:
+> > > > - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a sessio=
+n
+> > > >   to be preserved across the live update.
+> > > > - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
+> > > >   descriptor from the session.
+> > > > - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
+> > > >   new kernel using its unique token.
+> > > >
+> > > > A state machine for each individual session, distinct from the glob=
+al
+> > > > LUO state. This enables more granular control, allowing userspace t=
+o
+> > > > prepare or freeze specific sessions independently. This is managed =
+via:
+> > > > - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
+> > > >   CANCEL, or FINISH events to a single session.
+> > > > - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
+> > > >   of a single session.
+> > > >
+> > > > The global subsystem callbacks (luo_session_prepare, luo_session_fr=
+eeze)
+> > > > are updated to iterate through all existing sessions. They now trig=
+ger
+> > > > the appropriate per-session state transitions for any sessions that
+> > > > haven't already been transitioned individually by userspace.
+> > > >
+> > > > The session's .release handler is enhanced to be state-aware. When =
+a
+> > > > session's file descriptor is closed, it now correctly cancels or
+> > > > finishes the session based on its current state before freeing all
+> > > > associated file resources, preventing resource leaks.
+> > > >
+> > > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > [...]
+> > > > +/**
+> > > > + * struct liveupdate_session_get_state - ioctl(LIVEUPDATE_SESSION_=
+GET_STATE)
+> > > > + * @size:     Input; sizeof(struct liveupdate_session_get_state)
+> > > > + * @incoming: Input; If 1, query the state of a restored file from=
+ the incoming
+> > > > + *            (previous kernel's) set. If 0, query a file being pr=
+epared for
+> > > > + *            preservation in the current set.
+> > >
+> > > Spotted this when working on updating my test suite for LUO. This see=
+ms
+> > > to be a leftover from a previous version. I don't see it being used
+> > > anywhere in the code.
+> >
+> > thank you will remove this.
+> >
+> > > Also, I think the model we should have is to only allow new sessions =
+in
+> > > normal state. Currently luo_session_create() allows creating a new
+> > > session in updated state. This would end up mixing sessions from a
+> > > previous boot and sessions from current boot. I don't really see a
+> > > reason for that and I think the userspace should first call finish
+> > > before starting new serialization. Keeps things simpler.
+> >
+> > It does. However, yesterday Jason Gunthorpe suggested that we simplify
+> > the uapi, at least for the initial landing, by removing the state
+> > machine during boot and allowing new sessions to be created at any
+> > time. This would also mean separating the incoming and outgoing
+> > sessions and removing the ioctl() call used to bring the machine into
+> > a normal state; instead, only individual sessions could be brought
+> > into a 'normal' state.
+> >
+> > Simplified uAPI Proposal
+> > The simplest uAPI would look like this:
+> > IOCTLs on /dev/liveupdate (to create and retrieve session FDs):
+> > LIVEUPDATE_IOCTL_CREATE_SESSION
+> > LIVEUPDATE_IOCTL_RETRIEVE_SESSION
+> >
+> > IOCTLs on session FDs:
+> > LIVEUPDATE_CMD_SESSION_PRESERVE_FD
+> > LIVEUPDATE_CMD_SESSION_RETRIEVE_FD
+> > LIVEUPDATE_CMD_SESSION_FINISH
+> >
+> > Happy Path
+> > The happy path would look like this:
+> > - luod creates a session with a specific name and passes it to the vmm.
+> > - The vmm preserves FDs in a specific order: memfd, iommufd, vfiofd.
+> > (If the order is wrong, the preserve callbacks will fail.)
+> > - A reboot(KEXEC) is performed.
+> > - Each session receives a freeze() callback to notify it that
+> > mutations are no longer possible.
+> > - During boot, liveupdate_fh_global_state_get(&h, &obj) can be used to
+> > retrieve the global state.
+> > - Once the machine has booted, luod retrieves the incoming sessions
+> > and passes them to the vmms.
+> > - The vmm retrieves the FDs from the session and performs the
+> > necessary IOCTLs on them.
+> > - The vmm calls LIVEUPDATE_CMD_SESSION_FINISH on the session. Each FD
+> > receives a finish() callback in LIFO order.
+> > - If everything succeeds, the session becomes an empty "outgoing"
+> > session. It can then be closed and discarded or reused for the next
+> > live update by preserving new FDs into it.
+> > - Once the last FD for a file-handler is finished,
+> > h->ops->global_state_finish(h, h->global_state_obj) is called to
+> > finish the incoming global state.
+> >
+> > Unhappy Paths
+> > - If an outgoing session FD is closed, each FD in that session
+> > receives an unpreserve callback in LIFO order.
+> > - If the last FD for a global state is unpreserved,
+> > h->ops->global_state_unpreserve(h, h->global_state_obj) is called.
+> > - If freeze() fails, a cancel() is performed on each FD that received
+> > freeze() cb, and reboot(KEXEC) returns a failure.
+>
+> nit: Maybe we can rename cancel to unfreeze. So it matches preserve/unpre=
+serve?
 
-Detect spurious retransmission of a previously sent ACK carrying the
-AccECN option after the second retransmission. Since this might be caused
-by the middlebox dropping ACK with options it does not recognize, disable
-the sending of the AccECN option in all subsequent ACKs. This patch
-follows Section 3.2.3.2.2 of AccECN spec (RFC9768).
+Sounds good, I will call it unfreeze() instead of cancel().
 
-Also, a new AccECN option sending mode is added to tcp_ecn_option sysctl:
-(TCP_ECN_OPTION_PERSIST), which ignores the AccECN fallback policy and
-persistently sends AccECN option once it fits into TCP option space.
+> > - If an incoming session FD is closed, the resources are considered
+> > "leaked." They are discarded only during the next live-update; this is
+> > intended to prevent implementing rare and untested clean-up code.
+>
+> I am assuming the preserved folios will become unpreserved during
+> shutdown and in the next kernel those folios are free.
 
-Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+That is right, KHO does not keep memory preserved for the next reboot.
 
----
-v5:
-- Add empty line between variable declarations and code
----
- Documentation/networking/ip-sysctl.rst |  4 +++-
- include/linux/tcp.h                    |  3 ++-
- include/net/tcp_ecn.h                  |  2 ++
- net/ipv4/sysctl_net_ipv4.c             |  2 +-
- net/ipv4/tcp_input.c                   | 10 ++++++++++
- net/ipv4/tcp_output.c                  |  7 ++++++-
- 6 files changed, 24 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 7cd35bfd39e6..f5d9e596ee61 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -482,7 +482,9 @@ tcp_ecn_option - INTEGER
- 	1 Send AccECN option sparingly according to the minimum option
- 	  rules outlined in draft-ietf-tcpm-accurate-ecn.
- 	2 Send AccECN option on every packet whenever it fits into TCP
--	  option space.
-+	  option space except when AccECN fallback is triggered.
-+	3 Send AccECN option on every packet whenever it fits into TCP
-+	  option space even when AccECN fallback is triggered.
- 	= ============================================================
- 
- 	Default: 2
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index 683f38362977..32b031d09294 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -294,7 +294,8 @@ struct tcp_sock {
- 	u8	nonagle     : 4,/* Disable Nagle algorithm?             */
- 		rate_app_limited:1;  /* rate_{delivered,interval_us} limited? */
- 	u8	received_ce_pending:4, /* Not yet transmit cnt of received_ce */
--		unused2:4;
-+		accecn_opt_sent:1,/* Sent AccECN option in previous ACK */
-+		unused2:3;
- 	u8	accecn_minlen:2,/* Minimum length of AccECN option sent */
- 		est_ecnfield:2,/* ECN field for AccECN delivered estimates */
- 		accecn_opt_demand:2,/* Demand AccECN option for n next ACKs */
-diff --git a/include/net/tcp_ecn.h b/include/net/tcp_ecn.h
-index c82b5a35db28..d6ffa8492365 100644
---- a/include/net/tcp_ecn.h
-+++ b/include/net/tcp_ecn.h
-@@ -29,6 +29,7 @@ enum tcp_accecn_option {
- 	TCP_ACCECN_OPTION_DISABLED = 0,
- 	TCP_ACCECN_OPTION_MINIMUM = 1,
- 	TCP_ACCECN_OPTION_FULL = 2,
-+	TCP_ACCECN_OPTION_PERSIST = 3,
- };
- 
- /* Apply either ECT(0) or ECT(1) based on TCP_CONG_WANTS_ECT_1 flag */
-@@ -406,6 +407,7 @@ static inline void tcp_accecn_init_counters(struct tcp_sock *tp)
- 	tp->received_ce_pending = 0;
- 	__tcp_accecn_init_bytes_counters(tp->received_ecn_bytes);
- 	__tcp_accecn_init_bytes_counters(tp->delivered_ecn_bytes);
-+	tp->accecn_opt_sent = 0;
- 	tp->accecn_minlen = 0;
- 	tp->accecn_opt_demand = 0;
- 	tp->est_ecnfield = 0;
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 0c7c8f9041cb..6695a6022539 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -749,7 +749,7 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_TWO,
-+		.extra2		= SYSCTL_THREE,
- 	},
- 	{
- 		.procname	= "tcp_ecn_option_beacon",
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index cc39056d446f..ebedcf0ea0d0 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -4802,6 +4802,8 @@ static void tcp_dsack_extend(struct sock *sk, u32 seq, u32 end_seq)
- 
- static void tcp_rcv_spurious_retrans(struct sock *sk, const struct sk_buff *skb)
- {
-+	struct tcp_sock *tp = tcp_sk(sk);
-+
- 	/* When the ACK path fails or drops most ACKs, the sender would
- 	 * timeout and spuriously retransmit the same segment repeatedly.
- 	 * If it seems our ACKs are not reaching the other side,
-@@ -4821,6 +4823,14 @@ static void tcp_rcv_spurious_retrans(struct sock *sk, const struct sk_buff *skb)
- 	/* Save last flowlabel after a spurious retrans. */
- 	tcp_save_lrcv_flowlabel(sk, skb);
- #endif
-+	/* Check DSACK info to detect that the previous ACK carrying the
-+	 * AccECN option was lost after the second retransmision, and then
-+	 * stop sending AccECN option in all subsequent ACKs.
-+	 */
-+	if (tcp_ecn_mode_accecn(tp) &&
-+	    TCP_SKB_CB(skb)->seq == tp->duplicate_sack[0].start_seq &&
-+	    tp->accecn_opt_sent)
-+		tcp_accecn_fail_mode_set(tp, TCP_ACCECN_OPT_FAIL_SEND);
- }
- 
- static void tcp_send_dupack(struct sock *sk, const struct sk_buff *skb)
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index d52229d32b4d..41e9a7a50538 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -719,9 +719,12 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
- 		if (tp) {
- 			tp->accecn_minlen = 0;
- 			tp->accecn_opt_tstamp = tp->tcp_mstamp;
-+			tp->accecn_opt_sent = 1;
- 			if (tp->accecn_opt_demand)
- 				tp->accecn_opt_demand--;
- 		}
-+	} else if (tp) {
-+		tp->accecn_opt_sent = 0;
- 	}
- 
- 	if (unlikely(OPTION_SACK_ADVERTISE & options)) {
-@@ -1191,7 +1194,9 @@ static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb
- 	if (tcp_ecn_mode_accecn(tp)) {
- 		int ecn_opt = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_ecn_option);
- 
--		if (ecn_opt && tp->saw_accecn_opt && !tcp_accecn_opt_fail_send(tp) &&
-+		if (ecn_opt && tp->saw_accecn_opt &&
-+		    (ecn_opt >= TCP_ACCECN_OPTION_PERSIST ||
-+		     !tcp_accecn_opt_fail_send(tp)) &&
- 		    (ecn_opt >= TCP_ACCECN_OPTION_FULL || tp->accecn_opt_demand ||
- 		     tcp_accecn_option_beacon_check(sk))) {
- 			opts->use_synack_ecn_bytes = 0;
--- 
-2.34.1
-
+> > - If a user tries to finish a session and it fails, it is considered
+> > the user's problem. This might happen because some IOCTLs still need
+> > to be run on the retrieved FDs to bring them to a state where finish
+> > is possible.
+>
+> Sounds great.
+> >
+> > This would also mean that subsystems would not be needed, leaving only
+> > FLB (File-Lifecycle-Bound Global State) to use as a handle for global
+> > state. The API I am proposing for FLB keeps the same global state for
+> > a single file-handler type. However, HugeTLB might have multiple file
+> > handlers, so the API would need to be extended slightly to support
+> > this case. Multiple file handlers will share the same global resource
+> > with the same callbacks.
+> >
+> > Pasha
+> >
+> > > > + * @reserved: Must be zero.
+> > > > + * @state:    Output; The live update state of this FD.
+> > > > + *
+> > > > + * Query the current live update state of a specific preserved fil=
+e descriptor.
+> > > > + *
+> > > > + * - %LIVEUPDATE_STATE_NORMAL:   Default state
+> > > > + * - %LIVEUPDATE_STATE_PREPARED: Prepare callback has been perform=
+ed on this FD.
+> > > > + * - %LIVEUPDATE_STATE_FROZEN:   Freeze callback ahs been performe=
+d on this FD.
+> > > > + * - %LIVEUPDATE_STATE_UPDATED:  The system has successfully reboo=
+ted into the
+> > > > + *                               new kernel.
+> > > > + *
+> > > > + * See the definition of &enum liveupdate_state for more details o=
+n each state.
+> > > > + *
+> > > > + * Return: 0 on success, negative error code on failure.
+> > > > + */
+> > > > +struct liveupdate_session_get_state {
+> > > > +     __u32           size;
+> > > > +     __u8            incoming;
+> > > > +     __u8            reserved[3];
+> > > > +     __u32           state;
+> > > > +};
+> > > > +
+> > > > +#define LIVEUPDATE_SESSION_GET_STATE                              =
+   \
+> > > > +     _IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_GET_STATE)
+> > > [...]
+> > >
+> > > --
+> > > Regards,
+> > > Pratyush Yadav
