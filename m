@@ -1,147 +1,171 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F4DB640
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 16:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04503655EC
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 16:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761840310; cv=none; b=oKQeKZM49XGsghDEB14fmAEwOfisMoyBbcRsTH27faGdYg9ig0WHbmntzVk48Bc5lJq8iajFY9hvjkni7BCjuRqjLuGnMdJe9WlBSVoCNZJUhlXBFPUPeGZ9P27SsiKX8wenaHDZTL/SI1rzO9A4j8vskLznY0wPlLK/vRaxNhg=
+	t=1761840987; cv=none; b=H4t9M2oC09JbC6r9NFNU6DBOg06WMqTNNwEmgkWUjzllmT7udiqmMJDMzjZR8VteGXL4sNETnja5E7whpbCQWuj3nnYgWnG52wYN1em7DW2KJQQajoj2HY3NpvHifQSjrSweMeudStML21TFSCsdoQs8r6tCnpu1egm4Mgol6h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761840310; c=relaxed/simple;
-	bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=uxMbpZZaaqA1thAVxH2D2CSYq8xw/QOcZWn951gr318A6lmpJHhVHcw5v7WbdojSXo5UpenSvtxcYkxJBHjtSQNtWqtbGXDwe6ZzdrWgrstEL5A8VQzOBTGUtdqzAWgi0GaGYuSL/sMTHrqyvlhLdWXN4AqD9NMbL5Euiiu3xoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CDvt75El; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1761840987; c=relaxed/simple;
+	bh=9Q9U3TTzdCgbx/jFNysf9NDTmSrQdfgmS+5CjGCNQjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U056tNOCm+rrAvfe93tMqSvYkEgkxhhNmsCJEqPXh9kphFV5k9gvksmIEODqeBLOtOFtt7DF7ROVBMVq4hK08+zhYMGdMtYHksfc3i8J7+PM/bn9ZCOcevCQrKsL547NUE71e0u/P6SiYTODj71m7NZA0A4TsB48ofS/4d2yI9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IUpkgIJe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MZUpz6qf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ooYG3jLR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=40mu6gCN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CDvt75El"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-426d4f59cbcso1356311f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 09:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761840306; x=1762445106; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
-        b=CDvt75ElY3hdyLEZnu5e1h6J5sMfYbfZLViMq0FtvdBo6f3AztmUt90lVbhofK72EK
-         b745wROqFofANCzBlhNHxm2KN+pTzU7kvyPTuPbvqLi1LG6nKhZqILpjkBgZPRq3kQuZ
-         eyaOBe6qbuD9b0wvX7pcUmBDcYD2CI22Sy3ewlxtzOTvkRQlq2xVjXPpNff1VPHu7hCt
-         ohJUvsZxnM6hRmARijIiA/iL77tvS5Cr/S5iPd0vUw9HVrbfAcdYfOiY0/wb2ZB398fe
-         i0MBwZqx3tS3Cn0LlwnHMPfjgclAImjU3fkpRYKslFfi8jX2Sc0EZmrHnTIGFrth8N0S
-         fUZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761840306; x=1762445106;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
-        b=LwZfis8zLODRjH4uaHAa8bSwEInl7nsrKjBG02Q2W3mPzIwJldyO1IejfMBj1cQMHr
-         IV0n8SjfGchYLGMn6PrKunPoTNnKYNl37g/m/gY+xZLr0jN9Qz2Z4320W42yny2rIR1u
-         I66WJp5RJiCpSCKFFIF3hmMl7iob0VF3FLybXca66v+FnZRfW0Gfez06rTo7fS7Y+6cu
-         ODic2A3K0qcVn7eFrySBeEUsZg0FFKzKiY9SStRU+Tgs8nzZ+VIk07wpvHLhjoIInB8/
-         CNCGZt7Sr8HGiaWtYM1VyrjW6IH+K+/CGMLTnwRWF03eCxUxyJtGdE2lqy7UtKVmOK79
-         uFwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoYqnZgWNPqH118jcm8P300JIh8n8M3Pv+O6IHyHo6Fdgz10XtA2NTXj2FLbwbjrce6BXLcyrTL1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhtAJxI9SCoXqsNCwUVMg84EqoINaNitx4M8X3xIxSvSD+ze3E
-	Lw1fNSmLlXAuAy1h12eXUhdoyLTbLpfFhErs/5z3MmaCidSV3B/8u0gnx89QY8qJit8N4XY39Yf
-	JJHSl2M7QO4bwYw==
-X-Google-Smtp-Source: AGHT+IHjMaURNuY5ADspjcwjcl/WRoZFYO9bioemMflpQGaxNDVvaG4JDdR/nXAPdbz/Yfz+Utvfc7Y4KaunSA==
-X-Received: from wmbz6.prod.google.com ([2002:a05:600c:c086:b0:471:6089:1622])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2408:b0:429:8b8a:c32b with SMTP id ffacd0b85a97d-429b4c83176mr3266075f8f.22.1761840306279;
- Thu, 30 Oct 2025 09:05:06 -0700 (PDT)
-Date: Thu, 30 Oct 2025 16:05:05 +0000
-In-Reply-To: <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IUpkgIJe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MZUpz6qf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ooYG3jLR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="40mu6gCN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EBB591FBB4;
+	Thu, 30 Oct 2025 16:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761840984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ws2IvvSmb3F8a9GRXxvscM3N9dgSAoNfYV/0ReFtdwE=;
+	b=IUpkgIJev8v3zO2amlJkGs+PpsdjZJ0dw0DYHtfVKeeH95JvKqQjTP/tPpPvqp9UJqxVnG
+	liAPoJH7yFh8jWOGS63mW76eLNsk2D16i92YHghTy/UlXhWqlOirj9WrOsUzgW5R1QavOZ
+	chi5tqueUhw8JzVm1zPCWWJZcY/uU8c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761840984;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ws2IvvSmb3F8a9GRXxvscM3N9dgSAoNfYV/0ReFtdwE=;
+	b=MZUpz6qfpTzlkFOwusQLGuFFnp1LFib8qcFoerV5LwFQ7EX4rt5pAA8WhvoEc1zsFCJ4Gp
+	EjNzL7OnoKaTMnCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ooYG3jLR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=40mu6gCN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761840983; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ws2IvvSmb3F8a9GRXxvscM3N9dgSAoNfYV/0ReFtdwE=;
+	b=ooYG3jLRrNbV3eNsyUdEkT5PDDatPtyDKZmFfTMNozZ1Zhc8JHXjOTx+nUHGlWA48UfPG+
+	UTx9XmUK9Xm4fhQpPYIf6YxNxoXyyViPorxL4VSvMqNfelOGF45ZcNH7VOoIOuMaByAfcL
+	6pLXqMcu8Vo6mv8CVm6Y1QZwtUEcmOE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761840983;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ws2IvvSmb3F8a9GRXxvscM3N9dgSAoNfYV/0ReFtdwE=;
+	b=40mu6gCN8AasVH7KDnpbe/VhfVmMfvxa23JAiN1+iiBYWANWgDtt7kXiyrbB/26anEKMOW
+	8OVBJjVROr1qK9BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 984B51396A;
+	Thu, 30 Oct 2025 16:16:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JEnYIVaPA2kRDQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 30 Oct 2025 16:16:22 +0000
+Date: Thu, 30 Oct 2025 16:16:20 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
+Subject: Re: [PATCH 1/3] mm: introduce VM_MAYBE_GUARD and make visible for
+ guard regions
+Message-ID: <xnsn5rfqigbm5ryjtbf2rtfotneiwygzesvyfdxiqrzlyzljdr@tmbht4ggnjcv>
+References: <cover.1761756437.git.lorenzo.stoakes@oracle.com>
+ <7de40603015dee82970f5d37332a6d5af7532063.1761756437.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-3-roypat@amazon.co.uk>
- <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
-X-Mailer: aerc 0.21.0
-Message-ID: <DDVS9ITBCE2Z.RSTLCU79EX8G@google.com>
-Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
- TLB flushing
-From: Brendan Jackman <jackmanb@google.com>
-To: Dave Hansen <dave.hansen@intel.com>, "Roy, Patrick" <roypat@amazon.co.uk>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7de40603015dee82970f5d37332a6d5af7532063.1761756437.git.lorenzo.stoakes@oracle.com>
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: EBB591FBB4
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,redhat.com,oracle.com,suse.cz,kernel.org,google.com,suse.com,goodmis.org,efficios.com,vger.kernel.org,kvack.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.01
 
-On Thu Sep 25, 2025 at 6:27 PM UTC, Dave Hansen wrote:
-> On 9/24/25 08:22, Roy, Patrick wrote:
->> Add an option to not perform TLB flushes after direct map manipulations.
->
-> I'd really prefer this be left out for now. It's a massive can of worms.
-> Let's agree on something that works and has well-defined behavior before
-> we go breaking it on purpose.
+On Wed, Oct 29, 2025 at 04:50:31PM +0000, Lorenzo Stoakes wrote:
+> Currently, if a user needs to determine if guard regions are present in a
+> range, they have to scan all VMAs (or have knowledge of which ones might
+> have guard regions).
+> 
+> Since commit 8e2f2aeb8b48 ("fs/proc/task_mmu: add guard region bit to
+> pagemap") and the related commit a516403787e0 ("fs/proc: extend the
+> PAGEMAP_SCAN ioctl to report guard regions"), users can use either
+> /proc/$pid/pagemap or the PAGEMAP_SCAN functionality to perform this
+> operation at a virtual address level.
+> 
+> This is not ideal, and it gives no visibility at a /proc/$pid/smaps level
+> that guard regions exist in ranges.
+> 
+> This patch remedies the situation by establishing a new VMA flag,
+> VM_MAYBE_GUARD, to indicate that a VMA may contain guard regions (it is
+> uncertain because we cannot reasonably determine whether a
+> MADV_GUARD_REMOVE call has removed all of the guard regions in a VMA, and
+> additionally VMAs may change across merge/split).
+> 
+> We utilise 0x800 for this flag which makes it available to 32-bit
+> architectures also, a flag that was previously used by VM_DENYWRITE, which
+> was removed in commit 8d0920bde5eb ("mm: remove VM_DENYWRITE") and hasn't
+> bee reused yet.
+> 
+> The MADV_GUARD_INSTALL madvise() operation now must take an mmap write
+> lock (and also VMA write lock) whereas previously it did not, but this
+> seems a reasonable overhead.
 
-As David pointed out in the MM Alignment Session yesterday, I might be
-able to help here. In [0] I've proposed a way to break up the direct map
-by ASI's "sensitivity" concept, which is weaker than the "totally absent
-from the direct map" being proposed here, but it has kinda similar
-implementation challenges.
+Do you though? Could it be possible to simply atomically set the flag with
+the read lock held? This would make it so we can't split the VMA (and tightly
+define what "may have a guard page"), but it sounds much better than introducing
+lock contention. I don't think it is reasonable to add a write lock to a feature
+that may be used by such things as thread stack allocation, malloc, etc.
 
-Basically it introduces a thing called a "freetype" that extends the
-idea of migratetype. Like the existing idea of migratetype, it's used to
-physically group pages when allocating, and you can index free pages by
-it, i.e. each freetype gets its own freelist. But it can also encode
-other information than mobility (and the other stuff that's encoded in
-migratetype...).
-
-Could it make sense to use that logic to just have entire pageblocks
-that are absent from the direct map? Then when allocating memory for the
-guest_memfd we get it from one of those pageblocks. Then we only have to
-flush the TLB if there's no memory left in pageblocks of this freetype
-(so the allocator has to flip another pageblock over to the "no direct
-map" freetype, after removing it from the direct map).
-
-I haven't yet investigated this properly, I'll start doing that now.
-But I thought I'd immediately drop this note in case anyone can
-immediately see a reason why this doesn't work.
-
-[0] https://lore.kernel.org/all/20250924-b4-asi-page-alloc-v1-0-2d861768041f@google.com/T/#t
-
-BTW, I think if the skip-flush flag is the only thing blocking this
-patchset, it would be great to merge it without it. Even if that means
-it's no use for Firecracker usecases that doesn't mean the underlying
-feature isn't valuable for _someone_. Then we can figure out how to make
-it work for Firecracker afterwards, one way or another.
-
-(Just to be transparent: my nefarious ulterior motive is that it would
-give me an angle to start merging code that will eventually support ASI.
-But, I'm serious that there are probably users who would like this
-feature even if it's slow!)
+-- 
+Pedro
