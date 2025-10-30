@@ -1,186 +1,137 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9CE21ABA2;
-	Thu, 30 Oct 2025 01:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4541F270EC1;
+	Thu, 30 Oct 2025 01:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761787240; cv=none; b=CjoApXcwePPYvnvPNcl9ZRi+bOF5aw0Q6df5afbKkXemiAZfyyBXFMJJCpWcWEok1BpKVtlPRblprGDuqLjRpuuFZS9mRVAjsqcSBJ9PxOPaqw8Kjk6bFh7mK19bIKjLgvzywfTRDsbi1vscyq3ZGdxQ4S/EYfHjJDtl3uTQeXk=
+	t=1761787569; cv=none; b=YzWpl3Y+OjUMCdATNgWSRXvuvFzJxNS3dXy9m9rY6Q61qJOHKtdzuxEcG+TVAZmH3/nReJeK+DGSoGzLnY+TulJ61rqco8j2OVVmKB/Xx+jL8vaYjyP6bx1ytNHFQggwiea7vM7vamQHJYb56609wbFyS2bXwAIe2eZ2TMhE7Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761787240; c=relaxed/simple;
-	bh=IZUvQItIFw+7ojqUZAKHyv65awA2j67TuA4ZUaLm7Ic=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B7DJdJ4RrTUBKQaweDULI/8v/OT/d3c/T4xYSPBwRdYMZs9ev/q1IZE1XAIAEzXR9afW4DKMESY90RqRE1be0ZHUQRs849aASyZlOCeXKKsncZjb4wavvKmcayuclZqcusoLnZxo53bGzapOihsdsertl2xsjxjAQj1pH1JMaPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=xG6fjdS2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2W30+3ay; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
+	s=arc-20240116; t=1761787569; c=relaxed/simple;
+	bh=84kPkXhUTbe6LhLgk38kZ2juDmsQcTp5ZsiWx3+UrxA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XMZ4aaqo1+nSujzztwbXzBCFY5d5b75vto1dmarzKrC8ozfnkoQrTN4JCq4h0WDzXvfVUUS+lVk2fr6VpzxEoQcc5scMuruOuj06KKKBEtTqTxcdM/rHHAfG9W4JPOSoULngVXsi9a6tOJn5kckUpQ7kkDlGKXDB/8LAiilLKEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hQJpEoua; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="xG6fjdS2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2W30+3ay"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id E4759EC01B0;
-	Wed, 29 Oct 2025 21:20:36 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 29 Oct 2025 21:20:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
-	 t=1761787236; x=1761873636; bh=H2NfKSrzMl9NPa0+a01rCs5uACkZAu6u
-	1iWF0I2FcTk=; b=xG6fjdS2wAIPqwH4mKGMwFJLMPYUnp9Gme42H2j3CTI/K6bO
-	pKyISly8ssZzNqFqdrXwDRSDnDRMxvHBHNiw7ndY5cNJ9+txPJ8yOv+UKu2WPhx5
-	ODjnG70Poi+U1jPI22cOxT8DSWCfvP6zJM7KIXqMRaVAeeV+s+lOLI28+YNNOFq6
-	g7Q2xes0xrpTbGUf5rfXDNp2cd5rk+mPzrPELlKYBoj8JKxX+uJ22+l2QH7Vknbt
-	TXYbCJvT1zxMBHn6ntSOJRfXCDG2EuHphIvVeDngWfJYMwrustVMfnBJRtj2ZSKr
-	bSJ0kKGH2ivd0Ldo8R83kAGQawms3SXiGwTjng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761787236; x=
-	1761873636; bh=H2NfKSrzMl9NPa0+a01rCs5uACkZAu6u1iWF0I2FcTk=; b=2
-	W30+3ayxTZN7BdKFHFIgnTXTzIqE0Pp2zykgjIc2zoycqdBhiM4VDADjevUKFD4F
-	2x5OHM9iFqEEAJYimDVVv8u2GGcLnoqYzpaMj6EYcu6FX97jQt+jlblq5HbxCjp3
-	XZhvf8Jqe8wLPFzICq/G2MkifXhNv8B27GxsGX0ZND6ykqjWFo/q9US82EyGMN82
-	FT0z1T83kS4vnkQKo0nefD7iWihh9nyYZ6UIT4+VNKus5lUwYXobCqVkyWriY8gB
-	wW79tbi94eHNEOeXQ7ACX8SjzWbC1t7kl8uLGkmiPbz2xtMtWEIULFmyM3WlGwVN
-	Z3JHb7pAGAcwPvLvYKADA==
-X-ME-Sender: <xms:ZL0Cafb-QFtfWJEGtmN503q4b-PgLtd5HxhnPLMQ_NAFLZrygMPM4w>
-    <xme:ZL0CaWhkhMnM8BF-mhA7zaYjeAzV73D9_vjcbFNZchYJGXvUzhLXkyJDROcjE-ywG
-    KnUSdgpZ0pn_e_-zKqxdlyTbT3nndk-uWorMCZ8uZNdAGGzwtUZqRY>
-X-ME-Received: <xmr:ZL0CaRc-DUm1_fTNnZY7C8lDtxGQH6n0ZL4ypqhEiuUm_gQmuQAJWCkd0aFUDQu0yOCpZAvHWOY4o4ItgT47U388H9Piwuq5qw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieehvdejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkgggtugesthdtredttddtvdenucfhrhhomheprfgvthgvrhcujfhu
-    thhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqeenuc
-    ggtffrrghtthgvrhhnpefhtddvgfeggeetkefgvedutdeuffehffeftddvfeeghfeutddt
-    jeegteduvdetieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhmihgtrhhoshhofh
-    htrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtpdhnsggprhgtphhtth
-    hopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhguvghnohhsvgesghho
-    ohhglhgvrdgtohhmpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepsggvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughmihht
-    rhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopegtohhrsggvth
-    eslhifnhdrnhgvthdprhgtphhtthhopehrhigusggvrhhgsegsihhtmhgrthhhrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:ZL0CaVmYCoIjk4GHb8OQ1hnLpGCSn7gFpOQRcTOsra5thkzLt-_p-w>
-    <xmx:ZL0CaWz1XgASEkCrVf2GIkqc_fKiQqXyoTGo8ano-94B8NpMCh8eCg>
-    <xmx:ZL0CaYwm68VSR9ga79GWGbSnkPDWc2FZPyRWJIvuBuv7kX5bv-c7_g>
-    <xmx:ZL0CaWU8uxM9xHtHfb_hqWpfqp63H1VSablZoFqSC3iJS0Ml2Wqb0A>
-    <xmx:ZL0CaVYRRmgmMy6onPW3mvh8uiOAjiPI-p8I2-EjtDJK9Vte8J4ezCNn>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Oct 2025 21:20:32 -0400 (EDT)
-Date: Thu, 30 Oct 2025 11:17:35 +1000
-From: Peter Hutterer <peter.hutterer@who-t.net>
-To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
-	Sean O'Brien <seobrien@google.com>,
-	Jonathan Denose <jdenose@google.com>
-Subject: [PATCH] Documentation: input: expand INPUT_PROP_HAPTIC_TOUCHPAD to
- all pressure pads
-Message-ID: <20251030011735.GA969565@quokka>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hQJpEoua"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=DE4GUUSn7PS/fQa45gakfgN1Qyd0uWMtlpLL22+fJDs=; b=hQJpEouaCKg43OLB9uIUt5Si6r
+	LtknmQMFhhEP/mVrtGiYO1NoiHxI9p4Gf3BDkBxLfwv1ZTzvQvOycpYmpbSOsl/ChsST/5JMhAo8J
+	tV7jZPw6dPB1NS0ERA8r1xP6FvxC0NqZbvFZxGuAyar/yoAK//vfwz1DjBB+myOwODjXVP2/JFk5N
+	2sB5qCrtSHdrpU0VC1MC8ilNFJFomczGx6Z/gV1DoSY0rH/DxQZxr4GUbaF0WJdYmm9PxFplliaEY
+	9nhK/JbPV+gza/9FNZhrD9vS4MmgFzeUNEGHbOyALmrui/YC1zx0H/9gsSHVeeU3fUSc2YJtLe9Zx
+	iI/yLEFw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vEHQR-00000003Ke3-1sDF;
+	Thu, 30 Oct 2025 01:26:03 +0000
+Message-ID: <b585fa87-b804-4f7c-844d-86645c61b2ca@infradead.org>
+Date: Wed, 29 Oct 2025 18:26:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Definition: "pressure pad" used here as all touchpads that use physical
-pressure to convert to click without physical hinges. Also called haptic
-touchpads in general parlance, Synaptics calls them ForcePads.
-
-Most (all?) pressure pads are currently advertised as
-INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
-by defining the resolution on ABS_MT_PRESSURE has been in the docs since
-commit 20ccc8dd38a3 ("Documentation: input: define
-ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
-provide this information.
-
-In userspace it's thus impossible to determine whether a device is a
-true pressure pad (pressure equals pressure) or a normal clickpad with
-(pressure equals finger size).
-
-Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
-INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
-have support for userspace-controlled effects. Let's expand that
-definition to include all haptic touchpads (pressure pads) since those
-that do support FF effects can be identified by the presence of the
-FF_HAPTIC bit.
-
-This means:
-- clickpad: INPUT_PROP_BUTTONPAD
-- pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD
-- pressurepad with haptics:
-  INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD + FF_HAPTIC
-
-Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
----
-
-Original patch series: https://lore.kernel.org/linux-input/20251024033045.GA48918@quokka/T/#m20ec992705f449f9d9758e0080622cfae1c90660
-See my comment there: https://lore.kernel.org/linux-input/20251024033045.GA48918@quokka/T/#u
-
-My motivation is that we need something to identify pressurepads that
-do not expose actual haptic feedback configuration. Right now we're
-adding quirks for each device in libinput but that doesn't scale and
-HID defines Usage Page 0x0D Usage 0x55 [1] to tell us whether the form
-factor is a pressurepad, we're just not using it (yet).
-
-I don't think adding a separate INPUT_PROP_PRESSUREPAD is the right
-thing to do - HAPTIC_TOUCHPAD is good enough since presence of the
-FF_HAPTICS bit indicates that it is controllable.
-
-[1] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-windows-precision-touchpad-collection#device-capabilities-feature-report
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] net: Reorganize networking documentation toctree
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>
+References: <20251028113923.41932-2-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251028113923.41932-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
- Documentation/input/event-codes.rst | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git ./Documentation/input/event-codes.rst ../Documentation/input/event-codes.rst
-index 1ead9bb8d9c6..304d11297d3f 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -403,16 +403,25 @@ regular directional axes and accelerometer axes on the same event node.
- INPUT_PROP_HAPTIC_TOUCHPAD
- --------------------------
- 
--The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
--- supports simple haptic auto and manual triggering
-+The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that the device provides
-+simulated haptic feedback (e.g. a vibrator motor situated below the surface)
-+instead of physical haptic feedback (e.g. a hinge). This property is only set
-+if the device:
- - can differentiate between at least 5 fingers
- - uses correct resolution for the X/Y (units and value)
--- reports correct force per touch, and correct units for them (newtons or grams)
- - follows the MT protocol type B
- 
-+If the simulated haptic feedback is controllable by userspace the device must:
-+- support simple haptic auto and manual triggering, and
-+- report correct force per touch, and correct units for them (newtons or grams), and
-+- provide the EV_FF FF_HAPTIC force feedback effect.
-+
- Summing up, such devices follow the MS spec for input devices in
--Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
--and report correct units for the pressure.
-+Win8 and Win8.1, and in addition may support the Simple haptic controller HID
-+table, and report correct units for the pressure.
-+
-+Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
-+does not replace that property.
- 
- Guidelines
- ==========
+On 10/28/25 4:39 AM, Bagas Sanjaya wrote:
+> Current netdev docs has one large, unorganized toctree that makes
+> finding relevant docs harder like a needle in a haystack. Split the
+> toctree into four categories: networking core; protocols; devices; and
+> assorted miscellaneous.
+> 
+> While at it, also sort the toctree entries and reduce toctree depth.
+
+Hm, I was going to ask how they are sorted, but I see that it's by
+file name -- chapter headings aren't sorted. E.g., under Protocols,
+
+
+ARCnet
+AX.25
+Bare UDP Tunnelling Module Documentation
+CAIF
+SocketCAN - Controller Area Network
+The UCAN Protocol
+DCTCP (DataCenter TCP)
+The Linux kernel GTP tunneling module
+Identifier Locator Addressing (ILA)
+IPsec
+IPv6
+
+These are sorted by file name. I'm not complaining, just
+making an observation.
+
+Another observation: I find the heading
+  Softnet Driver Issues
+confusing, since I can't find anything in
+Documentation/networking/ that tells me what Softnet means.
+(and yes, I know, you didn't add this, just moved it)
+
+
+I like the organization. Someone might quibble over a few
+entries and which section heading they should be in, but
+that can be changed any time. (mostly items under
+Miscellaneous; e.g. RDS is a protocol)
+
+
+The size of the new index page is nice (about 3 screens on my
+laptop). But I miss seeing the next level of headings
+(:maxdepth: 2 instead of 1). And I don't see any way to find
+that. It would be nice if I could click on a hamburger menu
+somewhere to see finer detailed TOC/index. Or if the
+sidebar TOC could be expanded by clicking on a heading.
+
+
+And I don't think that the line "Contents:" at the top is doing
+any good.
+
+So I tried this patch with :maxdepth: 2. There is still too much
+TOC info there IMO, so using :maxdepth: 1 is good.
+I just wish there was a way to see individual (page) TOCs on demand.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/networking/index.rst | 241 ++++++++++++++++-------------
+>  1 file changed, 136 insertions(+), 105 deletions(-)
+> 
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index c775cababc8c17..ca86e544c5c8e2 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -5,138 +5,169 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
+
+
 -- 
-2.51.0
-
+~Randy
