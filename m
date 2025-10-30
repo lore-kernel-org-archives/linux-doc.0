@@ -1,66 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5DC337B8F
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 07:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A595B2EDD70
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 07:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761810054; cv=none; b=c11P35wpA7EUrR0aM1E412vP4nqbL/Jb5GjoAiM+cAk7qsZbH+FGZDGVi7YE8W86Kfe43EaFNVN8Q0ol/TAhedjoU5lOThJl3+jVJQHrQHe7LNKrrbo+B3RP5GTg/MgBvtht9ZKMWIbFEB+z/Ebr0Y30M58yFgoXhM6zYyuePdk=
+	t=1761810630; cv=none; b=ul+znV3okr1qDn+FpRu5tVGf5V3ZteqHMFSlyBkCHIKgX1+RA6U/bGiN5db1UukjiHQST4a0Yv7OI67Cyo+xVvJ5XNfgX5cdlRQwhR7CV2XpuRxA5AmDvyv4KlSHFjPqYgIfllAAYGAGskF0ZLZUhHg00moESiIjvjRKpROp5G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761810054; c=relaxed/simple;
-	bh=H1hjxQGjEC5L4T4UtQNNrJaSLGQSRQrdJRzQ9oj29ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sbQlmnSF3Vz9wspTaYeFnteTcY7OEaJL7i1uR6W+UYe4knnrib9kJkwGpDjQAm3ekvP5BUk83kbK2yRPruNpAKF0Y+6i08/IOcpy81EqCaEPa7U0w6uXjx9kNBNSnPetnlBX6qnQWCSD1W04l/UPnO3rGKANDqyL2aEktBDRawQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDQfTdex; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1761810630; c=relaxed/simple;
+	bh=JEl9GC42JmfajoHCarU2JPEtxV/Dvh3GNqFUPBkz8So=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P7hgZmgq1N2e/Rw2iYNj3+pjngQuUXt5JDaFq76eLnTK6R8wVtJgN0wGbLqo9kliQ2JTWtAvBCQbziHgnKRchyb2cUInXGlDXelSy4HkpIQq2iLLDNFr+XkDlYNovPZS/EECjhfPGLfoH/IttwdvELU3Clnh6Mn1ZDbRjS3rnKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8PUAp/7; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDQfTdex"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27d4d6b7ab5so9547535ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 00:40:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8PUAp/7"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a683385ad8so298241b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 00:50:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761810050; x=1762414850; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H1hjxQGjEC5L4T4UtQNNrJaSLGQSRQrdJRzQ9oj29ac=;
-        b=DDQfTdex7r2tKhbvtJhdJQnl1VIYrxggBEO9A31p5H5dDCW8sMEVcFNI6M04Qnt2rj
-         oGYweSn0EC8NNgEP+ip8ZKYbboivkpqdfWWGowk7tqnmGbBUP7zAoJ4jtIQFGEGGjzBU
-         Vupgs3Jtkk1brsvOy6dF1bT1jquMLhUXUInk+LsTZsGouSuEdeYU5uwoD9F7SgCW6Qgx
-         34AZbpZLSkw4+Ya0MS/iAwOfPTnrAETU2mjU+iLb90TkuzPnGk/eMXqycO0JWh/7xzvz
-         4mvVkWw49Dh3r+ETaaLYWbdHVgrwoCAzqg5TV1U++AkLwzTsT5S8zvAkbiITH+gFdJH9
-         Yj/w==
+        d=gmail.com; s=20230601; t=1761810628; x=1762415428; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vdDJYs2ftj9g3gsNmVUwfcn6X4b2n8l3NR5CnT8xsbU=;
+        b=d8PUAp/75/QKRXkvqcwfPDCm23XFiMmFSdAKkxyBcCJ4Ft/nxDzTzn/r5+ChTRoTXZ
+         CgIAfjk2mvYQlI9AD0GO50UDn4Uz4RQz+8d6Rtg/Y5PML8fxlrw2RRj42ZVZYviSFLC7
+         2TEh0w6GY7j7fuUCg247cD9wRmQFLycP2pwIRNP+mfZoApeOWHic09OLzYRZWZ50HVQn
+         cDe0/7YhpPTltn+2TnBtVrJ/kO5EPIFKD1xf8t+hZWwG/lDHJx02QHGOrKqREYrgZ31b
+         kMv2klfC+Za1Pj+TWsZVVt8q+cwjkrDK6zGFNucnfoYyYD+0z7E5lNb5sktlA+2w+Zmt
+         getQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761810050; x=1762414850;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H1hjxQGjEC5L4T4UtQNNrJaSLGQSRQrdJRzQ9oj29ac=;
-        b=Cy81uukBjBfNpv4wRjEk/4b/9FeL3wtfQyS7+hlZl5X0SP1T6ArbClW0LaM8OJF+Ty
-         ai86Ot6lC33SuybGzu30eEUYuz3D3L3rYlkDqwEXMsmEPT1v8rYM4czo5Hqqn+57XHOy
-         ETvAdctzj9VDiKQPJB4ddyBWzTSvJMNh6Njgehst/cUgtgJ33PdRpcn0dLqCIXCjZqk8
-         JKwXKtnJq6hKsjwLsUJi4nU6BTGTq5OhmTKIJUpV6cDLAAf3odk64ubshiiEmLqHaSB3
-         OhgMbQ5wmFAgYtnM9Da/gNc+gjA7rYZC6U/ZdIRogw7wlX++TEQTxkYi71JISgtMthOG
-         +ysg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkhvLEH5pmgataTgOxPgqYBgVycXeEROik/kGttO6UL/8wv+vCByATm4zGqB8cBlDy6bMJrAmI8yY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtT+nznpfyS/QVj/vMEykzFz70QbBRyEoIgR9+Xial2yYTgBoW
-	pMDLPjeP84O0+S79LZcnWZPmUWp48ObtxPHU82ijpUitkOUPkFQZvBXJ
-X-Gm-Gg: ASbGncvjglqdzL5lJx5RRcNrNto4NKywNFFQnObWctaBXGbAnhd6996CWLVX5uU0Yzv
-	ZCdpPxcm4x/myVDCtY6HDyttnzUQZa4YrwA6LstAe/Qay4DYs6yXIRTuAsgn46FbCH81Zq6Ised
-	IlCGbFGvqkIG3bVAEnENgbYAgdSwiUmyYPiSNZcr8j9i7BwalJd6XnGXhebavr1jk98mrbAodTF
-	OqC8eKGq5k2isAGbX8jRLXki3eMZv1Vqmp5X84mE84liyFVn1m/IiEWmW00lojcxjC3jgHqKLrA
-	ZfyYdtsFzEjHcUqLFCbdE1p9AejRncea2cq1z82Y6tepnNgjrMKANiYUoatP2BC2kjdZqS9M7L+
-	f167l9B9um7V/RgRTiTJRy4gbUFbqV2I6wZW672aghu2TbbTv7KCILEHxljBzGrCYTmguuh8YT1
-	eA+IbSny4+WIg=
-X-Google-Smtp-Source: AGHT+IEhJrBVY2OU2QdJTvc4eWg0c6Su8jbKCtvPUTeYudGOdXSEj26zmCHIN6FgAx0W7VrJvvw/gw==
-X-Received: by 2002:a17:902:f601:b0:24c:cb60:f6f0 with SMTP id d9443c01a7336-294ee479ab4mr28678895ad.58.1761810050370;
-        Thu, 30 Oct 2025 00:40:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761810628; x=1762415428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vdDJYs2ftj9g3gsNmVUwfcn6X4b2n8l3NR5CnT8xsbU=;
+        b=Apgifg9/EJcy/dMKeCXXRZ2jxwZpNOdyTXh05PU0Ocunhlxi/zIDeCvQ8ooqHU+Gl/
+         rtLU4uokLSJ65FvyGL41MolI2GCxecLtBb36PABuLueezbaK0sDvdS7LvWWCDP+LNVfU
+         Nkqs1NLEa6EmTUVhDMdMeMr8QmoZzi8r1m9nJS4WbIfYMLrHHjAzxgvUxxNaxXW6LRF1
+         BalJgyPamWiClOWIarfX3C238cUXNoG4lfoKAaTACR6WAMldLyyPkWUoCrJBSnVuOmFS
+         5EJbiLd1vOkl2BqM0zW5fntpcCOnRA/ZTKW/yw0a8DciY3IRIJj87M4B14fCjiYA2E7f
+         sx+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXh9RHhQZ/mSS6jnppW+c8Gx3TZwC9ajcuAGsi0LeCgMTFcz/mx0S+u6o/dDUtGKq7+c58lnOyk14k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyss0g/iZ37ct/rry6mBnksY1hYdaj4clEkenFTov60+Rd6XO8K
+	dV+s86TDQp18uibDZ3v4/6Ue00vpqjBXoSjvsYCi0ws2YkRCllFKVxsw
+X-Gm-Gg: ASbGncuOaUDr8issMsk+UsFz0LGisHeiOba9Z7n1hXFMqGDWvkushSyONmM+ZEyTcjO
+	GEfZfs3Enxt6S0kh/XYCJRNpsMNigU5B3S//ICp3VjauY9zmGpsmUFrUCz+H3jHpeaWaxT647tf
+	kWoKufFo6eJ87G7Mq4aORqkyNgfOkXhFAO7bV+cm1K1B2uBOpEAmegjJ/TmG2lcncunnvu5Hc9y
+	uhXJpER/HLMyYkCaMQ+4Pu3UCgglt6GjjS7WUxn6NeY+CdhDCmQiSrTmDIsbEtZoWV9hDjyv37K
+	2rjdhaKbrmhK1PK4A1lFEyvhK5N3OaiOGpbPJtcwnsBXdgblGUxLCRq3C5o1gtBuEfihhQEy/EK
+	Nm41BH0m8gnIYWWwTxYFja3KXU42UWkx+kTKf1JO9J0OgunbxqvCJrziEZIqq2ykg51xgzlWgE4
+	sU9ZRp2WHawEE=
+X-Google-Smtp-Source: AGHT+IEnOW3OBrwdrAR2/T02/vIwASDH7t9uKYiCN2IyW2jPQ7gCDPSDpZfSRXEfWPjcVg3PiiwQKA==
+X-Received: by 2002:a17:90b:4c09:b0:32d:d408:e86 with SMTP id 98e67ed59e1d1-3404c3ff4b8mr2592187a91.7.1761810627892;
+        Thu, 30 Oct 2025 00:50:27 -0700 (PDT)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d09a33sm174420525ad.32.2025.10.30.00.40.48
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34050bb62casm1554574a91.20.2025.10.30.00.50.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 00:40:49 -0700 (PDT)
+        Thu, 30 Oct 2025 00:50:26 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 130774209E4B; Thu, 30 Oct 2025 14:40:41 +0700 (WIB)
-Date: Thu, 30 Oct 2025 14:40:41 +0700
+	id 7AD704209E4B; Thu, 30 Oct 2025 14:50:17 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -68,51 +66,59 @@ To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 Cc: Breno Leitao <leitao@debian.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next] Documentation: netconsole: Separate literal
- code blocks for full and short netcat command name versions
-Message-ID: <aQMWeZyZoT2vV-Z3@archie.me>
-References: <20251030072945.38686-1-bagasdotme@gmail.com>
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next v2] Documentation: netconsole: Separate literal code blocks for full and short netcat command name versions
+Date: Thu, 30 Oct 2025 14:50:13 +0700
+Message-ID: <20251030075013.40418-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KqaALex6Sku4dIYk"
-Content-Disposition: inline
-In-Reply-To: <20251030072945.38686-1-bagasdotme@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=bagasdotme@gmail.com; h=from:subject; bh=JEl9GC42JmfajoHCarU2JPEtxV/Dvh3GNqFUPBkz8So=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJnMEpucuOR/GChNmvJz0qIJUgtObFj4kHXNrRd7Y3S/7 HO5+iZGv6OUhUGMi0FWTJFlUiJf0+ldRiIX2tc6wsxhZQIZwsDFKQAT2SvAyHB0dYPejlmlOdet 1/wKtCh4v+HUdsMvXz9+4uJlLd/LnnCBkeHxnq3C29++ajx83tl4/4u4vh0aSRHVUcyLbULmMCj t2MoLAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Both full and short (abbreviated) command name versions of netcat
+example are combined in single literal code block due to 'or::'
+paragraph being indented one more space than the preceding paragraph
+(before the short version example).
 
---KqaALex6Sku4dIYk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Unindent it to separate the versions.
 
-On Thu, Oct 30, 2025 at 02:29:44PM +0700, Bagas Sanjaya wrote:
-> Both full and short (abbreviated) command name versions of netcat
-> example are combined in single literal code block due to 'or::'
-> paragraph being indented one more space than the preceding paragraph
-> (before the short version example).
->=20
-> Unindent it to separate the versions.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
 
-Please ignore this patch (missing v2). I'll resend shortly.
+  - Apply proofreading suggestions on patch title and description (Randy)
 
---=20
-pw-bot: changes-requested
+[1]: https://lore.kernel.org/linux-doc/20251029015940.10350-1-bagasdotme@gmail.com/
 
---KqaALex6Sku4dIYk
-Content-Type: application/pgp-signature; name=signature.asc
+ Documentation/networking/netconsole.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+index 59cb9982afe60a..0816ce64dcfd68 100644
+--- a/Documentation/networking/netconsole.rst
++++ b/Documentation/networking/netconsole.rst
+@@ -91,7 +91,7 @@ for example:
+ 
+ 	nc -u -l -p <port>' / 'nc -u -l <port>
+ 
+-    or::
++   or::
+ 
+ 	netcat -u -l -p <port>' / 'netcat -u -l <port>
+ 
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQMWeQAKCRD2uYlJVVFO
-o7SuAQC6Oq6KaPgD/blKnKE2tBWgL49wdzToS+7PXDDYHKZU1gD8DYRUeyiRXmJT
-h5Qq9SRDuqwPzWA50zNlXOYlpQH/dg0=
-=8ULH
------END PGP SIGNATURE-----
+base-commit: 1bae0fd90077875b6c9c853245189032cbf019f7
+-- 
+An old man doll... just what I always wanted! - Clara
 
---KqaALex6Sku4dIYk--
