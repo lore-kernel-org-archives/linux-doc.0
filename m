@@ -1,297 +1,87 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E592FBDF3
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 04:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30131E766E;
+	Thu, 30 Oct 2025 05:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761799234; cv=none; b=bGmbc5Nm+WWbqFUlGJESxQ4cOc01eVRU3WUXI2cV7sSSiMdWRj6bBMfk4BPUolt8+EvK9WOwnApvNinuX7bae6OZ4VFzy+AXnIRNWkCpUCGaWzYcrGgVAhubAy3P9WfzcvqdxOOMe90B9VzGlz3jS1NRNY/2TrUWVNa/jhixxww=
+	t=1761802296; cv=none; b=dMx8xtrezXJMV76/xV8XQfI869vOPl3ZZ7jQjJJRHblSETxh8OPkBp4fFszB6mKFyfUFrCWVQ/lkv4URm0sBiscLjRx/oAYpoe4WOkBHGOWN0dwW1B8oXmxkLIExfCZLgil5/4ax08xXA2WQYPFM2krk7MhShQwPNZNQeDDtesI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761799234; c=relaxed/simple;
-	bh=y/Np7fA5qgpmYmsQXNaY/VIJLvPs0XEv4eWAJTcrQ+4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eApQcOdwyc376Lrru5c6Gefio0XWp0L3fDOzKf8TxUZCLT/TRIDVdlX+TE1NxycTYeZnZH+NlTg1wvoece/e7MeViKYm2Zu3PFPRpo5HzmfiGDH6pj5GkUNkA61wp2B7EKjkfmEmOa42yIzgbZMoAwparXcCNDX+PzxoNnjvRbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bikLm5pD; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761802296; c=relaxed/simple;
+	bh=KYqFCycNKEk2Oa2mCaZ1+xdf5d/aCrQV5Ee68Oi/m8c=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gtu2jEi/HvEdC628Cc1tCgiRvzwYu+QMuwju0Nj0q43m4ug1ofrGG6pn/95j5F6QyASQbk5dMXKmhS6ge4ui+B9P9J9l9OvEclrtgKDtPMopIySyrNZ7rTFWPf6PsxW+ONVthrBuxIc3JL8+y7fyehkb2Levb7tSi4mk1yC2vbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Dmkbwjuj; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bikLm5pD"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ea12242d2eso133951cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Oct 2025 21:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761799231; x=1762404031; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XQ/blAUtd3RJvFkaQNVmmQwc7XQHf3yHIB6Jvobdagw=;
-        b=bikLm5pDK2Ro1WCJJRxxCd5s61D6L7+z0m8SzBwEntjMuDjjaOCL0vI4ljLlAxU5O2
-         drpmE78HNpCYMi1J5cSgwaR2c6xLZNsT1wDr4NOnfEHq2ABnhNjESSwsIZbBXeuNBQy1
-         NU41iO5JPD/mE1+bT3cZcCaiMuKNu86ywyDix6fAESEhODq142jRas4POI86D2qdOR/J
-         q49on8Hugrkfpy98vDZbQVeMbKnioo7jtkYmL4kknsHLH/JLne7vJMSdE4lohSZtJWm4
-         Ai7el0c2qIyJc/RgMMweJSYNItjqDtCZik51J1RqX1QkHw78NW6Y9j4/QCR7G2j9lwlf
-         0nFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761799231; x=1762404031;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XQ/blAUtd3RJvFkaQNVmmQwc7XQHf3yHIB6Jvobdagw=;
-        b=bWPcZ0f+UV7sNU0lOKWjqqP6ZLQKD0TbpPTjawCxIpIyHBwDXBkCjvMg4l4QRsYWFx
-         o7RlqWp/YLhDfrDe7YZbEXg00IwIPpwQoX2KP6cABGV4y5k61IaSxI+nsJKNsFNK+rrf
-         uK38x5niB8kOOw/DPbJUgjoM0m3PwjGaJ2H+u5qn4XP3OE0t5MkxvhXuG4of2KlIlCj4
-         7FPyTnDTi0DsTGUFKEF17QfjjUc+0Kp0oQbgQ4Zjf3BiTWKB2uF3mSBtRJjmLUXdMIge
-         HxtaxCXyTvf+yD3Zay5lB58M2h7jzcxa6UqyzE8oUxNwa5z+63UbByHAiWlJVrArJMZm
-         dbfg==
-X-Forwarded-Encrypted: i=1; AJvYcCV39yO01wk694KDDbipeg1EtF6qlBVn0RrZxeP4n4MXI92oL7FBMPE4W76J84XmhGEm2zeitaYUMQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6aHrcKtcmu7RDqqqxv651qsnG6hEdeucN9bUlunxT2Jt2V+8z
-	nt9QgNh8GzKP54mg3sIxLlfl5N36b4S8zu5LvqM8CASKMkn3F2p07qh2ssNBAuITXwVmuNc1cz8
-	zr61j3ShAAXuO9d/nRtbiM4ZcuYXzw5++ZZh6O8eI
-X-Gm-Gg: ASbGnctthiJ65k6IRPCa7/hwTHO9lhJWu4xtYzb9NxTE/kFjmRCt6bbcu88JaqpadPP
-	h1keSUUB0d0Ww/U791m1Tv3ZFUx9AX/+WDnKHNckz11Ag8iVnPa6C7jF+vgbRihYm5FGGaYAGzk
-	n367icD6vZLIr/gWa5Gfw/9phy906YADnPLgQcLzpZRHzJiEy0J4GxcUe4EfIm5uPtGrUPt8Xez
-	ksZxicDjlSd1BHuFHzQ+pJ3VQpYV/h7QZw6E89bFhPbIrgwZJeg6FTVfESAswNeO9uVYg==
-X-Google-Smtp-Source: AGHT+IHUTVIoMGgym7Rl26g/BilUAT4CgTBJK8bytma8Yytb4fFlVaJbZIP7eL03YRO77BOZ2/iZU2Eddn/9UG3dHtw=
-X-Received: by 2002:a05:622a:1790:b0:4b7:9a9e:833f with SMTP id
- d75a77b69052e-4ed240d674amr2436531cf.7.1761799230462; Wed, 29 Oct 2025
- 21:40:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Dmkbwjuj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1761802290; x=1762061490;
+	bh=SqB029SpVmJqfLswaEolkge/L1HE0Gdq54LxorgJlpY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=DmkbwjujvK+EMhhVlhE633gtvTYp7stPsK2BPbKyUdMoaxnIplgzHAexjILc1xVuH
+	 gLXrpW1HyJwWmsjmp/lmf4wpRSDyWnYtEMKML6wW8rgghV+GnHSCpMrfmQbgODjtub
+	 tGyuGNNdhb/LVgZmJXqsvlvCEbLjmO+I8ggYJKeqgf3/xZCnBJg2qmYKYktt/n3rp4
+	 fpr+OFnZKCJlPrSvs9lPwCnKwXx5Pf/+vCoIGRyfV6DxVWk6i5QRjssG2k73Nt40UY
+	 eOQ6qpOuIco0pPKWj+Ilc/4BN3PBQx8nKwI+YZfggQVUW38eqxOLLul3nZsVeP7f6K
+	 Q7ALpWrEdqhMA==
+Date: Thu, 30 Oct 2025 05:31:22 +0000
+To: Andrew Morton <akpm@linux-foundation.org>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com,
+	nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <ngwfbor66uhrgfe2g4nvziwqp3gtsbndlpnhnov7ew7535dysv@ieypsfjfmnlo>
+In-Reply-To: <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 22e7e1e747884a326f20da03a155c805b55537aa
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761756437.git.lorenzo.stoakes@oracle.com> <9e5ef2bedbff6498d7e5122421f0ea5ff02236b7.1761756437.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <9e5ef2bedbff6498d7e5122421f0ea5ff02236b7.1761756437.git.lorenzo.stoakes@oracle.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 29 Oct 2025 21:40:19 -0700
-X-Gm-Features: AWmQ_bk_ynX9lneWpHBfJJexvgQjPhSl6AaFwMQbkIx85JwpdO8ydosQokMaIkg
-Message-ID: <CAJuCfpGFAv9DizXOzCn1Qi5=NDyHh6XyxpmsQr0K45LS6x4igg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] selftests/mm/guard-regions: add smaps visibility test
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Hildenbrand <david@redhat.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Andrei Vagin <avagin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 9:51=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> Assert that we observe guard regions appearing in /proc/$pid/smaps as
-> expected, and when split/merge is performed too (with expected sticky
-> behaviour).
->
-> Also add handling for file systems which don't sanely handle mmap() VMA
-> merging so we don't incorrectly encounter a test failure in this situatio=
-n.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Thanks for taking a look at the series!
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+On 2025-10-29 at 15:08:06 -0700, Andrew Morton wrote:
+>On Wed, 29 Oct 2025 19:05:27 +0000 Maciej Wieczor-Retman <m.wieczorretman@=
+pm.me> wrote:
+>
+>> The patchset aims to add a KASAN tag-based mode for the x86 architecture
+>> with the help of the new CPU feature called Linear Address Masking
+>> (LAM). Main improvement introduced by the series is 2x lower memory
+>> usage compared to KASAN's generic mode, the only currently available
+>> mode on x86. The tag based mode may also find errors that the generic
+>> mode couldn't because of differences in how these modes operate.
+>
+>Thanks.  Quite a lot of these patches aren't showing signs of review at
+>this time, so I'll skip v6 for now.
+>
+>However patches 1&2 are fixes that have cc:stable.  It's best to
+>separate these out from the overall add-a-feature series please - their
+>path-to-mainline will be quite different.
 
-> ---
->  tools/testing/selftests/mm/guard-regions.c | 120 +++++++++++++++++++++
->  tools/testing/selftests/mm/vm_util.c       |   5 +
->  tools/testing/selftests/mm/vm_util.h       |   1 +
->  3 files changed, 126 insertions(+)
+Okay, I'll send them separately
+
+>I grabbed just those two patches for some testing, however their
+>changelogging isn't fully appropriate.  Can I ask that you resend these
+>as a two-patch series after updating the changelogs to clearly describe
+>the userspace-visible effects of the flaws which the patches fix?
 >
-> diff --git a/tools/testing/selftests/mm/guard-regions.c b/tools/testing/s=
-elftests/mm/guard-regions.c
-> index 8dd81c0a4a5a..a9be11e03a6a 100644
-> --- a/tools/testing/selftests/mm/guard-regions.c
-> +++ b/tools/testing/selftests/mm/guard-regions.c
-> @@ -94,6 +94,7 @@ static void *mmap_(FIXTURE_DATA(guard_regions) * self,
->         case ANON_BACKED:
->                 flags |=3D MAP_PRIVATE | MAP_ANON;
->                 fd =3D -1;
-> +               offset =3D 0;
->                 break;
->         case SHMEM_BACKED:
->         case LOCAL_FILE_BACKED:
-> @@ -260,6 +261,54 @@ static bool is_buf_eq(char *buf, size_t size, char c=
-hr)
->         return true;
->  }
->
-> +/*
-> + * Some file systems have issues with merging due to changing merge-sens=
-itive
-> + * parameters in the .mmap callback, and prior to .mmap_prepare being
-> + * implemented everywhere this will now result in an unexpected failure =
-to
-> + * merge (e.g. - overlayfs).
-> + *
-> + * Perform a simple test to see if the local file system suffers from th=
-is, if
-> + * it does then we can skip test logic that assumes local file system me=
-rging is
-> + * sane.
-> + */
-> +static bool local_fs_has_sane_mmap(FIXTURE_DATA(guard_regions) * self,
-> +                                  const FIXTURE_VARIANT(guard_regions) *=
- variant)
-> +{
-> +       const unsigned long page_size =3D self->page_size;
-> +       char *ptr, *ptr2;
-> +       struct procmap_fd procmap;
-> +
-> +       if (variant->backing !=3D LOCAL_FILE_BACKED)
-> +               return true;
-> +
-> +       /* Map 10 pages. */
-> +       ptr =3D mmap_(self, variant, NULL, 10 * page_size, PROT_READ | PR=
-OT_WRITE, 0, 0);
-> +       if (ptr =3D=3D MAP_FAILED)
-> +               return false;
-> +       /* Unmap the middle. */
-> +       munmap(&ptr[5 * page_size], page_size);
-> +
-> +       /* Map again. */
-> +       ptr2 =3D mmap_(self, variant, &ptr[5 * page_size], page_size, PRO=
-T_READ | PROT_WRITE,
-> +                    MAP_FIXED, 5 * page_size);
-> +
-> +       if (ptr2 =3D=3D MAP_FAILED)
-> +               return false;
-> +
-> +       /* Now make sure they all merged. */
-> +       if (open_self_procmap(&procmap) !=3D 0)
-> +               return false;
-> +       if (!find_vma_procmap(&procmap, ptr))
-> +               return false;
-> +       if (procmap.query.vma_start !=3D (unsigned long)ptr)
-> +               return false;
-> +       if (procmap.query.vma_end !=3D (unsigned long)ptr + 10 * page_siz=
-e)
-> +               return false;
-> +       close_procmap(&procmap);
-> +
-> +       return true;
-> +}
-> +
->  FIXTURE_SETUP(guard_regions)
->  {
->         self->page_size =3D (unsigned long)sysconf(_SC_PAGESIZE);
-> @@ -2138,4 +2187,75 @@ TEST_F(guard_regions, pagemap_scan)
->         ASSERT_EQ(munmap(ptr, 10 * page_size), 0);
->  }
->
-> +TEST_F(guard_regions, smaps)
-> +{
-> +       const unsigned long page_size =3D self->page_size;
-> +       struct procmap_fd procmap;
-> +       char *ptr, *ptr2;
-> +       int i;
-> +
-> +       /* Map a region. */
-> +       ptr =3D mmap_(self, variant, NULL, 10 * page_size, PROT_READ | PR=
-OT_WRITE, 0, 0);
-> +       ASSERT_NE(ptr, MAP_FAILED);
-> +
-> +       /* We shouldn't yet see a guard flag. */
-> +       ASSERT_FALSE(check_vmflag_guard(ptr));
-> +
-> +       /* Install a single guard region. */
-> +       ASSERT_EQ(madvise(ptr, page_size, MADV_GUARD_INSTALL), 0);
-> +
-> +       /* Now we should see a guard flag. */
-> +       ASSERT_TRUE(check_vmflag_guard(ptr));
-> +
-> +       /*
-> +        * Removing the guard region should not change things because we =
-simply
-> +        * cannot accurately track whether a given VMA has had all of its=
- guard
-> +        * regions removed.
-> +        */
-> +       ASSERT_EQ(madvise(ptr, page_size, MADV_GUARD_REMOVE), 0);
-> +       ASSERT_TRUE(check_vmflag_guard(ptr));
-> +
-> +       /* Install guard regions throughout. */
-> +       for (i =3D 0; i < 10; i++) {
-> +               ASSERT_EQ(madvise(&ptr[i * page_size], page_size, MADV_GU=
-ARD_INSTALL), 0);
-> +               /* We should always see the guard region flag. */
-> +               ASSERT_TRUE(check_vmflag_guard(ptr));
-> +       }
-> +
-> +       /* Split into two VMAs. */
-> +       ASSERT_EQ(munmap(&ptr[4 * page_size], page_size), 0);
-> +
-> +       /* Both VMAs should have the guard flag set. */
-> +       ASSERT_TRUE(check_vmflag_guard(ptr));
-> +       ASSERT_TRUE(check_vmflag_guard(&ptr[5 * page_size]));
-> +
-> +       /*
-> +        * If the local file system is unable to merge VMAs due to having
-> +        * unusual characteristics, there is no point in asserting merge
-> +        * behaviour.
-> +        */
-> +       if (!local_fs_has_sane_mmap(self, variant)) {
-> +               TH_LOG("local filesystem does not support sane merging sk=
-ipping merge test");
-> +               return;
-> +       }
-> +
-> +       /* Map a fresh VMA between the two split VMAs. */
-> +       ptr2 =3D mmap_(self, variant, &ptr[4 * page_size], page_size,
-> +                    PROT_READ | PROT_WRITE, MAP_FIXED, 4 * page_size);
-> +       ASSERT_NE(ptr2, MAP_FAILED);
-> +
-> +       /*
-> +        * Check the procmap to ensure that this VMA merged with the adja=
-cent
-> +        * two. The guard region flag is 'sticky' so should not preclude
-> +        * merging.
-> +        */
-> +       ASSERT_EQ(open_self_procmap(&procmap), 0);
-> +       ASSERT_TRUE(find_vma_procmap(&procmap, ptr));
-> +       ASSERT_EQ(procmap.query.vma_start, (unsigned long)ptr);
-> +       ASSERT_EQ(procmap.query.vma_end, (unsigned long)ptr + 10 * page_s=
-ize);
-> +       ASSERT_EQ(close_procmap(&procmap), 0);
-> +       /* And, of course, this VMA should have the guard flag set. */
-> +       ASSERT_TRUE(check_vmflag_guard(ptr));
-> +}
-> +
->  TEST_HARNESS_MAIN
-> diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftes=
-ts/mm/vm_util.c
-> index e33cda301dad..605cb58ea5c3 100644
-> --- a/tools/testing/selftests/mm/vm_util.c
-> +++ b/tools/testing/selftests/mm/vm_util.c
-> @@ -449,6 +449,11 @@ bool check_vmflag_pfnmap(void *addr)
->         return check_vmflag(addr, "pf");
->  }
->
-> +bool check_vmflag_guard(void *addr)
-> +{
-> +       return check_vmflag(addr, "gu");
-> +}
-> +
->  bool softdirty_supported(void)
->  {
->         char *addr;
-> diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftes=
-ts/mm/vm_util.h
-> index 26c30fdc0241..a8abdf414d46 100644
-> --- a/tools/testing/selftests/mm/vm_util.h
-> +++ b/tools/testing/selftests/mm/vm_util.h
-> @@ -98,6 +98,7 @@ int uffd_register_with_ioctls(int uffd, void *addr, uin=
-t64_t len,
->  unsigned long get_free_hugepages(void);
->  bool check_vmflag_io(void *addr);
->  bool check_vmflag_pfnmap(void *addr);
-> +bool check_vmflag_guard(void *addr);
->  int open_procmap(pid_t pid, struct procmap_fd *procmap_out);
->  int query_procmap(struct procmap_fd *procmap);
->  bool find_vma_procmap(struct procmap_fd *procmap, void *address);
-> --
-> 2.51.0
->
+>This is to help -stable maintainers understand why we're proposing the
+>backports and it is to help people to predict whether these fixes might
+>address an issue which they or their customers are experiencing.
+
+Sure, I'll also fixup that undefined symbol error that you mentioned in
+the second email.
+
+kind regards
+Maciej Wiecz=C3=B3r-Retman
+
