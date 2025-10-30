@@ -1,86 +1,147 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0143678A4
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 15:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F4DB640
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 16:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761839384; cv=none; b=pJE7JsOJoy1OfQdVA7BCUnpsZwg7bSTbxlMX/TUoARI9cKsMUGOWrRi7GfIXsQLbsZTRyo1AyZOFW8rEGQlbm6hJlbsuUr+zobI6FmQBGy8+SBtioNjQ9sw5SG2zG2k67Y5R61HsH4Ae6TxgZ4aIvhgYMkFGXqWR5GsfcYw7AZ4=
+	t=1761840310; cv=none; b=oKQeKZM49XGsghDEB14fmAEwOfisMoyBbcRsTH27faGdYg9ig0WHbmntzVk48Bc5lJq8iajFY9hvjkni7BCjuRqjLuGnMdJe9WlBSVoCNZJUhlXBFPUPeGZ9P27SsiKX8wenaHDZTL/SI1rzO9A4j8vskLznY0wPlLK/vRaxNhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761839384; c=relaxed/simple;
-	bh=qGJQXIzENVKhzZXFqgus/jpi9cePk9wkQ5UhmV1zcwI=;
+	s=arc-20240116; t=1761840310; c=relaxed/simple;
+	bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Content-Type; b=oi2n+RHt5e/aGoyidBJu4vsqWvJXDaGRVuuX6x7swBtQYbSxetDiJtW4Y/vWQsJqvgQgOv/i2wI5xjyGUcdRWyeuJKEpuGWF3eUUL+OCo62ryKfOLcJVZnCcIsf3piTT96nuBDkbBPdFIPPVE97k40F5NzeuVuHXPZ2jAuBNG2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h8GiGi7a; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=uxMbpZZaaqA1thAVxH2D2CSYq8xw/QOcZWn951gr318A6lmpJHhVHcw5v7WbdojSXo5UpenSvtxcYkxJBHjtSQNtWqtbGXDwe6ZzdrWgrstEL5A8VQzOBTGUtdqzAWgi0GaGYuSL/sMTHrqyvlhLdWXN4AqD9NMbL5Euiiu3xoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CDvt75El; arc=none smtp.client-ip=209.85.221.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h8GiGi7a"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47113dfdd20so4447145e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 08:49:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CDvt75El"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-426d4f59cbcso1356311f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 09:05:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761839381; x=1762444181; darn=vger.kernel.org;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xZFzmAs0SnwZHTyxiCQhAISrQWOnEHGBMPb9o7XdacY=;
-        b=h8GiGi7ayUhzt7wVgE/LBAp8dylPUZCZaWNGMBNIdHmCnJr6FHh3AAMs8z+ULMqWxT
-         eHlfz0jhKE0wybUi3ghRRaIuD/actUDHfjcEKELJEMw9XzvfUvpRV+KzQvBSvqFN8qML
-         X0cPuZw4v65Yz3CDNhFVS4+glMEcWG3x435SzuCht9vkaeUZF0iVeiiLP3tAmVWMhRWZ
-         jh4bHRZFu8mPdb6Dsfz2/XNzwZW4WNn6zrMb/nUQ+m9Sextay517Z4wOxdiMoYw/ysdA
-         IwrozR0iLeEbqXksF4JLo2CqPBqrcTJDnJiz38YkEjnGrXwpMoV6q8ZyhsTtlSDEl3zf
-         SczA==
+        d=google.com; s=20230601; t=1761840306; x=1762445106; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
+        b=CDvt75ElY3hdyLEZnu5e1h6J5sMfYbfZLViMq0FtvdBo6f3AztmUt90lVbhofK72EK
+         b745wROqFofANCzBlhNHxm2KN+pTzU7kvyPTuPbvqLi1LG6nKhZqILpjkBgZPRq3kQuZ
+         eyaOBe6qbuD9b0wvX7pcUmBDcYD2CI22Sy3ewlxtzOTvkRQlq2xVjXPpNff1VPHu7hCt
+         ohJUvsZxnM6hRmARijIiA/iL77tvS5Cr/S5iPd0vUw9HVrbfAcdYfOiY0/wb2ZB398fe
+         i0MBwZqx3tS3Cn0LlwnHMPfjgclAImjU3fkpRYKslFfi8jX2Sc0EZmrHnTIGFrth8N0S
+         fUZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761839381; x=1762444181;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xZFzmAs0SnwZHTyxiCQhAISrQWOnEHGBMPb9o7XdacY=;
-        b=uQkumUKH3xQs1F7HmhpO/CEKf6l+XZ8GUnKDL0QB/8J9JgPt4GnfJqLjPnFH8mnG1O
-         GLd9KNHTMy4ZvUe/hF+Y7g3JvjZnZHlZHSUAiwhYXXWlxGGBxm97qjQN2S4BsWucYxSS
-         IgHM0qTllMMJI8MoRFCJCpeRldYDPZ/J3JcyIAsEfWEFgtQWiSElP6XI0coy3x+qh6c8
-         S7VBHB5NoyYY4j5PGEt2T1RnYnYOadP+svmvPFHHmJIROqQoZu3anno+Ya9uAP6Rs3EX
-         hb3Ti3nsdOOiy4iDVA7+34WdyJuiuy0keMoqgiAclYcJOWpy9jZqlaPG78UzgAU2DEQr
-         m0hA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcdemwLXjZmVItwYpD1zf+ub+JSTHZWQRdVuS7eT7I/wmxOwJBbRFI/5j+s2n5ctsQnBDDL8IxXOI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMUrlK94+k4X0MNW+EXgoTWRFmsGIWa2mFM+QHFlhdggnhZHcm
-	sdjblFw7nxEFVlwxgzD9Ekh9gAD+6bl82bQNf4F7UeKKZ/9MeGun60G0gj/m7U1X7K/4mlSfSVG
-	Zon+E0B5WAWTeEA==
-X-Google-Smtp-Source: AGHT+IGBA2lpZUSLCjfeKNqH37XEkgRmaFO7ZPXyGAUePy8kb9MXP5eNENudc2tbx+F3YPjQ8UIPJq3fcamnSg==
-X-Received: from wmbgx15.prod.google.com ([2002:a05:600c:858f:b0:477:e0a:f99e])
+        d=1e100.net; s=20230601; t=1761840306; x=1762445106;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c9b8XC/fH65U9UHUGq3SmXgvpJYhZ/Lo5B2qlcSERQ0=;
+        b=LwZfis8zLODRjH4uaHAa8bSwEInl7nsrKjBG02Q2W3mPzIwJldyO1IejfMBj1cQMHr
+         IV0n8SjfGchYLGMn6PrKunPoTNnKYNl37g/m/gY+xZLr0jN9Qz2Z4320W42yny2rIR1u
+         I66WJp5RJiCpSCKFFIF3hmMl7iob0VF3FLybXca66v+FnZRfW0Gfez06rTo7fS7Y+6cu
+         ODic2A3K0qcVn7eFrySBeEUsZg0FFKzKiY9SStRU+Tgs8nzZ+VIk07wpvHLhjoIInB8/
+         CNCGZt7Sr8HGiaWtYM1VyrjW6IH+K+/CGMLTnwRWF03eCxUxyJtGdE2lqy7UtKVmOK79
+         uFwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoYqnZgWNPqH118jcm8P300JIh8n8M3Pv+O6IHyHo6Fdgz10XtA2NTXj2FLbwbjrce6BXLcyrTL1Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhtAJxI9SCoXqsNCwUVMg84EqoINaNitx4M8X3xIxSvSD+ze3E
+	Lw1fNSmLlXAuAy1h12eXUhdoyLTbLpfFhErs/5z3MmaCidSV3B/8u0gnx89QY8qJit8N4XY39Yf
+	JJHSl2M7QO4bwYw==
+X-Google-Smtp-Source: AGHT+IHjMaURNuY5ADspjcwjcl/WRoZFYO9bioemMflpQGaxNDVvaG4JDdR/nXAPdbz/Yfz+Utvfc7Y4KaunSA==
+X-Received: from wmbz6.prod.google.com ([2002:a05:600c:c086:b0:471:6089:1622])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3e06:b0:475:dc58:39e5 with SMTP id 5b1f17b1804b1-4773089b541mr1846735e9.27.1761839381266;
- Thu, 30 Oct 2025 08:49:41 -0700 (PDT)
-Date: Thu, 30 Oct 2025 15:49:40 +0000
-In-Reply-To: <20251030-b4-prctl-docs-2-v1-1-396645cb8d61@google.com>
+ 2002:a05:6000:2408:b0:429:8b8a:c32b with SMTP id ffacd0b85a97d-429b4c83176mr3266075f8f.22.1761840306279;
+ Thu, 30 Oct 2025 09:05:06 -0700 (PDT)
+Date: Thu, 30 Oct 2025 16:05:05 +0000
+In-Reply-To: <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20251030-b4-prctl-docs-2-v1-1-396645cb8d61@google.com>
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-3-roypat@amazon.co.uk>
+ <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
 X-Mailer: aerc 0.21.0
-Message-ID: <DDVRXPUAWTK6.2658AGIB03073@google.com>
-Subject: Re: [PATCH] Documentation/x86: Fix PR_SET_SPECULATION_CTRL error codes
+Message-ID: <DDVS9ITBCE2Z.RSTLCU79EX8G@google.com>
+Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
+ TLB flushing
 From: Brendan Jackman <jackmanb@google.com>
-To: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Balbir Singh <sblbir@amazon.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<aesa@google.com>
+To: Dave Hansen <dave.hansen@intel.com>, "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu Oct 30, 2025 at 1:59 PM UTC, Brendan Jackman wrote:
-> -ENXIO   Control of the selected speculation misfeature is not possible.
-> -        See PR_GET_SPECULATION_CTRL.
-> +ENXIO   For PR_SPEC_STORE_BYPASS: control of the selected speculation misfeature
-> +        is not possible via prctl, because of the system's boot configuration.
-> +
-> +EPERM   Speculation was disabled with PR_SPEC_FORCE_DISABLE and caller tried to
-> +        enable it again.
-> +
-> +EPERM   For PR_SPEC_STORE_BYPASS and PR_SPEC_INDIRECT_BRANCH: control of the
-Ugh,           ^^^^^^^^^^^^^^^^^^^^ that should be PR_SPEC_L1D_FLUSH
+On Thu Sep 25, 2025 at 6:27 PM UTC, Dave Hansen wrote:
+> On 9/24/25 08:22, Roy, Patrick wrote:
+>> Add an option to not perform TLB flushes after direct map manipulations.
+>
+> I'd really prefer this be left out for now. It's a massive can of worms.
+> Let's agree on something that works and has well-defined behavior before
+> we go breaking it on purpose.
 
-I will wait a day or two before v2 in case anyone else spots other
-mistakes or has other comments.
+As David pointed out in the MM Alignment Session yesterday, I might be
+able to help here. In [0] I've proposed a way to break up the direct map
+by ASI's "sensitivity" concept, which is weaker than the "totally absent
+from the direct map" being proposed here, but it has kinda similar
+implementation challenges.
+
+Basically it introduces a thing called a "freetype" that extends the
+idea of migratetype. Like the existing idea of migratetype, it's used to
+physically group pages when allocating, and you can index free pages by
+it, i.e. each freetype gets its own freelist. But it can also encode
+other information than mobility (and the other stuff that's encoded in
+migratetype...).
+
+Could it make sense to use that logic to just have entire pageblocks
+that are absent from the direct map? Then when allocating memory for the
+guest_memfd we get it from one of those pageblocks. Then we only have to
+flush the TLB if there's no memory left in pageblocks of this freetype
+(so the allocator has to flip another pageblock over to the "no direct
+map" freetype, after removing it from the direct map).
+
+I haven't yet investigated this properly, I'll start doing that now.
+But I thought I'd immediately drop this note in case anyone can
+immediately see a reason why this doesn't work.
+
+[0] https://lore.kernel.org/all/20250924-b4-asi-page-alloc-v1-0-2d861768041f@google.com/T/#t
+
+BTW, I think if the skip-flush flag is the only thing blocking this
+patchset, it would be great to merge it without it. Even if that means
+it's no use for Firecracker usecases that doesn't mean the underlying
+feature isn't valuable for _someone_. Then we can figure out how to make
+it work for Firecracker afterwards, one way or another.
+
+(Just to be transparent: my nefarious ulterior motive is that it would
+give me an angle to start merging code that will eventually support ASI.
+But, I'm serious that there are probably users who would like this
+feature even if it's slow!)
