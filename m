@@ -1,204 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BE0273F9;
-	Thu, 30 Oct 2025 15:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0143678A4
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 15:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761839160; cv=none; b=oSP0AeUwXdLQSYYS8Oh9o0u9W5+fCaBivd3OJEBsjUQqCSJ6D4RpNc4R/s6jCJL7i+vHEQhkS9fGa7JX6UW/rXFgGGKcpdP/yRB+QO/RCHOvv449cEx8C2IB0febqJk/yl6cj4VosJbbwHEQAfW+OjtQzdBAuj+GWxxNL9zeUW0=
+	t=1761839384; cv=none; b=pJE7JsOJoy1OfQdVA7BCUnpsZwg7bSTbxlMX/TUoARI9cKsMUGOWrRi7GfIXsQLbsZTRyo1AyZOFW8rEGQlbm6hJlbsuUr+zobI6FmQBGy8+SBtioNjQ9sw5SG2zG2k67Y5R61HsH4Ae6TxgZ4aIvhgYMkFGXqWR5GsfcYw7AZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761839160; c=relaxed/simple;
-	bh=X9A9UOq2+Mjl0OTqSj4t+zupFy+/0ENRDEvOvmYBfa8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=CXwufirOlTbLh5Ik/WS98r0zP6C/rXqx2PKIQ5pWrH6Hy7OanaYrowoEyWFbweNpaL6by+J7OMyfv5diRuhXaNE9c25YmMJ/G0uHeHjiunYZPTf3/dX/kbuZ3iIFskObfEPYei998N2lTYN7sP+TLSWb+Powp5RD/3i5EVzhjcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ietJRIs4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761839384; c=relaxed/simple;
+	bh=qGJQXIzENVKhzZXFqgus/jpi9cePk9wkQ5UhmV1zcwI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Content-Type; b=oi2n+RHt5e/aGoyidBJu4vsqWvJXDaGRVuuX6x7swBtQYbSxetDiJtW4Y/vWQsJqvgQgOv/i2wI5xjyGUcdRWyeuJKEpuGWF3eUUL+OCo62ryKfOLcJVZnCcIsf3piTT96nuBDkbBPdFIPPVE97k40F5NzeuVuHXPZ2jAuBNG2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h8GiGi7a; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ietJRIs4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7B1AC4CEF1;
-	Thu, 30 Oct 2025 15:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761839159;
-	bh=X9A9UOq2+Mjl0OTqSj4t+zupFy+/0ENRDEvOvmYBfa8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=ietJRIs4/9M/dBdm553Q2EdRXkUeOxjon3bD3uoGV1h+lDzJ/Eew400t7bPy/VEKM
-	 XkDy1OcUzcChm1wOIrhzkSQOmX+54VZpcabGp9jLgO4chRiSeJYM0YkU7wWChmGKDM
-	 5So6r2y4Hz8LgXnECiKjS6bZ0peOSlm13VD5Clrs7BA5TeyHmQQ3K89B1Y+450BOQB
-	 SiEHSTgmCJAH+XxF5WptVANMnd+mhEiFd3lu8P/ZkX1AnJ1uEu4lWP+dJwY27I88ej
-	 P1h2D5hOXpvPsLRlefkni7aEK8sHGG7tBAGYDGKPMi6ehsUTi1h5NUI1tA+FiJ4mpP
-	 gxk8r+kWV1Cmw==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BC017F40069;
-	Thu, 30 Oct 2025 11:45:57 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Thu, 30 Oct 2025 11:45:57 -0400
-X-ME-Sender: <xms:NYgDaVbGnPYFDw5WmrZzXcw2pU8_NlU4iRX-cIhiZLlOidiMxuk8Hw>
-    <xme:NYgDaXOKyCF9OWG91q8pYOUR4tzMEccuXg42AQUMyPRMZ_5-5m0TZgHvm32NiZ6-a
-    JCba3gCAJrj6oLyOxasNGCbu2-gsmSRiXEnDfrTEUb9MgUWRCeCItSR>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieejtdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehnugih
-    ucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhepjeejvddvtdehffdtgfejjeefgefgjeeggfeuteeiuedvtefgfffhvdej
-    iefguedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudekheei
-    fedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrd
-    hluhhtohdruhhspdhnsggprhgtphhtthhopedviedpmhhouggvpehsmhhtphhouhhtpdhr
-    tghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepugifmhifsegrmhgrii
-    honhdrtghordhukhdprhgtphhtthhopegrnhgurhgvfidrtghoohhpvghrfeestghithhr
-    ihigrdgtohhmpdhrtghpthhtohepshgvrghnjhgtsehgohhoghhlvgdrtghomhdprhgtph
-    htthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehrughu
-    nhhlrghpsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprhhitghkrdhprdgvug
-    hgvggtohhmsggvsehinhhtvghlrdgtohhmpdhrtghpthhtohepshhohhhilhdrmhgvhhht
-    rgesihhnthgvlhdrtghomhdprhgtphhtthhopehtohhnhidrlhhutghksehinhhtvghlrd
-    gtohhm
-X-ME-Proxy: <xmx:NYgDaUrYTFt0wKRce5X9JeuL7scBmuByDkyBHx2PdvqO9IrkhnCQGQ>
-    <xmx:NYgDaTAsh-Tr9V7fhJlEVm-PkKFo5NumPw1PzfSTTAu4CdKoGJAVfg>
-    <xmx:NYgDabZIRUbW9uTtbLpGL413NTCTpArlj0H5nJr6TzZ1VvG238DgpA>
-    <xmx:NYgDaTur-feDqaLSYutWQC1Ntc-ZFy5Rj1oBy1MhwdqwYU1H2B_7kQ>
-    <xmx:NYgDaV9TWjPmXSJ_IMz5WtjVkkze_vYAgGef8R_-agqQWyWRiH_EzvkI>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7AE57700054; Thu, 30 Oct 2025 11:45:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h8GiGi7a"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47113dfdd20so4447145e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 08:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761839381; x=1762444181; darn=vger.kernel.org;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xZFzmAs0SnwZHTyxiCQhAISrQWOnEHGBMPb9o7XdacY=;
+        b=h8GiGi7ayUhzt7wVgE/LBAp8dylPUZCZaWNGMBNIdHmCnJr6FHh3AAMs8z+ULMqWxT
+         eHlfz0jhKE0wybUi3ghRRaIuD/actUDHfjcEKELJEMw9XzvfUvpRV+KzQvBSvqFN8qML
+         X0cPuZw4v65Yz3CDNhFVS4+glMEcWG3x435SzuCht9vkaeUZF0iVeiiLP3tAmVWMhRWZ
+         jh4bHRZFu8mPdb6Dsfz2/XNzwZW4WNn6zrMb/nUQ+m9Sextay517Z4wOxdiMoYw/ysdA
+         IwrozR0iLeEbqXksF4JLo2CqPBqrcTJDnJiz38YkEjnGrXwpMoV6q8ZyhsTtlSDEl3zf
+         SczA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761839381; x=1762444181;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xZFzmAs0SnwZHTyxiCQhAISrQWOnEHGBMPb9o7XdacY=;
+        b=uQkumUKH3xQs1F7HmhpO/CEKf6l+XZ8GUnKDL0QB/8J9JgPt4GnfJqLjPnFH8mnG1O
+         GLd9KNHTMy4ZvUe/hF+Y7g3JvjZnZHlZHSUAiwhYXXWlxGGBxm97qjQN2S4BsWucYxSS
+         IgHM0qTllMMJI8MoRFCJCpeRldYDPZ/J3JcyIAsEfWEFgtQWiSElP6XI0coy3x+qh6c8
+         S7VBHB5NoyYY4j5PGEt2T1RnYnYOadP+svmvPFHHmJIROqQoZu3anno+Ya9uAP6Rs3EX
+         hb3Ti3nsdOOiy4iDVA7+34WdyJuiuy0keMoqgiAclYcJOWpy9jZqlaPG78UzgAU2DEQr
+         m0hA==
+X-Forwarded-Encrypted: i=1; AJvYcCWcdemwLXjZmVItwYpD1zf+ub+JSTHZWQRdVuS7eT7I/wmxOwJBbRFI/5j+s2n5ctsQnBDDL8IxXOI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMUrlK94+k4X0MNW+EXgoTWRFmsGIWa2mFM+QHFlhdggnhZHcm
+	sdjblFw7nxEFVlwxgzD9Ekh9gAD+6bl82bQNf4F7UeKKZ/9MeGun60G0gj/m7U1X7K/4mlSfSVG
+	Zon+E0B5WAWTeEA==
+X-Google-Smtp-Source: AGHT+IGBA2lpZUSLCjfeKNqH37XEkgRmaFO7ZPXyGAUePy8kb9MXP5eNENudc2tbx+F3YPjQ8UIPJq3fcamnSg==
+X-Received: from wmbgx15.prod.google.com ([2002:a05:600c:858f:b0:477:e0a:f99e])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3e06:b0:475:dc58:39e5 with SMTP id 5b1f17b1804b1-4773089b541mr1846735e9.27.1761839381266;
+ Thu, 30 Oct 2025 08:49:41 -0700 (PDT)
+Date: Thu, 30 Oct 2025 15:49:40 +0000
+In-Reply-To: <20251030-b4-prctl-docs-2-v1-1-396645cb8d61@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ThreadId: AuvVN0AAjWd7
-Date: Thu, 30 Oct 2025 08:45:34 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
- "the arch/x86 maintainers" <x86@kernel.org>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>
-Cc: "Jonathan Corbet" <corbet@lwn.net>,
- "Josh Poimboeuf" <jpoimboe@kernel.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- "Ard Biesheuvel" <ardb@kernel.org>, "Kirill A . Shutemov" <kas@kernel.org>,
- "Xin Li" <xin@zytor.com>, "David Woodhouse" <dwmw@amazon.co.uk>,
- "Sean Christopherson" <seanjc@google.com>,
- "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
- "Vegard Nossum" <vegard.nossum@oracle.com>,
- "Andrew Cooper" <andrew.cooper3@citrix.com>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>, "Kees Cook" <kees@kernel.org>,
- "Tony Luck" <tony.luck@intel.com>,
- "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
- linux-doc@vger.kernel.org,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-efi@vger.kernel.org
-Message-Id: <13681100-ddc3-4ef0-bd13-744282324ff1@app.fastmail.com>
-In-Reply-To: <789ADBB5-F7AC-4B08-B343-F23260FB8FBC@zytor.com>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-10-sohil.mehta@intel.com>
- <789ADBB5-F7AC-4B08-B343-F23260FB8FBC@zytor.com>
-Subject: Re: [PATCH v11 9/9] x86/cpu: Enable LASS by default during CPU initialization
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20251030-b4-prctl-docs-2-v1-1-396645cb8d61@google.com>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDVRXPUAWTK6.2658AGIB03073@google.com>
+Subject: Re: [PATCH] Documentation/x86: Fix PR_SET_SPECULATION_CTRL error codes
+From: Brendan Jackman <jackmanb@google.com>
+To: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Balbir Singh <sblbir@amazon.com>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<aesa@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu Oct 30, 2025 at 1:59 PM UTC, Brendan Jackman wrote:
+> -ENXIO   Control of the selected speculation misfeature is not possible.
+> -        See PR_GET_SPECULATION_CTRL.
+> +ENXIO   For PR_SPEC_STORE_BYPASS: control of the selected speculation misfeature
+> +        is not possible via prctl, because of the system's boot configuration.
+> +
+> +EPERM   Speculation was disabled with PR_SPEC_FORCE_DISABLE and caller tried to
+> +        enable it again.
+> +
+> +EPERM   For PR_SPEC_STORE_BYPASS and PR_SPEC_INDIRECT_BRANCH: control of the
+Ugh,           ^^^^^^^^^^^^^^^^^^^^ that should be PR_SPEC_L1D_FLUSH
 
-
-On Thu, Oct 30, 2025, at 1:40 AM, H. Peter Anvin wrote:
-> On October 29, 2025 2:03:10 PM PDT, Sohil Mehta <sohil.mehta@intel.com=
-> wrote:
->>Linear Address Space Separation (LASS) mitigates a class of side-chann=
-el
->>attacks that rely on speculative access across the user/kernel boundar=
-y.
->>
->>Enable LASS by default if the platform supports it. While at it, remove
->>the comment above the SMAP/SMEP/UMIP/LASS setup instead of updating it,
->>as the whole sequence is quite self-explanatory.
->>
->>The legacy vsyscall page is mapped at 0xffffffffff60?000. Prior to LAS=
-S,
->>vsyscall page accesses would always generate a #PF. The kernel emulates
->>the accesses in the #PF handler and returns the appropriate values to
->>userspace.
->>
->>With LASS, these accesses are intercepted before the paging structures
->>are traversed triggering a #GP instead of a #PF. To avoid breaking user
->>applications, equivalent emulation support is required in the #GP
->>handler. However, the #GP provides limited error information compared =
-to
->>the #PF, making the emulation more complex.
->>
->>For now, keep it simple and disable LASS if vsyscall emulation is
->>compiled in. This restricts LASS usability to newer environments where
->>legacy vsyscalls are absolutely not needed. In future, LASS support can
->>be expanded by enhancing the #GP handler.
->>
->>Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
->>---
->>v11:
->> - Disable LASS if vsyscall emulation support is compiled in.
->> - Drop Rick's review tag because of the new changes.
->>
->>v10
->> - No change.
->>---
->> arch/x86/kernel/cpu/common.c | 21 ++++++++++++++++++++-
->> 1 file changed, 20 insertions(+), 1 deletion(-)
->>
->>diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common=
-.c
->>index c7d3512914ca..71e89859dfb4 100644
->>--- a/arch/x86/kernel/cpu/common.c
->>+++ b/arch/x86/kernel/cpu/common.c
->>@@ -401,6 +401,25 @@ static __always_inline void setup_umip(struct cpu=
-info_x86 *c)
->> 	cr4_clear_bits(X86_CR4_UMIP);
->> }
->>=20
->>+static __always_inline void setup_lass(struct cpuinfo_x86 *c)
->>+{
->>+	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
->>+		/*
->>+		 * Legacy vsyscall page access causes a #GP when LASS is
->>+		 * active. However, vsyscall emulation isn't supported
->>+		 * with #GP. To avoid breaking userspace, disable LASS
->>+		 * if the emulation code is compiled in.
->>+		 */
->>+		if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION)) {
->>+			pr_info_once("x86/cpu: Disabling LASS due to CONFIG_X86_VSYSCALL_E=
-MULATION=3Dy\n");
->>+			setup_clear_cpu_cap(X86_FEATURE_LASS);
->>+			return;
->>+		}
->>+
->>+		cr4_set_bits(X86_CR4_LASS);
->>+	}
->>+}
->>+
->> /* These bits should not change their value after CPU init is finishe=
-d. */
->> static const unsigned long cr4_pinned_mask =3D X86_CR4_SMEP | X86_CR4=
-_SMAP | X86_CR4_UMIP |
->> 					     X86_CR4_FSGSBASE | X86_CR4_CET | X86_CR4_FRED;
->>@@ -2011,10 +2030,10 @@ static void identify_cpu(struct cpuinfo_x86 *c)
->> 	/* Disable the PN if appropriate */
->> 	squash_the_stupid_serial_number(c);
->>=20
->>-	/* Set up SMEP/SMAP/UMIP */
->> 	setup_smep(c);
->> 	setup_smap(c);
->> 	setup_umip(c);
->>+	setup_lass(c);
->>=20
->> 	/* Enable FSGSBASE instructions if available. */
->> 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
->
-> Legacy vsyscalls have been obsolete for how long now?
-
-
-A looooong time.
-
-I would suggest defaulting LASS to on and *maybe* decoding just enough t=
-o log, once per boot, that a legacy vsyscall may have been attempted. It=
-=E2=80=99s too bad that #GP doesn=E2=80=99t report the faulting address.
-
-=E2=80=94Andy
+I will wait a day or two before v2 in case anyone else spots other
+mistakes or has other comments.
