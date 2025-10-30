@@ -1,303 +1,183 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013052.outbound.protection.outlook.com [40.93.201.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBA3369964;
-	Thu, 30 Oct 2025 17:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761844646; cv=fail; b=FsSVEjWw4rele0ZbAv46vGcWYj9OzYkMsW70IzjepglG666PrDUE5NfIOfxlAC++Do274Zyq1ADJFCzWHnTv3IrreMwdTyylKKuEwu3fyHrXBkv4futYX24RTtigiicov9cSw83TIQN9Xo7aW8YBzYp4c1uVLehRbmndywGCtgE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761844646; c=relaxed/simple;
-	bh=e1qhdwiMc91quJJVZM30LJxNTevPsgKn8OWLYyvZqBY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nCwJ+zMhh1ek6PQB1N/ScGFKcedtZ0+Ogux3/hSdHR+5AS2zkqKvJvRDUpTG6Ec9w6Pf1iQ2u11UlhLqSwiyXbaE2LILwER8IQ3JYJhui6c/gsjn/badU53ncesb2PU4Vgoq7LHN4GR0ncSNKxRxNJvZZDn1VgZHSZDiduzY0zY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Si8bUr3b; arc=fail smtp.client-ip=40.93.201.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757A532B98F
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 17:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761844717; cv=none; b=Pep9uCtBEhRyFUotbZJZCORuVuLEAnmiWtlkM2bAv6hpsmEoFac0VGIodRbuH1jV4XkLWYp/Wt4C6YV7CEYtnbNaVo49XBZ+ToGyP5FVhNLBV45D47KwzJ4SqmHdY7/CbEBq6HNJXUbflppMkpHBDXo7w5K7l/K9Jm9kS7C1FJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761844717; c=relaxed/simple;
+	bh=VJLcmOospl0NvxJ/WTOkbujLbTnBJibWwvHUpjZ0/1w=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=VY451rGsPM9RMgsCls3Wck88sJHUwPQ1ZWC2HvG54n5CTg9FMomv8DMLHpCIJ4yjnqsZppWdtJwdIgoJqD4dkhvz7qsGxcyPuKzmYHm/k1p2mFHqVhp3m2KeHqDF7EJjMKbwxd/JKlZ4gUQULCrngPgk16YSgw8VjtUb1EEZAOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NjTRYPMi; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Si8bUr3b"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rhx6kr63u9U6oCc/uK5wBPAZ2RmHjnPhJOfQ/Z1+LFkRS4y8elFlk1NBFeAUN+yup/9u5cenoRZ1NmlnTsHW3HQmQ+Q2AotaP7ptEOMZceX3UMsqvWmVpd4Brj9N6q2FMgdLGtTRO2JfQsK/HnsxVeFOqiRko04CnkBBrUfmlZmkde/hS5lCCqxhGFy4ZDZam8DKoMfxK8RxFMZhQ9hJpyPXJbzOe7r2lK94vsCd5c7mNqgXMExynoT1bQz1eWGsLPWrBQzjCeCHQF/hWWTvZf0xUdjpJeL06ASiv5iz97myH2A+1HNvV3T+6mBA+pYk2m/DhZlFDZK5wyVMJqsKBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n5Z3bPYBithQBoZ8uO/duc6mHxaZjz92KIEKGlGP1dQ=;
- b=kDAPJSyP6zFpY2kXvgiuVhWs0RDFxhlqrYqalxqtJsVC7q1QoDFSuNRXG31xvoU1qcIVg5+RfXskX+mB4fZSlKQgEi+GdV8B4HInz91FTQnaBfV4pDbpCLELnsE+ErUKeEIUyYRTeYmjEFdlpWmcve/SEYEVtk1EEGCYJZCkE5RlOF7AADIf8CDfjiHdO2fjCM7lVsAku5B3VF6wp/rO45voEYwvhiRaqkRkNPFb8IpVF/uVkbpxdBvWfCy/1edCSWogX/wLKKxUVZ25NE/tXSaYYbLRUviqDG2ZCdw9oGlF44etwIGS4D8p/oE1Zs7bMX0Qu0CZQkqOgkKdkweY/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n5Z3bPYBithQBoZ8uO/duc6mHxaZjz92KIEKGlGP1dQ=;
- b=Si8bUr3bbEmekWabYwqGuXn2Zeef0mPvCXZuX2w2M9xb7aoNtMFUmyNHZW+OMDCBFt0H4t+hVtgftEo3T+I8qhTai9agsVWOzcQeab71PgzBphhix+p0UIA1nq2dxvYVfegHWYnrOCr0x6VpVAox8W+BjFZ1oMrYcTFJvb71LNY=
-Received: from BN9PR03CA0966.namprd03.prod.outlook.com (2603:10b6:408:109::11)
- by DM4PR12MB7573.namprd12.prod.outlook.com (2603:10b6:8:10f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 17:17:21 +0000
-Received: from MN1PEPF0000F0E4.namprd04.prod.outlook.com
- (2603:10b6:408:109:cafe::c1) by BN9PR03CA0966.outlook.office365.com
- (2603:10b6:408:109::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.16 via Frontend Transport; Thu,
- 30 Oct 2025 17:17:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MN1PEPF0000F0E4.mail.protection.outlook.com (10.167.242.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 17:17:20 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 30 Oct
- 2025 10:17:18 -0700
-From: Babu Moger <babu.moger@amd.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <corbet@lwn.net>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<babu.moger@amd.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>,
-	<seanjc@google.com>, <pawan.kumar.gupta@linux.intel.com>, <xin@zytor.com>,
-	<thomas.lendacky@amd.com>, <sohil.mehta@intel.com>, <jarkko@kernel.org>,
-	<chang.seok.bae@intel.com>, <ebiggers@google.com>,
-	<elena.reshetova@intel.com>, <ak@linux.intel.com>,
-	<mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <feng.tang@linux.alibaba.com>
-Subject: [PATCH v11 10/10] fs/resctrl: Update bit_usage to reflect io_alloc
-Date: Thu, 30 Oct 2025 12:15:39 -0500
-Message-ID: <9fc558d6a5d66b6475daa71fc7b67b5c0c891384.1761844489.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1761844489.git.babu.moger@amd.com>
-References: <cover.1761844489.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NjTRYPMi"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4710d174c31so11061535e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 10:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761844713; x=1762449513; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0zIsYr/NZ5vBEDYePNHV7frUHCwl+Wvsd8lZxHFgSTA=;
+        b=NjTRYPMi7t4Sc0qduHqJAUaR2OaP2M3rj8a1pzTXzXCAraf5vvUtw5KWFZZXm8/Io0
+         xcdd8KNn3+7Rl2e0nnO4dVJD8onBJEddd11mJqnI8Cs7Al4FpN4AYzY+8QqmKWeVraiE
+         Na9enRm+27lhGolwsAX5xckYPHFPxPd9cHNIBqb7YleBuKB9ywSS9pGL18/SDkECxveI
+         uqgvhkt3hPeQC0ih1oHXBHr2aXqjWbN+9uUrwq74mAm8fct34G4D2UeVMILN73kLcXPM
+         mRdqCWI90wrOO2RKjLyUGgFd40mEdDK8A/HgHy3/G+vY0RsXKNtbzW3ecO0s+vSJl0Q6
+         F+eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761844713; x=1762449513;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0zIsYr/NZ5vBEDYePNHV7frUHCwl+Wvsd8lZxHFgSTA=;
+        b=tFxTafJILP5+g0U2uwfSnOsapzd5q0QcQY72yy8fnN5YrTnVcnG4/3HRZuJrW0HeXR
+         ndbSn/LGXbVeLMD8ihdrm5p65nD75z6uvponxKh8onkQJuUa4pj3++8jR5y/QngFdpCA
+         6iFq18osw9/Q/+QvV51phcinDWUTcN9AUq6FDtGj+uz2z9JpmZJiz338Y3Ar2Q4UQxZt
+         NYj9hEvUkgtQyNCDO516+cBjoJeySq0N6FiU68ZG/QVdl1syn25BjYM+LLvbJNfgbvsp
+         fQneR5pEY2wEQdDJd+KbEXlqlfFug1TezdTF/kAzz/7AqXbPaSMi/ZMz7HTrAyJixHoD
+         /Bvg==
+X-Forwarded-Encrypted: i=1; AJvYcCVSYlTxZVsolCTNDaYhyEvtaQr+VesZ8GUZoJHmtTZuQKVlEY8JSb7Eu8sqe9/0sVVmqBzhgtPgACQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTL/bJV+u1S3fylpwYdAriuqusKOQhROT1OlHDg104BfwOS7W0
+	xtAw4qpoS69eqbmBp46sYEwat2BpLesYxJl2Ao4+SsSljM+7zVfdjjhtubb9G63lyo9Zd3Eaw2U
+	5VgPlxo/X+oluGw==
+X-Google-Smtp-Source: AGHT+IFXk6DKJ2LvWY2ZBOreY5EWyiD1FLIIWcEezkT9L8CiZAonL3OXc94rN18lwM8G/At6waViWG4yx0JY7g==
+X-Received: from wmbka6.prod.google.com ([2002:a05:600c:5846:b0:470:ffaa:ae5e])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3b8b:b0:471:989:9d7b with SMTP id 5b1f17b1804b1-4773086d53amr4625785e9.21.1761844712453;
+ Thu, 30 Oct 2025 10:18:32 -0700 (PDT)
+Date: Thu, 30 Oct 2025 17:18:31 +0000
+In-Reply-To: <20250924152214.7292-9-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E4:EE_|DM4PR12MB7573:EE_
-X-MS-Office365-Filtering-Correlation-Id: e95459ee-3bfd-446d-7bb4-08de17d82f4d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?K34/trkRiqIRGz2E4cIkpDt8xVdK6y2dDB721b8denXmmDgnkvNOEGEmJKEm?=
- =?us-ascii?Q?7BhJ8Z1wKI8+FPvPMxDGOQ7eOV0EOM2IVaZ7+0GyayjQ257FvtSsrP4GAbLX?=
- =?us-ascii?Q?Zi5/s8HFt5iy8EcJFotJETAMK6LpB0znMsVX7Pij5OGhclBgXSJ/ve/Ar1Rz?=
- =?us-ascii?Q?UIOQYtOruW+AvCa+bWBA0EhPlwajaZ9ShBTD4LWo22TJm1q8/nlnMj+70Qa8?=
- =?us-ascii?Q?EtKqnKO+hRujcorOKlShNtuJv5CjPko59HRzo1h8tdyqROSwR1ZSOnJjX4gb?=
- =?us-ascii?Q?ScPPa0LLW9se51z3Yt3zIyEBoaZXiQVru4NK0fQMLOnC0S64k1rpLfG4FAZN?=
- =?us-ascii?Q?hrk4U39iSx3KUZ5QK8ICgrs+R1tDLUW4NbRRof/qYGhq2emzdFzRbViH9VBP?=
- =?us-ascii?Q?T2X8/mFUL9FSw/2drnQLSGWyNHP6i99iMitvN2HGoiVuBhetPo9YsGj7GRw9?=
- =?us-ascii?Q?po2HjCR2BW5SXpLrohl8vbngwQqEgJBUI3nZJa93jwpMtvnarGLekKm3e26z?=
- =?us-ascii?Q?EuYxgJmmOOimqja2p3FvzO1JpZXS8nBLdFqRXKbdWPLYqSvP8Dh6GuBq5Vd7?=
- =?us-ascii?Q?tBoh9YAvvaoAHcIVhaBLyQGdpyR4EwXtMMM3QI8xXKZI83dIdQN/rOmJLjnG?=
- =?us-ascii?Q?IdGiiiCMHo87qRKcphNhfcO+glHjPmIAm8XX/fr4carkcQZyfmGzxn8CBd+7?=
- =?us-ascii?Q?uD7XwuBoi5fTSIdJN8Dl9KhfCzYh1SmAGaix322DIBwgr+vT3kOXa7a/9C5F?=
- =?us-ascii?Q?MT3nd9XoIpIujZRcf3HJW3cJB+ilqjdAwPKeV+ubs4eefeBr+fxbsRAeO+UW?=
- =?us-ascii?Q?JgeHEOdO3FS3ILXMGvFYluTEj47gJ6msvip0npvxakhPj6DyGHia+Zbqfseh?=
- =?us-ascii?Q?6ABGBwnMsu1isEzbyjRdZcirnHL3FmEgKx52JnHP+MPOFiCFjp3SpE9aSj3n?=
- =?us-ascii?Q?gC+gfg87OC0OMDfi3Y8aBjF/yMZQFt2h9JlDrQV9qBa283wTL2LUIIyWlM9O?=
- =?us-ascii?Q?0yZADipxlDCk9lAS0rJMM8bPvyFrLWtuqpKVlUjYjALY1HikIB7ayqTg6jc4?=
- =?us-ascii?Q?C6xVIH2ND3jw6WobIbiz85Lf3a1RE7btnkU/c/776+Z7xry+W7r4guUcmQq3?=
- =?us-ascii?Q?50vS/nA22OaKsmUX0XtWhzRYMwWTdoaX4SkrFOY7Qk11DVa9PrU1OuDzFWi0?=
- =?us-ascii?Q?V3WmM7uZrnNURiXQHzWEGS8Fo/av/D4R1qySbpfBW76npJcPFSeQlUENAjR1?=
- =?us-ascii?Q?e8S8bXpEIslWD3McyPk4TK+hb93IveX/wTQz1JFMaZzPpYMYLyLQzrMGFYiB?=
- =?us-ascii?Q?YaexmCMSyovhSPENR6A9Uxcz07bbse5REwajAdI9PQTiTnNfYztq2Z40Tzi1?=
- =?us-ascii?Q?jBCKiFbFd099reHRxZVkjsZrLw2rUoTP71Zs8uKfrKPNiC74Xxv0WWbjaypx?=
- =?us-ascii?Q?hvTFfk62s37/yCxODRR47rjWjL0jecw/TiQlEs6uPo9FbixB1bmw93puiDSu?=
- =?us-ascii?Q?361hwJymovkRbN8MJrZmkkQcEu08/fMUy0iOQal8AMzL3ypkurXhKXNkWWVq?=
- =?us-ascii?Q?3QFCNoTPp2/5ThjOpso=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 17:17:20.6711
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e95459ee-3bfd-446d-7bb4-08de17d82f4d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000F0E4.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7573
+Mime-Version: 1.0
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-9-roypat@amazon.co.uk>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDVTTQZBJXAK.1OC7BTWCVCP9U@google.com>
+Subject: Re: [PATCH v7 12/12] KVM: selftests: Test guest execution from direct
+ map removed gmem
+From: Brendan Jackman <jackmanb@google.com>
+To: "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The "shareable_bits" and "bit_usage" resctrl files associated with cache
-resources give insight into how instances of a cache is used.
+On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
+> Add a selftest that loads itself into guest_memfd (via
+> GUEST_MEMFD_FLAG_MMAP) and triggers an MMIO exit when executed. This
+> exercises x86 MMIO emulation code inside KVM for guest_memfd-backed
+> memslots where the guest_memfd folios are direct map removed.
+> Particularly, it validates that x86 MMIO emulation code (guest page
+> table walks + instruction fetch) correctly accesses gmem through the VMA
+> that's been reflected into the memslot's userspace_addr field (instead
+> of trying to do direct map accesses).
+>
+> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+> ---
+>  .../selftests/kvm/set_memory_region_test.c    | 50 +++++++++++++++++--
+>  1 file changed, 46 insertions(+), 4 deletions(-)
+>
+> diff --git a/tools/testing/selftests/kvm/set_memory_region_test.c b/tools/testing/selftests/kvm/set_memory_region_test.c
+> index ce3ac0fd6dfb..cb3bc642d376 100644
+> --- a/tools/testing/selftests/kvm/set_memory_region_test.c
+> +++ b/tools/testing/selftests/kvm/set_memory_region_test.c
+> @@ -603,6 +603,41 @@ static void test_mmio_during_vectoring(void)
+>  
+>  	kvm_vm_free(vm);
+>  }
+> +
+> +static void guest_code_trigger_mmio(void)
+> +{
+> +	/*
+> +	 * Read some GPA that is not backed by a memslot. KVM consider this
+> +	 * as MMIO and tell userspace to emulate the read.
+> +	 */
+> +	READ_ONCE(*((uint64_t *)MEM_REGION_GPA));
+> +
+> +	GUEST_DONE();
+> +}
+> +
+> +static void test_guest_memfd_mmio(void)
+> +{
+> +	struct kvm_vm *vm;
+> +	struct kvm_vcpu *vcpu;
+> +	struct vm_shape shape = {
+> +		.mode = VM_MODE_DEFAULT,
+> +		.src_type = VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP,
+> +	};
+> +	pthread_t vcpu_thread;
+> +
+> +	pr_info("Testing MMIO emulation for instructions in gmem\n");
+> +
+> +	vm = __vm_create_shape_with_one_vcpu(shape, &vcpu, 0, guest_code_trigger_mmio);
 
-Update the annotated capacity bitmasks displayed by "bit_usage" to include the
-cache portions allocated for I/O via the "io_alloc" feature. "shareable_bits"
-is a global bitmask of shareable cache with I/O and can thus not present the
-per-domain I/O allocations possible with the "io_alloc" feature. Revise the
-"shareable_bits" documentation to direct users to "bit_usage" for accurate
-cache usage information.
+When I run this test on my minimal config in a nested VM I get:
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
----
-v11: Fixed the minor conflict in internal.h.
-     Added Reviewed-by tag.
+[root@testvm:~]# /nix/store/xlxd60n7v1qfr6s5zxda410zrzdd0xc2-kselftests/bin/run_kselftest.sh -t kvm:set_memory_region_test
+TAP version 13
+1..1
+# timeout set to 120
+# selftests: kvm: set_memory_region_test
+# Random seed: 0x6b8b4567
+# Testing KVM_RUN with zero added memory regions
+# Testing MMIO during vectoring error handling
+# Allowed number of memory slots: 32764
+# Adding slots 0..32763, each memory region with 2048K size
+# Testing MMIO emulation for instructions in gmem
+# ==== Test Assertion Failure ====
+#   lib/kvm_util.c:1118: region->mmap_start != MAP_FAILED
+#   pid=614 tid=614 errno=19 - No such device
+#      1	0x0000000000407b02: vm_mem_add at ??:?
+#      2	0x000000000040a924: __vm_create at ??:?
+#      3	0x000000000040ab16: __vm_create_shape_with_one_vcpu at ??:?
+#      4	0x00000000004042cf: main at ??:?
+#      5	0x00007faa6b08a47d: ?? ??:0
+#      6	0x00007faa6b08a538: ?? ??:0
+#      7	0x0000000000404384: _start at ??:?
+#   mmap() failed, rc: -1 errno: 19 (No such device)
 
-v10: Changelog update.
-     Updated schematas to schemata.
+Here's the kconfig I'm using (basically defconfig+KVM): 
 
-v9: Changelog update.
-    Added code comments about CDP.
-    Updated the "bit_usage" section of resctrl.rst for io_alloc.
+https://gist.githubusercontent.com/bjackman/4ea941ef5072606769211f3b000c8ed7/raw/73808882ddae6ff2ae8a0be85ac977b2980f7292/kconfig.txt
 
-v8: Moved the patch to last after all the concepts are initialized.
-    Updated user doc resctrl.rst.
-    Simplified the CDT check  in rdt_bit_usage_show() as CDP_DATA and CDP_CODE
-    are in sync with io_alloc enabled.
-
-v7: New patch split from earlier patch #5.
-    Added resctrl_io_alloc_closid() to return max COSID.
----
- Documentation/filesystems/resctrl.rst | 35 ++++++++++++++++-----------
- fs/resctrl/ctrlmondata.c              |  2 +-
- fs/resctrl/internal.h                 |  1 +
- fs/resctrl/rdtgroup.c                 | 21 ++++++++++++++--
- 4 files changed, 42 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index dab4b430d3a3..ccc425b65b27 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -91,12 +91,19 @@ related to allocation:
- 		must be set when writing a mask.
- 
- "shareable_bits":
--		Bitmask of shareable resource with other executing
--		entities (e.g. I/O). User can use this when
--		setting up exclusive cache partitions. Note that
--		some platforms support devices that have their
--		own settings for cache use which can over-ride
--		these bits.
-+		Bitmask of shareable resource with other executing entities
-+		(e.g. I/O). Applies to all instances of this resource. User
-+		can use this when setting up exclusive cache partitions.
-+		Note that some platforms support devices that have their
-+		own settings for cache use which can over-ride these bits.
-+
-+		When "io_alloc" is enabled, a portion of each cache instance can
-+		be configured for shared use between hardware and software.
-+		"bit_usage" should be used to see which portions of each cache
-+		instance is configured for hardware use via "io_alloc" feature
-+		because every cache instance can have its "io_alloc" bitmask
-+		configured independently via "io_alloc_cbm".
-+
- "bit_usage":
- 		Annotated capacity bitmasks showing how all
- 		instances of the resource are used. The legend is:
-@@ -110,16 +117,16 @@ related to allocation:
- 			"H":
- 			      Corresponding region is used by hardware only
- 			      but available for software use. If a resource
--			      has bits set in "shareable_bits" but not all
--			      of these bits appear in the resource groups'
--			      schematas then the bits appearing in
--			      "shareable_bits" but no resource group will
--			      be marked as "H".
-+			      has bits set in "shareable_bits" or "io_alloc_cbm"
-+			      but not all of these bits appear in the resource
-+			      groups' schemata then the bits appearing in
-+			      "shareable_bits" or "io_alloc_cbm" but no
-+			      resource group will be marked as "H".
- 			"X":
- 			      Corresponding region is available for sharing and
--			      used by hardware and software. These are the
--			      bits that appear in "shareable_bits" as
--			      well as a resource group's allocation.
-+			      used by hardware and software. These are the bits
-+			      that appear in "shareable_bits" or "io_alloc_cbm"
-+			      as well as a resource group's allocation.
- 			"S":
- 			      Corresponding region is used by software
- 			      and available for sharing.
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index 332918fc961a..b2d178d3556e 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -750,7 +750,7 @@ static int resctrl_io_alloc_init_cbm(struct resctrl_schema *s, u32 closid)
-  * resource. Note that if Code Data Prioritization (CDP) is enabled, the number
-  * of available CLOSIDs is reduced by half.
-  */
--static u32 resctrl_io_alloc_closid(struct rdt_resource *r)
-+u32 resctrl_io_alloc_closid(struct rdt_resource *r)
- {
- 	if (resctrl_arch_get_cdp_enabled(r->rid))
- 		return resctrl_arch_get_num_closid(r) / 2  - 1;
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index e1eda74881a9..bff4a54ae333 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -442,6 +442,7 @@ int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of, struct seq_file *seq,
- 			      void *v);
- ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of, char *buf,
- 				   size_t nbytes, loff_t off);
-+u32 resctrl_io_alloc_closid(struct rdt_resource *r);
- 
- #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
- int rdtgroup_locksetup_enter(struct rdtgroup *rdtgrp);
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 3527bb8fa2ff..ea320dcf8aba 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1062,15 +1062,17 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
- 
- 	cpus_read_lock();
- 	mutex_lock(&rdtgroup_mutex);
--	hw_shareable = r->cache.shareable_bits;
- 	list_for_each_entry(dom, &r->ctrl_domains, hdr.list) {
- 		if (sep)
- 			seq_putc(seq, ';');
-+		hw_shareable = r->cache.shareable_bits;
- 		sw_shareable = 0;
- 		exclusive = 0;
- 		seq_printf(seq, "%d=", dom->hdr.id);
- 		for (i = 0; i < closids_supported(); i++) {
--			if (!closid_allocated(i))
-+			if (!closid_allocated(i) ||
-+			    (resctrl_arch_get_io_alloc_enabled(r) &&
-+			     i == resctrl_io_alloc_closid(r)))
- 				continue;
- 			ctrl_val = resctrl_arch_get_config(r, dom, i,
- 							   s->conf_type);
-@@ -1098,6 +1100,21 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
- 				break;
- 			}
- 		}
-+
-+		/*
-+		 * When the "io_alloc" feature is enabled, a portion of the cache
-+		 * is configured for shared use between hardware and software.
-+		 * Also, when CDP is enabled the CBMs of CDP_CODE and CDP_DATA
-+		 * resources are kept in sync. So, the CBMs for "io_alloc" can
-+		 * be accessed through either resource.
-+		 */
-+		if (resctrl_arch_get_io_alloc_enabled(r)) {
-+			ctrl_val = resctrl_arch_get_config(r, dom,
-+							   resctrl_io_alloc_closid(r),
-+							   s->conf_type);
-+			hw_shareable |= ctrl_val;
-+		}
-+
- 		for (i = r->cache.cbm_len - 1; i >= 0; i--) {
- 			pseudo_locked = dom->plr ? dom->plr->cbm : 0;
- 			hwb = test_bit(i, &hw_shareable);
--- 
-2.34.1
+Sorry I'm too ignorant about KVM to know what I'm missing here but I
+guess it's a missing TEST_REQUIRE()?
 
