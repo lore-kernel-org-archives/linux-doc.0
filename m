@@ -1,151 +1,140 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D25366FC7
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 16:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D91C33C530;
+	Thu, 30 Oct 2025 16:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761841565; cv=none; b=WWuB884LS/vg1scPAM7f2RldMxguPzOjJVsytLoRZF+/iI2JdF6DV8spPV9gXPYNRXrAu75xWzGDD5FkyxvtZgxd+j+sfK3OA69s+szWLQt3inYaIOTrEhDspMtoO+jN/YTR/2HJGPlluxX2HHVBViwo2EDHKLudud59fUB+toU=
+	t=1761841659; cv=none; b=E2A8nHDXSseyjRbyNi2Ei1bu+NElfsPcOzGCQtv+yy94N70Ezk3Yh/k0au4v5925Mc/eDqwjsQOSnKxDRdhrKlHByMV/3+uNuZS05EHZpti/9+YuUD5vd7+6Ptri4y2KqrD4txIbddabtTL43hljmKrU2o685hAZYB8IFu7CQQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761841565; c=relaxed/simple;
-	bh=tzp1RPz9J6cF5ewTGOUXuNYVp2WUlMURNL2v6N9EIjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ElwefDwqZkGVk2mBR1n+qrYX50yehVwyX3jlPxV4QNijMwLBd1TmDs4JGSX403h5L2jcu/YbmCKCgT1ga848WDdXE8kh6bbgNMtq7ZcqsF4JGyOitlhyfzvft9ffGvBf2XMOxRG/PsczdF0WBvC4d8MgBjYYsXpXbg8KLwrRRYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wr67yKJ4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=D+oqUsGa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wr67yKJ4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=D+oqUsGa; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761841659; c=relaxed/simple;
+	bh=c2g/Pm2SpGTyDkNNxrpm5Ua8R59PdrW+xsx3Oy53l9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ewtVal5+i0sVOuesT8k8XQS/p0vaoGaBvVAwzrsEvL3/pO5YXTvK2tmyvs08pGModZbW1UajZRpoGoODsNfD0suV2GnVMlMFgP+gez2T+HKpV0IQT4gxFhZK3/xVGUIvmpkHCLeDmfkfbREJPt2frzSEE52O3cs6/7DG5JceOGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgEgqNgq; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wr67yKJ4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D+oqUsGa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wr67yKJ4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D+oqUsGa"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6B776337A4;
-	Thu, 30 Oct 2025 16:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761841562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y45ny24R7zem9vCEHKWr8/ZHpLbSWhPSrqSC/spGVIw=;
-	b=Wr67yKJ4CtPObOAKIVbuQJ9uY1Mk/MgeJUi4m6VsB6BWlU0F0w3slr/L7uxGX4UIVenmYG
-	FVooJOrHZxMD/LXTl1NWfVDmDpsPcFAepG2c3+9mRbdmLpk/tAp/3f6fhAHmZQkmiFApmK
-	dN1RFs/oz0bT5pWP2kremYVE/gbgeeQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761841562;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y45ny24R7zem9vCEHKWr8/ZHpLbSWhPSrqSC/spGVIw=;
-	b=D+oqUsGaCNVth5UJ+jVZ9a4MlY9qTQC2zol7+YlVgHZwEw4ExmMJUEvovqmF7TEqS4ZDTF
-	1G1QbvzD5qIGfHCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761841562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y45ny24R7zem9vCEHKWr8/ZHpLbSWhPSrqSC/spGVIw=;
-	b=Wr67yKJ4CtPObOAKIVbuQJ9uY1Mk/MgeJUi4m6VsB6BWlU0F0w3slr/L7uxGX4UIVenmYG
-	FVooJOrHZxMD/LXTl1NWfVDmDpsPcFAepG2c3+9mRbdmLpk/tAp/3f6fhAHmZQkmiFApmK
-	dN1RFs/oz0bT5pWP2kremYVE/gbgeeQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761841562;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y45ny24R7zem9vCEHKWr8/ZHpLbSWhPSrqSC/spGVIw=;
-	b=D+oqUsGaCNVth5UJ+jVZ9a4MlY9qTQC2zol7+YlVgHZwEw4ExmMJUEvovqmF7TEqS4ZDTF
-	1G1QbvzD5qIGfHCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0369B1396A;
-	Thu, 30 Oct 2025 16:25:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rF/mOJeRA2m3FgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 30 Oct 2025 16:25:59 +0000
-Date: Thu, 30 Oct 2025 16:25:54 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
-Subject: Re: [PATCH 2/3] mm: implement sticky, copy on fork VMA flags
-Message-ID: <jmyrkglrrdxtdkcnovmkcxbk64zgfpp6r3e33bquixkvoxl45r@zcnwp3v2ucbp>
-References: <cover.1761756437.git.lorenzo.stoakes@oracle.com>
- <ec71238fd1f735ca6e4970ccdc0abfbb60967596.1761756437.git.lorenzo.stoakes@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgEgqNgq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761841657; x=1793377657;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=c2g/Pm2SpGTyDkNNxrpm5Ua8R59PdrW+xsx3Oy53l9E=;
+  b=ZgEgqNgqU6RoJVbBEj4xvXF5ZtAXpp2kzrOV045tnE763/pgvfq5BBBe
+   Yo61eWml7j8vs/7S6LVvmYuI9wSwc+LSua45N9HuxGMR3hU5yFLDc6OcE
+   aa1zB4Ak+0n9Yk15Lx4PIpK9yPgN0GzZpNKGQXpY95iGKq+zXTNKSMV6V
+   cKY9zL+yx1jBL+TsUCuQB+5j4cHPmR99d9xEpLb1rMX3T36/Hf0n0Id2s
+   Gk9ogSdo+kVboX0Cl3HAR+mNG8Fa5TxbGqWFMt1AVWyaH0Onxbd0Qcebp
+   IdJ4cJj4xvhcY8xYea645cAunIdnTXYODZNBwlmDimYFG0pp0DCr3A74B
+   A==;
+X-CSE-ConnectionGUID: phK6fQ9YRbelZNwdhVsI+w==
+X-CSE-MsgGUID: IZc7hJiNQWuW8MpJ9gZ30Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="86615593"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="86615593"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 09:27:37 -0700
+X-CSE-ConnectionGUID: edhcA8SPSB+06C2Nde89Kw==
+X-CSE-MsgGUID: pzllp2meTqqeCHb1I5TfOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="186440598"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.109.249]) ([10.125.109.249])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 09:27:35 -0700
+Message-ID: <d20a5e9d-dc0b-4bd2-89bb-95dbded8a581@intel.com>
+Date: Thu, 30 Oct 2025 09:27:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec71238fd1f735ca6e4970ccdc0abfbb60967596.1761756437.git.lorenzo.stoakes@oracle.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,redhat.com,oracle.com,suse.cz,kernel.org,google.com,suse.com,goodmis.org,efficios.com,vger.kernel.org,kvack.org,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 9/9] x86/cpu: Enable LASS by default during CPU
+ initialization
+To: "H. Peter Anvin" <hpa@zytor.com>, Sohil Mehta <sohil.mehta@intel.com>,
+ x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, "Kirill A . Shutemov" <kas@kernel.org>,
+ Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>,
+ Sean Christopherson <seanjc@google.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-10-sohil.mehta@intel.com>
+ <789ADBB5-F7AC-4B08-B343-F23260FB8FBC@zytor.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <789ADBB5-F7AC-4B08-B343-F23260FB8FBC@zytor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 29, 2025 at 04:50:32PM +0000, Lorenzo Stoakes wrote:
-> It's useful to be able to force a VMA to be copied on fork outside of the
-> parameters specified by vma_needs_copy(), which otherwise only copies page
-> tables if:
-> 
-> * The destination VMA has VM_UFFD_WP set
-> * The mapping is a PFN or mixed map
-> * The mapping is anonymous and forked in (i.e. vma->anon_vma is non-NULL)
-> 
-> Setting this flag implies that the page tables mapping the VMA are such
-> that simply re-faulting the VMA will not re-establish them in identical
-> form.
-> 
-> We introduce VM_COPY_ON_FORK to clearly identify which flags require this
-> behaviour, which currently is only VM_MAYBE_GUARD.
+On 10/30/25 01:40, H. Peter Anvin wrote:
+> Legacy vsyscalls have been obsolete for how long now?
 
-Do we want this to be sticky though? If you're looking for more granularity
-with this flag, the best option might be to stop merges from happening there.
-If not, I can imagine a VMA that merges with other VMAs far past the original
-guarded range, and thus you get no granularity (possibly, not even useful).
+I asked Sohil to start throwing out all the non-essential bits from this
+series. My thought was that we could get mainline so that LASS itself
+could be enabled, even if it was in a somewhat weird config that a
+distro would probably never do.
 
-If you're _not_ looking for granularity, then maybe using a per-mm flag for
-guard ranges or some other solution would be superior?
+After that is merged, we can circle back and decide what to do with the
+remaining bits like CR pinning and vsyscall emulation. I don't think any
+of those bits will change the basic desire to have LASS support in the
+kernel.
 
-The rest of the patch (superficially) looks good to me, though.
-
--- 
-Pedro
+Does that sound like a sane approach to everyone?
