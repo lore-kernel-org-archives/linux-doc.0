@@ -1,183 +1,147 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757A532B98F
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 17:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925E036838E;
+	Thu, 30 Oct 2025 17:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761844717; cv=none; b=Pep9uCtBEhRyFUotbZJZCORuVuLEAnmiWtlkM2bAv6hpsmEoFac0VGIodRbuH1jV4XkLWYp/Wt4C6YV7CEYtnbNaVo49XBZ+ToGyP5FVhNLBV45D47KwzJ4SqmHdY7/CbEBq6HNJXUbflppMkpHBDXo7w5K7l/K9Jm9kS7C1FJM=
+	t=1761845027; cv=none; b=ARwWxodw+8IO5pLaFRJ21tecSzt8jrnEz6a5dtvEwprbPbxnrUDyTsWqPGDCLTFYEM2AQXaeDFgKhCRxJscuTVKg1Op32gKiijW25BAykjXD08plnxUKX+a9Vhn0QUw/e4uWPHqKZQeOIdGLJWluwEc75GqqgYXziIzLGL4NvJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761844717; c=relaxed/simple;
-	bh=VJLcmOospl0NvxJ/WTOkbujLbTnBJibWwvHUpjZ0/1w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VY451rGsPM9RMgsCls3Wck88sJHUwPQ1ZWC2HvG54n5CTg9FMomv8DMLHpCIJ4yjnqsZppWdtJwdIgoJqD4dkhvz7qsGxcyPuKzmYHm/k1p2mFHqVhp3m2KeHqDF7EJjMKbwxd/JKlZ4gUQULCrngPgk16YSgw8VjtUb1EEZAOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NjTRYPMi; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1761845027; c=relaxed/simple;
+	bh=x9DT0ApeZTLKuLY6/VRAZqUivydjkWhEIpEmeRZVkME=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=GA/moOmphojlVWa8DD6Hi2KF0c+71b3POwkC68ZP0+LiL/sMqb/3LVLD1LFglmMQwik1iVNqT11VlCSQu+qxaLbSiSIL4d4QSayvsNrNOQc+pjfOcXpTEBf7JKXG8K6Bs6A4mE+1EfAckqGhQyg6S77EM3tABgcqsoNJmwkpxgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=odjeaoCs; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NjTRYPMi"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4710d174c31so11061535e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 10:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761844713; x=1762449513; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0zIsYr/NZ5vBEDYePNHV7frUHCwl+Wvsd8lZxHFgSTA=;
-        b=NjTRYPMi7t4Sc0qduHqJAUaR2OaP2M3rj8a1pzTXzXCAraf5vvUtw5KWFZZXm8/Io0
-         xcdd8KNn3+7Rl2e0nnO4dVJD8onBJEddd11mJqnI8Cs7Al4FpN4AYzY+8QqmKWeVraiE
-         Na9enRm+27lhGolwsAX5xckYPHFPxPd9cHNIBqb7YleBuKB9ywSS9pGL18/SDkECxveI
-         uqgvhkt3hPeQC0ih1oHXBHr2aXqjWbN+9uUrwq74mAm8fct34G4D2UeVMILN73kLcXPM
-         mRdqCWI90wrOO2RKjLyUGgFd40mEdDK8A/HgHy3/G+vY0RsXKNtbzW3ecO0s+vSJl0Q6
-         F+eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761844713; x=1762449513;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0zIsYr/NZ5vBEDYePNHV7frUHCwl+Wvsd8lZxHFgSTA=;
-        b=tFxTafJILP5+g0U2uwfSnOsapzd5q0QcQY72yy8fnN5YrTnVcnG4/3HRZuJrW0HeXR
-         ndbSn/LGXbVeLMD8ihdrm5p65nD75z6uvponxKh8onkQJuUa4pj3++8jR5y/QngFdpCA
-         6iFq18osw9/Q/+QvV51phcinDWUTcN9AUq6FDtGj+uz2z9JpmZJiz338Y3Ar2Q4UQxZt
-         NYj9hEvUkgtQyNCDO516+cBjoJeySq0N6FiU68ZG/QVdl1syn25BjYM+LLvbJNfgbvsp
-         fQneR5pEY2wEQdDJd+KbEXlqlfFug1TezdTF/kAzz/7AqXbPaSMi/ZMz7HTrAyJixHoD
-         /Bvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSYlTxZVsolCTNDaYhyEvtaQr+VesZ8GUZoJHmtTZuQKVlEY8JSb7Eu8sqe9/0sVVmqBzhgtPgACQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTL/bJV+u1S3fylpwYdAriuqusKOQhROT1OlHDg104BfwOS7W0
-	xtAw4qpoS69eqbmBp46sYEwat2BpLesYxJl2Ao4+SsSljM+7zVfdjjhtubb9G63lyo9Zd3Eaw2U
-	5VgPlxo/X+oluGw==
-X-Google-Smtp-Source: AGHT+IFXk6DKJ2LvWY2ZBOreY5EWyiD1FLIIWcEezkT9L8CiZAonL3OXc94rN18lwM8G/At6waViWG4yx0JY7g==
-X-Received: from wmbka6.prod.google.com ([2002:a05:600c:5846:b0:470:ffaa:ae5e])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3b8b:b0:471:989:9d7b with SMTP id 5b1f17b1804b1-4773086d53amr4625785e9.21.1761844712453;
- Thu, 30 Oct 2025 10:18:32 -0700 (PDT)
-Date: Thu, 30 Oct 2025 17:18:31 +0000
-In-Reply-To: <20250924152214.7292-9-roypat@amazon.co.uk>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="odjeaoCs"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59UHMUbc2749119
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 30 Oct 2025 10:22:30 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59UHMUbc2749119
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025102301; t=1761844952;
+	bh=eR7Js9uHq09PsJZq3jgDD0w9S+adY8NtcZdzq73Y+Cw=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=odjeaoCssYMreqtTAf/nexUVAx4wmuHR5cxW0zx2fme+f8ViioPuZN7Rw0iZz6oWz
+	 MULv3h5M8svCBAOV0Th6ELMBUNgWZF50iW4SgUWrvndGzEMPREflPdXrs7Fd6aHF2X
+	 Vxq3zAud4uyINR8hau5JieP47YkxHDYO1Iu/scBvkQUMvizGQQqtyPJBXLKATWpFf5
+	 jqXL83zVN++MnEOWbIf8F/+xJF9WlRaSXsMvpw9EngmqIMeqxaWTqYnG7Sio4URdkM
+	 y6X+2YGi8I0rj4WrN9YdiHCiTy8l8O/G3JtRB9NHSMRtHApN9wz6LNmvfcr5aAxUux
+	 qAcMNJqzaOEZQ==
+Date: Thu, 30 Oct 2025 10:22:29 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Andy Lutomirski <luto@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        Sohil Mehta <sohil.mehta@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Ard Biesheuvel <ardb@kernel.org>,
+        "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        "Kirill A . Shutemov" <kas@kernel.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Vegard Nossum <vegard.nossum@oracle.com>, Xin Li <xin@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Kees Cook <kees@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v10_08/15=5D_x86/vsyscall=3A_Re?=
+ =?US-ASCII?Q?organize_the_page_fault_emulation_code?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <f4ae0030-9bc2-4675-ae43-e477cd894750@app.fastmail.com>
+References: <20251007065119.148605-1-sohil.mehta@intel.com> <20251007065119.148605-9-sohil.mehta@intel.com> <a33d59c7add98dd9ef352ac95178821dbcd0ce0e.camel@intel.com> <3e3d2426-6296-4a61-beae-4e3ff5d60f2c@intel.com> <f4ae0030-9bc2-4675-ae43-e477cd894750@app.fastmail.com>
+Message-ID: <E95F62DC-0B5D-47ED-8B72-F619B45340C8@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-9-roypat@amazon.co.uk>
-X-Mailer: aerc 0.21.0
-Message-ID: <DDVTTQZBJXAK.1OC7BTWCVCP9U@google.com>
-Subject: Re: [PATCH v7 12/12] KVM: selftests: Test guest execution from direct
- map removed gmem
-From: Brendan Jackman <jackmanb@google.com>
-To: "Roy, Patrick" <roypat@amazon.co.uk>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
-> Add a selftest that loads itself into guest_memfd (via
-> GUEST_MEMFD_FLAG_MMAP) and triggers an MMIO exit when executed. This
-> exercises x86 MMIO emulation code inside KVM for guest_memfd-backed
-> memslots where the guest_memfd folios are direct map removed.
-> Particularly, it validates that x86 MMIO emulation code (guest page
-> table walks + instruction fetch) correctly accesses gmem through the VMA
-> that's been reflected into the memslot's userspace_addr field (instead
-> of trying to do direct map accesses).
+On October 30, 2025 9:58:02 AM PDT, Andy Lutomirski <luto@kernel=2Eorg> wro=
+te:
 >
-> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
-> ---
->  .../selftests/kvm/set_memory_region_test.c    | 50 +++++++++++++++++--
->  1 file changed, 46 insertions(+), 4 deletions(-)
 >
-> diff --git a/tools/testing/selftests/kvm/set_memory_region_test.c b/tools/testing/selftests/kvm/set_memory_region_test.c
-> index ce3ac0fd6dfb..cb3bc642d376 100644
-> --- a/tools/testing/selftests/kvm/set_memory_region_test.c
-> +++ b/tools/testing/selftests/kvm/set_memory_region_test.c
-> @@ -603,6 +603,41 @@ static void test_mmio_during_vectoring(void)
->  
->  	kvm_vm_free(vm);
->  }
-> +
-> +static void guest_code_trigger_mmio(void)
-> +{
-> +	/*
-> +	 * Read some GPA that is not backed by a memslot. KVM consider this
-> +	 * as MMIO and tell userspace to emulate the read.
-> +	 */
-> +	READ_ONCE(*((uint64_t *)MEM_REGION_GPA));
-> +
-> +	GUEST_DONE();
-> +}
-> +
-> +static void test_guest_memfd_mmio(void)
-> +{
-> +	struct kvm_vm *vm;
-> +	struct kvm_vcpu *vcpu;
-> +	struct vm_shape shape = {
-> +		.mode = VM_MODE_DEFAULT,
-> +		.src_type = VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP,
-> +	};
-> +	pthread_t vcpu_thread;
-> +
-> +	pr_info("Testing MMIO emulation for instructions in gmem\n");
-> +
-> +	vm = __vm_create_shape_with_one_vcpu(shape, &vcpu, 0, guest_code_trigger_mmio);
+>On Tue, Oct 7, 2025, at 11:48 AM, Dave Hansen wrote:
+>> On 10/7/25 11:37, Edgecombe, Rick P wrote:
+>>>>  	/*
+>>>>  	 * No point in checking CS -- the only way to get here is a user mo=
+de
+>>>>  	 * trap to a high address, which means that we're in 64-bit user co=
+de=2E
+>>> I don't know=2E Is this as true any more? We are now sometimes guessin=
+g based on
+>>> regs->ip of a #GP=2E What if the kernel accidentally tries to jump to =
+the vsyscall
+>>> address? Then we are reading the kernel stack and strange things=2E Ma=
+ybe it's
+>>> worth replacing the comment with a check? Feel free to call this paran=
+oid=2E
+>>
+>> The first check in emulate_vsyscall() is:
+>>
+>>        /* Write faults or kernel-privilege faults never get fixed up=2E=
+ */
+>>        if ((error_code & (X86_PF_WRITE | X86_PF_USER)) !=3D X86_PF_USER=
+)
+>>                return false;
+>>
+>> If the kernel jumped to the vsyscall page, it would end up there, retur=
+n
+>> false, and never reach the code near the "No point in checking CS" comm=
+ent=2E
+>>
+>> Right? Or am I misunderstanding the scenario you're calling out?
+>>
+>> If I'm understanding it right, I'd be a bit reluctant to add a CS check
+>> as well=2E
+>
+>IMO it should boil down to exactly the same thing as the current code for=
+ the #PF case and, for #GP, there are two logical conditions that we care a=
+bout:
+>
+>1=2E Are we in user mode?
+>
+>2=2E Are we using a 64-bit CS such that vsyscall emulation makes sense=2E
+>
+>Now I'd be a tiny bit surprised if a CPU allows you to lretq or similar t=
+o a 32-bit CS with >2^63 RIP, but what do I know?  One could test this on a=
+ variety of machines, both Intel and AMD, to see what actually happens=2E
+>
+>But the kernel wraps all this up as user_64bit_mode(regs)=2E  If user_64b=
+it_mode(regs) is true and RIP points to a vsyscall, then ISTM there aren't =
+a whole lot of options=2E  Somehow we're in user mode, either via an exit f=
+rom kernel mode or via CALL/JMP/whatever from user mode, and RIP is pointin=
+g at the vsyscall page, and CS is such that, in the absence of LASS, we wou=
+ld execute the vsyscall=2E  I suppose the #GP could be from some other caus=
+e than a LASS violation, but that doesn't seem worth worrying about=2E
+>
+>So I think all that's needed is to update "[PATCH v10 10/15] x86/vsyscall=
+: Add vsyscall emulation for #GP" to check user_64bit_mode(regs) for the vs=
+yscall case=2E  (As submitted, unless I missed something while composing th=
+e patches in my head, it's only checking user_mode(regs), and I think it's =
+worth the single extra line of code to make the result a tiny bit more robu=
+st=2E)
 
-When I run this test on my minimal config in a nested VM I get:
+user_64bit_mode() is a CS check :)
 
-[root@testvm:~]# /nix/store/xlxd60n7v1qfr6s5zxda410zrzdd0xc2-kselftests/bin/run_kselftest.sh -t kvm:set_memory_region_test
-TAP version 13
-1..1
-# timeout set to 120
-# selftests: kvm: set_memory_region_test
-# Random seed: 0x6b8b4567
-# Testing KVM_RUN with zero added memory regions
-# Testing MMIO during vectoring error handling
-# Allowed number of memory slots: 32764
-# Adding slots 0..32763, each memory region with 2048K size
-# Testing MMIO emulation for instructions in gmem
-# ==== Test Assertion Failure ====
-#   lib/kvm_util.c:1118: region->mmap_start != MAP_FAILED
-#   pid=614 tid=614 errno=19 - No such device
-#      1	0x0000000000407b02: vm_mem_add at ??:?
-#      2	0x000000000040a924: __vm_create at ??:?
-#      3	0x000000000040ab16: __vm_create_shape_with_one_vcpu at ??:?
-#      4	0x00000000004042cf: main at ??:?
-#      5	0x00007faa6b08a47d: ?? ??:0
-#      6	0x00007faa6b08a538: ?? ??:0
-#      7	0x0000000000404384: _start at ??:?
-#   mmap() failed, rc: -1 errno: 19 (No such device)
-
-Here's the kconfig I'm using (basically defconfig+KVM): 
-
-https://gist.githubusercontent.com/bjackman/4ea941ef5072606769211f3b000c8ed7/raw/73808882ddae6ff2ae8a0be85ac977b2980f7292/kconfig.txt
-
-Sorry I'm too ignorant about KVM to know what I'm missing here but I
-guess it's a missing TEST_REQUIRE()?
+There is that one extra check for PARAVIRT_XXL that *could* be gotten rid =
+of by making the PV code report its 64-bit selector and patching it into th=
+e test, but it is on the error path anyway=2E=2E=2E
 
