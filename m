@@ -1,104 +1,88 @@
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB402641FB;
-	Thu, 30 Oct 2025 11:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DC626AC3;
+	Thu, 30 Oct 2025 12:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761825064; cv=none; b=Kfzm7Cq/bW3BSIyJOVBI50XJt3yacI0+qI1coqBuKpSFn7uidt49i10enOZ4SFwcGhXq85rf3FtQ1RAsMx86R4un+zjXO4yP3BFGeHDjT3RhGNzj9DiEdB0vt0w+kaJ8evzEaDXMgZBotZIF77n8m/QyRcZKPs+uz/hEMnIJW9E=
+	t=1761828037; cv=none; b=PZ4Eus55o4x1KFJ9bLo7103j1HHuQYWDDl5U0LsUDWoGBx5eKJckCG56qmbwjmytQWSDyvSWVR6Wbn1G1+jRq6QFVwBm5XVSiIA6Q9C8Sw0H91iX24ph6GHqQmf68K6NmXbMuvZDK0Y9v7f30TwsO+QIZpI5e3Px5I63QEcKbD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761825064; c=relaxed/simple;
-	bh=QIS0nTgd8Yks5rn0YdXxKcA8EFMyWIsZaG7wRpISRlg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qryfKVqIHufxSodYhDrdUP5ai0p5LtTqfTZTrZw42vqOrtZqBRiGGKd3PA9VFG34GK1gFFyzFk01BEStPBTALKtGgoXo8zzK6FM1wapBWu5b4ArV+DCEJLYeyn6JiB4Z30j/UB/d2Vraocl7KHQBdI15DwdgaEhlBG9OOsNEBzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w002.hihonor.com (unknown [10.68.28.120])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4cy24h54rFzYkxgw;
-	Thu, 30 Oct 2025 19:31:32 +0800 (CST)
-Received: from a018.hihonor.com (10.68.17.250) by w002.hihonor.com
- (10.68.28.120) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 30 Oct
- 2025 19:32:33 +0800
-Received: from localhost.localdomain (10.144.20.219) by a018.hihonor.com
- (10.68.17.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 30 Oct
- 2025 19:32:32 +0800
-From: zhongjinji <zhongjinji@honor.com>
-To: <shakeel.butt@linux.dev>
-CC: <akpm@linux-foundation.org>, <axboe@kernel.dk>, <cgroups@vger.kernel.org>,
-	<christoph.boehmwalder@linbit.com>, <corbet@lwn.net>,
-	<drbd-dev@lists.linbit.com>, <dsterba@suse.com>, <feng.han@honor.com>,
-	<hannes@cmpxchg.org>, <jinji.z.zhong@gmail.com>, <lars.ellenberg@linbit.com>,
-	<linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, <liulu.liu@honor.com>,
-	<mhocko@kernel.org>, <minchan@kernel.org>, <mkoutny@suse.com>,
-	<muchun.song@linux.dev>, <philipp.reisner@linbit.com>,
-	<roman.gushchin@linux.dev>, <senozhatsky@chromium.org>, <terrelln@fb.com>,
-	<tj@kernel.org>, <zhongjinji@honor.com>
-Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
-Date: Thu, 30 Oct 2025 19:32:28 +0800
-Message-ID: <20251030113228.18817-1-zhongjinji@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <k6jwua5rlkds7dxomwvxotwtjq4hauyevvyoxd5hjz733k7kk5@mmezlradxhpu>
-References: <k6jwua5rlkds7dxomwvxotwtjq4hauyevvyoxd5hjz733k7kk5@mmezlradxhpu>
+	s=arc-20240116; t=1761828037; c=relaxed/simple;
+	bh=Vwti+Oyqhh3Vszbl9HbC46xxrM6AGGSoT0/ulRpfj74=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Vr6X7neMUo9gicLC2s0jOrlBayb3ibqsweJYu/fI259LZSTiGiOLctu3/cXH1ZyURddChD+9ae9foUxbMH9A8UMt0QO0zz4KzXdC5LwK7tV20NV3ZH2R5UbQf2j2/+N7Cou5hDe5TWWOg6KwLO2JahVqGaMdOQYImAqi4vvPZaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o9RtIYgy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o9RtIYgy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A1CC4CEF1;
+	Thu, 30 Oct 2025 12:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761828036;
+	bh=Vwti+Oyqhh3Vszbl9HbC46xxrM6AGGSoT0/ulRpfj74=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=o9RtIYgyvHzfQjqglILBG0OitmyfsCh0DVy1RNTpjIkhMR/gbFVlqfNvGgAPxXwYi
+	 44Utyug2eNkfAgYyMfNutwHXbCgrMXfjcnohEW1jyNcac02ylUOqDoMdIGwa1QxERo
+	 2v/hpcu8nWiq/X/0R6rfWagSphb1ATQ/SH5BDS0FOXj/JzSBVfgGTKdbASAw96W9H9
+	 GBJ+ajWNmKuATFZhku3HIVfNT13jCYsi2rQ3NVwBSrXnz6n35KIz3VS2U5BUSSqoen
+	 kruzgbmrDQrfgUtiib5Zi/JnmNR+eMk1pNXfNs9qkd+UmpkDr4kkEC1ZiHOYVzKkyq
+	 RfYLD1Jww3JfQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E8B3A72A60;
+	Thu, 30 Oct 2025 12:40:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: w012.hihonor.com (10.68.27.189) To a018.hihonor.com
- (10.68.17.250)
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6 0/2] net/smc: make wr buffer count
+ configurable 
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176182801326.3832937.9219593539259854803.git-patchwork-notify@kernel.org>
+Date: Thu, 30 Oct 2025 12:40:13 +0000
+References: <20251027224856.2970019-1-pasic@linux.ibm.com>
+In-Reply-To: <20251027224856.2970019-1-pasic@linux.ibm.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ alibuda@linux.alibaba.com, dust.li@linux.alibaba.com, sidraya@linux.ibm.com,
+ wenjia@linux.ibm.com, mjambigi@linux.ibm.com, tonylu@linux.alibaba.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-s390@vger.kernel.org, guwen@linux.alibaba.com,
+ guangguan.wang@linux.alibaba.com, bagasdotme@gmail.com
 
-> Hi Jinji,
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Mon, 27 Oct 2025 23:48:54 +0100 you wrote:
+> The current value of SMC_WR_BUF_CNT is 16 which leads to heavy
+> contention on the wr_tx_wait workqueue of the SMC-R linkgroup and its
+> spinlock when many connections are competing for the work request
+> buffers. Currently up to 256 connections per linkgroup are supported.
 > 
-> On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
-> > Hello everyone,
-> > 
-> > On Android, different applications have varying tolerance for
-> > decompression latency. Applications with higher tolerance for
-> > decompression latency are better suited for algorithms like ZSTD,
-> > which provides high compression ratio but slower decompression
-> > speed. Conversely, applications with lower tolerance for
-> > decompression latency can use algorithms like LZ4 or LZO that
-> > offer faster decompression but lower compression ratios. For example,
-> > lightweight applications (with few anonymous pages) or applications
-> > without foreground UI typically have higher tolerance for decompression
-> > latency.
-> > 
-> > Similarly, in memory allocation slow paths or under high CPU
-> > pressure, using algorithms with faster compression speeds might
-> > be more appropriate.
-> > 
-> > This patch introduces a per-cgroup compression priority mechanism,
-> > where different compression priorities map to different algorithms.
-> > This allows administrators to select appropriate compression
-> > algorithms on a per-cgroup basis.
-> > 
-> > Currently, this patch is experimental and we would greatly
-> > appreciate community feedback. I'm uncertain whether obtaining
-> > compression priority via get_cgroup_comp_priority in zram is the
-> > best approach. While this implementation is convenient, it seems
-> > somewhat unusual. Perhaps the next step should be to pass
-> > compression priority through page->private.
-> > 
+> To make things worse when finally a buffer becomes available and
+> smc_wr_tx_put_slot() signals the linkgroup's wr_tx_wait wq, because
+> WQ_FLAG_EXCLUSIVE is not used all the waiters get woken up, most of the
+> time a single one can proceed, and the rest is contending on the
+> spinlock of the wq to go to sleep again.
 > 
-> Setting aside the issues in the implementation (like changing
-> compression algorithm of a cgroup while it already has some memory
+> [...]
 
-Zram uses flags to track the compression priority of each page,
-which should be ok when the page is decompressed.
+Here is the summary with links:
+  - [net-next,v6,1/2] net/smc: make wr buffer count configurable
+    https://git.kernel.org/netdev/net-next/c/aef3cdb47bbb
+  - [net-next,v6,2/2] net/smc: handle -ENOMEM from smc_wr_alloc_link_mem gracefully
+    https://git.kernel.org/netdev/net-next/c/8f736087e52f
 
-> compressed using older algo), I don't think memcg interface is the right
-> way to go about it. We usually add interfaces to memcg that have
-> hierarchical semantics.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks a lot, Shakeel. I got it.
-
-> Anyways if you want to have this feature, I think BPF might be the way
-> to get this flexibility without introducing any stable API and then you
-> can experiment and evaluate if this really helps.
 
