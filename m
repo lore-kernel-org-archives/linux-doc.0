@@ -1,210 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1842333440;
-	Thu, 30 Oct 2025 19:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B694E2EA151
+	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 21:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761854325; cv=none; b=HumguV1m8a3lHfTl78em8A6PdDgV5YO6yhFnLTSbBwEQ2fuPQpJqHg04m4ClUFUumwZrLRiR0TrU9CIWWh9c3EdCtqjx81FzGn3Zuz3oo0tPA4Ir0sVSQi0ij3OSybWuSwxXyeeRMtiwpYj8pRbWo0tDFlE9IVKmmYyFhHbybb0=
+	t=1761858804; cv=none; b=o5VXmZ4WdTaE0Sl9v8EUsjrmjVvTt7ixGJNZjJp9YC4pvwT3YBivjuB+pmks672dHyYt2VVLxLq8zTV186wOZj8iHjFIqyFBBpwprl/5vpD502p2wQTs8U6mc36VmMXSZworyhGUE2glI02ZBrh9nprtgupBmX8EXW3zusrFAQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761854325; c=relaxed/simple;
-	bh=gX0eYm6yHbhuq2jgqmTjz7o0HFpQFtUjRWVy79LpAqo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=orPVZ2PaCLcyl1BRRcyziBXBgFKH8oKiX5KfPyBXBnDMrKLKMt0AVINqjHDEJ14nVMqQdkwhwXwMnhZOQ8rI0C5vx7BF7f0rntY/KJAJpi29ztxc9G9A+LtOa5/k1cG9T2NYLp3UpPjKKwYwUdniFdBlVW+oaRt5TdgM/Ac7MtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbHVe6//; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761858804; c=relaxed/simple;
+	bh=Ds10LqyCnxdrh0ZjTOtUC48GJJV0wJwcpwKLPS3durE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IrDbl+CA+MP8mmuQKjRL8bvIsWvzauyd2LNt7X8fa/I/yI0qxPbUMPSH7ExGVqLgI5CMk1IGT5Gw4UpoOGRQhy861HNxSAPSTxPL+clFP/kofaSsI0r+v9s0PDKccHN5zQbaXutlMBLxZ+S7Wa7+AYEl5Isg1iIbHdrb4EmXTxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zh4CdJL9; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbHVe6//"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761854324; x=1793390324;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:to:cc;
-  bh=gX0eYm6yHbhuq2jgqmTjz7o0HFpQFtUjRWVy79LpAqo=;
-  b=TbHVe6//3DnwIDhbDKpniNRaT16s79pRCVlSMKuPHuy+V3CBsN4iw6H1
-   rcU6PmJoFbX7fzddOP5y/OnISETyd67IYiCdXrVK2ArUyfDDK5ue6n0YZ
-   EQZpMJwy91SjrFbIkOHOKoEItUIpzgkF1HsT1t0YR2RQ7qxg+5FwNyMBF
-   h/xe4iZvJGjmo13df4YsO7vpd9eS2juHx2V9upqb2FUUf83xRf0TxJT3v
-   jHOHGTSByfn1jfxTCC0UyWGlauQqBcei7FHy5lEW2wRm10FPpW5QLlaPz
-   DgK853J1d7aqrY0vFrp2dQbtuAFj1iOqbAco+vxPY+YzJVJRS7S/NHIx2
-   A==;
-X-CSE-ConnectionGUID: yGeOpAgdS+OtxZXF0L54eg==
-X-CSE-MsgGUID: qnANKxWXSv6MuRVGrz+MzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64159368"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="64159368"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 12:58:43 -0700
-X-CSE-ConnectionGUID: sTbGkBz8SJaolOUPAMb6vg==
-X-CSE-MsgGUID: QcVpFbzCTJWRayLCOEXSXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="190390693"
-Received: from unknown (HELO orcnseosdtnuc.amr.corp.intel.com) ([10.166.241.20])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 12:58:44 -0700
-From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Thu, 30 Oct 2025 12:58:32 -0700
-Subject: [PATCH v2] docs: kdoc: fix duplicate section warning message
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zh4CdJL9"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4710022571cso17389565e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 14:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761858801; x=1762463601; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mTFjyfM924ecEs5Bh5eIoT2AnXmgRLbADTYF0WurRYE=;
+        b=Zh4CdJL9Ye4tgOk2PdxNL4xixD0FkiLDlyZWIud5Hia8Zs2K6t2cuCJrS6pPLz1NPt
+         6i2LYEcnuOFXWX7xG2PgAhB9WUCChNRAK0Pq44uF+wXfWyFj2DLG6m+SWwOllx1pXDeZ
+         hb61cTMaqZffAFwcQjZPG4GEhC/NAx+yyKDlgmvCZndxsJ41LsBp+JPuHO6/6S0G8GUR
+         d0FPpP2CKwk7L8m9kEoq9n+oF6IIlcisCYDMbPaCxzehDfjmm9ijl7kOgVUekYjpZUTd
+         JZiVs6mwnGbr7MOQru1cX5FpfOIHNxo0FQjh9HOma1Oomvc8kSs7qR6/zSZpxtRxpwEM
+         FopQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761858801; x=1762463601;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mTFjyfM924ecEs5Bh5eIoT2AnXmgRLbADTYF0WurRYE=;
+        b=YQNlzvO2fPDyb9sQbZ+KUv98TeQ8n1UyIYEwAAZcW6EfzhAqXjaHkP96hGx55WpcPY
+         aeJB/ZI7Tw3k1bcOPu07+70sMTWCfyt3m9rH2Jx4SXuEE+wRTPNjRiXfKyCkd6uu9+jj
+         Qv+3eo1udH5Bo++wW5omPzTFUkunteXj2eyglR01sbmkj5vKFROB/6ivcYJcg3dWTB6R
+         RIb7Fk0mvDdHqoVZDMrPBLdUO/lyh1fv0HdjV5Z0igQmVgm1xfCb1GQKDVH87WHPL2Fg
+         6H7/jc8gO1njE9C8Gn+/ogzcUDTDPsfSqmGbOl2byS/IBoh9zZOLoxlIMBFcDC7HCcy3
+         5VMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4q/0HY5tb1lbbkkgVQbnU2+IdnEn/S8pdeHRfXio8/xt5+IpWFV/3e4nlDHspcBZKeRJHUMQLdZw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5ZIS5qzqZFwTgK3cZGw2xQI9SM0vs8oB89KyasYei7laeq+hs
+	SVjaOB2uuOy8B2KglTQAmbxeGCLWQUKn5PuVnSUPxzYyREvQ8A++xQM8
+X-Gm-Gg: ASbGncs6MOTDTum+UaGx9NqidTTNDBme1fYLVQadHDLHzDXIBEdX7SqgQVBr1QuU+3A
+	hpyr51xYR5kDyAIcE/MONViwnVet0wHwBxOhjmtn+TrDPLu1TmqUL0u8N9AAqneulvs9HewNAk3
+	AbSXeLe/QtEOgfGNbTApI9jnAAzrwnffYv16lg10Djteij1rcYumBt6wmcIpameSCCZszfIPWLI
+	3PaCk4itmMmwBfkkOOwrghgPN19A0X5rWIiPJfB8CoBiLiSj5RJIQVbw2oIqOnGml3anevpJgqj
+	owAgHh6Vbx14yiV4mPfn2OrOGcWCSP0doqJe+aGU8XJ23+HL56OTwqdFzg3mvhuNbjJ0Kk/eKzj
+	EusiOWRtnxhk6F7H7Ky4WMAUgmF5FX9H+tWTtM50qXPt3nI44Azgc8UnGVMGuy5Ha2fqiQ7ueO2
+	KQBKidrOZueUlS/v3m0jFWvC6/lHfoByvmNJSU6DpByWGpx2vrdvDED3yc6dRDUeI=
+X-Google-Smtp-Source: AGHT+IGHccmEm3OTVvfv1cl8GaVw3qg7Fan/QOWhxWwvh6yuV+lD+Cr5FA7Q1nAV3Zqiw6cVkBYCFw==
+X-Received: by 2002:a05:600c:630e:b0:471:11a3:a6a9 with SMTP id 5b1f17b1804b1-477308acfe4mr10073295e9.37.1761858800991;
+        Thu, 30 Oct 2025 14:13:20 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952d5773sm36299466f8f.27.2025.10.30.14.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 14:13:20 -0700 (PDT)
+Date: Thu, 30 Oct 2025 21:13:18 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ "the arch/x86 maintainers" <x86@kernel.org>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
+ Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Jonathan Corbet
+ <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, "Peter Zijlstra
+ (Intel)" <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, "Kirill
+ A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse
+ <dwmw@amazon.co.uk>, Sean Christopherson <seanjc@google.com>, Rick P
+ Edgecombe <rick.p.edgecombe@intel.com>, "Vegard Nossum"
+ <vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>, Tony Luck
+ <tony.luck@intel.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, <linux-doc@vger.kernel.org>, "Linux
+ Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v11 9/9] x86/cpu: Enable LASS by default during CPU
+ initialization
+Message-ID: <20251030211318.74d90c3f@pumpkin>
+In-Reply-To: <d1b5698e-94ab-45a2-a472-4488895d55bb@intel.com>
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+	<20251029210310.1155449-10-sohil.mehta@intel.com>
+	<789ADBB5-F7AC-4B08-B343-F23260FB8FBC@zytor.com>
+	<13681100-ddc3-4ef0-bd13-744282324ff1@app.fastmail.com>
+	<d1b5698e-94ab-45a2-a472-4488895d55bb@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251030-jk-fix-kernel-doc-duplicate-return-warning-v2-1-ec4b5c662881@intel.com>
-X-B4-Tracking: v=1; b=H4sIAGfDA2kC/52NQQ6CMBBFr2K6dgwtouDKexgWpR1hBFsyLagh3
- N3KEVy+n/z3FhGQCYO47BbBOFMg7xKo/U6YTrsWgWxioTJVyExV8OjhTm/okR0OYL0BO40DGR0
- RGOPEDl6aHbkWGlucUeeVOalSJOHImK5b7FYn7ihEz5+tPcvf+ldmliBBlWiLskGTZ8cruYjDw
- finqNd1/QJs8b7Z5AAAAA==
-X-Change-ID: 20251029-jk-fix-kernel-doc-duplicate-return-warning-bd57ea39c628
-To: Jonathan Corbet <corbet@lwn.net>, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>
-X-Mailer: b4 0.15-dev-782a1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5810;
- i=jacob.e.keller@intel.com; h=from:subject:message-id;
- bh=gX0eYm6yHbhuq2jgqmTjz7o0HFpQFtUjRWVy79LpAqo=;
- b=owGbwMvMwCWWNS3WLp9f4wXjabUkhkzmw8XXVA9e+/v6pP5fbsUHB45UZy9fki0fH8If/UP3m
- sD6Td/yO0pZGMS4GGTFFFkUHEJWXjeeEKb1xlkOZg4rE8gQBi5OAZhI7C6G/66NFe+qtly4dXhl
- jYFWkb95x87XfxPik6PXKm7/8PTn+bMM/7PFl7+50TFH9rPeWi2pHJeKqy+805jaXgpeL1gYcaT
- alQsA
-X-Developer-Key: i=jacob.e.keller@intel.com; a=openpgp;
- fpr=204054A9D73390562AEC431E6A965D3E6F0F28E8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The python version of the kernel-doc parser emits some strange warnings
-with just a line number in certain cases:
+On Thu, 30 Oct 2025 09:44:02 -0700
+Sohil Mehta <sohil.mehta@intel.com> wrote:
 
-$ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-Warning: 174
-Warning: 184
-Warning: 190
-Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
+> On 10/30/2025 8:45 AM, Andy Lutomirski wrote:
+> > On Thu, Oct 30, 2025, at 1:40 AM, H. Peter Anvin wrote: =20
+> >> Legacy vsyscalls have been obsolete for how long now? =20
+> >=20
+> > A looooong time.
+> >=20
+> > I would suggest defaulting LASS to on and *maybe* decoding just enough =
+to log, once per boot, that a legacy vsyscall may have been attempted. It=
+=E2=80=99s too bad that #GP doesn=E2=80=99t report the faulting address.
+> >  =20
+>=20
+> Unfortunately, CONFIG_X86_VSYSCALL_EMULATION defaults to y. Also, the
+> default Vsyscall mode is XONLY. So even if vsyscalls are deprecated,
+> there is a non-zero possibility someone would complain about it.
 
-I eventually tracked this down to the lone call of emit_msg() in the
-KernelEntry class, which looks like:
+Presumably a command line parameter could be used to disable LASS
+in order to enable vsyscall emulation?
 
-  self.emit_msg(self.new_start_line, f"duplicate section name '{name}'\n")
+That might let LASS be enabled by default.
 
-This looks like all the other emit_msg calls. Unfortunately, the definition
-within the KernelEntry class takes only a message parameter and not a line
-number. The intended message is passed as the warning!
-
-Pass the filename to the KernelEntry class, and use this to build the log
-message in the same way as the KernelDoc class does.
-
-To avoid future errors, mark the warning parameter for both emit_msg
-definitions as a keyword-only argument. This will prevent accidentally
-passing a string as the warning parameter in the future.
-
-Also fix the call in dump_section to avoid an unnecessary additional
-newline.
-
-Fixes: e3b42e94cf10 ("scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class")
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
----
-We recently discovered this while working on some netdev text
-infrastructure. All of the duplicate section warnings are not being logged
-properly, which was confusing the warning comparison logic we have for
-testing patches in NIPA.
-
-This appears to have been caused by the optimizations in:
-https://lore.kernel.org/all/cover.1745564565.git.mchehab+huawei@kernel.org/
-
-Before this fix:
-$ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-Warning: 174
-Warning: 184
-Warning: 190
-Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
-
-After this fix:
-$ ./scripts/kernel-doc -Wall -none 'include/linux/virtio_config.h'
-Warning: include/linux/virtio_config.h:174 duplicate section name 'Return'
-Warning: include/linux/virtio_config.h:184 duplicate section name 'Return'
-Warning: include/linux/virtio_config.h:190 duplicate section name 'Return'
-Warning: include/linux/virtio_config.h:226 No description found for return value of '__virtio_test_bit'
-Warning: include/linux/virtio_config.h:259 No description found for return value of 'virtio_has_feature'
-Warning: include/linux/virtio_config.h:283 No description found for return value of 'virtio_has_dma_quirk'
-Warning: include/linux/virtio_config.h:392 No description found for return value of 'virtqueue_set_affinity'
----
-Changes in v2:
-- Rebased onto docs-next from git://git.lwn.net/linux.git
-- Link to v1: https://patch.msgid.link/20251029-jk-fix-kernel-doc-duplicate-return-warning-v1-1-28ed58bec304@intel.com
----
- scripts/lib/kdoc/kdoc_parser.py | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index 6e5c115cbdf3..ee1a4ea6e725 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -275,6 +275,8 @@ class KernelEntry:
- 
-         self.leading_space = None
- 
-+        self.fname = fname
-+
-         # State flags
-         self.brcount = 0
-         self.declaration_start_line = ln + 1
-@@ -289,9 +291,11 @@ class KernelEntry:
-         return '\n'.join(self._contents) + '\n'
- 
-     # TODO: rename to emit_message after removal of kernel-doc.pl
--    def emit_msg(self, log_msg, warning=True):
-+    def emit_msg(self, ln, msg, *, warning=True):
-         """Emit a message"""
- 
-+        log_msg = f"{self.fname}:{ln} {msg}"
-+
-         if not warning:
-             self.config.log.info(log_msg)
-             return
-@@ -337,7 +341,7 @@ class KernelEntry:
-                 # Only warn on user-specified duplicate section names
-                 if name != SECTION_DEFAULT:
-                     self.emit_msg(self.new_start_line,
--                                  f"duplicate section name '{name}'\n")
-+                                  f"duplicate section name '{name}'")
-                 # Treat as a new paragraph - add a blank line
-                 self.sections[name] += '\n' + contents
-             else:
-@@ -393,15 +397,15 @@ class KernelDoc:
-                           'Python 3.7 or later is required for correct results')
-             python_warning = True
- 
--    def emit_msg(self, ln, msg, warning=True):
-+    def emit_msg(self, ln, msg, *, warning=True):
-         """Emit a message"""
- 
--        log_msg = f"{self.fname}:{ln} {msg}"
--
-         if self.entry:
--            self.entry.emit_msg(log_msg, warning)
-+            self.entry.emit_msg(ln, msg, warning=warning)
-             return
- 
-+        log_msg = f"{self.fname}:{ln} {msg}"
-+
-         if warning:
-             self.config.log.warning(log_msg)
-         else:
-
----
-base-commit: b4ff1f611b00b94792988cff794124fa3c2ae8f8
-change-id: 20251029-jk-fix-kernel-doc-duplicate-return-warning-bd57ea39c628
-
-Best regards,
---  
-Jacob Keller <jacob.e.keller@intel.com>
-
+	David
