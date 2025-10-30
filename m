@@ -1,87 +1,94 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30131E766E;
-	Thu, 30 Oct 2025 05:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5182BE7CD;
+	Thu, 30 Oct 2025 06:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761802296; cv=none; b=dMx8xtrezXJMV76/xV8XQfI869vOPl3ZZ7jQjJJRHblSETxh8OPkBp4fFszB6mKFyfUFrCWVQ/lkv4URm0sBiscLjRx/oAYpoe4WOkBHGOWN0dwW1B8oXmxkLIExfCZLgil5/4ax08xXA2WQYPFM2krk7MhShQwPNZNQeDDtesI=
+	t=1761805550; cv=none; b=an+6cS+7Cn+JeMpreU9ftTsr6LQ627U8OHDr2J0O3kjIUHVcARUY1ddVMQdBA2VovKqNhdG1zHTfwTE1lp/zbKyvBjtbGLNQIf10be9dLVl7EY79G5iaGD2bGaOUzP1n4imIRkqoeWXG8gLQRB0MSsgQpCiJT+SzF4LZqLZE6ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761802296; c=relaxed/simple;
-	bh=KYqFCycNKEk2Oa2mCaZ1+xdf5d/aCrQV5Ee68Oi/m8c=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gtu2jEi/HvEdC628Cc1tCgiRvzwYu+QMuwju0Nj0q43m4ug1ofrGG6pn/95j5F6QyASQbk5dMXKmhS6ge4ui+B9P9J9l9OvEclrtgKDtPMopIySyrNZ7rTFWPf6PsxW+ONVthrBuxIc3JL8+y7fyehkb2Levb7tSi4mk1yC2vbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Dmkbwjuj; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1761805550; c=relaxed/simple;
+	bh=bn5A/m1OsgUKHJhhjxySUo4eK7TU9DdBJ75InA0kzsE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AtC5Zet/kRYxZsSlzuKa8ZicJ9yqBv5S5FRDkFC41lng3rmaxuMxrUvJSBBGYQwb9LMmSyfAIBrmoz2dxxPSChYyHXDNnSKqkRPeRXlnPXst+C/YCWjmNW//y40Fr2nctq479B85gXepdXyJvBx9mV8KIY98gbz862yvIl9bKtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eyO89ghm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Dmkbwjuj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1761802290; x=1762061490;
-	bh=SqB029SpVmJqfLswaEolkge/L1HE0Gdq54LxorgJlpY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=DmkbwjujvK+EMhhVlhE633gtvTYp7stPsK2BPbKyUdMoaxnIplgzHAexjILc1xVuH
-	 gLXrpW1HyJwWmsjmp/lmf4wpRSDyWnYtEMKML6wW8rgghV+GnHSCpMrfmQbgODjtub
-	 tGyuGNNdhb/LVgZmJXqsvlvCEbLjmO+I8ggYJKeqgf3/xZCnBJg2qmYKYktt/n3rp4
-	 fpr+OFnZKCJlPrSvs9lPwCnKwXx5Pf/+vCoIGRyfV6DxVWk6i5QRjssG2k73Nt40UY
-	 eOQ6qpOuIco0pPKWj+Ilc/4BN3PBQx8nKwI+YZfggQVUW38eqxOLLul3nZsVeP7f6K
-	 Q7ALpWrEdqhMA==
-Date: Thu, 30 Oct 2025 05:31:22 +0000
-To: Andrew Morton <akpm@linux-foundation.org>
-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com,
-	nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for x86
-Message-ID: <ngwfbor66uhrgfe2g4nvziwqp3gtsbndlpnhnov7ew7535dysv@ieypsfjfmnlo>
-In-Reply-To: <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 22e7e1e747884a326f20da03a155c805b55537aa
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eyO89ghm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=mHpQwxRchZle7itzYGWAIJeSghjL379Sw36+lqWAIS4=; b=eyO89ghmZUjgAbspEFqpCh+LLF
+	Kx/+IrtC6tTyglEAWbtCz15JdwlT6Pv1X37LjkKkbq7Jz9v9G9mi1tEiKLMvjonzODzjecpWx3e4q
+	gO8ob/eSsUai1UdzddOkRkauSox9DLIXnpPJbK0BSOht/kKG6MK4FqExsCS9GT2kgfWpDwHuB8DJn
+	7X8ykwMzQtea2lKIGn3YBCAlZe/on0zEYUZ7QM2DJwey0fcsZFjfxq5CJUncvauNDUFB+LNzyLRrx
+	FpttQiGedd/lssOL2KeAtifTa2zmCZm8U/jMfSz7ZNVbXfrRXyFZkXxq7FN0oN1/K2sNyV0JUS0Sa
+	rLY87LzQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vEM6S-00000003YqA-1ESN;
+	Thu, 30 Oct 2025 06:25:44 +0000
+Message-ID: <6553266e-aa0e-4ca7-b83c-cf6df2764f3c@infradead.org>
+Date: Wed, 29 Oct 2025 23:25:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kernel-chktaint: add reporting for tainted modules
+To: Thorsten Leemhuis <linux@leemhuis.info>, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20251029043901.10755-1-rdunlap@infradead.org>
+ <16cd7071-3c19-4e32-ba11-ce0856a6f2f8@leemhuis.info>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <16cd7071-3c19-4e32-ba11-ce0856a6f2f8@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks for taking a look at the series!
 
-On 2025-10-29 at 15:08:06 -0700, Andrew Morton wrote:
->On Wed, 29 Oct 2025 19:05:27 +0000 Maciej Wieczor-Retman <m.wieczorretman@=
-pm.me> wrote:
->
->> The patchset aims to add a KASAN tag-based mode for the x86 architecture
->> with the help of the new CPU feature called Linear Address Masking
->> (LAM). Main improvement introduced by the series is 2x lower memory
->> usage compared to KASAN's generic mode, the only currently available
->> mode on x86. The tag based mode may also find errors that the generic
->> mode couldn't because of differences in how these modes operate.
->
->Thanks.  Quite a lot of these patches aren't showing signs of review at
->this time, so I'll skip v6 for now.
->
->However patches 1&2 are fixes that have cc:stable.  It's best to
->separate these out from the overall add-a-feature series please - their
->path-to-mainline will be quite different.
 
-Okay, I'll send them separately
+On 10/29/25 6:56 AM, Thorsten Leemhuis wrote:
+> On 10/29/25 05:39, Randy Dunlap wrote:
+>> Check all loaded modules and report any that have their 'taint'
+>> flags set along with a count of all tainted modules.
+>> The tainted module output format is:
+>>  * <module_name> (<taint_flags>)
+>>
+>> Example output:
+>>
+>> Kernel is "tainted" for the following reasons:
+>>  * externally-built ('out-of-tree') module was loaded  (#12)
+>>  * unsigned module was loaded (#13)
+>> Raw taint value as int/string: 12288/'G           OE      '
+>>
+>> Modules tainted: 1
+>>  * dump_test (OE)
+> 
+> Great. Now I wonder if the "1" really is needed, but whatever. I only
+> mentioned that because something else came to my mind:
 
->I grabbed just those two patches for some testing, however their
->changelogging isn't fully appropriate.  Can I ask that you resend these
->as a two-patch series after updating the changelogs to clearly describe
->the userspace-visible effects of the flaws which the patches fix?
->
->This is to help -stable maintainers understand why we're proposing the
->backports and it is to help people to predict whether these fixes might
->address an issue which they or their customers are experiencing.
+Agreed. Will drop that line.
 
-Sure, I'll also fixup that undefined symbol error that you mentioned in
-the second email.
-
-kind regards
-Maciej Wiecz=C3=B3r-Retman
+> The script can be called with a positive integer as parameter to decode
+> a value you retrieved from /proc/sys/kernel/tainted on another system.
+> Then the module check likely should be omitted. 
+> 
+> [...] 
+>> +echo "Raw taint value as int/string: $taint/'$out'"
+>> +
+>> +# report on any tainted loadable modules
+>> +[ -r /sys/module/ ] && cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0
+> 
+> Maybe by replacing that line with something like this (untested;
+> not even sure if the foo && bar && baz || foobar really works):
+> 
+> [ $1 -eq 0 ] && [ -r /sys/module/ ] && cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0  
+Looks good. I'll test that and send v3.Thanks.
+-- 
+~Randy
 
