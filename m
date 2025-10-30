@@ -1,98 +1,86 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383E01A7AE3
-	for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 14:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27973126BF1;
+	Thu, 30 Oct 2025 14:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761832862; cv=none; b=nmEfmaIJa9x6X1pwOg3cgShmmhVg03kZAjiPO+f6MDBh3u66kYe2ObwNdY9kcMORtyDapdiJDO6JgisC90Z11jT09VpymolQ4q9SXdzFr+Y21rsPjw9gV/twiqIcs4QeyasNZ6OM18jWhHufO2POZtSdD2OEdZq1xdUftp/ogz4=
+	t=1761833120; cv=none; b=Aw3MyWTrbdoqmSlY81u0vtgRekKXGNEGjNOhI1d6dxAd/nCQeZ1iWoIi8scERezVBSMRd8SnXYZl7hk46+L2e/UkSS8FtXtPuQBv/pEKcAqHEYNEMLaO5QXjsTxCT8tTfUXJxhI+eMk9DiH/jhbvTORNRJOtI/sLvBnhL3ACHpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761832862; c=relaxed/simple;
-	bh=o8WfBNrywvxmcPzlntg/9HC4HIIWsNpEBRr1GX6catQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Px6EavDkK1UKIgrYX1wgbcKnkTsznFr7dr48heWrgEeqY8sW68CP0V7Si0KEw/u2AC8KgDQJspXGC2fMrZp7P+dAYje7mJ63Am9I9L8Q70p9YA2Pgoyfp3LYlNyMJzcjgUFGjU3Z3br5vtEzhYEnF9VhjnKj53vOJL8NCfO2LS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rnhuFmPz; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1761833120; c=relaxed/simple;
+	bh=FIKu4iYEpNCcQJAJFxEAKcyoNhn57WXUvUK9Lqt+ERU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmZ213yzDCgKJpLu8x3RgRZnQZYUTv9PkN93SXlu+sybxdhR383rRjRmXMzO2e1xZKHOou2He3GfkGD7d4qqWYfs14cUzlcugWM1whI89n+VJCs4CuZeMtY3gcFFIDILydJo6GsdrMx9PIlB9fYdBdMZqEEfsQVgoMbA00Buu2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OU42mios; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rnhuFmPz"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-475da25c4c4so9389865e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 07:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761832859; x=1762437659; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MhOsA8UHsD+kgHnQG5bj7evQvukJJELHnuX+mjowyF8=;
-        b=rnhuFmPzIqStykreU9h7nBkfcdbyGRbwErU9YwP7NdVU4Xnnq3tQVROMDgO+0X+ZeR
-         tEmNY6jJDih8E3aK2cyke7IxLe+nxQGgf3CUMR0dlJaxEdLc7Ovs/zjBD9Y3T+F8ISYU
-         KYpk4zekB0uR3bDTpMYBmPnwSQbuRPtzlh4RXJ63fkabWn8CLSKVWBhjzTySwRWZb90X
-         me/edQhAkh5Yx6xqcF4p0SwdZUZV2VUMymJmL8SFvkqkjFCHwUPTZPTduEUtIwputTHx
-         vLyGs/0vbylFloAsK0CfUl1DrApjavGdqT3Co82CYBTxyUEzBVcY33wr+aVNY6W0/AFb
-         qnFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761832859; x=1762437659;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MhOsA8UHsD+kgHnQG5bj7evQvukJJELHnuX+mjowyF8=;
-        b=TQ7Ja0IWIyZrwFIFJlN6BjkRmvCYvAZFelC4cxuHJ1tCYelxs3wcruvmiSIjUg4K0l
-         pPg6nFSA8PMg7hrkYky9j7Olo1q28KfkLVemWtHkCjduJppsxdVYG1g/rRj5Yi8IfD8t
-         RGHUCqF+Q4T/uOWyEMAbcgN2ZD+RI4P1WkePrGRht1u4mpK8ohexlTJCtUeCuLualcEp
-         6rsQEIZVg07fqK3/uzeAkixv3z58bykMVwbN0svwrbTpiFZp+u7+cHByl6ECWW9n8Cgk
-         K9y3mYYmSFPgba+saN9D3iFC6ZUWL4tMx8UwliBW1PUbb4NozbG7W8BAfbVCBxSSFrOe
-         CH7g==
-X-Gm-Message-State: AOJu0Yw6kf0C9R9aYEq5zIGLQe29KqKpyl5lmTTRTtN20o73BTs0ypGz
-	ai8SCAWGH8Gyb5iuB1G/9JkoIkCPGfk0cRZpz0GI4ER4Ix3wNToPgxTbbpuiZfu/kuoaD3tIxQW
-	C37BGt2GzV9vP0A==
-X-Google-Smtp-Source: AGHT+IFDaUTBibrp5YvovgZGztDFvYuBR6JcNr//76jIUfw4OooUFlcB/OZZF5LYyqq7RIE/k/er0tNN/R4SlQ==
-X-Received: from wmco28.prod.google.com ([2002:a05:600c:a31c:b0:46e:2f78:5910])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:8306:b0:471:c72:c7f8 with SMTP id 5b1f17b1804b1-477222fe0bfmr35058585e9.21.1761832859652;
- Thu, 30 Oct 2025 07:00:59 -0700 (PDT)
-Date: Thu, 30 Oct 2025 14:00:59 +0000
-In-Reply-To: <DDJU0415JEBQ.H2SD942NMDWX@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OU42mios"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=xFP5v3fUOlDAEzHhimBhc19pvPkZDICA/lfyXRtuCO8=; b=OU42miosZZnsNGA8GWX4rxDD5v
+	NbliiDx+SjRjbIF9jFGckM3MdP80CQtGSDK/nbkvMlbdk1UygMYUDjPgN0c3vvX0NOyP5CKxGp8AZ
+	A0DJkJWWLkbUlw/iPQNrDXvp28dgzimT0B/sxr0cBPO6KMupjjlnCC3hxe9S9lUyGvfnixBrqjeAC
+	wT0vgTXn2TPw1TpM6hxsYrRnggBilsHevdZqkWTFmJhpkv49kyH6eyrb1h6QAe2DZ4/V8W1eTyrm9
+	TrXUxnBsjtbfa8pB8oZssfa0DYQyEYtx2WM8A6WPnUYKejXmj9paTw59DZGiAsEmGg/W8PAHKEk9q
+	Asgroq/g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vETGn-00000004H02-1Xin;
+	Thu, 30 Oct 2025 14:04:54 +0000
+Date: Thu, 30 Oct 2025 07:04:53 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, akpm@linux-foundation.org,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, alexandru.elisei@arm.com,
+	peterx@redhat.com, sj@kernel.org, rppt@kernel.org, mhocko@suse.com,
+	corbet@lwn.net, axboe@kernel.dk, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, jack@suse.cz, willy@infradead.org,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, hannes@cmpxchg.org,
+	zhengqi.arch@bytedance.com, shakeel.butt@linux.dev,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	minchan@kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH v2 0/8] Guaranteed CMA
+Message-ID: <aQNwhQcN8Su_Il6c@infradead.org>
+References: <20251026203611.1608903-1-surenb@google.com>
+ <aP8XMZ_DfJEvrNxL@infradead.org>
+ <CAJuCfpH1Nmnvmg--T2nYQ4r25pgJhDEo=2-GAXMjWaFU5vH7LQ@mail.gmail.com>
+ <aQHdG_4yk0-o0iEY@infradead.org>
+ <CAJuCfpFPDPaQdHW3fy46fsNczyqje0W8BemHSfroeawB1-SRpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251015-l1d-flush-doc-v1-0-f8cefea3f2f2@google.com> <DDJU0415JEBQ.H2SD942NMDWX@google.com>
-X-Mailer: aerc 0.21.0
-Message-ID: <DDVPMHX51EZE.1UIA8HYYQZKQT@google.com>
-Subject: Re: [PATCH 0/2] Documentation: fixups for L1D flushing
-From: Brendan Jackman <jackmanb@google.com>
-To: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Balbir Singh <sblbir@amazon.com>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFPDPaQdHW3fy46fsNczyqje0W8BemHSfroeawB1-SRpQ@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu Oct 16, 2025 at 2:54 PM UTC, Brendan Jackman wrote:
-> On Wed Oct 15, 2025 at 5:02 PM UTC, Brendan Jackman wrote:
->> Signed-off-by: Brendan Jackman <jackmanb@google.com>
->> ---
->> Brendan Jackman (2):
->>       Documentation: clarify PR_SPEC_L1D_FLUSH
->>       Documentation: fix reference to PR_SPEC_L1D_FLUSH
->>
->>  Documentation/admin-guide/hw-vuln/l1d_flush.rst | 2 +-
->>  Documentation/userspace-api/spec_ctrl.rst       | 6 +++++-
->>  2 files changed, 6 insertions(+), 2 deletions(-)
->> ---
->> base-commit: 0292ef418ce08aad597fc0bba65b6dbb841808ba
->> change-id: 20251015-l1d-flush-doc-029f64d2b0d3
->>
->> Best regards,
->
-> I just noticed another issue - the docs say you get -ENXIO if control
-> isn't possible, but for L1D_FLUSH and INDIR_BRANCH you get -EPERM.
->
-> TBH I think this is a bug but it seems like it's still better to just
-> document it than change the behaviour.
+On Wed, Oct 29, 2025 at 07:57:34AM -0700, Suren Baghdasaryan wrote:
+> On Wed, Oct 29, 2025 at 2:23 AM Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Mon, Oct 27, 2025 at 12:51:17PM -0700, Suren Baghdasaryan wrote:
+> > > I'm guessing you missed my reply to your comment in the previous
+> > > submission: https://lore.kernel.org/all/CAJuCfpFs5aKv8E96YC_pasNjH6=eukTuS2X8f=nBGiiuE0Nwhg@mail.gmail.com/
+> > > Please check it out and follow up here or on the original thread.
+> >
+> > I didn't feel to comment on it.  Please don't just build abstractions
+> > on top of abstractions for no reason.  If you later have to introduce
+> > them add them when they are actually needed.
+> 
+> Ok, if it makes it easier to review the code, I'll do it. So, I can:
+> 1. merge cleancache code (patch 1) with the GCMA code (patch 7). This
+> way all the logic will be together.
+> 2. . LRU additiona (patch 2) and readahead support (patch 3) can stay
+> as incremental additions to GCMA, sysfs interface (patch 4) and
+> cleancache documentation (
 
-Since I didn't have to respin this series I sent a separate one for this
-issue:
+Sounds good.
 
-https://lore.kernel.org/all/DDJU0415JEBQ.H2SD942NMDWX@google.com/T/#t
