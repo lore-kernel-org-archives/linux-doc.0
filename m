@@ -1,61 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCF22E0B59;
-	Wed, 29 Oct 2025 23:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCBE41C69;
+	Thu, 30 Oct 2025 00:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761779593; cv=none; b=hmrDkmTLKOrR7Y/X4SxTuh/C88wJItpUmqFr+Jii49rIgWMHkX9HmFqqasaVOFiqHglVg9GddiOUPtA2LPF7iokPNcR3Z8J8lAasc9JiBT1jmyor3uQW9JBkWfuit+IEe4nJd+/Cr5aQKmzb6FWI2ZXLfaGJubD5ANNUEILHeU0=
+	t=1761783000; cv=none; b=ug7ScxxvJ0BiUDg6JQG2KyoSE8OTP6TIMCVnarrcx4ZdZJAaxbWvFZqRDO0PwMhehjsL2WZsfFcoetSVo4l8uFYE5TBr+FgljZTHDJLx0I0xlQO4kzLv+iNjbAqAbvLyfWNKfGGPETABYRvNm2eiN8ZkI0Pc1Y2/Ceq5l3V4264=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761779593; c=relaxed/simple;
-	bh=z4SnXRipUzz35y/BzThyGakaFJrTo847VpmitD4DBYQ=;
-	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=DtYgxJnNtLEm9P+YoPUQJGLQJziQaAuaQe+0GeiZFBKfal1QOydZ41IyJdcJKZBKPsJ/KLqT2LFrrxq+kBRpC9Jr/lgCHgYD0Kz8+pUJgQhngUFzsE5FOBhH9Vl0WcKyyvz47NNZTA1/aQeySH7sto8TW4K6+t5dGmQFukVebyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=im3LP7Wh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761783000; c=relaxed/simple;
+	bh=AceE3gCsdl1DA5X4XGmZcEf7H6HBtxryjxL7lc5Pcck=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=uH/kt+cay4bb2Wi6oTBdiSgVR5Bhn4lFObbyVJao1IazgvJhIJBAgIPz02gzC4mxLOejmtzozyl2RAM++nH+Nb9aygldLTlKoH8yp+0Z8LCP7wAZrwa5udfYWXQHpTQhpBbNVRmUE/i+cpefJSRhGpPHsTuccsU2RZeUbxhoqOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SbRGlLY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="im3LP7Wh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A30C4CEF7;
-	Wed, 29 Oct 2025 23:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1761779592;
-	bh=z4SnXRipUzz35y/BzThyGakaFJrTo847VpmitD4DBYQ=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=im3LP7Wh6PwlT0Uu4EFypO7HRZK3HCj/cZx1dZQ6EVD75bjhnAw2+T3Ml0qTTPVH4
-	 2VAAAUaPpjfKb+je7NI4Wfo1AhVCe3/XyQOFVeK15Lu/uNgRGGyHbqQUpPLiCw+piC
-	 qVOPw5OaKjEApJmT/RyYG0NdSjlS7qVmJofNHRn8=
-Date: Wed, 29 Oct 2025 16:13:10 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, xin@zytor.com,
- peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org,
- nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com,
- bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com,
- kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com,
- wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com,
- fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
- ubizjak@gmail.com, ada.coupriediaz@arm.com,
- nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com,
- elver@google.com, pankaj.gupta@amd.com, glider@google.com,
- mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org,
- thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com,
- jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com,
- mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com,
- vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
- ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev,
- ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
- broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
- maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
- rppt@kernel.org, will@kernel.org, luto@kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, x86@kernel.org,
- linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for
- x86
-Message-Id: <20251029161310.61308a6b61b1423feb655d2a@linux-foundation.org>
-In-Reply-To: <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
-	<20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SbRGlLY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BF33C4CEFD;
+	Thu, 30 Oct 2025 00:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761782999;
+	bh=AceE3gCsdl1DA5X4XGmZcEf7H6HBtxryjxL7lc5Pcck=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SbRGlLY+9om9klZoA9dwo0WYQHobN4e/PU1/Y8xveEi/7ZI2WDhT5chQdEcNm1QSX
+	 U8hGhrLPNXFnMwwB3ACZxo2YQNKuLaIiHTcQhYxHMqxt4JoujiphZ5LBZBBhelmbUd
+	 G7An3QlOisuhVQ1yrhtLK35Yq0yrOIahqOORflXgp+X4SR+NKCLqkK3hWBQanEbb2c
+	 X+wCNdVumjh3z/wYYIwZCKTGlnosCMgUaPWVk/qfexbcUkj4JSOE1F2zDqdo/adp1H
+	 GFrCHO9OVd0GlFFJnZxrokMcF8fueJmg23t7c2ZO327wRVhEZFzq6Ts8DIb1GBMyn6
+	 r18V3ftUKJGjQ==
+Date: Thu, 30 Oct 2025 09:09:52 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, Mark Brown <broonie@kernel.org>, Masami Hiramatsu
+ (Google) <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
+ wprobe
+Message-Id: <20251030090952.befea7f0cecd5518c7fda02c@kernel.org>
+In-Reply-To: <20251029172004.a0aca144735f20a6a59d2aa6@kernel.org>
+References: <175859019940.374439.7398451124225791618.stgit@devnote2>
+	<175859026716.374439.14852239332989324292.stgit@devnote2>
+	<aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
+	<20251027224347.4c887cc956df63602f377550@kernel.org>
+	<20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
+	<20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
+	<20251029004219.dc9cda0eb56ae46c55855844@kernel.org>
+	<20251029114317.167b7d908533385c1c9e6782@kernel.org>
+	<20251029172004.a0aca144735f20a6a59d2aa6@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,17 +64,125 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 29 Oct 2025 15:08:06 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+On Wed, 29 Oct 2025 17:20:04 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-> However patches 1&2 are fixes that have cc:stable.  It's best to
-> separate these out from the overall add-a-feature series please - their
-> path-to-mainline will be quite different.
+> On Wed, 29 Oct 2025 11:43:17 +0900
+> Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 > 
-> I grabbed just those two patches for some testing,
+> > > Hmm, it seems that jiffies related things are updated frequently
+> > > and it may cause interrupt storm or infinit recursive call.
+> > 
+> > I added another trace_printk() in el1_watchpt(). It seems el1_watchpt()
+> > takes too long and there is no time to do any other things.
+> > (Note the interval shown below is only within the el1_watchpt function,
+> >  and in reality various processes (save/restore registers etc) for
+> >  exception handling will be inserted before and after.)
+> 
+> Forget about this. I found the root cause. The x86 watchpoint exception
+> happens after the instruction is executed, the arm64 happens before.
+> 
+> Thus what we need is to emulate or do single step the hooked instruction
+> and restart from the next instruction from the watchpoint exception on
+> arm64. I thought hw_breakpoint does that, but doesn't. Should we do this
+> in do_watchpoint() or in user_handler?
 
-x86_64 allmodconfig:
+There is a single step execution code but only for default overflow_handlers.
+This is a bit strange becuase other users can not set it up outside of
+the arch dependent code. Even if it can, it is simply redundant.
 
-/opt/crosstool/gcc-13.2.0-nolibc/x86_64-linux/bin/x86_64-linux-ld: vmlinux.o: in function `pcpu_get_vm_areas':
-(.text+0x101cc0f): undefined reference to `__kasan_unpoison_vmap_areas'
+So I made changes below which allow users to set its own custom handler is
+compatible with perf default overflow handlers.
+I confirmed this works on both arm and arm64.
 
+diff --git a/arch/arm64/kernel/hw_breakpoint.c b/arch/arm64/kernel/hw_breakpoint.c
+index ab76b36dce82..e12ec95b471e 100644
+--- a/arch/arm64/kernel/hw_breakpoint.c
++++ b/arch/arm64/kernel/hw_breakpoint.c
+@@ -632,6 +632,7 @@ void do_breakpoint(unsigned long esr, struct pt_regs *regs)
+ 	addr = instruction_pointer(regs);
+ 	debug_info = &current->thread.debug;
+ 
++	trace_printk("breakpoint exception at address: 0x%lx\n", addr);
+ 	for (i = 0; i < core_num_brps; ++i) {
+ 		rcu_read_lock();
+ 
+@@ -661,6 +662,7 @@ void do_breakpoint(unsigned long esr, struct pt_regs *regs)
+ 		rcu_read_unlock();
+ 	}
+ 
++	trace_printk("breakpoint handling complete, step=%d\n", step);
+ 	if (!step)
+ 		return;
+ 
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index fd1d91017b99..40dd897e26b0 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -902,6 +902,7 @@ struct perf_event {
+ 	u64				(*clock)(void);
+ 	perf_overflow_handler_t		overflow_handler;
+ 	void				*overflow_handler_context;
++	bool				default_overflow_compatible;
+ 	struct bpf_prog			*prog;
+ 	u64				bpf_cookie;
+ 
+@@ -1505,13 +1506,7 @@ extern int perf_event_output(struct perf_event *event,
+ static inline bool
+ is_default_overflow_handler(struct perf_event *event)
+ {
+-	perf_overflow_handler_t overflow_handler = event->overflow_handler;
+-
+-	if (likely(overflow_handler == perf_event_output_forward))
+-		return true;
+-	if (unlikely(overflow_handler == perf_event_output_backward))
+-		return true;
+-	return false;
++	return event->default_overflow_compatible;
+ }
+ 
+ extern void
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 177e57c1a362..6bbbde82cb21 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -12946,9 +12946,11 @@ perf_event_alloc(struct perf_event_attr *attr, int cpu,
+ 	} else if (is_write_backward(event)){
+ 		event->overflow_handler = perf_event_output_backward;
+ 		event->overflow_handler_context = NULL;
++		event->default_overflow_compatible = true;
+ 	} else {
+ 		event->overflow_handler = perf_event_output_forward;
+ 		event->overflow_handler_context = NULL;
++		event->default_overflow_compatible = true;
+ 	}
+ 
+ 	perf_event__state_init(event);
+diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
+index 98605b207f43..f2c2f26fd668 100644
+--- a/kernel/trace/trace_wprobe.c
++++ b/kernel/trace/trace_wprobe.c
+@@ -163,6 +163,8 @@ static void wprobe_perf_handler(struct perf_event *bp,
+ static int __register_trace_wprobe(struct trace_wprobe *tw)
+ {
+ 	struct perf_event_attr attr;
++	struct perf_event *bp;
++	int cpu;
+ 
+ 	if (tw->bp_event)
+ 		return -EINVAL;
+@@ -179,6 +181,11 @@ static int __register_trace_wprobe(struct trace_wprobe *tw)
+ 		tw->bp_event = NULL;
+ 		return ret;
+ 	}
++	/* Mark wprobe_perf_handler is compatible with default one. */
++	for_each_online_cpu(cpu) {
++		bp = per_cpu(*tw->bp_event, cpu);
++		bp->default_overflow_compatible = true;
++	}
+ 
+ 	return 0;
+ }
 
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
