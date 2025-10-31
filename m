@@ -1,122 +1,115 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B172472BD
-	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 17:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F841F4617
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 17:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761931817; cv=none; b=ckUNgQwWzZ/u9h6XEH4VxTpUG7q8jW4mHtDRvlhPAGVNrs1vMv/WzYfz94PkEdaaVqrUymjQwHgRUIYe8Bj0TPnhc9tuFje5hsjdEZ++FPzdBR8WgI37E1WTdMeEzVGaf2UorlkcTuLG3w6nSgO4afetT8ngJZcVQU7A8ixM8Ak=
+	t=1761931833; cv=none; b=Az8Vi4Nq9eFglIWtvu9fF+jWSCJfIDY/2ObxFytLPAjyXWQzs1tJYm3iVRWF4xYsNhDpESlQUyG+L4z3rTj45p1E7OdDzrcn+Pa21Hntm32soqKLfgFfTvkh/Oi/xmzziUMf/KimlHS34k/HJbWVba7PZhSRHiNQHL1ZyYTxecc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761931817; c=relaxed/simple;
-	bh=ELK/TPtUoa0DdzfjuQJxQqd/fmBurZBKRSXbJIZQLus=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=f0jC1AnR8mwN9cd39f7wWeKq1IRH5CCOWCynewXmqo0n4xIQMmGFDW2V+WgEBFxo09WGriwWmWLptlA4q3y2L7AQQdx9fm9LPdIXP+fzxtSa62SZzxDBbLN+I6r6VsY3UNbMi8f3HVeEdwyQbhW/8VnaagiHmZ1HSx/VJEnn9vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xlTcVDMM; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1761931833; c=relaxed/simple;
+	bh=/4NUosojYw14l9RP2wTbIe+vINI+8c9ZZ+FQrVCN4hY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=loMOfw3vOmkhs8xSc/Ok2KiP57hSkVeuhc/zfxaEUOKkgHDigPK1S3pnMEOkV1Mvttwq/K0FuLdwGirgVEl+hOJ15qDaAIYy+at7fwlfL+r8CZS3Xob+Lno3iOKS4VS5r55z35TY7443AKPrVuQ+NoYehosO9noTtLgYasTy7+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=aDsGvjIB; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xlTcVDMM"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-429a7f1ed1bso1163417f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 10:30:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="aDsGvjIB"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so2728683b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 10:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761931813; x=1762536613; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8smNPhdFrk3F9UsFWfFOTzaD0PFIjf/jPl9FFvNvth4=;
-        b=xlTcVDMM2YXWR1LtabsCI+fB7WxqP/BNGHnliygKqFjwb59VituBUODZN1s/r/j7LZ
-         du8UJEaeZWkJblBUuqdirmTdbacpiHAx4twPldzTYbNbBoYDCQ9FfMNVRWkDAyjcEp9G
-         VnuOdx2g5GNGlXD4wmOalAtM+oMDs0akUUdQz3DW6CTXd9MfvTLab+OkNJZSj51jdWq5
-         E2JTNX9xt1uVWpzcWaELLrnfwEbKx0glh+eyIDMLENshEB64nz6eacBkPzv78Cn42AmY
-         Cwkt7NbGfh2GaG11aiPezj6Y7a9Bg2AFHaCfoUl1eglXUaM/oKEURdSt47gJ/32LFIN5
-         gGpg==
+        d=reznichenko.net; s=google; t=1761931832; x=1762536632; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V9IaWectU89+Tfdd2SWxnAs2i8ZZ82BZgrVmURYyxk8=;
+        b=aDsGvjIBStJFdhyBHjbFrRYGPuLwTvMi84iTNFwXcVOryGad+fjAWS4evHuDh3lJMB
+         qmGzKq72XYJgsdxJIcy8TbPN7HbEWVMI4tatUU6Aapoyt/oTyup+yOOHx24i9isxUA7j
+         7n2mVO010HBzf/DMOl1v0RAM8mTD21krFIHgUAgvVOQm0Psekl65qINTMIzeH3LDlMwd
+         fgSgqnX4nvRXVCWeAkYiHQuf9W06Zu5zwyiA5cbA7///2CnzWFb8g3sxDG0hCK/X5+hd
+         ksRlITkIc7hR/44lgchTbK19BGwZOPEQO0zTMRb+NZB/PaxQWkUfy7TGcvwUR1aYH++u
+         PzXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761931813; x=1762536613;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8smNPhdFrk3F9UsFWfFOTzaD0PFIjf/jPl9FFvNvth4=;
-        b=rMHRTvTIWrkL9m/ldFwI5kI3lyMFqgGi75QcjpdgcKvpWCc1ynaBu29YGbKLdQNrn7
-         qEgGgZyafpPOpyZB3u/cNlOk/EB+oc2R2cPJkrLyYwFv2OPhPoB5HtarWjI2cRDg0Lcb
-         IjFMRXq3bfamEoQFq7yTq2iykxOJNqw07t/N/S8wxkTAk2rbnSIJxM4UgOfPMyFZ8Cr7
-         IqECuAibdLOXHd/tN4W9c3zFAGBRo4LVOHXeYVLHIXzo9+/Ubusl3pl+rfug8cSJOwF8
-         jLSqOSiI2ZVKJqR3bqbg7VoPhwHm+rOtkUyNc3/f7bgdmRGe6kPSUtSt/tmGy2mGPdgg
-         5KGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0K/imiqK1XLI0ZLBXu1spInj7VgsDbJvnwqZ7agPsQK9M+NjCPFVav/yM369G/r5lZKxahUV4DXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2DNEIiiXBF7ZzL9dzqBRgUwVhKbVxmq+atYG/hi/wqGk94q+1
-	vMpTWITZIpXq2bibIswSGnoiuB+kX9yIy2V6K20sYG4+7zIdG604x9NJhw35F0zUa2tIb0LDPkt
-	P2ev5DavMFB2nAA==
-X-Google-Smtp-Source: AGHT+IGAlLQK0HkJ6COX6kdvZKn0Ro2fXbdMSgyDJ0pItor316xsKGfib1jQEkdwcGXkq1m1difB1/UltgkgBQ==
-X-Received: from wmwp25.prod.google.com ([2002:a05:600d:8319:b0:477:c8e:1959])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:8310:b0:477:326c:b33f with SMTP id 5b1f17b1804b1-477326cb6d3mr20439815e9.16.1761931812961;
- Fri, 31 Oct 2025 10:30:12 -0700 (PDT)
-Date: Fri, 31 Oct 2025 17:30:12 +0000
-In-Reply-To: <20250924152214.7292-2-roypat@amazon.co.uk>
+        d=1e100.net; s=20230601; t=1761931832; x=1762536632;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V9IaWectU89+Tfdd2SWxnAs2i8ZZ82BZgrVmURYyxk8=;
+        b=l7fMiedIvZiJ7/+ybiIQQS0kFHVLAhvmt9tsvvzEStxwRr+QhBTjUAaoqLK+4mu57U
+         tQhSpDdT2iDCw1ztHD6h58wIVrsFHrZ2wrB5Jx2h7inI9ba9bX8YThJqGAKWrNuQPXX2
+         tH8YXXdmC1kca9XMkBysd5/u2vgLyKXXIcAIn4E/XM4KxFJcuoXh3Ob8YNOMu9Oh7p3l
+         z/0GvjlQi0ltpUMjaezL0zPsDTDBugF0ZsDYXi1sEtJBB1+KSofN29uB968jyTbB9imL
+         LqHhVmhisDuE1hW/9dPDr27Cd3Nk8xeaEKCdKKvCyq61Rr7/TtbptjUIvqsKDE/9Ilv8
+         T9rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWeiMCO99cTGhN0CY4rvr8dwF80bepgRnP35j8XNaDZwmmFbJge8fCl/x/ynrlOr9p5PCjnKXG6H74=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/b16EQWvcwoFJ1oDAFJgWogCtVHSKBN4NdPrAktWbMOQE5XpV
+	8FQOMBPHq4WT/ANT6vlMZRUCMuabvR+XytyaeqpK6TnrPXmdYFaTOiTwu+KLJsoVMsnp+y6YUun
+	YDnvogqtd5Q==
+X-Gm-Gg: ASbGncsTAUqsw20BH1BIht/zLs09cyh80ji/ecmtPvDGkA3yg85h2lthsmbRbH9mDn8
+	rwnKYs3erKXUVuihBUZkZcQSvoYqG1s7i0wqwclwynn5/K3sP1DUGRzfuvdb5vAEJsfsINpoJr7
+	GYnq4zKtz0qaayeE4ljPBugr6WVwXTNtoTscZdhwhR5jWBSXohAgBSIq3TAajP7DmZ/uiLDSYQk
+	U5U1pWWPQ1x8bY33SCQFwLCE2FUgDNusNu/u3iIBavxVEGR+AsBfXcpubpi4E6mHM3OJ8xIyCZt
+	ea5jkQd3xuq3aTfOpAryfDDDa3iBiumXbmYjpN8qhA1azosbSuplNk+JGH7Amnv2CJgt3pj+5hi
+	IfM6hsexNOSvYmJCboA77KsuznN4oUSxL3Mk/rkfTqZ1/+kwubK0kq0oiRGs8KxFfpzox6Mnjb5
+	71Xo2jZIRt38SCldf0
+X-Google-Smtp-Source: AGHT+IGHZuSNPg64weN7MygzE+D+JmL2pDp9GEsG2OfutOUVQ3cd7U4bVtqYoUkGlzWxt2+UcaITRg==
+X-Received: by 2002:a05:6a20:914c:b0:341:471c:9392 with SMTP id adf61e73a8af0-348ba87a6ffmr5874081637.10.1761931831675;
+        Fri, 31 Oct 2025 10:30:31 -0700 (PDT)
+Received: from z440.. ([2601:1c0:4502:2d00:2da:2c8a:f651:af34])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7d897e862sm2857660b3a.8.2025.10.31.10.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 10:30:31 -0700 (PDT)
+From: Igor Reznichenko <igor@reznichenko.net>
+To: krzk@kernel.org
+Cc: conor+dt@kernel.org,
+	corbet@lwn.net,
+	david.hunter.linux@gmail.com,
+	devicetree@vger.kernel.org,
+	krzk+dt@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add support for ST TSC1641 power monitor
+Date: Fri, 31 Oct 2025 10:30:28 -0700
+Message-ID: <20251031173029.904313-1-igor@reznichenko.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <35d41d46-5bc8-43af-a84d-6b118fff08e0@kernel.org>
+References: <35d41d46-5bc8-43af-a84d-6b118fff08e0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-2-roypat@amazon.co.uk>
-X-Mailer: aerc 0.21.0
-Message-ID: <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com>
-Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from direct map
-From: Brendan Jackman <jackmanb@google.com>
-To: "Roy, Patrick" <roypat@amazon.co.uk>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 1d0585616aa3..73a15cade54a 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
->  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
->  #endif
->  
-> +#ifdef CONFIG_KVM_GUEST_MEMFD
-> +#ifndef kvm_arch_gmem_supports_no_direct_map
-> +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
-> +#endif
-> +#endif /* CONFIG_KVM_GUEST_MEMFD */
+>>> On 10/28/25 08:17, Igor Reznichenko wrote:
+>>>> Understood. The bit in question controls the alert pin polarity on the device side,
+>>>> independent of whether the pin is used as interrupt or not. I'll drop the property
+>>>> for now and revisit if there's a board that actually uses an inverter or needs to
+>>>> program the bit explicitly.
+>>>>
+>>>
+>>> This is kind of unusual. The requirement used to be that devicetree properties
+>>> shall be complete. "Only if there is a known use case" is a significant policy
+>>> change. Has the policy changed recently ?
+>>>
+>>> Thanks,
+>>> Guenter
+>> 
+>> Rob, following up on Guenter's question above.
+>> I'm not sure whether it's better to drop the property as discussed earlier or keep
+>> it for binding completeness. 
+>> Could you clarify what approach is preferred?
+>
+>Don't you have there possibility of interrupt (not only SMBus Alert)? At
+>least this is what I understood from previous talks.
 
-The test robot seems happy so I think I'm probably mistaken here, but
-AFAICS can_set_direct_map only exists when ARCH_HAS_SET_DIRECT_MAP,
-which powerpc doesn't set.
+Yes, the alert pin could be used as interrupt in principle.
+Datasheet calls it "Multi-functional digital alert pin".
 
-If this is indeed an issue I think it can be fixed by just defining
-can_set_direct_map() to false when !ARCH_HAS_SET_DIRECT_MAP.
+Thanks, Igor
