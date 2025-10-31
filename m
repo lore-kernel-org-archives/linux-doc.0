@@ -1,93 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C233E352;
-	Fri, 31 Oct 2025 12:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E77D2900A8;
+	Fri, 31 Oct 2025 12:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761912038; cv=none; b=pRsStxIZJW0fuuvU58QYCN9vjHLfqZRhaNxQXxmbahE7kVl8z49VhwYW2Qx0B9Yb2Eba69htOEEWDCoOV8zkKmqz8GDD+Xi+1GbInLvLqdCr9ktX1hZ7NqS4sSqC0vDihdOLECMX7/cjndkOb42THc/qAp/MQbKG94M1Q5RXN+A=
+	t=1761914001; cv=none; b=sMN9uowCEBLtlJ1+VDgz5K40IDBLCW21NI8vhgWdW2NY0085saTWa81Qr2dE/c3lCuC/0vcLMkkUUdCy0QUCHOnHMVcVns2UTvpvG1F9wysTXjM8ip6Y0GvsKsN6mwCIhhO+Rtu1WDbqGjrxUusb09Nkow7TIvWNBGW1I7FSrc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761912038; c=relaxed/simple;
-	bh=5Y2K69DPuTxufr2/30uL7COrThaw9oWJXaibDgLkv3M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TFJRfG9zAQeLRidrG57NvcOnBjgHwFPgZceeDNFh/NpGYSFXIpBaEKGKriZM3AF3xD2ECm/QNCLknaFowz8W9XWhBH6AmWC9ZEj7OkTS4UXkzJ7EbIen8Hc+6bB6bSyOyJMsieQRnST0lHxyJ62Aqmjb2SX+PHAzBAEfwDKr0vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEUTepPw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761914001; c=relaxed/simple;
+	bh=8mG/tT6m7m1SPkxM0FGXaJnTJCfC760z6pu4g9dhsxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NHbPcvN8mXA/YnRl5ueIV+gzTBlfm6COsgZGaC+iAuTaxL7KjQWP7hzaPkcFezgCOg0On6MP1Wb9T9wlrC/hIfxdEOIpaoNlGxq8fPl3kQVOb9WAl+rrrbxdfyjDHmuuXtrtHFV0HwZU8cDW8RlCSZK4HLiaAsU3ap7brP6zi8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rn1EOJ+7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEUTepPw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5CFC4CEFB;
-	Fri, 31 Oct 2025 12:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761912038;
-	bh=5Y2K69DPuTxufr2/30uL7COrThaw9oWJXaibDgLkv3M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vEUTepPwhkQmpxfK8CEXqfwhXgYhIcPm7nNen+UsWtqrisuiz5Peyp5WXllkTGtLs
-	 J4Jc4g7fyHIII5OnqUtgmB/NFzNUsXHDAJuNR0PYwGMIiEogZz62hWd+xR42vFW02A
-	 HJbM29Zgy8cdeC3XtjFVcNCzum2H87VpT3TK/vA+7obu12IZgwJVD1mlqt8KyVisXJ
-	 wje2R340p3eZNFfpUfDsVdYqtRJzxgY65Me5QsT5tkygf3+zUxV+2CTHMHybHAK53V
-	 vMvkJNaaC4lwGb8NO1npdlC1mGOGwAntkZBZ0+BuGwum2RuqSrQvYxaMjuuRzV+REP
-	 Dbk+q+MujeA/g==
-From: Philipp Stanner <phasta@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 2/2] drm/todo: Add entry for unlocked drm/sched rq readers
-Date: Fri, 31 Oct 2025 13:00:15 +0100
-Message-ID: <20251031120014.248416-4-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251031120014.248416-2-phasta@kernel.org>
-References: <20251031120014.248416-2-phasta@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rn1EOJ+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F4CC4CEE7;
+	Fri, 31 Oct 2025 12:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1761914000;
+	bh=8mG/tT6m7m1SPkxM0FGXaJnTJCfC760z6pu4g9dhsxI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rn1EOJ+7eXautIx1gHTna0ncLMzRFhvK2ZhxkpXJMcU2RDpMn0frBfPgAB1vWCLlZ
+	 1l8TDTtp1D1Z43aqJBMDjPL1PDLLenlAHyVZtdpWATQE/6EL6Pp31uZczGCIMfGmxK
+	 Rll7OuwGcq1dPkhilDeOX/ejvmev1NE5P1VdKf64=
+Date: Fri, 31 Oct 2025 13:33:17 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Andreas Radke <andreas.radke@mailbox.org>,
+	stable <stable@vger.kernel.org>, Sasha Levin <sashal@kernel.org>,
+	Zhixu Liu <zhixu.liu@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: Please backport commit 00d95fcc4dee ("docs: kdoc: handle the
+ obsolescensce of docutils.ErrorString()") to v6.17.y
+Message-ID: <2025103110-tidings-stench-6552@gregkh>
+References: <aPUCTJx5uepKVuM9@eldamar.lan>
+ <DDS2XJZB0ECJ.N4LNABSIJHAJ@mailbox.org>
+ <aP4amn4YQDnzBBCU@eldamar.lan>
+ <87wm4gpbw6.fsf@trenco.lwn.net>
+ <aQEjRT5JBLYiBTaL@eldamar.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQEjRT5JBLYiBTaL@eldamar.lan>
 
-Runqueues are currently almost everywhere being read unlocked in
-drm/sched. At XDC 2025, the assembled developers were unsure whether
-that's legal and whether it can be fixed. Someone should find out.
+On Tue, Oct 28, 2025 at 09:10:45PM +0100, Salvatore Bonaccorso wrote:
+> Hi,
+> 
+> On Mon, Oct 27, 2025 at 10:06:33AM -0600, Jonathan Corbet wrote:
+> > Salvatore Bonaccorso <carnil@debian.org> writes:
+> > 
+> > > Hi,
+> > >
+> > > On Sun, Oct 26, 2025 at 08:36:00AM +0100, Andreas Radke wrote:
+> > >> For kernel 6.12 there's just one more place required to add the fix:
+> > >> 
+> > >> --- a/Documentation/sphinx/kernel_abi.py        2025-10-23 16:20:48.000000000 +0200
+> > >> +++ b/Documentation/sphinx/kernel_abi.py.new    2025-10-26 08:08:33.168985951 +0100
+> > >> @@ -42,9 +42,11 @@
+> > >>  from docutils import nodes, statemachine
+> > >>  from docutils.statemachine import ViewList
+> > >>  from docutils.parsers.rst import directives, Directive
+> > >> -from docutils.utils.error_reporting import ErrorString
+> > >>  from sphinx.util.docutils import switch_source_input
+> > >> 
+> > >> +def ErrorString(exc):  # Shamelessly stolen from docutils
+> > >> +    return f'{exc.__class__.__name}: {exc}'
+> > >> +
+> > >>  __version__  = '1.0'
+> > >> 
+> > >>  def setup(app):
+> > >
+> > > Yes this is why I asked Jonathan, how to handle backports to older
+> > > series, if it is wanted to pick specifically as well faccc0ec64e1
+> > > ("docs: sphinx/kernel_abi: adjust coding style") or a partial backport
+> > > of it, or do a 6.12.y backport of 00d95fcc4dee with additional
+> > > changes (like you pointed out).
+> > >
+> > > I'm just not sure what is preferred here. 
+> > 
+> > I'm not sure it matters that much...the additional change suggested by
+> > Andreas seems fine.  It's just a backport, and it shouldn't break
+> > anything, so doesn't seem worth a lot of worry.
+> 
+> Okay here is a respective backported change for the 6.12.y series as
+> well.
+> 
+> Does that look good for you?
+> 
 
-Add a todo entry for the unlocked runqueue reader problem.
+Now queued up, thanks!
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- Documentation/gpu/todo.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 835e799ddfe2..7d7e9e3741e9 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -909,6 +909,20 @@ Contact: Christian König <ckoenig.leichtzumerken@gmail.com>
- 
- Level: Advanced
- 
-+Add locking for runqueues
-+-------------------------
-+
-+There is an old FIXME by Sima in include/drm/gpu_scheduler.h. It details that
-+struct drm_sched_rq is read at many places without any locks, not even with a
-+READ_ONCE. At XDC 2025 no one could really tell why that is the case, whether
-+locks are needed and whether they could be added. (But for real, that should
-+probably be locked!). Check whether it's possible to add locks everywhere, and
-+do so if yes.
-+
-+Contact: Philipp Stanner <phasta@kernel.org>
-+
-+Level: Intermediate
-+
- Outside DRM
- ===========
- 
--- 
-2.49.0
-
+greg k-h
