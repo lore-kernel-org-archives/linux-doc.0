@@ -1,161 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F392F6567;
-	Fri, 31 Oct 2025 17:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B172472BD
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 17:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761931293; cv=none; b=knsIAS/EjsWUFEOKGqMY25y9+nsAXkIY1VKWjvz1adgtnXt127tBIVB7IEGB54igP2VH5mErbHynejuQc5YIpjEL1pusfc/PiysCbKHHr+yHQ6F/3aXFR90tWt0auG/CteCYrURPjuktYFhAGRgLaS5IN3lo7bviJr4FCUO0vqo=
+	t=1761931817; cv=none; b=ckUNgQwWzZ/u9h6XEH4VxTpUG7q8jW4mHtDRvlhPAGVNrs1vMv/WzYfz94PkEdaaVqrUymjQwHgRUIYe8Bj0TPnhc9tuFje5hsjdEZ++FPzdBR8WgI37E1WTdMeEzVGaf2UorlkcTuLG3w6nSgO4afetT8ngJZcVQU7A8ixM8Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761931293; c=relaxed/simple;
-	bh=ZTJBgB9UC9DeEzZHT0VM2hUv/d1GJVlcINh2TkYBjaM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rCfWwQs6eAxSj8akZ/1BuzTyuoEQBFT9A1ufe25Sf1yMFxbnLFID86UGm8fEA61887jtPKCw4C4M1/XgpH/+UpaaXLCWUGQkvBZaGYCR/nkeelRlzvFuH6bjcTPq2DyjIm0yMhib7L5/aw78chun/b99ZK/3blo+PjdEp7WOjq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbNG1Vpl; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761931817; c=relaxed/simple;
+	bh=ELK/TPtUoa0DdzfjuQJxQqd/fmBurZBKRSXbJIZQLus=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=f0jC1AnR8mwN9cd39f7wWeKq1IRH5CCOWCynewXmqo0n4xIQMmGFDW2V+WgEBFxo09WGriwWmWLptlA4q3y2L7AQQdx9fm9LPdIXP+fzxtSa62SZzxDBbLN+I6r6VsY3UNbMi8f3HVeEdwyQbhW/8VnaagiHmZ1HSx/VJEnn9vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xlTcVDMM; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbNG1Vpl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761931292; x=1793467292;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZTJBgB9UC9DeEzZHT0VM2hUv/d1GJVlcINh2TkYBjaM=;
-  b=XbNG1VplKa74aFQNnoPQvkoNBh2KIguvCKKIkmMIn1hlZvkLsVQPQ37G
-   6VbELUJiTdaRuwDwvc5Crlixwk+ZX4gxqSZO/tmuctB2kYVlS+X4jdn7u
-   +R32AOgNwieqfxg3hnSYPBXZnDcUpbeLNLjUVrcZqYdFVHvQVIkWitLMa
-   ILUqHVMnDh+NMwybngg5EFeP+G7f/OrH+WkhZMDtzE2zj1CChqYQF7ZlJ
-   f8a6G0HHkpvixvVfiNebufNIXS5JrU1U3eYvMK6JviBqzVDUmzrzF7U3/
-   4/bJfCWWagL3X2eBjXj+vOpEq81i0YGszCF8Udr76cnj5rTDHKAxRTwhK
-   A==;
-X-CSE-ConnectionGUID: 5iMICB8aQv6wKp8CM9AhLw==
-X-CSE-MsgGUID: e8euoM1SS26OZCBcEHynLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="63300954"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="63300954"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:21:31 -0700
-X-CSE-ConnectionGUID: RCvf1SJQQt+BNMs5gX5x3w==
-X-CSE-MsgGUID: bMPdhYiUTKuIgwfi8jDPsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="217125250"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.110.52]) ([10.125.110.52])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:21:29 -0700
-Message-ID: <50a8d23c-8c91-467c-9ee4-5894dc31d2f7@intel.com>
-Date: Fri, 31 Oct 2025 10:21:30 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xlTcVDMM"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-429a7f1ed1bso1163417f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 10:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761931813; x=1762536613; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8smNPhdFrk3F9UsFWfFOTzaD0PFIjf/jPl9FFvNvth4=;
+        b=xlTcVDMM2YXWR1LtabsCI+fB7WxqP/BNGHnliygKqFjwb59VituBUODZN1s/r/j7LZ
+         du8UJEaeZWkJblBUuqdirmTdbacpiHAx4twPldzTYbNbBoYDCQ9FfMNVRWkDAyjcEp9G
+         VnuOdx2g5GNGlXD4wmOalAtM+oMDs0akUUdQz3DW6CTXd9MfvTLab+OkNJZSj51jdWq5
+         E2JTNX9xt1uVWpzcWaELLrnfwEbKx0glh+eyIDMLENshEB64nz6eacBkPzv78Cn42AmY
+         Cwkt7NbGfh2GaG11aiPezj6Y7a9Bg2AFHaCfoUl1eglXUaM/oKEURdSt47gJ/32LFIN5
+         gGpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761931813; x=1762536613;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8smNPhdFrk3F9UsFWfFOTzaD0PFIjf/jPl9FFvNvth4=;
+        b=rMHRTvTIWrkL9m/ldFwI5kI3lyMFqgGi75QcjpdgcKvpWCc1ynaBu29YGbKLdQNrn7
+         qEgGgZyafpPOpyZB3u/cNlOk/EB+oc2R2cPJkrLyYwFv2OPhPoB5HtarWjI2cRDg0Lcb
+         IjFMRXq3bfamEoQFq7yTq2iykxOJNqw07t/N/S8wxkTAk2rbnSIJxM4UgOfPMyFZ8Cr7
+         IqECuAibdLOXHd/tN4W9c3zFAGBRo4LVOHXeYVLHIXzo9+/Ubusl3pl+rfug8cSJOwF8
+         jLSqOSiI2ZVKJqR3bqbg7VoPhwHm+rOtkUyNc3/f7bgdmRGe6kPSUtSt/tmGy2mGPdgg
+         5KGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0K/imiqK1XLI0ZLBXu1spInj7VgsDbJvnwqZ7agPsQK9M+NjCPFVav/yM369G/r5lZKxahUV4DXw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2DNEIiiXBF7ZzL9dzqBRgUwVhKbVxmq+atYG/hi/wqGk94q+1
+	vMpTWITZIpXq2bibIswSGnoiuB+kX9yIy2V6K20sYG4+7zIdG604x9NJhw35F0zUa2tIb0LDPkt
+	P2ev5DavMFB2nAA==
+X-Google-Smtp-Source: AGHT+IGAlLQK0HkJ6COX6kdvZKn0Ro2fXbdMSgyDJ0pItor316xsKGfib1jQEkdwcGXkq1m1difB1/UltgkgBQ==
+X-Received: from wmwp25.prod.google.com ([2002:a05:600d:8319:b0:477:c8e:1959])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600d:8310:b0:477:326c:b33f with SMTP id 5b1f17b1804b1-477326cb6d3mr20439815e9.16.1761931812961;
+ Fri, 31 Oct 2025 10:30:12 -0700 (PDT)
+Date: Fri, 31 Oct 2025 17:30:12 +0000
+In-Reply-To: <20250924152214.7292-2-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 9/9] x86/cpu: Enable LASS by default during CPU
- initialization
-To: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, "H . Peter Anvin" <hpa@zytor.com>,
- Andy Lutomirski <luto@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
- "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Sean Christopherson
- <seanjc@google.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Vegard Nossum <vegard.nossum@oracle.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
- Tony Luck <tony.luck@intel.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-10-sohil.mehta@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251029210310.1155449-10-sohil.mehta@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-2-roypat@amazon.co.uk>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com>
+Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from direct map
+From: Brendan Jackman <jackmanb@google.com>
+To: "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/29/25 14:03, Sohil Mehta wrote:
-...
-> +static __always_inline void setup_lass(struct cpuinfo_x86 *c)
-> +{
-> +	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
-> +		/*
-> +		 * Legacy vsyscall page access causes a #GP when LASS is
-> +		 * active. However, vsyscall emulation isn't supported
-> +		 * with #GP. To avoid breaking userspace, disable LASS
-> +		 * if the emulation code is compiled in.
-> +		 */
-> +		if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION)) {
-> +			pr_info_once("x86/cpu: Disabling LASS due to CONFIG_X86_VSYSCALL_EMULATION=y\n");
-> +			setup_clear_cpu_cap(X86_FEATURE_LASS);
-> +			return;
-> +		}
-> +
-> +		cr4_set_bits(X86_CR4_LASS);
-> +	}
-> +}
-This breaks two rules I have:
+On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 1d0585616aa3..73a15cade54a 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+>  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
+>  #endif
+>  
+> +#ifdef CONFIG_KVM_GUEST_MEMFD
+> +#ifndef kvm_arch_gmem_supports_no_direct_map
+> +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
+> +#endif
+> +#endif /* CONFIG_KVM_GUEST_MEMFD */
 
- 1. Indent as little as practical
- 2. Keep the main code flow at the lowest indentation level
+The test robot seems happy so I think I'm probably mistaken here, but
+AFAICS can_set_direct_map only exists when ARCH_HAS_SET_DIRECT_MAP,
+which powerpc doesn't set.
 
-IOW, this should be.
-
-static __always_inline void setup_lass(struct cpuinfo_x86 *c)
-{
-	if (!cpu_feature_enabled(X86_FEATURE_LASS))
-		return;
-...
-
-But I can fix that up when I apply this. I think it's mostly ready.
-
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+If this is indeed an issue I think it can be fixed by just defining
+can_set_direct_map() to false when !ARCH_HAS_SET_DIRECT_MAP.
