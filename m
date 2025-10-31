@@ -1,78 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CE123D7F5;
-	Fri, 31 Oct 2025 02:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463F8277C9A
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 02:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761876369; cv=none; b=DebBSiBo6vWzkCubAKjAor7NJaRDN5w6o69YL6YUAEj35XhVocDu8zfPeZ7bahKpSq+DpVOAmw6uVkvO5BCk9o3RR/rnEBaCxNEK0NywXPw290/fXzOfC7+JeIhhmmlMWfGV/6yb7Y+Yu7PPrrEp+tX4hYVESYwnz1ymR0FQkp8=
+	t=1761877092; cv=none; b=pYUlvMPA3sGb42xaD82L6nO/HZa8m5kQaggc/3jhdg1wKjtZelCswSDJKWiQ9Bsq5eUiqWdvFxeMzdSHYJ38ALChhyO0jm7kvEy6a5OfjCdlE3CzQHrioIBPsH8K5c9SrEWOPf2BIKpdmMN4k67o+/NWkZRG9XebG32lZ7n6Do4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761876369; c=relaxed/simple;
-	bh=dm6BLpbWI4tGkf1xkZ1jW8UKNKYbVLXofPTsyB9w1Yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QlWXwnau+NNpYJNWweSMyWWkJi7S7P5OO3oWfRxFaBgaVbYLS4mb5StuUX9AZT9wY4VEkidDJTGMPLmfwVCXHCFivFtqr7qs4IIoUXChCbiSjBJ93vSTEwf3E1r6OeIeIeK1hBGpRJNNPU93ed15xBV0sAJ7VaxPvmTExO7IFno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlWOceLO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761877092; c=relaxed/simple;
+	bh=2Qz23v1zvkjWWO/0KBTostHDqcO8A9fKu8aLJCvZrxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O/AXgTPRcIHR3EDhlh/CeWqAF5h5/NP22gSa8eKTSPAqfV5EPEnocduUgUqvwil4cikpgIdxOsPXnIICWwYW60lyomAu1J3FS82F1zhreDkWtP6fh+AAWs0JIEHekwIZkRseuQD+eVOsBXsroXS1IuYurti1GPGegSlqS51UjKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NETnpgWT; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlWOceLO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8477C4CEF1;
-	Fri, 31 Oct 2025 02:06:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761876364;
-	bh=dm6BLpbWI4tGkf1xkZ1jW8UKNKYbVLXofPTsyB9w1Yc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tlWOceLOPUD8cLQrFA4Dg2AYUHdHD4fWpwzJ00zimWDP+0JloyLlda/iOmo5NDQ3D
-	 dIScxacCTNQI9H+n9OsSMhdNVsAzW3N1phm7nwz178SSbSmazIyVq6xZ2ezU7xo88h
-	 Z+iiSjzY8x14wf7I3Hu/lFcQxfXUM19TdI0YzQCSITyp5KIzDR6OXMkokRaVDrW0XT
-	 al48eD9rrTNKT8fbXRQqu3HHAiuAK72w3Tk4m1440VdvB9m0pEyIRdArqTzELH/Rbg
-	 1hINXAbIsJ2++yxtX9psBicfAfjfDmAedMWIV0Z6OhMiFeFXQbnQHoflfAv7mbqriP
-	 B3GLc7RIVEDCA==
-Date: Thu, 30 Oct 2025 19:05:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Yibo Dong <dong100@mucse.com>
-Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
- danishanwar@ti.com, vadim.fedorenko@linux.dev, geert+renesas@glider.be,
- mpe@ellerman.id.au, lorenzo@kernel.org, lukas.bulwahn@redhat.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v16 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <20251030190558.302a3ec8@kernel.org>
-In-Reply-To: <7D45894046CE41CC+20251031014410.GA49419@nic-Precision-5820-Tower>
-References: <20251027032905.94147-1-dong100@mucse.com>
-	<20251027032905.94147-6-dong100@mucse.com>
-	<20251029192135.0bada779@kernel.org>
-	<24FCCB72DBB477C9+20251030023838.GA2730@nic-Precision-5820-Tower>
-	<20251030081640.694aff44@kernel.org>
-	<7D45894046CE41CC+20251031014410.GA49419@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NETnpgWT"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29524abfba3so2169555ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Oct 2025 19:18:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761877090; x=1762481890; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Qz23v1zvkjWWO/0KBTostHDqcO8A9fKu8aLJCvZrxw=;
+        b=NETnpgWTCdXKoDasEYybumdnAEqR2riF8rD6hk9JLe89jqTxU2orKkZvvNOfw82Vgn
+         W5hoLMqs7DLMtWMSrv8vQZR+Ng1GGta2ugjfPkF+vVKzD3RV+VJapSRSL8muzeyiCRGl
+         AhP7wltbS+KIlo8QoyU3DrcEz/1pzapjLQLcMcH0a1BAHcsB9Zf0jnASS+6ql7mQaCC2
+         KsBMDGciZGewbUXo4sRGwM6JP+l4i3dcEf5A02nY1CQVvfd3szmsxDT7Ezf+lRT3dnRB
+         YhIgBvnR/RaBAPgVZNJAHOZEWljnnFSGKBR2sbcpUDRXYfktChrryLRuxh/jsobvgWa2
+         eHSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761877090; x=1762481890;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Qz23v1zvkjWWO/0KBTostHDqcO8A9fKu8aLJCvZrxw=;
+        b=dYOatf5nY/rLJVxms3GY2eM6W6TLdshS4r0HGaEXsr5/ubK4lFrpYaf7wRwx5wHvLJ
+         5GREQL0AB9i/01E7aLwLNdxtlD1P5lWOA1efr+fezWVfZ1AxN9Iyj50XEVXCeLjdLYjF
+         7Qi8fQOM6MOT8SjQyJ4tVfBwggn1kT+q3iSAVebx3hZG3PedMWsycAyF3lz4SKr3pofw
+         4BGB83b3LCnEFYz0QgLQOKajkCUsi2MGVPJW89zxtnRjFFfJExfNqgDYscpeedoGxcvJ
+         gxGFcC5koVZF7Pkk5r7vJiQKapPt8Gia9N0UiHyVJd3JqjPEHtdjf35rsMoy9PNFDt6E
+         CJmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPzXK7f5onqqhHoj31gifdDcKcJenvtO83Kb8SoQYIaJtbrpnKnxsREfd7exmQR1k0NtXoCK5BvuA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM92/1SyAQ0Vmh5+qbC+iR7wEUavgCd0XJN1/BtyoE0oHclLHr
+	qCvNXTTtMYFgmjwVr3FNFzWXPYXj9g1RZbUkQMoPtxce1enJg0tubIvB
+X-Gm-Gg: ASbGnctV59BDX4cScwM1A12i2ilEfSjCRx9o0xy7s90s6qUI5QW6Wyw21xzCoSJvGgK
+	flHw6gSi3WDpIdWdYbH8MqLk1wms5a6ivcC/rVDHGwCExM+avjTYUxGcqr87z2jr01fttLN9jvB
+	bqydMTmEeBikDsSg0mS8hkR75DPFL1OLGJi4uug7bj/6fBe8Zn1aWuw9lXPdLspi82jIX7UuwLk
+	7800B3h+ZBbJCUai/5y+pXJWqN1IXHSzDteayU0bQkGAhplm1oR0akgDT7TcdWz5SDKr9Q1wR+Z
+	6jbDWSaJ2gkYQc93xgksbsl8Bjdmthy7qVx8Az+inxE/BaUoIx5iFKYw6V32i7WVfdnyiwsqWGm
+	NH9vtFyoUNnt0zAGeK7GiRajAWXuGEjNm0OfgWTxJy/V57urAQaeStsQdTIGLjURqpHoiYnv7sz
+	cQ
+X-Google-Smtp-Source: AGHT+IEz3P0iXAib7Z2cGOdrMtRf7H0zrT15bfpF3CfQuDRY7RsUzDg9OOFcPbi3DmNBqyD6LTgZxg==
+X-Received: by 2002:a17:902:cec3:b0:268:1034:ac8b with SMTP id d9443c01a7336-2951a405331mr24147385ad.26.1761877090372;
+        Thu, 30 Oct 2025 19:18:10 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2952699d9f1sm4060325ad.87.2025.10.30.19.18.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 19:18:09 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 10DE54209E4A; Fri, 31 Oct 2025 09:18:06 +0700 (WIB)
+Date: Fri, 31 Oct 2025 09:18:06 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux BPF <bpf@vger.kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>
+Subject: Re: [PATCH net-next] net: Reorganize networking documentation toctree
+Message-ID: <aQQcXjetZJoL8Oy4@archie.me>
+References: <20251028113923.41932-2-bagasdotme@gmail.com>
+ <20251030175018.01eda2a5@kernel.org>
+ <aQQM0Likqs1RFNQ1@archie.me>
+ <20251030182251.60e01849@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BXvm9uCYqYGRGsTM"
+Content-Disposition: inline
+In-Reply-To: <20251030182251.60e01849@kernel.org>
 
-On Fri, 31 Oct 2025 09:44:10 +0800 Yibo Dong wrote:
-> > > It is for 'u8 perm_addr[ETH_ALEN];'
-> > > Maybe I should just "#include <linux/if_ether.h>" for this patch.   
-> > 
-> > I see, that's fine. Then again, I'm not sure why you store the perm
-> > addr in the struct in the first place. It's already stored in netdevice.
-> >   
-> 
-> I get 'mac_addr' from fw, and store it to hw->perm_addr 'before'
-> registe netdev (rnpgbe_get_permanent_mac in rnpgbe_chip.c).
-> You mean I can use a local variable to store mac_addr from fw,
-> and then use it to registe netdev?
-> 
-> Maybe like this?
-> int rnpgbe_get_permanent_mac(struct mucse_hw *hw, u8 *perm_addr)
-> ...
-> 	u8 perm_addr[ETH_ALEN]
-> ...
-> 	err = rnpgbe_get_permanent_mac(hw, perm_addr);
-> 	if (!err) {
-> 		eth_hw_addr_set(netdev, perm_addr);
 
-Yes, LGTM.
+--BXvm9uCYqYGRGsTM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 30, 2025 at 06:22:51PM -0700, Jakub Kicinski wrote:
+> On Fri, 31 Oct 2025 08:11:44 +0700 Bagas Sanjaya wrote:
+> > On Thu, Oct 30, 2025 at 05:50:18PM -0700, Jakub Kicinski wrote:
+> > > On Tue, 28 Oct 2025 18:39:24 +0700 Bagas Sanjaya wrote: =20
+> > > > Current netdev docs has one large, unorganized toctree that makes
+> > > > finding relevant docs harder like a needle in a haystack. Split the
+> > > > toctree into four categories: networking core; protocols; devices; =
+and
+> > > > assorted miscellaneous.
+> > > >=20
+> > > > While at it, also sort the toctree entries and reduce toctree depth=
+=2E =20
+> > >=20
+> > > Looking at the outcome -- I'm not sure we're achieving sufficient
+> > > categorization here. It's a hard problem to group these things.
+> > > What ends up under Networking devices and Miscellaneous seems
+> > > pretty random. Bunch of the entries under there should be in protocols
+> > > or core. And at the end of the day if we don't have a very intuitive
+> > > categorization the reader has to search anyway. So no point.. =20
+> >=20
+> > Do you have any categorization suggestions then?
+>=20
+> No.
+
+OK, thanks!
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--BXvm9uCYqYGRGsTM
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQQcVwAKCRD2uYlJVVFO
+o+zbAP0fBuQ0lT/TbMuaV0+mS7JJ3Wnvl0OIvrBazmA/rcVQfgD+ILTIpGeEuT/n
+oVmkefA17coMJv4DSK7ZhwR81/aqywU=
+=XtrN
+-----END PGP SIGNATURE-----
+
+--BXvm9uCYqYGRGsTM--
