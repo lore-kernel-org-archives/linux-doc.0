@@ -1,79 +1,611 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B096D21FF25;
-	Fri, 31 Oct 2025 14:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FE812E7621;
+	Fri, 31 Oct 2025 15:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761919592; cv=none; b=tpXxb6P/EhBA228q3UqT4epeMZBdLSww82c7Q2s+osgJTaG4SMaSgTZd+cNNe6kPwV1Ch76hyZEVsMC0bKEcDX4Owtpn7dx66lHvivwqVuq2REKImRaLCNVXwsMZe539Te6YKVCiJWs6c1NlcQWm2X3/JfsxAyluej6O6+xQVRI=
+	t=1761925357; cv=none; b=K57pmuHpEnJwb6rEIsqDMBGejguMMdxC57XrVuVI3oPxP3cRAXuNrhB529HUZVsz3BE4I4mBOa4wOyfQoMD+qATCcPatwAkzOShRcg31hQtE0uF8WYHadBiQpcNdJl+yW+Qs0BnIBSMHbMCt9a2p2qZu6QZ6apHiVVOoum5ZmpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761919592; c=relaxed/simple;
-	bh=mg/BfrVx0H6DIgjvX7SYssHp/Rl5Ia8S1SAoha1sRSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QC6/5B4C+qK2cmNykwHzFyKEhPbFjOmZ+UKP5Bnb85MF4Qll9+f78OYvrSIo/Vc6QxFLFmoxDqcLUfQXRIbPKjAUbL/J0z1aU+sqezty3XLfFrNuvZMhVF1mvhB5buMvdIPFwObY7tgAo4hhJF/seHn9u8vbUFtch7Gt38y1dCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJi3phsT; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJi3phsT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5529BC4CEE7;
-	Fri, 31 Oct 2025 14:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761919591;
-	bh=mg/BfrVx0H6DIgjvX7SYssHp/Rl5Ia8S1SAoha1sRSY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TJi3phsTNrGxKXy+hXcyMs5QgXJjMdWmHVA3kLEO8NXWRIuTbrfIxU6kXYfLFaEbC
-	 Im01dqsTsMVNcJOEq80Nmj0hpl018VqlJdkMYGvDQ/ce7K7C5nDVTWT/0yMimRhd0Y
-	 cDy9dgWaTtfXVmhqGVKAgNWzupscBq+JCKLNZ0l8EBerC+ArLNxgiEMIUYSXb/b3OP
-	 6RpEIxGEAk1Vw59+LH7AV3pK8XpF4jBuK1qrrbI3bNRJrVWcZWh9OP+3enKBqeC8sV
-	 G8Zb2iQsNnEaEdf9DLd3qHe1VUmYqKnquTG5fZMzTfp7EhlFqt3+Cid0NThvahsiRb
-	 wo3XPqnbLTf3w==
-Date: Fri, 31 Oct 2025 07:06:29 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
- <edumazet@google.com>, "parav@nvidia.com" <parav@nvidia.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
- "dsahern@kernel.org" <dsahern@kernel.org>, "kuniyu@google.com"
- <kuniyu@google.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "dave.taht@gmail.com"
- <dave.taht@gmail.com>, "jhs@mojatatu.com" <jhs@mojatatu.com>,
- "stephen@networkplumber.org" <stephen@networkplumber.org>,
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
- <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
- <shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
- "ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
- <koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
- <g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
- <ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
- <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>,
- "rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
- <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
-Subject: Re: [PATCH v5 net-next 00/14] AccECN protocol case handling series
-Message-ID: <20251031070629.38b05909@kernel.org>
-In-Reply-To: <PAXPR07MB798409CBEC44A185BD40ED42A3F8A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
-	<20251030175650.69d77ddd@kernel.org>
-	<PAXPR07MB798409CBEC44A185BD40ED42A3F8A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	s=arc-20240116; t=1761925357; c=relaxed/simple;
+	bh=WgycjOCZjZnHaVWCT2nuafQQmtgoRqecQ2sN/B06bvM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tleHxjKeV5YaNPOCcWEQyLRxffwPE1p6PjZ9cpc3ggZzsMsr+5i3MVr+QE3MO+jGYx4LK9B+Eb2/b2zzxqAnkfFkQyFC8zHfKANuSvjSTc9VN5v216Kw7vodJ9wuJ3WlHTpjkTsGyMwjx78aHl1KR00S4E7rOzonaTscr1jNHfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1435A1595;
+	Fri, 31 Oct 2025 08:42:25 -0700 (PDT)
+Received: from e133380.cambridge.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C19A3F66E;
+	Fri, 31 Oct 2025 08:42:30 -0700 (PDT)
+From: Dave Martin <Dave.Martin@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] x86,fs/resctrl: Factor MBA parse-time conversion to be per-arch
+Date: Fri, 31 Oct 2025 15:41:25 +0000
+Message-Id: <20251031154225.14799-1-Dave.Martin@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 31 Oct 2025 07:32:27 +0000 Chia-Yu Chang (Nokia) wrote:
-> > Is this a pure repost or you changed something?  
-> 
-> It only removes one empty line between "Fixes:" and "Signed-off" - no
-> error was reported when using checkpatch.pl, but an error showed in
-> patchworks pipeline.
-> 
-> Shall I resubmit with v6 tag? Thanks.
+The control value parser for the MB resource currently coerces the
+memory bandwidth percentage value from userspace to be an exact
+multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
 
-No need. Just make sure to add the changelog each time going forward.
+On MPAM systems, this results in somewhat worse-than-worst-case
+rounding, since the bandwidth granularity advertised to resctrl by the
+MPAM driver is in general only an approximation to the actual hardware
+granularity on these systems, and the hardware bandwidth allocation
+control value is not natively a percentage -- necessitating a further
+conversion in the resctrl_arch_update_domains() path, regardless of the
+conversion done at parse time.
+
+Allow the arch to provide its own parse-time conversion that is
+appropriate for the hardware, and move the existing conversion to x86.
+This will avoid accumulated error from rounding the value twice on MPAM
+systems.
+
+Clarify the documentation, but avoid overly exact promises.
+
+Clamping to bw_min and bw_max still feels generic: leave it in the core
+code, for now.
+
+No functional change.
+
+Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+
+---
+
+Based on: v6.18-rc3
+
+This is a minor update to v1 [1], with no functional differences.
+
+Testing: see "Testing Notes", below.
+
+Apologies for the long tearoff that follows...
+For the actual patch, skip to the regex '^diff'.
+
+
+Changes since v1:
+
+ * Commit message updates: Fixed subsytem tag and casing of "MBA" in
+   the subject line; named the affected parameter explicitly,
+   rdt_resource::resctrl_membw::bw_gran.
+
+ * Miscellenaeous function comment blocks and documentation text
+   updated in response to review comments.
+
+ * Updated documentation of bw_gran as per Reinette's suggestions.
+
+ * Renamed resctrl_arch_round_bw() -> resctrl_arch_preconvert_bw(),
+   since this is just a hook for the arch code to do something to a
+   value that it will use later; the core code doesn't care what
+   transformation is done here.  Clarified the accompanying comments.
+
+ * Removed dangling forward declaration of struct rdt_resource in
+   arch/x86/include/asm/resctrl.h.
+
+
+Original tear-off notes from v1:
+
+I put the x86 version out of line in order to avoid having to move
+struct rdt_resource and its dependencies into resctrl_types.h -- which
+would create a lot of diff noise.  Schemata writes from userspace have
+a high overhead in any case.
+
+For MPAM the conversion will be a no-op, because the incoming
+percentage from the core resctrl code needs to be converted to hardware
+representation in the driver anyway.
+
+Perhaps _all_ the types should move to resctrl_types.h.
+
+For now, I went for the smallest diffstat...
+
+---
+ Documentation/filesystems/resctrl.rst     | 17 +++++++++--------
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  6 ++++++
+ fs/resctrl/ctrlmondata.c                  |  6 +++---
+ include/linux/resctrl.h                   | 14 ++++++++++++++
+ 4 files changed, 32 insertions(+), 11 deletions(-)
+
+---
+
+Testing Notes:
+
+This patch should not make any functional change, but for completeness
+I have included comparisons of the output of the restrcl kselftests.
+
+See [3], [4] for detailed diffs.
+
+(dmesg timestamp and PID changes squashed.)
+
+The vanilla 6.18-rc1 and patches 6.18-rc1 test runs are those discussed
+in [2] (see there for discussion of the out-of-tolerance results
+
+---
+
+References:
+
+[1] [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be per-arch
+https://lore.kernel.org/lkml/20250902162507.18520-1-Dave.Martin@arm.com/
+
+[2] Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be per-arch
+(test discussion subthread)
+https://lore.kernel.org/lkml/aO+7MeSMV29VdbQs@e133380.arm.com/
+
+Test diffs:
+
+[3] resctrl_tests output diff
+from vanilla 6.18-rc1 (busy, recently-booted system)
+to this patch on 6.18-rc3 (quiet system).
+
+# --- base-rc1/resctrl_tests_6.18.0-rc1.out	2025-10-14 17:11:56.000000000 +0100
+# +++ test-rc3/resctrl_tests.out	2025-10-28 16:07:12.000000000 +0000
+# @@ -1,132 +1,132 @@
+#  TAP version 13
+#  # Pass: Check kernel supports resctrl filesystem
+#  # Pass: Check resctrl mountpoint "/sys/fs/resctrl" exists
+#  # resctrl filesystem not mounted
+#  # dmesg: [    1.397893] resctrl: L3 allocation detected
+#  # dmesg: [    1.397928] resctrl: MB allocation detected
+#  # dmesg: [    1.397961] resctrl: L3 monitoring detected
+#  1..6
+#  # Starting MBM test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Writing benchmark parameters to resctrl FS
+#  # Benchmark PID: 998
+#  # Write schema "MB:0=100" to resctrl FS
+#  # Checking for pass/fail
+#  # Pass: Check MBM diff within 8%
+# -# avg_diff_per: 0%
+# +# avg_diff_per: 1%
+#  # Span (MB): 250
+# -# avg_bw_imc: 6422
+# -# avg_bw_resc: 6392
+# +# avg_bw_imc: 6509
+# +# avg_bw_resc: 6580
+#  ok 1 MBM: test
+#  # Starting MBA test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Writing benchmark parameters to resctrl FS
+#  # Benchmark PID: 999
+#  # Write schema "MB:0=10" to resctrl FS
+#  # Write schema "MB:0=20" to resctrl FS
+#  # Write schema "MB:0=30" to resctrl FS
+#  # Write schema "MB:0=40" to resctrl FS
+#  # Write schema "MB:0=50" to resctrl FS
+#  # Write schema "MB:0=60" to resctrl FS
+#  # Write schema "MB:0=70" to resctrl FS
+#  # Write schema "MB:0=80" to resctrl FS
+#  # Write schema "MB:0=90" to resctrl FS
+#  # Write schema "MB:0=100" to resctrl FS
+#  # Results are displayed in (MB)
+#  # Pass: Check MBA diff within 8% for schemata 10
+# -# avg_diff_per: 1%
+# -# avg_bw_imc: 2033
+# -# avg_bw_resc: 2012
+# +# avg_diff_per: 0%
+# +# avg_bw_imc: 1987
+# +# avg_bw_resc: 2004
+#  # Pass: Check MBA diff within 8% for schemata 20
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 3028
+# +# avg_bw_imc: 2980
+#  # avg_bw_resc: 3005
+#  # Pass: Check MBA diff within 8% for schemata 30
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 3982
+# -# avg_bw_resc: 3958
+# +# avg_bw_imc: 3981
+# +# avg_bw_resc: 4012
+#  # Pass: Check MBA diff within 8% for schemata 40
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6265
+# -# avg_bw_resc: 6236
+# +# avg_bw_imc: 6302
+# +# avg_bw_resc: 6351
+#  # Pass: Check MBA diff within 8% for schemata 50
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6384
+# -# avg_bw_resc: 6355
+# +# avg_bw_imc: 6417
+# +# avg_bw_resc: 6468
+#  # Pass: Check MBA diff within 8% for schemata 60
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6405
+# -# avg_bw_resc: 6376
+# +# avg_bw_imc: 6475
+# +# avg_bw_resc: 6527
+#  # Pass: Check MBA diff within 8% for schemata 70
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6417
+# -# avg_bw_resc: 6387
+# +# avg_bw_imc: 6504
+# +# avg_bw_resc: 6557
+#  # Pass: Check MBA diff within 8% for schemata 80
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6418
+# -# avg_bw_resc: 6394
+# +# avg_bw_imc: 6502
+# +# avg_bw_resc: 6556
+#  # Pass: Check MBA diff within 8% for schemata 90
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6412
+# -# avg_bw_resc: 6384
+# +# avg_bw_imc: 6506
+# +# avg_bw_resc: 6555
+#  # Pass: Check MBA diff within 8% for schemata 100
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6425
+# -# avg_bw_resc: 6399
+# +# avg_bw_imc: 6518
+# +# avg_bw_resc: 6572
+#  # Pass: Check schemata change using MBA
+#  ok 2 MBA: test
+#  # Starting CMT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Cache size :23068672
+#  # Writing benchmark parameters to resctrl FS
+# -# Benchmark PID: 5135
+# +# Benchmark PID: 1000
+#  # Checking for pass/fail
+# -# Fail: Check cache miss rate within 15%
+# -# Percent diff=24
+# +# Pass: Check cache miss rate within 15%
+# +# Percent diff=9
+#  # Number of bits: 5
+# -# Average LLC val: 7942963
+# +# Average LLC val: 9528934
+#  # Cache span (bytes): 10485760
+# -not ok 3 CMT: test
+# +ok 3 CMT: test
+#  # Starting L3_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Cache size :23068672
+#  # Writing benchmark parameters to resctrl FS
+#  # Write schema "L3:0=1f0" to resctrl FS
+#  # Write schema "L3:0=f" to resctrl FS
+#  # Write schema "L3:0=1f8" to resctrl FS
+#  # Write schema "L3:0=7" to resctrl FS
+#  # Write schema "L3:0=1fc" to resctrl FS
+#  # Write schema "L3:0=3" to resctrl FS
+#  # Write schema "L3:0=1fe" to resctrl FS
+#  # Write schema "L3:0=1" to resctrl FS
+#  # Checking for pass/fail
+#  # Number of bits: 4
+# -# Average LLC val: 71434
+# +# Average LLC val: 76870
+#  # Cache span (lines): 131072
+#  # Pass: Check cache miss rate changed more than 2.0%
+# -# Percent diff=70.0
+# +# Percent diff=63.7
+#  # Number of bits: 3
+# -# Average LLC val: 121463
+# +# Average LLC val: 125814
+#  # Cache span (lines): 98304
+#  # Pass: Check cache miss rate changed more than 1.0%
+# -# Percent diff=40.8
+# +# Percent diff=41.0
+#  # Number of bits: 2
+# -# Average LLC val: 170978
+# +# Average LLC val: 177346
+#  # Cache span (lines): 65536
+#  # Pass: Check cache miss rate changed more than 0.0%
+# -# Percent diff=22.8
+# +# Percent diff=20.8
+#  # Number of bits: 1
+# -# Average LLC val: 209950
+# +# Average LLC val: 214175
+#  # Cache span (lines): 32768
+#  ok 4 L3_CAT: test
+#  # Starting L3_NONCONT_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Write schema "L3:0=3f" to resctrl FS
+#  # Write schema "L3:0=787" to resctrl FS # write() failed : Invalid argument
+#  # Non-contiguous CBMs not supported and write of non-contiguous CBM failed as expected
+#  ok 5 L3_NONCONT_CAT: test
+#  # Starting L2_NONCONT_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  ok 6 # SKIP Hardware does not support L2_NONCONT_CAT or L2_NONCONT_CAT is disabled
+#  # 1 skipped test(s) detected. Consider enabling relevant config options to improve coverage.
+# -# Totals: pass:4 fail:1 xfail:0 xpass:0 skip:1 error:0
+# +# Totals: pass:5 fail:0 xfail:0 xpass:0 skip:1 error:0
+
+
+[4] resctrl_tests output diff
+from this patch on 6.18-rc1 (busy, recently-booted system)
+to this patch on 6.18-rc3 (quiet system).
+
+# --- test-rc1/resctrl_tests_6.18.0-rc1-test1.out	2025-10-14 17:21:44.000000000 +0100
+# +++ test-rc3/resctrl_tests.out	2025-10-28 16:07:12.000000000 +0000
+# @@ -1,132 +1,132 @@
+#  TAP version 13
+#  # Pass: Check kernel supports resctrl filesystem
+#  # Pass: Check resctrl mountpoint "/sys/fs/resctrl" exists
+#  # resctrl filesystem not mounted
+#  # dmesg: [    1.397893] resctrl: L3 allocation detected
+#  # dmesg: [    1.397928] resctrl: MB allocation detected
+#  # dmesg: [    1.397961] resctrl: L3 monitoring detected
+#  1..6
+#  # Starting MBM test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Writing benchmark parameters to resctrl FS
+#  # Benchmark PID: 998
+#  # Write schema "MB:0=100" to resctrl FS
+#  # Checking for pass/fail
+#  # Pass: Check MBM diff within 8%
+# -# avg_diff_per: 0%
+# +# avg_diff_per: 1%
+#  # Span (MB): 250
+# -# avg_bw_imc: 6886
+# -# avg_bw_resc: 6943
+# +# avg_bw_imc: 6509
+# +# avg_bw_resc: 6580
+#  ok 1 MBM: test
+#  # Starting MBA test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Writing benchmark parameters to resctrl FS
+#  # Benchmark PID: 999
+#  # Write schema "MB:0=10" to resctrl FS
+#  # Write schema "MB:0=20" to resctrl FS
+#  # Write schema "MB:0=30" to resctrl FS
+#  # Write schema "MB:0=40" to resctrl FS
+#  # Write schema "MB:0=50" to resctrl FS
+#  # Write schema "MB:0=60" to resctrl FS
+#  # Write schema "MB:0=70" to resctrl FS
+#  # Write schema "MB:0=80" to resctrl FS
+#  # Write schema "MB:0=90" to resctrl FS
+#  # Write schema "MB:0=100" to resctrl FS
+#  # Results are displayed in (MB)
+#  # Pass: Check MBA diff within 8% for schemata 10
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 2028
+# -# avg_bw_resc: 2032
+# +# avg_bw_imc: 1987
+# +# avg_bw_resc: 2004
+#  # Pass: Check MBA diff within 8% for schemata 20
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 3006
+# -# avg_bw_resc: 3011
+# +# avg_bw_imc: 2980
+# +# avg_bw_resc: 3005
+#  # Pass: Check MBA diff within 8% for schemata 30
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 4006
+# -# avg_bw_resc: 4013
+# +# avg_bw_imc: 3981
+# +# avg_bw_resc: 4012
+#  # Pass: Check MBA diff within 8% for schemata 40
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6726
+# -# avg_bw_resc: 6732
+# +# avg_bw_imc: 6302
+# +# avg_bw_resc: 6351
+#  # Pass: Check MBA diff within 8% for schemata 50
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6854
+# -# avg_bw_resc: 6856
+# +# avg_bw_imc: 6417
+# +# avg_bw_resc: 6468
+#  # Pass: Check MBA diff within 8% for schemata 60
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6882
+# -# avg_bw_resc: 6883
+# +# avg_bw_imc: 6475
+# +# avg_bw_resc: 6527
+#  # Pass: Check MBA diff within 8% for schemata 70
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6891
+# -# avg_bw_resc: 6889
+# +# avg_bw_imc: 6504
+# +# avg_bw_resc: 6557
+#  # Pass: Check MBA diff within 8% for schemata 80
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6893
+# -# avg_bw_resc: 6909
+# +# avg_bw_imc: 6502
+# +# avg_bw_resc: 6556
+#  # Pass: Check MBA diff within 8% for schemata 90
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6890
+# -# avg_bw_resc: 6888
+# +# avg_bw_imc: 6506
+# +# avg_bw_resc: 6555
+#  # Pass: Check MBA diff within 8% for schemata 100
+#  # avg_diff_per: 0%
+# -# avg_bw_imc: 6929
+# -# avg_bw_resc: 6951
+# +# avg_bw_imc: 6518
+# +# avg_bw_resc: 6572
+#  # Pass: Check schemata change using MBA
+#  ok 2 MBA: test
+#  # Starting CMT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Cache size :23068672
+#  # Writing benchmark parameters to resctrl FS
+#  # Benchmark PID: 1000
+#  # Checking for pass/fail
+#  # Pass: Check cache miss rate within 15%
+# -# Percent diff=4
+# +# Percent diff=9
+#  # Number of bits: 5
+# -# Average LLC val: 10918297
+# +# Average LLC val: 9528934
+#  # Cache span (bytes): 10485760
+#  ok 3 CMT: test
+#  # Starting L3_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Cache size :23068672
+#  # Writing benchmark parameters to resctrl FS
+#  # Write schema "L3:0=1f0" to resctrl FS
+#  # Write schema "L3:0=f" to resctrl FS
+#  # Write schema "L3:0=1f8" to resctrl FS
+#  # Write schema "L3:0=7" to resctrl FS
+#  # Write schema "L3:0=1fc" to resctrl FS
+#  # Write schema "L3:0=3" to resctrl FS
+#  # Write schema "L3:0=1fe" to resctrl FS
+#  # Write schema "L3:0=1" to resctrl FS
+#  # Checking for pass/fail
+#  # Number of bits: 4
+# -# Average LLC val: 70161
+# +# Average LLC val: 76870
+#  # Cache span (lines): 131072
+#  # Pass: Check cache miss rate changed more than 2.0%
+# -# Percent diff=72.1
+# +# Percent diff=63.7
+#  # Number of bits: 3
+# -# Average LLC val: 120755
+# +# Average LLC val: 125814
+#  # Cache span (lines): 98304
+#  # Pass: Check cache miss rate changed more than 1.0%
+# -# Percent diff=42.5
+# +# Percent diff=41.0
+#  # Number of bits: 2
+# -# Average LLC val: 172077
+# +# Average LLC val: 177346
+#  # Cache span (lines): 65536
+#  # Pass: Check cache miss rate changed more than 0.0%
+# -# Percent diff=22.0
+# +# Percent diff=20.8
+#  # Number of bits: 1
+# -# Average LLC val: 209893
+# +# Average LLC val: 214175
+#  # Cache span (lines): 32768
+#  ok 4 L3_CAT: test
+#  # Starting L3_NONCONT_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  # Write schema "L3:0=3f" to resctrl FS
+#  # Write schema "L3:0=787" to resctrl FS # write() failed : Invalid argument
+#  # Non-contiguous CBMs not supported and write of non-contiguous CBM failed as expected
+#  ok 5 L3_NONCONT_CAT: test
+#  # Starting L2_NONCONT_CAT test ...
+#  # Mounting resctrl to "/sys/fs/resctrl"
+#  ok 6 # SKIP Hardware does not support L2_NONCONT_CAT or L2_NONCONT_CAT is disabled
+#  # 1 skipped test(s) detected. Consider enabling relevant config options to improve coverage.
+#  # Totals: pass:5 fail:0 xfail:0 xpass:0 skip:1 error:0
+
+
+diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+index b7f35b07876a..fbbcf5421346 100644
+--- a/Documentation/filesystems/resctrl.rst
++++ b/Documentation/filesystems/resctrl.rst
+@@ -144,12 +144,11 @@ with respect to allocation:
+ 		user can request.
+ 
+ "bandwidth_gran":
+-		The granularity in which the memory bandwidth
+-		percentage is allocated. The allocated
+-		b/w percentage is rounded off to the next
+-		control step available on the hardware. The
+-		available bandwidth control steps are:
+-		min_bandwidth + N * bandwidth_gran.
++		The approximate granularity in which the memory bandwidth
++		percentage is allocated. The allocated bandwidth percentage
++		is rounded up to the next control step available on the
++		hardware. The available hardware steps are no larger than
++		this value.
+ 
+ "delay_linear":
+ 		Indicates if the delay scale is linear or
+@@ -737,8 +736,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
+ and can be looked up through "info/MB/min_bandwidth". The bandwidth
+ granularity that is allocated is also dependent on the cpu model and can
+ be looked up at "info/MB/bandwidth_gran". The available bandwidth
+-control steps are: min_bw + N * bw_gran. Intermediate values are rounded
+-to the next control step available on the hardware.
++control steps are, approximately, min_bw + N * bw_gran.  The steps may
++appear irregular due to rounding to an exact percentage: bw_gran is the
++maximum interval between the percentage values corresponding to any two
++adjacent steps in the hardware.
+ 
+ The bandwidth throttling is a core specific mechanism on some of Intel
+ SKUs. Using a high bandwidth and a low bandwidth setting on two threads
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index 1189c0df4ad7..dc05a50e80fb 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -16,9 +16,15 @@
+ #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/cpu.h>
++#include <linux/math.h>
+ 
+ #include "internal.h"
+ 
++u32 resctrl_arch_preconvert_bw(u32 val, const struct rdt_resource *r)
++{
++	return roundup(val, (unsigned long)r->membw.bw_gran);
++}
++
+ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+ 			    u32 closid, enum resctrl_conf_type t, u32 cfg_val)
+ {
+diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+index 0d0ef54fc4de..26e3f7c88c86 100644
+--- a/fs/resctrl/ctrlmondata.c
++++ b/fs/resctrl/ctrlmondata.c
+@@ -35,8 +35,8 @@ typedef int (ctrlval_parser_t)(struct rdt_parse_data *data,
+ /*
+  * Check whether MBA bandwidth percentage value is correct. The value is
+  * checked against the minimum and max bandwidth values specified by the
+- * hardware. The allocated bandwidth percentage is rounded to the next
+- * control step available on the hardware.
++ * hardware. The allocated bandwidth percentage is converted as
++ * appropriate for consumption by the specific hardware driver.
+  */
+ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
+ {
+@@ -69,7 +69,7 @@ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
+ 		return false;
+ 	}
+ 
+-	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
++	*data = resctrl_arch_preconvert_bw(bw, r);
+ 	return true;
+ }
+ 
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index a7d92718b653..1fb6e2118b61 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -485,6 +485,20 @@ bool resctrl_arch_mbm_cntr_assign_enabled(struct rdt_resource *r);
+  */
+ int resctrl_arch_mbm_cntr_assign_set(struct rdt_resource *r, bool enable);
+ 
++/*
++ * Convert a bandwidth control value to the appropriate form for
++ * consumption by the hardware driver for resource r.
++ *
++ * For example, it simplifies the x86 RDT implementation to round the
++ * value to a suitable step here and then treat the resulting value as
++ * opaque when programming the hardware MSRs later on.
++ *
++ * Architectures for which this pre-conversion hook is not useful
++ * should supply an implementation of this function that just returns
++ * val unmodified.
++ */
++u32 resctrl_arch_preconvert_bw(u32 val, const struct rdt_resource *r);
++
+ /*
+  * Update the ctrl_val and apply this config right now.
+  * Must be called on one of the domain's CPUs.
+
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+-- 
+2.34.1
+
