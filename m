@@ -1,99 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E77D2900A8;
-	Fri, 31 Oct 2025 12:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DFC3C17
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 14:03:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761914001; cv=none; b=sMN9uowCEBLtlJ1+VDgz5K40IDBLCW21NI8vhgWdW2NY0085saTWa81Qr2dE/c3lCuC/0vcLMkkUUdCy0QUCHOnHMVcVns2UTvpvG1F9wysTXjM8ip6Y0GvsKsN6mwCIhhO+Rtu1WDbqGjrxUusb09Nkow7TIvWNBGW1I7FSrc0=
+	t=1761919420; cv=none; b=bhlwC1278aUne42baKVeO0fGdRtjUZK43HiveYtTuh9pHAVD3ayTIa/3pPBAf9Fu7+JzRvKL4YeyaIf9vIcn7FZBbrumnGEUtPO/OYxXByufLo5GgIuY/0xj5YSbJsbIBlFm33WAzmi1KJtABRZjJWsoZn2bqbhMGc3LLsD8+NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761914001; c=relaxed/simple;
-	bh=8mG/tT6m7m1SPkxM0FGXaJnTJCfC760z6pu4g9dhsxI=;
+	s=arc-20240116; t=1761919420; c=relaxed/simple;
+	bh=aIGUb5vcRCCb77Dd4tNDiezyLr3CO2Ez5ENgg2+qbv0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NHbPcvN8mXA/YnRl5ueIV+gzTBlfm6COsgZGaC+iAuTaxL7KjQWP7hzaPkcFezgCOg0On6MP1Wb9T9wlrC/hIfxdEOIpaoNlGxq8fPl3kQVOb9WAl+rrrbxdfyjDHmuuXtrtHFV0HwZU8cDW8RlCSZK4HLiaAsU3ap7brP6zi8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rn1EOJ+7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8zPh5KwXBK32JB6UL4NQN8e40hvluD3kDK6VYms89ARvV6e1bJmFPnx/X8wow69etDvHwo8qRtDFH70m+Fct4MGDI+qewRHJjPOgA79SjtUs6zJlbdvQqg51Dhsg6cbo5f/URSHd9RmJ+i/kNnxK7Hyr5FB5eDFLzBMS2VHVKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jAlAjlZ4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rn1EOJ+7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F4CC4CEE7;
-	Fri, 31 Oct 2025 12:33:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jAlAjlZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EA05C4CEF8;
+	Fri, 31 Oct 2025 14:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761914000;
-	bh=8mG/tT6m7m1SPkxM0FGXaJnTJCfC760z6pu4g9dhsxI=;
+	s=korg; t=1761919419;
+	bh=aIGUb5vcRCCb77Dd4tNDiezyLr3CO2Ez5ENgg2+qbv0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rn1EOJ+7eXautIx1gHTna0ncLMzRFhvK2ZhxkpXJMcU2RDpMn0frBfPgAB1vWCLlZ
-	 1l8TDTtp1D1Z43aqJBMDjPL1PDLLenlAHyVZtdpWATQE/6EL6Pp31uZczGCIMfGmxK
-	 Rll7OuwGcq1dPkhilDeOX/ejvmev1NE5P1VdKf64=
-Date: Fri, 31 Oct 2025 13:33:17 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andreas Radke <andreas.radke@mailbox.org>,
-	stable <stable@vger.kernel.org>, Sasha Levin <sashal@kernel.org>,
-	Zhixu Liu <zhixu.liu@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: Please backport commit 00d95fcc4dee ("docs: kdoc: handle the
- obsolescensce of docutils.ErrorString()") to v6.17.y
-Message-ID: <2025103110-tidings-stench-6552@gregkh>
-References: <aPUCTJx5uepKVuM9@eldamar.lan>
- <DDS2XJZB0ECJ.N4LNABSIJHAJ@mailbox.org>
- <aP4amn4YQDnzBBCU@eldamar.lan>
- <87wm4gpbw6.fsf@trenco.lwn.net>
- <aQEjRT5JBLYiBTaL@eldamar.lan>
+	b=jAlAjlZ4dvoykKLcZvjaoZyb1E91vXBGe7qOESmCD/7p6rKyHhyQSEupyQZBwR2yM
+	 0QOUDPF28ntdeqbqqE8t3ESczdZM+eeoC+wNBSpCOhqarizK7DyNdAaqN3g1cGa5/I
+	 7c2k7Fb9+yuI7l1R3+p5LpXd9cmSRiqRrldwzX2E=
+Date: Fri, 31 Oct 2025 10:03:36 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] tools/docs/sphinx-build-wrapper: Emit $SPHINXOPTS later
+ in args list
+Message-ID: <20251031-impossible-excellent-stingray-4ea6a7@lemur>
+References: <eaf4bfd8-fb80-45d0-b3ec-4047692ebbed@gmail.com>
+ <91aef821-6355-4135-b179-69b845a827f6@gmail.com>
+ <87v7jxr9hd.fsf@trenco.lwn.net>
+ <d1ade088-30d3-4ee3-8df6-ba240adf2ec4@gmail.com>
+ <51a7cad1-e0c6-44fa-a7f7-50ecc95a58f4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aQEjRT5JBLYiBTaL@eldamar.lan>
+In-Reply-To: <51a7cad1-e0c6-44fa-a7f7-50ecc95a58f4@gmail.com>
 
-On Tue, Oct 28, 2025 at 09:10:45PM +0100, Salvatore Bonaccorso wrote:
-> Hi,
-> 
-> On Mon, Oct 27, 2025 at 10:06:33AM -0600, Jonathan Corbet wrote:
-> > Salvatore Bonaccorso <carnil@debian.org> writes:
+On Fri, Oct 31, 2025 at 10:25:56AM +0900, Akira Yokosawa wrote:
+> > Today's build at https://www.kernel.org/doc/html/next/ still has
+> > "6.18.0-rc3" as the version tag.  Other new changes in docs-next are
+> > reflected there.
 > > 
-> > > Hi,
-> > >
-> > > On Sun, Oct 26, 2025 at 08:36:00AM +0100, Andreas Radke wrote:
-> > >> For kernel 6.12 there's just one more place required to add the fix:
-> > >> 
-> > >> --- a/Documentation/sphinx/kernel_abi.py        2025-10-23 16:20:48.000000000 +0200
-> > >> +++ b/Documentation/sphinx/kernel_abi.py.new    2025-10-26 08:08:33.168985951 +0100
-> > >> @@ -42,9 +42,11 @@
-> > >>  from docutils import nodes, statemachine
-> > >>  from docutils.statemachine import ViewList
-> > >>  from docutils.parsers.rst import directives, Directive
-> > >> -from docutils.utils.error_reporting import ErrorString
-> > >>  from sphinx.util.docutils import switch_source_input
-> > >> 
-> > >> +def ErrorString(exc):  # Shamelessly stolen from docutils
-> > >> +    return f'{exc.__class__.__name}: {exc}'
-> > >> +
-> > >>  __version__  = '1.0'
-> > >> 
-> > >>  def setup(app):
-> > >
-> > > Yes this is why I asked Jonathan, how to handle backports to older
-> > > series, if it is wanted to pick specifically as well faccc0ec64e1
-> > > ("docs: sphinx/kernel_abi: adjust coding style") or a partial backport
-> > > of it, or do a 6.12.y backport of 00d95fcc4dee with additional
-> > > changes (like you pointed out).
-> > >
-> > > I'm just not sure what is preferred here. 
-> > 
-> > I'm not sure it matters that much...the additional change suggested by
-> > Andreas seems fine.  It's just a backport, and it shouldn't break
-> > anything, so doesn't seem worth a lot of worry.
 > 
-> Okay here is a respective backported change for the 6.12.y series as
-> well.
-> 
-> Does that look good for you?
-> 
+> Now, the version tag reads "next-20251030".
 
-Now queued up, thanks!
+Yes, this is now working properly, thanks everyone!
 
-greg k-h
+-K
