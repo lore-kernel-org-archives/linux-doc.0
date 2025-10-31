@@ -1,201 +1,375 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74487347FF5
-	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 11:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761909173; cv=none; b=QZM8J29n69pNLABYc7N7S/1qbkMgalcDiK8iocipJTnpCO3o/umuTy9FjEwzq4arh3QilcQEBIL8UQO6TreRP4WwB6TrcgfwDCqiakuIX4Cvl5wncu0Gik0VzBBCLuO0FINBCRD2BkHCQzrP5oVlqFP9iT1wr9kK0F+3sm9zzy8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761909173; c=relaxed/simple;
-	bh=0EAliAOpquzyO8hLsPo633zWXa1oesFLgMxZvmoxy6c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gEEzZkScPOK/6Z6ln1FAhqi5gP5+Xrfx16x7spr/eKMwAN4vGeXStBkRayZQNA0M8YjZppbuK9kwhhcXb6BeEFjG8oOLAUA54axcJdEa7uwjDSI9zB7wg5sGj9U8lWtuo9bf+i8IV/wwJsSEv38spx1mc574RRzdaJCrTXGUuYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aYRLVafL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08710343D9B;
+	Fri, 31 Oct 2025 11:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761911494; cv=fail; b=WBu5P77Tb082XfMiHDLENLVy6kEnljeFA8SpYlPtCtqcGy2f00RHbLVd8ognPd4y/Pd8lI9w976y2ACO8voSiKYcM7GMSRCTny70SjNxU2e+n0eX4BZGwcyrqDU6G9BlO5hksDFyE8VFcohZ2wsQRObkLhG5Ysphr9QRfVYv40k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761911494; c=relaxed/simple;
+	bh=n2WumxR6zLDuF7Gp+6zF6RTt8/P3Ic1bpeh5EcAcuWM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=HxQeR5lI7cfCOlq34KD/tq2ErYA+icS4eRglKFyuMU28wJsCvyCW0aCLSZU6DiQ+rwStTniO3/cFxZAghYmhBc/UY2MO0zIkb6d7ya9HSsl5fJv8s7aifZMSXyJ9pkiYVfOl2/V/iWhqAAfbXP3MBlWMRxyWy7WHURqUvpzTzWM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUoXLZmt; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aYRLVafL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761909170;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hJMjuxukAWEbjLCeYadmdpTDIoQW4n3g3hPUHczSukU=;
-	b=aYRLVafLEOnbJ8saohXtmsUTYW7ds5T+CaFrtJ6Yc98pxATTLSDMmFWMJrqYUnF0mfsF8r
-	uJdP7o0IaBdVcRPMRwrzI+HeThej7T4e1dqHTz4GSVBFEuPetCTmYH/xW8Wr68RJytcqV+
-	5+s3Jhe+PYfqqPseZUS5oQPKTFoZf80=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-QihovgOFMXeNF51KVdRZMA-1; Fri, 31 Oct 2025 07:12:44 -0400
-X-MC-Unique: QihovgOFMXeNF51KVdRZMA-1
-X-Mimecast-MFC-AGG-ID: QihovgOFMXeNF51KVdRZMA_1761909163
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-475dc22db7eso17771435e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 04:12:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761909161; x=1762513961;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hJMjuxukAWEbjLCeYadmdpTDIoQW4n3g3hPUHczSukU=;
-        b=oUQfLy7DjiyCwl/tbQf5JE/T9phOR5XfwKSFLykh85HdpaCV9ApL2e34y4Dqj0kB7r
-         dlXKqXvixnQXtn1QXTVETSq91yC3AoWlVQ2YXWD6bT5Nh15X5oh5JYA6tKAIt5W+sCvi
-         Ze7tJWiF3kXuOWL06Tnr7E4tbmWhvw6M/cu8B6i58Dv4/1Bd7oaljll8Wj57nYhGr2gC
-         C/rcgWhQzZgoYcXKknbhYgBhVmPy9M3TKLz1rVoXHDN2XaTTXTw4BqIpzkOA9p70Fum/
-         2ZKxrrDaQ3MANjsCM0dOmuxerGFiXg3t84tK3uRHtqVsDwHLCUtIbTYN00A25W3tNi4a
-         C2oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUjNCRAP0C30HotqJnRcQbwZpe7uaW+MyqI4gibc63PETCA/tfoVwlml9X8Z6gcuPrSelN0oBXj9Qo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytNR7RT8/hsQLAUDphPSavlhRMVt04irHphQNvqjNXo8eZVfUV
-	94YdRO0XstbC1nOSqRG31yE7SHDCyuAtikAvfdK/lY7TX3rsD+S+x43yJeWi9mdKO63ZG6FmFq+
-	X3pvZYF88woShEf0fxMJtt9Tuint3jDOHUO9pswtQB+wdMyuv5VHTti2EA4ShPPsfx1+d9Q==
-X-Gm-Gg: ASbGncu+FCYmW49dnzkw4AfmdyezlrvbM4P1LeGHqx2J+eIdZdkHdRgPGadI/8UHEXt
-	cWksS255ZcKJ5jPWTO5DJ7BtxEuORgZv2n27cQWm19dxSnyMUEARD5bhEhuMfUCR/V2nGSGdleX
-	pdqZYr5AM5K0oZSt1EYKqkxxdPDpPkaG0ztxrJTjqAEpaWbohMEs2f9yJxJjdrvwsWMpcb6T8AS
-	jszcP1sesPD1aE6ESiWF6mvFOINLd8s+4yc1YhBDhtPAQT0qvKl6aCQWcNwjE7wZSv1IW6R83DG
-	wwU+atJeqlkyEVqUF+nK+i+PuXL5j7OYTIVbkxZyIEHcfL3S6v0OlbOcxIaotWQ4xh/RzOIrdqt
-	wIRt+Ll8urJhB/W2Ev9N7M5yepSkaAxKinx0+fliE6gURXKrYqPaEqujS8raTotzSZJNtPUI/At
-	vxQEmyEJ+exqQ49gl8bBw5gp8GxIc=
-X-Received: by 2002:a05:600c:4e43:b0:477:e66:406e with SMTP id 5b1f17b1804b1-4773088be60mr33550475e9.29.1761909161088;
-        Fri, 31 Oct 2025 04:12:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHA2tXUGCsDUMR6vFGWGQZdO96drmXylly2cBlXXBXlMiJWZFIq3SyIZffRE2pcpjTww5hO5A==
-X-Received: by 2002:a05:600c:4e43:b0:477:e66:406e with SMTP id 5b1f17b1804b1-4773088be60mr33549935e9.29.1761909160613;
-        Fri, 31 Oct 2025 04:12:40 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f3f:4b00:ee13:8c22:5cc5:d169? (p200300d82f3f4b00ee138c225cc5d169.dip0.t-ipconnect.de. [2003:d8:2f3f:4b00:ee13:8c22:5cc5:d169])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4772899fdf0sm87665605e9.3.2025.10.31.04.12.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Oct 2025 04:12:40 -0700 (PDT)
-Message-ID: <1c0c89d3-0f72-4631-b1fc-41e1426c8bed@redhat.com>
-Date: Fri, 31 Oct 2025 12:12:37 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUoXLZmt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761911492; x=1793447492;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=n2WumxR6zLDuF7Gp+6zF6RTt8/P3Ic1bpeh5EcAcuWM=;
+  b=WUoXLZmtz0nbTwTu4BCqADb/KNGMaeh0R0lbEdvbbDNkzGi14yjRnwY8
+   63gBwuqN9D2hCglnCSNfVL9ALnmNnw+kc0oIfHmm9opYyTPKmqYyL+vYO
+   2LAtm7YcY+mJd5z6bwa0nJh8GMbfW2RzBieYrPnK6Fk2deW3v9B4s6DM9
+   Tx+YtvUv3ckto09yfeVyAw9tjNbR6+7P0BPDi0JRbvvWVAlAIZEmXOcHa
+   ITxlKUaf8UxVoWE9mgRt10SaycD3ar1OqJkZq6b6JEkZBblBxgaRCMsIr
+   C78ceL2r8+oJSH8rmUTsYRZql4GDs7SQJ/nALVaOPbmb+dO+u0BiPB5Uz
+   g==;
+X-CSE-ConnectionGUID: jzQ2nPmJQoa9ifWjOLNNkw==
+X-CSE-MsgGUID: T+v4SVFpR+y9F9qsy1DS2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63767304"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="63767304"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 04:51:31 -0700
+X-CSE-ConnectionGUID: tVgyIUuWTcuQ7WRunIZthw==
+X-CSE-MsgGUID: 7KSWIwuYQ/20nJ7wCX7VLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="185491179"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 04:51:32 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 31 Oct 2025 04:51:31 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 31 Oct 2025 04:51:31 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.2) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 31 Oct 2025 04:51:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=crJ9F7txDZDVeX2IT7kM+32l4aT13ZF51OOy17MMBQBMHfavhz4MQPX2pANCCrgSErTX/wS1FFUlRx6KO5E1WktAvBYd2/7j80XFn4FMgsag5q80sjrdImVJZnOJ0qM1MmvR0KYWOqvvZnkqxrDCoPkntYN85F99sWhemE8DocU9AY1ar4tp9WOi+jPctiNyQ4v83Ef6f0V/LCsbdWazBZtr0D4NVeH4jqhpr+pDX2jWreQiSg6tRHZI82hxLSJ3mtwugeOWr1Qawa65M59G7+cuIo8Rl50VlWnS09R/X3GYE3ise7gYYtXVkKVyJ8Rvo49l3pTu0GU93awm3CB7bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H/AkUgcGV9QDQtjQh28lsSac8ofhx360lUR55L7oLk0=;
+ b=tN/qhIJJCMTO64JwK3d6zoAGy0Ll8oWl66VbQG42YkiFh/ZG7xpWES35XWHX/Ek9nNgTEEuiOvEbgy1O3sRLyxAn8Civ9X13LOFW3pJskUCTuxnnD0JeQTrbNwtP+96dj6H/urTPC/UkaGeYPNJ52M4WAwUwNX07j9Escol8GnSJYzGCKfZQrdCF35xaRRCRLiigya29uJLX4G3zcjJ2AE9Uis3Ex5ufr6J7zksmutMNoV6enZNpid+oINWFhQ8CG8HfKrOM11LsD3s55QXGvWjrx1At8MKXTQrY80gKV4leKV8ufrjsTytKyJJrwt4oUngBnUzgVKwbqHKZSCKNpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV4PR11MB9491.namprd11.prod.outlook.com (2603:10b6:408:2de::14)
+ by DS0PR11MB7651.namprd11.prod.outlook.com (2603:10b6:8:149::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Fri, 31 Oct
+ 2025 11:51:28 +0000
+Received: from LV4PR11MB9491.namprd11.prod.outlook.com
+ ([fe80::f110:9a4f:b4cb:2eeb]) by LV4PR11MB9491.namprd11.prod.outlook.com
+ ([fe80::f110:9a4f:b4cb:2eeb%7]) with mapi id 15.20.9275.013; Fri, 31 Oct 2025
+ 11:51:28 +0000
+From: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To: "Vecera, Ivan" <ivecera@redhat.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>
+CC: "Schmidt, Michal" <mschmidt@redhat.com>, "Oros, Petr" <poros@redhat.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet
+	<corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Donald Hunter
+	<donald.hunter@gmail.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net-next v2 1/2] dpll: add phase-adjust-gran pin attribute
+Thread-Topic: [PATCH net-next v2 1/2] dpll: add phase-adjust-gran pin
+ attribute
+Thread-Index: AQHcSOlDv1iZzscYA06G8ARudBg3VbTcJmrQ
+Date: Fri, 31 Oct 2025 11:51:28 +0000
+Message-ID: <LV4PR11MB9491743B4984EBA5B192E0449BF8A@LV4PR11MB9491.namprd11.prod.outlook.com>
+References: <20251029153207.178448-1-ivecera@redhat.com>
+ <20251029153207.178448-2-ivecera@redhat.com>
+In-Reply-To: <20251029153207.178448-2-ivecera@redhat.com>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV4PR11MB9491:EE_|DS0PR11MB7651:EE_
+x-ms-office365-filtering-correlation-id: 7562d081-6842-4792-140d-08de1873d380
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?KMjBkGudRzhWUKRXJUyHimibSBVywntbCpwXZFV0a3+5NDhe2xxoBZPtQMw8?=
+ =?us-ascii?Q?aLcsWj3wxx/K9luRkWF/sNqSw5ljLL0lf3rDoUyk/dmx93uNyeeAwuyipkCX?=
+ =?us-ascii?Q?c8/t8iMM+va6RE+PkmOcDuRztl7WMR7LI16w1MMp6n9skTB2X32kRjXucwyo?=
+ =?us-ascii?Q?0ZonxBruUn6NkWlTmEDfFYXWrqHw06Qmd1zdhHeKYpTT0IvbiTZVXLT65+Tb?=
+ =?us-ascii?Q?XWsvCtImXy6NEgDEM8SOZJoZE6K/lNCU8PMLW+Orc3u6GeqHWKIkyegrt1jR?=
+ =?us-ascii?Q?F00PCTGiiW4OkUY8v/l2aZrdWU32TCMJ/b49cSI9LXH2E0o8u35kAtwFYZL9?=
+ =?us-ascii?Q?CVjbuCHgkxqvVy4l3jHBTL9yz1qnX3c5xmP6SjH5Dbho2dPtv6HYkHyXqPij?=
+ =?us-ascii?Q?bi0nq3AlsTZWIhpMt6uLMBHRVOBSlIwk3evBAeu2Q5F9oC9L10Mgk8bEZeaL?=
+ =?us-ascii?Q?hNEzHIZ/N+OdKgM8hIr762dOsacvHi65EsQR4dfmPBiR6LzsMI/fXrTmC9VM?=
+ =?us-ascii?Q?yV8K0NJgrlyPBFTpeiNSZfyE2mV3VSfZf7dj0TK0bHUgqPzKH+ZxLZvTQWzF?=
+ =?us-ascii?Q?P6Nvow1uYm7ElSqj8HV/aQB5An6vo1+/O62KnlwJx3PkgIQGbzme01TfBmRU?=
+ =?us-ascii?Q?akRTdfVF6EhkwCK+PXAtzehd76fiFHDdJVG1tTaO8AFu6CKuab1JtPNV5Pzz?=
+ =?us-ascii?Q?/DjsAOENr6VgcR/Gm/l5ZAr1b9Ppu8xox0KF34gLud/DPAk4PEllBktjPW3y?=
+ =?us-ascii?Q?OUMz3T4p+M3NomJ63F0iqBNExmUXFrRnZTaO6q4Bbjh/Ld2KkEVa73eja+tY?=
+ =?us-ascii?Q?E+CMhY7bJ+zsOFjXxjzNQce9o/w7XW8aTJxZa48XJR7xzlR3ZbW9sqaGazjW?=
+ =?us-ascii?Q?xS23u/qAq1adswfN7lS3BRu/D2+qrHsQwoN6olxp+CaZfZnEh5rjokwQojwv?=
+ =?us-ascii?Q?WO8/00s2pX3fBtJihkQQsQkeDGVgL+EhdGY9rPtdAJ5EUPSdLSeELhAGnQmJ?=
+ =?us-ascii?Q?dqEjWQTrau0rGGM/8NNbNZmlw8sQUmIDuB2O3ThoTlBMV85AbRa6vjUfQBOR?=
+ =?us-ascii?Q?YNRD1GVNHgfCBkm7Po3KQkD5SIvb0SleMIGwP+6ajiFVF5AR4X6bRJbZV1/F?=
+ =?us-ascii?Q?1Sl5osqDNC0el7ruN5YUsoCY2QUX8s3oz/u/OmtXkmwsHAJ0gcaEMq/vArK+?=
+ =?us-ascii?Q?MJnsQ7aLDaiCrGiuvXdTUzPuTqrw2ULmKG/TDw8K0D7IADgDpg4jMqf2QMi1?=
+ =?us-ascii?Q?HtjPAaxyjYeMGArR2S5nhxGeDLH6HAl4Wfysd+QfaPITqiSStBcOajE5MYD6?=
+ =?us-ascii?Q?NyISkogE7FTaqksvbybSS0WKIszwr1VJmr11XYhbR9cxQelYSKeauDwweNRX?=
+ =?us-ascii?Q?CvON5r1M1TrlLuk/BWV6jAlGrU6dq+K3CuGnQVPNhwGzCaj1aJV03asgkL4C?=
+ =?us-ascii?Q?tasSpxB3LhPukt6Wrzshi+bmo2JNG1+nyMOyEWe7vY2jRjDeX2/tFLAXqYAZ?=
+ =?us-ascii?Q?QvIRgUxySywecU90qTatM3dVR5SZe/gy3De9?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV4PR11MB9491.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WeiYF8U1If7vPXIeTfWC5CY+m+G7bOckDBDyvkOXu4Q/M2hWG4IRC+FwMhMi?=
+ =?us-ascii?Q?9fgISRpu9vZF+Aoeu46hDAOoIw3+ui6H8+cEvCETcPBH4nD2bMDGvyMYUoPS?=
+ =?us-ascii?Q?fdfXpi1DZhG7zYjrjGxLAP497xiCz19xPv8tMGgfNS7M7D9egJn6cjI87/Iy?=
+ =?us-ascii?Q?cZ0TnANW8+eOXYnAhGOX4Bje3RTzHneANY0lrhLautftQmcpHapn48AWyedC?=
+ =?us-ascii?Q?bb1whpusB1veSlprDl4pj+cbwota1dysy5HVrmbg7pbqyKH/LOe05i5aJIDR?=
+ =?us-ascii?Q?t01y2BBQkXHMrmZxJYxJxEjWZczVvf6MdKoa381ZTFumpAEKYbC84EwjujUN?=
+ =?us-ascii?Q?2sJ579iot//A9LM8yiX3R27Z+sin6zkStZdwZVaSsDLx9CrJNeuUJRdxt4Q9?=
+ =?us-ascii?Q?ifxG/BxLZiVB7OA8tO+slpiuaX6H+AUQaVvdpnSJkYqNaah+h+PlNopBYBAC?=
+ =?us-ascii?Q?7pRNKT5bKuAf8fkvgAzRN7W6OaxuS+Lj4wPY0z6v7hyAoz16oBEo4Vm7b2tH?=
+ =?us-ascii?Q?9GiaqcrFo+6kxEhXPAgM1FcA1bKlNt4IoAa6oDkQ9uEFxt4vroE8GkMFWMPT?=
+ =?us-ascii?Q?WSBk0NmV1FKrLbInv7NczHEnWixA22+H+Q2jp2r8CgyflInvPKxHznoeo6WQ?=
+ =?us-ascii?Q?zTmPZjiC36F/3yejj+Arpu9RGfVYmBn2bJZCgeu6ZUyCiDB3qrQXdiKTAxjc?=
+ =?us-ascii?Q?RtA0e40/WNh4cdGvDLgvu9CzDmKwNA/wll+dgLBC1ftHHpceXAZ0kJyt+h7/?=
+ =?us-ascii?Q?KMwWpLWxZT7i+Po0ZloBgK/aTlrvmEdHajpYs0biborseNdFZpVsKB0fVroO?=
+ =?us-ascii?Q?uGfrtoAWruk2Knh+r/rQvp52wwu/fcIRsCBma02WywhQXkV5rUQmRoGWEFGK?=
+ =?us-ascii?Q?8dV1FuDveSCv9GCqhhRxmf7wUxGsBMvNPwKUd1WE3zx40aGpB9g0CnYc5dch?=
+ =?us-ascii?Q?uH+alaUdY2ww3DTnPBxVHFHcvOb6LXdiuRhEsirSRpzGzouSGu50QP2y5Htk?=
+ =?us-ascii?Q?Hfnpzu1QRyvugTeYpLWpX+nTA9BsBcaKFey1zMzwz9F1Tdq9YTqWpseh9f2y?=
+ =?us-ascii?Q?DB/VNtAEd0GkOAwKYajp66xcNpTRqvhQ23OkmDC6sIGVIgq+sRzZpgCkocBJ?=
+ =?us-ascii?Q?VRLOGNAYJpNVgoB6PFWdtH0SwBRGMTd9s3q7coqrjdoSIPVo6xuqPlB3/THo?=
+ =?us-ascii?Q?MLdeyc9IWQkk5Mzyl+u/+SKOknjd9mpvb2dLnWD1jJ2OnvepvJYWisoH3eAs?=
+ =?us-ascii?Q?rks1EuVwbFfaVsF7BNvhu3XxgyvDcPhIOqnwFaAN+wgemYrxTSj/Sya7/0Cu?=
+ =?us-ascii?Q?NF5IUq1uEHjfNuYeh3KE3mpbhBodNqKukIr/gC7ZsFxaECOLOou0SEBVO8u0?=
+ =?us-ascii?Q?NWhSqxZ7Mpb90KhFjpeTV6+GQZIERP/AqrPYmATXkyhX1bdBmwje6CcY/Uhg?=
+ =?us-ascii?Q?L8EaklcNaBMl6GEBiuxvQnwatTC1t88YFaSHqTitglIuAIGQEkRkBqDfKdbj?=
+ =?us-ascii?Q?cG7dbTSWuFa+Os9LSgQK8Quc2S97Axb51RQ/rwlFEOKD2BeK7sY456yEtNxp?=
+ =?us-ascii?Q?mAKa2asgNUloLQfTp8TMsvh5HDGZrdq65NirSJfnZnAEEp0KuxMXZwtaBPzt?=
+ =?us-ascii?Q?Mg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 mm-new 06/15] khugepaged: introduce
- collapse_max_ptes_none helper function
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-7-npache@redhat.com>
- <5f8c69c1-d07b-4957-b671-b37fccf729f1@lucifer.local>
- <CAA1CXcA4AcHrw18JfAoVygRgUZW3EzsN6RPZVrC=OJwSNu_9HA@mail.gmail.com>
- <e69acbc5-0824-4b07-8744-8d5145e2580b@redhat.com>
- <e66b671f-c6df-48c1-8045-903631a8eb85@lucifer.local>
- <74583699-bd9e-496c-904c-ce6a8e1b42d9@redhat.com>
- <3dc6b17f-a3e0-4b2c-9348-c75257b0e7f6@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <3dc6b17f-a3e0-4b2c-9348-c75257b0e7f6@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV4PR11MB9491.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7562d081-6842-4792-140d-08de1873d380
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2025 11:51:28.1695
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y8INt2ZIiiEB6TBhnqhqHOliZssFKdmxKZXtK+dAdENUNsIr79w7tJkkVPYO2ScFRGL8NFhQDDRRl4W3YWqCF8LgymPCVi8NI8Tog2cvDl0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7651
+X-OriginatorOrg: intel.com
 
+>From: Ivan Vecera <ivecera@redhat.com>
+>Sent: Wednesday, October 29, 2025 4:32 PM
+>
+>Phase-adjust values are currently limited by a min-max range. Some
+>hardware requires, for certain pin types, that values be multiples of
+>a specific granularity, as in the zl3073x driver.
+>
+>Add a `phase-adjust-gran` pin attribute and an appropriate field in
+>dpll_pin_properties. If set by the driver, use its value to validate
+>user-provided phase-adjust values.
+>
+>Reviewed-by: Michal Schmidt <mschmidt@redhat.com>
+>Reviewed-by: Petr Oros <poros@redhat.com>
 
+LGTM, Thank you!
+Reviewed-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 
->>>> "eagerness" would not be like swappiness, and we will really have to be
->>>> careful here. I don't know yet when I will have time to look into that.
->>>
->>> I guess I missed this part of the converastion, what do you mean?
->>
->> Johannes raised issues with that on the list and afterwards we had an
->> offline discussion about some of the details and why something unpredictable
->> is not good.
-> 
-> Could we get these details on-list so we can discuss them? This doesn't have to
-> be urgent, but I would like to have a say in this or at least be part of the
-> converastion please.
-
-Sorry, I only found now time to reply on this point. Johannes raised the 
-point in [1], and afterwards we went a bit into detail in a off-list 
-discussion.
-
-In essence, I think he is right that is something we have to be very 
-careful about. So it turned out as something that will take a lot more 
-time+effort on my side than I originally thought, turning it not 
-feasible in the short term given how I already lack behind on so many 
-other things.
-
-So I concluded that it's probably best to have such and effort be 
-independent of this series. And in some way it is either way, because 
-max_ptes_none is just a horrible interface given the values are 
-architecture dependent.
-
-I'll be happy if we can focus in this series on the bare minimum initial 
-support, and avoid any magic (scaling / capping) as it all turned out to 
-be much more tricky (interaction with the deferred shrinker ...) than 
-most of us initially thought.
-
-But I think we're already on the same page here, just wanted to share a 
-bit more details on the max_ptes_none vs. eagerness idea.
-
-[1] https://lkml.kernel.org/r/20250915134359.GA827803@cmpxchg.org
-
--- 
-Cheers
-
-David / dhildenb
-
+>Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
+>Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+>---
+>v2:
+>* changed type to u32 and added explicit cast to s32 during remainder
+>  computation (per Jiri's request)
+>---
+> Documentation/driver-api/dpll.rst     | 36 +++++++++++++++------------
+> Documentation/netlink/specs/dpll.yaml |  7 ++++++
+> drivers/dpll/dpll_netlink.c           | 12 ++++++++-
+> include/linux/dpll.h                  |  1 +
+> include/uapi/linux/dpll.h             |  1 +
+> 5 files changed, 40 insertions(+), 17 deletions(-)
+>
+>diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-
+>api/dpll.rst
+>index be1fc643b645e..83118c728ed90 100644
+>--- a/Documentation/driver-api/dpll.rst
+>+++ b/Documentation/driver-api/dpll.rst
+>@@ -198,26 +198,28 @@ be requested with the same attribute with
+>``DPLL_CMD_DEVICE_SET`` command.
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Device may also provide ability to adjust a signal phase on a pin.
+>-If pin phase adjustment is supported, minimal and maximal values that pin
+>-handle shall be provide to the user on ``DPLL_CMD_PIN_GET`` respond
+>-with ``DPLL_A_PIN_PHASE_ADJUST_MIN`` and ``DPLL_A_PIN_PHASE_ADJUST_MAX``
+>+If pin phase adjustment is supported, minimal and maximal values and
+>+granularity that pin handle shall be provided to the user on
+>+``DPLL_CMD_PIN_GET`` respond with ``DPLL_A_PIN_PHASE_ADJUST_MIN``,
+>+``DPLL_A_PIN_PHASE_ADJUST_MAX`` and ``DPLL_A_PIN_PHASE_ADJUST_GRAN``
+> attributes. Configured phase adjust value is provided with
+> ``DPLL_A_PIN_PHASE_ADJUST`` attribute of a pin, and value change can be
+> requested with the same attribute with ``DPLL_CMD_PIN_SET`` command.
+>
+>-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>-  ``DPLL_A_PIN_ID``               configured pin id
+>-  ``DPLL_A_PIN_PHASE_ADJUST_MIN`` attr minimum value of phase adjustment
+>-  ``DPLL_A_PIN_PHASE_ADJUST_MAX`` attr maximum value of phase adjustment
+>-  ``DPLL_A_PIN_PHASE_ADJUST``     attr configured value of phase
+>-                                  adjustment on parent dpll device
+>-  ``DPLL_A_PIN_PARENT_DEVICE``    nested attribute for requesting
+>-                                  configuration on given parent dpll
+>-                                  device
+>-    ``DPLL_A_PIN_PARENT_ID``      parent dpll device id
+>-    ``DPLL_A_PIN_PHASE_OFFSET``   attr measured phase difference
+>-                                  between a pin and parent dpll device
+>-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>+  ``DPLL_A_PIN_ID``                configured pin id
+>+  ``DPLL_A_PIN_PHASE_ADJUST_GRAN`` attr granularity of phase adjustment
+>value
+>+  ``DPLL_A_PIN_PHASE_ADJUST_MIN``  attr minimum value of phase adjustment
+>+  ``DPLL_A_PIN_PHASE_ADJUST_MAX``  attr maximum value of phase adjustment
+>+  ``DPLL_A_PIN_PHASE_ADJUST``      attr configured value of phase
+>+                                   adjustment on parent dpll device
+>+  ``DPLL_A_PIN_PARENT_DEVICE``     nested attribute for requesting
+>+                                   configuration on given parent dpll
+>+                                   device
+>+    ``DPLL_A_PIN_PARENT_ID``       parent dpll device id
+>+    ``DPLL_A_PIN_PHASE_OFFSET``    attr measured phase difference
+>+                                   between a pin and parent dpll device
+>+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> All phase related values are provided in pico seconds, which represents
+> time difference between signals phase. The negative value means that
+>@@ -384,6 +386,8 @@ according to attribute purpose.
+>                                        frequencies
+>       ``DPLL_A_PIN_ANY_FREQUENCY_MIN`` attr minimum value of frequency
+>       ``DPLL_A_PIN_ANY_FREQUENCY_MAX`` attr maximum value of frequency
+>+    ``DPLL_A_PIN_PHASE_ADJUST_GRAN``   attr granularity of phase
+>+                                       adjustment value
+>     ``DPLL_A_PIN_PHASE_ADJUST_MIN``    attr minimum value of phase
+>                                        adjustment
+>     ``DPLL_A_PIN_PHASE_ADJUST_MAX``    attr maximum value of phase
+>diff --git a/Documentation/netlink/specs/dpll.yaml
+>b/Documentation/netlink/specs/dpll.yaml
+>index cafb4ec20447e..4e5f0b7c41492 100644
+>--- a/Documentation/netlink/specs/dpll.yaml
+>+++ b/Documentation/netlink/specs/dpll.yaml
+>@@ -440,6 +440,12 @@ attribute-sets:
+>         doc: |
+>           Capable pin provides list of pins that can be bound to create a
+>           reference-sync pin pair.
+>+      -
+>+        name: phase-adjust-gran
+>+        type: u32
+>+        doc: |
+>+          Granularity of phase adjustment, in picoseconds. The value of
+>+          phase adjustment must be a multiple of this granularity.
+>
+>   -
+>     name: pin-parent-device
+>@@ -614,6 +620,7 @@ operations:
+>             - capabilities
+>             - parent-device
+>             - parent-pin
+>+            - phase-adjust-gran
+>             - phase-adjust-min
+>             - phase-adjust-max
+>             - phase-adjust
+>diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+>index 74c1f0ca95f24..017999beccba8 100644
+>--- a/drivers/dpll/dpll_netlink.c
+>+++ b/drivers/dpll/dpll_netlink.c
+>@@ -637,6 +637,10 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct
+>dpll_pin *pin,
+> 	ret =3D dpll_msg_add_pin_freq(msg, pin, ref, extack);
+> 	if (ret)
+> 		return ret;
+>+	if (prop->phase_gran &&
+>+	    nla_put_u32(msg, DPLL_A_PIN_PHASE_ADJUST_GRAN,
+>+			prop->phase_gran))
+>+		return -EMSGSIZE;
+> 	if (nla_put_s32(msg, DPLL_A_PIN_PHASE_ADJUST_MIN,
+> 			prop->phase_range.min))
+> 		return -EMSGSIZE;
+>@@ -1261,7 +1265,13 @@ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct
+>nlattr *phase_adj_attr,
+> 	if (phase_adj > pin->prop.phase_range.max ||
+> 	    phase_adj < pin->prop.phase_range.min) {
+> 		NL_SET_ERR_MSG_ATTR(extack, phase_adj_attr,
+>-				    "phase adjust value not supported");
+>+				    "phase adjust value of out range");
+>+		return -EINVAL;
+>+	}
+>+	if (pin->prop.phase_gran && phase_adj % (s32)pin->prop.phase_gran) {
+>+		NL_SET_ERR_MSG_ATTR_FMT(extack, phase_adj_attr,
+>+					"phase adjust value not multiple of %u",
+>+					pin->prop.phase_gran);
+> 		return -EINVAL;
+> 	}
+>
+>diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+>index 25be745bf41f1..562f520b23c27 100644
+>--- a/include/linux/dpll.h
+>+++ b/include/linux/dpll.h
+>@@ -163,6 +163,7 @@ struct dpll_pin_properties {
+> 	u32 freq_supported_num;
+> 	struct dpll_pin_frequency *freq_supported;
+> 	struct dpll_pin_phase_adjust_range phase_range;
+>+	u32 phase_gran;
+> };
+>
+> #if IS_ENABLED(CONFIG_DPLL)
+>diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+>index ab1725a954d74..69d35570ac4f1 100644
+>--- a/include/uapi/linux/dpll.h
+>+++ b/include/uapi/linux/dpll.h
+>@@ -251,6 +251,7 @@ enum dpll_a_pin {
+> 	DPLL_A_PIN_ESYNC_FREQUENCY_SUPPORTED,
+> 	DPLL_A_PIN_ESYNC_PULSE,
+> 	DPLL_A_PIN_REFERENCE_SYNC,
+>+	DPLL_A_PIN_PHASE_ADJUST_GRAN,
+>
+> 	__DPLL_A_PIN_MAX,
+> 	DPLL_A_PIN_MAX =3D (__DPLL_A_PIN_MAX - 1)
+>--
+>2.51.0
