@@ -1,97 +1,99 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C67033E342;
-	Fri, 31 Oct 2025 11:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605A2331A44
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 11:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761908773; cv=none; b=QmNpm+KR1ydQsA8OB1sSn+ktFIp8PvFQ29S+IS+Ii9IyPRCdFCdm4XIT6veyqoPMCw9CZeZ3ZSlNRgT8u5G79Jl84LmQRjxbMci9IW+YCYz0U8BCauFUSsn9bCTwT+ihKEtz+TDkRDJYKKtVPA35bfOxU4D9kwWyXLt+yyDWJss=
+	t=1761909067; cv=none; b=FL/jhUF3HAEpHVAumMQmK06fwqIBlwWu79EJs2gbyKk+vq4euu7m8xNYnsOrFPtmx7QqShGerrem/ITIeRCl7MK+7lmObHqyNhA9lLPZeeNbPAJsLfMIeCxfvUKFkzOnb+U+4mja/R5Sw6sP1Hsoy1hfbQ3MzCcql53h1vK7C+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761908773; c=relaxed/simple;
-	bh=4cfq1Y0TZmzepTx0z9Pc1CjL59jvmnTMAbv4K9upR68=;
+	s=arc-20240116; t=1761909067; c=relaxed/simple;
+	bh=h4b1OvbD8AqbOQNQaFkHX5Rf6eQ5ZGeAM4YGA3EbqzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKH0+wmyF0cZeP/kL6sOyx2rMKgQQ3Ec+cHU5SlP1+AjZO5fNu5Sl7scp8WyAeXHktYjTQymSI3CSAhMSnOl8hCn4qwIijEGUhvW5zVppalsaWDPtmk3pB/ykTFyBOsJhzjUVwTVqQyY7YzclVc3mjQUS2ERsYyh3BVw4rM0VIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RrSGqP0N; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADnhN8IpndBSMKySDLYgzhdowum8pmAkHTH0/m4cwnhxxcNIVBO7qzfi0dFkp4Ta5GwsmDgU3IkOpbho8cYuHS4A+ZjyicWUerhgbXNtS7iWsr5qC2JWFL63i//bBjAiDN/+djqZifbUOQ4bNhCvCRpXE8YIZnG8ibT5O70ARTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=V8PFmfsy; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RrSGqP0N"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0A00840E016D;
-	Fri, 31 Oct 2025 11:06:00 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id kpIPlvlll_QW; Fri, 31 Oct 2025 11:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1761908756; bh=owYgRO4dJWD32zXGgkyqFaKX1bq2QVFVbUwoPHZa3sM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RrSGqP0NH0Gsuqb7JYoCi6egmsgvE9n1L/ZRfFLHkckV/1uISWbXNiHLumwgftivY
-	 /WprBV56kXnr6i2OyhZAWeoI1iL35DCHIJCILvqKzY/aLH1VPtd51OHyx063yxy8g4
-	 SS4YfBFl2fc8SwtqnlStdwn4+oPqXMu7G5AzcS9drDv1ZqfpDpIyt+x89N9bDC9zwM
-	 Xxcqoi6Cjt1VQxPIbMuw3lP8LthmPaPEAdTeTldCb9p7wZs6Eo2dhYOYGDt5M7rahm
-	 Vr1+vcJEXbgjLTMIm9OJkLEm1gas3RYRU1l0JA/H8+9+/E3gqtrXrPQxbT+Z1/4pAG
-	 u4CYwv99/ENI+Tf+3y5NI0RKn/wLze8dNoWo1sII2MQn8MQpHXCwWuHNTsk8CfSXcn
-	 aLkEp9OzWjFpDfaJV+KLkmWxajwq50SpmddXgIP6DUqNfiPAYRT6FjsOuNvPrp2lQ9
-	 j1uotWwr422RnKiVc72dwR6OwoBcoW6FglIIEA17NqSiwgyC5couB0fbfHP3xxmJe7
-	 LHFZpmIqdYXV8nIyKC7nPHXHfeEq5gTKTne50p5b/f7eM5i79YUuDs96uM1ix60L6Y
-	 5OAHeB0Zs/flJUeR4KrPHLSROggWdVQQ1PfO+ewpxe9Cqn/GMlxebhtr3CDw/5QaHH
-	 TQH/R8h/uIelD6h1Di0z6sjU=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 2189440E021A;
-	Fri, 31 Oct 2025 11:05:41 +0000 (UTC)
-Date: Fri, 31 Oct 2025 12:05:35 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Fushuai Wang <wangfushuai@baidu.com>
-Cc: dave.hansen@linux.intel.com, davydov-max@yandex-team.ru,
-	gpiccoli@igalia.com, hpa@zytor.com, jani.nikula@intel.com,
-	joel.granados@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, martin.petersen@oracle.com,
-	mingo@redhat.com, peterz@infradead.org, tglx@linutronix.de,
-	x86@kernel.org, xin@zytor.com
-Subject: Re: [PATCH RESEND] x86/split_lock: Make split lock mitigation sleep
- duration configurable
-Message-ID: <20251031110535.GAaQSX_0CG8MPlieEv@fat_crate.local>
-References: <20251030191057.GDaQO4QYoZytxdQW_c@fat_crate.local>
- <20251031024631.86616-1-wangfushuai@baidu.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="V8PFmfsy"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b6d5e04e0d3so428716766b.2
+        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 04:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1761909063; x=1762513863; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h4b1OvbD8AqbOQNQaFkHX5Rf6eQ5ZGeAM4YGA3EbqzU=;
+        b=V8PFmfsyFu4rxcP0DmndC8zVKwDrqsIcwvS0nKfErS74qlI0hvn0eypcx+Z8npsInU
+         wFxWVWTH4ZocOfdtE8/qUPPXVrzJwj1UZsr2o2Ta1cDx3ZQmsrmeu54PQ8wcwzUIhVwQ
+         sJ90sKIR4hIDv8dhmCbCians+bnlLYWl7DTd5WBYOJlNbg/iwhWq2M3WXg6K44Y6hxeo
+         6AwmuZPMGD5o2B/+qehNMX0P4r1pJloVkcz7zn6nzBo+kYs3N7AFMpDEWM1SoH/Sivpu
+         ky+6TuXM/WypaC3HJVcVb+N/LCXo4TMMK4vuh8mDtqHZ+ahKv/pfsIb1putdmdl/DT48
+         mdeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761909063; x=1762513863;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h4b1OvbD8AqbOQNQaFkHX5Rf6eQ5ZGeAM4YGA3EbqzU=;
+        b=hrTKaHeug4blpuIPsB4hhKxVjh8n1uHxZyppGpxtJrkIjc2T8FLd1ByGrT6CdfDOpO
+         icOdqNwx82fCYrdTQGrU2stIAE74csb2el0Q6MybW6puvm8+O9fXFfOAlKAimbYeLkms
+         whZClxRjK0Q1tv18G8iWL2OVuifPZXH6Brjg3Grgxo2mKirRYQULhZ0stuHoGAqVEyce
+         lU8bgMJq//3Ae6UlqR+eYb/i2w7QMfVkPnbgNQ4Kw/xAX0NUleo+frDkW4raAo/PMgVq
+         n0ChXo1Jvxiyaorwe9eQgPv7brvMP7mmrPbU5Gzj9vkZN3THSK515gc1CEBeK1MU1EFc
+         i8WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGbApLCTXKneCWVmqFj7gW6qtNjHzjL/QneJh1xmn5tH3/ekyon8EPVlOs+97oIDX+3Enmc/E1+1s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5AbrLj/Hb3N+EonKbuVfaBMBGt180iP7NT4ub4COQFzOOpOpg
+	kZj8ea5f4KU+s6wWFRx9sCDFk9vnxeTub2f+/UmCNiHdE6H5sYA7GzHcgFQP4izf2HQ=
+X-Gm-Gg: ASbGncsAvzawoihhB9sLyM3PxkVPoE/cz+BlHEuqoXAtxSetu6h8SVM3o+eI13r9HUH
+	5iWb15uIHQifdyIwPE4CDLyfnFqpvRGIuqP1/AuM6vwWItlDjPEdWcpQSiT7EWtwlbdbyKE6myt
+	Qk2xD8+ne16mdHLCBPOw8zn/MjLfTRviemlp1LyqOyn1GpjGhTpvS1NHFlBkWyI8Gnh3gE1/tIg
+	nC58vSWavLLOW6/gs68EbXlbQQCQNOW5RoJ8Y8RbqadO4sNRWCCxb1G3+REWP3iX7XOjgXhwjTq
+	dswD1/WZostCfiA/nrwRpxyAfX90yGLMKJcHlBdqu8/4E3E5m9E+mgWwNbvXyr9aN0r378E1io9
+	C4B8vFu4b7oKZDEPtKpKDeucWiugivS+mNiiTIIi4fVwbM9v6YgUDXfPhe2VYdwlQJ23hF9nfP2
+	dhGQeTlIP6HBOYhKOb7/ITfBdkgS/iJDGg+LQ=
+X-Google-Smtp-Source: AGHT+IEjms4qrB4LmCYAXPaycpxI8yZMVC22mnbEDh4Pi0tNLAsk57VjXYG/l+laWrQ2KLiFhiONkg==
+X-Received: by 2002:a05:6402:3488:b0:63c:32a6:e9ff with SMTP id 4fb4d7f45d1cf-64076f66bbfmr2677787a12.8.1761909063307;
+        Fri, 31 Oct 2025 04:11:03 -0700 (PDT)
+Received: from jiri-mlt.client.nvidia.com ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6407b449fadsm1297395a12.36.2025.10.31.04.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 04:11:02 -0700 (PDT)
+Date: Fri, 31 Oct 2025 12:11:00 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>, 
+	Petr Oros <poros@redhat.com>, Prathosh Satish <Prathosh.Satish@microchip.com>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/2] dpll: add phase-adjust-gran pin attribute
+Message-ID: <55jjhdqtmuvhayhnehqguauw76z4awa6bebsw3odcvkiclda6y@dhl5kswtv374>
+References: <20251029153207.178448-1-ivecera@redhat.com>
+ <20251029153207.178448-2-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251031024631.86616-1-wangfushuai@baidu.com>
+In-Reply-To: <20251029153207.178448-2-ivecera@redhat.com>
 
-On Fri, Oct 31, 2025 at 10:46:31AM +0800, Fushuai Wang wrote:
-> I think there are two main reasons for making the split lock mitigation
-> sleep duration configurable:
+Wed, Oct 29, 2025 at 04:32:06PM +0100, ivecera@redhat.com wrote:
+>Phase-adjust values are currently limited by a min-max range. Some
+>hardware requires, for certain pin types, that values be multiples of
+>a specific granularity, as in the zl3073x driver.
+>
+>Add a `phase-adjust-gran` pin attribute and an appropriate field in
+>dpll_pin_properties. If set by the driver, use its value to validate
+>user-provided phase-adjust values.
+>
+>Reviewed-by: Michal Schmidt <mschmidt@redhat.com>
+>Reviewed-by: Petr Oros <poros@redhat.com>
+>Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
+>Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 
-IOW, you want to disable split lock.
-
-What's the point otherwise?
-
-Apparently you want to do some sort of a solution for a cloud environment but
-you can't make everyone happy.
-
-So you either allow split locks or you slow down offenders. Making this
-configurable doesn't make a whole lotta sense to me unless you write a proper,
-concrete use case which justifies this and not some AI-generated bla.
-
-If not, you can just as well keep this in your kernels and use it there.
-
-I do not see the point of adding this in the upstream kernel.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
