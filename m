@@ -1,116 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A02222A0;
-	Fri, 31 Oct 2025 20:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D1A2FFFAC;
+	Fri, 31 Oct 2025 20:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761941259; cv=none; b=c6tHZ3XKZuyrl4kAzorwHFc8Aj6K1Bc6uhuJ8lTeUvxgeLfAa4Q7216FzvpJpo20bO2/3ZPu8tevBQMcqg0vJOYPhNzdc0E2YmEBdLeVjHjB+c0PQEIayEG1YYe2EsB0pBCl3/SNk6CZL/Msq5NiWS3/zArZecTd0yvYxKGK79c=
+	t=1761944194; cv=none; b=RHP4SCmXQmTc2S3DR/8G3hrNIUVKi40P5lqSrgGVAiEoFo51aFitP166WJsUFjuxRR/Oy/NmZDj1KPt5NXg6H2TIwfqsnvnQ6kUVeaRlbUqfH4EM8V1KtAcy/tVMfbabMPI4h1wZ2KuQQG6oBNTTbX7tqUTGneRBKbWD8JyC88c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761941259; c=relaxed/simple;
-	bh=wQet1zpVA979LHOCAKnvDe4vIz5lgogB/RiA4rvDzcE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=m8FISJOWvVyUX0TB0stp3DukBwNCanqtuY6ZUkYqeJGS8rDvLfC72cxOC8rNwoPIdykX7ht7jIPNbp2aOeqXkBtpeW4bZCpk0BBmINjwn79OodpS1hKW2ntjF7591LLaFt7HHYtSV60RwnkrvNfByFrZe1d5qDibZpXXPdsruUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eEbaFUeP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761944194; c=relaxed/simple;
+	bh=WHgeRbuT6Jne2JVr6b+q0EUtA09k25AbZNOxlN8F7uI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IcGdXhX4BP38mkpIVk1uTmLrkV2BPpJAnjS+fl6pCfJEt8mPxvQVu6CHCfRnnDslk3ljqmerCipZHseQZkhvynLPj+dbzNh96HKWFzIyoxDvSta3nX07RMkvOfLN0dRBwy/dzvyBe5UvFCzhbvVm6PWsMzwjE3pxYCirCn2mL8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrTdwikJ; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eEbaFUeP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EC5FC4CEE7;
-	Fri, 31 Oct 2025 20:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761941258;
-	bh=wQet1zpVA979LHOCAKnvDe4vIz5lgogB/RiA4rvDzcE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=eEbaFUePEqsqd1xqvFj6PfHBe6jOCi2lEMdH8TycHl0Q5Auluk8S2lpJXmv9TxFx6
-	 NusxPnTpJc0X0f0CeYGgWHWJPP+pm9H5h9r65gPGw/KCR077Hi6MKNwd20DNPMNN6b
-	 WeahrAxPZQa10FjP/DdR4c+HK/1h5x2nUAasMuSHcOITJAiV483CzwcXL5NGIqys+P
-	 mY145nVNkpzIC2zpwBWy190cfG4RZuldrQmgNpuR1kKC8i8XpoLRbm6nuQrl1TbMCc
-	 xrhLxkelxND1eIrhNaB+SV+lyaoUFqxJyBOJ8iEADXR4rSsgSzl+qs3Ga+6/bKM9QS
-	 dwrww+Tnxquiw==
-Date: Fri, 31 Oct 2025 14:07:32 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>, Andy Chiu <andybnac@gmail.com>
-cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-    Vlastimil Babka <vbabka@suse.cz>, 
-    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-    Paul Walmsley <paul.walmsley@sifive.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-    Christian Brauner <brauner@kernel.org>, 
-    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
-    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
-    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-    =?ISO-8859-15?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-    Andreas Hindborg <a.hindborg@kernel.org>, 
-    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-    richard.henderson@linaro.org, jim.shu@sifive.com, 
-    Andy Chiu <andybnac@gmail.com>, kito.cheng@sifive.com, 
-    charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com, 
-    cleger@rivosinc.com, alexghiti@rivosinc.com, samitolvanen@google.com, 
-    broonie@kernel.org, rick.p.edgecombe@intel.com, 
-    rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v22 17/28] riscv/signal: save and restore of shadow stack
- for signal
-In-Reply-To: <20251023-v5_user_cfi_series-v22-17-1935270f7636@rivosinc.com>
-Message-ID: <a8f469b8-5750-dfec-2390-09bad4515f99@kernel.org>
-References: <20251023-v5_user_cfi_series-v22-0-1935270f7636@rivosinc.com> <20251023-v5_user_cfi_series-v22-17-1935270f7636@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrTdwikJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761944192; x=1793480192;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WHgeRbuT6Jne2JVr6b+q0EUtA09k25AbZNOxlN8F7uI=;
+  b=TrTdwikJ9tRO8n8Q+Jr5wgA2UTAZnsoU+Mty5dBotgCTfLwAeAPxIhl6
+   ByPSSpHAYeI8QObsQyN6gPnynvu+M3CGbuXGgRAb8bf/l35s2NFAdvVyZ
+   sOOxNebLiGWrb6xe9YqfG3w0fhRIMpA6TJQWAAHe8h1TuUKrNSp98yJvQ
+   1G0gvAvhXDJG/WjuCyLS/XmUoGzUjwDEKszDAOIdUAF9hlOex56xZ0Nox
+   RTnqFnvK8iqXydf45/ywV94UFOkcl2jz8zAqgcxybLO9OAHA3cjt3GwUx
+   mBmrz8zxJjm+E7VdcuKyJW6H4isGXaxttf23Dg3btkgYtTBhBmzWT0f4o
+   Q==;
+X-CSE-ConnectionGUID: vhLvnLClSVGLR3BDmgfizg==
+X-CSE-MsgGUID: MGR5g7iZRM65tKFkQTAhxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="63809737"
+X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
+   d="scan'208";a="63809737"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 13:56:31 -0700
+X-CSE-ConnectionGUID: dqSqTIhcQk+646d3ugwo4A==
+X-CSE-MsgGUID: HVnuAvQSTweJBs+9PhAnkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
+   d="scan'208";a="217167993"
+Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.110.52]) ([10.125.110.52])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 13:56:30 -0700
+Message-ID: <c74cd598-f702-4d27-9fb7-3547a8c87264@intel.com>
+Date: Fri, 31 Oct 2025 13:56:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 7/9] x86/traps: Communicate a LASS violation in #GP
+ message
+To: Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, "H . Peter Anvin" <hpa@zytor.com>,
+ Andy Lutomirski <luto@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Sean Christopherson
+ <seanjc@google.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-8-sohil.mehta@intel.com>
+ <9a4794f5-2a1f-4048-a870-b99fb5ab8136@intel.com>
+ <76e8411b-e5ff-4c01-b63c-ef60e29388a3@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <76e8411b-e5ff-4c01-b63c-ef60e29388a3@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 23 Oct 2025, Deepak Gupta via B4 Relay wrote:
+On 10/31/25 12:59, Sohil Mehta wrote:
+> Were you looking for anything specific? I can clean them up and post
+> them if required.
 
-> From: Deepak Gupta <debug@rivosinc.com>
-> 
-> Save shadow stack pointer in sigcontext structure while delivering signal.
-> Restore shadow stack pointer from sigcontext on sigreturn.
-> 
-> As part of save operation, kernel uses `ssamoswap` to save snapshot of
-> current shadow stack on shadow stack itself (can be called as a save
-> token). During restore on sigreturn, kernel retrieves token from top of
-> shadow stack and validates it. This allows that user mode can't arbitrary
-> pivot to any shadow stack address without having a token and thus provide
-> strong security assurance between signaly delivery and sigreturn window.
-> 
-> Use ABI compatible way of saving/restoring shadow stack pointer into
-> signal stack. This follows what Vector extension, where extra registers
-> are placed in a form of extension header + extension body in the stack.
-> The extension header indicates the size of the extra architectural
-> states plus the size of header itself, and a magic identifier of the
-> extension. Then, the extensions body contains the new architectural
-> states in the form defined by uapi.
-> 
-> Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-
-This patch causes some 'checkpatch.pl --strict' messages:
-
-CHECK: Comparison to NULL could be written "!saved_shstk_ptr"
-#271: FILE: arch/riscv/kernel/usercfi.c:186:
-+	if (saved_shstk_ptr == NULL)
-
-CHECK: Lines should not end with a '('
-#300: FILE: arch/riscv/kernel/usercfi.c:215:
-+		pr_info_ratelimited(
-
-I've fixed them up here in the event that v22 goes in, but please do the 
-same on your side in case a new version is needed.
-
-
-- Paul
+It would be nice to have these in-kernel somehow, even if they were
+silly debugfs knobs or something. Ira had some tests for PKS that never
+went in but you might be able to reuse some of his techniques.
