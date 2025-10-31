@@ -1,101 +1,97 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EBFF33F372;
-	Fri, 31 Oct 2025 10:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C67033E342;
+	Fri, 31 Oct 2025 11:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761905861; cv=none; b=Bdx+oLmWqDAhqmjL5FaUy86PQlQ2Pn9sfgJorgGc+oWNBxU29oZZtEm6MJTgOj0K5lf8qiVRbqIe7flID08XzHyCR6iTuTPVF3yaI6EGofs2FV/1HafQ9nbAdh2imjqz1pZgpL2mq6WRZF6PcH/nydAfV5uLXVXgpVCQiITmDPc=
+	t=1761908773; cv=none; b=QmNpm+KR1ydQsA8OB1sSn+ktFIp8PvFQ29S+IS+Ii9IyPRCdFCdm4XIT6veyqoPMCw9CZeZ3ZSlNRgT8u5G79Jl84LmQRjxbMci9IW+YCYz0U8BCauFUSsn9bCTwT+ihKEtz+TDkRDJYKKtVPA35bfOxU4D9kwWyXLt+yyDWJss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761905861; c=relaxed/simple;
-	bh=npRj2RXUFZlU2cO9NMobnA7pSPSkczGeScDnUdo66G8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p0j9phse1yqrjrTYeSYXWPFARjQl2AbuQELen/CBOjWu4toXf01vWMxq/o3rLgIeHkwEcaDBevb/LzUfgRqrK+X3Yi+eO4p00rBAbt/EKxQxlTs2prnz7wy4KCB+k0wZZ+hhJA9W9m8TB6Q4Qh44h9/0Br9nyVaVn8UavbTAOpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AUV6GpP4; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1761908773; c=relaxed/simple;
+	bh=4cfq1Y0TZmzepTx0z9Pc1CjL59jvmnTMAbv4K9upR68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QKH0+wmyF0cZeP/kL6sOyx2rMKgQQ3Ec+cHU5SlP1+AjZO5fNu5Sl7scp8WyAeXHktYjTQymSI3CSAhMSnOl8hCn4qwIijEGUhvW5zVppalsaWDPtmk3pB/ykTFyBOsJhzjUVwTVqQyY7YzclVc3mjQUS2ERsYyh3BVw4rM0VIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RrSGqP0N; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AUV6GpP4"
-Received: from ubuntu.. (unknown [131.107.174.57])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 546FF211D8DC;
-	Fri, 31 Oct 2025 03:17:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 546FF211D8DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1761905859;
-	bh=A2i5xH5KTXr40A99Hzhc/aUW5RD8StWwacVH2CbWm1A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AUV6GpP4wi+BZ6pCkO3IkX3Ete+4C82XNWOfvHit5bYS7zbXLGrMcldAffwtgvJ3U
-	 P16e5xmBPMs/Bwqhyys5JYXi96VqZYJiXiZFOFrpMBZ6wX9R2/g3ouFbsC7anpzpN9
-	 2UlSgivPwknyM4k1ShJXrKQVYXaK8WJeivuWjXo8=
-From: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-To: wufan@kernel.org,
-	paul@paul-moore.com,
-	mic@digikod.net
-Cc: jmorris@namei.org,
-	serge@hallyn.com,
-	corbet@lwn.net,
-	yanzhuhuang@linux.microsoft.com,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ipe: Update documentation for script enforcement
-Date: Fri, 31 Oct 2025 10:17:00 +0000
-Message-ID: <20251031101700.694964-3-yanzhuhuang@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251031101700.694964-1-yanzhuhuang@linux.microsoft.com>
-References: <20251023233656.661344-1-yanzhuhuang@linux.microsoft.com>
- <20251031101700.694964-1-yanzhuhuang@linux.microsoft.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RrSGqP0N"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0A00840E016D;
+	Fri, 31 Oct 2025 11:06:00 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id kpIPlvlll_QW; Fri, 31 Oct 2025 11:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1761908756; bh=owYgRO4dJWD32zXGgkyqFaKX1bq2QVFVbUwoPHZa3sM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RrSGqP0NH0Gsuqb7JYoCi6egmsgvE9n1L/ZRfFLHkckV/1uISWbXNiHLumwgftivY
+	 /WprBV56kXnr6i2OyhZAWeoI1iL35DCHIJCILvqKzY/aLH1VPtd51OHyx063yxy8g4
+	 SS4YfBFl2fc8SwtqnlStdwn4+oPqXMu7G5AzcS9drDv1ZqfpDpIyt+x89N9bDC9zwM
+	 Xxcqoi6Cjt1VQxPIbMuw3lP8LthmPaPEAdTeTldCb9p7wZs6Eo2dhYOYGDt5M7rahm
+	 Vr1+vcJEXbgjLTMIm9OJkLEm1gas3RYRU1l0JA/H8+9+/E3gqtrXrPQxbT+Z1/4pAG
+	 u4CYwv99/ENI+Tf+3y5NI0RKn/wLze8dNoWo1sII2MQn8MQpHXCwWuHNTsk8CfSXcn
+	 aLkEp9OzWjFpDfaJV+KLkmWxajwq50SpmddXgIP6DUqNfiPAYRT6FjsOuNvPrp2lQ9
+	 j1uotWwr422RnKiVc72dwR6OwoBcoW6FglIIEA17NqSiwgyC5couB0fbfHP3xxmJe7
+	 LHFZpmIqdYXV8nIyKC7nPHXHfeEq5gTKTne50p5b/f7eM5i79YUuDs96uM1ix60L6Y
+	 5OAHeB0Zs/flJUeR4KrPHLSROggWdVQQ1PfO+ewpxe9Cqn/GMlxebhtr3CDw/5QaHH
+	 TQH/R8h/uIelD6h1Di0z6sjU=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 2189440E021A;
+	Fri, 31 Oct 2025 11:05:41 +0000 (UTC)
+Date: Fri, 31 Oct 2025 12:05:35 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Fushuai Wang <wangfushuai@baidu.com>
+Cc: dave.hansen@linux.intel.com, davydov-max@yandex-team.ru,
+	gpiccoli@igalia.com, hpa@zytor.com, jani.nikula@intel.com,
+	joel.granados@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, martin.petersen@oracle.com,
+	mingo@redhat.com, peterz@infradead.org, tglx@linutronix.de,
+	x86@kernel.org, xin@zytor.com
+Subject: Re: [PATCH RESEND] x86/split_lock: Make split lock mitigation sleep
+ duration configurable
+Message-ID: <20251031110535.GAaQSX_0CG8MPlieEv@fat_crate.local>
+References: <20251030191057.GDaQO4QYoZytxdQW_c@fat_crate.local>
+ <20251031024631.86616-1-wangfushuai@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251031024631.86616-1-wangfushuai@baidu.com>
 
-This patch adds explanation of script enforcement mechanism in admin
-guide documentation. Describes how IPE supports integrity enforcement
-for indirectly executed scripts through the AT_EXECVE_CHECK flag, and
-how this differs from kernel enforcement for compiled executables.
+On Fri, Oct 31, 2025 at 10:46:31AM +0800, Fushuai Wang wrote:
+> I think there are two main reasons for making the split lock mitigation
+> sleep duration configurable:
 
-Signed-off-by: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
----
- Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+IOW, you want to disable split lock.
 
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index dc7088451f9d..3f205d7dd533 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -95,7 +95,20 @@ languages when these scripts are invoked by passing these program files
- to the interpreter. This is because the way interpreters execute these
- files; the scripts themselves are not evaluated as executable code
- through one of IPE's hooks, but they are merely text files that are read
--(as opposed to compiled executables) [#interpreters]_.
-+(as opposed to compiled executables). However, with the introduction of the
-+``AT_EXECVE_CHECK`` flag (see `AT_EXECVE_CHECK <https://docs.kernel.org/userspace-api/check_exec.html#at-execve-check>`__),
-+interpreters can use it to signal the kernel that a script file will be executed,
-+and request the kernel to perform LSM security checks on it.
-+
-+IPE's EXECUTE operation enforcement differs between compiled executables and
-+interpreted scripts: For compiled executables, enforcement is triggered
-+automatically by the kernel during ``execve()``, ``execveat()``, ``mmap()``
-+and ``mprotect()`` syscalls when loading executable content. For interpreted
-+scripts, enforcement requires explicit interpreter integration using
-+``execveat()`` with ``AT_EXECVE_CHECK`` flag. Unlike exec syscalls that IPE
-+intercepts during the execution process, this mechanism needs the interpreter
-+to take the initiative, and existing interpreters won't be automatically
-+supported unless the signal call is added.
- 
- Threat Model
- ------------
-@@ -806,8 +819,6 @@ A:
- 
- .. [#digest_cache_lsm] https://lore.kernel.org/lkml/20240415142436.2545003-1-roberto.sassu@huaweicloud.com/
- 
--.. [#interpreters] There is `some interest in solving this issue <https://lore.kernel.org/lkml/20220321161557.495388-1-mic@digikod.net/>`_.
--
- .. [#devdoc] Please see :doc:`the design docs </security/ipe>` for more on
-              this topic.
- 
+What's the point otherwise?
+
+Apparently you want to do some sort of a solution for a cloud environment but
+you can't make everyone happy.
+
+So you either allow split locks or you slow down offenders. Making this
+configurable doesn't make a whole lotta sense to me unless you write a proper,
+concrete use case which justifies this and not some AI-generated bla.
+
+If not, you can just as well keep this in your kernels and use it there.
+
+I do not see the point of adding this in the upstream kernel.
+
+Thx.
+
 -- 
-2.43.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
