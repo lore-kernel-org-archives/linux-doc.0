@@ -1,166 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CC7330B1D;
-	Fri, 31 Oct 2025 18:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5B314B08A
+	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 18:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761934376; cv=none; b=Cry2k4P3wuDnSeOPMAm1h0aOATgtc+wlZmOJDYqJobhY9cpZ4I4y7g6XuozWJQPETdw5qvhzBPAtE0QthqpPyyeg9Yubb3nrUW1e2hJ27odAmNrTtlwR8KiWqnWLNe2eZgjMoqB24e+faVnvXPgZA5GNrIJhFqiuPpSCGrcfOeU=
+	t=1761935478; cv=none; b=DvVu/uRa9qjDjdGsLMBff9+OC6vzIVfGNeRZeLF4LCg34fC8Kgp3C/Zh9GeuX0LgoXlnDK28zQcwBP9MvNnC/lIu86Ow7NOUBZsnQ6WQaUu9d3ptuxFMcOzsUoSGoIGtkx3BL5VmaOushfGihNUb0GCdEtJ6o66stOQom8SYSy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761934376; c=relaxed/simple;
-	bh=zcsY/9vIUhw+9jGtgQmPAFtoAzO7BoMmBaWoytIMxjE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a/gpXKB6DZKWAHZy9FKgA/KgZTdizSeUzgnWMlW1c6rTJjmPWQcFimKgb/xHuFvzCiLhbXwECTzLyon/eqg+sd+7Ct6gEbmpf55A6zhGMDKvM52ThiYxl9np/PCu1aJ4+AemmRosHXQchfdoU/w7kDL/+YfstvAoxnmmJv9a91U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zd24JM5O; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761935478; c=relaxed/simple;
+	bh=4EmsAdmUDoKsJ3nHoaGiAdPdYRnKJhE+ODFWyv6RuBg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gKaXpX/E+y8N3AsB4WbgPMG9AlVXOsKHjZjsKEwoA0c+FVt89nD98hKW6PRfSMXQF0N61FOWo8yZpqtBQiwp8vdfEvGV2O3ZHqCShztjT3QC6zzFhOfTydKJIh8Z4LTf+ZvxjNY6Zw+8sqKL5wxWfEctiSmGwmsLhofDodO5/+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ofEdIBD5; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zd24JM5O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761934376; x=1793470376;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=zcsY/9vIUhw+9jGtgQmPAFtoAzO7BoMmBaWoytIMxjE=;
-  b=Zd24JM5Oc9MSA9lmXVTwGXMmyYGve0qwg1vS92hBaUjeTKHhX5YrFhnH
-   MP22vFiH2NxpW1ixIghITyl92lr/LbXR1KE1zAkNiGZbuTDUtoUWH/8Js
-   DjAMs03c98fp1fa71tXVfk+qICL/sYGEvEo5nFxY69NaRJSG09wH6d+jN
-   nakcdR1xDx22j4mvUYuERYJuujuWNtQWI2rQ29pRd2yVc9JKm29iN6maf
-   kiNs402b/FnhHx249d3Vdf5P1bwgP3JjsjDnk7YR9pXBOo3b6NRgl5/9d
-   R/sVqyUpojqCyuQHwzuF4i7PpzhcIwJe1mrkXVFtQi9PdqnOa5GQ0LTVH
-   w==;
-X-CSE-ConnectionGUID: AcW4+f5TTH2EcMNMVKa3FQ==
-X-CSE-MsgGUID: h+mYulGVQMCYjFThA9197g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="81730925"
-X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="81730925"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 11:12:55 -0700
-X-CSE-ConnectionGUID: 1VnXeolfTm6K3q91Rpumhw==
-X-CSE-MsgGUID: kCkcM2U8TsKJAlGuY5hf7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="217136077"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.110.52]) ([10.125.110.52])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 11:12:53 -0700
-Message-ID: <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
-Date: Fri, 31 Oct 2025 11:12:53 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ofEdIBD5"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4773a7dc957so9705285e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 11:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761935474; x=1762540274; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4EmsAdmUDoKsJ3nHoaGiAdPdYRnKJhE+ODFWyv6RuBg=;
+        b=ofEdIBD5JBOP5kcIE/toSN5tiSEArQhh/unIU0S/XVGi4GRRHrACIKQDhQ+ULjCz11
+         adKGdXRR4Wd6VaH1tRwN3eF4JaXVvTDPxrhibiOgr7GQlKQU/LqcEcBWcVuQNtqYuN+T
+         wmFqM8PCjrSwSVdDW4VM5WOiTgK45tO4u3/G5t2AqNpR326uZHMALoooTESIB4vqTOjk
+         PDfiESH12MfwteksEkmPrz7eG4wV2yD0VncEudKifOSjQm3lKosYYSKFpOAdL0qsNe+3
+         ZyotL2imxUeSEHeMo0pUdrhOlALvV1p7jD+3YSBIYI2qZ9788NkOVoqBaxb0WKPp4zXP
+         pZsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761935474; x=1762540274;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4EmsAdmUDoKsJ3nHoaGiAdPdYRnKJhE+ODFWyv6RuBg=;
+        b=KtucYKUi4al0iv2GZTS7EpE68XUmhusZraGOUtLLAaCVbfeZV1RdQXSf341QI0Nbgm
+         fKky24mxH0v/KgFSOSqO7Ant1hHtj5HAy+CQN9AUF0byJPWbgV+k4s8taKihzeFTZ6Ni
+         Ws8bKG4Ki71AhlOfZoYy+dIwCqSPt2n4VVW5ayAmJ5glkt6v1/ZI5CHeCjD2RcMXC5Vk
+         AXirQMyok1e2DM0zAydAWk+jpDC4VFkWY8PKcoTyovtdvRIL3EVJnecxqsQ6A4Jq4O9v
+         5Yiuq1XG/V0p/rIIL5qHSguAA3KpQgg5fHcnuNwacpJ4pMB7Ew5fZ1Tw4EePIDo6ItXk
+         +IuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmQU82CM3wdDD2bnigfm0vQ0FUI25Ge8cqlVnOKUs835qXyyTxCz2YsG/ajfRW6Zq9i9SRt4fupSk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIqw16Eoo1EAeA/pcU0fwzyy+yISr1ZtX8wAVMO23F+WDb8h6n
+	JzlR3rjRfE5JdLLYlrnDNpK5yo5TzyW2LWv0B1/Z+C3rRjziAVlO70nUKfyB/8MmsLyX82rwW/m
+	kE2hiPMs+MFrxSQ==
+X-Google-Smtp-Source: AGHT+IF0oSz4CxTQF0nqeQnWSAmNxvR2sRC2JSlBMi4CM6sxr7VzMzJzOGlnc5XOQifgEAhMHxR06Z4dSq+21Q==
+X-Received: from wmat7.prod.google.com ([2002:a05:600c:6d07:b0:477:17a3:394a])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:528d:b0:46e:1d01:11dd with SMTP id 5b1f17b1804b1-47730802d2fmr44933805e9.2.1761935473616;
+ Fri, 31 Oct 2025 11:31:13 -0700 (PDT)
+Date: Fri, 31 Oct 2025 18:31:12 +0000
+In-Reply-To: <DDVS9ITBCE2Z.RSTLCU79EX8G@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
- runtime services
-To: Sohil Mehta <sohil.mehta@intel.com>, Andy Lutomirski <luto@kernel.org>,
- the arch/x86 maintainers <x86@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Ard Biesheuvel <ardb@kernel.org>, "Kirill A . Shutemov" <kas@kernel.org>,
- Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>,
- Sean Christopherson <seanjc@google.com>,
- Rick P Edgecombe <rick.p.edgecombe@intel.com>,
- Vegard Nossum <vegard.nossum@oracle.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
- Tony Luck <tony.luck@intel.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-doc@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-efi@vger.kernel.org
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-6-sohil.mehta@intel.com>
- <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
- <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com>
- <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
- <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-3-roypat@amazon.co.uk>
+ <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com> <DDVS9ITBCE2Z.RSTLCU79EX8G@google.com>
+X-Mailer: aerc 0.21.0
+Message-ID: <DDWPZY3AA7BX.1Y05FOYIHAI07@google.com>
+Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
+ TLB flushing
+From: Brendan Jackman <jackmanb@google.com>
+To: Brendan Jackman <jackmanb@google.com>, Dave Hansen <dave.hansen@intel.com>, 
+	"Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"song@kernel.org" <song@kernel.org>, "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/31/25 11:03, Sohil Mehta wrote:
->> Deferring is a good idea. I was just asking for the same thing for the
->> CR pinning enforcement. The earlier we try to do these things, the more
->> we just trip over ourselves.
-> I had suggested deferring as well to Kirill when I was reviewing the
-> series. He preferred to enable LASS with other similar features such as
-> SMAP, SMEP.
-> 
-> One other thing to consider:
-> 
-> Doing it in identify_cpu() makes it easy for all the APs to program
-> their CR4.LASS bit. If we were to defer it, we would need some
-> additional work to setup all the APs.
+On Thu Oct 30, 2025 at 4:05 PM UTC, Brendan Jackman wrote:
+> On Thu Sep 25, 2025 at 6:27 PM UTC, Dave Hansen wrote:
+>> On 9/24/25 08:22, Roy, Patrick wrote:
+>>> Add an option to not perform TLB flushes after direct map manipulations.
+>>
+>> I'd really prefer this be left out for now. It's a massive can of worms.
+>> Let's agree on something that works and has well-defined behavior before
+>> we go breaking it on purpose.
+>
+> As David pointed out in the MM Alignment Session yesterday, I might be
+> able to help here. In [0] I've proposed a way to break up the direct map
+> by ASI's "sensitivity" concept, which is weaker than the "totally absent
+> from the direct map" being proposed here, but it has kinda similar
+> implementation challenges.
+>
+> Basically it introduces a thing called a "freetype" that extends the
+> idea of migratetype. Like the existing idea of migratetype, it's used to
+> physically group pages when allocating, and you can index free pages by
+> it, i.e. each freetype gets its own freelist. But it can also encode
+> other information than mobility (and the other stuff that's encoded in
+> migratetype...).
+>
+> Could it make sense to use that logic to just have entire pageblocks
+> that are absent from the direct map? Then when allocating memory for the
+> guest_memfd we get it from one of those pageblocks. Then we only have to
+> flush the TLB if there's no memory left in pageblocks of this freetype
+> (so the allocator has to flip another pageblock over to the "no direct
+> map" freetype, after removing it from the direct map).
+>
+> I haven't yet investigated this properly, I'll start doing that now.
+> But I thought I'd immediately drop this note in case anyone can
+> immediately see a reason why this doesn't work.
 
-That's true. We'd need an smp_call_function() of some kind. *But*, once
-that is in place, it's hopefully just a matter of moving that one line
-of code per feature from identify_cpu() over to the new function.
+I spent some time poking around and I think there's only one issue here:
+in this design the mapping/unmapping of the direct map happens while
+allocating. But, it might need to allocate a pagetable to break down a
+page.
 
-> Do we already do this for something else? That would make it easier to
-> tag along.
+In my ASI-specific presentation of that feature, I dodged this issue by
+just requiring the whole ASI direct map to be set up at pageblock
+granularity. This totally dodges the recursion issue since we just never
+have to break down pages. (Actually, Dave Hansen suggested for the
+initial implementation I simplify it by just doing all the ASI stuff at
+4k, which achieves the same thing).
 
-We don't do it for anything else that I can think of.
+I guess we'd like to avoid globally fragmenting the whole direct map
+just in case someone wants to use guest_memfd at some point? And, I
+guess we could just instantaneously fragment it all at the instant that
+someone wants to do that, but that's still a bit yucky.
 
-But there's a pretty broad set of things that are for "security" that
-aren't necessary while you're just running trusted ring0 code:
+If we just ignore this issue and try to allocate pagetables, it's
+possible for a pathological physmap state to emerge where we get into
+the allocator path that [un]maps a pageblock, but then need to allocate
+a page to [un]map it, and that allocation in turn gets into the
+[un]mapping path, and suddenly, turtles.
 
- * SMAP/SMEP
- * CR pinning itself
- * MSR_IA32_SPEC_CTRL
- * MSR_IA32_TSX_CTRL
+I think the simplest answer to that is to just fail the [un]map path if
+we detect we're recursive, with something like a PF_MEMALLOC_* flag.
+But this feels a bit yucky.
 
-They just haven't mattered until now because they don't have any
-practical effect until you actually have code running on _PAGE_USER
-mappings trying to attack the kernel.
+Other ideas might include: don't actually fragment the whole physmap,
+but at least pre-allocate the pagetables down to pageblock granularity.
+Or alternatively, this could point to an issue in the way I injected
+[un]mapping into the allocator, and fixing that design flaw would solve
+the problem.
+
+I'll have to think about this some more on Monday but sharing my
+thoughts now in case anyone has an idea already...
+
+I've dumped the (untested) branch where I've adapted [0] for the
+NO_DIRECT_MAP usecase here:
+
+https://github.com/bjackman/linux/tree/demo-guest_memfd-physmap
+
+> [0] https://lore.kernel.org/all/20250924-b4-asi-page-alloc-v1-0-2d861768041f@google.com/T/#t
