@@ -1,68 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1CA2F5A03;
-	Sat,  1 Nov 2025 14:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5C52FD677;
+	Sat,  1 Nov 2025 18:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762007096; cv=none; b=r96707+d3ayGy+/GWpshdHpx24lHQEkRL7AriXRAorZKm0QSoYhCtJOMhmgWtj/Ad/+71R8YtofvKI6BRjCdkFBXmQeelwQUYXkBvPMyexuUIwVj2SdXEYv7jplr0YSjfkiRexMMquuZDSaRTD+YXujfoPYs8Gmxs71yM2We/68=
+	t=1762023390; cv=none; b=prrtxwmGvolEX1ttTD2tD1MYY+JLyHUVYMS1/gMAYAkd+LWgXnFR5F2Asjl9jLBhLGjzRIk/Bw9BAdwYbiCT3XMZzR/D/kV4vCvPjqTM66XNuuPaHYYhd/MoOMSVYJ2jiPrI8tp/mjwx5s4b1KJznvUS6tvSYUlOEFMLYpDF6RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762007096; c=relaxed/simple;
-	bh=iqxvFnNb6/boAaK2Der2ZSOyxGXgApmOzVrQg7jYZEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nO9hPvbhFFjPMprhOIoDR6OR3bVjam4R6myLEqzTgPCuTD8+fQXyzBEx6Lu05r05oQ5N9CV8Yt++fLmd3lOvKv2YiAXvAmjNzzmByE+JNu9UkEO4DeLdfmdH8J2qNR2+eeAxaZnLAnsW7qp84QIXHgmuvJgzpf8gMH0W/oWmYEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zZmw4Gd2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762023390; c=relaxed/simple;
+	bh=YigTw67cglsLpViZ/Okqy474ew4KBKQ6k5eBmEwkqZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WS+92z08G9RziKbyDSmgWg+Jq39qBGIN/LnJU6Ndx5W6vfNc8JgvfFdSc3pMgYaqWP9JFP/j2g2rGl79uFO5cgFI/cqrVwmyz+Buodn3fusjBrRGNzQDNBVeudAeS1ZbqOqbI4GSbk6bBXJcFMzK76kXADgeeGve6JJOelyV408=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Jymu7hBN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zZmw4Gd2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BDBC4CEF1;
-	Sat,  1 Nov 2025 14:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1762007095;
-	bh=iqxvFnNb6/boAaK2Der2ZSOyxGXgApmOzVrQg7jYZEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zZmw4Gd2ivbmv9eg5yS215S8iN6rflYoEMKeGssf5WLctUPclxh127NL7llkuIFsH
-	 uMTsBUmJMqFXS0kgKEljr63u9BRnnZfqiOImRzIIb6URIqpcujTWMfx3yNb84c9ckg
-	 eXbfHRU8dtYgvvW7O3XfX6fg8A6UFp77QyQA17Vs=
-Date: Sat, 1 Nov 2025 15:24:51 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] staging: Pull in staging drivers docs into documentation
- tree
-Message-ID: <2025110115-nineteen-diner-186e@gregkh>
-References: <20251101124053.62544-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jymu7hBN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IwPweGT8fgKILjcq4Sa1wHAoIlkTe2YX4D0a/ia0Kuc=; b=Jymu7hBNuumDCpQbLwkwa7nR1b
+	G4YSRYEbdtvS6fENPzQEaroDa7G0aqk5ZPfka4azXb5CrvyLsSjeHsjQoZHo0cJVkXjxo5yT6wkjh
+	jQEBjLyEYBI38Enf5xJDJTs3/JgaAM77yFodxpYAOhhjW5+u/xeuDP5pAe5RPTFXriaAEFcnsugrQ
+	/cAllV7Jw8uXO1gHsjb+c5poDw9nwHYrGHINoBY4XErQdRt9XtmxoZXFDG9OXMe2HGhimD9iYBGda
+	Mdtfn9a6xJdr7zPV+0j34iBjCy5aa+hMEg0RbMGYHfkfIwaPi9MdSsFsL8sokbLh8EhQfUJ+gjai9
+	0FWyR7Zw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vFGm1-000000081YO-0xqc;
+	Sat, 01 Nov 2025 18:56:25 +0000
+Message-ID: <d5db214c-8216-4f6a-a64c-8a636f194202@infradead.org>
+Date: Sat, 1 Nov 2025 11:56:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251101124053.62544-1-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 5/8] Documentation: xfrm_sync: Trim excess
+ section heading characters
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>
+References: <20251101094744.46932-1-bagasdotme@gmail.com>
+ <20251101094744.46932-6-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251101094744.46932-6-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 01, 2025 at 07:40:53PM +0700, Bagas Sanjaya wrote:
-> Some staging drivers have documentation that are spread out in
-> drivers/staging/*/Documentation/. Pull them into kernel docs tree by
-> using the same technique as in 1e9ddbb2cd346e ("docs: Pull LKMM
-> documentation into dev-tools book"): wrapping them with kernel-include::
-> directive as literal include.
+
+
+On 11/1/25 2:47 AM, Bagas Sanjaya wrote:
+> The first section "Message Structure" has excess underline, while the
+> second and third one ("TLVS reflect the different parameters" and
+> "Default configurations for the parameters") have trailing colon. Trim
+> them.
 > 
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-No, please do not do this.  staging drivers are "self contained" and do
-not spread out into the rest of the kernel.  If/when the driver moves
-out of staging, then it can be included in the normal kernel
-documentation builds and the rest of the stuff (i.e. include/ locations
-and the like.)
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-So leave them alone.  Documentation does not need to be built for
-staging drivers, there are much bigger things that need to be done for
-them instead.
 
-thanks,
+> ---
+>  Documentation/networking/xfrm_sync.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/networking/xfrm_sync.rst b/Documentation/networking/xfrm_sync.rst
+> index c811c3edfa571a..de4da4707037ea 100644
+> --- a/Documentation/networking/xfrm_sync.rst
+> +++ b/Documentation/networking/xfrm_sync.rst
+> @@ -36,7 +36,7 @@ is not driven by packet arrival.
+>  - the replay sequence for both inbound and outbound
+>  
+>  1) Message Structure
+> -----------------------
+> +--------------------
+>  
+>  nlmsghdr:aevent_id:optional-TLVs.
+>  
+> @@ -83,8 +83,8 @@ when going from kernel to user space)
+>  A program needs to subscribe to multicast group XFRMNLGRP_AEVENTS
+>  to get notified of these events.
+>  
+> -2) TLVS reflect the different parameters:
+> ------------------------------------------
+> +2) TLVS reflect the different parameters
+> +----------------------------------------
+>  
+>  a) byte value (XFRMA_LTIME_VAL)
+>  
+> @@ -106,8 +106,8 @@ d) expiry timer (XFRMA_ETIMER_THRESH)
+>     This is a timer value in milliseconds which is used as the nagle
+>     value to rate limit the events.
+>  
+> -3) Default configurations for the parameters:
+> ----------------------------------------------
+> +3) Default configurations for the parameters
+> +--------------------------------------------
+>  
+>  By default these events should be turned off unless there is
+>  at least one listener registered to listen to the multicast
 
-greg k-h
+-- 
+~Randy
