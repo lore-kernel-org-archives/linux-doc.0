@@ -1,66 +1,66 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0FA2C327C
-	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB432D24BF
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761990485; cv=none; b=XuAEaw/0KkoFBnhK+UN0EvqznSfw9FKWCcgln2G3t1GwS/4xmexy9sJD1+dNnvl8xz5mExe5eM12+eWBo7jow0d/FMCp/XeQN81uFlIeLcOhv0zBwY31UlyZgbVKf6McX881MlwTqQvp1Cr7Tro95Dx63tGE7vCjWkvEtAxejs8=
+	t=1761990487; cv=none; b=dTaOLWBoLF2KtzJHOtQb0EvMJbqLlyfpFG98ViutwbsIF9/Ok1fP/pWxiAvBqq0HzCAP87wUIvgxGyCn9WjDJJqSC/AMiT60Lcq66E5J/45W8oLqPHZ8qxcI6DkIG0HPtCUQ6ZxmIIPCkKcTxw9y51DJ/mVZ/pOc2J1bXaSZRhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761990485; c=relaxed/simple;
-	bh=0r/UGJ3UaHLl4TwoicvZX0eMMWSJJZ+kcuaobIcvNx8=;
+	s=arc-20240116; t=1761990487; c=relaxed/simple;
+	bh=VFD6GtIua5YG7zFmjDzL7GA/HqAr0MELlfN71DmH60w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YnQ2eyFmNLb1/bulcrK+kSOcx0swAepWtmuKX4c0zlIh/VCKZfLh92fqh2W6aLnsEvvvkZBacVJzDyDyj3jp+KhzYHkpvXxOAGnS7xb2LIKqKcn143AfDJR9JQoOciTrsULKqH+e1qWi360dnPoz2jmNvxXmoB/66yNN1K7+wRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lU2izvzU; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=dPRQxmSFXTtT7ah4cO62RaIYG/hUgwgGscCNkZUGIP80vMLic6+HxrNpas0JX/RwvOgWbMdzsEuUcOD8n7yOPmE6hA6e6ZSYsAZmCfroAkUQYLeYG31vkFtatn0ZA1ZlH0Z9/dakE4F1HXOqPZqT5dyDVH+duaEncwmrhmwzzCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABdQt3g0; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lU2izvzU"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-33ff5149ae8so2506605a91.3
-        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABdQt3g0"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34029cee97fso3181403a91.1
+        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761990483; x=1762595283; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761990485; x=1762595285; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1KN/frS9jg4jcQJc1DwfaOMBwxNMdwpEGRN00rohe3M=;
-        b=lU2izvzUaCbol2zZGwLYF/TRdhnjXAZbWWTsInBfdVoWcaRE0aI3FprLoCSgj6E26f
-         b3zV2UmSOoFeh11m54G2diji5oUmxUSqN02cszQiowxgSKE1UXW0QBX9SMidVlynYvz8
-         98rK+arP9GF3ehUYW6bStoDX8ziNkaNIljQ0+Xm+4za98rrtzN3lW3Ftc6hEU96wSEmw
-         m4X6QGCwRwm5wJ8N6h3trA14E140l5S9bxqAKR22bRBPYV65cXMB897dv1MA8Lqve7kO
-         I9qTe18o1X/kGRKvynnHlMPV7sz+w1xhVOyD8+q1n5idwMF/WG0T1ypTlWdCgGkxugvh
-         a2xA==
+        bh=i163pqyR8qyoX26TG357PYVJu78JzhXd/RDPq6ZRj24=;
+        b=ABdQt3g0TTlpYbMo/ARof8OQvjUtMB9l/em7aVs0+wNr3lVgeNbcOcvF5Lqm9n7VVD
+         vTvFntx52tMokyCjK4vCOvaS1p8vHy4YVC3qyFa6MhkZqbWaLBELOxsvMsMcYbaRwF6h
+         rB07DSBxfK59rWuOm7a+bvr2SXGSUBJmBid9R3kM8DFZ24y4UaJB31OZPtNiM8mWxCMS
+         sSK0sTPawyD0exRkqKY0XMwyOeodnBaSUbzdF2AnSjBtUgOPGX1n/+6YXAe7dwZtrvAG
+         pYrsqIhEPD+/L+eCaQkdEagedk+UqnuEtZqxFzTfvACRNtzB5mz8CbAOJE6LVC6LKuJO
+         23Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761990483; x=1762595283;
+        d=1e100.net; s=20230601; t=1761990485; x=1762595285;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1KN/frS9jg4jcQJc1DwfaOMBwxNMdwpEGRN00rohe3M=;
-        b=KFMcqR3/s+71y3uMugy1k+uBlz2RA30dHBCbgxUBsayQ9TBFG7ToehQyCVU+SuPb9E
-         Pj84WqKov7a5DpVRqh8wdGKtEEJtcef9lxeBeHOQOu9uMYPJKIRcVZHIRnADsF2Tei0Q
-         +UX6ISegy0K2NZiRelHIhCVscXN2HjpRhKB2oFeRA+DrbI9XvsQ6ftGgtwCIoFYgtfXG
-         cq+lmzVU8Dg7MeJL+xersXsANGKXRBGGYAtfwSbcfhCvLGK+QhjYHItEnBi98GHNGn4C
-         kjqB0ix75/+qFNuXe9jXVWqpW5/LgMMd3126rFG17utRAjJ5/6fx6HYXBhqKSKguEBwk
-         iANA==
-X-Forwarded-Encrypted: i=1; AJvYcCV55SrMWyHax6P1XShaTJwTKZKJI1sM1P+8YQecbi8Pm9baGycl5e6NATD1TF+CH40Kihbsc7d4P6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHk83g/BbuotdCpV3X4s/F60ygV7Cbxsx76rT+QrnijdsTr5AS
-	zteJ99eUY4FbPDCWskwj5y+D+MTEFLqpEFW1eXLOdOvCc9loUDgF/urd
-X-Gm-Gg: ASbGncuPGmtSHikFWp4X0jCr+lJNkHPIaMV8PPYEDlMduQpis0wScK9DGYRNXGe8NOh
-	xCXH5VpSfODFJfZMhMu5Uq9h7rgSiySg+zBJSOtiiNz9UrFSET+UktJIbGqNqjiQBh9djfhYSWX
-	D+VlJoi8P+5oJMAoYgjlCsINlVN0AwryT9RLB1kmtOrcR625hTNJDyuAsEslYCKRRg/ZBLg8oLE
-	kXhchO9RvwntwgK9ZaXA3lYtb4jO+YXTvtL5GAy3RDGHLIPkUauPlhe4M1zxnXswVQfzb08DTpu
-	v2mjGbdjoN22ECvOGPlXCbEoQSEv+y93gJCu280SnhkhMO+EOjdaI4JWp+1llU35nBlNiVVB3mc
-	Ud+7kbwACTJx9BagzTqaX0KDEtK8z41icIhs/Qnahk8IX8vkldSuPusmUL4gb+u+AidIDWsB2tu
-	sCeokuGBIbdaQ=
-X-Google-Smtp-Source: AGHT+IGsYXtd1T7KUQJwUmXpPfa8NKulKKA88l/h+qYrG9Wj+FnsHwCW+OhVIOHiRESe6quJKXaOlg==
-X-Received: by 2002:a17:90b:3f4b:b0:327:9e88:7714 with SMTP id 98e67ed59e1d1-3408309dafdmr9468011a91.37.1761990483094;
-        Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
+        bh=i163pqyR8qyoX26TG357PYVJu78JzhXd/RDPq6ZRj24=;
+        b=h+nm6b4qA68XG7ZMCqyqFC7hhPfo0XFBc/UF/FzYjy+WCLmpLxBG2gqSgb4SsRblAV
+         ll/jJzasegUeQjaV53popBSep1xuow2MHHIRpWFfbD/KEgkoL6cMOmmSIVmxj6tYDl4E
+         zRVW9VNZd/8LOC1g6r/rz71PNXXYE7N5MhyPuSVsA4RfxxRbJULwrgv3FESTtA4peXZ4
+         fAp3/zaTBOHkZss1M9Uhgz6zlyTINWT5tWlYjOmViNxsOACQdsOVddnQ8aOwlyqMT+t/
+         UP9r7Unkv9eQn9enJ+dOe/4/9j0de/voppRLd82UtRl9Z35H9rAlOshlkDbVgisYQEX9
+         LZOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIKlwZ88Ia9d/Tyefp90zOh1HR347x0Hfr1p0uLLWa5k0zKeRUtDNo/bIfrT3TB9/kd6Pn1hxBQ7U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4ZalPSaKcQ+IqVE7AdcGlPwPX4GMfEbTNxyn4vnid6uQC8FIC
+	UcY9Cl58ZNU7LXCdAU7OP641hBMAJ2bjVt4EgeNKXIy1EFOlUzWYDuv0kZqFNPXDlqA=
+X-Gm-Gg: ASbGncsMDDhwNi5Co2heoqBLZk3tg01aFxsLVk2lc604bXR2ltwSe8b0i9iipNRRrhz
+	5rXeX4nCHb92B/qzQajUeEBzneFePP4Rm3qZjdYasRXVjG1r5LZwm4dTPJ2dywHJ4Zd1aAdRieM
+	2OfMaQWg/Pk3GwuSO9YOgpH6bN9wxflX0GSQNcrG9Pwwc4djYVTafdOdXEEknka7jXmqmYPHxB0
+	zR9hT5NVvxNRmYnPjJvMpm8TtnU+HmKT3dlPLKMCRnRu2upENCQb8Fx/q0uNj5LfHPjGVjXR6kH
+	3MaE94UpPW9duVLAkPl5VJs5bsULM6B4BXDeLGo9G00XRCRdbJFQAznC3xpLOOISIYIrzX1CtUy
+	nh1qO8gd3R8+jGuZs4GoEWHf/PXIVPPLvbA0UGzjfYSkJcY8tMv138rQbaZvdVhbmQakOFkOuxG
+	7l
+X-Google-Smtp-Source: AGHT+IGGaTpxpgNC8ciQSQqiqJUywpj2+O3W4oFH7FhMd41eXjxSmQvEhN4sZcxR4XzrFlG6iXv0kA==
+X-Received: by 2002:a17:90b:1c07:b0:340:d511:e163 with SMTP id 98e67ed59e1d1-340d511e58amr540915a91.8.1761990485008;
+        Sat, 01 Nov 2025 02:48:05 -0700 (PDT)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34092d69b89sm4609672a91.20.2025.11.01.02.47.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7d8982117sm4722357b3a.15.2025.11.01.02.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 02:48:00 -0700 (PDT)
+        Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 9BBA041FA3A2; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
+	id DB82841FA3A8; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,9 +75,9 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH net-next v2 3/8] Documentation: xfrm_device: Separate hardware offload sublists
-Date: Sat,  1 Nov 2025 16:47:39 +0700
-Message-ID: <20251101094744.46932-4-bagasdotme@gmail.com>
+Subject: [PATCH net-next v2 6/8] Documentation: xfrm_sync: Number the fifth section
+Date: Sat,  1 Nov 2025 16:47:42 +0700
+Message-ID: <20251101094744.46932-7-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251101094744.46932-1-bagasdotme@gmail.com>
 References: <20251101094744.46932-1-bagasdotme@gmail.com>
@@ -87,41 +87,34 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1292; i=bagasdotme@gmail.com; h=from:subject; bh=0r/UGJ3UaHLl4TwoicvZX0eMMWSJJZ+kcuaobIcvNx8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms13L/N23ty73Xvau/VKZ5goLNL6vkoKQL65l3/NLJ3 bXRkvVvRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYSdZSRYcOHbU2fPJ7Jxb5o eSQb6JvpJK7hv5LR9lP/7XcGTkaq5owM+21jc5bXSz4//43dq53LPiuMTXjxwQXurTExz74HTZ3 KBAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1096; i=bagasdotme@gmail.com; h=from:subject; bh=VFD6GtIua5YG7zFmjDzL7GA/HqAr0MELlfN71DmH60w=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms1/J61eMXh5r+5VtpuJ9Vae2HZ5pck3/9ZC9+wrTmo CDvkzsLO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjARUUNGhp2cd7vve3/YPVXf p5gnfWOM2NMCjeUTV6z6s+aziv7rI38Y/tl3/V3BVPIkw0ZqYnR3IM8kj2mXPBdYrq8qvHHN4sh LWy4A
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sublists of hardware offload type lists are rendered in combined
-paragraph due to lack of separator from their parent list. Add it.
+Number the fifth section ("Exception to threshold settings") to be
+consistent with the rest of sections.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/networking/xfrm_device.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/networking/xfrm_sync.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm_device.rst
-index 86db3f42552dd0..b0d85a5f57d1d5 100644
---- a/Documentation/networking/xfrm_device.rst
-+++ b/Documentation/networking/xfrm_device.rst
-@@ -20,11 +20,15 @@ can radically increase throughput and decrease CPU utilization.  The XFRM
- Device interface allows NIC drivers to offer to the stack access to the
- hardware offload.
+diff --git a/Documentation/networking/xfrm_sync.rst b/Documentation/networking/xfrm_sync.rst
+index de4da4707037ea..112f7c102ad043 100644
+--- a/Documentation/networking/xfrm_sync.rst
++++ b/Documentation/networking/xfrm_sync.rst
+@@ -179,8 +179,8 @@ happened) is set to inform the user what happened.
+ Note the two flags are mutually exclusive.
+ The message will always have XFRMA_LTIME_VAL and XFRMA_REPLAY_VAL TLVs.
  
--Right now, there are two types of hardware offload that kernel supports.
-+Right now, there are two types of hardware offload that kernel supports:
-+
-  * IPsec crypto offload:
-+
-    * NIC performs encrypt/decrypt
-    * Kernel does everything else
-+
-  * IPsec packet offload:
-+
-    * NIC performs encrypt/decrypt
-    * NIC does encapsulation
-    * Kernel and NIC have SA and policy in-sync
+-Exceptions to threshold settings
+---------------------------------
++5) Exceptions to threshold settings
++-----------------------------------
+ 
+ If you have an SA that is getting hit by traffic in bursts such that
+ there is a period where the timer threshold expires with no packets
 -- 
 An old man doll... just what I always wanted! - Clara
 
