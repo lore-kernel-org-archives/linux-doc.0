@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E251E3DDE;
-	Sat,  1 Nov 2025 00:30:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049ED22127B;
+	Sat,  1 Nov 2025 01:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761957038; cv=none; b=Bmac+kVua2hPCs8PvHLkES8TqtNtmrUqg9iDEy9ewRHWJKQrVfJeUdT/4F+aQ0/cjWAGX3t/aCpFtL7pfjNHQTUgZXpfNwldzNLvU6+JpKi+0y2f798nWnLSLSovOTkJE3E5c4wwP9K6JadDjE/VI68TV65xeOB4KNrZUcQYw14=
+	t=1761959434; cv=none; b=SpkbgM0V3a3A2mUIj38Qo3LcsGanBMrgDJgIjmyl3tTERFjZgfxVyhtk+G3hHLUANTrWltALVqhJYDRKBy7ui7gE9EnboSZtVR3J4enBJ0EQo+5SOF9bG0LMoskHPKI+vNoNCXkONaq8YxtEk0243yFzld/gne8WvdpOIsGdVjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761957038; c=relaxed/simple;
-	bh=7GxRr/6VX2s1e2bgaa3Z/Gs6604InPWmhx9Yd5I+Zzg=;
+	s=arc-20240116; t=1761959434; c=relaxed/simple;
+	bh=v86Zi9yv2WKTbQkY4cy2wNKFJWs/PbH6ZahKpXag39A=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ujQ1sTa9f+o17eKliAVDiGmaNHvlWCKoC4WyOoJZLly9g2hf4742vbKEeRR64Uuz4uYNS5hSBSmqxigxQQu3W3fpMMQ3sNQlKH0QDfUCaq7gIoEI95R5UEQupNordXTcIBHYc8Lg7X48eeRYNMT8JcMhPKm1m01IZq6owqtlEmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1OSPIN0; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=deXRMBlCMq5Ficl3UxUwnfs2z+pfIcunregoghcon62hNP/GkWcFHZZSgYH6S84nGg+CazWd8bTTrPX4gxhxNYtpZPHxMb6Wex4fTwPUiuqGcWoGBFTDYtk5vowLDGDPpHBBbtmNo+dZeFyX38UU8WMe+paSzuyySAENv+Ogk8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uqeNFOCV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1OSPIN0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD12BC4CEFD;
-	Sat,  1 Nov 2025 00:30:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uqeNFOCV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86676C4CEE7;
+	Sat,  1 Nov 2025 01:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761957037;
-	bh=7GxRr/6VX2s1e2bgaa3Z/Gs6604InPWmhx9Yd5I+Zzg=;
+	s=k20201202; t=1761959433;
+	bh=v86Zi9yv2WKTbQkY4cy2wNKFJWs/PbH6ZahKpXag39A=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=k1OSPIN0kpJWhxzTjQzlxMGXVQv/6E/ixx8/3agXxB9qiwYRgfo2mo0+Mrtns0cWX
-	 TmXJ+xLuuqelTAiHbey2cc5zSUGjOhJj1QdHVvD8KYb5NHuUVr4uQcaLOV2RycNKBn
-	 5L2zKY02AH/kov8bZ9Y1BmKBIaMLvD4l/wUc467Dni+lkzs903hEIMfX8Kay6424Gv
-	 XpRSN96GyO2VLiZvlekOZxFdPWHVzttValPcR3o3BK+X7rKaD2dCgoc4vxIqtdAbvo
-	 tatDUcUFtPTAJ1GWf/eDdyP6462E3MmCR7p9pQYS3sawplYdawRnpLw9QeQpV2jYIT
-	 h5/q9LfYPHa0A==
+	b=uqeNFOCVCWnLQnQdjc0/dPqgeYI5YHgHiMvmZmBpe2NQNKYfpKZ/OpkIKXYWhPKOK
+	 eV3BLPHnwF7nNI7szYO2C+dMQh4I1q3Vtz1WnDPlRZKd2nQQ72/AGx4RWhuUIR0QLb
+	 K1QgP7tX61cz62myRKbskpM251vdP24w0kOZGrZOuslFn37Midnr0VJ5iBxFjTxX8Z
+	 aVE0GcjwGpMCbq01rjrsNG1zTCAWBJ8ay2wTa3n/h93Ev9csyluHAlYALU28NA0Ay4
+	 Tj25u8j922qu4uVfB/VCmQ9OAz7Rl8cWbyzgsUsRqUJiFUE6bvytuydcFJuWZupfjO
+	 an0ZxhSWX57Pw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB1E63809A00;
-	Sat,  1 Nov 2025 00:30:14 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0B63809A00;
+	Sat,  1 Nov 2025 01:10:10 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -37,39 +37,42 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] Documentation: netconsole: Separate literal
- code
- blocks for full and short netcat command name versions
+Subject: Re: [PATCH net-next v2 0/2] dpll: Add support for phase adjustment
+ granularity
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <176195701349.678724.16186608709028385228.git-patchwork-notify@kernel.org>
-Date: Sat, 01 Nov 2025 00:30:13 +0000
-References: <20251030075013.40418-1-bagasdotme@gmail.com>
-In-Reply-To: <20251030075013.40418-1-bagasdotme@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, leitao@debian.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, rdunlap@infradead.org
+ <176195940952.685348.6442531076361684866.git-patchwork-notify@kernel.org>
+Date: Sat, 01 Nov 2025 01:10:09 +0000
+References: <20251029153207.178448-1-ivecera@redhat.com>
+In-Reply-To: <20251029153207.178448-1-ivecera@redhat.com>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
+ arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, donald.hunter@gmail.com, Prathosh.Satish@microchip.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
 Hello:
 
-This patch was applied to netdev/net-next.git (main)
+This series was applied to netdev/net-next.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Thu, 30 Oct 2025 14:50:13 +0700 you wrote:
-> Both full and short (abbreviated) command name versions of netcat
-> example are combined in single literal code block due to 'or::'
-> paragraph being indented one more space than the preceding paragraph
-> (before the short version example).
+On Wed, 29 Oct 2025 16:32:05 +0100 you wrote:
+> Phase-adjust values are currently limited only by a min-max range. Some
+> hardware requires, for certain pin types, that values be multiples of
+> a specific granularity, as in the zl3073x driver.
 > 
-> Unindent it to separate the versions.
+> Patch 1: Adds 'phase-adjust-gran' pin attribute and an appropriate
+>          handling
+> Patch 2: Adds a support for this attribute into zl3073x driver
 > 
 > [...]
 
 Here is the summary with links:
-  - [net-next,v2] Documentation: netconsole: Separate literal code blocks for full and short netcat command name versions
-    https://git.kernel.org/netdev/net-next/c/a7aca10c0091
+  - [net-next,v2,1/2] dpll: add phase-adjust-gran pin attribute
+    https://git.kernel.org/netdev/net-next/c/30176bf7c871
+  - [net-next,v2,2/2] dpll: zl3073x: Specify phase adjustment granularity for pins
+    https://git.kernel.org/netdev/net-next/c/055a01b29fd6
 
 You are awesome, thank you!
 -- 
