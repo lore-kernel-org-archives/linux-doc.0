@@ -1,66 +1,66 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE7C2D5408
-	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCF12D3A72
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761990489; cv=none; b=OSahZuvrcyfUZoEevM9p4v7kZk1GlL4H4esCoX1GjMQpz8PgCSE/8FctL+rbkwKsvT8LMIMA3TeVTmbsbP2woVgJc0M/SRWRR8O983QgEDPmCwj5L/JVYK4htAWPX098tcq6fmdUjgd0QG6Gs92Cit50dMzswdT/JnoVzuOY3eg=
+	t=1761990490; cv=none; b=PiN8dIquMCq1UZtmvp19U2wAZqdMysagiRUO1PRqOlJt+kAnV+LRdPmEkxE7UL+l+O2pZY33wBmwIwVPHp+vXksw6UGh1frhCujTImsap4/pJQ+ihosUN65+hhJO6+8CkjmvHy1oI+2TaM9JYeOaG2to28x3x1nMgODP4zyPKfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761990489; c=relaxed/simple;
-	bh=pOYQYpe/p2QLe1BjNGnDKFKMgBDeR7vUGryegGJSYW4=;
+	s=arc-20240116; t=1761990490; c=relaxed/simple;
+	bh=scKBOtDHVqKDIQ1wnHzvccmWbCFHaFUh0A9SeEEBF5o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XK6TzM3m7Dz7SDfDThoZmkmEZEhMEgyTRLaXPCl9e2L9jtqunvtFVmKGtC781tiveZ0M8eaq5bCcd0UkaOwPkP5YlYz7KRJ8xDwCHzyRL0paCsBpqRq24gNaOa6oNFMepmdEco7JlFGKohv23lKF9+imz6YWOsBXEHUTPfDWVRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EthWXMUe; arc=none smtp.client-ip=209.85.215.175
+	 MIME-Version; b=glGfoJ8oLt3JmSjAUQuv9/0iASktncMVoAuxXAnl7LeiwpbO7CQzt3uxY7s7WEfCjenkuXQj6p+EViHhsFQVEddDTNdUwBglkIqPX5UXgo5Ptf3NHAm/fk+guc/YkVWEpkAE/eBQrHYDe+GfvdjXKZbt8aAJdo2NXBekjishw8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDnb9KjM; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EthWXMUe"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b67ae7e76abso2248941a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDnb9KjM"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7a27053843bso4433755b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761990486; x=1762595286; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761990487; x=1762595287; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=itKwJGhZdbxlkpaaw8hh/vRlQCwh4eBKAzIwk/pIlYA=;
-        b=EthWXMUeY9lkzfb6iFId1nEUr9wmyk7ZbkLOhThmn4nuEKSHGZjVRH9+4iOuZzEoTa
-         DSAZBTzBAdFh2gdzFoD11zyLDsC86DbpSNYnX/mvD9926cLCDYmsbVJLtuVjFKdye8Or
-         Cvazgtkl5+SIovxrLStWPxp8gu31hppEjVj8j+UHh9n8qr9mEotsrMBuBw4qhB0n9xPy
-         nLgtVdq4y928Bul13GZjJV6Am4pEv2WLg0fpg/03781qeTt/QjJcH5PS+rKCy7B7Uj0I
-         Za2RVaX2LRnvQ30pUJnxG16nTC7iYSA/017tgBXAvS+z5wNqlVK2AE3jYmEAzcgsxZmq
-         pYUA==
+        bh=FlhKMqWLH6Ttx9Tu79F/62Lvn4ZGhBAbvbXeziFMbEs=;
+        b=DDnb9KjM1YHI1mBpiMqrKD0cvFxzifXJvRB6JhZBPbGUy55vUph+n1JP8wYa5hyX1i
+         3xxmcblTOENIMF1dgfkRAzShTlerm5liklOiuOCtd3DxO81OaQ8k9mCPk5h+0UsuUL+E
+         uIXFDHFiaZI8UY9lcEcALcWVa417dT4ZsIOir/X9ngk0o7GFE7QPljtnWMfAXesS59g9
+         ByREjh9uwu8r9Ac2156iO8dqjWyJGQmMwJknXq/L6PrXUR/dyKnLFZPE1flzGiBv8jEY
+         P96FmGWUTr9Lofpq0zHLnIeOWxXtCmRVEviwWkw+Ecx5AMklf2Qv3BrXv+aoIh0I9VJe
+         PJXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761990486; x=1762595286;
+        d=1e100.net; s=20230601; t=1761990487; x=1762595287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=itKwJGhZdbxlkpaaw8hh/vRlQCwh4eBKAzIwk/pIlYA=;
-        b=oECvFXtBljW1QOvHl0f81EnEPQPsZwHS8B+WAr0A0Z7SXPx2yhlppF2E+M0YVxjRJ4
-         Jr3SNwMCxDmGZW9T04D/rMZeJeuTAoUxPJpc+an2E9KlPUcWKTJWfcZbEPx0SL2ajaox
-         7JNh1KoMV0L8tANnuWVgIaUxO/mQt/Q+gesosDp7edoPTmMr/F2XYQA4RwasT/3I37VM
-         ++NMrYVFl2d3OKv9UuIdTcG9Wh4x4h8xQm8SdTMFB30N0OJ2RPrGDHd2BGUs9NnXb8YF
-         nQlKO/v4TqOS9eaEiPLHR/Wm1TphdzEcGgOr0oHfDJuaRl1WcsL3L9cjVYoqqvvBBoD1
-         iv+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXNsLYMU4azeDX+nuvlx3ylfyjIyMd/LagvFlzl7dIatDBo2t1xgOLpxHoHoGYUePFxUsDRD7NoMfU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBce8Rjsge00ZAGoMgPi7SvVFaD9S2ZXKfcCihwZLRbUoGcs0h
-	FnsOCV4erVDcMJbyLO7bnHVQTo34Z8JrDzU6fOqbGNpXdBBtKgU1g8Kg
-X-Gm-Gg: ASbGnctUt7j4wQXb30iFXROw38fFmCGNVVTf9RZc00WaY0uK6WkSIGQpPg0egkLKYKt
-	UGod66rZXEgK1FqHxAoeAXPLGCh0rbTZ/+j7gXtr11PEmQTU2ftm8NlpVC14SXyT60JXzJ1SWXL
-	7vdA/BPIflA88OEzwQWtyoBu28aZIQkvMaJisEx7Sk0oyCR68osL3I9P73c59sGO9CMqmKfpnyp
-	sXsmXrP1kdH4934nmvzcUOzHd+cegQPCHVKgSpnixyn6nFd2iO/YwEvsqzgfPVakPpOTM3G8I+0
-	qAVXJUFFBCQeAUjkR9G90tcNGdXzD1JJxOxs7Akk46SFCx+jvMJv84FNt+rcAoeJ5CHErKr9eux
-	Jq1MlSbvyXHC8ZbFhrfRyUwpPvVf4EsJeRngYvo/bXc8np390iF2aMTqd49X6hRmvo+LLZc0b63
-	Qn
-X-Google-Smtp-Source: AGHT+IGmSKAUBfWmJQyRevQMSinNhEHGk8mmuhO/TF63IeIvW13vO2DcRHYCG0bn6xcNqmxzXv7kqg==
-X-Received: by 2002:a17:902:e84f:b0:295:507c:4b80 with SMTP id d9443c01a7336-295507c4c3cmr31484355ad.61.1761990485598;
-        Sat, 01 Nov 2025 02:48:05 -0700 (PDT)
+        bh=FlhKMqWLH6Ttx9Tu79F/62Lvn4ZGhBAbvbXeziFMbEs=;
+        b=pd8r8XmOfOi+2qI1n/wGw36OXeW4OPs3YK4eEQfOnjQvxKIUXegwkt3PphxATDv8Tg
+         8+v0s3ymBuEQcoy7JzTgRSOQix5JvNB8o6QCaKHNgHdmdZPh6QCDj3wo8Ecy/06Q0a/A
+         EomHa0WGiV4HaLOkYq7tAwWQcN7EToTyFhthHT6MPSC/DQtp6PIkmL0KnzdU4L8cExJg
+         vTM/D4lwZoqRMXdVql2gtybhxggr9L0iWTg3vv7moYpl+uEdqZ3wptdxejuU07i/NLKg
+         AKlkvaEt5PsOERVrrc6zZoi59QYBawhuCAiciYRJdAN/uUQHnL+ztGc6BrQMhwgjL0Jv
+         kHvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEUP5KwCCKocIBIOh5xzA4zrZOlHZ1f2Tl5qwLqgPjoyc1iisg5Qk+SwJ2rE+gsUAdfBvw5V6HHwg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+IOjji3geaYdc7WZWnJfECGraHT3u0Fk6ehNZJecN2GHjaX9I
+	Dh9cb//6BcZBdXun2EktZp1BuFQMBoxra9QvqvsSsf4ukju5wLC1gA2HUaW7pXciLVM=
+X-Gm-Gg: ASbGncu6hN1APtrNmGN+wXTceCTjkDyiigQfmThPSUGYwQx2nDk5/9wEhf9VeGy8Ksb
+	YziOYqp2ovRb3cZ1Ldy2ApFNun7o+jOWE8dNQ6wCC5jmLqh/MHaDRHPiI7HY2b5ptgQJqmmp4JT
+	+g+ifuyigYqLbBF2o909SzL2/VkE4O4uFzGN6TMD3VXiZgrTZ+kS4/vQdT6I+yi0o5UanXIeArj
+	mEn6S779RShIopFldRLsjHuBQ60HtDtV5bpV1vT4w7aUeO6rlmrC5b/jvlrCYtfeJ16Rb9Oy7q9
+	2RdotaQGxqVPWdA5+cvl+q9aGZP0XBP0vYZZJoHUKxQPYt3flKc161guCCEb1jj33Qe3m/G4j/s
+	1iAosyTm1bBm/PuwUYj1HQDSxF663NqdfcZ5iGyu+amkb6nRGhVbtpwqjOXBwR8HouXcqu/OV6c
+	W+kN+khf+naWs=
+X-Google-Smtp-Source: AGHT+IFkBjadAlRvhWq+7eM46hxZBHaQSQ5gXKI08Y3+aBwkshix92V65FN8ebBWTu8xjYudEyFEDA==
+X-Received: by 2002:a05:6a20:3947:b0:2e6:b58a:ddec with SMTP id adf61e73a8af0-348cc2c2872mr9266465637.36.1761990486624;
+        Sat, 01 Nov 2025 02:48:06 -0700 (PDT)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29554cba950sm21531135ad.97.2025.11.01.02.48.01
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b93be4f8cccsm4550093a12.30.2025.11.01.02.48.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id C5F6541FA3A7; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
+	id E65EB4218354; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,9 +75,9 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH net-next v2 5/8] Documentation: xfrm_sync: Trim excess section heading characters
-Date: Sat,  1 Nov 2025 16:47:41 +0700
-Message-ID: <20251101094744.46932-6-bagasdotme@gmail.com>
+Subject: [PATCH net-next v2 7/8] net: Move XFRM documentation into its own subdirectory
+Date: Sat,  1 Nov 2025 16:47:43 +0700
+Message-ID: <20251101094744.46932-8-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251101094744.46932-1-bagasdotme@gmail.com>
 References: <20251101094744.46932-1-bagasdotme@gmail.com>
@@ -87,56 +87,97 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1815; i=bagasdotme@gmail.com; h=from:subject; bh=pOYQYpe/p2QLe1BjNGnDKFKMgBDeR7vUGryegGJSYW4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms13KNlx4KFSxULsk3LP3JtY35sWGfXpg2k+SFYP+X2 3yT70V2lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCKibowMZ0r6ZqdFrjr9f4q2 2kWJGVwLvtyy2M357c0KznVcGYJSGxgZbh9tPhniE+L+LnVzSdOyM2f2XuKyycic2vwn+d9mc6M L7AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3293; i=bagasdotme@gmail.com; h=from:subject; bh=scKBOtDHVqKDIQ1wnHzvccmWbCFHaFUh0A9SeEEBF5o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms1/JSknh6zi5oWKbks+j+lfM/Q4/p9Xc7a02LzmNWf iSfv8Suo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPpyGdkWCBUkaK565PuO8fk s4fP1BtpNEskrn5p0R7kFj3DMHKKM8P/PEZFXSeBhNwzZauOF+Wsl+rdIL/65nz1xfpLP9QYbqv iBQA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-The first section "Message Structure" has excess underline, while the
-second and third one ("TLVS reflect the different parameters" and
-"Default configurations for the parameters") have trailing colon. Trim
-them.
+XFRM docs are currently reside in Documentation/networking directory,
+yet these are distinctive as a group of their own. Move them into xfrm
+subdirectory.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/networking/xfrm_sync.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/networking/index.rst                  |  5 +----
+ Documentation/networking/xfrm/index.rst             | 13 +++++++++++++
+ Documentation/networking/{ => xfrm}/xfrm_device.rst |  0
+ Documentation/networking/{ => xfrm}/xfrm_proc.rst   |  0
+ Documentation/networking/{ => xfrm}/xfrm_sync.rst   |  6 +++---
+ Documentation/networking/{ => xfrm}/xfrm_sysctl.rst |  0
+ 6 files changed, 17 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/networking/xfrm/index.rst
+ rename Documentation/networking/{ => xfrm}/xfrm_device.rst (100%)
+ rename Documentation/networking/{ => xfrm}/xfrm_proc.rst (100%)
+ rename Documentation/networking/{ => xfrm}/xfrm_sync.rst (99%)
+ rename Documentation/networking/{ => xfrm}/xfrm_sysctl.rst (100%)
 
-diff --git a/Documentation/networking/xfrm_sync.rst b/Documentation/networking/xfrm_sync.rst
-index c811c3edfa571a..de4da4707037ea 100644
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index c775cababc8c17..75db2251649b85 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -131,10 +131,7 @@ Contents:
+    vxlan
+    x25
+    x25-iface
+-   xfrm_device
+-   xfrm_proc
+-   xfrm_sync
+-   xfrm_sysctl
++   xfrm/index
+    xdp-rx-metadata
+    xsk-tx-metadata
+ 
+diff --git a/Documentation/networking/xfrm/index.rst b/Documentation/networking/xfrm/index.rst
+new file mode 100644
+index 00000000000000..7d866da836fe76
+--- /dev/null
++++ b/Documentation/networking/xfrm/index.rst
+@@ -0,0 +1,13 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============
++XFRM Framework
++==============
++
++.. toctree::
++   :maxdepth: 2
++
++   xfrm_device
++   xfrm_proc
++   xfrm_sync
++   xfrm_sysctl
+diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm/xfrm_device.rst
+similarity index 100%
+rename from Documentation/networking/xfrm_device.rst
+rename to Documentation/networking/xfrm/xfrm_device.rst
+diff --git a/Documentation/networking/xfrm_proc.rst b/Documentation/networking/xfrm/xfrm_proc.rst
+similarity index 100%
+rename from Documentation/networking/xfrm_proc.rst
+rename to Documentation/networking/xfrm/xfrm_proc.rst
+diff --git a/Documentation/networking/xfrm_sync.rst b/Documentation/networking/xfrm/xfrm_sync.rst
+similarity index 99%
+rename from Documentation/networking/xfrm_sync.rst
+rename to Documentation/networking/xfrm/xfrm_sync.rst
+index 112f7c102ad043..dfc2ec0df380c4 100644
 --- a/Documentation/networking/xfrm_sync.rst
-+++ b/Documentation/networking/xfrm_sync.rst
-@@ -36,7 +36,7 @@ is not driven by packet arrival.
- - the replay sequence for both inbound and outbound
++++ b/Documentation/networking/xfrm/xfrm_sync.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- 1) Message Structure
------------------------
-+--------------------
+-====
+-XFRM
+-====
++=========
++XFRM sync
++=========
  
- nlmsghdr:aevent_id:optional-TLVs.
- 
-@@ -83,8 +83,8 @@ when going from kernel to user space)
- A program needs to subscribe to multicast group XFRMNLGRP_AEVENTS
- to get notified of these events.
- 
--2) TLVS reflect the different parameters:
-------------------------------------------
-+2) TLVS reflect the different parameters
-+----------------------------------------
- 
- a) byte value (XFRMA_LTIME_VAL)
- 
-@@ -106,8 +106,8 @@ d) expiry timer (XFRMA_ETIMER_THRESH)
-    This is a timer value in milliseconds which is used as the nagle
-    value to rate limit the events.
- 
--3) Default configurations for the parameters:
-----------------------------------------------
-+3) Default configurations for the parameters
-+--------------------------------------------
- 
- By default these events should be turned off unless there is
- at least one listener registered to listen to the multicast
+ The sync patches work is based on initial patches from
+ Krisztian <hidden@balabit.hu> and others and additional patches
+diff --git a/Documentation/networking/xfrm_sysctl.rst b/Documentation/networking/xfrm/xfrm_sysctl.rst
+similarity index 100%
+rename from Documentation/networking/xfrm_sysctl.rst
+rename to Documentation/networking/xfrm/xfrm_sysctl.rst
 -- 
 An old man doll... just what I always wanted! - Clara
 
