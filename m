@@ -1,81 +1,77 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBED34D3B1
-	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 23:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B0534D3B1
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 23:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762041298; cv=none; b=SBfYhnpQ6ip1JhreDe1p+NUrze/Vh2aipGgozFaCLtc5ArRtqzHQAoneAfgzjyZoABOEMesnei4C2S1pVA6wkRnuRhncCL/HHg83N00V3lI9CY7s8w+dPykC3kSS51B4SnL7uHaNGPgLlkR/QKrbqvyCMRVPifNsT4LNB5HslVQ=
+	t=1762041331; cv=none; b=C8Iaaz85qfqEDIcLcE1fb06aYuX2CCrT2WwLS7gzE3fleToJbnhnMiTe6/NqZ4qhfGzmaSlLtZP5GzPdByG0xSRyggNxreHl+/1FaouGIWA9coC1bP68tfu8D97Hge9IWDjVpJQXdwYCgXNagLKNzL0aiZb7c7caZqohxmYlH3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762041298; c=relaxed/simple;
-	bh=xgmMHnJE9nyGfUW7qSuFmTJU4ryqeC0sODpQqSngQZI=;
+	s=arc-20240116; t=1762041331; c=relaxed/simple;
+	bh=tZnELm08j7of0Xfv0WmU01hVCDM6ZuupveTtZqvPt5E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=od/p+bqMgHpR78riS8tdxloUzFIEGk4snraxO8r3ujQymQ6jqwkR8kUZ2o/oy1PXXqtA3vDyz3jSSYXBJF+F19sxImmKZlEn2TX9hgYBNzrl2CEEQMPrSYUxFsluMZVWR0ZLTCGf8coBVMVwFfkfbuMqP4jRWA7f+aS8OGWjgSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwmTRJ66; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=YSxDPrSCfrh3ArnaemFK4RqpBorctSPODQ2lE9S6Lob3hu0FmLC4EAyZeXqp20icnvJFu6pDpsWAQnTUwN/5M6gIB23qZ1zeTqcdpM0a71GdAZYSkDL3t+BJ2csMrpI2biPSUJvTy1VjN6WqZL3C21ecGsjQJy3vk0zx2IRikBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IhuBfwxQ; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwmTRJ66"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso319315b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 16:54:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IhuBfwxQ"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b608df6d2a0so3065360a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 16:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762041296; x=1762646096; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762041330; x=1762646130; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9hoCdewjF0s6SpozCA1ZdHeew40UYH9BAWlJjuRVuo=;
-        b=XwmTRJ66PHIEe2k93n9txEt/hqE1bOCWPIXu6Pku9UaL2oGlL4S9+Oie67ou6aiPBn
-         j2f5eKPvr4HfFrPzK+qRObLPZY1oTSxlrEwkHbTSN/BUp+CxbIAG/WTb2Xk+ZcLNhI5e
-         b1v5OrRbAJ5YZarCuhA+lSLxluFnTP5wHL4VyrmWiJADVOdHqEbftdhRFCnRGVWEvm+V
-         5BK2fF/+F3bJHe4zDDcfLSmXSgWTu4OIkLL0hjhP73HGLSgpxhzQ2Lngcg79Y18RgbAy
-         nQ1Bi5A9+1LRXGn6T1QjBoFdSxlLqqnHRR+aAuk0hwx2vEldR5qQRsHyzIim4Zk7l4R6
-         XTNw==
+        bh=W4d9NbVLbZ71yjIsFOR25rdS14CzByZ0HAq9jJrJxxc=;
+        b=IhuBfwxQhYnNqmvubr8HtWIjxNvyj8eiuRipA2CZoPDL3TAe1UQ18GO67goNCSGKwe
+         9MgoL5mi5zmyBrOvDrbJuGmOvktX/S2WiatpotD+GPJ41ERFlnBhPjHMsWp39xWir9uq
+         b1rESD1I3+MYmtomvr15oLJKlYzpWHWOZqFthzMYQPDiZwXJFzApNtJllvqXezrF99r0
+         oblOeY/6yZz/H4RoSzHQptZ6dIn7ZztbpXhF4sNIylTqigfTp2DAz3fdHTXgpZJngWoR
+         0mkYpoiBR4Yz00wCYAxaSWmRSPafVvyiksd46IIRfgmnAe1QWipiKAQDdhcLolvD+mrJ
+         JuJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762041296; x=1762646096;
+        d=1e100.net; s=20230601; t=1762041330; x=1762646130;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K9hoCdewjF0s6SpozCA1ZdHeew40UYH9BAWlJjuRVuo=;
-        b=H5gmdlwVwDja87j47afxRHdGP8ueRx3PJwFfv2+lXPj39fO48wl+wZHErlW82pFuC4
-         0HzA1ALiu2MgkKJY5ia58V2TB3vF3YdBrzotWZxOrN5lBQ5AcPedTXpx8rF7PCP49tbI
-         0A15q1MRmmRbgoUGDh/J+pnCYivAVc5sxv9Mf+K3/zlNaNpT/4xPnHnuQBLkdWDIjDiH
-         CMG5B0Wt/F0+ijjgYj6H3xIEc3JKNHwz3U1SeA21k0GTeUUAmhhrHv9+JK4vCAVPqGOB
-         VqNco/sHxEVjCPX+MMr3IUAjWHnzeJDvELW1zUlMNVFjyVN9RrPXPmgW3xrwXrfrAMJW
-         N0+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVqNuRo9UIdg1NuB70qQPkXNZeF1zIP+3T/OAMv49V2vWMN9m9VBc3Jsgc0b2peO4ww9anVGtVmDPQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywb/HUaWwvdPOZ/XhtiOIGCb4XHfpuNioKB+rCpJvdWCM0+Z4vp
-	Em8wo1nPYz2Jy7ERD3lhGY8UXqzwIP3Wej/0iDdFNL16DmtUGK0WeH2x
-X-Gm-Gg: ASbGncuRwqD/VNZKY0YnOmTgfqg0ymCfCe2BXFQUXJL6euH17vBEYsGjsezUZAolNAy
-	2mP2ZhNEVBLlGT1kqRtSlawK+UC0bitJ9IoN23jRJUSWP6lXDOn2vn2M0yG0WoNZEEuKLdTNsdA
-	VyHDcKYejggQRs1LP3C58D0rt3ywS60fmbfnBssdVOwRbt/9AQ6HbjmMmbRUhDTvob1hQj9fA4V
-	DNE3jB+c9ul0JBzojSVE1nE8+bAzeRLn9Nbd1l8OgP0Q7OmUI+oaDCmgxfIfLqnuu2Eg30HJaIa
-	ybMTfDmyj5DMsIQsilhlEe5exhFkqNxug30VB7bwk2Bm85NM8GbuTRq0Cjh1dF3iCt4UkngHcrx
-	huz5wjiLp0yer4oI2o8YoiTxMLWVAGWsG1H6FrrIQEHnHytI1MgOKUDHaFqa67+P0d98oJRvXo2
-	yx+keTuYJQNtM=
-X-Google-Smtp-Source: AGHT+IETQALuNkc50yjdgSemgMAnaSbNIMYW/a7SYG7aVvrdjhVmCDIYPsGxrnhq1+Mmjh/q9Xu3WA==
-X-Received: by 2002:a05:6a00:4f90:b0:7a7:2a:2ec9 with SMTP id d2e1a72fcca58-7a7790db385mr9055615b3a.23.1762041296277;
-        Sat, 01 Nov 2025 16:54:56 -0700 (PDT)
+        bh=W4d9NbVLbZ71yjIsFOR25rdS14CzByZ0HAq9jJrJxxc=;
+        b=hEPoc3evgwrGNSCUZKNQuP/6H2g9jydWbwHta5wBY0xl0G97lW1RLmDafRcDZfOEeZ
+         WZP1W8t8mznm03gTe566Poej8Qtc0Wp+K5PtfogQgMvI3C6Qttxoja+r8SO+1MbABMvT
+         NH1rz14JY+PyV0zn8Bgf0MihoVnObVdlbbm+Pq55U88E8EURfHPnUWcjeqjG0x1dokBq
+         AwP4e9DjEYR/NIDD6hC0v1c6DWM0SYkWWfk54CWYXyMPaAv3vz30ZJ4N5MJV0lXpXYqR
+         DYpeFuCLkE/56CptvJOTxflVcSGDJMibwKRxy+5nQy6hiholLs/4QeTFD7Uy2/ZQTFwq
+         WDyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWS2KCxWPYt8KWJATKb3DuZMEISEILF9NTD3AXKAaUa05Do0nDVwKmkW+Mtvgag5I+dmEIIpUJxjsc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyT/sxHV8/QqLBX6tNVGelUdJ3rYyfyTjI3to/t+hjjAoCpNeuS
+	RNgQ2gALx8WvYVKkdp4TcBQRYPf7BlltApeZbuYUjUpsq7mNBmO+FuqJ
+X-Gm-Gg: ASbGncvdhQocVTWw1SRmf1Dan1hkdKUBNJkKQktlpNsnlAa89gGwgcMb1cGZMdvOn0P
+	H8VsOBxCy9lGdIbQb9FDHbeL0afH8PfK3rE/TsCI5oMcC/AzOcJJHnM0n3IGrCOg9/5bh4g7gan
+	1ZXwdkWofCEb8tIag/MQupW+7NjPOqDOzAt1yjwEYWnHC+O2Y91RHMMWt64YIUwoWDDo73Cdmdu
+	mqXvxHdmuiUgnH0dHy6t8FjWQoK4Fpy18jRCMNd/QCUVxWS3sMVsJ/zcHjY2/7YfRGP9rtz8R1P
+	jf0wi4agxlXDotFI6zI9JCCxXAD44N2x1rpb59KhR75AFWveZ2f1Ag/aXjscpX/wmGLAKUFVOrN
+	GXriPft/geLbUpnm7BJ2kYfJC9fuBWvSGyk1MQEvECjKlOQUVFLWaaNjAuaeCGdyj2r9n4q3vZr
+	4o
+X-Google-Smtp-Source: AGHT+IGRpA4EWSge9FEynJVlD/uzoZDN7jjxeaAWcd0tXEWkjk8DFuvwHJ/1T+lQA11kadREYpegYw==
+X-Received: by 2002:a17:903:2f8f:b0:295:19e:487b with SMTP id d9443c01a7336-2951a39060cmr108779475ad.5.1762041329538;
+        Sat, 01 Nov 2025 16:55:29 -0700 (PDT)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7aa20972e6csm589226b3a.18.2025.11.01.16.54.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-295424bcc39sm49189165ad.17.2025.11.01.16.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 16:54:55 -0700 (PDT)
+        Sat, 01 Nov 2025 16:55:28 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 773904206924; Sun, 02 Nov 2025 06:54:52 +0700 (WIB)
-Date: Sun, 2 Nov 2025 06:54:52 +0700
+	id DB5154206924; Sun, 02 Nov 2025 06:55:26 +0700 (WIB)
+Date: Sun, 2 Nov 2025 06:55:26 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: Re: [PATCH net-next v2 0/8] xfrm docs update
-Message-ID: <aQadzN8IvCUWWHsF@archie.me>
-References: <20251101094744.46932-1-bagasdotme@gmail.com>
- <c3ee9b5d-62f4-4c7f-b6a4-9e0dd8290edc@infradead.org>
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] staging: Pull in staging drivers docs into documentation
+ tree
+Message-ID: <aQad7uZ-rxCKs07Q@archie.me>
+References: <20251101124053.62544-1-bagasdotme@gmail.com>
+ <2025110115-nineteen-diner-186e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,56 +79,50 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EQI/Pwj3uM/nLbG9"
+	protocol="application/pgp-signature"; boundary="t5NhrSJKm/+QMYFc"
 Content-Disposition: inline
-In-Reply-To: <c3ee9b5d-62f4-4c7f-b6a4-9e0dd8290edc@infradead.org>
+In-Reply-To: <2025110115-nineteen-diner-186e@gregkh>
 
 
---EQI/Pwj3uM/nLbG9
+--t5NhrSJKm/+QMYFc
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 01, 2025 at 11:58:37AM -0700, Randy Dunlap wrote:
->=20
->=20
-> On 11/1/25 2:47 AM, Bagas Sanjaya wrote:
-> > Hi,
+On Sat, Nov 01, 2025 at 03:24:51PM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Nov 01, 2025 at 07:40:53PM +0700, Bagas Sanjaya wrote:
+> > Some staging drivers have documentation that are spread out in
+> > drivers/staging/*/Documentation/. Pull them into kernel docs tree by
+> > using the same technique as in 1e9ddbb2cd346e ("docs: Pull LKMM
+> > documentation into dev-tools book"): wrapping them with kernel-include::
+> > directive as literal include.
 > >=20
-> > Here are xfrm documentation patches. Patches [1-6/8] are formatting pol=
-ishing;
-> > [7/8] groups the docs and [8/8] adds MAINTAINERS entries for them.
-> >=20
-> > Enjoy!
-> >=20
-> > Changes since v1 [1]:
-> >=20
-> >   - Also polish xfrm_sync section headings (Randy)
-> >   - Apply review trailers (Randy)
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 >=20
-> Changes all look good. However, there is still one header that ends
-> with ':'. Not sure it is worth fixing.
+> No, please do not do this.  staging drivers are "self contained" and do
+> not spread out into the rest of the kernel.  If/when the driver moves
+> out of staging, then it can be included in the normal kernel
+> documentation builds and the rest of the stuff (i.e. include/ locations
+> and the like.)
 >=20
-> XFRM Syscall
->   /proc/sys/net/core/xfrm_* Variables:
->=20
+> So leave them alone.  Documentation does not need to be built for
+> staging drivers, there are much bigger things that need to be done for
+> them instead.
 
-I'll also fix it in v3.
-
-Thanks.
+OK, thanks!
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---EQI/Pwj3uM/nLbG9
+--t5NhrSJKm/+QMYFc
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQadwgAKCRD2uYlJVVFO
-o6m6AP9q613RsOkDQM3bSTu3sb/4AXQrQAJW65J31kF1tRUVVAD+Mh0OQatN1NSk
-Gu0DwhO1Oi833StX4eC1TLlq00RClgk=
-=3dB/
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQad7gAKCRD2uYlJVVFO
+o7RhAQC0xzjwMgYiLreuKLkmTjcmM51HZTpIv8zjWVHi3f6mUQD+NPHKZvvycT38
+Na4hPtfWLiY/vsvsW1I/rzyMKGKusAY=
+=KA70
 -----END PGP SIGNATURE-----
 
---EQI/Pwj3uM/nLbG9--
+--t5NhrSJKm/+QMYFc--
