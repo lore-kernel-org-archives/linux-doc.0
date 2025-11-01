@@ -1,113 +1,71 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF912FD1D0;
-	Sat,  1 Nov 2025 18:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC1B1F3B87
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 22:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762023524; cv=none; b=AiYC+hFc9kG0onkjl1oQVp7Xd7u8OSnVzSgEsoiqYo3PWUMpokWsgQG49Qu55xXCEjMKryTw/w8gM164/o90Af6iz2zBI3xSJFgQLh1SwEUar8XTTnkoo9hMFxmvkFK1AINgX4STdX0EvHVJSJw9tmQi2xQVGmImpJXsW3SXlY4=
+	t=1762036297; cv=none; b=WpTaOoTJ/e4ZEiU3fkLc65KUELrHjjGuKiGv5SlAcfk8Q13us7j6N2c6WFzQt7jTFtao6V03kBc7z6Ap4q8rKG1K0RLI3t0ZHRqsN8xkBWFwxog7neQnoRfNEVIaB6cPN/iHp4nujM4Z/7TzH4U8j6Y/7ETe9EBKxiqvcxc18gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762023524; c=relaxed/simple;
-	bh=7LoAPepD4eFaaUqZEIMxR8uSjySCCaR8EcLjDwAwFFw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ArmOFM1I9676miOo0nJu2QW96aWxno/ne+XYKvYV+nxT+olNOcNLOd030ovKwl63OTwBxWMYkA3NOBoqu7ZOOHLNxE/tH9KjR3WkmG6K2LlIdLzulRGKTUEpBHMIS8gTo/0YfpT15dYb5kroDlPQXp8fyOpqpJ9F+ybAy8JtiqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2921O6Ar; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762036297; c=relaxed/simple;
+	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=uMJ+6HFENfYz23WBU2MNF9TLsxpD7vwzWDEMusHjZsEdrAjapaaYpS2Xcov6zlAzvM+4Bd+SMCCsFBwYeiLa9KWOiEdg8nn/xLNQPg5PO3JtwVd7Ybj/pXxLZ8qDXrCztzoPACyl+dvWKRp+P/ov35armBfbAzRK2/uiUCPLG6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=T4RQRs7R; arc=none smtp.client-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2921O6Ar"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=P8HmXM67TmlRyT3RaMYldgJ94lqKSzK8QgtFkpR1p/8=; b=2921O6Ar+EXel+oStPCeppjFPI
-	AZKrvYYNfGjs7+yVEAhYHOw6dDdABBs811giP5m/l5ZJ4TeELxxJqUg7WIXw8MhTlUKOojSXb9QP8
-	mf2X7uagZtbgqB/o1f8ePwDpDnrjx18Fo80+FBo6cueTc6yu+ZKo/Nuc3j9wHQGKn8qLfdxw9oXKn
-	Vd4GWVQY1lQEaJ05gYty3AznyeJ8qf2Lz/AS0YsCKg3VunPgn9R2Y8qvBy1KyBCFG9JMtlrypeNK4
-	7gSRGzX/PpsVv//3MxCRsTSX/znrLr8OHbWUisOCwhA9gdaFb8h+XxwA1fjtAqwSl7heDmxC14HWL
-	uWSwFcCw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFGoB-000000081ew-1lXp;
-	Sat, 01 Nov 2025 18:58:39 +0000
-Message-ID: <c3ee9b5d-62f4-4c7f-b6a4-9e0dd8290edc@infradead.org>
-Date: Sat, 1 Nov 2025 11:58:37 -0700
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="T4RQRs7R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1762036286; x=1762295486;
+	bh=JqArab//VtjVTAuZADI3rtalHlSOh2zYSvZup8Qb328=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=T4RQRs7R9UhpKAd9pi+kL4gwYCzU5y3djHNT1aDcRBbpt7tDrX0Alxn5Xh1GuhCoj
+	 LjUHTjLhG6dFnFkHVXX2jPiWIzeeGxc94JrlcbpLgY8OVM2v+SYK0Qn0AiGieDbys/
+	 44sAmcC0Zm/KlF59w0epCJ1yX4prfVCW/R9h3tOnNKJO1UKVxkzOROfO0lmmHmRWxL
+	 C2bvsFSZ/QPmWX/gmWc6ZFsW5xBhvnOxsYO/ipDPTHdxT87OeqUlON7Fu9CgrdSst1
+	 ijGyuJvjZfCaY7uPpGl6+QTyWdeZeEfHH0vw6cQDThxCKDXUrqU8hnUMOs1RwMwXbS
+	 0cFTbhJljhLiw==
+Date: Sat, 01 Nov 2025 22:31:19 +0000
+To: corbet@lwn.net
+From: Gabriele Ricciardi <gricciardi-coding@pm.me>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
+Subject: [PATCH] coding-style: fix verb typo
+Message-ID: <20251101223027.171874-1-gricciardi-coding@pm.me>
+Feedback-ID: 114464819:user:proton
+X-Pm-Message-ID: deac9e48a8ef2c74c4177133565786595b6dcd84
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 0/8] xfrm docs update
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>
-References: <20251101094744.46932-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251101094744.46932-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+In the Identation section there is a list of instructions in
+second-person. The offending line uses third-person singular.
 
+Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
+---
+ Documentation/process/coding-style.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 11/1/25 2:47 AM, Bagas Sanjaya wrote:
-> Hi,
-> 
-> Here are xfrm documentation patches. Patches [1-6/8] are formatting polishing;
-> [7/8] groups the docs and [8/8] adds MAINTAINERS entries for them.
-> 
-> Enjoy!
-> 
-> Changes since v1 [1]:
-> 
->   - Also polish xfrm_sync section headings (Randy)
->   - Apply review trailers (Randy)
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process=
+/coding-style.rst
+index d1a8e5465ed9..2969ca378dbb 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
+ =09if (condition)
+ =09=09do_this(), do_that();
+=20
+-Always uses braces for multiple statements:
++Always use braces for multiple statements:
+=20
+ .. code-block:: c
+=20
+--=20
+2.51.2
 
-Changes all look good. However, there is still one header that ends
-with ':'. Not sure it is worth fixing.
-
-XFRM Syscall
-  /proc/sys/net/core/xfrm_* Variables:
-
-> [1]: https://lore.kernel.org/lkml/20251029082615.39518-1-bagasdotme@gmail.com/
-> 
-> Bagas Sanjaya (8):
->   Documentation: xfrm_device: Wrap iproute2 snippets in literal code
->     block
->   Documentation: xfrm_device: Use numbered list for offloading steps
->   Documentation: xfrm_device: Separate hardware offload sublists
->   Documentation: xfrm_sync: Properly reindent list text
->   Documentation: xfrm_sync: Trim excess section heading characters
->   Documentation: xfrm_sync: Number the fifth section
->   net: Move XFRM documentation into its own subdirectory
->   MAINTAINERS: Add entry for XFRM documentation
-> 
->  Documentation/networking/index.rst            |  5 +-
->  Documentation/networking/xfrm/index.rst       | 13 +++
->  .../networking/{ => xfrm}/xfrm_device.rst     | 20 ++--
->  .../networking/{ => xfrm}/xfrm_proc.rst       |  0
->  .../networking/{ => xfrm}/xfrm_sync.rst       | 97 ++++++++++---------
->  .../networking/{ => xfrm}/xfrm_sysctl.rst     |  0
->  MAINTAINERS                                   |  1 +
->  7 files changed, 77 insertions(+), 59 deletions(-)
->  create mode 100644 Documentation/networking/xfrm/index.rst
->  rename Documentation/networking/{ => xfrm}/xfrm_device.rst (95%)
->  rename Documentation/networking/{ => xfrm}/xfrm_proc.rst (100%)
->  rename Documentation/networking/{ => xfrm}/xfrm_sync.rst (64%)
->  rename Documentation/networking/{ => xfrm}/xfrm_sysctl.rst (100%)
-> 
-> 
-> base-commit: 01cc760632b875c4ad0d8fec0b0c01896b8a36d4
-
--- 
-~Randy
 
