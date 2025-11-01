@@ -1,93 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AC532ED41
-	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 23:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E251E3DDE;
+	Sat,  1 Nov 2025 00:30:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761954618; cv=none; b=UladxviU6PTvbF2vq24ZhbdbTU0md0Ad1RAYUdpUH1AD+I5/NC4RfhtTPV0BO/A0yZwMmWiPBXXVMB2cjydjtdyi3KTmQ8bR11gcfJS/6p9X7JdM9WtehVXOunMJpX+dLrNyMXEkupVRzixAWJowyWmifXTQ4b5RdCynhv/15tQ=
+	t=1761957038; cv=none; b=Bmac+kVua2hPCs8PvHLkES8TqtNtmrUqg9iDEy9ewRHWJKQrVfJeUdT/4F+aQ0/cjWAGX3t/aCpFtL7pfjNHQTUgZXpfNwldzNLvU6+JpKi+0y2f798nWnLSLSovOTkJE3E5c4wwP9K6JadDjE/VI68TV65xeOB4KNrZUcQYw14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761954618; c=relaxed/simple;
-	bh=/2/ajoMcL0nJ8XaYHk8GNFJXrKDu+Fo31MBZehKtJwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qx3HuH7ddR3cCzgWdxzfzZnPmQIF256LwvdLlXvBXqghxmhAn2ZlkioOwsKNsJLVaLfEUUN0RxmC487yCcy89gKFUNzK3XhpTqR43eQUk+oMEyz9aZI4wPv1+Pmoi8dux9nKiTDQTNGvPLOhYU77tiV3oLZJvXT3aiV9HyuZQq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dl1xHIOE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761957038; c=relaxed/simple;
+	bh=7GxRr/6VX2s1e2bgaa3Z/Gs6604InPWmhx9Yd5I+Zzg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=ujQ1sTa9f+o17eKliAVDiGmaNHvlWCKoC4WyOoJZLly9g2hf4742vbKEeRR64Uuz4uYNS5hSBSmqxigxQQu3W3fpMMQ3sNQlKH0QDfUCaq7gIoEI95R5UEQupNordXTcIBHYc8Lg7X48eeRYNMT8JcMhPKm1m01IZq6owqtlEmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1OSPIN0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl1xHIOE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36890C19422
-	for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 23:50:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1OSPIN0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD12BC4CEFD;
+	Sat,  1 Nov 2025 00:30:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761954618;
-	bh=/2/ajoMcL0nJ8XaYHk8GNFJXrKDu+Fo31MBZehKtJwI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dl1xHIOEsevKwhp4hBvf7FnHJuHwUXF5tMIPL5VvdrN4G7KMwF/7tF791/hzsWb/d
-	 PhS11YZFfIXuxaX9as+Yjhfn0sKWN0qlpCUnOYxN3C+HXVPBe9cO17Eh3IX/8ELvuG
-	 hKdEA7KpgVd8d0xaE3G1Hf7f61Z/E2QBGPqVUfPtCauPIAUc5htcQXyHeQ+F1wbPcx
-	 Jxu2XWXLhAHXmaD+5kKvTPEvhPUyUTM6Y3ytzzTDSXy4MwyEtR2nmPUuRMviuZSXrr
-	 Buf6+sFXvuBHvESPq4iSyJKdcYeyV3JugAcAaBjOTaLO3cPgrQ/S6XyhTPkedZ2MAz
-	 1m7U+cKuzRlTQ==
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29555b384acso2126185ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 Oct 2025 16:50:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVKCVSnV5kp2ieZ1JNj2rtyMfB+rcSTwOKcnxqShEoz6SbjUB4mIOAFvHv0ALeGNpFp1UbJGsbT+vs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweaIGqRAmVqSMqr7OCvNGI2XUKkbFrxUY3QlAukrbfK6Fn3TJ/
-	M036hb1YzS8XUPPV51ppq1lGAG1rUdUUb2IIC4Y3+I36469B9yXvxBwv9sJRWNi2pfYngZfJxmb
-	S/soFGydUEzg05k7I8spj3uO/jLcEFyM=
-X-Google-Smtp-Source: AGHT+IF/IzsfRTe4tVhaCIKS8r/3VLdW2aUi6RokBL0QcMpp8EEpsvKRse2CEt0IwBh6tkQ5GvlWCyM3+iFSoVFVEEU=
-X-Received: by 2002:a17:903:22c6:b0:295:5132:1a99 with SMTP id
- d9443c01a7336-295513221b7mr16477645ad.44.1761954617741; Fri, 31 Oct 2025
- 16:50:17 -0700 (PDT)
+	s=k20201202; t=1761957037;
+	bh=7GxRr/6VX2s1e2bgaa3Z/Gs6604InPWmhx9Yd5I+Zzg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=k1OSPIN0kpJWhxzTjQzlxMGXVQv/6E/ixx8/3agXxB9qiwYRgfo2mo0+Mrtns0cWX
+	 TmXJ+xLuuqelTAiHbey2cc5zSUGjOhJj1QdHVvD8KYb5NHuUVr4uQcaLOV2RycNKBn
+	 5L2zKY02AH/kov8bZ9Y1BmKBIaMLvD4l/wUc467Dni+lkzs903hEIMfX8Kay6424Gv
+	 XpRSN96GyO2VLiZvlekOZxFdPWHVzttValPcR3o3BK+X7rKaD2dCgoc4vxIqtdAbvo
+	 tatDUcUFtPTAJ1GWf/eDdyP6462E3MmCR7p9pQYS3sawplYdawRnpLw9QeQpV2jYIT
+	 h5/q9LfYPHa0A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB1E63809A00;
+	Sat,  1 Nov 2025 00:30:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251023233656.661344-1-yanzhuhuang@linux.microsoft.com>
- <20251031101700.694964-1-yanzhuhuang@linux.microsoft.com> <20251031101700.694964-3-yanzhuhuang@linux.microsoft.com>
-In-Reply-To: <20251031101700.694964-3-yanzhuhuang@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Fri, 31 Oct 2025 16:50:10 -0700
-X-Gmail-Original-Message-ID: <CAKtyLkE_Jg3Sjw-HBKK1aZTwv2a6wM8BWpBZ5XK4aM-6e_rT5w@mail.gmail.com>
-X-Gm-Features: AWmQ_bkLeLDp6SONSBbYTeZsktbD5GFNx2gqFUxFKj5LrtAnbBK3sYoYIfVNLm0
-Message-ID: <CAKtyLkE_Jg3Sjw-HBKK1aZTwv2a6wM8BWpBZ5XK4aM-6e_rT5w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ipe: Update documentation for script enforcement
-To: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-Cc: wufan@kernel.org, paul@paul-moore.com, mic@digikod.net, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] Documentation: netconsole: Separate literal
+ code
+ blocks for full and short netcat command name versions
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176195701349.678724.16186608709028385228.git-patchwork-notify@kernel.org>
+Date: Sat, 01 Nov 2025 00:30:13 +0000
+References: <20251030075013.40418-1-bagasdotme@gmail.com>
+In-Reply-To: <20251030075013.40418-1-bagasdotme@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, leitao@debian.org, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, rdunlap@infradead.org
 
-On Fri, Oct 31, 2025 at 3:17=E2=80=AFAM Yanzhu Huang
-<yanzhuhuang@linux.microsoft.com> wrote:
->
-> This patch adds explanation of script enforcement mechanism in admin
-> guide documentation. Describes how IPE supports integrity enforcement
-> for indirectly executed scripts through the AT_EXECVE_CHECK flag, and
-> how this differs from kernel enforcement for compiled executables.
->
-> Signed-off-by: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-=
-guide/LSM/ipe.rst
-> index dc7088451f9d..3f205d7dd533 100644
-> --- a/Documentation/admin-guide/LSM/ipe.rst
-> +++ b/Documentation/admin-guide/LSM/ipe.rst
-> @@ -95,7 +95,20 @@ languages when these scripts are invoked by passing th=
-ese program files
->  to the interpreter. This is because the way interpreters execute these
->  files; the scripts themselves are not evaluated as executable code
->  through one of IPE's hooks, but they are merely text files that are read
-> -(as opposed to compiled executables) [#interpreters]_.
-> +(as opposed to compiled executables). However, with the introduction of =
-the
-> +``AT_EXECVE_CHECK`` flag (see `AT_EXECVE_CHECK <https://docs.kernel.org/=
-userspace-api/check_exec.html#at-execve-check>`__),
+Hello:
 
-Using url here might not be ideal, perhaps change it to
-:doc:`AT_EXECVE_CHECK </userspace-api/check_exec>`
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
--Fan
+On Thu, 30 Oct 2025 14:50:13 +0700 you wrote:
+> Both full and short (abbreviated) command name versions of netcat
+> example are combined in single literal code block due to 'or::'
+> paragraph being indented one more space than the preceding paragraph
+> (before the short version example).
+> 
+> Unindent it to separate the versions.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2] Documentation: netconsole: Separate literal code blocks for full and short netcat command name versions
+    https://git.kernel.org/netdev/net-next/c/a7aca10c0091
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
