@@ -1,136 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BB14086A;
-	Sat,  1 Nov 2025 09:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B773BA45
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761989965; cv=none; b=h9MnHuwbeQSesrCWQ9DM2rsMyGDM1Ok6gBqxrPuqc0IlIYX/LB+s5yFnd7fw8lt5zUh66JmIc5v6iEwdbaio+RzfKVHgk/GxMYo949xFbmyjm3CmJMvJAdKlmsAJY84kHZHpyZYkC51VJIw/pNLpBl+GPNZsJeKYJUkTRdtS0nI=
+	t=1761990482; cv=none; b=Nk2NsO57MhkFrP6Eon5Fej9bOfKbA3zw6n4ihmCD/Da7MPP2Tf23d9seGH6drd3htakC8FIJQOi9bku0SlteVnK3odyMZc31DXmJGuL5uHmKiou0HYIbb5ZqIsmbhL1/fD+wqAr8UJ56zOqpCI883RT7gNt93HSazyPkMUWyC3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761989965; c=relaxed/simple;
-	bh=jKoa9V9XhQiv7BaQFL5zndUrFnF2g5McGSxuYRyVXf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptq5PgaO6Qu7UptyAzLaB1JW5JhrfE/a8zo98unhMo+TgUE7uc7caCzktWBwGtta1ulHOcDqifK1l/FoKXbhTwCqs1LqOCXpuh8nnsq3+BNErkUtgr+c9mwvW62q/cv1G3pBrsmzIHxvEP86S58WGbywigBtEd4MncL8Uu3UFJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJ+WYDY+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761990482; c=relaxed/simple;
+	bh=WsMaVYjhEX5xzYsbLkIYbNUU/KAzYM8jBkJPwJqvx+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XgEOSc4+8l7i231exW2Okx16igbYO+Xbz6dqGFxhMVB9AkiV8Kfn8r8GaGOqmSR8XydFf9Aa4vhiVTZAnJ/ORQYT2TFpogKhAB2BbGe+y13mnTZ7Uz2xENLmSjRduJudTuwtzvQ5OJ+pCA1eKdGdfD/aQI8g+kKi4uKOuO1eans=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2KBum1A; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJ+WYDY+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5088C4CEF1;
-	Sat,  1 Nov 2025 09:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761989964;
-	bh=jKoa9V9XhQiv7BaQFL5zndUrFnF2g5McGSxuYRyVXf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cJ+WYDY+iJ5sz8QoBX/tgU9hS9MUKyxppf6Z2c2jctyOP9E8oK4uNRpvXJ0N7Vtn8
-	 +1BC2YnPbSVKmc/bH7MUpPoZNwya+izl1xNabQT+1XlwS1BQ4mOQge1ALFNjsbnpmH
-	 8dbbR8VGuC2diAqgEA5+pZ7+auNqQQcyoqaky5EjcHqjT6Zh6x5c48FIa6MZAHcUO2
-	 apa+2zlnhJh/yi7yQPnsElQoV2X21wJKxz+CMPsU3MT27ZRV+jsk8w9hUJaFL+SyDM
-	 lvJSrGW+4VcIuBmjfZP5z9FNQIsXfcO66WMXFChCMGvguxkPx5evJAwXAwFgmlWDUz
-	 rGvhbOdFX0KoA==
-Date: Sat, 1 Nov 2025 11:39:02 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: "Roy, Patrick" <roypat@amazon.co.uk>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"david@redhat.com" <david@redhat.com>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>,
-	"surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>,
-	"song@kernel.org" <song@kernel.org>,
-	"jolsa@kernel.org" <jolsa@kernel.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>,
-	"eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"Cali, Marco" <xmarcalx@amazon.co.uk>,
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>,
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
-	"tabba@google.com" <tabba@google.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from
- direct map
-Message-ID: <aQXVNuBwEIRBtOc0@kernel.org>
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk>
- <20250924152214.7292-2-roypat@amazon.co.uk>
- <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2KBum1A"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b67ae7e76abso2248918a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761990480; x=1762595280; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ys+iXshBYZnizwFhgQPeQbnnGsPPwsLlRfA8FiXKhyI=;
+        b=i2KBum1A1oetCqXn/NH0NnP0kM1of8OivYXErx5FS7wf5Ny6rLV6nSuuL2EeZ39B8W
+         f4Y9NFPAAcVYr6FMaeebliczS9IxyZHoU+XPuceX/CG8SeVQNII4jeHZ3ydiLw1dl2UO
+         yfxMIEkpjrzfmZ5ddQHbkR+VPGJGnsF46AesdYLNDBRustXeFjRqPJGyhDHuOw/DcVcJ
+         hzwYzmzqD8LIdbbiLAV1PQtYA5PaW7WvfQgBlyjUpLOQb4smhQEcS1nMx5tGS/ql5LtM
+         EcLwk0qLrAamMbgUOxo7lvOPf/VZfMbaWo8+VaarpW0ayar61mFa6EiLXH/OzQgdIe9M
+         qtBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761990480; x=1762595280;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ys+iXshBYZnizwFhgQPeQbnnGsPPwsLlRfA8FiXKhyI=;
+        b=h7J38mBPp9P2X06C2q6Z708/z1Fy9azjCCBdU911D4Oeh6IN3B+flOkebdEuQcRj0O
+         PQLZgAjMm1gXs3N69zCZaoOUH+U3co4bQVDkuGmtYPGw0hdjOaGWkOAw45eO5D1UQigX
+         Z6j9W5GAZfApgAEkhyxklbeWTG4HdFNG4Lq3KRuNVB1ReWvds9umKjk2s1b7b5Kkdu/8
+         cauIQgdZApNjAFP/sJ9kQrLZGag/NMmNi8hsI5J5AGi4/uPygXVoOfPsGvCZZcmqnxLi
+         60xdb7U/KhMUbPj5rVuKIAdMB0BgphX/x/dgMdzJelmFNfcUdpyKivES0a3lSQ8FRftL
+         ankQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyS8qWpDQnRaWeaZxYS3sK/TiEXKkNJIK9+SibT6ctIsM79SVo+3JblBZnPyOnlyuiwo4U1MZOE1s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPw+nApM+vSTpp4N8IRfSCL5cbAD+vX8VYIZcpCHdeJ4pcpqK8
+	J7aDerWkyIaqoohN7ocskc9ZKO5ICkCN0CJgxLYNCLDom039UGR94BEGUMRlfngsvCY=
+X-Gm-Gg: ASbGnctJo0yv31GtjpRrSEULi5v+BBgAL/OBwrXtx6A8Bhx39dj4JnrYylLg69zYRLB
+	otsr6BH8RNA/95FyatvsTlR9b1s0kwzkBF3n9zAL2hb+nMvGyU3bbjfX9bih9p8WOvaTu2TDdHO
+	XvarEr95HdH93F8nBndM8quZUZFTsrUg7WwKdkez5YlVh6U3yfEpwGTe1LJQ83t35G8rtAb2qrr
+	YoEHhjMD1ivnA3h+Mr9GcaWdRGBnIdanV55vXKo7HeJwv+Paz1Qod4J+sUCw9sZhYna11tCTyXq
+	tvbSkJjO4eigBPzxyXCKXjr7TEYvP3ikoYt2Pd1T/JcdUYpq60v/eXvYB7ivYRhRQsid1Le/ps7
+	q1Sppb4F+OeZ3ybQKl69LiOFpmKBzA721DkKaOhSQ7tK0ho6Qcsu9UaMOrI59/6hyvrQ8/tvODV
+	da
+X-Google-Smtp-Source: AGHT+IEuf2OXCpVvj5mt9JoXkTV63btzK3GM762PmBpPq77R+yTBCtQ7CzPQQFc+4UmjQ7/sOnLiHQ==
+X-Received: by 2002:a17:902:e5d2:b0:246:e1b6:f9b0 with SMTP id d9443c01a7336-2951a38af0amr90955605ad.18.1761990480237;
+        Sat, 01 Nov 2025 02:48:00 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-295268d10e9sm50868325ad.50.2025.11.01.02.47.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Nov 2025 02:47:59 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 64F3D4209E90; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH net-next v2 1/8] Documentation: xfrm_device: Wrap iproute2 snippets in literal code block
+Date: Sat,  1 Nov 2025 16:47:37 +0700
+Message-ID: <20251101094744.46932-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251101094744.46932-1-bagasdotme@gmail.com>
+References: <20251101094744.46932-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1513; i=bagasdotme@gmail.com; h=from:subject; bh=WsMaVYjhEX5xzYsbLkIYbNUU/KAzYM8jBkJPwJqvx+Y=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms13Kblm6rb3ryI+T9Q+WPFs0pi1svRc3x2Oq64MTPF 0zlH6+d6ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEpPMY/kr62J815jXz/FLd 2HP0xr50vrL37DMXPGjLnBejwvieo5KR4e/D+bXTT/7i4HW9dY7Tc9VR2b5lk1fuPj6N0SA9zPy 2OScA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 31, 2025 at 05:30:12PM +0000, Brendan Jackman wrote:
-> On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index 1d0585616aa3..73a15cade54a 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-> >  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
-> >  #endif
-> >  
-> > +#ifdef CONFIG_KVM_GUEST_MEMFD
-> > +#ifndef kvm_arch_gmem_supports_no_direct_map
-> > +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
-> > +#endif
-> > +#endif /* CONFIG_KVM_GUEST_MEMFD */
-> 
-> The test robot seems happy so I think I'm probably mistaken here, but
-> AFAICS can_set_direct_map only exists when ARCH_HAS_SET_DIRECT_MAP,
-> which powerpc doesn't set.
+iproute2 snippets (ip x) are shown in long-running definition lists
+instead. Format them as literal code blocks that do the semantic job
+better.
 
-We have stubs returning 0 for architectures that don't have
-ARCH_HAS_SET_DIRECT_MAP.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/networking/xfrm_device.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm_device.rst
+index 122204da0fff69..7a13075b5bf06a 100644
+--- a/Documentation/networking/xfrm_device.rst
++++ b/Documentation/networking/xfrm_device.rst
+@@ -34,7 +34,7 @@ Right now, there are two types of hardware offload that kernel supports.
+ Userland access to the offload is typically through a system such as
+ libreswan or KAME/raccoon, but the iproute2 'ip xfrm' command set can
+ be handy when experimenting.  An example command might look something
+-like this for crypto offload:
++like this for crypto offload::
  
-> If this is indeed an issue I think it can be fixed by just defining
-> can_set_direct_map() to false when !ARCH_HAS_SET_DIRECT_MAP.
-
+   ip x s add proto esp dst 14.0.0.70 src 14.0.0.52 spi 0x07 mode transport \
+      reqid 0x07 replay-window 32 \
+@@ -42,7 +42,7 @@ like this for crypto offload:
+      sel src 14.0.0.52/24 dst 14.0.0.70/24 proto tcp \
+      offload dev eth4 dir in
+ 
+-and for packet offload
++and for packet offload::
+ 
+   ip x s add proto esp dst 14.0.0.70 src 14.0.0.52 spi 0x07 mode transport \
+      reqid 0x07 replay-window 32 \
 -- 
-Sincerely yours,
-Mike.
+An old man doll... just what I always wanted! - Clara
+
