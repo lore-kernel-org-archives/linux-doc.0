@@ -1,64 +1,66 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574472D3A72
-	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE7C2D5408
+	for <linux-doc@vger.kernel.org>; Sat,  1 Nov 2025 09:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761990488; cv=none; b=Z/SWZnwUNUti2G80CiyK6EwZ+ZAt+NF9I3ykWDsG2TaO2RBERkzzOuL5wQ/xBgNgFaHjYK+aWg1jUbYRifxvS9P/laXIyUXJ7G8FOIp0Neypx/lB1flg7bbTXPDqw1IlVaYswYQ5IOx9RaWQvJuJ2Y7TciIjwXS21j/NkT7J/HY=
+	t=1761990489; cv=none; b=OSahZuvrcyfUZoEevM9p4v7kZk1GlL4H4esCoX1GjMQpz8PgCSE/8FctL+rbkwKsvT8LMIMA3TeVTmbsbP2woVgJc0M/SRWRR8O983QgEDPmCwj5L/JVYK4htAWPX098tcq6fmdUjgd0QG6Gs92Cit50dMzswdT/JnoVzuOY3eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761990488; c=relaxed/simple;
-	bh=3OG2wiKH22RCfvC+iceoRBKIWpDNYuCgxZ/0fv2vRj4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qj8MNe+sd06a87KCT/r+vn+/Rl0r5eofvsKwRLQN2ACucGC1OchyFwCH0/doCve6n3BF4eNcaWipbGO3GuwluCTKHkoRKnxXr3LMO/dK1bafNN1R75LRyKf9WGnRS35ZQIz7DYNjUuTTRBoae5PxmRD1cBG+o7lJbzFOtve3hrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nLcbzdl9; arc=none smtp.client-ip=209.85.210.170
+	s=arc-20240116; t=1761990489; c=relaxed/simple;
+	bh=pOYQYpe/p2QLe1BjNGnDKFKMgBDeR7vUGryegGJSYW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XK6TzM3m7Dz7SDfDThoZmkmEZEhMEgyTRLaXPCl9e2L9jtqunvtFVmKGtC781tiveZ0M8eaq5bCcd0UkaOwPkP5YlYz7KRJ8xDwCHzyRL0paCsBpqRq24gNaOa6oNFMepmdEco7JlFGKohv23lKF9+imz6YWOsBXEHUTPfDWVRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EthWXMUe; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nLcbzdl9"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7a27bf4fbcbso3062433b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EthWXMUe"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b67ae7e76abso2248941a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 01 Nov 2025 02:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761990483; x=1762595283; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WH5O/8nAx5rVFTEi7/lXcZZ45r+c3Q9ZyuJj8snlwgs=;
-        b=nLcbzdl9dR0X3krcX6dwvdW2QSYs+p3GtfBlu3l2dEIINpLVz700FoeUkEvGq/kuiM
-         mk6ObxRygf8sG5V1QlH6k4Mcyvz1+hqXbgoHbLL4iSUDAsJBd3NezgbCsDNRfCO6vUam
-         1gHzIn8UzOm80YSQ2UudACKO0iPJL0qltaCF35gEgjPA66GkaAwnF090QE3HHc4Owide
-         rhNUk0bgSFS4z5qXDpLw4pfbqO8zWLbrTY+tZQcMttGe/jyLRHd6wHn35gMD7BsGnaXY
-         hx9lfmc3PXqDRYEMexP11+x7I75c8HWOUAxYihyjjhEjoH65atsT2Ncpb+Gyhn8a9zmZ
-         bhjA==
+        d=gmail.com; s=20230601; t=1761990486; x=1762595286; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=itKwJGhZdbxlkpaaw8hh/vRlQCwh4eBKAzIwk/pIlYA=;
+        b=EthWXMUeY9lkzfb6iFId1nEUr9wmyk7ZbkLOhThmn4nuEKSHGZjVRH9+4iOuZzEoTa
+         DSAZBTzBAdFh2gdzFoD11zyLDsC86DbpSNYnX/mvD9926cLCDYmsbVJLtuVjFKdye8Or
+         Cvazgtkl5+SIovxrLStWPxp8gu31hppEjVj8j+UHh9n8qr9mEotsrMBuBw4qhB0n9xPy
+         nLgtVdq4y928Bul13GZjJV6Am4pEv2WLg0fpg/03781qeTt/QjJcH5PS+rKCy7B7Uj0I
+         Za2RVaX2LRnvQ30pUJnxG16nTC7iYSA/017tgBXAvS+z5wNqlVK2AE3jYmEAzcgsxZmq
+         pYUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761990483; x=1762595283;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WH5O/8nAx5rVFTEi7/lXcZZ45r+c3Q9ZyuJj8snlwgs=;
-        b=pQnjnLGR4D0AK0wCoTp9YEszLFRZ4LkcmM6yAb04hFzafv7CkVHCG8LlYl1mpbYCyG
-         K97piX3+VExuni6BHWDadalssED7CzoaoSKPhafMpJzXyb0wKm4WYuxKZfws6Hb7OKE6
-         MoZW6QUxURLogmvraxOiAvp1wWlU7WKjyvOoTq0UHHBHTuIpiTA4vYQCBZTBfo0i42jn
-         LEwT9A5TZu2VKyvAWatjpdpFxhwrUF+bBrr6FDwXhy22IsFJ6kuSULEnOMuC/gDi+gV1
-         8su1EEm8Mwe+DUXTaeVNCnU6UUMWPBdpYo4XGagNtPt3w0rhWtTkIsPy2yrMIpLlhIWb
-         Yylg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLifs2Zi5+C6NYiFBG3gccqqdM8FnYeos6EYkuIJFyLsx884MAfCgwGyhjXGcNoxvKp5n7oQKzGcs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhfKsOVdQiPIJ6Be3KNLdWKqAwv4x0OvqOBnivqpgLLvkWsfSk
-	eG+w8HE1fiH8DN540246qnWSu9pkoofkORYznXyl/ixlL4SXF4eH2IDR
-X-Gm-Gg: ASbGncsKpKD9ICIakR5CrWYYq45u7E1AyX2fmZNq6uYdK0FNbXLxURzKGj4U98yQ0F3
-	7d/HGViRVK/s44lAHXjljxlBe3qSyNTQ1Cb3fJDz6gbtlhCsUXtVo1nRAk+YAbvcJhelxZvdAN0
-	pPCpP+Lq6c/e1Q5gjutV+kpaU68Yv0P+e0hCLVFCjQl8Pc4a/mG+h7HB1jLV+NRkVQxM7+GjF9V
-	w9Q5Nh8BuNP+sLnJMqr+gO11E1bs9NmYXbMvBJ3fLzcKBT50hB23QekCG+Ar7piXczv5uU0CLoL
-	c0TOWbiamIBgwct4q5X+3SIRXnzqbcKRuqrj17Hqa7eez7g/ROhd/dGO9v+SeK+HJ874XJ9B4zI
-	RxkOcAR8/TVNVqB0ojbigr2KurPPd+Wl1HRZd3kIGbWn7fg79cKr1BfSLguDUWshIaZdcFH2szz
-	7U
-X-Google-Smtp-Source: AGHT+IFkkEhMNFBtz799ZVmYFsXMsu0ozafr7JzI6vs8a+fPrI8GNOdanKuJbIbpaRMf1whMNOYWqw==
-X-Received: by 2002:aa7:8883:0:b0:7a2:70f5:c83f with SMTP id d2e1a72fcca58-7a77747a497mr7159153b3a.10.1761990483399;
-        Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761990486; x=1762595286;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=itKwJGhZdbxlkpaaw8hh/vRlQCwh4eBKAzIwk/pIlYA=;
+        b=oECvFXtBljW1QOvHl0f81EnEPQPsZwHS8B+WAr0A0Z7SXPx2yhlppF2E+M0YVxjRJ4
+         Jr3SNwMCxDmGZW9T04D/rMZeJeuTAoUxPJpc+an2E9KlPUcWKTJWfcZbEPx0SL2ajaox
+         7JNh1KoMV0L8tANnuWVgIaUxO/mQt/Q+gesosDp7edoPTmMr/F2XYQA4RwasT/3I37VM
+         ++NMrYVFl2d3OKv9UuIdTcG9Wh4x4h8xQm8SdTMFB30N0OJ2RPrGDHd2BGUs9NnXb8YF
+         nQlKO/v4TqOS9eaEiPLHR/Wm1TphdzEcGgOr0oHfDJuaRl1WcsL3L9cjVYoqqvvBBoD1
+         iv+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXNsLYMU4azeDX+nuvlx3ylfyjIyMd/LagvFlzl7dIatDBo2t1xgOLpxHoHoGYUePFxUsDRD7NoMfU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBce8Rjsge00ZAGoMgPi7SvVFaD9S2ZXKfcCihwZLRbUoGcs0h
+	FnsOCV4erVDcMJbyLO7bnHVQTo34Z8JrDzU6fOqbGNpXdBBtKgU1g8Kg
+X-Gm-Gg: ASbGnctUt7j4wQXb30iFXROw38fFmCGNVVTf9RZc00WaY0uK6WkSIGQpPg0egkLKYKt
+	UGod66rZXEgK1FqHxAoeAXPLGCh0rbTZ/+j7gXtr11PEmQTU2ftm8NlpVC14SXyT60JXzJ1SWXL
+	7vdA/BPIflA88OEzwQWtyoBu28aZIQkvMaJisEx7Sk0oyCR68osL3I9P73c59sGO9CMqmKfpnyp
+	sXsmXrP1kdH4934nmvzcUOzHd+cegQPCHVKgSpnixyn6nFd2iO/YwEvsqzgfPVakPpOTM3G8I+0
+	qAVXJUFFBCQeAUjkR9G90tcNGdXzD1JJxOxs7Akk46SFCx+jvMJv84FNt+rcAoeJ5CHErKr9eux
+	Jq1MlSbvyXHC8ZbFhrfRyUwpPvVf4EsJeRngYvo/bXc8np390iF2aMTqd49X6hRmvo+LLZc0b63
+	Qn
+X-Google-Smtp-Source: AGHT+IGmSKAUBfWmJQyRevQMSinNhEHGk8mmuhO/TF63IeIvW13vO2DcRHYCG0bn6xcNqmxzXv7kqg==
+X-Received: by 2002:a17:902:e84f:b0:295:507c:4b80 with SMTP id d9443c01a7336-295507c4c3cmr31484355ad.61.1761990485598;
+        Sat, 01 Nov 2025 02:48:05 -0700 (PDT)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7d8d72733sm4804521b3a.21.2025.11.01.02.47.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29554cba950sm21531135ad.97.2025.11.01.02.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 02:48:00 -0700 (PDT)
+        Sat, 01 Nov 2025 02:48:03 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 5228C4209E50; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
+	id C5F6541FA3A7; Sat, 01 Nov 2025 16:47:56 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -71,62 +73,70 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Steffen Klassert <steffen.klassert@secunet.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next v2 0/8] xfrm docs update
-Date: Sat,  1 Nov 2025 16:47:36 +0700
-Message-ID: <20251101094744.46932-1-bagasdotme@gmail.com>
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH net-next v2 5/8] Documentation: xfrm_sync: Trim excess section heading characters
+Date: Sat,  1 Nov 2025 16:47:41 +0700
+Message-ID: <20251101094744.46932-6-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251101094744.46932-1-bagasdotme@gmail.com>
+References: <20251101094744.46932-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1792; i=bagasdotme@gmail.com; h=from:subject; bh=3OG2wiKH22RCfvC+iceoRBKIWpDNYuCgxZ/0fv2vRj4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms1zJm651g7L3+4YxH5x0enzdfmeoZHySvdDr6TVHpz yZ3ETmXjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyk8jQjw9QJLtFbJZYwFVpE udzYf1lR8dq8NYLW9cc3buHV4OUT9mBkuKZv0dzqV/Ji39eN699+4thtcO6Q6M1FJ1+U6PzQnLj ajBEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1815; i=bagasdotme@gmail.com; h=from:subject; bh=pOYQYpe/p2QLe1BjNGnDKFKMgBDeR7vUGryegGJSYW4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJms13KNlx4KFSxULsk3LP3JtY35sWGfXpg2k+SFYP+X2 3yT70V2lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCKibowMZ0r6ZqdFrjr9f4q2 2kWJGVwLvtyy2M357c0KznVcGYJSGxgZbh9tPhniE+L+LnVzSdOyM2f2XuKyycic2vwn+d9mc6M L7AA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The first section "Message Structure" has excess underline, while the
+second and third one ("TLVS reflect the different parameters" and
+"Default configurations for the parameters") have trailing colon. Trim
+them.
 
-Here are xfrm documentation patches. Patches [1-6/8] are formatting polishing;
-[7/8] groups the docs and [8/8] adds MAINTAINERS entries for them.
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/networking/xfrm_sync.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Enjoy!
-
-Changes since v1 [1]:
-
-  - Also polish xfrm_sync section headings (Randy)
-  - Apply review trailers (Randy)
-
-[1]: https://lore.kernel.org/lkml/20251029082615.39518-1-bagasdotme@gmail.com/
-
-Bagas Sanjaya (8):
-  Documentation: xfrm_device: Wrap iproute2 snippets in literal code
-    block
-  Documentation: xfrm_device: Use numbered list for offloading steps
-  Documentation: xfrm_device: Separate hardware offload sublists
-  Documentation: xfrm_sync: Properly reindent list text
-  Documentation: xfrm_sync: Trim excess section heading characters
-  Documentation: xfrm_sync: Number the fifth section
-  net: Move XFRM documentation into its own subdirectory
-  MAINTAINERS: Add entry for XFRM documentation
-
- Documentation/networking/index.rst            |  5 +-
- Documentation/networking/xfrm/index.rst       | 13 +++
- .../networking/{ => xfrm}/xfrm_device.rst     | 20 ++--
- .../networking/{ => xfrm}/xfrm_proc.rst       |  0
- .../networking/{ => xfrm}/xfrm_sync.rst       | 97 ++++++++++---------
- .../networking/{ => xfrm}/xfrm_sysctl.rst     |  0
- MAINTAINERS                                   |  1 +
- 7 files changed, 77 insertions(+), 59 deletions(-)
- create mode 100644 Documentation/networking/xfrm/index.rst
- rename Documentation/networking/{ => xfrm}/xfrm_device.rst (95%)
- rename Documentation/networking/{ => xfrm}/xfrm_proc.rst (100%)
- rename Documentation/networking/{ => xfrm}/xfrm_sync.rst (64%)
- rename Documentation/networking/{ => xfrm}/xfrm_sysctl.rst (100%)
-
-
-base-commit: 01cc760632b875c4ad0d8fec0b0c01896b8a36d4
+diff --git a/Documentation/networking/xfrm_sync.rst b/Documentation/networking/xfrm_sync.rst
+index c811c3edfa571a..de4da4707037ea 100644
+--- a/Documentation/networking/xfrm_sync.rst
++++ b/Documentation/networking/xfrm_sync.rst
+@@ -36,7 +36,7 @@ is not driven by packet arrival.
+ - the replay sequence for both inbound and outbound
+ 
+ 1) Message Structure
+-----------------------
++--------------------
+ 
+ nlmsghdr:aevent_id:optional-TLVs.
+ 
+@@ -83,8 +83,8 @@ when going from kernel to user space)
+ A program needs to subscribe to multicast group XFRMNLGRP_AEVENTS
+ to get notified of these events.
+ 
+-2) TLVS reflect the different parameters:
+------------------------------------------
++2) TLVS reflect the different parameters
++----------------------------------------
+ 
+ a) byte value (XFRMA_LTIME_VAL)
+ 
+@@ -106,8 +106,8 @@ d) expiry timer (XFRMA_ETIMER_THRESH)
+    This is a timer value in milliseconds which is used as the nagle
+    value to rate limit the events.
+ 
+-3) Default configurations for the parameters:
+----------------------------------------------
++3) Default configurations for the parameters
++--------------------------------------------
+ 
+ By default these events should be turned off unless there is
+ at least one listener registered to listen to the multicast
 -- 
 An old man doll... just what I always wanted! - Clara
 
