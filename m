@@ -1,50 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8FB1F5F6;
-	Sun,  2 Nov 2025 12:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A7E78F26;
+	Sun,  2 Nov 2025 15:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762087055; cv=none; b=nTGahLPJ9xqw63NAkaii0fFlRJjTQqg7hCLNRYbGrJjVrDy8ntQkz2tgkdGie6kyiwC/Vt8Z0Kov4YxoVRlX2INbyfT6JHTIcE1nABddlETXj2K50dk/+wurR0K9gpcNS0Plc/8tO/2XM5wR1D5kIfImp8+STNdlkss342EwshU=
+	t=1762095710; cv=none; b=K0xjKN1rQALY4tyJAJZZXA5OAvj7uAQdNT8iLPEuE5KaieuoMPcxvMMXl+6QINm1Ba3wUhIOm7CV8N1YYWeCxv6xXPFBL6r+782DXRhSKT13ffZHgqE4n1p/T7TsP284c1YcA620Db8HrjSk5MCNK57sQIcJt9rilNDl8llE5yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762087055; c=relaxed/simple;
-	bh=rP3Ut9VUZbK8NEAr9WzP7R+2DKbuOFd36IZ2axgA4CE=;
+	s=arc-20240116; t=1762095710; c=relaxed/simple;
+	bh=ygOZeXNo5dmpIzzDntq9AED2T39Ukb8mSYN4YQ/d+2M=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SyLUKiRGLw2TJvl90veQ2NGsGFH/Xih2jxIrxxzjX5KTse2bOzW00CgxacnH/r7t3lJiHEhlATrZzAPDS3xAlsh+/PYWfxin/tTxK/x3WvkM6mYoU4R2SYkR873QNdEMvATbHWMcfMTdMbp5NdheIrXoQU2J6DzIZuSnbT6m5hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IGDrS39r; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Tp089Gq6e2mZIQxAGANRuJIrAB1+aQ1uvqd28cOlUFAy8XX1YpyDyEgbhV21QjkFZIuStxPEB9wMhg9MoD7+tgyKx1CWvO1kOkCDE7uLkPaUPoLXA7sTYomyHFhAyfxM07rP9ADf8eND1R32m6K09PdtzDxlae2tEclFTagUVWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=TDBBXL62; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1LVX56yf; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IGDrS39r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E105C4CEF7;
-	Sun,  2 Nov 2025 12:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762087054;
-	bh=rP3Ut9VUZbK8NEAr9WzP7R+2DKbuOFd36IZ2axgA4CE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IGDrS39rRKOdQS534H9pfRnMLOKskZ6BlsEsJpHb9NFfxFsdEDsmq6jVaBG6Gk1dT
-	 Kflluz9IKa6Xhf7bM1cWupwOG1FWja6h7QwJjcfHfArxEoeUGAFraUkQnBeccLZoSJ
-	 48ci5fxBknFPxSxJ3y41a2ruPWAfB4r/iITlc6JpW+mf/KFy8VXjVebdkFSp8g7V/G
-	 xYZDqzqxCW5bX8YOx3iuJkhb08AE8qyOab9D2T6Ish9LfKKHSeUgiN8xVTSleNxcfe
-	 f3+fKispkOb1kD3neKelQhuM4oVXEI/dgpSQgbFHMqDV/7zfp+hRX6M9gt/R+ISvmv
-	 Vv+aUx7P6e6gg==
-Date: Sun, 2 Nov 2025 12:37:27 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
- Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/7] docs: iio: New docs for ad4062 driver
-Message-ID: <20251102123727.0aa4c031@jic23-huawei>
-In-Reply-To: <skcjf6tdo7bktdx4g2bm42gkzd5vdtckxsxzgu7s6dwmiwfdpw@hxhol4g4adcs>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
-	<20251013-staging-ad4062-v1-2-0f8ce7fef50c@analog.com>
-	<20251018162113.002d92f7@jic23-huawei>
-	<skcjf6tdo7bktdx4g2bm42gkzd5vdtckxsxzgu7s6dwmiwfdpw@hxhol4g4adcs>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="TDBBXL62";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1LVX56yf"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5A52EEC00FA;
+	Sun,  2 Nov 2025 10:01:46 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Sun, 02 Nov 2025 10:01:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762095706;
+	 x=1762182106; bh=0d6OEFnYJ2V3XAULn/TZmZlWcybfhiFmQJo6mbyVvXM=; b=
+	TDBBXL627U62EbSvE9rFypOnDsF59crhLTr4X2QKEvliSdqCxPjUyGG2gU1rfyy6
+	KFAxwA1gTIMopje4193uHXPRW+ufV9dJZdKqHBRfwc/N4IBiaOR98b4eAXEH0znN
+	TGEm6RPZFvDOWz2t1+XG+tu8SlR7C3lIquO0xndqYyPCLJ47ZApUOwrZ+fL1v05Y
+	UO6kQ6QwKw94v0SpG2cVHhgdcGhgAbGr8yyVtoD/NNB4QwWq9iuTPgKYtfwDhnMp
+	zc4DNh9MkV7/Al+RIrs1DZduD58Ug0u+UsN5KgH6wUZEtxvKc9YwIHTm4hVd6tSs
+	0CyeiKlKqOJyqaNciuiXOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762095706; x=
+	1762182106; bh=0d6OEFnYJ2V3XAULn/TZmZlWcybfhiFmQJo6mbyVvXM=; b=1
+	LVX56yfNDSpIjbdRvoJO/pVaXhalPLO9zDUW46RhJ+NIFwjTzsxKz0U4lLijuDiE
+	/J3coBRe5aiRdAgOPuppxezWF1Kn0vGtaRJ50DbviHDspFXvN4/CsZxDPYFdrTQE
+	rQTnMDPaU17wxuuSeRSLCIFoTsQyLhm25SgJgE5MCtd6olWZ3wnfxKjXIlHhXu8w
+	AAt1cjfsRLEfHZrrZDRyeCx3bzQMm2DgNgFc3x8D1rq3/SGQUf0gVyKY6ZUAHtAk
+	GMrN0tWn0OhqQOH1gi2ycbisP7rKgjkeGTT6oLypSJHXOoGRXO+1vl0LQkXCAw2d
+	qLCgYO+qQmzuvtppNv+Cw==
+X-ME-Sender: <xms:V3IHacICu8ulgNi7o_gOHA7n7OIXpJl_EkrwhFpTuoWMNbSElXRs6g>
+    <xme:V3IHaS_eEi56epCAR71Ow3AZO5YiCeI-oW6OtskAXSaFLFE3lJ3Znpd7T6hKXX39l
+    jB_EqBTEDIfpaRz-GdwttQNDa_LzOaDIwPhNt2bHOF7kJ6YFJwVHA>
+X-ME-Received: <xmr:V3IHaVpqiAR7FIyLA4s1kUh8xeOXyBaoUionVfff_VNmwkaMImllMw6SCTs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeehheeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
+    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+    htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
+    hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeefgedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
+    seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
+    hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
+    ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
+    ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
+X-ME-Proxy: <xmx:V3IHacPvm6yYAGFkJOoCwJMSLlRkDxe2mP1wwPGKFs_yQdMVw0EBhA>
+    <xmx:V3IHaXrLQtlZj7fWGRlOfeH0EMNmKki9CCwP4XF51mbUGiN7MdHcbQ>
+    <xmx:V3IHaTinpkeptwnvtlt4p2ISS1nkQs5QM83RIoLIlJ1Tl7W2DA4-lA>
+    <xmx:V3IHaY2_kf5P8v7ucB2Tj-fdZ8lmkzXzEpiEchjKzUpwizU-U37EHw>
+    <xmx:WnIHaYlbGcSJfLIFOTNM9Y5mg_T2bF-aTHDN-65hDt2_atGb1QiAIi8U>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Nov 2025 10:01:41 -0500 (EST)
+Date: Sun, 2 Nov 2025 08:01:37 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v6 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251102080137.209aa567@shazbot.org>
+In-Reply-To: <20251102-dmabuf-vfio-v6-10-d773cff0db9f@nvidia.com>
+References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+	<20251102-dmabuf-vfio-v6-10-d773cff0db9f@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,299 +113,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 28 Oct 2025 16:31:46 +0100
-Jorge Marques <gastmaier@gmail.com> wrote:
+On Sun,  2 Nov 2025 10:00:58 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
+> @@ -2391,6 +2403,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
+>  				      struct iommufd_ctx *iommufd_ctx)
+>  {
+>  	struct vfio_pci_core_device *vdev;
+> +	bool restore_revoke = false;
+>  	struct pci_dev *pdev;
+>  	int ret;
+>  
+> @@ -2459,6 +2472,8 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
+>  			break;
+>  		}
+>  
+> +		vfio_pci_dma_buf_move(vdev, true);
+> +		restore_revoke = true;
+>  		vfio_pci_zap_bars(vdev);
+>  	}
+>  
+> @@ -2486,6 +2501,12 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
+>  			       struct vfio_pci_core_device, vdev.dev_set_list);
+>  
+>  err_undo:
+> +	if (restore_revoke) {
+> +		list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_list)
+> +			if (__vfio_pci_memory_enabled(vdev))
+> +				vfio_pci_dma_buf_move(vdev, false);
+> +	}
+> +
+>  	list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
+>  					 vdev.dev_set_list)
 
-> On Sat, Oct 18, 2025 at 04:21:13PM +0100, Jonathan Cameron wrote:
-> > On Mon, 13 Oct 2025 09:28:00 +0200
-> > Jorge Marques <jorge.marques@analog.com> wrote:
-> >   
-> > > This adds a new page to document how to use the ad4062 ADC driver.
-> > > 
-> > > Signed-off-by: Jorge Marques <jorge.marques@analog.com>  
-> > Hi Jorge,
-> > 
-> > Various comments inline.
-> > 
-> > Thanks,
-> > 
-> > Jonathan
-> >   
-> 
-> Hi Jonathan,
-> 
-> > > ---
-> > >  Documentation/iio/ad4062.rst | 89 ++++++++++++++++++++++++++++++++++++++++++++
-> > >  MAINTAINERS                  |  1 +
-> > >  2 files changed, 90 insertions(+)
-> > > 
-> > > diff --git a/Documentation/iio/ad4062.rst b/Documentation/iio/ad4062.rst
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..b486d7fe1916d2963c94581be3696cf58d51ca48
-> > > --- /dev/null
-> > > +++ b/Documentation/iio/ad4062.rst
-> > > @@ -0,0 +1,89 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0-only
-> > > +
-> > > +=============
-> > > +AD4062 driver
-> > > +=============
-> > > +
-> > > +ADC driver for Analog Devices Inc. AD4060/AD4062 devices. The module name is
-> > > +``ad4062``.
-> > > +
-> > > +Supported devices
-> > > +=================
-> > > +
-> > > +The following chips are supported by this driver:
-> > > +
-> > > +* `AD4060 <https://www.analog.com/AD4060>`_
-> > > +* `AD4062 <https://www.analog.com/AD4062>`_
-> > > +
-> > > +Wiring modes
-> > > +============
-> > > +
-> > > +The ADC is interfaced through an I3C bus, and contains two programmable GPIOs.  
-> > This raises a question on whether it makes sense for the binding to support providing
-> > gpios from the start (as alternative to interrupts).  Seems like the two pins
-> > are completely interchangeable so one might well be 'left' for use by some other
-> > device that needs a gpio pin.
-> > 
-> > I don't mind that much if we want to leave the binding support for that for later
-> > but in the ideal case we'd have it from the start (even if the driver doesn't
-> > support it until we have a user).  
-> 
-> Yep, they are almost interchangeable except GP0 cannot be DEV_DRY (device is
-> ready to accept serial interface communications). The question is how to
-> represent that in the devicetree.
-> 
-> I am ok with adding `gpio-controller` as an optional property. If
-> present, and if the gp0/1 is not taken by the interrupt-names property,
-> it fallback to expose as a gpo0 (they cannot be set as gpi).
-> 
-> For the other roles, based on
-> https://elixir.bootlin.com/linux/v6.18-rc3/source/Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml#L109
-> We would have
-> 
->   adi,gp0-mode = "dev-en";
->   adi,gp1-mode = "rdy";
-> 
-> Some examples:
-> 
->   // gp0: threshold-either (default), gp1: data ready (default)
->   adc@0,2ee007c0000 {
->       reg = <0x0 0x2ee 0x7c0000>;
->       vdd-supply = <&vdd>;
->       vio-supply = <&vio>;
->       ref-supply = <&ref>;
-> 
->       interrupt-parent = <&gpio>;
->       interrupts = <0 0 IRQ_TYPE_EDGE_RISING>,
->                    <0 1 IRQ_TYPE_EDGE_FALLING>;
->       interrupt-names = "gp0", "gp1";
->   };
-> 
->   // gp0: user GPO, gp1: data ready
->   adc@0,2ee007c0000 {
->       reg = <0x0 0x2ee 0x7c0000>;
->       vdd-supply = <&vdd>;
->       vio-supply = <&vio>;
->       ref-supply = <&ref>;
-> 
->       gpio-controller;
-> 
->       interrupt-parent = <&gpio>;
->       interrupts = <0 1 IRQ_TYPE_EDGE_FALLING>;
->       interrupt-names = "gp1";
->   };
-> 
->   // gp0: threshold crossed high value, g1: unused
->   adc@0,2ee007c0000 {
->       reg = <0x0 0x2ee 0x7c0000>;
->       vdd-supply = <&vdd>;
->       vio-supply = <&vio>;
->       ref-supply = <&ref>;
-> 
->       interrupt-parent = <&gpio>;
->       interrupts = <0 0 IRQ_TYPE_EDGE_FALLING>;
->       interrupt-names = "gp0";
-> 
->       adi,gp0-mode = "thresh-high"
->   };
-> 
-> 
-> And the driver constraints the valid configurations.
+We don't need the separate loop or flag, and adding it breaks the
+existing reverse list walk.  Thanks,
 
-More or less looks good  We have other drivers effectively doing this.
-Whether we actively handle the final case or not in driver probably doesn't matter.
-Wtihout the gpio-controller specified nothing can use the gpios anyway so
-if we support them they simply won't get used.
-
-I'm not sure on the gpi0-mode though.  Why is that useful? That feels like
-a choice the driver should make dependent on what is available to it.
-So if we've specified it is in interrupt, only the modes that might be
-an interrupt are available to the driver.
-
-The only case I can see being useful is dev_en as that's a specifically timed
-control signal for the analog front end.
-
-So a specific flag for that probably makes sense - I'm not sure if we'd
-ever have an AFE where it would make sense to drive it from a hardware
-signal on the ADC like this one AND from a gpio, so I don't think we need
-to support binding this as a gpio in that case.
-
-> 
-> >   
-> > > +
-> > > +The ADC convert-start happens on the SDA rising edge of the I3C stop (P) bit
-> > > +at the end of the read command.
-> > > +
-> > > +The two programmable GPIOS are optional and have a role assigned if present in
-> > > +the devicetree:
-> > > +
-> > > +- GP1: Is assigned the role of Data Ready signal.  
-> > 
-> > I assume that's only the case if GP1 is provided?  If GP0 is the only one
-> > we should allow use that for data ready.  As long as the DT allows that it is
-> > permissible for the driver to not do so for now.
-> >   
-> 
-> Suggested `adi,gp*-mode` should solve.
-> 
-> > > +
-> > > +Device attributes
-> > > +=================
-> > > +
-> > > +The ADC contains only one channel with following attributes:
-> > > +
-> > > +.. list-table:: Channel attributes
-> > > +   :header-rows: 1
-> > > +
-> > > +   * - Attribute
-> > > +     - Description
-> > > +   * - ``in_voltage_calibscale``
-> > > +     - Sets the scale factor to multiply the raw value.  
-> > That's confusing.  This should be hardware 'tweak' to compensate for
-> > calibration or similar.  The text doesn't make it clear where that multiply
-> > is happening. Sounds too much like _scale.  
-> 
-> The user does raw * _scale * _calibscale to get the value in volts.
-
-That's not ABI compliant so no general purpose user space is going to do that.
-So a hard no for this being what userspace needs to apply.
-
-I'm not particularly keen on calibscale for things other than tweaking so
-that raw * _scale is in milivolts.
-
-Normally if we have other forms of controllable scaling it's a question
-of wrapping up any such scan factors into a writeable _scale.
-
-> 
-> _calibscale is 1 by default and serves two purposes:
-> 
-> * small hw corrections (matches ABI); or 
-> * an arbitrary user set scale, ideally also for corrections, but not
->   constrained.
-> 
-> For the prior, the device does support computing the appropriate
-> _calibscale value, but it is not implemented.
-> 
-> If it was implemented, it would occur once during driver initialization
-> and then _calibscale default value would be approximately 1, (e.g.,
-> 0.997).
-> 
-> >   
-> > > +   * - ``in_voltage_oversampling_ratio``
-> > > +     - Sets device's burst averaging mode to over sample using the
-> > > +       internal sample rate. Value 1 disable the burst averaging mode.
-> > > +   * - ``in_voltage_oversampling_ratio_available``
-> > > +     - List of available oversampling values.
-> > > +   * - ``in_voltage_raw``
-> > > +     - Returns the raw ADC voltage value.
-> > > +   * - ``in_voltage_scale``
-> > > +     - Returs the channel scale in reference to the reference voltage  
-> > 
-> > Spell check needed.  Also this describes why it might take different values
-> > but not the bit users care about which is the standard ABI thing of
-> > Real value in mV = _raw * _scale 
-> >   
-> Ack, will describe
-> 
->  raw * _scale * _calibscale
-
-As above, no to this.  It must be just raw * _scale.
-
-> 
-> > > +       ``ref-supply``.
-> > > +
-> > > +Also contain the following device attributes:
-> > > +
-> > > +.. list-table:: Device attributes
-> > > +   :header-rows: 1
-> > > +
-> > > +   * - Attribute
-> > > +     - Description
-> > > +   * - ``samling_frequency``  
-> > 
-> > Check these.. sampling_frequency.
-> >   
-> > > +     - Sets the sets the device internal sample rate, used in the burst
-> > > +       averaging mode.  
-> > 
-> > It's not use otherwise?  That's unusual ABI.  I'd expect it to give
-> > the right value at least when burst mode isn't used. Or is burst mode
-> > the only way we do buffered capture?
-> >   
-> 
-> It is not used otherwise, the device internal sample rate is used only
-> to evenly distribute readings used in the burst averaging mode.
-> There is no sampling trigger to evenly space the adc conversion reading,
-
-In event of no internal trigger, sampling_frequency is normally
-1/duration of a single scan (or sample if a per channel attribute).
-
-
-> e.g.,:
-> 
->   Oversampling 4, sampling ratio 2Hz
->   Sampling trigger |        |        |        |        |
->   ADC conversion   ++++     ++++     ++++     ++++     ++++
->   ADC data ready      *        *        *        *        *
-> 
->   Oversampling 4, sampling ratio 1Hz
->   Sampling trigger |        |        |        |        |
->   ADC conversion   + + + +  + + + +  + + + +  + + + +  + + + +
->   ADC data ready         *        *        *        *        *
-> 
-> For this driver, the sampling trigger is a register access (the stop bit
-> of the i3c transfer to be exact), so in buffer mode it reads as fast as
-> possible.
-> 
-> > > +   * - ``sampling_frequency_available``
-> > > +     - Lists the available device internal sample rates.
-> > > +
-> > > +Interrupts
-> > > +==========
-> > > +
-> > > +The interrupts are mapped through the ``interrupt-names`` and ``interrupts``
-> > > +properties.
-> > > +
-> > > +The ``interrupt-names`` ``gp1`` entry sets the role of Data Ready signal.
-> > > +If it is not present, the driver fallback to enabling the same role as an
-> > > +I3C IBI.  
-> > 
-> > It feels like it should be easy to use the other GPO pin in this case if that
-> > is present. 
-> >   
-> adi-gp0-mode should solve.
-> 
-> I wouldn't auto-set the mode by the position in the interrupt-names
-> array, but let me know your opinion.
-
-Mode when multiple are equally valid (for a given device wiring)
-is purely down to what the driver wants to do. There is no benefit in
-encoding that in dt.
-Thanks,
-
-Jonathan
-
+Alex
