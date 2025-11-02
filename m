@@ -1,92 +1,88 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EFA34D39C
-	for <linux-doc@vger.kernel.org>; Sun,  2 Nov 2025 19:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A774B1C8605;
+	Sun,  2 Nov 2025 23:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762110603; cv=none; b=ir05YLNSoh7yrBChXRQNN20s0Ozhdf8EZVVULwQ/KH+RFVQIu/NA2LyrcmW0R8URfYe7JeO3p2NOlRhGUNIe3lmrMw2MnkNSH8Y8Ct+SKp4XznEpb8HMKDU0usXa6IgSinYyQjoF6u9I/KsaPnEoYbjCKJ3ISqPSUUG+noBxvUk=
+	t=1762127491; cv=none; b=Ua9RBvMLQmVzQnhD7oN/FN0DHKaYdBQfb7OFxrGkteafYKSaE+TIhXtvDnbS5NXAkv6JlnXyjyboX/ZWuKatpQdcxsbnVSoEGhJ0PzvLB+jRJJf30zQ41tXmBsN0eZEAg2fBSOlOjjW9bGgzq9TON0kzXKO7xD40bX6TeXdStoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762110603; c=relaxed/simple;
-	bh=8Znko5NuDnyx+OGakH3V/EstaaQ2BsRjlAmgoLRxMjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p3ClW3RhcT4h9NXzRWIvPlO/N50qSKPVkUwzeKio5xukAkNp142uM1qqiHkcWE5dhL4ko13Ytvsm8Ib+D/75H2Eg/2WIYWPH4KEdl1q7k12nIXoUnus+Cvx9NUbGPmDrxGF1P8ODiiT3JrHjuoOWRG4LaVeVkHBtVqklqakyTHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1AUc7mZ; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1AUc7mZ"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b6ce696c18bso3379765a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 11:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762110601; x=1762715401; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IgLvpaYQ9gRjsmHaaMXfyMMelQArREAHVTBvb+wL2M0=;
-        b=K1AUc7mZKJfyCW9y3IENaRrKjRNtD+U9+P1s6wdOZIfV1vD4Nvk1npp1ueCBLsWlZY
-         rGzUYf6p560NtFFpvCyGspHknzsH+/X2UiHpqebpY2RXLjdXgz+X9XAlyjPdzGwT9T5W
-         WwxAGfi7+p+Tl8D8MDjUUpYnu2L3re0HkDCTedANxmXSdLs7sigukivrnwcs7AyTi8sh
-         Qj70NaextcpeTsDx3vAXBTrSrAqtF8Zlv5z1XDFQJRHYLGn6j6sy3c2TWweP+zSl7h90
-         cHwZHGM8dnvg2wtDCSGrtMNF4LBIXkynoWopds42QAytj2jD7FjrXNEmdwPANizQpBQk
-         Ab1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762110601; x=1762715401;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IgLvpaYQ9gRjsmHaaMXfyMMelQArREAHVTBvb+wL2M0=;
-        b=Zb94c/VWksx++6wkf1vlZx8SDmjim59GAmWXZAVtinOauHJwscqlPBWlpffRIBPbaZ
-         eEs+t+h+Cp9gqp+Iaud459jzpklF3En8ozzIvdg2QYl2M5H4BpC7/YYJJSpUBFJd895D
-         UlEVsZyTuqcTvQTJcdnKQlzcfPbVoSF72+g03JO1xfAiaqT3TZgmGSJ7edStyHoDyCBB
-         bqn2Wv/4Pm627F1CSRy9om67dvbo3BlNmebCxsXCDWE3HqS1WuNkChdpPyVGlFlSv5XW
-         S4gqTzXc1yy+vUko0QCutUBN1ecH/b3ydYPLfUfP9H5l2QjEnx3ucgupJ5jHUBCXXoTy
-         HScg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjE8vI8V/fWKfHHfpLYEdsJiBkoEOUycQpizOObJD1lgfOlE1StbuZFmF4Wgm9sovwF1Ll+nC2JGU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx15ItW35B4aSV1j4MBdNH/Ss21PRxzRPzrvOwhP5G9uvxj4lMQ
-	e1nb6k8HlPfxiob7bR8ZTBKlEeOywa21soK+qJy/ZxQukgXnGUQc+a7ERCiH3A==
-X-Gm-Gg: ASbGnct87j8QlIHH5SyI0H7vumHgSWdrqip7YL9L2jCyMwWWNh1xbdLv9y8y3umc+wH
-	lVa6+jMqaPZM5Mkp9xALAV22JwCMqtlYHlW0DWtYPV7H4FrAuLHi7xZftSG+xiVhCVZOl35b97S
-	Kq2iyxMaJAVp/BlqwgpHVjpOrOsW+KEaM3VZOD0yHk+BJp6szeDPDg/IE69CyfZGjsIMvoWFAbV
-	52uguJcxiSD71jfBaULVlUiZMcLz37M0e11aNeBqLra/UNw2MD/IhMq9yYQdN8F7fcIEYYfU99K
-	ZWz5MW5rtw4Iw5ljmXUqky6Y2iFAiVq0Wp7ujYMWtezZgiNNnfAHGkQxhdMcAhrx6EQ2B0AE3wt
-	Rxn//1vPPiwsqS/BYf+YC19DxuwIFgUdhMkm/01+qYsgsOgANIxPNmd/AO/ai0NpZUH0KSXa0hE
-	r3eFKI/Owp+eJa
-X-Google-Smtp-Source: AGHT+IHkMIAYpUU2qCDVKXaSXXcsZFHQC4KsbEqB40ybOnj25k8W9KwHb++brJJza1y8FVB8EDMWqg==
-X-Received: by 2002:a05:6a21:99aa:b0:33e:eb7a:447d with SMTP id adf61e73a8af0-348ca75c0ccmr13766035637.17.1762110601545;
-        Sun, 02 Nov 2025 11:10:01 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34092d2df47sm8433792a91.12.2025.11.02.11.10.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 11:10:01 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 2 Nov 2025 11:10:00 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: akemnade@kernel.org
-Cc: corbet@lwn.net, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: sy7636a: Fix sensor description
-Message-ID: <d8befd43-5398-4659-a6a2-afe46fb5a541@roeck-us.net>
-References: <20251027202847.119707-1-akemnade@kernel.org>
+	s=arc-20240116; t=1762127491; c=relaxed/simple;
+	bh=3QBJqNiePwTQmv6unGmlEenM/JEk9C6UuRzdmtI8mBE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ji5znvkKOt8+RXiL8zs6cSqm1CsMQKygWMxgkHRaxQcbxNMDB/cgx8+63EacjYuhPP9ogecz07paRz8jiBV3Hhz2K+9M2zQWlPt61wnderVEGMyLJs2SqQVcSxRsPhJ1nLDnNySPi13MMHU2NNKZhCFQydAtWT00VNcedIWvAgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id DDB6592009D; Mon,  3 Nov 2025 00:51:12 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id CF26F92009B;
+	Sun,  2 Nov 2025 23:51:12 +0000 (GMT)
+Date: Sun, 2 Nov 2025 23:51:12 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Paul Walmsley <pjw@kernel.org>
+cc: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>, 
+    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+    "H. Peter Anvin" <hpa@zytor.com>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+    Vlastimil Babka <vbabka@suse.cz>, 
+    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+    Paul Walmsley <paul.walmsley@sifive.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
+    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Andreas Hindborg <a.hindborg@kernel.org>, 
+    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+    richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+    kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+    evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+    samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+    rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v22 10/28] riscv/mm: Implement map_shadow_stack()
+ syscall
+In-Reply-To: <020e2f6e-9c1b-648e-3017-31eb8a89c493@kernel.org>
+Message-ID: <alpine.DEB.2.21.2511022341110.1185@angie.orcam.me.uk>
+References: <20251023-v5_user_cfi_series-v22-0-1935270f7636@rivosinc.com> <20251023-v5_user_cfi_series-v22-10-1935270f7636@rivosinc.com> <020e2f6e-9c1b-648e-3017-31eb8a89c493@kernel.org>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251027202847.119707-1-akemnade@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Oct 27, 2025 at 09:28:47PM +0100, akemnade@kernel.org wrote:
-> From: Andreas Kemnade <akemnade@kernel.org>
+On Fri, 31 Oct 2025, Paul Walmsley wrote:
+
+> This patch introduces a 'checkpatch.pl --strict' message:
 > 
-> The temperature is not from the die itself but from an NTC. That was
-> verified with an IR camera. Fix that.
+> CHECK: Lines should not end with a '('
+> #78: FILE: arch/riscv/kernel/usercfi.c:36:
+> +	asm goto(
 > 
-> Signed-off-by: Andreas Kemnade <akemnade@kernel.org>
+> I'll fix it up here in the event that v22 goes in, but please do the same 
+> on your side in case a new version is needed.
 
-Applied.
+ I think this warning is silly for `asm' statements.  It's been common for 
+decades to do this to format multi-line `asm' statements, just because it 
+makes them so much more readable.  We have roughly two thousand instances 
+in our tree already and I would use this style for new code in the parts I 
+maintain as well.
 
-Thanks,
-Guenter
+ Now having trailing `);' on a separate line is another matter.
+
+  Maciej
