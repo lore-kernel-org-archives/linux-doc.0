@@ -1,91 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79572DF122;
-	Mon,  3 Nov 2025 22:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA2819A288;
+	Mon,  3 Nov 2025 22:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762208039; cv=none; b=J58EgCYmMRU3f82z+pu3e01imxbx5L8ltxNuqRFsEqIMFFKuLL5j54mC+A6vcypA0Urj0UKbpLz6GbqFYKYdFVV/7oiFe1n+uJ/nmmeNqyWa4IrMHA0ZCrolKaKXF71zAAmgwj12nZin3uEEc6gjDJi2eFHBdkwhopD5nFyX600=
+	t=1762208528; cv=none; b=pvf7cFpclCyUteNT5JBfqjCcZhWhnzFawmLetsdKZ4tAMMxGSQPMvrtH5fAiE0VFCO2Bc4rOSUU5p6m7jjkRVdEKaCfKAEi0afDYfhYD3lPT75hf+tLQz6fRMjrjoZxUmpXgksyP3bb5riG2BxAEzc2UlGy/ssXGt08+6evipaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762208039; c=relaxed/simple;
-	bh=G5G/nJ6BwUDbjhos8smIO/3KjLQpgzD5ntWtzL13rts=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DS0P2BjMSjQokhmuSHQORVqSaE5npmz5x9g1twdhfptkWvDdwf8lcHjDulSjMplLDlAZLV8MDPtKonq/+zFKTL8q57oIdzp9Q0oEksZnk439CSgphQ6yuvqSDm8oU5nyvbqlR8HG7gYbS28sKAX/YlxwNvRtSr1n9t6cPycrAeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTLqZ0hL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762208528; c=relaxed/simple;
+	bh=4+HwZyxB60cLLkwbbtQeqRTkzlhrRDxKz+l5ARqBSFw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h/zNyUsOf1tDkfG6L78/xG9Lqsk6pAleR48U6xo2dm2stvgA7XtQXjRJ+Dn2acZGT0hJHECReTGaif8mR9WWx6YytkkW2QW2ee/NIAjMyN1r3DF4FnyAD6qEiaA6aJ5dsmJvxODJ4McEtHSMQuHx2WE9LXm2Aga+FDRhcDOU3gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/Lp31yo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTLqZ0hL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CA6C4CEE7;
-	Mon,  3 Nov 2025 22:13:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/Lp31yo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9AFC4CEE7;
+	Mon,  3 Nov 2025 22:22:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762208039;
-	bh=G5G/nJ6BwUDbjhos8smIO/3KjLQpgzD5ntWtzL13rts=;
+	s=k20201202; t=1762208527;
+	bh=4+HwZyxB60cLLkwbbtQeqRTkzlhrRDxKz+l5ARqBSFw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VTLqZ0hL1/6PHxQ6NOhzlLM6gCmDmZLOEBjsopkNlCfT1UDEUzEpPJ9dRNKIC0lpk
-	 5IP+NEjFrjtzZVi9MxoejBWIBOkHCXcmGUgODEYUdCpVLHPVh0cAJSOTWB1fhrl1iF
-	 z5hTda/0Y1Q5VJjkd598Vr+sNABtNOoGLJsImaT4TxCqGru5AW2vpM+yUdVgTQvw9e
-	 /xQrqh0iCogqr918cBXp+vPSsanb+KqgUvy7E+gfIndbbpFuHJomc+J7CSVORGK8ey
-	 IER03KXPAHJ9fglF87N61IoFLE7kR2HkjQvV097joGTXbveYEVNBBe/8GgHu9hoePF
-	 1hperBfe4REqA==
-Date: Mon, 3 Nov 2025 14:13:56 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Daniel Zahka <daniel.zahka@gmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Srujana Challa
- <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Brett Creeley <brett.creeley@amd.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Michael Chan
- <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
- Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
- Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
- Sundeep <sbhatta@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Siddharth Vadapalli <s-vadapalli@ti.com>,
- Roger Quadros <rogerq@kernel.org>, Loic Poulain
- <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean
- <olteanv@gmail.com>, Michal Swiatkowski
- <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Dave Ertman <david.m.ertman@intel.com>,
- Vlad Dumitrescu <vdumitrescu@nvidia.com>, "Russell King (Oracle)"
- <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH net-next v2 1/2] devlink: pass extack through to
- devlink_param::get()
-Message-ID: <20251103141356.3470701b@kernel.org>
-In-Reply-To: <20251103194554.3203178-2-daniel.zahka@gmail.com>
-References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
-	<20251103194554.3203178-2-daniel.zahka@gmail.com>
+	b=I/Lp31yoA+tIy3PALY99JfXTZS6tYX9J8PxGDjCegfDjzss4rKJoVJotvrVl6IZEw
+	 O+NjEs21yS9zEJjDSzc860V/hp6+VR11aam88MLXsVw0u2lWvLVVhPey2L4qqKKvza
+	 iABcTKLO4pKOM2S/pyT49b6YhJXNcJIQjp6vTSJRXsSTqyxi5WqSFByIxyotsB8CLV
+	 Etkqg60Rlmw7SV/CDP6sLHmqaHNBwZDYFtPSCfALy2BjB+QoFoLmaIJbI1YnnwMHc4
+	 FbE/1qyhWBcNv/c8EsZTKoaphJW0KdeOV25G5lW47zOpNAHdXSDlXDQFYkxvzRrsSU
+	 tnrDl1SQNkFMQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vG2w8-000000026Nh-3s7P;
+	Mon, 03 Nov 2025 22:22:05 +0000
+Date: Mon, 03 Nov 2025 22:22:04 +0000
+Message-ID: <86jz06vjsj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Jose Marinho <jose.marinho@arm.com>
+Cc: Jiaqi Yan <jiaqiyan@google.com>,
+	oliver.upton@linux.dev,
+	duenwen@google.com,
+	rananta@google.com,
+	jthoughton@google.com,
+	vsethi@nvidia.com,
+	jgg@nvidia.com,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	yuzenghui@huawei.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	shuah@kernel.org,
+	kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] KVM: arm64: VM exit to userspace to handle SEA
+In-Reply-To: <7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com>
+References: <20251013185903.1372553-1-jiaqiyan@google.com>
+	<20251013185903.1372553-2-jiaqiyan@google.com>
+	<7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: jose.marinho@arm.com, jiaqiyan@google.com, oliver.upton@linux.dev, duenwen@google.com, rananta@google.com, jthoughton@google.com, vsethi@nvidia.com, jgg@nvidia.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon,  3 Nov 2025 11:45:52 -0800 Daniel Zahka wrote:
-> Allow devlink_param::get() handlers to report error messages via
-> extack. This function is called in a few different contexts, but not
-> all of them will have an valid extack to use.
+On Mon, 03 Nov 2025 18:17:00 +0000,
+Jose Marinho <jose.marinho@arm.com> wrote:
 > 
-> When devlink_param::get() is called from param_get_doit or
-> param_get_dumpit contexts, pass the extack through so that drivers can
-> report errors when retrieving param values. devlink_param::get() is
-> called from the context of devlink_param_notify(), pass NULL in for
-> the extack.
+> > +	/*
+> > +	 * Exit to userspace, and provide faulting guest virtual and physical
+> > +	 * addresses in case userspace wants to emulate SEA to guest by
+> > +	 * writing to FAR_ELx and HPFAR_ELx registers.
+> > +	 */
+> > +	memset(&run->arm_sea, 0, sizeof(run->arm_sea));
+> > +	run->exit_reason = KVM_EXIT_ARM_SEA;
+> > +	run->arm_sea.esr = esr & esr_mask;
+> > +
+> > +	if (!(esr & ESR_ELx_FnV))
+> > +		run->arm_sea.gva = kvm_vcpu_get_hfar(vcpu) > +
+> > +	ipa = kvm_vcpu_get_fault_ipa(vcpu);
+> > +	if (ipa != INVALID_GPA) {
+> > +		run->arm_sea.flags |= KVM_EXIT_ARM_SEA_FLAG_GPA_VALID;
+> > +		run->arm_sea.gpa = ipa;
+> 
+> Are we interested in the value of PFAR_EL2 (if FEAT_PFAR implemented)?
 
-Warning: drivers/net/ethernet/intel/ice/devlink/devlink.c:618 function parameter 'extack' not described in 'ice_devlink_tx_sched_layers_get'
-Warning: drivers/net/ethernet/intel/ice/devlink/devlink.c:1533 function parameter 'extack' not described in 'ice_devlink_local_fwd_get'
+We don't have any support for PFAR, and I don't think we have any plan
+to support it in the near future. If anything, the rest of the kernel
+should start by growing support for it before we start dragging it
+into KVM.
+
+	M.
+
 -- 
-pw-bot: cr
+Without deviation from the norm, progress is not possible.
