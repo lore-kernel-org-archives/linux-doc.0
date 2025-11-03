@@ -1,64 +1,64 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5202C1593
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 07:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20452C15A6
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 07:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762156403; cv=none; b=GhljO0Fw/V4LkEVNvvYw78XcdLir9MtdYZppX8AaZVtteWQlF8LooI5htmlT7KKVsVjVPZMByq1ebnRhAtUYo9gBimlYWMQQUz47H09ZOWhPyjS1ugtvRYtnavm3p8m/K029G1+YrAGvipLUiH2pJuIsh8iGd5Rak8AhgHNUCVs=
+	t=1762156411; cv=none; b=Pe2Hl8ZnNWvGcierYruO8/6Y1DWZ8qJ10S28v5eFNNoDr16yOzRAEwUN7hlpF0nElCGMghfKk7TEHkHwyXJ9PNyMPN/Ygych4K6UFyj0GuGwlsNoI+kurFRJ4RvB2IvqjF2LBxErOdn+w4kSPt+2iLkV7LRDwimrxkE200PmAlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762156403; c=relaxed/simple;
-	bh=Lodb6rLROk4Q3CAebuv8vkqskVQL3XSySEbny+ty2Qs=;
+	s=arc-20240116; t=1762156411; c=relaxed/simple;
+	bh=DAl6x1WW+sdgvs4yNNBh1LtvTW7dfzKVhNfdGn4NeFs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l5b1zIg46u7D4nlZ6HpHi1696skDC80Ms3q8OEgda6ns/LT6+4z/soXKRc6ANESP9upbEKy1E7ISZWlxpjwztGyrUmhF+EOPoncGSZ21hI0AlmjHr7/PhtiZP5VW6UkISjJ5vzJqXrK4CzcG23ct+QgyehYbiX/dmjP7ixKhoZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=RNpBwAS4; arc=none smtp.client-ip=209.85.216.52
+	 MIME-Version; b=l4ptmWf6Uo9xDo1ZamNYZB1viVYHIfhThL4Cl87D2cvR4LxeNxrBOgC4XWglETS5Vv6BIRNuMLhLGxQgTEBUWPCgjtZZPLyGAAmtxUZK9cMLmPAdgi6zlOhES6lYkCtQR96exwc4Yo3+zjGDPmOxSY3xyOZrMiJHFq+If0gykCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=avRt75Sr; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="RNpBwAS4"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-340e525487eso822479a91.3
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 23:53:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="avRt75Sr"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso940796b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 23:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762156401; x=1762761201; darn=vger.kernel.org;
+        d=shopee.com; s=shopee.com; t=1762156408; x=1762761208; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nbphvwlZY5Z8mMpRxJCeoPt3Sbe7fHbYhkrPsa2IkNg=;
-        b=RNpBwAS4yESmrj9Weh9BEo1RboZ8PK06YEA0hxkj1PpR/zXz1nB8SdZa24ikNZFH8v
-         I/+0hPUmOjIT1kmeg4JM9BUUR4MmAziopCMnJYfZJ96Yd8xjk+gUA8cR2zaKsRK8VBY4
-         G/3BUoKW2hn4oKK2mb5LFyWsn5FBoRX0b7mlczVWgwIdY8aDae/GxBJwaZAKk9v+KZLF
-         rNNZVSEdPS6Mfb2TyY4r9lo3Y+c6GRWsYCoSm49TiTbz5y317bhRCtdtYYKqTFzL25JI
-         hOA/uEprySpMADE+pi2j8LC4pQgOPpWQB+t1EFzDR5HUyUUxZSBP5BGva3g/SdGR2o6B
-         MtZw==
+        bh=Ba4jPz4GzIpOX2boFuFrVZ/wgd/V0hgb12GzaY8s2GM=;
+        b=avRt75SrlEMRN6VHUrUG4/hxcSr/9e7hT8Lm4RVgI12j9XLFLeyv5LOpocBcQXqoHk
+         AazKna8UPo/iQ9pIXo1ShuuTadSBN52RkDlzC2kWfV2k7++otXY+dRpyTopzKvObGoU/
+         MhaiWdvXhB/sr4rEjHcy2IKPHBBYh9i52H4SE12JKUBui4IqiuPyKgVz0KkwI3qy0pcL
+         UuTch5Gy0SG2WHkhXwFCrMqxkOWuYWrt9erQALgIviHqetle8/DSjEoGsfaPDLWFGgem
+         5CRE4yo4kncazmWhFKnKLFNjQZmpda5lvwjGC2mptl+l6Ut8CwW0A1iovY7fEWFbKQWC
+         utRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762156401; x=1762761201;
+        d=1e100.net; s=20230601; t=1762156408; x=1762761208;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nbphvwlZY5Z8mMpRxJCeoPt3Sbe7fHbYhkrPsa2IkNg=;
-        b=SUFZo+YYnJKKTPu7LYu6vEyhtBmrio85/etvIbZEkD+c1jZ0SMS4Pe/CZCT7yL0dEm
-         JxyNxfhHQhKOknaQQNRI9K6CSmNZnQpLTYeG9nyfDEEKUHnXMDL29CWeUA9arm3MhrwW
-         ryXBTEwRBemoTMrVMCSOYgtHHKitEKtMVTalI/wzkH7RKGu46iDYzDvFLfYdrvfkPalG
-         f62rvw3gVxVwfoa1nRxGBCgjX+jbDoZctdfWSY9WAxLunOQd6D0Dv5d6fnwM5zeAI9Kv
-         gH39xqMetNYkPXcXgle/v5p5DKCkSYNYs+RvzTl7LU2HGqGEQQ7VrjCCQ/mcUn0jDC8o
-         /1ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUgL2ApRt0jTPGs2EOE4H1dp6qcK6aeboepbDG0wxLOLGl5ThDsm/BP8CCSxjGsenv2773rW6wDUfE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU009hokuldxlv5cJhdLIbLNEbdIyMWwbaM9aF1TOwz0uMStrU
-	R94qcfuiEfoW5cL7vbRb0sHoN+Cz8zRs4x2+wGRDZHPc2hsom0aegPmyIlISiBPBsXU=
-X-Gm-Gg: ASbGncsUolD78SZPAfsPQCxLMN8kcquRRGS988hD9U/wlNEQlBsRoUJbBgMFmlMv1t1
-	Hx/MKacbtGyoMJYF+05mW3o6vM/gk4gRvg4SvTjc9MkgwH1kLrhCIfxJ93RbA2vK6mGf90vb2f1
-	6mrfZsrj4NdYKy0T/7gPCRjB/zLK0lG99lmd0QFTtKN8G8q/r2IvECjshDN6FJ7ziN/+Uag6OCz
-	1WbqQ/ck09mMxrZ+d2jBJWOcOWl4wWyIG1ArhyPBjKIgKnZuklVpN2FXJvAvBU8Uv251EVX1BGi
-	/Tpy3r6W0s1h7eObUObbCWjgtMOmjqw2B6gcdJ3kuw3MXTmqYm9fW3ZTofM36fryKSAUVkkGjsa
-	nkH74DNJOWBNPJ5LzSmknoRi/cNUD4tQgx+ZxXJ7QsPJR7ah/N9syCuOX2khupFOExmm/qz6+6Z
-	CXY4WdDgwmTcJipWrqrtAQFlVXabAQYnfpv2A=
-X-Google-Smtp-Source: AGHT+IESJtnYCC+6tKU/IMMlAFX3OXThvg7/IT5AO+qIlJZ6EL/qIntowvs3vVciOZabgFGZ7594Wg==
-X-Received: by 2002:a17:90b:39cc:b0:329:e4d1:c20f with SMTP id 98e67ed59e1d1-34082fcc5f5mr15216714a91.9.1762156400905;
-        Sun, 02 Nov 2025 23:53:20 -0800 (PST)
+        bh=Ba4jPz4GzIpOX2boFuFrVZ/wgd/V0hgb12GzaY8s2GM=;
+        b=eEGreE05hKYQjAyk/VccySuPdTtoklUuw9asMGzj+twVByKUHwb7x/sM72alKlgwBL
+         d73r+PH0yy8kMMPpmGQ/jlofQhcqo8LcEg/5XDXY8VQ0oBITew/6IeAJpr/f4h4atbDO
+         wKZ9134ELCCHGkkliUZVTpL7youGX8/q0sjOHSPrYiM5cyHdx47IeyjO4puIZRF9IRS2
+         dvKem08YoDqI8YyN+seRljbavXeOlb7ByRxzupOkcxgLnXs4DwHATSd1NkFZQImrlIrM
+         XTCATFG3Y8N3XihQy940ij1zW3PpYlyPDkOeZGCgCZDW32cUDu2DQ/zg83sPYIFoOcpP
+         sR7A==
+X-Forwarded-Encrypted: i=1; AJvYcCU4UXr/OxaFmyiiu16zw7CxzSFVajUM4ugXeCGU+nhf/K94EoKPQMXAMo3699Hc+nIdf1Y0PmY5W9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxL4LlFESZ5lkwWPY6AylvGh3o3HOrPrOEfeflhFSMsPAb00OjR
+	n9WAnT5w7opwb03d6aDAbo1VELk+oGIqy+qXsiLgsUUDXRDJGopVdi5YUd3R7UeWU3c=
+X-Gm-Gg: ASbGncvHWnK8UTSJPzK5EZ9fNvGDmqCc/vPnrRMPX0N91CSySPhtNUNuQL394DhYMtH
+	RPNkA1rlaVOvqlwph1u8st044SbCMdmf3sYopbGz/90vuK/7Bb/AUWRseQ04ro6Mx4Kag+7x9ZZ
+	wfDNqvtTZf/g6GmCUPCUdfbPT5hjUdGdB5DMH5+Ky+cyzvOgpe8k815Ul2ZmQ8OmMtura7Qj6ee
+	eRdyE6JA/CHyXAhU2DmKC8z3EDCuCucww+1C60UIpspH7ksCZ0FzYMeeGYP8rEhSdYLZMOkfDin
+	uAvRO/fgt4KzuwE6yX8cTfd59yGRPuJY95yEpvf5Zb0IKn4GoxSO01muanb89YvP04zYfKLIUDA
+	ByVXsTw45SJavIAxC1+AE1c3kYTnMHD1zYy0gcOdVZulln7+MlPPJSi1IXe5tx97M9HK0IAO0lD
+	p6IyTi/K1rSGIisg==
+X-Google-Smtp-Source: AGHT+IGWNo1R+qKvdYnQyYk2CzdvOoi6Va0W2v8DV/ljaASF7VURewKuzp1i6g4RA/RRpxV0UmwQ/w==
+X-Received: by 2002:a05:6a20:7344:b0:311:99:7524 with SMTP id adf61e73a8af0-348ca351af3mr15450451637.18.1762156407934;
+        Sun, 02 Nov 2025 23:53:27 -0800 (PST)
 Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34159a16652sm34552a91.20.2025.11.02.23.53.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34159a16652sm34552a91.20.2025.11.02.23.53.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 23:53:20 -0800 (PST)
+        Sun, 02 Nov 2025 23:53:27 -0800 (PST)
 From: Leon Huang Fu <leon.huangfu@shopee.com>
 To: stable@vger.kernel.org,
 	greg@kroah.com
@@ -92,9 +92,9 @@ Cc: tj@kernel.org,
 	Michal Koutny <mkoutny@suse.com>,
 	Waiman Long <longman@redhat.com>,
 	Wei Xu <weixugc@google.com>
-Subject: [PATCH 6.6.y 4/7] mm: memcg: move vmstats structs definition above flushing code
-Date: Mon,  3 Nov 2025 15:51:32 +0800
-Message-ID: <20251103075135.20254-5-leon.huangfu@shopee.com>
+Subject: [PATCH 6.6.y 5/7] mm: memcg: make stats flushing threshold per-memcg
+Date: Mon,  3 Nov 2025 15:51:33 +0800
+Message-ID: <20251103075135.20254-6-leon.huangfu@shopee.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251103075135.20254-1-leon.huangfu@shopee.com>
 References: <20251103075135.20254-1-leon.huangfu@shopee.com>
@@ -108,22 +108,123 @@ Content-Transfer-Encoding: 8bit
 
 From: Yosry Ahmed <yosryahmed@google.com>
 
-[ Upstream commit e0bf1dc859fdd08ef738824710770a30a8069433 ]
+[ Upstream commit 8d59d2214c2362e7a9d185d80b613e632581af7b ]
 
-The following patch will make use of those structs in the flushing code,
-so move their definitions (and a few other dependencies) a little bit up
-to reduce the diff noise in the following patch.
+A global counter for the magnitude of memcg stats update is maintained on
+the memcg side to avoid invoking rstat flushes when the pending updates
+are not significant.  This avoids unnecessary flushes, which are not very
+cheap even if there isn't a lot of stats to flush.  It also avoids
+unnecessary lock contention on the underlying global rstat lock.
 
-No functional change intended.
+Make this threshold per-memcg.  The scheme is followed where percpu (now
+also per-memcg) counters are incremented in the update path, and only
+propagated to per-memcg atomics when they exceed a certain threshold.
 
-Link: https://lkml.kernel.org/r/20231129032154.3710765-3-yosryahmed@google.com
+This provides two benefits: (a) On large machines with a lot of memcgs,
+the global threshold can be reached relatively fast, so guarding the
+underlying lock becomes less effective.  Making the threshold per-memcg
+avoids this.
+
+(b) Having a global threshold makes it hard to do subtree flushes, as we
+cannot reset the global counter except for a full flush.  Per-memcg
+counters removes this as a blocker from doing subtree flushes, which helps
+avoid unnecessary work when the stats of a small subtree are needed.
+
+Nothing is free, of course.  This comes at a cost: (a) A new per-cpu
+counter per memcg, consuming NR_CPUS * NR_MEMCGS * 4 bytes.  The extra
+memory usage is insigificant.
+
+(b) More work on the update side, although in the common case it will only
+be percpu counter updates.  The amount of work scales with the number of
+ancestors (i.e.  tree depth).  This is not a new concept, adding a cgroup
+to the rstat tree involves a parent loop, so is charging.  Testing results
+below show no significant regressions.
+
+(c) The error margin in the stats for the system as a whole increases from
+NR_CPUS * MEMCG_CHARGE_BATCH to NR_CPUS * MEMCG_CHARGE_BATCH * NR_MEMCGS.
+This is probably fine because we have a similar per-memcg error in charges
+coming from percpu stocks, and we have a periodic flusher that makes sure
+we always flush all the stats every 2s anyway.
+
+This patch was tested to make sure no significant regressions are
+introduced on the update path as follows.  The following benchmarks were
+ran in a cgroup that is 2 levels deep (/sys/fs/cgroup/a/b/):
+
+(1) Running 22 instances of netperf on a 44 cpu machine with
+hyperthreading disabled. All instances are run in a level 2 cgroup, as
+well as netserver:
+  # netserver -6
+  # netperf -6 -H ::1 -l 60 -t TCP_SENDFILE -- -m 10K
+
+Averaging 20 runs, the numbers are as follows:
+Base: 40198.0 mbps
+Patched: 38629.7 mbps (-3.9%)
+
+The regression is minimal, especially for 22 instances in the same
+cgroup sharing all ancestors (so updating the same atomics).
+
+(2) will-it-scale page_fault tests. These tests (specifically
+per_process_ops in page_fault3 test) detected a 25.9% regression before
+for a change in the stats update path [1]. These are the
+numbers from 10 runs (+ is good) on a machine with 256 cpus:
+
+             LABEL            |     MEAN    |   MEDIAN    |   STDDEV   |
+------------------------------+-------------+-------------+-------------
+  page_fault1_per_process_ops |             |             |            |
+  (A) base                    | 270249.164  | 265437.000  | 13451.836  |
+  (B) patched                 | 261368.709  | 255725.000  | 13394.767  |
+                              | -3.29%      | -3.66%      |            |
+  page_fault1_per_thread_ops  |             |             |            |
+  (A) base                    | 242111.345  | 239737.000  | 10026.031  |
+  (B) patched                 | 237057.109  | 235305.000  | 9769.687   |
+                              | -2.09%      | -1.85%      |            |
+  page_fault1_scalability     |             |             |
+  (A) base                    | 0.034387    | 0.035168    | 0.0018283  |
+  (B) patched                 | 0.033988    | 0.034573    | 0.0018056  |
+                              | -1.16%      | -1.69%      |            |
+  page_fault2_per_process_ops |             |             |
+  (A) base                    | 203561.836  | 203301.000  | 2550.764   |
+  (B) patched                 | 197195.945  | 197746.000  | 2264.263   |
+                              | -3.13%      | -2.73%      |            |
+  page_fault2_per_thread_ops  |             |             |
+  (A) base                    | 171046.473  | 170776.000  | 1509.679   |
+  (B) patched                 | 166626.327  | 166406.000  | 768.753    |
+                              | -2.58%      | -2.56%      |            |
+  page_fault2_scalability     |             |             |
+  (A) base                    | 0.054026    | 0.053821    | 0.00062121 |
+  (B) patched                 | 0.053329    | 0.05306     | 0.00048394 |
+                              | -1.29%      | -1.41%      |            |
+  page_fault3_per_process_ops |             |             |
+  (A) base                    | 1295807.782 | 1297550.000 | 5907.585   |
+  (B) patched                 | 1275579.873 | 1273359.000 | 8759.160   |
+                              | -1.56%      | -1.86%      |            |
+  page_fault3_per_thread_ops  |             |             |
+  (A) base                    | 391234.164  | 390860.000  | 1760.720   |
+  (B) patched                 | 377231.273  | 376369.000  | 1874.971   |
+                              | -3.58%      | -3.71%      |            |
+  page_fault3_scalability     |             |             |
+  (A) base                    | 0.60369     | 0.60072     | 0.0083029  |
+  (B) patched                 | 0.61733     | 0.61544     | 0.009855   |
+                              | +2.26%      | +2.45%      |            |
+
+All regressions seem to be minimal, and within the normal variance for the
+benchmark.  The fix for [1] assumes that 3% is noise -- and there were no
+further practical complaints), so hopefully this means that such
+variations in these microbenchmarks do not reflect on practical workloads.
+
+(3) I also ran stress-ng in a nested cgroup and did not observe any
+obvious regressions.
+
+[1]https://lore.kernel.org/all/20190520063534.GB19312@shao2-debian/
+
+Link: https://lkml.kernel.org/r/20231129032154.3710765-4-yosryahmed@google.com
 Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
 Tested-by: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
 Acked-by: Shakeel Butt <shakeelb@google.com>
 Cc: Chris Li <chrisl@kernel.org>
 Cc: Greg Thelen <gthelen@google.com>
 Cc: Ivan Babrou <ivan@cloudflare.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
 Cc: Michal Hocko <mhocko@kernel.org>
 Cc: Michal Koutny <mkoutny@suse.com>
 Cc: Muchun Song <muchun.song@linux.dev>
@@ -134,174 +235,127 @@ Cc: Wei Xu <weixugc@google.com>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Leon Huang Fu <leon.huangfu@shopee.com>
 ---
- mm/memcontrol.c | 148 ++++++++++++++++++++++++------------------------
- 1 file changed, 74 insertions(+), 74 deletions(-)
+ mm/memcontrol.c | 50 +++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 34 insertions(+), 16 deletions(-)
 
 diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 433cd273006d..157be6820fd1 100644
+index 157be6820fd1..c31a5364f325 100644
 --- a/mm/memcontrol.c
 +++ b/mm/memcontrol.c
-@@ -570,6 +570,80 @@ mem_cgroup_largest_soft_limit_node(struct mem_cgroup_tree_per_node *mctz)
- 	return mz;
- }
+@@ -628,6 +628,9 @@ struct memcg_vmstats_percpu {
+ 	/* Cgroup1: threshold notifications & softlimit tree updates */
+ 	unsigned long		nr_page_events;
+ 	unsigned long		targets[MEM_CGROUP_NTARGETS];
++
++	/* Stats updates since the last flush */
++	unsigned int		stats_updates;
+ };
 
-+/* Subset of vm_event_item to report for memcg event stats */
-+static const unsigned int memcg_vm_event_stat[] = {
-+	PGPGIN,
-+	PGPGOUT,
-+	PGSCAN_KSWAPD,
-+	PGSCAN_DIRECT,
-+	PGSCAN_KHUGEPAGED,
-+	PGSTEAL_KSWAPD,
-+	PGSTEAL_DIRECT,
-+	PGSTEAL_KHUGEPAGED,
-+	PGFAULT,
-+	PGMAJFAULT,
-+	PGREFILL,
-+	PGACTIVATE,
-+	PGDEACTIVATE,
-+	PGLAZYFREE,
-+	PGLAZYFREED,
-+#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-+	ZSWPIN,
-+	ZSWPOUT,
-+	ZSWPWB,
-+#endif
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	THP_FAULT_ALLOC,
-+	THP_COLLAPSE_ALLOC,
-+	THP_SWPOUT,
-+	THP_SWPOUT_FALLBACK,
-+#endif
-+};
+ struct memcg_vmstats {
+@@ -642,6 +645,9 @@ struct memcg_vmstats {
+ 	/* Pending child counts during tree propagation */
+ 	long			state_pending[MEMCG_NR_STAT];
+ 	unsigned long		events_pending[NR_MEMCG_EVENTS];
 +
-+#define NR_MEMCG_EVENTS ARRAY_SIZE(memcg_vm_event_stat)
-+static int mem_cgroup_events_index[NR_VM_EVENT_ITEMS] __read_mostly;
-+
-+static void init_memcg_events(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < NR_MEMCG_EVENTS; ++i)
-+		mem_cgroup_events_index[memcg_vm_event_stat[i]] = i + 1;
-+}
-+
-+static inline int memcg_events_index(enum vm_event_item idx)
-+{
-+	return mem_cgroup_events_index[idx] - 1;
-+}
-+
-+struct memcg_vmstats_percpu {
-+	/* Local (CPU and cgroup) page state & events */
-+	long			state[MEMCG_NR_STAT];
-+	unsigned long		events[NR_MEMCG_EVENTS];
-+
-+	/* Delta calculation for lockless upward propagation */
-+	long			state_prev[MEMCG_NR_STAT];
-+	unsigned long		events_prev[NR_MEMCG_EVENTS];
-+
-+	/* Cgroup1: threshold notifications & softlimit tree updates */
-+	unsigned long		nr_page_events;
-+	unsigned long		targets[MEM_CGROUP_NTARGETS];
-+};
-+
-+struct memcg_vmstats {
-+	/* Aggregated (CPU and subtree) page state & events */
-+	long			state[MEMCG_NR_STAT];
-+	unsigned long		events[NR_MEMCG_EVENTS];
-+
-+	/* Non-hierarchical (CPU aggregated) page state & events */
-+	long			state_local[MEMCG_NR_STAT];
-+	unsigned long		events_local[NR_MEMCG_EVENTS];
-+
-+	/* Pending child counts during tree propagation */
-+	long			state_pending[MEMCG_NR_STAT];
-+	unsigned long		events_pending[NR_MEMCG_EVENTS];
-+};
-+
++	/* Stats updates since the last flush */
++	atomic64_t		stats_updates;
+ };
+
  /*
-  * memcg and lruvec stats flushing
-  *
-@@ -681,80 +755,6 @@ static void flush_memcg_stats_dwork(struct work_struct *w)
- 	queue_delayed_work(system_unbound_wq, &stats_flush_dwork, FLUSH_TIME);
+@@ -661,9 +667,7 @@ struct memcg_vmstats {
+  */
+ static void flush_memcg_stats_dwork(struct work_struct *w);
+ static DECLARE_DEFERRABLE_WORK(stats_flush_dwork, flush_memcg_stats_dwork);
+-static DEFINE_PER_CPU(unsigned int, stats_updates);
+ static atomic_t stats_flush_ongoing = ATOMIC_INIT(0);
+-static atomic_t stats_flush_threshold = ATOMIC_INIT(0);
+ static u64 flush_last_time;
+
+ #define FLUSH_TIME (2UL*HZ)
+@@ -690,26 +694,37 @@ static void memcg_stats_unlock(void)
+ 	preempt_enable_nested();
  }
 
--/* Subset of vm_event_item to report for memcg event stats */
--static const unsigned int memcg_vm_event_stat[] = {
--	PGPGIN,
--	PGPGOUT,
--	PGSCAN_KSWAPD,
--	PGSCAN_DIRECT,
--	PGSCAN_KHUGEPAGED,
--	PGSTEAL_KSWAPD,
--	PGSTEAL_DIRECT,
--	PGSTEAL_KHUGEPAGED,
--	PGFAULT,
--	PGMAJFAULT,
--	PGREFILL,
--	PGACTIVATE,
--	PGDEACTIVATE,
--	PGLAZYFREE,
--	PGLAZYFREED,
--#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
--	ZSWPIN,
--	ZSWPOUT,
--	ZSWPWB,
--#endif
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	THP_FAULT_ALLOC,
--	THP_COLLAPSE_ALLOC,
--	THP_SWPOUT,
--	THP_SWPOUT_FALLBACK,
--#endif
--};
--
--#define NR_MEMCG_EVENTS ARRAY_SIZE(memcg_vm_event_stat)
--static int mem_cgroup_events_index[NR_VM_EVENT_ITEMS] __read_mostly;
--
--static void init_memcg_events(void)
--{
--	int i;
--
--	for (i = 0; i < NR_MEMCG_EVENTS; ++i)
--		mem_cgroup_events_index[memcg_vm_event_stat[i]] = i + 1;
--}
--
--static inline int memcg_events_index(enum vm_event_item idx)
--{
--	return mem_cgroup_events_index[idx] - 1;
--}
--
--struct memcg_vmstats_percpu {
--	/* Local (CPU and cgroup) page state & events */
--	long			state[MEMCG_NR_STAT];
--	unsigned long		events[NR_MEMCG_EVENTS];
--
--	/* Delta calculation for lockless upward propagation */
--	long			state_prev[MEMCG_NR_STAT];
--	unsigned long		events_prev[NR_MEMCG_EVENTS];
--
--	/* Cgroup1: threshold notifications & softlimit tree updates */
--	unsigned long		nr_page_events;
--	unsigned long		targets[MEM_CGROUP_NTARGETS];
--};
--
--struct memcg_vmstats {
--	/* Aggregated (CPU and subtree) page state & events */
--	long			state[MEMCG_NR_STAT];
--	unsigned long		events[NR_MEMCG_EVENTS];
--
--	/* Non-hierarchical (CPU aggregated) page state & events */
--	long			state_local[MEMCG_NR_STAT];
--	unsigned long		events_local[NR_MEMCG_EVENTS];
--
--	/* Pending child counts during tree propagation */
--	long			state_pending[MEMCG_NR_STAT];
--	unsigned long		events_pending[NR_MEMCG_EVENTS];
--};
--
- unsigned long memcg_page_state(struct mem_cgroup *memcg, int idx)
++
++static bool memcg_should_flush_stats(struct mem_cgroup *memcg)
++{
++	return atomic64_read(&memcg->vmstats->stats_updates) >
++		MEMCG_CHARGE_BATCH * num_online_cpus();
++}
++
+ static inline void memcg_rstat_updated(struct mem_cgroup *memcg, int val)
  {
- 	long x = READ_ONCE(memcg->vmstats->state[idx]);
++	int cpu = smp_processor_id();
+ 	unsigned int x;
+
+ 	if (!val)
+ 		return;
+
+-	cgroup_rstat_updated(memcg->css.cgroup, smp_processor_id());
++	cgroup_rstat_updated(memcg->css.cgroup, cpu);
++
++	for (; memcg; memcg = parent_mem_cgroup(memcg)) {
++		x = __this_cpu_add_return(memcg->vmstats_percpu->stats_updates,
++					  abs(val));
++
++		if (x < MEMCG_CHARGE_BATCH)
++			continue;
+
+-	x = __this_cpu_add_return(stats_updates, abs(val));
+-	if (x > MEMCG_CHARGE_BATCH) {
+ 		/*
+-		 * If stats_flush_threshold exceeds the threshold
+-		 * (>num_online_cpus()), cgroup stats update will be triggered
+-		 * in __mem_cgroup_flush_stats(). Increasing this var further
+-		 * is redundant and simply adds overhead in atomic update.
++		 * If @memcg is already flush-able, increasing stats_updates is
++		 * redundant. Avoid the overhead of the atomic update.
+ 		 */
+-		if (atomic_read(&stats_flush_threshold) <= num_online_cpus())
+-			atomic_add(x / MEMCG_CHARGE_BATCH, &stats_flush_threshold);
+-		__this_cpu_write(stats_updates, 0);
++		if (!memcg_should_flush_stats(memcg))
++			atomic64_add(x, &memcg->vmstats->stats_updates);
++		__this_cpu_write(memcg->vmstats_percpu->stats_updates, 0);
+ 	}
+ }
+
+@@ -728,13 +743,12 @@ static void do_flush_stats(void)
+
+ 	cgroup_rstat_flush(root_mem_cgroup->css.cgroup);
+
+-	atomic_set(&stats_flush_threshold, 0);
+ 	atomic_set(&stats_flush_ongoing, 0);
+ }
+
+ void mem_cgroup_flush_stats(void)
+ {
+-	if (atomic_read(&stats_flush_threshold) > num_online_cpus())
++	if (memcg_should_flush_stats(root_mem_cgroup))
+ 		do_flush_stats();
+ }
+
+@@ -748,8 +762,8 @@ void mem_cgroup_flush_stats_ratelimited(void)
+ static void flush_memcg_stats_dwork(struct work_struct *w)
+ {
+ 	/*
+-	 * Always flush here so that flushing in latency-sensitive paths is
+-	 * as cheap as possible.
++	 * Deliberately ignore memcg_should_flush_stats() here so that flushing
++	 * in latency-sensitive paths is as cheap as possible.
+ 	 */
+ 	do_flush_stats();
+ 	queue_delayed_work(system_unbound_wq, &stats_flush_dwork, FLUSH_TIME);
+@@ -5658,6 +5672,10 @@ static void mem_cgroup_css_rstat_flush(struct cgroup_subsys_state *css, int cpu)
+ 			}
+ 		}
+ 	}
++	statc->stats_updates = 0;
++	/* We are in a per-cpu loop here, only do the atomic write once */
++	if (atomic64_read(&memcg->vmstats->stats_updates))
++		atomic64_set(&memcg->vmstats->stats_updates, 0);
+ }
+
+ #ifdef CONFIG_MMU
 --
 2.50.1
