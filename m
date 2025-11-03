@@ -1,179 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DDE2FFF8B;
-	Mon,  3 Nov 2025 10:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E122F2603
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 11:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762167064; cv=none; b=rsHJ0FzDCuv6X+wv3YOSvKNs4c5m2C6VGJRbvs2fmdnolF2b/EtDgdid6G/y0QMnGNaX1OLm9ZkrdfaOqE73DOmvFBIQg9DGsAp64rLFLQ88j0rPX68FEQ6OzjPnmOr6N+yPB5TLJfSjvoOOKfnBo1nFVc6vMLHGSVvJP/6II2E=
+	t=1762169990; cv=none; b=M4KB6WmGguaQHuKcDScEwS4CnUWvIEVMQOcvWHZSE/Okvi6ufG/KdE0zi5OehXAdlEjpY3SrAYYZeuSDraneS0yIXqxVM7avTrrlth9e8jml+HnJHjGfAfPvXFaVPxCpqqefPIMmUxP88UPmlfdOCLnXmxZjsXJnAziWESpKKkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762167064; c=relaxed/simple;
-	bh=VQ4hXNs7+ujjrEuM6okI3GtAUk8U1jbFJcLICEJAusg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r+IMRzPsP5deAqMy5laEyBmeBns+us68jF5qOGFpcToZgKStW1MAUjx8Y+7rPGtdkEjL95jYsMi3AzB7D9jkLt+eYB2qEtNfkFNK3ZFAefEdEzipqyQkePeumsCiwhAA+y7e5ZxdwBBBuPwMQYviKQcdIC0/26qSRWAcwDPIEqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMmdPgR/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762169990; c=relaxed/simple;
+	bh=p293SKf5o/p3baJzQjvB+/sLwGBM0lsd3WQD3vZfrVM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uQW+ZAssmOEFUGB9BExd3x1lyKG1qa17P0vvRO9G58HDNgqzX6g7qr31/9H6HAaLSz5TDY9QyWfJ5beInviDbiaIpmc3GRzJb6iedLQn+UNXp6wVDMLciPWtlTW38MhoT+QZ2Tmbd74ZJIPGfMiWDd5g4SKCrXN9frFlGvdFBMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhMvr4bA; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMmdPgR/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3098C4CEE7;
-	Mon,  3 Nov 2025 10:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762167062;
-	bh=VQ4hXNs7+ujjrEuM6okI3GtAUk8U1jbFJcLICEJAusg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dMmdPgR/Ennl/LxZY9JqJ+rdcdE5xbtl2DS6YCfkT8tjg2C4Ok941GA3a0aGjjcbh
-	 N+VphgG9Mxrc/rwY9hDkjQyGMzokqLs2VkZpM811GklFiDmbuNyU/kx4IyYR4eQ6J4
-	 LYYuHJzAEuB/b9dp2zy3oLn35WeqIp2x8dQv1mg9ylraTpLP1Ncd6KNEOugD2aZg6d
-	 J7IOaVx49e5JS8rzKGoQ+bfFg7G0KZ5tWzMM2lCcQC4hMefqksB4zyYyXewfMGG/sH
-	 sf8iVfIkNndfACRLGLkcklSZ9SSPDp5SoTikAG2yQ/gnB6LeuVhTDfy3sIEh3BNm3K
-	 i5hySTuH4tUXA==
-Date: Mon, 3 Nov 2025 12:50:41 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: "Roy, Patrick" <roypat@amazon.co.uk>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"willy@infradead.org" <willy@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"david@redhat.com" <david@redhat.com>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>,
-	"surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>,
-	"song@kernel.org" <song@kernel.org>,
-	"jolsa@kernel.org" <jolsa@kernel.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>,
-	"eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"Cali, Marco" <xmarcalx@amazon.co.uk>,
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>,
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
-	"tabba@google.com" <tabba@google.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from
- direct map
-Message-ID: <aQiJAfO8wiVPko_N@kernel.org>
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk>
- <20250924152214.7292-2-roypat@amazon.co.uk>
- <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com>
- <aQXVNuBwEIRBtOc0@kernel.org>
- <DDYZRG8A99D1.2MYZVGBKJNHJW@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhMvr4bA"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-29516a36affso29060695ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 03:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762169989; x=1762774789; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/r08ApJzmACuZwLJWForR04uW0kQJLXeWuOH252Kn+k=;
+        b=OhMvr4bAQy/h3UdeYzBNYlB7S9TLCnITU+XoyEHhUgvbVhOHxAc69mtCMNTt7KCG1k
+         ZlJcyPhp7A9QbnVoVeupFS3U4cUbcrC9PHm+9uMWu8oEogWUAWfDwa1Z6HwX5HD2uKTY
+         00Sc+Ptxn7D8/g10WUyh3Sfoj9wCLxZ7tqNZo4eA9RTFjwxw9mW/omY/FQx0DjfhVQ++
+         uZBxBtvO+MW7WxvezPiZ970VG7tSAtSe6JBNUP9cWNtBvCV8BJujw/VOwfLVIa0fBioo
+         pknFdkzvsSGbH224yWE1FeEN3Xxzi4dXzCXcKSt+9PtcLI0nL8LYZ/p5u/dLsp6OZbe7
+         nrNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762169989; x=1762774789;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/r08ApJzmACuZwLJWForR04uW0kQJLXeWuOH252Kn+k=;
+        b=Hj3ee9n8a4Fvvy2Y/DvcAzuXExUjm6q4YUtY+IztRj9Dqlchpbf61+kyEZOSFLLgWn
+         fpdDLkKG1N2feWB7K7avIHuJExxplg51ojPLbKaMC8JCPUPzWdXv2q77rqV4Kyg0FFzY
+         RkxZ6jj7Iavg/fWLLBO9qbJmDJo98k4V6LKztkSjasyN+3V9qtaJ61ikml8tAJx5R4nP
+         MIkGs8xq0SLwwjWvlyD69GX9Fo+iY1PjH14RLBW3Hd9NiHdfQhAGnocKoJqWtq/EonYd
+         o4/BXy81zuNmy/H1qm6C9tpu2yx8MqmD1AYTJirb5Oh+QNImrGtnOf5PBPt5Erj7hJNV
+         zUSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYGtPE0720Dj1Jox/r2SpGYSRiyZ5YYmvCsEebIlVDDMNUF2yCZFhA5rriWcg15JFx1QMc1hb1ssk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLanv4PqLFFUTcg4gZDBhHbVxpq16BflTgMBJEXYEOf74bwLCE
+	VISaH8+botdf2JLFMhkkqTjmQ2+/7wzYiqTYOwkuXelb4AIOGkfyA8jm
+X-Gm-Gg: ASbGnctaUIvJDsHWqUY8U6VkEfTXrLv7Z/u3tg8cavfmb86sghanXNJTHjLiHNI9jfd
+	Soi1ezx3mlBZRdi8r1GUzmYiESpxoYMNCM5ADfPbiqbQFRijS9Vw4EJ3dXYfejXdf9dkS2NB3ju
+	oSv/wA7xV3WOpuVsxLo/7eC7rifCUOeCbzzvVxZvlavbho68SKfwt4+xJYcEDJTswURGGd7pTNr
+	q/0JDdkjXYic5nRyZ0cdpHVFU5K7qwQLbLRbPe3oSlYP7TP5rM0wlkefgTKFdcY9wUAdEj7Ehcs
+	8LJ9kE+YPsggKJCgDv1aaeXhPOAN4/d4DfHfBqo/t4Gr7mMCkIuTGQuZTbbVOP1amXTeJpCAu9n
+	NsYQgyxqd9TAI37JNyWBvDCZBk8KSxi3mJUVTVt+USU7vkCgDkjW7cHrT4sJsUFxeoetj9Kh9gc
+	Ai
+X-Google-Smtp-Source: AGHT+IGVaoQkYMseij6RRLrsVDqj6D0bH7qiXKKA5WqNNjbqxLqG9f/9/U2SkMikJgtrNK8QszUkWQ==
+X-Received: by 2002:a17:902:d48b:b0:295:613f:3d6a with SMTP id d9443c01a7336-295613f4033mr92547815ad.29.1762169988522;
+        Mon, 03 Nov 2025 03:39:48 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2959e5deea5sm46177175ad.37.2025.11.03.03.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 03:39:47 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 2D8A6420A685; Mon, 03 Nov 2025 18:39:44 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Security Module <linux-security-module@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Stuart Yoder <stuart.yoder@arm.com>
+Subject: [PATCH] security: sctp: Format type and permission checks tables
+Date: Mon,  3 Nov 2025 18:39:23 +0700
+Message-ID: <20251103113922.61232-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDYZRG8A99D1.2MYZVGBKJNHJW@google.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5303; i=bagasdotme@gmail.com; h=from:subject; bh=p293SKf5o/p3baJzQjvB+/sLwGBM0lsd3WQD3vZfrVM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkckw+cjnnzTlUswkzq8mK2iLyPfdOqpixwvT5l0t21Z sIMeu6vO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRiGiG/+GCr42t+w63Mu1b JdnOVHY9bceC6P3T1+4r3qb1gH/Lt7eMDDPNlu044a1+RXZVf7RzsveVyYc0l83ZxcnU5LMq0PZ FEyMA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 03, 2025 at 10:35:38AM +0000, Brendan Jackman wrote:
-> On Sat Nov 1, 2025 at 9:39 AM UTC, Mike Rapoport wrote:
-> > On Fri, Oct 31, 2025 at 05:30:12PM +0000, Brendan Jackman wrote:
-> >> On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
-> >> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> >> > index 1d0585616aa3..73a15cade54a 100644
-> >> > --- a/include/linux/kvm_host.h
-> >> > +++ b/include/linux/kvm_host.h
-> >> > @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-> >> >  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
-> >> >  #endif
-> >> >  
-> >> > +#ifdef CONFIG_KVM_GUEST_MEMFD
-> >> > +#ifndef kvm_arch_gmem_supports_no_direct_map
-> >> > +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
-> >> > +#endif
-> >> > +#endif /* CONFIG_KVM_GUEST_MEMFD */
-> >> 
-> >> The test robot seems happy so I think I'm probably mistaken here, but
-> >> AFAICS can_set_direct_map only exists when ARCH_HAS_SET_DIRECT_MAP,
-> >> which powerpc doesn't set.
-> >
-> > We have stubs returning 0 for architectures that don't have
-> > ARCH_HAS_SET_DIRECT_MAP.
-> 
-> I can't see any such stub for can_set_direct_map() specifically?
+Use reST grid tables for both type and permission checks tables.
 
-include/linux/set_memory.h:
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+This patch is based on lsm tree.
 
-#ifndef CONFIG_ARCH_HAS_SET_DIRECT_MAP
-static inline int set_direct_map_invalid_noflush(struct page *page)
-{
-	return 0;
-}
-static inline int set_direct_map_default_noflush(struct page *page)
-{
-	return 0;
-}
+ Documentation/security/SCTP.rst | 48 +++++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 17 deletions(-)
 
-static inline int set_direct_map_valid_noflush(struct page *page,
-					       unsigned nr, bool valid)
-{
-	return 0;
-}
-
-static inline bool kernel_page_present(struct page *page)
-{
-	return true;
-}
-#else /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */
-/*
- * Some architectures, e.g. ARM64 can disable direct map modifications at
- * boot time. Let them overrive this query.
- */
-#ifndef can_set_direct_map
-static inline bool can_set_direct_map(void)
-{
-	return true;
-}
-#define can_set_direct_map can_set_direct_map
-#endif
-#endif /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */
-
+diff --git a/Documentation/security/SCTP.rst b/Documentation/security/SCTP.rst
+index 6d80d464ab6e7c..321bf6c8738970 100644
+--- a/Documentation/security/SCTP.rst
++++ b/Documentation/security/SCTP.rst
+@@ -46,24 +46,31 @@ Returns 0 on success, error on failure.
+                ipv4 or ipv6 address using sizeof(struct sockaddr_in) or
+                sizeof(struct sockaddr_in6).
  
-> (But again, the bot seems happy, so I still suspect I'm wrong somehow or
-> other).
+-  ------------------------------------------------------------------
+-  |                     BIND Type Checks                           |
++.. table:: BIND Type Checks
++
++  +----------------------------+-----------------------------------+
+   |       @optname             |         @address contains         |
+-  |----------------------------|-----------------------------------|
++  +============================+===================================+
+   | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
++  +----------------------------+-----------------------------------+
+   | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
+-  ------------------------------------------------------------------
++  +----------------------------+-----------------------------------+
++
++.. table:: CONNECT Type Checks
+ 
+-  ------------------------------------------------------------------
+-  |                   CONNECT Type Checks                          |
++  +----------------------------+-----------------------------------+
+   |       @optname             |         @address contains         |
+-  |----------------------------|-----------------------------------|
++  +============================+===================================+
+   | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
++  +----------------------------+-----------------------------------+
+   | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
+-  ------------------------------------------------------------------
++  +----------------------------+-----------------------------------+
+ 
+ A summary of the ``@optname`` entries is as follows::
+ 
+@@ -228,26 +235,33 @@ The security module performs the following operations:
+ security_sctp_bind_connect()
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Checks permissions required for ipv4/ipv6 addresses based on the ``@optname``
+-as follows::
++as follows:
+ 
+-  ------------------------------------------------------------------
+-  |                   BIND Permission Checks                       |
++.. table:: BIND Permission Checks
++
++  +----------------------------+-----------------------------------+
+   |       @optname             |         @address contains         |
+-  |----------------------------|-----------------------------------|
++  +============================+===================================+
+   | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
++  +----------------------------+-----------------------------------+
+   | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
+-  ------------------------------------------------------------------
++  +----------------------------+-----------------------------------+
++
++.. table:: CONNECT Permission Checks
+ 
+-  ------------------------------------------------------------------
+-  |                 CONNECT Permission Checks                      |
++  +----------------------------+-----------------------------------+
+   |       @optname             |         @address contains         |
+-  |----------------------------|-----------------------------------|
++  +============================+===================================+
+   | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
++  +----------------------------+-----------------------------------+
+   | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
++  +----------------------------+-----------------------------------+
+   | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
+-  ------------------------------------------------------------------
++  +----------------------------+-----------------------------------+
+ 
+ 
+ `SCTP LSM Support`_ gives a summary of the ``@optname``
 
+base-commit: dfa024bc3f67a97e1a975dd66b83af8b3845eb19
 -- 
-Sincerely yours,
-Mike.
+An old man doll... just what I always wanted! - Clara
+
