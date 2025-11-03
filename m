@@ -1,306 +1,358 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2358C245005;
-	Mon,  3 Nov 2025 20:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFA32BCF54
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 20:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762200488; cv=none; b=b4AgGXutBmeomyZ9jcgHDoxIV2iHnjKYFhs/p7uyVQymG+N9b6foZZLSQcfSVXVZYkAZd9FCuGnPnozncOglYPsdkUZbimxeTBwcpJuxfA4UM/MTIlJwv3FYkBnBowSnUpPkyvgpFgtDL8zwlJHD84d0UuE3LdoS2cMM8xH74J8=
+	t=1762202767; cv=none; b=mgwhatc/h5UK6Xpn2XkRADxi0ONmtVZDpD4RVpNz4wdIXb2f+ICKoCdRdTbvTAKh2ufaOtwBdZjY98Yg8glt/Z2YkmKeTdwrigHHs2tWaNMizg+U7qaGKavJoc6Xj8y9gt9rd2pg1FK2jpCEPaduQyFda6/oR1wNYpkeh826B/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762200488; c=relaxed/simple;
-	bh=bOZFIe2RQWsHY3f7hDWHXpv++tj6j9WWgZ4tTtaKlRA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S5pFkc59spoeIdRnn37DrwArmI1at8FtCNXp4s58ISK1PSC5ZJCL1D1dzY8aq223C9FIoMBaM42qZw1YWd6i6z4buGcyUUZJSVbFkMIYTJG8yy0a+wmiWiWPtYNTQU+Js+2WH8PjstPHCpNNUs7G5aygnc8HBO4SAUnWQsVLneA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=Y5TYvio2; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1762202767; c=relaxed/simple;
+	bh=78VVdJBIjH7DUWFrqgAJg5hmrAaLyzBHn4nSy26ktbA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j17e+DI/Nwh1rdFr2jkM4Qdotn7ePeea/H7gn+bNu3mtusaDCS6EKsstw5a6/itYkNbc/D0RGjkR0bwylnIUvv2Qd/B++gRnVYirY7PQIpNkoKZ0DwzXS0dMN400ibfcl6kcni/TF6x8NWKjccZ91ljJwRDKnqTTfYhjCrshh5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wIPDfEoV; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="Y5TYvio2"
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A3HSUl13368916;
-	Mon, 3 Nov 2025 12:07:21 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=n9Hp+W96E82ffeM9TGY/
-	T64q12eMoTlbRaWkBHrOVhQ=; b=Y5TYvio2wy42a6OuNV1jizo/aQU5rL6HohWI
-	OdRswHnuwgKDGg4PRZorsSwOwSWNepxL3lv6e92F0ZZiEQOO8ZMDqwElBWya7VYx
-	yHZJ1Bg/rdGSvGKN1xCect7aLk4BJP3dFq0W4bRU4thNy47l/7qf6QCLDdrJWuYT
-	ttchffm5fJ8azlwk2GD5NtPH33FSvCNhfhPKLPVh0Qs6M/RaBFY1LsIhyFIHXKOv
-	PPwMbL4I1eFF62/08bb33eCUiaTLoRka7NFBHCCzuXtuZDc3HhRZW8A7Jd4FsCBj
-	aU36aw88WsqWA0jpB+Nf9LOBQRQOfcCvornGVmHGoYNGSzpsQw==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a6yfe2849-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 03 Nov 2025 12:07:21 -0800 (PST)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Mon, 3 Nov 2025 20:07:19 +0000
-Date: Mon, 3 Nov 2025 12:07:12 -0800
-From: Alex Mastro <amastro@fb.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>,
-        Logan Gunthorpe
-	<logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-        Robin Murphy
-	<robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon
-	<will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jason
- Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan
- Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Alex Williamson
-	<alex.williamson@redhat.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,
-        Ankit Agrawal <ankita@nvidia.com>, Yishai
- Hadas <yishaih@nvidia.com>,
-        Shameer Kolothum <skolothumtho@nvidia.com>,
-        Kevin
- Tian <kevin.tian@intel.com>,
-        Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
-	<mochs@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        Vivek Kasireddy
-	<vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wIPDfEoV"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47105bbb8d9so2085e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 12:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762202762; x=1762807562; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XFLQG05yxnGeCUjCRezA06BGBQoij7YwrxYVw5ACcfo=;
+        b=wIPDfEoV5fT8DZeaMjcFiC6rE8jsFG6tyN4iSMR1FR+5C45Bc5dqRHpH5fFKo5ACf0
+         pfyGWIUhEYdI92md0KtpyGztW1Bs9cRP8Q9jzXm76ZF2qkWYE/9d4p0E/jA2sGpR7knE
+         tAtt3VmKjN8/rllfIzxiyLKmEe9yPa+27BlFR2DleMdmUP5gZZBv3g5THjqJVMphQ5G0
+         VriDMyMCpQto1XJtZCyRRgYf6uMlxVHcEdxTFu3CVeePg5db/OdgP3Vgp3w2i2tn+l36
+         03WtFAkiTPK0oIoH6zwEaQUQAZ725h/yza7GDhCIHRbK3nbOSa8GGTU9afSSrRJopxG/
+         mTmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762202762; x=1762807562;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XFLQG05yxnGeCUjCRezA06BGBQoij7YwrxYVw5ACcfo=;
+        b=AWhQNj6+YlfK1hmvzDg7RDpzDyqCpvLjcWve9HYAglWJW+tDKCtYiIgVsfn128n309
+         WCKkgSdpoQQfRJ0r8yci9Ql1QfblyJvD+9OoF6VFfVjY9QfQVW5fV+/hEBTx/cSVEKus
+         N/xB1d8q8K7lc6U5qiyVu25wYUZtkN3vacrvdKC9wismqUtaeFjqBHvb2XMfw3ILB+aB
+         5v0H41NEC16HQgB5HpL0GMeQPRszwx6yjNll54GbHr9k16MmgtqKV+j3SVuLLAB43huJ
+         7VrJLcB3qETKg7TAe+AOfyK2wLr9eJRlvdLjIqDgSYCp9tJvCY44qohNqmtYtklRjyLi
+         LBhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXE0gIc6IViehO9yrWb0n8ZW0aaNcOkv1mPNbRebB3YaxNzEkd0QG30alnnzkBRUmqqam6N86t34XM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwkKNUFUKBpO7ocBD4BmkXPh4bRrD5ljwBTbZ5YI4wavhmK3i3
+	S8gLNhCssGqocQP4Zb9wavYQ2OMK+QoYPbN7v4JxMH4R0FBJsIU/VLM2LBVzmVGS2c8Vsq0MA1r
+	8Ff5LPxbTshbdjmvf0K9xBvG/0E6cYJnqpH2X+kyh
+X-Gm-Gg: ASbGncuiyDCRDqu/wXFt4q20U4rpr4GZUP6XGTCHXa+riwRjaagY4CQGrW/7nGVCEKQ
+	vDulsgqcLYpMAsjZdM64WCHdXRn7LsENMHyJ0KgHKBh5YCO+wxfdLhebPCN7xPN1Yy4o19fimRH
+	nQndm4RoRiSCvMdR2I25FaQAl2dLjDzvgDjodM3JLdH5Wfw7RQ1CAhPcQfOZSUifXwt2bU2ouGI
+	gWVWOVQprU0L8Ua+52smNgs9kJ1TkWc9EySyNwgQJnNWlj40c45gzittWUdP7kcFeeFG6LKIGlF
+	VWqG+ByfL0kGvw==
+X-Google-Smtp-Source: AGHT+IG9oVCZDDY5MyOKgKW4xlI1Oc/GPLlunrZYyxDoj2qoI35Mip7UpVZjaQGJTHznRiF6HsyMfkM02zJ0rlqdzwI=
+X-Received: by 2002:a05:600c:21ce:b0:475:da0c:38a8 with SMTP id
+ 5b1f17b1804b1-47754f81696mr407755e9.4.1762202761807; Mon, 03 Nov 2025
+ 12:46:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
-X-Authority-Analysis: v=2.4 cv=G9QR0tk5 c=1 sm=1 tr=0 ts=69090b79 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=FOH2dFAWAAAA:8 a=b_Saz7MSmFOFN_6dvx4A:9 a=CjuIK1q_8ugA:10
- a=DXsff8QfwkrTrK3sU8N1:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=bWyr8ysk75zN3GCy5bjg:22
-X-Proofpoint-ORIG-GUID: F1nk6hmysPbKhKVQa_mqqIFKqOIt2lHM
-X-Proofpoint-GUID: F1nk6hmysPbKhKVQa_mqqIFKqOIt2lHM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDE3OSBTYWx0ZWRfX6SW28Xvycs0O
- YOKukhqpHcTfkYNeGRk02UVQnYAieNl0FPP5nyOoQsMjQfkPKcUonaa3EWc/tqdoAAQyhyOyp0d
- /JHwcN3QLYQ/+EZJhZ2InHvQ5+q0ThEzTdyBEGsfGK6Opxy38U0CpsznUzKLwU/5Eqh1l493VDE
- PyTsfwJm0au//MmeaXH4NXKBaJs6mnL334sMoj6rtJQYWDX5DKMNRtgxvcMAQid95nsgniy4DYE
- +umaq/vNBvV3b0K6HXe0s/cT+YOR8m2DkpctVf5zXXorytYnhbn1vV3nGRWxaQ24cLeCzQnNSqB
- UmVF2ZqiQwbE9Yb71RMC4EJcfgbsbmodipz9oljstvRLhQ7lzspcSOdC0w5Z4QcLNUWGre4urgV
- ZaziQQl4T7tsVkAKgmifB2A8A6gzCQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-03_04,2025-11-03_03,2025-10-01_01
+References: <20251013185903.1372553-1-jiaqiyan@google.com> <20251013185903.1372553-2-jiaqiyan@google.com>
+ <7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com>
+In-Reply-To: <7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Mon, 3 Nov 2025 12:45:50 -0800
+X-Gm-Features: AWmQ_bn3UtOS-iQBnGW8DyhNypxqDQ3vgsdMl2IVI_yUyITm8YFcPAhNl3XpHT4
+Message-ID: <CACw3F51_0A8CuCgzcvoA3Db=Wxo8mm5XZw5in+nTKrst+NCcqw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] KVM: arm64: VM exit to userspace to handle SEA
+To: Jose Marinho <jose.marinho@arm.com>
+Cc: maz@kernel.org, oliver.upton@linux.dev, duenwen@google.com, 
+	rananta@google.com, jthoughton@google.com, vsethi@nvidia.com, jgg@nvidia.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
-> Changelog:
-> v6:
->  * Fixed wrong error check from pcim_p2pdma_init().
->  * Documented pcim_p2pdma_provider() function.
->  * Improved commit messages.
->  * Added VFIO DMA-BUF selftest.
->  * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
->  * Fixed error unwind when dma_buf_fd() fails.
->  * Document latest changes to p2pmem.
->  * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
->  * Moved DMA mapping logic to DMA-BUF.
->  * Removed types patch to avoid dependencies between subsystems.
->  * Moved vfio_pci_dma_buf_move() in err_undo block.
->  * Added nvgrace patch.
+On Mon, Nov 3, 2025 at 10:17=E2=80=AFAM Jose Marinho <jose.marinho@arm.com>=
+ wrote:
+>
+> Thank you for these patches.
 
-Thanks Leon. Attaching a toy program which sanity tests the dma-buf export UAPI
-by feeding the allocated dma-buf into an dma-buf importer (libibverbs + CX-7).
- 
-Tested-by: Alex Mastro <amastro@fb.com>
+Thanks for your comments, Jose!
 
-$ cc -Og -Wall -Wextra $(pkg-config --cflags --libs libibverbs) test_dmabuf.c -o test_dmabuf
-$ ./test_dmabuf 0000:05:00.0 3 4 0 0x1000
-opening 0000:05:00.0 via /dev/vfio/56
-allocating dma_buf bar_idx=4, bar_offset=0x0, size=0x1000
-allocated dma_buf fd=6
-discovered 4 ibv devices: mlx5_0 mlx5_1 mlx5_2 mlx5_3
-opened ibv device 3: mlx5_3
-registered dma_buf
-unregistered dma_buf
-closed dma_buf fd
+>
+> On 10/13/2025 7:59 PM, Jiaqi Yan wrote:
+> > When APEI fails to handle a stage-2 synchronous external abort (SEA),
+> > today KVM injects an asynchronous SError to the VCPU then resumes it,
+> > which usually results in unpleasant guest kernel panic.
+> >
+> > One major situation of guest SEA is when vCPU consumes recoverable
+> > uncorrected memory error (UER). Although SError and guest kernel panic
+> > effectively stops the propagation of corrupted memory, guest may
+> > re-use the corrupted memory if auto-rebooted; in worse case, guest
+> > boot may run into poisoned memory. So there is room to recover from
+> > an UER in a more graceful manner.
+> >
+> > Alternatively KVM can redirect the synchronous SEA event to VMM to
+> > - Reduce blast radius if possible. VMM can inject a SEA to VCPU via
+> >    KVM's existing KVM_SET_VCPU_EVENTS API. If the memory poison
+> >    consumption or fault is not from guest kernel, blast radius can be
+> >    limited to the triggering thread in guest userspace, so VM can
+> >    keep running.
+> > - Allow VMM to protect from future memory poison consumption by
+> >    unmapping the page from stage-2, or to interrupt guest of the
+> >    poisoned page so guest kernel can unmap it from stage-1 page table.
+> > - Allow VMM to track SEA events that VM customers care about, to restar=
+t
+> >    VM when certain number of distinct poison events have happened,
+> >    to provide observability to customers in log management UI.
+> >
+> > Introduce an userspace-visible feature to enable VMM handle SEA:
+> > - KVM_CAP_ARM_SEA_TO_USER. As the alternative fallback behavior
+> >    when host APEI fails to claim a SEA, userspace can opt in this new
+> >    capability to let KVM exit to userspace during SEA if it is not
+> >    owned by host.
+> > - KVM_EXIT_ARM_SEA. A new exit reason is introduced for this.
+> >    KVM fills kvm_run.arm_sea with as much as possible information about
+> >    the SEA, enabling VMM to emulate SEA to guest by itself.
+> >    - Sanitized ESR_EL2. The general rule is to keep only the bits
+> >      useful for userspace and relevant to guest memory.
+> >    - Flags indicating if faulting guest physical address is valid.
+> >    - Faulting guest physical and virtual addresses if valid.
+> >
+> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> > Co-developed-by: Oliver Upton <oliver.upton@linux.dev>
+> > Signed-off-by: Oliver Upton <oliver.upton@linux.dev>
+> > ---
+> >   arch/arm64/include/asm/kvm_host.h |  2 +
+> >   arch/arm64/kvm/arm.c              |  5 +++
+> >   arch/arm64/kvm/mmu.c              | 68 ++++++++++++++++++++++++++++++=
+-
+> >   include/uapi/linux/kvm.h          | 10 +++++
+> >   4 files changed, 84 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm=
+/kvm_host.h
+> > index b763293281c88..e2c65b14e60c4 100644
+> > --- a/arch/arm64/include/asm/kvm_host.h
+> > +++ b/arch/arm64/include/asm/kvm_host.h
+> > @@ -350,6 +350,8 @@ struct kvm_arch {
+> >   #define KVM_ARCH_FLAG_GUEST_HAS_SVE                 9
+> >       /* MIDR_EL1, REVIDR_EL1, and AIDR_EL1 are writable from userspace=
+ */
+> >   #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS          10
+> > +     /* Unhandled SEAs are taken to userspace */
+> > +#define KVM_ARCH_FLAG_EXIT_SEA                               11
+> >       unsigned long flags;
+> >
+> >       /* VM-wide vCPU feature set */
+> > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > index f21d1b7f20f8e..888600df79c40 100644
+> > --- a/arch/arm64/kvm/arm.c
+> > +++ b/arch/arm64/kvm/arm.c
+> > @@ -132,6 +132,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+> >               }
+> >               mutex_unlock(&kvm->lock);
+> >               break;
+> > +     case KVM_CAP_ARM_SEA_TO_USER:
+> > +             r =3D 0;
+> > +             set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
+> > +             break;
+> >       default:
+> >               break;
+> >       }
+> > @@ -327,6 +331,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, l=
+ong ext)
+> >       case KVM_CAP_IRQFD_RESAMPLE:
+> >       case KVM_CAP_COUNTER_OFFSET:
+> >       case KVM_CAP_ARM_WRITABLE_IMP_ID_REGS:
+> > +     case KVM_CAP_ARM_SEA_TO_USER:
+> >               r =3D 1;
+> >               break;
+> >       case KVM_CAP_SET_GUEST_DEBUG2:
+> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > index 7cc964af8d305..09210b6ab3907 100644
+> > --- a/arch/arm64/kvm/mmu.c
+> > +++ b/arch/arm64/kvm/mmu.c
+> > @@ -1899,8 +1899,48 @@ static void handle_access_fault(struct kvm_vcpu =
+*vcpu, phys_addr_t fault_ipa)
+> >       read_unlock(&vcpu->kvm->mmu_lock);
+> >   }
+> >
+> > +/*
+> > + * Returns true if the SEA should be handled locally within KVM if the=
+ abort
+> > + * is caused by a kernel memory allocation (e.g. stage-2 table memory)=
+.
+> > + */
+> > +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
+> > +{
+> > +     /*
+> > +      * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any external abo=
+rt
+> > +      * taken from a guest EL to EL2 is due to a host-imposed access (=
+e.g.
+> > +      * stage-2 PTW).
+> > +      */
+> > +     if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
+> > +             return true;
+> > +
+> > +     /* KVM owns the VNCR when the vCPU isn't in a nested context. */
+> > +     if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
+> Is this check valid only for a "Data Abort"?
 
----
-#include <fcntl.h>
-#include <infiniband/verbs.h>
-#include <libgen.h>
-#include <linux/limits.h>
-#include <linux/types.h>
-#include <linux/vfio.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
+Yes, the VNCR bit is specific to a Data Abort (provided we can only
+reach host_owns_sea if kvm_vcpu_abt_issea).
+I don't think we need to explicitly exclude the check here for
+Instruction Abort.
 
-#define ensure(cond)                                                             \
-	do {                                                                     \
-		if (!(cond)) {                                                   \
-			fprintf(stderr,                                          \
-				"%s:%d Condition failed: '%s' (errno=%d: %s)\n", \
-				__FILE__, __LINE__, #cond, errno,                \
-				strerror(errno));                                \
-			exit(EXIT_FAILURE);                                      \
-		}                                                                \
-	} while (0)
+> > +             return true;
+> > +
+> > +     /*
+> > +      * Determine if an external abort during a table walk happened at
+> > +      * stage-2 is only possible with S1PTW is set. Otherwise, since K=
+VM
+> nit: Is the first sentence correct?
 
-#ifndef VFIO_DEVICE_FEATURE_DMA_BUF
-#define VFIO_DEVICE_FEATURE_DMA_BUF 11
+Oh, it should be "Determining ...".
 
-struct vfio_region_dma_range {
-	__u64 offset;
-	__u64 length;
-};
+>
+> > +      * sets HCR_EL2.TEA, SEAs due to a stage-1 walk (i.e. accessing t=
+he
+> > +      * PA of the stage-1 descriptor) can reach here and are reported
+> > +      * with a TTW ESR value.
+> > +      */
+> > +     return (esr_fsc_is_sea_ttw(esr) && (esr & ESR_ELx_S1PTW));
+> > +}
+> > +
+> >   int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
+> >   {
+> > +     struct kvm *kvm =3D vcpu->kvm;
+> > +     struct kvm_run *run =3D vcpu->run;
+> > +     u64 esr =3D kvm_vcpu_get_esr(vcpu);
+> > +     u64 esr_mask =3D ESR_ELx_EC_MASK  |
+> > +                    ESR_ELx_IL       |
+> > +                    ESR_ELx_FnV      |
+> > +                    ESR_ELx_EA       |
+> > +                    ESR_ELx_CM       |
+> > +                    ESR_ELx_WNR      |
+> > +                    ESR_ELx_FSC;
+> > +     u64 ipa;
+> > +
+> >       /*
+> >        * Give APEI the opportunity to claim the abort before handling i=
+t
+> >        * within KVM. apei_claim_sea() expects to be called with IRQs en=
+abled.
+> > @@ -1909,7 +1949,33 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
+> >       if (apei_claim_sea(NULL) =3D=3D 0)
+> >               return 1;
+> >
+> > -     return kvm_inject_serror(vcpu);
+> > +     if (host_owns_sea(vcpu, esr) ||
+> > +         !test_bit(KVM_ARCH_FLAG_EXIT_SEA, &vcpu->kvm->arch.flags))
+> > +             return kvm_inject_serror(vcpu);
+> > +
+> > +     /* ESR_ELx.SET is RES0 when FEAT_RAS isn't implemented. */
+> > +     if (kvm_has_ras(kvm))
+> > +             esr_mask |=3D ESR_ELx_SET_MASK;
+> > +
+> > +     /*
+> > +      * Exit to userspace, and provide faulting guest virtual and phys=
+ical
+> > +      * addresses in case userspace wants to emulate SEA to guest by
+> > +      * writing to FAR_ELx and HPFAR_ELx registers.
+> > +      */
+> > +     memset(&run->arm_sea, 0, sizeof(run->arm_sea));
+> > +     run->exit_reason =3D KVM_EXIT_ARM_SEA;
+> > +     run->arm_sea.esr =3D esr & esr_mask;
+> > +
+> > +     if (!(esr & ESR_ELx_FnV))
+> > +             run->arm_sea.gva =3D kvm_vcpu_get_hfar(vcpu) > +
+> > +     ipa =3D kvm_vcpu_get_fault_ipa(vcpu);
+> > +     if (ipa !=3D INVALID_GPA) {
+> > +             run->arm_sea.flags |=3D KVM_EXIT_ARM_SEA_FLAG_GPA_VALID;
+> > +             run->arm_sea.gpa =3D ipa;
+>
+> Are we interested in the value of PFAR_EL2 (if FEAT_PFAR implemented)?
 
-struct vfio_device_feature_dma_buf {
-	__u32 region_index;
-	__u32 open_flags;
-	__u32 flags;
-	__u32 nr_ranges;
-	struct vfio_region_dma_range dma_ranges[];
-};
-#endif
+I don't think userspace (VMM) or the guest would need or make any use
+of the physical memory address. I believe host physical address in
+general should be hidden from userspace process.
 
-static uint32_t group_for_bdf(const char *bdf)
-{
-	char path[PATH_MAX];
-	char link[PATH_MAX];
-	int ret;
+Completely off-topic: if FEAT_PFAR is implemented, I would propose EL3
+RAS to implement something below so that host APEI can claim the SEA:
+1. Triage the SEA to determine if it has to be handled in place, or
+should it be redirected to lower EL2.
+2. If SEA should be redirected to EL2, craft a memory error CPER that
+contains a valid physical memory address.
+3. When redirect a SEA to EL2, also populate it to host APEI GHES.
 
-	snprintf(path, sizeof(path), "/sys/bus/pci/devices/%s/iommu_group",
-		 bdf);
-	ret = readlink(path, link, sizeof(link));
-	ensure(ret > 0);
+This way, memory error caused SEA can properly trigger the normal
+memory_failure routine provided by host kernel, instead of handled as
+an exception without memory error context by KVM.
 
-	const char *filename = basename(link);
-	ensure(filename);
+> I believe kvm_vcpu_get_fault_ipa gets the HPFAR_EL2, which is valid for
+> S2 translation and GPC faults, but unknown for other cases.
 
-	return strtoul(filename, NULL, 0);
-}
+You are absolutely right that HPFAR_EL2 register is unknown for SEA.
+However, thanks to Oliver [1] KVM now performs a FAR to HPFAR address
+translation (__translate_far_to_hpfar) for certain SEA cases (see
+__fault_safe_to_translate), and stores the translation status +
+results in vcpu->arch.fault. These SEA cases are returned to userspace
+in this patchset.
 
-int main(int argc, char **argv)
-{
-	int ret;
+[1] https://lore.kernel.org/all/20250402201725.2963645-4-oliver.upton@linux=
+.dev.
 
-	if (argc != 6) {
-		printf("usage: %s <vfio_bdf> <ibv_device_idx> <bar_idx> <bar_offset> <size>\n",
-		       argv[0]);
-		printf("example: %s 0000:05:00.0 3 2 0x20000 0x1000\n",
-		       argv[0]);
-		return 1;
-	}
-
-	const char *bdf = argv[1];
-	uint32_t ibv_idx = strtoul(argv[2], NULL, 0);
-	uint32_t bar_idx = strtoul(argv[3], NULL, 0);
-	uint64_t bar_offs = strtoull(argv[4], NULL, 0);
-	uint64_t dmabuf_len = strtoull(argv[5], NULL, 0);
-
-	uint32_t group_num = group_for_bdf(bdf);
-	char group_path[PATH_MAX];
-	snprintf(group_path, sizeof(group_path), "/dev/vfio/%u", group_num);
-
-	int container_fd = open("/dev/vfio/vfio", O_RDWR);
-	ensure(container_fd >= 0);
-
-	printf("opening %s via %s\n", bdf, group_path);
-	int group_fd = open(group_path, O_RDWR);
-	ensure(group_fd >= 0);
-
-	ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container_fd);
-	ensure(!ret);
-
-	ret = ioctl(container_fd, VFIO_SET_IOMMU, VFIO_TYPE1v2_IOMMU);
-	ensure(!ret);
-
-	int device_fd = ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, bdf);
-	ensure(device_fd >= 0);
-
-	uint8_t buf[sizeof(struct vfio_device_feature) +
-		    sizeof(struct vfio_device_feature_dma_buf) +
-		    sizeof(struct vfio_region_dma_range)]
-		__attribute__((aligned(32)));
-
-	struct vfio_device_feature *ft = (struct vfio_device_feature *)buf;
-	*ft = (struct vfio_device_feature){
-		.argsz = sizeof(buf),
-		.flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_BUF,
-	};
-
-	struct vfio_device_feature_dma_buf *ft_dma_buf =
-		(struct vfio_device_feature_dma_buf *)ft->data;
-	*ft_dma_buf = (struct vfio_device_feature_dma_buf){
-		.region_index = bar_idx,
-		.open_flags = O_RDWR,
-		.nr_ranges = 1,
-	};
-
-	ft_dma_buf->dma_ranges[0] = (struct vfio_region_dma_range){
-		.length = dmabuf_len,
-		.offset = bar_offs,
-	};
-
-	printf("allocating dma_buf bar_idx=%u, bar_offset=0x%lx, size=0x%lx\n",
-	       bar_idx, bar_offs, dmabuf_len);
-	int dmabuf_fd = ioctl(device_fd, VFIO_DEVICE_FEATURE, buf);
-	ensure(dmabuf_fd >= 0);
-	printf("allocated dma_buf fd=%d\n", dmabuf_fd);
-
-	int num;
-	struct ibv_device **devs = ibv_get_device_list(&num);
-	ensure(devs && num > 0);
-	printf("discovered %d ibv devices:", num);
-	for (int i = 0; i < num; i++) {
-		printf(" %s", ibv_get_device_name(devs[i]));
-	}
-	printf("\n");
-	ensure(ibv_idx < (uint32_t)num);
-
-	struct ibv_context *ctx = ibv_open_device(devs[ibv_idx]);
-	ensure(ctx);
-	printf("opened ibv device %d: %s\n", ibv_idx,
-	       ibv_get_device_name(devs[ibv_idx]));
-
-	struct ibv_pd *pd = ibv_alloc_pd(ctx);
-	ensure(pd);
-
-	uint64_t offset = 0;
-	uint64_t iova = 0;
-	int access = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ |
-		     IBV_ACCESS_REMOTE_WRITE;
-
-	struct ibv_mr *mr = ibv_reg_dmabuf_mr(pd, offset, dmabuf_len, iova,
-					      dmabuf_fd, access);
-	ensure(mr);
-	printf("registered dma_buf\n");
-
-	ret = ibv_dereg_mr(mr);
-	ensure(!ret);
-	printf("unregistered dma_buf\n");
-
-	ret = close(dmabuf_fd);
-	ensure(!ret);
-	printf("closed dma_buf fd\n");
-
-	return 0;
-}
----
+>
+> Jose
+>
+> > +     }
+> > +
+> > +     return 0;
+> >   }
+> >
+> >   /**
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index 6efa98a57ec11..acc7b3a346992 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -179,6 +179,7 @@ struct kvm_xen_exit {
+> >   #define KVM_EXIT_LOONGARCH_IOCSR  38
+> >   #define KVM_EXIT_MEMORY_FAULT     39
+> >   #define KVM_EXIT_TDX              40
+> > +#define KVM_EXIT_ARM_SEA          41
+> >
+> >   /* For KVM_EXIT_INTERNAL_ERROR */
+> >   /* Emulate instruction failed. */
+> > @@ -473,6 +474,14 @@ struct kvm_run {
+> >                               } setup_event_notify;
+> >                       };
+> >               } tdx;
+> > +             /* KVM_EXIT_ARM_SEA */
+> > +             struct {
+> > +#define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID      (1ULL << 0)
+> > +                     __u64 flags;
+> > +                     __u64 esr;
+> > +                     __u64 gva;
+> > +                     __u64 gpa;
+> > +             } arm_sea;
+> >               /* Fix the size of the union. */
+> >               char padding[256];
+> >       };
+> > @@ -963,6 +972,7 @@ struct kvm_enable_cap {
+> >   #define KVM_CAP_RISCV_MP_STATE_RESET 242
+> >   #define KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED 243
+> >   #define KVM_CAP_GUEST_MEMFD_MMAP 244
+> > +#define KVM_CAP_ARM_SEA_TO_USER 245
+> >
+> >   struct kvm_irq_routing_irqchip {
+> >       __u32 irqchip;
