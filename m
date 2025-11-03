@@ -1,456 +1,177 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB971B87C0
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 19:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C6A1DF25C
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 19:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762196926; cv=none; b=PiTHYeL7gd8lTsTzYpBgNekPKgwB3MTG7N3qTvMF3mX3//un8yDBgD6dAisEhm7MldaNGqmhLB4AFQ6HDHFhPZmeQjsgJm1L9v1BcdcARKlROnQHyQ9zWQXvYlJ0SDRp/8TGvEQn6BJArMe9K3GL7XEpz1u+WHQnTQ2acsDwGpU=
+	t=1762199159; cv=none; b=Pcw5Fbe+Cemvd4K8GYfn6cwTi59v6W+KBAfPFtxTAF5zfLSCPyhebr3TiZSoHCKnV42dbbDb3ROm/udcMBDJVIuvqDyRCD0faRlV0E2+xCdZh2OFkBqRejnnoGGeVMMlLO1HKsuOIIuPXAh411T0VJ4dL7QSl+CLrRBNdmKwPH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762196926; c=relaxed/simple;
-	bh=822mfqDqtZsDE5JjprSZ30+DzSrzKwyi84lemenXZ9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UL5Vi6Y2rG4W9NehqAyTwLDq1HsYRT4k2OwY3XflP9IN3x6H8vP9driNLRIGfnFDF8/nHY/egK8fPUXIhoR820gIZ4uo2HRvNG0X5NlxntauJcLZY2H82VJFhELHV3PGvplUsveRdHAyWLZVKAjDSnIK1zAjJQbaJX4DsYNiCkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vFzuV-0005Ix-Sm; Mon, 03 Nov 2025 20:08:11 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vFzuV-006uSu-0X;
-	Mon, 03 Nov 2025 20:08:11 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vFzuV-00Gl3y-0A;
-	Mon, 03 Nov 2025 20:08:11 +0100
-Date: Mon, 3 Nov 2025 20:08:11 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Frank Li <frank.li@nxp.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v19 0/7] firmware: imx: driver for NXP
- secure-enclave
-Message-ID: <20251103190811.wp4o7hlnus6ynn32@pengutronix.de>
-References: <20250927-imx-se-if-v19-0-d1e7e960c118@nxp.com>
- <20251016114151.jzmapaecsmmnkpt3@pengutronix.de>
- <AM9PR04MB8604C2AAA70406883320C5C995FCA@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1762199159; c=relaxed/simple;
+	bh=IPTBE8hzRKTSZ+5Dq4mYL083Sn9ZhFw3PxQbIPLRuNs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tky2oHyri1pbE+OrmnqsVNYDYjbz2DXkDCoJaNHc2GgOd3jBhHq9cEhveXDTJ/1/GSWWPI7R/PIuKgziB65+EjFdtlEnepXxy8Z2elpWaJnekTuMlJwqZBAi70K0FwUh3d4YwRyALKzBQKP/kpJUX8ShW7KbwR3DFgZEcO0MZmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kkt4JyOR; arc=none smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kkt4JyOR"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-63fbbad0ac3so1024951d50.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 11:45:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762199156; x=1762803956; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zDgrJGPwTkDqRWUIRmg2o0UWPQlQh5Pa4lWjqQeT3Vs=;
+        b=Kkt4JyOR0bnSMdAAot+yuwREiDggObyb9FkBryzKkFA3AxVH8Tm/u0Fk/mF4zsTZoH
+         mcxNtLiSk2jWYd7USg7j/iauoVq+6C2GBd/RSNTvgdQK9dwQY9dZL/yNnNjI+4V4x43l
+         HNfO2seHzvyEMzP3QF7dxS832mPweLjFhxKbGbM0qz7h7+Lsbsh+CyLgtltX+oXFv7j8
+         zCRSs10iH7zPnU6u/AtxZR4u7pPJX6gCjyDeHTe+R6qV0hNIXqArL+zR8F0v0KGXYkMB
+         e2cJNzzxKZsA9dk9/EFm5tq9LPnX/JZDRl+q13wUwexKPIyg80sYF4/LkAUikIuIzsR6
+         25VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762199156; x=1762803956;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zDgrJGPwTkDqRWUIRmg2o0UWPQlQh5Pa4lWjqQeT3Vs=;
+        b=Bp7CmC/cLHdWyXoQRjgSbIgki9jYsYXx+JdcQylZU5T69QYbNp+NuzSHN+XA7H765a
+         egZ6gocgZcmbOwwighrUq/U75xacTsNDn8YOXTqoiiHljtQNwEFycLgRBzo96VBAyYjd
+         yXnns5hbAsB+RE1b3GBJsdnIui4o3kQbeg8TDIP0prl3AmUEIq102kM8dBbPCqlT6lhJ
+         GqorcSJ7PTCdZIo7IRZSkFtu5GOxf8ieia0k2OJcD3sWQWegQ1CzAMNOxj348nH/0gXl
+         8FR3M33OmOkyPcRCuASE8qRLNHcM2B2xWEamnXQhqZ6SD1+6BtNL90GKd/y5JT0gcw5p
+         3HBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXEXrtEMmyyiGcoYS2KPUxgW7F4YH0HxFxT/KtcAMbEtkGlOj/aRYfBb737aA0bFhhIh91YM8Rbha8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwncH1jX3afPoYu7EYV79bTQ66SnAmO8rdEokjWiCvYOxMMIxzd
+	lispTF/CugM8Rr5NJgoVx/Xz6wjZJN2RxsKrvCDyYoJdR2z9tdl5+SY6
+X-Gm-Gg: ASbGncufSBh9UYCePEbIjQpzpK8RIpC6/gmFz4ZK6AM+960wFgQzNb7vSYBmX+LxuRq
+	rZdIM5uCI0cFveUu8vhQ0a2YQmGx92jGYfQRj5qXIEMfvPxeKHpXjAJJ+7e8bK2hnZ8X1TN+ahJ
+	zvH7tI5rVrL7aPz/7JxML039Vwe2gnDSC9hVENu70AMnjDRjGJ68pABfxuOez3cFV7T1cIwfArO
+	QwakLBAz4BIyoA7602iZFQVti5T3AN7Ue+84pFBlMjIiyoJuuSFRUZ3j7OTGvUlw30UC5RB01jo
+	aDzoTTPen2X19x9mwaWfd1kLoYd2DeflfdJTXZ+03x2+EFvZcejOIAHKQnrHSQ7OJXt/VmoBFJI
+	AyjrsNB4G+ivPLCkCH85KRJCKLwtM5oYgCvImGiocCnHSTDmbthXzQQB+7y0E4SGKH+bytioH5B
+	UOhcbkb3s/Tez3XA1/REcmrEDbLavwHKU=
+X-Google-Smtp-Source: AGHT+IGNH0RPJesBeIcKsla8XUDm1bFpyEtjHsBQ6vejr6g2P49YD8AtgFLGMiN2odUrOWMz5ZeYtA==
+X-Received: by 2002:a05:690c:6706:b0:786:8dc1:5242 with SMTP id 00721157ae682-7868dc1591dmr18450727b3.53.1762199156319;
+        Mon, 03 Nov 2025 11:45:56 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:72::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7869200367fsm3408667b3.42.2025.11.03.11.45.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 11:45:55 -0800 (PST)
+From: Daniel Zahka <daniel.zahka@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-omap@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] devlink: net/mlx5: implement swp_l4_csum_mode via devlink params
+Date: Mon,  3 Nov 2025 11:45:51 -0800
+Message-ID: <20251103194554.3203178-1-daniel.zahka@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB8604C2AAA70406883320C5C995FCA@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-On 25-10-27, Pankaj Gupta wrote:
-> On 25-09-27, Pankaj Gupta wrote:
-> >> Highlight:
-> >>
-> >> There are long discussion at V18 with Marco Felsch.
-> >> https://lore.kernel.org/imx/AM9PR04MB8604F5A7DD8B1E41FDAD09039501A@AM9PR04MB
-> >> 8604.eurprd04.prod.outlook.com/
-> >>
-> >> The key point is about using OP-TEE OS.
-> >>
-> >> Marco's questions:
-> >> =================
-> >> Q1. Both MU(s) from each world - Secure & Non-secure, cannot be used
-> >>     simultaneously. Why?
-> >> A1. ELE FW fix is available, where concurrent access to ELE from both the
-> >>     world is working. This fix is not required for the current patch-set for
-> >>     i.MX8ULP.
-> > According https://github.com/OP-TEE/optee_os/pull/7268/commits/83b516edc0270ca8300ce524a0c3d560e67a0f48#r1955899462
-> > there is no fix yet. Can you please point me to the fixed version?
-> 
-> It is not yet up-streamed to OPTEE-OS repo.
+This series contains two patches. The first is a pure refactor that
+passes through the extack to devlink_param::get() implementations. The
+second introduces a permanent devlink param to the mlx5 driver for
+controlling tx csum behavior.
 
-My intention of adding the above OP-TEE discussion link was to point out
-that an ELE-FW bug exists which needs to be fixed.
+Enabling extack for devlink_param::get() allows drivers to provide
+more information in cases when reading parameters from hardware can
+result in errors or unexpected values.
 
-> Fix version is part of NXP LF Q3 released on 30 September.
-> Commit can be found on this URL: https://github.com/nxp-imx/imx-optee-os/commits/lf-6.12.34_2.1.0/.
+The mlx5 swp_l4_csum_mode devlink param is necessary for initializing
+PSP on CX7 NICs.
 
-I assume you meant the following commit:
- - https://github.com/nxp-imx/imx-optee-os/commit/039f15017cea38c401f908e0e1662ba8806ed4e3
+CHANGES:
+v2:
+  - fix indentation issue in new mlx5.rst entry
+  - use extack in mlx5_nv_param_devlink_swp_l4_csum_mode_get()
+  - introduce extack patch.
+v1: https://lore.kernel.org/netdev/20251022190932.1073898-1-daniel.zahka@gmail.com/
 
-This adapts the timeout value to 100ms and seems more like an
-workaround.
+Daniel Zahka (2):
+  devlink: pass extack through to devlink_param::get()
+  net/mlx5: implement swp_l4_csum_mode via devlink params
 
-However, can NXP confirm that the ELE concurrent access is possible
-without a previous ELE FW update?
-
-> One more fix is coming in LF Q4. After that, these patches will
-> up-streamed to OP-TEE-OS.
->
-> Then you will be able locate it in OPTEE-OS git repo.
-
-Thanks for the sharing the links :)
-
-> Since the current Patch-set is for i.MX8ULP, where concurrent access
-> from both the world is not possible.
-
-> In context to i.MX93, for OPTEE-OS patches, request you to please
-> discuss in OPTEE community. Not here.
-
-Sure, as said above, my intention was to point out that concurrent
-access is not possible with the current ELE-FW. At least my knowledge
-was that it was/is a ELE FW issue and not an OP-TEE issue.
-
-> > Also, can you please outline why the fix is not required for i.MX8ULP?
-> > Unfortunately I can't remember.
->
-> There is no Trust-MU for OPTEE-OS in i.MX8ULP. The ELE driver in
-> OPTEE, is disabled for i.MX8ULP.
-
-Hm.. I thought there will be always two communication MUs one for the
-secure-world and one for the non-secure world? Or what did you mean by:
-
-"""
-From i.MX9x & onwards, SoC(s) has at least one dedicated ELE MU(s) for each
-world - Linux(one or more) and OPTEE-OS (one or more).
-"""
-
-(ref.:https://lore.kernel.org/all/AM9PR04MB8604C05882605EDB4913DA089549A@AM9PR04MB8604.eurprd04.prod.outlook.com/)
-
-Does this mean that all i.MX9x, i.MX10x and so on do have the the
-secure and non-secure MU setup? Or is it based on the SoC release date?
-Because regarding the datasheet the i.MX8ULP is newer than the i.MX93,
-therefore I assumed that the i.MX8ULP has two MUs as well.
-
-I checked the the NXP OP-TEE source code and found the following commit:
-
-8<----------------
-commit 44388d37e68000ee50a9b1d656e0a60ae6614977
-Author: Sahil Malhotra <sahil.malhotra@nxp.com>
-Date:   Tue Apr 1 20:04:44 2025 +0200
-
-    core: imx: disable ELE on i.MX8ULP by default
-    
-    On i.MX8ULP, there is only one MU to communicate with ELE,
-    which cannot be dedicated on OP-TEE side all the time.
-    There may be ELE services running on Linux side, which can
-    cause conflict with OP-TEE, So disabling ELE by default.
-    Moreover i.MX8ULP also has CAAM, so HUK and Random number
-    are coming from CAAM.
-    
-    Signed-off-by: Sahil Malhotra <sahil.malhotra@nxp.com>
-    Acked-by: Jens Wiklander <jens.wiklander@linaro.org>
-8<----------------
-
-So it's possible to configure the XRDC (configured in the TF-A) in a way
-to map the ELE access to the secure world. If I got the TF-A and OP-TEE
-commits right.
-
-To me this sound more like a NXP design decision to move the ELE to the
-non-secure and the CAAM to the secure world.
-
-> Moreover, there is CAAM in i.MX8ULP, which is used for security
-> services, in OPTEE-OS.
-
-i.MX8ULP is getting really interesting, though.
-
-May I ask what RoT is used by this SoC if there are two?
-
-
-> >> Q2. How is the secure and non-secure world talk to the ELE if there is only
-> >>     one MU?
-> >> A2. From i.MX9x & onwards, SoC(s) has at least one dedicated ELE MU(s) for
-> >>     each world - Linux(one or more) and OP-TEE OS (one or more). Has updated
-> >>     the commit message of 3/7.
-> 
-> > Does apply to the i.MX8ULP SoC as well?
->
-> No. Since there is no trust-MU for OPTEE-OS, on i.MX8ULP, to
-> communicate with ELE.
-
-As said above it would be possible to move the ELE communication to the
-secure world.
-
-> > The NXP name scheme isn't very easy to follow.
-> 
-> >> Q3. How exactly do the eFuse write access after the device was locked down,
-> >>     will be provided with single path; for the following case?
-> >>     - For a verified boot setup, you need to burn an eFuse at some point,
-> >>     to tell the bootROM to boot only correct verified firmware images.
-> >>     - After this lockdown, it's no longer possible to burn eFuses from the
-> >>     REE, while the production line setup still requires the support.
-> >> A3. OP-TEE OS supports read fuses, currently as part of our quarterly release.
-> >>     Write fuse will be in coming release. Please note that the current patch-
-> >>     set does not contain any read/write eFuse feature.
-> 
-> > But one of your patches is mention it, right? So there will be still two
-> > paths.
-> Due to lack of trusted-mu, there is no way to read/write fuse on i.MX8ULP, from OPTEE-OS.
-> For current patch-set, it is the single path.
-
-How does the i.MX8ULP fuse flow work, after the LOCK_DOWN fuse is blown?
-
-This was one of my main concers why having OP-TEE required in the first
-place, because the i.MX93 requires the that the fuse-request comes from
-the secure-world if the device is in LOCK_DOWN state.
-
-Is this also the case for the i.MX8ULP?
-
-> > Also according your IOCTL docuementation you want to expose the whole
-> > device to the user-space?
-> 
-> > | What:          /dev/<se>_mu[0-9]+_ch[0-9]+
-> > | Date:          Mar 2025
-> > | KernelVersion: 6.8
-> > | Contact:       linux-imx@nxp.com, pankaj.gupta@nxp.com
-> > | Description:
-> > |                NXP offers multiple hardware IP(s) for secure enclaves like EdgeLock-
-> > |                Enclave(ELE), SECO. The character device file descriptors
-> > |                /dev/<se>_mu*_ch* are the interface between userspace NXP's secure-
-> > |                enclave shared library and the kernel driver.
-> > |
-> > |                The ioctl(2)-based ABI is defined and documented in
-> > |                [include]<linux/firmware/imx/ele_mu_ioctl.h>.
-> > |                ioctl(s) are used primarily for:
-> > |                        - shared memory management
-> > |                        - allocation of I/O buffers
-> > |                        - getting mu info
-> > |                        - setting a dev-ctx as receiver to receive all the commands from FW
-> > |                        - getting SoC info
-> > |                        - send command and receive command response
->                                 ^
-> > This is a rather uncommon approach. The kernel has interfaces to
-> > abstract hardware. You completely bypass this if you expose everything
-> > to the userspace.
-> 
-> It is in-correct.
-> Not everything, just exposed file-operation. and ioctl(s) for DMA(eable) buffer allocation from reserved lower memory region.
-> Things managed by Kernel:
-> * Send/receive path to ELE, is managed by Kernel.
-> * Receive/send patch to the ELE's slave NVM-manager, is managed by kernel.
-> * Low power management handled by kernel driver. In case of low-power state, ELE driver re-init the V2X IP as part of resume.
-> * Other kernel management layers like NVMEM, kernel HWRNG, will use the api(s) exposed by this driver.
-
-But you also expose an uAPI which allows the user to bypass everything
-via sending arbitrary commands, right?
-
-> * Loading the runtime FW.
-> >
-> >> Q4. What is the ELE behavior if the secure-world stresses the ELE? Is there
-> >>     a MU priority so the normal-world MU may get blocked (never addressed)
-> >>     or are both MUs scheduled in round-robin?
-> >> A4. ELE will pick the message from Both MU(s), based on FIFO.
-> 
-> > This doesn't answer my question. How gets the FIFO filled? If the one of
-> > both worlds aways keep the MU busy?
-> 
-> If both the world is keeping the MU busy. ELE will pick the first incoming message, let's say on MU#1,
-> While acknowledge and queueing the incoming message on the other MU#2, to be picked once
-> the handling of the current message at hand is completed. Despite the MU#1, is bombarded
-> With next message, but it will process the message from MU#2, while acking the incoming message
-> from MU#1. And add it to its queue. This way FIFO is maintained by ELE.
-
-:) Thanks for the explanation.
-
-> >> Q5. Why ELE performance matters?
-> >>     - On i.MX8M, which uses the CAAM (the ELE predecessor), It can be
-> >>     verified that the ARMv8 CE are much faster than the crypto-engine itself.
-> >>     Therefore the CAAM is mostly unused.
-> >> A5. User looks for both type of implementation based on their usecase:
-> >>     - Certain users still offload to CAAM, to save their ARM CPU cycles for
-> >>     other priority tasks.
-> 
-> > I have never seen such designs but okay.
-> I assure you, there are several such cases with our system-engineering team.
-> 
-> >>     - While certain customer choose ARM-CE for the crypto offloads for better
-> >>     performance.
-> >>     As far as ELE is concerned, it is not a crypto accelerator like CAAM.
-> >>     Performance hungry crypto-ops are not recommended to be offloaded to ELE.
-> 
-> > I don't get this point. So NXP doesn't recommend to use the ELE for
-> > crypt-ops?
-> NXP does not recommend to offload the Crypto-Op to ELE, for performance cases.
-
-Good to know, thanks.
-
-> >> Q6. For the IOT-cases where real-time encrypted feed from sensors, will take
-> >>     latency hit, Does the ELE support inline en-/decryption?
-> >> A6. Yes, ELE support Inline Encryption Engine (IEE), starting i.MX95 onwards.
-> 
-> > May I ask, how is this connected and which interfaces are connected to
-> > the IEE? I would have checked it by myself but unfortunately NXP doesn't
-> > provide a TRM for the i.MX95 yet.
-> We can discuss this in greater depth on one-one email, where I will touch upon the IEE and its interfaces.
-> But, like to inform that there is not IEE on i.MX8ULP or even on i.Mx93.
-
-Sure, thanks.
-
-> >> Marco's Suggestions/NXP response:
-> >> ================================
-> >> S1. Below listed ELE access requirements, can be done from OP-TEE OS in all
-> >>     the Life-Cycle states. then Why to use Linux?
-> >>     - eFuse access (done via  OP-TEE OS i.MX specific PTA): OTP eFuse R/W access
-> >>     after doing the LOCK_DOWN fuse is no longer possible without  OP-TEE OS. This
-> >>     involves general purpose (GP) eFuses too.
-> >>     - ELE ping every 1 day (kernel SMC WDG driver, OP-TEE OS wd driver).
-> >>     - HW-RNG (kernel HWRNG driver + OP-TEE OS HWRNG PTA).
-> >> R1. There are i.MX9* users, that are not using OP-TEE OS, but still want
-> >>     to use ELE features from Linux. So, these users are requesting for this
-> >>     driver in Linux.
-> 
-> > Which ELE features?
-> All the features from Linux, when OPTEE-OS is not present like:
-> * Read/write efuses. (eg NVMEM Kernel driver). Where there is no requirement to chenge the eFuse, during SoC in provision lifecycle.
-
-Some features require the device to be in LOCK_DOWN mode, which requires
-secure-world eFuse write path only afterwards. But it seems like NXP
-really wants to maintain two write paths.
-
-> * Low power management at Linux driver.
-
-The power-modes are selected via the ELE?
-
-> * Linux HWRNG.
-> * Loading the secondary runtime fw.
-
-What is a secondary runtime-fw?
-
-> >>     As suggested by you, writing to eFuse after life-cycle closed state, the
-> >>     driver in OP-TEE OS is needed.
-> >>     Though there are other OP-TEE OS features too, that needs to be offloaded
-> >>     to HSM, for security reasons, like:
-> >>     - Hardware Unique Key(HUK) getting generated.
-> >>     - OP-TEE OS's ASLR seed generation.
-> 
-> > We're talking about features the normal world wants to have access too,
-> > since you said ".. but still want to use ELE feature from Linux ..". The
-> > HUK and the TEE ASLR seed is clearly not something Linux wants to have
-> > access too.
-> You misunderstood my point. I was stressing that there is a need for two paths,
-> each from Linux and OPTEE-OS, in order to expose different feature-set required
-> by respective worlds, where 1 or 2 overlaps, while maximum are utilized by respective
-> worlds.
-> 
-> >> S2. Having one implementation is beneficial in the following ways:
-> >>     - Multiple paths also requires more maintain- and testing effort.
-> >>     - FW files with having +1 FW for the new i.MX9*, where there are plenty
-> >>       already eg.: bootloader, TF-A, ele-fw, scu-fw (i.MX95), increases the
-> >>       maintenance on both the paths.
-> >>     - TEE code could be reused by other OSes.
-> >>     - TEE is used anyway for new projects due to CRA and friends
-> >> R2. As conveyed in R1, there are Linux only users, that are dependent on SE
-> >>     Linux kernel driver.
-> 
-> > What difference does it make if these Linux-only users get the ELE
-> > access via OP-TEE? It's just one binary more.
-> If the User does not choose to include optional OPTEE-OS, then ELE access
-> must be from Linux driver.
-
-Okay, I think we're going in circles here.
-
-> >> S3. Having one implementation is beneficial in the following ways:
-> >>     - Adding the support for it to  OP-TEE OS do not requires ELE-FW.
-> 
-> > I never said that this requires no ELE FW! I said it requires no ELE-FW
-> > update! Was the update already rolled out?
-> Yes, the updated FW is already release part of LF Q3 released on September 30, 2025.
-> It is not released as part any open repo.
-
-So there is no ELE-FW update required to have both worlds running
-concurrently.
-
-> >>     - Concurrent access handling is done by the TEE core.
-> >> R3. As already mentioned that ELE FW fix is available, for concurrent access.
-> >>     Please note that FW fix is not required for the current patch-set.
-> 
-> > Can you provide us a link to the fix please? The fix should fix the
-> > concurrent normal-world <-> secure-world MU access issue. Why is this
-> > fix not required if I have a running OP-TEE?
-> The fix is very much required to run concurrent access for i.XM93 and onwards.
-> But not for i.MX8ULP and current patch-set is based on i.MX8ULP.
-
-I see, the i.MX8ULP has only on MU. As said above my assumption was that
-all ELE SoCs do have at least 2-MUs.
-
-> >> S4. This series causes more confusions till the ELE FW fix is available to
-> >>     allow concurrent access to ELE from both the worlds.
-> >> R4. FW fix is already available, and concurrent access is enabled by default
-> >>     in LF Q3'25, release. Please note that FW fix is not required for the
-> >>     current patch-set.
-> 
-> > Please provide a link to the new FW and why is the fix nor required for
-> > this patchset?
-> Again. The fix is very much required to run concurrent access for i.XM93 and onwards.
-> But not for i.MX8ULP and current patch-set is based on i.MX8ULP.
-
-My bad, as said: my assumption was that all ELE SoCs do have at least
-two MUs.
-
-> >> S5. Suggesting to add the  OP-TEE OS support for the required features e.g. eFuses,
-> >>     watchdog, HWRNG. The whole Linux part is mostly in place.
-> >> R5. Yes, the secure world features like eFuse read/write will be added
-> >>     to OP-TEE OS. Please note that this patch-set does not contain any read/write
-> >>     eFuse feature.
-> 
-> > I see, instead it expose the whole ELE to the userspace if I got it
-> > correct according to your IOCTL documentation. This would be even worse.
-> No, it is not a correct interpretation. As mentioned above, ELE driver abstract
-> all the hw interaction to have easy and simple file bases operations.
-
-But still, the user can send arbitrary commands to the ELE right?
-
-To conclude this longly discussion:
-
-My main concern was the concurrent access for the 2-MUs cases. This can
-be closed, as it turns out NXP fixed/workarounded this by increasing the
-ELE communication timeout to 100ms.
-
-I still have mixed feeling about the fusing (including the 1-MU case),
-since it requires a secure-world OS in place once the LOCK_DOWN fuse was
-burned. It's fine by me if NXP wants to have and wants to maintain a
-multi-path here.
-
-Last but least, the uAPI which can be used to send arbitrary ELE
-commands seems unusual. But I don't know how secure-enclaves are
-abstracted within the kernel, so these are just my two cents.
-
-I'm looking forward to the maintainers feedback.
-
-Regards,
-  Marco
-
-
-> 
-> > Regards,
-> > Marco
-> 
-> Regards,
-> Pankaj
-> 
+ Documentation/networking/devlink/mlx5.rst     |   9 +
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |   6 +-
+ drivers/net/ethernet/amd/pds_core/core.h      |   3 +-
+ drivers/net/ethernet/amd/pds_core/devlink.c   |   3 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |   6 +-
+ .../net/ethernet/intel/ice/devlink/devlink.c  |  12 +-
+ .../marvell/octeontx2/af/rvu_devlink.c        |  15 +-
+ .../marvell/octeontx2/nic/otx2_devlink.c      |   6 +-
+ drivers/net/ethernet/mellanox/mlx4/main.c     |   6 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.h |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   3 +-
+ .../mellanox/mlx5/core/eswitch_offloads.c     |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/fs_core.c |   3 +-
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |   3 +-
+ .../mellanox/mlx5/core/lib/nv_param.c         | 170 +++++++++++++++++-
+ .../mellanox/mlxsw/spectrum_acl_tcam.c        |   3 +-
+ .../ethernet/netronome/nfp/devlink_param.c    |   3 +-
+ drivers/net/ethernet/qlogic/qed/qed_devlink.c |   3 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   3 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   3 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |   6 +-
+ drivers/net/wwan/iosm/iosm_ipc_devlink.c      |   3 +-
+ include/net/devlink.h                         |   3 +-
+ include/net/dsa.h                             |   3 +-
+ net/devlink/param.c                           |  19 +-
+ net/dsa/devlink.c                             |   3 +-
+ 26 files changed, 257 insertions(+), 46 deletions(-)
 
 -- 
-#gernperDu 
-#CallMeByMyFirstName
+2.47.3
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
