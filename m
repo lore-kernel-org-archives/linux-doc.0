@@ -1,66 +1,66 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9EE27C84E
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC0F2877FC
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762134673; cv=none; b=EamXLp569XqfIGIhm2M+FMEPNouia5LA8It2dkC8/OoefJ20gznmkrFr/k1kiYvkHqRamLVeiQtYmjISXN3prq52dmV9yyEXEmx7l+UrXs0ce+Gt4ZQ6C72Awceg1VIjD3SCQMlU8SuQZ1Dt34U5qeuuvudeYUNQMCU9FvWInWo=
+	t=1762134674; cv=none; b=Z9NNCa50e3fA7Jw88LVZ3oKyB2w0gDD4RENn+92SPVeJ98Ubvdqqrcq+dCbuv/FqgYlItj4xJ8QLcYSe0W7TT4V+rp++9R0U7LwTSQfRENcPTdoHgAijsYmnrHA8S/2ku0jsZMI2Z7kNNye5d+OLQaZ4xrBgIWEC1jB6PwSKNgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762134673; c=relaxed/simple;
-	bh=sfgU5y2QPjvrAXbG+U0LiiWgUg/Fuf6oZn2j1UBM6ow=;
+	s=arc-20240116; t=1762134674; c=relaxed/simple;
+	bh=xYbBu2fMf0do2Y8PFkgmZ44ePl1qKHbhlD2bXGI6s6k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wd5ELSMBsvxrkZriCrDzxpps9kRBxsIlk9jt/pMwccL7bN+64zZbUC0fRgnsFYi2pYZb0S6JzREiJ4Zu84CFYjAEISvmv5CyfXgQUGomk2IosXjaHK+T0MFejchV+7EPN0Lfiu34Znz6hFa4j5Pxy8A19tr9vfIZMZP/WZluT/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lES07R3Y; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=reR4ipazuTPVaDpCpuTuDebWGHKvSqEX4ssfwHhPv8FBLsYktXWbelTcEOi34iVjP7OfaHzZL8QNokfUOxCN9oCYx7EDpNuSZAp4MXkwmbTVbbwOPgN6xqQG4Y6OfMldvxHaZ6AjK0JFC2i/YMTzdCzXPqz20CEIJZccYKRfY8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1c19nDS; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lES07R3Y"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-294fe7c2e69so33817465ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:51:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1c19nDS"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-340c39ee02dso1203243a91.1
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762134670; x=1762739470; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762134672; x=1762739472; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g0sO15jizAVsKQGPETfERnCJBpOXGRp0v1lRQCXQwiw=;
-        b=lES07R3YbE8ojmo+4SEozXLt2VsYvvanu32C1uE5lWszukD4GmT9gbkr4XHUGTTB+q
-         oTHYwj0IYh3UglEzdTrMq3L0aKtGZoRhnlhDnJZ+jogu6GZzIUTCdTUNn2Tc9iN0P4vN
-         +EskWGSSTJr+HUYkAu7b0HJlmV63schH2kUfn0bO+mJo0dGtc6lZWhd3N5NsqPQcn/XH
-         mhTOOGdKiE2BqxCuRcs3t3U3r9jkSGiQGS6evh3/cav4cGfd2ieTK5I+xqMhvm55z7JV
-         deM4VuvjWLGzTzR6WLaXul0hOkl804lXBhy+K/tYE3dtosvn6pZJ+NNg2T34i9HKaylm
-         tvkA==
+        bh=bDAfAMTS/DdBYBQoTuWYXo0/wYkGq/INrH1coTZQ7c0=;
+        b=g1c19nDSzk6Yko1GS4W3qggY2Xm2ixRZqOUUMEPGTfAOwa633tMjzB0FuAMUk4Lv15
+         FjJWrEvJQM/HItaNzy5h7o6epE88b5SeNA+i+6bF2Qi2mn1+KERXwZ5Y1ihmc1DRKhLT
+         qeTfPAaIYSyUA/Gtkeh1IDtowQjJsRfQ2ynARVJbAMy+3QJJqujWwilQgs5uKcFKu3qh
+         QDvhRfXrg0OXZ0yV++024RcKEd2V/o+CSGzb0W7F9fELUoArIcAgXCJtkmxj61N2YoYI
+         0xoq/WeSQoYjZpe7hWjbo1iNB81daISD4AZptpSu60+7gfhRqL6+X2s3vZRzeVhKNN2f
+         WxfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762134670; x=1762739470;
+        d=1e100.net; s=20230601; t=1762134672; x=1762739472;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g0sO15jizAVsKQGPETfERnCJBpOXGRp0v1lRQCXQwiw=;
-        b=f5yjt8SOsoRrndkdPoWpiorL0MVHo04QMyCCJJyzJYLdrNOaC5XP6oTneHsosryXfa
-         9QA7WU/j2zBe2PJPR/TIS33fTgcQpk4E3gnW81WdTXNIJHDRoCCfzweM5VTcqYFrsBpN
-         0CPG/Vk2ntDLfWny2l3bt2/dmzxpXq+V4QL/+FeO6d4MANbANpno392BDQ32T/J/9VKh
-         N0G3R0FBHzVAInoqBnUjWZk1ATUUIc3lxFBgnqaVe7hudoXEWfmUjbxxHhvoL+Ob8pqR
-         RAlAixOmw9fhqnPxuAW1ZdQUFI421PGnV1MId3V7bdo9J3Pipr5MfGAntq8OT5OJBitq
-         MCAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKmIEVbNX1ZPcXGmF/Wa9PiMrA6uXKRLJBTVTsI60NliVlldUQad98sTLFTYxwdYIiCf42vGhL1wg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcuRnLUSIGDEYDDMrHf1Fjj1VH+3bBleB6qYXcdJDSBYm2QRs9
-	PXtignJYKhTM4cf2q+H/YwFGNmeBDNqYMiyGFq7BJMUf7Kscd4xw4IkT
-X-Gm-Gg: ASbGncsKxP6ZpRwZxBdY1sIrEzY4wELOG6eshsRE7uGU8lZ0uW8hqep63gIIGDRYnAJ
-	w+ycV44xhFi2bH2pLgSYerGnFgKKYhR29XhrbLiRpWApBWUnBwqjp2W4pcFpBsW2tQ4MdnMoaty
-	a/4656KYIt6EZcQ3jDclZuug1879YB8QUVU0OTBlc33eyk7gOVl0wwUYntcSR2FXL7lSRGRpx24
-	N5tKG8km50oedvj0+GuxwutUyS/MlY5RHRFDKq/KVeHxItqKEezYmnUoHjgaNZeZCGS+bbHNc+4
-	f/3bkaUerBf1Har1ozJ4IkzjiGtsfpafe6DB4OTlqAvEQr63SCKZ3gXsPWM8/L0lw9HRcC3+Ejf
-	UsEgaFnUWzZViXU//3v2KltMci6YvVGuCZh9PvfsPLWcBmSpnpSZy8wWxd0pt/S54LDS90tG9Yg
-	uztS3Fm3Lx/f5i365rX5lmaw==
-X-Google-Smtp-Source: AGHT+IGnO7VQHFBrQJzosLohIa8HzbwgIqW4t6VCicsh6dui2sLEi2qdtR2544cc3QnT7CIjAJoUOA==
-X-Received: by 2002:a17:902:d492:b0:295:b490:94bb with SMTP id d9443c01a7336-295b49094fdmr18206025ad.50.1762134669825;
-        Sun, 02 Nov 2025 17:51:09 -0800 (PST)
+        bh=bDAfAMTS/DdBYBQoTuWYXo0/wYkGq/INrH1coTZQ7c0=;
+        b=pPI+3k/6h46uuZIZ3jyqAvLj2ddrNcjNNDKIZNmSCvgFmIvys2tfT7ufgZTtsKtPPc
+         afJdoEvnZVNrrq19N2lMcMK4qZIUcB+KXdZE/t+Ls5kgcp9lw/CNQ4AecailNCIdbCtW
+         NLNrDhA+NB8wi/4l3xhLyASZgVPdazkK4VdPGPTfr4ak07N9EsDqd/JbcRl6gcCf/xFx
+         jartFDaqj/ZsUVg46fBiBL0CX+2XFTuIp3TUwFypW+CzPkW96wHaV3aNOzVJYpCuGDqX
+         RuqvZW5PvqiOWc3N5y9p8EKTKmyyzu1BcZuT76NBsuwZNS/xtdzv/nXEwG34z1C1Wq/+
+         6s0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU0Y/9WstYtWqOfYSJatcvrZ0PsobEkRzWejlcP1nUwRmX1v4tORSlP3k9/yYlsfwU7WX73d4CF0pA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKP88frkqdktXT0Fu9PvT6dqIgqB/KyzbtN3OiYtrWWDC84/Qf
+	CqCQ7BtOdnGdYgIOVdLaY3cYowZy/3jkXGZFNTMLcMErBF7IekuEnReI
+X-Gm-Gg: ASbGncsTxjZ9Jx0gJOMEgY3U6oeo0Owy/64GP/COjXTqClkGiq5Yu6y9FqqpgvjeY+S
+	VIpyFy1Zdr+CPlwwr6hlClNyjT0y+EX6vEkfuCvkzrPsi8edP0UOasdccNLTNgL1XqiDyjpu/FD
+	YVwEcWvlqipnIts9JZF1BUbniugCuUuSs1zDYcnXmco0SSgO5pjZ7qr5cPfcUauqOKA2+swheqj
+	6N+fyIPJirsQJRauNeX7+/L97PBc5UgASmYfPV2GJLvp3QhFzmkWflR44jL9abh3P9WGT3oUNue
+	hc7Usfdajq16XkrD3GJDMSxxqPfVKN9b5vupUJ9MZkWYNrDPksu2cC1Ab9P6YMnDQBHQmDIukxL
+	47/pOhzrLJ3pzi1ALJrczz40LJQjbWqhqiiL48CNwarji9j+jq/Yfe/lrIIVK0uzm7DeyXncOSX
+	ds
+X-Google-Smtp-Source: AGHT+IHe3/m/vfP4n8dAnB++a4/roBr54Jczttq+5F/s76Bm2lMbUhEsFeIShoWIP9P2vd3f0r/p2A==
+X-Received: by 2002:a17:903:2302:b0:295:557e:746f with SMTP id d9443c01a7336-295557e7a25mr85614305ad.32.1762134671769;
+        Sun, 02 Nov 2025 17:51:11 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b93b8aa2a7bsm8311062a12.12.2025.11.02.17.51.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3407ef4c263sm4458053a91.3.2025.11.02.17.51.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 17:51:05 -0800 (PST)
+        Sun, 02 Nov 2025 17:51:10 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 45B99426D9CE; Mon, 03 Nov 2025 08:50:59 +0700 (WIB)
+	id 6EA02426D9E0; Mon, 03 Nov 2025 08:50:59 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,9 +75,9 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH net-next v3 6/9] Documentation: xfrm_sysctl: Trim trailing colon in section heading
-Date: Mon,  3 Nov 2025 08:50:27 +0700
-Message-ID: <20251103015029.17018-8-bagasdotme@gmail.com>
+Subject: [PATCH net-next v3 9/9] MAINTAINERS: Add entry for XFRM documentation
+Date: Mon,  3 Nov 2025 08:50:30 +0700
+Message-ID: <20251103015029.17018-11-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251103015029.17018-2-bagasdotme@gmail.com>
 References: <20251103015029.17018-2-bagasdotme@gmail.com>
@@ -87,34 +87,32 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=908; i=bagasdotme@gmail.com; h=from:subject; bh=sfgU5y2QPjvrAXbG+U0LiiWgUg/Fuf6oZn2j1UBM6ow=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkcnJUHzKNE3jJLCJxdMFPJ4sHmd2mL7svNrNyrf9eyr zapjkG/o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5VsbI8E3ba7Huh0sHTE+U 9LpIdE589K2XoXLy342sni8WCen7NjH8L6qftth175q1P6Zbr+gLEWg/3clvWCgurPhy6pyeigX X2AE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=870; i=bagasdotme@gmail.com; h=from:subject; bh=xYbBu2fMf0do2Y8PFkgmZ44ePl1qKHbhlD2bXGI6s6k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkcnJWJb6OS5AOvvHP2OxbZECTbpOA0/77NUZcNhk9fO Xjs8LraUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIlovWT4w/mKLzP/SJjVI7/9 G4ouTcqwuNwt+/6t9d07m9o2b9KYso+RoS3ZLfvA8uk9l7w8Gx8fnXIhKinowSH2n2pbDlx8dfe jOB8A
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-The sole section heading ("/proc/sys/net/core/xfrm_* Variables") has
-trailing colon. Trim it.
+XFRM patches are supposed to be sent to maintainers under "NETWORKING
+[IPSEC]" heading, but it doesn't cover XFRM docs yet. Add the entry.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/networking/xfrm_sysctl.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/networking/xfrm_sysctl.rst b/Documentation/networking/xfrm_sysctl.rst
-index 47b9bbdd017977..7d0c4b17c0bdf1 100644
---- a/Documentation/networking/xfrm_sysctl.rst
-+++ b/Documentation/networking/xfrm_sysctl.rst
-@@ -4,8 +4,8 @@
- XFRM Syscall
- ============
- 
--/proc/sys/net/core/xfrm_* Variables:
--====================================
-+/proc/sys/net/core/xfrm_* Variables
-+===================================
- 
- xfrm_acq_expires - INTEGER
- 	default 30 - hard timeout in seconds for acquire requests
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1ab7e87462993b..6d2906b2600376 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18051,6 +18051,7 @@ L:	netdev@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec.git
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git
++F:	Documentation/networking/xfrm/
+ F:	include/net/xfrm.h
+ F:	include/uapi/linux/xfrm.h
+ F:	net/ipv4/ah4.c
 -- 
 An old man doll... just what I always wanted! - Clara
 
