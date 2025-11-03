@@ -1,150 +1,200 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED7523C8C7;
-	Mon,  3 Nov 2025 13:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC32635;
+	Mon,  3 Nov 2025 13:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762175350; cv=none; b=lSKYyzoMXHvOWQvlscIb+kTtWn5clFAY44Wmx4OZ0nok8sOqbd7MdC9KlkFBcrFqkLXbH7ZXJ1LUamRzXIbAv/rFhj3Wf3wgDUFry+i72o9/pj9DdR9aKYahNQksbqUA6izU7S9aR2IOw/Hup9v2A8O1z+PdIsIcXYVqzLJXFIk=
+	t=1762176009; cv=none; b=f78LfhmZSjKFrPb3Kl2nkiWzI1AXA1uZxgblT7kLKFqT26dQpCMFWlHaYwonhHk3ObyYCiMxntZsD6GzV0nn/aStRxIdV09COd03DfxlhIkon0+0Zc9/MEa8z/tJFrSFf64qxsDdzMtIKGLL69r1CFVqhYLnIW3dKRzMOlu9vOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762175350; c=relaxed/simple;
-	bh=7KvR314VMB5Enl4K70H6igKocHuGjGVkYQF17lVy9F8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iYlOWCliCBYlyucZvBPANu13rRmrjWqZ2Bo1N+FfUCGAGovBcQKAMhZ0Bo02Hyp/Z8O7WVZ2FHXUImp4UCf+uD+31EiAeO6IaYizC8z7nJb/NSz+PtOiIbG+j5ZvSdEFTXQmjFr569yqbkdl4mNAqIwT1OMf71jm83TnMhOfpCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4d0X386QgqzYQthc;
-	Mon,  3 Nov 2025 21:08:52 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id 4F3DC1A0F86;
-	Mon,  3 Nov 2025 21:09:06 +0800 (CST)
-Received: from [10.174.178.129] (unknown [10.174.178.129])
-	by APP2 (Coremail) with SMTP id Syh0CgCH3UVwqQhpQGxMCg--.38718S3;
-	Mon, 03 Nov 2025 21:09:06 +0800 (CST)
-Message-ID: <358b8933-952e-0e4b-e708-c40ca98ae7d7@huaweicloud.com>
-Date: Mon, 3 Nov 2025 21:09:04 +0800
+	s=arc-20240116; t=1762176009; c=relaxed/simple;
+	bh=/wr6DM7plefzFxe5cqGRChKJvSm5bKx5O8az99iQw1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tiy388kz51VPy6AJfo6LFofWU2e2/8q1+rE6mmTDNDAK9p13vXzZZCg5DlK0f+nOVOfJLf26XDEKuXkpwTBxHm38sQvTc9g3iWWRhotyCYNjHFPHjDivB6u7XE20RocTQDzP7VNqwzumK7PBpNc0NvxeGVUV7iW9OEa4uoGummc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=aY0ndYWs; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="aY0ndYWs"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9185740E01A5;
+	Mon,  3 Nov 2025 13:20:02 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id YJCfSWo4KNQ9; Mon,  3 Nov 2025 13:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1762175996; bh=YVO+ioF7tgxntygjp0N1BdULWpfg3s1EkWAhl+6LYHo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aY0ndYWsl9sd4t9nwaRWQWqnTfFnVOpBMIw/gtqif0UtUjRGIkFkj4W1aMzNIGl1u
+	 AZyPMsi4m+T8U6b9gsZlnQ7bL/yBi/wuwBpfVm7YJeArtR8YGQLVLVlvQ9QRVLCsS4
+	 sATk6rdG4dVBCARBtwtLoaUKkvKdHTqyfmrXYWgb3HIukKhKV1vPqrr/LQyjtJOjDf
+	 YZkcMw/DxhYLgx12ALprr38zMYISlJg7d4mA5CotRoDizAS7k/1/HYuinlHWCEsK3X
+	 uDYHNJ2ezIKiM1FExr2Jrn8tgtPbq4c2DOop3IqPSdgIwKXONpHZ/A/7Qkf2sLS5wq
+	 jysa2mn8uy7+wPaEKDgggWQKFwwqYoffuGZ6kS455EmVDQsAb3dhvM3j4H8sxolv8E
+	 OHxkj15zfkutEpIFMf7XphyVeFIhvlAcwp60mtaPVSqduuOgbkhtc0CbtkAVNSvkXp
+	 h1zjOOs8j7e8044eMOfF6UWlXcyi3mwGCSqu10W3EbILloBbAU87qSZYBzE11kaFqg
+	 QfRUe91E9ueRM/B8Fya7QC0pAUGytwjMVfmvaU6tpSFJyP9rRbXj3PfKyfypmwYrB2
+	 ROR6iy0NkS6PSFnzg0H7GfBjjxj4mFOHDNP6lws0NKXTPsWBKu+4tFROocs/kug2CW
+	 5lKels5SpWXndmPaKrU9RSzk=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 361F840E01CD;
+	Mon,  3 Nov 2025 13:19:20 +0000 (UTC)
+Date: Mon, 3 Nov 2025 14:19:14 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shiju.jose@huawei.com>
+Cc: Daniel Ferguson <danielf@os.amperecomputing.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	"rafael@kernel.org" <rafael@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
+	"erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>,
+	"gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
+	wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Message-ID: <20251103131914.GEaQir0sdz4Te_ea0l@fat_crate.local>
+References: <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
+ <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
+ <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
+ <9433067c142b45d583eb96587b929878@huawei.com>
+ <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
+ <20250917183608.000038c4@huawei.com>
+ <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
+ <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
+ <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
+ <75e9bae2d30748d5b66c288135915cc3@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v8 4/4] md: allow configuring logical block size
-To: Xiao Ni <xni@redhat.com>, linan666@huaweicloud.com
-Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, hare@suse.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
-References: <20251030062807.1515356-1-linan666@huaweicloud.com>
- <20251030062807.1515356-5-linan666@huaweicloud.com>
- <CALTww28r_bicJ_4jcxQ7MB2hLVX5nAZkY3tuM7q7HY_D2beHFA@mail.gmail.com>
-From: Li Nan <linan666@huaweicloud.com>
-In-Reply-To: <CALTww28r_bicJ_4jcxQ7MB2hLVX5nAZkY3tuM7q7HY_D2beHFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:Syh0CgCH3UVwqQhpQGxMCg--.38718S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxJr45XFW8GrW8Zr18Ar1DJrb_yoW5JrW8pF
-	Z3ua15Kwn7XF1Yka9rAF1kKFWrK3yxWayxJry5Jr17Z34DCr9F9r4fK348K3WUXr13C34j
-	va17KFyFvFna9aUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPa14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v
-	4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7
-	AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
-	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
-	WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
-	OmhFUUUUU
-X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <75e9bae2d30748d5b66c288135915cc3@huawei.com>
 
+On Fri, Oct 17, 2025 at 12:54:36PM +0000, Shiju Jose wrote:
+> ACPI spec defined RAS2 interface for scrub and scrub parameters per node
+> .  Thus to make compatible to the spec,  kernel and firmware implementations
+> for RAS2 scrubbing are per node.
 
+Ok, makes sense. You can have heterogeneous or whatever nodes.
 
-在 2025/11/3 11:11, Xiao Ni 写道:
-> On Thu, Oct 30, 2025 at 2:36 PM <linan666@huaweicloud.com> wrote:
->>
->> From: Li Nan <linan122@huawei.com>
->>
->> Previously, raid array used the maximum logical block size (LBS)
->> of all member disks. Adding a larger LBS disk at runtime could
->> unexpectedly increase RAID's LBS, risking corruption of existing
->> partitions. This can be reproduced by:
->>
->> ```
->>    # LBS of sd[de] is 512 bytes, sdf is 4096 bytes.
->>    mdadm -CRq /dev/md0 -l1 -n3 /dev/sd[de] missing --assume-clean
->>
->>    # LBS is 512
->>    cat /sys/block/md0/queue/logical_block_size
->>
->>    # create partition md0p1
->>    parted -s /dev/md0 mklabel gpt mkpart primary 1MiB 100%
->>    lsblk | grep md0p1
->>
->>    # LBS becomes 4096 after adding sdf
->>    mdadm --add -q /dev/md0 /dev/sdf
->>    cat /sys/block/md0/queue/logical_block_size
->>
->>    # partition lost
->>    partprobe /dev/md0
->>    lsblk | grep md0p1
->> ```
->>
->> Simply restricting larger-LBS disks is inflexible. In some scenarios,
->> only disks with 512 bytes LBS are available currently, but later, disks
->> with 4KB LBS may be added to the array.
->>
->> Making LBS configurable is the best way to solve this scenario.
->> After this patch, the raid will:
->>    - store LBS in disk metadata
->>    - add a read-write sysfs 'mdX/logical_block_size'
->>
->> Future mdadm should support setting LBS via metadata field during RAID
->> creation and the new sysfs. Though the kernel allows runtime LBS changes,
->> users should avoid modifying it after creating partitions or filesystems
->> to prevent compatibility issues.
->>
->> Only 1.x metadata supports configurable LBS. 0.90 metadata inits all
->> fields to default values at auto-detect. Supporting 0.90 would require
->> more extensive changes and no such use case has been observed.
->>
->> Note that many RAID paths rely on PAGE_SIZE alignment, including for
->> metadata I/O. A larger LBS than PAGE_SIZE will result in metadata
->> read/write failures. So this config should be prevented.
->>
->> Signed-off-by: Li Nan <linan122@huawei.com >
-> Hi Li Nan
+> For the design and prototyping your request for "start a scrub on the whole
+> system", we are trying make sysfs scrub control system-wide while keeping
+> underlying RAS2 scrubbing per node.
+
+I guess per-node does make sense...
+
+> for the demand scrubbing should the kernel send scrub request to only on the
+> corresponding node or to all the nodes etc.
+
+Well, since scrubbing should not interfere with normal operation, you could
+start it on the target where it should scrub and then do a full circle over
+all memory. For example. Or do something simple and which comes "natural".
+
+> From the ACPI spec RAS2 scrub interface perspective,  needs per-node scrub
+> rate and other scrub parameters. One of the use case for demand/background
+> scrubbing in a specific node in which frequent corrected memory errors
+> reported to the user space and CE count exceeds the threshold.
+
+I guess.
+
+Or you can simply start scrubbing around the failing address. With a certain
+radius. If the node thing comes more natural, sure but you can have a big fat
+node and if you start scrubbing the whole thing, you will get to the actual
+address you want to scrub after a long while. So the per-node thing is not
+necessarily the optimal solution. Question is, what you really wanna do on an
+error, as a reaction...
+
+> If you agree to keep per-node scrub rate and thus per-node scrub control in
+> the sysfs, then I will continue to use the original design in v12? Otherwise
+> will try to use the new design with common system-wide scrub control in the
+> sysfs and underlying RAS2 scrubbing implementation per node.
+
+See above.
+
+> This is for demand scrubbing feature/use case where a specific address range
+> to scrub and OS must set the mandatory  spec defined  RAS2 table field
+> 'Requested Address Range(INPUT)' while requesting the demand scrubbing in
+> a node. Hope the firmware can ignore the request if the requested address
+> range to scrub is irrelevant for a node, because in this approach we have
+> common sysfs scrub control and kernel is requesting demand scrubbing
+> system-wide across all nodes.
+> 
+> If this approach is not correct, can we use (b) as below? providing we need
+> to get PA range for the nodes in the RAS2 driver  using the functions
+> (start_pfn = node_start_pfn(nid) and size_pfn = node_spanned_pages(nid);)
+> as implemented in v12 and discussed earlier in this thread.
 > 
 
-Hi Xiao,
+I'm wondering how useful that address range scrubbing would be and whether it
+is worth the effort... I guess the goal here is something along those lines:
+"oh, you just had an error at address X, so let's scrub [ A ... X ... B ] with
+A and B having, hm, dunno, sufficient values to contain X and perhaps cover
+sufficient range to catch error locality or whatnot.
 
-Thanks for your review.
+But you'd need to do this only when you have a fat memory node and where you
+start scrubbing at the beginning of the node range and then you'd have to wait
+for a relatively long time to reach the PA X at fault...
 
-> The problem can't be fixed if there is no user space (mdadm) patch, right?
-> 
+But I have a better idea: how about you start at X - y, i.e., at an address
+a bit smaller than the last reported one and then continue from there on,
+reach the *end* of the node and then wraparound to the beginning until
+you reach X again?
 
-Yeah, mdadm should update same time. And Guanghao will send a mdadm patch
-later.
+This way you don't need to supply any range and you are still "on time" when
+reacting to the error with scrubbing...
 
-> The patch Looks good to me.
-> Reviewed-by: Xiao Ni <xni@redhat.com>
-> 
+Hmmm?
 
-Sorry for the trouble. I sent the v9 with some changes to the
-Documentation. Could you please review v9 patch when you have time?
+> Sure. Then background scrubbing will not be allowed if demand scrubbing is
+> in progress in a node, if the system-wide scrub control in sysfs is chosen. 
 
-> 
-> .
+So can the kernel interrupt background scrubbing on some node? Because then it
+is easy:
 
+You interrupt background scrubbing whenever needed with on-demand scrubbing on
+that particular node...
+
+It looks like it is starting to crystallize...
+
+Thx.
 
 -- 
-Thanks,
-Nan
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
