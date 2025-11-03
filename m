@@ -1,100 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74167274B39;
-	Mon,  3 Nov 2025 14:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DC3305E0D
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 14:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762180410; cv=none; b=vD7b827Allh9jAot84mFtTXzktpRasnV4R+jZKPy1DQwCDq/xW1Y29cIQHh5DjVYOGPrRcR/ATloNeKNGCm6QDqQa+Th6D8tYfeUcIyccKiTJGn0nl19AKHkCutXIYboj5ydFhJcYVQdRigKpaG7LfbTKNUeeN9C993H1CgeyrU=
+	t=1762181167; cv=none; b=boJdOiSa53rgkvZOxg1GmVthtX/ZVbTp8mNP8iUXm7VBRV08YVUkkHOYVLdxGzqerl6fYNpMrRvsq6/cZrrYuNImOwenEPQYTAUVPZLNmXajwpF/uL2zKGXfH2FzUkZtITh/1gFzA96kaO7/F0eLKBbcRcdMJ6jXzP7naBB5eQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762180410; c=relaxed/simple;
-	bh=ADIEP2R4Ye3a32o5urTgbZq2x2MIrVSu4eY4ppawa+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kT5m0tuGkWv62YFytd8yrK4j5IWm4FBCjJdFJS9LbpErjsh0pOM9Jck71iezkvsCg3Z4Z1TuB6ah/+vkf0vDCyB1BtS1FlRV4ek617xvJEpkSQSfsYej9B8Ic+GpZrcdxYoTQd8kqDOo4q/R1kRz9lIxsAytsiKE1UOAo6fXBno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pu0EgPfz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762181167; c=relaxed/simple;
+	bh=fs/2by/S27WDPm0ilbh5zFhuJpMec2Iy6t4szQvymlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DZL4jwMWNgbjAdbFANpzB/mYSuhoFp5Ee8+jx30bl39rIuPT/w4e59c5yFyrUpcyg6YSyi1KQXx52N6pVbdaJT7SZuoDqQnvP+4QmhgxJtTLMUUQLW756D7l4r6+BCBr+A/StugxS3jy4/XE6lu/VLv7atH9dn0YEf/CpXu3OZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=X2Q5KfRZ; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pu0EgPfz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05AD8C4CEE7;
-	Mon,  3 Nov 2025 14:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762180410;
-	bh=ADIEP2R4Ye3a32o5urTgbZq2x2MIrVSu4eY4ppawa+E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pu0EgPfzvjxNzAIsMUXSORw/6lYc9GfU4GaBq2sILlsDpGtjsrmRc+YdwDv3m6ake
-	 JHxJ2Yay279m0qKorZ3WYC67v1gF4ln6k4IMb6+HwrSwsVQeFUbzJzigRn5MHI9OeY
-	 qjVx5buHc9KVTKW/R1cvEsti/x+qNEUhwlk0a9XjuQEbOoV9QnImX50GUpNci/qCxz
-	 vql1rTt+ETn/+hUSJH3lr6oIYzPVgxk82JOo7j5i+UALRm5az5Ofga8DTAx6ACk3f9
-	 rlAw2wYpEkHIcl89YFRv2J0vO2tS295cEnBqrcyv1DbPNunAfRoPNJeAmmKBbkbkzT
-	 q/NtfE39BpBVA==
-Date: Mon, 3 Nov 2025 14:33:22 +0000
-From: Will Deacon <will@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v9 1/5] perf: Add perf_event_attr::config4
-Message-ID: <aQi9MstZTsloKmeo@willie-the-truck>
-References: <20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org>
- <20251029-james-perf-feat_spe_eft-v9-1-d22536b9cf94@linaro.org>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="X2Q5KfRZ"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c29466eabaso1153322a34.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 06:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1762181163; x=1762785963; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PDHP+mLFk92r6h7AxBTCn7EZSCxWKQie4OhNqh3d/ww=;
+        b=X2Q5KfRZ0QP0bfsCV9/RJeH6irH9sQBy1Z9KMVKRv/bN2s8omz7llSIkykkMVo/r8m
+         f4mJD5EogbOB10+6CwXxzoEujkK4h66PyejIE1ow47NBmL2gyZlEsVjlYNUkrwwnARgX
+         esVO1UpaduvKFX7ffsNK9i9KP9XqLcyxCqu8hrP/sZHFea2zeqxRRzlYubY7IJZU881u
+         q8HEOLWGoAG580qOzQkbFPyOLzZQmTmGfBmNtPcUsZOxz4rC8/uel0Io5FXWP9eb4GfL
+         YjZtr+iFc27//7b30bguUC89ITZtAvF4euKv4RI9TQFGqNF0zyi5apiCoRrScSvyOOWE
+         egcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762181163; x=1762785963;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDHP+mLFk92r6h7AxBTCn7EZSCxWKQie4OhNqh3d/ww=;
+        b=YXXEqgfwPIxpHHy3Vs6P4254lH9HJThhp2Y7TcrrhT0ufp2y7kWyl12TFiAHB8WXts
+         9Z1k4invtRjMhz4UIFpA+rcqwBJFshg9jiY7u2vDVTEnSg/4gksqAKMyBHpUkuxBfRNO
+         r7A/BwY8ieg3oNjh1+oXIQgbjvaJ18Fw1TxjNrv0maTBEpdArCyI1QPnyHOPtuLyiods
+         zVDe27EQ6R2Epmgtv9jAhhH7ESTH2tpZp++sKvCtgAOigRXVTpCSK+L0kRAGEv6IqObR
+         ERnbz1FMS7vTp0dRoXrZ1AQRiJHsGSsfLOeOmj+tmvOyyuHByxaJdsfLdMs5sxmChmao
+         a9Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCX2J6jCp6lUxnIpyJE+5ZKpVsoeSFILCOafQVlAxtnT2I+iPQLOcuqRPDIOSmzdW8c/vmkGmgSlJEA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQFOB62dkU8YDaI5d0O1KrBykbc3gIeT72hgkmPkIpvXPU1cdE
+	VI1biijW99VlDtoYQrXM2mUrtqB+XAVrLlGbvz820xcdMK+iB5NiVCWLm8nFTur5se8=
+X-Gm-Gg: ASbGncu13MTyPikAr4BUlHUnWSEOE1hhyjjewASPJn/uouW3TCjQYjVwQ+naN1vrydZ
+	9ip1s0F//etbN/3KbiTic+CwMMIGrjeXfehrYDxVwkeFZvk8xHVZlmuG/syP2WjTxLl/OnotJSA
+	WheIb8gbIkLzWqjVsOAlqxRodMz+vqfaH9KgO56IX3AX8c4/315/PdsANpOabt2yeSLjGYB2UA5
+	yn8lT67MTD5gkOBG/1ddbCJC1FQueJQwJcuJUbOo9dXey/HBVxqjbYG38iy7KwrsSI5KzIFwhBn
+	S5qxCEdsg2npmKHooNS/4QbAJ/UOgcCgI5xIcJjKM9E4tlu8OUzCO3bNgxgIX5haiDO0pf/I5rP
+	8BOW5Ut+vrQjwfS4EyozygjkMU6LPQcQke/mQBstYmz2b4HOMU78DsVYE7jeDCP6zRaDLImCq3T
+	QeC43QD1MofjC8R5UWw4x//JOQTkPPBmv8edgb1DRRiFIGByZUgqxNgVEE0h+2mwhSSbHye5c=
+X-Google-Smtp-Source: AGHT+IHncJLjW6SAXBWAuFDI30CJXo0InftwPdqGHG+Ii4HqdxDcuIic/Wojt73xZVCmFH2UZVHohQ==
+X-Received: by 2002:a05:6830:4422:b0:760:6ff1:2995 with SMTP id 46e09a7af769-7c6967dc593mr6819660a34.30.1762181162575;
+        Mon, 03 Nov 2025 06:46:02 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:37c9:fd3e:34ae:9253? ([2600:8803:e7e4:500:37c9:fd3e:34ae:9253])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c6c2474ae7sm180122a34.14.2025.11.03.06.46.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Nov 2025 06:46:02 -0800 (PST)
+Message-ID: <c365b17c-de18-4718-8d51-fa1d93236d90@baylibre.com>
+Date: Mon, 3 Nov 2025 08:46:01 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029-james-perf-feat_spe_eft-v9-1-d22536b9cf94@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 8/8] iio: adc: ad4030: Support common-mode channels
+ with SPI offloading
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+ Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, michael.hennerich@analog.com,
+ nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net
+References: <cover.1760984107.git.marcelo.schmitt@analog.com>
+ <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
+ <20251027140423.61d96e88@jic23-huawei>
+ <aQJY7XizVWbE68ll@debian-BULLSEYE-live-builder-AMD64>
+ <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
+ <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
+ <1c3712b9b5313ed6c9d07c1acbc9b918a4883056.camel@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <1c3712b9b5313ed6c9d07c1acbc9b918a4883056.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 29, 2025 at 03:46:01PM +0000, James Clark wrote:
-> Arm FEAT_SPE_FDS adds the ability to filter on the data source of a
-> packet using another 64-bits of event filtering control. As the existing
-> perf_event_attr::configN fields are all used up for SPE PMU, an
-> additional field is needed. Add a new 'config4' field.
+On 11/3/25 8:30 AM, Nuno Sá wrote:
+> On Mon, 2025-11-03 at 10:22 -0300, Marcelo Schmitt wrote:
+>> On 10/30, Nuno Sá wrote:
+>>> On Wed, 2025-10-29 at 15:11 -0300, Marcelo Schmitt wrote:
+>>>> On 10/27, Jonathan Cameron wrote:
+>>>>> On Mon, 20 Oct 2025 16:15:39 -0300
+>>>>> Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+>>>>>
+>>>>>> AD4030 and similar devices can read common-mode voltage together with
+>>>>>> ADC sample data. When enabled, common-mode voltage data is provided in a
+>>>>>> separate IIO channel since it measures something other than the primary
+>>>>>> ADC input signal and requires separate scaling to convert to voltage
+>>>>>> units. The initial SPI offload support patch for AD4030 only provided
+>>>>>> differential channels. Now, extend the AD4030 driver to also provide
+>>>>>> common-mode IIO channels when setup with SPI offloading capability.
+>>>>>>
+>>>>>> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+>>>>>> ---
+>>>>>> New patch.
+>>>>>> I hope this works for ADCs with two channels. It's not clear if works as
+>>>>>> expected with current HDL and single-channel ADCs (like ADAQ4216).
+>>>>>>
+>>>>>> The ad4630_fmc HDL project was designed for ADCs with two channels and
+>>>>>> always streams two data channels to DMA (even when the ADC has only one
+>>>>>> physical channel). Though, if the ADC has only one physical channel, the
+>>>>>> data that would come from the second ADC channel comes in as noise and
+>>>>>> would have to be discarded. Because of that, when using single-channel
+>>>>>> ADCs, the ADC driver would need to use a special DMA buffer to filter out
+>>>>>> half of the data that reaches DMA memory. With that, the ADC sample data
+>>>>>> could be delivered to user space without any noise being added to the IIO
+>>>>>> buffer. I have implemented a prototype of such specialized buffer
+>>>>>> (industrialio-buffer-dmaengine-filtered), but it is awful and only worked
+>>>>>> with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tree). Usual
+>>>>>> differential channel data is also affected by the extra 0xFFFFFFFF data
+>>>>>> pushed to DMA. Though, for the differential channel, it's easier to see it
+>>>>>> shall work for two-channel ADCs (the sine wave appears "filled" in
+>>>>>> iio-oscilloscope).
+>>>>>>
+>>>>>> So, I sign this, but don't guarantee it to work.
+>>>>>
+>>>>> So what's the path to resolve this?  Waiting on HDL changes or not support
+>>>>> those devices until we have a clean solution?
+>>>>
+>>>> Waiting for HDL to get updated I'd say.
+>>>
+>>> Agree. We kind of control the IP here so why should we do awful tricks in
+>>> SW right :)? At the very least I would expect hdl to be capable to discard the
+>>> data in HW.
+>>>
+>>>>
+>>>>>
+>>>>> Also, just to check, is this only an issue with the additional stuff this
+>>>>> patch adds or do we have a problem with SPI offload in general (+ this
+>>>>> IP) and those single channel devices?
+>>>>
+>>>> IMO, one solution would be to update the HDL project for AD4630 and similar ADCs
+>>>> to not send data from channel 2 to DMA memory when single-channel ADCs are
+>>>> connected. Another possibility would be to intercept and filter out the extra
+>>>> data before pushing it to user space. My first attempt of doing that didn't
+>>>> work out with upstream kernel but I may revisit that.
+>>>
+>>> I'm also confused. Is this also an issue with the current series without common mode?
+>>>
+>>> If I'm getting things right, one channel ADCs pretty much do not work right now with
+>>> spi offload?
+>>
+>> Yes, that's correct. It kind of works for single-channel ADCs, but half of the
+>> data we see in user space is valid and the other half is not. For two-channel
+>> ADCs, everything should be fine.
 > 
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Reviewed-by: Ian Rogers <irogers@google.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  include/uapi/linux/perf_event.h | 2 ++
->  1 file changed, 2 insertions(+)
+> To me that is something that does not work eheheh :). I mean, going with all this trouble
+> to sample as fast as we can just so we have to discard (or mask out) half of every sample
+> in userspace (even though I can imagine we still get better performance vs non offload case).
+
+If we are getting extra data to userspace, then either we aren't creating the
+SPI message correctly and telling the controller to read too much data or
+the HDL is broken.
+
 > 
-> diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
-> index 78a362b80027..0d0ed85ad8cb 100644
-> --- a/include/uapi/linux/perf_event.h
-> +++ b/include/uapi/linux/perf_event.h
-> @@ -382,6 +382,7 @@ enum perf_event_read_format {
->  #define PERF_ATTR_SIZE_VER6			120	/* Add: aux_sample_size */
->  #define PERF_ATTR_SIZE_VER7			128	/* Add: sig_data */
->  #define PERF_ATTR_SIZE_VER8			136	/* Add: config3 */
-> +#define PERF_ATTR_SIZE_VER9			144	/* add: config4 */
->  
->  /*
->   * 'struct perf_event_attr' contains various attributes that define
-> @@ -543,6 +544,7 @@ struct perf_event_attr {
->  	__u64	sig_data;
->  
->  	__u64	config3; /* extension of config2 */
-> +	__u64	config4; /* extension of config3 */
+>>
+>>>
+>>> If the above is correct I would just not support it for 1 channel ADCs.
+>>
+>> Currently, it's just one part that is single-channel (AD4030). If patches 6 and
+>> 7 were accepted, it would be 3 single-channel parts supported. I can add an `if`
+>> somewhere to check the number of channel, but it will eventually have to be
+>> removed when HDL gets fixed.
+> 
+> I would probably do the above or maybe we just need to push for an hdl fix or some
+> final conclusion (like if they cannot fix it for some reason) and act accordingly.
+> 
+>>
+>> Or, if HDL can't be fixed, then we'll need the `if` now and something else
+>> latter to filter out extra data before pushing to IIO buffers as mentioned
+>> above. Though, this scenario seems odd to me as I think the HDL wouldn't be 100%
+>> compatible with single-channel AD4030-like parts. We would be writing code to
+>> support AD4030 _and_ a peculiar data stream from this specific HDL project?
+>>
+>> My suggestion is to apply all patches except patch 8. IMHO, SPI offload
+>> single-channel ADC support is broken due to HDL IP data stream not being
+>> compatible with single-channel parts. That's not a Linux driver issue.
+> 
+> Well, it's not a SW issue but we are driving the HW and we know it's broken so I
+> don't see a point in having something that does not work. Given that this is so
+> connected to the HDL part of it I'm not sure it's fine to ignore that offload does
+> not work for 1 channel parts. 
+> 
+> Anyways, it's odd to me but ultimately if Jonathan is fine with it, I won't object :)
+> 
+> 
+> - Nuno Sá
 
-Please can one of the core perf maintainers ack/nak this extension?
+If single-channel parts currently don't work and two-channel parts need [1] or
+a hardware descrambler to work with a single data line, then it sounds like we
+are blocked here until the HDL is improved or [1] is merged.
 
-Cheers,
-
-Will
+[1]: https://lore.kernel.org/linux-iio/20251014-spi-add-multi-bus-support-v1-0-2098c12d6f5f@baylibre.com/
