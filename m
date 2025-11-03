@@ -1,200 +1,179 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC32635;
-	Mon,  3 Nov 2025 13:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBD323AE66
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 13:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762176009; cv=none; b=f78LfhmZSjKFrPb3Kl2nkiWzI1AXA1uZxgblT7kLKFqT26dQpCMFWlHaYwonhHk3ObyYCiMxntZsD6GzV0nn/aStRxIdV09COd03DfxlhIkon0+0Zc9/MEa8z/tJFrSFf64qxsDdzMtIKGLL69r1CFVqhYLnIW3dKRzMOlu9vOc=
+	t=1762176097; cv=none; b=Mc6TfJXzSJtA6vKOQq6vutZsE5YszFYpopA8zS0XC3VkSvAX7fcDgNRyAi2vPSxK6iAJJEvhcxNC66HVpVavqWXNReMqQ9UqG9TuScW40YFeVD2umUVbo8smJsc9hUPydF1uyZhIPQi195ireaVCJdhY+FaEqgoD8c1DnUTBqek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762176009; c=relaxed/simple;
-	bh=/wr6DM7plefzFxe5cqGRChKJvSm5bKx5O8az99iQw1k=;
+	s=arc-20240116; t=1762176097; c=relaxed/simple;
+	bh=mKY1DHsdAgjlaB/x4mbWgVNH2LRMMJSrnESEyMRaP0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tiy388kz51VPy6AJfo6LFofWU2e2/8q1+rE6mmTDNDAK9p13vXzZZCg5DlK0f+nOVOfJLf26XDEKuXkpwTBxHm38sQvTc9g3iWWRhotyCYNjHFPHjDivB6u7XE20RocTQDzP7VNqwzumK7PBpNc0NvxeGVUV7iW9OEa4uoGummc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=aY0ndYWs; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=GT7nJvi3cbqYhamioo/0+QwkStehz4NpT12vxe3yHb90pa3enzlwAHGyDlOIbGL7ytq+0QRh2PSlibhS2VF4BstHuWlSEC3VVgA3EicCuoirL43spyGu+CCPc41SX0rIr/XJKxjymvTuo5ecFJ2uDSTGv20X9dlj+tVn01HlozI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IaoltB7x; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="aY0ndYWs"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9185740E01A5;
-	Mon,  3 Nov 2025 13:20:02 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id YJCfSWo4KNQ9; Mon,  3 Nov 2025 13:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1762175996; bh=YVO+ioF7tgxntygjp0N1BdULWpfg3s1EkWAhl+6LYHo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aY0ndYWsl9sd4t9nwaRWQWqnTfFnVOpBMIw/gtqif0UtUjRGIkFkj4W1aMzNIGl1u
-	 AZyPMsi4m+T8U6b9gsZlnQ7bL/yBi/wuwBpfVm7YJeArtR8YGQLVLVlvQ9QRVLCsS4
-	 sATk6rdG4dVBCARBtwtLoaUKkvKdHTqyfmrXYWgb3HIukKhKV1vPqrr/LQyjtJOjDf
-	 YZkcMw/DxhYLgx12ALprr38zMYISlJg7d4mA5CotRoDizAS7k/1/HYuinlHWCEsK3X
-	 uDYHNJ2ezIKiM1FExr2Jrn8tgtPbq4c2DOop3IqPSdgIwKXONpHZ/A/7Qkf2sLS5wq
-	 jysa2mn8uy7+wPaEKDgggWQKFwwqYoffuGZ6kS455EmVDQsAb3dhvM3j4H8sxolv8E
-	 OHxkj15zfkutEpIFMf7XphyVeFIhvlAcwp60mtaPVSqduuOgbkhtc0CbtkAVNSvkXp
-	 h1zjOOs8j7e8044eMOfF6UWlXcyi3mwGCSqu10W3EbILloBbAU87qSZYBzE11kaFqg
-	 QfRUe91E9ueRM/B8Fya7QC0pAUGytwjMVfmvaU6tpSFJyP9rRbXj3PfKyfypmwYrB2
-	 ROR6iy0NkS6PSFnzg0H7GfBjjxj4mFOHDNP6lws0NKXTPsWBKu+4tFROocs/kug2CW
-	 5lKels5SpWXndmPaKrU9RSzk=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 361F840E01CD;
-	Mon,  3 Nov 2025 13:19:20 +0000 (UTC)
-Date: Mon, 3 Nov 2025 14:19:14 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: Daniel Ferguson <danielf@os.amperecomputing.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
-	"erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Message-ID: <20251103131914.GEaQir0sdz4Te_ea0l@fat_crate.local>
-References: <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
- <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
- <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
- <9433067c142b45d583eb96587b929878@huawei.com>
- <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
- <20250917183608.000038c4@huawei.com>
- <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
- <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
- <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
- <75e9bae2d30748d5b66c288135915cc3@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IaoltB7x"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-793021f348fso3468988b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 05:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762176095; x=1762780895; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FSag3litSbjBkSWJUIOjnh1lwhzQTpa6XW5JSh0K4dY=;
+        b=IaoltB7x8uypSvtIHIoIFKaXiWG13IEiIw90H9tS06Zk9/k4Vmj7Nk8wfraIZM86Y7
+         iGhazBzVpeBdPZ+c45iO6Q6M24wLkqC0z4tNi7tjpHEKT55mKWfq9TvHhrfZCbx4se+8
+         xGvFKxbTS+yWfum5ll564hRAJY+8DEfl+4svPor6yAPx+ioA6IiJ1ybSKAIwXEEivFkS
+         5Ft199RPuwJCZRA4cCb2o4akZE9gICXnBG3eCe3+nLTaqDlWO6bQjFYcjuene4YVl/pH
+         BCTl6CFQn2TxELpTVqFLGKUuBoFjjw7dFMOhcWkF0J213nkaBr0ViyG42M0CSNYBexUi
+         8SVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762176095; x=1762780895;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FSag3litSbjBkSWJUIOjnh1lwhzQTpa6XW5JSh0K4dY=;
+        b=IH/GrqWb7Cpp2IsCvnj5+XpbG7Cp1DyyLcIUAR/XXUZjEZt5ixAvVW2+m040EHjCis
+         4N09ggKSHwz4cJkCExlZpabKmXNuFMTmqB5tLp/knuUBoibx8cWqusPQ7BFvkrQszYT3
+         bUYDVgpGVKqNSjLf+wZ6WtZYWd86WespecO5UElO1wqiITJcsKdwdO3JCpnLyMnUx21n
+         RSoHja9rqumzQNcSeq3gVZuCCj0D3ZgmQxEkSfeez9BVWUv9aCUING9ZdgyuW6OHgudw
+         LcyqJqM6qwgiIzEcZ15AyXb5VvBHUIxmDWtEJ+6tQY9vTx1Ao5mAV/ee0NLIJwotc4US
+         pX3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXBIjz1NiLxOP/JVuaXWvEt+xJeynMociA5nOPtB7iC8CGCMty3ZhGhByhVmZE5HyVmkIGnOKT4T7E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJmUqkc+KsrKD6ACM9N993uqJ8WDemiveC/Wr3tp3FL46W0VsH
+	v6KLEjyf0JQk43BKz902Jc+tUH2otLOoqvLsEOpS64n6OAk4LyntnnJT
+X-Gm-Gg: ASbGncu72Ap0CpiZ9iO3XWp63H1dTuwykJrh97Uvi14U+rtmreNh0OdXVqqZJ9n1r++
+	oiI1lgRZuKzqWMu88O+2tjVnZN4Yw4uxPrVXRiGpnfh2N/sZjUofknwDK7XY5haUOH+PWzHCp33
+	Br8fYgRvaGSkDjyH7T99EvnrKMcNJuvhA399p2gXnqZ+wgjTVqe0a48KKGuxO4EurTMa6elY0+n
+	57YBbMnEZEfbS7ZnYcTzYQ9CstNYhD0biHoeLPvd53LLLuDFK45UuzjUdD1jsGj729eTdMuaMsi
+	wWuDIdQrIzLyZh4hgm51v8LlnF8nQDIsPOPv60/FsQybMTkgIxKXoxREZU4l5ptSVOmDPx7U9Vu
+	J6ovnE0BqYaL/V31zVwTxTOXQbm5NqN5pGaKaiaG2pNGCctpkmbbidJ/NWILh9MOSppd9ublQ4Y
+	KIqhWNRZn/+g==
+X-Google-Smtp-Source: AGHT+IFRncy0SSf8FZC7TBGl7F23Zl2/7vOrV2SDaFdUpzfHPQjkN9PubvOPWwLZzJO6qqiOOmXSSw==
+X-Received: by 2002:a05:6a00:816:b0:7ab:2fd6:5d42 with SMTP id d2e1a72fcca58-7ab2fd65efbmr3773456b3a.16.1762176095236;
+        Mon, 03 Nov 2025 05:21:35 -0800 (PST)
+Received: from localhost ([2804:30c:1653:6900:3b53:af9d:48d6:f107])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7a7db197340sm11355094b3a.44.2025.11.03.05.21.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 05:21:34 -0800 (PST)
+Date: Mon, 3 Nov 2025 10:22:49 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net
+Subject: Re: [PATCH v6 8/8] iio: adc: ad4030: Support common-mode channels
+ with SPI offloading
+Message-ID: <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1760984107.git.marcelo.schmitt@analog.com>
+ <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
+ <20251027140423.61d96e88@jic23-huawei>
+ <aQJY7XizVWbE68ll@debian-BULLSEYE-live-builder-AMD64>
+ <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <75e9bae2d30748d5b66c288135915cc3@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
 
-On Fri, Oct 17, 2025 at 12:54:36PM +0000, Shiju Jose wrote:
-> ACPI spec defined RAS2 interface for scrub and scrub parameters per node
-> .  Thus to make compatible to the spec,  kernel and firmware implementations
-> for RAS2 scrubbing are per node.
-
-Ok, makes sense. You can have heterogeneous or whatever nodes.
-
-> For the design and prototyping your request for "start a scrub on the whole
-> system", we are trying make sysfs scrub control system-wide while keeping
-> underlying RAS2 scrubbing per node.
-
-I guess per-node does make sense...
-
-> for the demand scrubbing should the kernel send scrub request to only on the
-> corresponding node or to all the nodes etc.
-
-Well, since scrubbing should not interfere with normal operation, you could
-start it on the target where it should scrub and then do a full circle over
-all memory. For example. Or do something simple and which comes "natural".
-
-> From the ACPI spec RAS2 scrub interface perspective,  needs per-node scrub
-> rate and other scrub parameters. One of the use case for demand/background
-> scrubbing in a specific node in which frequent corrected memory errors
-> reported to the user space and CE count exceeds the threshold.
-
-I guess.
-
-Or you can simply start scrubbing around the failing address. With a certain
-radius. If the node thing comes more natural, sure but you can have a big fat
-node and if you start scrubbing the whole thing, you will get to the actual
-address you want to scrub after a long while. So the per-node thing is not
-necessarily the optimal solution. Question is, what you really wanna do on an
-error, as a reaction...
-
-> If you agree to keep per-node scrub rate and thus per-node scrub control in
-> the sysfs, then I will continue to use the original design in v12? Otherwise
-> will try to use the new design with common system-wide scrub control in the
-> sysfs and underlying RAS2 scrubbing implementation per node.
-
-See above.
-
-> This is for demand scrubbing feature/use case where a specific address range
-> to scrub and OS must set the mandatory  spec defined  RAS2 table field
-> 'Requested Address Range(INPUT)' while requesting the demand scrubbing in
-> a node. Hope the firmware can ignore the request if the requested address
-> range to scrub is irrelevant for a node, because in this approach we have
-> common sysfs scrub control and kernel is requesting demand scrubbing
-> system-wide across all nodes.
+On 10/30, Nuno Sá wrote:
+> On Wed, 2025-10-29 at 15:11 -0300, Marcelo Schmitt wrote:
+> > On 10/27, Jonathan Cameron wrote:
+> > > On Mon, 20 Oct 2025 16:15:39 -0300
+> > > Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+> > > 
+> > > > AD4030 and similar devices can read common-mode voltage together with
+> > > > ADC sample data. When enabled, common-mode voltage data is provided in a
+> > > > separate IIO channel since it measures something other than the primary
+> > > > ADC input signal and requires separate scaling to convert to voltage
+> > > > units. The initial SPI offload support patch for AD4030 only provided
+> > > > differential channels. Now, extend the AD4030 driver to also provide
+> > > > common-mode IIO channels when setup with SPI offloading capability.
+> > > > 
+> > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > > ---
+> > > > New patch.
+> > > > I hope this works for ADCs with two channels. It's not clear if works as
+> > > > expected with current HDL and single-channel ADCs (like ADAQ4216).
+> > > > 
+> > > > The ad4630_fmc HDL project was designed for ADCs with two channels and
+> > > > always streams two data channels to DMA (even when the ADC has only one
+> > > > physical channel). Though, if the ADC has only one physical channel, the
+> > > > data that would come from the second ADC channel comes in as noise and
+> > > > would have to be discarded. Because of that, when using single-channel
+> > > > ADCs, the ADC driver would need to use a special DMA buffer to filter out
+> > > > half of the data that reaches DMA memory. With that, the ADC sample data
+> > > > could be delivered to user space without any noise being added to the IIO
+> > > > buffer. I have implemented a prototype of such specialized buffer
+> > > > (industrialio-buffer-dmaengine-filtered), but it is awful and only worked
+> > > > with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tree). Usual
+> > > > differential channel data is also affected by the extra 0xFFFFFFFF data
+> > > > pushed to DMA. Though, for the differential channel, it's easier to see it
+> > > > shall work for two-channel ADCs (the sine wave appears "filled" in
+> > > > iio-oscilloscope).
+> > > > 
+> > > > So, I sign this, but don't guarantee it to work.
+> > > 
+> > > So what's the path to resolve this?  Waiting on HDL changes or not support
+> > > those devices until we have a clean solution?
+> > 
+> > Waiting for HDL to get updated I'd say.
 > 
-> If this approach is not correct, can we use (b) as below? providing we need
-> to get PA range for the nodes in the RAS2 driver  using the functions
-> (start_pfn = node_start_pfn(nid) and size_pfn = node_spanned_pages(nid);)
-> as implemented in v12 and discussed earlier in this thread.
+> Agree. We kind of control the IP here so why should we do awful tricks in
+> SW right :)? At the very least I would expect hdl to be capable to discard the
+> data in HW.
 > 
+> > 
+> > > 
+> > > Also, just to check, is this only an issue with the additional stuff this
+> > > patch adds or do we have a problem with SPI offload in general (+ this
+> > > IP) and those single channel devices?
+> > 
+> > IMO, one solution would be to update the HDL project for AD4630 and similar ADCs
+> > to not send data from channel 2 to DMA memory when single-channel ADCs are
+> > connected. Another possibility would be to intercept and filter out the extra
+> > data before pushing it to user space. My first attempt of doing that didn't
+> > work out with upstream kernel but I may revisit that.
+> 
+> I'm also confused. Is this also an issue with the current series without common mode?
+> 
+> If I'm getting things right, one channel ADCs pretty much do not work right now with
+> spi offload?
 
-I'm wondering how useful that address range scrubbing would be and whether it
-is worth the effort... I guess the goal here is something along those lines:
-"oh, you just had an error at address X, so let's scrub [ A ... X ... B ] with
-A and B having, hm, dunno, sufficient values to contain X and perhaps cover
-sufficient range to catch error locality or whatnot.
+Yes, that's correct. It kind of works for single-channel ADCs, but half of the
+data we see in user space is valid and the other half is not. For two-channel
+ADCs, everything should be fine.
 
-But you'd need to do this only when you have a fat memory node and where you
-start scrubbing at the beginning of the node range and then you'd have to wait
-for a relatively long time to reach the PA X at fault...
+> 
+> If the above is correct I would just not support it for 1 channel ADCs.
 
-But I have a better idea: how about you start at X - y, i.e., at an address
-a bit smaller than the last reported one and then continue from there on,
-reach the *end* of the node and then wraparound to the beginning until
-you reach X again?
+Currently, it's just one part that is single-channel (AD4030). If patches 6 and
+7 were accepted, it would be 3 single-channel parts supported. I can add an `if`
+somewhere to check the number of channel, but it will eventually have to be
+removed when HDL gets fixed.
 
-This way you don't need to supply any range and you are still "on time" when
-reacting to the error with scrubbing...
+Or, if HDL can't be fixed, then we'll need the `if` now and something else
+latter to filter out extra data before pushing to IIO buffers as mentioned
+above. Though, this scenario seems odd to me as I think the HDL wouldn't be 100%
+compatible with single-channel AD4030-like parts. We would be writing code to
+support AD4030 _and_ a peculiar data stream from this specific HDL project?
 
-Hmmm?
-
-> Sure. Then background scrubbing will not be allowed if demand scrubbing is
-> in progress in a node, if the system-wide scrub control in sysfs is chosen. 
-
-So can the kernel interrupt background scrubbing on some node? Because then it
-is easy:
-
-You interrupt background scrubbing whenever needed with on-demand scrubbing on
-that particular node...
-
-It looks like it is starting to crystallize...
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+My suggestion is to apply all patches except patch 8. IMHO, SPI offload
+single-channel ADC support is broken due to HDL IP data stream not being
+compatible with single-channel parts. That's not a Linux driver issue.
+Patch 8 (common-mode for single-channel) may be fine, but I haven't been able
+to validate that since I only have remote access to a single-channel ADC that
+has already required a buffer work around to test.
