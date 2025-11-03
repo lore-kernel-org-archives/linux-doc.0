@@ -1,59 +1,59 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DF4218AB9
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 21:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AC21C8631
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 21:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762204944; cv=none; b=sFgOPfdRz9xh50P/2xNr/Mt673uWOpReUVSBi/Ju4QyJZ2DsHPgwMQo1oOLNeaNN0QLQhCxd9CqHK5apCW4JUdUmDuof/+83hTL7ukPXbjwS9fszobC9E5BA+qgqfPXSxYDiGJkuYG198k4yLftacYAjedta+8QMrVANi366LZQ=
+	t=1762205052; cv=none; b=p48VgkAeNQ2/4d0m78azG4uDJ6KBBUCReQhbZWgNKMP9CJo0XKGPPsCzpoJA+v0osnRASEM8GC9rzaGPzry0WsSt+yuMlB0pdu0q74pDZkBrxUQNfsttx73dN6OwswSC7R/CBKZuOqBiKhhMsbQlVKT7eqh5dQh+cW1Q3DUfSIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762204944; c=relaxed/simple;
-	bh=luftFZkqy8XsLwWuXKgrza1yZ3N5omE/6fu+k0bWHUE=;
+	s=arc-20240116; t=1762205052; c=relaxed/simple;
+	bh=VbOJNq35wZZMKpn6zF3s2XM6+SMZiEab61NKw7H/8CI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CbMtI6MJnGGCMsAB550RZ8uOixHHVjYWhBiIkLf/IvMVxgoCx7/0Jw1iR2kV/8ck4muBwZj9y8RBxKdW4e6/Rud1RjYB/Jln2bNBQ6me73jsLE9NZrIny97h94yvbwLgky+J6RGHroXQZ1bAjSSR/8wjVbz/bTZEhW7FLVAEePM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1/ahZpB; arc=none smtp.client-ip=209.85.215.173
+	 To:Cc:Content-Type; b=UhTy7KxVaWbVR/3hBXGJT3jFa3TYWKKwrJkg65jh+XxYJQu9zSB4MUoIshx0+P7BBddhNhhxz8dp/XQ1PZIjDInuk732tO+x2heOtqFJQuAnx7agqgTlcsBJPy7sfXH0Ie53m4d8bzbAIvJ6+DIf60RGrM9+osXMVB4jBgfpNJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qd5nzyaD; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1/ahZpB"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b6a42754723so325341a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 13:22:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qd5nzyaD"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7a9fb70f7a9so387166b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 13:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762204942; x=1762809742; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762205050; x=1762809850; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rE58hiRTUlrMIT0NpYlRD5TeFsqNiDpC2v9wB4IFQxM=;
-        b=P1/ahZpBF0TkluXnjl5or6gIK2b+PPOaiyoCPXNXtFNeTRtgijHCMv1cAj7KO/YL1j
-         NnT/f5SWvc6o4+ACeOxbnrUKJE+QQfaGR9giNy7CN9caAthjVG30b3newMWaWm3lKlca
-         r6k52xfr/NZ9KGZir6BSu8cP4swuge9ooDfoOfm4jSF79j7Hesd0Y8D4uqgAdFB6tZR/
-         8hy6FKxG/X5V7UEAKhaZKwVsJIGAm94m/ivJoRydMz1ZV0TdddKOJDZYxF1htHz0L88X
-         q8447NckzhjpPhuBXuo35+hDlIht/jRnlZCVTatqlXMZwef4rT/0UJqokC9YDDA8kCfo
-         LLHA==
+        bh=7Nht7Ga7UbT7S0pgUmdGlaMkNSqWf/hA/x/jfjEhJNY=;
+        b=Qd5nzyaDiDJFIzUViuYfwAzjpoG2K85RD1efZRk8IK1YBUhqkdOzr8Nqgz5o3yjxu3
+         zwo/NNtLqOw9fykUo44FCkJ78BA2jlpll12SfrlgQFbjgNbZ0oTcOwsntp8EMQarPOnX
+         YRRCFlQLnJYy3iTjSDD8RuZ+q7zHSIyhtfeLDzQzjy5aJYHZX0znd2mz99BEOp9BKbHx
+         Axt/xvN8yFjGtLvOHxXJ8nHw2dlMQnqnboYsvevE09Kuq3skxSlNdkp5mD9D4SSDhuom
+         Xn1re5NttbsXHDc1kMgJX3xr0ofere15C6VxkqtAl3hQclhz0y7+BjicJ44buDPzHDuQ
+         I4kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762204942; x=1762809742;
+        d=1e100.net; s=20230601; t=1762205050; x=1762809850;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rE58hiRTUlrMIT0NpYlRD5TeFsqNiDpC2v9wB4IFQxM=;
-        b=KkNA3beAhZEgXAEPvpBZquiOTD1nZzOhYQvh3P/l+Gbf+9vwPFCQEHJoscb8mP6if0
-         bSWi/+8tjnv5anLB+GQ/tUceva7HhFwz/1lc++mc4CqhZwcKfmtZi+FUG6vWV1dNGBTu
-         XDLvJuvOmVzweo4wj1BR07kIk+AFRVCIdKDVJKZHSgtXo2bNwCJAQihHN/hOaj6CqMNl
-         e9JzTJje440Tujugian4PYODLY3x5w7xHTopoQs3ysTdGLrhfLTTWkievb5FlFD9r5z9
-         DUmNuceQ8Wpd/iGNoPTCfHxWDBE5UhaGZhWXtAZJg/eKLCg6VKF/p+z7tKSK45Thohyw
-         4qqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUr571hUqP0eoU9BOGJG7Y0ui92HwZQkM8xIK+OEYmeCNJnvK8ce4tGNddB7oodwl77BA/HMZ2AEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi8lT+zdG3J5wUrzFgz7CCSjvxc3MYdYFoeRlkHSYGd2+EZjfx
-	sW05+qX3YoKdfxJiZzx2yD6r0T85wczsIOXQcOG9FnE7JnKNrzxyt4/psK1VKGxlspD5zYuQv0m
-	enk1m8R6uOTdewVdnSAjnbn8VBwzbCss=
-X-Gm-Gg: ASbGncts1Juxpo+JqCvo3s7Js3uIZiROpguVmHecdQBBjxyQZNg2dIgkDMdVA7Xeg2J
-	5lFooaPZiU9SlPOYBsZAf4QsTUESSxXjlkVYia2xLmUcdjHs6JUt7Nzuic/Qq8r5x2JVASv/Ab/
-	ZaC9tuv6c3C8XGcru5y6VZSbthcFXQqFvqus8HM7fMFOO30G+OCEVqGKd7AfOoD//QrVzh7FYkV
-	vCAoVwvuc5eCCRoyno1BG9hXEqXOnVa6fFZ8LWLorA2upgrd5KQbTYLZFLT
-X-Google-Smtp-Source: AGHT+IF+pa7nAIZJIzPewlRle8Ustg8pMZwlv03Og8EB/KzMFu1aqoYGB9P15oduASqkSOuCDnhkCrkbBG7VOwG5Py0=
-X-Received: by 2002:a17:902:c40a:b0:25a:4437:dbb7 with SMTP id
- d9443c01a7336-2951a3bbbe7mr109882355ad.4.1762204941993; Mon, 03 Nov 2025
- 13:22:21 -0800 (PST)
+        bh=7Nht7Ga7UbT7S0pgUmdGlaMkNSqWf/hA/x/jfjEhJNY=;
+        b=OjB6qT8jy6FLuKnuEpfimFvDACzB9VSle6tvFR6k/X7gvXLAVaDCTRCjSFXZk3Jy/o
+         us4qO52V5KKBvsfgVPoI+orV3Kq8K5oZs0CotZC+/vn5M5fuQlgV7NRr6Bu02ZUCD8Qn
+         rm3yMZSIE6ibD4nIudPNzM/SbnNI6XuGNlmY217JcBNpxGc11W+An1dlf4IV1KArzXqo
+         I2mTX53LVwxGvzUuV1cjf1WZtBGMOTUKrc8aWme6tOEVrXnqspOQ/KxERfPkIdUsqEhK
+         bU958NL27IRbBcB1sIVcNbgxhdUP1pORWD/o7Y5PpbER57a3eQsrTlwOkk25EThKEr0t
+         OCeg==
+X-Forwarded-Encrypted: i=1; AJvYcCXSl7KmSAhwivvMxd7rV4gbW8ZtxxNvL3nkC9A1aFPuDmyn5+5wXnPeGtBQ5KMpyie3xwASPmYUQ6M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKC6eLgsSAnUI6tGtwa7Wf7zS7K5+rswDDQYZ6avyC+6TtvALJ
+	eGyjLLOOnFTH5jHZEoRaih1Y0aZndhFWDfzfvW4rA/kkAlQzjni1Hy+XtOwDlw0P4ACz99PN3OR
+	+YqI8BBAvQ+kfZ7psEMuuX2gp+wJFaeGyOg==
+X-Gm-Gg: ASbGncvFd/siUVkike7Vz+OuV38hqmtNTjdsbEPi7h9T79QNLU2RadquLBHAQUysMPB
+	23CRtJnSAiBTSDUj0vGHg+tTAgUnjMjmvjYKbKPTJ6q1XDPtAiwJE2bjDNy9SENveeTIdwqps48
+	raQzT5CY7L2SVe7X8IcIRM6ak0YZkPkIzZVm1yWh5qzH+O+r/RVYBHwWGzAzrgsmazlrKtzFqfl
+	DLmLvQbiCcK3IoJTM+wpSiLkXqd2q6RfusC9MJ67dl/B3zR2HBiG5oAHFdY
+X-Google-Smtp-Source: AGHT+IFY8+2qFA1oiKosDS/rAbxdW43gmN+fJej+sar+4puyVhhm5/G83MSiXSxR/0mkFd6qHx0UbRoOd1MS3ZSWVwo=
+X-Received: by 2002:a17:902:d481:b0:295:558d:a464 with SMTP id
+ d9443c01a7336-295558da62emr77743435ad.7.1762205050142; Mon, 03 Nov 2025
+ 13:24:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,13 +61,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com>
- <20251103-vram-carveout-tuning-for-upstream-v1-2-17e2a72639c5@amd.com>
-In-Reply-To: <20251103-vram-carveout-tuning-for-upstream-v1-2-17e2a72639c5@amd.com>
+ <20251103-vram-carveout-tuning-for-upstream-v1-1-17e2a72639c5@amd.com>
+In-Reply-To: <20251103-vram-carveout-tuning-for-upstream-v1-1-17e2a72639c5@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 3 Nov 2025 16:22:09 -0500
-X-Gm-Features: AWmQ_bmeOchvSm4HGcyqJCHq618GmRuqKM6n2IV2ncTp0L5vtC9OpsiExT2E_x0
-Message-ID: <CADnq5_PS7pfseo84hVPfBevJqrfBxHEAct0w35xVjNg0cjREqg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/amdgpu: add helper to read UMA carveout info
+Date: Mon, 3 Nov 2025 16:23:58 -0500
+X-Gm-Features: AWmQ_blvBwcjDFk_MBDYqriTXRTTpOTzumlZhYcWa0hA4X0Y7q8ncHOD5PHapVI
+Message-ID: <CADnq5_P66LndOd5aJs=BN8btde1XNumCRZL2TZ1yfFfUwyGJOA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/amdgpu: parse UMA size-getting/setting bits in
+ ATCS mask
 To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>, 
 	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -79,268 +80,77 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 3, 2025 at 2:54=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.c=
+On Mon, Nov 3, 2025 at 3:01=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.c=
 om> wrote:
 >
-> Currently, the available UMA allocation configs in the integrated system
-> information table have not been parsed. Add a helper function to retrieve
-> and store these configs.
+> The capabilities of getting and setting VRAM carveout size are exposed
+> in the ATCS mask. Parse and store these capabilities for future use.
 >
 > Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+
+This patch is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c     | 32 ++++++++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c | 75 ++++++++++++++++++=
-++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |  1 +
->  drivers/gpu/drm/amd/amdgpu/atom.h                |  4 ++
->  4 files changed, 107 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 4 ++++
+>  drivers/gpu/drm/amd/include/amd_acpi.h   | 4 +++-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_atombios.c
-> index 763f2b8dcf13..58cc3bc9d42d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> @@ -28,6 +28,7 @@
->  #include "amdgpu.h"
->  #include "amdgpu_atombios.h"
->  #include "amdgpu_atomfirmware.h"
-> +#include "atomfirmware.h"
->  #include "amdgpu_i2c.h"
->  #include "amdgpu_display.h"
->
-> @@ -1877,6 +1878,10 @@ void amdgpu_atombios_fini(struct amdgpu_device *ad=
-ev)
->         if (adev->mode_info.atom_context) {
->                 kfree(adev->mode_info.atom_context->scratch);
->                 kfree(adev->mode_info.atom_context->iio);
-> +               kfree(adev->mode_info.atom_context->uma_carveout_options)=
-;
-> +               adev->mode_info.atom_context->uma_carveout_options =3D NU=
-LL;
-> +               adev->mode_info.atom_context->uma_carveout_nr =3D 0;
-> +               adev->mode_info.atom_context->uma_carveout_index =3D 0;
->         }
->         kfree(adev->mode_info.atom_context);
->         adev->mode_info.atom_context =3D NULL;
-> @@ -1891,16 +1896,19 @@ void amdgpu_atombios_fini(struct amdgpu_device *a=
-dev)
->   *
->   * Initializes the driver info and register access callbacks for the
->   * ATOM interpreter (r4xx+).
-> - * Returns 0 on sucess, -ENOMEM on failure.
-> + * Returns 0 on success, -ENOMEM on memory allocation error, or -EINVAL =
-on ATOM ROM parsing error
->   * Called at driver startup.
->   */
->  int amdgpu_atombios_init(struct amdgpu_device *adev)
->  {
->         struct card_info *atom_card_info =3D
->             kzalloc(sizeof(struct card_info), GFP_KERNEL);
-> +       int rc;
->
-> -       if (!atom_card_info)
-> -               return -ENOMEM;
-> +       if (!atom_card_info) {
-> +               rc =3D -ENOMEM;
-> +               goto out_card_info;
-> +       }
->
->         adev->mode_info.atom_card_info =3D atom_card_info;
->         atom_card_info->dev =3D adev_to_drm(adev);
-> @@ -1913,8 +1921,16 @@ int amdgpu_atombios_init(struct amdgpu_device *ade=
-v)
->
->         adev->mode_info.atom_context =3D amdgpu_atom_parse(atom_card_info=
-, adev->bios);
->         if (!adev->mode_info.atom_context) {
-> -               amdgpu_atombios_fini(adev);
-> -               return -ENOMEM;
-> +               rc =3D -ENOMEM;
-> +               goto out_atom_ctx;
-> +       }
-> +
-> +       rc =3D amdgpu_atomfirmware_get_uma_carveout_info(adev);
-> +
-> +       if (rc) {
-> +               drm_dbg(adev_to_drm(adev), "Failed to get UMA carveout in=
-fo: %d\n", rc);
-> +               if (rc !=3D -ENODEV)
-> +                       goto out_uma_info;
->         }
->
->         mutex_init(&adev->mode_info.atom_context->mutex);
-> @@ -1930,6 +1946,12 @@ int amdgpu_atombios_init(struct amdgpu_device *ade=
-v)
->         }
->
->         return 0;
-> +
-> +out_uma_info:
-> +out_atom_ctx:
-> +       amdgpu_atombios_fini(adev);
-> +out_card_info:
-> +       return rc;
->  }
->
->  int amdgpu_atombios_get_data_table(struct amdgpu_device *adev,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> index 636385c80f64..698416e84f1f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> @@ -21,12 +21,14 @@
->   *
->   */
->
-> +#include "linux/slab.h"
->  #include <drm/amdgpu_drm.h>
->  #include "amdgpu.h"
->  #include "atomfirmware.h"
->  #include "amdgpu_atomfirmware.h"
->  #include "atom.h"
->  #include "atombios.h"
-> +#include "atomfirmware.h"
->  #include "soc15_hw_ip.h"
->
->  union firmware_info {
-> @@ -296,6 +298,79 @@ static int convert_atom_mem_type_to_vram_type(struct=
- amdgpu_device *adev,
->         return vram_type;
->  }
->
-> +static int __amdgpu_atomfirmware_get_uma_carveout_info_v2_3(struct amdgp=
-u_device *adev,
-> +                                                           union igp_inf=
-o *igp_info)
-> +{
-> +       struct atom_context *ctx =3D adev->mode_info.atom_context;
-> +       struct uma_carveout_option *opts;
-> +
-> +       opts =3D kzalloc(sizeof(igp_info->v23.UMASizeControlOption), GFP_=
-KERNEL);
-> +
-> +       if (!opts)
-> +               goto out_mem;
-> +
-> +       memcpy(opts, igp_info->v23.UMASizeControlOption,
-> +               sizeof(igp_info->v23.UMASizeControlOption));
-> +
-> +       ctx->uma_carveout_index =3D igp_info->v23.UMACarveoutIndex;
-> +       ctx->uma_carveout_nr =3D igp_info->v23.UMACarveoutIndexMax;
-> +       ctx->uma_carveout_options =3D opts;
-> +
-> +       return 0;
-> +
-> +out_mem:
-> +       return -ENOMEM;
-> +}
-> +
-> +static int __amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_dev=
-ice *adev,
-> +                                                      u8 frev, u8 crev,
-> +                                                      union igp_info *ig=
-p_info)
-> +{
-> +       switch (frev) {
-> +       case 2:
-> +               switch (crev) {
-> +               case 3:
-> +                       return __amdgpu_atomfirmware_get_uma_carveout_inf=
-o_v2_3(adev, igp_info);
-> +               break;
-> +               default:
-> +                       break;
-> +               }
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +       return -ENODEV;
-> +}
-
-I think this function can be moved into
-amdgpu_atomfirmware_get_uma_carveout_info().
-
-> +
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-)
-> +{
-> +       struct amdgpu_mode_info *mode_info =3D &adev->mode_info;
-> +       union igp_info *igp_info;
-> +       u16 data_offset, size;
-> +       u8 frev, crev;
-> +       int index;
-> +
-> +       if (!(adev->flags & AMD_IS_APU))
-> +               return -ENODEV;
-> +
-> +       if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
-> +               return -ENODEV;
-> +
-> +       index =3D get_index_into_master_table(atom_master_list_of_data_ta=
-bles_v2_1,
-> +                                           integratedsysteminfo);
-> +
-> +       if (!amdgpu_atom_parse_data_header(mode_info->atom_context,
-> +                                         index, &size,
-> +                                         &frev, &crev, &data_offset)) {
-> +               return -EINVAL;
-> +       }
-> +
-> +       igp_info =3D (union igp_info *)
-> +                       (mode_info->atom_context->bios + data_offset);
-> +
-> +       return __amdgpu_atomfirmware_get_uma_carveout_info(adev, frev, cr=
-ev, igp_info);
-> +}
-> +
->  int
->  amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->                                   int *vram_width, int *vram_type,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> index 649b5530d8ae..fb3f34a36569 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> @@ -32,6 +32,7 @@ void amdgpu_atomfirmware_scratch_regs_init(struct amdgp=
-u_device *adev);
->  int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->         int *vram_width, int *vram_type, int *vram_vendor);
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-);
->  int amdgpu_atomfirmware_get_clock_info(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_gfx_info(struct amdgpu_device *adev);
->  bool amdgpu_atomfirmware_mem_ecc_supported(struct amdgpu_device *adev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/atom.h b/drivers/gpu/drm/amd/amdg=
-pu/atom.h
-> index 825ff28731f5..f07c612f0386 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/atom.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/atom.h
-> @@ -153,6 +153,10 @@ struct atom_context {
->         uint8_t vbios_ver_str[STRLEN_NORMAL];
->         uint8_t date[STRLEN_NORMAL];
->         uint8_t build_num[STRLEN_NORMAL];
-> +
-> +       uint8_t uma_carveout_index;
-> +       uint8_t uma_carveout_nr;
-> +       struct uma_carveout_option *uma_carveout_options;
-
-I don't think these really belong in the atom context.  They don't
-really have anything to do with atombios.  I think it makes more sense
-to do this in amdgpu_acpi_init() if atcs supports uma resizing.  If
-the atcs support is present, then call the atomfirmware function to
-parse the atom table and if all of that is ok, then register the sysfs
-interface.
-
-Alex
-
-
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_acpi.c
+> index 6c62e27b9800..0743fd8620e4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -116,7 +116,9 @@ struct amdgpu_atcs_functions {
+>         bool pcie_perf_req;
+>         bool pcie_dev_rdy;
+>         bool pcie_bus_width;
+> +       bool get_uma_size;
+>         bool power_shift_control;
+> +       bool set_uma_allocation_size;
 >  };
 >
->  extern int amdgpu_atom_debug;
+>  struct amdgpu_atcs {
+> @@ -588,7 +590,9 @@ static void amdgpu_atcs_parse_functions(struct amdgpu=
+_atcs_functions *f, u32 mas
+>         f->pcie_perf_req =3D mask & ATCS_PCIE_PERFORMANCE_REQUEST_SUPPORT=
+ED;
+>         f->pcie_dev_rdy =3D mask & ATCS_PCIE_DEVICE_READY_NOTIFICATION_SU=
+PPORTED;
+>         f->pcie_bus_width =3D mask & ATCS_SET_PCIE_BUS_WIDTH_SUPPORTED;
+> +       f->get_uma_size =3D mask & ACPI_ATCS_GET_UMA_SIZE_SUPPORTED;
+>         f->power_shift_control =3D mask & ATCS_SET_POWER_SHIFT_CONTROL_SU=
+PPORTED;
+> +       f->set_uma_allocation_size =3D mask & ACPI_ATCS_SET_UMA_ALLOCATIO=
+N_SIZE_SUPPORTED;
+>  }
+>
+>  /**
+> diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd=
+/include/amd_acpi.h
+> index 06badbf0c5b9..e582339e8e8e 100644
+> --- a/drivers/gpu/drm/amd/include/amd_acpi.h
+> +++ b/drivers/gpu/drm/amd/include/amd_acpi.h
+> @@ -427,7 +427,9 @@ struct atcs_pwr_shift_input {
+>  #       define ATCS_PCIE_PERFORMANCE_REQUEST_SUPPORTED             (1 <<=
+ 1)
+>  #       define ATCS_PCIE_DEVICE_READY_NOTIFICATION_SUPPORTED       (1 <<=
+ 2)
+>  #       define ATCS_SET_PCIE_BUS_WIDTH_SUPPORTED                   (1 <<=
+ 3)
+> -#       define ATCS_SET_POWER_SHIFT_CONTROL_SUPPORTED             (1 << =
+7)
+> +#       define ACPI_ATCS_GET_UMA_SIZE_SUPPORTED                    (1 <<=
+ 5)
+> +#       define ATCS_SET_POWER_SHIFT_CONTROL_SUPPORTED              (1 <<=
+ 7)
+> +#       define ACPI_ATCS_SET_UMA_ALLOCATION_SIZE_SUPPORTED         (1 <<=
+ 9)
+>  #define ATCS_FUNCTION_GET_EXTERNAL_STATE                           0x1
+>  /* ARG0: ATCS_FUNCTION_GET_EXTERNAL_STATE
+>   * ARG1: none
 >
 > --
 > 2.43.0
