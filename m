@@ -1,51 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C2523BD02;
-	Mon,  3 Nov 2025 23:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E68142E83;
+	Mon,  3 Nov 2025 23:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762212803; cv=none; b=g4DQWfoxxEFWaQPLQlnuCfME6s07ZRhtdaVMkVI6Swlagpirjv35KEb19XzD/GbJe9LIyhXPvytjzhe/FPqLiI6puLrHx4EJL02J26zUu5ZD/XCBhz2ipOuDXwyoJyZK5VvWUS+6TenNbkFogKfFFUFDpRqyfuAvaCSrO3cbhtM=
+	t=1762212935; cv=none; b=S32SGGmF232yrexyX9IDD19D93rVrtMFWcXJtL5Hv4LEJgkdBLKxvfNVL7dgtzBvQ9S92v6H0XVU2lwlzF1cOiPXN3Y/4H71J13lDSZ9pA7TaTGK5mFgG+O861vPjQIlW/KLXHHAMpJHTGWnTJa4jLaeBf8P7nFu7iw8ILK2Zog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762212803; c=relaxed/simple;
-	bh=Pl6H9vJe7acg1O6MR3J9UUbyidoSPhERCxM1FXyC3PI=;
+	s=arc-20240116; t=1762212935; c=relaxed/simple;
+	bh=8q5djkQgi9ATG594fdKrpiHqqoFLfmBs6o2tSOJKmrA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tnWb7gVLxr7vZIiRk6ukaeazUitrUwLiD6uvA8zkfVgi86PRnXDOF9LWSqLmRa7HgSZnDsECGvGpa0cSFyxH7vN+Nk0MhNdluTaq7eJZmR5BKzJzVPIa07uuBA8vZMNm/uj10VSdVMGOQHnaQfODxu1xd927PCqmfW3nR/+7WLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A4WT2590; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=TT2TJc5+hhlKxhxUwvaV4x3Yg725nObae5F2EKbjZv92k3uWrtmIC7A1sFegBB4ZSlx9IBqWfEfKvDVddR4hr3RIeRrQP2PTZaQAoNBPlNXDPv4ByfFLGkBVptuUtHslDu5OAY4acyxVqG5AtiJ2YQzTl/u2n4k+CGT287Pegl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=miw76KJz; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A4WT2590"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8AED740AED
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="miw76KJz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BCC2840AED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762212801; bh=7hPQDATXasc6TszX/hLxGIMFy6caQRz+O9eoOhPx3gQ=;
+	t=1762212933; bh=8q5djkQgi9ATG594fdKrpiHqqoFLfmBs6o2tSOJKmrA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=A4WT2590Lleb50KL0+rBO6gEF+qB7LQt6icP7bKDRUeFvjydw4dbSTh7IhXGdGmKK
-	 6yQpp9qiUpeniNy5O89XYhE5ZVyRT46czJpKyRsaokPYfY01iknOSI8gkljfm7z4eG
-	 9UurPhH9LkjrGOITX8GKqOikuQUlBEklN5uKiYMYpoSecqQxSJuCnZ1jqNJA6r2Si5
-	 xy3UN3iuDWGEaCe9QaloP92godZR6czpJhZdgJoX4sAzPegUtOMh91KEGIjOPFu+Tm
-	 Dv0v/jlNJBjjsXml61Ak/athlvDT59w1AltRz0Xc6aVMb9MTd1AbEf3qghPX+XXSsv
-	 Ff1DE0VboRV6g==
+	b=miw76KJzANTlPp/FaYCIpqdzrI47P7DUX12kPe1mVu021fJ/HVl6sF2HWuLdjma/T
+	 HoqLRME5MfKP6jGWHeqcsX4EA2v+TBSfCveylOmdaCEREvsp1Ihu8162McjfQpZcd+
+	 u8k74vTn8FGpX+TuYLAs+us1an7KP2PVysmcbJO1qzGjrgCmvELslJzK6JWDkhAYll
+	 GOCyxHa3U4y8QZiowrwh3Kkg2MGIjEaeZ56GyGxZvHo93G7cbft4M8Tla1lsYzPRvY
+	 5xDHzWjXvxipLfO+9UD9Ba1gWKdgxAR7mJz9/BZAif8ycLHPpht/GmnF8b78JyR9RL
+	 MV+FJXNq6niCQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8AED740AED;
-	Mon,  3 Nov 2025 23:33:21 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BCC2840AED;
+	Mon,  3 Nov 2025 23:35:33 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Serial <linux-serial@vger.kernel.org>
-Cc: Cengiz Can <cengiz@kernel.wtf>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Tomas Mudrunka <tomas.mudrunka@gmail.com>, Jiri Slaby
- <jirislaby@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anselm =?utf-8?Q?Sch=C3=BCler?= <mail@anselmschueler.com>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH v3] Documentation: sysrq: Rewrite /proc/sysrq-trigger usage
-In-Reply-To: <20251023014102.16777-1-bagasdotme@gmail.com>
-References: <20251023014102.16777-1-bagasdotme@gmail.com>
-Date: Mon, 03 Nov 2025 16:33:20 -0700
-Message-ID: <87jz06bsjj.fsf@trenco.lwn.net>
+To: Tomas Glozar <tglozar@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>
+Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, John Kacur <jkacur@redhat.com>, Luis
+ Goncalves <lgoncalv@redhat.com>, Costa Shulyupin <costa.shul@redhat.com>,
+ Crystal Wood <crwood@redhat.com>, Attila Fazekas <afazekas@redhat.com>,
+ Tomas Glozar <tglozar@redhat.com>
+Subject: Re: [PATCH 0/9] Documentation/rtla: Cover default options
+In-Reply-To: <20251010083338.478961-1-tglozar@redhat.com>
+References: <20251010083338.478961-1-tglozar@redhat.com>
+Date: Mon, 03 Nov 2025 16:35:32 -0700
+Message-ID: <87fraubsfv.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,67 +54,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Tomas Glozar <tglozar@redhat.com> writes:
 
-> /proc/sysrq-trigger usage documentation (in "On all" section) states
-> that it is not recommended to write extra characters to it. The sentence
-> may imply a contradiction to previous sentence which writes that such
-> characters are ignored.
+> RTLA has many options that have a default value that is used when
+> the option is not set associated with them. Those are not covered in
+> the documentation for the options, which creates confusion among users.
 >
-> Rewrite the description.
+> Document the default behavior for all relevant options: -H, -P, -C,
+> --trace-buffer-size. Some of these are covered in general
+> descriptions, only missing from the option documentation.
 >
-> Link: https://lore.kernel.org/lkml/7ca05672-dc20-413f-a923-f77ce0a9d307@anselmschueler.com/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v2 [1]:
->
->   - Keep /proc/sysrq-trigger future API change note (Tomas)
->
-> Anselm: Do you object to the rewrite?
+> Also, fix a few typos and incorrect naming of tracers.
 
-It still seems confusing...
+So I see that this series is still unapplied...should I take it through
+docs?
 
-> [1]: https://lore.kernel.org/linux-doc/20251016103609.33897-2-bagasdotme@gmail.com/
->
->  Documentation/admin-guide/sysrq.rst | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-> index 9c7aa817adc72d..a88266b171aa17 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -75,16 +75,15 @@ On other
->  	submit a patch to be included in this section.
->  
->  On all
-> -	Write a single character to /proc/sysrq-trigger.
-> -	Only the first character is processed, the rest of the string is
-> -	ignored. However, it is not recommended to write any extra characters
-> -	as the behavior is undefined and might change in the future versions.
-> -	E.g.::
-> +	Write a single character to /proc/sysrq-trigger. E.g.::
->  
->  		echo t > /proc/sysrq-trigger
->  
-> -	Alternatively, write multiple characters prepended by underscore.
-> -	This way, all characters will be processed. E.g.::
-> +	Only the first character is processed; any following characters are
-> +	ignored for now, which might change in the future.
-> +
-> +	Alternatively, to write multiple characters, prepend them with an
-> +	underscore so that these all will be processed. E.g.::
-
-You're still saying that following characters are ignored, then give an
-example where they are not:
-
->  		echo _reisub > /proc/sysrq-trigger
-
-So, for me, this still isn't really right.
-
-This, I think, is a holdover from before, but I have to point out that:
-
->  		echo t > /proc/sysrq-trigger
-
-Does *not* write a single character: it writes "t\n".
+Thanks,
 
 jon
