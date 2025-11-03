@@ -1,88 +1,165 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A774B1C8605;
-	Sun,  2 Nov 2025 23:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE898488
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 00:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762127491; cv=none; b=Ua9RBvMLQmVzQnhD7oN/FN0DHKaYdBQfb7OFxrGkteafYKSaE+TIhXtvDnbS5NXAkv6JlnXyjyboX/ZWuKatpQdcxsbnVSoEGhJ0PzvLB+jRJJf30zQ41tXmBsN0eZEAg2fBSOlOjjW9bGgzq9TON0kzXKO7xD40bX6TeXdStoA=
+	t=1762129646; cv=none; b=Sa8CuiONarBoDh9bxwv5QSLNiwKI43eBQFrs2GKe+IWJMQVuk+0Ybs4anse/P6RjMRMQsXXHjFQrxwjaV7NUfObENIJSY+ZWPpdM7kMyhirX14/zu49l06WTGWNYNlje5WiLn2QBUcXXISCF7ZAzl7LOKyAAdUBuLzkqcGsVUOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762127491; c=relaxed/simple;
-	bh=3QBJqNiePwTQmv6unGmlEenM/JEk9C6UuRzdmtI8mBE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ji5znvkKOt8+RXiL8zs6cSqm1CsMQKygWMxgkHRaxQcbxNMDB/cgx8+63EacjYuhPP9ogecz07paRz8jiBV3Hhz2K+9M2zQWlPt61wnderVEGMyLJs2SqQVcSxRsPhJ1nLDnNySPi13MMHU2NNKZhCFQydAtWT00VNcedIWvAgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id DDB6592009D; Mon,  3 Nov 2025 00:51:12 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id CF26F92009B;
-	Sun,  2 Nov 2025 23:51:12 +0000 (GMT)
-Date: Sun, 2 Nov 2025 23:51:12 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Paul Walmsley <pjw@kernel.org>
-cc: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>, 
-    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-    "H. Peter Anvin" <hpa@zytor.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-    Vlastimil Babka <vbabka@suse.cz>, 
-    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-    Paul Walmsley <paul.walmsley@sifive.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-    Christian Brauner <brauner@kernel.org>, 
-    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
-    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
-    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-    Andreas Hindborg <a.hindborg@kernel.org>, 
-    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-    richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-    kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-    evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-    samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-    rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>
-Subject: Re: [PATCH v22 10/28] riscv/mm: Implement map_shadow_stack()
- syscall
-In-Reply-To: <020e2f6e-9c1b-648e-3017-31eb8a89c493@kernel.org>
-Message-ID: <alpine.DEB.2.21.2511022341110.1185@angie.orcam.me.uk>
-References: <20251023-v5_user_cfi_series-v22-0-1935270f7636@rivosinc.com> <20251023-v5_user_cfi_series-v22-10-1935270f7636@rivosinc.com> <020e2f6e-9c1b-648e-3017-31eb8a89c493@kernel.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1762129646; c=relaxed/simple;
+	bh=8g9x8QH1x4ffbmi5EFK3Nczs+pWe9XWd+V1E0ScetUg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YugNvxNXDJMnxuOJsPxDRo7xj8T/h1miJcvnnrIP3p3H5o+afgCeJdUTxuSE7SAnsBSM0IQHvZcju69sjJxb38UmwLavQ3PrWlO3YF9XmPVViKCH3yeXQjbhqUyIKz8msJCH8grJJUB3fyBIARoC0j54vZlk7TNSWonGGejV0vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AagooAft; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vzfv6dPc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AagooAft";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vzfv6dPc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762129643;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GhN0fR0yEMJ11xlBRy3sHA6iY8FKJIup/YalqEMEfzg=;
+	b=AagooAft58Yj5ybYqhvp1ix1dTo4I+xBBecvSxX7Dp5QbZ1eND/yefchreHsI3Yrt3Vap3
+	9jmlBkdKoTm9AKdpHpK6r0+nVM1EUGoMmga73314oKLJ3sJJHHbiH83z87CObWvSWzp7Ja
+	LjMQny48DxeejG8gXjgw/m/M7G8hVxg=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-220-nxAugeCwNZiJ4q7HtnfMCw-1; Sun, 02 Nov 2025 19:27:22 -0500
+X-MC-Unique: nxAugeCwNZiJ4q7HtnfMCw-1
+X-Mimecast-MFC-AGG-ID: nxAugeCwNZiJ4q7HtnfMCw_1762129641
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-594269af95fso284821e87.3
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 16:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1762129640; x=1762734440; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GhN0fR0yEMJ11xlBRy3sHA6iY8FKJIup/YalqEMEfzg=;
+        b=Vzfv6dPckT7OJo4X5vy2Qc8n7DvJcJ3hnhgsXT4xGZ3p8u/s75Rq+q7tXQ6wQjPh7a
+         OJEpJ9GR8VM1te8TX9v34s4Q0wq7DayGcmVPNspTBEb+AjJDWB8qEF/5q470wTrPSXR6
+         Au2CqErLUZA3zr9Ud0Objeghht6ECMMsPIlgYJXU9Kwq1F5OkJZGEUIw9j3ULFbin4qs
+         rXWNRO+Y+NrSBIuKHxy5jzp3ElmTfXNouNddRbeQAnHO+MYjfi+0PGh/73ppMFh9XF/P
+         RLVNwQediXaSHMcuj8R0KW4m2JyGFuxG7JgcsJe6JrA8uJ0LTuRkuaEOYKtpEXIEjVMq
+         Nehw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762129640; x=1762734440;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GhN0fR0yEMJ11xlBRy3sHA6iY8FKJIup/YalqEMEfzg=;
+        b=YJrL5k+ZoYAg6t41a6uhHbHLQowTFcQpttf4Rlbwci5Yqk3Ba3Xknjq8whB0hYSzbB
+         TCJWz2+qaPfZaE84yDSlEX5vsuSZVZZF7dlZyu9dvEx/bziiskdHVlI8qYgNGTRxIUU9
+         J8ip00BVvQHxDUa3V2Zqm4hK1fad/bIem6BZicHWTs31eAMxvOFt9aN9Cc7fPgaDzbLv
+         X3E8P6HZ11hdnc3gX7H86YHtwUHXAHAshtM43IOKzqZ7bBaEhvA/n1lepddWFa5WO0TD
+         If3cxJlCyfIjQ63uJUtq4EdrDPAoMVEFgB7XjkIbcvC3xCHL1TWUO/qfQlhZRdSNxs6y
+         Luhg==
+X-Forwarded-Encrypted: i=1; AJvYcCWV4SEzEdC7CF4As4kMa0Eo1EK9pA/TPfbkmGejKwzMJmbnJNPQhJQd/Q4DnQZaFWArB8UrbhzBOLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuTE41t8Y6DL3Adon5Z35E32KK85wIEzSKIa0LOnWlUAsxzlIB
+	yvRrP57l/6RjOjGa2ybZaxzeXP0yWIJ14RLDqveBB1hmAR4G4hZADpO4JmSoofGqN5cFgnu1CAQ
+	j4sLXtYfKgU7k95q6Fb5C9dYwnNt/x7jK3RsV41N4eW8ju5IiyXS1EIPyedVREW9Yvp7Q3DCIe7
+	58SDonRfihjQBt1Kwf87KrNcejKM8d5U+NDKvR
+X-Gm-Gg: ASbGncuM7KB/2Flx/bz9gSAm4cdbhoocqajkeBOFj8xMkHoQZeOqItgaKbGfq0GcMZc
+	ykgIiqCy8Kfu9jgUU1v5h4d4JgI66pd6tz4Ke/XK7nhhXOhQ4I2rhHeaLknv3GbhCqxrbBFVX1S
+	QgnrtINVATDDMx6LVF5ZnptY6HCUNMhLWD6JoEokSKK5po/72riN98lSIW
+X-Received: by 2002:ac2:4e0a:0:b0:594:2e9b:f28f with SMTP id 2adb3069b0e04-5942e9bf55dmr132747e87.7.1762129640408;
+        Sun, 02 Nov 2025 16:27:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEw5YCNtN60wEBZeO0yilPOmGlUKgm3n8yeSZujSQ3OwjSmQaTNhz43TSHckHIRzh9qcPYr44zOZEcpd+tMCvk=
+X-Received: by 2002:ac2:4e0a:0:b0:594:2e9b:f28f with SMTP id
+ 2adb3069b0e04-5942e9bf55dmr132741e87.7.1762129639985; Sun, 02 Nov 2025
+ 16:27:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20251030062807.1515356-1-linan666@huaweicloud.com> <20251030062807.1515356-2-linan666@huaweicloud.com>
+In-Reply-To: <20251030062807.1515356-2-linan666@huaweicloud.com>
+From: Xiao Ni <xni@redhat.com>
+Date: Mon, 3 Nov 2025 08:27:08 +0800
+X-Gm-Features: AWmQ_bkZW4sQnzxqwLMdGXcS_bsxTNcHL9wvjnN2nS8I6-ARO9HgfsZ0OaYPOVM
+Message-ID: <CALTww28FMQFKHOJ3jnbC-FyxusfF3bvRZEgBz_TCvJM4e-OoEQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] md: delete md_redundancy_group when array is
+ becoming inactive
+To: linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, linan122@huawei.com, 
+	hare@suse.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 31 Oct 2025, Paul Walmsley wrote:
+On Thu, Oct 30, 2025 at 2:36=E2=80=AFPM <linan666@huaweicloud.com> wrote:
+>
+> From: Li Nan <linan122@huawei.com>
+>
+> 'md_redundancy_group' are created in md_run() and deleted in del_gendisk(=
+),
+> but these are not paired. Writing inactive/active to sysfs array_state ca=
+n
+> trigger md_run() multiple times without del_gendisk(), leading to
+> duplicate creation as below:
+>
+>  sysfs: cannot create duplicate filename '/devices/virtual/block/md0/md/s=
+ync_action'
+>  Call Trace:
+>   dump_stack_lvl+0x9f/0x120
+>   dump_stack+0x14/0x20
+>   sysfs_warn_dup+0x96/0xc0
+>   sysfs_add_file_mode_ns+0x19c/0x1b0
+>   internal_create_group+0x213/0x830
+>   sysfs_create_group+0x17/0x20
+>   md_run+0x856/0xe60
+>   ? __x64_sys_openat+0x23/0x30
+>   do_md_run+0x26/0x1d0
+>   array_state_store+0x559/0x760
+>   md_attr_store+0xc9/0x1e0
+>   sysfs_kf_write+0x6f/0xa0
+>   kernfs_fop_write_iter+0x141/0x2a0
+>   vfs_write+0x1fc/0x5a0
+>   ksys_write+0x79/0x180
+>   __x64_sys_write+0x1d/0x30
+>   x64_sys_call+0x2818/0x2880
+>   do_syscall_64+0xa9/0x580
+>   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>  md: cannot register extra attributes for md0
+>
+> Creation of it depends on 'pers', its lifecycle cannot be aligned with
+> gendisk. So fix this issue by triggering 'md_redundancy_group' deletion
+> when the array is becoming inactive.
+>
+> Fixes: 790abe4d77af ("md: remove/add redundancy group only in level chang=
+e")
+> Signed-off-by: Li Nan <linan122@huawei.com>
+> ---
+>  drivers/md/md.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index fa13eb02874e..f6fd55a1637b 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -6878,6 +6878,10 @@ static int do_md_stop(struct mddev *mddev, int mod=
+e)
+>                 if (!md_is_rdwr(mddev))
+>                         set_disk_ro(disk, 0);
+>
+> +               if (mode =3D=3D 2 && mddev->pers->sync_request &&
+> +                   mddev->to_remove =3D=3D NULL)
+> +                       mddev->to_remove =3D &md_redundancy_group;
+> +
+>                 __md_stop_writes(mddev);
+>                 __md_stop(mddev);
+>
+> --
+> 2.39.2
+>
 
-> This patch introduces a 'checkpatch.pl --strict' message:
-> 
-> CHECK: Lines should not end with a '('
-> #78: FILE: arch/riscv/kernel/usercfi.c:36:
-> +	asm goto(
-> 
-> I'll fix it up here in the event that v22 goes in, but please do the same 
-> on your side in case a new version is needed.
+Looks good to me.
+Reviewed-by: Xiao Ni <xni@redhat.com>
 
- I think this warning is silly for `asm' statements.  It's been common for 
-decades to do this to format multi-line `asm' statements, just because it 
-makes them so much more readable.  We have roughly two thousand instances 
-in our tree already and I would use this style for new code in the parts I 
-maintain as well.
-
- Now having trailing `);' on a separate line is another matter.
-
-  Maciej
