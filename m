@@ -1,173 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE6E188734
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C45E34D3B5
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762134466; cv=none; b=pVmSx6uC6I91pyE5FO/Zf5igtY1YyO5i431dqh2WNuOP2B0Oq+acjYnL/IcrMagkn4DZtAdCJZIX7iysd2+vcSHxebp9mJOUbe4huhMwRHpVWMg0NjelmAo9ZRd70iJrplj8FjAmCnpWv3fTrICfxF5llazr0poPleC1udXbrp8=
+	t=1762134665; cv=none; b=aJPJkCGNzWxWf33CEUV8DlsFAXIrJZz9InasNjgT6xICOZzWR3QkPUn4rOp6hxnPYBjvDTyZ6a/jEGhIh0UQib0xHcTSJi+bcLvvxVkKCIb6Ye21lJLJfSwF7d6x+JWr8wkHInnxr9MqGvCDX2Z/deybiLSY97iHVIiO8UuBjZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762134466; c=relaxed/simple;
-	bh=DZ/KiMq7wWJ8uPyNXpIdNz0w5pQFBc9zI5smcnaaiB0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i0qHSD0RtzOt0e9fmJSblAsg00z0mLmhJ7QrbSwQpzAysoNjWJpxdCminsl1yHhT4Pkk+JKjTqrn+75ngJfitcfoUzmQrVaKcOTPlizLNu+DrvMZ8X5ATjBQEKLhJ5CektlX2cjHkCvyPHiOq2vZMzsj+7b4IJS6ePVtKnJZx0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SBuBF0Nf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=h3eUvJrw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762134665; c=relaxed/simple;
+	bh=jBrlYcqe70CRFPI8eWpEHN0i3WJ0kusKzZ2MB0TsxBA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DtbfA1kaRjpPgL3Zo0lE5pMFNpoqgBxfRxQsS+X1NUeNKKm0SN/dsv+ugHBLc6fVP31rbE4Ljsf49gPxdn+1XJZAmLfJMvFWDYbT13fcV15POtabDWPt005/g/dWQmwFYTWGvDbJbjljAdBHt/SPF2mGbszPbwqoc7nfhUFMePM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gz447jUx; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SBuBF0Nf";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="h3eUvJrw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762134464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
-	b=SBuBF0NfmiEAmskiJ6BG8F9JDWbtoOxdrNWriscf7/qEKzt7DPvjwjmLiJg0e6SK+hcPZi
-	DsWQv9RKinnlZp9eraxIfdlm60faE5wExtJnCmU7inYs8jWTsIcURM1TIOpw3VpEU5IcTq
-	6+oTAZkCkGOsa13Z432l4/1lfsp44Ms=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-260-v6sxtzTbPS-g5pA-QNlEig-1; Sun, 02 Nov 2025 20:47:42 -0500
-X-MC-Unique: v6sxtzTbPS-g5pA-QNlEig-1
-X-Mimecast-MFC-AGG-ID: v6sxtzTbPS-g5pA-QNlEig_1762134461
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-57893a7d7b6so2596637e87.1
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:47:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gz447jUx"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-34077439166so3155409a91.2
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:51:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762134461; x=1762739261; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762134663; x=1762739463; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
-        b=h3eUvJrw/IrXM943TWCMfLZSG2xXhrrG5N/qweL10nJoVfb0zjbFI20+DHAy6EFOrb
-         Ffl1ym7Ef03Lp5+S0N2CV8Fzma2gr3mIeyvnu7tDkL8Z76z4Sluk22vLRAzUfZb95Zjg
-         /K2cCyo4wGen2yf5cbg1m+PN/P/RNyp5qV02pywmYVFAzF/abLeHstalao/9Yq8sMgyw
-         cn8nNug7tAumBFnP0aoq7x2wstwrbd0e7EqUG94jSOaLPasaeHCTJ3ezZ8UQFlsSGhNc
-         m/NLFRVynESjetZZuiiY6rexzLwK0AUOhsd/a0ZrY5qqeUzHBsFigOzb5sb3aLqNdslE
-         4ZTA==
+        bh=Lh5XxpkroE5dbbQU8eQ46vBGwFwM21sJCPsPPmpqn7w=;
+        b=Gz447jUx34QLyxGksRc5QIYrj5C2vZMNJIAeFzz0HP2ooxu/aiVXl6ZPUIL/pq5+On
+         ea6oxXMSSBX7VrSnSGLHQuuWM6wWJjVTa4CcndyXy4BgVKsl7vrQBQE2Nexq9khXNmHe
+         niu6ocUJmHnc9w3BB0jbjciSWBMUuSmtXPX+A6vlODFcHirAvlbiMwABBaJIG/gmSexT
+         OQlADH6aO6jspiB7HxrHvMS/3jXsDTJUPjVoRufqLWc+mBKCdBs3DqL4hgURApkter5c
+         5UMeyaeBZhLowBVBEbegSwiUR1puCgbbTt8UyG1JKV27mWFwKMo2iTgs75HKn8JztXUI
+         doRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762134461; x=1762739261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1762134663; x=1762739463;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
-        b=QkiX1swGErSb0bHc/YuuqiBdf1w0kkWDGgwVfxeG2qRgVIqTrmZc2X9IcI53Npr4TX
-         ukVxxlbuTMkw1HXX5smrEMsAuUkG+AMWuuehVkJv5HWKlsaPIU8kIPo5/ZDLJr2Xd026
-         rkeXBlC70wZQAmsHt2+pbhFkDXQXQ6qiZhiw9uEyaG94Gx3khDRsbZVVZiiplCd6leoE
-         b3MrrAbkujruf5VGabyA2ivQX7Rge09k4IwH/9pboEJfTsfP/dznRIv011Xs3sodAJ/E
-         CWMl75BSdPAomQisq/e0MIrcSlHTIyfOjvWOIfy3PRQ+hoLRdaJE8I9qL8qe5BbMWMYF
-         pOGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU607p3SsYZrW7nRXbDljaTAb5Y0oh0sYDnY3VCShmZhDd6i3f36DA38v4BPmwAqmbVVrhcKBdeRuw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoJKUqB44ZCR4CxhBEblcviWYKShO+VjbYjLoZNwrk52GGqjXF
-	iDjMLxKcv7/+EpO5jWVupQXjT9vkvXuFssJfqOnPbyRyiN+muJSjN8JwgG/Psuwk7fBNH0jxFX5
-	PlSAs7KTpJivCY0zVKGHxRh4WsSkFeiEzBbAp8p00oEuvuqbq1oYbd2Ry6lChrlVVox0H8T5WHP
-	NrmRkqvabCzvdq/t1qkDGfpg2KyaCm1GBj2McY
-X-Gm-Gg: ASbGncsgoNGkIAea/K+yByZgoPNVAVO+AtnCSzT/obOBKieye7jj8PZbA/flJI+6xGR
-	XB99JLdNS/59QzDY2b/wKz83efHro5MA8ClglQOTb7+w3xa7lx7nsJ5/XCkp2mtCem9dIxN+PRV
-	7PjdIenLGVMqgIv7D0WGTIABiLN29NNhuMVgBKcXolxnkaCvCt4bOrNdo=
-X-Received: by 2002:a05:6512:3e10:b0:594:2c58:978b with SMTP id 2adb3069b0e04-5942c589ad9mr620624e87.51.1762134461223;
-        Sun, 02 Nov 2025 17:47:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEHDOR/3/dEMSprdbAr+vGPJpG0WiUEecPksq7/JieZgEHWe+BMjD1gOgOvmjXIa+VsxvCQ+Uz9nvUL4YhsU+c=
-X-Received: by 2002:a05:6512:3e10:b0:594:2c58:978b with SMTP id
- 2adb3069b0e04-5942c589ad9mr620618e87.51.1762134460782; Sun, 02 Nov 2025
- 17:47:40 -0800 (PST)
+        bh=Lh5XxpkroE5dbbQU8eQ46vBGwFwM21sJCPsPPmpqn7w=;
+        b=NQKW41PVq+N+3YYt5FqPzVCyOM5p356upkX0EZm7dzgJdkFAqwvJzk+aaQoRp9P9cD
+         dL+Dy2Ps7NSCDj7dNBw8CF9tdui9uvp+QDykzdgT+0y+9A8htvsMSpeAcezlH0k3bmS3
+         0BoYQhREF+HaGtjHuVzUg8/UIr4rfRxn1GGx+cUxgC5GP610riX+uHlLWC1+GOkQyt6n
+         4xjytSLzRPuTNtinIoX6CSnshISeNFR/RA2BUt/3F4pKx775mC86wMYUPKu0qjZajN+O
+         uQudhXhyHm03FxnnjPwfmoQbG4wTn30drMyqkddP2PyUEJPEnw4rWINi6u+b0Peb+HCW
+         29Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0YuM0mHiA4iL2HkshROrGJZFUoinjiBCmINeBDRIsbqc67Y2Xa8ltaTfoYYlrgxodcVV23ssZYnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8cczr6odhPhiPFrc3dCQMaHNx2dkzRuu8v2+ooHwVR6Q0l5BT
+	KyOq2Dzwqw9oVF/U0EOzz25QKWeNGkJmGlrwlv5ngAW0aR3aHGl1B56F
+X-Gm-Gg: ASbGncsjVJV1l3KIABOGgC7WV1CKR9xO/At0oRLPsEIbwXxbSAbzkGxgEPmYWWDO+Nc
+	h3aLWa4gdKBSmdPK06ueiWXAhUBJBAMnV4/lJjWtW8N4Y9kVr9X8TNKn0YEi3kzQ56zTriH25oC
+	ejEiQBN6dJjkPa9fWVRjF5y2LnbewUx6qgwct8v0ujespAKtcOmxG7YBnYL86gYtKkt1C/vr/8N
+	wpfeOL++AeRPWVQC2uvTzj+tLFwPIJcL2kI/2a1GV/cH0RLu9yKRoE8c+4QeCmz5XJQ2ObM16Ec
+	qgib1Q3pi4oYrJu2KHpOhl8fvL+8ePr3/EbkCEXOnXgslGwy+EpJ7syZutLqWe3nzuxnhLJ+F59
+	kiNJ01uANmk1XEvn7Yr+RQX8OtGXlmsI0mysGaICMHI483cjr7WqroSDNz9khoBiz7Ju19irDmd
+	Lbk1wix74QT2RqY9jxepfUrA==
+X-Google-Smtp-Source: AGHT+IHWBJuGJ1zWKTvkSZmeCAOVjB3t/eUUN+iIole+MPcpb/alnDn5XwGocUcD6UqDZTVGGC4/rQ==
+X-Received: by 2002:a17:90b:28c8:b0:340:c261:f9db with SMTP id 98e67ed59e1d1-340c261fc52mr6496768a91.10.1762134662833;
+        Sun, 02 Nov 2025 17:51:02 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34050bb62casm12814486a91.20.2025.11.02.17.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Nov 2025 17:51:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id EAFA841C0600; Mon, 03 Nov 2025 08:50:58 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH net-next v3 2/9] Documentation: xfrm_device: Use numbered list for offloading steps
+Date: Mon,  3 Nov 2025 08:50:23 +0700
+Message-ID: <20251103015029.17018-4-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251103015029.17018-2-bagasdotme@gmail.com>
+References: <20251103015029.17018-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251030062807.1515356-1-linan666@huaweicloud.com> <20251030062807.1515356-4-linan666@huaweicloud.com>
-In-Reply-To: <20251030062807.1515356-4-linan666@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Mon, 3 Nov 2025 09:47:28 +0800
-X-Gm-Features: AWmQ_bl8wDMCqnoMJ36yUqoXBMkz_wvMmqiObsyO1YtquNOV0cAL5Eti1U9XmlA
-Message-ID: <CALTww286rYcR1hFk5GtxuwFqtUo3fwNyixd5N-_MwBX3P6UUBA@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] md/raid0: Move queue limit setup before r0conf initialization
-To: linan666@huaweicloud.com
-Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, linan122@huawei.com, 
-	hare@suse.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1791; i=bagasdotme@gmail.com; h=from:subject; bh=jBrlYcqe70CRFPI8eWpEHN0i3WJ0kusKzZ2MB0TsxBA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkcnBU7cwU/MkvfbFgUJXjzo3c9u3iYQnvP7Lbu7+sy6 3SSZu7tKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwEQs5zD8s+w5vX7N+n0z6/fH 23+TsmbK4eR6vS/R4j0bb8eClHkfLjIytAsX1P7izXa47e4tJ68ZsqNYiiM4+EPJ5Gdrrzrq5K9 iAgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 30, 2025 at 2:36=E2=80=AFPM <linan666@huaweicloud.com> wrote:
->
-> From: Li Nan <linan122@huawei.com>
->
-> Prepare for making logical blocksize configurable. This change has no
-> impact until logical block size becomes configurable.
->
-> Move raid0_set_limits() before create_strip_zones(). It is safe as fields
-> modified in create_strip_zones() do not involve mddev configuration, and
-> rdev modifications there are not used in raid0_set_limits().
->
-> 'blksize' in create_strip_zones() fetches mddev's logical block size,
-> which is already the maximum aross all rdevs, so the later max() can be
-> removed.
->
-> Signed-off-by: Li Nan <linan122@huawei.com>
-> ---
->  drivers/md/raid0.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-> index e443e478645a..fbf763401521 100644
-> --- a/drivers/md/raid0.c
-> +++ b/drivers/md/raid0.c
-> @@ -68,7 +68,7 @@ static int create_strip_zones(struct mddev *mddev, stru=
-ct r0conf **private_conf)
->         struct strip_zone *zone;
->         int cnt;
->         struct r0conf *conf =3D kzalloc(sizeof(*conf), GFP_KERNEL);
-> -       unsigned blksize =3D 512;
-> +       unsigned int blksize =3D queue_logical_block_size(mddev->gendisk-=
->queue);
->
->         *private_conf =3D ERR_PTR(-ENOMEM);
->         if (!conf)
-> @@ -84,9 +84,6 @@ static int create_strip_zones(struct mddev *mddev, stru=
-ct r0conf **private_conf)
->                 sector_div(sectors, mddev->chunk_sectors);
->                 rdev1->sectors =3D sectors * mddev->chunk_sectors;
->
-> -               blksize =3D max(blksize, queue_logical_block_size(
-> -                                     rdev1->bdev->bd_disk->queue));
-> -
->                 rdev_for_each(rdev2, mddev) {
->                         pr_debug("md/raid0:%s:   comparing %pg(%llu)"
->                                  " with %pg(%llu)\n",
-> @@ -405,6 +402,12 @@ static int raid0_run(struct mddev *mddev)
->         if (md_check_no_bitmap(mddev))
->                 return -EINVAL;
->
-> +       if (!mddev_is_dm(mddev)) {
-> +               ret =3D raid0_set_limits(mddev);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
->         /* if private is not null, we are here after takeover */
->         if (mddev->private =3D=3D NULL) {
->                 ret =3D create_strip_zones(mddev, &conf);
-> @@ -413,11 +416,6 @@ static int raid0_run(struct mddev *mddev)
->                 mddev->private =3D conf;
->         }
->         conf =3D mddev->private;
-> -       if (!mddev_is_dm(mddev)) {
-> -               ret =3D raid0_set_limits(mddev);
-> -               if (ret)
-> -                       return ret;
-> -       }
->
->         /* calculate array device size */
->         md_set_array_sectors(mddev, raid0_size(mddev, 0, 0));
-> --
-> 2.39.2
->
+Format xfrm offloading steps as numbered list.
 
-Looks good to me.
-Reviewed-by: Xiao Ni <xni@redhat.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/networking/xfrm_device.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm_device.rst
+index 7a13075b5bf06a..86db3f42552dd0 100644
+--- a/Documentation/networking/xfrm_device.rst
++++ b/Documentation/networking/xfrm_device.rst
+@@ -153,26 +153,26 @@ the packet's skb.  At this point the data should be decrypted but the
+ IPsec headers are still in the packet data; they are removed later up
+ the stack in xfrm_input().
+ 
+-	find and hold the SA that was used to the Rx skb::
++1. Find and hold the SA that was used to the Rx skb::
+ 
+-		get spi, protocol, and destination IP from packet headers
++		/* get spi, protocol, and destination IP from packet headers */
+ 		xs = find xs from (spi, protocol, dest_IP)
+ 		xfrm_state_hold(xs);
+ 
+-	store the state information into the skb::
++2. Store the state information into the skb::
+ 
+ 		sp = secpath_set(skb);
+ 		if (!sp) return;
+ 		sp->xvec[sp->len++] = xs;
+ 		sp->olen++;
+ 
+-	indicate the success and/or error status of the offload::
++3. Indicate the success and/or error status of the offload::
+ 
+ 		xo = xfrm_offload(skb);
+ 		xo->flags = CRYPTO_DONE;
+ 		xo->status = crypto_status;
+ 
+-	hand the packet to napi_gro_receive() as usual
++4. Hand the packet to napi_gro_receive() as usual.
+ 
+ In ESN mode, xdo_dev_state_advance_esn() is called from
+ xfrm_replay_advance_esn() for RX, and xfrm_replay_overflow_offload_esn for TX.
+-- 
+An old man doll... just what I always wanted! - Clara
 
