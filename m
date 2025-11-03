@@ -1,430 +1,202 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013069.outbound.protection.outlook.com [40.107.201.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF2E2C21F9
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 07:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762156424; cv=none; b=lB5T02j7TiEHMILdaWD8ms04NnaVOSRfi30LcPDdqbgVUKlR79OdCWzt04/DOm4XybYZP1esZeD3ZLdwdJsik42uISARGgd5SvKw+9iAYyGUYQMfBl9U/t3wgmxSq5Z1oI+ZdbVL8UOQwbmWn3AZAfS7A6vDA56iJGy/Ev0xBNo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762156424; c=relaxed/simple;
-	bh=OmLwWXxI7QJzZiWhcnz2SV5WgtWUgdvsnEL6HRwukQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TC6OW5vrHjMr7vZlFLlr+ShJUGpY9E+QP5B/+iKrzhmLMeG3a0fQ4NdCTJBg6BLFuVaHjF0SE41ZEl1On60PJjCf8BMyN+N8SPdOajrR9/ealB/eCHwwH1fDeWFQUeTVYRAsvisTnDOaGyJdzIg4pdrV8qTC0NfZgyYOtI98Too=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=goHUFCmT; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3942BE7B5;
+	Mon,  3 Nov 2025 07:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762156444; cv=fail; b=d4xV/+0VEwjJwM2vSZy+TiqlJjqXVRRu47r6eTgwLfshZl84+K5IeNy6Tqxz9Wa+c47F3qrwxl1Nu39+g4XSZCI4L5taaU55q1ORiI8yl5cgfZ4AutlU+c/KJotCzYb+8HiNIK964Zb/oqFG51X6DSXKJhaaItPaXyAIk4D6c2I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762156444; c=relaxed/simple;
+	bh=CucJKitNXZoLkN4DEbz07ngypuyLw4ROnw9LV/3Pllo=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=qf0+iBgnyPbR8niWUPscbVGFmZ//DqdaFhxTWr/LECyuu40R35nwWHg8VuhkgzahKtuMdOaFKjVXnlBjSXWWWzQvUR8ZVb5iNFFDwXpUYazMgr8sQ3zVmeghTAM67f8n8QjnC/7d0uqs7lSIPFr79dxi7e7pncmrkfcWLdeal+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N/PbNfs9; arc=fail smtp.client-ip=40.107.201.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="goHUFCmT"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7a4176547bfso3809735b3a.2
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 23:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762156422; x=1762761222; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u/3QOrXfaRRSLiQ4GSPcpWfsbztlf+4SFaNdg8ef6Oc=;
-        b=goHUFCmT9TIem6fW5MbBAL4jeNK4tqdC3hrR3vlJaa4fl7PF2Z28m0hXfK99mo/Liz
-         Ca8NtMagcfru49Vnu5p1v0rJtsfFt9anp0yDukC3a5aoHPFaggtkOGqC4XI+k/bVukuw
-         O4hJ+/CLpu32tOEPYOaQbVYTEMalCduYk9l5EXIcrf1LapGDyBHJLn9Pql1v60LOO/yX
-         hcBnlDrYYg33aOHowgJLbaZiuhl2VZBtVYfAxhCD/5masIVBMu1AD8EvbEClbpeEoxgZ
-         nU89ROlE/XOdnKiCSYODkfmEFLGnApxnGh5MEpEobp1mooeF1nVln001+nRq/pVTVbrL
-         T7FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762156422; x=1762761222;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u/3QOrXfaRRSLiQ4GSPcpWfsbztlf+4SFaNdg8ef6Oc=;
-        b=ZhHpvki+a2b8Z7A2BUziCKrEGjXu222a5X4w0zT6jJ4LewL66eFgxBW01FFKW+ICQQ
-         gOr3pWq3t10ZNed4ucIvFoAsdp90nybztF2dqbSuQbIKtJJBc1JMUqu1Y0bRrK8d/DrL
-         0U+fb88qzrHynFc9/ATi47uU77lWrAwL/oT7tzWWKTI09hKbM5xklZOsR9qG/22i+cPK
-         DqHCzirlGvEHLjqs7vbow+OQD6jTTUFylD+FVBSDQdX5gld0rVPNndhHmHpx7R0zzhVs
-         LoqR/aDu8VDbm4N44bXsV374jtkRedqCT2BZfUoLLGSAzD6bDZc49+asl4MBNpCWRGKb
-         6lOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQd6fAL4Cd4EmNYYjAQdaphO48Rcj8s4TF1IHiOlfWSvxbyJd7X1Kipg0zV7Lhc4OaLGpqZXlKALs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1VwXP448YoyFYXVDwEbOma5+mRLU+pvVJuK2AwuPZ2RxFhtD3
-	yD476I7ZwSFXnyB/TtgZ3tdXk7a5ytdP62ZYUIq3cnk85g2fnf9T92ssQEd0fN89nC4=
-X-Gm-Gg: ASbGncsBXYpx8IvyeYnRwzuEl8J0OPPRepk9jvSTiTHIsuWouEnpPLyoFt1gtyD2NkI
-	DP7vv/UX6b1z7XQ9Z3Cf4+aRMKfHgJ/sFwALmDejJn3/INdlOH69cJL8YqV1jnVeYRbPxIgx3H4
-	RWoSlPra1OPHR2g9E/Kn95bS+TKOffLM/YMGp67bDk4hyJ/YnwgKFHaG7n966ysuychCkK+VU3l
-	qXAoSVZf0lQmL1XIyyzuxwDrM/MSb6maF0/p6qCZvzea+xlFZ4FhSmM89RzdZ1CUSB68NeP4MD5
-	uh0OIXTASmyoonO1j8KgT+l8EM4oBSHMIVAX1D2HKKYq1DMHTNVkeI2cp0hKYjVzb6nce1j4OVH
-	R76/osIKNkSJwQ1mYe0zZpU0dxrQ7ZF3w0LOMc4hwNgcJhnLNi2GoKRcWKxI1wOZv164QAVCa2n
-	EyhGPA392em/TOTg==
-X-Google-Smtp-Source: AGHT+IHOYxavcvNCjMo8ESpp671IIFf4aThj7PcelCJSkknoZhse0VlY/vuaeqRwnpTxjujOeJrL1g==
-X-Received: by 2002:a17:902:d50f:b0:267:f7bc:673c with SMTP id d9443c01a7336-2951a51e6bfmr165298515ad.44.1762156421802;
-        Sun, 02 Nov 2025 23:53:41 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34159a16652sm34552a91.20.2025.11.02.23.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 23:53:41 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: stable@vger.kernel.org,
-	greg@kroah.com
-Cc: tj@kernel.org,
-	lizefan.x@bytedance.com,
-	hannes@cmpxchg.org,
-	corbet@lwn.net,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeelb@google.com,
-	muchun.song@linux.dev,
-	akpm@linux-foundation.org,
-	sjenning@redhat.com,
-	ddstreet@ieee.org,
-	vitaly.wool@konsulko.com,
-	lance.yang@linux.dev,
-	leon.huangfu@shopee.com,
-	shy828301@gmail.com,
-	yosryahmed@google.com,
-	sashal@kernel.org,
-	vishal.moola@gmail.com,
-	cerasuolodomenico@gmail.com,
-	nphamcs@gmail.com,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Chris Li <chrisl@kernel.org>,
-	Greg Thelen <gthelen@google.com>,
-	Ivan Babrou <ivan@cloudflare.com>,
-	Michal Koutny <mkoutny@suse.com>,
-	Waiman Long <longman@redhat.com>,
-	Wei Xu <weixugc@google.com>
-Subject: [PATCH 6.6.y 7/7] mm: memcg: restore subtree stats flushing
-Date: Mon,  3 Nov 2025 15:51:35 +0800
-Message-ID: <20251103075135.20254-8-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251103075135.20254-1-leon.huangfu@shopee.com>
-References: <20251103075135.20254-1-leon.huangfu@shopee.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N/PbNfs9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o1iSYszPB7dyqeDK9gCJzWQwpv0l6vdATmYsxhKtFUggxz5nl5gPLUDzRzAlE+zsmePxRc+y1xZChUsxNPJdEYSGIWOAqW4qY8TiY6oWxSIkIBrbe6Ljn3ohtBVtmRWOWJmXHtyTas/05/oWLSJoO+IfcUtpKMunOh1f9Vhd/1lC955fSfiyHgXYwDgNdP1DLNYeRkUYyBRMJTxXOX+JDh2D+272P376AZyAu6M4+E4aHegOcPy+LdN6q/8cAmRsJErO6J0eMkJtBlnUVAb8AWfT6qGZmBADpnv6ayvLN7YysgwZXwB8m9XL+aOd44UAds7FN7JPeBGfgIXtGF8BYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=USOYUNbThRk2evQtdJ1ALyZNEU8L73+YE+LgRhUMAJ4=;
+ b=ln49GJR+ge9hxZj5PjmNpovEs02Egl0yNKhGALNFkCoGoOAoLdbE8Pte2vbB38kqx1tJnyRTtSGReOFEkjZUQDddonNF2kMEYwC//HoHG8KPwgHxXm72PJmiVkyhCL2afdmXILHC6/rZlB3k7ZLqzEm04u4qb0TUl3+IH9GhrZnlmOQ/BVjjoGdDZg6DCF+FePDkQoGeNKqIqZuzUYbNB9kT5c+1z/XZ6adNVl8avyeW+XyynKMTN9qg2ouaizLqzJpuG3vfM2/o0Vjf/ESaT/hik3I1n2RllLqjs4TDlPBPBd7S2umtKF0iQMNp5SJJEsAVzZOG0/aDk4YLIQyBOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=USOYUNbThRk2evQtdJ1ALyZNEU8L73+YE+LgRhUMAJ4=;
+ b=N/PbNfs9r4pbVfnE+33ABV5EdK/1F0TRRqRasrjIyIP/8CrZvgvGPQF11cqFQXZY184rcjTP4Eqh5zNLWeo2k48HL9mHAhBlYsfsW0CHD0fTgOdHzNxPHQOS0xWGe8+M0TZw/0z3IZF6beh7huEev/y43j3EEzza4WrefyMLNNw=
+Received: from DM6PR10CA0024.namprd10.prod.outlook.com (2603:10b6:5:60::37) by
+ DM4PR12MB6542.namprd12.prod.outlook.com (2603:10b6:8:89::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.16; Mon, 3 Nov 2025 07:53:58 +0000
+Received: from DS1PEPF0001708E.namprd03.prod.outlook.com
+ (2603:10b6:5:60:cafe::55) by DM6PR10CA0024.outlook.office365.com
+ (2603:10b6:5:60::37) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.16 via Frontend Transport; Mon,
+ 3 Nov 2025 07:53:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS1PEPF0001708E.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Mon, 3 Nov 2025 07:53:57 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sun, 2 Nov
+ 2025 23:53:53 -0800
+From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
+Subject: [PATCH 0/5] drm/amdgpu: add UMA carveout tuning interfaces
+Date: Mon, 3 Nov 2025 15:51:03 +0800
+Message-ID: <20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOdeCGkC/x2NywqDMBAAf0X27IKraKO/Ij0Es+oemsjmQUH89
+ 4Yeh4GZGyKrcISluUG5SJTgK1DbwHZafzCKqwx9149E3YBF7Qc3q4VDTpiyF3/gHhTzFZNyleR
+ GMvNkjHsNUDuX8i7f/2N9P88PWJlL2XMAAAA=
+To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+	<simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Yo-Jung Leo Lin
+ (AMD)" <Leo.Lin@amd.com>, <anson.tsao@amd.com>, <superm1@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=Leo.Lin@amd.com;
+ h=from:subject:message-id; bh=CucJKitNXZoLkN4DEbz07ngypuyLw4ROnw9LV/3Pllo=;
+ b=owEBbAKT/ZANAwAKAV8XsZZKKe6GAcsmYgBpCF8KOWehwmRkXY12gPyhha+kD/da4qcWBnxxj
+ lF3qrvdQtWJAjIEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaQhfCgAKCRBfF7GWSinu
+ htTDD/ii8nm8tV9oLdmVPmUlKbH+Wr4F885CKPJmvEgoIes8nkGyZ1nlVn9MRpM25vCDlJF4nV3
+ 6XB37Zt/4Hug3sXWwGsmNPrO2l8aMBs265gJm8Fg7MyRS5Zynkn+UfKNR9D2GFmcIlPi+GZLlDC
+ uwTV+7niGn7+fwxeapWxKfcP8XvrdgFU7fuC66OJE5WX15saUqa42d6lmKJwzfiknK1I3BMwPTE
+ 4UPOoqhFQrl1JmMwLMI6EJOU/c3prNEPphOK4EYza73pzbOJBQWmRUP4eL94mmxoNfSb/mvoevE
+ cFI7D7ePCkYOkDBFc+J2WZT5nRthXSrTj9UNy0Ch4WrE0mMxKyDwPoCpqBamwRKpGdRMq53EuUF
+ h8xd4+/HE3c7ZyYsIOpqCw8UVqg5Q2/HS/FQbL0F0JgPWePSxWENTgMVNBmXXF/IJ8RDy+uUbpJ
+ KPIpq9NkzOL+M+cQ036tYaNraVXZ79cTqPIQUIpLPkjaKJQaAe6WNkQ7S6ayE3uS49CUGzgZMq8
+ c0kGbpMZgavNfyj+iP57meiRVLxYsNoecNvQt46jBeFWVVHEqJZxWvJNYY2M3bngwcDKrf9vp/1
+ hy51MIAWUFlxjqRwLJelBEpAPcdXLil9Y8nfcFrLcFS8uWnPXAKudiObktM+keTOLyACBSBZtDX
+ O2NBLbaQufy8d
+X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
+ fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708E:EE_|DM4PR12MB6542:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a1ee43f-e0df-4974-3dea-08de1aae249e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UlJPd2lObDdKOXdlc05wZWxqSDVDYkczTUsyNllaTjRhdU9oR25QVWdtUHFt?=
+ =?utf-8?B?QXRJRXpRRVlxVUM5bTZaRG43OXVpVEJWOEN5dThCb0lCZndKTWN5YVZWQzJY?=
+ =?utf-8?B?RUk4TUErQ2x0RXhLc1htaStmU0tiUm1tak0wWTJYd0RLV2M3MVRpa2E0Ykhz?=
+ =?utf-8?B?N3RYODErWFZ6T2RZelpHVlh6cDMxOGk0YkdZakYxNndrWnRHY0VDZzBPb3Zm?=
+ =?utf-8?B?UkdoY0I2UHBHYVhCRlVMKzV3M3hDQ3h6RmRwcHpsUFUxVCtJZ1M3dEY0ZTJI?=
+ =?utf-8?B?c0gzc1Vjek9hWjNXU3BNVncrN1c0c0sxUWM5RjNyS0NIby9sZW5Xa09tUDNN?=
+ =?utf-8?B?L2FCdjZwMzFZU1NDdnJhclBUbkFuNURoKzZ5Y2FOM29tTGo3cUFIcXZBdjJN?=
+ =?utf-8?B?Z2FtT2J4YVZMQU50Y2hHUFFETk44WGUwMEIxQU8wbmtLMmt6MkNza095V01s?=
+ =?utf-8?B?UUZ3MnZRSzUvSjE5TU5rS0dDQXY1MkF3ZEluOEpRNnN3cjF0YU5xZjZ5NUFO?=
+ =?utf-8?B?VnFzeHdHRzg3M1pRZjZ1ak9waUFMSTJXRVpNMkZ4cEVVeDV1cTNuaC9ySmo4?=
+ =?utf-8?B?bVMwYlU0U2NjMTBpYWU3bFlpaEUyWHJyam9yclp1cmFoOGVjb25GWGh5b0kz?=
+ =?utf-8?B?dUZsRnhVbEpSSEdHNGlVM09mY3VXaXltVkhvaW5HYW9ZSVdPaTRhYzF4OGF4?=
+ =?utf-8?B?QzZBdDJ2RnJvWkVFaERVaHhHd1FuMFRoc0VJYnQzNGljTWhXVnNoeE85SkNp?=
+ =?utf-8?B?dkRnYVh3KzA0NVRpS01ERWN4WXhGZE5ibVFpRHozWE5yMVV5V2JlaC9DNThu?=
+ =?utf-8?B?cm5mWHBlbVc5MDE2Y01ybTcySFBubU5wUU42OE9nVDZ4Rml4Y1RsbXFYN2NN?=
+ =?utf-8?B?QjRTUE9NWitudzV6L3ZJOHp2NEJNMVhzSEpIbzNFV0F3Uy9RZG1WdXJYVlAy?=
+ =?utf-8?B?ajZyNTR6Y21MTGc3T3ZiREVtb0NKd0MrajEyeWw0MmVkeTlnczBOZGpScHNh?=
+ =?utf-8?B?ZVAyK2VSOHdTOTBxeG1ROFBpY2J1dVNGZDkwTFRnSUg0Y0k4NjJCYllXc3Fr?=
+ =?utf-8?B?Qzh1VVJVd2R2b0d0UnV2YWNDc1ppbFVIOWpPbk54ZnhjczdwYUEvM3hKa3dH?=
+ =?utf-8?B?cUlPY0F4NFI0elZGbVc2bTF6ektyOHQxQmt6ZlZESlE2aDNGb1RnbHArM3ZZ?=
+ =?utf-8?B?L3BuQ3dEbWczdS9PR2V6Ny9HOTdPRnRHYzlQbXJXYlVXTWZRWkpjaGVkeGZ4?=
+ =?utf-8?B?QWlncnU3US9IZ09iWE92TmFrQXlndUtrMlpSTmgzcjg1OU1aenVObm4wK3Vj?=
+ =?utf-8?B?UFd2SHRSK1VaYi9lNXVCT2JUa0dCdHBvcFZHc0EvblZjc3doVm9Ha3NlcTJm?=
+ =?utf-8?B?ZFF3aEt2aW5oaSs2QUdmdVpCSVBxNHBqWEhNbUJ4dnV6T1IvRkprQTBjaHk2?=
+ =?utf-8?B?eWVMb0h5NWM4NkZEQWdBUDVKbG5NR0JvNVBLaDJveWRYd2Z6amRjYzV3aDA2?=
+ =?utf-8?B?RE8zV1JIMSt5VlVoY2o2VnpGQVJMdXZ5NXZIeitzNll6ZjJ6RFRFS1UrSHpa?=
+ =?utf-8?B?TWQ5V1JtRlBkS29sUGxlVVk2b09ZNHdseFJ2SXRUZjIvM0JRL2FUdisrS2Y1?=
+ =?utf-8?B?aXhEeEJaZnR4Y29jQ0JZUU0yZ3phc1VDT0pEelc4WGY2ZWI3R2dnZXpDSnJj?=
+ =?utf-8?B?bE5YMzl0bEl4cTV6ZVNBV2I1ckJzdE1Yb3hOaExSY3llbExkcVNseElEU2JT?=
+ =?utf-8?B?bk5vU3RnTENGLzM4eVRBenZ1S3NCOU92UEs3dDhuRk5vUldueTIvNjc4SjNt?=
+ =?utf-8?B?aTlPZndDL0RwWFpzTzlDajk5dXU4amJPbURUempVMktxL2ZwZVNnZW5Fc2o1?=
+ =?utf-8?B?MzBXQmlEeElDZDIzS1hFNWtqSCtWdFZ6R3lQSDVCZENWVXhJT2pIZzh0d3Zs?=
+ =?utf-8?B?RmZZRWVnb2hzUUpjUzNFZjdkK2NXRHpCcTBQQk5QZmdMbGNQTU1zU1krQ3ZC?=
+ =?utf-8?B?TWNXQVd0TEIrRDNzMG1ZTUhBd2ZzWEQzR2dQWkIzN05MRzZQQ0J0bWZPQ3g1?=
+ =?utf-8?B?cEpOV283a0pSTTI3V1pkN1RUa2QzNFlJUzJ0WjJvdDkzYllzMWpYajFPOU5r?=
+ =?utf-8?Q?nKoI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 07:53:57.3380
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a1ee43f-e0df-4974-3dea-08de1aae249e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF0001708E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6542
 
-From: Yosry Ahmed <yosryahmed@google.com>
+The integrated info v2.3 table in the Atom ROM exposes available
+options for the VRAM carveout sizes. The carveout size can be changed
+using the ATCS function code 0xA for BIOS that supports this.
 
-[ Upstream commit 7d7ef0a4686abe43cd76a141b340a348f45ecdf2 ]
+Make these features available as sysfs files, so that users can set
+the carveout size in a way similar to what a Windows user can do in
+the "Tuning" tab in the AMD Adrenalin. The newly added sysfs files
+are:
 
-Stats flushing for memcg currently follows the following rules:
-- Always flush the entire memcg hierarchy (i.e. flush the root).
-- Only one flusher is allowed at a time. If someone else tries to flush
-  concurrently, they skip and return immediately.
-- A periodic flusher flushes all the stats every 2 seconds.
+- uma_carveout_options: this a read-only file listing all available
+  carveout options. They are fetched from the Atom ROM on driver
+  initialization.
 
-The reason this approach is followed is because all flushes are serialized
-by a global rstat spinlock.  On the memcg side, flushing is invoked from
-userspace reads as well as in-kernel flushers (e.g.  reclaim, refault,
-etc).  This approach aims to avoid serializing all flushers on the global
-lock, which can cause a significant performance hit under high
-concurrency.
+- uma_carveout: this shows the index of the currently selected option,
+  as shown in the uma_carveout_options. Writing a valid option index
+  to this file will change the carveout option on next boot.
 
-This approach has the following problems:
-- Occasionally a userspace read of the stats of a non-root cgroup will
-  be too expensive as it has to flush the entire hierarchy [1].
-- Sometimes the stats accuracy are compromised if there is an ongoing
-  flush, and we skip and return before the subtree of interest is
-  actually flushed, yielding stale stats (by up to 2s due to periodic
-  flushing). This is more visible when reading stats from userspace,
-  but can also affect in-kernel flushers.
+Note that above files are created only if BIOS indicates support for
+it, i.e. where the table shows non-zero UMACarveoutIndexMax.
 
-The latter problem is particulary a concern when userspace reads stats
-after an event occurs, but gets stats from before the event. Examples:
-- When memory usage / pressure spikes, a userspace OOM handler may look
-  at the stats of different memcgs to select a victim based on various
-  heuristics (e.g. how much private memory will be freed by killing
-  this). Reading stale stats from before the usage spike in this case
-  may cause a wrongful OOM kill.
-- A proactive reclaimer may read the stats after writing to
-  memory.reclaim to measure the success of the reclaim operation. Stale
-  stats from before reclaim may give a false negative.
-- Reading the stats of a parent and a child memcg may be inconsistent
-  (child larger than parent), if the flush doesn't happen when the
-  parent is read, but happens when the child is read.
-
-As for in-kernel flushers, they will occasionally get stale stats.  No
-regressions are currently known from this, but if there are regressions,
-they would be very difficult to debug and link to the source of the
-problem.
-
-This patch aims to fix these problems by restoring subtree flushing, and
-removing the unified/coalesced flushing logic that skips flushing if there
-is an ongoing flush.  This change would introduce a significant regression
-with global stats flushing thresholds.  With per-memcg stats flushing
-thresholds, this seems to perform really well.  The thresholds protect the
-underlying lock from unnecessary contention.
-
-This patch was tested in two ways to ensure the latency of flushing is
-up to par, on a machine with 384 cpus:
-
-- A synthetic test with 5000 concurrent workers in 500 cgroups doing
-  allocations and reclaim, as well as 1000 readers for memory.stat
-  (variation of [2]). No regressions were noticed in the total runtime.
-  Note that significant regressions in this test are observed with
-  global stats thresholds, but not with per-memcg thresholds.
-
-- A synthetic stress test for concurrently reading memcg stats while
-  memory allocation/freeing workers are running in the background,
-  provided by Wei Xu [3]. With 250k threads reading the stats every
-  100ms in 50k cgroups, 99.9% of reads take <= 50us. Less than 0.01%
-  of reads take more than 1ms, and no reads take more than 100ms.
-
-[1] https://lore.kernel.org/lkml/CABWYdi0c6__rh-K7dcM_pkf9BJdTRtAU08M43KO9ME4-dsgfoQ@mail.gmail.com/
-[2] https://lore.kernel.org/lkml/CAJD7tka13M-zVZTyQJYL1iUAYvuQ1fcHbCjcOBZcz6POYTV-4g@mail.gmail.com/
-[3] https://lore.kernel.org/lkml/CAAPL-u9D2b=iF5Lf_cRnKxUfkiEe0AMDTu6yhrUAzX0b6a6rDg@mail.gmail.com/
-
-[akpm@linux-foundation.org: fix mm/zswap.c]
-[yosryahmed@google.com: remove stats flushing mutex]
-  Link: https://lkml.kernel.org/r/CAJD7tkZgP3m-VVPn+fF_YuvXeQYK=tZZjJHj=dzD=CcSSpp2qg@mail.gmail.com
-Link: https://lkml.kernel.org/r/20231129032154.3710765-6-yosryahmed@google.com
-Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
-Tested-by: Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-Acked-by: Shakeel Butt <shakeelb@google.com>
-Cc: Chris Li <chrisl@kernel.org>
-Cc: Greg Thelen <gthelen@google.com>
-Cc: Ivan Babrou <ivan@cloudflare.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Michal Koutny <mkoutny@suse.com>
-Cc: Muchun Song <muchun.song@linux.dev>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Waiman Long <longman@redhat.com>
-Cc: Wei Xu <weixugc@google.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Leon Huang Fu <leon.huangfu@shopee.com>
+Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
 ---
- include/linux/memcontrol.h |  8 ++---
- mm/memcontrol.c            | 68 ++++++++++++++++++++++----------------
- mm/vmscan.c                |  2 +-
- mm/workingset.c            | 10 ++++--
- 4 files changed, 51 insertions(+), 37 deletions(-)
+Yo-Jung Leo Lin (AMD) (5):
+      drm/amdgpu: parse UMA size-getting/setting bits in ATCS mask
+      drm/amdgpu: add helper to read UMA carveout info
+      drm/amdgpu: add UMA allocation setting helpers
+      drm/amdgpu: add UMA allocation interfaces to sysfs
+      Documentation/amdgpu: Add UMA carveout details
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index b1fdb1554f2f..8aee8b75aad0 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1039,8 +1039,8 @@ static inline unsigned long lruvec_page_state_local(struct lruvec *lruvec,
- 	return x;
- }
+ Documentation/gpu/amdgpu/driver-misc.rst         |  26 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h              |   7 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c         |  47 ++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c     | 144 +++++++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c |  75 ++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |   1 +
+ drivers/gpu/drm/amd/amdgpu/atom.h                |   4 +
+ drivers/gpu/drm/amd/include/amd_acpi.h           |  34 +++++-
+ 8 files changed, 330 insertions(+), 8 deletions(-)
+---
+base-commit: ac9914fa72a5a917bb61c5e87bee6b8f9b751f33
+change-id: 20251103-vram-carveout-tuning-for-upstream-1d5189688d73
 
--void mem_cgroup_flush_stats(void);
--void mem_cgroup_flush_stats_ratelimited(void);
-+void mem_cgroup_flush_stats(struct mem_cgroup *memcg);
-+void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg);
+Best regards,
+-- 
+Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
 
- void __mod_memcg_lruvec_state(struct lruvec *lruvec, enum node_stat_item idx,
- 			      int val);
-@@ -1515,11 +1515,11 @@ static inline unsigned long lruvec_page_state_local(struct lruvec *lruvec,
- 	return node_page_state(lruvec_pgdat(lruvec), idx);
- }
-
--static inline void mem_cgroup_flush_stats(void)
-+static inline void mem_cgroup_flush_stats(struct mem_cgroup *memcg)
- {
- }
-
--static inline void mem_cgroup_flush_stats_ratelimited(void)
-+static inline void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
- {
- }
-
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index c31a5364f325..d3f4486a45d8 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -667,7 +667,6 @@ struct memcg_vmstats {
-  */
- static void flush_memcg_stats_dwork(struct work_struct *w);
- static DECLARE_DEFERRABLE_WORK(stats_flush_dwork, flush_memcg_stats_dwork);
--static atomic_t stats_flush_ongoing = ATOMIC_INIT(0);
- static u64 flush_last_time;
-
- #define FLUSH_TIME (2UL*HZ)
-@@ -728,35 +727,40 @@ static inline void memcg_rstat_updated(struct mem_cgroup *memcg, int val)
- 	}
- }
-
--static void do_flush_stats(void)
-+static void do_flush_stats(struct mem_cgroup *memcg)
- {
--	/*
--	 * We always flush the entire tree, so concurrent flushers can just
--	 * skip. This avoids a thundering herd problem on the rstat global lock
--	 * from memcg flushers (e.g. reclaim, refault, etc).
--	 */
--	if (atomic_read(&stats_flush_ongoing) ||
--	    atomic_xchg(&stats_flush_ongoing, 1))
--		return;
--
--	WRITE_ONCE(flush_last_time, jiffies_64);
--
--	cgroup_rstat_flush(root_mem_cgroup->css.cgroup);
-+	if (mem_cgroup_is_root(memcg))
-+		WRITE_ONCE(flush_last_time, jiffies_64);
-
--	atomic_set(&stats_flush_ongoing, 0);
-+	cgroup_rstat_flush(memcg->css.cgroup);
- }
-
--void mem_cgroup_flush_stats(void)
-+/*
-+ * mem_cgroup_flush_stats - flush the stats of a memory cgroup subtree
-+ * @memcg: root of the subtree to flush
-+ *
-+ * Flushing is serialized by the underlying global rstat lock. There is also a
-+ * minimum amount of work to be done even if there are no stat updates to flush.
-+ * Hence, we only flush the stats if the updates delta exceeds a threshold. This
-+ * avoids unnecessary work and contention on the underlying lock.
-+ */
-+void mem_cgroup_flush_stats(struct mem_cgroup *memcg)
- {
--	if (memcg_should_flush_stats(root_mem_cgroup))
--		do_flush_stats();
-+	if (mem_cgroup_disabled())
-+		return;
-+
-+	if (!memcg)
-+		memcg = root_mem_cgroup;
-+
-+	if (memcg_should_flush_stats(memcg))
-+		do_flush_stats(memcg);
- }
-
--void mem_cgroup_flush_stats_ratelimited(void)
-+void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
- {
- 	/* Only flush if the periodic flusher is one full cycle late */
- 	if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLUSH_TIME))
--		mem_cgroup_flush_stats();
-+		mem_cgroup_flush_stats(memcg);
- }
-
- static void flush_memcg_stats_dwork(struct work_struct *w)
-@@ -765,7 +769,7 @@ static void flush_memcg_stats_dwork(struct work_struct *w)
- 	 * Deliberately ignore memcg_should_flush_stats() here so that flushing
- 	 * in latency-sensitive paths is as cheap as possible.
- 	 */
--	do_flush_stats();
-+	do_flush_stats(root_mem_cgroup);
- 	queue_delayed_work(system_unbound_wq, &stats_flush_dwork, FLUSH_TIME);
- }
-
-@@ -1597,7 +1601,7 @@ static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
- 	 *
- 	 * Current memory state:
- 	 */
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(memcg);
-
- 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
- 		u64 size;
-@@ -4047,7 +4051,7 @@ static int memcg_numa_stat_show(struct seq_file *m, void *v)
- 	int nid;
- 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(memcg);
-
- 	for (stat = stats; stat < stats + ARRAY_SIZE(stats); stat++) {
- 		seq_printf(m, "%s=%lu", stat->name,
-@@ -4122,7 +4126,7 @@ static void memcg1_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
-
- 	BUILD_BUG_ON(ARRAY_SIZE(memcg1_stat_names) != ARRAY_SIZE(memcg1_stats));
-
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(memcg);
-
- 	for (i = 0; i < ARRAY_SIZE(memcg1_stats); i++) {
- 		unsigned long nr;
-@@ -4624,7 +4628,7 @@ void mem_cgroup_wb_stats(struct bdi_writeback *wb, unsigned long *pfilepages,
- 	struct mem_cgroup *memcg = mem_cgroup_from_css(wb->memcg_css);
- 	struct mem_cgroup *parent;
-
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(memcg);
-
- 	*pdirty = memcg_page_state(memcg, NR_FILE_DIRTY);
- 	*pwriteback = memcg_page_state(memcg, NR_WRITEBACK);
-@@ -6704,7 +6708,7 @@ static int memory_numa_stat_show(struct seq_file *m, void *v)
- 	int i;
- 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(memcg);
-
- 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
- 		int nid;
-@@ -7868,7 +7872,11 @@ bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
- 			break;
- 		}
-
--		cgroup_rstat_flush(memcg->css.cgroup);
-+		/*
-+		 * mem_cgroup_flush_stats() ignores small changes. Use
-+		 * do_flush_stats() directly to get accurate stats for charging.
-+		 */
-+		do_flush_stats(memcg);
- 		pages = memcg_page_state(memcg, MEMCG_ZSWAP_B) / PAGE_SIZE;
- 		if (pages < max)
- 			continue;
-@@ -7933,8 +7941,10 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size)
- static u64 zswap_current_read(struct cgroup_subsys_state *css,
- 			      struct cftype *cft)
- {
--	cgroup_rstat_flush(css->cgroup);
--	return memcg_page_state(mem_cgroup_from_css(css), MEMCG_ZSWAP_B);
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-+
-+	mem_cgroup_flush_stats(memcg);
-+	return memcg_page_state(memcg, MEMCG_ZSWAP_B);
- }
-
- static int zswap_max_show(struct seq_file *m, void *v)
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 774bae2f54d7..aba757e5c597 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -2911,7 +2911,7 @@ static void prepare_scan_count(pg_data_t *pgdat, struct scan_control *sc)
- 	 * Flush the memory cgroup stats, so that we read accurate per-memcg
- 	 * lruvec stats for heuristics.
- 	 */
--	mem_cgroup_flush_stats();
-+	mem_cgroup_flush_stats(sc->target_mem_cgroup);
-
- 	/*
- 	 * Determine the scan balance between anon and file LRUs.
-diff --git a/mm/workingset.c b/mm/workingset.c
-index 6e61ad08df75..7bac9be1b87f 100644
---- a/mm/workingset.c
-+++ b/mm/workingset.c
-@@ -464,8 +464,12 @@ bool workingset_test_recent(void *shadow, bool file, bool *workingset)
-
- 	rcu_read_unlock();
-
--	/* Flush stats (and potentially sleep) outside the RCU read section */
--	mem_cgroup_flush_stats_ratelimited();
-+	/*
-+	 * Flush stats (and potentially sleep) outside the RCU read section.
-+	 * XXX: With per-memcg flushing and thresholding, is ratelimiting
-+	 * still needed here?
-+	 */
-+	mem_cgroup_flush_stats_ratelimited(eviction_memcg);
-
- 	eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
- 	refault = atomic_long_read(&eviction_lruvec->nonresident_age);
-@@ -676,7 +680,7 @@ static unsigned long count_shadow_nodes(struct shrinker *shrinker,
- 		struct lruvec *lruvec;
- 		int i;
-
--		mem_cgroup_flush_stats_ratelimited();
-+		mem_cgroup_flush_stats_ratelimited(sc->memcg);
- 		lruvec = mem_cgroup_lruvec(sc->memcg, NODE_DATA(sc->nid));
- 		for (pages = 0, i = 0; i < NR_LRU_LISTS; i++)
- 			pages += lruvec_page_state_local(lruvec,
---
-2.50.1
