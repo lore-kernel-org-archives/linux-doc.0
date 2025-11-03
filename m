@@ -1,179 +1,248 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBD323AE66
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 13:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD5218E3F
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 14:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762176097; cv=none; b=Mc6TfJXzSJtA6vKOQq6vutZsE5YszFYpopA8zS0XC3VkSvAX7fcDgNRyAi2vPSxK6iAJJEvhcxNC66HVpVavqWXNReMqQ9UqG9TuScW40YFeVD2umUVbo8smJsc9hUPydF1uyZhIPQi195ireaVCJdhY+FaEqgoD8c1DnUTBqek=
+	t=1762180225; cv=none; b=O0JgtsLkpl4k/XW6DHRpTG7+ma7qGKH/SRYRGgs4JzROXXd7V6Q43j+AcchOBdmHDsszOcuKi2WoFy0E7+ffG/qp6HwxbE/+P/szBMAiNJUiLGGS12+6UjdKUAn+Mo5EbDsWluoNm9m5wGFxKAjmQj5ExvrqBZXHJTgqdxQdd1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762176097; c=relaxed/simple;
-	bh=mKY1DHsdAgjlaB/x4mbWgVNH2LRMMJSrnESEyMRaP0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GT7nJvi3cbqYhamioo/0+QwkStehz4NpT12vxe3yHb90pa3enzlwAHGyDlOIbGL7ytq+0QRh2PSlibhS2VF4BstHuWlSEC3VVgA3EicCuoirL43spyGu+CCPc41SX0rIr/XJKxjymvTuo5ecFJ2uDSTGv20X9dlj+tVn01HlozI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IaoltB7x; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1762180225; c=relaxed/simple;
+	bh=d5SlSmgj+KYxoqS8LOdHefpz54HfTiu7PunihQHNVXo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hclF6VGw11lNSSZ1Bfdod4Bzf0V/gR86wR+zKh+0sZDjsMSSit14pilBpzMv7ShRmvZunfec+yZRFeB/ab77VVpDUVa50FOmKVPtRUZ1fA0cuYcISSK8PAxh01hV3ZlsHsGiZKqIHPC2ineNyHpfT1gLv0766cG0D8nfm6IFLqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EpEIaSFv; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IaoltB7x"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-793021f348fso3468988b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 05:21:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpEIaSFv"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47118259fd8so33253595e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 06:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762176095; x=1762780895; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FSag3litSbjBkSWJUIOjnh1lwhzQTpa6XW5JSh0K4dY=;
-        b=IaoltB7x8uypSvtIHIoIFKaXiWG13IEiIw90H9tS06Zk9/k4Vmj7Nk8wfraIZM86Y7
-         iGhazBzVpeBdPZ+c45iO6Q6M24wLkqC0z4tNi7tjpHEKT55mKWfq9TvHhrfZCbx4se+8
-         xGvFKxbTS+yWfum5ll564hRAJY+8DEfl+4svPor6yAPx+ioA6IiJ1ybSKAIwXEEivFkS
-         5Ft199RPuwJCZRA4cCb2o4akZE9gICXnBG3eCe3+nLTaqDlWO6bQjFYcjuene4YVl/pH
-         BCTl6CFQn2TxELpTVqFLGKUuBoFjjw7dFMOhcWkF0J213nkaBr0ViyG42M0CSNYBexUi
-         8SVg==
+        d=gmail.com; s=20230601; t=1762180221; x=1762785021; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d5SlSmgj+KYxoqS8LOdHefpz54HfTiu7PunihQHNVXo=;
+        b=EpEIaSFvQ374C26Ke9OIpPr+INg+Co8YbU8sq/pLZUlb+hPZs/Vf6kFvhiIYFSkODM
+         M48H3Vh8OzhlU1q0gkN6Rz8RbnU2d/uTWdvuai9wTchrTp3ZQomRlxxzWcPMzauAtYN2
+         cYvfSvk52VEYx+kNXsbhqRlsXSxOGhyC3MY6jv/W11ACKMcIUnGfa+SiaDUuaPBcJaGu
+         Ch8KBtKOHMT1ul8BGNDPhAoZDtxQrXqjliEg2/aZFXVfIbCkWaGRkOV7osocEBEuPdn9
+         BNkBrGfjZtOrSNKncWWzVIU1366f/vHmUcwMJC7POqKEP4OyKtvBDOQLt7G0zzM6fzn2
+         ArHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762176095; x=1762780895;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FSag3litSbjBkSWJUIOjnh1lwhzQTpa6XW5JSh0K4dY=;
-        b=IH/GrqWb7Cpp2IsCvnj5+XpbG7Cp1DyyLcIUAR/XXUZjEZt5ixAvVW2+m040EHjCis
-         4N09ggKSHwz4cJkCExlZpabKmXNuFMTmqB5tLp/knuUBoibx8cWqusPQ7BFvkrQszYT3
-         bUYDVgpGVKqNSjLf+wZ6WtZYWd86WespecO5UElO1wqiITJcsKdwdO3JCpnLyMnUx21n
-         RSoHja9rqumzQNcSeq3gVZuCCj0D3ZgmQxEkSfeez9BVWUv9aCUING9ZdgyuW6OHgudw
-         LcyqJqM6qwgiIzEcZ15AyXb5VvBHUIxmDWtEJ+6tQY9vTx1Ao5mAV/ee0NLIJwotc4US
-         pX3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXBIjz1NiLxOP/JVuaXWvEt+xJeynMociA5nOPtB7iC8CGCMty3ZhGhByhVmZE5HyVmkIGnOKT4T7E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJmUqkc+KsrKD6ACM9N993uqJ8WDemiveC/Wr3tp3FL46W0VsH
-	v6KLEjyf0JQk43BKz902Jc+tUH2otLOoqvLsEOpS64n6OAk4LyntnnJT
-X-Gm-Gg: ASbGncu72Ap0CpiZ9iO3XWp63H1dTuwykJrh97Uvi14U+rtmreNh0OdXVqqZJ9n1r++
-	oiI1lgRZuKzqWMu88O+2tjVnZN4Yw4uxPrVXRiGpnfh2N/sZjUofknwDK7XY5haUOH+PWzHCp33
-	Br8fYgRvaGSkDjyH7T99EvnrKMcNJuvhA399p2gXnqZ+wgjTVqe0a48KKGuxO4EurTMa6elY0+n
-	57YBbMnEZEfbS7ZnYcTzYQ9CstNYhD0biHoeLPvd53LLLuDFK45UuzjUdD1jsGj729eTdMuaMsi
-	wWuDIdQrIzLyZh4hgm51v8LlnF8nQDIsPOPv60/FsQybMTkgIxKXoxREZU4l5ptSVOmDPx7U9Vu
-	J6ovnE0BqYaL/V31zVwTxTOXQbm5NqN5pGaKaiaG2pNGCctpkmbbidJ/NWILh9MOSppd9ublQ4Y
-	KIqhWNRZn/+g==
-X-Google-Smtp-Source: AGHT+IFRncy0SSf8FZC7TBGl7F23Zl2/7vOrV2SDaFdUpzfHPQjkN9PubvOPWwLZzJO6qqiOOmXSSw==
-X-Received: by 2002:a05:6a00:816:b0:7ab:2fd6:5d42 with SMTP id d2e1a72fcca58-7ab2fd65efbmr3773456b3a.16.1762176095236;
-        Mon, 03 Nov 2025 05:21:35 -0800 (PST)
-Received: from localhost ([2804:30c:1653:6900:3b53:af9d:48d6:f107])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7a7db197340sm11355094b3a.44.2025.11.03.05.21.33
+        d=1e100.net; s=20230601; t=1762180221; x=1762785021;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d5SlSmgj+KYxoqS8LOdHefpz54HfTiu7PunihQHNVXo=;
+        b=dPMw983P/FmG8hx4nRFvi2eWHjYasnktOTnM7/rqPf7hXXn9pYfb99HvEikVsM7VXr
+         AlQAl9gjGnZPEV+2G5YzW3MRCHouG1K1aPrDJOyCd6HgynSXAnsWOJQT6y04HggolcUi
+         cFoQA93B9BXzvLuu1wE4qZ+rU/wuxooTZxjvB3kpOMcin4JH4WYoIK/Kfd+2CxwHUTNr
+         aTc/80MYQu6ZSzpcVtIw/I7Y3FLgMkxyddxmdmKqQj4G9yIKRjqNjq0fd8hah5sQbHCD
+         gaG3t6AQJD9BuuiIFurfrGXNyFZ7kqDe+wm4gorXTtbZASpk7fntzNit/BkChKkiad1P
+         uIhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUlBhQah77wHlzKnf0pd4n3VptV81u8TgsLpCTO4TXBekyBxjr8Wv4UbARj2u0aaKVYG5ddaVSHos4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNyOusymEg/BYejSZyJLPOhrCZjXD3++781Wc/A6Agysc9OItR
+	3hybewtlU4C9d2Jfy/PO++OQvyFnUzAvlVMk4rzU47PCNuCnxNRUZ7hiwW1isQ==
+X-Gm-Gg: ASbGnct9gc+/XM7UKAvaNBOW7IbfiYozTz8LPzdEtoXHftGC0G5HZON7SF7GDLMnVev
+	A4vZRBfD6LtrXwNv3BPJhVoWbX1uK+YJhsExAb4FpPiyfHeRXoSE/cRcHgxtRVh/Y1MgwVz4pFr
+	Gk3yZ5i6jq28FECq4ykLXxBQwKvGyJPGSRAP0DSnjcAhXJka3coHrEzlXsvxfDrQEiCCeZKcDbU
+	EkkJDBOrr1dAko/biuqCXeULkggYAQLA8fe9RJJE8PieIb7rOgobQxbHRSOuKLVOnb8Ha3hg+nV
+	4R8KQ2vVNhd4+z7YpBVUEIAN6JTKI0t1LD1vr7staOPuk6mLNRODWXa6t8nNq4SRBybtrcriCVW
+	udlCsNgqNMUf5XwuMfhRityiKuCAZPmtgcx7mOnL/MBHy7HoJyFz4e2ZBavo4RJotP085tG3HIA
+	7ZnLxFRxN9aOEIiwPRd2M=
+X-Google-Smtp-Source: AGHT+IEplJ4I66QnrFQ6IexEu0lm2qZpLG+9kBXJImu7awVRriBW7b1SWrjgxOO9Yk6R6iWrwFjEbQ==
+X-Received: by 2002:a05:600c:4e05:b0:475:de14:db1f with SMTP id 5b1f17b1804b1-477308b4d29mr120402465e9.30.1762180221180;
+        Mon, 03 Nov 2025 06:30:21 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429c44de707sm19098975f8f.14.2025.11.03.06.30.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 05:21:34 -0800 (PST)
-Date: Mon, 3 Nov 2025 10:22:49 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
+        Mon, 03 Nov 2025 06:30:20 -0800 (PST)
+Message-ID: <1c3712b9b5313ed6c9d07c1acbc9b918a4883056.camel@gmail.com>
 Subject: Re: [PATCH v6 8/8] iio: adc: ad4030: Support common-mode channels
  with SPI offloading
-Message-ID: <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Marcelo Schmitt	
+ <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, michael.hennerich@analog.com,
+ nuno.sa@analog.com, 	eblanc@baylibre.com, dlechner@baylibre.com,
+ andy@kernel.org, robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org,
+ corbet@lwn.net
+Date: Mon, 03 Nov 2025 14:30:56 +0000
+In-Reply-To: <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
 References: <cover.1760984107.git.marcelo.schmitt@analog.com>
- <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
- <20251027140423.61d96e88@jic23-huawei>
- <aQJY7XizVWbE68ll@debian-BULLSEYE-live-builder-AMD64>
- <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
+	 <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
+	 <20251027140423.61d96e88@jic23-huawei>
+	 <aQJY7XizVWbE68ll@debian-BULLSEYE-live-builder-AMD64>
+	 <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
+	 <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
 
-On 10/30, Nuno Sá wrote:
-> On Wed, 2025-10-29 at 15:11 -0300, Marcelo Schmitt wrote:
-> > On 10/27, Jonathan Cameron wrote:
-> > > On Mon, 20 Oct 2025 16:15:39 -0300
-> > > Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
-> > > 
-> > > > AD4030 and similar devices can read common-mode voltage together with
-> > > > ADC sample data. When enabled, common-mode voltage data is provided in a
-> > > > separate IIO channel since it measures something other than the primary
-> > > > ADC input signal and requires separate scaling to convert to voltage
-> > > > units. The initial SPI offload support patch for AD4030 only provided
-> > > > differential channels. Now, extend the AD4030 driver to also provide
-> > > > common-mode IIO channels when setup with SPI offloading capability.
-> > > > 
-> > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > > ---
-> > > > New patch.
-> > > > I hope this works for ADCs with two channels. It's not clear if works as
-> > > > expected with current HDL and single-channel ADCs (like ADAQ4216).
-> > > > 
-> > > > The ad4630_fmc HDL project was designed for ADCs with two channels and
-> > > > always streams two data channels to DMA (even when the ADC has only one
-> > > > physical channel). Though, if the ADC has only one physical channel, the
-> > > > data that would come from the second ADC channel comes in as noise and
-> > > > would have to be discarded. Because of that, when using single-channel
-> > > > ADCs, the ADC driver would need to use a special DMA buffer to filter out
-> > > > half of the data that reaches DMA memory. With that, the ADC sample data
-> > > > could be delivered to user space without any noise being added to the IIO
-> > > > buffer. I have implemented a prototype of such specialized buffer
-> > > > (industrialio-buffer-dmaengine-filtered), but it is awful and only worked
-> > > > with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tree). Usual
-> > > > differential channel data is also affected by the extra 0xFFFFFFFF data
-> > > > pushed to DMA. Though, for the differential channel, it's easier to see it
-> > > > shall work for two-channel ADCs (the sine wave appears "filled" in
-> > > > iio-oscilloscope).
-> > > > 
-> > > > So, I sign this, but don't guarantee it to work.
-> > > 
-> > > So what's the path to resolve this?  Waiting on HDL changes or not support
-> > > those devices until we have a clean solution?
-> > 
-> > Waiting for HDL to get updated I'd say.
-> 
-> Agree. We kind of control the IP here so why should we do awful tricks in
-> SW right :)? At the very least I would expect hdl to be capable to discard the
-> data in HW.
-> 
-> > 
-> > > 
-> > > Also, just to check, is this only an issue with the additional stuff this
-> > > patch adds or do we have a problem with SPI offload in general (+ this
-> > > IP) and those single channel devices?
-> > 
-> > IMO, one solution would be to update the HDL project for AD4630 and similar ADCs
-> > to not send data from channel 2 to DMA memory when single-channel ADCs are
-> > connected. Another possibility would be to intercept and filter out the extra
-> > data before pushing it to user space. My first attempt of doing that didn't
-> > work out with upstream kernel but I may revisit that.
-> 
-> I'm also confused. Is this also an issue with the current series without common mode?
-> 
-> If I'm getting things right, one channel ADCs pretty much do not work right now with
-> spi offload?
+On Mon, 2025-11-03 at 10:22 -0300, Marcelo Schmitt wrote:
+> On 10/30, Nuno S=C3=A1 wrote:
+> > On Wed, 2025-10-29 at 15:11 -0300, Marcelo Schmitt wrote:
+> > > On 10/27, Jonathan Cameron wrote:
+> > > > On Mon, 20 Oct 2025 16:15:39 -0300
+> > > > Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+> > > >=20
+> > > > > AD4030 and similar devices can read common-mode voltage together =
+with
+> > > > > ADC sample data. When enabled, common-mode voltage data is provid=
+ed in a
+> > > > > separate IIO channel since it measures something other than the p=
+rimary
+> > > > > ADC input signal and requires separate scaling to convert to volt=
+age
+> > > > > units. The initial SPI offload support patch for AD4030 only prov=
+ided
+> > > > > differential channels. Now, extend the AD4030 driver to also prov=
+ide
+> > > > > common-mode IIO channels when setup with SPI offloading capabilit=
+y.
+> > > > >=20
+> > > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > > > ---
+> > > > > New patch.
+> > > > > I hope this works for ADCs with two channels. It's not clear if w=
+orks as
+> > > > > expected with current HDL and single-channel ADCs (like ADAQ4216)=
+.
+> > > > >=20
+> > > > > The ad4630_fmc HDL project was designed for ADCs with two channel=
+s and
+> > > > > always streams two data channels to DMA (even when the ADC has on=
+ly one
+> > > > > physical channel). Though, if the ADC has only one physical chann=
+el, the
+> > > > > data that would come from the second ADC channel comes in as nois=
+e and
+> > > > > would have to be discarded. Because of that, when using single-ch=
+annel
+> > > > > ADCs, the ADC driver would need to use a special DMA buffer to fi=
+lter out
+> > > > > half of the data that reaches DMA memory. With that, the ADC samp=
+le data
+> > > > > could be delivered to user space without any noise being added to=
+ the IIO
+> > > > > buffer. I have implemented a prototype of such specialized buffer
+> > > > > (industrialio-buffer-dmaengine-filtered), but it is awful and onl=
+y worked
+> > > > > with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tr=
+ee). Usual
+> > > > > differential channel data is also affected by the extra 0xFFFFFFF=
+F data
+> > > > > pushed to DMA. Though, for the differential channel, it's easier =
+to see it
+> > > > > shall work for two-channel ADCs (the sine wave appears "filled" i=
+n
+> > > > > iio-oscilloscope).
+> > > > >=20
+> > > > > So, I sign this, but don't guarantee it to work.
+> > > >=20
+> > > > So what's the path to resolve this?=C2=A0 Waiting on HDL changes or=
+ not support
+> > > > those devices until we have a clean solution?
+> > >=20
+> > > Waiting for HDL to get updated I'd say.
+> >=20
+> > Agree. We kind of control the IP here so why should we do awful tricks =
+in
+> > SW right :)? At the very least I would expect hdl to be capable to disc=
+ard the
+> > data in HW.
+> >=20
+> > >=20
+> > > >=20
+> > > > Also, just to check, is this only an issue with the additional stuf=
+f this
+> > > > patch adds or do we have a problem with SPI offload in general (+ t=
+his
+> > > > IP) and those single channel devices?
+> > >=20
+> > > IMO, one solution would be to update the HDL project for AD4630 and s=
+imilar ADCs
+> > > to not send data from channel 2 to DMA memory when single-channel ADC=
+s are
+> > > connected. Another possibility would be to intercept and filter out t=
+he extra
+> > > data before pushing it to user space. My first attempt of doing that =
+didn't
+> > > work out with upstream kernel but I may revisit that.
+> >=20
+> > I'm also confused. Is this also an issue with the current series withou=
+t common mode?
+> >=20
+> > If I'm getting things right, one channel ADCs pretty much do not work r=
+ight now with
+> > spi offload?
+>=20
+> Yes, that's correct. It kind of works for single-channel ADCs, but half o=
+f the
+> data we see in user space is valid and the other half is not. For two-cha=
+nnel
+> ADCs, everything should be fine.
 
-Yes, that's correct. It kind of works for single-channel ADCs, but half of the
-data we see in user space is valid and the other half is not. For two-channel
-ADCs, everything should be fine.
+To me that is something that does not work eheheh :). I mean, going with al=
+l this trouble
+to sample as fast as we can just so we have to discard (or mask out) half o=
+f every sample
+in userspace (even though I can imagine we still get better performance vs =
+non offload case).
 
-> 
-> If the above is correct I would just not support it for 1 channel ADCs.
+>=20
+> >=20
+> > If the above is correct I would just not support it for 1 channel ADCs.
+>=20
+> Currently, it's just one part that is single-channel (AD4030). If patches=
+ 6 and
+> 7 were accepted, it would be 3 single-channel parts supported. I can add =
+an `if`
+> somewhere to check the number of channel, but it will eventually have to =
+be
+> removed when HDL gets fixed.
 
-Currently, it's just one part that is single-channel (AD4030). If patches 6 and
-7 were accepted, it would be 3 single-channel parts supported. I can add an `if`
-somewhere to check the number of channel, but it will eventually have to be
-removed when HDL gets fixed.
+I would probably do the above or maybe we just need to push for an hdl fix =
+or some
+final conclusion (like if they cannot fix it for some reason) and act accor=
+dingly.
 
-Or, if HDL can't be fixed, then we'll need the `if` now and something else
-latter to filter out extra data before pushing to IIO buffers as mentioned
-above. Though, this scenario seems odd to me as I think the HDL wouldn't be 100%
-compatible with single-channel AD4030-like parts. We would be writing code to
-support AD4030 _and_ a peculiar data stream from this specific HDL project?
+>=20
+> Or, if HDL can't be fixed, then we'll need the `if` now and something els=
+e
+> latter to filter out extra data before pushing to IIO buffers as mentione=
+d
+> above. Though, this scenario seems odd to me as I think the HDL wouldn't =
+be 100%
+> compatible with single-channel AD4030-like parts. We would be writing cod=
+e to
+> support AD4030 _and_ a peculiar data stream from this specific HDL projec=
+t?
+>=20
+> My suggestion is to apply all patches except patch 8. IMHO, SPI offload
+> single-channel ADC support is broken due to HDL IP data stream not being
+> compatible with single-channel parts. That's not a Linux driver issue.
 
-My suggestion is to apply all patches except patch 8. IMHO, SPI offload
-single-channel ADC support is broken due to HDL IP data stream not being
-compatible with single-channel parts. That's not a Linux driver issue.
-Patch 8 (common-mode for single-channel) may be fine, but I haven't been able
-to validate that since I only have remote access to a single-channel ADC that
-has already required a buffer work around to test.
+Well, it's not a SW issue but we are driving the HW and we know it's broken=
+ so I
+don't see a point in having something that does not work. Given that this i=
+s so
+connected to the HDL part of it I'm not sure it's fine to ignore that offlo=
+ad does
+not work for 1 channel parts.=20
+
+Anyways, it's odd to me but ultimately if Jonathan is fine with it, I won't=
+ object :)
+
+
+- Nuno S=C3=A1
