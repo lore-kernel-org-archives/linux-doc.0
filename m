@@ -1,129 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807A930170E;
-	Mon,  3 Nov 2025 23:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1763A253B52;
+	Mon,  3 Nov 2025 23:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762213303; cv=none; b=sd0kQxzSOHsiYC/A3f7f62LGC1uzpMaUM3guNpKVs6ypUQIu9BI90s0koc4S7h6UBJkIjo07VNdPy9MJlImC6pyU+wSlGbVDq+B3xJBpuJ5PQIxwAt/8etdOp0b127qDvDdywzFSWrjsJEtSPrI2Km5VZyYnRPN0c0BaxmKxe80=
+	t=1762213429; cv=none; b=HOjqi1o92oHu1gYbO+6VacbX4Ls5/y6RURT4qD5N5Gx3wNHENqDUUe9lbSOcP24Nd1pFKUG5a29GixAlsI/Ip2QoN1VhiYTCWG/P12nH7bD/BhEAU1HIv54LyiPkosgPe0BdIjhhDc/5lTFYjYUT91XcEMWfiI+dujTnFUsvFkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762213303; c=relaxed/simple;
-	bh=jVRAA8qAJIzzApHK408LFFTCp9iTcAoJE66Qtkzpc5A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r6WB59HMKPEYOSJDLBR1OsE0igeIPCfPbvwbgVxLneg1sfvPvbLxuAjQ3honCCODu/Z7MCNe2uIJ0WO8UbQxph9C5eoJq0dDGVtr0IYIT7CN864ux5+OmSkTaSiAgEv7CyMRy9H5pVBmpE9UewBktWcei4g715ncTMhHfbj8pw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKR0zZyG; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762213429; c=relaxed/simple;
+	bh=W9kTvkXGhxlnwl6dcqTSkl4ipduPnacYfTO3z5ei260=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VU/JpMZmk5MfptLQdcgk6XXX45ngaQQ1lwGoxXHVO8BxpW2rOoWhU/reVLTGvDdKaRFHIqAVeZGFdmhq3n3+qngbQDxq5cvGLg2/q6PgdbrwlPeb1UfqS2D9VrM89KPo+gXqUaMeYjwiXxTt5uo03udhgutT5EnpJBcTasxLxH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Yz8Hs29H; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKR0zZyG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762213301; x=1793749301;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jVRAA8qAJIzzApHK408LFFTCp9iTcAoJE66Qtkzpc5A=;
-  b=nKR0zZyGGM2FGykUdkJOSXiGGK1vool6Hv66qsVsD8lSK24QvEzisaNd
-   5fbAVUP4GITrmQ3Y5uHjU2D9trTiAP4vYWPmEzPtiODWAix4HoVpr+8uM
-   VQvrmXdHBWf6zzdiFZMQFiXM+OjPjLlYG0d9SZXH/FO1ghfAwj79HhfI9
-   6TXM9GjTZT//eawkULyIKg6pL9OP3spfXVaCn7bvPxtohHR/bgWHPdvZK
-   ocRW2/4r/QeRmg7odWlWp0O2o+lamlARwkl2RFpoDiyx1fRkdGV1/Fqhp
-   Ul7VS3FcTTNNicrToI+PDjrx2zu1VExTk8v0Vf2tLC/noncMGAaZhqeC9
-   A==;
-X-CSE-ConnectionGUID: bs4KV95IT5mcqwQY9Qyr2w==
-X-CSE-MsgGUID: iC0sK0ZfSzqpfssZkmcVog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66912936"
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="66912936"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 15:41:41 -0800
-X-CSE-ConnectionGUID: 8fzjJ0eYQ++gx5BiV6hCFQ==
-X-CSE-MsgGUID: Ph8PIjS2QqCVlalDT5Uw3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="186678304"
-Received: from dwesterg-mobl1.amr.corp.intel.com (HELO [10.125.110.133]) ([10.125.110.133])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 15:41:40 -0800
-Message-ID: <8bf25572-1efa-4b0e-a4d4-74f292562c08@intel.com>
-Date: Mon, 3 Nov 2025 16:41:39 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Yz8Hs29H"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4F58F40AED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1762213426; bh=oKS1z7eQ8ip2lvPGXvOw3U9nANBvDh12FTm85ZuTH80=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Yz8Hs29HpmpgYqQQwgOJ/YuK/qC77C0dYqYdyT1rqrP5pGAFxSsHpZrGIRm9G9txF
+	 LR1Vb7QY3AXTLphekl5ivVQqfAe3y4IxQHEp9pDkaUs5+2p51GHW0rFRjU/XiSXMI8
+	 8fJtihRCM3dvuzeh9XYCKlIAE9Fp2jcZAsb6Y5+Ppm0MJ+8ZHyWJnLApZKHxHDZKEx
+	 Y+eViyDCGNJQgrx8v6hmHbrjTgoSSIXkfoS8pVMv3Nl46llmwG6HzEBsgV0ey5nq4b
+	 nhMrn5I+wZWaXqqhUS7Kh4S5vHLXhcD+tp8ganxD1v1CAJBZDjNAoL3+8HYV+Mwpk4
+	 uyleE4RaiwzMQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4F58F40AED;
+	Mon,  3 Nov 2025 23:43:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Lukas Bulwahn <lbulwahn@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
+ Bulwahn <lukas.bulwahn@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: extend DOCUMENTATION SCRIPTS to the full
+ directories
+In-Reply-To: <20251103075948.26026-1-lukas.bulwahn@redhat.com>
+References: <20251103075948.26026-1-lukas.bulwahn@redhat.com>
+Date: Mon, 03 Nov 2025 16:43:45 -0700
+Message-ID: <877bw6bs26.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api/cxl: remove page-allocator quirk
- section
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: dave@stgolabs.net, jonathan.cameron@huawei.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- dan.j.williams@intel.com, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251003143233.1985150-1-gourry@gourry.net>
-From: Dave Jiang <dave.jiang@intel.com>
-Content-Language: en-US
-In-Reply-To: <20251003143233.1985150-1-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Lukas Bulwahn <lbulwahn@redhat.com> writes:
 
-
-On 10/3/25 7:32 AM, Gregory Price wrote:
-> The node/zone quirk section of the cxl documentation is incorrect.
-> The actual reason for fallback allocation misbehavior in the
-> described configuration is due to a kswapd/reclaim thrashing scenario
-> fixed by the linked patch.  Remove this section.
-> 
-> Link: https://lore.kernel.org/linux-mm/20250919162134.1098208-1-hannes@cmpxchg.org/
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-
-Applied to cxl/next
-82b5d7e30b24b7df5dbf10aea97292be38daf88d
-
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>
+> Due to commit abd61d1ff8f0 ("scripts: sphinx-pre-install: move it to
+> tools/docs"), checkpatch.pl --self-test=patterns reported a non-matching
+> file entry in DOCUMENTATION SCRIPTS. Clearly, there are now multiple
+> documentation scripts, all located in Documentation/sphinx/ and tools/docs/
+> and Mauro is the maintainer of those.
+>
+> Update the DOCUMENTATION SCRIPTS section to cover these directories. While
+> at it, also make the DOCUMENTATION section cover the subdirectories of
+> tools/docs/.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 > ---
->  .../cxl/allocation/page-allocator.rst         | 31 -------------------
->  1 file changed, 31 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> index 7b8fe1b8d5bb..3fa584a248bd 100644
-> --- a/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> +++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-> @@ -41,37 +41,6 @@ To simplify this, the page allocator will prefer :code:`ZONE_MOVABLE` over
->  will fallback to allocate from :code:`ZONE_NORMAL`.
->  
->  
-> -Zone and Node Quirks
-> -====================
-> -Let's consider a configuration where the local DRAM capacity is largely onlined
-> -into :code:`ZONE_NORMAL`, with no :code:`ZONE_MOVABLE` capacity present. The
-> -CXL capacity has the opposite configuration - all onlined in
-> -:code:`ZONE_MOVABLE`.
-> -
-> -Under the default allocation policy, the page allocator will completely skip
-> -:code:`ZONE_MOVABLE` as a valid allocation target.  This is because, as of
-> -Linux v6.15, the page allocator does (approximately) the following: ::
-> -
-> -  for (each zone in local_node):
-> -
-> -    for (each node in fallback_order):
-> -
-> -      attempt_allocation(gfp_flags);
-> -
-> -Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
-> -functionally unreachable for direct allocation.  As a result, the only way
-> -for CXL capacity to be used is via `demotion` in the reclaim path.
-> -
-> -This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
-> -capacity - when that capacity is depleted, the page allocator will actually
-> -prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
-> -
-> -We may wish to invert this priority in future Linux versions.
-> -
-> -If `demotion` and `swap` are disabled, Linux will begin to cause OOM crashes
-> -when the DRAM nodes are depleted. See the reclaim section for more details.
-> -
-> -
->  CGroups and CPUSets
->  ===================
->  Finally, assuming CXL memory is reachable via the page allocation (i.e. onlined
+>  MAINTAINERS | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
+Applied, thanks.
+
+jon
