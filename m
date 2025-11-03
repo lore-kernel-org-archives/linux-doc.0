@@ -1,118 +1,113 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC0F2877FC
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61382F851
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 03:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762134674; cv=none; b=Z9NNCa50e3fA7Jw88LVZ3oKyB2w0gDD4RENn+92SPVeJ98Ubvdqqrcq+dCbuv/FqgYlItj4xJ8QLcYSe0W7TT4V+rp++9R0U7LwTSQfRENcPTdoHgAijsYmnrHA8S/2ku0jsZMI2Z7kNNye5d+OLQaZ4xrBgIWEC1jB6PwSKNgk=
+	t=1762138818; cv=none; b=KQL8XIfR6cbk+UE/0/qJO8S6mjYyO/CtW9f9bM62ZG5rxIrKUVR6vSE848KhXfPCsO0MWUIQxCl07R3Tg6cWHoTvEbwzgrTW9HpZcRsqtnRbmvB6/2MdNA9SvNu0hPkAn1fir89xdKEQ+U6IxRlRY3BhnGkCUhAewQDDuNIRO80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762134674; c=relaxed/simple;
-	bh=xYbBu2fMf0do2Y8PFkgmZ44ePl1qKHbhlD2bXGI6s6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=reR4ipazuTPVaDpCpuTuDebWGHKvSqEX4ssfwHhPv8FBLsYktXWbelTcEOi34iVjP7OfaHzZL8QNokfUOxCN9oCYx7EDpNuSZAp4MXkwmbTVbbwOPgN6xqQG4Y6OfMldvxHaZ6AjK0JFC2i/YMTzdCzXPqz20CEIJZccYKRfY8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1c19nDS; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1762138818; c=relaxed/simple;
+	bh=2bSH6wJGMCkCLcVdvYI602cwgiyzgPLruCtTX7O+gBQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uxlvUYuNHbpZbX7L/aotwA75l38vzmDOFSf8BDlZJI7z8LpjxhpsJccgKffq3OexO5GXnuNlCdwMWtfK2a7VHg7A6/wq4/1weGXRLQc8MfiIL4SgcgUGFQVPkzU8JM1DiBVkua8IuZp1/IMYiZM3GFQ7oGCIQUJvOanHW+5U+Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiQS4k4j; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1c19nDS"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-340c39ee02dso1203243a91.1
-        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:51:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiQS4k4j"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8801f4e308dso37338976d6.0
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 19:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762134672; x=1762739472; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bDAfAMTS/DdBYBQoTuWYXo0/wYkGq/INrH1coTZQ7c0=;
-        b=g1c19nDSzk6Yko1GS4W3qggY2Xm2ixRZqOUUMEPGTfAOwa633tMjzB0FuAMUk4Lv15
-         FjJWrEvJQM/HItaNzy5h7o6epE88b5SeNA+i+6bF2Qi2mn1+KERXwZ5Y1ihmc1DRKhLT
-         qeTfPAaIYSyUA/Gtkeh1IDtowQjJsRfQ2ynARVJbAMy+3QJJqujWwilQgs5uKcFKu3qh
-         QDvhRfXrg0OXZ0yV++024RcKEd2V/o+CSGzb0W7F9fELUoArIcAgXCJtkmxj61N2YoYI
-         0xoq/WeSQoYjZpe7hWjbo1iNB81daISD4AZptpSu60+7gfhRqL6+X2s3vZRzeVhKNN2f
-         WxfQ==
+        d=gmail.com; s=20230601; t=1762138816; x=1762743616; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f5ZbiMx3qqtfcVjWwdialQet83TR7IyJeUH1x2oAlJ8=;
+        b=OiQS4k4jB0qCF9E9ZcdDisTxfVF6d+HrONMYzH8ti8fAyJ2qUjcaKXRwh+mecqn0EI
+         VQGs2mFDaXRvUrf/DgO5caP674fRrOPR4jFwSnOvhjp1pojs2+Xc+mBFiMt7ydByxDan
+         rI9UGk5n7dDZCFlbJl6G8h3YEf2Wi6lfWgjGUkFyHdzkS9ZJtIoPtRhAcFsBKICo+AGj
+         Af7vS0ZMilw6Vw85KimWAf0R1gevdB1Li6l5A7n9NCMd9WgsbOlniTGZGgr2fq7qqn/3
+         pHKv9kKCZ7mm7wK1P4N94B9vwCO/Kr2gKFVpDDgH97ifelLeQ5wbKYvW90hzzGkqyUw9
+         Y+vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762134672; x=1762739472;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bDAfAMTS/DdBYBQoTuWYXo0/wYkGq/INrH1coTZQ7c0=;
-        b=pPI+3k/6h46uuZIZ3jyqAvLj2ddrNcjNNDKIZNmSCvgFmIvys2tfT7ufgZTtsKtPPc
-         afJdoEvnZVNrrq19N2lMcMK4qZIUcB+KXdZE/t+Ls5kgcp9lw/CNQ4AecailNCIdbCtW
-         NLNrDhA+NB8wi/4l3xhLyASZgVPdazkK4VdPGPTfr4ak07N9EsDqd/JbcRl6gcCf/xFx
-         jartFDaqj/ZsUVg46fBiBL0CX+2XFTuIp3TUwFypW+CzPkW96wHaV3aNOzVJYpCuGDqX
-         RuqvZW5PvqiOWc3N5y9p8EKTKmyyzu1BcZuT76NBsuwZNS/xtdzv/nXEwG34z1C1Wq/+
-         6s0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU0Y/9WstYtWqOfYSJatcvrZ0PsobEkRzWejlcP1nUwRmX1v4tORSlP3k9/yYlsfwU7WX73d4CF0pA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKP88frkqdktXT0Fu9PvT6dqIgqB/KyzbtN3OiYtrWWDC84/Qf
-	CqCQ7BtOdnGdYgIOVdLaY3cYowZy/3jkXGZFNTMLcMErBF7IekuEnReI
-X-Gm-Gg: ASbGncsTxjZ9Jx0gJOMEgY3U6oeo0Owy/64GP/COjXTqClkGiq5Yu6y9FqqpgvjeY+S
-	VIpyFy1Zdr+CPlwwr6hlClNyjT0y+EX6vEkfuCvkzrPsi8edP0UOasdccNLTNgL1XqiDyjpu/FD
-	YVwEcWvlqipnIts9JZF1BUbniugCuUuSs1zDYcnXmco0SSgO5pjZ7qr5cPfcUauqOKA2+swheqj
-	6N+fyIPJirsQJRauNeX7+/L97PBc5UgASmYfPV2GJLvp3QhFzmkWflR44jL9abh3P9WGT3oUNue
-	hc7Usfdajq16XkrD3GJDMSxxqPfVKN9b5vupUJ9MZkWYNrDPksu2cC1Ab9P6YMnDQBHQmDIukxL
-	47/pOhzrLJ3pzi1ALJrczz40LJQjbWqhqiiL48CNwarji9j+jq/Yfe/lrIIVK0uzm7DeyXncOSX
-	ds
-X-Google-Smtp-Source: AGHT+IHe3/m/vfP4n8dAnB++a4/roBr54Jczttq+5F/s76Bm2lMbUhEsFeIShoWIP9P2vd3f0r/p2A==
-X-Received: by 2002:a17:903:2302:b0:295:557e:746f with SMTP id d9443c01a7336-295557e7a25mr85614305ad.32.1762134671769;
-        Sun, 02 Nov 2025 17:51:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762138816; x=1762743616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f5ZbiMx3qqtfcVjWwdialQet83TR7IyJeUH1x2oAlJ8=;
+        b=Tm0B7CwjzwddnZ2YynJsr0gQgGuuFCuktl8on/1UtxV8pAt+yIvKvgQ7jVrb5BswTA
+         mFCz9uaO4hR/xHAhkDiA0g4r6kzG4QmkXepfZezekv0x9g6Kw6JNAf5aXbXJYdM2YQqm
+         e2yUfNOqO2STkzJ3LU3YuO50/Qxwb06dEg9uu64CwRC4PmcxLbwvtQSC6MmwjS3FT5tq
+         Xqw60YithPXYgBvUPBgpYRNc5Xau4M2ipQ9xc+9TPWx9REbc9/vXmhqhGjZ3oC9jDrYk
+         ErWO+M5Q9Fo2G9FNTTGxiavc4FkY5dhuiNrkhp6qtA8YTF0H5qNF7vhpOOCH6dv27iDq
+         VUjA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2xUkK82vKxt1duwz45uV7e2hE2x1JkoTUVqaLeseq+aVS257cRgn0TbQaIwn7JuW+G4CyuCPc6PM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCF45b7WUsS9Gn/Ra+IQSXZzCL6sD/7qP6qfDL1RPCjzhkuXA3
+	v/hFLiqh2NiQ/AuuL2ysTMiPXGmnCi4Ujv5Oi5q8pVVyiaCWvfcFAgvb
+X-Gm-Gg: ASbGncsOE1rtf2ytNO/OJm0GkIiSEXPwl+2PITJ9XWHQcfmb87gQXUFS49ZneVgmFx7
+	hdZzXYWQ/9sYqafsawl5Meh0wtmTUByLss38KforvupmvfbhFGefS6KQGC94OIMCYHbY45WqHCf
+	QG/KPc9jkV8fVrqStR7aEuiSJVzWXMLYyZpInaTxQTjWOHIg/NTCwShAA+QSkp+ycuxZp95StU6
+	BYfDR0OEtp8sgVCnNJrbD7ppryz6YpD7CGw0jq/yJZFBmRYhBHaW+RiXdl00julctf1TV3Rh+Dj
+	s4a1JmuYktab90JMg1KgBGvEQLIhc/LZUQC1M5eJ1O4IX+7xlp1vkl4+F3jrtk6mRFj3OQkKOxk
+	Nst7pZy1FfPBnpoFy66+LMPXLyDTp2QpC68lgEC1T/UqcNMstVqY5n09fxUg523tj69suyGIngb
+	GZ8t4wp9hU7yI=
+X-Google-Smtp-Source: AGHT+IE9q6q36jFoYush26+7zuM0CA2YJRuXZnQbAUDeAEDIKmfEKoJBQdpgFxpRDvqs6HCo/ISz3w==
+X-Received: by 2002:ad4:5d45:0:b0:880:4eac:8689 with SMTP id 6a1803df08f44-8804eac9381mr63546746d6.57.1762138815676;
+        Sun, 02 Nov 2025 19:00:15 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3407ef4c263sm4458053a91.3.2025.11.02.17.51.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88051e1a353sm21830446d6.1.2025.11.02.19.00.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 17:51:10 -0800 (PST)
+        Sun, 02 Nov 2025 19:00:15 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 6EA02426D9E0; Mon, 03 Nov 2025 08:50:59 +0700 (WIB)
+	id 4730E41C0600; Mon, 03 Nov 2025 10:00:01 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+	Linux Accelerators <linux-accelerators@lists.ozlabs.org>
+Cc: Zhangfei Gao <zhangfei.gao@linaro.org>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH net-next v3 9/9] MAINTAINERS: Add entry for XFRM documentation
-Date: Mon,  3 Nov 2025 08:50:30 +0700
-Message-ID: <20251103015029.17018-11-bagasdotme@gmail.com>
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: uacce: Add explicit title
+Date: Mon,  3 Nov 2025 09:59:50 +0700
+Message-ID: <20251103025950.23159-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251103015029.17018-2-bagasdotme@gmail.com>
-References: <20251103015029.17018-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=870; i=bagasdotme@gmail.com; h=from:subject; bh=xYbBu2fMf0do2Y8PFkgmZ44ePl1qKHbhlD2bXGI6s6k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkcnJWJb6OS5AOvvHP2OxbZECTbpOA0/77NUZcNhk9fO Xjs8LraUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIlovWT4w/mKLzP/SJjVI7/9 G4ouTcqwuNwt+/6t9d07m9o2b9KYso+RoS3ZLfvA8uk9l7w8Gx8fnXIhKinowSH2n2pbDlx8dfe jOB8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1068; i=bagasdotme@gmail.com; h=from:subject; bh=2bSH6wJGMCkCLcVdvYI602cwgiyzgPLruCtTX7O+gBQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkcUs7iu01euO0/rStaM0/LYUqHj7ZBOpfjyX9vk4Qk7 hVZN5R3lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCL3HzL8YuIov8ddLWEwYdvv Do16oW+nbXVXOMzu7Pj+8daJl5KNcQy/Wc8dPGA9gcN/0c/HJgfMz4vZM097krj/w4GPGTvrWd0 nswEA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-XFRM patches are supposed to be sent to maintainers under "NETWORKING
-[IPSEC]" heading, but it doesn't cover XFRM docs yet. Add the entry.
+Uacce docs' sections are listed in misc-devices toctree instead due to
+lack of explicit docs title. Add it to clean up the toctree.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/misc-devices/uacce.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1ab7e87462993b..6d2906b2600376 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18051,6 +18051,7 @@ L:	netdev@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec.git
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git
-+F:	Documentation/networking/xfrm/
- F:	include/net/xfrm.h
- F:	include/uapi/linux/xfrm.h
- F:	net/ipv4/ah4.c
+diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
+index 1db412e9b1a380..2ca539b7d6c799 100644
+--- a/Documentation/misc-devices/uacce.rst
++++ b/Documentation/misc-devices/uacce.rst
+@@ -1,7 +1,10 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-Introduction of Uacce
+----------------------
++Uacce (Unified/User-space-acess-intended Accelerator Framework)
++===============================================================
++
++Introduction
++------------
+ 
+ Uacce (Unified/User-space-access-intended Accelerator Framework) targets to
+ provide Shared Virtual Addressing (SVA) between accelerators and processes.
+
+base-commit: e5e7ca66a7fc6b8073c30a048e1157b88d427980
 -- 
 An old man doll... just what I always wanted! - Clara
 
