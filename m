@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B7013AF2;
-	Mon,  3 Nov 2025 04:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8D738D;
+	Mon,  3 Nov 2025 05:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762145921; cv=none; b=bQoDkKzlDb+2Ug5p2TYenYBB+tAnc8Wy+blZV170LifpE+oUa51YjU3roanoKE2pcyGWGD8FBNb/+lnD81AGUs1AgEyju1ZbSdRSaosgz9m5rS8RbNmxaum0x+QsDnT64Ba+fVdRlWmZeyJEOV5yAVWYDMegDDmQ/viOeCwRc2E=
+	t=1762146555; cv=none; b=uUqIi1ycUx06LhWjHiKOn8nnk2X52YY1ocv4MB3MVb/Noam6kwSHoQ65xBb5BCaFKIMumoMhZh9SQdIV8Z/NMFXX6/yIlzcOucP6Gu/FD1+JYXCqGFTdTJ0EEspyrbH0eZ8NGE0CcG1b2ckWSIP7HHgIhkiXNNiXGL+LnJO2HUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762145921; c=relaxed/simple;
-	bh=6x4wUFLc/erBfs/B+lktnOw07egLt1U4rr2lYQQy/gg=;
+	s=arc-20240116; t=1762146555; c=relaxed/simple;
+	bh=Aui+uXq7gBynAr9OBN/unPwWy+rKwHXmZxOQwQjcSzY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kbd7KxbUrE8xQrnQRvuRe/GaFBJm4js7Xjo+KkIU2f6vqLJBrHOI999MBXaY0JC0q7cJ4+MERgO+yeiGinmORfPieD3+OOavTk+fQu1+CfBsVucYGLC2MfvyHPqvOGhi23k6I+4FanXbW1l4/j4K9r1wYj8mW+c2C+GVh9u3XU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U0dP7XKP; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=PP6Q/bT6dHhdwXsn3Um69qzxbgf2MM73nxJSzJWp8Nx0hAxS9zJHX/cKW7EMnaEJYXXHB54UcIBxd8rqEzwfNgYI8RFVtke2aNFWsl7NkqhHnNkO/abSWxn0DnT1UOsIcir0R3K4kA/VDYalBIOvU6UiJdR951VgyZzJjn6QcXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=seNlBSJF; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U0dP7XKP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="seNlBSJF"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=wnxQ24g3Vg9Pz8AWmeQla0qn3RxqNL/lM/sSFrPZ6sk=; b=U0dP7XKP0BF/CvrM2zOp/xsCa/
-	XXzyOTB4n60eVZZs8m3b4b5S+Z0xz8ALcKPqlvqoQEKnJvGTCcSHlyzFGIGNZHmurAdVRdblc8Lf8
-	i27Gx6umjLh4FFVo94RbLOp0rUJ7GuuYJchCcycyaZPB1HgVTc+d3abjcA+0suWcgu+h6N+7/YrSE
-	PlV9ss1ryHyGdB/gq33hpX0+DRGH6mop7pV0CIaXf0yhkMQf7ZhRqXg2mxugWuTfUVKsatzmCroqb
-	lCxg6xEcdD09sCg05Lh3RBnnbcSPrDx+Fds7QzajUSg1+ktxpQc68xkzaOBsE/rORINm9809aGrUN
-	+JEj9EQw==;
+	bh=9CiYw9yFrowi8FxrR/WFrKpp3eBVwHxAvWsrtAh9fI4=; b=seNlBSJFHEezyitQv6z+olvmyo
+	EPMegIFMNPgy5I/RTxrlSXZUc2wQgDj+pF9KuS8Ksnk/aySuDF0Gkc9hJ1dYjQ409FYLrBG+C33fx
+	PsNz9WrI9II6osO5ARTj0gVNlRV7A7VvNluDsr9Nh7kAfA8SGhDjXxhhamvwh/B4rKA0XlkZ5enEk
+	L2qAOKsZgo8MB9qvGHa7whWxQPrCEmbmZyzW4ywqYp6U8lQ5QKy4Wam7CAppE52Pgs0ksh0rLYOBW
+	ydecSD376h0T30Li9S36z5+1vymwFz6sgAwe6GDSyC8AKESpa+XpKK/qhclkHNI+7nLUXjWWZTjiv
+	W9aLJLnQ==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFmeH-00000009Cpj-31UU;
-	Mon, 03 Nov 2025 04:58:33 +0000
-Message-ID: <e95704fd-68fa-4093-835c-ca220a9c3f5d@infradead.org>
-Date: Sun, 2 Nov 2025 20:58:32 -0800
+	id 1vFmoZ-00000009DC5-16XH;
+	Mon, 03 Nov 2025 05:09:11 +0000
+Message-ID: <33ce66c4-d128-41d5-9e26-aabb7e80aa67@infradead.org>
+Date: Sun, 2 Nov 2025 21:09:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,54 +39,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: uacce: Add explicit title
+Subject: Re: [PATCH] Documentation: pldmfw: Demote library overview section
 To: Bagas Sanjaya <bagasdotme@gmail.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Accelerators <linux-accelerators@lists.ozlabs.org>
-Cc: Zhangfei Gao <zhangfei.gao@linaro.org>,
- Zhou Wang <wangzhou1@hisilicon.com>, Jonathan Corbet <corbet@lwn.net>
-References: <20251103025950.23159-1-bagasdotme@gmail.com>
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jacob Keller <jacob.e.keller@intel.com>, Jonathan Corbet <corbet@lwn.net>
+References: <20251103030228.23851-1-bagasdotme@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251103025950.23159-1-bagasdotme@gmail.com>
+In-Reply-To: <20251103030228.23851-1-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/2/25 6:59 PM, Bagas Sanjaya wrote:
-> Uacce docs' sections are listed in misc-devices toctree instead due to
-> lack of explicit docs title. Add it to clean up the toctree.
+On 11/2/25 7:02 PM, Bagas Sanjaya wrote:
+> pldmfw library overview section is formatted as title heading (the
+> second title of index.rst), making it listed in driver-api toctree.
+> 
+> Demote the section.
 > 
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  Documentation/misc-devices/uacce.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  Documentation/driver-api/pldmfw/index.rst | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
-> index 1db412e9b1a380..2ca539b7d6c799 100644
-> --- a/Documentation/misc-devices/uacce.rst
-> +++ b/Documentation/misc-devices/uacce.rst
-> @@ -1,7 +1,10 @@
->  .. SPDX-License-Identifier: GPL-2.0
+> diff --git a/Documentation/driver-api/pldmfw/index.rst b/Documentation/driver-api/pldmfw/index.rst
+> index fd871b83f34f3a..e59beca374c1fa 100644
+> --- a/Documentation/driver-api/pldmfw/index.rst
+> +++ b/Documentation/driver-api/pldmfw/index.rst
+> @@ -14,7 +14,6 @@ the PLDM for Firmware Update standard
+>     file-format
+>     driver-ops
 >  
-> -Introduction of Uacce
-> ----------------------
-> +Uacce (Unified/User-space-acess-intended Accelerator Framework)
-
-                             access ?
-
-> +===============================================================
-> +
-> +Introduction
-> +------------
+> -==================================
+>  Overview of the ``pldmfw`` library
+>  ==================================
 >  
->  Uacce (Unified/User-space-access-intended Accelerator Framework) targets to
->  provide Shared Virtual Addressing (SVA) between accelerators and processes.
 > 
 > base-commit: e5e7ca66a7fc6b8073c30a048e1157b88d427980
 
 -- 
 ~Randy
-
