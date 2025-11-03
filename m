@@ -1,106 +1,173 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971DB3A1B5;
-	Mon,  3 Nov 2025 01:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE6E188734
+	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 01:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762134412; cv=none; b=HkS9Jl+8kIZvA1xA6zEAGmUI1pUTIf1mYKP2+p6twOF2hp/YUE2eM/1Cd8pwZygBRWAgyPuieozlQg31kROfzC3GNhQDrswhbpn9dFZ52JUxQwAJ5kXhA0ts6kVpm56hnFo5xzgZM+ALEvOcvJPg/qr+ETrOutU4iTqNrCpnyfU=
+	t=1762134466; cv=none; b=pVmSx6uC6I91pyE5FO/Zf5igtY1YyO5i431dqh2WNuOP2B0Oq+acjYnL/IcrMagkn4DZtAdCJZIX7iysd2+vcSHxebp9mJOUbe4huhMwRHpVWMg0NjelmAo9ZRd70iJrplj8FjAmCnpWv3fTrICfxF5llazr0poPleC1udXbrp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762134412; c=relaxed/simple;
-	bh=tz/3X5TX5Scv+lrlmT6dDipvwCHULnwEEad+kU5oR4o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E8niRLnjzjfHRsQhwKYc2+gSBTIecDslEqrrzE3eK/JPG/f3uC/TzsyVpVwmSTHGuUDqCMp6QGDSFRYNipyhIRBtigyboYTMZddUl+MF1ic27s5o+CF5PORmF2vPDAMaBpXvGb741pGQLkewIaVRMsLsapCpfPtF/UsIglix/Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=y3FUNARC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762134466; c=relaxed/simple;
+	bh=DZ/KiMq7wWJ8uPyNXpIdNz0w5pQFBc9zI5smcnaaiB0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i0qHSD0RtzOt0e9fmJSblAsg00z0mLmhJ7QrbSwQpzAysoNjWJpxdCminsl1yHhT4Pkk+JKjTqrn+75ngJfitcfoUzmQrVaKcOTPlizLNu+DrvMZ8X5ATjBQEKLhJ5CektlX2cjHkCvyPHiOq2vZMzsj+7b4IJS6ePVtKnJZx0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SBuBF0Nf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=h3eUvJrw; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="y3FUNARC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=0WzumnM/hhduantBwY/kZRPJeZB7TIntXpGq+DNWcfs=; b=y3FUNARCE8EbRsUDEQDx8ZwINf
-	FrCYQeEdVKLsuu3Eea3no9qdg/k3loiiM5eAruaeI8339VLkBqd/tWUyeF5a7+R9ShRQ1W6S5g6sx
-	M21lmDj0km8MNhGb0I7CfzJoKJs0D1b9yLSejAhNqhXvEDc39MshTVV+xoIEYoxrmj9Bl+u2qbHQE
-	PJlYcetVeWA6BF8f+epjyJ65dFpTMJehIOdYvEZ+V1+6O8GpDjOK9u/oz29kr5j6IhhQcY36xUr3W
-	EuuSkENwZER0l+auT2QnSVHPSjbIJKsOttY6rb8sHt+eexS2NkZzYde/GVPbI4gNE8dDQOcBTx9gU
-	1bEZ3O6w==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFjec-000000091d4-1SQs;
-	Mon, 03 Nov 2025 01:46:42 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3] kernel-chktaint: add reporting for tainted modules
-Date: Sun,  2 Nov 2025 17:46:41 -0800
-Message-ID: <20251103014641.669126-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SBuBF0Nf";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="h3eUvJrw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762134464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
+	b=SBuBF0NfmiEAmskiJ6BG8F9JDWbtoOxdrNWriscf7/qEKzt7DPvjwjmLiJg0e6SK+hcPZi
+	DsWQv9RKinnlZp9eraxIfdlm60faE5wExtJnCmU7inYs8jWTsIcURM1TIOpw3VpEU5IcTq
+	6+oTAZkCkGOsa13Z432l4/1lfsp44Ms=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-260-v6sxtzTbPS-g5pA-QNlEig-1; Sun, 02 Nov 2025 20:47:42 -0500
+X-MC-Unique: v6sxtzTbPS-g5pA-QNlEig-1
+X-Mimecast-MFC-AGG-ID: v6sxtzTbPS-g5pA-QNlEig_1762134461
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-57893a7d7b6so2596637e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 02 Nov 2025 17:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1762134461; x=1762739261; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
+        b=h3eUvJrw/IrXM943TWCMfLZSG2xXhrrG5N/qweL10nJoVfb0zjbFI20+DHAy6EFOrb
+         Ffl1ym7Ef03Lp5+S0N2CV8Fzma2gr3mIeyvnu7tDkL8Z76z4Sluk22vLRAzUfZb95Zjg
+         /K2cCyo4wGen2yf5cbg1m+PN/P/RNyp5qV02pywmYVFAzF/abLeHstalao/9Yq8sMgyw
+         cn8nNug7tAumBFnP0aoq7x2wstwrbd0e7EqUG94jSOaLPasaeHCTJ3ezZ8UQFlsSGhNc
+         m/NLFRVynESjetZZuiiY6rexzLwK0AUOhsd/a0ZrY5qqeUzHBsFigOzb5sb3aLqNdslE
+         4ZTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762134461; x=1762739261;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DS23ySq+vPb5Ayo6+abelT4SHGq2SoMsLQTkVaSuuRo=;
+        b=QkiX1swGErSb0bHc/YuuqiBdf1w0kkWDGgwVfxeG2qRgVIqTrmZc2X9IcI53Npr4TX
+         ukVxxlbuTMkw1HXX5smrEMsAuUkG+AMWuuehVkJv5HWKlsaPIU8kIPo5/ZDLJr2Xd026
+         rkeXBlC70wZQAmsHt2+pbhFkDXQXQ6qiZhiw9uEyaG94Gx3khDRsbZVVZiiplCd6leoE
+         b3MrrAbkujruf5VGabyA2ivQX7Rge09k4IwH/9pboEJfTsfP/dznRIv011Xs3sodAJ/E
+         CWMl75BSdPAomQisq/e0MIrcSlHTIyfOjvWOIfy3PRQ+hoLRdaJE8I9qL8qe5BbMWMYF
+         pOGA==
+X-Forwarded-Encrypted: i=1; AJvYcCU607p3SsYZrW7nRXbDljaTAb5Y0oh0sYDnY3VCShmZhDd6i3f36DA38v4BPmwAqmbVVrhcKBdeRuw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoJKUqB44ZCR4CxhBEblcviWYKShO+VjbYjLoZNwrk52GGqjXF
+	iDjMLxKcv7/+EpO5jWVupQXjT9vkvXuFssJfqOnPbyRyiN+muJSjN8JwgG/Psuwk7fBNH0jxFX5
+	PlSAs7KTpJivCY0zVKGHxRh4WsSkFeiEzBbAp8p00oEuvuqbq1oYbd2Ry6lChrlVVox0H8T5WHP
+	NrmRkqvabCzvdq/t1qkDGfpg2KyaCm1GBj2McY
+X-Gm-Gg: ASbGncsgoNGkIAea/K+yByZgoPNVAVO+AtnCSzT/obOBKieye7jj8PZbA/flJI+6xGR
+	XB99JLdNS/59QzDY2b/wKz83efHro5MA8ClglQOTb7+w3xa7lx7nsJ5/XCkp2mtCem9dIxN+PRV
+	7PjdIenLGVMqgIv7D0WGTIABiLN29NNhuMVgBKcXolxnkaCvCt4bOrNdo=
+X-Received: by 2002:a05:6512:3e10:b0:594:2c58:978b with SMTP id 2adb3069b0e04-5942c589ad9mr620624e87.51.1762134461223;
+        Sun, 02 Nov 2025 17:47:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEHDOR/3/dEMSprdbAr+vGPJpG0WiUEecPksq7/JieZgEHWe+BMjD1gOgOvmjXIa+VsxvCQ+Uz9nvUL4YhsU+c=
+X-Received: by 2002:a05:6512:3e10:b0:594:2c58:978b with SMTP id
+ 2adb3069b0e04-5942c589ad9mr620618e87.51.1762134460782; Sun, 02 Nov 2025
+ 17:47:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251030062807.1515356-1-linan666@huaweicloud.com> <20251030062807.1515356-4-linan666@huaweicloud.com>
+In-Reply-To: <20251030062807.1515356-4-linan666@huaweicloud.com>
+From: Xiao Ni <xni@redhat.com>
+Date: Mon, 3 Nov 2025 09:47:28 +0800
+X-Gm-Features: AWmQ_bl8wDMCqnoMJ36yUqoXBMkz_wvMmqiObsyO1YtquNOV0cAL5Eti1U9XmlA
+Message-ID: <CALTww286rYcR1hFk5GtxuwFqtUo3fwNyixd5N-_MwBX3P6UUBA@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] md/raid0: Move queue limit setup before r0conf initialization
+To: linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, linan122@huawei.com, 
+	hare@suse.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Check all loaded modules and report any that have their 'taint'
-flags set.  The tainted module output format is:
- * <module_name> (<taint_flags>)
+On Thu, Oct 30, 2025 at 2:36=E2=80=AFPM <linan666@huaweicloud.com> wrote:
+>
+> From: Li Nan <linan122@huawei.com>
+>
+> Prepare for making logical blocksize configurable. This change has no
+> impact until logical block size becomes configurable.
+>
+> Move raid0_set_limits() before create_strip_zones(). It is safe as fields
+> modified in create_strip_zones() do not involve mddev configuration, and
+> rdev modifications there are not used in raid0_set_limits().
+>
+> 'blksize' in create_strip_zones() fetches mddev's logical block size,
+> which is already the maximum aross all rdevs, so the later max() can be
+> removed.
+>
+> Signed-off-by: Li Nan <linan122@huawei.com>
+> ---
+>  drivers/md/raid0.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
+> index e443e478645a..fbf763401521 100644
+> --- a/drivers/md/raid0.c
+> +++ b/drivers/md/raid0.c
+> @@ -68,7 +68,7 @@ static int create_strip_zones(struct mddev *mddev, stru=
+ct r0conf **private_conf)
+>         struct strip_zone *zone;
+>         int cnt;
+>         struct r0conf *conf =3D kzalloc(sizeof(*conf), GFP_KERNEL);
+> -       unsigned blksize =3D 512;
+> +       unsigned int blksize =3D queue_logical_block_size(mddev->gendisk-=
+>queue);
+>
+>         *private_conf =3D ERR_PTR(-ENOMEM);
+>         if (!conf)
+> @@ -84,9 +84,6 @@ static int create_strip_zones(struct mddev *mddev, stru=
+ct r0conf **private_conf)
+>                 sector_div(sectors, mddev->chunk_sectors);
+>                 rdev1->sectors =3D sectors * mddev->chunk_sectors;
+>
+> -               blksize =3D max(blksize, queue_logical_block_size(
+> -                                     rdev1->bdev->bd_disk->queue));
+> -
+>                 rdev_for_each(rdev2, mddev) {
+>                         pr_debug("md/raid0:%s:   comparing %pg(%llu)"
+>                                  " with %pg(%llu)\n",
+> @@ -405,6 +402,12 @@ static int raid0_run(struct mddev *mddev)
+>         if (md_check_no_bitmap(mddev))
+>                 return -EINVAL;
+>
+> +       if (!mddev_is_dm(mddev)) {
+> +               ret =3D raid0_set_limits(mddev);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+>         /* if private is not null, we are here after takeover */
+>         if (mddev->private =3D=3D NULL) {
+>                 ret =3D create_strip_zones(mddev, &conf);
+> @@ -413,11 +416,6 @@ static int raid0_run(struct mddev *mddev)
+>                 mddev->private =3D conf;
+>         }
+>         conf =3D mddev->private;
+> -       if (!mddev_is_dm(mddev)) {
+> -               ret =3D raid0_set_limits(mddev);
+> -               if (ret)
+> -                       return ret;
+> -       }
+>
+>         /* calculate array device size */
+>         md_set_array_sectors(mddev, raid0_size(mddev, 0, 0));
+> --
+> 2.39.2
+>
 
-Example output:
+Looks good to me.
+Reviewed-by: Xiao Ni <xni@redhat.com>
 
-Kernel is "tainted" for the following reasons:
- * externally-built ('out-of-tree') module was loaded  (#12)
- * unsigned module was loaded (#13)
-Raw taint value as int/string: 12288/'G           OE      '
-
-Tainted modules:
- * dump_test (OE)
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
----
-v2: change tainted modules output a bit (Thorsten);
-v3: add Acked-by from Thorsten (forgot it on v2);
-    more changes as suggested by Thorsten;
-
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- tools/debugging/kernel-chktaint |   18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
---- linux-next-20251031.orig/tools/debugging/kernel-chktaint
-+++ linux-next-20251031/tools/debugging/kernel-chktaint
-@@ -211,9 +211,25 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+echo "Raw taint value as int/string: $taint/'$out'"
-+
-+# report on any tainted loadable modules
-+[ "$1" = "" ] && [ -r /sys/module/ ] && \
-+	cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0
- 
-+if [ $cnt -ne 0 ]; then
-+	echo
-+	echo "Tainted modules:"
-+	for dir in `ls /sys/module` ; do
-+		if [ -r /sys/module/$dir/taint ]; then
-+			modtnt=`cat /sys/module/$dir/taint`
-+			[ "$modtnt" = "" ] || echo " * $dir ($modtnt)"
-+		fi
-+	done
-+fi
-+
-+echo
- echo "For a more detailed explanation of the various taint flags see"
- echo " Documentation/admin-guide/tainted-kernels.rst in the Linux kernel sources"
- echo " or https://kernel.org/doc/html/latest/admin-guide/tainted-kernels.html"
--echo "Raw taint value as int/string: $taint/'$out'"
- #EOF#
