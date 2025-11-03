@@ -1,85 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F098731BCA6
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 18:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929C0DF72;
+	Mon,  3 Nov 2025 19:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762194150; cv=none; b=Sew8LV3MFNDvPxqiXtcGOrnXmerlDJk1pRi1Vpfy6Ce8IkgaFiMgT97t9HFLWl9cnNS1PSPfvKF9Ut1TF+iCmceZwYjlF0vm7Sk0lvzd7vs99emIbtrPCmPsXORZFR0UvMTCCRGQZYDJcHtoZy0DrRguY4zpbgFO7vdfxa3l/XY=
+	t=1762196456; cv=none; b=nKvZYPVp9p3W6Ecmbi77NlvGFzxN0DsdnIW/JEmrC/oIYuayF3PAt/7nzauEExU/dhVKzqP8F9/KcNR9br5u1tWUiuL5fI6ul9hi8wNPub65y2GuLWlyu1hQy4hcfuav6+1JJFLKNHI44OKvoqQr++vgt3JGOQG8HJNmo0hsolM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762194150; c=relaxed/simple;
-	bh=OIIAIXY5e2PHES2Q4QtwFg5puL8a5FTP+kSSoBXbO24=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VV/GGcFu+ppQSWLB/6ye34yzPNlgNNhsC3c6KH9bb79wFDnFGDDr9ZD+C3TELGiOLrR9Ms4uKCb7OhK4YpkhCZotNaFGI7QeBQmnWEfp7vKbN9HXK11xgCTUj8FwlO9xHiKqfHIiOmNdG8xTWjATFhsvM6c3v/B3SXuyUydAWm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6dtcWW0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762196456; c=relaxed/simple;
+	bh=m12KwopA8lv7W1wwx9gPZ57DhJnLRAi0sftiXYDOV5o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hgm2tuMojw5UjHs39McHo8+WKuscKmf9iTr9jVFn9CE1VSQ4BxNgKq50H1RG1M0fYdPv409mEhapY1AVV5HDmBgC/x+BKqeJPOwPaIHxfOZwBn9MvQWSmaRFPzpRcW643t5eQpZTaV2QYuAhOBFeZeoIq5KkbALtXU1O33gpPeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V8NgwOiI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6dtcWW0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A1AEC116C6
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 18:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762194149;
-	bh=OIIAIXY5e2PHES2Q4QtwFg5puL8a5FTP+kSSoBXbO24=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=J6dtcWW0egFcH+EyuJ2RbcBXPychB7USwtyyRoNJSLTPOkcGmJ+pAMFUGVOsb/+qB
-	 EzQqde1GAzDhBSVT8AF/vCF0Doj7L6LfW3+CnaOyy1uXD8v25O0/WQRGIXqCkF/++v
-	 9zGwyz/EUwScpYt6/WQCroIUcJhfSmPDGQ/O0r1MJCqw+l2tGbAjoXeuaXbxilpr3n
-	 qDgzPgao1mSljQDf/Nud+mVCaqB7YO2DE7b+asiGAEGabZ/63r6NFxoODrGM7OC9sc
-	 kvG1uxjAfLkZC/8xFgCRJn6JCJud9+sMmgEiC/V56nZr9IBCFzI4AiSsEMVT2OFAgT
-	 jETcMJYygznjg==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-656a67c0762so315795eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 10:22:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWYiB9rNxgdHTVLR4A7ihYK/50L4iyoGKabZwQY1ZIR+CxgVEhfzkzCy8OIRekt0UP8fnwCyqCZnLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmBrQoIoZvb/7K9eiDmA4/FcZO9opbo5yvS5RIdf3H3CJv01LH
-	Er4GMIpQy8Jb8F4bD3f3VFTXLQAgIIwH0cPqI0q5lmF8tEouJSJsI+zGaCDBauOXp1+4Zx7KF5n
-	VkwscYVteydHMi9tPZM+m7AelTmVTANI=
-X-Google-Smtp-Source: AGHT+IGF37BqtqBozjdq5PkZjqmQRfCMzQrdwIPtWfhxnb0iVjRlSIoMQOOeo3L2dAVzcjB5NuzOGwo7slugsTSWlbo=
-X-Received: by 2002:a05:6808:c154:b0:441:8f74:f34 with SMTP id
- 5614622812f47-44f96060465mr84478b6e.62.1762194148971; Mon, 03 Nov 2025
- 10:22:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V8NgwOiI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=gq6Go6ACDw07S9koqIFxq6hI6U4ZtqCMXRYZ7gl+vtk=; b=V8NgwOiIL36WQlAL/l+M31eDDL
+	Q5aykzJ2GPacLdn62IYywAZXkfZGKuCLPENMdV1Fs60e48Y6Z8C9uV9VkJNqqybrfbcW0Gi0E8Igf
+	KGRcUb1ORJuCKS/7A9yWL4f1ypHGW88/h4caUavYN2HOCLF3JTYnNsjRp+1EOMz/mfdjoU310/NdT
+	IUiIQnS2Le03DzpyyampoQan/Wa8812tEk3sPMxfq+4GOLhKluNE6D1qE2HVMeHgtSibM1VyzfIi7
+	FWR/0MAY+re96GbLcn+tupBEcFMdLq/+LsA2WQUQVBKBjGfhGmifX/jOc9gtGEoqzbn8VWtME6sqQ
+	xrkZUViA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vFznR-0000000AWLE-0BT5;
+	Mon, 03 Nov 2025 19:00:53 +0000
+Message-ID: <c0e4a0b0-b7c9-491b-ada3-74945fb2e3d9@infradead.org>
+Date: Mon, 3 Nov 2025 11:00:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251101055614.32270-1-bagasdotme@gmail.com> <d5584bfb-d138-451b-96e8-02347886349f@infradead.org>
-In-Reply-To: <d5584bfb-d138-451b-96e8-02347886349f@infradead.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 3 Nov 2025 19:22:16 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hNEpb=k+bG5x7A2=j3E2tLKAMNcvewnRAa0RRdebtzgw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmbG1eUHMWJOjaUDkDYjNixhJHFAH7iVfoa37c3lBmOsJWyu7we4qVPpKc
-Message-ID: <CAJZ5v0hNEpb=k+bG5x7A2=j3E2tLKAMNcvewnRAa0RRdebtzgw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: intel-pstate: Use :ref: directive for
- internal linking
-To: Randy Dunlap <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Power Management <linux-pm@vger.kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Makefile: Let kernel-doc.py use PYTHON3 override
+To: Nathan Chancellor <nathan@kernel.org>, Jean Delvare <jdelvare@suse.de>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas.schier@linux.dev>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20251103131419.5e504ae2@endymion> <20251103185609.GB672460@ax162>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251103185609.GB672460@ax162>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 2, 2025 at 5:56=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
->
->
->
-> On 10/31/25 10:56 PM, Bagas Sanjaya wrote:
-> > pstate docs uses standard reST construct (`Section title`_) for
-> > cross-referencing sections (internal linking), rather than for external
-> > links. Incorrect cross-references are not caught when these are written
-> > in that syntax, however (fortunately docutils 0.22 raise duplicate
-> > target warnings that get fixed in cb908f8b0acc7e ("Documentation:
-> > intel_pstate: fix duplicate hyperlink target errors")).
-> >
-> > Convert the cross-references to use :ref: directive, which doesn't
-> > exhibit this problem.
-> >
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> LGTM. Thanks.
->
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Applied as 6.19 material, thanks!
+On 11/3/25 10:56 AM, Nathan Chancellor wrote:
+> On Mon, Nov 03, 2025 at 01:14:19PM +0100, Jean Delvare wrote:
+>> It is possible to force a specific version of python to be used when
+>> building the kernel by passing PYTHON3= on the make command line.
+>> However kernel-doc.py is currently called with python3 hard-coded and
+>> thus ignores this setting.
+>>
+>> Use PYTHON3 to call kernel-doc.py so that the desired version of
+>> python is used.
+>>
+>> Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> 
+> I see one use of KERNELDOC in tools/docs/sphinx-build-wrapper that would
+> appear to break with this change? Does it matter? I am not familiar with
+> the docs build. Otherwise, this seems like the correct thing to do.
+
+I think there has been some discussion of these matters on the linux-doc
+mailing list (adding it here).
+
+>> ---
+>>  Makefile |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> --- linux-6.17.orig/Makefile
+>> +++ linux-6.17/Makefile
+>> @@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
+>>  
+>>  # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
+>>  # has a logic to call it
+>> -KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+>> +KERNELDOC       = $(PYTHON3) $(srctree)/scripts/kernel-doc.py
+>>  export KERNELDOC
+>>  
+>>  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+>>
+>>
+>> -- 
+>> Jean Delvare
+>> SUSE L3 Support
+> 
+
+-- 
+~Randy
+
