@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC73218AA0;
-	Mon,  3 Nov 2025 23:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1090719DF6A;
+	Mon,  3 Nov 2025 23:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762211884; cv=none; b=VduwEsCfEKQ3oFfUi6rT8G1XQ5bN3xeUmu2gvstK1hHPhqcqXBdn1cPmnxSIV3CEHkKyNtXioDi/5ObBCKKWpvnchrb+QXrh8RwNbQ6vbgbqsOi1vUv3yolDK6Sp9Ghbu3uOPKotYKjd8/LM9QX6/ff/BA+816K/jPlvQ/lmu9c=
+	t=1762211995; cv=none; b=n0fnvF03BOLxLKYX3my9o75m1gCPB3k89yaSXlsO/qPaNLrqbhKS24VIxULhfjK48MaNv4qRBYNm5JaFZ0ShZPpgOg2xBPAGZpkSaf/rLuZr2XRKraEo5GYEf15vYYQhajIqwHNC7HiY96mF7WW+uN9Fydc06xZQwcfnmQNvufA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762211884; c=relaxed/simple;
-	bh=YId2GSQkFT18/GatKEl55MmCf76X2N7tKb9OoydF1jI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VNGVMWQ1s1lYNHWTqv++la3X90hoLj3LIqKsG/pM+Pxnmfv9Jn4p6rf660zUtNtXQ/hk+mzrld51XR3WHrQWWmt0yhjNPAB2vX2qSr1RCdxJSA1/FgKwQhfJb9LmNMS45InuKLEqeKpQNkGVd4ClHGT9LRIygc2ykJbjrsCzzbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A6n6AJP5; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1762211995; c=relaxed/simple;
+	bh=jQ4BS96WpnCqZ8yMQu9OiWZG4tSyc3T6/W3hS4aV8ys=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pa68KIXsSI8fHck9vJtAVZ9WKhBWdDUoaVKJAGKH1ryATtxhI4XwTr/jfYb7W7+blWzoQGzW4i2fk9nTiyawv86ROFAcZiVHbEI5hUTKBQXkiR7cg2V7YDKZik4RkjpvhO7Na0yI7NR0r3Y50pZP4gJuvG1tKu2011XOG63N1Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mrCBe199; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A6n6AJP5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CC0240AED
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mrCBe199"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 28B9440AED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762211519; bh=4gG90FstYZiFRPxB+Bx0jcUMuohvx/Jq4O8NPO64nVY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=A6n6AJP58XS1Pb0mJ786Bq+nqX9hF7Uk8ZUpnA+0TgwNr4oVzpIYnuB0fe8Czdt5W
-	 reSEJG8Wzv1Bj2JWW2BnDvuEoeIb45l4K3UuFdku6DPt5Bz1rKxHmvcN2nplO4J1h/
-	 zG94FPQMtLznfiV0j5wr1tercjq1eScTlm4tPtbDCbV/9VameSCJtLfHLCh5n6no14
-	 1sb1d6JTnc18ybGfObodbiYlRwT/3uA6f9joJ4Fh2PcvwT6A2Ro0QqUgZHrsXghNsc
-	 PbB8Y/LpYIFAU0FH9JKqE2n+7K4UAdpqvO1hF1bDnkeVM0jmA4SliAjRMzrGVC8GFA
-	 rf6By18azZvKA==
+	t=1762211993; bh=BGwsk1zAMqN7vjrmOd5deVThA6svDd8H5pqB119acV4=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=mrCBe199pKBJFyiENmaiB807Erbcp8EWgXA3qeMMUgP5r9moHrfUMoQ5B3ixqP1o5
+	 9q1SfMqX/K+WlFEkP6ynotPScNdXcWX8EpROKtWSdQBlsInCx+GNyBrx9GQvRZFWRf
+	 hIduYW4rssf0FGGSxZtGzGXjjW+g3PQueOchkhxBU9OgtLJLwVDF1UHs6bMgH1QgGz
+	 eILBl8PQZk8LCFrzY3yyWXDnJa/hworeQmgK42LhcO3hutM6/CbOGJM3liBRwbMxhk
+	 oCW+qe0HYSortKVDvcPvCT4DVQ6bvpuBJ0HIZNxhAs0wUkMoKEVgZOnBfT79qSXh/b
+	 /ILnauHxEFQuA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9CC0240AED;
-	Mon,  3 Nov 2025 23:11:59 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 28B9440AED;
+	Mon,  3 Nov 2025 23:19:53 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Gabriele Ricciardi <gricciardi-coding@pm.me>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Gabriele Ricciardi <gricciardi-coding@pm.me>
-Subject: Re: [PATCH] coding-style: fix verb typo
-In-Reply-To: <20251101223027.171874-1-gricciardi-coding@pm.me>
-References: <20251101223027.171874-1-gricciardi-coding@pm.me>
-Date: Mon, 03 Nov 2025 16:11:58 -0700
-Message-ID: <87wm46btj5.fsf@trenco.lwn.net>
+To: Alex Shi <seakeel@gmail.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Yanteng Si <si.yanteng@linux.dev>, LKML
+ <linux-kernel@vger.kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>
+Subject: Re: [GIT PULL] Chinese-docs changs for v6.18
+In-Reply-To: <CAJy-Am=qL9xYM-q+ciYfhj2ez-8Go8W19mNxXwOxZT=4=wT_4g@mail.gmail.com>
+References: <CAJy-Am=qL9xYM-q+ciYfhj2ez-8Go8W19mNxXwOxZT=4=wT_4g@mail.gmail.com>
+Date: Mon, 03 Nov 2025 16:19:52 -0700
+Message-ID: <87seeubt5z.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,29 +49,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Gabriele Ricciardi <gricciardi-coding@pm.me> writes:
+Alex Shi <seakeel@gmail.com> writes:
 
-> In the Identation section there is a list of instructions in
-> second-person. The offending line uses third-person singular.
+> The following changes since commit f44a29784f685804d9970cfb0d3439c9e30981d7:
 >
-> Signed-off-by: Gabriele Ricciardi <gricciardi-coding@pm.me>
-> ---
->  Documentation/process/coding-style.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   Documentation: update maintainer-pgp-guide for latest best practices
+> (2025-09-09 13:43:55 -0600)
 >
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index d1a8e5465ed9..2969ca378dbb 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -76,7 +76,7 @@ Don't use commas to avoid using braces:
->  	if (condition)
->  		do_this(), do_that();
->  
-> -Always uses braces for multiple statements:
-> +Always use braces for multiple statements:
->  
->  .. code-block:: c
+> are available in the Git repository at:
+>
+>   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
+> tags/Chinese-docs-6.18
+>
+> for you to fetch changes up to 6fc05a144c12305a54f1707edc407d4137fef742:
+>
+>   Revert "Docs/zh_CN: Translate skbuff.rst to Simplified Chinese"
+> (2025-10-31 14:01:35 +0800)
+>
+> ----------------------------------------------------------------
+> Chinese translation docs for 6.18
+>
+> This is the Chinese translation subtree for 6.18. It includes
+> the following changes:
+>         - docs/zh_CN: Add rust Chinese translations
+>         - docs/zh_CN: Add scsi Chinese translations
+>         - docs/zh_CN: Add gfs2 Chinese translations
+>         - Add some other Chinese translations and fixes
+>
+> Above patches are tested by 'make htmldocs'
+>
+> Signed-off-by: Alex Shi <alexs@kernel.org>
 
-Applied, thanks.
+OK, looks like we're good this time ... pulled, thanks.
 
 jon
