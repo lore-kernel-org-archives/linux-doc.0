@@ -1,222 +1,91 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6351F298CBE
-	for <linux-doc@vger.kernel.org>; Mon,  3 Nov 2025 21:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79572DF122;
+	Mon,  3 Nov 2025 22:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762206910; cv=none; b=A1zoy+a8CXMqWwO6G+kKJBR/o8VQD33QPNg0Hioe7sjC4cVeyOagJhyT9yBDIckZzF1hAHz/CIed5tvPvmD6guinZtC2d3lJp4M1aeF3YMY4tCejZ5DcMRIi8kLUghAjW6vCGfDIdBEwVSdJr1UACBwIOZ9a855/Np34dBk9VHI=
+	t=1762208039; cv=none; b=J58EgCYmMRU3f82z+pu3e01imxbx5L8ltxNuqRFsEqIMFFKuLL5j54mC+A6vcypA0Urj0UKbpLz6GbqFYKYdFVV/7oiFe1n+uJ/nmmeNqyWa4IrMHA0ZCrolKaKXF71zAAmgwj12nZin3uEEc6gjDJi2eFHBdkwhopD5nFyX600=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762206910; c=relaxed/simple;
-	bh=PqRD5AA9CQTIV/Fa/oHzoO1tcNy233SlClAbBJUGor4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VejungMqh2IbIcBl4z30hU5jr0uQAnEpWy8eOECsHXWjuM03ULqc/u16iz1FXMgUR8d/ojM6i0X6A1p/G7ZfnW3d+bL93Tv0InRWeaiU3JSHTJMjbbE4Dq+qjwWGobqeoNfwYHydAGuNtb8UFbOZh3attefkYK5FioCzF1eCowY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LA3CfMZz; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762208039; c=relaxed/simple;
+	bh=G5G/nJ6BwUDbjhos8smIO/3KjLQpgzD5ntWtzL13rts=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DS0P2BjMSjQokhmuSHQORVqSaE5npmz5x9g1twdhfptkWvDdwf8lcHjDulSjMplLDlAZLV8MDPtKonq/+zFKTL8q57oIdzp9Q0oEksZnk439CSgphQ6yuvqSDm8oU5nyvbqlR8HG7gYbS28sKAX/YlxwNvRtSr1n9t6cPycrAeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTLqZ0hL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LA3CfMZz"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-294fb21b068so56173355ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 13:55:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762206908; x=1762811708; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vr0AhTl2tnZbnbuQ/Lyma/KtCDNr4xZVutDV7GzLnVs=;
-        b=LA3CfMZzLrQ6XLQZyRt0GaLcAsm5R8payqzB1LHKzw/LvAirTGwN4Uk0xXe+eT98ls
-         LdRsZaqQxizvYR5AtVDfnMJZVynfKcEQ4HOvllbtXE6udxv1M8IVw/Knvse9wgVaaPHk
-         9yWoKNYJJKiyv8aplUx6t7yqE2b/1Z67GM77uGWRSHW8pFRD29nCIibfoT+um3926l+U
-         ZKBYQdvUba5DPt0ks/7kRanu4kGVh7DnH//mF/1sPGOtMWx+lwCY0F3ZCFBMhGTwEr9z
-         XWPdgzenDumCXjlJi4IpeX4c3crZt5aMJeTljnUR6cAC4E0cwmy4cbfpN8IO009qJse4
-         q6Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762206908; x=1762811708;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vr0AhTl2tnZbnbuQ/Lyma/KtCDNr4xZVutDV7GzLnVs=;
-        b=ZH5iBPupy0RKJJ6y3Dy/dtX5/k3elfbmS5WspMQQIB6n5ivlWUGe7M6IEU1t9CCSV3
-         JbNanCidmHQQSRkfpHcHukKhHly4wbTYtDi6emgalRtoonQrEHLHyNUALMe/zcAmRony
-         uEJlDn+zQRmkFZsvPCSfyUG+Lj1ZPg7dVUFNKIp07M7uuBvIRbeqWdws+lTaCREJPg8H
-         UvTYktnQFJ2bAsurASarBJWC6b9njqfjOR221FDlIWeL1HV4Rh78WhfjYsWHUl0j2+s+
-         8Iec87czJs9q0N1oYxf5Ut4hM3dy6VZKP7yE+2BvhxEYB27CPzUOc9o+sE7leNs45v0m
-         aDrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdpHVT2wl8HYAlQaChPH0vPT9VQYITM4NR8Hn1jpe/LNfKdGVHb1U10Id9+UTL19DZziZOPLQhs2c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx41gsmKnJGmbC9Cs0CGtHEusWstIRRs8KRVZQnor1vfmPmefUs
-	JMyicm0vBdVxGJWKAxrZQpMXB9fvcHbl7SSWPBPidCzqZMDbCN7b/5w5
-X-Gm-Gg: ASbGncsAJ5fUmi1FskzyCl5da0/qELyzUb+WY3Gaz/mJQaiBG4bMQSsXsbc/pkTNe4v
-	ExfKkHz4PYx+kGkpI2mPjfP4aA6k4H/fTNaiukQskth8yacaf6u3/kuTCiTjwbUA92B44zj+Nhk
-	yHk4Lr9QWPjv8WkgDkcQp+q4R1IIG3rp8d3YzSlWtU3u+AjFijX8Wvr5QWe74D0Dkuo4KBeIzcS
-	NtaYKCIhrwtgJxSNoc8ehBz9Te8A6SdmoIB4+EzINxJKpifkb8gsXnHRx+0/MgYf0/E2JXqzAZ9
-	7HXXpTVz3WAODH7QerYgoFpk2Kgwdg2DdN/G1JkZ54Y0RNfnvyf2oy1YjxKo55dHJ60MLYpoGTr
-	8keFnC1baqmI3+hyrbv05SKh/z2VdlWa2jHa95dHX48eBOjPZ5d72L1c+Px/dSr6F5kiHcR7Fhv
-	1SMb4TE81Xkyt6Kr9uUtiN
-X-Google-Smtp-Source: AGHT+IGf3rk/ZWnZ4nfGKqzMAbFFNABrHVTEBwI6MOLjfLVcyB9CbUYGpwNMYJDh1R03ToS7kGBkyA==
-X-Received: by 2002:a17:902:f68f:b0:26a:8171:dafa with SMTP id d9443c01a7336-2951a38be8emr209211645ad.21.1762206907635;
-        Mon, 03 Nov 2025 13:55:07 -0800 (PST)
-Received: from localhost ([2804:30c:1653:6900:3b53:af9d:48d6:f107])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-29601a7a882sm1715665ad.109.2025.11.03.13.55.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 13:55:06 -0800 (PST)
-Date: Mon, 3 Nov 2025 18:56:21 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v6 8/8] iio: adc: ad4030: Support common-mode channels
- with SPI offloading
-Message-ID: <aQklBYl2drPil69Y@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1760984107.git.marcelo.schmitt@analog.com>
- <3fadbf22973098c4be9e5f0edd8c22b8b9b18ca6.1760984107.git.marcelo.schmitt@analog.com>
- <20251027140423.61d96e88@jic23-huawei>
- <aQJY7XizVWbE68ll@debian-BULLSEYE-live-builder-AMD64>
- <ca6760182b4662c96df6204bae903d8affa6a8e3.camel@gmail.com>
- <aQisqe5EWARTwpQq@debian-BULLSEYE-live-builder-AMD64>
- <1c3712b9b5313ed6c9d07c1acbc9b918a4883056.camel@gmail.com>
- <c365b17c-de18-4718-8d51-fa1d93236d90@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTLqZ0hL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CA6C4CEE7;
+	Mon,  3 Nov 2025 22:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762208039;
+	bh=G5G/nJ6BwUDbjhos8smIO/3KjLQpgzD5ntWtzL13rts=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VTLqZ0hL1/6PHxQ6NOhzlLM6gCmDmZLOEBjsopkNlCfT1UDEUzEpPJ9dRNKIC0lpk
+	 5IP+NEjFrjtzZVi9MxoejBWIBOkHCXcmGUgODEYUdCpVLHPVh0cAJSOTWB1fhrl1iF
+	 z5hTda/0Y1Q5VJjkd598Vr+sNABtNOoGLJsImaT4TxCqGru5AW2vpM+yUdVgTQvw9e
+	 /xQrqh0iCogqr918cBXp+vPSsanb+KqgUvy7E+gfIndbbpFuHJomc+J7CSVORGK8ey
+	 IER03KXPAHJ9fglF87N61IoFLE7kR2HkjQvV097joGTXbveYEVNBBe/8GgHu9hoePF
+	 1hperBfe4REqA==
+Date: Mon, 3 Nov 2025 14:13:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Srujana Challa
+ <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, Brett Creeley <brett.creeley@amd.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Michael Chan
+ <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, Tony
+ Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
+ Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
+ Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
+ <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Siddharth Vadapalli <s-vadapalli@ti.com>,
+ Roger Quadros <rogerq@kernel.org>, Loic Poulain
+ <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean
+ <olteanv@gmail.com>, Michal Swiatkowski
+ <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Dave Ertman <david.m.ertman@intel.com>,
+ Vlad Dumitrescu <vdumitrescu@nvidia.com>, "Russell King (Oracle)"
+ <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/2] devlink: pass extack through to
+ devlink_param::get()
+Message-ID: <20251103141356.3470701b@kernel.org>
+In-Reply-To: <20251103194554.3203178-2-daniel.zahka@gmail.com>
+References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
+	<20251103194554.3203178-2-daniel.zahka@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c365b17c-de18-4718-8d51-fa1d93236d90@baylibre.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11/03, David Lechner wrote:
-> On 11/3/25 8:30 AM, Nuno Sá wrote:
-> > On Mon, 2025-11-03 at 10:22 -0300, Marcelo Schmitt wrote:
-> >> On 10/30, Nuno Sá wrote:
-> >>> On Wed, 2025-10-29 at 15:11 -0300, Marcelo Schmitt wrote:
-> >>>> On 10/27, Jonathan Cameron wrote:
-> >>>>> On Mon, 20 Oct 2025 16:15:39 -0300
-> >>>>> Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
-> >>>>>
-> >>>>>> AD4030 and similar devices can read common-mode voltage together with
-> >>>>>> ADC sample data. When enabled, common-mode voltage data is provided in a
-> >>>>>> separate IIO channel since it measures something other than the primary
-> >>>>>> ADC input signal and requires separate scaling to convert to voltage
-> >>>>>> units. The initial SPI offload support patch for AD4030 only provided
-> >>>>>> differential channels. Now, extend the AD4030 driver to also provide
-> >>>>>> common-mode IIO channels when setup with SPI offloading capability.
-> >>>>>>
-> >>>>>> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> >>>>>> ---
-> >>>>>> New patch.
-> >>>>>> I hope this works for ADCs with two channels. It's not clear if works as
-> >>>>>> expected with current HDL and single-channel ADCs (like ADAQ4216).
-> >>>>>>
-> >>>>>> The ad4630_fmc HDL project was designed for ADCs with two channels and
-> >>>>>> always streams two data channels to DMA (even when the ADC has only one
-> >>>>>> physical channel). Though, if the ADC has only one physical channel, the
-> >>>>>> data that would come from the second ADC channel comes in as noise and
-> >>>>>> would have to be discarded. Because of that, when using single-channel
-> >>>>>> ADCs, the ADC driver would need to use a special DMA buffer to filter out
-> >>>>>> half of the data that reaches DMA memory. With that, the ADC sample data
-> >>>>>> could be delivered to user space without any noise being added to the IIO
-> >>>>>> buffer. I have implemented a prototype of such specialized buffer
-> >>>>>> (industrialio-buffer-dmaengine-filtered), but it is awful and only worked
-> >>>>>> with CONFIG_IIO_DMA_BUF_MMAP_LEGACY (only present in ADI Linux tree). Usual
-> >>>>>> differential channel data is also affected by the extra 0xFFFFFFFF data
-> >>>>>> pushed to DMA. Though, for the differential channel, it's easier to see it
-> >>>>>> shall work for two-channel ADCs (the sine wave appears "filled" in
-> >>>>>> iio-oscilloscope).
-> >>>>>>
-> >>>>>> So, I sign this, but don't guarantee it to work.
-> >>>>>
-> >>>>> So what's the path to resolve this?  Waiting on HDL changes or not support
-> >>>>> those devices until we have a clean solution?
-> >>>>
-> >>>> Waiting for HDL to get updated I'd say.
-> >>>
-> >>> Agree. We kind of control the IP here so why should we do awful tricks in
-> >>> SW right :)? At the very least I would expect hdl to be capable to discard the
-> >>> data in HW.
-> >>>
-> >>>>
-> >>>>>
-> >>>>> Also, just to check, is this only an issue with the additional stuff this
-> >>>>> patch adds or do we have a problem with SPI offload in general (+ this
-> >>>>> IP) and those single channel devices?
-> >>>>
-> >>>> IMO, one solution would be to update the HDL project for AD4630 and similar ADCs
-> >>>> to not send data from channel 2 to DMA memory when single-channel ADCs are
-> >>>> connected. Another possibility would be to intercept and filter out the extra
-> >>>> data before pushing it to user space. My first attempt of doing that didn't
-> >>>> work out with upstream kernel but I may revisit that.
-> >>>
-> >>> I'm also confused. Is this also an issue with the current series without common mode?
-> >>>
-> >>> If I'm getting things right, one channel ADCs pretty much do not work right now with
-> >>> spi offload?
-> >>
-> >> Yes, that's correct. It kind of works for single-channel ADCs, but half of the
-> >> data we see in user space is valid and the other half is not. For two-channel
-> >> ADCs, everything should be fine.
-> > 
-> > To me that is something that does not work eheheh :).
-Well, yeah, I tend to agree with that 😅
-
-> > I mean, going with all this trouble
-> > to sample as fast as we can just so we have to discard (or mask out) half of every sample
-> > in userspace (even though I can imagine we still get better performance vs non offload case).
+On Mon,  3 Nov 2025 11:45:52 -0800 Daniel Zahka wrote:
+> Allow devlink_param::get() handlers to report error messages via
+> extack. This function is called in a few different contexts, but not
+> all of them will have an valid extack to use.
 > 
-> If we are getting extra data to userspace, then either we aren't creating the
-> SPI message correctly and telling the controller to read too much data or
-> the HDL is broken.
+> When devlink_param::get() is called from param_get_doit or
+> param_get_dumpit contexts, pass the extack through so that drivers can
+> report errors when retrieving param values. devlink_param::get() is
+> called from the context of devlink_param_notify(), pass NULL in for
+> the extack.
 
-The current patch set version (v6) only asks for the amount of ADC precision
-bits in each transfer when offloading messages. I can't see how that would work
-but okay, I'll test it with smaller xfer length.
-
-> 
-> > 
-> >>
-> >>>
-> >>> If the above is correct I would just not support it for 1 channel ADCs.
-> >>
-> >> Currently, it's just one part that is single-channel (AD4030). If patches 6 and
-> >> 7 were accepted, it would be 3 single-channel parts supported. I can add an `if`
-> >> somewhere to check the number of channel, but it will eventually have to be
-> >> removed when HDL gets fixed.
-> > 
-> > I would probably do the above or maybe we just need to push for an hdl fix or some
-> > final conclusion (like if they cannot fix it for some reason) and act accordingly.
-> > 
-> >>
-> >> Or, if HDL can't be fixed, then we'll need the `if` now and something else
-> >> latter to filter out extra data before pushing to IIO buffers as mentioned
-> >> above. Though, this scenario seems odd to me as I think the HDL wouldn't be 100%
-> >> compatible with single-channel AD4030-like parts. We would be writing code to
-> >> support AD4030 _and_ a peculiar data stream from this specific HDL project?
-> >>
-> >> My suggestion is to apply all patches except patch 8. IMHO, SPI offload
-> >> single-channel ADC support is broken due to HDL IP data stream not being
-> >> compatible with single-channel parts. That's not a Linux driver issue.
-> > 
-> > Well, it's not a SW issue but we are driving the HW and we know it's broken so I
-> > don't see a point in having something that does not work. Given that this is so
-> > connected to the HDL part of it I'm not sure it's fine to ignore that offload does
-> > not work for 1 channel parts. 
-> > 
-> > Anyways, it's odd to me but ultimately if Jonathan is fine with it, I won't object :)
-> > 
-> > 
-> > - Nuno Sá
-> 
-> If single-channel parts currently don't work and two-channel parts need [1] or
-> a hardware descrambler to work with a single data line, then it sounds like we
-> are blocked here until the HDL is improved or [1] is merged.
-> 
-> [1]: https://lore.kernel.org/linux-iio/20251014-spi-add-multi-bus-support-v1-0-2098c12d6f5f@baylibre.com/
-
-Ack, I think so.
+Warning: drivers/net/ethernet/intel/ice/devlink/devlink.c:618 function parameter 'extack' not described in 'ice_devlink_tx_sched_layers_get'
+Warning: drivers/net/ethernet/intel/ice/devlink/devlink.c:1533 function parameter 'extack' not described in 'ice_devlink_local_fwd_get'
+-- 
+pw-bot: cr
