@@ -1,130 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7307E16DEB3;
-	Tue,  4 Nov 2025 07:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB3DC8F0;
+	Tue,  4 Nov 2025 07:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762239630; cv=none; b=KcZzB1PrhujXRamZ4ExMUAF5RXN3SmYQJxqpihNqmqn+Megvz1TXD/RymTLoLMqtkZag33cLy9LG9Mbfjy6Sl35hpkwFdkeScUnGXPBHDJR3OcMujrCnGZ+XNC7UR1gunq1r2/R/hca36l9ci1s5MSpN4NH6dce6EK0E8bSzVdU=
+	t=1762240045; cv=none; b=uVWRUMzO0LA490HDf1jrwWiRt2sFTevmTON7sSrtmztx4rFLo7LEx/ybJ3nOBE7dp5m5muE5TUYpWCSqauC4UnBCh7STZD/OBu76QjKqWfWp1cNxL3rR2xaggBaEULa3R1/ErgYHXc5/2uv4IxvFZu5gC0ybu0WXZWY8toEy/zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762239630; c=relaxed/simple;
-	bh=4X+6t70DXpoh2T+5EieuiIaGNQ+Nx/11qPV6DRFYJmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRoUpwqjxD2l/ralGuUgK5Qnj7LTdtIVFMwJw2up3J3s2N8DYb5928OZHp4eUUSTIiHghhlcm6hN+cDaT4NPTJulUsFD5PrCQehS+9WRQz/vJDhnj33YcMFcKmFuI3W/nSZ1N0WgZJOa5LWRC7IgBJhJbtOkk74ckVEIH5Ue/lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1UEY/F8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1UEY/F8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C40EC4CEF7;
-	Tue,  4 Nov 2025 07:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762239630;
-	bh=4X+6t70DXpoh2T+5EieuiIaGNQ+Nx/11qPV6DRFYJmY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I1UEY/F8kb6rmfO1N8znpDwknPo+zoeYokqXc5isZjuBzW2kwNIyURNneL551ILHq
-	 xB1qlT1GwIRyPrqploIY1BSnrb/M+gayul0auOGaYIzVZ5ipDhkzhnPwCHrtS0f6BC
-	 z5t1VvB9oLCq/rFMCgCk9VhSiEJuSXID8okNRaVWmbtPOK+n28WqZyhoHpfWmronvf
-	 FcGjEPq4VK6Yo+LBMfOfTVdislK0QSciIeNRcwvKA5aNqAeghvNKt/yYcDiNo2g9fQ
-	 ijAwMsISbHre8xNCfIwmhQpHnPPoDWGxgBNbI3zl0/Lwh8StDazLf/AgskMUfBm9kx
-	 ZlGWIVygzFi3w==
-Date: Tue, 4 Nov 2025 09:00:21 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251104070021.GC50752@unreal>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+	s=arc-20240116; t=1762240045; c=relaxed/simple;
+	bh=CDLjxDp0J6AWH+fWfa/5gsuhMy2CuNa0+28qvBEUVaM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fV/XwpZmXz5HBg3bfTM7skhlB76dPphDQPsntQE+qH0GWBAYcC+2f8j6uAKyus7vvPtuY9p880vyeWUYCeH/sDgHYOhvmUZSQmgyOlh76YmucOGAHGqW4gqa3AMZ6yDpklenEH4bd7/AKJdVClBHnooqeDGtG9zdvjKnGLymghA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4d0zzP31kpzKHMMg;
+	Tue,  4 Nov 2025 15:07:13 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id D52CF1A07BB;
+	Tue,  4 Nov 2025 15:07:18 +0800 (CST)
+Received: from [10.174.178.129] (unknown [10.174.178.129])
+	by APP2 (Coremail) with SMTP id Syh0CgBHnEQkpglpwlChCg--.56389S3;
+	Tue, 04 Nov 2025 15:07:18 +0800 (CST)
+Message-ID: <e810ef97-c713-cc1a-646b-58278ebd25ff@huaweicloud.com>
+Date: Tue, 4 Nov 2025 15:07:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v9 4/5] md: add check_new_feature module parameter
+To: Xiao Ni <xni@redhat.com>, linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, hare@suse.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20251103125757.1405796-1-linan666@huaweicloud.com>
+ <20251103125757.1405796-5-linan666@huaweicloud.com>
+ <CALTww29-7U=o=RzS=pfo-zqLYY_O2o+PXw-8PLXqFRf=wdthvQ@mail.gmail.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <CALTww29-7U=o=RzS=pfo-zqLYY_O2o+PXw-8PLXqFRf=wdthvQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Syh0CgBHnEQkpglpwlChCg--.56389S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr4fuFy7Wr15GF4DJF1kXwb_yoWDJrbEgw
+	40yrZxZF18AFsFkwsxAr1Svr4qgF4UGry5Aw48Aw1ru348Xay0gF9YkrnYq3Z8XFZYyF9I
+	vFySyFya9wn2vjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbqxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
+	xwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14
+	v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQV
+	y7UUUUU==
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
 
-<...>
 
-> ---
-> Jason Gunthorpe (2):
->       PCI/P2PDMA: Document DMABUF model
->       vfio/nvgrace: Support get_dmabuf_phys
+在 2025/11/4 9:47, Xiao Ni 写道:
+> On Mon, Nov 3, 2025 at 9:06 PM <linan666@huaweicloud.com> wrote:
+>>
+>> From: Li Nan <linan122@huawei.com>
+>>
+>> Raid checks if pad3 is zero when loading superblock from disk. Arrays
+>> created with new features may fail to assemble on old kernels as pad3
+>> is used.
+>>
+>> Add module parameter check_new_feature to bypass this check.
+>>
+>> Signed-off-by: Li Nan <linan122@huawei.com>
 > 
-> Leon Romanovsky (7):
->       PCI/P2PDMA: Separate the mmap() support from the core logic
->       PCI/P2PDMA: Simplify bus address mapping API
->       PCI/P2PDMA: Refactor to separate core P2P functionality from memory allocation
->       PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function
->       dma-buf: provide phys_vec to scatter-gather mapping routine
->       vfio/pci: Enable peer-to-peer DMA transactions by default
->       vfio/pci: Add dma-buf export support for MMIO regions
+> Hi
 > 
-> Vivek Kasireddy (2):
->       vfio: Export vfio device get and put registration helpers
->       vfio/pci: Share the core device pointer while invoking feature functions
-
-
-Hi,
-
-Can we get Acked-by for p2pdma and DMABUF parts?
-
-Thanks
-
+> Thanks for finding this problem in time. The default of this kernel
+> module is true. I don't think people can check new kernel modules
+> after updating to a new kernel. They will find the array can't
+> assemble and report bugs. You already use pad3, is it good to remove
+> the check about pad3 directly here?
 > 
->  Documentation/driver-api/pci/p2pdma.rst |  95 +++++++---
->  block/blk-mq-dma.c                      |   2 +-
->  drivers/dma-buf/dma-buf.c               | 235 ++++++++++++++++++++++++
->  drivers/iommu/dma-iommu.c               |   4 +-
->  drivers/pci/p2pdma.c                    | 182 +++++++++++++-----
->  drivers/vfio/pci/Kconfig                |   3 +
->  drivers/vfio/pci/Makefile               |   1 +
->  drivers/vfio/pci/nvgrace-gpu/main.c     |  56 ++++++
->  drivers/vfio/pci/vfio_pci.c             |   5 +
->  drivers/vfio/pci/vfio_pci_config.c      |  22 ++-
->  drivers/vfio/pci/vfio_pci_core.c        |  56 ++++--
->  drivers/vfio/pci/vfio_pci_dmabuf.c      | 315 ++++++++++++++++++++++++++++++++
->  drivers/vfio/pci/vfio_pci_priv.h        |  23 +++
->  drivers/vfio/vfio_main.c                |   2 +
->  include/linux/dma-buf.h                 |  18 ++
->  include/linux/pci-p2pdma.h              | 120 +++++++-----
->  include/linux/vfio.h                    |   2 +
->  include/linux/vfio_pci_core.h           |  42 +++++
->  include/uapi/linux/vfio.h               |  27 +++
->  kernel/dma/direct.c                     |   4 +-
->  mm/hmm.c                                |   2 +-
->  21 files changed, 1077 insertions(+), 139 deletions(-)
-> ---
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> change-id: 20251016-dmabuf-vfio-6cef732adf5a
+> By the way, have you run the regression tests?
 > 
-> Best regards,
-> --  
-> Leon Romanovsky <leonro@nvidia.com>
+
+Sorry for missing this reply earlier. I ran mdadm tests and tested new
+RAID on old kernels with check_new_feature both on and off. All passed.
+
+> Regards
+> Xiao
 > 
 > 
+> .
+
+-- 
+Thanks,
+Nan
+
