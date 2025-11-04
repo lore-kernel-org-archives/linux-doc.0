@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782E02D94A8;
-	Tue,  4 Nov 2025 23:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D908F347BBC;
+	Tue,  4 Nov 2025 23:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762298302; cv=none; b=jVZXqL4EIvNCyG72/1zURzInL4NlkXjfATxAsERJ/WKrL6NeC0myANokTJeWxTGAy8kdA+0f/ELW6P3fxP/UVDm54JkBaHmDLhTSOvNR6jHT24KI5oNoEv3s6c9pqSd1vpzdYUU4HN6e1tT2KT9IqBChbLl5DMAF2QlPNKcaOok=
+	t=1762299498; cv=none; b=ngkEz1HBCHs3VuttKXeILuv5r8o/MAaTIBYurSLWwdhNxsgSAXWu7EHXbUGMJlUx4P5dF+v5g4EoIWjOpUcDMYE22tGKl2x5Mtz1MWqUXSIa/jcWYwYKox6liIAl7xk5EdSzhBRXamwTT43mRz2llVgBIsYiuD4EjZVZkTd0/xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762298302; c=relaxed/simple;
-	bh=8eaU4PEC2c2giMxU+6+faFJS11n7Ure0cR+De/7s2vU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=L+diKTlS+1QUrihy1ghI5+kdNhazNoiM+PmKwAaoNcj6tBToNEfU5x0WyliMZAZIwGNoGDl9ukaZMsk3UJHRi6zVvV5pl8lJvDqYwB0NIRtu8x9cuogJG9eMjbOJVG9E009t/J9R8USWL6C3yYMfrW6V32xPtXRmY3BPWjFbpAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bVdZgzlB; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1762299498; c=relaxed/simple;
+	bh=d6jGXoU5GQSpFp0lLHnXVWpgeyTdlTkXzUAgiwHMotQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QpnPjvR02wN03NCj7El0kFkkRu/jMQLLwW9Fi/OcZ67wVS3XaX2ZcnXruibo8VrF8ZjpD9bXukan6TbI1edKRziIKUqiD7ipH5JOHikBLkS1/pFBUImPDVQ3TvE1n3tYiht22v2we3/8Z1P7NwmMrsceVp3a23Rnji3HO6gQVFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cnm41Soy; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bVdZgzlB"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cnm41Soy"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=Y790WKwGEGT5HnCsGWE23gAkpRos3CR2T6aFVpk1eug=; b=bVdZgzlBmcSONzcAqO9ipb6pCj
-	1mA0SoZMXnmQ3BEY1ZoBRSWNzky0bSvN34jBb7IFXtOY6x5MUADzVy5MyF/mKOJkPeQnyTcLYF4xY
-	69kfgIvjbsZ7fErq3LyhCjirB6GJJOn6URuJ2xy6aHX9aw1qP6VewAcmWcwbv2Z2RTcyUNYIPFHCi
-	iCgdgoKjEWO5hZ6AVaZi0ozrmj0mDHoKJuJLRWnMn+u7aPz58NakTArRI3EtdfVNjXBuwLfB6k4Dv
-	7Wb2Rkygu/fXOWzA9cgaJQARoa+ap3G6TUYl/2GOCEKiQGn/fFQtpmRXXBkuEF8AeTX7DQP1DWcnx
-	w4RHpndA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ElQ2RmJ1x7R7nu/XuCBdWb6wueQnVDguJsjDWzY0/do=; b=Cnm41SoyqaPXpJ/OuoYNN6myFg
+	veQLYRFhrNs3VCIj1XK2BBsbtaXoYoYBjGFide05sgrwhfZ3QIsGcI1ke4Owc+vRQxpEtyJaEBNwf
+	YVCFJfpCWXBM9TbaINmscGQOYoCe1ilC/bjRq+476xRhp9FOxBiFFykO/pD3f32yntVmZgvGqWU7t
+	pL5CYxFUUlOIBT63BMIQHJrjIby5+lPciLSSPo2Sb6hNaEbUx1Ho3rH0ETqjbhpU9tUT3/DR36m88
+	/87UB90SDbRKwfRGgrd31Kovs5SunhQfWKnwAzhAAylnDyQ/8/J/+8rpj4Qx6SSueVdRXGRvd/dwA
+	iG6j8XIQ==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGQI6-0000000CkB6-3u5t;
-	Tue, 04 Nov 2025 23:18:18 +0000
-Message-ID: <0dfa2a07-cc84-4f04-ad2b-ab88cd08d974@infradead.org>
-Date: Tue, 4 Nov 2025 15:18:18 -0800
+	id 1vGQbN-0000000Cl96-33oi;
+	Tue, 04 Nov 2025 23:38:13 +0000
+Message-ID: <8189649a-604f-4d5b-82a6-b31ef42967f5@infradead.org>
+Date: Tue, 4 Nov 2025 15:38:11 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,85 +39,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH] Documentation: taskstats: Reindent payload kinds list
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Balbir Singh <bsingharora@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+References: <20251104130751.22755-1-bagasdotme@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251104130751.22755-1-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/4/25 1:55 PM, Andy Shevchenko wrote:
-> When kernel-doc parses the sections for the documentation some errors
-> may occur. In many cases the warning is simply stored to the current
-> "entry" object. However, in the most of such cases this object gets
-> discarded and there is no way for the output engine to even know about
-> that. To avoid that, check if the "entry" is going to be discarded and
-> if there warnings have been collected, issue them to the current logger
-> as is and then flush the "entry". This fixes the problem that original
-> Perl implementation doesn't have.
+On 11/4/25 5:07 AM, Bagas Sanjaya wrote:
+> Payload kinds list text is indented at the first text column, rather
+> than aligned to the list number. As an effect, the third item becomes
+> sublist of second item's third sublist item (TASKTYPE_TYPE_STATS).
 > 
-> As of Linux kernel v6.18-rc4 the reproducer can be:
+> Reindent the list text.
 > 
-> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
-> ...
-> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
-> ...
-> 
-> while with the proposed change applied it gives one more line:
-> 
-> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
-> ...
-> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
-> Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
-> ...
-> 
-> And with the original Perl script:
-> 
-> $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
-> ...
-> include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
-> include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
-> ...
-> 
-> Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Oh, thank you. I knew that I had been missing some warnings since
-I still compare outputs from the 2 kernel-docs (perl vs. python).
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
+Thanks.
+
 > ---
->  scripts/lib/kdoc/kdoc_parser.py | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  Documentation/accounting/taskstats.rst | 52 +++++++++++++-------------
+>  1 file changed, 27 insertions(+), 25 deletions(-)
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index ee1a4ea6e725..f7dbb0868367 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -451,6 +451,13 @@ class KernelDoc:
->          variables used by the state machine.
->          """
+> diff --git a/Documentation/accounting/taskstats.rst b/Documentation/accounting/taskstats.rst
+> index 2a28b7f55c103e..173c1e7bf5efa4 100644
+> --- a/Documentation/accounting/taskstats.rst
+> +++ b/Documentation/accounting/taskstats.rst
+> @@ -76,41 +76,43 @@ The messages are in the format::
+>  The taskstats payload is one of the following three kinds:
 >  
-> +        #
-> +        # Flush the warnings out before we proceed further
-> +        #
-> +        if self.entry and self.entry not in self.entries:
-> +            for log_msg in self.entry.warnings:
-> +                self.config.log.warning(log_msg)
-> +
->          self.entry = KernelEntry(self.config, self.fname, ln)
+>  1. Commands: Sent from user to kernel. Commands to get data on
+> -a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
+> -containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
+> -the task/process for which userspace wants statistics.
+> +   a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
+> +   containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
+> +   the task/process for which userspace wants statistics.
 >  
->          # State flags
+> -Commands to register/deregister interest in exit data from a set of cpus
+> -consist of one attribute, of type
+> -TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
+> -attribute payload. The cpumask is specified as an ascii string of
+> -comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
+> -the cpumask would be "1-3,5,7-8". If userspace forgets to deregister interest
+> -in cpus before closing the listening socket, the kernel cleans up its interest
+> -set over time. However, for the sake of efficiency, an explicit deregistration
+> -is advisable.
+> +   Commands to register/deregister interest in exit data from a set of cpus
+> +   consist of one attribute, of type
+> +   TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
+> +   attribute payload. The cpumask is specified as an ascii string of
+> +   comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
+> +   the cpumask would be "1-3,5,7-8". If userspace forgets to deregister
+> +   interest in cpus before closing the listening socket, the kernel cleans up
+> +   its interest set over time. However, for the sake of efficiency, an explicit
+> +   deregistration is advisable.
+>  
+>  2. Response for a command: sent from the kernel in response to a userspace
+> -command. The payload is a series of three attributes of type:
+> +   command. The payload is a series of three attributes of type:
+>  
+> -a) TASKSTATS_TYPE_AGGR_PID/TGID : attribute containing no payload but indicates
+> -a pid/tgid will be followed by some stats.
+> +   a) TASKSTATS_TYPE_AGGR_PID/TGID: attribute containing no payload but
+> +      indicates a pid/tgid will be followed by some stats.
+>  
+> -b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose stats
+> -are being returned.
+> +   b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose
+> +      stats are being returned.
+>  
+> -c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
+> -same structure is used for both per-pid and per-tgid stats.
+> +   c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
+> +      same structure is used for both per-pid and per-tgid stats.
+>  
+>  3. New message sent by kernel whenever a task exits. The payload consists of a
+>     series of attributes of the following type:
+>  
+> -a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
+> -b) TASKSTATS_TYPE_PID: contains exiting task's pid
+> -c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
+> -d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be tgid+stats
+> -e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
+> -f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's process
+> +   a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
+> +   b) TASKSTATS_TYPE_PID: contains exiting task's pid
+> +   c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
+> +   d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be
+> +      tgid+stats
+> +   e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
+> +   f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's
+> +      process
+>  
+>  
+>  per-tgid stats
+> 
+> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
 
 -- 
 ~Randy
