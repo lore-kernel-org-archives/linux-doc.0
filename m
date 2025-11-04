@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D908F347BBC;
-	Tue,  4 Nov 2025 23:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB5372605;
+	Tue,  4 Nov 2025 23:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762299498; cv=none; b=ngkEz1HBCHs3VuttKXeILuv5r8o/MAaTIBYurSLWwdhNxsgSAXWu7EHXbUGMJlUx4P5dF+v5g4EoIWjOpUcDMYE22tGKl2x5Mtz1MWqUXSIa/jcWYwYKox6liIAl7xk5EdSzhBRXamwTT43mRz2llVgBIsYiuD4EjZVZkTd0/xU=
+	t=1762300149; cv=none; b=RcIfzM5svmvJnY/fAP310PsQJtem2A5N99jIG2U4Wp+/0TFssPTwOek0hpqvIQX01LqFxbCeMDgRo5aPleR7kDvofDMblsj1T/VGpUzFKIdi9+Rx22uz1cG5CroDXDmSsc0V6TkDC638vUDSFhY8NIfZvIInZ3zoQas2rHBE+qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762299498; c=relaxed/simple;
-	bh=d6jGXoU5GQSpFp0lLHnXVWpgeyTdlTkXzUAgiwHMotQ=;
+	s=arc-20240116; t=1762300149; c=relaxed/simple;
+	bh=Uv2GCoeYI+xVlJW1KgNgqJt6+DR1iHLTRs5Iv9bYUac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QpnPjvR02wN03NCj7El0kFkkRu/jMQLLwW9Fi/OcZ67wVS3XaX2ZcnXruibo8VrF8ZjpD9bXukan6TbI1edKRziIKUqiD7ipH5JOHikBLkS1/pFBUImPDVQ3TvE1n3tYiht22v2we3/8Z1P7NwmMrsceVp3a23Rnji3HO6gQVFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cnm41Soy; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=Y6hS4OOlXn5fa/apc/ZqjpKuRN8z0n7GWbd+1DLJtvDnBp/z5099eCQeDuGRYfhMsOYhnojXc6nyx0/ssxQ5cvSamXdzP6xN2WTU27+5CnaVCsbF4F8DTSQ8lr3OuMSSY9opYyTejyr/iT+Nsbb189zBlk6AHbBAc1sGWU9gSh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=G3qF+QSD; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cnm41Soy"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G3qF+QSD"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ElQ2RmJ1x7R7nu/XuCBdWb6wueQnVDguJsjDWzY0/do=; b=Cnm41SoyqaPXpJ/OuoYNN6myFg
-	veQLYRFhrNs3VCIj1XK2BBsbtaXoYoYBjGFide05sgrwhfZ3QIsGcI1ke4Owc+vRQxpEtyJaEBNwf
-	YVCFJfpCWXBM9TbaINmscGQOYoCe1ilC/bjRq+476xRhp9FOxBiFFykO/pD3f32yntVmZgvGqWU7t
-	pL5CYxFUUlOIBT63BMIQHJrjIby5+lPciLSSPo2Sb6hNaEbUx1Ho3rH0ETqjbhpU9tUT3/DR36m88
-	/87UB90SDbRKwfRGgrd31Kovs5SunhQfWKnwAzhAAylnDyQ/8/J/+8rpj4Qx6SSueVdRXGRvd/dwA
-	iG6j8XIQ==;
+	bh=i63ehnnei9rWKWA2KJKI+guZ6phgMXfdcjPHS44W+e4=; b=G3qF+QSDeoGS+uQDnZMmZyNeAE
+	dqCrbZhSh6FKZyMmmZlDSCXvAES/Azg+e+yhoGgNkuAWhwT4/bl5Qvcu0k+GQL6UCLwFzVWFyFhK1
+	sSO+nca2ORM8u+BefKCO7ursEpUI4ZlP4wE1KGkTRtiLb1nKRiYY/qC16v9k9QvSUxrcu9pV/ijwo
+	icaBxLI+7xF1CRYoOjLaKSEV9HpFG5qDNndeq+I8ejUFF/7vpnerTPu97vkAkuN0l6BeMxy0213+i
+	UCBSohVjzv4jX4Amq/POD8tK48QlWq+x4XzBsa5NSea8y0Tj1ci1aL+Y/hUZZ2pGZyZcWEhqi1Nsx
+	NdBeN8VA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGQbN-0000000Cl96-33oi;
-	Tue, 04 Nov 2025 23:38:13 +0000
-Message-ID: <8189649a-604f-4d5b-82a6-b31ef42967f5@infradead.org>
-Date: Tue, 4 Nov 2025 15:38:11 -0800
+	id 1vGQls-0000000CliN-0MMY;
+	Tue, 04 Nov 2025 23:49:04 +0000
+Message-ID: <0792f0d8-0ce5-4858-baa9-c76154c9fc9b@infradead.org>
+Date: Tue, 4 Nov 2025 15:49:02 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,113 +39,78 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: taskstats: Reindent payload kinds list
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Balbir Singh <bsingharora@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-References: <20251104130751.22755-1-bagasdotme@gmail.com>
+Subject: Re: [PATCH v8 02/15] genpt: Add Documentation/ files
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>,
+ Anup Patel <anup@brainfault.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
+ Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <pjw@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>
+Cc: Alexey Kardashevskiy <aik@amd.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ Samiullah Khawaja <skhawaja@google.com>, Vasant Hegde <vasant.hegde@amd.com>
+References: <2-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251104130751.22755-1-bagasdotme@gmail.com>
+In-Reply-To: <2-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Jason,
 
-
-On 11/4/25 5:07 AM, Bagas Sanjaya wrote:
-> Payload kinds list text is indented at the first text column, rather
-> than aligned to the list number. As an effect, the third item becomes
-> sublist of second item's third sublist item (TASKTYPE_TYPE_STATS).
+On 11/4/25 10:30 AM, Jason Gunthorpe wrote:
+> Add some general description and pull in the kdoc comments from the source
+> file to index most of the useful functions.
 > 
-> Reindent the list text.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> Tested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  Documentation/accounting/taskstats.rst | 52 +++++++++++++-------------
->  1 file changed, 27 insertions(+), 25 deletions(-)
+>  Documentation/driver-api/generic_pt.rst | 142 ++++++++++++++++++++++++
+>  Documentation/driver-api/index.rst      |   1 +
+>  2 files changed, 143 insertions(+)
+>  create mode 100644 Documentation/driver-api/generic_pt.rst
 > 
-> diff --git a/Documentation/accounting/taskstats.rst b/Documentation/accounting/taskstats.rst
-> index 2a28b7f55c103e..173c1e7bf5efa4 100644
-> --- a/Documentation/accounting/taskstats.rst
-> +++ b/Documentation/accounting/taskstats.rst
-> @@ -76,41 +76,43 @@ The messages are in the format::
->  The taskstats payload is one of the following three kinds:
->  
->  1. Commands: Sent from user to kernel. Commands to get data on
-> -a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
-> -containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
-> -the task/process for which userspace wants statistics.
-> +   a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
-> +   containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
-> +   the task/process for which userspace wants statistics.
->  
-> -Commands to register/deregister interest in exit data from a set of cpus
-> -consist of one attribute, of type
-> -TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
-> -attribute payload. The cpumask is specified as an ascii string of
-> -comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
-> -the cpumask would be "1-3,5,7-8". If userspace forgets to deregister interest
-> -in cpus before closing the listening socket, the kernel cleans up its interest
-> -set over time. However, for the sake of efficiency, an explicit deregistration
-> -is advisable.
-> +   Commands to register/deregister interest in exit data from a set of cpus
-> +   consist of one attribute, of type
-> +   TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
-> +   attribute payload. The cpumask is specified as an ascii string of
-> +   comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
-> +   the cpumask would be "1-3,5,7-8". If userspace forgets to deregister
-> +   interest in cpus before closing the listening socket, the kernel cleans up
-> +   its interest set over time. However, for the sake of efficiency, an explicit
-> +   deregistration is advisable.
->  
->  2. Response for a command: sent from the kernel in response to a userspace
-> -command. The payload is a series of three attributes of type:
-> +   command. The payload is a series of three attributes of type:
->  
-> -a) TASKSTATS_TYPE_AGGR_PID/TGID : attribute containing no payload but indicates
-> -a pid/tgid will be followed by some stats.
-> +   a) TASKSTATS_TYPE_AGGR_PID/TGID: attribute containing no payload but
-> +      indicates a pid/tgid will be followed by some stats.
->  
-> -b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose stats
-> -are being returned.
-> +   b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose
-> +      stats are being returned.
->  
-> -c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
-> -same structure is used for both per-pid and per-tgid stats.
-> +   c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
-> +      same structure is used for both per-pid and per-tgid stats.
->  
->  3. New message sent by kernel whenever a task exits. The payload consists of a
->     series of attributes of the following type:
->  
-> -a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
-> -b) TASKSTATS_TYPE_PID: contains exiting task's pid
-> -c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
-> -d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be tgid+stats
-> -e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
-> -f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's process
-> +   a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
-> +   b) TASKSTATS_TYPE_PID: contains exiting task's pid
-> +   c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
-> +   d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be
-> +      tgid+stats
-> +   e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
-> +   f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's
-> +      process
->  
->  
->  per-tgid stats
-> 
-> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
+> diff --git a/Documentation/driver-api/generic_pt.rst b/Documentation/driver-api/generic_pt.rst
+> new file mode 100644
+> index 00000000000000..210d1229aa1c1f
+> --- /dev/null
+> +++ b/Documentation/driver-api/generic_pt.rst
+> @@ -0,0 +1,142 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================
+> +Generic Radix Page Table
+> +========================
+> +
+> +.. kernel-doc:: include/linux/generic_pt/common.h
+> +	:doc: Generic Radix Page Table
+> +
+> +.. kernel-doc:: drivers/iommu/generic_pt/pt_defs.h
+> +	:doc: Generic Page Table Language
+> +
+> +-----
+> +Usage
+> +-----
+
+See Documentations/doc-guide/sphinx.rst for the usual order
+of heading adornments. Section beginning:
+
+* Please stick to this order of heading adornments:
 
 -- 
 ~Randy
+
