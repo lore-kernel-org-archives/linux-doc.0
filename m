@@ -1,108 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4135172605;
-	Tue,  4 Nov 2025 23:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782E02D94A8;
+	Tue,  4 Nov 2025 23:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762298139; cv=none; b=szbLvaDcrSvHPmUAPAhO1a6qmkDxUv5kCUqsAMMpZ5esVkQOT3ZZ2TGY61ygWYddaFDokrQf/rsv6iGeYB1s1XDe0PtvL19xDLZ5oJ6axghPBexHPPESRy2nv0kiOXomq3dl4KSmR1kLbUlOMC8aiD3KjpCCvlV3YZNEBK+LJiM=
+	t=1762298302; cv=none; b=jVZXqL4EIvNCyG72/1zURzInL4NlkXjfATxAsERJ/WKrL6NeC0myANokTJeWxTGAy8kdA+0f/ELW6P3fxP/UVDm54JkBaHmDLhTSOvNR6jHT24KI5oNoEv3s6c9pqSd1vpzdYUU4HN6e1tT2KT9IqBChbLl5DMAF2QlPNKcaOok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762298139; c=relaxed/simple;
-	bh=5FzMxmsnnMI6iEWbGWYMjpuof9Q20uo2BdQ1iMH4P6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tWPIKZwAkyNTSlRpY6zcAwsoNGQ3N8TLvldQcnbpsfCYhWtZeYDpr8e8oG9J+OGiMUYG+yE+nJ1uxPFlHHnVGaabq9jmKWcAaQ7uDiHwXzgeqc/1OyTl1HQFTWUDD44wnIjlVl62joP9ecx25m6Nqlcsc791sFujB0ooMV4aEVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFIAyBeO; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762298302; c=relaxed/simple;
+	bh=8eaU4PEC2c2giMxU+6+faFJS11n7Ure0cR+De/7s2vU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=L+diKTlS+1QUrihy1ghI5+kdNhazNoiM+PmKwAaoNcj6tBToNEfU5x0WyliMZAZIwGNoGDl9ukaZMsk3UJHRi6zVvV5pl8lJvDqYwB0NIRtu8x9cuogJG9eMjbOJVG9E009t/J9R8USWL6C3yYMfrW6V32xPtXRmY3BPWjFbpAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bVdZgzlB; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFIAyBeO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762298137; x=1793834137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5FzMxmsnnMI6iEWbGWYMjpuof9Q20uo2BdQ1iMH4P6U=;
-  b=EFIAyBeOrKxRAWH/QVK4kqWDIcAZkzErlf6jtjEvyo7Haa4Z1nbrOGTV
-   nvVyT/UDDSoitKuFcSfzEhk3bQUzl357PImOAj8uPv8oZDJvtERaxSrLe
-   HLfA+5QMJzAoOXQZUb6lmjheIsREJqHKdWlbLX3fk8nS7TQKu7U3t6BXD
-   Gm7p/uI2u4i5oAwdqUZox/75xmWc6vThbf3rUsMzVrde60oM2PiIcDlXp
-   8NawwMtvYKt6BBa1lJO8MjRknGK/nT9IaU8C0dcynsw4gYf7s+Rt4MX4d
-   bFimhE89nOdAhMCjij9VXTRnNrBEQ+U6eGD6Z9wAwyBirAG1myOT4vPaT
-   A==;
-X-CSE-ConnectionGUID: A1MSccoVTjGg4HUnFO5lbw==
-X-CSE-MsgGUID: AQqraXF5QWWhY2PLxIGRmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="63414893"
-X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="63414893"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 15:15:36 -0800
-X-CSE-ConnectionGUID: wjt6xLDaT+uGk/zSP4IGlw==
-X-CSE-MsgGUID: PMp4CIS+S3mJaVfp3g4bRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="186963412"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Nov 2025 15:15:35 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGQFR-000RvO-0F;
-	Tue, 04 Nov 2025 23:15:33 +0000
-Date: Wed, 5 Nov 2025 07:14:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-Message-ID: <202511050706.NIxJwZER-lkp@intel.com>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bVdZgzlB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=Y790WKwGEGT5HnCsGWE23gAkpRos3CR2T6aFVpk1eug=; b=bVdZgzlBmcSONzcAqO9ipb6pCj
+	1mA0SoZMXnmQ3BEY1ZoBRSWNzky0bSvN34jBb7IFXtOY6x5MUADzVy5MyF/mKOJkPeQnyTcLYF4xY
+	69kfgIvjbsZ7fErq3LyhCjirB6GJJOn6URuJ2xy6aHX9aw1qP6VewAcmWcwbv2Z2RTcyUNYIPFHCi
+	iCgdgoKjEWO5hZ6AVaZi0ozrmj0mDHoKJuJLRWnMn+u7aPz58NakTArRI3EtdfVNjXBuwLfB6k4Dv
+	7Wb2Rkygu/fXOWzA9cgaJQARoa+ap3G6TUYl/2GOCEKiQGn/fFQtpmRXXBkuEF8AeTX7DQP1DWcnx
+	w4RHpndA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vGQI6-0000000CkB6-3u5t;
+	Tue, 04 Nov 2025 23:18:18 +0000
+Message-ID: <0dfa2a07-cc84-4f04-ad2b-ab88cd08d974@infradead.org>
+Date: Tue, 4 Nov 2025 15:18:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Andy,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on next-20251104]
-[cannot apply to linus/master v6.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 11/4/25 1:55 PM, Andy Shevchenko wrote:
+> When kernel-doc parses the sections for the documentation some errors
+> may occur. In many cases the warning is simply stored to the current
+> "entry" object. However, in the most of such cases this object gets
+> discarded and there is no way for the output engine to even know about
+> that. To avoid that, check if the "entry" is going to be discarded and
+> if there warnings have been collected, issue them to the current logger
+> as is and then flush the "entry". This fixes the problem that original
+> Perl implementation doesn't have.
+> 
+> As of Linux kernel v6.18-rc4 the reproducer can be:
+> 
+> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> ...
+> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> ...
+> 
+> while with the proposed change applied it gives one more line:
+> 
+> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> ...
+> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> ...
+> 
+> And with the original Perl script:
+> 
+> $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
+> ...
+> include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
+> include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> ...
+> 
+> Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/kernel-doc-Issue-warnings-that-were-silently-discarded/20251105-055629
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20251104215502.1049817-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently discarded
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/reproduce)
+Oh, thank you. I knew that I had been missing some warnings since
+I still compare outputs from the 2 kernel-docs (perl vs. python).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511050706.NIxJwZER-lkp@intel.com/
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'd' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'ctrlr' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intspec' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intsize' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_hwirq' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_type' not described in 'intc_evt_xlate'
->> Warning: drivers/sh/intc/irqdomain.c:29 expecting prototype for intc_irq_domain_evt_xlate(). Prototype was for intc_evt_xlate() instead
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index ee1a4ea6e725..f7dbb0868367 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -451,6 +451,13 @@ class KernelDoc:
+>          variables used by the state machine.
+>          """
+>  
+> +        #
+> +        # Flush the warnings out before we proceed further
+> +        #
+> +        if self.entry and self.entry not in self.entries:
+> +            for log_msg in self.entry.warnings:
+> +                self.config.log.warning(log_msg)
+> +
+>          self.entry = KernelEntry(self.config, self.fname, ln)
+>  
+>          # State flags
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
