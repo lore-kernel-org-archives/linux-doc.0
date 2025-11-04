@@ -1,93 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757742DA74D;
-	Tue,  4 Nov 2025 19:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3C92D640F
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 19:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762284138; cv=none; b=OiD0w+lOqDPz3+Nr9KdiNQ9JBmo5nDHPsq1kB98/wVBhTkJS6inKvrm+p5+kG4dQg8pyyMSGCf8tl9UxcSKwA8m2QWEgqNpUThlmvNoNINJAo8+/pLHvYcmEwt2tFGLK+H0/AaRsj4roUqwc/2iFL+gvTGwp2lLb3YLzm7Di8XM=
+	t=1762284381; cv=none; b=i5JP3Fuqngml9D/mp8XjZbIGVj1HpYaR9l3mNlIOsBPL6L0mSQK7pn894AU/i8C3wNptShKgyQo3rCdW5Cp+AdhspcA3Okca7WtUg0+JJzwlhuw5znYwc7t3asFljioibYsdw/CLBti0Mi+VHBTmYEKFjiz1rLHPyoxIHLuN8xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762284138; c=relaxed/simple;
-	bh=+lf7dW++l2EW9+9yEsAcle5UBElW4w+UfVpXaHOHW2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iiXUsgGjyXkPOmTLbUdAwSAhSJw+J8rDINuC46XCevETeFXg8hNauXVgEqYixPs/vraNT9hBxELvcYLV8PGkjuG2uubnb9FcbNgdtGypSqrPLNWFsaDElJjUYYoC1XBXLGmHUwzBru2CPfBaOGlJLFta5QUL/TZb2N1ccyM6qgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+/TZv1X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762284381; c=relaxed/simple;
+	bh=cCkLeU8n/VC4gjMMSvE8Q9FQGCPzymEWRBS/d9chZc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GllDeyynUgLFU8/j9aHKtr27PaokeddHL9+wh0HqmKlqexd5lbxficMnLh8XyhHTGuz5XspWyq4wtr5BwqxcXqrvXbBexR5NOtuuTFMiZdxmapVVVTkncwjEK8sFPD3XT4KIe6lX5IFSRaj5UaH6SoK5cmzjX2v35WCT+XphIr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Br/CW/Tf; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+/TZv1X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A88DC16AAE;
-	Tue,  4 Nov 2025 19:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762284138;
-	bh=+lf7dW++l2EW9+9yEsAcle5UBElW4w+UfVpXaHOHW2Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B+/TZv1XRq0zzd5NbGu3Z9bN5OyQZnNOsope6laxMrWxA3/9XRg7VX+3PhsjNe7lW
-	 5cbgxn6SqwRaVkJbyodTHSn0LdeO5DaMLbCFV/YkdMgryijwrq6LyocnrsiVuNyhLv
-	 xHsrmZselWKpvNIRQMjhLTdiIa0VnfoixY52BS0uFlEVig1wBgEFGzD/T3bGyB56e6
-	 1l8b7lD0a36nrmABwnEvq70bPZRM5IzkSVy7iTQN+TPjab7k/GpzkYFUllJxth410q
-	 4+JiRU+f29KNZ9lJy0ZuU0cQlh4AQfIsQMj0TIhuqexc7SbGFrZJBc5IimM07mEMvE
-	 R1RZeW1bSnP0w==
-Date: Tue, 4 Nov 2025 11:22:14 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Daniel Zahka <daniel.zahka@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>, Bharat Bhushan
- <bbhushan2@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>, Brett
- Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi
- <pavan.chebbi@broadcom.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham
- <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, Geetha
- sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>, hariprasad
- <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, Tariq Toukan
- <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky
- <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Ido Schimmel
- <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Manish Chopra
- <manishc@marvell.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Siddharth Vadapalli
- <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, Loic Poulain
- <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean
- <olteanv@gmail.com>, Michal Swiatkowski
- <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Dave Ertman <david.m.ertman@intel.com>,
- Vlad Dumitrescu <vdumitrescu@nvidia.com>, "Russell King (Oracle)"
- <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] net/mlx5: implement swp_l4_csum_mode
- via devlink params
-Message-ID: <20251104112214.7f60b252@kernel.org>
-In-Reply-To: <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
-References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
-	<20251103194554.3203178-3-daniel.zahka@gmail.com>
-	<mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Br/CW/Tf"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-891208f6185so547134685a.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 11:26:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1762284378; x=1762889178; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b3vZ52GkNsJGLOkvon3L18RWVKcEn1c510aPuA199YI=;
+        b=Br/CW/TflUHqW09MD8LVZEVmTCEpByqeZHXbQmDqLNS3W7/P5QMsLqXUYUPvpa00O/
+         NDbeKxURSRAOEgZlt4pyN7AoCusEuXP7xgt69+GEqYsa5zkF1QDghaXdoYgbz0DWHmSq
+         U9OeOmRjTDCIT0/cBPF/t3LUA1zcAtJYiTLN0gEIejp0Ov18P4I2koBnQy6dI54enVuc
+         QyQX43ev4/pqNhdtIzyRUoDdKf6k1sRujr/hJGrkQZGhZ3OH+U3yhJimlpvTSAlkgBve
+         sPmwUqWOuz/s/qZcYM4qKj2PZVpK1eQqqu4mmee1GT71ewrvnKTZdaqwowoBMd35XkLE
+         eoEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762284378; x=1762889178;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b3vZ52GkNsJGLOkvon3L18RWVKcEn1c510aPuA199YI=;
+        b=K9bwom7A9R7Wao4kM0Or95Wf2PhUqKeW6mTs1F9jGkf+Ee8cK1MMtKp7XUz2jBBX2C
+         3DhEhPfLNcjGZ1n7ewi//9d0LO0Xv0zQ0YPBi6xRQMGZe23azvceGXGzuZaeo0CgIb38
+         SrIlYXRxCxfWVz7lcKYwevwJNFVisay84Gm8c7tDg5frVYO8DMYHMhGawvQ9xyzCwHSd
+         GrqIbQWPX07l8tniVXhepNMLjp3P5plUWZjUuXQmRBVDCUmggBZbAOnUngzatwQ3qFdy
+         8hu0k0wi1WfiTMpSPegBYZVGJ5z/Ok4nI3QiS8HOWe/ODi15GQbn+pLChpUm9yI2D6Dw
+         WLQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSx66emm1jd+zt/8n/aHwUHUMlBXwFWgHdml4iynsy9k5nys0LhB+H2XWGBPGczx0A0arf5Nzzz+I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB/O2G3tx85cxzPy4qHFWD9afvyeKndlUl3tbwCHZ3CAF2c6NQ
+	5ivp0aLV48xDaSP9Aq/DH4UcLoHtcyqT7wHpuqb+UaOxa8McDHoTkO1aqvhHhFIEOpY=
+X-Gm-Gg: ASbGncuMfmy83ZdZb8aF0D6th86ANlRIwi4nv6gUjgVPjd1ikPablHuc0UB/Hhfuyu1
+	5S4qs8ienpSs+sw547iLXhXUIpmbXaOHbOgVUJLbtPIV8KKbHeXDaz9kB4SWvdjXQpAB5N4I9K4
+	0VM7wyncuPQHb4pdotKwgSznLstDGvvDEcovLeHFFb6UAHA3ohjPHGVRkWCj1Quis/dlijNxRdX
+	P9wgj7GWR/pZNJoLrHi3OznaB/iWkPFTT6rBz3sm23mYH43SiX7XRt7VTwdGuALUQiPfGlLRGWF
+	V9dL4eduU+ks6CL0JT/fqdgACV3bTkGANbjnhA1jk7+kVxOXxEjhUWWIcHxj2okunndkaT1Kh+g
+	9B338T/y4E8/jynqHNKaBnW0aqXxPjEKAtT8/CEre4K4R0yN/+UycW/WEo4aXOj3hOYVhGncfLo
+	A1F0GlvgOf/hkzPLJoNwWIFvNh5cAoJsDvGXF7avshYN1CaQ==
+X-Google-Smtp-Source: AGHT+IFUVGYM+r9VlnujjXwSiyntNScv3JSZn85Gft/uvY+ZvhCxVbalAnSefdp5Rhr2H4+z2gOTFg==
+X-Received: by 2002:a05:620a:2a06:b0:86f:aee8:fcbc with SMTP id af79cd13be357-8b220b9ef27mr103417385a.79.1762284377655;
+        Tue, 04 Nov 2025 11:26:17 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b0f7bb3e33sm250495385a.39.2025.11.04.11.26.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 11:26:16 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vGMfY-000000073Bk-1Ldv;
+	Tue, 04 Nov 2025 15:26:16 -0400
+Date: Tue, 4 Nov 2025 15:26:16 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251104192616.GJ1204670@ziepe.ca>
+References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+ <aQpRz74RurfhZK15@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQpRz74RurfhZK15@Asurada-Nvidia>
 
-On Tue, 4 Nov 2025 11:14:03 +0100 Jiri Pirko wrote:
-> >@@ -548,6 +703,12 @@ static const struct devlink_param mlx5_nv_param_devlink_params[] = {
-> > 			     mlx5_nv_param_devlink_cqe_compress_get,
-> > 			     mlx5_nv_param_devlink_cqe_compress_set,
-> > 			     mlx5_nv_param_devlink_cqe_compress_validate),
-> >+	DEVLINK_PARAM_DRIVER(MLX5_DEVLINK_PARAM_ID_SWP_L4_CSUM_MODE,
-> >+			     "swp_l4_csum_mode", DEVLINK_PARAM_TYPE_STRING,  
+On Tue, Nov 04, 2025 at 11:19:43AM -0800, Nicolin Chen wrote:
+> On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
+> > Changelog:
+> > v6:
+> >  * Fixed wrong error check from pcim_p2pdma_init().
+> >  * Documented pcim_p2pdma_provider() function.
+> >  * Improved commit messages.
+> >  * Added VFIO DMA-BUF selftest.
+> >  * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
+> >  * Fixed error unwind when dma_buf_fd() fails.
+> >  * Document latest changes to p2pmem.
+> >  * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
+> >  * Moved DMA mapping logic to DMA-BUF.
+> >  * Removed types patch to avoid dependencies between subsystems.
+> >  * Moved vfio_pci_dma_buf_move() in err_undo block.
+> >  * Added nvgrace patch.
 > 
-> I still think that even unlikely this will be implemented in other
-> driver, it is generic param. Could you please treat it as such?
+> I have verified this v6 using Jason's iommufd dmabuf branch:
+> https://github.com/jgunthorpe/linux/commits/iommufd_dmabuf/
+> 
+> by drafting a QEMU patch on top of Shameer's vSMMU v5 series:
+> https://github.com/nicolinc/qemu/commits/wip/iommufd_dmabuf/
+> 
+> with that, I see GPU BAR memory be correctly fetched in the QEMU:
+> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 0", offset: 0x0, size: 0x1000000
+> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 2", offset: 0x0, size: 0x44f00000
+> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 4", offset: 0x0, size: 0x17a0000000
 
-We need a clearer definition of what this does then.
+Great thanks! This means we finally have a solution to that follow_pfn
+lifetime problem in type 1! What a long journey :)
 
-Is it basically disabling silicon validation of L4 checksum and allows
-for the FW to compute the L4 checksum? Which may negatively impact
-performance? (hence disabled by default?)
+For those following along this same flow will be used with KVM to
+allow it to map VFIO as well. Confidential Compute will require this
+because some arches can't put confidential MMIO (or RAM) into a VMA.
+
+Jason
