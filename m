@@ -1,158 +1,170 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC6E2EC542;
-	Tue,  4 Nov 2025 12:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA841A275
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 13:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762260961; cv=none; b=tivBiUMSGeECCX62X555SSm1X81m60Qj991Y7J3gUV9xoHcxPLg896jPDtxm6zYBPyh87V2astxJc1wAzT3OWaQ0m/bbT3EbNKvkRH5CIKX8ukRudbr1GY2b+jm2cFMbo9cbXLiUIWUpScfnAcAHAUcWpgpB4NMIe2+0uW0y7P8=
+	t=1762261690; cv=none; b=hHjhKy2FagL2nn7kvOfeJ247mizj4eekDi0EnZv9FAQaz9BFtrbL9Bkm2hyMeB6WxRLKepQ+QkhWKzpQPHaskuCG6TnylWhrhxpTURevjJQl5FmbUA7hIWBw04nfWgc39/QZmhondpnFw2UO9BFcVlhywYS8R6S3L68YYzFDWnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762260961; c=relaxed/simple;
-	bh=6Tz/dGTSyJPmBuJ8bKtv2nx0NsjdqmJRwSE1Z1vQg+E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Tx/JWEJO1SRqLXxbEBC16U2kNwfhvFZgM5G1OzGx/UQ17HXlcmS2nW7EesblqMSiprrVjx+Hwx1UsrlGzt2S6rfLK9afxJu3RsT0b5HikMQvNO/VXXg0+vybgBRQi6HqBdqMm2fUEcgdhabPCp6puwulpgKJOTShVHr/v8tE4sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4d17jF0n8nzJ46kC;
-	Tue,  4 Nov 2025 20:55:29 +0800 (CST)
-Received: from dubpeml100006.china.huawei.com (unknown [7.214.145.132])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9B1121402F3;
-	Tue,  4 Nov 2025 20:55:48 +0800 (CST)
-Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
- dubpeml100006.china.huawei.com (7.214.145.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 4 Nov 2025 12:55:48 +0000
-Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
- dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.011;
- Tue, 4 Nov 2025 12:55:48 +0000
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: Daniel Ferguson <danielf@os.amperecomputing.com>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>, "rafael@kernel.org" <rafael@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "rppt@kernel.org"
-	<rppt@kernel.org>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
-	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
-	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
-	<gthelen@google.com>, "wschwartz@amperecomputing.com"
-	<wschwartz@amperecomputing.com>, "wbs@os.amperecomputing.com"
-	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Topic: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Index: AQHcHC9WuMPoKRXbY02Oy+WxUZ/jerSMt+SAgAK0t2CAABfigIAEdNLAgAOLbYCAABR4AIACsFkAgBrSt9CAD6pngIAAFX0QgBx0XwCAAX+KcA==
-Date: Tue, 4 Nov 2025 12:55:48 +0000
-Message-ID: <409217e466a9497697a82e2ac8a6a5f7@huawei.com>
-References: <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
- <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
- <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
- <9433067c142b45d583eb96587b929878@huawei.com>
- <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
- <20250917183608.000038c4@huawei.com>
- <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
- <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
- <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
- <75e9bae2d30748d5b66c288135915cc3@huawei.com>
- <20251103131914.GEaQir0sdz4Te_ea0l@fat_crate.local>
-In-Reply-To: <20251103131914.GEaQir0sdz4Te_ea0l@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1762261690; c=relaxed/simple;
+	bh=8+5gxCh668F3mF0KyhBhYmNThSSlsRvOAW4fyOGH/Tg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uTX1VX1E16XFytsiW9hFaV5k6Qa1qlfcu0VGOFaTu8dN/Y0zxAanXmQWxQ/9P8nnXcR9ag/1HZCrkNdGHQ9SFWLdX7s8qXHOiqXPU9ka/Acznn1DJrT0GtQAwD7tmUVhVzL/Xvc4v52NmlLEyT+F6S5Dw+qOpceSGmPPCPiSbWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgcPEZrE; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgcPEZrE"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-27c369f8986so56077715ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:08:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762261688; x=1762866488; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wa5CJj00Z6mNBnBUafBSEAE70PDhD8H7mdKui4WwIlQ=;
+        b=BgcPEZrE+abRoWkcX4q9K29g7ILbKC6qVVxuQZU8j55PDpkhKfFu7blWwVFzA/fDuz
+         McK+f+ZyM0jubBJuAG2NhdRQl/i4SYbfjMzkplqroxv3zRmHzGZUWsL+6uyWZSYcpJg2
+         S5cjvJYVUIs0d+f08XmVi5y4ECXshOxCODtjZBn7Kokazpqbw0pyvBaK/M13mA7bcXI9
+         fWvLH43KKx7EdG1rOKH6NcMpmERNGA49cd8stE7QX1+1U7vtaJZGNOqwEVEnJBOX6FZ2
+         hhtfgKiVBJrEm14gr51pl3lrO0sxL2x1MiimqAvKGIbkCV7tLhzmMW8XuB80vA+FtxSC
+         vtjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762261688; x=1762866488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wa5CJj00Z6mNBnBUafBSEAE70PDhD8H7mdKui4WwIlQ=;
+        b=OfIAFTQmixDfipgLpdn72BRcmdr6S1QugvNqu2uAnOn+Nx8WTQDTupuN+xaHNbNnIp
+         xKZudV6SApCX4adFqm9xbYPaTUCIBzIyENH6/XI4Yu+s3ks9E4s0UzPfplCSLMDIVq8K
+         JpB8slHM9vdEwhzg+iAUVuxHhBhEeTwlb/Xl7OEAHDU/qgdSr7ilzC0Bgp6kwMlOQk+U
+         j5IxZbpAErFjUZi5N9b4FaL1dkLoUoftG1obdKC3KMH8FLVr8KJdM4zgqWM1dWgQ5WHt
+         N2EuWJPalwZgs5cWHN2SUta5/09geGE2TX0FznoPsbFd+/KiEEE5hyLppxGyb7+IvwGI
+         bmkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkYyvXUBVwJ0mq5hyKi6EloGOBVhVQTr7pAhMsOL5wNcKcIcO05zoWKALIifIj0hwDHmnI+lGVHNI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN7MrJ7h+XlDj7JyEipWCRRCW9D1FuFZRgaIfzKFk9dGmfnR9t
+	LSuKTiSqmkT8TbolojNc9YRXGIrNCikLbpNZZ25VV7D4mmVq0dobhBE5
+X-Gm-Gg: ASbGncsUMLWbtHcpzya+x1IFLg2RkAt2bd79NsvTi/B+Hh82uqPymEYn4WLMjdfUeP+
+	MmZZu1i1CteNpDDdce0Y+b383eA9vEUR+U2jZGlYpWy87q3VhwXrHu1kxWJywDzxaCkreGNmG1i
+	JqPt2DgVObJLznumMytz3g1xo5KyPB0bvHzqhAPwdl4Mx1TevJUDFG9p2Bygqi6auBBwR9Wvy83
+	JqnqeP8llVwdMUG0+DU/3+ZWlI4ngDg2lXBmmZq0upbhfj6fCBd7Dvl2/yq+lipDKsiWs6ytlQt
+	7h3FqfT2mKRKOdQ/1ID6JauJoD6THrMwQR4xmE0RVfJTO7dujt3nQVmHpIG5T+Aa5Uj8zDESQh5
+	nUgN3vOzyQufUYFHQvjdyn6bSBEFIPJpGvaiIaRYR2Cn0WvjFPZwOlx5hzgHlm9CNCjA47rVlIS
+	y3
+X-Google-Smtp-Source: AGHT+IGz6V0F1bsEXB8aPRmEqMqtcqMbmrPgPF7sIkH71vU9791usOLQxoir1Yyrp2/7BuMeNg88QA==
+X-Received: by 2002:a17:902:ea10:b0:295:6122:5c42 with SMTP id d9443c01a7336-29561225ee2mr139342945ad.24.1762261687638;
+        Tue, 04 Nov 2025 05:08:07 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7acd586fc86sm3013202b3a.44.2025.11.04.05.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 05:08:06 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5ACD1420A6A8; Tue, 04 Nov 2025 20:07:59 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Balbir Singh <bsingharora@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: taskstats: Reindent payload kinds list
+Date: Tue,  4 Nov 2025 20:07:50 +0700
+Message-ID: <20251104130751.22755-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4652; i=bagasdotme@gmail.com; h=from:subject; bh=8+5gxCh668F3mF0KyhBhYmNThSSlsRvOAW4fyOGH/Tg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJmcvxzlTBl07Ga5Mk5OnTlr2Tnppbzb+fRkbRmbLnHV/ fj/f799RykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZSnsfwV+ptxYGmor2/xeaG 9e8KFy4qVZn0ZneklFJzMWdPJlcrE8M/q4dhCyr7JV3ORWT9WJr2etXqln8m3z5G8OtxqvkwMU/ lAwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
-bGllbjguZGU+DQo+U2VudDogMDMgTm92ZW1iZXIgMjAyNSAxMzoxOQ0KPlRvOiBTaGlqdSBKb3Nl
-IDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+Q2M6IERhbmllbCBGZXJndXNvbiA8ZGFuaWVsZkBv
-cy5hbXBlcmVjb21wdXRpbmcuY29tPjsgSm9uYXRoYW4gQ2FtZXJvbg0KPjxqb25hdGhhbi5jYW1l
-cm9uQGh1YXdlaS5jb20+OyByYWZhZWxAa2VybmVsLm9yZzsgYWtwbUBsaW51eC0NCj5mb3VuZGF0
-aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOyBkZmVyZ3Vzb25AYW1wZXJlY29tcHV0aW5nLmNvbTsg
-bGludXgtDQo+ZWRhY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFjcGlAdmdlci5rZXJuZWwub3Jn
-OyBsaW51eC1tbUBrdmFjay5vcmc7IGxpbnV4LQ0KPmRvY0B2Z2VyLmtlcm5lbC5vcmc7IHRvbnku
-bHVja0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsNCj5ZYXplbi5HaGFubmFtQGFtZC5jb207
-IG1jaGVoYWJAa2VybmVsLm9yZzsgTGludXhhcm0NCj48bGludXhhcm1AaHVhd2VpLmNvbT47IHJp
-ZW50amVzQGdvb2dsZS5jb207IGppYXFpeWFuQGdvb2dsZS5jb207DQo+Sm9uLkdyaW1tQGFtZC5j
-b207IGRhdmUuaGFuc2VuQGxpbnV4LmludGVsLmNvbTsNCj5uYW95YS5ob3JpZ3VjaGlAbmVjLmNv
-bTsgamFtZXMubW9yc2VAYXJtLmNvbTsganRob3VnaHRvbkBnb29nbGUuY29tOw0KPnNvbWFzdW5k
-YXJhbS5hQGhwZS5jb207IGVyZGVtYWt0YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2dsZS5jb207
-DQo+ZHVlbndlbkBnb29nbGUuY29tOyBndGhlbGVuQGdvb2dsZS5jb207DQo+d3NjaHdhcnR6QGFt
-cGVyZWNvbXB1dGluZy5jb207IHdic0Bvcy5hbXBlcmVjb21wdXRpbmcuY29tOw0KPm5pZmFuLmN4
-bEBnbWFpbC5jb207IHRhbnhpYW9mZWkgPHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47IFplbmd0YW8g
-KEIpDQo+PHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8gU2Fzc3UgPHJvYmVydG8u
-c2Fzc3VAaHVhd2VpLmNvbT47DQo+a2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOyB3YW5naHVp
-cWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEy
-IDEvMl0gQUNQSTpSQVMyOiBBZGQgQUNQSSBSQVMyIGRyaXZlcg0KPg0KPk9uIEZyaSwgT2N0IDE3
-LCAyMDI1IGF0IDEyOjU0OjM2UE0gKzAwMDAsIFNoaWp1IEpvc2Ugd3JvdGU6DQpbLi4uXQ0KPg0K
-Pj4gVGhpcyBpcyBmb3IgZGVtYW5kIHNjcnViYmluZyBmZWF0dXJlL3VzZSBjYXNlIHdoZXJlIGEg
-c3BlY2lmaWMgYWRkcmVzcw0KPj4gcmFuZ2UgdG8gc2NydWIgYW5kIE9TIG11c3Qgc2V0IHRoZSBt
-YW5kYXRvcnkgIHNwZWMgZGVmaW5lZCAgUkFTMiB0YWJsZQ0KPj4gZmllbGQgJ1JlcXVlc3RlZCBB
-ZGRyZXNzIFJhbmdlKElOUFVUKScgd2hpbGUgcmVxdWVzdGluZyB0aGUgZGVtYW5kDQo+PiBzY3J1
-YmJpbmcgaW4gYSBub2RlLiBIb3BlIHRoZSBmaXJtd2FyZSBjYW4gaWdub3JlIHRoZSByZXF1ZXN0
-IGlmIHRoZQ0KPj4gcmVxdWVzdGVkIGFkZHJlc3MgcmFuZ2UgdG8gc2NydWIgaXMgaXJyZWxldmFu
-dCBmb3IgYSBub2RlLCBiZWNhdXNlIGluDQo+PiB0aGlzIGFwcHJvYWNoIHdlIGhhdmUgY29tbW9u
-IHN5c2ZzIHNjcnViIGNvbnRyb2wgYW5kIGtlcm5lbCBpcw0KPj4gcmVxdWVzdGluZyBkZW1hbmQg
-c2NydWJiaW5nIHN5c3RlbS13aWRlIGFjcm9zcyBhbGwgbm9kZXMuDQo+Pg0KPj4gSWYgdGhpcyBh
-cHByb2FjaCBpcyBub3QgY29ycmVjdCwgY2FuIHdlIHVzZSAoYikgYXMgYmVsb3c/IHByb3ZpZGlu
-ZyB3ZQ0KPj4gbmVlZCB0byBnZXQgUEEgcmFuZ2UgZm9yIHRoZSBub2RlcyBpbiB0aGUgUkFTMiBk
-cml2ZXIgIHVzaW5nIHRoZQ0KPj4gZnVuY3Rpb25zIChzdGFydF9wZm4gPSBub2RlX3N0YXJ0X3Bm
-bihuaWQpIGFuZCBzaXplX3BmbiA9DQo+PiBub2RlX3NwYW5uZWRfcGFnZXMobmlkKTspIGFzIGlt
-cGxlbWVudGVkIGluIHYxMiBhbmQgZGlzY3Vzc2VkIGVhcmxpZXIgaW4gdGhpcw0KPnRocmVhZC4N
-Cj4+DQo+DQo+SSdtIHdvbmRlcmluZyBob3cgdXNlZnVsIHRoYXQgYWRkcmVzcyByYW5nZSBzY3J1
-YmJpbmcgd291bGQgYmUgYW5kIHdoZXRoZXIgaXQNCj5pcyB3b3J0aCB0aGUgZWZmb3J0Li4uIEkg
-Z3Vlc3MgdGhlIGdvYWwgaGVyZSBpcyBzb21ldGhpbmcgYWxvbmcgdGhvc2UgbGluZXM6DQo+Im9o
-LCB5b3UganVzdCBoYWQgYW4gZXJyb3IgYXQgYWRkcmVzcyBYLCBzbyBsZXQncyBzY3J1YiBbIEEg
-Li4uIFggLi4uIEIgXSB3aXRoIEEgYW5kIEINCj5oYXZpbmcsIGhtLCBkdW5ubywgc3VmZmljaWVu
-dCB2YWx1ZXMgdG8gY29udGFpbiBYIGFuZCBwZXJoYXBzIGNvdmVyIHN1ZmZpY2llbnQNCj5yYW5n
-ZSB0byBjYXRjaCBlcnJvciBsb2NhbGl0eSBvciB3aGF0bm90Lg0KPg0KPkJ1dCB5b3UnZCBuZWVk
-IHRvIGRvIHRoaXMgb25seSB3aGVuIHlvdSBoYXZlIGEgZmF0IG1lbW9yeSBub2RlIGFuZCB3aGVy
-ZSB5b3UNCj5zdGFydCBzY3J1YmJpbmcgYXQgdGhlIGJlZ2lubmluZyBvZiB0aGUgbm9kZSByYW5n
-ZSBhbmQgdGhlbiB5b3UnZCBoYXZlIHRvIHdhaXQNCj5mb3IgYSByZWxhdGl2ZWx5IGxvbmcgdGlt
-ZSB0byByZWFjaCB0aGUgUEEgWCBhdCBmYXVsdC4uLg0KPg0KPkJ1dCBJIGhhdmUgYSBiZXR0ZXIg
-aWRlYTogaG93IGFib3V0IHlvdSBzdGFydCBhdCBYIC0geSwgaS5lLiwgYXQgYW4gYWRkcmVzcyBh
-IGJpdA0KPnNtYWxsZXIgdGhhbiB0aGUgbGFzdCByZXBvcnRlZCBvbmUgYW5kIHRoZW4gY29udGlu
-dWUgZnJvbSB0aGVyZSBvbiwgcmVhY2ggdGhlDQo+KmVuZCogb2YgdGhlIG5vZGUgYW5kIHRoZW4g
-d3JhcGFyb3VuZCB0byB0aGUgYmVnaW5uaW5nIHVudGlsIHlvdSByZWFjaCBYDQo+YWdhaW4/DQo+
-DQo+VGhpcyB3YXkgeW91IGRvbid0IG5lZWQgdG8gc3VwcGx5IGFueSByYW5nZSBhbmQgeW91IGFy
-ZSBzdGlsbCAib24gdGltZSIgd2hlbg0KPnJlYWN0aW5nIHRvIHRoZSBlcnJvciB3aXRoIHNjcnVi
-YmluZy4uLg0KPg0KPkhtbW0/DQpUaGFua3MgQm9yaXNsYXYgZm9yIHRoZSB2YWx1YWJsZSBzdWdn
-ZXN0aW9uIGFuZCBpdCBtYWtlIHNlbnNlLiBTaW5jZSBwcmVzZW50bHkgd2UgYXJlDQpub3Qgc3Vy
-ZSBob3cgcmVhY2hpbmcgdGhlIGVuZCBvZiB0aGUgbm9kZSB3b3JrIG9uIGluZGl2aWR1YWwgcGxh
-dGZvcm1zLCAgY2FuIHdlIGRvDQp0aGlzIGFzIGFuIG9wdGltaXphdGlvbiBpbiB0aGUgbmV4dCBz
-dGFnZT8gYW5kIA0KQ2FuIHdlIHN0YXJ0IHdpdGggYmFzaWMgZGVtYW5kIHNjcnViYmluZyB3aXRo
-b3V0IGFkZHJlc3MgcmFuZ2UgY29udHJvbCBpbiBzeXNmcywNCmJ1dCB3aXRoIHVzZXIgc3BhY2Ug
-c2V0IG9ubHkgc2NydWIgcmF0ZSBhbmQgZW5hYmxlX2RlbWFuZCwga2VybmVsIHNldCB0aGUNCm5v
-ZGUncyBhZGRyIHJhbmdlIGFzIFJlcXVlc3RlZCBBZGRyZXNzIFJhbmdlIHRvIHN0YXJ0IHRoZSBk
-ZW1hbmQgc2NydWJiaW5nIG9uDQplbnRpcmUgbm9kZSwgYXMgeW91IHN1Z2dlc3RlZD8NCj4NCj4+
-IFN1cmUuIFRoZW4gYmFja2dyb3VuZCBzY3J1YmJpbmcgd2lsbCBub3QgYmUgYWxsb3dlZCBpZiBk
-ZW1hbmQNCj4+IHNjcnViYmluZyBpcyBpbiBwcm9ncmVzcyBpbiBhIG5vZGUsIGlmIHRoZSBzeXN0
-ZW0td2lkZSBzY3J1YiBjb250cm9sIGluIHN5c2ZzIGlzDQo+Y2hvc2VuLg0KPg0KPlNvIGNhbiB0
-aGUga2VybmVsIGludGVycnVwdCBiYWNrZ3JvdW5kIHNjcnViYmluZyBvbiBzb21lIG5vZGU/IEJl
-Y2F1c2UgdGhlbiBpdA0KPmlzIGVhc3k6DQpSQVMyIFNUT1BfUEFUUk9MX1NDUlVCQkVSICBjb21t
-YW5kIGFsbG93cyBpbnRlcnJ1cHRpbmcgYmFja2dyb3VuZCBzY3J1YmJpbmcuICANCj4NCj5Zb3Ug
-aW50ZXJydXB0IGJhY2tncm91bmQgc2NydWJiaW5nIHdoZW5ldmVyIG5lZWRlZCB3aXRoIG9uLWRl
-bWFuZA0KPnNjcnViYmluZyBvbiB0aGF0IHBhcnRpY3VsYXIgbm9kZS4uLg0KPg0KU3VyZS4gV2ls
-bCBkby4NCj5JdCBsb29rcyBsaWtlIGl0IGlzIHN0YXJ0aW5nIHRvIGNyeXN0YWxsaXplLi4uDQo+
-DQoNClRoYW5rcywNClNoaWp1DQo=
+Payload kinds list text is indented at the first text column, rather
+than aligned to the list number. As an effect, the third item becomes
+sublist of second item's third sublist item (TASKTYPE_TYPE_STATS).
+
+Reindent the list text.
+
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/accounting/taskstats.rst | 52 +++++++++++++-------------
+ 1 file changed, 27 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/accounting/taskstats.rst b/Documentation/accounting/taskstats.rst
+index 2a28b7f55c103e..173c1e7bf5efa4 100644
+--- a/Documentation/accounting/taskstats.rst
++++ b/Documentation/accounting/taskstats.rst
+@@ -76,41 +76,43 @@ The messages are in the format::
+ The taskstats payload is one of the following three kinds:
+ 
+ 1. Commands: Sent from user to kernel. Commands to get data on
+-a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
+-containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
+-the task/process for which userspace wants statistics.
++   a pid/tgid consist of one attribute, of type TASKSTATS_CMD_ATTR_PID/TGID,
++   containing a u32 pid or tgid in the attribute payload. The pid/tgid denotes
++   the task/process for which userspace wants statistics.
+ 
+-Commands to register/deregister interest in exit data from a set of cpus
+-consist of one attribute, of type
+-TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
+-attribute payload. The cpumask is specified as an ascii string of
+-comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
+-the cpumask would be "1-3,5,7-8". If userspace forgets to deregister interest
+-in cpus before closing the listening socket, the kernel cleans up its interest
+-set over time. However, for the sake of efficiency, an explicit deregistration
+-is advisable.
++   Commands to register/deregister interest in exit data from a set of cpus
++   consist of one attribute, of type
++   TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK and contain a cpumask in the
++   attribute payload. The cpumask is specified as an ascii string of
++   comma-separated cpu ranges e.g. to listen to exit data from cpus 1,2,3,5,7,8
++   the cpumask would be "1-3,5,7-8". If userspace forgets to deregister
++   interest in cpus before closing the listening socket, the kernel cleans up
++   its interest set over time. However, for the sake of efficiency, an explicit
++   deregistration is advisable.
+ 
+ 2. Response for a command: sent from the kernel in response to a userspace
+-command. The payload is a series of three attributes of type:
++   command. The payload is a series of three attributes of type:
+ 
+-a) TASKSTATS_TYPE_AGGR_PID/TGID : attribute containing no payload but indicates
+-a pid/tgid will be followed by some stats.
++   a) TASKSTATS_TYPE_AGGR_PID/TGID: attribute containing no payload but
++      indicates a pid/tgid will be followed by some stats.
+ 
+-b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose stats
+-are being returned.
++   b) TASKSTATS_TYPE_PID/TGID: attribute whose payload is the pid/tgid whose
++      stats are being returned.
+ 
+-c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
+-same structure is used for both per-pid and per-tgid stats.
++   c) TASKSTATS_TYPE_STATS: attribute with a struct taskstats as payload. The
++      same structure is used for both per-pid and per-tgid stats.
+ 
+ 3. New message sent by kernel whenever a task exits. The payload consists of a
+    series of attributes of the following type:
+ 
+-a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
+-b) TASKSTATS_TYPE_PID: contains exiting task's pid
+-c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
+-d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be tgid+stats
+-e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
+-f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's process
++   a) TASKSTATS_TYPE_AGGR_PID: indicates next two attributes will be pid+stats
++   b) TASKSTATS_TYPE_PID: contains exiting task's pid
++   c) TASKSTATS_TYPE_STATS: contains the exiting task's per-pid stats
++   d) TASKSTATS_TYPE_AGGR_TGID: indicates next two attributes will be
++      tgid+stats
++   e) TASKSTATS_TYPE_TGID: contains tgid of process to which task belongs
++   f) TASKSTATS_TYPE_STATS: contains the per-tgid stats for exiting task's
++      process
+ 
+ 
+ per-tgid stats
+
+base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
+-- 
+An old man doll... just what I always wanted! - Clara
+
