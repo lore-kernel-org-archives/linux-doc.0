@@ -1,215 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF5F305043
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 07:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E061430AAB8;
+	Tue,  4 Nov 2025 07:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762240698; cv=none; b=ovwHanxi5lc1CT3cY01X3qfAt/A+Ed+UWLmtVZ4WUkC+d9MDkLW1PLjoLGcA1YvInZ+KJ7gXiu+0/T80Z/mQGs7Nj281cAtl6YfTKGVzu5TLYAd1opyiag3RfmdZb0tXSI3Ukby/JrgM0h/ZIXu8Vxldi+1cT3kU/F/Yz5cTQ8k=
+	t=1762242784; cv=none; b=HpIv9uEBH4A1S3RR+xU4gP5mtJxKU1kAOLEvKMknty6u2NBuywqp6uWAUleGeKUa7KEGMAq3T6TvbqhOGNqqTnto1rNaAZ6lYPO8+ijNCb9h6lgRfe3dGK2tXZnDMGTGtBmEfBq8/f9/EQfGgSo95cacu01WeWQ1ZcjhAlO1MAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762240698; c=relaxed/simple;
-	bh=FEJihQxlnDdgEbfs+h950KC+cNQf1olxV+ZiL4YMXeE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z5rW59S+ZDCkwDxBXf/15R+koNt65ha7XM2vE5BGXEzLia/Vxh1fTBhZy9/GyFLPRaTjczGBC0aw2mWydjIsNipN3bMvNihy0uPSZV3+GRNYVchZjJhldGekQdNu7ddBQF8eTcMsv+gw1O+7o4zLgyLDcgDzieFwdjm/z6WW0pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FeNfxVL5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=c1NB0pPH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762242784; c=relaxed/simple;
+	bh=lGIbceyVZgdKoxAlgrENOyuI7iqdDhBBFcc98C3lKn0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=rqDe8JC8vWeexLCQcKgdzxPhgMKA1epB0ndkEktCccV8f0JCpZXq7EZiJd0BSWJpjvKZr2939WZQN65bETTpkn/rHe8lIh8C8J5GuIOOGy5SJr6rHHnnxDnWk5Jv1LQdSmeI/1gjeuV97huhReh/X5BS1bPQZqASI69VO1ZWzz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4yROKUV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FeNfxVL5";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="c1NB0pPH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762240695;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MTzuXIJmP4zZ1Lttp8cwRd37ZWwl4ogSNFFocfQsRMg=;
-	b=FeNfxVL5VvsZqxImRvk34aopM8kVW1QQUycKC6M4xEna0tNKIq80QEj9QTLp66nTaKGZ0m
-	RsBZSAbvO1ATw7jwSWbIU5S3MISmwCrSzoN2Ky/y5bL8zDgME4g/6PjR+n/0xxEfpZm/Qo
-	WfVJZLzEfvOKetYP8xeCecANMQnlZ6o=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-458-8pG_NGIvM1yIrQ2DHCYu1A-1; Tue, 04 Nov 2025 02:18:12 -0500
-X-MC-Unique: 8pG_NGIvM1yIrQ2DHCYu1A-1
-X-Mimecast-MFC-AGG-ID: 8pG_NGIvM1yIrQ2DHCYu1A_1762240691
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-57893a7d857so3567097e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 23:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762240690; x=1762845490; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MTzuXIJmP4zZ1Lttp8cwRd37ZWwl4ogSNFFocfQsRMg=;
-        b=c1NB0pPHSwMsNUgHPhzPHBEurqvGBVnme3/PY4L1mxawVEoFxXD54konUV600ufRWD
-         6MJbjJD9g9wSBJz3Tdp1yskN465kbokynjsm7WaofBZTr9far9lrNBVhij1gPTC9JmHF
-         8agXZOqCdHeQKAh5zQq4y35rGQrOvH1PVv8iONiaJ1AitNnmwRnbG2FsAFZCnqZ1FLnl
-         UqFdHiTdQkaHwZA587/SmM20r/iKDygIaKhTxyeGFm0AzbMqZSXlyH1nOyw3dj7nxCO+
-         YtpeZFaVnsl3UPWD2A1aHe7ldKRIrhPcq/oucTzatyq1Rd+24HU0X5fzrBw1lcdZH91q
-         j11w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762240690; x=1762845490;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MTzuXIJmP4zZ1Lttp8cwRd37ZWwl4ogSNFFocfQsRMg=;
-        b=d5+LgUoBaZKftGS54bzWqG5kjE6TpkKBlQkAnDyL6x+TPlp+sUmtsG7d779JvsM7Rn
-         GfHH8G/69aFf+NLf70A7a5lvOe5/qKN2QRu0wkIbpke3NMsZRLitp8wSlyEvbVl52BeA
-         up1V0tkxYfTCXs0zKPE6ZpAb1XheLS/KlAsVy2h0rykfoYVrdugeXPRaN/n+WbwOe7tQ
-         7cGy7pLusgnnO7Yp/qxivS8VVduSlTP6ouVdyzBwEKvdXEjEkXI6jytJd7owfvDKKeD0
-         s4RbCFBF4GpZTGBgteoGHSwNg0qROVKuq93pjHrmhWIxaWkngzgEHNO07X2BdNLl+ju8
-         jVuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBKAmR3hFLkbF/sY/RyCYkPnY8pE5REBMpLkuGXuoEJmnuubG8IenhPq8x6Mk30HK1ZUi6eOtCtCU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykjVGa05kxsAU0SVtWtcFPfc6xzZl4jY0oSmq9KwNZe3e8PHVv
-	t71Hk5zL9fnFS9fS3YGjPrpMBzhDiF+8tOG4DFfJAip0QrHhE5dAmWUOoGtA60jumW1Fa6vAo2O
-	tGBw8Froeepx742qK67MaqQLC3snGGTIw+p7wQCPkUpfF4tHS6DvcG+LtmEah8DHO+dRqAPyccA
-	lrCMtUztutLjJLGY1KdmoOHCulCE3+IfSnWq8IT5kVVXGMLdw6ww==
-X-Gm-Gg: ASbGncugU/huLHMekTqjXJWHBr01PumFuUHOJzBSP6UrXK9TQn/ixDs8huyN1PWcluT
-	GOsrw4hKfQSbcS1FNYsV0qINjZrOQbvsDwaliKSWVzk/xOcN2T7nDzLe5+Mwmig42SYiB+1VfnQ
-	2/2RHeG1euPtPApLwTMS5RP7Af5Tpuk0bwgbhXxc93xYu1XyRC3YcfvJcF
-X-Received: by 2002:ac2:4c4f:0:b0:57e:c1e6:ba8 with SMTP id 2adb3069b0e04-5941d50dcbcmr4947730e87.12.1762240690109;
-        Mon, 03 Nov 2025 23:18:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFa6LnqZyINfI1b6s+9A/MlotDy35EIE1oPO8bxAz3Ccj1BadfcUSCe6jPWhqctv6leB+d0rvY5OjB+9YI3eak=
-X-Received: by 2002:ac2:4c4f:0:b0:57e:c1e6:ba8 with SMTP id
- 2adb3069b0e04-5941d50dcbcmr4947721e87.12.1762240689606; Mon, 03 Nov 2025
- 23:18:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4yROKUV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E8A2C4CEF7;
+	Tue,  4 Nov 2025 07:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762242780;
+	bh=lGIbceyVZgdKoxAlgrENOyuI7iqdDhBBFcc98C3lKn0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=j4yROKUVgRxS9OZJC90/SHA8XCPDVvwVHDTgceh+mCs64FFENtqjNn3VC2cS3YHRS
+	 Vh89i49TvVRT0q9eqdMJYy6UnQ4flTEkFee+vNQ+LDBtPs6JzXOg9rqYQ1l4R+DhcE
+	 OKQGVXbTY9tU25yQyQP/GPDQop+9ZGgyxC6t3ereLkJQbDn6Ob5K1plMoN0NTftZxP
+	 H0zc0vdg/o5PK4tKAehZQ7H8UtwncmtwY6oH+6QVwjaU8ikukGQIRaxvlWW+ISd3QU
+	 to0NJLl+MiSLIdyT3IYNIGJSnGwpG80zYDO7P7ohAcYwUyIFI+7D4Iv2WyVwNsWwgM
+	 89d6ggsAvvugA==
+Date: Tue, 4 Nov 2025 00:52:53 -0700 (MST)
+From: Paul Walmsley <pjw@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+cc: Paul Walmsley <pjw@kernel.org>, Deepak Gupta <debug@rivosinc.com>, 
+    Andy Chiu <andybnac@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+    "H. Peter Anvin" <hpa@zytor.com>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+    Vlastimil Babka <vbabka@suse.cz>, 
+    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+    Paul Walmsley <paul.walmsley@sifive.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
+    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+    =?ISO-8859-15?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Andreas Hindborg <a.hindborg@kernel.org>, 
+    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+    richard.henderson@linaro.org, jim.shu@sifive.com, kito.cheng@sifive.com, 
+    charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com, 
+    cleger@rivosinc.com, alexghiti@rivosinc.com, samitolvanen@google.com, 
+    broonie@kernel.org, rick.p.edgecombe@intel.com, 
+    rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v22 17/28] riscv/signal: save and restore of shadow stack
+ for signal
+In-Reply-To: <d442965b-8716-4f89-be88-bc62459af712@infradead.org>
+Message-ID: <febe1a8a-a68b-1af8-a9d5-1b5f510ecab3@kernel.org>
+References: <20251023-v5_user_cfi_series-v22-0-1935270f7636@rivosinc.com> <20251023-v5_user_cfi_series-v22-17-1935270f7636@rivosinc.com> <a8f469b8-5750-dfec-2390-09bad4515f99@kernel.org> <d442965b-8716-4f89-be88-bc62459af712@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251103125757.1405796-1-linan666@huaweicloud.com>
- <20251103125757.1405796-5-linan666@huaweicloud.com> <CALTww29-7U=o=RzS=pfo-zqLYY_O2o+PXw-8PLXqFRf=wdthvQ@mail.gmail.com>
- <a660478f-b146-05ec-a3f4-f86457b096d0@huaweicloud.com>
-In-Reply-To: <a660478f-b146-05ec-a3f4-f86457b096d0@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Tue, 4 Nov 2025 15:17:56 +0800
-X-Gm-Features: AWmQ_bn4wssZ7JMXroEdNiwVdeEmp206W4p2YKP5GrtWM-x5aZ6_txv7RtiB-oE
-Message-ID: <CALTww29v7kKgDyWqUZnteNqHDEH9_KBRY+HtSMJoquMv0sTwkg@mail.gmail.com>
-Subject: Re: [PATCH v9 4/5] md: add check_new_feature module parameter
-To: Li Nan <linan666@huaweicloud.com>
-Cc: corbet@lwn.net, song@kernel.org, yukuai@fnnas.com, hare@suse.de, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Nov 4, 2025 at 10:52=E2=80=AFAM Li Nan <linan666@huaweicloud.com> w=
-rote:
->
->
->
-> =E5=9C=A8 2025/11/4 9:47, Xiao Ni =E5=86=99=E9=81=93:
-> > On Mon, Nov 3, 2025 at 9:06=E2=80=AFPM <linan666@huaweicloud.com> wrote=
-:
-> >>
-> >> From: Li Nan <linan122@huawei.com>
-> >>
-> >> Raid checks if pad3 is zero when loading superblock from disk. Arrays
-> >> created with new features may fail to assemble on old kernels as pad3
-> >> is used.
-> >>
-> >> Add module parameter check_new_feature to bypass this check.
-> >>
-> >> Signed-off-by: Li Nan <linan122@huawei.com>
-> >> ---
-> >>   drivers/md/md.c | 12 +++++++++---
-> >>   1 file changed, 9 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/md/md.c b/drivers/md/md.c
-> >> index dffc6a482181..5921fb245bfa 100644
-> >> --- a/drivers/md/md.c
-> >> +++ b/drivers/md/md.c
-> >> @@ -339,6 +339,7 @@ static int start_readonly;
-> >>    */
-> >>   static bool create_on_open =3D true;
-> >>   static bool legacy_async_del_gendisk =3D true;
-> >> +static bool check_new_feature =3D true;
-> >>
-> >>   /*
-> >>    * We have a system wide 'event count' that is incremented
-> >> @@ -1850,9 +1851,13 @@ static int super_1_load(struct md_rdev *rdev, s=
-truct md_rdev *refdev, int minor_
-> >>          }
-> >>          if (sb->pad0 ||
-> >>              sb->pad3[0] ||
-> >> -           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(sb-=
->pad3[1])))
-> >> -               /* Some padding is non-zero, might be a new feature */
-> >> -               return -EINVAL;
-> >> +           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(sb-=
->pad3[1]))) {
-> >> +               pr_warn("Some padding is non-zero on %pg, might be a n=
-ew feature\n",
-> >> +                       rdev->bdev);
-> >> +               if (check_new_feature)
-> >> +                       return -EINVAL;
-> >> +               pr_warn("check_new_feature is disabled, data corruptio=
-n possible\n");
-> >> +       }
-> >>
-> >>          rdev->preferred_minor =3D 0xffff;
-> >>          rdev->data_offset =3D le64_to_cpu(sb->data_offset);
-> >> @@ -10704,6 +10709,7 @@ module_param(start_dirty_degraded, int, S_IRUG=
-O|S_IWUSR);
-> >>   module_param_call(new_array, add_named_array, NULL, NULL, S_IWUSR);
-> >>   module_param(create_on_open, bool, S_IRUSR|S_IWUSR);
-> >>   module_param(legacy_async_del_gendisk, bool, 0600);
-> >> +module_param(check_new_feature, bool, 0600);
-> >>
-> >>   MODULE_LICENSE("GPL");
-> >>   MODULE_DESCRIPTION("MD RAID framework");
-> >> --
-> >> 2.39.2
-> >>
-> >
-> > Hi
-> >
-> > Thanks for finding this problem in time. The default of this kernel
-> > module is true. I don't think people can check new kernel modules
-> > after updating to a new kernel. They will find the array can't
-> > assemble and report bugs. You already use pad3, is it good to remove
-> > the check about pad3 directly here?
-> >
-> > By the way, have you run the regression tests?
-> >
-> > Regards
-> > Xiao
-> >
-> >
-> > .
->
-> Hi Xiao.
->
-> Thanks for your review.
->
-> Deleting this check directly is risky. For example, in configurable LBS:
-> if user sets LBS to 4K, the LBS of a RAID array assembled on old kernel
-> becomes 512. Forcing use of this array then risks data loss -- the
-> original issue this feature want to solve.
+Hi Randy,
 
-You're right, we can't delete the check.
-For the old kernel, the array which has specified logical size can't
-be assembled. This patch still can't fix this problem, because it is
-an old kernel and this patch is for a new kernel, right?
-For existing arrays, they don't have such problems. They can be
-assembled after updating to a new kernel.
-So, do we need this patch?
+On Fri, 31 Oct 2025, Randy Dunlap wrote:
 
->
-> Future features may also have similar risks, so instead of deleting this
-> check directly, I chose to add a module parameter to give users a choice.
-> What do you think?
+> 
+> On 10/31/25 1:07 PM, Paul Walmsley wrote:
+> > On Thu, 23 Oct 2025, Deepak Gupta via B4 Relay wrote:
+> > 
+> >> Save shadow stack pointer in sigcontext structure while delivering signal.
+> >> Restore shadow stack pointer from sigcontext on sigreturn.
+> 
+> > This patch causes some 'checkpatch.pl --strict' messages:
+> > 
+> > CHECK: Comparison to NULL could be written "!saved_shstk_ptr"
+> > #271: FILE: arch/riscv/kernel/usercfi.c:186:
+> > +	if (saved_shstk_ptr == NULL)
+> > 
+> > CHECK: Lines should not end with a '('
+> > #300: FILE: arch/riscv/kernel/usercfi.c:215:
+> > +		pr_info_ratelimited(
+> > 
+> > I've fixed them up here in the event that v22 goes in, but please do the 
+> > same on your side in case a new version is needed.
+> 
+> Is checkpatch.pl --strict the norm for arch/riscv/ ?
 
-Maybe we can add a feature bit to avoid the kernel parameter. This
-feature bit can be set when specifying logical block size.
+I run it on every patch I review.  I usually implement the formatting 
+recommendations, in the interest of keeping the codebase formatted in a 
+standard way across submitters.
 
-Regards
-Xiao
->
-> --
-> Thanks,
-> Nan
->
+> If there are enough arch/riscv/-specific patch expectations,
+> maybe they could be documented in Documentation/process/maintainer-riscv.rst
+> (a new file).
+
+It never occurred to me as being arch/riscv specific, in the sense that, 
+if --strict wasn't more broadly useful across the entire kernel tree, then 
+we should just remove it from checkpatch.pl entirely.  In other words, 
+probably everyone should use it.  There are false positive warnings, of 
+course, including at least one with this patch set; but then again, there 
+are regular false positive warnings with non-strict checkpatch (also with 
+this patch set).
+
+In any case, thanks for the suggestion, and will consider.
+
+
+- Paul
 
