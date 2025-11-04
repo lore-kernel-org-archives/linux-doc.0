@@ -1,173 +1,78 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18750257854
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 14:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7C723EA8D;
+	Tue,  4 Nov 2025 14:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762267706; cv=none; b=pGX3UjJrNseK/Kv4dKiEwktxsu2OgN7jxKrMQHm3w/aYKCoWHBup3ZD6tft/ZppeWdNyLdltc663FHKuPPS0xhyg9C/vKfEWLrRC0M7F40oAjODoceCMcUvKuEVYwPCmcCb4PzekOkH87Ku0E/nJoeUyJA1g1Sqr5u9iyG0xl34=
+	t=1762268113; cv=none; b=BMjKvwdZIGKed95NFnCZJe/n9LLzUAGkG5FviJwgYTcqpgfdYYWr/3T4pG896zHYGebD0MnxA179g4HgwGoV4/Xs06h4embpCJfhcYxHwsdXxdel9k4sfCwRAnXnDDKUZSX2sQmdecvj/I+0gluSdEcf3aA1N+0Semoh0dpe10I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762267706; c=relaxed/simple;
-	bh=JMLaYY6hZzPARYlgwS336pFX+gMN7vDHCCMc++BjmpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c8bqr9XKfIQywwDtSkLmfxmJpvXHPB0fvGv960DeCnKQM9jUfS1bteMrxcwnNKYPwhl7Yl1qJxy49nJ+HxlU+8Ga/Wy3XFEMtWbQcUz2TwpfwzhaGzy03CA4SHNE9rh/sWrUa3wuMOsjOdho+cU1p9Cp+Y9yEbxQ6+lu32kYi+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpK9nyZm; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762268113; c=relaxed/simple;
+	bh=VmZq50hBtmCAf+whIr8eq6VsBA9+gQv7xRIwH1iX9Uc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KwGDS+2O+C57n+6QeV1Y/0dHEl0hTmiXyxMERnv4cF9a/gUJBkwxIrC1791KDWcVIzdfRPNxJa055A8SY95akbAs+faBA726gjZfLi0AA9qPFNK5JtihGBOsqi/CsXKtG8dO0Z4LcnVbAAcLoMTF3IGito0oI3qR1GHuc+OJg/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=UhiuzI8Z; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpK9nyZm"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-891208f6185so520792885a.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 06:48:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762267704; x=1762872504; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TYbk9wPxk/JA4+MxrrdLZ/GfKAsrpCoWC70+eUl4rp4=;
-        b=lpK9nyZmhhKVs4MaUwGdwSTH3jpjY2avo4MDRIQ5wFbIO5Lp6laDw2X1rj5LQe5QjX
-         5+0H0RAvSiwas1GTdRFBdguxoK1vTrKbzQ568DJ4NHWmgPF8uNoG2GCBOzQDD6N86uHE
-         k5f52xGDpxZ0N6i2WVXnCR8BP5E5dB/V/IrTkcOsjeEfGAIBvYA243u+4OrTCqa8nP8/
-         toWL2tFpt4wLEgr5wwVVT5kuIPp16zavB0wD7+OLpk2t7UVal3Q00kJgm33k/HeCzmkW
-         gJ6yReeDlpcXjJ3A7UIQ3IFOcgpEYckbC0fCC/e77NJcxwwrtR5ONlGW5oc69M+D4iqQ
-         9lCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762267704; x=1762872504;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TYbk9wPxk/JA4+MxrrdLZ/GfKAsrpCoWC70+eUl4rp4=;
-        b=k99QaW2QMLRnJ3/qEc+43k2itKtfMkNFzWxOSRnZScSxF/Ysan+z86VEjglVq0JfXk
-         6wFs+idAL15iN6fr82wsF+GiYEfuhJFNfIhEBmFKWjVnV5PCZJfc21YBxcJ3KzRcOGCa
-         uA+8X4M+4G+ZBULKz8zVCSixOS4I5mJuQY1wTrwrzBYA1cpHmFJGiIq55QF1WteIIOap
-         UnOgTcIUV1DF/GAWsBZmV58+aBY84sjMHvY2avWVCfj+seJ/ELTtn1ZwMR/gOe4zPD8y
-         HVTbjtR2vlXWgjFYrDmu9w0M1AzTlWYtGod++7deHQD88LUVR+VNo8thH3xdOFZLFjTK
-         D1hw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVZw3qUTG561xdtlNA8SmQHBos+l7245w5ujF3yAtSUyT0xhYbHT1zkf5Fk2ML8nvhF1uA36n5jB8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH/z6o/410YVBkkRcXDVPic2HoNHYLZjLHVyQvQcXipUGe8VfL
-	IXr9et6TYleO303HdPGB/bCuvhz1X8kuELxxaztw5Iw+lqC/o0PPUrs/
-X-Gm-Gg: ASbGncvPpC2l/Jg8PiCOkgiVff9ypIfVaN8Mdi7GDsTvLd++6+wXwre61vTO006ZtAk
-	uiICocV9zYSs5SIxVB6bJ30pNN2yE5fx3khIDIgKxTuCMEqwYQ070dHSjBqSir/hErISaVPosFC
-	T1C9XWlbhX/ofuQcnM/i7mu4rMhaC1NLqdhi7jCzvo1EugLdN6YJjKBXpX5JhnzGNS4SImp1r1q
-	SqVBzhh76ThgqcNWFJo24MpssXLtfjf/BuoIFbcRMa+58p1k5xsUP9WiwVBpEw2TWmj0GQMCQNC
-	EORRgeNJZuRy4b3r6q6ss2e6slHrAnccF1rfw0nuyRCrYGVSXDOrPgvXsLkBhxh/iYtHw/sABWc
-	2H14dMrffqWp2UvC/Y9hff7SUsxQIrPVmNQD8cWOLox/lyaT8A9st/vB0ZfuRje+zBwH/VfFEbu
-	yG+9sxQv/lCyAiMARiUBwPO+cBkJTJk9adcNRgWoB1QDtTFT2g2Wxk4/Hw2/JwaHeD3Q==
-X-Google-Smtp-Source: AGHT+IGmraHbZP2E2iRwXxMxNgGXM9zhZedCgpJV66vhLBH8PzAO8Dn4btILshzP2e0cEKgwNzEvBA==
-X-Received: by 2002:a05:620a:1a27:b0:886:173f:1b4c with SMTP id af79cd13be357-8ab9ba6fd3emr1982205785a.80.1762267703489;
-        Tue, 04 Nov 2025 06:48:23 -0800 (PST)
-Received: from ?IPV6:2600:4040:93b8:5f00:52dd:c164:4581:b7eb? ([2600:4040:93b8:5f00:52dd:c164:4581:b7eb])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b0f543d90csm198693785a.17.2025.11.04.06.48.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 06:48:23 -0800 (PST)
-Message-ID: <78db1fab-e482-4ebc-82ce-ba84b3f561e2@gmail.com>
-Date: Tue, 4 Nov 2025 09:48:21 -0500
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="UhiuzI8Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1762268109;
+	bh=VmZq50hBtmCAf+whIr8eq6VsBA9+gQv7xRIwH1iX9Uc=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=UhiuzI8ZJXOKlzj/YXyOxtHWGwOOhZfjuXO8t6vN4tT8KkVSD7X2ksELSX4EiRGR2
+	 oe4Dv7UwGmLMV7kR8Z+cm6Ji34kWbg+Rh42MJ96Rt5olLzDg7WtLmHUiY25A3vex99
+	 X7XPzziFy/lqrgmJjhs0sAHGsaAmhuknSBHs8szw=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 9F2D71C015F;
+	Tue, 04 Nov 2025 09:55:09 -0500 (EST)
+Message-ID: <50acd6bfbc8b9006bef5d7d0376b7ce4ab35f94c.camel@HansenPartnership.com>
+Subject: Re: [PATCH] Documentation: tpm: tpm-security: Demote "Null Primary
+ Key Certification in Userspace" section
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>,  Linux Integrity
+ <linux-integrity@vger.kernel.org>
+Cc: Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jason Gunthorpe
+	 <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>
+Date: Tue, 04 Nov 2025 09:55:08 -0500
+In-Reply-To: <20251104131312.23791-1-bagasdotme@gmail.com>
+References: <20251104131312.23791-1-bagasdotme@gmail.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/2] net/mlx5: implement swp_l4_csum_mode via
- devlink params
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
- Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
- hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
- Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- Manish Chopra <manishc@marvell.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Vladimir Oltean <olteanv@gmail.com>,
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
- Dave Ertman <david.m.ertman@intel.com>,
- Vlad Dumitrescu <vdumitrescu@nvidia.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rdma@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
- <20251103194554.3203178-3-daniel.zahka@gmail.com>
- <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
- <db5c46b4-cc66-48bb-aafb-40d83dd3620c@gmail.com>
- <6aa2f011-3ba5-4614-950d-d8f0ec62222b@gmail.com>
- <p3pj3mu4mabgninwowqikegeotxgzhc4yptf7qrfhns37bnkoz@ugkbgvlkxqxb>
-Content-Language: en-US
-From: Daniel Zahka <daniel.zahka@gmail.com>
-In-Reply-To: <p3pj3mu4mabgninwowqikegeotxgzhc4yptf7qrfhns37bnkoz@ugkbgvlkxqxb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+On Tue, 2025-11-04 at 20:13 +0700, Bagas Sanjaya wrote:
+> The last section heading in TPM security docs is formatted as title
+> heading instead. As such, it shows up as TPM toctree entry. Demote it
+> to section heading as appropriate.
 
+It's supposed to be a separate heading.  It's explaining how to certify
+your booted kernel rather than describing TPM security within the
+kernel.
 
-On 11/4/25 9:39 AM, Jiri Pirko wrote:
-> Tue, Nov 04, 2025 at 01:51:16PM +0100, daniel.zahka@gmail.com wrote:
->>
->> On 11/4/25 6:38 AM, Daniel Zahka wrote:
->>>
->>> On 11/4/25 5:14 AM, Jiri Pirko wrote:
->>>> I did some research. 0/DEVICE_DEFAULT should not be ever reported back
->>>> from FW. It's purpose is for user to reset to default FW configuration.
->>>> What's the usecase for that? I think you could just avoid
->>>> 0/DEVICE_DEFAULT entirely, for both get and set.
->>> I find that 0/DEVICE_DEFAULT is reported back on my device. I have
->>> observed this same behavior when using the mstconfig tool for setting the
->>> parameter too.
->> e.g.
->> $ dmesg | grep -i mlx | grep -i firmware
->> [   10.165767] mlx5_core 0000:01:00.0: firmware version: 28.46.1006
->>
->> $ ./mstconfig -d 01:00.0 -b ./mlxconfig_host.db query SWP_L4_CHECKSUM_MODE
->>
->> Device #1:
->> ----------
->>
->> Device type:        ConnectX7
->> Name:               CX71143DMC-CDAE_FB_Ax
->> Description:        ConnectX-7 Ethernet adapter card; 100 GbE OCP3.0;
->> Single-port QSFP; Multi Host; 2 Host; PCIe 4.0 x16; Crypto and Secure Boot
->> Device:             01:00.0
->>
->> Configurations:                                          Next Boot
->>          SWP_L4_CHECKSUM_MODE DEVICE_DEFAULT(0)
-> This is next-boot value. You should query current (--enable_verbosity)
-> to show in param get.
+Regards,
 
-I am still seeing that DEVICE_DEFAULT(0) is read back:
-
-$ ./mstconfig --enable_verbosity -d 01:00.0 -b ./mlxconfig_host.db query 
-SWP_L4_CHECKSUM_MODE
-
-Device #1:
-----------
-
-Device type:        ConnectX7
-Name:               CX71143DMC-CDAE_FB_Ax
-Description:        ConnectX-7 Ethernet adapter card; 100 GbE OCP3.0; 
-Single-port QSFP; Multi Host; 2 Host; PCIe 4.0 x16; Crypto and Secure Boot
-Device:             01:00.0
-
-Configurations:                  Default             Current       Next Boot
-         SWP_L4_CHECKSUM_MODE DEVICE_DEFAULT(0) DEVICE_DEFAULT(0)    
-DEVICE_DEFAULT(0)
+James
 
