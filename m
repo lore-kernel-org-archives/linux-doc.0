@@ -1,137 +1,143 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBE923EA8D
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 14:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169EA328B6D
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 14:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762266769; cv=none; b=Yf5o6jz29GrRy9qrhyjJc0l177MKYvLW2lTJ0DuxNcsWSulhIBp/1so5OlFD7LRX7OBb3e31ChNvkLnGv+IaCWR1Y7Qe+HSpgrbg8KcJCC3P7wskegxvn8zKDtFcrFMdFkkBSHwhMSp32LR/FqBijUfLWqoWDy/iTso1Zv+GpD0=
+	t=1762267207; cv=none; b=ZBrR9LLW7ExkA7lj68Gle13Kvqs3cjvVadBvUwNxUl8sEt8ycmGyr9Qmp8Hbayvb4HdkNHVwH2GFyBjjR4O0+GTHXn4ufydnuPzz+PZC0KMwHWPANR2Uekt5onfOHsRPmv6/3pzCDcW8T6ectLE/LPaK385FUDP9s2l1D3ASotg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762266769; c=relaxed/simple;
-	bh=s6xj00J7/R8m5+mYh3Y2P/mCOquMh6MbMiGoIlq9A+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e3SOSVzTOSwRm+6CCjovVOJukC1cOYZrAQ5Siub8UFj4Y50LHyUvnDVGX6tCTD93bIXk2Rja6Mkfv/DVkg7EJWCGjas13TrVOAnJZm/s4oGKYWiVE2lsay2zpk68MNmez5IOzky4BrIr7scaf+eenfrvyW8KVMxNzXVxVs2H31w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E4K0r7+T; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=EawEAxwh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762267207; c=relaxed/simple;
+	bh=ZsrPvleOI3xxeiQePS3/NpD1qyrQbrxTc8ZEeW2EnYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gU7X6d60hWECN2/88auc/eDEtgVR0w/F3v6vjJ7HThH48h7mGJKK4VYIYYtSAuINCknhK4myFAPcn88UECrKMA+Int0TwjEhAMpikL1RQjhabpAZWmPAbrDcGi7hV81cMgqOm3SVprqw2Uii1wNLRm6MzZaKZdQi+f/T1SsQT4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=2MnCpc1K; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E4K0r7+T";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="EawEAxwh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762266766;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vEZHRadoqRgO4IgyXPFxluBKZrkdYFiHDtDy5XP6kDo=;
-	b=E4K0r7+T/2twvEYYoHvtm0NjLz1hq1Izw47UqVfiNJFkcJuX6xjdbyX9yeg+TExx6Vd0hd
-	QRD/3sX+53OZ+FbB/ymR3XqccgD/1xcOw7cEJQrcyOi2FekIoYj0LmvEOnUbXEF8F5ro2J
-	PWV40+QZ67cdZb7McflICgH8SodOCR0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-49-hKpns-lqPgitUgKl0IN1ZA-1; Tue, 04 Nov 2025 09:32:44 -0500
-X-MC-Unique: hKpns-lqPgitUgKl0IN1ZA-1
-X-Mimecast-MFC-AGG-ID: hKpns-lqPgitUgKl0IN1ZA_1762266764
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-476b8c02445so45464855e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 06:32:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="2MnCpc1K"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47754e9cc7fso6372685e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 06:40:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762266763; x=1762871563; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vEZHRadoqRgO4IgyXPFxluBKZrkdYFiHDtDy5XP6kDo=;
-        b=EawEAxwhBYdmAoDecmh4nSkhbY9OH/q4TLNrsHbbe+p5Bdh7HnnZooenv1Uyy/W8aP
-         4JGFZKdP6AnNZzJb/BUZ1R2JlITfHAVJRNvdXvFJgGQtxUnQG+ViasGKhjG8/ub0GUOT
-         gGdWnRW7Nwbm100I62QoLM/STGsLt9xbJzdJWUs5lyLGXf9kIPxaechPtmiU/dkvTzLW
-         a2Nv+/Vn3eJzre+HsrgZhHkn1iO9mvB6uJern6L3oKQUQi2jHTJmCDLP5hV6Yx6aJsDL
-         cRocqJXoVmzR00Oi5mHFVUZDmsx8Q8Yg7xx2qm7VPNjF1wJXHUylFLBfBIfJSJw8Ip0j
-         12eg==
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1762267203; x=1762872003; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rEkFVWT5NBv3AWUofiDX8hOm3L/6oD6jZrSiQV9+dPY=;
+        b=2MnCpc1KYsJrOEdIyvwTisGdFiQuVqXmpc1WZErYJNmqxwTnfqYA54Ttfybi1d0PvI
+         yAukgegu/2jJDatfU1C0raa16Mf0YercoXFgtgYZ5d9oDYQdrsFDQAn60kaOic39W8Ea
+         N6CAKwemTNPaAUUN7gSOZGitxre0qm3hjPVA6i+n0TIM4jAMJWZ+rdPJJ2QzepzxJCeF
+         k3l4DBiDB47poDRUHlSgMfe2gTTPv258dFM2+NPMXK9+ciCmIS8+gdrzwkenie1wIbSC
+         0fno23PnaWTBZZ9555pWUVQKPtiUCdQaLhThO2mWEFHoASnHonksnbu6CMykeO4CKIX4
+         oi9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762266763; x=1762871563;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vEZHRadoqRgO4IgyXPFxluBKZrkdYFiHDtDy5XP6kDo=;
-        b=TLVTK3ExNs1a34QpgWA87MNqBP+mF/mSsDVfixMH45xwYFiwXQCuKiL+HKzb5tTc+q
-         PQGRNKsai+FMt28ug1r9GCnVAV9V8tcsDh5BX+/KTxMPUVu80dZlnhOJk4tjjCVXUSZB
-         PKE3X9a6dHW202XPfm3O4BTnaKp+cBxioMV1ERgIh6pUJshBKwKLScuYlw8560F5ngHU
-         BSgfw3b05DBqe9kUyzZdZw8UqWYboONV6aHbM1p5JhVxCa981by1uj5wY4EmvVfYM/Ip
-         GqigsEEOI22UP+S2tpb+PkNvBqfh3zqjsqh8iUKvztcdbYYS8T7IJCQuBdGn8r5J0QNW
-         5bmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXst/ahrZqhjT24xQMxGTa/yCA377pd6icplAMg+liLpHT15o/8ryuIiuq0FhcNL6wsBHxybjTgIjA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjnjXWdidhbso0+K7oKaPn2QNREuhxGkd4a7ORQKSS5biV2WA2
-	lWooyuFWC0MHWZqVssf7YJL8azlkSfMnAV685Aqvw7bsqTxeDUYKk/B9XlAF8VzZLckYyO6az49
-	9iUuXKNRooVvBQ5C1BCCLBgnobBJc4he6ju4BdXHv1/RacUqzZUy4ew6xcPpx0A==
-X-Gm-Gg: ASbGncupOZ59Zay1ItUiyte7y7hEKPhiEx0LWGZidstVvCb6A105ya0A2VW6jP4bLFe
-	GgnPc0KHxEKyYhSuFh28s6z3eXoKoIeciUz02UG6nleU+uuQd2QJOftks76denxjlj+MPOA+2RZ
-	16N49vOrIXQKNC0id3O4/SYzgMDK7f35VwtXk/0rni+8WHa7d9UTZXtWKRbRtRzJGo9JD5KOxMs
-	39FFeMhaVdSt5it1zC8HVcMdqZA1KLXWb92N7i0bC1I/skkKz/9WJwPy46kr/Dv56yOVrc25GkA
-	neRg00OZtXIrQ1vZNRVmpd0T+wfBExEMmrYC/IhjNVNV6veyDnSsPmz9wgMDUgtCUdMF3AI27qN
-	1Sb3DYiWI5I30ZXrWJig1sFu5T04L23r7Y90VmCIXR3YeCIdA
-X-Received: by 2002:a05:600c:820e:b0:475:e007:baf2 with SMTP id 5b1f17b1804b1-477308b6d72mr149701235e9.41.1762266763627;
-        Tue, 04 Nov 2025 06:32:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHuFO1RurfhxQ8KoSwXSsJCryYZmg5ZaBALPYzQvFuAwcNRk3r60dzVnYtxJMdeRZ/p/LV9eA==
-X-Received: by 2002:a05:600c:820e:b0:475:e007:baf2 with SMTP id 5b1f17b1804b1-477308b6d72mr149700945e9.41.1762266763179;
-        Tue, 04 Nov 2025 06:32:43 -0800 (PST)
-Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558d8a1bsm18898635e9.7.2025.11.04.06.32.41
+        d=1e100.net; s=20230601; t=1762267203; x=1762872003;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rEkFVWT5NBv3AWUofiDX8hOm3L/6oD6jZrSiQV9+dPY=;
+        b=BCB5DycJ3pnmrM5yhuDAPniR7bj0x0gKTH1jx8+Q8bNoD/FxDBItRM1VB5Gxgz17sp
+         +0JSKR7hciiLcYAqKM1KgnzbZSFAiv/aO7VcmmTNnvCNq8fQ29g3i3lhHGTdt+xUWKel
+         pCIfbjlwzpDupHunMxyplc6h+LDZM41+z/jjsxpE9oI73zCR5AZsMF82C7tuqfH3bw0U
+         YisfNAYQkXkjvg92I3vIAp04emYhkE2ckrO0l1wkwVKT3cDVTRc2yVkOUpewVvNhcvHs
+         ftRfPSkQjUJrHSKuxa3BsbfEro/YU2Z8R6li/B04ulgQ0LMeXky97VwL+0IRCX04t+5I
+         QS2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXDxlFfou1fatLFbxXe8dZ2g2jiUpKygE+spYkqEJ/F6/5sZ25KiCdZxwxwHZYnRIUBlxSRVl9l2nI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxld3cu1/LHUA1RvlyT9pNQVujDhhhg3Bq6bKpw7H3x5xPy3XNi
+	+OBBwB3/v0CsTyfcwRDFKl0rgNlyelBlX2wZHnSdd+eKu+Ltx+r0n0uISPVQJB2cYP8=
+X-Gm-Gg: ASbGncutFPVLncE8UHbG04+lzB3GpQ444yO0j+TLxMtiL3w6SDQNa5B4QRkoe5iEu0G
+	xJkfky10keG1bGdisE8LIC47CbCpg1WXBlbNWDwfAUgogpyuCnu36lejuPKk6JAxfuIVRBMQPZP
+	0qvG4CQTOxOcB0E6bchxOVtyqvXQ4htG7OZbYbA0kYGNQuGSHOQ8xqNM3ZQZFbq7BfQ9U5OwPDX
+	Eyl7GvWbGq/GZzLNz2dh3Mn2e29GxExWk7s6s1s0rsb4AEuihLz+RHbf7k2Z31Dc5p4TgNlCmKx
+	IJLbPGPnLYWqANcM6OOaOcpfg6n1Y9Tp37Aglwixzzbb7BWlp5IXniyTDwFdbq1CNQvteLm1KxV
+	l3sQZWs2vG83yPQ0q38aZHjUwcKUd+iPXY5y76BdeGQCbP38w9l8Bmf1Mf6Fyxbu3d2+lfTZyal
+	oiKpth5mTq
+X-Google-Smtp-Source: AGHT+IH+wSpO7CA7uoT1EyqMsmESkKjEBIh7MZyEYgnZ6s42MxUO4LQk7aoyZId0Y8Jc8HF2ped2Fw==
+X-Received: by 2002:a05:600c:1f8f:b0:477:58:7cfe with SMTP id 5b1f17b1804b1-477307e4885mr128649795e9.18.1762267202870;
+        Tue, 04 Nov 2025 06:40:02 -0800 (PST)
+Received: from jiri-mlt ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47755932134sm18947015e9.14.2025.11.04.06.39.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 06:32:42 -0800 (PST)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Alexander Graf <graf@amazon.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Changyuan Lyu <changyuanl@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	kexec@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: extend file entry in KHO to include subdirectories
-Date: Tue,  4 Nov 2025 15:32:38 +0100
-Message-ID: <20251104143238.119803-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.51.1
+        Tue, 04 Nov 2025 06:40:01 -0800 (PST)
+Date: Tue, 4 Nov 2025 15:39:54 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>, 
+	Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, 
+	Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>, 
+	hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, 
+	Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, 
+	Petr Machata <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+	Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean <olteanv@gmail.com>, 
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov <aleksandr.loktionov@intel.com>, 
+	Dave Ertman <david.m.ertman@intel.com>, Vlad Dumitrescu <vdumitrescu@nvidia.com>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+Message-ID: <p3pj3mu4mabgninwowqikegeotxgzhc4yptf7qrfhns37bnkoz@ugkbgvlkxqxb>
+References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
+ <20251103194554.3203178-3-daniel.zahka@gmail.com>
+ <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
+ <db5c46b4-cc66-48bb-aafb-40d83dd3620c@gmail.com>
+ <6aa2f011-3ba5-4614-950d-d8f0ec62222b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6aa2f011-3ba5-4614-950d-d8f0ec62222b@gmail.com>
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Tue, Nov 04, 2025 at 01:51:16PM +0100, daniel.zahka@gmail.com wrote:
+>
+>
+>On 11/4/25 6:38 AM, Daniel Zahka wrote:
+>> 
+>> 
+>> On 11/4/25 5:14 AM, Jiri Pirko wrote:
+>> > I did some research. 0/DEVICE_DEFAULT should not be ever reported back
+>> > from FW. It's purpose is for user to reset to default FW configuration.
+>> > What's the usecase for that? I think you could just avoid
+>> > 0/DEVICE_DEFAULT entirely, for both get and set.
+>> 
+>> I find that 0/DEVICE_DEFAULT is reported back on my device. I have
+>> observed this same behavior when using the mstconfig tool for setting the
+>> parameter too.
+>
+>e.g.
+>$ dmesg | grep -i mlx | grep -i firmware
+>[   10.165767] mlx5_core 0000:01:00.0: firmware version: 28.46.1006
+>
+>$ ./mstconfig -d 01:00.0 -b ./mlxconfig_host.db query SWP_L4_CHECKSUM_MODE
+>
+>Device #1:
+>----------
+>
+>Device type:        ConnectX7
+>Name:               CX71143DMC-CDAE_FB_Ax
+>Description:        ConnectX-7 Ethernet adapter card; 100 GbE OCP3.0;
+>Single-port QSFP; Multi Host; 2 Host; PCIe 4.0 x16; Crypto and Secure Boot
+>Device:             01:00.0
+>
+>Configurations:                                          Next Boot
+>        SWP_L4_CHECKSUM_MODE DEVICE_DEFAULT(0)
 
-Commit 3498209ff64e ("Documentation: add documentation for KHO") adds the
-file entry for 'Documentation/core-api/kho/*'. The asterisk in the end
-means that all files in kho are included, but not files in its
-subdirectories below.
-Hence, the files under Documentation/core-api/kho/bindings/ are not
-considered part of KHO, and get_maintainers.pl does not necessarily add the
-KHO maintainers to the recipients of patches to those files. Probably, this
-is not intended, though, and it was simply an oversight of the detailed
-semantics of such file entries.
-
-Make the file entry to include the subdirectories of
-Documentation/core-api/kho/.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 06ff926c5331..499b52d7793f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13836,7 +13836,7 @@ L:	kexec@lists.infradead.org
- L:	linux-mm@kvack.org
- S:	Maintained
- F:	Documentation/admin-guide/mm/kho.rst
--F:	Documentation/core-api/kho/*
-+F:	Documentation/core-api/kho/
- F:	include/linux/kexec_handover.h
- F:	kernel/kexec_handover.c
- F:	tools/testing/selftests/kho/
--- 
-2.51.1
-
+This is next-boot value. You should query current (--enable_verbosity)
+to show in param get.
