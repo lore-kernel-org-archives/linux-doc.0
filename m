@@ -1,131 +1,122 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC8E19F40A
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 00:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD411DE3DF
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 00:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762216329; cv=none; b=TBTZCqsa99CWYzFHvMBVq4rPYffCzI98sxsxziI4+mvTASWo/DZOHDNeH+PM3D4gs+KC9WSv/mxS5afvwwynChreoKy9SqQS3giFw/AxkZ4WVIxpU97HqAUHT/tAjonwEKoGbkrRqRMaum2QFp1I0Rf1kbHvWXoxeQZDMcwjdYg=
+	t=1762216406; cv=none; b=hoJfDqko2nqTeZ8+4ARpNjcZoGTop151nAPixmTs5GFQSlrPYRaDqWbJyYwFxXTEEt5RDS+ER0tdRRryXLT6In49xmuIN8Gvw/rzagynz7k+cMbKh7QlU49tjmQjNcgCycF32N7bcCrZjrhIjkzra/5psip3r2J0iRX+V+umS/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762216329; c=relaxed/simple;
-	bh=EzjTBAwvU94v/bPzbfeTAElCW//N6OvPe+91MnzlLns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JR9TPNLqZDOFERCDZOjRufcPTUd6+y4hrFmtw86f1pCjrc/AG5vzuyqKlzm75rS/0gTl4ueiRbk4VVniwG4xWrdEDAWG9tbnsZXZAECW+yF2zE+D8D7ZKVhvUxvPXiq78CfUhD/rNmtdmjM2uI14bgo9B4WyFal9V5hKlQ/9nPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VaWT1kTi; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762216406; c=relaxed/simple;
+	bh=TcYju8n2wQ920cf5z4H9pMb0Z3+C7so+Lr81+sHREOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nYHyMkInT6VvW4fUTR50OhFLP7Xq4T6+hPywizpxvBL1+u1qZ8I3Cfe3GeJDNVllPTu6dVGyUIQBp0+hP6JdBGvKJisrAg28YHSlPca5lOBTip3n8yZOhIBz7sFhzeWeYwUnzoBr2GqvD4pJnfhTPRlooxud+NfBiwFiHdXQUJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=SgrADH5w; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VaWT1kTi"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-340c39ee02dso2264365a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 16:32:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="SgrADH5w"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7a9cdf62d31so2741462b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Nov 2025 16:33:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762216328; x=1762821128; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzjTBAwvU94v/bPzbfeTAElCW//N6OvPe+91MnzlLns=;
-        b=VaWT1kTilT9EgtcjN7C08WUKB/4VziE5OCy9zmpmgs1cGYmkMlMYF3Awq/9kk72MpV
-         bNlcdOp88ETlX/40cBNhahzmpZLt1D0iKlRG/UM8eH48nKM27fMMd0y31BveOZUyr5ai
-         rXl9JErfm+98+3P0PIYBUQj48W6/uOZUrIbsqOW4rsXGszOxMI9UdYptyMJ8g+32VGnK
-         Tc0AYWfvt9L6cRg9P6Pq0dEQ9A6P+e61EaNOPMMo/Swh8P07e95uf+rqK/DwJbdZeLQr
-         a8/qZnxHes0ZqirYG2ZhMD6uja3Xp7dykUtz7S4I/vk26dcYkXVH8hCeZw70c7qF+YE3
-         xNEw==
+        d=reznichenko.net; s=google; t=1762216404; x=1762821204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HXCqgHkp/y6Xvj0pMaw2k9PHANDsHwn/e45azlj4aMY=;
+        b=SgrADH5w4yXGc36mKpk81GvbjPUHRY5rwD0u7yX4bfWqHMSc1o6YUY1VBu8ZVLPaTp
+         DYxQDzzwSLlrR7NGLnozsnaL8E6bgnv5XdMY3DDsDFC+Q1PcqNmJtUyuQWNXiEnbXCdb
+         kxHPxgOYwjm4wtaCklx6hY8ki0Uk8fxDoGKDGeeRY19sQM5y7YIMmMiXDw0COKhmlIp/
+         KP7Q307eoUpsYoNbDjQUzyFbSjqj7FfQ3RCP8pu0ugPGSeE9mtFZq9xhvACXq1x/4EnQ
+         m1CaTr6E0UQrZ73zShZzHqjQaf4QPIp1JzUOY5rkAi3zq7dv6LBjyCsWGIJDSmTH72+c
+         gLxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762216328; x=1762821128;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EzjTBAwvU94v/bPzbfeTAElCW//N6OvPe+91MnzlLns=;
-        b=fCoJuOoYf3sv1GjTy4HhqvZ7jpKbBWtG9tkmqaOJiLZDwJaiJKpAzqnbrwypUISV8u
-         Pt+EYmnRxcT8gr6N4EonC0EJ4uFJqtLlXrLTXks7TpJMxVTW4bkRSwhjbUTaPTYhreFP
-         n86KGyOadWJGo2gkf1ckm36yW9LwlW/zDSQ+9/OQCw3dmvklsQfVMLH6HpYY60sdbD+k
-         6SyzXHo7yUFS6BAEeRLsHprRWlbw99zdOBbg7kXx0YofxhmSJmFOYDpALeeng/ispQvx
-         fy50h9mOy6IFxGXxSQo3bmvW027/Dj9CpLXHqEpKKNhgkokT06SCh27O6odzWNQskezG
-         qDNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXchJ0ArfSl/wHBwlHJ2RV3df/xwqcvLrbx56DCrqhogfzCIHesgWC9rToLOBcrE93WjSBe+i+WajY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3Q5mAt52Nnyijjt48jBzPrAlaOACZRjyh4Hb5Bc2d1wgZ6sXU
-	2/o6pDcTlI2WiXyo4JasdC6zQnELvHS0VkUmjYg2Y+fWDT6foTwEf1GV6w9IC+j2pY8=
-X-Gm-Gg: ASbGncvmnbo1PRXhtf1M6N7t7sjP5OSCklv+L9JdI05JE7aDlctGuusmI+XK9StNksL
-	YOX3H5ruFDtaOXh25NDQ7MDyIcU5uBIUYieO5uTRa5dhZ6+t0ZAM8ikq46+As/mmBPJGOELT5Gq
-	j2PXreGRp1HVZucTB09bKZc49Z6xxOsvbV8X5Nc4vg5iweyfJcRFWRn/vXuO+DanKY4fATD8zjy
-	NcwSz9VuMHqvXjcbeP32Kpd8S6ecWxyNtxhry8WGo0aXoLvowLMOuIE4BiS0I7qG68dKlqc6vIr
-	mgqaF9EC4ib++q94Vw4sAiIIHZ2gpcVPdMajTcvJfJ2BpYSRicJtRxUAmcwbMimmKd/6UChx7Mt
-	/+5rMDSES8jdcA9oVLk4CSHTbkkGbY5DDQzOSwXQ5J18MFEbhXlxkeErlcC6n3L1noCH2KCytcA
-	gS
-X-Google-Smtp-Source: AGHT+IFt5SeQ916AMUJsWNb7B1YpkjSR8t7K5b5b9UkptlPUrEQP5Z0SH3NkZ6tNCJj8hZeoDyxvEw==
-X-Received: by 2002:a17:90b:3a8c:b0:335:28e3:81cd with SMTP id 98e67ed59e1d1-34083074e03mr17519671a91.18.1762216327673;
-        Mon, 03 Nov 2025 16:32:07 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415a1c2f30sm2373376a91.7.2025.11.03.16.32.06
+        d=1e100.net; s=20230601; t=1762216404; x=1762821204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HXCqgHkp/y6Xvj0pMaw2k9PHANDsHwn/e45azlj4aMY=;
+        b=nCYdXK00NFuiXe19JnbYHgNLmm1GTgKV8HakvuBEM4kh4+GwlfjtPwMZBsJIHqstve
+         Q4s8mJZRcufEyDejNZsB5ctgpC7CQ9tA0YsjeMKqPpnWzBhhzzXUO1GHH8xJrZhLkAix
+         Gi0wkqliUZnd/MCxU8bA1i73XOphOz8Ou7r1tt+RuMkW+sd3m6wJMd8HMAjXCsedxHUq
+         QKZ5xGGSsqnSk8SIW7TakrdpU85Fk+qDgqXfl1PELhlibU6gOQwypmPgdmDunajwtS/K
+         ac4X64tOkZmFDSKdqTMiz7sjnQ89JKctsvzSF+LA1VqyQPVmaov03eDNwbxyu/5T7QHR
+         B0/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUCmV9zLUAtIpx1ch6hz5yxtQsJI8TZrurSYabt/rdZBdST4EinRpUG5CXWXaLy9gt7cb0XXLw+4Lg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz56n4SatKHP8yVoJYbn0t487p2ChKrorb24Ud6L0V3Ylm1sX+
+	L8Hr5MZm9MaoJyLi27zAR97ZMCOGN8jbYz87syQ60d/ytvq2RVp8ZZo6Nkn3EuawGde0Grz5ZMr
+	nSKUjyesiJg==
+X-Gm-Gg: ASbGnctokg0S8tKaD4FH5u5OZ9I36W2ar0g978oqtOfy4/OcMf1gRPefJTVhHXEjtur
+	SdwWjdtCW7Eq3AZ7b4lvN9seL0z+4ucVgKs8k7z4le6TLfi92BmkigebESDvvht1NDyQU9pZLHz
+	8k/EDP94GXjEzwMGgLMFASsnv8Syw6l1nZgKzGTdIMbw6bKoWRH25UrvI7njp4HTYYGqRBvQqqZ
+	JGC2cEoPdmCKlzYhpfVluGFNXvN1VubdLt0PIF5UVccrXXNTP7e4J6kGEbvDJ6WRNsgdM+UWRtj
+	Dvplzl+pAxh3SQRVH7GxlyFq7xQQrJNZWQ5s8Tk65cnlGSRTLwPAmPshqlv6UatWtr0XywnTX/C
+	L4UfRy0/aUpRnu2SPZ/2efZGxBq2oDihoe+yEKOzY/UEe4hFaWlNnVOs8QNt8L7nHQojeFHMeaF
+	uJ2SyBBB/tBsVy+CqtWw==
+X-Google-Smtp-Source: AGHT+IG5K9xuPSs6yLpF1b4AqM9fFQ4oDhiSJtrDt8p9KL3Qz56dNNylWn90xNwGiCETSOBSEA0SjQ==
+X-Received: by 2002:a17:902:e749:b0:295:7f1d:b031 with SMTP id d9443c01a7336-2957f1db28cmr98709205ad.52.1762216403710;
+        Mon, 03 Nov 2025 16:33:23 -0800 (PST)
+Received: from z440.. ([2601:1c0:4502:2d00:6127:c8ee:79ad:a4c2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba1f9615c9dsm360123a12.36.2025.11.03.16.33.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 16:32:06 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id EC0FA420A6B9; Tue, 04 Nov 2025 07:32:03 +0700 (WIB)
-Date: Tue, 4 Nov 2025 07:32:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, Tomas Glozar <tglozar@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Mon, 03 Nov 2025 16:33:23 -0800 (PST)
+From: Igor Reznichenko <igor@reznichenko.net>
+To: linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net
+Cc: david.hunter.linux@gmail.com,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	John Kacur <jkacur@redhat.com>,
-	Luis Goncalves <lgoncalv@redhat.com>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Crystal Wood <crwood@redhat.com>,
-	Attila Fazekas <afazekas@redhat.com>
-Subject: Re: [PATCH 0/9] Documentation/rtla: Cover default options
-Message-ID: <aQlJg91DeyBptaW8@archie.me>
-References: <20251010083338.478961-1-tglozar@redhat.com>
- <87fraubsfv.fsf@trenco.lwn.net>
+	skhan@linuxfoundation.org
+Subject: [PATCH v3 0/2] hwmon: Add TSC1641 I2C power monitor driver
+Date: Mon,  3 Nov 2025 16:33:18 -0800
+Message-ID: <20251104003320.1120514-1-igor@reznichenko.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o+8Q7yIiXGu8SIGG"
-Content-Disposition: inline
-In-Reply-To: <87fraubsfv.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
 
+This patch series adds support for the ST Microelectronics TSC1641
+I2C power monitor. The TSC1641 provides bus voltage, current, power,
+and temperature measurements via the hwmon subsystem. The driver 
+supports optional ALERT pin polarity configuration and exposes the
+shunt resistor value and update interval via sysfs.
 
---o+8Q7yIiXGu8SIGG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested on Raspberry Pi 3B+ with a TSC1641 evaluation board.
 
-On Mon, Nov 03, 2025 at 04:35:32PM -0700, Jonathan Corbet wrote:
-> Tomas Glozar <tglozar@redhat.com> writes:
->=20
-> > RTLA has many options that have a default value that is used when
-> > the option is not set associated with them. Those are not covered in
-> > the documentation for the options, which creates confusion among users.
-> >
-> > Document the default behavior for all relevant options: -H, -P, -C,
-> > --trace-buffer-size. Some of these are covered in general
-> > descriptions, only missing from the option documentation.
-> >
-> > Also, fix a few typos and incorrect naming of tracers.
->=20
-> So I see that this series is still unapplied...should I take it through
-> docs?
+v2: https://lore.kernel.org/linux-hwmon/20251026065057.627276-1-igor@reznichenko.net/
 
-Of course!
+Changes in v3:
+- Updated devicetree binding to include optional interrupt property
+- Added shunt value clamping
+- Changed limit attributes from lcrit/crit to min/max
+- Improved limit handling to preserve register content,
+  (current limits might not round-trip exactly around extremums due
+  to inevitable rounding)
+- SATF flag handled properly
+- Misc. small fixes
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Igor Reznichenko (2):
+  dt-bindings: hwmon: ST TSC1641 power monitor
+  hwmon: Add TSC1641 I2C power monitor driver
 
---=20
-An old man doll... just what I always wanted! - Clara
+ .../devicetree/bindings/hwmon/st,tsc1641.yaml |  67 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/tsc1641.rst               |  87 ++
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tsc1641.c                       | 748 ++++++++++++++++++
+ 6 files changed, 916 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/st,tsc1641.yaml
+ create mode 100644 Documentation/hwmon/tsc1641.rst
+ create mode 100644 drivers/hwmon/tsc1641.c
 
---o+8Q7yIiXGu8SIGG
-Content-Type: application/pgp-signature; name=signature.asc
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQlJfwAKCRD2uYlJVVFO
-o4kEAP9UdSdSy1/W8h/KlyOlfloHW0w85gSQ+6a7ua03xKekQAD/cExKlLgpyLYY
-xxOrG2MH2kQLhRRifqkbmlKwMtCFAwU=
-=giGM
------END PGP SIGNATURE-----
-
---o+8Q7yIiXGu8SIGG--
