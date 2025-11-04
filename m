@@ -1,111 +1,119 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BB32F3C11
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 13:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9339325717
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 13:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762262021; cv=none; b=EkXyo63Aduyy3uDD5bLEWrusAvNPjOk2u1D96cDU/CZ/sqNUFPmRAGnQd38xs7kdkmlNh93cmy1JGvGV9NORK1gfDFuldj53Cneyz+rvL3ic6sAkunIvsmMlU1yd0XmYUIqwxRhVUBD03g6mqyychYvBmL54vdcMZKAtrMFMYxg=
+	t=1762262952; cv=none; b=n8sk0VzC4djIxp0LMp4a7T0Om6QKpQwSHP0UAv7J8rGrgzPfL6+Ot9Hu8WPgWl8K/UfXRwPJuuTvUwaEIKi4/tTPzMiE5pu2/fI+L/yJ/POkmJksGouZWnvN/agxp6AKYuvVEYc2rvkP2cZVnOx47V8L5ZSOMlVh1xASYP6odJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762262021; c=relaxed/simple;
-	bh=zReFbCpQpq9hx7S5OuXnYnE+WALGscFOwncxZWVvVD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dvM9krc88xRRzudYS6H5TDcGviZC+39TKuo7TKEX0Sx6gsXJHexGyjB701frlUcB1/G8Fwx2YgTYAS8yfk7QUJVmdeHGpzuTGQRvBKucul0c6uTlQn0gb/Au3kxmNLq897x2pFyD/qQdhY7S/QJKi4QaHakXMnVLDVShBKgXU8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlYkb6KR; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1762262952; c=relaxed/simple;
+	bh=jz4XbMEhT14ABokNLSyNocUWmIjvQFrqSNdxYOhl118=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LqN3/ufUpt3h0vfaoshbYUEL+okK9W9bHEZj03HLj78ONKa8yeK9ARX/L+9iJSgkLT/dDmT1iJ2apT4H3wnKTlFT48p3kezZxRS0YlHIrrkqugycoH9tQjz1nI4LezAQQwhFyiTHwmukfjDN+wFrNPQBxTTa/AkycxGeWmUgZ7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlYkb6KR"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-27d3540a43fso54591405ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:13:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762262019; x=1762866819; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQu9QKoK4tGUZ4g1byHHuUCj0MWqs0LgGabAs46ovQI=;
-        b=dlYkb6KR/UW9LKWC9ves9afbFubRq69qhTidO/jqnz4jxTfSKfbh0c8pdOBPUMEpjd
-         ANM/SV4e+opVC47L+0JgEz619QAnnyNk+HM5bQiVQ9sLTiS/2numzUPog15MGLruP08o
-         NHeFyHy2B6Tg4lMzXyZThDP5S6whqybd3Y5s17GiCIRjStBA4wvvtnqxsam48EOYqiMb
-         EGPDR8xGGxync7uy7MAPEjmW/iak2U6qLYlfDXWw8kbrzQx44e4y6xNSxc0jad/yGvrl
-         nR3j5hFOXzVAYSoGiFVPqllo4D7khBoN1tjlcbOwxptjbBkMfWgUx59k3j1Ti3cRt45o
-         wftQ==
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9352980a4f2so947851241.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:29:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762262019; x=1762866819;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1762262947; x=1762867747;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GQu9QKoK4tGUZ4g1byHHuUCj0MWqs0LgGabAs46ovQI=;
-        b=Z5K6Y3MQSUxGKSp460883IuuO87qh+mOhW7MpsdD6/F1b3EkmhZelCA/vptu/UDxaD
-         1NJmWymWEDveuXOVOfztFT9f6leBv8kxNVYBp0qo66x6xr15Vv4cuCSo8CLpZ7oUEb3o
-         BTvE1JgcJjZtZv2ur4iGh/2dK3gxth6wle48dzvPCe7ELU0b9wnvcJjCf7Mase1jK5V3
-         B6SA/eYvmUgKp6qoklbu6vZsPd/ffpeuLzdul7Si9zI2hlSrausGHYkb0NoiIhYTJHN7
-         wHucqcfK9CBhA0hCO/I3A4b24adVOQs+5wNFeQHAAdYKDI39uFeipOdnFlCqm2jBiC92
-         Uvkw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUi6bswLHgq5lPn0qZQyIbL6vQHt1tlggnBgY2IybzjSfgGirUV7tAXwrqeW0CCBAzaVG/Erjb3ho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVUY9BRQbArI40SGLod/WUwk82YTwqeNNjPsQmNUVyuyL/oFzE
-	KgOMeRripxGcpxIoniG+AsjjBrgqeJiIA++GINkX1g3Bw1D2Wqs71Y5u
-X-Gm-Gg: ASbGnctL7qNIV8pTs6jsp8gJaOlbAmpupFtChb4CMUDioc7voxeiysgVOaQkUrZHjXG
-	GJInyqzEDRY2Qj3jAL/iy27fmOFMADAjoYIsAfx4aD1E6Wc6KBjBU6NKdraZdkPAxYBs6q8lsWP
-	Q8CBdQYAkq6D/+nmQ58ANQO+dIz9wvrm+h4NWc11he69PTjwCEW6fGGohZuyLBB/J39Q+u1igSE
-	gSauMIpdQfHxzfBKAXwyHE4AAEc5AJoohjuSJT7niv/1uiXHwX/LWZJWHIXLDLi0IeKq/vMP/fh
-	P4fQ6oYmwaih9x2vUTOTqpWrh59knMl/pP7Q6l697Hg/V2qSsbN1Gk8ElyrNdH1YWVo1xIKSAZu
-	F3eImARPMMRPPPjcFOOFv3sXiBF14IxTzMWNdHfcI71gyq5ErgDwa88h0rsy9J0LfHdLulvOMAb
-	Hu
-X-Google-Smtp-Source: AGHT+IHpp78yI4E7fmdg4RKErbV+vvTaqrD8H4+Tl6H9yDf3Xf2PrS+XAQqFQAashL3w1qH77cAnFQ==
-X-Received: by 2002:a17:903:32c2:b0:295:5da6:6014 with SMTP id d9443c01a7336-2955da66415mr134706725ad.22.1762262018823;
-        Tue, 04 Nov 2025 05:13:38 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-296019729b5sm26887345ad.10.2025.11.04.05.13.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 05:13:38 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 48956420A6A8; Tue, 04 Nov 2025 20:13:27 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Integrity <linux-integrity@vger.kernel.org>
-Cc: Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: tpm: tpm-security: Demote "Null Primary Key Certification in Userspace" section
-Date: Tue,  4 Nov 2025 20:13:12 +0700
-Message-ID: <20251104131312.23791-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        bh=lYDUlHzikfVS+CmiS/PszA+brPtjo5Wdl3Z2oI+5wg4=;
+        b=XAL483xRDKVHj/B6ccO6AnpaO8l0dhNRz1EfEDmggo5tA3/fU5NJtWF9XgS9287khp
+         5nRCFzgEPsk/LdaV53Xn8bqUJeTL741T8dT4WTN4RmjYqZUNPo/N0LY63mzt27xOj/ME
+         4PTVexKA1A9LT2z8ChFxMOpVJeNOsT9v3N2JoOcoS3EmDMd8Bl9oLsgVnGxVZ4+QboTC
+         ZVgjHrTe9WtwozN1xjTAZe5PFc1JmLYrn5qgLZPP/PdVddDyDa2VV2FvmAmbOxFIOoeW
+         Nz9IH039RPwVcV8Q9VhyiVA2qCB2TG0CDSHQkBCzw6EkN8FR+WBx2VkS2t8dUOpo0Mcu
+         2kJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpwhfOVuZOklq63NwWlFq/f9Ue/+mnOXm2eHEUVROyrS38brHIuRXwqQ5wGXUxE1Ky3yo9L9pVyhM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG/pfrTp7w8omcB4aS2udpIICY4N7ARI9xULbCLm1GxUDvhXiE
+	E4JnHJkzEO+wcXiQh/PwGYMNxjpgrAiwoWTQEVw7ayRZSBYAdqtSQ80yqy4FWFhA
+X-Gm-Gg: ASbGncteQ2FzHSjI38wGyRcQIb15n72upbWZVXFMgudhDwB5+Eb0SF8RTsx+/pCgkO/
+	zFBYE8yB0ceNGGk8XdAeyjnBZaAiwgazF8pYDF1GCtf89cSfJ/R/yuUP9Scn9qSewlrl9+V4P03
+	jH15QBCtHwWsMKDKJRfHEJ6sjuOVqaU/6lIMo5nO21nK4dseLlShmT4nSEmsvzeglHzg1mmPydF
+	20JCnhDuMx7/yydH3gdwqqvrCrsN1TEw98Jd5vnGwNAzM3wspgZIeVhL2QJQ6nvubjP2u4kZ/Oj
+	lPIaqOwMkpO8+xiTpgp7VnZedx8ChRtiwMC3xdR3yEp3Wt/snrmQKJR7bh1cui6e7qaSdnkfQJd
+	WhGus+aEY44x2DkgwnZHgDaL7PtGXGY/qesXEb09Ip6TT4plUkKtx4f7QQ+BkXDLYWvsDY1YhyL
+	Baa6xGcO4RrrLAQA+pduk2MYodWBBcG7DgcMRnnOGSprw8TwCWrx2f
+X-Google-Smtp-Source: AGHT+IFNCIwvYCPjyhPVc9e/BmVQBZYctZVOgA6xDYNzXDRtSRTAZQmnl34gQuBNhWWf4kJquQZJ3A==
+X-Received: by 2002:a05:6102:cd2:b0:5db:e64b:f68c with SMTP id ada2fe7eead31-5dbe64bfc99mr2267317137.33.1762262947190;
+        Tue, 04 Nov 2025 05:29:07 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dd83e29f1dsm138143137.13.2025.11.04.05.29.05
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Nov 2025 05:29:06 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-557bf688086so964917e0c.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:29:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXmtkn3muo0+c060C8CnPpWDo3EViUmYhXXr29XmOS0ndMslX09FoTIvhyWea38zQiN8fbwfgAx6ZE=@vger.kernel.org
+X-Received: by 2002:a05:6102:4409:b0:5db:ecdd:1819 with SMTP id
+ ada2fe7eead31-5dbecdd1f41mr1520007137.4.1762262945679; Tue, 04 Nov 2025
+ 05:29:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=bagasdotme@gmail.com; h=from:subject; bh=zReFbCpQpq9hx7S5OuXnYnE+WALGscFOwncxZWVvVD4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJmcv91Wn2n+Py0/tO3Haeca1lyzF8xGxueOf4uY+mTxt TshKpJWHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZhIWzDD/xCPHIYmWafsYBYr mejACZNcgm5f/TxP6+qB+8r/egznCDEyPJZj/BY664JLhHKtoetF1XUlqpLRncuTn5opS+tx3BN nAQA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
+In-Reply-To: <20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Nov 2025 14:28:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
+X-Gm-Features: AWmQ_blcNEGb9JhXjFZhCY93PMFoseFIULDniUnWfKSfhj8iZuZ5UaoNxtqoLrc
+Message-ID: <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3] checkpatch: add uninitialized pointer with
+ __free attribute check
+To: Ally Heev <allyheev@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+	David Hunter <david.hunter.linux@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-The last section heading in TPM security docs is formatted as title
-heading instead. As such, it shows up as TPM toctree entry. Demote it
-to section heading as appropriate.
+Hi Ally,
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/security/tpm/tpm-security.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 4 Nov 2025 at 10:58, Ally Heev <allyheev@gmail.com> wrote:
+> uninitialized pointers with __free attribute can cause undefined
+> behaviour as the memory allocated to the pointer is freed
+> automatically when the pointer goes out of scope.
+> add check in checkpatch to detect such issues
+>
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
 
-diff --git a/Documentation/security/tpm/tpm-security.rst b/Documentation/security/tpm/tpm-security.rst
-index 4f633f2510336b..bf73bbe66db2fa 100644
---- a/Documentation/security/tpm/tpm-security.rst
-+++ b/Documentation/security/tpm/tpm-security.rst
-@@ -153,7 +153,7 @@ protect key sealing and parameter decryption to protect key unsealing
- and random number generation.
- 
- Null Primary Key Certification in Userspace
--===========================================
-+-------------------------------------------
- 
- Every TPM comes shipped with a couple of X.509 certificates for the
- primary endorsement key.  This document assumes that the Elliptic
+Thanks for your patch!
 
-base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -1009,6 +1009,11 @@ Functions and Variables
+>
+>        return bar;
+>
+> +  **UNINITIALIZED_PTR_WITH_FREE**
+> +    Pointers with __free attribute should be initialized. Not doing so
+> +    may lead to undefined behavior as the memory allocated (garbage,
+> +    in case not initialized) to the pointer is freed automatically
+> +    when the pointer goes out of scope.
+
+I think this is misleading, and can be improved: if the pointer is
+uninitialized, no memory was allocated?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-An old man doll... just what I always wanted! - Clara
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
