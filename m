@@ -1,90 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F089C2512EE;
-	Tue,  4 Nov 2025 15:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D769260583
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 15:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762269578; cv=none; b=UTcbTYucOnldsGOvOrB/1j+h5v3SHo3IEbcZD15qnxf6mrrYHnEg+teqEaVaQjMzXnbRkfCZAm0oLmz/LaCBQF8rY696733/iMeKSYtu5p7c8dGUisLUFrKXaOUK8Vj5MBcbsYmpcLpSvQS7YzOI+HuqY9QQdwoujs5MIltLfEM=
+	t=1762270172; cv=none; b=ZkIEYraGxHTIONlmUc7d+bMbW2gEyA7MiuRnuQ1NlzFi+m3zyiBhpo6MkZuFScFTeuD36VbkXh0o3uGUhV9VhucM1a09ix9BdCzpThPUoOWeblssEwIW5evLN0WVEwjeCmeOGmJfHa/y6kjuqmWcuD76K0uQoGid4JI4su7slR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762269578; c=relaxed/simple;
-	bh=k4PWSdB9JPNF7dXkmlfgfPVWmRMPLaoLYeVYkmcgX84=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=i0lc4zPEd/Q5tBI5zhqTZ1nvXZutgR5sEBJzrBMzg9XhNNFkEG2Zyc1+/RSj1dHlGPESZC+iFczY8BZRDWvsC0UuwRbqJkIOAW1yfM9nQhbaE8cPCMsr8bQZV524oweEWpWuo/5fepr/gAHbJlGhsqoP2+kfzQi330GAyEuD2cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgXbrbaw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762270172; c=relaxed/simple;
+	bh=8GNMbexAGe1nKqMzzLVClEkNd7j6DVDRkgcdOMp8ajQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iqo3CllkY/b9Q8yWn1hIGrvfd8by2SAxn5EdMUNIqlOmjlhdd7vFefHVW8Ls32abXPZvroQw8ZFQvyvPjza4XX93r05s/4mBMJQRd8qbjFKWgn8cp50qhqmTfhM0vEgwHgWAvVAkawe1HExtdl8Hyg/lBJxpCEyBTpo/xbV29S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=komXz4R+; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgXbrbaw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1229C4CEF7;
-	Tue,  4 Nov 2025 15:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762269577;
-	bh=k4PWSdB9JPNF7dXkmlfgfPVWmRMPLaoLYeVYkmcgX84=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=YgXbrbawniJRA9mTXZfrvv5psDoKlD7p+oObyOArVrlKfTcatyvO2l4qVYgABbbWQ
-	 GJBxUFaKXE+wRxy5wEYzPDSe6eZMjxsxNBSdF13Y7XI3F7C13mzlAdwnGAc8pjtrN3
-	 lBoeGx3EkOaCwkEPrq2RhAOnMeVe0NyNj4/h2OLTknI6WkeEgdMCZvAelv7S118XkH
-	 vOUgDqW5UXLG2gBBloPAiik4dkDFfJxdCriAO+w28cllo2sIUcr0SbXz4FZPTsGG+f
-	 kuWp5LWxjzuZNuZBjZul4Qk9XB7BlWnPz149vmNlPdlFQrjc2c22oyXCA5nb+5/IV8
-	 rKXN9Uac8PHlA==
-Date: Tue, 4 Nov 2025 09:19:36 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Alexander Graf <graf@amazon.com>, Mike Rapoport <rppt@kernel.org>,
-	Changyuan Lyu <changyuanl@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, kexec@lists.infradead.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: extend file entry in KHO to include
- subdirectories
-Message-ID: <20251104151936.GA1857569@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="komXz4R+"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2959197b68eso196075ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 07:29:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762270170; x=1762874970; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8GNMbexAGe1nKqMzzLVClEkNd7j6DVDRkgcdOMp8ajQ=;
+        b=komXz4R+41dzT/XSiGVn89xk28v1lVjn5ZUX4+R3Vry1fRFm0on3hzx47TViArkgsV
+         64igP4q74IHlHGz/e6WNOhIzO4NoXFVpzWZY5PT6xsU5aMt5urG5Tmgum3HpayNNAR7W
+         qMgE5xpOgsKWwcZiD/HiON3MyShaU7sEGd9iKE/mhwXRZZth+xK/SZMi8eNiy6M2u/JN
+         mu5mOt3DcNFAVsM5g7HUMIvWJa2e7uJ6jJGTK7/tdfqn1iuKZ03YmvQ6604ISnoZsI6F
+         EwQrKMGUNWm7ChO2CPB+o/p4InWbwf4bs/Ew38x9e09dHaSp+1R2iw0gthCKjcs7qe3Y
+         ZcNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762270170; x=1762874970;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8GNMbexAGe1nKqMzzLVClEkNd7j6DVDRkgcdOMp8ajQ=;
+        b=mMkuPmOcUO0bqNf4T91bQ2iRbvNU0QF46TuJEEt9oq9X/SNL+0A7M3SXY+BRJI95E2
+         WsBTDDc93HSG30oCFzWizLoiYbcV1DYbaQco4WqICizCTyDNbbJaY5NLoxvoBdN+yoLp
+         rKdDudy2xaMkGFNoG1OAJwod/kuvcjruzOqx565Of8VRdHPwwXi04820afDpgMC7ILWN
+         1yIzuz2sS6Mb32Wk6amtn3DyGMiHnPb7nIYvcmiAUqOW7O4H2mWb9KvHds3fLt7r7JSY
+         /nRciD0gFyKCQsxa4KO1S/zMZ98oThreuA+C5q+8bLUF4zNJfnL7/vIe1HvZ5D/NfNNT
+         c3hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6D2Gx3DdvnpANNpZW03bCpFDt1lzdhFJZ0TS1xIwMEXNGveUKf3OiazcUueHST4Va94HPTypEmRI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9DC9fcM+0xTeMgbF+bt19ExouLezMCT5FhvYOT7hbpVClQrdT
+	JK8dDOvai0IXonMAs9K9o+LqJ3QgOTjLA3nX4muRfCa2PJZQfD4lev5+tz8izHDBsttSVpZ3SHO
+	lGGOu/qSDCqHgkNXcmpsS5x1HUepHhGTCJc05Qnsv
+X-Gm-Gg: ASbGncssCUQNNGum762NEr2kch2mpxb5tRecE5spvycPge7vDlvfGgK7ez+oxANjVkG
+	w1zvXNLQQhROAoVIs5Luj1owU1Uq0jodRkq/Xeg3WNgmEpbfyq2dxW/TeKEYQ7Ijn0IP6Vwqw4U
+	GwGuF2ESlgbK7XCoffKFSOpShcWLtlQoFU+Bvd7t3LkyWXTExSCUNikoG9IGv3k5GN8+7jJZzlW
+	Dvjt7ke4lOpd6/b0xyerbkKXnoJd951M9s7C8Mrfrw+sbUcwiljM/iUFeinsGsX2uQ028CtqSeb
+	FcedEFY535HnGYhspA==
+X-Google-Smtp-Source: AGHT+IH4UAJnle8ScuJWqynVoBOWdaJhxSn6rAs6bqvidoqyAcb3/mjW+zeWXvxPSrbgnMnIJK48J8HHgBswCtIjjHM=
+X-Received: by 2002:a17:902:c412:b0:294:d42c:ca0f with SMTP id
+ d9443c01a7336-295fd276d54mr4970305ad.2.1762270169379; Tue, 04 Nov 2025
+ 07:29:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104143238.119803-1-lukas.bulwahn@redhat.com>
+References: <cover.1760731772.git.ackerleytng@google.com> <5a4dfc265a46959953e6c24730d22584972b1179.1760731772.git.ackerleytng@google.com>
+ <aQnGJ5agTohMijj8@yzhao56-desk.sh.intel.com>
+In-Reply-To: <aQnGJ5agTohMijj8@yzhao56-desk.sh.intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Tue, 4 Nov 2025 07:29:14 -0800
+X-Gm-Features: AWmQ_bl_ayCFfhnMsugNyyrAbP6HSGsNUxGOugUtPG7U3zm3zMrinB0nHoIiMMY
+Message-ID: <CAGtprH9cajbGWrU9PAZWNKMeKJ9DyhoV=nEYk_DnYnR8Fyapww@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 11/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES
+To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, cgroups@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
+	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
+	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
+	jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com, 
+	jroedel@suse.de, jthoughton@google.com, jun.miao@intel.com, 
+	kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev, 
+	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com, 
+	mail@maciej.szmigiero.name, maobibo@loongson.cn, 
+	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org, 
+	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev, 
+	nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev, palmer@dabbelt.com, 
+	pankaj.gupta@amd.com, paul.walmsley@sifive.com, pbonzini@redhat.com, 
+	peterx@redhat.com, pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, 
+	qperret@google.com, richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk, 
+	rppt@kernel.org, seanjc@google.com, shakeel.butt@linux.dev, shuah@kernel.org, 
+	steven.price@arm.com, steven.sistare@oracle.com, suzuki.poulose@arm.com, 
+	tabba@google.com, tglx@linutronix.de, thomas.lendacky@amd.com, vbabka@suse.cz, 
+	viro@zeniv.linux.org.uk, vkuznets@redhat.com, wei.w.wang@intel.com, 
+	will@kernel.org, willy@infradead.org, wyihan@google.com, xiaoyao.li@intel.com, 
+	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 04, 2025 at 03:32:38PM +0100, Lukas Bulwahn wrote:
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> 
-> Commit 3498209ff64e ("Documentation: add documentation for KHO") adds the
-> file entry for 'Documentation/core-api/kho/*'. The asterisk in the end
-> means that all files in kho are included, but not files in its
-> subdirectories below.
+On Tue, Nov 4, 2025 at 1:27=E2=80=AFAM Yan Zhao <yan.y.zhao@intel.com> wrot=
+e:
+>
+> On Fri, Oct 17, 2025 at 01:11:52PM -0700, Ackerley Tng wrote:
+> > For shared to private conversions, if refcounts on any of the folios
+> > within the range are elevated, fail the conversion with -EAGAIN.
+> >
+> > At the point of shared to private conversion, all folios in range are
+> > also unmapped. The filemap_invalidate_lock() is held, so no faulting
+> > can occur. Hence, from that point on, only transient refcounts can be
+> > taken on the folios associated with that guest_memfd.
+> >
+> > Hence, it is safe to do the conversion from shared to private.
+> >
+> > After conversion is complete, refcounts may become elevated, but that
+> > is fine since users of transient refcounts don't actually access
+> > memory.
+> >
+> > For private to shared conversions, there are no refcount checks. any
+> > transient refcounts are expected to drop their refcounts soon. The
+> > conversion process will spin waiting for these transient refcounts to
+> > go away.
+> Where's the code to spin?
 
-Add blank line between paragraphs as you did below.
-
-> Hence, the files under Documentation/core-api/kho/bindings/ are not
-> considered part of KHO, and get_maintainers.pl does not necessarily add the
-> KHO maintainers to the recipients of patches to those files. Probably, this
-> is not intended, though, and it was simply an oversight of the detailed
-> semantics of such file entries.
-> 
-> Make the file entry to include the subdirectories of
-> Documentation/core-api/kho/.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 06ff926c5331..499b52d7793f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13836,7 +13836,7 @@ L:	kexec@lists.infradead.org
->  L:	linux-mm@kvack.org
->  S:	Maintained
->  F:	Documentation/admin-guide/mm/kho.rst
-> -F:	Documentation/core-api/kho/*
-> +F:	Documentation/core-api/kho/
->  F:	include/linux/kexec_handover.h
->  F:	kernel/kexec_handover.c
->  F:	tools/testing/selftests/kho/
-> -- 
-> 2.51.1
-> 
+When dealing with 4k pages, I think we don't need to spin waiting for
+transient refcounts to drop, that logic will be needed when dealing
+with huge folios in order to restructure them while handling
+conversion. So the specific part can be safely dropped from the commit
+message.
