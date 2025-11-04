@@ -1,119 +1,85 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9339325717
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 13:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D5E1E5B7A
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 14:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762262952; cv=none; b=n8sk0VzC4djIxp0LMp4a7T0Om6QKpQwSHP0UAv7J8rGrgzPfL6+Ot9Hu8WPgWl8K/UfXRwPJuuTvUwaEIKi4/tTPzMiE5pu2/fI+L/yJ/POkmJksGouZWnvN/agxp6AKYuvVEYc2rvkP2cZVnOx47V8L5ZSOMlVh1xASYP6odJ4=
+	t=1762264948; cv=none; b=KhxhNh8Gh6AsQMLFZvvo8BfMKY7S9yR+BN4WeGLHI9FLLG7GSNZRc7cR4NAJeOcyP4JcPGVSP8m1UeUIlsGBcg7t9r8n4KLBKiSZALyspbsm5i54fjQOAjfVrMlUc4oYsPvznoy4no8V1rW4YRSDemNq/hDre/iziJyy9TG0jp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762262952; c=relaxed/simple;
-	bh=jz4XbMEhT14ABokNLSyNocUWmIjvQFrqSNdxYOhl118=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LqN3/ufUpt3h0vfaoshbYUEL+okK9W9bHEZj03HLj78ONKa8yeK9ARX/L+9iJSgkLT/dDmT1iJ2apT4H3wnKTlFT48p3kezZxRS0YlHIrrkqugycoH9tQjz1nI4LezAQQwhFyiTHwmukfjDN+wFrNPQBxTTa/AkycxGeWmUgZ7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9352980a4f2so947851241.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:29:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762262947; x=1762867747;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lYDUlHzikfVS+CmiS/PszA+brPtjo5Wdl3Z2oI+5wg4=;
-        b=XAL483xRDKVHj/B6ccO6AnpaO8l0dhNRz1EfEDmggo5tA3/fU5NJtWF9XgS9287khp
-         5nRCFzgEPsk/LdaV53Xn8bqUJeTL741T8dT4WTN4RmjYqZUNPo/N0LY63mzt27xOj/ME
-         4PTVexKA1A9LT2z8ChFxMOpVJeNOsT9v3N2JoOcoS3EmDMd8Bl9oLsgVnGxVZ4+QboTC
-         ZVgjHrTe9WtwozN1xjTAZe5PFc1JmLYrn5qgLZPP/PdVddDyDa2VV2FvmAmbOxFIOoeW
-         Nz9IH039RPwVcV8Q9VhyiVA2qCB2TG0CDSHQkBCzw6EkN8FR+WBx2VkS2t8dUOpo0Mcu
-         2kJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpwhfOVuZOklq63NwWlFq/f9Ue/+mnOXm2eHEUVROyrS38brHIuRXwqQ5wGXUxE1Ky3yo9L9pVyhM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG/pfrTp7w8omcB4aS2udpIICY4N7ARI9xULbCLm1GxUDvhXiE
-	E4JnHJkzEO+wcXiQh/PwGYMNxjpgrAiwoWTQEVw7ayRZSBYAdqtSQ80yqy4FWFhA
-X-Gm-Gg: ASbGncteQ2FzHSjI38wGyRcQIb15n72upbWZVXFMgudhDwB5+Eb0SF8RTsx+/pCgkO/
-	zFBYE8yB0ceNGGk8XdAeyjnBZaAiwgazF8pYDF1GCtf89cSfJ/R/yuUP9Scn9qSewlrl9+V4P03
-	jH15QBCtHwWsMKDKJRfHEJ6sjuOVqaU/6lIMo5nO21nK4dseLlShmT4nSEmsvzeglHzg1mmPydF
-	20JCnhDuMx7/yydH3gdwqqvrCrsN1TEw98Jd5vnGwNAzM3wspgZIeVhL2QJQ6nvubjP2u4kZ/Oj
-	lPIaqOwMkpO8+xiTpgp7VnZedx8ChRtiwMC3xdR3yEp3Wt/snrmQKJR7bh1cui6e7qaSdnkfQJd
-	WhGus+aEY44x2DkgwnZHgDaL7PtGXGY/qesXEb09Ip6TT4plUkKtx4f7QQ+BkXDLYWvsDY1YhyL
-	Baa6xGcO4RrrLAQA+pduk2MYodWBBcG7DgcMRnnOGSprw8TwCWrx2f
-X-Google-Smtp-Source: AGHT+IFNCIwvYCPjyhPVc9e/BmVQBZYctZVOgA6xDYNzXDRtSRTAZQmnl34gQuBNhWWf4kJquQZJ3A==
-X-Received: by 2002:a05:6102:cd2:b0:5db:e64b:f68c with SMTP id ada2fe7eead31-5dbe64bfc99mr2267317137.33.1762262947190;
-        Tue, 04 Nov 2025 05:29:07 -0800 (PST)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dd83e29f1dsm138143137.13.2025.11.04.05.29.05
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 05:29:06 -0800 (PST)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-557bf688086so964917e0c.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 05:29:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXmtkn3muo0+c060C8CnPpWDo3EViUmYhXXr29XmOS0ndMslX09FoTIvhyWea38zQiN8fbwfgAx6ZE=@vger.kernel.org
-X-Received: by 2002:a05:6102:4409:b0:5db:ecdd:1819 with SMTP id
- ada2fe7eead31-5dbecdd1f41mr1520007137.4.1762262945679; Tue, 04 Nov 2025
- 05:29:05 -0800 (PST)
+	s=arc-20240116; t=1762264948; c=relaxed/simple;
+	bh=Q/dxXV1Q5RSlWNoIQ96VsrMW/R6DOvSX/GQwf+VHe6M=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rTC844l7s2sCp2DkSmCSo5AlMJGPQiyBOTlG2SKodjZ5w0F2BwSUHYTkyol16XNZP0b7g7vhNKmeBjxV7rhn4nQLHQserle6uDWlOrUPNNvS30ZkAO7oFHiQq2Na96zYC/hkjRyP+cBYvj2sU563vGoJ7KVyuAvGaGmJkqAKX1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ioremap.net; spf=pass smtp.mailfrom=ioremap.net; dkim=pass (2048-bit key) header.d=ioremap.net header.i=@ioremap.net header.b=oiB3UxpY; arc=none smtp.client-ip=185.70.43.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ioremap.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ioremap.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ioremap.net header.i=@ioremap.net header.b="oiB3UxpY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ioremap.net;
+	s=protonmail2; t=1762264932; x=1762524132;
+	bh=Q/dxXV1Q5RSlWNoIQ96VsrMW/R6DOvSX/GQwf+VHe6M=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=oiB3UxpYgM151usCu5epVXH/wPv7RCqWaIuSrp1Dn9x2O1tdZ5xF5dOVERCxeVcsO
+	 lq+0vxGCjgqUK4D+qliJ+ex7NNI1wxPDR4p00BhMWWvcfaO+uicJXN6FqqLYAqMIcc
+	 fSwRA646t+Rq9hvV70uZHCqnCRr60nGCsA+i9/MoHEj4b2m+nfsP7YPst31iorxDRX
+	 cSO0puprFS4DDoP3wFnq1XmGmxZtTFPA7XynZ2or21kwQcRIRi665OYdrJExIF8871
+	 WobFzKugo/l8PrIdp/PkiRqei7ciyuwOhQ31JOSp74Hv/poOZlFBzRi+tDvvEPnxkB
+	 E+ICI07Z1BiYw==
+Date: Tue, 04 Nov 2025 14:02:07 +0000
+To: Randy Dunlap <rdunlap@infradead.org>
+From: Eugene Pol <zbr@ioremap.net>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: W1 bad URL
+Message-ID: <I1L_HoQJ5jb8-Y4wUqxp8oWCaqPl2e2bQPG1og65C9eZqD8yl5dfKsA7xm703xM7SrjTvgt0JTVnKxG-qGNKvHnqFgAtXlcH450k9Jl80DQ=@ioremap.net>
+In-Reply-To: <f1914b48-eb9d-400d-aaa1-1346fdaed54e@infradead.org>
+References: <5eb4fa80-7591-422a-9e23-c6661318b705@infradead.org> <f1914b48-eb9d-400d-aaa1-1346fdaed54e@infradead.org>
+Feedback-ID: 136636263:user:proton
+X-Pm-Message-ID: 175e3679c399e3c563d6f55311b30851772cd2ca
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
-In-Reply-To: <20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Nov 2025 14:28:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
-X-Gm-Features: AWmQ_blcNEGb9JhXjFZhCY93PMFoseFIULDniUnWfKSfhj8iZuZ5UaoNxtqoLrc
-Message-ID: <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3] checkpatch: add uninitialized pointer with
- __free attribute check
-To: Ally Heev <allyheev@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
-	David Hunter <david.hunter.linux@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ally,
+Hi Randy
 
-On Tue, 4 Nov 2025 at 10:58, Ally Heev <allyheev@gmail.com> wrote:
-> uninitialized pointers with __free attribute can cause undefined
-> behaviour as the memory allocated to the pointer is freed
-> automatically when the pointer goes out of scope.
-> add check in checkpatch to detect such issues
->
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Ally Heev <allyheev@gmail.com>
+Thanks for CCing me
+ioremap.net URL is no longer valid, the code was moved to https://github.co=
+m/bioothod/w1
 
-Thanks for your patch!
 
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -1009,6 +1009,11 @@ Functions and Variables
->
->        return bar;
->
-> +  **UNINITIALIZED_PTR_WITH_FREE**
-> +    Pointers with __free attribute should be initialized. Not doing so
-> +    may lead to undefined behavior as the memory allocated (garbage,
-> +    in case not initialized) to the pointer is freed automatically
-> +    when the pointer goes out of scope.
 
-I think this is misleading, and can be improved: if the pointer is
-uninitialized, no memory was allocated?
+On Tuesday, November 4th, 2025 at 3:33 AM, Randy Dunlap <rdunlap@infradead.=
+org> wrote:
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>=20
+>=20
+> [adding Evgeniy Polyakov zbr@ioremap.net if that works]
+>=20
+>=20
+>=20
+> On 11/3/25 6:45 PM, Randy Dunlap wrote:
+>=20
+> > Hi Krzysztof,
+> >=20
+> > This URL in w1/w1-netlink.rst seems to have disappeared:
+> >=20
+> > 2. http://www.ioremap.net/archive/w1
+> >=20
+> > This archive includes userspace application w1d.c which uses
+> > read/write/search commands for all master/slave devices found on the bu=
+s.
+> >=20
+> > Are there any other sources of this application for the documentation?
+> >=20
+> > Thanks.
+>=20
+>=20
+> --
+> ~Randy
