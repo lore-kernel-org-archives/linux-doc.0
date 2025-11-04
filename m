@@ -1,76 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BAB1DB13A;
-	Tue,  4 Nov 2025 02:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74267260A;
+	Tue,  4 Nov 2025 02:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762223351; cv=none; b=uUDgvI/bm8FufgrsIBCR1FWUsPb4vL5hsVajyaHC1wm41Xi8G6yupIgWREKn4Y3h3viESKArdfRE8DpT2K3FAKeDUA7ImGkq1ziKJGIriDCO1X1tpbP0EBSb1TfnEWRvOIUpx7L8hGaZJHDgQDA0c5UODM8PbywipbWxGojHm3U=
+	t=1762223421; cv=none; b=U5P/Qb4fjg63kC3QhPVGCUMihmPfttSGeFmoF8JgqUSu6pARXL5Gt7IjgdEJ031JkTik20yiRv4MTks7fKDmPQ94nfJw/PD6g2pKNDNfkBjwDNT53p55DwTkf4EgtGOBly/EF6FupFu6ws/z94TlB/mtjfGk54gwZXJC4RQCif4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762223351; c=relaxed/simple;
-	bh=pUkGEvWXAMj1yK0a7+jPG2xq2wfG+aPJ063IaYqXpMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m8kruINxxGHa7aXkqcTRGt0vQyt7q2rXbMGWASBnwyTCr4YxCl/JuxbkubgKR3ntfYjRfQL69+qpy/aMVJZ0cS/5U4PBdQ3MW/6zM6/rkOJ2YdeLYXS3xvN9MpdO+LParyDhbc+BxcC3ct7PkcclPWIyVoU8aeIq8TsrMZmKrOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GWSGvgvY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762223421; c=relaxed/simple;
+	bh=fxYpS4zNrgdnsLg/kO47yYNbok6j8zNogFxSseVv2m8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=clgFsAUFfZ0rUinIFarRHH9TOFWod9a5jkYZAgJFBoLeVIKSWVjqISlZdv1Reer3zE9N/A5F7QkURocn0jj0mnsq5tdtUpgJoqA2GgrKFaDba9Ur5Mv6Z53uquIBua3VS8ViRQwTTUEp9+mdKB79Sa5yD2fWE2dA4Er4cXSKhVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zl5hiNbc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GWSGvgvY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172D7C4CEE7;
-	Tue,  4 Nov 2025 02:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762223351;
-	bh=pUkGEvWXAMj1yK0a7+jPG2xq2wfG+aPJ063IaYqXpMU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GWSGvgvY32cJJtHK9PbAKOTMU+W7iuhRP0lQY4BlXbiqDf4nkk4jiqOSw5UUrGULe
-	 qSHWnSZsU11bkr5VAO1e7BnFu8Vf5x8q9u4RgiJj2oHAC3XprvmF2wpwQveJFw4F3K
-	 7hh5v9Hll3PwPlepoT4akoJ7EBlTKxdn6Kw/2IwVYqLuKezo30oSRA/eE2v5I8XNkH
-	 6dHlE9ENueGBZgJtSXa0XsaGL3EB1cpcrI04ycf49DwRcqMmNeGOxRXizNNU2KE/NX
-	 0JRZA4Lzho3PcmSmWe0696MXf7NGDKXJ5HfxfBdCsRB8zlXLr2DQh1zd4GNJ7R8AL1
-	 mZqhwaljePpbA==
-Date: Mon, 3 Nov 2025 18:29:09 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, <Markus.Elfring@web.de>,
- <pavan.chebbi@broadcom.com>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
- <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
- <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, Meny Yossefi
- <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>
-Subject: Re: [PATCH net-next v04 0/5] net: hinic3: PF initialization
-Message-ID: <20251103182909.1706a5a4@kernel.org>
-In-Reply-To: <cover.1761711549.git.zhuyikai1@h-partners.com>
-References: <cover.1761711549.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zl5hiNbc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB652C4CEE7;
+	Tue,  4 Nov 2025 02:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1762223421;
+	bh=fxYpS4zNrgdnsLg/kO47yYNbok6j8zNogFxSseVv2m8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zl5hiNbcSkoxQ1H58pOLcKzyCMGZ7HUqkW2nqLjPPwfHsIygnj4artV7/m1JsRJWF
+	 oTIipZrQt/Kn2+ELb8bRObnybWIzAlLylVP9gudMW+r2Wbw861gfdO0usZJ8iSFxYn
+	 2HdO4bT5zcFjRf4aq+Zpu0Pm6U6ja3wbWniY/DxM=
+Date: Tue, 4 Nov 2025 11:30:18 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Srujana Challa <schalla@marvell.com>,
+	Julien Panis <jpanis@baylibre.com>
+Subject: Re: [PATCH] Documentation: misc-devices: Fix C macro cross-reference
+ syntax
+Message-ID: <2025110402-going-swore-319e@gregkh>
+References: <20251104022242.19224-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104022242.19224-1-bagasdotme@gmail.com>
 
-On Wed, 29 Oct 2025 14:16:24 +0800 Fan Gong wrote:
-> This is [1/3] part of hinic3 Ethernet driver second submission.
-> With this patch hinic3 becomes a complete Ethernet driver with
-> pf and vf.
+On Tue, Nov 04, 2025 at 09:22:42AM +0700, Bagas Sanjaya wrote:
+> Macro references in Octeon CN10K and TI TPS6954 docs are erroneously
+> written using :c:macro:: (double colon) rather than :c:macro: (single
+> colon), making these rendered in htmldocs output as italics with
+> verbatim roles. Correct them.
 > 
-> The driver parts contained in this patch:
-> Add support for PF framework based on the VF code.
-> Add PF management interfaces to communicate with HW.
-> Add ops to configure NIC features.
-> Support mac filter to unicast and multicast.
-> Add netdev notifier.
+> Fixes: 5f67eef6dff394 ("misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver")
+> Fixes: dce548889650c1 ("Documentation: Add TI TPS6594 PFSM")
 
-Please try to wrap the code at 80 characters.
-checkpatch --max-line-length=80
-almost all the violations in this series can be easily fixed.
+Please break this up into 2 different patches as you are doing 2
+different things.
 
-For function definitions you can put the return type on separate line:
+thanks,
 
-static struct hinic3_mac_filter *
-hinic3_mac_filter_entry_clone(const struct hinic3_mac_filter *src)
--- 
-pw-bot: cr
+greg k-h
