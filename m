@@ -1,63 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74267260A;
-	Tue,  4 Nov 2025 02:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD3C8634F
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 02:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762223421; cv=none; b=U5P/Qb4fjg63kC3QhPVGCUMihmPfttSGeFmoF8JgqUSu6pARXL5Gt7IjgdEJ031JkTik20yiRv4MTks7fKDmPQ94nfJw/PD6g2pKNDNfkBjwDNT53p55DwTkf4EgtGOBly/EF6FupFu6ws/z94TlB/mtjfGk54gwZXJC4RQCif4=
+	t=1762224334; cv=none; b=ROBpW8BGrz6DsioDuHeCMMhvwfnbVYwa+7W1i//Hdr2iiBunj/gVyw5pu9Tvu5XCFA4KMcdDskLVy1nH2b6N+sic6o741kF/MnnsUfE8daDh1pcLsclcfYNqKtrPTgLUuU/f6IrE3nn37CiE4r4Yfiwb4aPpUgz2xLH2d2C55q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762223421; c=relaxed/simple;
-	bh=fxYpS4zNrgdnsLg/kO47yYNbok6j8zNogFxSseVv2m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=clgFsAUFfZ0rUinIFarRHH9TOFWod9a5jkYZAgJFBoLeVIKSWVjqISlZdv1Reer3zE9N/A5F7QkURocn0jj0mnsq5tdtUpgJoqA2GgrKFaDba9Ur5Mv6Z53uquIBua3VS8ViRQwTTUEp9+mdKB79Sa5yD2fWE2dA4Er4cXSKhVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zl5hiNbc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762224334; c=relaxed/simple;
+	bh=l9rZ6acW8SsPCh2UKcQYsk640DMr0yIUHFV5blAdyyg=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=HBvEWXcoGZZDvZ2EuZZRZlPiE9M92v7JtQNxwPv9pdLzQjjwJckzM2mh4QSyoXEBPaROVSUCWx3xfGNFucYmzaVZHPDkPYFfHRtLkjjHBwXlP5HWwVsjoI4itIQN7b+ONYl+TtzEEwB67HwkUOPATGVAjAYkMApyA4xA1P9Esk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C/wG5fW6; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zl5hiNbc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB652C4CEE7;
-	Tue,  4 Nov 2025 02:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1762223421;
-	bh=fxYpS4zNrgdnsLg/kO47yYNbok6j8zNogFxSseVv2m8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zl5hiNbcSkoxQ1H58pOLcKzyCMGZ7HUqkW2nqLjPPwfHsIygnj4artV7/m1JsRJWF
-	 oTIipZrQt/Kn2+ELb8bRObnybWIzAlLylVP9gudMW+r2Wbw861gfdO0usZJ8iSFxYn
-	 2HdO4bT5zcFjRf4aq+Zpu0Pm6U6ja3wbWniY/DxM=
-Date: Tue, 4 Nov 2025 11:30:18 +0900
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vamsi Attunuru <vattunuru@marvell.com>,
-	Srujana Challa <schalla@marvell.com>,
-	Julien Panis <jpanis@baylibre.com>
-Subject: Re: [PATCH] Documentation: misc-devices: Fix C macro cross-reference
- syntax
-Message-ID: <2025110402-going-swore-319e@gregkh>
-References: <20251104022242.19224-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C/wG5fW6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=EjcocC0HnpAy+uT+t8kfyaZhoBfYZ3HQgkHRKdcaCC0=; b=C/wG5fW6tIPp3XB5HncJC3TDsw
+	+t26At/6LQFRNB3aDsvnmtyOmNgFWXyCKcQT9Gzzo+VHvC68tF3LBb/30gMuqkLJkB94IKKfNujQ8
+	pP+SUCrrqnf2+Vgq3j4mDxPU0ri5D5muniV2PQE/U0UpiSO6vVh5l9Dg+ZBEmVJQjufmFChPlgI8l
+	/HiuhERkr6RvYFvm16RLUYpVjswvrpYRwxrVaUJxXTWGLfV/TIyU7DSyUFfDs7Yav1hD8Al+AhCXH
+	npOI8JHK6LxzQ9Nu32lCNE4HR2HDKjy4O/0VSggg+4uBPLN/XkKho9QSgAPKG6TRZ/2lnGt/w0v/f
+	TocVv/fA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vG72z-0000000B00t-1zod;
+	Tue, 04 Nov 2025 02:45:25 +0000
+Message-ID: <5eb4fa80-7591-422a-9e23-c6661318b705@infradead.org>
+Date: Mon, 3 Nov 2025 18:45:25 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104022242.19224-1-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: W1 bad URL
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 04, 2025 at 09:22:42AM +0700, Bagas Sanjaya wrote:
-> Macro references in Octeon CN10K and TI TPS6954 docs are erroneously
-> written using :c:macro:: (double colon) rather than :c:macro: (single
-> colon), making these rendered in htmldocs output as italics with
-> verbatim roles. Correct them.
-> 
-> Fixes: 5f67eef6dff394 ("misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver")
-> Fixes: dce548889650c1 ("Documentation: Add TI TPS6594 PFSM")
+Hi Krzysztof,
 
-Please break this up into 2 different patches as you are doing 2
-different things.
+This URL in w1/w1-netlink.rst seems to have disappeared:
 
-thanks,
 
-greg k-h
+2. http://www.ioremap.net/archive/w1
+
+   This archive includes userspace application w1d.c which uses
+   read/write/search commands for all master/slave devices found on the bus.
+
+
+
+Are there any other sources of this application for the documentation?
+
+Thanks.
+-- 
+~Randy
+
