@@ -1,177 +1,128 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2BA2E282C
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 11:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC592C21D4
+	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 11:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762254510; cv=none; b=MyoeIOHsjUu2RqR0T1HqdJJxQxk6zBxiCCw9Xyv6DwClqqvKb+LFq13PR5+ez8PgFoDODdAY/ZIcyJnHA9VAV3jiNAF7P9ssNuXUXgNqP5JcZo7CHvvmtAmyvqC9trHcIxnqgvWI1ou3iyYCOhijAIgUsEoTFzSVdNvlxbN18Xs=
+	t=1762256309; cv=none; b=SxFtYx0RK+7Kv5kfpK6n6pJopUKn7JogJx6jcIu/naHVUdxtV5UrsBHk/KTLbE3qh7jGOLyyU71AUDV2fPXf2xhtwZ1wyGVSQE8hSpJGiW3/kxc7bl1wvmMteMaHy0Q52hfcuRqchMBk5kNG6etH6OslYXAO1GJjA14DhsHYOTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762254510; c=relaxed/simple;
-	bh=hGCmoKsbTJZjLqzPr2g+Pp/EUZnTi1S5B2EwX1vZ0U0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=oTsg18ASiQbvf76xbPldJheut++Sf1DQOaAHQJkG6VZbKkTosvhj5PL+q2sguuG3TtzQ/CsPrIhK+QgyKmo0qz68C5DA45OOpSprBJ2/Ys0GDQimDmzo1WPoHoPmVfw3G7m9vI2Ki8eoSTZ9wN8Whwi58CDGyFkmFMNsnjet1Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fOi6cERc; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1762256309; c=relaxed/simple;
+	bh=hcmVkgGfZct0hY4NeXH0SYoiz18CRfDbFXFrEJ5cVuE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tGFmb+CaWxqXYfUCxqcrM3aHJQPd0/s3wV7i895TL69tw1b87EZ8ZyKDagFRRR2A2SgTrQeoy1h8t6ysCSCY4+rOcSSrgHxBejGy5fFTJ/jZCgJ43kxZKEduxUykpgvCNr+4hnf4UVBiVFt8ZjI7RtfjQS6FsaisleU5/67eQM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QFroZgod; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fOi6cERc"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4770c37331fso38737385e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 03:08:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QFroZgod"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88025eb208bso46378256d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 03:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762254505; x=1762859305; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a4cH/AxQtviVkhj7n7m5X/IItvMNFrrOxnPoGxdV9l8=;
-        b=fOi6cERc3oxNKySp93N+xGtpdQTmBLUmZkeP7IiX4XXgPG6lFdOGAFIHaEADyURTxl
-         7Kxddg0lFNrsFDZkwJiMeD0PQvHm2DXbCQqsh77jpMWgqySROtYGzyz7ma3XJeoHIcsp
-         nGJbFzQqKI9fDJe70U/xBwYf9AosmwzziDmgi7uc0T1PqPjUeDZOFRNqffXEpf26Ovwp
-         G6i5Ke4VD14cYJglw3x53i+hkX352Rl3na838EnIMVB6XsYr8G21taJ6cj4XVkH7g+9b
-         tp5JOoIzjh9jXzrN9n2ox9sFzFssx6MO5EqKwCCra5puyFSmVMcKQ4XKC3hqZIaSYjk9
-         0M9g==
+        d=gmail.com; s=20230601; t=1762256306; x=1762861106; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ty8EjZTIjoYFxQNfFxbRC87ROx45/mTNFipe8IcdbeE=;
+        b=QFroZgod4D+9ziUZCoMnTggxTgRI4ChGX+nfrPa2++4cSENOO5vGBEq1rLejaZ6Yr7
+         reeM973uBezYe6TyINBfumEGyR/qkZfW5X1HlqFRDN/t/tO0D/Js2AzZvpiOoNqY+KCE
+         RSyBqfS2e8YICizd+JRB90ALDZfS9G4I2a7rOB1mh0om4c+xPx2qTWY8huey76tMYx4t
+         fUCd9ZiV89loJbm7CZ9e+uxx8m7SELDhH9nLER4OTGR95XTRUb507GmxseVRSE/yomfH
+         F8z7EXP5TlwSCkw8D2eYvL5YcdhDpo51qCeSiqLpBGbBufKS5zfW3dIJWoKHQv9AbbbL
+         0gaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762254505; x=1762859305;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a4cH/AxQtviVkhj7n7m5X/IItvMNFrrOxnPoGxdV9l8=;
-        b=pGLGqVzjFwgcIq0LloKJUt0WHdqr4XIPdDxPXkEHSHFxIybLADzOK1ii4A7JPIlMpF
-         qz86PibgD8vuxRPHryKSyeQEQAzVSVHpN1yDp/+lAkneCpbfhjlQDt/2c8aP3mjbtFwk
-         /+z9Qqm9VFYS1ujhYHFYXASatoD+KJAFiCR6YdiYQu39Eyw+1jQzmFA3wUDH4BbsB6/a
-         nbGFOdKz45pBEsF69es6g9r5ywzK8Na4lEA0BnxF9+0t1hNnvvbKLMuN89NwmV0kCzOD
-         gOGDInUcRRB9OQPsMyWFQAWPFtCEPL8rrlx4tC4wpU7ZsHoaoOjCu2vbGAPW3aFVgEeh
-         16MA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQKelWN7dfvWjihf7uS8uHGCYs5MkJ8yDOnhVOlCepnBIZCT5XkKaKy+va6zMny0nuu20kT3dIZ+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxpb+NytZhlHE0FRz5WPOW0J0rdkBMV19zp+F6PZJNEBZsQViDT
-	6Fj96Og7i99nIQpn9Loa+/vVfCE4fJ0VnSAOEi8tvbK3x1RH5oRjFhOUMXVIy00UgIWJEIuBXeS
-	TabV0mPw2QMth2A==
-X-Google-Smtp-Source: AGHT+IHvMIGMZ3oRYsIKBDomkCS6KVzlMOaVYE+CMhTF6/Om+i57uqifzVXn/OYDK9jNj1kCcP7uTWSdj5qqlA==
-X-Received: from wmbg22.prod.google.com ([2002:a05:600c:a416:b0:477:14b8:19f6])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1549:b0:477:e66:4077 with SMTP id 5b1f17b1804b1-4773089bd5bmr143775885e9.29.1762254504672;
- Tue, 04 Nov 2025 03:08:24 -0800 (PST)
-Date: Tue, 04 Nov 2025 11:08:23 +0000
-In-Reply-To: <aQiJAfO8wiVPko_N@kernel.org>
+        d=1e100.net; s=20230601; t=1762256306; x=1762861106;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ty8EjZTIjoYFxQNfFxbRC87ROx45/mTNFipe8IcdbeE=;
+        b=RzhdE6qD04YtTtl8G7lMoKL9YTxP1Rk56JSumaHFgaj4UDkSgoocM0rSvTiPlJQZJ0
+         sRzSngno/uYMuZ0X0WPJ9qvlhCbk0i2D/rRmh/TMtQibf1Wtn4bejipk8CEsM+wSy9tI
+         ynP1wG1bbS/e6jeNvS6OdzBPKIUndP3YUsfMCA9NgkbdOzaDuS53k7wgfukroyl3KzgQ
+         7GKw0gq3IZvGI6YeYe5T9tLQpXz626lyizF3VBqsuyUFBP2Z39RyyRctemIOhBMtGJFv
+         pJ5hIA6sqq7Gvj2cuwF3PlDxviHQ4U2VwbE6/G1+91ey4oGXY3sLkDmFfIXQH5QprDrP
+         gdfA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhgiasu9JsoG2ICnx+Qcm6FutMcqcA9L19KrQvkbq29F1l38zmbJOXzHT9Q63X7j2rxNnfkzjnY7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6pbwVROKUBAbWZfFoIFrlbSlB4y9SRI/N0apke62atnzSJpYw
+	egKXn6FDL72AIe16JLRhJh+a4eGrCuJQ9O/bZO1ytsIFfcdDHKM6EbaF
+X-Gm-Gg: ASbGnctL8MOxogbitJV/IfWHnmiEXU3df/gDUZwEH+a4bW4WBI/ScHdGeEW25eWh1Jl
+	XYpYq73izNDY9X/wN9OnAV5Eaw4kSCktpG7nb3/tvsaC+9dadngutpJgU8S/ZozmzYxFtuDweJI
+	P9CdXYvExIVxQpNbGyj1MJ2Awopp0BGTsIc97N9ycYzyVzgcoH0bJiAVccvIwAYe4Sb2txlLCPB
+	XXhDQBiohCvLzxComaKnDydSSuOLHSVJpv58/7Uh4zFUwIdYzKWKpszbYM99Ip3bE4bjU06ojNG
+	au3uTo9VTPmVXxLWy30Lbx+dcNwyiCC6KboyjJK3Z0srvh314ka9GNr0UbzZ4g55NFHrjuqxJpc
+	3WXdJMNkxGEAa4i7xDdUT5zdipjiz3++xqc7fiFV+kIf7282n9VkOWgTj0wG/qu+x5orBAZADzs
+	IyFJvRSKyOXdnLm4XvNHuyC9qbinIpuJ90GU3hhjGF03fNNl1+nYf9kpk=
+X-Google-Smtp-Source: AGHT+IHUdWJka00diDOSm3gEz5fAX+m1eynGGsYAsxJbIC9pNdUYm3UTMBl+lsslEkQP9lwiDDKGSg==
+X-Received: by 2002:ad4:5d4d:0:b0:880:54eb:f65f with SMTP id 6a1803df08f44-88054ebf940mr96218996d6.53.1762256306128;
+        Tue, 04 Nov 2025 03:38:26 -0800 (PST)
+Received: from ?IPV6:2600:4040:93b8:5f00:52dd:c164:4581:b7eb? ([2600:4040:93b8:5f00:52dd:c164:4581:b7eb])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88060e9566dsm19023796d6.47.2025.11.04.03.38.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Nov 2025 03:38:25 -0800 (PST)
+Message-ID: <db5c46b4-cc66-48bb-aafb-40d83dd3620c@gmail.com>
+Date: Tue, 4 Nov 2025 06:38:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
- <20250924152214.7292-1-roypat@amazon.co.uk> <20250924152214.7292-2-roypat@amazon.co.uk>
- <DDWOP8GKHESP.2EOY2HGM9RXHU@google.com> <aQXVNuBwEIRBtOc0@kernel.org>
- <DDYZRG8A99D1.2MYZVGBKJNHJW@google.com> <aQiJAfO8wiVPko_N@kernel.org>
-X-Mailer: aerc 0.21.0
-Message-ID: <DDZV32U60137.1HE9JGMU6P1KD@google.com>
-Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from direct map
-From: Brendan Jackman <jackmanb@google.com>
-To: Mike Rapoport <rppt@kernel.org>, Brendan Jackman <jackmanb@google.com>
-Cc: "Roy, Patrick" <roypat@amazon.co.uk>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, 
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>, "joey.gouly@arm.com" <joey.gouly@arm.com>, 
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com" <yuzenghui@huawei.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@redhat.com" <david@redhat.com>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "song@kernel.org" <song@kernel.org>, 
-	"jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>, 
-	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
-	"derekmn@amazon.co.uk" <derekmn@amazon.co.uk>, "tabba@google.com" <tabba@google.com>, 
-	"ackerleytng@google.com" <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Manish Chopra <manishc@marvell.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Vladimir Oltean <olteanv@gmail.com>,
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rdma@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
+ <20251103194554.3203178-3-daniel.zahka@gmail.com>
+ <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
+Content-Language: en-US
+From: Daniel Zahka <daniel.zahka@gmail.com>
+In-Reply-To: <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon Nov 3, 2025 at 10:50 AM UTC, Mike Rapoport wrote:
-> On Mon, Nov 03, 2025 at 10:35:38AM +0000, Brendan Jackman wrote:
->> On Sat Nov 1, 2025 at 9:39 AM UTC, Mike Rapoport wrote:
->> > On Fri, Oct 31, 2025 at 05:30:12PM +0000, Brendan Jackman wrote:
->> >> On Wed Sep 24, 2025 at 3:22 PM UTC, Patrick Roy wrote:
->> >> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
->> >> > index 1d0585616aa3..73a15cade54a 100644
->> >> > --- a/include/linux/kvm_host.h
->> >> > +++ b/include/linux/kvm_host.h
->> >> > @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
->> >> >  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
->> >> >  #endif
->> >> >  
->> >> > +#ifdef CONFIG_KVM_GUEST_MEMFD
->> >> > +#ifndef kvm_arch_gmem_supports_no_direct_map
->> >> > +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
->> >> > +#endif
->> >> > +#endif /* CONFIG_KVM_GUEST_MEMFD */
->> >> 
->> >> The test robot seems happy so I think I'm probably mistaken here, but
->> >> AFAICS can_set_direct_map only exists when ARCH_HAS_SET_DIRECT_MAP,
->> >> which powerpc doesn't set.
->> >
->> > We have stubs returning 0 for architectures that don't have
->> > ARCH_HAS_SET_DIRECT_MAP.
->> 
->> I can't see any such stub for can_set_direct_map() specifically?
->
-> include/linux/set_memory.h:
->
-> #ifndef CONFIG_ARCH_HAS_SET_DIRECT_MAP
-> static inline int set_direct_map_invalid_noflush(struct page *page)
-> {
-> 	return 0;
-> }
-> static inline int set_direct_map_default_noflush(struct page *page)
-> {
-> 	return 0;
-> }
->
-> static inline int set_direct_map_valid_noflush(struct page *page,
-> 					       unsigned nr, bool valid)
-> {
-> 	return 0;
-> }
->
-> static inline bool kernel_page_present(struct page *page)
-> {
-> 	return true;
-> }
-> #else /* CONFIG_ARCH_HAS_SET_DIRECT_MAP */
-> /*
->  * Some architectures, e.g. ARM64 can disable direct map modifications at
->  * boot time. Let them overrive this query.
->  */
-> #ifndef can_set_direct_map
-> static inline bool can_set_direct_map(void)
-> {
-> 	return true;
-> }
-> #define can_set_direct_map can_set_direct_map
 
-But this is for CONFIG_ARCH_HAS_DIRECT_MAP? I am reading this as a stub
-to fill in for archs that have set_direct_map_*, but don't have runtime
-disablement like arm64.
 
-Whereas my concern is archs that don't have set_direct_map_* at all,
-i.e. where we need to unconditionally fail
-GUEST_MEMFG_FLAG_NO_DIRECT_MAP.
+On 11/4/25 5:14 AM, Jiri Pirko wrote:
+> I did some research. 0/DEVICE_DEFAULT should not be ever reported back
+> from FW. It's purpose is for user to reset to default FW configuration.
+> What's the usecase for that? I think you could just avoid
+> 0/DEVICE_DEFAULT entirely, for both get and set.
 
-(Or would we prefer to just not define it at all on those archs? Not
-sure what the norms are there, I guess that's a question for KVM/arch
-maintainers).
-
+I find that 0/DEVICE_DEFAULT is reported back on my device. I have 
+observed this same behavior when using the mstconfig tool for setting 
+the parameter too.
