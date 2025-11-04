@@ -1,97 +1,78 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB9D186E2E;
-	Tue,  4 Nov 2025 00:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC901D5AC6;
+	Tue,  4 Nov 2025 00:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762215121; cv=none; b=pAlhdXkeKs9vf7J4LJRDJoArwS628czQLqSjz90DUKoBOKPL+BEL3GHL7wsllmWxV0MH+9I7dbi52pYxxDdBTvFW4WWaFUUGIGPyfdNI2Z8J8AoxTko2UFHMQO81Ux80LjI2w/qy8i5YO2Hkap9YHUnloexdF+1FXWEWQZd93r8=
+	t=1762215730; cv=none; b=f7n0CnXAZGkuqluHcZHAkpE6caSn6oRUOAkvXvZGsyC1TIvpbRkNq9XLlXMCwu836wpuWYv+NvtK+agIZcZySPeurc2vlaWcYH3s4zMDEtrqHnrITHdeoXD80QPtzNBtBNdXYXqIHzBMIh9VyAXanVY9ZI9mINP4/mrSFe+Qlj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762215121; c=relaxed/simple;
-	bh=Ifrqezm9e5YRFfp+Do4S6PhVVNj4jf79q2anrhIAZxo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLdCbK5LSSs9xpJiAbLKoK8zdKyByZJnRRENcoN+XncaAh6ZgAbBaLAdWfjojWlvuhxB6FRxCo7ipFIbSkacvSDHpi8RGxAUh/HqRHTPEi8AOvI14IgaBnLOSNtO/X0rtEj7rx6MkPmGe4M5VhR8emgPOGa9z9F+M/X4KAs4yJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FAqLf4VS; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FAqLf4VS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=sBxIUpTJeGIY2hXTtX0cnKaghkTbezK2U0dIJnf6z5o=; b=FAqLf4VS6XGvwq8x2O7YH29Dc5
-	EdwE6SDNYPu2xK1SthkHS6lUghrHthPSb4O4uHw31ylZKSO8jW9kJCUsIugY2dLTiFZSUBhs0Z3d3
-	+BCt8pMaiTA5WOpGolxj6kbgV0umUhzptmAB6JPaSjW4C1MKh3kdmbukkASi+jvaO3lijehT7UYL6
-	fL7Gl6kTFcdvYEes2BfgSN1kk55P8mDerSgO3g8OPiSa+v5btofu8ZRYDPy2pBLHSBYEdmRq7l1PO
-	vT6z5gNc2s2cpJUWTCbbxTy+0rzazgmn53bjSUm3U57uvRzdoL51pK8Jgu3gvb6Aimb3rl9BZrJVt
-	uaMw5oCw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG4eR-0000000ApKh-3oUR;
-	Tue, 04 Nov 2025 00:11:55 +0000
-Message-ID: <b7150e4e-7eb9-4dd1-8b9e-7d43159b5c72@infradead.org>
-Date: Mon, 3 Nov 2025 16:11:55 -0800
+	s=arc-20240116; t=1762215730; c=relaxed/simple;
+	bh=l3NqUR/1c3+ouM5VDzArbpFS3AJQLK2NWWrA3dxB9KU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BdlUQVljB+yO78UyHta8jkXvH1B+ZiHLYUVk58aC8WNqEUpGbOU4GE5xk/3f++E7+DN7FzvVuTwIsXlRtYD7eDw3DqTW9T9WuUgHY8NBkebpNEfyn8dLHx2A7FdhzhgHWxUmQaMBg3d5F/lTYTRkWivVeinNWfCHaBAY5/TSeBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 58C9F12A1F2;
+	Tue,  4 Nov 2025 00:21:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id CB3762F;
+	Tue,  4 Nov 2025 00:21:56 +0000 (UTC)
+Date: Mon, 3 Nov 2025 19:22:01 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Tomas Glozar <tglozar@redhat.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, John Kacur <jkacur@redhat.com>, Luis
+ Goncalves <lgoncalv@redhat.com>, Costa Shulyupin <costa.shul@redhat.com>,
+ Crystal Wood <crwood@redhat.com>, Attila Fazekas <afazekas@redhat.com>
+Subject: Re: [PATCH 0/9] Documentation/rtla: Cover default options
+Message-ID: <20251103192201.4a93be06@gandalf.local.home>
+In-Reply-To: <87fraubsfv.fsf@trenco.lwn.net>
+References: <20251010083338.478961-1-tglozar@redhat.com>
+	<87fraubsfv.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 6/9] Documentation: xfrm_sysctl: Trim trailing
- colon in section heading
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>
-References: <20251103015029.17018-2-bagasdotme@gmail.com>
- <20251103015029.17018-8-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251103015029.17018-8-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: CB3762F
+X-Stat-Signature: qzcby539r7akh6sihfzxtaz7cxdbenm5
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/0Jrix/cBmvjpqfIf8KPSDkJQcvfshX38=
+X-HE-Tag: 1762215716-399272
+X-HE-Meta: U2FsdGVkX19ZoGAV6S3yb+r4I7PP9nX2ewM9tGkHqg/gXcm3aQuAAuODFemG6oN3ZxTrX3cs8m7gEjo3pJqzTGFNEazfe/yPl51E2bGM6Y2dFb7KJM0vcxXdsGpDVQjwfqMrPpc/4lqguNs+kPXo8c8ZP9Gsi8YnJUl/AGQEoBgDfhXefFHyrFqANB0eMV38arO8cGzN+MKRrGDdVrM82oL536IbRFXnlQVuY+yIOBhDlUI+7np2181iBIlzj5fsbR3K7kcUIndW+G3PaByWLsLpwWKEC2uiJp5KZ0KtgFkJ4ImxNvAqMRuWFWSYXAEEoqjnePQ2UEthi0N6xdN+1LPTM6KCPzgrYP2G0gFBP2mGCgwmCSW+wX3oi2tYAMz10k7kGQrZH2uuugoeqzHMiX1uuzyoIFyA7pcbo4W4b8S6w65B3lnleA709sW/N6sXoyikk6d34S4Kr7vJrVyRVA==
 
+On Mon, 03 Nov 2025 16:35:32 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-
-On 11/2/25 5:50 PM, Bagas Sanjaya wrote:
-> The sole section heading ("/proc/sys/net/core/xfrm_* Variables") has
-> trailing colon. Trim it.
+> Tomas Glozar <tglozar@redhat.com> writes:
 > 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/networking/xfrm_sysctl.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > RTLA has many options that have a default value that is used when
+> > the option is not set associated with them. Those are not covered in
+> > the documentation for the options, which creates confusion among users.
+> >
+> > Document the default behavior for all relevant options: -H, -P, -C,
+> > --trace-buffer-size. Some of these are covered in general
+> > descriptions, only missing from the option documentation.
+> >
+> > Also, fix a few typos and incorrect naming of tracers.  
 > 
-> diff --git a/Documentation/networking/xfrm_sysctl.rst b/Documentation/networking/xfrm_sysctl.rst
-> index 47b9bbdd017977..7d0c4b17c0bdf1 100644
-> --- a/Documentation/networking/xfrm_sysctl.rst
-> +++ b/Documentation/networking/xfrm_sysctl.rst
-> @@ -4,8 +4,8 @@
->  XFRM Syscall
->  ============
->  
-> -/proc/sys/net/core/xfrm_* Variables:
-> -====================================
-> +/proc/sys/net/core/xfrm_* Variables
-> +===================================
->  
->  xfrm_acq_expires - INTEGER
->  	default 30 - hard timeout in seconds for acquire requests
+> So I see that this series is still unapplied...should I take it through
+> docs?
 
--- 
-~Randy
+Yes please!
+
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+Thanks,
+
+-- Steve
+
