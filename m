@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F41B267B90
-	for <linux-doc@vger.kernel.org>; Tue,  4 Nov 2025 18:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D097E2CCC5;
+	Tue,  4 Nov 2025 18:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762281918; cv=none; b=RgqEpRmy3F/WnDSmOb6XbdtDXZ8iFla+pBUEyZgB6D1jBgTIlkt2D49XqTkHnMJvJlMrOQoEHYJYHzRODLTzh6rPtNVv4nUdr5vOT90mxymeiS/7T2rPt4U7DD+SwkacAIY4HHhUfqAoJl1azlWsEJ76tWqqQncsVcz/Ddoavs8=
+	t=1762282323; cv=none; b=Rx9BdgJYJIgLWSmwiks8XGoH77XwsJtbY3GVtIot2tj+0hqwzeM+jaK45FysQHSt+MkhqXuu/y5vAsZZHEbgI75XF69jJB305QZCHVfluherNdJiuiNuG5Zcgu5AMFVwv3b2WIw2OekMcGu/IoiMGxuQ0Nw5CPEwUXKGo9WD7ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762281918; c=relaxed/simple;
-	bh=7M7xNOlnC8jJWCxShzpADHKKEaml1o1kO9rdrU8GoIE=;
+	s=arc-20240116; t=1762282323; c=relaxed/simple;
+	bh=1xsDy3CZq77wu986Dc+b1hJamxaey3FGk7jDXCOigiM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=slhICqjzgdI4WLj1i8cPw6BDEnKrC7l+wGH7CovvMK4UY//bdac1PgFDGJ5xwRovDMl8RZ+23MA8GgQ5wsDwnwGV+zInE6o4LoKCz/CG6C/LK10GrpJwhwgkGnST+mRMHv5I7/VWWIL6Gc0V030oUSpcW96nT5ObWYhAe/nQc6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jRA4aERR; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=SoaEKx8HuOlx5yohANG2dpRKNO9k6WlJEMEnIjeDj2Msnf1onTfLAyeUIkJIJA5srufjc6RyhbweiZGuBGEShyvicxuVTrxgk2ZF/Hnc1WnhyXKKZ0w66gjW8peYgSmP2YG8ybHKgVdWe2enusQHz80FVMEAkvKK8f67KOdUO2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ko6RLb8y; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jRA4aERR"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ko6RLb8y"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=c/EAd0JHcXRfP/phy8Qqr0XXqOgVxBT1BK1xYOQXyk8=; b=jRA4aERR53RAZzp2OGYj0XGi32
-	PqIzgbmqcApku/VEFZOxAMjhcaZYh6GaBWft3g2CCN9BTTYz/R2NzoBLq0iQ8KQQWlHq7zOUQBRS/
-	+CDROk2KnVuvjPoIe17yxA6KJeT5e3/BofaST9xipcSSYdeZimfGl14gLtw4VvXdsLhDL+9MqfrEH
-	lIAQdUfh+sOGL8FufVv13ZUPHy4PI3xx+bX73gZf/xdDMWPPLJoSZxmjbFNJmEQz5tLloI3gw0SS4
-	AgObMvf2WwaPKVVeL2b3tQFurYfxdhAVOszz54HHPPUpmmh5AFAXB8Jvhnzc2ze6Roz+chmsWFkTH
-	48BU8/aQ==;
+	bh=oanjx6/hmAejRWiag/zsJfndQQOFRDEkA/Am+kiuH5U=; b=ko6RLb8yuC0crboN+f0heVHvjU
+	1Ox/MQF9cdRt+gEPF2fox/XF1iFhZSEGfCqVH2aHqSMQ6p92Jyp0vQhF0BjPXnYFWVb2ahKW/jNDA
+	RIK739Re0WfIFDwEXwoZ9/lZJZTF57B2klVasJp9Pn4N+w/9niDJH3/BuP102k/9g4qjSSF7DvRm6
+	ADLue6FvfeSL0JR/3XfeB2vGu4XjvMuJzSIb0dbuqpK9GVQVgOxK6xuTsOSQ4u6G+eDw4GK17LP5O
+	zcn6hIfH5owYbOC8TrhFcuuQnDbhnpxDD3yXJofiqvGNAq7wRfI5rXfxG8G/180r3C+J9pPEwT1xt
+	FNHfUqsg==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGM1r-0000000CRJV-3E5s;
-	Tue, 04 Nov 2025 18:45:15 +0000
-Message-ID: <69f62fe0-072f-41c4-824b-c7a5ef591e40@infradead.org>
-Date: Tue, 4 Nov 2025 10:45:15 -0800
+	id 1vGM8L-0000000CRWY-1kO9;
+	Tue, 04 Nov 2025 18:51:57 +0000
+Message-ID: <7112b077-d19d-4b85-b2e0-8700dd2951e9@infradead.org>
+Date: Tue, 4 Nov 2025 10:51:56 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,58 +39,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: W1 bad URL
-To: Eugene Pol <zbr@ioremap.net>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>
-References: <5eb4fa80-7591-422a-9e23-c6661318b705@infradead.org>
- <f1914b48-eb9d-400d-aaa1-1346fdaed54e@infradead.org>
- <I1L_HoQJ5jb8-Y4wUqxp8oWCaqPl2e2bQPG1og65C9eZqD8yl5dfKsA7xm703xM7SrjTvgt0JTVnKxG-qGNKvHnqFgAtXlcH450k9Jl80DQ=@ioremap.net>
+Subject: Re: [PATCH v8 04/15] iommupt: Add the AMD IOMMU v1 page table format
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>,
+ Anup Patel <anup@brainfault.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
+ Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <pjw@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>
+Cc: Alexey Kardashevskiy <aik@amd.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ Samiullah Khawaja <skhawaja@google.com>, Vasant Hegde <vasant.hegde@amd.com>
+References: <4-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <I1L_HoQJ5jb8-Y4wUqxp8oWCaqPl2e2bQPG1og65C9eZqD8yl5dfKsA7xm703xM7SrjTvgt0JTVnKxG-qGNKvHnqFgAtXlcH450k9Jl80DQ=@ioremap.net>
+In-Reply-To: <4-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/4/25 6:02 AM, Eugene Pol wrote:
-> Hi Randy
-> 
-> Thanks for CCing me
-> ioremap.net URL is no longer valid, the code was moved to https://github.com/bioothod/w1
-> 
+On 11/4/25 10:30 AM, Jason Gunthorpe wrote:
+> diff --git a/drivers/iommu/generic_pt/Kconfig b/drivers/iommu/generic_pt/Kconfig
+> index a81dfdd72ca016..cbdad222923b26 100644
+> --- a/drivers/iommu/generic_pt/Kconfig
+> +++ b/drivers/iommu/generic_pt/Kconfig
+> @@ -30,4 +30,16 @@ config IOMMU_PT
+>  	  related to struct iommu_domain using GENERIC_PT. It provides a single
+>  	  implementation of the page table operations that can be shared by
+>  	  multiple drivers.
+> +
+> +if IOMMU_PT
+> +config IOMMU_PT_AMDV1
+> +	tristate "IOMMU page table for 64-bit AMD IOMMU v1"
+> +	depends on !GENERIC_ATOMIC64 # for cmpxchg64
+> +	help
+> +	  iommu_domain implementation for the AMD v1 page table. AMDv1 is the
+> +	  "host" page table. It supports granular page sizes of almost every
+> +	  power of 2 and decodes an full 64-bit IOVA space.
 
-Thanks. I'll update the kernel documentation with that URL.
+	                         a full
+or
 
-> 
-> 
-> On Tuesday, November 4th, 2025 at 3:33 AM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
->>
->>
->> [adding Evgeniy Polyakov zbr@ioremap.net if that works]
->>
->>
->>
->> On 11/3/25 6:45 PM, Randy Dunlap wrote:
->>
->>> Hi Krzysztof,
->>>
->>> This URL in w1/w1-netlink.rst seems to have disappeared:
->>>
->>> 2. http://www.ioremap.net/archive/w1
->>>
->>> This archive includes userspace application w1d.c which uses
->>> read/write/search commands for all master/slave devices found on the bus.
->>>
->>> Are there any other sources of this application for the documentation?
->>>
->>> Thanks.
->>
->>
->> --
->> ~Randy
+	                         the full
+
+> +
+> +	  Selected automatically by an IOMMU driver that uses this format.
+> +endif
+
 
 -- 
 ~Randy
