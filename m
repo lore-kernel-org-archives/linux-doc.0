@@ -1,118 +1,128 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCA02C08B0
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 06:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210A121FF2E;
+	Wed,  5 Nov 2025 06:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762324075; cv=none; b=a16a+NsdDtQHtwk1taF96+S8zsFZpzxrKwVHtw0z7HEnzD7aohggYLLgta08zMVWAeEEeIzu+nf6cdbTcsdKD1ga8QlvhKFtmLqDZQAd/GL/uZ4qsDoQd7Dk6X+FacpyRtVcQAu9cyWs+swjel5Q8VFGaGXM9XmFMhblFJtqAG8=
+	t=1762324735; cv=none; b=Vb85TGg+LWdrTa23h3hqfMzJymK//ZQQ0y2USJZ3Z306gnOKpQNuDt7nGstv5wuFAHA8JdTP3aSXvK/08f+pYT0AleoMxx16aPnyAQ28yL7mRT4Xg73rukpktRpX8B3Af+NUodWd4DFYi66Iog93dmAx+aa4oeGn24OJYF2KUGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762324075; c=relaxed/simple;
-	bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F1GYu8AlXIdgyRiuXLdZmu6/V9Wftyhs3r2A1CFww2ZFNOoD2RBCL6/7+GLAqTFSeD88KImU3dcKFRVAmAewTy4rohCCe/nxnO5py2A9yRA3zwaKPavoM9hAoAJWv1PytnGhoQA9RNLdBa+kw8Ser3dvw2J68g8mQ/OkD+5s1qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAmB8hzh; arc=none smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762324735; c=relaxed/simple;
+	bh=fPumA7eDGaOvjZ5e3hO4AGXGDpfqEcmICsMsMtt8SQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GG3cRUllF1B/vCM53nuHrdjgKEMYMCaT25NaVnUMqf5J0669jxN2C/6i7JY/amTZ1c8iflRXMc3kqcEso4om/fOCfAIegIz4ZFdLG0c2rlIXvTt+gm2MoYH1d/OUP8mbH49lfgDKOXckNNNMhCVlKN4Vco9jbASBrVgenrtgbQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxxwByMW; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAmB8hzh"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-633c1b740c5so6007997d50.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 22:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762324070; x=1762928870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
-        b=bAmB8hzheh1D6x4sT7J/wcYSXLztSuWMiWxtsNC1XaO9aI23QWAl/D0usL5rNRJIDn
-         pWVyRatTIWjACN9YcDYcuedkFtFwsOoPSH6u1BLBR5D2MZFyW8m5e6wXUJeaoGsKiyvb
-         Dw5DpMvrhg2BaOC6+6iVa6IKty+HqdcpJq0FESz6hDADickMFfIlEJCOHW3FuE/1Y34z
-         z038RV6NDEtTHOOhNAJi0vi6OAlTxIr7ui52USEuY5iWJoxDTeIAViQfMOl446pR5P1A
-         wERLjaA+rq2HLzRBDo0LTzyo7qx4F85eQ8baa+lzH1DaziR60F3tT/ZUMBssjXVZ7zy5
-         nsgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762324070; x=1762928870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
-        b=SaOBVWd9Y327kqz+GcIdti/+Bc+f2j5mhkjSLROqx8HKQmegL3OjioxjM74dkKawPC
-         aHL/y21qwzlMioFk+q6iXSHqy91Zbv1Z1neyTxiDY1bDcNi2Gn2y5980PeFo+b8P6saP
-         BXjZkrW6KKmXt883O8QYoaTsmP0GnNdyaXrpudekKEgZ7uaNyNBH205L7wXX703yLXti
-         FNJ8y/Icts2RqelJ87QmWi1B+9C87AAx0pLQ0lDm3/d7eXnNVDBy2HGmdy8Q2uA9PCqk
-         RRETLJUQzGJvgBxg8k+64UJupt6deK7yOHNlIaUkGl5hXHacqQi/sT27QX/+/DZuLVWy
-         xGLA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1HyJLyF1iHokjNLyIhR2flhi2bT28WGrzoWw6QeXLVLUvZy3ZUAqdAoYD+M1A/OpK6TeejwSDp9g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya3XqV7eqopEME43VcOV21uHZalduTpLzf7C6+837jNiCwfaJu
-	OxcZHs6CKVsm+6WRgeeOdsr50sDNKUv1hP39Nr88eke3syadaokrBy3/OiAIvUqxwBkNAJV3rZa
-	CIy7uuB76nawCxzLAsaP5F+blqpGJA4Q=
-X-Gm-Gg: ASbGncuF9gTOUTfl1wKyjES1/x0IQdDHfR8AkT9tWG2MVe/uF0EMC9KI0vYgJJS9GKY
-	z08LOCjX7HpnX/7H9BdsjEkMAWuc+hVp9mFcyOHlIS3KabwOJbDySp5NmHkWZAasJ7fjWRrQzeB
-	/qCcTiMDtLXqNB+mZmA/dpy+QRnxQXoKn3r6USB/hJCqloGOkUjCuScj2HVnYEvldo7udscR/zS
-	OdIosYp7ktZoqEC5YuXPwZ8vGEqadpZtUsCP2NEgLCdAFqh2Pp/HjoETLQ=
-X-Google-Smtp-Source: AGHT+IFdiDnyeB/b2R/ETcLVPyA6OCjT4xirxHagJ+oS+nhEajJyKbfrExaD7O6D4NVTjiCeW84j4bp2Z6m2e/DTXUc=
-X-Received: by 2002:a05:690e:159c:20b0:63f:b0ca:dc9e with SMTP id
- 956f58d0204a3-63fd34bb82amr1456004d50.10.1762324070502; Tue, 04 Nov 2025
- 22:27:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxxwByMW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762324733; x=1793860733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fPumA7eDGaOvjZ5e3hO4AGXGDpfqEcmICsMsMtt8SQM=;
+  b=TxxwByMWuNQ9NglFltTLQq+Hg8TKbnw2MUS003gfXSgH8rOGZwu/s+dT
+   ytIOisXuOG8WX/iIPdSwHzTzCZoGONPiN3isZ5sjQHvAecdZGPHAo35Cy
+   R758x+PK7p7eFExisFJMmunUWaPYAQofGC7bGhkvEtJS7biR/cTpiwnIq
+   Ie0Tm3pD43QzodlygfogWoSVgh7rahZNKZI+RNFwrE8E1be16oBZQsk61
+   GfjWMv/pBq+49BJT6p7ZyK7GFzGBUzXYZBMFhq0r3IgTjWwi9TcFVD3J3
+   SackBF0hseo8zKg6O8oHcbg6hUTEz6VvYlSeWeDmPt7/8aS7g3UFu0FFP
+   g==;
+X-CSE-ConnectionGUID: diEMPirLQVybd/uKieUkiQ==
+X-CSE-MsgGUID: NAQ4/EhXRWOuJJcCBd2KRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="68084123"
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="68084123"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 22:38:52 -0800
+X-CSE-ConnectionGUID: BJNVXZDmR7arjquA4TSKhw==
+X-CSE-MsgGUID: v4/ZZh3xSTqLobQrs/fNEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="218016196"
+Received: from ldmartin-desk2.corp.intel.com (HELO ashevche-desk.local) ([10.124.221.135])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 22:38:50 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vGXAM-00000005gwS-1Co9;
+	Wed, 05 Nov 2025 08:38:46 +0200
+Date: Wed, 5 Nov 2025 08:38:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+Message-ID: <aQrw9fWt8SS9cE2u@smile.fi.intel.com>
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+ <0dfa2a07-cc84-4f04-ad2b-ab88cd08d974@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105024016.104413-1-zhaochenguang@kylinos.cn>
-In-Reply-To: <20251105024016.104413-1-zhaochenguang@kylinos.cn>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 5 Nov 2025 14:27:23 +0800
-X-Gm-Features: AWmQ_bneg4qAV5dCrFxkdyh-1rRJWVF-MjuTsznf6NxfRswv34cIIYqMoTC59Gk
-Message-ID: <CAD-N9QVgK24ZRz__BEUG3+yPwYqz+-rLoci0frwvjHafR3HVVA@mail.gmail.com>
-Subject: Re: [PATCH linux-next] docs/zh_CN: Sync the translation of changes in kbuild.rst
-To: Chenguang Zhao <zhaochenguang@kylinos.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0dfa2a07-cc84-4f04-ad2b-ab88cd08d974@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-T24gV2VkLCBOb3YgNSwgMjAyNSBhdCAxMDo0MOKAr0FNIENoZW5ndWFuZyBaaGFvIDx6aGFvY2hl
-bmd1YW5nQGt5bGlub3MuY24+IHdyb3RlOg0KPg0KPiBTeW5jIHRoZSB0cmFuc2xhdGlvbiBvZiBj
-aGFuZ2VzIGluIGtidWlsZC9rYnVpbGQucnN0IGFib3V0DQo+IEtCVUlMRF9CVUlMRF9USU1FU1RB
-TVAuDQoNClBsZWFzZSBmb2xsb3cgaG93LXRvLnJzdFsxXSB0byByZXZpc2UgeW91ciBjb21taXQg
-bWVzc2FnZSBhcyBmb2xsb3dzOg0KDQror7flj4LogIPku6XkuIvkv6Hmga/ov5vooYzovpPlhaU6
-Og0KDQpkb2NzL3poX0NOOiBBZGQgc2VsZi1wcm90ZWN0aW9uIGluZGV4IENoaW5lc2UgdHJhbnNs
-YXRpb24NCg0KVHJhbnNsYXRlIC4uLi9zZWN1cml0eS9zZWxmLXByb3RlY3Rpb24ucnN0IGludG8g
-Q2hpbmVzZS4NCg0KVXBkYXRlIHRoZSB0cmFuc2xhdGlvbiB0aHJvdWdoIGNvbW1pdCBiMDgwZTUy
-MTEwZWENCigiZG9jczogdXBkYXRlIHNlbGYtcHJvdGVjdGlvbiBfX3JvX2FmdGVyX2luaXQgc3Rh
-dHVzIikNCiMg6K+35omn6KGMIGdpdCBsb2cgLS1vbmVsaW5lIDzmgqjnv7vor5HnmoToi7Hmlofm
-lofmoaPot6/lvoQ+77yM5bm25pu/5o2i5LiK6L+w5YaF5a65DQoNClNpZ25lZC1vZmYtYnk6IFlh
-bnRlbmcgU2kgPHNpLnlhbnRlbmdAbGludXguZGV2Pg0KIyDlpoLmnpzmgqjliY3pnaLnmoTmraXp
-qqTmraPnoa7miafooYzvvIzor6XooYzkvJroh6rliqjmmL7npLrvvIzlkKbliJnor7fmo4Dmn6Ug
-Z2l0Y29uZmlnIOaWh+S7tg0KDQrkv53lrZjlubbpgIDlh7rjgIINCg0KWzFdIGh0dHBzOi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90
-cmVlL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3QNCj4NCj4gU2ln
-bmVkLW9mZi1ieTogQ2hlbmd1YW5nIFpoYW8gPHpoYW9jaGVuZ3VhbmdAa3lsaW5vcy5jbj4NCj4g
-LS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9rYnVpbGQva2J1aWxkLnJz
-dCB8IDkgKysrKysrKy0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
-emhfQ04va2J1aWxkL2tidWlsZC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9rYnVpbGQva2J1aWxkLnJzdA0KPiBpbmRleCBlNWUyYWViZTFlYmMuLmJhY2YwNTgyNzJjYSAx
-MDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04va2J1aWxkL2ti
-dWlsZC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04va2J1aWxk
-L2tidWlsZC5yc3QNCj4gQEAgLTI5MCw4ICsyOTAsMTMgQEAgSUdOT1JFX0RJUlMNCj4gIEtCVUlM
-RF9CVUlMRF9USU1FU1RBTVANCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gIOWwhuivpeeO
-r+Wig+WPmOmHj+iuvue9ruS4uuaXpeacn+Wtl+espuS4su+8jOWPr+S7peimhuebluWcqCBVVFNf
-VkVSU0lPTiDlrprkuYnkuK3kvb/nlKjnmoTml7bpl7TmiLMNCj4gLe+8iOi/kOihjOWGheaguOaX
-tueahCB1bmFtZSAtdu+8ieOAguivpeWAvOW/hemhu+aYr+S4gOS4quWPr+S7peS8oOmAkue7mSBk
-YXRlIC1kIOeahOWtl+espuS4suOAgum7mOiupOWAvOaYrw0KPiAt5YaF5qC45p6E5bu65p+Q5Liq
-5pe25Yi755qEIGRhdGUg5ZG95Luk6L6T5Ye644CCDQo+ICvvvIjov5DooYzlhoXmoLjml7bnmoQg
-dW5hbWUgLXbvvInjgILor6XlgLzlv4XpobvmmK/kuIDkuKrlj6/ku6XkvKDpgJLnu5kgZGF0ZSAt
-ZCDnmoTlrZfnrKbkuLLjgILkvovlpoI6Og0KPiArDQo+ICsgICAgICAgJCBLQlVJTERfQlVJTERf
-VElNRVNUQU1QPSJNb24gT2N0IDEzIDAwOjAwOjAwIFVUQyAyMDI1IiBtYWtlDQo+ICsNCj4gK+m7
-mOiupOWAvOaYr+WGheaguOaehOW7uuafkOS4quaXtuWIu+eahCBkYXRlIOWRveS7pOi+k+WHuuOA
-guWmguaenOaPkOS+m+ivpeaXtuaIs++8jOWug+i/mOeUqOS6juS7u+S9lWluaXRyYW1mc+W9kuah
-o+aWh+S7tg0KPiAr5Lit55qEbXRpbWXlrZfmrrXjgIJJbml0cmFtZnMgbXRpbWVz5pivMzLkvY3n
-moTvvIzlm6DmraTml6nkuo5Vbml457qq5YWDMTk3MOW5tO+8jOaIluaZmuS6juWNj+iwg+S4lueV
-jOaXtg0KPiArKFVUQykyMTA25bm0MuaciDfml6U25pe2MjjliIYxNeenkueahOaXpeacn+aYr+aX
-oOaViOeahOOAgg0KPg0KPiAgS0JVSUxEX0JVSUxEX1VTRVIsIEtCVUlMRF9CVUlMRF9IT1NUDQo+
-ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0NCj4gMi4yNS4xDQo+
-DQo+DQo=
+On Tue, Nov 04, 2025 at 03:18:18PM -0800, Randy Dunlap wrote:
+> On 11/4/25 1:55 PM, Andy Shevchenko wrote:
+> > When kernel-doc parses the sections for the documentation some errors
+> > may occur. In many cases the warning is simply stored to the current
+> > "entry" object. However, in the most of such cases this object gets
+> > discarded and there is no way for the output engine to even know about
+> > that. To avoid that, check if the "entry" is going to be discarded and
+> > if there warnings have been collected, issue them to the current logger
+> > as is and then flush the "entry". This fixes the problem that original
+> > Perl implementation doesn't have.
+> > 
+> > As of Linux kernel v6.18-rc4 the reproducer can be:
+> > 
+> > $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> > ...
+> > Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> > ...
+> > 
+> > while with the proposed change applied it gives one more line:
+> > 
+> > $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> > ...
+> > Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> > Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> > ...
+> > 
+> > And with the original Perl script:
+> > 
+> > $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
+> > ...
+> > include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
+> > include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> > ...
+> > 
+> > Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Oh, thank you. I knew that I had been missing some warnings
+
+You're welcome! I Cc'ed to you a couple of 0day reports for the missed
+warnings.
+
+> since I still compare outputs from the 2 kernel-docs (perl vs. python).
+
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thank you! Jon, can we apply this rather sooner to prevent more missing
+warnings, please? If the solution is not good enough, we may amend it
+later.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
