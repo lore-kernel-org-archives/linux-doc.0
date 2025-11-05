@@ -1,116 +1,110 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E49F50F
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3B2F5473
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762385560; cv=none; b=n/wlL+ltcY9R1cJtL8gCIiLNyPRJMUClyCEOixY0GFyir1nlDAFgQ65XgZ7fzm9ZwtX8uGOZdpw6mKqg8s3+dmFYwd9jGZoeoTRwNKHBe0g1mJadh59wAumoWO4H1Og+Sm4rAeZpzXnWkXQejNJLDKj2679tjmS5UdAuIs0mABo=
+	t=1762385981; cv=none; b=ZGzsokAKiqPNNiPRQy6FkY6L6qva/uj/fD+/90QMrk1MqThqRO2JN+ptk8d8MI+Uz5Ud94f5/0c1mZ6CcX8/x/Kza7lItL91+/e18+WrG9t7aojuUXB70Sq/WHioak8UDTotzeiSmr+FdCCLbIsPSS3Q2Rz1jww5WHMMTi5yRWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762385560; c=relaxed/simple;
-	bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UYocUDVBDd9AxUN2kexkLaE2Fj74S2sgGRzpbjm/ry49my/hyMJFRRTiHp4aG3XD57vit8MFMbkX9FfFX4OmMh6Ml29czVH5pXyfrNlcUOVf2puzmvaJyHFwRtheNXk4k0E3R82Cl5Aub3Oc+V86ePW61wNGS3VB7YpNhmScj/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWw1J20y; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762385981; c=relaxed/simple;
+	bh=ad87AQM7onhmSNUoaSc+pJLxvG5glvi5RpIzF5Cyhsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KC3dLfMMputt1ubrF9IUGstehposnmMJYeMkKOTUvGM/pxnENb0WUEAlwjgass0WfClRY5WYxugcPtC0H9sYw4JunLe7aMBrG6LmPLkhMxTj9dU0PHT7b5FUnP7gFBOtqWrXYqKI2UDCiET4oU4L9vKPRSWDUNelfkX+ynu0V8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVIsoozy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWw1J20y"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-295548467c7so3987105ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 15:32:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762385558; x=1762990358; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
-        b=FWw1J20yRloskHdSuQWug5keqgd/8WSM/HclUUIknagWX4nXL+HnS9SzgtDPAhTiTA
-         MfxUQoE4wh3xS/TZGb/eMkxvuzI9RMOR23MLwdJgevFkv6obOvbUnA/JgX5FTgOTqOVH
-         B4ULf/UgKoE5kbXlQ/y9io0kOwJI+ZFhohcY9mdc2lNwY37Y0Z6rbimuOQCnGKlwhuYA
-         TgEDHAxCR4AcFprtUMwUAf46Lm2Y02V8K32mpfXIcfVhfmQHSgpzRnxOmhXIBCLjvi6L
-         ppQOj80IDomIQiZ2dQvGHJ+MgoL84yuFJOvGmIxY7czD0Fa19/p4z5Usms35sBGNcX0j
-         berw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762385558; x=1762990358;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
-        b=ioc/AYg7sg95ySF0CV2tdHH5rMaDlmIpt+UQki3YshWSQRlBCa5YFxqNyelWdzjnbV
-         nlAyWBrnl9yPYE5Dd8jCnI4JZV72TgVbQGcao5NiZHwi+J5pEqjVrjlMYf4CFFIRN3l1
-         VpaLVI1OsOfr/tWqmEvE5JI4ZtN9Gi4cHLZ7yft9cWGHqXUKd4DX3SarrOcc5eKO3gLW
-         yAYYXSBVi5/nJ41CN9sRxBkbG1LdQ+5NHJeQrhe3fIhE/OBUN7JGOR0LhUFoJPYzs9k3
-         ob0p4UaFpoqtKxqC9e51iwClzVFh3lm2vyZXtClIbNwx0QW0/+ceIQwsPKz4xXdx1IUV
-         DTpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWsmsAH2BqJ1TF2ixOiXJKtBcCeoAg3psAuRcr++dmMSEzZKj091tRIz7m+Q+rLxOWcIHnL79lH9Ig=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymaMiRIVHrW+CAb2rphT0VLuWX4pBmVmivN72MYGmddbPIThDK
-	I/bRwELc4QbMA8MMOV2ynkteRnwDvuTWQDRgZcTQWPVcYicBHkXUt8orBAFnBYBh9ZY=
-X-Gm-Gg: ASbGncsvZfYteRXaJ60JOCMzzCvX82qVAiCz2nPWHVygNeP8GYQqi1DvaebcPnX8Yct
-	x+M0vLRCJzbkIDcZ2LwFV16d5HLEozMwLB8ynCBK+OIjiuHbiNZ0D1hjS2vJ/G54pBrY26xpvvp
-	zgFlsLnQbwXqgoG8OeiP6WLT16LEz/dsGQYbOm8VPqbSrRZyCinVl/TS/PD4jUvQvP7SctHIygR
-	BFdpMXm/0lBXUgXtanGedTK0hpWwYQACq7WXu3vzQFoMMGXNcnzE2ObJgFtTjjjQgHJph0pCB/F
-	qVwXuAE0MCEhNTZxfmc6vDV1lD8zpI4RM/nP+YkpKLoR3lkrqH+acXC14Kw07AlAWK+be/EnPf5
-	pot9yinss3YlEhTXeIyAaAhZhM4Y+da8Yn+lf+23OWLJs8Juiu+BKv4wZ2kGGIbJ8IZ+9kTxP5T
-	CBKC/THsmg9F4=
-X-Google-Smtp-Source: AGHT+IEhPmuR4erigmmxR9eFUPzgSmw6sxAsUVA7h4flt4tHbzQCGMOXFc5w95RmdKQlTP3Q4hRRPA==
-X-Received: by 2002:a17:902:d4c7:b0:292:fe19:8896 with SMTP id d9443c01a7336-2962add623emr67834225ad.52.1762385558111;
-        Wed, 05 Nov 2025 15:32:38 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c7c5ccsm6499405ad.57.2025.11.05.15.32.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 15:32:37 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id DC583420A685; Thu, 06 Nov 2025 06:32:29 +0700 (WIB)
-Date: Thu, 6 Nov 2025 06:32:29 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: andrey.bokhanko@huawei.com, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>
-Subject: Re: [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
-Message-ID: <aQvejbf52_GDs9vn@archie.me>
-References: <20251105161450.1730216-1-skorodumov.dmitry@huawei.com>
- <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVIsoozy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E413C2BCAF
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762385981;
+	bh=ad87AQM7onhmSNUoaSc+pJLxvG5glvi5RpIzF5Cyhsc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=CVIsoozyuSjlfoAXmbCPqRSbT8mHch2MetbvDTJp/fS6qdf+Yv4ICD3sbi5HkLG78
+	 ZiWBelrjYvGUxQrNHf3Ysr43RYbqZIEUHJxu0SGbr3QxDTmckm7T45BoTfl4C3LFhX
+	 bNJ2isvx3zN2C7ZCsqsLB1eJRYb99MFf5Z2+of2YZiNxxNSP6Pvh2odbEZWZQghGcU
+	 44YmuaWYdOD4ySJ9yyvbBYRkVwGPgx9NEyYXglJbnLzg8ykkRzk6D1rhHYxik3WgGQ
+	 3z4EcnR2RU2jYi8Mf3amDA+pzDRcEU+c3Ot/xxMvWC0NNdlORUtLx9YfNBZx5K7loM
+	 AaMfBM+Dp08eQ==
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7a226a0798cso389573b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 15:39:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV2Yh+gGMVSer1Ve5OkQ+lRFKjjEkMdcVgilkAKFXDLt6pmRqSS9oQUHOvGYK+afmQt+VcJthEkCvw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJRBwgn9w8Gn9mkGnAFHsEvNe0BGfW5AlPN66Ut0CKfIMip3G/
+	HSJ9R3O5M2tgXBSL0SYXyL90JIwd+q/pjJ0oy4yG0/EGmujNC70I42DCXJ42Cz9mCMfv9PnZKm7
+	QBEsIl2sA3ybcekeXWtEUTeQObkrvZDM=
+X-Google-Smtp-Source: AGHT+IGFgsWp44LDzpMdW8c/K6LA75pMzm1Rzpqpggg6Q6IM8gZfErETvOdNjrRzM710JJF02+xjkLyL0Hw+OKJTdmY=
+X-Received: by 2002:a05:6a20:6a0f:b0:2d9:c2:5ce4 with SMTP id
+ adf61e73a8af0-34f840138bcmr6089035637.7.1762385980658; Wed, 05 Nov 2025
+ 15:39:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aE3/3REKYeQ2PROd"
-Content-Disposition: inline
-In-Reply-To: <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
-
-
---aE3/3REKYeQ2PROd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
+In-Reply-To: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Wed, 5 Nov 2025 15:39:28 -0800
+X-Gmail-Original-Message-ID: <CAKtyLkHfW=cOryV9T4D=RA9-C=cea5DcH9U8jMn8OKAS30PHzA@mail.gmail.com>
+X-Gm-Features: AWmQ_bmNXGHrdDJc6hWNgp1g05sL-4GIVDgJ77DbOJ69D4xJTHR2sRKHobb2cpo
+Message-ID: <CAKtyLkHfW=cOryV9T4D=RA9-C=cea5DcH9U8jMn8OKAS30PHzA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] ipe: add script enforcement mechanism with AT_EXECVE_CHECK
+To: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
+Cc: wufan@kernel.org, paul@paul-moore.com, mic@digikod.net, jmorris@namei.org, 
+	serge@hallyn.com, corbet@lwn.net, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 05, 2025 at 07:14:37PM +0300, Dmitry Skorodumov wrote:
-> +4.4 L2_MACNAT mode:
-> +-------------
+On Wed, Nov 5, 2025 at 3:26=E2=80=AFPM Yanzhu Huang
+<yanzhuhuang@linux.microsoft.com> wrote:
+>
+> Indirect file execution through interpreters (e.g. python script.py, sh
+> script.sh) should have integrity policy enforced by IPE based on the
+> rules. Currently, IPE can only enforce policy on the interpreter binary
+> itself, but has no visibility into the scripts that the interpreter
+> executes.
+>
+> Overview
+> --------
+>
+> This patch series introduces script enforcement for IPE, allowing integri=
+ty
+> evaluation of indirectly executed scripts through the AT_EXECVE_CHECK fla=
+g.
+>
+> Patch 1 adds the core implementation with ipe_bprm_creds_for_exec() hook
+> that integrates with the AT_EXECVE_CHECK mechanism.
+>
+> Patch 2 updates admin guide documentation to explain the script enforceme=
+nt
+> mechanism.
+>
+> The IPE test suite has been updated to include script enforcement tests:
+> https://github.com/microsoft/ipe/pull/6
+>
+> Changes since v2:
+> - update AT_EXECVE_CHECK reference
+>
+> Changes since v1:
+> - update the interpreters reference
+>
+> Yanzhu Huang (2):
+>   ipe: Add AT_EXECVE_CHECK support for script enforcement
+>   ipe: Update documentation for script enforcement
+>
+>  Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++++---
+>  security/ipe/audit.c                  |  1 +
+>  security/ipe/hooks.c                  | 27 +++++++++++++++++++++++++++
+>  security/ipe/hooks.h                  |  3 +++
+>  security/ipe/ipe.c                    |  1 +
+>  5 files changed, 46 insertions(+), 3 deletions(-)
+>
+> --
+> 2.43.0
+>
 
-Please match section underline length to the heading text.
+Thanks, applied to ipe/next.
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---aE3/3REKYeQ2PROd
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQvejQAKCRD2uYlJVVFO
-owVcAQDm0PZzhhqLqUC27UoEFbWfodx6ifxImkkq/tQWbG9OwQD/XNmP5oJqoktv
-FtqxdYVTu3c9wN0sp329mXF1ZLKppAk=
-=OcFx
------END PGP SIGNATURE-----
-
---aE3/3REKYeQ2PROd--
+-Fan
