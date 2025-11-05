@@ -1,77 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039573009C7;
-	Wed,  5 Nov 2025 09:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782B423EABD;
+	Wed,  5 Nov 2025 10:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762335868; cv=none; b=juW2BG/cecPrBnHyX6CjIqbBJ1JenR2YS5H4vM8MuSYrtpGkJDkJmURQo9OPjo6JOjUw/WHrk/L+2Un3qfOzL9q/AOha+cCJZx/28NOLmd36iDN9WUm6kt4ob/CBS8BZ6A20Vvxb5vzfJElg1fFlg3Rj7L35ammbw9pM1CZssIE=
+	t=1762336988; cv=none; b=KJNRFgH2c+XP3FeI69bxrP6cpE5M75Qa9SdSBR+ZVfZNdERLEmHRE+8jdtInrBHLvkXJWirxQsq67sOZyhrjLh9erxyB3nGwsaQKYjpCS2vKITDoL18sg5QAF8h0azbi6bV0LDwFsKAMZ1SjKg3Ap7V626txFuUhyrtr+o9ZCRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762335868; c=relaxed/simple;
-	bh=f3wFnyn7p1ibiWpNXb4gDEfB5F9l6iHTRscnD2GSoXY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PbLLuCWeDCWabPZcbzQDuIJBCOZX1qWVXdDghfj+cpraHpplytWcyW7YAhaGjAhsIa3dAN2m0NbAsEoQCmqt1VIYP8eKkSW/oEqFWdWcAxQyHxPXhK3wJr3Pe1VcNeD5NawgjIlTNAh4vtslamFFc7CTe0AgN1nmPW0v+jpMgtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sPcNwgIi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762336988; c=relaxed/simple;
+	bh=zmdPKPdz4nimIDhBPYIyWCe2jYdfJO0WSWyhrxZmBO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZqvnyT0pJiocx6K3ZMwhZY+dlZ+Fk/apd0/jAUjpWWFbau786PGFEdOGFIhwdpaXtgpZrQKY+iP64fMjA70lbkQh4ze7qBM/9zimY4PqrMWSDbhlWeP9F8Kof6Jhkw41wtmu+saBmRrCx1QyrtBBY0uEyr43NC/XtVTqmuL0wJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOripy/r; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sPcNwgIi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12BFC4CEF8;
-	Wed,  5 Nov 2025 09:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762335867;
-	bh=f3wFnyn7p1ibiWpNXb4gDEfB5F9l6iHTRscnD2GSoXY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=sPcNwgIiiVHovHHsqHZmZAIiEIWadNXqW6T9n9yqfpChf6SOVyUkgo7HYHSyxc5XK
-	 e8HkW+LZT1vumMdFE2XHx4eJi+BZFM855xUeVfMIKfHpIc83km7fyBsVz2TOBVYHiU
-	 4tofgurwBmk0+3xxiVWrfFQoNDTXYvV7C3I9vz3zMGgssfMUSs0cHKyVNJ4NaUV3cy
-	 8sb1DJJ0IPdIe4cAgKNPLsqczRGm0rkgm71t3HnD61LO2UVbqDnbJiPvMmoxkVuX4H
-	 YUMH208nwqYPuo6tSUy3abEdcIFsQUbEFUzzJgT2EPKTPqvJrRxVahDt6HK2xoFWiW
-	 p1TJe/OZD4NzA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Alexander Graf <graf@amazon.com>,  Mike Rapoport <rppt@kernel.org>,
-  Changyuan Lyu <changyuanl@google.com>,  Jonathan Corbet <corbet@lwn.net>,
-  kexec@lists.infradead.org,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org,  kernel-janitors@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: extend file entry in KHO to include
- subdirectories
-In-Reply-To: <20251104143238.119803-1-lukas.bulwahn@redhat.com> (Lukas
-	Bulwahn's message of "Tue, 4 Nov 2025 15:32:38 +0100")
-References: <20251104143238.119803-1-lukas.bulwahn@redhat.com>
-Date: Wed, 05 Nov 2025 10:44:24 +0100
-Message-ID: <mafs0y0okbypz.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOripy/r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762336987; x=1793872987;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zmdPKPdz4nimIDhBPYIyWCe2jYdfJO0WSWyhrxZmBO4=;
+  b=QOripy/rTZIUB7xSsOfB6tta8WoNk5npmNte0/GEpArqvqHUw43QqFJY
+   9j1ReRTlq+WZUlyfZyaf7Qhq8fwlsMjTedYB49x9L2SzbV4X5uw40OV0J
+   FfkBXphD3bUjAcm5lDGO900F8vuekZHXqH4ZEXCMQN7aYrFYkyIGDTGhi
+   CUN100gmwHEiV6ALj34J+vZ2QdqHs8v6D+vKIQDzXM/luyaqVWpf1uduA
+   XPPvRLzCE9bcWStcP/rm5N1yECbVwwD5XLp080ldZUcnA5hnsfJ488a4L
+   Pwr7larF5Yq08uX68jgreFzZnDdHCLl6ErUYEsV9zzvtgDn1DFsz/+8Pw
+   g==;
+X-CSE-ConnectionGUID: qRZNFu+cQmK3Tkx93ruGyQ==
+X-CSE-MsgGUID: Spyl2XruTty+OYkJpbZJZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="68307078"
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="68307078"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 02:03:06 -0800
+X-CSE-ConnectionGUID: nYKS2lEWQWS573tBEaI09w==
+X-CSE-MsgGUID: TVzyTXx8QM22oiG6xy2UEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="191704091"
+Received: from ldmartin-desk2.corp.intel.com (HELO ashevche-desk.local) ([10.124.221.135])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 02:03:04 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vGaLz-00000005jSU-1HZB;
+	Wed, 05 Nov 2025 12:02:59 +0200
+Date: Wed, 5 Nov 2025 12:02:58 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+Message-ID: <aQsg0h_U2joioetO@smile.fi.intel.com>
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+ <202511050706.NIxJwZER-lkp@intel.com>
+ <aQrgMldkQIS7VTtV@smile.fi.intel.com>
+ <aQsBRFPwz0RJ/u9S@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQsBRFPwz0RJ/u9S@rli9-mobl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Nov 04 2025, Lukas Bulwahn wrote:
+On Wed, Nov 05, 2025 at 03:48:20PM +0800, Philip Li wrote:
+> On Wed, Nov 05, 2025 at 07:27:14AM +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 05, 2025 at 07:14:58AM +0800, kernel test robot wrote:
+> > > 
+> > > kernel test robot noticed the following build warnings:
+> > 
+> > So do these...
+> 
+> Got it, thanks for the info, I will update the bot to ignore the further
+> reports on this commit. Sorry for the false positive.
 
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
->
-> Commit 3498209ff64e ("Documentation: add documentation for KHO") adds the
-> file entry for 'Documentation/core-api/kho/*'. The asterisk in the end
-> means that all files in kho are included, but not files in its
-> subdirectories below.
-> Hence, the files under Documentation/core-api/kho/bindings/ are not
-> considered part of KHO, and get_maintainers.pl does not necessarily add the
-> KHO maintainers to the recipients of patches to those files. Probably, this
-> is not intended, though, and it was simply an oversight of the detailed
-> semantics of such file entries.
->
-> Make the file entry to include the subdirectories of
-> Documentation/core-api/kho/.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-
-Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
-
-[...]
+No, they are not false positives, they are legit and good to have. Just that
+the root cause is not this commit.
 
 -- 
-Regards,
-Pratyush Yadav
+With Best Regards,
+Andy Shevchenko
+
+
