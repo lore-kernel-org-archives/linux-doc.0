@@ -1,127 +1,118 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6084F2C08BC
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 06:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCA02C08B0
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 06:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762324055; cv=none; b=mZCQi81iFAEeBezhXgRrASN22r0SRMmaLaDL2LkNNpf6+iQMpt0y1EKEhDbK6OQ5DhFmD4KW4sFsRjKJgpNyz2oK0dPhrkpQMVcM3g//t9DbaV791rCiup+Ba63oTjPAxq9Ex91EcSpAQ8HkMQOMwUzvzYzrYqMYh6ndPEkvJTE=
+	t=1762324075; cv=none; b=a16a+NsdDtQHtwk1taF96+S8zsFZpzxrKwVHtw0z7HEnzD7aohggYLLgta08zMVWAeEEeIzu+nf6cdbTcsdKD1ga8QlvhKFtmLqDZQAd/GL/uZ4qsDoQd7Dk6X+FacpyRtVcQAu9cyWs+swjel5Q8VFGaGXM9XmFMhblFJtqAG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762324055; c=relaxed/simple;
-	bh=M6FUQeUrV5rYIQp0llWDN3mc7Yy127273TKo86Q9E1o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=q+LpF9sdLc+jhwjTrPiAWgovzlGcOH8mKlyOK9QHkxX/0eQPUEt5YQikPc6Uoez45vZ/JJONsCzDctlaBi0hSRPHh1EoCRSCWpAnfPCm1dsUakC/gFc4W97Ma96a/CLulUrje547HYEN+461Kdvzusk3pR961NksxEpU6POmmFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YctSue6G; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1762324075; c=relaxed/simple;
+	bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F1GYu8AlXIdgyRiuXLdZmu6/V9Wftyhs3r2A1CFww2ZFNOoD2RBCL6/7+GLAqTFSeD88KImU3dcKFRVAmAewTy4rohCCe/nxnO5py2A9yRA3zwaKPavoM9hAoAJWv1PytnGhoQA9RNLdBa+kw8Ser3dvw2J68g8mQ/OkD+5s1qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAmB8hzh; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YctSue6G"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso3086353b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 22:27:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAmB8hzh"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-633c1b740c5so6007997d50.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 22:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762324052; x=1762928852; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qRgQgDQGc0CtCpQFbq1uegdY2ZYKmCrZ81QG9UF3aXw=;
-        b=YctSue6GHuVbKwzerLpAKfKHFlDkM+OmFKklCH//rfpl1MnUJsO/n9dwzOig9S2Ix3
-         UEw5hivpJUPDueR1c4IW3TsUbp0s4tIJXFMuIEerd3KWfWMJ3dFpsl+BGfO/5imiHMy4
-         VtXaf6lPu0JDs4eoo/8WM0/4DCqBblakFobeKMPqyzXlUq5Hzf4B15cb5Ru2Dm92wmR0
-         IT0mBo/MvzAN3hfdCjKe4WMcHtLatmsVN00+krMgVcrQdoM5DT55brHOaFlJA8hcFG1S
-         Sx9jog7Ho3T9Y5LesfC5lCfP1l8+6/iE7vFHNstIk8EmIiud0XeDxxiiIqMLa4j1WwW/
-         b8Lw==
+        d=gmail.com; s=20230601; t=1762324070; x=1762928870; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
+        b=bAmB8hzheh1D6x4sT7J/wcYSXLztSuWMiWxtsNC1XaO9aI23QWAl/D0usL5rNRJIDn
+         pWVyRatTIWjACN9YcDYcuedkFtFwsOoPSH6u1BLBR5D2MZFyW8m5e6wXUJeaoGsKiyvb
+         Dw5DpMvrhg2BaOC6+6iVa6IKty+HqdcpJq0FESz6hDADickMFfIlEJCOHW3FuE/1Y34z
+         z038RV6NDEtTHOOhNAJi0vi6OAlTxIr7ui52USEuY5iWJoxDTeIAViQfMOl446pR5P1A
+         wERLjaA+rq2HLzRBDo0LTzyo7qx4F85eQ8baa+lzH1DaziR60F3tT/ZUMBssjXVZ7zy5
+         nsgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762324052; x=1762928852;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qRgQgDQGc0CtCpQFbq1uegdY2ZYKmCrZ81QG9UF3aXw=;
-        b=c5K8tu3ljbuc2AJF9p2Yq+cCMtCdQibf1H4W1bFLEPlowhfd0is/iwqzX2O5qNlaik
-         6zCJUjn60JU/pXCKUx9pJxmUVWeeW0syuAIYYLq0BVFok5kbaGAE0zj6cTRAPZdxbVDC
-         a2hCqr1HVD0RwbLvMZtOjMTikc8UIs0r7FvLgsiIkibIirunA1iVwxyl2v1B+H56M+qy
-         zYBhTHo9MG/ALf7JAmJxrp+KY2ECTPXWNOOeZLcajkN9+v9vFFX4cajj6b/6TXTyXHfv
-         XJ+JYr6WJt6mGc4VHoqW/s0weYETZzlchfKmUiCY0klf8EXhq1k7B/nvFr/Rp+k9Q1nW
-         EtZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6eQ4+NEk7P5YYLfDy9eeWnph6PnjRBJQ+IK3ac0m3Blp9NTqRQYCD+rz2EVHN86XGcVTk+hDM8kE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQkxFlXvsDaK8KXsodv0tRSUvMvWo1C6qyRAF6tVJMCUNO6HqC
-	SF621e5BVO4Gb/xGvcobHmBrJa1ybyaekbomxyyVyYKa5DeNHLlpDqcQ
-X-Gm-Gg: ASbGncss9KlIXsf+8NCC3wH2jErf9UhDvpZ50yN2HSkluQS9dGXwDyxLMNuWMsb5EhQ
-	VsU3lqihOFn4mRAWiWOCj8sIJz7YHM+Jk0jZQPVy0Gu7sqRhHldY7JsdPUbrmGZE1dB8bgZ9gzK
-	bp1p1Xh1B2X93A9KDk6sP86B23p316e5aRu9fXmN0JdqnG/yZso82M/vAxs9nc5vN40wPD+zeHn
-	BLWbSWDT/LuKAizJqN0Ins/0GLBY5R0DO/sHxV+RAbOvEFaCa6qQEU8xgqVzOI55rwNR3xWgK9i
-	BLY8C93IuhlKvht/P/KJ3v8X/Q0I93q85A32ICtFVVDy5WIDpghBV5YbEhpkIdNF9Xv2OSBG8Lc
-	xvZGtT9huAdQz8KN62eioQs0z077XKstbQFcCh+Wra2qF6ZwCQSN9G9MUJKMe7J/CHKzwyYljkm
-	a1Zw8w7HTFwATC/zmLd1qv44Gdr2PrloXFvFrLCi/JcltaWWDx
-X-Google-Smtp-Source: AGHT+IH0CHanNbujuWYsueCqQMvQb7Pe6lyE4kMBe2/tOk0WkpZ70b1GaoCWJdrL37L5RenwOdPqcg==
-X-Received: by 2002:a05:6a00:2382:b0:781:1b5a:95b2 with SMTP id d2e1a72fcca58-7ae1f9856c7mr2725237b3a.28.1762324051551;
-        Tue, 04 Nov 2025 22:27:31 -0800 (PST)
-Received: from ?IPv6:2401:4900:88f4:f6c4:1b8d:9d63:3da2:d477? ([2401:4900:88f4:f6c4:1b8d:9d63:3da2:d477])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ae9c8e19bfsm669795b3a.65.2025.11.04.22.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 22:27:31 -0800 (PST)
-Message-ID: <5bcc00da02d4f5e44a8fabcde406402ca31f0491.camel@gmail.com>
-Subject: Re: [PATCH RESEND v3] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn	
- <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan Corbet	
- <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
- workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dan Carpenter	 <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>,  Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>,  Stephen Boyd <sboyd@kernel.org>, linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com
-Date: Wed, 05 Nov 2025 11:57:23 +0530
-In-Reply-To: <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
-References: 
-	<20251104-aheev-checkpatch-uninitialized-free-v3-1-d94ccef4917a@gmail.com>
-	 <CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+deb13u1 
+        d=1e100.net; s=20230601; t=1762324070; x=1762928870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jeCq7yHtC5OS5YD2iwjMdqIfwkyzElnJ5GcSaasUr+I=;
+        b=SaOBVWd9Y327kqz+GcIdti/+Bc+f2j5mhkjSLROqx8HKQmegL3OjioxjM74dkKawPC
+         aHL/y21qwzlMioFk+q6iXSHqy91Zbv1Z1neyTxiDY1bDcNi2Gn2y5980PeFo+b8P6saP
+         BXjZkrW6KKmXt883O8QYoaTsmP0GnNdyaXrpudekKEgZ7uaNyNBH205L7wXX703yLXti
+         FNJ8y/Icts2RqelJ87QmWi1B+9C87AAx0pLQ0lDm3/d7eXnNVDBy2HGmdy8Q2uA9PCqk
+         RRETLJUQzGJvgBxg8k+64UJupt6deK7yOHNlIaUkGl5hXHacqQi/sT27QX/+/DZuLVWy
+         xGLA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1HyJLyF1iHokjNLyIhR2flhi2bT28WGrzoWw6QeXLVLUvZy3ZUAqdAoYD+M1A/OpK6TeejwSDp9g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yya3XqV7eqopEME43VcOV21uHZalduTpLzf7C6+837jNiCwfaJu
+	OxcZHs6CKVsm+6WRgeeOdsr50sDNKUv1hP39Nr88eke3syadaokrBy3/OiAIvUqxwBkNAJV3rZa
+	CIy7uuB76nawCxzLAsaP5F+blqpGJA4Q=
+X-Gm-Gg: ASbGncuF9gTOUTfl1wKyjES1/x0IQdDHfR8AkT9tWG2MVe/uF0EMC9KI0vYgJJS9GKY
+	z08LOCjX7HpnX/7H9BdsjEkMAWuc+hVp9mFcyOHlIS3KabwOJbDySp5NmHkWZAasJ7fjWRrQzeB
+	/qCcTiMDtLXqNB+mZmA/dpy+QRnxQXoKn3r6USB/hJCqloGOkUjCuScj2HVnYEvldo7udscR/zS
+	OdIosYp7ktZoqEC5YuXPwZ8vGEqadpZtUsCP2NEgLCdAFqh2Pp/HjoETLQ=
+X-Google-Smtp-Source: AGHT+IFdiDnyeB/b2R/ETcLVPyA6OCjT4xirxHagJ+oS+nhEajJyKbfrExaD7O6D4NVTjiCeW84j4bp2Z6m2e/DTXUc=
+X-Received: by 2002:a05:690e:159c:20b0:63f:b0ca:dc9e with SMTP id
+ 956f58d0204a3-63fd34bb82amr1456004d50.10.1762324070502; Tue, 04 Nov 2025
+ 22:27:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251105024016.104413-1-zhaochenguang@kylinos.cn>
+In-Reply-To: <20251105024016.104413-1-zhaochenguang@kylinos.cn>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Wed, 5 Nov 2025 14:27:23 +0800
+X-Gm-Features: AWmQ_bneg4qAV5dCrFxkdyh-1rRJWVF-MjuTsznf6NxfRswv34cIIYqMoTC59Gk
+Message-ID: <CAD-N9QVgK24ZRz__BEUG3+yPwYqz+-rLoci0frwvjHafR3HVVA@mail.gmail.com>
+Subject: Re: [PATCH linux-next] docs/zh_CN: Sync the translation of changes in kbuild.rst
+To: Chenguang Zhao <zhaochenguang@kylinos.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2025-11-04 at 14:28 +0100, Geert Uytterhoeven wrote:
-> Hi Ally,
->=20
-> On Tue, 4 Nov 2025 at 10:58, Ally Heev <allyheev@gmail.com> wrote:
-> > uninitialized pointers with __free attribute can cause undefined
-> > behaviour as the memory allocated to the pointer is freed
-> > automatically when the pointer goes out of scope.
-> > add check in checkpatch to detect such issues
-> >=20
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@=
-suswa.mountain/
-> > Acked-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Ally Heev <allyheev@gmail.com>
->=20
-> Thanks for your patch!
->=20
-> > --- a/Documentation/dev-tools/checkpatch.rst
-> > +++ b/Documentation/dev-tools/checkpatch.rst
-> > @@ -1009,6 +1009,11 @@ Functions and Variables
-> >=20
-> >        return bar;
-> >=20
-> > +  **UNINITIALIZED_PTR_WITH_FREE**
-> > +    Pointers with __free attribute should be initialized. Not doing so
-> > +    may lead to undefined behavior as the memory allocated (garbage,
-> > +    in case not initialized) to the pointer is freed automatically
-> > +    when the pointer goes out of scope.
->=20
-> I think this is misleading, and can be improved: if the pointer is
-> uninitialized, no memory was allocated?
-
-yeah right. Will update in next version
-
-Regards,
-Ally
-
+T24gV2VkLCBOb3YgNSwgMjAyNSBhdCAxMDo0MOKAr0FNIENoZW5ndWFuZyBaaGFvIDx6aGFvY2hl
+bmd1YW5nQGt5bGlub3MuY24+IHdyb3RlOg0KPg0KPiBTeW5jIHRoZSB0cmFuc2xhdGlvbiBvZiBj
+aGFuZ2VzIGluIGtidWlsZC9rYnVpbGQucnN0IGFib3V0DQo+IEtCVUlMRF9CVUlMRF9USU1FU1RB
+TVAuDQoNClBsZWFzZSBmb2xsb3cgaG93LXRvLnJzdFsxXSB0byByZXZpc2UgeW91ciBjb21taXQg
+bWVzc2FnZSBhcyBmb2xsb3dzOg0KDQror7flj4LogIPku6XkuIvkv6Hmga/ov5vooYzovpPlhaU6
+Og0KDQpkb2NzL3poX0NOOiBBZGQgc2VsZi1wcm90ZWN0aW9uIGluZGV4IENoaW5lc2UgdHJhbnNs
+YXRpb24NCg0KVHJhbnNsYXRlIC4uLi9zZWN1cml0eS9zZWxmLXByb3RlY3Rpb24ucnN0IGludG8g
+Q2hpbmVzZS4NCg0KVXBkYXRlIHRoZSB0cmFuc2xhdGlvbiB0aHJvdWdoIGNvbW1pdCBiMDgwZTUy
+MTEwZWENCigiZG9jczogdXBkYXRlIHNlbGYtcHJvdGVjdGlvbiBfX3JvX2FmdGVyX2luaXQgc3Rh
+dHVzIikNCiMg6K+35omn6KGMIGdpdCBsb2cgLS1vbmVsaW5lIDzmgqjnv7vor5HnmoToi7Hmlofm
+lofmoaPot6/lvoQ+77yM5bm25pu/5o2i5LiK6L+w5YaF5a65DQoNClNpZ25lZC1vZmYtYnk6IFlh
+bnRlbmcgU2kgPHNpLnlhbnRlbmdAbGludXguZGV2Pg0KIyDlpoLmnpzmgqjliY3pnaLnmoTmraXp
+qqTmraPnoa7miafooYzvvIzor6XooYzkvJroh6rliqjmmL7npLrvvIzlkKbliJnor7fmo4Dmn6Ug
+Z2l0Y29uZmlnIOaWh+S7tg0KDQrkv53lrZjlubbpgIDlh7rjgIINCg0KWzFdIGh0dHBzOi8vZ2l0
+Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90
+cmVlL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3QNCj4NCj4gU2ln
+bmVkLW9mZi1ieTogQ2hlbmd1YW5nIFpoYW8gPHpoYW9jaGVuZ3VhbmdAa3lsaW5vcy5jbj4NCj4g
+LS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9rYnVpbGQva2J1aWxkLnJz
+dCB8IDkgKysrKysrKy0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
+emhfQ04va2J1aWxkL2tidWlsZC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
+Ti9rYnVpbGQva2J1aWxkLnJzdA0KPiBpbmRleCBlNWUyYWViZTFlYmMuLmJhY2YwNTgyNzJjYSAx
+MDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04va2J1aWxkL2ti
+dWlsZC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04va2J1aWxk
+L2tidWlsZC5yc3QNCj4gQEAgLTI5MCw4ICsyOTAsMTMgQEAgSUdOT1JFX0RJUlMNCj4gIEtCVUlM
+RF9CVUlMRF9USU1FU1RBTVANCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gIOWwhuivpeeO
+r+Wig+WPmOmHj+iuvue9ruS4uuaXpeacn+Wtl+espuS4su+8jOWPr+S7peimhuebluWcqCBVVFNf
+VkVSU0lPTiDlrprkuYnkuK3kvb/nlKjnmoTml7bpl7TmiLMNCj4gLe+8iOi/kOihjOWGheaguOaX
+tueahCB1bmFtZSAtdu+8ieOAguivpeWAvOW/hemhu+aYr+S4gOS4quWPr+S7peS8oOmAkue7mSBk
+YXRlIC1kIOeahOWtl+espuS4suOAgum7mOiupOWAvOaYrw0KPiAt5YaF5qC45p6E5bu65p+Q5Liq
+5pe25Yi755qEIGRhdGUg5ZG95Luk6L6T5Ye644CCDQo+ICvvvIjov5DooYzlhoXmoLjml7bnmoQg
+dW5hbWUgLXbvvInjgILor6XlgLzlv4XpobvmmK/kuIDkuKrlj6/ku6XkvKDpgJLnu5kgZGF0ZSAt
+ZCDnmoTlrZfnrKbkuLLjgILkvovlpoI6Og0KPiArDQo+ICsgICAgICAgJCBLQlVJTERfQlVJTERf
+VElNRVNUQU1QPSJNb24gT2N0IDEzIDAwOjAwOjAwIFVUQyAyMDI1IiBtYWtlDQo+ICsNCj4gK+m7
+mOiupOWAvOaYr+WGheaguOaehOW7uuafkOS4quaXtuWIu+eahCBkYXRlIOWRveS7pOi+k+WHuuOA
+guWmguaenOaPkOS+m+ivpeaXtuaIs++8jOWug+i/mOeUqOS6juS7u+S9lWluaXRyYW1mc+W9kuah
+o+aWh+S7tg0KPiAr5Lit55qEbXRpbWXlrZfmrrXjgIJJbml0cmFtZnMgbXRpbWVz5pivMzLkvY3n
+moTvvIzlm6DmraTml6nkuo5Vbml457qq5YWDMTk3MOW5tO+8jOaIluaZmuS6juWNj+iwg+S4lueV
+jOaXtg0KPiArKFVUQykyMTA25bm0MuaciDfml6U25pe2MjjliIYxNeenkueahOaXpeacn+aYr+aX
+oOaViOeahOOAgg0KPg0KPiAgS0JVSUxEX0JVSUxEX1VTRVIsIEtCVUlMRF9CVUlMRF9IT1NUDQo+
+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0NCj4gMi4yNS4xDQo+
+DQo+DQo=
