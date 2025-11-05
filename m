@@ -1,169 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBB428726E;
-	Wed,  5 Nov 2025 21:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D1528726E
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 21:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762377551; cv=none; b=NrUbxxs8VkD6PjUVDKnRlrEneL10RvFZFUeYCq21ch/oArPUWqTbJ1UBcFvAfTxresiz3cVig8UvUpJOK9sZhQGEUc19SqdQN8CAjisraizoXWic+35s3ZjDJYlsnzl8jde3XFyYb+J4fGnrSLPnBLDDE7Vi/khrTAuukKyPLNQ=
+	t=1762379427; cv=none; b=VU2tvXVWy2Q/tFlzdEz44mmIK+BABsZGeNXpBiPX2w434lENyeNIfqL5sxaiilcekvGv63fmy1pLOivASvSZEKeMDEcpenZnmjITrBziGgcDNp/QtfLspdzrsEAwTe1L5nvRrwwvIbWhizOKGuMGAY3hwSPm3PY4SvdbJ9kwUe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762377551; c=relaxed/simple;
-	bh=1/KqV2b3zTTN2lwKtCoOJBgUyT+KNbZzoIYtgpw+4qA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hHG0uaXTpzlpZF88z45Y3JWf0vzryCns6Xm2kDw5YqL0ru2Wyq9VIxptlxQCupyRo6i+TXHi/ToJYBG7Iu2dlyrYJLKWgrHQ3R7ioAcQCP9T4ImI4zkcIwCKl1Xu+BHPQaxhs9F7V7Hf9y58lOzhXTV1YTlp8B7xXZ0fWO3kgGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OalmWR9G; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762379427; c=relaxed/simple;
+	bh=gZ380I0iSEejLLF800fnaHD9+ZfISv/wsUJeZNhR7Rs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GkUoosACavXRDteE91wjUmyZ1AvhO11ZXIyGmljDxvnIVDrvneMoSTlD5Xez2qNPvbwGSkNnFGWFy/xQhNUMZofnBZOb+AvvRfEG+5iiwpf+K2pvK/uFJ4L32w+QaY3jN2m8XaFT+ifsSMMqY7AH4QtgqK1WDyGCEmiu1w3Y4OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+vTp1W4; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OalmWR9G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57585C4CEF5;
-	Wed,  5 Nov 2025 21:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762377551;
-	bh=1/KqV2b3zTTN2lwKtCoOJBgUyT+KNbZzoIYtgpw+4qA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OalmWR9GKhFxQuVFflfPRWBKKRIIruipMj2xDv0EsyfOQj3d7qgoQu8Swygr73Z53
-	 TDAsw7DgrIR3CgKWCkpLdgeBYo16Q6JpIU2ilcZABnj5Rb505rj1+iGMNvYHq8Jgvz
-	 btQpPeD//HTiniZzA/5k5EIiXFI9P7Tovr+FnBW25Gjk5Ow76WPAVq1RwJSCOBQfzw
-	 E3M6ITiJDTvu1VRXFG9SJwMf5/+35GVw1zJo7YxumzuUKB/p9RBfoDpiSHfBaLzfQE
-	 qagvVGBAKNOF8DsonK01hR20MDyMuUBFl7Ofi7ifMGcNojF6bT3jrIEVN1eW/PRIb1
-	 Oz/UI7HQKh07A==
-Date: Wed, 5 Nov 2025 22:19:07 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-Message-ID: <20251105221907.0c8c388b@foz.lan>
-In-Reply-To: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+vTp1W4"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29516a36affso2916585ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 13:50:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762379425; x=1762984225; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GkJz9g+z54wExynUelx6wglM9y0gBWoZJbd4IPl+Sqg=;
+        b=F+vTp1W4SoFJpnBf+kqRgFwXPXlt/dZvyg1FDJwgoyuYnMTbx7s5ueeO2aoOqlfFRc
+         D4yX863oBEOeAQWV/VCb/YxxXK6Js1rY6V4Lnjc7wWQwlHIZM50e8pLQj1nTjaSyXUDQ
+         cGbBBrRTH2AevK+H4nY7/JX+1WIOT1xJRa7XZE0fQv47I8nM/KkEq4Zn/WGWyPeSBaSl
+         tAFMbz0FkDnraREtgzcePy1dQ0/ubTu5nKE3mwQr9JasANzWsUdGlM2o111woPRPzjDu
+         8Cyb1b+pkr5OrpRuadkEm5G7RjoujnbPHlGprfiX2dM5/13iMtxqL98RhSPwq8YE3epq
+         buEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762379425; x=1762984225;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GkJz9g+z54wExynUelx6wglM9y0gBWoZJbd4IPl+Sqg=;
+        b=SR/efakcIsoROCDYhJPOeIXk8ll6k/JyYNt5DYaJXEuK7DEZHtTFMVOzz/OX7c/flK
+         TSXLUkibE+zV0EQIXB/BwrV34/dpCYvULvdWSTsempKLsm7NszSLEv2iQLjlxfmQ//hU
+         8hwb95Pm1C72Ntj6mnaoy/lE4E64dVOlEhvkoLhIVIA239dRexOwgKEx1jiGwYqBHHF7
+         mwcUjRcoWwO/WardDA637YeTC7wVQwalVY33AOUla0unRqqN5UUQCYwjOisHsKze0u3z
+         jSI+TIKdMtWkZd5oc7T3/2NWTIn0S/SCJVQnllsfH6ZaPFIbrSK0yFYISB0+sIyKRhsn
+         iG8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWmLsqVX69WrtCZ1DVa5nlNzpf/HC/2OLJSpXSS53RCoReyutuLlLIpKVK2xXBHOsMw9KyuLluGGD4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi5DeBeRLLGy33bfkoDhkmhaQ/UEornNPOXMapLaG2DanZT+Id
+	bYzZ+JRpcB8iDR1vIWMP9xKONg0PkTSPK31qfudbyjOWqXoAZ9cOTVOs
+X-Gm-Gg: ASbGncsKkoFDPTAOkFES/9lH/4cNptFxaYBPBuFyOPdvNO1t4ElRc+TX0LwOB5Li6Fd
+	33CRPaZYlb4+HnKsMjLPJWa0kEY7v3UEi+Nyq81115gAWD7ZbHl4vqKVCBP/mfAxNJi4fLEwdNb
+	ZAwEfVJ2/tyOdGbs+dD+9pfNBGSzs1tOvEq6gQn8ubn8YPgC3ikxIAiFtuhWM3ky2p1GXwI950A
+	3Zg0NwxWviGmtYoH/iwisbMPzSlfRxPdh+R4DwZ/M7TrY9Q64VaWwT1nk0GrfDeFAxgrj89rNNo
+	EPDqkG3NhkDIOHUjELQrcvv6sriEz5wCo2Js21qKWnX9Ddv2nAryodfqa6CR9dIB31cu5/vNFWV
+	d47k/jYpXant6kmMClRoQKuxdWr+sWalStW6GqB6YFnAIH+GX+oQ6jnSbGDxj8i0fk5kZASIHwR
+	D7v6Y9Zsr9LvaQ7K3qQvJo1q5MGRv9NYIMI+eQpcg+/A==
+X-Google-Smtp-Source: AGHT+IFMkzfsbijd+VCoID/c6AsM0dQ38208M4pgSEwiraeFpdyxx2AcFvyuO/wBvwY6fhwy/w0BQw==
+X-Received: by 2002:a17:903:1ce:b0:294:ecba:c7f with SMTP id d9443c01a7336-2962adb9771mr69381825ad.48.1762379425495;
+        Wed, 05 Nov 2025 13:50:25 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:35dd:7def:e1d1:adfe])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651045bf0sm5331095ad.48.2025.11.05.13.50.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 13:50:25 -0800 (PST)
+Date: Wed, 5 Nov 2025 13:50:22 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Peter Hutterer <peter.hutterer@who-t.net>
+Cc: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	Sean O'Brien <seobrien@google.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation: input: expand
+ INPUT_PROP_HAPTIC_TOUCHPAD to all pressure pads
+Message-ID: <7h77umivuixhxkktdcypzthlrm6xll4524e4dy3cb54iljeox6@guwqyvx2e2pg>
+References: <20251030011735.GA969565@quokka>
+ <20251031041245.GA1316325@quokka>
+ <ueksimssfw7eqxa5mfmxruj2ghtuncznhbgdxvoorjf6jhjfhk@hsuapbn3kie3>
+ <20251105060333.GA2615904@quokka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251105060333.GA2615904@quokka>
 
-Em Tue,  4 Nov 2025 22:55:02 +0100
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
-
-> When kernel-doc parses the sections for the documentation some errors
-> may occur. In many cases the warning is simply stored to the current
-> "entry" object. However, in the most of such cases this object gets
-> discarded and there is no way for the output engine to even know about
-> that. To avoid that, check if the "entry" is going to be discarded and
-> if there warnings have been collected, issue them to the current logger
-> as is and then flush the "entry". This fixes the problem that original
-> Perl implementation doesn't have.
+On Wed, Nov 05, 2025 at 04:03:33PM +1000, Peter Hutterer wrote:
+> On Tue, Nov 04, 2025 at 09:09:09PM -0800, Dmitry Torokhov wrote:
+> > Hi Peter,
+> > 
+> > On Fri, Oct 31, 2025 at 02:12:45PM +1000, Peter Hutterer wrote:
+> > > Definition: "pressure pad" used here as all touchpads that use physical
+> > > pressure to convert to click without physical hinges. Also called haptic
+> > > touchpads in general parlance, Synaptics calls them ForcePads.
+> > > 
+> > > Most (all?) pressure pads are currently advertised as
+> > > INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
+> > > by defining the resolution on ABS_MT_PRESSURE has been in the docs since
+> > > commit 20ccc8dd38a3 ("Documentation: input: define
+> > > ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
+> > > provide this information.
+> > > 
+> > > In userspace it's thus impossible to determine whether a device is a
+> > > true pressure pad (pressure equals pressure) or a normal clickpad with
+> > > (pressure equals finger size).
+> > > 
+> > > Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
+> > > INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
+> > > have support for userspace-controlled effects. Let's expand that
+> > > definition to include all haptic touchpads (pressure pads) since those
+> > > that do support FF effects can be identified by the presence of the
+> > > FF_HAPTIC bit.
+> > > 
+> > > This means:
+> > > - clickpad: INPUT_PROP_BUTTONPAD
+> > > - pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD
+> > > - pressurepad with haptics:
+> > >   INPUT_PROP_BUTTONPAD + INPUT_PROP_HAPTIC_TOUCHPAD + FF_HAPTIC
+> > 
+> > Should we maybe rename it to INPUT_PROP_PRESSURE_TOUCHPAD? We are within
+> > a release of introducing it, so we should be able to rename it without
+> > much fallout.
 > 
-> As of Linux kernel v6.18-rc4 the reproducer can be:
-> 
-> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
-> ...
-> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
-> ...
-> 
-> while with the proposed change applied it gives one more line:
-> 
-> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
-> ...
-> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
-> Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
-> ...
-> 
-> And with the original Perl script:
-> 
-> $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
-> ...
-> include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
-> include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
-> ...
-> 
-> Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  scripts/lib/kdoc/kdoc_parser.py | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index ee1a4ea6e725..f7dbb0868367 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -451,6 +451,13 @@ class KernelDoc:
->          variables used by the state machine.
->          """
->  
-> +        #
-> +        # Flush the warnings out before we proceed further
-> +        #
-> +        if self.entry and self.entry not in self.entries:
-> +            for log_msg in self.entry.warnings:
-> +                self.config.log.warning(log_msg)
-> +
->          self.entry = KernelEntry(self.config, self.fname, ln)
->  
->          # State flags
+> I'd be happy with a rename too. Want me to send a patch for that or do
+> you want to rename it locally during applying?
 
-No objection of this one, but this breaks the behavior of the -W
-flags.
+Please send the updated patch for input.h along with updated
+documentation.
 
-See, the way kernel-doc.pl worked is that:
+Thanks.
 
-1. Warnings are controlled via several -W flags:
-
-  -Wreturn, --wreturn   Warns about the lack of a return markup on functions.
-  -Wshort-desc, -Wshort-description, --wshort-desc
-                        Warns if initial short description is missing
-
-                        This option is kept just for backward-compatibility, but it does nothing,
-                        neither here nor at the original Perl script.
-  -Wall, --wall         Enable all types of warnings
-  -Werror, --werror     Treat warnings as errors.
-
-  Those affect running kernel-doc manually.
-
-2. Warnings are affected by the filtering commands:
-
-  -e, -export, --export
-                        
-                        Only output documentation for the symbols that have been
-                        exported using EXPORT_SYMBOL() and related macros in any input
-                        FILE or -export-file FILE.
-  -i, -internal, --internal
-                        
-                        Only output documentation for the symbols that have NOT been
-                        exported using EXPORT_SYMBOL() and related macros in any input
-                        FILE or -export-file FILE.
-  -s, -function, --symbol SYMBOL
-                        
-                        Only output documentation for the given function or DOC: section
-                        title. All other functions and DOC: sections are ignored.
-                        
-                        May be used multiple times.
-
-
-  Those affect both running kernel-doc manually or when called via make htmldocs,
-  as the kerneldoc Sphinx markup supports them.
-
-As the filters are only applied at kdoc/kdoc_output.py, printing warnings
-early at kdoc_parser means that, even ignored symbols will be warned. It might
-also make the same warning to appear more than once, for C files that are listed
-on multiple kerneldoc entries(*).
-
-(*) There is a logic at kerneldoc.py Sphinx extension and inside kdoc_files
-    to avoid parsing the same file twice, but I didn't test adding a hack
-    similar to this one to double-check that the warning won't appear multiple
-    times when export is used. Maybe it is working fine.
-
--
-
-In summary, if warnings are suppressed, my suggestion would be to check at 
-kdoc_output to see what is filtering them out. 
-
-Alternatively, if the idea is to always print warnings, get rid of all
--W<option> flags, except for -Werror.
-
-Thanks,
-Mauro
+-- 
+Dmitry
