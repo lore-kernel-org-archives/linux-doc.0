@@ -1,116 +1,133 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E18A32D0C6
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 17:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5A9338590
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 17:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762364685; cv=none; b=M2AKnKeH8wywQBa1e4FQU8OSVour1/KWsvlW3jqVnrDnSWYbBXQ81+vLEpbox63bI1HQQz29wBrlpsfE6aYfrql3+Sxdm4bAcyOSi/93dw2e7kZg+Z0OcqhX0byXLpWYVrhCNHsY2W9qK1v0UWi2jcqzcp2EK+8RwxOd+87hVr0=
+	t=1762365576; cv=none; b=UBosH5NvOkY0HKxKaJhNgKoT79KyYUadr90dF+/foDT233fHczm2EHVdOYWushJw/e0isWD5WIgTLwOSFtp26UtoeRZ8flMhDWNiTOpVKJy9AwcxSUgroPiNHmP2/J1HGXXaF2yCVlRW4U0A48MCOPry9FpaP+vs6A1zQ0F0AYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762364685; c=relaxed/simple;
-	bh=HUkuOvaJBgzglKmoQ0+qkvFukOe5dDQ3E3jps5qH8yg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iZgIQwYAobLC1C8fuBQcwrSa49SsQvokibKPRj7ESD5I/FJAQxfZBZTexMnicR/cdXFof9n6MHSbthfbiyacfqIWAnXssOiFYCHfLnGRiaO0/PNtmXUQc76i5pgl5Jj4z46FfCgvci1TbdrU26L03FKKAVJDDKqT3RbUb3MA8MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J40xNsLy; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1762365576; c=relaxed/simple;
+	bh=Nnp1wDC3H73w3jI8NtJcSVR2N83rdAhx/dtATqrWYag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fv+wUZCB8DMtkjQApJpGVZvNLKKxjMvzqJVnNc1aGtT7bqtX+15DrKUT67ipoXGuGhrnUVmZiwVNJVoCTBTugHdaq3qhqWeg2WoX2B0rIHZH+kB/b/r/1+b2dSBWOu8CIOF/dy8c5WPqxgXX7AFQnXlQtf4uawy4tiMmfxGyrvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wtm5i7Ve; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J40xNsLy"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-58b027beea6so23e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 09:44:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wtm5i7Ve"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7814273415cso511437b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 09:59:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762364681; x=1762969481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HUkuOvaJBgzglKmoQ0+qkvFukOe5dDQ3E3jps5qH8yg=;
-        b=J40xNsLy/P3FH9ngX86nNzMKjkxfEccbIIBTI/ybiGLyBW/jbl4CuEQp0x2CEK7Anh
-         3uaBzM2wz+AgVij7CWDHh4YOyKQj02OPu4ge/KnsIJPWcnoTxMjei28fxOFOVrPxjWvd
-         1tsO0kv+ctxdr6SunZ/lhvTbcURPGC788zVeRY4lQsSuYXHJ9iUN6opOL5ICAYUO/u0/
-         1drGwyuHnmJ3a9TiajQU/83cLDH1sNIfLkvKbDD9p1RNkj+GzEetgot9O2J6sntLO1Qw
-         FmC6b/idfm9ycZYIVoxDBi6DuCBOaSEYienFsiRgDFUNAS/7FgzWc/eO5VyazcBTXkFL
-         5yyA==
+        d=gmail.com; s=20230601; t=1762365574; x=1762970374; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zSHtYrMJfyWXNB5+D7qGmo5liVfUAPUmYconSQ05yJA=;
+        b=Wtm5i7Vel6og71cIYNi68wga2ylq1eSG/Yhr/KPEnj+sHZCTbCPH/BDgN+LYIacV8L
+         skAnPmPwk4Eq8LfFcNj/KAz3bxnQfryS83ZS8mxM/pRUehxODb3wQhjs1uRRVXtKD9e3
+         8UNcK6mT7yf7agUTYTdUEWqrnLhOFsqKzwcsp01gtWEWpk5T3qEUz6nxByKQ0DJkpwK2
+         d+LL5dDSB8eSgK36DMExPxtwDq2/GiG2e+8hNze0WH3Iats5Xv8ipySifO952J1Uf0Fm
+         +EpbAKeOuGqhSpdNO9E7cZf1Pp7ocaGLOZzN4N6pu8letXaCjkrOYHWc/4egXZ00I1NQ
+         nabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762364681; x=1762969481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HUkuOvaJBgzglKmoQ0+qkvFukOe5dDQ3E3jps5qH8yg=;
-        b=XooM1MovrIdTI1W+6a8V/Obl+zKm1luhbMO95+0Vqfkri8tur2iQoA9UGkZdmqlTJ/
-         03VLaL146OkEdY0L4RwLG6QvmWYhR2nwKDuMGYLqmdAkkcw3m82d56ix3qpuAIRyzqAE
-         bVVLeyISODXTe0G6gVqSIe2LSbsF4Y1tWBLISuJXjpYyp70N5Vl/FSZ9MQbmA/vmQ879
-         fxBzViMEiqiyH3z5GQ4fdWCGC7+byiWNyR+WYxjaM4Qm6JjInHHF7HKrArN8b6CBncDb
-         FhXDq2FC0VWfTEdCqXmWrzjyIuCEsHuzAJ1HanGhjzPFJ5CrqGWnpQGEL6LOnL9Grhb9
-         cNTg==
-X-Forwarded-Encrypted: i=1; AJvYcCWU6eBezbNqD7Awdts9CDibLuPCXxyidJwytQ2FsY1WbbhF304tLo15TNviHE57m4x4n6dmTycNCGw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzx5YU7xSHacorYIcy16yaWevY+oRlYWmjTOLExS+eC5Op/WaQX
-	CL81bWMnn/OYeTzk7r0JFYTolxPlMi8F032kRMUy0RTFC9K/4idpOzzaPFp7732B4NFiXlcJ9P8
-	aLvlo2vCusb5y7wiqdLTodlPFa6nS01TBTYJ6NKKi
-X-Gm-Gg: ASbGncsxxVKyCILb77mMHToO4yx1q8xHr7MR9NumXsu51Ut0TqCS74cVzlpBsYymbJH
-	2e7BibvQDeukWAkoqDROR5wO7omNHG8td5UXNGA1yasF+prORfxBsPqwKYwgqZlghmg2Egz9PQp
-	x3q8qTgapgC3rmp1QMmjwdXsTumSy1kUMJ+JDNLwDe9s9bKTcs6Sn6TsRC1MbT4jlGZa5qCQH2Y
-	UppC00dO3FI1CVJ+xaExb9doGQYz4T5KpvRNfhWFkPmgU0vFbvINkMOTy7n1Wfi5/+GLk6BRdxi
-	64T5Nrouys8a0Eo=
-X-Google-Smtp-Source: AGHT+IH/OofWVZO6t+ABXcpC0vTR/s1RGUpbRd9qbTsriVnGknn3XRKBHSzmxdu2/OyTuJYhBxIZQv2+pBEj17RuTlQ=
-X-Received: by 2002:a05:6512:5ce:b0:594:2644:95c6 with SMTP id
- 2adb3069b0e04-5943fd37dd8mr299460e87.7.1762364680964; Wed, 05 Nov 2025
- 09:44:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762365574; x=1762970374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zSHtYrMJfyWXNB5+D7qGmo5liVfUAPUmYconSQ05yJA=;
+        b=AC/FBuUvypkpqtgRsHU4qnG/pYbAzHKL7iDKMLhmfqCX78uZZmbcS70tUfS551W96e
+         plIXccyMu4TA5dg8HB0IK5YltqQhNLVKMZ6+kAbD4o+WWBPu1LuMY/Ioqt+5ELcIQVnk
+         C8TFZsIU6IesDk1Zg/2tT1B+qB481hxSaMStUgvHzbSEDewDb2W71nLfj42vjVSmL428
+         5Cm+qOeI262hLFD2aFFPrmO9ibTl+EiLRIS2MEo66Vz4fjW3h5WqThMRAQotCgV4UEUZ
+         Qfr6oyJK9VP+AKpJOtuMUhRiZ3B3lNvT1vsOY55J+2dp2AW01S0pOF7oBarU+DsDBTc5
+         1lLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVprtnEnCPIwo+CXR/cTXtilHDpjLtgEOVfXuPMsU0gGI+jVDLjw6nd/leuUFSmmUgt7BwD6Q8wV18=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxNlRcWDABVAKkQMnNkYMNUHint0tPHfBU8JuBZnKsjJaFpTvJ
+	ihj1QqCrJeSthqABo/2l0hP6X9TiIdxnIr4Kp0h+lqmv2qXPnA9llLHc6txza/1Q
+X-Gm-Gg: ASbGnctxY74BW7tknwecXqmL0lIY2xzwVwHYlGgN41+ZJz7a1F4crbZO18HjL/JDPKq
+	wdNCkbrk1nZXCb+UxRSXDZ3izAk3TErmiWXfbnpDY8akiodIQiEh+IKV3oCstghfS9lfh4xDp9U
+	HP3dTtc7+e1t29L646X6cQUKDtV1+GVH0XZtZlW215X4dvUn+ySSxNuqNh8eigyBAInIr5JhfVm
+	oJIWiKo+dPeUCA4pK9a9eEeZnH9t7BW3jtapGj6FB2dkVk863T5YDtm5s4H+GKMnFXyVS1jp6cS
+	jcxRftOfffGAg4JQZDdkk83B4LpG58vhXd5wUNE11UrTNH3x92MTkA9n1GJWrc+gtBAQbHzYMdx
+	8cEJseaNFt90AaBhro45De+fbPQMPWSFcss+Iw1hVHTqv3bnkaCfVmmCfoa/GZ/JMfVV8+H3KOz
+	xJT8AI22SjrFvN6hhWpXc8PaLfCZuC+2HPrYAX
+X-Google-Smtp-Source: AGHT+IHHyTsN8YO880iJh6XJa9T07Q+L4vBMRDgiJVACQ1JdCPPRDqaW0LijeD633oiPcNo5B7xioA==
+X-Received: by 2002:a05:690c:fc2:b0:787:1aba:3081 with SMTP id 00721157ae682-7871aba3718mr18241127b3.58.1762365573471;
+        Wed, 05 Nov 2025 09:59:33 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:59::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-787b13b6954sm735637b3.5.2025.11.05.09.59.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 09:59:32 -0800 (PST)
+Date: Wed, 5 Nov 2025 09:59:31 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stanislav Fomichev <stfomichev@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v6 5/6] net: devmem: document
+ SO_DEVMEM_AUTORELEASE socket option
+Message-ID: <aQuQg2bNj9NYNW6j@devvm11784.nha0.facebook.com>
+References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com>
+ <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-5-ea98cf4d40b3@meta.com>
+ <aQuKi535hyWMLBX4@mini-arch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com>
- <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-5-ea98cf4d40b3@meta.com>
- <aQuKi535hyWMLBX4@mini-arch>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <aQuKi535hyWMLBX4@mini-arch>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 5 Nov 2025 09:44:28 -0800
-X-Gm-Features: AWmQ_bmalEOFVEMViz4jCYnQSNwi-DTRPOf8GHyJIDjQOr0wbo_hnqMUoM5NhB8
-Message-ID: <CAHS8izNv89OicB7Nv5s-JbZ8nnMEE5R0-B54UiVQPXOQBx9PbQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 5/6] net: devmem: document SO_DEVMEM_AUTORELEASE
- socket option
-To: Stanislav Fomichev <stfomichev@gmail.com>
-Cc: Bobby Eshleman <bobbyeshleman@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, 
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Stanislav Fomichev <sdf@fomichev.me>, Bobby Eshleman <bobbyeshleman@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 5, 2025 at 9:34=E2=80=AFAM Stanislav Fomichev <stfomichev@gmail=
-.com> wrote:
->
+On Wed, Nov 05, 2025 at 09:34:03AM -0800, Stanislav Fomichev wrote:
 > On 11/04, Bobby Eshleman wrote:
 > > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> >
->
+> > 
+> 
 > [..]
->
+> 
 > > +Autorelease Control
 > > +~~~~~~~~~~~~~~~~~~~
->
+> 
 > Have you considered an option to have this flag on the dmabuf binding
 > itself? This will let us keep everything in ynl and not add a new socket
 > option. I think also semantically, this is a property of the binding
 > and not the socket? (not sure what's gonna happen if we have
-> autorelease=3Don and autorelease=3Doff sockets receiving to the same
+> autorelease=on and autorelease=off sockets receiving to the same
 > dmabuf)
 
-I think this thread (and maybe other comments on that patch) is the
-context that missed your inbox:
+This was our initial instinct too and was the implementation in the
+prior version, but we opted for a socket-based property because it
+simplifies backwards compatibility with multi-binding steering rules. In
+this case, where bindings may have different autorelease settings, the
+recv path would need to error out once any binding with different
+autorelease value was detected, because the dont_need path doesn't have
+any context to know if any specific token is part of the socket's xarray
+(autorelease=on) or part of the binding->vec (autorelease=off).
 
-https://lore.kernel.org/netdev/aQIoxVO3oICd8U8Q@devvm11784.nha0.facebook.co=
-m/
+At the socket level we can just prevent the mode switch by counting
+outstanding references... to do this at the binding level, I think we
+have to revert back to the ethtool approach we experimented with earlier
+(trying to resolve steering rules to queues, and then check their
+binding->autorelease values and make sure they are consistent).
 
-Let us know if you disagree.
+This should work out off the box for mixed-modes, given then outstanding
+ref rule.
 
---=20
-Thanks,
-Mina
+Probably should add a test for specifically that...
+
+Best,
+Bobby
