@@ -1,102 +1,73 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F6121ADB7;
-	Wed,  5 Nov 2025 08:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16F8C2DA74D;
+	Wed,  5 Nov 2025 08:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762331970; cv=none; b=TQk5ueopZxpjLvzkWa+zqdTyg1xnEMoLJDjkzGOy6XCZLRlV7Wv4Le5ezpiihnFfKKUIL+9jjFw3bWwHIWmUhLjpZmcYSwdeaZ295tKaNoEOAGPF03YEAmGi5h07qr9KEsrTGwg4ryQL9e9wwqJGSXFfJvrM+84kLuFl9rKRyTE=
+	t=1762332311; cv=none; b=L2jT9y61sRKZPwgqn+WBZhx6CSPcIpHrmYZMYmqls8+z5z1Tu5BT5ZezK+KHcnut6WHEZspbCpEabX16PpGeky7ylkWmXuCrkISYrPu+sO4cXsGteT9+hy6x9YYE8lRkZZ8QjiJv3FaXhC7DnI8il/MvtMq8fz+4IN2BRza7RjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762331970; c=relaxed/simple;
-	bh=4q7MWOot5oujdh0jICrS9cF5T9tqDRdkxJ6+IOJjOh4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfL2FDzQttgzCXpj/weZ7hp710K5G6V5DnH3oTVMPTyyU+DPhLwbHZZ0zPRoQPMEWlZnA6tVBOGEeWKNgD7YkaIxkpxf/GqGBE6mT23jPhgcWJwWV60SCFtKATDuhm8AyFwSbsrMDD+erBFNql5jAHEJWtK9u53kKohktddP9ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pyx6Ff5c; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1762332311; c=relaxed/simple;
+	bh=9634LwCOBvkVyltmD3yEImG3GLp+vauzcljqVmCfZXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AcV3DqzrODryXzPQdlN08UhRmgKcenE3bUEZZA+CbFqn3GFz/P0ETuofudf10z1evqgiRUp5FN9bZ63063S3ySo702XzzZeudaRjTLHSWFseoTX7CnPzjgW0faPWkLzNbA60Qdh0cd1TZhbd4hx/TJ9mKOj1QQeecL2WetDT6Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=DdykuXFG; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pyx6Ff5c"
-Message-ID: <19986584-885b-4754-b98c-948e4bf9716b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762331965;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iACYjLabBUF6JiLupF4Suvn3LPuLCNXMAQpDmoncQDw=;
-	b=Pyx6Ff5cbTDxh6bFMoG56H+cQ6sG/0QG4qgsZ9U/tgGmlWxDHgKBH8LRRuc/D04Dzw5pNX
-	g6ZfVel4yEKJAW2CjwpU6eKy7U0KdoQjwCfCxRL/M8IrFCSUtUTNNFJd6uaN19l7qnpWJF
-	MThr76Zp+1t0ReNALTjfAzsXQoS1c1Y=
-Date: Wed, 5 Nov 2025 16:39:18 +0800
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="DdykuXFG"
+Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 6462F5A90D;
+	Wed,  5 Nov 2025 09:45:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1762332308;
+	bh=9634LwCOBvkVyltmD3yEImG3GLp+vauzcljqVmCfZXs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DdykuXFGz4Kyzn2l8GzRhXbOwpemTjiqSY9NnkSJ5kXzDibcDKgk3Crya1dT+N1Ts
+	 UH7FaWWUF2fq6OpnbmFSDJXIvL5PdoqWz0jZZotf4VyXYy5InXO3QMRJdHGa6Rzaeb
+	 MxBIh4MUKJl+OcDL2c70JUQZv/F6/7aKR/7bsxHQuOEkn9h/bIqWxcBXiTQgrOnRku
+	 AipM7oV8uNY+j4VTR+A71+Lm/Bi/LEdJjrz9vYJsMnA4ATN+A/7oIdHQmvkac7W8aF
+	 xTWnLZwWkQ4WulMxLtSJf6QnV4ULuve0Bf0buUIZk7fVlBoEn9/SfE5IqaOkZRXopu
+	 eMENQjBRtCNbg==
+Date: Wed, 5 Nov 2025 09:45:07 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, 
+	Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, Bill Wendling <morbo@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <pjw@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Shuah Khan <shuah@kernel.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, 
+	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, 
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, 
+	Kevin Tian <kevin.tian@intel.com>, Michael Roth <michael.roth@amd.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev, Samiullah Khawaja <skhawaja@google.com>, 
+	Vasant Hegde <vasant.hegde@amd.com>
+Subject: Re: [PATCH v8 00/15] Consolidate iommu page table implementations
+ (AMD)
+Message-ID: <3wwyr2kqhaj5icznsizcu372uzhygubkytko3vueamwnf6vzr2@hlas3nx53tps>
+References: <0-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-Content-Language: en-US
-To: Michal Hocko <mhocko@suse.com>, Leon Huang Fu <leon.huangfu@shopee.com>
-Cc: linux-mm@kvack.org, hannes@cmpxchg.org, roman.gushchin@linux.dev,
- shakeel.butt@linux.dev, muchun.song@linux.dev, akpm@linux-foundation.org,
- joel.granados@kernel.org, jack@suse.cz, laoar.shao@gmail.com,
- mclapinski@google.com, kyle.meyer@hpe.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org
-References: <20251105074917.94531-1-leon.huangfu@shopee.com>
- <aQsIq_zQXMfNNo6G@tiehlicka>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <aQsIq_zQXMfNNo6G@tiehlicka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
 
+On Tue, Nov 04, 2025 at 02:29:58PM -0400, Jason Gunthorpe wrote:
+> [Joerg, can you put this and vtd in linux-next please. The vtd series is still
+> good at v3 thanks]
 
+Applied, thanks Jason. Please send the kdoc fixes which address Randys review
+on-top.
 
-On 2025/11/5 16:19, Michal Hocko wrote:
-> On Wed 05-11-25 15:49:16, Leon Huang Fu wrote:
->> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
->> index 6eed14bff742..8cab6b52424b 100644
->> --- a/mm/memcontrol-v1.c
->> +++ b/mm/memcontrol-v1.c
->> @@ -2040,6 +2040,7 @@ struct cftype mem_cgroup_legacy_files[] = {
->>   	{
->>   		.name = "stat",
->>   		.seq_show = memory_stat_show,
->> +		.write_u64 = memory_stat_write,
->>   	},
->>   	{
->>   		.name = "force_empty",
->> @@ -2078,6 +2079,7 @@ struct cftype mem_cgroup_legacy_files[] = {
->>   	{
->>   		.name = "numa_stat",
->>   		.seq_show = memcg_numa_stat_show,
->> +		.write_u64 = memory_stat_write,
->>   	},
-> 
-> Any reason you are not using .write like others? Also is there any
-> reason why a specific value is required. /proc/sys/vm/stat_refresh which does
-> something similar ignores the value. Also memcg.peak write handler which
-> resets the peak value ignores it. It is true that a specific value
-> allows for future extensions but I guess it would be better to be
-> consistent with others here.
-> 
-> One last thing to consider is whether this should follow
-> /proc/sys/vm/stat_refresh path and have a single file to flush them all
-> or have a per file flushing. I do not have a strong preference but
-> considering both are doing the same thing it makes sense to go
-> stat_refresh path.
+Regards,
 
-+1
-
-IMHO, a dedicated file like memory.stat_refresh is a much better approach ;)
-
-It's cleaner, simpler to use, and much more intuitive for users.
-
-> 
-> In any case, thanks for considering the explicit flushing path which is
-> IMHO much better than flushing tunning which would become really hard
-> for admins to wrap their heads around. Especially when dealing with
-> large fleets of machines to maintain.
+	Joerg
 
