@@ -1,67 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782B423EABD;
-	Wed,  5 Nov 2025 10:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455C72FFFA9
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 10:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762336988; cv=none; b=KJNRFgH2c+XP3FeI69bxrP6cpE5M75Qa9SdSBR+ZVfZNdERLEmHRE+8jdtInrBHLvkXJWirxQsq67sOZyhrjLh9erxyB3nGwsaQKYjpCS2vKITDoL18sg5QAF8h0azbi6bV0LDwFsKAMZ1SjKg3Ap7V626txFuUhyrtr+o9ZCRA=
+	t=1762337899; cv=none; b=J4tRl95WP5KZ7lyPerGdK2i/RWFp+7CXshdX6TnEeIj5q2TNdmX+mTV1ori95OO/KAAUHssHSv6OTI0y+9cImlRK/n7pdhNcfaNBR3/CHwWtb26DchOsJKpnnEURwqzDGPcjgIgWAltCLOWEBygiETerlKhWC4p+27HSFvWeo8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762336988; c=relaxed/simple;
-	bh=zmdPKPdz4nimIDhBPYIyWCe2jYdfJO0WSWyhrxZmBO4=;
+	s=arc-20240116; t=1762337899; c=relaxed/simple;
+	bh=w4Q3tSFMoR02WDdtF03wIIwXMyl+pJLqWG4iANl0i4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZqvnyT0pJiocx6K3ZMwhZY+dlZ+Fk/apd0/jAUjpWWFbau786PGFEdOGFIhwdpaXtgpZrQKY+iP64fMjA70lbkQh4ze7qBM/9zimY4PqrMWSDbhlWeP9F8Kof6Jhkw41wtmu+saBmRrCx1QyrtBBY0uEyr43NC/XtVTqmuL0wJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOripy/r; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOripy/r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762336987; x=1793872987;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zmdPKPdz4nimIDhBPYIyWCe2jYdfJO0WSWyhrxZmBO4=;
-  b=QOripy/rTZIUB7xSsOfB6tta8WoNk5npmNte0/GEpArqvqHUw43QqFJY
-   9j1ReRTlq+WZUlyfZyaf7Qhq8fwlsMjTedYB49x9L2SzbV4X5uw40OV0J
-   FfkBXphD3bUjAcm5lDGO900F8vuekZHXqH4ZEXCMQN7aYrFYkyIGDTGhi
-   CUN100gmwHEiV6ALj34J+vZ2QdqHs8v6D+vKIQDzXM/luyaqVWpf1uduA
-   XPPvRLzCE9bcWStcP/rm5N1yECbVwwD5XLp080ldZUcnA5hnsfJ488a4L
-   Pwr7larF5Yq08uX68jgreFzZnDdHCLl6ErUYEsV9zzvtgDn1DFsz/+8Pw
-   g==;
-X-CSE-ConnectionGUID: qRZNFu+cQmK3Tkx93ruGyQ==
-X-CSE-MsgGUID: Spyl2XruTty+OYkJpbZJZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="68307078"
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="68307078"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 02:03:06 -0800
-X-CSE-ConnectionGUID: nYKS2lEWQWS573tBEaI09w==
-X-CSE-MsgGUID: TVzyTXx8QM22oiG6xy2UEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="191704091"
-Received: from ldmartin-desk2.corp.intel.com (HELO ashevche-desk.local) ([10.124.221.135])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 02:03:04 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vGaLz-00000005jSU-1HZB;
-	Wed, 05 Nov 2025 12:02:59 +0200
-Date: Wed, 5 Nov 2025 12:02:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-Message-ID: <aQsg0h_U2joioetO@smile.fi.intel.com>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <202511050706.NIxJwZER-lkp@intel.com>
- <aQrgMldkQIS7VTtV@smile.fi.intel.com>
- <aQsBRFPwz0RJ/u9S@rli9-mobl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WALComAt9a02S8gFlC2+Xb6DfhTO4uLzYTnA/Lq9LWKlERejIzdtUVcAUfnJQrbYbRJN6F0ZUxcH3GCITZTjzMseRFgYtRFK22ArWtgaL84eDx6lYIH/5NDMO8kC8fSQ+x4/N9adj/HG62cFHMoKJSwpi/I/UgJQddNX79kPnlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-640f8a7aba2so1807612a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 02:18:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762337896; x=1762942696;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+nitTwb5WJ+EUmnDTJjRK0YITVPRlucFpEPdRpx4NY=;
+        b=jihdx2aoD1lkaYjfrZ5GQyFWcamA6312Ah9Ys+iVXyAHA/c1+3Aigb4VdSUdhovXau
+         aBYJDFrYmGM2HfoRlA7UtquXJChcRP1EDfC2vQtS6ggMHsxmYE44VZp8l8rSm3IRCr3Z
+         kVf5+s4jHuOiICBf7Jx6PHPwnh8PBTS67TD5Rd1ZZJL6JHKi5yYcg4fl87DP3Wg3tNct
+         G2RXduwkdbrdMqW21+aoZoq6aiMhza8jRVyELvXa9FuawwmiiCdAA1jSBEMAog0MViOw
+         4OExsGfxlV+y+bPcHVuxQSbQlEDzGPABPRuu/DCBNW6EsxV9l7wJo7TArQXHgl7dFkZJ
+         1+ig==
+X-Forwarded-Encrypted: i=1; AJvYcCVcl2jEqo3mNzg961XsOMJLJkP4MoiLJTY0SgOsawVfpjRFMccZOHz7bgjyzejpGQu899u5ZiB4MUY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/OhOxw8PDAEt007iG6pRT+HGWwXEjjTMfclF9P/VsA1xB8miH
+	rH771pH8Vj/fRm9MJeTKF9DX9RFk4gu8jg09WQhKIQeRIMeryGfNwYF7
+X-Gm-Gg: ASbGnct1PsBL+rSehlQJKG06JMt+H6O4VxKS1Oa2t8AjknwykUKufOZKjyVuqtVSwZM
+	VKcyOjK/2y9DJMMHbUkOfaojOAYIRrSaw5EWS0guB8oxepv5ajC6p+4XVtsz+YBMbSjGCJhNMhj
+	EcSxaDerw/rVJPQ6CmgKvI+Do1jrlLPo0e4Kzzza/WRahvnsmcPiDLog2jtRj0ZIE8bvTVO19N1
+	vjZjtDOSkalDyzeTxQnxGTxxEgb2+wx/ydLG3qWgAtC3ivoZbScGqS6w5ajrPhGiYCRymVSr5m9
+	tbf+V5P/VSyZhF5gP72yW1/S7Dp12GUHpYKHDfAG4+kEnRNibULwYuOz0lRIgH2goMeNa7vYf7A
+	ahTU04Vp0CM+QTfm9bUInjZc9EiPagdy0zsaV+40C5xNQyGeTnAgqIj805uQ2+TO1NpQ=
+X-Google-Smtp-Source: AGHT+IGMOyHdTrU7e4XzICZCye2rZuaFGN3pfPJ6kDUtI82R9LpfHeUzLCsG0FSLtDRWmVaLyRXkdA==
+X-Received: by 2002:a05:6402:5351:20b0:63e:6d38:865 with SMTP id 4fb4d7f45d1cf-64105b7a684mr1701971a12.36.1762337895297;
+        Wed, 05 Nov 2025 02:18:15 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:74::])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-640ebbdc7cesm3763441a12.35.2025.11.05.02.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 02:18:14 -0800 (PST)
+Date: Wed, 5 Nov 2025 02:18:11 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Changyuan Lyu <changyuanl@google.com>, rppt@kernel.org, 
+	akpm@linux-foundation.org, linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com, 
+	arnd@arndb.de, ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
+	catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com, 
+	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org, krzk@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, 
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com, pbonzini@redhat.com, 
+	peterz@infradead.org, robh@kernel.org, rostedt@goodmis.org, saravanak@google.com, 
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, will@kernel.org, 
+	x86@kernel.org
+Subject: Re: [PATCH v8 01/17] memblock: add MEMBLOCK_RSRV_KERN flag
+Message-ID: <c2nrxby4atq75o5yhwdpoikyso42tzimwn2bnl7fk54wuwdqax@i6kdssez3kfj>
+References: <20250509074635.3187114-1-changyuanl@google.com>
+ <20250509074635.3187114-2-changyuanl@google.com>
+ <ef6wfr72set5wa5el3wbbu4yd5tnc4p2rhtjpb5kpmncv3xs5d@i3c5v3ciioi3>
+ <mafs0wm4yluej.fsf@kernel.org>
+ <mafs0h5w2lpqu.fsf@kernel.org>
+ <2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
+ <mafs0cy6pljci.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,26 +75,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aQsBRFPwz0RJ/u9S@rli9-mobl>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <mafs0cy6pljci.fsf@kernel.org>
 
-On Wed, Nov 05, 2025 at 03:48:20PM +0800, Philip Li wrote:
-> On Wed, Nov 05, 2025 at 07:27:14AM +0200, Andy Shevchenko wrote:
-> > On Wed, Nov 05, 2025 at 07:14:58AM +0800, kernel test robot wrote:
-> > > 
-> > > kernel test robot noticed the following build warnings:
-> > 
-> > So do these...
+Hello Pratyush,
+
+On Tue, Oct 14, 2025 at 03:10:37PM +0200, Pratyush Yadav wrote:
+> On Tue, Oct 14 2025, Breno Leitao wrote:
+> > On Mon, Oct 13, 2025 at 06:40:09PM +0200, Pratyush Yadav wrote:
+> >> On Mon, Oct 13 2025, Pratyush Yadav wrote:
+> >> >
+> >> > I suppose this would be useful. I think enabling memblock debug prints
+> >> > would also be helpful (using the "memblock=debug" commandline parameter)
+> >> > if it doesn't impact your production environment too much.
+> >> 
+> >> Actually, I think "memblock=debug" is going to be the more useful thing
+> >> since it would also show what function allocated the overlapping range
+> >> and the flags it was allocated with.
+> >> 
+> >> On my qemu VM with KVM, this results in around 70 prints from memblock.
+> >> So it adds a bit of extra prints but nothing that should be too
+> >> disrupting I think. Plus, only at boot so the worst thing you get is
+> >> slightly slower boot times.
+> >
+> > Unfortunately this issue is happening on production systems, and I don't
+> > have an easy way to reproduce it _yet_.
+> >
+> > At the same time, "memblock=debug" has two problems:
+> >
+> >  1) It slows the boot time as you suggested. Boot time at large
+> >     environments is SUPER critical and time sensitive. It is a bit
+> >     weird, but it is common for machines in production to kexec
+> >     _thousands_ of times, and kexecing is considered downtime.
 > 
-> Got it, thanks for the info, I will update the bot to ignore the further
-> reports on this commit. Sorry for the false positive.
+> I don't know if it would make a real enough difference on boot times,
+> only that it should theoretically affect it, mainly if you are using
+> serial for dmesg logs. Anyway, that's your production environment so you
+> know best.
+> 
+> >
+> >     This would be useful if I find some hosts getting this issue, and
+> >     then I can easily enable the extra information to collect what
+> >     I need, but, this didn't pan out because the hosts I got
+> >     `memblock=debug` didn't collaborate.
+> >
+> >  2) "memblock=debug" is verbose for all cases, which also not necessary
+> >     the desired behaviour. I am more interested in only being verbose
+> >     when there is a known problem.
 
-No, they are not false positives, they are legit and good to have. Just that
-the root cause is not this commit.
+I am still interested in this problem, and I finally found a host that
+constantly reproduce the issue and I was able to get `memblock=debug`
+cmdline. I am running 6.18-rc4 with some debug options enabled.
 
--- 
-With Best Regards,
-Andy Shevchenko
+	DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000006d6e400
+	WARNING: CPU: 58 PID: 828 at kernel/dma/debug.c:463 add_dma_entry+0x2e4/0x330
+	pc : add_dma_entry+0x2e4/0x330
+	lr : add_dma_entry+0x2e4/0x330
+	sp : ffff8000b036f7f0
+	x29: ffff8000b036f800 x28: 0000000000000001 x27: 0000000000000008
+	x26: ffff8000835f7fb8 x25: ffff8000835f7000 x24: ffff8000835f7ee0
+	x23: 0000000000000000 x22: 0000000006d6e400 x21: 0000000000000000
+	x20: 0000000006d6e400 x19: ffff0003f70c1100 x18: 00000000ffffffff
+	x17: ffff80008019a2d8 x16: ffff80008019a08c x15: 0000000000000000
+	x14: 0000000000000000 x13: 0000000000000820 x12: ffff00011faeaf00
+	x11: 0000000000000000 x10: ffff8000834633d8 x9 : ffff8000801979d4
+	x8 : 00000000fffeffff x7 : ffff8000834633d8 x6 : 0000000000000000
+	x5 : 00000000000bfff4 x4 : 0000000000000000 x3 : ffff0001075eb7c0
+	x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0001075eb7c0
+	Call trace:
+	add_dma_entry+0x2e4/0x330 (P)
+	debug_dma_map_phys+0xc4/0xf0
+	dma_map_phys (/home/leit/Devel/upstream/./include/linux/dma-direct.h:138 /home/leit/Devel/upstream/kernel/dma/direct.h:102 /home/leit/Devel/upstream/kernel/dma/mapping.c:169)
+	dma_map_page_attrs (/home/leit/Devel/upstream/kernel/dma/mapping.c:387)
+	blk_dma_map_direct.isra.0 (/home/leit/Devel/upstream/block/blk-mq-dma.c:102)
+	blk_dma_map_iter_start (/home/leit/Devel/upstream/block/blk-mq-dma.c:123 /home/leit/Devel/upstream/block/blk-mq-dma.c:196)
+	blk_rq_dma_map_iter_start (/home/leit/Devel/upstream/block/blk-mq-dma.c:228)
+	nvme_prep_rq+0xb8/0x9b8
+	nvme_queue_rq+0x44/0x1b0
+	blk_mq_dispatch_rq_list (/home/leit/Devel/upstream/block/blk-mq.c:2129)
+	__blk_mq_sched_dispatch_requests (/home/leit/Devel/upstream/block/blk-mq-sched.c:314)
+	blk_mq_sched_dispatch_requests (/home/leit/Devel/upstream/block/blk-mq-sched.c:329)
+	blk_mq_run_work_fn (/home/leit/Devel/upstream/block/blk-mq.c:219 /home/leit/Devel/upstream/block/blk-mq.c:231)
+	process_one_work (/home/leit/Devel/upstream/kernel/workqueue.c:991 /home/leit/Devel/upstream/kernel/workqueue.c:3213)
+	worker_thread (/home/leit/Devel/upstream/./include/linux/list.h:163 /home/leit/Devel/upstream/./include/linux/list.h:191 /home/leit/Devel/upstream/./include/linux/list.h:319 /home/leit/Devel/upstream/kernel/workqueue.c:1153 /home/leit/Devel/upstream/kernel/workqueue.c:1205 /home/leit/Devel/upstream/kernel/workqueue.c:3426)
+	kthread (/home/leit/Devel/upstream/kernel/kthread.c:386 /home/leit/Devel/upstream/kernel/kthread.c:457)
+	ret_from_fork (/home/leit/Devel/upstream/entry.S:861)
 
 
+Looking at memblock debug logs, I haven't seen anything related to
+0x0000000006d6e400.
+
+I got the output of `dmesg | grep memblock` in, in case you are curious:
+
+	https://github.com/leitao/debug/blob/main/pastebin/memblock/dmesg_grep_memblock.txt
+
+Thanks
+--breno
