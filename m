@@ -1,29 +1,29 @@
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2D334C3D;
-	Wed,  5 Nov 2025 16:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BB533507F;
+	Wed,  5 Nov 2025 16:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762358891; cv=none; b=nWhu4X/3MrHICelRY4l6pIZNKcoNAwiVytHscH4deOInGNDKotWhxhPOVF1ilYITGJFoll97mYfmfztwlmhkVKCvPZSGGx23pvKKQ65xzHyio8k6dMF8ySn5WE6FgcW7jCEJCtdXgB9Oj0HMUQPYgkBcuvsS6CM0YJWQQLuG8qc=
+	t=1762359302; cv=none; b=IC8l+azJ8AC3Y9ZXKNP1r0AfOsoEAtjZ5jCD2/Kq398JV+vPru7O7vWeMaLh3mSU7L4TEetuvsst6fiOM/pHziAbjxSeNX7ZW3V/8oRhsCbij8MZ4eIhgJvITakpm5ufAfw82GC61wJ6RvvotgCFk3SwQkxwHnloT0ojMvmI0mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762358891; c=relaxed/simple;
+	s=arc-20240116; t=1762359302; c=relaxed/simple;
 	bh=TmMy79TjxsCoysdGF/8lnttQy3OB1H35HXXtaWN1S4U=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YDSh5vTocrhmF6DvxE87LYVr4Isdcu0M8RrEwrf6YPtvFTuZ4DmlH/k48tknyYckLBG1/lY5WfOn89xIr4xDnHVJ+VLZBTmvjkbtlW3EiT1vU5qqL2ln/lznjvrjQHVoVU9eNpPb0u73HVatyobc2AejkPG877KtrSf3qqcYvC4=
+	 MIME-Version:Content-Type; b=Uoof0W8htNd9MUu3I52+kncfsIfUnE3MGpFxTsysgFJmG2dbymOxdMofK6kWTQdlJQOv4CT/30B8lqFitT0ylgVNWC72HgvXIV0UTsFuHNeU1ywbnNDKIGlGG86lB0H9QH/cVoLQS9Q5koXrGfFiCmahEifZGlh/rRpvxn3Ck7o=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4d1qrN3t1vz6L510;
-	Thu,  6 Nov 2025 00:04:04 +0800 (CST)
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4d1r4X4wL7zJ46BG;
+	Thu,  6 Nov 2025 00:14:36 +0800 (CST)
 Received: from mscpeml500004.china.huawei.com (unknown [7.188.26.250])
-	by mail.maildlp.com (Postfix) with ESMTPS id 32B591400E8;
-	Thu,  6 Nov 2025 00:07:57 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 0C2CE1400E8;
+	Thu,  6 Nov 2025 00:14:58 +0800 (CST)
 Received: from huawei-ThinkCentre-M920t.huawei.com (10.123.122.223) by
  mscpeml500004.china.huawei.com (7.188.26.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 5 Nov 2025 19:07:56 +0300
+ 15.2.1544.11; Wed, 5 Nov 2025 19:14:57 +0300
 From: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
 To: <netdev@vger.kernel.org>, Simon Horman <horms@kernel.org>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
@@ -33,11 +33,11 @@ CC: <andrey.bokhanko@huawei.com>, Dmitry Skorodumov
 	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
 	<andrew+netdev@lunn.ch>
 Subject: [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
-Date: Wed, 5 Nov 2025 19:07:05 +0300
-Message-ID: <20251105160713.1727206-2-skorodumov.dmitry@huawei.com>
+Date: Wed, 5 Nov 2025 19:14:37 +0300
+Message-ID: <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251105160713.1727206-1-skorodumov.dmitry@huawei.com>
-References: <20251105160713.1727206-1-skorodumov.dmitry@huawei.com>
+In-Reply-To: <20251105161450.1730216-1-skorodumov.dmitry@huawei.com>
+References: <20251105161450.1730216-1-skorodumov.dmitry@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
