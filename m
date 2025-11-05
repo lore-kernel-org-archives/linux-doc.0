@@ -1,276 +1,94 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B98C2C08BC
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 07:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32F72618;
+	Wed,  5 Nov 2025 08:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762329002; cv=none; b=AxG/3+AEBWWQrOpxuMOFTzmP82Q+PvsHCaEa5RITLMuBgPKhlgzhHNSU6lbvHaxo7bfPybYRixtTGDzAcsj/RsXzg8mo5udeAdyOYSoRdRnPDatNYVbGXTD02ZGNk7iJFiudl5HISX6lsOYd3Qtts+ZSevhM5lhtni4BeQiTxiQ=
+	t=1762330575; cv=none; b=syqY1ZwWiCHZUeqeY2vNCbop4LDhD+riNHOuxH4uJIFuMyICxS5pX1YOddRC+1V0MeIbeJ/a/m7VVkA2Hea4IzTI2dw2lH/INvG+E/QIoaJB5cx3ZTAQQCiaLoT00zcmGoT6Q4lxQqZXbGF69Fu4InCrs5Ms0susf6DctZfePl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762329002; c=relaxed/simple;
-	bh=d9ZQQw6oADUCSvtmaACwRX9dnlraJPsGIprhB01RZmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y+QpdBVMFlSPDpiA8xq0aO3fawCe0XrLLMJFaJ1bomgEkh0o1QNHhjSbf3yBB2DizWc/iO+qvtAPUd9qigKlnl+XpNHwRogNWVOp1cUm7nLHq5iCenZ3jCdch1+7uDeQCKIEOv9dIYyCLjsjmqR15Dlm8WIVL0Ox6wtJ4PV2RDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=hdyMC+ls; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1762330575; c=relaxed/simple;
+	bh=udr6mKWYM6gsMhi6l+HmrtMsrAYtMveuKFz9q/uMFUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=soszqWEdRUwirp8G3oUyi6L8EvHVOpBxgDEiBIpmjYO0QDBQ+qkD1W7/wYcG58K6l4Au4E1vVBeTiU2Cv0LhBerx2+kVl4LucFbAZ4cTx6kUCvppGGyTM+eThCPWhKtSjmeZWVxKeqavheLBveMP0Wu4nCMHtfql3fJrTU1W94k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Snx30Fxc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="hdyMC+ls"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-27d3540a43fso64517795ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 23:49:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762328999; x=1762933799; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h6ZDRkftaiRuIaXsVQnD3pYoLoBZQe+K8uOwtjlQzE0=;
-        b=hdyMC+lsiHCSA7rW5Ei5YkvfU8qWhTBilQOeWTjMbTjhTOYjUg17IJLOjDduIteU0S
-         aZvx5qG0AQ3MMkx+Bz94WUXHBIBq7q1pqP0k5injCIluZ2GQySZoUw7wCt41uTLK0LAd
-         uxC5CV8Y8TVxmPlQZZnieik5cHsABrwGiBDO55F/K94pPzuK24KqJzogFoiifeVkWvqs
-         XOb/WWUMz7nyxTQo9aNjpGddzOahTG8yTfWjcYWMDYoSWDZZFiJfGFMWJNAD95v2RYBa
-         cCbe8oBQuzuVNln/CfFjt1FnC9t8e9iOKBK1k0KMt64kPC7pE+8jef74vu8GRbXnRS9L
-         82pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762328999; x=1762933799;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h6ZDRkftaiRuIaXsVQnD3pYoLoBZQe+K8uOwtjlQzE0=;
-        b=a796xSsxuJNQpoe+WrYhIE/lbOr3w+ERYVqWW2MWhvf8qkq45emGm8mqAY27I+IfHj
-         7VY3lHmkjCETX46HHc9jXBy99L9A6WtvfD8nSnAv1RxUKZNWLoQi7i8woMCEUFqtjImM
-         aew59MEbEMIv5xFAuMAijA3ik9QGJTm77eJnd/8LwiyH/1/a9gAFz8gWdKCvqfrPfE0t
-         oVefiXYZD44eqFx66x/H32ax47aNGyEo3gXRYOqrj7oNr5Gq2K8nfHIGYJdMiinVtR+e
-         iAR+oegPC1FsQr0njRDKeloi8dX7O7dWcbfn7XrzlKeF9TnCOjDREXzsJdDXgvAAOZph
-         dR3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX6FFSOBOkq6iOcy/2ra/jALTaPbsW7BqlreQeXqulA9wzXUAw3iZT6/XL/dVZzPzmOevLnAPYXLEg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7N2oWh7QNiRIh2+o+qoW+UrVfsO8kS/XVX3Klvm3K6iIZh4cg
-	T6VajxB7wgaokK8iX0mm1RsUbqEKbg51MlSwa6gWv4wc8CAOtOY0oemyeSUapBlolXk=
-X-Gm-Gg: ASbGncseJb1oop3K/06nkO2y5PUhgmlXuxD8UzFP3S1Ss+03/d4GrXmMoco0yLxkMw1
-	KeICbgt+b56uhx4oeZLrK/M+BYcsEaYy5vIDSwVsE6nihBvQrQ7jqGsMalqK6Ts3/r8yG5LisN8
-	tn8xt5WaESCs3AEBEgfjJSdR+gV/p6onB3BXOUAqs6RsWkZeBilJ5s0mNjVuEULUKBRwkSMW/Ga
-	jamUPsnhH8NuZcDTp4DNc3utkpPqQn5Qa5HcMWdjRB96MxRsaZWwsJIREp4NuorU52DfraDu02y
-	z7UvQ5KYddECnb1UkH351g3ZoBBl35L1UH01YAMKNjxafhPeInr4q7Xn4xIrHyxlYFElJpAV5VH
-	Lq3je0Ts/kpDqELpwn7+4ho5zZEVFVcwZCKdae7Ed0CgmJZqPpfubfoGC75YgXdOn0LnJFIiXA4
-	1UZvWufqnpABnMsc7Q3DqS8axi
-X-Google-Smtp-Source: AGHT+IHKjbv/6sAUPJqMP9Dl0+FTFfNEli/mX7VCSD5WGbBzuqeNeE5PeGE+njoNMn23lIVIEk6Frg==
-X-Received: by 2002:a17:902:ef49:b0:295:4620:3e18 with SMTP id d9443c01a7336-2962ad2b255mr39869055ad.24.1762328999123;
-        Tue, 04 Nov 2025 23:49:59 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7acd6a10f8fsm5295564b3a.68.2025.11.04.23.49.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 23:49:58 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: linux-mm@kvack.org
-Cc: hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	muchun.song@linux.dev,
-	akpm@linux-foundation.org,
-	joel.granados@kernel.org,
-	jack@suse.cz,
-	laoar.shao@gmail.com,
-	mclapinski@google.com,
-	kyle.meyer@hpe.com,
-	corbet@lwn.net,
-	lance.yang@linux.dev,
-	leon.huangfu@shopee.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-Date: Wed,  5 Nov 2025 15:49:16 +0800
-Message-ID: <20251105074917.94531-1-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.51.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Snx30Fxc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6264CC4CEF8;
+	Wed,  5 Nov 2025 08:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762330575;
+	bh=udr6mKWYM6gsMhi6l+HmrtMsrAYtMveuKFz9q/uMFUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Snx30FxcGRCf73Ui5tRrgwEAD2Zywqm32IJNeGhhqcKAbrPqP6nqCFttnO2dDSOm4
+	 3qR6wpowVnsvjN0rwPIcLCShDuoZ5jSJWmC7CGsP6fpxjY9i+SYJqWP6IoqWRVLYgf
+	 e4bq4qsJHj5tESPoXkPb0y8ytBDZ651wLfxCDqqJ9jA7XEK+WyuSgYvwy/Vm7Wwx/r
+	 zDkGgwhiDkELDGQgAB6nFzEU8HLSdIepIq4qHMlwOlYKVPQ+8SSA7rk1T7llt7a4zh
+	 qq/vaQ03kHbDoE7Sm1LenUPP2wbTMl4R8vo6i0BKl/7ynTmFOtTjZ+2cneXSjREyQ0
+	 hXQ5dtAYUVrzw==
+Date: Wed, 5 Nov 2025 10:16:09 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Mastro <amastro@fb.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251105081609.GA16832@unreal>
+References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+ <aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com>
 
-On high-core count systems, memory cgroup statistics can become stale
-due to per-CPU caching and deferred aggregation. Monitoring tools and
-management applications sometimes need guaranteed up-to-date statistics
-at specific points in time to make accurate decisions.
+On Mon, Nov 03, 2025 at 12:07:12PM -0800, Alex Mastro wrote:
+> On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
+> > Changelog:
+> > v6:
+> >  * Fixed wrong error check from pcim_p2pdma_init().
+> >  * Documented pcim_p2pdma_provider() function.
+> >  * Improved commit messages.
+> >  * Added VFIO DMA-BUF selftest.
+> >  * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
+> >  * Fixed error unwind when dma_buf_fd() fails.
+> >  * Document latest changes to p2pmem.
+> >  * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
+> >  * Moved DMA mapping logic to DMA-BUF.
+> >  * Removed types patch to avoid dependencies between subsystems.
+> >  * Moved vfio_pci_dma_buf_move() in err_undo block.
+> >  * Added nvgrace patch.
+> 
+> Thanks Leon. Attaching a toy program which sanity tests the dma-buf export UAPI
+> by feeding the allocated dma-buf into an dma-buf importer (libibverbs + CX-7).
+>  
+> Tested-by: Alex Mastro <amastro@fb.com>
 
-This patch adds write handlers to both memory.stat and memory.numa_stat
-files to allow userspace to explicitly force an immediate flush of
-memory statistics. When "1" is written to either file, it triggers
-__mem_cgroup_flush_stats(memcg, true), which unconditionally flushes
-all pending statistics for the cgroup and its descendants.
-
-The write operation validates the input and only accepts the value "1",
-returning -EINVAL for any other input.
-
-Usage example:
-  # Force immediate flush before reading critical statistics
-  echo 1 > /sys/fs/cgroup/mygroup/memory.stat
-  cat /sys/fs/cgroup/mygroup/memory.stat
-
-This provides several benefits:
-
-1. On-demand accuracy: Tools can flush only when needed, avoiding
-   continuous overhead
-
-2. Targeted flushing: Allows flushing specific cgroups when precision
-   is required for particular workloads
-
-3. Integration flexibility: Monitoring scripts can decide when to pay
-   the flush cost based on their specific accuracy requirements
-
-The implementation is shared between cgroup v1 and v2 interfaces,
-with memory_stat_write() providing the common validation and flush
-logic. Both memory.stat and memory.numa_stat use the same write
-handler since they both benefit from forcing accurate statistics.
-
-Documentation is updated to reflect that these files are now read-write
-instead of read-only, with clear explanation of the write behavior.
-
-Signed-off-by: Leon Huang Fu <leon.huangfu@shopee.com>
----
-v1 -> v2:
-  - Flush stats when write the file (per Michal).
-  - https://lore.kernel.org/linux-mm/20251104031908.77313-1-leon.huangfu@shopee.com/
-
- Documentation/admin-guide/cgroup-v2.rst | 31 +++++++++++++++++--------
- mm/memcontrol-v1.c                      |  2 ++
- mm/memcontrol-v1.h                      |  1 +
- mm/memcontrol.c                         | 13 +++++++++++
- 4 files changed, 37 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 3345961c30ac..2a4a81d2cc2f 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1337,7 +1337,7 @@ PAGE_SIZE multiple when read back.
- 	cgroup is within its effective low boundary, the cgroup's
- 	memory won't be reclaimed unless there is no reclaimable
- 	memory available in unprotected cgroups.
--	Above the effective low	boundary (or
-+	Above the effective low	boundary (or
- 	effective min boundary if it is higher), pages are reclaimed
- 	proportionally to the overage, reducing reclaim pressure for
- 	smaller overages.
-@@ -1525,11 +1525,17 @@ The following nested keys are defined.
- 	generated on this file reflects only the local events.
-
-   memory.stat
--	A read-only flat-keyed file which exists on non-root cgroups.
-+	A read-write flat-keyed file which exists on non-root cgroups.
-
--	This breaks down the cgroup's memory footprint into different
--	types of memory, type-specific details, and other information
--	on the state and past events of the memory management system.
-+	Reading this file breaks down the cgroup's memory footprint into
-+	different types of memory, type-specific details, and other
-+	information on the state and past events of the memory management
-+	system.
-+
-+	Writing the value "1" to this file forces an immediate flush of
-+	memory statistics for this cgroup and its descendants, improving
-+	the accuracy of subsequent reads. Any other value will result in
-+	an error.
-
- 	All memory amounts are in bytes.
-
-@@ -1786,11 +1792,16 @@ The following nested keys are defined.
- 		cgroup is mounted with the memory_hugetlb_accounting option).
-
-   memory.numa_stat
--	A read-only nested-keyed file which exists on non-root cgroups.
-+	A read-write nested-keyed file which exists on non-root cgroups.
-+
-+	Reading this file breaks down the cgroup's memory footprint into
-+	different types of memory, type-specific details, and other
-+	information per node on the state of the memory management system.
-
--	This breaks down the cgroup's memory footprint into different
--	types of memory, type-specific details, and other information
--	per node on the state of the memory management system.
-+	Writing the value "1" to this file forces an immediate flush of
-+	memory statistics for this cgroup and its descendants, improving
-+	the accuracy of subsequent reads. Any other value will result in
-+	an error.
-
- 	This is useful for providing visibility into the NUMA locality
- 	information within an memcg since the pages are allowed to be
-@@ -2173,7 +2184,7 @@ of the two is enforced.
-
- cgroup writeback requires explicit support from the underlying
- filesystem.  Currently, cgroup writeback is implemented on ext2, ext4,
--btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
-+btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
- attributed to the root cgroup.
-
- There are inherent differences in memory and writeback management
-diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-index 6eed14bff742..8cab6b52424b 100644
---- a/mm/memcontrol-v1.c
-+++ b/mm/memcontrol-v1.c
-@@ -2040,6 +2040,7 @@ struct cftype mem_cgroup_legacy_files[] = {
- 	{
- 		.name = "stat",
- 		.seq_show = memory_stat_show,
-+		.write_u64 = memory_stat_write,
- 	},
- 	{
- 		.name = "force_empty",
-@@ -2078,6 +2079,7 @@ struct cftype mem_cgroup_legacy_files[] = {
- 	{
- 		.name = "numa_stat",
- 		.seq_show = memcg_numa_stat_show,
-+		.write_u64 = memory_stat_write,
- 	},
- #endif
- 	{
-diff --git a/mm/memcontrol-v1.h b/mm/memcontrol-v1.h
-index 6358464bb416..1c92d58330aa 100644
---- a/mm/memcontrol-v1.h
-+++ b/mm/memcontrol-v1.h
-@@ -29,6 +29,7 @@ void drain_all_stock(struct mem_cgroup *root_memcg);
- unsigned long memcg_events(struct mem_cgroup *memcg, int event);
- unsigned long memcg_page_state_output(struct mem_cgroup *memcg, int item);
- int memory_stat_show(struct seq_file *m, void *v);
-+int memory_stat_write(struct cgroup_subsys_state *css, struct cftype *cft, u64 val);
-
- void mem_cgroup_id_get_many(struct mem_cgroup *memcg, unsigned int n);
- struct mem_cgroup *mem_cgroup_id_get_online(struct mem_cgroup *memcg);
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index c34029e92bab..d6a5d872fbcb 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -4531,6 +4531,17 @@ int memory_stat_show(struct seq_file *m, void *v)
- 	return 0;
- }
-
-+int memory_stat_write(struct cgroup_subsys_state *css, struct cftype *cft, u64 val)
-+{
-+	if (val != 1)
-+		return -EINVAL;
-+
-+	if (css)
-+		css_rstat_flush(css);
-+
-+	return 0;
-+}
-+
- #ifdef CONFIG_NUMA
- static inline unsigned long lruvec_page_state_output(struct lruvec *lruvec,
- 						     int item)
-@@ -4666,11 +4677,13 @@ static struct cftype memory_files[] = {
- 	{
- 		.name = "stat",
- 		.seq_show = memory_stat_show,
-+		.write_u64 = memory_stat_write,
- 	},
- #ifdef CONFIG_NUMA
- 	{
- 		.name = "numa_stat",
- 		.seq_show = memory_numa_stat_show,
-+		.write_u64 = memory_stat_write,
- 	},
- #endif
- 	{
---
-2.51.2
-
+Thanks a lot.
