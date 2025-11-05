@@ -1,88 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82F02AE89;
-	Wed,  5 Nov 2025 08:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F6121ADB7;
+	Wed,  5 Nov 2025 08:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762331127; cv=none; b=MHfdAuWrHGBmJW/V+QLrvu/uAu0lcaI+U8wpP3+tHstgulJ6mwcLIBhMmG46FRZ4RHpPZHQw97VT3nmcwkTtukqo2OtbOu1nxxQ5tMGjWg6YXBJHic5VzvvhIvvZCxZDKdh3tkgMpvEBwJSSmghIyFsfMzK1zgyOQ/Ep4kJs74c=
+	t=1762331970; cv=none; b=TQk5ueopZxpjLvzkWa+zqdTyg1xnEMoLJDjkzGOy6XCZLRlV7Wv4Le5ezpiihnFfKKUIL+9jjFw3bWwHIWmUhLjpZmcYSwdeaZ295tKaNoEOAGPF03YEAmGi5h07qr9KEsrTGwg4ryQL9e9wwqJGSXFfJvrM+84kLuFl9rKRyTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762331127; c=relaxed/simple;
-	bh=GFrmdT/6vh6KitZbPk5RwLAg24STo8UOkiJxvnUUROM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WLKwDjW/eaPwiiM8dMvXOwYOmqu9x9DlRIdtYo8aQnpsE2Y1m6S6MQTe2mBTKgbNeXvu8R1CsbhERKX2xpORDFpw/vNV8QgiOo3QGepOgAFdjLex7tmp5o/xlrNZKlHY58s4OMdoIdg7ibA4i2P8ldmk8Y001bEgcQqUbmEFaF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSvnUixA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762331970; c=relaxed/simple;
+	bh=4q7MWOot5oujdh0jICrS9cF5T9tqDRdkxJ6+IOJjOh4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfL2FDzQttgzCXpj/weZ7hp710K5G6V5DnH3oTVMPTyyU+DPhLwbHZZ0zPRoQPMEWlZnA6tVBOGEeWKNgD7YkaIxkpxf/GqGBE6mT23jPhgcWJwWV60SCFtKATDuhm8AyFwSbsrMDD+erBFNql5jAHEJWtK9u53kKohktddP9ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pyx6Ff5c; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSvnUixA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799CAC116B1;
-	Wed,  5 Nov 2025 08:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762331127;
-	bh=GFrmdT/6vh6KitZbPk5RwLAg24STo8UOkiJxvnUUROM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fSvnUixAH7/lM170v6NohX/PiUR2BPHEycruL3+BtLy8LHbjuBLZVsLQ5Y3S8xxch
-	 6yc2F0InengDSLn3VwbgtwQV46+azBAQy5eDtoQCS6IhngoqBgUphJjF+NG2kYrcOQ
-	 OH+PqfB+LBWeyAb3DZWXKvOzYY6tE7imFCcbtqpfduHtlQ10Sud0GCrei197vV8gmK
-	 SAS+7XcxQw0BdYTE8owjL7LwfvDb2bzjXM43ZsSDauC9pn5N30S5RLM5JQJq6ZwDuw
-	 b542dok4FUX/Qc1NRMJFxEFnSF2tJIzr2NmsvO/34/q2ro3lRC5ntT5oKBpZGntGXY
-	 oFYbVAAU7H4jA==
-Date: Wed, 5 Nov 2025 08:25:21 +0000
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Markus.Elfring@web.de,
-	pavan.chebbi@broadcom.com, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Luo Yang <luoyang82@h-partners.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Gur Stavi <gur.stavi@huawei.com>
-Subject: Re: [PATCH net-next v04 2/5] hinic3: Add PF management interfaces
-Message-ID: <aQsJ8a4XXE3HXR7A@horms.kernel.org>
-References: <cover.1761711549.git.zhuyikai1@h-partners.com>
- <2acb500c38c11b0234e8616da7c2a941c344659f.1761711549.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pyx6Ff5c"
+Message-ID: <19986584-885b-4754-b98c-948e4bf9716b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762331965;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iACYjLabBUF6JiLupF4Suvn3LPuLCNXMAQpDmoncQDw=;
+	b=Pyx6Ff5cbTDxh6bFMoG56H+cQ6sG/0QG4qgsZ9U/tgGmlWxDHgKBH8LRRuc/D04Dzw5pNX
+	g6ZfVel4yEKJAW2CjwpU6eKy7U0KdoQjwCfCxRL/M8IrFCSUtUTNNFJd6uaN19l7qnpWJF
+	MThr76Zp+1t0ReNALTjfAzsXQoS1c1Y=
+Date: Wed, 5 Nov 2025 16:39:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2acb500c38c11b0234e8616da7c2a941c344659f.1761711549.git.zhuyikai1@h-partners.com>
+Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
+Content-Language: en-US
+To: Michal Hocko <mhocko@suse.com>, Leon Huang Fu <leon.huangfu@shopee.com>
+Cc: linux-mm@kvack.org, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ shakeel.butt@linux.dev, muchun.song@linux.dev, akpm@linux-foundation.org,
+ joel.granados@kernel.org, jack@suse.cz, laoar.shao@gmail.com,
+ mclapinski@google.com, kyle.meyer@hpe.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org
+References: <20251105074917.94531-1-leon.huangfu@shopee.com>
+ <aQsIq_zQXMfNNo6G@tiehlicka>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <aQsIq_zQXMfNNo6G@tiehlicka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 29, 2025 at 02:16:26PM +0800, Fan Gong wrote:
 
-...
 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+On 2025/11/5 16:19, Michal Hocko wrote:
+> On Wed 05-11-25 15:49:16, Leon Huang Fu wrote:
+>> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+>> index 6eed14bff742..8cab6b52424b 100644
+>> --- a/mm/memcontrol-v1.c
+>> +++ b/mm/memcontrol-v1.c
+>> @@ -2040,6 +2040,7 @@ struct cftype mem_cgroup_legacy_files[] = {
+>>   	{
+>>   		.name = "stat",
+>>   		.seq_show = memory_stat_show,
+>> +		.write_u64 = memory_stat_write,
+>>   	},
+>>   	{
+>>   		.name = "force_empty",
+>> @@ -2078,6 +2079,7 @@ struct cftype mem_cgroup_legacy_files[] = {
+>>   	{
+>>   		.name = "numa_stat",
+>>   		.seq_show = memcg_numa_stat_show,
+>> +		.write_u64 = memory_stat_write,
+>>   	},
+> 
+> Any reason you are not using .write like others? Also is there any
+> reason why a specific value is required. /proc/sys/vm/stat_refresh which does
+> something similar ignores the value. Also memcg.peak write handler which
+> resets the peak value ignores it. It is true that a specific value
+> allows for future extensions but I guess it would be better to be
+> consistent with others here.
+> 
+> One last thing to consider is whether this should follow
+> /proc/sys/vm/stat_refresh path and have a single file to flush them all
+> or have a per file flushing. I do not have a strong preference but
+> considering both are doing the same thing it makes sense to go
+> stat_refresh path.
 
-...
++1
 
-> +static void hinic3_print_link_message(struct net_device *netdev,
-> +				      bool link_status_up)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +
-> +	if (nic_dev->link_status_up == link_status_up)
-> +		return;
-> +
-> +	nic_dev->link_status_up = link_status_up;
-> +
-> +	netdev_dbg(netdev, "Link is %s\n", (link_status_up ? "up" : "down"));
+IMHO, a dedicated file like memory.stat_refresh is a much better approach ;)
 
-Hi Fan Gong, all,
+It's cleaner, simpler to use, and much more intuitive for users.
 
-Coccinelle suggests that str_up_down() could be used here,
-which does seem like a reasonable suggestion as it seems
-there will be a v5 anyway.
+> 
+> In any case, thanks for considering the explicit flushing path which is
+> IMHO much better than flushing tunning which would become really hard
+> for admins to wrap their heads around. Especially when dealing with
+> large fleets of machines to maintain.
 
-> +}
-
-...
