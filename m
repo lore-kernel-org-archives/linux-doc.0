@@ -1,67 +1,67 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D176260585
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 01:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D6A264636
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 01:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762305812; cv=none; b=m1YeLTF/vazs1HGXPxQuGKJ9dchwEGaaehoVyUrANwSEO2T7u4/ul52ysptVBgBtgqBCGY2/loHgG+LMSvKNoAFOPDtECQodhX/qJFEw6aopUsthaN1aVGqtE+vOL5wLbfBlYdZ0CqxqcEz/ePYF4NZi8mdSYHfxS23H4coYw9Y=
+	t=1762305813; cv=none; b=ndo9F+AfjCkd09B6En+mtOuwqYC3L13ZRihtJRRaMJ9bxmuD1WYC9i+ASCZOe/ctvan7mwwikLVQoRji2t5ww6CY2uH5xJ2vJpeJFIM4IzxyehDdohp3MstVKXhXhGq6nwqTVw3aE23bBoYzNCOBRvavA2pj/OeAxUJ7YKYUNwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762305812; c=relaxed/simple;
-	bh=9ZdVGaIt/OvZxDjCG8t0f5xRJnb5qgTQFaBNuCOVr0Y=;
+	s=arc-20240116; t=1762305813; c=relaxed/simple;
+	bh=EUVr5JNK/GTAT1ttd11lgstVq87db7L7gS8Y83xgPYo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WqYfyDFTvAZkT+nd7rYFxsfgHJkb8Y/h6AF97goTS6R9kGc5HqWjbTomUeYdYzqErlrtjrNzNpfYENXV6cJbbH23pkDLsC8n/ekpRAIyYIOLVNkOTlKX2u61r4YpbGYCjugYl1RXM8FaLqP+jWgBN/+gom7EvbeLFUapmEgmxoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cs9ugeJJ; arc=none smtp.client-ip=209.85.128.173
+	 In-Reply-To:To:Cc; b=lLhZyw2JHmPElbLQKjNGHAZMTNBaVZmF11BIVKVGlPbPMjDZRMPJm9ZBtaSVb7WjWUIO08FT8K0bG6jf2dHS9zBo1/7VZTZkjJu+lhoJLzdnvTGUkfH0bnGz9UGXP/gVj6wu39CtPH58Fth91bkgvywJ6xnRQ2hGuTY41hIhtgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4qTPyPy; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cs9ugeJJ"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-786635a8ce4so33228327b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 17:23:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4qTPyPy"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-63f976ef4bdso4316942d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 17:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1762305808; x=1762910608; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IXQPAkEgQbO8euIcwuGERIBFcD6kBEPGrPcFSGxSLm8=;
-        b=cs9ugeJJrOPiGhprQlaFybPw90yy1tKkHgTW4e2KCR4YsIyQEVt96vg/NXcY6lihGc
-         Ag4CZaDgiBu9IYRtlgOvW60JEyl+7OdB+52qv3Dhmh1gqM9n7OIAc1e51qmaqe0OM/Jl
-         cAOgPDsxcV04FsI4KPeX/gu5W7QEw3rZ64Syn4YItgFYRQRsUGst7BKOk+AosltjfkZ8
-         OZ4sbaYO8iVfv8Q8QMn+39OKujZCUrI2GGP6WP6iJxu5Ia7e15+GTfJNQkya+OxYgdp6
-         ST9Q8GD4g76No5HggNmx+3NWbXfi6RwJhMxWlwUkQZnULPp4YjTq0hZ1DpnfkWteCiHo
-         Ip9A==
+        bh=4eVDPnkuv2SP94dsK2EFl5pOIR+N6oa4rL2rsMVs/R8=;
+        b=S4qTPyPymyijDVhDyYOxTorfZgWjhzgv9UvEmkeogZrad0+Ni11qfJbH2VXOmsGQkT
+         WSRN7s725oc7WScFEClLyvYtiHkMENn1NLLdRaZ0MlPXMKxMDTnnbI6dxo8PUonPPnVu
+         Ia1cSW+GDU6XTsyY053c3jrI4HrViJipGWuQE92rDsVXIV9SC1MnG8Fsmnt3S5VDYCNj
+         C1mrFIV8JWo0ScXI/uGmBiLLwcHcgEeW7l5Uh+zl6LOwSJo8A4usOKIiN7SE5hUbPBm9
+         bPfFwN12J8klL5zDqH3t57kdeuhPmKjQERplVgBG0/dDL5py8YiVzmtrA5w+8o8GDzyc
+         aUtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1762305808; x=1762910608;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IXQPAkEgQbO8euIcwuGERIBFcD6kBEPGrPcFSGxSLm8=;
-        b=Mp61G5cf/f15ooN6Kl/AhsiyRZnbgYna5zuZTZZ+btMOh6wem+Nk9l7+WMS96aVrH7
-         9w6zxLEkaCJJOeiSoaErraOtWu6c3D/oy6bw4AXlxxjt/6zM9LxitsJGVtAuYPzphz+Q
-         sSu5ZABnkc/spwKoJIAwnyQ3QH0Zh6bpi5X4t/Cy6XnQi/IR987R6p9JqEcZcjxF9fKg
-         nwIR3sjtpXXq1Nl4kCsrjJWhqCh/7aLN+8Pq/L1/LqGxSxSkMndopL5UPmKBVwRksrR8
-         owXdE8cbIl0LKGkv8e/PAghkgrXpp+f1xYbqMgr2cx/ip2Wbp23yVmcLHlzKjJoGWpYN
-         U4ww==
-X-Forwarded-Encrypted: i=1; AJvYcCUeV3rw50E8P55XIFijTIuA/pWCFdKCYs8QDqIPrlqTd4d0SlMtq32Vt/cbSmSLcM9wrbqRxcTSWY4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+AjEQCSTGrHeCast+ntoh9+bHrx8C4zCyqwhlcnuprqQepmcd
-	hRI1Q3mFUsiaP9zhFF+eqO11sO6dsFma/5ZEi4OVlK69osk+PvyYLmxQKzMLqzim
-X-Gm-Gg: ASbGncsyxdfXRTHYg7GRtliKCovxlSM72VSKp3JH/2LI4MI4nc8iFSqd9rIFCYiYiLe
-	mqTpJha/o7C+sz6Ij3r1OjpZ4x4Velk6/M4DMRSHvoMRTK0lUu+m71BLRH2Z7UecAgu1aFlg2Jp
-	5JQZyJMiKQgyjNwih53WueDr0mTl5hRjyJ8rZiyXt6ANm1CsSPlCKm3DqBN8t7WupmTl1JgoXdH
-	d2QUUJyraa7vuKgrm4fiN2wJHUwjqDOIqUbLWKJFqxi9e1qK3fx0rwg3A9KWKB7MmrZ9rHt232K
-	vwqCqHBQwSMSmaMWsaViRxH+OWINfd/2IuYE1LNRV/wI11CfQThtxPEZMbY0DmU6gt7ls5FSJPU
-	gK+awAddxh8I3LGDz/iLzjvhGeWujOQFiQp3kmZK1k3YXyUnQyATkUY7pmKzebXRJ0ggrplbOhp
-	gW2Hv+NVv1h4E=
-X-Google-Smtp-Source: AGHT+IGmZcasptx2/HU85kDuwAXzBhZHQkoteu1oE0YpB1MwZKyvKWzYVmBym2flQTEn3Ob02W1r2A==
-X-Received: by 2002:a05:690c:6311:b0:786:652d:50e with SMTP id 00721157ae682-786a419d7d6mr14885297b3.37.1762305807568;
-        Tue, 04 Nov 2025 17:23:27 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:70::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78691db1369sm15259657b3.16.2025.11.04.17.23.27
+        bh=4eVDPnkuv2SP94dsK2EFl5pOIR+N6oa4rL2rsMVs/R8=;
+        b=ssEZamBIDN1aENBrRlZYeza/2TYJUkWTHmdkXvlR7kFwn1DFg85tExGXAbtPO8zxcl
+         c+ly50A9ok1WDb9znmu8PRLI6rFnrtrclGZb1Zb6YauakGl+vmyonxTj0YJiF+/LVMl6
+         qvItM9f+KC9Nys1xQ45xga2kdANLenVEI4s8eQF9dL377PJNw3l3H7pctyc8tA4Rx4uE
+         IwC559Pgl1ACbDY4F4TxlY3rnJgRjrv0dl9FGrk3BpR35sYvQttv4hnVTcMNfGH8hW+V
+         VnPQQChHa3eGETiIU6nQYwDze43vacsdm2kfgbDLPF2gTQ2qdo2xtU84/CtIk/4Tz6Tu
+         PRKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrdGvmjPq9tx88DoKIQ3TNnKYLZI4cEDfy1diAyniiOrC5LqMSAQTCepkgmquCFWAoABqGGvsIp0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK2tjvARgALDXmK44+sTQpMpJYbA+FiAYMNgDAk2529WBYlsuG
+	T6B8wtIhImdkPD9t0d0R59tLviu3izCEBPnjo0HVLlVv5a80JNf3UBNR63Zr+645
+X-Gm-Gg: ASbGncuTxOQNKI3P9lTeWkIjMPfVoo30RWhKwklJvaeOjXzYCoVXBFUKPJOmlYEW1Qb
+	tr7/TcP6QurHVLSpXcrQWZSnG9xtoJFtIsyhPQUrHi5wXUx6DXR4rRpzSy4uXB+XRJtF/QX9IZ1
+	6RISEIm34TDGYJAF+LVrXzc5t7tCpO+7P6ehqJv1aIj9NQnpWF0gjyBjfS847UG+uOMO5W1Faqz
+	t4fsJ5IkBDhrT+vCs8tpXqubLfdk4oh3KX98KdS1WevUtTE+l/gFBU1SZUB3GDfit4eGFt4oUUZ
+	lkWVm/vQY3dzu78qF2Aga7gmx/hI0K7aZ78/cAFywI88Aq4M6jIm6VyTc25xZNdyFkMCZwr4Dgi
+	lh4920w++5ByHiBtlBvC23/a2Bt1RY4l3tJaq9msSQ4qnkrvlIcX7q+mCG38mX4EMbM3G/Qouq8
+	a+8c4+y5X3zCg=
+X-Google-Smtp-Source: AGHT+IEfDb+oJnGjarh+9F7GOHtv3gc1oPFaNFLIKdQInLnQKAgyBWcutw5Cbxj5+5Saxr4AJ66EZw==
+X-Received: by 2002:a05:690e:241c:b0:63f:9f5a:a555 with SMTP id 956f58d0204a3-63fd35a47ddmr1049504d50.50.1762305808562;
+        Tue, 04 Nov 2025 17:23:28 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:5f::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7869a7b978fsm9216057b3.2.2025.11.04.17.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 17:23:27 -0800 (PST)
+        Tue, 04 Nov 2025 17:23:28 -0800 (PST)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Tue, 04 Nov 2025 17:23:24 -0800
-Subject: [PATCH net-next v6 5/6] net: devmem: document
+Date: Tue, 04 Nov 2025 17:23:25 -0800
+Subject: [PATCH net-next v6 6/6] net: devmem: add tests for
  SO_DEVMEM_AUTORELEASE socket option
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-5-ea98cf4d40b3@meta.com>
+Message-Id: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-6-ea98cf4d40b3@meta.com>
 References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com>
 In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -90,109 +90,227 @@ X-Mailer: b4 0.14.3
 
 From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Update devmem.rst documentation to describe the new SO_DEVMEM_AUTORELEASE
-socket option and its usage.
+Add -A flag to ncdevmem to set autorelease mode.
 
-Document the following:
-- The two token release modes (automatic vs manual)
-- How to use SO_DEVMEM_AUTORELEASE to control the behavior
-- Performance benefits of disabling autorelease (~10% CPU reduction)
-- Restrictions and caveats of manual token release
-- Usage examples for both getsockopt and setsockopt
+Add tests for the SO_DEVMEM_AUTORELEASE socket option:
+
+New tests include:
+   - check_sockopt_autorelease_default: Verifies default value is 0
+   - check_sockopt_autorelease_set_0: Tests setting to 0 and reading
+     back
+   - check_sockopt_autorelease_set_1: Tests toggling from 0 to 1
+   - check_sockopt_autorelease_invalid: Tests invalid value (2) returns
+     EINVAL
+   - check_autorelease_disabled: Tests ncdevmem in manual token release
+     mode
+   - check_autorelease_enabled: Tests ncdevmem in autorelease mode
+
+All check_sockopt tests gracefully skip with KsftSkipEx if
+SO_DEVMEM_AUTORELEASE is not supported by the kernel.
 
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
- Documentation/networking/devmem.rst | 70 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 68 insertions(+), 2 deletions(-)
+ tools/testing/selftests/drivers/net/hw/devmem.py  | 115 +++++++++++++++++++++-
+ tools/testing/selftests/drivers/net/hw/ncdevmem.c |  20 +++-
+ 2 files changed, 133 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
-index a6cd7236bfbd..1bfce686dce6 100644
---- a/Documentation/networking/devmem.rst
-+++ b/Documentation/networking/devmem.rst
-@@ -215,8 +215,8 @@ Freeing frags
- -------------
+diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
+index 45c2d49d55b6..29ec179d651f 100755
+--- a/tools/testing/selftests/drivers/net/hw/devmem.py
++++ b/tools/testing/selftests/drivers/net/hw/devmem.py
+@@ -1,6 +1,9 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0
  
- Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
--processes the frag. The user must return the frag to the kernel via
--SO_DEVMEM_DONTNEED::
-+processes the frag. Users should return tokens to the kernel via
-+SO_DEVMEM_DONTNEED when they are done processing the data::
++import socket
++import errno
++
+ from os import path
+ from lib.py import ksft_run, ksft_exit
+ from lib.py import ksft_eq, KsftSkipEx
+@@ -63,12 +66,122 @@ def check_tx_chunks(cfg) -> None:
+     ksft_eq(socat.stdout.strip(), "hello\nworld")
  
- 	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
- 			 sizeof(token));
-@@ -235,6 +235,72 @@ can be less than the tokens provided by the user in case of:
- (a) an internal kernel leak bug.
- (b) the user passed more than 1024 frags.
  
++@ksft_disruptive
++def check_autorelease_disabled(cfg) -> None:
++    """Test RX with autorelease disabled (requires manual token release in ncdevmem)"""
++    require_devmem(cfg)
 +
-+Autorelease Control
-+~~~~~~~~~~~~~~~~~~~
++    port = rand_port()
++    socat = f"socat -u - TCP{cfg.addr_ipver}:{cfg.baddr}:{port},bind={cfg.remote_baddr}:{port}"
++    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr} -p {port} -c {cfg.remote_addr} -v 7 -A 0"
 +
-+The SO_DEVMEM_AUTORELEASE socket option controls what happens to outstanding
-+tokens (tokens not released via SO_DEVMEM_DONTNEED) when the socket closes::
++    with bkg(listen_cmd, exit_wait=True) as ncdevmem:
++        wait_port_listen(port)
++        cmd(f"yes $(echo -e \x01\x02\x03\x04\x05\x06) | \
++            head -c 1K | {socat}", host=cfg.remote, shell=True)
 +
-+	int autorelease = 0;  /* 0 = manual release, 1 = automatic release */
-+	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_AUTORELEASE,
-+			 &autorelease, sizeof(autorelease));
-+
-+	/* Query current setting */
-+	int current_val;
-+	socklen_t len = sizeof(current_val);
-+	ret = getsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_AUTORELEASE,
-+			 &current_val, &len);
-+
-+When autorelease is disabled (default):
-+
-+- Outstanding tokens are NOT released when the socket closes
-+- Outstanding tokens are only released when the dmabuf is unbound
-+- Provides better performance by eliminating xarray overhead (~10% CPU reduction)
-+- Kernel tracks tokens via atomic reference counters in net_iov structures
-+
-+When autorelease is enabled:
-+
-+- Outstanding tokens are automatically released when the socket closes
-+- Backwards compatible behavior
-+- Kernel tracks tokens in an xarray per socket
-+
-+Important: In both modes, applications should call SO_DEVMEM_DONTNEED to
-+return tokens as soon as they are done processing. The autorelease setting only
-+affects what happens to tokens that are still outstanding when close() is called.
-+
-+The autorelease setting can only be changed when the socket has no outstanding
-+tokens. If tokens are present, setsockopt returns -EBUSY.
++    ksft_eq(ncdevmem.ret, 0)
 +
 +
-+Performance Considerations
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
++@ksft_disruptive
++def check_autorelease_enabled(cfg) -> None:
++    """Test RX with autorelease enabled (requires token autorelease in ncdevmem)"""
++    require_devmem(cfg)
 +
-+Disabling autorelease provides approximately ~10% CPU utilization improvement in
-+RX workloads by:
++    port = rand_port()
++    socat = f"socat -u - TCP{cfg.addr_ipver}:{cfg.baddr}:{port},bind={cfg.remote_baddr}:{port}"
++    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr} -p {port} -c {cfg.remote_addr} -v 7 -A 1"
 +
-+- Eliminating xarray allocations and lookups for token tracking
-+- Using atomic reference counters instead
-+- Reducing lock contention on the xarray spinlock
++    with bkg(listen_cmd, exit_wait=True) as ncdevmem:
++        wait_port_listen(port)
++        cmd(f"yes $(echo -e \x01\x02\x03\x04\x05\x06) | \
++            head -c 1K | {socat}", host=cfg.remote, shell=True)
 +
-+However, applications must ensure all tokens are released via
-+SO_DEVMEM_DONTNEED before closing the socket, otherwise the backing pages will
-+remain pinned until the dmabuf is unbound.
-+
-+
-+Caveats
-+~~~~~~~
-+
-+- With autorelease disabled, sockets cannot switch between different dmabuf
-+  bindings. This restriction exists because tokens in this mode do not encode
-+  the binding information necessary to perform the token release.
-+
-+- Applications using manual release mode (autorelease=0) must ensure all tokens
-+  are returned via SO_DEVMEM_DONTNEED before socket close to avoid resource
-+  leaks during the lifetime of the dmabuf binding. Tokens not released before
-+  close() will only be freed when the dmabuf is unbound.
++    ksft_eq(ncdevmem.ret, 0)
 +
 +
- TX Interface
- ============
++def check_sockopt_autorelease_default(cfg) -> None:
++    """Test that SO_DEVMEM_AUTORELEASE default is 0"""
++    SO_DEVMEM_AUTORELEASE = 85
++
++    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++    try:
++        val = sock.getsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE)
++        ksft_eq(val, 0, "Default autorelease should be 0")
++    except OSError as e:
++        if e.errno == errno.ENOPROTOOPT:
++            raise KsftSkipEx("SO_DEVMEM_AUTORELEASE not supported")
++        raise
++    finally:
++        sock.close()
++
++
++def check_sockopt_autorelease_set_0(cfg) -> None:
++    """Test setting SO_DEVMEM_AUTORELEASE to 0"""
++    SO_DEVMEM_AUTORELEASE = 85
++
++    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++    try:
++        sock.setsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE, 0)
++        val = sock.getsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE)
++        ksft_eq(val, 0, "Autorelease should be 0 after setting")
++    except OSError as e:
++        if e.errno == errno.ENOPROTOOPT:
++            raise KsftSkipEx("SO_DEVMEM_AUTORELEASE not supported")
++        raise
++    finally:
++        sock.close()
++
++
++def check_sockopt_autorelease_set_1(cfg) -> None:
++    """Test setting SO_DEVMEM_AUTORELEASE to 1"""
++    SO_DEVMEM_AUTORELEASE = 85
++
++    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++    try:
++        # First set to 0
++        sock.setsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE, 0)
++        # Then set back to 1
++        sock.setsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE, 1)
++        val = sock.getsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE)
++        ksft_eq(val, 1, "Autorelease should be 1 after setting")
++    except OSError as e:
++        if e.errno == errno.ENOPROTOOPT:
++            raise KsftSkipEx("SO_DEVMEM_AUTORELEASE not supported")
++        raise
++    finally:
++        sock.close()
++
++
++def check_sockopt_autorelease_invalid(cfg) -> None:
++    """Test that SO_DEVMEM_AUTORELEASE rejects invalid values"""
++    SO_DEVMEM_AUTORELEASE = 85
++
++    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++    try:
++        try:
++            sock.setsockopt(socket.SOL_SOCKET, SO_DEVMEM_AUTORELEASE, 2)
++            raise Exception("setsockopt should have failed with EINVAL")
++        except OSError as e:
++            if e.errno == errno.ENOPROTOOPT:
++                raise KsftSkipEx("SO_DEVMEM_AUTORELEASE not supported")
++            ksft_eq(e.errno, errno.EINVAL, "Should fail with EINVAL for invalid value")
++    finally:
++        sock.close()
++
++
+ def main() -> None:
+     with NetDrvEpEnv(__file__) as cfg:
+         cfg.bin_local = path.abspath(path.dirname(__file__) + "/ncdevmem")
+         cfg.bin_remote = cfg.remote.deploy(cfg.bin_local)
  
+-        ksft_run([check_rx, check_tx, check_tx_chunks],
++        ksft_run([check_rx, check_tx, check_tx_chunks,
++                  check_autorelease_enabled,
++                  check_autorelease_disabled,
++                  check_sockopt_autorelease_default,
++                  check_sockopt_autorelease_set_0,
++                  check_sockopt_autorelease_set_1,
++                  check_sockopt_autorelease_invalid],
+                  args=(cfg, ))
+     ksft_exit()
+ 
+diff --git a/tools/testing/selftests/drivers/net/hw/ncdevmem.c b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+index 3288ed04ce08..34d608d07bec 100644
+--- a/tools/testing/selftests/drivers/net/hw/ncdevmem.c
++++ b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+@@ -83,6 +83,10 @@
+ #define MSG_SOCK_DEVMEM 0x2000000
+ #endif
+ 
++#ifndef SO_DEVMEM_AUTORELEASE
++#define SO_DEVMEM_AUTORELEASE 85
++#endif
++
+ #define MAX_IOV 1024
+ 
+ static size_t max_chunk;
+@@ -97,6 +101,7 @@ static unsigned int ifindex;
+ static unsigned int dmabuf_id;
+ static uint32_t tx_dmabuf_id;
+ static int waittime_ms = 500;
++static int autorelease = -1;
+ 
+ /* System state loaded by current_config_load() */
+ #define MAX_FLOWS	8
+@@ -890,6 +895,16 @@ static int do_server(struct memory_buffer *mem)
+ 	if (enable_reuseaddr(socket_fd))
+ 		goto err_close_socket;
+ 
++	if (autorelease >= 0) {
++		ret = setsockopt(socket_fd, SOL_SOCKET, SO_DEVMEM_AUTORELEASE,
++				 &autorelease, sizeof(autorelease));
++		if (ret) {
++			pr_err("SO_DEVMEM_AUTORELEASE failed");
++			goto err_close_socket;
++		}
++		fprintf(stderr, "Set SO_DEVMEM_AUTORELEASE to %d\n", autorelease);
++	}
++
+ 	fprintf(stderr, "binding to address %s:%d\n", server_ip,
+ 		ntohs(server_sin.sin6_port));
+ 
+@@ -1397,7 +1412,7 @@ int main(int argc, char *argv[])
+ 	int is_server = 0, opt;
+ 	int ret, err = 1;
+ 
+-	while ((opt = getopt(argc, argv, "ls:c:p:v:q:t:f:z:")) != -1) {
++	while ((opt = getopt(argc, argv, "ls:c:p:v:q:t:f:z:A:")) != -1) {
+ 		switch (opt) {
+ 		case 'l':
+ 			is_server = 1;
+@@ -1426,6 +1441,9 @@ int main(int argc, char *argv[])
+ 		case 'z':
+ 			max_chunk = atoi(optarg);
+ 			break;
++		case 'A':
++			autorelease = atoi(optarg);
++			break;
+ 		case '?':
+ 			fprintf(stderr, "unknown option: %c\n", optopt);
+ 			break;
 
 -- 
 2.47.3
