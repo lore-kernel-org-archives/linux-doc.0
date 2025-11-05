@@ -1,615 +1,290 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012055.outbound.protection.outlook.com [52.101.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C2B341656;
-	Wed,  5 Nov 2025 17:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762363368; cv=none; b=NE3e4ysPfqcGgdgGTeGpJWZeDPq4BpPnTU9+AMSyZgTLo8s+BrjrzdsxDz08zlo9PKDAdz1LH8GWjrzupW5aBWGPCNIUIipowMEFHaIFjBsPqT9HXcdeX27Y3sdEzHCmftzJ+9Zg9vt6POJsDnFtEHP26g5NJ+hy59C1JcZHRO0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762363368; c=relaxed/simple;
-	bh=4gfOWwW0GFfhp9pQAKvKIhPMiQyCt9baT5qwGYjaEoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RIzb7RGZQLjtxxcD4c+jdUu+qZ5mrFUJuPIiqt8qLrh2OoMGbG5LSh8OW4VxOg4ckQm59OYAHvPK0avZWGo+vvvfH2gk8O3l2JEmjKE9tge5UrCSbFnYUSICpnJCZyXd0SoKcACoWGVBR6MHmr7YtY8eq3+06/cflRPHFs9rtqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJzAi+et; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA70B1A9F82;
+	Wed,  5 Nov 2025 17:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762363871; cv=fail; b=ujceym+DBNXW50DMnO0F4Hcej818hCaDPjfTSz/mZLxjQ2OmhNEllSoCN4Kg5fKCfOyyXB7trZGL06+MLwwf+i5Ea8I242UjbhiQpr4IaQcwC9Kfzbdjv8oAy+iGisIAy8O6xQkal2ZAFdDXP+c84MIOZoSWfK0Mp/EvyzxFkx4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762363871; c=relaxed/simple;
+	bh=yiIbGnZ2p/0suxQQePCl4xWEgHqlQkm2YOHq0726n4w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Ei1uIvTf5/iirWCXkSr4o6Id5bKbx3y685iMiHrUdqdSdtz8dOanTWe2Bf4NfSP24VvrYTnJfmzRVQL3sNYTr7a8hhIw5EXSP7E1256KUE3Nc50wnFHFAuEZ+FWOpRqaNMjIAx3aaiPx7LbwzGQEYmspBI/KI+LTOFhbhh6ng0w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=soFtLtDH; arc=fail smtp.client-ip=52.101.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJzAi+et"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762363366; x=1793899366;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4gfOWwW0GFfhp9pQAKvKIhPMiQyCt9baT5qwGYjaEoU=;
-  b=RJzAi+etWLsi25WoUVov9tGmfwitKXK0me6TMxp+4MKkZIANthiip0L8
-   1nNp7Ht0fojlYaRSE07D+K7vqSgZLlI6Fh/DPq68qLO1RVqn+lX1VbzC+
-   xnspjVKVk2LBPqNGi36Wi11Ty2v0VoODxhTgG+jVcDwdPl3M8gihcpsTs
-   JAw1mYJi6J9Ye0gPva8y8MYVv2o3r2HkMU1YIWVhsJten0NqtuMk+h9/Y
-   MRwKidlV8eu7L9+iVGR5V5RmX6LD6OhSAGKBJRYHbHrj5TtTOVuyJFqrc
-   /a0vDwBCwjJMMZ9xiSeQYxH1jwQUNp6NmeNoXQhY5dfZ1j241a42DlKsS
-   Q==;
-X-CSE-ConnectionGUID: SrBx/XnRR6ymVmxBb0tFgg==
-X-CSE-MsgGUID: N5uB3qrfRWiXHmlRzKxSwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="68138873"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="68138873"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 09:22:45 -0800
-X-CSE-ConnectionGUID: TKbHJc1sSSK5BwuR0hqAkQ==
-X-CSE-MsgGUID: ethfkIvNQum9yX43XwuImw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="192686787"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2025 09:22:36 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGhCC-000SvP-2a;
-	Wed, 05 Nov 2025 17:21:38 +0000
-Date: Thu, 6 Nov 2025 01:16:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v6 4/6] net: devmem: add SO_DEVMEM_AUTORELEASE
- for autorelease control
-Message-ID: <202511060041.0DVnS1CV-lkp@intel.com>
-References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-4-ea98cf4d40b3@meta.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="soFtLtDH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Dpp/T7qnMqYu6GLIdqwTN3CqiY45geBZ1S/1EDz7hYf+IL2QB0x4HJw2ApMbtPfUoYp4CK5Vb8FjuNFGUI7y1fyRbydwsxf2M6rNlYIoaiDlusCwL47EbrioW69YaXEeuPlFQbN0vvxeZ3XMjve5sTv0N97L+6Hb2pCONviai/oKQkwC7fxWr6DnPNtOp8/z+M/tlps+oYFJLeHBPGEeia5TheIzuaYQw73qqvuYFaSbE3D27qSelTqq1dfJ3fjEgTMPxCgdRoRsSuBw4gwiAq3bVCdpl8eLHXQ/BbqD0C3ROjda+2gdR8LI8fKHZGDrV69UXvvXuX/o5Ob//6iihA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TDHO8QMskRnU+nScLhsVdhmJw6rRR05/NMLqoXYfmoI=;
+ b=nIEHGQN3oNw7hgk6GT2lzoNNQiBFX71Ve2UGSdXJE0EgsQLvwu4neWt+mikPfke5pIhJlPdcSTMLgYZ2FxmRETGVHqCsEHRH3ftWNq1HK2OvNRzr0b+buBER64Bp7SM4aOv1ePYBaRfsQ90Clw15RHtlyDFlRdqpW3Oj5bxuhen/qw0iR7R3TWY5gvUpOxjSYg36pk3yS1j3falBBAamokwgxStLr7kX3l0ofmvgV5JvXD4jY6HB+HaaSsn0tPoCeQAKB205+ynm60DDq8x5BhH+KkrmKqS98T/P5Kh3dcYg6zHRbNaZizmw/pEhl/XLj31IYcGD1s7MdKTT3OnGRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TDHO8QMskRnU+nScLhsVdhmJw6rRR05/NMLqoXYfmoI=;
+ b=soFtLtDH4nEs1x3VI+aA6whyLDYgwUuh0Hb7WB5QvSqXFXhbOKz7dRsgy/Cvmr0huWIr4hEKfp+DwCbKruVmtRlBjHr3bC4YXRalmdAA9J2GgxLVbGsTAcxmvBA284eJKY+UMoY1XZIQzBxgUvkVQiQ6fbpCwFYmpblucD79UGk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by CH3PR12MB8076.namprd12.prod.outlook.com
+ (2603:10b6:610:127::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.8; Wed, 5 Nov
+ 2025 17:31:06 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::8d61:56ca:a8ea:b2eb]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::8d61:56ca:a8ea:b2eb%8]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 17:31:06 +0000
+Message-ID: <4a120a9b-b84e-4cfe-af46-1b4d721c2995@amd.com>
+Date: Wed, 5 Nov 2025 11:31:02 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 06/10] fs/resctrl: Add user interface to
+ enable/disable io_alloc feature
+To: Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>
+Cc: tony.luck@intel.com, reinette.chatre@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, corbet@lwn.net,
+ james.morse@arm.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, paulmck@kernel.org, rdunlap@infradead.org,
+ pmladek@suse.com, kees@kernel.org, arnd@arndb.de, fvdl@google.com,
+ seanjc@google.com, pawan.kumar.gupta@linux.intel.com, xin@zytor.com,
+ thomas.lendacky@amd.com, sohil.mehta@intel.com, jarkko@kernel.org,
+ chang.seok.bae@intel.com, ebiggers@google.com, elena.reshetova@intel.com,
+ ak@linux.intel.com, mario.limonciello@amd.com, perry.yuan@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, feng.tang@linux.alibaba.com
+References: <cover.1761844489.git.babu.moger@amd.com>
+ <deb3a4f19d6e138a502b136034fb88ad8b8c9c75.1761844489.git.babu.moger@amd.com>
+ <aQt/dSRgtQNfJPCj@e133380.arm.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <aQt/dSRgtQNfJPCj@e133380.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0072.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2c1::28) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-4-ea98cf4d40b3@meta.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|CH3PR12MB8076:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6d63ee7-13cb-44c1-965d-08de1c9119ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K2JtYXJUM1NjcFMrUHhEbzQ0MGxXcFVqMGtMWGlLN3lTeWN6RVRNZlpZRVJq?=
+ =?utf-8?B?ZUwybEs1Mmdwd0tnNEhhb0MxQVM5aHRZd25DV1g1NElDK3dDdlB1UFYrSm5R?=
+ =?utf-8?B?eVVjRHRlM0RFd0FaWEU1R1daY2l5c2F2b1RDVTZOZE5UMUZoNEhkMTlXdVRY?=
+ =?utf-8?B?aHdIZTlLNDh0SFJhMGZxWGpWK1RUcm80RCtpZ1FZWnhVM1RGN1JrbnBXQ1dJ?=
+ =?utf-8?B?YngzRVpmU2NsbWFhajEzc3FQVURBdnQwcG1oa1lIZlo3eEtyWS9aeXFRdGdD?=
+ =?utf-8?B?OWIwcXYwTVh1UjlxTUpaWE5sem1UblVwWXZWRTlXNGIvRE0yOUVNYTJEcEM5?=
+ =?utf-8?B?UFdWbEJPd2RpLzU5aXJUNEozZkhZMzc4TCtueHBpeDFYYUIrcHJObkxkaTFv?=
+ =?utf-8?B?Y3BRY0xDNUVsa0xmY1pGTjBycXpSSzZBei9Rb3hjNmhjV1V2WXpwNDVsdnd3?=
+ =?utf-8?B?K29iY29DUEVrUlVxUlBLTDFiMytOdFNmVUJ1WkNTTXFIQ3Y3RjV2aDU1UWRh?=
+ =?utf-8?B?SlRUaGdNVVRMcUswRFNtRjg3cFZxMmRNdEdjeVF1clMwQnVacmJCbitiOXhQ?=
+ =?utf-8?B?RXdhekN0aG5sbDVsTUJ4aXdjZFdyaGFFVXh2TzBvRGw4WHMyUXRmc3BxOHQv?=
+ =?utf-8?B?SG8vT215UVRlSGdqY24xTUVDcVlXK0s3UXBKZWkydjZUSVNzZ0RuNDFvZCt4?=
+ =?utf-8?B?V1BlT2R4QVpwWnBhWExSZTNKL0YxQjM2dU1RVXZ4RzVKL1E5aHRxS3RkVHJQ?=
+ =?utf-8?B?RnptL29rSTVBWURCcVpyWU0vRmU0WVpqRCtTMEdGNW9BMTdWUm9Pdko0NHBn?=
+ =?utf-8?B?aFNNSWdVSE83b3M5bUNoNnN5MUhDMUVSQXNhSk5qVmVvWXRmUzdVS1FVWHlm?=
+ =?utf-8?B?dGEwQVVsek9mK0JuRjREZXFoMnNPTkkydmRnZGltRlVGSmhYbC9MZDQ2UGNk?=
+ =?utf-8?B?clRldlhkd0ZES3dybi9mSTZoNU15QXpYY1JhMy9mSXpkbXpTV1F1T0JYMTRZ?=
+ =?utf-8?B?clYzT1piYjVKWTAyQTArU3pvTXdWdkhtZXVtUUNBblpvVDR6RGYxRUE0RHZh?=
+ =?utf-8?B?UExpR0FkN09iYXlqRXNDWXJmclBoL00rWm5leVN6Vkp0dmk0UFRPK1lNaG5j?=
+ =?utf-8?B?Mm5XVkVjaExwT1BDaGFHSHlWbTVCVTc2dnhtYldhN2c4ZE9MclhxVytvVkFs?=
+ =?utf-8?B?U21UNkNDc3U2eHQ0TGU2M3hUSzNFM21LdXpKNWRjL1gxaUdZcm9pU2MrQm9W?=
+ =?utf-8?B?U1MxMnUwR3YwUy9aV1pjeVY5QVk1d1FtK3ZDTzdTRklEVk1ZS2xMc3J2Tldq?=
+ =?utf-8?B?bFpmVXRIck96UFk1dTR0WUU5ZDh1SlZwWlhHbEF1cTkraHRQYXl6YkdXYTlX?=
+ =?utf-8?B?b1MraklQT0pjdHdmNFFsM0duZWlLemNOTWZzbHUwVkV1aE5HYkVqOUtiR1k2?=
+ =?utf-8?B?b003VE5XNTI5TnNtWERVMHBpNkdFaFhiVm1YV2JHQ0V1aG5GbGJZQzI0TDlJ?=
+ =?utf-8?B?R2QrMEl0ZktRNXZjeHZORzdTTkpkenN5dFRwSkh0WGxQanphY1N3SGlhb1M1?=
+ =?utf-8?B?L1BoeGxiWmhnMzZ0d2VJS3NCYUsyMGFBT0RQY2EwRHB5bEFjak9rbUNLZ2Rw?=
+ =?utf-8?B?dXB2SVpmU0xjSWlIRWpVRWNoZzVWNDNaM0JteXhMbkNMcXVkQ0JGT0NNN1E0?=
+ =?utf-8?B?aFRjNE5nVm5TY0l6QXlyaWhFY1ZGdjZRcVpDWUlKY2ZxNkpsK0VBRjlpT09H?=
+ =?utf-8?B?cnI3Z2Jsci9QTHZZK0c2dWxxK3NQZXlNc1BvU2JrZTRJNk9wa0NJQlcyWm1x?=
+ =?utf-8?B?R0F4WVdhT1JBeCs0VTNPVkZCbmI5OEV5SjJqM0Fxb1VGbFNFVGFIK2g5STFM?=
+ =?utf-8?B?L0pwV0pxZ2Y5anpDQ3lpbTREY1EybWJFQml5UUltS3RRVE1SL3dhWUpZbTJt?=
+ =?utf-8?Q?73CUlWbGUXCWbuLZCYeKVB/YGjRYu+H+?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a2ZjYzUyU2NVZzlSZnJaY21wRWlPYWhRNjBtQ1BvOHNweGJpS2xvekZPZHFP?=
+ =?utf-8?B?dFdVYXZDdW1iWjhicjdOMVpDbUM2VkdPQ2FGUHhEdG1HcVBRK3pSUHRnUi9z?=
+ =?utf-8?B?MXVXelFaYjYvNWVJMWNCNm1sekdCS0ZBQWRFam5DRURKK210YkxCVVFURnFk?=
+ =?utf-8?B?VXBEVHBBSFlubGI3TUpnSnJqOWUrSGJCc3owZ0Y4T0xlU3BCV0l5MjB1bERF?=
+ =?utf-8?B?Sy9WNkZTdXkzdUdHN3ErUVNodkptejNoSDQrQlRFNWdVU1pFM1NINGIySDkr?=
+ =?utf-8?B?L3NqS3RydW5MeEErSUdLSDdjUUhBbWd1L1M0blVqbzUydVNEcHhvRkZJbGVr?=
+ =?utf-8?B?a2d3ejlqQkpWV3lCRFhabEMwTTU5RWdpNjdvekFUdXMzNlVrQ3cyUUJXMzRw?=
+ =?utf-8?B?MDczMnNQbzFWZzRsTFFVakZPLzdtNURHWnFwMFdJVlRKcUZjdi85bkRlYzBK?=
+ =?utf-8?B?b3o4RGl0bEwzd3dxSFNlT1FSaGZnMGRsejZacC8yVENjcG84bVMyTjBHQVpC?=
+ =?utf-8?B?ZE9kbzdzSFZiZklrbGpjV2hyWU9oRVczL3FydjZNbk44R205OFlCLzlQWkRh?=
+ =?utf-8?B?eFlZNjZIM1JmMms2MHRGN0R4N3dyc0lxd3ZVV2FJbFpUN3pHbE5BSEVvRWlZ?=
+ =?utf-8?B?RkxtVnJYdWU5VHJTTklPTTZTNFZNcXA1VDkvUjkzUEI4VFBHME9tL2dMWkRy?=
+ =?utf-8?B?OGlSUXJTWkgvYVZrRTZvdFdzSmNvZjRxbHdmRzJlMFRHVVc0NVZqTytJQlRy?=
+ =?utf-8?B?a25KM3NkV29GWWRCbEtXT1o5Ri9adkhYZDhPVEFiUzYxM251cHROM3JhNDll?=
+ =?utf-8?B?MUlNdnJ6R2hkd1dSWjZkN2pXQzN2QnJBQlZRYlJUV09sSHZGb3lZVVB3WEpq?=
+ =?utf-8?B?QTBsZExSVUsrdDhhTUNLc2VGR2xkWVRra0l0R3ZZY2xkZzVqSVpRN1E5dW1G?=
+ =?utf-8?B?TW51MUJkNjliNklibURCOEdSK09xSGRmMmtKcnlzcHErYjZjaGZFRytCdzI4?=
+ =?utf-8?B?REdMTFFhU3p0Nk03bU5CRGRsc3BMemZVTVk1USswUEw4ZkN0dWpoTEhoSlZl?=
+ =?utf-8?B?SStuZ1EwRTVEM3h0QVNwYi8yUzNnUjB5TkdFNEhKOEpBckp1TGpFd2xxb0FN?=
+ =?utf-8?B?UGxyclV0RVJvZngzZnMzUzRMMW5jVFhUeWZlV1JkWVovajQ1VEpEYUhjNkV1?=
+ =?utf-8?B?ekxsNi9BdXc4OEEwYVFkUmNDSkJoTE9GdGV2aFQwNEZFUnJhcFZHQlJncExR?=
+ =?utf-8?B?NHdoWDNHTlVPWTFac2VyQW5uQW1mV1dMdFE5Ymx4Nm9kbkVhdVZJVXh5UU8x?=
+ =?utf-8?B?R0xFaERhaDhFZmNCdS90VzNpdm5RK3hTc2RwUTVjUW9OTWsrQ3RPUFpRa1Bk?=
+ =?utf-8?B?NmNpSkNQcHBCYWVpckpQbmVPREdEeFBjS3Z2blJ5ODhiejJSdThXZWFJM25M?=
+ =?utf-8?B?emZZUHZQOVVkWVdzTlY2a2FvZ2xZcSsvNkE4YzNmUzhiOGNLdkx1SDhtMlFq?=
+ =?utf-8?B?UXA1RGkvajFUTytBMkJDRitRb01aLzdXOGJhRzRmM2s4L1gyTnhZTGtyTjVF?=
+ =?utf-8?B?YXJxTDBCT2NKNEZDdUJKaHFSWWd4U1JRV1dvWjJBTzNXM0xvRHFFZ0lyeTZ2?=
+ =?utf-8?B?c0EvSzNQRElMcHY4ZERHUEUzNjlmM1hQTEprY1JtZDU4aXhQUFU5YmNLSHVm?=
+ =?utf-8?B?TVZKS08weXA5c1hOSHVSUmFhUHZEcGsxOWlLWTdkTWpPQmJiMzZrQVlQL0c0?=
+ =?utf-8?B?d1diZXdNeWxmdEdQenZzcStqbU1XdVF5a3pVT3RYOTdZZ2ZNZU4wT2JSQmdL?=
+ =?utf-8?B?ZGl3MllCVExOcjRiMEhnN0dWTHIzRUMrN3dJd3YxNldxTTdUQ0VMNXhhSUpJ?=
+ =?utf-8?B?eUsyVmtHVDRxUlVCYmFGWWlTWUhhblg5VXRORDFrSHE5QjJsZDcyWnF5RHRx?=
+ =?utf-8?B?UGc5cWJMQmRyL3Z2TzNHZ3htVy9xdnNXT1JFQVZtemMzMm9EeHl4bXIya21Q?=
+ =?utf-8?B?eUd1dS9SUGExVlN3N1NGWVM2VE5lWFF4clBHdm14M2RUSUlSenkzZTZPTnRl?=
+ =?utf-8?B?VWpOMkh4ZW1aR1A4NEZPL2J6ejkzSlNCa2EvRGE2Vmgwd3VPNmZKMkpxV1Bx?=
+ =?utf-8?Q?5LyYHvg2jkqj9m2EU1z0JtvnC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6d63ee7-13cb-44c1-965d-08de1c9119ef
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 17:31:06.6764
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2YpnpdePpa4Xr2jktLEZwnP5glVkEFmkoRSE7jNIchCSJspXMmpG8FH0P7MtVzm+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8076
 
-Hi Bobby,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+On 11/5/2025 10:46 AM, Dave Martin wrote:
+> Hi Babu,
+> 
+> On Thu, Oct 30, 2025 at 12:15:35PM -0500, Babu Moger wrote:
+>> AMD's SDCIAE forces all SDCI lines to be placed into the L3 cache portions
+>> identified by the highest-supported L3_MASK_n register, where n is the
+>> maximum supported CLOSID.
+>>
+>> To support AMD's SDCIAE, when io_alloc resctrl feature is enabled, reserve
+>> the highest CLOSID exclusively for I/O allocation traffic making it no
+>> longer available for general CPU cache allocation.
+> 
+> Does resctrl have a free choice for which CLOSID to use?  (From the
+> code, it appears "yes"?)
 
-[auto build test ERROR on 255d75ef029f33f75fcf5015052b7302486f7ad2]
+Yes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
-base:   255d75ef029f33f75fcf5015052b7302486f7ad2
-patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-4-ea98cf4d40b3%40meta.com
-patch subject: [PATCH net-next v6 4/6] net: devmem: add SO_DEVMEM_AUTORELEASE for autorelease control
-config: sparc64-randconfig-002-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060041.0DVnS1CV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060041.0DVnS1CV-lkp@intel.com/reproduce)
+But in AMD systems its the highest CLOSID (15). Also, this CLOSID usage 
+in not visible to user. There is no update of PQR_ASSOC register during 
+the context switch. Hardware internally routes the traffic using the 
+CLOSID's(15) limits.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060041.0DVnS1CV-lkp@intel.com/
+> 
+> Could this be exposed as a special control group?  Or could IO be made
+> a special "task" that can be added to regular control groups?
+> 
+> e.g.,
+> 
+> # mkdir /sys/fs/resctrl/some_group
+> # some_group IO >/sys/fs/resctrl/some_group/tasks
+> 
+> This would assign the group's CLOSID to IO (in addition to any tasks
+> using the CLOSID).
+> 
+> Or, we have some special file:
+> 
+> # echo foo >/sys/fs/resctrl/some_group/io_devices
+> 
+> This would assign the group's CLOSID to the device "foo" (we'd need
+> some manageable naming scheme, preferably that maps in a sane way to
+> sysfs).
+> 
+> 
+> I'm not trying to rock the boat here, but for MPAM we're anticipating
+> the need to be able to control the CLOSID used by devices that are
+> behind an IOMMU.  (Arm's SMMU allows a PARTID to be configured for each
+> device I/O context behind the SMMU.)
+> 
+> This is desirable for assigning devices to VMs, so that their traffic
+> can be managed alongside the VM.
+> 
+> 
+> Do you think SDCIAE could fit in with this kind of scheme?
 
-All errors (new ones prefixed by >>):
+All these things you mentioned can be done today without SDCIAE also.
+It does not need SDCIAE or similar feature.
 
-   net/core/sock.c: In function 'sk_setsockopt':
->> net/core/sock.c:1395:7: error: 'SO_DEVMEM_AUTORELEASE' undeclared (first use in this function)
-    1395 |  case SO_DEVMEM_AUTORELEASE:
-         |       ^~~~~~~~~~~~~~~~~~~~~
-   net/core/sock.c:1395:7: note: each undeclared identifier is reported only once for each function it appears in
-   net/core/sock.c: In function 'sk_getsockopt':
-   net/core/sock.c:2255:7: error: 'SO_DEVMEM_AUTORELEASE' undeclared (first use in this function)
-    2255 |  case SO_DEVMEM_AUTORELEASE:
-         |       ^~~~~~~~~~~~~~~~~~~~~
+You can consolidate all the IO tasks into one group and assign limits or 
+monitor. However, resctrl does not have the knowledge of IO devices (or 
+names of the devices). It only knows about the tasks.
+
+> 
+> 
+> [...]
+> 
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index 108995640ca5..89e856e6892c 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -152,6 +152,29 @@ related to allocation:
+>>   			"not supported":
+>>   			      Support not available for this resource.
+>>   
+>> +		The feature can be modified by writing to the interface, for example:
+>> +
+>> +		To enable:
+>> +			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
+>> +
+>> +		To disable:
+>> +			# echo 0 > /sys/fs/resctrl/info/L3/io_alloc
+> 
+> "info" is mostly read-only, though it does seems a reasonable place for
+> per-resource global controls.  Today, there is already
+> "max_threshold_occupancy".
+
+Agree.
+
+> 
+> It doesn't feel worth trying to introduce a new hierarchy for this kind
+> of thing, but the name "info" does not suggest that there are writable
+> controls here.
+> 
+> To make it official, does it make sense to add something like:
+> 
+> --8<--
+> 
+> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+> index fbbcf5421346..0cc9edf8d357 100644
+> --- a/Documentation/filesystems/resctrl.rst
+> +++ b/Documentation/filesystems/resctrl.rst
+> @@ -72,6 +72,10 @@ The 'info' directory contains information about the enabled
+>   resources. Each resource has its own subdirectory. The subdirectory
+>   names reflect the resource names.
+>   
+> +Most of the files in the resource's subdirectory are read-only, and describe
+> +properties of the resource. Resources that have global configuration options
+> +provide writable files here that can be used to control them.
+> +
+
+Yes. It is reasonable. We can add it. How about this?
+
+"Most of the files in the resource's subdirectory are read-only, and 
+describe properties of the resource. Resources that support global 
+configuration options also include writable files that can be used to 
+modify those settings."
 
 
-vim +/SO_DEVMEM_AUTORELEASE +1395 net/core/sock.c
-
-  1282	
-  1283	/*
-  1284	 *	This is meant for all protocols to use and covers goings on
-  1285	 *	at the socket level. Everything here is generic.
-  1286	 */
-  1287	
-  1288	int sk_setsockopt(struct sock *sk, int level, int optname,
-  1289			  sockptr_t optval, unsigned int optlen)
-  1290	{
-  1291		struct so_timestamping timestamping;
-  1292		struct socket *sock = sk->sk_socket;
-  1293		struct sock_txtime sk_txtime;
-  1294		int val;
-  1295		int valbool;
-  1296		struct linger ling;
-  1297		int ret = 0;
-  1298	
-  1299		/*
-  1300		 *	Options without arguments
-  1301		 */
-  1302	
-  1303		if (optname == SO_BINDTODEVICE)
-  1304			return sock_setbindtodevice(sk, optval, optlen);
-  1305	
-  1306		if (optlen < sizeof(int))
-  1307			return -EINVAL;
-  1308	
-  1309		if (copy_from_sockptr(&val, optval, sizeof(val)))
-  1310			return -EFAULT;
-  1311	
-  1312		valbool = val ? 1 : 0;
-  1313	
-  1314		/* handle options which do not require locking the socket. */
-  1315		switch (optname) {
-  1316		case SO_PRIORITY:
-  1317			if (sk_set_prio_allowed(sk, val)) {
-  1318				sock_set_priority(sk, val);
-  1319				return 0;
-  1320			}
-  1321			return -EPERM;
-  1322		case SO_TYPE:
-  1323		case SO_PROTOCOL:
-  1324		case SO_DOMAIN:
-  1325		case SO_ERROR:
-  1326			return -ENOPROTOOPT;
-  1327	#ifdef CONFIG_NET_RX_BUSY_POLL
-  1328		case SO_BUSY_POLL:
-  1329			if (val < 0)
-  1330				return -EINVAL;
-  1331			WRITE_ONCE(sk->sk_ll_usec, val);
-  1332			return 0;
-  1333		case SO_PREFER_BUSY_POLL:
-  1334			if (valbool && !sockopt_capable(CAP_NET_ADMIN))
-  1335				return -EPERM;
-  1336			WRITE_ONCE(sk->sk_prefer_busy_poll, valbool);
-  1337			return 0;
-  1338		case SO_BUSY_POLL_BUDGET:
-  1339			if (val > READ_ONCE(sk->sk_busy_poll_budget) &&
-  1340			    !sockopt_capable(CAP_NET_ADMIN))
-  1341				return -EPERM;
-  1342			if (val < 0 || val > U16_MAX)
-  1343				return -EINVAL;
-  1344			WRITE_ONCE(sk->sk_busy_poll_budget, val);
-  1345			return 0;
-  1346	#endif
-  1347		case SO_MAX_PACING_RATE:
-  1348			{
-  1349			unsigned long ulval = (val == ~0U) ? ~0UL : (unsigned int)val;
-  1350			unsigned long pacing_rate;
-  1351	
-  1352			if (sizeof(ulval) != sizeof(val) &&
-  1353			    optlen >= sizeof(ulval) &&
-  1354			    copy_from_sockptr(&ulval, optval, sizeof(ulval))) {
-  1355				return -EFAULT;
-  1356			}
-  1357			if (ulval != ~0UL)
-  1358				cmpxchg(&sk->sk_pacing_status,
-  1359					SK_PACING_NONE,
-  1360					SK_PACING_NEEDED);
-  1361			/* Pairs with READ_ONCE() from sk_getsockopt() */
-  1362			WRITE_ONCE(sk->sk_max_pacing_rate, ulval);
-  1363			pacing_rate = READ_ONCE(sk->sk_pacing_rate);
-  1364			if (ulval < pacing_rate)
-  1365				WRITE_ONCE(sk->sk_pacing_rate, ulval);
-  1366			return 0;
-  1367			}
-  1368		case SO_TXREHASH:
-  1369			if (!sk_is_tcp(sk))
-  1370				return -EOPNOTSUPP;
-  1371			if (val < -1 || val > 1)
-  1372				return -EINVAL;
-  1373			if ((u8)val == SOCK_TXREHASH_DEFAULT)
-  1374				val = READ_ONCE(sock_net(sk)->core.sysctl_txrehash);
-  1375			/* Paired with READ_ONCE() in tcp_rtx_synack()
-  1376			 * and sk_getsockopt().
-  1377			 */
-  1378			WRITE_ONCE(sk->sk_txrehash, (u8)val);
-  1379			return 0;
-  1380		case SO_PEEK_OFF:
-  1381			{
-  1382			int (*set_peek_off)(struct sock *sk, int val);
-  1383	
-  1384			set_peek_off = READ_ONCE(sock->ops)->set_peek_off;
-  1385			if (set_peek_off)
-  1386				ret = set_peek_off(sk, val);
-  1387			else
-  1388				ret = -EOPNOTSUPP;
-  1389			return ret;
-  1390			}
-  1391	#ifdef CONFIG_PAGE_POOL
-  1392		case SO_DEVMEM_DONTNEED:
-  1393			return sock_devmem_dontneed(sk, optval, optlen);
-  1394	
-> 1395		case SO_DEVMEM_AUTORELEASE:
-  1396			return sock_devmem_set_autorelease(sk, optval, optlen);
-  1397	#endif
-  1398		case SO_SNDTIMEO_OLD:
-  1399		case SO_SNDTIMEO_NEW:
-  1400			return sock_set_timeout(&sk->sk_sndtimeo, optval,
-  1401						optlen, optname == SO_SNDTIMEO_OLD);
-  1402		case SO_RCVTIMEO_OLD:
-  1403		case SO_RCVTIMEO_NEW:
-  1404			return sock_set_timeout(&sk->sk_rcvtimeo, optval,
-  1405						optlen, optname == SO_RCVTIMEO_OLD);
-  1406		}
-  1407	
-  1408		sockopt_lock_sock(sk);
-  1409	
-  1410		switch (optname) {
-  1411		case SO_DEBUG:
-  1412			if (val && !sockopt_capable(CAP_NET_ADMIN))
-  1413				ret = -EACCES;
-  1414			else
-  1415				sock_valbool_flag(sk, SOCK_DBG, valbool);
-  1416			break;
-  1417		case SO_REUSEADDR:
-  1418			sk->sk_reuse = (valbool ? SK_CAN_REUSE : SK_NO_REUSE);
-  1419			break;
-  1420		case SO_REUSEPORT:
-  1421			if (valbool && !sk_is_inet(sk))
-  1422				ret = -EOPNOTSUPP;
-  1423			else
-  1424				sk->sk_reuseport = valbool;
-  1425			break;
-  1426		case SO_DONTROUTE:
-  1427			sock_valbool_flag(sk, SOCK_LOCALROUTE, valbool);
-  1428			sk_dst_reset(sk);
-  1429			break;
-  1430		case SO_BROADCAST:
-  1431			sock_valbool_flag(sk, SOCK_BROADCAST, valbool);
-  1432			break;
-  1433		case SO_SNDBUF:
-  1434			/* Don't error on this BSD doesn't and if you think
-  1435			 * about it this is right. Otherwise apps have to
-  1436			 * play 'guess the biggest size' games. RCVBUF/SNDBUF
-  1437			 * are treated in BSD as hints
-  1438			 */
-  1439			val = min_t(u32, val, READ_ONCE(sysctl_wmem_max));
-  1440	set_sndbuf:
-  1441			/* Ensure val * 2 fits into an int, to prevent max_t()
-  1442			 * from treating it as a negative value.
-  1443			 */
-  1444			val = min_t(int, val, INT_MAX / 2);
-  1445			sk->sk_userlocks |= SOCK_SNDBUF_LOCK;
-  1446			WRITE_ONCE(sk->sk_sndbuf,
-  1447				   max_t(int, val * 2, SOCK_MIN_SNDBUF));
-  1448			/* Wake up sending tasks if we upped the value. */
-  1449			sk->sk_write_space(sk);
-  1450			break;
-  1451	
-  1452		case SO_SNDBUFFORCE:
-  1453			if (!sockopt_capable(CAP_NET_ADMIN)) {
-  1454				ret = -EPERM;
-  1455				break;
-  1456			}
-  1457	
-  1458			/* No negative values (to prevent underflow, as val will be
-  1459			 * multiplied by 2).
-  1460			 */
-  1461			if (val < 0)
-  1462				val = 0;
-  1463			goto set_sndbuf;
-  1464	
-  1465		case SO_RCVBUF:
-  1466			/* Don't error on this BSD doesn't and if you think
-  1467			 * about it this is right. Otherwise apps have to
-  1468			 * play 'guess the biggest size' games. RCVBUF/SNDBUF
-  1469			 * are treated in BSD as hints
-  1470			 */
-  1471			__sock_set_rcvbuf(sk, min_t(u32, val, READ_ONCE(sysctl_rmem_max)));
-  1472			break;
-  1473	
-  1474		case SO_RCVBUFFORCE:
-  1475			if (!sockopt_capable(CAP_NET_ADMIN)) {
-  1476				ret = -EPERM;
-  1477				break;
-  1478			}
-  1479	
-  1480			/* No negative values (to prevent underflow, as val will be
-  1481			 * multiplied by 2).
-  1482			 */
-  1483			__sock_set_rcvbuf(sk, max(val, 0));
-  1484			break;
-  1485	
-  1486		case SO_KEEPALIVE:
-  1487			if (sk->sk_prot->keepalive)
-  1488				sk->sk_prot->keepalive(sk, valbool);
-  1489			sock_valbool_flag(sk, SOCK_KEEPOPEN, valbool);
-  1490			break;
-  1491	
-  1492		case SO_OOBINLINE:
-  1493			sock_valbool_flag(sk, SOCK_URGINLINE, valbool);
-  1494			break;
-  1495	
-  1496		case SO_NO_CHECK:
-  1497			sk->sk_no_check_tx = valbool;
-  1498			break;
-  1499	
-  1500		case SO_LINGER:
-  1501			if (optlen < sizeof(ling)) {
-  1502				ret = -EINVAL;	/* 1003.1g */
-  1503				break;
-  1504			}
-  1505			if (copy_from_sockptr(&ling, optval, sizeof(ling))) {
-  1506				ret = -EFAULT;
-  1507				break;
-  1508			}
-  1509			if (!ling.l_onoff) {
-  1510				sock_reset_flag(sk, SOCK_LINGER);
-  1511			} else {
-  1512				unsigned long t_sec = ling.l_linger;
-  1513	
-  1514				if (t_sec >= MAX_SCHEDULE_TIMEOUT / HZ)
-  1515					WRITE_ONCE(sk->sk_lingertime, MAX_SCHEDULE_TIMEOUT);
-  1516				else
-  1517					WRITE_ONCE(sk->sk_lingertime, t_sec * HZ);
-  1518				sock_set_flag(sk, SOCK_LINGER);
-  1519			}
-  1520			break;
-  1521	
-  1522		case SO_BSDCOMPAT:
-  1523			break;
-  1524	
-  1525		case SO_TIMESTAMP_OLD:
-  1526		case SO_TIMESTAMP_NEW:
-  1527		case SO_TIMESTAMPNS_OLD:
-  1528		case SO_TIMESTAMPNS_NEW:
-  1529			sock_set_timestamp(sk, optname, valbool);
-  1530			break;
-  1531	
-  1532		case SO_TIMESTAMPING_NEW:
-  1533		case SO_TIMESTAMPING_OLD:
-  1534			if (optlen == sizeof(timestamping)) {
-  1535				if (copy_from_sockptr(&timestamping, optval,
-  1536						      sizeof(timestamping))) {
-  1537					ret = -EFAULT;
-  1538					break;
-  1539				}
-  1540			} else {
-  1541				memset(&timestamping, 0, sizeof(timestamping));
-  1542				timestamping.flags = val;
-  1543			}
-  1544			ret = sock_set_timestamping(sk, optname, timestamping);
-  1545			break;
-  1546	
-  1547		case SO_RCVLOWAT:
-  1548			{
-  1549			int (*set_rcvlowat)(struct sock *sk, int val) = NULL;
-  1550	
-  1551			if (val < 0)
-  1552				val = INT_MAX;
-  1553			if (sock)
-  1554				set_rcvlowat = READ_ONCE(sock->ops)->set_rcvlowat;
-  1555			if (set_rcvlowat)
-  1556				ret = set_rcvlowat(sk, val);
-  1557			else
-  1558				WRITE_ONCE(sk->sk_rcvlowat, val ? : 1);
-  1559			break;
-  1560			}
-  1561		case SO_ATTACH_FILTER: {
-  1562			struct sock_fprog fprog;
-  1563	
-  1564			ret = copy_bpf_fprog_from_user(&fprog, optval, optlen);
-  1565			if (!ret)
-  1566				ret = sk_attach_filter(&fprog, sk);
-  1567			break;
-  1568		}
-  1569		case SO_ATTACH_BPF:
-  1570			ret = -EINVAL;
-  1571			if (optlen == sizeof(u32)) {
-  1572				u32 ufd;
-  1573	
-  1574				ret = -EFAULT;
-  1575				if (copy_from_sockptr(&ufd, optval, sizeof(ufd)))
-  1576					break;
-  1577	
-  1578				ret = sk_attach_bpf(ufd, sk);
-  1579			}
-  1580			break;
-  1581	
-  1582		case SO_ATTACH_REUSEPORT_CBPF: {
-  1583			struct sock_fprog fprog;
-  1584	
-  1585			ret = copy_bpf_fprog_from_user(&fprog, optval, optlen);
-  1586			if (!ret)
-  1587				ret = sk_reuseport_attach_filter(&fprog, sk);
-  1588			break;
-  1589		}
-  1590		case SO_ATTACH_REUSEPORT_EBPF:
-  1591			ret = -EINVAL;
-  1592			if (optlen == sizeof(u32)) {
-  1593				u32 ufd;
-  1594	
-  1595				ret = -EFAULT;
-  1596				if (copy_from_sockptr(&ufd, optval, sizeof(ufd)))
-  1597					break;
-  1598	
-  1599				ret = sk_reuseport_attach_bpf(ufd, sk);
-  1600			}
-  1601			break;
-  1602	
-  1603		case SO_DETACH_REUSEPORT_BPF:
-  1604			ret = reuseport_detach_prog(sk);
-  1605			break;
-  1606	
-  1607		case SO_DETACH_FILTER:
-  1608			ret = sk_detach_filter(sk);
-  1609			break;
-  1610	
-  1611		case SO_LOCK_FILTER:
-  1612			if (sock_flag(sk, SOCK_FILTER_LOCKED) && !valbool)
-  1613				ret = -EPERM;
-  1614			else
-  1615				sock_valbool_flag(sk, SOCK_FILTER_LOCKED, valbool);
-  1616			break;
-  1617	
-  1618		case SO_MARK:
-  1619			if (!sockopt_ns_capable(sock_net(sk)->user_ns, CAP_NET_RAW) &&
-  1620			    !sockopt_ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN)) {
-  1621				ret = -EPERM;
-  1622				break;
-  1623			}
-  1624	
-  1625			__sock_set_mark(sk, val);
-  1626			break;
-  1627		case SO_RCVMARK:
-  1628			sock_valbool_flag(sk, SOCK_RCVMARK, valbool);
-  1629			break;
-  1630	
-  1631		case SO_RCVPRIORITY:
-  1632			sock_valbool_flag(sk, SOCK_RCVPRIORITY, valbool);
-  1633			break;
-  1634	
-  1635		case SO_RXQ_OVFL:
-  1636			sock_valbool_flag(sk, SOCK_RXQ_OVFL, valbool);
-  1637			break;
-  1638	
-  1639		case SO_WIFI_STATUS:
-  1640			sock_valbool_flag(sk, SOCK_WIFI_STATUS, valbool);
-  1641			break;
-  1642	
-  1643		case SO_NOFCS:
-  1644			sock_valbool_flag(sk, SOCK_NOFCS, valbool);
-  1645			break;
-  1646	
-  1647		case SO_SELECT_ERR_QUEUE:
-  1648			sock_valbool_flag(sk, SOCK_SELECT_ERR_QUEUE, valbool);
-  1649			break;
-  1650	
-  1651		case SO_PASSCRED:
-  1652			if (sk_may_scm_recv(sk))
-  1653				sk->sk_scm_credentials = valbool;
-  1654			else
-  1655				ret = -EOPNOTSUPP;
-  1656			break;
-  1657	
-  1658		case SO_PASSSEC:
-  1659			if (IS_ENABLED(CONFIG_SECURITY_NETWORK) && sk_may_scm_recv(sk))
-  1660				sk->sk_scm_security = valbool;
-  1661			else
-  1662				ret = -EOPNOTSUPP;
-  1663			break;
-  1664	
-  1665		case SO_PASSPIDFD:
-  1666			if (sk_is_unix(sk))
-  1667				sk->sk_scm_pidfd = valbool;
-  1668			else
-  1669				ret = -EOPNOTSUPP;
-  1670			break;
-  1671	
-  1672		case SO_PASSRIGHTS:
-  1673			if (sk_is_unix(sk))
-  1674				sk->sk_scm_rights = valbool;
-  1675			else
-  1676				ret = -EOPNOTSUPP;
-  1677			break;
-  1678	
-  1679		case SO_INCOMING_CPU:
-  1680			reuseport_update_incoming_cpu(sk, val);
-  1681			break;
-  1682	
-  1683		case SO_CNX_ADVICE:
-  1684			if (val == 1)
-  1685				dst_negative_advice(sk);
-  1686			break;
-  1687	
-  1688		case SO_ZEROCOPY:
-  1689			if (sk->sk_family == PF_INET || sk->sk_family == PF_INET6) {
-  1690				if (!(sk_is_tcp(sk) ||
-  1691				      (sk->sk_type == SOCK_DGRAM &&
-  1692				       sk->sk_protocol == IPPROTO_UDP)))
-  1693					ret = -EOPNOTSUPP;
-  1694			} else if (sk->sk_family != PF_RDS) {
-  1695				ret = -EOPNOTSUPP;
-  1696			}
-  1697			if (!ret) {
-  1698				if (val < 0 || val > 1)
-  1699					ret = -EINVAL;
-  1700				else
-  1701					sock_valbool_flag(sk, SOCK_ZEROCOPY, valbool);
-  1702			}
-  1703			break;
-  1704	
-  1705		case SO_TXTIME:
-  1706			if (optlen != sizeof(struct sock_txtime)) {
-  1707				ret = -EINVAL;
-  1708				break;
-  1709			} else if (copy_from_sockptr(&sk_txtime, optval,
-  1710				   sizeof(struct sock_txtime))) {
-  1711				ret = -EFAULT;
-  1712				break;
-  1713			} else if (sk_txtime.flags & ~SOF_TXTIME_FLAGS_MASK) {
-  1714				ret = -EINVAL;
-  1715				break;
-  1716			}
-  1717			/* CLOCK_MONOTONIC is only used by sch_fq, and this packet
-  1718			 * scheduler has enough safe guards.
-  1719			 */
-  1720			if (sk_txtime.clockid != CLOCK_MONOTONIC &&
-  1721			    !sockopt_ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN)) {
-  1722				ret = -EPERM;
-  1723				break;
-  1724			}
-  1725	
-  1726			ret = sockopt_validate_clockid(sk_txtime.clockid);
-  1727			if (ret)
-  1728				break;
-  1729	
-  1730			sock_valbool_flag(sk, SOCK_TXTIME, true);
-  1731			sk->sk_clockid = sk_txtime.clockid;
-  1732			sk->sk_txtime_deadline_mode =
-  1733				!!(sk_txtime.flags & SOF_TXTIME_DEADLINE_MODE);
-  1734			sk->sk_txtime_report_errors =
-  1735				!!(sk_txtime.flags & SOF_TXTIME_REPORT_ERRORS);
-  1736			break;
-  1737	
-  1738		case SO_BINDTOIFINDEX:
-  1739			ret = sock_bindtoindex_locked(sk, val);
-  1740			break;
-  1741	
-  1742		case SO_BUF_LOCK:
-  1743			if (val & ~SOCK_BUF_LOCK_MASK) {
-  1744				ret = -EINVAL;
-  1745				break;
-  1746			}
-  1747			sk->sk_userlocks = val | (sk->sk_userlocks &
-  1748						  ~SOCK_BUF_LOCK_MASK);
-  1749			break;
-  1750	
-  1751		case SO_RESERVE_MEM:
-  1752		{
-  1753			int delta;
-  1754	
-  1755			if (val < 0) {
-  1756				ret = -EINVAL;
-  1757				break;
-  1758			}
-  1759	
-  1760			delta = val - sk->sk_reserved_mem;
-  1761			if (delta < 0)
-  1762				sock_release_reserved_memory(sk, -delta);
-  1763			else
-  1764				ret = sock_reserve_memory(sk, delta);
-  1765			break;
-  1766		}
-  1767	
-  1768		default:
-  1769			ret = -ENOPROTOOPT;
-  1770			break;
-  1771		}
-  1772		sockopt_release_sock(sk);
-  1773		return ret;
-  1774	}
-  1775	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Babu
