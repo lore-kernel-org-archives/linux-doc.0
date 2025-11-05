@@ -1,100 +1,116 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8822F6168;
-	Wed,  5 Nov 2025 23:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E49F50F
+	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762385196; cv=none; b=urFC16uiQaPi5VLRjONOAVNS58wMPON/WjXHvFe2Zyd1lDPtA9FuGL+WLySmr6Yd9Sat4QDIELeLX5Ct9UYUvAdD6JqQLYvAxll9saMylaYsZxuJ/Rdvgn11wRlMbGBmYBEN/mS30QfhpaRBhByoFD9BHyuVgluYHAM7hawBhhQ=
+	t=1762385560; cv=none; b=n/wlL+ltcY9R1cJtL8gCIiLNyPRJMUClyCEOixY0GFyir1nlDAFgQ65XgZ7fzm9ZwtX8uGOZdpw6mKqg8s3+dmFYwd9jGZoeoTRwNKHBe0g1mJadh59wAumoWO4H1Og+Sm4rAeZpzXnWkXQejNJLDKj2679tjmS5UdAuIs0mABo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762385196; c=relaxed/simple;
-	bh=XUj1itDk6Fs0j99eYL38hRxsBNXp/8pzC7yr7UeJNt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MOjuP7EnLs1dOZEQ8qmHd8qV1z8FtIYApHPwcU6kzWH8585+TA48Ix+bdZFm6gxeMZOOPlALOQSEGPG5deY0bqMAkirTthnmUTML2ytulW8mx1kIBr8qnXs5MBGvc8mwiR6LbESOyVKTi0W9K9cWDWPIUOWdW1S1QuJ1/6sd78k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cO0u/46g; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1762385560; c=relaxed/simple;
+	bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYocUDVBDd9AxUN2kexkLaE2Fj74S2sgGRzpbjm/ry49my/hyMJFRRTiHp4aG3XD57vit8MFMbkX9FfFX4OmMh6Ml29czVH5pXyfrNlcUOVf2puzmvaJyHFwRtheNXk4k0E3R82Cl5Aub3Oc+V86ePW61wNGS3VB7YpNhmScj/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWw1J20y; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cO0u/46g"
-Received: from ubuntu.. (unknown [131.107.174.57])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 511A4211FEAA;
-	Wed,  5 Nov 2025 15:26:34 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 511A4211FEAA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1762385194;
-	bh=y4yWSZvpXNw96xLFnutJZ9rJo+5mrC89tk8wZFQYBRs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cO0u/46gO55dJ8/vvpzeezdWQATL1HPM3hhvs5t5cw9mQnUfDkdHhBGU+hztGI5bP
-	 GsmHlRtWlsXu0+4FrIN4ByBt6Wme0Bz7hAhniqpn9r6MgaB3tgeFwNBlSywJTujkPt
-	 d+yoINO9RhKfzsNyKkJbgPGY7Qr71pkQGmABloi0=
-From: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-To: wufan@kernel.org,
-	paul@paul-moore.com,
-	mic@digikod.net
-Cc: jmorris@namei.org,
-	serge@hallyn.com,
-	corbet@lwn.net,
-	yanzhuhuang@linux.microsoft.com,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] ipe: Update documentation for script enforcement
-Date: Wed,  5 Nov 2025 23:26:15 +0000
-Message-ID: <20251105232615.720861-3-yanzhuhuang@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
-References: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWw1J20y"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-295548467c7so3987105ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 15:32:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762385558; x=1762990358; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
+        b=FWw1J20yRloskHdSuQWug5keqgd/8WSM/HclUUIknagWX4nXL+HnS9SzgtDPAhTiTA
+         MfxUQoE4wh3xS/TZGb/eMkxvuzI9RMOR23MLwdJgevFkv6obOvbUnA/JgX5FTgOTqOVH
+         B4ULf/UgKoE5kbXlQ/y9io0kOwJI+ZFhohcY9mdc2lNwY37Y0Z6rbimuOQCnGKlwhuYA
+         TgEDHAxCR4AcFprtUMwUAf46Lm2Y02V8K32mpfXIcfVhfmQHSgpzRnxOmhXIBCLjvi6L
+         ppQOj80IDomIQiZ2dQvGHJ+MgoL84yuFJOvGmIxY7czD0Fa19/p4z5Usms35sBGNcX0j
+         berw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762385558; x=1762990358;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnTm+ozSRZaCK9bpPSSeJvTXgMs06nW1kYwVBeO3ndE=;
+        b=ioc/AYg7sg95ySF0CV2tdHH5rMaDlmIpt+UQki3YshWSQRlBCa5YFxqNyelWdzjnbV
+         nlAyWBrnl9yPYE5Dd8jCnI4JZV72TgVbQGcao5NiZHwi+J5pEqjVrjlMYf4CFFIRN3l1
+         VpaLVI1OsOfr/tWqmEvE5JI4ZtN9Gi4cHLZ7yft9cWGHqXUKd4DX3SarrOcc5eKO3gLW
+         yAYYXSBVi5/nJ41CN9sRxBkbG1LdQ+5NHJeQrhe3fIhE/OBUN7JGOR0LhUFoJPYzs9k3
+         ob0p4UaFpoqtKxqC9e51iwClzVFh3lm2vyZXtClIbNwx0QW0/+ceIQwsPKz4xXdx1IUV
+         DTpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsmsAH2BqJ1TF2ixOiXJKtBcCeoAg3psAuRcr++dmMSEzZKj091tRIz7m+Q+rLxOWcIHnL79lH9Ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymaMiRIVHrW+CAb2rphT0VLuWX4pBmVmivN72MYGmddbPIThDK
+	I/bRwELc4QbMA8MMOV2ynkteRnwDvuTWQDRgZcTQWPVcYicBHkXUt8orBAFnBYBh9ZY=
+X-Gm-Gg: ASbGncsvZfYteRXaJ60JOCMzzCvX82qVAiCz2nPWHVygNeP8GYQqi1DvaebcPnX8Yct
+	x+M0vLRCJzbkIDcZ2LwFV16d5HLEozMwLB8ynCBK+OIjiuHbiNZ0D1hjS2vJ/G54pBrY26xpvvp
+	zgFlsLnQbwXqgoG8OeiP6WLT16LEz/dsGQYbOm8VPqbSrRZyCinVl/TS/PD4jUvQvP7SctHIygR
+	BFdpMXm/0lBXUgXtanGedTK0hpWwYQACq7WXu3vzQFoMMGXNcnzE2ObJgFtTjjjQgHJph0pCB/F
+	qVwXuAE0MCEhNTZxfmc6vDV1lD8zpI4RM/nP+YkpKLoR3lkrqH+acXC14Kw07AlAWK+be/EnPf5
+	pot9yinss3YlEhTXeIyAaAhZhM4Y+da8Yn+lf+23OWLJs8Juiu+BKv4wZ2kGGIbJ8IZ+9kTxP5T
+	CBKC/THsmg9F4=
+X-Google-Smtp-Source: AGHT+IEhPmuR4erigmmxR9eFUPzgSmw6sxAsUVA7h4flt4tHbzQCGMOXFc5w95RmdKQlTP3Q4hRRPA==
+X-Received: by 2002:a17:902:d4c7:b0:292:fe19:8896 with SMTP id d9443c01a7336-2962add623emr67834225ad.52.1762385558111;
+        Wed, 05 Nov 2025 15:32:38 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c7c5ccsm6499405ad.57.2025.11.05.15.32.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 15:32:37 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id DC583420A685; Thu, 06 Nov 2025 06:32:29 +0700 (WIB)
+Date: Thu, 6 Nov 2025 06:32:29 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: andrey.bokhanko@huawei.com, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Subject: Re: [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
+Message-ID: <aQvejbf52_GDs9vn@archie.me>
+References: <20251105161450.1730216-1-skorodumov.dmitry@huawei.com>
+ <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aE3/3REKYeQ2PROd"
+Content-Disposition: inline
+In-Reply-To: <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
 
-This patch adds explanation of script enforcement mechanism in admin
-guide documentation. Describes how IPE supports integrity enforcement
-for indirectly executed scripts through the AT_EXECVE_CHECK flag, and
-how this differs from kernel enforcement for compiled executables.
 
-Signed-off-by: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
----
- Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+--aE3/3REKYeQ2PROd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index dc7088451f9d..a756d8158531 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -95,7 +95,20 @@ languages when these scripts are invoked by passing these program files
- to the interpreter. This is because the way interpreters execute these
- files; the scripts themselves are not evaluated as executable code
- through one of IPE's hooks, but they are merely text files that are read
--(as opposed to compiled executables) [#interpreters]_.
-+(as opposed to compiled executables). However, with the introduction of the
-+``AT_EXECVE_CHECK`` flag (:doc:`AT_EXECVE_CHECK </userspace-api/check_exec>`),
-+interpreters can use it to signal the kernel that a script file will be executed,
-+and request the kernel to perform LSM security checks on it.
-+
-+IPE's EXECUTE operation enforcement differs between compiled executables and
-+interpreted scripts: For compiled executables, enforcement is triggered
-+automatically by the kernel during ``execve()``, ``execveat()``, ``mmap()``
-+and ``mprotect()`` syscalls when loading executable content. For interpreted
-+scripts, enforcement requires explicit interpreter integration using
-+``execveat()`` with ``AT_EXECVE_CHECK`` flag. Unlike exec syscalls that IPE
-+intercepts during the execution process, this mechanism needs the interpreter
-+to take the initiative, and existing interpreters won't be automatically
-+supported unless the signal call is added.
- 
- Threat Model
- ------------
-@@ -806,8 +819,6 @@ A:
- 
- .. [#digest_cache_lsm] https://lore.kernel.org/lkml/20240415142436.2545003-1-roberto.sassu@huaweicloud.com/
- 
--.. [#interpreters] There is `some interest in solving this issue <https://lore.kernel.org/lkml/20220321161557.495388-1-mic@digikod.net/>`_.
--
- .. [#devdoc] Please see :doc:`the design docs </security/ipe>` for more on
-              this topic.
- 
--- 
-2.43.0
+On Wed, Nov 05, 2025 at 07:14:37PM +0300, Dmitry Skorodumov wrote:
+> +4.4 L2_MACNAT mode:
+> +-------------
 
+Please match section underline length to the heading text.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--aE3/3REKYeQ2PROd
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQvejQAKCRD2uYlJVVFO
+owVcAQDm0PZzhhqLqUC27UoEFbWfodx6ifxImkkq/tQWbG9OwQD/XNmP5oJqoktv
+FtqxdYVTu3c9wN0sp329mXF1ZLKppAk=
+=OcFx
+-----END PGP SIGNATURE-----
+
+--aE3/3REKYeQ2PROd--
