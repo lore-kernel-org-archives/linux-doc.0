@@ -1,50 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF9461FFE;
-	Wed,  5 Nov 2025 18:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0952BE65B;
+	Wed,  5 Nov 2025 18:33:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762367506; cv=none; b=oYRuxY167/F1JxdiiGmLeGo6QWDw6rQTBF9Z7EfSi2/Xh0NFoBS9KoFr9/17Kk2su18Y3zQ0t+kbntkI6gUl5z0QM9rL7wC1eJTolvaLMKP2llBCP3jssM/xjnAeI9xUa4/+WEM2ABnqE4Cl0Salb0pxwikpz6PsY/WiIqPpj8E=
+	t=1762367629; cv=none; b=jrbSJFAlVDrCUqZkmGCgzMbmpy5BjNhAKq7gT7jNQMYPG/+ICyR7Y7qbaJLY9he5fYG1iK1BPtUAn3REuhi3ZwtHOUIhZ8WWA+QxhGDghVLek641rDSONqyfK5K8o08gCMH0TdjDLHRTYAu1QTmrCTZ0Q5KdfWz601p/47e1tQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762367506; c=relaxed/simple;
-	bh=S2tfhWkRiFbOx2lsv+5tb2bhvhnNjayzhjGgm5XqjB8=;
+	s=arc-20240116; t=1762367629; c=relaxed/simple;
+	bh=YFKxyVuZsM6HG/F3t9FdW5b8FwJjSF73kfhyb4pt/yY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=l3e9StJ6pGXI88aQRZc9PBtCA7E8713uH4hMiIVUmRVuvWem4may3ZB465SUGCPKiblbNw5BL/5iwxZDchXhCNYhh/TDu7pQPqqVNi029bJRHwJduugL/aKKW5WAnl2/bgU6a6oaH7bPXSJsKPHx3zAzFcFipEbwf4xuhngv1+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hWTwhOKu; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ejQNPyPPA8AqMZO2y+tA9xDT1JtYboU6E0teRguM0dUxphR6z5pFT2+PXQn1IzXny7J61K2d493fLsbdwyEMUlEPPR4WRki6HnVzul1/+zoxjfGzymBpQXsP3hQcZPSiC1xExyI9F36t8SSd5ppWmwAyia2a3lXcGwryKjbjms4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dvbVUEqo; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hWTwhOKu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0DDBC40C2F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dvbVUEqo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0712F40AFB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762367504; bh=+qSm1NYuCABVquv8CRh/H8rCYxqKElrGPzu2X3oeikg=;
+	t=1762367627; bh=+q7RrWIX3Mh1raymNV5H/DL9H5Mk4ZR5qtm5taZ3fIw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hWTwhOKuvOd6WAGFJbeX292IVnn58KvCJNWU/nuaY6ET8h9b0+FYQ3REKvQSkAdoY
-	 uRVcUWt+PUwtU1RePELyttWy32kzRfIZVel1it7osErwUORrg9Z4qWBlP/xtlA4efg
-	 THDQpVS4QVACZYJweY0cujannEIdR1V/nSI1fg7E0fgnjXLlXpoeRDRTGtgGkiqSDU
-	 0mc0i2YbOOD5mXaS2EbP1C6yR8RISfTkCqnBkhgKiuIZT/jlvnk6xSHljaHSj4r73s
-	 vPx2KQTMOT0p5NYr45A7zFZ1qH5kP7s+BwXgnbu9bvjtMmEACnmLdG7ptWqJqdb7Hf
-	 oD2SXRHYQ7Byw==
+	b=dvbVUEqo52D5NCcbZaRNq6y20lKi0tMvABZaZU2HxEA1UDulJ9nJcO9Mhi/PlFjSa
+	 ksfs86gahV0eMG6yLwoA+rmBqqd3QllaKVET8YiKyzuY7wZZcTBt8hsBPRu0nC2XxG
+	 PZnA6KK5i6jiaSO7cXu27dAw9eb2dROeCG9ko+HmoIxviHvXCCDiHiBiiianIWjAt0
+	 3Xugkt4Le9vdEC4vsegFNEOAkacdyJmRoxdFOr5soCunPBdZrFE29ZATbK2sKbAgUV
+	 t/hSKD9Ng8L6tluhY9PSK9UFhxfArXHkZ/+M/+uj3kjCiFADyA8Tu3BLALAV0pyT4t
+	 CKPgb1K5dg1dA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0DDBC40C2F;
-	Wed,  5 Nov 2025 18:31:44 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0712F40AFB;
+	Wed,  5 Nov 2025 18:33:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Accelerators
- <linux-accelerators@lists.ozlabs.org>
-Cc: Zhangfei Gao <zhangfei.gao@linaro.org>, Zhou Wang
- <wangzhou1@hisilicon.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Randy
- Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Documentation: uacce: Add explicit title
-In-Reply-To: <20251103093817.52764-2-bagasdotme@gmail.com>
-References: <20251103093817.52764-2-bagasdotme@gmail.com>
-Date: Wed, 05 Nov 2025 11:31:43 -0700
-Message-ID: <87y0ok5o1c.fsf@trenco.lwn.net>
+To: Petr Pavlu <petr.pavlu@suse.com>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Luis Chamberlain <mcgrof@kernel.org>, Daniel
+ Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: ABI: sysfs-module: update modules taint flags
+In-Reply-To: <7301b0fa-5463-498f-82a0-f40bfee462ba@suse.com>
+References: <20251102060458.517911-1-rdunlap@infradead.org>
+ <7301b0fa-5463-498f-82a0-f40bfee462ba@suse.com>
+Date: Wed, 05 Nov 2025 11:33:46 -0700
+Message-ID: <87tsz85nxx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,39 +52,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Petr Pavlu <petr.pavlu@suse.com> writes:
 
-> Uacce docs' sections are listed in misc-devices toctree instead due to
-> lack of explicit docs title. Add it to clean up the toctree.
+> On 11/2/25 7:04 AM, Randy Dunlap wrote:
+>> Add missing taint flags for loadable modules, as pointed out by
+>> Petr Pavlu [1].
+>> 
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> [1] https://lore.kernel.org/all/c58152f1-0fbe-4f50-bb61-e2f4c0584025@suse.com/
+>> ---
 >
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [1]:
+> Looks ok to me. I would only move the "[1]" line before the
+> "Signed-off-by" tag in the commit message and separate them by an empty
+> line. Some tooling might rely on the tags being separately at the end.
+> I guess this can be directly adjusted by a maintainer that picks up the
+> patch and there is no need to resend it.
 >
->   - s/acess/access/ (Randy)
->
-> [1]: https://lore.kernel.org/linux-doc/20251103025950.23159-1-bagasdotme@gmail.com/
->
->  Documentation/misc-devices/uacce.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
-> index 1db412e9b1a380..5f78d413e379f4 100644
-> --- a/Documentation/misc-devices/uacce.rst
-> +++ b/Documentation/misc-devices/uacce.rst
-> @@ -1,7 +1,10 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -Introduction of Uacce
-> ----------------------
-> +Uacce (Unified/User-space-access-intended Accelerator Framework)
-> +================================================================
-> +
-> +Introduction
-> +------------
->  
-Applied, thanks.
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
+I went to do that, and was amused to find that b4 already took care of
+it for me ...  applied, thanks.
 
 jon
