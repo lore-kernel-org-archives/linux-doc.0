@@ -1,121 +1,88 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC3C1F37D3
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 01:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB9F6A33B;
+	Wed,  5 Nov 2025 02:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762307865; cv=none; b=eZzRhlZWWWKelKaZZBDHuokEIAWT+buvmLksYU8QYq3pjOQ/yAbyGJEJgA2OguAR0usDvyGdpoKFWcZ1QQH1xtEgrk8tcIkr1gsrzvRiQEElnz+X0XyKim8cxnk8DoAfD2nXbYUmioJi/BdnHutB48u6ph2p5YMKciYnbVnjhrU=
+	t=1762309248; cv=none; b=OdehbwGsKP4hdL8pIv3kb+g7RCvGDnOO5AtxOLGrEC0wBIiYcBF3jypgeTknKgr/Pb++//R2kyP4HyA6afimUWfvx8g+Q6TkwCZpCfI6NtRf9CHya1PThQI7Go3iozry50AMww0AMRyscAB23g5Y6oPQmn9MsM9YnwYVu5X/8Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762307865; c=relaxed/simple;
-	bh=kIBkaG4fXIkzxYJM4+SHpSYNPKawIJMW91gnWOQCLVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iZaMbmBxbb7cR/PXukWLO9LIe1m5bKRQj6KhRAUUtFcaeAYjrwBvWI+ek38EQqCs5reMRCKskF/bGg3bUBeKxNcAF+Rh3kyMIumQen334iMwDMqJ8dSVjsEiH+6gWfWu+JvPhTyl6ptGGkAX9IZ6dniR6EunqRv7ByFknMxTgnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RM5hKU8q; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762309248; c=relaxed/simple;
+	bh=vUUr2XFdky1DHdcm9CKQlk/4zsTC0gNhfTR8HeHE7ew=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=ssbEDp6hvU0GzCnutDhWHghozFpisQke8lZKOabcga4txDL6D3tGrObC+CdNUcAqaM7SUFZbV9bzlJzFl9caDIoE2pqIlNGgpXftLe+GylYBgwjfTm9Nl1iAgyEgcPFDZyBDM7ZAxCjF6HfToGXqI2d6Y12arXje2jdju0YoR5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQzylbpA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RM5hKU8q"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7aad4823079so2738902b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Nov 2025 17:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762307863; x=1762912663; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E7QXdXPqYVzaqknJiF4d2FHnRogGGdgrOuALsEYlJt4=;
-        b=RM5hKU8q5wGqp44Ozx2wgH4ob6c1Nl6e4CrhKaoNh7M5eRJSF+0+ey7ELWMx4dEDba
-         XYEW7xJ8n8virjMCqsjvgh4SGRuN9qtjQIe23nNxHCoqPWbt5VtTXsoeupjv4GNzeDj0
-         QAQ+YEp0SeYRGo4K3bIx+P7LvcUYMrk/6FvvEbnuCM3U7w7mD2DuyPO+V6J6KxFtycxp
-         5U2QEMHPSBRApBBB9hZX6SjWLIouAaigHoRtAYKD3D8Q93cGM2RJIVdlGTgHULSqWaWo
-         SNSt/DR+0ROGBCXA9z2JP6NiGJiUVJGCT4GNT+Z/JJOISFKTwniUsUFDJ0ExTKeOoG/1
-         2aVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762307863; x=1762912663;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E7QXdXPqYVzaqknJiF4d2FHnRogGGdgrOuALsEYlJt4=;
-        b=slzb6CvErRLFAHul2sFo4PyqUjP2eU0A+DT26y0icVgmXbS490ao31gJdqQpZfs40+
-         biwUXQixXCQZzB9prwfQmqn8NrqfPlrH51REiUMMeH5357JhszLupexnDSuCxyigje16
-         2QvPRKUCYy1XxCBuFljOE3FXAY6y68p0hFURPLuu/ELknrzYsEBgnW3pNZ8msI4Hkcoj
-         zfOCL2EsAOCP/HXydAXx90u8dB4wop/y7UFdmJSFmNPBj7rLekAaWho9GHrW0SpPUcV0
-         IXmlrRKp3V8t2nEP3K0WjpdIe3FTUMFgLBtcjmR03AQ+UAe/REssQka96qRpyXCwqCEG
-         g/NA==
-X-Forwarded-Encrypted: i=1; AJvYcCVz3W9MYbLhmSFRPDEJ3hr9YB2Z6I3jXqQA6pW3fc6chgEHzZVcBTX0K5ttBBB+4zlPD5mgnWvPeNA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxC18vZSy6wA8/KsvTjeyZ4gg3NMihqHuq1APW8hPRNCHfYQV19
-	3UjW44gODEKxYuMMiiX1D2Mthg/NMntena41JjlpKj+Ui1ChiK4FF9Ma
-X-Gm-Gg: ASbGncvMhguC6HCVYDr1ZZ6Sm0JQIz9T9J9iYo0WLkbkDN47cYELJWDMBnS687/zEVC
-	2PFBT3dvtqaeiJ71YbEnsRQkUjRtZWBEY0TbDDeURrLMd+k+pfvIoclXbhnahmKYbtOzwuHIzWK
-	Shvn7kMq2H021QeVjWcmJoSnYt/1MMoBdPDVSs9KYIwA+wV7bgpniGkvC1Noi0zzcldC4lCzBdb
-	+5FSXxQfhTro1v7B7uzriJJTkUyaqCaCMtPCV4jhGn/G98Zg1YEPTGZnsHeRGxfUKgMvK8Owdlt
-	jwmW93fq/BJJv2/KfCaKVAYK4V6lIdq38Ji5YPRvryLDd/qfcrOCd0f2zeSb/daUmT+L2bJ/NnR
-	uDPipuSqOQdy1Cu62sW9t9Fnc9fqcvf8LAJmxhID1aRD6ND6hpUcevC0b4KZyGH0uLtNCx5uN1D
-	/f
-X-Google-Smtp-Source: AGHT+IFltqwlLw/qoAh/Ic6xf0NjzjzpJGPbTkKnz8JOnOsH+5MlmsP9Q/aB13ieURxS0a35dg2/8A==
-X-Received: by 2002:a05:6a20:9183:b0:33e:eb7a:4483 with SMTP id adf61e73a8af0-34f83f113f3mr1764667637.19.1762307863306;
-        Tue, 04 Nov 2025 17:57:43 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba1f7569611sm3804562a12.22.2025.11.04.17.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 17:57:41 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 6C941420A6A0; Wed, 05 Nov 2025 08:57:38 +0700 (WIB)
-Date: Wed, 5 Nov 2025 08:57:38 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Integrity <linux-integrity@vger.kernel.org>
-Cc: Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: tpm: tpm-security: Demote "Null Primary
- Key Certification in Userspace" section
-Message-ID: <aQqvEsdoj0El2Dq4@archie.me>
-References: <20251104131312.23791-1-bagasdotme@gmail.com>
- <50acd6bfbc8b9006bef5d7d0376b7ce4ab35f94c.camel@HansenPartnership.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQzylbpA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 364F8C16AAE;
+	Wed,  5 Nov 2025 02:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762309248;
+	bh=vUUr2XFdky1DHdcm9CKQlk/4zsTC0gNhfTR8HeHE7ew=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=UQzylbpAlyjLCt1dThSCM2CEBr11tawbPaU2AZlBxFeMhpavAS1JuOUfu/OwgRFty
+	 dpJ4Zxn1Rp3HOjJAfamDv6zo5/QulMvRhxEeoxYU6KK8zK++Y7NI9S2QVGq0RZkV7h
+	 XNjFUiNzHlLBrcLuV8zzc44I6Tp21i1c6pVb4bSowhEMb3Fti1rafZuLJLLUaBLD1E
+	 CTEdZQTAdgCml0Fk/kr/Ey4C5Eohvj5XVVe+RK833JK9C5GwgfsZTNnG6UVln5QVOc
+	 fVhDLnG4SRz2jQikWhEcUSe/o7AW4LPVZOCF8jiTRTkkr3cx2AmiTEsF+1lDdU/3ep
+	 i1E1Nb/0MJDwQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C71380AA57;
+	Wed,  5 Nov 2025 02:20:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xcdopG/xTaOcl4jy"
-Content-Disposition: inline
-In-Reply-To: <50acd6bfbc8b9006bef5d7d0376b7ce4ab35f94c.camel@HansenPartnership.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v17 0/5] Add driver for 1Gbe network chips from
+ MUCSE
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176230922174.3062547.13202635035807581684.git-patchwork-notify@kernel.org>
+Date: Wed, 05 Nov 2025 02:20:21 +0000
+References: <20251101013849.120565-1-dong100@mucse.com>
+In-Reply-To: <20251101013849.120565-1-dong100@mucse.com>
+To: Dong Yibo <dong100@mucse.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
+ danishanwar@ti.com, vadim.fedorenko@linux.dev, geert+renesas@glider.be,
+ mpe@ellerman.id.au, lorenzo@kernel.org, lukas.bulwahn@redhat.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sat,  1 Nov 2025 09:38:44 +0800 you wrote:
+> Hi maintainers,
+> 
+> This patch series adds support for MUCSE RNPGBE 1Gbps PCIe Ethernet controllers
+> (N500/N210 series), including build infrastructure, hardware initialization,
+> mailbox (MBX) communication with firmware, and basic netdev registration
+> (Can show mac witch is got from firmware, and tx/rx will be added later).
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v17,1/5] net: rnpgbe: Add build support for rnpgbe
+    https://git.kernel.org/netdev/net-next/c/ee61c10cd482
+  - [net-next,v17,2/5] net: rnpgbe: Add n500/n210 chip support with BAR2 mapping
+    https://git.kernel.org/netdev/net-next/c/1b7f85f733fd
+  - [net-next,v17,3/5] net: rnpgbe: Add basic mbx ops support
+    https://git.kernel.org/netdev/net-next/c/4543534c3ef5
+  - [net-next,v17,4/5] net: rnpgbe: Add basic mbx_fw support
+    https://git.kernel.org/netdev/net-next/c/c6d3f0198eaa
+  - [net-next,v17,5/5] net: rnpgbe: Add register_netdev
+    https://git.kernel.org/netdev/net-next/c/2ee95ec17e97
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---xcdopG/xTaOcl4jy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Nov 04, 2025 at 09:55:08AM -0500, James Bottomley wrote:
-> On Tue, 2025-11-04 at 20:13 +0700, Bagas Sanjaya wrote:
-> > The last section heading in TPM security docs is formatted as title
-> > heading instead. As such, it shows up as TPM toctree entry. Demote it
-> > to section heading as appropriate.
->=20
-> It's supposed to be a separate heading.  It's explaining how to certify
-> your booted kernel rather than describing TPM security within the
-> kernel.
-
-Should I keep the whole section as-is or should I move it to separate docs?
-
-Thanks.=20
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---xcdopG/xTaOcl4jy
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQqvCwAKCRD2uYlJVVFO
-o8AoAQCExGLWsqsoM1i8GHUP+Fgv9X24rbgRfat4KNR1jYRIkgEAv1C61BYGUewY
-KxDdWXOniy2ku0+gYvy3bqqF17wYjQ0=
-=iC0f
------END PGP SIGNATURE-----
-
---xcdopG/xTaOcl4jy--
