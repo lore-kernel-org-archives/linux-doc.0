@@ -1,305 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B639F30EF7A;
-	Wed,  5 Nov 2025 20:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBB428726E;
+	Wed,  5 Nov 2025 21:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762376215; cv=none; b=SvyxoRt1dzM90eVf+7BLVWrbItPqdDQJTa05+YcZe0Wawmj5vaqlbAFBg854ZTiI1+89h8ehkzCup+lid/1xHCGKIqzpxUmUacCk5OPFMtEc+B8072e8uICnvrWPog5hDYQp2CBLUH6TP/FGxLqx+9j/dBekpCIZ1/M6vcge7ro=
+	t=1762377551; cv=none; b=NrUbxxs8VkD6PjUVDKnRlrEneL10RvFZFUeYCq21ch/oArPUWqTbJ1UBcFvAfTxresiz3cVig8UvUpJOK9sZhQGEUc19SqdQN8CAjisraizoXWic+35s3ZjDJYlsnzl8jde3XFyYb+J4fGnrSLPnBLDDE7Vi/khrTAuukKyPLNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762376215; c=relaxed/simple;
-	bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t3m5pkRzozRZ2XAb0cEUycNq/BsqPr9VfKbHGoQ4TkfUOUlfrmAcTpJF7rffN9QqrgU42BUb4HeE88BjSZnExnetLhHGSy9MPy6mFPRO/CT4UqBQje1PWZ5mwOfA07t3EnDtznBuGrfR659SFSDCqwGZv7ERZx4IjrGYsDECsJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDrI6EBZ; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762377551; c=relaxed/simple;
+	bh=1/KqV2b3zTTN2lwKtCoOJBgUyT+KNbZzoIYtgpw+4qA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hHG0uaXTpzlpZF88z45Y3JWf0vzryCns6Xm2kDw5YqL0ru2Wyq9VIxptlxQCupyRo6i+TXHi/ToJYBG7Iu2dlyrYJLKWgrHQ3R7ioAcQCP9T4ImI4zkcIwCKl1Xu+BHPQaxhs9F7V7Hf9y58lOzhXTV1YTlp8B7xXZ0fWO3kgGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OalmWR9G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDrI6EBZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762376213; x=1793912213;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
-  b=iDrI6EBZ0pWtm5nfv4Lhmq3YD9VmB7PVC/aJZHx/f+Z7oIdKsiOTCiBO
-   U5s83ziGDDs+4YzmjvHBQX8FTpeFSdXXMY7vYxpssdHqryitMjI3i1xuj
-   4v2CasrDZEFeg7yxATEvngSufhO+vT6Q05IwJl6ecHp1k09jRfwnaCHep
-   K6I3+ne/a1kA7BWtL8hLXtG7yPJbyaugbp+UIMp2HArkq5mfH4hM/c/R9
-   carFsrwUTFjo7hL0u7HvVYLpcdGGAZvsd/azKAZ/sBpk46c1uxYazJ8Is
-   Sa1UgVc62FXFAjV6pnlxNXUDjuy/CVQlCJbuR30ubpn6DAs89Pn1Dk2Fg
-   A==;
-X-CSE-ConnectionGUID: WTOw55ZhS/msdhXRrV9FrA==
-X-CSE-MsgGUID: FzHckbY+TUq+CEmvAEPPtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75618434"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="75618434"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:53 -0800
-X-CSE-ConnectionGUID: AeMS6Am/TCalEZpqKR8AjA==
-X-CSE-MsgGUID: 3GJ74quFQrKrVc0jEipUHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="187401197"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Nov 2025 12:56:48 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGkYd-000T7m-1A;
-	Wed, 05 Nov 2025 20:56:46 +0000
-Date: Thu, 6 Nov 2025 04:55:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
- token management
-Message-ID: <202511060345.AQs0FTNg-lkp@intel.com>
-References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OalmWR9G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57585C4CEF5;
+	Wed,  5 Nov 2025 21:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762377551;
+	bh=1/KqV2b3zTTN2lwKtCoOJBgUyT+KNbZzoIYtgpw+4qA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OalmWR9GKhFxQuVFflfPRWBKKRIIruipMj2xDv0EsyfOQj3d7qgoQu8Swygr73Z53
+	 TDAsw7DgrIR3CgKWCkpLdgeBYo16Q6JpIU2ilcZABnj5Rb505rj1+iGMNvYHq8Jgvz
+	 btQpPeD//HTiniZzA/5k5EIiXFI9P7Tovr+FnBW25Gjk5Ow76WPAVq1RwJSCOBQfzw
+	 E3M6ITiJDTvu1VRXFG9SJwMf5/+35GVw1zJo7YxumzuUKB/p9RBfoDpiSHfBaLzfQE
+	 qagvVGBAKNOF8DsonK01hR20MDyMuUBFl7Ofi7ifMGcNojF6bT3jrIEVN1eW/PRIb1
+	 Oz/UI7HQKh07A==
+Date: Wed, 5 Nov 2025 22:19:07 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+Message-ID: <20251105221907.0c8c388b@foz.lan>
+In-Reply-To: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Bobby,
+Em Tue,  4 Nov 2025 22:55:02 +0100
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
 
-kernel test robot noticed the following build warnings:
+> When kernel-doc parses the sections for the documentation some errors
+> may occur. In many cases the warning is simply stored to the current
+> "entry" object. However, in the most of such cases this object gets
+> discarded and there is no way for the output engine to even know about
+> that. To avoid that, check if the "entry" is going to be discarded and
+> if there warnings have been collected, issue them to the current logger
+> as is and then flush the "entry". This fixes the problem that original
+> Perl implementation doesn't have.
+> 
+> As of Linux kernel v6.18-rc4 the reproducer can be:
+> 
+> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> ...
+> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> ...
+> 
+> while with the proposed change applied it gives one more line:
+> 
+> $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> ...
+> Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> ...
+> 
+> And with the original Perl script:
+> 
+> $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
+> ...
+> include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
+> include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> ...
+> 
+> Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index ee1a4ea6e725..f7dbb0868367 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -451,6 +451,13 @@ class KernelDoc:
+>          variables used by the state machine.
+>          """
+>  
+> +        #
+> +        # Flush the warnings out before we proceed further
+> +        #
+> +        if self.entry and self.entry not in self.entries:
+> +            for log_msg in self.entry.warnings:
+> +                self.config.log.warning(log_msg)
+> +
+>          self.entry = KernelEntry(self.config, self.fname, ln)
+>  
+>          # State flags
 
-[auto build test WARNING on 255d75ef029f33f75fcf5015052b7302486f7ad2]
+No objection of this one, but this breaks the behavior of the -W
+flags.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
-base:   255d75ef029f33f75fcf5015052b7302486f7ad2
-patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
-patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
-config: arc-nsimosci_hs_defconfig (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/reproduce)
+See, the way kernel-doc.pl worked is that:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060345.AQs0FTNg-lkp@intel.com/
+1. Warnings are controlled via several -W flags:
 
-All warnings (new ones prefixed by >>):
+  -Wreturn, --wreturn   Warns about the lack of a return markup on functions.
+  -Wshort-desc, -Wshort-description, --wshort-desc
+                        Warns if initial short description is missing
 
-   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
->> net/ipv4/tcp.c:2661:12: warning: 'refs' is used uninitialized [-Wuninitialized]
-    2661 |         if (refs > 0)
-         |            ^
-   net/ipv4/tcp.c:2496:13: note: 'refs' was declared here
-    2496 |         int refs;
-         |             ^~~~
+                        This option is kept just for backward-compatibility, but it does nothing,
+                        neither here nor at the original Perl script.
+  -Wall, --wall         Enable all types of warnings
+  -Werror, --werror     Treat warnings as errors.
+
+  Those affect running kernel-doc manually.
+
+2. Warnings are affected by the filtering commands:
+
+  -e, -export, --export
+                        
+                        Only output documentation for the symbols that have been
+                        exported using EXPORT_SYMBOL() and related macros in any input
+                        FILE or -export-file FILE.
+  -i, -internal, --internal
+                        
+                        Only output documentation for the symbols that have NOT been
+                        exported using EXPORT_SYMBOL() and related macros in any input
+                        FILE or -export-file FILE.
+  -s, -function, --symbol SYMBOL
+                        
+                        Only output documentation for the given function or DOC: section
+                        title. All other functions and DOC: sections are ignored.
+                        
+                        May be used multiple times.
 
 
-vim +/refs +2661 net/ipv4/tcp.c
+  Those affect both running kernel-doc manually or when called via make htmldocs,
+  as the kerneldoc Sphinx markup supports them.
 
-  2481	
-  2482	/* On error, returns the -errno. On success, returns number of bytes sent to the
-  2483	 * user. May not consume all of @remaining_len.
-  2484	 */
-  2485	static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-  2486				      unsigned int offset, struct msghdr *msg,
-  2487				      int remaining_len)
-  2488	{
-  2489		struct net_devmem_dmabuf_binding *binding = NULL;
-  2490		struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-  2491		struct tcp_xa_pool tcp_xa_pool;
-  2492		unsigned int start;
-  2493		int i, copy, n;
-  2494		int sent = 0;
-  2495		int err = 0;
-  2496		int refs;
-  2497	
-  2498		tcp_xa_pool.max = 0;
-  2499		tcp_xa_pool.idx = 0;
-  2500		do {
-  2501			start = skb_headlen(skb);
-  2502	
-  2503			if (skb_frags_readable(skb)) {
-  2504				err = -ENODEV;
-  2505				goto out;
-  2506			}
-  2507	
-  2508			/* Copy header. */
-  2509			copy = start - offset;
-  2510			if (copy > 0) {
-  2511				copy = min(copy, remaining_len);
-  2512	
-  2513				n = copy_to_iter(skb->data + offset, copy,
-  2514						 &msg->msg_iter);
-  2515				if (n != copy) {
-  2516					err = -EFAULT;
-  2517					goto out;
-  2518				}
-  2519	
-  2520				offset += copy;
-  2521				remaining_len -= copy;
-  2522	
-  2523				/* First a dmabuf_cmsg for # bytes copied to user
-  2524				 * buffer.
-  2525				 */
-  2526				memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-  2527				dmabuf_cmsg.frag_size = copy;
-  2528				err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2529						       SO_DEVMEM_LINEAR,
-  2530						       sizeof(dmabuf_cmsg),
-  2531						       &dmabuf_cmsg);
-  2532				if (err)
-  2533					goto out;
-  2534	
-  2535				sent += copy;
-  2536	
-  2537				if (remaining_len == 0)
-  2538					goto out;
-  2539			}
-  2540	
-  2541			/* after that, send information of dmabuf pages through a
-  2542			 * sequence of cmsg
-  2543			 */
-  2544			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-  2545				skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-  2546				struct net_iov *niov;
-  2547				u64 frag_offset;
-  2548				u32 token;
-  2549				int end;
-  2550	
-  2551				/* !skb_frags_readable() should indicate that ALL the
-  2552				 * frags in this skb are dmabuf net_iovs. We're checking
-  2553				 * for that flag above, but also check individual frags
-  2554				 * here. If the tcp stack is not setting
-  2555				 * skb_frags_readable() correctly, we still don't want
-  2556				 * to crash here.
-  2557				 */
-  2558				if (!skb_frag_net_iov(frag)) {
-  2559					net_err_ratelimited("Found non-dmabuf skb with net_iov");
-  2560					err = -ENODEV;
-  2561					goto out;
-  2562				}
-  2563	
-  2564				niov = skb_frag_net_iov(frag);
-  2565				if (!net_is_devmem_iov(niov)) {
-  2566					err = -ENODEV;
-  2567					goto out;
-  2568				}
-  2569	
-  2570				end = start + skb_frag_size(frag);
-  2571				copy = end - offset;
-  2572	
-  2573				if (copy > 0) {
-  2574					copy = min(copy, remaining_len);
-  2575	
-  2576					frag_offset = net_iov_virtual_addr(niov) +
-  2577						      skb_frag_off(frag) + offset -
-  2578						      start;
-  2579					dmabuf_cmsg.frag_offset = frag_offset;
-  2580					dmabuf_cmsg.frag_size = copy;
-  2581	
-  2582					binding = net_devmem_iov_binding(niov);
-  2583	
-  2584					if (!sk->sk_devmem_info.binding)
-  2585						sk->sk_devmem_info.binding = binding;
-  2586	
-  2587					if (sk->sk_devmem_info.binding != binding) {
-  2588						err = -EFAULT;
-  2589						goto out;
-  2590					}
-  2591	
-  2592					if (sk->sk_devmem_info.autorelease) {
-  2593						err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
-  2594									 skb_shinfo(skb)->nr_frags - i);
-  2595						if (err)
-  2596							goto out;
-  2597	
-  2598						dmabuf_cmsg.frag_token =
-  2599							tcp_xa_pool.tokens[tcp_xa_pool.idx];
-  2600					} else {
-  2601						token = net_iov_virtual_addr(niov) >> PAGE_SHIFT;
-  2602						dmabuf_cmsg.frag_token = token;
-  2603					}
-  2604	
-  2605	
-  2606					/* Will perform the exchange later */
-  2607					dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-  2608	
-  2609					offset += copy;
-  2610					remaining_len -= copy;
-  2611	
-  2612					err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2613							       SO_DEVMEM_DMABUF,
-  2614							       sizeof(dmabuf_cmsg),
-  2615							       &dmabuf_cmsg);
-  2616					if (err)
-  2617						goto out;
-  2618	
-  2619					if (sk->sk_devmem_info.autorelease) {
-  2620						atomic_long_inc(&niov->pp_ref_count);
-  2621						tcp_xa_pool.netmems[tcp_xa_pool.idx++] =
-  2622							skb_frag_netmem(frag);
-  2623					} else {
-  2624						if (atomic_inc_return(&niov->uref) == 1)
-  2625							atomic_long_inc(&niov->pp_ref_count);
-  2626						refs++;
-  2627					}
-  2628	
-  2629					sent += copy;
-  2630	
-  2631					if (remaining_len == 0)
-  2632						goto out;
-  2633				}
-  2634				start = end;
-  2635			}
-  2636	
-  2637			tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2638	
-  2639			if (!remaining_len)
-  2640				goto out;
-  2641	
-  2642			/* if remaining_len is not satisfied yet, we need to go to the
-  2643			 * next frag in the frag_list to satisfy remaining_len.
-  2644			 */
-  2645			skb = skb_shinfo(skb)->frag_list ?: skb->next;
-  2646	
-  2647			offset = offset - start;
-  2648		} while (skb);
-  2649	
-  2650		if (remaining_len) {
-  2651			err = -EFAULT;
-  2652			goto out;
-  2653		}
-  2654	
-  2655	out:
-  2656		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2657	
-  2658		if (!sent)
-  2659			sent = err;
-  2660	
-> 2661		if (refs > 0)
-  2662			atomic_add(refs, &sk->sk_devmem_info.outstanding_urefs);
-  2663	
-  2664		return sent;
-  2665	}
-  2666	
+As the filters are only applied at kdoc/kdoc_output.py, printing warnings
+early at kdoc_parser means that, even ignored symbols will be warned. It might
+also make the same warning to appear more than once, for C files that are listed
+on multiple kerneldoc entries(*).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+(*) There is a logic at kerneldoc.py Sphinx extension and inside kdoc_files
+    to avoid parsing the same file twice, but I didn't test adding a hack
+    similar to this one to double-check that the warning won't appear multiple
+    times when export is used. Maybe it is working fine.
+
+-
+
+In summary, if warnings are suppressed, my suggestion would be to check at 
+kdoc_output to see what is filtering them out. 
+
+Alternatively, if the idea is to always print warnings, get rid of all
+-W<option> flags, except for -Werror.
+
+Thanks,
+Mauro
