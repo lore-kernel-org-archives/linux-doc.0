@@ -1,147 +1,142 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EF22DF709
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 08:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17EA24291B;
+	Wed,  5 Nov 2025 09:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762332745; cv=none; b=Tm/AXtFjdhQht88PgeZtHwgB9PIyR3zSlRke966O/bhd9OxU89ANR9czf/lEKzTm9gSaaytu9aqQ4UqiV31nyBGZnNASbgkxwGZ6ZUAtrXCW9b+jnzpNZ02YIIsyvr6nCg4fRZwxyVB0LLyc3eX05DTcYkB5IPN3MfJlnTY2r38=
+	t=1762334051; cv=none; b=mOoIMV9hpI1OfgK7UuM0dD8hucO7MbsYjWXhW02BypBM5uQ9eKfP6lnvqC1K5fNL4qbHmHb5MmTxlE9b+TMxECU0DzSFEmeJ+YZo0NUZhJHK9x9RA9EZAV8wISdFXe4bdyHUohMjabk0h9hwpx1+KdCGsauoHkloUBovyg4nIsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762332745; c=relaxed/simple;
-	bh=gp6ONkk4LnltkUdA1hEntsuPx28a5fC4wPGe0V4ewNw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=deEUVnRBLFhIft4MRhJKEDP+ZGONUJiadKB1YHNLemtiogILOhO3iWW/NwQvsnhSbj08kU2Fq/SgBCD64DFDKwgKqD7LVJR0jPzUKnjfAcZH5vF7AgqM7i+LJq6X9NuEaqVwi4K9pbTxwf8pxfKawJQpdOhGGUOiGRRXSs+pXTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=aHFw+XW4; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1762334051; c=relaxed/simple;
+	bh=+IcD7Spbw17oRsINmLuhMDru7Z//3dFzIofki5+RBpg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OXczean+eZOcZmvb62QnVDaJ4cwaaNmf2cVz1MH9E5PE5AvtTRN1rhMAFo7CljB/JW9zlSi/i3QfGwsjPV2Ale9TO3As5R4LqIeYC7eTMZnnv/iyny0YkQ1PC8AJTZED8XP5SIDQk0hJzQW5t6RCtRIwrnP+W4qEeQ3d6yocLSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJDgtKPB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="aHFw+XW4"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b710601e659so476715966b.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 00:52:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762332742; x=1762937542; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gkg/vCbQBbLgfYhLaxoF1MxQ4LNFqiCSVDKlCPX94O8=;
-        b=aHFw+XW4mgvH2IW+imtB8XNv+Z3U80mSDKucZErMakceTCGynpaRjTwdXsIcbVac8G
-         KZ5GJ5et88w5Tc5qsuk5y2eQ4qUyjteNXF5n7IgroX8WAx38lbIgI42gIR5G9CeBfWPZ
-         KzrkYKd1nskvwA9a/ZK1TN4v5imG1MiieXqgf5xzfggaXb9OMMNJy+LmUk9smGhiKdO/
-         kxmUr5xnsD7izLn/8XqoAOZ0el239ju43c3gBMPbnCaXv0zK09NtgiyWC3BOnWVILg5y
-         qaYTlf84w5RMpqvFpzIqLOzmDllQ6c3/12YUTPhwpVJNWa8ySDruaG1xR39me0r2RmCT
-         7bkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762332742; x=1762937542;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gkg/vCbQBbLgfYhLaxoF1MxQ4LNFqiCSVDKlCPX94O8=;
-        b=WRfT1W4LnJNfJxnYFDWquYExN5Q6rx+1hZOQody6EI4cw20PpsRcRFdWXpBooktQih
-         97B9ygg0Yo1/P1Fy//LE3qI8gpS1AZkq6pzsEQQgDMUKe5MJqJmwiwzQj5EszPWa++HV
-         xF+KccZ2ut9tZw57H5qWgzyW66HnQjarsJmmEF3ER3VzuuZhaypYyiEvk7EYEcmUtPFg
-         89uwzTEJini5zyOm39e5z4jKhsRgIZa6Yltc/F21Z6c5A3VaypY5ZRPA65lTdmpkJHVl
-         bnXLbZ+9IwyRvjvVqevy6BNbgmbwMOVBAlG5lQ6g9iCA1y/zitypwUgYMOMKJWyKN098
-         US5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXbRw/T5OB+O6cyHOy7mtbdY6EUJ7WytOLP1no6RVT7BGC2fo1/8Aas3MQ4uoYRPKNbYWY0CAmxQeY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPWfeWi49LSRfTuEw+wL2H9l0fy8DH3V/Pj2kJ9JFZITEbvswj
-	PGegYSkqwuSNNMQm7hMy+MN6cfVu4HRDjXcTFcu6XPV4V+lGGVP+BYZdHKbxmqm+6go2PjTRiYn
-	MnW+gVLAFi4wq71IsfEY0NxLCpFSuxekI2sDl1DlEeA==
-X-Gm-Gg: ASbGncty/qppcDoB7ABVisMxS7yX9ep4CVEnbtNlABZoQXF1MKPamxw1f0jS7GS8yXo
-	JTe429GkqeZrooxfM12Hs8P9EJSh2WlI4+asDCoI9VkrUMVourJ2dgHyh1u5TcGDNHc8D2D+Tbr
-	FSNSdIyDCXYS0kpxXnq4bEuU4wppatpg/nt7B1tlVRYprxWtAyxb3tf6VaR6UvZNdvkensXPpmt
-	K8V51SFcnfoBFfWwenRkZ+nvh0vLkoRGmNIXTQcIM0IqVh2Hyt+2uWBrfyeRbkdr4I/8Q==
-X-Google-Smtp-Source: AGHT+IFxxt2EdxGwLdk3L9EezdOqzEzIoElbn2uBq8KS5FKpSP/CV4oKR3J8eSFfaFisM3JEbR7uWvI68mpagt1N8hs=
-X-Received: by 2002:a17:907:9815:b0:b71:cec2:d54 with SMTP id
- a640c23a62f3a-b72655a5d40mr200972466b.57.1762332741872; Wed, 05 Nov 2025
- 00:52:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJDgtKPB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE89C4CEF8;
+	Wed,  5 Nov 2025 09:14:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762334051;
+	bh=+IcD7Spbw17oRsINmLuhMDru7Z//3dFzIofki5+RBpg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YJDgtKPBz3icUlyYvEpGUKaHscHOx35GSJXlsT+55IVdo9ELb2ZDPNnixY0NmfcVh
+	 +7bXBHagm+C6RGJqEz+O1IboyJMwyNvlMsaqn/iHGi5kujCnMARSJ5XWORcaTmLB4M
+	 WkEo/RHl4i3qLdBh7kzm3tQ6KXieTLocU2LScGXIP4yWmolTMCxrf4H3K4lKzIs71Z
+	 Y4vgiCZx3uRcqAnTOHrnlO/7es8Hp4O/ZbYCB3a8aWzXG1/oUGWI1DAuBN+lmsV0o1
+	 ECpXBWGRNAYsME5YRrTuDgQKk2orBlVGxXaH0DPeUR/3TRYgqz9Rdkzh5A2m3cm3/B
+	 n7IzY4JB7n8OA==
+Date: Wed, 5 Nov 2025 09:14:05 +0000
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Markus.Elfring@web.de,
+	pavan.chebbi@broadcom.com, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Luo Yang <luoyang82@h-partners.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Gur Stavi <gur.stavi@huawei.com>
+Subject: Re: [PATCH net-next v04 3/5] hinic3: Add NIC configuration ops
+Message-ID: <aQsVXfFlZzIeSf-V@horms.kernel.org>
+References: <cover.1761711549.git.zhuyikai1@h-partners.com>
+ <79009912df8bed8ce44f6fcaf8cdbb943d6efd82.1761711549.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105074917.94531-1-leon.huangfu@shopee.com>
- <aQsIq_zQXMfNNo6G@tiehlicka> <19986584-885b-4754-b98c-948e4bf9716b@linux.dev>
-In-Reply-To: <19986584-885b-4754-b98c-948e4bf9716b@linux.dev>
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-Date: Wed, 5 Nov 2025 16:51:45 +0800
-X-Gm-Features: AWmQ_bmvHlhc5eJ8ueTjqxVXAa3vivPGkX-f4MR8OhK4W12VAolYXW0qkjbzZYQ
-Message-ID: <CAPV86roGZa5q1N95+ehdPRE6GkXr6bZbEU89--BgpOD8td5SoQ@mail.gmail.com>
-Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-To: Lance Yang <lance.yang@linux.dev>
-Cc: Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, hannes@cmpxchg.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
-	akpm@linux-foundation.org, joel.granados@kernel.org, jack@suse.cz, 
-	laoar.shao@gmail.com, mclapinski@google.com, kyle.meyer@hpe.com, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79009912df8bed8ce44f6fcaf8cdbb943d6efd82.1761711549.git.zhuyikai1@h-partners.com>
 
-On Wed, Nov 5, 2025 at 4:39=E2=80=AFPM Lance Yang <lance.yang@linux.dev> wr=
-ote:
-> On 2025/11/5 16:19, Michal Hocko wrote:
-> > On Wed 05-11-25 15:49:16, Leon Huang Fu wrote:
-> >> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-> >> index 6eed14bff742..8cab6b52424b 100644
-> >> --- a/mm/memcontrol-v1.c
-> >> +++ b/mm/memcontrol-v1.c
-> >> @@ -2040,6 +2040,7 @@ struct cftype mem_cgroup_legacy_files[] =3D {
-> >>      {
-> >>              .name =3D "stat",
-> >>              .seq_show =3D memory_stat_show,
-> >> +            .write_u64 =3D memory_stat_write,
-> >>      },
-> >>      {
-> >>              .name =3D "force_empty",
-> >> @@ -2078,6 +2079,7 @@ struct cftype mem_cgroup_legacy_files[] =3D {
-> >>      {
-> >>              .name =3D "numa_stat",
-> >>              .seq_show =3D memcg_numa_stat_show,
-> >> +            .write_u64 =3D memory_stat_write,
-> >>      },
-> >
-> > Any reason you are not using .write like others? Also is there any
-> > reason why a specific value is required. /proc/sys/vm/stat_refresh whic=
-h does
-> > something similar ignores the value. Also memcg.peak write handler whic=
-h
-> > resets the peak value ignores it. It is true that a specific value
-> > allows for future extensions but I guess it would be better to be
-> > consistent with others here.
-> >
-> > One last thing to consider is whether this should follow
-> > /proc/sys/vm/stat_refresh path and have a single file to flush them all
-> > or have a per file flushing. I do not have a strong preference but
-> > considering both are doing the same thing it makes sense to go
-> > stat_refresh path.
->
-> +1
->
-> IMHO, a dedicated file like memory.stat_refresh is a much better approach=
- ;)
->
-> It's cleaner, simpler to use, and much more intuitive for users.
->
+On Wed, Oct 29, 2025 at 02:16:27PM +0800, Fan Gong wrote:
 
-Agreed. Thank you both for the feedback.
+...
 
-You're right that following the /proc/sys/vm/stat_refresh pattern makes
-more sense here. A dedicated memory.stat_refresh file has several advantage=
-s:
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+> index 09dae2ef610c..0efb5a843964 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+> @@ -9,6 +9,36 @@
+>  #include "hinic3_hwif.h"
+>  #include "hinic3_mbox.h"
+>  
+> +static int hinic3_get_interrupt_cfg(struct hinic3_hwdev *hwdev,
+> +				    struct hinic3_interrupt_info *info)
+> +{
+> +	struct comm_cmd_cfg_msix_ctrl_reg msix_cfg = {};
+> +	struct mgmt_msg_params msg_params = {};
+> +	int err;
+> +
+> +	msix_cfg.func_id = hinic3_global_func_id(hwdev);
+> +	msix_cfg.msix_index = info->msix_index;
+> +	msix_cfg.opcode = MGMT_MSG_CMD_OP_GET;
+> +
+> +	mgmt_msg_params_init_default(&msg_params, &msix_cfg, sizeof(msix_cfg));
+> +
+> +	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_COMM,
+> +				       COMM_CMD_CFG_MSIX_CTRL_REG, &msg_params);
+> +	if (err || msix_cfg.head.status) {
+> +		dev_err(hwdev->dev, "Failed to get interrupt config, err: %d, status: 0x%x\n",
+> +			err, msix_cfg.head.status);
+> +		return -EFAULT;
+> +	}
+> +
+> +	info->lli_credit_limit = msix_cfg.lli_credit_cnt;
+> +	info->lli_timer_cfg = msix_cfg.lli_timer_cnt;
+> +	info->pending_limit = msix_cfg.pending_cnt;
+> +	info->coalesc_timer_cfg = msix_cfg.coalesce_timer_cnt;
+> +	info->resend_timer_cfg = msix_cfg.resend_timer_cnt;
+> +
+> +	return 0;
+> +}
+> +
+>  int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
+>  				    const struct hinic3_interrupt_info *info)
+>  {
+> @@ -40,6 +70,30 @@ int hinic3_set_interrupt_cfg_direct(struct hinic3_hwdev *hwdev,
+>  	return 0;
+>  }
+>  
+> +int hinic3_set_interrupt_cfg(struct hinic3_hwdev *hwdev,
+> +			     struct hinic3_interrupt_info info)
+> +{
+> +	struct hinic3_interrupt_info temp_info;
+> +	int err;
+> +
+> +	temp_info.msix_index = info.msix_index;
+> +
+> +	err = hinic3_get_interrupt_cfg(hwdev, &temp_info);
+> +	if (err)
+> +		return -EINVAL;
 
-1) It provides a clear, explicit interface for the refresh operation rather
-    than overloading existing stat files with write capability
-2) It's more consistent with the existing kernel patterns - stat_refresh
-    ignores the written value, and memory.peak also ignores it for reset
-3) It's more intuitive for users - the purpose is immediately clear from
-    the filename
+Maybe I am missing something. It seems to me thaat this error value will
+propagate up to be the return value of the probe value. And it seems to me
+that would be a bit more intuitive, and possibly lead to a better user
+experience, if the return value of hinic3_get_interrupt_cfg() was
+propagated here. And, in turn, if hinic3_get_interrupt_cfg() propagated the
+return value of hinic3_send_mbox_to_mgmt(). These values differ from
+-EINVAL.
 
-For the next revision, I'll introduce a dedicated memory.stat_refresh file
-that ignores the written value (similar to stat_refresh and memory.peak).
-This will work for both cgroup v1 and v2.
+> +
+> +	info.lli_credit_limit = temp_info.lli_credit_limit;
+> +	info.lli_timer_cfg = temp_info.lli_timer_cfg;
+> +
+> +	if (!info.interrupt_coalesc_set) {
+> +		info.pending_limit = temp_info.pending_limit;
+> +		info.coalesc_timer_cfg = temp_info.coalesc_timer_cfg;
+> +		info.resend_timer_cfg = temp_info.resend_timer_cfg;
+> +	}
+> +
+> +	return hinic3_set_interrupt_cfg_direct(hwdev, &info);
+> +}
 
-Thanks,
-Leon
-
-[...]
+...
