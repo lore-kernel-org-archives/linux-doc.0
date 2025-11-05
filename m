@@ -1,217 +1,172 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010002.outbound.protection.outlook.com [52.101.85.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E325C2FFDFB
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 12:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762344713; cv=none; b=ACs/+sxEC4kTj/1YNyL3J7yeYd5y4aYbcsoLGk1tAcjETN6eIgNzhrB/PvMhpPwtt+xoXtHtl+vd81UAYqDM46MsP1g6LHfhtGE93mwbODoH7MSsSh8IlF+ujCCmLq2paSoiTiFRYMjvuEv0LsJCXjpYErunXdmKsoOm+Vm5IWU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762344713; c=relaxed/simple;
-	bh=zaKNP8iv58DKJqCIt8itiElCUyIyiBazXKQF3KfbDRA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sIazQG2RCp4c7hkPGPpHbW17j52oidGc+bGmC+/Nj+NlJcjjMcVENIteCxKAp4Ag3ZuHcHLL2j1a3fDk+h7T50Cl/nzMDYWJShxoTgf7SZ6+M8gUyDWcr3IJBkRX91HaQ9GDATqo5oK/8fS6wx3mYzipi0NFv5iaStD0Vcuh/2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=boEzyyTq; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1379330DD3A;
+	Wed,  5 Nov 2025 12:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762346604; cv=fail; b=h+7enJa2vsGC7ngzdaA8t0TLhHm/4RmqKL0ZLxIg6bQND7nlOiK4knwZLqvI4cgYP5kxSSgnkUDbP+5jpmh2vNZEc80g3SQRgKh/ZU2PDYlV/zLEqnuEcDx55LXeyOXkxHl6qt+3Caz/6uYA1rnUX6Zw8x80flrwZ9FB6m8ABY0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762346604; c=relaxed/simple;
+	bh=M6qfK0XiPIooT5v1KKM/sCZy+vI57yuMJj4TSolNO/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aCUQ+vdmDA3afv6wFXIEYS34zdFzTGN+XvB3UwkuXx5p71+IcrJayCf4t0yHkky8J5LBeN1TxpyXEUm8VC9dpuDnGW7qqVcIVn0TDXsKY+9nWsWVaEti1RVCprjkXB8nf+6LOb4OW0iAxnEfSLyPoPedulU1Vc7BlxzDbNXwjuw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aF3OhD/F; arc=fail smtp.client-ip=52.101.85.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="boEzyyTq"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-429c7869704so4602897f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 04:11:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762344710; x=1762949510; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zaKNP8iv58DKJqCIt8itiElCUyIyiBazXKQF3KfbDRA=;
-        b=boEzyyTqpAZF/bPKGSk/zxOfT8CkhaAW966/80p03JBCY/e91vECfZrmztREqiyNq0
-         K40y0bnq8rlosvDP2Kc7KEARfNu/pg40VlPyzSxz5mtu8YXhpRjJHqaGvuZ33wcgBoa/
-         E8UJ1Yh9S2hA1H9Tqe6HF27pGXmKqqH/3j0rKYqor5dlvprKYAEo2TrOY/RQzzgUyCto
-         xtpNz9zSyNnrXSoyfZNV5vaWx+Iyn1koUCDLId8MYwi1RN0EWPPOU0i9FF9WVaI1fx0f
-         uwPKtMffsSiuZTHBgVpSZIlsmvnuBSy6IwKpnbtbxRiHlKXDZYu4Q1mkDHjUoSqRY6iS
-         X4Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762344710; x=1762949510;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zaKNP8iv58DKJqCIt8itiElCUyIyiBazXKQF3KfbDRA=;
-        b=s9xpmcajuhfOvCE3oD8JqQLcYMZR7HP2MzqdDa9ug5Lc+qSH6VX4D9FudH3sj52F/x
-         MI5+czL68qxqKaKpO2zFtMlGs8qlzDjijvrXZCUaR/+HHHJd+eaPmsGBL1/r2Na2UXay
-         0th6vGC5hWa6VdGaIGSNh9BbhfxHjUFv5YhLTQNljnIMTiW7gVyHocMLRJJBO1quTiKj
-         tqHEsr9zFJB5u6zSBlherEK+UhqiRId94vXIDlpX54b9hPC6w3ZAmUHHs05I0gusd+/z
-         SrdF6gJyr4R9fJZJPX5vjSjeCTG4fV+hWuP71Y4X/2lL/0KOvKZlhjVLRz4N5WjW023c
-         A/Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtii8YM32KrrlIZzpejg20Vi2AjFvDxX0giwSq1Sn78LxELtZoQj4K6GR57eIRxg3i6FrkeoNdnTo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb/eJgmT7JctSEpo8wz5Td85D+hpC8bc4wcvukFVahPK9JCSHH
-	w6BMI22uePn7Dwzr/V4RK0a3dzt/7UA0/2kIPe4qNqK/0KrxW9dVzX7QF6XyOg==
-X-Gm-Gg: ASbGnculT77RqY9gFkCfJnywPyniFZueBcc3em+SpMdkBalx4vExSM4Rr1ek2jloPuJ
-	vBqQsgWpeKPhTaa5rrn9ZrYvqf9a8AHiTmP/vHmo1v9ha+pbTDYz0u7vlEau4sDAdOw10xbRjrp
-	i03HbYsilwbq4Kt7aDUflW4bVmgpj4DdrImpj4cjBzb8zA6P+7E/tikIl69pGNdwdSdVZqhTGWY
-	s0uLPUqw6EzYMgLai18GLc2Y4unsVJa2x6XcX4ar8dBEuDoAaj18CkNry4DNJx3m9cS3R/7Fgwr
-	+Iz9DeT+TqOjpiuhUwPbAeWFzNVB9zQ1AaDU3c2PipROgD1yYeCkxjznXp3USiNTP3rc/RsXsqp
-	SbUUWIq5wnJUx9kANFkUAiilclgCwrg1q8Qaet1h+jKXuZRFe4I90ZncYgiLl2ucm0E5sMSBasp
-	jl4emWeWmg5eivDIk7QGA=
-X-Google-Smtp-Source: AGHT+IG+PF6m1EhB7XL6OLeHfppwXzSzNI2WS3nGxmt5X3XJGlkjuHUrbhfSK6MiWla0TyRg594cWg==
-X-Received: by 2002:a05:6000:220e:b0:425:825d:2c64 with SMTP id ffacd0b85a97d-429e32e6bfamr2400691f8f.17.1762344710071;
-        Wed, 05 Nov 2025 04:11:50 -0800 (PST)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc1a850fsm10379544f8f.20.2025.11.05.04.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 04:11:49 -0800 (PST)
-Message-ID: <be118b069b451e96ec689e49d714b0b0452afebd.camel@gmail.com>
-Subject: Re: [PATCH v3 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
- Swap Controller
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Krzysztof Kozlowski
-	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jean Delvare
-	 <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet
-	 <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 05 Nov 2025 12:12:25 +0000
-In-Reply-To: <CAMRc=MeWyDOFfUnX8eV9+9tykinB+Hd9duf-v+UOCvcYKt9g9Q@mail.gmail.com>
-References: <20251104-ltc4283-support-v3-0-4bea496f791d@analog.com>
-	 <20251104-ltc4283-support-v3-3-4bea496f791d@analog.com>
-	 <CAMRc=MeWyDOFfUnX8eV9+9tykinB+Hd9duf-v+UOCvcYKt9g9Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aF3OhD/F"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zUHvcjMJpMGQMAbPbh8ZALI5G/owmEULAdc/ykIn9GTLjtGJjhcTkvYAzm1wOcFlk9fJv/g8A9zHr5Rd2hcqgrW91iJQh0Om0Bhx9nABNSxyDL71MtgQ5TiOgaZp54VHpMvC58dOdKjGph1afG/rw31TEjnZEx+sM7J9RA5kr31wNCRv6h4BvhTNsrBO80zRqUXKhoX2D0N//oCUEmn0JBTvfRxFM9XDYGYtDRSbfe7FY1+i9BueRUdyIHbkxB/3D2Q5/N3sLovJAnbd9oprN4mhFoCKsxmkkj/V3AGPTqlaT3FTYTedYHp8Q5sMihCFliG8OX+Yq1N2SpO3n8HuPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h5HFSFUQhfWDx1HUyLnS1/MGOTc9ltmCc0b2AFZf8uc=;
+ b=NKeh90VIQvq9Gyq9LID5NI3K2z6/4zcrCr42+I2Yt1v9zNDskHo1WGvQ4o/6zhhE6ujyy0/uSLA2TjisBRNsZDoM6RgdDBJzLUYk3oX9Tr/dRVYeTY1MLP5vR0wIgarJuqi6MWwJMD8QLy4NnX99wEvufC8E4TKHp6e6eIb/s21bqgYPQqUA0QK4a30koiyWuAebAoAN7H13eSCUmvJcmhCs5o/F+AIzxBeSA3qeyJH+Q20oAAlAbXVtNgoivVvkPvn5uYbEA13yZ+neJaOgqpREWRRFKfHUJFswzAhX6G4iYPiWhnXp8Y5kvQt5JnHA3HA2HetJZ55At/3E7EzVYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h5HFSFUQhfWDx1HUyLnS1/MGOTc9ltmCc0b2AFZf8uc=;
+ b=aF3OhD/FXzVL0AyfgWEUGdFkmuOdc/qzY4Xz++6JN/PX5tCqaLEjSFd4QzdcvmFNbbi3Gk2c4SCsRJ4pAGcjCbV0H78fijN6Gnc3t2pJP1HsCzkjiTQCrHUmEJm8DPfGMYU0mucCn1zx1zweKk69T2FfsbCHL35M4ZKP+889VzfD84zP+0/ZA0MJI3Nkxmt+j4dn2ne8RnK3SpRdXVOx9mrZk8yF92nxm/MV/pJV0+FBMu2c33PNBjE0edGXY6uvdWiAJL2lNmRkp+L3OJORvwmbgLLyK1gNcrk3jUyzZrvxoNuOHN7MiX8DxAX8P5o5Mz7VLOfv2zpDYHimvMtqLQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by MN6PR12MB8567.namprd12.prod.outlook.com (2603:10b6:208:478::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.8; Wed, 5 Nov
+ 2025 12:43:20 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 12:43:20 +0000
+Date: Wed, 5 Nov 2025 08:43:18 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	iommu@lists.linux.dev, Justin Stitt <justinstitt@google.com>,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
+	Bill Wendling <morbo@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	James Gowans <jgowans@amazon.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Vasant Hegde <vasant.hegde@amd.com>
+Subject: Re: [PATCH v8 00/15] Consolidate iommu page table implementations
+ (AMD)
+Message-ID: <20251105124318.GO1537560@nvidia.com>
+References: <0-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
+ <3wwyr2kqhaj5icznsizcu372uzhygubkytko3vueamwnf6vzr2@hlas3nx53tps>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3wwyr2kqhaj5icznsizcu372uzhygubkytko3vueamwnf6vzr2@hlas3nx53tps>
+X-ClientProxiedBy: MN0PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:208:52f::26) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|MN6PR12MB8567:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8ede946-52c5-40dd-6ef7-08de1c68e63b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?7/exktVM18gLlDhXZ/+RuqtaAPIHmsaCdTa7gzYmZ8t5D0ZChWKoLPBTdD6Z?=
+ =?us-ascii?Q?fblQdzsVF+FL90YDFcklnicHBo3L9mPduDrUEzox0wdYzNdUbJ7k22/G66RQ?=
+ =?us-ascii?Q?0cqHbTp7G+/2YtXbOuBwPBBey2LHemWkRVD/e8OFBBcKOVIdPBCuHxwIJ7Mo?=
+ =?us-ascii?Q?jhAxfC5D9j5pn6BtUfXXz1tXVhLdfx7wWFLbFSGFBxxjHMif6w5v1BhW4iK5?=
+ =?us-ascii?Q?barqkpXGwzAL9USrfRY50ynJBhTuL7W1202+k6lST24zj3jvZbgiDzF0ZJWi?=
+ =?us-ascii?Q?pBij/hXr68qfyza61OikfpYyG38532EG7gck3obBc0VkmUrvNpwlVkgJqVIz?=
+ =?us-ascii?Q?bzcJ3hKm1a1wG3oI6fMMco7SCiGmXLAPAcQ+3W5kgQtUasC0mSr2Ec7AWQWy?=
+ =?us-ascii?Q?wGZ8mmBvIdYfBn4uRNftODdzMRt9RtLCFDmenONL+4FtZLE4iPuX9lrirNab?=
+ =?us-ascii?Q?u8+DR0PEb7b9gZc87nTJhFSVYOIM6Cgvv5iWcrs2b4EG031bpJJ5veBnxxVY?=
+ =?us-ascii?Q?6oVLTYa59V4THuqsTOHeL8oZEFRqgCke7QiE8iRLxJJhR0HwuqOIY905xNzg?=
+ =?us-ascii?Q?kI3XFrWL3mR05Wyx/lHjTHgZLnEUTsUOqI+/i0VVmwDOaXFrUbofv6ROp8pH?=
+ =?us-ascii?Q?/tAWcks8vz8OcUj6islEwVc6c7A9qMjliv4ycIEqV8M4NkC1r2c/VbPvmXhX?=
+ =?us-ascii?Q?EZCYE29T3ewWWIIUghgZQggTVng8CqAUqGnjqPGpo4dKOWgdnlSZV7LDgH31?=
+ =?us-ascii?Q?6XyUbm3/muT9Dz5cx3WfLRgJWdAWfC3C3Plm+NVZGGsJ1SAD03EuFxb6It7s?=
+ =?us-ascii?Q?00cAnEq+wFoCMZhrmDvYsQ+x1xajft2GXC8mk7xb65TqFNev9LvwOT6XY674?=
+ =?us-ascii?Q?JJcVxLaVgicgzrnsHzrUzIAK9JCUIch6q/HuDt+cwMxI747gcDeiiWJmWTPp?=
+ =?us-ascii?Q?3ZzMuapYe/QFvetf/auug9Azezr1DnCOg93icHkzzWPSxYnHFSmgxiAQ1Ia0?=
+ =?us-ascii?Q?zuT5TWygqSes2MK4Kq4KPUIsblPzH6OQeLVQT08+hZKX77/ZK2kYcjtEh4pC?=
+ =?us-ascii?Q?mv21HfwraA/NdmR8GRbAgAF6isNp6mDPmiI3/TmsYt02WFzNQpYnxyG9kf8j?=
+ =?us-ascii?Q?gAp3VsSWKStbL5afs6ffDWLW0wNgfidaS8rnj5Ee9WMNWYy89owAWBJfo725?=
+ =?us-ascii?Q?25CgkgwOZijA/73yAppKQrKg5NP00CY8P9oqo/ZHR/2TyDf4aoENzlYtmljd?=
+ =?us-ascii?Q?oq2GhA/Kb0FAMGxqpxVc4AGgGdY92R2seMtF2IfCPrXBDnYdXZmVcup1040w?=
+ =?us-ascii?Q?7IBPkVB2kGX7jl/E8afkAj13FZDCnlneSjAtw2CdnvI14Wq8u4SmLwfQXWpJ?=
+ =?us-ascii?Q?mp3/NBfQfCOOf5CBFYdPGewQdE/j422KZE+HjtoXgFCgxJlCDFlUW+a4+bCX?=
+ =?us-ascii?Q?wvIwT6aBmEBmq0hRO+lnE/6l+E5egzrU?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?e+V23VLZJI8zapsv/NJfHLlMugByNvhlPHMOiYa4+BtHOEtDx/trgU+eEXCZ?=
+ =?us-ascii?Q?vQ36QqpSdcGROEIno6WObqCrEm6Af1rCyMR1xFd3r6GqmgtV5ENSBtsSclTj?=
+ =?us-ascii?Q?FDxPwUd18krj67DKn1K5StSsg9I9zzOOxX3OsXTGkoA5nDsVcjS/zIdKpbca?=
+ =?us-ascii?Q?lKNR6OFfvtPpMjN0Mx1/SvKmalzUOUq1ZihWdylgjtSgJegu8ijhxOuqpE6g?=
+ =?us-ascii?Q?rr/p0Lbi0qFAJp0Eo6w0DbypTFx/02UMLLOCCVI2zfL8CpNawvUbq2Kh1FYr?=
+ =?us-ascii?Q?oSCofOtSuOPvMvtvcDnoVKyLMIFFTDiYlBiCJOw9R0JvA1i2ZAM9hJd9NWKP?=
+ =?us-ascii?Q?985DWZMUBJkT+VvhthZ/wvn8KILkVvjHkpok7sGvX1mFJUkXjies8wiQ2PR+?=
+ =?us-ascii?Q?0FDHR/f/LINIpJpjNx0Ro+hUph8R9pqd6SVSzrg69b8JfiyOz2z/3YB9Uugb?=
+ =?us-ascii?Q?j7XfRjLzQ1qrYR6MMe4kstRDqd70KM8UHw4Ija8ZdkorMHnuqhnfIUs0lR+S?=
+ =?us-ascii?Q?jn4gR0k9uAmefO8PFWCYSe5y/SdPV0TON+HeJqF6V4wygruOvNzYyjXRXH1/?=
+ =?us-ascii?Q?u7pFoiS49dlNExbMkRprtkeiBvluovxDwe1w7qbXBGP0D5xabswj974bHZwV?=
+ =?us-ascii?Q?wwB7mqpqfsWgtyzSKTjrNfIyL+mw1shri1f0y9ihI//ZFJTPweLdVRaU9JYI?=
+ =?us-ascii?Q?JfH/T2Q4yRi3NbWzH1Xxsw4S8LDR3qYjVqp8ZniyP76JWnSf99ywcpmv2IKY?=
+ =?us-ascii?Q?ZiYjTKE0tEDSeSQ9eeBU48og9jwsk1tgEUHW40hrekRRs3OrEvPtNpVtWo51?=
+ =?us-ascii?Q?oWEbGca1zzP5EHFEea2LE1vXGeGSyCiKFgReDBDaTkxg/rmTzsfrVw1tVhF0?=
+ =?us-ascii?Q?xClfahBRptk17fSogZK2yxAvEuop5z0fal3lInhSxDzxFeBs7KDcSPnTBtvT?=
+ =?us-ascii?Q?mYa5PX85IL91ZvlttaEOjEBFZ/uAlefOCNYbNbqFKIeoGluyLi4bp3PTRI8i?=
+ =?us-ascii?Q?IyDbPUCWvDnnfNh1Oh7qfM3WI/1nPJv3z8pUP/kuDtHFPPTamQ5FXcc4LcPu?=
+ =?us-ascii?Q?VngFIv0Z1yNgTzXIakCTH0n8l+WNg3PJsqatCTy69jsoTiVkH9gkD25R2bzj?=
+ =?us-ascii?Q?mvzYBUme7ACiOZqmmI1B44HHnKxwM1ZLnDg3F46tI0VIercwe8XK5Swj3HZX?=
+ =?us-ascii?Q?znhkzCrYyMUGpFUCWGVOe3oSnS0dhqJatxTNYzM2pG+HiKif0Dy4+P02r75C?=
+ =?us-ascii?Q?giHgG3ykazWUvn0VAeklfhSr/a2K4TlUoxbm03x12SZefTkuLVTTm2jJAyBK?=
+ =?us-ascii?Q?nzhURJhS/f+5tvoaqHlPmXXtsHX9ObZFr0j5xh6pzoC4k/BAlJwHVZfx8wfs?=
+ =?us-ascii?Q?CapnU8mYupdrRH8edv2I1dMDnVzC+DqgYXwRm2klGWZnIu2EVeRR+cjU2jAK?=
+ =?us-ascii?Q?InGAk6+11jXNEhdxZh38pMoHgzxS6ZtZB/3TsoCvK38MPDOqiCijp0GC7zif?=
+ =?us-ascii?Q?R+aaj+0GyuYXHIdknhSjwVly2bmucd/tKfxp5Hb0LixLwR/7pT0KUnjwr9/X?=
+ =?us-ascii?Q?ekuGbvDXvamY4nw9JiU=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8ede946-52c5-40dd-6ef7-08de1c68e63b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 12:43:20.0933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: msIoZuP/859XL72lGZw2QXn6aaa20H/p7Ka5A9gE/aqZ00YvQrQ0z1+kYGK2PybQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8567
 
-On Wed, 2025-11-05 at 12:13 +0100, Bartosz Golaszewski wrote:
-> On Tue, Nov 4, 2025 at 11:31=E2=80=AFAM Nuno S=C3=A1 via B4 Relay
-> <devnull+nuno.sa.analog.com@kernel.org> wrote:
-> >=20
-> > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> >=20
-> > The LTC4283 device has up to 8 pins that can be configured as GPIOs.
-> >=20
-> > Note that PGIO pins are not set as GPIOs by default so if they are
-> > configured to be used as GPIOs we need to make sure to initialize them
-> > to a sane default. They are set as inputs by default.
-> >=20
-> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > ---
-> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > =C2=A0drivers/gpio/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 15 +++
-> > =C2=A0drivers/gpio/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 1 +
-> > =C2=A0drivers/gpio/gpio-ltc4283.c | 217 +++++++++++++++++++++++++++++++=
-+++++++++++++
-> > =C2=A04 files changed, 235 insertions(+)
-> >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index d02fdf0a0593..76a659408c8c 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -14757,9 +14757,11 @@ F:=C2=A0=C2=A0=C2=A0=C2=A0 drivers/hwmon/ltc42=
-82.c
-> >=20
-> > =C2=A0LTC4283 HARDWARE MONITOR AND GPIO DRIVER
-> > =C2=A0M:=C2=A0=C2=A0=C2=A0=C2=A0 Nuno S=C3=A1 <nuno.sa@analog.com>
-> > +L:=C2=A0=C2=A0=C2=A0=C2=A0 linux-gpio@vger.kernel.org
-> > =C2=A0L:=C2=A0=C2=A0=C2=A0=C2=A0 linux-hwmon@vger.kernel.org
-> > =C2=A0S:=C2=A0=C2=A0=C2=A0=C2=A0 Supported
-> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0 Documentation/devicetree/bindings/hwmo=
-n/adi,ltc4283.yaml
-> > +F:=C2=A0=C2=A0=C2=A0=C2=A0 drivers/gpio/gpio-ltc4283.c
-> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0 drivers/hwmon/ltc4283.c
-> >=20
-> > =C2=A0LTC4286 HARDWARE MONITOR DRIVER
-> > diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> > index 7ee3afbc2b05..58610f77a75e 100644
-> > --- a/drivers/gpio/Kconfig
-> > +++ b/drivers/gpio/Kconfig
-> > @@ -1741,6 +1741,21 @@ config GPIO_WM8994
-> >=20
-> > =C2=A0endmenu
-> >=20
-> > +menu "AUXBUS GPIO expanders"
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on AUXILIARY_BUS
-> > +
->=20
-> Please call the section "Auxiliary Bus GPIO drivers"
->=20
-> It's not very clear what "AUXBUS" is.
->=20
-> > +config GPIO_LTC4283
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "Analog Devices LTC4283 =
-GPIO support"
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on SENSORS_LTC4283
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 help
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If you say yes here y=
-ou want the GPIO function available in Analog
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Devices LTC4283 Negat=
-ive Voltage Hot Swap Controller.
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This driver can also =
-be built as a module. If so, the module will
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 be called gpio-ltc428=
-3.
-> > +
-> > +endmenu
-> > +
-> > =C2=A0menu "PCI GPIO expanders"
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on PCI
-> >=20
-> > diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-> > index ec296fa14bfd..b6550944ed78 100644
-> > --- a/drivers/gpio/Makefile
-> > +++ b/drivers/gpio/Makefile
-> > @@ -99,6 +99,7 @@ obj-$(CONFIG_GPIO_LP873X)=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-lp873x.o
-> > =C2=A0obj-$(CONFIG_GPIO_LP87565)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-lp87565.o
-> > =C2=A0obj-$(CONFIG_GPIO_LPC18XX)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-lpc18xx.o
-> > =C2=A0obj-$(CONFIG_GPIO_LPC32XX)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-lpc32xx.o
-> > +obj-$(CONFIG_GPIO_LTC4283)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-ltc4283.o
-> > =C2=A0obj-$(CONFIG_GPIO_MACSMC)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-macsmc.o
-> > =C2=A0obj-$(CONFIG_GPIO_MADERA)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-madera.o
-> > =C2=A0obj-$(CONFIG_GPIO_MAX3191X)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D gpio-max3191x.o
-> > diff --git a/drivers/gpio/gpio-ltc4283.c b/drivers/gpio/gpio-ltc4283.c
-> > new file mode 100644
-> > index 000000000000..885af67146a8
-> > --- /dev/null
-> > +++ b/drivers/gpio/gpio-ltc4283.c
-> > @@ -0,0 +1,217 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Analog Devices LTC4283 GPIO driver
-> > + *
-> > + * Copyright 2025 Analog Devices Inc.
-> > + */
->=20
-> Add a newline.
->=20
-> > +#include <linux/auxiliary_bus.h>
-> > +#include <linux/bitmap.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/device.h>
-> > +#include <linux/gpio/driver.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mod_devicetable.h>
->=20
-> In ASCII '_' sorts before 'u'.
->=20
-> With that fixed:
->=20
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Wed, Nov 05, 2025 at 09:45:07AM +0100, Joerg Roedel wrote:
+> On Tue, Nov 04, 2025 at 02:29:58PM -0400, Jason Gunthorpe wrote:
+> > [Joerg, can you put this and vtd in linux-next please. The vtd series is still
+> > good at v3 thanks]
+> 
+> Applied, thanks Jason. Please send the kdoc fixes which address Randys review
+> on-top.
 
-Thx, will change it on v4
+Will do. Please take the VTD series this cycle also, though maybe it
+is easier to let this one sit in -next for a bit first.
 
-- Nuno S=C3=A1
-
+Thanks,
+Jason
