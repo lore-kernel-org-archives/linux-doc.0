@@ -1,143 +1,172 @@
-Received: from azure-sdnproxy.icoremail.net (l-sdnproxy.icoremail.net [20.188.111.126])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E842F5492;
-	Thu,  6 Nov 2025 16:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.188.111.126
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49574322DD1
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 16:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762446858; cv=none; b=jtyt1ae5fc5uLi6rglV86wf8fDJAx4sZ1v0efRdnXPgpqPDDpkWT+vExCoU1CP3AJuYwBRHt63UgAV37z6x+goQhKELL/FcMEhTqHyGZepa8vFE+u1rlzrwdFjwQajhrPTpxdy/61usW+fYh7goXecFssAPwaq9ffN9IKRoPhlU=
+	t=1762447212; cv=none; b=Dy3bAWfIFhmr+U9I9RsN+Sshu2UY+k4VqtSKyPvFeUo5NBIlnHTzZB6VXlcfCei0pySeGqcOlP9eyahm5Y9EJ7BZG+on2D/0JfZaJSzp1rO+r3gxECuay0Og8d+pXCkKWXvGE3TDO3ZYmNb6mKnV6ooiIwR+kW3mRAPaK58N0m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762446858; c=relaxed/simple;
-	bh=viR7TUVabNHpxV1iJgXxwJvnBjkre54rmfNt5PzotQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ef33snGJKihrZV3JPcIT/sI76YGPQWL5+Hrq6nEAgjEaQPQioTGk09RP23/MYtHLyvplbRdCgP2J/tlxmzr5oNRUPjG2B3peg3sA16qsJXV9VVDP4Rp7OwB8nScrcR4y1HfAVEHcXvt/qCD83R9fQr7WnOs9TU6wLBi9bHR0dlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=20.188.111.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrACHusrKzQxpbmJ4BQ--.18275S2;
-	Fri, 07 Nov 2025 00:33:14 +0800 (CST)
-Received: from [192.168.1.7] (unknown [58.19.1.83])
-	by gateway (Coremail) with SMTP id _____wD3wUnFzQxpkldhAA--.41886S2;
-	Fri, 07 Nov 2025 00:33:12 +0800 (CST)
-Message-ID: <7e6096ab-18bd-4438-8fbb-3f530ee9e69f@hust.edu.cn>
-Date: Fri, 7 Nov 2025 00:33:07 +0800
+	s=arc-20240116; t=1762447212; c=relaxed/simple;
+	bh=mCZIsgqJp2i9uamt+pKRhzaXYJ3tiym2vWHNOfxN64g=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=bDvK1oZ5zjjxldMspB+zgERN1lTAVtP8AYzx3ezmCMIU2syBM3k1+KlN4opSG2UnvMBgfAxzeFewUabytbrWr6DIt2b6QozD2VIlfqMODzF+Or+EBqvAKKrDJIaeaIdxN4hrz0XmfoxyHvYn1W2JTthwRqNS4IaDkcw2H7B5p2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gO+Tvye4; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gO+Tvye4"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-46e47d14dceso5718535e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 08:40:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762447209; x=1763052009; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/LFdv3AJsjeDbdyHxZcbSRtknBSxAI/EO76KEsSfSxM=;
+        b=gO+Tvye4mDh/S/ZLDnM1R/+QxnNQymk59mI+iNVTMrLPpwOsa3Whq+Y/PUNOMt2ds2
+         FJBs5AuevKwOMEOeFSMfNWAgw2/Si7Du2y96ifAW+b9Lu4wBvi62DwBmgThZ6fUionW1
+         w1KqGW15MBTKLW3xsmLrPgeiyJp2O1lTnKtxeg6TSnxGi3G1tC87q+cquuhFlMB0RMFH
+         KFAt9hCwQMLxiRoYDezSlJKTy3jsGQLIuhP6H6PldjxNVL5wuUL1jz1Xrp2OY+My4Kkt
+         IF77vDAEjuPKQ5Wrvgvmsc1sgKFxaxs4uWKBQHvvs+MNNTsUc0zNOkFpSjPlpiYgCMg2
+         iH/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762447209; x=1763052009;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/LFdv3AJsjeDbdyHxZcbSRtknBSxAI/EO76KEsSfSxM=;
+        b=BCcHWsmIpXSy/cdfuG+FaqoRK7hf5QhlsbiamXWQ76AaoPmlI04VE1LO+i9QTcjFRu
+         7NPy+FWpm0Qob5ZlF/bp9jf6bgtjqunlfyrqySDYl9nZGi6hwWv7ufYNJeY2VVd+YHyi
+         cukcKRE8GNVkYWx/RbKc8TF1zOAeY2kMZFs/Ifngr8DGeBaL1mIWZh8417W9c1TzJvnL
+         ZrDDdiKAIm1sQFzbOr+aSEsHLcPozl/IwdsDI8WuA4iCYYt1Ao8/k4JdSDNNkKRDBZxj
+         toZyAOvxsjljaLiTcLuHDRYoKmaEN/R4xu7vpZojfFWXqY8a0zISeYI8tFIqoOGDvQIa
+         XGWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXzbX749bw0jW9r1Uez49TWNjECrgto4PBwB4fKaAdNu394oRWd8KYuDkRFM7eZiI6H3YSR2lPPuxE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbknnbIcF1EqgPczGlkPD7Pmv7wCfHsZW2IAFP4WtHzDCQzBAa
+	yDYpMeNjtaW00CJx7RaS/Hd28J/qSNx61hFXIRQwNPwnTJJDCNcuSDRRaWEXlOfbgcnAiytvXbz
+	7T16pQ1dUSyGEZw==
+X-Google-Smtp-Source: AGHT+IHxGvKB7RNBXPd5yjtxQlMPWEmFro0Urso+GGwuaW5qjEm9Qb3qx0pkyEB024YUCyxOSQ+DM6J5drYxMg==
+X-Received: from wmcm6.prod.google.com ([2002:a7b:ce06:0:b0:477:1716:3f2e])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:a12:b0:477:55ce:f3c3 with SMTP id 5b1f17b1804b1-4775cdad693mr58624485e9.5.1762447208638;
+ Thu, 06 Nov 2025 08:40:08 -0800 (PST)
+Date: Thu,  6 Nov 2025 16:39:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: Add kbuild timestamp Chinese translation
-To: Chenguang Zhao <zhaochenguang@kylinos.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- HUST OS Kernel Contribution <hust-os-kernel-patches@googlegroups.com>
-References: <20251106015148.54424-1-zhaochenguang@kylinos.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20251106015148.54424-1-zhaochenguang@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACHusrKzQxpbmJ4BQ--.18275S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxCFyDKr1fZw1fWr4xZFWrZrb_yoWrJF13p3
-	ZxGr17J3Z5tr1Uur1xGr1UuF1rGFn7Gw4UXw4Utw1kJr1qy3sYqr17tFyvgry7KryxXF4U
-	Gr4UKF1UAFyUArUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-	z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVWxJVW8Jr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_uctUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.2.1026.g39e6a42477-goog
+Message-ID: <20251106163953.1971067-1-smostafa@google.com>
+Subject: [PATCH v2 0/4] iommu: Add IOMMU_DEBUG_PAGEALLOC sanitizer
+From: Mostafa Saleh <smostafa@google.com>
+To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Overview
+--------
+This patch series introduces a new debugging feature,
+IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
+and IOMMU mapping leaks from buggy drivers.
+
+The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
+for catching CPU-side memory corruption. However, there is limited
+runtime sanitization for DMA mappings managed by the IOMMU. A buggy
+driver can free a page while it is still mapped for DMA, leading to
+memory corruption or use-after-free vulnerabilities when that page is
+reallocated and used for a different purpose.
+
+Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
+per-page basis, as it=E2=80=99s not possible to unmap the pages, because it
+requires to lock and walk all domains on every kernel free, instead we
+rely on page_ext to add an IOMMU-specific mapping reference count for
+each page.
+And on each page allocated/freed from the kernel we simply check the
+count and WARN if it is not zero.
+
+Concurrency
+-----------
+By design this check is racy where one caller can map pages just after
+the check, which can lead to false negatives.
+In my opinion this is acceptable for sanitizers (for ex KCSAN have
+that property).
+Otherwise we have to implement locks in iommu_map/unmap for all domains
+which is not favourable even for a debug feature.
+The sanitizer only guarantees that the refcount itself doesn=E2=80=99t get
+corrupted using atomics. And there are no false positives.
+
+CPU vs IOMMU Page Size
+----------------------
+IOMMUs can use different page sizes and which can be non-homogeneous;
+not even all of them have the same page size.
+
+To solve this, the refcount is always incremented and decremented in
+units of the smallest page size supported by the IOMMU domain. This
+ensures the accounting remains consistent regardless of the size of
+the map or unmap operation, otherwise double counting can happen.
+
+Testing & Performance
+---------------------
+This was tested on Morello with Arm64 + SMMUv3
+Also I booted RockPi-4b with Rockchip IOMMU.
+Did some tests on Qemu including different SMMUv3/CPU page size (arm64).
+
+I also ran dma_map_benchmark on Morello:
+
+echo dma_map_benchmark > /sys/bus/pci/devices/0000\:06\:00.0/driver_overrid=
+e
+echo 0000:06:00.0 >  /sys/bus/pci/devices/0000\:06\:00.0/driver/unbind
+echo 0000:06:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
+./dma_map_benchmark -t $threads -g $nr_pages
+
+CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
+cmdline refers to "iommu.debug_pagealloc"
+Numbers are (map latency)/(unmap latency), lower is better.
+
+			CONFIG=3Dn    CONFIG=3Dy    CONFIG=3Dy
+			            cmdline=3D0   cmdline=3D1
+4K - 1 thread		0.1/0.6     0.1/0.6     0.1/0.7
+4K - 4 threads		0.1/1.0     0.1/1.0     0.1/1.1
+1M - 1 thread		0.8/21.2    0.8/21.2    5.6/42.4
+1M - 4 threads		1.1/45.9    1.1/46.0    6.0/45.4
 
 
-On 11/6/25 9:51 AM, Chenguang Zhao wrote:
-> Sync the translation of changes in kbuild/kbuild.rst about
-> KBUILD_BUILD_TIMESTAMP.
->
-> Update the translation through commit 5cbfb4da7e06
-> ("kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation")
+Main changes v2:
+v1: https://lore.kernel.org/linux-iommu/20251003173229.1533640-1-smostafa@g=
+oogle.com/
+- Address J=C3=B6rg comments about #ifdefs and static keys
+- Reword the KCONFIG help
+- Drop RFC
+- Collect t-b from Qinxin
+- Minor cleanups
 
-Hi, I know where the problem is.
+Mostafa Saleh (4):
+  drivers/iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+  drivers/iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
+  drivers/iommu-debug-pagealloc: Track IOMMU pages
+  drivers/iommu-debug-pagealloc: Check mapped/unmapped kernel memory
 
-If you want to improve or revise the kernel documentation, please 
-directly submit the changes to the original English document. Our 
-Chinese translation for now is just the translation of the English 
-documentation.
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ drivers/iommu/Kconfig                         |  15 ++
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/iommu-debug-pagealloc.c         | 148 ++++++++++++++++++
+ drivers/iommu/iommu.c                         |  14 +-
+ include/linux/iommu-debug-pagealloc.h         |  83 ++++++++++
+ include/linux/mm.h                            |   5 +
+ mm/page_ext.c                                 |   4 +
+ 8 files changed, 274 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+ create mode 100644 include/linux/iommu-debug-pagealloc.h
 
-And this commit id should be the commit of the corresponding English 
-documents.
 
-Take kbuild/kbuild.rst as an example, the latest commit of Chinese 
-translation shows:
-
------------------------------------------------------------------------------------------------------------
-
-docs/zh_CN: add the translation of kbuild/kbuild.rst
-
-Finish the translation of kbuild/kbuild.rst and move kbuild
-from TODO to the main body.
-
-Update to commit 2eb5d7f24299 ("kbuild: doc: describe the -C
-option precisely for external module builds")
-
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Link: https://lore.kernel.org/r/20241016131710.2619567-1-dzm91@hust.edu.cn
-
------------------------------------------------------------------------------------------------------------
-
-However, the commit history of English documentation goes further:
-
-2025-01-15    kbuild: rust: add PROCMACROLDFLAGS
-2024-11-28    kbuild: support building external modules in a separate 
-build directory
-2024-09-24    kbuild: doc: describe the -C option precisely for external 
-module builds
-2024-09-20    kbuild: generate offset range data for builtin modules
-
-We need to update the new translations of doc changes in ("kbuild: rust: 
-add PROCMACROLDFLAGS") and ("kbuild: support building external modules 
-in a separate build directory")
-
->
-> Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
-> ---
-> v2:
->   - modify the commit message as suggested by Dongliang and add
->     a corresponding commit info for the English documentation.
-> ---
->   Documentation/translations/zh_CN/kbuild/kbuild.rst | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> index e5e2aebe1ebc..ad3e84eabbbf 100644
-> --- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> +++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> @@ -290,8 +290,13 @@ IGNORE_DIRS
->   KBUILD_BUILD_TIMESTAMP
->   ----------------------
->   将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
-> -（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
-> -内核构建某个时刻的 date 命令输出。
-> +（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。例如::
-> +
-> +	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
-> +
-> +默认值是内核构建某个时刻的date命令输出。如果提供该时戳，它还用于任何initramfs
-> +归档文件中的mtime字段。Initramfs mtimes是32位的，因此早于Unix纪元1970年，或
-> +晚于协调世界时 (UTC)2106年2月7日6时28分15秒的日期是无效的。
->   
->   KBUILD_BUILD_USER, KBUILD_BUILD_HOST
->   ------------------------------------
+base-commit: dc77806cf3b4788d328fddf245e86c5b529f31a2
+--=20
+2.51.2.1026.g39e6a42477-goog
 
