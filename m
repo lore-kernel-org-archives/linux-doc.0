@@ -1,287 +1,137 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9C4318132
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064C030F92D
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762428887; cv=none; b=OEtkrp3NJmuuHQlFbUWs/KnRWGEQkvi0yz4AREHbf4AqsWYTuvgtZbzGpcMCJqpk0M/GQBMOVYZhNgzrItrMtWA1G8FnWn/esR/jITWKCw+QAFn8yF5ihA9J8PsMe9FrBotjtqvOB/2TLJxZjro617MHQO//n8J5JwojEXA5Vhc=
+	t=1762429135; cv=none; b=WllA4p5HqlHe3X+kz0eGasGaY7U8cZr9wDCcQd3HZ2gxZ6kvA2eoJcuale4Hnh+QpSU1HmkRaLNjt4E455U71mPrQRnqYVMSweQIRbwYrhI9jOW/b5/bGEoAlU9uLX7WKUUyFvwtQ4itvS6C+kmqD3kOKHy6QNwlOuJBnEn//gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762428887; c=relaxed/simple;
-	bh=s1TSeMY8TYeWUqJN+NLoCq/MH+IRv9s48jeTq7Gbbf8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lnEon79h/FPIOMIs1RnbMOjOG1qvfLFWa42aCk+FUXo9hx8vuOdYSj12LHPstwK4txWQnz/uS6SJEltzjMn4jrP4tWOp0nZWp8TWMhJAuDIwIOyANIgsKVWWlft1lfXFB3Tdpw/kONdM8J16J8soVZob23tGzBO8ndV4d65QT0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=V3xpKhRn; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1762429135; c=relaxed/simple;
+	bh=1im8cEsSwPU3z1wUcIFZMYr3Hf80GzC/cfDI1HoTkEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gpgo3OCVVz2UuxKVesxGC/9Cj+5c3oOhhimEzenXisxU//G9zLGinef69L2dphleDxBi2anMPNYPNAxjwYRN6Iudy2VHIuTGYi3kkjeqEO+zY/220ojdaba6qvYk0w4+2GU/AfEZOdR8GfqKw0CwrqXYIhC4EaoJ+wkiP5lQwSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SNBRTV7C; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=CkXxIvsQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="V3xpKhRn"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429c7e438a8so819329f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:34:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SNBRTV7C";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="CkXxIvsQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762429132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qsR7dUNbKYyGm3G2Ypb+Ygd27jeSq0CETiTbO/x2Dv8=;
+	b=SNBRTV7Ceum6BIanmmbDHOlNoaUjHzIKV4FZHS8lRR2jq7CwOCzV/BXCsr16QxXDbOVl89
+	7Xn48I4IepYJlDgUVfJJtg9dSg4dNhJhw9VSnX9MA8MO/yg4etHwSjG4/cz7c3sWspAeNa
+	aMtLnM5asj29ymVPUse1JZfCYE6Es/0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-qWqY5idjM26laFMj9RWHVQ-1; Thu, 06 Nov 2025 06:38:50 -0500
+X-MC-Unique: qWqY5idjM26laFMj9RWHVQ-1
+X-Mimecast-MFC-AGG-ID: qWqY5idjM26laFMj9RWHVQ_1762429129
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-429c76c8a1bso624911f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762428884; x=1763033684; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0slMlJM7u9gD6l8dG4n25D1+B/Pqy3PuC+FWW1MvYSg=;
-        b=V3xpKhRnHptAwvY//bqP7zQI0CW+Rddd3JmUhM2nf2vOH3X+X87cvp9cVIYPpdAf54
-         IR6HnGTRgSPQeRsLggkEhsA9zxeSFfgHedP9lHvHlf1555uQVtAKA392BRYlJAZZzWdv
-         pzDulkXn4cFYpjGjIfLkCGZcxVuQ0OXeY6GuTDwdks6YTStW0wxFwWSEOZfR17bUfHpv
-         EUkLSIbAcmUwX15zt0rw9SLgAR4cTqv6oE8LlhZ5hKOc+i2IhOfGjnDpWFJXBwNagcz4
-         rxClXu7xOjevORQh5rump8Om0hKMAN7QqAe4V2SqZJt0vMnw7XbMqddp62N2RhYDVLBO
-         neWw==
+        d=redhat.com; s=google; t=1762429129; x=1763033929; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qsR7dUNbKYyGm3G2Ypb+Ygd27jeSq0CETiTbO/x2Dv8=;
+        b=CkXxIvsQ9x5e8EpPuwTJUCKNVCnZ2f0k0CWy/W+XEw78HvukKVA5U1U+Vu2WTT1awY
+         4PyuuIaPZ57C/0apYFhcBfuOwlglqMbXHaEg5ydS5plXaa8X1U9Enus1QQshy/OZ8WA4
+         80LfMFXFnkXVq1MJAGVQ4xkoghAXY8Sh3R1Nb0gV3Y566s9cYLaBwUW00z6MMqvNr4Lq
+         IMa04RUxTWVhyM5O82G0uQYS18SbVaNLntkj3YCh0LUi6jnhOheaaaj1aO7oEeDjkwH/
+         37hxIxYQ8/4Mzcb6EZMb3+v3LKv8KU57Cf/C7HU1Q/PIsuMK15rp2prP2YvW7yiRJiLF
+         TaCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762428884; x=1763033684;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0slMlJM7u9gD6l8dG4n25D1+B/Pqy3PuC+FWW1MvYSg=;
-        b=qYPFdYIfFUtUWiTfUiZDC1kMPu6unWEKQjuIRE8IOqSiP3HKtlQ1NyPki9gca730C7
-         XC6MQ5CacmiiT7BLKBgozx+iLIenCQc+y8s8m0eynKYfHOuJNR/fMnI4EPTVyQ+uLjZ4
-         pnQvyZHOSTVLgnhdZ0AnWH2x5KaqhVIN5E9QFXZGpTLxALFfnVTfYP/5yN1qOiFMIECo
-         W/2ozuJF+HL5FeYG4FHz7JYiRLb6IEzszqq43diAGNexP1VlN7NppucglYdt8LnEhUM3
-         L/sKNzJQAeL1Aq4nGQEcOLZd1QntHQF35ps/Jzc6hBTD7JWJs6OYjvYGEwC8Fhg/NsrQ
-         YThg==
-X-Forwarded-Encrypted: i=1; AJvYcCXp4s3yflr3Gmaz/O0fvdO9qbOeMMG0KZBd+PLXtV/MxYq5LXpPY40ntvlgiUUfZmeo13LwrgKixOE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQo82oAFw6/dN2BqtnjJThga15pJoyIKJHjvPm82KFsXxmLdx1
-	ViSU6EC9TG/4WVNRL3bC6d0kI5Qdd/XWhX28/28LsBfpcAueHqjsLczorMHtociht7g=
-X-Gm-Gg: ASbGncuWBCb1WkU4iaXZMl9fqjHLeeYtFW4iwFoEtgsqBbbppLmDCmfN2olgtNEPI9B
-	TRsrDF7csQG1zwCcS5HR9m28DnxeqqPPcndtf/3BU2lfsedk7F2TSBsNBjLRdiH8+WpGvcowqdT
-	Jbxr5eAcXf7fY6iXQRPZFG7Oqx9ZGEMD5kg0HaAjgBOUlBAQXMvN8mvfeGUxqdtbHnuqn76dSyn
-	FOwvWs2P4xWPSVnMwd/Vk97/y//EjhXkIHgzfuf+QL0HgbHiN/N8Fv2u8gQBP+O9a8HcfDdy1gI
-	fREJErcGPhJd6aruwlE7f4lKOFftV064I3kGRwMQD4YUuKhiatTGES3u5VbSa62iqE2fsQjIpT0
-	dKRXAEj05yAxwL+YD2NB5fzOXgdYxS7rEku1QenpqJLmx/Wt7XjCz1xrHLl7a4/bulJZR
-X-Google-Smtp-Source: AGHT+IH/fiOSpX8Bd1PNfxDUNCCGWk+vEcb6nEZ3+jlgwUCbejOylW0/BOX0SYiK7oI9XmgnVzY0Qg==
-X-Received: by 2002:a05:6000:1869:b0:3f2:b077:94bc with SMTP id ffacd0b85a97d-429e32dd886mr5841798f8f.4.1762428884172;
-        Thu, 06 Nov 2025 03:34:44 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:d9de:4038:a78:acab])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb40379esm4389459f8f.9.2025.11.06.03.34.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 03:34:42 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 06 Nov 2025 12:34:07 +0100
-Subject: [PATCH v8 11/11] crypto: qce - Switch to using BAM DMA for crypto
- I/O
+        d=1e100.net; s=20230601; t=1762429129; x=1763033929;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qsR7dUNbKYyGm3G2Ypb+Ygd27jeSq0CETiTbO/x2Dv8=;
+        b=Cdz3GOiMVr/29Pcc51PLf3rhTjanG4IwH3WAUIdhBKYi9SorDvbwjVi0yGDHvXPx43
+         G/5oERMcUmUreEeoEhuuIkWZgDXAorgJZHUpobh/gWbcaYm3YBHfcFavqoq1OHzo0mNX
+         uNHLF2WHxHaSDR3Nm9kXftBR54YwnXNWj2zkx7gSTWE8xDBdBSr5LHgj7+x/b8d0q5dq
+         b0jd7selK8M/+7yB/p5Jid6xZnyImpLmZymBRNtts89N75Y+7T5N3SMCU6t60rOynTWz
+         CTClzQF0sWUV6Na/sTRKPwY4trd4bnigfwkkfMs6DPmT1aIR21Knb2yS2PEtXBkI8x9w
+         /9FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Z3Dti5wwPZJ+FHj9tnpFQOTLCfkUXTNE0wydIFrTwPzFoqFzWSMwOaklVvvLBv4DKXJ8jfJH+60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ2NSH2aKxkGUSWsGGzVWaknDaefcq1AvJBlFlUk7WBvhgtDyr
+	MsoiWvHDTKkpf5pvdAAnC1e7NDA4ybg6QbxyBLzVXj2YBOoDHD6utwnJEKa2AOMKiBwqVAve1s3
+	LRpXO2+wXTO/+KMokhftotG+KfG6Gmk3zzijTwIEzAW/t7Lrv8uGaLHqK+2TdLA==
+X-Gm-Gg: ASbGncukejbPoWVFpLcJl9SJzxhKx0lnW2A7UMc85ogFS03oD+q03zI+uJIm5vocqRA
+	gWx36JjH5NaeHptjy30cfwJkbVXafGCnR3SQbjy0u4V/h/aEBWsab0dBbiDYVAFWuCDn6d42A0N
+	81EreyNPaHgwlX9cEyolsNfnG+6mjCAGmYPrgUlf2c2u/DAzkcHprh8UavtsNBVWUJSe3sc9vr9
+	MNP+u3mAE+O/gzwNr02PhgU7GUq95nXhEKwNfvonHQ26m2aA3ouVmQN8Nuw/kzgvEX7eOKLFx6n
+	ElnWefSnjzh3lo2X9KJ2eZgD7/KCT3vF1lNoy8jfPrv7dD6RNY/nGk5eSGpKtH5Nf2Ip+432JKy
+	mfA==
+X-Received: by 2002:a05:600c:3551:b0:475:dd59:d8da with SMTP id 5b1f17b1804b1-4775ce2b673mr68256765e9.40.1762429129518;
+        Thu, 06 Nov 2025 03:38:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE7kUvneRaqEvt7Kh1+lSjkJl0uXf/wS14yYzwd3nHIQHFp+DgBSlRyvRM7xPYT467KsqDWCg==
+X-Received: by 2002:a05:600c:3551:b0:475:dd59:d8da with SMTP id 5b1f17b1804b1-4775ce2b673mr68256395e9.40.1762429129057;
+        Thu, 06 Nov 2025 03:38:49 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.155.83])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47764152a13sm13759115e9.13.2025.11.06.03.38.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Nov 2025 03:38:48 -0800 (PST)
+Message-ID: <bc1ebcd0-c42c-4b59-a37a-13ee214e90a6@redhat.com>
+Date: Thu, 6 Nov 2025 12:38:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 net-next 05/14] tcp: L4S ECT(1) identifier and
+ NEEDS_ACCECN for CC modules
+To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
+ dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
+ kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
+ jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
+ donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
+ ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
+ g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
+ mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
+ Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Cc: Olivier Tilmans <olivier.tilmans@nokia.com>
+References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
+ <20251030143435.13003-6-chia-yu.chang@nokia-bell-labs.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251030143435.13003-6-chia-yu.chang@nokia-bell-labs.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251106-qcom-qce-cmd-descr-v8-11-ecddca23ca26@linaro.org>
-References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
-In-Reply-To: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, 
- Udit Tiwari <quic_utiwari@quicinc.com>, 
- Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
- Md Sadre Alam <mdalam@qti.qualcomm.com>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-crypto@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6106;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=2zlVAHXO/DOwordNK3r9sCFLHH3vkgBdbL2WMJAKOzQ=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpDIe9+1fIkMp/fEXn98fhQgw9tFW/4REfExT+H
- vU/2dMogemJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQyHvQAKCRARpy6gFHHX
- crcnEADK/TmYg5xmjUrAjllFl8IKDa0f455O8YfKfKz4A4LxicVDLIxSp8O5LTaP6UvBKGtCTxV
- r4hadowYw+W2k/Xdt8Kw/27fBjoy4CnByQhWvNIsIWb6HbePWFP+0lpdCRd3hiurvyXEnYexLN2
- P+bO7meTR3UwUrCAPOYv/GHerTQgDBV+HZKHwI70CRqLwA2CadFjVWkYKTu07/pvICd5gCTv6EP
- eXmIuISa1Nb2sxnSJjzcIhzX7QtSzxZUZB+NhhBB1W3lyHAvin0ZjhV9GGzScUhKKQA+GsYWsIT
- XlOGfGNk+nlJm0lK8/3xFWu5n57z6iewexnhZvXhOo7LF+VZxyI1e4OOhI5D0hvhA7uPHxbj8Os
- oNAXqKAi+pOTivBdtMQZs8lVzpHi7TTTUH6MeZpTOTglj5zLtBVJ1jhSaOY+gLz992XLBcv2+D+
- ryDD89nYOoB7p8EVyBGc3biZlxhsTNCHXdWriVCAmt698iupYt44Ba2X1KUotJV1DndTdHjmzAV
- 8laH52cTwVV/JKDoiWbA+l92liEZz0YT36YyfOsIH9wKF896gdVLbG2qTjW05wKZhfiFq7oWUnG
- V+1OvqIdw/WIYOMGomtxserWMNTz/64RcLxz7LQZpF5xYE451IcSOZcROwHayijUE+d2xTSpwx4
- 2nmFiD4tTZ11bdw==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On 10/30/25 3:34 PM, chia-yu.chang@nokia-bell-labs.com wrote:
+> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+> index 7f5df7a71f62..d475f80b2248 100644
+> --- a/net/ipv4/tcp_output.c
+> +++ b/net/ipv4/tcp_output.c
+> @@ -328,12 +328,17 @@ static void tcp_ecn_send(struct sock *sk, struct sk_buff *skb,
+>  			 struct tcphdr *th, int tcp_header_len)
+>  {
+>  	struct tcp_sock *tp = tcp_sk(sk);
+> +	bool ecn_ect_1;
+>  
+>  	if (!tcp_ecn_mode_any(tp))
+>  		return;
+>  
+> +	ecn_ect_1 = tp->ecn_flags & TCP_ECN_ECT_1;
+> +	if (ecn_ect_1 && !tcp_accecn_ace_fail_recv(tp))
+> +		__INET_ECN_xmit(sk, true);
 
-With everything else in place, we can now switch to actually using the
-BAM DMA for register I/O with DMA engine locking.
+I'm possibly lost, but I can't find ecn_flags TCP_ECN_ECT_1 bit being
+set here or elsewhere in this series.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/crypto/qce/aead.c     | 10 ++++++++++
- drivers/crypto/qce/common.c   | 21 ++++++++++-----------
- drivers/crypto/qce/sha.c      |  8 ++++++++
- drivers/crypto/qce/skcipher.c |  7 +++++++
- 4 files changed, 35 insertions(+), 11 deletions(-)
+Also why isn't this chunk under `if (tcp_ecn_mode_accecn(tp))` ?
 
-diff --git a/drivers/crypto/qce/aead.c b/drivers/crypto/qce/aead.c
-index 11cec08544c912e562bf4b33d9a409f0e69a0ada..0fc69b019929342e14d3af8e24d7629ab171bc60 100644
---- a/drivers/crypto/qce/aead.c
-+++ b/drivers/crypto/qce/aead.c
-@@ -63,6 +63,10 @@ static void qce_aead_done(void *data)
- 		sg_free_table(&rctx->dst_tbl);
- 	}
- 
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "aead: failed to unlock the BAM\n");
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0 && (error != -EBADMSG))
- 		dev_err(qce->dev, "aead operation error (%x)\n", status);
-@@ -188,6 +192,8 @@ qce_aead_ccm_prepare_buf_assoclen(struct aead_request *req)
- 	struct crypto_aead *tfm = crypto_aead_reqtfm(req);
- 	struct qce_aead_reqctx *rctx = aead_request_ctx_dma(req);
- 	struct qce_aead_ctx *ctx = crypto_aead_ctx(tfm);
-+	struct qce_alg_template *tmpl = to_aead_tmpl(crypto_aead_reqtfm(req));
-+	struct qce_device *qce = tmpl->qce;
- 	unsigned int assoclen = rctx->assoclen;
- 	unsigned int adata_header_len, cryptlen, totallen;
- 	gfp_t gfp;
-@@ -200,6 +206,10 @@ qce_aead_ccm_prepare_buf_assoclen(struct aead_request *req)
- 		cryptlen = rctx->cryptlen;
- 	totallen = cryptlen + req->assoclen;
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	/* Get the msg */
- 	msg_sg = scatterwalk_ffwd(__sg, req->src, req->assoclen);
- 
-diff --git a/drivers/crypto/qce/common.c b/drivers/crypto/qce/common.c
-index 74756c222fed6d0298eb6c957ed15b8b7083b72f..930006aaba4accb51576ecfb84aa9cf20849a72f 100644
---- a/drivers/crypto/qce/common.c
-+++ b/drivers/crypto/qce/common.c
-@@ -14,6 +14,7 @@
- #include "cipher.h"
- #include "common.h"
- #include "core.h"
-+#include "dma.h"
- #include "regs-v5.h"
- #include "sha.h"
- #include "aead.h"
-@@ -25,7 +26,7 @@ static inline u32 qce_read(struct qce_device *qce, u32 offset)
- 
- static inline void qce_write(struct qce_device *qce, u32 offset, u32 val)
- {
--	writel(val, qce->base + offset);
-+	qce_write_dma(qce, offset, val);
- }
- 
- static inline void qce_write_array(struct qce_device *qce, u32 offset,
-@@ -82,6 +83,8 @@ static void qce_setup_config(struct qce_device *qce)
- {
- 	u32 config;
- 
-+	qce_clear_bam_transaction(qce);
-+
- 	/* get big endianness */
- 	config = qce_config_reg(qce, 0);
- 
-@@ -90,12 +93,14 @@ static void qce_setup_config(struct qce_device *qce)
- 	qce_write(qce, REG_CONFIG, config);
- }
- 
--static inline void qce_crypto_go(struct qce_device *qce, bool result_dump)
-+static int qce_crypto_go(struct qce_device *qce, bool result_dump)
- {
- 	if (result_dump)
- 		qce_write(qce, REG_GOPROC, BIT(GO_SHIFT) | BIT(RESULTS_DUMP_SHIFT));
- 	else
- 		qce_write(qce, REG_GOPROC, BIT(GO_SHIFT));
-+
-+	return qce_submit_cmd_desc(qce);
- }
- 
- #if defined(CONFIG_CRYPTO_DEV_QCE_SHA) || defined(CONFIG_CRYPTO_DEV_QCE_AEAD)
-@@ -223,9 +228,7 @@ static int qce_setup_regs_ahash(struct crypto_async_request *async_req)
- 	config = qce_config_reg(qce, 1);
- 	qce_write(qce, REG_CONFIG, config);
- 
--	qce_crypto_go(qce, true);
--
--	return 0;
-+	return qce_crypto_go(qce, true);
- }
- #endif
- 
-@@ -386,9 +389,7 @@ static int qce_setup_regs_skcipher(struct crypto_async_request *async_req)
- 	config = qce_config_reg(qce, 1);
- 	qce_write(qce, REG_CONFIG, config);
- 
--	qce_crypto_go(qce, true);
--
--	return 0;
-+	return qce_crypto_go(qce, true);
- }
- #endif
- 
-@@ -535,9 +536,7 @@ static int qce_setup_regs_aead(struct crypto_async_request *async_req)
- 	qce_write(qce, REG_CONFIG, config);
- 
- 	/* Start the process */
--	qce_crypto_go(qce, !IS_CCM(flags));
--
--	return 0;
-+	return qce_crypto_go(qce, !IS_CCM(flags));
- }
- #endif
- 
-diff --git a/drivers/crypto/qce/sha.c b/drivers/crypto/qce/sha.c
-index 0c7aab711b7b8434d5f89ab4565ef4123fc5322e..286477a3001248e745d79b209aebb6ed6bf11f62 100644
---- a/drivers/crypto/qce/sha.c
-+++ b/drivers/crypto/qce/sha.c
-@@ -60,6 +60,10 @@ static void qce_ahash_done(void *data)
- 	rctx->byte_count[0] = cpu_to_be32(result->auth_byte_count[0]);
- 	rctx->byte_count[1] = cpu_to_be32(result->auth_byte_count[1]);
- 
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "ahash: failed to unlock the BAM\n");
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
- 		dev_dbg(qce->dev, "ahash operation error (%x)\n", status);
-@@ -90,6 +94,10 @@ static int qce_ahash_async_req_handle(struct crypto_async_request *async_req)
- 		rctx->authklen = AES_KEYSIZE_128;
- 	}
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	rctx->src_nents = sg_nents_for_len(req->src, req->nbytes);
- 	if (rctx->src_nents < 0) {
- 		dev_err(qce->dev, "Invalid numbers of src SG.\n");
-diff --git a/drivers/crypto/qce/skcipher.c b/drivers/crypto/qce/skcipher.c
-index cab796cd7e43c548a49df468b2dde84942c5bd87..8317c79fb9c2b209884187d65655d04c580e9cde 100644
---- a/drivers/crypto/qce/skcipher.c
-+++ b/drivers/crypto/qce/skcipher.c
-@@ -51,6 +51,9 @@ static void qce_skcipher_done(void *data)
- 	dma_unmap_sg(qce->dev, rctx->dst_sg, rctx->dst_nents, dir_dst);
- 
- 	sg_free_table(&rctx->dst_tbl);
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "skcipher: failed to unlock the BAM\n");
- 
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
-@@ -78,6 +81,10 @@ qce_skcipher_async_req_handle(struct crypto_async_request *async_req)
- 	rctx->ivsize = crypto_skcipher_ivsize(skcipher);
- 	rctx->cryptlen = req->cryptlen;
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	diff_dst = (req->src != req->dst) ? true : false;
- 	dir_src = diff_dst ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL;
- 	dir_dst = diff_dst ? DMA_FROM_DEVICE : DMA_BIDIRECTIONAL;
-
--- 
-2.51.0
+/P
 
