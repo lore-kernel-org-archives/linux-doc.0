@@ -1,170 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA308280332;
-	Thu,  6 Nov 2025 08:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1427301709;
+	Thu,  6 Nov 2025 08:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762417481; cv=none; b=XqAftwhGqXlgHFXEeMGR1s7kc3Da1I9P6AkYwpVeqFqxVee7c7T1z5cp+F5fLcu3GoliRFfXyf4lVKvTk8wwtxlByapyB7K+QfdvX/b8vXtJwkwDDzdOOtUnRDv2/q267cxI7jyFXgJnb9lWtvC7Rv8uyAZs/EdxWjWmcIGRevg=
+	t=1762417710; cv=none; b=asWJ+R6brfKGGjbGvRpLjhvTJ5/Jn7u8HVCnnA3iZjxD6wBVhcNMIeVDApED2I6MMnrkVYvA2XQiaZBBqS/HWhLKusKsaKnxWPaapKwjz3C7j/D97UQ0rfiThnLsPskPzOlgd2p+TPpBhnq9lBciOOk6e3+5xlsBKJyheCAjyGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762417481; c=relaxed/simple;
-	bh=tnT+oLc/kBo4dvSKn58H5wJqyeTpfH6PqdkJR5lwiCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1VnQDvPVbRvLabMr6AY4LV5JUrNziHCgnB6jMXLq56cp1TywEPEyUWD0xfzyP/gJRwuTigVh2BK/RDkWTCjSpRYC5ublEG1fFb1P9lnq2VjCpJ7L18UUOaaF9vP2gvi+27o1+s9kzJIV9zXBiOKhikc61nkVOl4PvtdG3BWGgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQfFohEU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762417710; c=relaxed/simple;
+	bh=pVgfYk4/hjf8v16hm1avg00MTUjmZ/jX7QzVe0yu1M4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ghAM7i5Cn0g5QxiBFgMaGqXyYtKGK6iJ7ceAX0W5+CCgZEpxQgrFjtQdBc9jbF1e/ubfpq+GltSMbFfHtjkX70ulzO9msOGy8rwIhbrwnwBYh3VL7e8yROBM+3KpiZPO2zInSfqirRKrb7pPE64vrP/cB+Amg64GUEFoVH3Ifjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=oaACdWU1; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQfFohEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3145C4CEFB;
-	Thu,  6 Nov 2025 08:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762417480;
-	bh=tnT+oLc/kBo4dvSKn58H5wJqyeTpfH6PqdkJR5lwiCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MQfFohEUn+hXz5i9qgPu11Y8k2A6IGar+vdTxNhbAo5kq96oZC66SvEwCEwZLngMa
-	 nZqgVO6+lGr5SbnAscnFEGlOYth+V4uFEvuRy8xVQMnvVEiHxMmse/uc5VnagiJNt8
-	 7+LUyj+hqpudRx/65qxTU8MdcRF9WWbQQgyoIMJ5FYNqvVvXm0EJe3tzNLVe4x9hWN
-	 OwMtBjGFSqk12yNZ+IiQNnuFCH6ChjQrOxCXNG3qNwMylFktFN1x1Sr2exkVzhcv2W
-	 GcbUH/H4EasrjeEnAZuC2B/VAI67qBmhIzlMObyBFLthPShiCWyultl0kZZGY0ZbBJ
-	 1YtPynLoEba2g==
-Date: Thu, 6 Nov 2025 10:24:24 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,
-	Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com,
-	arnd@arndb.de, ashish.kalra@amd.com, benh@kernel.crashing.org,
-	bp@alien8.de, catalin.marinas@arm.com, corbet@lwn.net,
-	dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
-	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com,
-	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org,
-	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
-	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com,
-	pbonzini@redhat.com, peterz@infradead.org, robh@kernel.org,
-	rostedt@goodmis.org, saravanak@google.com,
-	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
-	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 01/17] memblock: add MEMBLOCK_RSRV_KERN flag
-Message-ID: <aQxbOG65t-Vu6TVe@kernel.org>
-References: <20250509074635.3187114-1-changyuanl@google.com>
- <20250509074635.3187114-2-changyuanl@google.com>
- <ef6wfr72set5wa5el3wbbu4yd5tnc4p2rhtjpb5kpmncv3xs5d@i3c5v3ciioi3>
- <mafs0wm4yluej.fsf@kernel.org>
- <mafs0h5w2lpqu.fsf@kernel.org>
- <2ege2jfbevtunhxsnutbzde7cqwgu5qbj4bbuw2umw7ke7ogcn@5wtskk4exzsi>
- <mafs0cy6pljci.fsf@kernel.org>
- <c2nrxby4atq75o5yhwdpoikyso42tzimwn2bnl7fk54wuwdqax@i6kdssez3kfj>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="oaACdWU1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=WwUoGTNmbk4GL2R/z8jgKT7x4qoL8qPfVciTM25oRN4=; b=oaACdWU11vzx7y9yl+WQ7YyetM
+	aoDWzy+EKCf1wJQvAgAUOGwGawC75YrhbT7KaMu0Vc49ukacvQeSVxo3+h8EnpRfMSQ3VA1r2D3iM
+	fLuSkbX8cni9zYAHuflPh1YTWVsY1bF1kYQVQri4E1+KMOPb49SQ/C/524oD0vr1dPAYfYokC4iIw
+	MBIwiyRpuE5ZFALUA05JXrv2gm2I739cxXzA0nv4gjwOsimS/73pe87c42sFK0/wNTjoS9pQSt6l1
+	g1L1YWEuVAd2B0qPzBMw2dLJYGqVddYrCaaJhz3xm+B67gPY1eAjmasMdyi3qKuDQ9vA+JNhMdiwU
+	ydoU65GA==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vGvLt-002sf6-3a; Thu, 06 Nov 2025 09:28:17 +0100
+Message-ID: <f935574c-67d1-4a7c-bd8e-e9dff7aa97ea@igalia.com>
+Date: Thu, 6 Nov 2025 08:28:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2nrxby4atq75o5yhwdpoikyso42tzimwn2bnl7fk54wuwdqax@i6kdssez3kfj>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: Fix @alloc_flags description
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Zack Rusin <zack.rusin@broadcom.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20251106005217.14026-1-bagasdotme@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251106005217.14026-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Breno,
 
-On Wed, Nov 05, 2025 at 02:18:11AM -0800, Breno Leitao wrote:
-> Hello Pratyush,
+On 06/11/2025 00:52, Bagas Sanjaya wrote:
+> Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
 > 
-> On Tue, Oct 14, 2025 at 03:10:37PM +0200, Pratyush Yadav wrote:
-> > On Tue, Oct 14 2025, Breno Leitao wrote:
-> > > On Mon, Oct 13, 2025 at 06:40:09PM +0200, Pratyush Yadav wrote:
-> > >> On Mon, Oct 13 2025, Pratyush Yadav wrote:
-> > >> >
-> > >> > I suppose this would be useful. I think enabling memblock debug prints
-> > >> > would also be helpful (using the "memblock=debug" commandline parameter)
-> > >> > if it doesn't impact your production environment too much.
-> > >> 
-> > >> Actually, I think "memblock=debug" is going to be the more useful thing
-> > >> since it would also show what function allocated the overlapping range
-> > >> and the flags it was allocated with.
-> > >> 
-> > >> On my qemu VM with KVM, this results in around 70 prints from memblock.
-> > >> So it adds a bit of extra prints but nothing that should be too
-> > >> disrupting I think. Plus, only at boot so the worst thing you get is
-> > >> slightly slower boot times.
-> > >
-> > > Unfortunately this issue is happening on production systems, and I don't
-> > > have an easy way to reproduce it _yet_.
-> > >
-> > > At the same time, "memblock=debug" has two problems:
-> > >
-> > >  1) It slows the boot time as you suggested. Boot time at large
-> > >     environments is SUPER critical and time sensitive. It is a bit
-> > >     weird, but it is common for machines in production to kexec
-> > >     _thousands_ of times, and kexecing is considered downtime.
-> > 
-> > I don't know if it would make a real enough difference on boot times,
-> > only that it should theoretically affect it, mainly if you are using
-> > serial for dmesg logs. Anyway, that's your production environment so you
-> > know best.
-> > 
-> > >
-> > >     This would be useful if I find some hosts getting this issue, and
-> > >     then I can easily enable the extra information to collect what
-> > >     I need, but, this didn't pan out because the hosts I got
-> > >     `memblock=debug` didn't collaborate.
-> > >
-> > >  2) "memblock=debug" is verbose for all cases, which also not necessary
-> > >     the desired behaviour. I am more interested in only being verbose
-> > >     when there is a known problem.
+> Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
+> Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
+> Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+> Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
 > 
-> I am still interested in this problem, and I finally found a host that
-> constantly reproduce the issue and I was able to get `memblock=debug`
-> cmdline. I am running 6.18-rc4 with some debug options enabled.
-> 
-> 	DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000006d6e400
-> 	WARNING: CPU: 58 PID: 828 at kernel/dma/debug.c:463 add_dma_entry+0x2e4/0x330
-> 	pc : add_dma_entry+0x2e4/0x330
-> 	lr : add_dma_entry+0x2e4/0x330
-> 	sp : ffff8000b036f7f0
-> 	x29: ffff8000b036f800 x28: 0000000000000001 x27: 0000000000000008
-> 	x26: ffff8000835f7fb8 x25: ffff8000835f7000 x24: ffff8000835f7ee0
-> 	x23: 0000000000000000 x22: 0000000006d6e400 x21: 0000000000000000
-> 	x20: 0000000006d6e400 x19: ffff0003f70c1100 x18: 00000000ffffffff
-> 	x17: ffff80008019a2d8 x16: ffff80008019a08c x15: 0000000000000000
-> 	x14: 0000000000000000 x13: 0000000000000820 x12: ffff00011faeaf00
-> 	x11: 0000000000000000 x10: ffff8000834633d8 x9 : ffff8000801979d4
-> 	x8 : 00000000fffeffff x7 : ffff8000834633d8 x6 : 0000000000000000
-> 	x5 : 00000000000bfff4 x4 : 0000000000000000 x3 : ffff0001075eb7c0
-> 	x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0001075eb7c0
-> 	Call trace:
-> 	add_dma_entry+0x2e4/0x330 (P)
-> 	debug_dma_map_phys+0xc4/0xf0
-> 	dma_map_phys (/home/leit/Devel/upstream/./include/linux/dma-direct.h:138 /home/leit/Devel/upstream/kernel/dma/direct.h:102 /home/leit/Devel/upstream/kernel/dma/mapping.c:169)
-> 	dma_map_page_attrs (/home/leit/Devel/upstream/kernel/dma/mapping.c:387)
-> 	blk_dma_map_direct.isra.0 (/home/leit/Devel/upstream/block/blk-mq-dma.c:102)
-> 	blk_dma_map_iter_start (/home/leit/Devel/upstream/block/blk-mq-dma.c:123 /home/leit/Devel/upstream/block/blk-mq-dma.c:196)
-> 	blk_rq_dma_map_iter_start (/home/leit/Devel/upstream/block/blk-mq-dma.c:228)
-> 	nvme_prep_rq+0xb8/0x9b8
-> 	nvme_queue_rq+0x44/0x1b0
-> 	blk_mq_dispatch_rq_list (/home/leit/Devel/upstream/block/blk-mq.c:2129)
-> 	__blk_mq_sched_dispatch_requests (/home/leit/Devel/upstream/block/blk-mq-sched.c:314)
-> 	blk_mq_sched_dispatch_requests (/home/leit/Devel/upstream/block/blk-mq-sched.c:329)
-> 	blk_mq_run_work_fn (/home/leit/Devel/upstream/block/blk-mq.c:219 /home/leit/Devel/upstream/block/blk-mq.c:231)
-> 	process_one_work (/home/leit/Devel/upstream/kernel/workqueue.c:991 /home/leit/Devel/upstream/kernel/workqueue.c:3213)
-> 	worker_thread (/home/leit/Devel/upstream/./include/linux/list.h:163 /home/leit/Devel/upstream/./include/linux/list.h:191 /home/leit/Devel/upstream/./include/linux/list.h:319 /home/leit/Devel/upstream/kernel/workqueue.c:1153 /home/leit/Devel/upstream/kernel/workqueue.c:1205 /home/leit/Devel/upstream/kernel/workqueue.c:3426)
-> 	kthread (/home/leit/Devel/upstream/kernel/kthread.c:386 /home/leit/Devel/upstream/kernel/kthread.c:457)
-> 	ret_from_fork (/home/leit/Devel/upstream/entry.S:861)
-> 
-> 
-> Looking at memblock debug logs, I haven't seen anything related to
-> 0x0000000006d6e400.
+> Fix these by adding missing wildcard on TTM_ALLOCATION_* and
+> TTM_ALLOCATION_POOL_* in @alloc_flags description.
 
-It looks like the crash happens way after memblock passed all the memory to
-buddy. Why do you think this is related to memblock?
- 
-> I got the output of `dmesg | grep memblock` in, in case you are curious:
-> 
-> 	https://github.com/leitao/debug/blob/main/pastebin/memblock/dmesg_grep_memblock.txt
-> 
-> Thanks
-> --breno
-> 
+Interesting, I did not realize it would see special meaning in text 
+followed by underscore. Thanks for fixing it up!
 
--- 
-Sincerely yours,
-Mike.
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+I assume no one merged it yet to any branch so I can push it to 
+drm-misc-next?
+
+Regards,
+
+Tvrtko
+
+> Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
+> Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
+> Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+>   drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
+>   include/drm/ttm/ttm_device.h     | 2 +-
+>   include/drm/ttm/ttm_pool.h       | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index 5c10e5fbf43b7f..9a51afaf0749e2 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
+>    * @dev: The core kernel device pointer for DMA mappings and allocations.
+>    * @mapping: The address space to use for this bo.
+>    * @vma_manager: A pointer to a vma manager.
+> - * @alloc_flags: TTM_ALLOCATION_ flags.
+> + * @alloc_flags: TTM_ALLOCATION_* flags.
+>    *
+>    * Initializes a struct ttm_device:
+>    * Returns:
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index 97e9ce505cf68d..18b6db015619c0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+>    * @pool: the pool to initialize
+>    * @dev: device for DMA allocations and mappings
+>    * @nid: NUMA node to use for allocations
+> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
+> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+>    *
+>    * Initialize the pool and its pool types.
+>    */
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index d016360e5cebbc..5618aef462f21b 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -221,7 +221,7 @@ struct ttm_device {
+>   	struct list_head device_list;
+>   
+>   	/**
+> -	 * @alloc_flags: TTM_ALLOCATION_ flags.
+> +	 * @alloc_flags: TTM_ALLOCATION_* flags.
+>   	 */
+>   	unsigned int alloc_flags;
+>   
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 67c72de913bb9d..233581670e7825 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -64,7 +64,7 @@ struct ttm_pool_type {
+>    *
+>    * @dev: the device we allocate pages for
+>    * @nid: which numa node to use
+> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
+> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+>    * @caching: pools for each caching/order
+>    */
+>   struct ttm_pool {
+> 
+> base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
+
