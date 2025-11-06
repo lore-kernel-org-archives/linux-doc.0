@@ -1,277 +1,247 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76967340A52
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 14:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762439620; cv=none; b=cabTxaN2vdPTIU425YaAORLFQ9hd3m8gfoYTHKtqC/v7dGqNC58jPbJ6IL/Su798WrvOy89/H4eytEeBkfKSEQuZbVJTokdkd0GZIue1FP6uFcl0HaTRIwMwUK/A0pG/w8buZRYEP1xOKBbaYvzVrkPPlI3n9WDGaXjaAL156TA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762439620; c=relaxed/simple;
-	bh=fQilJNipyxT/q8/9Js36Vv+5fgeLdeP3OrbGvCTyEBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Is1XtF6TlbyOAZWbHbM4cSLNrxAzZahWHIraDswufvZdNESxI6Mb+HNEu9WOdf94hWgqKS2FCoVukPsmWDhkRwK0wG9UCnsj8meZjJbCQaLcXc0k1M3R9kQpeDlEKSA+SnNtmvw3IDxMfSlQau1S/CT8X5HgxddsbPG4vcYCnwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wU7eIE/a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g92+yCEe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wU7eIE/a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g92+yCEe; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2456534320B;
+	Thu,  6 Nov 2025 14:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762439965; cv=fail; b=jtjjvX2Ao0xciU0rczjWrkRFNgIL4A4UPzbsi69o92QBSRLXPBwbYqX8CvytXHpYCfSijDFzkb+KaezfPpw+eQTvGtWCXw8TuE4l3NmlkdIPeE2izpysOAimSfLQl7LCu+D8Z5jEGX8Eugjnm75IYE3Ddj40PP2zyQ0p70/qe+w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762439965; c=relaxed/simple;
+	bh=cEm+pNubkxTDW6cRXURO4mV570Lx0zmo0X+EEiRJCxs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Whkpiqe03+qzRopNHLoY4vCKdC+bZ/+mPq5QtlmQ4CmMy0Xo2t3/d8sLQ5B3vM+4RIt2FiyIPtyACPbvX7obSmbOs17yjqgacIlxZZgLeLAFhvcwT9ooSUgWGk1K9IT3HbaAHF6nv7S6vnRYhQHzBYcCNc5PhWAl/BscrkQHGJE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=c8Ivqa0g; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ImHvSiTw; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wU7eIE/a";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g92+yCEe";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wU7eIE/a";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g92+yCEe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 95473211FA;
-	Thu,  6 Nov 2025 14:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762439616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pCIJX8/iWnVUuvfe1rGXnP2363EkjNZoIa3wD0HTysg=;
-	b=wU7eIE/awNdBW9X0M+guihUvpSfwGtZp7sB+FdVnnc6rp86D7PwrERWDsdMq2nV0SfheuJ
-	vS9mKCpsNreHzq7FzmTwbH14vUAGfSDnBvcPCAX7tDFa0UUGNH1/VLnRzCEJm0PS+fzlpK
-	6OrczvGIPmpeAZtqXCDUTI8lMGChIyo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762439616;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pCIJX8/iWnVUuvfe1rGXnP2363EkjNZoIa3wD0HTysg=;
-	b=g92+yCEeQzeK7H/xtQ8RxX0mcYggPveuauVX45NrFsRXUHQWem3OBmr8NhE0PaChlFqnfi
-	DcxekCE+Z6GhaBDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="wU7eIE/a";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=g92+yCEe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762439616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pCIJX8/iWnVUuvfe1rGXnP2363EkjNZoIa3wD0HTysg=;
-	b=wU7eIE/awNdBW9X0M+guihUvpSfwGtZp7sB+FdVnnc6rp86D7PwrERWDsdMq2nV0SfheuJ
-	vS9mKCpsNreHzq7FzmTwbH14vUAGfSDnBvcPCAX7tDFa0UUGNH1/VLnRzCEJm0PS+fzlpK
-	6OrczvGIPmpeAZtqXCDUTI8lMGChIyo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762439616;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pCIJX8/iWnVUuvfe1rGXnP2363EkjNZoIa3wD0HTysg=;
-	b=g92+yCEeQzeK7H/xtQ8RxX0mcYggPveuauVX45NrFsRXUHQWem3OBmr8NhE0PaChlFqnfi
-	DcxekCE+Z6GhaBDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65FC913A31;
-	Thu,  6 Nov 2025 14:33:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EcLNF8CxDGlwSgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 06 Nov 2025 14:33:36 +0000
-Message-ID: <3ba49b47-91a5-4a73-9dbd-b27f3956ae16@suse.cz>
-Date: Thu, 6 Nov 2025 15:33:36 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="c8Ivqa0g";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ImHvSiTw"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5A6BG5c7017857;
+	Thu, 6 Nov 2025 14:33:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=LL1ykUMbC3gVvRVEZ+NeYPy/h65yh8hdJ2m/O7+Abv8=; b=
+	c8Ivqa0gpqAL6vmVNiOxnnNOSYMvtF++Huf+vuwqrZW/kJvh6p7TZEK3xWIksYwB
+	Mab5GlRxXh9ChhkPiIvN9t2ic/btzL8z0iMVnu8ifXipzONWFZwu5Is+dCAmBOrf
+	g0MWA3oY7ygo474QCO+LOJjKAOHz8HmpZbdnZKqz/HRKbBU0VuTVlUdlUDVdmIxo
+	7lxh6ZXzaadGdxFKGy55u0p2QVuyUi0bC2l2e7svNouWohvXviY+uPh/khKgNZn9
+	TJFCB0V/kcbSrt1lickI50y9dc25e10hnayQd31fkPu3Xzl5BIyIfndHsoMQqqxG
+	jdI+MXirr3Gmx6RSKvx7Sw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4a8aejt70j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 Nov 2025 14:33:35 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5A6EQuNd010946;
+	Thu, 6 Nov 2025 14:33:34 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010052.outbound.protection.outlook.com [52.101.46.52])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4a58ncftxa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 Nov 2025 14:33:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ET2/KZd4UvJCZ97bPc/DBfUfZwXdIYiywH+IsC+O7kbzrC8wKte7+hFBqYU4vqN2/eIwGoAJgRko8aoptbrgeCKKC05m3XVm4yY+GjE17Wdie1fW65pIwjZ7MtWykoE/nhVDEigha5y3OgVU5yKnPyOR108YAp45Jv+/W9ycQgTPCQis518cnK9Kq93W4aSD2uXq6aMXm9MiTywfLajrWY0AwvUvI3nsSWG85ni1kjE3aMo/kdGZ64YMqaCLoAq78rU7mdmmup1y1Kl10JWLflAQZcc5pUsIZ+gmdxPq7t/5QvjweB9fQxbf/YCzjloT5xVdQbzoIhufnMB/5e3sQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LL1ykUMbC3gVvRVEZ+NeYPy/h65yh8hdJ2m/O7+Abv8=;
+ b=NupVNRUpF8b7KrUQ6ZKfVJilZpLPNJpDGArbTwazvP79Pn1zcXdcMC/c/mdh6OQvOPALMchQmMGMk7K9IpebF7CiJyh8ar7FO6GrmhG/e4GcfeSDbgfHxPYdSc0A9YODuW8bvJGGmaU6ALryr3LagDa7Y29HqnEvE/6BOqWX9Pt2xzGlsqruXaiOqbq45GY84iS5Ga4kY2PeZSmP5AwTCJSrVBi7OjV73X5+iSiIGdBybX3PFT1hA8lbe4Fj8236JjG6DPyWgwmB8DTs5GAy/6y4pFxJYlXqXtgMZ78j9r8gt99aVpIpxxUpZdTV6Civ8ChcKUs8hDvIyAO84IdZJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LL1ykUMbC3gVvRVEZ+NeYPy/h65yh8hdJ2m/O7+Abv8=;
+ b=ImHvSiTw6M0cRqLD+clKHiOTaW1t3YJJ5FdDVGyCIFr5F5lo+N9hIVzzobRBITizIiJ0xkWEBMl9kRroHdDTAJ/xDHexkGH2iCJuTfzJZa9RvqDWt8lYT5J/fheNqb8Ic80BmCTuWuLLYJQ++e6ZE9y+OuSniSBGo4nBMMWvxT4=
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
+ by DS4PPF415C917DC.namprd10.prod.outlook.com (2603:10b6:f:fc00::d19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Thu, 6 Nov
+ 2025 14:33:32 +0000
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c%6]) with mapi id 15.20.9253.017; Thu, 6 Nov 2025
+ 14:33:31 +0000
+Message-ID: <0cabe15f-9056-409b-bcfb-3c2e9a6dab72@oracle.com>
+Date: Thu, 6 Nov 2025 20:03:23 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [External] : [PATCH net-next v05 2/5] hinic3: Add PF management
+ interfaces
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+        netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>, Markus.Elfring@web.de,
+        pavan.chebbi@broadcom.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+        Shen Chenyang <shenchenyang1@hisilicon.com>,
+        Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+        Shi Jing <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>,
+        Meny Yossefi <meny.yossefi@huawei.com>,
+        Gur Stavi <gur.stavi@huawei.com>
+References: <cover.1762414088.git.zhuyikai1@h-partners.com>
+ <9adc3fa959ea51ddf1eff7eec641801b541f24df.1762414088.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+From: ALOK TIWARI <alok.a.tiwari@oracle.com>
+In-Reply-To: <9adc3fa959ea51ddf1eff7eec641801b541f24df.1762414088.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0091.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:191::6) To DS7PR10MB5328.namprd10.prod.outlook.com
+ (2603:10b6:5:3a6::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] mm: implement sticky, copy on fork VMA flags
-Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Andrei Vagin <avagin@gmail.com>
-References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
- <9c9e9fb6b767556594b2cef023db01d45d8f8463.1762422915.git.lorenzo.stoakes@oracle.com>
- <3d423848-2b55-4797-bdab-a9b42a373a45@suse.cz>
- <402256c9-8cfe-4943-9b3f-40f21c17292e@lucifer.local>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <402256c9-8cfe-4943-9b3f-40f21c17292e@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 95473211FA
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,redhat.com,oracle.com,kernel.org,google.com,suse.com,goodmis.org,efficios.com,suse.de,vger.kernel.org,kvack.org,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:mid,suse.cz:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|DS4PPF415C917DC:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ad7048c-69da-4719-d3fa-08de1d41758c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?REQrRUZ6STZjSmlZS01KOWlYWVFpM3FDc3VMVDJpQUI1MjJHSEk0dXBkTkZO?=
+ =?utf-8?B?RWIxclV2STArK2o2TFE3YlI1eElIZ3FveXZzRjBKWUFTdUwzYVZwMHg0YS92?=
+ =?utf-8?B?T0RYbHNGWFI5MkFHdGtISEcxYjVUVDIxUmkrbU1tV2ZrMFU2VnMxSzMxRHow?=
+ =?utf-8?B?UFdMTEtRUi9FTHVEZVBTakR3am1CVVU2QW1JZlYxaVVhNGQ4WnROMjg0VUhX?=
+ =?utf-8?B?UzA2SmkrVFdIaWtaaE5xa0RPQmNKTkNzYWZHcER4c0NjZVR6SDNzdzloc011?=
+ =?utf-8?B?T2xVYkhLc1RDWUpMcjV0V2QzRHVtTWZ0Sk5IaUF1cURjNGRKb2M5Z3FQZDZn?=
+ =?utf-8?B?cHQwWkViZEREeEt0NGt2emozNDJzNEZWSGwrQTVzUVZTMDh1OUpjTUUyK09Q?=
+ =?utf-8?B?cnl6VTRINmxhMjFOK0ZyV3Z1S2hMUXg4MmVPZjc1Z0F1a0k1cWJQd05PdTh2?=
+ =?utf-8?B?eFF3bTZKTjRvQzJ3NWkyaFdLWnJIRWV6QXNtQ0dhclZsbE1nTXJiSkxsQnZp?=
+ =?utf-8?B?R2pLZTNLWVNUdTFvYk1RUDdlZHN1WmpGTDIrd2Q0bE5uajBKRWlxeTFwMnFr?=
+ =?utf-8?B?QWVZKzVCdjY2WHlJL1pVcVI2OXAzN0UyMXBLa0R5aHJmRy9PelVnRjlCa3J5?=
+ =?utf-8?B?MHRFM2ZkMGVXUG1XSGVwcUJ3S0hCZjVpY0ltUHZuQ1l0SGo4RlZXUXd4a0hs?=
+ =?utf-8?B?T2NtTktLTzc3SklEMmpZU0RXd1VsSkNwMFlVdVdqS3JGdGxrS1p4QVkxTC9z?=
+ =?utf-8?B?ekFnQk44UWIxU2FlMjVEMzVYNlh1dmxoZ2luSEJyNDF5Rno2bkRuZUNCMVFl?=
+ =?utf-8?B?cWZDU2VjSU95anZlY3M2ODdsZWMvcXllRlNOeXJFa0VvUHVpZ2w0Ynh3NHpQ?=
+ =?utf-8?B?N2g1SVAvRi9TQ3RsVnhNamMyT0RQNEZTM3J2bzZ5SnpjY1N6QngrY3cvSVFH?=
+ =?utf-8?B?NFNjRjFBWDJNcjI0anh4M1QxL1FGd251eDNIb3krUFdiNVVQR2taQ2NPNlli?=
+ =?utf-8?B?eEFjcUcxcFZadHFnTHNlR3RneGl1ZHRqRGhKZ2o2ZEp0aGZkcFR0RGUvZ0Y3?=
+ =?utf-8?B?c3djOXFLSHF3QnZUWnlyTUYycTJSc3JoOEZHL2tuY2RMMTF1dHdDNWhpSURW?=
+ =?utf-8?B?VDB3U01ZNmpjK2JybHJLb0svWFUzQkd6UWV3SEx1K0E0dUhlOWZwbFpDN1FX?=
+ =?utf-8?B?UW44YUk5dkc0Y2c0bWM4WUlBdVFidXNpS096Q1FkdjJyTkxITkZKN0JSNGJR?=
+ =?utf-8?B?N1NMaWdiVWFMTm5Ob3RVNzNGcEVEaGduRHdWc1ZSdFhncVdZY0lVOFpSVjFr?=
+ =?utf-8?B?VlFFMWZQSzU1MXN1bi93cWFZL2ZEK0FERERyaTNCV2NyVDFpdjcxNGtXVDJD?=
+ =?utf-8?B?R2V3QVQ2QVRVa1JXdDhPb3QyTjhyNlljSm0zenV0K0cxS1I0U3NmMlhOa3Z0?=
+ =?utf-8?B?SlAwWWZselFKbFh4Q1JZNzJNUFFwdFNBTWg0UTE4VkxBTlNyRS92Q2l4R2x2?=
+ =?utf-8?B?OEsyN0QvTmc0VDV6ZkNaZ2M3M21pWUpxMlkwTk5kTEJna29iU24ycGMzNEZB?=
+ =?utf-8?B?eWdsRGRyQ1ZKUitDYm5uWEZuUjQ4SE4rbnJmTmpXaVBYcUQ3VGZBbGlpZGRx?=
+ =?utf-8?B?cDh6Z1c5ekdFS0FUZGxqMEYwNklEeU1UQmowdFUvVkZmVnV3OVI0WnRGRHJj?=
+ =?utf-8?B?RDcvcU5XbDh5ZkpGSDM4VmV5K3JaV2FBaTJ5SkN1ajdlR2dyQ0NTaGRDOVRJ?=
+ =?utf-8?B?QlZscFJJZ3Z6bk9HdkhSaGEwbm05dEdlYm5IUndjMDVSR2hLeXpKYURVNld5?=
+ =?utf-8?B?QTdmSzF0Z21SN1pYbk9QQ0JpZElqOXhoczVBcnZoMllTUEhLMlpvK3hLcnVM?=
+ =?utf-8?B?Qk1zb0k5VnVQU0RJdkxRZnlacjRIY3BaQmFML3B0eERLckZLaXJNNFArSzh6?=
+ =?utf-8?B?RExFZEdiZHlQSllEb3hsdnF4ZWx6akYrR21LTS95WFd1bW9CemNxRytDNnV2?=
+ =?utf-8?Q?nHvJnivOLsVobSjhVTkSy6Miu0CpNU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VVFOTjJsTGpNb1JYNExKczEvUFB4M0lXWnBvQVFHQkRiOWNpN1V2VmZZN2to?=
+ =?utf-8?B?VEM4V2QxYnNUTEFOSXlSZjRZemJuNzgrSHAwRURxcDlFZWV1eFZLcDhNWjZM?=
+ =?utf-8?B?WURHYjM3aHdpOXBNK1NoY3U2elpKOWNBRFdVUzIwcDZuOEk1aWlKZDM2Q1Bo?=
+ =?utf-8?B?MjBKdWd1S0k2Z20xc3V3RzlkaUVtb0JOMUV1Q3FQVEt2Zy9NS3BVV1FkRzhO?=
+ =?utf-8?B?d2l3QlU5b0RsOTF3R3RGNnBiRHVQYWhiM3lCcFpCRGVCdjR1NU9uNEhTdGt2?=
+ =?utf-8?B?UXkwR0ZjcXdwb1V3cmUxVExiTnRwWU5wTmd2OFBGYm5MV2RSNmZoOGxLL09x?=
+ =?utf-8?B?UXFkL0ZiU2VyK0prMmpsNWUyQUJ1L241UkpwVTI4dEliYVVtMGR1VDRzTVhK?=
+ =?utf-8?B?cXNmVU9vcTVTZVJhanlwek5CNytJMkxPcEF1UlZ6VUl4bE5mRzBzeU80eHdU?=
+ =?utf-8?B?cHdabmpycmtjbzZzRWg3RmJTd0dkRjgrTDdVMUFUOG1hN3pxS2lQTHNYNG41?=
+ =?utf-8?B?cTUwcW83NXdYRVZ0SHRhMnhaSDh0SjR1a3RPYVZoN3A1aDRTNkNHRklCUUZX?=
+ =?utf-8?B?akpxUisyUTVMMDM2Q2wvemdzaGxyMlYvaUlwTC9wOVNxMWFPUDUzZ1p3RFVt?=
+ =?utf-8?B?Z2Z5RnFMSHFlTjl0V2w4MlM4UWowemZxYVU2QXpJeG01MzZkcDNVRGticGhq?=
+ =?utf-8?B?QmxtTUpPczYwQitWL1BDaGp2ZlduQTVGTUdFOFhwSW9uOTZ4b204WGlhOGRI?=
+ =?utf-8?B?N0huaFphWjFFcWxtOXZPTVdMWXQwRmN6cUdSNytaYk9QTVB4UnBsODZCV29t?=
+ =?utf-8?B?SXBRYjBUc1JrNnZhM2xvZmd0OFVTSURseE53c2UzMDZmUlZVYkwzcUVsWnQz?=
+ =?utf-8?B?dFRDL1JpQnJRcFdUYVRacDVoWkczbXgyWG5PWER6aDl4SElpUFhNeUVnQVcy?=
+ =?utf-8?B?emprU09hV0xKdEhJemdxaEpXU1RmQldzYnhIMHYxOHlyRmh0ZEI0c3grdE8w?=
+ =?utf-8?B?ZFhnVDFCS1U3MDlZNEJKWHNjWHNwNkQwbzFUQ05JRnNrR2V5SmpWakczVFlT?=
+ =?utf-8?B?K1Q5cllyVDJtLzBVN2VaeW8yZG1FSExGTithZ0dRcmwwbFpzeDNzQU9qdVMv?=
+ =?utf-8?B?eXFtM1NiWTdkTkpza0dXMEFHZlF0T0plRERRUUR1d2V5ZXk3REFGMUJJL2xP?=
+ =?utf-8?B?aDdIeVZ3by9oa0o4bVJEY0t1MGlLTGtUc05Rc2R2aFJWbUc0MkFtR2x5SUVa?=
+ =?utf-8?B?d2oxOXAvQXBBRU5ueU5mYkNXcFU1dVhvQlg1R1MveWthUHBPVCs2Vm55Ry8v?=
+ =?utf-8?B?M0drSWZRSU8rZ0JoanhLRG10OTdVclN6bVBZZmFHUzl1STcyejlGWXJZSG1G?=
+ =?utf-8?B?QXJaQ3RmRnlieitYTEpZWWpRaG1BSS92N1Z6bmF3YUVHRVhFbUlQVHhKQ1lQ?=
+ =?utf-8?B?aFB6bmdCTnNBQzJKa3EyNGFRaDRsRmJxemt6cDl5UkdxZkR5RVcyVFI1ZHFv?=
+ =?utf-8?B?MForTVIwSDdWcFpndTQzck96QlNac2h1RVE5V0pmTzlXc040SERlcHJMM1E4?=
+ =?utf-8?B?SVZDekk0c3BMa2lKMDNpVlJ2cER4T0ZuKzVuYkVvU3VtRE5wejlJb2l0bXE5?=
+ =?utf-8?B?R2JzaW50enhHek1RUmtjZlNWQ3RWN0dtZ3E3UkhrVzJFQnl4N212YWdCSENY?=
+ =?utf-8?B?aWkyQmU4MWlrMnhzeHI4Y2ZKTnZmelpYU0JlWlh2OXhLL2k1dysrSzFtOWUz?=
+ =?utf-8?B?SUZKOXF6bGMvd3p1Z0pFZEVMWXBUWm1IREVQUWppblpUVGRoQmh0RGFkVUVU?=
+ =?utf-8?B?RjV2dkJpaHBiS2tCamJPM0p4VE5qaWdoQVJ3cjVwbCtvQW9zbHlLN3preHVS?=
+ =?utf-8?B?WkQ0MG85cEViRkI0S3V1aWt0WXEvamZkZk1QQ3V5YWJiUHkzT3cya24yeTRL?=
+ =?utf-8?B?Z0JRMnZIbS82ek1Eeml5NU9vdVI2a01ldXlPYXc0cnltTitqNHM4MFcvWm91?=
+ =?utf-8?B?eVFXWmxib3E5UmRjWVJyR2JqSDVzcVpwM2Q4NTVzOTBGV3I4RXM3TEF0L1VX?=
+ =?utf-8?B?RXQ3a0RETU1ES0JtTzExQVc4UU9WM0RUVG8ybDNPR0JIVUdGMXVISUE1NHl2?=
+ =?utf-8?B?bENNWVNoMmtEQVptbUQ3cnNmcEtyRjhXaTYrRlVNMC94cDFheXFrL0trNDg2?=
+ =?utf-8?B?dlE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	wsaYFu9jvCO0v28I0L9i/tW2v1K1iDwd7BbL9mBnqqY510XUhAllXHphcB2KpQWxtwmVhCQF7UwienaqOjiGoUGLC4gSG+cmf6WRcr5qksCcgEzbVcGRww5r5oCcilkuO0Hzdt2CwIR83KG0hLs7r98HR6/d5DgTFEHzclwe4BuCoyKgLOloJbWOI0LIIX6EHxmmd4uN0fLWWtCtyEWk/oAtmbxky1JpleKHCPnVOBh11Ogd9sOAUW3bwWUClaVRxEm+/NAwaL3ZPhlZNmB6LuDDzXQvozX4kwnbPyo6RjwDLa4xSwcAfCLfJrTPFd0T5f0B1qDsEmSMNFZA6eCrdVhMcbkyQfedkvxiWbsAKz4LxCmdRwCasLfZVJ1OmY7NkuFwS8RJ1sj4Ix81/EyzAaeG9c+hvbwR5Pzy+IK8hQkIEQhJ3sB7vm051dmNJJgAqDtnI5wEpw2rL3uxFCeC/AIO5tAPKZ8TiXI0hTbtcuvS39lE97KW5nJfZltBFNEbe3OyOguzZ94QJ81TtuVfez0P+HY+/GfbMOVlGVosqySsTJV6dPrdFFpTlB29GMMcO1IMk4A1dXDF0YubMN1JrgEhqGTaqrmVtm/AarxiM2I=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ad7048c-69da-4719-d3fa-08de1d41758c
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 14:33:31.8068
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g6DhvWXN3haKOMFnsGExtGuuDq8nudeSQowgBlelsLQnJf4n/OlGnYGBuHgzAmBI+ZU+AJDm+aexaW8SQ6IjVTXGNLpfdY7tR9Gr4qm9lw4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF415C917DC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-06_03,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 mlxscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2511060115
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDEzMCBTYWx0ZWRfXzFcv8Eh78B3S
+ DSbNSsDuDcauCIp8U1aZfxLo3OMHHg7XrskqCceembH4MTimkxbwDMHKVsdtVJNCh5LXGXQQ9xi
+ okoTwUhkPnMzw/HFiwgtj5NJ5N7cjbjGtKcBspB5AV8nxfZzy9xNhFpsSfUOB78ysdWtRh5qcW4
+ aatDARRfaxT7wXfD9zpOitq3QR9DdQeqmpoVkNbHvg7SKhK1IbBjEErRZFNnXnlTVkPei/C84eY
+ yRoO+jPJq0nsPDuuJ/+ugMdg9FF9KWaD4HCAHZFMecWT06wVxWaLtll4ns4sIulbz1dyIVrhp05
+ UJDu7TP3c/W9RBrDHKBKcjPh4flQ6UwTx63H22EU9BmbIxRqQkRjvmm7/LdZ3CrCTMABBa6fkSt
+ F4rFIslS5Tduc+n7u8XSXLPLg3pyjg==
+X-Authority-Analysis: v=2.4 cv=R8IO2NRX c=1 sm=1 tr=0 ts=690cb1bf cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6UeiqGixMTsA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=kH4N2UgdrgYKrGk0WpIA:9 a=QEXdDO2ut3YA:10 a=nl4s5V0KI7Kw-pW0DWrs:22
+ a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
+X-Proofpoint-ORIG-GUID: JBgJLx06ywe3QRbW2kSFxyZcUR5CVWRJ
+X-Proofpoint-GUID: JBgJLx06ywe3QRbW2kSFxyZcUR5CVWRJ
 
-On 11/6/25 15:18, Lorenzo Stoakes wrote:
-> On Thu, Nov 06, 2025 at 02:46:38PM +0100, Vlastimil Babka wrote:
->> On 11/6/25 11:46, Lorenzo Stoakes wrote:
->> > diff --git a/include/linux/mm.h b/include/linux/mm.h
->> > index 2ea65c646212..4d80eaf4ef3b 100644
->> > --- a/include/linux/mm.h
->> > +++ b/include/linux/mm.h
->> > @@ -527,6 +527,38 @@ extern unsigned int kobjsize(const void *objp);
->> >  #endif
->> >  #define VM_FLAGS_CLEAR	(ARCH_VM_PKEY_FLAGS | VM_ARCH_CLEAR)
->> >
->> > +/* Flags which should result in page tables being copied on fork. */
->> > +#define VM_COPY_ON_FORK VM_MAYBE_GUARD
->> > +
->> > +/*
->> > + * Flags which should be 'sticky' on merge - that is, flags which, when one VMA
->> > + * possesses it but the other does not, the merged VMA should nonetheless have
->> > + * applied to it:
->> > + *
->> > + * VM_COPY_ON_FORK - These flags indicates that a VMA maps a range that contains
->> > + *                   metadata which should be unconditionally propagated upon
->> > + *                   fork. When merging two VMAs, we encapsulate this range in
->> > + *                   the merged VMA, so the flag should be 'sticky' as a result.
->> > + */
->> > +#define VM_STICKY VM_COPY_ON_FORK
->>
->> TBH I don't see why there should be always an implication that copying on
->> fork implies stickiness in merging. Yeah, VM_MAYBE_GUARD is both, but in
->> general, is there any underlying property that makes this a rule?
-> 
-> Why do you copy on fork? It's because the page tables contain data that won't be
-> reconstructed on fault.
-> 
-> If that is the case, that applies to any VMA which is merged, and also - since
-> you can't be sure precisely which page tables contain the data we need to
-> propagate - on split too.
-> 
-> This is why copy on fork implies sticky IMO.
 
-Hmm I guess that makes some sense.
-> I can update the commit message to make this clear if this makes sense?
 
-It would help, thanks. Let's see if future will surprise us with some flag
-where this won't be true :)
+On 11/6/2025 4:45 PM, Fan Gong wrote:
+>   void hinic3_mgmt_msg_aeqe_handler(struct hinic3_hwdev *hwdev, u8 *header,
+>   				  u8 size)
+>   {
+> +	struct hinic3_msg_pf_to_mgmt *pf_to_mgmt;
+> +	struct hinic3_recv_msg *recv_msg;
+> +	__le64 msg_header;
+> +	bool is_send_dir;
+> +
+>   	if (MBOX_MSG_HEADER_GET(*(__force __le64 *)header, SOURCE) ==
+> -				MBOX_MSG_FROM_MBOX)
+> +	    MBOX_MSG_FROM_MBOX){
 
->>
->> > +/*
->> > + * VMA flags we ignore for the purposes of merge, i.e. one VMA possessing one
->> > + * of these flags and the other not does not preclude a merge.
->> > + *
->> > + * VM_SOFTDIRTY - Should not prevent from VMA merging, if we match the flags but
->> > + *                dirty bit -- the caller should mark merged VMA as dirty. If
->> > + *                dirty bit won't be excluded from comparison, we increase
->> > + *                pressure on the memory system forcing the kernel to generate
->> > + *                new VMAs when old one could be extended instead.
-> 
-> Note that I'm literally just moving the comment from is_mergeable_vma():
-> 
-> -	 * VM_SOFTDIRTY should not prevent from VMA merging, if we
-> -	 * match the flags but dirty bit -- the caller should mark
-> -	 * merged VMA as dirty. If dirty bit won't be excluded from
-> -	 * comparison, we increase pressure on the memory system forcing
-> -	 * the kernel to generate new VMAs when old one could be
-> -	 * extended instead.
-> 
-> (OK I see you realised that below :P)
-> 
->>
->> So I wonder if VM_SOFTDIRTY should be actually also sticky and not just
->> VM_IGNORE_MERGE. The way I understand the flag suggests it should.
->> Right now AFAICS its rather undefined if the result of vma merge has the
->> flag - depending on which of the two VMA's stays and which is removed by the
->> merge. "the caller should mark merged VMA as dirty" in the comment you're
->> moving here seems not really happening or I'm missing it. __mmap_complete()
-> 
-> No it's not happening, but I can't be blamed for existing incorrect comments :)
-> 
->> and do_brk_flags() do it, so any new areas are marked, but on pure merge of
->> two vma's due to e.g. mprotect() this is really nondetermintic? AFAICT the
->> sticky flag behavior would work perfectly for VM_SOFTDIRTY.
-> 
-> Maybe we inavertantly changed this somehow or maybe it was just wrong, but we're
-> not doing this on merge in general afaict.
+space before {
 
-Yeah wouldn't surprised me if we subtly changed it during some refactoring
-and it's not causing such obvious issues to be noticed easily.
+>   		hinic3_mbox_func_aeqe_handler(hwdev, header, size);
+> +
+> +		return;
+> +	}
+> +
 
-> I think you're right that we should make this sticky, but I'd rather deal with
-> that in a follow-up series/patch as this is out of scope here.
-> 
-> Equally so I'd rather fix the comment in a follow up too for the same reason.
-
-Sure it's just something I noticed and seems like a good fit for the new
-concept.
-
+Thanks,
+Alok
