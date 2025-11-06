@@ -1,260 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EAC19DF66;
-	Thu,  6 Nov 2025 00:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762390149; cv=fail; b=C/uzyOsAM8mKaf6OfCekYo3RB+WaBbQwOnSTFzqYOreTMGXqFkT+2RtX3+taAphlELsTqOSJcvsRFcUXErs1My+nCwohJJZN5tTTUphJhwRKKUcwWRu/yfluTpdyAxc+3Vmj5/27rCOHR40BlgHn6HekfbUQcamcua7efEQ47Jg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762390149; c=relaxed/simple;
-	bh=UMuz0j2mNYtkCj+uN3LScpQlVEMpMObItBlPSNwU1/Q=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Y0vDP5D5pXvbzAPMAtJpw3yzUd/sx7ykrCugiEza59LtsvtuZwOrQS3MaVWkURB2HB+5QNTiZB1pVYvDtlswaHGfgij6ik9Jmc396y0fwiT0SygyktmxKEN8oJyRJuvIgc3tPrpnJZ0XNL7N3xMudn0bh3B1NiN0XkVusmYETNA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUfTF3uf; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D54C13D521
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 00:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762390367; cv=none; b=py8qs9zPr94imkEg7bYEqDQS2vME3zfwZUAVfBzfFknaZf6YwSSp7IWrDricUZbE4rvofQr/2hh2O/MHHRigHHmCKQrj+GoGDgKGZc9ofxdvZPSPlDc5ssG4I6b1uVTbQRI6tOC3O6lKrs3NcLRblUgwwVehv8alrG4TrE26Ecg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762390367; c=relaxed/simple;
+	bh=6OeZWmkLzPTDm0Nogt0/O0+112Y2Ks/sc1xjGQfLCtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ci/RaNaWhRIv7U4URWphRq1Xx9bsvzm06XoHuWLLR6B4Pe3ctlv2BmbBy5awCUcnKix3OO7yCZOUvkVzm2OKHETKEaGvr9cYJCJK7pXug9s2oMRsGSxbXGR4Zc4gusUaUJJ9OycHm58BxHwkuK70AZcsPid9X966cXoLQwI7NSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqXEMfoT; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUfTF3uf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762390147; x=1793926147;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UMuz0j2mNYtkCj+uN3LScpQlVEMpMObItBlPSNwU1/Q=;
-  b=cUfTF3ufWdKUsJ6wEjkB3uVbuB1KsIR0JJzg9IZmBuKX4J9x0om2o21V
-   NtRKrJrPqp/Ac1/yhRWZQ7X+qjoT0kD5dP9NdcjINFmBhwU/Bt6dAC7AV
-   wmKA0d7y90WcCGwCyPX2dnVr9IydNpuMsvUfWE2SR+9H3LAZ1/1Rn3jtg
-   bM+V76UiuONfys0jZwWWg+pbeRNqS25Gygk+ytfQs705Y82zedy93/CIG
-   xOnVLL+NYB3Zzx2J9KUtmWRKirM/Wb3b2OM3G8aNvKeM5GLpH8ix42i21
-   13oEe+kAnEiM/P8Jwp415lyqrTiV6LwwgZSgaYHp8tg0T/3xQvWUopffN
-   A==;
-X-CSE-ConnectionGUID: pXJN2vC8TdyqGbqiIHDwfA==
-X-CSE-MsgGUID: gPxu4Bl8QRC1QFXmrDm5rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64434470"
-X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="64434470"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 16:49:05 -0800
-X-CSE-ConnectionGUID: Ec9kOlwORWGM0NMcbU4/+g==
-X-CSE-MsgGUID: TvYFp2lsQWmLReQ8KEX74Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="187894493"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 16:49:05 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 5 Nov 2025 16:49:04 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 5 Nov 2025 16:49:04 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.1) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 5 Nov 2025 16:49:04 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VxOWbP9AnuSuiUhRA4nReH8YcqRnn2i6g47dk/NR8GNwdWucLz35NnNXqZiSSFnlNm4d+SqqqRSOMjOSAIMeBhVk1GCmEh6ZZQonIlto+rrdte6H+SGC5tmGQfwngJiErJCw9pA6R4pZ+ojIZNUjTSsWFicsrDNS6wVtVv60UTiH9/zWGSh7bmErMq4K5w4QHknSjFx3S57nX5EJpVwKjuVAprnpOchkaEV9Qdr6lKrrcq0GDN96c+h6NdKgonZvU/nV7CzA+yd231rEsV7ISunAQdYODWN4qCVuVcKs62E/8DfxYRrEGF/uhSHMW3Rb14qPRdS0hs6nxyt5qiFYlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BgVMjNhPK13j0wu46MWqfqsMg8ZdERnwldX7DVl0uAQ=;
- b=eY4un+x3+Irys6nznijK9qo+1w3qlBSNLMAi7DkPTbZDEk62JS/MmwM6uTIWwjBpRCXkvCI6DxJ8MGsoU22WO8ua0If/HpnYWI/HdTTpzQ6hs9XMIfcBVDvcazAzjCixg/bbRu/dPTaJENIl4pSGm2JitxPfH3w79TBaHaVysuP3a7JsZ5btWckajshbXqRpKBfbKksZiyCuna6xQp+FjB1oipOeFuyS8n2lKGG8C+7xF9/KLue412yCTdjpXKMM2yVVlptxNhed7tnb0QGiCUv3ZcOWTzfhyo40KzNWSiG1aYaGdnlMjsq1Vid6oqGHk13p1WxP+eWRfxRmameijA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB7566.namprd11.prod.outlook.com (2603:10b6:806:34d::7)
- by SA1PR11MB5804.namprd11.prod.outlook.com (2603:10b6:806:237::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Thu, 6 Nov
- 2025 00:48:57 +0000
-Received: from SN7PR11MB7566.namprd11.prod.outlook.com
- ([fe80::2b7:f80e:ff6b:9a15]) by SN7PR11MB7566.namprd11.prod.outlook.com
- ([fe80::2b7:f80e:ff6b:9a15%5]) with mapi id 15.20.9298.006; Thu, 6 Nov 2025
- 00:48:57 +0000
-Message-ID: <5bf8e5f6-d515-4cd0-a2d7-c0eb9a305c5d@intel.com>
-Date: Wed, 5 Nov 2025 16:48:51 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 06/10] fs/resctrl: Add user interface to
- enable/disable io_alloc feature
-To: "Luck, Tony" <tony.luck@intel.com>, "Moger, Babu" <bmoger@amd.com>, "Dave
- Martin" <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>
-CC: "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "james.morse@arm.com" <james.morse@arm.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"pmladek@suse.com" <pmladek@suse.com>, "kees@kernel.org" <kees@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "fvdl@google.com" <fvdl@google.com>,
-	"seanjc@google.com" <seanjc@google.com>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "xin@zytor.com" <xin@zytor.com>,
-	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "Mehta, Sohil"
-	<sohil.mehta@intel.com>, "jarkko@kernel.org" <jarkko@kernel.org>, "Bae, Chang
- Seok" <chang.seok.bae@intel.com>, "ebiggers@google.com"
-	<ebiggers@google.com>, "Reshetova, Elena" <elena.reshetova@intel.com>,
-	"ak@linux.intel.com" <ak@linux.intel.com>, "mario.limonciello@amd.com"
-	<mario.limonciello@amd.com>, "perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"peternewman@google.com" <peternewman@google.com>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>
-References: <cover.1761844489.git.babu.moger@amd.com>
- <deb3a4f19d6e138a502b136034fb88ad8b8c9c75.1761844489.git.babu.moger@amd.com>
- <aQt/dSRgtQNfJPCj@e133380.arm.com>
- <4a120a9b-b84e-4cfe-af46-1b4d721c2995@amd.com>
- <SJ1PR11MB608391142B594331922876EFFCC5A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <SJ1PR11MB608391142B594331922876EFFCC5A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0258.namprd04.prod.outlook.com
- (2603:10b6:303:88::23) To SN7PR11MB7566.namprd11.prod.outlook.com
- (2603:10b6:806:34d::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqXEMfoT"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-641018845beso545519a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 16:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762390364; x=1762995164; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
+        b=HqXEMfoT7kF4TVXlp/Hsu51zwuwloi1mrZ+acodJKsyfWxhVDiTNNGGkZGXD+azsWg
+         1OXxGLS/V4jlR9QK1TcyrUtlLt3F+ny3ZFHXlzs3/3qgHEuDHKw8ev+TssypIsJHpGBi
+         tPGTQrFhLbpguVjZbhe8+g2B7tKMaW/Sxq0EFqBT0iIziJyDcUkTLcek4l9s+cPr7MGB
+         bCA+fX2NhSzxbEicep4qIZkQe3UKOG8pemknu59RxCFrxn7B3QOn6Fw+hRBCk2cS9b7U
+         VYpeoB85qzQxecmEyaiT8VYcSw/7FQZDgrQec0k7OvBIUyUo8lUdhU0TbV87UEQR1Lx0
+         BIVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762390364; x=1762995164;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
+        b=FNgirecX/UgLi8UEMdwd3O/MM7ITdokUauknJzCzS42W6N8UkxjPNpPPS5+yRi/Lcr
+         mmvLNKO6EPI9tnP8bh7o69/88HQh/v0lK16bh2fHmt7/6bRtLoSg4qX7hkeZZHGd3azT
+         IWEi0eEj8MFnHwTYIqeBqrOkiKLUR59TYquFpWubFBUzwhKc+cezm7cmwcVvNFZMwQS4
+         XoIkgAj4BKPJvgyHtZVjXcVmh2EIwcbl0KakYu9NcJUtf+Zcyxi83Jc32wTKaEXd/bid
+         JaN3chnSxweVCp3aVNrVMzxVUru24Ny4PaK9RaJautQGfETA31YGEhIXzRiC1i4OtMul
+         KVhA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQxlG2ltTAJeGvAMScuM+DR7OHg8yO+AodpTNOfLNef3oRGaczxKve0s2OV+bIsQQyLVTDQ2kgykU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXEtSHZ399HNOz/VeHUJDUidmrzZ4x4Hl8RjDjImhYQTLz6SZs
+	rKjhHEtN/iJL5dikZArNZSewWWULt2ozLpxudiwHf4Xd+9P9U2Hwl6PW
+X-Gm-Gg: ASbGnctY1pN1lBsINPcvntCSiCpgk5pYB3WZuiVawJfCIE2DpvjvptQzsCXc8RDrsb5
+	jYVCSm1AznP0tNA7r8GUyDs8zP67LCoAg3IoTmc6TVzdJpXT0tnw5c4BUC9ZnFogYgtpvw5CoUx
+	VwHzdUiOkTvXAVHDFPbKj6lyoTbq+VOm1BenDrNcaa6+tl71FNudW9YONibS0GSGXm+87Bumn2S
+	cBeiI5JcBaKMCdP2aOfg7U6Obi3TOdits7ofbPx2dn3V3pvnUuPf9v4ZuavqQ7+kX08cIh1tR3c
+	GRRCUY17aap/l8iOFn6uOBDGBgCzzafW6prYxJRRBoAu5gxtlzEBvtAKrUzQSgx/J2Akm0mZYCn
+	hYwr/8xnCqJGw4tca7gGUtCzbLpQCT0jBY/z4UBh2fsoqN5b8jS0BPaOG0kNAW4ASXYopxD8R/i
+	e8ChfRFDXulTk5xfnzpiSyGw==
+X-Google-Smtp-Source: AGHT+IGyPw3/1ye6s+MutCB7GxPiniSAjUqQCYxPkECNVoFIt+LeekKL8kDCX7wiOXbyde9uL5l1lQ==
+X-Received: by 2002:a05:6402:2417:b0:640:af04:d718 with SMTP id 4fb4d7f45d1cf-64105a5c7c8mr4938545a12.30.1762390363532;
+        Wed, 05 Nov 2025 16:52:43 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f862697sm476807a12.25.2025.11.05.16.52.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 16:52:42 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id D7F1D420A685; Thu, 06 Nov 2025 07:52:32 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] drm/ttm: Fix @alloc_flags description
+Date: Thu,  6 Nov 2025 07:52:17 +0700
+Message-ID: <20251106005217.14026-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB7566:EE_|SA1PR11MB5804:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea7fe5c2-ad95-41ef-e69e-08de1cce446c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SVJBdjJlTDBmZ1JMMko0L0llMk5nOVNuNkZuSjlNU3VGY0lSUnJBVXZod08v?=
- =?utf-8?B?dHpkTDBkVENtOFY0U3ZHSERSM1BrT3B3OVoyTHhaZmU3N2R1ejkrMm1hQ1o5?=
- =?utf-8?B?eEtEZHJwVTRNMUUxK09JamE2OGpwSkJXUTNSbk11Zy9SOC9TRktza2tqYVZi?=
- =?utf-8?B?VkpiTUY4Z21CNWEvQVdvNjhna0xkNEhCZTdwU0ZwdnlTL1hPR052UHpydDZv?=
- =?utf-8?B?MWU3bzJGY0JaL2EvZjdydkZDS2psVk5LMWpIbG9RbzkwU01PblpWSVREbG1V?=
- =?utf-8?B?czhWMTdTWk83V2NnczRRSlFuTWZzUnFoZ0tIWldHd2tvNHk4eWZXM3A2RjM1?=
- =?utf-8?B?aXM2Z2NGL0tRSk8vTkZXMm13N3VEZmxKWGRkUGNxbGZ1YjlhK1I5K01TUGJz?=
- =?utf-8?B?dklPc2pUTVdhYU1XOXdNN3BNU296WTJVT3RXQUh2MVU0WGphcXJISW95QS9D?=
- =?utf-8?B?anFYcUtyUGVOaXZZbGpIVXVKRDdyU0t3UFI5aEM2R0FvcnVrQkdyMnVFVkNG?=
- =?utf-8?B?Tyt0amptZEd3QzJiY1J3NmtSVDJJZHlKeDBvbjZuam9SejRkUUdoRk9lV20x?=
- =?utf-8?B?QWZvQkRpZXRaWnBMRUJFZzF6UlhsbldIbXhDVHFKUTFyRCtnckIxTWMrS25T?=
- =?utf-8?B?Vnkwa3Y0M05URklKYmpTdTRnZWxodlA1aHRydEg4NTArSk9hbWw0Z3dNWjMr?=
- =?utf-8?B?NWxmUlNzMndoQVhLcldOemN2ZGZVMW1tNWM3cTFNWnBBNWtXOWtYYkRYVGZB?=
- =?utf-8?B?bVd0MVZzRTEreVo1VkJZeW1LOTI5bnRUcC9Bc3Q2OVZxZjNjYmpBaWF0L1F2?=
- =?utf-8?B?RnZNNzN2SHVaSkVYSmJBZmttVGVvaTlZaG4wTHcwRXp6cGF1Z0VDVk1Yc3pw?=
- =?utf-8?B?ZVp6MzFSWFhzOENKcWFFQjJla0hua0E2THdsdkU4a1BLWFozTE81VkRmc2hJ?=
- =?utf-8?B?WUU1enpPRm9lbEJjNU41QldJUU1kQ3V5ZzBJSm8rYTRuOWt4Sm1vcjAwaTNW?=
- =?utf-8?B?endEKzlFSFVHRkJqMnoveVl3dUFOVFcwUFBYeU1Ib1FDNk9qZVBJRjhnN1U1?=
- =?utf-8?B?eCsvaW50emYveHJUYXlNY2tJWnNYd2w0SDFXZ1FxVXgxUUhvdjZVd3ZkT2s3?=
- =?utf-8?B?aHAwSU9EWS8weVFSRllCM1dJNndZVFlwZGxua1BPaEJJeVgwc05rUjAwNHMy?=
- =?utf-8?B?b0RZZFNGNkl6QnVyY1VxQUNvVTVEMk9yUG1DN0dvZWp5QllFMmFRdFJ0Vk1H?=
- =?utf-8?B?L2prVGdnK2dtWS9vSm80S3RVak00aTFmZzdvR1dSU09tS3RHcmU4Q1BIZlNJ?=
- =?utf-8?B?ZVRhc2hLdlc5VHFkVlhOTUJxZ1FraGVVSk9KV1FaSWhLa2psQXB3ZFRaSXpx?=
- =?utf-8?B?WkhpeFZQdk8yT0lkRkREVmhFVGVTSmtRTHlkb1NCaXY2TFB5NlpGZ0cyMndP?=
- =?utf-8?B?SUQwZ2M5YjNRY014T1JBODhrR256dW1tVlV6SjdyaXlwSEwrSmVFMjhYejZ1?=
- =?utf-8?B?MXJpRVBhcFViVUhaMUhsUDFZRnZEeisrQ2NiKzUxSzZWVkJUMXQ1cCtqQzBx?=
- =?utf-8?B?anF3OFBvelFHRXUvc1kxdFJWRUlCaGZTb2wrc0wrOG5HWStpWHpwNGNndm1j?=
- =?utf-8?B?cGpaTEJoMFZsYWlMeFNZbjViRXNVdE1MSklQZlVFaWFzU2YxdC9VckZ2ZXJN?=
- =?utf-8?B?VWN4Z0FoQUNnQmc0aVNRL3lpcmZNSE5oSFdwdVFCVWhOOERaM3N5SHJETlMy?=
- =?utf-8?B?NGtuS21xWFljZE9ObklYalFtSzJRMWo0VWFFRjE4a0JCWWwyTTk3TlFtSFNK?=
- =?utf-8?B?VktnbHloeFR2RmZFNjlCV242M1huUFdVeFk0WEhsZ01sS2d2UWdHa053YTVW?=
- =?utf-8?B?cDhmdFQ5VWVGNTZFVDlTMjF2K0Z0Nnl0UXR2bnBWRCt3S1k5WktUZ3pkdnRq?=
- =?utf-8?Q?DB94AVyoiIzQ3+PQNaiNc6SoIe/gnyE3?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7566.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzZzd3VIL29Wd1hTdndGU3Zxajc2Rlp1eTRhZWJyY3E5QVZtaDZVemxoZlhn?=
- =?utf-8?B?TEdlYkFBNVZlbE9zakFLcTJybHFnUUVvMlFqK3ByV2IwdzE2WFc2ZEZRcVFi?=
- =?utf-8?B?cFU2V3I3amlhd3ZtRVBwbjlaUG5vbVlJV2hoMmN0b0NjWURNQmJMUVJoZGY5?=
- =?utf-8?B?QnQybGxJNFVMUXMwNlN1bWZBZUh5NmY3U1F1OUNkb2lJcDhNaGtFU0Y2bGIv?=
- =?utf-8?B?SHptaFNaaTB1RkZGRTZJVHJNNGdMTFYyOWw3VzZsb1RFWDh2cmI4ZUhQd2R2?=
- =?utf-8?B?NXY0dVhsWGpqRE5YY1pHMlJUTXg3NmNyQVpkQzJranU4cnBEY0xmWm5vaU1J?=
- =?utf-8?B?NXJHQnliVXoyeXZyS2FrdEdXd3JZQWZQVTE2RUxId2tkSy90M1dqdDdWNDdM?=
- =?utf-8?B?WkJaTWxQYWh5MG1SODFOY1BkVE51WGFPQUEyc1M2OFZxR0oxckV3WFdEdEha?=
- =?utf-8?B?cXd0Y1lYSE8vM3JVWXd4b0hTZWdpTW1yREVQU08vc2R0emtxT1d2OWYrVkhv?=
- =?utf-8?B?YTRGSGppSmNOVDMxRk5XVlhTVTZjWjlGVURTUG5odVl2d1Bpa3E3MWhhTXhI?=
- =?utf-8?B?dlQwR2lEZXR4d0xhTVpLdERiZ3FRbUxIWks5cmUrVTNPNC9udnY0T3E3a2Fp?=
- =?utf-8?B?U2pZbnFYclRnaU8wWk9XT21mV3dxbEZzZUhic0JQQUtZWjRXa1NpOW5BS2pP?=
- =?utf-8?B?eWFMZlNxTjkzZXhFWGVaQlhIZVRPRS9zcHpDZXNCQkdDa1RmNzRGK05XeFh3?=
- =?utf-8?B?cEJ5VFZuM0JhUmg1TVNZVjhXQlZpNjhOOEhmSm1BOHJSdExmUVFlWnYzQXAv?=
- =?utf-8?B?OGJRRjVFYktDZS9nWUp1VVRWTlRROHlVdDh4OUd4MGxsc0dLM2RZK2x3dVBi?=
- =?utf-8?B?SkdPRkJqc1FRRGNIaEFxbjFHS0l2MUZ0elZ1TExkNTRBTUtoTDdoQ3VwdU5G?=
- =?utf-8?B?TDdvY1hPMEU5YWNFTlE0N1NiSmlIOUloMnBBNWdLRk9FVFBUNitLMlVwZ0I2?=
- =?utf-8?B?WXZpNHhFUkc2Ui8rMHJPQ0tWakc0dTZSM2dBUWM0VGhxam00bytYWlZVU2lt?=
- =?utf-8?B?M1RYNVVxWVRFU1BsQk9EUHpKM0RNYlM0eXNFcnVLaDcvamZlYVQrQ3F2Y2xC?=
- =?utf-8?B?QmlaQWFDRERTZThaZjdOSHBoZW5lWmw0Q1l3OEk3SmFBNzl1ajhyenVXWFFy?=
- =?utf-8?B?TXlKYVJOSXFMeDVUT2dydjBsak95L1J0aGMrdkFIMTJQYzhkNVlRSWJLT0pC?=
- =?utf-8?B?UjMrZS9Wb3A1S1AxUlVSelJUMVdST0hRNk9aT21hcnpDa2pGd0MzNEJpTXpu?=
- =?utf-8?B?c3RsYU4xMWx5cEt6M09sWDBjcVdiY2t4OExsTjRUNmFMaVhhMjF4YmJaQTZ0?=
- =?utf-8?B?NjNYSDVrdzlNWjJtdjkzU1REU3NTUmV5b3BHLzVsZE96WUoyNkF5NFNtanQ4?=
- =?utf-8?B?eUJzNEgyUGxtcW13dlI0VEFSRHRuMmdMcDlWU3Y4Mm8vS29XQldoZVVPNjBw?=
- =?utf-8?B?UHhGUWZRMWM1Nis2VTJ0L3ZnUnZyNGN1cHNxSW1pMUxNQ3JxWElBclAyU0RB?=
- =?utf-8?B?WXBXdS9mNCtYSjhtUjEyaXhtaHdSMmdMeHVieVIyZlBCVnJZZFA3NmtoN0tC?=
- =?utf-8?B?QnJTd052TERjS3U3ZGo2RVFOM25tSmN5Q21yT1ZZM29zYjlSTzk5N3padmh2?=
- =?utf-8?B?cmRvMDgxbG01S0VnZDErZy80T0lrMnNNQkdnNlVJeWRrSEdtMmZCaXBvd2JV?=
- =?utf-8?B?R0ZZNkpHaHpNNk8rSGx6WnAyL0lqQjdnRnFWOG5FZHY0WVEyNU5kK3ovcWd1?=
- =?utf-8?B?b2NMa0I1TlNyTzQ3ZnNoNDl2NHdEcWRCNy9JKzNVUlhJUlhFZ2JOdWlvQjJY?=
- =?utf-8?B?ZkRCcVAwZWdWWklrZFdRejZ4Zk5waVZQSDgwMTVtc3ZFN1UvS01aTGV2TkNZ?=
- =?utf-8?B?bEdUalZhVGNzaC96UXFXOThVZjVGS2hvcHlvaWJ0MzlWWXk5OWRuV0p5eHI3?=
- =?utf-8?B?SnE2THlGRFZXOEVnY2dkUTFRMng1S2lXRTdCejgyRHo0aENPOGhaVkxlK3hV?=
- =?utf-8?B?bjdXUFZtS1dwckV0UDMzcEp3ZHNHVUFWTjVXa042OFpwS0FiN3RKWnY3ZGo3?=
- =?utf-8?B?cWhqYnFmMk5vWEdsbDZCZlVHNldWWU1yVnlHeW1oWW85Um13VGVORDEwaldL?=
- =?utf-8?B?OGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea7fe5c2-ad95-41ef-e69e-08de1cce446c
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7566.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 00:48:57.3650
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uOg2BXRIQ3H8gaktyIgITcS5H0AeJxi+zHMQOvuqNaMB4YJ9CjIvfT5cHY6IHYmop+fz0203AhmIFwPUzyvw/NTbW8aK9X/H2k5m5C4uCtE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5804
-X-OriginatorOrg: intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3498; i=bagasdotme@gmail.com; h=from:subject; bh=6OeZWmkLzPTDm0Nogt0/O0+112Y2Ks/sc1xjGQfLCtE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJncH/IOLdgTFFyjsmVl+3nljed/3uFbIm99O3GxYOe+J Yz/uRW9O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRDj2Gf1qX/599FxLc3dGx 1uPH2qyjp6/3i5n+9A76y6zTvG+h0xKgCg67uoPm/TbK4WuldbNmSKTIGj6bW7dO4s5PFstb12V 4AA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Dave and Tony,
+Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
 
-On 11/5/25 10:25 AM, Luck, Tony wrote:
->> But in AMD systems its the highest CLOSID (15). Also, this CLOSID usage 
->> in not visible to user. There is no update of PQR_ASSOC register during 
->> the context switch. Hardware internally routes the traffic using the 
->> CLOSID's(15) limits.
-> 
-> Things are even more complex for Intel IO as described in the RDT architecture
-> specification. There can be separate IO caches from the CPU caches. When
-> this happens the RMIDs and CLOSIDs for IO are in a separate space from
-> those for CPU. I.e. you can assign RMID=1 CLOSID=1 to some tasks and
-> those will measure and control traffic from a CPU L3 cache instance.
-> IO devices may also use RMID=1, CLOSID=1 ... but those measure and
-> control traffic from an IO cache instance.
-> 
-> This looks like the multi-socket case where RMID=1 on
-> socket 0 (and thus L3 cache 0) is independent from RMID=1 on
-> socket 1.  But resctrl partially hides this by making RMID allocation
-> global and just providing separate event files for each L3 cache
-> instance.
-> 
-> I don't think this maps to CPU vs IO. As Babu notes above, there's
-> no update for IO CLOSID/RMID on process context switch. So it
-> makes no sense to allocate IO RMIDs from the same pool as CPU
-> RMIDs.
-> 
-> I haven't come up with any concrete plans for how to implement this
-> version of IO RDT into resctrl. The earlier implementation on Granite Rapids
-> didn't have IO caches independent from CPU caches.
+Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
+Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
+Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
 
-It seems to common now that we need to build support for new features and ideally
-any new interface can be designed with some gateway to enable future enhancements. SDCIAE/io_alloc
-is a global IO alloc feature while the ones mentioned here for Arm and Intel seem to be a better
-match to be managed per resource group. I did try to think how to "keep the door open" for
-future enhancements, hypothetically "/sys/fs/resctrl/info/L3/io_alloc" could in the future
-return a new value that implies "managed_in_resource_group" that opens door to create
-new interfaces in the resource groups to manage IO alloc there. The "io_alloc" documentation
-does seem high level enough to support such an enhancement.
+Fix these by adding missing wildcard on TTM_ALLOCATION_* and
+TTM_ALLOCATION_POOL_* in @alloc_flags description.
 
-Do you see any additional changes we can add to the interface or documentation to
-set resctrl up for success to support these features in the future?
+Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
+Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
+Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+ drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
+ include/drm/ttm/ttm_device.h     | 2 +-
+ include/drm/ttm/ttm_pool.h       | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-Reinette
-   
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index 5c10e5fbf43b7f..9a51afaf0749e2 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
+  * @dev: The core kernel device pointer for DMA mappings and allocations.
+  * @mapping: The address space to use for this bo.
+  * @vma_manager: A pointer to a vma manager.
+- * @alloc_flags: TTM_ALLOCATION_ flags.
++ * @alloc_flags: TTM_ALLOCATION_* flags.
+  *
+  * Initializes a struct ttm_device:
+  * Returns:
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 97e9ce505cf68d..18b6db015619c0 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+  * @pool: the pool to initialize
+  * @dev: device for DMA allocations and mappings
+  * @nid: NUMA node to use for allocations
+- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
++ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+  *
+  * Initialize the pool and its pool types.
+  */
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index d016360e5cebbc..5618aef462f21b 100644
+--- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -221,7 +221,7 @@ struct ttm_device {
+ 	struct list_head device_list;
+ 
+ 	/**
+-	 * @alloc_flags: TTM_ALLOCATION_ flags.
++	 * @alloc_flags: TTM_ALLOCATION_* flags.
+ 	 */
+ 	unsigned int alloc_flags;
+ 
+diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+index 67c72de913bb9d..233581670e7825 100644
+--- a/include/drm/ttm/ttm_pool.h
++++ b/include/drm/ttm/ttm_pool.h
+@@ -64,7 +64,7 @@ struct ttm_pool_type {
+  *
+  * @dev: the device we allocate pages for
+  * @nid: which numa node to use
+- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
++ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+  * @caching: pools for each caching/order
+  */
+ struct ttm_pool {
+
+base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
+-- 
+An old man doll... just what I always wanted! - Clara
+
