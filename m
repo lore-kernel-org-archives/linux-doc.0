@@ -1,66 +1,37 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70372D5A07
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 05:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428716132F;
+	Thu,  6 Nov 2025 05:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762407320; cv=none; b=RN1J3jKT7R53QH7senzVqvfz6mHlEbCmu51ct89N1tei5tsWm/JuNfl8ndYtb2fracxD6Yty61HplOwtQJBWKD/IWL310DTwVKPGKNVKtaOmdUBzCQQaf+mtUHXiRYM4P26RDoJhWK2ZwaNcjnUcH6b/KtXkDPh7dXEI5OiaiCw=
+	t=1762408536; cv=none; b=jqEgiPda7s1HTc6jxdV3yxicVo5M7nXn136Pl/3GyLHq9WxwhnKkxqBp6TNMlxhyIeigO0JBH2Gc+Nj0+a+IRmaxYZce5bdvsvJ5dus8Ho65OqEHX+m5kleS1Xo2I68fFG16PRIpnYX+Eq9XV0fJq21e2pIVas5qUbgW+ZixR1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762407320; c=relaxed/simple;
-	bh=jW8Ecmr5jd9+ijYWXvVMEEtpHOAriPwFDiD3dWIebtk=;
+	s=arc-20240116; t=1762408536; c=relaxed/simple;
+	bh=yOxciQ52Nro4GYMTi0USAatN4CblGaoWe8CkmCPHO8U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IQUR/WO+8rc1eWI2QK5KqFUcF2iKxNZwEcGTuX+B8OQtu8BjZl9YFbPrql/04lRfeXyOCvlusSgi1nJZ7WyY+AS9x4h5NriSG+go3RLiaEzEb1oLUC0B//4whON5ZCgpaxiH8S8vwryBeoRN0TFmgPgpVMng6CiQ+OMPqVFZ2E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E81LWkWL; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=BpulrAAPIOoqCXDLGjR7TO4xMBHnb4ZQR+BOeK/AWrjnwKuwX2rzxsz7u9Y7IVdkhA3Y8f8c03VvGVQs5CEJqel++bMOaPGiG0x7JsAU6I04t54tP7RdJRmcIF8uCEWOA/47cFDNjovmR8vOJcjpu3s0MGzZj8SQhnGjAZHY9/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WS8ClH90; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E81LWkWL"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so580263b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 21:35:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762407318; x=1763012118; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xqu+odkC5y2EUQD3P72UD8nqz7ztmWCfwzT6Wx3nK2g=;
-        b=E81LWkWLvL/I8cJ/R/PgetxwBlzhMuyDLiFT8Q1Ph20irxQUVXuwc+pEsUuQy+p53t
-         Qtz04OzhDE7HEsTAj6edqOgDRxU9caPzs5omrkH+maLrowcY7Di+ZLyyQnSKBY7RIhS5
-         u9BAxoAa8FFxzaxghsAbcTyZ5RfXvoalgMFu73Buq2m70SqakCtn7M9FhJc7Tcd96hjv
-         zx/iiVYlNHkgZ52L3kFdnwX80mz3n1RPpQQYaiYy1IvWyqSoIyV8RGfISvmx9jf/DAlq
-         oi7omQkx2WSiBIkpRb3IhedztVF32Gcw1eAlfVAqTiY6JbpM1Q5Za8PP4MjftM5WNNxE
-         GcTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762407318; x=1763012118;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqu+odkC5y2EUQD3P72UD8nqz7ztmWCfwzT6Wx3nK2g=;
-        b=Ca/bMpbbJmHnGmJ6MZqEzA0FY/HIu3ioLhBCpLoSDL9/E08QWwzQ1rwW49sPSMTY56
-         akAxjyoXWjjCpLayv9r8E8x2g5TD6pJ5Ww7/XQL4cD9LRu5bQ9sxbSB3h4YLPgu46RHS
-         koNdQZk8nRh3WMJ1iD+bZBL/TzDpzsGPOVB1aa1Q7F3D3FffP68Nts1ojkMq3R7bzq5h
-         Eay9l37Fn9YhH3FeOFkGqvkbKofQoBiq6wNrmbGNSVUU2aJIULQ4H7VS8bA7fwEu/d6s
-         BWD+bR6nGndMS7WV1mBDhKsr+IShQ3NBgH/NyslMwrQ/e78/iQFF+J6biPzWIaMbTZzc
-         +Qrw==
-X-Forwarded-Encrypted: i=1; AJvYcCWm9Hqll4FC4XGsQrFt1O2OuQ3qcPkQkoEpeYZVdR0auLXUZZBlPC/p/B2SCXUBF+bhZIF/4wo9320=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH7wnz14N4A162x3bQBvV0fkR/t/3EpPm9oU5hSTixSNc9F44B
-	c6uIdEVYQYntiflAw9lDIIgZ0u1SipW96ZnW5dsUDznxn9ubzG3XH4jf
-X-Gm-Gg: ASbGnct3uUpCKpltFrvNUCd5AtB5g3SpqSWVKNapOfEpGicGjAi8o+jnDoOCd99m9j7
-	gQFF5cnl6Vk1pPF5D4JvmTS2NrT02KoRsI7cqTiO317dBmZfX0IJ5uob5lY4T8lRj1lcBdG7IwV
-	JslvDX2U2gSi1V5KGr3hZ7H0fCeLgt7TVAzDVAy8DzB0nPBVWU5zT0pzQsKvLz2nKUdcliFGL9+
-	yBiBGkwVQAwBUb1+syHb4iblLTF+D8ku4eEVEElNpMlGmQ/rfkJE9ftDPNEwpZfVGwZUyc6GHwN
-	gpF1GolTrs3DxUTvQv+VbejA+h/T6B4b8mUBL3ileK8P2saiG/rb+tVezbTKRRAqsxv3ZdGvDCW
-	1w+VGVDi65jgX5HiCKTy/RXARa0BIFKESR6mXQMih2OA5fyJxbR1yvwdBNIiTfdt8ZBk87030Fy
-	XKWxp3zaidCoxrit/Aptid
-X-Google-Smtp-Source: AGHT+IHdEFv9Zor3bc4Bu4OwuhNr0f57kycevNnexdIDViJx433B1mm7bsY0xFtLkvh/PAGC6U94nQ==
-X-Received: by 2002:a05:6a00:1818:b0:7a9:7887:f0fa with SMTP id d2e1a72fcca58-7af6f5e1aebmr2587605b3a.1.1762407317929;
-        Wed, 05 Nov 2025 21:35:17 -0800 (PST)
-Received: from [192.168.4.196] ([73.222.117.172])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7af82af1907sm1290495b3a.62.2025.11.05.21.35.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Nov 2025 21:35:17 -0800 (PST)
-Message-ID: <c704e7d9-5bc9-43e6-98cf-d28c592b0f3b@gmail.com>
-Date: Wed, 5 Nov 2025 21:35:14 -0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WS8ClH90"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=F75mzR8twH/mSVbUSPi+Z2WCD89OpV0qBy++5+MrAjw=; b=WS8ClH90Z7OnH7GaK72fb3/K6Q
+	KVaJXtsR2kI+NfNC7APyVazcYofTU8cgHhXIqHhIFvkiqP/CEb1Vhe93834+Hoy1NF7giM9B53Agu
+	U8ByumKppcufZCbh0+Q8MoUodQIYs8uP3QIstwGcFCAwj03K7zJD7SpAmxr9Obcl45B/jnIGYwkzr
+	N4TB3iA3gscm1A6/NV9XaViaU4pt8A8E/Uoa15WYxDuAdmbQ3gLo7efkX7L4lAr6t8IHSEnrD9Sji
+	iRxykxKdA6oCorRrsLcpI0PZYgcl4NpCmmMjktdct3mqDC2DX8qSqYRxBVxX/DUyEhUGfdoaoewT7
+	CK2R1oqQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vGsy6-0000000EuSA-0b80;
+	Thu, 06 Nov 2025 05:55:34 +0000
+Message-ID: <8766fc64-f7d5-4443-8646-604f98a6d26f@infradead.org>
+Date: Wed, 5 Nov 2025 21:55:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,60 +39,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-To: Leon Huang Fu <leon.huangfu@shopee.com>, shakeel.butt@linux.dev
-Cc: akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net,
- hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
- kyle.meyer@hpe.com, lance.yang@linux.dev, laoar.shao@gmail.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- mclapinski@google.com, mhocko@kernel.org, muchun.song@linux.dev,
- roman.gushchin@linux.dev, yosry.ahmed@linux.dev
-References: <6kh6hle2xp75hrtikasequ7qvfyginz7pyttltx6pkli26iir5@oqjmglatjg22>
- <20251106033045.41607-1-leon.huangfu@shopee.com>
+Subject: Re: [PATCH] Documentation: parport-lowlevel: Separate function
+ listing code blocks
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-actions@lists.infradead.org
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20251105124947.45048-1-bagasdotme@gmail.com>
 Content-Language: en-US
-From: JP Kobryn <inwardvessel@gmail.com>
-In-Reply-To: <20251106033045.41607-1-leon.huangfu@shopee.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251105124947.45048-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/5/25 7:30 PM, Leon Huang Fu wrote:
-> On Thu, Nov 6, 2025 at 9:19 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
->>
->> +Yosry, JP
->>
->> On Wed, Nov 05, 2025 at 03:49:16PM +0800, Leon Huang Fu wrote:
->>> On high-core count systems, memory cgroup statistics can become stale
->>> due to per-CPU caching and deferred aggregation. Monitoring tools and
->>> management applications sometimes need guaranteed up-to-date statistics
->>> at specific points in time to make accurate decisions.
->>
->> Can you explain a bit more on your environment where you are seeing
->> stale stats? More specifically, how often the management applications
->> are reading the memcg stats and if these applications are reading memcg
->> stats for each nodes of the cgroup tree.
->>
->> We force flush all the memcg stats at root level every 2 seconds but it
->> seems like that is not enough for your case. I am fine with an explicit
->> way for users to flush the memcg stats. In that way only users who want
->> to has to pay for the flush cost.
->>
-> 
-> Thanks for the feedback. I encountered this issue while running the LTP
-> memcontrol02 test case [1] on a 256-core server with the 6.6.y kernel on XFS,
-> where it consistently failed.
-> 
-> I was aware that Yosry had improved the memory statistics refresh mechanism
-> in "mm: memcg: subtree stats flushing and thresholds" [2], so I attempted to
-> backport that patchset to 6.6.y [3]. However, even on the 6.15.0-061500-generic
-> kernel with those improvements, the test still fails intermittently on XFS.
-> 
 
-I'm not against this change, but it might be worth testing on a 6.16 or
-later kernel. There were some changes that could affect your
-measurements. One is that flushing was isolated to individual subsystems
-[0] and the other is that updating stats became lockless [1].
 
-[0] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/kernel/cgroup/rstat.c?h=v6.18-rc4&id=5da3bfa029d6809e192d112f39fca4dbe0137aaf
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/kernel/cgroup/rstat.c?h=v6.18-rc4&id=36df6e3dbd7e7b074e55fec080012184e2fa3a46
+On 11/5/25 4:49 AM, Bagas Sanjaya wrote:
+> Commit be9d0411f1608a ("parport-lowlevel.txt: standardize document
+> format") reSTify parport interface documentation but forgets to properly
+> mark function listing code blocks up. As such, these are rendered as
+> long-running normal paragraph instead.
+> 
+> Fix them by adding missing separator between the code block marker and
+> the listing.
+> 
+> Fixes: be9d0411f1608a ("parport-lowlevel.txt: standardize document format")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/driver-api/parport-lowlevel.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/parport-lowlevel.rst b/Documentation/driver-api/parport-lowlevel.rst
+> index 0633d70ffda7fa..a907e279f509b4 100644
+> --- a/Documentation/driver-api/parport-lowlevel.rst
+> +++ b/Documentation/driver-api/parport-lowlevel.rst
+> @@ -7,6 +7,7 @@ PARPORT interface documentation
+>  Described here are the following functions:
+>  
+>  Global functions::
+> +
+>    parport_register_driver
+>    parport_unregister_driver
+>    parport_enumerate
+> @@ -34,6 +35,7 @@ Global functions::
+>  Port functions (can be overridden by low-level drivers):
+>  
+>    SPP::
+> +
+>      port->ops->read_data
+>      port->ops->write_data
+>      port->ops->read_status
+> @@ -46,17 +48,20 @@ Port functions (can be overridden by low-level drivers):
+>      port->ops->data_reverse
+>  
+>    EPP::
+> +
+>      port->ops->epp_write_data
+>      port->ops->epp_read_data
+>      port->ops->epp_write_addr
+>      port->ops->epp_read_addr
+>  
+>    ECP::
+> +
+>      port->ops->ecp_write_data
+>      port->ops->ecp_read_data
+>      port->ops->ecp_write_addr
+>  
+>    Other::
+> +
+>      port->ops->nibble_read_data
+>      port->ops->byte_read_data
+>      port->ops->compat_write_data
+> 
+> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
+
+-- 
+~Randy
