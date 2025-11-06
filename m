@@ -1,156 +1,196 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1427301709;
-	Thu,  6 Nov 2025 08:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69D8309F1F
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 09:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762417710; cv=none; b=asWJ+R6brfKGGjbGvRpLjhvTJ5/Jn7u8HVCnnA3iZjxD6wBVhcNMIeVDApED2I6MMnrkVYvA2XQiaZBBqS/HWhLKusKsaKnxWPaapKwjz3C7j/D97UQ0rfiThnLsPskPzOlgd2p+TPpBhnq9lBciOOk6e3+5xlsBKJyheCAjyGk=
+	t=1762419800; cv=none; b=iMN1eqJuDNijTxLTcqg5Wow7zCx7VFIS1obXKPgb09fMafAUk/oU07VRTqxQX0+d1b5Bhi8QIOpEVuY+0Xm+XOThMBD12xjJzUPHwG1GI1kOKHqW1fHMN6iMz02JHM8KSaRa9nVY+a+mSqZzs0mI+SN2b7l/dvvW0boMXeEA2QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762417710; c=relaxed/simple;
-	bh=pVgfYk4/hjf8v16hm1avg00MTUjmZ/jX7QzVe0yu1M4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ghAM7i5Cn0g5QxiBFgMaGqXyYtKGK6iJ7ceAX0W5+CCgZEpxQgrFjtQdBc9jbF1e/ubfpq+GltSMbFfHtjkX70ulzO9msOGy8rwIhbrwnwBYh3VL7e8yROBM+3KpiZPO2zInSfqirRKrb7pPE64vrP/cB+Amg64GUEFoVH3Ifjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=oaACdWU1; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="oaACdWU1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=WwUoGTNmbk4GL2R/z8jgKT7x4qoL8qPfVciTM25oRN4=; b=oaACdWU11vzx7y9yl+WQ7YyetM
-	aoDWzy+EKCf1wJQvAgAUOGwGawC75YrhbT7KaMu0Vc49ukacvQeSVxo3+h8EnpRfMSQ3VA1r2D3iM
-	fLuSkbX8cni9zYAHuflPh1YTWVsY1bF1kYQVQri4E1+KMOPb49SQ/C/524oD0vr1dPAYfYokC4iIw
-	MBIwiyRpuE5ZFALUA05JXrv2gm2I739cxXzA0nv4gjwOsimS/73pe87c42sFK0/wNTjoS9pQSt6l1
-	g1L1YWEuVAd2B0qPzBMw2dLJYGqVddYrCaaJhz3xm+B67gPY1eAjmasMdyi3qKuDQ9vA+JNhMdiwU
-	ydoU65GA==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vGvLt-002sf6-3a; Thu, 06 Nov 2025 09:28:17 +0100
-Message-ID: <f935574c-67d1-4a7c-bd8e-e9dff7aa97ea@igalia.com>
-Date: Thu, 6 Nov 2025 08:28:15 +0000
+	s=arc-20240116; t=1762419800; c=relaxed/simple;
+	bh=3BiETXl/7KYiMgO2xmY43yE1EckvGSBZswtZukHv/ok=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=Va4DdzCxBr+a6R3fkuBKqUnKo9E0dev6Vi8aYMg8dZpYcVZ+9XM+8KPI4KxpeG8d8whzO44/YvAQY+me6eY2WpXJWibr4tjlLOqxoLvyb4iLaIevi4XhvkJ6KkUVsKwvxblCm7nAlwLEe0RNjAaIXI/ufMQjvmjiNRnwiAp1Aqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-4335b48ad16so622755ab.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 01:03:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762419798; x=1763024598;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NM+vtYwd4Q/5mXYOusRezwQD6kU0yTjiwGI1zHoa56s=;
+        b=qXzGkNHlv96hfwUdngdiydE9YvRq29cn6fIHx+aAZoFDk2De5B3q1VFlf/wFythT/+
+         +6g/wW/bp9crUxEc8YCp6iezx+8yXYU73Y5RzhCqTOUYpiARVj7vOpQ7psmNzgyBic4V
+         EVCtQLOrZ6cIERuswI5FiKLBRzSKoNbrdJ4DgMP/Lm4GlSH/yeidn0G0MRIW0rA/QtzB
+         DkjvGidHOzBRozFwf/Wo1imBJv5xH5U/weS1ODS5Fd1FqJaPE2dNR9oNlBEDuNDWK91H
+         RTZx71A6vB/y+I+ALSbQdl6PZRnnI6ZZIdGmwSHxSDqpqp5dAg5sa7VlfOw/vK0qtm4T
+         ygAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVonBtD2YpzPWE8XjTqbR4ywq31Dtc2S7Nsl1wglmxhlWSQznOiJinNzwm9+dSUC4ZK7qKdfQK55pk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUbJVC1cYCDNy4tjUQu7qZp3jEejMqsc3wtty53ASShADexiKS
+	GB/GcO2k8IcOZimJhJLEIlV0TsYYdRXvH7jsYore7Rjqfrnqo2hEsLKIU4B5igBjMQftM4TPwv0
+	bx5sjd9X/Fa+qmNnrWyUtSH9ma5eW97LLoTRz7NP0g8Zc6w9iIRTo70m+RwA=
+X-Google-Smtp-Source: AGHT+IHYw6BpNjU970LvwCOmCC6rnyZOB0LxuLx4sUOzoknP7LuxVppDcrNAehHNomEHUHqlUyTcseQg9qNPR0QWUuXPYjfjkyEz
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: Fix @alloc_flags description
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
-Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Zack Rusin <zack.rusin@broadcom.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20251106005217.14026-1-bagasdotme@gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20251106005217.14026-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:1c08:b0:433:2cdf:6457 with SMTP id
+ e9e14a558f8ab-4334079054fmr85278665ab.12.1762419797969; Thu, 06 Nov 2025
+ 01:03:17 -0800 (PST)
+Date: Thu, 06 Nov 2025 01:03:17 -0800
+In-Reply-To: <20251105161450.1730216-1-skorodumov.dmitry@huawei.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <690c6455.050a0220.3d0d33.0119.GAE@google.com>
+Subject: [syzbot ci] Re: ipvlan: support mac-nat mode
+From: syzbot ci <syzbot+cia97091be86436383@syzkaller.appspotmail.com>
+To: andrew@lunn.ch, andrey.bokhanko@huawei.com, corbet@lwn.net, 
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org, kuba@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, skorodumov.dmitry@huawei.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+syzbot ci has tested the following series
+
+[v3] ipvlan: support mac-nat mode
+https://lore.kernel.org/all/20251105161450.1730216-1-skorodumov.dmitry@huawei.com
+* [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
+* [PATCH net-next 02/14] ipvlan: Send mcasts out directly in ipvlan_xmit_mode_l2()
+* [PATCH net-next 03/14] ipvlan: Handle rx mcast-ip and unicast eth
+* [PATCH net-next 04/14] ipvlan: Added some kind of MAC NAT
+* [PATCH net-next 05/14] ipvlan: Forget all IP when device goes down
+* [PATCH net-next 06/14] ipvlan: Support GSO for port -> ipvlan
+* [PATCH net-next 07/14] ipvlan: Support IPv6 for learnable l2-bridge
+* [PATCH net-next 08/14] ipvlan: Make the addrs_lock be per port
+* [PATCH net-next 09/14] ipvlan: Take addr_lock in ipvlan_open()
+* [PATCH net-next 10/14] ipvlan: Don't allow children to use IPs of main
+* [PATCH net-next 11/14] ipvlan: const-specifier for functions that use iaddr
+* [PATCH net-next 12/14] ipvlan: Common code from v6/v4 validator_event
+* [PATCH net-next 13/14] ipvlan: common code to handle ipv6/ipv4 address events
+* [PATCH net-next 14/14] ipvlan: Ignore PACKET_LOOPBACK in handle_mode_l2()
+
+and found the following issue:
+WARNING: suspicious RCU usage in ipvlan_init
+
+Full report is available here:
+https://ci.syzbot.org/series/349ca33e-4ae2-4720-9a69-17a2a9e17107
+
+***
+
+WARNING: suspicious RCU usage in ipvlan_init
+
+tree:      net-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net-next.git
+base:      01cc760632b875c4ad0d8fec0b0c01896b8a36d4
+arch:      amd64
+compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+config:    https://ci.syzbot.org/builds/d6598a0d-2fcb-499d-95fc-30c5096555dc/config
+
+batman_adv: batadv0: Not using interface batadv_slave_1 (retrying later): interface not active
+hsr_slave_0: entered promiscuous mode
+hsr_slave_1: entered promiscuous mode
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Not tainted
+-----------------------------
+./include/linux/inetdevice.h:239 suspicious rcu_dereference_check() usage!
+
+other info that might help us debug this:
 
 
-On 06/11/2025 00:52, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
-> 
-> Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
-> Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
-> Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
-> Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
-> 
-> Fix these by adding missing wildcard on TTM_ALLOCATION_* and
-> TTM_ALLOCATION_POOL_* in @alloc_flags description.
+rcu_scheduler_active = 2, debug_locks = 1
+2 locks held by syz-executor/6496:
+ #0: ffffffff8ea2f980 (&ops->srcu#2){.+.+}-{0:0}, at: rtnl_link_ops_get+0x23/0x250
+ #1: ffffffff8f2cb3c8 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x8e9/0x1c80
 
-Interesting, I did not realize it would see special meaning in text 
-followed by underscore. Thanks for fixing it up!
+stack backtrace:
+CPU: 1 UID: 0 PID: 6496 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250
+ lockdep_rcu_suspicious+0x140/0x1d0
+ ipvlan_init+0xff2/0x1260
+ register_netdevice+0x6bf/0x1ae0
+ ipvlan_link_new+0x57a/0xc70
+ rtnl_newlink_create+0x310/0xb00
+ rtnl_newlink+0x16e4/0x1c80
+ rtnetlink_rcv_msg+0x7cf/0xb70
+ netlink_rcv_skb+0x208/0x470
+ netlink_unicast+0x82f/0x9e0
+ netlink_sendmsg+0x805/0xb30
+ __sock_sendmsg+0x21c/0x270
+ __sys_sendto+0x3bd/0x520
+ __x64_sys_sendto+0xde/0x100
+ do_syscall_64+0xfa/0xfa0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f114c590e03
+Code: 64 89 02 48 c7 c0 ff ff ff ff eb b7 66 2e 0f 1f 84 00 00 00 00 00 90 80 3d 61 77 22 00 00 41 89 ca 74 14 b8 2c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 75 c3 0f 1f 40 00 55 48 83 ec 30 44 89 4c 24
+RSP: 002b:00007ffecaf08958 EFLAGS: 00000202 ORIG_RAX: 000000000000002c
+RAX: ffffffffffffffda RBX: 00007f114d314620 RCX: 00007f114c590e03
+RDX: 0000000000000058 RSI: 00007f114d314670 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffecaf08974 R09: 000000000000000c
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
+R13: 0000000000000000 R14: 00007f114d314670 R15: 0000000000000000
+ </TASK>
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Not tainted
+-----------------------------
+drivers/net/ipvlan/ipvlan_main.c:238 suspicious rcu_dereference_check() usage!
 
-I assume no one merged it yet to any branch so I can push it to 
-drm-misc-next?
+other info that might help us debug this:
 
-Regards,
 
-Tvrtko
+rcu_scheduler_active = 2, debug_locks = 1
+2 locks held by syz-executor/6496:
+ #0: ffffffff8ea2f980 (&ops->srcu#2){.+.+}-{0:0}, at: rtnl_link_ops_get+0x23/0x250
+ #1: ffffffff8f2cb3c8 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x8e9/0x1c80
 
-> Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
-> Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
-> Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
->   drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
->   include/drm/ttm/ttm_device.h     | 2 +-
->   include/drm/ttm/ttm_pool.h       | 2 +-
->   4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index 5c10e5fbf43b7f..9a51afaf0749e2 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
->    * @dev: The core kernel device pointer for DMA mappings and allocations.
->    * @mapping: The address space to use for this bo.
->    * @vma_manager: A pointer to a vma manager.
-> - * @alloc_flags: TTM_ALLOCATION_ flags.
-> + * @alloc_flags: TTM_ALLOCATION_* flags.
->    *
->    * Initializes a struct ttm_device:
->    * Returns:
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 97e9ce505cf68d..18b6db015619c0 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
->    * @pool: the pool to initialize
->    * @dev: device for DMA allocations and mappings
->    * @nid: NUMA node to use for allocations
-> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
-> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
->    *
->    * Initialize the pool and its pool types.
->    */
-> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-> index d016360e5cebbc..5618aef462f21b 100644
-> --- a/include/drm/ttm/ttm_device.h
-> +++ b/include/drm/ttm/ttm_device.h
-> @@ -221,7 +221,7 @@ struct ttm_device {
->   	struct list_head device_list;
->   
->   	/**
-> -	 * @alloc_flags: TTM_ALLOCATION_ flags.
-> +	 * @alloc_flags: TTM_ALLOCATION_* flags.
->   	 */
->   	unsigned int alloc_flags;
->   
-> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-> index 67c72de913bb9d..233581670e7825 100644
-> --- a/include/drm/ttm/ttm_pool.h
-> +++ b/include/drm/ttm/ttm_pool.h
-> @@ -64,7 +64,7 @@ struct ttm_pool_type {
->    *
->    * @dev: the device we allocate pages for
->    * @nid: which numa node to use
-> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
-> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
->    * @caching: pools for each caching/order
->    */
->   struct ttm_pool {
-> 
-> base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
+stack backtrace:
+CPU: 0 UID: 0 PID: 6496 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250
+ lockdep_rcu_suspicious+0x140/0x1d0
+ ipvlan_init+0x1025/0x1260
+ register_netdevice+0x6bf/0x1ae0
+ ipvlan_link_new+0x57a/0xc70
+ rtnl_newlink_create+0x310/0xb00
+ rtnl_newlink+0x16e4/0x1c80
+ rtnetlink_rcv_msg+0x7cf/0xb70
+ netlink_rcv_skb+0x208/0x470
+ netlink_unicast+0x82f/0x9e0
+ netlink_sendmsg+0x805/0xb30
+ __sock_sendmsg+0x21c/0x270
+ __sys_sendto+0x3bd/0x520
+ __x64_sys_sendto+0xde/0x100
+ do_syscall_64+0xfa/0xfa0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f114c590e03
+Code: 64 89 02 48 c7 c0 ff ff ff ff eb b7 66 2e 0f 1f 84 00 00 00 00 00 90 80 3d 61 77 22 00 00 41 89 ca 74 14 b8 2c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 75 c3 0f 1f 40 00 55 48 83 ec 30 44 89 4c 24
+RSP: 002b:00007ffecaf08958 EFLAGS: 00000202 ORIG_RAX: 000000000000002c
+RAX: ffffffffffffffda RBX: 00007f114d314620 RCX: 00007f114c590e03
+RDX: 0000000000000058 RSI: 00007f114d314670 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffecaf08974 R09: 000000000000000c
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
+R13: 0000000000000000 R14: 00007f114d314670 R15: 0000000000000000
+ </TASK>
 
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
