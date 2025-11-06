@@ -1,67 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653E33126BE
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC31F313525
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762428875; cv=none; b=szEe/HcMwgp4PwsPpfz4ri9oiJ6hRcmqhQ+NpN+77Cj41QLBKi3zlSOCM3QIvL5836l0i3y97Gj/2/CrTaslq1Uu1M1z8Ei/JVeK5Xg4/RYK1MZGuoWW0t3Po6aB+KFaqopoGYP0rH0qBhCsBc/89YT7KW+JsKw/0ycKaTI3o9U=
+	t=1762428878; cv=none; b=NjRHuKomlcKOuBdKkLegDc0pnElPE/2i6q5HjfhmU+SiGYgUH+0pBJwzwGfcAtZwPlbW3VQdo3pCgyGg5cL64FC5ROW2wSH+FNwVFIB4KEe93h1+zNNMj7rbvBs+l1mkap/7QrESQqnmLrw8clxnWBWQTVM1OE/Ip7UMDDj76JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762428875; c=relaxed/simple;
-	bh=Gtyj9mEcu6V4pcGmC+SaB8NL97WnrKFGqIgBzP4NOeY=;
+	s=arc-20240116; t=1762428878; c=relaxed/simple;
+	bh=UrblnyBIttzcib0/BvvP1++FwPrIsvbI5P5xtRb6gow=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lnBpXgFMHaHF1lE5VHSKXYmIRaF3xix0QvDZx0y5y7Stjfp/+oJz0o5EhbtMJgSfxhVjsTP2mF87qh9wa09eGP2O3wPP9IZ8ia/D3/nLTV+87OCcEz574nu1K4yMrHi0GO9ZRk/SjeiXkYezGooyCIItIO+aVGfW7fuj1ZZf9nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=TcoZBupi; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:To:Cc; b=fUKn3u+hZwTPfvteVCF1ZJ5v1sD+Et/Z5IK5ITTAGJbLY8GU1Cl7EJcgViWl+cZFymEeJymCpJnYc3mE0tKchIFXnSe5G9PVB3zdfpCP8784IsHiAcQGap6uhBOwW+QanGCs5wSSkTkUHk59z6k7ngN8Chb34IfLw/+0HGkqGnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=QVIcyOzG; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="TcoZBupi"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477563bcbbcso4224475e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:34:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="QVIcyOzG"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-429bf011e6cso855331f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:34:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762428871; x=1763033671; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762428873; x=1763033673; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9ps1dtuocIgHWNi4XIFGNgY4rWCwPTvVS8YGMM8z4E8=;
-        b=TcoZBupiGTHOlhzOH33JG2PhzSY51RD/jkQInI2w6hUgcR21h9S+ROa9s17oSfbUfg
-         8sWwDe6HiJ3qNswIIzt6AOHg2G81D3uTgYpCHU68IwvUrhz5d+latMv/RJrgHZRn2yWo
-         Bu8FPydRToEIfv/QDEZxm1qYl1U54MnrXBJXBWoaU9yEFPxazJ4WqvE+Mvocw4ga2VSo
-         35NQqzPeqt98aRpOZZAX7Jv3xTgpNFuGN+tbTlkr76XAITNVORfIuLrkNsHdOLfrs5yt
-         oFkEex2lUQfdzli+zgtvB/IapqaI2nWnwit7Cpc9WhcgGeglsenxfTZ9gIYk6/eT3wgW
-         /L+g==
+        bh=lyKbKE6HNdqQ1WAeibtxjl163+kRLNcqsxLc6zP9YwA=;
+        b=QVIcyOzGnl0dP3C7N93mZIA2Hr1Xa63PsxwR2+kY+sD/3kpKVmoiXBLWxNrLbaxJXT
+         7V0VKpy2ZlXBX5DbiUvpjRsXbQwuhYmxmnKFJKtP2sDoNbmZOUTVWteslE/v1Bjn4waX
+         XLvS3O62mhTHeTgjxrWClatLSdYmp+BfAw9JzA2OD8wsCULHeB20HpAt+N3hRTzirvTx
+         MFMf4FXAkwrCrosSzTjsIDLQOo5Kc9Z0H9FtC5vKTj8t+WBoG64rM6JW6gbe9kU7YPmi
+         TFtc/pXftaiF4r+NtKGApao0bFU2UUg2FeL6q04YivYxf7XmxAV43OAws5iRUz/AUTFn
+         Qj/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762428871; x=1763033671;
+        d=1e100.net; s=20230601; t=1762428873; x=1763033673;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9ps1dtuocIgHWNi4XIFGNgY4rWCwPTvVS8YGMM8z4E8=;
-        b=sLyVSTmz2G3DiLDWAUXQazOiQizEe+TPVNSUz49Hp7lr42UAObofKd7WbiTlnQgAqf
-         BoGf+b6+rKDJgZPiLptVYc8md6CvKGNIpWCyUCSQrjcj1V2fWpcZoRVkuv2rOYGvFrJ7
-         hj1Frc7ulaIc3+dG1EuZHl8+rGXR5yaXioQR/NoLOnoN4MZGOxFUlJc1H2IFfwHrCHO5
-         r2g1BRlgw6ACB3BCGH+sqw6Ns+hogztEFARiJH9kNqW2rZ19fvfSluXwMafTXq0DbbVT
-         JhEsQF3RQ3gjqS7FxYu3cqttbCv7OnRUL3KXI49pKf907k9ldvSB0N550QF8E+Y9YF2B
-         0x2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXNN7ZLTpDl2a7n4f1iM/Hzu+P9UvEznsmXEH3vYvL33UTvsNu+vPR8qvcytqVoBC+52Ga/3XuyFTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw5ebgP9n8rYsMoE8PQhodySCr7tBwSQ5uby/MlHS/bkKSccKn
-	G+B3TAgE9aSw8qE1kCZ1UZtjkt5Fro1B+pc1V4vviiaz5mGeSX6PDO/2iBmRx+M3TYg=
-X-Gm-Gg: ASbGncsd6U7W0/bKsbclkXJ+588hIRXkT7tI9Iy4xCtmQdsmbXwUTSKbEhARpice75O
-	q8lvtjnbxCsjL0mqQagtX2OzIN70tND+OOc7Z8TpNM3+hXqnu+TCDzjWot/mD4W6+ssOjqFpUre
-	NTcl4n5IY4rc9i2s5dxUhGtHXSpBOmzAYeoVpCS+NdioRtQ2yv08zQh7YwA2G9TC6laWEtX+wor
-	3usKIc/Ig4/+/O/oztCLj8QzEbdzzVYgNeTIXdFCtP9DxcPf9ydzhWzfCDXsRnBz2bClrVf3fWU
-	8KU6uC1DE1nD4Uc7OjQu870JSDKwCLlZNaKzI/bWrWXxT+UXTVVY7p+ep33qmNcIfbhGoilcBrd
-	Oahzi/U6Tb1/5j3tLq9npJhfP73E4jWvCdY8IdO9MnCyyd7UQEKwy5uxepYhzhI8myM1y
-X-Google-Smtp-Source: AGHT+IEd5LLOqacXKfenHhj7E4pku5yvYiQZ/LXG7Z5ut7z2Sn6vJh9v6vSGwpj/odFCat1KlpmtFw==
-X-Received: by 2002:a05:600c:4f0b:b0:475:de14:db1e with SMTP id 5b1f17b1804b1-47769d50255mr6509055e9.24.1762428870670;
-        Thu, 06 Nov 2025 03:34:30 -0800 (PST)
+        bh=lyKbKE6HNdqQ1WAeibtxjl163+kRLNcqsxLc6zP9YwA=;
+        b=uY3iUkiltNvp63UrnNaehZY6xmwvMy/DylOf1Jn65dfzH18XHHDd/mZVK9w/BxyH0h
+         Vz2BZddbiueFivGJFD7XM/MOa6RspEAPWVQGonS+IER4ycmzrffNodN5/FA/wM2T8ooM
+         +3BfF/dfddASGOUpMd3hwLz4n2r61PZA3Zkf5pSDGEHB+ZXRjF6TWcfzezHaX5TJ27mG
+         hkLaN1wuXKmjSnt1O0rkKyuH5qc+7uWDtxykSJ045PesLw2NkW3zCp7iv9gkidQZmAAF
+         +NKpT25ZXB4tC89rIc7CqjN33Vbq0aaK43beIBI83WBU0+T+wPYLSSAiCnCZsKkexg7p
+         rfKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWljm23NEdJYu2pJIi+vL+IfenG5fAdCTKUskLXcdtjFVU5oebnaoJ9RJcnClNLEk0fxp5/NZ21aVM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIcMQyMjSo1LvHQ+OyU+nLrQO4cl1MTaFFG7GE6EhivYAZKZrm
+	3bFWIfzuU+ZNvJB3zibWqmlvzOPkpTytLlwx+u2180WL40hsiHgXXmKswB7P9NUDjBM=
+X-Gm-Gg: ASbGncvfmOlQ0EFxqNXHFXs9rV96BVgA4NmEa4OfGvl456go6HXIieERMsFcKMnhCml
+	w/B3KnxEc1fic64RFYoxVHCe+6D7Umdd2Wzq9sBQEb8zbZmMhDTD1jOec8Jhv7kZK0CdWwW6cWG
+	dbgEqJlBPXmuI0ZI+B+2BvP/yzZpK8TfgEIqycJyL+sELNgxnCM+N5xEgLzCnwU7Hn5na2WtgWm
+	mfgDQ42j0v1D/O7Jftak+PrzOWmjELXf0PZ6Luuf4XRECIajAFFiRluvmA1AV+ps2mTZLVh6TSt
+	xCDaiMIDRadnKH3m/Vjei+N9hH+lipTsXhLqxMNJcou5jWy+b7ddbj0KCrzIhXW1DVX/HfPTdiI
+	+UAMKMimzZP6e3mSbAA9SD5EQ6e4Az2rf7YS7ObSZfFChvdTkk7OpH5IXMNS3A2alxfeptqJicV
+	knDGo=
+X-Google-Smtp-Source: AGHT+IHFVmIJFpr/sCySD9e21eB/F2TWUEf2qqi3YYHg+Euddx38s/hI+PHYSUd6bW1lUl2F0o/yRw==
+X-Received: by 2002:a05:6000:40ca:b0:429:d48d:acb3 with SMTP id ffacd0b85a97d-429e32c9555mr5921176f8f.5.1762428873307;
+        Thu, 06 Nov 2025 03:34:33 -0800 (PST)
 Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:d9de:4038:a78:acab])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb40379esm4389459f8f.9.2025.11.06.03.34.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb40379esm4389459f8f.9.2025.11.06.03.34.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 03:34:29 -0800 (PST)
+        Thu, 06 Nov 2025 03:34:31 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 06 Nov 2025 12:34:00 +0100
-Subject: [PATCH v8 04/11] crypto: qce - Include algapi.h in the core.h
- header
+Date: Thu, 06 Nov 2025 12:34:01 +0100
+Subject: [PATCH v8 05/11] crypto: qce - Remove unused ignore_buf
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251106-qcom-qce-cmd-descr-v8-4-ecddca23ca26@linaro.org>
+Message-Id: <20251106-qcom-qce-cmd-descr-v8-5-ecddca23ca26@linaro.org>
 References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
 In-Reply-To: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
 To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
@@ -85,60 +85,81 @@ Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-crypto@vger.kernel.org, 
  Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1185;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1937;
  i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=ho7Q/QFIJOMH0B7qxH+AazIfS2TlD8ZgO1niuibbOks=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpDIe8xnsPR9iMo6Jt4SggMvqEQxmfALJYg0MEY
- ImjhNTu+HKJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQyHvAAKCRARpy6gFHHX
- cvO1EACyxVnNV7Un2A3ha+eMjxYTSDaQ2uctC4w6/Ev+VBpYvLdlTnvDPo/sB+hLmRXuqXbZGtU
- C5bn03Gj5c2w83a6qONL0f+hfuYlXVMbgfNNorlw7CCwBlrRoS5cc8l5Ehv5cf9JbPh97Epy8FC
- PzxRdrwMerl1doQ+OmSHB+EIiFI6HRHf16aI9812MlvE6UYb3jRG/xqdVLB3Cj+t+JeuDk6E/EX
- GAoFcK0zlvZ0dtbbrfYvShzUWEjc6fL3sgPu/7EmtI2iFVS8U/htge9AGLndQk288dLTKR49Faz
- MBXbfyvzvNi+nee295FJZ1e72m1aLVkeRoTfIgKSIhkGtm2gkYRd6GFouYXRLX/N4GFBLsyO0ED
- KEfMslFAdJqBzjsojG9gkRD//1LSFWQMaYGpawINGnGbgZBGlQ9jysUJS8BlQ6RM+Af82GNN81q
- LTCc4vfCHzwcrXE7zrJF5B7z19cC4ImgYkCNvk6lcW6Xn596ekZZsUR4JuxfsvjwmdmdGi2BeTb
- 2P73eawDofP3rPh261amr2K7PbvN8RnAuMkczrjXkMQiebPwk1fuVOwXXgDBo3EvtLRe/Jq1xdk
- xa1PLHeYj0aXy0clKX3kSRqMxgFOVOk9sQzlb9XQH3BaCIYC231iu5QZAYut9oiC/jxMbme3HAp
- bieH1BdGh2InEuQ==
+ bh=i+tVIr2T2657xahpuTvRyQWsZa+C/XB6HLztempFcdg=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpDIe8uihwYybKFVHj+4YJOXsIw86m0EaVVFa5e
+ XDJFWHf0gmJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQyHvAAKCRARpy6gFHHX
+ cnMvEADTLleUP6JoUy0i1pQeWoZvPwWRB1cdePDuITBS+1QQecce2vcar1o3uvGtcptKfAwrZqD
+ cHgghMMID0hTz4zOUGfGM0ipSUEDKZYpT/k6w7UXust5mHdtiWLvGEYUZQxR44Yb8H3QfUv7I9r
+ tXKdvIK7hiEiELHsV2U3USQq7TbVdMjHSPFJss1l3kDHZJaaS5puYWb5ghL7DbZqxjth3YXqK55
+ AljUAGw534t5Ae84F9RsdycGgRt7rmA1UXDXGtPpzx0ZarpTANT0HYdbeqAAQJ31dvXjp5EwJGV
+ u8Q4IoemghyGZKzvZJ3IcKZTCIxreN+amXiJ4E6Hw+QjkNsGvP+pyvD5Xdrw7L8Cktq7yDrAgI2
+ HjJeSLsV/TqiC84Z3eC4bNPTlDMTpCOKyY2O1GBnqwFG/ytkbdXTnTQXBgeThuSXT1p3/pQLR5s
+ JqstRLfrinJ7K2JaN3B7/NNxf4FuxxZ5rjefBLcm4xY/eTD8//8SyiQp48MJtKE+h7lshC6MdzQ
+ H5icwAnkVvLzvVfxKO7lNmDhFcqQIGjC2am4a/EBcJEF572yvHb81n02a46hvSn/rDsOgLLuEyy
+ yoVtFpduADecCj1X4MSj1PxBvO8YoWPDi3UyqLdR9gKWWbcj7p54m9bgoGTlrsIqBzhsrrVfWub
+ gl6ZOwHpdH9JoMA==
 X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The header defines a struct embedding struct crypto_queue whose size
-needs to be known and which is defined in crypto/algapi.h. Move the
-inclusion from core.c to core.h.
+It's unclear what the purpose of this field is. It has been here since
+the initial commit but without any explanation. The driver works fine
+without it. We still keep allocating more space in the result buffer, we
+just don't need to store its address. While at it: move the
+QCE_IGNORE_BUF_SZ definition into dma.c as it's not used outside of this
+compilation unit.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/crypto/qce/core.c | 1 -
- drivers/crypto/qce/core.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/crypto/qce/dma.c | 4 ++--
+ drivers/crypto/qce/dma.h | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/crypto/qce/core.c b/drivers/crypto/qce/core.c
-index e95e84486d9aefe4b9af09a27631f0f9e7ad231f..3114b7f458de0c1cd8527e602b408958f224a7d0 100644
---- a/drivers/crypto/qce/core.c
-+++ b/drivers/crypto/qce/core.c
-@@ -13,7 +13,6 @@
- #include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
--#include <crypto/algapi.h>
- #include <crypto/internal/hash.h>
- 
- #include "core.h"
-diff --git a/drivers/crypto/qce/core.h b/drivers/crypto/qce/core.h
-index eb6fa7a8b64a81daf9ad5304a3ae4e5e597a70b8..f092ce2d3b04a936a37805c20ac5ba78d8fdd2df 100644
---- a/drivers/crypto/qce/core.h
-+++ b/drivers/crypto/qce/core.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/mutex.h>
- #include <linux/workqueue.h>
-+#include <crypto/algapi.h>
+diff --git a/drivers/crypto/qce/dma.c b/drivers/crypto/qce/dma.c
+index 1dec7aea852dd91e4b2406f5418c0f533731b8fc..f9581d53fe4033aa1982964d1038097fff0e8250 100644
+--- a/drivers/crypto/qce/dma.c
++++ b/drivers/crypto/qce/dma.c
+@@ -9,6 +9,8 @@
  
  #include "dma.h"
  
++#define QCE_IGNORE_BUF_SZ		(2 * QCE_BAM_BURST_SIZE)
++
+ static void qce_dma_release(void *data)
+ {
+ 	struct qce_dma_data *dma = data;
+@@ -39,8 +41,6 @@ int devm_qce_dma_request(struct device *dev, struct qce_dma_data *dma)
+ 		goto error_nomem;
+ 	}
+ 
+-	dma->ignore_buf = dma->result_buf + QCE_RESULT_BUF_SZ;
+-
+ 	return devm_add_action_or_reset(dev, qce_dma_release, dma);
+ 
+ error_nomem:
+diff --git a/drivers/crypto/qce/dma.h b/drivers/crypto/qce/dma.h
+index 31629185000e12242fa07c2cc08b95fcbd5d4b8c..fc337c435cd14917bdfb99febcf9119275afdeba 100644
+--- a/drivers/crypto/qce/dma.h
++++ b/drivers/crypto/qce/dma.h
+@@ -23,7 +23,6 @@ struct qce_result_dump {
+ 	u32 status2;
+ };
+ 
+-#define QCE_IGNORE_BUF_SZ	(2 * QCE_BAM_BURST_SIZE)
+ #define QCE_RESULT_BUF_SZ	\
+ 		ALIGN(sizeof(struct qce_result_dump), QCE_BAM_BURST_SIZE)
+ 
+@@ -31,7 +30,6 @@ struct qce_dma_data {
+ 	struct dma_chan *txchan;
+ 	struct dma_chan *rxchan;
+ 	struct qce_result_dump *result_buf;
+-	void *ignore_buf;
+ };
+ 
+ int devm_qce_dma_request(struct device *dev, struct qce_dma_data *dma);
 
 -- 
 2.51.0
