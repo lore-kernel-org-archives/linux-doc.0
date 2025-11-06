@@ -1,233 +1,247 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CAF2F1FDF
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0814730FC0F
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762428695; cv=none; b=jUV5vO9E8B/qlMXNew+9Yuf9ddyDSPm0G8xPn5U3BFONaS0843ZHj/eBkPXUChMD0fTkfgQPdhEd+2ClYygqQLEpY0QqeQQj9Ih2GkmPcln+EibE7C2hzUoji3g8mnWYO4xYSozZ4Uk7RxHe7ReQ1wbZSjCwHVatt61oorSmAiY=
+	t=1762428867; cv=none; b=FwSDK3646PeG4810VXW+hWiXypld2nAYxbiR7vqSX6SVjdPY58tDoSTfe+XZO8GFBnEpQNVDWyznFhpme2TvBxaTv6LzPeZOp6Fxo+cRiD7mh0zG2eziN7wnJb9klOP0fMrre1O2qIrRpfHVTTOe1c/v3fwK/SInrK9axN43qSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762428695; c=relaxed/simple;
-	bh=yxNgBg8mFwppZWAGBg98ROLJ3LCBtZaPfgtBMiODBvI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sj04sID/58IqoHnb8hkqEmZ3GTTOp4+xYmY/NpgfBytS9tSnldq9mULaWk0N3vwZz2VJImRKbouR67gEE9wnZwLljSR3OaMc8bH1MZJ8a8jZOAwoUWIa59MDj/PLwKAhux+Ff2KPdrtXuAbGKr3i40q48hlkfgx2kkAshhNb4Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=T19Bon72; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Nu3Zu33L; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=c95dtUBL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YMA+i/c+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1762428867; c=relaxed/simple;
+	bh=VZT8DjBw0pDi2d80lXPUn2i9zyAtOd6ztqK1+017c7E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dkuvtFtK/ch3bSj3dA+4TZLEoLFDfj3y36yjgG3wF5uMaDT5TBMUxWCskRan6i+YHQiPo/5vXFj+TMUA2mApkmEh4lacSWa34hELTl24mnoximFno39tDne68hZLzZdTKbMV+OH6r3U0UOPq49CqCwBdvdigA5ZsaK4MiM1X8BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=FCjp/uzS; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="T19Bon72";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Nu3Zu33L";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="c95dtUBL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YMA+i/c+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8904A21179;
-	Thu,  6 Nov 2025 11:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762428691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rGCMXNn5dL3lRX/ozHN/9Eb+iB/lKfzKevPd+jVbI/Q=;
-	b=T19Bon72ASkc8aIdSH+lxvP0PeGezhpeqa+dQ+VxmwtgiscQRB5TP0O83Kb6gkkSHPTPSb
-	LyafLEvV9gakB38DclI2QetDQd62IkvnCrJAeFEmWoQFaXP+jOwxVG5sqEahPNFXYaiFps
-	T/Hc3eAyRBcg6RHsF0jRHl8W+kz1Uhc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762428691;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rGCMXNn5dL3lRX/ozHN/9Eb+iB/lKfzKevPd+jVbI/Q=;
-	b=Nu3Zu33LMtE90itQ6TCmD+OiKIP5ClZO02UPB2MFyVkKqy3x+1RLDUOkEo+VjtUpdTzhUx
-	yjaKYUHHrbfY6dDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=c95dtUBL;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="YMA+i/c+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762428690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rGCMXNn5dL3lRX/ozHN/9Eb+iB/lKfzKevPd+jVbI/Q=;
-	b=c95dtUBL5MxaNGu8M93yW94h8wI76yZKYkdazUNJ6NEonc29aNISAtccXpGktxspCcoIEn
-	a0ba87QhuuSdA6xbqXTz/B8vH9VQa71EtoCN/bEJoFUEJMcwnYj8PCjtlThUIto9TWkrgO
-	7hmEMbdzgfeoAXDqBRgbutRg6B1nutU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762428690;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rGCMXNn5dL3lRX/ozHN/9Eb+iB/lKfzKevPd+jVbI/Q=;
-	b=YMA+i/c+Sf6pm7a1ytKMafhTEPEbwzt5P8pl/XBWo+jECCDWXykamUk0gncJnXUEL73Mqo
-	XA/jZvH3juSePmAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AF5B139A9;
-	Thu,  6 Nov 2025 11:31:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S23WFRKHDGmQEgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 06 Nov 2025 11:31:30 +0000
-Message-ID: <c68fe71a-d46b-4fe0-a2ce-57f443a43499@suse.cz>
-Date: Thu, 6 Nov 2025 12:31:29 +0100
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="FCjp/uzS"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477632b0621so4921385e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:34:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762428863; x=1763033663; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WmQCBkHqq42jVJNYRjft2vvRlX31c4/KY+a2FbtNOuw=;
+        b=FCjp/uzSHiyRq8AMqZiHXV/emDTy59Os3xjVmcDUjWZfO1Ovp4iNB5bzS0h/gkmC5E
+         QpfUNA+JMCHO0usxNTSxsDbXlOR4Oew8/PgkFgf72ilbJ+mHo1oqgi8Za1BUwhoo3Xc8
+         wrZkNYMCnYJe8oor63PXdq17GDh1aZD1LAFCXhtNOLoL3sdkIzYgFWAwBUnojPLbNpcD
+         CUTAn2JowLeeruRwA7gmSBRDz6Xbi508GmKZ6D85W+ixSgZGEKFtOzMk+srcUzEtqYQZ
+         tpsIl2fyE9mY9FUVdj3p3AGmvpB1Bej+n5WmetzF/HWqXTpdStHoTx5hoOvcOwv309an
+         FMrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762428863; x=1763033663;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WmQCBkHqq42jVJNYRjft2vvRlX31c4/KY+a2FbtNOuw=;
+        b=wbUJiFk7N3hqgRN20f1IjCyzvqHi8V0dzkDtg2WgxfbZ1ZurtalCeqzPaCdwmDZpoj
+         5PGIQvfF7M3+K3nHl9YtBl/eyRjalc6qwJja+jk3kfYBlmiJNddOTzU/HOqbqBzbTAwv
+         5wZ92a/fNa3NYfg67fd5KaQ17iunQEK9UXjPbRLD3mZLFAEwD0uYzjjcfkiDJPHrjPtd
+         8Qj3MgOdh3gsttyd0a7Ev0kKX2pBWHCkMRE8GyEi221gSSUFgwGr71eEoRcSua5kHzr1
+         3GJQ4sHRtbaxU6xQpKGdWKxo2x8nE+sfD8ELwWMZFzBNU3vpNI0UO37msasrg4QDmHxq
+         4fUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzAZ0Cf6EazDox3ucQbnY4AGmJTFDOtT8jkCYkIV8amEOmmM2evCl+ANwnghYnSbapoYuUlxLbBwY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxSd0IlU36WZyvACu4ysbwISupBISPguJf4Uh3FLNO5M3KMrYk
+	ewXhqpffQhEEllFLOlY3ywgqwEA2rvbr5pYFcjzTXH5zPf5DM/uQwvAPCsEeKUmkopg=
+X-Gm-Gg: ASbGnctYjQS01aiHGhViN3+OT3X7n0AzivcToZ/8q3Gm/0TPv+6AOLxKMfXRytUWq8m
+	PIdVJEU8N39jqhMkH5WOoXIZ8TF90/rnhIRGzu8lNgP7CpVvPpjHI5UEFRSbN7NJttihElEgjTP
+	kwnRUr5zdPNpPquWUzLWEzu7u7m80L+CnrcAlh/rWimMfnL2zfYnlAydrj4B1/E9rdZMVJ+pBPr
+	QeRIkJGk/pxnFz0ydiz1+iiH0glkc3AirXveXd6khMdOUTnQk2sfs4gd4/qDc8TZotAy5uaInT1
+	/ysZjCOVjgXwkarVPqPlFiyTj/r8fC3O7q0moR/0EmcjQHEq+uwDEKSJbLvMoa0FAH2YlUpSzRd
+	Ag/Urwo6pTtiB1w9ceGo9KP06dp9Qpd0VO6Bpbo+Wdzq6DfW0c3smmnhWMXceSFJ5z+a+
+X-Google-Smtp-Source: AGHT+IHnGFjTZCysO/3IL83klEg0iWc82qrT0/YH9JfaI+/oaOJM3VLGt44LrBB6NO88nAKFPjNXzQ==
+X-Received: by 2002:a05:600c:5249:b0:46e:37fe:f0e6 with SMTP id 5b1f17b1804b1-4775ce14b16mr59856885e9.30.1762428863190;
+        Thu, 06 Nov 2025 03:34:23 -0800 (PST)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:d9de:4038:a78:acab])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb40379esm4389459f8f.9.2025.11.06.03.34.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 03:34:22 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH v8 00/11] crypto/dmaengine: qce: introduce BAM locking and
+ use DMA for register I/O
+Date: Thu, 06 Nov 2025 12:33:56 +0100
+Message-Id: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm: add atomic VMA flags, use VM_MAYBE_GUARD as
- such
-Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Andrei Vagin <avagin@gmail.com>
-References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
- <94935cf140e3279c234b39e0d976c4718c547c73.1762422915.git.lorenzo.stoakes@oracle.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
- AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJnyBr8BQka0IFQAAoJECJPp+fMgqZkqmMQ
- AIbGN95ptUMUvo6aAdhxaOCHXp1DfIBuIOK/zpx8ylY4pOwu3GRe4dQ8u4XS9gaZ96Gj4bC+
- jwWcSmn+TjtKW3rH1dRKopvC07tSJIGGVyw7ieV/5cbFffA8NL0ILowzVg8w1ipnz1VTkWDr
- 2zcfslxJsJ6vhXw5/npcY0ldeC1E8f6UUoa4eyoskd70vO0wOAoGd02ZkJoox3F5ODM0kjHu
- Y97VLOa3GG66lh+ZEelVZEujHfKceCw9G3PMvEzyLFbXvSOigZQMdKzQ8D/OChwqig8wFBmV
- QCPS4yDdmZP3oeDHRjJ9jvMUKoYODiNKsl2F+xXwyRM2qoKRqFlhCn4usVd1+wmv9iLV8nPs
- 2Db1ZIa49fJet3Sk3PN4bV1rAPuWvtbuTBN39Q/6MgkLTYHb84HyFKw14Rqe5YorrBLbF3rl
- M51Dpf6Egu1yTJDHCTEwePWug4XI11FT8lK0LNnHNpbhTCYRjX73iWOnFraJNcURld1jL1nV
- r/LRD+/e2gNtSTPK0Qkon6HcOBZnxRoqtazTU6YQRmGlT0v+rukj/cn5sToYibWLn+RoV1CE
- Qj6tApOiHBkpEsCzHGu+iDQ1WT0Idtdynst738f/uCeCMkdRu4WMZjteQaqvARFwCy3P/jpK
- uvzMtves5HvZw33ZwOtMCgbpce00DaET4y/UzsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
- J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
- /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
- IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
- X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
- wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
- PVAiT6fnzIKmZAUCZ8gcVAUJFhTonwAKCRAiT6fnzIKmZLY8D/9uo3Ut9yi2YCuASWxr7QQZ
- lJCViArjymbxYB5NdOeC50/0gnhK4pgdHlE2MdwF6o34x7TPFGpjNFvycZqccSQPJ/gibwNA
- zx3q9vJT4Vw+YbiyS53iSBLXMweeVV1Jd9IjAoL+EqB0cbxoFXvnjkvP1foiiF5r73jCd4PR
- rD+GoX5BZ7AZmFYmuJYBm28STM2NA6LhT0X+2su16f/HtummENKcMwom0hNu3MBNPUOrujtW
- khQrWcJNAAsy4yMoJ2Lw51T/5X5Hc7jQ9da9fyqu+phqlVtn70qpPvgWy4HRhr25fCAEXZDp
- xG4RNmTm+pqorHOqhBkI7wA7P/nyPo7ZEc3L+ZkQ37u0nlOyrjbNUniPGxPxv1imVq8IyycG
- AN5FaFxtiELK22gvudghLJaDiRBhn8/AhXc642/Z/yIpizE2xG4KU4AXzb6C+o7LX/WmmsWP
- Ly6jamSg6tvrdo4/e87lUedEqCtrp2o1xpn5zongf6cQkaLZKQcBQnPmgHO5OG8+50u88D9I
- rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
- dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
- m6M14QORSWTLRg==
-In-Reply-To: <94935cf140e3279c234b39e0d976c4718c547c73.1762422915.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 8904A21179
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lwn.net,redhat.com,oracle.com,kernel.org,google.com,suse.com,goodmis.org,efficios.com,suse.de,vger.kernel.org,kvack.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.51
+X-B4-Tracking: v=1; b=H4sIAKSHDGkC/x2MOwqAMBAFryJbu5AoEfUqYqGbp27hLwERxLsbb
+ AammHkoIigitdlDAZdG3bckdZ6RLMM2g9Unp8IUzlpT8in7mgCW1bNHlMDi0IzWTqhMQyk8Aia
+ 9/2nXv+8HeBO+qmQAAAA=
+X-Change-ID: 20251103-qcom-qce-cmd-descr-c5e9b11fe609
+To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Thara Gopinath <thara.gopinath@gmail.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Udit Tiwari <quic_utiwari@quicinc.com>, 
+ Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
+ Md Sadre Alam <mdalam@qti.qualcomm.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6129;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=VZT8DjBw0pDi2d80lXPUn2i9zyAtOd6ztqK1+017c7E=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpDIexFrYNzcmVKfajeDvFY8fI0d2v4+XCRF/Ja
+ lmtImJLgYCJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQyHsQAKCRARpy6gFHHX
+ cn/eD/4to27edxvPrrlR+95XXl9OFo7b1gAf8AszSDyxSXOGIHcuH3wimg4DOy0NwQTRyyEyYS/
+ tkcl4o7Zruw7XyiNGfg4F6uobDs645hZbt/U57ZtVSgoBRjRHeKNVd2JexB4FyRbGYgu4yhrQRZ
+ 6JATqN8QsaXjQpdljml4VL1ke9UyBrMESdPS45U2Yng2vq9y0zhs3TwjQYzXwv8rJKv1ofmwVAP
+ L0lca3FsG1CuAl4IfuAsWakavOqFIVq8KKVWMbPumhFgtpBLrLNZRSYJOqpel0YBuR/i/rdRxqv
+ Tzmmrh0Bw5PdJKRpkpyaR3DOT1OYa9cvkVNSulmt7ifFjL16IBrLPNtoe7VfiwJTThPg9T2Yx2x
+ Cvf8LdFHFW2mT4J7/E85U+FH/aZ0QEeMX3k7yyf0tSD2IXV72WpXNf2+cDnoluJ5vhPrhlh53IM
+ itlZUssCR6FRcIZe8JYQ343xcjSrP+2Pin/T4Mob0j1xKZSm/EeqDepxH/xeluBNp0J756SjnEB
+ ZFk+IRxg81PaMfcFySbfZ2IzOxWlini9OXywAz64DnVvJGK/3lIFHL4MM6OvfkL+D084i8l7D4a
+ hLpj01hTqlfV6+fpI/kVPU0CPzQXM9dkXnsEHz4YmWog2ZT5/Ez/dphiu1U4fyV1GCvFzbjoAme
+ 1wIJNhM6SSO1ffA==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-On 11/6/25 11:46, Lorenzo Stoakes wrote:
-> This patch adds the ability to atomically set VMA flags with only the mmap
-> read/VMA read lock held.
-> 
-> As this could be hugely problematic for VMA flags in general given that all
-> other accesses are non-atomic and serialised by the mmap/VMA locks, we
-> implement this with a strict allow-list - that is, only designated flags
-> are allowed to do this.
-> 
-> We make VM_MAYBE_GUARD one of these flags, and then set it under the mmap
-> read flag upon guard region installation.
-> 
-> The places where this flag is used currently and matter are:
-> 
-> * VMA merge - performed under mmap/VMA write lock, therefore excluding
->   racing writes.
-> 
-> * /proc/$pid/smaps - can race the write, however this isn't meaningful as
->   the flag write is performed at the point of the guard region being
->   established, and thus an smaps reader can't reasonably expect to avoid
->   races. Due to atomicity, a reader will observe either the flag being set
->   or not. Therefore consistency will be maintained.
-> 
-> In all other cases the flag being set is irrelevant and atomicity
-> guarantees other flags will be read correctly.
+Currently the QCE crypto driver accesses the crypto engine registers
+directly via CPU. Trust Zone may perform crypto operations simultaneously
+resulting in a race condition. To remedy that, let's introduce generic
+LOCK/UNLOCK flags in the dma engine API that allow linux to request a
+DMA controller lock for the duration of the transaction.
 
-Could we maybe also spell out that we rely on the read mmap/VMA lock to
-exclude with writers that have write lock and then use non-atomic updates to
-update completely different flags than VM_MAYBE_GUARD? Those non-atomic
-updates could cause RMW races when only our side uses an atomic update, but
-the trick is that the read lock excludes with the write lock.
+In the specific case of the BAM DMA this translates to sending command
+descriptors performing dummy writes with the relevant flags set. The BAM
+will then lock all other pipes not related to the current pipe group, and
+keep handling the current pipe only until it sees the the unlock bit.
 
-> We additionally update madvise_guard_install() to ensure that
-> anon_vma_prepare() is set for anonymous VMAs to maintain consistency with
-> the assumption that any anonymous VMA with page tables will have an
-> anon_vma set, and any with an anon_vma unset will not have page tables
-> established.
+In order for the locking to work correctly, we also need to switch to
+using DMA for all register I/O.
 
-Could we more obviously say that we did anon_vma_prepare() unconditionally
-before this patch to trigger the page table copying in fork, but it's not
-needed anymore because fork now checks also VM_MAYBE_GUARD that we're
-setting here. Maybe it would be even more obvious to move that
-vma_needs_copy() hunk from previous patch to this one, but doesn't matter
-that much.
+On top of this, the series contains some additional tweaks and
+refactoring.
 
-Also we could mention that this patch alone will prevent merging of VMAs in
-some situations, but that's addressed next. I don't think it's such a bisect
-hazard to need reordering or combining changes, just mention perhaps.
+The goal of this is not to improve the performance but to prepare the
+driver for supporting decryption into secure buffers in the future.
 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Tested with tcrypt.ko, kcapi and cryptsetup.
 
-Otherwise LGTM.
+Shout out to Daniel and Udit from Qualcomm for helping me out with some
+DMA issues we encountered.
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Merging strategy: either an Ack from Vinod or an immutable branch with
+the DMA changes for the crypto subsystem will work.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Changes in v8:
+- Rework the command descriptor logic and drop a lot of unneeded code
+- Use the physical address for BAM command descriptor access, not the
+  mapped DMA address
+- Fix the problems with iommu faults on newer platforms
+- Generalize the LOCK/UNLOCK flags in dmaengine and reword the docs and
+  commit messages
+- Make the BAM locking logic stricter in the DMA engine driver
+- Add some additional minor QCE driver refactoring changes to the series
+- Lots of small reworks and tweaks to rebase on current mainline and fix
+  previous issues
+- Link to v7: https://lore.kernel.org/all/20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org/
+
+Changes in v7:
+- remove unused code: writing to multiple registers was not used in v6,
+  neither were the functions for reading registers over BAM DMA-
+- remove
+- don't read the SW_VERSION register needlessly in the BAM driver,
+  instead: encode the information on whether the IP supports BAM locking
+  in device match data
+- shrink code where possible with logic modifications (for instance:
+  change the implementation of qce_write() instead of replacing it
+  everywhere with a new symbol)
+- remove duplicated error messages
+- rework commit messages
+- a lot of shuffling code around for easier review and a more
+  streamlined series
+- Link to v6: https://lore.kernel.org/all/20250115103004.3350561-1-quic_mdalam@quicinc.com/
+
+Changes in v6:
+- change "BAM" to "DMA"
+- Ensured this series is compilable with the current Linux-next tip of
+  the tree (TOT).
+
+Changes in v5:
+- Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support in separate patch
+- Removed DMA_PREP_LOCK & DMA_PREP_UNLOCK flag
+- Added FIELD_GET and GENMASK macro to extract major and minor version
+
+Changes in v4:
+- Added feature description and test hardware
+  with test command
+- Fixed patch version numbering
+- Dropped dt-binding patch
+- Dropped device tree changes
+- Added BAM_SW_VERSION register read
+- Handled the error path for the api dma_map_resource()
+  in probe
+- updated the commit messages for batter redability
+- Squash the change where qce_bam_acquire_lock() and
+  qce_bam_release_lock() api got introduce to the change where
+  the lock/unlock flag get introced
+- changed cover letter subject heading to
+  "dmaengine: qcom: bam_dma: add cmd descriptor support"
+- Added the very initial post for BAM lock/unlock patch link
+  as v1 to track this feature
+
+Changes in v3:
+- https://lore.kernel.org/lkml/183d4f5e-e00a-8ef6-a589-f5704bc83d4a@quicinc.com/
+- Addressed all the comments from v2
+- Added the dt-binding
+- Fix alignment issue
+- Removed type casting from qce_write_reg_dma()
+  and qce_read_reg_dma()
+- Removed qce_bam_txn = dma->qce_bam_txn; line from
+  qce_alloc_bam_txn() api and directly returning
+  dma->qce_bam_txn
+
+Changes in v2:
+- https://lore.kernel.org/lkml/20231214114239.2635325-1-quic_mdalam@quicinc.com/
+- Initial set of patches for cmd descriptor support
+- Add client driver to use BAM lock/unlock feature
+- Added register read/write via BAM in QCE Crypto driver
+  to use BAM lock/unlock feature
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+---
+Bartosz Golaszewski (11):
+      dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK flags
+      dmaengine: qcom: bam_dma: Extend the driver's device match data
+      dmaengine: qcom: bam_dma: Add bam_pipe_lock flag support
+      crypto: qce - Include algapi.h in the core.h header
+      crypto: qce - Remove unused ignore_buf
+      crypto: qce - Simplify arguments of devm_qce_dma_request()
+      crypto: qce - Use existing devres APIs in devm_qce_dma_request()
+      crypto: qce - Map crypto memory for DMA
+      crypto: qce - Add BAM DMA support for crypto register I/O
+      crypto: qce - Add support for BAM locking
+      crypto: qce - Switch to using BAM DMA for crypto I/O
+
+ Documentation/driver-api/dmaengine/provider.rst |   9 ++
+ drivers/crypto/qce/aead.c                       |  10 ++
+ drivers/crypto/qce/common.c                     |  39 ++++--
+ drivers/crypto/qce/core.c                       |  28 ++++-
+ drivers/crypto/qce/core.h                       |  11 ++
+ drivers/crypto/qce/dma.c                        | 158 ++++++++++++++++++++----
+ drivers/crypto/qce/dma.h                        |  15 ++-
+ drivers/crypto/qce/sha.c                        |   8 ++
+ drivers/crypto/qce/skcipher.c                   |   7 ++
+ drivers/dma/qcom/bam_dma.c                      |  64 ++++++++--
+ include/linux/dmaengine.h                       |   6 +
+ 11 files changed, 304 insertions(+), 51 deletions(-)
+---
+base-commit: f3dfcffe2756f05cbae80ffdaa0ddf951e08431a
+change-id: 20251103-qcom-qce-cmd-descr-c5e9b11fe609
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
