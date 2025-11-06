@@ -1,85 +1,85 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02FA261B8F
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F222DC346
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762427175; cv=none; b=lQ1Tdzl52R9lVZ8aK6+sg1i+De0W5LtQ+EJfGNsusD4La9j8Nt484OJj5bwtCbY/RYLy20pYYCH6hSSwrNsusWu8KghtpBqPFzNiH/o/F6OMIkQ3lJMxRcVKWNrtzbKrSybmh1R1vk9czs8mD03o0StOeZbjGqzjWMD1NiYa0Ng=
+	t=1762427298; cv=none; b=tP0gfJOHro1+SaE85aiy95iBV9baA+CAK3Qnvurhuk5t0i/LiVAEKppPMg++7zQi7Z5SWdWHo8R8YdZoKaIBsbsZ3iF1IKS6iw3TmNvg0xlMq6uutaRsKMMXCVCgGYirhBOTCS9CYr6xPkitDx419vadQxtcowbzIP7VYsZUaD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762427175; c=relaxed/simple;
-	bh=j3hl+Kd7/n7v8BB6LvuqjtP+7XFRDVSiKP7+HyaKGvs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=AmPYSbheCTyaPSHgbjjyrk/cmlDZO2I28icV3bZ4C6m5a/eFEElMbm0flFQArDp0n5/AyYsGOsqaL84fk4J3nA4lOAh4Apg7QZZ1nYDoHBy//g1P6r86Jv0Lnd2VpcNGR48uGLG4u8KNGD5blzFALfRmCD3dgnEU/vQULXIHf+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AqSJ4q3h; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IJJseeHQ; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1762427298; c=relaxed/simple;
+	bh=AzYwnHKc/M/GnwP2HQJVj7gqwdd7tzGdSNwpt2uNAzU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=h3WaSzQhNNoW1yna6zB5VQU++EnY5bw6ASR8/qHkTgvXS83TTjovVQLxiwrZ4o9fYY7j/Pd2+ov5kByA36BEjYjQ2D5B25YyKyRsKBFKNA6IvqcsAaNyBtBaIVNnUaqTGvlVpXkLv6+tQeRXbv1IAxuZ0uuufYbw7zUdMqp8TXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TSVNapcG; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=R2lq28WY; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AqSJ4q3h";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IJJseeHQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TSVNapcG";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="R2lq28WY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762427172;
+	s=mimecast20190719; t=1762427295;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uG06GFhvhg2/GhoIc3ckFZLsP4kGe20aTOFoVqJytmg=;
-	b=AqSJ4q3hrAd2xAaBCH94e1IKUPE/heidf2ihw823qN16nvSWsa8bLotUsVkGXVc9Mc3kQP
-	fGndKTxPNZUqne1XwvOg8U3zeBKx6zBPTjK2X5RMZfo5WzlFqrCv3xl1LxAMPQYShflXnC
-	V18ljAx6nxeu9ceJVCGROIozBCpC6V4=
+	bh=mJ9H3vt04iE1iOinRpVRRRwRwQxVn8Vs66MDAfX+ERc=;
+	b=TSVNapcGDmyPB2jwD/9JSpLNhUV55SLy2LPg9wBg/9aSOSxtx5nz2Elw11i0JtSCrZZxgG
+	axpx3Dbmm3izLjQKGADFF6p00YEwGmyTCIUt73DVQbsq+j/MLx969sByH7KmOnHUv6KoPA
+	gEdBNy9Nm/ilIswpiMnfri4k1gSGRvE=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-6bsAtA80Nie0f6zmm-DUCw-1; Thu, 06 Nov 2025 06:06:11 -0500
-X-MC-Unique: 6bsAtA80Nie0f6zmm-DUCw-1
-X-Mimecast-MFC-AGG-ID: 6bsAtA80Nie0f6zmm-DUCw_1762427170
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4298da9fc21so362225f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:06:11 -0800 (PST)
+ us-mta-61-phHinV0wNdqEL4btkq4DGQ-1; Thu, 06 Nov 2025 06:08:14 -0500
+X-MC-Unique: phHinV0wNdqEL4btkq4DGQ-1
+X-Mimecast-MFC-AGG-ID: phHinV0wNdqEL4btkq4DGQ_1762427293
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-428567f67c5so524541f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:08:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762427170; x=1763031970; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uG06GFhvhg2/GhoIc3ckFZLsP4kGe20aTOFoVqJytmg=;
-        b=IJJseeHQPmvSp/LV9bOZmLSCO+7DDh2k773X/2UJojPF4tKY03iKMbWR1V+7G9mdHz
-         2i5DTythTk1ZJXiV/2Q4NMq53KE3y6jQE1ipd16U7BbPqaYMRTPu2Vo8JsJtQ8WHx29N
-         Kg6hQACf2i3Cg3FtHhUVO72pRxq1mJIANHjRLdV59XgWVEJPtpJkXHK8Kpb2/CDxrZoB
-         zNRmm6Gd9rXH+REX9ULilJP/RVZuUIuzGzs2Fe3uZY44Hp5ifGHa25gz8RyEGIirloI3
-         wl12cnAj+cWUPgYct8gAyzlX8FWRq0uFG5qSL8Nf1VyLP1BTefOmymLxlvr5uXoDb7MN
-         R0cQ==
+        d=redhat.com; s=google; t=1762427293; x=1763032093; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mJ9H3vt04iE1iOinRpVRRRwRwQxVn8Vs66MDAfX+ERc=;
+        b=R2lq28WY71t81pdM6VYa4o9Q/ONByehnoGu+vkqLxavia9JYZP9JbUfv9c6eLpVqpB
+         ysLmKDK1iCq0OSGuMLU2Bk0i48BRxZNEfk7ZYP7lpNQE9d3K80xa2yFSVamRobuFGTRN
+         aqznr6kyHKuPFlJwsjfFNz/FmMGTNRfMzfbRLnx2yse6zV9RbKnMXsFfw6QlLp6Xc3O6
+         hM6zejXy1Tc2cO2dIsmnhzym5dHwrxmwDdLrX6EI0HdEhHnpy9BRR+z1s3jSrJK/yvW/
+         nWXb5mnb6TUS8bZq3N/Bui9UieTCDHjORqC1Ltb2AvPHNTRgLB4PlYaq4pibBzva0mle
+         N2JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762427170; x=1763031970;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1762427293; x=1763032093;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uG06GFhvhg2/GhoIc3ckFZLsP4kGe20aTOFoVqJytmg=;
-        b=nvSRyDg9vpQ7TzNTUnD1EJhLasLeJH0q+s9pNfslVkG2lyEJTbMusAE32/awLoXEGh
-         wR32xzeGIlGL5qJMFTqeARU3k9iInpmM3NQtw6W1ZBTUyrgS5iwadeGofxyaPLZtQGC4
-         hXE7Lj6FjcA0OWAyC16uBUOT1ukOWD1pLI6vzqSVE+zz5YJ9uOt2QI3c1Yh1LwuOVHvt
-         Tj3BLEjJ1BeBzheYmPLzQZgMv5HTblQcJbO+a1mgzGHHCU8OaPzBfyzz3Y2V+lXlEtAi
-         ClLHlKXrH+GctAoHkuhQuZCRhMuMN5p7P/zEoxth2d3WhPfaj7JEVu8RdzKr7qah8HFU
-         O8Ng==
-X-Forwarded-Encrypted: i=1; AJvYcCUvFYxi1hp93VbmjEqnjtIhURsvnm7ePlTkOrYixRWnmF/zUcpj+tuLDsa0oY1h5hvA+aixFez0aGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/ClfdZMElGjPIbC1sfvg6akXWiiCjctY57rj9oApAzaPD0rlI
-	CDxlRh/gQWGHtK5r4tNgNuUCasIpWN4Po3opBNvioSQozgMsbvnWCJUx5WW5SjmSHWdt4qIFCMW
-	jn7gVWkfaVFouwiApUceubLW6DbZIuIhebdYO9TX/hc5DN0hlPWAXeD/bxmjQtg==
-X-Gm-Gg: ASbGncuysfHhNhi7fJlSVRGOeaDrXOHfZRGuq9hvNzyaVAzDOBegeCVQBh7La8nRZSe
-	TSRKEB6VDi/Y36ZrmmuWWJv/7l9xwxkQQliyp4Sijprw5BERTgsLBMdd+NvMYeXS2e6WMZfazqw
-	xHTBWZ3NsdluJ3IriN45s9eSYbGqPQxoNXf+5x3LKo+QtD6xA/B+Nt3icHpnRjvUHcODycRNnXb
-	t+zQ4+FmwihzL/Dp8Hp7OZOBOyj3j5uIEmIXkW+tKXNmOIDYN0ajLcfxxJ3rSSJlVfEltYsqxTR
-	BdkXniGjG+PEJ73xpa2Ss8j7oFwKMA8iHk5N5dyWGluLd+ekLv6tdfBgNBOtp7Tk/emOV8PU592
-	T/A==
-X-Received: by 2002:a05:6000:2906:b0:429:cab5:7852 with SMTP id ffacd0b85a97d-429e333cde0mr5731259f8f.55.1762427170022;
-        Thu, 06 Nov 2025 03:06:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGTtI8vYgnO1RGwmVN+jHUiMzYwpB1QH1SDyUcEnFBvLnN6YC5pja1tLsRgCwJnde/PfJVqIw==
-X-Received: by 2002:a05:6000:2906:b0:429:cab5:7852 with SMTP id ffacd0b85a97d-429e333cde0mr5731215f8f.55.1762427169550;
-        Thu, 06 Nov 2025 03:06:09 -0800 (PST)
+        bh=mJ9H3vt04iE1iOinRpVRRRwRwQxVn8Vs66MDAfX+ERc=;
+        b=mFdPtyJTlCSc/arA0qSnECTqYgwV4uJj+Doo59rCht/eRZGDIcLpy1gzc4+v4AlzI+
+         +Rkk2xqDm+/Bj5JXbBIr4zl6GE6Y64zN17V/OGUyN3IKrflqxwaeiFNts56jsqgad+md
+         I+vpunMX1FwGSbR7prGTF7wIkLOZTyF5j94EQnc27jIJGZJO1roOyQTIs4V0uZqqm93I
+         4xM67UkdKBIx1MSZEQPhMQ5r6ejzOMClFbEFV99FGqn/v4ATIHjpeubR+b4bb2fQMyGM
+         RFn8azKHjr+oiplu8tx0cvccnu4hodfwqYN+gYNnW+cosfg3sUR4BT9V8W/Tpm7p6zZ0
+         oXbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVERtfvTI1UhyRjmZgiW2axUmZE50LgeXiI4xrCvdH5Gj5c20UmYWcAjPBO5wePVJjuwYgMcgZddPM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe2ROfnkhIYaRCWIAa0iAMAKc2FiXVK/RuFwJ0yU+8UzC929+S
+	wdmQWq3LdqQqOIC6jgIflJ3+K3TElVuKQmkkWQw8UB3399TrzWvvuCdIyebq0Po1ncweF+WsnTj
+	c7rLrzQODHn3DDZqAfiNOpzHBPh++W6CyOkeO21i7VDS3sHdS6eeWCzb0IK8vRg==
+X-Gm-Gg: ASbGncvhbxX7tdwX52JMp9tegqQcSAY/ULw9FTl1w84uPscI/aHl7yfjGwZbn7chUaj
+	FFNAMgfLWz6LoDKKPQdfz1anHy6UERhWtNPkk9hH100eAvhPLeDtkc0hQaHHVY74JmstUKS33po
+	Xrn8lAmWaQ3q7VIgFfnZbTGDuXwmD69XtqPtdovxpM4f4UN7HBiNTegNaWvxQg7RsSthcrGTQgQ
+	AMU9yNNKQBzzr6DAyvBHZIlBbWtWdR5MPKB2X/nv5U5eCZW/d8Jgsp5BvJb5m9lkZPDchjrEr/v
+	1xuBb+p84y7neTWJS9CSZd3F4ZeFoJNwmxn4FxfivHuPTqw51UNjCzkqCVcpui56KAPTUkR1Sub
+	B/A==
+X-Received: by 2002:a5d:5f87:0:b0:427:64c:daaa with SMTP id ffacd0b85a97d-429e3309a36mr5941961f8f.44.1762427293022;
+        Thu, 06 Nov 2025 03:08:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEd1vm77ZDhKKFmGLmtogps8up+77Qdb9bBoLD/2VxY85lZ0MG6jm4vBI/942lqkDDMsGcznA==
+X-Received: by 2002:a5d:5f87:0:b0:427:64c:daaa with SMTP id ffacd0b85a97d-429e3309a36mr5941919f8f.44.1762427292510;
+        Thu, 06 Nov 2025 03:08:12 -0800 (PST)
 Received: from [192.168.88.32] ([212.105.155.83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb4771f4sm4333146f8f.22.2025.11.06.03.06.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb477226sm4275998f8f.24.2025.11.06.03.08.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 03:06:09 -0800 (PST)
-Message-ID: <f98d3cab-7668-4cf0-87bf-cd96ca5f7a5b@redhat.com>
-Date: Thu, 6 Nov 2025 12:06:06 +0100
+        Thu, 06 Nov 2025 03:08:12 -0800 (PST)
+Message-ID: <8ac38ae2-74fc-45a1-88fb-4edd124ab9c3@redhat.com>
+Date: Thu, 6 Nov 2025 12:08:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,8 +87,9 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 net-next 03/14] net: update commnets for
- SKB_GSO_TCP_ECN and SKB_GSO_TCP_ACCECN
+Subject: Re: [PATCH v5 net-next 02/14] gro: flushing when CWR is set
+ negatively affects AccECN
+From: Paolo Abeni <pabeni@redhat.com>
 To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
  linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
  dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
@@ -102,45 +103,33 @@ To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
  mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
  Jason_Livingood@comcast.com, vidhi_goel@apple.com
 References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
- <20251030143435.13003-4-chia-yu.chang@nokia-bell-labs.com>
+ <20251030143435.13003-3-chia-yu.chang@nokia-bell-labs.com>
+ <8ad4ca21-5b81-415b-b16c-6cc4b668921c@redhat.com>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20251030143435.13003-4-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <8ad4ca21-5b81-415b-b16c-6cc4b668921c@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/30/25 3:34 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+On 11/6/25 12:01 PM, Paolo Abeni wrote:
+> On 10/30/25 3:34 PM, chia-yu.chang@nokia-bell-labs.com wrote:
+>> From: Ilpo Järvinen <ij@kernel.org>
+>>
+>> As AccECN may keep CWR bit asserted due to different
+>> interpretation of the bit, flushing with GRO because of
+>> CWR may effectively disable GRO until AccECN counter
+>> field changes such that CWR-bit becomes 0.
+>>
+>> There is no harm done from not immediately forwarding the
+>> CWR'ed segment with RFC3168 ECN.
+>>
+>> Signed-off-by: Ilpo Järvinen <ij@kernel.org>
+>> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 > 
-> No functional changes.
-> 
-> Co-developed-by: Ilpo Järvinen <ij@kernel.org>
-> Signed-off-by: Ilpo Järvinen <ij@kernel.org>
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> ---
->  include/linux/skbuff.h | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index a7cc3d1f4fd1..74d6a209e203 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -671,7 +671,12 @@ enum {
->  	/* This indicates the skb is from an untrusted source. */
->  	SKB_GSO_DODGY = 1 << 1,
->  
-> -	/* This indicates the tcp segment has CWR set. */
-> +	/* For Tx, this indicates the first TCP segment has CWR set, and any
-> +	 * subsequent segment in the same skb has CWR cleared. This cannot be
-> +	 * used on Rx, because the connection to which the segment belongs is
-> +	 * not tracked to use RFC3168 or Accurate ECN, and using RFC3168 ECN
-> +	 * offload may corrupt AccECN signal of AccECN segments.
-> +	 */
+> Please provide a test/update the existing one to cover this case or move
+> to a later series. Possibly both :)
 
-The intended difference between RX and TX sounds bad to me; I think it
-conflicts with the basic GRO design goal of making aggregated and
-re-segmented traffic indistinguishable from the original stream. Also
-what about forwarded packet?
+Whoops, sorry. I'm looking at the patch in order and when I wrote the
+above I haven't seen yet patch 4/14. Please ignore.
 
 /P
 
