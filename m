@@ -1,118 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E699B26E165;
-	Thu,  6 Nov 2025 23:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF0A2F39D7;
+	Thu,  6 Nov 2025 23:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762471899; cv=none; b=js3DjtMm0/0KrGfy5dMGi2dG+LaMIlzlWe6lt915emK6CvnApk6pN0B04TJMyYrHdn6ZjhiLXgV82kg/yOe1V8BC07pnGfYxujzJueJp8x7Ne3LR9tMERMT7tD6ET6GX6DiD89HWWILmNYKKqhwAJs6wgpIdMOzSKMUQyAbmYss=
+	t=1762472896; cv=none; b=b4i1bwp05u8VzNYcQe2kYCFcVStu7uQg2wCcRnm6RR/6nuulQ7JO/vEfKLTAK3xt15vHPRWgYhQaeR6HzsBgLhecaRs4os6m50WlCWo1RqAKq/w+HoDXvLjUqcwlQNi92oSfWUZM84ExhH/rkJ2BBSS+GGtNcHkP1LEjjKIrzOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762471899; c=relaxed/simple;
-	bh=F9GO8azXA57dIQquZPaj6gtGUM3ly39/H+3TEWZLYeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T14Ga3LRgtsZrwVcO7akEgbF9uEE3bZBgsOeuf0YFIrNjapkYanWBGSZyEXl3WSVda12aD7e5fHbsI+cLLDYB2JLlQE7m7S6syN75SSiJDwnGXh8+sbQQ9DOUkJcXv2aQQpmYTjtsuFZQpjsg4R9IfhoScVr+nYDlfRfsTppxV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UA+kvPud; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762472896; c=relaxed/simple;
+	bh=TnpdPvH+RZ2LrlXRMB0uxyj+0oHXbiY9DRoi/gpHLZI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YOC/s0u3LCBCeSzZ7Wqe2TwYUPrjCX/E79mB87FJPksys4gtyTuPeBVeuooSQulICfIpIYlxKP+KQXC+rdNjugDUpqpFcjowcFeW296AkVn5BARSQU8eOycxupvV4NBKWCX65B0dnvrrzg84OJNFBZQ5dZOMTS5ZZXWLwQwJB8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=USVRjQRb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UA+kvPud"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762471898; x=1794007898;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F9GO8azXA57dIQquZPaj6gtGUM3ly39/H+3TEWZLYeE=;
-  b=UA+kvPudVi628/MWK5tYcKa6lU55HWTX5pMoXro1Y0f9hvJWt90w3dUf
-   RUTg8QWJDomjXY9tpbcVp9xiFr0pfqeNlqHJcrG3y6Jb4cevjPzzN18qO
-   mU0Qf6VJTLRuBUndN/FvXVetK9eupPbVetqioGB0mZdLhZyFuuMEyzmKB
-   yVEHOj1jEfxaRkXvpEjtZk0cjG1/5EgXdkVX0eZc6JuktD5ozWlZ8yoVg
-   E0lAeW2M8cH/d/RXXuxPhj4gQXQP36TbDSsGWlJtiHd3QpmiqVBB2TyC7
-   5hmR8Gpj0NFFx45fGLu1hdJlJ42ArQGkxoxNjuZNs+CjJJs0aHBkwYI1M
-   Q==;
-X-CSE-ConnectionGUID: vDBNkef1SfaPuhY+7zP9AA==
-X-CSE-MsgGUID: QZoX6vDIRJufFz8NBSTvdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="75974733"
-X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="75974733"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 15:31:37 -0800
-X-CSE-ConnectionGUID: 9TGc01+iRH6niSHIUYy1KA==
-X-CSE-MsgGUID: txS4mdTKTgCnMJwdJYHyoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="188054199"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2025 15:31:33 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vH9Rv-000USS-2y;
-	Thu, 06 Nov 2025 23:31:29 +0000
-Date: Fri, 7 Nov 2025 07:30:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrey.bokhanko@huawei.com,
-	Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>
-Subject: Re: [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
-Message-ID: <202511070917.SA9qQyy5-lkp@intel.com>
-References: <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="USVRjQRb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OYz7MP8O2k8oBKZENe/xkYWnFpyCZoav16ctpYVEDG0=; b=USVRjQRbYJQTy+3GtLjYFb/dkM
+	2D75bMF8DXeY9aF5J8IogdFizhCV2ipRrbRlCaCcgS6cUDdV+xkcqAig03+hWJVT7rrqWlTAoaGDE
+	jUmhcGGM6LkXnt3XTSNLil9OMWiZhuGNk/KqMVpIpTTwYV6Sa28EhgFOeTfu65OQCUAeo2+f6FE8V
+	RIFVZd6ZX7GgB/dCVaAW3z6cjh5wLQxWzuAw1+TenO3xRYHnkkpOzTtk3yUzBOCJ3BIc/RcUC4T7n
+	E8bFjO8OTSxTaJPu3fM1hjbw5dRKg2+eS26jB3kFG9HkkBJsGymyBpJ3U5qNVvxn18qND/aGq/2ST
+	MQkUkqIw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vH9i7-0000000GPM2-1F4B;
+	Thu, 06 Nov 2025 23:48:11 +0000
+Message-ID: <9dba0eb7-6f32-41b7-b70b-12379364585f@infradead.org>
+Date: Thu, 6 Nov 2025 15:48:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105161450.1730216-2-skorodumov.dmitry@huawei.com>
-
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Skorodumov/ipvlan-Preparation-to-support-mac-nat/20251106-004449
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251105161450.1730216-2-skorodumov.dmitry%40huawei.com
-patch subject: [PATCH net-next 01/14] ipvlan: Preparation to support mac-nat
-config: s390-randconfig-001-20251107 (https://download.01.org/0day-ci/archive/20251107/202511070917.SA9qQyy5-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070917.SA9qQyy5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511070917.SA9qQyy5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ipvlan/ipvlan_core.c:435:13: warning: 'is_ipv6_usable' defined but not used [-Wunused-function]
-    static bool is_ipv6_usable(const struct in6_addr *addr)
-                ^~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=y] && HAS_IOMEM [=n]
-   Selected by [m]:
-   - REGULATOR_RT5133 [=m] && REGULATOR [=y] && I2C [=m] && GPIOLIB [=y] && OF [=y]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] iommupt: Describe @bitnr parameter
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux IOMMU <iommu@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Samiullah Khawaja <skhawaja@google.com>,
+ Kevin Tian <kevin.tian@intel.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>
+References: <20251106073845.36445-1-bagasdotme@gmail.com>
+ <20251106073845.36445-3-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251106073845.36445-3-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/is_ipv6_usable +435 drivers/net/ipvlan/ipvlan_core.c
 
-   434	
- > 435	static bool is_ipv6_usable(const struct in6_addr *addr)
-   436	{
-   437		return !ipv6_addr_is_multicast(addr) && !ipv6_addr_loopback(addr) &&
-   438		       !ipv6_addr_any(addr);
-   439	}
-   440	
+On 11/5/25 11:38 PM, Bagas Sanjaya wrote:
+> Sphinx reports kernel-doc warnings when making htmldocs:
+> 
+> WARNING: ./drivers/iommu/generic_pt/pt_common.h:361 function parameter 'bitnr' not described in 'pt_test_sw_bit_acquire'
+> WARNING: ./drivers/iommu/generic_pt/pt_common.h:371 function parameter 'bitnr' not described in 'pt_set_sw_bit_release'
+> 
+> Describe @bitnr to squash them.
+> 
+> Fixes: bcc64b57b48e ("iommupt: Add basic support for SW bits in the page table")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/iommu/generic_pt/pt_common.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/iommu/generic_pt/pt_common.h b/drivers/iommu/generic_pt/pt_common.h
+> index b5628f47e0db40..54c16355be2842 100644
+> --- a/drivers/iommu/generic_pt/pt_common.h
+> +++ b/drivers/iommu/generic_pt/pt_common.h
+> @@ -354,6 +354,7 @@ static inline unsigned int pt_max_sw_bit(struct pt_common *common);
+>  /**
+>   * pt_test_sw_bit_acquire() - Read a software bit in an item
+>   * @pts: Entry to set
+> + * @bitnr: Bit to set
+
+Shouldn't both of these (above) to "to read" instead of "to set"?
+
+>   *
+>   * Software bits are ignored by HW and can be used for any purpose by the
+>   * software. This does a test bit and acquire operation.
+> @@ -364,6 +365,7 @@ static inline bool pt_test_sw_bit_acquire(struct pt_state *pts,
+>  /**
+>   * pt_set_sw_bit_release() - Set a software bit in an item
+>   * @pts: Entry to set
+> + * @bitnr: Bit to set
+>   *
+>   * Software bits are ignored by HW and can be used for any purpose by the
+>   * software. This does a set bit and release operation.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
+
