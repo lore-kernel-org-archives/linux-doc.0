@@ -1,531 +1,182 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from sg-1-13.ptr.blmpb.com (sg-1-13.ptr.blmpb.com [118.26.132.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD5F2C326A
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 03:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65AD2253EC
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 03:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762399856; cv=none; b=MsPj39wNgqBBsdHMb8rDOpkRTSdgvUNWfDOu4/sPmS1UFiOR0s3YvbVGzoo8dMv1QG2VP8nFo+MXn8bpam/TAGFhz8xS3hF7v/XQSrWbJsT7YKY2mGyHYXQNRJNYg9ioVUnQ90q/jgPOO6YL8yZOMNuAGdC3JnYMMKlSCL2z64o=
+	t=1762400710; cv=none; b=MFL1yBb/cWBJSp+UTZL0Xw5EoXuLOsMGu1J8OXNU9w8wPq7QyLS48qAr0LnJM1RHOEYnewUv40pD0uRrB41ZpKyUf6o1anOcG3lBRIbR65XoU7joTrbZ2yeieC3ujVQ6OTrdnueCVMV7Y8+u/uUikK1JJsfty/aA4V+majByaJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762399856; c=relaxed/simple;
-	bh=d1g8ydiJWl6KjcwImL2cCAUc1WKS01GAFRGdz38s5AQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sKwtmuSio6bktY+JFMD1tZN4bBjj5FdT1WJUNlFgiMoctBRfTssfukWZIWgVTS+snurgeGLtMK1nBvpniLos7g/gejIIl5y6J0Ykez4LMyqF+VeIGzDVdYwKicjE63ZM6H2Y3ZEKKee4YDoyonMxV2ETLuPQVqsJTmdNKy14GoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=lDgfoTcG; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1762400710; c=relaxed/simple;
+	bh=Do+sv32JRcqdfksgmI5pdC8DcgydpqdBgIxqCojJvc4=;
+	h=Cc:From:Mime-Version:Content-Type:To:Subject:Date:In-Reply-To:
+	 Message-Id:References; b=qhKplVAwCrTcUC9drgkiyw1eKTtpN+KMi74cng36EJKGBQXQoqF8j0rQPv/vaKVODBWxxonRZxjbt+dYjMfUVgubJ542rU9FpjSbQhzmC22gQJu9uYuf53bRHltulUJTFiee4ZwZt00mbF8rSVZ6/l+3GJE4zvBxh29p8n1pZY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=fail smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=I6EoVb+t; arc=none smtp.client-ip=118.26.132.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="lDgfoTcG"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-340bcc92c7dso1665556a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 19:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762399853; x=1763004653; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RNM1MgLcHWEpaTBbCLnta7C99WnzqNME1CrFjvq8FrU=;
-        b=lDgfoTcGj+DI3x4QL+F/F+mCkXDK6aD1utwISK150dMHhvCoxgDFxIP52lETbAaZ3l
-         /tArvEZU04eed1uMSAgSABjGk++QK/ZXb2I7dMXwVWsqxONmnL6hd9k7JTWzVnSrvTrE
-         GLhPTMA9z8YxpqFCHa1rdXMvxUzfv05AezYs3WrT1LX69C7tdpquEZiRLg1BCz0nmbOf
-         eydXarVUIMqXt5E5OEolz84REpzJplcoS+bFPahsNL8dhljny+//u+aIkjv7VgzxGdpm
-         57DifDs5F5zSotvlC2MbCkKA02Igxpvhiy33RVHv2/CzIz9X1ov8pnekL8wbtax3YvBN
-         hNOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762399853; x=1763004653;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RNM1MgLcHWEpaTBbCLnta7C99WnzqNME1CrFjvq8FrU=;
-        b=EOtkAK6tlXvxqM0+jFkxUCTzjrGnzRda1BiEES0PF+3a/6BxdY8EudUovfvUsK4CnF
-         xH9zZfPrkS/WyUAZS4dSRbrb/QtQoBuWb7pxStzOrF2hvKr1wKbSf3754JAatdr01w0V
-         1yLEx91EkTPvDmLKer07NITTZkOxgi2uU3wdEOJLMAamvNoGoFq9zE/8tvz8A4loQDx9
-         WcJ5lAkRK5DgRwkIfw3FPpQQEtgOkhQSjWuMrs7NqSQKQ2SdQpH8FkfuXO/KeNT3ZqCI
-         5ozvCzxE46JHh9Bzrs3GP8+2166/L0FTDbPRg0qmqnyR4kI1vvVZ/lRzfIh3Z33ZWWXi
-         yeYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjBGC60RWmcCNlvs1nug8TuT8VW5amvH50yXZXjCT/o8oCHBV0J2CV638NRTWV+AFTGeWm3mZcmoM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYlo033XDTQ5gm9IitCK65YuWSouJL4/vxjbvYrpFJTyRjvmL1
-	0yjqqIcjGTmxlOxcm06WSsyGB0JVB0WG43V+9v83rcke97c0KqCpcynTeQL9s8adNvE=
-X-Gm-Gg: ASbGncsEcO7mcrEQtk1DfB1XSwnU06zK8ew2PtZTWV5GHbXvWQdM/Jf1GGE5BdgB+0R
-	0eBDhELj+rT2F4BGhf4i9eEinaRqMwM7+FwB767I9k7uIocAY8kz4lTPG+SwV/Yxv7c4HwzRFgZ
-	ZDUjghVVLcJIneGLxCj/zLVb43o+8rsVKoT7vhTry5rclL3HzoqhXR2MaS4ssaExtj6TOF5dViy
-	vwOrl7M2HQj625HvCpZWobPYusCOQ8FOOkUDpbL22uWs+2YUqx8+u2iaQSpYLPg/xofse/TH2vI
-	CbzD/dEtM03INWVrpGeRpiibcQo8xvomjsUUWbsFY4JO3ml2oPKhY1gEP2nbwacy6itEVQJ98tS
-	v2o+pec6aKsct5Z6ZNwjMze5wt+wYr4eQOWwRTsDcxW4efcu4DWGkY3JH2k5Q+0EJap3b4i7Oy4
-	r4vNKxA2bvYfrIbw==
-X-Google-Smtp-Source: AGHT+IGs3l7sTKPjK4BxzxoB8dGFRJGxiJ/b+4pm0w/YxL5LnyVyRhr4bJJbufT0LQgr9Sm10ohs0A==
-X-Received: by 2002:a17:90b:3d4c:b0:341:88c5:d58 with SMTP id 98e67ed59e1d1-341cd150316mr2074007a91.13.1762399853479;
-        Wed, 05 Nov 2025 19:30:53 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a69b698asm4663896a91.21.2025.11.05.19.30.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 19:30:52 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: shakeel.butt@linux.dev
-Cc: akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	hannes@cmpxchg.org,
-	inwardvessel@gmail.com,
-	jack@suse.cz,
-	joel.granados@kernel.org,
-	kyle.meyer@hpe.com,
-	lance.yang@linux.dev,
-	laoar.shao@gmail.com,
-	leon.huangfu@shopee.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mclapinski@google.com,
-	mhocko@kernel.org,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	yosry.ahmed@linux.dev
-Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-Date: Thu,  6 Nov 2025 11:30:45 +0800
-Message-ID: <20251106033045.41607-1-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <6kh6hle2xp75hrtikasequ7qvfyginz7pyttltx6pkli26iir5@oqjmglatjg22>
-References: <6kh6hle2xp75hrtikasequ7qvfyginz7pyttltx6pkli26iir5@oqjmglatjg22>
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="I6EoVb+t"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1762400696;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=EiW9nRHb8Mbz7qGQdlY2Kw3uUegK7QOWWArHXK3yj70=;
+ b=I6EoVb+tqogX+QqsIKVz9yjRExPq8/IAr/KauQblSIO4r8ZA1DQVO7lFsUnlmRrApQu5va
+ wdTY7irJZG+QrUwQ1kL4voYaI1ESewX9DvHeXTDaqFD9TWaiZsAYi2VrfClmFe+D4UI7XX
+ +Iq55N8oHDNdcIsGEC4XSCBeNoUikbHnnDhSeoO8N8ifkhr4Z8WIX4P92kkd5jGyZ9aHmK
+ ORWViumUtMUW5VOfLeY2U81mzJCCbTtERgNVPqTvX9TchuS+ld2XFxxcT1Tr3LPP4eMXv0
+ OFMWqAny1lNt8Z1v88l7Jt48XYFB7EfSqL28GzBotGEEObigX2s81yyzqU6THw==
+Cc: <corbet@lwn.net>, <song@kernel.org>, <hare@suse.de>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-raid@vger.kernel.org>, <yangerkun@huawei.com>, 
+	<yi.zhang@huawei.com>
+From: "Yu Kuai" <yukuai@fnnas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Received: from [192.168.1.104] ([39.182.0.168]) by smtp.feishu.cn with ESMTPS; Thu, 06 Nov 2025 11:44:53 +0800
+Content-Type: text/plain; charset=UTF-8
+X-Lms-Return-Path: <lba+2690c19b6+3e32cb+vger.kernel.org+yukuai@fnnas.com>
+To: "Xiao Ni" <xni@redhat.com>, "Li Nan" <linan666@huaweicloud.com>
+Subject: Re: [PATCH v9 4/5] md: add check_new_feature module parameter
+Date: Thu, 6 Nov 2025 11:44:51 +0800
+In-Reply-To: <CALTww29v7kKgDyWqUZnteNqHDEH9_KBRY+HtSMJoquMv0sTwkg@mail.gmail.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+Reply-To: yukuai@fnnas.com
+Message-Id: <2c1ab8fc-99ac-44fd-892c-2eeedb9581f4@fnnas.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20251103125757.1405796-1-linan666@huaweicloud.com> <20251103125757.1405796-5-linan666@huaweicloud.com> <CALTww29-7U=o=RzS=pfo-zqLYY_O2o+PXw-8PLXqFRf=wdthvQ@mail.gmail.com> <a660478f-b146-05ec-a3f4-f86457b096d0@huaweicloud.com> <CALTww29v7kKgDyWqUZnteNqHDEH9_KBRY+HtSMJoquMv0sTwkg@mail.gmail.com>
 
-On Thu, Nov 6, 2025 at 9:19 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+Hi,
+
+=E5=9C=A8 2025/11/4 15:17, Xiao Ni =E5=86=99=E9=81=93:
+> On Tue, Nov 4, 2025 at 10:52=E2=80=AFAM Li Nan <linan666@huaweicloud.com>=
+ wrote:
+>>
+>>
+>> =E5=9C=A8 2025/11/4 9:47, Xiao Ni =E5=86=99=E9=81=93:
+>>> On Mon, Nov 3, 2025 at 9:06=E2=80=AFPM <linan666@huaweicloud.com> wrote=
+:
+>>>> From: Li Nan <linan122@huawei.com>
+>>>>
+>>>> Raid checks if pad3 is zero when loading superblock from disk. Arrays
+>>>> created with new features may fail to assemble on old kernels as pad3
+>>>> is used.
+>>>>
+>>>> Add module parameter check_new_feature to bypass this check.
+>>>>
+>>>> Signed-off-by: Li Nan <linan122@huawei.com>
+>>>> ---
+>>>>    drivers/md/md.c | 12 +++++++++---
+>>>>    1 file changed, 9 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/md/md.c b/drivers/md/md.c
+>>>> index dffc6a482181..5921fb245bfa 100644
+>>>> --- a/drivers/md/md.c
+>>>> +++ b/drivers/md/md.c
+>>>> @@ -339,6 +339,7 @@ static int start_readonly;
+>>>>     */
+>>>>    static bool create_on_open =3D true;
+>>>>    static bool legacy_async_del_gendisk =3D true;
+>>>> +static bool check_new_feature =3D true;
+>>>>
+>>>>    /*
+>>>>     * We have a system wide 'event count' that is incremented
+>>>> @@ -1850,9 +1851,13 @@ static int super_1_load(struct md_rdev *rdev, s=
+truct md_rdev *refdev, int minor_
+>>>>           }
+>>>>           if (sb->pad0 ||
+>>>>               sb->pad3[0] ||
+>>>> -           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(sb-=
+>pad3[1])))
+>>>> -               /* Some padding is non-zero, might be a new feature */
+>>>> -               return -EINVAL;
+>>>> +           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(sb-=
+>pad3[1]))) {
+>>>> +               pr_warn("Some padding is non-zero on %pg, might be a n=
+ew feature\n",
+>>>> +                       rdev->bdev);
+>>>> +               if (check_new_feature)
+>>>> +                       return -EINVAL;
+>>>> +               pr_warn("check_new_feature is disabled, data corruptio=
+n possible\n");
+>>>> +       }
+>>>>
+>>>>           rdev->preferred_minor =3D 0xffff;
+>>>>           rdev->data_offset =3D le64_to_cpu(sb->data_offset);
+>>>> @@ -10704,6 +10709,7 @@ module_param(start_dirty_degraded, int, S_IRUG=
+O|S_IWUSR);
+>>>>    module_param_call(new_array, add_named_array, NULL, NULL, S_IWUSR);
+>>>>    module_param(create_on_open, bool, S_IRUSR|S_IWUSR);
+>>>>    module_param(legacy_async_del_gendisk, bool, 0600);
+>>>> +module_param(check_new_feature, bool, 0600);
+>>>>
+>>>>    MODULE_LICENSE("GPL");
+>>>>    MODULE_DESCRIPTION("MD RAID framework");
+>>>> --
+>>>> 2.39.2
+>>>>
+>>> Hi
+>>>
+>>> Thanks for finding this problem in time. The default of this kernel
+>>> module is true. I don't think people can check new kernel modules
+>>> after updating to a new kernel. They will find the array can't
+>>> assemble and report bugs. You already use pad3, is it good to remove
+>>> the check about pad3 directly here?
+>>>
+>>> By the way, have you run the regression tests?
+>>>
+>>> Regards
+>>> Xiao
+>>>
+>>>
+>>> .
+>> Hi Xiao.
+>>
+>> Thanks for your review.
+>>
+>> Deleting this check directly is risky. For example, in configurable LBS:
+>> if user sets LBS to 4K, the LBS of a RAID array assembled on old kernel
+>> becomes 512. Forcing use of this array then risks data loss -- the
+>> original issue this feature want to solve.
+> You're right, we can't delete the check.
+> For the old kernel, the array which has specified logical size can't
+> be assembled. This patch still can't fix this problem, because it is
+> an old kernel and this patch is for a new kernel, right?
+> For existing arrays, they don't have such problems. They can be
+> assembled after updating to a new kernel.
+> So, do we need this patch?
+
+There is a use case for us that user may create the array with old kernel, =
+and
+then if something bad happened in the system(may not be related to the arra=
+y),
+user may update to mainline releases and later switch back to our release. =
+We
+want a solution that user can still use the array in this case.
+
 >
-> +Yosry, JP
->
-> On Wed, Nov 05, 2025 at 03:49:16PM +0800, Leon Huang Fu wrote:
-> > On high-core count systems, memory cgroup statistics can become stale
-> > due to per-CPU caching and deferred aggregation. Monitoring tools and
-> > management applications sometimes need guaranteed up-to-date statistics
-> > at specific points in time to make accurate decisions.
->
-> Can you explain a bit more on your environment where you are seeing
-> stale stats? More specifically, how often the management applications
-> are reading the memcg stats and if these applications are reading memcg
-> stats for each nodes of the cgroup tree.
->
-> We force flush all the memcg stats at root level every 2 seconds but it
-> seems like that is not enough for your case. I am fine with an explicit
-> way for users to flush the memcg stats. In that way only users who want
-> to has to pay for the flush cost.
->
+>> Future features may also have similar risks, so instead of deleting this
+>> check directly, I chose to add a module parameter to give users a choice=
+.
+>> What do you think?
+> Maybe we can add a feature bit to avoid the kernel parameter. This
+> feature bit can be set when specifying logical block size.
 
-Thanks for the feedback. I encountered this issue while running the LTP
-memcontrol02 test case [1] on a 256-core server with the 6.6.y kernel on XFS,
-where it consistently failed.
-
-I was aware that Yosry had improved the memory statistics refresh mechanism
-in "mm: memcg: subtree stats flushing and thresholds" [2], so I attempted to
-backport that patchset to 6.6.y [3]. However, even on the 6.15.0-061500-generic
-kernel with those improvements, the test still fails intermittently on XFS.
-
-I've created a simplified reproducer that mirrors the LTP test behavior. The
-test allocates 50 MiB of page cache and then verifies that memory.current and
-memory.stat's "file" field are approximately equal (within 5% tolerance).
-
-The failure pattern looks like:
-
-  After alloc: memory.current=52690944, memory.stat.file=48496640, size=52428800
-  Checks: current>=size=OK, file>0=OK, current~=file(5%)=FAIL
-
-Here's the reproducer code and test script (attached below for reference).
-
-To reproduce on XFS:
-  sudo ./run.sh --xfs
-  for i in {1..100}; do sudo ./run.sh --run; echo "==="; sleep 0.1; done
-  sudo ./run.sh --cleanup
-
-The test fails sporadically, typically a few times out of 100 runs, confirming
-that the improved flush isn't sufficient for this workload pattern.
-
-I agree that providing an explicit flush mechanism allows users who need
-guaranteed accuracy to pay the cost only when necessary, rather than imposing
-more aggressive global flushing on all users.
+The situation still stand, for unknown feature bit, we'd better to forbid
+assembling the array to prevent data loss by default.
 
 Thanks,
-Leon
+Kuai
 
----
-
-Links:
-[1] https://github.com/linux-test-project/ltp/blob/master/testcases/kernel/controllers/memcg/memcontrol02.c
-[2] https://lore.kernel.org/all/20231129032154.3710765-1-yosryahmed@google.com/
-[3] https://lore.kernel.org/linux-mm/20251103075135.20254-1-leon.huangfu@shopee.com/
-
----
-
-Reproducer code (pagecache_50m_demo.c):
-
-#define _GNU_SOURCE
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-static int write_str(const char *path, const char *s) {
-    int fd = open(path, O_WRONLY | O_CLOEXEC);
-    if (fd < 0) { perror(path); return -1; }
-    ssize_t w = write(fd, s, strlen(s));
-    if (w != (ssize_t)strlen(s)) { perror("write"); close(fd); return -1; }
-    close(fd);
-    return 0;
-}
-
-static long read_long_file(const char *path) {
-    FILE *f = fopen(path, "re");
-    if (!f) { perror(path); return -1; }
-    long v = -1;
-    if (fscanf(f, "%ld", &v) != 1) v = -1;
-    fclose(f);
-    return v;
-}
-
-static long read_stat_field_bytes(const char *path, const char *key) {
-    FILE *f = fopen(path, "re");
-    if (!f) { perror(path); return -1; }
-    char *line = NULL; size_t n = 0; long val = -1;
-    while (getline(&line, &n, f) > 0) {
-        if (strncmp(line, key, strlen(key)) == 0) {
-            char *p = line + strlen(key);
-            while (*p == ' ' || *p == '\t') p++;
-            val = strtoll(p, NULL, 10);
-            break;
-        }
-    }
-    free(line);
-    fclose(f);
-    return val;
-}
-
-static int make_memcg_child(char *cg, size_t cg_sz) {
-    const char *root = "/sys/fs/cgroup";
-    int n = snprintf(cg, cg_sz, "%s/memcg_demo_%d", root, getpid());
-    if (n < 0 || n >= (int)cg_sz) {
-        fprintf(stderr, "cg path too long\n"); return -1;
-    }
-    if (mkdir(cg, 0755) && errno != EEXIST) { perror("mkdir cg"); return -1; }
-
-    // best-effort enable memory controller on parent
-    char parent[PATH_MAX];
-    strncpy(parent, cg, sizeof(parent));
-    parent[sizeof(parent)-1] = '\0';
-    char *s = strrchr(parent, '/');
-    if (s && s != parent) {
-        *s = '\0';
-        char stc[PATH_MAX];
-        n = snprintf(stc, sizeof(stc), "%s/cgroup.subtree_control", parent);
-        if (n >= 0 && n < (int)sizeof(stc)) (void)write_str(stc, "+memory");
-    }
-
-    char procs[PATH_MAX];
-    n = snprintf(procs, sizeof(procs), "%s/cgroup.procs", cg);
-    if (n < 0 || n >= (int)sizeof(procs)) { fprintf(stderr, "path too long\n"); return -1; }
-    char pidbuf[32]; snprintf(pidbuf, sizeof(pidbuf), "%d", getpid());
-    if (write_str(procs, pidbuf) < 0) return -1;
-    return 0;
-}
-
-/* Exact mirror of LTP alloc_pagecache() behavior */
-static inline void alloc_pagecache_exact(const int fd, size_t size)
-{
-    char buf[BUFSIZ];
-    size_t i;
-
-    if (lseek(fd, 0, SEEK_END) == (off_t)-1) {
-        perror("lseek"); exit(1);
-    }
-    for (i = 0; i < size; i += sizeof(buf)) {
-        ssize_t w = write(fd, buf, sizeof(buf));
-        if (w < 0) { perror("write"); exit(1); }
-        if ((size_t)w != sizeof(buf)) { fprintf(stderr, "short write\n"); exit(1); }
-    }
-}
-
-static bool approx_equal(long a, long b, double tol_frac) {
-    long diff = labs(a - b);
-    long lim = (long)((double)b * tol_frac);
-    return diff <= lim;
-}
-
-int main(int argc, char **argv) {
-    const char *mnt = (argc >= 2) ? argv[1] : ".";
-    char cg[PATH_MAX];
-    if (make_memcg_child(cg, sizeof(cg)) < 0) {
-        fprintf(stderr, "Failed to setup memcg (need root? cgroup v2?)\n");
-        return 1;
-    }
-    printf("Created cg %s\n", cg);
-
-    char p_current[PATH_MAX], p_stat[PATH_MAX];
-    int n = snprintf(p_current, sizeof(p_current), "%s/memory.current", cg);
-    if (n < 0 || n >= (int)sizeof(p_current)) { fprintf(stderr, "path too long\n"); return 1; }
-    n = snprintf(p_stat, sizeof(p_stat), "%s/memory.stat", cg);
-    if (n < 0 || n >= (int)sizeof(p_stat)) { fprintf(stderr, "path too long\n"); return 1; }
-
-    char filepath[PATH_MAX];
-    n = snprintf(filepath, sizeof(filepath), "%s/tmpfile", mnt);
-    if (n < 0 || n >= (int)sizeof(filepath)) { fprintf(stderr, "file path too long\n"); return 1; }
-
-    int fd = open(filepath, O_RDWR | O_CREAT | O_TRUNC, 0600);
-    if (fd < 0) { perror("open tmpfile"); return 1; }
-
-    long current = read_long_file(p_current);
-    printf("Created temp file: memory.current=%ld\n", current);
-
-    const size_t size = 50UL * 1024 * 1024; // 50 MiB
-    alloc_pagecache_exact(fd, size);
-
-    // No fsyncs; small wait to reduce XFS timing flakiness
-    //fsync(fd);
-    //usleep(2200000);
-
-    current = read_long_file(p_current);
-    long file_bytes = read_stat_field_bytes(p_stat, "file");
-    printf("After alloc: memory.current=%ld, memory.stat.file=%ld, size=%zu\n",
-           current, file_bytes, size);
-
-    bool ge_size = (current >= (long)size);
-    bool file_pos = (file_bytes > 0);
-
-    // Approximate LTP's values_close(..., file_to_all_error) with 5% tolerance
-    double tol = 0.05;
-    bool approx = approx_equal(current, file_bytes, tol);
-
-    printf("Checks: current>=size=%s, file>0=%s, current~=file(%.0f%%)=%s\n",
-           ge_size ? "OK" : "FAIL",
-           file_pos ? "OK" : "FAIL",
-           tol * 100,
-           approx ? "OK" : "FAIL");
-
-    close(fd);
-    return (ge_size && file_pos && approx) ? 0 : 2;
-}
-
-Build: gcc -O2 -Wall pagecache_50m_demo.c -o pagecache_50m_demo
-
-Test runner (run.sh):
-
-#!/usr/bin/env bash
-set -euo pipefail
-
-# Config (overridable via env)
-SIZE_MB="${SIZE_MB:-500}"
-IMG="${IMG:-/var/tmp/pagecache_demo.img}"
-MNT="${MNT:-/mnt/pagecache_demo}"
-DEMO_BIN="${DEMO_BIN:-./pagecache_50m_demo}"
-STATE="${STATE:-/var/tmp/pagecache_demo.state}" # stores LOOP + FS type
-
-usage() {
-  echo "Usage:"
-  echo "  sudo $0 --ext4         Prepare ext4 loopback FS and mount it at \$MNT"
-  echo "  sudo $0 --xfs          Prepare xfs  loopback FS and mount it at \$MNT"
-  echo "  sudo $0 --btrfs        Prepare btrfs loopback FS and mount it at \$MNT"
-  echo "  sudo $0 --tmpfs        Prepare tmpfs mount at \$MNT (no image/loop)"
-  echo "  sudo $0 --run          Run demo on mounted \$MNT"
-  echo "  sudo $0 --cleanup      Unmount and remove loop/image/state"
-  echo
-  echo "Env overrides:"
-  echo "  SIZE_MB (default 256), IMG, MNT, DEMO_BIN, STATE"
-}
-
-need_root() {
-  if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
-    echo "Please run as root (sudo)"
-    exit 1
-  fi
-}
-
-have_cmd() { command -v "$1" > /dev/null 2>&1; }
-
-save_state() {
-  local loop="${1:-}" fstype="$2"
-  printf 'LOOP=%q\nFSTYPE=%q\nIMG=%q\nMNT=%q\n' "$loop" "$fstype" "$IMG" "$MNT" > "$STATE"
-}
-
-load_state() {
-  if [[ ! -f "$STATE" ]]; then
-    echo "State not found: $STATE. Run --ext4/--xfs/--btrfs/--tmpfs first."
-    exit 1
-  fi
-  # shellcheck disable=SC1090
-  . "$STATE"
-  : "${FSTYPE:?}" "${IMG:?}" "${MNT:?}"
-  # LOOP may be empty for tmpfs
-}
-
-cleanup_mount() {
-  set +e
-  if mountpoint -q "$MNT"; then
-    umount "$MNT" || umount -l "$MNT"
-  fi
-  if [[ -n "${LOOP:-}" ]] && [[ -b "${LOOP:-}" ]]; then
-    losetup -d "$LOOP" 2> /dev/null || true
-  else
-    # Detach any loop using IMG as fallback
-    if [[ -f "$IMG" ]]; then
-      if losetup -j "$IMG" | grep -q .; then
-        losetup -j "$IMG" | awk -F: '{print $1}' | xargs -r -n1 losetup -d
-      fi
-    fi
-  fi
-  rmdir "$MNT" 2> /dev/null || true
-  set -e
-}
-
-cleanup_all() {
-  echo "[*] Cleaning up..."
-  if [[ -f "$STATE" ]]; then
-    load_state || true
-  fi
-  cleanup_mount
-  # For tmpfs there is no image; for others remove image
-  if [[ "${FSTYPE:-}" != "tmpfs" ]]; then
-    rm -f "$IMG"
-  fi
-  rm -f "$STATE"
-  rmdir /sys/fs/cgroup/memcg_demo_* || true
-  echo "[*] Done."
-}
-
-make_image() {
-  echo "[*] Creating sparse image: $IMG (${SIZE_MB} MiB)"
-  dd if=/dev/zero of="$IMG" bs=1M count=0 seek="$SIZE_MB" status=none
-}
-
-attach_loop() {
-  # stdout returns loop device path only
-  losetup -fP --show "$IMG"
-}
-
-ensure_loop_ready() {
-  local dev="$1"
-  if [[ -z "$dev" ]]; then
-    echo "Failed to get loop device for $IMG"
-    exit 1
-  fi
-  # udev settle
-  for _ in {1..10}; do
-    [[ -b "$dev" ]] && return 0
-    sleep 0.1
-  done
-  echo "Loop device is not a block device: $dev"
-  exit 1
-}
-
-mkfs_ext4() {
-  have_cmd mkfs.ext4 || {
-    echo "mkfs.ext4 not found"
-    exit 1
-  }
-  echo "[*] Making ext4 on $1"
-  mkfs.ext4 -F -q "$1"
-}
-
-mkfs_xfs() {
-  have_cmd mkfs.xfs || {
-    echo "mkfs.xfs not found (install xfsprogs)"
-    exit 1
-  }
-  echo "[*] Making xfs on $1"
-  mkfs.xfs -f -q "$1"
-}
-
-mkfs_btrfs() {
-  have_cmd mkfs.btrfs || {
-    echo "mkfs.btrfs not found (install btrfs-progs)"
-    exit 1
-  }
-  echo "[*] Making btrfs on $1"
-  mkfs.btrfs -f -q "$1"
-}
-
-mount_fs_dev() {
-  mkdir -p "$MNT"
-  echo "[*] Mounting $1 at $MNT"
-  mount "$1" "$MNT"
-  df -h "$MNT" || true
-}
-
-prepare_fs_loop() {
-  need_root
-  local fstype="$1" # ext4 | xfs | btrfs
-
-  rm -f "$STATE"
-  if mountpoint -q "$MNT" || losetup -j "$IMG" | grep -q . || [[ -f "$IMG" ]]; then
-    echo "[*] Previous environment detected, cleaning first..."
-    cleanup_all
-  fi
-
-  make_image
-  local loop
-  loop="$(attach_loop)"
-  ensure_loop_ready "$loop"
-
-  case "$fstype" in
-    ext4) mkfs_ext4 "$loop" ;;
-    xfs) mkfs_xfs "$loop" ;;
-    btrfs) mkfs_btrfs "$loop" ;;
-    *)
-      echo "Unknown fs: $fstype"
-      exit 1
-      ;;
-  esac
-
-  mount_fs_dev "$loop"
-  save_state "$loop" "$fstype"
-  echo "[*] Prepared $fstype at $MNT (loop=$loop)"
-}
-
-prepare_tmpfs() {
-  need_root
-  rm -f "$STATE"
-  if mountpoint -q "$MNT"; then
-    echo "[*] Unmounting previous $MNT..."
-    umount "$MNT" || umount -l "$MNT"
-  fi
-  mkdir -p "$MNT"
-  echo "[*] Mounting tmpfs at $MNT (size=${SIZE_MB}m)"
-  mount -t tmpfs -o "size=${SIZE_MB}m" tmpfs "$MNT"
-  df -h "$MNT" || true
-  save_state "" "tmpfs"
-  echo "[*] Prepared tmpfs at $MNT"
-}
-
-run_demo() {
-  need_root
-  load_state
-  if ! mountpoint -q "$MNT"; then
-    echo "Mount point not mounted: $MNT. Did you run --$FSTYPE first?"
-    exit 1
-  fi
-  if [[ ! -x "$DEMO_BIN" ]]; then
-    echo "Demo binary not found or not executable: $DEMO_BIN"
-    exit 1
-  fi
-  echo "[*] Running demo on $MNT: $DEMO_BIN $MNT"
-  "$DEMO_BIN" "$MNT"
-}
-
-case "${1:-}" in
-  --ext4) prepare_fs_loop ext4 ;;
-  --xfs) prepare_fs_loop xfs ;;
-  --btrfs) prepare_fs_loop btrfs ;;
-  --tmpfs) prepare_tmpfs ;;
-  --run) run_demo ;;
-  --cleanup) cleanup_all ;;
-  *)
-    usage
-    exit 1
-    ;;
-esac
+>
+> Regards
+> Xiao
+>> --
+>> Thanks,
+>> Nan
+>>
