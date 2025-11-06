@@ -1,85 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89C130CDBA
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 12:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA172F4A0E
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 12:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762430848; cv=none; b=tHu/FoXu45v3B9upTy4kD+f8HkSzLoqYMe/pRtmE2NXsuEbqfl+k678Wz69Ris5G4SED3b/BuGgUfN+WZ7eUo09I6GF2VtlJexfb+eO3+S/mAwSPkqfq07lck92qDaND9fvzbIvKhQSUmfHyoMbHDBtEmyutxkTdga6RtJTlmyM=
+	t=1762431465; cv=none; b=Iz/dD2X5X2jQj50NIDQ5umf/6oUJGNsqan3dm6+TWLqjDFhzJxGg1KJDin6mtlCpdHstzxi1qskftwl+3dTnUV5t0wVq0Z66Dv3of0iIRkfSFLahwIWIT2PMbDi1UrcU1Ny/RglFtcv4JsY3JN+6loPZMvYcudeurQ7PQFofOLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762430848; c=relaxed/simple;
-	bh=IYqfFJNvPfd62Bb/O37mPF31V+FC5WYlcRjL6D8j4zs=;
+	s=arc-20240116; t=1762431465; c=relaxed/simple;
+	bh=9LV353o44e7iaytKxoKO3m56wFwJYwJhc6jN9BswQpM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I6mJryyjw7MKb24DxoUj9kEY5F7jx6PgMhxRfKWg1ZqgxIj5up5lVplyKMnSG69isF5SUtNEJEnGH/63p5oPB0Aywb8LB+jk1atViM04/ojd4SZXZPzip+PNXpu7aADhYNYkDgTSfALH/vWoOySJ63lhH+qPtiwxMxSQm+r7zBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cBD8l8An; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nCkEQhgW; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=pwA4VdnCQU2Pk/YW7DEo/uX4x/Dl5+tT+/fRBffozUEArdqac+uwtg2v2Am50JAZdYk1CVhu32vMSJe3d4bedJDJM8i49E+bxtf0n2/CfLdV4z0kJJj08VKB2+HN6b616M5Ni/buDbnl1408imXK4H1qmvZLgv46hWDSI2h9xEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Km1ICHqM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=eNJfxlhp; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cBD8l8An";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nCkEQhgW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Km1ICHqM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="eNJfxlhp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762430845;
+	s=mimecast20190719; t=1762431462;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+gQ4lVmNvCRfpjsdJ7H9mkpnntTRrFAHidg+hA5PZ9U=;
-	b=cBD8l8An+rhUOTpJ74ih8VxlY4NfZRBzgKKL/hKRF02Th6TeI1QgB3HMpXpaiGxVgKw6WP
-	FGYwoaYF0se4gEMBNI8nR5SHnFoaYIGiyFZw1h26FNCmSfbQbBlkEHaT3Yt2hMEFlhEDPI
-	mKPlVvA8cZf1AthyFC8BZMiNZX8FZ6U=
+	bh=sJOFsQmt4z32StWI73+K+fCNACFUE/4kjllWzy5Yuds=;
+	b=Km1ICHqMq3xin53ItIWtUFhJ57OHDV1zDdgZscF8NJY9yN40vZjMgJtaHbUuqGLepGAaKA
+	lUY0Lk4Lr7fTA021zAX7F7eUiXatinyjkLbygAozs4e/sVbeuKiZip9Iu/rG5ijqTdFDc4
+	zGqJSQQLW4gYPM4cyDGYAu6fgkqjLMU=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-232-CXEhqEC_M-GTZj-AOqgXsQ-1; Thu, 06 Nov 2025 07:07:24 -0500
-X-MC-Unique: CXEhqEC_M-GTZj-AOqgXsQ-1
-X-Mimecast-MFC-AGG-ID: CXEhqEC_M-GTZj-AOqgXsQ_1762430843
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-470fd92ad57so9609315e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 04:07:24 -0800 (PST)
+ us-mta-663-QCb4JQZQMPiZvUu0wUc3gA-1; Thu, 06 Nov 2025 07:17:41 -0500
+X-MC-Unique: QCb4JQZQMPiZvUu0wUc3gA-1
+X-Mimecast-MFC-AGG-ID: QCb4JQZQMPiZvUu0wUc3gA_1762431460
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4775e54a70aso8629865e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 04:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762430843; x=1763035643; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1762431460; x=1763036260; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+gQ4lVmNvCRfpjsdJ7H9mkpnntTRrFAHidg+hA5PZ9U=;
-        b=nCkEQhgW90l5n4hT6ngPy1l0dOQkYjuICYiA37k6shKjVzQM7iB1we9Vw0QvbdRgo3
-         xImskoXIKEFawo4+eHEHLp5cmSBkNrTXJue+LalSG1vF43N6WlSR0PYgsfLY+2Dkb0Hg
-         59/Ncvvr71Q5d84lB0P8hFhDTbMNt7hlHfroTOWnhUh8C26T2vPLmo28WQg72mTZvRia
-         vlRgj+3Hp8xRTK7icAC3QYLsrJb7FUmNcKO3gUtGyV7/o6A+PzCf/Nl8/WXapnlD3GlD
-         85dHNFXbIGghbBl0pnF9rMfRiFSmEumG/xbhw+sPbBMhhCjwRESDozGHjWjIKYtXhttr
-         kFgw==
+        bh=sJOFsQmt4z32StWI73+K+fCNACFUE/4kjllWzy5Yuds=;
+        b=eNJfxlhpb0EtmNe4zpHP4H+ssnYCTOxUxUbU26NKQVuag87NkWcpY94Docy9z1GEJ7
+         DDIbEuab3l+8e+EhFt4wwYjOBlTYobHeMtKPRRzrqSUnzjK9gbyAOVYq0IChSAiR2zHU
+         tQ+V/8YpvXmhiGpbM7kruWmRFxBTIuKqnWZ19D8NWwVuSieLhA1BOLwZEG3HtLrXcVgm
+         eFD3cDtTYHEXQVI4pFT/NZbjebs4hCfs3K31r3P/ZXufnDZhtZtiPbiJAzhpWJ2vRB1/
+         2djJEqci5M3DGEJg6e+PVFlof00Pck2WSEIFVemog8DopKHFc/qxUKMEG/YLBq1fJAGu
+         yLKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762430843; x=1763035643;
+        d=1e100.net; s=20230601; t=1762431460; x=1763036260;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+gQ4lVmNvCRfpjsdJ7H9mkpnntTRrFAHidg+hA5PZ9U=;
-        b=OA1VnHENe2XupCecaDh7L5UQ06t7my7kpNgKVT3Y7bcWH/lCeQ31rTV74Vp2RrgY+u
-         MUNG7T/obFm+4oq9DKeTs+fXpWD6VUXAd8e+f/GT66K3qXIT4T8VCDgl+S1nqMpCER4B
-         ZiW+0fWF8vbc7iE9+u/4LlBlIG4YR1XedSXVfRoJDlpfakHFeM1uNxkgeXV3SPnVLRxJ
-         gUsHActLLeFL7+xVap7OA7Gq5WIqKvPLikAxJtnDzwH0W8ARwUNt30bb8tE2peCD2c5t
-         AvLF1PRJTZpHliEtPKkk9XpOsJOxJtyGmD7dMrLOb8Qwu2lF9BnDeI+pbI7YLMTGiI2Y
-         /+TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX68clY51+r9fdtE1lV897u0iXLsKNfi2a019GZtugneA5fou55O4xSCFQXTCKfEh9MEQ5iqaDCuVc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3Z4ca3XMD2RBunrnWrD5YJ6z200X6wNZbXzch9TP9bKeR9uu9
-	6ByhxbWhjmrwZW0lrYkkFqxJanzOlXUEykfYf9ZXxntD+9ekI3g2zt9QIOrlCOcX5gZkzvOxMaN
-	EmCmRJoD5qq4VGAfE8sD+QbptKFbQhBYo0/4YQEY1EbHBb24y+Ye0JYlg9Gc65Q==
-X-Gm-Gg: ASbGncvFlVaTbcfeCSucRsXZZcIxAN3PBI/ZB2y4+0jJpo23leaseZJdH01p+DHZ038
-	nzcoUlvTH9tUsXhnWJOOJDM34gxOmYj4JORjfcpR7/LGtfsfQ13KuVBUJ9h3unTrSjc3I6tDLtJ
-	bROSUJVmZW+Ga878ILJUaEKO/3+WFMw0E3D78XWAgX4++9a0KNaPOHf/odEhIc8iivxgxUWHkG3
-	yQhC8gg5KUFuCin/a19yQk4D1cDjT7gd2mAjmUho0Zn3yo1AHro8zkea4YeIG2Sx/yRNf9HsIx+
-	pOt/9UoSgzjhpjguhrOM8a90OBlpIWtyesbdPNY0mbwo69eWs2suzkQesO186YDD1RLyJHs/frk
-	tKg==
-X-Received: by 2002:a05:600c:4e88:b0:46e:46c7:b79a with SMTP id 5b1f17b1804b1-4775cdad65dmr61056515e9.2.1762430843011;
-        Thu, 06 Nov 2025 04:07:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFx03MVe1UPLGcOQ/uXdT9zWecweOElKZRclz+LOkTGKy97++ZKxB8Kf0/fNaib1PlyCL3ejw==
-X-Received: by 2002:a05:600c:4e88:b0:46e:46c7:b79a with SMTP id 5b1f17b1804b1-4775cdad65dmr61056065e9.2.1762430842523;
-        Thu, 06 Nov 2025 04:07:22 -0800 (PST)
+        bh=sJOFsQmt4z32StWI73+K+fCNACFUE/4kjllWzy5Yuds=;
+        b=kk/2sIQl6D1Nul4sqNcPrnLuV4tSg5aY/H+ZZvB+rYmcPItpSOW1QC/Ll6LFyN0TQ/
+         k088vA13tW8wLjJdJ77UVfrsFqD6W1/uK0pu0GKAN/ZYLV9juSi2ZXRQBsckRdX8ynJa
+         0Bgd+gUwtikSMVIOwkxuYQDuz97a4ah9wuTbJwPAmIKli8uMNuIpwaCfZ/vToIjqcOo6
+         bcdID0BZPlFyqFXEDIbUfUXlc6j4YMWw3gtipqZTTc95EnlXUPos2LbgfBGtmW6LIos6
+         ITUcUFMBOxL9RNFTaq/BWG4gue4AaF2/YIKG44AeDBgvS7o5VubQC6Z2wdiF1yhV5Vs8
+         APFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/4FsfxKLT4CBLCVDNRD4dANO0QfhcgwA/dzbEszFD2BlqS5BYmb+LcDBVr6MRkARv26ZX4bjNuGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHrBuk7CoWs8znEW/FoT2JXKMdkn3q1nwGqh8+Mjy1Ll5es8lW
+	ZrjXb5LUiHe2EET1IK0reMsDYu0y4WFKaOjBJd84fbWMVrisynOOjDhjVjoYKBwpgUH/MyWOecE
+	Vv/nXfI/ZTabIul1HaIMToz/WEjEHAgpsfxd8YavSKboT+fMv7XIOLeopXM0RUw==
+X-Gm-Gg: ASbGncvbMq9VX2ZEDfGhLTcvMKE83NrqyBzQAKTB/kOa5gE4XlpC2ZWYCNU48qFQYbD
+	NMttoimiQHqWr7Wqhzy2/RWkbH6rHGZ9KlMH4pwKVEZIW7EKmAIuJv8kpLzOSydR2sHGfCQnrnU
+	9uuQUPgQR6XiZWh1to4e+UWc7H2fTvoX3ku1U1Md7Gg8Z7w/lPIarYT4MXChgRfg0eq9WZx8ys5
+	xY/5fr03HpCk4B/DBoJOpQo+QluMnKBF5mPt056WPjMI9MkTgRpYsfAna9UeEX6tl06j0p+XIBQ
+	b1dRE/Bn5aKZuleP6fW3xeiNTWp41i7Ir8PG5PMPIJbuvZHJO/8B02O+W4bhpJrtuVGV7RVaEfl
+	cHA==
+X-Received: by 2002:a05:600c:4ed4:b0:477:3012:d285 with SMTP id 5b1f17b1804b1-4775cdacf5amr60826935e9.3.1762431460433;
+        Thu, 06 Nov 2025 04:17:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFPlniGNFV9Ibj9f6xLOEXX+53/yBS8AakakQvea5myq2HDP+liFvl4AiG9oo5p7c3OOkui0Q==
+X-Received: by 2002:a05:600c:4ed4:b0:477:3012:d285 with SMTP id 5b1f17b1804b1-4775cdacf5amr60826455e9.3.1762431459953;
+        Thu, 06 Nov 2025 04:17:39 -0800 (PST)
 Received: from [192.168.88.32] ([212.105.155.83])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4776250d3d0sm45954345e9.7.2025.11.06.04.07.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477626eb4fdsm44212655e9.17.2025.11.06.04.17.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 04:07:21 -0800 (PST)
-Message-ID: <d1045b08-2cc9-42c7-816b-ba467c27086c@redhat.com>
-Date: Thu, 6 Nov 2025 13:07:19 +0100
+        Thu, 06 Nov 2025 04:17:39 -0800 (PST)
+Message-ID: <f88dac3b-3467-44cf-9725-7d8525615bda@redhat.com>
+Date: Thu, 6 Nov 2025 13:17:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,8 +87,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 net-next 10/14] tcp: accecn: retransmit SYN/ACK without
- AccECN option or non-AccECN SYN/ACK
+Subject: Re: [PATCH v5 net-next 11/14] tcp: accecn: unset ECT if receive or
+ send ACE=0 in AccECN negotiaion
 To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
  linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
  dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
@@ -102,56 +102,30 @@ To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
  mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
  Jason_Livingood@comcast.com, vidhi_goel@apple.com
 References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
- <20251030143435.13003-11-chia-yu.chang@nokia-bell-labs.com>
+ <20251030143435.13003-12-chia-yu.chang@nokia-bell-labs.com>
 Content-Language: en-US
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20251030143435.13003-11-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20251030143435.13003-12-chia-yu.chang@nokia-bell-labs.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
 On 10/30/25 3:34 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> For Accurate ECN, the first SYN/ACK sent by the TCP server shall set the
-> ACE flag (see Table 1 of RFC9768) and the AccECN option to complete the
-> capability negotiation. However, if the TCP server needs to retransmit such
-> a SYN/ACK (for example, because it did not receive an ACK acknowledging its
-> SYN/ACK, or received a second SYN requesting AccECN support), the TCP server
-> retransmits the SYN/ACK without the AccECN option. This is because the
-> SYN/ACK may be lost due to congestion, or a middlebox may block the AccECN
-> option. Furthermore, if this retransmission also times out, to expedite
-> connection establishment, the TCP server should retransmit the SYN/ACK with
-> (AE,CWR,ECE) = (0,0,0) and without the AccECN option, while maintaining
-> AccECN feedback mode.
-> 
-> This complies with Section 3.2.3.2.2 of the AccECN specification (RFC9768).
-> 
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> ---
->  include/net/tcp_ecn.h | 14 ++++++++++----
->  net/ipv4/tcp_output.c |  2 +-
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/net/tcp_ecn.h b/include/net/tcp_ecn.h
-> index c66f0d944e1c..99d095ed01b3 100644
-> --- a/include/net/tcp_ecn.h
-> +++ b/include/net/tcp_ecn.h
-> @@ -651,10 +651,16 @@ static inline void tcp_ecn_clear_syn(struct sock *sk, struct sk_buff *skb)
->  static inline void
->  tcp_ecn_make_synack(const struct request_sock *req, struct tcphdr *th)
->  {
-> -	if (tcp_rsk(req)->accecn_ok)
-> -		tcp_accecn_echo_syn_ect(th, tcp_rsk(req)->syn_ect_rcv);
-> -	else if (inet_rsk(req)->ecn_ok)
-> -		th->ece = 1;
-> +	if (!req->num_retrans || !req->num_timeout) {
+> @@ -4006,7 +4008,7 @@ struct sk_buff *tcp_make_synack(const struct sock *sk, struct dst_entry *dst,
+>  	memset(th, 0, sizeof(struct tcphdr));
+>  	th->syn = 1;
+>  	th->ack = 1;
+> -	tcp_ecn_make_synack(req, th);
+> +	tcp_ecn_make_synack((struct sock *)sk, req, th);
+>  	th->source = htons(ireq->ir_num);
+>  	th->dest = ireq->ir_rmt_port;
+>  	skb->mark = ireq->ir_mark;
 
-Why `if (!req->num_timeout)` is not a sufficient condition here?
+Whoops, I missed the const cast in the previous revisions. This could
+make the code generated by the compiler for the caller incorrect -
+assuming the changed field is actually constant.
 
-Simplifying the above condition will make the TCP_SYNACK_RETRANS
-alternative simpler, I think.
+I don't have a good idea on how to address this. Changing the argument
+type for the whole call chain looks like a no go.
 
 /P
 
