@@ -1,317 +1,166 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2E8342C88;
-	Thu,  6 Nov 2025 15:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762441424; cv=fail; b=lO2zj9GaCFebMOrCvhEKnZhttDS2Ds7xbf+cvu2pHRjlE2FTvJtnJnCHDQTn41zbUlQZgZXudsPtxdUx62a8Y/QTHfSEE9vNMSUF/oua5slFtj5NW2GvZOuRpmLnS5e6RISSIzfby/1sBa41MbESbJaopDKsstCyKZggByGEhoQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762441424; c=relaxed/simple;
-	bh=T7aR4+5iJs+NK8oNOiRfGsVtJd6Tu0/kreR11lTeFW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BG45dPIJS/ePk95jcPD7iSOH8D+D94oH2A27rVeOkIkgxD/WaT074TUXx9VARZhzpdhVcKDv1Mmm2u0Fu/rOlhgfA5/LG7UeDR2qEQDyXDgQnRhtBx7QVcMi+HVohJVQ13VEcrZFn6Jo5BFT1xET8ieoYlHNYUqgKsR8WbcQRBg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=FvFABXw0; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=tfYkeFYJ; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B550931A7F0
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 15:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762441917; cv=none; b=letMrBCltEZi7DgR5RW+0BupEt9VyQ5DMSKsLvOinECOLIMx+hW8YVY1TjGCNy4mWrx7gZi7r3KagvpdWU4QTvlD4H9n1J+Z9yg6cxRTa9T+cY6dc9wLC8S85sy0qM2T1G4IUuU+4y0XkLtmudb3gEiQTFmv0+vobBWgnCxFdxY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762441917; c=relaxed/simple;
+	bh=hAieD+WWGuTSffxpUcA1q/dR4SZs7rb61R1Dr5YIuDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=S/DR+TZ+4JSUbNra/Mt9+ISvbKixAjF2ziGdA0GI8U9ODhN1K8P8UdJtSqTm4Z5OKJ70EhNEXG1sDqi/knL8pXjeyxHH5J0eRXvq4aED5j/YUWsn8dselRwhdwsRIELNThII7rWnjKGh+XMkzeR9fftcnLC+sbkm1CHfucDdtm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PXkxbyWh; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FvFABXw0";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="tfYkeFYJ"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5A6B6LvN031510;
-	Thu, 6 Nov 2025 15:03:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=N5qKG5ljRnXobdU3Hf
-	bbg/N+BQZMohDlUypDvpdeUGw=; b=FvFABXw09MEhWPLe1VD4/L88atjMR4hWOK
-	aRT9/8Yg/GCfDCWfatv4VfjDpHYWnkcCw8F3xYHrIQdueG/SWAd+t2O7haXeUKPJ
-	s6Pe6qnHftyzulGltYTJ+rMyKiqQLAXx/4DfshawK054wVHeZwBcgJL7lAMJTnXf
-	/7L7nyGNJN2IjfN2PFsUqs+BAmQxtz5Ak/ISP/4HUUsAKxNEFYo8PeS8nk9mU6k/
-	SXgte5RtfynuULuz4sL9u2NGfSRdI6mmOVrFh4pHo6sfn8U7GIdK+d65JDidIGW7
-	ymHpUUAGZjpf8ZIhXzrfbVBZ0rRdHvulKi2QNYSY6O/WQXa7IWSQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4a89q42dve-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Nov 2025 15:03:17 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5A6EAr8a010866;
-	Thu, 6 Nov 2025 15:03:16 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011005.outbound.protection.outlook.com [40.93.194.5])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4a58ncgx1p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Nov 2025 15:03:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uVIs68LXmufyZfZCCruVx8vSH4pt6nvgBhLul1XtKyhigdFyF9vRuhuYkaj7WW25gK1d6Ai65q00SOSw1K2ffBw4B7TjmvtlW1ZqY78XrL2aFKRrS9kEH1s4Hero5N0EzkZlwQBH0ZKEoCHwwTk4V0ipeIDzDAZzNpe4ZrCiym26T8Nza+elj1f1rFlGWilnwCcbusSAXZO9Z1xra3AsBkOuq81f/lZnXV2wznib50ksJFZHuyQeXuWkRSnuXsrEifDXUkN7B8XbA8GVX1j2fjcOcc9glIxELU3z8cMmqg1fnJuSOU1YaEelekkUp5S0871XCYyKIUlBZ9qfcr7+sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N5qKG5ljRnXobdU3Hfbbg/N+BQZMohDlUypDvpdeUGw=;
- b=kGULpwl00YNE9PGqOYgNh6H8tINCEAhIuyFQOThlCjwGao5/MnRI1qwVe+b3Ftw7Td8uE5nEfo3TOJnYWxlUo5Kp4E2TpR7NPIE5y5T6nAuCSux9vg6/wg3Lz/xblPc+dyJiYCMNY8vl/lnORIfMAjuHkvkieQo/TGgBEI6LKN6IXn8hJh5Gg22TW4q7jRSU2VooL1NUZKjw82OVy17EUtBcu6/DEm9yv/Y2l7T4OSUw9qATKsIwRq2C+9S/mfowiFqg7Shg4aGvkHStxL6ymRze6OmUsKle4+rFz6jEVOtm+ijXNKYiJ6qvcbRDGqgroOvxm/UEjMOYvEcRC9c7dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PXkxbyWh"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso1832788a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 07:11:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N5qKG5ljRnXobdU3Hfbbg/N+BQZMohDlUypDvpdeUGw=;
- b=tfYkeFYJn5dWYoMbE9U8p8BYdelMsFfeBuvfC8N/B/NGznlb/uIqA3MWMO3WjmR3p2yNzIoV4CxxNI9Kl4JRDf3AYJCV2FOQ1/du50Y7BK7OU7rEwxBdlx6rUX3jH+ynueInUfXL+/z3rnz5Bet2oE7jxH9MC6yyFTer5Z21Xx0=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DM4PR10MB5920.namprd10.prod.outlook.com (2603:10b6:8:af::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.16; Thu, 6 Nov 2025 15:03:11 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%6]) with mapi id 15.20.9275.015; Thu, 6 Nov 2025
- 15:03:11 +0000
-Date: Thu, 6 Nov 2025 15:03:09 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
-Subject: Re: [PATCH v2 2/5] mm: add atomic VMA flags, use VM_MAYBE_GUARD as
- such
-Message-ID: <69c73e1e-c520-42e7-af0a-65f17f5e081e@lucifer.local>
-References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
- <94935cf140e3279c234b39e0d976c4718c547c73.1762422915.git.lorenzo.stoakes@oracle.com>
- <y6a4qchmj7jnaogx6u5a3i6lni7v54lj25ipwb7tdtakcudakr@vm6vt7eumxax>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <y6a4qchmj7jnaogx6u5a3i6lni7v54lj25ipwb7tdtakcudakr@vm6vt7eumxax>
-X-ClientProxiedBy: LO6P265CA0026.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ff::16) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+        d=linaro.org; s=google; t=1762441913; x=1763046713; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pr4I1+TpJGoh524IlcwOT6D1N8KANUmHgdXy9dFIgyI=;
+        b=PXkxbyWheDzGXpFSxHx0NLUXMmrf6DnoSBG3msqPfLV0Y7dF1eIBp+j2Q26n/HMwJQ
+         Uf0j1ykIZoWKj0D1UopoNF/K7E5SttimR3Tjo7yS9ktRQXf7WjZeN69QV4JGDIwAPNYV
+         4Pv1a+1kB8UMzG0FdCaOixci51/DVW3dNFZEW4QZoExa1ZDrnSVUC88G08QqUfjvTOvp
+         NvUC+CMf/2PY4gcYwr8Xesqk7d07ge3aSx6L6bL5wRvVsdKw13AwNSTJ0uT3pKmEl+A4
+         vVUCJcyKidJeCpadMCwsRQO2As55hGmWh5CcG6XsplgBd+OrZVyCvkdJ9j2PjyhG+14n
+         ehkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762441913; x=1763046713;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pr4I1+TpJGoh524IlcwOT6D1N8KANUmHgdXy9dFIgyI=;
+        b=PKs47vnthAivt2fygl+X4vaJpWckhBWH8brP9sSGDWDV4SjfKaf7RYv9l91p3ZG0r0
+         K87kWq3bdqVpvboJ6col5lTuu2F/w9sVfO3E71qCwCvlN/DzFsWBP22/JqZwbEwo12hT
+         wGZ2BYEt7SOHHkCNtiPf7njC2Pa/vy6Kzc7li8NqDUdsI8RI5Hk1Ie5QS1VTX9+zEQsx
+         aN5m9r58m/VYFGK5/P+9v5CMtp1AWwZQMwQG5pIMRRUxfWkF0zsJl6CGwSIDJpD0AKp5
+         yYXZJdw4gsjoxa1+GqU6CNr70zsDok0SXPekocW9Yw2YJmu6PIrGbtf6CFInZ99K5C2v
+         5knA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3x/b+NZTQlbvA0oOZFZVkRglolNdKjiU7Yr95b6avO7uxA92G/bV3Pkn7sGfGTsbIMZD+H6/nVCw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgNexlxplrHAhPi+WGKU2GABVod25BHXwuKcnEtUOZV8dtjivB
+	BShsTlGSXL13B0pHKCC6mnqerBWRu05N82aVDAawhI5+RaLIivfiVCq3Z1gmi7Kcszw=
+X-Gm-Gg: ASbGncu+/zIfQW8R6c0YcHLz09Zm2SmLET7EqUrhW5YZ/T/9xfORmu5D5n+39mVf8+e
+	VKhEZ6JJGhOoKSVk8dIyQ0qOIOhxZ3Go8kuq8d4PVnewf7s0TbwDZaE3s3nK4Ujjpy3RPPR+3DY
+	Sf4HDonNvHiQas22m8cYAs1atjBEwK+/T1TsUIThzWXRbyKaVKSnw7ENhczhfnkEBpirRGggImx
+	yaJQLZo63g2T31erv5yOQof1qtAgoHuss7eC1OWTTSgpne4B4Bkjirg6L9EKmPW6mgDgXcZRq2o
+	/NIdAbd02j9+yRIa2+qf6TOBik4z3o/0szHlrpTw8MxFFqStNCA1VFRItoP0nBn0GdtJJ9qRw2I
+	zdcJYJJlv/2kaFAerIC5GP51y36SwHQZ+sn/A0PVGMfRSjrJcY52wUnl+HYH2hlzoSdlshxvbGw
+	vx+mJncVRX7fdI
+X-Google-Smtp-Source: AGHT+IHwC37XRyFfnN+/f5wSqrpQAP6dIioKEyvZ5pTh5YK+WFVy/VWvB0JDs0KxKTLiDxdgzCtNxQ==
+X-Received: by 2002:a05:6402:1d50:b0:640:c807:6af8 with SMTP id 4fb4d7f45d1cf-64105a582f8mr7170150a12.30.1762441912914;
+        Thu, 06 Nov 2025 07:11:52 -0800 (PST)
+Received: from localhost ([87.213.113.147])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f8578ecsm2022840a12.19.2025.11.06.07.11.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 07:11:52 -0800 (PST)
+Date: Thu, 6 Nov 2025 18:11:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bobby Eshleman <bobbyeshleman@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mina Almasry <almasrymina@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
+ token management
+Message-ID: <95223e0d-e0a4-4bff-b3a8-babe7a8a093c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DM4PR10MB5920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d6c68ff-f767-4a97-33e1-08de1d459a2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8c5DQj66QxDb8NnzAVzRt4LvqfPmbfMuno2z6rFg5aEyWaL96Le3FrXNPMV5?=
- =?us-ascii?Q?jB/p81HlPsscrJpuFTnL1EdIXzF/ylK8lxRKTRWmqkbdMZcbBaMdd/kFirdI?=
- =?us-ascii?Q?5dnSYz8/wyTY1HQKFpLcJf0uhNeWgK3H/aPflKaLYgT+PxDr1BMmKJZwnRc4?=
- =?us-ascii?Q?i8J9AQQrk00aOWUFvs3/F4/h5VbCr5V3eyqfTwQM7kxt0D2Gu7Wg+EH5W8Ja?=
- =?us-ascii?Q?S2WQDV/Ydc2+IGHH3Lm17/E+kWJKcr3y0kNF3Z+gpugg2mwMJVCCEtlLHCRD?=
- =?us-ascii?Q?rKiDgq5Ub4DkT5HNmzhESTvdbu94Y0h3QIwm1gM5uPuAxWe26Wnjg0nLZtbs?=
- =?us-ascii?Q?nnjgvHgzV2lV/mj7GuMusbatVvbiPD6w0vrSL4GxJbyCS1ggYOBr/KH+f2iu?=
- =?us-ascii?Q?WCYsY3+5+2OTASEjty+y9TExno5mojw4heWgEaKaVnun23QjSMz2nWZW6sFa?=
- =?us-ascii?Q?kkdEPJTIQnO/KMbJd0E4gFWYj3iYjVDA134oDb8k5Yb97NHVJBjAeqvdV5BK?=
- =?us-ascii?Q?dXK8PP+N1vZ4FSvodB5HCeLbLpNaNra1k4wXkbbVAw87At3H/QgGlFenNfLa?=
- =?us-ascii?Q?qSjQGN8pJ/OpNe5664NuGUZdV8NH3yQDTOtCvFZpLDEp8RSVxoW6Hx2pDKKB?=
- =?us-ascii?Q?1ABi2lN/aGTDoSygHWZoSGlywYylPqeVTVKV8ew+uMExPVxW8Qj2c0lMefeS?=
- =?us-ascii?Q?QQSJn8hixpC/LIvim8r0G2azbMRnigjFWI15PVKVOkwtWZ+KRgzBuumVA/2Z?=
- =?us-ascii?Q?HRLf10XJDm7OYtvpcrHsbbLeaUPWE6xTT05RkhDDXU8d/Cdmr+WF8U6sWyDB?=
- =?us-ascii?Q?66N6p7D/vLuK39W+CcWCFyuChx7K8Ym7ywaRoHA9R86im57TvRCCmuR8Lb3G?=
- =?us-ascii?Q?nNmCgbp3Yq8Fzs9R+VtmYJ9NGkNHOSdHTV2f99Cis2ew9vciUJ0J5QG6/q/e?=
- =?us-ascii?Q?R9Fgj8JrBb4e1nNomIAhANn3PcSpb/OeNbCfTCtuwTOSYUeLWWX8OwDPAV+Z?=
- =?us-ascii?Q?CaAeoD+ui90CtnIMxxis3x+8G3+r98QPJbWy6RqeZ8sP7BkUEAk1A7PvtGr+?=
- =?us-ascii?Q?W/9sHKVypGTmduE+mxXYi3ZmiBpm0DhbJmOqJ2SY2CbPTYtdqHlkWDzlGxEe?=
- =?us-ascii?Q?Hl2UanHYAXMTmQ5KELESTenLWAMMNiQonh6WfzjZ5Lqo0e+67/3+MPVwTeSo?=
- =?us-ascii?Q?b4OdOdI7JOfW50z+rWscsNj59A+u7pZkVHJwiGricGVIQsjF5XLv7MISU9xt?=
- =?us-ascii?Q?7UnSbH6akGXMmKRnpzDVdZ66P61/gdcQQPr30P9ivxvIXPGY3ix/hf2W8lV9?=
- =?us-ascii?Q?bj3+ENSjBPPJhPqJ9yZ3J/UuV2vYUWxmfrQaCQktIAWwvFDBA54SjAJnRFSR?=
- =?us-ascii?Q?SAMVmKmi6YEDCka17Mq+aO1TRH7iHiFeeB/bNGZr82LwsOWYGw3ZkE3wQo03?=
- =?us-ascii?Q?oz01Fp9/8o0r0HV32XCg374qvKz0h7aCrIb2zMOhSz+OaOfK02vBSw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?J/AGah4rVl1Ydtv65n9hphPi2uFcmWPBEwFq4RIF5Zg7iO28DXGri9Uu7B0c?=
- =?us-ascii?Q?22LsdoZWo1ZMxXeOEA3N6VUDRZp8nxHMl79myVI4uDn3hVJHQXUCkNho+O/b?=
- =?us-ascii?Q?vqX0pVUa3Kj6uCP7y/RKRWAT0ugAamNvTaLosEPwHQHHV5EtuOCrY2n4Qrc1?=
- =?us-ascii?Q?tWm6jDHRuEAiQ7zADUzTjzdvwSP3Tvlh7zOirhvzos0djdt3C5lTmay4BxV7?=
- =?us-ascii?Q?8TFa5oWaS7oMjF+W7qb46iDhJMxkkQ6t9rLX8w/8PWWFVLd1cUeQVYhBxGGD?=
- =?us-ascii?Q?irJ5eykAuKMGNiwm/ves0x/Am/GMlAFuTSBAXv3OpF4kvJZI/Rv/70ZitNpP?=
- =?us-ascii?Q?1USw1ubGLqClzE5w1e4d1xBVNE08MQjCD3RfqeRBBakT81v6FdWhxVHNdUgH?=
- =?us-ascii?Q?YuaP6jSrEDMnKnNiuYBlZvK3wIYGZeLW/DfZF7rfEshNPioSSFjqsx3ASJEn?=
- =?us-ascii?Q?6btj0MD+zpMdbQLnrJ//BTJQ/fgasD5FyFeCW4vsOM5eGI1TKsFsbT0YtaZp?=
- =?us-ascii?Q?BibHDZYR++3pfJIFZNK/qXJQ6RWRQuxq2jYxabjiekhQ2wNQNbYDIMO/uPrs?=
- =?us-ascii?Q?ab9qQfZNhiQsiMtm036JzGoDj9JwPfelTgKZLtnQNxaAdBtU+T5LxT8cLuN4?=
- =?us-ascii?Q?hkdE4OLnnuUxtgK/cyRt4vfuUX34uwo5JFloaqSqHGqr2FTcwKorAnbCO8iZ?=
- =?us-ascii?Q?F5EXt6r3s0BF2lR31kTDP05u0cEGvChts0/wGlRlYHrqvIvRM6Tc2JBsZN7i?=
- =?us-ascii?Q?/Gtr65y74j8li9jIRWzQfRe0eMDSb+HIPCh9lCw3XP3fH5xi+QW/a4RPuxAz?=
- =?us-ascii?Q?QbrtZgqn7J2reLqYf9KSSffq3iz79JXZtgJRQ9JpIe5GrkIbejI91XidZsgu?=
- =?us-ascii?Q?spMcd9CFteVLGOuv3RyP+j4hlyifkVyOtLcaj3EMiZ1H6nOobLvNpJ2i3//t?=
- =?us-ascii?Q?ikRqfj7vtNikN41vCfg2dBTBOHxVWso7DcBCIHgGG1jJmwTbP1Ipc32640KF?=
- =?us-ascii?Q?Ojn90iFm6lN2Sig7Gk5XLKo+6s8kEIy4kD4QvO3tQWBl4DId4I2Uegv3MVwQ?=
- =?us-ascii?Q?Yot7iCkRCamY2y0TORLsUAIMQtl8wKrJhc7ZrnwP7BIfs/oDvttmRJIwz/tg?=
- =?us-ascii?Q?zIkAszpIwu6l3ozdO6B85XL/fJ8qGnaZaj4Zb5r5IvKF+boPCt8LwIXygXlW?=
- =?us-ascii?Q?THyx5L4u2f0RjQvkavBUJ/NngL8fikxpG++tTdXrRrbqJvbiIuUtZcTeqgAs?=
- =?us-ascii?Q?fCyiI0h8sKXrZqLr/RB/5cVP52+Vypa7Z0PgPwGaAwP1sQPVLoEBhvln+zR5?=
- =?us-ascii?Q?hgvVfA9ScZYA8ek+4vMDPmfmBK0OPHnc9tbSh8W2YDfOTTvrbTs7MaHV6hhc?=
- =?us-ascii?Q?TRLbbngvXghlkXGosYfto8KutqwzkotHnqiVXaV/iQHDaXfoEskTQMQD4Shc?=
- =?us-ascii?Q?TZV+lXJGkxfv4yvwN9Gx57a69KcjuGbEUUdMqS+rQPcfCkI7GnH+e1bBACtr?=
- =?us-ascii?Q?PV0O3tj+MTVDeMVHEUpNXr7QnjswXUtp5j12W/kxI7DKKUa6F/YYrOmJyp/e?=
- =?us-ascii?Q?AQkQYtL67VocVS8TC+LfpamkU0AEGKs5O2l5sQFqavxAK9nq+Gnn/KSmHM/y?=
- =?us-ascii?Q?8A=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	rynpJxXeJyscVwp1w1dF5unZBwuTknSlVWIc3dlAcZ2lZFDrwQbS92Zm5EGw4AscoT/LQogDwev/hBz9AZeflsTDWgr1tmQ7xQVemvQzabGJn+cqVscY0z8jXuBENIxzDKijn5In4amjueyzN79LzRZ+3ySWpKCZeAs+oHIrSVcjtWg7ctwa3M5m7qch5unLh1/iVFpt11rSrSf9HDz7feMyQvDOqNAlUVPL4HWUaCWnn8o1nAY1G7sZ7/pnK+iYQzpfPRZ0HyigMgFKEui01kvBdgXSFaQ9BJrhxVgIShmBSy4/JrFU8/WM4oua9CiGsd0maceubeuQff6ugiLHlasMDCArUvj9UVvt3El2qgqDwF5cjC/UXC9pWrYh9TotU/attSFvTaQV35pUCbsHrZnflbYZimiUt6FFX1w/e2N/Oc9Xg9x/SSS/jBDO1eVjL3lCeffcevnMKvqLhNDXfFEY+3z4DqB4zhXx6t3mxwO48x1mukf1ooqCFwm+tM86XB0UlwW1s0bwiaIsVtdzvqh6aTXt0dMv+ghNHbt8nHSihd6c2cMBXP7ExSrnbX/eYW5xUrE7UDfC/6uQz29RQN1MaN2stcmRw7REdfLUHjc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d6c68ff-f767-4a97-33e1-08de1d459a2b
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 15:03:11.1262
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QrsfvruGpRYzMSvk6EevECrAWGsIgaqnYHzpQ2ewhY60oTUuK5V8WcYrdaIlFSKpX2RuTbMU5vhtKQYVFAgw/uuXpobCVi7YXvNC7WrsepY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5920
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_03,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 suspectscore=0 mlxscore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2511060119
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDEyMyBTYWx0ZWRfXxsAX5RCd3B0K
- joxlrFeEjp+vXeH+jKZ4wDSb8m12wnmlRz7PfKrDXjzgszpOzvwR+rrU2z2+uW0UDkZaFSCEtcU
- eqs9tpqof2W1qt0zSUuJfjX87fkH1LvtdA9uc6Ws0nwGew6Qk74e/oBP922Du3i29mDoJSCiTnK
- LLUfE9+ilnd0U2QdZPJgtQa23GszbBzzG6tFpiatLmA64H82AdJzD9A14WEWpGD1rWXywK7oDeY
- UWeyVADEVnaRUz3NOdqPZvuPprw3gJ72+x7EvWRNeJdQLHNJbHsBEzPb+BOuEruoalrbvtPLpsx
- 2TiXc+p5llNilH8cmCRIjiAWQV0FWyJvSSg1QtJ11skGGMq9lHiHYJX3wJbX6QpbE+xdA1XnWeO
- JF8VUfoj5Q9y9ra0MbxjPwj0TSnmEQ==
-X-Proofpoint-ORIG-GUID: rbvcI_Cv0p-T_X3EBRmoh2kxiQuYlw5E
-X-Proofpoint-GUID: rbvcI_Cv0p-T_X3EBRmoh2kxiQuYlw5E
-X-Authority-Analysis: v=2.4 cv=PcPyRyhd c=1 sm=1 tr=0 ts=690cb8b5 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=ZlKvLt9NEAVkraWw6nIA:9 a=CjuIK1q_8ugA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 
-On Thu, Nov 06, 2025 at 02:45:06PM +0000, Pedro Falcato wrote:
-> On Thu, Nov 06, 2025 at 10:46:13AM +0000, Lorenzo Stoakes wrote:
-> > This patch adds the ability to atomically set VMA flags with only the mmap
-> > read/VMA read lock held.
-> >
-> > As this could be hugely problematic for VMA flags in general given that all
-> > other accesses are non-atomic and serialised by the mmap/VMA locks, we
-> > implement this with a strict allow-list - that is, only designated flags
-> > are allowed to do this.
-> >
-> > We make VM_MAYBE_GUARD one of these flags, and then set it under the mmap
-> > read flag upon guard region installation.
-> >
-> > The places where this flag is used currently and matter are:
-> >
-> > * VMA merge - performed under mmap/VMA write lock, therefore excluding
-> >   racing writes.
-> >
-> > * /proc/$pid/smaps - can race the write, however this isn't meaningful as
-> >   the flag write is performed at the point of the guard region being
-> >   established, and thus an smaps reader can't reasonably expect to avoid
-> >   races. Due to atomicity, a reader will observe either the flag being set
-> >   or not. Therefore consistency will be maintained.
-> >
-> > In all other cases the flag being set is irrelevant and atomicity
-> > guarantees other flags will be read correctly.
->
-> Probably important to write down that the only reason why this doesn't make
-> KCSAN have a small stroke is that we are only changing one bit. i.e we can
-> only have one bit of atomic flags before annotating every reader.
->
-> (Source: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/kcsan/permissive.h#n51)
+Hi Bobby,
 
-That seems a bit specific and technical though? I guess since Vlasta is asking
-for maximum commit message pedantry here the more the merrier...
+kernel test robot noticed the following build warnings:
 
->
-> > We additionally update madvise_guard_install() to ensure that
-> > anon_vma_prepare() is set for anonymous VMAs to maintain consistency with
-> > the assumption that any anonymous VMA with page tables will have an
-> > anon_vma set, and any with an anon_vma unset will not have page tables
-> > established.
->
-> Isn't that what we already had? Or do you mean "*only* set for anonymous VMAs"?
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
+base:   255d75ef029f33f75fcf5015052b7302486f7ad2
+patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
+patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
+config: openrisc-randconfig-r073-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060119.MAzcsLoN-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
 
-Yes... I'm going to expand on this explanation as per Vlasta to make it
-extremely clear anyway.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511060119.MAzcsLoN-lkp@intel.com/
 
->
-> >
-> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->
-> With the nits below and above addressed:
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+New smatch warnings:
+net/core/sock.c:1107 sock_devmem_dontneed_manual_release() error: uninitialized symbol 'ret'.
 
-Thanks, though I disagree with nit below.
+vim +/ret +1107 net/core/sock.c
 
->
-> > ---
-> >  include/linux/mm.h | 23 +++++++++++++++++++++++
-> >  mm/madvise.c       | 22 ++++++++++++++--------
-> >  2 files changed, 37 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 2a5516bff75a..2ea65c646212 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -518,6 +518,9 @@ extern unsigned int kobjsize(const void *objp);
-> >  /* This mask represents all the VMA flag bits used by mlock */
-> >  #define VM_LOCKED_MASK	(VM_LOCKED | VM_LOCKONFAULT)
-> >
-> > +/* These flags can be updated atomically via VMA/mmap read lock. */
-> > +#define VM_ATOMIC_SET_ALLOWED VM_MAYBE_GUARD
-> > +
-> >  /* Arch-specific flags to clear when updating VM flags on protection change */
-> >  #ifndef VM_ARCH_CLEAR
-> >  # define VM_ARCH_CLEAR	VM_NONE
-> > @@ -860,6 +863,26 @@ static inline void vm_flags_mod(struct vm_area_struct *vma,
-> >  	__vm_flags_mod(vma, set, clear);
-> >  }
-> >
-> > +/*
-> > + * Set VMA flag atomically. Requires only VMA/mmap read lock. Only specific
-> > + * valid flags are allowed to do this.
-> > + */
-> > +static inline void vma_flag_set_atomic(struct vm_area_struct *vma,
-> > +				       int bit)
-> > +{
-> > +	const vm_flags_t mask = BIT(bit);
-> > +
-> > +	/* mmap read lock/VMA read lock must be held. */
-> > +	if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> > +		vma_assert_locked(vma);
-> > +
-> > +	/* Only specific flags are permitted */
-> > +	if (WARN_ON_ONCE(!(mask & VM_ATOMIC_SET_ALLOWED)))
-> > +		return;
->
-> VM_WARN_ON_ONCE?
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1086  static noinline_for_stack int
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1087  sock_devmem_dontneed_manual_release(struct sock *sk, struct dmabuf_token *tokens,
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1088  				    unsigned int num_tokens)
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1089  {
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1090  	struct net_iov *niov;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1091  	unsigned int i, j;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1092  	netmem_ref netmem;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1093  	unsigned int token;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1094  	int num_frags = 0;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1095  	int ret;
 
-No, this was on puurpose - I don't want drivers (incl. out of tree) abusing this
-so I think this should be runtime and explicitly clear. See Suren's comment on
-last revision of series.
+ret needs to be = 0;
 
-Obviously we should never be giving drivers naked vma pointers where this
-matters (and actually not sure exactly where it would), my mmap_prepare series
-is working to mitigate this though it's in a situation where the locking doesn't
-matter.
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1096  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1097  	if (!sk->sk_devmem_info.binding)
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1098  		return -EINVAL;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1099  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1100  	for (i = 0; i < num_tokens; i++) {
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1101  		for (j = 0; j < tokens[i].token_count; j++) {
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1102  			token = tokens[i].token_start + j;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1103  			if (token >= sk->sk_devmem_info.binding->dmabuf->size / PAGE_SIZE)
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1104  				break;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1105  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1106  			if (++num_frags > MAX_DONTNEED_FRAGS)
+45aa39492cf4dd Bobby Eshleman 2025-11-04 @1107  				return ret;
 
-Also you can't use VM_WARN_ON_ONCE() that way, for some reason we don't have it
-return a value, go figure.
+Uninitialized.  It's always a good idea to test code with
+CONFIG_INIT_STACK_ALL_PATTERN.
 
->
-> --
-> Pedro
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1108  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1109  			niov = sk->sk_devmem_info.binding->vec[token];
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1110  			if (atomic_dec_and_test(&niov->uref)) {
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1111  				netmem = net_iov_to_netmem(niov);
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1112  				WARN_ON_ONCE(!napi_pp_put_page(netmem));
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1113  			}
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1114  			ret++;
 
-Thanks, Lorenzo
+Uninitialized.
+
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1115  		}
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1116  	}
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1117  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1118  	atomic_sub(ret, &sk->sk_devmem_info.outstanding_urefs);
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1119  
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1120  	return ret;
+45aa39492cf4dd Bobby Eshleman 2025-11-04  1121  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
