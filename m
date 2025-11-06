@@ -1,83 +1,46 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA42B30CDB7
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 13:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3292D531;
+	Thu,  6 Nov 2025 13:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434731; cv=none; b=DCUJOCe2vxbkGT+hW/encyMW9xOiSVkgTRdnJvveIYyQvSOndhTvlbT6ZXDfQkuhC3Q6Xvf+FkgUjn/q5AcrOTbxpxe+clCm9Sq/nMPZYkpR4lYaeT34pp4ezuJkYluL4b117vgoCZ8r028ESV0INiUgDeuEvmoPI1YbEsNHBpo=
+	t=1762434753; cv=none; b=ectb0D9kFcGEht2UlV4pFFGYVyjzrm0pRt3eYo7Z45rkcSWG/P/OwJxlm/16rm68s/WTHTa9FeiOOXZcnfnjA7zTS+/gBEPtr+e1XIAhUU9qKOzc4rO6qdXMe+T/tGzV2QhzXYmyI91bpw8uHl2jLgHD37cI+l64PneLN2OnJjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434731; c=relaxed/simple;
-	bh=5fTu+d04zbTJZlqMZWEMH+c1jZ5YJrgOff05i/wlilU=;
+	s=arc-20240116; t=1762434753; c=relaxed/simple;
+	bh=jW/9N9Kbhh2Gta55fasTKB2i3WMcMbCAvYsE2ozkwE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YcN9B0IXoKLeaON7PPy/HFrRy3DGtp+Af65pNnU7SaOoMoSeLJ1S8a4Kec3NNySl8ksZvkt/g2JP0ZP5ewgdN15hCDrU9IGfR3/iwAL3fu5j5pOB/UOq/3OHpXTHJSftGNhGbQCVcT5GRWX+yQcBKQipoJa1eJ3hSODlrlEYWEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Bb8XRUyc; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVG4dRmb2CKGNiDnl1x8KQojtLhJodCvn8UmWTKaCz7xaZIFRsjineLO16qGKWubRinXpVZio8o4ZfLHlgsCCfOVQBFp2b+pA920+EUBsrD+u+xYEAW+hloRYSVWi7DfJjF9+PDxFsCjoZYwjDjuC0j61VySo3+tq3Qj1TQqp9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umurNRIb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Bb8XRUyc"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4e896e91368so11899801cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 05:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1762434727; x=1763039527; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E29aoir2P/D00xWPCdBMTWQeHrb8OPeQgwrWgeqWvFc=;
-        b=Bb8XRUyc6I+24kI0ViiS4Raw+iuqwEX9B/601LwkzioJve021e6dm8kEooeWby1Azi
-         1Rx+yJmbc3f8DQ5SCKrO7N8UETHzyYX0SrQ6FA3gBDSn4EMLgXf5wd8plSA9Gdu32nbi
-         zumEnQ62NgMjYNJQ7lzTvC2RShssT/qykkKMwGGsRSoMLIQ7jaM4hSDL+EPrZAC6d2vO
-         qqSMHs/123WEf9h3bzR12WaDaDvEvPlj3LjvpszKjrd07nHy4ichg3KUI2gY3DNxdQy9
-         /6e4osJK1VY3URm8wrTQ5Rge58WlODD6ba5r9lIFiRCLPWtfC+Npqah7D9KU25ypFMZc
-         Z2Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762434727; x=1763039527;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E29aoir2P/D00xWPCdBMTWQeHrb8OPeQgwrWgeqWvFc=;
-        b=W7/PaRifjvfX24Zl5QRwwJWeu1DohhWX4td8F5A9UzX1pCgdug8FSNPybW/P8hCthM
-         NcaROYS7na+hmU6ZCx9C+jgFq11tdvReYHcqZ9QZNf6gLVIjq3Z8qvOeDGDa2yiYGfny
-         UyFZAVkPlYfGZ4wdHrdOwnQjgzL/kTkMeb6CZG4Y9XxWwnNS2HnCMmSPKIFcgUKwysZV
-         PWIzqe4DCTw+gKwCeKA97xwl0kCIGJMrjpJ9m+FHB6n3pnz9ar3uOhbayYzUe0G1maon
-         isG/EjgCRuULn4T9Ge3fXsuvPJ2ri3w9fB2wrwizjz3vyG1dWEIG5T4O/zcXneZrDe74
-         Bl0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWFWMgY0y4qNHoXBjbg6Kpx4VMbNKSt2XMl1NFlY4pAkeDhRYNceegOoXx6DIA6qdc2ArKmSN2+OOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoV6E8lbUBVA+nUoNbw+aAaM2ySN3U2x/L9DveUwqE0UBQ/RMY
-	n9czqptV0Nq+/4u+ZU9AAiZHRqLY69h8aF4SW9fQCAju8NmV9sOb7MpGAPZAyGeGrt+BwlTAXXA
-	y7yIv
-X-Gm-Gg: ASbGncuwuyr1GcY2TZWqTIPQvwgOauEJXWqjKwQWYqPRTyuqLF0kzAQaMyEoUixSCWa
-	jighCCePaCcS7hi+DtKm0Gb/UuaKuoEZ2RJD8E4EAH832L5iKburmdqDjOoAqVfL7wXGcIVmywA
-	DZA+7eil5Zxx4d9ShrW63r8ZBc1wnpGOiTOQwo7YEn5vr+wPxjUnh6JIGeP1r4Z7fujZmJ7knaK
-	jq3yrFS9bZpNHiFVUY10SM2HkelXd23Fz9f/sM7ahCDuabU1wJKk4SgjEGnLT45Qyd4Fq6VMl/l
-	pEnbpEFxDGJ6MUALT9D2/wWGcnOtEFssC0rqyMf/uaTruoL/HZxvnGiYyhUxqkODpFbysmym1Y7
-	qiM4ZGV+JgX1xjuyVQtxWun+0uNycj69lrJt3Jg6Mr0TnCmBD3eVdRt9CHqC5ZtnfHCHHrZIyqJ
-	nafwi0xZ8qBK1A8liqGjEAnT01WLbmYh0CEqhyFZxCdAIOjw==
-X-Google-Smtp-Source: AGHT+IHO2kfw1vydAWg7lJYdgVN60+8RpDLa3bu5iIb6/gokLYdATyBmAutBTljfCiGVr0ImJH3xUg==
-X-Received: by 2002:ac8:5903:0:b0:4e8:a269:ceab with SMTP id d75a77b69052e-4ed72354895mr97954141cf.5.1762434727357;
-        Thu, 06 Nov 2025 05:12:07 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-880829f7a3asm18683196d6.40.2025.11.06.05.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 05:12:06 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vGzmY-00000007LUY-0oBI;
-	Thu, 06 Nov 2025 09:12:06 -0400
-Date: Thu, 6 Nov 2025 09:12:06 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux IOMMU <iommu@lists.linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: Re: [PATCH 0/2] genpt documentation fixes
-Message-ID: <20251106131206.GT1204670@ziepe.ca>
-References: <20251106073845.36445-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umurNRIb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B5FC4CEFB;
+	Thu,  6 Nov 2025 13:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762434753;
+	bh=jW/9N9Kbhh2Gta55fasTKB2i3WMcMbCAvYsE2ozkwE8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=umurNRIbED9AV7S9HCzMudqiUsIeLUqE4IdR1ZFlmWH7hvCDUbiYvaI/oJtXYAu1A
+	 B4j+tI72qA9dMWIbSAokEdbhrw2Klu4cjYhJmw1sqXj9KYH/Vam3L+3DXO7EAeezIE
+	 HnTpdADXtrbVomggyDGsmf5d+ryM7yn8UHnJ9UTIuD7imnGQ8mHu0tMCBOjYoHNOzL
+	 5FoTwYg5NhZzqasqeuKO9Jcs6e+vIEY4vf5YG1aZpLxyskCG9KNdqQ+QiI/5ycjvHI
+	 M/MMlzSqjYO3OBZ91P97U7rrBlxNDxO9q7ndC8xuBhhDxJWhSDYUZnFjsAvnNoDAhV
+	 O8onVApi/Lulg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vGzmw-000000013rw-3gnX;
+	Thu, 06 Nov 2025 14:12:30 +0100
+Date: Thu, 6 Nov 2025 14:12:30 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+Message-ID: <3fnulqi7hfplggfqevab525clikq7fnsnt72lauddzy32sepyq@maux2bgqa3np>
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+ <20251105221907.0c8c388b@foz.lan>
+ <aQxO3MaDwFrIwCV0@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,30 +49,182 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106073845.36445-1-bagasdotme@gmail.com>
+In-Reply-To: <aQxO3MaDwFrIwCV0@smile.fi.intel.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, Nov 06, 2025 at 02:38:43PM +0700, Bagas Sanjaya wrote:
-> Hi,
+On Thu, Nov 06, 2025 at 09:31:40AM +0200, Andy Shevchenko wrote:
+> On Wed, Nov 05, 2025 at 10:19:07PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Tue,  4 Nov 2025 22:55:02 +0100
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+> > 
+> > > When kernel-doc parses the sections for the documentation some errors
+> > > may occur. In many cases the warning is simply stored to the current
+> > > "entry" object. However, in the most of such cases this object gets
+> > > discarded and there is no way for the output engine to even know about
+> > > that. To avoid that, check if the "entry" is going to be discarded and
+> > > if there warnings have been collected, issue them to the current logger
+> > > as is and then flush the "entry". This fixes the problem that original
+> > > Perl implementation doesn't have.
+> > > 
+> > > As of Linux kernel v6.18-rc4 the reproducer can be:
+> > > 
+> > > $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> > > ...
+> > > Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> > > ...
+> > > 
+> > > while with the proposed change applied it gives one more line:
+> > > 
+> > > $ scripts/kernel-doc -v -none -Wall include/linux/util_macros.h
+> > > ...
+> > > Info: include/linux/util_macros.h:138 Scanning doc for function to_user_ptr
+> > > Warning: include/linux/util_macros.h:144 expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> > > ...
+> > > 
+> > > And with the original Perl script:
+> > > 
+> > > $ scripts/kernel-doc.pl -v -none -Wall include/linux/util_macros.h
+> > > ...
+> > > include/linux/util_macros.h:139: info: Scanning doc for function to_user_ptr
+> > > include/linux/util_macros.h:149: warning: expecting prototype for to_user_ptr(). Prototype was for u64_to_user_ptr() instead
+> > > ...
+> > > 
+> > > Fixes: 9cbc2d3b137b ("scripts/kernel-doc.py: postpone warnings to the output plugin")
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > ---
+> > >  scripts/lib/kdoc/kdoc_parser.py | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> > > index ee1a4ea6e725..f7dbb0868367 100644
+> > > --- a/scripts/lib/kdoc/kdoc_parser.py
+> > > +++ b/scripts/lib/kdoc/kdoc_parser.py
+> > > @@ -451,6 +451,13 @@ class KernelDoc:
+> > >          variables used by the state machine.
+> > >          """
+> > >  
+> > > +        #
+> > > +        # Flush the warnings out before we proceed further
+> > > +        #
+> > > +        if self.entry and self.entry not in self.entries:
+> > > +            for log_msg in self.entry.warnings:
+> > > +                self.config.log.warning(log_msg)
+> > > +
+> > >          self.entry = KernelEntry(self.config, self.fname, ln)
+> > >  
+> > >          # State flags
+> > 
+> > No objection of this one, but this breaks the behavior of the -W
+> > flags.
 > 
-> Here are fixes for two htmldocs warnings in generic radix page table
-> documentation. The first one is reported in linux-next [1], and the
-> second one is also found when making htmldocs locally to reproduce the
-> former.
-> 
-> Enjoy!
-> 
-> [1]: https://lore.kernel.org/linux-next/20251106143925.578e411b@canb.auug.org.au/
-> 
-> Bagas Sanjaya (2):
->   Documentation: genpt: Don't use code block marker before iommu_amdv1.c
->     include listing
->   iommupt: Describe @bitnr parameter
-> 
->  Documentation/driver-api/generic_pt.rst | 2 +-
->  drivers/iommu/generic_pt/pt_common.h    | 2 ++
->  2 files changed, 3 insertions(+), 1 deletion(-)
+> Sorry for that, but at least now the outcome is much better than before.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+That's why I said I'm not against ;-)
 
+> 
+> > See, the way kernel-doc.pl worked is that:
+> > 
+> > 1. Warnings are controlled via several -W flags:
+> > 
+> >   -Wreturn, --wreturn   Warns about the lack of a return markup on functions.
+> >   -Wshort-desc, -Wshort-description, --wshort-desc
+> >                         Warns if initial short description is missing
+> > 
+> >                         This option is kept just for backward-compatibility, but it does nothing,
+> >                         neither here nor at the original Perl script.
+> >   -Wall, --wall         Enable all types of warnings
+> >   -Werror, --werror     Treat warnings as errors.
+> > 
+> >   Those affect running kernel-doc manually.
+> > 
+> > 2. Warnings are affected by the filtering commands:
+> > 
+> >   -e, -export, --export
+> >                         
+> >                         Only output documentation for the symbols that have been
+> >                         exported using EXPORT_SYMBOL() and related macros in any input
+> >                         FILE or -export-file FILE.
+> >   -i, -internal, --internal
+> >                         
+> >                         Only output documentation for the symbols that have NOT been
+> >                         exported using EXPORT_SYMBOL() and related macros in any input
+> >                         FILE or -export-file FILE.
+> >   -s, -function, --symbol SYMBOL
+> >                         
+> >                         Only output documentation for the given function or DOC: section
+> >                         title. All other functions and DOC: sections are ignored.
+> >                         
+> >                         May be used multiple times.
+> > 
+> > 
+> >   Those affect both running kernel-doc manually or when called via make htmldocs,
+> >   as the kerneldoc Sphinx markup supports them.
+> > 
+> > As the filters are only applied at kdoc/kdoc_output.py, printing warnings
+> > early at kdoc_parser means that, even ignored symbols will be warned.
+> 
+> Maybe I failed to make the point of the reproducer. The kernel doc and prototype
+> are mismatched, and hence there is no way one may filter this in accordance
+> with the logic I read.
+
+I see.
+
+> These warnings must be printed independently on the
+> filters as filters may not be applied to this. Or i.o.w. what has one to put to
+> -s for the reproducer case to make it visible? Also what should one put to make
+> it on par with the previous behaviour?
+
+FYI, I'm not a big fan of warning suppression. I only implemented the
+-W flags on Python after implementing all other functionalities.
+
+I did it mostly because I wanted to be bug-compatible with the perl
+version. Heh, even on the perl version, one of the -W flags weren't
+used.
+
+> 
+> > It might
+> > also make the same warning to appear more than once, for C files that are listed
+> > on multiple kerneldoc entries(*).
+> > 
+> > (*) There is a logic at kerneldoc.py Sphinx extension and inside kdoc_files
+> >     to avoid parsing the same file twice, but I didn't test adding a hack
+> >     similar to this one to double-check that the warning won't appear multiple
+> >     times when export is used. Maybe it is working fine.
+> > 
+> > -
+> > 
+> > In summary, if warnings are suppressed, my suggestion would be to check at 
+> > kdoc_output to see what is filtering them out. 
+> 
+> In the commit message I tried to explain the situation. These warning are
+> vanished _before any_ output plugin is run. There is *no way* to get them
+> printed otherwise.  It's, of course, possible that I haven't got deeply the
+> idea behind architecture of the logging in the Python script. I am all ears for
+> the improvements that satisfy everybody.
+> 
+> I think the problem is in design, it needs to be redone as Jon said.
+
+Originally, the warning function were just printing all warnings there
+directly. After I finished the script, I had to move them to be shown
+after filtering, in order to reproduce the same behavior of the -W flags.
+
+If we get rid of them (your patch effectively did that), we can just
+simplify the warning function and drop the prints from the output module.
+
+From my side, IMO this is the best alternative.
+
+> > Alternatively, if the idea is to always print warnings, get rid of all
+> > -W<option> flags, except for -Werror.
+> 
+> Not sure it's wanted behaviour, but I am in favour for anything that makes
+> warning visible and not silently disappear.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+
+-- 
 Thanks,
-Jason
+Mauro
