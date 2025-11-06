@@ -1,217 +1,165 @@
-Received: from sg-1-19.ptr.blmpb.com (sg-1-19.ptr.blmpb.com [118.26.132.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9316D331A4D
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 12:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B9532C305
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 13:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762433353; cv=none; b=gemkUm2KITljXZ0iSJArQsjTca2v6mb0Ap/8H/9NNQV5gNGkpcebIP22JwNm7uf36T8sv2NvoZxAEs0lApo50YMhY2+mjFFmsGQ4B1sNBqvRxGbaNNkCB+UajNAd/BhRSJGScDVzWE1UmuBwkoB4RAHiSNr5gplmIOHRf8l11p8=
+	t=1762434393; cv=none; b=JNv+LoQzIfjJpOrbbsijNXzbTQz9D//53dimuuYEr1y20/r2CPJcSls0atoa3ttq0rhgikaNSCgJNYKAzD0Z3o9pLKx2+JbSDffvhoPTbhofYJmspclZItP9BIEngYIIf0rMlK9pbXCD3puNGXCACDlq5Xv9j5BoWTkBUusVXjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762433353; c=relaxed/simple;
-	bh=GKXbji7k05YppF65+qHELPqY1emyl1XkYE/dO1Ao37o=;
-	h=Date:In-Reply-To:Cc:From:References:Message-Id:Mime-Version:
-	 Content-Type:To:Subject; b=SzGe2YMWBEecC0NTZe34CViF4JNQRyJalK9Q4EU2dczzp+5AYO+SuvJ5XCy9Ju9KwN82xow/FqrtDKD4ox0PlmYdYTKu0gL7nMqCQb0z2sY4Th1hUwDPP20TBIFQsmm13CMxrCjFIPtKLbFnM+92VNtFdAlD0UdlP4Kb0oP1YmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=none smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=JYOVOvsl; arc=none smtp.client-ip=118.26.132.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fnnas.com
+	s=arc-20240116; t=1762434393; c=relaxed/simple;
+	bh=Oh3vqThs7E5ORp4I12bnSkdPKzXHUdJRpCiWM3mCxuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rjpspRf8qbNiOq6RmyUIIq0Yn7192CRSRVQXktUal3vr+IpSLIKkRxZZIHwLjbEYGtifuCTxX/WCxDuMwh//VbDgUoPMHDFKJBYr77mlqOVFLvFg4RchA2htN+9BL3HJT55FW63BP911M2ryDu1MW5OnLaj3NZg2hZZc1CiMIWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blozqQS3; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="JYOVOvsl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1762433341;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=2cL2TYe+qhVX+jnRJHpmMecoGm9Nq2zKGwJMjDndggY=;
- b=JYOVOvslSSUJ1b8ASox2v7Dfs5iBjuXZuSHACMw7hn8UH9flRwBON7O7rTe6zdikqWipcD
- rDNJlUmYPp7je1wTPlcWV02VSduN1hcYB39DreFpHuvHXIm6FfKHMISSQVaRa9Le0GA2PP
- l7S9V63UkaR/ozuPWVXJn3lEkTjjz0cCNrxuzH0h8/1njqzMNSL/+Mhni46ItnqCK9q1H0
- HHH3P9StcqUfg5CB0ceXTvCzhDfzT0n5ilNyjljOaECpZ/YKWo3+4nijkIxw0bmnbCQoqR
- FoalISnFf8bGSele9k9MyydWLv6/tlALoRxq0nBspcE5vVkaBFKclkZkOQDYSA==
-Date: Thu, 6 Nov 2025 20:48:55 +0800
-In-Reply-To: <CALTww289ZzZP5TmD5qezaYZV0Mnb90abqMqR=OnAzRz3NkmhQQ@mail.gmail.com>
-Cc: "Li Nan" <linan666@huaweicloud.com>, <corbet@lwn.net>, <song@kernel.org>, 
-	<hare@suse.de>, <linux-doc@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <linux-raid@vger.kernel.org>, 
-	<yangerkun@huawei.com>, <yi.zhang@huawei.com>, <yukuai@fnnas.com>
-From: "Yu Kuai" <yukuai@fnnas.com>
-References: <20251103125757.1405796-1-linan666@huaweicloud.com> <20251103125757.1405796-5-linan666@huaweicloud.com> <CALTww29-7U=o=RzS=pfo-zqLYY_O2o+PXw-8PLXqFRf=wdthvQ@mail.gmail.com> <a660478f-b146-05ec-a3f4-f86457b096d0@huaweicloud.com> <CALTww29v7kKgDyWqUZnteNqHDEH9_KBRY+HtSMJoquMv0sTwkg@mail.gmail.com> <2c1ab8fc-99ac-44fd-892c-2eeedb9581f4@fnnas.com> <CALTww289ZzZP5TmD5qezaYZV0Mnb90abqMqR=OnAzRz3NkmhQQ@mail.gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Received: from [192.168.1.104] ([39.182.0.168]) by smtp.feishu.cn with ESMTPS; Thu, 06 Nov 2025 20:48:58 +0800
-Reply-To: yukuai@fnnas.com
-Message-Id: <5396ce6f-ba67-4f5e-86dc-3c9aebb6dc20@fnnas.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blozqQS3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762434392; x=1793970392;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Oh3vqThs7E5ORp4I12bnSkdPKzXHUdJRpCiWM3mCxuY=;
+  b=blozqQS37uxYBd955OVY4BjKwugbA/SRhE68KVyBZcmrXW3nKX+ABsPU
+   WlvDTaVu0BU6U7xspbUSFUsG+QlFOdl4/sOvxGboab2G1WLbpse4CI237
+   kDxk/TSdmVIBK7jLUD+07Jh/lmZkI/e9xVKMdbbP0/YqQVhYWVnbx10Qk
+   57Ciqs/2FCRWH4bsNLMRDkCrPpizncjYPXtIJIVULRB/KvxdLNxv0wVZf
+   Sn+MlC4asKfV1rNcUYuZmkNEbkEm7mW8IsSVMuHikagsjSw1nlaLomEtc
+   HWD8j/2anXZqbk+Fx76E8hBSWD1hM2QJRzIZT9cSpJpbChSTDQB0jKSVj
+   Q==;
+X-CSE-ConnectionGUID: fyj7vjrbR8e0ClTJpskXXg==
+X-CSE-MsgGUID: HPr9kxadQ2O9jmu7MlAoRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="76017720"
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="76017720"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 05:06:32 -0800
+X-CSE-ConnectionGUID: JvrVjiyZSS66MEWCAMLHzg==
+X-CSE-MsgGUID: lQDfyNgdRxO5vwUilJrH8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="192108819"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2025 05:06:29 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGzh1-000Twd-0p;
+	Thu, 06 Nov 2025 13:06:24 +0000
+Date: Thu, 6 Nov 2025 21:05:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [linux-next:master 6722/6818] Warning:
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1318 This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202511062036.Ry8Z2APc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+2690c993b+68151b+vger.kernel.org+yukuai@fnnas.com>
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Yu Kuai <yukuai@fnnas.com>
-To: "Xiao Ni" <xni@redhat.com>
-Subject: Re: [PATCH v9 4/5] md: add check_new_feature module parameter
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df5d79720b152e7ff058f11ed7e88d5b5c8d2a0c
+commit: c6db94fd0d2023b5a2fd774864c4039352805ce5 [6722/6818] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251106/202511062036.Ry8Z2APc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062036.Ry8Z2APc-lkp@intel.com/reproduce)
 
-=E5=9C=A8 2025/11/6 20:35, Xiao Ni =E5=86=99=E9=81=93:
-> On Thu, Nov 6, 2025 at 11:45=E2=80=AFAM Yu Kuai <yukuai@fnnas.com> wrote:
->> Hi,
->>
->> =E5=9C=A8 2025/11/4 15:17, Xiao Ni =E5=86=99=E9=81=93:
->>> On Tue, Nov 4, 2025 at 10:52=E2=80=AFAM Li Nan <linan666@huaweicloud.co=
-m> wrote:
->>>>
->>>> =E5=9C=A8 2025/11/4 9:47, Xiao Ni =E5=86=99=E9=81=93:
->>>>> On Mon, Nov 3, 2025 at 9:06=E2=80=AFPM <linan666@huaweicloud.com> wro=
-te:
->>>>>> From: Li Nan <linan122@huawei.com>
->>>>>>
->>>>>> Raid checks if pad3 is zero when loading superblock from disk. Array=
-s
->>>>>> created with new features may fail to assemble on old kernels as pad=
-3
->>>>>> is used.
->>>>>>
->>>>>> Add module parameter check_new_feature to bypass this check.
->>>>>>
->>>>>> Signed-off-by: Li Nan <linan122@huawei.com>
->>>>>> ---
->>>>>>     drivers/md/md.c | 12 +++++++++---
->>>>>>     1 file changed, 9 insertions(+), 3 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/md/md.c b/drivers/md/md.c
->>>>>> index dffc6a482181..5921fb245bfa 100644
->>>>>> --- a/drivers/md/md.c
->>>>>> +++ b/drivers/md/md.c
->>>>>> @@ -339,6 +339,7 @@ static int start_readonly;
->>>>>>      */
->>>>>>     static bool create_on_open =3D true;
->>>>>>     static bool legacy_async_del_gendisk =3D true;
->>>>>> +static bool check_new_feature =3D true;
->>>>>>
->>>>>>     /*
->>>>>>      * We have a system wide 'event count' that is incremented
->>>>>> @@ -1850,9 +1851,13 @@ static int super_1_load(struct md_rdev *rdev,=
- struct md_rdev *refdev, int minor_
->>>>>>            }
->>>>>>            if (sb->pad0 ||
->>>>>>                sb->pad3[0] ||
->>>>>> -           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(s=
-b->pad3[1])))
->>>>>> -               /* Some padding is non-zero, might be a new feature =
-*/
->>>>>> -               return -EINVAL;
->>>>>> +           memcmp(sb->pad3, sb->pad3+1, sizeof(sb->pad3) - sizeof(s=
-b->pad3[1]))) {
->>>>>> +               pr_warn("Some padding is non-zero on %pg, might be a=
- new feature\n",
->>>>>> +                       rdev->bdev);
->>>>>> +               if (check_new_feature)
->>>>>> +                       return -EINVAL;
->>>>>> +               pr_warn("check_new_feature is disabled, data corrupt=
-ion possible\n");
->>>>>> +       }
->>>>>>
->>>>>>            rdev->preferred_minor =3D 0xffff;
->>>>>>            rdev->data_offset =3D le64_to_cpu(sb->data_offset);
->>>>>> @@ -10704,6 +10709,7 @@ module_param(start_dirty_degraded, int, S_IR=
-UGO|S_IWUSR);
->>>>>>     module_param_call(new_array, add_named_array, NULL, NULL, S_IWUS=
-R);
->>>>>>     module_param(create_on_open, bool, S_IRUSR|S_IWUSR);
->>>>>>     module_param(legacy_async_del_gendisk, bool, 0600);
->>>>>> +module_param(check_new_feature, bool, 0600);
->>>>>>
->>>>>>     MODULE_LICENSE("GPL");
->>>>>>     MODULE_DESCRIPTION("MD RAID framework");
->>>>>> --
->>>>>> 2.39.2
->>>>>>
->>>>> Hi
->>>>>
->>>>> Thanks for finding this problem in time. The default of this kernel
->>>>> module is true. I don't think people can check new kernel modules
->>>>> after updating to a new kernel. They will find the array can't
->>>>> assemble and report bugs. You already use pad3, is it good to remove
->>>>> the check about pad3 directly here?
->>>>>
->>>>> By the way, have you run the regression tests?
->>>>>
->>>>> Regards
->>>>> Xiao
->>>>>
->>>>>
->>>>> .
->>>> Hi Xiao.
->>>>
->>>> Thanks for your review.
->>>>
->>>> Deleting this check directly is risky. For example, in configurable LB=
-S:
->>>> if user sets LBS to 4K, the LBS of a RAID array assembled on old kerne=
-l
->>>> becomes 512. Forcing use of this array then risks data loss -- the
->>>> original issue this feature want to solve.
->>> You're right, we can't delete the check.
->>> For the old kernel, the array which has specified logical size can't
->>> be assembled. This patch still can't fix this problem, because it is
->>> an old kernel and this patch is for a new kernel, right?
->>> For existing arrays, they don't have such problems. They can be
->>> assembled after updating to a new kernel.
->>> So, do we need this patch?
->> There is a use case for us that user may create the array with old kerne=
-l, and
->> then if something bad happened in the system(may not be related to the a=
-rray),
->> user may update to mainline releases and later switch back to our releas=
-e. We
->> want a solution that user can still use the array in this case.
-> Hi all
->
-> Let me check if I understand right:
-> 1. a machine with an old kernel has problems
-> 2. update to new kernel which has new feature
-> 3. create an array with new kernel
-> 4. switch back to the old kernel, so assemble fails because sb->pad3
-> is used and not zero.
->
-> The old kernel is right to do so. This should be expected, right?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511062036.Ry8Z2APc-lkp@intel.com/
 
-Not quite what I mean, for example
-1. old kernel create an array md0;
-2. something bad happened(not related to md0), for example, file system fro=
-m other device crashed, or another array can't assembled;
-3. user might update to new kernel and try to copy data, however, md0 will =
-be assembled and sb->pad3 will be set;
-4. user switch back to old kernel, the md0 assemble failed and can't not be=
- used in old kernel anymore.
+All warnings (new ones prefixed by >>):
 
->
->>>> Future features may also have similar risks, so instead of deleting th=
-is
->>>> check directly, I chose to add a module parameter to give users a choi=
-ce.
->>>> What do you think?
->>> Maybe we can add a feature bit to avoid the kernel parameter. This
->>> feature bit can be set when specifying logical block size.
->> The situation still stand, for unknown feature bit, we'd better to forbi=
-d
->> assembling the array to prevent data loss by default.
-> If I understand correctly, the old kernel already refuses to assemble it.
+>> Warning: drivers/gpu/drm/drm_vblank.c:2267 expecting prototype for drm_crtc_vblank_start_timer(). Prototype was for drm_crtc_vblank_cancel_timer() instead
+--
+>> Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 function parameter 'ras_core' not described in 'ras_eeprom_append'
+>> Warning: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_eeprom.c:845 expecting prototype for ras_core_eeprom_append(). Prototype was for ras_eeprom_append() instead
+--
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1318 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPTC pipe control lock to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1335 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP set flip control GSL to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1350 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP program triplebuffer to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1367 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP update plane address to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1382 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DPP set input transfer function to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1399 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DPP program gamut remap to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1412 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DPP program bias and scale to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1424 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPTC program manual trigger to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1437 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DPP set output transfer function to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1454 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC update visual confirm to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1471 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC power on MPC mem PWR to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1488 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC set output CSC to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1507 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC set OCSC default to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1526 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DMUB send DMCUB command to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1543 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DMUB SubVP save surface address to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1560 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP wait for DCC meta propagation to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1575 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP wait pipe read start to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1588 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HWS apply update flags for phantom to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1601 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HWS update phantom VP position to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1618 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPTC set ODM combine to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1636 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPTC set ODM bypass to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1659 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG program global sync to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1682 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG wait for state to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1697 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG set VTG params to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1714 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG setup vertical interrupt2 to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1728 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add DPP set HDR multiplier to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1742 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP program DET size to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1785 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP program DET segments to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1802 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPP set dynamic expansion to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1821 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add OPP program FMT to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1852 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add ABM set pipe to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1867 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add ABM set level to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1882 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG enable CRTC to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1895 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add HUBP wait flip pending to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:1912 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add TG wait double buffer pending to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:3270 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC update blending to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:3287 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC insert plane to block sequence
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.c:3312 This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Helper function to add MPC assert idle MPCC to block sequence
 
-The problem is that if array is created from old kernel, and user still
-want to use it in the old kernel, then the user can't assemble this array
-in new kernel. However, this is real use case for us :(
-
-> Regards
-> Xiao
->
->> Thanks,
->> Kuai
->>
->>> Regards
->>> Xiao
->>>> --
->>>> Thanks,
->>>> Nan
->>>>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
