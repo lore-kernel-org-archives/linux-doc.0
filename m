@@ -1,110 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3B2F5473
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F5A19D89E;
+	Thu,  6 Nov 2025 00:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762385981; cv=none; b=ZGzsokAKiqPNNiPRQy6FkY6L6qva/uj/fD+/90QMrk1MqThqRO2JN+ptk8d8MI+Uz5Ud94f5/0c1mZ6CcX8/x/Kza7lItL91+/e18+WrG9t7aojuUXB70Sq/WHioak8UDTotzeiSmr+FdCCLbIsPSS3Q2Rz1jww5WHMMTi5yRWE=
+	t=1762390121; cv=none; b=pW1nRQ46Zpdwd8Gtrd6w3Vv55IOjIgxinlNO/H/PhsBS4janasrYeoAHFVzFDEm/2EuZ9enDGcDPb4wwpmqsjtxv3xlEktrB5WEBKIijZj0bqp6ygRuCxqSJrB+/cp/yWplApktz6kxurZ0q3TioHMQSCf9hfwBbmgk2TtgzrYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762385981; c=relaxed/simple;
-	bh=ad87AQM7onhmSNUoaSc+pJLxvG5glvi5RpIzF5Cyhsc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KC3dLfMMputt1ubrF9IUGstehposnmMJYeMkKOTUvGM/pxnENb0WUEAlwjgass0WfClRY5WYxugcPtC0H9sYw4JunLe7aMBrG6LmPLkhMxTj9dU0PHT7b5FUnP7gFBOtqWrXYqKI2UDCiET4oU4L9vKPRSWDUNelfkX+ynu0V8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVIsoozy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762390121; c=relaxed/simple;
+	bh=ofMeivP53QuCVBZGpy4m9dYlilxHAAHRdQP23px9lZo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mx8xnYPUGCaKvKEfT/AxEboH43Jjn/T4+ldccU1RK1siwpW1sXGMvbf4U0RmATCfccu5iIHOM4B0lz8qhZHn8AVywFicU154MzTdiHS+Es6vSZG5+CV9NkNBjswUJtxbhzGswtntvRF9rt5oEuGJ5MMCoes3wKaQh75p8vDjDKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=knNG+TDa; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVIsoozy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E413C2BCAF
-	for <linux-doc@vger.kernel.org>; Wed,  5 Nov 2025 23:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762385981;
-	bh=ad87AQM7onhmSNUoaSc+pJLxvG5glvi5RpIzF5Cyhsc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CVIsoozyuSjlfoAXmbCPqRSbT8mHch2MetbvDTJp/fS6qdf+Yv4ICD3sbi5HkLG78
-	 ZiWBelrjYvGUxQrNHf3Ysr43RYbqZIEUHJxu0SGbr3QxDTmckm7T45BoTfl4C3LFhX
-	 bNJ2isvx3zN2C7ZCsqsLB1eJRYb99MFf5Z2+of2YZiNxxNSP6Pvh2odbEZWZQghGcU
-	 44YmuaWYdOD4ySJ9yyvbBYRkVwGPgx9NEyYXglJbnLzg8ykkRzk6D1rhHYxik3WgGQ
-	 3z4EcnR2RU2jYi8Mf3amDA+pzDRcEU+c3Ot/xxMvWC0NNdlORUtLx9YfNBZx5K7loM
-	 AaMfBM+Dp08eQ==
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7a226a0798cso389573b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Nov 2025 15:39:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV2Yh+gGMVSer1Ve5OkQ+lRFKjjEkMdcVgilkAKFXDLt6pmRqSS9oQUHOvGYK+afmQt+VcJthEkCvw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJRBwgn9w8Gn9mkGnAFHsEvNe0BGfW5AlPN66Ut0CKfIMip3G/
-	HSJ9R3O5M2tgXBSL0SYXyL90JIwd+q/pjJ0oy4yG0/EGmujNC70I42DCXJ42Cz9mCMfv9PnZKm7
-	QBEsIl2sA3ybcekeXWtEUTeQObkrvZDM=
-X-Google-Smtp-Source: AGHT+IGFgsWp44LDzpMdW8c/K6LA75pMzm1Rzpqpggg6Q6IM8gZfErETvOdNjrRzM710JJF02+xjkLyL0Hw+OKJTdmY=
-X-Received: by 2002:a05:6a20:6a0f:b0:2d9:c2:5ce4 with SMTP id
- adf61e73a8af0-34f840138bcmr6089035637.7.1762385980658; Wed, 05 Nov 2025
- 15:39:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="knNG+TDa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=t3trqbZvnpKuPDnyDXnsM2TfU5BGfVVFR5dv1baRrXQ=; b=knNG+TDa+bOfc34SamcxlM0QUk
+	yLZFfeGqehhoR6dzwSMyfW3NqB4QlotDHNCMvLSmweRszKu9tKgdkX2cWbAQhParzvxDvQMn0OAk5
+	KSnC6zGJP8FCG7oI4TFMKR/yoTcIql8AziPTuazhx9MZyVERKeiw8gpCfN4EYMw2R0E2reUdC5rJH
+	S7WMEiWCbL363yJ7mza5SUIcnR1W3hl1YKm2jGv4osgY7WAttSkv+TllTfqCjZauJ4s6H8epIxoBZ
+	nctvOug71TP45mILRGQP2Qg8OGuJMFiSgmk8GB+IgrUr779OTj4zuMe8x4V2fogyiy1zOqig8Dc8x
+	zZmgAqIA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vGoB2-0000000Ef97-3RPR;
+	Thu, 06 Nov 2025 00:48:36 +0000
+Message-ID: <e0b30586-3f30-4ec4-9231-51c4e1baadd3@infradead.org>
+Date: Wed, 5 Nov 2025 16:48:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
-In-Reply-To: <20251105232615.720861-1-yanzhuhuang@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Wed, 5 Nov 2025 15:39:28 -0800
-X-Gmail-Original-Message-ID: <CAKtyLkHfW=cOryV9T4D=RA9-C=cea5DcH9U8jMn8OKAS30PHzA@mail.gmail.com>
-X-Gm-Features: AWmQ_bmNXGHrdDJc6hWNgp1g05sL-4GIVDgJ77DbOJ69D4xJTHR2sRKHobb2cpo
-Message-ID: <CAKtyLkHfW=cOryV9T4D=RA9-C=cea5DcH9U8jMn8OKAS30PHzA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] ipe: add script enforcement mechanism with AT_EXECVE_CHECK
-To: Yanzhu Huang <yanzhuhuang@linux.microsoft.com>
-Cc: wufan@kernel.org, paul@paul-moore.com, mic@digikod.net, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+ <20251105221907.0c8c388b@foz.lan>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251105221907.0c8c388b@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 5, 2025 at 3:26=E2=80=AFPM Yanzhu Huang
-<yanzhuhuang@linux.microsoft.com> wrote:
->
-> Indirect file execution through interpreters (e.g. python script.py, sh
-> script.sh) should have integrity policy enforced by IPE based on the
-> rules. Currently, IPE can only enforce policy on the interpreter binary
-> itself, but has no visibility into the scripts that the interpreter
-> executes.
->
-> Overview
-> --------
->
-> This patch series introduces script enforcement for IPE, allowing integri=
-ty
-> evaluation of indirectly executed scripts through the AT_EXECVE_CHECK fla=
-g.
->
-> Patch 1 adds the core implementation with ipe_bprm_creds_for_exec() hook
-> that integrates with the AT_EXECVE_CHECK mechanism.
->
-> Patch 2 updates admin guide documentation to explain the script enforceme=
-nt
-> mechanism.
->
-> The IPE test suite has been updated to include script enforcement tests:
-> https://github.com/microsoft/ipe/pull/6
->
-> Changes since v2:
-> - update AT_EXECVE_CHECK reference
->
-> Changes since v1:
-> - update the interpreters reference
->
-> Yanzhu Huang (2):
->   ipe: Add AT_EXECVE_CHECK support for script enforcement
->   ipe: Update documentation for script enforcement
->
->  Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++++---
->  security/ipe/audit.c                  |  1 +
->  security/ipe/hooks.c                  | 27 +++++++++++++++++++++++++++
->  security/ipe/hooks.h                  |  3 +++
->  security/ipe/ipe.c                    |  1 +
->  5 files changed, 46 insertions(+), 3 deletions(-)
->
-> --
-> 2.43.0
->
 
-Thanks, applied to ipe/next.
 
--Fan
+On 11/5/25 1:19 PM, Mauro Carvalho Chehab wrote:
+> 
+> No objection of this one, but this breaks the behavior of the -W
+> flags.
+> 
+> See, the way kernel-doc.pl worked is that:
+> 
+> 1. Warnings are controlled via several -W flags:
+> 
+>   -Wreturn, --wreturn   Warns about the lack of a return markup on functions.
+>   -Wshort-desc, -Wshort-description, --wshort-desc
+>                         Warns if initial short description is missing
+> 
+>                         This option is kept just for backward-compatibility, but it does nothing,
+>                         neither here nor at the original Perl script.
+
+FWIW, it did output warnings once upon a time (the Perl script version).
+I don't know what happened to it.
+
+>   -Wall, --wall         Enable all types of warnings
+>   -Werror, --werror     Treat warnings as errors.
+> 
+>   Those affect running kernel-doc manually.
+-- 
+~Randy
+
