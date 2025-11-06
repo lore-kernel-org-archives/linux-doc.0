@@ -1,114 +1,143 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE44345CB0
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 16:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+Received: from azure-sdnproxy.icoremail.net (l-sdnproxy.icoremail.net [20.188.111.126])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E842F5492;
+	Thu,  6 Nov 2025 16:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.188.111.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762446598; cv=none; b=SQ8km+xfEAkzwgrtK/CNBvZcryNFv2wBlgMOl5NBLpoKz3wN6xLjD9o/l9PTy0ALH9qsa/iWSopmfKgEk+og03ISuzD1dnbjmN51ZIXSMI2BQdGpBi0KlxXK6YQzDMiF5L+TY6L9yuI3zl6GU9ze7X83hACwReNpylzMb3m8mmM=
+	t=1762446858; cv=none; b=jtyt1ae5fc5uLi6rglV86wf8fDJAx4sZ1v0efRdnXPgpqPDDpkWT+vExCoU1CP3AJuYwBRHt63UgAV37z6x+goQhKELL/FcMEhTqHyGZepa8vFE+u1rlzrwdFjwQajhrPTpxdy/61usW+fYh7goXecFssAPwaq9ffN9IKRoPhlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762446598; c=relaxed/simple;
-	bh=jEkS0wS9JdICTaCzYvZx0OjcAUCfKSnRc9lNZ08RGwQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BMAGTWY+K7mS9/l36ePtpvtUF/zOZG1Ohr8f72JgkuC8XWVlL7FMBlFBRcoOL988kdQRHCo5crLy6CtotJU9EiXotZASe7FRiCWY5VCWAYRHFTiaWihKWFF9QW6nOm3+lZIk92J549vJfrKO2eCG1KjxxR3PHZNIhpPiGnnaHuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ed/MdcYF; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ed/MdcYF"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-33db8fde85cso1093954a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 08:29:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762446596; x=1763051396; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EMufvlKZanMTIZvbWWJIkNimyApBJZflYRWdIy87U/A=;
-        b=Ed/MdcYFf0bE13i+lCUqEh61uYXZIRFsVri+LZVomCRwmAuWXJVvLQ6mrDubJbKC/U
-         vgzdb5uvdJai6GSmlEbySoX2SUCrdlDoz2F9sx1SWdbzdQb1CUxPXT/gtK8D1XUm+uXo
-         j0rAiZJ0MNULiHXmz1XEGw05ynjQVlhBxUGfxDUKihjbB22zhlJodUfyutsQ2QKzHe/B
-         hA6rKMfalhvvFRHacfP1Ml7PV6yUAAlVMMDPtTvKJ+rNXJHvAsUQu7bL0GCDGXaUQfwp
-         vXAO6e7LM+ffXLxPJcsgLhhaDz+7HRmkQkGY8eqQcBvoTaaUIefuchT0dpju/c1ZhgCM
-         x+qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762446596; x=1763051396;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EMufvlKZanMTIZvbWWJIkNimyApBJZflYRWdIy87U/A=;
-        b=mvcs5vkqqdzjGhZRo9Zzzmt7RSIrdCnF9FgSupRAsl9IGbiH5uVjSdWxUAPzBlIx4f
-         9sQ7AXHhB5a99GFXPmqvL8N9iaW2mZoyRiCufXbMMZoZZEd5eH22SJcfq2Yct+El8QII
-         y8E0KLJG9pem6gqP/JsKbdKhlZeJ/y1Ax94yy779DYB+MRGJOAPjOfr/FFFZIz1GiPdl
-         PxFG+QJhUegRTwfyOPsCuXO823BOGwI9bBWJ9c27qknPCZ2L2r0Y0VO37drQsZWR2EH+
-         0yV9LxkbfVOK6cd4W5OZpbXzmwDL4n1eHWwXwIELoRES5yOGA2GKg2vUdhJMIsX5KMHF
-         Jt8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXijKEEvLujc5ZNwm1Ykz+6Diu25ZtFvdMKn/k0tE5n5doQGS7I+NmJLJ+O9Gl9FMXqB7trYAoCjLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNAjYRndFBYqpwZp9rQophhn0G7g62MSJJlX+TIwTcec+TGViA
-	Sex7CtMgwRwblXhFtb1samob+55Ei5q1EyRNAmMNdD8Msc9d3N0lkBCt
-X-Gm-Gg: ASbGnctWM5JETg7kXv5G0XtEkbecJ/C2HfJ+A2FFflA82VPQ/iGsPO7RXDzDI/+mZWt
-	FjoDa89pvf14fp7ImzD9jd93unthEWa5aKt3oPsplafh1W390jCvJJWNF+u1OPGZ8nHTbUjTrJB
-	WOtR2irfpbYiXCzT+6IGPF5HUFEWeDcS8H8dO/0fKYi60P7WUKmgWnbQ9HhJZorSahkxvazjIsz
-	NFTrNrusl02l4GpMgX2zrmjiUKc+RmNv9DLXrkYOvkvDdbetEctieB3nKtaOIZe6RboytPixjcg
-	HbowPD8DSeMy8wRXPlhruHVg/s3vNWa01WLAMxMkEeaZYrwe/egvUrbImeoBdKa2pluctgGf2AG
-	NoZ4uVKK1WExn3TaOK7oTW6Ezpvs/QIpfXdY2N+ZPSGNAVaJTzuPgx9ilRqUnZVUK9OaSm+nmuA
-	eoTtIqwPHikA+BbnB3+CeJ5wssj9De2HjQhuKnG/AISAxVHuXfWMpS/5AQOxtpc2FXHxMn0g==
-X-Google-Smtp-Source: AGHT+IG+/YJFa+iN7B35iE0D3sOPdQh3iyKV5sn/uuCGaHI5yvaeFznbvQBUEeV5BmhRnHB0H5TLTA==
-X-Received: by 2002:a17:90b:3607:b0:341:abdc:8ea2 with SMTP id 98e67ed59e1d1-341abdc8fdemr6666428a91.37.1762446596409;
-        Thu, 06 Nov 2025 08:29:56 -0800 (PST)
-Received: from ?IPv6:2401:4900:88f4:f6c4:12e8:f050:511d:31f3? ([2401:4900:88f4:f6c4:12e8:f050:511d:31f3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a68ad143sm6652545a91.3.2025.11.06.08.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 08:29:55 -0800 (PST)
-Message-ID: <67e28fadf4c20433c964d13d96dafe3514457656.camel@gmail.com>
-Subject: Re: [PATCH RESEND v3] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>, Geert Uytterhoeven	
- <geert@linux-m68k.org>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org,  Joe Perches <joe@perches.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org, Andy
- Whitcroft <apw@canonical.com>, Jonathan Corbet <corbet@lwn.net>, Dan
- Carpenter	 <dan.carpenter@linaro.org>, Dan Williams
- <dan.j.williams@intel.com>, David Hunter <david.hunter.linux@gmail.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn	
- <lukas.bulwahn@gmail.com>, Nishanth Menon <nm@ti.com>, Shuah Khan	
- <skhan@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>, Viresh Kumar	
- <vireshk@kernel.org>
-Date: Thu, 06 Nov 2025 21:59:33 +0530
-In-Reply-To: <221c2b9b-4809-48d8-af7d-f290d1c2a7fa@web.de>
-References: 
-	<CAMuHMdV+12MoAGNHC9kf==Bt0cLuJ39Fs+W61DN67sE_p-u=og@mail.gmail.com>
-	 <221c2b9b-4809-48d8-af7d-f290d1c2a7fa@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+deb13u1 
+	s=arc-20240116; t=1762446858; c=relaxed/simple;
+	bh=viR7TUVabNHpxV1iJgXxwJvnBjkre54rmfNt5PzotQE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ef33snGJKihrZV3JPcIT/sI76YGPQWL5+Hrq6nEAgjEaQPQioTGk09RP23/MYtHLyvplbRdCgP2J/tlxmzr5oNRUPjG2B3peg3sA16qsJXV9VVDP4Rp7OwB8nScrcR4y1HfAVEHcXvt/qCD83R9fQr7WnOs9TU6wLBi9bHR0dlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=20.188.111.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrACHusrKzQxpbmJ4BQ--.18275S2;
+	Fri, 07 Nov 2025 00:33:14 +0800 (CST)
+Received: from [192.168.1.7] (unknown [58.19.1.83])
+	by gateway (Coremail) with SMTP id _____wD3wUnFzQxpkldhAA--.41886S2;
+	Fri, 07 Nov 2025 00:33:12 +0800 (CST)
+Message-ID: <7e6096ab-18bd-4438-8fbb-3f530ee9e69f@hust.edu.cn>
+Date: Fri, 7 Nov 2025 00:33:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs/zh_CN: Add kbuild timestamp Chinese translation
+To: Chenguang Zhao <zhaochenguang@kylinos.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ HUST OS Kernel Contribution <hust-os-kernel-patches@googlegroups.com>
+References: <20251106015148.54424-1-zhaochenguang@kylinos.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20251106015148.54424-1-zhaochenguang@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrACHusrKzQxpbmJ4BQ--.18275S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFyDKr1fZw1fWr4xZFWrZrb_yoWrJF13p3
+	ZxGr17J3Z5tr1Uur1xGr1UuF1rGFn7Gw4UXw4Utw1kJr1qy3sYqr17tFyvgry7KryxXF4U
+	Gr4UKF1UAFyUArUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVWxJVW8Jr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_uctUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Wed, 2025-11-05 at 10:18 +0100, Markus Elfring wrote:
-[..]
-> * Do corresponding source code analysis requirements indicate a need
->   to perform data processing with other programming interfaces than regul=
-ar expressions?
->=20
 
-not sure about other source code analysis tools, but checkpatch
-predominantly uses regexes
+On 11/6/25 9:51 AM, Chenguang Zhao wrote:
+> Sync the translation of changes in kbuild/kbuild.rst about
+> KBUILD_BUILD_TIMESTAMP.
+>
+> Update the translation through commit 5cbfb4da7e06
+> ("kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation")
 
-> * How do you think about to mention the possibility once more that scopes
->   can be reduced for affected local variables?
->   https://elixir.bootlin.com/linux/v6.18-rc4/source/include/linux/cleanup=
-.h#L142-L146
->  ...
+Hi, I know where the problem is.
 
-The docstring talks about interdependency issues caused by assigning to
-`NULL` which are very rare
+If you want to improve or revise the kernel documentation, please 
+directly submit the changes to the original English document. Our 
+Chinese translation for now is just the translation of the English 
+documentation.
 
-Regards,
-Ally
+And this commit id should be the commit of the corresponding English 
+documents.
 
+Take kbuild/kbuild.rst as an example, the latest commit of Chinese 
+translation shows:
+
+-----------------------------------------------------------------------------------------------------------
+
+docs/zh_CN: add the translation of kbuild/kbuild.rst
+
+Finish the translation of kbuild/kbuild.rst and move kbuild
+from TODO to the main body.
+
+Update to commit 2eb5d7f24299 ("kbuild: doc: describe the -C
+option precisely for external module builds")
+
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+Link: https://lore.kernel.org/r/20241016131710.2619567-1-dzm91@hust.edu.cn
+
+-----------------------------------------------------------------------------------------------------------
+
+However, the commit history of English documentation goes further:
+
+2025-01-15    kbuild: rust: add PROCMACROLDFLAGS
+2024-11-28    kbuild: support building external modules in a separate 
+build directory
+2024-09-24    kbuild: doc: describe the -C option precisely for external 
+module builds
+2024-09-20    kbuild: generate offset range data for builtin modules
+
+We need to update the new translations of doc changes in ("kbuild: rust: 
+add PROCMACROLDFLAGS") and ("kbuild: support building external modules 
+in a separate build directory")
+
+>
+> Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
+> ---
+> v2:
+>   - modify the commit message as suggested by Dongliang and add
+>     a corresponding commit info for the English documentation.
+> ---
+>   Documentation/translations/zh_CN/kbuild/kbuild.rst | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> index e5e2aebe1ebc..ad3e84eabbbf 100644
+> --- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> +++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> @@ -290,8 +290,13 @@ IGNORE_DIRS
+>   KBUILD_BUILD_TIMESTAMP
+>   ----------------------
+>   将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
+> -（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
+> -内核构建某个时刻的 date 命令输出。
+> +（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。例如::
+> +
+> +	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
+> +
+> +默认值是内核构建某个时刻的date命令输出。如果提供该时戳，它还用于任何initramfs
+> +归档文件中的mtime字段。Initramfs mtimes是32位的，因此早于Unix纪元1970年，或
+> +晚于协调世界时 (UTC)2106年2月7日6时28分15秒的日期是无效的。
+>   
+>   KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+>   ------------------------------------
 
