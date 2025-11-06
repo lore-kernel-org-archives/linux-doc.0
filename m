@@ -1,127 +1,218 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA6930FF34
-	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 11:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D497D30CDBD;
+	Thu,  6 Nov 2025 11:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762429346; cv=none; b=mFOpuKCmLKCQd1LS2Hz5xxDWFRNY6it2E85MGjOyhddk4N5OJUdGG0HxF+TDf9B0hRY1pME3AFshk25byZzAAKqesyV9ODtx0zvZ6rSjkZrT43Ol3Cl0/dM0OKRYHTjxbQDICQrMP4mD75MsYvqZyHhTVT+fyyP8876/s5795lY=
+	t=1762429547; cv=none; b=XGKfqQWSd3uDteNjVmQZbeV2crf5J2OkzzNGMdabA4WJ6+HO6N6MrPFKpeBof3xnloRTVCK/q+yxPA/wJfEbGUMlA3DUgcXYr7f/r/EdKYp2LkBVIh+pSerNJ0aM1ncgVzWMAMnBtz45r3gW7Ns7uC2TJBM/xxEVahNS9IqR2tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762429346; c=relaxed/simple;
-	bh=skC26cRzfhs694yk1GvmPhOCKjrsCkj5WGjm2V3nag0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bao8Aci2U4yGUhwvWspIWGNWPx4UxMI2EwgPxvrQ3b5I15rcsqpm21bVuCGdrSi8ljX10P7rHG7UW9sLtvnSmfPHZ/RJYxFh/3BxMEjz1uAvYYQKIZetgT5iYS6DZw0PmmlNhcXBAT+UYUGpX2UkECx9cg4Dn1DkEFRidc4Mbns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YdEyq71R; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=lnvYLxbr; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762429547; c=relaxed/simple;
+	bh=lRYu+qLZL4qifVykWfCOuRwuIpfbS/rl12XbWnvSfcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=MRd5HK/gZxkSJ+Ko0sfzxUfElyX1yzN5udJF5GK4v8zwdu9uR+8HWbCnJCbeN69jJrYk4B81popixCfDK9ZxlkBuCraWKzB52BuIDzoNoiBN/xCcNVvM/AZIVzLvOOGOeXswow8wfBqxO+z5198Wx6mGscZh7mXsqutXQQbg2jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=FYEV5g/m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AHw05ijj; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YdEyq71R";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="lnvYLxbr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762429340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2yI4sLrgM9n4bdj8hOJQf5//skDa3nIIok/oPWCQb8k=;
-	b=YdEyq71RCqFAJgz6OBuuP0L5rIylrDW2XGpa3TRB8cM2kg2ZJ16bcBrK4INvzCGmaDRpln
-	8NmXaQOf3uBxYgVR9JX5jVeBeqP84tr5dapc66jDyL8We145yR2bioCKhQ5ZSIahoZLoMr
-	H78m8atfbyXFd/FhuR0u5QWpSzuK1ZU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-BiirqlvDMVaNwojQjKsmEw-1; Thu, 06 Nov 2025 06:42:19 -0500
-X-MC-Unique: BiirqlvDMVaNwojQjKsmEw-1
-X-Mimecast-MFC-AGG-ID: BiirqlvDMVaNwojQjKsmEw_1762429338
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b70b2a89c22so160660266b.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 03:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762429338; x=1763034138; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2yI4sLrgM9n4bdj8hOJQf5//skDa3nIIok/oPWCQb8k=;
-        b=lnvYLxbry/U9OU0LBYf5XlgU6ioCAzO2geBEsRSwpVkyfcxFo7PB8igo5pBex/t5Nr
-         mQS76EBVyKHa8HMEf/zrL6c2Xm3dSs/KDGQq6F7gPC9gGvYCeeKrZmWb1flnQLlJVCgg
-         zNgxJ1f6ZccUjKsUp9lZBqeYMLuy0szITyR5laghUJdL9Xriz2uMUE8/Tk/mz+20mwFV
-         OL/zZ5csXkRH8Fz1N+n4qz3pnbBiRq0CtcOjOM4Ni5nhQbirr1gY3c4qUGWWobimbozM
-         lz+vaURRuW6IbKx4uzcsglhScB2ybHUKjqSsIboOMCtl/5HchlUHgN5H4I9LtFYxviRV
-         YK+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762429338; x=1763034138;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2yI4sLrgM9n4bdj8hOJQf5//skDa3nIIok/oPWCQb8k=;
-        b=YtXl3Xu5c1GSenMqNs7lWSmZXQmg1QKEd4n6Pf4+WYzvUuEbogcVHXXIK8YTfYcPkb
-         aL4W9cGFcqXS4TOFzqRt/yySrKE0N3fjOPgyXUg4jGkullwcmWfRk3Y4VJnQlfFN7osx
-         NbwUMLlIRGvovirTZX/l4mgxDJ3qQAbxNeCmAFAR9XRlJ9ZnnD658Fz1LDtZuv1chwwy
-         UtnKqKMRXddbE8KIcCfAHSEEIYBeGtyJVTWJwHvmw0Od6UKqfXrPySHway5fU5QCe7pV
-         p/tz1kZCnXLoeyUTuOMDWsXqjUZqMtsgyCHFNaY+cT82SVcCpbuPzeWR8VIBdX0VBnle
-         ibVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWC3CDdoM5u8nBJ+0sag93gwiB/iILj1YXPjGoBOkrRh0xbs9IemPE1jcuW74J99HIvE7r7jtB+dUE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTm3sPu1+/iMLHr6kRH02lgz4v/Lj5Sdh+SbpZtn88Z3cq+Jle
-	l0qhOq9BZ6RA2GXlIGfbWEimZMVg0zKiur05wFYYSndt3r2QcanhdMg19a8+hvFK66oUrwMSyfp
-	PEqP1Lz4do6O03TLUz+s8QU8C+AoP20bC/LIDC4VGytHczypRiIn8S/52dSJpVA==
-X-Gm-Gg: ASbGncst9sUP9v1jjL9StvUGritVgraOyuBxw+G6QtxyPrjgeHmGQwsd65zCPDqc8zs
-	MCqXYCvJHYDrrJpTydZLQLDVXcpBQmocY370A/ViIKh5nVM0hdmYdR7kIex7EbVvpQr0C/lOsz/
-	ygjY81h651+ox9igvr3keWiMvr2hf/JXptKf6nwLdZ3BsuqWiv9VTLz+/FiliL/uhmwTW2p71AS
-	RHIofKJndI1xF1vbqpqDeDTlHg7T7j1gOeWDeRbJM62toG6LV4Z9yzFvj1QlUfhuXI59hSg5CWo
-	2qyVomgSUD0umxCrjjSYu/iMOF1DZx2WJifylJwuuO/22s8RR60wQK3iigKPi6mAuGlNxFn26tP
-	Wyg==
-X-Received: by 2002:a17:906:f591:b0:b70:c6ee:8956 with SMTP id a640c23a62f3a-b72893d8e8fmr339800466b.12.1762429337652;
-        Thu, 06 Nov 2025 03:42:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEOB8p8VKAkDWd7Zb5ZOoLgXt76WYCHhozdvWiOM8SoWc4iM6IK84Od+ej6rTPGojaDwrxUhw==
-X-Received: by 2002:a17:906:f591:b0:b70:c6ee:8956 with SMTP id a640c23a62f3a-b72893d8e8fmr339798666b.12.1762429337263;
-        Thu, 06 Nov 2025 03:42:17 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.155.83])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7289645397sm194955666b.41.2025.11.06.03.42.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 03:42:16 -0800 (PST)
-Message-ID: <aeaa5b5f-8697-4431-82b1-c890d67ebd41@redhat.com>
-Date: Thu, 6 Nov 2025 12:42:14 +0100
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="FYEV5g/m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AHw05ijj"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C52FD14001EE;
+	Thu,  6 Nov 2025 06:45:43 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Thu, 06 Nov 2025 06:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpf
+	fTJp8o5nXzOORcxkgidDlY=; b=FYEV5g/mCBf34duDLFuxYo/NshXE3UGd+cPhD
+	SmZPp+opVG7AdZFSuRopcOKyUv+Jr8vJ6hJX5El2MWWchqsCBQ30bPlyFgZ+evOo
+	GIFZ23+onrnQiiAK07vHOdoRf9Mufmw8E4sYgNWbOHiwMmLgZkQYQj19ChXkSoRA
+	FoHSpprkId53nO1ASVaUnpMPmDV7NxdaLF4RzWqY36Z94DqRXFh+nMYknTVMJXTL
+	NPhm0UzcGZ3w5K65agrQDmvN3kH6DeZ7d4c5edct6ddWlvRnY4aNdM8BIiCAFT/T
+	tH3L1X8sIcC/+oNBIhTmUDu8ntD5H6HZt22heXaVxMR9OCJaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1762429543; x=1762515943; bh=5k3gaOYj30dDfSaXFYGpffTJp8o5nXzOORc
+	xkgidDlY=; b=AHw05ijjthcuUW/Y4mRXDtouinbqbTItCo49SlVfohlLZyiUJjY
+	y6v+3d49rOfjqNZOCzvghhwx1kKkVC8MMD6J0ZWrSOrmz80sOwlOfV0dbcVRZ4Xd
+	Jx3iYLnAHyMLU4jemlpehwU6KYB5/nyFXpezOhwg/Dbz9D6UJb3+la/HuG3opjOE
+	tBhS+UDO0c9S0UqU/MT06jRglsHehn6TtmoSgPwkUQ6U/ykkUND3STpp1MGMezzj
+	SWSHZTnRMY+uIdd9qgqTn2auBA+4iukxNYTGlgeLv3nAtg4IR4s1TsREOVAmC0Yp
+	KZJ5Z8hwD8H7fY4+/zbxn3xn9BDbIU+xkXg==
+X-ME-Sender: <xms:Z4oMaVWa0xMAqjcsih5lcDOdf2-FIInIc-YWZKnoXgbE_hhLCqqBSg>
+    <xme:Z4oMadvlG7W19GzjpsSHdWLVFzNEg9kWNWPhEdx9vnbhX4AUqTtnlNz5HPtR5cs_9
+    -nOFBZhRsUxait2dJaTTqxeWv-xK3c5fazyiQYCyiFQNE_3o7-7Vf0>
+X-ME-Received: <xmr:Z4oMaQ6u4Ma1LlAcFCQWG_5yXMxoP88DIesLd6M6559-BLrSliaUWDF79AylIDuyxTdC_qx7pumk5fdvebleQuw7n_zKeGMvxw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeeiieelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucfj
+    uhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfelteeufedtleevjeetvdejvdffleduveevtedugfefveev
+    tddtudevgfejveegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
+    rhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehjuggvnhhoshgvsehgohhoghhlvgdrtghomhdprhgtphht
+    thhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsvghnthhishhsse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrthhorhhokhhhohhvsehg
+    mhgrihhlrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpth
+    htoheprhihuggsvghrghessghithhmrghthhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Z4oMaYQuXXWMyE3RR1HRmjxZcuEw_9hrWPKjWnbbpCtbvdWwHX2Axg>
+    <xmx:Z4oMabuHF4d0fJEPCPhYUt5yLllHH_S6Rgz7DWVC8NxG4w1tZFWJKg>
+    <xmx:Z4oMaS9syFgBGPQLwhoachseBbNQnOgq0-Jqni4xqgON_F9M_4vM1Q>
+    <xmx:Z4oMacxUxvQddZMNnLWqOQkRzZRBsHPGqmqQXsA33ez5qORd0ILNEw>
+    <xmx:Z4oMaYp8_67n-CnA0Lou_ydctdKVaRzhXQJqorE7mQCEtaYnOjwgEfvs>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Nov 2025 06:45:39 -0500 (EST)
+Date: Thu, 6 Nov 2025 21:45:34 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3] Input: rename INPUT_PROP_HAPTIC_TOUCHPAD to
+ INPUT_PROP_PRESSUREPAD
+Message-ID: <20251106114534.GA405512@tassie>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 net-next 06/14] tcp: disable RFC3168 fallback
- identifier for CC modules
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20251030143435.13003-1-chia-yu.chang@nokia-bell-labs.com>
- <20251030143435.13003-7-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20251030143435.13003-7-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251030011735.GA969565@quokka>
 
-On 10/30/25 3:34 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> When AccECN is not successfully negociated for a TCP flow, it defaults
-> fallback to classic ECN (RFC3168). However, L4S service will fallback
-> to non-ECN.
-> 
-> This patch enables congestion control module to control whether it
-> should not fallback to classic ECN after unsuccessful AccECN negotiation.
-> A new CA module flag (TCP_CONG_NO_FALLBACK_RFC3168) identifies this
-> behavior expected by the CA.
-> 
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+And expand it to encompass all pressure pads.
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+Definition: "pressure pad" as used here as includes all touchpads that
+use physical pressure to convert to click, without physical hinges. Also
+called haptic touchpads in general parlance, Synaptics calls them
+ForcePads.
+
+Most (all?) pressure pads are currently advertised as
+INPUT_PROP_BUTTONPAD. The suggestion to identify them as pressure pads
+by defining the resolution on ABS_MT_PRESSURE has been in the docs since
+commit 20ccc8dd38a3 ("Documentation: input: define
+ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams") but few devices
+provide this information.
+
+In userspace it's thus impossible to determine whether a device is a
+true pressure pad (pressure equals pressure) or a normal clickpad with
+(pressure equals finger size).
+
+Commit 7075ae4ac9db ("Input: add INPUT_PROP_HAPTIC_TOUCHPAD") introduces
+INPUT_PROP_HAPTIC_TOUCHPAD but restricted it to those touchpads that
+have support for userspace-controlled effects. Let's expand and rename
+that definition to include all pressure pad touchpads since those that
+do support FF effects can be identified by the presence of the
+FF_HAPTIC bit.
+
+This means:
+- clickpad: INPUT_PROP_BUTTONPAD
+- pressurepad: INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD
+- pressurepad with configurable haptics:
+  INPUT_PROP_BUTTONPAD + INPUT_PROP_PRESSUREPAD + FF_HAPTIC
+
+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+---
+ftr, I picked PRESSUREPAD over Dmitry's PRESSURE_TOUCHPAD suggestion
+because it matches better with the existing BUTTONPAD.
+
+Changes to v1: extra empty lines to render the lists as lists
+Changes to v2: rename to PRESSUREPAD and rename it in the instances
+  where it's used in the code
+
+v1: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#u
+v2: https://lore.kernel.org/linux-input/20251030011735.GA969565@quokka/T/#m9504de27b02d00a55d540fd9fec9aed3edd0133c
+
+ Documentation/input/event-codes.rst    | 25 ++++++++++++++++++-------
+ drivers/hid/hid-haptic.c               |  2 +-
+ include/uapi/linux/input-event-codes.h |  2 +-
+ 3 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+index 1ead9bb8d9c6..4424cbff251f 100644
+--- a/Documentation/input/event-codes.rst
++++ b/Documentation/input/event-codes.rst
+@@ -400,19 +400,30 @@ can report through the rotational axes (absolute and/or relative rx, ry, rz).
+ All other axes retain their meaning. A device must not mix
+ regular directional axes and accelerometer axes on the same event node.
+ 
+-INPUT_PROP_HAPTIC_TOUCHPAD
+---------------------------
++INPUT_PROP_PRESSUREPAD
++----------------------
++
++The INPUT_PROP_PRESSUREPAD property indicates that the device provides
++simulated haptic feedback (e.g. a vibrator motor situated below the surface)
++instead of physical haptic feedback (e.g. a hinge). This property is only set
++if the device:
+ 
+-The INPUT_PROP_HAPTIC_TOUCHPAD property indicates that device:
+-- supports simple haptic auto and manual triggering
+ - can differentiate between at least 5 fingers
+ - uses correct resolution for the X/Y (units and value)
+-- reports correct force per touch, and correct units for them (newtons or grams)
+ - follows the MT protocol type B
+ 
++If the simulated haptic feedback is controllable by userspace the device must:
++
++- support simple haptic auto and manual triggering, and
++- report correct force per touch, and correct units for them (newtons or grams), and
++- provide the EV_FF FF_HAPTIC force feedback effect.
++
+ Summing up, such devices follow the MS spec for input devices in
+-Win8 and Win8.1, and in addition support the Simple haptic controller HID table,
+-and report correct units for the pressure.
++Win8 and Win8.1, and in addition may support the Simple haptic controller HID
++table, and report correct units for the pressure.
++
++Where applicable, this property is set in addition to INPUT_PROP_BUTTONPAD, it
++does not replace that property.
+ 
+ Guidelines
+ ==========
+diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
+index aa090684c1f2..fc8a9997f815 100644
+--- a/drivers/hid/hid-haptic.c
++++ b/drivers/hid/hid-haptic.c
+@@ -86,7 +86,7 @@ int hid_haptic_input_configured(struct hid_device *hdev,
+ 	if (hi->application == HID_DG_TOUCHPAD) {
+ 		if (haptic->auto_trigger_report &&
+ 		    haptic->manual_trigger_report) {
+-			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
++			__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
+ 			return 1;
+ 		}
+ 		return 0;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 8ba48590bd2c..d21172c6a266 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -27,7 +27,7 @@
+ #define INPUT_PROP_TOPBUTTONPAD		0x04	/* softbuttons at top of pad */
+ #define INPUT_PROP_POINTING_STICK	0x05	/* is a pointing stick */
+ #define INPUT_PROP_ACCELEROMETER	0x06	/* has accelerometer */
+-#define INPUT_PROP_HAPTIC_TOUCHPAD	0x07	/* is a haptic touchpad */
++#define INPUT_PROP_PRESSUREPAD		0x07	/* pressure triggers clicks */
+ 
+ #define INPUT_PROP_MAX			0x1f
+ #define INPUT_PROP_CNT			(INPUT_PROP_MAX + 1)
+-- 
+2.51.1
 
