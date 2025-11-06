@@ -1,87 +1,106 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CC230ACF8;
-	Thu,  6 Nov 2025 23:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2185E34E763
+	for <linux-doc@vger.kernel.org>; Thu,  6 Nov 2025 23:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473113; cv=none; b=VGyQ85VNwM1t1b+J5wOIHzhEHXVao7gPtExOHsIwGol0Jt4NgHXMlEdodZV22alzOnFCk148HikabU+1p6fmmqrnbWBkPKQySc8CSrljnhUWJTBOanhSZh0ikqVuqvMeP/WiKg/SHwayheFmqVz/MgMuIIsPafiFiPbMnLIADKc=
+	t=1762473384; cv=none; b=oMFjAbmybiXXPFHfG6zNmDZEXU+H+D2/O+MxIgLqaraazaJ51lVCLgs32TUiyrmOv/iDjM84RkWpif7IT7tHUXQkc6SmCReL5F79Bi2kGVYl2cSIfWFkaD4xdXor8/XZJELLe1uKIPqaZA8jZcCz2Hl0ADTGBtQAtoICHJUStgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473113; c=relaxed/simple;
-	bh=1r9rZlb4VCGCo7+deHV2au8qhWRkIByakZglqBor4oE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jlf3f6DCiMF15fBpWSm7VqCvpqV9vNAwYVKIB9t6M8E9Al1DTbtpD/CjbrbG6uzGh+HDK9/vbOPVbjlVVUtQ0grXwivH6qAsWt/N9AQN8XoXRhz5BV5edFflp0g+6HC2PTNP0rwXDKChFNvrZ0IHdlyzNWXReV3Q0eTYw5MtHdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ADr9CPVj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762473384; c=relaxed/simple;
+	bh=et7QnWbxo9CCaBu8sHpUQXNVSyg1OXgkY7ZnpcVDxhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JcyG7YWpIlhOeq9sgU6MeVNwCWElUx1FdzPQEcCrSl7SNQ1RAr8U5KCk2tWp5gDZvBlGYI8klwEfPRFBqWfapzIuDT9cPL8a+iXVtVr8LW0xFKnQybdsxzvKvS9/NYniiL0Z0vv3dlEOgyFFLi2L7ahCsCQnRK0yEngvpZWVpak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=j2wvssLd; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ADr9CPVj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=bivJn1B4YN9x+a2BQepOh/REkAwwnFwkqrC+v7zjyOk=; b=ADr9CPVjQXy2tC7P9AF9lVa8Nf
-	oRjU779D0gmW4at76TGE4NhECZzw8rd95q0UHVSjH27YEfdzlNVqBdfvi3YkxuPSdOr+bmnEBD7S4
-	w6W6i+MQM7cdgTbLCbz6j3TWg1tv5UqtLToxQ0NnDHnhnbrm0NylbA5a/Q1jIPZHvRdRkDBqZQKei
-	K3iu0bd5SGulQAe4Omv8JTaKQN806EpnnmPG3FqATbLgmKI+DXnGBx4zjnfIQC5c4BO5PU7dsYigp
-	IjHPvx8SdyMHZA1r6ayrm/H/hPFsIKXMMt2drS/Vyyc6wn2j8TYbdkfhwsqDOgPfhFUuPnLbScQVs
-	9YN9gXhQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vH9le-0000000GPcn-3Pjy;
-	Thu, 06 Nov 2025 23:51:50 +0000
-Message-ID: <ae80fd29-5799-49b3-9c7e-76225e7998bc@infradead.org>
-Date: Thu, 6 Nov 2025 15:51:50 -0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="j2wvssLd"
+Date: Thu, 6 Nov 2025 15:55:59 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762473370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wGQCjkfCEjQXXmAAtqWjaaeJ29j6gKbahZ5m7Q+7IDo=;
+	b=j2wvssLdIAJwGLdiSwv+8Cm3wGBQ0K/g96eIbosBcuZ8GgxR82zGjOHEXkd+yZw5aS+ehK
+	VukZps16+SNYzrm3jTCBoYtnZyn9poIBDqK1gzU4tv9o6Q6wUuLAwGm7RzxhKWcvGfwah8
+	nTekdmNAQVjsqGbIn5SxwPqdIE/HBlY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Leon Huang Fu <leon.huangfu@shopee.com>
+Cc: akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net, 
+	hannes@cmpxchg.org, inwardvessel@gmail.com, jack@suse.cz, joel.granados@kernel.org, 
+	kyle.meyer@hpe.com, lance.yang@linux.dev, laoar.shao@gmail.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	mclapinski@google.com, mhocko@kernel.org, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, yosry.ahmed@linux.dev
+Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
+Message-ID: <blygjeudtqyxk7bhw5ycveofo4e322nycxyvupdnzq3eg7qtpo@cya4bifb2dlk>
+References: <6kh6hle2xp75hrtikasequ7qvfyginz7pyttltx6pkli26iir5@oqjmglatjg22>
+ <20251106033045.41607-1-leon.huangfu@shopee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iommupt: Documentation fixes
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- linux-doc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- Will Deacon <will@kernel.org>
-Cc: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- Kevin Tian <kevin.tian@intel.com>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- Samiullah Khawaja <skhawaja@google.com>, Vasant Hegde <vasant.hegde@amd.com>
-References: <0-v1-e93135a62eee+1e4d-iommupt_docs_jgg@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <0-v1-e93135a62eee+1e4d-iommupt_docs_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106033045.41607-1-leon.huangfu@shopee.com>
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 11/6/25 11:02 AM, Jason Gunthorpe wrote:
-> Some adjustments pointed out by Randy:
+On Thu, Nov 06, 2025 at 11:30:45AM +0800, Leon Huang Fu wrote:
+> On Thu, Nov 6, 2025 at 9:19 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> >
+> > +Yosry, JP
+> >
+> > On Wed, Nov 05, 2025 at 03:49:16PM +0800, Leon Huang Fu wrote:
+> > > On high-core count systems, memory cgroup statistics can become stale
+> > > due to per-CPU caching and deferred aggregation. Monitoring tools and
+> > > management applications sometimes need guaranteed up-to-date statistics
+> > > at specific points in time to make accurate decisions.
+> >
+> > Can you explain a bit more on your environment where you are seeing
+> > stale stats? More specifically, how often the management applications
+> > are reading the memcg stats and if these applications are reading memcg
+> > stats for each nodes of the cgroup tree.
+> >
+> > We force flush all the memcg stats at root level every 2 seconds but it
+> > seems like that is not enough for your case. I am fine with an explicit
+> > way for users to flush the memcg stats. In that way only users who want
+> > to has to pay for the flush cost.
+> >
 > 
->  "decodes an full 64-bit" -> "decodes the full 64 bit"
+> Thanks for the feedback. I encountered this issue while running the LTP
+> memcontrol02 test case [1] on a 256-core server with the 6.6.y kernel on XFS,
+> where it consistently failed.
 > 
->  Correct the function parameter name for iova_to_phys()
+> I was aware that Yosry had improved the memory statistics refresh mechanism
+> in "mm: memcg: subtree stats flushing and thresholds" [2], so I attempted to
+> backport that patchset to 6.6.y [3]. However, even on the 6.15.0-061500-generic
+> kernel with those improvements, the test still fails intermittently on XFS.
 > 
->  Use the recommended section heading style.
+> I've created a simplified reproducer that mirrors the LTP test behavior. The
+> test allocates 50 MiB of page cache and then verifies that memory.current and
+> memory.stat's "file" field are approximately equal (within 5% tolerance).
 > 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Fixes: 2c8b644f3901 ("genpt: Add Documentation/ files")
-> Fixes: ac7ffd8e805c ("iommupt: Add the AMD IOMMU v1 page table format")
-> Fixes: e530a2c3a098 ("iommupt: Add iova_to_phys op")
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/generic_pt.rst | 11 +++--------
->  drivers/iommu/generic_pt/Kconfig        |  2 +-
->  drivers/iommu/generic_pt/iommu_pt.h     |  2 +-
->  3 files changed, 5 insertions(+), 10 deletions(-)
+> The failure pattern looks like:
+> 
+>   After alloc: memory.current=52690944, memory.stat.file=48496640, size=52428800
+>   Checks: current>=size=OK, file>0=OK, current~=file(5%)=FAIL
+> 
+> Here's the reproducer code and test script (attached below for reference).
+> 
+> To reproduce on XFS:
+>   sudo ./run.sh --xfs
+>   for i in {1..100}; do sudo ./run.sh --run; echo "==="; sleep 0.1; done
+>   sudo ./run.sh --cleanup
+> 
+> The test fails sporadically, typically a few times out of 100 runs, confirming
+> that the improved flush isn't sufficient for this workload pattern.
 
+I was hoping that you have a real world workload/scenario which is
+facing this issue. For the test a simple 'sleep 2' would be enough.
+Anyways that is not an argument against adding an inteface for flushing.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
--- 
-~Randy
