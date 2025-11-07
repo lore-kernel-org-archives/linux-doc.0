@@ -1,137 +1,119 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C6D28C5AA
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 12:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574E52DF131;
+	Fri,  7 Nov 2025 12:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762517568; cv=none; b=r5VhHcIBBrltBL9hR28fSvIXBOrCz3LgXh5Xc4vaz3bLtS9ZUVXBiXTMcC9ePPZnr2G/OjlKEn4jv26qF1N8Bzpm9Y2pzrmluJJ9qJ5TzTJ5ppa481saX3qKwB4VM/gFFII2hklVWFSY/uHRDhRfehfDWcH6OOvTvMaevfddlT4=
+	t=1762519255; cv=none; b=OU31q2oITXRg/XvInGoEXH6paP3QTswLejwRIxqU4VhvggI204kTOiZlkxwsgPxxkUtszRVNRdKCq+cXHr9vrRYjKo6Eb9xDxMujj59K1e3A6jTs2AZN6K9806WOcQPKF6QR2BH3jAKQ+2SjxuNpUWHLP42/IOZmhRKVGPIwFJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762517568; c=relaxed/simple;
-	bh=Tfpbm92o9W7BVvnGiM2caH4qh7ZyE+P+DguJ0PvN6mQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=G3xjhrhPDmHYj3QPJALc5Udio9iMxoUz0XriNrwEB23F5CCOSv3UzLYtVtZerIMsTEJ8iPHuRICkTFF7BoeFlqy/IL21xGirC/2L77CG6aDyZ1oR4Wx5+fuqgQckOxt45gGiT+WFUP4oHIa3oiNTqd5iyQNmyYEJTz+hoWNk2MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tpBHtU6H; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1762519255; c=relaxed/simple;
+	bh=2650l2rHI5C8SlHe2oTnjbOtRTz9Afs5JrBw5WprZeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pzKLvsRpTcxcD/T2FdKVooLkB1chjzpm+TDE87Q2UJXUu43oqmzycodJJeRN0/iX33S/6tnfQG4TwlJa59XyAzKVIoHn6XCFXlqy1rmDx9/DwNuPZGDg/Ih0PGqhNTmdCXisroRqqnJJFtfNkgQUGPl9k8RNrBBzmz6dbhAmd1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NXxpTzYi; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tpBHtU6H"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b5fcada9d24so76669666b.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 04:12:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762517565; x=1763122365; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jiMZz3p9r1cXUEtJOvXENsRsqsu1S4GTx2JzdMxXhCI=;
-        b=tpBHtU6H+uXNawvpoCU6gmGnXVQWUKcfsKVxFE+D8QNj4HARSbp6TnAW6uvuj4qgb8
-         Ep6t/ejz9fVp7xs12kzya9XyD+fL48Jsc0TA3Uf7VJUEMUb9sf0ChK/1XFEsVfINkdYk
-         zPsgwUwryAKVbT0ly27gQYkH/kmjXN0DXEazIYsEjFTFtkMizU20NR2yHMLilOQiO4G5
-         2QrFv625cl3ZQSIa1OIcFSPzk1+YbeXbrz2NQLQAFOn8sMMBITasCBJlzgTFHXMgD2c3
-         GseWHjVlUX+pH0Ph1H8STTfMMp5FrZrI6eUcHQ+SORgQkwjsiSyHnhSY9AgYmT57gAxN
-         xm5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762517565; x=1763122365;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jiMZz3p9r1cXUEtJOvXENsRsqsu1S4GTx2JzdMxXhCI=;
-        b=rvl1A5dE8kZx9ETzgB/zAh+XEZC/InP/F7aYX3iZyHuSpD2k/ul+WD7WtFZSwZYhJl
-         ZH5gKYue95IaO7bUuOIN6aHiyLs9uQfxl/BclCnXyuTldAjkn4vV6AOGTwGW2PnVxcfu
-         9vw9gzgzuzkP2iKC6yljRcWIhFmiLZH7Hg1b3TdtPXFc50aRJDd/L9XeMyBhgNlBIO3z
-         Vxc9uYU1bAd3PQKqAASfi/Cj6NA3AEh9I/vSBLwe/rJ/kQ1xgDv3CfHzugvJF2mDzfAz
-         PsKWlg7UnxeIfS9kC4VXqNkYaWAiDx456wGlGB7kO1zyvyKnAprNkCEecpDz0CjBBzIb
-         mQJw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfW5ZEBpsplKA7L0q70tayeuduyTfDIfBH9h+qrctLgRgDEkzKOqAEwM/HW+uI04jJq1zj7zeMv40=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBPphb4QwTShiDp1E22GMefhe8Te8q0DhltKGKZwqo44p5+XOj
-	Do5FFW2FmnpujQyixdFs+KGKU11PJiafBETtD01RfJuUPDJCalrsoBKVGjJxL5+QM28rvGhKZro
-	CmQtQoY3nxXv3LNOClg==
-X-Google-Smtp-Source: AGHT+IFz1d7JwOnWSoe0fVf8qRe2tAmBflmhL4Mg+i45pACLer1ETGlr4r2lHbYGUH0n6LT169uz4zsABZFzda8=
-X-Received: from ejdaz21.prod.google.com ([2002:a17:906:8f15:b0:b72:5aa5:2d0b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:6d16:b0:b6d:7e04:7a24 with SMTP id a640c23a62f3a-b72c0ac01aemr279299066b.36.1762517565061;
- Fri, 07 Nov 2025 04:12:45 -0800 (PST)
-Date: Fri, 7 Nov 2025 12:12:43 +0000
-In-Reply-To: <0f7186b3-16bd-44b7-a3fe-637af9d25dd3@lucifer.local>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NXxpTzYi"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AC67940E019D;
+	Fri,  7 Nov 2025 12:40:49 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fQEt509UJMqN; Fri,  7 Nov 2025 12:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1762519244; bh=vtVqYuiAk49rAmyfB1QxFbItCJbOMfJZd6LlD30g0i4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NXxpTzYinLsNoMXFa+qXAZ+C5GkDisRM1iwMTATwej+trqra34kbGTkkA9vVG3zBR
+	 qYgSPxQLqk4wh61i/HE2cOGQPtNzWBL/lZbgY0EHnSGadS6TtKn8A+QrW0MOr1DZ3L
+	 0HBmqkavCMIoU+d/HVkJEQCZHwLIWCSjJEt7+9nfJ6hMdzpHNaBsardjaDU/Ql7eBq
+	 arif9w1QO0ADglN/42AzPy+KCACkQnIVQGOwapROnc/5Mf6R1vkZwvJJivGtoXxYcT
+	 OjLaz5IhjI97b/t/TrLIT5sCklPJRBw5P+xMSQVBe4ALkPKjWGryS6WlWalSaNQyIb
+	 PgM+CHvgZIjtWlwdGRLATnsv/GVDmkCJKBjz1pQIrFPCXqbmAvw6xVNzBl+O6D6Kac
+	 i6JKGRHKSOvvXkauH59cBPPcmttiar255+K7ZzNUbSdEDufeJ5jZFroZRM1isb1F8I
+	 xvil6JF6pUdzBvn4rcPXjkj7MNHxYq7gFQC5yd/ixzmiaEIJ/EtWgDSQv/DCNOEZAC
+	 WptbbEt9rG0DOyUe52EEimIul1cAO/dTo/x7ozYS7w4GKmbiaIKCxwNu5q9EtpEV3A
+	 ZLUxj/R8iIZjcdpDJIvFOTVLzxpSmjLjzM1QbfpkBmyPKO+hNupXJQnk2budHrkGgU
+	 d8S9hbdNa+1usIpJGJWvTBEs=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 43E3640E015B;
+	Fri,  7 Nov 2025 12:40:35 +0000 (UTC)
+Date: Fri, 7 Nov 2025 13:40:25 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Avadhut Naik <avadhut.naik@amd.com>
+Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org,
+	gregkh@linuxfoundation.org, corbet@lwn.net, chenhuacai@kernel.org,
+	mchehab+huawei@kernel.org, yazen.ghannam@amd.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Cleanups in amd64_edac and removal of legacy EDAC
+ sysfs interface
+Message-ID: <20251107124025.GRaQ3ouSiYdtQemqI3@fat_crate.local>
+References: <20251106015727.1987246-1-avadhut.naik@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
- <fe38b1a43364f72d1ce7a6217e53a33c9c0bb0c5.1762422915.git.lorenzo.stoakes@oracle.com>
- <yja2mhwa4bzatbthjjq5rolqlkfgcbmppic3caaiwi6jc63rbc@cims6rqnotvj>
- <043dcbdb-e069-46e7-8f79-8fdaf354fb44@lucifer.local> <aQ24HAAxYLhIvV5U@google.com>
- <0f7186b3-16bd-44b7-a3fe-637af9d25dd3@lucifer.local>
-Message-ID: <aQ3iO40QYEM6Dxfs@google.com>
-Subject: Re: [PATCH v2 1/5] mm: introduce VM_MAYBE_GUARD and make visible in /proc/$pid/smaps
-From: Alice Ryhl <aliceryhl@google.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Pedro Falcato <pfalcato@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Andrei Vagin <avagin@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251106015727.1987246-1-avadhut.naik@amd.com>
 
-On Fri, Nov 07, 2025 at 09:44:22AM +0000, Lorenzo Stoakes wrote:
-> On Fri, Nov 07, 2025 at 09:13:00AM +0000, Alice Ryhl wrote:
-> > On Thu, Nov 06, 2025 at 02:54:33PM +0000, Lorenzo Stoakes wrote:
-> > > +cc Alice for rust stuff
-> > >
-> > > On Thu, Nov 06, 2025 at 02:27:56PM +0000, Pedro Falcato wrote:
-> > > > On Thu, Nov 06, 2025 at 10:46:12AM +0000, Lorenzo Stoakes wrote:
-> > > > >  /*
-> > > > >   * vm_flags in vm_area_struct, see mm_types.h.
-> > > > >   * When changing, update also include/trace/events/mmflags.h
-> > > > > @@ -296,6 +298,7 @@ extern unsigned int kobjsize(const void *objp);
-> > > > >  #define VM_UFFD_MISSING	0
-> > > > >  #endif /* CONFIG_MMU */
-> > > > >  #define VM_PFNMAP	0x00000400	/* Page-ranges managed without "struct page", just pure PFN */
-> > > > > +#define VM_MAYBE_GUARD	BIT(VM_MAYBE_GUARD_BIT)	/* The VMA maybe contains guard regions. */
-> > > >
-> > > > Don't we also need an adjustment on the rust side for this BIT()? Like we
-> > > > for f04aad36a07c ("mm/ksm: fix flag-dropping behavior in ksm_madvise").
-> > >
-> > > That's a bit unhelpful if rust can't cope with extremely basic assignments like
-> > > that and we just have to know to add helpers :/
-> > >
-> > > We do BIT() stuff for e.g. VM_HIGH_ARCH_n, VM_UFFD_MINOR_BIT,
-> > > VM_ALLOW_ANY_UNCACHED_BIT, VM_DROPPABLE_BIT and VM_SEALED_BIT too and no such
-> > > helpers there, So not sure if this is required?
-> > >
-> > > Alice - why is it these 'non-trivial' defines were fine but VM_MERGEABLE was
-> > > problematic? That seems strange.
-> > >
-> > > I see [0], so let me build rust here and see if it moans, if it moans I'll add
-> > > it.
-> > >
-> > > [0]:https://lore.kernel.org/oe-kbuild-all/CANiq72kOhRdGtQe2UVYmDLdbw6VNkiMtdFzkQizsfQV0gLY1Hg@mail.gmail.com/
-> >
-> > When you use #define to declare a constant whose right-hand-side
-> > contains a function-like macro such as BIT(), bindgen does not define a
-> > Rust version of that constant. However, VM_MAYBE_GUARD is not referenced
-> > in Rust anywhere, so that isn't a problem.
-> >
-> > It was a problem with VM_MERGEABLE because rust/kernel/mm/virt.rs
-> > references it.
-> >
-> > Note that it's only the combination of #define and function-like macro
-> > that triggers this condition. If the constant is defined using another
-> > mechanism such as enum {}, then bindgen will generate the constant no
-> > matter how complex the right-hand-side is. The problem is that bindgen
-> > can't tell whether a #define is just a constant or not.
+On Thu, Nov 06, 2025 at 01:54:43AM +0000, Avadhut Naik wrote:
+> This patchset undertakes some cleanups in the amd64_edac module and
+> removes the legacy EDAC sysfs interface since it has been obsolete for
+> more than a decade.
 > 
-> Thanks, I guess we can update as we go as rust needs. Or I can do a big update
-> as part of my VMA flag series respin?
+> The first patch removes explicit assignment of the ctl_name string and
+> instead generates it at runtime using scnprintf.
+> 
+> The second patch removes the NUM_CONTROLLERS macro and instead uses the
+> max_mcs variable to determine the size of chipselect array.
+> 
+> The third patch removes the old EDAC sysfs interface.
+> 
+> NOTE:
+> These cleanups were earlier submitted as part of the set adding EDAC
+> support for AMD's newer Family 1Ah-based SOCs.[1] However, since the
+> support patches were critical to enabling EDAC on newer AMD SOCs and
+> since these cleanups were still under review, the set was split up.
+> 
+> [1]: https://lore.kernel.org/all/20250909185748.1621098-1-avadhut.naik@amd.com/
+> 
+> Changes in v2:
+>  - Drop the patch that set zn_regs_v2 flag for all SOCs based on Family
+> 1Ah and later.
+>  - Change MAX_CTL_NAMELEN macro from 20 to 19.
+>  - Modify commit message of the second patch per feedback received.
+>  - Skip deprecation and just remove the old EDAC sysfs interface.
+> 
+> Links:
+> v1: https://lore.kernel.org/all/20251013173632.1449366-1-avadhut.naik@amd.com/
+> 
+> Avadhut Naik (3):
+>   EDAC/amd64: Generate ctl_name string at runtime
+>   EDAC/amd64: Remove NUM_CONTROLLERS macro
+>   edac: Remove the legacy EDAC sysfs interface
+> 
+>  Documentation/admin-guide/RAS/main.rst     | 142 +-------
+>  arch/loongarch/configs/loongson3_defconfig |   1 -
+>  drivers/edac/Kconfig                       |   8 -
+>  drivers/edac/amd64_edac.c                  |  61 +---
+>  drivers/edac/amd64_edac.h                  |   7 +-
+>  drivers/edac/edac_mc_sysfs.c               | 404 ---------------------
+>  6 files changed, 22 insertions(+), 601 deletions(-)
 
-Whenever you think is a good time works for me.
+Queued, thanks.
 
-I think it would be nice to move those constants so they use enum {}
-instead of #define at some point.
+-- 
+Regards/Gruss,
+    Boris.
 
-Alice
+https://people.kernel.org/tglx/notes-about-netiquette
