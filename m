@@ -1,99 +1,210 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA592BE652;
-	Fri,  7 Nov 2025 09:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60BD318131
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 09:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762506274; cv=none; b=LfeAabZVVhx5MgE8/pNMbA8jb8Fj0Fk+nlP69XWkqihwTXP2VXhBRbNAh29BURWPagM9kZKkcW1Y1D8t3d/G2e2gY8MHWCRuvAAGbRaXFfUi8Q70Et0eE1c3s20DawyPp+Gz94NCTaCqbIHoBll+VLYkXpoNe25sZee/EUCvSCI=
+	t=1762506785; cv=none; b=lH4Lx39EQm83vOL1f6Xm+DeS6EmZP5Ylmozo0ngmw0k/Py1vjb/yknFd1AGniA0Ofa8iJIUfk4ogJVSaRz7EscKTRyrEz5w7QXl9DL/NUiR2k6gXugFamxtW7LTBsqG257qzDo9u26yL8Gn88MeWJg2jD/FsVwv3Gxjf7kSja78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762506274; c=relaxed/simple;
-	bh=JoSOS0A6PQkdTSpDO8Qbgfxr6q2mH0zIcuM27Bj1RR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oeckx1tSYeotjucufu+W9BJtsPTWkswvz3keVZYLyqp83VZrGTUaGSYmMrEoepWvmfQRepC97q7R3N+0UGR1xAJ85wP/Xg5bEqce8sekZ915SsY3sv4YNHJTDl85gtuPcnHJ9jJPz4fHQCNXUNvfPfsNuuhn3DwkWD8jFQk1MdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E87vVKdr; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762506785; c=relaxed/simple;
+	bh=+R07ubDuBhff2ujrABNBpUwsrjtH0A9CyxuTQ0jmk/4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FGro05gIxqvJ8Fj4LqKwnOsHllxNTAiYY83iCuUHVbMHXawL9QPMe3SLpCLPtO9+lHw0b21Lgn9ZGYi/mTBCBrdUC90lKWqOPgU5wA2jLSO+jZ9/A7qdWIDgqU71YV1PnGI543p3NCqeY2gJ3kH2NWHnWyVA+zcD9qlrOqqGx/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o+8kokxi; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E87vVKdr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=c5PVEPcg7gvE34/gGpLzE008hmCTzSWOGhLMfbn1AWI=; b=E87vVKdr2aKCQcIoHp77GjRSyG
-	RFq0ezCr1uXEm1UVBxhU9ZdYCKH94dOv6mqaFLh2CFOwWXRcWN7mQSDg5bJpBq+rA7sdYI9ZfaNdu
-	NZcd6nC8wtYVxYT6aRxi3byBg30kH45DwNCA36lBlZRvT43c8epjY8j9L7dyQOi7QWS6fE652wDxL
-	KA79r1L0Bt2LxUggYzDpI2/P/rQ78aW4OLLMuR8uc1a5U4LY1ghfjvcecmbiqT48OanV/q1Sl/Xck
-	Nc8TQKtVU1rMMY7wsyK7zINCZj65ghhUVS3/sk8iYxGpACu0+D6wPYHn6kGpjh5fpbsqXLzWxBahJ
-	W8JOf6cQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHHWR-0000000619o-0RMa;
-	Fri, 07 Nov 2025 08:08:40 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 8D8FA3001D4; Fri, 07 Nov 2025 10:04:06 +0100 (CET)
-Date: Fri, 7 Nov 2025 10:04:06 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Sohil Mehta <sohil.mehta@intel.com>, Andy Lutomirski <luto@kernel.org>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
- runtime services
-Message-ID: <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-6-sohil.mehta@intel.com>
- <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
- <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com>
- <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
- <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
- <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o+8kokxi"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-471201dc0e9so3681825e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 01:13:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762506781; x=1763111581; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h6hr5KyHBQ4i3KpvRUNSLwzvnbvgDhJcoWyAtNcMbQg=;
+        b=o+8kokxiq8sV7eembw85qpl/iqp7HCScn0Plv9OSCqxXkMrZYV5YYb3pHXCsGn/VwQ
+         DbRpL6BeW6hgXoFdsJJSgzf6HRL9m3pyCfDp+zJNQbfbp0KsRAsz/sxoHzXCDZ55L0BL
+         xigvoBUKNvmYrRNu3QOGd6GzT/GB/1XrdjgE3nKBIhyVfJlm+DZqsn1/SxMEw83Sz8TD
+         o4X8EBshU6VrvdtW2TBXu9FAeNR8qc4sJXcAc+zFGKB/eYpXo6ac3uLqCO/zWmTZ+pQ5
+         hGUZsyjSoSeehI8uXQ7jYGwplcBaxCzxjYEt4SBAfTNUGjx2PE40cTpZPH+quhq0Wx6L
+         +9vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762506781; x=1763111581;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h6hr5KyHBQ4i3KpvRUNSLwzvnbvgDhJcoWyAtNcMbQg=;
+        b=Zhk8Ccs9ZoR1BBMeOILapn7oTuIfGzxMAIj5WOFAFxUYs4c7hWYw63X+2gqK2fmgcg
+         dUKqpvZaxU5HsPmxG9JjbK5LhlXf+YT7gi6ioMlyyxXNpbXRgaLfSezgI9qkEwuWnjPb
+         SpK9b5yUe2/YNQN1meEbeNA2dQ8PSPxfDJ+0dB08tWbMoa8VSxrjTy/w1NdPH9Vyjlpc
+         dUn5OZ2zoMv1Ibt4IRxgnqmk01u5fQ5aGQhLNLdIp16mH89Z3Lt+d9UYzeTAQFO7CFr7
+         F/C6Yg7GffJDAOEEmaJLUaeMAfec3iGRogCg/1iOGvE/TelQgSl1nM4dWQAvWnsD6GqX
+         uPdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrlK8cHzang1StQHrGXtBj/TKwhPHUyebkuUfnRHKzxLmLunqQw/hE7n0pf70aYS3WNU69NzB7/eo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO0xR21LVKQwWLnKJZVwKvRhiV6BLxiivlu8/XZS71UzUMuRyp
+	KaLcsHA/dTJfbITGCtHFSC6tEPJ3fV0arXnnCuvREFDLlO4k+E/68vgIigfnnDJcK9lCtZTv32k
+	QWL69IuU4sIb8Jnpdlg==
+X-Google-Smtp-Source: AGHT+IHUZEz+bT2nDPlYtV/C/QNEpv2U8khomuJk8Z2Iy1Z4Tlg4ge5tYPMjbGtCECv4gTvvdLMJU3QqC9ERcYo=
+X-Received: from wmcu6.prod.google.com ([2002:a7b:c046:0:b0:476:4b14:2edf])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4592:b0:477:3e07:217a with SMTP id 5b1f17b1804b1-4776bcc9c7emr20623525e9.36.1762506781268;
+ Fri, 07 Nov 2025 01:13:01 -0800 (PST)
+Date: Fri, 7 Nov 2025 09:13:00 +0000
+In-Reply-To: <043dcbdb-e069-46e7-8f79-8fdaf354fb44@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
+Mime-Version: 1.0
+References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
+ <fe38b1a43364f72d1ce7a6217e53a33c9c0bb0c5.1762422915.git.lorenzo.stoakes@oracle.com>
+ <yja2mhwa4bzatbthjjq5rolqlkfgcbmppic3caaiwi6jc63rbc@cims6rqnotvj> <043dcbdb-e069-46e7-8f79-8fdaf354fb44@lucifer.local>
+Message-ID: <aQ24HAAxYLhIvV5U@google.com>
+Subject: Re: [PATCH v2 1/5] mm: introduce VM_MAYBE_GUARD and make visible in /proc/$pid/smaps
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Pedro Falcato <pfalcato@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Andrei Vagin <avagin@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Oct 31, 2025 at 11:12:53AM -0700, Dave Hansen wrote:
-
-> But there's a pretty broad set of things that are for "security" that
-> aren't necessary while you're just running trusted ring0 code:
+On Thu, Nov 06, 2025 at 02:54:33PM +0000, Lorenzo Stoakes wrote:
+> +cc Alice for rust stuff
 > 
->  * SMAP/SMEP
->  * CR pinning itself
->  * MSR_IA32_SPEC_CTRL
->  * MSR_IA32_TSX_CTRL
+> On Thu, Nov 06, 2025 at 02:27:56PM +0000, Pedro Falcato wrote:
+> > On Thu, Nov 06, 2025 at 10:46:12AM +0000, Lorenzo Stoakes wrote:
+> > > Currently, if a user needs to determine if guard regions are present in a
+> > > range, they have to scan all VMAs (or have knowledge of which ones might
+> > > have guard regions).
+> > >
+> > > Since commit 8e2f2aeb8b48 ("fs/proc/task_mmu: add guard region bit to
+> > > pagemap") and the related commit a516403787e0 ("fs/proc: extend the
+> > > PAGEMAP_SCAN ioctl to report guard regions"), users can use either
+> > > /proc/$pid/pagemap or the PAGEMAP_SCAN functionality to perform this
+> > > operation at a virtual address level.
+> > >
+> > > This is not ideal, and it gives no visibility at a /proc/$pid/smaps level
+> > > that guard regions exist in ranges.
+> > >
+> > > This patch remedies the situation by establishing a new VMA flag,
+> > > VM_MAYBE_GUARD, to indicate that a VMA may contain guard regions (it is
+> > > uncertain because we cannot reasonably determine whether a
+> > > MADV_GUARD_REMOVE call has removed all of the guard regions in a VMA, and
+> > > additionally VMAs may change across merge/split).
+> > >
+> > > We utilise 0x800 for this flag which makes it available to 32-bit
+> > > architectures also, a flag that was previously used by VM_DENYWRITE, which
+> > > was removed in commit 8d0920bde5eb ("mm: remove VM_DENYWRITE") and hasn't
+> > > bee reused yet.
+> > >
+> > > We also update the smaps logic and documentation to identify these VMAs.
+> > >
+> > > Another major use of this functionality is that we can use it to identify
+> > > that we ought to copy page tables on fork.
+> > >
+> > > We do not actually implement usage of this flag in mm/madvise.c yet as we
+> > > need to allow some VMA flags to be applied atomically under mmap/VMA read
+> > > lock in order to avoid the need to acquire a write lock for this purpose.
+> > >
+> > > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > > ---
+> > >  Documentation/filesystems/proc.rst | 1 +
+> > >  fs/proc/task_mmu.c                 | 1 +
+> > >  include/linux/mm.h                 | 3 +++
+> > >  include/trace/events/mmflags.h     | 1 +
+> > >  mm/memory.c                        | 4 ++++
+> > >  tools/testing/vma/vma_internal.h   | 3 +++
+> > >  6 files changed, 13 insertions(+)
+> > >
+> > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> > > index 0b86a8022fa1..b8a423ca590a 100644
+> > > --- a/Documentation/filesystems/proc.rst
+> > > +++ b/Documentation/filesystems/proc.rst
+> > > @@ -591,6 +591,7 @@ encoded manner. The codes are the following:
+> > >      sl    sealed
+> > >      lf    lock on fault pages
+> > >      dp    always lazily freeable mapping
+> > > +    gu    maybe contains guard regions (if not set, definitely doesn't)
+> > >      ==    =======================================
+> >
+> > The nittiest
+> > of nits:     =============================================================
 > 
-> They just haven't mattered until now because they don't have any
-> practical effect until you actually have code running on _PAGE_USER
-> mappings trying to attack the kernel.
+> Sigh :) OK will fix.
+> 
+> >
+> >
+> > >
+> > >  Note that there is no guarantee that every flag and associated mnemonic will
+> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > index 8a9894aefbca..a420dcf9ffbb 100644
+> > > --- a/fs/proc/task_mmu.c
+> > > +++ b/fs/proc/task_mmu.c
+> > > @@ -1147,6 +1147,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+> > >  		[ilog2(VM_MAYSHARE)]	= "ms",
+> > >  		[ilog2(VM_GROWSDOWN)]	= "gd",
+> > >  		[ilog2(VM_PFNMAP)]	= "pf",
+> > > +		[ilog2(VM_MAYBE_GUARD)]	= "gu",
+> > >  		[ilog2(VM_LOCKED)]	= "lo",
+> > >  		[ilog2(VM_IO)]		= "io",
+> > >  		[ilog2(VM_SEQ_READ)]	= "sr",
+> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > index 6e5ca5287e21..2a5516bff75a 100644
+> > > --- a/include/linux/mm.h
+> > > +++ b/include/linux/mm.h
+> > > @@ -271,6 +271,8 @@ extern struct rw_semaphore nommu_region_sem;
+> > >  extern unsigned int kobjsize(const void *objp);
+> > >  #endif
+> > >
+> > > +#define VM_MAYBE_GUARD_BIT 11
+> > > +
+> > >  /*
+> > >   * vm_flags in vm_area_struct, see mm_types.h.
+> > >   * When changing, update also include/trace/events/mmflags.h
+> > > @@ -296,6 +298,7 @@ extern unsigned int kobjsize(const void *objp);
+> > >  #define VM_UFFD_MISSING	0
+> > >  #endif /* CONFIG_MMU */
+> > >  #define VM_PFNMAP	0x00000400	/* Page-ranges managed without "struct page", just pure PFN */
+> > > +#define VM_MAYBE_GUARD	BIT(VM_MAYBE_GUARD_BIT)	/* The VMA maybe contains guard regions. */
+> >
+> > Don't we also need an adjustment on the rust side for this BIT()? Like we
+> > for f04aad36a07c ("mm/ksm: fix flag-dropping behavior in ksm_madvise").
+> 
+> That's a bit unhelpful if rust can't cope with extremely basic assignments like
+> that and we just have to know to add helpers :/
+> 
+> We do BIT() stuff for e.g. VM_HIGH_ARCH_n, VM_UFFD_MINOR_BIT,
+> VM_ALLOW_ANY_UNCACHED_BIT, VM_DROPPABLE_BIT and VM_SEALED_BIT too and no such
+> helpers there, So not sure if this is required?
+> 
+> Alice - why is it these 'non-trivial' defines were fine but VM_MERGEABLE was
+> problematic? That seems strange.
+> 
+> I see [0], so let me build rust here and see if it moans, if it moans I'll add
+> it.
+> 
+> [0]:https://lore.kernel.org/oe-kbuild-all/CANiq72kOhRdGtQe2UVYmDLdbw6VNkiMtdFzkQizsfQV0gLY1Hg@mail.gmail.com/
 
-But that's just the thing EFI is *NOT* trusted! We're basically
-disabling all security features (not listed above are CET and CFI) to
-run this random garbage we have no control over.
+When you use #define to declare a constant whose right-hand-side
+contains a function-like macro such as BIT(), bindgen does not define a
+Rust version of that constant. However, VM_MAYBE_GUARD is not referenced
+in Rust anywhere, so that isn't a problem.
 
-How about we just flat out refuse EFI runtime services? What are they
-actually needed for? Why are we bending over backwards and subverting
-our security for this stuff?
+It was a problem with VM_MERGEABLE because rust/kernel/mm/virt.rs
+references it.
+
+Note that it's only the combination of #define and function-like macro
+that triggers this condition. If the constant is defined using another
+mechanism such as enum {}, then bindgen will generate the constant no
+matter how complex the right-hand-side is. The problem is that bindgen
+can't tell whether a #define is just a constant or not.
+
+Alice
