@@ -1,66 +1,66 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1190B30F943
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 08:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F8C30F94D
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 08:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762503204; cv=none; b=d2KQw5WUJyDtuHGtG5Ue2qUd6B2Kwgjdy1uKC6mUunBAAGpqemr5Fvqi2Z7mBCYRyoX9GjP9g67y1eGRhs2wKdhlaIwNxyH5xeLZ4PCKvNBmByEf5BDjn5bCA0bSD4DSCDoqR4d/NrXn+Y7TPLlj7GPBkJXohFGgzZkJvSgz19k=
+	t=1762503205; cv=none; b=Y53wprZQUi4zhMTlqAuqv8IFI4UsMlreDsCSPgTIBLVAFvOPxrBng5sxV7bNgLyNlvTUZ6em9YMFj6CtJ2fBTkuSdHaYkYL0NZI4ggnCtsf9zJeWLLIIqn3ljw/q+GTn+S7ywFEBVyM47w3jOnnqDngpW2DDHX8x3P1chBREH1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762503204; c=relaxed/simple;
-	bh=l70ZHuFXGxCuiZ9UWHRnDufmsHg5/+S7082Atj+1UWA=;
+	s=arc-20240116; t=1762503205; c=relaxed/simple;
+	bh=0sXmLwNMlYc0PbllYPcwc9yuoEtGcI4ex2Sbk6FXq8o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FRRmB5IQ/TwBG3TgjLMQTRAJgVVCOwiOiKF1KukR7gqcfs8ce1VxiZvHkTsmts1luCLeG+EA0BbGIYdQ+eZCabd4VoDTP7uEs4/rnvwcD6+V7tRr5yS4Qq3/7DivJCJ9046i7yhB73ZvJI1Ohs0HY4zkuJz5WYsgUKQb9cwgBnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNf5qHPr; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version; b=TqquhVCmg9CPrjVVl2KK1lwpuDhUlhigyUgME7cY5IDLaqlWlemgHFZbF+ues4DtqQRQAu+1CkbEtE5Kbdbt1HsN1TJLtGgdef62FHhMT+8cUqWgj4OAyEC/sj+xUVMp3dE5SGw4tcGLMYW4bCdMuZYcSwboKY3Ock0Gs/UTFVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6dLF+4X; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNf5qHPr"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so984418a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 00:13:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6dLF+4X"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6407e617ad4so208916a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 00:13:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762503201; x=1763108001; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762503202; x=1763108002; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s/S84Bq0H+5Q5GEwboYARmckBLSU9dA4Cuq2qpko4lg=;
-        b=lNf5qHPriYstzhQF7q0ACqxkb9UzdxXEov6xxYtdp1nkHrorl8NZ6sM7FaYVp2sdeN
-         Q/rYhVkrmV6NcjaFrHUXgqkIBj4fYcXaA3qcucCBVU31j1hmIwUxR2JlOP9gJiItVIWz
-         CNiwQvVyE7/d4+2suH6fGGwVpz2ON68XiJWeKGEcifRcwRyOGvhoqdq9aFourgvSbltR
-         FUONSqOFVBpwop2bGMrBKqk4ImNmVjlRnvmKvqIXxmtMn2Mzm1AIWaYBhR3723fYrUS1
-         GU4C6xsPO8Ov9WJuTE7uAjgoPdhZx/M7kHLAT9pF35A/h3xZMuQYoQx5TbqCsF926gBm
-         EVEQ==
+        bh=PabJINhtTz14DvOSYG0veNaIdLnYHWjqpt4UhSeU28c=;
+        b=R6dLF+4X2CQJ6hVObynXUvpvM2YFmWaT06KkMzU4/XmJaAhsXV5GojsCfPCkEn9G+J
+         3P3scbJZLsIUlL1wKELkVTwENNosOJmoSr9mffuEeEUDv289t3/VWGFEufzh18rOG3WK
+         1zkFD4ffevyn1OEN5PGRjjC7+rQVElMoaNafcfqXZOLKb27S/JfHRXXwAoJrIdrzUeeT
+         axl644jra5JDuNQswN/SY0nruy57hohN9rXP71a4e5Gl+AyQxRbdkInUUqygvfNOQB5Y
+         TBAP7zd5s5fgQ0jFGwoAPID7okRS52xKZE/UZz3I4V5GDnPVqD68g1VrfLUJO8doCu5T
+         O2qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762503201; x=1763108001;
+        d=1e100.net; s=20230601; t=1762503202; x=1763108002;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=s/S84Bq0H+5Q5GEwboYARmckBLSU9dA4Cuq2qpko4lg=;
-        b=YxkS3KTNVcxYJKgUemhGVruVONbiQ0mH7n/MR/isbvU+ocxokChfwDOiJQVa69tqP/
-         YFxW1WgtCNOcufKdc6MWXnwxGdD7xAjundkIr8H/ZIYRbdaxdOqC/kfHF+jaRND/oKdz
-         oyW3C6OupUmPr7M4uB2gbpEna4JXKZ3fl0zs8BMKA6mS4828gjTE2q7/UhHDFMvzkn95
-         DGXmLcgqN6VzSkxguEfNQ2ophS7wkaxBVi6kAk4HXs4dwWPFxxkpSAUBN5VugGTanie+
-         x+qxNVylhgisdqvs9Ouw5x3ZpPR+vv23oT6cKaJXNuIgvKHNVLfvD3A1lQh0eskWricj
-         Sv5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUTeKm6YjaZpYrrcit3nrGV+SG1eDvIsW7unUEQBPC9Ig2xM+Z7Ho04Za7CU3JxInHz3KIBQqtBPSY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV7Xql91RA5oSKlw3FeqbsaOpMuRTBhOXFTU/n1KXNarQCwAeZ
-	OrXkFLt8/lF4u3jPadwkYaKSed3QQhSrD8salhXm4wm3kwGTlumYzXq1
-X-Gm-Gg: ASbGncuFgFZkB82Z1JxvsjRvc+nwNbv6d1dMUetwc0C1/mmRgcUerEcXzRjun93dTwp
-	pDgVjS7qkfMaYN8pUpdLV0owR77v6h9D+8v6B4RFwrW5FGzU6rEFhbGJm1CQzT3muDN9q0GbD7s
-	WWrJ+flhLEaWCfBOYbVBnLhzp4mC5rNvsXlYu3h1WIHhbeQLefsKuwWVlfGe6pU9vPklmTVhFjW
-	bMHd8hgmZQL3VyCgXCk71YY0moZJo8jOuU1ia7fKTjsU27n5NVkEYHpiLyNJzq91PCxW7W2T2cX
-	FnKcDys7Vso4WgM+q5/t7+HwwGSmZ+yw/QrsxoFxidXVwWmSkjWwKTNxBxzbcupRND690X7TWyQ
-	PJadQnGU5ltjTEV+k2bNdhbuwHVLRfaBQXZDQo7qL7FUN8DSRpIiWDOCXNKyVJ/BB6KEk2oPmB5
-	Kr/mSi33znymM=
-X-Google-Smtp-Source: AGHT+IGeKtv44GcSyZP8wA09Y2J6Plyg1nStPrUzCk/QO5GDH6nrlZ7OMpI0TvErsPPE6Q92rFcohw==
-X-Received: by 2002:a17:907:3d45:b0:b70:e15b:286a with SMTP id a640c23a62f3a-b72c0d9438emr243107866b.57.1762503201240;
-        Fri, 07 Nov 2025 00:13:21 -0800 (PST)
+        bh=PabJINhtTz14DvOSYG0veNaIdLnYHWjqpt4UhSeU28c=;
+        b=Wn8LQRk38+bP/b9428hesNkBTJQULGfyUHs3uNYCdVLbKSz0KFr7fT8A27xS51YYtO
+         QEvuLVDXE7ohNwoZWbCqzHFZESo636LyINc01q9SSUihslXuh+lBf7lAbfhcoCDnTWZF
+         pMfyIsbcL+CtXISEEmApgf437P/LFu/s1/wTnQs4yM3GEIF9e/8Z72ShtHO6bBjcsWJ5
+         9pk12PvcTVOJnoXK+Hq+YCrkXTP56k5bLl1Z9wprP+vHi6H+LpIOCPzB3T9dTfU7Sar0
+         GALdDkWxIjSuOe4Ji6We5+p3JNLI1szCN8uMvKn38NBo09Ulxd2C8DhKRm35eQV2AChJ
+         EtWA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5zB1FhbhiHYNOIt9yDLknwaf8cakCNjZjZ6koQx48YNxbPTj6na6RMW5LjmRZq7k1ntmuIv0F1rE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywa6+yf9ya3Z8wup5jrsJJK6a+pVAauiJHahz2r6eW2plIf3ijE
+	HoaNXZ0I2DWkG0s9y1oFcfiKRS9MlKGq8SyRrIav9fhf8C1ZyBwlX9T5
+X-Gm-Gg: ASbGncuWXvm9qkQHDw+dzJZE9KeoYO2Kr7HSvmpA1a4xnUE1M0nJiElIkRJOFGLEMcJ
+	fmeI9NgLNx64ElVdPv5GTC/Tstc9Go9xjQHGFZ65hI8MPMim6yEF9zaHkDHS3yF+60lxAdovoE/
+	ED+UT823DQ86GSW83Wj7mIZ9rBUwKassjOK+N4y5Xt21UEVFTkCiAGnGRAiqXBPAsizWE/dq3XM
+	ZvNX678KmHCw5vR6+TnTWoUJmKFQSMEYrFV5LU4SlnBKrFikHls8KaNAGlKy0Rk5/CdfXVKsEv3
+	Rnm5tJmTOkAOk+zutaL2y/sKnMGENdfdpiejCv2ZLMPUuf1ni+sEfdDGeUpMd5XiWEK8l27SN9h
+	BtfhMnKwlTRmChkK98hPPWjbLdN2JHk3vGHNix0Wje4Cw/yQImk+VKQ8iuZRPmWjMTcqgQtXQig
+	tR
+X-Google-Smtp-Source: AGHT+IH8lIVBGU6qZcWj9lXhl2uY6I1BfrQTXsj7jZaaMXy9BNwAH/WaMBWywYg8F8rsMUMO09NxnA==
+X-Received: by 2002:a05:6402:5352:10b0:640:998e:4471 with SMTP id 4fb4d7f45d1cf-64146d18bb6mr550756a12.5.1762503202010;
+        Fri, 07 Nov 2025 00:13:22 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf4fbda2sm177442166b.28.2025.11.07.00.13.20
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f862697sm3641613a12.25.2025.11.07.00.13.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 07 Nov 2025 00:13:20 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 41826424DA71; Fri, 07 Nov 2025 15:13:12 +0700 (WIB)
+	id 032C042439DF; Fri, 07 Nov 2025 15:13:12 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -76,10 +76,11 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Samiullah Khawaja <skhawaja@google.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Lu Baolu <baolu.lu@linux.intel.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 2/2] iommupt: Describe @bitnr parameter
-Date: Fri,  7 Nov 2025 15:13:01 +0700
-Message-ID: <20251107081300.13033-4-bagasdotme@gmail.com>
+Subject: [PATCH v2 1/2] Documentation: genpt: Don't use code block marker before iommu_amdv1.c include listing
+Date: Fri,  7 Nov 2025 15:13:00 +0700
+Message-ID: <20251107081300.13033-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251107081300.13033-2-bagasdotme@gmail.com>
 References: <20251107081300.13033-2-bagasdotme@gmail.com>
@@ -89,44 +90,45 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1579; i=bagasdotme@gmail.com; h=from:subject; bh=l70ZHuFXGxCuiZ9UWHRnDufmsHg5/+S7082Atj+1UWA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJm8K/Q0zOYGTDgr9jri977z+QzvRDbO6GgTcj+x49BOS S0H9z8VHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZiI13lGhk6LMFHd7FuyC1Id DvPLM+1jsX2t9/75qszetQw2Nvs8NjP8jyxeuf3fy8Vh786WbToquy7djy97wZXeWOOsmF2Opiv OcQIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1631; i=bagasdotme@gmail.com; h=from:subject; bh=0sXmLwNMlYc0PbllYPcwc9yuoEtGcI4ex2Sbk6FXq8o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJm8K/RqNyVdu5D741ms3OR9ByJeGHXMYO4M15mjVd7zX frZn3lnO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRwL+MDL1NZW6RbP46j7Z9 +cT8asYt5y311mXrQ59Zzdka4nLS5wjD/7KTUmlc95YK67orqgrIZ8xnYhHx2dcg2Tb9/9Izd3k XsgMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports kernel-doc warnings when making htmldocs:
+Stephen Rothwell reports htmldocs warning when merging iommu tree:
 
-WARNING: ./drivers/iommu/generic_pt/pt_common.h:361 function parameter 'bitnr' not described in 'pt_test_sw_bit_acquire'
-WARNING: ./drivers/iommu/generic_pt/pt_common.h:371 function parameter 'bitnr' not described in 'pt_set_sw_bit_release'
+Documentation/driver-api/generic_pt.rst:32: WARNING: Literal block expected; none found. [docutils]
 
-Describe @bitnr to squash them.
+This is because of duplicate double colon code block markers: one after
+generic_pt/fmt/iommu_amdv1.c and the one in its preceding paragraph. The
+resulting htmldocs, however, only marks the include listing (after the
+former) up as it should be.
 
-Fixes: bcc64b57b48e ("iommupt: Add basic support for SW bits in the page table")
+Drop the latter to fix the warning.
+
+Fixes: ab0b572847ac ("genpt: Add Documentation/ files")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20251106143925.578e411b@canb.auug.org.au/
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/iommu/generic_pt/pt_common.h | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/driver-api/generic_pt.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/generic_pt/pt_common.h b/drivers/iommu/generic_pt/pt_common.h
-index b5628f47e0db40..3b4e371089140a 100644
---- a/drivers/iommu/generic_pt/pt_common.h
-+++ b/drivers/iommu/generic_pt/pt_common.h
-@@ -354,6 +354,7 @@ static inline unsigned int pt_max_sw_bit(struct pt_common *common);
- /**
-  * pt_test_sw_bit_acquire() - Read a software bit in an item
-  * @pts: Entry to set
-+ * @bitnr: Bit to read
-  *
-  * Software bits are ignored by HW and can be used for any purpose by the
-  * software. This does a test bit and acquire operation.
-@@ -364,6 +365,7 @@ static inline bool pt_test_sw_bit_acquire(struct pt_state *pts,
- /**
-  * pt_set_sw_bit_release() - Set a software bit in an item
-  * @pts: Entry to set
-+ * @bitnr: Bit to read
-  *
-  * Software bits are ignored by HW and can be used for any purpose by the
-  * software. This does a set bit and release operation.
+diff --git a/Documentation/driver-api/generic_pt.rst b/Documentation/driver-api/generic_pt.rst
+index 210d1229aa1c1f..7a9ca9f2878d4f 100644
+--- a/Documentation/driver-api/generic_pt.rst
++++ b/Documentation/driver-api/generic_pt.rst
+@@ -27,7 +27,7 @@ compiled into a per-format IOMMU operations kernel module.
+ For this to work the .c file for each compilation unit will include both the
+ format headers and the generic code for the implementation. For instance in an
+ implementation compilation unit the headers would normally be included as
+-follows::
++follows:
+ 
+ generic_pt/fmt/iommu_amdv1.c::
+ 
 -- 
 An old man doll... just what I always wanted! - Clara
 
