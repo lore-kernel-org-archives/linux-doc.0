@@ -1,116 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F1F21D3F8;
-	Fri,  7 Nov 2025 10:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C4E305940;
+	Fri,  7 Nov 2025 10:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762511244; cv=none; b=Thjpl4P1y5HB6T2ak2b3OEqFp3hHSglZ7zgNtyWOUPSrnnBHew0+DKtezoyKQrWmpWnIgqes0Gm72wAdpOAexz9DYR21olcUUGzekrKUY2ybyCL/5ZnFUPbEhYCe+a4jv3t7Gvcj0mo2T3iv/Kdm9JM1ApJKrSZ/j6pIjvvfjdI=
+	t=1762511283; cv=none; b=LWXYqd3pZNb6209vYwwi5V8f/Q0uoy6a7ZTzS5ozP2KplHjIQ0w84J0fpVL8WsgPTIQbmtzQcHrBA5iDBGrpEJQC42yDoCYJGr5qhBk7Z/rEJ1S/6Y3n6xKIVTMoBS6H1hGARZJFWvushtJkZoY4Shuy9Fv+XSBUPytsNmrQ8BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762511244; c=relaxed/simple;
-	bh=Gnt42O9rhYijO4KUfbQ9JnF/NlAmgpbQr2e14VAYYvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S2/Ll/7LN71z4xG2vyNLqu0LpOWbgJA2AHoDE1ni64i0CWJJh3iIvSNVl2dFTGB/fJcEsyI3e7giDRdJv0a2ikKC+U8Dx8IWxYhUcYr/+Fk+9m/efbusgD/EHII3ua4MJvcV6XtuT0lQD5NFeRtiwZ6OKFR8mE/TC0un3WY38lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rftim6RO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762511283; c=relaxed/simple;
+	bh=ao1huc81LhbI7M7V+Lmw7sAVNImuD4foYke1+Hng3lI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=awgVKZCC0GrCeHtPgqFdHPmSP//up9FGX//4cq8VqnJnE3yVHf/Z0P/R9Fnu1w6nTenY7teiUssvPTSnF3asWLC2JbUKRIxbjEqPl6wTUcLcWfFhr8F4tlDr1cm38vl+3SxLT7luKys5VL9Zel6JSg2jKeb4+nUuidD8d8JcwFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QSVC1dyB; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rftim6RO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2834FC19421;
-	Fri,  7 Nov 2025 10:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762511243;
-	bh=Gnt42O9rhYijO4KUfbQ9JnF/NlAmgpbQr2e14VAYYvU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Rftim6ROXWpzJBZgVSz7zVyo94O04XFude0SiLMqtdwZRJ1Ij/wpPWMIzySd6CMed
-	 C0ZPZnrnGiQhGB6BqvFZ1mKxH90m0CJ2+CXC+C2K2JoL4QE5+28eaBdBHGC/8ioCy+
-	 ddEbkATVtPf+gcW3J6cE7KI+FXuW5d+y4HnjLa21c+uZ4fVLC1SD9f18gu9fCy4uoF
-	 bwRzifCR0iFL9lq5mrDBvZcFirSim14qFqVB3pfCBHABQliJPyyG8A8QdmP4TyTHef
-	 Uo3lYvnHbnA8uVXlxEMZhcmsnrM3XCnAnkdv0RBC8hyBkSZndAwaEKYE3wxWjbWqX/
-	 CLWgj8ZjhAmyg==
-Date: Fri, 7 Nov 2025 07:27:18 -0300
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Jani
- Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v3 0/8] Collect documentation-related tools under
- /tools/docs
-Message-ID: <20251107072718.36bbda53@sal.lan>
-In-Reply-To: <87h5visjn5.fsf@trenco.lwn.net>
-References: <20251024200834.20644-1-corbet@lwn.net>
-	<d3f4c7ee-6351-4c6f-ae93-f423245c4c9e@gmail.com>
-	<20251026073405.0672c9dd@sal.lan>
-	<874irkp97o.fsf@trenco.lwn.net>
-	<87h5visjn5.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QSVC1dyB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rUEiTpU7HDDR8xMFqOe2EDvAunYxBiPHehj76UNcJvY=; b=QSVC1dyBVq9iOjDUlh61G8KGft
+	apfvjGnw3TRhtW3UGKL1sovVkDGWzQpQIn/liVJrV82JFl9AwrM673VsvTrWDEpeOXvMdulJsnaOZ
+	zABWuolDlh+YxMKGXuOeXPM4UnjK2Ie2JLs902MAPKOVY15MCYjgM54HecdEinsD8R7UMM4CiPUSh
+	AHGQHmBsP2ItnH8zopdbipVsoI0sHOyBWXTAaiiQVzEkU2aOS+YLXtd8lOG0y/SWpShji3riP9Z8M
+	NNAaIZ2nfbc/O2OFGIT3QtTEpe+FrxsN98ckdXs0Lyr8OqOS0fiLQ4LsF/G1BZf9c99u34MYBuakw
+	w3jhpeTA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vHIpN-00000006AtS-2BCf;
+	Fri, 07 Nov 2025 09:32:17 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 3E2993001D4; Fri, 07 Nov 2025 11:27:45 +0100 (CET)
+Date: Fri, 7 Nov 2025 11:27:45 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Dave Hansen <dave.hansen@intel.com>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
+ runtime services
+Message-ID: <20251107102745.GC1618871@noisy.programming.kicks-ass.net>
+References: <20251029210310.1155449-6-sohil.mehta@intel.com>
+ <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
+ <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com>
+ <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
+ <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
+ <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
+ <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
+ <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com>
+ <20251107094008.GA1618871@noisy.programming.kicks-ass.net>
+ <CAMj1kXFWCwEENyS=JM5mAON6ebfTwwJh-mRDYCY5NA+5UGzZJg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXFWCwEENyS=JM5mAON6ebfTwwJh-mRDYCY5NA+5UGzZJg@mail.gmail.com>
 
-Em Tue, 28 Oct 2025 17:15:26 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Fri, Nov 07, 2025 at 11:09:44AM +0100, Ard Biesheuvel wrote:
 
-> Jonathan Corbet <corbet@lwn.net> writes:
-> 
-> >> 3. change the core of the logic to be something like:
-> >> 
-> >> 	# kerneldoc_bin = env.config.kerneldoc_bin
-> >> 	kerneldoc_bin = os.environ.get("KERNELDOC")
-> >> 
-> >> 	if not kerneldoc_bin:
-> >> 	   out_style = RestFormat()
-> >> 	   kfiles = KernelFiles(out_style=out_style, logger=logger)
-> >> 	else:
-> >> 	    print(f"Generating C documentation by running {kerneldoc_bin} binary")
-> >> 
-> >>    this would still allow using KERNELDOC to point to a binary
-> >>    that will handle C files executed as a separate process.  
-> >
-> > This seems like an obvious improvement, and one that, perhaps, should go
-> > in ahead of my current series in the perhaps vain hope that we're
-> > finally getting to the end of the list of things I can find to break...
-> >
-> > I can send a patch around in the next couple of days if you don't beat
-> > me to it.  
-> 
-> So I have that change working just fine ... only one problem.
-> 
-> For this to work, we have to take out the definition of KERNELDOC in the
-> top-level Makefile, otherwise we'll never go the import path.  But there
-> are a few other Makefiles, mostly in the DRM area, that need that
-> definition.
+> As long as you install with EFI enabled, the impact of efi=noruntime
+> should be limited, given that x86 does not rely on EFI runtime
+> services for the RTC or for reboot/poweroff. But you will lose access
+> to the EFI variable store. (Not sure what 'noefi' does in comparison,
+> but keeping EFI enabled at boot time for things like secure/measured
+> boot and storage encryption will probably result in a net positive
+> impact on security/hardening as long as you avoid calling into the
+> firmware after boot)
 
-True, DRM makefiles run kernel-doc to check for warnings within the
-DRM subsystem. 
+I would say it should all stay before we start userspace, because that's
+where our trust boundary is. We definitely do not trust userspace.
 
->  So I have the docs build working, but I've broken other
-> things, and I think people are getting tired of me breaking things.
-> 
-> Possible solutions:
-> 
-> - Add a new FORCE_KDOC environment variable that is used instead of
->   KERNELDOC to set the program to run in the docs build.
+Also, if they all think this is 'important' why not provide native
+drivers for this service?
 
-Works for me.
+> > At the very least I think we should start printing scary messages about
+> > disabling security to run untrusted code. This is all quite insane :/
+> 
+> I agree in principle. However, calling it 'untrusted' is a bit
+> misleading here, given that you already rely on the same body of code
+> to boot your computer to begin with. 
 
-> - Keep the current logic that special-cases setting KERNELDOC to
->   scripts/kernel-doc.py and really runs in the imported mode in that
->   case.
+That PRM stuff really doesn't sound like its needed to boot. And it
+sounds like it really should be part of the normal Linux driver, but
+isn't for $corp reasons or something.
 
-Not sure if I got what you meant. Do you mean not running the classes
-but always run exec() syscall? This will likely affect build time,
-and prevent further speedup optimizations. It will also duplicate
-warnings if we drop the output filter logic for warnings.
+> I.e., if you suspect that the
+> code in question is conspiring against you, not calling it at runtime
+> to manipulate EFI variables is not going to help with that.
 
-> 
-> - Go into retirement and let it be somebody else's problem
-> 
-> Anybody have any other great ideas?
-> 
-> Thanks,
-> 
-> jon
+Well, the problem is the disabling of all the hardware and software
+security measures to run this crap. This makes it a prime target to take
+over stuff. Also, while EFI code might be good enough to boot the
+machine, using it at runtime is a whole different league of security.
+
+What if they have a 'bug' in the variable name parser and a variable
+named "NSAWantsAccess" gets you a buffer overflow and random code
+execution.
+
+Trusting it to boot the machine and trusting it to be safe for general
+runtime are two very different things.
+
+> Question is though whether on x86, sandboxing is feasible: can VMs
+> call into SMM? Because that is where 95% of the EFI variable services
+> logic resides - the code running directly under the OS does very
+> little other than marshalling the arguments and passing them on.
+
+I just read in that PRM document that they *REALLY* want to get away
+from SMM because it freezes all CPUs in the system for the duration of
+the SMI. So this variable crud being in SMM would be inconsistent.
+
+Anyway, I'm all for very aggressive runtime warnings and pushing vendors
+that object to provide native drivers. I don't believe there is any real
+technical reason for any of this.
