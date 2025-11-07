@@ -1,66 +1,64 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F8C30F94D
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 08:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC06130F954
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 08:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762503205; cv=none; b=Y53wprZQUi4zhMTlqAuqv8IFI4UsMlreDsCSPgTIBLVAFvOPxrBng5sxV7bNgLyNlvTUZ6em9YMFj6CtJ2fBTkuSdHaYkYL0NZI4ggnCtsf9zJeWLLIIqn3ljw/q+GTn+S7ywFEBVyM47w3jOnnqDngpW2DDHX8x3P1chBREH1k=
+	t=1762503206; cv=none; b=rkDxWvXkoJFOI9gKWGOUl/aFaKTTrUkT5NqJXws2Gu/vxeyfsXSAVaOVmcsdzzuhqBkBgwFW9KcPZuqb+zBvX6YWXvOEcS5HJ0EJ0iT4I7NllDC8YJJy8ka4VWtHuxR9jjiRQphC0J7C+YUe4zRyeuFCFrEa2zXkOo4cK+og7RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762503205; c=relaxed/simple;
-	bh=0sXmLwNMlYc0PbllYPcwc9yuoEtGcI4ex2Sbk6FXq8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TqquhVCmg9CPrjVVl2KK1lwpuDhUlhigyUgME7cY5IDLaqlWlemgHFZbF+ues4DtqQRQAu+1CkbEtE5Kbdbt1HsN1TJLtGgdef62FHhMT+8cUqWgj4OAyEC/sj+xUVMp3dE5SGw4tcGLMYW4bCdMuZYcSwboKY3Ock0Gs/UTFVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6dLF+4X; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1762503206; c=relaxed/simple;
+	bh=L2WkKVq1YkpsdiT6yHvKw0l7RT+zYDKnfrxQFfdUrw0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BZCRyQVZXcabdId57fIroEZQOcwASUP9EWCd3QUtdcd3zxwV1j2k9uctpBHbj4k/41ShzIDvdLwz8qIPJ0zfzAWn6rxSrzPh7RNxyArdHcUBFBItIUpazIyWXP93VeYCoZ+U4VPQDguIO/qbuGnrlQAIqZ2PU0q63Lmmk3pQhS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NaxeFPhz; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6dLF+4X"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6407e617ad4so208916a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 00:13:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NaxeFPhz"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-640b4a52950so719119a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 00:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762503202; x=1763108002; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PabJINhtTz14DvOSYG0veNaIdLnYHWjqpt4UhSeU28c=;
-        b=R6dLF+4X2CQJ6hVObynXUvpvM2YFmWaT06KkMzU4/XmJaAhsXV5GojsCfPCkEn9G+J
-         3P3scbJZLsIUlL1wKELkVTwENNosOJmoSr9mffuEeEUDv289t3/VWGFEufzh18rOG3WK
-         1zkFD4ffevyn1OEN5PGRjjC7+rQVElMoaNafcfqXZOLKb27S/JfHRXXwAoJrIdrzUeeT
-         axl644jra5JDuNQswN/SY0nruy57hohN9rXP71a4e5Gl+AyQxRbdkInUUqygvfNOQB5Y
-         TBAP7zd5s5fgQ0jFGwoAPID7okRS52xKZE/UZz3I4V5GDnPVqD68g1VrfLUJO8doCu5T
-         O2qQ==
+        d=gmail.com; s=20230601; t=1762503203; x=1763108003; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iOIIVZmEuR4lMVP1407hIBpNtWT/l6DfS/U3dPctlwM=;
+        b=NaxeFPhznr3qaL/YsC51SpApEyxbOCr4AKR0DlLu6SYd49Td/I3JFK2nU+Wa5BNU/I
+         kqEHvSWZkXaZpXSuYmNIuLI2Bh37i/t0luSL2+D0MKLnS+waiRRViQAluPLEPGmIl3jt
+         gVpkfE/N2DgglXYKH/fMCt4V+vPnz0v/r7ZhD3luhAcOcNs4fYcUcuOEyZSBGHoK0vel
+         WBWVfmR2vtEiKGkjTxFkh89RRNpI4ooHHowKdY5tAf6GcZEvwZvW5xMuWW+QxKWfW8RI
+         lzhRhxKdsZPLQlkI4+gZtOfSqQY0Bb9isYzPL/VlpNlDYrH3U07lQscPUZNRKxkqtDF9
+         BMpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762503202; x=1763108002;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PabJINhtTz14DvOSYG0veNaIdLnYHWjqpt4UhSeU28c=;
-        b=Wn8LQRk38+bP/b9428hesNkBTJQULGfyUHs3uNYCdVLbKSz0KFr7fT8A27xS51YYtO
-         QEvuLVDXE7ohNwoZWbCqzHFZESo636LyINc01q9SSUihslXuh+lBf7lAbfhcoCDnTWZF
-         pMfyIsbcL+CtXISEEmApgf437P/LFu/s1/wTnQs4yM3GEIF9e/8Z72ShtHO6bBjcsWJ5
-         9pk12PvcTVOJnoXK+Hq+YCrkXTP56k5bLl1Z9wprP+vHi6H+LpIOCPzB3T9dTfU7Sar0
-         GALdDkWxIjSuOe4Ji6We5+p3JNLI1szCN8uMvKn38NBo09Ulxd2C8DhKRm35eQV2AChJ
-         EtWA==
-X-Forwarded-Encrypted: i=1; AJvYcCX5zB1FhbhiHYNOIt9yDLknwaf8cakCNjZjZ6koQx48YNxbPTj6na6RMW5LjmRZq7k1ntmuIv0F1rE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa6+yf9ya3Z8wup5jrsJJK6a+pVAauiJHahz2r6eW2plIf3ijE
-	HoaNXZ0I2DWkG0s9y1oFcfiKRS9MlKGq8SyRrIav9fhf8C1ZyBwlX9T5
-X-Gm-Gg: ASbGncuWXvm9qkQHDw+dzJZE9KeoYO2Kr7HSvmpA1a4xnUE1M0nJiElIkRJOFGLEMcJ
-	fmeI9NgLNx64ElVdPv5GTC/Tstc9Go9xjQHGFZ65hI8MPMim6yEF9zaHkDHS3yF+60lxAdovoE/
-	ED+UT823DQ86GSW83Wj7mIZ9rBUwKassjOK+N4y5Xt21UEVFTkCiAGnGRAiqXBPAsizWE/dq3XM
-	ZvNX678KmHCw5vR6+TnTWoUJmKFQSMEYrFV5LU4SlnBKrFikHls8KaNAGlKy0Rk5/CdfXVKsEv3
-	Rnm5tJmTOkAOk+zutaL2y/sKnMGENdfdpiejCv2ZLMPUuf1ni+sEfdDGeUpMd5XiWEK8l27SN9h
-	BtfhMnKwlTRmChkK98hPPWjbLdN2JHk3vGHNix0Wje4Cw/yQImk+VKQ8iuZRPmWjMTcqgQtXQig
-	tR
-X-Google-Smtp-Source: AGHT+IH8lIVBGU6qZcWj9lXhl2uY6I1BfrQTXsj7jZaaMXy9BNwAH/WaMBWywYg8F8rsMUMO09NxnA==
-X-Received: by 2002:a05:6402:5352:10b0:640:998e:4471 with SMTP id 4fb4d7f45d1cf-64146d18bb6mr550756a12.5.1762503202010;
+        d=1e100.net; s=20230601; t=1762503203; x=1763108003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iOIIVZmEuR4lMVP1407hIBpNtWT/l6DfS/U3dPctlwM=;
+        b=X/CGps+msac1okEkV2zDBgejV8yj00zSBe9f0RxvQBcLQqOO4jkBB+pFzScaC0i4eu
+         gHmTngJpRYbF1npd0Kk39Y3oWpWJUaoRCsb0s0rgjko/ZPg2Pt6UdcuKYS4leL3r4qOQ
+         yoYVFbsNPeBybZAq+yY3TVdlrSfhfXcihzbp8WRikZWX2QDNgH0b/UXAs1grAto+2XAS
+         gF+G3NT6Lswp96RZI3a/ad5io5ZS25RBFiZRJ2I041diL3Tlb1zaqDqYUeKaWD+Tlzqa
+         XZPWIbUkz5LsDNkk34vYi1ReJf0tpB7lA686cDXgDY6v9U/Tp77D4nC09hgnyWciVIfP
+         pvjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB9RLvlOkk3kzPFNtFmuAdtsIuwm1owdqGMX1n5q2ueyeFAd7f/5VN5lwl8QdQcfZkoZbRcBlBVn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm75dDl69pl9g+xgbr6B9g/PZT4pKXTpLY7bEUvOrDcBH3jw12
+	D3aSazda51WaHYOtijUCGhqbmwXjE3+kNJpFHkv/yJ24h07rGN2g/Pyz
+X-Gm-Gg: ASbGncvZvO6v4A4zLJsmpZag81NvHCU8u8u02V0UFJ0YcA8SF1Dj3tmgSOGGvYykyJa
+	Y9cjGpUOVx7b1u81R+O91jxGk/D2Q+DHAPG41ZqyBAk+wAWYygrftsJrivbCC74wC7sLrBWn3LG
+	YeuwRABMAKEGvN2yp2s00qx3qXJ8Hny1Ki4JSu25XnbkVvO4tAuNoODvN1MNao+KWLvqJGtxuwe
+	nMi6A2OGup+5sTfE1ykPlmZGpuxqtpMnVuG1StQnEntrZtvLk+dZnKutjDGVxLtSjh8HiP9TnRl
+	4ThurS1w9Eyjp68TB5KBfGmoDW4p0zXop1dfUvO9qAxmQfGLIdbT36WMSSPID62xwhOLT/iqwTO
+	dM572Q0YutBbHSZdKxIxucCpVQUqSt8sKjM5qKNTcvTKpl//xk5nCUOm8UW7g5L9RMW3VXTKnrS
+	ei
+X-Google-Smtp-Source: AGHT+IG665bW/Iuh/8EXmRznhqf6ur9YSSabWYQHPQ8dXHHX+fgwFkGMvxLWdfgY4F29RVykMMnqWg==
+X-Received: by 2002:a05:6402:3045:10b0:640:af04:d718 with SMTP id 4fb4d7f45d1cf-6413f0771b9mr1621773a12.30.1762503202832;
         Fri, 07 Nov 2025 00:13:22 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f862697sm3641613a12.25.2025.11.07.00.13.20
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f6780b7sm3665313a12.0.2025.11.07.00.13.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 07 Nov 2025 00:13:20 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 032C042439DF; Fri, 07 Nov 2025 15:13:12 +0700 (WIB)
+	id A7E38420A6A8; Fri, 07 Nov 2025 15:13:12 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,60 +73,48 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Kevin Tian <kevin.tian@intel.com>,
 	Samiullah Khawaja <skhawaja@google.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 1/2] Documentation: genpt: Don't use code block marker before iommu_amdv1.c include listing
-Date: Fri,  7 Nov 2025 15:13:00 +0700
-Message-ID: <20251107081300.13033-3-bagasdotme@gmail.com>
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH v2 0/2] genpt documentation fixes
+Date: Fri,  7 Nov 2025 15:12:59 +0700
+Message-ID: <20251107081300.13033-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251107081300.13033-2-bagasdotme@gmail.com>
-References: <20251107081300.13033-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1631; i=bagasdotme@gmail.com; h=from:subject; bh=0sXmLwNMlYc0PbllYPcwc9yuoEtGcI4ex2Sbk6FXq8o=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJm8K/RqNyVdu5D741ms3OR9ByJeGHXMYO4M15mjVd7zX frZn3lnO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRwL+MDL1NZW6RbP46j7Z9 +cT8asYt5y311mXrQ59Zzdka4nLS5wjD/7KTUmlc95YK67orqgrIZ8xnYhHx2dcg2Tb9/9Izd3k XsgMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=889; i=bagasdotme@gmail.com; h=from:subject; bh=L2WkKVq1YkpsdiT6yHvKw0l7RT+zYDKnfrxQFfdUrw0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJm8K7T8b25LFBZc/qP+aoJmfOcx7kTmCJe83VsDpX+uN d+yY1psRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZy5x/DH77TBhliqz7NbmQx erzRocQuhy3w6CX2Uk7Xmf11j67zH2L4zf6sR97r3uS+rqjU1Sw3pm3KOpwp5Jn5YL/WF979yQI XeAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Stephen Rothwell reports htmldocs warning when merging iommu tree:
+Hi,
 
-Documentation/driver-api/generic_pt.rst:32: WARNING: Literal block expected; none found. [docutils]
+Here are fixes for two htmldocs warnings in generic radix page table
+documentation. The first one is reported in linux-next [1], and the
+second one is also found when making htmldocs locally to reproduce the
+former.
 
-This is because of duplicate double colon code block markers: one after
-generic_pt/fmt/iommu_amdv1.c and the one in its preceding paragraph. The
-resulting htmldocs, however, only marks the include listing (after the
-former) up as it should be.
+Enjoy!
 
-Drop the latter to fix the warning.
+Changes since v1 [2]:
 
-Fixes: ab0b572847ac ("genpt: Add Documentation/ files")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20251106143925.578e411b@canb.auug.org.au/
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
+  - s/to set/to read/ (Randy)
+
+[1]: https://lore.kernel.org/linux-next/20251106143925.578e411b@canb.auug.org.au/
+[2]: https://lore.kernel.org/linux-doc/20251106073845.36445-1-bagasdotme@gmail.com/
+
+Bagas Sanjaya (2):
+  Documentation: genpt: Don't use code block marker before iommu_amdv1.c
+    include listing
+  iommupt: Describe @bitnr parameter
+
  Documentation/driver-api/generic_pt.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/generic_pt/pt_common.h    | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/generic_pt.rst b/Documentation/driver-api/generic_pt.rst
-index 210d1229aa1c1f..7a9ca9f2878d4f 100644
---- a/Documentation/driver-api/generic_pt.rst
-+++ b/Documentation/driver-api/generic_pt.rst
-@@ -27,7 +27,7 @@ compiled into a per-format IOMMU operations kernel module.
- For this to work the .c file for each compilation unit will include both the
- format headers and the generic code for the implementation. For instance in an
- implementation compilation unit the headers would normally be included as
--follows::
-+follows:
- 
- generic_pt/fmt/iommu_amdv1.c::
- 
+
+base-commit: 75d9ef7cf1e694e5c0fb387be99f04acc7f864a4
 -- 
 An old man doll... just what I always wanted! - Clara
 
