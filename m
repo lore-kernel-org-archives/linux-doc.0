@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93082AD25;
-	Fri,  7 Nov 2025 06:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B262FBDFE;
+	Fri,  7 Nov 2025 06:41:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762496404; cv=none; b=k+RHi6t8OvjsIjFYQFSBJZrQPaw/hr9CeAgoMDocOvGRXdCGD9HY3okVvAufrd5QWe4cl4uMrNsUWNQbSISul4WzIZTjIduoxW7bqgvkLHNe2o0/XPUpLPjx64p2dZBqxnAauoCYFzUs5UTFUggxlUC7YHwAXO4A8sGsdXz5qnw=
+	t=1762497718; cv=none; b=uaFA+5ep2QoM5pa4Cd4cFO/46Kzy+m3Nbd3n/mEB0VNGawTX9B7EmdYRp3H8mhr8Reu9zhtqGTBHqS8XSP+BP4aY/OwCbQy7jZ4wwj+6cVOT2iFGFdPnxc2ZZByaqMeFs+dDvLHzRIQbZAaZgApC7F0Iq9Oay74w219uzRZQRHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762496404; c=relaxed/simple;
-	bh=QK4tnVEnx0dnUu1VZrRPH5XHyZSuEa5wnts9WKB07xc=;
+	s=arc-20240116; t=1762497718; c=relaxed/simple;
+	bh=xMkU6lise77F07+L4SSLLGnVhJlaos8b4vhOhX4fGXs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=trYwP7i5cXkFhc5QyLFKXnp3n/af0KkefdUrStdWNd0JrzS5yzcn5EC/NCs3wY4MBzNP+PxW4+Ous9lvpVEOd8JTelPGLUrXSoRCSm70jS7B3UctP+gLlzCPpclmEwwJgt4zt6x8wL/6BmJzgV0Ha/EZN00WzBd8rwff19v6DX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T+y+/CwW; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=TgrFrAKN2r5LzAert4vT2w+mTVjK9Gt9Du2kErW3CHCsM9Eg1xREtEzntz40cewOdZNHI9a0SeR0ESoXlRm19bYNXnmy73apzH5zcJnmZLebsxe17Ib6xYpkavwCIKNBQ1EBaSG0HIHG8bS136nc5l24NY9q/Ti+lPFfSzUaf6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zYuAKSnc; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T+y+/CwW"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zYuAKSnc"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=cx/OeR/TpXmHZozLgJx6VvSjc4tPJLhnHkHJTi2lSbo=; b=T+y+/CwWjmHf+F0zKFUbi4yg0S
-	pOqOmPKpfXbvaGTKYWi0KY47yOEBYUKywOJpBvGz7l94PhtsE4inro+ZXGbNDIS/ObLv4iGARtDZT
-	PA3XwsvZ3HbMBk55wj8LvauK3bCqjydtgy/En9ZhIs7hU+E0YLPGJ9PCWgKQPJed3/m943DDcYbDR
-	cUHUL9H2RmlJ7XruSVjh1iD2dagE8FIf777IVhmZVfiDrQlQnhaItGshJJ3wN/RYxAYKhqXj1ySx1
-	ZTT/aQYmqdgQW9aj9R+Cgzp6Kwb46grGj2GYC+mQkH+1cVQYJQmiAWGEIzIY+jl3uOcfw3SWU2UbY
-	o1logx0g==;
+	bh=ctUBfFMWOMihIJ5Bxg5QZ83jQAfvmlzaJtuMNo0vOjE=; b=zYuAKSncUam05tJjY1i3KtR5n7
+	DQSfea0nuf0pV2owXbxYjV4VIRlNnrO+AfPO/GvdvtfGtQRmVaPfa/Aiz/E+RHWG7RreH3j+bkxJ2
+	dqqRxBP4FS+ygOfcv02VApaICUB9w9a1VGCsXFCfm3VZnflccVAYCkbgYiZGKATcCaHygeQOVzAOb
+	efkdjj0bhDbrq3BelURquGSaU6iHiAdAcvkarbuWduhx6xGGlds4bvsfczX5XMUJRF4SFnAm+abcf
+	5puHOUDHL6cKMoCO4I6oHKv0iT8SRyMcrkVZtLqvwE8AR54zyk3uQCOJl9XPlvz/nXyDhF3oF0To7
+	nZ+cBLdA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHFpH-0000000GjAS-2VnY;
-	Fri, 07 Nov 2025 06:19:59 +0000
-Message-ID: <1f9aa097-27c2-49c0-b01c-cd0377143bb4@infradead.org>
-Date: Thu, 6 Nov 2025 22:19:58 -0800
+	id 1vHGAV-0000000GkQ1-0Jpo;
+	Fri, 07 Nov 2025 06:41:55 +0000
+Message-ID: <bdc3c01b-193b-467b-9534-cb94f198aa01@infradead.org>
+Date: Thu, 6 Nov 2025 22:41:54 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,56 +39,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/11] dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK
- flags
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Vinod Koul <vkoul@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>,
- Udit Tiwari <quic_utiwari@quicinc.com>,
- Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
- Md Sadre Alam <mdalam@qti.qualcomm.com>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-crypto@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
- <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org>
+Subject: Re: [PATCH 0/3] misc devices formatting devices
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Akshay Gupta <akshay.gupta@amd.com>, Srujana Challa <schalla@marvell.com>,
+ Vamsi Attunuru <vattunuru@marvell.com>, Julien Panis <jpanis@baylibre.com>
+References: <20251104041812.31402-1-bagasdotme@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org>
+In-Reply-To: <20251104041812.31402-1-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/6/25 3:33 AM, Bartosz Golaszewski wrote:
->  Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
->  include/linux/dmaengine.h                       | 6 ++++++
->  2 files changed, 15 insertions(+)
+On 11/3/25 8:18 PM, Bagas Sanjaya wrote:
+> Hi,
 > 
-> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-> index 1594598b331782e4dddcf992159c724111db9cf3..6428211405472dd1147e363f5786acc91d95ed43 100644
-> --- a/Documentation/driver-api/dmaengine/provider.rst
-> +++ b/Documentation/driver-api/dmaengine/provider.rst
-> @@ -630,6 +630,15 @@ DMA_CTRL_REUSE
->    - This flag is only supported if the channel reports the DMA_LOAD_EOT
->      capability.
->  
-> +- DMA_PREP_LOCK
-> +
-> +  - If set, the DMA controller will be locked for the duration of the current
-> +    transaction.
-> +
-> +- DMA_PREP_UNLOCK
-> +
-> +  - If set, DMA will release he controller lock.
+> Here is a small docs formatting cleanup for assorted miscellaneous devices.
+> Patches [2-3/3] are split from my previous macro references fixup patch [1].
+> 
+> Enjoy!
+> 
+> [1]: https://lore.kernel.org/linux-doc/20251104022242.19224-1-bagasdotme@gmail.com/
+> 
+> Bagas Sanjaya (3):
+>   Documentation: amd-sbi: Wrap miscdevice listing snippet in literal
+>     code block
+>   Documentation: mrvl-cn10k-dpi: Fix macro cross-reference syntax
+>   Documentation: tps6594-pfsm: Fix macro cross-reference syntax
 
-                                the
+for all 3 patches:
 
-> +
->  General Design Notes
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+>  Documentation/misc-devices/amd-sbi.rst        |  6 ++++--
+>  Documentation/misc-devices/mrvl_cn10k_dpi.rst |  4 ++--
+>  Documentation/misc-devices/tps6594-pfsm.rst   | 12 ++++++------
+>  3 files changed, 12 insertions(+), 10 deletions(-)
+> 
+> 
+> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
 
 -- 
 ~Randy
-
