@@ -1,201 +1,178 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AFF32ED3C
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 15:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9AE1DE8AE;
+	Fri,  7 Nov 2025 16:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762530877; cv=none; b=aTX2Eq8Z3P5eVQ9DQeF0oXlsj1n7eDU1sP6G+tUb8W2gCP7uoteR4vmYkVtOxwPPPWMlpV942D79GhnsKvqIO1A7ASA7WohUJnag5b+ghpknah6df6Sjyf3gKBoepXYm6oP2Tna6ZB2RmVG00L3bmq5eOg2yh1Metb5lUzHtO20=
+	t=1762531285; cv=none; b=X2o+jSgd/sEkieoSsHJLzPhtEZJslTg9vU1LCyApi0nN7B1kylXXrZ8DGo1QbrBpu1TWLBttzybEMyOcF8MmMvQBbQMqkkTHudXXTpme0M0U9l8Syy9o8rUKxxFlJ+KX/wYVeJHs+UMDC9cy/jtJlTOZxJ2X9h9r8Xuw1+w0Mlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762530877; c=relaxed/simple;
-	bh=EGnBT7eq4xDsLWoMBKHX6mL+kag/LZD0AS27uXDXkfo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=khmDmUj34uwARVpUyBoC/b6o/SXP+cfelfOv6EY8rbp7Dn8iU6EnrX9lK86+SumPThv3kvIPsf7zssevU/pUq9JavrcseGT1luYYZRhirzjJ4KuoA7yo2IMRSxO6NrfD2hQUbpud66DEe226rqzEcS/ZPCmwltUIFKZGXl2eUMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wcv9rb6T; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1762531285; c=relaxed/simple;
+	bh=SAXkSml11M5xQ5oAowfwGP1WfIbbhD9Zwsc1+gFtZVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gE5bBhg+qvsgoRdDnfV9IRjE9MFxMtgCa7aJ6jruVf1wiXM6knGj4pWj7db4h7VRxedWTkHsqJ8HDx+v61GFnJWcB5VidzFLNt6aIL0PER+l4gkoRPu6W16xFsoST5DW3QzpL8uMxANXyPq4oLSp6Jb+CqpZgpf4naH7//Q5Ngc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1OqoxtV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wcv9rb6T"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-47740c1442dso8141295e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 07:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762530873; x=1763135673; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=k6QqLCiZ3bKYilApTrBVoLgHK6pPaQj/ENLeWCSsRM0=;
-        b=wcv9rb6TSzfzBFLWqmLSaJH42J/xQ4AcXQjsJeJmPZ0+fBvDwOz4cg+ls6IUKzZuLm
-         3MCHUUjO9lMwtvsbwE11cIrQqRuhRWV8k1nTJRnN6lYn130rabjqPnqLgnGMQfGu35AE
-         iWWCRZkDp1q5iD2cFoyXAGkBVaT7kYl7URfXOEyyC4lSCqkiIXbos+EvnRyAXDxkOb2u
-         YuftwD8m3y8bGRE5ybGDioDINhMzYNoso6/qD+98XyAryyUxRTr918wsBji8/feYSaXW
-         YpTYjVKBLK0KxQ6Hbq38TB3uxEEcmttQjPejwVsHmvfOVryb1/dNSNp7DdnvadVlLc4L
-         +qdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762530873; x=1763135673;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k6QqLCiZ3bKYilApTrBVoLgHK6pPaQj/ENLeWCSsRM0=;
-        b=jrP+l34H1drpWj0U5Z/Bjy6Qr0TINCIQ4/nB3Kch4jSa8K1/4WlkKJESYuURB0FB0F
-         ffyLbFFLc4Xs5nMhWkvIwf/5x/Oiz9WG4amTVZP4EZc7jov7FKr5feHRAV2LujrPVr5Z
-         9om0Hpb7214tNr4Pt8kRkuVpJawYWj0QFkBHJjJlEx/3zUyTYdakW3SXtlpRjDfRhw5f
-         nc8580bQanYkPD79t/0H1oH9Se++wyWh3M8JxMWkRKu2jpUL+7REBcQS6QXTsNsX9Z2m
-         Lok+a4/wwqKx3dlYQ5scKWdl/p63Wjkany8YwgfSDYMnPdF3RPhWnFBFCdDSVQnsdbLV
-         MfRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWK1uhE2uSrwld8aDL4foAORQ40DMX1J3zHcO9P16jCnOPxdLqYHRSptjZPk+rpeF+dq1FR/kF86AA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCRZT5O508n45RtoIRNeTg2BC8Ujl7CAgXLcDeLlnN+ZuYqu3L
-	Ag3YNu1pOdVOmdtSJ2Bkf6qFCwsaBfFw4MWdxG/zewmiQTdILd9N2oDbVTCvMXrm6VIWnjAV70y
-	mpk2YEl0aTd+jIw==
-X-Google-Smtp-Source: AGHT+IF10pfYz/aX86VOtk1/4ToFDHxeKDSFR7QzVJHGBwU7n9WXznaipUt0c+mOTXVDyymnjKnmVDeDshscaw==
-X-Received: from wmbjd18.prod.google.com ([2002:a05:600c:68d2:b0:477:554c:6842])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4e88:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-4776bc9f963mr29299435e9.3.1762530872213;
- Fri, 07 Nov 2025 07:54:32 -0800 (PST)
-Date: Fri, 07 Nov 2025 15:54:31 +0000
-In-Reply-To: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1OqoxtV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C30C3C4CEF8;
+	Fri,  7 Nov 2025 16:01:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762531285;
+	bh=SAXkSml11M5xQ5oAowfwGP1WfIbbhD9Zwsc1+gFtZVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G1OqoxtV7XlT2wwuQ5Uez60kwG8g2e3K4oXYvr5lCUmDLnRe2lDqJfqpdyozZ9Kfs
+	 9cK/Pp4gs2exlM5ZaZgfE/mSts/OwwIwkCNUlopoOf55C/E/oCxFH4g1GkpuhBOQLc
+	 GevH4WEkQ/xUCsGWGMcEuw40zHNAV2BFJUHAJFbr5fa5pHtu6BKUEsKKzGsJoGHBVK
+	 LIruon02MTTCyGk7ziSVANwsf4TxGmKVozxHLsq3vvxJUR+H9wB9GZSvIotqrUV4ud
+	 cVhLCCIpj3frChH2BVoHb8jxb4jO/OzKabXV1PHaTXuqZVIniF59yBQsetybD1Wq21
+	 bF79hpL4xdXKw==
+Date: Fri, 7 Nov 2025 18:01:20 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v7 05/11] PCI/P2PDMA: Document DMABUF model
+Message-ID: <20251107160120.GD15456@unreal>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+ <20251106-dmabuf-vfio-v7-5-2503bf390699@nvidia.com>
+ <135df7eb-9291-428b-9c86-d58c2e19e052@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
-X-Mailer: aerc 0.21.0
-Message-ID: <DE2L1SAOC55E.E4JY62WJQ2A8@google.com>
-Subject: Re: [PATCH v7 00/12] Direct Map Removal Support for guest_memfd
-From: Brendan Jackman <jackmanb@google.com>
-To: Patrick Roy <patrick.roy@campus.lmu.de>
-Cc: Patrick Roy <roypat@amazon.co.uk>, <pbonzini@redhat.com>, <corbet@lwn.net>, 
-	<maz@kernel.org>, <oliver.upton@linux.dev>, <joey.gouly@arm.com>, 
-	<suzuki.poulose@arm.com>, <yuzenghui@huawei.com>, <catalin.marinas@arm.com>, 
-	<will@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, 
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>, 
-	<luto@kernel.org>, <peterz@infradead.org>, <willy@infradead.org>, 
-	<akpm@linux-foundation.org>, <david@redhat.com>, <lorenzo.stoakes@oracle.com>, 
-	<Liam.Howlett@oracle.com>, <vbabka@suse.cz>, <rppt@kernel.org>, 
-	<surenb@google.com>, <mhocko@suse.com>, <song@kernel.org>, <jolsa@kernel.org>, 
-	<ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>, 
-	<martin.lau@linux.dev>, <eddyz87@gmail.com>, <yonghong.song@linux.dev>, 
-	<john.fastabend@gmail.com>, <kpsingh@kernel.org>, <sdf@fomichev.me>, 
-	<haoluo@google.com>, <jgg@ziepe.ca>, <jhubbard@nvidia.com>, 
-	<peterx@redhat.com>, <jannh@google.com>, <pfalcato@suse.de>, 
-	<shuah@kernel.org>, <seanjc@google.com>, <kvm@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>, <bpf@vger.kernel.org>, 
-	<linux-kselftest@vger.kernel.org>, <xmarcalx@amazon.co.uk>, 
-	<kalyazin@amazon.co.uk>, <jackabt@amazon.co.uk>, <derekmn@amazon.co.uk>, 
-	<tabba@google.com>, <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <135df7eb-9291-428b-9c86-d58c2e19e052@infradead.org>
 
-On Wed Sep 24, 2025 at 3:10 PM UTC, Patrick Roy wrote:
-> From: Patrick Roy <roypat@amazon.co.uk>
->
-> [ based on kvm/next ]
->
-> Unmapping virtual machine guest memory from the host kernel's direct map is a
-> successful mitigation against Spectre-style transient execution issues: If the
-> kernel page tables do not contain entries pointing to guest memory, then any
-> attempted speculative read through the direct map will necessarily be blocked
-> by the MMU before any observable microarchitectural side-effects happen. This
-> means that Spectre-gadgets and similar cannot be used to target virtual machine
-> memory. Roughly 60% of speculative execution issues fall into this category [1,
-> Table 1].
->
-> This patch series extends guest_memfd with the ability to remove its memory
-> from the host kernel's direct map, to be able to attain the above protection
-> for KVM guests running inside guest_memfd.
->
-> Additionally, a Firecracker branch with support for these VMs can be found on
-> GitHub [2].
->
-> For more details, please refer to the v5 cover letter [v5]. No
-> substantial changes in design have taken place since.
->
-> === Changes Since v6 ===
->
-> - Drop patch for passing struct address_space to ->free_folio(), due to
->   possible races with freeing of the address_space. (Hugh)
-> - Stop using PG_uptodate / gmem preparedness tracking to keep track of
->   direct map state.  Instead, use the lowest bit of folio->private. (Mike, David)
-> - Do direct map removal when establishing mapping of gmem folio instead
->   of at allocation time, due to impossibility of handling direct map
->   removal errors in kvm_gmem_populate(). (Patrick)
-> - Do TLB flushes after direct map removal, and provide a module
->   parameter to opt out from them, and a new patch to export
->   flush_tlb_kernel_range() to KVM. (Will)
->
-> [1]: https://download.vusec.net/papers/quarantine_raid23.pdf
-> [2]: https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+On Thu, Nov 06, 2025 at 10:15:07PM -0800, Randy Dunlap wrote:
+> 
+> 
+> On 11/6/25 6:16 AM, Leon Romanovsky wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > 
+> > Reflect latest changes in p2p implementation to support DMABUF lifecycle.
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > ---
+> >  Documentation/driver-api/pci/p2pdma.rst | 95 +++++++++++++++++++++++++--------
+> >  1 file changed, 72 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+> > index d0b241628cf1..69adea45f73e 100644
+> > --- a/Documentation/driver-api/pci/p2pdma.rst
+> > +++ b/Documentation/driver-api/pci/p2pdma.rst
+> > @@ -9,22 +9,47 @@ between two devices on the bus. This type of transaction is henceforth
+> >  called Peer-to-Peer (or P2P). However, there are a number of issues that
+> >  make P2P transactions tricky to do in a perfectly safe way.
+> >  
+> > -One of the biggest issues is that PCI doesn't require forwarding
+> > -transactions between hierarchy domains, and in PCIe, each Root Port
+> > -defines a separate hierarchy domain. To make things worse, there is no
+> > -simple way to determine if a given Root Complex supports this or not.
+> > -(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
+> > -only supports doing P2P when the endpoints involved are all behind the
+> > -same PCI bridge, as such devices are all in the same PCI hierarchy
+> > -domain, and the spec guarantees that all transactions within the
+> > -hierarchy will be routable, but it does not require routing
+> > -between hierarchies.
+> > -
+> > -The second issue is that to make use of existing interfaces in Linux,
+> > -memory that is used for P2P transactions needs to be backed by struct
+> > -pages. However, PCI BARs are not typically cache coherent so there are
+> > -a few corner case gotchas with these pages so developers need to
+> > -be careful about what they do with them.
+> > +For PCIe the routing of TLPs is well defined up until they reach a host bridge
+> 
+> Define what TLP means?
 
-I just got around to trying this out, I checked out this patchset using
-its base-commit and grabbed the Firecracker branch. Things seem OK until
-I set the secrets_free flag in the Firecracker config which IIUC makes
-it set GUEST_MEMFD_FLAG_NO_DIRECT_MAP.
+In PCIe "world", TLP is very well-known and well-defined acronym, which
+means Transaction Layer Packet.
 
-If I set it, I find the guest doesn't show anything on the console.
-Running it in a VM and attaching GDB suggests that it's entering the
-guest repeatedly, it doesn't seem like the vCPU thread is stuck or
-anything. I'm a bit clueless about how to debug that (so far, whenever
-I've broken KVM, things always exploded very dramatically).
- 
-Anyway, if I then kill the firecracker process, the host sometimes
-crashes, I think this is the most suggestive splat I've seen:
+>                                    well-defined
 
-[   99.673420][    T2] BUG: unable to handle page fault for address: ffff888012804000
-[   99.676216][    T2] #PF: supervisor write access in kernel mode
-[   99.678381][    T2] #PF: error_code(0x0002) - not-present page
-[   99.680499][    T2] PGD 2e01067 P4D 2e01067 PUD 2e02067 PMD 12801063 PTE 800fffffed7fb020
-[   99.683374][    T2] Oops: Oops: 0002 [#1] SMP
-[   99.685004][    T2] CPU: 0 UID: 0 PID: 2 Comm: kthreadd Not tainted 6.17.0-rc7-00366-g473c46a3cb2a #106 NONE 
-[   99.688514][    T2] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.1 11/11/2019
-[   99.691547][    T2] RIP: 0010:clear_page_erms+0x7/0x10
-[   99.693440][    T2] Code: 48 89 47 18 48 89 47 20 48 89 47 28 48 89 47 30 48 89 47 38 48 8d 7f 40 75 d9 90 c3 0f 1f 80 00 00 00 00 b9 00 10 00 00 31 c0 <f3> aa c3 66 0f 1f 44 00 00 48 83 f9 40 73 2a 83 f9 08 73 0f 85 c9
-[   99.700188][    T2] RSP: 0018:ffff88800318fc10 EFLAGS: 00010246
-[   99.702321][    T2] RAX: 0000000000000000 RBX: 0000000000400dc0 RCX: 0000000000001000
-[   99.705100][    T2] RDX: ffffea00004a0100 RSI: ffffea00004a0200 RDI: ffff888012804000
-[   99.707861][    T2] RBP: 0000000000000801 R08: 0000000000000000 R09: 0000000000000000
-[   99.710648][    T2] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
-[   99.713412][    T2] R13: 0000000000000801 R14: ffffea00004a0100 R15: ffffffff81f4df80
-[   99.716191][    T2] FS:  0000000000000000(0000) GS:ffff8880bbf28000(0000) knlGS:0000000000000000
-[   99.719316][    T2] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   99.721648][    T2] CR2: ffff888012804000 CR3: 0000000007583001 CR4: 0000000000372eb0
-[   99.724421][    T2] Call Trace:
-[   99.725608][    T2]  <TASK>
-[   99.726646][    T2]  get_page_from_freelist+0x6fe/0x14b0
-[   99.728583][    T2]  ? fs_reclaim_acquire+0x43/0xe0
-[   99.730325][    T2]  ? find_held_lock+0x2b/0x80
-[   99.731965][    T2]  __alloc_frozen_pages_noprof+0x147/0x2d0
-[   99.734003][    T2]  __alloc_pages_noprof+0x5/0x50
-[   99.735766][    T2]  copy_process+0x1b1/0x1b30
-[   99.737398][    T2]  ? lock_is_held_type+0x89/0x100
-[   99.739157][    T2]  ? kthreadd+0x25/0x190
-[   99.740664][    T2]  kernel_clone+0x59/0x390
-[   99.742213][    T2]  ? kthreadd+0x25/0x190
-[   99.743728][    T2]  kernel_thread+0x55/0x70
-[   99.745310][    T2]  ? kthread_complete_and_exit+0x20/0x20
-[   99.747265][    T2]  kthreadd+0x117/0x190
-[   99.748748][    T2]  ? kthread_is_per_cpu+0x30/0x30
-[   99.750509][    T2]  ret_from_fork+0x16b/0x1e0
-[   99.752193][    T2]  ? kthread_is_per_cpu+0x30/0x30
-[   99.753992][    T2]  ret_from_fork_asm+0x11/0x20
-[   99.755717][    T2]  </TASK>
-[   99.756861][    T2] CR2: ffff888012804000
-[   99.758353][    T2] ---[ end trace 0000000000000000 ]---
-[   99.760319][    T2] RIP: 0010:clear_page_erms+0x7/0x10
-[   99.762209][    T2] Code: 48 89 47 18 48 89 47 20 48 89 47 28 48 89 47 30 48 89 47 38 48 8d 7f 40 75 d9 90 c3 0f 1f 80 00 00 00 00 b9 00 10 00 00 31 c0 <f3> aa c3 66 0f 1f 44 00 00 48 83 f9 40 73 2a 83 f9 08 73 0f 85 c9
-[   99.769129][    T2] RSP: 0018:ffff88800318fc10 EFLAGS: 00010246
-[   99.771297][    T2] RAX: 0000000000000000 RBX: 0000000000400dc0 RCX: 0000000000001000
-[   99.774126][    T2] RDX: ffffea00004a0100 RSI: ffffea00004a0200 RDI: ffff888012804000
-[   99.777013][    T2] RBP: 0000000000000801 R08: 0000000000000000 R09: 0000000000000000
-[   99.779827][    T2] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
-[   99.782641][    T2] R13: 0000000000000801 R14: ffffea00004a0100 R15: ffffffff81f4df80
-[   99.785487][    T2] FS:  0000000000000000(0000) GS:ffff8880bbf28000(0000) knlGS:0000000000000000
-[   99.788671][    T2] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   99.791012][    T2] CR2: ffff888012804000 CR3: 0000000007583001 CR4: 0000000000372eb0
-[   99.793863][    T2] Kernel panic - not syncing: Fatal exception
-[   99.796760][    T2] Kernel Offset: disabled
-[   99.798296][    T2] ---[ end Kernel panic - not syncing: Fatal exception ]---
+Thanks
 
-This makes me suspect the kvm_gmem_folio_restore_direct_map() path isn't
-working or isn't getting called.
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 69adea45f73e..7530296a5dea 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -9,17 +9,17 @@ between two devices on the bus. This type of transaction is henceforth
+ called Peer-to-Peer (or P2P). However, there are a number of issues that
+ make P2P transactions tricky to do in a perfectly safe way.
 
-If anyone wants help trying to reproduce this let me know.
+-For PCIe the routing of TLPs is well defined up until they reach a host bridge
+-or root port. If the path includes PCIe switches then based on the ACS settings
+-the transaction can route entirely within the PCIe hierarchy and never reach the
+-root port. The kernel will evaluate the PCIe topology and always permit P2P
+-in these well defined cases.
++For PCIe the routing of Transaction Layer Packets (TLPs) is well-defined up
++until they reach a host bridge or root port. If the path includes PCIe switches
++then based on the ACS settings the transaction can route entirely within
++the PCIe hierarchy and never reach the root port. The kernel will evaluate
++the PCIe topology and always permit P2P in these well-defined cases.
+
+ However, if the P2P transaction reaches the host bridge then it might have to
+ hairpin back out the same root port, be routed inside the CPU SOC to another
+ PCIe root port, or routed internally to the SOC.
+
+-As this is not well defined or well supported in real HW the kernel defaults to
++As this is not well-defined or well supported in real HW the kernel defaults to
+ blocking such routing. There is an allow list to allow detecting known-good HW,
+ in which case P2P between any two PCIe devices will be permitted.
+
+@@ -39,7 +39,7 @@ delegates lifecycle management to the providing driver. It is expected that
+ drivers using this option will wrap their MMIO memory in DMABUF and use DMABUF
+ to provide an invalidation shutdown. These MMIO pages have no struct page, and
+ if used with mmap() must create special PTEs. As such there are very few
+-kernel uAPIs that can accept pointers to them, in particular they cannot be used
++kernel uAPIs that can accept pointers to them; in particular they cannot be used
+ with read()/write(), including O_DIRECT.
+
+ Building on this, the subsystem offers a layer to wrap the MMIO in a ZONE_DEVICE
+@@ -154,7 +154,7 @@ access happens.
+ Usage With DMABUF
+ =================
+
+-DMABUF provides an alternative to the above struct page based
++DMABUF provides an alternative to the above struct page-based
+ client/provider/orchestrator system. In this mode the exporting driver will wrap
+ some of its MMIO in a DMABUF and give the DMABUF FD to userspace.
+
+@@ -162,10 +162,10 @@ Userspace can then pass the FD to an importing driver which will ask the
+ exporting driver to map it.
+
+ In this case the initiator and target pci_devices are known and the P2P subsystem
+-is used to determine the mapping type. The phys_addr_t based DMA API is used to
++is used to determine the mapping type. The phys_addr_t-based DMA API is used to
+ establish the dma_addr_t.
+
+-Lifecycle is controlled by DMABUF move_notify(), when the exporting driver wants
++Lifecycle is controlled by DMABUF move_notify(). When the exporting driver wants
+ to remove() it must deliver an invalidation shutdown to all DMABUF importing
+ drivers through move_notify() and synchronously DMA unmap all the MMIO.
+
