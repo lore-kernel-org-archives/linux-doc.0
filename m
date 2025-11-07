@@ -1,139 +1,139 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B652F5A05;
-	Fri,  7 Nov 2025 09:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF80184;
+	Fri,  7 Nov 2025 09:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762507691; cv=none; b=cV/gZljGsm85TGK88SQkWPcYIS8BWHn62TF5Gu42gxghXg9yXDqlLizg5i779KdQEKdjQvYvWsncUhh0K7Uy0GTdTQ7M+WZaF/LGNtv9XdVH91qAFJea+LTNahMENcCwLlVdEeTH2nq4gRBpT9ECeqV9Dl8oKpN+fzTrsusf0Ic=
+	t=1762507986; cv=none; b=CJOKS+oBnERk1Q5MNlCW+pg/1aqBfiKriiuSl2Ktg6xMCx5V8aTI5sB2tutQQ5w/LVKSH/byZtXcT8XEr/cpN0DzQeJ9gssbFqnMW/gbbfFI18ydR5vpTteAS5HNZcM2YmSBOTAsMUGSU7FCKYI6HdI3JML1bD/10LqkXUL641A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762507691; c=relaxed/simple;
-	bh=SOUrjOhn2uKWfQ/3III226IBTXZkQ6YU1jH7jBjGG6c=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=c+RPPRJUaBKerZ1fQ8nGzrKQGeC01iF4BoMYtehugY9c00koZkzERaMkxwxaAjefdd5QO57IDH1iUgXMwVpfy+0zNEvPUW69ubAngI7F1XFoE5FFZtvoOh9CmHxu4yqmpPtEiBJDV0e8xdN72oVlW7NT9Q+VwcPRthPs0vh0REE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=qEFdDK6z; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1762507986; c=relaxed/simple;
+	bh=hYJFe8wbCEuDRtL78WQJxfmZD34jnN50iScx9Q9Ft5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EAfDvnHY4XyNfvJ/VmIXn8yxfMURxjCEosVFVlDU+A9g8f9UW7prs1wWDqW1Un8iUhPaD+qIu70iQH5GnVEs9wE3rMGr1b/Nk5ypUToJcjp+KQWOe264DWXwbCZDV8OpJ/N5PpGdsFP68s0ePwEJ0JfWG6+QxwnBvjkIGEDRvmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpNZq1p6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="qEFdDK6z"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5A79RDlh1577553
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 7 Nov 2025 01:27:13 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5A79RDlh1577553
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1762507635;
-	bh=A/GHzIdqHzaEgpQHWH1jJVSfUcqO6eL8TAku4GgO3gQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=qEFdDK6zKyiC95s+gOLT1gu6Pom3pWMItFd/VKmgBhXKkrM39WF3UwQS0WBzMkksr
-	 s6/s6dBIHuufYhYbpHsYkeybUiyQiVNcVOhs6w0BSzQVypPGxZTqctzTn6izQ08MpL
-	 EijFEUD5MipD/BIdvYk41rrseSGHuWM81WSL4Nvvj5eAKR54WzDWHJIshf4MsKWcVj
-	 9Fzpups0QV8XVFJdjL4UMhbEoh1dH9tEGfX29hdDznsCYco43RXjY5O9ttH9aPbFD5
-	 0/qj7oGgNHYxpCLU1lxS2YwRfVZJ+fJ1b9Xh88AFw+CwkcQjn34A6KJOhdfsKuG+nt
-	 T1/aa1faRu0ig==
-Date: Fri, 07 Nov 2025 01:27:12 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Ard Biesheuvel <ardb@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-CC: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Sean Christopherson <seanjc@google.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_5/9=5D_x86/efi=3A_Disable_LAS?=
- =?US-ASCII?Q?S_while_mapping_the_EFI_runtime_services?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com> <20251029210310.1155449-6-sohil.mehta@intel.com> <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com> <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com> <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com> <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com> <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com> <20251107090406.GU3245006@noisy.programming.kicks-ass.net> <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com>
-Message-ID: <1962E702-8F75-4137-9000-A607E164914B@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpNZq1p6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEEFC19423;
+	Fri,  7 Nov 2025 09:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762507982;
+	bh=hYJFe8wbCEuDRtL78WQJxfmZD34jnN50iScx9Q9Ft5w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cpNZq1p6IOt76cieSxy5pmfNAYengqtkwvmCZyPP/xsD0eA2E4cRisZQg/zBykxIp
+	 PfLww6zfx9bl0wwxX6aZ5suG48B0SPEjsB68/f4jfKSRK15E/7Ubeh8jHSGQxaOi+W
+	 exU75Eg4P+QBJwG1vHv4MkwzQ/g4Yxb1jYXyy0pNZna819xmbJoqmdV5Brmt584zmB
+	 PcfRgqzr0Lzre6h1hDnEfH9SRylNKJ0voMT/gk6EOAFeZeyU//yBNSIYlW+oVDYiuU
+	 H3loHM+H6Noz4nqhCRFrUBeQQ2ebPzRv7bITJkWdksHDQ169agZggR0mqav9mwtrxI
+	 W+zXjYRrtDzBw==
+From: Amit Shah <amit@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org
+Cc: amit.shah@amd.com,
+	thomas.lendacky@amd.com,
+	bp@alien8.de,
+	tglx@linutronix.de,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com,
+	sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com,
+	david.kaplan@amd.com,
+	dwmw@amazon.co.uk,
+	andrew.cooper3@citrix.com,
+	Amit Shah <amit@kernel.org>
+Subject: [PATCH v6 0/1] KVM: Add support for the ERAPS feature
+Date: Fri,  7 Nov 2025 10:32:38 +0100
+Message-ID: <20251107093239.67012-1-amit@kernel.org>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On November 7, 2025 1:22:30 AM PST, Ard Biesheuvel <ardb@kernel=2Eorg> wrot=
-e:
->On Fri, 7 Nov 2025 at 10:04, Peter Zijlstra <peterz@infradead=2Eorg> wrot=
-e:
->>
->> On Fri, Oct 31, 2025 at 11:12:53AM -0700, Dave Hansen wrote:
->>
->> > But there's a pretty broad set of things that are for "security" that
->> > aren't necessary while you're just running trusted ring0 code:
->> >
->> >  * SMAP/SMEP
->> >  * CR pinning itself
->> >  * MSR_IA32_SPEC_CTRL
->> >  * MSR_IA32_TSX_CTRL
->> >
->> > They just haven't mattered until now because they don't have any
->> > practical effect until you actually have code running on _PAGE_USER
->> > mappings trying to attack the kernel=2E
->>
->> But that's just the thing EFI is *NOT* trusted! We're basically
->> disabling all security features (not listed above are CET and CFI) to
->> run this random garbage we have no control over=2E
->>
->> How about we just flat out refuse EFI runtime services? What are they
->> actually needed for? Why are we bending over backwards and subverting
->> our security for this stuff?
->
->On x86, it is mostly the EFI variable services that user space has
->come to rely on, not only for setting the boot path (which typically
->happens only once at installation time, when the path to GRUB is set
->as the first boot option)=2E Unfortunately, the systemd folks have taken
->a liking to this feature too, and have started storing things in
->there=2E
->
->There is also PRM, which is much worse, as it permits devices in the
->ACPI namespace to call firmware routines that are mapped privileged in
->the OS address space in the same way=2E I objected to this at the time,
->and asked for a facility where we could at least mark such code as
->unprivileged (and run it as such) but this was ignored, as Intel and
->MS had already sealed the deal and put this into production=2E This is
->much worse than typical EFI routines, as the PRM code is ODM/OEM code
->rather than something that comes from the upstream EFI implementation=2E
->It is basically a dumping ground for code that used to run in SMM
->because it was too ugly to run anywhere else=2E </rant>
->
->It would be nice if we could
->
->a) Get rid of SetVirtualAddressMap(), which is another insane hack
->that should never have been supported on 64-bit systems=2E On arm64, we
->no longer call it unless there is a specific need for it (some Ampere
->Altra systems with buggy firmware will crash otherwise)=2E On x86,
->though, it might be tricky because there so much buggy firmware=2E
->Perhaps we should phase it out by checking for the UEFI version, so
->that future systems will avoid it=2E This would mean, however, that EFI
->code remains in the low user address space, which may not be what you
->want (unless we do c) perhaps?)
->
->b) Run EFI runtime calls in a sandbox VM - there was a PoC implemented
->for arm64 a couple of years ago, but it was very intrusive and the ARM
->intern in question went on to do more satisyfing work=2E
->
->c) Unmap the kernel KPTI style while the runtime calls are in
->progress? This should be rather straight-forward, although it might
->not help a lot as the code in question still runs privileged=2E
+Zen5+ AMD CPUs have a larger RSB (64 entries on Zen5), and use all of it in
+the host context.  The hypervisor needs to set up a couple things before the
+extra 32 entries are exposed to guests.  Add hypervisor support to let the
+hardware use the entire RSB in VM contexts as well.
 
-Firmware update is a big one=2E
+The APM has now been published with details of this feature - and I finally
+got around to sending this updated version based on the previous
+round. Apologies for the long delays in getting this out; I ended up spending
+a bunch of time looking at the NPT=off case:
+
+In the previous round, Sean suggested some emulation for also handling the
+NPT=off case.  After discussions on the PUCK call (and some tracing to confirm
+what we had wasn't sufficient), I decided to just drop it all and send this
+patch for NPT=off.
+
+      	  Amit
+
+v6:
+* APM update is out as of July 2025.  Reference it in the commit msg.
+* Update commit msg from review comments (Sean)
+* Move cpuid enablement to svm.c from x86.c (Tom Lendacky)
+* Update bitfield names to reflect what's in the APM
+* Update VMCB bits for all nested exits (Sean)
+* Drop helper functions and set bitfields directly instead (Sean)
+
+v5:
+* Drop RFC tag
+* Add separate VMCB01/VMCB02 handling to ensure both L1 and L2 guests are not
+  affected by each other's RSB entries
+* Rename vmcb_flush_guest_rap() back to vmcb_set_flush_guest_rap().  The
+  previous name did not feel right because the call to the function only sets
+  a bit in the VMCB which the CPU acts on much later (at VMRUN).
+
+v4:
+* Address Sean's comments from v3
+  * remove a bunch of comments in favour of a better commit message
+* Drop patch 1 from the series - Josh's patches handle the most common case,
+  and the AutoIBRS-disabled case can be tackled later if required after Josh's
+  patches have been merged upstream.
+
+v3:
+* rebase on top of Josh's RSB tweaks series
+  * with that rebase, only the non-AutoIBRS case needs special ERAPS support.
+    AutoIBRS is currently disabled when SEV-SNP is active (commit acaa4b5c4c8)
+
+* remove comment about RSB_CLEAR_LOOPS and the size of the RSB -- it's not
+  necessary anymore with the rework
+
+* remove comment from patch 2 in svm.c in favour of the commit message
+
+v2:
+* reword comments to highlight context switch as the main trigger for RSB
+  flushes in hardware (Dave Hansen)
+* Split out outdated comment updates in (v1) patch1 to be a standalone
+  patch1 in this series, to reinforce RSB filling is only required for RSB
+  poisoning cases for AMD
+  * Remove mentions of BTC/BTC_NO (Andrew Cooper)
+* Add braces in case stmt (kernel test robot)
+* s/boot_cpu_has/cpu_feature_enabled (Boris Petkov)
+
+Amit Shah (1):
+  x86: kvm: svm: set up ERAPS support for guests
+
+ arch/x86/include/asm/cpufeatures.h |  1 +
+ arch/x86/include/asm/svm.h         |  6 +++++-
+ arch/x86/kvm/cpuid.c               |  8 +++++++-
+ arch/x86/kvm/svm/nested.c          |  6 ++++++
+ arch/x86/kvm/svm/svm.c             | 11 +++++++++++
+ 5 files changed, 30 insertions(+), 2 deletions(-)
+
+-- 
+2.51.1
+
