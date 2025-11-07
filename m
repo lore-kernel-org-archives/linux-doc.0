@@ -1,168 +1,222 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9473358B9
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 17:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD9F3375C3
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 18:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762537029; cv=none; b=Ywjmr9EbsSkxg/nRiBMXkmb0HkCVno17Jlxqy4RD3G5ovKj0MmjtSAnsvvi4YJrscL2oOohe+m6kBarcsBDDiOK/yRVq7qcLgidVZ/Eh4K+U2TGGzZECvQopers3VlPrRjXwgQK/SIcUfdIigsTF//JVthz0/g58l/H01X6c18o=
+	t=1762538518; cv=none; b=Cr3y8ojkiOHA3A7oj9/aNPUy0YLxbeZ2MNBQFEbfGuvlRPk6MpBwmiSJUH1e8QbbRLYyIHxqHssxclyxl+oHy5x8eexPuIs8FWbgY6JC0yNcoJjKjx1UHyaNXfPYyQqh4V/7ybqDwXpfEArfQgA1WWHmN3lnum/MU+LYmH4ST3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762537029; c=relaxed/simple;
-	bh=Lx3bFQ3NiP4uoTXJligat5YBVbYSgoMH3tTDsWSPIac=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=N9AshZzofWIP6JzP5ZNSOlnHLDSrE8L1SMAXGAaTsfoG/mhbt90twe5Wyb3U7kEFdbMKzt1fGot1X/JF3OY84VzVug7+NFs5ilSg9PUN9iHDc5SyyqIPc6UUSqvnuKRmdbu3xMx466RFvkX77B1Qgf4OEowAMAVoQe1dL5EGQ/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P9bvmQ2D; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1762538518; c=relaxed/simple;
+	bh=mgm8qxjZEYmIZNBjWTRuwvARGl9cfquNJwY3c7URdeo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=agyPz2LZOA+fuJ6zmAsiffTAJhUaiSehHkR6fL0RK/ZcwzjrvtSihOPToZj1nrXBn6i79blb9L3cohGQ4Tme/gZsrPJ2UtLUcDA8YtCd+W1ej/EVLpAvL7FqKfCf//as8XtomAVLzC7CgUoP9x00fppiZ9xNrx5SV9phE1wgGIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ADTPfngo; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bnp5iNt9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P9bvmQ2D"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-429c93a28ebso777620f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 09:37:06 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ADTPfngo";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bnp5iNt9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762538515;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o03EPvkF1Ee4HFaXHVj6CmMYvciS5SYoQDAqRDI5EK0=;
+	b=ADTPfngoWHaklp6f08D9yoMfCuP++buKMTjGdlgI243jfGLjsyf+FkQydJ2+xKhbY/LiLO
+	+89ZGXwpzNteyFYnvmcC8RXiUwONu6PnIYF2a9ZqtWalMs+gAFjwK944GGVyKPTGPPE6y4
+	eJCqSaBFvOJ/c6BvtFVT6MtU2CqQDZI=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-kA7XMmwrP2qKIYRVIOKWEA-1; Fri, 07 Nov 2025 13:01:54 -0500
+X-MC-Unique: kA7XMmwrP2qKIYRVIOKWEA-1
+X-Mimecast-MFC-AGG-ID: kA7XMmwrP2qKIYRVIOKWEA_1762538513
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-785d6471f4dso14183507b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 10:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762537024; x=1763141824; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zhz7gcsikgOjW44ogPO6UQeW+YT4AB9gKFb1aT581fI=;
-        b=P9bvmQ2DdHFQGaXVosN7z50YtAoWXDvGhEpUoslH5au84lQCn831C9zDK4pfZKbDS4
-         XVHZcr4LQFqwmjTiQebheCRYPJ/XNRSIyzVb0LW1UQ9Zb4daMn7jcek37pgTfFzjtUFx
-         91Cuw9RtJciYAE8f+jJCkXAuvQM2HF3Si2l5/Ti3qyCVH0wCy/fe8rP1KKB959OLoGv8
-         iw7yDlULYlQCgqh5ykcX39r5wAW1LTc1HIcjKxvJoWUDoA1wOYemWtFE9t7RoQM5aHH7
-         uxP64yDOeG6X8b0dp6ZMIYhNwlsGNQoR7H20a10RKp0lhDIfXucjxiJ0pWVhUirM2jaa
-         WbaA==
+        d=redhat.com; s=google; t=1762538513; x=1763143313; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o03EPvkF1Ee4HFaXHVj6CmMYvciS5SYoQDAqRDI5EK0=;
+        b=bnp5iNt9ithRbtOzMQRjCBPcCeO19aLSPVaQjDgza7vISLJqQB6J+ZcqI+tRjM1YoI
+         DKAAUYCBH+yn8JGKFXHe61Id01qmxOdIkNQiQ8TBpk70e/1/oqEy73imIJt9IK2DkJyG
+         7gUIRuI5d+hHqZXlNGGAb0iP8Rg3c7T0B2pJz/3BXpf2AX0cG1770QK6QrpWG+s5pZuD
+         1RptKPgG2svsDYq/aAsUzNMyEoEcFMWKjjdMRY78KoJwVTVbxD/IYyp530ZTUa2KfDh3
+         /GZS5l1UOmV3SssayaulUuAgL7JZWk1pPDnBWvGMCaO8aWcjpNLnsYwP2VEzeHiOhqUa
+         bJXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762537024; x=1763141824;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zhz7gcsikgOjW44ogPO6UQeW+YT4AB9gKFb1aT581fI=;
-        b=deJEIaWOvikQm+TGD5dJNcc9sOQhD47VfzKHchx331Pi4M6aPptH7UKd9mJFr/G2H4
-         QQxkyt23Z6noM997H5ZaMKbuIzIfe9mpozQ6lsDhDTdDM/d1k4wC5QFrcNkwama1/AQM
-         1bLXOC92uEdFpTkWF/WTuM4KrfOaIzinh5QP7gQvI+h8o7+CgR3tK8qqc7H4V5FT5pac
-         s77FGfzdEf3eavggDL2DzUzKsIDwaCnOUKNZ7YTDZcp1kJyZYSkNFDN9yIbQ6/v4Q+nV
-         lCzr3m+ufS899Q474uXEtdgUe+aPWpPYwRHrmQ8LAKerFgaNuKyNMdbU6ooCvIqm94p9
-         wgEA==
-X-Forwarded-Encrypted: i=1; AJvYcCWok19Pgrqe4hn3CZ8V9x6cAuouBS8aYE3LSHLgC254CXExVyZXOk4eysu+ur0DM+pqtHOZjXqD+0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN+zAQdLiBnM+acxwWPpc2q1kUzIvJUtER+s+O+UAgLP2c0DRZ
-	HTh4jsAMTdVOmIdBPJP2d3MtOC12HHig3vL3A3UN04RhIeGeEqsUR+Qyn3OAXq33g3WiDESMa9O
-	Eq0SbiiEPhcfq4g==
-X-Google-Smtp-Source: AGHT+IFJF2Ksc6u55CE+GD/K60cqff3jO8p1vj7rkxXgTU2hADlFy8fEI1U56A7kvOlzF5vcUeX5HHSZeZ5zgA==
-X-Received: from wrbfq11.prod.google.com ([2002:a05:6000:2a0b:b0:429:ccad:3298])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:178b:b0:429:d725:4114 with SMTP id ffacd0b85a97d-42ae5ac5374mr3668462f8f.39.1762537024246;
- Fri, 07 Nov 2025 09:37:04 -0800 (PST)
-Date: Fri, 07 Nov 2025 17:37:03 +0000
-In-Reply-To: <DE2L1SAOC55E.E4JY62WJQ2A8@google.com>
+        d=1e100.net; s=20230601; t=1762538513; x=1763143313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=o03EPvkF1Ee4HFaXHVj6CmMYvciS5SYoQDAqRDI5EK0=;
+        b=AFcQDtzcYtETtMKZr/NmFspbC+tCAE9QhUgPmUnghQpa7g6BznPAYsLw2JX5AYZT4E
+         Jn+txzeAAezH4b6VNPMOVqlbwoRpQ5RVbM9AXFt4u4ahNv/U8WzlJ5zTsVlVoruJ/tJZ
+         unlZhadEULKnXftiTbR/kW4riu8HcxAvFc7DWbIK2h/sNwVP3SZrsg6P0whhY3gZDj3w
+         4GpSbvDpfCm9HYMP6O81Q8XqsI36d/sdWDCjmZI/57m0QEr5o2ypxt/ds92ydwqSvc1p
+         T3NDa+XQVsne+lFf/GcRGI1312bKVJ3f5nz/BViwEZddUMcmo+w6NKVeAmF+awm4Nauj
+         XbPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdKK7fLQ/q6Z7f/iexx8mqyvyAoFpky9DTPHqlvwVZGoQ3X5c5E4aOGnsFXEuPtiDKnAkXEEkQUZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5cSFYE1XjmiCX4I8H53jOhHPmZ1o6EKrM+k8EHQ8GRgWwsHpT
+	GQyJWKjFEHfYoGFoh4zh6g1IxOcJ0MIznuQJDLcdrIriHpFjmj5QnEf4yul8igcy3SDVUExdWAv
+	1PNfDFvKGgvipBtk6MV1Y4gDH3M1nOK+d6y6Dn72DbH4rtVLYpmFUIZjGrJgdpT0t5R4+SLewZK
+	SAeOKi3I6mV3Wcr5iRThIAe/a7M5JL3PRky1ee
+X-Gm-Gg: ASbGnctNk2XbnpjS1SzwXZuyrXCOUSbKduxUyZi5q9ttftkBYDWRRLH3jFBljNnVd6G
+	i/W5wQnpmszAiPzEOaAq+OgrR2y/AkdcMSR4feAkUEj6LIpq487I71mX9HtiS3zQ9va/WhKSxmS
+	/WbcxdiIwr+244uwb3L08XCT/yHnfpvkTOleYoqgFeRCCUQACcNMIzUG1aHFGHeIDmLObNwQ==
+X-Received: by 2002:a05:690e:2417:b0:63f:b4d8:1f3c with SMTP id 956f58d0204a3-640c42dac2dmr2587406d50.35.1762538512728;
+        Fri, 07 Nov 2025 10:01:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGjLDv5pucIrLunFcmpT5DImh7xOQHAmSWOhb/WF5swQ3zC4ISlOHgSzClnhRgLhl4xOKSEVGJksfqOFQroVQk=
+X-Received: by 2002:a05:690e:2417:b0:63f:b4d8:1f3c with SMTP id
+ 956f58d0204a3-640c42dac2dmr2587310d50.35.1762538511869; Fri, 07 Nov 2025
+ 10:01:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250924151101.2225820-1-patrick.roy@campus.lmu.de> <DE2L1SAOC55E.E4JY62WJQ2A8@google.com>
-X-Mailer: aerc 0.21.0
-Message-ID: <DE2N8AOQ1A0Y.1PVEXY6ULPCFV@google.com>
-Subject: Re: [PATCH v7 00/12] Direct Map Removal Support for guest_memfd
-From: Brendan Jackman <jackmanb@google.com>
-To: Brendan Jackman <jackmanb@google.com>, Patrick Roy <patrick.roy@campus.lmu.de>
-Cc: Patrick Roy <roypat@amazon.co.uk>, <pbonzini@redhat.com>, <corbet@lwn.net>, 
-	<maz@kernel.org>, <oliver.upton@linux.dev>, <joey.gouly@arm.com>, 
-	<suzuki.poulose@arm.com>, <yuzenghui@huawei.com>, <catalin.marinas@arm.com>, 
-	<will@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, 
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>, 
-	<luto@kernel.org>, <peterz@infradead.org>, <willy@infradead.org>, 
-	<akpm@linux-foundation.org>, <david@redhat.com>, <lorenzo.stoakes@oracle.com>, 
-	<Liam.Howlett@oracle.com>, <vbabka@suse.cz>, <rppt@kernel.org>, 
-	<surenb@google.com>, <mhocko@suse.com>, <song@kernel.org>, <jolsa@kernel.org>, 
-	<ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>, 
-	<martin.lau@linux.dev>, <eddyz87@gmail.com>, <yonghong.song@linux.dev>, 
-	<john.fastabend@gmail.com>, <kpsingh@kernel.org>, <sdf@fomichev.me>, 
-	<haoluo@google.com>, <jgg@ziepe.ca>, <jhubbard@nvidia.com>, 
-	<peterx@redhat.com>, <jannh@google.com>, <pfalcato@suse.de>, 
-	<shuah@kernel.org>, <seanjc@google.com>, <kvm@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>, <bpf@vger.kernel.org>, 
-	<linux-kselftest@vger.kernel.org>, <xmarcalx@amazon.co.uk>, 
-	<kalyazin@amazon.co.uk>, <jackabt@amazon.co.uk>, <derekmn@amazon.co.uk>, 
-	<tabba@google.com>, <ackerleytng@google.com>
+MIME-Version: 1.0
+References: <20251022183717.70829-1-npache@redhat.com> <20251022183717.70829-12-npache@redhat.com>
+ <5b2dbd05-094f-452a-8067-d342b2819af9@lucifer.local>
+In-Reply-To: <5b2dbd05-094f-452a-8067-d342b2819af9@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Fri, 7 Nov 2025 11:01:23 -0700
+X-Gm-Features: AWmQ_bnZCljbkWgTreWCIKIWGk5V1YSCEzkc_26ghNPznQVbhA9Vnvap7t_CMZI
+Message-ID: <CAA1CXcDG8=89uPcptkRv23JfmczAGp6_KQMQOFhQ6Uivo-33kw@mail.gmail.com>
+Subject: Re: [PATCH v12 mm-new 11/15] khugepaged: introduce
+ collapse_allowable_orders helper function
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
+	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
+	sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri Nov 7, 2025 at 3:54 PM UTC, Brendan Jackman wrote:
-> On Wed Sep 24, 2025 at 3:10 PM UTC, Patrick Roy wrote:
->> From: Patrick Roy <roypat@amazon.co.uk>
->>
->> [ based on kvm/next ]
->>
->> Unmapping virtual machine guest memory from the host kernel's direct map is a
->> successful mitigation against Spectre-style transient execution issues: If the
->> kernel page tables do not contain entries pointing to guest memory, then any
->> attempted speculative read through the direct map will necessarily be blocked
->> by the MMU before any observable microarchitectural side-effects happen. This
->> means that Spectre-gadgets and similar cannot be used to target virtual machine
->> memory. Roughly 60% of speculative execution issues fall into this category [1,
->> Table 1].
->>
->> This patch series extends guest_memfd with the ability to remove its memory
->> from the host kernel's direct map, to be able to attain the above protection
->> for KVM guests running inside guest_memfd.
->>
->> Additionally, a Firecracker branch with support for these VMs can be found on
->> GitHub [2].
->>
->> For more details, please refer to the v5 cover letter [v5]. No
->> substantial changes in design have taken place since.
->>
->> === Changes Since v6 ===
->>
->> - Drop patch for passing struct address_space to ->free_folio(), due to
->>   possible races with freeing of the address_space. (Hugh)
->> - Stop using PG_uptodate / gmem preparedness tracking to keep track of
->>   direct map state.  Instead, use the lowest bit of folio->private. (Mike, David)
->> - Do direct map removal when establishing mapping of gmem folio instead
->>   of at allocation time, due to impossibility of handling direct map
->>   removal errors in kvm_gmem_populate(). (Patrick)
->> - Do TLB flushes after direct map removal, and provide a module
->>   parameter to opt out from them, and a new patch to export
->>   flush_tlb_kernel_range() to KVM. (Will)
->>
->> [1]: https://download.vusec.net/papers/quarantine_raid23.pdf
->> [2]: https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+On Thu, Nov 6, 2025 at 11:51=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
 >
-> I just got around to trying this out, I checked out this patchset using
-> its base-commit and grabbed the Firecracker branch. Things seem OK until
-> I set the secrets_free flag in the Firecracker config which IIUC makes
-> it set GUEST_MEMFD_FLAG_NO_DIRECT_MAP.
+> On Wed, Oct 22, 2025 at 12:37:13PM -0600, Nico Pache wrote:
+> > Add collapse_allowable_orders() to generalize THP order eligibility. Th=
+e
+> > function determines which THP orders are permitted based on collapse
+> > context (khugepaged vs madv_collapse).
+> >
+> > This consolidates collapse configuration logic and provides a clean
+> > interface for future mTHP collapse support where the orders may be
+> > different.
+> >
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
 >
-> If I set it, I find the guest doesn't show anything on the console.
-> Running it in a VM and attaching GDB suggests that it's entering the
-> guest repeatedly, it doesn't seem like the vCPU thread is stuck or
-> anything. I'm a bit clueless about how to debug that (so far, whenever
-> I've broken KVM, things always exploded very dramatically).
+> With nits below adddressed, LGTM so:
+>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-I discovered that Firecracker has a GDB stub, so I can just attach to
-that and see what the guest is up to.
+Thank you!
 
-The issue that the pvclock_vcpu_time_info in kvmclock is all zero:
+> > ---
+> >  mm/khugepaged.c | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 0dbbe04c31fe..89a105124790 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -489,7 +489,16 @@ static unsigned int collapse_max_ptes_none(unsigne=
+d int order, bool full_scan)
+> >       max_ptes_none =3D min(khugepaged_max_ptes_none, HPAGE_PMD_NR/2 - =
+1);
+> >
+> >       return max_ptes_none >> (HPAGE_PMD_ORDER - order);
+> > +}
+> > +
+> > +/* Check what orders are allowed based on the vma and collapse type */
+> > +static unsigned long collapse_allowable_orders(struct vm_area_struct *=
+vma,
+> > +                     vm_flags_t vm_flags, bool is_khugepaged)
+> > +{
+> > +     enum tva_type tva_flags =3D is_khugepaged ? TVA_KHUGEPAGED : TVA_=
+FORCED_COLLAPSE;
+> > +     unsigned long orders =3D BIT(HPAGE_PMD_ORDER);
+>
+> Nit, but can const-ify.
 
-(gdb) backtrace
-#0  pvclock_tsc_khz (src=0xffffffff83a03000 <hv_clock_boot>) at ../arch/x86/kernel/pvclock.c:28
-#1  0xffffffff8109d137 in kvm_get_tsc_khz () at ../arch/x86/include/asm/kvmclock.h:11
-#2  0xffffffff835c1842 in kvm_get_preset_lpj () at ../arch/x86/kernel/kvmclock.c:128
-#3  kvmclock_init () at ../arch/x86/kernel/kvmclock.c:332
-#4  0xffffffff835c1487 in kvm_init_platform () at ../arch/x86/kernel/kvm.c:982
-#5  0xffffffff835a83df in setup_arch (cmdline_p=cmdline_p@entry=0xffffffff82e03f00) at ../arch/x86/kernel/setup.c:916
-#6  0xffffffff83595a22 in start_kernel () at ../init/main.c:925
-#7  0xffffffff835a7354 in x86_64_start_reservations (
-    real_mode_data=real_mode_data@entry=0x36326c0 <error: Cannot access memory at address 0x36326c0>) at ../arch/x86/kernel/head64.c:507
-#8  0xffffffff835a7466 in x86_64_start_kernel (real_mode_data=0x36326c0 <error: Cannot access memory at address 0x36326c0>)
-    at ../arch/x86/kernel/head64.c:488
-#9  0xffffffff8103e7fd in secondary_startup_64 () at ../arch/x86/kernel/head_64.S:413
-#10 0x0000000000000000 in ?? ()
-(gdb) p *src
-$3 = {version = 0, pad0 = 0, tsc_timestamp = 0, system_time = 0, tsc_to_system_mul = 0, tsc_shift = 0 '\000', flags = 0 '\000', 
-  pad = "\000"}
+It becomes a function of is_khugepaged in a later patch.
 
-This causes a divide by zero in kvm_get_tsc_khz().
+>
+> >
+> > +     return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders)=
+;
+> >  }
+> >
+> >  void khugepaged_enter_vma(struct vm_area_struct *vma,
+> > @@ -497,7 +506,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vm=
+a,
+> >  {
+> >       if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+> >           hugepage_pmd_enabled()) {
+> > -             if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED=
+, PMD_ORDER))
+> > +             if (collapse_allowable_orders(vma, vm_flags, true))
+>
+> If we have a 'mystery meat' boolean parameter can we always use the conve=
+ntion of:
+>
+> collapse_allowable_orders(vma, vm_flags, /*is_khugepaged=3D*/true)
+>
+> Please? Same goes for other invocations obviously.
 
-Probably the only reason I didn't see any console output is that I
-forgot to set earlyprintk, oops...
+Sounds good! I'll fix those up.
+
+Thanks,
+-- Nico
+
+>
+>
+> >                       __khugepaged_enter(vma->vm_mm);
+> >       }
+> >  }
+> > @@ -2567,7 +2576,7 @@ static unsigned int collapse_scan_mm_slot(unsigne=
+d int pages, int *result,
+> >                       progress++;
+> >                       break;
+> >               }
+> > -             if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUG=
+EPAGED, PMD_ORDER)) {
+> > +             if (!collapse_allowable_orders(vma, vma->vm_flags, true))=
+ {
+> >  skip:
+> >                       progress++;
+> >                       continue;
+> > @@ -2873,7 +2882,7 @@ int madvise_collapse(struct vm_area_struct *vma, =
+unsigned long start,
+> >       BUG_ON(vma->vm_start > start);
+> >       BUG_ON(vma->vm_end < end);
+> >
+> > -     if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLA=
+PSE, PMD_ORDER))
+> > +     if (!collapse_allowable_orders(vma, vma->vm_flags, false))
+> >               return -EINVAL;
+> >
+> >       cc =3D kmalloc(sizeof(*cc), GFP_KERNEL);
+> > --
+> > 2.51.0
+> >
+>
 
