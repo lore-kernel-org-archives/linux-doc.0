@@ -1,384 +1,323 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013036.outbound.protection.outlook.com [40.107.159.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FC3345CBE
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 21:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762549579; cv=none; b=ayrZyEDBr4eVcNklnxzp7bQr0CungVyUS3zskSGf6/9NkXiqlnjrGqhy+dZTiCAwYUlY0vGgr7Kw0ht7TqrX0QnNc///VjVzXpDhFQ+vyj3Sd0FMFAmZz6CQO5yY0unolDv0t7Vc6dCsdhMoZQet4z7npX0ll2DmISmInUSkexc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762549579; c=relaxed/simple;
-	bh=Kl9YsS1PIGvtggF1uJm277eJ2mqf4fTidxqHPnljr/8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BzobUYG2im/3ToQfXdqedyiZUO7ZhS+XYmjLcV0d2ZtN4vcGBTyaHJN/u+V92s3XNoOHNSWTg/2QvqJKi8Q7nnLsgl9qbxkxDwswzO8um/S3bdPpRdxvwjHNJ2ECul2yNfJC3AXe3uKgR4Xjw2HMlfcMgGgzjj04/kr9eb+pnWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dGTKGzaP; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910B92EFD90;
+	Fri,  7 Nov 2025 21:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762550646; cv=fail; b=bdvPJ+pgXn05tIwJ47bc9Fae5/pPbiD9a2QnxR1dmPgzcMOofrvMp0+gb1moavzVcoRZ12Hompuylwho1hm5/AawTahxG84PA7fHK273QqKjPp6G0r4PfzhQVsGtz0yh5fqPw7RTGAzWrNsShyQu/xycVizWTBSCflqJkqiu5+Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762550646; c=relaxed/simple;
+	bh=dm8EFEKlLmli4tB4RZks+/TK2ayFv3c6/XOxYeJHyXk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Kp4touEWiGB2Y305OeGCNJk6TzlE6DETbOqTA890d1XG0NcftT41mTQILA3T9lPLwTljpg8hDqBh0rN7GU1mrS00KVxZzUjSlzEM4T+pBgw+qjE/+TYo8gB05M/pIdLKOL47Z3LugJffe4n5yhMX3fqAhRSKLvdiuv+08GsPYUs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=n4fISdzb; arc=fail smtp.client-ip=40.107.159.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dGTKGzaP"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-786a8eeb047so13300137b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 13:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762549575; x=1763154375; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zzZNGPgWx94ISN9X3lQ14PyLWRhGYF2GiiJN7CqbrDw=;
-        b=dGTKGzaPbq2rhZiIVJlx9wsOVAvU3zIy/GGqJAm+YflUZKGmGJSsOABdRm2E//1vjU
-         rRZhmIhqK/+7avXKXIVl95eiDOqOWbKHPzR9TAFutXZtRqE+Tg9XTWlSbq2QSQnm0UKl
-         kU1L6BTDqIBBq9q0ZU2U0asik3f7PjaD7AuJk5j/+GLNLfD0ndJPm/UJPV1DxMVOWjpA
-         8HcGgklHfuhxYXyAB5IphIp0nFPL71SJwKF9mXMvuhU7k6h08I6OkCQeq6JMIF9QSdkm
-         cSTepREt1VUqWsAp/TKfGVx6uqYPJRd76LKx3lKu8bHhMnJ5gJ5SXR+muQMWJcEjEc5Q
-         1Dlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762549575; x=1763154375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zzZNGPgWx94ISN9X3lQ14PyLWRhGYF2GiiJN7CqbrDw=;
-        b=VdH00ioT38oiD9Mc0ngf35GqgjuYh5ih1ylXJaG1bxgRU9SCtgyulz2u2IPXBi9GNd
-         1tCAVJx+9474FaXGqoUT0vMq+TxKHEqyIw1RQgfsy2PnLTwwSzlUeRm6vvyBpDsj/jFE
-         KW68XqOjy1W6OwMO7bbMgmMkKJAdw03hFidfWTiji4os9xxdJdK1Xna0sQ9Okvij80KD
-         E6/jRzVNH/eFTNsQekO6oPXAIkN7Euy+ra67O31ToTJU7GnjDRQnpEFQKzFNf7GDIJdr
-         kMZC2nUJSliEZ5cLNj8xdAKMO5iL5er48B1118djYR6HWe5QZ1IObr8i6eRXaVVV9wa0
-         vQFw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNZfIIG94puxcF/57rD6vwDE0slZwQmviOQS/a/G+Nlfy9Izqv5NkNfbdn5fD5ooWlj84L4hWIG6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyq5z0WTqQc5bM2xILpzp6KuH2DKCxFHJWf9IkyKZnmU9+O/pmi
-	5SKJXOkKb1XsSukTkgjrgtnrrvjvUK7HwnL4oyexQxm+993HFuztyD1JclQL6JdIJLQ=
-X-Gm-Gg: ASbGncvCqmeKaF/eZbRMYzorazU14mTdzHmknt2aVn88OY/lMrKNXMu5PpHgq8ov7CJ
-	7/MQHxYQQfttgZcOC9GsxfVJk69RJQY7UuoKd9eZID9C2gfMLQdV6cN99KkQTpnxzOI0bxZYELG
-	Gqvuv9aphO+b4n0pqzvCQvKAtdUBuRdpEpGXpYAjn48/vGpKW3mfs//bfCb/9jP+20+hca8YS/d
-	pUD0tbMVBaZ54a6vBvhnC2uhFRXR8q3IznONs9tJoxnBcw3ot6pCYYRZ5qLZqX3PbdCUu9REIrX
-	1ujqLseoMSJbog9/5OIUeRDP9/1zkSz7XUesuiGglOc+Ku65AvlvTHPGiXfEPZlKBMqQgNQfle0
-	GPHXTMk5XPggDlnEFXiZvdphhlJB5fs2t2HO/RdJ0Gp18Gw2nfp0q3mVCYRBdgCrQhmcKO4pmOs
-	mIFq19TKelPeTHSMTiu3zshREXz3tZz/BhlA+HUNnnn0ST8xH/nmH1FoMSRa/gZXp8+cAH/Zk5g
-	A==
-X-Google-Smtp-Source: AGHT+IHOz7qc/OdNH+hwEFR2mgMLzMFENl/tjweqpUXWP41GYcTPchZvuPAXTMaj9WvfxwDjBEwMvw==
-X-Received: by 2002:a05:690c:690b:b0:786:6df0:8a36 with SMTP id 00721157ae682-787d53afd94mr7203087b3.29.1762549575032;
-        Fri, 07 Nov 2025 13:06:15 -0800 (PST)
-Received: from soleen.c.googlers.com.com (53.47.86.34.bc.googleusercontent.com. [34.86.47.53])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-787d68754d3sm990817b3.26.2025.11.07.13.06.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 13:06:14 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	jasonmiu@google.com,
-	graf@amazon.com,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	tj@kernel.org,
-	yoann.congal@smile.fr,
-	mmaurer@google.com,
-	roman.gushchin@linux.dev,
-	chenridong@huawei.com,
-	axboe@kernel.dk,
-	mark.rutland@arm.com,
-	jannh@google.com,
-	vincent.guittot@linaro.org,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com,
-	david@redhat.com,
-	joel.granados@kernel.org,
-	rostedt@goodmis.org,
-	anna.schumaker@oracle.com,
-	song@kernel.org,
-	zhangguopeng@kylinos.cn,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	gregkh@linuxfoundation.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	bartosz.golaszewski@linaro.org,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com,
-	quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com,
-	ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	leon@kernel.org,
-	lukas@wunner.de,
-	bhelgaas@google.com,
-	wagi@kernel.org,
-	djeffery@redhat.com,
-	stuart.w.hayes@gmail.com,
-	ptyadav@amazon.de,
-	lennart@poettering.net,
-	brauner@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	saeedm@nvidia.com,
-	ajayachandra@nvidia.com,
-	jgg@nvidia.com,
-	parav@nvidia.com,
-	leonro@nvidia.com,
-	witu@nvidia.com,
-	hughd@google.com,
-	skhawaja@google.com,
-	chrisl@kernel.org
-Subject: [PATCH v5 22/22] tests/liveupdate: Add in-kernel liveupdate test
-Date: Fri,  7 Nov 2025 16:03:20 -0500
-Message-ID: <20251107210526.257742-23-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.51.2.1041.gc1ab5b90ca-goog
-In-Reply-To: <20251107210526.257742-1-pasha.tatashin@soleen.com>
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="n4fISdzb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pJ32H/xJMaPoMmxxswfa1rRdZhsDzArAeTS5MqH8f0uw6OgVzaub4v+ff+ZhUN0DkXGat60/Ro4froxG6FzNdf376IQcy6J+JEYW9qQh6Yv6EHh/SV8kLgAc1JqHJSErT61vSfTs15a6kh2gpk/hKNxS6Tlrr/thSJFz4a9LkwLOaOrUu0zBaUptO+zmqWkkma3mlpLSP5z+SZkVELyMhNwr1TEOm5d0Qv25bOWRyq6+5R04bhYe+JmCN9atBKTxyP9Sa6Ao60MFn56f2ZGrJjCHrShx1Ltcd6saWIiDAE6VKNjUTxWqG6+seA4oqbfCnMEFsqHBuGKZO7ECCJAeFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uU/oOtAuSrcPqPZLUQjNRNeQBRpu9+PrYwxR7B7ThKs=;
+ b=TPKLKQlnTfA3MO/b17Gr5C1c6HQrct5QDXA3ytfMQ3ZIbb/ys9FDPX4qaTBOjaoE3Y/7bZvnGHw4jpxWAEIdXBcnBrWH/2NPowVjbfMf/iqaO+lDow+iqW7bmkM/rEyQU+Vl7mQW2R451yrSjnYhBg9FC9qMns3w4vyXsrR7JhhKdnmIM8WcVOTc6PFY3OAtF3Sm5U7SHyydza0z+/VdVKEfCqdijc7mwDSgfv5iWYcRNqZgyEKyxUHSW1amxeknypboM7n03+gTDmal6nlpYJDQ0WkkyVo4esRakVBf4BIaVaJ1iRuJyEVG5xmdWBALObj/yFrxVld31KcuUPVZtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uU/oOtAuSrcPqPZLUQjNRNeQBRpu9+PrYwxR7B7ThKs=;
+ b=n4fISdzbWGa38gPm74fgNRxp6L8JgKyXywS7iFK0swp1w/wYDrtMxiBh2tcZWpEEThbbK6NCf20/Aw8v80SyFuiynJzGVGB3yUCBhrg139OfdnBtnHUJV+D0J/IrHlKjWyv5hZUmhIqKod08NMumpUNZlI4wEh2fblCsiexZLQZFKDAak1QeKG5rPMeUTIrhWVqOFm8+mFoYDd+1kO1S0q/UlyUJVhtMeCKfCZDGP+D0EwYpU/ce7gnol+Q+FxpjiOAHc+kfRWdBayYYUYnN8Wyi3qtXZovmqmwVsfL2lTTehuy64/6txV30k5o7zQJj6ntf4PHgJHTmESKshCRDpw==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by DU2PR04MB8727.eurprd04.prod.outlook.com (2603:10a6:10:2de::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 21:24:00 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::21bf:975e:f24d:1612]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::21bf:975e:f24d:1612%5]) with mapi id 15.20.9298.012; Fri, 7 Nov 2025
+ 21:24:00 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier
+	<mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
+	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan Corbet
+	<corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+Thread-Topic: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+Thread-Index: AQHcUCzVjIrQ/GjmqEGe0Q2kpTl0+Q==
+Date: Fri, 7 Nov 2025 21:24:00 +0000
+Message-ID:
+ <PAXPR04MB9185E2C3E50D365F64F10E3A89C3A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-4-shenwei.wang@nxp.com>
+ <9fd8ccd9-560a-43b4-a48d-f7a3eaa07eb1@lunn.ch>
+ <PAXPR04MB9185C4A4B91F863CFD49718E89C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <0be8c911-3c31-40da-b431-e5a24339c0f9@lunn.ch>
+ <PAXPR04MB9185D9EBE8F46715FD114A2989C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <cadcbbc7-2024-413a-8e9b-bde5fa233df5@lunn.ch>
+In-Reply-To: <cadcbbc7-2024-413a-8e9b-bde5fa233df5@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|DU2PR04MB8727:EE_
+x-ms-office365-filtering-correlation-id: 987a0fa2-6733-4bf1-b5bc-08de1e43f80d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|19092799006|376014|7416014|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?GCUqt/TolqFuoiEjOEk8QDh9NExXkZW2TvWEsxcAKLtcqEq9KV8ZC95gRZVc?=
+ =?us-ascii?Q?/ZIxKrU+rV0xZBV2QDx8v5mXksWjNNC3/+tj7c+du2LYAvGxso91uBetfdGu?=
+ =?us-ascii?Q?5dBMpZ/XzcnWD5TGOXJAumJS+qc+nzwoOA3ctrL9Gl936VScRmt9ngOnfffe?=
+ =?us-ascii?Q?cOapYLDIusrxUAnM3f7XKBAyM6bMKldC7nInXEfw2nQFgbOU3VGa14qLlOcZ?=
+ =?us-ascii?Q?v+ALof/L8qowfjo6b+gFz+0Vu3n8sqD8gZ7miTOQT1RqYeD7jS2aqjfESg1v?=
+ =?us-ascii?Q?C1FqoP4xG/pkCU0CmQnHHoBQqiQRJjzscXD7uiKd/bVx3MlHbczl7Wor+G5k?=
+ =?us-ascii?Q?GOOzyK5nDumkTmZbYHkvZ8W4GEaNCWYU898II8VDmxZYN93kOxlw7uIrsJx7?=
+ =?us-ascii?Q?ISztBsVWbqHjkIrh/SUjWPASvluwgCZOIqEh/oVvQHsOZDyFztsc+9eIvD2J?=
+ =?us-ascii?Q?R0U6VIZCk3vmj+Vhjyp6PSxrm3UPM2NNZsDADauo3taLxD+VokT7PR9cLFMm?=
+ =?us-ascii?Q?jK8+cyzBoRU+vS3A/L8HnF05rpk1fdTzWulMdlAFhCflxyt3vBoPUDWg+4wj?=
+ =?us-ascii?Q?5PVnPDtrICXg7Wg1rIuFOEWzdYll9XB31PJqpDOmAxvcCd4hcapOy+az0lsd?=
+ =?us-ascii?Q?eySlYoJsZFi984qTbwc758/fbTNwCRPR/36wBNmdQURBJ2Wgs0knSABW9WdP?=
+ =?us-ascii?Q?T/EglyBcZx3u4fbFdI+If1/Oj1uruuPsACyl3uxLNeOhl5oZYUfombN8+yih?=
+ =?us-ascii?Q?ecL0CSHcDauFNmEgO5Rs01epeCXXf8YbXBtquqqq1gKwtYojJelPWjZintIa?=
+ =?us-ascii?Q?ylFxsPJybFV7toTQRuSHdk59vlWkfdebttzmbl6nDtcMgWOXMGadw0HlFPJz?=
+ =?us-ascii?Q?ibTzsjK1nHwbtdKs4h4hQf/QOb2yu5sB5Pnjp0tp+rzRYJ6ZIMdW6MaWkz3D?=
+ =?us-ascii?Q?b0K1dKBaEeLFnuH7MlWTza3iPyaHcz7B9OCHQaiC6DsATHutqFtOFoxdKiVK?=
+ =?us-ascii?Q?Vqj5v3K91rW+SNWvkAHSUe64HCLadEvNvSDyVzmOJSoP3YWK0XDZ1Dq0KePm?=
+ =?us-ascii?Q?EpkP5JBIa6009mvm79bRMs5Wm4GLgElRwf/nejzX3t02t39Y0KprI3oe/X9p?=
+ =?us-ascii?Q?KrRu5bzSOSTgH1N6jjQa5xWSATrPODS9/nKuNJmqD3Fi+Wd1DxpSo2pyNNOv?=
+ =?us-ascii?Q?0mIJU4cZA2QYPvQRMq/+2oaJHC+De+iQtUOo24Dl/aUNwWKhQrWCsgmJY5do?=
+ =?us-ascii?Q?w4sr3f2Tf1LBvAK9UwqFi5Hb0TKyxvmyA0xJ6MS8Utih5IcvNowhkH735iS6?=
+ =?us-ascii?Q?PFL/B8pHTOybCfw9UavS+HnLZLkJNsXRa7Gmwp8+fgr/xkDQGbIHp4a/ax6Y?=
+ =?us-ascii?Q?vR6uRHNoy7rhfPZ2NOa1dSEF8/AS7mlCwsQyZQRsQYKKtmoECY2epfvzz4m8?=
+ =?us-ascii?Q?wKV+LDOz2zjzsiZIyMR9ZskXx447RiiEEu6D0FRaZr9yvzn3k5QrdBP2WuOo?=
+ =?us-ascii?Q?kBr2BUu1A1Eqg+47QlZj4S4bLUu22ycYj+RI?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(7416014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?cjJ0fgCZdiAa8FlpQ1g9QKYgsMVVeUc+tx0yY/vkH5quNA/jtBgRrAfVYfGg?=
+ =?us-ascii?Q?E+5A5FJQT0BIj6l48AkIXDEnkJXUX7JvdBUFehRGk42HivdGwz1cr2iIlxxz?=
+ =?us-ascii?Q?XFVH6BhKqC2mjB14aaCQoKWGXh55bltSUC6x1kevbJS+PVBD+M3Dx1h1mmGT?=
+ =?us-ascii?Q?RAggEMsnA+x6HcPwIKlariozx3r+PuWKEcCbXfsGZsSGDkQ3fJbKZN9AKBHA?=
+ =?us-ascii?Q?HdGog0nDs9thLm02+RZ+IEkHis5jlCWDndZu275iXXtpwPfM8QTArVtxfW4Q?=
+ =?us-ascii?Q?eXuNPOs1LteGjfpOtbBhxgLC4czVUHnFyqycQPnKhdpWUUbQaXzrxRYqt8zJ?=
+ =?us-ascii?Q?ovUHnS+EZ9C3nrpKgKDT++iN0ZI4GD4uezt4AM0eQlSW6WPUCQbUwGJSmTW/?=
+ =?us-ascii?Q?Zh7uB9pzG29xJx1883FbtvqASCAegC34E5b5WS/TT5jh0S/u+bUT7n0eU+NO?=
+ =?us-ascii?Q?5MmujSFBlGZSElTSJlss73kNihQkZt8+3f4ptL9UmPpE9hclKPuPLbLyK+X4?=
+ =?us-ascii?Q?8esA3BVTEWOAsTkK7k3E02O8P/IbFFbRhpcYI8BwEF3i/p1QkioTgTCjZxQC?=
+ =?us-ascii?Q?8o5q6geuFZHFXHow7t+NwLesgU42o/cKN381A/ljsOsLbOSsijWvnG/GEK1X?=
+ =?us-ascii?Q?bHCmFes18wepYdPUOfXEL3JrJjyyQbvN760/jvz58od0nkAj+ocwoJvzKQaB?=
+ =?us-ascii?Q?s+MllYDSVc6Iw1jfqBCXNNSS36bks1tvTHr6QCpibtQ6Mhm4qpYTsPCqAbYz?=
+ =?us-ascii?Q?xGHbeyKpjHZKxvMeSejXUZDWpoDbXwRP9z27mPIrGNHx0psuYu9LjsaCCncd?=
+ =?us-ascii?Q?oyHKMjSHpIV5IYR/V+6qi7+D4F/qX5yEGEwVZxWUnBTfKoajyivGcC+gv04T?=
+ =?us-ascii?Q?aovxwG4b0yd42B/lP38Q68W/llxXh62AyP0F5PIIMpCBVKaEktgqlcA0+9lW?=
+ =?us-ascii?Q?TcgNEHCehT1agghNYxdEiRKZ9AgAkb78X+susWIHRzltWXDilkOGphrG/iZ0?=
+ =?us-ascii?Q?176mZPO3DA8FLfqN48TsdTiuz++aPexyNwcw+r+DCnNKcw1d0YV0xPDwW4Pm?=
+ =?us-ascii?Q?wC5BW/TtNFvt73kb9ooV5jVPbbMi6FrvCkqYu+rwCg3vJHdQYe6TMzuwW+QS?=
+ =?us-ascii?Q?2TfUGxFe09wFsOzYEnoHMRuWyhso04YwtwAief5NM5d6f3QCQNz5X0e6hEJR?=
+ =?us-ascii?Q?apKPK0eTBNaQx8ayG2AmZOIVRyTLFNwMIDcWbaoYnKDVhgZeYUVKt8D1MwIB?=
+ =?us-ascii?Q?uE9YJW9RkVbIY52a8yWcq5k6RnkGQgpNAjJAKZ0rFOdnNp2ANiJf3PBF+pNV?=
+ =?us-ascii?Q?KwQ3g3qwGXbwH1x5IEAmPxCY+GWk5WYLrCww9e8N/nRGK/urcosmea8z95E9?=
+ =?us-ascii?Q?oY4ova+l3Id1CyRtsQqANZQy4J2ptm7Ez8jyKPsPAxOf4+d+Egm3SLkded4Q?=
+ =?us-ascii?Q?u1H8W+JLSN0bqFWfEAkkosndEb1QvUELTL1ELOJJtONuYTeFOHXLEDrfNTXK?=
+ =?us-ascii?Q?+M4GFkUB37gjQch96ePSvzaXPnbon2GBdV0L+8cxe8tFIs/e2H7zctWrjZU7?=
+ =?us-ascii?Q?sqqA8/RygCzX/tIAEqQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 987a0fa2-6733-4bf1-b5bc-08de1e43f80d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2025 21:24:00.6429
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D1Lx9qMpC6tLWvYXOHKMv4BhI/XJONkzC30RZ5r9R6hPLT7K/rDuUH8lBHKeN5rvSHjDWw1lvjj54oK0gtRn7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8727
 
-Introduce an in-kernel test module to validate the core logic of the
-Live Update Orchestrator's File-Lifecycle-Bound feature. This
-provides a low-level, controlled environment to test FLB registration
-and callback invocation without requiring userspace interaction or
-actual kexec reboots.
 
-The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Thursday, November 6, 2025 6:32 PM
+> To: Shenwei Wang <shenwei.wang@nxp.com>
+> Cc: Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
+> <mathieu.poirier@linaro.org>; Rob Herring <robh@kernel.org>; Krzysztof
+> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Shawn
+> Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
+> Jonathan Corbet <corbet@lwn.net>; Linus Walleij <linus.walleij@linaro.org=
+>;
+> Bartosz Golaszewski <brgl@bgdev.pl>; Pengutronix Kernel Team
+> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
+> <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
+> devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
+> doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> Subject: [EXT] Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rp=
+msg bus
+> >
+> > The power state of the remote GPIO controller is entirely managed by th=
+e
+> remote firmware.
+> > The remote firmware operates as an independent system from Linux, with
+> > its own power states and policies for transitioning between modes. The
+> > wakeup field is solely intended to inform the remote firmware whether t=
+he
+> GPIO line should be used as a wakeup source for the Linux system.
+>=20
+> O.K. How does the firmware use this information? How should it change its
+> behaviour?
+>=20
+
+The remote system should always aim to stay in a power-efficient state by s=
+hutting down=20
+or clock-gating any blocks that aren't in use. In this wakeup scenario, if =
+no GPIO lines are=20
+requested or marked as wakeup sources for Linux, the remote firmware should=
+ put the=20
+GPIO controller into a low-power state.
+
+> > > > > > +Notification Message
+> > > > > > +--------------------
+> > > > > > +
+> > > > > > +Notifications are sent with **Type=3D2 (GPIO_RPMSG_NOTIFY)**:
+> > > > > > +
+> > > > > > +.. code-block:: none
+> > > > > > +
+> > > > > > +   +-----+-----+-----+-----+-----+-----------+-----+-----+----=
+-+----+
+> > > > > > +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05..0x09 |0x0A |0x0B |0x0C
+> |0x0D|
+> > > > > > +   | 5   | 1   | 0   | 2   | 0   |  0        |line |port | 0  =
+ | 0  |
+> > > > > > +
+> > > > > > + +-----+-----+-----+-----+-----+-----------+-----+-----+-----+=
 ---
- kernel/liveupdate/luo_file.c     |   2 +
- kernel/liveupdate/luo_internal.h |   8 ++
- lib/Kconfig.debug                |  23 ++++++
- lib/tests/Makefile               |   1 +
- lib/tests/liveupdate.c           | 130 +++++++++++++++++++++++++++++++
- 5 files changed, 164 insertions(+)
- create mode 100644 lib/tests/liveupdate.c
+> > > > > > + -+
+> > > > > > +
+> > > > > > +- **line**: The GPIO line index.
+> > > > > > +- **port**: The GPIO controller index.
+> > > > >
+> > > > > There is no need to acknowledge the notification? How do level
+> > > > > interrupts
+> > > work?
+> > > > >
+> > > >
+> > > > Currently, there is no need to acknowledge the message, as the
+> > > > interrupt is managed entirely by the remote firmware. On the Linux
+> > > > side, a single notification message is received when an interrupt i=
+s triggered.
+> > >
+> > > That sounds broken.
+> > >
+> > > A level interrupt is not cleared until the level changes. The typical=
+ flow is:
+> > >
+> > > Interrupt fires.
+> > >
+> > > Interrupt is masked
+> > >
+> > > Interrupt handler is called, which reads/write registers in the
+> > > device who pin is connected to the GPIO
+> > >
+> > > Interrupt is unmasked
+> > >
+> >
+> > The sequences you mentioned above are managed entirely by the remote
+> > firmware. On the Linux side, it only receives a notification message
+> > when a GPIO line is triggered, which then invokes the corresponding int=
+errupt
+> handler.
+> >
+> > Since the interrupt handling sequences are implemented in the remote
+> > firmware, the Linux driver can treat level-triggered and edge-triggered=
+ types in
+> the same manner.
+>=20
+> That is wrong. Edge and level are different and need different handling. =
+That is
+> why the GPIO framework and the interrupt core handles them differently.
+>=20
+> The devices i mostly deal with are Ethernet PHYs. These are level devices=
+, the
+> interrupt is active low. Within the PHY there are multiple interrupt sour=
+ces, which
+> all get logically NORed together to form the interrupt output line. Talki=
+ng to the
+> PHY over MDIO is slow. Sometimes you need to read multiple registers to f=
+ind out
+> what caused the interrupt and clear it. So your initial read suggests int=
+errupt
+> source Y triggered the interrupt. While you are clearing Y, source X beco=
+mes
+> active. After you have cleared Y, the NORed interrupt line is still activ=
+e, because
+> of X. The interrupt handler exits, the IRQ core reenabled the interrupt, =
+and you
+> expect it to fire again so that you go handle source X. If it does not fi=
+re again, you
+> have lost an interrupt, and potentially the hardware stops working.
+>=20
+> There are also other use cases of level interrupts. You sometimes see two=
+ PHY
+> devices sharing one level interrupt. You get the same sort of race condit=
+ion. PHY
+> #1 pulls the interrupt low, triggering an interrupt. While handling it, P=
+HY #2 also
+> pulls it low. When the handler exits, it has only handled the interrupt f=
+rom PHY
+> #1. PHY #2 is still pulling the interrupt low, and needs its handler call=
+ing. So it is
+> required the interrupt fires again when it is re-enabled.
+>=20
+> Given the protocol you have defined, how do you tell the firmware that Li=
+nux has
+> finished handling the interrupt, and it should notify Linux again if the =
+interrupt is
+> still active?
+>=20
 
-diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-index 713069b96278..4c0a75918f3d 100644
---- a/kernel/liveupdate/luo_file.c
-+++ b/kernel/liveupdate/luo_file.c
-@@ -829,6 +829,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
- 	INIT_LIST_HEAD(&fh->flb_list);
- 	list_add_tail(&fh->list, &luo_file_handler_list);
- 
-+	liveupdate_test_register(fh);
-+
- 	return 0;
- }
- 
-diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index 89c2fd97e5a7..be8986f7ac9b 100644
---- a/kernel/liveupdate/luo_internal.h
-+++ b/kernel/liveupdate/luo_internal.h
-@@ -90,4 +90,12 @@ int __init luo_flb_setup_outgoing(void *fdt);
- int __init luo_flb_setup_incoming(void *fdt);
- void luo_flb_serialize(void);
- 
-+#ifdef CONFIG_LIVEUPDATE_TEST
-+void liveupdate_test_register(struct liveupdate_file_handler *h);
-+#else
-+static inline void liveupdate_test_register(struct liveupdate_file_handler *h)
-+{
-+}
-+#endif
-+
- #endif /* _LINUX_LUO_INTERNAL_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ddacf9e665a2..2cbfa3dead0b 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2813,6 +2813,29 @@ config LINEAR_RANGES_TEST
- 
- 	  If unsure, say N.
- 
-+config LIVEUPDATE_TEST
-+	bool "Live Update Kernel Test"
-+	default n
-+	depends on LIVEUPDATE
-+	help
-+	  Enable a built-in kernel test module for the Live Update
-+	  Orchestrator.
-+
-+	  This module validates the File-Lifecycle-Bound subsystem by
-+	  registering a set of mock FLB objects with any real file handlers
-+	  that support live update (such as the memfd handler).
-+
-+	  When live update operations are performed, this test module will
-+	  output messages to the kernel log (dmesg), confirming that its
-+	  registration and various callback functions (preserve, retrieve,
-+	  finish, etc.) are being invoked correctly.
-+
-+	  This is a debugging and regression testing tool for developers
-+	  working on the Live Update subsystem. It should not be enabled in
-+	  production kernels.
-+
-+	  If unsure, say N
-+
- config CMDLINE_KUNIT_TEST
- 	tristate "KUnit test for cmdline API" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index f7460831cfdd..8e5c527a94ac 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -27,6 +27,7 @@ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
- obj-$(CONFIG_KFIFO_KUNIT_TEST) += kfifo_kunit.o
- obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_LIVEUPDATE_TEST) += liveupdate.o
- 
- CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
- obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
-diff --git a/lib/tests/liveupdate.c b/lib/tests/liveupdate.c
-new file mode 100644
-index 000000000000..62c592aa859f
---- /dev/null
-+++ b/lib/tests/liveupdate.c
-@@ -0,0 +1,130 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME " test: " fmt
-+
-+#include <linux/init.h>
-+#include <linux/liveupdate.h>
-+#include <linux/module.h>
-+#include "../../kernel/liveupdate/luo_internal.h"
-+
-+#define TEST_NFLBS 3
-+#define TEST_FLB_MAGIC_BASE 0xFEEDF00DCAFEBEE0ULL
-+
-+static struct liveupdate_flb test_flbs[TEST_NFLBS];
-+
-+static int test_flb_preserve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+
-+	pr_info("%s: preserve was triggered\n", argp->flb->compatible);
-+	argp->data = TEST_FLB_MAGIC_BASE + index;
-+
-+	return 0;
-+}
-+
-+static void test_flb_unpreserve(struct liveupdate_flb_op_args *argp)
-+{
-+	pr_info("%s: unpreserve was triggered\n", argp->flb->compatible);
-+}
-+
-+static void test_flb_retrieve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	u64 expected_data = TEST_FLB_MAGIC_BASE + index;
-+
-+	if (argp->data == expected_data) {
-+		pr_info("%s: found flb data from the previous boot\n",
-+			argp->flb->compatible);
-+		argp->obj = (void *)argp->data;
-+	} else {
-+		pr_err("%s: ERROR - incorrect data handle: %llx, expected %llx\n",
-+		       argp->flb->compatible, argp->data, expected_data);
-+	}
-+}
-+
-+static void test_flb_finish(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	void *expected_obj = (void *)(TEST_FLB_MAGIC_BASE + index);
-+
-+	if (argp->obj == expected_obj)
-+		pr_info("%s: finish was triggered\n", argp->flb->compatible);
-+	else
-+		pr_err("%s: ERROR - finish called with invalid object\n",
-+		       argp->flb->compatible);
-+}
-+
-+static const struct liveupdate_flb_ops test_flb_ops = {
-+	.preserve	= test_flb_preserve,
-+	.unpreserve	= test_flb_unpreserve,
-+	.retrieve	= test_flb_retrieve,
-+	.finish		= test_flb_finish,
-+};
-+
-+#define DEFINE_TEST_FLB(i) \
-+	{ .ops = &test_flb_ops, .compatible = "test-flb-v" #i }
-+
-+static struct liveupdate_flb test_flbs[TEST_NFLBS] = {
-+	DEFINE_TEST_FLB(0),
-+	DEFINE_TEST_FLB(1),
-+	DEFINE_TEST_FLB(2),
-+};
-+
-+static int __init liveupdate_test_early_init(void)
-+{
-+	int i;
-+
-+	if (!liveupdate_enabled())
-+		return 0;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+		void *obj;
-+		int err;
-+
-+		liveupdate_init_flb(flb);
-+
-+		err = liveupdate_flb_incoming_locked(flb, &obj);
-+		if (!err) {
-+			liveupdate_flb_incoming_unlock(flb, obj);
-+		} else if (err != -ENODATA && err != -ENOENT) {
-+			pr_err("liveupdate_flb_incoming_locked for %s failed: %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+		}
-+	}
-+
-+	return 0;
-+}
-+early_initcall(liveupdate_test_early_init);
-+
-+void liveupdate_test_register(struct liveupdate_file_handler *h)
-+{
-+	int err, i;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+
-+		err = liveupdate_register_flb(h, flb);
-+		if (err)
-+			pr_err("Failed to register %s %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+	}
-+
-+	err = liveupdate_register_flb(h, &test_flbs[0]);
-+	if (!err || err != -EEXIST) {
-+		pr_err("Failed: %s should be already registered, but got err: %pe\n",
-+		       test_flbs[0].compatible, ERR_PTR(err));
-+	}
-+
-+	pr_info("Registered %d FLBs with file handler: [%s]\n",
-+		TEST_NFLBS, h->compatible);
-+}
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Pasha Tatashin <pasha.tatashin@soleen.com>");
-+MODULE_DESCRIPTION("In-kernel test for LUO mechanism");
--- 
-2.51.2.1041.gc1ab5b90ca-goog
+Okay. To fully simulate a level-triggered interrupt, a notification reply m=
+essage is required.
 
+Remote firmware sequence:
+Receive the level-triggered GPIO interrupt.
+Mask the interrupt for the corresponding line.
+Send a notification message to Linux.
+Wait for the notification reply, then unmask the interrupt for the line.
+
+Linux sequence:
+Receive the notification message.
+Invoke the interrupt handler for the line.
+Send a notification reply to the remote firmware to indicate End of Interru=
+pt (EOI).
+
+Thanks,
+Shenwei
+
+>         Andrew
