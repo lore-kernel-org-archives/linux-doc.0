@@ -1,107 +1,99 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFD0308F14;
-	Fri,  7 Nov 2025 08:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA592BE652;
+	Fri,  7 Nov 2025 09:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762503995; cv=none; b=EBCGlVyUMBL739vSFdFP8TdF5s/iYoMKCTmaOejGIdJLkOlq2vsx4K8OPrHmPSou9TbG2/X+15Bx7UXwABrj4tf2eV/Wgu9XG+3IHcUYa1Twqf0NPawLXjy/0wbtbqnWyttFhPB1Ptra/v1J7ClyVq/t9JOvc1g7hLmgur0CQs8=
+	t=1762506274; cv=none; b=LfeAabZVVhx5MgE8/pNMbA8jb8Fj0Fk+nlP69XWkqihwTXP2VXhBRbNAh29BURWPagM9kZKkcW1Y1D8t3d/G2e2gY8MHWCRuvAAGbRaXFfUi8Q70Et0eE1c3s20DawyPp+Gz94NCTaCqbIHoBll+VLYkXpoNe25sZee/EUCvSCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762503995; c=relaxed/simple;
-	bh=Hw7WviiLw+ywvBJebQ5O6RgAsIukfMAuZawgmFiWwas=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t+EMeUIMR/jhAKXutmArNHdSDmxmYXQVVYW7TQMX0YBURD0fGkCXSby8BuvB6u5F/N8F3ypLCXfFYFpehi4zd/Sqy73zb2LUAIh842qsBDvzLBVYbZFlYXq3Jh9Jn6m0A7b3Sbq5BdGku9PIbDbCB1Tro6CGK6HiH35+TFFf8bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=G7MIPNMi; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1762506274; c=relaxed/simple;
+	bh=JoSOS0A6PQkdTSpDO8Qbgfxr6q2mH0zIcuM27Bj1RR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oeckx1tSYeotjucufu+W9BJtsPTWkswvz3keVZYLyqp83VZrGTUaGSYmMrEoepWvmfQRepC97q7R3N+0UGR1xAJ85wP/Xg5bEqce8sekZ915SsY3sv4YNHJTDl85gtuPcnHJ9jJPz4fHQCNXUNvfPfsNuuhn3DwkWD8jFQk1MdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E87vVKdr; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="G7MIPNMi"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=yJghrzhXUW4i7ez9BxpbYoOfx1uePTskE0iGZn9IjOY=;
-	b=G7MIPNMiXqXrpJtWkJbvxy966zKiXFBSiIpDtIHh4ubf3GwNV7wjC11b9YGHoigE1jiyY95jw
-	tl/T+XxzIG+OaJxN6KzueIvmArmjK5RBrhZuy+OvNcgEVxEc2QcLAcUImCa/+VdhINKXM+svCBr
-	nV5XbIP8iJ6NthiYtQmsydc=
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4d2sYg1wzxzpStP;
-	Fri,  7 Nov 2025 16:24:55 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 56975180B66;
-	Fri,  7 Nov 2025 16:26:29 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 7 Nov 2025 16:26:28 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <alok.a.tiwari@oracle.com>
-CC: <Markus.Elfring@web.de>, <andrew+netdev@lunn.ch>, <davem@davemloft.net>,
-	<edumazet@google.com>, <gongfan1@huawei.com>, <guoxin09@huawei.com>,
-	<gur.stavi@huawei.com>, <horms@kernel.org>, <kuba@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<luosifu@huawei.com>, <luoyang82@h-partners.com>, <meny.yossefi@huawei.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <pavan.chebbi@broadcom.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <wulike1@huawei.com>,
-	<zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
-Subject: Re: [External] : [PATCH net-next v05 1/5] hinic3: Add PF framework
-Date: Fri, 7 Nov 2025 16:26:24 +0800
-Message-ID: <20251107082624.931-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <2321cbe4-e704-4c19-9d0d-92011f768178@oracle.com>
-References: <2321cbe4-e704-4c19-9d0d-92011f768178@oracle.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E87vVKdr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=c5PVEPcg7gvE34/gGpLzE008hmCTzSWOGhLMfbn1AWI=; b=E87vVKdr2aKCQcIoHp77GjRSyG
+	RFq0ezCr1uXEm1UVBxhU9ZdYCKH94dOv6mqaFLh2CFOwWXRcWN7mQSDg5bJpBq+rA7sdYI9ZfaNdu
+	NZcd6nC8wtYVxYT6aRxi3byBg30kH45DwNCA36lBlZRvT43c8epjY8j9L7dyQOi7QWS6fE652wDxL
+	KA79r1L0Bt2LxUggYzDpI2/P/rQ78aW4OLLMuR8uc1a5U4LY1ghfjvcecmbiqT48OanV/q1Sl/Xck
+	Nc8TQKtVU1rMMY7wsyK7zINCZj65ghhUVS3/sk8iYxGpACu0+D6wPYHn6kGpjh5fpbsqXLzWxBahJ
+	W8JOf6cQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vHHWR-0000000619o-0RMa;
+	Fri, 07 Nov 2025 08:08:40 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 8D8FA3001D4; Fri, 07 Nov 2025 10:04:06 +0100 (CET)
+Date: Fri, 7 Nov 2025 10:04:06 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>, Andy Lutomirski <luto@kernel.org>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
+ runtime services
+Message-ID: <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-6-sohil.mehta@intel.com>
+ <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
+ <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com>
+ <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
+ <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
+ <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
 
-On 11/6/2025 10:19 PM, ALOK TIWARI wrote:
+On Fri, Oct 31, 2025 at 11:12:53AM -0700, Dave Hansen wrote:
 
-> > +    if (src_func_id == MBOX_MGMT_FUNC_ID) {
-> > +        msg_ch = &mbox->mgmt_msg;
-> > +    } else if (HINIC3_IS_VF(hwdev)) {
-> > +        /* message from pf */
-> > +        msg_ch = mbox->func_msg;
-> > +        if (src_func_id != hinic3_pf_id_of_vf(hwdev) || !msg_ch)
-> > +            return NULL;
-> > +    } else if (src_func_id > hinic3_glb_pf_vf_offset(hwdev)) {
-> > +        /* message from vf */
-> > +        id = (src_func_id - 1) - hinic3_glb_pf_vf_offset(hwdev);
-> > +        if (id >= 1)
-> > +            return NULL; 
+> But there's a pretty broad set of things that are for "security" that
+> aren't necessary while you're just running trusted ring0 code:
 > 
-> hard coding id >= 1, is only one VF supported?
-
-Hi, Alok. Thanks for your reviews.
-This is an oversight on "get_mbox_msg_desc". The part of "message from vf"
-should be removed in this patch because currently hinic3 driver does not support
-communication between VF and PF.
-Besides, as it is incorrectly placed here, it appears to support only one vf
-and pf communication. But actually pf can communicate with all vf that belongs
-to it. This part of code will be contained in future SRIOV subject.
-
-> >   +    if (HINIC3_IS_VF(hwdev)) {
-> > +        /* VF to PF mbox message channel */
-> > +        err = hinic3_init_func_mbox_msg_channel(hwdev);
-> > +        if (err)
-> > +            goto err_uninit_mgmt_msg_ch;
-> > +    }
-> > +
-> >       err = hinic3_init_func_mbox_msg_channel(hwdev);
+>  * SMAP/SMEP
+>  * CR pinning itself
+>  * MSR_IA32_SPEC_CTRL
+>  * MSR_IA32_TSX_CTRL
 > 
-> is hinic3_init_func* second init for PF and
-> VF executes both calls, is that correct? 
+> They just haven't mattered until now because they don't have any
+> practical effect until you actually have code running on _PAGE_USER
+> mappings trying to attack the kernel.
 
-hinic3_init_func* only inits for VF and PF initialization is in future SRIOV
-subject. So this is oversight and we should remove the redundant initialization
-for PF.
+But that's just the thing EFI is *NOT* trusted! We're basically
+disabling all security features (not listed above are CET and CFI) to
+run this random garbage we have no control over.
 
-The rest comments will be solved in the next version sooner.
-
-Thanks,
-Fan Gong
+How about we just flat out refuse EFI runtime services? What are they
+actually needed for? Why are we bending over backwards and subverting
+our security for this stuff?
