@@ -1,61 +1,85 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016F01FDE01;
-	Fri,  7 Nov 2025 00:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDFA2DCC17
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 00:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762475514; cv=none; b=W+wotvs+Vek/pzlKgZx5MoSLC16dxYKxfc4rOA9XvcpN+203wHi9y5o9teVPeMWRpCBmVXJFkCsPA4UAnVF+KVqoCInSaG1ajvp9vh5NO3D0YO22ln7Aq+yWDbAenltADIzXg3hPzkacKJ+JcMOnZcJjrwNWkJjULqwxxQ++oS4=
+	t=1762475746; cv=none; b=ry8V1ngCGiiqzviuTbNJTKrbrkyLx2xyqf6D82163Zo5phMG4atruRnZvVwD5goPe7gnKa+zf4icKnN4VkDW3l5cmNc8POn8jJpijYXrTdBmSC6OD/yg4ojmQC116LImqSA74Z+BqryZxO/DOZJECDTM0xVFy4UyqX4ZrQkh6sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762475514; c=relaxed/simple;
-	bh=Bhw06MzPVitzuw9ZzTSxcfKyEvizNYpmQ1+N96EYn7I=;
+	s=arc-20240116; t=1762475746; c=relaxed/simple;
+	bh=26mhvWfpyqxVsoR6ouyViiXyO86XybPyAuTZV75c/PU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OLRAcjLt1NWUWyk9iFabz14ppH74y71Wf5i4RSxDuLOg6K+R3FAvcuze8J+WRgB1/AdWiC5TjV31DPDUpS9V2gdBlPK08WeA1n8we9UiuGT81LZIlrWze8vrzGNwZPr9rBrav0PrVZ94a2b0jfU9GhHrHS6cSzWvt79LL3OaEUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=CZPOYo3u; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=c8F8N1Cyd+SaniXkJQkLUuPD00nVnzlmbWDGEEqR/vrCZNuBzgivTOcWE+OPdEHIZpi1f3kB0Fn2/jaOq2aaUnRBNma+FgObnnwnO6X8RbDqunAcAAOaBjxeYDmo1TGUZEiLXZPi7ekTe6BOyw+HSiiHtF4JLxnlYfeZ02PmrkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=fZTwWyy/; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="CZPOYo3u"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=nm+ruK6YXpYa0FVN7vklPuk3dDu/x7WWIncBNwCg4gA=; b=CZPOYo3uFzYmwxaWAr1YlkKO9N
-	NR/Bn3Kz7EoMQNnQlc/T5FUNhctQMu99TI/7cgmTGZ4XkBRvykElfAlbzPRYS5jEPTaMqoOK4Ytjf
-	aCFJpMonKjUiYJtq02T9DdnYSn8az6Sr4FFVKJK9tGRSPIuz/Ergw4/4AJ/99Y8spqq8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vHAOD-00DAQV-VJ; Fri, 07 Nov 2025 01:31:41 +0100
-Date: Fri, 7 Nov 2025 01:31:41 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
-Message-ID: <cadcbbc7-2024-413a-8e9b-bde5fa233df5@lunn.ch>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-4-shenwei.wang@nxp.com>
- <9fd8ccd9-560a-43b4-a48d-f7a3eaa07eb1@lunn.ch>
- <PAXPR04MB9185C4A4B91F863CFD49718E89C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <0be8c911-3c31-40da-b431-e5a24339c0f9@lunn.ch>
- <PAXPR04MB9185D9EBE8F46715FD114A2989C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fZTwWyy/"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-880438a762cso1471066d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 16:35:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1762475743; x=1763080543; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2vFuvWNdBF6vFEowrW3WFaNnkoxz6xkvGAkNcwr5uLg=;
+        b=fZTwWyy/e9P480wxHvIYKeew97hdz0sWGfT/mbtUkuRZgXj55ebZ04gQRkNkM4lBqJ
+         bZyoGDT0TotJ0iiN9/eLk+G13KiLnOh2gYsydiHpJSi/eDLU3rSMg97ClfrWqs5KH5iw
+         8SJaeeqIxWjdbdEZwJ1T9WbRPdHRS2EsroD8+6k7o1s3w7YkkVWnuQz5eBlw949sByzQ
+         m2SwowhV9+Z8mh8U1mgxYrffbAN7LSLGsUNStvYJhfggszInETW6NvP0y/r3VVYZAFvh
+         0ZvorHdzABjeZdT/VeqmC7tm9gp1FD06LDYcNxBEtV4/ugC9ueTQjRAT6NMv8QEiQqob
+         LS/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762475743; x=1763080543;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2vFuvWNdBF6vFEowrW3WFaNnkoxz6xkvGAkNcwr5uLg=;
+        b=sWlxxjoXuwZGdYqmu9uZTWR3/pGOH6uS/QwarrLjleDA90mU0ebaaQUHePPOxG8G9X
+         2J421X+qG2OEry4Q2ycV1MA+WyYYhscJAYdFHpovgIo128dghufnNieFmNfhYMaLy/Kg
+         llRjVrqYnS1yklCBRHgyl1hudniW/gQnjVCNG2Pk+aQ916oxNNKXI0dpDFo463yRC08w
+         ri5BbdiIgK9pHG2um9F2bHK+Wvw9b+a0h24As7qY9dZKieHFh5jIeYOUtKyUrcYPKJRz
+         pxas3t6qFnrgSJ4IYThveHK8McealA3PVK8PGlF9+wFq0p54mT71FL77KO+TWttUd/uV
+         IMbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSpHsl24KXvy0luvtDusqpSQYHCdAnWswyt2aSV6TUvnZWkWftgFV27xMnzzBFe7hFJVRgJoDwVC8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiqbE77gbPWqmibweawvgfY2IeT06FgzVhdURZ8hi9KGHu27s2
+	lZB2S0LUSUOA5RmsL9uA88kfqFYP4PJa3j4VMXIHgxzB7iplB2OchOxx55OuXgi/rro=
+X-Gm-Gg: ASbGncvJAVnMitS5R6wEjwqrRl9w2eeRwiUjBRGjYnS1cRb7NhFJpTHZeO6jTpDRs8s
+	oQsYP0m3+ty6Al009nZHklMYAvAeLR5M9Vfy0jHzXBqZM+YnnRw/sQcb7q4o0CSvVzUeWIUGUD1
+	fijIFEGjgYjuKRVViFyhbl61YKApNBGtzkrcGAVQiUHa1DABFZ7dOQRg7NfHp7JC36aIFeaDBQP
+	w7cBAQEaGWdTcw7QGc9vUTiOl9xysKeW7twtAihylLwdPmqgRKIbqb33epabayMyUGZX3TUys3H
+	9uuIG9VuWaz2HzkUS72qVKSPbb4rczv2MUC9AoA6R0P6X/1XDqTCVmxtkpsVINhtSDsxVDynoZB
+	xy2nnUluNijxeWJ+PZwGslqzfhVq27tSnigjR1oTVZRrcsgypWpibiM/zcNWgDFRTECPXP6qSM1
+	1tZBkhvRFwMlhulZun6t8oDK25165HPSYGZIN1BAXKcemSVw==
+X-Google-Smtp-Source: AGHT+IFi5H/5K1qU/qTfa8zVHoasmFdiSIPqdCmrIYTpSC/tr3U2fbrwxyPtE8hN3rVdSnFiBHg67w==
+X-Received: by 2002:a05:6214:2627:b0:880:5edf:d135 with SMTP id 6a1803df08f44-88176760434mr19773456d6.53.1762475742503;
+        Thu, 06 Nov 2025 16:35:42 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-880828f5b1csm29528776d6.21.2025.11.06.16.35.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 16:35:41 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vHAS5-00000007WOg-0nM1;
+	Thu, 06 Nov 2025 20:35:41 -0400
+Date: Thu, 6 Nov 2025 20:35:41 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+Subject: Re: [PATCH 2/2] iommupt: Describe @bitnr parameter
+Message-ID: <20251107003541.GA1792527@ziepe.ca>
+References: <20251106073845.36445-1-bagasdotme@gmail.com>
+ <20251106073845.36445-3-bagasdotme@gmail.com>
+ <9dba0eb7-6f32-41b7-b70b-12379364585f@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,107 +88,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9185D9EBE8F46715FD114A2989C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <9dba0eb7-6f32-41b7-b70b-12379364585f@infradead.org>
 
-> > > > > +- **wk**: Wakeup enable.
-> > > > > +
-> > > > > +  - 0: Disable wakeup from GPIO
-> > > > > +  - 1: Enable wakeup from GPIO
-> > > >
-> > > > What do you mean by wakeup?
-> > > >
-> > >
-> > > The gpio line can be enabled as an wakeup source for the system.
-> > 
-> > Keep going.....
-> > 
-> > Does that imply if none of the lines have wakeup enabled, the GPIO controller can
-> > be suspended when Linux suspends? How does the GPIO controller know it can
-> > suspend? There is no message for that. How does it know to come out of
-> > suspension?
-> > 
+On Thu, Nov 06, 2025 at 03:48:10PM -0800, Randy Dunlap wrote:
+> > diff --git a/drivers/iommu/generic_pt/pt_common.h b/drivers/iommu/generic_pt/pt_common.h
+> > index b5628f47e0db40..54c16355be2842 100644
+> > --- a/drivers/iommu/generic_pt/pt_common.h
+> > +++ b/drivers/iommu/generic_pt/pt_common.h
+> > @@ -354,6 +354,7 @@ static inline unsigned int pt_max_sw_bit(struct pt_common *common);
+> >  /**
+> >   * pt_test_sw_bit_acquire() - Read a software bit in an item
+> >   * @pts: Entry to set
+> > + * @bitnr: Bit to set
 > 
-> The power state of the remote GPIO controller is entirely managed by the remote firmware. 
-> The remote firmware operates as an independent system from Linux, with its own power states 
-> and policies for transitioning between modes. The wakeup field is solely intended to inform the 
-> remote firmware whether the GPIO line should be used as a wakeup source for the Linux system.
+> Shouldn't both of these (above) to "to read" instead of "to set"?
 
-O.K. How does the firmware use this information? How should it change
-its behaviour? 
+Yes, that's right, Bagas could you fold that into a v2?
 
-> > > > > +Notification Message
-> > > > > +--------------------
-> > > > > +
-> > > > > +Notifications are sent with **Type=2 (GPIO_RPMSG_NOTIFY)**:
-> > > > > +
-> > > > > +.. code-block:: none
-> > > > > +
-> > > > > +   +-----+-----+-----+-----+-----+-----------+-----+-----+-----+----+
-> > > > > +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05..0x09 |0x0A |0x0B |0x0C |0x0D|
-> > > > > +   | 5   | 1   | 0   | 2   | 0   |  0        |line |port | 0   | 0  |
-> > > > > +
-> > > > > + +-----+-----+-----+-----+-----+-----------+-----+-----+-----+---
-> > > > > + -+
-> > > > > +
-> > > > > +- **line**: The GPIO line index.
-> > > > > +- **port**: The GPIO controller index.
-> > > >
-> > > > There is no need to acknowledge the notification? How do level interrupts
-> > work?
-> > > >
-> > >
-> > > Currently, there is no need to acknowledge the message, as the
-> > > interrupt is managed entirely by the remote firmware. On the Linux
-> > > side, a single notification message is received when an interrupt is triggered.
-> > 
-> > That sounds broken.
-> > 
-> > A level interrupt is not cleared until the level changes. The typical flow is:
-> > 
-> > Interrupt fires.
-> > 
-> > Interrupt is masked
-> > 
-> > Interrupt handler is called, which reads/write registers in the device who pin is
-> > connected to the GPIO
-> > 
-> > Interrupt is unmasked
-> > 
-> 
-> The sequences you mentioned above are managed entirely by the remote firmware. On the Linux 
-> side, it only receives a notification message when a GPIO line is triggered, which then invokes the 
-> corresponding interrupt handler.
-> 
-> Since the interrupt handling sequences are implemented in the remote firmware, the Linux driver 
-> can treat level-triggered and edge-triggered types in the same manner.
-
-That is wrong. Edge and level are different and need different
-handling. That is why the GPIO framework and the interrupt core
-handles them differently.
-
-The devices i mostly deal with are Ethernet PHYs. These are level
-devices, the interrupt is active low. Within the PHY there are
-multiple interrupt sources, which all get logically NORed together to
-form the interrupt output line. Talking to the PHY over MDIO is
-slow. Sometimes you need to read multiple registers to find out what
-caused the interrupt and clear it. So your initial read suggests
-interrupt source Y triggered the interrupt. While you are clearing Y,
-source X becomes active. After you have cleared Y, the NORed interrupt
-line is still active, because of X. The interrupt handler exits, the
-IRQ core reenabled the interrupt, and you expect it to fire again so
-that you go handle source X. If it does not fire again, you have lost
-an interrupt, and potentially the hardware stops working.
-
-There are also other use cases of level interrupts. You sometimes see
-two PHY devices sharing one level interrupt. You get the same sort of
-race condition. PHY #1 pulls the interrupt low, triggering an
-interrupt. While handling it, PHY #2 also pulls it low. When the
-handler exits, it has only handled the interrupt from PHY #1. PHY #2
-is still pulling the interrupt low, and needs its handler calling. So
-it is required the interrupt fires again when it is re-enabled.
-
-Given the protocol you have defined, how do you tell the firmware that
-Linux has finished handling the interrupt, and it should notify Linux
-again if the interrupt is still active?
-
-	Andrew
+Jason
