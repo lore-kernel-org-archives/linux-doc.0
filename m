@@ -1,251 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE30184;
-	Fri,  7 Nov 2025 09:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C65F3016E8
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 09:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762507991; cv=none; b=Q2ShHkqdu/YM0/Zx3rJtp0SPZf7jDwa6I4LeruQYKybBj/1YuuLP0st6gM9YtLFFuv6jpevzwTazQxUb2DY6meosriglMvoF5Of+5afvrSPUJZwkI5C3r5mQLUDytM29FjD6byKYE9UkxXQ5sBzdV70CMSc7SOGZpkPha1NBE1c=
+	t=1762508137; cv=none; b=qvBu2/cjqinciAuxkQa4doeXh+LegiGfZ40hBLk0eLCZZvjWTyBPJrFEVGAEpeb+/j4F69YMLAD7DASU6vTT6tgAPsV+S3k7kLpUNNsqa0Z9dEkFRfwSK8bme+k4rOFQb8DYRG5tuzxp60HibynQzrgNBCfFZR75BrSLk6wetYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762507991; c=relaxed/simple;
-	bh=czy9XKo+XAdeYmdn7xB6rMbOWop0t7PmagLzJn7PDdM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s8jrmQxM9iglXwPDb3iWihWCGGIpcIEwwYcyNB8pq91nXiB0D/ykAT5qPEnfcRJ9Mw+vrGTJzZHWVKJmvrsetPQ9+fNJvxdvbJGLOp0SqrfofB2ANYWYqiyaFRgdADYjMtYFTfnY3nkZ+OGoFEUi1cP/4IC+9UO83QH3Rre3U8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHiaKIOc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762508137; c=relaxed/simple;
+	bh=NVoYWeVScpvJljXLBzL5Wf4kTXgRZIIu1lMlpYQfVSc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MhU5VF3AYIUs34d811FYAfnkydG5G4+oK2CpQVux8Sd8ulIAqnkCUDtfrqQSdHDpNzOyF0tmVCHelCow+olRsx3PXBlEcW2CuLlPJllA8GmC7p44peZwMzL3Fse91Bdb79gzTeBE1Suta4i2jVsdVtGcbiedwHwNLYIomjzR04s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pSXstW+t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHiaKIOc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537ABC19422;
-	Fri,  7 Nov 2025 09:33:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pSXstW+t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E55C2BCC9
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 09:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762507988;
-	bh=czy9XKo+XAdeYmdn7xB6rMbOWop0t7PmagLzJn7PDdM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QHiaKIOcpqO3o02nXVQExIBnVDDnAJ9G7F0+zfXE5LPNlsC837Z9yxAaI2JU3j3+m
-	 an6tYmelTNB68rFzUKIQYYTXLxH3EMQM6p+Txwa8oDo16UJZGk56r8jKPQwGCULXK2
-	 zqMzfZZ8iFHm01E73BiYHUxQMUNM/Ruru4PlHDX5m9fNxqphxfS/xZwmX38JcovBGm
-	 TBK/9iON4oLJFtcjZlccHBqXslXowStjRyEGFbEMU1+iYWMMiZ5PkzQJFmPx7imrp9
-	 gqa+LVNFfl5F6MSpAYF6YVH5DwvSVGixepf4UuiiMRuq0tO6yLYXg2/1wiA2AjVheP
-	 nTGOJSkA3GvXw==
-From: Amit Shah <amit@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org
-Cc: amit.shah@amd.com,
-	thomas.lendacky@amd.com,
-	bp@alien8.de,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	pawan.kumar.gupta@linux.intel.com,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com,
-	sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com,
-	Babu.Moger@amd.com,
-	david.kaplan@amd.com,
-	dwmw@amazon.co.uk,
-	andrew.cooper3@citrix.com
-Subject: [PATCH v6 1/1] x86: kvm: svm: set up ERAPS support for guests
-Date: Fri,  7 Nov 2025 10:32:39 +0100
-Message-ID: <20251107093239.67012-2-amit@kernel.org>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251107093239.67012-1-amit@kernel.org>
-References: <20251107093239.67012-1-amit@kernel.org>
+	s=k20201202; t=1762508136;
+	bh=NVoYWeVScpvJljXLBzL5Wf4kTXgRZIIu1lMlpYQfVSc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pSXstW+tV1+e3bw+twL5rAupw7PovWLXTzkJAa96tHzryOSK/t/aGkvb4X29IiXPs
+	 OnrLAYMOEtRiAxwasguwdGQ/9Z+VQvqXfXpSF7q7GKbEuXfpZCc9SrYshHAPLyiN9q
+	 uRNjB2s2a5hx+19o0ZrCpA5mLDIZB8YEClSSoGB//EPdIPaDQcSjyiejpk8gDaNbef
+	 hWiX6OWRIYcQ6SJC6WHkTxbyQNgQjKoxC/6DHLA8Abqo8QMuZq2EYXJ8Y+2BrTIXQv
+	 8YyS5JPXzG5rGEucX6RwQdYBb9KEvd0PCkayZBchthcLf8AfjkE8itihxtxvupYW4j
+	 lr9biLTwfDUeg==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-592ff1d80feso593587e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 01:35:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU902Cc6qCgg+jEM/eeIuUgJZMoMsh/N0WMYyHMOPpTz6qu1Er1tY6KEYjILn5COl4wxPpVavPhPgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBeZ7U/TorXs2Ix0HJxN8/019iZuvoq/ibsRiBVnF+V13g03Yy
+	VQvxkC3w6kmKeI04TsSCUCC1AAxtR+YZgzJbeqUKP8TJF3NYfTHUpTKHkAdeMvT0cVRConRJI8d
+	qwPAP83vhwfzKXdTlJaH+QA2ccQoNsc8=
+X-Google-Smtp-Source: AGHT+IFNQTFCA/If05U//klZPRIABmvrEFu/spwRoc1T0DLKjKQBGpzpC/PyVvPCfqBylErtA6cu84fbj48MkbPUHWk=
+X-Received: by 2002:a05:6512:224e:b0:592:f773:3cc2 with SMTP id
+ 2adb3069b0e04-59456ba0c0bmr666085e87.43.1762508134566; Fri, 07 Nov 2025
+ 01:35:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-6-sohil.mehta@intel.com> <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
+ <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com> <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
+ <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com> <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
+ <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
+ <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com> <1962E702-8F75-4137-9000-A607E164914B@zytor.com>
+In-Reply-To: <1962E702-8F75-4137-9000-A607E164914B@zytor.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 7 Nov 2025 10:35:23 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFLi2RP0kH3Aaqy038g+_AsS8V8DMbCBbHE_NSuKeU4Fw@mail.gmail.com>
+X-Gm-Features: AWmQ_bnPEGbCSGnTnfDtgbCWL60niCWxl9ZyqdISDzphBDZ9ZWJOyOwDsRHt1Pc
+Message-ID: <CAMj1kXFLi2RP0kH3Aaqy038g+_AsS8V8DMbCBbHE_NSuKeU4Fw@mail.gmail.com>
+Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
+ runtime services
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Dave Hansen <dave.hansen@intel.com>, 
+	Sohil Mehta <sohil.mehta@intel.com>, Andy Lutomirski <luto@kernel.org>, 
+	"the arch/x86 maintainers" <x86@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>, 
+	Sean Christopherson <seanjc@google.com>, Rick P Edgecombe <rick.p.edgecombe@intel.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, linux-doc@vger.kernel.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Amit Shah <amit.shah@amd.com>
+On Fri, 7 Nov 2025 at 10:27, H. Peter Anvin <hpa@zytor.com> wrote:
+>
+> On November 7, 2025 1:22:30 AM PST, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >On Fri, 7 Nov 2025 at 10:04, Peter Zijlstra <peterz@infradead.org> wrote:
+> >>
+> >> On Fri, Oct 31, 2025 at 11:12:53AM -0700, Dave Hansen wrote:
+> >>
+> >> > But there's a pretty broad set of things that are for "security" that
+> >> > aren't necessary while you're just running trusted ring0 code:
+> >> >
+> >> >  * SMAP/SMEP
+> >> >  * CR pinning itself
+> >> >  * MSR_IA32_SPEC_CTRL
+> >> >  * MSR_IA32_TSX_CTRL
+> >> >
+> >> > They just haven't mattered until now because they don't have any
+> >> > practical effect until you actually have code running on _PAGE_USER
+> >> > mappings trying to attack the kernel.
+> >>
+> >> But that's just the thing EFI is *NOT* trusted! We're basically
+> >> disabling all security features (not listed above are CET and CFI) to
+> >> run this random garbage we have no control over.
+> >>
+> >> How about we just flat out refuse EFI runtime services? What are they
+> >> actually needed for? Why are we bending over backwards and subverting
+> >> our security for this stuff?
+> >
+> >On x86, it is mostly the EFI variable services that user space has
+> >come to rely on, not only for setting the boot path (which typically
+> >happens only once at installation time, when the path to GRUB is set
+> >as the first boot option). Unfortunately, the systemd folks have taken
+> >a liking to this feature too, and have started storing things in
+> >there.
+> >
+> >There is also PRM, which is much worse, as it permits devices in the
+> >ACPI namespace to call firmware routines that are mapped privileged in
+> >the OS address space in the same way. I objected to this at the time,
+> >and asked for a facility where we could at least mark such code as
+> >unprivileged (and run it as such) but this was ignored, as Intel and
+> >MS had already sealed the deal and put this into production. This is
+> >much worse than typical EFI routines, as the PRM code is ODM/OEM code
+> >rather than something that comes from the upstream EFI implementation.
+> >It is basically a dumping ground for code that used to run in SMM
+> >because it was too ugly to run anywhere else. </rant>
+> >
+> >It would be nice if we could
+> >
+> >a) Get rid of SetVirtualAddressMap(), which is another insane hack
+> >that should never have been supported on 64-bit systems. On arm64, we
+> >no longer call it unless there is a specific need for it (some Ampere
+> >Altra systems with buggy firmware will crash otherwise). On x86,
+> >though, it might be tricky because there so much buggy firmware.
+> >Perhaps we should phase it out by checking for the UEFI version, so
+> >that future systems will avoid it. This would mean, however, that EFI
+> >code remains in the low user address space, which may not be what you
+> >want (unless we do c) perhaps?)
+> >
+> >b) Run EFI runtime calls in a sandbox VM - there was a PoC implemented
+> >for arm64 a couple of years ago, but it was very intrusive and the ARM
+> >intern in question went on to do more satisyfing work.
+> >
+> >c) Unmap the kernel KPTI style while the runtime calls are in
+> >progress? This should be rather straight-forward, although it might
+> >not help a lot as the code in question still runs privileged.
+>
+> Firmware update is a big one.
 
-AMD CPUs with the Enhanced Return Address Predictor (ERAPS) feature
-Zen5+) obviate the need for FILL_RETURN_BUFFER sequences right after
-VMEXITs.  The feature adds guest/host tags to entries in the RSB (a.k.a.
-RAP).  This helps with speculation protection across the VM boundary,
-and it also preserves host and guest entries in the RSB that can improve
-software performance (which would otherwise be flushed due to the
-FILL_RETURN_BUFFER sequences).  This feature also extends the size of
-the RSB from the older standard (of 32 entries) to a new default
-enumerated in CPUID leaf 0x80000021:EBX bits 23:16 -- which is 64
-entries in Zen5 CPUs.
-
-The hardware feature is always-on, and the host context uses the full
-default RSB size without any software changes necessary.  The presence
-of this feature allows software (both in host and guest contexts) to
-drop all RSB filling routines in favour of the hardware doing it.
-
-There are two guest/host configurations that need to be addressed before
-allowing a guest to use this feature: nested guests, and hosts using
-shadow paging (or when NPT is disabled):
-
-1. Nested guests: the ERAPS feature adds host/guest tagging to entries
-   in the RSB, but does not distinguish between the guest ASIDs.  To
-   prevent the case of an L2 guest poisoning the RSB to attack the L1
-   guest, the CPU exposes a new VMCB bit (CLEAR_RAP).  The next
-   VMRUN with a VMCB that has this bit set causes the CPU to flush the
-   RSB before entering the guest context.  Set the bit in VMCB01 after a
-   nested #VMEXIT to ensure the next time the L1 guest runs, its RSB
-   contents aren't polluted by the L2's contents.  Similarly, before
-   entry into a nested guest, set the bit for VMCB02, so that the L1
-   guest's RSB contents are not leaked/used in the L2 context.
-
-2. Hosts that disable NPT: the ERAPS feature flushes the RSB entries on
-   several conditions, including CR3 updates.  Emulating hardware
-   behaviour on RSB flushes is not worth the effort for NPT=off case,
-   nor is it worthwhile to enumerate and emulate every trigger the
-   hardware uses to flush RSB entries.  Instead of identifying and
-   replicating RSB flushes that hardware would have performed had NPT
-   been ON, do not let NPT=off VMs use the ERAPS features.
-
-This patch to KVM ensures both those caveats are addressed, and sets the
-new ALLOW_LARGER_RAP VMCB bit that allows the CPU to operate with ERAPS
-enabled in guest contexts.
-
-This feature is documented in AMD APM Vol 2 (Pub 24593), in revisions
-3.43 and later.
-
-Signed-off-by: Amit Shah <amit.shah@amd.com>
----
- arch/x86/include/asm/cpufeatures.h |  1 +
- arch/x86/include/asm/svm.h         |  6 +++++-
- arch/x86/kvm/cpuid.c               |  8 +++++++-
- arch/x86/kvm/svm/nested.c          |  6 ++++++
- arch/x86/kvm/svm/svm.c             | 11 +++++++++++
- 5 files changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 4091a776e37a..edc76a489aae 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -467,6 +467,7 @@
- #define X86_FEATURE_GP_ON_USER_CPUID	(20*32+17) /* User CPUID faulting */
- 
- #define X86_FEATURE_PREFETCHI		(20*32+20) /* Prefetch Data/Instruction to Cache Level */
-+#define X86_FEATURE_ERAPS		(20*32+24) /* Enhanced Return Address Predictor Security */
- #define X86_FEATURE_SBPB		(20*32+27) /* Selective Branch Prediction Barrier */
- #define X86_FEATURE_IBPB_BRTYPE		(20*32+28) /* MSR_PRED_CMD[IBPB] flushes all branch type predictions */
- #define X86_FEATURE_SRSO_NO		(20*32+29) /* CPU is not affected by SRSO */
-diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
-index 17f6c3fedeee..d4602ee4cf1f 100644
---- a/arch/x86/include/asm/svm.h
-+++ b/arch/x86/include/asm/svm.h
-@@ -131,7 +131,8 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- 	u64 tsc_offset;
- 	u32 asid;
- 	u8 tlb_ctl;
--	u8 reserved_2[3];
-+	u8 erap_ctl;
-+	u8 reserved_2[2];
- 	u32 int_ctl;
- 	u32 int_vector;
- 	u32 int_state;
-@@ -182,6 +183,9 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- #define TLB_CONTROL_FLUSH_ASID 3
- #define TLB_CONTROL_FLUSH_ASID_LOCAL 7
- 
-+#define ERAP_CONTROL_ALLOW_LARGER_RAP BIT(0)
-+#define ERAP_CONTROL_CLEAR_RAP BIT(1)
-+
- #define V_TPR_MASK 0x0f
- 
- #define V_IRQ_SHIFT 8
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 52524e0ca97f..93934d4f8f11 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -1795,8 +1795,14 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
- 		entry->eax = entry->ebx = entry->ecx = entry->edx = 0;
- 		break;
- 	case 0x80000021:
--		entry->ebx = entry->edx = 0;
-+		entry->edx = 0;
- 		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
-+
-+		if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
-+			entry->ebx &= GENMASK(23, 16);
-+		else
-+			entry->ebx = 0;
-+
- 		cpuid_entry_override(entry, CPUID_8000_0021_ECX);
- 		break;
- 	/* AMD Extended Performance Monitoring and Debug */
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index a6443feab252..de51595e875c 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -869,6 +869,9 @@ static void nested_vmcb02_prepare_control(struct vcpu_svm *svm,
- 		}
- 	}
- 
-+	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
-+		vmcb02->control.erap_ctl |= ERAP_CONTROL_CLEAR_RAP;
-+
- 	/*
- 	 * Merge guest and host intercepts - must be called with vcpu in
- 	 * guest-mode to take effect.
-@@ -1164,6 +1167,9 @@ int nested_svm_vmexit(struct vcpu_svm *svm)
- 
- 	kvm_nested_vmexit_handle_ibrs(vcpu);
- 
-+	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
-+		vmcb01->control.erap_ctl |= ERAP_CONTROL_CLEAR_RAP;
-+
- 	svm_switch_vmcb(svm, &svm->vmcb01);
- 
- 	/*
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 153c12dbf3eb..ff110a1fb5f0 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -1147,6 +1147,9 @@ static void init_vmcb(struct kvm_vcpu *vcpu, bool init_event)
- 		svm_clr_intercept(svm, INTERCEPT_PAUSE);
- 	}
- 
-+	if (kvm_cpu_cap_has(X86_FEATURE_ERAPS) && npt_enabled)
-+		svm->vmcb->control.erap_ctl |= ERAP_CONTROL_ALLOW_LARGER_RAP;
-+
- 	if (kvm_vcpu_apicv_active(vcpu))
- 		avic_init_vmcb(svm, vmcb);
- 
-@@ -3267,6 +3270,7 @@ static void dump_vmcb(struct kvm_vcpu *vcpu)
- 	pr_err("%-20s%016llx\n", "tsc_offset:", control->tsc_offset);
- 	pr_err("%-20s%d\n", "asid:", control->asid);
- 	pr_err("%-20s%d\n", "tlb_ctl:", control->tlb_ctl);
-+	pr_err("%-20s%d\n", "erap_ctl:", control->erap_ctl);
- 	pr_err("%-20s%08x\n", "int_ctl:", control->int_ctl);
- 	pr_err("%-20s%08x\n", "int_vector:", control->int_vector);
- 	pr_err("%-20s%08x\n", "int_state:", control->int_state);
-@@ -4321,6 +4325,9 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu, u64 run_flags)
- 	}
- 
- 	svm->vmcb->control.tlb_ctl = TLB_CONTROL_DO_NOTHING;
-+	if (cpu_feature_enabled(X86_FEATURE_ERAPS))
-+		svm->vmcb->control.erap_ctl &= ~ERAP_CONTROL_CLEAR_RAP;
-+
- 	vmcb_mark_all_clean(svm->vmcb);
- 
- 	/* if exit due to PF check for async PF */
-@@ -5265,6 +5272,10 @@ static __init void svm_set_cpu_caps(void)
- 	/* CPUID 0x8000001F (SME/SEV features) */
- 	sev_set_cpu_caps();
- 
-+	/* CPUID 0x80000021 */
-+	if (npt_enabled)
-+		kvm_cpu_cap_check_and_set(X86_FEATURE_ERAPS);
-+
- 	/*
- 	 * Clear capabilities that are automatically configured by common code,
- 	 * but that require explicit SVM support (that isn't yet implemented).
--- 
-2.51.1
-
+Firmware update does not run under the OS.
