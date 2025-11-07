@@ -1,214 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFB313C3F2
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 10:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD192BE034
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 10:17:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762510560; cv=none; b=Acm69w6B7U7iQZFytTA/stOWOPDkeDf9R7NxU2wRN/0GcwTljSFsd+Vh12bURXJ4akxZTmIXEYMw1HNCX6pPQwEDSztbUpgod+BOTNWanzxyLiMaByPmNymI0lDy7ps++52iUBPlUzDXMQTpQfR32mtvHI/DJb6tJeHIILVqcOc=
+	t=1762510659; cv=none; b=k0H1SZcq4oXX2Rs7qWmCABy1DaWlwK8il3RDcm7PbOmDLfKsdVquhV5VPt7HCwqqbzFT9agnC4MiH0H0PnjOpvAzG3vVrtSU2AtrR7aTh3OlNy02b/thIYoTv1S7FjjQP+0rmQ5K+8hufbukKM8NNqcJ4VqR7JJVkGMd4GxkpgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762510560; c=relaxed/simple;
-	bh=mtHLSYf8mCOpUbx+impJZMLhXN/HhFlL6XyG0FM59kA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S7ohJ4kF+6P8zZRdFRA/59qUQPnbebzg4tb/GLNN9lwJkvd9xjeEiIh57y5iYeHc6VDooclaoz6eF+5Uj4/5psmdU539AWYasViRp5nWb9R5b3FTCUaPTpeluBbyVix+pZM2V3/oqzv0iVRZA+G5PXgyhyjxI7lv20U7G+rgSO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRvLo7FL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762510659; c=relaxed/simple;
+	bh=arlVfPdYe3UiKIacT71hJyo52FEEmenfhFoMLnTXSxg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pHuAkjltwC8DW3aHzM//WEbTplLHbxAUllalGAWpg3lTnCZDlDRN1xBA/Kn0x7lDuyAiFLV7k5hQHceyL4LHwMQwszejLVv3t0Iuxk8d1lmBTH+VUV6z9e4XEZsLCcFMZZJ9OibXwGz107Bi3tZTGXGMckKJNSiT8lkD0F7StkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKvIDht7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRvLo7FL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BFACC4CEF7;
-	Fri,  7 Nov 2025 10:15:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKvIDht7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DC9EC116C6
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 10:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762510560;
-	bh=mtHLSYf8mCOpUbx+impJZMLhXN/HhFlL6XyG0FM59kA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GRvLo7FLgt3RY5HB5P2u3+5O95H4UVnCD56Ym04EEsT+rTg7Ql2s6WORN8keKoy4m
-	 Jiu9+1GYNxBjd2v5F5y7kX6mX1qlhVW72urE7H68yM4HYP8GjX46zqDTCYXa65iWAw
-	 BaaEnW3NaYZdJNjOTbfU5X7Dz2Pvhf9CuGlcXa7kZsHYo5cw7BJCfzDHULm4cjXODs
-	 yioi7910pC0U9yg0ZbKkOHCmWVAWQzUTx781K8V9bNASD90QXNdsq6tSfSOQEvaCRW
-	 AvKnDRUm5V4cgrVufKI0HICWLzDWNt6i07uDWBaSAvDp7SvGWnEjVr+qRRLR2uNEhj
-	 XvEaqRZCoYaDA==
-Date: Fri, 7 Nov 2025 07:15:56 -0300
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: about make mandocs warnings
-Message-ID: <20251107071556.7e2b8f96@sal.lan>
-In-Reply-To: <af5d13a3-54ae-443b-bcc4-0b7de2f29ff0@infradead.org>
-References: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
-	<20251026085906.2d7e1d70@sal.lan>
-	<af5d13a3-54ae-443b-bcc4-0b7de2f29ff0@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1762510659;
+	bh=arlVfPdYe3UiKIacT71hJyo52FEEmenfhFoMLnTXSxg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YKvIDht7l4oVHTr7yJEvsNIsb6BKJ3Q54wIifctbIk2EbgxotNt3ffPiqiNncuub0
+	 XR76U/PZPV76GMSz6xsvjB30wuQL5sOH7pY2aC70OEoTRomaAV1cOheaqZufrvggXI
+	 pM2Sl+2Ds3hS4TTWARTssK3+qY/cOKhDwRjbLGgNab0USzt+xu4oqdwsnKOTEoZ8yE
+	 QKbu6E0Cc3Dok0IZ8hM9NuTa7qtA+YPBL45qVB4kRr34Itj9Qe4ERQY5SNNNzZh304
+	 qggnqVtkudivimbpGnKG+r3q3gYEpN0tIvjn+FwY9qAjaPABGYyvV7xD8nUCN2YY6u
+	 tJWZ6qfVJGUuQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-591c74fd958so576234e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 02:17:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXChm3zfj1ALQ2JqqY1sy2DGp8lBj7bTeDiCxCJQLVgrLANxUUwQmN2y1pmmMFI/lPnPWJ+yoslC60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQOOfxNLYRHrVMaV4FmhOMQhOdkxUR+1oKU0n6nIWWZ9tppe5t
+	2RddGiba6h6iSsXXfuhDeSMSACYy6yVtrqX3tV/IWIZolpKKKVMvKxNSKih2hwI7A/UTGfbzxRH
+	BOEX/0eIfgUubojrqJUJn7Y7Myn7eiUk=
+X-Google-Smtp-Source: AGHT+IE/XYYxpOEX/Z7mBSZkdLHtJSOaW05OPzavoiOdoVqrUeqP4sb22fq75J96c7knabnGnpYkV8NFT+EOwV21q0U=
+X-Received: by 2002:a05:6512:114b:b0:58a:f865:d7a6 with SMTP id
+ 2adb3069b0e04-59456ba0021mr819044e87.48.1762510657742; Fri, 07 Nov 2025
+ 02:17:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-6-sohil.mehta@intel.com> <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
+ <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com> <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
+ <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com> <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
+ <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
+ <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com> <20251107101003.GB1618871@noisy.programming.kicks-ass.net>
+In-Reply-To: <20251107101003.GB1618871@noisy.programming.kicks-ass.net>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 7 Nov 2025 11:17:26 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHFQYN8QF5Sd4ObsCziM-0gitGS5D1S1qCscKpQaZVDLA@mail.gmail.com>
+X-Gm-Features: AWmQ_bnMcv5ykNOoKNY2OE119Vgn62Zu9BQlLgx3zSXeTiu2CQ91Pez_S2fCPXA
+Message-ID: <CAMj1kXHFQYN8QF5Sd4ObsCziM-0gitGS5D1S1qCscKpQaZVDLA@mail.gmail.com>
+Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI
+ runtime services
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>, 
+	Sean Christopherson <seanjc@google.com>, Rick P Edgecombe <rick.p.edgecombe@intel.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, linux-doc@vger.kernel.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Em Sun, 26 Oct 2025 09:43:34 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+On Fri, 7 Nov 2025 at 11:10, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Fri, Nov 07, 2025 at 10:22:30AM +0100, Ard Biesheuvel wrote:
+>
+> > There is also PRM, which is much worse, as it permits devices in the
+> > ACPI namespace to call firmware routines that are mapped privileged in
+> > the OS address space in the same way. I objected to this at the time,
+> > and asked for a facility where we could at least mark such code as
+> > unprivileged (and run it as such) but this was ignored, as Intel and
+> > MS had already sealed the deal and put this into production. This is
+> > much worse than typical EFI routines, as the PRM code is ODM/OEM code
+> > rather than something that comes from the upstream EFI implementation.
+> > It is basically a dumping ground for code that used to run in SMM
+> > because it was too ugly to run anywhere else. </rant>
+>
+> 'https://uefi.org/sites/default/files/resources/Platform Runtime Mechanism - with legal notice.pdf'
+>
+> Has on page 16, section 3.1:
+>
+>   8. PRM handlers must not contain any privileged instructions.
+>
+> So we should be able to actually run this crap in ring3, right?
 
-> Hi Mauro,
-> 
-> On 10/26/25 4:59 AM, Mauro Carvalho Chehab wrote:
-> > Em Sat, 25 Oct 2025 16:49:21 -0700
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> >   
-> >> Hi Mauro,
-> >>
-> >>
-> >> 'make mandocs' on the full kernel tree generates a little over 10,000
-> >> lines of Warning:s.  Then it says:
-> >>   Warning: kernel-doc returned 138 warnings
-> >>
-> >> What does that number mean?  
-> > 
-> > Basically, at kdoc_files, we have:
-> > 
-> >     def warning(self, msg):
-> >         """Ancillary routine to output a warning and increment error count"""
-> > 
-> >         self.config.log.warning(msg)
-> >         self.errors += 1
-> > 
-> >     def error(self, msg):
-> >         """Ancillary routine to output an error and increment error count"""
-> > 
-> >         self.config.log.error(msg)
-> >         self.errors += 1
-> > 
-> > And kernel-doc itself exits with:
-> > 
-> > 	error_count = kfiles.errors
-> > 	sys.exit(error_count)  
-> 
-> Oh, the warnings message comes from sphinx-build-wrapper.
-> 
-> > I guess the problem here is that POSIX exit codes are 8 bits only, so
-> > it ends reporting a wrong number of errors. Not sure what would be the
-> > best way to fix it.  
-> 
-> and it's modulo 256, so exiting with 256 looks like exiting with 0.
-> Maybe just limit the number of warnings reported to 255 if it is > 255,
-> with a note in the source code.
-> 
-> >> kernel-doc is doing a very good job at finding issues in kernel-doc
-> >> notation, but there are a few cases of erroneous reporting. These are not
-> >> numerous and may not be worth much effort to fix them, although
-> >> some of them should not take much effort (I think). But I am just
-> >> reporting these in case someone wants to fix them.
-> >>
-> >>
-> >> Examples:
-> >>
-> >> Warning: drivers/misc/vmw_balloon.c:259 struct member '5' not described in 'vmballoon_batch_entry'
-> >> "5" is part of an expression "PAGE_SHIFT - 5" for number of bits in a bitfield:
-> >> struct vmballoon_batch_entry {
-> >> 	u64 status : 5;
-> >> 	u64 reserved : PAGE_SHIFT - 5;
-> >> 	u64 pfn : 52;
-> >> } __packed;  
-> > 
-> > Fixing this one could be tricky, if we want to allow math expressions 
-> > at the regex, but sounds doable.
-> >   
-> >>
-> >> Warning: net/netfilter/nft_set_pipapo.h:102 union member '32' not described in 'nft_pipapo_map_bucket'
-> >> "32" is part of a static_assert() expression. Probably just
-> >> ignore the entire static_assert() [any number of lines].  
-> > 
-> > Yeah.
-> >   
-> >> Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_restart            (*__private function)(struct hrtimer *)
-> >> Warning: include/linux/hrtimer_types.h:47 struct member 'enum hrtimer_restart            (*__private function' not described in 'hrtimer'
-> >> "__private" is an attribute from <linux/compiler_types.h> and the
-> >> struct member here should be "function", which is described.
-> >>
-> >>
-> >> Warning: include/linux/rethook.h:38 Invalid param: void (__rcu *handler) (struct rethook_node *, void *, unsigned long, struct pt_regs *)
-> >> Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' not described in 'rethook'
-> >> "__rcu" is an attribute from <linux/compiler_types.h> and the
-> >> struct member here is "handler", which is described.
-> >>
-> >> Warning: security/ipe/hooks.c:54 function parameter '__always_unused' not described in 'ipe_mmap_file'
-> >> Warning: security/ipe/hooks.c:82 function parameter '__always_unused' not described in 'ipe_file_mprotect'
-> >> "__always_unused" is an attribute from <linux/compiler_attributes.h>.
-> >>  
-> > 
-> > Probably all we need for the above is to add one line for each,
-> > to ignore the above macros.
-> >   
-> >>
-> >> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent1)[LANDLOCK_NUM_ACCESS_FS]
-> >> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent1' not described in 'is_access_to_paths_allowed'
-> >> Warning: security/landlock/fs.c:765 Invalid param: layer_mask_t (*const layer_masks_parent2)[LANDLOCK_NUM_ACCESS_FS]
-> >> Warning: security/landlock/fs.c:765 function parameter 'layer_mask_t (*const layer_masks_parent2' not described in 'is_access_to_paths_allowed'
-> >> @layer_masks_parent1 and @layer_masks_parent2 are described in kernel-doc.
-> >>
-> >> Warning: security/landlock/fs.c:1142 Invalid param: layer_mask_t (*const layer_masks_dom)[LANDLOCK_NUM_ACCESS_FS]
-> >> Warning: security/landlock/fs.c:1142 function parameter 'layer_mask_t (*const layer_masks_dom' not described in 'collect_domain_accesses'
-> >> @layer_masks_dom is described in kernel-doc.
-> >>
-> >>
-> >> Warning: security/landlock/ruleset.c:210 Invalid param: const struct landlock_layer (*const layers)[]
-> >> Warning: security/landlock/ruleset.c:210 function parameter 'const struct landlock_layer (*const layers' not described in 'insert_rule'
-> >> @layers is described in kernel-doc.
-> >>
-> >> Warning: security/landlock/ruleset.c:693 Invalid param: layer_mask_t (*const layer_masks)[]
-> >> Warning: security/landlock/ruleset.c:693 function parameter 'layer_mask_t (*const layer_masks' not described in 'landlock_init_layer_masks'
-> >> @layer_masks is described in kernel-doc.  
-> > 
-> > These would require some extra logic - or a fix at an existing one - to 
-> > better handle parenthesis on arguments.
-> >   
-> >> Note: hundreds (probably thousands) of the mandocs warnings would disappear
-> >> if kernel-doc accepted '-' in addition to ':' as a function parameter
-> >> or struct/union/enum member separator (like it does for
-> >> function/struct/union/enum short description).  
-> > 
-> > This is easy to fix, and QEMU has a patch mentioning what is needed
-> > at:
-> > 	9cbe72b868b7 ("scripts/kernel-doc: tweak for QEMU coding standards")
-> > 
-> > on its description: basically two regexes from Perl code would need changes:
-> > 
-> >         -       if (/\s*([\w\s]+?)(\(\))?\s*-/) {
-> >         +       if (/\s*([\w\s]+?)(\s*-|:)/) {
-> > 
-> > and:
-> >         -       if (/-(.*)/) {
-> >         +       if (/[-:](.*)/) {
-> > 
-> > If I'm not mistaken, I got rid of the second regex during rewrite,
-> > but I might be wrong. If I recall correctly, with Python code, the
-> > change would be aon a single place at scripts/lib/kdoc/kdoc_parser.py:
-> > 
-> > 	doc_sect = doc_com + \
-> > -	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
-> > +	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*[:-]([^:].*)?$',
-> > 	           flags=re.I, cache=False)
-> > 
-> > btw, the [^:] pattern there seems to be trying to avoid catching
-> > "::". With the new proposed regex, and if "::" is something that we
-> > need to avoid, if one uses "-:", it would miss the description. 
-> > I guess that's ok.
-> > 
-> > From my side, I'm OK with the new regex, but one has to verify if
-> > this won't cause unwanted side-effects.  
-> 
-> Yes, for sure. I'm willing to do some testing on a patch.
-> Should I begin with the KernRe() change above?
+How interesting! This wasn't in the draft that I reviewed at the time,
+so someone did listen.
 
-Yes.
-
-> Thanks for your comments.
-
-Anytime.
-
-(sorry for not answering earlier... was in OOT solving some stuff
-abroad)
-
-Regards,
-Mauro
+So it does seem feasible to drop privileges and reacquire them in
+principle, as long as we ensure that all the memory touched by the PRM
+services (stack, code, data, MMIO regions) is mapped appropriately in
+the EFI memory map.
