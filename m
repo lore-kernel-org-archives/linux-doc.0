@@ -1,96 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF7331A73;
-	Fri,  7 Nov 2025 20:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA042192EE;
+	Fri,  7 Nov 2025 21:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762548328; cv=none; b=Sam47r3Y7EDVDximOm9GfLFGEIqZz9x5JF7fGISVvWk614kirlMm1gTbUb5vtO5rOQ5JqZKKVU0QFjo1LgUjNRJzzVmsM7CX7BRpTbmuecq4UFqqSpfSr1BGOcPNVpyaHUYYqRFgacOFVy9EVh2Nuv5H7bKT9Zkww4p606MUgik=
+	t=1762549458; cv=none; b=T1rvXS4Axf/hZIELRwKsAbrPmjV05F7N6/yCRcMX6g7Spu7TWKxvh6xPuZGRU2585mK5CWwXiLgObpGQwjA8MfHoJF+kpDlgaDArgafLDPCLtjqoh6DqE1XCIcNFean6qFe06eNg7xhLKPdE/ZV3Cy5D9ZBcy3KPaLtiMfWkXKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762548328; c=relaxed/simple;
-	bh=XV5vMD5mhNb8S3bVYhpguDXmejXTv6xbJBbd8aUKog0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GkPYg/hLDXz6v9lfZn8Q4RYkfj5PRxxLAynjhSODnyiYeR1P1woSUC+9iW0XacGWW7jiorFkd3Yb+VkDRxQyyspYSrXoN0VLkFrNaEiInJuqb1QEWHUQAH5I5u91P96HALXRz1dqzSg9NgGBjhn+xDjZvkQXIsmrLB9Y6zIti98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZTKNRUF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762549458; c=relaxed/simple;
+	bh=hulFR/wfHQsXHq6CbTv9sLqKTNZSwjtk8LlSyJoOR1c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YeSoHi6yP4Bi015CD2B/FNkJqoohaYNUhcFU8NVtLflVmE0eOnbB/Vh8HZvIN+HkRSl7JRKomUEkuqtwm5wkMDYSWKOq0crbGcMdaiT1ma3t3h6pLCAyYjsmZKeC6IOjsfUkctjJUTP93cWBpDsV1pRxatamj14Wwa3vMt6k3pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fGUfa0xH; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZTKNRUF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADCBBC4CEF5;
-	Fri,  7 Nov 2025 20:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762548328;
-	bh=XV5vMD5mhNb8S3bVYhpguDXmejXTv6xbJBbd8aUKog0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BZTKNRUF2rFxDqT+8yy2Cq1oC4F9HOzEulZYRlYOfvd+VsRTSsx5ziDYnP+rK7CMY
-	 QYfQjvrZhK5x3UYMAq8v7TgZpRy4UY075HNF88ogiPMycb20yCtZ933bnKKopmxmJp
-	 DI3/U3YyYoL1m7/iFIlkhynYzogF04RGXA1nF970KawR7fvsTbL3DsO4wynKJ+D+/a
-	 i6OeqlLlIe7ZnFKLKylSQKigmcXSz9da5C/hIuO17BxemuaYej3/ugNLqEhtfIaMkn
-	 EqczKvfFGuJKYa87vuv3R6PNC3EJyZNxm/lBk6EAEUVwTjDBhGYuljzf1GDwrVhPpp
-	 9PW1urkiVnHkA==
-Date: Fri, 7 Nov 2025 21:45:23 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jean Delvare <jdelvare@suse.de>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor
- <nathan@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>,
- linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas.schier@linux.dev>
-Subject: Re: [PATCH] Makefile: Let kernel-doc.py use PYTHON3 override
-Message-ID: <20251107214523.50648778@foz.lan>
-In-Reply-To: <20251107192624.78b8a8cf@endymion>
-References: <20251103131419.5e504ae2@endymion>
-	<20251103185609.GB672460@ax162>
-	<c0e4a0b0-b7c9-491b-ada3-74945fb2e3d9@infradead.org>
-	<20251107071342.52ed6437@sal.lan>
-	<20251107192624.78b8a8cf@endymion>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fGUfa0xH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IFphuwdJYAwoFSKk7Q8HmR3Cwo+6wVH8aALTdLHvqrM=; b=fGUfa0xH88pMz7s5W8n0WS/oko
+	vaQ7wJ+MnQ5uAwNozCHk571ULFNMrS6ofWBzhHXKl3aeIu7uzHhZT4SQQK8+SlzeA6/NJIK0qM9Yf
+	AD0J03nzFPLBm8VyG5ZeJ8KSpbRRTge1EufP9Xmx+fYvZw8Ch516AV297PL37uoXP6nFPh+dnWTyr
+	5Rak+0HRMQVuhmtBb9dQWv8U34roq9fgkKvp4f7a0GwkeUaGe/8Otb8FUSCtfuvkfdQjmRgu5dcny
+	SjWXPZXENwyvj+CpAFnZky4pKPqewL4seZ6qY0jbzUkVrdqFFMTDoTgVoRI/JzRAwhPPhsL+PW9Lx
+	kYruC1zg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vHTd0-000000014n9-1ncB;
+	Fri, 07 Nov 2025 21:04:14 +0000
+Message-ID: <9d709020-03fe-467c-be7f-d5ee251bb79a@infradead.org>
+Date: Fri, 7 Nov 2025 13:04:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs: doc-guide: parse-headers.rst update its
+ documentation
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Yanteng Si <si.yanteng@linux.dev>,
+ linux-kernel@vger.kernel.org
+References: <2ae06f370724bfd8210892ef3062cb349ed518f2.1762512037.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2ae06f370724bfd8210892ef3062cb349ed518f2.1762512037.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 7 Nov 2025 19:26:24 +0100
-Jean Delvare <jdelvare@suse.de> escreveu:
 
-> Hi Mauro,
-> 
-> On Fri, 7 Nov 2025 07:13:42 -0300, Mauro Carvalho Chehab wrote:
-> > Please notice, however, that kERNEL_DOC env var is also called at some
-> > DRM makefiles. Perhaps the issue you're getting is there.  
-> 
-> I'm getting the warnings from a simple "make" call with W=1, and for
-> pretty much all C files, not just drm drivers. For example:
-> 
-> $ nice make CC=/usr/bin/gcc-8 PYTHON3=/usr/bin/python3.12 W=1
-> (...)
->   CC      arch/x86/events/intel/core.o
-> Warning: Python 3.7 or later is required for correct results
-> Warning: arch/x86/events/intel/core.c:0 Python 3.7 or later is required for correct results
->   CC      arch/x86/events/intel/bts.o
-> Warning: Python 3.7 or later is required for correct results
-> Warning: arch/x86/events/intel/bts.c:0 Python 3.7 or later is required for correct results
->   CC      arch/x86/events/intel/ds.o
-> Warning: Python 3.7 or later is required for correct results
-> Warning: arch/x86/events/intel/ds.c:0 Python 3.7 or later is required for correct results
->   CC      arch/x86/events/intel/knc.o
-> Warning: Python 3.7 or later is required for correct results
-> Warning: arch/x86/events/intel/knc.c:0 Python 3.7 or later is required for correct results
-> 
-> So without my patch, PYTHON3= is ignored for part of the build, and
-> these recurrent warnings make it difficult to spot other warnings.
 
-I was kind of expecting such issues on SUSE/openSUSE. That's why
-I proposed a logic which auto-detects if a newer python was present,
-using it when python version is < 3.7. However, most people didn't like
-such approach.
+On 11/7/25 2:40 AM, Mauro Carvalho Chehab wrote:
+> -It is capable of identifying defines, functions, structs, typedefs,
+> -enums and enum symbols and create cross-references for all of them.
+> -It is also capable of distinguish #define used for specifying a Linux
+> -ioctl.
+> +The output is written at the (``FILE_OUT``).
 
-> Which is the reason why I proposed a fix. Alas, I see that my first candidate
-> fix breaks "make htmldocs" as reported by Nathan. I'll send a different
-> fix which doesn't seem to break anything in my tests.
+You consistently use ``FILE_IN`` and almost consistently use ``FILE_OUT``
+except above, where parentheses are added. Please drop them.
 
-The second patch seems to be the correct approach to make PYTHON3
-override work for kernel-doc. Sent my R-B to it.
+> -The EXCEPTIONS_FILE contain two types of statements: \ **ignore**\  or \ **replace**\ .
+> +The ``FILE_RULES`` may contain contain three types of statements:
+> +**ignore**, **replace** and **namespace**.
 
-Thanks,
-Mauro
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+-- 
+~Randy
