@@ -1,137 +1,139 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9472EBB88
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 22:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA4F242D91
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 23:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762556052; cv=none; b=ryvr/Q8n0DdL3LKLm5RO6Lc0CUbjADTiMogdp+2mSt9+7XoiDr2ia5+VGchwcl4igBtotF7ogALHCSn7EmAju3l6/AlG2gP2Rt1a2tO+Ot6Z4Ms4hxf5JC+TOk6oy1EKjyKsdXiDIl5Yd1ly7bRV1ByYYcHVje+YshWXH1F5NS8=
+	t=1762557332; cv=none; b=BVrKsv6+FUN4zIgHWgUd+OvIbArHYmHv6JVYNgtpf+NCLKHb71XbvPq1/qljwnnE5DzW85ONJcuGRZ/Uh8hHHHg09W+tRIhEgYhDkzhAGnRughMY5p8gQ8Zkvy2E+QHuV7iLo1GJHcDSip4KOgECe4ccm/HoV+xQ0C3WFt0OhB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762556052; c=relaxed/simple;
-	bh=QQItCIBg9oPI+ZcGLDgPqJNP2pdEp3m9tLs5b62fdvU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=R6vdtgBLGG0uSECkW1g6HiBx5/d6QyfK9GyBi8Qnf4NXbKPQCsoCfSlkGHQMqT2b2dr6Ntdoc9PJoz9MeuoYLrt1mPiN4UVTM18MPsjNKEEm5l0ZiC2d44dGb9QoHcBU40EkaZmdCDP2IBYrntVL4tvZLIpyCNdbsWOL+ZtzCn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yYy7FEHF; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762557332; c=relaxed/simple;
+	bh=1CNW2q7rZ5eZ1hQ3d6f/0/8aleciBSs32cCPnD55gF0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OzN4MdjwBhPAad28SCLptdkLaBf52rDtbVHUTH54ZId0MDoLNJwsR1wHe1LpwmYiDg2Wb6gtw9uEo22BH+HbJHCJXdO/F0L3qKA+6d1jS4IfqyLrwTud/O0SzjqUCYz4ABxvcZBMQwuXZpRAM9t1NcTKDWZHTPU6CQp/tLXKRgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4VWJLrg; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yYy7FEHF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eqJVilDFt2YWSTP2H/CiqyyExzqJGcpdcwstyeQwSY4=; b=yYy7FEHF/SfF7E/VJLRYzbQgps
-	GbEo+xAIqveUbJ+PU11U/pnHRWNcO5LAzawaz9Of0FrN6lC/RaRnhRxtQxjHyW0BKJdNM3VGbHjm+
-	EgcH62/RL3TbwX48Im+mgNhBTZyLIH010KTVnLG6piPI6aHx/zc5U2HSzU2PQakcm8cOIkcBsad4+
-	UlHQKhWLYZhLTZqRINEiZ6iDGOH11RF66bS0LGKkCZm9DfHlcrVyQSl1W1IX0/J1QlaQrt20v8gOB
-	ELDNF+qeOKXAaKvD+cGdTwKCGrCsUY2MGKobba6vKDJTbEni1OAqcqRYhI1rYZgKNwkrmoGF+brnN
-	YTvchFqA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHVLO-00000001QgD-0UNh;
-	Fri, 07 Nov 2025 22:54:10 +0000
-Message-ID: <9775dde3-4c19-4e1b-ab6d-f2a3ddf13886@infradead.org>
-Date: Fri, 7 Nov 2025 14:54:09 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4VWJLrg"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-295247a814bso15878365ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 15:15:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762557330; x=1763162130; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lm3n9qHPKakGyAJDHeR9T+11dprM9YeXc2RscwPCjOI=;
+        b=K4VWJLrgxSLsrRxVFAvj4UQ/OmcgvXFJP+pej5FUCoPjrEXmdEjbDvuWhb/JVn11n9
+         +PLR1af8fB4dglUN8rNKKYY7g/hguu4zkRXm470sME+BGnMUAGAU47OEYPemX/jHFVeX
+         pHTlS31qERdmTm/YAWWtPmsq+G9uF/3p/Y0AbEqam4i8NdTFTX+KlJcKPxye7IaYOSXK
+         4T2FemmLRFn60Kwx0cWBWtb+F6g+r8wECL57ZaUwrsX0Ewi/ysA/IHDZPCin86Ifkcs/
+         fxBS7l++hjcCBrypV4usqI4ibGp6fTqmvRERWZ6n8Mk6nt7mdRvZEiYviIycqe2ueihQ
+         XFlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762557330; x=1763162130;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lm3n9qHPKakGyAJDHeR9T+11dprM9YeXc2RscwPCjOI=;
+        b=Nqzuc0f5WBp6Ev+4+rl3miTvNr0Rq2laqY+tSGdMOPnhD679Rc1aD+zgAk7/FIe3Cd
+         VinWITOS7bNeoiRUmdS1/GEV+Fc+vRFpUfbLNTSiFlHqgpH9vSzC4AWrZT9+pFDVe+nR
+         DDSovYyhEYSgDLxSsz/f+7kY290soVz93bKnUZJZjqW+l/JWsIUx3VGF+/WVX2yxCyck
+         tyXcwDO2cNR4pKFbMSluhaTwCiB4PL/Y2Xkugi7XOjIY9SLiPlj8Q6aQCJWIjwm4z2D0
+         BuyR2IUpcjZ3Ec/qqTYgoumTZCZfk3Pm7tGHGlfEvmDot87sSW/nVTLCfQ8SN14bOB91
+         Djbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAYLv8O88bqbUvoUJ7mtdNAcIzQQdDLx3tadidoTXBqc4IoI7BfEuOX0iGjBa+7y2IRTgx+9FMCMs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI7K0lJTH70O7aEX+23ciEde7W4TZ8WbaaIKxeYZIKDKb+CKsn
+	L51n+aS1LfE04U4GY/1zCAk/W1bv/zinEcf2w7VR+k4YaDK96VnfxQML
+X-Gm-Gg: ASbGnctwC19e6V73W0ImTq0AaQ92RRRk6OSz45w6MmOA4lS4WH8nERFxuQsuqvf+b0a
+	dJ4T+gPkELx0rQKz6zSS+R+WY3aRpGfERRUkeZiD8jUNZdhRrd9Bv483EakD75BBq8X5pr8oAXA
+	rTL2AbodxJ3g5EyLBvfq4+40a8Dmdw1NuT/Ym28XecM89S04LI7Qwl3L1EJ/BDLvAEr/awVxuIO
+	Y7PKW0KKzKNzwwkBI6zzsJHHwTclRwuTYL6bA3NaNFYUcLF7LZ8GsyHJkk9KGDW2piUPqepV0la
+	nQzAYF1U8zBD4MxUBChPx6WR55HBVBuFSCc6fnV3U8Z673W4GtUEY+9IJf9dNqweTx6axFJ9FpY
+	ELMgaLV34jKAP5YEOQ7otlnkZcdh4qylZ7XsydizlmiraxUGuwDPARJfhZU3Su4Tffi4MIiKA70
+	XAkisSYox/hng=
+X-Google-Smtp-Source: AGHT+IGED60LsdNHAG47E5ek+vWqvgFmd56J6anEw/IyiassMDG+ECL/tyhoZhYvdVdrJbsIiOQYEg==
+X-Received: by 2002:a17:902:e888:b0:295:1a5b:f406 with SMTP id d9443c01a7336-297e564f99emr8849895ad.25.1762557329690;
+        Fri, 07 Nov 2025 15:15:29 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651ca4257sm70259405ad.95.2025.11.07.15.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 15:15:28 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 88957423BF1E; Sat, 08 Nov 2025 06:15:26 +0700 (WIB)
+Date: Sat, 8 Nov 2025 06:15:26 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v2 0/2] genpt documentation fixes
+Message-ID: <aQ59jnOE3pFyZPkn@archie.me>
+References: <20251107081300.13033-2-bagasdotme@gmail.com>
+ <49ff6f64-b664-4628-af2a-1b46e0fd62ad@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: about make mandocs warnings (1)
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
- <20251026085906.2d7e1d70@sal.lan>
- <af5d13a3-54ae-443b-bcc4-0b7de2f29ff0@infradead.org>
- <20251107071556.7e2b8f96@sal.lan>
- <71b341b6-fe88-4f32-9d6e-992b1642ea8d@infradead.org>
-Content-Language: en-US
-In-Reply-To: <71b341b6-fe88-4f32-9d6e-992b1642ea8d@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="haSgLIvfV15aCdif"
+Content-Disposition: inline
+In-Reply-To: <49ff6f64-b664-4628-af2a-1b46e0fd62ad@infradead.org>
 
 
+--haSgLIvfV15aCdif
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/7/25 1:33 PM, Randy Dunlap wrote:
-> 
-> 
-> On 11/7/25 2:15 AM, Mauro Carvalho Chehab wrote:
->> Em Sun, 26 Oct 2025 09:43:34 -0700
->> Randy Dunlap <rdunlap@infradead.org> escreveu:
->>
->>> Hi Mauro,
->>>
->>> On 10/26/25 4:59 AM, Mauro Carvalho Chehab wrote:
->>>> Em Sat, 25 Oct 2025 16:49:21 -0700
->>>> Randy Dunlap <rdunlap@infradead.org> escreveu:
->>>>   
->>>>> Hi Mauro,
->>>>>
->>>>>
-> 
-> [snip]
-> 
->>>>> Note: hundreds (probably thousands) of the mandocs warnings would disappear
->>>>> if kernel-doc accepted '-' in addition to ':' as a function parameter
->>>>> or struct/union/enum member separator (like it does for
->>>>> function/struct/union/enum short description).  
->>>>
->>>> This is easy to fix, and QEMU has a patch mentioning what is needed
->>>> at:
->>>> 	9cbe72b868b7 ("scripts/kernel-doc: tweak for QEMU coding standards")
->>>>
->>>> on its description: basically two regexes from Perl code would need changes:
->>>>
->>>>         -       if (/\s*([\w\s]+?)(\(\))?\s*-/) {
->>>>         +       if (/\s*([\w\s]+?)(\s*-|:)/) {
->>>>
->>>> and:
->>>>         -       if (/-(.*)/) {
->>>>         +       if (/[-:](.*)/) {
->>>>
->>>> If I'm not mistaken, I got rid of the second regex during rewrite,
->>>> but I might be wrong. If I recall correctly, with Python code, the
->>>> change would be aon a single place at scripts/lib/kdoc/kdoc_parser.py:
->>>>
->>>> 	doc_sect = doc_com + \
->>>> -	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
->>>> +	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*[:-]([^:].*)?$',
->>>> 	           flags=re.I, cache=False)
->>>>
->>>> btw, the [^:] pattern there seems to be trying to avoid catching
->>>> "::". With the new proposed regex, and if "::" is something that we
->>>> need to avoid, if one uses "-:", it would miss the description. 
->>>> I guess that's ok.
->>>>
->>>> From my side, I'm OK with the new regex, but one has to verify if
->>>> this won't cause unwanted side-effects.  
->>>
->>> Yes, for sure. I'm willing to do some testing on a patch.
->>> Should I begin with the KernRe() change above?
->>
->> Yes.
-> 
-> first report with the one-line change to KernRe() above:
-> 
-> $ ./scripts/kernel-doc.py -none -Wall sound/soc/codecs/cs-amp-lib.c
-> Warning: sound/soc/codecs/cs-amp-lib.c:574 duplicate section name 'Return'
-> Warning: sound/soc/codecs/cs-amp-lib.c:574 duplicate section name 'Return'
-> 
-> Without the KernRe() change, these are not reported (which is correct).
-> The new/changed line finds "*\s*[Rr]eturn" in a comment (without a trailing ':')
-> and considers it to be a Return: section.
+On Fri, Nov 07, 2025 at 11:16:36AM -0800, Randy Dunlap wrote:
+>=20
+>=20
+> On 11/7/25 12:12 AM, Bagas Sanjaya wrote:
+> > Changes since v1 [2]:
+> >=20
+> >   - s/to set/to read/ (Randy)
+>=20
+> That's not quite what I said (wrote):
+>=20
+> > @@ -354,6 +354,7 @@ static inline unsigned int pt_max_sw_bit(struct pt_=
+common *common);
+> >  /**
+> >   * pt_test_sw_bit_acquire() - Read a software bit in an item
+> >   * @pts: Entry to set
+> > + * @bitnr: Bit to set
+>=20
+> | Shouldn't both of these (above) to "to read" instead of "to set"?
+>=20
+>=20
+>=20
+> No changes to pt_set_sw_bit_release() [which should say "to set" in 2 pla=
+ces].
+>=20
 
-I have compared about 30% of the "make mandocs" output from before/after
-this patch. This "Return" issue is the only problem that I have found so far
-and I have seen it in several other files.
+Oops, I misunderstood the review. Will send the fixup shortly.
 
-The "accept ':'  or '-' for parameter separator" is working fine so far
-for the places that it should work.
+Thanks.
 
--- 
-~Randy
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--haSgLIvfV15aCdif
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQ59iAAKCRD2uYlJVVFO
+o2mPAQCtbCENoydVvPLZcPrSmiIrDBqFuvWPN0Kq1nC14RV9iwD+KCZacoHSjhsN
+O6Z8k1VhZ8ialSR19Dwm+CelyQbgTgI=
+=3f7R
+-----END PGP SIGNATURE-----
+
+--haSgLIvfV15aCdif--
