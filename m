@@ -1,55 +1,55 @@
-Received: from mail-qk1-f202.google.com (mail-qk1-f202.google.com [209.85.222.202])
+Received: from mail-qv1-f74.google.com (mail-qv1-f74.google.com [209.85.219.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33362853F7
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 05:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B535D298CDC
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 05:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762493395; cv=none; b=NXk7oWVvHuOkG7DhkZyuFYpPM1Ncinqogz+gYq8H5jGqO3+EIw4XSSuqlebXc8k/57HydazD4qSRaKsf2a2xlTXIHaTIQ/7ZlvBMufjSIgbjwBMdV8MNm2iSNqwIGqeHsPq5emPYjsLi9jBKoZxtyjjD5KlamfRtUnYLXpjGYO8=
+	t=1762493398; cv=none; b=WWnjaCt6QpgPEMdL8nugM2CVvyYY8Cvwi4oMwkXXsEEiLM6k/Zn1VAWIKIos4T0/own6Wb24nQPz0p21i8EvfPudnzNcjBxnkMfTlDOQ/GRiVn6Qa/LCG3u4NcfrHvI9PUW+WZBK8dQ7ZL/yKUoZ9FLlsF4G5IdaJdFoiyz/Hto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762493395; c=relaxed/simple;
-	bh=L03uIXQZxdkalVh9ZjTUCdHmAeF5s/msBRS6xoMrnQ4=;
+	s=arc-20240116; t=1762493398; c=relaxed/simple;
+	bh=t/n21pSuJSr8MBIv4gg6nnfTGQhILI1Rm200T1DKUvs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=REEbyvqvPjoFGDd7Ig/tqVPaplDjleq0s9t/Oh+ctqDt/R0C6FeSRaFvryA1OsjFHYyg2shLFL7DMAAAVKef/PaiTNDOgVRvHgkCaKCvMkQI/pYOe7UOI9j1OXs1sJWqvnDpXR9XcLZkdDXO06E6kiVzSUEHfD8j89uQ0lmRisY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qnNGK6qS; arc=none smtp.client-ip=209.85.222.202
+	 To:Cc:Content-Type; b=bmin6n5qVpxKaR2RLv8hch0IXPXAVMIKktF0YTHwYWd2TOP1WaQHolfgIPAU40lITpDD5TrocOujBP/XnMXk3aPchisgojA5XJQSkYmC0WvcllbtCtMt4bL4Uv/6b6sI/7qm11ZOGErH7PZU80VY94ocBDW8AoqlN3a2ZkMrpxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IWWAAkDp; arc=none smtp.client-ip=209.85.219.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qnNGK6qS"
-Received: by mail-qk1-f202.google.com with SMTP id af79cd13be357-891504015e5so95705885a.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 21:29:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IWWAAkDp"
+Received: by mail-qv1-f74.google.com with SMTP id 6a1803df08f44-88044215975so14023396d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 21:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762493393; x=1763098193; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762493396; x=1763098196; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=48j2zZJXWTS3tXcJmxqzEPrxFj/EkmhfLmBq2HSrPzY=;
-        b=qnNGK6qSyezrQlCnKtwoFClcO+0ve8xEyIYiT37Xqn5AtoSKQ4xjxYR+V0QwJMKHJX
-         f/fxqFjucLqBCwon9vb8xkI6hdey2LllJns8QdwTATb2p7ZiWlpEMtEIA65JEUhqqbZE
-         5BnHCr5WNsYndgHpAQaidxqu711zSMav58/TSwxweL2J35/jo+7Y8FdTUCleZThR1qOU
-         S+dYEqQD611rWvYCgQt2zDKdKkHeA+duvmSL8ZQBtOGfdZRZPHVyltEIDSWRIQvhSQId
-         DuvP7LqdyjsxPS6CmgMHsqoIB+oN8EWwngfox46w3H+tow9a56kpQVL8fBKpg8QPwAXD
-         lpeA==
+        bh=6WhJsbd8hQIgaMMcaCdsT9ge7ButLMZT3b1jbA5sMxQ=;
+        b=IWWAAkDp0m/5FmGSvKI9SO/eJXKdJT0NuMn5MJv7uwCeTJa4FcFavHgumtYnojAVbg
+         CzfMtpbsKZA+q0Z7lwcSnf5PH4cXfZh20SjqhctA0WuWPSaRyl9oDP7cmxbC2PKqdzCu
+         wt0V6+vpQKdn52Q690uzhJucMdHqwlZJuSiFePZaK9c+Y8AH2YeKTeRv9fpfZ8avUUqj
+         Q+lS50CuDlFAvN9f1qQloPskD7xbEgdQqn7V298uyflBjnHgvRAaWbsMJvVoxsN7GIla
+         YtLxJc7ywyLilw/R63q/gB8uruiNTR80ZsdxPS8mPsEgzdbgL2MJcXZERVR50Ka+YFXh
+         5NFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762493393; x=1763098193;
+        d=1e100.net; s=20230601; t=1762493396; x=1763098196;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=48j2zZJXWTS3tXcJmxqzEPrxFj/EkmhfLmBq2HSrPzY=;
-        b=Q/tSoxWKO2edR555bQK6AVRb3nIpXzzqBXd7SopdNOG6Oe+PXcAL+wi2+1vXKITslZ
-         y9gi42L0Cb2IXXktJqHS7x/IdOPur30kutHZOF8aeCWGzucYCtlAa4PmNgl85XfMQQKb
-         R6Fzuo7XLlOdEv9HkS6a2Si+rsekWvxa/lcqFcZChUdf2S+sMKgWlciIOGV6WRW1J1Ja
-         llvO8DPskZlLgC/2Dgz3eerde+q+DVBrJ7IcS3SLadjA6rFbs2dt78G6ITHmRNJjw23R
-         hJ94rh3djd0eEu+oNRDL52AYSkAbnTp/OO6SDWTS9AQ/krEjQo/y02qydnPk6uMfvxEL
-         zp7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUGqQGWFn6KUf11DXva7IzA+Hz3xJdvLmPq+ioiZKyPwmuopPIQnJKq5OgcYkwVxxIv2CQlBPoIZv4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX7z4TwhAQY4NFwA7FY70f0VT8jmHzfo+kEZ7utPcAEUZcHmpt
-	6uIUQqHcxI1b1l7yF7haVaHDvIvvUwUYG+eqUJsincDssX4aqup7GV0F6k5rJIouJ5EZgVEfkrt
+        bh=6WhJsbd8hQIgaMMcaCdsT9ge7ButLMZT3b1jbA5sMxQ=;
+        b=lMPZ3RXCZhUQjxN2nuLV14edwyI7Zaw13jpuJn5guXzzm9C8GfkMO7r1z96ML6vM+l
+         C7N/x2GcxJxeXiKejJMW7LkXIRekM+Gy49eemxx2zDSnAV7iGHUZOwfh8bA1fEuInCZa
+         rjzVOUhm0a2jK+1ZQ9ZTPYCkFXPIFJxqpcoAWedo4Z2hh1rWmZPwgTHJSKPaKBMBbFxb
+         qkGzprNp8+oDYjmt/FD4EBU4FDN+5wkjjZJ25Xwx49Sf2pzBcutekMbrL+e8u47rcSfx
+         dI9qtDrIDPYHimNWH4efyHu2P3PrqZsNrDasw1isS/a5TweLjwxW+9/7A1y7Wa0aZ9yI
+         C5ug==
+X-Forwarded-Encrypted: i=1; AJvYcCVX9CxVC52LXDT9N4p7p1sw6xHJViypPPBU5QVZpZT+dO71AlYyAIoUp32o2+x0Qd1N/QY1TA6Ly4Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnHsnNPLIROra/d0WFx4yxslWFq2bSG7bHMVcIfxc7E1xP+XW8
+	q7LmP6ZOCa8W9v5tTm9DDooXQPBvW1NpzGJU9L2PO/+Xye41tyTonD+FA7Zi/qjtutSsSW71KD7
 	mMg==
-X-Google-Smtp-Source: AGHT+IGX6OEfniAXqNWEIhp2i9gcLVm92VZiRnkK4/N6XrrlWlAs+epPZsQEP+HqeKvwBATh/hbqJHdIFw==
-X-Received: from qkoz12.prod.google.com ([2002:a05:620a:260c:b0:899:fd6d:28b0])
- (user=rmoar job=prod-delivery.src-stubby-dispatcher) by 2002:a05:620a:318c:b0:84d:9f49:6898
- with SMTP id af79cd13be357-8b245351d7emr265794885a.61.1762493392688; Thu, 06
- Nov 2025 21:29:52 -0800 (PST)
-Date: Fri,  7 Nov 2025 05:29:22 +0000
+X-Google-Smtp-Source: AGHT+IHYciVpqOb8pQto4TErUyowvJXcico5AhQjHPvT6LVTf1/3owC+ciDU1QPX5RZ1igpKDXNExBFvtA==
+X-Received: from qvbrb8.prod.google.com ([2002:a05:6214:4e08:b0:880:6bc3:4888])
+ (user=rmoar job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6214:d6c:b0:880:4982:3afe
+ with SMTP id 6a1803df08f44-881765c5307mr25893326d6.25.1762493395647; Thu, 06
+ Nov 2025 21:29:55 -0800 (PST)
+Date: Fri,  7 Nov 2025 05:29:23 +0000
 In-Reply-To: <20251107052926.3403265-1-rmoar@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251107052926.3403265-1-rmoar@google.com>
 X-Mailer: git-send-email 2.51.2.1041.gc1ab5b90ca-goog
-Message-ID: <20251107052926.3403265-2-rmoar@google.com>
-Subject: [PATCH RESEND 1/5] ktap_v2: change version to 2-rc in KTAP specification
+Message-ID: <20251107052926.3403265-3-rmoar@google.com>
+Subject: [PATCH RESEND 2/5] ktap_v2: change "version 1" to "version 2" in examples
 From: Rae Moar <rmoar@google.com>
 To: frowand.list@gmail.com, davidgow@google.com, keescook@chromium.org, 
 	raemoar63@gmail.com, Tim.Bird@sony.com, shuah@kernel.org
@@ -73,42 +73,93 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Frank Rowand <frank.rowand@sony.com>
 
-Prepare KTAP Specification for the process of creating version 2.
+Change the "version line" in example output from
+"KTAP version 1" to "KTAP version 2".
 
-The version will remain "2-rc" until the final commit to complete
-Version 2.  Adding the "-rc" ensures that none of the development
-versions will be mistaken for the completed version 2.
-
-After this commit, Sphinx complains that we now need more '=' signs:
-
-  Documentation/dev-tools/ktap.rst:3: WARNING: Title overline too short.
-  ===================================================
-  The Kernel Test Anything Protocol (KTAP), version 2-rc
-  ===================================================
-
-This warning will disappear in the final commit for the release of
-version 2, when the "-rc" is removed.
+Change version that should be used by compliant tests from 1 to 2.
 
 Reviewed-by: Rae Moar <rmoar@google.com>
 Signed-off-by: Frank Rowand <frank.rowand@sony.com>
 Signed-off-by: Rae Moar <rmoar@google.com>
 ---
- Documentation/dev-tools/ktap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/ktap.rst | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index a9810bed5fd4..387062b96c10 100644
+index 387062b96c10..21e1b80fddd7 100644
 --- a/Documentation/dev-tools/ktap.rst
 +++ b/Documentation/dev-tools/ktap.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
+@@ -41,6 +41,7 @@ version of the (K)TAP standard the result is compliant with.
+ For example:
  
- ===================================================
--The Kernel Test Anything Protocol (KTAP), version 1
-+The Kernel Test Anything Protocol (KTAP), version 2-rc
- ===================================================
+ - "KTAP version 1"
++- "KTAP version 2"
+ - "TAP version 13"
+ - "TAP version 14"
  
- TAP, or the Test Anything Protocol is a format for specifying test results used
+@@ -48,7 +49,7 @@ Note that, in KTAP, subtests also begin with a version line, which denotes the
+ start of the nested test results. This differs from TAP14, which uses a
+ separate "Subtest" line.
+ 
+-While, going forward, "KTAP version 1" should be used by compliant tests, it
++While, going forward, "KTAP version 2" should be used by compliant tests, it
+ is expected that most parsers and other tooling will accept the other versions
+ listed here for compatibility with existing tests and frameworks.
+ 
+@@ -204,9 +205,9 @@ An example of a test with two nested subtests:
+ 
+ ::
+ 
+-	KTAP version 1
++	KTAP version 2
+ 	1..1
+-	  KTAP version 1
++	  KTAP version 2
+ 	  1..2
+ 	  ok 1 test_1
+ 	  not ok 2 test_2
+@@ -217,11 +218,11 @@ An example format with multiple levels of nested testing:
+ 
+ ::
+ 
+-	KTAP version 1
++	KTAP version 2
+ 	1..2
+-	  KTAP version 1
++	  KTAP version 2
+ 	  1..2
+-	    KTAP version 1
++	    KTAP version 2
+ 	    1..2
+ 	    not ok 1 test_1
+ 	    ok 2 test_2
+@@ -252,21 +253,21 @@ Example KTAP output
+ --------------------
+ ::
+ 
+-	KTAP version 1
++	KTAP version 2
+ 	1..1
+-	  KTAP version 1
++	  KTAP version 2
+ 	  1..3
+-	    KTAP version 1
++	    KTAP version 2
+ 	    1..1
+ 	    # test_1: initializing test_1
+ 	    ok 1 test_1
+ 	  ok 1 example_test_1
+-	    KTAP version 1
++	    KTAP version 2
+ 	    1..2
+ 	    ok 1 test_1 # SKIP test_1 skipped
+ 	    ok 2 test_2
+ 	  ok 2 example_test_2
+-	    KTAP version 1
++	    KTAP version 2
+ 	    1..3
+ 	    ok 1 test_1
+ 	    # test_2: FAIL
 -- 
 2.51.2.1041.gc1ab5b90ca-goog
 
