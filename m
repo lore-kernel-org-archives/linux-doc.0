@@ -1,223 +1,382 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412972848AF
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 16:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F86B79DA
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 17:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762532972; cv=none; b=kfcdxjlR83rEy6pk0mEXb3JcxkSVEn9NnLBoK6rdp0jpl6v1FPXfkPMf6336Kq/z/rqvHELkdzIaeajkedJjQLBpIVsgOAou4BMLVWWi51784IXvorWsqpsYVTSDBcv9Wf+hn1b1PFZ/BiwMA9m/dh9Zbm5B2RLvqcuBMIOTtWk=
+	t=1762535683; cv=none; b=iFsgsUDrFFB+8tdJpsaZ3X+EtOuC7hcPv4p6bsJXfLcA4F741Go3E1cM6tLT/zoKvev+vsKp1qhvWFwFcVRCT9iu/LVos+ipM1pR/cLAcvYJNYER5xUcPYw750DSi0rTEgEQUB0x5ndBZHZ8AYtLWb4Gghq9IwhpUsIzNpc4XKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762532972; c=relaxed/simple;
-	bh=rgcoRhyGIK5TkOpZt0kZTN7koiw5JU/Ow/kogtLB0pg=;
+	s=arc-20240116; t=1762535683; c=relaxed/simple;
+	bh=3wlTv4phN7CVcv3vssAHD4JPd1JZYg4dSxbTxEbEGHk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b7X8tjGpxrpzI9luIPPBWAsEAF8kxE+oOSxQ0Vf7ChVNHtWmdG1zGeUvhHfeuYEZP/znL7Q2jf9aQSNB36JmA0qyx4JrCf9BRA0NkIecg9xvF/X4PX0Inz2K3vZapRtwjDr3z9kUIt+g/Z/wB3DDuG/g9XKNDDnQI7z9KlCL+Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwiPSA39; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=HVZuJ9DXToNT0ZEh5W7lb1kEg7L58CBDd2u4253/Wfjc2CpU/3+QBdVnmY+naYvJmHMoaoBstLdNzokFapBoYsYsGxyGAfTBLsqsMHG0KKatV/2SLIQ3hDDZiixleXaOJb65EQ4ZXnYOpc9OhHKRSoTgzKYCbdyJsC5YhgoV0CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OWYsVaza; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UpkxQiRx; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwiPSA39"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-43325879139so8724145ab.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 08:29:31 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OWYsVaza";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UpkxQiRx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762535679;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lsGhcNk2ubFrqi2YFZgLMZLjo4nT4sZ1uICkDs7Vo+k=;
+	b=OWYsVazaIhlreai+rmh96D4sysHY45FtItorLND2BZvva8VocYiVMfFOz/GYgbl5e5CmIS
+	5b/3XYiQbPo3ZIPpvq/a05SiqjP0TIqHhx9xOy3U/O7RalRmZvEbsX5KNCDvD0OJyJE5ZG
+	4ahHlf7b8IWvR71PQD6C3yZRdSIUW0Q=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-241-hLh_1x06MHWQcvsZVDuNEQ-1; Fri, 07 Nov 2025 12:14:38 -0500
+X-MC-Unique: hLh_1x06MHWQcvsZVDuNEQ-1
+X-Mimecast-MFC-AGG-ID: hLh_1x06MHWQcvsZVDuNEQ_1762535677
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7864f72835bso15017647b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 09:14:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762532970; x=1763137770; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1762535677; x=1763140477; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KpUHhwLLVw048cC2Tr3FEbA9y73h0hyI54ZDUH0t8tg=;
-        b=XwiPSA39nsnkdh5yq9hmq5Q1pQhU/l4yfBPXNq8URc3djc/fKxv8xAtGNqRydKvsJt
-         GF7Bpn6csmRSNYYywLHFyVnjvnflwb29uopg0mh8XIbOhEBsibU2nX0E+RoBUgaxZgLs
-         B6l+p5yn0YXi+SDNYzdbqb88zoD5UmG/IXfojwVE/lBy8LwpK+uiX1KH+2rvlzs2xONI
-         hqutrbyQ027+4Pje0IqvZSS/fnayj3Xtv1qV1FwsqDTdwSI2Ay1YT1vqeEHat4porGTD
-         tWFJqRmYe8+2yOUjWKWuO6IxfauB9GEYVidybLZ6IezgvNKp6ac1LTYMBDm6M2Zpob2K
-         Np/w==
+        bh=lsGhcNk2ubFrqi2YFZgLMZLjo4nT4sZ1uICkDs7Vo+k=;
+        b=UpkxQiRxwrukK3oqKM/UhAKyUiEJhgJXmkMVEoYWNclnWkD8855VDMD69tk1GEwxlr
+         IcRFdrQRR1txDvqZEaAmVlQ6tL6KuNkpKCf1FGLG+McWXs1BIlDIOYOAhvJc4bMJvpeO
+         FbI1j8dyC+wG56ixjgSNqLRSu71WW2W2RIw/ZqxRBv5Zut1aKWy83vUcuS3B0yO7GXqZ
+         kA6UuX8rBuxd9vtc8z526NdXi6bPpK7QAq1tUWrO2Xe6Q49iq5+2IX+lwyXZ3Vo4Pr/4
+         ZEUHN0Ym10ZmgdXabMyanTBrTaGuUP+JcJDzSKHCLL3h5Vuefs/EIjh5MlOPuU3igjL/
+         BHAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762532970; x=1763137770;
+        d=1e100.net; s=20230601; t=1762535677; x=1763140477;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KpUHhwLLVw048cC2Tr3FEbA9y73h0hyI54ZDUH0t8tg=;
-        b=vbmfMnaSIs6vkpPf23ItA2jUw8J31+/wXpTpPHcxEzNMtIBY3S97C0ZWuIbbcHS6yX
-         g7ljvKvza+B5+if199otc2wnSEYoRyQvVgGngb+9X2aRepALmgsh1rfUai7jYCAmRhIB
-         NT+6sC2K7DqrQvi1nylET24qnJAYDrRYqEPdOauGgFKWLjes0Z92qDeG5SzINm9gxO/s
-         gqDB6WruB/2LPUgh0vZDhl2RYAi9UlL11a0d2WmLIOX+7D8JbK7cg6Mi6JS/RbtZsxaV
-         fmhJ4oXkg9+9R6oe2oiZumPvgVt+8Gjz8bgaNjsDvCed9ZITEmLkbVihchzrxGSacmd0
-         +NAg==
-X-Forwarded-Encrypted: i=1; AJvYcCUf1jvD/1V5SlBEC1qDbYI/EgWXeJtLIFUP/i2FVIb5fCTWTdoOUcrLh9NkrxX6vSKe5TFLHKO7CNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywKmUCiTPh64Jc4wGHhRhSqgQijd4OxDOYinCxX8ICoFse6z4Q
-	FjD/K4XvD05aQ11V4NWfxpuCLaRqP8xraIfylLGHLd+GMtSE4sZs/YOB5BPY265WTfpuaB/wePV
-	kH6LAsFd5VIU/05iNVUkIC6S6s/A6tRU=
-X-Gm-Gg: ASbGnctjv7N7/BernPuLrJ7U+JRamcld0P44S98hrmWUialLsK1S2EKdUKFnFa7Rg/U
-	cXg4u6P2QHzmulztxLo0eF6JsGYR1ymqyMP+ZMfQaoTlq56q4TSyQp4EzfEmsObBIDvoE4xuk9y
-	HEIgcIlWwm1u+jJhIHdE1SS5iZ7C9/u3zZG8ofIj5CGmILtq+S/gMXzwS5RGhevNBUeIFlwvRNl
-	MefNO7TOlg+Bfz3o+r84yl9bnVDRI84V1S55Tc0vBFwbiYDTZvEEwVWUTbA+26jo+pPXSHTiGOu
-	w8YrJN2V8/pB6MEdLb2QW+yMKQMJr3IIVqeY3yDHso3gWWSRzF6cPj6fseTykVco1EiFPlYaoO5
-	D5GXEu4WaTDj57zsAM6wWI/De9FsnDyDOTk2AX2RtcRmkHx5dwoF1n6QlJYgqVZ553b3UCQfn9p
-	qSZL+Wsg==
-X-Google-Smtp-Source: AGHT+IHLBeBsljRup9vfyIw0zMlrDC0E78/7aLQDxLzaAjO0KjqOY+HyEIQe54ZnzvQGmNPUrUss4m9CIjqFlxlmgpc=
-X-Received: by 2002:a05:6e02:168e:b0:433:46a7:be57 with SMTP id
- e9e14a558f8ab-43367e17daamr795725ab.8.1762532970241; Fri, 07 Nov 2025
- 08:29:30 -0800 (PST)
+        bh=lsGhcNk2ubFrqi2YFZgLMZLjo4nT4sZ1uICkDs7Vo+k=;
+        b=dt7KWSm35Hq0ye/4EdmIjr3dvII4c65hpJO9UHx3irj4eEFY/dy6chnJi7PGMy0Zu6
+         12XkPyfaF8TPgHDPs361EQSUcKj9shqlFF17NVHfwT3pa7u7FfxW46QBedDEPuEKlrUh
+         fb6OBdg2oTVmAIdr+H2d8SLdQFCBauShPfI/WbndBiZYLV0ejD8W60zjsRMH6k4l2Fos
+         fjGbeaHO1jvQsrF2Ccksxz47sdNNaS+cLxlEx3Ot7m7+YrJjQCnTxrmo6cQn3BaUNvAP
+         IV62HtQY6TrAyrR51sTuc60xlywtYhbA/b0S0ZYPLHOktMGKg9+Yhoe2z2DoRbeUM1uS
+         63aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPKfDuzkIdvpozYvbN5YbqaUlIQKOiCrxavrKdLImEME+L/+wLmeh09QGsgt688qQqE6MmIONRobM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhRc9YfiIlBPGLUryn72RyYbvc7BGzvH2hwhySfq0ldhf081sb
+	/61zzx+ccwLgEOoXfZFDyO/w2jF3rUaVCQgwFb/1tbBZswvtoe1c13F6qKGFvGkRzezkclFqqid
+	UFtMxyed11q0U0xovSH1fm5kXsMVnZkvvaKS0oblyiauLP2PpIwFmWQ2l8MBIWiYWZ437YLeek5
+	qeYmZtKgzgKlJfHBqfZsc+s09tPKekdqmsg5Le
+X-Gm-Gg: ASbGnctolj1QIvCVr/01+vGNyD8JhBD8evpTuVqK8ejZs/ynn8QqLuRhdz0KwvI3U2G
+	9vI5k/7SbLrMfEPXo/O8klGrUFNS/GgyQqdmvyksDkYDb2W8ikmhJcgazeZZRfrNvwsSbymKUow
+	GshXM1FJGY85v7v8yinI6cxN62QICw9+09iecJQmcnW5KdvuT2pazJ82hbwH7uWEe7wzPiUA==
+X-Received: by 2002:a05:690c:868d:20b0:787:c2be:33ff with SMTP id 00721157ae682-787d537693fmr714767b3.20.1762535677338;
+        Fri, 07 Nov 2025 09:14:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFQek+0t4w48azAVl2zrNoGHztFPdW8lJvf083PafgskTvQqA5rrsO6WLqA1i+ny2NLFGpojXq6gxXmP3Am90Y=
+X-Received: by 2002:a05:690c:868d:20b0:787:c2be:33ff with SMTP id
+ 00721157ae682-787d537693fmr714427b3.20.1762535676754; Fri, 07 Nov 2025
+ 09:14:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910170000.6475-1-gpaoloni@redhat.com> <2025102111-facility-dismay-322e@gregkh>
- <CA+wEVJZEho_9kvaGYstc=5f6iHGi69x=_0zT+jrC2EqSFUQMWQ@mail.gmail.com>
- <2025102124-punctuate-kilogram-da50@gregkh> <CA+wEVJajSGzb85YTiv98yAY3bcJFS0Qp_xjLc++wnU8t=wDAOg@mail.gmail.com>
- <2025102211-wolverine-cradling-b4ec@gregkh>
-In-Reply-To: <2025102211-wolverine-cradling-b4ec@gregkh>
-From: Chuck Wolber <chuckwolber@gmail.com>
-Date: Fri, 7 Nov 2025 16:29:13 +0000
-X-Gm-Features: AWmQ_bn6uEo7-A9xvlR4_AxUEmBwxnRKzTpVyrh4GYZ_AQq2WQg29VVKDwL_Wwo
-Message-ID: <CAB=6tBSaGfKq4RgV=nbw28Yq59jHMrVOkm_dx2bqD1AjU37oaw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/3] Add testable code specifications
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>, shuah@kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, safety-architecture@lists.elisa.tech, acarmina@redhat.com, 
-	kstewart@linuxfoundation.org, chuck@wolber.net
+References: <20251022183717.70829-1-npache@redhat.com> <20251022183717.70829-10-npache@redhat.com>
+ <ffcf2c28-d0ae-4a45-8693-10fb4dff8479@lucifer.local>
+In-Reply-To: <ffcf2c28-d0ae-4a45-8693-10fb4dff8479@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Fri, 7 Nov 2025 10:14:10 -0700
+X-Gm-Features: AWmQ_blPYWAWamFBzA1ly_X3usXllN1louZ3uBjkPVp_-hEefXw_Vu-oIqBHt-w
+Message-ID: <CAA1CXcDT19rV_08pVP7CLuUZiVHW_1rSOv2oMXUHyRxh5sGCcA@mail.gmail.com>
+Subject: Re: [PATCH v12 mm-new 09/15] khugepaged: add per-order mTHP collapse
+ failure statistics
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
+	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
+	sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 22, 2025 at 5:13=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+On Thu, Nov 6, 2025 at 11:47=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
 >
-> On Wed, Oct 22, 2025 at 04:06:10PM +0200, Gabriele Paoloni wrote:
-> > > Every in-kernel api documented in a "formal" way like this?  Or a sub=
-set?
-> > > If a subset, which ones specifically?  How many?  And who is going to=
- do
-> > > that?  And who is going to maintain it?  And most importantly, why is=
- it
-> > > needed at all?
-
-I appreciate the questions. I sense there may be some confusion over who th=
-is
-is intended to benefit.
-
-The design of the Linux kernel is emergent. This is a fundamental property =
-of
-the way it is developed, and the source of its greatest strength. But it ha=
-s
-some shortcomings that place a burden on kernel maintainers, all kernel
-testing, and even people who wish to contribute.
-
-We intend this as a tool to address those areas.
-
-
-> > > For some reason Linux has succeeded in pretty much every place an
-> > > operating system is needed for cpus that it can run on (zephyr for th=
-ose
-> > > others that it can not.)  So why are we suddenly now, after many deca=
-des,
-> > > requiring basic user/kernel stuff to be formally documented like this=
-?
-
-You are correct, the kernel has succeeded over many decades, and will conti=
-nue
-succeeding for many decades to come.
-
-With the exception of some very narrow situations, the emergent design (or
-"nuanced complexity" if you prefer that term) of the Linux kernel is not
-communicated in a broadly consistent way. This affects the way the kernel i=
-s
-tested, and also the way it is developed. Even veteran kernel maintainers a=
+> On Wed, Oct 22, 2025 at 12:37:11PM -0600, Nico Pache wrote:
+> > Add three new mTHP statistics to track collapse failures for different
+> > orders when encountering swap PTEs, excessive none PTEs, and shared PTE=
+s:
+> >
+> > - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to s=
+wap
+> >       PTEs
+> >
+> > - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
+> >       exceeding the none PTE threshold for the given order
+> >
+> > - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to sh=
+ared
+> >       PTEs
+> >
+> > These statistics complement the existing THP_SCAN_EXCEED_* events by
+> > providing per-order granularity for mTHP collapse attempts. The stats a=
 re
-tripping over nuance and complexity.
-
-
-> > Let me try to answer starting from the "why".
+> > exposed via sysfs under
+> > `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
+> > supported hugepage size.
+> >
+> > As we currently dont support collapsing mTHPs that contain a swap or
+> > shared entry, those statistics keep track of how often we are
+> > encountering failed mTHP collapses due to these restrictions.
+> >
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >  Documentation/admin-guide/mm/transhuge.rst | 23 ++++++++++++++++++++++
+> >  include/linux/huge_mm.h                    |  3 +++
+> >  mm/huge_memory.c                           |  7 +++++++
+> >  mm/khugepaged.c                            | 16 ++++++++++++---
+> >  4 files changed, 46 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
+/admin-guide/mm/transhuge.rst
+> > index 13269a0074d4..7c71cda8aea1 100644
+> > --- a/Documentation/admin-guide/mm/transhuge.rst
+> > +++ b/Documentation/admin-guide/mm/transhuge.rst
+> > @@ -709,6 +709,29 @@ nr_anon_partially_mapped
+> >         an anonymous THP as "partially mapped" and count it here, even =
+though it
+> >         is not actually partially mapped anymore.
+> >
+> > +collapse_exceed_none_pte
+> > +       The number of anonymous mTHP pte ranges where the number of non=
+e PTEs
 >
-> Let's ignore the "why" for now, and get to the "how" and "what" which you
-> skipped from my questions above.
+> Ranges? Is the count per-mTHP folio? Or per PTE entry? Let's clarify.
+
+I dont know the proper terminology. But what we have here is a range
+of PTEs that is being considered for mTHP folio collapse; however, it
+is still not a mTHP folio which is why I hesitated to call it that.
+
+Given this counter is per mTHP size I think the proper way to say this woul=
+d be:
+
+The number of collapse attempts that failed due to exceeding the
+max_ptes_none threshold.
+
 >
-> _Exactly_ how many in-kernel functions are you claiming is needed to be
-> documented in this type of way before Linux would become "acceptable" to
-> these regulatory agencies, and which ones _specifically_ are they?
-
-Exactly zero. This is not for regulators.
-
-
-> Without knowing that, we could argue about the format all day long, and
-> yet have nothing to show for it.
-
-As this is not intended for regulators, it is not clear to me that catering=
- to
-their desires would be a good use of anyone's time.
-
-I say this as a software engineer who works in a _highly_ regulated industr=
-y,
-and who knows the relevant regulations quite well. There are good ideas bur=
-ied
-in those regulations, but (in their default form) they are _not_ appropriat=
+> > +       exceeded the max_ptes_none threshold. For mTHP collapse, khugep=
+aged
+> > +       checks a PMD region and tracks which PTEs are present. It then =
+tries
+> > +       to collapse to the largest enabled mTHP size. The allowed numbe=
+r of empty
+>
+> Well and then tries to collapse to the next and etc. right? So maybe wort=
+h
+> mentioning?
+>
+> > +       PTEs is the max_ptes_none threshold scaled by the collapse orde=
+r. This
+>
+> I think this needs clarification, scaled how? Also obviously with the pro=
+posed
+> new approach we will need to correct this to reflect the 511/0 situation.
+>
+> > +       counter records the number of times a collapse attempt was skip=
+ped for
+> > +       this reason, and khugepaged moved on to try the next available =
+mTHP size.
+>
+> OK you mention the moving on here, so for each attempted mTHP size which =
+exeeds
+> max_none_pte we increment this stat correct? Probably worth clarifying th=
+at.
+>
+> > +
+> > +collapse_exceed_swap_pte
+> > +       The number of anonymous mTHP pte ranges which contain at least =
+one swap
+> > +       PTE. Currently khugepaged does not support collapsing mTHP regi=
+ons
+> > +       that contain a swap PTE. This counter can be used to monitor th=
 e
-for the Linux kernel development process.
+> > +       number of khugepaged mTHP collapses that failed due to the pres=
+ence
+> > +       of a swap PTE.
+>
+> OK so as soon as we encounter a swap PTE we abort and this counts each in=
+stance
+> of that?
+>
+> I guess worth spelling that out? Given we don't support it, surely the op=
+ening
+> description should be 'The number of anonymous mTHP PTE ranges which were=
+ unable
+> to be collapsed due to containing one or more swap PTEs'.
+>
+> > +
+> > +collapse_exceed_shared_pte
+> > +       The number of anonymous mTHP pte ranges which contain at least =
+one shared
+> > +       PTE. Currently khugepaged does not support collapsing mTHP pte =
+ranges
+> > +       that contain a shared PTE. This counter can be used to monitor =
+the
+> > +       number of khugepaged mTHP collapses that failed due to the pres=
+ence
+> > +       of a shared PTE.
+>
+> Same comments as above.
+>
+> > +
+> >  As the system ages, allocating huge pages may be expensive as the
+> >  system uses memory compaction to copy data around memory to free a
+> >  huge page for use. There are some counters in ``/proc/vmstat`` to help
+> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> > index 3d29624c4f3f..4b2773235041 100644
+> > --- a/include/linux/huge_mm.h
+> > +++ b/include/linux/huge_mm.h
+> > @@ -144,6 +144,9 @@ enum mthp_stat_item {
+> >       MTHP_STAT_SPLIT_DEFERRED,
+> >       MTHP_STAT_NR_ANON,
+> >       MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
+> > +     MTHP_STAT_COLLAPSE_EXCEED_SWAP,
+> > +     MTHP_STAT_COLLAPSE_EXCEED_NONE,
+> > +     MTHP_STAT_COLLAPSE_EXCEED_SHARED,
+> >       __MTHP_STAT_COUNT
+> >  };
+> >
+> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > index 0063d1ba926e..7335b92969d6 100644
+> > --- a/mm/huge_memory.c
+> > +++ b/mm/huge_memory.c
+> > @@ -638,6 +638,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLI=
+T_FAILED);
+> >  DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
+> >  DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
+> >  DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PART=
+IALLY_MAPPED);
+> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXC=
+EED_SWAP);
+> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXC=
+EED_NONE);
+> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_E=
+XCEED_SHARED);
+> > +
+> >
+> >  static struct attribute *anon_stats_attrs[] =3D {
+> >       &anon_fault_alloc_attr.attr,
+> > @@ -654,6 +658,9 @@ static struct attribute *anon_stats_attrs[] =3D {
+> >       &split_deferred_attr.attr,
+> >       &nr_anon_attr.attr,
+> >       &nr_anon_partially_mapped_attr.attr,
+> > +     &collapse_exceed_swap_pte_attr.attr,
+> > +     &collapse_exceed_none_pte_attr.attr,
+> > +     &collapse_exceed_shared_pte_attr.attr,
+> >       NULL,
+> >  };
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index d741af15e18c..053202141ea3 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -592,7 +592,9 @@ static int __collapse_huge_page_isolate(struct vm_a=
+rea_struct *vma,
+> >                               continue;
+> >                       } else {
+> >                               result =3D SCAN_EXCEED_NONE_PTE;
+> > -                             count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> > +                             if (order =3D=3D HPAGE_PMD_ORDER)
+> > +                                     count_vm_event(THP_SCAN_EXCEED_NO=
+NE_PTE);
+> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
+_EXCEED_NONE);
+> >                               goto out;
+> >                       }
+> >               }
+> > @@ -622,10 +624,17 @@ static int __collapse_huge_page_isolate(struct vm=
+_area_struct *vma,
+> >                        * shared may cause a future higher order collaps=
+e on a
+> >                        * rescan of the same range.
+> >                        */
+> > -                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
+ged &&
+> > -                         shared > khugepaged_max_ptes_shared)) {
+> > +                     if (order !=3D HPAGE_PMD_ORDER) {
+>
+
+Thanks for the review! I'll go clean these up for the next version
+
+> A little nit/idea in general for series - since we do this order !=3D
+> HPAGE_PMD_ORDER check all over, maybe have a predict function like:
+>
+> static bool is_mthp_order(unsigned int order)
+> {
+>         return order !=3D HPAGE_PMD_ORDER;
+> }
+
+sure!
+
+>
+> > +                             result =3D SCAN_EXCEED_SHARED_PTE;
+> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
+_EXCEED_SHARED);
+> > +                             goto out;
+> > +                     }
+> > +
+> > +                     if (cc->is_khugepaged &&
+> > +                         shared > khugepaged_max_ptes_shared) {
+> >                               result =3D SCAN_EXCEED_SHARED_PTE;
+> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
+);
+> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
+_EXCEED_SHARED);
+>
+> OK I _think_ I mentioned this in a previous revision so forgive me for be=
+ing
+> repetitious but we also count PMD orders here?
+>
+> But in the MTHP_STAT_COLLAPSE_EXCEED_NONE and MTP_STAT_COLLAPSE_EXCEED_SW=
+AP
+> cases we don't? Why's that?
+
+Hmm I could have sworn I fixed that... perhaps I reintroduced the
+missing stat update when I had to rebase/undo the cleanup series by
+Lance. I will fix this.
 
 
-> And then, I have to ask, exactly "who" is going to do that work.
+Cheers.
+-- Nico
+>
+>
+> >                               goto out;
+> >                       }
+> >               }
+> > @@ -1073,6 +1082,7 @@ static int __collapse_huge_page_swapin(struct mm_=
+struct *mm,
+> >                * range.
+> >                */
+> >               if (order !=3D HPAGE_PMD_ORDER) {
+> > +                     count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_=
+SWAP);
+> >                       pte_unmap(pte);
+> >                       mmap_read_unlock(mm);
+> >                       result =3D SCAN_EXCEED_SWAP_PTE;
+> > --
+> > 2.51.0
+> >
+>
+> Thanks, Lorenzo
+>
 
-The intent is to allow for a separate maintainer path. There is more to it =
-than
-that, but I do not want to bury the lede here.
-
-
-> I'll point at another "you must do this for reasons" type of request we h=
-ave
-> had in the past, SPDX.  Sadly that task was never actually finished as it
-> looks like no one really cared to do the real work involved.  We got othe=
-r
-> benefits out of that effort, but the "goal" that people started that effo=
-rt
-> with was never met.  Part of that is me not pushing back hard enough on t=
-he
-> "who is going to do the work" part of that question, which is important i=
-n
-> stuff like this.
-
-Well, I am sorry for that. I am not quite sure how to respond, but I certai=
-nly
-sympathize with past frustrations. I have plenty of my own.
-
-We are not offering a silver bullet here, and the work to describe the kern=
-el's
-design will be finished when the work of development is finished. This is j=
-ust
-an attempt to fill in a semantic gap that is responsible for a great deal o=
-f
-technical debt and maintainer burnout.
-
-
-> If you never complete the effort, your end goal of passing Linux off to t=
-hose
-> customers will never happen.
-
-It is not clear to me what customers you are talking about. That is certain=
-ly
-not a goal in the mind of anyone working on this project that I am aware of=
-.
-
-
-> So, try to answer that, with lots and lots of specifics, and then, if we
-> agree that it is a sane thing to attempt (i.e. you are going to do all th=
-e
-> work and it actually would be possible to complete), then we can argue ab=
-out
-> the format of the text :)
-
-I respect what you are saying here, and perhaps the point of confusion came
-from the safety related source? As is often the case in science and
-engineering, we are borrowing (and _heavily_ modifying) a technique that is
-found in a different domain.
-
-The intent is to target technical debt and maintainer burnout by filling in=
- a
-semantic gap that occurs when a human idea is turned into code. Ironically,
-this is why the safety regulations were written in the first place, but lit=
-tle
-consideration was given to development methodology during that process.
-
-Thank you,
-
-..Ch:W..
