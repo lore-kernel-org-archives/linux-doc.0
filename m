@@ -1,132 +1,204 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39E2FF64B
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 21:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4761F4CA9;
+	Fri,  7 Nov 2025 22:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762551214; cv=none; b=ZXXAfTYM3P1pKUZUd3XycuuO4HWEuDvKMWZzf0iFmzgAh9XnVr2YHZFoRUOpOsFvBvo/qkVuIKRKOF5KleFRv1Vj0G2KNoiufqKMteIH0XrFGJQfPhhYcVIksp5AyeEb5YV6sMlWWwcPq5J7BfUQJZtKJLtEpcqOz86ZvO44+ac=
+	t=1762554621; cv=none; b=B6Gk440rJkqTWqlee7+vvrypHgfpnj+sraRZojUhfzHjMaHt0wpoM9Mklp+QtaVS7Q3EWbrOmeT/Fn7vDqdR8mLx+5A+O1i3VMkTCKGWUmLJNTDDn+Aw2E0j239iakuPtkZroNT0RC8Uxa9adMRYLWQ3y4/pbybK2tQf7culAOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762551214; c=relaxed/simple;
-	bh=3bLuZjbkJUNNf7eCMd25mCNiQRx6TxP1DhdgShNskEk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RRdqvvY9eR3z31UMnvjvCgKDB6nGusPgdyg/kHiA5UxFOE8+4PaMRvqaVFp78v5TvHKO2liYjZJjl6qHYEirBFcQracc2IJSDgz8FFsxuQRboixWYqiy5F96POx94EHAtVn3jwmlbJf7rymWktYIAYfboNLvY+E61HVEEYtyMko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jAUcoTKA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762554621; c=relaxed/simple;
+	bh=W+ttskEK9RUptSjJ3i+3bIIqHWPThqYvd6x7/NI5P2o=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=cJ2bQbcpx/OQclvRLgy8SSh8A1UpGV0uBXYTmbRCncsZfvF4XdPaCTyQz94AqYZ6APUsuYK/9TzFf0hA3OE5TxVU/3Lq2I0NuOaWcf93LaURh5aNlavXx0Y50cu3nz5buLEscnxLKvTW4DAx7OkP6AITIWx1GDunho4W88vqUu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=RSl+2Ovm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UuwaUA5H; arc=none smtp.client-ip=202.12.124.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jAUcoTKA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=cmdm8IS/le98Syh35a1KL9O23CyEpXLnI7cmobL4+5Q=; b=jAUcoTKAH4zRi7XGKbwClsdK9o
-	MhDLCy/7eqO+V07wwKEIQAUyssFOSM9yn1OGuMlufVnLqF7wUUSpqvMK638gvPeogQ0EJPUP1eTe8
-	DvQGql4IgE6Se6qgusezO9A6qIpA2nswbHMUNX5hBncu4zbmukrTQNI4y5yDKlFmVDCAMcEIMlfqt
-	KBOAY5ceDEIIosisgrPLoW3g3u1xntVN4gsS12J7eC4l5Bt95OzMdtRrcN9tClzG2seiV9720hzgg
-	y4D36beVaIT0nan+F2xloKimOEpXaLlthpELgZ//XMSJRBWabhEBSkG0p+2WQUzil2ZNBHiMG6NSH
-	2tbxvqgg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHU5M-00000001Agw-0YpN;
-	Fri, 07 Nov 2025 21:33:32 +0000
-Message-ID: <71b341b6-fe88-4f32-9d6e-992b1642ea8d@infradead.org>
-Date: Fri, 7 Nov 2025 13:33:31 -0800
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="RSl+2Ovm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UuwaUA5H"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.stl.internal (Postfix) with ESMTP id 793A513004D8;
+	Fri,  7 Nov 2025 17:30:15 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Fri, 07 Nov 2025 17:30:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1762554615; x=1762561815; bh=ZwkPbF9nsnt/dQhVAIT39vJvv4cO/9hCxNu
+	UVfACV+4=; b=RSl+2OvmuLLOe4+H9eKpqC9RuowrdRH1jGe8qwVoOfdZ4I27ekS
+	h347QoJGR7MbFLykEaO1W0OFpHRCXityFGk6z/rxp66MZo+KGt12LqqTInEw2CYx
+	3UVsJ0CnGd7WLdxCGmc3/jPkOyINCLxKnxNZklsUc3J3YikUBo2z3iRjiXQtMcY8
+	yq2lYeSEAVc2EWLQj1vGWye7x7mEIpjRksMMLReKQwYai89hN6GT0qLs9w2fXT/S
+	aMCWnv9MVDkZT/W5daTSkcLSwc8NcaRJOdNaOs10bJXlSp1ckOlZsLuPaoex29HZ
+	f8A5rEk01MsQM2q7vJ8gaDY5oWS9+X43upg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762554615; x=
+	1762561815; bh=ZwkPbF9nsnt/dQhVAIT39vJvv4cO/9hCxNuUVfACV+4=; b=U
+	uwaUA5HM3Mo8/6XH0sr3iEvIm8qkyq18WHGz5dmT4o3VuNPYFK0sT5/XwMakgpxt
+	Ddom64XoCKrACYy2h4ZcgV+Tb8PW+9ZOvOvsw3PhcaXohwqssibqLdWfGuvkRTof
+	t0u6Tm24jIfdJQPXMml4ZsBV3LhgKvo8idsWtpOv2NMgA6+6q/kF7vulaDiw1Wu8
+	QXM1pWPcrGZS5Ickwb89bPU2A6H7dDCOZcL68OGNiBqQPLXtlFiE4VEh4FSXHbCH
+	jVfBahE281hNyxR2h1puiT9DkuKNVkHHM+JFBCiTT4EucRcOcOrhAYY2UT2c/Eoo
+	JZasuDe2hIsiAlgrLmPZw==
+X-ME-Sender: <xms:8HIOaWcJ3fvBIlxYhSXg2q9kliHbCJheSrwA-afUtv0OZvqwXLDyaQ>
+    <xme:8HIOaUV0elXG3FvBZLynkKLK1KgrkL5csSh7j4QStWTKC78ohwNtKKCTXTTHgS-gp
+    tx6yHyJkUTuEkTZ5fK6ZZAuUD2GiIcU7CC_2eZ5UrNZYjQDQA>
+X-ME-Received: <xmr:8HIOaZisnAl3bLTOnvZKYyms_eoqV6GZneXYuZmTxpw76w3Ai29fkPeeLdpc1Or3ahBpEelhGgOyPonxIcN_mwWmfK2BHg0p1qv3ZiVRU6Jc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduledtkeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtjeertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epudetfefhudevhedvfeeufedvffekveekgfdtfefggfekheejgefhteeihffggfelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
+    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepleejpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpd
+    hrtghpthhtohepfhhrrghnkhdrlhhisehvihhvohdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdigfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dquhhnihhonhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhnihhlfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
+    igqdhhrghruggvnhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:8HIOaQRYcr2XZwYm0IZqPOguq_RH9vLLuCtHHjKz_7fIxkwW75Seeg>
+    <xmx:8HIOaYxjBK0ZJhgdNXL6-GZM5wqctaqKx4DPCA07b6HaSPRwb68vzg>
+    <xmx:8HIOaa-QnxtUrxuCdvh7t737bdTRYVtIsmaz5JhvP3JtprsULcfyDA>
+    <xmx:8HIOacn1Ltrl3NwobU3IDf3ppIfGvZcjgmhPN9__dNGKj77ZkqtQiQ>
+    <xmx:93IOadG3kN8Y0sl9-bllfvn04bE55YSNPrlPh3KgJLC15UMHH_zqyJDP>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 7 Nov 2025 17:29:44 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: about make mandocs warnings (1)
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <efbccba7-7377-409d-9d0a-4e99b464e2ab@infradead.org>
- <20251026085906.2d7e1d70@sal.lan>
- <af5d13a3-54ae-443b-bcc4-0b7de2f29ff0@infradead.org>
- <20251107071556.7e2b8f96@sal.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251107071556.7e2b8f96@sal.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: "Eric Van Hensbergen" <ericvh@kernel.org>,
+ "Latchesar Ionkov" <lucho@ionkov.net>,
+ "Dominique Martinet" <asmadeus@codewreck.org>,
+ "Christian Schoenebeck" <linux_oss@crudebyte.com>,
+ "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
+ "Marc Dionne" <marc.dionne@auristor.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ "Chris Mason" <clm@fb.com>, "Xiubo Li" <xiubli@redhat.com>,
+ "Ilya Dryomov" <idryomov@gmail.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Tyler Hicks" <code@tyhicks.com>,
+ "Jeremy Kerr" <jk@ozlabs.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>, "Theodore Ts'o" <tytso@mit.edu>,
+ "Andreas Dilger" <adilger.kernel@dilger.ca>,
+ "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Andreas Gruenbacher" <agruenba@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Yangtao Li" <frank.li@vivo.com>, "Richard Weinberger" <richard@nod.at>,
+ "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Mikulas Patocka" <mikulas@artax.karlin.mff.cuni.cz>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "David Hildenbrand" <david@redhat.com>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Dave Kleikamp" <shaggy@kernel.org>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>,
+ "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Mark Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>,
+ "Joseph Qi" <joseph.qi@linux.alibaba.com>,
+ "Bob Copeland" <me@bobcopeland.com>,
+ "Mike Marshall" <hubcap@omnibond.com>,
+ "Martin Brandenburg" <martin@omnibond.com>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>, "Tom Talpey" <tom@talpey.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Zhihao Cheng" <chengzhihao1@huawei.com>,
+ "Hans de Goede" <hansg@kernel.org>, "Carlos Maiolino" <cem@kernel.org>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Kees Cook" <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ linux-kernel@vger.kernel.org, v9fs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, gfs2@lists.linux.dev,
+ linux-um@lists.infradead.org, linux-mm@kvack.org,
+ linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+ linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
+ linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-xfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+ "Jeff Layton" <jlayton@kernel.org>
+Subject: Re: [PATCH v2] vfs: remove the excl argument from the ->create()
+ inode_operation
+In-reply-to: <20251107-create-excl-v2-1-f678165d7f3f@kernel.org>
+References: <20251107-create-excl-v2-1-f678165d7f3f@kernel.org>
+Date: Sat, 08 Nov 2025 09:29:43 +1100
+Message-id: <176255458305.634289.5577159882824096330@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-
-
-On 11/7/25 2:15 AM, Mauro Carvalho Chehab wrote:
-> Em Sun, 26 Oct 2025 09:43:34 -0700
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
+On Sat, 08 Nov 2025, Jeff Layton wrote:
+> With two exceptions, ->create() methods provided by filesystems ignore
+> the "excl" flag.  Those exception are NFS and GFS2 which both also
+> provide ->atomic_open.
 > 
->> Hi Mauro,
->>
->> On 10/26/25 4:59 AM, Mauro Carvalho Chehab wrote:
->>> Em Sat, 25 Oct 2025 16:49:21 -0700
->>> Randy Dunlap <rdunlap@infradead.org> escreveu:
->>>   
->>>> Hi Mauro,
->>>>
->>>>
-
-[snip]
-
->>>> Note: hundreds (probably thousands) of the mandocs warnings would disappear
->>>> if kernel-doc accepted '-' in addition to ':' as a function parameter
->>>> or struct/union/enum member separator (like it does for
->>>> function/struct/union/enum short description).  
->>>
->>> This is easy to fix, and QEMU has a patch mentioning what is needed
->>> at:
->>> 	9cbe72b868b7 ("scripts/kernel-doc: tweak for QEMU coding standards")
->>>
->>> on its description: basically two regexes from Perl code would need changes:
->>>
->>>         -       if (/\s*([\w\s]+?)(\(\))?\s*-/) {
->>>         +       if (/\s*([\w\s]+?)(\s*-|:)/) {
->>>
->>> and:
->>>         -       if (/-(.*)/) {
->>>         +       if (/[-:](.*)/) {
->>>
->>> If I'm not mistaken, I got rid of the second regex during rewrite,
->>> but I might be wrong. If I recall correctly, with Python code, the
->>> change would be aon a single place at scripts/lib/kdoc/kdoc_parser.py:
->>>
->>> 	doc_sect = doc_com + \
->>> -	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*:([^:].*)?$',
->>> +	    KernRe(r'\s*(@[.\w]+|@\.\.\.|' + known_section_names + r')\s*[:-]([^:].*)?$',
->>> 	           flags=re.I, cache=False)
->>>
->>> btw, the [^:] pattern there seems to be trying to avoid catching
->>> "::". With the new proposed regex, and if "::" is something that we
->>> need to avoid, if one uses "-:", it would miss the description. 
->>> I guess that's ok.
->>>
->>> From my side, I'm OK with the new regex, but one has to verify if
->>> this won't cause unwanted side-effects.  
->>
->> Yes, for sure. I'm willing to do some testing on a patch.
->> Should I begin with the KernRe() change above?
+> Since ce8644fcadc5 ("lookup_open(): expand the call of vfs_create()"),
+> the "excl" argument to the ->create() inode_operation is always set to
+> true in vfs_create(). The ->create() call in lookup_open() sets it
+> according to the O_EXCL open flag, but is never called if the filesystem
+> provides ->atomic_open().
 > 
-> Yes.
+> The excl flag is therefore always either ignored or true.  Remove it,
+> and change NFS and GFS2 to act as if it were always true.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Note that this is based on top of the dir delegation series [1]. LMK
+> if the Documentation/ updates are too wordy.
 
-first report with the one-line change to KernRe() above:
+Patch is very nice.  I don't think the documentation is too wordy.
+I think it is good that the two changes to the different files say
+essentially the same thing but use different words.  That helps.
 
-$ ./scripts/kernel-doc.py -none -Wall sound/soc/codecs/cs-amp-lib.c
-Warning: sound/soc/codecs/cs-amp-lib.c:574 duplicate section name 'Return'
-Warning: sound/soc/codecs/cs-amp-lib.c:574 duplicate section name 'Return'
+Reviewed-by: NeilBrown <neil@brown.name>
 
-Without the KernRe() change, these are not reported (which is correct).
-The new/changed line finds "*\s*[Rr]eturn" in a comment (without a trailing ':')
-and considers it to be a Return: section.
+> 
+> Full disclosure: I did use Claude code to generate the first
+> approximation of this patch, but I had to fix a number of things that it
+> missed.  I probably could have given it better prompts. In any case, I'm
+> not sure how to properly attribute this (or if I even need to).
 
+My understanding is that if you fully understand (and can defend) the
+code change with all its motivations and implications as well as if you
+had written it yourself, then you don't need to attribute whatever fancy
+text editor or IDE (e.g.  Claude) that you used to help produce the
+patch.
 
-> (sorry for not answering earlier... was in OOT solving some stuff
-> abroad)
-
-Sure, not a problem.
-
--- 
-~Randy
-
+Thanks,
+NeilBrown
