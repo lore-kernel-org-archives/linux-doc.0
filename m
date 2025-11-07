@@ -1,424 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A19A31A045;
-	Fri,  7 Nov 2025 10:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C6D28C5AA
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 12:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762512128; cv=none; b=Fq++nh3W483rAR9doTB9cAEDmHqFCTg1TAgRWY360yIVPUfPllNUSlarLnoJjtd1N7kzgDxFftIzqpxAWcwKlra5368XG6hRteWmRYU++tWic3qwZCKzJJjb88lH3Gy0kjW88sBGvcl6K0fGqbtHOb/8FC/ZFNgBlF0E3nm3+FM=
+	t=1762517568; cv=none; b=r5VhHcIBBrltBL9hR28fSvIXBOrCz3LgXh5Xc4vaz3bLtS9ZUVXBiXTMcC9ePPZnr2G/OjlKEn4jv26qF1N8Bzpm9Y2pzrmluJJ9qJ5TzTJ5ppa481saX3qKwB4VM/gFFII2hklVWFSY/uHRDhRfehfDWcH6OOvTvMaevfddlT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762512128; c=relaxed/simple;
-	bh=ziJw61kRNPkBzgbnfLACIH7zWFHD76oz01qnUhk6XVQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JMzqMyIG0cGtBEYnEi3wvYrzAuMyoohVSmYTIpI5fO0Ap8ckI9VxZMTlt/J4ClSz5tp1yg3CWkOKf8DkGnLd/l8WXZMGciMC0Sbdg/q33+J1PeAk8qL9z6NJ3QwdBalpAvCoTkV2AdxJWpMZVWgVmXEcvLzeuHgVqmbpTxhEkJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EQj4MVR7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762517568; c=relaxed/simple;
+	bh=Tfpbm92o9W7BVvnGiM2caH4qh7ZyE+P+DguJ0PvN6mQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=G3xjhrhPDmHYj3QPJALc5Udio9iMxoUz0XriNrwEB23F5CCOSv3UzLYtVtZerIMsTEJ8iPHuRICkTFF7BoeFlqy/IL21xGirC/2L77CG6aDyZ1oR4Wx5+fuqgQckOxt45gGiT+WFUP4oHIa3oiNTqd5iyQNmyYEJTz+hoWNk2MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tpBHtU6H; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQj4MVR7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 197BCC19422;
-	Fri,  7 Nov 2025 10:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762512124;
-	bh=ziJw61kRNPkBzgbnfLACIH7zWFHD76oz01qnUhk6XVQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EQj4MVR7XZrFq/6+f5cTod1Qm6TPbyADwuXMRjdxJKEEWseRoaI+E+aqRk1mNIdxy
-	 kYSbU1hAe4+J9sBnWJZ27Xts76JDXYnP1zwlEH2ngxC1R6eT79wXRte4I2UjjVDF/8
-	 Grj9XDwQ2gx73/aGn6m0eCnbyRNdXjW/wRZKfJudTfSCOteGEV44hUq82QGm56fjXU
-	 uXN4WAP+oEgi/SDdVcGqDE7lPpqEcEE/wdeocsPd0nHZLqwRSlG7Rnozmc081D5XVV
-	 lmp5Bg72cRC8iWxIdQuhHXZqxJkEAXVFCUcouieRq2bgCmym+7/BDQFVMZOz6A/0Pn
-	 0o8lBLpDTfZPA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1vHJu0-00000000fLY-0aGH;
-	Fri, 07 Nov 2025 07:41:08 -0300
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Jonathan Corbet" <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs: doc-guide: parse-headers.rst update its documentation
-Date: Fri,  7 Nov 2025 07:40:46 -0300
-Message-ID: <2ae06f370724bfd8210892ef3062cb349ed518f2.1762512037.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tpBHtU6H"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b5fcada9d24so76669666b.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 04:12:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762517565; x=1763122365; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiMZz3p9r1cXUEtJOvXENsRsqsu1S4GTx2JzdMxXhCI=;
+        b=tpBHtU6H+uXNawvpoCU6gmGnXVQWUKcfsKVxFE+D8QNj4HARSbp6TnAW6uvuj4qgb8
+         Ep6t/ejz9fVp7xs12kzya9XyD+fL48Jsc0TA3Uf7VJUEMUb9sf0ChK/1XFEsVfINkdYk
+         zPsgwUwryAKVbT0ly27gQYkH/kmjXN0DXEazIYsEjFTFtkMizU20NR2yHMLilOQiO4G5
+         2QrFv625cl3ZQSIa1OIcFSPzk1+YbeXbrz2NQLQAFOn8sMMBITasCBJlzgTFHXMgD2c3
+         GseWHjVlUX+pH0Ph1H8STTfMMp5FrZrI6eUcHQ+SORgQkwjsiSyHnhSY9AgYmT57gAxN
+         xm5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762517565; x=1763122365;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiMZz3p9r1cXUEtJOvXENsRsqsu1S4GTx2JzdMxXhCI=;
+        b=rvl1A5dE8kZx9ETzgB/zAh+XEZC/InP/F7aYX3iZyHuSpD2k/ul+WD7WtFZSwZYhJl
+         ZH5gKYue95IaO7bUuOIN6aHiyLs9uQfxl/BclCnXyuTldAjkn4vV6AOGTwGW2PnVxcfu
+         9vw9gzgzuzkP2iKC6yljRcWIhFmiLZH7Hg1b3TdtPXFc50aRJDd/L9XeMyBhgNlBIO3z
+         Vxc9uYU1bAd3PQKqAASfi/Cj6NA3AEh9I/vSBLwe/rJ/kQ1xgDv3CfHzugvJF2mDzfAz
+         PsKWlg7UnxeIfS9kC4VXqNkYaWAiDx456wGlGB7kO1zyvyKnAprNkCEecpDz0CjBBzIb
+         mQJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWfW5ZEBpsplKA7L0q70tayeuduyTfDIfBH9h+qrctLgRgDEkzKOqAEwM/HW+uI04jJq1zj7zeMv40=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBPphb4QwTShiDp1E22GMefhe8Te8q0DhltKGKZwqo44p5+XOj
+	Do5FFW2FmnpujQyixdFs+KGKU11PJiafBETtD01RfJuUPDJCalrsoBKVGjJxL5+QM28rvGhKZro
+	CmQtQoY3nxXv3LNOClg==
+X-Google-Smtp-Source: AGHT+IFz1d7JwOnWSoe0fVf8qRe2tAmBflmhL4Mg+i45pACLer1ETGlr4r2lHbYGUH0n6LT169uz4zsABZFzda8=
+X-Received: from ejdaz21.prod.google.com ([2002:a17:906:8f15:b0:b72:5aa5:2d0b])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:6d16:b0:b6d:7e04:7a24 with SMTP id a640c23a62f3a-b72c0ac01aemr279299066b.36.1762517565061;
+ Fri, 07 Nov 2025 04:12:45 -0800 (PST)
+Date: Fri, 7 Nov 2025 12:12:43 +0000
+In-Reply-To: <0f7186b3-16bd-44b7-a3fe-637af9d25dd3@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Mime-Version: 1.0
+References: <cover.1762422915.git.lorenzo.stoakes@oracle.com>
+ <fe38b1a43364f72d1ce7a6217e53a33c9c0bb0c5.1762422915.git.lorenzo.stoakes@oracle.com>
+ <yja2mhwa4bzatbthjjq5rolqlkfgcbmppic3caaiwi6jc63rbc@cims6rqnotvj>
+ <043dcbdb-e069-46e7-8f79-8fdaf354fb44@lucifer.local> <aQ24HAAxYLhIvV5U@google.com>
+ <0f7186b3-16bd-44b7-a3fe-637af9d25dd3@lucifer.local>
+Message-ID: <aQ3iO40QYEM6Dxfs@google.com>
+Subject: Re: [PATCH v2 1/5] mm: introduce VM_MAYBE_GUARD and make visible in /proc/$pid/smaps
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Pedro Falcato <pfalcato@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Andrei Vagin <avagin@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 
-Besides converting from Perl to Python, parse-headers has gained
-some new functionality and was moved to tools/docs.
+On Fri, Nov 07, 2025 at 09:44:22AM +0000, Lorenzo Stoakes wrote:
+> On Fri, Nov 07, 2025 at 09:13:00AM +0000, Alice Ryhl wrote:
+> > On Thu, Nov 06, 2025 at 02:54:33PM +0000, Lorenzo Stoakes wrote:
+> > > +cc Alice for rust stuff
+> > >
+> > > On Thu, Nov 06, 2025 at 02:27:56PM +0000, Pedro Falcato wrote:
+> > > > On Thu, Nov 06, 2025 at 10:46:12AM +0000, Lorenzo Stoakes wrote:
+> > > > >  /*
+> > > > >   * vm_flags in vm_area_struct, see mm_types.h.
+> > > > >   * When changing, update also include/trace/events/mmflags.h
+> > > > > @@ -296,6 +298,7 @@ extern unsigned int kobjsize(const void *objp);
+> > > > >  #define VM_UFFD_MISSING	0
+> > > > >  #endif /* CONFIG_MMU */
+> > > > >  #define VM_PFNMAP	0x00000400	/* Page-ranges managed without "struct page", just pure PFN */
+> > > > > +#define VM_MAYBE_GUARD	BIT(VM_MAYBE_GUARD_BIT)	/* The VMA maybe contains guard regions. */
+> > > >
+> > > > Don't we also need an adjustment on the rust side for this BIT()? Like we
+> > > > for f04aad36a07c ("mm/ksm: fix flag-dropping behavior in ksm_madvise").
+> > >
+> > > That's a bit unhelpful if rust can't cope with extremely basic assignments like
+> > > that and we just have to know to add helpers :/
+> > >
+> > > We do BIT() stuff for e.g. VM_HIGH_ARCH_n, VM_UFFD_MINOR_BIT,
+> > > VM_ALLOW_ANY_UNCACHED_BIT, VM_DROPPABLE_BIT and VM_SEALED_BIT too and no such
+> > > helpers there, So not sure if this is required?
+> > >
+> > > Alice - why is it these 'non-trivial' defines were fine but VM_MERGEABLE was
+> > > problematic? That seems strange.
+> > >
+> > > I see [0], so let me build rust here and see if it moans, if it moans I'll add
+> > > it.
+> > >
+> > > [0]:https://lore.kernel.org/oe-kbuild-all/CANiq72kOhRdGtQe2UVYmDLdbw6VNkiMtdFzkQizsfQV0gLY1Hg@mail.gmail.com/
+> >
+> > When you use #define to declare a constant whose right-hand-side
+> > contains a function-like macro such as BIT(), bindgen does not define a
+> > Rust version of that constant. However, VM_MAYBE_GUARD is not referenced
+> > in Rust anywhere, so that isn't a problem.
+> >
+> > It was a problem with VM_MERGEABLE because rust/kernel/mm/virt.rs
+> > references it.
+> >
+> > Note that it's only the combination of #define and function-like macro
+> > that triggers this condition. If the constant is defined using another
+> > mechanism such as enum {}, then bindgen will generate the constant no
+> > matter how complex the right-hand-side is. The problem is that bindgen
+> > can't tell whether a #define is just a constant or not.
+> 
+> Thanks, I guess we can update as we go as rust needs. Or I can do a big update
+> as part of my VMA flag series respin?
 
-Update its documentation accordingly.
+Whenever you think is a good time works for me.
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Closes: https://lore.kernel.org/linux-doc/9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/doc-guide/parse-headers.rst     | 195 +++++++++---------
- .../it_IT/doc-guide/parse-headers.rst         |   8 +-
- .../zh_CN/doc-guide/parse-headers.rst         |   8 +-
- 3 files changed, 103 insertions(+), 108 deletions(-)
+I think it would be nice to move those constants so they use enum {}
+instead of #define at some point.
 
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index 204b025f1349..954f3285ddf6 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -8,170 +8,165 @@ between the code and the documentation. Adding cross-references for
- userspace API files has an additional vantage: Sphinx will generate warnings
- if a symbol is not found at the documentation. That helps to keep the
- uAPI documentation in sync with the Kernel changes.
--The :ref:`parse_headers.pl <parse_headers>` provide a way to generate such
-+The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
- cross-references. It has to be called via Makefile, while building the
- documentation. Please see ``Documentation/userspace-api/media/Makefile`` for an example
- about how to use it inside the Kernel tree.
- 
- .. _parse_headers:
- 
--parse_headers.pl
--^^^^^^^^^^^^^^^^
-+tools/docs/parse_headers.py
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- NAME
- ****
- 
--
--parse_headers.pl - parse a C file, in order to identify functions, structs,
-+parse_headers.py - parse a C file, in order to identify functions, structs,
- enums and defines and create cross-references to a Sphinx book.
- 
-+USAGE
-+*****
-+
-+parse-headers.py [-h] [-d] [-t] ``FILE_IN`` ``FILE_OUT`` ``FILE_RULES``
- 
- SYNOPSIS
- ********
- 
-+Converts a C header or source file ``FILE_IN`` into a ReStructured Text
-+included via ..parsed-literal block with cross-references for the
-+documentation files that describe the API. It accepts an optional
-+``FILE_RULES`` file to describe what elements will be either ignored or
-+be pointed to a non-default reference type/name.
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+The output is written at ``FILE_OUT``.
- 
--Where <options> can be: --debug, --help or --usage.
-+It is capable of identifying ``define``, ``struct``, ``typedef``, ``enum``
-+and enum ``symbol``, creating cross-references for all of them.
- 
-+It is also capable of distinguishing ``#define`` used for specifying
-+Linux-specific macros used to define ``ioctl``.
-+
-+The optional ``FILE_RULES`` contains a set of rules like::
-+
-+    ignore ioctl VIDIOC_ENUM_FMT
-+    replace ioctl VIDIOC_DQBUF vidioc_qbuf
-+    replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
-+
-+POSITIONAL ARGUMENTS
-+********************
-+
-+  ``FILE_IN``
-+      Input C file
-+
-+  ``FILE_OUT``
-+      Output RST file
-+
-+  ``FILE_RULES``
-+      Exceptions file (optional)
- 
- OPTIONS
- *******
- 
--
--
--\ **--debug**\
--
-- Put the script in verbose mode, useful for debugging.
--
--
--
--\ **--usage**\
--
-- Prints a brief help message and exits.
--
--
--
--\ **--help**\
--
-- Prints a more detailed help message and exits.
-+  ``-h``, ``--help``
-+      show a help message and exit
-+  ``-d``, ``--debug``
-+      Increase debug level. Can be used multiple times
-+  ``-t``, ``--toc``
-+      instead of a literal block, outputs a TOC table at the RST file
- 
- 
- DESCRIPTION
- ***********
- 
-+Creates an enriched version of a Kernel header file with cross-links
-+to each C data structure type, from ``FILE_IN``, formatting it with
-+reStructuredText notation, either as-is or as a table of contents.
- 
--Convert a C header or source file (C_FILE), into a reStructuredText
--included via ..parsed-literal block with cross-references for the
--documentation files that describe the API. It accepts an optional
--EXCEPTIONS_FILE with describes what elements will be either ignored or
--be pointed to a non-default reference.
-+It accepts an optional ``FILE_RULES`` which describes what elements will be
-+either ignored or be pointed to a non-default reference, and optionally
-+defines the C namespace to be used.
- 
--The output is written at the (OUT_FILE).
-+It is meant to allow having more comprehensive documentation, where
-+uAPI headers will create cross-reference links to the code.
- 
--It is capable of identifying defines, functions, structs, typedefs,
--enums and enum symbols and create cross-references for all of them.
--It is also capable of distinguish #define used for specifying a Linux
--ioctl.
-+The output is written at the (``FILE_OUT``).
- 
--The EXCEPTIONS_FILE contain two types of statements: \ **ignore**\  or \ **replace**\ .
-+The ``FILE_RULES`` may contain contain three types of statements:
-+**ignore**, **replace** and **namespace**.
- 
--The syntax for the ignore tag is:
-+By default, it create rules for all symbols and defines, but it also
-+allows parsing an exception file. Such file contains a set of rules
-+using the syntax below:
- 
-+1. Ignore rules:
- 
--ignore \ **type**\  \ **name**\
-+    ignore *type* *symbol*
- 
--The \ **ignore**\  means that it won't generate cross references for a
--\ **name**\  symbol of type \ **type**\ .
-+Removes the symbol from reference generation.
- 
--The syntax for the replace tag is:
-+2. Replace rules:
- 
-+    replace *type* *old_symbol* *new_reference*
- 
--replace \ **type**\  \ **name**\  \ **new_value**\
-+    Replaces *old_symbol* with a *new_reference*.
-+    The *new_reference* can be:
- 
--The \ **replace**\  means that it will generate cross references for a
--\ **name**\  symbol of type \ **type**\ , but, instead of using the default
--replacement rule, it will use \ **new_value**\ .
-+    - A simple symbol name;
-+    - A full Sphinx reference.
- 
--For both statements, \ **type**\  can be either one of the following:
-+3. Namespace rules
- 
-+    namespace *namespace*
- 
--\ **ioctl**\
-+    Sets C *namespace* to be used during cross-reference generation. Can
-+    be overridden by replace rules.
- 
-- The ignore or replace statement will apply to ioctl definitions like:
-+On ignore and replace rules, *type* can be:
- 
-- #define	VIDIOC_DBG_S_REGISTER 	 _IOW('V', 79, struct v4l2_dbg_register)
-+    - ioctl:
-+        for defines of the form ``_IO*``, e.g., ioctl definitions
- 
-+    - define:
-+        for other defines
- 
-+    - symbol:
-+        for symbols defined within enums;
- 
--\ **define**\
-+    - typedef:
-+        for typedefs;
- 
-- The ignore or replace statement will apply to any other #define found
-- at C_FILE.
--
--
--
--\ **typedef**\
--
-- The ignore or replace statement will apply to typedef statements at C_FILE.
--
--
--
--\ **struct**\
--
-- The ignore or replace statement will apply to the name of struct statements
-- at C_FILE.
--
--
--
--\ **enum**\
--
-- The ignore or replace statement will apply to the name of enum statements
-- at C_FILE.
--
--
--
--\ **symbol**\
--
-- The ignore or replace statement will apply to the name of enum value
-- at C_FILE.
--
-- For replace statements, \ **new_value**\  will automatically use :c:type:
-- references for \ **typedef**\ , \ **enum**\  and \ **struct**\  types. It will use :ref:
-- for \ **ioctl**\ , \ **define**\  and \ **symbol**\  types. The type of reference can
-- also be explicitly defined at the replace statement.
-+    - enum:
-+        for the name of a non-anonymous enum;
- 
-+    - struct:
-+        for structs.
- 
- 
- EXAMPLES
- ********
- 
-+- Ignore a define ``_VIDEODEV2_H`` at ``FILE_IN``::
- 
--ignore define _VIDEODEV2_H
-+    ignore define _VIDEODEV2_H
- 
-+- On an data structure like this enum::
- 
--Ignore a #define _VIDEODEV2_H at the C_FILE.
-+    enum foo { BAR1, BAR2, PRIVATE };
- 
--ignore symbol PRIVATE
-+  It won't generate cross-references for ``PRIVATE``::
- 
-+    ignore symbol PRIVATE
- 
--On a struct like:
-+  At the same struct, instead of creating one cross reference per symbol,
-+  make them all point to the ``enum foo`` C type::
- 
--enum foo { BAR1, BAR2, PRIVATE };
-+    replace symbol BAR1 :c:type:\`foo\`
-+    replace symbol BAR2 :c:type:\`foo\`
- 
--It won't generate cross-references for \ **PRIVATE**\ .
- 
--replace symbol BAR1 :c:type:\`foo\`
--replace symbol BAR2 :c:type:\`foo\`
--
--
--On a struct like:
--
--enum foo { BAR1, BAR2, PRIVATE };
--
--It will make the BAR1 and BAR2 enum symbols to cross reference the foo
--symbol at the C domain.
-+- Use C namespace ``MC`` for all symbols at ``FILE_IN``::
- 
-+    namespace MC
- 
- BUGS
- ****
-@@ -184,7 +179,7 @@ COPYRIGHT
- *********
- 
- 
--Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
-+Copyright (c) 2016, 2025 by Mauro Carvalho Chehab <mchehab+huawei@kernel.org>.
- 
- License GPLv2: GNU GPL version 2 <https://gnu.org/licenses/gpl.html>.
- 
-diff --git a/Documentation/translations/it_IT/doc-guide/parse-headers.rst b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-index 026a23e49767..b0caa40fe1e9 100644
---- a/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-@@ -13,28 +13,28 @@ dello spazio utente ha ulteriori vantaggi: Sphinx genererà dei messaggi
- d'avviso se un simbolo non viene trovato nella documentazione. Questo permette
- di mantenere allineate la documentazione della uAPI (API spazio utente)
- con le modifiche del kernel.
--Il programma :ref:`parse_headers.pl <it_parse_headers>` genera questi riferimenti.
-+Il programma :ref:`parse_headers.py <it_parse_headers>` genera questi riferimenti.
- Esso dev'essere invocato attraverso un Makefile, mentre si genera la
- documentazione. Per avere un esempio su come utilizzarlo all'interno del kernel
- consultate ``Documentation/userspace-api/media/Makefile``.
- 
- .. _it_parse_headers:
- 
--parse_headers.pl
-+parse_headers.py
- ^^^^^^^^^^^^^^^^
- 
- NOME
- ****
- 
- 
--parse_headers.pl - analizza i file C al fine di identificare funzioni,
-+parse_headers.py - analizza i file C al fine di identificare funzioni,
- strutture, enumerati e definizioni, e creare riferimenti per Sphinx
- 
- SINTASSI
- ********
- 
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+\ **parse_headers.py**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
- Dove <options> può essere: --debug, --usage o --help.
- 
-diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-index a08819e904ed..65d9dc5143ff 100644
---- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-@@ -13,20 +13,20 @@
- 有时，为了描述用户空间API并在代码和文档之间生成交叉引用，需要包含头文件和示例
- C代码。为用户空间API文件添加交叉引用还有一个好处：如果在文档中找不到相应符号，
- Sphinx将生成警告。这有助于保持用户空间API文档与内核更改同步。
--:ref:`parse_headers.pl <parse_headers_zh>` 提供了生成此类交叉引用的一种方法。
-+:ref:`parse_headers.py <parse_headers_zh>` 提供了生成此类交叉引用的一种方法。
- 在构建文档时，必须通过Makefile调用它。有关如何在内核树中使用它的示例，请参阅
- ``Documentation/userspace-api/media/Makefile`` 。
- 
- .. _parse_headers_zh:
- 
--parse_headers.pl
-+parse_headers.py
- ----------------
- 
- 脚本名称
- ~~~~~~~~
- 
- 
--parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
-+parse_headers.py——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
- 创建交叉引用。
- 
- 
-@@ -34,7 +34,7 @@ parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、
- ~~~~~~~~
- 
- 
--\ **parse_headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
-+\ **parse_headers.py**\  [<选项>] <C文件> <输出文件> [<例外文件>]
- 
- <选项> 可以是： --debug, --help 或 --usage 。
- 
--- 
-2.51.0
-
+Alice
