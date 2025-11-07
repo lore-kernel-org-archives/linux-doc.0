@@ -1,132 +1,130 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-qk1-f202.google.com (mail-qk1-f202.google.com [209.85.222.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1526E1D5CC7
-	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 05:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4E51DF254
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 05:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762492481; cv=none; b=Vy8Xymkvk9eqxHXJwIS315dCR+yR+2DRJCulsnFuxpCmLqBZwzbERenHjgDUMwF12SNWGTNx3ft0y98slVEMjld3lx03TOvGM5cqmoMaLXbQkjih/SGBTrlRffv6E2uH61ImsUiVW910DglbJ6lwEr4hlMu8JQlRsmOO/HmTD8E=
+	t=1762493391; cv=none; b=MeOV+1eZa0Qw+D4XWlxkB56t3GJex20xk8KnFQbQNdUFqziR9FhfHtR3At8dWDm1EFM6jf1sEe3X8s8IPdyW8Yr+bV96J4/3w+2EIwJCFpBZfOU4F0lD7o73Nes2uV+IUFbZS5bYv+edpnaXXeibISOgvw9CLyl2OpN4+FJ1uI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762492481; c=relaxed/simple;
-	bh=wFgazZHwRKDC0b+E3ALvNq+/41+FCsmrjBSYyzfDEw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JFRCI+gWC2Ss9cbY8WOHcFi+2w5hBLEaKGzpgU3tghgnLdYOEdkbSnsMXQL89GWgCAeGtzwtZBWoI5vOzeAOy1nFHuag7kNTStwvEfDvBnb2I8ck0AXsEvlztR57TVobzORzTr0qsKDkI96LMkxpJT7VLA03G2LAWT1U1VfhKVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnSfq41C; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762493391; c=relaxed/simple;
+	bh=RV9zvylkghKN55Hz0b0NOWqbwRthFQ9z21H6uAqwdwo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=G8K/Rv5CkLC47rOkf1Q37vQaHcyNieRqb4unmtrjf1xuuIjaLFtToz7uFfFVILZEr0JJAS2y5N2fEM7Y/ZaDI2UTmpJPqLmDTKf9dTG65Mt5A6hzZav4sejo2cDlY/4nYHrS/7z/d8KBFiHOmtLT8mctmZGdpDDs8WkaCfKlU4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2fe+DTWa; arc=none smtp.client-ip=209.85.222.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnSfq41C"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b6271ea3a6fso256283a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 21:14:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2fe+DTWa"
+Received: by mail-qk1-f202.google.com with SMTP id af79cd13be357-8b24a25cff5so90585385a.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Nov 2025 21:29:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762492479; x=1763097279; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EXckxvr0vYaJfRakg7xejcSzoqy5VEAgGRFPyHXgVxQ=;
-        b=HnSfq41CLTahIk5kp8BDreZbdURDM6OuuCDsv2Cf1TUYDdJmV/m2J1JJE9uA+4l04e
-         GBG8/WEOAghLkfwXjpaSFOEeJW6ti4UdUcGKurb0PnO6AcD+8a7pYjwDEYGVD0G6VLoJ
-         MmFaujU8Y300trDYhvjF7/wLFq8CsmTtRtjqYPUm682oZyJkSefyTk4ZhOAsE/JF7qeq
-         +MaoAOSSnHi/dI5a05I0TFYagoVasxO1fZ/+u6i0nTLdAZ1zSY70K8xcnZPW+oFmjNl+
-         cnw/ieaji2AUPkKChIzxnHYbphoOmlZkH6TJgSDX6AnRUDi1fjBuBgEy6WGDfk+oWAZV
-         AbzA==
+        d=google.com; s=20230601; t=1762493389; x=1763098189; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=njV6Z7e8AHZ3jv7SEHiGiHSYJwXRJtYkycrQltatJm8=;
+        b=2fe+DTWa4ByZxAPi4XredV038SRctmSxKdmDPjYS3uJ+yrEncknUPk0tZw8HGFGdnd
+         OX080qcaIsim+s4xxUWhLN3HQFmxcT92SnSQcBhf9H+AY1tZ51h+Vcp3mrN5TVFuhpmD
+         Qme00bpEvBVBgR1QDy+k2pa9U74T5aQ54Akk7CqyTlTNCEDtHZDKNggk1EtrwgxE4Y0G
+         D/qSfiHwp2HcbuAECEyM2io00DBRQ+K9ZOtDB0ypNMjUCgJ4E26sU4+yq9gaic8Rx66q
+         KU7ID8YNQRxQ2PS2pBMqGoiRRli9HGCPMdLFuh4YtSzEoMsX5DFsbwj5o99EAWr6FV3w
+         M3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762492479; x=1763097279;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EXckxvr0vYaJfRakg7xejcSzoqy5VEAgGRFPyHXgVxQ=;
-        b=Vmf9c1zXCRPH57ozzxvFjk5s2NBhzc1dh2uf2tSvIIbfi++qBpTpazKumEjpqyujS2
-         7AEphcCw3BCv4CQwTWYEmXJG7J293PEpaSe81vXNC8BmHRrcuqX05s0DK+eGhKbSVrnG
-         qf7kqEIOx59wOdZ0Z7jCD9NEgAC8SXgN8UXqWWc5lvfZsxqq25l1kKtZLsVivsXGwljp
-         zYr+ytJr034LPma2loQ9dURoY0fe8mJtow7/qno9rCzzELzwHMnaPy92dnAL/FcMqHKE
-         +MHCico1ZZqxwXNHvgfpZdsH0AnHtYMBx34NAgjN8rIq4WUrIM/Amy0JqYiYrQ6V/Rnw
-         ZYnw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8uo7PWkFKoxp3sXuTyYimwlj1nn3St9GcFHwXkxy+pkdJ4qYnAjcUFOM4aNPyvXmOMBmVrpT3+Gw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4tBKXmw/xnLUrsTuxJyY3bqZzla4x5U6FBbuVBJB+SlNPq1XN
-	NEeWcY+fJfWk8PRiSq/T/8CQ8/dmGu/LY+zGk5AEPfcyCFaTGIVidJc0
-X-Gm-Gg: ASbGncssoBMN62mZeOtY9WU2ETJKhtnwgGwupMqWI22GhlArN7TyWOeUUChBG32vESp
-	bp0oOvWbo6fvJ/s0lPHC4y8dbFcS+d/CMQujhkue6aBdsZQZcAggzjNLpRTb625UeZC1vgKuNPY
-	HoVVhgOs9OYFD8M4bwZe+7qKeoBfq345tIei3UdtGAEVsTntlvrfWmVV3/NstzZYCTD2WciHMfh
-	T0xR9soEbQ1DJ1JGJ89R+WMK/MzT6cajjp6ZUR2a/2GmlmizDVgi5Kt0F2KHxrM6EPlJbVzLk7p
-	1LSmFy7HYCtw1Co+FE++MqUTvtfT/hSE+u8NVy3Vq3qHsBRSwdsqFbLMTCzbKvvhSMEaIXdaxh4
-	D1QWZ5XDzmoEE06FhqnHaf34I0cuy+vozLTrLtIbCIoxsVAm/lg3GzKIaYl1yhlIY+brK+zR8xJ
-	jP5ygymxijJ/U=
-X-Google-Smtp-Source: AGHT+IH+frnSJQgDrVAXIYJKyu7mYXKAiPFwbWjawyyleHXAbYs2NV3FQSsq73qfRHjXOM8oDAMAIQ==
-X-Received: by 2002:a17:902:c943:b0:290:91d2:9304 with SMTP id d9443c01a7336-297c03a5e59mr26729835ad.4.1762492479156;
-        Thu, 06 Nov 2025 21:14:39 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2964f2a9716sm47872335ad.0.2025.11.06.21.14.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 21:14:37 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1354842EFE93; Fri, 07 Nov 2025 12:14:29 +0700 (WIB)
-Date: Fri, 7 Nov 2025 12:14:29 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux IOMMU <iommu@lists.linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: Re: [PATCH 2/2] iommupt: Describe @bitnr parameter
-Message-ID: <aQ2ANX6V3F1qfKdE@archie.me>
-References: <20251106073845.36445-1-bagasdotme@gmail.com>
- <20251106073845.36445-3-bagasdotme@gmail.com>
- <9dba0eb7-6f32-41b7-b70b-12379364585f@infradead.org>
- <20251107003541.GA1792527@ziepe.ca>
+        d=1e100.net; s=20230601; t=1762493389; x=1763098189;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=njV6Z7e8AHZ3jv7SEHiGiHSYJwXRJtYkycrQltatJm8=;
+        b=gH5QI1E+fLp2Op4WP6XacdLA7IjepZ2hpRrZ0MiERrOMJ2oH5lWu1npja/sXCa1fYy
+         UOYJaPM7VO92snolC5eXKNLjY96XNpEB2SHnPYoz3H+krZwLLqZrKgMVV4bh/EdTfD6i
+         g0ijrZEy/YR4kD9DOwyMsqIb5bSZpP9hRCeBMz+jtMoBvZ4L+tySDG9BsiNJJmZxAY8O
+         grZHs5kKPQDYDp1lGqF44eRIPagaaq6VKtIElUk+XIUv8gLZh5rlut4yjiZzxrfel4as
+         /vh8RgI8YTiC0s6t24G5GSxiuh5vvue5GfC7ZRxpmvVdVviizZwV1d4hXy5xUPHA5kK+
+         DA1g==
+X-Forwarded-Encrypted: i=1; AJvYcCViq9SZ7SMMDla1hLNl657UN0qzm9jQMqa9J+1t4FA3XFQ03AivVv907hBbkIkRpuwNraMDmvLrKT0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqkvJsWkS/01r2/4RY0sCOkFZkY4gQGxQcQTSp5uohg1eCGVfg
+	jAS1UHpKCVZP3Vt5eGnxeS4fNx6TEx4uSMPdNIT+J/Dyx7EdhooCqQMyggKXYH4wG9ViMM9LJ1Q
+	WvQ==
+X-Google-Smtp-Source: AGHT+IEcveD+OrmGuHXxDDibGvZt08sbWYuxuP0sLlsVz06qCZqoaz8Zfmbg2vG1rZ8pO+UwsxKrjpQ2Jg==
+X-Received: from qvag28.prod.google.com ([2002:a0c:f09c:0:b0:880:65e3:ffd7])
+ (user=rmoar job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6214:5009:b0:87c:2559:fa28
+ with SMTP id 6a1803df08f44-881767567f2mr25885676d6.43.1762493388956; Thu, 06
+ Nov 2025 21:29:48 -0800 (PST)
+Date: Fri,  7 Nov 2025 05:29:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x3hfNvsCBYLDwZJH"
-Content-Disposition: inline
-In-Reply-To: <20251107003541.GA1792527@ziepe.ca>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.2.1041.gc1ab5b90ca-goog
+Message-ID: <20251107052926.3403265-1-rmoar@google.com>
+Subject: [PATCH RESEND 0/5] release of KTAP version 2
+From: Rae Moar <rmoar@google.com>
+To: frowand.list@gmail.com, davidgow@google.com, keescook@chromium.org, 
+	raemoar63@gmail.com, Tim.Bird@sony.com, shuah@kernel.org
+Cc: tytso@google.com, gustavo.padovan@collabora.com, 
+	ricardo.canuelo@collabora.com, corbet@lwn.net, kernelci@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Rae Moar <rmoar@google.com>
+Content-Type: text/plain; charset="UTF-8"
+
+Hi all! I wanted to resend out this series to respark the discussion
+on KTAP version 2. Many of the features proposed are already in use by
+KUnit. This would add these features to the KTAP documentation. Note
+that all the features of KTAP v2 are backwards compatible. Also, today
+is my last day at Google so I will be responding with my personal
+email afterwards.
+
+--
+
+This patch series represents the final release of KTAP version 2.
+
+There have been open discussions on version 2 for just over 2
+years. This patch series marks the end of KTAP version 2 development
+and beginning of the KTAP version 3 development.
+
+The largest component of KTAP version 2 release is the addition of test
+metadata to the specification. KTAP metadata could include any test
+information that is pertinent for user interaction before or after the
+running of the test. For example, the test file path or the test speed.
+
+Example of KTAP Metadata:
+
+ KTAP version 2
+ #:ktap_test: main
+ #:ktap_arch: uml
+ 1..1
+     KTAP version 2
+     #:ktap_test: suite_1
+     #:ktap_subsystem: example
+     #:ktap_test_file: lib/test.c
+     1..2
+     ok 1 test_1
+     #:ktap_test: test_2
+     #:ktap_speed: very_slow
+     # test_2 has begun
+     #:custom_is_flaky: true
+     ok 2 test_2
+ # suite_1 has passed
+ ok 1 suite_1
+
+The release also includes some formatting fixes and changes to update
+the specification to version 2.
+
+Frank Rowand (2):
+  ktap_v2: change version to 2-rc in KTAP specification
+  ktap_v2: change "version 1" to "version 2" in examples
+
+Rae Moar (3):
+  ktap_v2: add test metadata
+  ktap_v2: formatting fixes to ktap spec
+  ktap_v2: change version to 2 in KTAP specification
+
+ Documentation/dev-tools/ktap.rst | 273 +++++++++++++++++++++++++++++--
+ 1 file changed, 257 insertions(+), 16 deletions(-)
 
 
---x3hfNvsCBYLDwZJH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: 9de5f847ef8fa205f4fd704a381d32ecb5b66da9
+-- 
+2.51.2.1041.gc1ab5b90ca-goog
 
-On Thu, Nov 06, 2025 at 08:35:41PM -0400, Jason Gunthorpe wrote:
-> On Thu, Nov 06, 2025 at 03:48:10PM -0800, Randy Dunlap wrote:
-> > > diff --git a/drivers/iommu/generic_pt/pt_common.h b/drivers/iommu/gen=
-eric_pt/pt_common.h
-> > > index b5628f47e0db40..54c16355be2842 100644
-> > > --- a/drivers/iommu/generic_pt/pt_common.h
-> > > +++ b/drivers/iommu/generic_pt/pt_common.h
-> > > @@ -354,6 +354,7 @@ static inline unsigned int pt_max_sw_bit(struct p=
-t_common *common);
-> > >  /**
-> > >   * pt_test_sw_bit_acquire() - Read a software bit in an item
-> > >   * @pts: Entry to set
-> > > + * @bitnr: Bit to set
-> >=20
-> > Shouldn't both of these (above) to "to read" instead of "to set"?
->=20
-> Yes, that's right, Bagas could you fold that into a v2?
-
-OK, thanks!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---x3hfNvsCBYLDwZJH
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQ2AMAAKCRD2uYlJVVFO
-o07hAQCrjQK1FVbRPucfTlsUP3cQYw/+poMRTLSUUh6cilN7yAEArVh7GTezT4vr
-RzS5LgwIZmkWSYMZpirFqHJfOD+03gA=
-=3Jmb
------END PGP SIGNATURE-----
-
---x3hfNvsCBYLDwZJH--
