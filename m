@@ -1,265 +1,157 @@
-Received: from fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.74.81.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99933396E1;
-	Fri,  7 Nov 2025 18:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.74.81.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EE83376A5
+	for <linux-doc@vger.kernel.org>; Fri,  7 Nov 2025 18:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762539088; cv=none; b=ko1+YLk4LOl6NTIQ6rlrUzTEPALTUgdei5VDiL9jRWknUcsDNPAJkMdoH1JtgZymn+PpvTNEdcTpVMZQG3lAZTERODH1V4HsP+W7vziLsCS+iZorUgxBLwVqr3AuLWmZkispTYimZjIOugs1IpNqu3oR1cTjtl0wPFeTWu9dGdo=
+	t=1762539988; cv=none; b=Onz4xNdBOf/BtCCsCb2qFRjybfaLcWAuVoWiLNV+9GvEGxh3fJdX43lgepCriL93mSWkgYLi0iqnyGhrIPGQvDPuQ9Fv8UenZALQtrKUFg2w821hNdntbosUgDHmNWpBJxJEWV12E7fu0y1hyO5fcVCTZ8mV2xudntfuZ/5cjpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762539088; c=relaxed/simple;
-	bh=N4gOSBeRZWqaySZxSBCtzaOl7g3HsBW0KJqcGWerLgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JHnTvsHPIMDU0vozm+cQ1p+WpvOdO93xaCFm5sWPwwYOvWmM3zSmG1Ywv/djaTFgw4kIwwkZkSqyMnF0i82IZEm7BPlBlZsfjbapDTUm7xCjrMTG0Cvba8eX9oohVzAG6dzRvXSA8BBMawk5rGnhN73PwtiDivwdq2R22PKdGmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=qPMh+sGS; arc=none smtp.client-ip=3.74.81.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1762539988; c=relaxed/simple;
+	bh=jvbYArc15nbrVfu4R2JmIKRGTKF/VMiJCjpU7IAHFnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d/599f+AOF44x3uyzGphORkHfkzUtDX69pM8PvP07vG4Oj+NiwFoB9CPLyDzNUNeSCFMsiavTigz6G70mgsiCBa0eEc727MvM56LNzZVv2+pSSE52FUcO3BaH3nVWSxgCiN1TMcIlFlZSmbeNMn8xWuq3OJyJmmGJhmA1eB+l7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IawdOGL4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tl4J9ODk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IawdOGL4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tl4J9ODk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="qPMh+sGS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1762539085; x=1794075085;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=SCkgHKsCB067+A2QKdQEeR2F/1cDYKaCmk5fyfcip00=;
-  b=qPMh+sGSJZt+z4Nc+DhY/1qTycu+jXWtJcRVfVq9aThqVfhZ7CnGrjbs
-   68J8ryCMsklugfRIIRzKfjio4AWTnd8/O16cOk7o7OJRbctMvBpisAZLd
-   nqU2bdn4xB3Q8OCfXoPqg+mifE4tBiunRgSnSKXqId8l9IYNfWHW1Sh5q
-   B09bCz0jvRk0ABD58ut3l9+naRE6voeFpiY1OBcZG8uXYktiDw/TWojP3
-   piBXzdlKm8Kz6SehvX/bTm2FndIweeX9zrmAnMvV7RYI2XG3W9V/r/YIH
-   5exIyAFKqLp0i+4B+hwJpbb7jmooRqPOnOWLbbaFatsClwVHQR/3alGJ2
-   w==;
-X-CSE-ConnectionGUID: fFJTYbfoSuanuoJNyoUMiw==
-X-CSE-MsgGUID: ItF1NJ0MQ7GmOV9vTi4D2Q==
-X-IronPort-AV: E=Sophos;i="6.19,287,1754956800"; 
-   d="scan'208";a="4852407"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 18:11:07 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:6828]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.13.118:2525] with esmtp (Farcaster)
- id 217d753f-5175-4dc1-96ad-8ed664faf6cb; Fri, 7 Nov 2025 18:11:06 +0000 (UTC)
-X-Farcaster-Flow-ID: 217d753f-5175-4dc1-96ad-8ed664faf6cb
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Fri, 7 Nov 2025 18:11:06 +0000
-Received: from [192.168.9.244] (10.106.83.15) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29; Fri, 7 Nov 2025
- 18:11:03 +0000
-Message-ID: <a940044f-3ae4-451f-b9ba-946ec6df5082@amazon.com>
-Date: Fri, 7 Nov 2025 18:11:01 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IawdOGL4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tl4J9ODk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IawdOGL4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tl4J9ODk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7839F22268;
+	Fri,  7 Nov 2025 18:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762539985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=IawdOGL4sC4vw/Kq1b9zRGDZrK8zpv30QWKZHLipdPbsIx9mLJYmFTJzUdwH5lU+1QKjxD
+	IjQAG3izJ/swox9QBz4KoJNzH9ZUBtCfakP0eGW7REM8251ihazWPqUKEf2KAstupRLe5e
+	gZjNbvx0CH253PgZYXCrDhQ6yJalm4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762539985;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=Tl4J9ODkwbfY7wHaQweK8uHB3GgGyKSo1bWdSClVsgIum8X3Rt+i8zfW5w6BrZXJN4It8T
+	xz7NboNm0WY3wWDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762539985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=IawdOGL4sC4vw/Kq1b9zRGDZrK8zpv30QWKZHLipdPbsIx9mLJYmFTJzUdwH5lU+1QKjxD
+	IjQAG3izJ/swox9QBz4KoJNzH9ZUBtCfakP0eGW7REM8251ihazWPqUKEf2KAstupRLe5e
+	gZjNbvx0CH253PgZYXCrDhQ6yJalm4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762539985;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=Tl4J9ODkwbfY7wHaQweK8uHB3GgGyKSo1bWdSClVsgIum8X3Rt+i8zfW5w6BrZXJN4It8T
+	xz7NboNm0WY3wWDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D2871395F;
+	Fri,  7 Nov 2025 18:26:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yYCTCNE5DmkZGQAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Fri, 07 Nov 2025 18:26:25 +0000
+Date: Fri, 7 Nov 2025 19:26:24 +0100
+From: Jean Delvare <jdelvare@suse.de>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor
+ <nathan@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>,
+ linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas.schier@linux.dev>
+Subject: Re: [PATCH] Makefile: Let kernel-doc.py use PYTHON3 override
+Message-ID: <20251107192624.78b8a8cf@endymion>
+In-Reply-To: <20251107071342.52ed6437@sal.lan>
+References: <20251103131419.5e504ae2@endymion>
+	<20251103185609.GB672460@ax162>
+	<c0e4a0b0-b7c9-491b-ada3-74945fb2e3d9@infradead.org>
+	<20251107071342.52ed6437@sal.lan>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [PATCH v7 00/12] Direct Map Removal Support for guest_memfd
-To: Brendan Jackman <jackmanb@google.com>
-CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <maz@kernel.org>,
-	<oliver.upton@linux.dev>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
-	<yuzenghui@huawei.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<luto@kernel.org>, <peterz@infradead.org>, <willy@infradead.org>,
-	<akpm@linux-foundation.org>, <david@redhat.com>,
-	<lorenzo.stoakes@oracle.com>, <Liam.Howlett@oracle.com>, <vbabka@suse.cz>,
-	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <song@kernel.org>,
-	<jolsa@kernel.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
-	<andrii@kernel.org>, <martin.lau@linux.dev>, <eddyz87@gmail.com>,
-	<yonghong.song@linux.dev>, <john.fastabend@gmail.com>, <kpsingh@kernel.org>,
-	<sdf@fomichev.me>, <haoluo@google.com>, <jgg@ziepe.ca>,
-	<jhubbard@nvidia.com>, <peterx@redhat.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <shuah@kernel.org>, <seanjc@google.com>,
-	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <bpf@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <xmarcalx@amazon.co.uk>,
-	<kalyazin@amazon.co.uk>, <jackabt@amazon.co.uk>, <derekmn@amazon.co.uk>,
-	<tabba@google.com>, <ackerleytng@google.com>, Patrick Roy
-	<patrick.roy@campus.lmu.de>
-References: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
- <DE2L1SAOC55E.E4JY62WJQ2A8@google.com>
- <add94932-290c-4037-b4e6-c3c760240819@amazon.com>
- <DE2NTMZXQ1MT.2TH9VAKM6WP6I@google.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
- CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
- i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
-In-Reply-To: <DE2NTMZXQ1MT.2TH9VAKM6WP6I@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D013EUB001.ant.amazon.com (10.252.51.116) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[huawei];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
+Hi Mauro,
 
+On Fri, 7 Nov 2025 07:13:42 -0300, Mauro Carvalho Chehab wrote:
+> Please notice, however, that kERNEL_DOC env var is also called at some
+> DRM makefiles. Perhaps the issue you're getting is there.
 
-On 07/11/2025 18:04, Brendan Jackman wrote:
-> On Fri Nov 7, 2025 at 5:23 PM UTC, Nikita Kalyazin wrote:
->>
->>
->> On 07/11/2025 15:54, Brendan Jackman wrote:
->>> On Wed Sep 24, 2025 at 3:10 PM UTC, Patrick Roy wrote:
->>>> From: Patrick Roy <roypat@amazon.co.uk>
->>>>
->>>> [ based on kvm/next ]
->>>>
->>>> Unmapping virtual machine guest memory from the host kernel's direct map is a
->>>> successful mitigation against Spectre-style transient execution issues: If the
->>>> kernel page tables do not contain entries pointing to guest memory, then any
->>>> attempted speculative read through the direct map will necessarily be blocked
->>>> by the MMU before any observable microarchitectural side-effects happen. This
->>>> means that Spectre-gadgets and similar cannot be used to target virtual machine
->>>> memory. Roughly 60% of speculative execution issues fall into this category [1,
->>>> Table 1].
->>>>
->>>> This patch series extends guest_memfd with the ability to remove its memory
->>>> from the host kernel's direct map, to be able to attain the above protection
->>>> for KVM guests running inside guest_memfd.
->>>>
->>>> Additionally, a Firecracker branch with support for these VMs can be found on
->>>> GitHub [2].
->>>>
->>>> For more details, please refer to the v5 cover letter [v5]. No
->>>> substantial changes in design have taken place since.
->>>>
->>>> === Changes Since v6 ===
->>>>
->>>> - Drop patch for passing struct address_space to ->free_folio(), due to
->>>>     possible races with freeing of the address_space. (Hugh)
->>>> - Stop using PG_uptodate / gmem preparedness tracking to keep track of
->>>>     direct map state.  Instead, use the lowest bit of folio->private. (Mike, David)
->>>> - Do direct map removal when establishing mapping of gmem folio instead
->>>>     of at allocation time, due to impossibility of handling direct map
->>>>     removal errors in kvm_gmem_populate(). (Patrick)
->>>> - Do TLB flushes after direct map removal, and provide a module
->>>>     parameter to opt out from them, and a new patch to export
->>>>     flush_tlb_kernel_range() to KVM. (Will)
->>>>
->>>> [1]: https://download.vusec.net/papers/quarantine_raid23.pdf
->>>> [2]: https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
->>>
->>> I just got around to trying this out, I checked out this patchset using
->>> its base-commit and grabbed the Firecracker branch. Things seem OK until
->>> I set the secrets_free flag in the Firecracker config which IIUC makes
->>> it set GUEST_MEMFD_FLAG_NO_DIRECT_MAP.
->>>
->>> If I set it, I find the guest doesn't show anything on the console.
->>> Running it in a VM and attaching GDB suggests that it's entering the
->>> guest repeatedly, it doesn't seem like the vCPU thread is stuck or
->>> anything. I'm a bit clueless about how to debug that (so far, whenever
->>> I've broken KVM, things always exploded very dramatically).
->>>
->>> Anyway, if I then kill the firecracker process, the host sometimes
->>> crashes, I think this is the most suggestive splat I've seen:
->>>
->>> [   99.673420][    T2] BUG: unable to handle page fault for address: ffff888012804000
->>> [   99.676216][    T2] #PF: supervisor write access in kernel mode
->>> [   99.678381][    T2] #PF: error_code(0x0002) - not-present page
->>> [   99.680499][    T2] PGD 2e01067 P4D 2e01067 PUD 2e02067 PMD 12801063 PTE 800fffffed7fb020
->>> [   99.683374][    T2] Oops: Oops: 0002 [#1] SMP
->>> [   99.685004][    T2] CPU: 0 UID: 0 PID: 2 Comm: kthreadd Not tainted 6.17.0-rc7-00366-g473c46a3cb2a #106 NONE
->>> [   99.688514][    T2] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.1 11/11/2019
->>> [   99.691547][    T2] RIP: 0010:clear_page_erms+0x7/0x10
->>> [   99.693440][    T2] Code: 48 89 47 18 48 89 47 20 48 89 47 28 48 89 47 30 48 89 47 38 48 8d 7f 40 75 d9 90 c3 0f 1f 80 00 00 00 00 b9 00 10 00 00 31 c0 <f3> aa c3 66 0f 1f 44 00 00 48 83 f9 40 73 2a 83 f9 08 73 0f 85 c9
->>> [   99.700188][    T2] RSP: 0018:ffff88800318fc10 EFLAGS: 00010246
->>> [   99.702321][    T2] RAX: 0000000000000000 RBX: 0000000000400dc0 RCX: 0000000000001000
->>> [   99.705100][    T2] RDX: ffffea00004a0100 RSI: ffffea00004a0200 RDI: ffff888012804000
->>> [   99.707861][    T2] RBP: 0000000000000801 R08: 0000000000000000 R09: 0000000000000000
->>> [   99.710648][    T2] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
->>> [   99.713412][    T2] R13: 0000000000000801 R14: ffffea00004a0100 R15: ffffffff81f4df80
->>> [   99.716191][    T2] FS:  0000000000000000(0000) GS:ffff8880bbf28000(0000) knlGS:0000000000000000
->>> [   99.719316][    T2] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [   99.721648][    T2] CR2: ffff888012804000 CR3: 0000000007583001 CR4: 0000000000372eb0
->>> [   99.724421][    T2] Call Trace:
->>> [   99.725608][    T2]  <TASK>
->>> [   99.726646][    T2]  get_page_from_freelist+0x6fe/0x14b0
->>> [   99.728583][    T2]  ? fs_reclaim_acquire+0x43/0xe0
->>> [   99.730325][    T2]  ? find_held_lock+0x2b/0x80
->>> [   99.731965][    T2]  __alloc_frozen_pages_noprof+0x147/0x2d0
->>> [   99.734003][    T2]  __alloc_pages_noprof+0x5/0x50
->>> [   99.735766][    T2]  copy_process+0x1b1/0x1b30
->>> [   99.737398][    T2]  ? lock_is_held_type+0x89/0x100
->>> [   99.739157][    T2]  ? kthreadd+0x25/0x190
->>> [   99.740664][    T2]  kernel_clone+0x59/0x390
->>> [   99.742213][    T2]  ? kthreadd+0x25/0x190
->>> [   99.743728][    T2]  kernel_thread+0x55/0x70
->>> [   99.745310][    T2]  ? kthread_complete_and_exit+0x20/0x20
->>> [   99.747265][    T2]  kthreadd+0x117/0x190
->>> [   99.748748][    T2]  ? kthread_is_per_cpu+0x30/0x30
->>> [   99.750509][    T2]  ret_from_fork+0x16b/0x1e0
->>> [   99.752193][    T2]  ? kthread_is_per_cpu+0x30/0x30
->>> [   99.753992][    T2]  ret_from_fork_asm+0x11/0x20
->>> [   99.755717][    T2]  </TASK>
->>> [   99.756861][    T2] CR2: ffff888012804000
->>> [   99.758353][    T2] ---[ end trace 0000000000000000 ]---
->>> [   99.760319][    T2] RIP: 0010:clear_page_erms+0x7/0x10
->>> [   99.762209][    T2] Code: 48 89 47 18 48 89 47 20 48 89 47 28 48 89 47 30 48 89 47 38 48 8d 7f 40 75 d9 90 c3 0f 1f 80 00 00 00 00 b9 00 10 00 00 31 c0 <f3> aa c3 66 0f 1f 44 00 00 48 83 f9 40 73 2a 83 f9 08 73 0f 85 c9
->>> [   99.769129][    T2] RSP: 0018:ffff88800318fc10 EFLAGS: 00010246
->>> [   99.771297][    T2] RAX: 0000000000000000 RBX: 0000000000400dc0 RCX: 0000000000001000
->>> [   99.774126][    T2] RDX: ffffea00004a0100 RSI: ffffea00004a0200 RDI: ffff888012804000
->>> [   99.777013][    T2] RBP: 0000000000000801 R08: 0000000000000000 R09: 0000000000000000
->>> [   99.779827][    T2] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000002
->>> [   99.782641][    T2] R13: 0000000000000801 R14: ffffea00004a0100 R15: ffffffff81f4df80
->>> [   99.785487][    T2] FS:  0000000000000000(0000) GS:ffff8880bbf28000(0000) knlGS:0000000000000000
->>> [   99.788671][    T2] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [   99.791012][    T2] CR2: ffff888012804000 CR3: 0000000007583001 CR4: 0000000000372eb0
->>> [   99.793863][    T2] Kernel panic - not syncing: Fatal exception
->>> [   99.796760][    T2] Kernel Offset: disabled
->>> [   99.798296][    T2] ---[ end Kernel panic - not syncing: Fatal exception ]---
->>>
->>> This makes me suspect the kvm_gmem_folio_restore_direct_map() path isn't
->>> working or isn't getting called.
->>>
->>> If anyone wants help trying to reproduce this let me know.
->>
->> Hi Brendan,
->>
->> Thanks for trying to run it!
->>
->> Just as a sanity check, the way it is known for us to work is we apply
->> all patches from [1].  For booted VMs (as opposed to restored from
->> snapshot), apart from the v6 of the direct map removal series, the only
->> additional patch is a fix for kvmclock on x86 [2].  Please let me know
->> if you see the same issue with that patch applied too.
->>
->> Nikita
->>
->> [1]
->> https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding/resources/hiding_ci/linux_patches
->> [2]
->> https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding/resources/hiding_ci/linux_patches/11-kvm-clock
-> 
-> Ah, thanks! Seems I should have checked my inbox before sending my other
-> mail. With the kvmclock fix applied to my host kernel, I start setting
-> the other crash immediately when the VM boots. If I comment out the
-> actual unmapping of memory, it boots (before, it wouldn't boot even with
-> that commented out).
-> 
-> For the other linux_patches, I couldn't apply them on top of this
-> series, do you have a branch I can use as a reference?
+I'm getting the warnings from a simple "make" call with W=1, and for
+pretty much all C files, not just drm drivers. For example:
 
-Instead of having an explicit branch, we apply all the patches on top of 
-[1].  There is a script that performs fetch/build/install end-to-end: [2].
+$ nice make CC=/usr/bin/gcc-8 PYTHON3=/usr/bin/python3.12 W=1
+(...)
+  CC      arch/x86/events/intel/core.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/core.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/bts.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/bts.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/ds.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/ds.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/knc.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/knc.c:0 Python 3.7 or later is required for correct results
 
-[1] 
-https://github.com/firecracker-microvm/firecracker/blob/feature/secret-hiding/resources/hiding_ci/kernel_commit_hash
-[2] 
-https://github.com/firecracker-microvm/firecracker/blob/feature/secret-hiding/resources/hiding_ci/build_and_install_kernel.sh
+So without my patch, PYTHON3= is ignored for part of the build, and
+these recurrent warnings make it difficult to spot other warnings.
+Which is the reason why I proposed a fix. Alas, I see that my first candidate
+fix breaks "make htmldocs" as reported by Nathan. I'll send a different
+fix which doesn't seem to break anything in my tests.
 
-> 
-> Anyway, the solution I'm hoping to present for your problem gets rid of
-> that explicit unmapping code (the allocator will do it for you), so in
-> the meantime I have something I can work with.
-
+Thanks,
+-- 
+Jean Delvare
+SUSE L3 Support
