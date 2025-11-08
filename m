@@ -1,93 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E58224AFA;
-	Sat,  8 Nov 2025 18:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC05154654
+	for <linux-doc@vger.kernel.org>; Sat,  8 Nov 2025 19:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762627018; cv=none; b=QZKD9Wvf/yy7u2MZy9aXTpDkxI5Ayc9RdRbQ2MKr4BN5AYeMR3a5QP6Zrj7Be3WrIL6DS4adVv6HlaRgAMBHjBzeZpVivyV6poaCswd4yedwtWUDICnM02jFDLxIfVhzHo1Ywbe9SkDD6SuRf4f+5IszpUMatGAMKbrdE9FnBPU=
+	t=1762629752; cv=none; b=h0g2aFbOVPJlEJCQqXGaE94IwizMyOOh3LVjtJoTcu81disuzZFOBQVSloBl8HOSDh11ViIrib0NJkJ7aDsmlkAyugT16nWpVO3qVT+CuaV3bfCRfAWaIbvkF0Bv/gbAk+EmRNVg0DfALjjIuhKm2FIxn+bIwEfqrAQLxdScuB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762627018; c=relaxed/simple;
-	bh=oc4FD2p7G8kSBSZo9gfGH4up/tQYQo2yArK0ExY2vhY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ckKR3wMYZwRSh2OzMPrHSA0+HeYk5+im8C/L/qERnNCg37PefB8+ZaWVB8i3RZl4lY4vGhXrPj2ZzBJA7+gmXQqzAxTofGuGPh+uDoZckqEIxZhG0wOfDNYfiA+ARsutyVd44atTL+G0IB4bBEk2z0lNNg3vk7KNZ1vN5MH+4l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=u/TU0L1S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762629752; c=relaxed/simple;
+	bh=up4+T+Vlgr3bfen8hI6CHhXyKacPmsvTPK5j8/l7Q4M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KPgsoZ9GQ10DD/MDAaFzA3BWHwBDU38etGA5yoW6b8ARAiQ5ohBkGR/cjwEJjjaHNoTBaoa5qvQAYZHHDpPJkNZeGMD79rYOWNChbDiRfL3ckjcPFj13Og9t/CAHDpr8VuzTHv3lNGwBnDnfnlaPAnnmKOc5hRau24syV3BsEIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YmyjTPiT; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="u/TU0L1S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1045C4CEFB;
-	Sat,  8 Nov 2025 18:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1762627017;
-	bh=oc4FD2p7G8kSBSZo9gfGH4up/tQYQo2yArK0ExY2vhY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=u/TU0L1SolBld/Qum5lsMKpZbK303fBFh+JGMRdIeDfMOvxbOvd+sj7Fet4RquTqo
-	 cr0T/Q6PmBtaHDm/a/2DhALFhxViIEeD3BFEO87SZoNwY5zk2o5w/WMRME4x92bMaD
-	 UalR+stCBKRCmBJBbBCrq0f0nnaqV6uMag1h8qeI=
-Date: Sat, 8 Nov 2025 10:36:55 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
- rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
- rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
- kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
- masahiroy@kernel.org, tj@kernel.org, yoann.congal@smile.fr,
- mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
- axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
- vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com,
- david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org,
- anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
- linux@weissschuh.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
- brauner@kernel.org, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
- jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com,
- hughd@google.com, skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v5 00/22] Live Update Orchestrator
-Message-Id: <20251108103655.1c89f05222ba06e24ddc3cc3@linux-foundation.org>
-In-Reply-To: <CA+CK2bCakoNEHk-fgjpnHpo5jtBoXvnzdeJHQOOBBFM8yo-4zQ@mail.gmail.com>
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
-	<20251107143310.8b03e72c8f9998ff4c02a0d0@linux-foundation.org>
-	<CA+CK2bCakoNEHk-fgjpnHpo5jtBoXvnzdeJHQOOBBFM8yo-4zQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmyjTPiT"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-433692bbe4fso3745645ab.0
+        for <linux-doc@vger.kernel.org>; Sat, 08 Nov 2025 11:22:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762629750; x=1763234550; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=03K14G0YoonwYbFA43DX/6Sm2xq1yhV7AwclEvpudeM=;
+        b=YmyjTPiTUoSn4eviA3N9Yu3CvnhJfQeQ6tvw/7Qdv99QzqjuE7h5Bke+hyinsidFk6
+         EQCiDQm4xksFIvMur7ZMy6TR1NIh+JWNVb7Q4CyqOjZveNb7iSbILTX70NA9qvuGXmCe
+         zVQjHnEG5uHy+xpV483tgsM6OW8FBD458WiCvNRQ1CSOCuSav6JmSegTSaPlfQdSTPfY
+         PD8VchaF0Hll2ovm0Ft/TTk8ZBfsF6jH4iBgHyaGdzse0JekGRjxBeN8TygBBNq225kY
+         EGVsS0tcs+wEk4Pe5vJXdF+NBbbp5YkCfJTMF8xnL6o/+l+lMF+40SjwYuIZ5rvF1NKA
+         O32Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762629750; x=1763234550;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=03K14G0YoonwYbFA43DX/6Sm2xq1yhV7AwclEvpudeM=;
+        b=bGUW6A2wPOVEjms8Dw00K2jT/LmVe2arWFk6qd1F9TlOkuuNaEKPLHiyCX3JpjM/GW
+         poclK4LA78uHvptpK5xOEHDkiUw0NsIOZKVAC9hO3Mtf0mvaCj709QXNUTWnYz4ddIbq
+         rzUle3rGPbz36NuxO+un+iLOL80IXQ9BB5pgR+YzIbrIcWDJdNY/KezWFYNB35MYqXak
+         T23I+/ypG5wB0N1Wwav5y39+EegqqffFzEhrL3x+TbqcTUpONel9vdLFb8aHmxVX8QWa
+         sgM6qnMHUT1zV5F7xMJIfZIoriBUbrmMg7lsOfmOfpQ9GXoIfXsKOpurTb0Zmm1GunU6
+         iqXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTP3GctMxbbPMTudv1wY7bjwjjCxL/66gmvTEcB+LDoxGQoluMS93eg7W38XTFb9C8Qz1tI/sP11c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzwtm6gvgCm9uJBLPrdMmy+3AhFhdWNAeT3bVxXcmYVANXGQA6o
+	y0V/H79LrlUPJneRgPMqd01+BkrvEJFsRzRTl+72onXUfXNfAtG6uIss
+X-Gm-Gg: ASbGncuBMzpsnto0qScJZ+ugN1T+KiTnCj+RrekshBwm7caOwtIW/XaDqWusA4KmgMJ
+	pEwspFL2ulg4nGHq3RNcMMQ5Du6RDWRnqqTAqr1p7r05qwNvY6WNVlA2LqeWN3/eDjfr7a1TOvm
+	+qYBqNFxXl/Jtbzhwz3v2WVKDSZBR5yK/r3SgYN0Q9XxmDetLQHQuNJtcVSkqeMcu0A866eEf+H
+	EE0wsoW8zp3UB+SRvUVDLu91PaXq+0UDEckfis8gyCMevrPCx/sMcDxBOJzy/e3BgWk0LhpqWv5
+	m7QwJN64uDng+ATHMI7q3S5ahObNoQMqOoKIg8y0eWWzyK7LbdZd/48g7JxO+1YE06BgrYe+8GJ
+	pdG4RLjFzGpRKNaB1DvDmoFPNuFi9ryr0UnSCQsmsLaXbn7T2/lk6TRZgVDhmaJVGTX0EYJhLes
+	79KgniOj7GMH7xqp2iwBaUYFizHobOc5ObZLPYOB3q4TLgUjKexFux1KYvS00Ssw==
+X-Google-Smtp-Source: AGHT+IEz3FESVkX5elsfVenCRkFYCsyWww7qdldsgfZPcmJ5WrW9qgOug9eVK4qHiNMge6D5SMistw==
+X-Received: by 2002:a05:6e02:3813:b0:433:330a:a572 with SMTP id e9e14a558f8ab-43367de5254mr54763635ab.13.1762629750036;
+        Sat, 08 Nov 2025 11:22:30 -0800 (PST)
+Received: from localhost.localdomain ([2601:246:5f80:2880:499b:78c9:9e03:a278])
+        by smtp.googlemail.com with ESMTPSA id e9e14a558f8ab-433796a9952sm1681465ab.28.2025.11.08.11.22.28
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 08 Nov 2025 11:22:28 -0800 (PST)
+From: pierwill <pierwill@gmail.com>
+X-Google-Original-From: pierwill <pierwill@users.noreply.github.com>
+To: tglx@linutronix.de
+Cc: bp@alien8.de,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	pierwill <pierwill@users.noreply.github.com>
+Subject: [PATCH] docs: Fix missing word in spectre.rst
+Date: Sat,  8 Nov 2025 13:22:16 -0600
+Message-Id: <20251108192216.28534-1-pierwill@users.noreply.github.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat, 8 Nov 2025 13:13:32 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+Corrects a missing word in the hardware vulnerability docs.
 
-> On Fri, Nov 7, 2025 at 5:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > On Fri,  7 Nov 2025 16:02:58 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> >
-> > > This series introduces the Live Update Orchestrator, a kernel subsystem
-> > > designed to facilitate live kernel updates using a kexec-based reboot.
-> >
-> > I added this to mm.git's mm-nonmm-stable branch for some linux-next
-> > exposure.  The usual Cc's were suppressed because there would have been
-> > so many of them.
-> 
-> Thank you!
-> 
+Signed-off-by: pierwill <pierwill@users.noreply.github.com>
+---
+ Documentation/admin-guide/hw-vuln/spectre.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No prob.
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index 991f12adef8d..4bb8549bee82 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -406,7 +406,7 @@ The possible values in this file are:
+ 
+   - Single threaded indirect branch prediction (STIBP) status for protection
+     between different hyper threads. This feature can be controlled through
+-    prctl per process, or through kernel command line options. This is x86
++    prctl per process, or through kernel command line options. This is an x86
+     only feature. For more details see below.
+ 
+   ====================  ========================================================
+-- 
+2.39.5 (Apple Git-154)
 
-It's unfortunate that one has to take unexpected steps (disable
-CONFIG_DEFERRED_STRUCT_PAGE_INIT) just to compile test this.
-
-It's a general thing.  I'm increasingly unhappy about how poor
-allmodconfig coverage is, so I'm starting to maintain a custom .config
-to give improved coverage.
