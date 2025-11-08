@@ -1,121 +1,157 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAF7287256
-	for <linux-doc@vger.kernel.org>; Sat,  8 Nov 2025 03:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E8E19DF62;
+	Sat,  8 Nov 2025 05:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762570902; cv=none; b=Z+jKgqxCsjBegeImgk+G2pQ/uM6zOfVf2vbVVDBc8uyTz1ecEDfz+PnGqW38mwjYN8YKovWDmp9qbkrr9JlRU0L9s0xXoxNJZ2JgG8AvpzE54x00pYpVTNEk5M+Otc2npZPlk3+jhM6RDp9emSZNYEYVGre0yKOxPdVbXi1TE+8=
+	t=1762580314; cv=none; b=N8/g90y+PQPgViOrQT166Eg+mUukt9D87THnn8McP6zmV6YoimxCEdlbUBPqPGsd8IJEJt6x/cgG7Cen3Jn//5yINquLJC5nNHXpOH9OGjl5p20YkXyrf68u3EDVR3lkt2a24AwJ08ENgVC2yP0noO29WNXzPTYifI7xlcADVfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762570902; c=relaxed/simple;
-	bh=Y9YV3f8Hzry+Ze97F/cP+/xbypI1KDyCVKpqIvt9p8A=;
+	s=arc-20240116; t=1762580314; c=relaxed/simple;
+	bh=w6GXV8F8qq8Ivlsip/h/QX7gHcMdkkyqZQffmsH93Go=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGNe99sI/+i2zYYuXqtJ70VJ3Wo22MeAeIpzQ1SxI+/K8n7PmssvQLtZtUaIJHhUq6Ynb17+q/zKr2ULDc9XeqEf8N8YOsOwKgOngGQnWTAs7SbOAWNO5bGGsynagDovokI9ZeWnTIYHocN8bPY8hIqfL2t+euno8jZhubR1Rkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqvzXnEv; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oGo0f2+Ys6FOeruPJqU1Lku63wnfEHbwk7+hTV94xHRXOj5Sr9NXyVUS3suQWg3xDsV1sxHqeEQrxCYDdslbmrn1l1AsAtDKYYiYiodfxBC5FpTVDc2bJxj+ifiV+VoWlaRq5qUMck/ElPlU23wjfaya0I3tX77nmsf9M6lDzxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6rzkZ9a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqvzXnEv"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7277324054so186440666b.0
-        for <linux-doc@vger.kernel.org>; Fri, 07 Nov 2025 19:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762570899; x=1763175699; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IvQMGIBRXMAfRMIt2kKWb8Pd94P2qwTUjsmasBUxq4U=;
-        b=OqvzXnEv/XhxHmFBcR1ZgdHs7bn8FQ5YaZxR9JHfFjyEalXa+PztZRYnpBlWol6T1a
-         iPtyDoT1hfx0gKNJZQfU5X91OFEj27uhQbNL6ifXdIwZuYzSpkouweXU5O3Wm/ngn1wI
-         qfQS+yAbrU5xnYzm8bYDYoThZmFG5oFhIpQM+y+ZzmppzZK1BZUBXK52fAqM4QyjRLrZ
-         K6tHCMXcKPET8xrjS5whbhh1WridPW5weg0FySMWCw/VTL3kpazSSGiiaRW7ZjBusVBy
-         Bva9dSc1kNmSGMxXOWULtg/owMftQ9hTOyYITPwOpNEeuKXcbZxfXMXDSMB6bIpIUkiC
-         lnUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762570899; x=1763175699;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvQMGIBRXMAfRMIt2kKWb8Pd94P2qwTUjsmasBUxq4U=;
-        b=Mfj/Nwos+2Zdcb2SnmCEhci97nUTINs/04ObvxfTyVWCCDTMo0bG7UcgsJXCWtiQkV
-         4KiHUpKuPPnpxbFJXTSFQlVFN3FJTN7RwKPHgmIs3TBvyn0zlopZ/zfwbl4ulZw0uqWg
-         nX52L83Q5ozE8YDM4dBz2Z7TP6av7SxZe37KObZwbP/5FOTbgYKVFUrwIS1WGpJjsPZ8
-         tNZ/6jfA4hfaHgB5/uMkdOqXDJPWN+NKeQpv/KkrUFln5NIHaksvpPo/xWm+eNZCAw9M
-         nkJUZGXicdosvsn8USLdJPwzK0r3SCmcg8cBRAH8sTgv+fOKqtHvg7aGqkwwwoJ1fcPz
-         RmJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpoiWQcr3uRh0A3OIhg3UNvzFevvlnyYdsbUXTV6Xlt2WPiP0e4kcawGjx3J51SkhRtJY5yZL2YJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2zumvQ+cBGTAqOfkEqYGtnWcKc/vryw45J7oMLS3Pykt97lwd
-	CvaiqA1EFBLvHtG2AljVfPS3j/U4itjm3h8n9kD5YgdLCQwKgKvIkspR
-X-Gm-Gg: ASbGnculHjMd1u8Dr13/Iv/7mdW/le7TFM3SBwvWGeGld4ZxEcPkYOCCxbnuEurK8wZ
-	Z4q9A8z+DKRCIAlMlonogQWx5vqDHuu0fOoTVzgjFa0ZkzjA/G5weHTtShFvB+AyyBdjvW/P5pQ
-	21d9gmgXVLUoA5p7dST7+tHB9moUp7662eHsR24rx+2uqQ0eF8bqYcMdTKzC/0BtChzWm2Jczxg
-	oj1fVBM8ucFHi9yMbOWgc9K1PcKPI1+hXOI/xNYa7dNGOO+qRSSFPl+GbzNT8b8o6qIwtiFnn/T
-	cYackuRQnrGqE7S/6cDuHwF/GEUCRVXx2qIt3aInXCv+03CT8vo9nQBBytzJbMUbtlCZLly68ZX
-	COPDOEhMs7mdbz93ae9kV4DTW9fqhXy7aJPh3uNK6I6XKCGtCwVOXj+nK1+pKsHFUp1OpJ/nLWo
-	0=
-X-Google-Smtp-Source: AGHT+IFpe9qLqPYcxu/67GnD+yfSvSPuX6hzgETXb3TcPECOp4WGRyEJjWKfcLIhMsnwyzl+jMrZig==
-X-Received: by 2002:a17:906:7313:b0:b72:b8e4:3aea with SMTP id a640c23a62f3a-b72e02b35cbmr147921966b.10.1762570898658;
-        Fri, 07 Nov 2025 19:01:38 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf312e25sm397398366b.20.2025.11.07.19.01.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Nov 2025 19:01:38 -0800 (PST)
-Date: Sat, 8 Nov 2025 03:01:37 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com,
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
-	rostedt@goodmis.org, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
-	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
-	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
-	sunnanyong@huawei.com, vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
-	kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
-	cl@gentwo.org, jglisse@google.com, surenb@google.com,
-	zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com,
-	mhocko@suse.com, rdunlap@infradead.org, hughd@google.com,
-	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz,
-	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
-Subject: Re: [PATCH v12 mm-new 05/15] khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-Message-ID: <20251108030137.mud7xxwg5fxdgm6k@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-6-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6rzkZ9a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC516C19422;
+	Sat,  8 Nov 2025 05:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762580313;
+	bh=w6GXV8F8qq8Ivlsip/h/QX7gHcMdkkyqZQffmsH93Go=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R6rzkZ9aOnGt/EQ9R93dim8mBYYjOjakJehQ5+rN7x3rvkrZwgPe3DNMNBLOS6Sh4
+	 mImZKwWN8OxH6gjwHfbPpky8S4xfaMEw4jAyYKPEkT3ztoZqWXNpmZBCg3s9GW11DH
+	 ubqLYGlFVZD9/bwsgi4HUeIL+tGoVZRpcmwSzbCHe4/tKN/YY1WJFNFfWmJhYpQvYq
+	 aLmPydUhP1j4nb/QPh4Bpfzi2TidyWlqi7OIYoBoMGpHxUbV0BbBU/eCT9rJf0d0LI
+	 UGX4tJ2pBMvLkxAGG5WdK5NuaGVKDGXY0wPCPhO3ZVQAVKzkoatva84A/KHH/1yljJ
+	 uT5/heaaQlZPQ==
+Date: Fri, 7 Nov 2025 21:38:32 -0800
+From: Saeed Mahameed <saeed@kernel.org>
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+Message-ID: <aQ7XWOI68rVDRewR@x130>
+References: <20251103194554.3203178-1-daniel.zahka@gmail.com>
+ <20251103194554.3203178-3-daniel.zahka@gmail.com>
+ <mhm4hkz52gmqok56iuiukdcz2kaowvppbqrfi3zxuq67p3otit@5fhpgu2axab2>
+ <db5c46b4-cc66-48bb-aafb-40d83dd3620c@gmail.com>
+ <6aa2f011-3ba5-4614-950d-d8f0ec62222b@gmail.com>
+ <p3pj3mu4mabgninwowqikegeotxgzhc4yptf7qrfhns37bnkoz@ugkbgvlkxqxb>
+ <78db1fab-e482-4ebc-82ce-ba84b3f561e2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20251022183717.70829-6-npache@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <78db1fab-e482-4ebc-82ce-ba84b3f561e2@gmail.com>
 
-On Wed, Oct 22, 2025 at 12:37:07PM -0600, Nico Pache wrote:
->generalize the order of the __collapse_huge_page_* functions
->to support future mTHP collapse.
+On 04 Nov 09:48, Daniel Zahka wrote:
 >
->mTHP collapse will not honor the khugepaged_max_ptes_shared or
->khugepaged_max_ptes_swap parameters, and will fail if it encounters a
->shared or swapped entry.
 >
->No functional changes in this patch.
+>On 11/4/25 9:39 AM, Jiri Pirko wrote:
+>>Tue, Nov 04, 2025 at 01:51:16PM +0100, daniel.zahka@gmail.com wrote:
+>>>
+>>>On 11/4/25 6:38 AM, Daniel Zahka wrote:
+>>>>
+>>>>On 11/4/25 5:14 AM, Jiri Pirko wrote:
+>>>>>I did some research. 0/DEVICE_DEFAULT should not be ever reported back
+>>>>>from FW. It's purpose is for user to reset to default FW configuration.
+>>>>>What's the usecase for that? I think you could just avoid
+>>>>>0/DEVICE_DEFAULT entirely, for both get and set.
+>>>>I find that 0/DEVICE_DEFAULT is reported back on my device. I have
+>>>>observed this same behavior when using the mstconfig tool for setting the
+>>>>parameter too.
+>>>e.g.
+>>>$ dmesg | grep -i mlx | grep -i firmware
+>>>[   10.165767] mlx5_core 0000:01:00.0: firmware version: 28.46.1006
+>>>
+>>>$ ./mstconfig -d 01:00.0 -b ./mlxconfig_host.db query SWP_L4_CHECKSUM_MODE
+>>>
+>>>Device #1:
+>>>----------
+>>>
+>>>Device type:        ConnectX7
+>>>Name:               CX71143DMC-CDAE_FB_Ax
+>>>Description:        ConnectX-7 Ethernet adapter card; 100 GbE OCP3.0;
+>>>Single-port QSFP; Multi Host; 2 Host; PCIe 4.0 x16; Crypto and Secure Boot
+>>>Device:             01:00.0
+>>>
+>>>Configurations:                                          Next Boot
+>>>         SWP_L4_CHECKSUM_MODE DEVICE_DEFAULT(0)
+>>This is next-boot value. You should query current (--enable_verbosity)
+>>to show in param get.
 >
->Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->Acked-by: David Hildenbrand <david@redhat.com>
->Co-developed-by: Dev Jain <dev.jain@arm.com>
->Signed-off-by: Dev Jain <dev.jain@arm.com>
->Signed-off-by: Nico Pache <npache@redhat.com>
+>I am still seeing that DEVICE_DEFAULT(0) is read back:
+>
+>$ ./mstconfig --enable_verbosity -d 01:00.0 -b ./mlxconfig_host.db 
+>query SWP_L4_CHECKSUM_MODE
+>
+>Device #1:
+>----------
+>
+>Device type:        ConnectX7
+>Name:               CX71143DMC-CDAE_FB_Ax
+>Description:        ConnectX-7 Ethernet adapter card; 100 GbE OCP3.0; 
+>Single-port QSFP; Multi Host; 2 Host; PCIe 4.0 x16; Crypto and Secure 
+>Boot
+>Device:             01:00.0
+>
+>Configurations:                  Default             Current       Next Boot
+>        SWP_L4_CHECKSUM_MODE DEVICE_DEFAULT(0) DEVICE_DEFAULT(0)    
+>DEVICE_DEFAULT(0)
+>
 
-Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+When default value of nvconfig is managed by FW, 0 will always mean
+DEVICE_DEFAULT, and it is a way for the driver to reset back to default on
+write, but on read FW should never return it, so this is a FW bug.
 
--- 
-Wei Yang
-Help you, Help me
+But this shouldn't block this series so just return 'default', from the 
+driver perspective we should return 'default' when we know 0 means that.
+
