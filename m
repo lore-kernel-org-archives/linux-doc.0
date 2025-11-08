@@ -1,426 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBC02ECD28;
-	Sat,  8 Nov 2025 09:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B060222562;
+	Sat,  8 Nov 2025 16:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762594639; cv=none; b=bQxldRnGv+fsw/DDKW94bEfsgTOdjRtlSMsTgr+LVHuzQ/KBTIm1mvhz9MyioyJrGyokVjjF9j1T9thJ86lpZ9YYxTUyzcaM21CbzMvJbc/MDqT6LMEbTS98Qpb+6Nj1+ZQKTYrX1U04fhH8u6e84Kr8FXZh4BCOAC9HqQ7JA6o=
+	t=1762618812; cv=none; b=aJPNUlcJrU+wmeMdWaTvWGkYyv8f/EtS6syh7ZDl7CBzLtJQhPr1BDPlomYR2AFg2vyUDyREmk3Q53GjIIgiN66bxQggSmbPk1Ai5lHAeIGKfRJ7VvOLomtPGkTr/1xFoQloa/NdoNQtjxxt5hLrFdSYutAbrMC9l8SDPKu4oRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762594639; c=relaxed/simple;
-	bh=/cI6VjvtvWO0Jp/lxRJssMuHKbiAHhJq+1lYCdrQmcM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NbNz/UwbyWxQp/NW0H/Tsks6vZm9oxiKKWkO7K5AFxjzCVYV0O+a8rCAyLMKUimHoP1YBlkXY1CRImvMuaKcZsPW7tj9TQ0O9gSaeVDz8r9oY/wSYkShhbR0hOzt8tU5Lc5XoO50Bl5fzK/c9aF8l0XcooJxrdC770lr2GS/NyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKRj4Sh5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762618812; c=relaxed/simple;
+	bh=IfQPIWym0KcYl4PrJwG7dFVcoXRd2GnV2Jse4Zj+a6w=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=TqBroWbVSXM9svvHyRfZ2A6lALQGsWINqS3HUDNT1yUtTpSWon61GEx0Y8GNEeIhz4iNOHsLKETfCh/WuN8Hb3LV2ZIDKjJUvYVgqpTbdbVemacGwAPErFHuTlzlKZ8pOsdertMCvFzd48is5UDMeHd6fJ5X4J3ZOJ3ARwIv6IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=SQrdexUk; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKRj4Sh5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB15C113D0;
-	Sat,  8 Nov 2025 09:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762594638;
-	bh=/cI6VjvtvWO0Jp/lxRJssMuHKbiAHhJq+1lYCdrQmcM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EKRj4Sh5NdDK7Ew0ou2CPH3qjo+JzmWsmjL8ErwGafMXiyb1F2hzVdW9xxF1TOUPs
-	 aQK0GPK4THqMnsBgMU+2KoHW82dZVh3qDnKO8W0hKZ9r4mZ9S1bsv1oj7Rp4hzrMvL
-	 izWSyjT+M2yM968Nq0XZ1mfj6B5mutBjbZeDOqhMa3OqJDI26pqG2NGZfD7lD4eDRY
-	 /x5IZcYIRbxfT+8OX6kWHC4/bzCGoMOozJEx00UvefmNZEZYoHrk/DQb4DUrXys4bc
-	 Y7NhOS+wParys/4trSYaD1UGRXpTnd3lS1ZOBZPy+upnoe7qFtVhtLRTD955iu8s56
-	 hmH8zjiCWZ2bA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vHfNk-000000033KL-2D3x;
-	Sat, 08 Nov 2025 10:37:16 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Jonathan Corbet" <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] docs: doc-guide: parse-headers.rst update its documentation
-Date: Sat,  8 Nov 2025 10:37:04 +0100
-Message-ID: <1f9025dc98dc58da3cc31f3343d5027f351be338.1762594622.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="SQrdexUk"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5A8GInPF2337389
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sat, 8 Nov 2025 08:18:49 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5A8GInPF2337389
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025102301; t=1762618732;
+	bh=IfQPIWym0KcYl4PrJwG7dFVcoXRd2GnV2Jse4Zj+a6w=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=SQrdexUk3Uvp8/NtRrkfFFBaj3c4imtzw8TG1x0d9IBeEM8f4iuSRBnQPHGUuzMAp
+	 ZCeylQqTiJQUdrDeZCSfquep9jpH78EjVmNlvh9UQRcm1/4ttKo442mGZpLvhSuYXy
+	 0u/bd2/ktKgWQLkN6zY3+qpbPKgQfeA+7s4QGmiXn1uYrrMcYOxveqtMRD48eeqUGe
+	 GB9H+NBGpGBItdZwV14jrcRkg+S34eWpA8wJDhAhgFC+frk157Yv0WHDCf+4iIpXD7
+	 urRRXEI0OxYHjJT0qrxi+q/bEro6fbb6S1XoJfzKoEU9s+gQXq2t/zNcaWKHtwKM/I
+	 X61HoP9/zYkCw==
+Date: Sat, 08 Nov 2025 08:18:48 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Sean Christopherson <seanjc@google.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_5/9=5D_x86/efi=3A_Disable_LAS?=
+ =?US-ASCII?Q?S_while_mapping_the_EFI_runtime_services?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <99143293-1715-4c40-b937-3e7472e26732@app.fastmail.com>
+References: <20251029210310.1155449-1-sohil.mehta@intel.com> <20251029210310.1155449-6-sohil.mehta@intel.com> <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com> <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com> <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com> <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com> <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com> <20251107090406.GU3245006@noisy.programming.kicks-ass.net> <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com> <20251107094008.GA1618871@noisy.programming.kicks-ass.net> <CAMj1kXFWCwEENyS=JM5mAON6ebfTwwJh-mRDYCY5NA+5UGzZJg@mail.gmail.com> <99143293-1715-4c40-b937-3e7472e26732@app.fastmail.com>
+Message-ID: <7B2C410E-E4A3-4998-8C83-BE7D5838AC12@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Besides converting from Perl to Python, parse-headers has gained
-some new functionality and was moved to tools/docs.
+On November 7, 2025 4:48:05 PM PST, Andy Lutomirski <luto@kernel=2Eorg> wro=
+te:
+>
+>
+>On Fri, Nov 7, 2025, at 2:09 AM, Ard Biesheuvel wrote:
+>> On Fri, 7 Nov 2025 at 10:40, Peter Zijlstra <peterz@infradead=2Eorg> wr=
+ote:
+>>>
+>>> On Fri, Nov 07, 2025 at 10:22:30AM +0100, Ard Biesheuvel wrote:
+>>>
+>>> > > But that's just the thing EFI is *NOT* trusted! We're basically
+>>> > > disabling all security features (not listed above are CET and CFI)=
+ to
+>>> > > run this random garbage we have no control over=2E
+>>> > >
+>>> > > How about we just flat out refuse EFI runtime services? What are t=
+hey
+>>> > > actually needed for? Why are we bending over backwards and subvert=
+ing
+>>> > > our security for this stuff?
+>>> >
+>>> > On x86, it is mostly the EFI variable services that user space has
+>>> > come to rely on, not only for setting the boot path (which typically
+>>> > happens only once at installation time, when the path to GRUB is set
+>>> > as the first boot option)=2E Unfortunately, the systemd folks have t=
+aken
+>>> > a liking to this feature too, and have started storing things in
+>>> > there=2E
+>>>
+>>> *groan*, so booting with noefi (I just went and found that option) wil=
+l
+>>> cause a modern Linux system to fail booting?
+>>>
+>>
+>> As long as you install with EFI enabled, the impact of efi=3Dnoruntime
+>> should be limited, given that x86 does not rely on EFI runtime
+>> services for the RTC or for reboot/poweroff=2E But you will lose access
+>> to the EFI variable store=2E (Not sure what 'noefi' does in comparison,
+>> but keeping EFI enabled at boot time for things like secure/measured
+>> boot and storage encryption will probably result in a net positive
+>> impact on security/hardening as long as you avoid calling into the
+>> firmware after boot)
+>>
+>>
+>>> > There is also PRM, which is much worse, as it permits devices in the
+>>> > ACPI namespace to call firmware routines that are mapped privileged =
+in
+>>> > the OS address space in the same way=2E I objected to this at the ti=
+me,
+>>> > and asked for a facility where we could at least mark such code as
+>>> > unprivileged (and run it as such) but this was ignored, as Intel and
+>>> > MS had already sealed the deal and put this into production=2E This =
+is
+>>> > much worse than typical EFI routines, as the PRM code is ODM/OEM cod=
+e
+>>> > rather than something that comes from the upstream EFI implementatio=
+n=2E
+>>> > It is basically a dumping ground for code that used to run in SMM
+>>> > because it was too ugly to run anywhere else=2E </rant>
+>>>
+>>> What the actual fuck!! And we support this garbage? Without
+>>> pr_err(FW_BUG ) notification?
+>>>
+>>> How can one find such devices? I need to check my machine=2E
+>>>
+>>
+>> Unless you have a PRMT table in the list of ACPI tables, your system
+>> shouldn't be affected by this=2E
+>>
+>>> > It would be nice if we could
+>>> >
+>>> > a) Get rid of SetVirtualAddressMap(), which is another insane hack
+>>> > that should never have been supported on 64-bit systems=2E On arm64,=
+ we
+>>> > no longer call it unless there is a specific need for it (some Amper=
+e
+>>> > Altra systems with buggy firmware will crash otherwise)=2E On x86,
+>>> > though, it might be tricky because there so much buggy firmware=2E
+>>> > Perhaps we should phase it out by checking for the UEFI version, so
+>>> > that future systems will avoid it=2E This would mean, however, that =
+EFI
+>>> > code remains in the low user address space, which may not be what yo=
+u
+>>> > want (unless we do c) perhaps?)
+>>> >
+>>> > b) Run EFI runtime calls in a sandbox VM - there was a PoC implement=
+ed
+>>> > for arm64 a couple of years ago, but it was very intrusive and the A=
+RM
+>>> > intern in question went on to do more satisyfing work=2E
+>>> >
+>>> > c) Unmap the kernel KPTI style while the runtime calls are in
+>>> > progress? This should be rather straight-forward, although it might
+>>> > not help a lot as the code in question still runs privileged=2E
+>>>
+>>> At the very least I think we should start printing scary messages abou=
+t
+>>> disabling security to run untrusted code=2E This is all quite insane :=
+/
+>>
+>> I agree in principle=2E However, calling it 'untrusted' is a bit
+>> misleading here, given that you already rely on the same body of code
+>> to boot your computer to begin with=2E I=2Ee=2E, if you suspect that th=
+e
+>> code in question is conspiring against you, not calling it at runtime
+>> to manipulate EFI variables is not going to help with that=2E
+>>
+>> But from a robustness point of view, I agree - running vendor code at
+>> the OS's privilege level at runtime that was only tested with Windows
+>> is not great for stability, and it would be nice if we could leverage
+>> the principle of least privilege and only permit it to access the
+>> things that it actually needs to perform the task that we've asked it
+>> to=2E This is why I asked for the ability to mark PRM services as
+>> unprivileged, given that they typically only run some code and perhaps
+>> poke some memory (either RAM or MMIO registers) that the OS never
+>> accesses directly=2E
+>>
+>> Question is though whether on x86, sandboxing is feasible: can VMs
+>> call into SMM? Because that is where 95% of the EFI variable services
+>> logic resides - the code running directly under the OS does very
+>> little other than marshalling the arguments and passing them on=2E
+>
+>Last time I looked at the calls into SMM (which was quite a while ago), t=
+hey were fairly recognizable sequences that would nicely cause VM exits=2E =
+ So the VM would exit and we would invoke SMM on its behalf=2E
+>
+>But it=E2=80=99s very very very common for VMX/SVM to be unavailable=2E
+>
+>Has anyone tried running EFI at CPL3?
+>
+>P=2ES=2E Forget about relying on AC to make EFI work=2E I doubt we can tr=
+ust EFI to leave AC set=2E
+>
 
-Update its documentation accordingly.
+Yeah, AC is way too volatile=2E=20
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Closes: https://lore.kernel.org/linux-doc/9391a0f0-7c92-42aa-8190-28255b22e131@infradead.org/
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/doc-guide/parse-headers.rst     | 195 +++++++++---------
- .../it_IT/doc-guide/parse-headers.rst         |   8 +-
- .../zh_CN/doc-guide/parse-headers.rst         |   8 +-
- 3 files changed, 103 insertions(+), 108 deletions(-)
-
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index 204b025f1349..954f3285ddf6 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -8,170 +8,165 @@ between the code and the documentation. Adding cross-references for
- userspace API files has an additional vantage: Sphinx will generate warnings
- if a symbol is not found at the documentation. That helps to keep the
- uAPI documentation in sync with the Kernel changes.
--The :ref:`parse_headers.pl <parse_headers>` provide a way to generate such
-+The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
- cross-references. It has to be called via Makefile, while building the
- documentation. Please see ``Documentation/userspace-api/media/Makefile`` for an example
- about how to use it inside the Kernel tree.
- 
- .. _parse_headers:
- 
--parse_headers.pl
--^^^^^^^^^^^^^^^^
-+tools/docs/parse_headers.py
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- NAME
- ****
- 
--
--parse_headers.pl - parse a C file, in order to identify functions, structs,
-+parse_headers.py - parse a C file, in order to identify functions, structs,
- enums and defines and create cross-references to a Sphinx book.
- 
-+USAGE
-+*****
-+
-+parse-headers.py [-h] [-d] [-t] ``FILE_IN`` ``FILE_OUT`` ``FILE_RULES``
- 
- SYNOPSIS
- ********
- 
-+Converts a C header or source file ``FILE_IN`` into a ReStructured Text
-+included via ..parsed-literal block with cross-references for the
-+documentation files that describe the API. It accepts an optional
-+``FILE_RULES`` file to describe what elements will be either ignored or
-+be pointed to a non-default reference type/name.
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+The output is written at ``FILE_OUT``.
- 
--Where <options> can be: --debug, --help or --usage.
-+It is capable of identifying ``define``, ``struct``, ``typedef``, ``enum``
-+and enum ``symbol``, creating cross-references for all of them.
- 
-+It is also capable of distinguishing ``#define`` used for specifying
-+Linux-specific macros used to define ``ioctl``.
-+
-+The optional ``FILE_RULES`` contains a set of rules like::
-+
-+    ignore ioctl VIDIOC_ENUM_FMT
-+    replace ioctl VIDIOC_DQBUF vidioc_qbuf
-+    replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
-+
-+POSITIONAL ARGUMENTS
-+********************
-+
-+  ``FILE_IN``
-+      Input C file
-+
-+  ``FILE_OUT``
-+      Output RST file
-+
-+  ``FILE_RULES``
-+      Exceptions file (optional)
- 
- OPTIONS
- *******
- 
--
--
--\ **--debug**\
--
-- Put the script in verbose mode, useful for debugging.
--
--
--
--\ **--usage**\
--
-- Prints a brief help message and exits.
--
--
--
--\ **--help**\
--
-- Prints a more detailed help message and exits.
-+  ``-h``, ``--help``
-+      show a help message and exit
-+  ``-d``, ``--debug``
-+      Increase debug level. Can be used multiple times
-+  ``-t``, ``--toc``
-+      instead of a literal block, outputs a TOC table at the RST file
- 
- 
- DESCRIPTION
- ***********
- 
-+Creates an enriched version of a Kernel header file with cross-links
-+to each C data structure type, from ``FILE_IN``, formatting it with
-+reStructuredText notation, either as-is or as a table of contents.
- 
--Convert a C header or source file (C_FILE), into a reStructuredText
--included via ..parsed-literal block with cross-references for the
--documentation files that describe the API. It accepts an optional
--EXCEPTIONS_FILE with describes what elements will be either ignored or
--be pointed to a non-default reference.
-+It accepts an optional ``FILE_RULES`` which describes what elements will be
-+either ignored or be pointed to a non-default reference, and optionally
-+defines the C namespace to be used.
- 
--The output is written at the (OUT_FILE).
-+It is meant to allow having more comprehensive documentation, where
-+uAPI headers will create cross-reference links to the code.
- 
--It is capable of identifying defines, functions, structs, typedefs,
--enums and enum symbols and create cross-references for all of them.
--It is also capable of distinguish #define used for specifying a Linux
--ioctl.
-+The output is written at the (``FILE_OUT``).
- 
--The EXCEPTIONS_FILE contain two types of statements: \ **ignore**\  or \ **replace**\ .
-+The ``FILE_RULES`` may contain contain three types of statements:
-+**ignore**, **replace** and **namespace**.
- 
--The syntax for the ignore tag is:
-+By default, it create rules for all symbols and defines, but it also
-+allows parsing an exception file. Such file contains a set of rules
-+using the syntax below:
- 
-+1. Ignore rules:
- 
--ignore \ **type**\  \ **name**\
-+    ignore *type* *symbol*
- 
--The \ **ignore**\  means that it won't generate cross references for a
--\ **name**\  symbol of type \ **type**\ .
-+Removes the symbol from reference generation.
- 
--The syntax for the replace tag is:
-+2. Replace rules:
- 
-+    replace *type* *old_symbol* *new_reference*
- 
--replace \ **type**\  \ **name**\  \ **new_value**\
-+    Replaces *old_symbol* with a *new_reference*.
-+    The *new_reference* can be:
- 
--The \ **replace**\  means that it will generate cross references for a
--\ **name**\  symbol of type \ **type**\ , but, instead of using the default
--replacement rule, it will use \ **new_value**\ .
-+    - A simple symbol name;
-+    - A full Sphinx reference.
- 
--For both statements, \ **type**\  can be either one of the following:
-+3. Namespace rules
- 
-+    namespace *namespace*
- 
--\ **ioctl**\
-+    Sets C *namespace* to be used during cross-reference generation. Can
-+    be overridden by replace rules.
- 
-- The ignore or replace statement will apply to ioctl definitions like:
-+On ignore and replace rules, *type* can be:
- 
-- #define	VIDIOC_DBG_S_REGISTER 	 _IOW('V', 79, struct v4l2_dbg_register)
-+    - ioctl:
-+        for defines of the form ``_IO*``, e.g., ioctl definitions
- 
-+    - define:
-+        for other defines
- 
-+    - symbol:
-+        for symbols defined within enums;
- 
--\ **define**\
-+    - typedef:
-+        for typedefs;
- 
-- The ignore or replace statement will apply to any other #define found
-- at C_FILE.
--
--
--
--\ **typedef**\
--
-- The ignore or replace statement will apply to typedef statements at C_FILE.
--
--
--
--\ **struct**\
--
-- The ignore or replace statement will apply to the name of struct statements
-- at C_FILE.
--
--
--
--\ **enum**\
--
-- The ignore or replace statement will apply to the name of enum statements
-- at C_FILE.
--
--
--
--\ **symbol**\
--
-- The ignore or replace statement will apply to the name of enum value
-- at C_FILE.
--
-- For replace statements, \ **new_value**\  will automatically use :c:type:
-- references for \ **typedef**\ , \ **enum**\  and \ **struct**\  types. It will use :ref:
-- for \ **ioctl**\ , \ **define**\  and \ **symbol**\  types. The type of reference can
-- also be explicitly defined at the replace statement.
-+    - enum:
-+        for the name of a non-anonymous enum;
- 
-+    - struct:
-+        for structs.
- 
- 
- EXAMPLES
- ********
- 
-+- Ignore a define ``_VIDEODEV2_H`` at ``FILE_IN``::
- 
--ignore define _VIDEODEV2_H
-+    ignore define _VIDEODEV2_H
- 
-+- On an data structure like this enum::
- 
--Ignore a #define _VIDEODEV2_H at the C_FILE.
-+    enum foo { BAR1, BAR2, PRIVATE };
- 
--ignore symbol PRIVATE
-+  It won't generate cross-references for ``PRIVATE``::
- 
-+    ignore symbol PRIVATE
- 
--On a struct like:
-+  At the same struct, instead of creating one cross reference per symbol,
-+  make them all point to the ``enum foo`` C type::
- 
--enum foo { BAR1, BAR2, PRIVATE };
-+    replace symbol BAR1 :c:type:\`foo\`
-+    replace symbol BAR2 :c:type:\`foo\`
- 
--It won't generate cross-references for \ **PRIVATE**\ .
- 
--replace symbol BAR1 :c:type:\`foo\`
--replace symbol BAR2 :c:type:\`foo\`
--
--
--On a struct like:
--
--enum foo { BAR1, BAR2, PRIVATE };
--
--It will make the BAR1 and BAR2 enum symbols to cross reference the foo
--symbol at the C domain.
-+- Use C namespace ``MC`` for all symbols at ``FILE_IN``::
- 
-+    namespace MC
- 
- BUGS
- ****
-@@ -184,7 +179,7 @@ COPYRIGHT
- *********
- 
- 
--Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
-+Copyright (c) 2016, 2025 by Mauro Carvalho Chehab <mchehab+huawei@kernel.org>.
- 
- License GPLv2: GNU GPL version 2 <https://gnu.org/licenses/gpl.html>.
- 
-diff --git a/Documentation/translations/it_IT/doc-guide/parse-headers.rst b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-index 026a23e49767..b0caa40fe1e9 100644
---- a/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-@@ -13,28 +13,28 @@ dello spazio utente ha ulteriori vantaggi: Sphinx genererà dei messaggi
- d'avviso se un simbolo non viene trovato nella documentazione. Questo permette
- di mantenere allineate la documentazione della uAPI (API spazio utente)
- con le modifiche del kernel.
--Il programma :ref:`parse_headers.pl <it_parse_headers>` genera questi riferimenti.
-+Il programma :ref:`parse_headers.py <it_parse_headers>` genera questi riferimenti.
- Esso dev'essere invocato attraverso un Makefile, mentre si genera la
- documentazione. Per avere un esempio su come utilizzarlo all'interno del kernel
- consultate ``Documentation/userspace-api/media/Makefile``.
- 
- .. _it_parse_headers:
- 
--parse_headers.pl
-+parse_headers.py
- ^^^^^^^^^^^^^^^^
- 
- NOME
- ****
- 
- 
--parse_headers.pl - analizza i file C al fine di identificare funzioni,
-+parse_headers.py - analizza i file C al fine di identificare funzioni,
- strutture, enumerati e definizioni, e creare riferimenti per Sphinx
- 
- SINTASSI
- ********
- 
- 
--\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+\ **parse_headers.py**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
- Dove <options> può essere: --debug, --usage o --help.
- 
-diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-index a08819e904ed..65d9dc5143ff 100644
---- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-@@ -13,20 +13,20 @@
- 有时，为了描述用户空间API并在代码和文档之间生成交叉引用，需要包含头文件和示例
- C代码。为用户空间API文件添加交叉引用还有一个好处：如果在文档中找不到相应符号，
- Sphinx将生成警告。这有助于保持用户空间API文档与内核更改同步。
--:ref:`parse_headers.pl <parse_headers_zh>` 提供了生成此类交叉引用的一种方法。
-+:ref:`parse_headers.py <parse_headers_zh>` 提供了生成此类交叉引用的一种方法。
- 在构建文档时，必须通过Makefile调用它。有关如何在内核树中使用它的示例，请参阅
- ``Documentation/userspace-api/media/Makefile`` 。
- 
- .. _parse_headers_zh:
- 
--parse_headers.pl
-+parse_headers.py
- ----------------
- 
- 脚本名称
- ~~~~~~~~
- 
- 
--parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
-+parse_headers.py——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
- 创建交叉引用。
- 
- 
-@@ -34,7 +34,7 @@ parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、
- ~~~~~~~~
- 
- 
--\ **parse_headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
-+\ **parse_headers.py**\  [<选项>] <C文件> <输出文件> [<例外文件>]
- 
- <选项> 可以是： --debug, --help 或 --usage 。
- 
--- 
-2.51.1
+This thread veered off topic, though=2E The point wasn't that EFI runtime =
+calls weren't crap, but that LASS, SMEP, and SMAP add no value during the E=
+FI runtime call *because we explicitly unmap user space anyway* (efi_mm) so=
+ there are no user space mappings to worry about, so disabling them during =
+the execution of the EFI runtime call makes no difference at all =E2=80=94 =
+*as long as* the CR4 manipulation is done strictly inside the efi_mm switch=
+=2E
 
