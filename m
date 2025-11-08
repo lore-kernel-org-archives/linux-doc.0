@@ -1,239 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A8D2627F9;
-	Sat,  8 Nov 2025 00:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C661A9FBD;
+	Sat,  8 Nov 2025 01:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762562915; cv=none; b=eFFYcXG4ciEOfuB6Q9nWCoDGXDoHxPy2QlqOoQnZPmQtW3nENYwLY8MFF/Lwf1cmvDBEHV3D2Zp/JpOHiKM6PCkzlMYBjmacSyHfoyFofrABz/E27PY23ndyr3i5aB9U0JKxpnhPqYF8mfS3BIY2LKl1FFJrtkoduTxVv85CTFY=
+	t=1762564656; cv=none; b=or0QjsC2q+ijSqqqTMLyYbUFbt7yKVbIri34aA643ezUZyotT/m2UApUGwj0BMxCJdQpPOtEjdpXGLAoFL58jHGpiGFmK3X3w7e2SaxRw01ka1N0nVJ2Whlmsj6JExkgZ2hvzotCSd1+0e65UP2mGr5wdpkhYNq3u5aVuQtrH1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762562915; c=relaxed/simple;
-	bh=lhCi1JXBZrowYMZNCBd1DSzIM50iVkagNImXrUhUvYU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=D3ycj4iY6WbTcf23W1c+2L6O/JiB4BQ+bKhQGtrqQ9tj3X0E2ukOHdDO+Dd+xcABhtIwpPH4IopdGXksVcgGeJUOONJYJ8/6k7+viKxx9k4WexlfTEL+AmeaQpuxc9dssyQQTo3O949h9Gd4Zz17RKgqum0vf++eQni6GpXNf1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gswunZeU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762564656; c=relaxed/simple;
+	bh=ofJHIlh4pkyWeQqMOHXdqsVhFSJJOBvBYJc4zlsIYqM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DkNZWMhbdIPYpNoPq1zR5ANelZZdpEagjV8wgnh4N+q9H1GSn6XzGahBrWYELAFoZco998md5emMu2ATDo4xADCtNRCeul1t7y4eG57qhHWAt6XW+fE0PpljD7otthYNCnEmIdcHuYa/HXdvzAUVxApa+MkPSQ92AzABgGJFwx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bpJxFDNZ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gswunZeU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A51C4CEF7;
-	Sat,  8 Nov 2025 00:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762562914;
-	bh=lhCi1JXBZrowYMZNCBd1DSzIM50iVkagNImXrUhUvYU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=gswunZeU6p3iEknl+EC2reiaR22VtehXJDZ+aZ2pa5OT0UZ7XCqJkhucRE8txzjzX
-	 Px+5k77qJmO4GCQ0fKkUYntLysjz5r3XvmdpeMEzGChXw2sDsQvBYpkY+6U0JmDFaa
-	 p/ucgJqPe60IJMYkPKLl0TgpKRdcgY+mD21AHHORwXR2JNfZBlHKQIjuK+OvdWamQ1
-	 mhcUJnKbI9Ig6KHiJ29qqP5FAat/EdPILj7Rl4XmdXQ4bzqVQ+gwRlXdhS3figxlxL
-	 1HoZPj/hN1vy8HUn+QmMc/426Ji6RmvDZxUk1eBNneiKzT0UPhPrELR/v+tK+cEteO
-	 ANi3NOiMTDF7Q==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 25301F4007E;
-	Fri,  7 Nov 2025 19:48:33 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Fri, 07 Nov 2025 19:48:33 -0500
-X-ME-Sender: <xms:YJMOaTVRL4AKewLf-d6j2vDCNLKevTX_epZDh_3gHPY3eXX735sNAg>
-    <xme:YJMOaWYFhsVU1tzPSJophTADFm1ERok1QC44ZgQphIT0tXOVG2awzCdG-Ol5SMTrJ
-    MMukEzkwxpAI7jApMYd6NO1woBQ7d6FDPuhqFDsL7GR92umff3FwU8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleduudegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehnugih
-    ucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhepjeejvddvtdehffdtgfejjeefgefgjeeggfeuteeiuedvtefgfffhvdej
-    iefguedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudekheei
-    fedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrd
-    hluhhtohdruhhspdhnsggprhgtphhtthhopedvjedpmhhouggvpehsmhhtphhouhhtpdhr
-    tghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepugifmhifsegrmhgrii
-    honhdrtghordhukhdprhgtphhtthhopegrnhgurhgvfidrtghoohhpvghrfeestghithhr
-    ihigrdgtohhmpdhrtghpthhtohepshgvrghnjhgtsehgohhoghhlvgdrtghomhdprhgtph
-    htthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehrughu
-    nhhlrghpsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuggrvhgvrdhhrghnsh
-    gvnhesihhnthgvlhdrtghomhdprhgtphhtthhopehrihgtkhdrphdrvggughgvtghomhgs
-    vgesihhnthgvlhdrtghomhdprhgtphhtthhopehsohhhihhlrdhmvghhthgrsehinhhtvg
-    hlrdgtohhm
-X-ME-Proxy: <xmx:YZMOaTqX01a8plPFu1dH9pAQWaJWejvvr-lQogf_dSI2Un2vQztvFQ>
-    <xmx:YZMOaVLXZH_we85t1eBghbI5ZLK7gVm7_WEZkI9YkEPbhbHf63f0cw>
-    <xmx:YZMOaWRwn_zzuw5T8aX0xSwd_CY_J1hvJyZ_SY4e63rHVLULU4WZ0A>
-    <xmx:YZMOaU-8vXL3goRPTdhCxi1i1J4F-LtdJMQ9kouGLnK5LQ-dK1eOgw>
-    <xmx:YZMOad8IemqdaLz5xausC_sXwBU5fQ8HhabxH1ClBCNK_LxeFeZvxQgQ>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DDF3F700054; Fri,  7 Nov 2025 19:48:32 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bpJxFDNZ"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A7HBog53658131;
+	Sat, 8 Nov 2025 01:17:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=oWOhFS0g4Q1tJoFANI/E8d
+	kFHuxYXoEJGzl3o0/c8GE=; b=bpJxFDNZ+JP/50G7HoorJ3ilsFW1SEGwaqv0ca
+	+uS8gpVMkS2jIJJiqj+WydDlzTw+HwzteYu7ALmADy9KaHv2+LGUTC3NOj/g84k7
+	JsM6krnxtojLVAMI9+0mSUjyRVqR2mZG/ZDOTg/WdEmnus3o8wZzs3fJ+V+NEc1y
+	bXjP83q1h2itmsY8qr/ArgqaRHj9Yxd496kL+7KjRZrdZqtsYClhfvfAwduv1gRh
+	Mw4l3GONTd2pToVfvxLf0cmt7LbSCB3gSFuFq2MlA/n3deb2x3uhLpraMJ+iAisv
+	5EojsKGhyssAESZZK5h93weU/8xHe7hoNDlP4Eo4G+ucwQMg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9my4s1pj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Nov 2025 01:17:27 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5A81HRvX026818;
+	Sat, 8 Nov 2025 01:17:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 4a9t65grx3-1;
+	Sat, 08 Nov 2025 01:17:27 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5A81HQkF026812;
+	Sat, 8 Nov 2025 01:17:26 GMT
+Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
+	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 5A81HQcF026811;
+	Sat, 08 Nov 2025 01:17:26 +0000
+From: Graham Roff <grahamr@qti.qualcomm.com>
+Date: Fri, 07 Nov 2025 17:16:34 -0800
+Subject: [PATCH] Support conditional deps using "depends on X if Y"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 07 Nov 2025 16:48:05 -0800
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Ard Biesheuvel" <ardb@kernel.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: "Dave Hansen" <dave.hansen@intel.com>,
- "Sohil Mehta" <sohil.mehta@intel.com>,
- "the arch/x86 maintainers" <x86@kernel.org>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "Jonathan Corbet" <corbet@lwn.net>,
- "H. Peter Anvin" <hpa@zytor.com>, "Josh Poimboeuf" <jpoimboe@kernel.org>,
- "Kirill A . Shutemov" <kas@kernel.org>, "Xin Li" <xin@zytor.com>,
- "David Woodhouse" <dwmw@amazon.co.uk>,
- "Sean Christopherson" <seanjc@google.com>,
- "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
- "Vegard Nossum" <vegard.nossum@oracle.com>,
- "Andrew Cooper" <andrew.cooper3@citrix.com>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Kees Cook" <kees@kernel.org>, "Tony Luck" <tony.luck@intel.com>,
- "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
- linux-doc@vger.kernel.org,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-efi@vger.kernel.org
-Message-Id: <99143293-1715-4c40-b937-3e7472e26732@app.fastmail.com>
-In-Reply-To: 
- <CAMj1kXFWCwEENyS=JM5mAON6ebfTwwJh-mRDYCY5NA+5UGzZJg@mail.gmail.com>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-6-sohil.mehta@intel.com>
- <3e9c4fdd-88a8-4597-9405-d865fb837d95@intel.com>
- <cac58a25-eda6-4738-966f-a4e42818aa6c@app.fastmail.com>
- <6dec8398-3f7c-44db-a30d-33593af0217f@intel.com>
- <efd6ec82-5576-41f1-a244-2f80d72e93e4@intel.com>
- <ee2fce64-91ce-4b78-b2f9-33364ea0c52f@intel.com>
- <20251107090406.GU3245006@noisy.programming.kicks-ass.net>
- <CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com>
- <20251107094008.GA1618871@noisy.programming.kicks-ass.net>
- <CAMj1kXFWCwEENyS=JM5mAON6ebfTwwJh-mRDYCY5NA+5UGzZJg@mail.gmail.com>
-Subject: Re: [PATCH v11 5/9] x86/efi: Disable LASS while mapping the EFI runtime
- services
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPGZDmkC/x2MUQqAIBAFrxL7neAWSnWViAhdayksNCKI7t7S1
+ zAw7z2QKTFl6IoHEl2ceY8iWBbglinOpNiLQ6Urg6itWt0eA8+jwPMp9bSNno6sDAZ0ra5DY2u
+ Q+ZEo8P1f98P7fjfmlRJqAAAA
+X-Change-ID: 20251106-kconfig_conditional_deps-51f1c903f863
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Graham Roff <grahamr@qti.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762564646; l=5140;
+ i=grahamr@qti.qualcomm.com; s=20251107; h=from:subject:message-id;
+ bh=ylpCvHWjQa416hD+EocRodRSh+8n7FUnxC4JYjhf/YY=;
+ b=+1ngKSrLGfgmSMMCaA/oIEDSbp21MnnhdU7CWaFOASwZw15lR6kHZdfX8cap+BI/R7tFV3pX/
+ ESZtNPK/31pDpt/KtHzOTuuQQmNRlAUl9JLrqj5KRRvhE1i+BtmDuZn
+X-Developer-Key: i=grahamr@qti.qualcomm.com; a=ed25519;
+ pk=p33S3GCPECgmJDBDEtJ/OWLHwPs1vGD4QhZS0FTdjBk=
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=IqQTsb/g c=1 sm=1 tr=0 ts=690e9a28 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=07d9gI8wAAAA:8 a=dg4UtMH5AAAA:8 a=EUspDBNiAAAA:8 a=DisRCJlzh1ScgluH8AYA:9
+ a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22 a=byNfn09xH3PuSfgbYLsR:22
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: k9zfxVyw4-tw6QxVPoRAckQ9llgMSbZ1
+X-Proofpoint-GUID: k9zfxVyw4-tw6QxVPoRAckQ9llgMSbZ1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA4MDAwOSBTYWx0ZWRfX1yV85bqfJb2A
+ kcbjJ8cv6Cpq73p0U6bS2OTU9j4ZQUxjf2g72Pg4Tv9OOBycdu7bkMTich3WM3KfYJYGgPXyog4
+ +U4Ngobosn22TPoGfpa3TvvhKcuXD4kAL+pTQZLVlfoPPnjIwvB145JUHtAsaMJ5iVIZwvLLW6k
+ /bd4Ut8tkWtElqg0dpsFarGh3I2Er3jEklSXrFHyyBxAo3DlZ1x8Hw7ihf9kx9AvJbLx1yBq2hM
+ FF7TQvKeDFqnyCpHofyQdC8lU1r5fFnYTWiWtwHUptRBNFfVOSuIc5JQ0pe+5AOeevE07T1iFB0
+ 7UbMj+HzwtWPfypBQXqlOrffTED+WiaymzBjluP1RVqZ1fMX8N62aSKEE99IeOsg85AaGHAVXjU
+ /pGVgKlXcvq2OmkIJGSBZcCiPJGkpg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-08_01,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 clxscore=1011
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511080009
 
+From: Nicolas Pitre <nico@fluxnic.net>
 
+Extend the "depends on" syntax to support conditional dependencies
+using "depends on X if Y". While functionally equivalent to "depends
+on X || (Y == n)", "depends on X if Y" is much more readable and
+makes the kconfig language uniform in supporting the "if <expr>"
+suffix.
 
-On Fri, Nov 7, 2025, at 2:09 AM, Ard Biesheuvel wrote:
-> On Fri, 7 Nov 2025 at 10:40, Peter Zijlstra <peterz@infradead.org> wro=
-te:
->>
->> On Fri, Nov 07, 2025 at 10:22:30AM +0100, Ard Biesheuvel wrote:
->>
->> > > But that's just the thing EFI is *NOT* trusted! We're basically
->> > > disabling all security features (not listed above are CET and CFI=
-) to
->> > > run this random garbage we have no control over.
->> > >
->> > > How about we just flat out refuse EFI runtime services? What are =
-they
->> > > actually needed for? Why are we bending over backwards and subver=
-ting
->> > > our security for this stuff?
->> >
->> > On x86, it is mostly the EFI variable services that user space has
->> > come to rely on, not only for setting the boot path (which typically
->> > happens only once at installation time, when the path to GRUB is set
->> > as the first boot option). Unfortunately, the systemd folks have ta=
-ken
->> > a liking to this feature too, and have started storing things in
->> > there.
->>
->> *groan*, so booting with noefi (I just went and found that option) wi=
-ll
->> cause a modern Linux system to fail booting?
->>
->
-> As long as you install with EFI enabled, the impact of efi=3Dnoruntime
-> should be limited, given that x86 does not rely on EFI runtime
-> services for the RTC or for reboot/poweroff. But you will lose access
-> to the EFI variable store. (Not sure what 'noefi' does in comparison,
-> but keeping EFI enabled at boot time for things like secure/measured
-> boot and storage encryption will probably result in a net positive
-> impact on security/hardening as long as you avoid calling into the
-> firmware after boot)
->
->
->> > There is also PRM, which is much worse, as it permits devices in the
->> > ACPI namespace to call firmware routines that are mapped privileged=
- in
->> > the OS address space in the same way. I objected to this at the tim=
-e,
->> > and asked for a facility where we could at least mark such code as
->> > unprivileged (and run it as such) but this was ignored, as Intel and
->> > MS had already sealed the deal and put this into production. This is
->> > much worse than typical EFI routines, as the PRM code is ODM/OEM co=
-de
->> > rather than something that comes from the upstream EFI implementati=
-on.
->> > It is basically a dumping ground for code that used to run in SMM
->> > because it was too ugly to run anywhere else. </rant>
->>
->> What the actual fuck!! And we support this garbage? Without
->> pr_err(FW_BUG ) notification?
->>
->> How can one find such devices? I need to check my machine.
->>
->
-> Unless you have a PRMT table in the list of ACPI tables, your system
-> shouldn't be affected by this.
->
->> > It would be nice if we could
->> >
->> > a) Get rid of SetVirtualAddressMap(), which is another insane hack
->> > that should never have been supported on 64-bit systems. On arm64, =
-we
->> > no longer call it unless there is a specific need for it (some Ampe=
-re
->> > Altra systems with buggy firmware will crash otherwise). On x86,
->> > though, it might be tricky because there so much buggy firmware.
->> > Perhaps we should phase it out by checking for the UEFI version, so
->> > that future systems will avoid it. This would mean, however, that E=
-FI
->> > code remains in the low user address space, which may not be what y=
-ou
->> > want (unless we do c) perhaps?)
->> >
->> > b) Run EFI runtime calls in a sandbox VM - there was a PoC implemen=
-ted
->> > for arm64 a couple of years ago, but it was very intrusive and the =
-ARM
->> > intern in question went on to do more satisyfing work.
->> >
->> > c) Unmap the kernel KPTI style while the runtime calls are in
->> > progress? This should be rather straight-forward, although it might
->> > not help a lot as the code in question still runs privileged.
->>
->> At the very least I think we should start printing scary messages abo=
-ut
->> disabling security to run untrusted code. This is all quite insane :/
->
-> I agree in principle. However, calling it 'untrusted' is a bit
-> misleading here, given that you already rely on the same body of code
-> to boot your computer to begin with. I.e., if you suspect that the
-> code in question is conspiring against you, not calling it at runtime
-> to manipulate EFI variables is not going to help with that.
->
-> But from a robustness point of view, I agree - running vendor code at
-> the OS's privilege level at runtime that was only tested with Windows
-> is not great for stability, and it would be nice if we could leverage
-> the principle of least privilege and only permit it to access the
-> things that it actually needs to perform the task that we've asked it
-> to. This is why I asked for the ability to mark PRM services as
-> unprivileged, given that they typically only run some code and perhaps
-> poke some memory (either RAM or MMIO registers) that the OS never
-> accesses directly.
->
-> Question is though whether on x86, sandboxing is feasible: can VMs
-> call into SMM? Because that is where 95% of the EFI variable services
-> logic resides - the code running directly under the OS does very
-> little other than marshalling the arguments and passing them on.
+The change is implemented by converting the "X if Y" syntax into the
+"X || (Y == n)" syntax during "depends on" token processing.
 
-Last time I looked at the calls into SMM (which was quite a while ago), =
-they were fairly recognizable sequences that would nicely cause VM exits=
-.  So the VM would exit and we would invoke SMM on its behalf.
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 
-But it=E2=80=99s very very very common for VMX/SVM to be unavailable.
+[Graham Roff: Rewrote commit message and redid patch for latest kernel]
 
-Has anyone tried running EFI at CPL3?
+Signed-off-by: Graham Roff <grahamr@qti.qualcomm.com>
+---
+This patch updates an earlier one that was not merged to work on 
+the latest kernel release.
 
-P.S. Forget about relying on AC to make EFI work. I doubt we can trust E=
-FI to leave AC set.
+Link: https://lwn.net/ml/linux-kernel/nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr/#t
+
+Support for this change has been expressed by a number of developers
+since the original patch was proposed back in 2020, and has recently
+also been raised as a patch to the Zephyr kconfig system.
+One specific use is when mapping the Bluetooth specification to Kconfig,
+as it explicitly provides dependencies between features as conditional
+on other features. Many other cases exist where the "slightly
+counterintuitive" (quoted from the Kconfig specification) expression 
+"depends on BAR || !BAR" has been used when a proper "if" condition 
+would be more readable.
+
+The earlier patch discussion ended without a real conclusion and should
+be revisited now.
+---
+ Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
+ scripts/kconfig/lkc.h                     |  2 +-
+ scripts/kconfig/menu.c                    | 12 +++++++++++-
+ scripts/kconfig/parser.y                  |  6 +++---
+ 4 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index abce88f15d7c..61848f999db8 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -118,7 +118,7 @@ applicable everywhere (see syntax).
+   This is a shorthand notation for a type definition plus a value.
+   Optionally dependencies for this default value can be added with "if".
+ 
+-- dependencies: "depends on" <expr>
++- dependencies: "depends on" <expr> ["if" <expr>]
+ 
+   This defines a dependency for this menu entry. If multiple
+   dependencies are defined, they are connected with '&&'. Dependencies
+@@ -134,6 +134,16 @@ applicable everywhere (see syntax).
+ 	bool "foo"
+ 	default y
+ 
++  The dependency definition itself may be conditional by appending "if"
++  followed by an expression. If such expression is false (n) then this
++  dependency is ignored. One possible use case is:
++
++    config FOO
++	tristate
++	depends on BAZ if BAZ != n
++
++  meaning that FOO is constrained by the value of BAZ only when it is set.
++
+ - reverse dependencies: "select" <symbol> ["if" <expr>]
+ 
+   While normal dependencies reduce the upper limit of a symbol (see
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index 56548efc14d7..798985961215 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -82,7 +82,7 @@ void menu_warn(const struct menu *menu, const char *fmt, ...);
+ struct menu *menu_add_menu(void);
+ void menu_end_menu(void);
+ void menu_add_entry(struct symbol *sym, enum menu_type type);
+-void menu_add_dep(struct expr *dep);
++void menu_add_dep(struct expr *dep, struct expr *cond);
+ void menu_add_visibility(struct expr *dep);
+ struct property *menu_add_prompt(enum prop_type type, const char *prompt,
+ 				 struct expr *dep);
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 0f1a6513987c..b2d8d4e11e07 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -127,8 +127,18 @@ static struct expr *rewrite_m(struct expr *e)
+ 	return e;
+ }
+ 
+-void menu_add_dep(struct expr *dep)
++void menu_add_dep(struct expr *dep, struct expr *cond)
+ {
++	if (cond) {
++		/*
++		 * We have "depends on X if Y" and we want:
++		 *	Y != n --> X
++		 *	Y == n --> y
++		 * That simplifies to: (X || (Y == n))
++		 */
++		dep = expr_alloc_or(dep,
++				expr_trans_compare(cond, E_EQUAL, &symbol_no));
++	}
+ 	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
+ }
+ 
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 49b79dde1725..6d1bbee38f5d 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -323,7 +323,7 @@ if_entry: T_IF expr T_EOL
+ {
+ 	printd(DEBUG_PARSE, "%s:%d:if\n", cur_filename, cur_lineno);
+ 	menu_add_entry(NULL, M_IF);
+-	menu_add_dep($2);
++	menu_add_dep($2, NULL);
+ 	$$ = menu_add_menu();
+ };
+ 
+@@ -422,9 +422,9 @@ help: help_start T_HELPTEXT
+ 
+ /* depends option */
+ 
+-depends: T_DEPENDS T_ON expr T_EOL
++depends: T_DEPENDS T_ON expr if_expr T_EOL
+ {
+-	menu_add_dep($3);
++	menu_add_dep($3, $4);
+ 	printd(DEBUG_PARSE, "%s:%d:depends on\n", cur_filename, cur_lineno);
+ };
+ 
+
+---
+base-commit: a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30
+change-id: 20251106-kconfig_conditional_deps-51f1c903f863
+
+Best regards,
+-- 
+Graham Roff <grahamr@qti.qualcomm.com>
+
