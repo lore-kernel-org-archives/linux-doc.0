@@ -1,84 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4515063CB;
-	Sun,  9 Nov 2025 04:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C9E19CCF7
+	for <linux-doc@vger.kernel.org>; Sun,  9 Nov 2025 05:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762663821; cv=none; b=pbNQwS7kVAXcKuOTMiK7liRwsFE18nx8emBnlKLLkD2NcNjqDDRwDqQQQqLDG6QjEH6NQ+7H4Vqb04XnDQGa1QMZ4WPvy/FyDTzMl+k+ItQKkN5NyR335acHErIbg9Bt5rZ+JL6zRFza121eNbcjn9LE1ZNKuFjP41M25kX3PlI=
+	t=1762664435; cv=none; b=lFvx5PnpSnoEL9c+J60/zGyjzT/OuPgy9w7oVPZ3kukfaOaKRbRx1o/V7pfGWO9rrPh8stdY74wqKHIWk9ajU6PYRe8t0P3MjnDybs4UAnxJHf1htzUkOEySmyqHEQ9jZMG/h4rTC0YiTWrAVtfO4nwNLfdSS8lOnZA/gFoIXJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762663821; c=relaxed/simple;
-	bh=RqrTWyEAyenzg8uGzLFZMH/QGWsjkPO/81EAXIlE4WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=COj8KGFFMi3yawR04UomYaahvLqWfHk5cSNg5CT7t2PpeR7VSFXqDTGNc07bzWLx7DMiOCJ2JgVQR1q36yu+ekoIEoPIxBX0tTlNvBjKckiTetbfhLRWmou9AGyvHtQ+XIgwRMGugvCEZPy2nb8n2gnr04GLy8fn67czJ6EFnNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcgJkQkW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762664435; c=relaxed/simple;
+	bh=zRhaB3AkpzqnFC0tjv0zNN2g/jLx/Eagh3WOdAO0D44=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kTHFDdm9WIah/4NF23g+Ka2lgk3CUy/Vcx6cxnZpLGQVc/1AHmGY2DoVUZldxqQFtG4JkEN51ZTHcbxdz0Au1g9jfUKwppvMUXNHjkYtRI6Wk2OzO5a934A0s8283qr1R+D17WvXReRzi4Okmc/nox7oOdP76p8dM16y+uPCc6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EPudEaXB; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcgJkQkW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BAE1C4CEFB;
-	Sun,  9 Nov 2025 04:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762663820;
-	bh=RqrTWyEAyenzg8uGzLFZMH/QGWsjkPO/81EAXIlE4WU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fcgJkQkWOUHhGI8OCKCtPyWDspxpydPp0kmHnXRjiVKSfS6kwR9KWsLjGljpvC5Kn
-	 yBUQWiloP1gNcteR/73zoCJukUdl0KX5B0sg0gbUCp3AgbfbrHCrdReGqzJZnRmiky
-	 YmweWbuE5yaT/+tBYb+dFT4vwpjO+J5OjHfXG1UAYlBwp1+CSU3/1BGRDLiG3CKTcl
-	 h0OFaC75eDe33GczNR5ciV7SSgJfSTcKVjHqAkwdws/2P84LFf/c/ndcafllsS4IyM
-	 ZwEzdwfPQFA9SFuBpuDv0JD1dY2FwDf4kFIbKzUUaa60y0agG8Sp8PGpTEQwyVSyWq
-	 tfrO7Sa1hOFFQ==
-Date: Sun, 9 Nov 2025 06:50:17 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Integrity <linux-integrity@vger.kernel.org>,
-	Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: tpm: tpm-security: Demote "Null Primary
- Key Certification in Userspace" section
-Message-ID: <aRAdiUB9otJk5i9U@kernel.org>
-References: <20251104131312.23791-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EPudEaXB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=iMwGWSopDb2gGVJRX8JLTY3EwC8KhPn3pmsuNP3k70A=; b=EPudEaXBkvudbE4oSiYjmsv2+D
+	3xlLuxYfA4SSDyThbLSZm6tekQPsLgbhh9QxA8H8z1+o6WZzLgx8RnAlVz3J4WwjhmyfcI6EqodEZ
+	rxVDGItfid9UZROwhRsZa4eEi9fj6o+rJ+yTjj0XOA2pvBGRs3fOLPFWhFhP2rW+TYsdz+I8FLUNB
+	yygWAjRT6ojFiBiAnKT65/2TuFw4Ffqcu+E4WqPepwJfiwz/C8PJGiAuGWnxbWvC7OzPvyAlvsUDf
+	rVoGlYUJRr+FX2h9o9TSa0nfcmjDJohLGfZsI5+lDvE51x2VQW5Hb0NSjplxrUAVino7MNN94MQ/d
+	d8IBKAzQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vHxXT-00000003lHV-0hK0;
+	Sun, 09 Nov 2025 05:00:31 +0000
+Message-ID: <509d66c7-a4b0-4f75-b923-3710e510d8cc@infradead.org>
+Date: Sat, 8 Nov 2025 21:00:30 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104131312.23791-1-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: make mandocs: subdirectories scanned
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <80701524-09fd-4d68-8715-331f47c969f2@infradead.org>
+ <20251109000825.0bb65270@foz.lan>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251109000825.0bb65270@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 04, 2025 at 08:13:12PM +0700, Bagas Sanjaya wrote:
-> The last section heading in TPM security docs is formatted as title
-> heading instead. As such, it shows up as TPM toctree entry. Demote it
-> to section heading as appropriate.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/security/tpm/tpm-security.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/security/tpm/tpm-security.rst b/Documentation/security/tpm/tpm-security.rst
-> index 4f633f2510336b..bf73bbe66db2fa 100644
-> --- a/Documentation/security/tpm/tpm-security.rst
-> +++ b/Documentation/security/tpm/tpm-security.rst
-> @@ -153,7 +153,7 @@ protect key sealing and parameter decryption to protect key unsealing
->  and random number generation.
->  
->  Null Primary Key Certification in Userspace
-> -===========================================
-> +-------------------------------------------
->  
->  Every TPM comes shipped with a couple of X.509 certificates for the
->  primary endorsement key.  This document assumes that the Elliptic
-> 
-> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
+Mauro,
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+On 11/8/25 3:08 PM, Mauro Carvalho Chehab wrote:
+> Em Sat, 8 Nov 2025 14:50:35 -0800
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
+> 
+>> Hi,
+>>
+>> I just hit a problem that I haven't encountered in the past.
+>>
+>> I always use O=subdir to build test kernels, where subdir is
+>> at the top level of the kernel source tree.
+>> (I just found this maybe because I haven't been doing a lot of
+>> kernel builds lately.)
+>>
+>> This causes 'make mandocs' to recurse continuously because
+>> subdir/source is a symbolic link to ".." (top level of kernel
+>> tree) and kernel-doc finds all of the (same) source files again
+>> there.
+>>
+>> I first discovered this with a subdir named ARM, for arch/arm/
+>> builds. I tried renaming it .ARM but same result. Then I tried
+>> a subdir name of "snap" because it is in the .gitignore file.
+>>
+>> All of these have the same result. Here is an example of the
+>> output:
+>>
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'rstat' not described in 'gfar_priv_grp'
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'num_tx_queues' not described in 'gfar_priv_grp'
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'tx_bit_map' not described in 'gfar_priv_grp'
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'num_rx_queues' not described in 'gfar_priv_grp'
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'rx_bit_map' not described in 'gfar_priv_grp'
+>> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/fec_mpc52xx.c:698 function parameter 'may_sleep' not described in 'mpc52xx_fec_stop'
+>>
+>> Would it be reasonable to have kernel-doc not follow symbolic links?
+>>
+>> Any other suggestions (other than not using local [in the kernel source tree]
+>> build subdirectories)?
+>>
+>> thanks.
+> 
+> The logic which parses the directory structure is at
+> scripts/lib/kdoc/kdoc_files.py:
+> 
+>     def _parse_dir(self, dirname):
+>         """Internal function to parse files recursively"""
+> 
+>         with os.scandir(dirname) as obj:
+>             for entry in obj:
+>                 name = os.path.join(dirname, entry.name)
+> 
+>                 if entry.is_dir():
+>                     yield from self._parse_dir(name)
+> 
+>                 if not entry.is_file():
+>                     continue
+> 
+>                 basename = os.path.basename(name)
+> 
+>                 if not basename.endswith(self.extensions):
+>                     continue
+> 
+>                 yield name
+> 
+> The recursive logic is at:
+> 
+>                 if entry.is_dir():
+>                     yield from self._parse_dir(name)
+> 
+> It should be easy to change the above to check for symlinks with either:
+> 
+> +	if entry.is_symlink():
+> +	    continue
+> +
+>         if entry.is_dir():
+>             yield from self._parse_dir(name)
+> 
+> (this would ignore symlinks on files - not sure if this is the best
+> strategy)
+> 
+> or:
+> 
+>                 if entry.is_dir():
+> +		    if entry.is_symlink():
+> +		        continue
+> +
+>                     yield from self._parse_dir(name)
+> 
+> Alternatively, you can, instead, do:
+> 
+> -               if entry.is_dir():
+> +               if entry.is_dir(follow_symlinks=False):
+>                     yield from self._parse_dir(name)
 
-Should I pick this?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-BR, Jarkko
+> which should prevent it to follow symlinks.
+> 
+> I would try the last one first.
+
+This (above one-line change) is the only change that I tested and
+it worked as expected/needed with a build subdir at the top of
+the kernel source tree.
+
+> It is likely easier if you write such patch, as you have already a setup
+> where you can test it.
+
+Thanks.
+-- 
+~Randy
+
