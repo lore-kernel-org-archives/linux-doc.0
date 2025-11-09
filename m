@@ -1,115 +1,141 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C56234D392;
-	Sun,  9 Nov 2025 00:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7519D27E
+	for <linux-doc@vger.kernel.org>; Sun,  9 Nov 2025 00:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762646602; cv=none; b=u1t1Hz0pxEw1OeuwHad+/iQuO7Alfqn0TVhfUyxsIeG9bdSXXlVKZ9pq8MA+I5tJUeCac7nn6pgS4pCrJxCp5jAZzKmcGwumKDI5kCh+Cv85Z5+8ls8FJn72efshNd9xAqs8X5ydXoXPYOC1CNtnMNTQBBBxWK9Mp4PbiWuc8SE=
+	t=1762647289; cv=none; b=K6I5Akva1Rt00w045F454PvxmAOKeC4z0qn6ncfPAA6gYXQNwdpx/xZPOxMh9x7yUyDpWzQnL5Zzg1dOLSV5CEjLfVbkNIlJopagoDTzVZok3l4pVBgxUOV3PSmAOJ09s6OYraYMv6SKnWRDc8R/7O2Kt8U9u02Br0oZPV7hr4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762646602; c=relaxed/simple;
-	bh=CfClJ40GSxvHuAolF3EfKnGl5IygGs3fM0TmxfJQGQM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kGhOCkrUDplMifagI1aaAgh8zQoqwngjbDTqUke5lqKvuXUGIbH55cF2IdEJL3Hxbm3k4gw2+o3211cls9H7YnNISua0ktYcGXQuzrcMVNr2RXeSW9wYb+fXffddwhVO3OosEevfJBoncepcZO5SR+qD4L6JyBzXZCmJPANrNF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DlVNoBac; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762647289; c=relaxed/simple;
+	bh=1FCuGcDK3XvxPrggxT7rwuFXTqjvQpQiDwQgoaP+1J4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHCRGUawW5pkHUrI2lO5zHtSzH/bJHrrpY93QSqjfxrW+J4KokO1z6J0ArBauhavlLgMIdHNyYW2IMuh8OEO+pG+fF9CAkXwmon00IN7byy9+Dh3MJL/PUprPx8KSP6DcPxGO0QFjF0jIspX6UNryRtOXcRfykC4h2zvY8RlOdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tk7Sevt9; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DlVNoBac"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=9Iotjfk7zBGWmYINvak1u4IZsQhzzsxP73x3RqVXHZ0=; b=DlVNoBacRPtE/tKGvW1O8qKOel
-	QQjQ59MIqcS2vlarW55R30v5ebxNoRsIfLIzKXkpyzhffnemcK3ztS8/YsKDxaB5A+brUpiT3WWuL
-	Ju66nGpMfSnPY1CCxskioaQ3e0GC2teCnDVzj1KqgGIjkpelC+xPbn330g1F5SLdebs2/q8DYF0Qj
-	1HcimQv3xvY1qqYNo7vAyiVJTOw6IZyQZkr283fcYbRDMdVmVocaubcu5AM3OCYqex/wtKe3F/57Q
-	02oFLdtYU97Rw/JYItOvzXOQZOF6VNbymdggHLkQ0OM0L6XLQQyJoMR9S/hMyiXqM17243NdkTyjZ
-	tWP6BWyw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHstn-00000003aga-3O5j;
-	Sun, 09 Nov 2025 00:03:15 +0000
-Message-ID: <90db7fc0-5ce5-4ed4-ac33-18910c37d3d7@infradead.org>
-Date: Sat, 8 Nov 2025 16:03:15 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tk7Sevt9"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b9a5b5b47bfso1028891a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 08 Nov 2025 16:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762647287; x=1763252087; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qOyZsPuzX58gtWPrYkH/jLPI7MNkAhFexJpLYJoWC4c=;
+        b=Tk7Sevt9ovhY2hQen8EE2Ok3xJFhtov56KzFjXL6MlygwJSCrsxPHMiGYBbOkzyKoT
+         Sxuc1Yl10I5cbmiddPTIn340HPSxC8JYR9dzZixvQ/U8HvlWfjdP30SEf87ZkcIknz2J
+         o2/F1xNdk305onU0LwcvCdoe1UiBulu95aprtoiKT7S7oAK6WRIvdXP1IK5LvNBkj3Mu
+         X5NWQtP7tr4qjliZjklYfD7gXkjjq7lzAIpdA3mfN/j96PCiKzCmT3pQJfZ98OZasZGS
+         aas8txlqkA8QP0WiubEJ51zD2B+6EwoWydVWOMoyU36C/pKvTMYX5JswH6ENzIu5VwAj
+         eUig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762647287; x=1763252087;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qOyZsPuzX58gtWPrYkH/jLPI7MNkAhFexJpLYJoWC4c=;
+        b=LgApHA2XN6AVGnnV/AL9b7qCxeIOkzHnYhzVa3Dd5vFfRcNuVtQwYqjp+R8qsY0mZ/
+         ugr3+89xrz8zjeFdNcWgdtKsGXIAE0bfasoIvGxC0vVUjDU63okun7SH2GLc2W4ZxeOS
+         NLlvgjZIxcA2I5W2wl26nJTRg0hU+B2TGlvM0XqGrFPqUT7dOqIz9QHjb6LRBe9iUAio
+         uwgz5eliGucxI2LdUdXawyGuPkd4Cw2TR+1D9xmi616J03ZxZZ9MXwDoLNHFcJp427bu
+         OUyuOpDymmH4IN0wwAkiapBzLfyRGG66/Hq+0pjGZi6vaqkZRdwVa/L6Ze5ZWU8763hd
+         BWIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVy5//nIHOVwB3/lPQRgHeu+II3ufdBrPMBg0jCNteZ1fo5GV4uGGxeTjSSU1sUZWRxafgCST3vZIU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzknd9aPJxTdUb43EcquDjCIjGZajKYNtIqHcNGcuTyqOvEOn4R
+	kGeNrHnT0HvrxefieVw9d7P/unDldKeWYPPECACqJgMgPkFgNxqqs5sz
+X-Gm-Gg: ASbGncsGLttAhJZ3POQ/LDLSemG+4lOdya68fogCa6vQ6pXw0cPaOAHWGHmA6sw9+9o
+	3Cg1g6Yb4pP+EoaPgGtqXgr/KjCkw/IiQRd91J2FcVgN0/uRRerhJ2NjdNPDGTx7I8hB1Ze4WWn
+	AIbzozK2qNIDPuhwpq7ePPYrtIos7UBc/ZMVxrHI3cLE1Z9Suc69UMBOT5Ir0cXMyNdZYBIzIlO
+	AGKxBfenvwmMp3LkUuyvzSP3Av6KxrkeQbfHzMuXeT6q1eBLAcvsOAxARBt/MCeijGjzXMpB4w1
+	un5oFtdtFWYKhrpwq4uY2zmVqJkgVvGQZJzcaqshZshDXAvAh3JAbfrJctGc9RtXsoDX8jMPguA
+	nXbYkIJsnmbi6HcpYD2PmuS3mvwMFg9hyADa4Y8nO/4U3x26OSN6OPpRz2kah/uLRCQEieuXsg0
+	A1
+X-Google-Smtp-Source: AGHT+IHt4ugnoYmkZJtOdgGe/nXVblQJbMdRzISLr0DnNLkqVwecareOvsSo44fUYCtZKT8sACUBrw==
+X-Received: by 2002:a17:902:ce0d:b0:295:9db1:ff41 with SMTP id d9443c01a7336-297e5647238mr47731855ad.21.1762647287029;
+        Sat, 08 Nov 2025 16:14:47 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-297f2d9c971sm19440425ad.55.2025.11.08.16.14.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Nov 2025 16:14:46 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 34938420A6A0; Sun, 09 Nov 2025 07:14:44 +0700 (WIB)
+Date: Sun, 9 Nov 2025 07:14:43 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: pierwill <pierwill@gmail.com>, tglx@linutronix.de
+Cc: bp@alien8.de, peterz@infradead.org, jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pierwill <pierwill@users.noreply.github.com>
+Subject: Re: [PATCH] docs: Fix missing word in spectre.rst
+Message-ID: <aQ_c822L9lSTtwl5@archie.me>
+References: <20251108192216.28534-1-pierwill@users.noreply.github.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-To: Jonathan Corbet <corbet@lwn.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <87sees73i5.fsf@trenco.lwn.net>
-Content-Language: en-US
-In-Reply-To: <87sees73i5.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IThEY7CiLhqP6dQ6"
+Content-Disposition: inline
+In-Reply-To: <20251108192216.28534-1-pierwill@users.noreply.github.com>
 
 
+--IThEY7CiLhqP6dQ6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/5/25 10:12 AM, Jonathan Corbet wrote:
-> [Heads up to Stephen: this change will add a bunch of warnings that had
-> been dropped before.]
-> 
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
-> 
->> When kernel-doc parses the sections for the documentation some errors
->> may occur. In many cases the warning is simply stored to the current
->> "entry" object. However, in the most of such cases this object gets
->> discarded and there is no way for the output engine to even know about
->> that. To avoid that, check if the "entry" is going to be discarded and
->> if there warnings have been collected, issue them to the current logger
->> as is and then flush the "entry". This fixes the problem that original
->> Perl implementation doesn't have.
-> 
-> I would really like to redo how some of that logging is done, but that
-> is an exercise for another day.  For now, I have applied this one,
-> thanks.
+On Sat, Nov 08, 2025 at 01:22:16PM -0600, pierwill wrote:
+> Corrects a missing word in the hardware vulnerability docs.
+>=20
+> Signed-off-by: pierwill <pierwill@users.noreply.github.com>
 
-I think that this patch is causing a (large) problem.
+Please use your real name in the SoB line.
 
-With this patch:
-$ make mandocs &>mandocs.out
+> ---
+>  Documentation/admin-guide/hw-vuln/spectre.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentatio=
+n/admin-guide/hw-vuln/spectre.rst
+> index 991f12adef8d..4bb8549bee82 100644
+> --- a/Documentation/admin-guide/hw-vuln/spectre.rst
+> +++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+> @@ -406,7 +406,7 @@ The possible values in this file are:
+> =20
+>    - Single threaded indirect branch prediction (STIBP) status for protec=
+tion
+>      between different hyper threads. This feature can be controlled thro=
+ugh
+> -    prctl per process, or through kernel command line options. This is x=
+86
+> +    prctl per process, or through kernel command line options. This is a=
+n x86
+>      only feature. For more details see below.
+> =20
+>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
 
-Without this patch:
-$ make mandocs &>mandocsnoas.out
+The diff looks OK, though.
 
-$ wc mandocs.out mandocsnoas.out
-  29544  267393 3229456 mandocs.out
-  10052   95948 1208101 mandocsnoas.out
+Thanks.
 
-so it appears that this patch causes lots of extra output.
-Some of that may be what the patch was trying to do, but
-with this patch, "mandocs.out" above has lots of duplicated
-Warning: lines.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-$ sort mandocs.out | uniq > mandocsuq.out
-$ wc mandocsuq.out
-  18012  167689 1994145 mandocsuq.out
+--IThEY7CiLhqP6dQ6
+Content-Type: application/pgp-signature; name=signature.asc
 
-$ grep -c "^Warning:"  mandocs.out mandocsnoas.out  mandocsuq.out 
-mandocs.out:25273
-mandocsnoas.out:10022
-mandocsuq.out:15252
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQ/c8AAKCRD2uYlJVVFO
+o0iBAQCmU+NZb0KYYIqdpTu7kYunqTRjcy+KI4Fqp/SVJGwxVgEAtwAdzG0GCz/R
+5ipLLTmXNI5IQbzgXgY1R18NayWVcwA=
+=5BpY
+-----END PGP SIGNATURE-----
 
-In mandocs.out above (29544 lines), this line:
-Warning: ../sound/soc/sprd/sprd-mcdt.h:48 struct member 'dma_chan' not described in 'sprd_mcdt_chan'
-
-is found at lines 7 and 29122.
-
-So maybe the logging output needs to be repaired sooner
-than later.
-
--- 
-~Randy
-
+--IThEY7CiLhqP6dQ6--
