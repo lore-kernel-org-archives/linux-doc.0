@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAC91B85FD
-	for <linux-doc@vger.kernel.org>; Sat,  8 Nov 2025 23:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C56234D392;
+	Sun,  9 Nov 2025 00:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762643478; cv=none; b=QeU3aaipfdMRqSWHXv/fmQBftc/AL5F7dNnTXw3C4nP6y66/D3UvBxskFD9WT6kPgz2HmkoaeU1kLaZk5S1ptE1mJHLwFq972D0Syz8IwTI5DjoPNmLwPmmYhrjDqbCXRYnQ5dXjwtLqozAcY6t/PAjIaslh5CGKN+bEV/Hr3EM=
+	t=1762646602; cv=none; b=u1t1Hz0pxEw1OeuwHad+/iQuO7Alfqn0TVhfUyxsIeG9bdSXXlVKZ9pq8MA+I5tJUeCac7nn6pgS4pCrJxCp5jAZzKmcGwumKDI5kCh+Cv85Z5+8ls8FJn72efshNd9xAqs8X5ydXoXPYOC1CNtnMNTQBBBxWK9Mp4PbiWuc8SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762643478; c=relaxed/simple;
-	bh=gjV7kcvjZX8QKOi9DVOailn+9sVcK5mE9M8X5j6RuTQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oD/PlnAcFALZt3m6TMr4cxv9n8D6rnr8F2+bGBr5mK0LWf6FOYS1gxqyNAwwNWz/J7niRskOeSVzB0jloAA+m3SHYt6fn5U6TqYS5LQRJ6a64pGnu1qEwoUUwtez/KTbv9WS0D22g8hCrq+0yyPNoWpoBDNF7Q35RRCCTxBkpQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A0lrc6rc; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1762646602; c=relaxed/simple;
+	bh=CfClJ40GSxvHuAolF3EfKnGl5IygGs3fM0TmxfJQGQM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kGhOCkrUDplMifagI1aaAgh8zQoqwngjbDTqUke5lqKvuXUGIbH55cF2IdEJL3Hxbm3k4gw2+o3211cls9H7YnNISua0ktYcGXQuzrcMVNr2RXeSW9wYb+fXffddwhVO3OosEevfJBoncepcZO5SR+qD4L6JyBzXZCmJPANrNF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DlVNoBac; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A0lrc6rc"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DlVNoBac"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yb7sJxIKEOEhmt7YoE+fQAh+nH7Pgw2UhBsIvOYlmBE=; b=A0lrc6rcw8JiFh1s+5mOF2PB5I
-	zw6V8H56d8HL6lZowo2SUbCrVRA3YAE+5xIkrCk9YRerI0YOSkSynbvQU9kyYyio4udYxZym3Zns3
-	MwugY/Zw18SqX2zo89P4IshmcA/9ua8zpoPGDC2Mu8n12TmDybBogsb5yw/F/UzlMjg3Pvo/s8JWt
-	4/EnldqaiSwuLbTSt4O8xe6VBjFfGefoRumBbETvEXTYeOJfUTEgZ4d18iZZCW2hkUEuOl/Zmar8o
-	cyIqQPJ4oUODO9usYFYPIy0LXX1caEBB3dzSC5ZKAnVz0nAepPRdlI4yZp2trzpULdeW8o/gxr6WH
-	NM0UeiNw==;
+	bh=9Iotjfk7zBGWmYINvak1u4IZsQhzzsxP73x3RqVXHZ0=; b=DlVNoBacRPtE/tKGvW1O8qKOel
+	QQjQ59MIqcS2vlarW55R30v5ebxNoRsIfLIzKXkpyzhffnemcK3ztS8/YsKDxaB5A+brUpiT3WWuL
+	Ju66nGpMfSnPY1CCxskioaQ3e0GC2teCnDVzj1KqgGIjkpelC+xPbn330g1F5SLdebs2/q8DYF0Qj
+	1HcimQv3xvY1qqYNo7vAyiVJTOw6IZyQZkr283fcYbRDMdVmVocaubcu5AM3OCYqex/wtKe3F/57Q
+	02oFLdtYU97Rw/JYItOvzXOQZOF6VNbymdggHLkQ0OM0L6XLQQyJoMR9S/hMyiXqM17243NdkTyjZ
+	tWP6BWyw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHs5R-00000003YNH-2cQy;
-	Sat, 08 Nov 2025 23:11:13 +0000
-Message-ID: <a98ff265-ff07-41e2-9595-618dde42bc52@infradead.org>
-Date: Sat, 8 Nov 2025 15:11:13 -0800
+	id 1vHstn-00000003aga-3O5j;
+	Sun, 09 Nov 2025 00:03:15 +0000
+Message-ID: <90db7fc0-5ce5-4ed4-ac33-18910c37d3d7@infradead.org>
+Date: Sat, 8 Nov 2025 16:03:15 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,122 +39,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: make mandocs: subdirectories scanned
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <80701524-09fd-4d68-8715-331f47c969f2@infradead.org>
- <20251109000825.0bb65270@foz.lan>
-Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251109000825.0bb65270@foz.lan>
+Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
+ discarded
+To: Jonathan Corbet <corbet@lwn.net>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
+ <87sees73i5.fsf@trenco.lwn.net>
+Content-Language: en-US
+In-Reply-To: <87sees73i5.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/8/25 3:08 PM, Mauro Carvalho Chehab wrote:
-> Em Sat, 8 Nov 2025 14:50:35 -0800
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
+On 11/5/25 10:12 AM, Jonathan Corbet wrote:
+> [Heads up to Stephen: this change will add a bunch of warnings that had
+> been dropped before.]
 > 
->> Hi,
->>
->> I just hit a problem that I haven't encountered in the past.
->>
->> I always use O=subdir to build test kernels, where subdir is
->> at the top level of the kernel source tree.
->> (I just found this maybe because I haven't been doing a lot of
->> kernel builds lately.)
->>
->> This causes 'make mandocs' to recurse continuously because
->> subdir/source is a symbolic link to ".." (top level of kernel
->> tree) and kernel-doc finds all of the (same) source files again
->> there.
->>
->> I first discovered this with a subdir named ARM, for arch/arm/
->> builds. I tried renaming it .ARM but same result. Then I tried
->> a subdir name of "snap" because it is in the .gitignore file.
->>
->> All of these have the same result. Here is an example of the
->> output:
->>
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'rstat' not described in 'gfar_priv_grp'
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'num_tx_queues' not described in 'gfar_priv_grp'
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'tx_bit_map' not described in 'gfar_priv_grp'
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'num_rx_queues' not described in 'gfar_priv_grp'
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/gianfar.h:1105 struct member 'rx_bit_map' not described in 'gfar_priv_grp'
->> Warning: ../snap/source/snap/source/snap/source/drivers/net/ethernet/freescale/fec_mpc52xx.c:698 function parameter 'may_sleep' not described in 'mpc52xx_fec_stop'
->>
->> Would it be reasonable to have kernel-doc not follow symbolic links?
->>
->> Any other suggestions (other than not using local [in the kernel source tree]
->> build subdirectories)?
->>
->> thanks.
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 > 
-> The logic which parses the directory structure is at
-> scripts/lib/kdoc/kdoc_files.py:
+>> When kernel-doc parses the sections for the documentation some errors
+>> may occur. In many cases the warning is simply stored to the current
+>> "entry" object. However, in the most of such cases this object gets
+>> discarded and there is no way for the output engine to even know about
+>> that. To avoid that, check if the "entry" is going to be discarded and
+>> if there warnings have been collected, issue them to the current logger
+>> as is and then flush the "entry". This fixes the problem that original
+>> Perl implementation doesn't have.
 > 
->     def _parse_dir(self, dirname):
->         """Internal function to parse files recursively"""
-> 
->         with os.scandir(dirname) as obj:
->             for entry in obj:
->                 name = os.path.join(dirname, entry.name)
-> 
->                 if entry.is_dir():
->                     yield from self._parse_dir(name)
-> 
->                 if not entry.is_file():
->                     continue
-> 
->                 basename = os.path.basename(name)
-> 
->                 if not basename.endswith(self.extensions):
->                     continue
-> 
->                 yield name
-> 
-> The recursive logic is at:
-> 
->                 if entry.is_dir():
->                     yield from self._parse_dir(name)
-> 
-> It should be easy to change the above to check for symlinks with either:
-> 
-> +	if entry.is_symlink():
-> +	    continue
-> +
->         if entry.is_dir():
->             yield from self._parse_dir(name)
-> 
-> (this would ignore symlinks on files - not sure if this is the best
-> strategy)
-> 
-> or:
-> 
->                 if entry.is_dir():
-> +		    if entry.is_symlink():
-> +		        continue
-> +
->                     yield from self._parse_dir(name)
-> 
-> Alternatively, you can, instead, do:
-> 
-> -               if entry.is_dir():
-> +               if entry.is_dir(follow_symlinks=False):
->                     yield from self._parse_dir(name)
-> 
-> which should prevent it to follow symlinks.
-> 
-> I would try the last one first.
-> 
-> It is likely easier if you write such patch, as you have already a setup
-> where you can test it.
+> I would really like to redo how some of that logging is done, but that
+> is an exercise for another day.  For now, I have applied this one,
+> thanks.
 
-Sure, I'll test that today (Saturday) or Sunday.
+I think that this patch is causing a (large) problem.
 
-Thanks.
+With this patch:
+$ make mandocs &>mandocs.out
+
+Without this patch:
+$ make mandocs &>mandocsnoas.out
+
+$ wc mandocs.out mandocsnoas.out
+  29544  267393 3229456 mandocs.out
+  10052   95948 1208101 mandocsnoas.out
+
+so it appears that this patch causes lots of extra output.
+Some of that may be what the patch was trying to do, but
+with this patch, "mandocs.out" above has lots of duplicated
+Warning: lines.
+
+$ sort mandocs.out | uniq > mandocsuq.out
+$ wc mandocsuq.out
+  18012  167689 1994145 mandocsuq.out
+
+$ grep -c "^Warning:"  mandocs.out mandocsnoas.out  mandocsuq.out 
+mandocs.out:25273
+mandocsnoas.out:10022
+mandocsuq.out:15252
+
+
+In mandocs.out above (29544 lines), this line:
+Warning: ../sound/soc/sprd/sprd-mcdt.h:48 struct member 'dma_chan' not described in 'sprd_mcdt_chan'
+
+is found at lines 7 and 29122.
+
+So maybe the logging output needs to be repaired sooner
+than later.
 
 -- 
 ~Randy
