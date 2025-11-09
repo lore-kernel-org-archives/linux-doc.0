@@ -1,127 +1,206 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94620223DFF;
-	Sun,  9 Nov 2025 20:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA331D6DA9;
+	Sun,  9 Nov 2025 23:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762720501; cv=none; b=nkRer9bQ4bbXhB7TbWHwvcrUZU0N/t2c+ZD3HwXVqMqkOvfVXjL3oZ1OSohv8lkJ4SNRBsyubq2B+C3fuRLC4r0M4L5YM1JWinHFX70ea9jBodx9qQA2se4gn+kIwkltY2gKSnOBP11wmGktAQ0EYQcdMHLRx1svYUik4sH8rFE=
+	t=1762730967; cv=none; b=NndEgkVyKL9wpI1dG40rc5Wz6s8wYnOAqJKv6mEkV/IdjYTXXSLrdCc9h0OlEctQL5gKJKib5W+qf4lESQOJoHJ/eTZAooeydZkVway7SDWU+kYV8Jkoq3hcnn9cZcVHBHINahY3eNyCctJFJE5kprdM9mdLADyyQ1YHQtfuCOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762720501; c=relaxed/simple;
-	bh=YhbkijbCIuFlE6JMviZoSxb6GHLt2GDOMb+2CwPXqq0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nelLQ4odA1f2OnPqfJy/W/Z+t4JTG0p0sbWDTsTtF0YKdI6t7cwltnbEYIT/JpI+yPfZH4cM2ZzkIg6CimJu6MpP3tjs29jakUbiOUV4DxPwlUhq0pYoQpOvE7FqYVwPou/K1FNXL4wFOEjcFUbXdGzCnQvlLLd4tl4JEu8Km40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b7nyoVY1; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762730967; c=relaxed/simple;
+	bh=fziFQOyzAXf7ELLEPYsKq6XLBdxtRH/8u0gcNrBETYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=enJV0ubp9IU4VyG3XpiFgnLFXfo6PRjnXOjS2i/cgWK3/XA/A3x/sqhgwkRWyg3OnoBQKF0aIfNapTZFAEJSL4dv3iPwkgBs1AHtCd8E1g84jBt8mVych1k/kpfCd+m1LQSPJ6VWEjKM54q43CiHXcVvMNsLZMX4a3+gPHFEZiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ro/6blGN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b7nyoVY1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ShTQjuBHiYNK8qnH7Zt1aDx2xEWODN4ScD7inlcGEAs=; b=b7nyoVY1ANNKduI/bmDYUgIG61
-	RtWfFSO3Pr2YWQ1Jv6l2sIOT0FpqdtvkcZggLlmZGOUC/OSiyp0h7vMCgLxbnxM3sTXN3/gn2Au6j
-	nH/Lg8RU/iHrfSLWsj41GbrLhf2dYTWiPZ60yQlVQ2u7kUVYRtoCakD9uqw5ZYqAaCXCjTD6eoAuV
-	OFxgIdyWgXn7JMW7oTk/4pWt9u7nBhbQdhEyQmCODRx6TtcVvJ80niMuIBalQMpjMIrEYFWMlXJUW
-	P8KZSvHN661ZVcw2p1w2HplkYXvn14Z48aSIQWrOyb6Ag6q5s0NpFNcTrWtiJ7FhDYN3TSPfO+kea
-	FXkC0JDg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIC7i-00000004MxA-3VSQ;
-	Sun, 09 Nov 2025 20:34:54 +0000
-Message-ID: <a61cafaf-7e09-496b-b940-bc287dfb8b08@infradead.org>
-Date: Sun, 9 Nov 2025 12:34:53 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ro/6blGN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5BAC4CEF7;
+	Sun,  9 Nov 2025 23:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762730966;
+	bh=fziFQOyzAXf7ELLEPYsKq6XLBdxtRH/8u0gcNrBETYw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ro/6blGNU9TECL/0nh6lj6iY53Xqk1FslNrna5sVJ44TCrkCtWpNlb5sodwTWJlcz
+	 lKJh9pU3dibDiSSgtuHR5DUVPSBzAfot8AKaQupdK8HOmKYtmadoTltvkCihvjMH03
+	 jwUyRzvlsaaAm2asC7keHRBY9cAUirQQgJJrj5PmEjAttBeuag4kfAyIOCpWMNS5ID
+	 95cuUtGST18nytg0q/9NbST9dCjPzVcJv8tfw2Yq9uCAqmdzwZKMZBJvK8E1CoR3Er
+	 Q01fap/HpDC6Bwq0Nl/aNVA0rrvJdfWkGJN2NenvHu25+L+LVPYgPC0UpfsFhK8L4d
+	 LWXnJErCMov+w==
+Date: Sun, 9 Nov 2025 16:29:22 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Graham Roff <grahamr@qti.qualcomm.com>
+Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
+Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
+Message-ID: <20251109232922.GA2977577@ax162>
+References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <87sees73i5.fsf@trenco.lwn.net>
- <90db7fc0-5ce5-4ed4-ac33-18910c37d3d7@infradead.org>
- <aRC5NjhOmuGIpdPA@smile.fi.intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aRC5NjhOmuGIpdPA@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
 
+Hi Graham,
 
-
-On 11/9/25 7:54 AM, Andy Shevchenko wrote:
-> On Sat, Nov 08, 2025 at 04:03:15PM -0800, Randy Dunlap wrote:
->> On 11/5/25 10:12 AM, Jonathan Corbet wrote:
->>> [Heads up to Stephen: this change will add a bunch of warnings that had
->>> been dropped before.]
->>> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
->>>
->>>> When kernel-doc parses the sections for the documentation some errors
->>>> may occur. In many cases the warning is simply stored to the current
->>>> "entry" object. However, in the most of such cases this object gets
->>>> discarded and there is no way for the output engine to even know about
->>>> that. To avoid that, check if the "entry" is going to be discarded and
->>>> if there warnings have been collected, issue them to the current logger
->>>> as is and then flush the "entry". This fixes the problem that original
->>>> Perl implementation doesn't have.
->>>
->>> I would really like to redo how some of that logging is done, but that
->>> is an exercise for another day.  For now, I have applied this one,
->>> thanks.
->>
->> I think that this patch is causing a (large) problem.
->>
->> With this patch:
->> $ make mandocs &>mandocs.out
->>
->> Without this patch:
->> $ make mandocs &>mandocsnoas.out
->>
->> $ wc mandocs.out mandocsnoas.out
->>   29544  267393 3229456 mandocs.out
->>   10052   95948 1208101 mandocsnoas.out
->>
->> so it appears that this patch causes lots of extra output.
->> Some of that may be what the patch was trying to do, but
->> with this patch, "mandocs.out" above has lots of duplicated
->> Warning: lines.
->>
->> $ sort mandocs.out | uniq > mandocsuq.out
->> $ wc mandocsuq.out
->>   18012  167689 1994145 mandocsuq.out
->>
->> $ grep -c "^Warning:"  mandocs.out mandocsnoas.out  mandocsuq.out 
->> mandocs.out:25273
->> mandocsnoas.out:10022
->> mandocsuq.out:15252
+On Fri, Nov 07, 2025 at 05:16:34PM -0800, Graham Roff wrote:
+> From: Nicolas Pitre <nico@fluxnic.net>
 > 
-> Yes, that's what Mauro explained, that we may have the dups.
-
-OK, I remember something about that...
-
->> In mandocs.out above (29544 lines), this line:
->> Warning: ../sound/soc/sprd/sprd-mcdt.h:48 struct member 'dma_chan' not described in 'sprd_mcdt_chan'
->>
->> is found at lines 7 and 29122.
->>
->> So maybe the logging output needs to be repaired sooner
->> than later.
+> Extend the "depends on" syntax to support conditional dependencies
+> using "depends on X if Y". While functionally equivalent to "depends
+> on X || (Y == n)", "depends on X if Y" is much more readable and
+> makes the kconfig language uniform in supporting the "if <expr>"
+> suffix.
 > 
-> Right! But I'm not familiar with this, so I can help only with testing,
-> and not with real fix development.
+> The change is implemented by converting the "X if Y" syntax into the
+> "X || (Y == n)" syntax during "depends on" token processing.
+> 
+> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> 
+> [Graham Roff: Rewrote commit message and redid patch for latest kernel]
+> 
+> Signed-off-by: Graham Roff <grahamr@qti.qualcomm.com>
+> ---
+> This patch updates an earlier one that was not merged to work on 
+> the latest kernel release.
+> 
+> Link: https://lwn.net/ml/linux-kernel/nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr/#t
+> 
+> Support for this change has been expressed by a number of developers
+> since the original patch was proposed back in 2020, and has recently
+> also been raised as a patch to the Zephyr kconfig system.
 
-Same for me.
+Do you have a link to this Zephyr Kconfig change?
 
-Thanks.
--- 
-~Randy
+> One specific use is when mapping the Bluetooth specification to Kconfig,
+> as it explicitly provides dependencies between features as conditional
+> on other features. Many other cases exist where the "slightly
+> counterintuitive" (quoted from the Kconfig specification) expression 
+> "depends on BAR || !BAR" has been used when a proper "if" condition 
+> would be more readable.
+> 
+> The earlier patch discussion ended without a real conclusion and should
+> be revisited now.
 
+I think it would be useful to have a slightly more concrete example in
+the documentation of where this could be useful because even with the
+"if" syntax, it still feels a little confusing to me at least with the
+current example. Since this is just internally converting "depends on A
+if B" to "depends on A || !B", this seems like a low risk addition to
+the Kconfig language but it would be good to have some tests under
+scripts/kconfig/tests like the ones recently added by commit
+f9afce4f32e9 ("kconfig: Add transitional symbol attribute for migration
+support") upstream.
+
+> ---
+>  Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
+>  scripts/kconfig/lkc.h                     |  2 +-
+>  scripts/kconfig/menu.c                    | 12 +++++++++++-
+>  scripts/kconfig/parser.y                  |  6 +++---
+>  4 files changed, 26 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index abce88f15d7c..61848f999db8 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -118,7 +118,7 @@ applicable everywhere (see syntax).
+>    This is a shorthand notation for a type definition plus a value.
+>    Optionally dependencies for this default value can be added with "if".
+>  
+> -- dependencies: "depends on" <expr>
+> +- dependencies: "depends on" <expr> ["if" <expr>]
+>  
+>    This defines a dependency for this menu entry. If multiple
+>    dependencies are defined, they are connected with '&&'. Dependencies
+> @@ -134,6 +134,16 @@ applicable everywhere (see syntax).
+>  	bool "foo"
+>  	default y
+>  
+> +  The dependency definition itself may be conditional by appending "if"
+> +  followed by an expression. If such expression is false (n) then this
+> +  dependency is ignored. One possible use case is:
+> +
+> +    config FOO
+> +	tristate
+> +	depends on BAZ if BAZ != n
+> +
+> +  meaning that FOO is constrained by the value of BAZ only when it is set.
+> +
+>  - reverse dependencies: "select" <symbol> ["if" <expr>]
+>  
+>    While normal dependencies reduce the upper limit of a symbol (see
+> diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+> index 56548efc14d7..798985961215 100644
+> --- a/scripts/kconfig/lkc.h
+> +++ b/scripts/kconfig/lkc.h
+> @@ -82,7 +82,7 @@ void menu_warn(const struct menu *menu, const char *fmt, ...);
+>  struct menu *menu_add_menu(void);
+>  void menu_end_menu(void);
+>  void menu_add_entry(struct symbol *sym, enum menu_type type);
+> -void menu_add_dep(struct expr *dep);
+> +void menu_add_dep(struct expr *dep, struct expr *cond);
+>  void menu_add_visibility(struct expr *dep);
+>  struct property *menu_add_prompt(enum prop_type type, const char *prompt,
+>  				 struct expr *dep);
+> diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+> index 0f1a6513987c..b2d8d4e11e07 100644
+> --- a/scripts/kconfig/menu.c
+> +++ b/scripts/kconfig/menu.c
+> @@ -127,8 +127,18 @@ static struct expr *rewrite_m(struct expr *e)
+>  	return e;
+>  }
+>  
+> -void menu_add_dep(struct expr *dep)
+> +void menu_add_dep(struct expr *dep, struct expr *cond)
+>  {
+> +	if (cond) {
+> +		/*
+> +		 * We have "depends on X if Y" and we want:
+> +		 *	Y != n --> X
+> +		 *	Y == n --> y
+> +		 * That simplifies to: (X || (Y == n))
+> +		 */
+> +		dep = expr_alloc_or(dep,
+> +				expr_trans_compare(cond, E_EQUAL, &symbol_no));
+> +	}
+>  	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
+>  }
+>  
+> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+> index 49b79dde1725..6d1bbee38f5d 100644
+> --- a/scripts/kconfig/parser.y
+> +++ b/scripts/kconfig/parser.y
+> @@ -323,7 +323,7 @@ if_entry: T_IF expr T_EOL
+>  {
+>  	printd(DEBUG_PARSE, "%s:%d:if\n", cur_filename, cur_lineno);
+>  	menu_add_entry(NULL, M_IF);
+> -	menu_add_dep($2);
+> +	menu_add_dep($2, NULL);
+>  	$$ = menu_add_menu();
+>  };
+>  
+> @@ -422,9 +422,9 @@ help: help_start T_HELPTEXT
+>  
+>  /* depends option */
+>  
+> -depends: T_DEPENDS T_ON expr T_EOL
+> +depends: T_DEPENDS T_ON expr if_expr T_EOL
+>  {
+> -	menu_add_dep($3);
+> +	menu_add_dep($3, $4);
+>  	printd(DEBUG_PARSE, "%s:%d:depends on\n", cur_filename, cur_lineno);
+>  };
+>  
+> 
+> ---
+> base-commit: a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30
+> change-id: 20251106-kconfig_conditional_deps-51f1c903f863
+> 
+> Best regards,
+> -- 
+> Graham Roff <grahamr@qti.qualcomm.com>
+> 
