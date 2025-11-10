@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0CF28B415;
-	Mon, 10 Nov 2025 12:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1742AD1F;
+	Mon, 10 Nov 2025 13:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762779251; cv=none; b=h+34IX9hiVbILFePHUBGR/nuhbcHLK9YimaMZhj5zT/QO8zvfQ9gNsRiFDFf2Fx9B7UBT0zY1QPIbvFd8Ve76rEr9ZJ47KlAXZwWPIth9vnpobzmIWIbeKyNftNO80SA6Yt5mnPJpPvNGqICd2vdfsh4Y34Xvr4hE8HSRpQkn3Y=
+	t=1762779685; cv=none; b=pO3cF+iYaX0maUOslt9CTfOI4w1YfYink91GWkOcN9TLopy/Do5obuSLlT0R6yYFopzAIrsex2pTse+xyKW8v/bq04ZKvWA+ksPmlYlyVDpZ0zlu4vaSJ5a5TDAdEGrkGbhrCwlZlwuzblDVB3ckN5xKqqD6TkXRuW6Oal65rRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762779251; c=relaxed/simple;
-	bh=Z/w5BvGlJ6S3Y78v5wnf1cn1h8pvJ5oWK1cCIxL/Wzk=;
+	s=arc-20240116; t=1762779685; c=relaxed/simple;
+	bh=Nty6eYvSZQwOVNMjVt6MpJ2VRDmLEsf0ItJ+R2b2b5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8ekM1H2ik99tyY1EGt6EPskgBGI7VugiQOVshEWeqn6F1ho9czIZSNSFRrTnsqq+meqb9UHx7K7S0O3zdMDlxv8DIWukQ2j4XqxCEEeX6UKnyMxSkbDXpitl1UdPQEz+A3jNH9wkbo1D3oB1C6eSK0xVN7OMQWw6HNKUI0ts4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9NW65S6; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rs1/VGu0SoHQxbNwbHcb3T890+grdELpeRqIoXmrVVJ94hNYk53lHZvpqCmyCewzdGXBxlSX6OjnrWRfcns3oDFWU7R2gdtqsFKVf2sqJVXyFTNg+6pigG1T3+l870GOJ1KrZ+0fvbTJSaiZyc1DcidVQyyBsS1hnThnf1VKwT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBsr08XW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9NW65S6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762779250; x=1794315250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z/w5BvGlJ6S3Y78v5wnf1cn1h8pvJ5oWK1cCIxL/Wzk=;
-  b=O9NW65S6svWyiOrF+T8b/mhBZTUYoykncnt0xeB8KGkTfTAq+08HWb+u
-   omvY+UQktiykOUQc7Mqw73Jnm96LxAAhwpKGP+AJtNDvo1wYG0J3Nzviw
-   T+gY9JvhVCxmGBMfrL8jo5YgQUz13GOzBY4d3NN0UpmD4ODexkATwRiOn
-   UREPMRFMSoWc+/plCjvGHqv96FdZg2I6fDyRXEtw7ThfPwt7bpYo/Rcbg
-   sMBmDzQu1t4f/APdnMmXbwHObiGYQhGYasbPBzJ9tkd7niOhesym0BYPe
-   O14smIioGtnh0+nsjffBq0ztwf3bFM9Jd4G1hB8uoKRmtStVK4gJktvUd
-   w==;
-X-CSE-ConnectionGUID: J3EniCoqReCLo456qC1kmw==
-X-CSE-MsgGUID: ueXCOewiR8Sjhtmltz82jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82224960"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="82224960"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:54:09 -0800
-X-CSE-ConnectionGUID: PLVia+OkQsaKhN9quXcB1A==
-X-CSE-MsgGUID: fxthXgjHSrGsTrJlNqurfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="192777077"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.235])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 04:54:05 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vIRPF-00000007Snr-3tiy;
-	Mon, 10 Nov 2025 14:54:01 +0200
-Date: Mon, 10 Nov 2025 14:54:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	cosmin.tanislav@analog.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v1 0/3] iio: adc: Add AD4134 minimum I/O support
-Message-ID: <aRHgaXxxnD5YsIQQ@smile.fi.intel.com>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBsr08XW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC7FC4CEFB;
+	Mon, 10 Nov 2025 13:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762779684;
+	bh=Nty6eYvSZQwOVNMjVt6MpJ2VRDmLEsf0ItJ+R2b2b5Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WBsr08XWCoMFNAwbMOQ0qNvF4Su6puJFwAVVqSGXeT6zPs3x84rtXd1S+NejmtuJx
+	 xZdr6ygbytRvjLLjSuil0yB1/WF1G2479mk8z0dDg11Wyp55cwJsF7pGl0DehEuhcZ
+	 WVy01lGJQu0UrlJOlsnE40nEMhyV2hN0PmRaLfMiIYzXqz837/kxUFMsbhOvrkv7iE
+	 unZy1naPkELeU5A3OWaTwOd54LEYSQj6e5v0JRS4ibLAAqLFQM73hnr4rGzDzaRVCZ
+	 6L8e3xlbp4/r2UWtdNwmuPzalQnsl2O8+BHfUBH3qZdlIJoyclPpp5lAfF79lgxG3M
+	 MXR0rv+rTTjZA==
+Date: Mon, 10 Nov 2025 15:00:59 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRHiCxoJnEGmj17q@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,39 +69,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1762777931.git.marcelo.schmitt@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251107210526.257742-3-pasha.tatashin@soleen.com>
 
-On Mon, Nov 10, 2025 at 09:44:56AM -0300, Marcelo Schmitt wrote:
-> This patch series adds basic support for ad4134. AD4134 is a very flexible
-> device that can be configured in many different ways. This series aims to
-> support the simplest way of interfacing with AD4134 which is called minimum I/O
-> mode in data sheet. This is essentially usual SPI with the addition of an ODR
-> (Output Data Rate) GPIO which functions as conversion start signal in minimum
-> I/O mode. The CS pin may be connected to a host controller CS pin or grounded.
+On Fri, Nov 07, 2025 at 04:03:00PM -0500, Pasha Tatashin wrote:
+> Integrate the LUO with the KHO framework to enable passing LUO state
+> across a kexec reboot.
 > 
-> This set provides just one feature:
-> - Single-shot ADC sample read.
+> When LUO is transitioned to a "prepared" state, it tells KHO to
+> finalize, so all memory segments that were added to KHO preservation
+> list are getting preserved. After "Prepared" state no new segments
+> can be preserved. If LUO is canceled, it also tells KHO to cancel the
+> serialization, and therefore, later LUO can go back into the prepared
+> state.
 > 
-> [PATCH 1] Device tree documentation for AD4134.
-> [PATCH 2] IIO Linux driver for AD4134.
-> [PATCH 3] Initial IIO documentation.
+> This patch introduces the following changes:
+> - During the KHO finalization phase allocate FDT blob.
+> - Populate this FDT with a LUO compatibility string ("luo-v1").
 > 
-> There is a driver by Cosmin on ADI Linux tree that supports AD4134 in wiring
-> configurations suited for high speed data transfers. Even though the minimum I/O
-> support was initialy based on that high speed transfer driver, the result ended
-> up becoming entirely different. Also, because the different wiring
-> configurations are likely going to use different resources and software
-> interfaces, the code for AD4134 support was split into ad4134-spi.c,
-> ad4134-common.h, and ad4134-common.c.
+> LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+> logic (`luo_do_*_calls`) remains unimplemented in this patch.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
 
-The cover letter misses the answer to: "Why do we need a brand new driver?
-Don't we have anything similar already in IIO that can be expanded to cover
-this one?"
+...
+
+> @@ -69,7 +197,22 @@ early_param("liveupdate", early_liveupdate_param);
+>   */
+>  int liveupdate_reboot(void)
+>  {
+> -	return 0;
+> +	int err;
+> +
+> +	if (!liveupdate_enabled())
+> +		return 0;
+> +
+> +	err = kho_finalize();
+
+kho_finalize() should be really called from kernel_kexec().
+
+We avoided it because of the concern that memory allocations that late in
+reboot could be an issue. But I looked at hibernate() and it does
+allocations on reboot->hibernate path, so adding kho_finalize() as the
+first step of kernel_kexec() seems fine.
+
+And if we prioritize stateless memory tracking in KHO, it won't be a
+concern at all.
+
+> +	if (err) {
+> +		pr_err("kho_finalize failed %d\n", err);
+> +		/*
+> +		 * kho_finalize() may return libfdt errors, to aboid passing to
+> +		 * userspace unknown errors, change this to EAGAIN.
+> +		 */
+> +		err = -EAGAIN;
+> +	}
+> +
+> +	return err;
+>  }
+>  
+>  /**
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sincerely yours,
+Mike.
