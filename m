@@ -1,159 +1,216 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416912DE6F5
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 17:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB912DCBF4
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 17:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762796510; cv=none; b=D966WiKpO5FLC/ZQUR33KlZKpjq69BNfHHtB/TMHU7OTqOkYd4cvPqmRqnJfOERAngaPu/e/yiDkxJ4V79MikUHXUEFCTjUfm9JIpSw/qcaCqygQfNBaDnu0MOqh6n/Ss0rXLNTfsAF3BWpoRU+HCxFyFJxvmncM7cDOqSNQHKM=
+	t=1762796581; cv=none; b=oNsj1QQOOOM+3aMV+W/V6r5cJMG2A1z5+S4By8s2NllhXOC8L2JTzuAnt4B+U73HSLQ0Qg2Ez1r7ZLNsyxsPre3OUy6CQXR5ckdrhybO7dxOrMGmXg4H8vZc9xqjiW+Px3yd0YpeUaGFSM/4SN79NF9yAUH0asv3XwCQpft7W5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762796510; c=relaxed/simple;
-	bh=01dlGr5yNF89ID01yy7JEyF1mqdeq7pHF47t5S9oyvw=;
+	s=arc-20240116; t=1762796581; c=relaxed/simple;
+	bh=1jUZUYtOVtlvHWAFniX5k1AQ7sW+PemaRKAUKppWEUQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XfaA4XMd88Ozkgd5msGg3hz0zJTMhqg8Iz01NXfUsbgn2RNnp1Rb8J9MRFr1M0NlvoxdeddfesU/1NtoBNV5stz21WmNMiIcm/QbKuRHNnBwVjle89FmcNPXzRF4Yl27JN9LpIandiQX51Nv+DNtC+xwMYR/DctKwY2tv89WnKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lBHP9s28; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=eDF/0mGC6kJVwcWzs/3iltQrv5454HNFiO2Qz7JFvznJFayQYjbRbrrzTQPi3ytKoSn3CHD/Ctxgxaq+wyJJrJPh2xB9HnhU8Tg5Qa5/gBP3dKP3Aq4ipcPwdc1irOlOGmAGU7eR7bqCNs7xPoQVTOawb41F4zZXkkeupCj4ol4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=APWm8CP+; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lBHP9s28"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4edb8d6e98aso51cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 09:41:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="APWm8CP+"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-640860f97b5so5426029a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 09:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762796507; x=1763401307; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1762796577; x=1763401377; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uCN02yrRrm29VoLhm6qdIaJ6qOTD6tpswHT/4wW9b3I=;
-        b=lBHP9s28n16XembK1gV4YMm+SZbiXI04phc1VG8pEUyk2A80vO/VkQvGMdwG7dLeWH
-         zvL2tg01J4pD0CJLsEYXhSy4IlhnwsHTPWmI3Sk8hacLDJ+GC+c69MkWoxsLbQJgDP7F
-         ltoVdrpQDEW/KgbDKI1WPZVg1/Xl2PiY7beX0cPPNuljaUGY+vidyL4J4ewIfzIbyHpC
-         RfZ4cHmL9dJCUJpcfmJezx56A0g7cDv/dJD3ziGklmyoogOetXIhK3xAYybbat//unCh
-         RgL59AgDEhvQH1ovtOEgpyTUlA1SsF0c39p2/BS7Vjx4rvbhflvgUoWChxUS4N+m+uJ/
-         12QA==
+        bh=dUewd4yleLJA5JoGTJV3GbsdDnDLJGqt03O6urjLvaA=;
+        b=APWm8CP+ROuK9JraWpsJmgK1GfiEaPZowkjDlst+mroLWWAtMwyphwXCL5Oue3RYwM
+         fKE1tmuDTfKak8a2uZLOIrOjsremCBdbNl7MsUbOKNqI1sJ4nBXl9gnFA+iYU1JoSpxX
+         H0m2Pj0VmW2qbjEYRyP3AZK/mRFRmPNxChW+yqcwYIWeQYoekghRu6E0nDaW6qW/OXXr
+         JUple65wvQ+EWi0qMue5VABMkAGG7yZOqiI+ONOTQmyFXZwGQ3xRnlRSI7Hvdo/ifbde
+         Q9OnTLgAlYN9elOs/c1ZKmU4Xd14QoOn8AVNMgf9q7ZrqSHNUwKxBeTqzfkLn4yLHrk0
+         yn6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762796507; x=1763401307;
+        d=1e100.net; s=20230601; t=1762796577; x=1763401377;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uCN02yrRrm29VoLhm6qdIaJ6qOTD6tpswHT/4wW9b3I=;
-        b=M2VojweBB9y1hhiprbLdECyPF+cZnUznea3l/Ys2u+qosFHnTt1Qftp+Oz0+4Uayuu
-         hbtGmCHcbiEOjfLWSmh8/OEAT9zweBFeWxBceZWNIebx/MTlHADXTCNx9dS3VpZc6DQp
-         v+ZJQ8tfTuB2tPioxowJEPUtdhlwDf1HtVDd9lTkQCvj4iZ9BR7g4wM4NyPvK+apxFA1
-         zdU898Hs+2ysbWTym/fIRsXPJqUBGbux0gxhV/aQ2M1wzTin6w5BjgzUc60GuqsFZqZW
-         wc118vbdpj1eTUrvtHHw8Ya+pnPmIt7/WcTqa/OTWWnNKQ1v5RRB8wJLywgGN2Puwmbg
-         ejDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZpX3LGwEaOvKLea30U4WNo/IKYrbOknjkagHZQmO0iscVdIho6q5Q8LUzjXTdMeVkTeZtU+VktjY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBLbNtFMEVJA1bg9JPI9Fhs18qrzAU+JOfIIbI9yVaNwnst+nQ
-	anDOvHx8jHsxWC7ZQ/ZLaQptevE5RZ5WevGdIDhmSqAh3ZUPffKiPYuFreyOqdvfvy4Z8zQOueA
-	VvcPrrkA+gLpLUT/hAvjFGKSxz8VOvz79aZhrz/c6
-X-Gm-Gg: ASbGncvh89FFfp5JLXoK3wdImZ0xGsZIMGQ3Cth/Uw6vCwoCgIiJZpCj6S5+bQgVHMc
-	ZtAZZkgIW1NlkbHOtEfZ4EXg8hcTVZc1ky4vTKRLvOdcMLByKwQT9+TsodYpy7k5MNB30LvxKPN
-	euuRHQaFi9NIbvQkRKVBt46cG06JvpWFDo3nIDxiPAeezLaJTwy0ddRtnQjfVLw0bCAluvswOAa
-	GLOD1oNe39J8h+kF5KEIQvBDQrdZKObgqqjGuS4c8Yq7ZPrEkFJbw9PXv3dQDFSe21TZZ3Jt2lW
-	NiBCZmmpYasUwF3suv0efPsJ8DU=
-X-Google-Smtp-Source: AGHT+IHBszWXqdmegF9jDz3JdqQDbm8MYTV0aj0bqa37sU1cyBKp/p7V6BTPvfRkJX2omWXmFuxPpOdX1NkrpUUy3u8=
-X-Received: by 2002:a05:622a:1981:b0:4b7:9b06:ca9f with SMTP id
- d75a77b69052e-4edc9d77fa9mr1301871cf.2.1762796506738; Mon, 10 Nov 2025
- 09:41:46 -0800 (PST)
+        bh=dUewd4yleLJA5JoGTJV3GbsdDnDLJGqt03O6urjLvaA=;
+        b=MsEmlViD2/OHIkOabKlYt9p9CxZ+bjPsFgqvUpWb+7GZ5l/ez9YxZ/hXMGRmdISBpb
+         AscE0/48gcntirRaRUW1k0RQ1Reu/ncitmV+ykkXdCawNvdpPsbgw7nIq29uUshgm/0G
+         SjQxN49y/RZ61ZfZxkSm+w8ikk06kzLsXQhsPTdrqPUvWmR5kBv1KdI6nHSrFi4/lx85
+         C0lhkLdJlPjmRiCbt0hJuI22As3W7K17Qtcl4W6MpV5/WqHpCERG7PfEjoykPewujoG/
+         HA6OQXv8DsF1V56yKZ2zO35urs3vGKGwv6zvVSBSKowmo3hDvKx6ya+qwl01CSBLMIwW
+         hD5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUuIHAH/cWw15BPpiC1QwDB8muRB/BCB4SgGFrm1IsQhA4oeQnogFCgdqWSa+27YWazOmk7ZViz0E0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTL1lrlKqmiPkj2K3tEYwbpzHjvm5XU6dp7mPHoJIfmjBHmOUk
+	HGmUo+wAC+mHXp4FiMo18j7cRm9lEpm64V+4ZtdENYYDf05TMYjsQm9OfF9fqQHEDBSOTrQr06F
+	qPGmkCUE+NLxt/uq4vQCY7SQAp1Wb48mAQ/qr8qozgA==
+X-Gm-Gg: ASbGncvvtGCrmO04tOdudmQa2JvmrLTpW1xlWYi9LqXOkk3xmItXTmKxofO+N5dOcXs
+	ydDuA0oxL3hCn6ustCYUQX6pohFYDvtAScCO472m/KN5Y6nevz6ODlbMYZzrRAbtfzx65lPjp89
+	+a6gMCU6skRA6uWSDTQFtDRC06jC0LY1hcOWBlnCUOvrPsdX8Q2tCYeHhfNoNYHih9GKmwhltfO
+	7DJvSUVgN/3TW0wx2dS6sEvFHHyr5Ap0Bbh/ZNbICIxcs6WAPuF2tcM3k9uc1Em4H6B
+X-Google-Smtp-Source: AGHT+IGohd97iFSzusnKQDkeinSJTmpnCSTGsIETDXka805LYidOh0KbeB0Llp5c7t8ysAzDBzzykZsDEtrUy45tKnE=
+X-Received: by 2002:a05:6402:1ec5:b0:640:80cc:f08e with SMTP id
+ 4fb4d7f45d1cf-6415e83dbc4mr7456751a12.26.1762796576718; Mon, 10 Nov 2025
+ 09:42:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013185903.1372553-1-jiaqiyan@google.com> <20251020144646.GT316284@nvidia.com>
-In-Reply-To: <20251020144646.GT316284@nvidia.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Mon, 10 Nov 2025 09:41:33 -0800
-X-Gm-Features: AWmQ_bn8laNbI6x-97h0sYyX9fmwMMmvt4fgKNBEt3tvZG9iGI46wWrBFKgKfqM
-Message-ID: <CACw3F528D6odL3MJWb28Y4HVOLo56tMQXBpvti5nhczdpMxOdQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: maz@kernel.org, oliver.upton@linux.dev, duenwen@google.com, 
-	rananta@google.com, jthoughton@google.com, vsethi@nvidia.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-9-pasha.tatashin@soleen.com> <mafs0ms4tajcs.fsf@kernel.org>
+In-Reply-To: <mafs0ms4tajcs.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 10 Nov 2025 12:42:20 -0500
+X-Gm-Features: AWmQ_bmosonxcvpRMVKb6ujiu2Wwb5WZcJ_Ml7LhP2hix7ibfaliD6vYbfTF0S4
+Message-ID: <CA+CK2bCWeqLmndDa8eg+iLrSBHg0XAvMr0mHeKSeH0Y=6F02kQ@mail.gmail.com>
+Subject: Re: [PATCH v5 08/22] liveupdate: luo_file: implement file systems callbacks
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 20, 2025 at 7:46=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+On Mon, Nov 10, 2025 at 12:27=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
+g> wrote:
 >
-> On Mon, Oct 13, 2025 at 06:59:00PM +0000, Jiaqi Yan wrote:
-> > Problem
-> > =3D=3D=3D=3D=3D=3D=3D
-> >
-> > When host APEI is unable to claim a synchronous external abort (SEA)
-> > during guest abort, today KVM directly injects an asynchronous SError
-> > into the VCPU then resumes it. The injected SError usually results in
-> > unpleasant guest kernel panic.
-> >
-> > One of the major situation of guest SEA is when VCPU consumes recoverab=
-le
-> > uncorrected memory error (UER), which is not uncommon at all in modern
-> > datacenter servers with large amounts of physical memory. Although SErr=
-or
-> > and guest panic is sufficient to stop the propagation of corrupted memo=
-ry,
-> > there is room to recover from an UER in a more graceful manner.
-> >
-> > Proposed Solution
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > The idea is, we can replay the SEA to the faulting VCPU. If the memory
-> > error consumption or the fault that cause SEA is not from guest kernel,
-> > the blast radius can be limited to the poison-consuming guest process,
-> > while the VM can keep running.
-> >
-> > In addition, instead of doing under the hood without involving userspac=
-e,
-> > there are benefits to redirect the SEA to VMM:
-> >
-> > - VM customers care about the disruptions caused by memory errors, and
-> >   VMM usually has the responsibility to start the process of notifying
-> >   the customers of memory error events in their VMs. For example some
-> >   cloud provider emits a critical log in their observability UI [1], an=
-d
-> >   provides a playbook for customers on how to mitigate disruptions to
-> >   their workloads.
-> >
-> > - VMM can protect future memory error consumption by unmapping the pois=
-oned
-> >   pages from stage-2 page table with KVM userfault [2], or by splitting=
- the
-> >   memslot that contains the poisoned pages.
-> >
-> > - VMM can keep track of SEA events in the VM. When VMM thinks the statu=
-s
-> >   on the host or the VM is bad enough, e.g. number of distinct SEAs
-> >   exceeds a threshold, it can restart the VM on another healthy host.
-> >
-> > - Behavior parity with x86 architecture. When machine check exception
-> >   (MCE) is caused by VCPU, kernel or KVM signals userspace SIGBUS to
-> >   let VMM either recover from the MCE, or terminate itself with VM.
-> >   The prior RFC proposes to implement SIGBUS on arm64 as well, but
-> >   Marc preferred KVM exit over signal [3]. However, implementation
-> >   aside, returning SEA to VMM is on par with returning MCE to VMM.
-> >
-> > Once SEA is redirected to VMM, among other actions, VMM is encouraged
-> > to inject external aborts into the faulting VCPU.
+> Hi Pasha,
 >
-> I don't know much about the KVM details but this explanation makes
-> sense to me and we also have use cases for all of what is written
-> here.
+> Caught a small bug during some of my testing.
 >
-> Thanks,
-> Jason
+> On Fri, Nov 07 2025, Pasha Tatashin wrote:
+>
+> > This patch implements the core mechanism for managing preserved
+> > files throughout the live update lifecycle. It provides the logic to
+> > invoke the file handler callbacks (preserve, unpreserve, freeze,
+> > unfreeze, retrieve, and finish) at the appropriate stages.
+> >
+> > During the reboot phase, luo_file_freeze() serializes the final
+> > metadata for each file (handler compatible string, token, and data
+> > handle) into a memory region preserved by KHO. In the new kernel,
+> > luo_file_deserialize() reconstructs the in-memory file list from this
+> > data, preparing the session for retrieval.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> [...]
+> > +int luo_preserve_file(struct luo_session *session, u64 token, int fd)
+> > +{
+> > +     struct liveupdate_file_op_args args =3D {0};
+> > +     struct liveupdate_file_handler *fh;
+> > +     struct luo_file *luo_file;
+> > +     struct file *file;
+> > +     int err =3D -ENOENT;
+> > +
+> > +     lockdep_assert_held(&session->mutex);
+> > +
+> > +     if (luo_token_is_used(session, token))
+> > +             return -EEXIST;
+> > +
+> > +     file =3D fget(fd);
+> > +     if (!file)
+> > +             return -EBADF;
+> > +
+> > +     err =3D luo_session_alloc_files_mem(session);
+>
+> err gets set to 0 here...
+>
+> > +     if (err)
+> > +             goto  exit_err;
+> > +
+> > +     if (session->count =3D=3D LUO_FILE_MAX) {
+> > +             err =3D -ENOSPC;
+> > +             goto exit_err;
+> > +     }
+> > +
+> > +     list_for_each_entry(fh, &luo_file_handler_list, list) {
+> > +             if (fh->ops->can_preserve(fh, file)) {
+> > +                     err =3D 0;
+> > +                     break;
+> > +             }
+> > +     }
+>
+> ... say no file handler can preserve this file ...
+>
+> > +
+> > +     /* err is still -ENOENT if no handler was found */
+> > +     if (err)
+>
+> ... err is not ENOENT, but 0. So this function does not error but, but
+> goes ahead with fh =3D=3D luo_file_handler_list (since end of list). This
+> causes an out-of-bounds access. It eventually causes a kernel fault and
+> panic.
+>
+> You should drop the ENOENT at initialization time and set it right
+> before list_for_each_entry().
 
-Thanks for your feedback Jason. And thanks for the comments from Jose,
-Randy, and Marc.
+Right, thank you for reporting this. Should add it to self-tests,
+where we try to preserve FD that does not have a file handler.
 
-Just wondering if there are any concerns or comments on the API and
-implementation? If no, I will fix the typos in 1/3 and 3/3 then send
-out v5.
+Pasha
 
-Thanks,
-Jiaqi
+>
+> > +             goto exit_err;
+> > +
+> > +     luo_file =3D kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> > +     if (!luo_file) {
+> > +             err =3D -ENOMEM;
+> > +             goto exit_err;
+> > +     }
+> > +
+> > +     luo_file->file =3D file;
+> > +     luo_file->fh =3D fh;
+> > +     luo_file->token =3D token;
+> > +     luo_file->retrieved =3D false;
+> > +     mutex_init(&luo_file->mutex);
+> > +
+> > +     args.handler =3D fh;
+> > +     args.session =3D (struct liveupdate_session *)session;
+> > +     args.file =3D file;
+> > +     err =3D fh->ops->preserve(&args);
+> > +     if (err) {
+> > +             mutex_destroy(&luo_file->mutex);
+> > +             kfree(luo_file);
+> > +             goto exit_err;
+> > +     } else {
+> > +             luo_file->serialized_data =3D args.serialized_data;
+> > +             list_add_tail(&luo_file->list, &session->files_list);
+> > +             session->count++;
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +exit_err:
+> > +     fput(file);
+> > +     luo_session_free_files_mem(session);
+> > +
+> > +     return err;
+> > +}
+> [...]
+>
+> --
+> Regards,
+> Pratyush Yadav
