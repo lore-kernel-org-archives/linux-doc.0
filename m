@@ -1,134 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A36221542;
-	Mon, 10 Nov 2025 11:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A022F5A18
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762773260; cv=none; b=UsRpbvaUcVhmmLbZt6Zn2fmx5JIvj4Wr5/7JnAEHb1lBz5kbc9AbO4Pau4TddZlUHOFeSayFE5WS/cPFoETmIk3bWtMr+RozynTBo22yMhEnwwbplCebl7L9+Ge2sefOoujsQXS0oIF5+aTK6UI8QbGeeBFbbOOy3//YDZIc778=
+	t=1762774115; cv=none; b=XMjPdY2HIrKm0ECpSLY1BfbgFi+DxV7o2PfsDZIqGMk6XCRshhNEkB5HbVtKlHrmOmHE7fMraqdZW+q+5D22bzgGUllKqAMMunAa51WC7ByBahg+bf9HGVjtZIagCmfKmfppU7xYysntKMeyF9lJsspszcK9z2JDiLbu3TQ9KMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762773260; c=relaxed/simple;
-	bh=Tb3gGuGtl8j/1gHHLyftk/wWI4ks/TnsXd/Czi8Q01M=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=AiEEOg32og8bYlIIhSeUEL5WHUR+TyN+YlNBW+b2JKcCt26lpqbA6W5a7htDTiMmQakOTuy+m01CfaHMt62YAL3cqsoxNFpbULv3z36JQ/vCqe9+uZKqJOFsUtn7VZ7nIr7jb9Jdt3Y4a0gWSg8EPZDfL8ZDOI7X9xsK5PoMmDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YT1dcY47; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762774115; c=relaxed/simple;
+	bh=MZT+DALqR0VA23k2/UQYcdkIsnV3TTgNY/WYhrIbVOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=faQ6mozEERscXOxUnt07JZ1DPWDCvTw04sQXsW2wPCFeqZlkbXOKiCndbhs/sLnayIUBqWIfZYYMGnDWl1QMdK7e8S1UIcHXQmLU0ijqR95jjHM+uoZC8RKiGGLwEmm5jhCkOxez4p+wr94oY6N8CGhJgiUS9CZlzIoLjnkNBGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RQZyaX4Q; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YT1dcY47"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762773258; x=1794309258;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Tb3gGuGtl8j/1gHHLyftk/wWI4ks/TnsXd/Czi8Q01M=;
-  b=YT1dcY47my/X4QLBPSbuMKIo+3Sdym2+IUzAHausngiDw5Tum/8qYPw0
-   NeMgnllVyYY1G7vjb0OpzL4hcPPnIMLqSUuYHSx91RXC0r7gt85l/CtMY
-   bFo83KLE182h9S5RQL/xkhYsaJKQQ3S6vDkyfSmWuDeq8KWq4Po9VtZ7S
-   0OY0BS10Z5j3M5VfzMyogBjeZFuM2GPRw8A6lR0WL7XJKVzxaSDLy2a7K
-   tuQsKYB7sjT/EfPYuBUe3CmipyPavK0DQ4sm4MUiUJ3ECD0ph9tZANUaX
-   oUGQjfw2WSG8luGqyU1kk0HEkEMTkJKmogYiT524bcK3ipBt+gvRaIwik
-   g==;
-X-CSE-ConnectionGUID: /eBAel49SLqPcfGyqr/c8A==
-X-CSE-MsgGUID: vINU1X54TGOxoCX7wdGuxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75507021"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75507021"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:14:17 -0800
-X-CSE-ConnectionGUID: qa1zIVn6QxG/ucqV7AEW3Q==
-X-CSE-MsgGUID: bSXtiLKeRPaXy0gb8YYAEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="192757513"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.13])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 03:14:12 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 10 Nov 2025 13:14:07 +0200 (EET)
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-    Mario Limonciello <superm1@kernel.org>, Hans de Goede <hansg@kernel.org>
-cc: Armin Wolf <W_Armin@gmx.de>, Len Brown <lenb@kernel.org>, 
-    "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] acpi: platform_profile - Add Extreme profile
- option
-In-Reply-To: <20251106212121.447030-2-derekjohn.clark@gmail.com>
-Message-ID: <701898dd-3310-e86d-7499-fca5a445447a@linux.intel.com>
-References: <20251106212121.447030-1-derekjohn.clark@gmail.com> <20251106212121.447030-2-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RQZyaX4Q"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b7260435287so429499766b.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 03:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1762774112; x=1763378912; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=csQWI5jqus0ZWRL/iU5hav/pk5IdN2xcgvPAVhT7DnE=;
+        b=RQZyaX4QlE2hXmuzHMRXifbESQOdGfFFirPzDVqzkS8fGt7pzBkMDs9RE3Xr7vcN0l
+         BfnTX4wVJoZkqWiIkOT9qiYEb2OOqY8pYlmbgpaBJkBhqHkmAsfxDnO7jHJd/7xtw9Cx
+         Ip65EWIEfq8qN+Qa4nPDs1r5+2Ty0Rv1RaybTLqHd3k9Ena0dGXwbDpG93GPiQ14H0sW
+         TGxKPCnAR7l6exJDslGL/siobykIMqY5OxT7rdDPcwwCSvXvS7l8Cz1Y9HCmV3IJFqxR
+         EkLdT3z3C7/WsZimlPbYQ7Gj0F49vX4WO2MQzyoPPHHVa2CdO5QkK9jpNVtLUGnkJqqj
+         TP4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762774112; x=1763378912;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=csQWI5jqus0ZWRL/iU5hav/pk5IdN2xcgvPAVhT7DnE=;
+        b=Y5f0mcG5hbBS0glqPhdc5lZeorhV0Wl0MpsME/s1wfq8jRPEaj8HBZRqY5thUAZG2n
+         HoXWcN/CQKEYSDUliXV0O//r2RDMlTlUUNHZNqI2kwJ4W2m+3s3gOxV6LMtQ6lEBM7a2
+         vYSVDMk5rfq+CirjSxBWLi+iXZ7NQoootBYyX+lLY6bZn6MnuMsNqvYNQYOXNQIzfmvY
+         fzWTrHfwWk5i8RYL6yyhKUyVkvd7rrLORTdWWrzeFyW6pN8/c97XmHQ5YA1e/kg4/c18
+         2zn1ongRRC5E8LH4xexE/mSBVw6+OtPcs3pUz9q4YV+INqWUThpkwGuXIQnnCPLietwR
+         zzBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNqf4n1kQAr8uTdvfz7ac13Rh5JLaCReV/bqjOW9HLyVbTHUUq01lA2kQwHyrUhfQC1Q05PV8uKgI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXg96zPOlkAgRZ85U/9yzOrDxnuc9X+lS5wbUeHn9aEKsVzS4F
+	KEOg+/kS28WtXZ9/QSvG8xyluyQz6QtcxoVWQUL7dOxAPm0m/oErRIWFxJO4qOPfqd0=
+X-Gm-Gg: ASbGncsfkbE9R2ZSefE0UcRO3Zw+lp4NBYU0JJAzfAnC713WSi1bXZEx2eZCC7k24Qf
+	gX9q7acjZhHzTGv/u+UT4fs6SBz7cjJxO8rqRtz43YnjflxFKo1hjXp7afGAdQLYRiWOoHlL0VL
+	TrBRl0Ea8GGabldvfkobbFQXTUGPn9e4K0jxGi9CZcMUJXgtchtn6jW9Ai3En3s2yrup4+owGf7
+	qWt/sqzmvQMTlUkgmh//H/RYRBza+uxFwP410WHJ36twelI5Qe0rCS2JsbQT3oRxm7Jf2oN7c/E
+	Wg/zT5u5I7EwOtFECrVfzj14P/PsogXOW6HRY+vujul60ywvFbndpCfExAt4QpwH33I/r1uzIeF
+	/3PW33DlYoidEgdh6t1ZEalEKxAXQ2muh8J3KLGc4pJpVn6FgpP5fLtFEtuiplxnT2BUXw36g7n
+	oRe7sVL/K0NsCgAg46RC7fADRx
+X-Google-Smtp-Source: AGHT+IGAJqQ0Kq7UeRNfTo+kG/hya+4ozhhHWlZnaOOqZGzl+HnP2llew3IXX1GgpwGtU4vmKHgoXw==
+X-Received: by 2002:a17:907:2d8d:b0:b40:b54d:e687 with SMTP id a640c23a62f3a-b72e055e508mr784475766b.47.1762774111807;
+        Mon, 10 Nov 2025 03:28:31 -0800 (PST)
+Received: from localhost (109-81-31-109.rct.o2.cz. [109.81.31.109])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf40768fsm1062473966b.23.2025.11.10.03.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 03:28:31 -0800 (PST)
+Date: Mon, 10 Nov 2025 12:28:25 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Leon Huang Fu <leon.huangfu@shopee.com>
+Cc: linux-mm@kvack.org, tj@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, akpm@linux-foundation.org,
+	joel.granados@kernel.org, jack@suse.cz, laoar.shao@gmail.com,
+	mclapinski@google.com, kyle.meyer@hpe.com, corbet@lwn.net,
+	lance.yang@linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
+ on-demand stats flushing
+Message-ID: <aRHMWewcW41Vdzed@tiehlicka>
+References: <20251110101948.19277-1-leon.huangfu@shopee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110101948.19277-1-leon.huangfu@shopee.com>
 
-On Thu, 6 Nov 2025, Derek J. Clark wrote:
-
-> Some devices, namely Lenovo Legion devices, have an "extreme" mode where
-> power draw is at the maximum limit of the cooling hardware. Add a new
-> "extreme" platform profile to properly reflect this operating mode.
+On Mon 10-11-25 18:19:48, Leon Huang Fu wrote:
+> Memory cgroup statistics are updated asynchronously with periodic
+> flushing to reduce overhead. The current implementation uses a flush
+> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
+> determining when to aggregate per-CPU memory cgroup statistics. On
+> systems with high core counts, this threshold can become very large
+> (e.g., 64 * 256 = 16,384 on a 256-core system), leading to stale
+> statistics when userspace reads memory.stat files.
 > 
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> This is particularly problematic for monitoring and management tools
+> that rely on reasonably fresh statistics, as they may observe data
+> that is thousands of updates out of date.
+> 
+> Introduce a new write-only file, memory.stat_refresh, that allows
+> userspace to explicitly trigger an immediate flush of memory statistics.
+> Writing any value to this file forces a synchronous flush via
+> __mem_cgroup_flush_stats(memcg, true) for the cgroup and all its
+> descendants, ensuring that subsequent reads of memory.stat and
+> memory.numa_stat reflect current data.
+> 
+> This approach follows the pattern established by /proc/sys/vm/stat_refresh
+> and memory.peak, where the written value is ignored, keeping the
+> interface simple and consistent with existing kernel APIs.
+> 
+> Usage example:
+>   echo 1 > /sys/fs/cgroup/mygroup/memory.stat_refresh
+>   cat /sys/fs/cgroup/mygroup/memory.stat
+> 
+> The feature is available in both cgroup v1 and v2 for consistency.
+> 
+> Signed-off-by: Leon Huang Fu <leon.huangfu@shopee.com>
+
+Acked-by: Michal Hocko <mhocko@suse.com>
+Thanks!
+
 > ---
->  Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
->  drivers/acpi/platform_profile.c                        | 1 +
->  include/linux/platform_profile.h                       | 1 +
->  3 files changed, 4 insertions(+)
+> v2 -> v3:
+>   - Flush stats by memory.stat_refresh (per Michal)
+>   - https://lore.kernel.org/linux-mm/20251105074917.94531-1-leon.huangfu@shopee.com/
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile b/Documentation/ABI/testing/sysfs-class-platform-profile
-> index dc72adfb830a..9bee8deb4dc9 100644
-> --- a/Documentation/ABI/testing/sysfs-class-platform-profile
-> +++ b/Documentation/ABI/testing/sysfs-class-platform-profile
-> @@ -23,6 +23,8 @@ Description:	This file contains a space-separated list of profiles supported
->  					power consumption with a slight bias
->  					towards performance
->  		performance		High performance operation
-> +		extreme			Higher performance operation that may exceed
-> +					internal battery draw limits when on AC power
->  		custom			Driver defined custom profile
->  		====================	========================================
->  
-> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
-> index b43f4459a4f6..78da17e16d9b 100644
-> --- a/drivers/acpi/platform_profile.c
-> +++ b/drivers/acpi/platform_profile.c
-> @@ -37,6 +37,7 @@ static const char * const profile_names[] = {
->  	[PLATFORM_PROFILE_BALANCED] = "balanced",
->  	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] = "balanced-performance",
->  	[PLATFORM_PROFILE_PERFORMANCE] = "performance",
-> +	[PLATFORM_PROFILE_EXTREME] = "extreme",
->  	[PLATFORM_PROFILE_CUSTOM] = "custom",
->  };
->  static_assert(ARRAY_SIZE(profile_names) == PLATFORM_PROFILE_LAST);
-> diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
-> index a299225ab92e..2bf178bde2b5 100644
-> --- a/include/linux/platform_profile.h
-> +++ b/include/linux/platform_profile.h
-> @@ -24,6 +24,7 @@ enum platform_profile_option {
->  	PLATFORM_PROFILE_BALANCED,
->  	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
->  	PLATFORM_PROFILE_PERFORMANCE,
-> +	PLATFORM_PROFILE_EXTREME,
->  	PLATFORM_PROFILE_CUSTOM,
->  	PLATFORM_PROFILE_LAST, /*must always be last */
->  };
+> v1 -> v2:
+>   - Flush stats when write the file (per Michal).
+>   - https://lore.kernel.org/linux-mm/20251104031908.77313-1-leon.huangfu@shopee.com/
 > 
-
-I wonder if "extreme" is the best name for this? Given the description you 
-gave above, perhaps "max-power" would be more descriptive (and we already 
-have "low-power" so it kind of feels fitting the theme too).
-
-I don't have strong opinion on this so if you guys feel this suggestion 
-would not make things better, feel free to voice it. :-)
+>  Documentation/admin-guide/cgroup-v2.rst | 21 +++++++++++++++++--
+>  mm/memcontrol-v1.c                      |  4 ++++
+>  mm/memcontrol-v1.h                      |  2 ++
+>  mm/memcontrol.c                         | 27 ++++++++++++++++++-------
+>  4 files changed, 45 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 3345961c30ac..ca079932f957 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1337,7 +1337,7 @@ PAGE_SIZE multiple when read back.
+>  	cgroup is within its effective low boundary, the cgroup's
+>  	memory won't be reclaimed unless there is no reclaimable
+>  	memory available in unprotected cgroups.
+> -	Above the effective low	boundary (or
+> +	Above the effective low	boundary (or
+>  	effective min boundary if it is higher), pages are reclaimed
+>  	proportionally to the overage, reducing reclaim pressure for
+>  	smaller overages.
+> @@ -1785,6 +1785,23 @@ The following nested keys are defined.
+>  		up if hugetlb usage is accounted for in memory.current (i.e.
+>  		cgroup is mounted with the memory_hugetlb_accounting option).
+> 
+> +  memory.stat_refresh
+> +	A write-only file which exists on non-root cgroups.
+> +
+> +	Writing any value to this file forces an immediate flush of
+> +	memory statistics for this cgroup and its descendants. This
+> +	ensures subsequent reads of memory.stat and memory.numa_stat
+> +	reflect the most current data.
+> +
+> +	This is useful on high-core count systems where per-CPU caching
+> +	can lead to stale statistics, or when precise memory usage
+> +	information is needed for monitoring or debugging purposes.
+> +
+> +	Example::
+> +
+> +	  echo 1 > memory.stat_refresh
+> +	  cat memory.stat
+> +
+>    memory.numa_stat
+>  	A read-only nested-keyed file which exists on non-root cgroups.
+> 
+> @@ -2173,7 +2190,7 @@ of the two is enforced.
+> 
+>  cgroup writeback requires explicit support from the underlying
+>  filesystem.  Currently, cgroup writeback is implemented on ext2, ext4,
+> -btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
+> +btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
+>  attributed to the root cgroup.
+> 
+>  There are inherent differences in memory and writeback management
+> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+> index 6eed14bff742..c3eac9b1f1be 100644
+> --- a/mm/memcontrol-v1.c
+> +++ b/mm/memcontrol-v1.c
+> @@ -2041,6 +2041,10 @@ struct cftype mem_cgroup_legacy_files[] = {
+>  		.name = "stat",
+>  		.seq_show = memory_stat_show,
+>  	},
+> +	{
+> +		.name = "stat_refresh",
+> +		.write = memory_stat_refresh_write,
+> +	},
+>  	{
+>  		.name = "force_empty",
+>  		.write = mem_cgroup_force_empty_write,
+> diff --git a/mm/memcontrol-v1.h b/mm/memcontrol-v1.h
+> index 6358464bb416..a14d4d74c9aa 100644
+> --- a/mm/memcontrol-v1.h
+> +++ b/mm/memcontrol-v1.h
+> @@ -29,6 +29,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg);
+>  unsigned long memcg_events(struct mem_cgroup *memcg, int event);
+>  unsigned long memcg_page_state_output(struct mem_cgroup *memcg, int item);
+>  int memory_stat_show(struct seq_file *m, void *v);
+> +ssize_t memory_stat_refresh_write(struct kernfs_open_file *of, char *buf,
+> +				  size_t nbytes, loff_t off);
+> 
+>  void mem_cgroup_id_get_many(struct mem_cgroup *memcg, unsigned int n);
+>  struct mem_cgroup *mem_cgroup_id_get_online(struct mem_cgroup *memcg);
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index bfc986da3289..19ef4b971d8d 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -610,6 +610,15 @@ static void __mem_cgroup_flush_stats(struct mem_cgroup *memcg, bool force)
+>  	css_rstat_flush(&memcg->css);
+>  }
+> 
+> +static void memcg_flush_stats(struct mem_cgroup *memcg, bool force)
+> +{
+> +	if (mem_cgroup_disabled())
+> +		return;
+> +
+> +	memcg = memcg ?: root_mem_cgroup;
+> +	__mem_cgroup_flush_stats(memcg, force);
+> +}
+> +
+>  /*
+>   * mem_cgroup_flush_stats - flush the stats of a memory cgroup subtree
+>   * @memcg: root of the subtree to flush
+> @@ -621,13 +630,7 @@ static void __mem_cgroup_flush_stats(struct mem_cgroup *memcg, bool force)
+>   */
+>  void mem_cgroup_flush_stats(struct mem_cgroup *memcg)
+>  {
+> -	if (mem_cgroup_disabled())
+> -		return;
+> -
+> -	if (!memcg)
+> -		memcg = root_mem_cgroup;
+> -
+> -	__mem_cgroup_flush_stats(memcg, false);
+> +	memcg_flush_stats(memcg, false);
+>  }
+> 
+>  void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
+> @@ -4530,6 +4533,12 @@ int memory_stat_show(struct seq_file *m, void *v)
+>  	return 0;
+>  }
+> 
+> +ssize_t memory_stat_refresh_write(struct kernfs_open_file *of, char *buf, size_t nbytes, loff_t off)
+> +{
+> +	memcg_flush_stats(mem_cgroup_from_css(of_css(of)), true);
+> +	return nbytes;
+> +}
+> +
+>  #ifdef CONFIG_NUMA
+>  static inline unsigned long lruvec_page_state_output(struct lruvec *lruvec,
+>  						     int item)
+> @@ -4666,6 +4675,10 @@ static struct cftype memory_files[] = {
+>  		.name = "stat",
+>  		.seq_show = memory_stat_show,
+>  	},
+> +	{
+> +		.name = "stat_refresh",
+> +		.write = memory_stat_refresh_write,
+> +	},
+>  #ifdef CONFIG_NUMA
+>  	{
+>  		.name = "numa_stat",
+> --
+> 2.51.2
 
 -- 
- i.
-
+Michal Hocko
+SUSE Labs
