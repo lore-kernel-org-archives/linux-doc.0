@@ -1,105 +1,160 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074FE153BD9;
-	Mon, 10 Nov 2025 15:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB239274B27;
+	Mon, 10 Nov 2025 15:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762789725; cv=none; b=bTBS+UfuaejFlKhV7g79QT05b4rT6QsK93LCYkSgADfSkdKsaVDDbFxBW59staLNVuixFjBpj43mywOrbepdTwvV0SCXnyDftnzTHhVhE4opezR1iR3Ta8lVyJK9GiHN2orsvVkxNvYeCPRBxYyatA5tT2VkxyxrKiyXoaGWLkw=
+	t=1762789811; cv=none; b=gCoYsUAzIKuQk1Qu7hMG2JXYK1OodYsSYeEED1Zi2KroiNDYGPxBFpy+/YEg4kED9bIQQhsNnk0zd3Ab1GqdgIR3oiOSR8jNKM56PyDAH1nQqj48B8Vogz7eQ6bTk03yXwkXimY2xM4De3X2d758/sFcwCl768pQzCCv9n976s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762789725; c=relaxed/simple;
-	bh=Bn2Zyt+aIDLf4tjfg1cxJuUuA6zwIk1XsFG7lBgkeHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KniyQYUvpAE53kH/LMEGdSgTy6u/Tl4ocaocxe5zDhezh8bRg3MalilQjgXDpsY2kuCzwFKPWh0WDXyyLqsvSqxuhIxKcUPQ9scS8WFhzwyG1F5q85+F8soKNaRuDray/eifc6MA17r6Mgfm0F226duMrQk3AK/h9hJT7fHyC8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wJ0M+0La; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762789811; c=relaxed/simple;
+	bh=p9SPlBZbb3hx77u0jsPbAy3OBjtm4qTHZI5QsOsS5bA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g7OlFL1BrapGyfReVqBjL8Fznpk/TgCsJXL6k00GInozuwixXmFnPnrB1hAWphMg7fYFldppEP18VloBbY+aRxlgGV3CoOn6Pi0ibbahlWBqgpHT2SGJVsuUh3xVwhibnCRIbaCxDA0+v6Yq4djw/5GfXSTTravQPLtK8Pkuu4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kVBeK96T; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wJ0M+0La"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=C67O4LVeg8WMDJ8KU9F1/iW0QK6epKrLMnUjULyR+wE=; b=wJ0M+0LacOP1OLv0g4ScRMqglS
-	LJK9h7xh6K4qf0modj5inMpydmTdGbcMa7u9oY50NBpmiUWjjm5opruYL1W72Y/GSXDF7DHO25qvl
-	586Dr6AONOKccWRf436bm2xB571dWjwNdOivv0ZI/CfrO4M/nk0JrLuNmgUUCwJIjsx7OGodPSPQe
-	phSKMDJo6WAUVBX4EMKgDFu58GhCxYg0ZomDpAcyLYAzI8slSTAwij3VIviu89UTMFO0YE+gtPFnF
-	WqwJJegK0lW/mea8+L2aG91IiywF2Z/9h726ZmklZ5XudGqzHMoitlRUo7gWB+t5NQNkaMGgzzgTU
-	eyvGuy2Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIU85-000000016gd-0EKo;
-	Mon, 10 Nov 2025 15:48:29 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DE6E330029E; Mon, 10 Nov 2025 16:48:27 +0100 (CET)
-Date: Mon, 10 Nov 2025 16:48:27 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v9 2/5] perf: arm_spe: Add support for filtering on data
- source
-Message-ID: <20251110154827.GA278048@noisy.programming.kicks-ass.net>
-References: <20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org>
- <20251029-james-perf-feat_spe_eft-v9-2-d22536b9cf94@linaro.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kVBeK96T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1762789806;
+	bh=p9SPlBZbb3hx77u0jsPbAy3OBjtm4qTHZI5QsOsS5bA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kVBeK96TLCe4OlS9VXlxGINkfLW8tU/oB5kw9/AbkQHxF73BkOfwfxQLi+26ZXDMb
+	 WInTDEH0EMCseRiBqOTjCLSl1K3lqr/Yb/snuB6GzH1UEmc/L3w6JzyRCo3hEwLbm/
+	 eT3V6sEySoSXmfdUDitLjBu5NDzCxolhrvLFco/LretkDrmxAyLwriOEtsnNFVvqSe
+	 hP6AHszaNWp2O3aemirJ8fJfNLWWueZ+0M+wmKMT/3257BIYNXlarAvPrXsGYeZIwY
+	 7cW9TLLGOycPOegO3iNIqcnnknyxcSkF0Irh+BC9XsaknN2HG3mNU/gSElbUPVIS4n
+	 yyz7QV1R2pkOA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0961117E0610;
+	Mon, 10 Nov 2025 16:50:06 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v7 00/11] drm: Reduce page tables overhead with THP
+Date: Mon, 10 Nov 2025 16:49:48 +0100
+Message-ID: <20251110155000.2936-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029-james-perf-feat_spe_eft-v9-2-d22536b9cf94@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 29, 2025 at 03:46:02PM +0000, James Clark wrote:
-> SPE_FEAT_FDS adds the ability to filter on the data source of packets.
-> Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
-> when any of the filter bits are set.
-> 
-> Each bit maps to data sources 0-63 described by bits[0:5] in the data
-> source packet (although the full range of data source is 16 bits so
-> higher value data sources can't be filtered on). The filter is an OR of
-> all the bits, so for example clearing bits 0 and 3 only includes packets
-> from data sources 0 OR 3.
-> 
-> Invert the filter given by userspace so that the default value of 0 is
-> equivalent to including all values (no filtering). This allows us to
-> skip adding a new format bit to enable filtering and still support
-> excluding all data sources which would have been a filter value of 0 if
-> not for the inversion.
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-So from that I'm reading the config4 field will only have like 16 bits,
-but here:
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-> +#define ATTR_CFG_FLD_inv_data_src_filter_CFG	config4	/* inverse of PMSDSFR_EL1 */
-> +#define ATTR_CFG_FLD_inv_data_src_filter_LO	0
-> +#define ATTR_CFG_FLD_inv_data_src_filter_HI	63
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
 
-you claim all 64 bits.
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
 
-Also, afaict:
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
 
-  #define ATTR_CFG_FLD_min_latency_CFG            config2 /* PMSLATFR_EL1.MINLAT */
-  #define ATTR_CFG_FLD_min_latency_LO             0
-  #define ATTR_CFG_FLD_min_latency_HI             11
+Loïc Molinari (11):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
 
-Still has more than 16 bits left.
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 203 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  48 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  11 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 443 insertions(+), 296 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
 
+-- 
+2.47.3
 
-So why exactly are we needing config4? Can we please get a more solid
-argument?
