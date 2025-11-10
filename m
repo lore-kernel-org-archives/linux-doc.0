@@ -1,179 +1,160 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C9A30E858
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 13:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F4C307AEA;
+	Mon, 10 Nov 2025 14:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762782618; cv=none; b=U9ZNoUefLjW37YB5IsQvg3iTcJ9ep0k719Y3q0UNTI5/RJX1VzmD0ZI6M+2ru1dqvX7YduyNIpfoMPIMAeWBFQrmWGTjYPuZMLDknCrbeJFgnxHAHlPVoMRDkwHX+gsstwgpigx0DpcNc1IfKiQSHtvyPHxJOPm1odzOh81AB88=
+	t=1762784875; cv=none; b=ghYCDQt9Bzh0McYi2UeBgNdR1Rd880PgcTrWbN8tfNbbaXhTFtqGl8h7zvB2968sNzY6drAZf2IdG7uQ+DxhVRFTX3tFfYSHrONMLCQruk5a/tFcG3b8o+HbrEkdFTLF5ItG6ndgUpLf/iDIlFVwTd+rEV0l5VgwFHBncTh1rRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762782618; c=relaxed/simple;
-	bh=Z2GcdcHLSBPyJMV4Z1quXuXSj4IHiZox4TXxVh4RwU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/Br3HE+q++HcQNm0c+/s+J1Oz6tSadKqIXt7PXmp17moj/4+Hkc6T5AcAnJLj0QGQDoNcQ73rxNJv12+RuQfEFgI1L3KlHJkVQF/0CmuVm42i46yFwRET/DpEhSsf1JEGRh3DVEfGutd7RTVyKYXNqKy2qMfi56AE3YgZG5hOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bnwUw4s4; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762784875; c=relaxed/simple;
+	bh=I3hDlgnUiFEeHYO7l/Z1ZTVOyh5tZR91I5wEgfYLxhA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IGQQfkAWbAn7mFklLPCBkAsX8lhrdY7UaPqkinkOR8gYUD7e2rGvP7VNCXwhimkc9mcgzMIYtoFiUklredAuU2i/aLG/ZYv+jJAvwSZ8O2PGBI0HJdelCpYV4tvHTgqz3q8DrJEwRAa5HV0V3eHMYlQeSYXL1+MkmrIHmy4D11M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Cg+ZW5Um; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bnwUw4s4"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so20369215e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 05:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762782614; x=1763387414; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tCs1YwS37zjMEsWnDzmEV/JMvwyL1fiKF8eAfxcvVZM=;
-        b=bnwUw4s4sThlYanFH58caHNcesysUXuk2S+0Vpgj4pW9LBZQLQBwJ+ViyTca6zvith
-         +dUOylNOB7oUfsNfDf/wm22jZB/tG4+feDi8t/RSQCxRuZe5YoW8kFh3CUkqJ/J3x9qa
-         iV3x2NrH8ptPvAfqgVucKkGxsyLmSaYp69YSionh1rpwDLixr2AQl+O/U6BJCO05wher
-         aWCdJGfSyO8Xc9a3UsEHRiFuFn/fvAfvZVBeQiHSchgPs1FIbHcjHP02tiawRdHUccDg
-         aU6H5GbGHNGUsgiVJsAmgsguknYvYehi0EG/J0Vw5HWXNVHBGiqjZ2qVAkdpz3zc8RVx
-         jygw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762782614; x=1763387414;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tCs1YwS37zjMEsWnDzmEV/JMvwyL1fiKF8eAfxcvVZM=;
-        b=cnoe3KtHl4Wa/fSuJ2P0EOOL0+dEE78R0jUSKOXP9aCuZVl2YR3OTZ27cp0Wl4JFNB
-         RtCUESgqZpWcaA20vpFjL5OQpTATn6I/CxeIRia6BVx+3AK6kW+JFTovh2scsBzjYfFa
-         E2C6xtA3nXGpzVCT5iHSqtnVBWW9DheMrUXV4SkKfWlHK9o/ih6mP1SXa21Fsq5VOuM8
-         w3uAfLek2reb7P/TslOq2lhBhpkeQ1QYMytaAMxWspgv+x3gawvC0gMQ892tQAIOw+Y2
-         v5l2sPrtrLL4GuMWztIZFdpIeWObrGoUTM7kwF0PUu7VGepBGhvzzRsEZxZWMt4HX41G
-         LGFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKIvqfIqAUOUE+BW4s7sMPNINStDD7bHIrNSkWc06tTEqwIhQgDSv37KdCv9wxF7wf9qHy85o5XTg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEsrajuTF6GPpQyfMnocUhDOFbWdlxmKcYQVRA01VAe5lkcCES
-	3mcE3N1pDavpEVLklqjFl4JfewBG0Cg2SK2f4jWbk8dFBPM04887cbwPAni6nZcXifU=
-X-Gm-Gg: ASbGncsKP+xBnXBIdRCXzRKgMMsqf1xcPxc1BFhOWHb/ZVmkiVCx0dtzhhkp5GwkDSd
-	15IFV3OXMFPp+3VI9achxoK2gY76YeRk5KzHMx5n+cTokYteq5S6gcYi+QAgRxMx1a1zXSW5Biu
-	vRaibKfwfwKlLXxTgjt71vD8xa08n26uD8Asdac0DAadb+v3MdFHd5nblMd7WSkLEdmjeAhJYK5
-	RWg43BES+nQwZWxiwBJhMWkLPa7FKcgzPZ/3Oh7HDbLKeUYvjXOdHu2v6HgPiLEKMKHFqPL09xW
-	aL0mkIjLEJjhQDfb5G3iLKdXgsLZhjJ2IJ9gAEbcK0B5UUSDb6+fSWy8hW1YnK9m6pldN8CSi12
-	KBE/ji8RN0pL9uneWobXThx8NsQdR26dwYuA181OoaS/p7WUEH2vLHdx6kvPlvbK33xOAoahXzA
-	uDUnqzq6xNh5bWRGUU9Qi8H646mmnN/Ek=
-X-Google-Smtp-Source: AGHT+IFbwuDPMH0i3HrzOH4fQgag2ujLMbEc53k+8Ky8ZYKaeuvXAQUWa6E5cujElbmdZf149UMenA==
-X-Received: by 2002:a05:600c:3511:b0:475:e007:bae0 with SMTP id 5b1f17b1804b1-4777323ec8fmr52334305e9.16.1762782613605;
-        Mon, 10 Nov 2025 05:50:13 -0800 (PST)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2dd927c9sm15613706f8f.27.2025.11.10.05.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 05:50:13 -0800 (PST)
-Date: Mon, 10 Nov 2025 14:50:11 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Leon Huang Fu <leon.huangfu@shopee.com>
-Cc: linux-mm@kvack.org, tj@kernel.org, hannes@cmpxchg.org, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
-	muchun.song@linux.dev, akpm@linux-foundation.org, joel.granados@kernel.org, 
-	jack@suse.cz, laoar.shao@gmail.com, mclapinski@google.com, kyle.meyer@hpe.com, 
-	corbet@lwn.net, lance.yang@linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-Message-ID: <ewcsz3553cd6ooslgzwbubnbaxwmpd23d2k7pw5s4ckfvbb7sp@dffffjvohz5b>
-References: <20251110101948.19277-1-leon.huangfu@shopee.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Cg+ZW5Um"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1762784871;
+	bh=I3hDlgnUiFEeHYO7l/Z1ZTVOyh5tZR91I5wEgfYLxhA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Cg+ZW5UmcV+OPWWiVEIBEa71YhgKHcLsSHBua7s+xkI6A6fo9dVDIF0jxdDR9/4wv
+	 MjA1rjz8N0cDT6mEz+IEMwv3O+R84lHlS+D/t5vLSb0p88yV8ct1kCcqxhlXR292s5
+	 n9Um2Vwfx9ZpZBL8HAEmAVSyhGDdJfur9x2h+3L9zpKghOdQBRumTmSI/i5AZuTiqt
+	 Sbs1UnPBOMo5g3+xvmhQ+KDbkoNeTRQpOdQ9u7k+3JNGxgcLxf/IX2EWQB6Sm7j7BS
+	 YVprWLa9yJWr0bZWJGAIx5IKQNEviK/rAqlW/sLKIUoJF+rFkUUAxJcx4RKj+l7NNO
+	 klylxUGZLn0Qg==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5A6DF17E1313;
+	Mon, 10 Nov 2025 15:27:50 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v6 00/11] drm: Reduce page tables overhead with THP
+Date: Mon, 10 Nov 2025 15:27:35 +0100
+Message-ID: <20251110142746.3490-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="elrbjxmejfczykla"
-Content-Disposition: inline
-In-Reply-To: <20251110101948.19277-1-leon.huangfu@shopee.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
---elrbjxmejfczykla
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-MIME-Version: 1.0
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-Hello Leon.
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
 
-On Mon, Nov 10, 2025 at 06:19:48PM +0800, Leon Huang Fu <leon.huangfu@shope=
-e.com> wrote:
-> Memory cgroup statistics are updated asynchronously with periodic
-> flushing to reduce overhead. The current implementation uses a flush
-> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
-> determining when to aggregate per-CPU memory cgroup statistics. On
-> systems with high core counts, this threshold can become very large
-> (e.g., 64 * 256 =3D 16,384 on a 256-core system), leading to stale
-> statistics when userspace reads memory.stat files.
->=20
-> This is particularly problematic for monitoring and management tools
-> that rely on reasonably fresh statistics, as they may observe data
-> that is thousands of updates out of date.
->=20
-> Introduce a new write-only file, memory.stat_refresh, that allows
-> userspace to explicitly trigger an immediate flush of memory statistics.
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
 
-I think it's worth thinking twice when introducing a new file like
-this...
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
 
-> Writing any value to this file forces a synchronous flush via
-> __mem_cgroup_flush_stats(memcg, true) for the cgroup and all its
-> descendants, ensuring that subsequent reads of memory.stat and
-> memory.numa_stat reflect current data.
->=20
-> This approach follows the pattern established by /proc/sys/vm/stat_refresh
-> and memory.peak, where the written value is ignored, keeping the
-> interface simple and consistent with existing kernel APIs.
->=20
-> Usage example:
->   echo 1 > /sys/fs/cgroup/mygroup/memory.stat_refresh
->   cat /sys/fs/cgroup/mygroup/memory.stat
->=20
-> The feature is available in both cgroup v1 and v2 for consistency.
+Loïc Molinari (11):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
 
-First, I find the motivation by the testcase (not real world) weak when
-considering such an API change (e.g. real world would be confined to
-fewer CPUs or there'd be other "traffic" causing flushes making this a
-non-issue, we don't know here).
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 203 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  47 ++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  69 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  11 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  60 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  37 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 439 insertions(+), 292 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
 
-Second, this is open to everyone (non-root) who mkdir's their cgroups.
-Then why not make it the default memory.stat behavior? (Tongue-in-cheek,
-but [*].)
+-- 
+2.47.3
 
-With this change, we admit the implementation (async flushing) and leak
-it to the users which is hard to take back. Why should we continue doing
-any implicit in-kernel flushing afterwards?
-
-Next, v1 and v2 haven't been consistent since introduction of v2 (unlike
-some other controllers that share code or even cftypes between v1 and
-v2). So I'd avoid introducing a new file to V1 API.
-
-When looking for analogies, I admittedly like memory.reclaim's
-O_NONBLOCK better (than /proc/sys/vm/stat_refresh). That would be an
-argument for flushing by default mentioned abovee [*]).
-
-Also, this undercuts the hooking of rstat flushing into BPF. I think the
-attempts were given up too early (I read about the verifier vs
-seq_file). Have you tried bypassing bailout from
-__mem_cgroup_flush_stats via trace_memcg_flush_stats?
-
-
-All in all, I'd like to have more backing data on insufficiency of (all
-the) rstat optimizations before opening explicit flushes like this
-(especially when it's meant to be exposed by BPF already).
-
-Thanks,
-Michal
-
-
-
---elrbjxmejfczykla
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaRHthRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AjIDgD8D7HBEqfD01sGDIReAADc
-4pTJ2AD2pY2UoeiHwekZY7MA/0iGiNuZJTf1Sq2EA+RVWF9MNs3x64m7LutLmfib
-iBcM
-=PZ8F
------END PGP SIGNATURE-----
-
---elrbjxmejfczykla--
