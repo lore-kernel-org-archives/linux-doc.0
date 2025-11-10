@@ -1,321 +1,139 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D3A279DAF
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E561527CCF2
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762791439; cv=none; b=FOV1aGYsfqN7ZNhKfFsQA8j+dzS4IO69/xSQiIW2uiP1RWtXvGUPzPZdT+EdOZzZLKKGzCn0vq7zxXe/on77itD4KOM3zEidcbklJonyUnvvZW8RuIoDBdyVKzahYB+AYZiwzoAs9hH4PQy5INRr9gzCmgOwj83Ojgq+xhEo5XY=
+	t=1762791918; cv=none; b=T5Mlj7pFaEkSt/DjZ3xTvHEOI2NWcFPVtUkvViW0OF9NoZUReLo0me1c5lxd3ba1LMbxMjREeXyoH1KrLhfL0yhk7Tn+hYYsjVnUUgsd/avBzRB3B5CmgFIr3T+3BEwIkpMNidvzW2jsZd4x9CFVgwNCw0Q0GfyHOo7GLbUX04A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762791439; c=relaxed/simple;
-	bh=BOICJgjEM8TZaqRMVH1oCsKEHOrwjoYHghZGGNdXB40=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o9yyfzpn3PR2yVYCMhuwlrC8e0SkSYUmaYnlp3hJyJlxTYG3m1WNVUazT4UBfpl1G6/D3ovmCSbkXFU/Y/M4jkSxKZZ9zKDvgZ9wiSDixgTsrwLjvsoLoh1/Y6E8SCEpI4Nv/ce2jCYczEtrxDoI5E0QTS20L6HWkInaZ4I/yhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WRlZN1Dt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HtQdFl7J; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WRlZN1Dt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HtQdFl7J; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1762791918; c=relaxed/simple;
+	bh=+XdVuzl+5OjnvaE1DbT7/b/RmZhiYffoxNycigHS5xM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=omlHVQ2mAeKCvNh2qZcAEppPOcaIQOtPAL77xarBiWRaiHLE62fxjsiKhi9OU/I+5IzcgBSpLz9rzcuyCQ3XzDK0WboHnVAj/5q7i8oJXgRBSvWBbQynhI/fh9GwuhUnKd5Lc8oaC6chJWSuE/uvriTFi20WGbLc9i0Dt4fxb2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3yuXMR8I; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WRlZN1Dt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HtQdFl7J";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WRlZN1Dt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HtQdFl7J"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 56DAF1F81C;
-	Mon, 10 Nov 2025 16:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762791434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YrOBspxCbbKPnxtqzlAEE5iWqhCmDcU42GABocD1amU=;
-	b=WRlZN1DtAqT+PMxHhs21FZZKglAss9orVBCok9BiUdcNVF4BWPbgREkiQMWHjTRr9M0jhB
-	YfXTlaczmrbDJb2qkrIxWTTPohaYFMZDzP/Exu8cPjZTFfov/RQwflcvIWIlsbRXt+Y/b4
-	yBQqeggkkz8kar6oqBcLfhkKGVlMZPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762791434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YrOBspxCbbKPnxtqzlAEE5iWqhCmDcU42GABocD1amU=;
-	b=HtQdFl7J5kPMtvohpN3txIm0DYVUFWOXvTD07pOuox8uLKCNTa0lKyC3EF5/ttsrd6zbNJ
-	3m9tkwg2kKysFpAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762791434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YrOBspxCbbKPnxtqzlAEE5iWqhCmDcU42GABocD1amU=;
-	b=WRlZN1DtAqT+PMxHhs21FZZKglAss9orVBCok9BiUdcNVF4BWPbgREkiQMWHjTRr9M0jhB
-	YfXTlaczmrbDJb2qkrIxWTTPohaYFMZDzP/Exu8cPjZTFfov/RQwflcvIWIlsbRXt+Y/b4
-	yBQqeggkkz8kar6oqBcLfhkKGVlMZPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762791434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YrOBspxCbbKPnxtqzlAEE5iWqhCmDcU42GABocD1amU=;
-	b=HtQdFl7J5kPMtvohpN3txIm0DYVUFWOXvTD07pOuox8uLKCNTa0lKyC3EF5/ttsrd6zbNJ
-	3m9tkwg2kKysFpAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1885C144A2;
-	Mon, 10 Nov 2025 16:17:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wEKnBQoQEmmDewAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 10 Nov 2025 16:17:14 +0000
-Message-ID: <2bbccc79-d64e-4ace-a528-37295e3f8a4d@suse.cz>
-Date: Mon, 10 Nov 2025 17:17:13 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3yuXMR8I"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-88246676008so18372936d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 08:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762791916; x=1763396716; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c9SA+Oyt3urlxF8erNwoXRcqQ1B+Xtx2kUos6VgD610=;
+        b=3yuXMR8I2yXzyemuQHWtQbvjgyAhEUPtwgPABTz4Y0Lbh4kwenMUvKpdcNMv/j5SD8
+         OksN/TpI7jlMoZcWs9uc4H2kJpyfymF0vDo3Hg46I+bK3ia/6DrR5O2zpyP/cJ60Ei9Z
+         R/EzrRdSgotSi+8Ctiqsy1sWHfrU9VJ6mz2hQRL5GkOrHP7chVUHBsI9JdOUo/Nt0Dql
+         YiqWLXVVhUqZZemMEbpLpU09SZNshE5Gc6e82MH/FIMsyi4MZeVMolrxIAvrIy82Skud
+         qe2d425Oogg5LRILn06O6YAV9+j/dUtRXQEJQlrhF7ubbaTWOhpFck8aTO0nf4lqB+wc
+         pCWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762791916; x=1763396716;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=c9SA+Oyt3urlxF8erNwoXRcqQ1B+Xtx2kUos6VgD610=;
+        b=UlF+62VDUjQa/VCYXW8HhILhFiDptj+umIJKPMLnMR5se+Aeix5XvlMEt/RpqIMSEK
+         nGiPiggaQM/VXQG5gmEIf39/mizqbqGjx4MsSg5YD2qsv/jsxJJZQF6+XXXoaxrQtXk+
+         al7pcm9mn4WkYYBFzKqiMZE8aXfOJIlPiuubOA9k8d5+R0bytYlSpr6Ir/bAYqe/Z23g
+         FdoANQpCnmv2xCOURjYvCuOoEjaqXsRNLcIgxx13dCS3xLEiXw8GgbEgPPSdi9EZCABI
+         d4XFGByOD6CRvdMRZhyqPAoOmcs59hQdKij7Y/0nrZ3MUH7JPLVWnqajCNmwkrjHbW3c
+         DezQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAxIz18nera5vtcqPhVReugXHQEXoI9VQwF1HpMYc5nvHz0FfadtSK3vZ2Nu0663IHpa7q3kEBHsI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkSFMmho3O1HasUjTm9JpISlDHCqyjdFLpiwx027HOpNw1JIG2
+	U11SsQKxiYhPIO5GZoPD0zx17LqZd4St/qYqPPAWKmieTrviQxKcFh9/lEnWE4CfSxj+7q/ufVK
+	GuP38ReYj8WHWwEnBQ6TbSZaO9iP2Vn5736w/sJZ+
+X-Gm-Gg: ASbGncsxF2nqo87M6BP8thbqqsaL9t1jYmEg3QSdWvF/c/WIbO4AYQHanHpF4U7ZJTo
+	R9CMpdob+5K2IzTaDwoiaU7lh0w/hu8vx+/yFfRSA6bzS+Unn9fjdRUe9KSAodsCOtK226lO7qJ
+	Sn6EcNODsnAA9AElMlhU2EqrjA+HNjGzNX2NgY7f2HasuY/dehVPeF94nhU7ckwv4JfO8I84tdv
+	5ui+6ev7qWEBnigOPvCl3ZDQLVG0mp3BpngtqFJNagsuSOrXFpgi3kZCY121xjFYguzsQHGv7/O
+	vpGbQXxQ2sNrPGE=
+X-Google-Smtp-Source: AGHT+IHpxAHAI0f9Cr24tNS6jOzBKv+3mGRu+Z9H6Txpc480qOR0dPNsaiR/3XasB7O8AH8S5J5ulzFL0knik9fmYsk=
+X-Received: by 2002:a05:6214:600f:b0:882:4987:360 with SMTP id
+ 6a1803df08f44-882498705a3mr75490586d6.62.1762791915502; Mon, 10 Nov 2025
+ 08:25:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] mm: set the VM_MAYBE_GUARD flag on guard region
- install
-Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
-References: <cover.1762531708.git.lorenzo.stoakes@oracle.com>
- <99ce6131e27592c92b43ac866da48b4c2a568298.1762531708.git.lorenzo.stoakes@oracle.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <99ce6131e27592c92b43ac866da48b4c2a568298.1762531708.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lwn.net,redhat.com,oracle.com,kernel.org,google.com,suse.com,goodmis.org,efficios.com,suse.de,nvidia.com,linux.alibaba.com,arm.com,linux.dev,vger.kernel.org,kvack.org,gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RL37wz1aou84on4nnr4peu14t5)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
+From: Alexander Potapenko <glider@google.com>
+Date: Mon, 10 Nov 2025 17:24:38 +0100
+X-Gm-Features: AWmQ_blSpUzzxuUgQTtcq9gjImncZd1NpVlVJACeWgHgjGc0p5BSkakhSm40GYM
+Message-ID: <CAG_fn=Ut9JUpStLiO+GsoBpn3d_EyyttcuBby=EKzuxkKdcKcw@mail.gmail.com>
+Subject: Re: [PATCH v6 10/18] x86/mm: Physical address comparisons in fill_p*d/pte
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
+	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
+	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, 
+	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, 
+	baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, 
+	wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, 
+	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, 
+	ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
+	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, 
+	mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, 
+	thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, 
+	jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, 
+	mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, 
+	vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, 
+	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, 
+	ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, 
+	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, 
+	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, 
+	rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/7/25 17:11, Lorenzo Stoakes wrote:
-> Now we have established the VM_MAYBE_GUARD flag and added the capacity to
-> set it atomically, do so upon MADV_GUARD_INSTALL.
-> 
-> The places where this flag is used currently and matter are:
-> 
-> * VMA merge - performed under mmap/VMA write lock, therefore excluding
->   racing writes.
-> 
-> * /proc/$pid/smaps - can race the write, however this isn't meaningful as
->   the flag write is performed at the point of the guard region being
->   established, and thus an smaps reader can't reasonably expect to avoid
->   races. Due to atomicity, a reader will observe either the flag being set
->   or not. Therefore consistency will be maintained.
-> 
-> In all other cases the flag being set is irrelevant and atomicity
-> guarantees other flags will be read correctly.
-> 
-> Note that non-atomic updates of unrelated flags do not cause an issue with
-> this flag being set atomically, as writes of other flags are performed
-> under mmap/VMA write lock, and these atomic writes are performed under
-> mmap/VMA read lock, which excludes the write, avoiding RMW races.
-> 
-> Note that we do not encounter issues with KCSAN by adjusting this flag
-> atomically, as we are only updating a single bit in the flag bitmap and
-> therefore we do not need to annotate these changes.
-> 
-> We intentionally set this flag in advance of actually updating the page
-> tables, to ensure that any racing atomic read of this flag will only return
-> false prior to page tables being updated, to allow for serialisation via
-> page table locks.
-> 
-> Note that we set vma->anon_vma for anonymous mappings. This is because the
-> expectation for anonymous mappings is that an anon_vma is established
-> should they possess any page table mappings. This is also consistent with
-> what we were doing prior to this patch (unconditionally setting anon_vma on
-> guard region installation).
-> 
-> We also need to update retract_page_tables() to ensure that madvise(...,
-> MADV_COLLAPSE) doesn't incorrectly collapse file-backed ranges contain
-> guard regions.
-> 
-> This was previously guarded by anon_vma being set to catch MAP_PRIVATE
-> cases, but the introduction of VM_MAYBE_GUARD necessitates that we check
-> this flag instead.
-> 
-> We utilise vma_flag_test_atomic() to do so - we first perform an optimistic
-> check, then after the PTE page table lock is held, we can check again
-> safely, as upon guard marker install the flag is set atomically prior to
-> the page table lock being taken to actually apply it.
-> 
-> So if the initial check fails either:
-> 
-> * Page table retraction acquires page table lock prior to VM_MAYBE_GUARD
->   being set - guard marker installation will be blocked until page table
->   retraction is complete.
-> 
-> OR:
-> 
-> * Guard marker installation acquires page table lock after setting
->   VM_MAYBE_GUARD, which raced and didn't pick this up in the initial
->   optimistic check, blocking page table retraction until the guard regions
->   are installed - the second VM_MAYBE_GUARD check will prevent page table
->   retraction.
-> 
-> Either way we're safe.
-> 
-> We refactor the retraction checks into a single
-> file_backed_vma_is_retractable(), there doesn't seem to be any reason that
-> the checks were separated as before.
-> 
-> Note that VM_MAYBE_GUARD being set atomically remains correct as
-> vma_needs_copy() is invoked with the mmap and VMA write locks held,
-> excluding any race with madvise_guard_install().
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
-Small nit below:
-
-> @@ -1778,15 +1801,16 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
->  			spin_lock_nested(ptl, SINGLE_DEPTH_NESTING);
->  
->  		/*
-> -		 * Huge page lock is still held, so normally the page table
-> -		 * must remain empty; and we have already skipped anon_vma
-> -		 * and userfaultfd_wp() vmas.  But since the mmap_lock is not
-> -		 * held, it is still possible for a racing userfaultfd_ioctl()
-> -		 * to have inserted ptes or markers.  Now that we hold ptlock,
-> -		 * repeating the anon_vma check protects from one category,
-> -		 * and repeating the userfaultfd_wp() check from another.
-> +		 * Huge page lock is still held, so normally the page table must
-> +		 * remain empty; and we have already skipped anon_vma and
-> +		 * userfaultfd_wp() vmas.  But since the mmap_lock is not held,
-> +		 * it is still possible for a racing userfaultfd_ioctl() or
-> +		 * madvise() to have inserted ptes or markers.  Now that we hold
-> +		 * ptlock, repeating the anon_vma check protects from one
-> +		 * category, and repeating the userfaultfd_wp() check from
-> +		 * another.
-
-The last part of the comment is unchanged and mentions anon_vma check and
-userfaultfd_wp() check which were there explicitly originally, but now it's
-a file_backed_vma_is_retractable() check that also includes the guard region
-check, so maybe could be updated?
-
->  		 */
-> -		if (likely(!vma->anon_vma && !userfaultfd_wp(vma))) {
-> +		if (likely(file_backed_vma_is_retractable(vma))) {
->  			pgt_pmd = pmdp_collapse_flush(vma, addr, pmd);
->  			pmdp_get_lockless_sync();
->  			success = true;
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 67bdfcb315b3..de918b107cfc 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1139,15 +1139,21 @@ static long madvise_guard_install(struct madvise_behavior *madv_behavior)
->  		return -EINVAL;
->  
->  	/*
-> -	 * If we install guard markers, then the range is no longer
-> -	 * empty from a page table perspective and therefore it's
-> -	 * appropriate to have an anon_vma.
-> -	 *
-> -	 * This ensures that on fork, we copy page tables correctly.
-> +	 * Set atomically under read lock. All pertinent readers will need to
-> +	 * acquire an mmap/VMA write lock to read it. All remaining readers may
-> +	 * or may not see the flag set, but we don't care.
-> +	 */
-> +	vma_flag_set_atomic(vma, VM_MAYBE_GUARD_BIT);
+On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
+<m.wieczorretman@pm.me> wrote:
+>
+> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>
+> Calculating page offset returns a pointer without a tag. When comparing
+> the calculated offset to a tagged page pointer an error is raised
+> because they are not equal.
+>
+> Change pointer comparisons to physical address comparisons as to avoid
+> issues with tagged pointers that pointer arithmetic would create. Open
+> code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
+> Because one parameter is always zero and the rest of the function
+> insides are enclosed inside __va(), removing that layer lowers the
+> complexity of final assembly.
+>
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+> Changelog v2:
+> - Open code *_offset() to avoid it's internal __va().
+>
+>  arch/x86/mm/init_64.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 0e4270e20fad..2d79fc0cf391 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -269,7 +269,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long vad=
+dr)
+>         if (pgd_none(*pgd)) {
+>                 p4d_t *p4d =3D (p4d_t *)spp_getpage();
+>                 pgd_populate(&init_mm, pgd, p4d);
+> -               if (p4d !=3D p4d_offset(pgd, 0))
 > +
-> +	/*
-> +	 * If anonymous and we are establishing page tables the VMA ought to
-> +	 * have an anon_vma associated with it.
->  	 */
-> -	err = anon_vma_prepare(vma);
-> -	if (err)
-> -		return err;
-> +	if (vma_is_anonymous(vma)) {
-> +		err = anon_vma_prepare(vma);
-> +		if (err)
-> +			return err;
-> +	}
->  
->  	/*
->  	 * Optimistically try to install the guard marker pages first. If any
+> +               if (__pa(p4d) !=3D (pgtable_l5_enabled() ?
+> +                                 __pa(pgd) :
+> +                                 (unsigned long)pgd_val(*pgd) & PTE_PFN_=
+MASK))
 
+Did you test with both 4- and 5-level paging?
+If I understand correctly, p4d and pgd are supposed to be the same
+under !pgtable_l5_enabled().
