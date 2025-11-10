@@ -1,422 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD46E303A22
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 13:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C9A30E858
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 13:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762780853; cv=none; b=V6lElmtY4kCa9F/KJxq2hFsV5s4RXaxkp+jOBCT1tZeC6zmq4r6MxqAjqzqO41f8BVqh60lxzq7xt/unokgEBACTJkj5Fr1NRhf+WD6Fq/6aoeVXs4UNqWMTZA8+2ZF15rBtsJzgh7p2iu5sK1V4EP00lpvUOHvc7F85FU++hO4=
+	t=1762782618; cv=none; b=U9ZNoUefLjW37YB5IsQvg3iTcJ9ep0k719Y3q0UNTI5/RJX1VzmD0ZI6M+2ru1dqvX7YduyNIpfoMPIMAeWBFQrmWGTjYPuZMLDknCrbeJFgnxHAHlPVoMRDkwHX+gsstwgpigx0DpcNc1IfKiQSHtvyPHxJOPm1odzOh81AB88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762780853; c=relaxed/simple;
-	bh=vEBH9XPc2rKbCjMaVjOOuA3NRcebjaC+ZlxyGTwiRu8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jsp6KdAxe+FStufbg8oh4d2Tr5RpDazkLKE2wezgtugEOE2Fteq/R/bsY0C3lxSWSid/igKvNRVO5MuYHDfHxW0C4RAselJTlc3OA0Fzhw1IXqpD9YADA1k4S4vZXy8uzIi4JXClTHdR7mQUMv5Q9rHJALXf1HuP8OOHChAz5fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SALqeAnv; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UJeyGfTc; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762782618; c=relaxed/simple;
+	bh=Z2GcdcHLSBPyJMV4Z1quXuXSj4IHiZox4TXxVh4RwU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/Br3HE+q++HcQNm0c+/s+J1Oz6tSadKqIXt7PXmp17moj/4+Hkc6T5AcAnJLj0QGQDoNcQ73rxNJv12+RuQfEFgI1L3KlHJkVQF/0CmuVm42i46yFwRET/DpEhSsf1JEGRh3DVEfGutd7RTVyKYXNqKy2qMfi56AE3YgZG5hOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bnwUw4s4; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SALqeAnv";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UJeyGfTc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762780850;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
-	b=SALqeAnvicRZgRuMq6VsXc1UhXdD07tryneCy7IflZ8GOId3OrhbERjgHB1FpSJzZEvK7b
-	o3HnqgcJM6PzlpAQ1Ezdx1rpWsFt8klS04RD4dqSeZFQslwnt0+xzUGTtnrMbg0vNAEvE1
-	sKVe+w90xMAMPsC1EonB13aEeFNV8sE=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-4WDC0blrOqiOL0Bv9zHoRw-1; Mon, 10 Nov 2025 08:20:49 -0500
-X-MC-Unique: 4WDC0blrOqiOL0Bv9zHoRw-1
-X-Mimecast-MFC-AGG-ID: 4WDC0blrOqiOL0Bv9zHoRw_1762780848
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-63e1d6438e0so960919d50.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 05:20:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bnwUw4s4"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so20369215e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 05:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762780848; x=1763385648; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
-        b=UJeyGfTczElG5yyCN77yurFDXqLR5BCV1UNRgs4y3d5VhWDbG3oQIo+lSZpEmkw8yh
-         FNEheOC+r1ODmEZuE6NWzI1Dn8Mp+OAUpWHpIVl2LBrpTcNyEyVo+54zg/tl90SgdNTL
-         cVVZOlO0UlZZWU8o59mcYwy5YIQJUNQozSmXmgk+IKgSsBwmCFOnU1upqQDmijupoK91
-         4kN8AAx5CbKvOXgf+O+U82sVL8i+TfVzC+BT4mYorolSsMFJ2SXrcrTpXE/xmld/JuJI
-         Lf3If5QlsTyBPDIhvRgKEwUmRuxwUTk2RHlJWZcVN1fTFJjtQqAibh6KcSf4iYjzpSPZ
-         j4Gw==
+        d=suse.com; s=google; t=1762782614; x=1763387414; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tCs1YwS37zjMEsWnDzmEV/JMvwyL1fiKF8eAfxcvVZM=;
+        b=bnwUw4s4sThlYanFH58caHNcesysUXuk2S+0Vpgj4pW9LBZQLQBwJ+ViyTca6zvith
+         +dUOylNOB7oUfsNfDf/wm22jZB/tG4+feDi8t/RSQCxRuZe5YoW8kFh3CUkqJ/J3x9qa
+         iV3x2NrH8ptPvAfqgVucKkGxsyLmSaYp69YSionh1rpwDLixr2AQl+O/U6BJCO05wher
+         aWCdJGfSyO8Xc9a3UsEHRiFuFn/fvAfvZVBeQiHSchgPs1FIbHcjHP02tiawRdHUccDg
+         aU6H5GbGHNGUsgiVJsAmgsguknYvYehi0EG/J0Vw5HWXNVHBGiqjZ2qVAkdpz3zc8RVx
+         jygw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762780848; x=1763385648;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
-        b=ik+MNyMnFwqP7WVr2l61hZJaTEnf5iuZ/tQKmagOS1A9amfrwuY9NA6wAaa+qHt73b
-         8hvoG0wMYucBE3sq+f27zOZglvPQHQAsoNEDfiEeCPCz/+M50eymVLbFqxvhhYKGZ3Eu
-         M6MGg+5h7lsgqeWKHQtAE4DjKvsfj4o9OR5pZ+6Zu/OwwvG+J+c83v1xDCSuSaHUJBo1
-         raUhlRa6VY48S3xppEIEtRG+AaeXn95L3rPp86odQvPa4CJ/7AzMiSC+QTNhaVuj7Ip1
-         zng/G5RIasMpBS5zVlQrHMKZ8DptyWR8sMvbjKEcocvYKXMSMrGieWZvyXC1D/+Y2n7H
-         ZpaA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAseTg6KSDPNICY22/CPs4VnYMO+CBzEHh+NSjUMTA4xNPHOz1Tw7QVRYi0izvbTpe51nk5+TSQks=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1orD9mA/Xf+gTNovINO7uRO55ch+PZpuYZGsZNbArBGjysa/O
-	+j3FEb7qvkzH7Sb4EbTAkPRLz+Zu+036fjhM0Id7pK3OVRTnsE8xn6k9RyFnOmkgCh6b+gWMO7T
-	0BfxVxzL3uIpI1yoiGICBhJhuOBr7Flz0XljoIlmZmYXzNrvCAdv0Kq/j8SYnpIE9wlN6ksyJHv
-	79R3O/yyPkGfFUvVuQ2IaLmYFHBH1odvwIiU4n
-X-Gm-Gg: ASbGncvN489xjPy3ac+7LdfnBatFNJD/6sa9ry01ScSdGZ6amVxomM9LbD3ObTOu4Sb
-	dtyav7ciCfXSTS1NBMklIXQC1wsp5VDnkYDzsV/7Kul6qQKjxtJv0gfR9rGv3Fv2YDkDrTOb4cP
-	oIIoqpmeaXiCT26Day/HtOkxhMVp+WZNRWwIYQdcxv15OkP2AM/spolp89RKMJTzpteyKQww==
-X-Received: by 2002:a05:690e:4294:10b0:63e:2269:42eb with SMTP id 956f58d0204a3-640d45e44c7mr6043614d50.45.1762780848421;
-        Mon, 10 Nov 2025 05:20:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHTRQESUUA3UUwtC2W4YtCmQg9mhvjmQTjoTx734yFEd98HC1RArMhT0g1T28Uas2i8mqc5JggC/bkNFhlknoM=
-X-Received: by 2002:a05:690e:4294:10b0:63e:2269:42eb with SMTP id
- 956f58d0204a3-640d45e44c7mr6043563d50.45.1762780847954; Mon, 10 Nov 2025
- 05:20:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762782614; x=1763387414;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tCs1YwS37zjMEsWnDzmEV/JMvwyL1fiKF8eAfxcvVZM=;
+        b=cnoe3KtHl4Wa/fSuJ2P0EOOL0+dEE78R0jUSKOXP9aCuZVl2YR3OTZ27cp0Wl4JFNB
+         RtCUESgqZpWcaA20vpFjL5OQpTATn6I/CxeIRia6BVx+3AK6kW+JFTovh2scsBzjYfFa
+         E2C6xtA3nXGpzVCT5iHSqtnVBWW9DheMrUXV4SkKfWlHK9o/ih6mP1SXa21Fsq5VOuM8
+         w3uAfLek2reb7P/TslOq2lhBhpkeQ1QYMytaAMxWspgv+x3gawvC0gMQ892tQAIOw+Y2
+         v5l2sPrtrLL4GuMWztIZFdpIeWObrGoUTM7kwF0PUu7VGepBGhvzzRsEZxZWMt4HX41G
+         LGFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKIvqfIqAUOUE+BW4s7sMPNINStDD7bHIrNSkWc06tTEqwIhQgDSv37KdCv9wxF7wf9qHy85o5XTg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEsrajuTF6GPpQyfMnocUhDOFbWdlxmKcYQVRA01VAe5lkcCES
+	3mcE3N1pDavpEVLklqjFl4JfewBG0Cg2SK2f4jWbk8dFBPM04887cbwPAni6nZcXifU=
+X-Gm-Gg: ASbGncsKP+xBnXBIdRCXzRKgMMsqf1xcPxc1BFhOWHb/ZVmkiVCx0dtzhhkp5GwkDSd
+	15IFV3OXMFPp+3VI9achxoK2gY76YeRk5KzHMx5n+cTokYteq5S6gcYi+QAgRxMx1a1zXSW5Biu
+	vRaibKfwfwKlLXxTgjt71vD8xa08n26uD8Asdac0DAadb+v3MdFHd5nblMd7WSkLEdmjeAhJYK5
+	RWg43BES+nQwZWxiwBJhMWkLPa7FKcgzPZ/3Oh7HDbLKeUYvjXOdHu2v6HgPiLEKMKHFqPL09xW
+	aL0mkIjLEJjhQDfb5G3iLKdXgsLZhjJ2IJ9gAEbcK0B5UUSDb6+fSWy8hW1YnK9m6pldN8CSi12
+	KBE/ji8RN0pL9uneWobXThx8NsQdR26dwYuA181OoaS/p7WUEH2vLHdx6kvPlvbK33xOAoahXzA
+	uDUnqzq6xNh5bWRGUU9Qi8H646mmnN/Ek=
+X-Google-Smtp-Source: AGHT+IFbwuDPMH0i3HrzOH4fQgag2ujLMbEc53k+8Ky8ZYKaeuvXAQUWa6E5cujElbmdZf149UMenA==
+X-Received: by 2002:a05:600c:3511:b0:475:e007:bae0 with SMTP id 5b1f17b1804b1-4777323ec8fmr52334305e9.16.1762782613605;
+        Mon, 10 Nov 2025 05:50:13 -0800 (PST)
+Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2dd927c9sm15613706f8f.27.2025.11.10.05.50.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 05:50:13 -0800 (PST)
+Date: Mon, 10 Nov 2025 14:50:11 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Leon Huang Fu <leon.huangfu@shopee.com>
+Cc: linux-mm@kvack.org, tj@kernel.org, hannes@cmpxchg.org, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	muchun.song@linux.dev, akpm@linux-foundation.org, joel.granados@kernel.org, 
+	jack@suse.cz, laoar.shao@gmail.com, mclapinski@google.com, kyle.meyer@hpe.com, 
+	corbet@lwn.net, lance.yang@linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
+ on-demand stats flushing
+Message-ID: <ewcsz3553cd6ooslgzwbubnbaxwmpd23d2k7pw5s4ckfvbb7sp@dffffjvohz5b>
+References: <20251110101948.19277-1-leon.huangfu@shopee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251022183717.70829-1-npache@redhat.com> <20251022183717.70829-6-npache@redhat.com>
- <c006138d-6d12-4f91-8a06-da279ae3795a@lucifer.local>
-In-Reply-To: <c006138d-6d12-4f91-8a06-da279ae3795a@lucifer.local>
-From: Nico Pache <npache@redhat.com>
-Date: Mon, 10 Nov 2025 06:20:21 -0700
-X-Gm-Features: AWmQ_blTm6w8ib4f4NzgbzKAoQLgTz4lR-RJcVNY7GnUdXc1WfEKmfLTDuAagMs
-Message-ID: <CAA1CXcBefDp4hzU6-jLf6XEWEaZaaX4SdCN0awxm1qz9RAWQFg@mail.gmail.com>
-Subject: Re: [PATCH v12 mm-new 05/15] khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
-	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
-	sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
-	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
-	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
-	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
-	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
-	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
-	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="elrbjxmejfczykla"
+Content-Disposition: inline
+In-Reply-To: <20251110101948.19277-1-leon.huangfu@shopee.com>
+
+
+--elrbjxmejfczykla
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
+ on-demand stats flushing
+MIME-Version: 1.0
 
-On Mon, Oct 27, 2025 at 10:02=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Wed, Oct 22, 2025 at 12:37:07PM -0600, Nico Pache wrote:
-> > generalize the order of the __collapse_huge_page_* functions
-> > to support future mTHP collapse.
-> >
-> > mTHP collapse will not honor the khugepaged_max_ptes_shared or
-> > khugepaged_max_ptes_swap parameters, and will fail if it encounters a
-> > shared or swapped entry.
-> >
-> > No functional changes in this patch.
-> >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Acked-by: David Hildenbrand <david@redhat.com>
-> > Co-developed-by: Dev Jain <dev.jain@arm.com>
-> > Signed-off-by: Dev Jain <dev.jain@arm.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
->
-> Thanks for addressing the v10 stuff (didn't check at v11).
->
-> Overall LGTM, so:
->
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Hello Leon.
 
-Thanks!
->
-> Few minor nits below.
->
-> > ---
-> >  mm/khugepaged.c | 78 ++++++++++++++++++++++++++++++-------------------
-> >  1 file changed, 48 insertions(+), 30 deletions(-)
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 36ee659acfbb..4ccebf5dda97 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -537,25 +537,25 @@ static void release_pte_pages(pte_t *pte, pte_t *=
-_pte,
-> >  }
-> >
-> >  static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
-> > -                                     unsigned long start_addr,
-> > -                                     pte_t *pte,
-> > -                                     struct collapse_control *cc,
-> > -                                     struct list_head *compound_pageli=
-st)
-> > +             unsigned long start_addr, pte_t *pte, struct collapse_con=
-trol *cc,
-> > +             unsigned int order, struct list_head *compound_pagelist)
->
-> This series isn't the right place for it, but god do we need helper struc=
-ts in
-> this code... :)
+On Mon, Nov 10, 2025 at 06:19:48PM +0800, Leon Huang Fu <leon.huangfu@shope=
+e.com> wrote:
+> Memory cgroup statistics are updated asynchronously with periodic
+> flushing to reduce overhead. The current implementation uses a flush
+> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
+> determining when to aggregate per-CPU memory cgroup statistics. On
+> systems with high core counts, this threshold can become very large
+> (e.g., 64 * 256 =3D 16,384 on a 256-core system), leading to stale
+> statistics when userspace reads memory.stat files.
+>=20
+> This is particularly problematic for monitoring and management tools
+> that rely on reasonably fresh statistics, as they may observe data
+> that is thousands of updates out of date.
+>=20
+> Introduce a new write-only file, memory.stat_refresh, that allows
+> userspace to explicitly trigger an immediate flush of memory statistics.
 
-Well we have collapse_control! I can spend some time in a follow up
-series to better leverage this struct.
+I think it's worth thinking twice when introducing a new file like
+this...
 
->
-> >  {
-> >       struct page *page =3D NULL;
-> >       struct folio *folio =3D NULL;
-> >       unsigned long addr =3D start_addr;
-> >       pte_t *_pte;
-> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
-enced =3D 0;
-> > +     const unsigned long nr_pages =3D 1UL << order;
-> > +     int max_ptes_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDE=
-R - order);
->
-> Nit, but we should const-ify this too.
+> Writing any value to this file forces a synchronous flush via
+> __mem_cgroup_flush_stats(memcg, true) for the cgroup and all its
+> descendants, ensuring that subsequent reads of memory.stat and
+> memory.numa_stat reflect current data.
+>=20
+> This approach follows the pattern established by /proc/sys/vm/stat_refresh
+> and memory.peak, where the written value is ignored, keeping the
+> interface simple and consistent with existing kernel APIs.
+>=20
+> Usage example:
+>   echo 1 > /sys/fs/cgroup/mygroup/memory.stat_refresh
+>   cat /sys/fs/cgroup/mygroup/memory.stat
+>=20
+> The feature is available in both cgroup v1 and v2 for consistency.
 
-This gets converted to collapse_max_ptes_none in the future.
+First, I find the motivation by the testcase (not real world) weak when
+considering such an API change (e.g. real world would be confined to
+fewer CPUs or there'd be other "traffic" causing flushes making this a
+non-issue, we don't know here).
 
->
-> >
-> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
-> > +     for (_pte =3D pte; _pte < pte + nr_pages;
-> >            _pte++, addr +=3D PAGE_SIZE) {
-> >               pte_t pteval =3D ptep_get(_pte);
-> >               if (pte_none_or_zero(pteval)) {
-> >                       ++none_or_zero;
-> >                       if (!userfaultfd_armed(vma) &&
-> >                           (!cc->is_khugepaged ||
-> > -                          none_or_zero <=3D khugepaged_max_ptes_none))=
- {
-> > +                          none_or_zero <=3D max_ptes_none)) {
-> >                               continue;
-> >                       } else {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> > @@ -583,8 +583,14 @@ static int __collapse_huge_page_isolate(struct vm_=
-area_struct *vma,
-> >               /* See collapse_scan_pmd(). */
-> >               if (folio_maybe_mapped_shared(folio)) {
-> >                       ++shared;
-> > -                     if (cc->is_khugepaged &&
-> > -                         shared > khugepaged_max_ptes_shared) {
-> > +                     /*
-> > +                      * TODO: Support shared pages without leading to =
-further
-> > +                      * mTHP collapses. Currently bringing in new page=
-s via
-> > +                      * shared may cause a future higher order collaps=
-e on a
-> > +                      * rescan of the same range.
-> > +                      */
->
-> Yeah, I wish we could find a way to address this in some other way but gi=
-ven the
-> mire of THP code putting this comment here for now is probably the only s=
-ensible
-> way.
->
-> > +                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
-ged &&
-> > +                         shared > khugepaged_max_ptes_shared)) {
-> >                               result =3D SCAN_EXCEED_SHARED_PTE;
-> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
-);
-> >                               goto out;
-> > @@ -677,18 +683,18 @@ static int __collapse_huge_page_isolate(struct vm=
-_area_struct *vma,
-> >  }
-> >
-> >  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
-> > -                                             struct vm_area_struct *vm=
-a,
-> > -                                             unsigned long address,
-> > -                                             spinlock_t *ptl,
-> > -                                             struct list_head *compoun=
-d_pagelist)
-> > +             struct vm_area_struct *vma, unsigned long address,
-> > +             spinlock_t *ptl, unsigned int order,
-> > +             struct list_head *compound_pagelist)
-> >  {
-> > -     unsigned long end =3D address + HPAGE_PMD_SIZE;
-> > +     unsigned long end =3D address + (PAGE_SIZE << order);
-> >       struct folio *src, *tmp;
-> >       pte_t pteval;
-> >       pte_t *_pte;
-> >       unsigned int nr_ptes;
-> > +     const unsigned long nr_pages =3D 1UL << order;
-> >
-> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR; _pte +=3D nr_ptes,
-> > +     for (_pte =3D pte; _pte < pte + nr_pages; _pte +=3D nr_ptes,
-> >            address +=3D nr_ptes * PAGE_SIZE) {
-> >               nr_ptes =3D 1;
-> >               pteval =3D ptep_get(_pte);
-> > @@ -741,13 +747,11 @@ static void __collapse_huge_page_copy_succeeded(p=
-te_t *pte,
-> >  }
-> >
-> >  static void __collapse_huge_page_copy_failed(pte_t *pte,
-> > -                                          pmd_t *pmd,
-> > -                                          pmd_t orig_pmd,
-> > -                                          struct vm_area_struct *vma,
-> > -                                          struct list_head *compound_p=
-agelist)
-> > +             pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> > +             unsigned int order, struct list_head *compound_pagelist)
-> >  {
-> >       spinlock_t *pmd_ptl;
-> > -
-> > +     const unsigned long nr_pages =3D 1UL << order;
-> >       /*
-> >        * Re-establish the PMD to point to the original page table
-> >        * entry. Restoring PMD needs to be done prior to releasing
-> > @@ -761,7 +765,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
-*pte,
-> >        * Release both raw and compound pages isolated
-> >        * in __collapse_huge_page_isolate.
-> >        */
-> > -     release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
-> > +     release_pte_pages(pte, pte + nr_pages, compound_pagelist);
-> >  }
-> >
-> >  /*
-> > @@ -781,16 +785,16 @@ static void __collapse_huge_page_copy_failed(pte_=
-t *pte,
-> >   */
-> >  static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
-> >               pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> > -             unsigned long address, spinlock_t *ptl,
-> > +             unsigned long address, spinlock_t *ptl, unsigned int orde=
-r,
-> >               struct list_head *compound_pagelist)
-> >  {
-> >       unsigned int i;
-> >       int result =3D SCAN_SUCCEED;
-> > -
-> > +     const unsigned long nr_pages =3D 1UL << order;
-> >       /*
-> >        * Copying pages' contents is subject to memory poison at any ite=
-ration.
-> >        */
-> > -     for (i =3D 0; i < HPAGE_PMD_NR; i++) {
-> > +     for (i =3D 0; i < nr_pages; i++) {
-> >               pte_t pteval =3D ptep_get(pte + i);
-> >               struct page *page =3D folio_page(folio, i);
-> >               unsigned long src_addr =3D address + i * PAGE_SIZE;
-> > @@ -809,10 +813,10 @@ static int __collapse_huge_page_copy(pte_t *pte, =
-struct folio *folio,
-> >
-> >       if (likely(result =3D=3D SCAN_SUCCEED))
-> >               __collapse_huge_page_copy_succeeded(pte, vma, address, pt=
-l,
-> > -                                                 compound_pagelist);
-> > +                                                 order, compound_pagel=
-ist);
-> >       else
-> >               __collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
-> > -                                              compound_pagelist);
-> > +                                              order, compound_pagelist=
-);
-> >
-> >       return result;
-> >  }
-> > @@ -985,13 +989,12 @@ static int check_pmd_still_valid(struct mm_struct=
- *mm,
-> >   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
-> >   */
-> >  static int __collapse_huge_page_swapin(struct mm_struct *mm,
-> > -                                    struct vm_area_struct *vma,
-> > -                                    unsigned long start_addr, pmd_t *p=
-md,
-> > -                                    int referenced)
-> > +             struct vm_area_struct *vma, unsigned long start_addr,
-> > +             pmd_t *pmd, int referenced, unsigned int order)
->
-> Nit, super nit really, but since other __collapse_huge_page_*() functions=
- have
-> ..., order, param) as their last parameters, perhaps worth flipping refer=
-enced +
-> order here?
->
-> Not a big deal though.
->
-> >  {
-> >       int swapped_in =3D 0;
-> >       vm_fault_t ret =3D 0;
-> > -     unsigned long addr, end =3D start_addr + (HPAGE_PMD_NR * PAGE_SIZ=
-E);
-> > +     unsigned long addr, end =3D start_addr + (PAGE_SIZE << order);
-> >       int result;
-> >       pte_t *pte =3D NULL;
-> >       spinlock_t *ptl;
-> > @@ -1022,6 +1025,19 @@ static int __collapse_huge_page_swapin(struct mm=
-_struct *mm,
-> >               if (!is_swap_pte(vmf.orig_pte))
-> >                       continue;
-> >
-> > +             /*
-> > +              * TODO: Support swapin without leading to further mTHP
-> > +              * collapses. Currently bringing in new pages via swapin =
-may
-> > +              * cause a future higher order collapse on a rescan of th=
-e same
-> > +              * range.
-> > +              */
->
-> Same comment as above re: this, i.e. that it's a pity but probably unavoi=
-dable
-> for now.
->
-> > +             if (order !=3D HPAGE_PMD_ORDER) {
-> > +                     pte_unmap(pte);
-> > +                     mmap_read_unlock(mm);
-> > +                     result =3D SCAN_EXCEED_SWAP_PTE;
-> > +                     goto out;
-> > +             }
-> > +
-> >               vmf.pte =3D pte;
-> >               vmf.ptl =3D ptl;
-> >               ret =3D do_swap_page(&vmf);
-> > @@ -1142,7 +1158,7 @@ static int collapse_huge_page(struct mm_struct *m=
-m, unsigned long address,
-> >                * that case.  Continuing to collapse causes inconsistenc=
-y.
-> >                */
-> >               result =3D __collapse_huge_page_swapin(mm, vma, address, =
-pmd,
-> > -                                                  referenced);
-> > +                                                  referenced, HPAGE_PM=
-D_ORDER);
-> >               if (result !=3D SCAN_SUCCEED)
-> >                       goto out_nolock;
-> >       }
-> > @@ -1190,6 +1206,7 @@ static int collapse_huge_page(struct mm_struct *m=
-m, unsigned long address,
-> >       pte =3D pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
-> >       if (pte) {
-> >               result =3D __collapse_huge_page_isolate(vma, address, pte=
-, cc,
-> > +                                                   HPAGE_PMD_ORDER,
-> >                                                     &compound_pagelist)=
-;
-> >               spin_unlock(pte_ptl);
-> >       } else {
-> > @@ -1220,6 +1237,7 @@ static int collapse_huge_page(struct mm_struct *m=
-m, unsigned long address,
-> >
-> >       result =3D __collapse_huge_page_copy(pte, folio, pmd, _pmd,
-> >                                          vma, address, pte_ptl,
-> > +                                        HPAGE_PMD_ORDER,
-> >                                          &compound_pagelist);
-> >       pte_unmap(pte);
-> >       if (unlikely(result !=3D SCAN_SUCCEED))
-> > --
-> > 2.51.0
-> >
->
+Second, this is open to everyone (non-root) who mkdir's their cgroups.
+Then why not make it the default memory.stat behavior? (Tongue-in-cheek,
+but [*].)
 
+With this change, we admit the implementation (async flushing) and leak
+it to the users which is hard to take back. Why should we continue doing
+any implicit in-kernel flushing afterwards?
+
+Next, v1 and v2 haven't been consistent since introduction of v2 (unlike
+some other controllers that share code or even cftypes between v1 and
+v2). So I'd avoid introducing a new file to V1 API.
+
+When looking for analogies, I admittedly like memory.reclaim's
+O_NONBLOCK better (than /proc/sys/vm/stat_refresh). That would be an
+argument for flushing by default mentioned abovee [*]).
+
+Also, this undercuts the hooking of rstat flushing into BPF. I think the
+attempts were given up too early (I read about the verifier vs
+seq_file). Have you tried bypassing bailout from
+__mem_cgroup_flush_stats via trace_memcg_flush_stats?
+
+
+All in all, I'd like to have more backing data on insufficiency of (all
+the) rstat optimizations before opening explicit flushes like this
+(especially when it's meant to be exposed by BPF already).
+
+Thanks,
+Michal
+
+
+
+--elrbjxmejfczykla
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaRHthRsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AjIDgD8D7HBEqfD01sGDIReAADc
+4pTJ2AD2pY2UoeiHwekZY7MA/0iGiNuZJTf1Sq2EA+RVWF9MNs3x64m7LutLmfib
+iBcM
+=PZ8F
+-----END PGP SIGNATURE-----
+
+--elrbjxmejfczykla--
