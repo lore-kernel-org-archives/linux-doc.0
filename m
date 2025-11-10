@@ -1,143 +1,86 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394C62EB873;
-	Mon, 10 Nov 2025 08:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7622FDC5D;
+	Mon, 10 Nov 2025 08:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762762102; cv=none; b=MWBktgKqlN5gnvbAYyf4XZLyCYfClkZYUFPUYtWrXIb6u6djBuGrxWnVeCRRip3Ja/HhhfbLLHHSq/Qn3XkaRR37BFOccTslD9JJdBkhjKRxRwIypmq5Eij9coeMMBwaqjQHMQOlIehSY8oY6TBH3ZzsX7tQiAwUPj4WtWxfBM0=
+	t=1762764551; cv=none; b=PKpL7p3KvFvdw1J2ypBzKBZno+TAc8ihBJbx9UZ2S4FpI615pN261Hv9h1llqNZufIqBn45DdX73Xf+ONYJpyUCaUiiBKXfr2MR2P9HgANfWHXH6uhjaoLzGbOVU0dQQBWX8BMMk52X7yN80+ArAizzOMMiQ63HT+2WV1ATV7zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762762102; c=relaxed/simple;
-	bh=v0X/J4cPDjV+cbfu68TlzUS6UzjbmwxEl0uNZ5CTxek=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ly6vQ1kpedjNz2zQrDhI5RRHGGm6vuYlS0U4jnRVipkF6HVgBf5cpfuZiiHb6f91k6nsiWbQ+Kp+fcyRS+A5tM4a8g6ecM26jIFNcuU/5OdIPUTAK6YJRx/JeR+Mv5QoTznfpLEJb8tPxn5GJxBd8d7GMEAprBZ4O54+/lPb27c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 6757c348be0c11f0a38c85956e01ac42-20251110
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_TXT, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:3d8461ef-bb1e-471c-bcc1-756f9525f13a,IP:20,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:15
-X-CID-INFO: VERSION:1.3.6,REQID:3d8461ef-bb1e-471c-bcc1-756f9525f13a,IP:20,URL
-	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:15
-X-CID-META: VersionHash:a9d874c,CLOUDID:f7e9e4057342fdce3aa8e1822724ce3a,BulkI
-	D:251110160814NU2U4R4F,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102|850,
-	TC:nil,Content:0|15|52,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 6757c348be0c11f0a38c85956e01ac42-20251110
-X-User: zhaochenguang@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <zhaochenguang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 840976373; Mon, 10 Nov 2025 16:08:13 +0800
-From: Chenguang Zhao <zhaochenguang@kylinos.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Chenguang Zhao <zhaochenguang@kylinos.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs/zh_CN: Update the Chinese translation of kbuild.rst
-Date: Mon, 10 Nov 2025 16:08:08 +0800
-Message-Id: <20251110080808.388549-1-zhaochenguang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1762764551; c=relaxed/simple;
+	bh=K9Rctm3ReW3H6cGbKXGI+5bCSvdWbsFW1FzU5qJtwVw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PwsSNQA5INlPm0HcRAJMfHU9H6b23Enoi8x5SSWdHcS69cLgYRJCxAjO4oq9NAcbt0HkKCQeuDlIe319Aay8T7jEdzI1KgOiIYd1nG+iV2OpNpsAvGyJ+pzQjJ0e+5/ZqsFSXgZE8OZ26pDnDb0PZicHuwH5cwwf6A+RLBgUzxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYBSjkqy; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYBSjkqy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762764550; x=1794300550;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=K9Rctm3ReW3H6cGbKXGI+5bCSvdWbsFW1FzU5qJtwVw=;
+  b=TYBSjkqyoo1FapuqRH3Rdp5ITzYbAXe/w1sjw7BKwiy2sGS3c5ia0wVi
+   6ofNCvhgvfJA930Zjlu65xhtxn1pH1rDaAHtmjprpaeRtDWs3MTZcHU4j
+   XTPEezMdiD8hFeqiQDrgpZ6r7PY0cKDrWWzIOUIxXqPc2NADOOtYbGZfj
+   ShpDvdA2wL8lSl087w9M9jkIwv5yMNwI3VjuawGT6706KUPO7gTe79+q5
+   2pU3wFhxZyD47mG9TEGr+kGLvIfPBYAMLVwaZL1qmggC1bFrdMj+7NPow
+   H1oE4LJZIxDChg5uEGr8Ydl+M3D0OdFUq962SFD/w6FFIA73CuIgrsJfF
+   A==;
+X-CSE-ConnectionGUID: 2wpxIAriT7CQED3ua04+NA==
+X-CSE-MsgGUID: Z8dfk9hXTNmwxZJnlLak6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="87441884"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="87441884"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 00:49:06 -0800
+X-CSE-ConnectionGUID: 9lah94tkTLqE+a5a0mFvpA==
+X-CSE-MsgGUID: UpxECGGGRiaNVWY99eIqFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="193800664"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.202])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 00:49:03 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>, Graham Roff
+ <grahamr@qti.qualcomm.com>
+Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
+Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
+In-Reply-To: <20251109232922.GA2977577@ax162>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
+ <20251109232922.GA2977577@ax162>
+Date: Mon, 10 Nov 2025 10:48:59 +0200
+Message-ID: <82317993284703834a7b1d8d5ca05b7c646f2795@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Finish the translation of kbuild/kbuild.rst.
+On Sun, 09 Nov 2025, Nathan Chancellor <nathan@kernel.org> wrote:
+> I think it would be useful to have a slightly more concrete example in
+> the documentation of where this could be useful because even with the
+> "if" syntax, it still feels a little confusing to me at least with the
+> current example. Since this is just internally converting "depends on A
+> if B" to "depends on A || !B", this seems like a low risk addition to
+> the Kconfig language but it would be good to have some tests under
+> scripts/kconfig/tests like the ones recently added by commit
+> f9afce4f32e9 ("kconfig: Add transitional symbol attribute for migration
+> support") upstream.
 
-Update to commit 5cbfb4da7e06 ("kbuild: doc: improve
-KBUILD_BUILD_TIMESTAMP documentation")
+"depends on A || !A" (or A=n) is the most common pattern in Kconfig,
+which literally means "depends on A if A".
 
-Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
----
-v3:
- Update Chinese translation to the last commit of kbuild/kbuild.rst
- add Chinese translation for the following commit:
-  5cbfb4da7e06 kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
-  ceff0757f5da kbuild: rust: add PROCMACROLDFLAGS
-  11b3d5175e6b kbuild: support building external modules in a separate build directory
----
- .../translations/zh_CN/kbuild/kbuild.rst      | 27 ++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+BR,
+Jani.
 
-diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-index e5e2aebe1ebc..a0415f3d8b6d 100644
---- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
-+++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-@@ -93,6 +93,16 @@ HOSTRUSTFLAGS
- -------------
- 在构建主机程序时传递给 $(HOSTRUSTC) 的额外标志。
- 
-+PROCMACROLDFLAGS
-+----------------
-+用于链接 Rust 过程宏的标志。由于过程宏是由 rustc 在构建时加载的，
-+因此必须以与当前使用的 rustc 工具链兼容的方式进行链接。
-+
-+例如，当 rustc 使用的 C 库与用户希望用于主机程序的 C 库不同时，
-+此设置会非常有用。
-+
-+如果未设置，则默认使用链接主机程序时传递的标志。
-+
- HOSTLDFLAGS
- -----------
- 链接主机程序时传递的额外选项。
-@@ -135,12 +145,18 @@ KBUILD_OUTPUT
- 指定内核构建的输出目录。
- 
- 在单独的构建目录中为预构建内核构建外部模块时，这个变量也可以指向内核输出目录。请注意，
--这并不指定外部模块本身的输出目录。
-+这并不指定外部模块本身的输出目录(使用KBUILD_EXTMOD_OUTPUT来达到这个目的)。
- 
- 输出目录也可以使用 "O=..." 指定。
- 
- 设置 "O=..." 优先于 KBUILD_OUTPUT。
- 
-+KBUILD_EXTMOD_OUTPUT
-+--------------------
-+指定外部模块的输出目录
-+
-+设置 "MO=..."优先于 KBUILD_EXTMOD_OUTPUT.
-+
- KBUILD_EXTRA_WARN
- -----------------
- 指定额外的构建检查。也可以通过在命令行传递 "W=..." 来设置相同的值。
-@@ -290,8 +306,13 @@ IGNORE_DIRS
- KBUILD_BUILD_TIMESTAMP
- ----------------------
- 将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
--（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
--内核构建某个时刻的 date 命令输出。
-+（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。例如::
-+
-+	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
-+
-+默认值是内核构建某个时刻的date命令输出。如果提供该时戳，它还用于任何initramfs
-+归档文件中的mtime字段。Initramfs mtimes是32位的，因此早于Unix纪元1970年，或
-+晚于协调世界时 (UTC)2106年2月7日6时28分15秒的日期是无效的。
- 
- KBUILD_BUILD_USER, KBUILD_BUILD_HOST
- ------------------------------------
+
 -- 
-2.25.1
-
+Jani Nikula, Intel
