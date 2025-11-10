@@ -1,130 +1,141 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD61823ABAA;
-	Mon, 10 Nov 2025 20:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0010F1A7AE3;
+	Mon, 10 Nov 2025 20:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762804844; cv=none; b=qV5nnmALa/TJnYUYWlUVXst//ii4cpMegkzQuSY/vr5y/6wxZc5cgmuQEFwjhLb0Udozo06O49xYeXR7pK43duqmj20aEzKCRyYuFmChUQr1Vn4q0aI39sM7Ku1/M4OSAhjbb9d2Ybqtbqy0RKA9XXEFBrn51L8fxSTp5nC/Xtw=
+	t=1762805138; cv=none; b=LjonZkeCBWPLLo8D4wHdKuu+98HeKUt+uo5LbKiEaLgJmUuMCp55TWrQizuuNjRpJhrLlk1ScrmUg/Ss2Qa0i/0DBIjnUHSJ+mLZclrxGerm8Iw2ZiY5H3eiF1N7QyuBJ36Ipt3kZYB13tN7maXnr0T2p2QojWwud0WnrW1DCoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762804844; c=relaxed/simple;
-	bh=x3/zNfptxWLesTC0zLnXtLKCOdpS9US28LaLU57PJYE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BOvzKw0hPGByXYdEbDj8OfJjhkfdCegi71WEH9RMhYjXLjY/5lJjtKlSZETMHLr2imt/vDJdhWAmBSzUYYTdQTTYwZH1ofYoiTesoSyCDUmHIF/EfqSbLDeyHv+y4/nLBFu8a7g5HHEjv76DiDwNqRySlaNM7VrhJ9cnLAeWXQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MvdQFh+p; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1762805138; c=relaxed/simple;
+	bh=ZIYO3CpaK6TCINhe6w8XA+pYaZFiVJ/7Kigz3C4Xd9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kbOXwzIzWNN4tYWKT3QCT1tnKuMxliDJsFJk4RQWYovXG1sry+CUN1LsXTKUjNQ/M3sJWicdFTorUpQFRPViHjsBSecfrmkpi4ziyQkPuwpQiwS6mzwnhANutgvVKWXeXaFETLFKY9Z+Kqw2i6sw0n2ObobgH0UCXCV2XNxdQrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=VTtNveK1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ehVjo0kN; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MvdQFh+p"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EC94D40AFB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762804842; bh=q4tGKQ/Buw90yug1sDXqAML16zlt1m1AKUdfO1e3XuU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MvdQFh+p7soAU+Q4EEOZVUp40TCC9BxygeHkyl0sPBwXPK6AQnUTsQhHSxB9jMPSx
-	 AIrwtaELKfZcSWiNqlazlRGh8/Hq2rZZUV2BkbFAqvj3C+ACxgOIDkVUuULoRze6qa
-	 Wf84RK+3IVFkrmBbpddmNbzKF0cwXjbBO3ceLPMxtfiDgsqC+kg72ysq+nIK7QGEzE
-	 O89awm2CQ9lB83VkLmV5pr6xe6TkZjSWEcQV6OeaU+QtJJQFD0uOUJPShwunaVJhB8
-	 JjzzhxGq0+/OKtZyzcVV68vjVhmoOKtnupiaIjD/e7v8lWzN8+Xni5fMuiKrM71nIC
-	 DRMIUyKDU2fzQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EC94D40AFB;
-	Mon, 10 Nov 2025 20:00:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
- cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst
- <dev@lankhorst.se>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
- Tejun Heo
- <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [PATCH RESEND 1/3] docs: cgroup: Explain reclaim protection target
-In-Reply-To: <20251110193638.623208-2-mkoutny@suse.com>
-References: <20251110193638.623208-1-mkoutny@suse.com>
- <20251110193638.623208-2-mkoutny@suse.com>
-Date: Mon, 10 Nov 2025 13:00:41 -0700
-Message-ID: <87wm3xwtcm.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="VTtNveK1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ehVjo0kN"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6D7811D00147;
+	Mon, 10 Nov 2025 15:05:33 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 10 Nov 2025 15:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762805133;
+	 x=1762891533; bh=LRTbnDgOZdkcWyYb0TrSsTJyowo8VQnXM0W6ONAWUts=; b=
+	VTtNveK1sP3RdPO0iA1mluhOTIezB/pxiWEOpTMtRrXpqSxqoom2HwDYk67QuWkW
+	sPYOFU9wblpXDKzCcGaz76SsbUIjzORvB2iixAZGqW2fpsMJzqP5XDSLJZuUeose
+	gUs7geKqCEZxyILKTVR1G6bjEdT1IDPI9lORfC7uU7VXjawAWvGl2cthKxtM67hg
+	2LGDVSp2fb5+OY7d95VBUt3xXcg4zmyZNGQJvu4WmoOyjyktai2rEvD59ntUSPrz
+	noD0hx+3MnVDFBYoEm291EVo6ioNy0I4iVxIt4URSUSibY5VQFYlMAenBohjrrqE
+	5M+jBIsmcKEZFKzLT7cG6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762805133; x=
+	1762891533; bh=LRTbnDgOZdkcWyYb0TrSsTJyowo8VQnXM0W6ONAWUts=; b=e
+	hVjo0kNkpXpEnjyGLa3/HioTTAA5OcK4yDT+dT+kSj8VoCNpXQicmGnR1r8kl3i4
+	n/q1SGSEgGz8mmhYlrkKrESCZwS6ZmjcXz2B3B9WVYhcun1l7NR44AgVENlnLqvu
+	a1zJZ2CuMWjHrlkgrKrx6rKTVBu03wGm/PEyRLxXjeJPUmeJkA1RNRcTv4vkR077
+	UeYkeuPv7KXX5jjN3Q3Admhq/wVV39C97HYyXRwatVk2JzsEizOnKtCy3nYrgUV0
+	f16CdLzVqw7okI7dfupJaRHAfGhXWIUe34rM5F+7RmgptMF8UZmdovDBQ67FlOmL
+	bbZtZ4jSrTcVOKqnpDH4g==
+X-ME-Sender: <xms:i0USacfcdiFukOkHlGoqV_M4dCc620hY4NSllrMdUQNN1jhyNXA0dA>
+    <xme:i0USaebmv-CqTmGTtMURt40eSNK-Wx58zPcA6lUAMFk6_sJ7kTrwfXO5-hJI7QP35
+    WOjketLVpgzAmupEQaOyA0CSU46lUmN1quCAYwRJCTFcTgJGFD4>
+X-ME-Received: <xmr:i0USaQJZE78F87doANetcSybuW5K51r7sW1QPQxDU2rb0XeXgAf-OVXV>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleelvdefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
+    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+    htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
+    hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeeffedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
+    seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
+    hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
+    ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
+    ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
+X-ME-Proxy: <xmx:i0USadiojN3-M4EVjjaRRugj8V8QuJnr5MsQlLluVx8g5hN9fuNwjw>
+    <xmx:i0USacvol4BakuBUda4qcSsYifPCPIwHmQFFbRa4tQipabSTTp737w>
+    <xmx:i0USaREDw4I87L0odND3wJ85uUDm4QaLw4uwBFQIJ-AXU7QEY82_xw>
+    <xmx:i0USaS_gEbCoj0gRiNt7PSMpEk5gV19bFOSSEZSZfZgUVR07IZj5bA>
+    <xmx:jUUSaRJMGClENgI7ttLAOXLiOuPL8ZATIaHOyPe6Y_F7QjCcID7VjG5j>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Nov 2025 15:05:29 -0500 (EST)
+Date: Mon, 10 Nov 2025 13:05:25 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251110130525.6712552b.alex@shazbot.org>
+In-Reply-To: <20251106-dmabuf-vfio-v7-10-2503bf390699@nvidia.com>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+	<20251106-dmabuf-vfio-v7-10-2503bf390699@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Michal Koutn=C3=BD <mkoutny@suse.com> writes:
-
-> The protection target is necessary to understand how effective reclaim
-> protection applies in the hierarchy.
->
-> Signed-off-by: Michal Koutn=C3=BD <mkoutny@suse.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 0e6c67ac585a0..a6def773a3072 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -53,7 +53,8 @@ v1 is available under :ref:`Documentation/admin-guide/c=
-group-v1/index.rst <cgrou
->       5-2. Memory
->         5-2-1. Memory Interface Files
->         5-2-2. Usage Guidelines
-> -       5-2-3. Memory Ownership
-> +       5-2-3. Reclaim Protection
-> +       5-2-4. Memory Ownership
-
-I always have to ask...do we really need the manually maintained TOC
-here?=20
-
->       5-3. IO
->         5-3-1. IO Interface Files
->         5-3-2. Writeback
-> @@ -1317,7 +1318,7 @@ PAGE_SIZE multiple when read back.
->  	smaller overages.
->=20=20
->  	Effective min boundary is limited by memory.min values of
-> -	all ancestor cgroups. If there is memory.min overcommitment
-> +	ancestor cgroups. If there is memory.min overcommitment
->  	(child cgroup or cgroups are requiring more protected memory
->  	than parent will allow), then each child cgroup will get
->  	the part of parent's protection proportional to its
-> @@ -1343,7 +1344,7 @@ PAGE_SIZE multiple when read back.
->  	smaller overages.
->=20=20
->  	Effective low boundary is limited by memory.low values of
-> -	all ancestor cgroups. If there is memory.low overcommitment
-> +	ancestor cgroups. If there is memory.low overcommitment
->  	(child cgroup or cgroups are requiring more protected memory
->  	than parent will allow), then each child cgroup will get
->  	the part of parent's protection proportional to its
-> @@ -1934,6 +1935,23 @@ memory - is necessary to determine whether a workl=
-oad needs more
->  memory; unfortunately, memory pressure monitoring mechanism isn't
->  implemented yet.
->=20=20
-> +Reclaim Protection
-> +~~~~~~~~~~~~~~~~~~
+On Thu,  6 Nov 2025 16:16:55 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> new file mode 100644
+> index 000000000000..cbf502b14e3c
+> --- /dev/null
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+...
 > +
-> +The protection configured with "memory.low" or "memory.min" applies rela=
-tively
-> +to the target of the reclaim (i.e. any of memory cgroup limits, proactive
-> +memory.reclaim or global reclaim apparently located in the root cgroup).
+> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+> +				  struct vfio_device_feature_dma_buf __user *arg,
+> +				  size_t argsz)
+> +{
+> +	struct vfio_device_feature_dma_buf get_dma_buf = {};
+> +	struct vfio_region_dma_range *dma_ranges;
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct vfio_pci_dma_buf *priv;
+> +	size_t length;
+> +	int ret;
 > +
-> +  root ... - A - B - C
-> +              \    ` D
-> +               ` E
+> +	if (!vdev->pci_ops->get_dmabuf_phys)
 
-This will not render properly, you want it in a literal block.  The
-easiest way is to just make the line above read:
 
-   ...located in the root cgroup)::
+vdev->pci_ops can be NULL.
 
 Thanks,
-
-jon
+Alex
