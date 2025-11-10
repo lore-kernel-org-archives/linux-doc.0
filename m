@@ -1,107 +1,109 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43522E9EBB;
-	Mon, 10 Nov 2025 19:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E02730216A
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 19:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762802719; cv=none; b=QY73gv3K8vUqYl6MMx5S1DS3QV0HnaP9mAvD33CqGAK8vPov6wITTY5suVvjRD5eqB3nM4frfQv4MVw0KbW0oyPQFlBIrDZebD1aKRUZNC1Yy2zGlB3uPwkNdj2pdRZpMA+iowR3B5+F/yu3ViZFspxE8sCC3WI2g+KQpukmgys=
+	t=1762803408; cv=none; b=G1JCetEwbB2wN8NohD+KvV3mXYCFU94tQnna/5rRvMGDxUJeJNAx7IQf1dKAhucWbfkx/28qAge8fuvCWM3ax2nb5yJvF6gWkqZ1ybO1kL9WdTjc8ZQvjO5oiP0QsxPkd90hnzNx1EHACMXchUXWq6ZGXWGGXL1TymYnaz5xot8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762802719; c=relaxed/simple;
-	bh=ndaki4c5GVx3UM4kQnMQY6/ymeewU6gsdPF4viqL8SE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P766ec3k7CfJJ+feYgZxj6k5NGcBFlo7TycIY4+RL2obCrnmuxHK6G9JDk8W/t22gWFKKBWXZdFq4BNULaUmscld5X0lprwFK01QFV0kh4a2gKxggiJg8x4IfeEdtYj4YYHyE9Y1ytibxmqQctfxVZIH7YGN8HOFZhhXz4tGMv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Xg5QVPYK; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1762803408; c=relaxed/simple;
+	bh=uOPdRM2zXUbj0uAF4/Y1KdXhAAYdQVcF5zz7omcQwNA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uOBlFyC7wSf2hRrOxVvQtreyZ6vOW0ewSeEDFjWVJLrwXBtZ0UBhJbUeb9h+hJqObZWI993hExNF5+EVoadqp7XFS9GiVjw+a47fwPdGspXqz8PYQIRPXzQZKmQlbSJTfR+s4fPdiiUxUnVtaYQOaCwY4hJIdrI9kUE2AFZqCs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=H2VjVHLy; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Xg5QVPYK"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E0CC540E01CD;
-	Mon, 10 Nov 2025 19:25:05 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id d1DZ8FveVMUe; Mon, 10 Nov 2025 19:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1762802695; bh=9gPJ2NeCfH2XobjLeNpHfi6XhOsGYwzZnRG0xt6qLMs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xg5QVPYKPNYI3wDQG3bQPfw+jsMKYywMxv1tI5Ue7vDwzysfBX2c2/jdvot4+Uap/
-	 uY99MM4ZB+9NRTleQdJOnXgJUI+zWT3YDnbOgJkA4EOT4IxmprB2ErIuUDa9nguWsd
-	 utt/ekeFE/DaEbT6ohSvpupKEkZSMYwaBoMn5+zf+u150Q49mO+zIOO3dTfHCT/8d0
-	 XXUgJfLGGH/+80iOvkoqgHo3JsJz1P67aGRnj1NBD/44BSZAfG/C4wCnJyXFM4R8VQ
-	 zrBDBcf43JVE5P3zcQXO41441lUwj9QgG9OLIm5mxfX0Gqx9Mn3KHRXkYn/ScsFkvt
-	 rp5Y7I7/0JSDGYcprbpbKKFeqgl5bctMFcydJfo9Opt9RqpzeLqDjSebg3fORtw05D
-	 4hL8KQ5G4kzRQL98ShktChOAfSAN5yfei9+C06O8YRhrzqb6f8+BdmHkrUf7ouHSYD
-	 O40hrV0jrDWN5SmtVIDBNAmv9RiVGFVQhH3muQ8oZhidqUZR+3mAO7Cumi9io+A2Lk
-	 cz1GYUtwR0kjACJDOicxa1dfvyIgz3RYIepvMvyLj9xnfMdJGnvn7OsKXOoX2KZZ+4
-	 bky77zEA+W40ORt8nQKivtUmHxqfTECI/1l02qebTvC6SE88NMlGW9w3/4P/gpTe5/
-	 oPQV9gAlDlQMt4Sed3Jcge8o=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 59F6B40E019F;
-	Mon, 10 Nov 2025 19:24:29 +0000 (UTC)
-Date: Mon, 10 Nov 2025 20:24:22 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH v11 4/9] x86/alternatives: Disable LASS when patching
- kernel code
-Message-ID: <20251110192422.GBaRI75huOXoUSmoDt@fat_crate.local>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-5-sohil.mehta@intel.com>
- <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="H2VjVHLy"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47728f914a4so20265455e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:36:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1762803403; x=1763408203; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YDpt0zy7PtnsCd6fKg/NI/I37lccoSys25WO0LkUemM=;
+        b=H2VjVHLyJvbeTUJmvaX6D1/Mk5MMIzvGOzaQ0YqgDPSWmjLUWywvO7mHfVQVCldqig
+         FdYnboyQqE7doRR1hyBJx7CVkbvbgNsg3Xz1/fkOoodMaZhFarOWw3geJOxwLGXTnTKc
+         funqi5dWl05SbdIRZ2bWB0GgackLEXXsk8XSH9QPK5PTY5ZXIlOY0v1S2pKYcBi0KZL9
+         u4LEJt1P6dfaUAMwXJgZaVwVN4c4jei3eQes4nZ7cX4eV5mPjJ39f7JcXcm0LqCMkwTK
+         Nll6ntBK/xDWfEyF7iBtf+rK2TOlIfemg+tIQDboywb39uqAWYHQ1QdTCgE5vtqmRosW
+         Axxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762803403; x=1763408203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YDpt0zy7PtnsCd6fKg/NI/I37lccoSys25WO0LkUemM=;
+        b=BGpTqzgNapsUKNMeQdvijEUfeKJr1/FLvTus0NjCScuEkRVSjLsxZ9dHYZobqCXDjA
+         IdY9Zc15hrtv7whNQkQqCMeAeWrbWKUxS6hDN3VyMaslMHOo2D5/JDGldjrhEKQXFoVd
+         JZ3li4PzAhzB+TRB/wogPhv0GF2KHmRNuLgX6DO2EmRnZPAJ8YLU7E/A1f677yFp8afm
+         5MvIxiSEbtuFsxd1APzj0K4zU9ejmnosOtQCubfWw1esi7LXhSfrGJUp9PghCPqovOZd
+         oNCPYEy1Ox2jovqyxoBsQfRujgJVFa3LahHOvxPqZFlrpGWIDdgZlEKcsIO7U6SPB53V
+         UZkQ==
+X-Gm-Message-State: AOJu0YxI6xOnOswJvB8Flys0YsNqAhCFfGFkz4jZ3qR7Zg/ZsTN6dKEU
+	phGLfM1mbX0O088EQDOALvEHqCUVAr9nyn9Mm1Az3wFr2HmC/6WL0owwfL5qanAhzNwyTFZAiic
+	DmKaR
+X-Gm-Gg: ASbGncsny+EX++f0wsv9f+odTzGdUoHXgM6b7dun69bl5zpe75baMwKVEDNHRayhb16
+	P/GKHKv4h9M/VFlparcoukoiZtMEbsg/sLXLcfOa5b6uHSP0fHURdL48/SvfrF/qa77jNXa+Zfh
+	hGN1ZXR5xZZN/Q52OFiVjM1OTy7M7T1w+fUd+bfzvyGTriSlQBqjztpoU9uFe7XLEMidSX+pv4R
+	G6KxsmOs8OUUjNMco2PzBRSq8HEwcJXkaXXORpqY1uqyt98uxzsm/1FBIodGQMQhD078ETjIHym
+	bkJDZl1yiatJjDzDBshgZ3t0J1FI8RQgHVBucbRPgSTL/Q1hQLWK7M8/znq5mBNBS71JFIr8GEq
+	ISJEmVHdyMZbTRrj/Fvp8fgAKcuHBy4REBn86itZRkK7sM4nXttIqp4Qc1eoyKOq1PrSoPkxhRe
+	032dCRrXs/a5DlBAtJXaWAXm+O7sATrOM=
+X-Google-Smtp-Source: AGHT+IHeuLkKSsH8AzcRusY4bSGEmMJr+yCrFo1Kif3KcLfYiwCAAN+hODaeTCLagsz7hdm8X9yqTQ==
+X-Received: by 2002:a05:600c:3b01:b0:46d:ba6d:65bb with SMTP id 5b1f17b1804b1-47773288bf9mr97918675e9.31.1762803403412;
+        Mon, 10 Nov 2025 11:36:43 -0800 (PST)
+Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775ce32653sm336766725e9.13.2025.11.10.11.36.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 11:36:43 -0800 (PST)
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Cc: Natalie Vock <natalie.vock@gmx.de>,
+	Maarten Lankhorst <dev@lankhorst.se>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH RESEND 0/3] Memory reclaim documentation fixes
+Date: Mon, 10 Nov 2025 20:36:32 +0100
+Message-ID: <20251110193638.623208-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 10, 2025 at 10:15:23AM -0800, Sohil Mehta wrote:
-> lass_clac()/_stac():
-> 	Disable enforcement for kernel data accesses similar to SMAP.
-> 
-> lass_enable()/_disable():
-> 	Disable the entire LASS mechanism (Data and instruction fetch)
-> 	by toggling CR4.LASS
-> 
-> Would that work? Any other suggestions?
+I think the reclaim target is a concept that is not just an
+implementation detail and hence it should be documented how it applies
+to protection configuration (the first patch). Second patch is a "best
+practice" bit of information, it may be squashed with the first one. The
+last patch just makes docs indefinite until the idea is implemented.
 
-Sure, as long as they're documented. And if we decide to change them later for
-whatever reason, we can. More than enough bikeshedding we did here.
+Originally sent in [1], this is rebased and resent since I still think
+it'd be good to have the concept somewhere documented. (E.g. for the
+guys who are implementing protection for the dmem controller [2] to
+arrive at similar behavior.)
 
-Thx.
+[1] https://lore.kernel.org/lkml/20200729140537.13345-1-mkoutny@suse.com/
+[2] https://lore.kernel.org/r/20251110-dmemcg-aggressive-protect-v3-5-219ffcfc54e9@gmx.de
 
+Michal Koutný (3):
+  docs: cgroup: Explain reclaim protection target
+  docs: cgroup: Note about sibling relative reclaim protection
+  docs: cgroup: No special handling of unpopulated memcgs
+
+ Documentation/admin-guide/cgroup-v2.rst | 31 ++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 6 deletions(-)
+
+
+base-commit: 1c353dc8d962de652bc7ad2ba2e63f553331391c
 -- 
-Regards/Gruss,
-    Boris.
+2.51.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
