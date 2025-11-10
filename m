@@ -1,177 +1,143 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1FC238C2F
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 06:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394C62EB873;
+	Mon, 10 Nov 2025 08:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762756686; cv=none; b=WYrDiRvFsuTJ1+zZVyoXmFJKY+yVTu0bjoTjgrFqJtn3QHjwg3vUJd8i2Q78Qk+/xTIo8LHDfQj8bfOPvQTEmZ/pR8uR7qRxWxhOB5keojN5CyOItBCq7lsAn3v9YK69fFOwc1rpklsKN2DWZrmoL0OJM/aP45fr+F/dRndkKys=
+	t=1762762102; cv=none; b=MWBktgKqlN5gnvbAYyf4XZLyCYfClkZYUFPUYtWrXIb6u6djBuGrxWnVeCRRip3Ja/HhhfbLLHHSq/Qn3XkaRR37BFOccTslD9JJdBkhjKRxRwIypmq5Eij9coeMMBwaqjQHMQOlIehSY8oY6TBH3ZzsX7tQiAwUPj4WtWxfBM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762756686; c=relaxed/simple;
-	bh=SUHfIg5GhQcEfjnNTSceZJLkDCfTBJb7plnlPtngbCM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IxOCQrY90fVvu62Aiv5sUUNxMEXmte58/FX0TEBPmJgDiRosiucfcjKf6Z3s+7CIsB/xGqAYidH2ezielOGEALcdQqbMFk1vxF9jkpEpoIPXvxdrBGH/pJ6K4L7LpSDCrwyvZJhyV495qtgADycW6QrIoO6g/urqaKuOoC9Bx74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=R5HCuqlb; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="R5HCuqlb"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7b4933bc4bbso446488b3a.1
-        for <linux-doc@vger.kernel.org>; Sun, 09 Nov 2025 22:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762756684; x=1763361484; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wmBVMknsz67ut23E5K5rufi/vJYxx4RPQjR4CpqkZ2E=;
-        b=R5HCuqlbWU2edYGODcWV1pi669v3q6rHIrHoX+G2fxwUP3JOwpuWcweyOYq+KC6pZx
-         Tuptkc8bqnK1emYqAJFUfBXzY+w/+LP2E0SmggulAymi/WlLPSv27GTf/o6GolG/+Cv9
-         b+AFFQZ6ClEk6Xr8tCMXv+cwTBaXaYgi4ZtGmX3dTUhlEn+N39q2np1IUoBNNoMLljaW
-         7mPnV4CNZeR0gf/KQdScareM35zLA3VxKx2QGMXfZ2eZYMtJewhWm5CJvNK8YdB+JpYU
-         nAZ+Du3uO9wYXsY6pTspPRbJ31iDNhY+cboi4MQkjfMCF+XmYxpu207RQdxdUs7Rd8w0
-         kNlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762756684; x=1763361484;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wmBVMknsz67ut23E5K5rufi/vJYxx4RPQjR4CpqkZ2E=;
-        b=MFdii6ooeAqCIYxRFzfYMopVyOrKp7qeW/0n25FEGkTug6D0Y8/2ubrAc32UyXjK9p
-         +Y83PZih7qlk3rLgotIXJMttCIcVFdCTJGpotMvDKYBay3IR58a2KDc7vAmM1Ej0S9U9
-         EvofGthMERZagP6SdB1OnpA9f7TgrJBNl7LZn5m46ZjMFo4reAMd8be7xY5AhWRdgjDi
-         pUaFHj/C1v97XVvj5Rv1mSxMDmnrpDPr1f61IeFgnPdOt8webLwTh926553HzcyPeE1+
-         rh8x0YqaP9d0aUJbhmuOcIkQ9vGIaWQY1mfVHd1cNYN4XE8thnT0zJKL22EyI7KxCjPK
-         ACxg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEZ1HBiAwL/v6kOuJK3bGocw4k29ksm1eq0N1eIYfQ/BzKQ4wla+7L3rvlzKmhA5XYIzLsQElS1LE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVXhl/UzQFgPCp1mRdJ1Snw188NeuAqqdcpKV42k0uKBJ4lAN4
-	MsYoTL2bnQQEH1suon7tL0Jn+PnghgZpmX1jfqRTMaUya5mV4fmzGSublIczepl3gNk=
-X-Gm-Gg: ASbGnct6dq+6SdEhwUKSgLdepsGOUpQM5W9m+BUeyvejltUb5s6e/8RRhho7XndGX7Z
-	YrO4rFMwVTbUwnlib69jSjuc1TUPBE/8UiEIa1UmtFPi1NOES/S/clyxuZvcfdXQ+BRl59CxCH1
-	1ixHsyjLM1sHlbNFTaLxEvHBVr0eUGacqly9YIieKJsEjjHBF5/dkGXwuHJBamFtSv7D+sfTxgQ
-	xdAN2BjzANzWNpdpaeAcGFSnGkLHjtfUl9UXPwt+54ZWqkwjCDnBNEwTY229Fm4d9NIDziTaRF5
-	iyom8nECvJnGKQN0Mc5F7nh8zCvoR/G7RMNPPEvS7ma7aIlhu0h22ZU1zspgfUrW4XK0GplBV1c
-	5zd0JyCk9NTY2+2NLMo9GpCJ9ziOj34e7IO5/SwV8W5UTljMm5HC8MsMMYPFQnftTRWjlnPme4m
-	OfzDwFdWD0P2dAEQ==
-X-Google-Smtp-Source: AGHT+IGpM2iMSrs4WgXitoPVDoGbl0s8jdXiEXMRW0CSHSXbsOrMNjve/Ihdvic39TubC73LXbxmTQ==
-X-Received: by 2002:a05:6a00:1a8e:b0:78a:f6be:74f2 with SMTP id d2e1a72fcca58-7b218103464mr9344608b3a.5.1762756683995;
-        Sun, 09 Nov 2025 22:38:03 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0cc17a688sm10609451b3a.40.2025.11.09.22.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 22:38:03 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: shakeel.butt@linux.dev
-Cc: akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	hannes@cmpxchg.org,
-	inwardvessel@gmail.com,
-	jack@suse.cz,
-	joel.granados@kernel.org,
-	kyle.meyer@hpe.com,
-	lance.yang@linux.dev,
-	laoar.shao@gmail.com,
-	leon.huangfu@shopee.com,
+	s=arc-20240116; t=1762762102; c=relaxed/simple;
+	bh=v0X/J4cPDjV+cbfu68TlzUS6UzjbmwxEl0uNZ5CTxek=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ly6vQ1kpedjNz2zQrDhI5RRHGGm6vuYlS0U4jnRVipkF6HVgBf5cpfuZiiHb6f91k6nsiWbQ+Kp+fcyRS+A5tM4a8g6ecM26jIFNcuU/5OdIPUTAK6YJRx/JeR+Mv5QoTznfpLEJb8tPxn5GJxBd8d7GMEAprBZ4O54+/lPb27c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 6757c348be0c11f0a38c85956e01ac42-20251110
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_TXT, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:3d8461ef-bb1e-471c-bcc1-756f9525f13a,IP:20,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:15
+X-CID-INFO: VERSION:1.3.6,REQID:3d8461ef-bb1e-471c-bcc1-756f9525f13a,IP:20,URL
+	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:15
+X-CID-META: VersionHash:a9d874c,CLOUDID:f7e9e4057342fdce3aa8e1822724ce3a,BulkI
+	D:251110160814NU2U4R4F,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102|850,
+	TC:nil,Content:0|15|52,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
+	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 6757c348be0c11f0a38c85956e01ac42-20251110
+X-User: zhaochenguang@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <zhaochenguang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 840976373; Mon, 10 Nov 2025 16:08:13 +0800
+From: Chenguang Zhao <zhaochenguang@kylinos.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Chenguang Zhao <zhaochenguang@kylinos.cn>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mclapinski@google.com,
-	mhocko@kernel.org,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	yosry.ahmed@linux.dev
-Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
-Date: Mon, 10 Nov 2025 14:37:57 +0800
-Message-ID: <20251110063757.86725-1-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <blygjeudtqyxk7bhw5ycveofo4e322nycxyvupdnzq3eg7qtpo@cya4bifb2dlk>
-References: <blygjeudtqyxk7bhw5ycveofo4e322nycxyvupdnzq3eg7qtpo@cya4bifb2dlk>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs/zh_CN: Update the Chinese translation of kbuild.rst
+Date: Mon, 10 Nov 2025 16:08:08 +0800
+Message-Id: <20251110080808.388549-1-zhaochenguang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 7, 2025 at 7:56 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
->
-> On Thu, Nov 06, 2025 at 11:30:45AM +0800, Leon Huang Fu wrote:
-> > On Thu, Nov 6, 2025 at 9:19 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> > >
-> > > +Yosry, JP
-> > >
-> > > On Wed, Nov 05, 2025 at 03:49:16PM +0800, Leon Huang Fu wrote:
-> > > > On high-core count systems, memory cgroup statistics can become stale
-> > > > due to per-CPU caching and deferred aggregation. Monitoring tools and
-> > > > management applications sometimes need guaranteed up-to-date statistics
-> > > > at specific points in time to make accurate decisions.
-> > >
-> > > Can you explain a bit more on your environment where you are seeing
-> > > stale stats? More specifically, how often the management applications
-> > > are reading the memcg stats and if these applications are reading memcg
-> > > stats for each nodes of the cgroup tree.
-> > >
-> > > We force flush all the memcg stats at root level every 2 seconds but it
-> > > seems like that is not enough for your case. I am fine with an explicit
-> > > way for users to flush the memcg stats. In that way only users who want
-> > > to has to pay for the flush cost.
-> > >
-> >
-> > Thanks for the feedback. I encountered this issue while running the LTP
-> > memcontrol02 test case [1] on a 256-core server with the 6.6.y kernel on XFS,
-> > where it consistently failed.
-> >
-> > I was aware that Yosry had improved the memory statistics refresh mechanism
-> > in "mm: memcg: subtree stats flushing and thresholds" [2], so I attempted to
-> > backport that patchset to 6.6.y [3]. However, even on the 6.15.0-061500-generic
-> > kernel with those improvements, the test still fails intermittently on XFS.
-> >
-> > I've created a simplified reproducer that mirrors the LTP test behavior. The
-> > test allocates 50 MiB of page cache and then verifies that memory.current and
-> > memory.stat's "file" field are approximately equal (within 5% tolerance).
-> >
-> > The failure pattern looks like:
-> >
-> >   After alloc: memory.current=52690944, memory.stat.file=48496640, size=52428800
-> >   Checks: current>=size=OK, file>0=OK, current~=file(5%)=FAIL
-> >
-> > Here's the reproducer code and test script (attached below for reference).
-> >
-> > To reproduce on XFS:
-> >   sudo ./run.sh --xfs
-> >   for i in {1..100}; do sudo ./run.sh --run; echo "==="; sleep 0.1; done
-> >   sudo ./run.sh --cleanup
-> >
-> > The test fails sporadically, typically a few times out of 100 runs, confirming
-> > that the improved flush isn't sufficient for this workload pattern.
->
-> I was hoping that you have a real world workload/scenario which is
-> facing this issue. For the test a simple 'sleep 2' would be enough.
-> Anyways that is not an argument against adding an inteface for flushing.
->
+Finish the translation of kbuild/kbuild.rst.
 
-Fair point. I haven't encountered a production issue yet - this came up during
-our kernel testing phase on high-core count servers (224-256 cores) before
-deploying to production.
+Update to commit 5cbfb4da7e06 ("kbuild: doc: improve
+KBUILD_BUILD_TIMESTAMP documentation")
 
-The LTP test failure was the indicator that prompted investigation. While
-adding 'sleep 2' would fix the test, it highlights a broader concern: on these
-high-core systems, the batching threshold (MEMCG_CHARGE_BATCH * num_online_cpus)
-can accumulate 14K-16K events before auto-flush, potentially causing significant
-staleness for workloads that need timely statistics.
+Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
+---
+v3:
+ Update Chinese translation to the last commit of kbuild/kbuild.rst
+ add Chinese translation for the following commit:
+  5cbfb4da7e06 kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
+  ceff0757f5da kbuild: rust: add PROCMACROLDFLAGS
+  11b3d5175e6b kbuild: support building external modules in a separate build directory
+---
+ .../translations/zh_CN/kbuild/kbuild.rst      | 27 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
-We're planning to deploy container workloads on these servers where memory
-statistics drive placement and resource management decisions. Having an explicit
-flush interface would give us confidence that when precision matters (e.g.,
-admission control, OOM decisions), we can get accurate stats on demand rather
-than relying on timing or hoping the 2-second periodic flush happens when needed.
+diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+index e5e2aebe1ebc..a0415f3d8b6d 100644
+--- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
++++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+@@ -93,6 +93,16 @@ HOSTRUSTFLAGS
+ -------------
+ 在构建主机程序时传递给 $(HOSTRUSTC) 的额外标志。
+ 
++PROCMACROLDFLAGS
++----------------
++用于链接 Rust 过程宏的标志。由于过程宏是由 rustc 在构建时加载的，
++因此必须以与当前使用的 rustc 工具链兼容的方式进行链接。
++
++例如，当 rustc 使用的 C 库与用户希望用于主机程序的 C 库不同时，
++此设置会非常有用。
++
++如果未设置，则默认使用链接主机程序时传递的标志。
++
+ HOSTLDFLAGS
+ -----------
+ 链接主机程序时传递的额外选项。
+@@ -135,12 +145,18 @@ KBUILD_OUTPUT
+ 指定内核构建的输出目录。
+ 
+ 在单独的构建目录中为预构建内核构建外部模块时，这个变量也可以指向内核输出目录。请注意，
+-这并不指定外部模块本身的输出目录。
++这并不指定外部模块本身的输出目录(使用KBUILD_EXTMOD_OUTPUT来达到这个目的)。
+ 
+ 输出目录也可以使用 "O=..." 指定。
+ 
+ 设置 "O=..." 优先于 KBUILD_OUTPUT。
+ 
++KBUILD_EXTMOD_OUTPUT
++--------------------
++指定外部模块的输出目录
++
++设置 "MO=..."优先于 KBUILD_EXTMOD_OUTPUT.
++
+ KBUILD_EXTRA_WARN
+ -----------------
+ 指定额外的构建检查。也可以通过在命令行传递 "W=..." 来设置相同的值。
+@@ -290,8 +306,13 @@ IGNORE_DIRS
+ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ 将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
+-（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
+-内核构建某个时刻的 date 命令输出。
++（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。例如::
++
++	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
++
++默认值是内核构建某个时刻的date命令输出。如果提供该时戳，它还用于任何initramfs
++归档文件中的mtime字段。Initramfs mtimes是32位的，因此早于Unix纪元1970年，或
++晚于协调世界时 (UTC)2106年2月7日6时28分15秒的日期是无效的。
+ 
+ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+ ------------------------------------
+-- 
+2.25.1
 
-I understand this is more of a "preparing for future needs" rather than "fixing
-current production breakage" situation. However, given the interface provides
-opt-in control with no cost to users who don't need it, I believe it's a
-reasonable addition. I'll prepare a v3 with the dedicated memory.stat_refresh
-file as suggested.
-
-Thanks,
-Leon
