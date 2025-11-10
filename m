@@ -1,139 +1,167 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B492FE07F;
-	Mon, 10 Nov 2025 14:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A58A31354C
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 14:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762785583; cv=none; b=OP3ONRBSJcKWrNrJ3k9igYYcgQbaDrol4hDHIQgc9cLUk/oGJTnnpLRKzGDvDYJ+DQVp+9vscXAPeFIyJAxR19rtgXvqcQqQduAUWuiK5X3c9D4jlBmNwkCZWGE6IW3uPbpn8BuCBbHbNqknG3JGqaWuHwTOTUbDZz1+AJaDVuI=
+	t=1762786095; cv=none; b=CNjmf20RQDbc2Lwf4OsHcbQT521EwXBLYMKOSQHPnjmEJ/WKsh/XzaAKLLTdTieUMll7j4bpkYhz997IP8uROW81E4cde2Ps2PfB2ydCCQwa9lMudVlIX8l749GSvgI2i/BJlOc/ueFxgwDtO+/q0OVS1OoFbphanKzjATkdtbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762785583; c=relaxed/simple;
-	bh=PmfHj5puT5EuJo5jMH3r8sbaCa9NbA7iIIBw3q5tS7U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y1JF2q/LAVuk8zCh2TBt8WZ4gZJHNepY7IeZM0X5scVsMFdMOycFXrCrywyRhAC2Q54a0GHgyXnwtDOYPvDO04zdNuFF2LFGXJD7vofpCoKl5/Qaj3QtD4jRETtkj6U5pzWgeQxeBP1AER1zIB/42HEdDKSiRAueJJ8PD8LF63s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fq/6bZr3; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1762786095; c=relaxed/simple;
+	bh=LPHuH34GPzz+FS33GWGiucjUVrgKTliQiQDa8mDrPto=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ivl7eDXXik1h1tiCQBKMoC3I4ipAs390xvggZULMKZf1V038wM3hPWQiY8fvBsApsVZq8xqp3jDpfRbMnN8qgSi0ZvG9G/RPI+I+5XF43rH/eTSx54wIdKYNHFffmnEnY49KRR77bd4UNuEjFdVaZKD7fv4W18FbCx+GD/zaAY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mrKtTsa/; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fq/6bZr3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1762785579;
-	bh=PmfHj5puT5EuJo5jMH3r8sbaCa9NbA7iIIBw3q5tS7U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fq/6bZr3AF2h2wkMNGSn1bXsocPuQEeBd+ezF2avzPXvHo/lvHsrcNC+tZbS8E5Iq
-	 xkJB4+am2a5IfxqIp+ehb9NPVKFSgvleVHdn4CivlgZRwnuPF9SnL8ajyR0NknfvP2
-	 s7xp9Kqk+2jipyZbRtQfHx9eyAwAhm/ABmTkeAkIjdOiTtc2+8qqtYFcn7QauIky0J
-	 qi2AkZfthvSdYWmtrRTHuQs5oTa836l4Rwoz4pKgCE7iGHMIdDFb3F2YXgGACOPt1d
-	 jxQdyUfGkeW7/htZh8Ig5e8reM+6vEQVZbJRkW4WM4vf5Ct5o9PibWgvFUQrFyq3hO
-	 0R67ZlTin9JNA==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 17CAE17E0610;
-	Mon, 10 Nov 2025 15:39:38 +0100 (CET)
-Message-ID: <e19cdd3a-0d33-4c06-9c9a-7e9e2df51c4b@collabora.com>
-Date: Mon, 10 Nov 2025 15:39:37 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrKtTsa/"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47774d3536dso14246195e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 06:48:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762786091; x=1763390891; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=LPHuH34GPzz+FS33GWGiucjUVrgKTliQiQDa8mDrPto=;
+        b=mrKtTsa/Waj1IsC00cI2/hZIW3lo0cdVW7+7mKXNZtIH+0sINwOiud66lJSMlFl8Lu
+         NSegLjc9zyP/bcP4NLVFR+4+B28aocJbymeEVpNYIbBcsutZQCOQepec8dkpVYrvGMMg
+         vP+gWyegzSO6Zm46s12EwF/AS1aPcASDEhAbjNhtXu+VnvZIkkwucFIKSr53XwvFrGgv
+         NB4YEX7XTSmGkCo646UzXMp1x9zuSfLEZxGD6WKGX9nyKeuh5fRJodobCLquBl+JTgPp
+         wwdufxIdXyE5kBIOol8fdoGRNht5nrMPZLv/YUhJ44ekIqC0gx5/7SsFRRcZmrROyzsE
+         0Hiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762786091; x=1763390891;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LPHuH34GPzz+FS33GWGiucjUVrgKTliQiQDa8mDrPto=;
+        b=ogrblSpkZCy8GNyBWJx+Xt+9e9l7r7qRVIe/cD10LLOgEMGquUVsK4uw5iJzma1EER
+         EO8vvbgd583q7PKaAwPgSr2mDBKOb4L2s5z+VqCtUd4oT8F+154sxIxXxl2+PPig6m5o
+         AJkjnYmpW1x6P2ZBSKMzyaQkVMbqNDt+5+50hnAOSiuTCVzwzj8dZxap5VXdtVbhopua
+         aHdyaXDV3jIW+7gD7Ac2sJGjVzcEJBw9c4/tu8VBuuRaRjLIJ2Omtt6snHx+Y4L5S0s6
+         Sf1fN+lGgitAa7WOq+JyZt75I1s9CxAXDptSQhfAmXr4r9+wz/Ny27ot7z38R8Vgxvju
+         kYyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUelDv2N93zm+OZeMMJ0ZpJ5OY0OxDVQvJu5efvRoRDLTb7mJ3v8IhhAaqW6Up2BvJVZhkgJOj5YmI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0lGNj00NTbmsgSRiqG9gVmFywc0u2qHWcDzhw9rwL2nbXGREF
+	CD8VyedlSEK7mcoRDJNdxWFmed6WFMzbZv6WpUy81gWDB26nZ3GWKjgy
+X-Gm-Gg: ASbGncvjYKRTgpHJmD0luC32kh+43NlRwLbPt7MCM9z5UbPO0WM3PXgm0xSYs3C4Ltn
+	UYzWXhwK8I90Lte+7x7dt9IJT9QkXKvtjw93wGmr6HOJHyOop0/lnQD0D86tzPrH2NVrzfYTsVT
+	k4SwJ4LUUSuktlAspXZLCDcXR4P0nwfyOAhCXNTNyZ8JjSBROr/gSaq6kK3W10ATP+zsmk2FmWy
+	EKNn1nDr4UubUOB4tYGXLI0YUERc/ExxQMVjwN7ayhgHmM3wRVsHoA/FqIPO12MP/LcW758IKQk
+	qABxHYMoH0Uw5HAphP5IeqU+kEvjAIHK+vP/S9MavfaZuECifC6nsHb+g8Q28iqNEeWSk48FJ/R
+	h7lHH7gXO0PDO9rCoqe15hglbiH6KOuVEafLH6jcON3ZPa4XffVwS/nkN4zekKc8YR1K24+19g2
+	L03TE3d233AJfqURBU/zA=
+X-Google-Smtp-Source: AGHT+IFyyPGi2h2HdORU5Y7qZAm0mzvGdm657Ujj5pRLIdfkz1ikPx4AlWnK/vjsN3l+QNuYFG0dhA==
+X-Received: by 2002:a05:600c:a30d:b0:471:ea1:a460 with SMTP id 5b1f17b1804b1-4776dcbe68cmr86535255e9.11.1762786090588;
+        Mon, 10 Nov 2025 06:48:10 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2e052f32sm15817388f8f.17.2025.11.10.06.48.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 06:48:10 -0800 (PST)
+Message-ID: <5e0ea52e6a77a1d6af861ba5aaeeea5c3d514705.camel@gmail.com>
+Subject: Re: [PATCH v1 0/3] iio: adc: Add AD4134 minimum I/O support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+ andy@kernel.org, 	Michael.Hennerich@analog.com, robh@kernel.org,
+ krzk+dt@kernel.org, 	conor+dt@kernel.org, corbet@lwn.net,
+ cosmin.tanislav@analog.com, 	marcelo.schmitt1@gmail.com
+Date: Mon, 10 Nov 2025 14:48:46 +0000
+In-Reply-To: <cover.1762777931.git.marcelo.schmitt@analog.com>
+References: <cover.1762777931.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/13] drm/shmem-helper: Map huge pages in fault
- handlers
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
- <20251015153018.43735-4-loic.molinari@collabora.com>
- <aO_ZmA6yoqbzTKt9@casper.infradead.org>
- <f564735b-7cbd-486c-9dd4-a4555e73edde@collabora.com>
- <aPK4YwMmYTDsKHcL@casper.infradead.org>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <aPK4YwMmYTDsKHcL@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Matthew,
+On Mon, 2025-11-10 at 09:44 -0300, Marcelo Schmitt wrote:
+> This patch series adds basic support for ad4134. AD4134 is a very flexibl=
+e
+> device that can be configured in many different ways. This series aims to
+> support the simplest way of interfacing with AD4134 which is called minim=
+um I/O
+> mode in data sheet. This is essentially usual SPI with the addition of an=
+ ODR
+> (Output Data Rate) GPIO which functions as conversion start signal in min=
+imum
+> I/O mode. The CS pin may be connected to a host controller CS pin or grou=
+nded.
+>=20
+> This set provides just one feature:
+> - Single-shot ADC sample read.
+>=20
+> [PATCH 1] Device tree documentation for AD4134.
+> [PATCH 2] IIO Linux driver for AD4134.
+> [PATCH 3] Initial IIO documentation.
+>=20
+> There is a driver by Cosmin on ADI Linux tree that supports AD4134 in wir=
+ing
+> configurations suited for high speed data transfers. Even though the mini=
+mum I/O
+> support was initialy based on that high speed transfer driver, the result=
+ ended
+> up becoming entirely different. Also, because the different wiring
+> configurations are likely going to use different resources and software
+> interfaces, the code for AD4134 support was split into ad4134-spi.c,
+> ad4134-common.h, and ad4134-common.c.
 
-On 17/10/2025 23:42, Matthew Wilcox wrote:
-> On Thu, Oct 16, 2025 at 01:17:07PM +0200, Loïc Molinari wrote:
->>> It looks to me like we have an opportunity to do better here by
->>> adding a vmf_insert_pfns() interface.  I don't think we should delay
->>> your patch series to add it, but let's not forget to do that; it can
->>> have very good performnce effects on ARM to use contptes.
->>
->> Agreed. I initially wanted to provide such an interface based on set_ptes()
->> to benefit from arm64 contptes but thought it'd better be a distinct patch
->> series.
-> 
-> Agreed.
-> 
->>>
->>>> @@ -617,8 +645,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->>> [...]
->>>> -		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
->>>> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
->>>> +		ret = VM_FAULT_NOPAGE;
->>>> +		goto out;
->>>>    	}
->>>
->>> Does this actually work?
->>
->> Yes, it does. Huge pages are successfully mapped from both map_pages and
->> fault handlers. Anything wrong with it?
-> 
-> No, I just wasn't sure that this would work correctly.
-> 
->> There seems to be an another issue thought. There are failures [1], all
->> looking like that one [2]. I think it's because map_pages is called with the
->> RCU read lock taken and the DRM GEM map_pages handler must lock the GEM
->> object before accessing pages with dma_resv_lock(). The locking doc says:
->> "If it's not possible to reach a page without blocking, filesystem should
->> skip it.". Unlocking the RCU read lock in the handler seems wrong and doing
->> without a map_pages implementation would be unfortunate. What would you
->> recommend here?
-> 
-> I'm not familiar with GEM locking, so let me describe briefly how
-> pagecache locking works.
-> 
-> Calling mmap bumps the refcount on the inode.  That keeps the inode
-> around while the page fault handler runs.  For each folio, we
-> get a refcount on it, then we trylock it.  Then we map each page in the
-> folio.
-> 
-> So maybe you can trylock the GEM object?  It isn't clear to me whether
-> you want finer grained locking than that.  If the trylock fails, no big
-> deal, you just fall through to the fault path (with the slightly more
-> heavy-weight locking that allows you to sleep).
+I'm familiar with the odd way this part is implemented in ADI tree :). Ques=
+tion is, are
+you intending to support the high speed bits? I guess so, otherwise having =
+the above split
+would not make much sense.
 
-I proposed a series v5 using dma_resv_trylock(). This actually fails 
-later because the vmf_insert_pfn*() functions end up locking too. Not 
-sure how to fix that yet so I proposed a v6 with no fault-around path 
-and will get back to it (along with contptes) later.
+- Nuno S=C3=A1
 
-Loïc
-
+>=20
+> With best regards,
+> Marcelo
+>=20
+> Marcelo Schmitt (3):
+> =C2=A0 dt-bindings: iio: adc: Add AD4134
+> =C2=A0 iio: adc: Initial support for AD4134
+> =C2=A0 Docs: iio: Add AD4134
+>=20
+> =C2=A0.../bindings/iio/adc/adi,ad4134.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 209 +++++++++++++
+> =C2=A0Documentation/iio/ad4134.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 58 =
+++++
+> =C2=A0Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 1 +
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0 9 +
+> =C2=A0drivers/iio/adc/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 15 +
+> =C2=A0drivers/iio/adc/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0drivers/iio/adc/ad4134-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 200 ++++++++++++
+> =C2=A0drivers/iio/adc/ad4134-common.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 132 ++++++++
+> =C2=A0drivers/iio/adc/ad4134-spi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 287 +++++=
++++++++++++++
+> =C2=A09 files changed, 913 insertions(+)
+> =C2=A0create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ad=
+4134.yaml
+> =C2=A0create mode 100644 Documentation/iio/ad4134.rst
+> =C2=A0create mode 100644 drivers/iio/adc/ad4134-common.c
+> =C2=A0create mode 100644 drivers/iio/adc/ad4134-common.h
+> =C2=A0create mode 100644 drivers/iio/adc/ad4134-spi.c
+>=20
+>=20
+> base-commit: c5411c8b9ed1caf53604bb1a5be3f487988efc98
