@@ -1,279 +1,422 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EDB24293C;
-	Mon, 10 Nov 2025 13:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD46E303A22
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 13:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762780402; cv=none; b=MkZHdGmVKht6HbKwwv72kZR94/cevhWTdCZ5jPjwMSgr+5uwjHAFe4n31R9cnDDPds7N+IqEWXBh+sGc0wpbz47geVOajWKbA5nOEVAY2UgxM/A4DpW4dPcv76vqoDT5gEw+5MQXTGx7RsW68vmIkuFQpBczQI+uTUHbGYSrnXg=
+	t=1762780853; cv=none; b=V6lElmtY4kCa9F/KJxq2hFsV5s4RXaxkp+jOBCT1tZeC6zmq4r6MxqAjqzqO41f8BVqh60lxzq7xt/unokgEBACTJkj5Fr1NRhf+WD6Fq/6aoeVXs4UNqWMTZA8+2ZF15rBtsJzgh7p2iu5sK1V4EP00lpvUOHvc7F85FU++hO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762780402; c=relaxed/simple;
-	bh=4BLOQZU0YLZMi/FlMwOE5oIZ4y6RDYik4LCwxFdXGiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+zDTVniGjyQEURounwsgpFDLoY4Qts82vER/5TR5yDxu8r2TIpPwu4SP6xlQjV9wg6JvPtARhCvhVnFqF9+viJ+BswXJ8rHpuCzWXs+/QxMQbXEz/wxK+CXdpw5mRtEBh8Zg2mWGVZYD9HQc9+SKD3y6eM1RHiRU8vaxQnVIxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JC9gLDB5; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762780853; c=relaxed/simple;
+	bh=vEBH9XPc2rKbCjMaVjOOuA3NRcebjaC+ZlxyGTwiRu8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jsp6KdAxe+FStufbg8oh4d2Tr5RpDazkLKE2wezgtugEOE2Fteq/R/bsY0C3lxSWSid/igKvNRVO5MuYHDfHxW0C4RAselJTlc3OA0Fzhw1IXqpD9YADA1k4S4vZXy8uzIi4JXClTHdR7mQUMv5Q9rHJALXf1HuP8OOHChAz5fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SALqeAnv; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UJeyGfTc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JC9gLDB5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762780400; x=1794316400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4BLOQZU0YLZMi/FlMwOE5oIZ4y6RDYik4LCwxFdXGiM=;
-  b=JC9gLDB5os+2EfkabcsQNsiGpTyk8xM/jT7ORJL5Q7Qrj/lGNWhxQrRu
-   qJINsgbwIsLdOGd4OtgMp1wY9WqHVmiHmK4gwfoCR98LAtcQjNvT0d1RX
-   3sJ35DzM24UjgZ5lJkTFxSwLzrcIpfXO6/x5peR3PxPJPtHkfdYML9CPn
-   RxX0O2SXAyHOZVu9RYFBv0quOwPJgzf23Y4WHBUJN7Sp6IvWYPfhpj0v8
-   vaToA7p959DUSkk5EZYBbDWKuLiwFtjPqMkmTgqwxYsdl+enbG7qLo888
-   xldMW6J++qEugIN8SyQMwGbJCqbMArL0feK9GzI0boSLzZElsOeRspTue
-   g==;
-X-CSE-ConnectionGUID: Mq4NxTVcTpiq29bIauoG+g==
-X-CSE-MsgGUID: SCOB9gLxRK6kvBug1zpH1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="87459958"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="87459958"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 05:13:19 -0800
-X-CSE-ConnectionGUID: cdSMeNQRTIqUNl5bfYgEog==
-X-CSE-MsgGUID: LanU0SlWSd2BApwi58ivWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="193054409"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.235])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 05:13:15 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vIRho-00000007T58-3B51;
-	Mon, 10 Nov 2025 15:13:12 +0200
-Date: Mon, 10 Nov 2025 15:13:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	cosmin.tanislav@analog.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v1 2/3] iio: adc: Initial support for AD4134
-Message-ID: <aRHk6KZqQP-PAFuY@smile.fi.intel.com>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
- <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SALqeAnv";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UJeyGfTc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762780850;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
+	b=SALqeAnvicRZgRuMq6VsXc1UhXdD07tryneCy7IflZ8GOId3OrhbERjgHB1FpSJzZEvK7b
+	o3HnqgcJM6PzlpAQ1Ezdx1rpWsFt8klS04RD4dqSeZFQslwnt0+xzUGTtnrMbg0vNAEvE1
+	sKVe+w90xMAMPsC1EonB13aEeFNV8sE=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-102-4WDC0blrOqiOL0Bv9zHoRw-1; Mon, 10 Nov 2025 08:20:49 -0500
+X-MC-Unique: 4WDC0blrOqiOL0Bv9zHoRw-1
+X-Mimecast-MFC-AGG-ID: 4WDC0blrOqiOL0Bv9zHoRw_1762780848
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-63e1d6438e0so960919d50.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 05:20:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1762780848; x=1763385648; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
+        b=UJeyGfTczElG5yyCN77yurFDXqLR5BCV1UNRgs4y3d5VhWDbG3oQIo+lSZpEmkw8yh
+         FNEheOC+r1ODmEZuE6NWzI1Dn8Mp+OAUpWHpIVl2LBrpTcNyEyVo+54zg/tl90SgdNTL
+         cVVZOlO0UlZZWU8o59mcYwy5YIQJUNQozSmXmgk+IKgSsBwmCFOnU1upqQDmijupoK91
+         4kN8AAx5CbKvOXgf+O+U82sVL8i+TfVzC+BT4mYorolSsMFJ2SXrcrTpXE/xmld/JuJI
+         Lf3If5QlsTyBPDIhvRgKEwUmRuxwUTk2RHlJWZcVN1fTFJjtQqAibh6KcSf4iYjzpSPZ
+         j4Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762780848; x=1763385648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=urxiosn/NbwpEI7+7ewd9/gyn1msOWD8+3UzRaHmJoM=;
+        b=ik+MNyMnFwqP7WVr2l61hZJaTEnf5iuZ/tQKmagOS1A9amfrwuY9NA6wAaa+qHt73b
+         8hvoG0wMYucBE3sq+f27zOZglvPQHQAsoNEDfiEeCPCz/+M50eymVLbFqxvhhYKGZ3Eu
+         M6MGg+5h7lsgqeWKHQtAE4DjKvsfj4o9OR5pZ+6Zu/OwwvG+J+c83v1xDCSuSaHUJBo1
+         raUhlRa6VY48S3xppEIEtRG+AaeXn95L3rPp86odQvPa4CJ/7AzMiSC+QTNhaVuj7Ip1
+         zng/G5RIasMpBS5zVlQrHMKZ8DptyWR8sMvbjKEcocvYKXMSMrGieWZvyXC1D/+Y2n7H
+         ZpaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAseTg6KSDPNICY22/CPs4VnYMO+CBzEHh+NSjUMTA4xNPHOz1Tw7QVRYi0izvbTpe51nk5+TSQks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1orD9mA/Xf+gTNovINO7uRO55ch+PZpuYZGsZNbArBGjysa/O
+	+j3FEb7qvkzH7Sb4EbTAkPRLz+Zu+036fjhM0Id7pK3OVRTnsE8xn6k9RyFnOmkgCh6b+gWMO7T
+	0BfxVxzL3uIpI1yoiGICBhJhuOBr7Flz0XljoIlmZmYXzNrvCAdv0Kq/j8SYnpIE9wlN6ksyJHv
+	79R3O/yyPkGfFUvVuQ2IaLmYFHBH1odvwIiU4n
+X-Gm-Gg: ASbGncvN489xjPy3ac+7LdfnBatFNJD/6sa9ry01ScSdGZ6amVxomM9LbD3ObTOu4Sb
+	dtyav7ciCfXSTS1NBMklIXQC1wsp5VDnkYDzsV/7Kul6qQKjxtJv0gfR9rGv3Fv2YDkDrTOb4cP
+	oIIoqpmeaXiCT26Day/HtOkxhMVp+WZNRWwIYQdcxv15OkP2AM/spolp89RKMJTzpteyKQww==
+X-Received: by 2002:a05:690e:4294:10b0:63e:2269:42eb with SMTP id 956f58d0204a3-640d45e44c7mr6043614d50.45.1762780848421;
+        Mon, 10 Nov 2025 05:20:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHTRQESUUA3UUwtC2W4YtCmQg9mhvjmQTjoTx734yFEd98HC1RArMhT0g1T28Uas2i8mqc5JggC/bkNFhlknoM=
+X-Received: by 2002:a05:690e:4294:10b0:63e:2269:42eb with SMTP id
+ 956f58d0204a3-640d45e44c7mr6043563d50.45.1762780847954; Mon, 10 Nov 2025
+ 05:20:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Mon, Nov 10, 2025 at 09:45:40AM -0300, Marcelo Schmitt wrote:
-> AD4134 is a 24-bit, 4-channel, simultaneous sampling, precision
-> analog-to-digital converter (ADC). The device can be managed through SPI or
-> direct control of pin logical levels (pin control mode). The AD4134 design
-> also features a dedicated bus for ADC sample data output. Though, this
-> initial driver for AD4134 only supports usual SPI connections.
-> 
-> The different wiring configurations will likely require distinct software
-> to handle.
-
-> So, the code specific to SPI is enclosed in ad4134-spi.c, while
-> functionality that may be useful to all wiring configuration is set into
-> ad4134-common.h and ad4134-common.c.
-
-This part is good for comment or cover letter, I dunno what it gives to the Git
-history. Perhaps you want to rephrase it somehow?
-
-> Add basic support for AD4134 that allows single-shot ADC sample read.
-
-Below is my review based on the assumption that there is a good justification
-for a brand new driver.
-
-...
-
-> +obj-$(CONFIG_AD4134_SPI) += ad4134-spi.o
-
-This can be split also to the separate patch.
-
-...
-
-Please, follow IWYU principle, many are missing here.
-
-+ array_size.h
-+ bitfield.h
-
-> +#include <linux/clk.h>
-> +#include <linux/crc8.h>
-> +#include <linux/delay.h>
-
-> +#include <linux/device.h>
-
-I don't see the use of this, rather dev_printk.h should be put here.
-
-> +#include <linux/err.h>
-
-+ export.h
-
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-
-+ types.h
-
-...
-
-> +static const char * const ad4143_regulator_names[] = {
-> +	"avdd5", "dvdd5", "iovdd", "refin",	/* Required supplies */
-> +	"avdd1v8", "dvdd1v8", "clkvdd",		/* Required if ldoin not provided */
-> +	"ldoin",
-
-Make them equal in count (2 lines by 4 in each sounds really good choice
-to me).
-
-> +};
-
-...
-
-> +static const char *const ad4134_clk_sel[] = {
-> +	"xtal1-xtal2", "clkin"
-
-Leave trailing comma here.
-
-> +};
-
-...
-
-> +#define __DRIVERS_IIO_ADC_AD4134_COMMON_H__
-
-Do we need DRIVERS_ part?
-
-...
-
-> +#include <linux/array_size.h>
-> +#include <linux/bits.h>
-
-> +#include <linux/compiler_attributes.h>
-
-No need when we have types.h listed.
-
-> +#include <linux/crc8.h>
-
-Is this being used?
-
-> +#include <linux/iio/iio.h>
-
-+ regmap.h
-
-> +#include <linux/units.h>
-> +#include <linux/types.h>
-
-Again, follow IWYU.
-
-...
-
-> +#define AD4134_RESET_TIME_US			(10 * MICRO)
-
-We have USEC_PER_SEC (include time.h for that).
-
-...
-
-> +#define AD4134_EXT_CLOCK_MHZ			(48 * MEGA)
-
-We have HZ_PER_MHZ.
-
-...
-
-> +#define AD4134_SCAN_TYPE(_realbits, _storebits) {				\
-> +	.sign = 's',								\
-> +	.realbits = (_realbits),						\
-> +	.storagebits = (_storebits),						\
-> +	.shift = ((_storebits) - (_realbits)),					\
-> +	.endianness = IIO_BE							\
-
-Missing comma, this might make an addition churn in the future changes.
-
-> +}
-
-...
-
-> +struct device;
-
-What about struct gpio_desc?
-
-...
-
-
-> +#endif /* __DRIVERS_IIO_ADC_AD4134_COMMON_H__ */
-
-...
-
-+ array_size.h
-
-> +#include <linux/bitfield.h>
-> +#include <linux/bitops.h>
-> +#include <linux/bits.h>
-> +#include <linux/crc8.h>
-
-> +#include <linux/device.h>
-
-Is it being used? Perhaps dev_printk.h is enough?
-
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/iio/types.h>
-> +#include <linux/module.h>
-
-+ mod_devicetable.h
-
-> +#include <linux/spi/spi.h>
-> +#include <linux/regmap.h>
-> +#include <linux/types.h>
-> +#include <linux/unaligned.h>
-
-...
-
-> +static int ad4134_calc_spi_crc(u8 inst, u8 data)
-> +{
-> +	u8 buf[] = {inst, data};
-
-Better
-
-	u8 buf[] = { inst, data };
-
-> +	return crc8(ad4134_spi_crc_table, buf, ARRAY_SIZE(buf),
-> +		    AD4134_SPI_CRC_INIT_VALUE);
-> +}
-
-...
-
-> +static const struct spi_device_id ad4134_id[] = {
-> +	{ "ad4134", (kernel_ulong_t)&ad4134_min_io_bus_info },
-> +	{ },
-
-No comma for the terminator entry. It's even inconsistent with the below ID
-table.
-
-> +};
-> +MODULE_DEVICE_TABLE(spi, ad4134_id);
-> +
-> +static const struct of_device_id ad4134_of_match[] = {
-> +	{ .compatible = "adi,ad4134", .data = &ad4134_min_io_bus_info },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ad4134_of_match);
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+References: <20251022183717.70829-1-npache@redhat.com> <20251022183717.70829-6-npache@redhat.com>
+ <c006138d-6d12-4f91-8a06-da279ae3795a@lucifer.local>
+In-Reply-To: <c006138d-6d12-4f91-8a06-da279ae3795a@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 10 Nov 2025 06:20:21 -0700
+X-Gm-Features: AWmQ_blTm6w8ib4f4NzgbzKAoQLgTz4lR-RJcVNY7GnUdXc1WfEKmfLTDuAagMs
+Message-ID: <CAA1CXcBefDp4hzU6-jLf6XEWEaZaaX4SdCN0awxm1qz9RAWQFg@mail.gmail.com>
+Subject: Re: [PATCH v12 mm-new 05/15] khugepaged: generalize
+ __collapse_huge_page_* for mTHP support
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
+	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
+	sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Oct 27, 2025 at 10:02=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Wed, Oct 22, 2025 at 12:37:07PM -0600, Nico Pache wrote:
+> > generalize the order of the __collapse_huge_page_* functions
+> > to support future mTHP collapse.
+> >
+> > mTHP collapse will not honor the khugepaged_max_ptes_shared or
+> > khugepaged_max_ptes_swap parameters, and will fail if it encounters a
+> > shared or swapped entry.
+> >
+> > No functional changes in this patch.
+> >
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Acked-by: David Hildenbrand <david@redhat.com>
+> > Co-developed-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> Thanks for addressing the v10 stuff (didn't check at v11).
+>
+> Overall LGTM, so:
+>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+Thanks!
+>
+> Few minor nits below.
+>
+> > ---
+> >  mm/khugepaged.c | 78 ++++++++++++++++++++++++++++++-------------------
+> >  1 file changed, 48 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 36ee659acfbb..4ccebf5dda97 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -537,25 +537,25 @@ static void release_pte_pages(pte_t *pte, pte_t *=
+_pte,
+> >  }
+> >
+> >  static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+> > -                                     unsigned long start_addr,
+> > -                                     pte_t *pte,
+> > -                                     struct collapse_control *cc,
+> > -                                     struct list_head *compound_pageli=
+st)
+> > +             unsigned long start_addr, pte_t *pte, struct collapse_con=
+trol *cc,
+> > +             unsigned int order, struct list_head *compound_pagelist)
+>
+> This series isn't the right place for it, but god do we need helper struc=
+ts in
+> this code... :)
+
+Well we have collapse_control! I can spend some time in a follow up
+series to better leverage this struct.
+
+>
+> >  {
+> >       struct page *page =3D NULL;
+> >       struct folio *folio =3D NULL;
+> >       unsigned long addr =3D start_addr;
+> >       pte_t *_pte;
+> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
+enced =3D 0;
+> > +     const unsigned long nr_pages =3D 1UL << order;
+> > +     int max_ptes_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDE=
+R - order);
+>
+> Nit, but we should const-ify this too.
+
+This gets converted to collapse_max_ptes_none in the future.
+
+>
+> >
+> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
+> > +     for (_pte =3D pte; _pte < pte + nr_pages;
+> >            _pte++, addr +=3D PAGE_SIZE) {
+> >               pte_t pteval =3D ptep_get(_pte);
+> >               if (pte_none_or_zero(pteval)) {
+> >                       ++none_or_zero;
+> >                       if (!userfaultfd_armed(vma) &&
+> >                           (!cc->is_khugepaged ||
+> > -                          none_or_zero <=3D khugepaged_max_ptes_none))=
+ {
+> > +                          none_or_zero <=3D max_ptes_none)) {
+> >                               continue;
+> >                       } else {
+> >                               result =3D SCAN_EXCEED_NONE_PTE;
+> > @@ -583,8 +583,14 @@ static int __collapse_huge_page_isolate(struct vm_=
+area_struct *vma,
+> >               /* See collapse_scan_pmd(). */
+> >               if (folio_maybe_mapped_shared(folio)) {
+> >                       ++shared;
+> > -                     if (cc->is_khugepaged &&
+> > -                         shared > khugepaged_max_ptes_shared) {
+> > +                     /*
+> > +                      * TODO: Support shared pages without leading to =
+further
+> > +                      * mTHP collapses. Currently bringing in new page=
+s via
+> > +                      * shared may cause a future higher order collaps=
+e on a
+> > +                      * rescan of the same range.
+> > +                      */
+>
+> Yeah, I wish we could find a way to address this in some other way but gi=
+ven the
+> mire of THP code putting this comment here for now is probably the only s=
+ensible
+> way.
+>
+> > +                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
+ged &&
+> > +                         shared > khugepaged_max_ptes_shared)) {
+> >                               result =3D SCAN_EXCEED_SHARED_PTE;
+> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
+);
+> >                               goto out;
+> > @@ -677,18 +683,18 @@ static int __collapse_huge_page_isolate(struct vm=
+_area_struct *vma,
+> >  }
+> >
+> >  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+> > -                                             struct vm_area_struct *vm=
+a,
+> > -                                             unsigned long address,
+> > -                                             spinlock_t *ptl,
+> > -                                             struct list_head *compoun=
+d_pagelist)
+> > +             struct vm_area_struct *vma, unsigned long address,
+> > +             spinlock_t *ptl, unsigned int order,
+> > +             struct list_head *compound_pagelist)
+> >  {
+> > -     unsigned long end =3D address + HPAGE_PMD_SIZE;
+> > +     unsigned long end =3D address + (PAGE_SIZE << order);
+> >       struct folio *src, *tmp;
+> >       pte_t pteval;
+> >       pte_t *_pte;
+> >       unsigned int nr_ptes;
+> > +     const unsigned long nr_pages =3D 1UL << order;
+> >
+> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR; _pte +=3D nr_ptes,
+> > +     for (_pte =3D pte; _pte < pte + nr_pages; _pte +=3D nr_ptes,
+> >            address +=3D nr_ptes * PAGE_SIZE) {
+> >               nr_ptes =3D 1;
+> >               pteval =3D ptep_get(_pte);
+> > @@ -741,13 +747,11 @@ static void __collapse_huge_page_copy_succeeded(p=
+te_t *pte,
+> >  }
+> >
+> >  static void __collapse_huge_page_copy_failed(pte_t *pte,
+> > -                                          pmd_t *pmd,
+> > -                                          pmd_t orig_pmd,
+> > -                                          struct vm_area_struct *vma,
+> > -                                          struct list_head *compound_p=
+agelist)
+> > +             pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> > +             unsigned int order, struct list_head *compound_pagelist)
+> >  {
+> >       spinlock_t *pmd_ptl;
+> > -
+> > +     const unsigned long nr_pages =3D 1UL << order;
+> >       /*
+> >        * Re-establish the PMD to point to the original page table
+> >        * entry. Restoring PMD needs to be done prior to releasing
+> > @@ -761,7 +765,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
+*pte,
+> >        * Release both raw and compound pages isolated
+> >        * in __collapse_huge_page_isolate.
+> >        */
+> > -     release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+> > +     release_pte_pages(pte, pte + nr_pages, compound_pagelist);
+> >  }
+> >
+> >  /*
+> > @@ -781,16 +785,16 @@ static void __collapse_huge_page_copy_failed(pte_=
+t *pte,
+> >   */
+> >  static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+> >               pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> > -             unsigned long address, spinlock_t *ptl,
+> > +             unsigned long address, spinlock_t *ptl, unsigned int orde=
+r,
+> >               struct list_head *compound_pagelist)
+> >  {
+> >       unsigned int i;
+> >       int result =3D SCAN_SUCCEED;
+> > -
+> > +     const unsigned long nr_pages =3D 1UL << order;
+> >       /*
+> >        * Copying pages' contents is subject to memory poison at any ite=
+ration.
+> >        */
+> > -     for (i =3D 0; i < HPAGE_PMD_NR; i++) {
+> > +     for (i =3D 0; i < nr_pages; i++) {
+> >               pte_t pteval =3D ptep_get(pte + i);
+> >               struct page *page =3D folio_page(folio, i);
+> >               unsigned long src_addr =3D address + i * PAGE_SIZE;
+> > @@ -809,10 +813,10 @@ static int __collapse_huge_page_copy(pte_t *pte, =
+struct folio *folio,
+> >
+> >       if (likely(result =3D=3D SCAN_SUCCEED))
+> >               __collapse_huge_page_copy_succeeded(pte, vma, address, pt=
+l,
+> > -                                                 compound_pagelist);
+> > +                                                 order, compound_pagel=
+ist);
+> >       else
+> >               __collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
+> > -                                              compound_pagelist);
+> > +                                              order, compound_pagelist=
+);
+> >
+> >       return result;
+> >  }
+> > @@ -985,13 +989,12 @@ static int check_pmd_still_valid(struct mm_struct=
+ *mm,
+> >   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
+> >   */
+> >  static int __collapse_huge_page_swapin(struct mm_struct *mm,
+> > -                                    struct vm_area_struct *vma,
+> > -                                    unsigned long start_addr, pmd_t *p=
+md,
+> > -                                    int referenced)
+> > +             struct vm_area_struct *vma, unsigned long start_addr,
+> > +             pmd_t *pmd, int referenced, unsigned int order)
+>
+> Nit, super nit really, but since other __collapse_huge_page_*() functions=
+ have
+> ..., order, param) as their last parameters, perhaps worth flipping refer=
+enced +
+> order here?
+>
+> Not a big deal though.
+>
+> >  {
+> >       int swapped_in =3D 0;
+> >       vm_fault_t ret =3D 0;
+> > -     unsigned long addr, end =3D start_addr + (HPAGE_PMD_NR * PAGE_SIZ=
+E);
+> > +     unsigned long addr, end =3D start_addr + (PAGE_SIZE << order);
+> >       int result;
+> >       pte_t *pte =3D NULL;
+> >       spinlock_t *ptl;
+> > @@ -1022,6 +1025,19 @@ static int __collapse_huge_page_swapin(struct mm=
+_struct *mm,
+> >               if (!is_swap_pte(vmf.orig_pte))
+> >                       continue;
+> >
+> > +             /*
+> > +              * TODO: Support swapin without leading to further mTHP
+> > +              * collapses. Currently bringing in new pages via swapin =
+may
+> > +              * cause a future higher order collapse on a rescan of th=
+e same
+> > +              * range.
+> > +              */
+>
+> Same comment as above re: this, i.e. that it's a pity but probably unavoi=
+dable
+> for now.
+>
+> > +             if (order !=3D HPAGE_PMD_ORDER) {
+> > +                     pte_unmap(pte);
+> > +                     mmap_read_unlock(mm);
+> > +                     result =3D SCAN_EXCEED_SWAP_PTE;
+> > +                     goto out;
+> > +             }
+> > +
+> >               vmf.pte =3D pte;
+> >               vmf.ptl =3D ptl;
+> >               ret =3D do_swap_page(&vmf);
+> > @@ -1142,7 +1158,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >                * that case.  Continuing to collapse causes inconsistenc=
+y.
+> >                */
+> >               result =3D __collapse_huge_page_swapin(mm, vma, address, =
+pmd,
+> > -                                                  referenced);
+> > +                                                  referenced, HPAGE_PM=
+D_ORDER);
+> >               if (result !=3D SCAN_SUCCEED)
+> >                       goto out_nolock;
+> >       }
+> > @@ -1190,6 +1206,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >       pte =3D pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+> >       if (pte) {
+> >               result =3D __collapse_huge_page_isolate(vma, address, pte=
+, cc,
+> > +                                                   HPAGE_PMD_ORDER,
+> >                                                     &compound_pagelist)=
+;
+> >               spin_unlock(pte_ptl);
+> >       } else {
+> > @@ -1220,6 +1237,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >
+> >       result =3D __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+> >                                          vma, address, pte_ptl,
+> > +                                        HPAGE_PMD_ORDER,
+> >                                          &compound_pagelist);
+> >       pte_unmap(pte);
+> >       if (unlikely(result !=3D SCAN_SUCCEED))
+> > --
+> > 2.51.0
+> >
+>
 
