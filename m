@@ -1,64 +1,64 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70072335BDB
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 19:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF68337BAD
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 19:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762803409; cv=none; b=inCLqXKkvmFuq3+T5njm7tBZxBnz45wnZuXWf/dV5iC22u0UA2MyRdPCzDSGOwaMA2tX9TkU+yecEG1Ew/uaiW24u8h7oYhPi5B/nziuJL/IHrPmSJHbDG+osIpifxQ3wJmNZRbtGaXm1jUWOj2DbE7+bu8GheRJfifodsnk5Ow=
+	t=1762803412; cv=none; b=p9S63JQKTbxrKZKf7tIemgOp69P9oCiuOIOqHd6+6iq8hPq2mOz1iTjyhom+BJ1LdlpPb8sslzVxfId4Uj6MCfwILQVmx3o6HFZegmrLeGoed25APAQ93G+fAT5HkebK7KVkYaZL4rOqDdFL7YIV1Tr+Kaen29CXchx4IpvqJws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762803409; c=relaxed/simple;
-	bh=W7QWppO42nNFunrHW0x5wrq6A32TuLyhp6ZUGiac+bQ=;
+	s=arc-20240116; t=1762803412; c=relaxed/simple;
+	bh=8bSDt6Sg/YjrTXUgYA3DkJzVQ6m3hYydLmfQSne4sVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=airWJlPPfY2FerQeUtz9B39knV/Co2GCK2x9RsofDKI563wHAdUh4wHF0fLwrIMKOYZRqFIxDHO/jWnjYnTFRu/xn3t37wiKNlr44pWoVOc8T8qQjfE24dw2VS5w44QV0YdeD8CnaBMQ42/h3mIiRsf19ddFR0OTMUDeN0pRoIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Bmtp8f3i; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version:Content-Type; b=uui59eS5ADRbdAx/qz8amgPURXmB7n9Xe3WrGXKq9xlSzRFcdd24QLFXpYXrTvxhvqmd0HaAVp6kt5yfcTkfH8Af3G5+iQKeCMzTlp0bWdbbMkqwEybksOmUo5oVRfLj6DMTDW/2blGLmRR/PkhIsun0oqSaM/wrlZXl7P7yyYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NXipsfvt; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Bmtp8f3i"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477770019e4so25001005e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:36:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NXipsfvt"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42b38693c4dso879266f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:36:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762803406; x=1763408206; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1762803407; x=1763408207; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YTWCP6bTspm09Lx1U+q7f0BGQls8hOwZj+qwEbwY0Hk=;
-        b=Bmtp8f3ihF437cwFJkONx0B0z3nb9BTfIdUZ/AhBRg7D7HpbJAv5crsHZjdQXgOeAA
-         MiFifiCKwN691N/naK0GgAf+AEX0SW8TkBtumqkTk8VUPVmu0BN8Ek6bfoUEl2NOvZwZ
-         1+vbmjJKUbZCPhIzuIbZ5Z8doWYwBNLaWWwHRpBXfzVE0nozaesXeNoOMOQ/dfcCGdAn
-         ijV0M8LOn8zJa63WmV73roZn01oCXnFN9Z8DAmAecfsEfikoWLPGdyJFMbDNcmdXEigD
-         1AZOAKeAvKjuklN3446J4X7w7SxVqIqKfSaX0rA0DiJ0QU6uTUv+Py4lNw0p8PgErjQe
-         4+kg==
+        bh=neDRog/Ekcy0Lef8h9kFmYGsPx1FWmrolZIk562CgBQ=;
+        b=NXipsfvtvlLw2IONctRhKaA48GArRiRGcgsvZoS8Uge9dQu2N0ZkTwTSgVlF91K8iW
+         HA7fBJ+U6fbNB/vI5NO34W+3W3KXo4qt31Zmwqw81+9hlqf5p+yIWfrCu5135jFdpJUY
+         R3ejWkhH1aIIKuDYYGRzCf2PDRE6vV+bI+RX2dU6UBgXserUxr5mnPE1pvKpH+Bh6lIw
+         cJOg91vkbG8teIPqwWrtSlLBXfgfliHjzRc/sRmxkqmVA0lkEskBQST54NMDdK+TFGOd
+         tQ4a3uXjAjYvAklbLDwH8Cl7slAktYIuiqbDOoNROGbkyapWASePAK/W3WAsvf2Q3EgG
+         BEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762803406; x=1763408206;
+        d=1e100.net; s=20230601; t=1762803407; x=1763408207;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YTWCP6bTspm09Lx1U+q7f0BGQls8hOwZj+qwEbwY0Hk=;
-        b=SsIOK6rBJ9LXNjqEQe7hvRMjBkwsBmmQJA8tRcPzllMFcfsQZvFtmvy9CTbV0gP3L5
-         NMD1H8NXAxVpKrS5xyCVHWJZh3217XwVpzOp1Q4MucLdWhbVu47h53Gcx7VPhoY2NyuX
-         qtIRUGHjok71vaqHQDlI91F/+StlhXeUwAOyBr4zRiLmboibgGC6lpBC0nKuPQvYzHOb
-         cGqXhbikuyWYj2x9CLIfJnMmXpr8/LsMAHdmgiikRs0ivKAdwZzir/VaevzD+Cixpbth
-         IRQxm2zvPqeIxwckebO3Occ5Ntk4m//dTx3wF4egAZ3NlvFTHbjJUXyno6LzTUBiOe/T
-         26pw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyS1T6fKYd+0b3xtuBi4g2PDoeUB4cvlbWrmMp8mF6nkE0pywsuc9wAfte1vFqKK/Q1LJzyb2PvXY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyhak2pdbvgYwCe8j3jM+Mlw9pJ8vw0Vuevygu5nVSgG3wu+95t
-	O7lPBNNQID+sELVsU/9dtNJ/gug1d59+kEzlQM0JOmPjbyKvpD1kHKiU0lDEWHXpG+I=
-X-Gm-Gg: ASbGncu0oYiRXAYIoGH6BtFd4fjr9t5MWy2q1etJuLsbaRc3zb+Fcfk6NXZKc7RGj8l
-	SrZaonMVKK13/7V4rxodGm0bySZdiHhlB1lro2iF1htuhs77WUSalcfIfoCUUwEb32I5VV3CJjH
-	4N5VZqRe8GQpZadwphaEe1849WyvlAnm/43gsIlJ8D4UFdCJIKBGuXduKa1PTDpoI/CnC+g53C6
-	VSpVDRBLXPH5XR7tJ6uSQHRLoj53rR76FNSX540wpEG/f78QpKEYLCGR5b3BJJofggbkhRaMH1R
-	DUyRszQWusiStcnt3o8Wtp4/FT/lcsYAkjV7dR1TQ52jTolrQoaJIfrJF8P+O0UklQw+NnxXvyJ
-	0jp5i8qHPLrQBsLVNnJFHaepDlujDIJqhnOSvlGn/xPhFIN5MdWQ+m0lMshQgHgieFNilwY6Eo8
-	FnvbC34igYGE9wCwBNBu7n/dxwFxsT9xs=
-X-Google-Smtp-Source: AGHT+IFUxtkfJc5KA5FIRPDpNTMLzR7n8nqQXez/mScawaL2NDNh5hWWSSs2Qhhirt5MIsnvEx4uwA==
-X-Received: by 2002:a05:600c:46d0:b0:45d:d8d6:7fcc with SMTP id 5b1f17b1804b1-4777327b249mr88103205e9.27.1762803405768;
-        Mon, 10 Nov 2025 11:36:45 -0800 (PST)
+        bh=neDRog/Ekcy0Lef8h9kFmYGsPx1FWmrolZIk562CgBQ=;
+        b=dMAbUhl39cDXFXC56WCOYfL9mpQHAEA4s2iGA+YLDT0sZYbEJsfQ8huEc01HJnmwnD
+         YgXGx53FbXVBMdYoQv226XPI9a83TaZdH4C9TNdsa/TE8JXw8r8Ym3yECTnvze9iIw5f
+         i5Vb9yiddBdxOPnXCSnN0AR6piwOWpV5ZFLrWYdrF4NxlFBo/vrbdX53tvlfGzEzFQyx
+         CUD5Tceo3EA0GylgyT9niGOAAoM7bwws42QEu5GRqI7jIfM/i1hiV329LG21PtDHIX+G
+         TVj5R227ygSM039Um9nH0gbdW3uMCtXlTXPgmj10KZ6xs6tPIq1e2Ce3aqUp7cDpNWzT
+         j7vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdDL0EwXR86A0wsPdnCLV7kikBkce56PrD9ysxK+HOSNGtdq/5KffMtH9quh/UDTSAkycNEPHdFT8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4fFpo5s45HgTeB0TsSSw0TxHgR1f3NiaK8xIKzq0nozbi6Wl1
+	9FUy6SCZWBxdCEq062gH90dVLwMVPnhghtPKcM+7P4OYcOv66T5LNcHwjD3N8ZkLYlE=
+X-Gm-Gg: ASbGncspCEQzopoz6EKPI6iJRZ4YsIJ90ZCwShXFBMHlkv3tEKp0iDlC6pO8Pe3wVvd
+	DHfGHHBhE/QJvyLuqyiahiFYgukGDZxGC8EOCRlG/3e9NyV7sjnbyWfGwCHkWTleu4D9q6FeQwy
+	q6clGqOdbs6beW25jxTyn490xmwrforKeslJlPAUH9vNvaUTGhPSfT7kBdryJwxfFT4lFS1JaOR
+	WCYoA2hGbmaXES13L66yG58Gzbf7KTwfekXdtfXKOd22aRuOtslR9WLbkCsAGH9gXSPabuMmRi0
+	HcR6qdH1EfS+6ya8YHmQ25PJZW6v7eM7pbUP5UjtaX1lrxtIPlUGg8qe6lntRuqK5sBOCjOCrLD
+	gLHAkDmtfbtqukzH7ipptQio+YGPRg4U93wKtrt7GeLl+c1EYlG0m11Eqnza1YYx6jWUfVpIGZa
+	soWQ/NnLr2CYj3liGeORUA
+X-Google-Smtp-Source: AGHT+IF2h1TXIgUgdAGFGgAj8I/0Z7UVK0V5sWyQ2BHKHfBJkTvoEfi0Y20lPlByyzzwSf922qHPLA==
+X-Received: by 2002:a05:6000:2905:b0:429:b751:7916 with SMTP id ffacd0b85a97d-42b2dc497bamr7399170f8f.45.1762803406888;
+        Mon, 10 Nov 2025 11:36:46 -0800 (PST)
 Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775ce32653sm336766725e9.13.2025.11.10.11.36.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775ce32653sm336766725e9.13.2025.11.10.11.36.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 11:36:45 -0800 (PST)
+        Mon, 10 Nov 2025 11:36:46 -0800 (PST)
 From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
 To: cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc: Natalie Vock <natalie.vock@gmx.de>,
 	Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH RESEND 2/3] docs: cgroup: Note about sibling relative reclaim protection
-Date: Mon, 10 Nov 2025 20:36:34 +0100
-Message-ID: <20251110193638.623208-3-mkoutny@suse.com>
+Subject: [PATCH RESEND 3/3] docs: cgroup: No special handling of unpopulated memcgs
+Date: Mon, 10 Nov 2025 20:36:35 +0100
+Message-ID: <20251110193638.623208-4-mkoutny@suse.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251110193638.623208-1-mkoutny@suse.com>
 References: <20251110193638.623208-1-mkoutny@suse.com>
@@ -84,26 +84,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The current kernel doesn't handle unpopulated cgroups any special
+regarding reclaim protection. Furthermore, this wasn't a case even when
+this was introduced in
+    bf8d5d52ffe89 ("memcg: introduce memory.min")
+Drop the incorrect documentation. (Implementation taking into account
+the inner-node constraint may be added later.)
+
 Signed-off-by: Michal Koutný <mkoutny@suse.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/admin-guide/cgroup-v2.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index a6def773a3072..be3d805a929ef 100644
+index be3d805a929ef..84985bb20c452 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1952,6 +1952,10 @@ targets ancestors of A, the effective protection of B is capped by the
- protection value configured for A (and any other intermediate ancestors between
- A and the target).
+@@ -1327,9 +1327,6 @@ PAGE_SIZE multiple when read back.
+ 	Putting more memory than generally available under this
+ 	protection is discouraged and may lead to constant OOMs.
  
-+To express indifference about relative sibling protection, it is suggested to
-+use memory_recursiveprot. Configuring all descendants of a parent with finite
-+protection to "max" works but it may unnecessarily skew memory.events:low
-+field.
- 
- Memory Ownership
- ~~~~~~~~~~~~~~~~
+-	If a memory cgroup is not populated with processes,
+-	its memory.min is ignored.
+-
+   memory.low
+ 	A read-write single value file which exists on non-root
+ 	cgroups.  The default is "0".
 -- 
 2.51.1
 
