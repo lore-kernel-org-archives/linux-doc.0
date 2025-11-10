@@ -1,90 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00A419CD05;
-	Mon, 10 Nov 2025 23:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72E321D3F4
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 23:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762815697; cv=none; b=llwHYw98LDg1jEgohKHiOpmQatWxrCuEx10oFAHmUIFYZy52yQCk59pTB403wQABkHRBEpjow2laKD+jmI//U6+xZbzDu8HJjzG+eyW+oiLhNJmfuLGLXRsoCmEQe1f9VDiw75YmpKeFdBPpW316fi800gUlCX+X5Sz4Z1GiX/g=
+	t=1762816560; cv=none; b=KdYjOwpTljgcrIv44Y15nJC135sy5jrdoLxMW+oacHMNhKpvNd83ixd68jk/nkXcCMzf5k4Lq8H7yTud1KP98y8JCKbsR7GJaRTI7IvaJM3zi/mxzUCKgdNGyPy7ZZNn8g/TLkPJaybabg8rLC4RP88mHfi+lxcrFd7EkgOWWto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762815697; c=relaxed/simple;
-	bh=pw8l6QAhWfbgalj/rdjn7/vFNJjdaYWZBrq9g5kSPg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XARdjfXo6dpk1lZ4kBTNqrmZtWjEEnyQTJPd3yH/pMFFWVD+XwdZeIPI8QOlQPIB01VcYrdpwycHsB9YoAKmYICZama8Td268l9qyaf9Smrdf20PFjrkkowwdPNmhIMimFcBd0vWO0zNm443/ErB8499Dqc9j4MBo9HWbqcSrzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8HLZtN4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762816560; c=relaxed/simple;
+	bh=h5TTiI/L91Gy+XLFx/Zl3KrvUTe7SfQYuWBRrcnVR54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ekf81mREVdXKNOy37B87eZRLeyNMd3vCuDHcdq5sNHP9SYjWYKUCt2ibkiEfxj5ru3eiiDoVBx13wU+Te2UmBAVMD8jPmO3vK6AkVdwb9CMLMx3b1jmXqj7TVuxXXVw6Tj6QeKMFwCJ9Z0NOyFfVUVD/z6G+/+XI2tyS7OJ48cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DERuaMvx; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8HLZtN4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FF72C113D0;
-	Mon, 10 Nov 2025 23:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762815696;
-	bh=pw8l6QAhWfbgalj/rdjn7/vFNJjdaYWZBrq9g5kSPg4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S8HLZtN4P9lQykfRX66OjCW5XNx3EB4nqyUYkr1K6qVFAiH/1B2WuyT6Xhr1zrk3/
-	 ExH2jrpU7zVP87t7kjXI3Kt7IahNaP4FHi9dEbWmkOfhcNkjbdFjYkvn4BLSd1EO/T
-	 mW7RS3pOB4sk39x+S77N8ZE2JAcYlWzhiXk3H/uSO91rQ9fRt5JYiPOs+MVIHezx3p
-	 x9hl9uOQ1E29htlhgUjiKxDmue8SYA7DhtwxpT5AFCPuGOlVR6hlAxRLWDHkZVinqY
-	 BGjV1lxESgN7GVwIwfb+L72Fky5jmzzbLAUnbIGEkRxFXZVmRVflMaGWkr0kgqrKoi
-	 I+5wpEmr7hZzw==
-Date: Mon, 10 Nov 2025 15:01:33 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Saeed Mahameed <saeed@kernel.org>
-Cc: Daniel Zahka <daniel.zahka@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Srujana Challa
- <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Brett Creeley <brett.creeley@amd.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Michael Chan
- <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
- Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
- Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
- Sundeep <sbhatta@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Siddharth Vadapalli <s-vadapalli@ti.com>,
- Roger Quadros <rogerq@kernel.org>, Loic Poulain
- <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean
- <olteanv@gmail.com>, Michal Swiatkowski
- <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Dave Ertman <david.m.ertman@intel.com>,
- Vlad Dumitrescu <vdumitrescu@nvidia.com>, "Russell King (Oracle)"
- <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode
- via devlink params
-Message-ID: <20251110150133.04a2e905@kernel.org>
-In-Reply-To: <aQ7f1T1ZFUKRLQRh@x130>
-References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
-	<20251107204347.4060542-3-daniel.zahka@gmail.com>
-	<aQ7f1T1ZFUKRLQRh@x130>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DERuaMvx"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2957850c63bso2855785ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 15:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762816558; x=1763421358; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
+        b=DERuaMvx4XwTvfn4aCMWr74Rj+wFrQbzox5lH6uq9HCJMjMsVRuba7ar8ka8MHemmo
+         UpqHqmgi5xhtdky+1fE8K33yw3cKczDTbdgECGdZ9aQINbmykbd6VWlLGDQE+Knxp3pK
+         GxEyRxP+BM07SYEPtKkkY/V2VeG9JWQhxO45Q80DKG6HYrLjioUD39KsNvmp1R9b112Z
+         UjSOIxMpLb48ILikt2AL02ml3msWq1vCqgoVEOADE/07I6lqZ/YFdbIhz86XysKoQy4t
+         Ui0PEbzt+40oYIkJXAXr+4Cnf/J425zG/fan7nxgtUKYfWVQiCUlpQ9mVANzLbuUwf1X
+         /xWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762816558; x=1763421358;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
+        b=PKY5QDHME5BM5hYIPv8ZclfEZusrznsbqypL56ENCObKY2giXhN1Md0qtqwFFP8RJu
+         NvdaFgA5chDb5OE1nJF2Tsbg1C8ib+K/R85azyKPZG/nn97lusuOkci8IjElsnl7fREO
+         5XOSAJWhiJQS4vSWsLC/QRuHdz8dseng6JNtlcyJTnroPzIGhcG8WtSFL0NuC/VGoa0Y
+         D5mgakZ4tG332nqAWYLtvddUEHwPCZCEdWcRfo2S3XpdbkYWoRi7c1aYw1e74FEFvyVl
+         TMBu6SiCRaQZkP4SqnmMkC66Z1uywFCmXO3BOupiMzqsbW44HObPnlEsMrPk1cXsFbqb
+         Y69A==
+X-Forwarded-Encrypted: i=1; AJvYcCVM4AfcrUbuN4yiQNaSxM+YbSaoGC9jIJnRgMBNhNkDvWEABVDC4he4O70rUSvZlmgAttJCIslpR1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDucP9LNm+vhahVmXvGAcwEEew0SmFs8nmJ+UQPxwu8OT8l4ek
+	OE+lkn14DvPmTwP85dKjy9Jc2ItaLPDWhFE6e5OpuuctWlrFf9kKDlXhw/HOILRzZB4=
+X-Gm-Gg: ASbGnct8L9bxby7gqqIgH1eIFCShb4xN8O8YbXUpZ0x1ly4PqbNe4zxwbX9FFYrD+Ua
+	DJXjBc8RhO1pxg7GgVOQ/xDKaUKqPnlgnmhjwxGe+DB3yjQVnu53qwF0s5wW2W6P1VOy/5M7gyv
+	5gJifQbQNRH3QzduDS0QLu+fMaSYS6PUW82HjGnJqq1ZL7/Ruo52JhcOV/hw7GY/x6NuecpAcCY
+	mMaHzIUN/VLBZPG5Faavo6VlGyGwt47/4f5wGresxRZ5oREO60kpDVbrRrYbizYWYqkyNH04Be4
+	04R+p4QKAxUw5YCU1b46McaawogaByptosafWv0wpTKR7ev3lsLRQpabe44LaDHb4FXU//YmyTl
+	pcu9g1UtvOAQ6uqHrRrHqNrqNP7O8xzi6cTVyJBRVSRQfZmiJL8oZgvx84rVwHgp8E0RTpXZDVc
+	7J
+X-Google-Smtp-Source: AGHT+IGwvLf3ZgdUd4iAsN+CriZ8KUEaW9yxRhFdFBiIvi5V0uUTvjVhxvMH6yq504eeDgLltAEolQ==
+X-Received: by 2002:a17:903:18d:b0:297:df99:6bd4 with SMTP id d9443c01a7336-29840842cb3mr12574055ad.18.1762816557960;
+        Mon, 10 Nov 2025 15:15:57 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29836cce339sm25144965ad.59.2025.11.10.15.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 15:15:57 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 34C6A4206925; Tue, 11 Nov 2025 06:15:55 +0700 (WIB)
+Date: Tue, 11 Nov 2025 06:15:54 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux ARM MSM <linux-arm-msm@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+	Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+	Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+Subject: Re: [PATCH 0/2] accel/qaic documentation fixes
+Message-ID: <aRJyKlRkihq1OcGk@archie.me>
+References: <20251110035952.25778-2-bagasdotme@gmail.com>
+ <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
 
-On Fri, 7 Nov 2025 22:14:45 -0800 Saeed Mahameed wrote:
-> >+	err = mlx5_nv_param_read_sw_accelerate_conf(dev, mnvda, sizeof(mnvda));
-> >+	if (err) {
-> >+		NL_SET_ERR_MSG_MOD(extack,
-> >+				   "Failed to read sw_accelerate_conf mnvda reg");  
+On Mon, Nov 10, 2025 at 11:54:59AM -0700, Jeff Hugo wrote:
+> Thank you for the fixes. Yet again I am impressed by having your fixes in my
+> inbox before I even see the reports.
 > 
-> Plug in the err, NL_SET_ERR_MSG_FMT_MOD(.., .., err);
-> other locations as well.
+> I'll get these merged to drm-misc-next where the offending issues currently
+> reside.  I anticipate getting that done later today.
 
-Incorrect. extack should basically be passed to perror()
-IOW user space will add strerror(errno) after, anyway.
-Adding the errno inside the string is pointless and ugly.
+Thank you for the compliment!
+
+-- 
+An old man doll... just what I always wanted! - Clara
