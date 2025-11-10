@@ -1,118 +1,183 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C753148C5
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B362BE655;
+	Mon, 10 Nov 2025 17:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762793135; cv=none; b=d33mVnUMz+rGM51uNReW5/K2UCnXjqzsrMLWjVpM2565G1gHdsRCZViJjreOge3UVRsS1POj19KonPWefGmBUgqlvwvy9U/udBDNwsQl6m5WR6mYrc61BBHl5ht+IZZqjS406uv03rxbm2hg4g3NtN6G7xJdwWslbKI1zBDO2TA=
+	t=1762795662; cv=none; b=V4ZrB+9wQ15j9Z+0bTL1bcK0dUXDvomC+//2knJdr8To7ONn6WM1E0OaNfPtzgX/gU6NjpfoaNbNO7zcOXwswYnilwFA8upF+chQVKoK0XllzzW2JMJ2xbF/lp8V0unDzz2fqgbFfhjObsz/FhEm5paHdhu9/mWZ+Sqv5w6Uuaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762793135; c=relaxed/simple;
-	bh=bgCzKrhzMsbjtyucE9Wji1o3OOtYybWdKrlZ1ecTWTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUOU6+69ars5elKd2KG5soF8QDU+tn5vGxvw1jZAE9LYdaROVTEZUQv+mgMYo/lQ0y8TePwQPy54sE664pyXsUdb3W60atNfv33gtZaWaXCJv1qso8WINZACt11cNmqtLCmpdz8b3myr8bV1F/c4chkXYnfy1kx8o3IMPrVzZtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nV3j4stb; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762795662; c=relaxed/simple;
+	bh=HHttyIN4ZrA3AcpdgGnhsSW/6Bj+qI781YjC1EPK/3Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lFc9R22hTA5XJgsVF+VscnkdrnyKNS/SNpY4J6hSAnEwFxBCS7xXKarVWilOAk4e8Z++RP7imb19F/Ex5rzB4Jtty6OmOUgnmMAqz8qnaCV3Y8LaaZMG8HKvJFM0RIToSqRq+fQMXkQcDZGM5h9PBJaenThrs9HrR0z3TTATIGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOEmXq56; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nV3j4stb"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29568d93e87so28180585ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 08:45:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762793133; x=1763397933; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ejgzWIAmMtwDeIAONVbXRMu0MknYB8VkcpRxQd2rWvU=;
-        b=nV3j4stbm+vcaGq0c5YHStIInJnhL8I54TPjZHDp6q0rY3KJdBeU2LdLBV+A8PMLNd
-         3UDAcZroJ2/4u1ohtPKCixAdo5DMgRp2pTa42z705lK6Wh1wbqoz5w7yKpZlwP+YwK1d
-         FXnwb72f4hCaWLFToIN26L5qlwRTbbqvPDgUPiPgNFY9ZFeg4nRg10UdtOeHyebrPBLV
-         hW8pIVyoJkAu/yL6AeYS3+gn9fIGyx3klbslQG0NE+ySA5owcPBHKAMKkJ6LUUbPA7hq
-         jyAh0y2ElV8g7ZXuLNUfRXPtZ5ThaRkUiYl0HTwaUGr+FTOUYjQdjLUJhmRyo5hoaOms
-         P+sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762793133; x=1763397933;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ejgzWIAmMtwDeIAONVbXRMu0MknYB8VkcpRxQd2rWvU=;
-        b=Ma+uDOn3U5pFvH5Rw/FjPTA8jOxNObjnRHT8WSSJQ80qaNRwEou+MCgCE+59CjvRF0
-         KP0hL1VuhPPY0+P3eb4imQ8LGJjh4cwk3qaMz5ahFCYuOuvj8iRWtQm3RqZg9ZEtA/Jd
-         K5XEet71wUXUQNTvOrYTi7JZZyTgDyGC5n8YqYivpLOXFgxLMi5z4IfrTsRhvMVgYhec
-         xSVf6OLjUDrTFJDGJTHJ5YqD10B0/ZqV7UiHwYM6L/3/C89vCuKHVC4iiqfXAkBeiTxi
-         qjzKaPb24vOi9PkSK7hMWu1+kpMRtizaLYvwg++BT47VQEQo1flsDGiuU81TP+oWBvYI
-         e2PA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTJRRniC9br8IdHknVJdo7L2ml1Em3v12H+VpGZEu9U/eZ3XEbtlZ0IAt/pAJQwQnDcVBETN5Rsb4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJPDvix/0h/u5jGFmK0oE54eW3xFKl9LoL4jLQ/7VMopaG8vcb
-	H2hLaHHjRky8beKZMwbT8B0Dk8bUnoUUEtvn/Pn7+1nZQQ99fPOL67+I
-X-Gm-Gg: ASbGncu/AwAOeNNyp6YkPm7UAkvaMnTruvG7oeOUuh032eIO1Q9jVhi8cxt558RzasD
-	CMT0CRB7YUd4slHUBhs8iNwyZKTjHGd7PHf8GCgRMQO5z/RfZbStUAcPhh1Xh9fb4Nk7xOghrEj
-	n/Ch43uBxzxQAMNwO5UnnEihl15+4dFpdvw2SlM/Me05yXE45ZUrHsDT2sbFKP/T9cWwAPerv5g
-	aTbe2khLUk9FwHU8vng5+b7m38xRfLxXnOnO8b6vzKPgi5arl7v89ET7eAuUrGs+IlzrMMTr1P6
-	50Pyymze390EJiBiSZAQpzqoLrNs1ve8mczYOEVQPbyPFnxQhYBKWhqWtufUjiZrB3ngZPcBHxW
-	RiJsLhzKBC2wB+5KC9tnv+krBUSG/KgOBB3fZUm29ClRVb4A6Ts5+K8AIj/uwZLSW7aH4LSMZ6y
-	Cx5E8VJF6FLA==
-X-Google-Smtp-Source: AGHT+IHlDbq/FuhUx5b37jOHHuGk+B4j8Ue7lQztTGR+qjnK+j0oCN6+BEjfuAMoSyUWo5a31EZ/jA==
-X-Received: by 2002:a17:902:da4b:b0:295:24d7:3792 with SMTP id d9443c01a7336-297e54030a4mr120060845ad.1.1762793133088;
-        Mon, 10 Nov 2025 08:45:33 -0800 (PST)
-Received: from localhost ([2804:30c:1661:8a00:578a:911c:ac25:24a6])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-29651c7409esm150687835ad.64.2025.11.10.08.45.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 08:45:32 -0800 (PST)
-Date: Mon, 10 Nov 2025 13:46:50 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org, nuno.sa@analog.com,
-	dlechner@baylibre.com, andy@kernel.org,
-	Michael.Hennerich@analog.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, cosmin.tanislav@analog.com
-Subject: Re: [PATCH v1 0/3] iio: adc: Add AD4134 minimum I/O support
-Message-ID: <aRIW-tksre10iB1v@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
- <5e0ea52e6a77a1d6af861ba5aaeeea5c3d514705.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOEmXq56"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473ABC4CEFB;
+	Mon, 10 Nov 2025 17:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762795661;
+	bh=HHttyIN4ZrA3AcpdgGnhsSW/6Bj+qI781YjC1EPK/3Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kOEmXq56QEOhYKVDYg3pmTTbZaQ3owW/HDKwcBuDdC82JmIqyrI0H+yxc99FUcDUL
+	 fwXU81C3GkaANePQ13/nt1UtzHQ8MyPYe22/hw6izEBVPomnOaNifH0nL2YjIuoVqz
+	 bFDQnk/vsnnCJkXC34jzPZvxkem36m07cBLE0RclncJ9pC8+XMc/avvKcXYiGT+kXB
+	 IxJB+zIQ1WdF4EG+YSFYbws5XOV+2UNYGXQCOLRsjYTSDn6n0KjUr0PPbAlCviICtC
+	 SXhBCSgF6rWyM5byi12R1vmT5TvXzSZLCbZ+DnAFyM+S/lRmxXR0TspGUHGzkxmBaW
+	 qPOuJVi+O+KYQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v5 08/22] liveupdate: luo_file: implement file systems
+ callbacks
+In-Reply-To: <20251107210526.257742-9-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Fri, 7 Nov 2025 16:03:06 -0500")
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+	<20251107210526.257742-9-pasha.tatashin@soleen.com>
+Date: Mon, 10 Nov 2025 18:27:31 +0100
+Message-ID: <mafs0ms4tajcs.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5e0ea52e6a77a1d6af861ba5aaeeea5c3d514705.camel@gmail.com>
+Content-Type: text/plain
 
-Hi Nuno,
+Hi Pasha,
 
-On 11/10, Nuno Sá wrote:
-> On Mon, 2025-11-10 at 09:44 -0300, Marcelo Schmitt wrote:
-> > This patch series adds basic support for ad4134. AD4134 is a very flexible
-> > device that can be configured in many different ways. This series aims to
-> > support the simplest way of interfacing with AD4134 which is called minimum I/O
-> > mode in data sheet. This is essentially usual SPI with the addition of an ODR
-> > (Output Data Rate) GPIO which functions as conversion start signal in minimum
-> > I/O mode. The CS pin may be connected to a host controller CS pin or grounded.
-> > 
-> > This set provides just one feature:
-> > - Single-shot ADC sample read.
-> > 
-> > [PATCH 1] Device tree documentation for AD4134.
-> > [PATCH 2] IIO Linux driver for AD4134.
-> > [PATCH 3] Initial IIO documentation.
-> > 
-> > There is a driver by Cosmin on ADI Linux tree that supports AD4134 in wiring
-> > configurations suited for high speed data transfers. Even though the minimum I/O
-> > support was initialy based on that high speed transfer driver, the result ended
-> > up becoming entirely different. Also, because the different wiring
-> > configurations are likely going to use different resources and software
-> > interfaces, the code for AD4134 support was split into ad4134-spi.c,
-> > ad4134-common.h, and ad4134-common.c.
-> 
-> I'm familiar with the odd way this part is implemented in ADI tree :). Question is, are
-> you intending to support the high speed bits? I guess so, otherwise having the above split
-> would not make much sense.
-> 
-Yes, the intent is that the common parts may be reusable by the high speed
-driver when we get to upstream that. For now, this only supports conventional SPI.
-We may, at least, get some support for AD4134, though.
+Caught a small bug during some of my testing.
+
+On Fri, Nov 07 2025, Pasha Tatashin wrote:
+
+> This patch implements the core mechanism for managing preserved
+> files throughout the live update lifecycle. It provides the logic to
+> invoke the file handler callbacks (preserve, unpreserve, freeze,
+> unfreeze, retrieve, and finish) at the appropriate stages.
+>
+> During the reboot phase, luo_file_freeze() serializes the final
+> metadata for each file (handler compatible string, token, and data
+> handle) into a memory region preserved by KHO. In the new kernel,
+> luo_file_deserialize() reconstructs the in-memory file list from this
+> data, preparing the session for retrieval.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[...]
+> +int luo_preserve_file(struct luo_session *session, u64 token, int fd)
+> +{
+> +	struct liveupdate_file_op_args args = {0};
+> +	struct liveupdate_file_handler *fh;
+> +	struct luo_file *luo_file;
+> +	struct file *file;
+> +	int err = -ENOENT;
+> +
+> +	lockdep_assert_held(&session->mutex);
+> +
+> +	if (luo_token_is_used(session, token))
+> +		return -EEXIST;
+> +
+> +	file = fget(fd);
+> +	if (!file)
+> +		return -EBADF;
+> +
+> +	err = luo_session_alloc_files_mem(session);
+
+err gets set to 0 here...
+
+> +	if (err)
+> +		goto  exit_err;
+> +
+> +	if (session->count == LUO_FILE_MAX) {
+> +		err = -ENOSPC;
+> +		goto exit_err;
+> +	}
+> +
+> +	list_for_each_entry(fh, &luo_file_handler_list, list) {
+> +		if (fh->ops->can_preserve(fh, file)) {
+> +			err = 0;
+> +			break;
+> +		}
+> +	}
+
+... say no file handler can preserve this file ...
+
+> +
+> +	/* err is still -ENOENT if no handler was found */
+> +	if (err)
+
+... err is not ENOENT, but 0. So this function does not error but, but
+goes ahead with fh == luo_file_handler_list (since end of list). This
+causes an out-of-bounds access. It eventually causes a kernel fault and
+panic.
+
+You should drop the ENOENT at initialization time and set it right
+before list_for_each_entry().
+
+> +		goto exit_err;
+> +
+> +	luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> +	if (!luo_file) {
+> +		err = -ENOMEM;
+> +		goto exit_err;
+> +	}
+> +
+> +	luo_file->file = file;
+> +	luo_file->fh = fh;
+> +	luo_file->token = token;
+> +	luo_file->retrieved = false;
+> +	mutex_init(&luo_file->mutex);
+> +
+> +	args.handler = fh;
+> +	args.session = (struct liveupdate_session *)session;
+> +	args.file = file;
+> +	err = fh->ops->preserve(&args);
+> +	if (err) {
+> +		mutex_destroy(&luo_file->mutex);
+> +		kfree(luo_file);
+> +		goto exit_err;
+> +	} else {
+> +		luo_file->serialized_data = args.serialized_data;
+> +		list_add_tail(&luo_file->list, &session->files_list);
+> +		session->count++;
+> +	}
+> +
+> +	return 0;
+> +
+> +exit_err:
+> +	fput(file);
+> +	luo_session_free_files_mem(session);
+> +
+> +	return err;
+> +}
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
