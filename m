@@ -1,114 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6272B156F20;
-	Mon, 10 Nov 2025 06:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1FC238C2F
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 06:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762756102; cv=none; b=PklsV1y74mhY5+ZI1V12zp2At0PQ5h6Wnf/ohNle78Y9P0XY2JpOw2j3S4hycptmV67yHNULX6Y2fEx+ZT6Xs7S64eJ9TZmrSjePCoVe2N97N7TuAoQgiPDVt+/YblPkqxEX/IjFwwK+LbQSMXpf99oH0hckYBUjSnIC6QCez/k=
+	t=1762756686; cv=none; b=WYrDiRvFsuTJ1+zZVyoXmFJKY+yVTu0bjoTjgrFqJtn3QHjwg3vUJd8i2Q78Qk+/xTIo8LHDfQj8bfOPvQTEmZ/pR8uR7qRxWxhOB5keojN5CyOItBCq7lsAn3v9YK69fFOwc1rpklsKN2DWZrmoL0OJM/aP45fr+F/dRndkKys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762756102; c=relaxed/simple;
-	bh=ddIMMg0/UoErbMTX78JXcS4JAj9BwMzwkiTUhO7Nqns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuWJIfytjmJMJuvRi8mcrTXYgHwX+AQz9cmb0TnJL1nL1SxT2AaCS7KG71agRPl6dKsS9i6SywmGJ2QW75e2BjpPKlA7WCt0nwp9V+75AZwlDtEE0D0FFOCTQPHNiqg2YBMg3Ni7r98kIFAAGcZ2LTxdqenxVZaCta4unifiEQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPDbT+y7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762756686; c=relaxed/simple;
+	bh=SUHfIg5GhQcEfjnNTSceZJLkDCfTBJb7plnlPtngbCM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IxOCQrY90fVvu62Aiv5sUUNxMEXmte58/FX0TEBPmJgDiRosiucfcjKf6Z3s+7CIsB/xGqAYidH2ezielOGEALcdQqbMFk1vxF9jkpEpoIPXvxdrBGH/pJ6K4L7LpSDCrwyvZJhyV495qtgADycW6QrIoO6g/urqaKuOoC9Bx74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=R5HCuqlb; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPDbT+y7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D8DC116B1;
-	Mon, 10 Nov 2025 06:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762756101;
-	bh=ddIMMg0/UoErbMTX78JXcS4JAj9BwMzwkiTUhO7Nqns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hPDbT+y7SDARIULk5EY9QOatLDtZNrpJ0nyknHBBTjv5z+mwJKFnycRJ1vBNgBDtl
-	 ZzYYo6RNkpWQcNIlZr6LU+maAns6QpKykxbBXRJm9rA/XX7pLDkz7p7b0cbwKlNGvz
-	 1CH9nRFaIRQ93E0pzoMo2lFGTGZXSlHtRGSE0nY/g4InX86/4chH9kCNjiVF1k5vXC
-	 WQC/2+TyMIOmG/Qxl4C9N8rq3EU520uOgaftw0MHKQ0cB4ZwjVfmic0VkGp3IVhrXi
-	 BMTjemiDqgWffTd1p3587iB0ZXaKY0i8K+IBYhjYwUUxLd7a5Vuo6NQe+n1eDjg+/O
-	 iXWNfME8V8yOw==
-Date: Mon, 10 Nov 2025 06:28:17 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
-Message-ID: <aRGGARe6ExyGpaRh@google.com>
-References: <20251106152712.11850-1-tzungbi@kernel.org>
- <20251106152712.11850-2-tzungbi@kernel.org>
- <20251106154715.GB1732817@nvidia.com>
- <aQ1-qj0ztQ29h-oc@google.com>
- <20251107141509.GK1732817@nvidia.com>
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="R5HCuqlb"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7b4933bc4bbso446488b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 09 Nov 2025 22:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shopee.com; s=shopee.com; t=1762756684; x=1763361484; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wmBVMknsz67ut23E5K5rufi/vJYxx4RPQjR4CpqkZ2E=;
+        b=R5HCuqlbWU2edYGODcWV1pi669v3q6rHIrHoX+G2fxwUP3JOwpuWcweyOYq+KC6pZx
+         Tuptkc8bqnK1emYqAJFUfBXzY+w/+LP2E0SmggulAymi/WlLPSv27GTf/o6GolG/+Cv9
+         b+AFFQZ6ClEk6Xr8tCMXv+cwTBaXaYgi4ZtGmX3dTUhlEn+N39q2np1IUoBNNoMLljaW
+         7mPnV4CNZeR0gf/KQdScareM35zLA3VxKx2QGMXfZ2eZYMtJewhWm5CJvNK8YdB+JpYU
+         nAZ+Du3uO9wYXsY6pTspPRbJ31iDNhY+cboi4MQkjfMCF+XmYxpu207RQdxdUs7Rd8w0
+         kNlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762756684; x=1763361484;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wmBVMknsz67ut23E5K5rufi/vJYxx4RPQjR4CpqkZ2E=;
+        b=MFdii6ooeAqCIYxRFzfYMopVyOrKp7qeW/0n25FEGkTug6D0Y8/2ubrAc32UyXjK9p
+         +Y83PZih7qlk3rLgotIXJMttCIcVFdCTJGpotMvDKYBay3IR58a2KDc7vAmM1Ej0S9U9
+         EvofGthMERZagP6SdB1OnpA9f7TgrJBNl7LZn5m46ZjMFo4reAMd8be7xY5AhWRdgjDi
+         pUaFHj/C1v97XVvj5Rv1mSxMDmnrpDPr1f61IeFgnPdOt8webLwTh926553HzcyPeE1+
+         rh8x0YqaP9d0aUJbhmuOcIkQ9vGIaWQY1mfVHd1cNYN4XE8thnT0zJKL22EyI7KxCjPK
+         ACxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXEZ1HBiAwL/v6kOuJK3bGocw4k29ksm1eq0N1eIYfQ/BzKQ4wla+7L3rvlzKmhA5XYIzLsQElS1LE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVXhl/UzQFgPCp1mRdJ1Snw188NeuAqqdcpKV42k0uKBJ4lAN4
+	MsYoTL2bnQQEH1suon7tL0Jn+PnghgZpmX1jfqRTMaUya5mV4fmzGSublIczepl3gNk=
+X-Gm-Gg: ASbGnct6dq+6SdEhwUKSgLdepsGOUpQM5W9m+BUeyvejltUb5s6e/8RRhho7XndGX7Z
+	YrO4rFMwVTbUwnlib69jSjuc1TUPBE/8UiEIa1UmtFPi1NOES/S/clyxuZvcfdXQ+BRl59CxCH1
+	1ixHsyjLM1sHlbNFTaLxEvHBVr0eUGacqly9YIieKJsEjjHBF5/dkGXwuHJBamFtSv7D+sfTxgQ
+	xdAN2BjzANzWNpdpaeAcGFSnGkLHjtfUl9UXPwt+54ZWqkwjCDnBNEwTY229Fm4d9NIDziTaRF5
+	iyom8nECvJnGKQN0Mc5F7nh8zCvoR/G7RMNPPEvS7ma7aIlhu0h22ZU1zspgfUrW4XK0GplBV1c
+	5zd0JyCk9NTY2+2NLMo9GpCJ9ziOj34e7IO5/SwV8W5UTljMm5HC8MsMMYPFQnftTRWjlnPme4m
+	OfzDwFdWD0P2dAEQ==
+X-Google-Smtp-Source: AGHT+IGpM2iMSrs4WgXitoPVDoGbl0s8jdXiEXMRW0CSHSXbsOrMNjve/Ihdvic39TubC73LXbxmTQ==
+X-Received: by 2002:a05:6a00:1a8e:b0:78a:f6be:74f2 with SMTP id d2e1a72fcca58-7b218103464mr9344608b3a.5.1762756683995;
+        Sun, 09 Nov 2025 22:38:03 -0800 (PST)
+Received: from .shopee.com ([122.11.166.8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0cc17a688sm10609451b3a.40.2025.11.09.22.37.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Nov 2025 22:38:03 -0800 (PST)
+From: Leon Huang Fu <leon.huangfu@shopee.com>
+To: shakeel.butt@linux.dev
+Cc: akpm@linux-foundation.org,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	hannes@cmpxchg.org,
+	inwardvessel@gmail.com,
+	jack@suse.cz,
+	joel.granados@kernel.org,
+	kyle.meyer@hpe.com,
+	lance.yang@linux.dev,
+	laoar.shao@gmail.com,
+	leon.huangfu@shopee.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mclapinski@google.com,
+	mhocko@kernel.org,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev,
+	yosry.ahmed@linux.dev
+Subject: Re: [PATCH mm-new v2] mm/memcontrol: Flush stats when write stat file
+Date: Mon, 10 Nov 2025 14:37:57 +0800
+Message-ID: <20251110063757.86725-1-leon.huangfu@shopee.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <blygjeudtqyxk7bhw5ycveofo4e322nycxyvupdnzq3eg7qtpo@cya4bifb2dlk>
+References: <blygjeudtqyxk7bhw5ycveofo4e322nycxyvupdnzq3eg7qtpo@cya4bifb2dlk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251107141509.GK1732817@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 07, 2025 at 10:15:09AM -0400, Jason Gunthorpe wrote:
-> On Fri, Nov 07, 2025 at 05:07:54AM +0000, Tzung-Bi Shih wrote:
-> > On Thu, Nov 06, 2025 at 11:47:15AM -0400, Jason Gunthorpe wrote:
-> > > On Thu, Nov 06, 2025 at 11:27:10PM +0800, Tzung-Bi Shih wrote:
-> > > > +/*
-> > > > + * Recover the private_data to its original one.
-> > > > + */
-> > > > +static struct fops_replacement *_recover_private_data(struct file *filp)
-> > > > +{
-> > > > +	struct fops_replacement *fr = filp->private_data;
-> > > > +
-> > > > +	filp->private_data = fr->orig_private_data;
-> > > > +	return fr;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * Replace the private_data to fops_replacement.
-> > > > + */
-> > > > +static void _replace_private_data(struct fops_replacement *fr)
-> > > > +{
-> > > > +	fr->filp->private_data = fr;
-> > > > +}
-> > > 
-> > > This switching of private_data isn't reasonable, it breaks too much
-> > > stuff. I think I showed a better idea in my sketch.
-> > 
-> > The approach assumes the filp->private_data should be set once by the
-> > filp->f_op->open() if any.  Is it common that the filp->private_data
-> > be updated in other file operations?
-> 
-> You can set it once during open, but you can't change it around every
-> fops callback. This stuff is all concurrent.
+On Fri, Nov 7, 2025 at 7:56 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+>
+> On Thu, Nov 06, 2025 at 11:30:45AM +0800, Leon Huang Fu wrote:
+> > On Thu, Nov 6, 2025 at 9:19 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> > >
+> > > +Yosry, JP
+> > >
+> > > On Wed, Nov 05, 2025 at 03:49:16PM +0800, Leon Huang Fu wrote:
+> > > > On high-core count systems, memory cgroup statistics can become stale
+> > > > due to per-CPU caching and deferred aggregation. Monitoring tools and
+> > > > management applications sometimes need guaranteed up-to-date statistics
+> > > > at specific points in time to make accurate decisions.
+> > >
+> > > Can you explain a bit more on your environment where you are seeing
+> > > stale stats? More specifically, how often the management applications
+> > > are reading the memcg stats and if these applications are reading memcg
+> > > stats for each nodes of the cgroup tree.
+> > >
+> > > We force flush all the memcg stats at root level every 2 seconds but it
+> > > seems like that is not enough for your case. I am fine with an explicit
+> > > way for users to flush the memcg stats. In that way only users who want
+> > > to has to pay for the flush cost.
+> > >
+> >
+> > Thanks for the feedback. I encountered this issue while running the LTP
+> > memcontrol02 test case [1] on a 256-core server with the 6.6.y kernel on XFS,
+> > where it consistently failed.
+> >
+> > I was aware that Yosry had improved the memory statistics refresh mechanism
+> > in "mm: memcg: subtree stats flushing and thresholds" [2], so I attempted to
+> > backport that patchset to 6.6.y [3]. However, even on the 6.15.0-061500-generic
+> > kernel with those improvements, the test still fails intermittently on XFS.
+> >
+> > I've created a simplified reproducer that mirrors the LTP test behavior. The
+> > test allocates 50 MiB of page cache and then verifies that memory.current and
+> > memory.stat's "file" field are approximately equal (within 5% tolerance).
+> >
+> > The failure pattern looks like:
+> >
+> >   After alloc: memory.current=52690944, memory.stat.file=48496640, size=52428800
+> >   Checks: current>=size=OK, file>0=OK, current~=file(5%)=FAIL
+> >
+> > Here's the reproducer code and test script (attached below for reference).
+> >
+> > To reproduce on XFS:
+> >   sudo ./run.sh --xfs
+> >   for i in {1..100}; do sudo ./run.sh --run; echo "==="; sleep 0.1; done
+> >   sudo ./run.sh --cleanup
+> >
+> > The test fails sporadically, typically a few times out of 100 runs, confirming
+> > that the improved flush isn't sufficient for this workload pattern.
+>
+> I was hoping that you have a real world workload/scenario which is
+> facing this issue. For the test a simple 'sleep 2' would be enough.
+> Anyways that is not an argument against adding an inteface for flushing.
+>
 
-Ah, yes, I see.
+Fair point. I haven't encountered a production issue yet - this came up during
+our kernel testing phase on high-core count servers (224-256 cores) before
+deploying to production.
 
-> > > This probably doesn't work out, is likely to make a memory leak.
-> > > It will be hard for the owning driver to free its per-file memory
-> > > without access to release.
-> > 
-> > Ah, I think this reveals a drawback of the approach.
-> > - Without calling ->release(), some memory may leak.
-> > - With calling ->release(), some UAF may happen. 
-> 
-> It just means the user of this needs to understand there are
-> limitations on what release can do. Usually release just frees memory,
-> that is fine.
-> 
-> I think it would be strange for a release to touch revocable data,
-> that might suggest some larger problem.
+The LTP test failure was the indicator that prompted investigation. While
+adding 'sleep 2' would fix the test, it highlights a broader concern: on these
+high-core systems, the batching threshold (MEMCG_CHARGE_BATCH * num_online_cpus)
+can accumulate 14K-16K events before auto-flush, potentially causing significant
+staleness for workloads that need timely statistics.
 
-I think it'd be inevitable for accessing some devm memory in ->release(),
-e.g. [1].
+We're planning to deploy container workloads on these servers where memory
+statistics drive placement and resource management decisions. Having an explicit
+flush interface would give us confidence that when precision matters (e.g.,
+admission control, OOM decisions), we can get accurate stats on demand rather
+than relying on timing or hoping the 2-second periodic flush happens when needed.
 
-[1] https://elixir.bootlin.com/linux/v6.17/source/drivers/platform/chrome/cros_ec_chardev.c#L260
+I understand this is more of a "preparing for future needs" rather than "fixing
+current production breakage" situation. However, given the interface provides
+opt-in control with no cost to users who don't need it, I believe it's a
+reasonable addition. I'll prepare a v3 with the dedicated memory.stat_refresh
+file as suggested.
+
+Thanks,
+Leon
