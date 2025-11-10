@@ -1,188 +1,138 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA21304BDE
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 15:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE58304BDE
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 15:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762789314; cv=none; b=iYYWmdpdX5QtDjQvM58MHWcVqpweH4iSJIMnR2hbbP/FSS2wNUTFzRz+Iroan1OczdR4jxWwS+0RlJnpIUHWyBIXW6GvfDffYnHw0vkw5nU+89NYhUMiIWdKyUZqFc+k1Gb3/BpSPIF/beIB4H4x+41Qz+LdO5ReB6oyH3VoIYU=
+	t=1762789464; cv=none; b=GvYvBydsBtgmTtCbaJttaDOuao9E/frqnIYUHTC2lLUc1A/fLvORgyXZxdfnxNqmeFZjaLFuE6wgyNW6iAoV9H/wwZg/V/keY3A3wLi2g/LWSasGkfLOh0gKYthaMbzOBXIahJvYaDseMuR7ChekDIPwB+BweWr6UNmxSKZbvn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762789314; c=relaxed/simple;
-	bh=IBEHosaYIw4Uy2q8CYzcuC+/MKjcxH+HXLEgyNLHiEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBvonMsJXBkoQc4kbu2xXFFFfGgtilMXObzZdY/6R9EuKZDn29XA4cv2RcjWDqk+orcUJJaqJH+3VJOTFIphocbWym+69EiHnnpk78uiNNLkRjBoM9agvvmlI9DmCNrtY73EOhWp0gHGPci80Q7k3KHrudWcNL7/xfIaRsWW7fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtMJ9ZVm; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762789464; c=relaxed/simple;
+	bh=0/OiCETMmzcumsvoWoUgjV7cQZEVGoR3fXx3J8u0qVE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I2wrm1jyLq1hRsdrR2SBBGhQyUsQqqiy4rvTTPyA4C+I0Dw35SpqGAPKmip3olIPEMhOvJ2ZumKf1NBVeNJpjFzgBRVnbhstPaPYAd/jsMTfUVy2qEBt/ghyv+BmdvWA+HHxp2g5ry2KGiS7DUQgWDYU0GViMO7T8j8N+g+UzaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dzvOjL21; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtMJ9ZVm"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b4933bc4bbso1004321b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 07:41:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dzvOjL21"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6419aaced59so1470696a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 07:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762789312; x=1763394112; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ylq5ip16KIlNEm4q5Drc6EevlzHi/eE660ukaOSOxw=;
-        b=VtMJ9ZVmyhkYlREYDhuIP/MGHIeqIrH8d9SKCs4YNq6LqjSPiaIAjiKoPLnmDhvbTX
-         OknozvPCaRJOSApwEiqdz0D3Swz6niOUIKUDq85P6q8R1PVTfK2YIe4N/RIhH3JnMkeO
-         ck/BBOYNtHsxdb5j3YkqFgL9odOF3fOFYxHujKxXXJ5vcKRzFpSmW3qf8zEgNEpes3qr
-         03FpkWFAgbfgiojS14yLcN5QgRcZuIEcdgOqRaIG2WWuPQbYS6h0o/OEikWMfgzDv1ep
-         Zi4XwmUJUw/Y6v8TAtEYjPN5OP67B9FvgKnzNhwq6QZBKOyJu1I+aXRob/AYt0QB+zpD
-         OYgA==
+        d=soleen.com; s=google; t=1762789461; x=1763394261; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KQAadWs2BEV1pVXExDFNf/QXLwU7Gs3Db0cLPnWAqzw=;
+        b=dzvOjL21KjvkYZZzR6Ed+fpTiS0NvhBWEAiCCEQBV19oX3UrQouoka3tyVBpTo2UWs
+         j4PVvJ2pL4ZrTlNNHUDdVANtzS7C0YiDtCMYtFnYw/pyxn35SX9EwsR3r5NFtC1pqczs
+         PfomZmit+5jlMicEO2krFsQEgEsMZznnqrt7AdW062KR3Wf/NJR/LoXOHLXXcJofeQ8w
+         P/mI86v2d6dSxyNcHa7tmNUU9ErJLfuhu6SpeaUNPhOq1V1iuMB9XnDS0OlHfX5ljxM5
+         w50mfpkDbsD/GI0E+6Q1b7bB14spFnuBLpTe0ZV8evQnSc8hpXd9fph6sJ0No4vC/Pti
+         NLug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762789312; x=1763394112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/ylq5ip16KIlNEm4q5Drc6EevlzHi/eE660ukaOSOxw=;
-        b=R+lKvhV7I2GEWkDbesul8S5lQEr/FuJMaVHNfF0FigUCMSa1R3xsfsRNeuRQ66uclO
-         nWOOIXQltt1rnn9SkzaD7XX9yVs7E61oOc2hNJQAUYX02gs4MKK8wbMmUKOEvghVaMPo
-         eD/oSppMtBuMYZJN/Y1Y02NVPwB0i9LnN62T5igotALCfeyX4bHQ+vp9Tc+RWHhOJ/5i
-         PKfmDEM+WPPrv31oexlFtJZsfGtqKbDUX+iFnXQVt9bAF/hyOYgvUYF2c3eRsRi45wPU
-         fiuWJKZ8isn5N6yagp2IHd/xc7Tq//Oje/rps79ple4bS0zvFzrjTR2Vvx/bflwhDTKr
-         ygEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZnHim9+3LeY3eqtThG2Yy3WZFNfEqcwtCph54iwyLiZ6e1ykKcQmr+mErfzt0Wrsi6wrBaTdI8Ik=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyX3dBxShNcxCRQCcHj/t7a/cPAb2Iwqdh/TUY+dR7ewEj4D2Uy
-	GEAcBf2cSu9NIraJuei2KxgaK3CHkZ9MMr/X7ECf+cP+yIGnJl3P1gHh
-X-Gm-Gg: ASbGncvTR4opmZbs3or2MzdUjDW2e3gwhagticwHAszBoVFSXWEn4b9DgkGdw+jkry5
-	CYV05n+Z8eS2d+SDTcVvfz4GPUP74DePFTSqvUH77U9RuP7ehBknk9bxyrUIvVh6zqgK2dtA5LT
-	0MrmizJVOKiaQ2zqO33hW2JIUicfxll/YQcB9jkkwlPY7k0ByQv3wR0mdWeP+n8daEv4SAyeiKz
-	k7MAyq5w+1V8hl51Fml11Rc1+tmKEa8oXUtdMokfHyGnQNfaAJUg8Jhrg4hmirG4Olzb3IpWC4l
-	3r/qPxu9zzrzk9YwSdMTTzAQpBtcmCbfrU84GNH/ckuT+I9N1ep3nnWAo/8/Bos0IIke8jFzOx5
-	r2tPhP1y6lGkl2JtYlxyBkhhD07vhb5ZPcFO/i09cZYleVkV3mcqtIJ4MuVTrr192v1lDxKaAnw
-	+lVpJjpEsHIg==
-X-Google-Smtp-Source: AGHT+IH2AanJ/xvo0tNEHTz1Ql1SAqJGcv6JRo7rtSuZftddi6C1S80+uwRJGFeK0pubFMUbdbyzbA==
-X-Received: by 2002:a05:6a00:3213:b0:7ae:b13f:37c2 with SMTP id d2e1a72fcca58-7b14a1206aemr10855026b3a.10.1762789312083;
-        Mon, 10 Nov 2025 07:41:52 -0800 (PST)
-Received: from localhost ([2804:30c:1661:8a00:578a:911c:ac25:24a6])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7b0cc76c0dbsm12121713b3a.51.2025.11.10.07.41.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 07:41:51 -0800 (PST)
-Date: Mon, 10 Nov 2025 12:43:09 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org, nuno.sa@analog.com,
-	dlechner@baylibre.com, andy@kernel.org,
-	Michael.Hennerich@analog.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, cosmin.tanislav@analog.com
-Subject: Re: [PATCH v1 0/3] iio: adc: Add AD4134 minimum I/O support
-Message-ID: <aRIIDTUR5Pyz1Rxi@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
- <aRHgaXxxnD5YsIQQ@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1762789461; x=1763394261;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KQAadWs2BEV1pVXExDFNf/QXLwU7Gs3Db0cLPnWAqzw=;
+        b=Q8FBYc9x5phheo667K/W5RvCGWjUVSP9e2cia+IuBlBx9BrLUIGkHwnlFEk5jvl2Jt
+         J7x6b4dCLYWMGgzFsim3/YS7EnRbSP/nEmdlqh8q+NCJGE3nSHSQLd8ZyQGEEShYph3X
+         T9OkEVkhS8ZVwRVe/MLsLmyUrZ5/uzsXKFP61/RlXHZBUf4JqXgIoIwZZC7KG5/ps/bM
+         ndoT6Ce7uBvEa+82j1Rx7nRU30W5932DzpBsLnC0T9evxHcr///gcvGdj5kMq60UqRqO
+         kMsaSpH3wqZMmAWVtNrKTJx/SFjB0O9Hnw/YHS0wl2s9lhq31BCwmU8YwXCmgrwsmUcD
+         PglQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXCK/yRIljNDz0oE1k18XSvJxWqC28ewqXNDHE3b9HNlXSt2mWPecahIJ4ezUvH7D+GhMsuZvLhk7U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyf1qSHlDKkgbMAbFIzxFb5INcif9BqIlWpqwQlD2T9yhWFb22V
+	u+eEIuXLWeeFdINTS9z7wxmUP+aSoezH4+s0fWUFg5JUjaTyyWIfN53S6WarfCQEicU4VVTbNR1
+	rqKBKRJRrfQvghA6pWe4AdhbbV6iiSsNR3oPmN4hNeA==
+X-Gm-Gg: ASbGnctl+hYV3FCJyhyKAibs3faz71dWSH+4J+A0k6g6ZDo3U6T8gADCgN8CFxQp4FJ
+	zCLANy8UORnA0ABxzmMTFB6BxXWUi2qwokIdcV1op7OOjVfBUCPMNhJybOG1oVkItJbnQMLnHth
+	+aG0FFAEYt3S18uvBSWFy+PzSdJEO0E6JPRSRw9LO9H9ZV1plKU8MJvz6ajJ+fWVadJiWFn3MeX
+	AaeGhW8jSm86piUUwVhJ6Y/vVfBBMC+IYm0aJw5VU1Mr/10omYcEG0UcQ==
+X-Google-Smtp-Source: AGHT+IHgzYBqOch+pmqIr6aFKeN8KU2lBlaA5VrUfecgkUX1bwRao0L5zlIWi8QFdGiWaxEVfTfghHwHllS6y/yRZSI=
+X-Received: by 2002:a05:6402:5245:b0:641:270:2c5b with SMTP id
+ 4fb4d7f45d1cf-6415dc082f2mr6735966a12.4.1762789460667; Mon, 10 Nov 2025
+ 07:44:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aRHgaXxxnD5YsIQQ@smile.fi.intel.com>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRHiCxoJnEGmj17q@kernel.org>
+In-Reply-To: <aRHiCxoJnEGmj17q@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 10 Nov 2025 10:43:43 -0500
+X-Gm-Features: AWmQ_bn3hTY0dfz8jKC-NQyPogDeCUM0IUVj5R8f5Xi9W9zl_j-5I3l31CcFnck
+Message-ID: <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andy,
+>
+> kho_finalize() should be really called from kernel_kexec().
+>
+> We avoided it because of the concern that memory allocations that late in
+> reboot could be an issue. But I looked at hibernate() and it does
+> allocations on reboot->hibernate path, so adding kho_finalize() as the
+> first step of kernel_kexec() seems fine.
 
-On 11/10, Andy Shevchenko wrote:
-> On Mon, Nov 10, 2025 at 09:44:56AM -0300, Marcelo Schmitt wrote:
-> > This patch series adds basic support for ad4134. AD4134 is a very flexible
-> > device that can be configured in many different ways. This series aims to
-> > support the simplest way of interfacing with AD4134 which is called minimum I/O
-> > mode in data sheet. This is essentially usual SPI with the addition of an ODR
-> > (Output Data Rate) GPIO which functions as conversion start signal in minimum
-> > I/O mode. The CS pin may be connected to a host controller CS pin or grounded.
-> > 
-> > This set provides just one feature:
-> > - Single-shot ADC sample read.
-> > 
-> > [PATCH 1] Device tree documentation for AD4134.
-> > [PATCH 2] IIO Linux driver for AD4134.
-> > [PATCH 3] Initial IIO documentation.
-> > 
-> > There is a driver by Cosmin on ADI Linux tree that supports AD4134 in wiring
-> > configurations suited for high speed data transfers. Even though the minimum I/O
-> > support was initialy based on that high speed transfer driver, the result ended
-> > up becoming entirely different. Also, because the different wiring
-> > configurations are likely going to use different resources and software
-> > interfaces, the code for AD4134 support was split into ad4134-spi.c,
-> > ad4134-common.h, and ad4134-common.c.
-> 
-> The cover letter misses the answer to: "Why do we need a brand new driver?
-> Don't we have anything similar already in IIO that can be expanded to cover
-> this one?"
+This isn't a regular reboot; it's a live update. The
+liveupdate_reboot() is designed to be reversible and allows us to
+return an error, undoing the freeze() operations via unfreeze() in
+case of failure.
 
-Ah sorry about that, let me provide more context.
+This is why this call is placed first in reboot(), before any
+irreversible reboot notifiers or shutdown callbacks are performed. If
+an allocation problem occurs in KHO, the error is simply reported back
+to userspace, and the live update update is safely aborted.
 
-ADI has a design called AD4134 which people would like to use with Linux.
-This is another fast sample rate ADC that would need SPI offload support to
-reach maximum sample rate. The driver I mentioned above provides support for the
-SPI offload use case but, it has not been reviewed nor merged to mainline Linux
-(at least as far as I'm aware of). I also searched the lore and found no
-previous matches for ad4134. So, we currently have no driver supporting AD4134
-on mainline Linux.
+> And if we prioritize stateless memory tracking in KHO, it won't be a
+> concern at all.
 
-Why not just upstreaming the SPI offload support driver for AD4134? To achieve
-the highest sample rates, the AD4134 provides a dedicated set of lines (DOUT0 to
-DOUT3) to output ADC sample data. We would need to describe and manage an
-additional bus this part (an SPI bus for configuration, and a data bus to read
-ADC conversions). In ADI tree + HDL, the data bus is read through SPI-Engine
-as usual SPI data and a second SPI controller interface is used for normal SPI
-commands. The setup actually uses two AD4134 devices and is more or less like
-the diagram below.
+We are prioritizing stateless KHO work ;-) +Jason Miu
+Once KHO is stateless, the kho_finalize() is going to be removed.
 
-::
-
-                                                              +-------------+
-  +----------------------+                                    |  DATA HOST  |
-  |       AD4134         |                                    | (SPI-ENGINE)|
-  |                      |                                    |             |
-  |Data interface  DOUT0 |----------------------------------->| GPI0        |
-  |for ADC data    DOUT1 |----------------------------------->| GPI1        |
-  |read back       DOUT2 |----------------------------------->| GPI2        |
-  |                DOUT3 |----------------------------------->| GPI3        |
-  |                DCLK  |<--------------+        +---------->| GPI4        |
-  |                ODR   |<------------+ |        | +-------->| GPI5        |
-  |                      |             | |        | | +------>| GPI6        |
-  |                      |             | |        | | | +---->| GPI7        |
-  | SPI interface   CS   |<-------+    | +--------|-|-|-|-+---| DCLK        |
-  | for register    SCLK |<-----+ |    |          | | | | |   |             |
-  | access          SDI  |<---+ | |    |          | | | | |   | TRIGGER     |
-  |                 SDO  |--+ | | |    |          | | | | |   +-------------+
-  +----------------------+  | | | |    +----------|-|-|-|-|-+     ^
-                            | | | |               | | | | | |     |
-  +----------------------+  | | | | +-----------+ | | | | | | +---+
-  |       AD4134         |  | | | | |   HOST    | | | | | | | |
-  |                      |  | | | | |(ZED PS SPI) | | | | | | |  +------------+
-  | SPI interface   CS   |<-|-|-|-+-| CS        | | | | | | | |  | PULSE      |
-  | for register    SCLK |<-|-|-+---| SCLK      | | | | | | | |  | GENERATOR  |
-  | access          SDI  |<-|-+-----| MOSI      | | | | | | | |  |(AXI PWM GEN)
-  |                 SDO  |--+------>| MISO      | | | | | | | |  |            |
-  |                      |          +-----------+ | | | | | | +--| OUT0       |
-  |                      |                        | | | | | +----| OUT1       |
-  |Data interface  DOUT0 |------------------------+ | | | | |    +------------+
-  |for ADC data    DOUT1 |--------------------------+ | | | |
-  |read back       DOUT2 |----------------------------+ | | |
-  |                DOUT3 |------------------------------+ | |
-  |                DCLK  |<-------------------------------+ |
-  |                ODR   |<---------------------------------+
-  +----------------------+
-
-
-Luckily, for handling the dedicated data bus, we might benefit from the multi-bus
-support [1] in the future. Though, the high speed setup has other implied
-intricacies such as an additional periodic signal (ODR) being required to sample
-data in addition to DCLK.
-
-[1]: https://lore.kernel.org/linux-iio/20251107-spi-add-multi-bus-support-v2-0-8a92693314d9@baylibre.com/
-
-Although we got that working on ADI tree, there are some aspects of the high
-speed driver that could be improved before upstreaming, IMHO.
-So, to start with something less overwhelming, I thought of trying the minimum
-I/O mode first (a.k.a. usual SPI interface). Note that the -common parts of the
-driver are intended to be reusable by the high speed driver when we get to
-upstreaming that. Also, by the way, that high speed driver doesn't support
-minimum I/O mode and the intent is that the drivers will provide complementary
-ways of interfacing with AD4134.
-
-With best regards,
-Marcelo
+>
+> > +     if (err) {
+> > +             pr_err("kho_finalize failed %d\n", err);
+> > +             /*
+> > +              * kho_finalize() may return libfdt errors, to aboid passing to
+> > +              * userspace unknown errors, change this to EAGAIN.
+> > +              */
+> > +             err = -EAGAIN;
+> > +     }
+> > +
+> > +     return err;
+> >  }
+> >
+> >  /**
+>
+> --
+> Sincerely yours,
+> Mike.
