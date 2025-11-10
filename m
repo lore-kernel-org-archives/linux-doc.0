@@ -1,84 +1,102 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D82E2F0C7C;
-	Mon, 10 Nov 2025 22:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0842ED16D;
+	Mon, 10 Nov 2025 22:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762813963; cv=none; b=ofU6bX2jCXnpSgU+y6xkUQ5ev3F4eyjYCcPU09PULpiQz4KOT5UTMoNQzcVUH5Q1IuXZuYO9sf6T9dEwMqxqDMYA7GCqcqMMgCdvFB323+k9Rh+yFnsX9UG30v+sU2lupNExeujppnkKZHFBLBdmFtwzy94hEy3TCgakZNYwzIc=
+	t=1762815515; cv=none; b=L8/dPTI2Mo7BpAQ7zZKdb4m0Ka9L9qPSoQLm3ehhqVEuEVlfvjwZP7m1yYZVHhtsUTB6dbSicVAS3JV2gelcJb955YFJQMqCMRdj9FsywI/7oBoKkqY+1abvwfNg5WdF9V/mClRWgwEsy++LGp4lcNxqiq9xXigjkDv6B49fW/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762813963; c=relaxed/simple;
-	bh=7Yi2FC0Nz/jUUUk2yoqp2/72e3nxtzvJVmGmoKZ5+aE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EI8GG48v5/x0AxfUMNnf/gIqpg2lm1vcY0eBXcJYzB/Ix3TfBBOmxItBCCYtqmH3Ts8ckiwQmlECgKi+wt2I5wwJJhJoOzfuUgCDL+9i6IbKC+BAk1FXazB1GlieZ/5c+b5kxN/nRyLaSFDk2AVG5oWSCnGjKVEX6l8/S2xntUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cn8IQpKt; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762815515; c=relaxed/simple;
+	bh=gp119oKTnpbHC1P/d+n3Qm9C5OlbMz4VTP9qPySDarM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tdn2vaeK5au5lWUABw2vnSobJVCXgF/RKY2WofWP0EtNpwDTyM9v/m0mJlw6CEg0M/0EQRAf2zq5am2RKSuvVpVzo1lxrOJBAcYoFzfE/Vh8hr4uxA4m+wOf1rOi04K6VCK+2/CFPTG+2nEWAcpVKsGE2TXTlHxwc0V/GuiuPLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wv5sTKvK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cn8IQpKt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=sewhWqFd62I4abwE7fEOWsIQy3YSzUkbQKDocaX8Oqc=; b=cn8IQpKtYYgWm4ODn5q3va4ea0
-	zNk8Oc0VIUcjIuBng/JkwYuW0Q3jqjTth2KtgDrBkqDMyr9pPlW6ZHk/FCzD/HLU5ghXN6wigc7jx
-	4W7KaGxdV/wSXdtyVIbDWheW6vGSJjngKZHEphNpccJYi3DUg2S9p1Gi9ZIUtaB1l+jxmMUT9Kz/g
-	1zQkbN5Cg0X1ppW5j2832ZUYcAfwrqmLsXHPGFL6ROOEp6Rr3y48fcf7vn/HjEKPp0FBqi5PKicST
-	lVV/+NvtAI1HtgLbY4RkWZ0lfBPv5BVtyosk6M0BUekFmbZSsuK1ojfkoLh5xjwEtr8m2WYVdzKeM
-	PLDKfJfA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIaRE-00000006D4l-0zNW;
-	Mon, 10 Nov 2025 22:32:40 +0000
-Message-ID: <e355cd63-77cd-42ac-b852-c789ee8c8869@infradead.org>
-Date: Mon, 10 Nov 2025 14:32:39 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wv5sTKvK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE8DC16AAE;
+	Mon, 10 Nov 2025 22:58:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762815514;
+	bh=gp119oKTnpbHC1P/d+n3Qm9C5OlbMz4VTP9qPySDarM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Wv5sTKvK8Fth+8Ulry2nulV4xCEtVBXnwIhWHQPmidsRNLKwkQ3d5V0GD068+lAO9
+	 LI3OqSg5CRVEyB//hIYRvUHrLnqzWExmmbDT9Z1UchTDbOP3Ryw9ll2uDjt6HDWyWj
+	 6KPxk/pHL763G49ToN0WUTIrt7+ddlaAHxfdQwJIFbCcTTqelmfK6pM2GNLDRQ4vys
+	 AfRF6fB43wY/PHKCpH1Uvy2oCOSMxac7NhkYiYrR01l/n/URrTywQFpukP74NlCWWD
+	 I99Zqwa+C5Z/WJT4fbNe3yCmM0qcOl3BeAEHvVNQphNd/uswiSxOEDkg692CA0h6BI
+	 d9gnLkn/HQN4w==
+Date: Mon, 10 Nov 2025 14:58:31 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Srujana Challa
+ <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, Brett Creeley <brett.creeley@amd.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Michael Chan
+ <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, Tony
+ Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, Linu
+ Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Jerin
+ Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, Petr Machata
+ <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Siddharth Vadapalli <s-vadapalli@ti.com>,
+ Roger Quadros <rogerq@kernel.org>, Loic Poulain
+ <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean
+ <olteanv@gmail.com>, Michal Swiatkowski
+ <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Dave Ertman <david.m.ertman@intel.com>,
+ Vlad Dumitrescu <vdumitrescu@nvidia.com>, "Russell King (Oracle)"
+ <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode
+ via devlink params
+Message-ID: <20251110145831.15872b86@kernel.org>
+In-Reply-To: <25ebaf18-f009-45de-a3e4-fe440c42ef19@gmail.com>
+References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
+	<20251107204347.4060542-3-daniel.zahka@gmail.com>
+	<mfuluoi4nebyc4avj52gkfs4nqikn6uwhqnkf4o6xfswtpceuq@zhpokcx6bb6l>
+	<25ebaf18-f009-45de-a3e4-fe440c42ef19@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
-To: Nathan Chancellor <nathan@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Graham Roff <grahamr@qti.qualcomm.com>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nicolas Pitre <nico@fluxnic.net>
-References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
- <20251109232922.GA2977577@ax162>
- <82317993284703834a7b1d8d5ca05b7c646f2795@intel.com>
- <20251110211549.GB302594@ax162>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251110211549.GB302594@ax162>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/10/25 1:15 PM, Nathan Chancellor wrote:
-> On Mon, Nov 10, 2025 at 10:48:59AM +0200, Jani Nikula wrote:
->> "depends on A || !A" (or A=n) is the most common pattern in Kconfig,
->> which literally means "depends on A if A".
+On Mon, 10 Nov 2025 08:05:57 -0500 Daniel Zahka wrote:
+> On 11/9/25 5:39 AM, Jiri Pirko wrote:
+> > Daniel, I asked twice if this could be a non-driver param. Jakub asked
+> > for clearer definition of this know in that context.
+> >
+> > Not sure why you are ignoring this :/
+> >  
 > 
-> That is totally fair, I did not try to actually search for the idiom. I
-> will say I do not find that either expression in Kconfig easily
-> translates in my head to "this dependency must be built in if the symbol
-> is built in, modular if the symbol is modular, or disabled" but I guess
-> that is just lack of familiarity with these idioms. I just want it to be
-> obvious to folks writing Kconfig when something like this is appropriate
-> to use but I guess with that being the most common usage in the tree, it
-> is fine as is.
+> My apologies. I think there was a miscommunication. I assumed Jakub's 
+> question was directed towards you. I have no objection to making it a 
+> generic param; I will do so in v4. It sounded to me like Jakub was 
+> wanting more information on what exactly this setting does beyond what I 
+> was able to provide in the commit message and mlx5 devlink 
+> documentation. My understanding is that this setting pertains to tx 
+> csums and how the device expects the driver to prepare partial csums 
+> when doing tx cso. I don't really know more than that. Especially not 
+> something like what the FW's role in implementing this is.
 
-I haven't tested it but it looks reasonable to me.
+Right, per To: field of my email I as asking Jiri for clarifications.
 
-> I think my point about tests still stands, at least something very
-> basic.
-
-Ack.
-
--- 
-~Randy
-
+Since we struggle to understand the semantics nack on making this
+generic. Chances are whoever reuses the "generic" param will have a
+different interpretation of its meaning, so what's the point of making
+it generic.
