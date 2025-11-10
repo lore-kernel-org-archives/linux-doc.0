@@ -1,138 +1,119 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE58304BDE
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 15:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68853213E6A;
+	Mon, 10 Nov 2025 15:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762789464; cv=none; b=GvYvBydsBtgmTtCbaJttaDOuao9E/frqnIYUHTC2lLUc1A/fLvORgyXZxdfnxNqmeFZjaLFuE6wgyNW6iAoV9H/wwZg/V/keY3A3wLi2g/LWSasGkfLOh0gKYthaMbzOBXIahJvYaDseMuR7ChekDIPwB+BweWr6UNmxSKZbvn4=
+	t=1762789530; cv=none; b=F+f8x81nYfMVs1tbJNA57a/pvQUdGpCw9vcucLokcQQLo+IwSn916vTfNLEHYTZjXKEEYWE4nK6EKcNQGMhy4W1z0UQsZifzjx+uLM3HwdpOh1EDjSy4tGc1HqjYr3TliiC8XKTK8LVqyRPD2QbuZwjBy5TKMnowiWm2ChlerlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762789464; c=relaxed/simple;
-	bh=0/OiCETMmzcumsvoWoUgjV7cQZEVGoR3fXx3J8u0qVE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I2wrm1jyLq1hRsdrR2SBBGhQyUsQqqiy4rvTTPyA4C+I0Dw35SpqGAPKmip3olIPEMhOvJ2ZumKf1NBVeNJpjFzgBRVnbhstPaPYAd/jsMTfUVy2qEBt/ghyv+BmdvWA+HHxp2g5ry2KGiS7DUQgWDYU0GViMO7T8j8N+g+UzaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dzvOjL21; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1762789530; c=relaxed/simple;
+	bh=9poQJZ13bmkoyTIkEY6uFwCthMZYSqe1hiLBYCBG2RQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kVj5xDr7Dm0JfNtX4ceY2xXZYDvMPtorM9pfbGrKJWw57FGeXzzOQKi25fLMZAmhY6/kmmNJ5w9Ec29fdPjA+zY2/0EYBgULUBlLVCwZmSlWkkXB0hQnf10IoXLhrFuJkGa7pNehKwL9xMQds7Ra0Ix1Ty1eN1o8ZlWqYTnFqRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gt4mBKa3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dzvOjL21"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6419aaced59so1470696a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 07:44:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762789461; x=1763394261; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQAadWs2BEV1pVXExDFNf/QXLwU7Gs3Db0cLPnWAqzw=;
-        b=dzvOjL21KjvkYZZzR6Ed+fpTiS0NvhBWEAiCCEQBV19oX3UrQouoka3tyVBpTo2UWs
-         j4PVvJ2pL4ZrTlNNHUDdVANtzS7C0YiDtCMYtFnYw/pyxn35SX9EwsR3r5NFtC1pqczs
-         PfomZmit+5jlMicEO2krFsQEgEsMZznnqrt7AdW062KR3Wf/NJR/LoXOHLXXcJofeQ8w
-         P/mI86v2d6dSxyNcHa7tmNUU9ErJLfuhu6SpeaUNPhOq1V1iuMB9XnDS0OlHfX5ljxM5
-         w50mfpkDbsD/GI0E+6Q1b7bB14spFnuBLpTe0ZV8evQnSc8hpXd9fph6sJ0No4vC/Pti
-         NLug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762789461; x=1763394261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KQAadWs2BEV1pVXExDFNf/QXLwU7Gs3Db0cLPnWAqzw=;
-        b=Q8FBYc9x5phheo667K/W5RvCGWjUVSP9e2cia+IuBlBx9BrLUIGkHwnlFEk5jvl2Jt
-         J7x6b4dCLYWMGgzFsim3/YS7EnRbSP/nEmdlqh8q+NCJGE3nSHSQLd8ZyQGEEShYph3X
-         T9OkEVkhS8ZVwRVe/MLsLmyUrZ5/uzsXKFP61/RlXHZBUf4JqXgIoIwZZC7KG5/ps/bM
-         ndoT6Ce7uBvEa+82j1Rx7nRU30W5932DzpBsLnC0T9evxHcr///gcvGdj5kMq60UqRqO
-         kMsaSpH3wqZMmAWVtNrKTJx/SFjB0O9Hnw/YHS0wl2s9lhq31BCwmU8YwXCmgrwsmUcD
-         PglQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCK/yRIljNDz0oE1k18XSvJxWqC28ewqXNDHE3b9HNlXSt2mWPecahIJ4ezUvH7D+GhMsuZvLhk7U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf1qSHlDKkgbMAbFIzxFb5INcif9BqIlWpqwQlD2T9yhWFb22V
-	u+eEIuXLWeeFdINTS9z7wxmUP+aSoezH4+s0fWUFg5JUjaTyyWIfN53S6WarfCQEicU4VVTbNR1
-	rqKBKRJRrfQvghA6pWe4AdhbbV6iiSsNR3oPmN4hNeA==
-X-Gm-Gg: ASbGnctl+hYV3FCJyhyKAibs3faz71dWSH+4J+A0k6g6ZDo3U6T8gADCgN8CFxQp4FJ
-	zCLANy8UORnA0ABxzmMTFB6BxXWUi2qwokIdcV1op7OOjVfBUCPMNhJybOG1oVkItJbnQMLnHth
-	+aG0FFAEYt3S18uvBSWFy+PzSdJEO0E6JPRSRw9LO9H9ZV1plKU8MJvz6ajJ+fWVadJiWFn3MeX
-	AaeGhW8jSm86piUUwVhJ6Y/vVfBBMC+IYm0aJw5VU1Mr/10omYcEG0UcQ==
-X-Google-Smtp-Source: AGHT+IHgzYBqOch+pmqIr6aFKeN8KU2lBlaA5VrUfecgkUX1bwRao0L5zlIWi8QFdGiWaxEVfTfghHwHllS6y/yRZSI=
-X-Received: by 2002:a05:6402:5245:b0:641:270:2c5b with SMTP id
- 4fb4d7f45d1cf-6415dc082f2mr6735966a12.4.1762789460667; Mon, 10 Nov 2025
- 07:44:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gt4mBKa3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4415C4CEF5;
+	Mon, 10 Nov 2025 15:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762789529;
+	bh=9poQJZ13bmkoyTIkEY6uFwCthMZYSqe1hiLBYCBG2RQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Gt4mBKa3osgTeMnDHqJYpvfWylJ+d6RPxfjGBZDjmgyLMzF6K7RAGpYraRX5/x7/h
+	 E7fgWJ2wvDDDBEwnLk30jep9zoUuDf82QGglMfdKWRjJkAvtIs6zOr3XpmSY05PBYb
+	 O6X/I94kpUnc6EU36Ahwdr3s5Rv7sCuFPnYkLEJ2hfk53se19jOd2+1xhOebCtc6Kg
+	 5RGUu38V3CchA6NGLwuE2g1VgF3sz5XV8407V7Ll8OyZoTEDAeHSGSQq+GuijUwgqC
+	 jE1L444PB8py3xvt87avWbDuXwXVSiWbMLr8SiaF0wN5Brh9cNEqVzxlydY87Ml979
+	 VUuVJMp3EPWcg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6AAECCFA1A;
+	Mon, 10 Nov 2025 15:45:29 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Subject: [PATCH 0/3] ADF41513/ADF41510 PLL frequency synthesizers
+Date: Mon, 10 Nov 2025 15:44:43 +0000
+Message-Id: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRHiCxoJnEGmj17q@kernel.org>
-In-Reply-To: <aRHiCxoJnEGmj17q@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 10 Nov 2025 10:43:43 -0500
-X-Gm-Features: AWmQ_bn3hTY0dfz8jKC-NQyPogDeCUM0IUVj5R8f5Xi9W9zl_j-5I3l31CcFnck
-Message-ID: <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGsIEmkC/x3MPQqAMAxA4atIZgONP1i8ijgEm2qWVlIQQby7x
+ fEb3nugiKkUmJsHTC4tmlMFtQ1sB6ddUEM1dK4bicghhzjQSD2qZgymlxgyb+x5it55gVqeJlH
+ v/7qs7/sBBLFJPWUAAAA=
+X-Change-ID: 20251110-adf41513-iio-driver-aaca8a7f808e
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762789528; l=2258;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=9poQJZ13bmkoyTIkEY6uFwCthMZYSqe1hiLBYCBG2RQ=;
+ b=ph+VaieH/2Z1pTAj3636B8hO3V/PMBRLThavszgki4+Kc7lATv3vHdTtOy5DCLCeHLVYoUdj5
+ 1s4e+RFUqZ1BT0haeDUEgzR6apGngS/46uTGDhIOb5nODT6XVMdV5mY
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
->
-> kho_finalize() should be really called from kernel_kexec().
->
-> We avoided it because of the concern that memory allocations that late in
-> reboot could be an issue. But I looked at hibernate() and it does
-> allocations on reboot->hibernate path, so adding kho_finalize() as the
-> first step of kernel_kexec() seems fine.
+This patch series adds support for the Analog Devices ADF41513 and ADF41510
+ultralow noise PLL frequency synthesizers. These devices are designed for
+implementing local oscillators (LOs) in high-frequency applications.
 
-This isn't a regular reboot; it's a live update. The
-liveupdate_reboot() is designed to be reversible and allows us to
-return an error, undoing the freeze() operations via unfreeze() in
-case of failure.
+The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
+operates from 1 GHz to 10 GHz. Both devices feature exceptional phase noise
+performance and flexible frequency synthesis capabilities.
 
-This is why this call is placed first in reboot(), before any
-irreversible reboot notifiers or shutdown callbacks are performed. If
-an allocation problem occurs in KHO, the error is simply reported back
-to userspace, and the live update update is safely aborted.
+Key features supported by this driver:
+- Integer-N and fractional-N operation modes
+- Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-N)
+- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+- 25-bit fixed modulus or 49-bit variable modulus fractional modes
+- Programmable charge pump currents with 16x range
+- Digital lock detect functionality
+- Phase resync capability for consistent output phase
+- Clock framework integration for system clock generation
 
-> And if we prioritize stateless memory tracking in KHO, it won't be a
-> concern at all.
+The series includes:
+1. Core driver implementation with full register programming support
+2. Device tree bindings documentation
+3. IIO subsystem documentation with usage examples
 
-We are prioritizing stateless KHO work ;-) +Jason Miu
-Once KHO is stateless, the kho_finalize() is going to be removed.
+The driver integrates with both the IIO subsystem (for direct hardware control)
+and the Linux clock framework (for use as a system clock source), providing
+flexibility for different use cases.
 
->
-> > +     if (err) {
-> > +             pr_err("kho_finalize failed %d\n", err);
-> > +             /*
-> > +              * kho_finalize() may return libfdt errors, to aboid passing to
-> > +              * userspace unknown errors, change this to EAGAIN.
-> > +              */
-> > +             err = -EAGAIN;
-> > +     }
-> > +
-> > +     return err;
-> >  }
-> >
-> >  /**
->
-> --
-> Sincerely yours,
-> Mike.
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+Rodrigo Alencar (3):
+      iio: frequency: adf41513: driver implementation
+      dt-bindings: iio: frequency: add adf41513
+      docs: iio: add documentation for adf41513 driver
+
+ .../bindings/iio/frequency/adi,adf41513.yaml       |  268 ++++
+ Documentation/iio/adf41513.rst                     |  377 +++++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |    9 +
+ drivers/iio/frequency/Kconfig                      |   11 +
+ drivers/iio/frequency/Makefile                     |    1 +
+ drivers/iio/frequency/adf41513.c                   | 1435 ++++++++++++++++++++
+ 7 files changed, 2102 insertions(+)
+---
+base-commit: d16d1c2553248f9b859b86c94344d8b81f0297cd
+change-id: 20251110-adf41513-iio-driver-aaca8a7f808e
+
+Best regards,
+-- 
+Rodrigo Alencar <rodrigo.alencar@analog.com>
+
+
