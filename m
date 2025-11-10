@@ -1,129 +1,117 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65EF31DD91
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 19:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C265432ABD6;
+	Mon, 10 Nov 2025 19:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762801777; cv=none; b=J32Xc7x52DnQsm/lop0rm/umeDJXcmm4jc7HhOqDKCAsIq7wvbQxBCFADWA1i87HSLiBbAagtb0P8f1s77epLLXmEtzW2l9I3FGoxnqN+CXphdkirqt/e8WnB2+6NkJLSTRTCP5QRIxX82DMXOX1ePimeHV8euhS7ADUJp6CBD0=
+	t=1762801990; cv=none; b=pQ96Ej8zU7UXS+ZDRtvqI5SLU1ymdcEadBCwG6eo243fGWV7bQ1JjKGwGal2SUTwl0frOOrMV9xsKKNp5tG8ntHvC4UEinl8zaHq42pVvB+rIwiyhFkuoXh/+fUrpLCnz4+EjhUbE9T4pCkydY8RwnXIMWzftsiP9j6bJ1j3bHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762801777; c=relaxed/simple;
-	bh=pjE8KQuvzc9zkIIqC+ztU2aLEN0NS7tHjOH0lZb2hrY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IY9kXdEPVMRqwzJW3b0agSJME/apPH2HNc+3JABqkT+KHFCsJQbbwEK5O3zyi+PfgtqTcv6AIBFCB4jm85ZqPqMdb1wbd4MBI29yIRI9YKcaQdW4PS9oYZe8ASYIrmFVfAlb54KE4SZh9wWMcJA7onRi5wBdD0T+8X5L/UgfIQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmwAFKim; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmwAFKim"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-89e93741839so250782485a.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762801774; x=1763406574; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kh/pfFXNphB5J8FM7JSKHKBWUvUQumq6jmykYXtU/Fk=;
-        b=FmwAFKimMwtSibfm03rcXaOMGDfo0YF3a65NIcuDu149ThAK3OQobOs6QQc4eSbvWg
-         AOz4Wx/Vi7n+SRe8WmTU3gy6zCvK58F7+8y4f2LXSYrAMJVjt6ju+05MzfCjPcCyyWJa
-         6wwJ6flpxzs+wksqC6o0eY+IfGGEGXV5xI6xc/Hjese0RXEmWS612Uy7o5bQ7PgBpQ7+
-         H7dIWSbPuwtHTFWnQibzIkNjbxMC5WVatKBVnPXEEQrigHOnR5Cz+jQ6/lAJ0wNil0Jb
-         i3QNnZy+lAufOYnOy9NzZLIX6hetk7JjPBx/WZZ48svd7QhWTz199h3fnQHiJO/U8uow
-         +iEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762801774; x=1763406574;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kh/pfFXNphB5J8FM7JSKHKBWUvUQumq6jmykYXtU/Fk=;
-        b=WTRw8qV8lRrYx9GQrdAbp51bnMi4heHPW7Fe8zrOGrpjmh6suBGSw/UCd/bU+TKYia
-         GIlTlv2vodKhnnwvR/WN1bIdIFuWNUL9OZevDcpHSGhMmmcbdeessgqgc1GIHj53Hrv2
-         pTuR0JxFaCTPKV/zr7xebSiLD+zlzKhT5S1n3cjvwr8yr3/Z/RA+DnRreHYKRmKqTYLx
-         PgHSyc+YRr9WNwnl8CbscCpg17XZzkKQV+4UZiRpRz1DxSVoki/xYvHxLonIhj9mEsUJ
-         e8txMMmypr04N0d3G36E/aLMJDLo88hyQ3xrOFHkzq4Z6JnrcUfmpZOaziZuHtN3Lgw7
-         666A==
-X-Forwarded-Encrypted: i=1; AJvYcCUv8x3S5KfTAY63uh2WWdg6sVGuTh4mapkKm4LVsPIG+isOlxQZay01oEXe9o/qHQ4Wfcd1QFS+/44=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCXCTu9Kk/wZMAKUppAbr7TMAP5srqsrq2LeZ63vieCZxiAdtV
-	syPnNfSG5wFVpMg9AVYTo+63r4T5/7N6uo863G8UcPAantPWxDeNNaMz
-X-Gm-Gg: ASbGncsGQBNj+MOi2e3/EU2bDRhQlAJWDzL2JYh7XSCQxofkXuEtJZGr/6gb9h54ZVz
-	h8ndKnSDpLGR1e7aiSZJffEOExf4aLEnQPS7QVMhq13ThYiQGutXSdP3D/YSKR7VDYerybSy4di
-	L3iCRE/jsiFB20t6Ct6kjp4JWOPAHXLJctTtXa3fRgHCB5l6Zg+O8Bo4rfMit58IPqfICRy0jm9
-	zn2bS7/7mByyMBo9tP5eoKdVqqmBX98S2vNwIsKSHXg1lu1zy4ctZmLMW/u0FCyjn31Ek7ASf4c
-	7nHnzi4FiOVeh0p3ujn+Hh0cvMUW3s0NL/IOHFXXTonq0LGXkXgGKYAO6CsFKyBdfZVHac4Ppnt
-	aBaIrBIku56zXWMhhxVNVTwUstsiH5xtTiB9qxERcrd5xPMO8X/LfPpy6XnCe2jBlB4nm3U+P+P
-	yNWDF8+ISXKKI2+nye+6tt52yAuz4sz0Y=
-X-Google-Smtp-Source: AGHT+IERCXMjJNRnt0BFVnvUSTvP7ZvwPBkw2ba4rSGkzoC1mJwG61sqECbRHnlBF54bJjOGFPQBbg==
-X-Received: by 2002:a05:620a:c41:b0:8b2:1568:82e8 with SMTP id af79cd13be357-8b257f05374mr1272565485a.35.1762801774300;
-        Mon, 10 Nov 2025 11:09:34 -0800 (PST)
-Received: from ?IPV6:2a03:83e0:1145:4:3280:a85f:e61:4547? ([2620:10d:c091:500::5:432b])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b23582b0c9sm1066092985a.55.2025.11.10.11.09.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Nov 2025 11:09:33 -0800 (PST)
-Message-ID: <61e1b43c-e8cf-491d-83b0-22ec46784a88@gmail.com>
-Date: Mon, 10 Nov 2025 14:09:31 -0500
+	s=arc-20240116; t=1762801990; c=relaxed/simple;
+	bh=RiJLyBV73BEgucWtLc4TULL0H6E19LTREO/MrcBJ0BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tlYSBAT6ou8lAij02EprmJlw3qZVTRSqkPRPb88y6SeNzR368PXgFdWeq0cM7+0+yPVispeF5xBbZwMZ9M+pKZRep/xNhR1ZTjuqs0dZbGsel0mfeI83g/O8mumFGZx2q4cuLRiYFjABx+1gVhHi0X+XMIerWl9MyTjD8PVS/hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 93E52139F71;
+	Mon, 10 Nov 2025 19:13:00 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 8E96560009;
+	Mon, 10 Nov 2025 19:12:20 +0000 (UTC)
+Date: Mon, 10 Nov 2025 14:12:28 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Matthew Brost <matthew.brost@intel.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Vitaly Lifshits <vitaly.lifshits@intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Karan Tilak Kumar
+ <kartilak@cisco.com>, Casey Schaufler <casey@schaufler-ca.com>, Petr Mladek
+ <pmladek@suse.com>, Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai
+ <tiwai@suse.de>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean
+ Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Vladimir Oltean
+ <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
+ <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Rodolfo Giometti <giometti@enneenne.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>, Richard Cochran <richardcochran@gmail.com>,
+ Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner
+ <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela
+ <sebaddel@cisco.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Xiubo Li <xiubli@redhat.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>
+Subject: Re: [PATCH v1 23/23] tracing: Switch to use %ptSp
+Message-ID: <20251110141228.3f91d9a7@gandalf.local.home>
+In-Reply-To: <20251110184727.666591-24-andriy.shevchenko@linux.intel.com>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+	<20251110184727.666591-24-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
- devlink params
-To: Jiri Pirko <jiri@resnulli.us>, Saeed Mahameed <saeed@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
- Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
- hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
- Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- Manish Chopra <manishc@marvell.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Vladimir Oltean <olteanv@gmail.com>,
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
- Dave Ertman <david.m.ertman@intel.com>,
- Vlad Dumitrescu <vdumitrescu@nvidia.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rdma@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
- <20251107204347.4060542-3-daniel.zahka@gmail.com> <aQ7f1T1ZFUKRLQRh@x130>
- <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
-Content-Language: en-US
-From: Daniel Zahka <daniel.zahka@gmail.com>
-In-Reply-To: <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 8E96560009
+X-Stat-Signature: 5hi1hakohzsg8hn7n1iyodmbff6458bx
+X-Rspamd-Server: rspamout06
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/1YrbZuC0QyunYMMdAkDIH9kIv38TXqEA=
+X-HE-Tag: 1762801940-392122
+X-HE-Meta: U2FsdGVkX1/BylAg4AKkX/T62VAai09Fwoml7NNoYheN1mcYKcRGTBSABLgOYxDBmZc3QXGw435NWRW1fm6j26IoZJclHSgat1CYtqifdgYizQSiwftLFhR3KIWkHQZvWjzyXLg2mc0Q3PcpPlmly9wdl81xZUnfgj6L460ZoglHnyWOhH4JCMlOWSZwOcmlpyYl23ptJhBgBsvpLR2Kx8Ll9VVqHi6WIJKGvEKEkx6ilvffX6p0Md+SqUXFIyHv2WyDFgTArKQogLnmdfsVyUsJ0uOL4cbXthMvjI+fNrmir9/oaclf5f3+GPufx6UoMsebdMhlI3Sr4FpPoQrK6K880hi143pnEp1yWy8fDYta7ZhDYpeLLlRXJu8Dj1z7txbS6MErRzmgbJiDnG8EIQ==
 
+On Mon, 10 Nov 2025 19:40:42 +0100
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  kernel/trace/trace_output.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 11/9/25 5:46 AM, Jiri Pirko wrote:
-> Regardless this patch, since this is param to be reflected on fw reboot
-> (permanent cmode), I think it would be nice to expose indication if
-> param value passed to user currently affects the fw, or if it is going
-> to be applied after fw reboot. Perhaps a simple bool attr would do?
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-I can add something like this. For permanent cmode params, it might make 
-the most sense to expose current and next values the way mstconfig does, 
-but that would be a more complicated change.
+-- Steve
