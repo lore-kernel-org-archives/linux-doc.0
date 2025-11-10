@@ -1,104 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4C323ABA1;
-	Mon, 10 Nov 2025 19:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65EF31DD91
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 19:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762801650; cv=none; b=FbgZy14Kg/YHka6c00NKdbNrP/5DiV9zxtEYre1oVjoONzVtZPjhlZYKaLGAGLH7kqkcoD528GEEzDVtl7fiMHOtg3kxi26legN3aAC3l3XQkpWONrVqGXc2MumDWJJJ8sLLXTizWHPRzmaS8UqwdVozNp4g0L80M6F2A4vX5js=
+	t=1762801777; cv=none; b=J32Xc7x52DnQsm/lop0rm/umeDJXcmm4jc7HhOqDKCAsIq7wvbQxBCFADWA1i87HSLiBbAagtb0P8f1s77epLLXmEtzW2l9I3FGoxnqN+CXphdkirqt/e8WnB2+6NkJLSTRTCP5QRIxX82DMXOX1ePimeHV8euhS7ADUJp6CBD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762801650; c=relaxed/simple;
-	bh=gdMPSWFUx6fQxjEeg88AQCpfbokaGBVOZ3O5cWM3Xts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O97/1+VOtg0iqj8tFRGgJutaz5I5Ce3D+ZLZZLjyynMJu/k8asnXC+vtu1pcJom9En09Fw9aHKi4yQo7TfSxVMDJq+aDCpR+hmF64/yAHO391lYZBsUbQpjaLIAhHXFKUAxoMD3w6QiQhZoWl1McxO8eOTtQDVJ6llo41Lmv5tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z8BofuqZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762801777; c=relaxed/simple;
+	bh=pjE8KQuvzc9zkIIqC+ztU2aLEN0NS7tHjOH0lZb2hrY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IY9kXdEPVMRqwzJW3b0agSJME/apPH2HNc+3JABqkT+KHFCsJQbbwEK5O3zyi+PfgtqTcv6AIBFCB4jm85ZqPqMdb1wbd4MBI29yIRI9YKcaQdW4PS9oYZe8ASYIrmFVfAlb54KE4SZh9wWMcJA7onRi5wBdD0T+8X5L/UgfIQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmwAFKim; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8BofuqZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C83CC4CEF5;
-	Mon, 10 Nov 2025 19:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762801650;
-	bh=gdMPSWFUx6fQxjEeg88AQCpfbokaGBVOZ3O5cWM3Xts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z8BofuqZKxDxoVpIR4gMTKkobJ7QaF6zjZmN6oY9SWF1wnk3/nUCO1tVsXHeGeRu3
-	 F8X5wlX4tqmRBbxbMVAvXkz5zzDMbvTIo9BI5sLSbYTSv2tuNsLGo8Ky43OPPtdkqx
-	 bzrxwtuJFOFNKz6DcFe74hc4sRkm2fwFcgSRHFBjA0SKyca0TRKg/6O6yIzfpGSmsp
-	 7Xfec9U7HeRxJNJw/SLCR/YNxLf9+lcEPB4j8mZ7jpGKc5PIshX66ozUMceiWF/K8p
-	 0cpkNLprCSxaElJekdx2syr7EMObMmswk3KPNzEVvUwVnVVTJXAz+xUEg5xQC9ngbc
-	 hPzOHcsqMvJog==
-Date: Mon, 10 Nov 2025 19:07:24 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	cosmin.tanislav@analog.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v1 1/3] dt-bindings: iio: adc: Add AD4134
-Message-ID: <20251110-unsightly-blah-410539e95a18@spud>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
- <608ab00821af9f766c75d88f59940fed87cb6df7.1762777931.git.marcelo.schmitt@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmwAFKim"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-89e93741839so250782485a.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762801774; x=1763406574; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kh/pfFXNphB5J8FM7JSKHKBWUvUQumq6jmykYXtU/Fk=;
+        b=FmwAFKimMwtSibfm03rcXaOMGDfo0YF3a65NIcuDu149ThAK3OQobOs6QQc4eSbvWg
+         AOz4Wx/Vi7n+SRe8WmTU3gy6zCvK58F7+8y4f2LXSYrAMJVjt6ju+05MzfCjPcCyyWJa
+         6wwJ6flpxzs+wksqC6o0eY+IfGGEGXV5xI6xc/Hjese0RXEmWS612Uy7o5bQ7PgBpQ7+
+         H7dIWSbPuwtHTFWnQibzIkNjbxMC5WVatKBVnPXEEQrigHOnR5Cz+jQ6/lAJ0wNil0Jb
+         i3QNnZy+lAufOYnOy9NzZLIX6hetk7JjPBx/WZZ48svd7QhWTz199h3fnQHiJO/U8uow
+         +iEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762801774; x=1763406574;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kh/pfFXNphB5J8FM7JSKHKBWUvUQumq6jmykYXtU/Fk=;
+        b=WTRw8qV8lRrYx9GQrdAbp51bnMi4heHPW7Fe8zrOGrpjmh6suBGSw/UCd/bU+TKYia
+         GIlTlv2vodKhnnwvR/WN1bIdIFuWNUL9OZevDcpHSGhMmmcbdeessgqgc1GIHj53Hrv2
+         pTuR0JxFaCTPKV/zr7xebSiLD+zlzKhT5S1n3cjvwr8yr3/Z/RA+DnRreHYKRmKqTYLx
+         PgHSyc+YRr9WNwnl8CbscCpg17XZzkKQV+4UZiRpRz1DxSVoki/xYvHxLonIhj9mEsUJ
+         e8txMMmypr04N0d3G36E/aLMJDLo88hyQ3xrOFHkzq4Z6JnrcUfmpZOaziZuHtN3Lgw7
+         666A==
+X-Forwarded-Encrypted: i=1; AJvYcCUv8x3S5KfTAY63uh2WWdg6sVGuTh4mapkKm4LVsPIG+isOlxQZay01oEXe9o/qHQ4Wfcd1QFS+/44=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCXCTu9Kk/wZMAKUppAbr7TMAP5srqsrq2LeZ63vieCZxiAdtV
+	syPnNfSG5wFVpMg9AVYTo+63r4T5/7N6uo863G8UcPAantPWxDeNNaMz
+X-Gm-Gg: ASbGncsGQBNj+MOi2e3/EU2bDRhQlAJWDzL2JYh7XSCQxofkXuEtJZGr/6gb9h54ZVz
+	h8ndKnSDpLGR1e7aiSZJffEOExf4aLEnQPS7QVMhq13ThYiQGutXSdP3D/YSKR7VDYerybSy4di
+	L3iCRE/jsiFB20t6Ct6kjp4JWOPAHXLJctTtXa3fRgHCB5l6Zg+O8Bo4rfMit58IPqfICRy0jm9
+	zn2bS7/7mByyMBo9tP5eoKdVqqmBX98S2vNwIsKSHXg1lu1zy4ctZmLMW/u0FCyjn31Ek7ASf4c
+	7nHnzi4FiOVeh0p3ujn+Hh0cvMUW3s0NL/IOHFXXTonq0LGXkXgGKYAO6CsFKyBdfZVHac4Ppnt
+	aBaIrBIku56zXWMhhxVNVTwUstsiH5xtTiB9qxERcrd5xPMO8X/LfPpy6XnCe2jBlB4nm3U+P+P
+	yNWDF8+ISXKKI2+nye+6tt52yAuz4sz0Y=
+X-Google-Smtp-Source: AGHT+IERCXMjJNRnt0BFVnvUSTvP7ZvwPBkw2ba4rSGkzoC1mJwG61sqECbRHnlBF54bJjOGFPQBbg==
+X-Received: by 2002:a05:620a:c41:b0:8b2:1568:82e8 with SMTP id af79cd13be357-8b257f05374mr1272565485a.35.1762801774300;
+        Mon, 10 Nov 2025 11:09:34 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1145:4:3280:a85f:e61:4547? ([2620:10d:c091:500::5:432b])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b23582b0c9sm1066092985a.55.2025.11.10.11.09.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Nov 2025 11:09:33 -0800 (PST)
+Message-ID: <61e1b43c-e8cf-491d-83b0-22ec46784a88@gmail.com>
+Date: Mon, 10 Nov 2025 14:09:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rJNX4uVi5xG0GC+z"
-Content-Disposition: inline
-In-Reply-To: <608ab00821af9f766c75d88f59940fed87cb6df7.1762777931.git.marcelo.schmitt@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+To: Jiri Pirko <jiri@resnulli.us>, Saeed Mahameed <saeed@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Manish Chopra <manishc@marvell.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Vladimir Oltean <olteanv@gmail.com>,
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rdma@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
+ <20251107204347.4060542-3-daniel.zahka@gmail.com> <aQ7f1T1ZFUKRLQRh@x130>
+ <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
+Content-Language: en-US
+From: Daniel Zahka <daniel.zahka@gmail.com>
+In-Reply-To: <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---rJNX4uVi5xG0GC+z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Nov 10, 2025 at 09:45:18AM -0300, Marcelo Schmitt wrote:
+On 11/9/25 5:46 AM, Jiri Pirko wrote:
+> Regardless this patch, since this is param to be reflected on fw reboot
+> (permanent cmode), I think it would be nice to expose indication if
+> param value passed to user currently affects the fw, or if it is going
+> to be applied after fw reboot. Perhaps a simple bool attr would do?
 
-> +  adi,control-mode:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description:
-> +      Describes whether the device is wired to an SPI interface or not. The
-
-Can you explain how you don't automagically know this from what bus
-you're on?
-
-> +      PIN/SPI pin on the device must be set accordingly, i.e., PIN/SPI must be
-> +      set to logic high for SPI Control Mode, low for Pin Control Mode. When
-> +      absent, implies the SPI interface configuration.
-> +    enum: [ spi-control-mode, pin-control-mode ]
-> +    default: spi-control-mode
-> +
-> +  adi,asrc-mode:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description:
-> +      Asynchronous Sample Rate Converter (ASRC) operation mode control input.
-> +      Describes whether the MODE pin is set to a high level (for master mode
-> +      operation) or to a low level (for slave mode operation).
-
-I don't really get this one. If this is an input to the device that
-controls behaviour (master v slave) why is an option needed too? Clearly
-this is not a gpio but it seems like it could be one, in which case you'd
-need some sort of asrc-gpios property. Is it not possible to read the
-value of this setting out of the device's registers (maybe it's not when
-there's no spi interface connected?)?
-It's not used in your driver, so I can't look there easily to see what's
-going on.
-
-> +    enum: [ high, low ]
-> +    default: low
-
---rJNX4uVi5xG0GC+z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRI37AAKCRB4tDGHoIJi
-0jIVAP9dkrrgzG/cSA6tOhSgQaiGaYLQh5ZGJauZzUJXnSJVPwD8Dugs/GOYERvs
-j5eJjvifsUN8QWWVuP2JQLxEV+Jnug8=
-=nHVh
------END PGP SIGNATURE-----
-
---rJNX4uVi5xG0GC+z--
+I can add something like this. For permanent cmode params, it might make 
+the most sense to expose current and next values the way mstconfig does, 
+but that would be a more complicated change.
