@@ -1,208 +1,113 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B471324B2B
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83797305066;
+	Mon, 10 Nov 2025 16:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762792702; cv=none; b=Rg3kes+8QsD/Xfag57FuBLQC/r7B1saSC8CFKWPsSy5kC/2Irf/KaVhRHgwJ98qRxVih6XpQBPCX8SgzaGjvgfIV/x4fvAHVgeldj4vNev9vvPDsPuw+Z9FwETKuj3crXqQ9slWQ9rpOUi3QfphNMwaAPyllZiL5Wi+1AnubMzI=
+	t=1762792703; cv=none; b=NpCS2oBUGM/XHPdxgYqYUzwdOUZaMF1RopzGgds0itq6ID0vZ6rJSFhYckUf0B9z+ET31UN+4kjw32Q/ct1kYU1Kwp9unFkKIqVw5xh+FMJw1L890L98EQz8R719GmS8IPNF/pf7tVnu1CZ17p5yvBxNSV9FZOt28nb3FKvYfzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762792702; c=relaxed/simple;
-	bh=aUATb6PPAs1EeoevQLD9YYPgevbnELTf3A5rXZMQrkU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U5CJ2vkRlLoCOymGvrAuO9ANWwd059RI63gxc7dMS+DuaW9JYuybjLpix4DEIoiDT3O/ImENZskL1GhuFQl0ypzOsC+ammtH1+csh7Rp+4nBrZncjwCfmAmmLS9GkI7217q7t+5Pb/JV3C9/oJCLzJlhiArY5FWq+46ITFaK4as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWETdonx; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762792703; c=relaxed/simple;
+	bh=fLzd+VRzKDe+3L+miM0mvnpuDsl++gErPafaJMrhHLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RsqE7eryg5zp1T2+8EBICQBbaLPH/1QU5VR25jf5bOr59wUT/zeGl/QOTY8ziO0oXhazr0khKYkYaGEXQS9bRt0ireNNvP/ylBf3KO/WAucDTxScOcrcVdl/R0GdpWOj3lv9Wtj/Dk5Us+KniHHiy39/4zNl9P8O9EHH0djxkVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDtuIYwE; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWETdonx"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7af603c06easo2976888b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 08:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762792700; x=1763397500; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tu+j4Ql3fqr3I/4VuukNZy9fUe1HehKP0k0yDQPRfsM=;
-        b=bWETdonxaESSX3yVyFi8vU/Fw76eFPXcTvtrRMeUaxBE1HZjiK7XEKFWIUFEdfNGVK
-         JsZWR5Hnxy+O9hrTWPFPIbkUbhKLNlFwuKozm8/7uIToMqSt0E7ldaaZxR20FMioicAS
-         JTa5e0jRudrFr4kQC507KBM0qHdndWnEtUMJo1JhL4KMg9sLFkxj0ugg8HuGWf4NuowH
-         20Av4ImijkHrNEE6exTJxczraU0DcyY9yqPVCqx4AU3lROeDQ/vswv+M34lRpEvrLqT3
-         9EVBz6X/UouARAIpa9IPj5XH+lcsMmEGPZ4tk1Z+vhay/Iy9ETcEAkCmWFe2Zy14O67D
-         ObsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762792700; x=1763397500;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Tu+j4Ql3fqr3I/4VuukNZy9fUe1HehKP0k0yDQPRfsM=;
-        b=YliRZmy+4Lbd2MB8HfCFDn1XS+5PXOSWSdpsW6QAoKkx6wOQ3tXEf51EzDe24ZaBbM
-         +myyP2AYxUZKuIpjByiTW2ez0PJjrVEzneTCHxvqvrxkgfoLyBxeRPI2rsqgt2q++1O+
-         2B6l4AGjyqgv0h/lEA8i1tfUmlgdrLssCTHWXjc2vA5ZWXLPLyH1fNA4JLQLZn8ArHEE
-         BldvDIHwy/86UDrxBz/cxvIX1IhoB8kv4Q9+DH2buPQzye5O1moq+y3P5LFF6t7UF3dY
-         /r+KSCBtI+Y8LaCIJznop4JNf3FmuQrBApULTA9RiQQWmuePJgWm1+UpDI16/vQC4dQ/
-         CTAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQwA0XZBD/xwC0RMqcVfc9VFc8xRjAvqiCAIEVby69I0lXrfXGMlL2TxiqSl8ff+snybWwYjNwbg4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ1xTPGagIbU71EPsOi6lvrC1KZKXFj57wqElwW8qEaa9DdARc
-	8rZq35kzaT7f2+A13I9NK9HjFC1Zv7lL4RraU8wYzwW5pfCkFAfthi10
-X-Gm-Gg: ASbGncvCKK9fsPIHUX2DbvVVdwLc+WlILElDSeSywSuiQkzmjb9lhSF7aLSZM5S/eLg
-	Vfm1i8a5YJh+2QHvRGdfexNvVVncWI+C0aW6wrVAhy3NPzFORpsZdm90ifFlJJvQuyFjD3Wy9WK
-	sKJ59Afh3elJdha8Ol3eoTN9c1udDwnXKe/OcfY4wR++Q/UltRPRKFJWx+OM1Zp8bdhanjVnIKp
-	a8aiKYlK0hjI/HKmxyTZcoU7kiNlcu20qTkbVVlPPv+P3oIc8dIIeR7VT/WNxrCLvnef+qOcP0A
-	Rzoi2BRW88MonauF7q3gyhsiXaIlXN06djElYc/gvqbdXhT/YrRudfEkxarQl22gxBZQhK/vrOS
-	ysjUKAb89gt6Fx8jMTuouzh0Y/WgwGHlQjh55bD+Y19wjY8qiV0JlfvqGx6yRxHcugQsAR01y/I
-	VjTOgWWlHALz+At7KVGM/CCg==
-X-Google-Smtp-Source: AGHT+IGLmwDIGeljEZq6Ek3cMIcpWBuZ761zCA9XCLHpvBlYPJFK2olRS54fuUcN9DoThdB4AXP5Bg==
-X-Received: by 2002:a05:6a00:9510:b0:7aa:d1d4:bb7b with SMTP id d2e1a72fcca58-7b21a285a43mr11992599b3a.16.1762792699318;
-        Mon, 10 Nov 2025 08:38:19 -0800 (PST)
-Received: from localhost ([103.88.46.62])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccb5c823sm12295899b3a.62.2025.11.10.08.38.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 08:38:18 -0800 (PST)
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Marco Elver <elver@google.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Ben Segall <bsegall@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	David Kaplan <david.kaplan@amd.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ian Rogers <irogers@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@linaro.org>,
-	Jinchao Wang <wangjinchao600@gmail.com>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Justin Stitt <justinstitt@google.com>,
-	kasan-dev@googlegroups.com,
-	Kees Cook <kees@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"Liang Kan" <kan.liang@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Michal Hocko <mhocko@suse.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nam Cao <namcao@linutronix.de>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Naveen N Rao <naveen@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Rong Xu <xur@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Will Deacon <will@kernel.org>,
-	workflows@vger.kernel.org,
-	x86@kernel.org
-Subject: [PATCH v8 22/27] mm/ksw: add stack overflow test
-Date: Tue, 11 Nov 2025 00:36:17 +0800
-Message-ID: <20251110163634.3686676-23-wangjinchao600@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251110163634.3686676-1-wangjinchao600@gmail.com>
-References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDtuIYwE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762792701; x=1794328701;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fLzd+VRzKDe+3L+miM0mvnpuDsl++gErPafaJMrhHLs=;
+  b=UDtuIYwEcifr2twarGZYdwjXXgdpQSe7fg4PiSJ1AukfXEOyJGHpY98+
+   k3Oljzk6cj94X6ohwKSZr93e/EXPh9C9ndo1cxEMnoIHsXT1hj8qrAv4u
+   Qwex6ecka3TZvMq09qdRpj+6kLFwFkPTbxh/9S3DRalrrnS6SpMnzW6GL
+   GTQp9oKxdlzDiE0mLAzg+63Lp6mG3ufntenQXUqDke/5R3M7/gGNrAqLP
+   smbd5yGJBj8X1Q8gtsEZFMWfwrZwa/5BfsjRxm6WtWjb4t9geR/HIwGtt
+   mv0+MaOiCMZCpqeW6wdjnJnlxlFIcFdQ1Rc5FAOl4Gg9uGnskwSUOWMMM
+   A==;
+X-CSE-ConnectionGUID: BotMA2rGTISWukGZuWf0Pg==
+X-CSE-MsgGUID: IkNlKB+cTVOLschNw71gHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65002515"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="65002515"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 08:38:21 -0800
+X-CSE-ConnectionGUID: 72YtJHcySWevO5D6mmsIlg==
+X-CSE-MsgGUID: idgDsCzOSomtSbUEqOFZ+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="188669479"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.235])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 08:38:18 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1vIUuF-00000007W0X-1St9;
+	Mon, 10 Nov 2025 18:38:15 +0200
+Date: Mon, 10 Nov 2025 18:38:15 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 0/3] ADF41513/ADF41510 PLL frequency synthesizers
+Message-ID: <aRIU94elwpjiUDMc@smile.fi.intel.com>
+References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Extend the test module with a new test case (test1) that intentionally
-overflows a local u64 buffer to corrupt the stack canary.
+On Mon, Nov 10, 2025 at 03:44:43PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> This patch series adds support for the Analog Devices ADF41513 and ADF41510
+> ultralow noise PLL frequency synthesizers. These devices are designed for
+> implementing local oscillators (LOs) in high-frequency applications.
+> 
+> The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
+> operates from 1 GHz to 10 GHz. Both devices feature exceptional phase noise
+> performance and flexible frequency synthesis capabilities.
+> 
+> Key features supported by this driver:
+> - Integer-N and fractional-N operation modes
+> - Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-N)
+> - High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+> - 25-bit fixed modulus or 49-bit variable modulus fractional modes
+> - Programmable charge pump currents with 16x range
+> - Digital lock detect functionality
+> - Phase resync capability for consistent output phase
+> - Clock framework integration for system clock generation
+> 
+> The series includes:
+> 1. Core driver implementation with full register programming support
+> 2. Device tree bindings documentation
+> 3. IIO subsystem documentation with usage examples
+> 
+> The driver integrates with both the IIO subsystem (for direct hardware control)
+> and the Linux clock framework (for use as a system clock source), providing
+> flexibility for different use cases.
 
-Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+When cover letter is better than the commit message :-)
 
-show addr of buf and watch_addr of test case
----
- mm/kstackwatch/test.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
-index 2969564b1a00..b3f363d9e1e8 100644
---- a/mm/kstackwatch/test.c
-+++ b/mm/kstackwatch/test.c
-@@ -32,6 +32,22 @@ static void test_watch_fire(void)
- 	pr_info("exit of %s\n", __func__);
- }
- 
-+static void test_canary_overflow(void)
-+{
-+	u64 buffer[BUFFER_SIZE];
-+
-+	pr_info("entry of %s\n", __func__);
-+	ksw_watch_show();
-+	pr_info("buf: 0x%px\n", buffer);
-+
-+	/* intentionally overflow */
-+	for (int i = BUFFER_SIZE; i < BUFFER_SIZE + 10; i++)
-+		buffer[i] = 0xdeadbeefdeadbeef;
-+	barrier_data(buffer);
-+
-+	pr_info("exit of %s\n", __func__);
-+}
-+
- static ssize_t test_dbgfs_write(struct file *file, const char __user *buffer,
- 				size_t count, loff_t *pos)
- {
-@@ -54,6 +70,9 @@ static ssize_t test_dbgfs_write(struct file *file, const char __user *buffer,
- 		case 0:
- 			test_watch_fire();
- 			break;
-+		case 1:
-+			test_canary_overflow();
-+			break;
- 		default:
- 			pr_err("Unknown test number %d\n", test_num);
- 			return -EINVAL;
-@@ -74,7 +93,8 @@ static ssize_t test_dbgfs_read(struct file *file, char __user *buffer,
- 		"============ usage ===============\n"
- 		"Usage:\n"
- 		"echo test{i} > /sys/kernel/debug/kstackwatch/test\n"
--		" test0 - test watch fire\n";
-+		" test0 - test watch fire\n"
-+		" test1 - test canary overflow\n";
- 
- 	return simple_read_from_buffer(buffer, count, ppos, usage,
- 				       strlen(usage));
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
