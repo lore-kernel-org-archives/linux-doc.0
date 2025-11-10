@@ -1,47 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE58A32D0C3;
-	Mon, 10 Nov 2025 19:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18572E5B32;
+	Mon, 10 Nov 2025 19:56:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762804384; cv=none; b=MXqmENEsSFTG7AGn9USheUSUmuCm+kM/K1gzpeoAGp9NkFeHKhdXko/M7j5+pVLV7N10Jb9fJ1pvHXudBZ8PAqYU9KAYoOTQ785nAIMf+5q9slm48Ur5yT/Qze4MYQtqMC05O/PqZ0Ll8FU+22KxXT77BKkO3biPEKgWbXeiLOU=
+	t=1762804592; cv=none; b=k0nlU/3B9cwAeXUEpbl37GCBcwgTP8fe15z3aOmU6NiR+eKuF4+rPrpHUh3XktpizJQt/4ypqndLqwspssVHpfrVbFka8ReQS4b+KWEAZ2XHbRrGghMMyOqF9XoDNohwnCm2tktSHF+5fzlykWa+RFCHtCkHWSN0lW34gkJeCOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762804384; c=relaxed/simple;
-	bh=593lg7WYhSNFDL+lX1yxQ4acmzaBL+9/L9NsHmC8mlQ=;
+	s=arc-20240116; t=1762804592; c=relaxed/simple;
+	bh=OESPtg0QOwwclP/3S8CVSXEpBkauIYZqgvBGBz7Ps5E=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s88Bti37/C/DifSNksXkaVZqQ/SGnuchEkIXLOoW6MYbnijMOrm7fZ80G1hVHHPtVjkndFUq8Sm3TXbe42of5LxWGfozCMSePZqSiyPPAuNrRctAqNKTK0z0BlJukoJAi+jz8OECuF3njXDGD59ECgmjgc4vhwHqbRoSzDanVwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=f3IiMMyK; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=t2ZFH2Mgf8umOpG6lEl61sv63g34YRvmcoysDorAbc/p4/b2BS90LU3T6163Gb3xpQCRH0ekKmVL3nTzf+XrWDGnHQuiyY1DOIpJruvR5/AHZNgYK3jM92jSYqD5cBhqQQAzvQApAA5ERHhBJdKRKzzI8wpt9lJcX4NlPivWDDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FxaVYLTj; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="f3IiMMyK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3AD040AFB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FxaVYLTj"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D434340B31
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1762804382; bh=3K2szgXgKGDAgRGNnpYWMY62UngUH3NvZLWb8UD9Djo=;
+	t=1762804590; bh=47QyOiWeTR9vvXR8MenEG7NqPcMdJFe01J30p7r2pcI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=f3IiMMyKJzfAnVABkpPYsY5yu6X+LvIWJPMnMDhQI1oz0xgGfz4/uOlmvrvgn3s8I
-	 cY/eEx6UwxEZ8t497pbBc+HAqQ/nINurLqN1IgIgs4cFS9NiUNXSQEcNsyETNgtJb9
-	 7FutZ3YZfMAZXZ/Bwzqs+ADLt8BZH3MVcvcZYP91YHCAQ72wOOGeoURgJTOd75ahky
-	 sgeH8rUm+rPv0WExnQHhz/VCDrV99y/HkjhlbdHzwxtFkpNRYiHHya8T6xHKUt8zuo
-	 LBeyjsrFCfySCyGe3YN3n1GNcPwaL6QlspWLQrWhvwkx7W287DdiMvRkk+gQDvPQaX
-	 vJKcP4oGkpp4Q==
+	b=FxaVYLTjfVarwLPTLa0kF+9ON0fa7uD1Sz9OEUonPU+td9iH4vEqlFjj9udBQSsAl
+	 Bv/NzcHs1Ow+IoN4Rrh3oS0iySDtNVxh43BvCPGwMD0RViGEx+Eq2kSETF2yXbhtP3
+	 x2rMOuE2P4A6B4q33lYRwtrG8kfMcnYb0xcKK/6xKhUlPIY1REJrI50NutzbKopZKv
+	 qz93q76tSSGm4Zi3o8BbKF/8r0SYsBIyfiZWAuFMYzqUUiZmEIVgJkrTflMUN3tOu7
+	 1pUUo/RjgkKaH7bjA8sdqmbX0WSfbdZOGqgSGM87dCiDKEiTF0iOYnQQFt5/+aTL64
+	 jpdFo9qMcIFhw==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C3AD040AFB;
-	Mon, 10 Nov 2025 19:53:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D434340B31;
+	Mon, 10 Nov 2025 19:56:29 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
  <linux-kernel@vger.kernel.org>, Linux Documentation
  <linux-doc@vger.kernel.org>
-Cc: Balbir Singh <bsingharora@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] Documentation: taskstats: Reindent payload kinds list
-In-Reply-To: <20251104130751.22755-1-bagasdotme@gmail.com>
-References: <20251104130751.22755-1-bagasdotme@gmail.com>
-Date: Mon, 10 Nov 2025 12:53:00 -0700
-Message-ID: <875xbhy89v.fsf@trenco.lwn.net>
+Cc: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Akshay Gupta <akshay.gupta@amd.com>, Srujana
+ Challa <schalla@marvell.com>, Vamsi Attunuru <vattunuru@marvell.com>,
+ Julien Panis <jpanis@baylibre.com>
+Subject: Re: [PATCH 0/3] misc devices formatting devices
+In-Reply-To: <20251104041812.31402-1-bagasdotme@gmail.com>
+References: <20251104041812.31402-1-bagasdotme@gmail.com>
+Date: Mon, 10 Nov 2025 12:56:29 -0700
+Message-ID: <871pm5y842.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,17 +56,29 @@ Content-Type: text/plain
 
 Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Payload kinds list text is indented at the first text column, rather
-> than aligned to the list number. As an effect, the third item becomes
-> sublist of second item's third sublist item (TASKTYPE_TYPE_STATS).
+> Hi,
 >
-> Reindent the list text.
+> Here is a small docs formatting cleanup for assorted miscellaneous devices.
+> Patches [2-3/3] are split from my previous macro references fixup patch [1].
 >
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/accounting/taskstats.rst | 52 +++++++++++++-------------
->  1 file changed, 27 insertions(+), 25 deletions(-)
+> Enjoy!
+>
+> [1]: https://lore.kernel.org/linux-doc/20251104022242.19224-1-bagasdotme@gmail.com/
+>
+> Bagas Sanjaya (3):
+>   Documentation: amd-sbi: Wrap miscdevice listing snippet in literal
+>     code block
+>   Documentation: mrvl-cn10k-dpi: Fix macro cross-reference syntax
+>   Documentation: tps6594-pfsm: Fix macro cross-reference syntax
+>
+>  Documentation/misc-devices/amd-sbi.rst        |  6 ++++--
+>  Documentation/misc-devices/mrvl_cn10k_dpi.rst |  4 ++--
+>  Documentation/misc-devices/tps6594-pfsm.rst   | 12 ++++++------
+>  3 files changed, 12 insertions(+), 10 deletions(-)
 
-Applied, thanks.
+I've applied these.
+
+In truth, though, it's not at all clear that using c:macro brings
+anything useful even when done correctly.
 
 jon
