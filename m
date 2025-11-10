@@ -1,246 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A616327204;
-	Mon, 10 Nov 2025 18:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762798533; cv=fail; b=TeTjn2B2/FaOtuxq3eBHrw/CCBb4cAZpS+D4wTJ78CTm7Xj4VBHT82Jo/IPf9WML+HMeYKSGG2wENFLKmiX+zP5bKtApFJ2lp2ZsNhqOdrTYyMRGaetalOxvUbmeJxPrLYpgytIDaR625BKWgEkcIxuJ7a8rxLSpE6zZyLDoC34=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762798533; c=relaxed/simple;
-	bh=EvIjFNHIgoXsm4gMVxP1SnE8uyiTULoWV9fcQhxxwdI=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=t1vQXQva9Hq/3iVh85VHFUHd5IlheQwtcHKXTxBhCkwsGtjBa2PlQubFyJCTyqOmt+ze2bOHPVMUdA/NqtkUcxkCecIVErh86WUmNTh+y3m3fpyl6bZvdpUP3MDWqcG59lHRzv1v+jNhUtq3xQOt3eBPXepwa4HUIrRaAoSkz38=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRRlIGC/; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A8B321445;
+	Mon, 10 Nov 2025 18:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762800461; cv=none; b=lYCRzW+zeLP/NPkDfHQprL/qzGw6aJfHb3DTU7Wp7zqXzPALRqOn2YOvdAytnJ6G6NmnBQConTuZT3WIbWAsgI5OigvQcvTqv27YzfwQos9nOej3mxO4/yUeTE4vCsP5+w1HELD3IOlzwsLn17hz6QqLoMww2hCHKRUwo93Ll+8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762800461; c=relaxed/simple;
+	bh=wAsccoU8w3B4eRMZuq2gxUaDz+Dt38AFte0j5k5tPOM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f8b3W5vuv4s+XrWqI8Pq0RA3TaRw/MEVpgYTAM1ahjT1QyE7YmmDTJTBLniQowlxO8/sMtpIWDtIkVUfm9pabR0MK5QKdPljqSm3yNWLGVd55TvuBd9t0f85I+EzBcQz5VReCQ7quExOZuOi8ZKznIeSpKmiZMJ8ZxQ0GURhXF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LGoJh2Bf; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRRlIGC/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LGoJh2Bf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762798532; x=1794334532;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=EvIjFNHIgoXsm4gMVxP1SnE8uyiTULoWV9fcQhxxwdI=;
-  b=BRRlIGC/sBrs3YXYp6lgGbccVI6hDfkIN+isrvd3Qg6aOULHjoTd6tgg
-   x1KY1ZAizuvB+CfUVixZ0A/znwmSc01yeBgchENobRXXARVxQxNs+97Cz
-   BKAZ+ZSRbAHd4XccEKKEqUfbYSBfCzqPjHkPsPrdJ3G8r5mhgWZ+cjc5n
-   9Utw50oy3MN1ocfcJx2jAlZnk2jZb1to4p8q4aUwYtEa7WViqS4jnNB2r
-   XjRrFmlT7aenJpqJ1/3NY1wP8LDyW8jV9NjsGZOfaK1uQbgrxyet+8NQB
-   Xqgj5SuCZsIkh4G/rYXZY1HkU5/5wiullJh3ghSEuNreg+pEpZY0ihOrt
-   Q==;
-X-CSE-ConnectionGUID: yLOC/W0uTsOvJKIqXitBwA==
-X-CSE-MsgGUID: FTdvAiYqQxyv47dKlPHd6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64736739"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="64736739"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:15:31 -0800
-X-CSE-ConnectionGUID: NZSt7Qg0QOKiGB712DQt6Q==
-X-CSE-MsgGUID: 7vvDm16VSte27aj4gItEDQ==
+  t=1762800459; x=1794336459;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wAsccoU8w3B4eRMZuq2gxUaDz+Dt38AFte0j5k5tPOM=;
+  b=LGoJh2BfuuEOTUk0FiynunvbwgLCHK795YE0dQ/MitEsCtJpwtpHTNiH
+   Nj6DYMl0zfgqyZKeLkaIY24F4IrEO/yRszpr2pGlrgkllCR9uwnm+Ad6P
+   t82nYcC5sYBsM3u38jMXlH3omlApFSwmhr+bGxDW3c0GIsGsznSIq1Vl/
+   prU9QmGB93oR52h+IN8sUUIdWFSOtsVDl1/upJtDsCuargTd1crVycmb7
+   s+FgSrUKSzRx6B9/FNN0VMBgC2vv5PHlNXMAIzZWbsk4J9qBNsuspoSjD
+   eJsTYEWjytAZvwraGcA8LHnyUUyOAE+gQXStxJ4820FW5AMOL1xxCPDSO
+   A==;
+X-CSE-ConnectionGUID: 8l0vfIDUQsig8WVTeYr+tA==
+X-CSE-MsgGUID: w/1pe4BtTF24tYVmPynttA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64769602"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64769602"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:47:38 -0800
+X-CSE-ConnectionGUID: i9YCGhVJRUGQcVlTpVIfpg==
+X-CSE-MsgGUID: Z0/CCH/BSBOYpkaQrxg0zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188488117"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:15:31 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 10 Nov 2025 10:15:29 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 10 Nov 2025 10:15:29 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.25) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 10 Nov 2025 10:15:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kgsvKYvSMc/2D6Q2I9+HuX4k/sPtHNu6So69/bQbdzReC9hqFzlAUy3HayAp5/JuBOMI77i7T0aheCbuMTAp/jSnT106fdRB8AON+0WjjLm75QvzkfIbr0rXr8hjVr2iJwqYnWBc7CnA13NYFn3ioudKNalMvi5GZzLGxVlH9V0w3yTKNRmzzRnWwX+No+Dy9BrUbGvkVQ7C6K36lRCjwSgzIrH9/rF2ejVOCBeofsi0GH9vOTYz058AVZH22pMovm/fp9rryN5shhiiCOVI5GabxB7fwK9/o3t/aAV2Xtm/1e5Dqe532xKoD+LSmICkDmqCtUDxzpjys3fdDD65FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EFdDCflQ8VGmQd2P3k6yNBTBUr/VRuKGrwv4saEZ4k4=;
- b=huVv/sJC9NNR3EQ/9Wf60Bl9P71fbKSD2mA+d5BpKjxoi4DMmAwd3qYt8IjhmDCvIjye7BisJ67bh/4gkhx16JBbBjk91MoBcWYMoew4E6y7OhoC7fnXiseqyKIcmEf0U+QGKAlYM8cxc6QHKlnmkCh2BMPhBq2Yz61IksNKOftG54w93GDpczcX/NhekulLZe3FOr4wjtmiA/+njkHjIFlsRYSRRVVQMkL1MNcU2CLoHGQTJ7UEhvgYMZuhAtpnpFplviiZyUWKbEJzDtiQ++AwFQ62YspXWe7Z4NmmfzsK8zsknivbsrZ9rLHf+1KWSgibFrTq06J51IJNOoBlfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7997.namprd11.prod.outlook.com (2603:10b6:8:125::14)
- by DM6PR11MB4705.namprd11.prod.outlook.com (2603:10b6:5:2a9::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 18:15:27 +0000
-Received: from DS0PR11MB7997.namprd11.prod.outlook.com
- ([fe80::9105:2b7c:b256:7a6c]) by DS0PR11MB7997.namprd11.prod.outlook.com
- ([fe80::9105:2b7c:b256:7a6c%7]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
- 18:15:26 +0000
-Message-ID: <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com>
-Date: Mon, 10 Nov 2025 10:15:23 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 4/9] x86/alternatives: Disable LASS when patching
- kernel code
-To: <x86@kernel.org>, Borislav Petkov <bp@alien8.de>
-CC: Jonathan Corbet <corbet@lwn.net>, "H . Peter Anvin" <hpa@zytor.com>, "Andy
- Lutomirski" <luto@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, "Peter
- Zijlstra" <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, "Kirill A
- . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse
-	<dwmw@amazon.co.uk>, Sean Christopherson <seanjc@google.com>, Rick Edgecombe
-	<rick.p.edgecombe@intel.com>, Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>, Randy Dunlap
-	<rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook
-	<kees@kernel.org>, Tony Luck <tony.luck@intel.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-efi@vger.kernel.org>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
- Molnar" <mingo@redhat.com>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-5-sohil.mehta@intel.com>
-Content-Language: en-US
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <20251029210310.1155449-5-sohil.mehta@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0229.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::24) To DS0PR11MB7997.namprd11.prod.outlook.com
- (2603:10b6:8:125::14)
+   d="scan'208";a="193749558"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Nov 2025 10:47:29 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id E8E2195; Mon, 10 Nov 2025 19:47:28 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Corey Minyard <corey@minyard.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Calvin Owens <calvin@wbinvd.org>,
+	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,
+	Jan Hoeppner <hoeppner@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xiubo Li <xiubli@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v1 00/23] treewide: Introduce %ptS for struct timespec64 and convert users
+Date: Mon, 10 Nov 2025 19:40:19 +0100
+Message-ID: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7997:EE_|DM6PR11MB4705:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2c3ab2f-aac4-49a6-e235-08de20851fb0
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?c2trck5saENtV2oxNjBUd1FvZ1VRV1BUNktnK0Vua3lUZHcyM2VyMW1BaTdH?=
- =?utf-8?B?R010NWN0WWg0ci9veDI0MnQyYnFrYzNTMmJHRVBGNzA1NnNyenZuK3Vzb280?=
- =?utf-8?B?Z3lWN0hwOTl2ZHJMU01vd2h3MkJMenRBd0VSdDZEcElWSG9mVjJiMWlwR21i?=
- =?utf-8?B?UFZHWnJSbkZrNEZWUWFIUk5waDgrTVMzZnBpT2xlVGNyRnNZQkxheHlWYnV5?=
- =?utf-8?B?VGFzUi8rdERHOTVmcC80SE9PVlNDU3pwNDZWRUZKb2Vja2YxZnkrTW9mOURl?=
- =?utf-8?B?a2JzK2E4U0lmcHVsb0hjd0dLVy9iMlEyNVZwK0VQR3J6SVIwT1VEK0cxMWdU?=
- =?utf-8?B?Wi8vWVlGN1lrbGJFamdjMWl5VWJvcllsdVpidzlIWGh2dFBzZkZCNEY2emZw?=
- =?utf-8?B?VTlaeHdVbGhPVDI4YmhPbU9pUjdxRGRkYi9zZTNoU3JCdmtSaU51WDZiVG4z?=
- =?utf-8?B?R3ppSE1Qd0VmcGljL2Q4ekpjY0s1c3dGOXZwaGI3b1FFLzRObE9OWDBia3lL?=
- =?utf-8?B?bGk2NG1NYnlvZ1gva0V2Szh0M1R3OEhKcFB1ZlpOWG1qcWpaS28wWkM3d20z?=
- =?utf-8?B?WVMzTkZFZDRJeXB4c2hHQkNQbndaRXR0Y1dzaGk1VXlJVUJIRGY5YUloekpu?=
- =?utf-8?B?bkYvZzNRcTRkQVI3WUdBUnhUdjFqbzZJWm0vWlk5Zm5wd2FQNVBEVG5oMjBL?=
- =?utf-8?B?VW9KNUZSYWN2Q3FKVFFPREk4eVo4RDROcExWL09OUU91TUNXNWxHMEZ0R1pO?=
- =?utf-8?B?djBqMW9rWm1ZbjlpVlladE1rZ0h6d1JZc0dUS0NpNXdlR3VUeVBDOXlDSmlS?=
- =?utf-8?B?bGhkTGduYkVHeHU2YWxCQ3o5MHgxK2ZaZWt2VnRZaVFTN3ZBbnpLaENYMkdF?=
- =?utf-8?B?WGxRNEhONUhjazJrT2xzUHl2cDF4eFk2RkIrNmgwbkUvSGlTdVhkd1pvWjQx?=
- =?utf-8?B?TjgySFpkYUp5RklSZ2EweWF2TlpBdXYrbTVNWUk1YkRLSi9xRG5wWEV0djJ0?=
- =?utf-8?B?MjVMYmptMUZKWmowTVIxaWJqSDdkbWVpM1pqZUJyM282ME5JQ1RJRmFyWFhG?=
- =?utf-8?B?Rjc4ajd4b0VnNmhXRkdoN3pzSUtqQzZ6K1gwZDlXemhsZkJpKzVpZXFmSnhN?=
- =?utf-8?B?Vm1BM0pVNmV4c0dzTHNTaGZQZnVFZFlRMkJ1Z2lGR2gzRy9wQWRITGNNVFZ3?=
- =?utf-8?B?STNkSEJYU1hlOXhzU3RrSlE3WXBEcmpGT25vM3Q5clk3WEtSM0ZLeU1sczlJ?=
- =?utf-8?B?eE5VOVJTWFhJUG1wSTBMMGxraW9leW94dW1HNjJOb0hKRTdIOGNMUndSOEZT?=
- =?utf-8?B?amJSSXFHWWVDV0FsYWY0eDFtaVFvWllYUGlGbmNCOFQ1QzcxbmxiMkZIRjha?=
- =?utf-8?B?TkY3dnFacHVhL29VbFJuaWZFSTRiaTh2aW9FazE0bmtvK3djeVRVaU42UHBR?=
- =?utf-8?B?TEl4cjJndkdoRmlkbVFRU1piOGk4N2l2VGtSMHh2WHc4RnNTTGJMTXVEUlNZ?=
- =?utf-8?B?WFdtUitZV1dCbHFCWkY2blNSYVljWkY1bXp4UG1VeGNDRzlPMzFvR0oxZ2I5?=
- =?utf-8?B?WnB6UnIwbXlLTE9EaUtuYlRnL0pTN3RpVU85WHFWUUluTDhCWEEyaDl3OGhS?=
- =?utf-8?B?ZG40LzNpWEJpdHlTdkp6QnMwSUdVcGExeXI4TWRpaEhBMTBxaGRZWGt5cmtz?=
- =?utf-8?B?L2t5ZXlQN1VNOGdQNmhSeE9GVWxKTXJiZGtBVFFObkJ5UzNKYmZ0bFl0Vnk0?=
- =?utf-8?B?ZDRFaFQ5QXc2RTZmb2hKSVFqTktIUG5QRnNIQjhIL2ZPMEE0cVVPbDROdXE0?=
- =?utf-8?B?WTZaelpnSFBkalEwMEdpL1RBeDlvZjBySCtEQkdud0Q3YUpCY0pOUG10Mit4?=
- =?utf-8?B?eFpyMGYwa2I2dnkzK215TEJMWVpRaWs4K0V0L25VMHhxdSt2cmJ1akh5TTYx?=
- =?utf-8?Q?75Aly66E1gX/NOAZMckN5rBcSSVHxsG2?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7997.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2FRU1ZIK3V4NFZVcHZWenpYWnBiN1VDelA1T3FxQmhHMGNrdkVYNUN0c3hu?=
- =?utf-8?B?ZUdVQ0VTc1ZBeDVUeXVUTWtxMEcxNktPZzlFN21DZFBVWlJVb1VzUmQ3QWNJ?=
- =?utf-8?B?RGhaWTFaR3VmS3BEOUs1MHFLTktwTzFsZ1B1cGtPSlhETXVtSlYwMWpGVEpT?=
- =?utf-8?B?NmNGaUw0ZWZmMU9PaEpUK1hVVEoySHhNNU9XSFg2cVVrTDdwSHNBTHVsN0F3?=
- =?utf-8?B?SEJ0OXhTVVVLNEFCaitPOTZyRU9reWU0N0RGT3ZyREZvZEZTTEpvZVd0c2NG?=
- =?utf-8?B?S1UyaEVDajhZVFYvdERmcW5udENJeFJUSjliOEduUStFbTBxUGoxdGFEMmJl?=
- =?utf-8?B?Wk5SQnJGZUhjZzdxOHFRMGp4cGpOaVkvWCtiT1FFWEpTaWxWWDJRbUMzS255?=
- =?utf-8?B?Q3ZtYUJ3aUJ2dDJLaUF3RDhtdUFxVkY4UWY4SklaSUhWd1hvYnBqb0VaaGwx?=
- =?utf-8?B?OGtmZmdxRXR3RHNTMUJqS1RhajZtaE5YY25HTW9ucS9uUkltaDFOU3FnMzlt?=
- =?utf-8?B?MnZxOEhUZU5aUnIvakV0U0hEeVA3ZjdPUkE1TVZiRzlHYzNlYzdDdTkrNmpH?=
- =?utf-8?B?SWZNSE9UOVdvTW5Na2drWk1YUzdGOUJUNklJNjdpZy84Z2hocWNoL2NvWGVo?=
- =?utf-8?B?WlYyNVNoWkRZNC96QXIvdzlQeGcxWEkzMm13Nnl4ZTg1M0JmOVJVTzNjSUJQ?=
- =?utf-8?B?eDdVdnJwNlNKL1R4STRrbE1wYXRXczM0OGE5MkRwS3R5QWlaSW5nSHFWZldp?=
- =?utf-8?B?SWpXVTlRZ0lzdW5RSzJiN2xLcXhjQU4xR21lTkZOc0lCSnpOc1VGZnI2RzJo?=
- =?utf-8?B?bWZtQ3JzTWFzZ0hlcnMwalpwZjd5ZGRyZ1BkSUxKMlNRQVR4R0pJYjd6Skts?=
- =?utf-8?B?cGl2bHlWbURjZnVwWHQ4aE9pTW5iNWtHdW9Na2czaUhtQ2FUWmVzOWxlY0dj?=
- =?utf-8?B?SkFNTngrYlVTeWV4VVUrTFJMcEh4K0V3cUFHbmdSeDBIZXBGeUN4K1pPajZj?=
- =?utf-8?B?SkJodU8wdnJlRXdaVVFwZlplcmU2dGhaa0twdDRzY0pnbVpjNzhwTGxKY1Qw?=
- =?utf-8?B?RmFxYjZLZDZHc21sZ2k2MFNLMDJRS0hQbFAwVzVzUmhLODNhRjVZblpjcWgv?=
- =?utf-8?B?Znd6amZhVUpON3VzcjJBUSs2My9ndk9YbUIrUkxOMTg5VUQ1YTdVVFFYMy9E?=
- =?utf-8?B?Znl0QmQrZ3I4dktqUHRDdEhxZGF5U0szd3BXQ2s4eVBJSjZCMlc1cnV2TFFP?=
- =?utf-8?B?cDlFbCtCSHhtdGk4ZEczVkJNOUZXM2o0azh5MUhPYWhpa0plKzY4TC82U29v?=
- =?utf-8?B?eXhoeWhmNWVGQU0xdEVUYWVQTkIxdEVCRUpmVVRmZ2ZrL3ZhUlJwaGo3d01y?=
- =?utf-8?B?THE1a0VZMzBCcVlkVGZvNU9WbFlnaVJxaVlCMkFlM1NHbzVyOWIyTVdpL0dp?=
- =?utf-8?B?Nkw1QVBKWjlQblFzcXdtbGhJamV3Qi9FQld1bkJxQWc1OVhkdDZaZVlkYnFp?=
- =?utf-8?B?aUFrZCsxc1FMOFc5L1lESkozUnBtR2EzYlluSUtzTWdETWZiT3orMWpib0tk?=
- =?utf-8?B?SjBRTjEyeHFFQnVVdEQ1TEREVDVueVUyaWRJZWR2YzVXVFh5YlZnK21JT0F4?=
- =?utf-8?B?enlFcWZvNGJYYnh5NTNkUWhhVlhwdWQ0dFdiaGRvaWJJMG1DNHRiQTRQYUY4?=
- =?utf-8?B?bExHOVVaUWNrQVRKdktmYXMxakJGVVp3cllRYUVaRVpteFhySW1FVFY4bVVa?=
- =?utf-8?B?encvRGNhOS9xRDdwYmxnTzBVRG9wZSt5b2lTZFpiVGZYcTUzeDcwWVIzYTFm?=
- =?utf-8?B?RGloKys0WTQrZlJjaGwxcGswL0dpdE9pZW4rS3pReU9Rc2V5N0ZaNWlVTklU?=
- =?utf-8?B?UXJ4dmlqZjhWWlFId1Jqd2ZjRFkyajFGNWpQVVEzbW5SWjNxQjMwUVBQRldV?=
- =?utf-8?B?dSthYmZlN3pmTWxYUWVsMmE5b3NvUTU5dzJEZmM2TExYcXo3emVDeVFMbW8y?=
- =?utf-8?B?S2NadkRsMHZpcWZuRHJLZ09ERjljK0xVbUx3QUtNMDM1ZVlzUE5rSjdjWjVM?=
- =?utf-8?B?RmxlZVBhK1YvaGp4TkltTGJ6RU5ubkhvbTZ5bDdNVkRXbzA0cXc0cGdBTjhV?=
- =?utf-8?Q?H6ZTDo/Wi8NkG1OtXM6jC/HzU?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2c3ab2f-aac4-49a6-e235-08de20851fb0
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7997.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 18:15:26.8775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SYh15nSsDX8vi274nNnpOUFTTPc/qri07bFg4P8UCIEWr+2BF8SlDbFfpumWDz7LCsl4EY0tAPNS4+G4P26FDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4705
-X-OriginatorOrg: intel.com
-
-Hi Boris,
-
-On 10/29/2025 2:03 PM, Sohil Mehta wrote:
-> +/*
-> + * LASS enforcement is based on bit 63 of the virtual address. The
-> + * kernel is not allowed to touch memory in the lower half of the
-> + * virtual address space.
-> + *
-> + * Use lass_disable()/lass_enable() to toggle the AC bit for kernel data
-> + * accesses (!_PAGE_USER) that are blocked by LASS, but not by SMAP.
-> + *
-> + * Even with the AC bit set, LASS will continue to block instruction
-> + * fetches from the user half of the address space. To allow those,
-> + * clear CR4.LASS to disable the LASS mechanism entirely.
-> + *
-
-Based on the EFI discussion, it looks like we would now need to toggle
-CR4.LASS every time we switch to efi_mm. The lass_enable()/_disable()
-naming would be more suitable for those wrappers.
-
-I am thinking of reverting this back to lass_clac()/lass_stac().
-
-lass_clac()/_stac():
-	Disable enforcement for kernel data accesses similar to SMAP.
-
-lass_enable()/_disable():
-	Disable the entire LASS mechanism (Data and instruction fetch)
-	by toggling CR4.LASS
-
-Would that work? Any other suggestions?
+Content-Transfer-Encoding: 8bit
 
 
-> +
-> +static __always_inline void lass_enable(void)
-> +{
-> +	alternative("", "clac", X86_FEATURE_LASS);
-> +}
-> +
-> +static __always_inline void lass_disable(void)
-> +{
-> +	alternative("", "stac", X86_FEATURE_LASS);
-> +}
-> +
+Here is the third part of unification time printing in the kernel.
+This time for struct timespec64. The first patch brings support
+into printf() implementation (test cases and documentation update
+included) followed by the treewide conversion of the current users.
+
+The idea is to have one or a few biggest users included, the rest
+can be taken next release cycle on the subsystem basis, but I won't
+object if the respective maintainers already give their tags. Depending
+on the tags received it may go via dedicated subsystem or via PRINTK
+tree.
+
+Note, not everything was compile-tested. Kunit test has been passed, though.
+
+Andy Shevchenko (23):
+  lib/vsprintf: Add specifier for printing struct timespec64
+  ALSA: seq: Switch to use %ptSp
+  ceph: Switch to use %ptSp
+  libceph: Switch to use %ptSp
+  dma-buf: Switch to use %ptSp
+  drm/amdgpu: Switch to use %ptSp
+  drm/msm: Switch to use %ptSp
+  drm/vblank: Switch to use %ptSp
+  drm/xe: Switch to use %ptSp
+  e1000e: Switch to use %ptSp
+  igb: Switch to use %ptSp
+  ipmi: Switch to use %ptSp
+  media: av7110: Switch to use %ptSp
+  media: v4l2-ioctl: Switch to use %ptSp
+  mmc: mmc_test: Switch to use %ptSp
+  net: dsa: sja1105: Switch to use %ptSp
+  PCI: epf-test: Switch to use %ptSp
+  pps: Switch to use %ptSp
+  ptp: ocp: Switch to use %ptSp
+  s390/dasd: Switch to use %ptSp
+  scsi: fnic: Switch to use %ptS
+  scsi: snic: Switch to use %ptSp
+  tracing: Switch to use %ptSp
+
+ Documentation/core-api/printk-formats.rst     | 11 ++++-
+ drivers/char/ipmi/ipmi_si_intf.c              |  3 +-
+ drivers/char/ipmi/ipmi_ssif.c                 |  6 +--
+ drivers/dma-buf/sync_debug.c                  |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  3 +-
+ drivers/gpu/drm/drm_vblank.c                  |  6 +--
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c |  3 +-
+ drivers/gpu/drm/msm/msm_gpu.c                 |  3 +-
+ drivers/gpu/drm/xe/xe_devcoredump.c           |  4 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +-
+ drivers/mmc/core/mmc_test.c                   | 18 +++----
+ drivers/net/dsa/sja1105/sja1105_tas.c         |  8 ++--
+ drivers/net/ethernet/intel/e1000e/ptp.c       |  7 +--
+ drivers/net/ethernet/intel/igb/igb_ptp.c      |  7 +--
+ drivers/pci/endpoint/functions/pci-epf-test.c |  5 +-
+ drivers/pps/generators/pps_gen_parport.c      |  3 +-
+ drivers/pps/kapi.c                            |  3 +-
+ drivers/ptp/ptp_ocp.c                         | 15 +++---
+ drivers/s390/block/dasd.c                     |  3 +-
+ drivers/scsi/fnic/fnic_trace.c                | 46 ++++++++----------
+ drivers/scsi/snic/snic_debugfs.c              | 10 ++--
+ drivers/scsi/snic/snic_trc.c                  |  5 +-
+ drivers/staging/media/av7110/av7110.c         |  2 +-
+ fs/ceph/dir.c                                 |  5 +-
+ fs/ceph/inode.c                               | 47 ++++++-------------
+ fs/ceph/xattr.c                               |  6 +--
+ kernel/trace/trace_output.c                   |  6 +--
+ lib/tests/printf_kunit.c                      |  4 ++
+ lib/vsprintf.c                                | 25 ++++++++++
+ net/ceph/messenger_v2.c                       |  6 +--
+ sound/core/seq/seq_queue.c                    |  2 +-
+ sound/core/seq/seq_timer.c                    |  6 +--
+ 32 files changed, 131 insertions(+), 154 deletions(-)
+
+-- 
+2.50.1
+
