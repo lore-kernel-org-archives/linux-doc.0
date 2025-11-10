@@ -1,139 +1,272 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E561527CCF2
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5132A24A047;
+	Mon, 10 Nov 2025 16:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762791918; cv=none; b=T5Mlj7pFaEkSt/DjZ3xTvHEOI2NWcFPVtUkvViW0OF9NoZUReLo0me1c5lxd3ba1LMbxMjREeXyoH1KrLhfL0yhk7Tn+hYYsjVnUUgsd/avBzRB3B5CmgFIr3T+3BEwIkpMNidvzW2jsZd4x9CFVgwNCw0Q0GfyHOo7GLbUX04A=
+	t=1762792247; cv=none; b=nFTAwkr0MzOdNMWWv8Aw/559O7nhNvUEBX1dByVr9YS/OGXnpdlVmvzqkdLJf7kJ3RlT7+IZ932gURNrHVLE2VO7/3607p29ycSB97oAFzfuxGOvCEg6iKSH/uSwdDmEviUIXiHJPh5ig6c0t8FT9ol6NRR1FeJS14rsqnUd75U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762791918; c=relaxed/simple;
-	bh=+XdVuzl+5OjnvaE1DbT7/b/RmZhiYffoxNycigHS5xM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=omlHVQ2mAeKCvNh2qZcAEppPOcaIQOtPAL77xarBiWRaiHLE62fxjsiKhi9OU/I+5IzcgBSpLz9rzcuyCQ3XzDK0WboHnVAj/5q7i8oJXgRBSvWBbQynhI/fh9GwuhUnKd5Lc8oaC6chJWSuE/uvriTFi20WGbLc9i0Dt4fxb2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3yuXMR8I; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1762792247; c=relaxed/simple;
+	bh=iK8XFCALGc6e4f7zZ9iu7zB1u7W0l9CGAnuy8SPnocM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=baexp9MpaJph+MaioHbvdKs+6JtXBk1nWb8eYnIdHyOOjpfl02occliRDcHDGOa8RQ72H7tIy0+4unyAcwmbmlyirpp4aLXVE6aSGt/uOI5TvEwVWXjLIwnB1fUplVvHvgkCBpzD4CLh7oCk69USU5NMqdMOWbvWq251p0W1duA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SJJxqtq2; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3yuXMR8I"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-88246676008so18372936d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 08:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762791916; x=1763396716; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c9SA+Oyt3urlxF8erNwoXRcqQ1B+Xtx2kUos6VgD610=;
-        b=3yuXMR8I2yXzyemuQHWtQbvjgyAhEUPtwgPABTz4Y0Lbh4kwenMUvKpdcNMv/j5SD8
-         OksN/TpI7jlMoZcWs9uc4H2kJpyfymF0vDo3Hg46I+bK3ia/6DrR5O2zpyP/cJ60Ei9Z
-         R/EzrRdSgotSi+8Ctiqsy1sWHfrU9VJ6mz2hQRL5GkOrHP7chVUHBsI9JdOUo/Nt0Dql
-         YiqWLXVVhUqZZemMEbpLpU09SZNshE5Gc6e82MH/FIMsyi4MZeVMolrxIAvrIy82Skud
-         qe2d425Oogg5LRILn06O6YAV9+j/dUtRXQEJQlrhF7ubbaTWOhpFck8aTO0nf4lqB+wc
-         pCWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762791916; x=1763396716;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c9SA+Oyt3urlxF8erNwoXRcqQ1B+Xtx2kUos6VgD610=;
-        b=UlF+62VDUjQa/VCYXW8HhILhFiDptj+umIJKPMLnMR5se+Aeix5XvlMEt/RpqIMSEK
-         nGiPiggaQM/VXQG5gmEIf39/mizqbqGjx4MsSg5YD2qsv/jsxJJZQF6+XXXoaxrQtXk+
-         al7pcm9mn4WkYYBFzKqiMZE8aXfOJIlPiuubOA9k8d5+R0bytYlSpr6Ir/bAYqe/Z23g
-         FdoANQpCnmv2xCOURjYvCuOoEjaqXsRNLcIgxx13dCS3xLEiXw8GgbEgPPSdi9EZCABI
-         d4XFGByOD6CRvdMRZhyqPAoOmcs59hQdKij7Y/0nrZ3MUH7JPLVWnqajCNmwkrjHbW3c
-         DezQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAxIz18nera5vtcqPhVReugXHQEXoI9VQwF1HpMYc5nvHz0FfadtSK3vZ2Nu0663IHpa7q3kEBHsI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkSFMmho3O1HasUjTm9JpISlDHCqyjdFLpiwx027HOpNw1JIG2
-	U11SsQKxiYhPIO5GZoPD0zx17LqZd4St/qYqPPAWKmieTrviQxKcFh9/lEnWE4CfSxj+7q/ufVK
-	GuP38ReYj8WHWwEnBQ6TbSZaO9iP2Vn5736w/sJZ+
-X-Gm-Gg: ASbGncsxF2nqo87M6BP8thbqqsaL9t1jYmEg3QSdWvF/c/WIbO4AYQHanHpF4U7ZJTo
-	R9CMpdob+5K2IzTaDwoiaU7lh0w/hu8vx+/yFfRSA6bzS+Unn9fjdRUe9KSAodsCOtK226lO7qJ
-	Sn6EcNODsnAA9AElMlhU2EqrjA+HNjGzNX2NgY7f2HasuY/dehVPeF94nhU7ckwv4JfO8I84tdv
-	5ui+6ev7qWEBnigOPvCl3ZDQLVG0mp3BpngtqFJNagsuSOrXFpgi3kZCY121xjFYguzsQHGv7/O
-	vpGbQXxQ2sNrPGE=
-X-Google-Smtp-Source: AGHT+IHpxAHAI0f9Cr24tNS6jOzBKv+3mGRu+Z9H6Txpc480qOR0dPNsaiR/3XasB7O8AH8S5J5ulzFL0knik9fmYsk=
-X-Received: by 2002:a05:6214:600f:b0:882:4987:360 with SMTP id
- 6a1803df08f44-882498705a3mr75490586d6.62.1762791915502; Mon, 10 Nov 2025
- 08:25:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJJxqtq2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762792245; x=1794328245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iK8XFCALGc6e4f7zZ9iu7zB1u7W0l9CGAnuy8SPnocM=;
+  b=SJJxqtq2aMgXfsOkyhJAGolSlw7Z9jVJAyslZvUnniEJe23HF3ZVnEY8
+   upC6NeFePMfWjnc8uPrWyRx2URGwJgP477hTSz7drY2h0Krwp+/sSzXlw
+   nG6f/DetcYfdRph5CUPETaesXuZxjiFjSzKNCUtq2InqhHv5OxVh+vIUt
+   U/1KDbBxZVxxAwHnVVZVbALR9FFqteuoYsv5cehovdccJMsWv4MzBu48x
+   JBBI1nMMDHd7ioWsm2jOSFVKUcwGX/RGKCbRyUi+O8YRYPxUu8lzaVIj8
+   J+mBtl7ismGgHRFmT5GeUh6NOfmq3l/TJ17RFnU1hnwoZtSnjW0zinq2x
+   Q==;
+X-CSE-ConnectionGUID: HblRJgNTT2O9Az3+se8UUA==
+X-CSE-MsgGUID: CiNx93ZOSQyY4rh4t5K0kQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="76295808"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="76295808"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 08:30:44 -0800
+X-CSE-ConnectionGUID: eSpEjy7KRDiex35tTq0k7Q==
+X-CSE-MsgGUID: pFUbbmtyStqKLqRsQ5KHXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="189436364"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.235])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 08:30:40 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1vIUms-00000007Vsw-0rMZ;
+	Mon, 10 Nov 2025 18:30:38 +0200
+Date: Mon, 10 Nov 2025 18:30:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 1/3] iio: frequency: adf41513: driver implementation
+Message-ID: <aRITLaJir-2IoclU@smile.fi.intel.com>
+References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
+ <20251110-adf41513-iio-driver-v1-1-2df8be0fdc6e@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
-From: Alexander Potapenko <glider@google.com>
-Date: Mon, 10 Nov 2025 17:24:38 +0100
-X-Gm-Features: AWmQ_blSpUzzxuUgQTtcq9gjImncZd1NpVlVJACeWgHgjGc0p5BSkakhSm40GYM
-Message-ID: <CAG_fn=Ut9JUpStLiO+GsoBpn3d_EyyttcuBby=EKzuxkKdcKcw@mail.gmail.com>
-Subject: Re: [PATCH v6 10/18] x86/mm: Physical address comparisons in fill_p*d/pte
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
-	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, 
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, 
-	baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, 
-	wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, 
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, 
-	ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, 
-	mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, 
-	thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, 
-	jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, 
-	mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, 
-	vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, 
-	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, 
-	ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, 
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, 
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, 
-	rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110-adf41513-iio-driver-v1-1-2df8be0fdc6e@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
-<m.wieczorretman@pm.me> wrote:
->
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->
-> Calculating page offset returns a pointer without a tag. When comparing
-> the calculated offset to a tagged page pointer an error is raised
-> because they are not equal.
->
-> Change pointer comparisons to physical address comparisons as to avoid
-> issues with tagged pointers that pointer arithmetic would create. Open
-> code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
-> Because one parameter is always zero and the rest of the function
-> insides are enclosed inside __va(), removing that layer lowers the
-> complexity of final assembly.
->
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v2:
-> - Open code *_offset() to avoid it's internal __va().
->
->  arch/x86/mm/init_64.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> index 0e4270e20fad..2d79fc0cf391 100644
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -269,7 +269,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long vad=
-dr)
->         if (pgd_none(*pgd)) {
->                 p4d_t *p4d =3D (p4d_t *)spp_getpage();
->                 pgd_populate(&init_mm, pgd, p4d);
-> -               if (p4d !=3D p4d_offset(pgd, 0))
+On Mon, Nov 10, 2025 at 03:44:44PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> 
+> - ADF41513: 1 GHz to 26.5 GHz frequency range
+> - ADF41510: 1 GHz to 10 GHz frequency range
+> - Integer-N and fractional-N operation modes
+> - Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-N)
+> - High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+> - 25-bit fixed modulus or 49-bit variable modulus fractional modes
+> - Programmable charge pump currents with 16x range
+> - Digital lock detect functionality
+> - Phase resync capability for consistent output phase
+> - Clock framework integration for system clock generation
+
+It is like a list from the marketing material. Please
+1) make sure you are writing the commit message;
+2) implement minimum basic functionality and split features to the next
+patches, 1.5kLoCs is hard to review.
+
+...
+
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/sysfs.h>
+> +#include <linux/math64.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/property.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+
+At least types.h is missing. Follow IWYU. Have you passed internal review? I
+believe we need to start asking Analog Devices to provide a Rb tag of known
+developers on the submitted code to make sure it was passed the internal
+review.
+
+...
+
+> +/* Specifications */
+> +#define ADF41513_MIN_RF_FREQ			1000000000ULL	/* 1 GHz */
+> +#define ADF41510_MAX_RF_FREQ			10000000000ULL	/* 10 GHz */
+> +#define ADF41513_MAX_RF_FREQ			26500000000ULL	/* 26.5 GHz */
+
+We have HZ_PER_MHZ, also you can move HZ_PER_GHZ to the units.h and use it here.
+
 > +
-> +               if (__pa(p4d) !=3D (pgtable_l5_enabled() ?
-> +                                 __pa(pgd) :
-> +                                 (unsigned long)pgd_val(*pgd) & PTE_PFN_=
-MASK))
+> +#define ADF41513_MIN_REF_FREQ			10000000U	/* 10 MHz */
+> +#define ADF41513_MAX_REF_FREQ			800000000U	/* 800 MHz */
+> +#define ADF41513_MAX_REF_FREQ_DOUBLER		225000000U	/* 225 MHz */
+> +
+> +#define ADF41513_MAX_PFD_FREQ_INT_N_HZ		250000000U		/* 250 MHz */
+> +#define ADF41513_MAX_PFD_FREQ_FRAC_N_HZ		125000000U		/* 125 MHz */
+> +#define ADF41513_MAX_PFD_FREQ_INT_N_UHZ		250000000000000ULL	/* 250 MHz */
+> +#define ADF41513_MAX_PFD_FREQ_FRAC_N_UHZ	125000000000000ULL	/* 125 MHz */
 
-Did you test with both 4- and 5-level paging?
-If I understand correctly, p4d and pgd are supposed to be the same
-under !pgtable_l5_enabled().
+Ditto.
+
+...
+
+> +#define ADF41513_MIN_CP_VOLTAGE_MV		810
+> +#define ADF41513_MAX_CP_VOLTAGE_MV		12960
+
+_mV
+
+...
+
+> +#define ADF41513_MAX_LD_BIAS_UA			40
+> +#define ADF41513_LD_BIAS_STEP_UA		10
+
+_uA
+
+
+...
+
+> +#define ADF41513_MAX_MOD2			((1 << 24) - 1)	/* 2^24 - 1 */
+
+Why not BIT()?
+
+...
+
+> +/* Frequency conversion constants */
+> +#define ADF41513_HZ_TO_UHZ			1000000ULL	/* Convert Hz to uHz */
+
+Put it to units.h.
+
+...
+
+> +enum {
+> +	ADF41513_FREQ,
+> +	ADF41513_POWER_DOWN,
+> +	ADF41513_FREQ_RESOLUTION,
+> +	ADF41513_FREQ_REFIN
+
+Doesn't sound like a terminator to me, add a comma.
+
+> +};
+> +
+> +enum adf41513_pll_mode {
+> +	ADF41513_MODE_INTEGER_N,
+> +	ADF41513_MODE_FIXED_MODULUS,
+> +	ADF41513_MODE_VARIABLE_MODULUS,
+> +	ADF41513_MODE_INVALID
+
+Ditto.
+
+> +};
+
+...
+
+> +struct adf41513_data {
+
+Run `pahole` and act accordingly.
+
+> +	u64 power_up_frequency;
+> +
+> +	u8 ref_div_factor;
+> +	bool ref_doubler_en;
+> +	bool ref_div2_en;
+> +
+> +	u32 charge_pump_voltage_mv;
+> +	bool phase_detector_polarity;
+> +
+> +	u8 muxout_select;
+> +	bool muxout_1v8_en;
+> +
+> +	u8 lock_detect_precision;
+> +	u8 lock_detect_count;
+> +	u8 lock_detect_bias;
+> +	bool fast_lock_en;
+> +
+> +	u16 phase_resync_clk_div[2];
+> +	bool phase_resync_en;
+> +	bool load_enable_sync;
+> +
+> +	u64 freq_resolution_uhz;
+> +};
+> +
+> +struct adf41513_pll_settings {
+> +	enum adf41513_pll_mode mode;
+> +
+> +	u64 target_frequency_uhz;
+> +	u64 actual_frequency_uhz;
+> +	u64 pfd_frequency_uhz;
+> +
+> +	/* pll parameters */
+> +	u16 int_value;
+> +	u32 frac1;
+> +	u32 frac2;
+> +	u32 mod2;
+> +
+> +	/* reference path parameters */
+> +	u8 r_counter;
+> +	u8 ref_doubler;
+> +	u8 ref_div2;
+> +	u8 prescaler;
+> +};
+
+...
+
+> +static const u32 adf41513_cp_voltage_mv[] = {
+> +	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480, 7290, 8100,
+> +	8910, 9720, 10530, 11340, 12150, 12960
+
+Make it power-of-two items per line, even with the comments to show
+the indexing, like
+
+	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480,	/* 0 - 7 */
+
+> +};
+
+...
+
+> +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+
+My gosh, please, try to check what kernel already has. We try hard to avoid Yet
+Another Best Parser in the World to happen, really.
+
+...
+
+In any case, I stopped my review here, you have more than enough to fix.
+Please, come next time with a tag from one whose name is in the MAINTAINERS.
+From now on it will be my requirement as a reviewer of IIO subsystem.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
