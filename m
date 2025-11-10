@@ -1,221 +1,431 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010003.outbound.protection.outlook.com [52.101.84.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C3E280329;
-	Mon, 10 Nov 2025 16:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762792331; cv=fail; b=F+h9wYDiDyZsO7kqmbhLzn+4x5LxQwdZ6wOsmsGL7tvMY4fOyQruruv/3V5Xu9ie5yNhOGPWadjoIhzLaZXXGAIGLBF+PZipU79tqsuTQkuuGP0W/NBs6zaaTJ71fV2S0ksOcJ3MaAvyjJJ6AXSF6rwHV+n+rDcPip6IQKPfYhY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762792331; c=relaxed/simple;
-	bh=xQ9SyvVYuFTy86FUlt+i3eOeoMiLBqI948DWj05j1C4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qb3wnRQXFD+gxPXcmXjXlaB4JViLAQCICZMa9jCBLxvz6MHou9ZD4zVP2a0dlfVQEIbYTc1oqDFaqnvATyrM08nKWILgqkPQVhkNprizNaa3p9b9Bv+E+FJCBivuHCOZARFDhglxipS+9LuPlvyLVMLe67hKYgvngjXGlRbq+Co=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=faR5NPf/; arc=fail smtp.client-ip=52.101.84.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9282836A3
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 16:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762792604; cv=none; b=axSN2Fqwv7DLxJvCQDati+LrqR0gZv37IiHVh5n5aEHUEG6kWA1z7i1L/hEe2DjXeLuE84JeeKPi+btVMKbag5iJG7gT7qbHIA8DNLg6uQ/uECLeNdo14LZyjlywCYS/EyYoWXRmEvnUeJUMKhFbLZ4g6apj/fiEi6sG6xX2w3w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762792604; c=relaxed/simple;
+	bh=T4ZyLN2I15OGKlBZ6o5rnXat+Ld57Sf3wr/uASHGhAY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p9BL4PZi//40xzzxsSaLK2kq5ftUau9MUDuxuUE/VGpkWuUnJl44Ii0PJvWsI7grmbYzCdUO1oap2w+SJTb30f72KGCE5jzb2HTs1IvJe7d1ij9REMN4GMmx4kNldQ0VdINaV2KLI27+OnTnW2D38267OraK+YmUGgMjPKZLgjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZbOsrV0y; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="faR5NPf/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mu7H50TQ4Qjoqlby5CZbx9aRcVUd2PQ3itGZBLAtaeU3W4+uW3rvrEk6U49oleUy7y2ev514H/qz7RHMVinm2cL0El2/UnOdLtxRzJMn41BzusQgdpaYOsvYxrvUj0n6NW2ILCgshGyQTotePOdiKI2zPjFuGZV/Z3kQH9FTO0V2fTeiJjI89I7B1VmFOWGZhTtGcmK89Jd+XTb0Upk4aJ1Ot+Joim8LQLelVPPAEtFXwP4g4VV0S5PFn0carSrH9Lvqzw/GP/EFfnYiXOzhpmiBbwODF7e9nSz8KgiE98shGaRxRa+HJGguzTw2xJT4izVGhUqKSYQdo3gjs5+yDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DkHIsNy9Rw6ja30HvOPfGgUuX7DJankAOaUgJVCd2EM=;
- b=xzGtN0UMDLZg1f7BYJ3zN0hIzogXSEL+mzlHWchyYqvsjQrAFPXAs7CJCFUUj0XDdLAe6/l3KiXBzeVYt5kWd58gV5Ma8JkcRy+LABpBGw84W4bEeCqzkNDdkCIYxqaMHnkDnvsf13PGUnQEFyImNttBuQgGnChvNK8aSgGwa9dswvXb/LBhnqS9ozkBj2LudJUwrFEVpBAMiKVvhpIpnje9nlH0OOWBCCEqLoEUOlRTXxOU+QBnzPfJTWYS5KFubRsjSnEmL+qMfcAy9GoRyTK5fJbezWQdUXWUkNQvq+Pi06Sor6Nt0BTUe4SgreraYSNBTDjQluyL17tjOfdAaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DkHIsNy9Rw6ja30HvOPfGgUuX7DJankAOaUgJVCd2EM=;
- b=faR5NPf/DeE/iwriHXNn6bokmGQk8An/1m5lhtBPguxRxrW7qLKSOmhLlqepZghTycff/rkooa0fSkrHrESplfH33d7l2241Y1YMIp1mI99i92jrJ5c9aWJvLBD+jqmVXPGQQEqSX7gXVV++VwOmgLCQ9m0zwuKlvkf0ew2dWHQcPZScERaFeXPtPlAANHj2ztZM6DnO6LIcRAOW2fK6VBbPQaJASDyqJUSBeizfVc54dqK1aEmVpzb4+yXfPPvC0L5tVn9SjAjaGsTCpTnlmkLXY440FRkqiFl8gKBDXPnMT+QoQFCvXX4IwoE8l08WuYTqXzgMyV7eY0IQVNGHBw==
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by GVXPR04MB11478.eurprd04.prod.outlook.com (2603:10a6:150:287::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 16:30:48 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::21bf:975e:f24d:1612]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::21bf:975e:f24d:1612%5]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
- 16:30:29 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan Corbet
-	<corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
-Thread-Topic: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
-Thread-Index: AQHcUl9T+LTfJNsvJUmc0OfY3rguew==
-Date: Mon, 10 Nov 2025 16:30:29 +0000
-Message-ID:
- <PAXPR04MB9185F5CC1FEE1557B6AD320889CEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-4-shenwei.wang@nxp.com>
- <9fd8ccd9-560a-43b4-a48d-f7a3eaa07eb1@lunn.ch>
- <PAXPR04MB9185C4A4B91F863CFD49718E89C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <0be8c911-3c31-40da-b431-e5a24339c0f9@lunn.ch>
- <PAXPR04MB9185D9EBE8F46715FD114A2989C2A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <cadcbbc7-2024-413a-8e9b-bde5fa233df5@lunn.ch>
- <PAXPR04MB9185E2C3E50D365F64F10E3A89C3A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <0980eb35-b3fd-4383-af86-433769a4fd97@lunn.ch>
- <PAXPR04MB9185156672C7B334E717F11789CEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <638dac3d-ddcb-4d53-b06d-e0bd3d9077c3@lunn.ch>
-In-Reply-To: <638dac3d-ddcb-4d53-b06d-e0bd3d9077c3@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|GVXPR04MB11478:EE_
-x-ms-office365-filtering-correlation-id: 288d4ea8-d379-48e8-a733-08de20767675
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|19092799006|376014|7416014|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?pqhalxytzkGwflzrF+R4IcZ/kfABI7VJWVvD6k0Uv7fEnKYpTtn+lzT6+JXd?=
- =?us-ascii?Q?xqSIetw3/KmvBYKGf92wbFxKcHs66etb17R6DIFlrz1R8WJsuRl190VEif/F?=
- =?us-ascii?Q?P5pXlGspmneHi2d3hx7mzMiKW4qfJFWBOieQ4VTA7Eh/fXONk9cm0AK2tH3y?=
- =?us-ascii?Q?ID1NuNZQqtUJ449TlIfmPYo4JlSKlid8C3YKueufQLUQf4OJFRlnEirSAYZP?=
- =?us-ascii?Q?2fYuZsd/vBcbydFaIdlBbL17FnHOcQRB/7TiqTSH5hgDvYVvBty/JbdGkA7o?=
- =?us-ascii?Q?x00hPcsUGQHw1aMvPiOQCK9V2RfR1yTrIKU7t1r55w2mVCG89cvwAQkMQi98?=
- =?us-ascii?Q?DuHVeFGZiGqQavSbJ0HwdaiGjbd6cIhxLfSmDnmKcF8PaQ4njJ288RuyY/h4?=
- =?us-ascii?Q?AYurKUxQGoCeFZzny75sKVtFKWLRVTTyxuhty458+Q4QZi/Bwt5mIGVoH26x?=
- =?us-ascii?Q?pANfW102NOoIx3lIC/9W9u32OvvExgCZb168Ujd7LnXrSGPoNhbJKYfa2VH1?=
- =?us-ascii?Q?qw1TN4wNoLkyNp7JjN4lbgnxdHeKiOulxOpiYeaXqjxIK1M/N7FoEzG9pvHe?=
- =?us-ascii?Q?nVAMqJK2jSWx5W15zbrcDrmwZsk1u3Bdqf34RygMcBdC8kRFkM55mu/88g21?=
- =?us-ascii?Q?wAG2OJ2RWzYO1sObCD/fg/D8yCJyuEDG3jjW891EJJSzcwtRayDaUsYmK2p8?=
- =?us-ascii?Q?V3Sij1WHqMh2AcLcWyk8psLPayv1vhi71ZddtBwyrZcL+ieTPFjuRvTCtjpA?=
- =?us-ascii?Q?hvSG5XZ3WYg3NTObzNs+lYHKbDQzqsuF5bHMt2Jf40NyCL9fXa7vFOXjAtG0?=
- =?us-ascii?Q?Zxtd5dJGStvawws+jQfUQL4y2IM8iwv0u1BMRM5l+UMQvH2FV93RCtiew3Py?=
- =?us-ascii?Q?ym31IlXe1ueEg6TdoFKk0Mn7XTnF3uIqmm5HfiH63If2qmy0bhbD/g1b3yn/?=
- =?us-ascii?Q?ZBw3+4XTbIPul461VkFvGLpkJdunsA6VMc1sEus4dHNMWv8ifZb6noTz2rWp?=
- =?us-ascii?Q?pzVnxt98lAUc8PZBJPtaax7C8nvMljuoXktwkJVc+mi/4OTqfqgPlGM2U8V2?=
- =?us-ascii?Q?6iiOmFnmk1dOTgt7181vGoRCl98i076JD9Xx9Uq8DJpHYusVq+pP28cTn8/x?=
- =?us-ascii?Q?dM+0nA+Bl4TV6t7AXgdBKiwpuciWSHCofyTVNBwYTsb3oHa5+Rvl9Mv2uOj0?=
- =?us-ascii?Q?e9R3zSUI0AjUAXE3dw4wwx0q5lc6EmBGcz8WFSUjeCVRdXmR2AZZ0q3S4HfJ?=
- =?us-ascii?Q?wgHPRYVZzogC9UlenfTsF1H1Xk+XsXJYt3flCYPh7EhwSv9LNlHcoDPsqZJL?=
- =?us-ascii?Q?ZXX0BwxA25v6UZ3NWcLgWVgu4tkfPaQXxnK7Icw8ipXG1cy1xPiGz92k0t0o?=
- =?us-ascii?Q?5t2+qtFGtOspBIwvt5i1FTxuFGS+xPjJS1f4iBTBfWdvcQbCoStXUS4RyVA9?=
- =?us-ascii?Q?G6MmxbD/4d9jed4/d0qMxq7ptw/ntF7SekymN1WJ8xlzHh/bmxJnZlyxLAdv?=
- =?us-ascii?Q?couJhtxLL4EBLFFONvs1uV0jSh98NsdHI5cx?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(7416014)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?jvXuQswQgQ66610QtO7cmvDxhAqRF75gHeLBohiTJxK4Bb8ydIXKeAV8XeQC?=
- =?us-ascii?Q?LWMSgEe9xwLV/kZSc7qhihiQshAQgwOliqDdm9EenKqVupqaPEXqR3+vIpxQ?=
- =?us-ascii?Q?fR2YCLoz4AVS+vQuiH4TiyN1Oyxi0nhVs+GdYvJVWAB3Ky8tGswrSBq0mGvq?=
- =?us-ascii?Q?PemdSyD5N2Nwd+GVzR8ID0VKxUSOkQxrJ4LoMGo+ykWEIhRdLYX9gRSC//Aw?=
- =?us-ascii?Q?G1fH3iOYFfZnb/lUYznEvKpLm6tKV4Z4PfVU5DORzowgEh5YfBRWMgmjesHF?=
- =?us-ascii?Q?NvQLgD0BFTUS/XBuGQHzE4eBruFt1CGJTfACY9FMV6jY7FJ3FP4m2eUsS6kM?=
- =?us-ascii?Q?ua5prUjcXxLDTZpWFmk1gJ7PskKbNM0H3fFz9WqjIjeSQmukk5gzuibpT69m?=
- =?us-ascii?Q?jl37aXKpsJxDyvSWkELQW4flM3SXtmvw4YwjY949Tj1xOv3IKNkLxsU+Z6Yz?=
- =?us-ascii?Q?o6InHC8e1MqrD6ooGM6T3jWXrFlo8Yq22TN5Az2XrLuuSRg4f3pEIQzh5sKj?=
- =?us-ascii?Q?oFBU+3m0wtRF2fDr1GkuTnyOhblEDLjiYLBRs4xaaVyVRjyYg11NuRbQzrxn?=
- =?us-ascii?Q?IhmHbt1BwYaYxIBgdB71gpkEC3ZzC+nkphwH2hQMgm2sJPaUJeHnRi9CJgxR?=
- =?us-ascii?Q?BCt/rP4FD5yqa75j5u9xaVD+IE8G7bwQhDdv7/5RQf9mqTA9ODnqZSy+cZKf?=
- =?us-ascii?Q?hAs7T0nFiwBJ2G57TEWQxEz/FXYRfdN4dSuMnMpFMgnt+aU40dlCzFWXGYpr?=
- =?us-ascii?Q?jpx6NeOfVLJsDPSvBtveHPCMxqoRf4D4Sy2SjlidiNINBx6xj7/Pj4gP//fR?=
- =?us-ascii?Q?nPKfjNsEJUeFXLobf33C8PaD5QPd1ouO08Ljc4554lz1QRPsjFpMNGwmOmIG?=
- =?us-ascii?Q?wnMNz/tFpv3lUjLkLiK6cBD1RCW4jd0UcpfRWQyV58ygW+iIprKCD9St/5SO?=
- =?us-ascii?Q?pAn756eisvOVnl4ghXcpQTw0TRaX1d57sc3LyhBiRAWiwn5El/rptPYsAjF3?=
- =?us-ascii?Q?swpwM+b7Fsrdg3Pq0AtTpCZxcnr7vFXn1nq4ODpBHHp09/uHBSmki8FWqWvq?=
- =?us-ascii?Q?k+NxOZyu92s08+WBWyMbG0BTnYWs9Qu1AqXoCLq/0cIt7zImHFYPk+hvLTF6?=
- =?us-ascii?Q?Bdn3lgLMvPh+1spXFO017byfz8Al3YtfuxsuJCBbrlhZz8u/JUfTuHoOTBoT?=
- =?us-ascii?Q?6nq0DHaaQM87ezPEiWzX8FveuYpR86j5jEgiS8HdQBB0NkKcNJtdFl51gdS0?=
- =?us-ascii?Q?BgucgVSybysQK/sR8LH1Gxeq8RT1ij0nPpJbmzp8C3xUlobXM+fKQjJSIwaI?=
- =?us-ascii?Q?i2gX257jLD2pT5i1rDjw1Yi0DO1/rSvdZ381mHE5AR1lGDYgeoELY37FWNfa?=
- =?us-ascii?Q?BHYykjzfGjrWXEZzEA95thlRqspeYaqWkEq21DVPaw7sWrYtiSQkiTPfysF9?=
- =?us-ascii?Q?ptJyfWqHqxDna97UrC5RmKLlEf0vXUUy3tOsQcAvYlC4OM9inT8DMmUyTMq8?=
- =?us-ascii?Q?6JVNg3U1rLZP5MCC2PbKE6oMUS9be+N2Ou7Ge9xcgEgtZdqLzv4TakONiIJA?=
- =?us-ascii?Q?f2/oBmAaV5UDyvRL6B+QMalitfoRRMLqLP1LCz9x?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbOsrV0y"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3437c093ef5so1525358a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 08:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762792602; x=1763397402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OmF3ZiRo+z3/MUzNtC1wwNg9IEmuUusZSisJNz5BISs=;
+        b=ZbOsrV0y6uQ9aVxG/Ti1vleu1H3KIAdLqniHqf9dLb7dm2PByIoDXfzr2E8irydFr2
+         JOBszP4TPaWQXLRKR62hR7WC9EecX+B7XqFdEjP2U8BfxWkb53W5mwVwJeqtWIO7VAZy
+         5qzTdBLcLkfkL2Q1Ue+/vsk4EeHUonvDivxO+NjYnAnC1UA6DL2oFTXm3wGS9Vyb/4ca
+         b2luMrbxuTyQV7rEk/dqg2bOCAmZscUqgDjeCdRJ4OfWzm9ZhYhOLMznif2EWngJn32l
+         qoAmIG1bILDu1t9utcyQOT6WCmBKEOHCeAHU7v+mrigOfGg0dFIwlEn4Ym9NOLXNaZyM
+         Zn8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762792602; x=1763397402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OmF3ZiRo+z3/MUzNtC1wwNg9IEmuUusZSisJNz5BISs=;
+        b=ELYdwilQFIyLhy61/fgpDDrdNphyBP113cCTQKj4Wf4HUgIZ4dYxg5ffQK7gl5t0hB
+         ZisuO28J3uxyG8Jwjtxz9dPPhzPiUeEz/Yf01pjljypDybwuaZ1qmjNpuCJckncBVrOE
+         lnnnpp5tLBP3AFsumAUisFU7sBvK1Nh1rpL3v/vNE685lBwjNwlCJAzVflBhl0eu4vzE
+         ZOMWXLBRKEnF+k3OwVj9PPj8w/6OyXmWh8SGTcgK+Hr+IjCi4afFQ/pQe5hN9Ps7oDNg
+         wco7p4kGhdy47fnlgoUYGbx4bKaR3gKCrSVAtqgnop2qQvdnZyb83IZgC3eYR8OnX41s
+         CJNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWH4r9urqd4a4Jd6/EpjeY4pX7RnZAy3BIseCiFr0J1LJoSiK+lKe/vaeK/EpxssPS9Bwm+EhN0K5U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGLpIGaYMPoDRqiOLF7k6OCg0LPWx7uo4m44eYxe4KfFoB1+38
+	/D9cQ8UgTQ3wMIaPKhprLUdYRWTy6OaSamZthzIQvmHmVkVJXioaDUEp
+X-Gm-Gg: ASbGncuDK48j8ckjtBeLoYLAjdQmaUhvhEK0VE0y59f+Lrs5YsiShtaLMEfor7hFBTe
+	LYxl+xQfBfyajOXLDOG8wuK6Rjr6ClBAnt5+3bmmhYxmY7hN/1yIJC9GvqaQMFZS81893cVMeoj
+	k0Er7RtJLRaccxWpc7Sz8Pm5P1vxBCP8jCGe04WD6AcNpGs3LktyMyzWwkVm8YD2SHdlpIOob29
+	bGyWQOLglQHEX3EqRrnND40CjCeEtWnHop9jJF9IEeR5gV4j0YLnznUmkS0kCZNBfLGg+DbI5qn
+	9YIt6++Jf2uMsQ6NaZh8zA3I2A7IK6qMpRsihLXxK/9ZOR16ZI4+JXa5N+K+fPosprdNrXhMXdb
+	52Gji/iPmTDTHsIa5tzKDjtxjN7SKHYzLdKDEzTvMqfZKA85BVHtupfHAeg2bqtrgBh3bHUcuYZ
+	5JrkYyXuy0wOE=
+X-Google-Smtp-Source: AGHT+IG4Ijd1mOBZgcS8rSNiAG+x0vPHrGAlLEBJfBng2UjtGnnQoMVk98YfwkoPNv3aujC54bkU+A==
+X-Received: by 2002:a17:90b:2d0d:b0:340:bfcd:6af8 with SMTP id 98e67ed59e1d1-3436cb73a21mr10515621a91.4.1762792601393;
+        Mon, 10 Nov 2025 08:36:41 -0800 (PST)
+Received: from localhost ([103.88.46.62])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba8faf1dc06sm13055990a12.16.2025.11.10.08.36.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 08:36:40 -0800 (PST)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ben Segall <bsegall@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	David Kaplan <david.kaplan@amd.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jinchao Wang <wangjinchao600@gmail.com>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Justin Stitt <justinstitt@google.com>,
+	kasan-dev@googlegroups.com,
+	Kees Cook <kees@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Liang Kan" <kan.liang@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nam Cao <namcao@linutronix.de>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Rong Xu <xur@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Will Deacon <will@kernel.org>,
+	workflows@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
+Date: Tue, 11 Nov 2025 00:35:55 +0800
+Message-ID: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 288d4ea8-d379-48e8-a733-08de20767675
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2025 16:30:29.8224
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t2BPNIe7nPVnYjyYgrAPZrxCTG9vh51bxFuYl1ur8wE/jkGHOz0NV0dJFAz+ijADgOuTTnlyShgbss9ygZvIjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11478
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Earlier this year, I debugged a stack corruption panic that revealed the
+limitations of existing debugging tools. The bug persisted for 739 days
+before being fixed (CVE-2025-22036), and my reproduction scenario
+differed from the CVE report—highlighting how unpredictably these bugs
+manifest.
 
+The panic call trace:
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Monday, November 10, 2025 9:59 AM
-> To: Shenwei Wang <shenwei.wang@nxp.com>
-> Cc: Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
-> <mathieu.poirier@linaro.org>; Rob Herring <robh@kernel.org>; Krzysztof
-> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Shawn
-> Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
-> Jonathan Corbet <corbet@lwn.net>; Linus Walleij <linus.walleij@linaro.org=
->;
-> Bartosz Golaszewski <brgl@bgdev.pl>; Pengutronix Kernel Team
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
-> devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
-> doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
-> Subject: [EXT] Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rp=
-msg bus
-> > The remote firmware does not need to know whether Linux is asleep. The
-> > GPIO is not used to wake Linux directly; instead, it serves as a
-> > wake-up source for the remote firmware if configured accordingly. Once
-> > the remote firmware is awake, it sends a notification message to Linux.=
- This
-> notification is the actual event that wakes Linux.
-> >
-> > This works because there is always a physical interface connecting Linu=
-x and
-> the remote firmware.
-> > On i.MX platforms, this interface is the MU block. When the remoteproc
-> > driver is running, the MU block is automatically configured as a
-> > wake-up source for Linux by default. As a result, the notification mess=
-age can
-> wake the Linux system if it is asleep.
->=20
-> You need to add a lot more documentation to the specification to make thi=
-s
-> clear. As you said, the firmware and Linux have different sleep/wake life=
- cycles.
-> How does the firmware know it is safe to go to sleep, if it has no idea L=
-inux is
-> running or suspended?
->=20
+<4>[89318.486564]  <TASK>
+<4>[89318.486570]  dump_stack_lvl+0x48/0x70
+<4>[89318.486580]  dump_stack+0x10/0x20
+<4>[89318.486586]  panic+0x345/0x3a0
+<4>[89318.486596]  ? __blk_flush_plug+0x121/0x130
+<4>[89318.486603]  __stack_chk_fail+0x14/0x20
+<4>[89318.486612]  __blk_flush_plug+0x121/0x130
+...27 other frames omitted
+<4>[89318.486824]  ksys_read+0x6b/0xf0
+<4>[89318.486829]  __x64_sys_read+0x19/0x30
+<4>[89318.486834]  x64_sys_call+0x1ada/0x25c0
+<4>[89318.486840]  do_syscall_64+0x7f/0x180
+<4>[89318.486847]  ? exc_page_fault+0x94/0x1b0
+<4>[89318.486855]  entry_SYSCALL_64_after_hwframe+0x73/0x7b
+<4>[89318.486866]  </TASK>
 
-The remoteproc driver is responsible for managing the remote firmware. The =
-GPIO driver=20
-operates independently of this process and functions transparently on top o=
-f it.=20
-So the GPIO driver does not require to know the firmware's running states.
+Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
+code in __blk_flush_plug(), I found it difficult to trace all logic
+paths due to indirect function calls through function pointers.
 
-Thanks,
-Shenwei
+I added canary-locating code to obtain the canary address and value,
+then inserted extensive debugging code to track canary modifications. I
+observed the canary being corrupted between two unrelated assignments,
+indicating corruption by another thread—a silent stack corruption bug.
 
->         Andrew
+I then added hardware breakpoint (hwbp) code, but still failed to catch
+the corruption. After adding PID filters, function parameter filters,
+and depth filters, I discovered the corruption occurred in
+end_buffer_read_sync() via atomic_dec(&bh->b_count), where bh->b_count
+overlapped with __blk_flush_plug()'s canary address. Tracing the bh
+lifecycle revealed the root cause in exfat_get_block()—a function not
+even present in the panic call trace.
+
+This bug was later assigned CVE-2025-22036
+(https://lore.kernel.org/all/2025041658-CVE-2025-22036-6469@gregkh/).
+The vulnerability was introduced in commit 11a347fb6cef (March 13, 2023)
+and fixed in commit 1bb7ff4204b6 (March 21, 2025)—persisting for 739
+days. Notably, my reproduction scenario differed significantly from that
+described in the CVE report, highlighting how these bugs manifest
+unpredictably across different workloads.
+
+This experience revealed how notoriously difficult stack corruption bugs
+are to debug: KASAN cannot reproduce them, call traces are misleading,
+and the actual culprit often lies outside the visible call chain. Manual
+instrumentation with hardware breakpoints and filters was effective but
+extremely time-consuming.
+
+This motivated KStackWatch: automating the debugging workflow I manually
+performed, making hardware breakpoint-based stack monitoring readily
+available to all kernel developers facing similar issues.
+
+KStackWatch is a lightweight debugging tool to detect kernel stack
+corruption in real time. It installs a hardware breakpoint (watchpoint)
+at a function's specified offset using kprobe.post_handler and removes
+it in fprobe.exit_handler. This covers the full execution window and
+reports corruption immediately with time, location, and a call stack.
+
+Beyond automating proven debugging workflows, KStackWatch incorporates
+robust engineering to handle complex scenarios like context switches,
+recursion, and concurrent execution, making it suitable for broad
+debugging use cases.
+
+## Key Features
+
+* Immediate and precise stack corruption detection
+* Support for multiple concurrent watchpoints with configurable limits
+* Lockless design, usable in any context
+* Depth filter for recursive calls
+* Low overhead of memory and CPU
+* Flexible debugfs configuration with key=val syntax
+* Architecture support: x86_64 and arm64
+* Auto-canary detection to simplify configuration
+
+## Architecture Support
+
+KStackWatch currently supports x86_64 and arm64. The design is
+architecture-agnostic, requiring only:
+* Hardware breakpoint modification in atomic context
+
+Arm64 support required only ~20 lines of code(patch 18,19). Future ports
+to other architectures (e.g., riscv) should be straightforward for
+developers familiar with their hardware breakpoint implementations.
+
+## Performance Impact
+
+Runtime overhead was measured on Intel Core Ultra 5 125H @ 3 GHz running
+kernel 6.17, using test4 from patch 24:
+
+     Type                 |   Time (ns)  |  Cycles
+     -----------------------------------------------
+     entry with watch     |     10892    |   32620
+     entry without watch  |       159    |     466
+     exit  with watch     |     12541    |   37556
+     exit  without watch  |       124    |     369
+
+Comparation with other scenarios:
+
+Mode                        |  CPU Overhead (add)  |  Memory Overhead (add)
+----------------------------+----------------------+-------------------------
+Compiled but not enabled    |  None                |  ~20 B per task
+Enabled, no function hit    |  None                |  ~few hundred B
+Func hit, HWBP not toggled  |  ~140 ns per call    |  None
+Func hit, HWBP toggled      |  ~11–12 µs per call  |  None
+
+The overhead is minimal, making KStackWatch suitable for production
+environments where stack corruption is suspected but kernel rebuilds are not feasible.
+
+## Validation
+
+To validate the approach, this series includes a self-contained test module and
+a companion shell script. The module provides several test cases covering
+scenarios such as canary overflow, recursive depth tracking, multi-threaded
+silent corruption, retaddr overwriten. A detailed workflow example and usage
+guide are provided in the documentation (patch 26).
+
+While KStackWatch itself is a new tool and has not yet discovered production
+bugs, it automates the exact methodology that I used to manually uncover
+CVE-2025-22036. The tool is designed to make this powerful debugging technique
+readily available to kernel developers, enabling them to efficiently detect and
+diagnose similar stack corruption issues in the future.
+
+---
+Patches 1–3 of this series are also used in the wprobe work proposed by
+Masami Hiramatsu, so there may be some overlap between our patches.
+Patch 3 comes directly from Masami Hiramatsu (thanks).
+---
+
+Changelog:
+v8:
+* Add arm64 support
+  * Implement hwbp_reinstall() for arm64.
+  * Use single-step mode as default in ksw_watch_handler().
+* Add latency measurements for probe handlers.
+* Update configuration options
+  * Introduce explicit auto_canary parameter.
+  * Default watch_len to sizeof(unsigned long) when zero.
+  * Replace panic_on_catch with panic_hit ksw_config option.
+* Enable KStackWatch in non-debug builds.
+* Limit canary search range to the current stack frame when possible.
+* Add automatic architecture detection for test parameters.
+* Move kstackwatch.h to include/linux/.
+* Relocate Kconfig fragments to the kstackwatch/ directory.
+
+v7:
+  https://lore.kernel.org/all/20251009105650.168917-1-wangjinchao600@gmail.com/
+  * Fix maintainer entry to alphabetical position
+
+v6:
+  https://lore.kernel.org/all/20250930024402.1043776-1-wangjinchao600@gmail.com/
+  * Replace procfs with debugfs interface
+  * Fix typos
+
+v5:
+  https://lore.kernel.org/all/20250924115124.194940-1-wangjinchao600@gmail.com/
+  * Support key=value input format
+  * Support multiple watchpoints
+  * Support watching instruction inside loop
+  * Support recursion depth tracking with generation
+  * Ignore triggers from fprobe trampoline
+  * Split watch_on into watch_get and watch_on to fail fast
+  * Handle ksw_stack_prepare_watch error
+  * Rewrite silent corruption test
+  * Add multiple watchpoints test
+  * Add an example in documentation
+
+v4:
+  https://lore.kernel.org/all/20250912101145.465708-1-wangjinchao600@gmail.com/
+  * Solve the lockdep issues with:
+    * per-task KStackWatch context to track depth
+    * atomic flag to protect watched_addr
+  * Use refactored version of arch_reinstall_hw_breakpoint
+
+v3:
+  https://lore.kernel.org/all/20250910052335.1151048-1-wangjinchao600@gmail.com/
+  * Use modify_wide_hw_breakpoint_local() (from Masami)
+  * Add atomic flag to restrict /proc/kstackwatch to a single opener
+  * Protect stack probe with an atomic PID flag
+  * Handle CPU hotplug for watchpoints
+  * Add preempt_disable/enable in ksw_watch_on_local_cpu()
+  * Introduce const struct ksw_config *ksw_get_config(void) and use it
+  * Switch to global watch_attr, remove struct watch_info
+  * Validate local_var_len in parser()
+  * Handle case when canary is not found
+  * Use dump_stack() instead of show_regs() to allow module build
+  * Reduce logging and comments
+  * Format logs with KBUILD_MODNAME
+  * Remove unused headers
+  * Add new document
+
+v2:
+  https://lore.kernel.org/all/20250904002126.1514566-1-wangjinchao600@gmail.com/
+  * Make hardware breakpoint and stack operations
+    architecture-independent.
+
+v1:
+  https://lore.kernel.org/all/20250828073311.1116593-1-wangjinchao600@gmail.com/
+  * Replaced kretprobe with fprobe for function exit hooking, as
+    suggested by Masami Hiramatsu
+  * Introduced per-task depth logic to track recursion across scheduling
+  * Removed the use of workqueue for a more efficient corruption check
+  * Reordered patches for better logical flow
+  * Simplified and improved commit messages throughout the series
+  * Removed initial archcheck which should be improved later
+  * Replaced the multiple-thread test with silent corruption test
+  * Split self-tests into a separate patch to improve clarity.
+  * Added a new entry for KStackWatch to the MAINTAINERS file.
+---
+
+Jinchao Wang (26):
+  x86/hw_breakpoint: Unify breakpoint install/uninstall
+  x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  mm/ksw: add build system support
+  mm/ksw: add ksw_config struct and parser
+  mm/ksw: add singleton debugfs interface
+  mm/ksw: add HWBP pre-allocation
+  mm/ksw: Add atomic watchpoint management api
+  mm/ksw: ignore false positives from exit trampolines
+  mm/ksw: support CPU hotplug
+  sched/ksw: add per-task context
+  mm/ksw: add entry kprobe and exit fprobe management
+  mm/ksw: add per-task ctx tracking
+  mm/ksw: resolve stack watch addr and len
+  mm/ksw: limit canary search to current stack frame
+  mm/ksw: manage probe and HWBP lifecycle via procfs
+  mm/ksw: add KSTACKWATCH_PROFILING to measure probe cost
+  arm64/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  arm64/hwbp/ksw: integrate KStackWatch handler support
+  mm/ksw: add self-debug helpers
+  mm/ksw: add test module
+  mm/ksw: add stack overflow test
+  mm/ksw: add recursive depth test
+  mm/ksw: add multi-thread corruption test cases
+  tools/ksw: add arch-specific test script
+  docs: add KStackWatch document
+  MAINTAINERS: add entry for KStackWatch
+
+Masami Hiramatsu (Google) (1):
+  HWBP: Add modify_wide_hw_breakpoint_local() API
+
+ Documentation/dev-tools/index.rst       |   1 +
+ Documentation/dev-tools/kstackwatch.rst | 377 +++++++++++++++++++++
+ MAINTAINERS                             |   9 +
+ arch/Kconfig                            |  10 +
+ arch/arm64/Kconfig                      |   1 +
+ arch/arm64/include/asm/hw_breakpoint.h  |   1 +
+ arch/arm64/kernel/hw_breakpoint.c       |  12 +
+ arch/x86/Kconfig                        |   1 +
+ arch/x86/include/asm/hw_breakpoint.h    |   8 +
+ arch/x86/kernel/hw_breakpoint.c         | 148 +++++----
+ include/linux/hw_breakpoint.h           |   6 +
+ include/linux/kstackwatch.h             |  68 ++++
+ include/linux/kstackwatch_types.h       |  14 +
+ include/linux/sched.h                   |   5 +
+ kernel/events/hw_breakpoint.c           |  37 +++
+ mm/Kconfig                              |   1 +
+ mm/Makefile                             |   1 +
+ mm/kstackwatch/Kconfig                  |  34 ++
+ mm/kstackwatch/Makefile                 |   8 +
+ mm/kstackwatch/kernel.c                 | 295 +++++++++++++++++
+ mm/kstackwatch/stack.c                  | 416 ++++++++++++++++++++++++
+ mm/kstackwatch/test.c                   | 345 ++++++++++++++++++++
+ mm/kstackwatch/watch.c                  | 309 ++++++++++++++++++
+ tools/kstackwatch/kstackwatch_test.sh   |  85 +++++
+ 24 files changed, 2130 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/dev-tools/kstackwatch.rst
+ create mode 100644 include/linux/kstackwatch.h
+ create mode 100644 include/linux/kstackwatch_types.h
+ create mode 100644 mm/kstackwatch/Kconfig
+ create mode 100644 mm/kstackwatch/Makefile
+ create mode 100644 mm/kstackwatch/kernel.c
+ create mode 100644 mm/kstackwatch/stack.c
+ create mode 100644 mm/kstackwatch/test.c
+ create mode 100644 mm/kstackwatch/watch.c
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
+
+-* 
+2.43.0
+
