@@ -1,118 +1,128 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190152EC08F
-	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038A226B756
+	for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 11:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762772457; cv=none; b=kSvT9TCY/W8SXcDT1nC0MoUJ/8f8o6v7JS0D3yI4jiyMgUM94taD0VYeyxn2FBOyEGJeZDe5MglEmlcBBZ4lfYykXg1+YWHb5nwIZ5jT1RTbuLLiND0KpX6nOYsmzvf+TzbKS1NFY6djQ+jL6PsLBECJTZWnB2CK/3SA6vfP0P4=
+	t=1762772764; cv=none; b=nPJVQIvqXTsTPJHlmUIc//vr+4hJ50VX/svzpwyTefWgBDRc2jPd6YAycYyLugjMQA/7W5WxkaTmiUKanbt3+M36Mrf11ls8uHZDa6PRznMmEwl7oBBHh4jGbt/RD7QhPHrorXZfZOIrC3f3jB4eDsjUu+7toU5jLK5Cvy18Wik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762772457; c=relaxed/simple;
-	bh=j/sDhA1BE/crBk5MB3jz5Gyqsa0mwcEpYJuOnY+51Ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q+U3p0DZ8T/iM2+dpjlemoKTKjVPxa3b4ddYfLqIz05XMbDaHpxwyGVi2Zvuf45CCYAwplsaaUJkZlbMsWs2uHzDoXSquGc6H/1d9KU3LaA/3w8NUfXALcE3q4dOidSiYVjzQyslzlvLFUVgzg1Uc00MoXw1uWU+6j/n/cb00PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MoITomXm; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762772764; c=relaxed/simple;
+	bh=dVLTdqS1CfGtAevTdZvRb0LRQaxFpvWWzfdJULBAkOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pveZDyoojnnEB8AK819nLdUJrwATnCehrN+6JIxR+XCtsTWINpkU294Bk1pfMOoUi9A4IJhXnevADbSbDxLhZxx6afUxBaiUkSNT8qVEFUYmGZOnKypiUVogFuCgCQOxMsJ6/cLdiFlhUpQP1NdYKpfSF4y8bFYpfZI89xZ4ZHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vq4eJKGT; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MoITomXm"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-782e93932ffso2321404b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 03:00:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vq4eJKGT"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-297eca3d0a3so19618055ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 03:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762772455; x=1763377255; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YrIRy6Lhq+4eE5yPFjSN9IOBDP8Cyczj9KXwJvvJFlc=;
-        b=MoITomXmIdl0l9mMoc4ILl2St6hK1A4HMUb0F493E4DjqRtYRaaHWITxuqAxyq4ZMt
-         Eux6VA/tuOY/Phh+AcSizGAkdWdmdFpuWDuTX4jh4eLo+zxAkadFZO+DnDH9dLRMMPvw
-         KM5rJ8gPZho8vx/xWz9zYmHpGbiQ0u+pNqXNNOG+Ohb69SzBHy7dy9Deb0Mh1kyi6bDr
-         BLIjiHLZZrloc2S58aturYja41JAsiGJcgCQg1UGb0GcsXEDi64d/pQE6WK7V4y/SvN6
-         HDod5am68vwzf1U+U9hlWeSGUECILkPgFoMuE3rFPrySIu3Ue/zZb9jRtE69mO6FLLwU
-         5Hag==
+        d=gmail.com; s=20230601; t=1762772762; x=1763377562; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xfmy4AOcEcUwtIeGJKyCn0Gi0Omh2sLDXhDiyPjpnMY=;
+        b=Vq4eJKGTotDuwWE7Ws2h9ikQCrKCIhSBok2aa3SBRtjAT1nVy2ihGr7Y29s/qKKTuY
+         stsKo71MwjADjkNn6dlI1pCQcQzW2xibrEO8DdGDzqoTziRbYbcGl79Fp92jfohg11fk
+         ruWQNVlsrbbbRvdc+aKy/EtTT7CUy9Zzh4Kt9tj+t198DA4SZNq22lEJ+AQ4NbqKVAeE
+         hTTloPWQNL2r2biFpNJuWaOX56ZKiLxYPucqO9XersbfkThQQ7rwAxv0dreqzdku6uTF
+         crcyUofFX9B2qooEvm96qUtjiFS2i3rMY+vKDkV3S0sISPN7/tWqVEcCs4Gnpa/ufaIs
+         2lEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762772455; x=1763377255;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YrIRy6Lhq+4eE5yPFjSN9IOBDP8Cyczj9KXwJvvJFlc=;
-        b=L6N6P+gMVXy6e55uaqKEJczwQHeI1LSSwjms3RTtpM+4W4/sUVaK1NAKe2pAXgOHx6
-         p7i2mjfk6u/vbhz9FPlaaT2/C86pAgJ/bVUZCOFF2HUrzfF55F4RxGeN2H/RQ9nd8TGc
-         c+y5w2zObnNkffMZ3C32hlVy2D2qup/dA9GaOhKBuFUJOMTyJ4v7EPBVoFt/IeHcmT1y
-         CU1CZ4ZktrSehdKv4JHcb2e5dhXoP8N9LFanGHmShWtxyw0RgYEVWxAX3aRj7Z5+PmGk
-         F4UTyBzbEceR5ORSGsbFoMDSziB4pm0B+tmo6acHk9drOjbjT8TQqd65gdD5obWdGPQP
-         LoTw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4mQJJ3Yv7X+Li2btcF/a99Oldb4YyphuGFyNxJVFH35OaYt9WhnuDOb7r7etMFSzD1cCa8HmV2Bc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqnSCsSLMxSeuPxS6TRq0lrdTPIOwn/v0Fwst5snHi9I3wGmyt
-	5EcG1MOz361ZmjD3oKmMwmINi4h/Ei7UUd/7KQwtTnc0f5G2OVgjncvPDok4fOHiY4c=
-X-Gm-Gg: ASbGncvr9tw2sZ0FPzegJhb5wTQT/hVeOXJqn8hr9iPKVfTWYFTlWBZH1GUdJNcXzuM
-	6XIC26KV36EUMrmpapB1hXMhURgw7LjW5Pg5Ig2lr1UtESxt75dpzdNTc06EjPgxmTgOY5fN1ds
-	13nqzjE7T5ZuS7AtWw3WGAuZ5+DsL8SbVZGoryhTn7sYX6D0qpxtMzji6BZ5MLKpM6PmjnL19Qe
-	XMRA1i6gw7rusYW7WgEizT9jEmgzHk4vuKl/LJ3k2OXtCJefuWrIjRJgAx7E7Ggrx/HaDsGeulU
-	boSvoPYSurooGIH1LT+TE4Wg+OylhYVH+4Yh/9aICBt4VNflAs77myeZfsRdUFtQtxTySHfDfJv
-	YICH/c6oYcLwmvS9pW1+7o4oFHaeZOhJksVfea6z/vy6c0pXwKhYJb3MaoYRET8uYUgQw3NtSb6
-	saSGdv+/NsSo4=
-X-Google-Smtp-Source: AGHT+IGOFDbu7mquDmNhSqV97BdY6cG6MLgvb5Xp7QodBHXn8La7j+gNEL/xmdVl7cozIyrmwIAy9g==
-X-Received: by 2002:a05:6a21:3291:b0:350:1872:7023 with SMTP id adf61e73a8af0-353a4163b2bmr9937463637.55.1762772455121;
-        Mon, 10 Nov 2025 03:00:55 -0800 (PST)
-Received: from localhost ([122.172.86.94])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c963586fsm11304602b3a.10.2025.11.10.03.00.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 03:00:54 -0800 (PST)
-Date: Mon, 10 Nov 2025 16:30:52 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Sumit Gupta <sumitg@nvidia.com>, pierre.gondois@arm.com, 
-	zhanjie9@hisilicon.com, ionela.voinescu@arm.com, beata.michalska@arm.com
-Cc: rafael@kernel.org, lenb@kernel.org, robert.moore@intel.com, 
-	corbet@lwn.net, zhenglifeng1@huawei.com, rdunlap@infradead.org, 
-	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
-	perry.yuan@amd.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com, 
-	ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com
-Subject: Re: [PATCH v4 0/8] Enhanced autonomous selection and improvements
-Message-ID: <hjrcoq7dapqcodk3iiyvjeuq3cwvyccqr4wnlcoi6eduqg5ahf@tszrjvfnkjux>
-References: <20251105113844.4086250-1-sumitg@nvidia.com>
+        d=1e100.net; s=20230601; t=1762772762; x=1763377562;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xfmy4AOcEcUwtIeGJKyCn0Gi0Omh2sLDXhDiyPjpnMY=;
+        b=MTThqLRzgm20QeZIUAON4gsx/JsOfgCeaMPogSLATdGinUFa+NBDrxqyB1YBXH5PIJ
+         agE32Qmlm4xEByPiSnmXsbvE/WH2bUpnIpVUk9p6Y5pO9+oeJoCMqnWGD3NjfVMkLuoP
+         ZQozUfD06do5pv5F398N9g0TEzRmwoQVANgwLjRkFDMQ96f4WQGV0Kt36JxGaQVeTqSF
+         sVh0mDG/69jpY/YAXcnA/JoHoVxzKjaYqF7q1css++M/yLaVqvCzDKRl98nmGkUxvwUV
+         x5nf/2Nlud0NZSf9fol3xfqkLu0kLq7I3vb09RsXywwufVOItadrMHeABGU1Yc+Fqmw4
+         Ztqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTY1aCY87jxQLdvIz6fVLOOatIiWYoy2rRbEYKFW3+ANo0NcvdQWPKFQtvQanBywo7t9T2flWz+UU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMfzv1wH370ESgRvBINaVVW7zdGzJQsUzy0vs9NWPhL1nrShxV
+	F3e1DkwJtgM+l4pKISiGOdr7oegc5MVNdnZ2/JhhGDYTcbQQZiU3e0SJaXD7FA==
+X-Gm-Gg: ASbGnctASvv/HyF6oOn7cGGGYBfkNQNC77ZUzjS2LG2l1oSL3wgYSa+UYN1IF7jnXAw
+	yGhTE62f+c6imIgi+d39H20G8+kDzdDgowthlc7HO2wXcnuI9KZlj/TAodirFCrv05xIrRM4lFj
+	/I7XC8CDaf0e3MXKtZcTlGSm/TDXryL0xXBMhkk5lC7f1f7shMWoOFtnCqsCUrvW4eSZHSpsNqd
+	pdaPZl7Vqk3kK7xD3ahBIcemSiG2p54y4kG5odtbm2kGfMjK5A38jmNvvTiyrtAYBD3xy/XQI20
+	KgD79CuPXbgUY8BYOPzPP3x4UfsLzkAQXIoO/zUAhAjJoBJhoc5kc37kFsbPzObKLBtd+1rqryh
+	pTit2sC7H+Yia5LrLtIk6u5wKsh9MXrfaeDHDiVECiz5ZDQBTt748CDNfopWKFMNFJ2NNneSl+d
+	xh5l1xA8d4SiNO9T7qb0Y17lUmdigNGxayKfgDGQQvoUfE14OLHibs+ZPn
+X-Google-Smtp-Source: AGHT+IETPwSFvBF+h3mhcNuk9Nh0peDzqVVkcPzV5KFTzK6WG3YF7+uplP0h/hnB4Bk+hLoz7SyK6A==
+X-Received: by 2002:a17:902:f683:b0:297:e69d:86ac with SMTP id d9443c01a7336-297e69d86cemr114937165ad.39.1762772762130;
+        Mon, 10 Nov 2025 03:06:02 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c6f797sm142617225ad.56.2025.11.10.03.06.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Nov 2025 03:06:01 -0800 (PST)
+Message-ID: <bf2cb310-5546-46f9-b77f-0603f0cafe04@gmail.com>
+Date: Mon, 10 Nov 2025 20:05:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105113844.4086250-1-sumitg@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: f2fs: wrap tables in literal code
+ blocks
+To: Masaharu Noguchi <nogunix@gmail.com>, jaegeuk@kernel.org, chao@kernel.org
+Cc: corbet@lwn.net, linux-f2fs-devel@lists.sourceforge.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251109095416.2428351-1-nogunix@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20251109095416.2428351-1-nogunix@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 05-11-25, 17:08, Sumit Gupta wrote:
-> This patch series enhances the ACPI CPPC CPUFREQ driver with
-> comprehensive support for autonomous performance selection, expanded
-> runtime control interfaces and improvements.
-> 
-> It adds support for below:
-> - Expose sysfs to read/write the Minimum/Maximum Performance Registers
->   using frequency (kHz), with internal conversion to performance values.
->   Also, update the policy min/max accordingly.
->     /sys/.../cpufreq/policy*/min_perf and max_perf
-> 
-> - Expose sysfs to read/write the Performance Limited Register.
->     /sys/.../cpufreq/policy*/perf_limited
-> 
-> - When toggling autonomous selection, synchronize the policy limits
->   by updating the policy min/max.
-> 
-> - System-wide autonomous mode configuration via 'auto_sel_mode' boot
->   parameter. Mode can be switched dynamically on individual CPUs.
-> 
-> - Generic sysfs helper functions to reduce code duplication.
-> 
-> The patches are grouped as below:
-> - Patch 1, 2 & 3: Improvements. Can be applied independently.
-> - Patch 4: Sysfs to update min/max_perf. Can be applied independently.
-> - Patch 5: Sysfs to update perf_limited. Can be applied independently.
-> - Patch 6: add sysfs documentation. Depends on 'Patch 4 and 5'.
-> - Patch 7: sync policy min/max with auto_select. Depends on 'Patch 4'.
-> - Patch 8: Boot Parameter Support. Depends on 'Patch 4 and 7'.
+Hi,
 
-Beata/Ionela/Jie, any feedback on the CPPC changes ?
+On Sun,  9 Nov 2025 18:54:16 +0900, Masaharu Noguchi wrote:
+> Sphinx LaTeX builder fails with the following error when it tries to
+> turn the ASCII tables in f2fs.rst into nested longtables:
+> 
+>   Markup is unsupported in LaTeX:
+>   filesystems/f2fs:: longtable does not support nesting a table.
+> 
+> Wrap the tables in literal code blocks so that Sphinx renders them as
+> verbatim text instead. This prevents the LaTeX builder from attempting
+> unsupported table nesting and fixes the pdfdocs build.
+> 
+> Akira Yokosawa pointed out that the in-development Sphinx 8.3 latex
+> builder already handles these nested tables. I still want to fix the
+> current documentation because Sphinx 8.3 is not released yet, and the
+> LaTeX build on the stable 8.2.x series (which also requires
+> "docutils<0.22" for now) remains broken without this change.
 
--- 
-viresh
+I expected 8.3.0 would be released soon ...
+
+With this change applied, in PDF output, due to the limited column width
+available there, most of the nested literal tables are wrapped around
+and hard to read.
+
+But fixing latex builder's fatal error is much more important. So,
+
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+> 
+> Link: https://lore.kernel.org/lkml/20251011172415.114599-1-nogunix@gmail.com/
+> Changes in v2:
+>  - wrap the compression level table in a literal block and add the
+>    missing blank lines so docutils no longer warns about malformed
+>    tables
+>  - consistently use ``.. code-block:: none`` for the other ASCII tables
+>    that previously triggered the LaTeX error
+> 
+> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+> ---
+>  Documentation/filesystems/f2fs.rst | 115 +++++++++++++++--------------
+>  1 file changed, 61 insertions(+), 54 deletions(-)
+> 
+[...]
+
