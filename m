@@ -1,110 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EAD3446A3;
-	Tue, 11 Nov 2025 07:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EA925A2DE
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 07:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844823; cv=none; b=fuuHhmgh9/FPG6XKLo99+qJfSCQRRbqgcjoBsd+AGALkhWwTXsuBd1bfD7Sz4gjqiLDY8nEAe03YlFVoVSjkctO1UBW8HFq0VfKlsgCFV5HC9e9rAzCIx7bvIqEBmR2odqNSracPhFDpydcKHaUPdXL4GSKXYFyslV4EPPh6csk=
+	t=1762845593; cv=none; b=jLPcj8E7T1eS639zbZP/VCyimQ76jRH4W1FrHY7MAhxDygOIfVveX2wTf/+LS1kO4INipctL/X2XRPB8jCrs4c7JzN4FPcv/3AcZgVBWglel7waTxTtf5xZ1SfwRYb4nExycByCkVHhUogxOXHTRMg5Xk/M/dblD8p/o9DTRbMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762844823; c=relaxed/simple;
-	bh=fEVLyoHERpbLkNGNixCQ4TJv8vApe1EZElDIqlwTkEc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MM4dDzLRqIXNMdtTG21AOKOO8YYaFGllyRwGqCjpNhMeib7AJZvaSsNNteb6IICne2wTj51f1Ki0Ehfr4y52LCskWl2HPh3OITgLbTx84zprS08+0NEzZYyzr59Z2cz0mu1Tl4ED0AZFWUWErsQmBuBoc0BWoXUVjJl9/TJiMLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gP9Y1QBi; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762845593; c=relaxed/simple;
+	bh=tmsSeEiwy7O2Flj+b3Ome3Ent2XkRKkKA5yFHv/r9jw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JzpYb9WyEPeEVUypDXDZ5tP3QYBWetjTrp+jofXJOabSlqE3+ELguuH+8lnMXA+M+fro6qbAxMhoQ5IzWSC2/ZNlD4Sji6KTiW91hCt1aLnoGWR0F87F1WozGn9eqFcY1k/cvGy/XpSeHQySJZ1agcIDKH4Q62wFjr5miG6/+Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=deyP5hUm; arc=none smtp.client-ip=209.85.208.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gP9Y1QBi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762844822; x=1794380822;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=fEVLyoHERpbLkNGNixCQ4TJv8vApe1EZElDIqlwTkEc=;
-  b=gP9Y1QBiWH+n9QhtE0rNE0cbOqDquZG2p3p+EDEUMW5DdzSJIwZkPCrt
-   sZ66a433n82dLqnBpjIduLSTVIVj4SIq2FybK1tHR3QwFI0MllS2FgmuO
-   cvuvVhgGLGDoBQfrK9SfAE4iPjbUr6ScLOKLtpq+o8uj5SMeTRbSld4Sm
-   5hfMZ7RFuLAnJ+ADoHf5B/8lSmzJBIz1bL2KVBOEd/gldMdmKqrp+btrL
-   DwXxFjRIbEa1pb7dM/SFP4+cn2YgyZNMfPCOy/taSw6gSHkbhDSf3Mh5r
-   JulnAcTKyEkjQgIS1pWR5MtdMK92LbvrGczhX02xRLdsqriHJUq6yguJ0
-   A==;
-X-CSE-ConnectionGUID: or7G79X6SSmKltVGVuoyog==
-X-CSE-MsgGUID: lXaxC92ESIKPhZOyytl8nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64110566"
-X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="64110566"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 23:07:00 -0800
-X-CSE-ConnectionGUID: ElOUZcYgSHeHp5zM4vAvQg==
-X-CSE-MsgGUID: A9sdPkNGSimlf/QVpoAykA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="193009436"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.239])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 23:06:57 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Graham Roff <grahamr@qti.qualcomm.com>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Nicolas Pitre
- <nico@fluxnic.net>
-Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
-In-Reply-To: <20251110211549.GB302594@ax162>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
- <20251109232922.GA2977577@ax162>
- <82317993284703834a7b1d8d5ca05b7c646f2795@intel.com>
- <20251110211549.GB302594@ax162>
-Date: Tue, 11 Nov 2025 09:06:54 +0200
-Message-ID: <e5ef3c59bc100cb44adae6ef624da83af8bce299@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="deyP5hUm"
+Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-64080ccf749so6039701a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 23:19:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762845590; x=1763450390; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tmsSeEiwy7O2Flj+b3Ome3Ent2XkRKkKA5yFHv/r9jw=;
+        b=deyP5hUmZpr4RPloQ2KJbXdAXAjYt4lnKjsN62BKZNV0o6CINd3pWGAqYsJX2NA1jz
+         1hRDayyVfTpPVxrUkUIjWENR97UKPRAhwwL5ppQreKaBXfv7cGG50hHeh+RQhCETznwk
+         ET7UOIBgbmuhFYfEBUcMUs1Q/0sS1X/7XWq3VT5NNJw+/0W0xgAq/Ok4Ful3XBpNf4YR
+         UZue0SXxvqkFoA4QZ87i2d8oPm+ufOQWZFrA90JaMvzVolTUygYlCdaobdIXKTDZkEcp
+         xPnJdeCPq3np0Bf8v5YQEsNeOArjD+WZ/bIQpuFlQ0UFrWG6kYVD7EP8Nby4R4CH+s+e
+         bhZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762845590; x=1763450390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tmsSeEiwy7O2Flj+b3Ome3Ent2XkRKkKA5yFHv/r9jw=;
+        b=DF3ryKhRZs3swOtPtLNWUeDl5CmumYTwYAHbd6fC3yx/8GsUGJdqw45ms/XeO8tzN/
+         C7pAmHf84655WeADRR5ML0a3HckCRPUyuDOxLF0iL0rhKX2e7VVck/stUjdCIYXswBBe
+         rmyK5+6USxziVcOb2khsqa43/HjKXtyj4uTKFJFdqPfJWCpc1SUxjPuMT1d8D7mm+Jqr
+         vnEO4E5Fon3fY4wjHUoYwosgk8FahBcPj7CWxWb5wBL1sc2ktThk4Q6gE0pleocw0QjD
+         jXWaznfHvhdcgMb/ztDdrh7lKIq01OZ6rATC14dD041KjRj6dMHTBnGUUGglYxcSDbOg
+         JmpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6+m8j66G4koQ0OMK303v+9tcsOOMgvHj6Odp6VyAYMbmyzPyyHiU8NDzaw3QnTpvUhFI6ADXnYUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3tsrjOFXRfE37XaonDg+KSwKrcU2KihzCnbA2mbWNIk8TLMSw
+	EDCptytVxd9j4SctB/27x1faogJped/1JayTYwsaO4eLcCWa2p1imoBn9yDipP6/+3zeSiD0h/j
+	RjBbBzzf1TfKxsCRnSqM/EK++zf6raow=
+X-Gm-Gg: ASbGncviFpoFLkRzI0ERCSJjA8GTJhIsQrKLO20WeOQM2+nVleDejdX06dMMmdcNFdJ
+	yZF3N77RkvQHCfOo3RQfpTVpIRVXKgLrZa8ounSYcfcxUK6/WqEphGnMquROszLLNS2Uq2v4jJ5
+	kss7HeVIKChHP1uaKBH6PoMx+ZD57lztgdyc8dM6vZi0GEapuX9oydyFtTN9u/Z24UuuXgAgTar
+	QgL1wKG8AnqkyJAX2WuUjYCHMGP2e68msFXYOY/RN+ILynOOvf5eqkfUXdsbVdj2CzTaKYh
+X-Google-Smtp-Source: AGHT+IEILfbpkde/uS7fyrqgf/ox44as1jmga0EcJSzlE0mw8B229GPU854X9ywyq4BIeWOjfBvkzZBAwJTDsl/4QO0=
+X-Received: by 2002:a17:906:794b:b0:b72:5734:9fd3 with SMTP id
+ a640c23a62f3a-b72e05626b1mr1255885766b.32.1762845589581; Mon, 10 Nov 2025
+ 23:19:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <CAN2Y7hwttMyUn0qsEcSBbrQ1h+aSzNpHMhgAxEbqJZn4vf5hBw@mail.gmail.com>
+ <aRKll6BXZdW2I_Wq@casper.infradead.org>
+In-Reply-To: <aRKll6BXZdW2I_Wq@casper.infradead.org>
+From: ying chen <yc1082463@gmail.com>
+Date: Tue, 11 Nov 2025 15:19:37 +0800
+X-Gm-Features: AWmQ_blPfOg1c3a-jvdBes0ocXd_5-Vkj3sUlAGVbick8skM2v8TvUeUgmDbWRg
+Message-ID: <CAN2Y7hzT8aADtejR2TUji_8ct2LUb+Cpgd-2G-pAUj0figB68A@mail.gmail.com>
+Subject: Re: [PATCH] workqueue: add workqueue.mayday_initial_timeout
+To: Matthew Wilcox <willy@infradead.org>
+Cc: corbet@lwn.net, tj@kernel.org, jiangshanlai@gmail.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, laoar.shao@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 10 Nov 2025, Nathan Chancellor <nathan@kernel.org> wrote:
-> On Mon, Nov 10, 2025 at 10:48:59AM +0200, Jani Nikula wrote:
->> "depends on A || !A" (or A=n) is the most common pattern in Kconfig,
->> which literally means "depends on A if A".
+On Tue, Nov 11, 2025 at 10:55=E2=80=AFAM Matthew Wilcox <willy@infradead.or=
+g> wrote:
 >
-> That is totally fair, I did not try to actually search for the idiom. I
-> will say I do not find that either expression in Kconfig easily
-> translates in my head to "this dependency must be built in if the symbol
-> is built in, modular if the symbol is modular, or disabled" but I guess
-> that is just lack of familiarity with these idioms. I just want it to be
-> obvious to folks writing Kconfig when something like this is appropriate
-> to use but I guess with that being the most common usage in the tree, it
-> is fine as is.
-
-Right. I guess it takes a while to get used to the idiom A || !A. But
-then is it counter-productive to add an alternative that is apparently
-not much more helpful? And then we have two ways to express the same
-thing.
-
-So the follow-up questions:
-
-- Can we come up with a more obvious alternative to the specific case of
-  "A || !A"?
-
-- Can we have examples of conversions from "A || !B" to "A if B" in
-  kernel Kconfigs? As in, don't add features without users.
-
-My point is, there are like 10x more "A || !A" than there are "A || !B".
-Feels weird to advertize and document the thing for the latter, when the
-former is the more prevalent case.
-
-$ git grep -E "depends on .*\b([A-Z0-9_]+) \|\| (\!\1\b|\1=n)"
-
-I'm not at all opposed to the change per se.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
+> On Tue, Nov 11, 2025 at 10:52:44AM +0800, ying chen wrote:
+> > If creating a new worker takes longer than MAYDAY_INITIAL_TIMEOUT,
+> > the rescuer thread will be woken up to process works scheduled on
+> > @pool, resulting in sequential execution of all works. This may lead
+> > to a situation where one work blocks others. However, the initial
+> > rescue timeout defaults to 10 milliseconds, which can easily be
+> > triggered in heavy-load environments.
+>
+> Then we should tune it automatically, not blame the admin for not tuning
+> this parameter.
+Currently, dynamic tuning of the mayday timer's initial timeout is not
+supported.
